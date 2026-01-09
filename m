@@ -1,160 +1,72 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE48FD1A610
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 12:33:07 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9015.1767961979698895000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3010CD1A61E
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 13:11:48 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9661.1767964304816451787
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 04:33:00 -0800
+ Fri, 09 Jan 2026 05:11:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=vkBfmo3w;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 49923C1F6DD;
-	Fri,  9 Jan 2026 12:32:31 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8DD3A60734;
-	Fri,  9 Jan 2026 12:32:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 811C9103C88FC;
-	Fri,  9 Jan 2026 13:32:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767961976; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=SR912I9EV5rmio+OYfzGFthvIPHYoM0yyQwhorNYIP8=;
-	b=vkBfmo3wMNHP9vVPEMGJ34ZGo6tvYoz4lBC2Gd5stO8Mbre3MPz+dog050Jwlq2pEi/4wv
-	C8hYqD9QGG5tCg8BEexRArzb7u+hzXC5k2WHzHiUVtts/Tcgji5G4OMvWR/X8eZm1EJy3U
-	jWuBQwV+0qtcbbTnqYUrR70qU9LEZsW4l5TTNbmBUqrTIUMK/fevwZmDiorOUu4PR+nY96
-	/Kl/+Nv/6r7tD2djr2aqyhTrbZQgT0CD81rj/qQ1VgH5t0+fJhjkAOf0fEqwO7xR+G9NBe
-	DhW46u0D2jmk23a/1oRTST7+drTzM1NblzGPoSJnegkThgEoFxbDaIJGep9/TQ==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE5D7FEC
+	for <openembedded-core@lists.openembedded.org>; Fri,  9 Jan 2026 05:11:37 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1DA473F6A8
+	for <openembedded-core@lists.openembedded.org>; Fri,  9 Jan 2026 05:11:43 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	thomas.perrot@bootlin.com,
-	raj.khem@gmail.com,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [whinlatter][PATCH v1 1/2] mesa: fix build error with llvmpipe gallium driver
-Date: Fri,  9 Jan 2026 13:32:31 +0100
-Message-ID: <20260109123232.1199822-2-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20260109123232.1199822-1-joaomarcos.costa@bootlin.com>
-References: <20260109123232.1199822-1-joaomarcos.costa@bootlin.com>
+Subject: [PATCH 11/11] gdbm: use libtool to install test binaries
+Date: Fri,  9 Jan 2026 13:11:30 +0000
+Message-ID: <20260109131130.3006446-11-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260109131130.3006446-1-ross.burton@arm.com>
+References: <20260109131130.3006446-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 12:33:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229104
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 13:11:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229116
 
-For RISC-V, and if the PACKAGECONFIG 'gallium-llvm' is enabled, mesa's
-do_compile fails due to a change in setObjectLinkingLayerCreator's
-signature. This change was first included in LLVM v21.
+If libtool builds a binary it's best to use libtool to install it, as
+otherwise you might install a wrapper script or need to make assumptions
+about where libtool has put the real binary (as this isn't always .libs)
 
-This issue is further described below:
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852
-
-Backport the fix - from upstream - to Whinlatter.
-
-Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../files/0001-gallivm-support-LLVM-21.patch  | 56 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm-support=
--LLVM-21.patch
+ meta/recipes-support/gdbm/files/ptest.patch | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-2=
-1.patch b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.p=
-atch
-new file mode 100644
-index 0000000000..cf3bdd36cf
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
-@@ -0,0 +1,56 @@
-+From cd129dbf8af2d16b1243f2ce287ff69c6a5dc557 Mon Sep 17 00:00:00 2001
-+From: no92 <no92.mail@gmail.com>
-+Date: Wed, 27 Aug 2025 16:02:31 +0200
-+Subject: gallivm: support LLVM 21
-+
-+LLVM PR#146819 changed the signature of `setObjectLinkingLayerCreator`,
-+dropping the Triple argument. The PR was first included in the LLVM 21
-+series, and the new signature is gated behind a version check for that.
-+
-+`LLVMOrcThreadSafeContextGetContext` was removed in LLVM commit b18e5b6,
-+and the ORC examples in the LLVM tree seem to just create a context
-+instead, which we replicate here.
-+
-+With this commit, mesa successfully builds the llvmpipe gallium driver
-+on riscv64 with LLVM 21.1.0.
-+
-+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13785
-+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852
-+
-+Reviewed-by: David Heidelberg <david@ixit.cz>
-+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3702=
-7>
-+
-+Upstream-Status: Backport [https://cgit.freedesktop.org/mesa/mesa/commit=
-/?id=3Dcd129dbf8af2d16b1243f2ce287ff69c6a5dc557]
-+---
-+ src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp b/src/gal=
-lium/auxiliary/gallivm/lp_bld_init_orc.cpp
-+index 6651ea439da..e5d8e461dd6 100644
-+--- a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
-++++ b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
-+@@ -339,7 +339,12 @@ LPJit::LPJit() :jit_dylib_count(0) {
-+          .setJITTargetMachineBuilder(std::move(JTMB))
-+ #ifdef USE_JITLINK
-+          .setObjectLinkingLayerCreator(
-++#if LLVM_VERSION_MAJOR >=3D 21
-++            /* LLVM 21 removed the Triple argument */
-++            [&](ExecutionSession &ES) {
-++#else
-+             [&](ExecutionSession &ES, const llvm::Triple &TT) {
-++#endif
-+                return std::make_unique<ObjectLinkingLayer>(
-+                   ES, ExitOnErr(llvm::jitlink::InProcessMemoryManager::=
-Create()));
-+             })
-+@@ -551,7 +556,7 @@ init_gallivm_state(struct gallivm_state *gallivm, co=
-nst char *name,
-+    gallivm->cache =3D cache;
-+=20
-+    gallivm->_ts_context =3D context->ref;
-+-   gallivm->context =3D LLVMOrcThreadSafeContextGetContext(context->ref=
-);
-++   gallivm->context =3D LLVMContextCreate();
-+=20
-+    gallivm->module_name =3D LPJit::get_unique_name(name);
-+    gallivm->module =3D LLVMModuleCreateWithNameInContext(gallivm->modul=
-e_name,
-+--=20
-+cgit v1.2.3
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 3124db0986..a35dff3347 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,6 +17,7 @@ PE =3D "2"
- SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch \
-+           file://0001-gallivm-support-LLVM-21.patch \
- "
-=20
- SRC_URI[sha256sum] =3D "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b=
-0ca9b6c50998b03e"
+diff --git a/meta/recipes-support/gdbm/files/ptest.patch b/meta/recipes-s=
+upport/gdbm/files/ptest.patch
+index 5f4078101b..96196f63b6 100644
+--- a/meta/recipes-support/gdbm/files/ptest.patch
++++ b/meta/recipes-support/gdbm/files/ptest.patch
+@@ -28,7 +28,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
+ index eb071ac..9d14fe8 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -150,3 +150,15 @@
++@@ -150,3 +150,11 @@
+  t_wordwrap_LDADD =3D ../tools/libgdbmapp.a @LTLIBINTL@
+ =20
+  SUBDIRS =3D dejagnu
+@@ -38,9 +38,5 @@ index eb071ac..9d14fe8 100644
+ +install-ptest: $(check_PROGRAMS) $(TESTSUITE)
+ +	@$(INSTALL) -d $(DESTDIR)
+ +	@for file in $^; do \
+-+		if [ -x .libs/$$file ]; then \
+-+			$(INSTALL_PROGRAM) .libs/$$file $(DESTDIR)/$$file; \
+-+		else \
+-+			$(INSTALL_PROGRAM) $$file $(DESTDIR) ; \
+-+ 		fi \
+++			$(LIBTOOL) --mode=3Dinstall $(INSTALL_PROGRAM) $$file $(DESTDIR) ; \
+ +	done
 --=20
-2.47.0
+2.43.0
 
 
