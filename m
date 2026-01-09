@@ -1,109 +1,99 @@
-Return-Path: <alistair23@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF9DD232DD
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 04:55:15 +0000 (UTC)
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4125.1767934504236058205
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DF8D232E1
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 05:42:35 +0000 (UTC)
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1894.1767924781593482750
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jan 2026 20:55:04 -0800
+ Thu, 08 Jan 2026 18:13:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bXumPy23;
- spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: alistair23@gmail.com)
-Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-34c5f0222b0so2405811a91.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 20:55:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NIx4RBmE;
+ spf=pass (domain: gmail.com, ip: 74.125.82.177, mailfrom: khaidangbk1998@gmail.com)
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2b19939070fso1093976eec.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 18:13:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767934503; x=1768539303; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2YVoHWJ+9hpi+mU19d276S2XPwKOYEynfkUCDy+dHbs=;
-        b=bXumPy23Q58b3vXblkbAg9biaco+06JVztZSrztLKGQqFnkIQbWUuSuWAUtiiLAt0g
-         SMiCjgH2gluyqURr14/Yt3CV0Bu5b3MnULXX2cjuCILsA4EpiwmvIQCdgCbSoCWSqSo7
-         asZ91HQPU5NkTDcYPBszpLZtYudTTFCiF+M+zaGYmz6CZwZqG0/Brx2tgMK9FvWY+KQm
-         f1saKOHJS7eJ4EdxiM5tM5tfLd7Fvt4hCd2tRrCkB94IthVcfZsFuXlvSOF4pAk8efgL
-         /tAZlpacLj/K/ru/dO9VoXVaz8spjiV3xhQh5OlzPm+bEX9RU1he5dSrY51zeW6tgV9Z
-         EnRw==
+        d=gmail.com; s=20230601; t=1767924781; x=1768529581; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tJBFaJx5or6kC+blmhAPJ+3TmkuoHc8Rkz9jnqU7v3M=;
+        b=NIx4RBmEFJpreO7vYCUU6CklwBD5Qp7VMBZNJ7CfXS8XU0BCRyecB0JGyp/kYb1DNI
+         5ZAaxnir18xvDub65MM7qaewHmNA0YE7WbCETwo/3lRSBlF3eWA9fJopnbjU0J+bFPr1
+         OysenbDdJ1bVIDewDqMceu7b53cwQXsXT8g+SKDxurPjwHvJMWnAAhDy4a8AbgdRalA+
+         BPssOWt7jNGU0p8JC6uOtLLoJz0F+JLTMfhSFFJ/7LwHrp/9FmDDpw3FXWYUTzu88ktQ
+         vHrp6w8Y3CoHFw5A18hpQN7M8uc2ZLayT01zHvoG6hgbF7+UTQg7sGlrTXMX697Hv/iz
+         2G4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767934503; x=1768539303;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2YVoHWJ+9hpi+mU19d276S2XPwKOYEynfkUCDy+dHbs=;
-        b=fU8P1OJflqIBH6ZU0TJZ0sJJF9rSNsZf2qCVh2T0/9GgWgtDQrSNXMQC84KQ5mWP8E
-         s6M54og2y2+S7AH/ZYl84Tt788XiOp6Tp9CMvLNlSqYoamP/ZJ6b9+gRCSLUTYKg8lJU
-         dYual4z5zdHDKMWGe9zuBTtSZtgGXl18gHnNoL2MkttY4PJ+YTJD+8Mb127GtC5KZor2
-         9Bmju2p9HyfHgUMbE0hMdsRobf5lw/5/X2rfnbPALom44nFo1ryoo8JArg65m4EiobbU
-         xOS/WWJxvKYtlv5j92AHMDdD0xmYJFBvphrNi7o7hX70lPk3lCsXne3MOgd6RXI3XweF
-         bGiA==
-X-Gm-Message-State: AOJu0YysRHtXDKdi/ADRLSs/dNoJOSWbXdmaLuvcEtUrk1SkRr6UF+/z
-	P1rm65wirRk7yiZpnOA9DqZ0m5REE89ZoJqcMYiXswxdMbd+3d1JOMWR5MO5KDiK
-X-Gm-Gg: AY/fxX7VAldi67PSwrzJt9z7Ff433pWjfix3EjKio0K48utCyzTz3+VRbtXhTFFtUYq
-	fy8ojRLlSh40+kKYq6MwQf2ZqRp/H3+HlfhEJwKboAk1lfoSjsPZVAs4dMHbK/GhLIqC4c9k9Up
-	fwO1G4eKDmjQVcgFQKRIJ1rujFsW24dnpzvfUb+2YYQHn+lU/QHiMZqnvz1vcXX+zf/NkO2qrtv
-	u2yZ3yEBFvk2EzhvaCLUNT7ZQ+ILWYkxLmtDvQ9hjFGptd+AVESL8uxmALz2k0EYyeKSQ8nvl8t
-	nqKPZGrOP56iB3FIJ7Qa7/VLSV6YQ4VTx0FAPjWBPI/6ja2MdjDUTf5kWVbOuDKy8GYbHZk1nAy
-	GYXULwZmMKHfvhzn+Cu0OUKtQoMnqkTA+In9Wkb0SV8r078fmxE3RcUBz85qgxh2ROacdYFEsXB
-	+BDccJZhoU4HIGwHCRf7xib6euq3GcCrVTnGJ+gMyCc8QFEW1p6VDtZov8qIVxd3EvRTMtT8lU/
-	phFBK9R2DPIBDS/ar0=
-X-Google-Smtp-Source: AGHT+IHgKWwHe/9gghQjj1aTRI1x/NxFAtsqVq4tIwV56lHU1lSU+0cevD+4e511cj3vqQ0qBQnwlA==
-X-Received: by 2002:a17:90b:3a90:b0:330:7ff5:2c58 with SMTP id 98e67ed59e1d1-34f68b4c514mr10022372a91.7.1767934503189;
-        Thu, 08 Jan 2026 20:55:03 -0800 (PST)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5f7b1922sm9393807a91.4.2026.01.08.20.55.00
+        d=1e100.net; s=20230601; t=1767924781; x=1768529581;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tJBFaJx5or6kC+blmhAPJ+3TmkuoHc8Rkz9jnqU7v3M=;
+        b=IGl2VrUIcsxiXo7fL7upRDNA88+CoLBsIQITyKah/Mn5njWwwVi6PDNJp5VUvGspQV
+         PmQgdxk2oyn47in6uOQylqESrZgQhktVnjQvpmmy7l4aIcxXAVOno9Vaiix1tEQrwGJq
+         nr6fSjgsCjNd1Sc9gisFHazKdvNbhOrvqV/G6qyo+hRJaMthKo+K5MvtmrOVpJlS8bCs
+         PF/YITmr+/U5oZDzj/t0lC4qCZ5/jrGsWCTcsuyX64ebav/ajDu6dQbULUM0Nykh8drR
+         +FgcF/6T1GdytHC31kqRppOfmOnKeHq1XSu785WZSiC435zmzacxpVGhlbpxq1ud627x
+         YAYw==
+X-Gm-Message-State: AOJu0Ywp7rguOI1K4IvBVH3gc8ICU86BP65PAoI8IZs0TOar2Ri20vyY
+	u6KCUXSdIX5K03DdtV23me2o4gf19LAafHMaz/ksTqAhb4ULweIoF8ugA4jgEXTQ
+X-Gm-Gg: AY/fxX5sILE4vqMZ5rsYVCAvHRMcpMdgFk8s3FeCN04eApQQNSxxKsZTDl8vn2nSf+d
+	TQraWhKxRAXS4Soi2yJk5St4TCbJFKUBFNl8x2chFdOzlOKT/EqHJXsFRkQTONhZNwmnmDfOaKr
+	9l55RjQ8msZ3XJqpfiJsX/ZMhCbJJqKEvK78pF02nwKy5E/2hM6T4ujsdn9WcqLxjigi916WHHX
+	uz/JQxj+i4u41Hf2RkkyAKdVv+7CxLrVvT7xVz+Xc0dPoZcWMYPoK3i2JcMKnhZFq9liiVhb+F1
+	uQTCJ927480f6bAeNVhI7J7iZK/ZQmebrDcaxiyO3dUA3ekzzQgKqcuazWKy+46irZi/BiaBwm8
+	7Qd6EpmN2Irzuc+gOGC1PIdFfRScNpoGqo+MjXiDyDFYcE0IXGvuxBxGYXgJyC+385I1wcwiNf0
+	aNMfYeSy9ugr7InfGE8L4C+UUGAPBZSW3POGX5YALDPoNJ0aD2
+X-Google-Smtp-Source: AGHT+IFlnoINjn2mVbSRyOpPhUuwE1+9f2jfb61NaZgJoZTqHbN9kMUc2c1LJlqnKFMfI3HBRwXd5Q==
+X-Received: by 2002:a17:903:2a8c:b0:295:7b89:cb8f with SMTP id d9443c01a7336-2a3ee377cbcmr79957855ad.0.1767924312790;
+        Thu, 08 Jan 2026 18:05:12 -0800 (PST)
+Received: from khai-dang-atlas.bee-live.svc.cluster.local ([203.247.149.239])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc793fsm90244505ad.72.2026.01.08.18.05.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 20:55:02 -0800 (PST)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
+        Thu, 08 Jan 2026 18:05:12 -0800 (PST)
+From: Khai Dang <khaidangbk1998@gmail.com>
+X-Google-Original-From: Khai Dang <khai.dang@lge.com>
 To: openembedded-core@lists.openembedded.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [OE-Core][PATCH 2/2] cml1.bbclass: Support the rustavailable task
-Date: Fri,  9 Jan 2026 14:54:47 +1000
-Message-ID: <20260109045447.1933604-2-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260109045447.1933604-1-alistair.francis@wdc.com>
-References: <20260109045447.1933604-1-alistair.francis@wdc.com>
+Cc: Khai Dang <khai.dang@lge.com>
+Subject: [walnascar][PATCH] docbook-xml-dtd4: fix the fetching failure
+Date: Fri,  9 Jan 2026 02:05:07 +0000
+Message-Id: <20260109020507.2808-1-khai.dang@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 04:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229092
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 05:42:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229093
 
-From: Alistair Francis <alistair.francis@wdc.com>
+Updating SRC_URI, the old archive url is deprecated.
 
-Allow the user to run the rustavailable kernel make command to determine
-if Rust is avaliable for kernel builds.
-
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Khai Dang <khai.dang@lge.com>
 ---
- meta/classes-recipe/cml1.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../docbook-xml/docbook-xml-dtd4_4.5.bb                | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
-index 3c2b4da4af..efbdd2a795 100644
---- a/meta/classes-recipe/cml1.bbclass
-+++ b/meta/classes-recipe/cml1.bbclass
-@@ -107,6 +107,15 @@ do_diffconfig[nostamp] = "1"
- do_diffconfig[dirs] = "${KCONFIG_CONFIG_ROOTDIR}"
- addtask diffconfig
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+index 1148d53694..ea0861823d 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+@@ -10,11 +10,11 @@ LIC_FILES_CHKSUM = "file://docbook-4.5/docbookx.dtd;beginline=15;endline=30;md5=
+                     file://LICENSE-OASIS;md5=b9ee6208caa6e66c68dfad6f31d73f92"
  
-+python do_rustavailable() {
-+    oe_terminal("sh -c 'make rustavailable; if [ $? -ne 0 ]; then echo \"Command failed.\"; fi; printf \"Press any key to continue... \"; read r;'",
-+                d.getVar('PN') + ' Configuration', d)
-+}
-+
-+do_rustavailable[nostamp] = "1"
-+do_rustavailable[dirs] = "${KCONFIG_CONFIG_ROOTDIR}"
-+addtask rustavailable after do_configure
-+
- do_showconfig() {
-     bbplain "Config file written to ${KCONFIG_CONFIG_ROOTDIR}/.config"
- }
--- 
-2.52.0
-
+ # Install the latest 4.5 DTDs, and the previous releases for backward compatibility.
+-SRC_URI = "https://docbook.org/xml/4.1.2/docbkx412.zip;name=payload412;subdir=docbook-4.1.2 \
+-           https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=payload42;subdir=docbook-4.2 \
+-           https://docbook.org/xml/4.3/docbook-xml-4.3.zip;name=payload43;subdir=docbook-4.3 \
+-           https://docbook.org/xml/4.4/docbook-xml-4.4.zip;name=payload44;subdir=docbook-4.4 \
+-           https://docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=payloadPV;subdir=docbook-${PV} \
++SRC_URI = "https://archive.docbook.org/xml/4.1.2/docbkx412.zip;name=payload412;subdir=docbook-4.1.2 \
++           https://archive.docbook.org/xml/4.2/docbook-xml-4.2.zip;name=payload42;subdir=docbook-4.2 \
++           https://archive.docbook.org/xml/4.3/docbook-xml-4.3.zip;name=payload43;subdir=docbook-4.3 \
++           https://archive.docbook.org/xml/4.4/docbook-xml-4.4.zip;name=payload44;subdir=docbook-4.4 \
++           https://archive.docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=payloadPV;subdir=docbook-${PV} \
+            file://docbook-xml-update-catalog.xml.patch \
+            file://LICENSE-OASIS"
+ 
 
