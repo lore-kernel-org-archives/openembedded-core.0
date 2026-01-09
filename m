@@ -1,250 +1,263 @@
-Return-Path: <daniel.dragomir@windriver.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84E1FD26D7A
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 17:45:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15887.1767980742164720679
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 166FED26D9B
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 19:59:02 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18784.1767988740856376297
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 09:45:42 -0800
+ Fri, 09 Jan 2026 11:59:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HJsYHqnY;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5469a3f714=daniel.dragomir@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6099Cjmw2153270
-	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jan 2026 09:45:41 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=LyUn/lgjUB0DwOi7AUISv1M6PxHpgipXpKbxrqRpVdU=; b=HJsYHqnYTA8b
-	VTOPLAbPrcuBeAz2SfavtmbroZCDCrxgjVY9BBy3iDV54DxZvJhDd8NKCWFRBGCc
-	tZTpTANXtoHEuoIathlR8KCgvfiRl0W6F8+EdB8TGpG0aSo9Yha+BHmCyWNJAEZQ
-	F/VLdhlbfi/nks1wDfrKhMTOXZYHLUupLeZ11veCv954COz0/p79w8qI9U1ogVgb
-	NHDnEYdeEeZ3svhrsZZNkeweBgwZiCUjcdhATkpyYRt1zt6GTJTLvqP6KSpy+tir
-	Uk+Y+yUAuB5yERxT36L2BwLHLuHfHJHOb8L4wp0WQp1dZez9CHzMImkmBbwnUavy
-	GISI6sEFtg==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010004.outbound.protection.outlook.com [52.101.56.4])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bf3gkf6ca-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 09:45:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mjSLoiwezYmonH5RbzyexnvNnDAhyNjZ31EYITLC/9iLDTbnKldAlIt1lte6U195adKQZLfp8o8Ck76/T2sG4v/rxCrfKP9+dZhCSTHNDV+biOQwrFdm64EbX0ueZ2838s71S80PNzcpw7vWPLlehBflzNebpc0sM22poRKAdAd6TBB8av0O3ZQxUPLkVtZv13B8ll5wb2CfKw4e1mAEK5vtq8+LwiSF9aRwqvYZGWL6bVoqJ/RICMuqe6Q7vw//8Bn7GAVw/VWw/1UZGkuu07+GOF91vqDv6RY9D4e4NZEzMJPjxv4yvgXiwaR+ATXK3/hHQiqw3rSxENL6PTd+hA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LyUn/lgjUB0DwOi7AUISv1M6PxHpgipXpKbxrqRpVdU=;
- b=JU6R+sri1qx3WQT1rIGDLnEPr+bGdZ049kZrSeCusqNGhKxrtnY28960zLz0LMoCHALQ1J0PsauXAJOl14X0PTy7fXCMk6SvNwIQ0pIfq1nBjNcNx/6X/U+IiZjK8YN23OVJTT0juUlyD7dwrkDj+dU/tTIKwBnSF1AtWFYWjR8dCLz9T4N/PpuYfaAihkV7lFOKtwFwEyM/paWd/T3l3idvKuXQuwUeuMayEEI3ooZl1oJEFPGCOMRLVQ88FI3M6hZLiMeUt/RiBpEJh1F58gH3TzsDGvlNuO5zRpb1sfK6IOUVM2qv2NwDfXX/Kg/qerF6fbrK6aHiMSm4qJGGFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BY1PR11MB7981.namprd11.prod.outlook.com (2603:10b6:a03:52f::12)
- by CY8PR11MB6913.namprd11.prod.outlook.com (2603:10b6:930:5b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Fri, 9 Jan
- 2026 17:45:38 +0000
-Received: from BY1PR11MB7981.namprd11.prod.outlook.com
- ([fe80::4a4e:8d21:83b0:ab7e]) by BY1PR11MB7981.namprd11.prod.outlook.com
- ([fe80::4a4e:8d21:83b0:ab7e%2]) with mapi id 15.20.9499.003; Fri, 9 Jan 2026
- 17:45:38 +0000
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] wic/engine: warn about old host debugfs for standalone directory copy
-Date: Fri,  9 Jan 2026 19:45:19 +0200
-Message-Id: <20260109174519.1375258-1-daniel.dragomir@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251218101524.703244-1-daniel.dragomir@windriver.com>
-References: <20251218101524.703244-1-daniel.dragomir@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1P190CA0010.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:802:2b::23) To BY1PR11MB7981.namprd11.prod.outlook.com
- (2603:10b6:a03:52f::12)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=TmOptGTF;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b25dd7ab33so351089985a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 11:59:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1767988739; x=1768593539; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TXPLl9cGAUqFpfzsbST/THNC3rWlh8YzoB8EF0wL4Jo=;
+        b=TmOptGTFuLC/rMTR3oWlHI9sMAxc5WuFihRbNm5WXMuN7A2YN3naZpDy2Hg4NlNMz8
+         H4zUgL2A3Q7ENJTM9gCuszsbdljeZx1WBAtyiPB8wMfVmHhHUyC+rFzU2VAk7O3dQXHm
+         vbeIVNOH0Vc00huMm/l3c7dCgo7ERcS3QPuxvfrTALhUwqSNVID07oqjxY+dRKa3W9cm
+         Gulk4+X+U/8MdMquka+c9bcJOtb/prmtKHDbSkPXZh6e/f3agc8Mp4xZouHpo09hPqei
+         Rz+F8a6b3lHiGehupPP7IJYSkrXw2QH/iDsuBamcG9dAvxUnVV1tLNZauyLx+F8oIgA4
+         m34Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767988739; x=1768593539;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TXPLl9cGAUqFpfzsbST/THNC3rWlh8YzoB8EF0wL4Jo=;
+        b=Y9gYLVSsSsAURTpZgAUrqR1kR4WackJ1kCvdAT9Or1iFVVEYdNq2UW50OiPDbSCq3Q
+         oNnQ/tl/GNCEQAxr7DsYpi3yPWHsoKNZzTFyn36eXXx53s5HeBnut24Hh0NSHadlpoyq
+         sDW+DE07GLIYCs+npJhu4UrKuIm0sDh20LTzCKfNJnxl2l7sJSGt17YkGE6McxTQWIeU
+         B1m5wb9lR8OHmn0nV5UFtOJO7SU6F/WCOmH5g/LGhynDtZzwwp48w/Su/IosUH8t7g9B
+         v7w//ru0qDqjT62B53VqOKn7Fi2ZVTogGlteN6hsRYwqgdcwifT3+HKzAy1eaX/Dx2eO
+         EQOQ==
+X-Gm-Message-State: AOJu0YyT+FjjYGEeJ8+4yE7X8Q7rKDpoZSeJofk8CBTLR2/OJYwzVaus
+	TKM6QPm9PGMxHtmluPGHv1duifVgdOtSQfq68q+108dNKF9N/h6csF77vGgYbea3HxL+hYmZmNI
+	yy66Nqbs=
+X-Gm-Gg: AY/fxX58vHtfagGt7lvegjkRqW69FcajLW3Hgt3tlHChNnv5p01OOl1zL93OHV92bhJ
+	IhUgEzwzA93MjXwHfpy9uP5LXIPlO31wJBW+maIc20H5db8dFA3KPZzVZ4DONafLo0ea1K5/o1Y
+	yc38AVAMsIZDIVaUciBkvwmKagi8qfW3l9ocsQLXCgntyKeIUpWTTvN5gD2egps/WunyaNj7S3a
+	Ya2ZJoiFoyZ0INBFUbpR/QogzoZ23FlteFgCnrCeN+GkgI0vEDJNioOxczLsKjOJ/MTgBOxTibn
+	tGYjEDcCZpkzePE0hRWV4sRlS/tmPUdA1A4ztBc0qq+BCGmmEusvom6s4UTj5H7UGNnx6meb6gK
+	suJClKPXj1rJQiJSifxPJZYzMtuMXVDsOFdvOYyFRCWe1ScezQC45JYMIaopKqDIQ7ghPgHcnOO
+	FitdIhrGdo8bmNUjalT1dj9by4ovJAaXF/VkZ5FsBLFlc1ZIcW2t7bJ/JPCdCXHQOv
+X-Google-Smtp-Source: AGHT+IFeBuQq/NRIF+bn+290PdoVdeXiatI+MjsH+TEuw2EW7Im36kVygEPS05zoecD2plIKL7jITA==
+X-Received: by 2002:a05:620a:26e5:b0:8b2:9aba:e887 with SMTP id af79cd13be357-8c38936ef06mr993320085a.24.1767988738480;
+        Fri, 09 Jan 2026 11:58:58 -0800 (PST)
+Received: from ?IPV6:2001:1970:3847:e000:1977:be2f:4a71:2892? ([2001:1970:3847:e000:1977:be2f:4a71:2892])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f4a794bsm898707485a.9.2026.01.09.11.58.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jan 2026 11:58:57 -0800 (PST)
+Message-ID: <14d13878-7c11-43e2-8128-d4c1d317a24a@baylibre.com>
+Date: Fri, 9 Jan 2026 14:58:56 -0500
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PR11MB7981:EE_|CY8PR11MB6913:EE_
-X-MS-Office365-Filtering-Correlation-Id: 652520d5-324d-42d7-10a5-08de4fa6e60e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?4kH4OrS+mUygjyFLBm+/2jPphAczLc0EfjeNoW3sJtwZ1lb4v93rQV3mmltv?=
- =?us-ascii?Q?Bcuih9LpQNzYMloZGFSP7O99JX07Rqlh9a1XkZSACVRMAEkjl0+s6nWGZ/YP?=
- =?us-ascii?Q?CX1Xyq3TviS+J/ux8soOWthvOcPmWgSwcLGigW1mxoXKgG51KM1cl9ICJoP6?=
- =?us-ascii?Q?uSiPG2odz/tTYKjHh3hFYDLp7JyZURMzO70OHd15E86bzMetQ/e1tTpRDPQi?=
- =?us-ascii?Q?ZfbegV0XQmebty8u9lS9npx4VpqOlZzaCZ/rzDFiXSITsD0cPPGT5nBVeFk4?=
- =?us-ascii?Q?a7t5S8hSc8fsI6uXdI/cVuFgK+L0XJJCPt1CYJNbSGJ6ocjbSToDuN2t2cgK?=
- =?us-ascii?Q?NNJ7ZU107uGDRT1tnhiSUMQRqC+WZoUY7Qg4pxRw5wghcC6z9u18EW+1Kl+t?=
- =?us-ascii?Q?1PcVKtT89vUUmk9aBsDiSfftoeRL/eN3Zs7H13xaOTRG0ErqZT+3N2KmOZDs?=
- =?us-ascii?Q?Wc7STOp5k9LE2gSQ9+0SkKKG+eWiVfbx/6CrOSP1fKsiCZCtr6jHySFJD9pN?=
- =?us-ascii?Q?47yjPSdyW8Ph12r9hMW3/SmA/kkiuG/yA5tGDEvoT4REa8lznogtqj0fUt9z?=
- =?us-ascii?Q?LKeCg0VG4kTybSpVdAG+VsyfRRHLzxsUS7IOSH8wnL/hhlxIgwq7gGHyA2Xk?=
- =?us-ascii?Q?/XIj/pHgER0U8SyA3wahESwmNqzmBrJwb/vOaT3ZQAhbDfexPnkWUF+YQKYO?=
- =?us-ascii?Q?98Mwa1ZHsSORHffhmglYJV4WFebzRQLEVzWeepODNL7cdLDYCTKXqF2Xmnv+?=
- =?us-ascii?Q?rLFTX3UCnLYa+34D0wkiWs5F1c+kKhXeVf2JIoBu+6Hn3FpN6xIpO779EO5b?=
- =?us-ascii?Q?zCMyWGH0spBXsuxJMl+4te2hKoB9MODepbqED/u2uZQr7j9TxavHxgT2+Rjl?=
- =?us-ascii?Q?Dl/sjK2RTZAykCQBGgyzQeQCqR9r+gTdKMbI9ZBn0uS3yvA8iCYDYg+1hIgK?=
- =?us-ascii?Q?r4LoNb0hKlwoarqi4bMTU55dxBh7g8+qjsqIHHSgT9j886vqAmshrQ6QqtiZ?=
- =?us-ascii?Q?aG/xCaX7N5xx7/UCooCof5TLO+0sBcSU+xtz3mXHWj8aQC53Q/I4SWoyZoVW?=
- =?us-ascii?Q?VYhMm4dVrSveIsgrYWamnzvOzUimQiAUQh3w0sEsFEn1GapfgavbFXMwXELw?=
- =?us-ascii?Q?wJQPuOxB0tmvY+9cqtZnLfjoTJdUBvC0QDarHVZJ9YWj4NkJFagBSoSV/z8y?=
- =?us-ascii?Q?zcP1hK8V2mR9fPYjWfL9NdNmjjkXAQfF6uPU4+yXfUA0WsFEgsdecPVR1JFe?=
- =?us-ascii?Q?TH8pz/NW/Y4aA6MXyTrQGZpmWsOPElcdp/6uXkb4qaydz3Zo00EPHp2V9sf+?=
- =?us-ascii?Q?gZqtLBJrnBYl+cQrIAImueX2NuTFt0VWvrXq77iqO5EJoS8Vyovsz0UMCzhR?=
- =?us-ascii?Q?uso+a7kRYNMTUJWEqaJWxYef8FvducVFPkPlKgn937cfF+gpR+tJB/USeGeb?=
- =?us-ascii?Q?Sj6rjg9TMezNY7RBEqR4rzyU7RMUnQq9HGaFOyXq1+dmvGPccSL8FMAyzWN0?=
- =?us-ascii?Q?kjXMCKxUghx2QkKTB3MBY03JWRWZuCyUET1h?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB7981.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?3i1bYJKScYngOVOc3kUDXVkizYkNz3fZlX5rI6ZkMAeMusNlUjRFq3R5JFp9?=
- =?us-ascii?Q?S7qvWuate4U/c6f6IKqOMVrzTypDt35xCcPFclaqcm03Ajd8XD3t4C/rm0kG?=
- =?us-ascii?Q?M8//6squv1bQFrlrD+0K9jhwNLgplx5luXVYFfDYceqmf+6I5rDzWxwZIfbl?=
- =?us-ascii?Q?UcLpmmgBbZJbWKRGvqObBvPg/tGjfvFINC0Dg+QNTSXwtZi7k2pxrOlUvu2v?=
- =?us-ascii?Q?Eunp/6u9nlOAzm5ho9h6JA7eo+moCu45LBrOG0LfceOME0LMIByuXCuv9wat?=
- =?us-ascii?Q?ZiLW/OBkAEJ6IJpVCyv6W1fx+AJPVtQGHDM2qzpAf+Roftg9qOQCqU5i1mcf?=
- =?us-ascii?Q?gJUUYPaB5/zv4VKYrddIIufkXrTkE1UlQV0Rnwy+LSzL0lNQ5oLnMo/4Slbc?=
- =?us-ascii?Q?Eax8rfJ0wpP+Mn18IkLxDc5LekvQxvcCtLcGM9MyfnWphV/jPYAK31PuyECi?=
- =?us-ascii?Q?5UhkEUExGklfM0VzHN+Ra8DgCd6m9MXmg0lXlzdEecNrBKOQ6PmsMyAlhXC4?=
- =?us-ascii?Q?Rs5A3rlotx45ex4SBtiUbSFyQ78Q46J2vudDfCqguJmDlHRpohVKqfpvNTH5?=
- =?us-ascii?Q?LPRpHMZ9xDeb142mT4igdXnsIKCfcYfhlbnRjmB6XoWT31DBQOdKbROwuOsU?=
- =?us-ascii?Q?xPtdFHobEk/BkntL8lA+IfKPZmVQR0HVScnzSPnelptr9won1uzQMio6JOuo?=
- =?us-ascii?Q?bEVCCPH4VZ2er8EGnYcm6T3i48Lq8k2kXJ4+eBbpBrMUdByB2+2zyaqC/RGf?=
- =?us-ascii?Q?3HvBtyVQ/Y3QiRvcDhTOzY3MJ9miwaVvHRn9cGa9Ye8eUjV2fUuwlc2Hfk3a?=
- =?us-ascii?Q?M9PX+OlxYCXC2dwR/V34xiVghW8uthNhmVzDlZWcPWrnPpODb6eRpxz9Sa7o?=
- =?us-ascii?Q?FhBnkjwfsbfsnM3VLklMEa77k8l4wrqTsCDTaJ5VfulZFm+FNJR32blWt4LO?=
- =?us-ascii?Q?3KJjp5zREemFhQSi0NcnCmzlfu7kyAzsXlZOsEXEZE/RldS76ZszvA6k3vJv?=
- =?us-ascii?Q?dpWjVD9ypqualcQA9RiG7gV6KemWvu3thiqeB02+NUIeDtj5ruz1ryYL+1eh?=
- =?us-ascii?Q?hq5kuF0i7f4R+sp0kVJDrM9HCPs8akw3R3N42QibArj793ZjKkSoomtDXtAw?=
- =?us-ascii?Q?nGqvY/x1HZfysIiDpVFW4KiDBrrK1Gj9OkAcYsRlvB72FKBhGkd9N7LFBoIv?=
- =?us-ascii?Q?nIq4kwqFC+GAbSlcYumNECSmQI0KmpWfktGsewbyenz+J7c8WZxL0x4bsI0p?=
- =?us-ascii?Q?cKAUDzwQBJte4+QSC3qr9kJ2EM311ckplEUpjJz3njcwIULcrunwbfbR5QDY?=
- =?us-ascii?Q?rUopaKm0KfjM7jTg565Rh9WT/WIS/Hr4YGuNXx1rWWya8/wy/sZoMqdqjQYk?=
- =?us-ascii?Q?W3mnNki4RUO6bRIy0yVOfhb7QOQTO2ou3u8/foNa+dgEoZK4twMLM169M7+r?=
- =?us-ascii?Q?HWT/kD/9yQmHSSq1MwV0HxNf5sXXawQ9Kb/RGuH+ldx1gBF9sWPmP5bfuOzh?=
- =?us-ascii?Q?SCrmdfng+a1JKSeXUntZv1S5zgy63xOTPGUXqSeIlBY/YRY/k+r+DMWd3WRL?=
- =?us-ascii?Q?F3frSXcfbt/xyh4nbyzOpbWEvLvMxM5KZcZ1BCnbbrv2Hb6xQeeQVTYsXBF2?=
- =?us-ascii?Q?aSc7EtUuEq/XdAt/3r448c9Omkk+4o7GPrcixU3rjycyP6RWbXTflB5Q+Ply?=
- =?us-ascii?Q?YScL5c8oIn+1tIsiRBgyELPjT0xCfHeYadST6gSELLBNQpzNT3OszFkNMN8j?=
- =?us-ascii?Q?+dOLp6FfiQb4oDvLL8Ze2HP0Ihh5lhA=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 652520d5-324d-42d7-10a5-08de4fa6e60e
-X-MS-Exchange-CrossTenant-AuthSource: BY1PR11MB7981.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 17:45:37.9288
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h8Yjq2em3tKmdkq6h4NT01N/1m7zwxE/RhW7S6+AYdebiffD/3NnNq0jihrpKhX1W2rTZCTWojZjKn/Z/hgyb6XzcHTorHN0q0Peu/GIQfw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6913
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA5MDEzNSBTYWx0ZWRfXw8eLICiVT7lF
- 3rGyV3bZBJjuQnRcfn1HNvGlVDh24sgVLyq5B2jbUupQW1c/kgtw1pvNwkZd0/V4RU/AHktM8Rd
- EhGuRC9EDQxpvm7fx8uXzrvLgRrw4lde399ly/f6FvOZmY26oULn06SxoIg1LJD8DbgERI17Qxv
- 864jh94eLBTDmA2AuvZa7t2HjTUTSkta/Z6PW+8nXoq9xJOWugjM7RGj0YDf0zuJDhIEkoa/EwD
- K9jSgozE4cedUzvlYXJSo3kEEGNq/co+QfdrP6cuwASR9OjxE8/70IZ5dt4hl045gKOm3AZpOdQ
- XCOD09Niepo8+sNxzNbGwYRN89Ln5KaETARJls1DpjrNvRqLMzMx7jKyxxxXYqKsUIHQ+o90eBV
- mNFWRREm1AKlufjtPAROSL6kFsJw7kXfL1rInSq9fhA737E/2vgHNU5kuo2iBIHPF3dajbVc/cf
- 2mURSZNXAgHVncx1R/Q==
-X-Proofpoint-ORIG-GUID: pIn7xOBR6qW05Uv8xsl3NOwkVPcOcypd
-X-Authority-Analysis: v=2.4 cv=TYubdBQh c=1 sm=1 tr=0 ts=69613ec5 cx=c_pps
- a=5+b0Cb5m1vs/r/JsbObUdA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=eUBKwln-REtu_DbdvHUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: pIn7xOBR6qW05Uv8xsl3NOwkVPcOcypd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-09_05,2026-01-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601090135
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 0/6 v3] python3: upgrade 3.13.11 -> 3.14.2
+To: openembedded-core@lists.openembedded.org
+References: <188918745128404E.2783356@lists.openembedded.org>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <188918745128404E.2783356@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 17:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229143
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 19:59:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229144
 
-When wic is used in standalone mode, it relies on host tools such as
-debugfs. For directory host->image copies into ext* partitions, wic
-uses scripted debugfs "-f" input with multiple mkdir/write commands.
+I seem to have missed a module import issue this time around. Will send 
+a response to this or a v4 depending on how complicated the fix becomes.
 
-Older host debugfs versions (< 1.46.5) may behave unreliably in this
-mode and can silently miss files. This does not affect builds using
-debugfs from OE where the version is known to be sufficiently new.
+- Trevor
 
-Add a debugfs version check and emit a warning when an older host
-debugfs is detected. The warning is shown once per run and does not
-alter execution.
-
-Changes in v2:
-- adjust the last working debugfs version to 1.46.5
-
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
----
- scripts/lib/wic/engine.py | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
-
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 9d596be3a7..40be6f908a 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -222,6 +222,42 @@ def wic_list(args, scripts_path):
- 
-     return False
- 
-+_DEBUGFS_VERSION = None
-+_DEBUGFS_WARNED = False
-+
-+def debugfs_version_check(debugfs_path, min_ver=(1, 46, 5)):
-+    global _DEBUGFS_VERSION, _DEBUGFS_WARNED
-+
-+    if _DEBUGFS_WARNED:
-+        return
-+
-+    # Detect version once
-+    if _DEBUGFS_VERSION is None:
-+        out = ""
-+        for flag in ("-V", "-v"):
-+            try:
-+                out = exec_cmd(f"{debugfs_path} {flag}")
-+                break
-+            except Exception:
-+                continue
-+
-+        import re
-+        m = re.search(r"(\d+)\.(\d+)\.(\d+)", out or "")
-+        _DEBUGFS_VERSION = tuple(map(int, m.groups())) if m else None
-+
-+    ver = _DEBUGFS_VERSION
-+
-+    # Compare and warn once
-+    if ver is not None and ver < min_ver:
-+        logger.warning(
-+            "debugfs %s detected (< 1.46.5): Directory copies into ext* partitions "
-+            "via scripted debugfs (-f) may be unreliable. Consider using a newer "
-+            "debugfs, for example via a native sysroot from a newer SDK.",
-+            ".".join(map(str, ver)) if ver else "unknown"
-+        )
-+
-+    _DEBUGFS_WARNED = True
-+
- 
- class Disk:
-     def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext')):
-@@ -352,6 +388,7 @@ class Disk:
-         if self.partitions[pnum].fstype.startswith('ext'):
-             if isinstance(src, str): # host to image case
-                 if os.path.isdir(src):
-+                    debugfs_version_check(self.debugfs)
-                     base = os.path.abspath(src)
-                     base_parent = os.path.dirname(base)
-                     cmds = []
--- 
-2.25.1
-
+On 2026-01-09 10:06, Trevor Gamblin via lists.openembedded.org wrote:
+> Compared to v2
+> (https://lists.openembedded.org/g/openembedded-core/message/228232):
+>
+> - rebase on top of the 3.13.11 python3 recipe in master;
+> - add a patch to include the _ast_unparse module in the core split, fixing some
+>    import issues for annotationlib
+>
+> I've kept the original ptest, reproducibility, and buildall checks in the
+> respective patches, but here is another set of runs for completeness:
+>
+> ptests:
+>
+> |== Tests result: SUCCESS ==
+> |
+> |28 tests skipped:
+> |    test.test_asyncio.test_windows_events
+> |    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrace
+> |    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
+> |    test.test_gdb.test_misc test.test_gdb.test_pretty_print
+> |    test_android test_apple test_asdl_parser test_clinic test_devpoll
+> |    test_free_threading test_generated_cases test_idle test_kqueue
+> |    test_launcher test_msvcrt test_startfile test_tcl test_tkinter
+> |    test_ttk test_ttk_textonly test_turtle test_winapi
+> |    test_winconsoleio test_winreg test_wmi
+> |
+> |8 tests skipped (resource denied):
+> |    test_curses test_peg_generator test_smtpnet test_socketserver
+> |    test_urllib2net test_urllibnet test_winsound test_zipfile64
+> |
+> |455 tests OK.
+> |
+> |Total duration: 3 min 44 sec
+> |Total tests: run=46,462 skipped=2,384
+> |Total test files: run=483/491 skipped=28 resource_denied=8
+> |Result: SUCCESS
+> |DURATION: 224
+> |END: /usr/lib/python3/ptest
+> |2026-01-08T14:58
+> |STOP: ptest-runner
+> |TOTAL: 1 FAIL: 0
+>
+> Reproducibility OK (saw issue with gcc-doc, but not python3):
+>
+> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-extended/tmp/deploy/deb/./x86-64-v3/gcc-doc_15.2.0-r0_amd64.deb
+> |The following ipk packages are different and not in exclusion list:
+> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-extended/tmp/deploy/ipk/./x86-64-v3/gcc-doc_15.2.0-r0_x86-64-v3.ipk
+> |The following rpm packages are different and not in exclusion list:
+> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-extended/tmp/deploy/rpm/./x86_64_v3/gcc-doc-15.2.0-r0.x86_64_v3.rpm
+> |
+> |2026-01-08 13:18:28,640 - oe-selftest - INFO - ----------------------------------------------------------------------
+> |2026-01-08 13:18:28,640 - oe-selftest - INFO - Ran 1 test in 1285.587s
+> |2026-01-08 13:18:28,640 - oe-selftest - INFO - FAILED
+> |2026-01-08 13:18:28,640 - oe-selftest - INFO -  (failures=1)
+> |2026-01-08 13:18:31,656 - oe-selftest - INFO - RESULTS:
+> |2026-01-08 13:18:31,656 - oe-selftest - INFO - RESULTS - reproducible.ReproducibleTests.test_reproducible_builds: FAILED (1285.41s)
+> |2026-01-08 13:18:31,660 - oe-selftest - INFO - SUMMARY:
+> |2026-01-08 13:18:31,660 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 1285.588s
+> |2026-01-08 13:18:31,660 - oe-selftest - INFO - oe-selftest - FAIL - Required tests failed (successes=0, skipped=0, failures=1, errors=0)
+>
+> buildall-qemu:
+>
+> |BUILDALL-QEMU LOG FOR python3
+> |START TIME: 2026-01-08_13:27:10
+> |HOSTNAME: megalith
+> |HOST OS: Fedora Linux 43 (Server Edition)
+> |HOST KERNEL: 6.17.12-300.fc43.x86_64
+> |===============
+> |BUILD RESULTS:
+> |[glibc]
+> |PASS: qemuarm
+> |PASS: qemuarm64
+> |PASS: qemuarmv5
+> |PASS: qemuloongarch64
+> |PASS: qemumips
+> |PASS: qemumips64
+> |PASS: qemuppc
+> |PASS: qemuppc64
+> |PASS: qemuriscv32
+> |PASS: qemuriscv64
+> |PASS: qemux86-64
+> |PASS: qemux86
+> |[musl]
+> |PASS: qemuarm
+> |PASS: qemuarm64
+> |PASS: qemuarmv5
+> |FAIL: qemuloongarch64
+> |PASS: qemumips
+> |PASS: qemumips64
+> |PASS: qemuppc
+> |PASS: qemuppc64
+> |PASS: qemuriscv32
+> |PASS: qemuriscv64
+> |PASS: qemux86-64
+> |PASS: qemux86
+> |===============
+> |PASSED: 23
+> |FAILED: 1
+>
+> Previous iteration details below.
+>
+> Compared to v1
+> (https://lists.openembedded.org/g/openembedded-core/message/227955):
+>
+> - Drop python3-bcrypt upgrade, as someone else has submitted that;
+> - Drop rpm patch to manually override Python3_SITEARCH with a patch, as that was
+>    masking the real issue (see below);
+> - Add a new patch to fix python3targetconfig by exporting _PYTHON_PROJECT_BASE,
+>    which Python's sysconfig looks for (as of 3.14.0) when doing
+>    cross-compilation. The absence of this was resulting in packages like rpm
+>    finding paths for the native interpreter when making use of sysconfig, when
+>    they needed the host values.
+>
+> Note that I've dropped my own version of the python3-bcrypt upgrade, but I
+> tested this patch series on top of the other one that was submitted, as
+> otherwise the ptest images would break during build (version mismatch errors
+> around PyO3, which is fixed with the bcrypt upgrade).
+>
+> v1 details below.
+>
+> This supersedes a previous series sent, which only did the 3.14.0 upgrade.
+>
+> Compared to the first series
+> (https://lists.openembedded.org/g/openembedded-core/message/227310), I've
+> done the following:
+>
+> - Added a commit for including the '_py_warnings' and 'annotationlib' modules in
+>    python3-core;
+> - Adds the python 3.14.2 upgrade;
+> - Removed commits for adding python3-misc to RDEPENDS for python3-pytest and
+>    python3-jsonpointer, as these are now solved by a new patch to add new modules
+>    to python3-core in the manifest. Doing it this way was fragile in the sense
+>    that there were many other recipes needing this same fix that testing didn't
+>    easily catch, and it doesn't make sense to add python3-misc to recipe RDEPENDS
+>    just because (for example) python3-logging (another package split) is trying
+>    to make use of warnings, but can't find the right module;
+> - Modified the rpm commit to apply a patch (submitted upstream) to fix
+>    CMakeLists.txt, rather than a do_configure prepend;
+> - Fixed the Python 3.14.0 upgrade commit so that one of the patches we carry to
+>    skip tests doesn't include duplicate calls to the relevant skip functions.
+>
+> I've kept the upgrades from 3.13.11 to 3.14.0 and 3.14.0 to 3.14.2 separate to
+> reflect separate testing and let people review those changelogs individually if
+> desired.
+>
+> Trevor Gamblin (6):
+>    python3: upgrade 3.13.11 -> 3.14.0
+>    python3targetconfig: export _PYTHON_PROJECT_BASE
+>    python_pep517: add --prefix to nativepython3 call
+>    python3: upgrade 3.14.0 -> 3.14.2
+>    python3: add _py_warnings, annotationlib to core
+>    python3: add _ast_unparse to core
+>
+>   meta/classes-recipe/python3-dir.bbclass       |    2 +-
+>   .../python3targetconfig.bbclass               |    1 +
+>   meta/classes-recipe/python_pep517.bbclass     |    2 +-
+>   ...r-OpenSSL-3.4-and-add-it-to-multissl.patch | 1452 -----------------
+>   ...-use-prefix-value-from-build-configu.patch |   35 +-
+>   ...sts-due-to-load-variability-on-YP-AB.patch |   31 +-
+>   ...ctive_children-skip-problematic-test.patch |   17 +-
+>   ...1-test_cmd-skip-bang-completion-test.patch |   31 +
+>   ...-test_unix_console.test_cursor_back_.patch |   46 +
+>   ...kip-test_sysconfig.test_sysconfigdat.patch |   32 +
+>   .../python/python3/python3-manifest.json      |    6 +-
+>   .../{python3_3.13.11.bb => python3_3.14.2.bb} |   20 +-
+>   12 files changed, 188 insertions(+), 1487 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch
+>   create mode 100644 meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
+>   create mode 100644 meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
+>   create mode 100644 meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
+>   rename meta/recipes-devtools/python/{python3_3.13.11.bb => python3_3.14.2.bb} (95%)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#229126): https://lists.openembedded.org/g/openembedded-core/message/229126
+> Mute This Topic: https://lists.openembedded.org/mt/117176199/7611679
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
