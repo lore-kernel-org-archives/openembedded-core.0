@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897E4D277F1
-	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 17:37:15 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12827.1768066626224847114
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 882F8D277FD
+	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 17:37:25 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12831.1768066634168243881
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Jan 2026 09:37:08 -0800
+ Sat, 10 Jan 2026 09:37:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=SjAZOoO7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202601101737085cee645c220002077c-fgxo55@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202601101737085cee645c220002077c
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=JLgywwnM;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20260110173716776d4da1090002079f-zhzw8x@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260110173716776d4da1090002079f
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 10 Jan 2026 18:37:08 +0100
+        Sat, 10 Jan 2026 18:37:16 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=m58FGAU1Ls4a40ivE7Y3Fk7S4BfIZRPFv2Puh0oU8j0=;
- b=SjAZOoO7h+zKpQUkw62BNdadPpsPodUjjta4JTWmPNGLdjWaSVxyr4LAHASmMlkaCif2TF
- JLlAZkPbK/7wXNq+La0L4BXwTOsw0KWmaEMc6SZaixHXWL2+eZ7bp75dhVTqmunA4gYGFpUo
- NETYrluSofwi3qZIxI4Z9u0uX95wPoSWJ51IFcsVF/ucmfn/TVi4p+coXfnmCesJ0gOJoyDw
- kKPRnpbK18DpRJtMTb8SBo3i9XuOrUurSZy1VNWwscgVyGkEZKt6Rb5huL68Lo7bnLatoL/V
- hQi5agh8L7WWMwoikaBH90Z1J2NZs/nFawGvAdCNBepqr64J/2tgsmrw==;
+ bh=9ctDsfMYfFoUbEe06nj8qnqed5deoawvmDjfLg55+RM=;
+ b=JLgywwnMU0A5QfYYfjSfMNoPU+a1K00kpkR4VrprPWBUn14z3UBrC03WQwrPK5/LJKHxu1
+ 60+3rK//wniaw+VDC0993+fr6jg+9ScAsDl8LDNIqBZ/85vBQ2t8mYAYZlRI0vGhG1piUCt7
+ 5NYBESGtBZ+2y5OxaVAJa13hDLD0Q3vysM1CT3sjeeB6SVI4OCLIXv4NggGkyt0M6zaRPyFf
+ 7DkdI5ORodiVvLgYb6qVk7Qlt1/ajofrRHUFBxp0oTrTNfY/6ecfm0LAKIzhTZrYMnxk+jpp
+ T/7iZE66MbZAQP/cGFjWpm5+/jKXFZfUGX82xbV9MiBKL6z3RxZX+s5g==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH 4/6] curl: patch CVE-2025-14819
-Date: Sat, 10 Jan 2026 18:36:37 +0100
-Message-Id: <20260110173639.1643322-4-peter.marko@siemens.com>
+Subject: [OE-core][whinlatter][PATCH 6/6] curl: patch CVE-2025-15224
+Date: Sat, 10 Jan 2026 18:36:39 +0100
+Message-Id: <20260110173639.1643322-6-peter.marko@siemens.com>
 In-Reply-To: <20260110173639.1643322-1-peter.marko@siemens.com>
 References: <20260110173639.1643322-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -38,110 +38,68 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 17:37:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229155
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 17:37:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229157
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch per [1].
 
-[1] https://curl.se/docs/CVE-2025-14819.html
+[1] https://curl.se/docs/CVE-2025-15224.html
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../curl/curl/CVE-2025-14819.patch            | 73 +++++++++++++++++++
+ .../curl/curl/CVE-2025-15224.patch            | 31 +++++++++++++++++++
  meta/recipes-support/curl/curl_8.17.0.bb      |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14819.patch
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15224.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2025-14819.patch b/meta/recipes-support/curl/curl/CVE-2025-14819.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-15224.patch b/meta/recipes-support/curl/curl/CVE-2025-15224.patch
 new file mode 100644
-index 0000000000..204f1d48f4
+index 0000000000..a8308b87a1
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2025-14819.patch
-@@ -0,0 +1,73 @@
-+From cd046f6c93b39d673a58c18648d8906e954c4f5d Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 17 Dec 2025 10:54:16 +0100
-+Subject: [PATCH] openssl: toggling CURLSSLOPT_NO_PARTIALCHAIN makes a
-+ different CA cache
++++ b/meta/recipes-support/curl/curl/CVE-2025-15224.patch
+@@ -0,0 +1,31 @@
++From 16d5f2a5660c61cc27bd5f1c7f512391d1c927aa Mon Sep 17 00:00:00 2001
++From: Harry Sintonen <sintonen@iki.fi>
++Date: Mon, 29 Dec 2025 16:56:39 +0100
++Subject: [PATCH] libssh: require private key or user-agent for public key auth
 +
-+Reported-by: Stanislav Fort
++Closes #20110
 +
-+Closes #20009
-+
-+CVE: CVE-2025-14819
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/cd046f6c93b39d673a58c18648d8906e954c4f5d]
++CVE: CVE-2025-15224
++Upstream-Status: Backport [https://github.com/curl/curl/commit/16d5f2a5660c61cc27bd5f1c7f512391d1c927aa]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ lib/vtls/openssl.c | 12 ++++++++++--
-+ 1 file changed, 10 insertions(+), 2 deletions(-)
++ lib/vssh/libssh.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-+index a7f169d641..7563d9a090 100644
-+--- a/lib/vtls/openssl.c
-++++ b/lib/vtls/openssl.c
-+@@ -3560,6 +3560,7 @@ struct ossl_x509_share {
-+   X509_STORE *store;    /* cached X509 store or NULL if none */
-+   struct curltime time; /* when the cached store was created */
-+   BIT(store_is_empty);  /* no certs/paths/blobs are in the store */
-++  BIT(no_partialchain); /* keep partial chain state */
-+ };
-+ 
-+ static void oss_x509_share_free(void *key, size_t key_len, void *p)
-+@@ -3594,12 +3595,16 @@ ossl_cached_x509_store_expired(const struct Curl_easy *data,
-+ 
-+ static bool
-+ ossl_cached_x509_store_different(struct Curl_cfilter *cf,
-++                                             const struct Curl_easy *data,
-+                                  const struct ossl_x509_share *mb)
-+ {
-+   struct ssl_primary_config *conn_config = Curl_ssl_cf_get_primary_config(cf);
-++  struct ssl_config_data *ssl_config =
-++    Curl_ssl_cf_get_config(cf, CURL_UNCONST(data));
-++  if(mb->no_partialchain != ssl_config->no_partialchain)
-++    return TRUE;
-+   if(!mb->CAfile || !conn_config->CAfile)
-+     return mb->CAfile != conn_config->CAfile;
-+-
-+   return strcmp(mb->CAfile, conn_config->CAfile);
-+ }
-+ 
-+@@ -3618,7 +3623,7 @@ static X509_STORE *ossl_get_cached_x509_store(struct Curl_cfilter *cf,
-+                                  sizeof(MPROTO_OSSL_X509_KEY)-1) : NULL;
-+   if(share && share->store &&
-+      !ossl_cached_x509_store_expired(data, share) &&
-+-     !ossl_cached_x509_store_different(cf, share)) {
-++     !ossl_cached_x509_store_different(cf, data, share)) {
-+     store = share->store;
-+     *pempty = share->store_is_empty;
++diff --git a/lib/vssh/libssh.c b/lib/vssh/libssh.c
++index 5d5125b526..bde6355f73 100644
++--- a/lib/vssh/libssh.c
+++++ b/lib/vssh/libssh.c
++@@ -935,7 +935,11 @@ static int myssh_in_AUTHLIST(struct Curl_easy *data,
++           "keyboard-interactive, " : "",
++           sshc->auth_methods & SSH_AUTH_METHOD_PASSWORD ?
++           "password": "");
++-  if(sshc->auth_methods & SSH_AUTH_METHOD_PUBLICKEY) {
+++  /* For public key auth we need either the private key or
+++     CURLSSH_AUTH_AGENT. */
+++  if((sshc->auth_methods & SSH_AUTH_METHOD_PUBLICKEY) &&
+++    (data->set.str[STRING_SSH_PRIVATE_KEY] ||
+++     (data->set.ssh_auth_types & CURLSSH_AUTH_AGENT))) {
++     myssh_to(data, sshc, SSH_AUTH_PKEY_INIT);
++     infof(data, "Authentication using SSH public key file");
 +   }
-+@@ -3657,6 +3662,8 @@ static void ossl_set_cached_x509_store(struct Curl_cfilter *cf,
-+ 
-+   if(X509_STORE_up_ref(store)) {
-+     char *CAfile = NULL;
-++    struct ssl_config_data *ssl_config =
-++      Curl_ssl_cf_get_config(cf, CURL_UNCONST(data));
-+ 
-+     if(conn_config->CAfile) {
-+       CAfile = strdup(conn_config->CAfile);
-+@@ -3675,6 +3682,7 @@ static void ossl_set_cached_x509_store(struct Curl_cfilter *cf,
-+     share->store = store;
-+     share->store_is_empty = is_empty;
-+     share->CAfile = CAfile;
-++    share->no_partialchain = ssl_config->no_partialchain;
-+   }
-+ }
-+ 
 diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
-index ad9b7c9ab7..948769e0fb 100644
+index a0022f3a3f..739838c3e8 100644
 --- a/meta/recipes-support/curl/curl_8.17.0.bb
 +++ b/meta/recipes-support/curl/curl_8.17.0.bb
-@@ -17,6 +17,7 @@ SRC_URI = " \
-     file://CVE-2025-13034.patch \
-     file://CVE-2025-14017.patch \
+@@ -19,6 +19,7 @@ SRC_URI = " \
      file://CVE-2025-14524.patch \
-+    file://CVE-2025-14819.patch \
+     file://CVE-2025-14819.patch \
+     file://CVE-2025-15079.patch \
++    file://CVE-2025-15224.patch \
  "
  
  SRC_URI:append:class-nativesdk = " \
