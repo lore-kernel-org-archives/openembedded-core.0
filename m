@@ -1,324 +1,210 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <t.f.g.geelen@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5171ED2502C
-	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 23:13:32 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1059.1768086809737853988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E8DD2502D
+	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 23:45:22 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1535.1768088721684513284
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Jan 2026 15:13:30 -0800
+ Sat, 10 Jan 2026 15:45:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=BUN+NsdY;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260110231327ad7eb5ab7e00020776-p3zpyh@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260110231327ad7eb5ab7e00020776
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 Jan 2026 00:13:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=g8dFu4ZtvULy1GjUs43Q6Tjg7NYZX90n9xmOfN2zeh0=;
- b=BUN+NsdYGI91w/TqF5zwfTAxeSCG0TkGrFn2j6/KYUORf4MlXxRenNiqAYJ8y3gMz5Unqo
- 0LJThsjMOhucKtBRJGt6tnVi/9BDfMd9m2SfEsjrokOtazjXp9KzKwH9PqJbTrIrhk7ytVS1
- I3D7iQnE5MsGSqAxBaeHbuJMhyBfiB/d24ZOCa3FlsGvFEVJUto2efQzsIlfwphODek7HULE
- WOqcr/OFPtRaJsuraV4X2667JZtg2mN/AilBYzcZeT07m3YKmnUScm/bD/YaxbRo8eVFOHF3
- 2Xq6LiRini23OUXiHzleo0yssGNvik72Ndz4tlEK48MNcX+OnA1AKyzA==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wo7JF40I;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: t.f.g.geelen@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b843e8a4fbfso652658566b.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 15:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768088720; x=1768693520; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4E5CzeeYRAlNRTvBE6decAoyCxyRhCaqBBD8HSGoTk=;
+        b=Wo7JF40I+u5fB+L/VY5AaXB5PwuYS9pBTju0f0tyVXR19NdTiBFzVBF237lO74aQ1D
+         lO9zZhlw3Cv3AKQtNgKui1H/C1yJFnpF+9YxblrOC7sECrvnTIqRgeNcqQOwY1RMmipq
+         QCAigt4lGcCV5jHDGuPPc8iOcko28JZF/3rvUEyo58+Er6+ttOo1pGuP6/EihPXTFXmH
+         rg+9oIrW/yRKJQ/ACsrh3ZlBx10fC49hBwyCC5dUspI4hlkEi3KBkncDYQm7ARoDMsKW
+         mllE6fBZiRMDEo9GgA3JCf5JNZfOgrKgZu0LEDP2060IkSdliix9n6hv8U2WLEDVUoCH
+         BWwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768088720; x=1768693520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s4E5CzeeYRAlNRTvBE6decAoyCxyRhCaqBBD8HSGoTk=;
+        b=UrZ9sChUQttfmqMKtvzr5/Ay2MCl7GcyzmFYZuerM3cZGziFmuo1b1pOjqfZFxruvV
+         alaoo1rmegLzcqlz/LjAjqxZKFwPTnOlcOJ3PnuSStJpYEMOi52WGxt+d0Bm7dwaCRZf
+         Bs6SkNrD5ZZgvUXEYjwwzk45lXeDDfr15u39iOtQ/Q31S30ScrUIyzt/CsbGaieVwCr4
+         K2QPdstPFeqTCjeY/SDqlYSG0J3H55/vjOezyB/BCr9FG4ZdCiI+WBDupwFZUwI4Ag0m
+         3f+Eg3R//HGZ6+uzZPb6ySK/aycGCibefKN8eeuqyUm55QQ3XiD+femZ5xCoi9Pyc0w6
+         T09Q==
+X-Gm-Message-State: AOJu0YxRPZ9pHJVS4fEkzQRfrH9+7FD8QuKZPx7xkfUbhAsUFSOydBU9
+	bSHTYEd10PAloK+Unlh2aF6FBx2P80s95dMhX44rkjDXeKrVgdLspf8138ekSzst
+X-Gm-Gg: AY/fxX4ExWrd3JpM/hlvRxyMb7A159BtJ8CTixkwHBxYqQhbn9+0NtAfnKOpNQXGCZd
+	XrVBhUJmLYa3uQaQyIQC5P/t2r2ndDGKp1eBFDhRXNeKDeshX6sExD7bBmbVOrbyfy96YtIRExQ
+	vUbZ9asZ184MTI817dswS0aQ/EGd2ju42BLaaH23xZfD5CPVjHCzHFU1dAliVMaP3WxJ/Ki+9ig
+	6hLThHCi7MqljLm1Sj600jtstfwuyTDyo2IxOpweGRGoIE6uAiNOQlCemV1NiDUI9fI7bgmSaPx
+	4MafdbnLhqZ/Ur1XKgfduk97P6m3rqmyMy6CQf1F2n8TPusBGNgYiI8LGPBd3NwBwZaled+mYCL
+	++ipgUMhTQmwZQvTe47aMG/8WIduAWcu0I0XSP9NhnpS2DSEF2V0E1GHxrrJHY+lQPtALYhhm1q
+	WIxwvoRNEewF/i+BjmBWAbFUBXHp2jdl2MdfQ/3vpKPrpcpiXnMIBpFUkhqhKqnYP7
+X-Google-Smtp-Source: AGHT+IGljo5OPKQFWq3cm/UUAhSDPVwXXtBGp+Rc2XvXGl058AdKN83AGlVNZ6jwu4q53r8y4zMh6g==
+X-Received: by 2002:a17:907:3f9b:b0:b76:b76e:112a with SMTP id a640c23a62f3a-b844516a870mr1353857066b.11.1768088719453;
+        Sat, 10 Jan 2026 15:45:19 -0800 (PST)
+Received: from control-center.fritz.box (150-12-20-31.ftth.glasoperator.nl. [31.20.12.150])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a233f2asm1500963966b.13.2026.01.10.15.45.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jan 2026 15:45:19 -0800 (PST)
+From: Tom Geelen <t.f.g.geelen@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jiaying Song <jiaying.song.cn@windriver.com>,
-	Steve Sakoman <steve@sakoman.com>,
-	Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH] grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
-Date: Sun, 11 Jan 2026 00:13:21 +0100
-Message-Id: <20260110231321.598809-1-peter.marko@siemens.com>
+Cc: Tom Geelen <t.f.g.geelen@gmail.com>
+Subject: [PATCH V3] qemurunner: Improve qmp module detection. in order to detect qmp module
+Date: Sun, 11 Jan 2026 00:44:20 +0100
+Message-ID: <20260110234420.813531-2-t.f.g.geelen@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 23:13:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229172
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 23:45:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229173
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+Instead of using logfile to detect where qmp is located we 
+can pass sysroot_native directly to the qemurunner so it can find the qmp module directly.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2025-54770
-https://nvd.nist.gov/vuln/detail/CVE-2025-61661
-https://nvd.nist.gov/vuln/detail/CVE-2025-61662
-https://nvd.nist.gov/vuln/detail/CVE-2025-61663
-https://nvd.nist.gov/vuln/detail/CVE-2025-61664
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Tom Geelen <t.f.g.geelen@gmail.com>
 ---
- .../grub/files/CVE-2025-54770.patch           | 41 +++++++++++
- .../grub/files/CVE-2025-61661.patch           | 40 +++++++++++
- .../grub/files/CVE-2025-61662.patch           | 72 +++++++++++++++++++
- .../grub/files/CVE-2025-61663_61664.patch     | 64 +++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  4 ++
- 5 files changed, 221 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+ meta/classes-recipe/testimage.bbclass |  1 +
+ meta/lib/oeqa/core/target/qemu.py     |  4 ++--
+ meta/lib/oeqa/targetcontrol.py        |  2 ++
+ meta/lib/oeqa/utils/qemurunner.py     | 16 +++++++++-------
+ meta/lib/oeqa/utils/qemutinyrunner.py |  3 ++-
+ 5 files changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54770.patch b/meta/recipes-bsp/grub/files/CVE-2025-54770.patch
-new file mode 100644
-index 0000000000..7df1d8534b
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-54770.patch
-@@ -0,0 +1,41 @@
-+From 80e0e9b2558c40fb108ae7a869362566eb4c1ead Mon Sep 17 00:00:00 2001
-+From: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Date: Fri, 9 May 2025 14:20:47 +0200
-+Subject: [PATCH] net/net: Unregister net_set_vlan command on unload
-+
-+The commit 954c48b9c (net/net: Add net_set_vlan command) added command
-+net_set_vlan to the net module. Unfortunately the commit only added the
-+grub_register_command() call on module load but missed the
-+grub_unregister_command() on unload. Let's fix this.
-+
-+Fixes: CVE-2025-54770
-+Fixes: 954c48b9c (net/net: Add net_set_vlan command)
-+
-+CVE: CVE-2025-54770
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=10e58a14db20e17d1b6a39abe38df01fef98e29d]
-+
-+Reported-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Signed-off-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/net/net.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-+index 2b45c27d1..05f11be08 100644
-+--- a/grub-core/net/net.c
-++++ b/grub-core/net/net.c
-+@@ -2080,6 +2080,7 @@ GRUB_MOD_FINI(net)
-+   grub_unregister_command (cmd_deladdr);
-+   grub_unregister_command (cmd_addroute);
-+   grub_unregister_command (cmd_delroute);
-++  grub_unregister_command (cmd_setvlan);
-+   grub_unregister_command (cmd_lsroutes);
-+   grub_unregister_command (cmd_lscards);
-+   grub_unregister_command (cmd_lsaddr);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61661.patch b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
-new file mode 100644
-index 0000000000..9f6cf68e4b
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
-@@ -0,0 +1,40 @@
-+From c24e11d87f8ee8cefd615e0c30eb71ff6149ee50 Mon Sep 17 00:00:00 2001
-+From: Jamie <volticks@gmail.com>
-+Date: Mon, 14 Jul 2025 09:52:59 +0100
-+Subject: [PATCH 2/4] commands/usbtest: Use correct string length field
-+
-+An incorrect length field is used for buffer allocation. This leads to
-+grub_utf16_to_utf8() receiving an incorrect/different length and possibly
-+causing OOB write. This makes sure to use the correct length.
-+
-+Fixes: CVE-2025-61661
-+
-+CVE: CVE-2025-61661
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=549a9cc372fd0b96a4ccdfad0e12140476cc62a3]
-+
-+Reported-by: Jamie <volticks@gmail.com>
-+Signed-off-by: Jamie <volticks@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/commands/usbtest.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/grub-core/commands/usbtest.c b/grub-core/commands/usbtest.c
-+index 2c6d93fe6..8ef187a9a 100644
-+--- a/grub-core/commands/usbtest.c
-++++ b/grub-core/commands/usbtest.c
-+@@ -99,7 +99,7 @@ grub_usb_get_string (grub_usb_device_t dev, grub_uint8_t index, int langid,
-+       return GRUB_USB_ERR_NONE;
-+     }
-+ 
-+-  *string = grub_malloc (descstr.length * 2 + 1);
-++  *string = grub_malloc (descstrp->length * 2 + 1);
-+   if (! *string)
-+     {
-+       grub_free (descstrp);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61662.patch b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
-new file mode 100644
-index 0000000000..f04a52fe76
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
-@@ -0,0 +1,72 @@
-+From 498dc73aa661bb1cae4b06572b5cef154dcb1fb7 Mon Sep 17 00:00:00 2001
-+From: Alec Brown <alec.r.brown@oracle.com>
-+Date: Thu, 21 Aug 2025 21:14:06 +0000
-+Subject: [PATCH 3/4] gettext/gettext: Unregister gettext command on module
-+ unload
-+
-+When the gettext module is loaded, the gettext command is registered but
-+isn't unregistered when the module is unloaded. We need to add a call to
-+grub_unregister_command() when unloading the module.
-+
-+Fixes: CVE-2025-61662
-+
-+CVE: CVE-2025-61662
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=8ed78fd9f0852ab218cc1f991c38e5a229e43807]
-+
-+Reported-by: Alec Brown <alec.r.brown@oracle.com>
-+Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/gettext/gettext.c | 19 ++++++++++++-------
-+ 1 file changed, 12 insertions(+), 7 deletions(-)
-+
-+diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index 9ffc73428..edebed998 100644
-+--- a/grub-core/gettext/gettext.c
-++++ b/grub-core/gettext/gettext.c
-+@@ -502,6 +502,8 @@ grub_cmd_translate (grub_command_t cmd __attribute__ ((unused)),
-+   return 0;
-+ }
-+ 
-++static grub_command_t cmd;
-++
-+ GRUB_MOD_INIT (gettext)
-+ {
-+   const char *lang;
-+@@ -521,13 +523,14 @@ GRUB_MOD_INIT (gettext)
-+   grub_register_variable_hook ("locale_dir", NULL, read_main);
-+   grub_register_variable_hook ("secondary_locale_dir", NULL, read_secondary);
-+ 
-+-  grub_register_command_p1 ("gettext", grub_cmd_translate,
-+-			    N_("STRING"),
-+-			    /* TRANSLATORS: It refers to passing the string through gettext.
-+-			       So it's "translate" in the same meaning as in what you're
-+-			       doing now.
-+-			     */
-+-			    N_("Translates the string with the current settings."));
-++  cmd = grub_register_command_p1 ("gettext", grub_cmd_translate,
-++				  N_("STRING"),
-++				  /*
-++				   * TRANSLATORS: It refers to passing the string through gettext.
-++				   * So it's "translate" in the same meaning as in what you're
-++				   * doing now.
-++				   */
-++				  N_("Translates the string with the current settings."));
-+ 
-+   /* Reload .mo file information if lang changes.  */
-+   grub_register_variable_hook ("lang", NULL, grub_gettext_env_write_lang);
-+@@ -544,6 +547,8 @@ GRUB_MOD_FINI (gettext)
-+   grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
-+   grub_register_variable_hook ("lang", NULL, NULL);
-+ 
-++  grub_unregister_command (cmd);
-++
-+   grub_gettext_delete_list (&main_context);
-+   grub_gettext_delete_list (&secondary_context);
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
-new file mode 100644
-index 0000000000..bfc05008bf
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
-@@ -0,0 +1,64 @@
-+From 8368c026562a72a005bea320cfde9fd7d62d3850 Mon Sep 17 00:00:00 2001
-+From: Alec Brown <alec.r.brown@oracle.com>
-+Date: Thu, 21 Aug 2025 21:14:07 +0000
-+Subject: [PATCH 4/4] normal/main: Unregister commands on module unload
-+
-+When the normal module is loaded, the normal and normal_exit commands
-+are registered but aren't unregistered when the module is unloaded. We
-+need to add calls to grub_unregister_command() when unloading the module
-+for these commands.
-+
-+Fixes: CVE-2025-61663
-+Fixes: CVE-2025-61664
-+
-+CVE: CVE-2025-61663 CVE-2025-61664
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=05d3698b8b03eccc49e53491bbd75dba15f40917]
-+
-+Reported-by: Alec Brown <alec.r.brown@oracle.com>
-+Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/normal/main.c | 12 +++++++-----
-+ 1 file changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-+index dad25e7d2..a810858c3 100644
-+--- a/grub-core/normal/main.c
-++++ b/grub-core/normal/main.c
-+@@ -500,7 +500,7 @@ grub_mini_cmd_clear (struct grub_command *cmd __attribute__ ((unused)),
-+   return 0;
-+ }
-+ 
-+-static grub_command_t cmd_clear;
-++static grub_command_t cmd_clear, cmd_normal, cmd_normal_exit;
-+ 
-+ static void (*grub_xputs_saved) (const char *str);
-+ static const char *features[] = {
-+@@ -542,10 +542,10 @@ GRUB_MOD_INIT(normal)
-+   grub_env_export ("pager");
-+ 
-+   /* Register a command "normal" for the rescue mode.  */
-+-  grub_register_command ("normal", grub_cmd_normal,
-+-			 0, N_("Enter normal mode."));
-+-  grub_register_command ("normal_exit", grub_cmd_normal_exit,
-+-			 0, N_("Exit from normal mode."));
-++  cmd_normal = grub_register_command ("normal", grub_cmd_normal,
-++				      0, N_("Enter normal mode."));
-++  cmd_normal_exit = grub_register_command ("normal_exit", grub_cmd_normal_exit,
-++					   0, N_("Exit from normal mode."));
-+ 
-+   /* Reload terminal colors when these variables are written to.  */
-+   grub_register_variable_hook ("color_normal", NULL, grub_env_write_color_normal);
-+@@ -587,4 +587,6 @@ GRUB_MOD_FINI(normal)
-+   grub_register_variable_hook ("color_highlight", NULL, NULL);
-+   grub_fs_autoload_hook = 0;
-+   grub_unregister_command (cmd_clear);
-++  grub_unregister_command (cmd_normal);
-++  grub_unregister_command (cmd_normal_exit);
-+ }
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 5759fa06c2..125490183b 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -37,6 +37,10 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
-            file://CVE-2025-0678_CVE-2025-1125.patch \
-            file://CVE-2024-56738.patch \
-+           file://CVE-2025-54770.patch \
-+           file://CVE-2025-61661.patch \
-+           file://CVE-2025-61662.patch \
-+           file://CVE-2025-61663_61664.patch \
- "
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index 844c0f19ad..a5c7c4f34b 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -305,6 +305,7 @@ def testimage_main(d):
+                       'serial_ports': len(d.getVar("SERIAL_CONSOLES").split()),
+                       'ovmf'        : ovmf,
+                       'tmpfsdir'    : d.getVar("RUNQEMU_TMPFS_DIR"),
++                      'native_sysroot': d.getVar("STAGING_DIR_NATIVE"),
+                     }
  
- # remove at next version upgrade or when output changes
+     if d.getVar("TESTIMAGE_BOOT_PATTERNS"):
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 769a6fec7e..76c1ada02e 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -22,7 +22,7 @@ class OEQemuTarget(OESSHTarget):
+             port=None, machine='', rootfs='', kernel='', kvm=False, slirp=False,
+             dump_dir='', display='', bootlog='',
+             tmpdir='', dir_image='', boottime=60, serial_ports=2,
+-            boot_patterns = defaultdict(str), ovmf=False, tmpfsdir=None, **kwargs):
++            boot_patterns = defaultdict(str), ovmf=False, tmpfsdir=None, native_sysroot=None, **kwargs):
+ 
+         super(OEQemuTarget, self).__init__(logger, None, server_ip, timeout,
+                 user, port)
+@@ -44,7 +44,7 @@ class OEQemuTarget(OESSHTarget):
+                                  logfile=bootlog, boottime=boottime,
+                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir, logger=logger,
+                                  serial_ports=serial_ports, boot_patterns = boot_patterns, 
+-                                 use_ovmf=ovmf, tmpfsdir=tmpfsdir)
++                                 use_ovmf=ovmf, tmpfsdir=tmpfsdir, native_sysroot=native_sysroot)
+ 
+     def start(self, params=None, extra_bootparams=None, runqemuparams=''):
+         if self.use_slirp and not self.server_ip:
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index a9080077e2..fa6b43bb35 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -127,6 +127,7 @@ class QemuTarget(BaseTarget):
+                             logfile = self.qemulog,
+                             kernel = self.kernel,
+                             boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
++                            native_sysroot = d.getVar("RECIPE_SYSROOT_NATIVE"),
+                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+                             logger = logger)
+         else:
+@@ -140,6 +141,7 @@ class QemuTarget(BaseTarget):
+                             use_kvm = use_kvm,
+                             dump_dir = dump_dir,
+                             logger = logger,
++                            native_sysroot = d.getVar("RECIPE_SYSROOT_NATIVE"),
+                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+                             serial_ports = len(d.getVar("SERIAL_CONSOLES").split()),
+                             boot_patterns = boot_patterns)
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index c4db0cf038..ee84cae33b 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -45,7 +45,7 @@ def getOutput(o):
+ class QemuRunner:
+ 
+     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=False,
+-     serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
++     serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None, native_sysroot=None):
+ 
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -76,10 +76,13 @@ class QemuRunner:
+         self.msg = ''
+         self.boot_patterns = boot_patterns
+         self.tmpfsdir = tmpfsdir
++        self.native_sysroot = native_sysroot
+ 
+         self.runqemutime = 300
+         if not workdir:
+             workdir = os.getcwd()
++        # Store workdir for locating native sysroot (qmp bindings)
++        self.workdir = workdir
+         self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
+         self.monitorpipe = None
+ 
+@@ -186,17 +189,16 @@ class QemuRunner:
+         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
+ 
+     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
+-        # use logfile to determine the recipe-sysroot-native path and
+-        # then add in the site-packages path components and add that
+-        # to the python sys.path so the qmp module can be found.
+-        python_path = os.path.dirname(os.path.dirname(self.logfile))
+-        python_path += "/recipe-sysroot-native/usr/lib/qemu-python"
++        if not self.native_sysroot:
++            self.logger.error("qemurunner: native_sysroot not provided; cannot locate qmp bindings")
++            return False
++        python_path = os.path.join(self.native_sysroot, "usr/lib/qemu-python")
+         sys.path.append(python_path)
+         importlib.invalidate_caches()
+         try:
+             qmp = importlib.import_module("qmp")
+         except Exception as e:
+-            self.logger.error("qemurunner: qmp module missing, please ensure it's installed in %s (%s)" % (python_path, str(e)))
++            self.logger.error("qemurunner: qmp module missing in %s (%s)" % (python_path, str(e)))
+             return False
+         # Path relative to tmpdir used as cwd for qemu below to avoid unix socket path length issues
+         qmp_file = "." + next(tempfile._get_candidate_names())
+diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
+index 20009401ca..d1ccf65223 100644
+--- a/meta/lib/oeqa/utils/qemutinyrunner.py
++++ b/meta/lib/oeqa/utils/qemutinyrunner.py
+@@ -19,7 +19,7 @@ from .qemurunner import QemuRunner
+ 
+ class QemuTinyRunner(QemuRunner):
+ 
+-    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime, logger, tmpfsdir=None):
++    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime, logger, tmpfsdir=None, native_sysroot=None):
+ 
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -44,6 +44,7 @@ class QemuTinyRunner(QemuRunner):
+         self.server_socket = None
+         self.kernel = kernel
+         self.logger = logger
++        self.native_sysroot = native_sysroot
+ 
+ 
+     def create_socket(self):
+-- 
+2.43.0
+
 
