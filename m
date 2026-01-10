@@ -1,178 +1,190 @@
-Return-Path: <ricardo.salveti@oss.qualcomm.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4264BD277C9
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 23:44:36 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1279.1768002268425405305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 842A6D277D1
+	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 07:54:42 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5053.1768031681453030897
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 15:44:28 -0800
+ Fri, 09 Jan 2026 23:54:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=OOswCU13;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=XkKtVfbU;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 609MuRXu2460442
-	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jan 2026 23:44:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	e2V/qGIfcT6bqagURRWvDYEoZbUpe7B4v1q8Vz7CY9I=; b=OOswCU13VpRudHlJ
-	keLakikXs8sy7oc/7YH72BcV4xYkqLAwNWxcxCrSBcsn/KJWla5Kfx3+oBb/0xdy
-	iZN81U0ab607EjSkKajRhPmQGQW8W2bPIgX4WpFqymQLcUT4HjeRDDdVfhnRYv+k
-	F49XJmzUsGJ02dclTVZscxEX/zybPfsZsiymoZhq22GQmYf009V9uCXcfGFLSpvA
-	Iukpx+YCl+af8QpdZau+gboqEtZhe/+LkdxM/AQ9AshI4pKFRTnw5Qlg7EmRXpyi
-	nSQUl30AGyJy2+7l9L/eY74BaP3rzmmCiXq7zvvyiuJnX7qrf8Mv45liVygqFZQ6
-	CNtEzg==
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com [74.125.224.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bkawe02n6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 23:44:27 +0000 (GMT)
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-645535ac027so6993335d50.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 15:44:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768002267; x=1768607067; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e2V/qGIfcT6bqagURRWvDYEoZbUpe7B4v1q8Vz7CY9I=;
-        b=XkKtVfbUSWtgYoVFhmxCkKwiVTuziciNUK37QCsLoImflSopRRNwp9yQFgYT0Mid4x
-         ZwagNAsxkSoTYMbgeLjRw/Qoe57JX2+sZVjPaggLzDRPYJd4znTfJFSO/DXBbQJsF1ik
-         KEmreKiZ8hlRQMGpGYIIBBgRxWl0ZdEaiVWnMqVpoltOulBOOQnEdZMjVhoEtxWWtLYl
-         36DKQ+ArRKZhVdkjeQY3uhk9LkyQqGeuv3UJ85aMadB2YCsNa7GYjyU1XiFp7gbPrz4d
-         mJWjf2vsqLxjjYoZH0NPUq8apvEUxU1/QISXgFLOK+z7pj9sQTjh+y03tvIeS6i7LN7G
-         IBww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768002267; x=1768607067;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e2V/qGIfcT6bqagURRWvDYEoZbUpe7B4v1q8Vz7CY9I=;
-        b=DPdjwyTN5HYc6x1UNiK4r8aLcehyHTg+YYKer5bIxX2FUxWx/hxIWh5XLbnkEE+Vk0
-         QRIFWjj22huJffcfgrnGut9491kQUXug5Bib6m/S3aFykXCAtxLHwpHSm333uLBIYuhL
-         yydN+QNUf3gjT/zZI1OmWCNbDuUmaH4oFAuO08TQS7ZYekPuFsaOYkRPpME9QvxsEyBK
-         nNYGG4wzY0pLl7pdowPTf2sKSPOj4NvXWKzmu9F15WdxR2lx5LZ4RGwUf5KQ2HMfO8IR
-         LY81FRTzzrZ+JCdf3N8Gx9TizzPUdsKo6gZZD+2tR5byxzp2EevWURoT0r466z0VNxBP
-         5lMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaAgKYy65+iThEYy1lOEdd3L5AEImyLgqK9HB3rjKM0Pyu9W3Mmc4vvep849AwP8rRb0FJY9J/26RBPNlNHA+BzA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxOEw0hdAraj1HDwrR2J9udXxbYw2VQNKP9c7hDkYi1hBu7/a5P
-	4yLREVhFSkiS1x3ylpBuV9pU3hlBA62zHLbH2/BDqc0Q3vLFJJzT+Zd9mbVzGBzwb9/TtOzblGf
-	2CM7RGnfvAjxitNgUi74a7IzQK8BS/TETfzAgdkT0lYHPvyky8Llx4wBE1TALZFHTIdfmMnsF/S
-	k14RGQHjFMdPpl2DAs9yllIMe5bz1ENiiGOB5/AZ1BC6vxnhYNBLn3x15t2Q==
-X-Gm-Gg: AY/fxX4qHPRtrNp7D4BCs3Sy+XiQktWqWZtK8lCuchqPFGNBMKonyZZbORbKxYeNhrC
-	pR32TM4N0W4y2k25nB5UEr3ISHEIuLG90kZMjoU1RY8xK4MoF1dppYcDZR3sDIPLk4tvdfmp2XM
-	Hg7NDozY8VbCucw7o28MAzKLfnbhhqyIN6UMGeOodtA/JHalKUpXBXFlgyqa24y97A6tg=
-X-Received: by 2002:a05:690e:2542:b0:646:7c7a:c5b5 with SMTP id 956f58d0204a3-64716bd4a75mr7558880d50.45.1768002266970;
-        Fri, 09 Jan 2026 15:44:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGGyTcJFsMRPnpOL/OxgRBdiHfvrQb4a33abBLkNSqcolMt42VNQjvDnStvxzidgXI3oCfqvDrG0amxd2Rf+iU=
-X-Received: by 2002:a05:690e:2542:b0:646:7c7a:c5b5 with SMTP id
- 956f58d0204a3-64716bd4a75mr7558872d50.45.1768002266435; Fri, 09 Jan 2026
- 15:44:26 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LDNFU9fg;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=547008fcc5=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60A7okY23668989;
+	Sat, 10 Jan 2026 07:54:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=HDq0fHO3olzWwycSvlg6GVIUJZwIjAX0EYxl9MldN1k=; b=LDNFU9fgsou7
+	VpFLsN77+1fJiwhlKU1U4bQ+6wDLgJWjk2fmqiNafEqU7SwovgtlvERhajLjKSHg
+	V++cVg6T9eVNaJ4ABwMBy2m+HOLSeGSfBBQ4H+rrf/I8nwdRPvVPJKUGzVc4aMwc
+	2T5A9eXqyZOGcydy6b6Dw6TlqWOpVy1YF2MiI2ybj8OqQ0nrH4FQbTnCo2FLTfQO
+	kubDQ1eyRCB4msaGft1OA5EXyZN6aodnDdtiJumkpFnp6PijdiPG1kxVo3/7mDFB
+	ylwCiviab+nf5bcVLgldbiXxP1Yo925nut+Po4oQ57YSniXDIxxlPiL7aUfmwFW2
+	H6jy2g/k0A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bkbytg6fk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 10 Jan 2026 07:54:32 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 9 Jan 2026 23:54:31 -0800
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 9 Jan 2026 23:54:30 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <mathieu.dubois-briand@bootlin.com>, <adrian.freihofer@gmail.com>
+Subject: [PATCH v2] devtool: clean up debug build
+Date: Sat, 10 Jan 2026 15:54:29 +0800
+Message-ID: <20260110075429.2119759-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <18880B4F565039AF.2355985@lists.openembedded.org>
+References: <18880B4F565039AF.2355985@lists.openembedded.org>
 MIME-Version: 1.0
-References: <20251023134656.2059483-1-ecordonnier@snap.com>
- <20251023134656.2059483-2-ecordonnier@snap.com> <2da2af64-1607-49f3-a438-43525b4b8b02@gmail.com>
- <CAHUKmYbfri0mDeJJ6FH1YVtNe9R_YTdC8iFQxOx7zLRqizvhKA@mail.gmail.com> <CAMKF1sqn_G1QjZB0SJhvWXKS8e5amjs5e2swZUZNsakivNs+Eg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqn_G1QjZB0SJhvWXKS8e5amjs5e2swZUZNsakivNs+Eg@mail.gmail.com>
-From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
-Date: Fri, 9 Jan 2026 20:43:49 -0300
-X-Gm-Features: AQt7F2oTZAZWuMjojOHnjXaqW8BZV5e8hCcl5jwgOFXUQvGXspEZdrVGcs_rUC0
-Message-ID: <CAA_5yovhfk1qtshNxjcJnu0CgQUk_89rfOBJiwQgc77n3mhFGA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v4 2/2] opkg: upgrade 0.8.0 -> 0.9.0
-To: raj.khem@gmail.com, jose.quaresma@oss.qualcomm.com,
-        dmitry.baryshkov@oss.qualcomm.com
-Cc: ecordonnier@snap.com, Gyorgy Sarvari <skandigraun@gmail.com>,
-        openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA5MDE4OCBTYWx0ZWRfXzgyFsnlhka7p
- xriBHQPqC0uaIEMtOFrxeKZyo/pQ40/YZNs07RwEtERio1xSyCog63qVdtHReqoZNq4k5ABocLB
- QFtIV22DoRBTOp50VOjo+gm/KznjEkStQ3EvKO9Tvp0oYz7OX1Txkgq61/Y6yPn8W9Rgac0zQ/V
- k7OwOXlVsPWU2h6daFOQRPhNna/iq/Ck0Yji0QUEm9UppC1fIH/0qRV+YZZvVIo35K8rznF1P5k
- Hvh/Sg0mYg3vakAerU8ywRAUndRcLqG85RZsq70VtkIGgYD/+qEXKAy0a1yVwljWIfC8sgUqmoW
- Lup+4qvkXE3Uw+GPvVq23ahmwwmB9qMvbgRhf5XNE01+AoxAtuhreMIOdwX3Wd5xrP9bxUv81+G
- qClfHheeFDe397AcoXTo7AqsFrkgTyUlpDlIe7oTf4iOOzfXl7vWD8VhBCxkJs7dACinR1o/CMj
- La+OWxT4kHLFhjauC9Q==
-X-Authority-Analysis: v=2.4 cv=bbdmkePB c=1 sm=1 tr=0 ts=696192db cx=c_pps
- a=ngMg22mHWrP7m7pwYf9JkA==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8
- a=cQY1VTVnSHTbCtVItmIA:9 a=QEXdDO2ut3YA:10 a=yHXA93iunegOHmWoMUFd:22
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: ghPJ1tgSThmm6mtSH-AxFrok_MhoSR9l
-X-Proofpoint-ORIG-GUID: ghPJ1tgSThmm6mtSH-AxFrok_MhoSR9l
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: XOMOaAOggDrH-0LeGFxeTWa284Pb4R40
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEwMDA2NCBTYWx0ZWRfXxkqTVfgq0LDs
+ 0nzO8MTrLY5QwfEQyFDMQPioXPrUuGIjj3hjfW2Uy3VKU4gIhc5MIQZ5C7hUBE3DR2w0lrheZgF
+ jDN4a2u431SLUWaAqAV1AfwENE6JlVVpM3BsmdDpU0ejHS51POKvbGBsztD6qhV+nj4XQKr/qMc
+ 4nde4QjXhBUU8HJw/nFBkYrOaNzrBsjA4/VTBbFl4Kw25Nfw9ZvBlnjHkg9ce6k/wBNJb26xuhW
+ hPOx+Gmne7rpa7bQc9HSCPPY5dxTGuIhxFHU+BwuoBv77EHd+NHVqi7sk3lSK5z5FA46dQ9udOg
+ 1/ykC8RPaDD612nmCbEGKxNI4DUdu6yFaQ1AmOcBE2jywmm9xrvHFQDT8asCtlPOhcp1cdmgxl9
+ AzblQt8ceTuMOhaZwlrzUj+o9WoBCde3P7ZxRfySruXlVZTqX8Q60YcUtI7ZZp9EzuiclZsukr/
+ 7Zp3Owp2506BBeZWyJQ==
+X-Authority-Analysis: v=2.4 cv=b66/I9Gx c=1 sm=1 tr=0 ts=696205b8 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=do0Ikte13isWAMj54fEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: XOMOaAOggDrH-0LeGFxeTWa284Pb4R40
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-09_07,2026-01-09_02,2025-10-01_01
+ definitions=2026-01-10_02,2026-01-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0
- clxscore=1015 adultscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015 adultscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601090188
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601100064
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 23:44:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229145
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 07:54:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229146
 
-On Wed, Dec 3, 2025 at 6:04=E2=80=AFPM Khem Raj via lists.openembedded.org
-<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
->
-> I am starting to see the following crash in opkg when building image. Any=
-one seeing something like this?
->
-> (No debugging symbols found in /mnt/b/yoe/master/build/tmp/work/raspberry=
-pi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/opkg)
-> [New LWP 34493]
-> [Thread debugging using libthread_db enabled]
-> Using host libthread_db library "/usr/lib/libthread_db.so.1".
-> Core was generated by `/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-y=
-oe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/opkg --volatile-=
-cache -f /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kio=
-sk-image/1.0/opkg.conf -t /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-=
-yoe-linux/yoe-kiosk-image/1.0/temp/ipktemp/ -o /mnt/b/yoe/master/build/tmp/=
-work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/rootfs --force-postinsta=
-ll --prefer-arch-to-version --force-depends remove glibc-binary-localedata-=
-en-gb glibc-binary-localedata-c glibc-binary-localedata-en-us'.
-> Program terminated with signal SIGSEGV, Segmentation fault.
-> #0  0x00007f50a8190d20 in stringpool_strn2id () from /mnt/b/yoe/master/bu=
-ild/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-n=
-ative/usr/bin/../lib/./libsolv.so.1
-> (gdb) bt
-> #0  0x00007f50a8190d20 in stringpool_strn2id () from /mnt/b/yoe/master/bu=
-ild/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-n=
-ative/usr/bin/../lib/./libsolv.so.1
-> #1  0x00007f50a818a3dc in pool_str2id () from /mnt/b/yoe/master/build/tmp=
-/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/u=
-sr/bin/../lib/./libsolv.so.1
-> #2  0x00007f50a84fe4ad in ?? () from /mnt/b/yoe/master/build/tmp/work/ras=
-pberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/..=
-/lib/libopkg.so.1
-> #3  0x00007f50a84ff4df in opkg_solver_remove () from /mnt/b/yoe/master/bu=
-ild/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-n=
-ative/usr/bin/../lib/libopkg.so.1
-> #4  0x00007f50a84e9bfb in ?? () from /mnt/b/yoe/master/build/tmp/work/ras=
-pberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/..=
-/lib/libopkg.so.1
-> #5  0x00007f50a84eadb2 in opkg_cmd_exec () from /mnt/b/yoe/master/build/t=
-mp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native=
-/usr/bin/../lib/libopkg.so.1
-> #6  0x00005557220b6a9d in ?? ()
-> #7  0x00007f50a8311f68 in __libc_start_call_main () from /mnt/b/yoe/maste=
-r/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
-> #8  0x00007f50a831201b in __libc_start_main () from /mnt/b/yoe/master/bui=
-ld/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
-> #9  0x00005557220b6bf1 in ?? ()
+Due to we rework debug friendly optimization, rename DEBUG_BUILD
+to DEBUG_OPTIMIZE. Then:
 
-We are facing a similar crash quite often in meta-qcom now, when
-building one of our initramfs images, but it doesn't happen all the
-time, even when building locally it is not trivial to reproduce the
-issue.
+- s/DEBUG_BUILD/DEBUG_OPTIMIZE/g
 
-Jose opened https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16010
-and we were able to reproduce this issue with opkg 0.7 and 0.9, so it
-could as well be a side effect of another change.
+- s/debug-build/debug-optimize/g
 
-Thanks,
+- s/debug_build/debug_optimize/g
 
-Ricardo
+Note, for specific recipe, we do not use
+  OE_FRAGMENTS += "core/yocto/debug-optimize"
+in recipe
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/conf/fragments/yocto/devtool-ide-sdk.conf |  2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py        |  2 +-
+ scripts/lib/devtool/ide_sdk.py                 | 10 +++++-----
+ scripts/lib/devtool/standard.py                |  6 +++---
+ 4 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/meta/conf/fragments/yocto/devtool-ide-sdk.conf b/meta/conf/fragments/yocto/devtool-ide-sdk.conf
+index ca0269543b..f451b47713 100644
+--- a/meta/conf/fragments/yocto/devtool-ide-sdk.conf
++++ b/meta/conf/fragments/yocto/devtool-ide-sdk.conf
+@@ -5,7 +5,7 @@ Example usage: \
+   1. bitbake-config-build enable-fragment core/yocto/devtool-ide-sdk \
+      bitbake-config-build enable-fragment core/yocto/root-login-with-empty-password \
+   2. The recipe (my-recipe in this case) must be in IMAGE_INSTALL. \
+-  3. Devtool modify --debug-build my-recipe \
++  3. Devtool modify --debug-optimize my-recipe \
+   4. devtool ide-sdk my-recipe core-image-full-cmdline --target root@192.168.7.2' \
+   5. runqemu snapshot \
+   6. code $BUILDDIR/workspace/sources/my-recipe \
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 0446b46598..03a0bd0ddc 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2590,7 +2590,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.track_for_cleanup(tempdir)
+         self.add_command_to_tearDown('bitbake -c clean %s' % recipe_name)
+ 
+-        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir), output_log=self._cmd_logger)
++        result = runCmd('devtool modify %s -x %s --debug-optimize' % (recipe_name, tempdir), output_log=self._cmd_logger)
+         self.assertExists(os.path.join(tempdir, build_file),
+                           'Extracted source could not be found')
+         self.assertExists(os.path.join(self.workspacedir, 'conf',
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index ba225f20b9..9040eee88d 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -398,7 +398,7 @@ class RecipeModified:
+         self.bitbakepath = None
+         self.bpn = None
+         self.d = None
+-        self.debug_build = None
++        self.debug_optimize = None
+         self.reverse_debug_prefix_map = {}
+         self.fakerootcmd = None
+         self.fakerootenv = None
+@@ -469,7 +469,7 @@ class RecipeModified:
+         self.bpn = recipe_d.getVar('BPN')
+         self.cxx = recipe_d.getVar('CXX')
+         self.d = recipe_d.getVar('D')
+-        self.debug_build = recipe_d.getVar('DEBUG_BUILD')
++        self.debug_optimize = recipe_d.getVar('DEBUG_OPTIMIZE')
+         self.fakerootcmd = recipe_d.getVar('FAKEROOTCMD')
+         self.fakerootenv = recipe_d.getVar('FAKEROOTENV')
+         self.libdir = recipe_d.getVar('libdir')
+@@ -1178,11 +1178,11 @@ def ide_setup(args, config, basepath, workspace):
+             ide.setup_modified_recipe(
+                 args, recipe_image, recipe_modified)
+ 
+-            if recipe_modified.debug_build != '1':
++            if recipe_modified.debug_optimize != '1':
+                 logger.warn(
+                     'Recipe %s is compiled with release build configuration. '
+-                    'You might want to add DEBUG_BUILD = "1" to %s. '
+-                    'Note that devtool modify --debug-build can do this automatically.',
++                    'You might want to add DEBUG_OPTIMIZE = "1" to %s. '
++                    'Note that devtool modify --debug-optimize can do this automatically.',
+                     recipe_modified.name, recipe_modified.bbappend)
+     else:
+         raise DevtoolError("Must not end up here.")
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index f4d5d7cd3f..51edd08d92 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -970,9 +970,9 @@ def modify(args, config, basepath, workspace):
+                     if branch == args.branch:
+                         continue
+                     f.write('# patches_%s: %s\n' % (branch, ','.join(branch_patches[branch])))
+-            if args.debug_build:
++            if args.debug_optimize:
+                 f.write('\n# Optimize for debugging. Use e.g. -Og instead of -O2\n')
+-                f.write('DEBUG_BUILD = "1"\n')
++                f.write('DEBUG_OPTIMIZE = "1"\n')
+                 f.write('\n# Keep the paths to the source files for remote debugging\n')
+                 f.write('# DEBUG_PREFIX_MAP = ""\n')
+                 f.write('# WARN_QA:remove = "buildpaths"\n')
+@@ -2325,7 +2325,7 @@ def register_commands(subparsers, context):
+     parser_modify.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout (when not using -n/--no-extract) (default "%(default)s")')
+     parser_modify.add_argument('--no-overrides', '-O', action="store_true", help='Do not create branches for other override configurations')
+     parser_modify.add_argument('--keep-temp', help='Keep temporary directory (for debugging)', action="store_true")
+-    parser_modify.add_argument('--debug-build', action="store_true", help='Add DEBUG_BUILD = "1" to the modified recipe')
++    parser_modify.add_argument('--debug-optimize', action="store_true", help='Add DEBUG_OPTIMIZE = "1" to the modified recipe')
+     parser_modify.set_defaults(func=modify, fixed_setup=context.fixed_setup)
+ 
+     parser_extract = subparsers.add_parser('extract', help='Extract the source for an existing recipe',
+-- 
+2.34.1
+
 
