@@ -2,35 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75F13D2502B
-	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 23:13:22 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1054.1768086797706540584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5171ED2502C
+	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 23:13:32 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1059.1768086809737853988
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Jan 2026 15:13:18 -0800
+ Sat, 10 Jan 2026 15:13:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=CM3g+qko;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026011023131457b2cf872900020733-rtpu1y@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026011023131457b2cf872900020733
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=BUN+NsdY;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260110231327ad7eb5ab7e00020776-p3zpyh@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260110231327ad7eb5ab7e00020776
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 Jan 2026 00:13:14 +0100
+        Sun, 11 Jan 2026 00:13:27 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
  bh=g8dFu4ZtvULy1GjUs43Q6Tjg7NYZX90n9xmOfN2zeh0=;
- b=CM3g+qkopLjLLRnlW1pMhkbIVp4RlJQGEXhbEqVlw9T19/CfYGNtRbSuhkzUKh0RXDmu/P
- 89BrvqZdNfgbTiWz8YequLO1BEYWM/49T3Mul3+2Ao8VsS/SeuG7C3zypkBEHqN38qG+slf8
- ZtPu5vm9nb0FzYPWujMSCIaB9ILRYH2agnPgWnJSFESAdcxDHvsq1vSP5TLg5ijtZ8KkUk4x
- rSnhcYxEesxDdt2ei7kGtGuEyUUGH+OMowjmSWxY9zTvfLPqN8dIv9ErODuLrbA3zcs1ZOv5
- P2qGKc+i0ScWki+ai26Nid37f5zWpdjjBAa5pq8s3PFBDV4MKQhL1dzw==;
+ b=BUN+NsdYGI91w/TqF5zwfTAxeSCG0TkGrFn2j6/KYUORf4MlXxRenNiqAYJ8y3gMz5Unqo
+ 0LJThsjMOhucKtBRJGt6tnVi/9BDfMd9m2SfEsjrokOtazjXp9KzKwH9PqJbTrIrhk7ytVS1
+ I3D7iQnE5MsGSqAxBaeHbuJMhyBfiB/d24ZOCa3FlsGvFEVJUto2efQzsIlfwphODek7HULE
+ WOqcr/OFPtRaJsuraV4X2667JZtg2mN/AilBYzcZeT07m3YKmnUScm/bD/YaxbRo8eVFOHF3
+ 2Xq6LiRini23OUXiHzleo0yssGNvik72Ndz4tlEK48MNcX+OnA1AKyzA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jiaying Song <jiaying.song.cn@windriver.com>,
 	Steve Sakoman <steve@sakoman.com>,
 	Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
-Date: Sun, 11 Jan 2026 00:13:06 +0100
-Message-Id: <20260110231306.598787-1-peter.marko@siemens.com>
+Subject: [OE-core][whinlatter][PATCH] grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
+Date: Sun, 11 Jan 2026 00:13:21 +0100
+Message-Id: <20260110231321.598809-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,8 +38,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 23:13:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229171
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 23:13:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229172
 
 From: Jiaying Song <jiaying.song.cn@windriver.com>
 
