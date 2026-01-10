@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4A5D25029
-	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 22:45:42 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.522.1768085130689712403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377DDD2502A
+	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 22:45:52 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.510.1768085141113593020
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Jan 2026 14:45:34 -0800
+ Sat, 10 Jan 2026 14:45:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=NGeJ66Ah;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026011022453311372fc3d7000207fa-tt2fnl@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026011022453311372fc3d7000207fa
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZgN4HBgT;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202601102245398f95bbc7de00020743-dyzqla@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202601102245398f95bbc7de00020743
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 10 Jan 2026 23:45:33 +0100
+        Sat, 10 Jan 2026 23:45:39 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=XE+TgWK2z59t8E1cYF9gmruHhhv6HQ+3LoJsJk/9szo=;
- b=NGeJ66Ah2IECZo6m3mxLHamm1jNh6XiP+yr6xvuxITcH6vIERvfF9yIi0W5mwADTd/daWA
- 3OkuvM3bORUGHnuJtmJOUuekMPlAlqy2aY+kewSj0f01d39X8S+F/KLcnrgtMPFbdQmb8vzf
- 4lPBc2UoFayddmqQvl9b/rf0+rr6bkGIYyiZFu1hwlCogbHLdwglFI1I2DGvC9wRL+rqd8S9
- akkvn+TV4cr+NyFVvNkGgEMXihkBGDSXNsS15o+yGXemNb27UQO8A3kJWcIDC0TrwbZWZBHy
- yfF0yIJ/CCWBgYgWnfgiYTLL3FwXiZMpDmiW6pvX6CX2KnUaUg8JXmMg==;
+ bh=ghc5ANdGVCnvsNoK1ZYYa3/GcyqJeSPNoyfWN3+Y1LI=;
+ b=ZgN4HBgT9MDdmlWF3uMzIwtyxvBHvSgGx8flCNs4KDRpX9sQiSWOmhE3q7PDVd62LUDGCH
+ i0yrxkvKcBjQEKg1nhNdn8g69og42DuG/tOhxUSRCSKleO0aU++j2vfwt/+l8HeH7yE3KOnv
+ 22LA75DUHqALEJBFkDcaFV/bOuCZIHeTEKVoZM0NVK7lM5OoGV3FmJwUqZtXEEEomKNiUvC/
+ txk8/dqbppJLF1huMGRnYby7P++CkwX+KRJ0hgj1RqgZI8V4VUeC2h3ZLvdh/IVBtPUV5ALn
+ ZprHhWIo+Eg4lPovuSR4PDWY8iJMZtxELxHcJWRJSEKyLzLfywBjViPw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH] gnupg: patch CVE-2025-68973
-Date: Sat, 10 Jan 2026 23:45:07 +0100
-Message-Id: <20260110224507.395192-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] gnupg: patch CVE-2025-68973
+Date: Sat, 10 Jan 2026 23:45:18 +0100
+Message-Id: <20260110224518.395209-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,26 +36,25 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 22:45:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229169
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 22:45:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229170
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch from 2.4 branch per [1].
-2.5 branch already reworked this and patch from that didn't apply.
 
 [1] https://security-tracker.debian.org/tracker/CVE-2025-68973
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.5.11.bb    |   1 +
+ meta/recipes-support/gnupg/gnupg_2.3.7.bb     |   1 +
  2 files changed, 109 insertions(+)
  create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 
 diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 new file mode 100644
-index 0000000000..1d5225361b
+index 00000000000..1d5225361b2
 --- /dev/null
 +++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 @@ -0,0 +1,108 @@
@@ -167,14 +166,14 @@ index 0000000000..1d5225361b
 + 	    if( afx->buffer_pos >= afx->buffer_len )
 + 		afx->buffer_len = 0;
 + 	}
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.11.bb b/meta/recipes-support/gnupg/gnupg_2.5.11.bb
-index 9cc063f837..753eea6276 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.11.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.11.bb
-@@ -19,6 +19,7 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/ftp/gcrypt/gnupg/"
- SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
+diff --git a/meta/recipes-support/gnupg/gnupg_2.3.7.bb b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
+index 27b2d3682a9..f52ae921d44 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.3.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
+@@ -23,6 +23,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://CVE-2025-30258-0003.patch \
+            file://CVE-2025-30258-0004.patch \
+            file://CVE-2025-30258-0005.patch \
 +           file://CVE-2025-68973.patch \
             "
  SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
