@@ -1,210 +1,127 @@
-Return-Path: <t.f.g.geelen@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E8DD2502D
-	for <webhook@archiver.kernel.org>; Sat, 10 Jan 2026 23:45:22 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1535.1768088721684513284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1BED2502E
+	for <webhook@archiver.kernel.org>; Sun, 11 Jan 2026 11:02:35 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8605.1768129345223874152
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Jan 2026 15:45:22 -0800
+ Sun, 11 Jan 2026 03:02:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wo7JF40I;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: t.f.g.geelen@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b843e8a4fbfso652658566b.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 15:45:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QeSj2SE1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-bc17d39ccd2so2391920a12.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jan 2026 03:02:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768088720; x=1768693520; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s4E5CzeeYRAlNRTvBE6decAoyCxyRhCaqBBD8HSGoTk=;
-        b=Wo7JF40I+u5fB+L/VY5AaXB5PwuYS9pBTju0f0tyVXR19NdTiBFzVBF237lO74aQ1D
-         lO9zZhlw3Cv3AKQtNgKui1H/C1yJFnpF+9YxblrOC7sECrvnTIqRgeNcqQOwY1RMmipq
-         QCAigt4lGcCV5jHDGuPPc8iOcko28JZF/3rvUEyo58+Er6+ttOo1pGuP6/EihPXTFXmH
-         rg+9oIrW/yRKJQ/ACsrh3ZlBx10fC49hBwyCC5dUspI4hlkEi3KBkncDYQm7ARoDMsKW
-         mllE6fBZiRMDEo9GgA3JCf5JNZfOgrKgZu0LEDP2060IkSdliix9n6hv8U2WLEDVUoCH
-         BWwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768088720; x=1768693520;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1768129344; x=1768734144; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s4E5CzeeYRAlNRTvBE6decAoyCxyRhCaqBBD8HSGoTk=;
-        b=UrZ9sChUQttfmqMKtvzr5/Ay2MCl7GcyzmFYZuerM3cZGziFmuo1b1pOjqfZFxruvV
-         alaoo1rmegLzcqlz/LjAjqxZKFwPTnOlcOJ3PnuSStJpYEMOi52WGxt+d0Bm7dwaCRZf
-         Bs6SkNrD5ZZgvUXEYjwwzk45lXeDDfr15u39iOtQ/Q31S30ScrUIyzt/CsbGaieVwCr4
-         K2QPdstPFeqTCjeY/SDqlYSG0J3H55/vjOezyB/BCr9FG4ZdCiI+WBDupwFZUwI4Ag0m
-         3f+Eg3R//HGZ6+uzZPb6ySK/aycGCibefKN8eeuqyUm55QQ3XiD+femZ5xCoi9Pyc0w6
-         T09Q==
-X-Gm-Message-State: AOJu0YxRPZ9pHJVS4fEkzQRfrH9+7FD8QuKZPx7xkfUbhAsUFSOydBU9
-	bSHTYEd10PAloK+Unlh2aF6FBx2P80s95dMhX44rkjDXeKrVgdLspf8138ekSzst
-X-Gm-Gg: AY/fxX4ExWrd3JpM/hlvRxyMb7A159BtJ8CTixkwHBxYqQhbn9+0NtAfnKOpNQXGCZd
-	XrVBhUJmLYa3uQaQyIQC5P/t2r2ndDGKp1eBFDhRXNeKDeshX6sExD7bBmbVOrbyfy96YtIRExQ
-	vUbZ9asZ184MTI817dswS0aQ/EGd2ju42BLaaH23xZfD5CPVjHCzHFU1dAliVMaP3WxJ/Ki+9ig
-	6hLThHCi7MqljLm1Sj600jtstfwuyTDyo2IxOpweGRGoIE6uAiNOQlCemV1NiDUI9fI7bgmSaPx
-	4MafdbnLhqZ/Ur1XKgfduk97P6m3rqmyMy6CQf1F2n8TPusBGNgYiI8LGPBd3NwBwZaled+mYCL
-	++ipgUMhTQmwZQvTe47aMG/8WIduAWcu0I0XSP9NhnpS2DSEF2V0E1GHxrrJHY+lQPtALYhhm1q
-	WIxwvoRNEewF/i+BjmBWAbFUBXHp2jdl2MdfQ/3vpKPrpcpiXnMIBpFUkhqhKqnYP7
-X-Google-Smtp-Source: AGHT+IGljo5OPKQFWq3cm/UUAhSDPVwXXtBGp+Rc2XvXGl058AdKN83AGlVNZ6jwu4q53r8y4zMh6g==
-X-Received: by 2002:a17:907:3f9b:b0:b76:b76e:112a with SMTP id a640c23a62f3a-b844516a870mr1353857066b.11.1768088719453;
-        Sat, 10 Jan 2026 15:45:19 -0800 (PST)
-Received: from control-center.fritz.box (150-12-20-31.ftth.glasoperator.nl. [31.20.12.150])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a233f2asm1500963966b.13.2026.01.10.15.45.18
+        bh=HM6bGULAfeBwV8+KO5O3Zj8rf14qewpH1WplMcfghIE=;
+        b=QeSj2SE1qJmpC7bpcq1o6a6I2XAlromE89R+u4930AzynXMqk6ePB2yaVja485mD2Q
+         wK6lr1DWhFdDL9vi84ceLoqqJaW8uW+DxQw4XovyDRmW3bHRmey1j2Vb7Zo0s+wJZWyN
+         J7X4hcTzO9dQHDuZJQeCjtm2p2MxYKA+IzYxyYM+EnTObdrouvvE+h2EaKSlFRIgsZHQ
+         atMJe/TDbEworVGynhcu7CsqZ6GSEQthkgI34EjgqyduwbDyuXVcpZ9eYfpXOPWo2koM
+         Fe4MCMtgW4QIdxMyMd80LuRyFx8wMmNiTSyTcmMoZZv4PTnvdbTlSgOXS8SPkFS2ULY5
+         W+xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768129344; x=1768734144;
+        h=message-id:date:user-agent:to:from:subject:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HM6bGULAfeBwV8+KO5O3Zj8rf14qewpH1WplMcfghIE=;
+        b=XpAqHP/K0RiNCf3OacqxVRB9NIkf7tTehI0yjp0j/o33jpZp2iU85Xd2qgVz9/cQ//
+         8K02nc2toj3cyrJlux0J3ym7JSFBu55Y4HyoDK5HQvE0P7XifuI4T3PmcQLnxp/XZWKF
+         H0NTAT3lLdnTpJkwCKU/86eMBuNACFNJNsd3Tc2zb/EU4Dt6EKF8I1WlApX2HHxkpOFl
+         Fq1JIt5qk0EIr5KCt/3l3Tg1om+ZmgLWWxW0rVN4srmHZi0WxLUsj1/6bMfBSBi0Q2l1
+         I1bBLzKpt8pSrIl9slAtTwyN8EwB6UQmH0JCC2GWAbE0C3hK+mZWvQmgUf6nzPjdRksB
+         ngig==
+X-Gm-Message-State: AOJu0YxliSxPG3OusoZ/nzwsF3FJVj+SFSeRDzlPME3aE30pgxQiF2fa
+	L7027t3VJLJvGGxKgG9V9KfiQ9aAYikh0pfshX9LoZtaSsROngeKC34g5jy+ecMsy52IJwMp7B8
+	nVo51
+X-Gm-Gg: AY/fxX6/I6PfTALpJsLtm0gPR0TBH0Vfy89H961bmur+v3ZOys+rhiASzNBIaAophDa
+	ZPQJ9iilqzZhjAATBHXS46lcxFMkWHOIvJsHb25nMYQXD4TkfHD4wd/PKvSxWTWxy2AIb5KYy99
+	0JRlKdpnVoz5XbXXGxbrxNBzUotdoVCfUzOPoK6iu0W4V0qN1CnKYKY6c0Nfr43Bcy5rTvlTYFA
+	w7lYv8UYHA/iDV2WmjxRKzJUYe38jAD+i0zYGXCmZ08m/EfumAlz+k7aVPZ+KYMOZP/Z+MAYEAB
+	LrfxInFpXvAkJlZEqPWAhfBy4ALV8XkruUMLDdrKbj5JbVOaYaNaWptAbDnktYMjqAGF0iLWi9P
+	cgEz4EmgOmkpknESP1eqFvXN2J1ctDwvpF+1nfSWLIBdgWiYwUpXFwUujLjCNRp4ZbgvX6RnGV4
+	3GCAWHm1gftQZ5kIc=
+X-Google-Smtp-Source: AGHT+IHubNquAgxfz+4HEbN9IHfukKiV7w0jBdLO3FQ0LWy8czk192a8El78Pm+TPAN6sgKsdqQmTg==
+X-Received: by 2002:a05:6a00:bc93:b0:81e:5a6e:340 with SMTP id d2e1a72fcca58-81e5a6e0706mr5399811b3a.26.1768129344089;
+        Sun, 11 Jan 2026 03:02:24 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bb4c8187sm3246625b3a.29.2026.01.11.03.02.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jan 2026 15:45:19 -0800 (PST)
-From: Tom Geelen <t.f.g.geelen@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Geelen <t.f.g.geelen@gmail.com>
-Subject: [PATCH V3] qemurunner: Improve qmp module detection. in order to detect qmp module
-Date: Sun, 11 Jan 2026 00:44:20 +0100
-Message-ID: <20260110234420.813531-2-t.f.g.geelen@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 11 Jan 2026 03:02:23 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 376821003CB; Sun, 11 Jan 2026 01:02:23 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 11 Jan 2026 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 11 Jan 2026 01:02:23 -1000
+Message-Id: <20260111110223.376821003CB@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Jan 2026 23:45:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229173
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Jan 2026 11:02:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229174
 
-Instead of using logfile to detect where qmp is located we 
-can pass sysroot_native directly to the qemurunner so it can find the qmp module directly.
+Branch: master
 
-Signed-off-by: Tom Geelen <t.f.g.geelen@gmail.com>
----
- meta/classes-recipe/testimage.bbclass |  1 +
- meta/lib/oeqa/core/target/qemu.py     |  4 ++--
- meta/lib/oeqa/targetcontrol.py        |  2 ++
- meta/lib/oeqa/utils/qemurunner.py     | 16 +++++++++-------
- meta/lib/oeqa/utils/qemutinyrunner.py |  3 ++-
- 5 files changed, 16 insertions(+), 10 deletions(-)
+New this week: 8 CVEs
+CVE-2023-51791 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51791 *
+CVE-2023-51793 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51793 *
+CVE-2023-51794 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51794 *
+CVE-2023-51795 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51795 *
+CVE-2023-51796 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51796 *
+CVE-2023-51797 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51797 *
+CVE-2023-51798 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51798 *
+CVE-2025-61662 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-61662 *
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index 844c0f19ad..a5c7c4f34b 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -305,6 +305,7 @@ def testimage_main(d):
-                       'serial_ports': len(d.getVar("SERIAL_CONSOLES").split()),
-                       'ovmf'        : ovmf,
-                       'tmpfsdir'    : d.getVar("RUNQEMU_TMPFS_DIR"),
-+                      'native_sysroot': d.getVar("STAGING_DIR_NATIVE"),
-                     }
- 
-     if d.getVar("TESTIMAGE_BOOT_PATTERNS"):
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
-index 769a6fec7e..76c1ada02e 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -22,7 +22,7 @@ class OEQemuTarget(OESSHTarget):
-             port=None, machine='', rootfs='', kernel='', kvm=False, slirp=False,
-             dump_dir='', display='', bootlog='',
-             tmpdir='', dir_image='', boottime=60, serial_ports=2,
--            boot_patterns = defaultdict(str), ovmf=False, tmpfsdir=None, **kwargs):
-+            boot_patterns = defaultdict(str), ovmf=False, tmpfsdir=None, native_sysroot=None, **kwargs):
- 
-         super(OEQemuTarget, self).__init__(logger, None, server_ip, timeout,
-                 user, port)
-@@ -44,7 +44,7 @@ class OEQemuTarget(OESSHTarget):
-                                  logfile=bootlog, boottime=boottime,
-                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir, logger=logger,
-                                  serial_ports=serial_ports, boot_patterns = boot_patterns, 
--                                 use_ovmf=ovmf, tmpfsdir=tmpfsdir)
-+                                 use_ovmf=ovmf, tmpfsdir=tmpfsdir, native_sysroot=native_sysroot)
- 
-     def start(self, params=None, extra_bootparams=None, runqemuparams=''):
-         if self.use_slirp and not self.server_ip:
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index a9080077e2..fa6b43bb35 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -127,6 +127,7 @@ class QemuTarget(BaseTarget):
-                             logfile = self.qemulog,
-                             kernel = self.kernel,
-                             boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
-+                            native_sysroot = d.getVar("RECIPE_SYSROOT_NATIVE"),
-                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
-                             logger = logger)
-         else:
-@@ -140,6 +141,7 @@ class QemuTarget(BaseTarget):
-                             use_kvm = use_kvm,
-                             dump_dir = dump_dir,
-                             logger = logger,
-+                            native_sysroot = d.getVar("RECIPE_SYSROOT_NATIVE"),
-                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
-                             serial_ports = len(d.getVar("SERIAL_CONSOLES").split()),
-                             boot_patterns = boot_patterns)
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index c4db0cf038..ee84cae33b 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -45,7 +45,7 @@ def getOutput(o):
- class QemuRunner:
- 
-     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=False,
--     serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
-+     serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None, native_sysroot=None):
- 
-         # Popen object for runqemu
-         self.runqemu = None
-@@ -76,10 +76,13 @@ class QemuRunner:
-         self.msg = ''
-         self.boot_patterns = boot_patterns
-         self.tmpfsdir = tmpfsdir
-+        self.native_sysroot = native_sysroot
- 
-         self.runqemutime = 300
-         if not workdir:
-             workdir = os.getcwd()
-+        # Store workdir for locating native sysroot (qmp bindings)
-+        self.workdir = workdir
-         self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
-         self.monitorpipe = None
- 
-@@ -186,17 +189,16 @@ class QemuRunner:
-         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
- 
-     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
--        # use logfile to determine the recipe-sysroot-native path and
--        # then add in the site-packages path components and add that
--        # to the python sys.path so the qmp module can be found.
--        python_path = os.path.dirname(os.path.dirname(self.logfile))
--        python_path += "/recipe-sysroot-native/usr/lib/qemu-python"
-+        if not self.native_sysroot:
-+            self.logger.error("qemurunner: native_sysroot not provided; cannot locate qmp bindings")
-+            return False
-+        python_path = os.path.join(self.native_sysroot, "usr/lib/qemu-python")
-         sys.path.append(python_path)
-         importlib.invalidate_caches()
-         try:
-             qmp = importlib.import_module("qmp")
-         except Exception as e:
--            self.logger.error("qemurunner: qmp module missing, please ensure it's installed in %s (%s)" % (python_path, str(e)))
-+            self.logger.error("qemurunner: qmp module missing in %s (%s)" % (python_path, str(e)))
-             return False
-         # Path relative to tmpdir used as cwd for qemu below to avoid unix socket path length issues
-         qmp_file = "." + next(tempfile._get_candidate_names())
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index 20009401ca..d1ccf65223 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -19,7 +19,7 @@ from .qemurunner import QemuRunner
- 
- class QemuTinyRunner(QemuRunner):
- 
--    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime, logger, tmpfsdir=None):
-+    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime, logger, tmpfsdir=None, native_sysroot=None):
- 
-         # Popen object for runqemu
-         self.runqemu = None
-@@ -44,6 +44,7 @@ class QemuTinyRunner(QemuRunner):
-         self.server_socket = None
-         self.kernel = kernel
-         self.logger = logger
-+        self.native_sysroot = native_sysroot
- 
- 
-     def create_socket(self):
--- 
-2.43.0
+Removed this week: 3 CVEs
+CVE-2025-12084 (CVSS3: N/A): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-12084 *
+CVE-2025-13836 (CVSS3: N/A): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-13836 *
+CVE-2025-7424 (CVSS3: N/A): libxslt:libxslt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-7424 *
 
+Full list:  Found 29 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
+CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
+CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-51791 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51791 *
+CVE-2023-51793 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51793 *
+CVE-2023-51794 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51794 *
+CVE-2023-51795 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51795 *
+CVE-2023-51796 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51796 *
+CVE-2023-51797 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51797 *
+CVE-2023-51798 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51798 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-60876 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-60876 *
+CVE-2025-61662 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-61662 *
+CVE-2025-66382 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66382 *
+
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  ffmpeg: 7
+  libsndfile1: 2
+  busybox: 1
+  expat:expat-native: 1
+  grub:grub-efi:grub-native: 1
+  qemu:qemu-native:qemu-system-native: 1
+
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
