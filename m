@@ -1,222 +1,489 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <pierre-loup.gosse@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D14C9EC9D
-	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 16:18:34 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.40])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36791.1768234705444658318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8AAC9EC9D
+	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 16:21:14 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36867.1768234872171894705
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jan 2026 08:18:26 -0800
+ Mon, 12 Jan 2026 08:21:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=PWX6hl+d;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=PWX6hl+d;
- spf=pass (domain: arm.com, ip: 52.101.70.40, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=LSF2JJu54Egi1QfTeGnnAjDVE4JGpsnZbVDz+fHMPXuIipE8zrhHpPG3JGriP6usroiH8fKvoHnkj5gjbtMUjvVQIZzUFw1ALKmqqXQovEcDk4GumEA4H3hKRpFAFIhAYzvzYSBZTjeQgeRLumdsmpQ4TZ8B/++btvNBV7J80bIpCg2z3skr+zjT+eIuUmKIGsj0V++8W/NMAEGEPWE6PlSqbVNH9XWccuzX/enyH75ZpK51NhTrByYCPfxFaPNdX0Zw5ycpfx1BJ62hwxXAj30Jqagl32ux32fC2+2eJopASj7wYijBPJrn7c1YaCkxjYqkV5ifxLjFUY1Qayo/pw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B2CPMi/jSRteVxY9dzxruaTBTfQTOmubQsdj8YXUQLQ=;
- b=ORUd1fWUz1adzw025gHEeCCZTytUH1p/EoGjKQ7PD2Pnb6EJ2L9zh3DyDvl/A58NDCT17BIw8jtgxJO9v7kMKlZX2HQ8TkTxO7/HVRiCipw1v1w8iPrXntWVWg8bsTpcdu5kYMuWH9sYce44qBsUaugdOmQXXeto7Pab+vrjuIuB7JqpepA0bUdfeRp8fSS3TbkTHpsFC4+G32r4eWv2bF5Th2V8FUp2JZ9jP5ehIpEAl9Y2ai7ljD/zpojAs+rZGnzCfJZS5EuPwqJYtFrC+B1Z+7XGUUTZBKB+mP9XwTK/THTNEdnJc1ZJuHYVp0dGzx+szlEHnY86LDQQdY5crQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B2CPMi/jSRteVxY9dzxruaTBTfQTOmubQsdj8YXUQLQ=;
- b=PWX6hl+d+Vr6YS4H8YCeVf0KpxoApj8eIen9PFw/IYMb9Zg2sKDQyNYkb7rgN4FtQ7xw6lShcxvHD7bK4bIy0DunfhARHoZgF11h64fba5/31Hn4cD2MYxTUfsDw/PJ8DgRh8/zlFruACOppA6Oq8pVDlmoPpuXOM3x27KIzOUQ=
-Received: from AS4P189CA0032.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5dd::18)
- by GV2PR08MB11369.eurprd08.prod.outlook.com (2603:10a6:150:2a6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
- 2026 16:18:20 +0000
-Received: from AM1PEPF000252E0.eurprd07.prod.outlook.com
- (2603:10a6:20b:5dd:cafe::90) by AS4P189CA0032.outlook.office365.com
- (2603:10a6:20b:5dd::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.7 via Frontend Transport; Mon,
- 12 Jan 2026 16:18:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM1PEPF000252E0.mail.protection.outlook.com (10.167.16.58) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.1
- via Frontend Transport; Mon, 12 Jan 2026 16:18:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nHaCKONDsNmH/wTUb8RH8JT5foN0WcHNUDT4lwnnh0bZwH//gMYxdd8I3it7NuK29EgA0wJ/67jsIuOfgqPf/6HgN4Pe51PrK1uGViRxVl5laxVG12xsE5Ih7i6diwzs5RigFUbi4mqDZooT1LbTcvu3gU+OTrsNhOnCZcWEgiusylGKYggJ7FD1l27axBc8pj83C6rg7tn4lyY6eJcCK1BXode/neTNLlWirTCqvlLTMi1luzd4udvic0RCv5ae4U2P0pwLVdhHM7n6roxvkq3ev5Wz8j/JTDw6dfcg+R+1OhARKoIv6bz0vNLeDQJoXfKtv96S8JkDrMdodbdxaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B2CPMi/jSRteVxY9dzxruaTBTfQTOmubQsdj8YXUQLQ=;
- b=ugfqeUhPp/ChCm0HhZ+JlaSr6KOY6aJL9j/h9uSq1rCgKI+rlUKf0v2MRbXSLMRq08nTwZzuCLrJwK82FWr3R2b16o0vlt3dVSZ+AMKahs1ggYDGL4golkE2mAWdtpwTKoKTcPVugmQsRY8R8To4VIg2tnnucdLIaqmF94isgbyKDaq6+irOJx2NECbpsrAM34tNg2EkL3O6WJ9YCeYHupDKAew/U0kpu9NE9uSdU/bDtUryoHpwoxwdBipz7GK+ZfeUFnMdoD7r+eLESuzZHYAFxP+uaIkeeE0sSZ63rbXpN6TPmBli+njpt3MmFebx4QOxOUb2aJZ2ut2yrKla1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B2CPMi/jSRteVxY9dzxruaTBTfQTOmubQsdj8YXUQLQ=;
- b=PWX6hl+d+Vr6YS4H8YCeVf0KpxoApj8eIen9PFw/IYMb9Zg2sKDQyNYkb7rgN4FtQ7xw6lShcxvHD7bK4bIy0DunfhARHoZgF11h64fba5/31Hn4cD2MYxTUfsDw/PJ8DgRh8/zlFruACOppA6Oq8pVDlmoPpuXOM3x27KIzOUQ=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DU0PR08MB10368.eurprd08.prod.outlook.com (2603:10a6:10:408::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
- 2026 16:17:16 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
- 16:17:16 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] toolchain/classes: Add lld-native dependency
- when using lld as system linker
-Thread-Topic: [OE-core] [PATCH] toolchain/classes: Add lld-native dependency
- when using lld as system linker
-Thread-Index: AQHceVhZ8+YxgW4fLEydUBVcWFn3JbVOyxQA
-Date: Mon, 12 Jan 2026 16:17:16 +0000
-Message-ID: <03D1C411-B650-46E3-9644-7FDB94DF8CBC@arm.com>
-References: <20251230064832.2257911-1-raj.khem@gmail.com>
-In-Reply-To: <20251230064832.2257911-1-raj.khem@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DU0PR08MB10368:EE_|AM1PEPF000252E0:EE_|GV2PR08MB11369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4059b632-d699-4e39-accf-08de51f63381
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?aEVpZG5qUklNTXkrWGxUb0FWUW9ENElDb2Vvb3RQTWxhVmpTUlpKSWlnYTNv?=
- =?utf-8?B?UzYxZzdYanRmdnZuRHp4QlBsT0xEem1uUWYwRktxN1NZbE1xQS9aSVJHMFUy?=
- =?utf-8?B?eXd5RnlvTW5nZGVmSnpQK1ZDRVIyZ3NPcUNFcUJtUzdRajdqcXA4dEJ6TzM3?=
- =?utf-8?B?WHk2dzVkbDRWMTlJOUxhVFd3ZDhwUGpTTFU2VXV2RFN6OVJzTHVGb09MOFBz?=
- =?utf-8?B?TktuK2JUMks0Vm84TTBZc2NFSTdCN1V4VndCeUVyQUxTeTA1UVU1UDliY2JI?=
- =?utf-8?B?ZkJKdWNpRWNzb1ovbXJjN25vUEwwWmgyM1ZZN0VDU0lTNzkvV2VaMGpEbklW?=
- =?utf-8?B?QzdOcmE4RVBmR2M4WXFXam1uS28yOXRQWWxkWXVUaytxS3ZZcE9CMSthSldR?=
- =?utf-8?B?YlVReUdORTUvQy9uc29zV1FaRmZrY0lhSmw5RUtUMVN6Mm1KeUtMY0xNOXNN?=
- =?utf-8?B?SDRsL2RyZ3pSMG5TSVJqZTZDKzMzK0FtTVFQYUtUbEJMQk9qa1ppVEdORU9X?=
- =?utf-8?B?WnhNT3hlQ0VtWkV3ckh0eGhUUGJTYklSVEJUT2JPdUcrL092NlNoVnZETFBp?=
- =?utf-8?B?Z3NaeVU0aWlWWUFWaEpUQklBQUhkeUViU3JHZ1h6c3JoZDU1dzdSbW1INDFS?=
- =?utf-8?B?VXl5cEI1K2NnZ21XMGRIWlVkTEVtVUNBVGU5SllOVmRFNkY0dmpSaE1RckdU?=
- =?utf-8?B?UEgxeERob1kyaU1iZEp0UWRYTU82SUtycWVJOHdvL2t2QU5adDFjVk51QW94?=
- =?utf-8?B?NGpBbEdSUGU0M3huQlBjdFpzYVovRXloNWFrK0VQVWFYYjZUTkthWFdOaHBZ?=
- =?utf-8?B?Nk9MYlNuWFRKY3VzQVBndE9scWxNT3hGZUx4YWo2RHhtMHl0aE1teVBKUzNY?=
- =?utf-8?B?UnNwRWJsWjdKQ1ZwQURncG51VmVVS2RvSmljdHZaV25WY2R1Ry9BRjBlS016?=
- =?utf-8?B?Vm1NdjQvbW42bjhrY1c4QURiK1hUOUpmYjhpSmxHZVdsb21ReFhjUlBya1Za?=
- =?utf-8?B?bFhURm9PM3MxbXRZanpIRHRJUVc2c3J2Yi9mdEdWUWdrWEN6TjlBVnR6Uno0?=
- =?utf-8?B?a1BkNHZvSDdLVUhid2lTaE8ycDdsZmdGWlRJc2xnT1JOemE1LzJLNG1reVlP?=
- =?utf-8?B?NEFFNVhuU1ZpLzFDU2xBaER6SWdUMWphYy80NnhYcXc1bkppMEJSNFY5SDA2?=
- =?utf-8?B?VG5MbjVIMHdvdURla0Rwek9CZDl2cWNXNFZUZitKY0VpZG11MzMwSlNMOVl5?=
- =?utf-8?B?TE02WFMrS1NTZ0VIM1UxL01Ka3FqRW51T1BDVjRObFZaZWVDSFM5TzdhMVlW?=
- =?utf-8?B?d200ckNETnpxNnlUZ3RmRCtaaW5EV3ovaDZZdDltWS9CbWpPWVoveFY1RDRI?=
- =?utf-8?B?YTJjSW9NMkQ4SFlEdFpTZVNoNCtraDNYYmhjZitvbllhNW1xMk9Da3ZObER3?=
- =?utf-8?B?aDhJalkzSkRBRnh4VWZyYjB5TFluL3BzVG5vY3hXT1I4NW0rSHZiWXdPeFdr?=
- =?utf-8?B?bDZINitUL3ZMUzRNcVhudFBaUDEzelppRm5UeWY0dmNlWUsvdzFRYWN2WWkv?=
- =?utf-8?B?MFpQeU5VdDdTRlFVWUdpVEpGVDN3bDJ5R0o1d3RJL25pRHhidGhxNGM5dVRj?=
- =?utf-8?B?M2JoVkxJQmlQVE5QMHJIaFh0Rm8xVjdvN0ZlblpYcU84ck9GeVZ3ZHE5RFp1?=
- =?utf-8?B?NUdpS0Mzb0p4OHpQdkFlUkRRaWFNWEFCbThnRmRSd0N1eHdyTFhpOHh3cHpU?=
- =?utf-8?B?UjdaYjhRRmJQeWo5TzdQNTNWUVo2TlQ4YzFKSTVBbElrOHhwZm9MMUE0MW5K?=
- =?utf-8?B?N2Y0UnJ3RHRsRHVIclZuWk9GOHJIUzhOY0FUZHdXekF1L2ZGVVhQaTJxS2J5?=
- =?utf-8?B?TUE0RnJBdWhrdXVhczhoRUkzMS9YK2JLekU4ems4VDdXS2UyYXRMamwyL2p3?=
- =?utf-8?B?VWp4VURCek9mM2xOUkxJTzZFNnlFdE5IYk8wcUhZc2ljSWFHQk1aL0N3aVAr?=
- =?utf-8?B?dUplb09UUStQeDZHQ21iS1FCbTRpN21EYTRNWVdmWjZGVjkrTGFmMW43VDkr?=
- =?utf-8?Q?MNczpL?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C605515BB72EA2478330932526EE726F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@smile.fr header.s=google header.b=hzjaQsqm;
+ spf=pass (domain: smile.fr, ip: 209.85.167.48, mailfrom: pierre-loup.gosse@smile.fr)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b6df3d6b4so6582587e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 08:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1768234870; x=1768839670; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0YwPBMxytDDme5nx6BS7aHMPG9TZLa8Cbc5v3kYcuJU=;
+        b=hzjaQsqmz9RsS8gNagel1RGnauJIcYC3J/5B2nZt3N0ASu2Z3hu3eNNnQarJJwVv6N
+         SfY5i06ia3v4nzElIqH39q4kJasrW25xL8GQ6krg3I2CjnjrXlK4oYM0FZZBsKGdtifw
+         MhZlY1fnvH2eD/7F0x89A5Qn4ZuZUSfYJJAUI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768234870; x=1768839670;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0YwPBMxytDDme5nx6BS7aHMPG9TZLa8Cbc5v3kYcuJU=;
+        b=e3h8mHgAzU8OojY7y56KphlkDoI2JVpWb7XG5Y0q0uqJmu6HJljiZt0E6wi4Qoqh24
+         uz4FyDkrfRmmAZJZ9H7ryWl11c7oaGzeqfd+gDhxM+ZB8Kbs4KFVrshYXmbqn1C07Bvs
+         VR5UNfgwEV0s01alnlOIfKMEl04GPeVTCRetEvYHpbQwUgvhjN7pYqNrdLs3xrURGt/X
+         4HhQIwKUzSE9KYmhgqlwGZy2HDjvQSo4Qj+mf9q5xCVjsWQLPBYVo/b9uHkJpxBAAk4v
+         vE9H54jl/04swHv2lEt57kWoc2283SRZmI4T7riPsVg2kfYbxvLD1LMan676fV781OEa
+         WYQA==
+X-Gm-Message-State: AOJu0YySHzpMGOv/H9/aHBUt+PBwSnya/+YaGSC3NzkN/tuMGR5kT9rI
+	20rQipuSfZNCZO8LRTVQbHO4UVEWVh2V2ORY5o9QlzCMS0i+p/dC1KzZhl45Ehe+/Sv1EpU0Tju
+	cD2Y49TZb6a6WJI85SW7Ekmai5dwe/POstJr0TGFcHQ==
+X-Gm-Gg: AY/fxX7sqkLzu/8GNuFK8SDPApiW80Fx/eS/1GZWJZ+BNxNwLKwm3fJNPXuED3tT8Uo
+	4aoOq5xh0eOgC+hSmLTgRz0uIdtVwhl41d16ZuC+LNi7yQms2DoRwzjCoU4rsrrTH0iCYNsV1mN
+	cXEZUwe/hA3J3svfs4th6G1QzOZOmW3gGNIN9kFXHYHH5IdBBQ705HwPa4VscbOjNbo28nVlaSC
+	qKFj1mRciGx6SZ59dTD/Mxsy3oVe8O6SmTOMO93EmwuKzhVdwM1OejE+oLya89QsjN3DF/oPog2
+	+XsrNNO1+d3/sitUFcpPKd3XxGi0+J4joW2GyU7ep1chOXfbmZ55tMAX
+X-Google-Smtp-Source: AGHT+IFela2T+lmiP7kMmQc8unSzBUkvJYvVbFt1OnXn7jugbrhv7CtwiPL5GfFSmQE54kQSAjttHLwRi/kHuX2u1yM=
+X-Received: by 2002:a05:6512:a83:b0:59a:1357:e449 with SMTP id
+ 2adb3069b0e04-59b6f03a118mr6144236e87.42.1768234869963; Mon, 12 Jan 2026
+ 08:21:09 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB10368
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM1PEPF000252E0.eurprd07.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	b1788709-3144-4ae6-695d-08de51f60d74
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|35042699022|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?N2JYaWNJZDRjbXl6bHFRclM1VHFUMlBNdSthUUl4L3BSYjdMb2h5b1JQWkps?=
- =?utf-8?B?cllrY29Td2FJNXptaXk2NHJadlJXQnpCb1YvTFcwMUZ0UzZDZlRQeGJDYjZK?=
- =?utf-8?B?Yy95M0RBcGxQN24zZzRPaGhienBRUUZWak44VmRKZHR6V3hESTZDTUQweHA5?=
- =?utf-8?B?TTE0T2g1N3preDVmQkJEcTZ2ZFFudzBGSCtIUTdjdkZINHZQdEg2VGlMSnov?=
- =?utf-8?B?SmU3UFVOUmdOemVyR2pEWkxad2l3dFBMbjlQRlFSQnpEVUQ3ei9CR2pjWWtV?=
- =?utf-8?B?ZDNJWXpsSnNIZUk2UUhTaTdZbmV4cmR6NXBqRGFLd0ZYMTdyNDlMMnNTUy9I?=
- =?utf-8?B?TGJUTGppRGwzOXRsTkdVRmtWZU10d2xIQ24vdHFGaUlBZHhOVUVpSDI1cWdr?=
- =?utf-8?B?OHNqS2NYNUdkVlM5bHcyc1BkOUhCMkxtc1h1Y2xUNW1raS9LNUo3eW00TXdX?=
- =?utf-8?B?Q0N4czJLNkRaTVRid0FmcVJoQ0d5OVlZZUJzU1NEYkxlY0cxNmFHUVlwN2FJ?=
- =?utf-8?B?b2pTQkpPM0p1L0FMSzFmZ3BCdlY2bS9YalQvUWxHVG54OGk5ZVBaV1ErK0VP?=
- =?utf-8?B?MUg1djc3dFdCTFBrb05VTHREU25LNkk5Mkk2Nks5NjBleCtsWFJNZU9CLzRn?=
- =?utf-8?B?UW0vTndubmd2K1JFZ0NjL1kzSU1jTUxKeXJRWGkwbmttY1NCcWg5ZEprb3Ay?=
- =?utf-8?B?WFFwbjVKb0VXdlhSSGtNWUxxeW1lWEdDUWNxR3FVdm92a21tdVdFSitua25M?=
- =?utf-8?B?emdjcHZBWEpLWUdRZ1l0Mk84ZkoxY1AzcVVmeHRBYzNmWk52N21aVkk3UjFz?=
- =?utf-8?B?dVZQM3ErV3hMS21kN1dXZDhxb3kzRDNKSkhVaUJsU2dLelJ0dStjWFZEaVk0?=
- =?utf-8?B?bXg0aHBqQzB5dFNtdlY1bGhZaW92cEY3ZkNmN0ZxRk5sUWlBQm84dUxGamNS?=
- =?utf-8?B?Qk05TFNoYnFPNUpQVzNZUmVzL0p6czczcHpmdUl3RTZiNjY4dTd1VnJNOWQ3?=
- =?utf-8?B?bFVXazh2Z0p0M0NlaDM5NEhtWDNUZS9pTjdRYklOTmNkVE9wd0lLQ2Q2VTlL?=
- =?utf-8?B?YnhjZVorUEU0RExxVW9xbm40VEtIbEF4M2YyS0cvaVp4UlFiMnpsaHdadXVZ?=
- =?utf-8?B?RWdodkxPWmZtV3lYdFBpSndGelNGemw1cDZvemVrNnpWM3A1bTNJS3BWWG9s?=
- =?utf-8?B?RW9ZMW5JeU1mTjV3Mk9TTnVUc1BDaXlZYyszeFE2VlpVVUtVUnR6dXhBb01Z?=
- =?utf-8?B?U0dYQ2hFU3ptNGV6d3BiZk5FY2h1akIwbmJCMjV3eTdyaGw5Sk1WOVAvakVE?=
- =?utf-8?B?TEV4aWtERlpIK0tsT3AxSk5wOWhCTkhLeEpMMGY4a2p0ZldjTERHS0dIQUVs?=
- =?utf-8?B?T3JOZXRmVHBGV0lQaE1ZeUl5RjVwWGQxUWRWZENrRmM1OE9YcElJcnNSRERV?=
- =?utf-8?B?L0grV2gvaEdLNFZTQUdSS2lzVGxjNkl1ckkxclpjYWZ5Z09kSW9idlVTeDFG?=
- =?utf-8?B?amx1dllSNGIzK2ltR0NlSk9JbURMcGdseDB1SG5SYTZQYW42Zk92VG0wbFVl?=
- =?utf-8?B?bHNuZWxNbkdnSjNkWStyemdMVFpFejVxL1RvZzdBN0J6K1hrK3dnOThlUXIv?=
- =?utf-8?B?VGlLME5JeHFoS2JlSHlQeGlCNjFRd29jVUVzNVNWMXJ0ZWcxOEdDOWpoV1dL?=
- =?utf-8?B?SFExK1BrZE0wd3F0SGVRbUg2aE42N1ZIOEw3bHVqRS9JcUZVRHZrN3ZXSnN4?=
- =?utf-8?B?cDNWTUQweTVVeDJvdXdrQ1RPSGQrNHhWTUdDNEpTTVl1bjU3Tkk1M2xMVG5B?=
- =?utf-8?B?K0dSam5JWENsRzZMN0grc1dzZVFvUEc3c3lTaTVobEtFQzJYYW4wd3V3Zm5h?=
- =?utf-8?B?WUl1cmptNXl3Zmo3dkNuREZqZFdKWUYzUytZOWk0ZW1ReHBFUU55SUN1YXhX?=
- =?utf-8?B?STI4Myt5dnhSNjdsWkkrTDc5cEJQYjQyNFBqYWFuMlpnaU1yZ09xVnVrYUZC?=
- =?utf-8?B?YlRZRWZqR3RKSHc1YjdRNERPaWdwTGo4N1YyaWxtQ2RyQTgzdjNhSjVJZm5T?=
- =?utf-8?B?OEN5ZVI0c1JVVTdPVk5CRms1OG5ZYzluU2lxOFBSZkhlTDdBY0hIZU44UkJQ?=
- =?utf-8?Q?CZZo=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 16:18:20.0777
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4059b632-d699-4e39-accf-08de51f63381
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM1PEPF000252E0.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB11369
+References: <20260112-extrafiles-v2-0-67f0f6c37c4e@non.se.com> <20260112-extrafiles-v2-2-67f0f6c37c4e@non.se.com>
+In-Reply-To: <20260112-extrafiles-v2-2-67f0f6c37c4e@non.se.com>
+From: Pierre-loup GOSSE <pierre-loup.gosse@smile.fr>
+Date: Mon, 12 Jan 2026 17:20:57 +0100
+X-Gm-Features: AZwV_Qh56ICpDxnC0TqDfKT3WoBY0D0NpQScT7CRZ2ZxjDb7JJCkenykC-hQLfo
+Message-ID: <CAHT-cZtUoqFk_FgGouqjfnthUfex789YAg6H-18V_oBDDfgSFg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] wic: extra-partition: introduce variable matching sourceparams
+To: louis.rannou@non.se.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000004dc9f606483343a4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:18:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229213
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:21:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229214
 
-DQoNCj4gT24gMzAgRGVjIDIwMjUsIGF0IDA2OjQ4LCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdy
-b3RlOg0KPiANCj4gVGhpcyB3YXMgbm90IGFuIGlzc3VlIGJlZm9yZSBsbGQgc3BsaXQgZnJvbSBj
-bGFuZywgYnV0IG5vdyBpdHMgYW4gaW5kZXBlbmRlbnQNCj4gcmVjaXBlIGFuZCBuZWVkcyB0byBi
-ZSBicm91Z2h0IGludG8gZGVwZW5kZW5jeSBjaGFpbiwgb3RoZXJ3aXNlIGNsYW5nIGZhaWxzIHRv
-DQo+IGJ1aWxkIHdpdGggLWZsdG8gYXMgaXQgZG9lcyBub3QgZmluZCBnb2xkIG9yIGxsZCBwbHVn
-aW5zLg0KDQpDb25kaXRpb25hbCBweXRob24gaW4gYSB2ZXJ5IGNvcmUgdmFyaWFibGUgbGlrZSB0
-aGlzIGlzbuKAmXQgaWRlYWwsIGFuZCB0aGUgY2xhbmctY3Jvc3MgcmVjaXBlIGFscmVhZHkgaGFz
-IHRoaXMgZGVwZW5kZW5jeS4gSXMgdGhhdCBub3Qgc3VmZmljaWVudCwgb3IgIGlzIHRoZXJlIHNv
-bWUgZWRnZSBjYXNlIHdoZXJlIHRoYXQgZGVwZW5kZW5jeSBpc27igJl0IGVub3VnaD8NCg0KUm9z
-cw==
+--0000000000004dc9f606483343a4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Reviewed-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+
+Thanks,
+
+Pierre-Loup
+
+PS: You forgot to add me in the Cc of your last answer
+<https://lore.kernel.org/all/530964.1767862855686685645@lists.openembedded.=
+org/>
+.
+
+On Mon, Jan 12, 2026 at 9:29=E2=80=AFAM Louis Rannou via B4 Relay <
+devnull+louis.rannou.non.se.com@kernel.org> wrote:
+
+> From: Louis Rannou <louis.rannou@non.se.com>
+>
+> The current extra_partition plugin uses predictable variable names (the
+> configuration must predict the image partition label or uuid). This has t=
+wo
+> inconveniences:
+>
+> - an extra partition that has a specific label (or uuid) is doomed with t=
+he
+>   associated variable. The partition cannot be configured unless the labe=
+l
+>   (or uuid) is changed.
+> - two partitions with same label from distincts .wks cannot have differen=
+t
+>   content.
+>
+> This allows the new suffix _name_%s to be appended to
+> IMAGE_EXTRA_PARTITION_FILES. This variable will be preferred whenever the
+> .wks specifies a name in the --sourceparams option.
+>
+> For example:
+>   an image may define:
+>     IMAGE_EXTRA_PARTITION_FILES_name_foo =3D "bar.conf"
+>   and the .wks line have line:
+>     part --source extra_partition --sourceparams "name=3Dfoo"
+>
+> Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/wic.py               | 16 ++++++++++-----
+>  scripts/lib/wic/plugins/source/extra_partition.py | 24
+> +++++++++++++++++------
+>  2 files changed, 29 insertions(+), 11 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/wic.py
+> b/meta/lib/oeqa/selftest/cases/wic.py
+> index 55fb8dfd1b..409437a5c0 100644
+> --- a/meta/lib/oeqa/selftest/cases/wic.py
+> +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> @@ -1657,6 +1657,7 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
+>      def test_extra_partition_plugin(self):
+>          """Test extra partition plugin"""
+>          config =3D dedent("""\
+> +        IMAGE_EXTRA_PARTITION_FILES_name-foo =3D "bar.conf"
+>          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
+>
+>  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
+=3D
+> "bar.conf;foobar.conf bar2.conf;foobar2.conf bar3.conf bar4.conf"
+>          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
+> @@ -1688,9 +1689,13 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
+>
+>          try:
+>              with NamedTemporaryFile("w", suffix=3D".wks") as wks:
+> -                wks.writelines(['part / --source extra_partition --ondis=
+k
+> sda --label foo --align 4 --size 5M\n',
+> -                                'part / --source extra_partition --ondis=
+k
+> sda --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4
+> --size 5M\n',
+> -                                'part / --source extra_partition --ondis=
+k
+> sda --fstype=3Dext4 --label bar --align 4 --size 5M\n'])
+> +                wks.writelines([
+> +                    'part / --source extra_partition --ondisk sda
+> --sourceparams "name=3Dfoo" --align 4 --size 5M\n',
+> +                    'part / --source extra_partition --ondisk sda --labe=
+l
+> foo --align 4 --size 5M\n',
+> +                    'part / --source extra_partition --ondisk sda
+> --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 --s=
+ize
+> 5M\n',
+> +                    'part / --source extra_partition --ondisk sda
+> --fstype=3Dext4 --label bar --align 4 --size 5M\n',
+> +                    'bootloader --ptable gpt\n',
+> +                ])
+>                  wks.flush()
+>                  _, wicimg =3D self._get_wic(wks.name)
+>
+> @@ -1698,14 +1703,15 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
+>              partls =3D result.output.split('\n')[1:]
+>
+>              # Assert the number of partitions is correct
+> -            self.assertEqual(3, len(partls), msg=3D"Expect 3 partitions,
+> not %s" % result.output)
+> +            self.assertEqual(4, len(partls), msg=3D"Expect 4 partitions,
+> not %s" % result.output)
+>
+>              # Fstype column from 'wic ls' should be fstype as given in
+> the part command
+> -            for part_id, part_fs in enumerate(["fat16", "fat16", "ext4"]=
+):
+> +            for part_id, part_fs in enumerate(["fat16", "fat16", "fat16"=
+,
+> "ext4"]):
+>                  self.assertIn(part_fs, partls[part_id])
+>
+>              # For each partition, assert expected files exist
+>              for part, part_glob in enumerate([
+> +                ["bar.conf"],
+>                  ["foo.conf"],
+>                  ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.conf"=
+],
+>                  ["bar.conf", "bar2.conf"],
+> diff --git a/scripts/lib/wic/plugins/source/extra_partition.py
+> b/scripts/lib/wic/plugins/source/extra_partition.py
+> index d370b0107e..0d49e2bc7c 100644
+> --- a/scripts/lib/wic/plugins/source/extra_partition.py
+> +++ b/scripts/lib/wic/plugins/source/extra_partition.py
+> @@ -18,15 +18,17 @@ class ExtraPartitionPlugin(SourcePlugin):
+>      The plugin supports:
+>      - Glob pattern matching for file selection.
+>      - File renaming.
+> -    - Suffixes to specify the target partition (by label, UUID, or
+> partname),
+> -      enabling multiple extra partitions to coexist.
+> +    - Suffixes to specify the target partition (by params-name, label,
+> UUID,
+> +      or partname), enabling multiple extra partitions to coexist.
+>
+>      For example:
+>
+> +        IMAGE_EXTRA_PARTITION_FILES_name-randomname =3D "bar.conf;foo.co=
+nf"
+>          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
+>
+>  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
+=3D
+> "bar.conf;foobar.conf"
+>          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
+>          WICVARS:append =3D "\
+> +            IMAGE_EXTRA_PARTITION_FILES_name-randomname \
+>              IMAGE_EXTRA_PARTITION_FILES_label-foo \
+>
+>  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
+>          "
+> @@ -53,11 +55,21 @@ class ExtraPartitionPlugin(SourcePlugin):
+>                  raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting"=
+)
+>
+>          extra_files =3D None
+> -        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s",
+> part.label), ("_part-name-%s", part.part_name), (None, None)):
+> -            if fmt:
+> -                var =3D fmt % id
+> -            else:
+> +        for (fmt, part_id) in (
+> +                ("_name-%s", source_params.get("name")),
+> +                ("_uuid-%s", part.uuid),
+> +                ("_label-%s", part.label),
+> +                ("_part-name-%s", part.part_name),
+> +                (None, None)
+> +        ):
+> +            if fmt is None:
+>                  var =3D ""
+> +            elif part_id is not None:
+> +                var =3D fmt % part_id
+> +            else:
+> +                continue
+> +
+> +            logger.debug("Looking for extra files in %s" %
+> cls.image_extra_partition_files_var_name + var)
+>              extra_files =3D
+> get_bitbake_var(cls.image_extra_partition_files_var_name + var)
+>              if extra_files is not None:
+>                  break
+>
+> --
+> 2.43.0
+>
+>
+>
+
+--0000000000004dc9f606483343a4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Reviewed-by: Pierre-Loup GOSSE &lt;<=
+a href=3D"mailto:pierre-loup.gosse@smile.fr" target=3D"_blank">pierre-loup.=
+gosse@smile.fr</a>&gt;</div><div><br></div><div>Thanks,</div><div><br></div=
+><div>Pierre-Loup</div><div><br></div><div>PS: You forgot to add me in the =
+Cc of your <a href=3D"https://lore.kernel.org/all/530964.176786285568668564=
+5@lists.openembedded.org/">last answer</a>.</div></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 12, 2026 at 9:=
+29=E2=80=AFAM Louis Rannou via B4 Relay &lt;<a href=3D"mailto:devnull%2Blou=
+is.rannou.non.se.com@kernel.org" target=3D"_blank">devnull+louis.rannou.non=
+.se.com@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">From: Louis Rannou &lt;<a href=3D"mailto:louis.rannou@non=
+.se.com" target=3D"_blank">louis.rannou@non.se.com</a>&gt;<br>
+<br>
+The current extra_partition plugin uses predictable variable names (the<br>
+configuration must predict the image partition label or uuid). This has two=
+<br>
+inconveniences:<br>
+<br>
+- an extra partition that has a specific label (or uuid) is doomed with the=
+<br>
+=C2=A0 associated variable. The partition cannot be configured unless the l=
+abel<br>
+=C2=A0 (or uuid) is changed.<br>
+- two partitions with same label from distincts .wks cannot have different<=
+br>
+=C2=A0 content.<br>
+<br>
+This allows the new suffix _name_%s to be appended to<br>
+IMAGE_EXTRA_PARTITION_FILES. This variable will be preferred whenever the<b=
+r>
+.wks specifies a name in the --sourceparams option.<br>
+<br>
+For example:<br>
+=C2=A0 an image may define:<br>
+=C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name_foo =3D &quot;bar.conf&quot;=
+<br>
+=C2=A0 and the .wks line have line:<br>
+=C2=A0 =C2=A0 part --source extra_partition --sourceparams &quot;name=3Dfoo=
+&quot;<br>
+<br>
+Signed-off-by: Louis Rannou &lt;<a href=3D"mailto:louis.rannou@non.se.com" =
+target=3D"_blank">louis.rannou@non.se.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oeqa/selftest/cases/wic.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0| 16 ++++++++++-----<br>
+=C2=A0scripts/lib/wic/plugins/source/extra_partition.py | 24 ++++++++++++++=
++++------<br>
+=C2=A02 files changed, 29 insertions(+), 11 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/c=
+ases/wic.py<br>
+index 55fb8dfd1b..409437a5c0 100644<br>
+--- a/meta/lib/oeqa/selftest/cases/wic.py<br>
++++ b/meta/lib/oeqa/selftest/cases/wic.py<br>
+@@ -1657,6 +1657,7 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot&q=
+uot;<br>
+=C2=A0 =C2=A0 =C2=A0def test_extra_partition_plugin(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Test extra partition pl=
+ugin&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config =3D dedent(&quot;&quot;&quot;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name-foo =3D &quot=
+;bar.conf&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
+ &quot;bar.conf;foo.conf&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
+-cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf bar2.conf;fooba=
+r2.conf bar3.conf bar4.conf&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
+/*&quot;<br>
+@@ -1688,9 +1689,13 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot&=
+quot;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with NamedTemporaryFile(&qu=
+ot;w&quot;, suffix=3D&quot;.wks&quot;) as wks:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wks.writelines([&#=
+39;part / --source extra_partition --ondisk sda --label foo --align 4 --siz=
+e 5M\n&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;part / --source extra_partition=
+ --ondisk sda --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d -=
+-align 4 --size 5M\n&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;part / --source extra_partition=
+ --ondisk sda --fstype=3Dext4 --label bar --align 4 --size 5M\n&#39;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wks.writelines([<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;part / --source extra_partition --ondisk sda --sourceparams &quot;name=3Df=
+oo&quot; --align 4 --size 5M\n&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;part / --source extra_partition --ondisk sda --label foo --align 4 --size =
+5M\n&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;part / --source extra_partition --ondisk sda --fstype=3Dvfat --uuid e7d082=
+4e-cda3-4bed-9f54-9ef5312d105d --align 4 --size 5M\n&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;part / --source extra_partition --ondisk sda --fstype=3Dext4 --label bar -=
+-align 4 --size 5M\n&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;bootloader --ptable gpt\n&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0wks.flush()<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_, wicimg =3D=
+ self._get_wic(<a href=3D"http://wks.name" rel=3D"noreferrer" target=3D"_bl=
+ank">wks.name</a>)<br>
+<br>
+@@ -1698,14 +1703,15 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot=
+&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0partls =3D result.output.sp=
+lit(&#39;\n&#39;)[1:]<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Assert the number of part=
+itions is correct<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(3, len(partls),=
+ msg=3D&quot;Expect 3 partitions, not %s&quot; % result.output)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(4, len(partls),=
+ msg=3D&quot;Expect 4 partitions, not %s&quot; % result.output)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Fstype column from &#39;w=
+ic ls&#39; should be fstype as given in the part command<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for part_id, part_fs in enumerat=
+e([&quot;fat16&quot;, &quot;fat16&quot;, &quot;ext4&quot;]):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for part_id, part_fs in enumerat=
+e([&quot;fat16&quot;, &quot;fat16&quot;, &quot;fat16&quot;, &quot;ext4&quot=
+;]):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertIn=
+(part_fs, partls[part_id])<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# For each partition, asser=
+t expected files exist<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for part, part_glob in enum=
+erate([<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [&quot;bar.conf&qu=
+ot;],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&quot;foo.co=
+nf&quot;],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&quot;foobar=
+.conf&quot;, &quot;foobar2.conf&quot;, &quot;bar3.conf&quot;, &quot;bar4.co=
+nf&quot;],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&quot;bar.co=
+nf&quot;, &quot;bar2.conf&quot;],<br>
+diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/li=
+b/wic/plugins/source/extra_partition.py<br>
+index d370b0107e..0d49e2bc7c 100644<br>
+--- a/scripts/lib/wic/plugins/source/extra_partition.py<br>
++++ b/scripts/lib/wic/plugins/source/extra_partition.py<br>
+@@ -18,15 +18,17 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
+=C2=A0 =C2=A0 =C2=A0The plugin supports:<br>
+=C2=A0 =C2=A0 =C2=A0- Glob pattern matching for file selection.<br>
+=C2=A0 =C2=A0 =C2=A0- File renaming.<br>
+-=C2=A0 =C2=A0 - Suffixes to specify the target partition (by label, UUID, =
+or partname),<br>
+-=C2=A0 =C2=A0 =C2=A0 enabling multiple extra partitions to coexist.<br>
++=C2=A0 =C2=A0 - Suffixes to specify the target partition (by params-name, =
+label, UUID,<br>
++=C2=A0 =C2=A0 =C2=A0 or partname), enabling multiple extra partitions to c=
+oexist.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0For example:<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name-randomname =
+=3D &quot;bar.conf;foo.conf&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
+ &quot;bar.conf;foo.conf&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
+-cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
+/*&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WICVARS:append =3D &quot;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name=
+-randomname \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
+_label-foo \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
+_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+@@ -53,11 +55,21 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise WicErro=
+r(&quot;Couldn&#39;t find DEPLOY_DIR_IMAGE, exiting&quot;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extra_files =3D None<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (fmt, id) in ((&quot;_uuid-%s&quot;, part.=
+uuid), (&quot;_label-%s&quot;, part.label), (&quot;_part-name-%s&quot;, par=
+t.part_name), (None, None)):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if fmt:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var =3D fmt % id<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (fmt, part_id) in (<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_name-%s&qu=
+ot;, source_params.get(&quot;name&quot;)),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_uuid-%s&qu=
+ot;, part.uuid),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_label-%s&q=
+uot;, part.label),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_part-name-=
+%s&quot;, part.part_name),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (None, None)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if fmt is None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0var =3D &quot=
+;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif part_id is not None:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var =3D fmt % part=
+_id<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Looking for e=
+xtra files in %s&quot; % cls.image_extra_partition_files_var_name + var)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extra_files =3D get_bitbake=
+_var(cls.image_extra_partition_files_var_name + var)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if extra_files is not None:=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break<br>
+<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+</blockquote></div>
+</div>
+
+--0000000000004dc9f606483343a4--
 
