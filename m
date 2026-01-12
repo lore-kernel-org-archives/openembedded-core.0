@@ -1,489 +1,347 @@
-Return-Path: <pierre-loup.gosse@smile.fr>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8AAC9EC9D
-	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 16:21:14 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36867.1768234872171894705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A11AC9EC9E
+	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 16:24:24 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36601.1768235057071713545
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jan 2026 08:21:12 -0800
+ Mon, 12 Jan 2026 08:24:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hzjaQsqm;
- spf=pass (domain: smile.fr, ip: 209.85.167.48, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b6df3d6b4so6582587e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 08:21:11 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=d33bGdhg;
+ spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42fb2314f52so3518678f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 08:24:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768234870; x=1768839670; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768235055; x=1768839855; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0YwPBMxytDDme5nx6BS7aHMPG9TZLa8Cbc5v3kYcuJU=;
-        b=hzjaQsqmz9RsS8gNagel1RGnauJIcYC3J/5B2nZt3N0ASu2Z3hu3eNNnQarJJwVv6N
-         SfY5i06ia3v4nzElIqH39q4kJasrW25xL8GQ6krg3I2CjnjrXlK4oYM0FZZBsKGdtifw
-         MhZlY1fnvH2eD/7F0x89A5Qn4ZuZUSfYJJAUI=
+        bh=+c5zPHV0f5hW/HMlEGMQSz0NmHW/3CFidrJUbNowa5g=;
+        b=d33bGdhgpXn0mEQw3++t+0Fx1MvNm1Uxn28TyqIV9xx690zszszrqm6dIicEBEFHXZ
+         pHifX/F1ss3cyJ+fX3rSphbdldnXtvkfX7Y2VoxyIs0gca+KFOkN5+k9CFQX+SFatvT6
+         M/PLC2nBkmXG44Kkkt7fQU0DYnd8q293Dhdx4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768234870; x=1768839670;
+        d=1e100.net; s=20230601; t=1768235055; x=1768839855;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0YwPBMxytDDme5nx6BS7aHMPG9TZLa8Cbc5v3kYcuJU=;
-        b=e3h8mHgAzU8OojY7y56KphlkDoI2JVpWb7XG5Y0q0uqJmu6HJljiZt0E6wi4Qoqh24
-         uz4FyDkrfRmmAZJZ9H7ryWl11c7oaGzeqfd+gDhxM+ZB8Kbs4KFVrshYXmbqn1C07Bvs
-         VR5UNfgwEV0s01alnlOIfKMEl04GPeVTCRetEvYHpbQwUgvhjN7pYqNrdLs3xrURGt/X
-         4HhQIwKUzSE9KYmhgqlwGZy2HDjvQSo4Qj+mf9q5xCVjsWQLPBYVo/b9uHkJpxBAAk4v
-         vE9H54jl/04swHv2lEt57kWoc2283SRZmI4T7riPsVg2kfYbxvLD1LMan676fV781OEa
-         WYQA==
-X-Gm-Message-State: AOJu0YySHzpMGOv/H9/aHBUt+PBwSnya/+YaGSC3NzkN/tuMGR5kT9rI
-	20rQipuSfZNCZO8LRTVQbHO4UVEWVh2V2ORY5o9QlzCMS0i+p/dC1KzZhl45Ehe+/Sv1EpU0Tju
-	cD2Y49TZb6a6WJI85SW7Ekmai5dwe/POstJr0TGFcHQ==
-X-Gm-Gg: AY/fxX7sqkLzu/8GNuFK8SDPApiW80Fx/eS/1GZWJZ+BNxNwLKwm3fJNPXuED3tT8Uo
-	4aoOq5xh0eOgC+hSmLTgRz0uIdtVwhl41d16ZuC+LNi7yQms2DoRwzjCoU4rsrrTH0iCYNsV1mN
-	cXEZUwe/hA3J3svfs4th6G1QzOZOmW3gGNIN9kFXHYHH5IdBBQ705HwPa4VscbOjNbo28nVlaSC
-	qKFj1mRciGx6SZ59dTD/Mxsy3oVe8O6SmTOMO93EmwuKzhVdwM1OejE+oLya89QsjN3DF/oPog2
-	+XsrNNO1+d3/sitUFcpPKd3XxGi0+J4joW2GyU7ep1chOXfbmZ55tMAX
-X-Google-Smtp-Source: AGHT+IFela2T+lmiP7kMmQc8unSzBUkvJYvVbFt1OnXn7jugbrhv7CtwiPL5GfFSmQE54kQSAjttHLwRi/kHuX2u1yM=
-X-Received: by 2002:a05:6512:a83:b0:59a:1357:e449 with SMTP id
- 2adb3069b0e04-59b6f03a118mr6144236e87.42.1768234869963; Mon, 12 Jan 2026
- 08:21:09 -0800 (PST)
+        bh=+c5zPHV0f5hW/HMlEGMQSz0NmHW/3CFidrJUbNowa5g=;
+        b=GTRJGq197CinMI0L92DP6nMEgCAndzKSjkoA7AoHyCfhadd3CFg16iIhWOfu4ekASv
+         GH4NpaNTzujUdxQNVe0OIpEDx4etnq9trFKitxSMocwSzQNDRxV04Sy2fbXJNWNYbPmT
+         FH4gnpply5V9W/u7qo30jKboyNmvXFWheYO3XivgUMCOiTLWT/4JLkmXlNzCaHSs1jjd
+         nL+wBJg7wHPWDB4N0rxC9MAuJVHNgrDtNYIBOS6LzPy1iFuk9vL3f9/FPBmF2mo0kSh6
+         1wH5o3Ciw8UYFki32ApQwOjkFd0VQGMgoFkcmWmC5MjWh8WZRgylcLg9hXN5lDZpchSy
+         XJuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJzGjbXV+9XKeW4FK0bnJOUkR2SJHCNli1Zr6uJDaCda6beKgRg1bOTt+WcAhqtbzIp6qvAl2gwpXlCm5p0MFtpA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwJA98PLcichxBYauOaZe9w5SWyeaO4prUTMezpQGkFie/1QPZx
+	O4iGnbG0d/25tpZCWpIHnMXx3tGaFkBnofb71dOUpNPXP2jmZ34ZWNYf1ZRamZxLzSK8blxMVlb
+	Q8UhBSUsCUNGdIv4QPZVGWWevV6xagIm7FaJrycypUQ==
+X-Gm-Gg: AY/fxX6eljG/6wN9Oop7LilaNxEt7u3g/SsFhUB4Js6Fw7zxn+Z5A8TFRVAVb/I5cyM
+	D4XGDSbHY5N75R0ZvzXM+GH5Y1FrjVFyxHcJaWOk/7hhFmUAupNM9UyTqdisvK5CjYUGfpZtXS7
+	xVdY5MmOfHjhRhxCun5fIR0gcd206aN9saIobyms+IeqnJzdANFtX00Kv2hWvPsdfVvjsVXourw
+	hU5OPeJY/nuRshu48eStpGsDeBf4niyCylRhFHatQFS+tOTa1plN9nf6LYnQBZdOyCpLufboQ==
+X-Google-Smtp-Source: AGHT+IFEQRxyasreKUoGdpThzv+PMlzPjCKG4IPd9RXZBc9QSXBtKHTiV9xZiqn+aGopHp/BEioWUHDHKrjJ0AvzFnY=
+X-Received: by 2002:a05:6000:1449:b0:430:fd9f:e705 with SMTP id
+ ffacd0b85a97d-432c3787561mr23023044f8f.27.1768235054954; Mon, 12 Jan 2026
+ 08:24:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20260112-extrafiles-v2-0-67f0f6c37c4e@non.se.com> <20260112-extrafiles-v2-2-67f0f6c37c4e@non.se.com>
-In-Reply-To: <20260112-extrafiles-v2-2-67f0f6c37c4e@non.se.com>
-From: Pierre-loup GOSSE <pierre-loup.gosse@smile.fr>
-Date: Mon, 12 Jan 2026 17:20:57 +0100
-X-Gm-Features: AZwV_Qh56ICpDxnC0TqDfKT3WoBY0D0NpQScT7CRZ2ZxjDb7JJCkenykC-hQLfo
-Message-ID: <CAHT-cZtUoqFk_FgGouqjfnthUfex789YAg6H-18V_oBDDfgSFg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] wic: extra-partition: introduce variable matching sourceparams
-To: louis.rannou@non.se.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004dc9f606483343a4"
+References: <20260110122753.381844-1-peter.marko@siemens.com> <DFMQVB547HXI.37E1WAP5SSS5Q@bootlin.com>
+In-Reply-To: <DFMQVB547HXI.37E1WAP5SSS5Q@bootlin.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Mon, 12 Jan 2026 17:23:48 +0100
+X-Gm-Features: AZwV_Qhu7VHp6sTvwER222EaLY4Qf2gOgYOJO_7HtuoN8cLJsGmtJX8mEN_zF88
+Message-ID: <CAMSfU+7zYSadRQizDqDWWVAj0rLJSgiZVhFzs=L-to0RigHQKg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] libarchive: upgrade 3.8.4 -> 3.8.5
+To: antonin.godard@bootlin.com
+Cc: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000548b6f0648334e04"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:21:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229214
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:24:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229215
 
---0000000000004dc9f606483343a4
+--000000000000548b6f0648334e04
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+Le lun. 12 janv. 2026 =C3=A0 17:17, Antonin Godard via lists.openembedded.o=
+rg
+<antonin.godard=3Dbootlin.com@lists.openembedded.org> a =C3=A9crit :
 
-Thanks,
+> Hi,
+>
 
-Pierre-Loup
+Hello,
 
-PS: You forgot to add me in the Cc of your last answer
-<https://lore.kernel.org/all/530964.1767862855686685645@lists.openembedded.=
-org/>
-.
 
-On Mon, Jan 12, 2026 at 9:29=E2=80=AFAM Louis Rannou via B4 Relay <
-devnull+louis.rannou.non.se.com@kernel.org> wrote:
+> On Sat Jan 10, 2026 at 1:27 PM CET, Peter Marko via lists.openembedded.or=
+g
+> wrote:
+> > From: Peter Marko <peter.marko@siemens.com>
+> >
+> > Fixes regression of fix for CVE-2025-60753
+> >
+> > Release notes [1]:
+> > Libarchive 3.8.5 is a bugfix release.
+> > Notable bugxies:
+> > * bsdtar: fix regression from 3.8.4 zero-length pattern issue bugfix
+> (#2809)
+> > * various small bugfixes in code and documentation
+> >
+> > [1] https://github.com/libarchive/libarchive/releases/tag/v3.8.5
+> >
+> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > ---
+> >  .../libarchive/{libarchive_3.8.4.bb =3D> libarchive_3.8.5.bb}     | 2 =
++-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-extended/libarchive/{libarchive_3.8.4.bb =3D>
+> libarchive_3.8.5.bb} (96%)
+> >
+> > diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.4.bb
+> b/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+> > similarity index 96%
+> > rename from meta/recipes-extended/libarchive/libarchive_3.8.4.bb
+> > rename to meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+> > index e89638f5c6..fcfaf5d231 100644
+> > --- a/meta/recipes-extended/libarchive/libarchive_3.8.4.bb
+> > +++ b/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+> > @@ -32,7 +32,7 @@ EXTRA_OECONF +=3D "--enable-largefile --without-iconv=
+"
+> >  SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+> >  UPSTREAM_CHECK_URI =3D "https://www.libarchive.org/"
+> >
+> > -SRC_URI[sha256sum] =3D
+> "b2c75b132a0ec43274d2867221befcb425034cd038e465afbfad09911abb1abb"
+> > +SRC_URI[sha256sum] =3D
+> "8a60f3a7bfd59c54ce82ae805a93dba65defd04148c3333b7eaa2102f03b7ffd"
+> >
+> >  inherit autotools update-alternatives pkgconfig
+> >
+>
+> After bisecting, I identified this patch to trigger errors on the
+> Autobuilder,
+> such as:
+>
+>   Exception: subprocess.CalledProcessError: Command 'tar
+> --exclude=3D./sysroot-only -cf - -C
+> /srv/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work/all-po=
+ky-linux/wayland-protocols/1.47/image
+> -p -S . | tar -xf - -C
+> /srv/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work/all-po=
+ky-linux/wayland-protocols/1.47/package'
+> returned non-zero exit status 2.
+>
+>   Subprocess output:
+>   got *at() syscall for unknown directory, fd 4
+>   unknown base path for fd 4, path share
+>   couldn't allocate absolute path for 'share'.
+>   tar: ./usr/share: Cannot mkdir: Bad address
+>   got *at() syscall for unknown directory, fd 4
+>   unknown base path for fd 4, path share
+>   couldn't allocate absolute path for 'share'.
+>   ...
+>
+>
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4904276/raw_inl=
+ine
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/93/builds/3005
+>
+> Full build:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3034
+>
+> Can you have a look?
+>
 
-> From: Louis Rannou <louis.rannou@non.se.com>
->
-> The current extra_partition plugin uses predictable variable names (the
-> configuration must predict the image partition label or uuid). This has t=
-wo
-> inconveniences:
->
-> - an extra partition that has a specific label (or uuid) is doomed with t=
-he
->   associated variable. The partition cannot be configured unless the labe=
-l
->   (or uuid) is changed.
-> - two partitions with same label from distincts .wks cannot have differen=
-t
->   content.
->
-> This allows the new suffix _name_%s to be appended to
-> IMAGE_EXTRA_PARTITION_FILES. This variable will be preferred whenever the
-> .wks specifies a name in the --sourceparams option.
->
-> For example:
->   an image may define:
->     IMAGE_EXTRA_PARTITION_FILES_name_foo =3D "bar.conf"
->   and the .wks line have line:
->     part --source extra_partition --sourceparams "name=3Dfoo"
->
-> Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
-> ---
->  meta/lib/oeqa/selftest/cases/wic.py               | 16 ++++++++++-----
->  scripts/lib/wic/plugins/source/extra_partition.py | 24
-> +++++++++++++++++------
->  2 files changed, 29 insertions(+), 11 deletions(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py
-> b/meta/lib/oeqa/selftest/cases/wic.py
-> index 55fb8dfd1b..409437a5c0 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -1657,6 +1657,7 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
->      def test_extra_partition_plugin(self):
->          """Test extra partition plugin"""
->          config =3D dedent("""\
-> +        IMAGE_EXTRA_PARTITION_FILES_name-foo =3D "bar.conf"
->          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> "bar.conf;foobar.conf bar2.conf;foobar2.conf bar3.conf bar4.conf"
->          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
-> @@ -1688,9 +1689,13 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
->
->          try:
->              with NamedTemporaryFile("w", suffix=3D".wks") as wks:
-> -                wks.writelines(['part / --source extra_partition --ondis=
-k
-> sda --label foo --align 4 --size 5M\n',
-> -                                'part / --source extra_partition --ondis=
-k
-> sda --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4
-> --size 5M\n',
-> -                                'part / --source extra_partition --ondis=
-k
-> sda --fstype=3Dext4 --label bar --align 4 --size 5M\n'])
-> +                wks.writelines([
-> +                    'part / --source extra_partition --ondisk sda
-> --sourceparams "name=3Dfoo" --align 4 --size 5M\n',
-> +                    'part / --source extra_partition --ondisk sda --labe=
-l
-> foo --align 4 --size 5M\n',
-> +                    'part / --source extra_partition --ondisk sda
-> --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 --s=
-ize
-> 5M\n',
-> +                    'part / --source extra_partition --ondisk sda
-> --fstype=3Dext4 --label bar --align 4 --size 5M\n',
-> +                    'bootloader --ptable gpt\n',
-> +                ])
->                  wks.flush()
->                  _, wicimg =3D self._get_wic(wks.name)
->
-> @@ -1698,14 +1703,15 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
->              partls =3D result.output.split('\n')[1:]
->
->              # Assert the number of partitions is correct
-> -            self.assertEqual(3, len(partls), msg=3D"Expect 3 partitions,
-> not %s" % result.output)
-> +            self.assertEqual(4, len(partls), msg=3D"Expect 4 partitions,
-> not %s" % result.output)
->
->              # Fstype column from 'wic ls' should be fstype as given in
-> the part command
-> -            for part_id, part_fs in enumerate(["fat16", "fat16", "ext4"]=
-):
-> +            for part_id, part_fs in enumerate(["fat16", "fat16", "fat16"=
-,
-> "ext4"]):
->                  self.assertIn(part_fs, partls[part_id])
->
->              # For each partition, assert expected files exist
->              for part, part_glob in enumerate([
-> +                ["bar.conf"],
->                  ["foo.conf"],
->                  ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.conf"=
-],
->                  ["bar.conf", "bar2.conf"],
-> diff --git a/scripts/lib/wic/plugins/source/extra_partition.py
-> b/scripts/lib/wic/plugins/source/extra_partition.py
-> index d370b0107e..0d49e2bc7c 100644
-> --- a/scripts/lib/wic/plugins/source/extra_partition.py
-> +++ b/scripts/lib/wic/plugins/source/extra_partition.py
-> @@ -18,15 +18,17 @@ class ExtraPartitionPlugin(SourcePlugin):
->      The plugin supports:
->      - Glob pattern matching for file selection.
->      - File renaming.
-> -    - Suffixes to specify the target partition (by label, UUID, or
-> partname),
-> -      enabling multiple extra partitions to coexist.
-> +    - Suffixes to specify the target partition (by params-name, label,
-> UUID,
-> +      or partname), enabling multiple extra partitions to coexist.
->
->      For example:
->
-> +        IMAGE_EXTRA_PARTITION_FILES_name-randomname =3D "bar.conf;foo.co=
-nf"
->          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> "bar.conf;foobar.conf"
->          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
->          WICVARS:append =3D "\
-> +            IMAGE_EXTRA_PARTITION_FILES_name-randomname \
->              IMAGE_EXTRA_PARTITION_FILES_label-foo \
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
->          "
-> @@ -53,11 +55,21 @@ class ExtraPartitionPlugin(SourcePlugin):
->                  raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting"=
-)
->
->          extra_files =3D None
-> -        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s",
-> part.label), ("_part-name-%s", part.part_name), (None, None)):
-> -            if fmt:
-> -                var =3D fmt % id
-> -            else:
-> +        for (fmt, part_id) in (
-> +                ("_name-%s", source_params.get("name")),
-> +                ("_uuid-%s", part.uuid),
-> +                ("_label-%s", part.label),
-> +                ("_part-name-%s", part.part_name),
-> +                (None, None)
-> +        ):
-> +            if fmt is None:
->                  var =3D ""
-> +            elif part_id is not None:
-> +                var =3D fmt % part_id
-> +            else:
-> +                continue
-> +
-> +            logger.debug("Looking for extra files in %s" %
-> cls.image_extra_partition_files_var_name + var)
->              extra_files =3D
-> get_bitbake_var(cls.image_extra_partition_files_var_name + var)
->              if extra_files is not None:
->                  break
+FYI, that is bug 16117 =E2=80=93 AB-INT: do_package: Error executing a pyth=
+on
+function in exec_func_python() autogenerated
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16117
+And it is not linked to this patch (for example, I have this on whinlatter
+which does not have this patch)
+
+If you retry your build on any worker but stream9-vk-1 it should not have
+this error.
+
+Antonin
 >
 > --
-> 2.43.0
+> Antonin Godard, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#229212):
+> https://lists.openembedded.org/g/openembedded-core/message/229212
+> Mute This Topic: https://lists.openembedded.org/mt/117190089/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---0000000000004dc9f606483343a4
+--=20
+Yoann Congal
+Smile ECS
+
+--000000000000548b6f0648334e04
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Reviewed-by: Pierre-Loup GOSSE &lt;<=
-a href=3D"mailto:pierre-loup.gosse@smile.fr" target=3D"_blank">pierre-loup.=
-gosse@smile.fr</a>&gt;</div><div><br></div><div>Thanks,</div><div><br></div=
-><div>Pierre-Loup</div><div><br></div><div>PS: You forgot to add me in the =
-Cc of your <a href=3D"https://lore.kernel.org/all/530964.176786285568668564=
-5@lists.openembedded.org/">last answer</a>.</div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 12, 2026 at 9:=
-29=E2=80=AFAM Louis Rannou via B4 Relay &lt;<a href=3D"mailto:devnull%2Blou=
-is.rannou.non.se.com@kernel.org" target=3D"_blank">devnull+louis.rannou.non=
-.se.com@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">From: Louis Rannou &lt;<a href=3D"mailto:louis.rannou@non=
-.se.com" target=3D"_blank">louis.rannou@non.se.com</a>&gt;<br>
-<br>
-The current extra_partition plugin uses predictable variable names (the<br>
-configuration must predict the image partition label or uuid). This has two=
-<br>
-inconveniences:<br>
-<br>
-- an extra partition that has a specific label (or uuid) is doomed with the=
-<br>
-=C2=A0 associated variable. The partition cannot be configured unless the l=
-abel<br>
-=C2=A0 (or uuid) is changed.<br>
-- two partitions with same label from distincts .wks cannot have different<=
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0lun. 12 janv. 20=
+26 =C3=A0=C2=A017:17, Antonin Godard via <a href=3D"http://lists.openembedd=
+ed.org" target=3D"_blank">lists.openembedded.org</a> &lt;antonin.godard=3D<=
+a href=3D"mailto:bootlin.com@lists.openembedded.org" target=3D"_blank">boot=
+lin.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:</div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br><=
+/blockquote><div><br></div><div>Hello,</div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+On Sat Jan 10, 2026 at 1:27 PM CET, Peter Marko via <a href=3D"http://lists=
+.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.=
+org</a> wrote:<br>
+&gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" targe=
+t=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt;<br>
+&gt; Fixes regression of fix for CVE-2025-60753<br>
+&gt;<br>
+&gt; Release notes [1]:<br>
+&gt; Libarchive 3.8.5 is a bugfix release.<br>
+&gt; Notable bugxies:<br>
+&gt; * bsdtar: fix regression from 3.8.4 zero-length pattern issue bugfix (=
+#2809)<br>
+&gt; * various small bugfixes in code and documentation<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://github.com/libarchive/libarchive/releases/tag/v=
+3.8.5" rel=3D"noreferrer" target=3D"_blank">https://github.com/libarchive/l=
+ibarchive/releases/tag/v3.8.5</a><br>
+&gt;<br>
+&gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.c=
+om" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../libarchive/{<a href=3D"http://libarchive_3.8.4.bb" rel=3D"no=
+referrer" target=3D"_blank">libarchive_3.8.4.bb</a> =3D&gt; <a href=3D"http=
+://libarchive_3.8.5.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8=
+.5.bb</a>}=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;=C2=A0 rename meta/recipes-extended/libarchive/{<a href=3D"http://libar=
+chive_3.8.4.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.4.bb</a=
+> =3D&gt; <a href=3D"http://libarchive_3.8.5.bb" rel=3D"noreferrer" target=
+=3D"_blank">libarchive_3.8.5.bb</a>} (96%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-extended/libarchive/<a href=3D"http://libarc=
+hive_3.8.4.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.4.bb</a>=
+ b/meta/recipes-extended/libarchive/<a href=3D"http://libarchive_3.8.5.bb" =
+rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.5.bb</a><br>
+&gt; similarity index 96%<br>
+&gt; rename from meta/recipes-extended/libarchive/<a href=3D"http://libarch=
+ive_3.8.4.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.4.bb</a><=
 br>
-=C2=A0 content.<br>
-<br>
-This allows the new suffix _name_%s to be appended to<br>
-IMAGE_EXTRA_PARTITION_FILES. This variable will be preferred whenever the<b=
-r>
-.wks specifies a name in the --sourceparams option.<br>
-<br>
-For example:<br>
-=C2=A0 an image may define:<br>
-=C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name_foo =3D &quot;bar.conf&quot;=
-<br>
-=C2=A0 and the .wks line have line:<br>
-=C2=A0 =C2=A0 part --source extra_partition --sourceparams &quot;name=3Dfoo=
-&quot;<br>
-<br>
-Signed-off-by: Louis Rannou &lt;<a href=3D"mailto:louis.rannou@non.se.com" =
-target=3D"_blank">louis.rannou@non.se.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/selftest/cases/wic.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0| 16 ++++++++++-----<br>
-=C2=A0scripts/lib/wic/plugins/source/extra_partition.py | 24 ++++++++++++++=
-+++------<br>
-=C2=A02 files changed, 29 insertions(+), 11 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/c=
-ases/wic.py<br>
-index 55fb8dfd1b..409437a5c0 100644<br>
---- a/meta/lib/oeqa/selftest/cases/wic.py<br>
-+++ b/meta/lib/oeqa/selftest/cases/wic.py<br>
-@@ -1657,6 +1657,7 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot&q=
-uot;<br>
-=C2=A0 =C2=A0 =C2=A0def test_extra_partition_plugin(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Test extra partition pl=
-ugin&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config =3D dedent(&quot;&quot;&quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name-foo =3D &quot=
-;bar.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
- &quot;bar.conf;foo.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
--cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf bar2.conf;fooba=
-r2.conf bar3.conf bar4.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
-/*&quot;<br>
-@@ -1688,9 +1689,13 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot&=
-quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with NamedTemporaryFile(&qu=
-ot;w&quot;, suffix=3D&quot;.wks&quot;) as wks:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wks.writelines([&#=
-39;part / --source extra_partition --ondisk sda --label foo --align 4 --siz=
-e 5M\n&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;part / --source extra_partition=
- --ondisk sda --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d -=
--align 4 --size 5M\n&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;part / --source extra_partition=
- --ondisk sda --fstype=3Dext4 --label bar --align 4 --size 5M\n&#39;])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wks.writelines([<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;part / --source extra_partition --ondisk sda --sourceparams &quot;name=3Df=
-oo&quot; --align 4 --size 5M\n&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;part / --source extra_partition --ondisk sda --label foo --align 4 --size =
-5M\n&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;part / --source extra_partition --ondisk sda --fstype=3Dvfat --uuid e7d082=
-4e-cda3-4bed-9f54-9ef5312d105d --align 4 --size 5M\n&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;part / --source extra_partition --ondisk sda --fstype=3Dext4 --label bar -=
--align 4 --size 5M\n&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
-;bootloader --ptable gpt\n&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0wks.flush()<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_, wicimg =3D=
- self._get_wic(<a href=3D"http://wks.name" rel=3D"noreferrer" target=3D"_bl=
-ank">wks.name</a>)<br>
-<br>
-@@ -1698,14 +1703,15 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot=
-&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0partls =3D result.output.sp=
-lit(&#39;\n&#39;)[1:]<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Assert the number of part=
-itions is correct<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(3, len(partls),=
- msg=3D&quot;Expect 3 partitions, not %s&quot; % result.output)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(4, len(partls),=
- msg=3D&quot;Expect 4 partitions, not %s&quot; % result.output)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Fstype column from &#39;w=
-ic ls&#39; should be fstype as given in the part command<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for part_id, part_fs in enumerat=
-e([&quot;fat16&quot;, &quot;fat16&quot;, &quot;ext4&quot;]):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for part_id, part_fs in enumerat=
-e([&quot;fat16&quot;, &quot;fat16&quot;, &quot;fat16&quot;, &quot;ext4&quot=
-;]):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertIn=
-(part_fs, partls[part_id])<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# For each partition, asser=
-t expected files exist<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for part, part_glob in enum=
-erate([<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [&quot;bar.conf&qu=
-ot;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&quot;foo.co=
-nf&quot;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&quot;foobar=
-.conf&quot;, &quot;foobar2.conf&quot;, &quot;bar3.conf&quot;, &quot;bar4.co=
-nf&quot;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&quot;bar.co=
-nf&quot;, &quot;bar2.conf&quot;],<br>
-diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/li=
-b/wic/plugins/source/extra_partition.py<br>
-index d370b0107e..0d49e2bc7c 100644<br>
---- a/scripts/lib/wic/plugins/source/extra_partition.py<br>
-+++ b/scripts/lib/wic/plugins/source/extra_partition.py<br>
-@@ -18,15 +18,17 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0The plugin supports:<br>
-=C2=A0 =C2=A0 =C2=A0- Glob pattern matching for file selection.<br>
-=C2=A0 =C2=A0 =C2=A0- File renaming.<br>
--=C2=A0 =C2=A0 - Suffixes to specify the target partition (by label, UUID, =
-or partname),<br>
--=C2=A0 =C2=A0 =C2=A0 enabling multiple extra partitions to coexist.<br>
-+=C2=A0 =C2=A0 - Suffixes to specify the target partition (by params-name, =
-label, UUID,<br>
-+=C2=A0 =C2=A0 =C2=A0 or partname), enabling multiple extra partitions to c=
-oexist.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0For example:<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name-randomname =
-=3D &quot;bar.conf;foo.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
- &quot;bar.conf;foo.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
--cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
-/*&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WICVARS:append =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_FILES_name=
--randomname \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_label-foo \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-@@ -53,11 +55,21 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise WicErro=
-r(&quot;Couldn&#39;t find DEPLOY_DIR_IMAGE, exiting&quot;)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extra_files =3D None<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (fmt, id) in ((&quot;_uuid-%s&quot;, part.=
-uuid), (&quot;_label-%s&quot;, part.label), (&quot;_part-name-%s&quot;, par=
-t.part_name), (None, None)):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if fmt:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var =3D fmt % id<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (fmt, part_id) in (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_name-%s&qu=
-ot;, source_params.get(&quot;name&quot;)),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_uuid-%s&qu=
-ot;, part.uuid),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_label-%s&q=
-uot;, part.label),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;_part-name-=
-%s&quot;, part.part_name),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (None, None)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if fmt is None:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0var =3D &quot=
-;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif part_id is not None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var =3D fmt % part=
-_id<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Looking for e=
-xtra files in %s&quot; % cls.image_extra_partition_files_var_name + var)<br=
+&gt; rename to meta/recipes-extended/libarchive/<a href=3D"http://libarchiv=
+e_3.8.5.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.5.bb</a><br=
 >
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extra_files =3D get_bitbake=
-_var(cls.image_extra_partition_files_var_name + var)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if extra_files is not None:=
+&gt; index e89638f5c6..fcfaf5d231 100644<br>
+&gt; --- a/meta/recipes-extended/libarchive/<a href=3D"http://libarchive_3.=
+8.4.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.4.bb</a><br>
+&gt; +++ b/meta/recipes-extended/libarchive/<a href=3D"http://libarchive_3.=
+8.5.bb" rel=3D"noreferrer" target=3D"_blank">libarchive_3.8.5.bb</a><br>
+&gt; @@ -32,7 +32,7 @@ EXTRA_OECONF +=3D &quot;--enable-largefile --without=
+-iconv&quot;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"https://libarchive.org/downloads/li=
+barchive-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://lib=
+archive.org/downloads/libarchive-${PV}.tar.gz</a>&quot;<br>
+&gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://www.libarchive.o=
+rg/" rel=3D"noreferrer" target=3D"_blank">https://www.libarchive.org/</a>&q=
+uot;<br>
+&gt;=C2=A0 <br>
+&gt; -SRC_URI[sha256sum] =3D &quot;b2c75b132a0ec43274d2867221befcb425034cd0=
+38e465afbfad09911abb1abb&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;8a60f3a7bfd59c54ce82ae805a93dba65defd041=
+48c3333b7eaa2102f03b7ffd&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 inherit autotools update-alternatives pkgconfig<br>
+&gt;=C2=A0 <br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break<br>
+After bisecting, I identified this patch to trigger errors on the Autobuild=
+er,<br>
+such as:<br>
+<br>
+=C2=A0 Exception: subprocess.CalledProcessError: Command &#39;tar --exclude=
+=3D./sysroot-only -cf - -C /srv/pokybuild/yocto-worker/genericx86-64-alt/bu=
+ild/build/tmp/work/all-poky-linux/wayland-protocols/1.47/image -p -S . | ta=
+r -xf - -C /srv/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/wo=
+rk/all-poky-linux/wayland-protocols/1.47/package&#39; returned non-zero exi=
+t status 2.<br>
+<br>
+=C2=A0 Subprocess output:<br>
+=C2=A0 got *at() syscall for unknown directory, fd 4<br>
+=C2=A0 unknown base path for fd 4, path share<br>
+=C2=A0 couldn&#39;t allocate absolute path for &#39;share&#39;.<br>
+=C2=A0 tar: ./usr/share: Cannot mkdir: Bad address<br>
+=C2=A0 got *at() syscall for unknown directory, fd 4<br>
+=C2=A0 unknown base path for fd 4, path share<br>
+=C2=A0 couldn&#39;t allocate absolute path for &#39;share&#39;.<br>
+=C2=A0 ...<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/490427=
+6/raw_inline" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
+oproject.org/valkyrie/api/v2/logs/4904276/raw_inline</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/93/buil=
+ds/3005" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/93/builds/3005</a><br>
+<br>
+Full build:<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/buil=
+ds/3034" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/29/builds/3034</a><br>
+<br>
+Can you have a look?<br></blockquote><div><br></div><div>FYI, that is bug 1=
+6117 =E2=80=93 AB-INT: do_package: Error executing a python function in exe=
+c_func_python() autogenerated<br><a href=3D"https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D16117" target=3D"_blank">https://bugzilla.yoctoproject=
+.org/show_bug.cgi?id=3D16117</a></div><div>And it is not linked to this pat=
+ch (for example, I have this on whinlatter which does not have this patch)<=
+/div><div><br></div><div>If you retry your build on any worker but=C2=A0str=
+eam9-vk-1 it should not have this error.=C2=A0</div><div><br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+Antonin<br>
 <br>
 -- <br>
-2.43.0<br>
+Antonin Godard, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
 <br>
 <br>
-</blockquote></div>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#229212): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/229212" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/229212</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117190089/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117190089/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 </div>
 
---0000000000004dc9f606483343a4--
+--000000000000548b6f0648334e04--
 
