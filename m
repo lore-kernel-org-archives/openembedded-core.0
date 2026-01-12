@@ -1,142 +1,166 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58582D2503E
-	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 16:25:54 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36986.1768235144175866232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67AE4D25041
+	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 16:31:14 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36783.1768235472056857387
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jan 2026 08:25:44 -0800
+ Mon, 12 Jan 2026 08:31:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DXiUKnII;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-78c6a53187dso31119427b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 08:25:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768235143; x=1768839943; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKP8OdpJ47cQhPKKYqX1VJOPI6cnCfq7rHuT7qbCS44=;
-        b=DXiUKnIIwFEvV37yFllQ8rAznqI/xOKN+T8vVpmYYbuPWywBS+yuLaZTxXk5JSwXdZ
-         dAwaH3UK3/7S82V/DZY21mhvauCYUVSJkjpyfznOcaFxpWniCDty1rQtepd7h7UDuzG+
-         oJrx6wnvkjIUF1q2baltVzt5Fp3hUwMWafUJM8z/6RQ3O8NxoHsspCmD4S5nYbD+jlMa
-         dBR/VGnWqt2NpAMAC8RK/r90h99syyUGETkufqnkNvE9nkA1kTYc4/vHJiV/dDbavH/S
-         Grv02aLAIBtKBf4xKorm4SoD6S+fROOPulh+Cah/xxfUTSxqn5Guwzo/G0DhCBIjhF5S
-         U+Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768235143; x=1768839943;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wKP8OdpJ47cQhPKKYqX1VJOPI6cnCfq7rHuT7qbCS44=;
-        b=Z8/T+Ol7IEI1jr9My7HuQSiOvhKlo6qK8+QU9K3mdB3TT3aNY3DuOq7g4kL3UTi73h
-         wYSufv64zBMwjvXBGp/ZqtDkwQScQV5un+kMn3kQohml9sg2QdIkfbxDpVhGwV+tTsVS
-         KN81jm4NwFm3b3wSaxwb0qREtWameWnqfcai0LX+kSuj74QUjVgvWvd2E1zMzZpiF0KP
-         mEQZb6HUGA29LWyrVaV0ZkNFQYH5BMmbLxEiD5v8IeMfuYdIwc4Gt0wCznrBYc87+dj+
-         /H0rxfEyFfrPjlW3mbPe+Gc2An9A8wjDzAmnp6sOquULFy+kDvR7gEsB0DSwZ3Ey6L0J
-         zwJQ==
-X-Gm-Message-State: AOJu0YzwKFVkbzztAvX6PVD+ZaLppaSn76NQs2taoX5OAq4rwHzWz/tz
-	zXVN4t0fOqtJy85IhKbK3WYbDuEy6/SR/RzcHOhsXM56KbYakehvnAZMa8T5XVGEpYFR5dKPJvg
-	fE+z5cEyCk9LfxDko7BPtUxy5FDNxh2k=
-X-Gm-Gg: AY/fxX4iJ3GandPAOcRPcvbQl03v10GFvF4FUWnRXmEE0Sro7sxYuNauw1YrTqB1ZNx
-	uSw8t/qQiB9rykJtHwMoNK0tWN8HOZK57t8JUKIw1kkQTaw1XO2d05HUU3gosu++Gvej+h7rNqt
-	zsXkMwEauaHWtyncPk+UG1D6kDQtLW/5JBMnBYCXhRHoRM8v/dBUIwhSBUFSvGNdDrC+MWr0S7c
-	To3ZFHtEP8XFfLqIAqRXREGvQCWDjNr5t2eSLERvEny+QLr4LXxR6oj1mbgv01EBX59oJPOXyts
-	ZClwIdRMzf6mkV49IMINcA4RKkeFW9Xc30lvn19udu5vHQpSDTPUao8x3ulLNmP2C+3ttALvDNC
-	H7z7WAqjBtPmYNFA/wQDIajLl73YRxOYe4ExShNkEYfjoaqk=
-X-Google-Smtp-Source: AGHT+IGl2G+5bv0VUFhkCcaDs445y1+PpmJQVZ7OKYLVw49NylZcly+fNiDTJYsUsrq9kXk8zGhva4Zgn+Dr/eWxvK8=
-X-Received: by 2002:a05:690e:4085:b0:645:5297:3e65 with SMTP id
- 956f58d0204a3-64716b35ea6mr15844610d50.11.1768235143117; Mon, 12 Jan 2026
- 08:25:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20251230064832.2257911-1-raj.khem@gmail.com> <03D1C411-B650-46E3-9644-7FDB94DF8CBC@arm.com>
-In-Reply-To: <03D1C411-B650-46E3-9644-7FDB94DF8CBC@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Jan 2026 08:25:31 -0800
-X-Gm-Features: AZwV_QiSoBTHZjp-zI8km9UbqH6_O4kibX9VQ2PB6idmyireMjNfFJNGSg-3hyw
-Message-ID: <CAMKF1spRcwtF9nCm=HzhEQmivQZC5xZhCYM3bwnJrD1feU2tnw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] toolchain/classes: Add lld-native dependency
- when using lld as system linker
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000095c0c906483353ab"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=kXZhqRbu;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: antonin.godard@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 161FEC20860
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:30:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 87DFD606FA;
+	Mon, 12 Jan 2026 16:31:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id ED0D9103C8C00;
+	Mon, 12 Jan 2026 17:31:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768235469; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=EtyLylIW7nRb9jgODLPkp7orX9DEMzPZ0hXGbQzzKXw=;
+	b=kXZhqRbuX+PMaos/8E3mTO7P6v3iUXQixOBhVq7o+xFeGEOH7wrCbawhDY3+jOf2cDkEMW
+	6qL8VWLPrIaBv4cwqifmNG0v96ampMlrhPT06IcTkL3WEYUknUnnRFIsvYA8AETi6Ya24E
+	ffcdSpRrZE05OtIIyrQGsHyYQRZ5+P9JAMY3W2g6Oz5Ve5e1tQgahWt0XWfUc/aybzwOEF
+	joTq6v6QPsnMKaLKmMpQAwq4G1IYMxQi5qDsAnjzBy/rxvpZqJI6SNCAw+TxglE5rXVoog
+	S0SW61xRXX3tUXw7j4coLYt34QiU14No0Nro2MmNB+yeJhOij665TCR9DW2VZA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 12 Jan 2026 17:31:07 +0100
+Message-Id: <DFMR5RJJUJTB.2O15UBWFQP28I@bootlin.com>
+Cc: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <yoann.congal@smile.fr>
+Subject: Re: [OE-core][PATCH] libarchive: upgrade 3.8.4 -> 3.8.5
+References: <20260110122753.381844-1-peter.marko@siemens.com>
+ <DFMQVB547HXI.37E1WAP5SSS5Q@bootlin.com>
+ <CAMSfU+7zYSadRQizDqDWWVAj0rLJSgiZVhFzs=L-to0RigHQKg@mail.gmail.com>
+In-Reply-To: <CAMSfU+7zYSadRQizDqDWWVAj0rLJSgiZVhFzs=L-to0RigHQKg@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:25:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229216
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 16:31:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229217
 
---00000000000095c0c906483353ab
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jan 12, 2026 at 8:18=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
-
+On Mon Jan 12, 2026 at 5:23 PM CET, Yoann Congal via lists.openembedded.org=
+ wrote:
+> Le lun. 12 janv. 2026 =C3=A0 17:17, Antonin Godard via lists.openembedded=
+.org
+> <antonin.godard=3Dbootlin.com@lists.openembedded.org> a =C3=A9crit :
+>
+>> Hi,
+>>
+>
+> Hello,
 >
 >
-> > On 30 Dec 2025, at 06:48, Khem Raj via lists.openembedded.org <raj.khem=
-=3D
-> gmail.com@lists.openembedded.org> wrote:
-> >
-> > This was not an issue before lld split from clang, but now its an
-> independent
-> > recipe and needs to be brought into dependency chain, otherwise clang
-> fails to
-> > build with -flto as it does not find gold or lld plugins.
+>> On Sat Jan 10, 2026 at 1:27 PM CET, Peter Marko via lists.openembedded.o=
+rg
+>> wrote:
+>> > From: Peter Marko <peter.marko@siemens.com>
+>> >
+>> > Fixes regression of fix for CVE-2025-60753
+>> >
+>> > Release notes [1]:
+>> > Libarchive 3.8.5 is a bugfix release.
+>> > Notable bugxies:
+>> > * bsdtar: fix regression from 3.8.4 zero-length pattern issue bugfix
+>> (#2809)
+>> > * various small bugfixes in code and documentation
+>> >
+>> > [1] https://github.com/libarchive/libarchive/releases/tag/v3.8.5
+>> >
+>> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>> > ---
+>> >  .../libarchive/{libarchive_3.8.4.bb =3D> libarchive_3.8.5.bb}     | 2=
+ +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >  rename meta/recipes-extended/libarchive/{libarchive_3.8.4.bb =3D>
+>> libarchive_3.8.5.bb} (96%)
+>> >
+>> > diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.4.bb
+>> b/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+>> > similarity index 96%
+>> > rename from meta/recipes-extended/libarchive/libarchive_3.8.4.bb
+>> > rename to meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+>> > index e89638f5c6..fcfaf5d231 100644
+>> > --- a/meta/recipes-extended/libarchive/libarchive_3.8.4.bb
+>> > +++ b/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+>> > @@ -32,7 +32,7 @@ EXTRA_OECONF +=3D "--enable-largefile --without-icon=
+v"
+>> >  SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz=
+"
+>> >  UPSTREAM_CHECK_URI =3D "https://www.libarchive.org/"
+>> >
+>> > -SRC_URI[sha256sum] =3D
+>> "b2c75b132a0ec43274d2867221befcb425034cd038e465afbfad09911abb1abb"
+>> > +SRC_URI[sha256sum] =3D
+>> "8a60f3a7bfd59c54ce82ae805a93dba65defd04148c3333b7eaa2102f03b7ffd"
+>> >
+>> >  inherit autotools update-alternatives pkgconfig
+>> >
+>>
+>> After bisecting, I identified this patch to trigger errors on the
+>> Autobuilder,
+>> such as:
+>>
+>>   Exception: subprocess.CalledProcessError: Command 'tar
+>> --exclude=3D./sysroot-only -cf - -C
+>> /srv/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work/all-p=
+oky-linux/wayland-protocols/1.47/image
+>> -p -S . | tar -xf - -C
+>> /srv/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work/all-p=
+oky-linux/wayland-protocols/1.47/package'
+>> returned non-zero exit status 2.
+>>
+>>   Subprocess output:
+>>   got *at() syscall for unknown directory, fd 4
+>>   unknown base path for fd 4, path share
+>>   couldn't allocate absolute path for 'share'.
+>>   tar: ./usr/share: Cannot mkdir: Bad address
+>>   got *at() syscall for unknown directory, fd 4
+>>   unknown base path for fd 4, path share
+>>   couldn't allocate absolute path for 'share'.
+>>   ...
+>>
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4904276/raw_in=
+line
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/93/builds/3005
+>>
+>> Full build:
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3034
+>>
+>> Can you have a look?
+>>
 >
-> Conditional python in a very core variable like this isn=E2=80=99t ideal,=
- and the
-> clang-cross recipe already has this dependency. Is that not sufficient, o=
+> FYI, that is bug 16117 =E2=80=93 AB-INT: do_package: Error executing a py=
+thon
+> function in exec_func_python() autogenerated
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16117
+> And it is not linked to this patch (for example, I have this on whinlatte=
 r
-> is there some edge case where that dependency isn=E2=80=99t enough?
-
-
-Yeah I am also troubled by this. It shows up when enabling LTO since gold
-linker is gone clang would work with LLD but it does not find it in rootfs
-I will dig recipe that shows it but generally I think clang expects lld
-when lto is enabled. Cross clang would pull it into its own build but not
-into systoots its building packages in somehow
-
-
+> which does not have this patch)
 >
-> Ross
+> If you retry your build on any worker but stream9-vk-1 it should not have
+> this error.
 
---00000000000095c0c906483353ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Oh ok, thanks. I was told this was limited to stream9, and since some of my
+builds also failed on rocky9 and alma9, I did not make the connection.
 
-<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 12, 2026 at 8:18=E2=80=AFAM=
- Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-&gt; On 30 Dec 2025, at 06:48, Khem Raj via <a href=3D"http://lists.openemb=
-edded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> =
-&lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
-=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; This was not an issue before lld split from clang, but now its an inde=
-pendent<br>
-&gt; recipe and needs to be brought into dependency chain, otherwise clang =
-fails to<br>
-&gt; build with -flto as it does not find gold or lld plugins.<br>
-<br>
-Conditional python in a very core variable like this isn=E2=80=99t ideal, a=
-nd the clang-cross recipe already has this dependency. Is that not sufficie=
-nt, or=C2=A0 is there some edge case where that dependency isn=E2=80=99t en=
-ough?</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yeah I am a=
-lso troubled by this. It shows up when enabling LTO since gold linker is go=
-ne clang would work with LLD but it does not find it in rootfs I will dig r=
-ecipe that shows it but generally I think clang expects lld when lto is ena=
-bled. Cross clang would pull it into its own build but not into systoots it=
-s building packages in somehow=C2=A0</div><div dir=3D"auto"><br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Ross</blockquote></div></div>
+Sorry for the false alarm, Peter.
 
---00000000000095c0c906483353ab--
+Antonin
+
+--=20
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
