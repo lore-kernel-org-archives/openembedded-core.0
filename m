@@ -1,559 +1,328 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alistair.francis@wdc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF2ED2502F
-	for <webhook@archiver.kernel.org>; Sun, 11 Jan 2026 11:47:55 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9088.1768132071843336868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BF5FD25031
+	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 00:08:19 +0000 (UTC)
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21754.1768176495458473164
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jan 2026 03:47:51 -0800
+ Sun, 11 Jan 2026 16:08:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HMcAPtpO;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-81ed3e6b8e3so684538b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jan 2026 03:47:51 -0800 (PST)
+ dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=obiN7raf;
+ dkim=pass header.i=@sharedspace.onmicrosoft.com header.s=selector2-sharedspace-onmicrosoft-com header.b=nwZId1ur;
+ spf=pass (domain: wdc.com, ip: 216.71.154.45, mailfrom: prvs=465c3c755=alistair.francis@wdc.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1768176495; x=1799712495;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=BOeYQRhgclWmYDw0zBstu4Qk9fWm5rOzwdwusbme+9s=;
+  b=obiN7rafUBW/LZ/nks4bxdWuzJ6TWp2JNO77hI9vQ2qA55Wh1yGgNdhE
+   enEI/ceGytgy/FPELZSKg3mFNpBnLxFhzKc3etJb/78A6k4IaIovYZpzf
+   t0/QoaQWapLFSCyZyGkdfcHdobN41yKVCAEJh4FMNP3KRO8j5/H7mAs7Z
+   VtLcu9yAGMvUg7WQznWJcnYK5OxCJYinHEw22h/Du+BSQBw8IPrl40ESl
+   wwsCRI+e3wYyLecJaEhBp4Z3SxcnXFsTxjtCgIGm4FXSCUp1i8uiEH9yq
+   DvtjcoWIOKViTyef0tcsEJQEei5h4hqSYxxUG7yzPursJepMbOHRk85Hl
+   Q==;
+X-CSE-ConnectionGUID: j02j9n15Q4ajXGKiiOyynw==
+X-CSE-MsgGUID: RSdrf+okQl2RUPRqWuwWkw==
+X-IronPort-AV: E=Sophos;i="6.21,219,1763395200"; 
+   d="scan'208";a="137888173"
+Received: from mail-northcentralusazon11010034.outbound.protection.outlook.com (HELO CH1PR05CU001.outbound.protection.outlook.com) ([52.101.193.34])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 12 Jan 2026 08:08:14 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IWsDxaIBMqpOtOda3VL7tllRRzeayF+NQWoTuJ99EhLhB+y8bOnjMCnfdsXaWSyMC0wde1KTcb8bfpHTo7TMaKEr9yKjtRCG8yxbEPgzYd6vwJdOW00qwPk2YsJ3vwSFwwnmJb4ytxC6DC5Acug3qZNfAbWIUXzMGOiiYbIMkh7NBHVeASwtc6PBaUGMbtXLXrEHkapgmxw8hxyW/DlJWTkc+sEfCrE7wxaI4MXTCfgjzyvKs3POg/BEOUdu38OXZGLfhKms4IB8avhYshUd0DKCKZuU+xIFIJFty1KCvqgPH+/Bae7sz3fGmEE7JC1/hbp3kopnNuyxCt1HpkJoNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BOeYQRhgclWmYDw0zBstu4Qk9fWm5rOzwdwusbme+9s=;
+ b=MzV1MHCDZ7qmhAmJCHSGw4g0Iy6GDge16eOO9LhSP0McT1q0YTIBzQjsKyXO718KVXXs8i+mirzXfSJuLkiWnJKxKfVH3wSMq0Y41WbZItQKwb3RKdKvOLCnPsAV6bf/YjjJQt5AtrnngyP0WyNvetZxA97bLprjNH4JW0ri+j08x37lodUsu0SlK6Y65xeJUej8eBe/vh8tCx8hJM4KnBgHyP95LrGS/KVs+YbuDgnxzfmnd3HvTab3XChXL+uc8bxRfdPMiVrXxh2Dn/yi8nl5fHW6Q3fBTd+ptcAJPtAq7OuS2MRMzZTQ93fYfMHGum6Ozn4KScrAod9dyXy6tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1768132071; x=1768736871; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HIs7qXmjsSsdBz+zxYrWl7F6/1znoav03/0uMddwznM=;
-        b=HMcAPtpOPL2J9GtJQs4CQ5bWLfQxzIVy6bW2I4Lkuly6FRiDBlMRB0U9glXfaip3jB
-         hNA6FAfxMmv/vMuIOzGrt8eCfG3nD2FHBFNlAr+z6Oqdl5xKIPARobfnCwkT6w/F/CpH
-         PMIO8M0TratLi7jeCSALt1VbK/nGdwJlCg60CzvGGkWGDuWsZlvphrD3UtmjyELXNA6K
-         UazCstghB7wtARkY+JM6iMrHDfcmacbKJ6ewpE857N+RUkMdj75Y3CXRL39yxMwxOvix
-         eYLEdyf2aresvUF/xsiqjSubhsL0LP5IKg9FnBYz5lxnLi+3HOkKNaVc3oK5E+feceBb
-         8+gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768132071; x=1768736871;
-        h=message-id:date:user-agent:to:from:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HIs7qXmjsSsdBz+zxYrWl7F6/1znoav03/0uMddwznM=;
-        b=q2Xj0rZZPi6iNSiYNaSjbjZ88LLA9na0iDxAuwoz80KJXe68ESwdO9A+HaZWi4/8i4
-         lF3CIZUX098vqOnWLUdd/Dpjq/2iJC4NoOwOCXnUxfis77RT3il9mejKMGcD5y2fudCc
-         OquwiFfv0vxZ4g2e27klF9ZT/o0v/DfqBBqN5jDOoHCSC3/VdA0k9Xu3SLS92vxy3lLT
-         6/udzFubKhZy8Fhg9LiPYc0irUeO4cW3n8dRx8VBglA/IeFFPG8+8r7268r16ob4nfQk
-         4/JLZ05znACa14g6yj45KzwpqWxK5+3BapWUxaFdthJIhS7wmg/W5UtPOtmXRBCDCbo9
-         iaTg==
-X-Gm-Message-State: AOJu0YwicVbGKJ/G4dDSlR9jVo11yG8FJcpes+nE7/6wfvThg0hP5O4B
-	maH0hLaTLl6q2WNDbF5VdT+xeVmhl9jt66br3x7tEJGrQBLhyq2PLMLEhYoug8trcoq7flHLW/m
-	wl3JHesI=
-X-Gm-Gg: AY/fxX6UzwSZRi5FgswmRwpZoy7xiEMm9v+WyhQCg6OV9Qwxi8iJdqgWjZr23dM4Lfy
-	+Q4wVH8AT1UZ1/MFPLVka1KxPXTefATaBbU/tRccEPnn7wwPFMbGsl70XRvqPZ/+Av/8XfGjgwb
-	NV2a1/HMqvjyzD9nUMpFOdszNvX11ckQAqGhal+oaquRkDincT5kTbcR/CJG1V/1N5+LM0elzmD
-	e4u3vF1ZG/RPl9QU510cr5v5O7xfRD+/TNmPBoqeFXv5KE+9Le++JJS1B8dLzG/WKqAm9scQG7M
-	/8WnBY3o2ljgpxYb4uWvdq8NSlE1dyjSZLzpHo+bA8UWyQxTFxrX+a5II6BBl733LItqL6b1PLA
-	mBuOdTJbzIcFtzFhefAuRdkGQwOzB9pB1rk9IeTnLxnQXPFpPMl/9Dv+eY1CAlBgzfp0MiN57Zb
-	gtK+Yqz9gYMj/Y1fU=
-X-Google-Smtp-Source: AGHT+IGEp7RwlGAADRAjCkZdWNkSZbuxE6kHX+cNJzC8Uzu7HZVN4D3BgDg+Zl/jcBxgSUBWIZsL6A==
-X-Received: by 2002:a05:6a00:298e:b0:81f:4e2b:4943 with SMTP id d2e1a72fcca58-81f4e2b4a29mr1575112b3a.27.1768132070662;
-        Sun, 11 Jan 2026 03:47:50 -0800 (PST)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81ce8815129sm9309636b3a.19.2026.01.11.03.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 03:47:50 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id B83D4100328; Sun, 11 Jan 2026 01:47:49 -1000 (HST)
-Subject: OE-core CVE metrics for scarthgap on Sun 11 Jan 2026 01:26:03 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 11 Jan 2026 01:47:49 -1000
-Message-Id: <20260111114749.B83D4100328@builder.sakoman.com>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BOeYQRhgclWmYDw0zBstu4Qk9fWm5rOzwdwusbme+9s=;
+ b=nwZId1urNK9o/poH5aDI/+YOodCSxGIZtcv4VKJc6dGpsG38MAWaIzayrIPBJDaYMlj5KAGe8GnKWhUQnjL5nq7sqYtQZKR8UqcnBFP6ZAc/dFNpnH3U89LbGc25sri2hVC8Vyqhu8dbxSPhOElb/kAf7dwu9bi9vfoRbyANhiw=
+Received: from SA1PR04MB9849.namprd04.prod.outlook.com (2603:10b6:806:4a3::15)
+ by SJ0PR04MB7232.namprd04.prod.outlook.com (2603:10b6:a03:294::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
+ 2026 00:08:12 +0000
+Received: from SA1PR04MB9849.namprd04.prod.outlook.com
+ ([fe80::6d33:c5b6:16f1:29d6]) by SA1PR04MB9849.namprd04.prod.outlook.com
+ ([fe80::6d33:c5b6:16f1:29d6%6]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
+ 00:08:12 +0000
+From: Alistair Francis <Alistair.Francis@wdc.com>
+To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>, "alistair23@gmail.com"
+	<alistair23@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-Core][PATCH 1/2] rust: Install the Rust source
+Thread-Topic: [OE-Core][PATCH 1/2] rust: Install the Rust source
+Thread-Index: AQHcgSQg2VZdO1nIM0mARx3iVmzv9LVJqDSAgAQEl4A=
+Date: Mon, 12 Jan 2026 00:08:12 +0000
+Message-ID: <13bd932976a76b4bf694e0af15dade586e00c4a5.camel@wdc.com>
+References: <20260109045447.1933604-1-alistair.francis@wdc.com>
+	 <CAMSfU+4nuN3cEPQroCLO8-2xLCm5nSA7QAdANaeJAX0Ms0qm5A@mail.gmail.com>
+In-Reply-To: 
+ <CAMSfU+4nuN3cEPQroCLO8-2xLCm5nSA7QAdANaeJAX0Ms0qm5A@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.58.2 (by Flathub.org) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR04MB9849:EE_|SJ0PR04MB7232:EE_
+x-ms-office365-filtering-correlation-id: e7a170f9-97be-4d30-6550-08de516eacd5
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|19092799006|38070700021;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?aTZ4a2xNd3JDUnBwSC9TaVFVT3FIVWhTN0dnYUNJZE1uM0lsYTZzUHFtYVZP?=
+ =?utf-8?B?d3RZWGRPSDUwSEVGVm9oeUNSTVU1SEQ1TlJYNW9vR2dBL2ZHRGxNTUFOdjZu?=
+ =?utf-8?B?Q0ZBV09vekhKTlBVVW95MHFhODJQbFpIZjlYK2lNMWVFbERNRVc0ekU2SWlM?=
+ =?utf-8?B?bGF6aUtUY0crUi9SeW04UThjb2g1emdVQ1FwcjJqMlVkSHFaSWxVZ0tYNFJX?=
+ =?utf-8?B?cHdCNitrcmFxSFlyU3N5Tmt1U21BR0lhOG9KWU1HVzh2SG5UR3pPMWdoT3RC?=
+ =?utf-8?B?cC9hVE1TK1ZNV3N3QVZmUHAwZ2pHYUFOeWI5K01oWGNnTXM2U2EvbDYxVmdh?=
+ =?utf-8?B?L3NqeXBueXg3V3ltOTVPZXVMVjdabWRwRGxaRjZHOG5Yb2J2MTk5dGY1SmRm?=
+ =?utf-8?B?dXhoQkJoYXRwMVIydDNVa1p1SlNDTjN1SnVFbHlycU5Zc09yUnhWL1NqWkQ3?=
+ =?utf-8?B?eGZYSzByMk5KalNHV3hYdmhjcHJXdkJaVnNhWnhEbnQwNzhyL0p4cDVTcW9a?=
+ =?utf-8?B?K05ocFZSVms2QXhPbDZNUjg0aGR5Y3lnNFdYUmxrVlBvdVBqM2ZkZ3huMDFO?=
+ =?utf-8?B?ek9tUWpxOG9QUEs4SG5ucEpZRmFTN0lZWG1UU3dSU21PamVRb3NaUW84ZzhG?=
+ =?utf-8?B?eFhmUGxUTXI5RTgrNjFhaFk1bE1aS3RFWjhmbU1GUmVBM2ZRWEVjOFVmOXhO?=
+ =?utf-8?B?U0lneEY2Qi91cksrbVUrYUwwbmphd3QxTGpidytmRzNNL1pucnFOeXdtR29V?=
+ =?utf-8?B?ZkRHWm5UZ1BBeElYZjNFQVFpcDg2TmJ0YXB0RXpIU2JhUTlJaFdWRVdOSGlU?=
+ =?utf-8?B?b3JpeFlmdUZRbElnWnZZU2czUUF3UDdKYkpPSVVDSm83SVVYcmJ5WGY1Tjc3?=
+ =?utf-8?B?a0kvQVJHVHhOWllyaW5HaWxQeklYNmlKVHNkT3FMNjN2emZXV2xBL1R2UkU4?=
+ =?utf-8?B?TDJXeVMxRVJvWmlIbTFHRkFRUk12OE1VMUU2Wi84TXQ1Wlk4SWZJb1hOaHNZ?=
+ =?utf-8?B?OGdXNlVQU0szK3RZRnZtR2M3WGRpOVgxOURoYkNlNHY2WnR1U1FLOWNUbWRE?=
+ =?utf-8?B?TnJqWHg2eXpseVA3d21NdVkzSEw2ZFlPVHY2U0cySmZUTzFwSkdjajBIL0Ft?=
+ =?utf-8?B?K3VCUFBwQTIyeUxic1FLZmh5MDhTMVFFYlg1WUpuV3lhdG0xckhjRkRrUlNL?=
+ =?utf-8?B?SUVxOEhid0xYWjdHSVQwODdVQm43RkZtK3BKWjVsdjhEQ0dYRXQzbjJGSlZI?=
+ =?utf-8?B?UWs4dEYzQ0dFbzFLOFNFMG4zL0x2YmdDU1JnYXU2bmN6ZTV3RVNpd0VQRUpk?=
+ =?utf-8?B?SWU5RmEzUEZSVzhYajBxOHBGSjNNZlI2bTYraStrdjBhLzFzOEUxQUZEWlB0?=
+ =?utf-8?B?cFRZSFF2dGZuNUxwbzBsVWpOczhSeEcxZnFGd2QvUEo1dHBrcngrbGxubU41?=
+ =?utf-8?B?czl1UFRkQXVuN3lHQi9Geng5LzBtTkRjN1FldE1vOGRpNUI1N1l3MUpTcXhN?=
+ =?utf-8?B?c2VzcXU2M3YrNnhpd0tjK3FzQmJtdG9lYUNCN1BsMWxiS0JMZS80Umc2S0U1?=
+ =?utf-8?B?WFQwK3Nwd0ExR1JmdjQ4ODJuclNobVhMQXdmSjM4bFRaMSs0L25kWGZNSFBW?=
+ =?utf-8?B?S3pHZnBRSmg0RXZlZWhpTWdUcEY0YVRFTjg1cFhRbWIrZ3dRR1ZlMW95S01l?=
+ =?utf-8?B?cURpTVo0RjJJQXJES3BoZ3dIUFN3RWk3dGtxUEQ2b2Rhd1ltQk5VaEwzUU5w?=
+ =?utf-8?B?YS82K2s3WS9qcEs2K0dvaVJIcE16NDI3aVdyQno4VzIrM3ZkdTRBSEpZNHBB?=
+ =?utf-8?B?QjhnNkVXOXdKbUNJS1d2YU04WVJ1eDRmUnI4SThsbXRHVThxM2ExZ0w3d2g5?=
+ =?utf-8?B?Z0lLQWNJeDRBNWpwTnQzbGFlQ3gzNkgzNlNxNXViWGN3ZzkxL3MwcUNMa3Mx?=
+ =?utf-8?B?R3Q1UkpGeEk1RHMvYTBQVmZFeTdSSFZBV0ZEN0R0NHdBWUwwYVhGdlBnMUF0?=
+ =?utf-8?B?cFFGV2lJUUdGY0ZtOWlUTzdjR0xNaFZTSWNmUVQrMURPamJiUEhlelg3UENO?=
+ =?utf-8?B?ME9zV0k1a2t1Yk83amVndE5Pa0FrRkt5U2xBZz09?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB9849.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(19092799006)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?cnkwMWxpSk5PdVZnRzN0S3NPQ2lUMzBFOVl6SjYyZE9RcXVOejlIQU12eG1V?=
+ =?utf-8?B?TGx0ejIzUW5yNndtV0M5dWMrSENHLzNldUhpdGp1Q2ZiSVpBQWJxQ1V4Sk5K?=
+ =?utf-8?B?SnJBMU1lMTVEcWpJMGFRYTVGZkdzVzBRSnROV2tmbzI1TENFZTFoOXl4SUd6?=
+ =?utf-8?B?Z2xaUHFRd2tUMGR3U1llcjFYL1hWa1JFMUVhOXBvNDFkRkNtYm0xeHZ0Zm5S?=
+ =?utf-8?B?OHR6OUVYaTh3OXE5Yk5ZV3JzeWY2dGVBQ3FxdDJndzIzOU56WWFEQXdGc2tH?=
+ =?utf-8?B?TGRmeXJRV2lyYVdPOUhNU0RYSXhXNnNIeVh6bHFsWlUvTjdoOEpVaW54MlN0?=
+ =?utf-8?B?U3kxeFFTNWxManhDUWNyZjV0VkNoL29xMkxmVk5xK1NsZVlOR3Z1VlBmOEls?=
+ =?utf-8?B?VDV3NVBDbzVGd1J4QUhBZkNKMUFyb09LNEhhTFRkZ3RBbTFQVjhuMHI4eCtK?=
+ =?utf-8?B?SVhSK0lZOEovWHZ0Y3JPWWhzZDNEeEpKTUtWSWhLWCtyWWZhY3hud2xlSFhO?=
+ =?utf-8?B?UlNSQ0t5aVJnQmRFdGVXejEyT2hhVlM0OXRMWGJTVVlyZjloc3BQREJsc0Jo?=
+ =?utf-8?B?Y3UxU0c2Y0x5czRKY0VEbncwbFpXT1lrL3V3c2RkRHd5d0Z3UmQzZk5PajMr?=
+ =?utf-8?B?L0pVQkhma1JVMEI4WkFTeExBOHpJNEduVlFtOUZIRkhpQ1NaWi9zUnV6VVlw?=
+ =?utf-8?B?Q00xWlFPbnlvRVc0aHR6UnFSMHNHK2dsWW82VWJINXBZTGdlVGJEZmxNUCtx?=
+ =?utf-8?B?ZExwaG9kMUdJNHlWV0IwaXdEM2FrZDd3ajFOOE1ZSnR3Ri83bStWUERoZjNM?=
+ =?utf-8?B?VVJpN2Fwb3Zobm10am84US94elZzNkRBWlFtOGJtQW8vZnRuOHUvUDlWVytj?=
+ =?utf-8?B?NCthMldzcnJoWmdoR1BXVk9sdHk0ZEhLcmNITVh4R05XdzgyaXNVRjhCRUNl?=
+ =?utf-8?B?UTRXbndIQlpOVTYxYkRSZkVWejl1aE0wd1dXQ3dESUNINmFReHRSeEJwMHdv?=
+ =?utf-8?B?cFlIRGhCelVSeFhDZllWZGlxK2ZkdlIxRElJcUpWMnFneU9Ka2RmMFljdHZP?=
+ =?utf-8?B?RHJSYmVJMHBZU2x1NXR1S0pGdm4rc1EvaHIrLzNJVGR1dllrVTYwSGhNUDE2?=
+ =?utf-8?B?OXZZMjFDWU9qQU1rVFdVTmNLRDREbEkzWEwyOFFGbVBMWDk1SXFmNHBXSk5r?=
+ =?utf-8?B?ZnVXTVo4aGJrOWdBTXFIcVVRN2gyUDQyZTMrZ2IwLzBBQ0htRWJCd3Z4eU00?=
+ =?utf-8?B?cXk1SDdUSkFnckRPaU85YVJta2VxcHVqNm05cnNmcERWekRvLzNGbER1cy8v?=
+ =?utf-8?B?SjVDR2IvV1VDSkhzM2p6YVQ2ZnByWnBqREw0eGZ0NnhkSWpWdExsZ1Q2d1oy?=
+ =?utf-8?B?VHc1NzFCYlNKY3NFdXo5bUtiOFlCK2I4a21KOXpQR1NZMWJtOWR4VUtRSmo2?=
+ =?utf-8?B?VERWbVJXV3VLeGNiL2pDMVRKbUJrdXFmcVNzTTdJWlJKZVl6a2ZLSHdWK0ZP?=
+ =?utf-8?B?MEJzRzUvYU1hOTZ5RUdodHdpS1g2aWNnOW5jSXJKTWxEaXF0dUtWU3JtMUl3?=
+ =?utf-8?B?bGlVSVFHTjAvanlxZ3ZPMWdPMmdPUjdoMmQycHRxSnN2Nk8ya1Nlc0ZNRjMv?=
+ =?utf-8?B?QytXVnFnck55UGpBU0NzSGdLd0ZxMk9ScnR6cG1samZ4a0JpUld2VDhUODNY?=
+ =?utf-8?B?VFI1dnp5T25aTEZEa2VqUHBOeThPY3B4TS9SaFFETlVTRFVhNlNXSDQ4OGt4?=
+ =?utf-8?B?RkNHaTBrOU91Q29TZlB5aWR1QkU2NWQ3VGEyMCtyZ1IzMTBkMjFFSmlaQmhL?=
+ =?utf-8?B?eXozSVBWaTJxeEFUK1dKTG9PaFhoUU1LTlBUbEpYTUc2VThPQVZOUjBod1F1?=
+ =?utf-8?B?MStLejNSbjd4cmNCU0NCNlcwMVVjbGMyb2JzV2o5WVRUaXlpRUJtbDRzbU02?=
+ =?utf-8?B?OEJpZ09HSGFkRzlxMC9nUThvWkZXRVFLdGVhQjlrVjNod2ZpVlNFQ3NKK1cr?=
+ =?utf-8?B?TGQrNkhZRnBnbTdPZ1JzUWI2ZTdwOUxDeHNreitGRmZYTFArT3FkZ24rSlhr?=
+ =?utf-8?B?V2lxR3o4QmQ1dDFQSmxZU3k2U0ZZUWN4Y05rb2ZpRjRwZVdGWmxNT2U3NVRa?=
+ =?utf-8?B?alpsbW1KWmpZeEVQeS9wZmhPdTZZY3BiMmlENHpUS0J3ZzlndEV0b3lLdmZD?=
+ =?utf-8?B?cGR6bU1NN1RzSFdsMjNNOHZGNVhIVWtJeTBQaVNSMjIzNlRra2VRcFJRR3NM?=
+ =?utf-8?B?TWdJYzl5Y2V5akR0RFMzRWo0a2xnQitJaTNtb25NT0NmZ0t6dnJLc1F5eDA0?=
+ =?utf-8?B?Umxhck1oVHh5TXBJTFpRSjJJcmc4RHorK2FucVhzR2VBN01vSVBuNHlGWHk0?=
+ =?utf-8?Q?Ii/jAZBJeec62mBfYU4w+4w8+J/jt9EFte5ngBjLcGsBx?=
+x-ms-exchange-antispam-messagedata-1: pKIOyT4Llbc98dr4oNVrEE7dCVXQ5TXX4wU=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <058FE5EF9116AC4E90476B377372AE80@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	De86mgkMzfxxB5sDo3wKHaXKWTdlPh8tM3kdzBGK44X6t5Z3f/IvNtet9XDLFGoj4nkRKxQqyNk+fMOYsd3s373tf4nWO9gSA958dVjLFhT6nNk0suqRek01xzQrkEq1mhTDWpPSLBH8Cwqrh1xYc44ohMcicAPj7txCE1nlb6wJMPN7cYNFrNMbzkAwd0ec3GJW6wKXSadFMhcsa4/aeV+VGzFr2c+0Nkv2m9Dv2sjl5G0cxipq5ADStwudAAGfotk04rwFvQWuXdAlZam4b/387sE74awVEiCCzm+kngLBE7hT6GoPavYNB0S0wdvIdA9WbfwD6MA8caDuIw7+wKj/BqcLXucD/8IGYeRBdcjhJFGqf45wD9Aqilgq2AYQ1hZKVNfBsfrxuzdbOXvSsJfmYijlEBgDDayePs/qDMVn4nrCQSkTvG97LiAuAmz+nZaxspKzgkX1LpxIfapQVxDWUObEkdFMQdMBoHeI56uEAtDjq1HxrgHNwPHvsqrjmZ1ughDq/BuW7HnzSuKqBMFpjU6fMiI9QFmhUvxamILMz1BlEP4gvpGeVbLuv+AvC8GWjV/q8JD2tMkuJ0PJymXUbWVW94afntQsJQpibUrLT1nHyvVq/+IR3F1tef6+
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB9849.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7a170f9-97be-4d30-6550-08de516eacd5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jan 2026 00:08:12.0757
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Kcen8O/gr10LGfnzzAA6rgrqw+hktXS1sImWvSOBa+xEr0BZe971BOCJLCQZVjEdkVtBQSVnW7hUDiqw0Ad5pdewqMhMp5pGYtG3u3/6aes=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7232
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Jan 2026 11:47:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229176
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 00:08:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229177
 
-Branch: scarthgap
-
-New this week: 2 CVEs
-CVE-2025-68972 (CVSS3: N/A): gnupg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68972 *
-CVE-2025-68973 (CVSS3: N/A): gnupg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68973 *
-
-Removed this week: 0 CVEs
-
-Full list:  Found 468 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3079 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-52485 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52485 *
-CVE-2023-52585 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52585 *
-CVE-2023-52586 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52586 *
-CVE-2023-52590 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52590 *
-CVE-2023-52624 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52624 *
-CVE-2023-52625 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52625 *
-CVE-2023-52634 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52634 *
-CVE-2023-52904 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
-CVE-2023-52920 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52920 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-23848 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
-CVE-2024-24859 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
-CVE-2024-24864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
-CVE-2024-25739 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
-CVE-2024-25740 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
-CVE-2024-25741 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25741 *
-CVE-2024-26596 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
-CVE-2024-26672 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26672 *
-CVE-2024-26686 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26686 *
-CVE-2024-26699 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26699 *
-CVE-2024-26756 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26756 *
-CVE-2024-26757 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26757 *
-CVE-2024-26758 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26758 *
-CVE-2024-26785 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26785 *
-CVE-2024-26811 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26811 *
-CVE-2024-26900 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26900 *
-CVE-2024-26944 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26944 *
-CVE-2024-26945 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26945 *
-CVE-2024-26948 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26948 *
-CVE-2024-26949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26949 *
-CVE-2024-26954 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26954 *
-CVE-2024-26962 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26962 *
-CVE-2024-27010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27010 *
-CVE-2024-27011 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27011 *
-CVE-2024-27012 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27012 *
-CVE-2024-27017 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27017 *
-CVE-2024-27079 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27079 *
-CVE-2024-35794 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35794 *
-CVE-2024-35808 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35808 *
-CVE-2024-35843 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35843 *
-CVE-2024-35931 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35931 *
-CVE-2024-35968 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35968 *
-CVE-2024-36024 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36024 *
-CVE-2024-36288 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36288 *
-CVE-2024-36478 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36478 *
-CVE-2024-38595 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38595 *
-CVE-2024-38608 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38608 *
-CVE-2024-39472 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-39472 *
-CVE-2024-40965 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-40965 *
-CVE-2024-40979 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-40979 *
-CVE-2024-40999 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-40999 *
-CVE-2024-41008 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41008 *
-CVE-2024-41023 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41023 *
-CVE-2024-41045 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41045 *
-CVE-2024-41061 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41061 *
-CVE-2024-41067 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41067 *
-CVE-2024-41080 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41080 *
-CVE-2024-41082 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41082 *
-CVE-2024-41085 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41085 *
-CVE-2024-41932 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-41932 *
-CVE-2024-42064 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42064 *
-CVE-2024-42065 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42065 *
-CVE-2024-42066 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42066 *
-CVE-2024-42071 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42071 *
-CVE-2024-42075 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42075 *
-CVE-2024-42078 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42078 *
-CVE-2024-42081 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42081 *
-CVE-2024-42083 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42083 *
-CVE-2024-42107 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42107 *
-CVE-2024-42118 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42118 *
-CVE-2024-42122 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42122 *
-CVE-2024-42123 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42123 *
-CVE-2024-42134 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42134 *
-CVE-2024-42139 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42139 *
-CVE-2024-42151 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42151 *
-CVE-2024-42155 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42155 *
-CVE-2024-42156 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42156 *
-CVE-2024-42158 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42158 *
-CVE-2024-42162 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42162 *
-CVE-2024-42227 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42227 *
-CVE-2024-42252 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42252 *
-CVE-2024-42317 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42317 *
-CVE-2024-43819 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43819 *
-CVE-2024-43824 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43824 *
-CVE-2024-43826 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43826 *
-CVE-2024-43835 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43835 *
-CVE-2024-43840 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43840 *
-CVE-2024-43857 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43857 *
-CVE-2024-43872 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43872 *
-CVE-2024-43884 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43884 *
-CVE-2024-43886 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43886 *
-CVE-2024-43899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43899 *
-CVE-2024-43901 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43901 *
-CVE-2024-43904 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43904 *
-CVE-2024-43911 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43911 *
-CVE-2024-43913 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43913 *
-CVE-2024-44950 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-44950 *
-CVE-2024-44951 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-44951 *
-CVE-2024-44956 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-44956 *
-CVE-2024-44963 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-44963 *
-CVE-2024-46681 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46681 *
-CVE-2024-46698 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46698 *
-CVE-2024-46701 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46701 *
-CVE-2024-46705 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46705 *
-CVE-2024-46710 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46710 *
-CVE-2024-46727 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46727 *
-CVE-2024-46729 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46729 *
-CVE-2024-46730 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46730 *
-CVE-2024-46751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46751 *
-CVE-2024-46754 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46754 *
-CVE-2024-46772 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46772 *
-CVE-2024-46774 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46774 *
-CVE-2024-46775 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46775 *
-CVE-2024-46778 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46778 *
-CVE-2024-46808 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46808 *
-CVE-2024-46813 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46813 *
-CVE-2024-46823 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46823 *
-CVE-2024-46833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46833 *
-CVE-2024-46834 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46834 *
-CVE-2024-46841 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46841 *
-CVE-2024-46842 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46842 *
-CVE-2024-46870 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46870 *
-CVE-2024-47661 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47661 *
-CVE-2024-47662 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47662 *
-CVE-2024-47702 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47702 *
-CVE-2024-47703 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47703 *
-CVE-2024-47726 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47726 *
-CVE-2024-47736 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47736 *
-CVE-2024-47794 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-47794 *
-CVE-2024-49885 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49885 *
-CVE-2024-49888 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49888 *
-CVE-2024-49891 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49891 *
-CVE-2024-49893 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49893 *
-CVE-2024-49897 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49897 *
-CVE-2024-49898 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49898 *
-CVE-2024-49899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49899 *
-CVE-2024-49904 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49904 *
-CVE-2024-49906 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49906 *
-CVE-2024-49908 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49908 *
-CVE-2024-49909 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49909 *
-CVE-2024-49910 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49910 *
-CVE-2024-49911 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49911 *
-CVE-2024-49914 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49914 *
-CVE-2024-49915 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49915 *
-CVE-2024-49916 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49916 *
-CVE-2024-49917 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49917 *
-CVE-2024-49918 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49918 *
-CVE-2024-49919 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49919 *
-CVE-2024-49920 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49920 *
-CVE-2024-49921 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49921 *
-CVE-2024-49922 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49922 *
-CVE-2024-49923 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49923 *
-CVE-2024-49926 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49926 *
-CVE-2024-49928 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49928 *
-CVE-2024-49932 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49932 *
-CVE-2024-49934 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49934 *
-CVE-2024-49940 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49940 *
-CVE-2024-49945 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49945 *
-CVE-2024-49968 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49968 *
-CVE-2024-49970 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49970 *
-CVE-2024-49971 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49971 *
-CVE-2024-49972 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49972 *
-CVE-2024-49974 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49974 *
-CVE-2024-49990 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49990 *
-CVE-2024-49994 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49994 *
-CVE-2024-49998 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-49998 *
-CVE-2024-50004 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50004 *
-CVE-2024-50009 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50009 *
-CVE-2024-50010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50010 *
-CVE-2024-50014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50014 *
-CVE-2024-50017 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50017 *
-CVE-2024-50027 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50027 *
-CVE-2024-50028 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50028 *
-CVE-2024-50067 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50067 *
-CVE-2024-50090 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50090 *
-CVE-2024-50091 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50091 *
-CVE-2024-50102 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50102 *
-CVE-2024-50106 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50106 *
-CVE-2024-50137 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50137 *
-CVE-2024-50138 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50138 *
-CVE-2024-50146 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50146 *
-CVE-2024-50157 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50157 *
-CVE-2024-50177 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50177 *
-CVE-2024-50178 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50178 *
-CVE-2024-50217 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50217 *
-CVE-2024-50221 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50221 *
-CVE-2024-50225 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50225 *
-CVE-2024-50277 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50277 *
-CVE-2024-50289 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50289 *
-CVE-2024-50304 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50304 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-52559 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52559 *
-CVE-2024-52560 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52560 *
-CVE-2024-53050 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53050 *
-CVE-2024-53051 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53051 *
-CVE-2024-53056 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53056 *
-CVE-2024-53084 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53084 *
-CVE-2024-53085 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53085 *
-CVE-2024-53089 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53089 *
-CVE-2024-53090 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53090 *
-CVE-2024-53098 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53098 *
-CVE-2024-53114 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53114 *
-CVE-2024-53124 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53124 *
-CVE-2024-53128 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53128 *
-CVE-2024-53133 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53133 *
-CVE-2024-53147 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53147 *
-CVE-2024-53170 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53170 *
-CVE-2024-53187 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53187 *
-CVE-2024-53201 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53201 *
-CVE-2024-53203 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53203 *
-CVE-2024-53204 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53204 *
-CVE-2024-53205 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53205 *
-CVE-2024-53209 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53209 *
-CVE-2024-53219 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53219 *
-CVE-2024-53221 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53221 *
-CVE-2024-53222 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-53222 *
-CVE-2024-56544 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56544 *
-CVE-2024-56549 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56549 *
-CVE-2024-56588 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56588 *
-CVE-2024-56591 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56591 *
-CVE-2024-56599 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56599 *
-CVE-2024-56608 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56608 *
-CVE-2024-56620 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56620 *
-CVE-2024-56647 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56647 *
-CVE-2024-56702 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56702 *
-CVE-2024-56712 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56712 *
-CVE-2024-56742 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56742 *
-CVE-2024-56757 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56757 *
-CVE-2024-56758 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56758 *
-CVE-2024-56759 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56759 *
-CVE-2024-56761 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56761 *
-CVE-2024-56775 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56775 *
-CVE-2024-56782 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56782 *
-CVE-2024-56784 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56784 *
-CVE-2024-57795 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57795 *
-CVE-2024-57804 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57804 *
-CVE-2024-57809 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57809 *
-CVE-2024-57857 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57857 *
-CVE-2024-57872 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57872 *
-CVE-2024-57875 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57875 *
-CVE-2024-57898 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57898 *
-CVE-2024-57950 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57950 *
-CVE-2024-57974 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57974 *
-CVE-2024-57975 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57975 *
-CVE-2024-57976 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57976 *
-CVE-2024-57977 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57977 *
-CVE-2024-57982 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57982 *
-CVE-2024-57994 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57994 *
-CVE-2024-57999 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57999 *
-CVE-2024-58006 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58006 *
-CVE-2024-58012 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58012 *
-CVE-2024-58015 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58015 *
-CVE-2024-58089 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58089 *
-CVE-2024-58093 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58093 *
-CVE-2024-58094 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58094 *
-CVE-2024-58095 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58095 *
-CVE-2024-58096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58096 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-58241 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58241 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2025-12084 (CVSS3: N/A): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-12084 *
-CVE-2025-13836 (CVSS3: N/A): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-13836 *
-CVE-2025-21634 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21634 *
-CVE-2025-21635 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21635 *
-CVE-2025-21649 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21649 *
-CVE-2025-21650 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21650 *
-CVE-2025-21651 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21651 *
-CVE-2025-21672 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21672 *
-CVE-2025-21682 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21682 *
-CVE-2025-21693 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21693 *
-CVE-2025-21696 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21696 *
-CVE-2025-21714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21714 *
-CVE-2025-21722 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21722 *
-CVE-2025-21723 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21723 *
-CVE-2025-21729 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21729 *
-CVE-2025-21732 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21732 *
-CVE-2025-21739 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21739 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21768 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21768 *
-CVE-2025-21786 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21786 *
-CVE-2025-21801 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21801 *
-CVE-2025-21825 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21825 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21861 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21861 *
-CVE-2025-21868 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21868 *
-CVE-2025-21870 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21870 *
-CVE-2025-21885 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21885 *
-CVE-2025-21888 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21888 *
-CVE-2025-21892 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21892 *
-CVE-2025-21907 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21907 *
-CVE-2025-21927 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21927 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-21961 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21961 *
-CVE-2025-21972 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21972 *
-CVE-2025-21976 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21976 *
-CVE-2025-21985 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21985 *
-CVE-2025-22022 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22022 *
-CVE-2025-22026 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22026 *
-CVE-2025-22037 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22037 *
-CVE-2025-22039 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22039 *
-CVE-2025-22062 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22062 *
-CVE-2025-22070 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22070 *
-CVE-2025-22101 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22101 *
-CVE-2025-22103 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22103 *
-CVE-2025-22104 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22104 *
-CVE-2025-22105 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22105 *
-CVE-2025-22107 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22107 *
-CVE-2025-22108 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22108 *
-CVE-2025-22109 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22109 *
-CVE-2025-22111 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22111 *
-CVE-2025-22113 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22113 *
-CVE-2025-22115 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22115 *
-CVE-2025-22121 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22121 *
-CVE-2025-22124 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22124 *
-CVE-2025-22125 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22125 *
-CVE-2025-22127 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22127 *
-CVE-2025-23129 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23129 *
-CVE-2025-23130 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23130 *
-CVE-2025-23131 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23131 *
-CVE-2025-23132 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23132 *
-CVE-2025-23133 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23133 *
-CVE-2025-23135 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23135 *
-CVE-2025-23155 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23155 *
-CVE-2025-37743 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37743 *
-CVE-2025-37745 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37745 *
-CVE-2025-37747 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37747 *
-CVE-2025-37750 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37750 *
-CVE-2025-37759 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37759 *
-CVE-2025-37802 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37802 *
-CVE-2025-37806 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37806 *
-CVE-2025-37807 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37807 *
-CVE-2025-37822 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37822 *
-CVE-2025-37826 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37826 *
-CVE-2025-37833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37833 *
-CVE-2025-37834 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37834 *
-CVE-2025-37856 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37856 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-37861 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37861 *
-CVE-2025-37870 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37870 *
-CVE-2025-37877 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37877 *
-CVE-2025-37880 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37880 *
-CVE-2025-37882 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37882 *
-CVE-2025-37899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37899 *
-CVE-2025-37907 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37907 *
-CVE-2025-37920 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37920 *
-CVE-2025-37926 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37926 *
-CVE-2025-37945 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37945 *
-CVE-2025-37977 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37977 *
-CVE-2025-38011 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38011 *
-CVE-2025-38022 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38022 *
-CVE-2025-38029 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38029 *
-CVE-2025-38038 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38038 *
-CVE-2025-38041 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38041 *
-CVE-2025-38042 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38042 *
-CVE-2025-38057 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38057 *
-CVE-2025-38060 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38060 *
-CVE-2025-38064 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38064 *
-CVE-2025-38069 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38069 *
-CVE-2025-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38096 *
-CVE-2025-38099 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38099 *
-CVE-2025-38104 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38104 *
-CVE-2025-38125 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38125 *
-CVE-2025-38129 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38129 *
-CVE-2025-38132 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38132 *
-CVE-2025-38140 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38140 *
-CVE-2025-38162 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38162 *
-CVE-2025-38164 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38164 *
-CVE-2025-38189 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38189 *
-CVE-2025-38199 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38199 *
-CVE-2025-38201 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38201 *
-CVE-2025-38203 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38203 *
-CVE-2025-38204 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38204 *
-CVE-2025-38206 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38206 *
-CVE-2025-38207 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38207 *
-CVE-2025-38232 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38232 *
-CVE-2025-38234 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38234 *
-CVE-2025-38237 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38237 *
-CVE-2025-38248 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38248 *
-CVE-2025-38261 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38261 *
-CVE-2025-38264 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38264 *
-CVE-2025-38269 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38269 *
-CVE-2025-38272 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38272 *
-CVE-2025-38292 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38292 *
-CVE-2025-38303 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38303 *
-CVE-2025-38311 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38311 *
-CVE-2025-38333 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38333 *
-CVE-2025-38359 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38359 *
-CVE-2025-38361 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38361 *
-CVE-2025-38408 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38408 *
-CVE-2025-38414 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38414 *
-CVE-2025-38426 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38426 *
-CVE-2025-38438 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38438 *
-CVE-2025-38507 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38507 *
-CVE-2025-38531 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38531 *
-CVE-2025-38556 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38556 *
-CVE-2025-38582 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38582 *
-CVE-2025-38584 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38584 *
-CVE-2025-38585 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38585 *
-CVE-2025-38591 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38591 *
-CVE-2025-38593 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38593 *
-CVE-2025-38595 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38595 *
-CVE-2025-38597 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38597 *
-CVE-2025-38605 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38605 *
-CVE-2025-38627 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38627 *
-CVE-2025-38636 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38636 *
-CVE-2025-38643 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38643 *
-CVE-2025-38656 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38656 *
-CVE-2025-38660 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38660 *
-CVE-2025-38678 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38678 *
-CVE-2025-38704 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38704 *
-CVE-2025-38705 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38705 *
-CVE-2025-38710 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38710 *
-CVE-2025-38717 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38717 *
-CVE-2025-38722 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38722 *
-CVE-2025-39677 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39677 *
-CVE-2025-39705 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39705 *
-CVE-2025-39707 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39707 *
-CVE-2025-39732 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39732 *
-CVE-2025-39745 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39745 *
-CVE-2025-39746 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39746 *
-CVE-2025-39747 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39747 *
-CVE-2025-39748 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39748 *
-CVE-2025-39754 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39754 *
-CVE-2025-39762 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39762 *
-CVE-2025-39764 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39764 *
-CVE-2025-39779 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39779 *
-CVE-2025-39789 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39789 *
-CVE-2025-39805 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39805 *
-CVE-2025-39810 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39810 *
-CVE-2025-39829 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39829 *
-CVE-2025-39833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39833 *
-CVE-2025-39850 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39850 *
-CVE-2025-39851 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39851 *
-CVE-2025-39859 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39859 *
-CVE-2025-39862 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39862 *
-CVE-2025-39901 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39901 *
-CVE-2025-39905 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39905 *
-CVE-2025-39910 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39910 *
-CVE-2025-39925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39925 *
-CVE-2025-39927 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-39927 *
-CVE-2025-40325 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40325 *
-CVE-2025-4598 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4598 *
-CVE-2025-50182 (CVSS3: N/A): python3-urllib3 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-50182 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-54566 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-54566 *
-CVE-2025-54567 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-54567 *
-CVE-2025-60876 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-60876 *
-CVE-2025-61727 (CVSS3: N/A): go-binary-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-61727 *
-CVE-2025-61729 (CVSS3: N/A): go-binary-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-61729 *
-CVE-2025-66382 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66382 *
-CVE-2025-68972 (CVSS3: N/A): gnupg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68972 *
-CVE-2025-68973 (CVSS3: N/A): gnupg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68973 *
-
-Summary of CVE counts by recipe:
-  linux-yocto: 454
-  qemu:qemu-native:qemu-system-native: 3
-  gnupg: 2
-  go-binary-native: 2
-  libsndfile1: 2
-  python3:python3-native: 2
-  busybox: 1
-  expat:expat-native: 1
-  python3-urllib3: 1
-
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+T24gRnJpLCAyMDI2LTAxLTA5IGF0IDExOjQ2ICswMTAwLCBZb2FubiBDb25nYWwgd3JvdGU6DQo+
+IExlwqB2ZW4uIDkgamFudi4gMjAyNiDDoMKgMDU6NTUsIEFsaXN0YWlyIEZyYW5jaXMgdmlhDQo+
+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPGFsaXN0YWlyMjM9Z21haWwuY29tQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmc+DQo+IGEgw6ljcml0wqA6DQo+ID4gRnJvbTogQWxpc3RhaXIgRnJhbmNpcyA8
+YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tPg0KPiA+IA0KPiA+IFdoZW4gYnVpbGRpbmcgdGhlIExp
+bnV4IGtlcm5lbCB3aXRoIFJ1c3Qgc3VwcG9ydCBlbmFibGVkIHRoZSBrZXJuZWwNCj4gPiBleHBl
+Y3RzIHRvIGZpbmQgdGhlIFJ1c3Qgc291cmNlIGFzIHRoZSBrZXJuZWwgYnVpbGQgc3lzdGVtIHdp
+bGwNCj4gPiBjcm9zcw0KPiA+IGNvbXBpbGUgdGhlIGNvcmUgbGlicmFyeS4NCj4gPiANCj4gPiBU
+aGlzIHBhdGNoIHVzZXMgdGhlIFJ1c3QgdG9vbGluZyB0byBpbnN0YWxsIHRoZSBSdXN0IHNvdXJj
+ZSB3aGVuIHdlDQo+ID4gaW5zdGFsbCB0aGUgY29tcGlsbGVyIGFzIHdlbGwuDQo+ID4gDQo+IA0K
+PiANCj4gSGVsbG8sDQo+IA0KPiBGWUksIHRoZXJlIGlzIGN1cnJlbnRseSBhIHdob2xlIHNlcmll
+cyBhYm91dCBlbmFibGluZyBydXN0IGluIHRoZQ0KPiBsaW51eC15b2N0byBrZXJuZWwNCj4gOsKg
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvMjAyNTEyMzAxNDE1NDAu
+MTk3NDM4MC0xDQo+IC1IYXJpc2guU2FkaW5lbmlAd2luZHJpdmVyLmNvbS8NCg0KVGhhbmtzIGZv
+ciB0aGUgcG9pbnRlciENCg0KVGhhdCBsaW5rIHJlc3VsdHMgaW4gYSA0MDMsIGJ1dCBJIGZvdW5k
+IHRoZSBwYXRjaGVzLg0KDQo+IEhvdyBkb2VzIHlvdXIgc2VyaWVzIGludGVyYWN0IHdpdGggaXQ/
+IElmIGJvdGggZG8gdGhlIHNhbWUgdGhpbmcsDQo+IG1heWJlIHlvdSBjYW4gaGVscCByZXZpZXdp
+bmcgSGFyaXNoJ3Mgb25lPw0KDQpUaGV5IGFyZSBhY3R1YWxseSBwcmV0dHkgc2ltaWxhci4gVGhh
+dCBzZXJpZXMgaW5jbHVkZXMgYSBwYXRjaCBzaW1pbGFyDQp0byBteSAyLCBidXQgYWxzbyBhIHJh
+bmdlIG9mIG90aGVyIHBhdGNoZXMgdG8gYWxsb3cgYnVpbGRpbmcgUnVzdCBmb3INCkxpbnV4IGJ5
+IGRlZmF1bHQgKEkgYW0gdXNpbmcgYSBrZXJuZWwgYmJhcHBlbmQpDQoNCj4gDQo+IEFsc28sIHRo
+ZSBwYXRjaCB5b3UgYWRkIG9ubHkgbWVudGlvbnMgYWRkaW5nIHRoZSAqZG9jKiB3aHkgZG9lcyB0
+aGF0DQo+IGhlbHAgd2l0aCBsaW51eC15b2N0byBzZWFyY2hpbmcgZm9yIHJ1c3QgKmNvZGUqPw0K
+DQpXZSB3YW50IHRvIHVzZSB0aGUgUnVzdCBib290c3RyYXAgdG9vbGluZyB0byBpbnN0YWxsIHRo
+ZSBzb3VyY2UgY29kZS4NClRoZXJlIGlzIGEgYnVnIGluIHRoZSB0b29saW5nIHdoaWNoIHJlcXVp
+cmVzIHRoZSBkb2NzIHRvIGJlIGJ1aWx0IGZpcnN0DQpidXQgdGhleSBhcmVuJ3QgYmVpbmcgYnVp
+bHQuIEhlbmNlIHRoZSBwYXRjaCB0byBmaXggdGhlIFJ1c3QgdG9vbGluZyBzbw0Kd2UgY2FuIGlu
+c3RhbGwgdGhlIHNvdXJjZSBjb2RlLg0KDQpBbGlzdGFpcg0KDQo+IA0KPiA+IFNpZ25lZC1vZmYt
+Ynk6IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbT4NCj4gPiAtLS0N
+Cj4gPiDCoC4uLi1ob3N0LWRvY3VtZW50YXRpb24taXMtYnVpbHQtYmVmb3JlLS5wYXRjaCB8IDYw
+DQo+ID4gKysrKysrKysrKysrKysrKysrKw0KPiA+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
+c3QvcnVzdC1zb3VyY2UuaW5jwqAgwqAgfMKgIDEgKw0KPiA+IMKgbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3J1c3QvcnVzdF8xLjkyLjAuYmLCoCDCoCDCoHzCoCA0ICstDQo+ID4gwqAzIGZpbGVzIGNo
+YW5nZWQsIDY0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiDCoGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVzdC9maWxlcy8wMDAxLQ0KPiA+IGJvb3Rz
+dHJhcC1FbnN1cmUtaG9zdC1kb2N1bWVudGF0aW9uLWlzLWJ1aWx0LWJlZm9yZS0ucGF0Y2gNCj4g
+PiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvZmlsZXMvMDAw
+MS1ib290c3RyYXAtDQo+ID4gRW5zdXJlLWhvc3QtZG9jdW1lbnRhdGlvbi1pcy1idWlsdC1iZWZv
+cmUtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiA+IGRldnRvb2xzL3J1c3QvZmlsZXMvMDAwMS1i
+b290c3RyYXAtRW5zdXJlLWhvc3QtZG9jdW1lbnRhdGlvbi1pcy0NCj4gPiBidWlsdC1iZWZvcmUt
+LnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi5l
+NTYxMjY2ZDcwDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9ydXN0L2ZpbGVzLzAwMDEtYm9vdHN0cmFwLUVuc3VyZS1ob3N0LQ0KPiA+IGRvY3VtZW50
+YXRpb24taXMtYnVpbHQtYmVmb3JlLS5wYXRjaA0KPiA+IEBAIC0wLDAgKzEsNjAgQEANCj4gPiAr
+RnJvbSAyZTg5YmY3OTY5YWM2ZDc3YjdjNmEzODI2NWIxZWFiYzhlYzZkZjdhIE1vbiBTZXAgMTcg
+MDA6MDA6MDANCj4gPiAyMDAxDQo+ID4gK0Zyb206IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWly
+LmZyYW5jaXNAd2RjLmNvbT4NCj4gPiArRGF0ZTogRnJpLCA5IEphbiAyMDI2IDA4OjM1OjQzICsx
+MDAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSF0gYm9vdHN0cmFwOiBFbnN1cmUgaG9zdCBkb2N1bWVu
+dGF0aW9uIGlzIGJ1aWx0DQo+ID4gYmVmb3JlIHRhcmJhbGwNCj4gPiArIGlzIGNyZWF0ZWQNCj4g
+PiArDQo+ID4gK2BydW5fZGVmYXVsdF9kb2Nfc3RlcHMoKWAgaXMgY2FsbGVkIHRvIGVuc3VyZSB0
+aGUgZG9jdW1lbnRhdGlvbiBpcw0KPiA+IGJ1aWx0DQo+ID4gK2J5IGBEb2NzOjpydW4oKWAgYW5k
+IGl0IHNob3VsZCBidWlsZCB0aGUgZG9jdW1lbnRhdGlvbiBpZiBpdCBpc24ndA0KPiA+ICthbHJl
+YWR5IGJ1aWx0Lg0KPiA+ICsNCj4gPiArV2hlbiBydW5uaW5nIHRoZSBgaW5zdGFsbCBzcmNgIGNv
+bW1hbmQgSSdtIHNlZWluZyBmYWlsdXJlcyBhcyB0aGUNCj4gPiArYGJ1aWxkZXIuZG9jX291dCho
+b3N0KWAgZGlyZWN0b3J5IGRvZXMgbm90IGV4aXN0LiBUaGlzIGlzIGJlY2F1c2UNCj4gPiArYG1h
+dGNoX3BhdGhzX3RvX3N0ZXBzX2FuZF9ydW4oKWAgZG9lc24ndCBhY3R1YWxseSBidWlsZCBhbnkN
+Cj4gPiArZG9jdW1lbnRhdGlvbiBhcyB0aGUgYHBhdGhzLmlzX2VtcHR5KClgIGNhdXNlcyBhbiBl
+YXJseSByZXR1cm4uDQo+ID4gVGhpcw0KPiA+ICtyZXN1bHRzIGluIGluc3RhbGwgZmFpbHVyZXMg
+YXMgdGhlIGAqL2RvY2Agc3JjIGRpcmVjdG9yeSBkb2Vzbid0DQo+ID4gZXhpc3QuDQo+ID4gKw0K
+PiA+ICtUaGlzIHBhdGNoIHBhc3NlcyB0aGUgcGF0aHMgdG8gYHJ1bl9ob3N0X3N0ZXBfZGVzY3Jp
+cHRpb25zKClgIHdoZW4NCj4gPiBidWlsZGluZw0KPiA+ICtkb2N1bWVudGF0aW9uIHRvIGVuc3Vy
+ZSBpdCBpcyBjb3JyZWN0bHkgYnVpbHQuDQo+ID4gKw0KPiA+ICtUaGlzIGZpeGVzIGluc3RhbGxp
+bmcgdGhlIFJ1c3Qgc291cmNlIGNvZGUgaW4gT3BlbkVtYmVkZGVkLg0KPiA+ICsNCj4gPiArVXBz
+dHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQNCj4gPiBbaHR0cHM6Ly9naXRodWIuY29tL3J1c3QtbGFu
+Zy9ydXN0L3B1bGwvMTUwODQ1XQ0KPiA+ICtTaWduZWQtb2ZmLWJ5OiBBbGlzdGFpciBGcmFuY2lz
+IDxhbGlzdGFpci5mcmFuY2lzQHdkYy5jb20+DQo+ID4gKy0tLQ0KPiA+ICsgc3JjL2Jvb3RzdHJh
+cC9zcmMvY29yZS9idWlsZF9zdGVwcy9kaXN0LnJzIHwgMiArLQ0KPiA+ICsgc3JjL2Jvb3RzdHJh
+cC9zcmMvY29yZS9idWlsZGVyL21vZC5yc8KgIMKgIMKgIHwgNSArKysrKw0KPiA+ICsgMiBmaWxl
+cyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiArDQo+ID4gK2Rp
+ZmYgLS1naXQgYS9zcmMvYm9vdHN0cmFwL3NyYy9jb3JlL2J1aWxkX3N0ZXBzL2Rpc3QucnMNCj4g
+PiBiL3NyYy9ib290c3RyYXAvc3JjL2NvcmUvYnVpbGRfc3RlcHMvZGlzdC5ycw0KPiA+ICtpbmRl
+eCBmNDdiMGMwYjAwNy4uMmZiYjA2ODYzMmUgMTAwNjQ0DQo+ID4gKy0tLSBhL3NyYy9ib290c3Ry
+YXAvc3JjL2NvcmUvYnVpbGRfc3RlcHMvZGlzdC5ycw0KPiA+ICsrKysgYi9zcmMvYm9vdHN0cmFw
+L3NyYy9jb3JlL2J1aWxkX3N0ZXBzL2Rpc3QucnMNCj4gPiArQEAgLTgzLDcgKzgzLDcgQEAgZm4g
+cnVuKHNlbGYsIGJ1aWxkZXI6ICZCdWlsZGVyPCdfPikgLT4NCj4gPiBPcHRpb248R2VuZXJhdGVk
+VGFyYmFsbD4gew0KPiA+ICvCoCDCoCDCoCDCoCDCoC8vIEZJWE1FOiBleHBsaWNpdGx5IGVudW1l
+cmF0ZSB0aGUgc3RlcHMgdGhhdCBzaG91bGQgYmUNCj4gPiBleGVjdXRlZCBoZXJlLCBhbmQgZ2F0
+aGVyIHRoZWlyDQo+ID4gK8KgIMKgIMKgIMKgIMKgLy8gZG9jdW1lbnRhdGlvbiwgcmF0aGVyIHRo
+YW4gcnVubmluZyBhbGwgZGVmYXVsdCBzdGVwcw0KPiA+IGFuZCB0aGVuIHJlYWQgdGhlaXIgb3V0
+cHV0DQo+ID4gK8KgIMKgIMKgIMKgIMKgLy8gZnJvbSBhIHNoYXJlZCBkaXJlY3RvcnkuDQo+ID4g
+Ky3CoCDCoCDCoCDCoCBidWlsZGVyLnJ1bl9kZWZhdWx0X2RvY19zdGVwcygpOw0KPiA+ICsrwqAg
+wqAgwqAgwqAgYnVpbGRlci5ydW5faG9zdF9kZWZhdWx0X2RvY19zdGVwcygpOw0KPiA+ICsgDQo+
+ID4gK8KgIMKgIMKgIMKgIMKgbGV0IGRlc3QgPSAic2hhcmUvZG9jL3J1c3QvaHRtbCI7DQo+ID4g
+KyANCj4gPiArZGlmZiAtLWdpdCBhL3NyYy9ib290c3RyYXAvc3JjL2NvcmUvYnVpbGRlci9tb2Qu
+cnMNCj4gPiBiL3NyYy9ib290c3RyYXAvc3JjL2NvcmUvYnVpbGRlci9tb2QucnMNCj4gPiAraW5k
+ZXggNGEwNGI5N2M1NDkuLjE2YzFjMzI0YmUwIDEwMDY0NA0KPiA+ICstLS0gYS9zcmMvYm9vdHN0
+cmFwL3NyYy9jb3JlL2J1aWxkZXIvbW9kLnJzDQo+ID4gKysrKyBiL3NyYy9ib290c3RyYXAvc3Jj
+L2NvcmUvYnVpbGRlci9tb2QucnMNCj4gPiArQEAgLTExMTcsNiArMTExNywxMSBAQCBwdWIgZm4g
+ZXhlY3V0ZV9jbGkoJnNlbGYpIHsNCj4gPiArwqAgwqAgwqAgwqANCj4gPiDCoHNlbGYucnVuX3N0
+ZXBfZGVzY3JpcHRpb25zKCZCdWlsZGVyOjpnZXRfc3RlcF9kZXNjcmlwdGlvbnMoc2VsZi5raQ0K
+PiA+IG5kKSwgJnNlbGYucGF0aHMpOw0KPiA+ICvCoCDCoCDCoH0NCj4gPiArIA0KPiA+ICsrwqAg
+wqAgLy8vIFJ1biBhbGwgZGVmYXVsdCBkb2N1bWVudGF0aW9uIHN0ZXBzIHRvIGJ1aWxkDQo+ID4g
+ZG9jdW1lbnRhdGlvbi4NCj4gPiArK8KgIMKgIHB1YiBmbiBydW5faG9zdF9kZWZhdWx0X2RvY19z
+dGVwcygmc2VsZikgew0KPiA+ICsrwqAgwqAgwqAgwqANCj4gPiBzZWxmLnJ1bl9zdGVwX2Rlc2Ny
+aXB0aW9ucygmQnVpbGRlcjo6Z2V0X3N0ZXBfZGVzY3JpcHRpb25zKEtpbmQ6OkRvDQo+ID4gYyks
+ICZzZWxmLnBhdGhzKTsNCj4gPiArK8KgIMKgIH0NCj4gPiArKw0KPiA+ICvCoCDCoCDCoC8vLyBS
+dW4gYWxsIGRlZmF1bHQgZG9jdW1lbnRhdGlvbiBzdGVwcyB0byBidWlsZA0KPiA+IGRvY3VtZW50
+YXRpb24uDQo+ID4gK8KgIMKgIMKgcHViIGZuIHJ1bl9kZWZhdWx0X2RvY19zdGVwcygmc2VsZikg
+ew0KPiA+ICvCoCDCoCDCoCDCoA0KPiA+IMKgc2VsZi5ydW5fc3RlcF9kZXNjcmlwdGlvbnMoJkJ1
+aWxkZXI6OmdldF9zdGVwX2Rlc2NyaXB0aW9ucyhLaW5kOjpEDQo+ID4gb2MpLCAmW10pOw0KPiA+
+ICstLSANCj4gPiArMi41Mi4wDQo+ID4gKw0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcnVzdC9ydXN0LXNvdXJjZS5pbmMNCj4gPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9ydXN0L3J1c3Qtc291cmNlLmluYw0KPiA+IGluZGV4IGQ3ZDQ0NTEwZTQuLjhhMjJkNDg0YzEg
+MTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1zb3VyY2Uu
+aW5jDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1zb3VyY2UuaW5j
+DQo+ID4gQEAgLTgsNiArOCw3IEBAIFNSQ19VUkkgKz0NCj4gPiAiaHR0cHM6Ly9zdGF0aWMucnVz
+dC1sYW5nLm9yZy9kaXN0L3J1c3RjLSR7UlVTVF9WRVJTSU9OfS1zcmMudGFyLnh6DQo+ID4gO24N
+Cj4gPiDCoCDCoCDCoCDCoCDCoCDCoA0KPiA+IMKgZmlsZTovLzAwMDEtc3JjLWNvcmUtYnVpbGRf
+c3RlcHMtdG9vbC5ycy1zd2l0Y2gtb2ZmLWx0by1mb3ItcnVzdC5wDQo+ID4gYXRjaDtwYXRjaGRp
+cj0ke1JVU1RTUkN9IFwNCj4gPiDCoCDCoCDCoCDCoCDCoCDCoA0KPiA+IMKgZmlsZTovL3JldmVy
+dC1saW5rLXN0ZC1zdGF0aWNhbGx5LWluLXJ1c3RjX2RyaXZlci1mZWF0dXJlLnBhdGNoO3BhDQo+
+ID4gdGNoZGlyPSR7UlVTVFNSQ30gXA0KPiA+IMKgIMKgIMKgIMKgIMKgIMKgDQo+ID4gwqBmaWxl
+Oi8vMDAwMS1yaXNjdjMyLURlZmluZS1wbGFpbi1zeXNjYWxscy1hcy10aGVpci10aW1lNjQtdmFy
+aWFuLnANCj4gPiBhdGNoO3BhdGNoZGlyPSR7UlVTVFNSQ30gXA0KPiA+ICvCoCDCoCDCoCDCoCDC
+oCDCoA0KPiA+IGZpbGU6Ly8wMDAxLWJvb3RzdHJhcC1FbnN1cmUtaG9zdC1kb2N1bWVudGF0aW9u
+LWlzLWJ1aWx0LWJlZm9yZS0ucGF0Y2gNCj4gPiAgICBcDQo+ID4gwqAiDQo+ID4gwqBTUkNfVVJJ
+W3J1c3Quc2hhMjU2c3VtXSA9DQo+ID4gImViZWUxNzBiZmU0YzRkZmM1OTUyMWExMDFkZTY1MWU1
+NTM0ZjRkYWU4ODk3NTZhNWM5N2NhOWVhNDBkMGMzMDciDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3RfMS45Mi4wLmJiDQo+ID4gYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcnVzdC9ydXN0XzEuOTIuMC5iYg0KPiA+IGluZGV4IGEyNWY2NWY2NzQu
+LjMwNjY2MWI2ZTQgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3Qv
+cnVzdF8xLjkyLjAuYmINCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVzdC9ydXN0
+XzEuOTIuMC5iYg0KPiA+IEBAIC02LDggKzYsOSBAQCBMSUNfRklMRVNfQ0hLU1VNID0NCj4gPiAi
+ZmlsZTovL0NPUFlSSUdIVDttZDU9MTFhMzg5OTgyNWY0Mzc2ODk2ZTQzOGM4Yzc1M2Y4ZGMiDQo+
+ID4gDQo+ID4gwqBpbmhlcml0IHJ1c3QNCj4gPiDCoGluaGVyaXQgY2FyZ29fY29tbW9uDQo+ID4g
+K2luaGVyaXQgcGtnY29uZmlnDQo+ID4gDQo+ID4gLURFUEVORFMgKz0gImxsdm0iDQo+ID4gK0RF
+UEVORFMgKz0gImxsdm0gb3BlbnNzbCINCj4gPiANCj4gDQo+IA0KPiBUaGlzIG5ldyBkZXBlbmRl
+bmN5IHNob3VsZCBiZSBleHBsYWluZWQgaW4gdGhlIGNvbW1pdCBtZXNzYWdlLsKgDQo+IMKgDQo+
+ID4gwqAjIG5hdGl2ZSBydXN0IHVzZXMgY2FyZ28vcnVzdGMgZnJvbSBiaW5hcnkgc25hcHNob3Rz
+IHRvIGJvb3RzdHJhcA0KPiA+IMKgIyBidXQgZXZlcnl0aGluZyBlbHNlIHNob3VsZCB1c2Ugb3Vy
+IG5hdGl2ZSBidWlsZHMNCj4gPiDCoERFUEVORFM6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICIgY2Fy
+Z28tbmF0aXZlIHJ1c3QtbmF0aXZlIg0KPiA+IEBAIC0yODIsNiArMjgzLDcgQEAgZG9faW5zdGFs
+bCAoKSB7DQo+ID4gDQo+ID4gwqBydXN0X2RvX2luc3RhbGwoKSB7DQo+ID4gwqAgwqAgwqBydXN0
+X3J1bnggaW5zdGFsbA0KPiA+ICvCoCDCoCBydXN0X3J1bnggaW5zdGFsbCBzcmMNCj4gPiDCoH0N
+Cj4gPiANCj4gPiDCoHJ1c3RfZG9faW5zdGFsbDpjbGFzcy1uYXRpdmVzZGsoKSB7DQo=
 
