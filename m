@@ -2,62 +2,62 @@ Return-Path: <alistair23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BC7D2502E
-	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 00:11:29 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21829.1768176686453131590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 593F8D25031
+	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 00:13:19 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22042.1768176793981577767
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jan 2026 16:11:26 -0800
+ Sun, 11 Jan 2026 16:13:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dt64daK5;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alistair23@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64b9cb94ff5so8412867a12.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jan 2026 16:11:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MPI18xEK;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alistair23@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b8718187eb6so64515466b.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jan 2026 16:13:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768176684; x=1768781484; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1768176792; x=1768781592; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xx2N9C8xWjheZboOI7mhwIPQ+zvF70GKhcWzKvv23tY=;
-        b=dt64daK5K3iPSqwo2p+cBbPLyglhuq2fMcP0SFDtk/S/SbT7AJeu0y2rGnatjrlbvj
-         LOGGlSmySD3hUljz4eMUFxsktm3NoyzDInM8qBPWMaTcsrWl5WR6xT8F4Yn0JDDjENMQ
-         TRq0rgLniUL5b/ScyTB7QNGFgmp5Y6ksAWK7GeUZLmqDWI1FFjacj1fkZx02/b+z6He6
-         XVVD9/fZ328NeBC7xI1pg8f/B/F+2FJ8u4DwHLcR2vJEKQ6K0twYAY1PiEnfcBJ+a+3k
-         4EYEcfr7JN0OaPD0CcMHshmxvQjvb6UCSD9EdijYunEKJ3qMPo3/hwvygVUddQ+zNGA0
-         pDWw==
+        bh=/TzDEqD3ZSSdHv0/gGzlvGl0uzfIEEO3VjPkULZ/MJ0=;
+        b=MPI18xEKUrSYJ+B8R8aGM7QaWQEI4XqRhdZJ+TQ8UilI1dJFWcmHmMVCPYQ2FokJtm
+         /VosKS0+XzPvu90u6/yjVyLUh0nB8e+25nuqVbfFtwC4YJ+ObevM+PoGjkfBnRo7LJbt
+         imUa+Q5g4x2wd9yt/T3+FNwwQBqRzJo8ybMkV2avm9X0cCC6PgUPrrLyEqy902W4keB+
+         7Vs4B+ncL9mv60J70TKHNNWhJ+BgF+JTeEOU/3sAAbGqyY5rLX+E/nrLQgacLb5j87T3
+         LBm3cDrCyT8v5QJNZX0fbshLlZelsLPLeIG/G4qB60xBfwWKZK9eA3l+OWnzxsNpALGi
+         YMzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768176684; x=1768781484;
+        d=1e100.net; s=20230601; t=1768176792; x=1768781592;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xx2N9C8xWjheZboOI7mhwIPQ+zvF70GKhcWzKvv23tY=;
-        b=BMkojtNiQBQj0EXZIeIJZrA5+/nz2AJmcIL0/KrgZ0KlFd28PbX9f3Ul2bpT0f9L6E
-         oIzD154aSaa5tKY52BebbMPioAaazisZTdLqsMIkrZuzFtcBoCdNkFw43BZIBvvXID+k
-         cCxOq088tGERMToruTC0S9+wByyCLJ/gvcrUiOh4hrpNPmeJcWQJaTnVp52Bamaf5NWb
-         81e83b0StuG/3wtKMLD2df/2CkHek/5O8+AzdUbMYZ+CY3HVCRZx+LX0ExAvmpa5plCB
-         HP46O6TaYAwI66+YABbSf0V7MohQb3Cxxd+cbkOWV7vmKg7vPRNdGBNRN0Ah/9/j2I9Y
-         9IAA==
-X-Gm-Message-State: AOJu0Yxjrg/lW313PqNJu9gGI1u8mv0SfOURO+nD7IAgg5gHPcYMJjHp
-	JXweFGj4CrfH2ZNSqI+05blL2CQGDAKpMfilto1pZSZ3+05HKLQnbIj4r3kZlaxEcKl4R/5L0bI
-	gztFG+t7WcHtB0WeOQJjYVpTRL0chboY=
-X-Gm-Gg: AY/fxX5G7BbKs6+vleS49S1vhoAQEV01keTYO4CSflTFIQ9vgU75g53fpoYQCyBj1Rs
-	+nEeWwt57WgTJ+oKU76YIrp98k7+cTVIcwvbqfGTfmBfd3Jl3vhW7PJ/I2W9qHp+lOOXVJ1cs9S
-	Zcs+gfIZKMQ2oH/03u7bvoN9ZEeqpnCZUlLf1HDAIFKbak0Mo3I/rrmfz5vz1UNTnpjOllguaV4
-	eXcpFzFezgClkX13mR2KSc588JI8C8PdZmdGnn28B8EY9x94mDlo7NZOCMiQLQFJcPfrn1XzlIl
-	/dq8xB2MEYFI3e3Il/nwHZdGq/q1JJG9Ojp2
-X-Google-Smtp-Source: AGHT+IEZ1HZcf5AwkV0gkAJS1nLaaRnoVUNdXpnEAYLu7jgHxUf+Ba4cgQcPtn7bHuz7i+fHzm7pnLiNx/IjCZfBowQ=
-X-Received: by 2002:a17:907:c0e:b0:b73:594e:1c47 with SMTP id
- a640c23a62f3a-b84452837b5mr1515804466b.26.1768176684449; Sun, 11 Jan 2026
- 16:11:24 -0800 (PST)
+        bh=/TzDEqD3ZSSdHv0/gGzlvGl0uzfIEEO3VjPkULZ/MJ0=;
+        b=D539+I3bBXFvIC35tNoycsK50Dx1WObTZOtOgo9eFmhmnZK7CnXsjPtnFxfAqSBrkn
+         KxGg5N8dpOgtNZ/2l8inNRE2OMM2BbdrxoTPTGPGZ7sbt26A5V9RdZiE/0sjCUCuugjI
+         FRmHjM6tEkB+cG+5bYYP5/NqReOhKDJtzaUxWXrFNUkI1mAkZwCX1NhrAbNNfhp8rJyc
+         gqzsY5gEYn0sFJzflBvc+6Kb6ReoqtynNqzsAQgHLvs9z/V5DNVEpWdWJ33iaOv6OUGO
+         nbTExpIPs2fTxTJovzi36OGWI+aR/HPxDv2cK4wJShLDGVbu7CAdUm+HjO9vB9FeeNQI
+         3+3A==
+X-Gm-Message-State: AOJu0YzF/DcKJR5NIC7n1xbCLuKPSia+oqcjIKWx2wEDVsn91dU7qfLM
+	Z7rrmMYfyX9jefO7SjYOpyEDyip+VypJepGkX4pkVyt65uFNs+9ChZkk7JsNtNYpvbY8LkfO0lk
+	6yEFyXhiKNhZUXqPJeS6kHEgLSRpAbw8=
+X-Gm-Gg: AY/fxX5alWNNSDHgn0v2qEKTHE34gjzy1mmbHCfvzDAtRux5JJMezyj5qGx8FJEM/Tv
+	FhSYzellc7lDF3pqiG2PvukmPQt7Z9LjxRtVcqr3uhenfXXDl0BZfvO8LZ5r30wlpoJHWv8LAKX
+	EbcfCXzi7rGSZAuOvlF6awr1hc0OdVthdpeBkxelKVAxbe+NAktJsEr8qKNpd6SMHeGXOzZKaqq
+	dWFhPxYyQonYvbZiAdLKWX+snwVO4X1x0FTrso12pYH51Nc4tjhuAfCqaYGsV39LrGSmQAwOez3
+	BMPftzamFsXjSZ9I6qVvnc1F2g==
+X-Google-Smtp-Source: AGHT+IGc/n5MdyVEHSURN1PEgLEijGs3NBf7OsyN7O05V8KqbSd+dA2lSn4pZSbo/rVRFjhZcrtSZB1wl3kMu2lZiSA=
+X-Received: by 2002:a17:907:68a4:b0:b87:115:a724 with SMTP id
+ a640c23a62f3a-b870115ab6cmr265606366b.34.1768176792136; Sun, 11 Jan 2026
+ 16:13:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20251230141540.1974380-1-Harish.Sadineni@windriver.com> <20251230141540.1974380-2-Harish.Sadineni@windriver.com>
-In-Reply-To: <20251230141540.1974380-2-Harish.Sadineni@windriver.com>
+References: <20251230141540.1974380-1-Harish.Sadineni@windriver.com> <20251230141540.1974380-3-Harish.Sadineni@windriver.com>
+In-Reply-To: <20251230141540.1974380-3-Harish.Sadineni@windriver.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 12 Jan 2026 10:10:58 +1000
-X-Gm-Features: AZwV_QgQWyVV2fWkVE52SwyG1mkWJ8F_A9CpusG_L1fR4sH_Gz4tLpwripSL2ZU
-Message-ID: <CAKmqyKOPwTu99sBGaz7NeOZ9SRa+=ocmKJTrZ3RgUUHpGsEfNg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 01/15] bindgen-cli: extend BBCLASSEXTEND to
- include nativesdk
+Date: Mon, 12 Jan 2026 10:12:45 +1000
+X-Gm-Features: AZwV_QivF_xxpXBUkOUXdq8HQEhVVFBYN4kTdL5d4Xb2ViROnkjXpn7DKdYVw38
+Message-ID: <CAKmqyKPPRQ9DV_gBHZo21OJwLr2oKCVD2mdDRfubpnGStebjTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 02/15] linux-yocto: conditionally add
+ clang/rust/bindgen-cli-native to DEPENDS
 To: Harish.Sadineni@windriver.com
 Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
 	Sundeep.Kokkonda@windriver.com, bruce.ashfield@gmail.com, 
@@ -67,8 +67,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 00:11:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229179
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jan 2026 00:13:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229180
 
 On Wed, Dec 31, 2025 at 12:16=E2=80=AFAM Sadineni, Harish via
 lists.openembedded.org
@@ -76,14 +76,13 @@ lists.openembedded.org
 >
 > From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >
-> To support building Rust bindings in the SDK environment, bindgen needs t=
-o
-> be available for the `nativesdk` class as well.
->
-> This is required as part of making Rust available, where bindgen is a com=
-mon
-> dependency for generating Rust FFI bindings from C headers during cross-c=
-ompilation.
+> Conditionally add 'clang-native', 'rust-native' and 'bindgen-cli-native' =
+to 'DEPENDS'
+> when rust-kernel distro feature is enabled to support Rust-based kernel m=
+odules or
+> features that require generating Rust FFI bindings using bindgen during t=
+he kernel
+> build process.
 >
 > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 
@@ -92,30 +91,36 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-kernel/linux/linux-yocto.inc | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb b/me=
-ta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
-> index 2f3ec04e82..72dadfe52f 100644
-> --- a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
-> +++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
-> @@ -15,4 +15,4 @@ do_install:append:class-native() {
->         create_wrapper ${D}/${bindir}/bindgen LIBCLANG_PATH=3D"${STAGING_=
-LIBDIR_NATIVE}"
->  }
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-ker=
+nel/linux/linux-yocto.inc
+> index 4d0a726bb6..41b12b6f14 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -81,6 +81,8 @@ KERNEL_DEBUG ?=3D ""
+>  DEPENDS +=3D '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powerp=
+c" ], "elfutils-native", "", d)}'
+>  DEPENDS +=3D "openssl-native util-linux-native"
+>  DEPENDS +=3D "gmp-native libmpc-native"
+> +RUST_KERNEL_DEPENDS ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'rust-=
+kernel', 'clang-native rust-native bindgen-cli-native', '', d)}"
+> +DEPENDS +=3D "${RUST_KERNEL_DEPENDS}"
 >
-> -BBCLASSEXTEND =3D "native"
-> +BBCLASSEXTEND =3D "native nativesdk"
+>  # Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-n=
+ative available before do_kernel_configme
+>  do_kernel_configme[depends] +=3D '${@bb.utils.contains("KERNEL_DEBUG", "=
+True", "pahole-native:do_populate_sysroot", "", d)}'
 > --
 > 2.49.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#228667): https://lists.openembedded.org/g/openembedde=
-d-core/message/228667
-> Mute This Topic: https://lists.openembedded.org/mt/116997862/3619028
+> View/Reply Online (#228668): https://lists.openembedded.org/g/openembedde=
+d-core/message/228668
+> Mute This Topic: https://lists.openembedded.org/mt/116997863/3619028
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
 istair23@gmail.com]
