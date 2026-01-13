@@ -1,210 +1,180 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA02FD2D105
-	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 13:49:22 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.59402.1768312153941574332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E93A0D2D10A
+	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 14:08:12 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.60])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.59782.1768313287909643588
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jan 2026 05:49:14 -0800
+ Tue, 13 Jan 2026 06:08:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GwLO8mbX;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso35159555e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 05:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768312152; x=1768916952; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yd7Xz5xptFaVKBwhKPc/YSAQSj4bg+CehWVdurDG780=;
-        b=GwLO8mbXbD691v0uDzHZR5kaLiny2dLJeJ/KCcemppLJtqJi5NCyt2ii+M2sjyCo6h
-         lcCfe+5k1UCGpjyGo8XepZ7obynfze2XVCw2M7nsET0EYJCbBLutYYuqmeq65EZ689MO
-         W0DLlix4STQFxP2a2wNNfGcs3RkvXob66dnnk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768312152; x=1768916952;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yd7Xz5xptFaVKBwhKPc/YSAQSj4bg+CehWVdurDG780=;
-        b=Od+nt0TvQTvP7GxrcWTOK/95RbT2pKulhZBOha3JVbUg+pgHOdemWogUUtdS3xp0ZZ
-         D9GtHAAkKea4ZJOsZzGp3IuLnCZjqkosAOax3rE9zA5i/ArXp6vm55Egdj0QXmQXMX8L
-         wGcKPIMy3VgSj+cBZ/T8IBkrmal5kLxuA67Q9fyQYp/jVXxpq7mSkTn9ApzmFCOdt4Nw
-         QXA/38Rm+xGmNkDG3RyG9sRzG7/J1LTpWtKnRVuGTqa/6EOsv7uOEK/m+BOpf3djjaC/
-         +f126EgY15BHNdc4X0MVVY/88VywUGBiurobUPbS+shrG+LcHG5eTBqW5jalwwZ2YlkT
-         QlUw==
-X-Gm-Message-State: AOJu0YwHBeKzm8HVj3Vy3KkccsV4E6S0GGQd9xPwUPs10b2LnS1VaI8N
-	nL9Gie3xkpzXXTUAIGy7v1NsEGC7Tpfwez8hLJwcnvBwyzgyEgRUspztahMJ/7WwH+c3xUX6M+f
-	G7NAHRQItjvDBrV1XkEvobp7EHNaIMPO/+pbiI40+BQ==
-X-Gm-Gg: AY/fxX46YTsqFf6/BbCPuDt+1ZcIyR22widHh0G3lpDK4c8hPopc87xTXiz8ivl4ov6
-	XRMBqxWZEwix6fKGeV3fwQJhCqnQlkRmUw8X4fI4SiCkgHbKufrTumYRt7OkSsMQygmPSD3Tzp5
-	9MkHOXA6zgzIx+pXMX4ITUntrxwCJ+uvpWQY72CJHoBOoBq92kgDYdj5jai6qJAvzC/JkALLlDM
-	PReBH3IkroQYrOKn5+37DnJ7aVv3DUnXqDf+tBPFqi2mwPIQHqiUfzARLirh2NvXl6i4GT4Ww==
-X-Google-Smtp-Source: AGHT+IHiw2nTBRd/5RodWQPN4MbJXXJZN1aYGfnvoQCt6jquewGCmUDTjwxfPYwr/JN2GjnZFgsyw4MyVTYidKGPR/U=
-X-Received: by 2002:adf:e5c4:0:b0:432:5a4e:c023 with SMTP id
- ffacd0b85a97d-43423e85d0amr3240021f8f.13.1768312152116; Tue, 13 Jan 2026
- 05:49:12 -0800 (PST)
-MIME-Version: 1.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=VtNRHu/Y;
+ spf=pass (domain: siemens.com, ip: 40.107.159.60, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X2YsxBBzdQyi/pUqJzkyJkzaq85IRn+p38liXrPhm3aXj31pETPXMZFNpyczHao+5NlNbacsLuIrZR+rMslDZ2d6BB6vFzEOU9BG4zgJi1YozFGa4Yt6Yoh4RPbhvtYDbTFJYz/WNDkStYUBjznONgKQTjSPY0lHUPABshlNAtDCNCuwa/DlMu9IuGNfhnjUZLojOrX+laalFsGhE+KvqGpx0ifaGF9qS434FwOjUF2AP8OF3bI240CQIQNf9A1H/7e8LmZufRfk/DJSZtTr24d6ULkxZV2NA5oh6Ms7eOkHXzBFAs/bGO3nJreYIx1ZPpTlDuCxkLDf4apS55tVHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y1tUBAUufZjHLQuXYgOMWgvh/sjzgC+jawkz7/Ea2nA=;
+ b=ZDW+rvCsTgFx887tjV0ADUh5pD+SvkDSG9ZX2uJS7+HFpBMc7e/4qWoGGrGj8PgkUv7VtUAgxwfCDxtVHiKk0AAWIuLWqunpdNetJovKTNis7L0mUZu+FxkDVpGoYl3YfyVWTGyoPoVouYuUHf6XFpROWo4dHHX1oVErfxPIhrI8nGdgAXYoh2RVzPnH9HfLkAByx/toa9zw/tO/KHkbngYdGirKWKOeFqRTOvD4Y4xha4+jsrfy2SFkWqs0yRq8IZOOzrnQRQlOtIxgIf0tSNUKb0MvWJARpT1PfnsZ6tNVu1KprXLqsgdfmzV7/kSGQdWyi8TV9bv+ig+NCg0ZDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y1tUBAUufZjHLQuXYgOMWgvh/sjzgC+jawkz7/Ea2nA=;
+ b=VtNRHu/Y0n1plY/J6NuSabeVN1AcT4Z8IfzEHO1jUIX3If+1o2Qo7hDIbiqxWCRIzkx9skRnzbuw6U/H4bfqMFUcR+PdHaJ+BWAxgyhUhwIyXFiTYmLotWgrHq009Bp8F6qxYxemIS2gh1Xjj6i6NP75lKul3WqquB9xTFOvdDKfRnkvenXINLHfvHtTFWybQQhE24axWSHVQ2hn1MmfUYBEdTc8Px2Xzd9h9ZtWpguJS9qjERGwFsKt5/kpaEpo4ykL6IhkIQK+h6tXwUUxHAMZ+kgnvvpIPONEdCvHfThpxYhQPP+WsMsZblBRRpNg5dMs9RgswEOlqU5MZwBfNQ==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GV1PR10MB5988.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:5f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Tue, 13 Jan
+ 2026 14:08:03 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
+ 14:08:03 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Yoann Congal <yoann.congal@smile.fr>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][scarthgap][PATCH] qemu: ignore CVE-2025-54566 and
+ CVE-2025-54567
+Thread-Topic: [OE-core][scarthgap][PATCH] qemu: ignore CVE-2025-54566 and
+ CVE-2025-54567
+Thread-Index: AQHceqCsnyYyjtPjPkmWRyu6qOMEibVQMWqAgAADh+A=
+Date: Tue, 13 Jan 2026 14:08:03 +0000
+Message-ID: 
+ <AS1PR10MB56975A5A95E98D0FA05F738CFD8EA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: <20251231215843.487608-1-peter.marko@siemens.com>
-In-Reply-To: <20251231215843.487608-1-peter.marko@siemens.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Tue, 13 Jan 2026 14:48:45 +0100
-X-Gm-Features: AZwV_QhsZlpHI_D_8rN5rLrWViXUo30TzAoOjueyqBuG4-0g7xtScIuuJir0U1U
-Message-ID: <CAMSfU+4Tv5mO2sLgxitWvRceF5mM3MnuszSLMMSY+0jbG_9ZBw@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] qemu: ignore CVE-2025-54566 and CVE-2025-54567
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000adf2b006484541ed"
+ <CAMSfU+4Tv5mO2sLgxitWvRceF5mM3MnuszSLMMSY+0jbG_9ZBw@mail.gmail.com>
+In-Reply-To: 
+ <CAMSfU+4Tv5mO2sLgxitWvRceF5mM3MnuszSLMMSY+0jbG_9ZBw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=fc76ee76-9f3b-4142-8c0d-c37ca8ad84e6;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-01-13T14:01:22Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB5988:EE_
+x-ms-office365-filtering-correlation-id: 46ed714a-b8f9-4e06-8825-08de52ad2aef
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?RUQzbnVRSnZWdlNSaTRDczl0SzB1elZvVHdhb3hpZFRDM2dsKzJsRzhnNEVt?=
+ =?utf-8?B?eHlpL2EwMjE1UFlKN2dUTFpIemErT2hKd29RQXFNckFoSkZiQVlSanNIYVRZ?=
+ =?utf-8?B?OCs4VjJwRzExc1FEN3VkMHBwNkZ5SzczM3I2WTVMUDdFSGZhTkVvTTAyQWlw?=
+ =?utf-8?B?QWd4TUIxRlRsKzZQNTJCWDE0cCtUMXYyYU1Kd0JSL1YzNldja3pyMm5nL2ZG?=
+ =?utf-8?B?L2ZqdmVSSVZTQTF4THFYSGszbjRmUFhma3FoVldUQ3ZKSXo2eDVlejZ3enp6?=
+ =?utf-8?B?Vy9Db3E2NWxuMm9nMm9JOU50bUxmQXF1SVdFSDNTdWIrbjExaE5uQ040RlNO?=
+ =?utf-8?B?cFl3OWlkM2Y2RWp1NFhTNkJHWlBlUitHVDR3VTJicGVGWEhQMmVIR1R3WGps?=
+ =?utf-8?B?RXU4TzdpNFp3NnhXU3RYWjh4dHN1RGhUSTExWGRrMzlCdG1FSUhBeUxhNUhY?=
+ =?utf-8?B?SENacmQ0dSt5WlVXcjNEaERrVVBqSGkxaEVubGVObFV5Z1Y1YzZ2L2ptWkZz?=
+ =?utf-8?B?c1I5MXVJT21aMnJMT3pMUjg3NjZ6cGtNc2NJNGZYanZsQW8yTkF6YS9WanNF?=
+ =?utf-8?B?WERBMlRvbWN5SGJKd3dTenIxQ0VCTlVoa0ZWVVRpNlJsMjhYdWlFK21sQUhF?=
+ =?utf-8?B?a3hDSk5IdWxVUVN4RkFobENndFR6UFdQcDNHSzVlbENXTVM4UU00MWhQZUJC?=
+ =?utf-8?B?SUJLaUpyenNMRE5sazNiRC8yaERKRU9XTFIwbmFXajNCZnVUYW45SlhUYkpy?=
+ =?utf-8?B?VUIyYko3M3Uxa3puRzdFWFBaR1JDdVZSVEZ6a3hCMndvYTBRTjk1WUdxMVp6?=
+ =?utf-8?B?b3JPK1lNdTBKSVlYemwyMnNvUTFmcjZ4VGloMWhvdmpNaUx3ZEYwbnIvNzVG?=
+ =?utf-8?B?NHFBQUxHYkpVZ28zbzNxSzhFSlhPeno3dmw2elVnSHhPKzdYWHV6Uk03Ujlj?=
+ =?utf-8?B?ZlJ6K1k0a0hhbkdUK2tLV0tkOWpnZ2RBZFFxNHZjT2k4S0NOUytlN0pkMWdF?=
+ =?utf-8?B?SjBVMXBIWXh1cG9Sa1VFU2hNRG9EZmJUUG5XY0tSOGJzcXN5VlcwQkxxRDVt?=
+ =?utf-8?B?ZHlrSEx3TTNnUUt0d3VjWVIyekpOczFjVDg4SzhwUTNteDdsM1l3eUxZeDNV?=
+ =?utf-8?B?OGFVdHpvSTVmUjkxNm4rRWN3VURmbERwUzdZQk12V3pEcWkvKzlON0xqWTA4?=
+ =?utf-8?B?N3BuWCt2ZW5ua1FMQVNYUjA2MHNFY3JqRHNtQ1NyVlpoblVhdzRZajd2TERQ?=
+ =?utf-8?B?WWNNT1JvSytDTmc1bXRWcTJ6eERVdFhhdmFYY3l3MFZjU0V2bmhiQjhHMUlo?=
+ =?utf-8?B?TXM5bjRsWHMyT2FMSlIxMU9CM1duemhneWtKY0NEU1pWd2FYTlhUSkF5b3pi?=
+ =?utf-8?B?eHlKMFMzMWFCQTA3N2ovazBnajJCSEJvRXh6cWJ0R2dXdk9YK0NRdkl4RXNU?=
+ =?utf-8?B?dS9WL29ITFJWS0tZZzFhcGg1MDZlYUQvSEZtcXludG1zZXl5ZGpsMmxCQkRW?=
+ =?utf-8?B?Q1Q2aUJkYlNXYVVnak8xdnlmbWdCcCswWHNjWkVtSTJtb0UvRmJFVXBGUkx6?=
+ =?utf-8?B?aXpFbFpQanpLSENtTWhVRVNvTFFFaXNVV1BsZ3RjVmhZZjE2ZGMxVkF4YzRT?=
+ =?utf-8?B?bWtLYkF4dklPQW9Qa24wM2pQazd3bnNNbElMU2RtMkdyVGg2MHZ3eTdKMk9t?=
+ =?utf-8?B?UnFDR0pocWdFamdEUE9iek1LYnhBbnpydlJGTS92b2lvVjRZa0hWOEFKaWNz?=
+ =?utf-8?B?Uk8ydVpNckZteW5Jc3ZmZDVGVmdCUklCNVEvNDQ0Q3R0MHhXaVZlWjA3Wk5D?=
+ =?utf-8?B?cnhtdm9qTlJBM2JacUlYUEdBUFR5bVB6SXVVQmxhdFJjVitlQWNnVXMzZmFz?=
+ =?utf-8?B?MExDT0QxU0dnUzRQdllUeWhheU1RREZaNG1HUEdTcjhtNE1mUUtMK0JucXBU?=
+ =?utf-8?B?UDhXTDJzM3dCdnQvRHFQWGpwSHdUK2hzbmlDZDBLU2IyeHFUTXVQY1ZMYTc1?=
+ =?utf-8?B?V2hFS29rejFhVHVaLzRlTEd0M00rbHVXWEJHY3BLNEhEaWhUM1RFQVpadm41?=
+ =?utf-8?Q?aQAM+2?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?M1JaQXFVQzl4SFJXTHBvNVYzRkRvQmQ4dGJnYUN5RVh6WFN5eUVIc2lmTFFV?=
+ =?utf-8?B?UmZ0UG1rZVExajJaaTQ4RUViRk1DaFlQelUxZzNnbWh3cTdvY2JBY0NUYmJi?=
+ =?utf-8?B?TjZxcnhkdUMrRmRhUHhscGpoYkhrU0RHYWRRT3k4NVlQQncwSitEcDU1U0dy?=
+ =?utf-8?B?bzNMZDhmdUlZSDNGN1o1REFBNG1aZ3ptQno5bloxWE1JZlNMTE9YbW9rL1p0?=
+ =?utf-8?B?VEI4dU90R29ueDBlRWpQRHlCWGt4aEcwY2dqQ0RsaWRXSGpod2plR295MXgz?=
+ =?utf-8?B?RU5SSkp1RDQwM3FNNG1CUmpqSGlTcUVGdllva3p6TjBVZkZibXNVMzdxdEgz?=
+ =?utf-8?B?QWNYVUEzUE1Ia3A3cTRCN3QwQTlhY2F0QTJySC8reW40NVc5bG9IUjJOenNn?=
+ =?utf-8?B?aEtZcm84L0RJbWdXbzRWZUd0di9QaG1nV3hUcVhTQmsza3NueEQwdGc5Z1d3?=
+ =?utf-8?B?N2E4Y2E0SGNRUFd4Qk9PMUlQVjZUY0VNVkZiKzlEMmEycDBTbjZqTnZiczFt?=
+ =?utf-8?B?WGg2dmJ6QUpOSDZXSmU4aVJNdk16N2plSnBKSHJhNGs2SDhzUDlLRVl4VHlX?=
+ =?utf-8?B?ZDJKVkFhV2J2ZjlOamJmN1RjTktIYkFHS2VQdUJ3eldYdExZR2ZSNlhkQU1B?=
+ =?utf-8?B?ZW5HSVA5UnJzY0xTaTdjYzFYbjNTZml2dkhmNE9EbjcwWG5TckZ4Q1VqK0M2?=
+ =?utf-8?B?K2p2ZUdURjRyVGUxbVNtWTM0ZU55ZlpOLzdJd09FOW5sR2hyU3d0R25WVkpi?=
+ =?utf-8?B?cldJc2laMjFFbGwzVEdYVzd6SGVGc1dkV0d6UW54LzZZSlFOWVlpdGpSbmdt?=
+ =?utf-8?B?K3U5K3VoZzdRdU9yRmwwTnN1Z0hhMWRucG15Q3dpazVNanFxM3lRa3pWVkd6?=
+ =?utf-8?B?TXZrV1VULzZHZFhmNm1HeldmQ3FiZS94SEw1Y0pDNExJWGJJczZRb2JTWEpw?=
+ =?utf-8?B?SGtLdENYcEgyVnRVb1Z4RTMybDBvMlVzNTNUejh6QVdYSTNseGg2RGV2OS9w?=
+ =?utf-8?B?ek9qM0RXNUNFNGlxTGpLbUgyRk4xcnFUZTFVblVtWThLaDVhcGxKUjcvMzFq?=
+ =?utf-8?B?d1lPZDVOMDUxWGFvZzBxYVVuN0NvYmRQUUtHdWVaRGtGUWhobFlaYTZ3QTVv?=
+ =?utf-8?B?VXJjM0t6VDI0a0pWb1FiaXU3bzY2cWJDT3hOSE5PY0RHYm5xUGM1cDFFUTJE?=
+ =?utf-8?B?SThmWHNNQ1NrZjRBVEc0VGtzRml4NFJkSmUxZkdycU9mUndWVGtZeE9jZ2w2?=
+ =?utf-8?B?VHJuYThJcENnM21SVGx3YWtFYWgyWk4yL3prVDFhMUt6Y0lCaVFXVnJXMmE5?=
+ =?utf-8?B?ck9GUnFMYWdLU2htQ1RDaGlaMjFGRzFvc1B0c3licXIzUnpDZllOa1A2S1p1?=
+ =?utf-8?B?c0hEZTVQSWxsNXU2NDdIc2t3UDEzYkZlN0EvM09PUFdaaHJMMUprZFBMUmpa?=
+ =?utf-8?B?SjRTeHl1U0lGaTRuY0gySEQ3ZVBtL1F3cWM4c24rWlVnOXQrMVpBUk5IczBo?=
+ =?utf-8?B?aEVjWmUwdExhQlBJV0lDTUluR3B3cm9rbVljd3U5ZUdJWUZic2FrMEcwMHlQ?=
+ =?utf-8?B?QlZyOU1xZUQ0RVY1YjFNc292Y0RzOFhVY05OQldsNE1UU3JzQ2YvcXNrQ2J2?=
+ =?utf-8?B?WlZoMGgycE5qWWYvYmtEK1JYRE5SUVc2U2VqVDZHemdBcXZFNVJQZ1JuS09J?=
+ =?utf-8?B?aXJDYmVDL1piMytFSU5PY1FWUjNJZGd5ZmlhcFFkQXQ4R09SVWk5RTZNLzd1?=
+ =?utf-8?B?MnhHaExiM3hLcDM5Rlk0eHZGcktHSXRxVnRFSHRjSHBXNWVxOUVhcVJselFk?=
+ =?utf-8?B?UCt5cEIxNDVVTFQvTGVDVURDdHdGb21KbXh2NFNoSGdLZE1LMGFIYWNVNitw?=
+ =?utf-8?B?VkMxT3l1UE1tRTMxbVE1U3RDaS9ZVXZIL1RxZ3lDQk9tem5NdmhYZGtoTGJk?=
+ =?utf-8?B?N2JBak11SVordnAydnp5UkYrazRqbTVoVXhydGg4Y24yb0NJWWtFN1BtK1hM?=
+ =?utf-8?B?NWFCSTJocVlBRVhIR1BTT3MrUmkyNlR3R0JIenBrWHVQdGE3ZkhGeGp4YldW?=
+ =?utf-8?B?ZEhYVUExSit1TytvRkREaGhOMkFUQWJ0c1lXOUVOcVJHdklkOFFkY3RUYlBP?=
+ =?utf-8?B?WlkxanRqRnE0RHhVQmtGRTFRRHV4bURacFJiNFR2dWJrS0JERkEyMXFwRjlY?=
+ =?utf-8?B?SEJpK2dPUk9kb09uYzV0R1E4S1JrS1I4QkpxNlJiQ1diTmUrK01xenVkakRl?=
+ =?utf-8?B?M1F4Rk4ra3hCV2JVaFl1T3JhNm1vZ0V1TjZJR09EZWlBd1JzRkM4WGU2LzZN?=
+ =?utf-8?B?WHVLbDJSYnhUNmJPY0pLMEh1M1Zvb0xKL2NaR3ZQY1U5V1c2aFkrdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46ed714a-b8f9-4e06-8825-08de52ad2aef
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2026 14:08:03.5263
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yuzuFQEsIUybl2sI/X3uUwE6wL7S/B+TMd51Fzaj/461OCQVzo6AAjrKWjlTO5y8hkJ+chk6intKpNWk6OHdDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5988
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 13:49:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229265
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 14:08:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229266
 
---000000000000adf2b006484541ed
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-Le mer. 31 d=C3=A9c. 2025 =C3=A0 22:59, Peter Marko via lists.openembedded.=
-org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> a =C3=A9crit :
-
-> From: Peter Marko <peter.marko@siemens.com>
->
-> These CVEs are not applicable to version 8.2.x as the vulnerable code
-> was introduced inly in 10.0.0.
->
-> Debian made the analysis, reuse their work.
-> * https://security-tracker.debian.org/tracker/CVE-2025-54566
-> * https://security-tracker.debian.org/tracker/CVE-2025-54567
-
-
-Did you contact NVD to get them to update the database with this info?
-
-Thanks!
-
-
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc
-> b/meta/recipes-devtools/qemu/qemu.inc
-> index dde3b0be139..748a32215e0 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -88,6 +88,9 @@ CVE_STATUS[CVE-2023-1386] =3D "disputed: not an issue a=
-s
-> per https://bugzilla.redh
->
->  CVE_STATUS[CVE-2024-7730] =3D "fixed-version: this is fixed in v8.2.7"
->
-> +CVE_STATUS[CVE-2025-54566] =3D "cpe-incorrect: This issue was introduced=
- in
-> v10.0.0-rc0"
-> +CVE_STATUS[CVE-2025-54567] =3D "cpe-incorrect: This issue was introduced=
- in
-> v10.0.0-rc0"
-> +
->  COMPATIBLE_HOST:mipsarchn32 =3D "null"
->  COMPATIBLE_HOST:mipsarchn64 =3D "null"
->  COMPATIBLE_HOST:riscv32 =3D "null"
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#228749):
-> https://lists.openembedded.org/g/openembedded-core/message/228749
-> Mute This Topic: https://lists.openembedded.org/mt/117018510/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Yoann Congal
-Smile ECS
-
---000000000000adf2b006484541ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,</div><br><div class=3D"gmail_quote gmail_quote=
-_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 31 d=C3=A9c.=
- 2025 =C3=A0=C2=A022:59, Peter Marko via <a href=3D"http://lists.openembedd=
-ed.org">lists.openembedded.org</a> &lt;peter.marko=3D<a href=3D"mailto:siem=
-ens.com@lists.openembedded.org">siemens.com@lists.openembedded.org</a>&gt; =
-a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" target=
-=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-<br>
-These CVEs are not applicable to version 8.2.x as the vulnerable code<br>
-was introduced inly in 10.0.0.<br>
-<br>
-Debian made the analysis, reuse their work.<br>
-* <a href=3D"https://security-tracker.debian.org/tracker/CVE-2025-54566" re=
-l=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.org/trac=
-ker/CVE-2025-54566</a><br>
-* <a href=3D"https://security-tracker.debian.org/tracker/CVE-2025-54567" re=
-l=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.org/trac=
-ker/CVE-2025-54567</a></blockquote><div><br></div><div>Did you contact NVD =
-to get them to update the database with this info?</div><div><br></div><div=
->Thanks!</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
-arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/qemu/qemu.inc | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
-mu/qemu.inc<br>
-index dde3b0be139..748a32215e0 100644<br>
---- a/meta/recipes-devtools/qemu/qemu.inc<br>
-+++ b/meta/recipes-devtools/qemu/qemu.inc<br>
-@@ -88,6 +88,9 @@ CVE_STATUS[CVE-2023-1386] =3D &quot;disputed: not an issu=
-e as per <a href=3D"https://bugzilla.redh" rel=3D"noreferrer" target=3D"_bl=
-ank">https://bugzilla.redh</a><br>
-<br>
-=C2=A0CVE_STATUS[CVE-2024-7730] =3D &quot;fixed-version: this is fixed in v=
-8.2.7&quot;<br>
-<br>
-+CVE_STATUS[CVE-2025-54566] =3D &quot;cpe-incorrect: This issue was introdu=
-ced in v10.0.0-rc0&quot;<br>
-+CVE_STATUS[CVE-2025-54567] =3D &quot;cpe-incorrect: This issue was introdu=
-ced in v10.0.0-rc0&quot;<br>
-+<br>
-=C2=A0COMPATIBLE_HOST:mipsarchn32 =3D &quot;null&quot;<br>
-=C2=A0COMPATIBLE_HOST:mipsarchn64 =3D &quot;null&quot;<br>
-=C2=A0COMPATIBLE_HOST:riscv32 =3D &quot;null&quot;<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#228749): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/228749" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/228749</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117018510/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117018510/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---000000000000adf2b006484541ed--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWW9hbm4gQ29uZ2FsIDx5
+b2Fubi5jb25nYWxAc21pbGUuZnI+DQo+IFNlbnQ6IFR1ZXNkYXksIEphbnVhcnkgMTMsIDIwMjYg
+MTQ6NDkNCj4gVG86IE1hcmtvLCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKSA8UGV0ZXIuTWFya29A
+c2llbWVucy5jb20+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV1bc2NhcnRoZ2FwXVtQQVRDSF0gcWVtdTogaWdu
+b3JlIENWRS0yMDI1LTU0NTY2IGFuZA0KPiBDVkUtMjAyNS01NDU2Nw0KPiANCj4gSGVsbG8sDQo+
+IA0KPiBMZSBtZXIuIDMxIGTDqWMuIDIwMjUgw6AgMjI6NTksIFBldGVyIE1hcmtvIHZpYSBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnDQo+IA0KPiANCj4gRGlkIHlvdSBjb250YWN0IE5WRCB0byBnZXQg
+dGhlbSB0byB1cGRhdGUgdGhlIGRhdGFiYXNlIHdpdGggdGhpcyBpbmZvPw0KPiANCg0KTm8gSSBk
+aWRuJ3QgYW5kIEkgYW0gYWxzbyBub3QgcGxhbm5pbmcgdG8gZG8gdGhhdCBpbiB0aGUgZnV0dXJl
+Lg0KU29ycnkgZm9yIGEgYmx1bnQgYW5zd2VyLi4uDQoNClBldGVyDQo=
 
