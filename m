@@ -1,123 +1,91 @@
-Return-Path: <oobitots@cisco.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA478CF45D4
-	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 10:16:10 +0000 (UTC)
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.55734.1768299365442045929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250BED0C82C
+	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 10:25:21 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.56082.1768299916630165937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jan 2026 02:16:05 -0800
+ Tue, 13 Jan 2026 02:25:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TXteDgyQ;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: oobitots@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1405; q=dns/txt;
-  s=iport01; t=1768299366; x=1769508966;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=UFVbzlbu;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1768299915; x=1799835915;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=6b95BqvIcczSyglHYtzUfM3ZTMDuhLJS/OfeyC8uzPU=;
-  b=TXteDgyQ1VdofSlvw1PB7L5dSHokvNqIZteFSvLP4cuSmkUDmiY8QLzS
-   J9hKSbh9njXSwjK8luMpr986+LCG1x9EvIQGWlGf1ssNr6QzueffSiMKe
-   RFd3AmQG1mCGQr+u39wHLeENJvBsoSwfWYXYVEDZFXTI7xu9/ZaJCtm4f
-   oEWXeCNGkmer5+plCI4Vlg/6sJvhE6wcBTQ7Tv020xWfW8/1w9HeYDzzQ
-   Vu7tPoE2MW9jUP7S+oZH6e40GlJlJFctG97EtvOVUrnWYd76YftZjL1zf
-   I75CdNvP/Ma+WYAGNJHXTU4YNhQpTjfMV0nNJQw6K6joKq+Jwu699fpvY
-   A==;
-X-CSE-ConnectionGUID: 7BtrzHBMQeeBuc3f7Az8oQ==
-X-CSE-MsgGUID: ZkjIqEiwSuKaUn41eW0pWg==
-X-IPAS-Result: =?us-ascii?q?A0D6AgC+GmZp/4z/Ja1aglmCSA9xX0JJlkuLd5ImgX8PA?=
- =?us-ascii?q?QEBDzEgBAEBhQeMbgImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2GXTYBRoEMRIMCAYJzAgGrL4IsgQGEfNlBgWMBCxQBgTiNU?=
- =?us-ascii?q?leFEicbgUlEhH2CYQKCLYV3BIIigQ6UHkiBHgNZLAFVEw0KCwcFgWYDNRIqF?=
- =?us-ascii?q?W4yHYEjPheBChsHBYF4Boh9D4lFejoDCxgNSBEsNxQbBD5uB480giVGBwF6B?=
- =?us-ascii?q?A8sgUWUHkWPV4IhoQ6EJoRwhy6VOhozhVulDwGZBos2mSOEaIFoPIFZcBWDI?=
- =?us-ascii?q?glJGQ+SIYVkuVoiNTwCBwsBAQMJk2cBAQ?=
-IronPort-Data: A9a23:7mTa36lZhq6ZD/Z27euJEvno5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xIcDTuOafeONDSje4p+PNjg/RsFu5SBn9BkGVBq/nwyE1tH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZS31GONgWYubDpNsvnb8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FdIy5vxlIUtrz
- PEVAi0GNR7crvDmx4vuH4GAhux7RCXqFJkUtnclyXTSCuwrBMiYBa7L/tRfmjw3g6iiH96HO
- JFfMmUpNkmdJUQTYj/7C7pm9Ausrn74eTxEr06OjaE2+GPUigd21dABNfKJIYHVFZgKxhzwS
- mTuzWf7Iwg3NcOk1BmMz3Tw3+LwxTvEV9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cFXhKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Oxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:7GIBUKDHsfFJlxnlHemn55DYdb4zR+YMi2TDGXofdfUzSL38qy
- nAppUmPHPP5Qr5O0tQ++xoRpPhfZq0z/cciuMs1NyZMjUO1lHFEGgb1/qA/9UlcBeOkdK0Es
- xbAsxDNOE=
-X-Talos-CUID: 9a23:1x85y2G/x0p19DF0qmI43lIOCOAPV0TQwV3NKBS2Vk97GLqsHAo=
-X-Talos-MUID: 9a23:G5SSvQbRo4NcFuBThTzupShPNdhT/oenNUZRyJg549G7Onkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.21,222,1763424000"; 
-   d="scan'208";a="435785702"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 13 Jan 2026 10:16:05 +0000
-Received: from sjc-ads-1437.cisco.com (sjc-ads-1437.cisco.com [171.70.59.129])
+  bh=KZy71U99E615/hTo22BMm8pio2M5NCzb4N3W/S5K78I=;
+  b=UFVbzlbu0Nk0wWfegdKdTxvM7A8FGtxqcUkjtiZGW8WOEDAbyVCMOEQE
+   uQs21im+oo57C5EwkhCReEb9RLkNWCG74Vf1+maWdl1wYgGOkNuCRCUWM
+   wQ769WgyZ7yVSZYDefCIitp2diGqcua4RCt23EsueWkPFaDRJnOGJX2LI
+   oie3Fo+BaHFmZTrl6mbBbfwQ6AJcfTn8i/e+ZSiSf+Ff0XUaiyHRAoPkB
+   q6ED0PtwErcDKS12gvGQvXWZz+ImTsfMzCkqkJfGoSatPscPUcvnapJMl
+   6L8kHi9egDgQifZ5t2lnv468INmcyBGKAw3MFPCvVEBYQbp4/+6G6K9yX
+   Q==;
+X-CSE-ConnectionGUID: NH/Y/auAThm2g8IH1S43MQ==
+X-CSE-MsgGUID: 4vDdd2LIQ+iWXAGuylsw/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="214223708"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763391600"; 
+   d="scan'208";a="214223708"
+Received: from unknown (HELO az2nlsmgr2.o.css.fujitsu.com) ([20.61.8.234])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 19:25:13 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 6FF57180001FA;
-	Tue, 13 Jan 2026 10:16:04 +0000 (GMT)
-Received: by sjc-ads-1437.cisco.com (Postfix, from userid 500841)
-	id 275C4CC8CBA; Tue, 13 Jan 2026 02:16:04 -0800 (PST)
-From: Oleksiy Obitotskyy <oobitots@cisco.com>
+	by az2nlsmgr2.o.css.fujitsu.com (Postfix) with ESMTPS id 30490A39A
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 10:25:15 +0000 (UTC)
+Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id E8D20100137A
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 10:25:14 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.160.191])
+	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id 225F4826FF9;
+	Tue, 13 Jan 2026 10:25:11 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
-Subject: [PATCH] patch.py: add check for existing localpath
-Date: Tue, 13 Jan 2026 02:15:32 -0800
-Message-Id: <20260113101532.1505036-1-oobitots@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 01/18] alsa-lib: upgrade 1.2.15.1 -> 1.2.15.2
+Date: Tue, 13 Jan 2026 18:24:51 +0800
+Message-ID: <20260113102509.728-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.70.59.129, sjc-ads-1437.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 10:16:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229239
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 10:25:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229240
 
-All URLs from SRC checked to be a patch.
-In some rare cases, when we have "diff" or
-"patch" into URL it is treated as a patch not
-like proper resource (e.g. repository).
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-In this specific case, the problem fixed with
-git fetcher which behaves differently in case of
-using mirrors. Without pre-downloaded repository
-archive we have directory into downloads and exit
-from patch_path. As a workaround, we check if the
-patch file exists.
-
-Error example for this URL:
-git://github.com/pkg/diff;name=diff;\
-destsuffix=build/vendor/src/github.com/pkg/diff;branch=main;protocol=https
-
-ERROR: nativesdk-yq-4.30.8+gitdd6cf3df146f3e2c0f8c765a6ef9e35780ad8cc1-r0 do_patch: \
-Importing patch 'github.com.pkg.diff' with striplevel '1'
-FileNotFoundError(2, 'No such file or directory')
-
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/lib/oe/patch.py | 2 ++
- 1 file changed, 2 insertions(+)
+ .../alsa/{alsa-lib_1.2.15.1.bb => alsa-lib_1.2.15.2.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.15.1.bb => alsa-lib_1.2.15.2.bb} (94%)
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 246fc6221f..30462ef1ad 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -889,6 +889,8 @@ def patch_path(url, fetch, unpackdir, expand=True):
-     """Return the local path of a patch, or return nothing if this isn't a patch"""
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.2.bb
+similarity index 94%
+rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb
+rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.15.2.bb
+index f3dfd3f35d..d09f2ac370 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     "
  
-     local = fetch.localpath(url)
-+    if not os.path.exists(local):
-+        return
-     if os.path.isdir(local):
-         return
-     base, ext = os.path.splitext(os.path.basename(local))
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "7f983ca89ca420872ca16e8a9f8f97fb63db6c1c6e2585b91737a08bb03f566c"
++SRC_URI[sha256sum] = "637eefd4966ce738da44464494df2b2894e19778fac2f9e7c47277e2af9297f4"
+ 
+ inherit autotools pkgconfig
+ 
 -- 
-2.35.6
+2.43.0
 
 
