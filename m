@@ -1,90 +1,175 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B59D29DE3
-	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 07:03:29 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.53672.1768287802967081724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14436D29DE4
+	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 07:08:50 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53722.1768288123718473636
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jan 2026 23:03:23 -0800
+ Mon, 12 Jan 2026 23:08:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Fl9GnU5t;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1768287801; x=1799823801;
-  h=from:to:subject:date:message-id:mime-version:
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=MeEavi4x;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: hetpat@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=3942; q=dns/txt;
+  s=iport01; t=1768288123; x=1769497723;
+  h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=6p9ZV7TZ7IPEr1IvrdExH/3xa6SpY4ykFXiUBbqqjoI=;
-  b=Fl9GnU5tXU5DZvi0FaHfbfsb8gknpC8xPIKA1Xm7iuZDZC+SiUMafK90
-   9pTueF7U+sbByN6fvygJgD9NdxHRYqRXY6lTlLNpexLDB+hw8ar1oag+e
-   9lNDoDCXHL+1IrfONVDvCg51BDDHUfIPJOcN7V6jGbPu4Tt9+XdrYxMaq
-   w5DTJvhGjyhZmLvv+I6SMRQGrTKRv+LTJDaz4KY1wpvNL8vv72qtfSNRv
-   h4hUEgvFpJDs09DKGvx/laCRVzYPX0sQFer9D9dG7P+EKQ9o1dRIW60dp
-   N+GsKDU/ZbZF6rcrgz8Px2j23wiSMXxpbR1aD9LrVsZcGAh+bHybFgBpJ
+  bh=C1rlC1t7a/F4dKXu4YIgVC5RU2zW5MVsQmj2K1Ho/iw=;
+  b=MeEavi4xFaxhx3aQW3a+R4YvBqzD7QDYEOUySma8e9lpThFOzFD8w/mv
+   wlcQagdL+d5GSmE5Z1hSLdcucJEut5G+M79A/VPQZFjJNkO/Vl9kDtjE3
+   3xF6OzGXgdMFwOsi5ui9yMKEW5OfjnzzSsimbmNs4rBhUjR7k2xz9WA95
+   src6sDXM7TdejDeeRjILPQzsn+dbs2yS4AaVCbDKpMqwIdJH1Ws9dc6/V
+   kGlwQdM9mYc/bYsukW5jbCGviIwFHZzVofWXlmL1y+j+iWxRyd/uKfNun
+   01ZO7fNnUB0Mf0CgzeC3M/5lZO7N7FinW/40iqNgvjXG2/rJuThwWq4e5
    A==;
-X-CSE-ConnectionGUID: J24M9q2ySdG0CG4XET22tg==
-X-CSE-MsgGUID: thgSq7zOTJ+k9WGHx/G0QA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="214200807"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763391600"; 
-   d="scan'208";a="214200807"
-Received: from unknown (HELO az2nlsmgr1.o.css.fujitsu.com) ([20.61.8.234])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 16:03:19 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+X-CSE-ConnectionGUID: WRENTnCTTkOCRPpc6r9/vA==
+X-CSE-MsgGUID: VcCu/7zFRTKnUZBZdDLcEw==
+X-IPAS-Result: =?us-ascii?q?A0DLBQB77mVp/4r/Ja1aHgE8DAILgWWCSA9xX0JJA5NXA?=
+ =?us-ascii?q?aENgX8PAQEBDzcaBAEBhQeMbgImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?wEBBQEBAQIBBwWBDhOGFQgyDYZdNgFGMFxEgwIBgnMCAathgiyBAYR82yQBC?=
+ =?us-ascii?q?xQBgTiFO4gXhWknGxuBcoQOi3YEgiKBDpQeSIEeA1ksAVUTDQoLBwWBZgM1E?=
+ =?us-ascii?q?ioVMjwyHYEjPheBChsHBYF4Boh9D4lFejoDCxgNSBEsNxQbBD5uB480gnIBg?=
+ =?us-ascii?q?Q2BJyWnAKEOCiiDdIwelToaM4QEpmeZBoJYogGEaIFoPEaBE3AVgyIJSRkPh?=
+ =?us-ascii?q?36GYYIdwFsiNRMpAgcLAQEDCZNnAQE?=
+IronPort-Data: A9a23:+UgX36CR3Lj0WBVW/37iw5YqxClBgxIJ4kV8jS/XYbTApGslgTQPn
+ GoWWT+CP/yJMWv9L9siOouxpEpUvJTdxtA3OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWmthh
+ fuo+5eBYAb8gGYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE/M9DKn0wFrEk+cFcO1lW/
+ qICeXcTR0XW7w626OrTpuhEnM8vKozveYgYoHwllWifBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGE/BPjDS0Un1lM/CJ8ihO60rnL+aDZf7lmSoMLb5kCPl1QtieG9boe9ltqie85+gwHHt
+ Ez8w0f/PyMwBtCz7TGo7Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVk+zf4h2SAS4PSTsphMEaifLajAcCj
+ jeh9+4FzxQ22FFJYRpxLoupkA4=
+IronPort-HdrOrdr: A9a23:b7tSY6x8p6Fai4v9ACknKrPwJ71zdoMgy1knxilNoNJuHfBw8P
+ re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcKuweQeBEXMoVmpM
+ Bdm28UMqyVMWRH
+X-Talos-CUID: 9a23:rWOxLmPZoSTCau5DZxNK0nISMfwZcVr29k/IKBGiWCF3YejA
+X-Talos-MUID: =?us-ascii?q?9a23=3ATOM56A374TLgRsfuQCA7g2MCODUj3a+FFQdSg7s?=
+ =?us-ascii?q?8h+qCCB5aCTuxqD+aXdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.21,222,1763424000"; 
+   d="scan'208";a="430411865"
+Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 13 Jan 2026 07:08:42 +0000
+Received: from sjc-ads-8556.cisco.com (sjc-ads-8556.cisco.com [171.68.222.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 3AAFC1C0018F
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 07:03:21 +0000 (UTC)
-Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id B47C0C0182A
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 07:03:20 +0000 (UTC)
-Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
-	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id 79FFD826FF1
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 07:03:18 +0000 (UTC)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
+	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id B938918000281;
+	Tue, 13 Jan 2026 07:08:42 +0000 (GMT)
+Received: by sjc-ads-8556.cisco.com (Postfix, from userid 1847788)
+	id 6588ACC8CB9; Mon, 12 Jan 2026 23:08:41 -0800 (PST)
+From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] sqlite3: upgrade 3.51.1 -> 3.51.2 
-Date: Tue, 13 Jan 2026 15:03:14 +0800
-Message-ID: <20260113070314.8054-1-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.43.0
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core] [scarthgap] [PATCH] Fix CVE CVSS scoring to use maximum score from all sources
+Date: Mon, 12 Jan 2026 23:08:40 -0800
+Message-Id: <20260113070840.115911-1-hetpat@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-Changelog: https://www.sqlite.org/releaselog/3_51_2.html
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.222.95, sjc-ads-8556.cisco.com
+X-Outbound-Node: rcdn-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 07:03:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229228
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 07:08:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229229
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+From: Het Patel <hetpat@cisco.com>
+
+The CVE check system was incorrectly reporting lower CVSS scores when
+multiple scoring sources were available in the NVD database. This
+occurred because the code only extracted the first element from the
+CVSSv2, CVSSv3, and CVSSv4 metrics arrays, which could be a Secondary
+source with a lower score instead of the Primary source with the
+actual severity score.
+
+This fix takes maximum CVSS score.
+
+Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- .../sqlite/{sqlite3_3.51.1.bb => sqlite3_3.51.2.bb}           | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.51.1.bb => sqlite3_3.51.2.bb} (55%)
+ .../meta/cve-update-nvd2-native.bb            | 55 +++++++++++++------
+ 1 file changed, 39 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.1.bb b/meta/recipes-support/sqlite/sqlite3_3.51.2.bb
-similarity index 55%
-rename from meta/recipes-support/sqlite/sqlite3_3.51.1.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.51.2.bb
-index 1a9f3128c3..6837293f6a 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.51.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.51.2.bb
-@@ -3,7 +3,7 @@ require sqlite3.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 945bd1d927..28d5810d5d 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -352,32 +352,55 @@ def update_db(conn, elt):
+         if desc['lang'] == 'en':
+             cveDesc = desc['value']
+     date = elt['cve']['lastModified']
++
++    # Extract maximum CVSS scores from all sources (Primary and Secondary)
++    cvssv2 = 0.0
+     try:
+-        accessVector = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['accessVector']
+-        vectorString = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['vectorString']
+-        cvssv2 = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
++        # Iterate through all cvssMetricV2 entries and find the maximum score
++        for metric in elt['cve']['metrics']['cvssMetricV2']:
++            score = metric['cvssData']['baseScore']
++            if score > cvssv2:
++                cvssv2 = score
++                accessVector = metric['cvssData']['accessVector']
++                vectorString = metric['cvssData']['vectorString']
+     except KeyError:
+-        cvssv2 = 0.0
+-    cvssv3 = None
++        pass
++
++    cvssv3 = 0.0
+     try:
+-        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['attackVector']
+-        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['vectorString']
+-        cvssv3 = elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['baseScore']
++        # Iterate through all cvssMetricV30 entries and find the maximum score
++        for metric in elt['cve']['metrics']['cvssMetricV30']:
++            score = metric['cvssData']['baseScore']
++            if score > cvssv3:
++                cvssv3 = score
++                accessVector = accessVector or metric['cvssData']['attackVector']
++                vectorString = vectorString or metric['cvssData']['vectorString']
+     except KeyError:
+         pass
++
+     try:
+-        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['attackVector']
+-        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
+-        cvssv3 = cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
++        # Iterate through all cvssMetricV31 entries and find the maximum score
++        for metric in elt['cve']['metrics']['cvssMetricV31']:
++            score = metric['cvssData']['baseScore']
++            if score > cvssv3:
++                cvssv3 = score
++                accessVector = accessVector or metric['cvssData']['attackVector']
++                vectorString = vectorString or metric['cvssData']['vectorString']
+     except KeyError:
+         pass
+-    cvssv3 = cvssv3 or 0.0
++
++    cvssv4 = 0.0
+     try:
+-        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['attackVector']
+-        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['vectorString']
+-        cvssv4 = elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['baseScore']
++        # Iterate through all cvssMetricV40 entries and find the maximum score
++        for metric in elt['cve']['metrics']['cvssMetricV40']:
++            score = metric['cvssData']['baseScore']
++            if score > cvssv4:
++                cvssv4 = score
++                accessVector = accessVector or metric['cvssData']['attackVector']
++                vectorString = vectorString or metric['cvssData']['vectorString']
+     except KeyError:
+-        cvssv4 = 0.0
++        pass
++
+     accessVector = accessVector or "UNKNOWN"
+     vectorString = vectorString or "UNKNOWN"
  
--SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "4f2445cd70479724d32ad015ec7fd37fbb6f6130013bd4bfbc80c32beb42b7e0"
-+SRC_URI = "http://www.sqlite.org/2026/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI[sha256sum] = "fbd89f866b1403bb66a143065440089dd76100f2238314d92274a082d4f2b7bb"
- 
- SRC_URI += "file://0001-Add-option-to-disable-zlib.patch"
--- 
-2.43.0
-
 
