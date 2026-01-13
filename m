@@ -1,70 +1,99 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F000D29DEC
-	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 08:55:00 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55135.1768294496913366576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C39D29DF4
+	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 09:33:00 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.55513.1768296779941163023
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jan 2026 00:54:57 -0800
+ Tue, 13 Jan 2026 01:33:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=epP1q8b/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2026011308545576513ba2ae0002079c-owbd88@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2026011308545576513ba2ae0002079c
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 13 Jan 2026 09:54:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=9VLZ0ZQXcBMXhLSPvqct7yLGltxJHV5D75yiuybih0w=;
- b=epP1q8b/jpu9RmSkY4zzd3TLKyw85GTPSr99CCIsPci4MRgtAbgRut5krou5jQMz+6gzf1
- S8nEReW0o8G/m8XC2HbI7BMKPkHarz7Gegy+jsGL9nyqi0Y6b52AgD9jZ//ekKnXS9l/BfCo
- qM8+meiKztVc87+HY9LqVM6+0CUOYzZ7RWShJOUyH1zWJ2qK+ExOoZRdPmeuW4Qj/RfcvG8V
- VWaTuhz+vJclqIXS3SoZL3kZugNnfQkUr5GLyOGWrmZt+k0FmfoKW1674Ku9yO9TNW4JrJQ9
- gyzRGhFVRtBq1j91a9EiSheVGAHNcZW6ZQDEBA0MHpLkfb18KPUB7Mdw==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kaG2Kxyd;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-432d256c2a9so3710085f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 01:32:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768296778; x=1768901578; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dxq9btN/1cBcHLn0rYr2w/iM+9gBQoek/psVBfmmug4=;
+        b=kaG2KxydGCPtFL788hQFQaXELuanQII+TGrR08Lyj0gbJ8fR9v4SoPdvtOK4xhfRIx
+         334/fnqJLU9W56tSVyznlSYXZEb5sSQ5zFXtEDoc5XuKzktJLKgKm39XN8NqP2eWx2UC
+         Tqa216Gk4ISl5AG5LKVosBE0c/1ahf3uU1qUSdhD9sx5GLC00rRYMnGs0mlhIEeLvqA2
+         rnruVl0gQtSaWv9tVXqOZxMTRArmK+5dEU/y6vBohhH7sabk2CufHZtzHMbewjCKY4Xa
+         sjA36TkkGhzhctIjq1JDNz/Wf2bkOVijggp93PPv0/D1FR3QGkIY7QzQd+XPlsajWwDy
+         fBeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768296778; x=1768901578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Dxq9btN/1cBcHLn0rYr2w/iM+9gBQoek/psVBfmmug4=;
+        b=sYmjfmbspbM2/1bdzGwzIpOv+c9wrqBijC13bj5/mIgzQB0BX/qabnkuTdA+1bO1yY
+         j8bkr2ChO+Jx50MvMVTNEIs6bBSZrYwG0p5wsbUQxEHkdZ0lMt5vPPxXrHiiJfGm2ZAr
+         B7y48JPzQm90jfC+7uPN9tCVg24Jnk+/H+4nzPE2l/p80LaojesumwL57OhNR2y8x+9+
+         6n5oXJyGlIBFUljbLFUgHm7LwJEdjRkNgZetH/x0Pqxm7kmOaNGCkL5kopSkxTwlUc9T
+         qtEE3VRCwJMD2uVYj3PCVUdSbhXsSfSKX/pXY6YkaivoudxTu6ZXtSdg6wTfKg0bHWis
+         dnEg==
+X-Gm-Message-State: AOJu0YwzpNXj+EcOvhraGUPjerO0afB2GKZT8PALtX6N4f+JUMZGPnss
+	hp2oUJ/kfwu2I+oPBL6seTxN8j+nbYPCxRXkh3sgox3V81A/h3xReQRBqDxKlg==
+X-Gm-Gg: AY/fxX4VzSK01V0fWiuY6mMMt4ohn2yyN/OmNHgXASUWHQrl+mGQjRN+pDX6mrCupX2
+	IC/YKrxJA6oFbYn46JFFpIbCtDszQOu2VlDv55BWFFh5Uzh9gu+P7USgz5EsnbN49vsGwVikGjT
+	8xA1c8mKRjULV034Nm6BcQNzQLGIFi7P9+5zWr57LoLy+VmRvf1HP3I5hL+wpZY4JcxfHOiR87B
+	qge8gkFa+1G56u0zYwf8+jT66BFJtc3juC1SHXCJloYnM9rWAAGRCTQjif6YXldiBh39rcDiFRU
+	nPj/TxCYwwRMy9fadywKD1wev9FEs2NKfJrk1Tkj6wrQrORmPJ1D+EOSDijHu2VXFQhMCqHTzw2
+	zHDZGTfMtlY2DWkNusqRDIxP97m/OGWcECs8dGH8YTmVBujBhavmqR+KW8cGFMQ7i/dD3eOj7dE
+	YtXh9uvhC+skfNzeyMxqVWHAo=
+X-Google-Smtp-Source: AGHT+IGJ1ZFDaJQlpx3Of08tHkAxTfiXKLlmh44LkssxdrthMwYOyLIgH1tY118UD/Z++Xw4xf9ttw==
+X-Received: by 2002:a05:6000:2510:b0:431:342:ad42 with SMTP id ffacd0b85a97d-432c379b6f9mr27925133f8f.44.1768296777685;
+        Tue, 13 Jan 2026 01:32:57 -0800 (PST)
+Received: from Ubuntu-2204-jammy-amd64-base.. ([2a01:4f8:272:3f67::2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5df9afsm45675317f8f.24.2026.01.13.01.32.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 01:32:56 -0800 (PST)
+From: uvv.mail@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH 2/2] oeqa-runtime: avoid crash in run_network_serialdebug for missing netstat
-Date: Tue, 13 Jan 2026 09:54:44 +0100
-Message-Id: <20260113085444.15243-2-peter.marko@siemens.com>
-In-Reply-To: <20260113085444.15243-1-peter.marko@siemens.com>
-References: <20260113085444.15243-1-peter.marko@siemens.com>
+Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v3] overlayfs: Fix the QA skip for ignored mounts
+Date: Tue, 13 Jan 2026 09:32:18 +0000
+Message-ID: <20260113093218.348105-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <05b0f313e8a3d069054657d2293393d3cd76bc49.camel@pbarker.dev>
+References: <05b0f313e8a3d069054657d2293393d3cd76bc49.camel@pbarker.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 08:55:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229234
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 09:33:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229235
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 
-If netstat is not installed on the host, the function fails.
+The supressing of QA check for mounts should happens twice, at parsing stage
+and at rootfs postprocessing. If the mount point is configured to be skipped,
+but it is still present in the configuration (machine or distro), then the
+parsing would complain.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/lib/oeqa/runtime/case.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oe/overlayfs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/case.py b/meta/lib/oeqa/runtime/case.py
-index 095bcf434a..23796c0cdf 100644
---- a/meta/lib/oeqa/runtime/case.py
-+++ b/meta/lib/oeqa/runtime/case.py
-@@ -32,7 +32,10 @@ def run_network_serialdebug(target):
-     status, output = target.runner.run_serial("ping -c 1 %s" % target.ip)
-     print("ping on target for %s: %s %s" % (target.ip, output, status))
-     # Have to use a full path for netstat which isn't in HOSTTOOLS
--    subprocess.call(["/usr/bin/netstat", "-tunape"])
--    subprocess.call(["/usr/bin/netstat", "-ei"])
-+    try:
-+        subprocess.call(["/usr/bin/netstat", "-tunape"])
-+        subprocess.call(["/usr/bin/netstat", "-ei"])
-+    except (OSError, subprocess.SubprocessError) as e:
-+        print("netstat failed: %s" % e)
-     subprocess.call(["ps", "-awx"], shell=True)
-     print("PID: %s %s" % (str(os.getpid()), time.time()))
+diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
+index 8b88900f71..dbfed317c0 100644
+--- a/meta/lib/oe/overlayfs.py
++++ b/meta/lib/oe/overlayfs.py
+@@ -36,7 +36,8 @@ def unitFileList(d):
+     # check that we have required mount points set first
+     requiredMountPoints = d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
+     for mountPoint in requiredMountPoints:
+-        if mountPoint not in overlayMountPoints:
++        qaSkip = (d.getVarFlag("OVERLAYFS_QA_SKIP", mountPoint) or "").split()
++        if mountPoint not in overlayMountPoints and not "mount-configured" in qaSkip:
+             bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_POINT[%s] in your MACHINE configuration" % mountPoint)
+ 
+     for mountPoint in overlayMountPoints:
 
