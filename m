@@ -1,179 +1,154 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB96D29DF5
-	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 09:34:00 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.25])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55520.1768296837552237180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8F6D29DFA
+	for <webhook@archiver.kernel.org>; Tue, 13 Jan 2026 09:51:40 +0000 (UTC)
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.55720.1768297895781215554
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jan 2026 01:33:58 -0800
+ Tue, 13 Jan 2026 01:51:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=bOr30jS0;
- spf=pass (domain: cherry.de, ip: 52.101.65.25, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AfQ19EVOuo1m2AsY4bz+JEj4O/GNsApD0DsxEpq2NFlIvfBKpmcl4HqSI5VDonU+o3wqa7kKDj/Tpqtf8tPzvuKM7qKozAQleIuEjdhpHKhOlgvabnpFUJeg9HZ03qywEV2D6ibCv41xR7r8i00KJ05g1fq89YxPKTUPbHtVmZcb+7DaBonFBD6lgVotX1ZdfosnTDZdZWiVn2VS6EWdgWcvuKHblNKkB0pYvAwJRAKtzL15ZlaVycMMslxUKsQM83Y23HIzawjvX/Fk8IDyJQdJq+u3i74K01MoLP1yvtmyqk9AGsHxkApQyOyv85/+fhnvxIIQGlEpfUlnLT0B5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xa/GOT8PQoKNWfuMMFMN8tqT9fqc4lD0FlB+ne/4af4=;
- b=U+LiIBdaxf/PzAWsxroxo0DOu9+HYjPgBfw7JFOgb2dBT6nBAVeEEypmmBqhFnLnxUhFZhKB9BiNM8YTs4SopTSqCtu54DCPp5AexTp3YOgzyX4D54tM5KpwR0WEaPdspJ7CO5pV3dX/eZeQjvxMlEyQ5s2rovFNAFLGEMsdprjOWKYTthb9xjw2OqcYms/fUD3E62bGuJl62Sxv3X0WCU3XP9v1us4XvmAG2fP/2Qf7U88O8sg/+Nh5am1HcfOSvTk/yuVr/BxxF6hIZ7aLql/An4p/ZW1O6jS0UUPO9W4T+mbMMf33PgIq1nVlEHqXFAa+Yyeo5u+99Qv3sNZn2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xa/GOT8PQoKNWfuMMFMN8tqT9fqc4lD0FlB+ne/4af4=;
- b=bOr30jS0N1khRdZD2G8YyEtP/kO3z5LSp+r/omjL3eqFj8p4NdiNUl/eZNF+hvIxtrnfc064sNFHjmbgHugInS87hJvsdz3WFo+q7ABFuPrMgfyJgfQLUAwS/NR18wc1E8QcSJmRgV1gsVOH8ALPRFwG1dzARR3GUSm3/nNSZlw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by VI2PR04MB10763.eurprd04.prod.outlook.com (2603:10a6:800:27c::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Tue, 13 Jan
- 2026 09:33:51 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
- 09:33:50 +0000
-Message-ID: <cad6d36c-6b13-41c5-86c9-e63c65d09304@cherry.de>
-Date: Tue, 13 Jan 2026 10:33:18 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [review][OE-core][scarthgap][PATCH] libtasn1:
- Stack-based_buffer_overflow_fix
-To: Amaury Couderc <amaury.couderc@est.tech>
-References: <20260112160031.71913-1-amaury.couderc@est.tech>
- <22438428-9339-4abe-a7ce-59524ca33cac@cherry.de>
- <AMBP189MB3196A11C869915431C0CE336F88EA@AMBP189MB3196.EURP189.PROD.OUTLOOK.COM>
-Content-Language: en-US
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <AMBP189MB3196A11C869915431C0CE336F88EA@AMBP189MB3196.EURP189.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0005.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c8::13) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=dPdL5ei7;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1768297896; x=1799833896;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ATKnIun4K+TUR1b1xwrqiCK1KSIhR9J/aG0xz1h5fA8=;
+  b=dPdL5ei7MrkomhIfHv+HsxUXyg4mvLYPnQymgmiy5IzrsiwNUin8Qv0m
+   8jNC4HiSjWk0wT5xV5pxNb1+JWDzYPojHowu3ZjHKzOud/UkxurEn6Ygi
+   CQxXp6maRMsY06t8otBRZ6kGlZh/keetrTokz6dWONk6fGJCsp5hRTcK+
+   3F/EeQqeKf4YL86drYeyBModGEwmSv2wJAFyHb6TdgWbfnMs5ARjlsa6O
+   J4HGoVK61bAeSbYFAJouy84hinfuHoTpZItvEuWAiA4mlw1rpTFniwkNg
+   Z8iFwvxwdA+5Vakbe+8eMp0LISIdx5j8Jfj9OX1SNBW+vxwzD9d5Lsl8D
+   w==;
+X-CSE-ConnectionGUID: BFUKFP0UTy+38UGk932fMw==
+X-CSE-MsgGUID: sDIUBlZxQU2B+bAs9XA5KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="225592343"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763391600"; 
+   d="scan'208";a="225592343"
+Received: from unknown (HELO az2uksmgr3.o.css.fujitsu.com) ([52.151.125.19])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 18:51:34 +0900
+Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 1CBC21002B85
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 09:51:34 +0000 (UTC)
+Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id C4D231801FF3
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 09:51:33 +0000 (UTC)
+Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
+	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id 78F2A826FF4
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 09:51:31 +0000 (UTC)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] libcap-ng: upgrade 0.8.5 -> 0.9
+Date: Tue, 13 Jan 2026 17:51:09 +0800
+Message-ID: <20260113095109.8693-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|VI2PR04MB10763:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03a332e5-2c49-4989-19f1-08de5286dc2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?U0kzaXhDY1ZUYTNrYjN3M2lJOUlNQktjcDdZMzg2UWd4NmZNUWZwcnJvUElE?=
- =?utf-8?B?UWRQVUs5WEhYNE9QQnFNL3NLY2lLakNSbkFHcUhyTWFnalY4TGw5aStwdU8x?=
- =?utf-8?B?QXV1T1d3MVEvTkRaRkdZOHR2dnJoSlVEeEZaMCs0VGdudml0VHM4d3ZVNEM2?=
- =?utf-8?B?OC80eXBEbllNYjZMaGFDTWcrbitFMi9CM2JUNGNUWHpKQ1UyRzBBYjlKdVJu?=
- =?utf-8?B?QzNoR1pZYWtUcFBhSUoyYkVhNUdseFlXQ3REbGRrSVRXVnloT1kvUm5ka2h1?=
- =?utf-8?B?L3Z5SWhxUEdQdkp0M28wRzg1VkRSY0JlNFB1WTZkTG9paWdFdnFWelJKUVN3?=
- =?utf-8?B?M3BBUFI3Y3BybXNObWg2VVpXaGpZaTRhTlRnUDJQbVhMRmJEZkdVZjlFblBk?=
- =?utf-8?B?VW9tRWNYQ1BLL2lIOVdqOG5sbXYzNytCRDFVdEsxTjgxRXRQdGlmNWdYc2VJ?=
- =?utf-8?B?akl4cDFxZHlVOXk0SXNaOG4zaWVNNUNjVFQ0TzY2amZWQnozb1hwWTYyZDA2?=
- =?utf-8?B?cDFwQnhUcXVsbzFPRndnWDgvcFJ0RzgyTEFBY1RzR2xHYXJRTDRhcHlRVkNH?=
- =?utf-8?B?dklLdFRiRlFza3JsUHFHSEJYMzlkcHpMYWxId3hIaGZJWE9IbkE4REorK3FE?=
- =?utf-8?B?RVpKZnpYSWxnSXFuQ0FyaXhORE5ydC9lSmpzTkE3UElMNWlYNk5Sb0U1QTdk?=
- =?utf-8?B?Y0JLTnUvRTB3Yzl1aEcwRXRaanFTZ1dMNTEzc1c1VUNvN3dSSjUwTDdmVkw3?=
- =?utf-8?B?SEU1dENNUUNJMXNYaWxtamxab1dHRWUzakU5c051ZEhPbzh1STV0Sm1aMjdt?=
- =?utf-8?B?VVQ1UWQvZDRqRkNDalh5ZnhRNGJxVlhoOUVaeWhtQjFHL1lhYlJiSnhKbWJs?=
- =?utf-8?B?ejRvaFNkZFZ3QUtMc2NKajN1RGdGTkU4RWlkM3lxUnZhQXhmdGtlM1Y3YSth?=
- =?utf-8?B?OVg1TGg0YzdLc1grV0kzUFEyMmkxSUllMndJZm4vWGFQZ01mNVRESHBSdWpV?=
- =?utf-8?B?dUowS3hiTHNNMldxelVSejlHbDdEeHBKd24wUkkrY0MveGs3K2xhajlzYkFF?=
- =?utf-8?B?VGhHcGJZWlgxRjBxa0RuelJXTDV3RUdqR0labjAwa2hydjRJRHpja3dtYzJ6?=
- =?utf-8?B?VTlUdmZVeEJ3aDkzVFJ2bXpvY0VmRjZHeGQ2RE5xUUxBdHhsTHhKampGVDZi?=
- =?utf-8?B?c0RDbEZremJ6OXZDNVFQeDhCemlnOVdWa2VsK3JsQmhRUTZBNHdpT2NENk1z?=
- =?utf-8?B?VHJtM0REckpQUDRveE0wWi9Ua0RWVEpjbW55eWhqdlQ1OG5aL0tvSllKUmNw?=
- =?utf-8?B?VkpsMFp3NEF3cUJGUENqQUZBWjlQa1BQTFJMVkdRVi9BK29wNFdlUXlaRERi?=
- =?utf-8?B?MkV4aEswem44eUgwSWdmWExxMHdwRHZtZkFuYUJPQjJzak9Nd3IvT0hjZGZK?=
- =?utf-8?B?cXVGU2hBQjEwcURQS3MxQzJsalN3SmR2VGIrSGR1NGVoclA0dUQ0elFTMnFC?=
- =?utf-8?B?S0ZFYzNSU0FOVEhiRkNVWUx1c1ZqMHltdFZOOWtOSFBpM2psMExMKzRKb3gr?=
- =?utf-8?B?SVpteDZXZXV4d3lhVW96YkJlTEFMb3dBdHl2M3RiKzdubkJiSXBkejVFOGJv?=
- =?utf-8?B?M3JIcmIxWW81RVh4dXN0K3lWRUlpWlNRZU5SNzBDeG9iWTVQMGMrdkwwN0Va?=
- =?utf-8?B?UHc2dERtN0NUUGNLVnJKNHlnRXdvY0M3VkZQdVpUc0ZNTXVDc1ZyVkY1YnlO?=
- =?utf-8?B?TEN2bE91QlM5TFNqTFBBaFRibDEzQzcwK1JqYjlzSm1ENG5IYmFtUlhPdS9H?=
- =?utf-8?B?S1RnKzJpbUxtbzRiQldXVXVnSmRRanNWS20vREUySUh1dk9CM1hCY2ZXVHhs?=
- =?utf-8?B?NFc2US9MVndTUFFYcGMycks5b09Lcm5kT3pYeVpDRjU0TUE9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?d2hsUm1KM3FMOGQwQ1lRT3o4Zm1nbEpiejlrK0ZzSEJiQjBXd2JQQkl2azdv?=
- =?utf-8?B?L3ErbmJoWXFtUVlMMUpKWmlTZitCSVpQaEhBbTlqcWJLZ0J5YTZzMlcwbStk?=
- =?utf-8?B?cVM3ZFlJc2pXRi9oc1RiYVYrTkZITFA1cUxpQjFqRTZuZU5QWWdjTytBdXo3?=
- =?utf-8?B?T1dJdko4anFLc1kvQ3BTdjRISlZQTGNLdXJMeHlQVi9JczRkcFlob1JVcElG?=
- =?utf-8?B?VnBYTTVQWlVNWC8wUGhIMVMvam9oVjl1cXhBSnkyKzk3MVkxTmNtVVh6UHBu?=
- =?utf-8?B?S0puMEdKVG40Y1BQRjdLQ3hZN1UzZzc1ZEdSK2xFT1dBNCtSejhOVnlYaGtu?=
- =?utf-8?B?SzR3eS9kcm53M1duQmc4MHB3WDZGcXZSQlkxbGJNZ0Y0aFJFdEE4QlJsakNt?=
- =?utf-8?B?dlU0NTJiSjNiYVNnNUZaSHFwZm9XcC9WUW1xdWxDVGlFU0Urb3pmRFE1TWUr?=
- =?utf-8?B?Z1V0eGhuc1VkT1I2YWp5V2pCazNMTWRJL0V0M0Vrb3M4OFZzZDFRYjJtTVpK?=
- =?utf-8?B?c2lLWkhyK1YxcklJYmZHUFUyTEdYTjVTRHNzWTRiSFV1Sk9kdlprb2FHU3JC?=
- =?utf-8?B?Y01pY1BFaXJYSW0vV2VQSWlGY2V5ZmNHOGs1NEp5ZGlMUTBkK3ZnTFFKc1k5?=
- =?utf-8?B?OGxiM3RCWU4yRElDYVMydDBFNnU5WXJ4WU9sQlVYazNqYndRa2NVSWhGKzRV?=
- =?utf-8?B?U2dPWG9zakcxUkdjYzlmRDJRdUxrbGZ3S3d5WCtGVjBKcVNGNnFOMDJabVRC?=
- =?utf-8?B?TnRvcGJWUDVqbUpjNHAva3RHcTEyUzlWYlAwaEdoTWZSeFdVNFFldGZVUWpH?=
- =?utf-8?B?SkZxVHVEemhVSzhsWW96TjJGVWs1eUhKQm1EMmlSWmFhelByNlJ2UEliSE1p?=
- =?utf-8?B?bjlmUmgyMm4xalo0NVg3dHZaVG1jNmZXSFpxbEU4RjU3a0h3b3VESzFON1Zm?=
- =?utf-8?B?N0JoV3BhWFZDZEVEOXBSMnJaT0hRK21EVS9neWJROTVZWnVtTVRMd1lHVUwz?=
- =?utf-8?B?ZVpBeXJ5bnh2VENLYnlMZElPbUl5TzNyWlovdUZvaTJCQm9uNXh0OExtVjNI?=
- =?utf-8?B?NWNML0hhdE9hdytiZFNLR3ZVZGpjVXlHOHNXVDYzMUlsMUhxTHlScmNQcDhK?=
- =?utf-8?B?Q08rQVYvQTBjU0pCdEtRUWV5Yk5HNEtTNVh1dHc5aVZ6SGZKdDUwZXB5UEo4?=
- =?utf-8?B?VHd0NzVuVWJ3eVlGMHZjaXYyRmdiZTBLY2x0Y2Z6VERvazZxL0xvN3gxbnI5?=
- =?utf-8?B?S3o4UEI4TmRpRXBBZWNnQWx1RVB3K01RYjNLSGFNemZBSmFRQkFWYUIzckk5?=
- =?utf-8?B?UFBobC9tQUhRbk14UjZBd0Joam5iVVZzdkxOdWZHUDV6UzRDZFdVaG83NVZj?=
- =?utf-8?B?bjljMEdQQktycE11aHgyK2U1ZWpxY2Frb3RWRUZqZ3kxVXJUb0plWldCQ1BN?=
- =?utf-8?B?TzFCM3QwZWdkelVkUzBCSlJWanJ0aUFFMmlqL3A1YmVZUktWTlVHZzRRWVNi?=
- =?utf-8?B?enpFSlArdExWR2JPeTEzODZ1Yi85WmdxbHJEbkd4SGZIbzRpK2ZKOVBCVUxq?=
- =?utf-8?B?dlVEbFEvYW1kNEZGbWNyRWd4UDFNZ2dmeFFGdVJOd3ZwT2xCSXpzd254TnZh?=
- =?utf-8?B?WENGdzY2QklJQmo2clo5a2JQN251T2Y4TUpvc0k1Qi9Xek14R3VQaUxyQmFH?=
- =?utf-8?B?U1BWZXE5Q3N4T0tudnBBeTFvdjI0alJvRkNjdkRDUHhDTEpSVzEydkVQWHZK?=
- =?utf-8?B?RXlraCs5STdXbmVYVHZCNGxiamhCaFB1QUppUm14dEhGQkQ3cEZnSHoxb0U0?=
- =?utf-8?B?RlUycHR1NVRlKzNTN1E3YVY4TVJDM3JvckRqaVh5enNQQlBNMTBDQ2ZxVHNJ?=
- =?utf-8?B?TGhYZFAvb1VmcTlIN1VqZXlPWE4xZnJVNG1YVmxweXI5aWtkcVRzbnNzSmg3?=
- =?utf-8?B?MlBFZ3RKUDJNSVY1RFhLOTc0YWRac3ErSkVvN0dXbVNpYTN1b1FJang2Um9n?=
- =?utf-8?B?U3RkSzAxUVkzYXhBSkVhWnYyaGtMNEJWZ2Q4cUE3M1VQZXJBWnFDQjdtY200?=
- =?utf-8?B?d3lzQ01rdm1ZTzg3SjNHOVNHdlZXSzBteHB3cUpRYnN1bVRXOVEzVWhyVkFT?=
- =?utf-8?B?YmF4R0xacnRxNUI3UThmY09jMHFrT29OaUt1R1lhYVFHNTBRWVFwaGhlWXp5?=
- =?utf-8?B?elpsWS8vNXAva2cvZUpzeklVVW1Ram52U1dqQWNobHVudTlJMW1QL2s1Z1g5?=
- =?utf-8?B?dDg1QXlkNGpBZ1lKdGRKNnRwdElaY1ptMWUwbFU4N0VaWWZDdWMraU13UkhV?=
- =?utf-8?B?SmlxaDZIOHpHUEgrR1phOEM5eGhsY2FzOHA3UXllTklyUFBHL3RWdz09?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03a332e5-2c49-4989-19f1-08de5286dc2b
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 09:33:50.7065
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vaCCE/Ga2brHkAGctCROs+5LmMIw9GIrQVnyCoTExQ8p1hiaYLffIglNaIcmV6U/OkHo2IOVqST+cZJaEctX2GnSLLKfcafNRmleTi/hHv0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10763
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 09:34:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229236
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 09:51:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229237
 
-Hi Amaury,
+1. Changelog
+  https://github.com/stevegrubb/libcap-ng/releases/tag/v0.9
 
-Please use "Reply All" when answering to mails on the mailing list so 
-that the conversation stays public and is archived, adding the ML back 
-in Cc myself.
+2. Drop file://0001-Fix-python-path-when-invoking-py-compile-54.patch as it was merged upstream.
 
-On 1/13/26 10:10 AM, Amaury Couderc wrote:
-> Hi Quentin,
-> 
-> I tested the patch on scarthgap, but I think it should be applicable on all the releases.
-> 
+3. Add pkgconfig to solve following configure error:
+ ../sources/libcap-ng-0.9/configure: line 14862: syntax error near unexpected token `LIBBPF,libbpf,'
+ ../sources/libcap-ng-0.9/configure: line 14862: `PKG_CHECK_MODULES(LIBBPF,libbpf,'
 
-https://docs.yoctoproject.org/contributor-guide/submit-changes.html#submitting-changes-to-stable-release-branches
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+---
+ ...hon-path-when-invoking-py-compile-54.patch | 34 -------------------
+ ...ython_0.8.5.bb => libcap-ng-python_0.9.bb} |  0
+ meta/recipes-support/libcap-ng/libcap-ng.inc  |  8 ++---
+ .../{libcap-ng_0.8.5.bb => libcap-ng_0.9.bb}  |  0
+ 4 files changed, 3 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.8.5.bb => libcap-ng-python_0.9.bb} (100%)
+ rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.5.bb => libcap-ng_0.9.bb} (100%)
 
-This is then clearly matching the description in point 2.2. It must be 
-tested and sent against master first and then it can be backported to 
-older-but-still-supported releases afterwards.
+diff --git a/meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch b/meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch
+deleted file mode 100644
+index a0452ad53d..0000000000
+--- a/meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 1fe7c1cfeea00ba4eb903fbb39b74361594d4835 Mon Sep 17 00:00:00 2001
+-From: Jan Palus <jpalus@fastmail.com>
+-Date: Wed, 10 Apr 2024 21:30:51 +0200
+-Subject: [PATCH] Fix python path when invoking py-compile (#54)
+-
+-48eebb2 replaced custom PYTHON3 variable with PYTHON by using standard
+-AM_PATH_PYTHON macro. Makefile however still referred to old one.
+-There's no need to set PYTHON explicitly anymore so drop it.
+-
+-Fixes #53
+-
+-Upstream-Status: Backport
+-[https://github.com/stevegrubb/libcap-ng/commit/1fe7c1cfeea00ba4eb903fbb39b74361594d4835]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- bindings/python3/Makefile.am | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/bindings/python3/Makefile.am b/bindings/python3/Makefile.am
+-index 70a1dd8..6072fc2 100644
+---- a/bindings/python3/Makefile.am
+-+++ b/bindings/python3/Makefile.am
+-@@ -27,7 +27,6 @@ AM_CPPFLAGS = -I. -I$(top_builddir) $(PYTHON3_INCLUDES)
+- LIBS = ${top_builddir}/src/libcap-ng.la
+- SWIG_FLAGS = -python
+- SWIG_INCLUDES = ${AM_CPPFLAGS}
+--PYTHON = $(PYTHON3)
+- pyexec_PYTHON = capng.py
+- pyexec_LTLIBRARIES = _capng.la
+- pyexec_SOLIBRARIES = _capng.so
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.9.bb
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index ed8712bf2b..632527eb12 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -7,12 +7,10 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+ 
+-SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master \
+-           file://0001-Fix-python-path-when-invoking-py-compile-54.patch \
+-           "
+-SRCREV = "f5d39702622208b3ada064d7b2eaeaf1454c9bd3"
++SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master;tag=v${PV}"
++SRCREV = "6ab1fe90fc24fcc1ed4ced635eb20166bcf00023"
+ 
+-inherit lib_package autotools
++inherit lib_package autotools pkgconfig
+ 
+ do_configure:prepend() {
+     touch ${S}/NEWS
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.9.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng_0.9.bb
+-- 
+2.43.0
 
-Thanks,
-Quentin
 
