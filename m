@@ -2,195 +2,129 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF1F7D31A0C
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 04:43:31 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3701.1768365802707851639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 663F5D31A0E
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 06:44:22 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4941.1768373047563898883
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jan 2026 20:43:23 -0800
+ Tue, 13 Jan 2026 22:44:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=OElwI+j+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5474771f1a=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60E4OgHd1072796
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 20:43:21 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=P1MqM8sz;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5474771f1a=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DI9ORI1629137;
+	Wed, 14 Jan 2026 06:44:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=0n68VOVugFXVw4bFCffh
-	hQe4LE6nvNQoHrndh0bjiVs=; b=OElwI+j+NZgZ7WFgrKBECvO/TqzURKp0Ufif
-	OEBZIVg0+kP1apFvjbZtqBonBJnn9XPaXDSA1geYXnDSSpCt+fhMn88nB4RmonIy
-	rlWZWwRQVQDyaxPQwc3epiFw7ZBuuh6MVqkeqpsTFdzfyp19prxWLkHtYxIYeqpr
-	b3IA3yFm17Mbk33A4/oveLztQkfFz+DClZ+7HfKR3IFycYRK2dAtfg5tBKYgwaA/
-	4npV+siM1I6ug7Dq+Jn5yoe+fwlvkxT4HM6BVvu59jS93G+/iW4i2+ZiXvsP8Fy1
-	iHhBAaIdQpDathEHnoA2+KdfJkd5U/kIGWWPYDCJipjtj8coQA==
+	:mime-version:subject:to; s=PPS06212021; bh=zqvWrGqHJnKwNILyJ4ZF
+	HZvRnvbCoZON2lJRrOuM8Ag=; b=P1MqM8szUdaCDJvaZwxMJF9uNuNxJiuhGl8F
+	UAbUoTVUt2NIAW1viu+yZqUbay8NOwiwXMzZOa4uvv6fNyPgmAs4FgYW31OL6XId
+	lonycoF1eAIwOhXYCzWNvz6/MgfjYliv3bRazhLCoHL/r9FyyMXCxbVJv1UBdmbt
+	K+cDCSUnlcVS8QnTA0HGey/jsM1KBE3PXv2c68YAy9iNe3ZVHEQa0HSpobCA2GON
+	Xj52LJBANm/WVCdDPYhkkQAE+ga0H5Yi0rM3JTltAguKAjNxl8LjBQ2RyBV856Lv
+	4E7bodjt4nyTcGK7GbR6EkB9n30oWgS6LI83jK1CwcyZq2lKVg==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bkq5fur9t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 20:43:21 -0800 (PST)
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bkdr2m3gk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 14 Jan 2026 06:44:03 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 13 Jan 2026 20:43:21 -0800
+ 15.1.2507.61; Tue, 13 Jan 2026 22:44:02 -0800
 Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 13 Jan 2026 20:43:20 -0800
+ 15.1.2507.61 via Frontend Transport; Tue, 13 Jan 2026 22:44:01 -0800
 From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] procps: support ptest
-Date: Wed, 14 Jan 2026 12:43:19 +0800
-Message-ID: <20260114044319.2830540-1-changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@gmail.com>,
+        <richard.purdie@linuxfoundation.org>,
+        <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH V4] go.bbclass: set buildid to empty string to improve reproducibility
+Date: Wed, 14 Jan 2026 14:44:00 +0800
+Message-ID: <20260114064400.4070617-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=d/z4CBjE c=1 sm=1 tr=0 ts=69671ee9 cx=c_pps
+X-Proofpoint-ORIG-GUID: j27DG2agzglRuBON8LAd7qGkY21WxwBp
+X-Authority-Analysis: v=2.4 cv=fLo0HJae c=1 sm=1 tr=0 ts=69673b33 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8 a=p0WdMEafAAAA:8
- a=JKThXVu0WzubKF0lb_0A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAzMyBTYWx0ZWRfX+/xl658uKwHB
- 56fNAifW+ijm5JNAI5tRCGTW74ktaSRqOXamDKzHNHEL3I7TG9uBpXqk8ZVh7t3dntaCCnWBKgR
- QK0xikBfAqkj/RgI2U7EWMnhpgJVGnxhKZVrS8XkLHvXKDbi5UIQ6u4pC+uk0yr+bJ26JpFGvww
- fFqjsVkemcwIuNjJKrBeGTGQMl8G3j4l20qTXQvL+fircYjFdvGAsUXzqghbA//SLcwMAW+2APu
- IZh2b7w8wOqlA2Cf6koM6f/8n3ZmOWVtRWqRSPgQcBabNmGTVb9Iy27A6G2Xi/XfBIZ+Qu9oGTl
- QLnQEvk6v5wDAqLnUgu6U/a3eXyOoSFHVugWDC2yoBiWkNaN8qfSP5mGD2LvMyCJXQJGXUPue3J
- I6FGc9ayFVwMgey9+ZgH1FaI31pN+QHbPYRPQjTdqkn/vfm7r8qw71wIgwdZqatSs/ocO0XA5gd
- SpmjAIvyqB9Evirc/9Q==
-X-Proofpoint-ORIG-GUID: o_Jh_B7Q-HgWg5kNNJh38t_p_iZIaNTK
-X-Proofpoint-GUID: o_Jh_B7Q-HgWg5kNNJh38t_p_iZIaNTK
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=UGXAvUmdAAAA:20
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=biSirK55LH2f843hcx4A:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-GUID: j27DG2agzglRuBON8LAd7qGkY21WxwBp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA1MCBTYWx0ZWRfXwLEk0anPGw4U
+ 5DxPKDnoBMIvJj65qISRxsj3WQxIdi/MZ0sFNexEZOWVwTHHuJjjxTduLLY3+/UONDRFIDpT0NT
+ C82BZQ9D1lrvtY6kAvG6Y3zY1onxAbNqQQw4TW6ADoXKNH561YyiJTWLlqJk0QBbiSrEaPHCPs8
+ sD/Hjq9NxGvDxjr1P9bjF9Gh13AqgWJ02YqaMC9DkInF6qGoYFw40boSS2OwJHPPNbIBSKD9xvY
+ 5aDlLWp+umYTxWKavMYfzZxyW8HA1Pw+eXSt5lAMNZXUzjPv4luZMFLz34PqMxhRPTuodvBGNfQ
+ AdbQrcogZBfNs6+8wt1A83HMoQphnpLIYeMkbVcCTdZZzjscJ5aEQ6WCS6DkKaQZxwMM2fyeA4q
+ FwCLPYAluEOwH0kXmNgDQmKW2gCdLC5b6YqDM29KVHmYdYrhuABWgvc/LD/vUstFF9nq+lI+JbL
+ xvVdTmlsDNhPiEdzeFw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-14_01,2026-01-09_02,2025-10-01_01
+ definitions=2026-01-14_02,2026-01-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 impostorscore=0 suspectscore=0
+ suspectscore=0 malwarescore=0 clxscore=1011 priorityscore=1501 spamscore=0
+ phishscore=0 bulkscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140033
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 04:43:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229302
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 06:44:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229303
 
 From: Changqing Li <changqing.li@windriver.com>
 
-support ptest for procps, procps's testsuite use DejaGnu test framework.
-The testsuite is expected to run during build time, this implementation
-create the same folder structure as the testsuite expected to make it
-can work well.
+Go packages and binaries are stamped with build IDs that record both the
+action ID, which is a hash of the inputs to the action that produced the
+packages or binary, and the content ID, which is a hash of the action
+output, namely the archive or binary itself, Refer [1].
+
+And action ID include hash of modroot, which will include build path,
+so this make go package not reproducible.
+Refer [2], keying off module path instead of module root directory is a TODO.
+
+[snip of log]
+HASH[moduleIndex]: "go1.25.3"
+HASH[moduleIndex]: "modroot /build-a/tmp/work/x86-64-v3-wrs-linux/buildah/1.41.5/recipe-sysroot-native/usr/lib/go/src/cmd\n"
+HASH[moduleIndex]: "package go1.25.3 go index v2 /build-a/tmp/work/x86-64-v3-wrs-linux/buildah/1.41.5/recipe-sysroot-native/usr/lib/go/src/cmd/buildid\n"
+HASH[moduleIndex]: "file buildid.go 2025-10-13 16:08:43 +0000 UTC 1704\n"
+HASH[moduleIndex]: "file doc.go 2025-10-13 16:08:43 +0000 UTC 558\n"
+HASH[moduleIndex]: 007b9fe2edd5b3232f5c98ae6c46e80a435141cb627ba5418c5314c0cbf4df7b
+
+Report this issue to upstream, refer [3]
+Workaround the reproducible by setting buildid to empty, refer [4]
+
+Refer:
+[1] https://github.com/golang/go/blob/master/src/cmd/go/internal/work/buildid.go#L26
+[2] https://github.com/golang/go/blob/master/src/cmd/go/internal/modindex/read.go#L70
+[3] https://github.com/golang/go/issues/77086
+[4] https://github.com/golang/go/issues/34186
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/procps/procps/run-ptest |  7 +++
- meta/recipes-extended/procps/procps_4.0.5.bb  | 50 ++++++++++++++++++-
- 3 files changed, 56 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/procps/procps/run-ptest
+ meta/classes-recipe/go.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index fff2947177..0a4ff49ee3 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -57,6 +57,7 @@ PTESTS_FAST = "\
-     nettle \
-     opkg \
-     popt \
-+    procps \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-diff --git a/meta/recipes-extended/procps/procps/run-ptest b/meta/recipes-extended/procps/procps/run-ptest
-new file mode 100644
-index 0000000000..c999876bd8
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/run-ptest
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+cd ./testsuite
-+for tool in @DEJATOOL@;do
-+    runtest -a --tool $tool --outdir ../log 
-+done
-+
-diff --git a/meta/recipes-extended/procps/procps_4.0.5.bb b/meta/recipes-extended/procps/procps_4.0.5.bb
-index 0e0e06f0d2..b4697f7ce3 100644
---- a/meta/recipes-extended/procps/procps_4.0.5.bb
-+++ b/meta/recipes-extended/procps/procps_4.0.5.bb
-@@ -10,11 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- DEPENDS = "ncurses"
- 
--inherit autotools gettext pkgconfig update-alternatives
-+inherit autotools gettext pkgconfig update-alternatives ptest
- 
- SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master;tag=v${PV} \
-            file://sysctl.conf \
-            file://top_large_pid_fix.patch \
-+           file://run-ptest \
-            "
- SRCREV = "f46b2f7929cdfe2913ed0a7f585b09d6adbf994e"
- 
-@@ -47,8 +48,51 @@ do_install:append () {
-         fi
- }
- 
--CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
-+do_compile_ptest() {
-+    oe_runmake -C testsuite site.exp
-+    oe_runmake src/tests/test_process src/tests/test_strutils  src/tests/test_fileutils src/tests/test_shm
-+    DEJATOOL=$(make -C testsuite -s -f Makefile -f - <<'EOF'
-+all:
-+	$(info $(DEJATOOL))
-+EOF
-+)
-+    echo $DEJATOOL > ${B}/testsuite/.dejatool
-+}
- 
-+do_install_ptest() {
-+     install -d ${D}${PTEST_PATH}/testsuite
-+     install -d ${D}${PTEST_PATH}/src
-+     install -d ${D}${PTEST_PATH}/log
-+
-+     cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+     cp -r ${B}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+     cp -r ${B}/src/tests ${D}${PTEST_PATH}/src/
-+
-+     rm -rf ${D}${PTEST_PATH}/testsuite/Makefile*
-+     rm -rf ${D}${PTEST_PATH}/testsuite/README
-+     find ${D}${PTEST_PATH}/testsuite/ -type f -name "*.o" -exec rm -f {} +
-+     find ${D}${PTEST_PATH}/src/ -type f -name "*.o" -exec rm -f {} +
-+
-+     sed -i -e "/set srcdir/c\set srcdir ${PTEST_PATH}/testsuite" \
-+            -e "/set objdir/c\set objdir ${PTEST_PATH}/testsuite" ${D}${PTEST_PATH}/testsuite/site.exp
-+
-+     DEJATOOL=$(cat ${B}/testsuite/.dejatool)
-+     sed -i -e "s#@DEJATOOL@#$DEJATOOL#g" ${D}${PTEST_PATH}/run-ptest
-+     for p in $DEJATOOL; do
-+        if [ "$p" = "ps" ]; then
-+            install -d ${D}${PTEST_PATH}/src/ps
-+            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscommand
-+        elif [ "$p" = "sysctl" ]; then
-+            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
-+        elif [ "$p" = "kill" ] || [ "$p" = "pidof" ] || [ "$p" = "watch" ]; then
-+            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        else
-+            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        fi
-+     done
-+}
-+
-+CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
- bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime w"
- base_bindir_progs += "kill pidof ps watch"
- base_sbindir_progs += "sysctl"
-@@ -80,6 +124,8 @@ RDEPENDS:${PN} += "${PROCPS_PACKAGES}"
- RDEPENDS:${PN}-ps += "${PN}-lib"
- RDEPENDS:${PN}-sysctl += "${PN}-lib"
- 
-+RDEPENDS:${PN}-ptest += "dejagnu bash glibc-utils"
-+
- FILES:${PN}-lib = "${libdir}"
- FILES:${PN}-ps = "${base_bindir}/ps.${BPN}"
- FILES:${PN}-sysctl = "${base_sbindir}/sysctl.${BPN} ${sysconfdir}/sysctl.conf ${sysconfdir}/sysctl.d"
+diff --git a/meta/classes-recipe/go.bbclass b/meta/classes-recipe/go.bbclass
+index b540471ba2..1c43b36fc0 100644
+--- a/meta/classes-recipe/go.bbclass
++++ b/meta/classes-recipe/go.bbclass
+@@ -51,11 +51,12 @@ GO_RPATH:class-native = "${@'-r ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE
+ GO_RPATH_LINK:class-native = "${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
+ GO_LINKMODE ?= ""
++GO_BUILDID ?= "-buildid="
+ GO_EXTRA_LDFLAGS ?= ""
+ GO_LINUXLOADER ?= "-I ${@get_linuxloader(d)}"
+ # Use system loader. If uninative is used, the uninative loader will be patched automatically
+ GO_LINUXLOADER:class-native = ""
+-GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} ${GO_LINUXLOADER} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
++GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} ${GO_LINUXLOADER} ${GO_EXTRA_LDFLAGS} ${GO_BUILDID} -extldflags '${GO_EXTLDFLAGS}'"'
+ export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
+ export GOPATH_OMIT_IN_ACTIONID ?= "1"
+ export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
 -- 
 2.34.1
 
