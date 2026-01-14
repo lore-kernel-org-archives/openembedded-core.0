@@ -2,138 +2,107 @@ Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463FED37E5F
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 15:55:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4970AD37E5F
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 15:58:26 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13471.1768406120100247019
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13574.1768406300205491321
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 07:55:21 -0800
+ Wed, 14 Jan 2026 07:58:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=OMnJzawe;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=yqNst/HD;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 203814E420B2;
-	Wed, 14 Jan 2026 15:55:18 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A3E774E420D7;
+	Wed, 14 Jan 2026 15:58:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EAE366074A;
-	Wed, 14 Jan 2026 15:55:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0814910B6826D;
-	Wed, 14 Jan 2026 16:55:15 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6ACB76074A;
+	Wed, 14 Jan 2026 15:58:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 49C6910B68290;
+	Wed, 14 Jan 2026 16:58:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768406117; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1768406297; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=3+HUCu+K3wTSYZSgvM7PxGMFH7fB89pjHq3Z7tgIQHM=;
-	b=OMnJzawes77YxzU+pmbqsD7LhfjZC5d/4l0/iTdcd/6B3llVVfJSkgfoDRVLF3ZdeB7mnr
-	fG7sUrzz9/g26a1VQosoSnWPb6vlvpGOFcM1anwx0WyS2KRnLLnn6fsY68iF3+kuJ5zORI
-	6TpK2HKSI+rSE28rGuofKSFTt9sVhRuNF8MVaETOng/lqxpb0Z22xxzLf9RGcepIVtW7Kv
-	d1fTDQX8doseCwGWhWoVzE4KHUw2H96ZAX2dAcCXUwf11WIWJVIqBlvRnblUT7SzZr5I7P
-	si3G2zNl6XMUlLdGAJ9IwOWhD9nKWz+xiHGPUfENuHs7aOZvMtNzXWVQNf11Ug==
+	bh=0c4+99wCtzv+VOsjtsQ3HEZdOIxVGMQniYI1nP/tfYQ=;
+	b=yqNst/HDFHgeJm/yQOvRLf85T7PJRijvFwyQ5j6H66485nyP2KB0DHdtJTxKZBH7tBRQlw
+	Y1Stu9wJ6cqEshio7X/t8EsFJUCuywy8rG0nIsqnB4RBJIFxihDNqXS0mqrS8hicLFvH+Q
+	Z/CKBUuyWNnjcEMK4AMu61upBu20t32NWa2ToF6GdEq3RQapi6yDJFCKa5v5/NhGU1HeXO
+	Dj42Fr52Y5DEF0Dw2n36NroBqQPlEAq/ZCpGCFQCvdvaSAg17FswORwc+Ix7OHfBfBM1us
+	wBnUjHE844siV9+29K5LHHHDsVsnWjvN84tsRvhju4lY3G5eC/LnEBQbMlXxrA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 14 Jan 2026 16:55:15 +0100
-Message-Id: <DFOFNE5RSKSK.XVWT4WC911UE@bootlin.com>
-To: <alex.kanavin@gmail.com>
-Subject: Re: [bitbake-devel] [RFC] bitbake-setup: Documentation terminology
- and tooling suggestions
-Cc: <otavio.salvador@ossystems.com.br>,
- <bitbake-devel@lists.openembedded.org>, "Patches and discussions about the
- oe-core layer" <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Jan 2026 16:58:14 +0100
+Message-Id: <DFOFPON5W0JH.3442V3YUTEX2L@bootlin.com>
+Subject: Re: [OE-core] [PATCH] llvm: enable LLVMgold.so build by adding
+ binutils dependency
 From: "Antonin Godard" <antonin.godard@bootlin.com>
-References: <CAP9ODKowQqn-VuqaT1w3cXCWGfBeMtG2rHR9HXBFqxSfttAk4Q@mail.gmail.com> <DFOEW0JK0R5M.RI0FHSXWERO2@bootlin.com> <CANNYZj-YDD6-K=6W5mvEXRgQwm3XmbqAhhByTzD_givkDjxzmQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-YDD6-K=6W5mvEXRgQwm3XmbqAhhByTzD_givkDjxzmQ@mail.gmail.com>
+To: <mark.yang@lge.com>, <openembedded-core@lists.openembedded.org>
+References: <20260113225424.1208879-1-mark.yang@lge.com>
+In-Reply-To: <20260113225424.1208879-1-mark.yang@lge.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 15:55:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229344
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 15:58:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229345
 
 Hi,
 
-On Wed Jan 14, 2026 at 4:39 PM CET, Alexander Kanavin via lists.openembedde=
-d.org wrote:
-[...]
->> > 2. Allow Empty Variants in Templates
->> >
->> > Currently, bitbake-setup init requires the user to select a variant wh=
-en
->> > one is defined in the template. There is no option to skip this select=
-ion.
->>
->> I believe this is already achievable with the --skip-selection option?
->>
->> > Allowing templates without variants (or making variant selection optio=
-nal)
->> > would reduce the number of questions during setup, making the process
->> > faster and more approachable for newcomers.
->>
->> Instead of no variants, maybe we just want to instruct the user to run:
->>
->>   bitbake-setup init --non-interactive choice1 choice2 ...
->>
->> Another idea would be to make it possible to define default choices
->> in an existing template? The documentation would then instruct the user =
-to
->> simply execute:
->>
->>   bitbake-setup init --non-interactive
->>
->> which, with no choices passed on the command-line, would provide the use=
-r with
->> the default variant (the Poky Setup). The default choices would still ha=
-ve to be
->> printed on the console to make it clear to the user what was selected.
+On Tue Jan 13, 2026 at 11:54 PM CET, mark.yang via lists.openembedded.org w=
+rote:
+> From: "mark.yang" <mark.yang@lge.com>
 >
-> It would really help to provide an example config template, and use
-> that to illustrate usability issues, and proposed improvements. I'm
-> afraid I simply am confused by the point 2, and I don't understand the
-> issue reported in it, or the suggested solution.
+> Currently, LLVMgold.so is not built because the binutils headers
+> are missing during the build process.
 >
-> If there are no choices to be made (e.g. only one variant),
-> bitbake-setup will pick that without asking. There's also
-> --skip-selection option, but it is expressly *not* for newcomers as it
-> will result in an incomplete bitbake config. If one wants less
-> questions, then they should remove variants from the configuration
-> template, otherwise bitbake-setup needs to pick something from several
-> choices one way or another.
+> This allows LLVM to find the necessary headers and build the LLVMgold.so,
+> which is required for Link Time Optimization (LTO) support properly.
+>
+> Signed-off-by: mark.yang <mark.yang@lge.com>
+> ---
+>  meta/recipes-devtools/clang/llvm_git.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/clang/llvm_git.bb b/meta/recipes-devto=
+ols/clang/llvm_git.bb
+> index 96ea383731..bed9988c1a 100644
+> --- a/meta/recipes-devtools/clang/llvm_git.bb
+> +++ b/meta/recipes-devtools/clang/llvm_git.bb
+> @@ -11,7 +11,7 @@ require common-source.inc
+> =20
+>  LIC_FILES_CHKSUM =3D "file://LICENSE.TXT;md5=3D8a15a0759ef07f2682d2ba4b8=
+93c9afe"
+> =20
+> -DEPENDS =3D "llvm-tblgen-native libffi libxml2 zlib zstd"
+> +DEPENDS =3D "llvm-tblgen-native libffi libxml2 zlib zstd binutils"
+> =20
+>  inherit cmake pkgconfig lib_package multilib_header
+> =20
+> @@ -50,6 +50,7 @@ EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DMinSizeRel \
+>                    -DLLVM_TOOL_YAML2OBJ_BUILD=3DOFF \
+>                    -DLLVM_NATIVE_TOOL_DIR=3D${STAGING_BINDIR_NATIVE} \
+>                    -DLLVM_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/llvm-tblgen=
+ \
+> +                  -DLLVM_BINUTILS_INCDIR=3D${STAGING_INCDIR} \
+>                    -DCROSS_TOOLCHAIN_FLAGS_NATIVE=3D'-DCMAKE_TOOLCHAIN_FI=
+LE=3D${WORKDIR}/toolchain-native.cmake' \
+>                   "
+> =20
 
-I think the point here is that newcomers reading the documentation will use=
- the
-default registry and not a custom configuration template, and that it would=
- be
-more user-friendly to _not_ make the user choose options from the default
-registry.
+I think this triggered the following error on our test infrastructure:
 
-That being said=E2=80=A6 I think it was the intention of the project to giv=
-e the user the
-option to choose. I don't really have an opinion on whether the user should
-choose or not choose at the moment.
+NOTE: Running task 9262 of 9824 (virtual:native:/srv/pokybuild/yocto-worker=
+/qemux86-64-ltp/build/layers/openembedded-core/meta/recipes-devtools/clang/=
+libclc_git.bb:do_create_spdx)
+ERROR: llvm-21.1.8-r1 do_package: QA Issue: llvm: Files/directories were in=
+stalled but not shipped in any package:
+  /usr/lib/LLVMgold.so
 
-On that note, if we go the "user has to choose every option" way, I think i=
-t
-would be nice to have a description of built-in fragments too.
+Can you have a look?
 
-If you read this as a newcomer:
-=20
-  Target machines:
-  1. machine/qemux86-64
-  2. machine/qemuarm64
-  3. machine/qemuriscv64
-  4. machine/genericarm64
-  5. machine/genericx86-64
-
-  Please select one of the above options by its number:
-
-  Distribution configuration variants:
-  1. distro/poky
-  2. distro/poky-altcfg
-  3. distro/poky-tiny
-
-  Please select one of the above options by its number:
-
-I'm not sure a newcomer would know what to choose here. A description would
-probably help. It's also a simple addition I guess?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/63/builds/2846
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4942824/raw_inlin=
+e
 
 Antonin
 
