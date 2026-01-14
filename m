@@ -1,114 +1,178 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <oobitots@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C39FD29FFF
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 12:36:24 +0000 (UTC)
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8944.1768394181623291713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 871F5D2A000
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 12:52:14 +0000 (UTC)
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9201.1768395133119478946
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 04:36:22 -0800
+ Wed, 14 Jan 2026 04:52:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ela/2dnP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-4327555464cso5169088f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 04:36:21 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=a4XSiNDx;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: oobitots@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1768394180; x=1768998980; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=omgIVgtwZuSd5XvHrl6SVh/WpRkoULay4wVe2+aO+3A=;
-        b=ela/2dnPEhO4LaOQ4ebcCtokj6BlFFsWQQ5vXUWJtbXmh0QNy8jaH6kRoUxOeVAdam
-         u3SDpj5wMAM0ir2tEIRphF/eCCQNf9CpIjwKrcE/YA6tgO2cqTs+sfQ+Bwi/v42Wvo5r
-         648C27cuAbWugdFdjuj4Ax5SNQWYK0sxlA7Qk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768394180; x=1768998980;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=omgIVgtwZuSd5XvHrl6SVh/WpRkoULay4wVe2+aO+3A=;
-        b=mQYH6UlozMKKRJsmwNFFn6NGWIyGx6dwm8vuTSc5OOISnHawMbUvrmKiV5KaTSP8ru
-         x/Jcl8WnC9T2HOhyJfeuBQ2JgEJ8I9jpnthCyYIToLfivSyabxbUg60IMGlc4iOBT70r
-         /7WIP1wfkR5FPnX09qjgviGy70PzELukTNa6jAb003OyPASsNYJs78X8jdZJLPBRqR2b
-         VG4Q6LOulkDLAWqjT15gGcEg8gs5Ae+2rSn3h0W3qI4vMrz1woxIpRTyPT5Y1TjGIsM5
-         zwlpFSuDbRE6jhuvMGOBM8/kUjV6W2KEvng1Kyfzj57GhP8A0/FlNgTtQcYOgzLdKmEW
-         HLmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXijEq1bLhU755MMr91xC5sEqRUt178dLgp7pm6amPcrjhUpHUwsZZa1muky+tGIh6Iw4BBqpY1enrnPt2Dsqyx4Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YygE5iF+Lw9kk+kAlTUS7AsFVN6x4sq8Q8AkA/jxKO+i2bwYDM7
-	wZ44ttvCJ9ANEVez2J3SX5rgJYoq9NgolRWokK14mGtSgWbnbPH2vDU63CD4MhEjNUqhfHlwLul
-	1aL3K9TooBg==
-X-Gm-Gg: AY/fxX6rS+4W9yPzDwZfjruNcSyf0khj5QZ2XV8D0RTVv1l3sXgPXS/1JsWgfQoEfnH
-	NXW3eS2dxJwUh65aXWthjnrJK6mQIdSV26A3kgllpW34L7fd5YFY5Lkn5sGJMLFi7lS+IV57nt2
-	5wV2zmjHbU/s9SRbqG76MgQVQy7EZ9u3qeQ2FoRF4vaNLUdk2PooAkW0GLCmDaeNQgzpJqd68hV
-	H0qdjYxM1BQSrgvcQQHGyOiBi91v2mm+0GfkeJoPkY9XjpQSrcSPvYzWB2j6ctWBXHad3e/J42v
-	F4OuJ/Um6vxKw8ad4XS88kxKUHFlOTb2Pozz8PgNv0ZQRXBlQ5k2v09aiRfgIiXwvCb+HZdJAOr
-	XZYITYmJfu2em9l5lDNhIblsuPUq72oNVRN9JI2CAr6jqQZzPzU0obsBjeE1pbbD0HwLBinzwPj
-	yFlLMxMHyaU+6dv0+lodnHBjpTyIqwpCkC/vPkKc6TQkD4cZlIMUNLQFtgxFcGUb6kEZXs7UA6s
-	ak=
-X-Received: by 2002:a5d:5f48:0:b0:431:9d7:5c2e with SMTP id ffacd0b85a97d-4342c535cecmr3252142f8f.35.1768394179811;
-        Wed, 14 Jan 2026 04:36:19 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:94c7:73b9:87a6:4747? ([2001:8b0:aba:5f3c:94c7:73b9:87a6:4747])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16ffsm51061223f8f.12.2026.01.14.04.36.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 04:36:19 -0800 (PST)
-Message-ID: <a065254107d5d01736b8a68b67cf53c0b26fbe6e.camel@linuxfoundation.org>
-Subject: Re: [PATCH V4] go.bbclass: set buildid to empty string to improve
- reproducibility
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org, 
-	bruce.ashfield@gmail.com, mathieu.dubois-briand@bootlin.com
-Date: Wed, 14 Jan 2026 12:36:18 +0000
-In-Reply-To: <20260114064400.4070617-1-changqing.li@windriver.com>
-References: <20260114064400.4070617-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+  d=cisco.com; i=@cisco.com; l=3014; q=dns/txt;
+  s=iport01; t=1768395133; x=1769604733;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+FLnAYzwOroC2t00ch6RUop9QfuYxQJ3kSHoYyQP3h0=;
+  b=a4XSiNDxYS2NdNWlBd2BbSEQwiO8uQsRi3ZVyltbIftSoj1daeriExQA
+   5vBELbOta3ga/kp8UTY4FZ71lbOr5/f45HGEivW3wUb62DPKtkCPl9q3F
+   U/7mVsoIuiA+xS59hfBBRBOZBX4F30jzeBPee0v4G/0SPiXinpOhDpf1g
+   9eRUzWT2B4DrjA703oI66hva5fFQo9a7ZQGdAzmHucQUpV0C1trgS9OSt
+   qCUrujq15uWvNN+mQ+GBK3SJU38OhSA/pdaXG4pTcGSGsELtZ73uoZ3qw
+   0smbsDegSIwAox33xI/53n/XyKOY860DER9F5dUt4hAtwQxJS+18zje+a
+   A==;
+X-CSE-ConnectionGUID: mBUzFxs/QqyMZrdt+au7IQ==
+X-CSE-MsgGUID: l5g/QrZGSmSaq110s/n+oQ==
+X-IPAS-Result: =?us-ascii?q?A0DcAwDyj2dp/5P/Ja1aglmCSIEAX0JJlkuLd5ImgX8PA?=
+ =?us-ascii?q?QEBDzEgBAEBhQeMbwImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGTw2GXSEVAUaBDESDAgGCcwIBrDOCLIEBhHzZQYFkCxQBgTiNU?=
+ =?us-ascii?q?nGEeCcbgUlEhH2CYQKBOHWFdwSDMIJ8kR5IgR4DWSwBVRMNCgsHBYFmAzUSK?=
+ =?us-ascii?q?hVuMh2BIz4XgQobBwWBWQaIfQ+KOT0DCxgNSBEsNxQbBD5uB48igiVGB3sED?=
+ =?us-ascii?q?yyBGJRLAUSPV4IhoQ6EJoRwhy6VOhozhVulEC6YWIs2mSOEaIFoPIFZcBWDI?=
+ =?us-ascii?q?glJGQ+SIYVkujQiNTwCBwsBAQMJkWuBfAEB?=
+IronPort-Data: A9a23:0u8Oqq+sdRQatRGZ5q3HDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3z
+ jYaCzvQbvvZM2KkKo0nO4rnoR4CvsDTn4BmTAFkpSBEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mryyHjEAX9gWAsaztIs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kzF7AK1PZsRlhX5
+ NkqMjwRLRme2MOPlefTpulE3qzPLeHxN48Z/3UlxjbDALN/GdbIQr7B4plT2zJYasJmRKmFI
+ ZFGL2AyMVKZP0In1lQ/UPrSmM+vgXP+bzpEs3qepLE85C7YywkZPL3FbIaII4LaH5gL9qqej
+ mab8CPAGCM1D9mkwCPcqyq3wemMmhquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXzBCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:AIalz645nqc+XHMrvwPXwMPXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7d8+mUzJ876U
+ +mGJIObOHNMQ==
+X-Talos-CUID: 9a23:FlCUeWwkx4BHEVprjqc8BgURMP03XG3Gi07JMmqKE2p1C7SIFn6prfY=
+X-Talos-MUID: 9a23:21zsGQqDOOxxbNR6rUcezzU/O4BR+ZaBM0U2mIxf4pGfciozPA7I2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.21,225,1763424000"; 
+   d="scan'208";a="445168256"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 14 Jan 2026 12:52:12 +0000
+Received: from sjc-ads-1437.cisco.com (sjc-ads-1437.cisco.com [171.70.59.129])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 2469A18000244;
+	Wed, 14 Jan 2026 12:52:12 +0000 (GMT)
+Received: by sjc-ads-1437.cisco.com (Postfix, from userid 500841)
+	id C433CCC8CBA; Wed, 14 Jan 2026 04:52:09 -0800 (PST)
+From: Oleksiy Obitotskyy <oobitots@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH V2] patch.py: add checks for patch_path
+Date: Wed, 14 Jan 2026 04:52:07 -0800
+Message-Id: <20260114125207.497436-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.70.59.129, sjc-ads-1437.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 12:36:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229323
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 12:52:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229324
 
-On Wed, 2026-01-14 at 14:44 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->=20
-> Go packages and binaries are stamped with build IDs that record both the
-> action ID, which is a hash of the inputs to the action that produced the
-> packages or binary, and the content ID, which is a hash of the action
-> output, namely the archive or binary itself, Refer [1].
->=20
-> And action ID include hash of modroot, which will include build path,
-> so this make go package not reproducible.
-> Refer [2], keying off module path instead of module root directory is a T=
-ODO.
->=20
-> [snip of log]
-> HASH[moduleIndex]: "go1.25.3"
-> HASH[moduleIndex]: "modroot /build-a/tmp/work/x86-64-v3-wrs-linux/buildah=
-/1.41.5/recipe-sysroot-native/usr/lib/go/src/cmd\n"
-> HASH[moduleIndex]: "package go1.25.3 go index v2 /build-a/tmp/work/x86-64=
--v3-wrs-linux/buildah/1.41.5/recipe-sysroot-native/usr/lib/go/src/cmd/build=
-id\n"
-> HASH[moduleIndex]: "file buildid.go 2025-10-13 16:08:43 +0000 UTC 1704\n"
-> HASH[moduleIndex]: "file doc.go 2025-10-13 16:08:43 +0000 UTC 558\n"
-> HASH[moduleIndex]: 007b9fe2edd5b3232f5c98ae6c46e80a435141cb627ba5418c5314=
-c0cbf4df7b
->=20
-> Report this issue to upstream, refer [3]
-> Workaround the reproducible by setting buildid to empty, refer [4]
+All URLs from SRC checked to be a patch.
+In some rare cases, when we have "diff" or
+"patch" into URL it is treated as a patch not
+like proper resource (e.g. repository). This
+happens in case of using mirrors. Without
+pre-downloaded repository archive we have
+directory into downloads and exit from
+patch_path before checking for patch/diff.
 
-The trouble is there is a lot of potentially important information
-going into these buildids and you're just removing that functionality
-entirely.
+Let's limit patch_path call for url's that
+has "apply" parameter set or has original
+extensions .diff or .patch.
 
-Can we patch out the problematic component until it is fixed instead?
+Error example for this URL:
+git://github.com/pkg/diff;name=diff;\
+destsuffix=build/vendor/src/github.com/pkg/diff;branch=main;protocol=https
 
-I'm very reticent to remove them entirely, that doesn't feel like a
-good solution.
+ERROR: nativesdk-yq-4.30.8+gitdd6cf3df146f3e2c0f8c765a6ef9e35780ad8cc1-r0 do_patch: \
+Importing patch 'github.com.pkg.diff' with striplevel '1'
+FileNotFoundError(2, 'No such file or directory')
 
-Cheers,
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+---
+ meta/lib/oe/patch.py | 35 ++++++++++++++++++++++++++++++++---
+ 1 file changed, 32 insertions(+), 3 deletions(-)
 
-Richard
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 246fc6221f..c5d09a399f 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -884,6 +884,33 @@ class UserResolver(Resolver):
+         finally:
+             os.chdir(olddir)
+ 
++def is_archive_extension(ext):
++    return ext in ('.gz', '.bz2', '.xz', '.Z')
++
++def is_patch_extension(ext):
++    return ext in ('.diff', '.patch')
++
++def could_be_patch(url):
++    """
++    URI could be treated as patch if:
++    - any resource with parameter apply set to yes/true
++    - any resource without parameter apply explicitly set, but let's limit them to ones with
++      extension .patch or .diff
++    """
++    (_, _, path, _, _, parm) = bb.fetch.decodeurl(url)
++
++    if "apply" in parm:
++        apply = oe.types.boolean(parm["apply"])
++        if apply:
++            return True
++
++    base, ext = os.path.splitext(path)
++    if is_archive_extension(ext):
++        _, ext = os.path.splitext(base)
++    if is_patch_extension(ext):
++       return True
++
++    return False
+ 
+ def patch_path(url, fetch, unpackdir, expand=True):
+     """Return the local path of a patch, or return nothing if this isn't a patch"""
+@@ -892,7 +919,7 @@ def patch_path(url, fetch, unpackdir, expand=True):
+     if os.path.isdir(local):
+         return
+     base, ext = os.path.splitext(os.path.basename(local))
+-    if ext in ('.gz', '.bz2', '.xz', '.Z'):
++    if is_archive_extension(ext):
+         if expand:
+             local = os.path.join(unpackdir, base)
+         ext = os.path.splitext(base)[1]
+@@ -902,7 +929,7 @@ def patch_path(url, fetch, unpackdir, expand=True):
+         apply = oe.types.boolean(urldata.parm["apply"])
+         if not apply:
+             return
+-    elif ext not in (".diff", ".patch"):
++    elif not is_patch_extension(ext):
+         return
+ 
+     return local
+@@ -913,7 +940,9 @@ def src_patches(d, all=False, expand=True):
+     patches = []
+     sources = []
+     for url in fetch.urls:
+-        local = patch_path(url, fetch, unpackdir, expand)
++        local = None
++        if could_be_patch(url):
++            local = patch_path(url, fetch, unpackdir, expand)
+         if not local:
+             if all:
+                 local = fetch.localpath(url)
+-- 
+2.35.6
+
 
