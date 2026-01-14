@@ -1,238 +1,111 @@
-Return-Path: <alban.moizan@smile.fr>
+Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0884D37E51
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 15:41:35 +0000 (UTC)
-Subject: Re: [PATCH v2 08/15] kernel-yocto.bbclass: Disable ccache when rust-kernel is enabled
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13368D37E58
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 15:48:36 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13359.1768405712866447163
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 14 Jan 2026 07:48:33 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=RDPPEpP+;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.218.44, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b876b5c69baso13340666b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 07:48:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1768405711; x=1769010511; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QzRIDMqUJl+hD74DDhM01pKGrpdlHt8Cj43+PhA6ebE=;
+        b=RDPPEpP+DBsZRtp1eI1gj9RBllqcg9KUJufloSkuRIrYnRH3f3MphK6Ig6bs/22TAW
+         tANCg1QleLH6OdPKzEr93UQVIB9M9IWM2ZOpm2Fffj2e17e0/9uDIhm37ZHXRrVqmNS6
+         s75yAb97bpo+7LeRpUVUubTtLUj99Qnc3kcKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768405711; x=1769010511;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QzRIDMqUJl+hD74DDhM01pKGrpdlHt8Cj43+PhA6ebE=;
+        b=BRjhNl6JbH5KeFU8w6EME9Vh1o2gSGDSxIHgwvqNmhOHz0ny25u0kj04PKRKHR5uyx
+         OZxrZ0u1bX8iGoEpe4lhx0fXg9MaP5kot34y7FK8KG+Tdd3sPST17Mk12FdPqdBPrAV6
+         /SHTFB/vBCaTNzNFKZlf/uQu4QKrl5DXUVilErUMxmGWsfVMf7Uos9CZbSOn9WSJEush
+         dwyt2xutyiokIilVWtkaylAaapY6eh0mqmsdQVNtPL4Zhzb5ZSbENN1adxXkDY3IKQiO
+         3tI+0dtI8UX1+HPcPcqROKaUdVCnnit44CG5CMcPBqVvUHW79GwqRToAElyek7pv9115
+         RXuQ==
+X-Gm-Message-State: AOJu0Yzt0stMQ8PYIH+76dWmS3n+YJ/HoOgd61kNUN2KK1RXaChsemrI
+	kF6fv3Pj3XHnD7DfJDxIKJ+q/SuP3ZTO2P5A9HTW43xW23MZHlbasEp9gbrggrCIAxsrm2lAQl9
+	Qqzq1
+X-Gm-Gg: AY/fxX4PJzuQqUy5juYjgTFSACSgQjs9U3fM1b+s/So70F4oA8P26b0ChAxjpg8eqUI
+	parCqIShKRis6Z8K5mFnyQmWMndAEpQKof+J5rcB+Rde+Rc5tuSB59NUoBkT+6JIn/67xxhjc6Y
+	tAmfsWu+viHWArEXc+JlnivTmuJsKu6rollEf0R0tj7JVLVO/zg1ElPBUCFqYpaHDpIuMssqLxk
+	JIbzVi0NKfUrd2JMprKIbcEM3sXxPSWCNMdsarktPB9+QosXOm9GWMw7jFrhKYm5wnyZN1OL0Fh
+	su7zGhuM99fiuFSM2yWXn4groxl816bll3eR5xdeYVTGWsYXH18yz7UJkL4J4CGAObKakyfdR1p
+	6D0F1FQBvO380kEE8ysEa6JuqzndRio2Pk3swYZza/xx2wj6QvL03POITAZjsVqcitfwOg8eHwE
+	5t+20Wc2BeT3uj8NlkG4RCCXSd6DozuBMsWG85jKLdGKTken1xtSmypzdd2Noo+Jkc+1UwZbWe2
+	umcCx39oowObc2X0KfuqxOavGqObTYIycqCR/Gsx42wmxrKJbnQ
+X-Received: by 2002:a17:907:70b:b0:b7d:3c0d:96ef with SMTP id a640c23a62f3a-b87612ca8a2mr171094966b.7.1768405711141;
+        Wed, 14 Jan 2026 07:48:31 -0800 (PST)
+Received: from adam.arnhem.chello.nl (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b876e9ac655sm135616466b.6.2026.01.14.07.48.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 07:48:30 -0800 (PST)
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
-From: alban.moizan@smile.fr
-X-Originating-Location: FR (176.157.204.145)
-X-Originating-Platform: Linux Firefox 146
-User-Agent: GROUPS.IO Web Poster
+Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
+Subject: [PATCH v2 1/6] wic: extra-partition: Small code cleanup
+Date: Wed, 14 Jan 2026 16:48:20 +0100
+Message-ID: <20260114154825.4043483-1-adam.duskett@amarulasolutions.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Date: Wed, 14 Jan 2026 07:41:30 -0800
-References: <20251230141540.1974380-1-Harish.Sadineni@windriver.com> <20251230141540.1974380-9-Harish.Sadineni@windriver.com>
-In-Reply-To: <20251230141540.1974380-9-Harish.Sadineni@windriver.com>
-Message-ID: <659490.1768405290403118898@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="9QpbM5odQGoHi9lS3qG3"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 15:41:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229337
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 15:48:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229338
 
---9QpbM5odQGoHi9lS3qG3
-Content-Type: text/plain; charset="utf-8"; markup=markdown
-Content-Transfer-Encoding: quoted-printable
+- Remove redundant charachter escaped in the src_entry regex call.
+- Remove an uneeded semicolon for cls.install_task.
+- we copies -> we copy
 
-Excuse me for the double mail, I was not yet subscribing to the mailing lis=
-t, so my mail was hidden.
+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+---
+ scripts/lib/wic/plugins/source/extra_partition.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---------------------------
+diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/lib/wic/plugins/source/extra_partition.py
+index d370b0107e..a1d9aa9a7b 100644
+--- a/scripts/lib/wic/plugins/source/extra_partition.py
++++ b/scripts/lib/wic/plugins/source/extra_partition.py
+@@ -69,7 +69,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+ 
+         # list of tuples (src_name, dst_name)
+         deploy_files = []
+-        for src_entry in re.findall(r'[\w;\-\./\*]+', extra_files):
++        for src_entry in re.findall(r'[\w;\-./*]+', extra_files):
+             if ';' in src_entry:
+                 dst_entry = tuple(src_entry.split(';'))
+                 if not dst_entry[0] or not dst_entry[1]:
+@@ -80,7 +80,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+             logger.debug('Destination entry: %r', dst_entry)
+             deploy_files.append(dst_entry)
+ 
+-        cls.install_task = [];
++        cls.install_task = []
+         for deploy_entry in deploy_files:
+             src, dst = deploy_entry
+             if '*' in src:
+@@ -111,7 +111,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+         """
+         Called to do the actual content population for a partition i.e. it
+         'prepares' the partition to be incorporated into the image.
+-        In this case, we copies all files listed in IMAGE_EXTRA_PARTITION_FILES variable.
++        In this case, we copy all files listed in IMAGE_EXTRA_PARTITION_FILES variable.
+         """
+         extradir = "%s/extra.%d" % (cr_workdir, part.lineno)
+ 
+-- 
+2.52.0
 
-Hi everyone,
-
-I've been investigating the issue when enabling `ccache` for kernel builds =
-that involve Rust.
-
-First of all, as documented in the `ccache` issue tracker [1], `ccache` is =
-not directly compatible with Rust.
-Therefore the current goal is to keep `ccache` enabled for the C portions o=
-f the kernel while bypassing it for Rust.
-While an alternative like `sccache` [2], compatible with both C and Rust ex=
-ists, you will see below that the underlying issue is the same, so just rep=
-lacing `ccache` by `sccache` will change nothing here.
-
-The issue (commit 235e6d49e5888ad04416219e10b6df91a738661a + this patch):
-
-When `ccache` is enabled, `${CC}` to `${CCACHE}{CC}`, ex: `gcc` to `ccache =
-gcc`
-
-Then, when compiling the kernel, `scripts/Makefile.host` will give it to `r=
-ustc` with `-Clinker=3D$(HOSTCC)` [3], but the shell expands `$(HOSTCC)` to=
- two words, therefore `rustc` takes `gcc` as another parameters, and it err=
-ors out.=20
-
-I attempted to resolve it by modifying the incriminated Makefile in the fol=
-lowing ways:
-
-Trial 1: Quoting HOSTCC in Kernel Makefile
-Modify `scripts/Makefile.host` to wrap `HOSTCC` in quotes to ensure it is p=
-assed as a single string parameter:
-Replace `-Clinker=3D$(HOSTCC)` to `-Clinker=3D'$(HOSTCC)'`
-Result: Failure, `rustc` looks for a binary path literally named `ccache gc=
-c`, which does not exist, indeed, `-Clinker` argument value is treated by `=
-rustc` as a real path, and not a command [4].
-
-Trial 2: Splitting HOSTCC into Linker and Pre-link Args
-Modified `scripts/Makefile.host` to force the linker to the first word of `=
-HOSTCC` and pass subsequent words to `-Zpre-link-args`:
-Replace `-Clinker=3D$(HOSTCC)` by `-Clinker=3D$(firstword $(HOSTCC)) -Zpre-=
-link-args=3D'$(wordlist 2,$(words $(HOSTCC)),$(HOSTCC))'`
-Result: Failure, `rustc` executes the command as: "ccache" "-m64" "gcc" ...=
-.
-This is invalid because in `rustc`, the target-specific pre-link arguments =
-(from `compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_gnu.rs`)=
- are added before our custom args, placing `-m64` before the `gcc` executab=
-le [5] .
-
-Proposed Solutions
-1. Kernel + Rust Patch (A): Patch the kernel Makefile (like the Trial 1) an=
-d patch `rustc` to accept a command string (with arguments) for `-Clinker` =
-instead of a strict Path.
-2. Kernel + Rust Patch (B): Patch the kernel Makefile (like the Trial 2) an=
-d patch `rustc` to use `post_link_args` instead of `pre_link_args` for targ=
-et-specific values, ensuring the executable stays at the end of the command=
-.
-3. Shell Wrappers: Implement shell wrappers for CC, CXX, etc. This would al=
-low `rustc` to call a single wrapper script, hiding `ccache` from it.
-4. Kernel only: Patch the kernel Makefile to filter out `ccache` from CC (w=
-orks in practice but not generic for a possible other wrapper in the future=
-).
-5. Leave as-is: disable `ccache` when rust is enabled .
-
-Risks and Considerations
-- Upstreamability: Patching rust and the kernel at the same time could take=
- time.=20
-- Maintainability: While the shell wrapper approach is more flexible and so=
-lves the issue for other tools with similar limitations, it might make debu=
-gging in Yocto more difficult and requires significant changes.
-
-I'm leaning towards the 1st or the 3rd approach, but I'd appreciate the mai=
-ntainers' thoughts on which path fits the OE architecture best.
-
-[1] https://github.com/ccache/ccache/issues/364
-
-[2] https://github.com/mozilla/sccache
-
-[3] https://git.yoctoproject.org/linux-yocto/tree/scripts/Makefile.host?h=
-=3Dv6.18.1#n94
-
-[4] https://github.com/rust-lang/rust/blob/4931e09e3ac3182d2a00f38cccfdf68e=
-8e385e1c/compiler/rustc_codegen_ssa/src/back/link.rs#L1419
-
-[5] https://github.com/rust-lang/rust/blob/4931e09e3ac3182d2a00f38cccfdf68e=
-8e385e1c/compiler/rustc_codegen_ssa/src/back/link.rs#L1870
-
-Best regards,
-
-Alban Moizan
-
-
---9QpbM5odQGoHi9lS3qG3
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p>Excuse me for the double mail, I was not yet subscribing to the mailing =
-list, so my mail was hidden.</p>
-
-<hr>
-
-<p>Hi everyone,</p>
-
-<p>I've been investigating the issue when enabling <code>ccache</code> for =
-kernel builds that involve Rust.</p>
-
-<p>First of all, as documented in the <code>ccache</code> issue tracker [1]=
-, <code>ccache</code> is not directly compatible with Rust.
-Therefore the current goal is to keep <code>ccache</code> enabled for the C=
- portions of the kernel while bypassing it for Rust.
-While an alternative like <code>sccache</code> [2], compatible with both C =
-and Rust exists, you will see below that the underlying issue is the same, =
-so just replacing <code>ccache</code> by <code>sccache</code> will change n=
-othing here.</p>
-
-<p>The issue (commit 235e6d49e5888ad04416219e10b6df91a738661a + this patch)=
-:</p>
-
-<p>When <code>ccache</code> is enabled, <code>${CC}</code> to <code>${CCACH=
-E}{CC}</code>, ex: <code>gcc</code> to <code>ccache gcc</code></p>
-
-<p>Then, when compiling the kernel, <code>scripts/Makefile.host</code> will=
- give it to <code>rustc</code> with <code>-Clinker=3D$(HOSTCC)</code> [3], =
-but the shell expands <code>$(HOSTCC)</code> to two words, therefore <code>=
-rustc</code> takes <code>gcc</code> as another parameters, and it errors ou=
-t.</p>
-
-<p>I attempted to resolve it by modifying the incriminated Makefile in the =
-following ways:</p>
-
-<p>Trial 1: Quoting HOSTCC in Kernel Makefile
-Modify <code>scripts/Makefile.host</code> to wrap <code>HOSTCC</code> in qu=
-otes to ensure it is passed as a single string parameter:
-Replace <code>-Clinker=3D$(HOSTCC)</code> to <code>-Clinker=3D'$(HOSTCC)'</=
-code>
-Result: Failure, <code>rustc</code> looks for a binary path literally named=
- <code>ccache gcc</code>, which does not exist, indeed, <code>-Clinker</cod=
-e> argument value is treated by <code>rustc</code> as a real path, and not =
-a command [4].</p>
-
-<p>Trial 2: Splitting HOSTCC into Linker and Pre-link Args
-Modified <code>scripts/Makefile.host</code> to force the linker to the firs=
-t word of <code>HOSTCC</code> and pass subsequent words to <code>-Zpre-link=
--args</code>:
-Replace <code>-Clinker=3D$(HOSTCC)</code> by <code>-Clinker=3D$(firstword $=
-(HOSTCC)) -Zpre-link-args=3D'$(wordlist 2,$(words $(HOSTCC)),$(HOSTCC))'</c=
-ode>
-Result: Failure, <code>rustc</code> executes the command as: &quot;ccache&q=
-uot; &quot;-m64&quot; &quot;gcc&quot; ....
-This is invalid because in <code>rustc</code>, the target-specific pre-link=
- arguments (from <code>compiler/rustc_target/src/spec/targets/x86_64_unknow=
-n_linux_gnu.rs</code>) are added before our custom args, placing <code>-m64=
-</code> before the <code>gcc</code> executable [5] .</p>
-
-<p>Proposed Solutions
-1. Kernel + Rust Patch (A): Patch the kernel Makefile (like the Trial 1) an=
-d patch <code>rustc</code> to accept a command string (with arguments) for =
-<code>-Clinker</code> instead of a strict Path.
-2. Kernel + Rust Patch (B): Patch the kernel Makefile (like the Trial 2) an=
-d patch <code>rustc</code> to use <code>post_link_args</code> instead of <c=
-ode>pre_link_args</code> for target-specific values, ensuring the executabl=
-e stays at the end of the command.
-3. Shell Wrappers: Implement shell wrappers for CC, CXX, etc. This would al=
-low <code>rustc</code> to call a single wrapper script, hiding <code>ccache=
-</code> from it.
-4. Kernel only: Patch the kernel Makefile to filter out <code>ccache</code>=
- from CC (works in practice but not generic for a possible other wrapper in=
- the future).
-5. Leave as-is: disable <code>ccache</code> when rust is enabled .</p>
-
-<p>Risks and Considerations
-- Upstreamability: Patching rust and the kernel at the same time could take=
- time.
-- Maintainability: While the shell wrapper approach is more flexible and so=
-lves the issue for other tools with similar limitations, it might make debu=
-gging in Yocto more difficult and requires significant changes.</p>
-
-<p>I'm leaning towards the 1st or the 3rd approach, but I'd appreciate the =
-maintainers' thoughts on which path fits the OE architecture best.</p>
-
-<p>[1] <a href=3D"https://github.com/ccache/ccache/issues/364" target=3D"_b=
-lank">https://github.com/ccache/ccache/issues/364</a></p>
-
-<p>[2] <a href=3D"https://github.com/mozilla/sccache" target=3D"_blank">htt=
-ps://github.com/mozilla/sccache</a></p>
-
-<p>[3] <a href=3D"https://git.yoctoproject.org/linux-yocto/tree/scripts/Mak=
-efile.host?h=3Dv6.18.1#n94" target=3D"_blank">https://git.yoctoproject.org/=
-linux-yocto/tree/scripts/Makefile.host?h=3Dv6.18.1#n94</a></p>
-
-<p>[4] <a href=3D"https://github.com/rust-lang/rust/blob/4931e09e3ac3182d2a=
-00f38cccfdf68e8e385e1c/compiler/rustc_codegen_ssa/src/back/link.rs#L1419" t=
-arget=3D"_blank">https://github.com/rust-lang/rust/blob/4931e09e3ac3182d2a0=
-0f38cccfdf68e8e385e1c/compiler/rustc_codegen_ssa/src/back/link.rs#L1419</a>=
-</p>
-
-<p>[5] <a href=3D"https://github.com/rust-lang/rust/blob/4931e09e3ac3182d2a=
-00f38cccfdf68e8e385e1c/compiler/rustc_codegen_ssa/src/back/link.rs#L1870" t=
-arget=3D"_blank">https://github.com/rust-lang/rust/blob/4931e09e3ac3182d2a0=
-0f38cccfdf68e8e385e1c/compiler/rustc_codegen_ssa/src/back/link.rs#L1870</a>=
-</p>
-
-<p>Best regards,</p>
-
-<p>Alban Moizan</p>
-
---9QpbM5odQGoHi9lS3qG3--
 
