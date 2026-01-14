@@ -2,61 +2,61 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3993BD31A3F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD2ED38FE7
 	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 16:10:56 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13887.1768407047246135559
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13889.1768407049843866678
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 08:10:47 -0800
+ Wed, 14 Jan 2026 08:10:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=eiZS+vfY;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.208.41, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64b6f22bc77so1588192a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 08:10:47 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=WeA1cKgu;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.218.66, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-b8719f5a2b5so31966b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 08:10:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1768407046; x=1769011846; darn=lists.openembedded.org;
+        d=amarulasolutions.com; s=google; t=1768407048; x=1769011848; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XS839wYQCt34M6w0vqSouQF8mgM5YG3VWs2swfA2GQA=;
-        b=eiZS+vfYaf8uS/2FCF8+ZxeXfU5oIPVJwAqcg9oHmUwNxmr8jng9u/avUW8GB5E1Sq
-         mZADe7LvYh/1CNpTtWjbjmcvjOytztP0qVP6Emc7Q7DcdPcRmr+7IzhGprk1oSyAV52l
-         ovLO46K3Hpr1d2tpEqxKhNAhH+mfrg1Zw9ZjE=
+        bh=fCrsSPCjpqSneu2kH27tPS7PxKgqwy8LRAPZxMnXR9U=;
+        b=WeA1cKguRZDM/wriT2GBE7uwFYmvQGeuzsrqrZ8rOr88Pb4w86ClRArXxQzkx8Q3pz
+         cJA9Tw6vZlU9P4LvBb4K9g6YBXc5Y41m35OEyieRu2Ro80m3Wp8A6j0DZKRCURMBfFWL
+         WjO0oRD9bGrkunVH+j9TKT9eh2Ep4YVJZp/W0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768407046; x=1769011846;
+        d=1e100.net; s=20230601; t=1768407048; x=1769011848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=XS839wYQCt34M6w0vqSouQF8mgM5YG3VWs2swfA2GQA=;
-        b=MZ9rZPGB2nH6Wis92Jp+F7J8jqRgWbPBbKvLIhUCfCpUsqaZgfaUmC3hwRYDT2DzjU
-         iShpznWKrHcTw2zdEockBox6E4idX/4E5TcDVUHVyvOUDb7b/5WN3by6Z4f0miiXab4W
-         DY871ZwUOkiwrG9KOqsM77n/Zc0VlfZBuGnvxM/CDO2LEDGWy4Vdmju4nn7E62IR1vrg
-         adOe9gutH2m4REA2EghfpXeRzocTgdYTcZRo/XchyxeoqKHc2pOtvf5E/lC7nUvEtDgB
-         MAYiLxj75/VOKnUL0IeQ5xWPciQpausMFm6beJ+r5ugJzWEBduCoBZ9UQZB/fTChSRjY
-         pYyg==
-X-Gm-Message-State: AOJu0Yx4m4a4efZJ3c/hQuCOxxPJl5eumGcPHIF8XLkfrM8TNNX7vhcB
-	VeOrbNsyOAQRZ2XUMgoImqGSqwAlPbfvHx1vvuykhCFR/ETTKuS9+wwkRBHXTueJGHdAx5INcfH
-	xAvjY
-X-Gm-Gg: AY/fxX5BB3x38QFCHSfL/a53PKO5kCucOW8/r7c4zV8gUEXtwqHvBSRrlzUNB4Duk9u
-	jddKfGMOK0L2tp3gaxRs5MHAAV8PTB78U+/WlLvtliDRys/K7wbMHUYxjkuU2uPQli79u7cPbjt
-	mX/S6WEXpq5pa7AwzU+7BjyOgM36bdHU9cfpb/itFJ6W+LPpAJ4tN90qnUkKSpkuhqUFri/5Gp/
-	UN9oqWnuV4F9cdhka46OBShG1ulj6TyqLkU5COP2cVUKLVjxMY+QhkKW2yp4M8P5jDel2w4t3WT
-	sZhZCINL/dYT25Cq3SZh+exfRq9BYnbhGzqfLnfAPiaulYjGBXtRYIrRD+XTSwWrasdcJlUb1eA
-	pm6E7BlTGLDxVpu97RJOfoCF9jfzv92lAvLGEP+NeX9oo1n/+jInaY4dQIa9dYCCIpRlcjycIxR
-	Qd0Ye7bpJbnC4R6hNzCmA3Gs8oWaXOqYxJRJlPN3+Jp9SYWJAmy+n0nWYxjkXG1VkzgZLE9B9XX
-	54ApyB0bYeOAR1+dj5XzP082kPSxgHvRalqV69fTA6CtJn8+SG1
-X-Received: by 2002:a05:6402:35d1:b0:64b:4e7a:bbc8 with SMTP id 4fb4d7f45d1cf-653ec461c8emr1366948a12.5.1768407045592;
-        Wed, 14 Jan 2026 08:10:45 -0800 (PST)
+        bh=fCrsSPCjpqSneu2kH27tPS7PxKgqwy8LRAPZxMnXR9U=;
+        b=Sge1Voh+YuRLZcrmxWYHkZJI6s0fiJYwQxKLCFMibuzHzqbbn55M4m3VncmGShcMcx
+         /29oonz6D6mz6aNlCSxQTNtAJe7ZPZjDVNS6eFLkOZ6ojieox/Zs3ivgGKgIFtcsGJ0e
+         X9WLcUtZcUIgPkxq30KxyAhRDK+gl38bpzWBja86A6jm4KKIlJwbqzDq6z5Tj7toY30L
+         padO6BkOhhtU8tUE2aw1zJ5sLGRTdmJsHGqK35oFvC4JcTK9KXUa6d3zX/a11FFwfoK5
+         BCVvE1OrLmE8kH7Ev9ZhCUBQWAYTCZSGP0fvhgwofw3tUxLzb+9nw4yqPKTH1pVwsf3h
+         oC7Q==
+X-Gm-Message-State: AOJu0YyrDeWZM4edg43lxgadj0hcDPAdkWZArUqFGa+j7/V+FDDIZJlZ
+	20uDYvm29qos6d1McXIbrcSoNwTjrgJyWIK9RnhFbXorNY2DuPyq5b7KwktSbOMi7eTPPI+wJu9
+	pdXFoPxM=
+X-Gm-Gg: AY/fxX6Wc1WmQhrFLH5zxG+yt1lWzcJZWrNYs9/8DlNYx7NeosHFUSLNK/f2AFbBXF9
+	WSOByE9A4I+BHvXpugqKmhoe0odQ5Frrhr6LSwOdFGEtLBWa4ULSZyCv0pWXGGa1q+rDWuTaLIC
+	JFE8uwF2JOVy4uQp3ZbE0YP8wb68FDRuySHJw5vGkMqtRJ3qHRFoNbuMgpUTLYYpc9Plk6Rwf8n
+	4yhTO06VSHoMUzcNkdJ20EKo29sn+EObo1nfYRCNyqQitXmH48NmUQL+dhgg9CkrYi/acKvb1yI
+	9HKY/ecEWG9zJ9hYpR4S5e9l5n1xaUiPuXcQVxobqjNFQXt4f6tQrjuXOKQIZOluDv1PoNnXnLv
+	smHiWij4zdj3ibX0BjzoHw7r3m9aTHEKis8IWio8kBzc+fVtAH+PENbcyni94sdxeKqKymCnAuD
+	MVbSg2mG0Z+/dSAmsBH9b2wjbQfTMYZ9S1sNtYKrs3Z5mZWXAXk2yS8R42jgq+jW5B/skepUYF7
+	r6QmZwgoAHw/+IUP+H9TaK1r/kZ9/zLkczdllh5WHRVxkCio7iaXxcpYpN19hk=
+X-Received: by 2002:a17:907:6d17:b0:b76:2667:7736 with SMTP id a640c23a62f3a-b876140b914mr141598466b.4.1768407048145;
+        Wed, 14 Jan 2026 08:10:48 -0800 (PST)
 Received: from adam.arnhem.chello.nl (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b86fc303d7esm1449566866b.2.2026.01.14.08.10.44
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b86fc303d7esm1449566866b.2.2026.01.14.08.10.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 08:10:45 -0800 (PST)
+        Wed, 14 Jan 2026 08:10:47 -0800 (PST)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH v3 3/6] wic: extra-partition: Move extra var handling to a dedicated method
-Date: Wed, 14 Jan 2026 17:10:37 +0100
-Message-ID: <20260114161040.941159-3-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v3 6/6] wic: extra-partitions: extend to support extra directories
+Date: Wed, 14 Jan 2026 17:10:40 +0100
+Message-ID: <20260114161040.941159-6-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114161040.941159-1-adam.duskett@amarulasolutions.com>
 References: <20260114161040.941159-1-adam.duskett@amarulasolutions.com>
@@ -66,60 +66,132 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 16:10:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229349
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229352
 
-For organizational purposes, and to make the following patches
-easier to follow, move the extra file parsing to a dedicated
-method.
+Add the ability to define a space-delminated list of directories
+to create on the extra partition.
 
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- .../lib/wic/plugins/source/extra_partition.py | 25 +++++++++++--------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+v1 -> v2: Make the list space deliminated instead of semicolon deliminated.
+          If the list is blank, print a warning instead of an info.
 
+v2 -> v3: Remove uneeded logic in _parse_extra_directories
+
+ meta/lib/oeqa/selftest/cases/wic.py           | 11 +++++++
+ .../lib/wic/plugins/source/extra_partition.py | 31 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 33a6460677..3aab6a52b8 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1657,10 +1657,14 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
+     def test_extra_partition_plugin(self):
+         """Test extra partition plugin"""
+         config = dedent("""\
++        IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo = "/test1 /test2/test3"
++        IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d = "/test1 /test2/test3"
+         IMAGE_EXTRA_PARTITION_FILES_label-foo = "bar.conf;foo.conf"
+         IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d = "bar.conf;foobar.conf"
+         IMAGE_EXTRA_PARTITION_FILES = "foo/*"
+         WICVARS:append = "\
++            IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo \
++            IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
+             IMAGE_EXTRA_PARTITION_FILES_label-foo \
+             IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
+         "
+@@ -1692,6 +1696,13 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
+                 result = runCmd("wic ls %s | wc -l" % wicimg)
+                 self.assertEqual('4', result.output, msg="Expect 3 partitions, not %s" % result.output)
+ 
++                for part, extra_dir in enumerate(["test1", "test2"]):
++                    result = runCmd("wic ls %s:%d | grep -q \"%s\"" % (wicimg, part + 1, extra_dir))
++                    self.assertEqual(0, result.status, msg="Directory '%s' not found in the partition #%d" % (extra_dir, part))
++
++                    result = runCmd("wic ls %s:%d/test2 | grep -q \"test3\"" % (wicimg, part + 1))
++                    self.assertEqual(0, result.status, msg="Directory test2/test3 not found in the partition #%d" % part)
++
+                 for part, file in enumerate(["foo.conf", "foobar.conf", "bar.conf"]):
+                     result = runCmd("wic ls %s:%d | grep -q \"%s\"" % (wicimg, part + 1, file))
+                     self.assertEqual(0, result.status, msg="File '%s' not found in the partition #%d" % (file, part))
 diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/lib/wic/plugins/source/extra_partition.py
-index aa4fb931c2..05b0ace361 100644
+index 3fcf3971a8..21f8d9e09d 100644
 --- a/scripts/lib/wic/plugins/source/extra_partition.py
 +++ b/scripts/lib/wic/plugins/source/extra_partition.py
-@@ -36,6 +36,20 @@ class ExtraPartitionPlugin(SourcePlugin):
+@@ -20,13 +20,19 @@ class ExtraPartitionPlugin(SourcePlugin):
+     - File renaming.
+     - Suffixes to specify the target partition (by label, UUID, or partname),
+       enabling multiple extra partitions to coexist.
++    - Extra directories.
+ 
+     For example:
+ 
++        IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo = "/foo /bar/baz"
++        IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d = "/foo /bar/baz"
++
+         IMAGE_EXTRA_PARTITION_FILES_label-foo = "bar.conf;foo.conf"
+         IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d = "bar.conf;foobar.conf"
+         IMAGE_EXTRA_PARTITION_FILES = "foo/*"
+         WICVARS:append = "\
++            IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo \
++            IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
+             IMAGE_EXTRA_PARTITION_FILES_label-foo \
+             IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
+         "
+@@ -35,6 +41,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+ 
      name = 'extra_partition'
      image_extra_partition_files_var_name = 'IMAGE_EXTRA_PARTITION_FILES'
++    image_extra_partition_dirs_var_name = 'IMAGE_EXTRA_PARTITION_DIRECTORIES'
  
+     @classmethod
+     def _get_extra_vars(cls, part, var_name):
+@@ -50,6 +57,23 @@ class ExtraPartitionPlugin(SourcePlugin):
+                 break
+         return extra_vars
+ 
++
 +    @classmethod
-+    def _get_extra_vars(cls, part, var_name):
-+        """Get extra partition directory or file variables"""
-+        extra_vars = None
-+        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), ("_part-name-%s", part.part_name), (None, None)):
-+            var = ""
-+            if fmt:
-+                var = fmt % id
-+            thing = var_name + var
-+            extra_vars = get_bitbake_var(thing)
-+            if extra_vars is not None:
-+                break
-+        return extra_vars
++    def _parse_extra_directories(cls, part):
++        """
++        Parse the directories of which to copy.
++        """
++        cls.extra_dirs_task = []
++
++        extra_dirs = cls._get_extra_vars(part, cls.image_extra_partition_dirs_var_name)
++        if extra_dirs is None:
++            logger.warning('No extra directories defined, %s unset for entry #%d' % (cls.image_extra_partition_dirs_var_name, part.lineno))
++            return
++
++        logger.info('Extra dirs: %s', extra_dirs)
++        for src_entry in extra_dirs.strip().split(' '):
++            cls.extra_dirs_task.append(src_entry)
 +
      @classmethod
      def _parse_extra_files(cls, part, kernel_dir):
          """
-@@ -43,16 +57,7 @@ class ExtraPartitionPlugin(SourcePlugin):
-         """
-         deploy_files = []
+@@ -113,6 +137,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+             if not kernel_dir:
+                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
  
--        extra_files = None
--        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), ("_part-name-%s", part.part_name), (None, None)):
--            if fmt:
--                var = fmt % id
--            else:
--                var = ""
--            extra_files = get_bitbake_var(cls.image_extra_partition_files_var_name + var)
--            if extra_files is not None:
--                break
--
-+        extra_files = cls._get_extra_vars(part, cls.image_extra_partition_files_var_name)
-         if extra_files is None:
-             raise WicError('No extra files defined, %s unset for entry #%d' % (cls.image_extra_partition_files_var_name, part.lineno))
++        cls._parse_extra_directories(part)
+         cls._parse_extra_files(part, kernel_dir)
  
+     @classmethod
+@@ -131,6 +156,12 @@ class ExtraPartitionPlugin(SourcePlugin):
+             if not kernel_dir:
+                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
++        if cls.extra_dirs_task:
++            for task in cls.extra_dirs_task:
++                mkdir_cmd = "mkdir -p %s/%s" % (extradir, task)
++                logger.debug(mkdir_cmd)
++                exec_cmd(mkdir_cmd)
++
+         if cls.extra_files_task:
+             for task in cls.extra_files_task:
+                 src_path, dst_path = task
 -- 
 2.52.0
 
