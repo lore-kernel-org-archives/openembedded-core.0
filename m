@@ -1,111 +1,85 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A416FD29FE6
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 10:33:23 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7244.1768386797124139863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE379D29FE8
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 10:50:23 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7440.1768387815232348977
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 02:33:17 -0800
+ Wed, 14 Jan 2026 02:50:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U4/NEXxS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47ee0291921so9971235e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 02:33:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=myXEIVGk;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c52f15c5b3so85682485a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 02:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1768386795; x=1768991595; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nNnKmZHNFnBRB6z3MPoZzKpRzdZ+JFl5Q9FRny5XyZw=;
-        b=U4/NEXxSkEGN5brEmLaPknmsjRz2SRGrm4aIMREn/wDKdL7mo7G9keE+f7VfeMusYk
-         3AqyjRbeVzPKq+GoMiW1MF+Myajc2l+EPiLvBa/x7lBqPzM/oL26ZLQarcSJzzW0M1Nt
-         3f/1TRAhFUgxlc2PVXVr4mnX5Epjm6Yf4V9HM=
+        d=gmail.com; s=20230601; t=1768387814; x=1768992614; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntyE8KktNMLB8gDtFxdnzZGopE/lmqYtYTDwEpKBPB0=;
+        b=myXEIVGkJm6tqgQPR+XUpwfNspLPeYxXdhq7mt5qAJ59ILoEo5pqwUikECg775qPBr
+         thH9V0jZVZGKPVYz8xvAekAaO+IfOmZfD9sOOBD5HbnNTzv2va1G9EnyVz+CenTJE4wN
+         XETeZgMFObCyw9nSrnw8zw+QR5JixLiYI4e8Kg8smx2MDFg3DhRoFhPTVOhmE1BQHo7y
+         /H4mCef7wf8/P7r2mN6VKFRorT6AWsdzTGKMf1Gq6g4lxedsuuPGYNKMn/6N5ABJdlM3
+         sRrTLKTruPyh4QjBc73jloLvQsl2Cqk/RmuAjGYtUadzVMZtt/3WQvyji8M4Yi0QzqCp
+         by9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768386795; x=1768991595;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nNnKmZHNFnBRB6z3MPoZzKpRzdZ+JFl5Q9FRny5XyZw=;
-        b=lBbT32EoSW0fhMhubuAcEFhekeia7GJj2/n5sth3zrIc83xOER3xkEYBOKcQ4TkQWq
-         hfGounXKx0s0mDTJh3lH55aOOD0hZQ7w7t3iJaV98vuXbXI/zFaG4REZYbOzwVPbexNo
-         QBDIpAtv1N2m7lXR+CCjduhU2/TiXHbs3kN8W299a5Szlf91/kEzay8VBSAd2kmt5hjB
-         Wszc4x6bJJnNFfa2T8p4KVfvdIbRPA/zFK7buSct8lPoTNObSwd7N31SnbXhLKlbdqLK
-         wBaiSrw1vRzW1zQAVXd4a4+5Y2y8UNqwU7N8y2SBrRGV0GHjus5HJisWycy13NDeRKVA
-         g6PQ==
-X-Gm-Message-State: AOJu0YwGXwtuQwuOvnisRlqPhGCdZsHDvFEqV0iaPDr5G98TpbJqFfPv
-	LIAz+xMTCyBDv/MUV7ZkngHqcpN6QpRbbqurJNjpVgcFf8xCXcOxSopNBqm29yaiOH4=
-X-Gm-Gg: AY/fxX5HShvWA6TGEN37P8W2wG2AgvOIP7P2YhMafbPCMI+CC/tW+T0Xn/rc4qIpnwR
-	Oy2msmqEs6KfGqWgw+helHZcmhahFoVXObSOHYlci/D6z2YTCagQsAAFhEidFppyvqWxU6OeQed
-	Dayej6F3PZp08jbBsqhym5Da51bgFCuoR/HH50tBRMhw+0nd/LZ5rNReL1koChPluyAfXbfe9Nc
-	bLeInQvL/HJZxtr6miozImsOTO5vRObOQHK6b2wrrQSm6Pi7xLPgNJiLVEH5LJPa2nxopO1VVRr
-	sQ9GFJqWSKdUhDHAAkZ8pQRIBpfJRXbn5VKz3703ZvObPe+VAGjh6qaZ1Z6h1aFMROaVJnA0ApK
-	QrQQHvX1NhJRs3BhhQYDRtmcLdVDJYcTnFWYyuFn7A85sR1Vdyeay7rp71dMcpVeD6oRmzztir9
-	xkGAO915Qg4Qc0Hv97/lrrEv25VDVg8soCCrhue4KZvXf8xgrzW+30MfzKQ35GeUK34i+ZCu2kF
-	mM=
-X-Received: by 2002:a05:600c:8b12:b0:477:7ae0:cd6e with SMTP id 5b1f17b1804b1-47ee3318519mr23426105e9.5.1768386795515;
-        Wed, 14 Jan 2026 02:33:15 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:94c7:73b9:87a6:4747? ([2001:8b0:aba:5f3c:94c7:73b9:87a6:4747])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ee562d7aasm21061475e9.11.2026.01.14.02.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 02:33:15 -0800 (PST)
-Message-ID: <4ba4ca643eb20de0eddbcb4895598d22831b12be.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1768387814; x=1768992614;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ntyE8KktNMLB8gDtFxdnzZGopE/lmqYtYTDwEpKBPB0=;
+        b=kfO44+/b2ADauxG5uXx/5/cDC5T483un6A/NdD3jeRu06XgOmoNx/ZyawBv2bQj6UK
+         D+ORv1xQnQkkKMriXHic0Col3R7Z3NMhKLh2BcP4fXwVaxOBtVnqzNIbiLRMCadrglDa
+         AkQxB48dFqVVMqeL0Prd3XqDNDJa9oQev3DSG0aetxdSr/QuG50KOXlITYb0lmuz7KNG
+         GVqHv2vUzowSAAxQtT605zFj7IB8dox0mr2mhpH7PHJms1CAe/KvCZZCq1ByAiq/zuLU
+         lYPDxM5eLth7Cs2c1gAsnFhJjbtEzo5Q7bM00q1pi3vdjYK72aPWtlcLep6qFkzpB0iS
+         CRXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxuOg2SH18Cge/+77o8rEYMbo3JmgoaNLXSWbslpSQTBfIDwdy61ae1frxPxc005h0SdMo7C+ZBCXXDfKxoiLAqg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxXxsXFGvP5BBwxM93pCbgsxNQlJsKChRRttlslwi79kGIJ17Rh
+	1stQJBIRXXz10lRd6mMvhqvIB5xSKqymNda0Fda0rU/strbMfMj05v6+A8ypS0/Pa2CB7o3AgDR
+	ZWFzFVyS+EtV9hzsnDk0V8hgoOpdoNoObWrfA
+X-Gm-Gg: AY/fxX4BXedEBlaApOEypD6iutIVvQnvUEWrqhYb4x/Jj1RBsZobcfMFWTSU/zs3NYL
+	K/ryomXt7zgmizxZwI3Be68ZbKEauT5muUbZX44CA8vlvZAYMS87Y5OT3YVIgAGQ7055rTZB9EN
+	Cf8ENAKsE6qABjpO3QSqDplLVxR+LIAh1/sgcE7JvqsiFTWFUAxBJkwSv2EFvR3svKujbALG4Fs
+	D4Xjv6G1d5o71bWBEqgWNT7GsfbJbPc7DUm/wTrTJd0t+qWU4I9DSMhgnX1ygYDEHDOjxQs
+X-Received: by 2002:a05:620a:1721:b0:8b2:664a:309b with SMTP id
+ af79cd13be357-8c52fc0cd2bmr319286985a.84.1768387814130; Wed, 14 Jan 2026
+ 02:50:14 -0800 (PST)
+MIME-Version: 1.0
+References: <1750203584-32065-1-git-send-email-mark.hatle@kernel.crashing.org>
+ <1750203584-32065-8-git-send-email-mark.hatle@kernel.crashing.org>
+ <CANNYZj-7dDr=UwCzDHW-EqMRPWvsSKX3DABLoAtQx1D0ba8k7g@mail.gmail.com> <4ba4ca643eb20de0eddbcb4895598d22831b12be.camel@linuxfoundation.org>
+In-Reply-To: <4ba4ca643eb20de0eddbcb4895598d22831b12be.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 14 Jan 2026 11:50:02 +0100
+X-Gm-Features: AZwV_QimdEquHtOKkOX7wGNuPksddwrSo1KLn2G9sNdlvax8rDPJHiDrbm7PY7w
+Message-ID: <CANNYZj8VxKnzaq67qmXEziy8k+iMn-n8AGBQgC8rt48P8b35ew@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v2 7/7] rust-target-config.bbclass: Update for
  new riscv TUNE_FEATURES
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	mark.hatle@kernel.crashing.org
-Cc: openembedded-core@lists.openembedded.org, Paul Barker <paul@pbarker.dev>
-Date: Wed, 14 Jan 2026 10:33:14 +0000
-In-Reply-To: <CANNYZj-7dDr=UwCzDHW-EqMRPWvsSKX3DABLoAtQx1D0ba8k7g@mail.gmail.com>
-References: 
-	<1750203584-32065-1-git-send-email-mark.hatle@kernel.crashing.org>
-	 <1750203584-32065-8-git-send-email-mark.hatle@kernel.crashing.org>
-	 <CANNYZj-7dDr=UwCzDHW-EqMRPWvsSKX3DABLoAtQx1D0ba8k7g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: mark.hatle@kernel.crashing.org, openembedded-core@lists.openembedded.org, 
+	Paul Barker <paul@pbarker.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 10:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229317
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 10:50:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229318
 
-On Wed, 2026-01-14 at 11:16 +0100, Alexander Kanavin wrote:
-> On Wed, 18 Jun 2025 at 01:39, Mark Hatle via lists.openembedded.org
-> <mark.hatle=3Dkernel.crashing.org@lists.openembedded.org> wrote:
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tspec['llvm-abiname'] =3D "=
-lp64d"
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tspec['llvm-abiname'] =3D d=
-.getVar('TUNE_RISCV_ABI')
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if "riscv32" in tspec['llvm-target']:
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tspec['llvm-abiname'] =3D "=
-ilp32d"
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tspec['llvm-abiname'] =3D d=
-.getVar('TUNE_RISCV_ABI')
->=20
-> Unfortunately this adds a dependency on TUNE_RISCV_ABI (which is set
-> only if the target is a risc-v machine) to rust-native's
-> rust_gen_targets task, breaking sstate reuse for it between risc-v and
-> any other target. I can imagine other native pieces written in rust
-> will have the same issue.
->=20
-> It's not immediately obvious to me how to address this, so I'd really
-> appreciate suggestions. The code is hairy.
->=20
-> Ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16132
+On Wed, 14 Jan 2026 at 11:33, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-Nice find. I worry about our sstate tests not covering this. We might need =
-to do:
+> Nice find. I worry about our sstate tests not covering this. We might need to do:
+>
+> -rust_gen_target[vardepsexclude] += "ABIEXTENSION llvm_cpu"
+> +rust_gen_target[vardepsexclude] += "ABIEXTENSION llvm_cpu TUNE_RISCV_ABI"
 
--rust_gen_target[vardepsexclude] +=3D "ABIEXTENSION llvm_cpu"
-+rust_gen_target[vardepsexclude] +=3D "ABIEXTENSION llvm_cpu TUNE_RISCV_ABI=
-"
+I thought of that, but would this rebuild correctly if someone first
+builds for one TUNE_RISCV_ABI, then for another? I just don't know
+enough about it to run experiments. It probably would, as that
+variable feeds into TUNE_CCARGS.
 
-Cheers,
-
-Richard
-
+Alex
 
