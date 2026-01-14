@@ -2,109 +2,145 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13368D37E58
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1339ED37E59
 	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 15:48:36 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13359.1768405712866447163
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13326.1768405714093357514
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 07:48:33 -0800
+ Wed, 14 Jan 2026 07:48:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=RDPPEpP+;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.44, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b876b5c69baso13340666b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 07:48:32 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=gzivaLR4;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.50, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64b5eb14e88so1531589a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 07:48:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1768405711; x=1769010511; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QzRIDMqUJl+hD74DDhM01pKGrpdlHt8Cj43+PhA6ebE=;
-        b=RDPPEpP+DBsZRtp1eI1gj9RBllqcg9KUJufloSkuRIrYnRH3f3MphK6Ig6bs/22TAW
-         tANCg1QleLH6OdPKzEr93UQVIB9M9IWM2ZOpm2Fffj2e17e0/9uDIhm37ZHXRrVqmNS6
-         s75yAb97bpo+7LeRpUVUubTtLUj99Qnc3kcKY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768405711; x=1769010511;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=amarulasolutions.com; s=google; t=1768405712; x=1769010512; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QzRIDMqUJl+hD74DDhM01pKGrpdlHt8Cj43+PhA6ebE=;
-        b=BRjhNl6JbH5KeFU8w6EME9Vh1o2gSGDSxIHgwvqNmhOHz0ny25u0kj04PKRKHR5uyx
-         OZxrZ0u1bX8iGoEpe4lhx0fXg9MaP5kot34y7FK8KG+Tdd3sPST17Mk12FdPqdBPrAV6
-         /SHTFB/vBCaTNzNFKZlf/uQu4QKrl5DXUVilErUMxmGWsfVMf7Uos9CZbSOn9WSJEush
-         dwyt2xutyiokIilVWtkaylAaapY6eh0mqmsdQVNtPL4Zhzb5ZSbENN1adxXkDY3IKQiO
-         3tI+0dtI8UX1+HPcPcqROKaUdVCnnit44CG5CMcPBqVvUHW79GwqRToAElyek7pv9115
-         RXuQ==
-X-Gm-Message-State: AOJu0Yzt0stMQ8PYIH+76dWmS3n+YJ/HoOgd61kNUN2KK1RXaChsemrI
-	kF6fv3Pj3XHnD7DfJDxIKJ+q/SuP3ZTO2P5A9HTW43xW23MZHlbasEp9gbrggrCIAxsrm2lAQl9
-	Qqzq1
-X-Gm-Gg: AY/fxX4PJzuQqUy5juYjgTFSACSgQjs9U3fM1b+s/So70F4oA8P26b0ChAxjpg8eqUI
-	parCqIShKRis6Z8K5mFnyQmWMndAEpQKof+J5rcB+Rde+Rc5tuSB59NUoBkT+6JIn/67xxhjc6Y
-	tAmfsWu+viHWArEXc+JlnivTmuJsKu6rollEf0R0tj7JVLVO/zg1ElPBUCFqYpaHDpIuMssqLxk
-	JIbzVi0NKfUrd2JMprKIbcEM3sXxPSWCNMdsarktPB9+QosXOm9GWMw7jFrhKYm5wnyZN1OL0Fh
-	su7zGhuM99fiuFSM2yWXn4groxl816bll3eR5xdeYVTGWsYXH18yz7UJkL4J4CGAObKakyfdR1p
-	6D0F1FQBvO380kEE8ysEa6JuqzndRio2Pk3swYZza/xx2wj6QvL03POITAZjsVqcitfwOg8eHwE
-	5t+20Wc2BeT3uj8NlkG4RCCXSd6DozuBMsWG85jKLdGKTken1xtSmypzdd2Noo+Jkc+1UwZbWe2
-	umcCx39oowObc2X0KfuqxOavGqObTYIycqCR/Gsx42wmxrKJbnQ
-X-Received: by 2002:a17:907:70b:b0:b7d:3c0d:96ef with SMTP id a640c23a62f3a-b87612ca8a2mr171094966b.7.1768405711141;
+        bh=rclxTIKzc1P/UiHbYYifeNn0ElbsZ3DBTx6SpHk68K0=;
+        b=gzivaLR4yDHfrGgI4nsuh991SxSW5xrjApFR+mDZae3eqGLq+NxDOCq24BwIIkYQkX
+         Skd+LJ6iWhIWRq8JWI64Qlr8ChpZTOLQO5rifMh7njAV6e/n8oWPT7DTC71ZTQrzup8D
+         W4eBW//41M2qQ2AwSXQXOxQs0ann56K4pllw0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768405712; x=1769010512;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rclxTIKzc1P/UiHbYYifeNn0ElbsZ3DBTx6SpHk68K0=;
+        b=KvlcznKzGQu5e73Bk6H1vgNVwbg42Lsj9xbE3DQnTEHGW4Ginbda9DlTLleEil101S
+         MN6HUshNPaP/8OzjAWe/317uJtWwdCjncBaO2GfphwJmRCgl5fXOnKsb934TGrxpuBM1
+         1Is1OE+rkgpRiE7BkpCYEHYWhL5EnsovBE+MGDFkK0N1BRgfMJsfIHW6wQ/mRLalQkax
+         Yg40zgFz+IGyvUfstGKUZPE2IxwgnPuE7Zp/a3u+wIs4GfjTqv9zn7KlsXoaec/UQloq
+         6dRwi4jshTZgzUoQeRxzXIfdlbcWKmfzcO9TiWOFePQHmWZBlXU5EXIkAdswktcsAB8B
+         JYlg==
+X-Gm-Message-State: AOJu0YxBItRlpdHtfafH7OpxJapxgxE9fDypBrie/yFhoXypHCd3J662
+	bq5aqKczjg+c+ho/93Pb9HDQOdE9cvBv22vF7A1IEF2utfM0T89Dcz58WBsK2su5HqN/Nd7p8oE
+	Z6oF7
+X-Gm-Gg: AY/fxX4L3AcWKo1IlRJVGmukLUfAESDDkeibLbYremnK45UGGSJSAEYXx83W5WL2vAa
+	Q3OmQdVgIblWZvSiQoacSmAi9HaKMeNak++EGYbcKMpqHZu2+YVAJyBy03ixDQWbbhg1Yzv+UpC
+	fiI6/ADDwo1h4xSIf0xTXEmMN7AkLrkJg7LmLQw9QupMk9Nqud1Ob0iRnEyHBqbqRMszaDsCCHw
+	Vs2jlfRhI4cvmm0BZqmDNwhIQACyX7BHCJwmyQO+6cv6Nveztrnyzq5CRXCyZZ6mOmIzLaoFw68
+	hux/2fjoNf67seDs0PpX+wiHqI/ePWQb5Icy5YWCB9DRQV2+0RifRlY2tuDwV80IYLD05WPB0rW
+	KnmQWk8gq/F7qaFewKa6KCiJAIYXsQytRRSvs2wHGw7LaRZcNi3aPFDmUu/VDbd8aus8rnAZdJF
+	GrW6Ua2fMv9UxoySWRxH/6aePYA73a0NVEslqACZH+Okf0lk12qJnlTO3QlQUyZ+lCrEcqWQFhH
+	dCwyxrFB/LDiAxq8pE6t1NyJ4AfboB1eWJYdwtOQOQwhHxOm2Ef
+X-Received: by 2002:a05:6402:26d1:b0:649:9aff:9f42 with SMTP id 4fb4d7f45d1cf-653ebf7deb2mr1455424a12.0.1768405711907;
         Wed, 14 Jan 2026 07:48:31 -0800 (PST)
 Received: from adam.arnhem.chello.nl (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b876e9ac655sm135616466b.6.2026.01.14.07.48.29
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b876e9ac655sm135616466b.6.2026.01.14.07.48.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 07:48:30 -0800 (PST)
+        Wed, 14 Jan 2026 07:48:31 -0800 (PST)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH v2 1/6] wic: extra-partition: Small code cleanup
-Date: Wed, 14 Jan 2026 16:48:20 +0100
-Message-ID: <20260114154825.4043483-1-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v2 2/6] wic: extra-partition: Move extra file parsing to a dedicated method
+Date: Wed, 14 Jan 2026 16:48:21 +0100
+Message-ID: <20260114154825.4043483-2-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260114154825.4043483-1-adam.duskett@amarulasolutions.com>
+References: <20260114154825.4043483-1-adam.duskett@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 15:48:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229338
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229339
 
-- Remove redundant charachter escaped in the src_entry regex call.
-- Remove an uneeded semicolon for cls.install_task.
-- we copies -> we copy
+For organizational purposes, and to make the following patches
+easier to follow, move the extra file parsing to a dedicated
+method.
 
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- scripts/lib/wic/plugins/source/extra_partition.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../lib/wic/plugins/source/extra_partition.py | 36 +++++++++++--------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
 diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/lib/wic/plugins/source/extra_partition.py
-index d370b0107e..a1d9aa9a7b 100644
+index a1d9aa9a7b..040b6d22ad 100644
 --- a/scripts/lib/wic/plugins/source/extra_partition.py
 +++ b/scripts/lib/wic/plugins/source/extra_partition.py
-@@ -69,7 +69,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+@@ -37,20 +37,11 @@ class ExtraPartitionPlugin(SourcePlugin):
+     image_extra_partition_files_var_name = 'IMAGE_EXTRA_PARTITION_FILES'
  
-         # list of tuples (src_name, dst_name)
-         deploy_files = []
--        for src_entry in re.findall(r'[\w;\-\./\*]+', extra_files):
-+        for src_entry in re.findall(r'[\w;\-./*]+', extra_files):
+     @classmethod
+-    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+-                             oe_builddir, bootimg_dir, kernel_dir,
+-                             native_sysroot):
++    def _parse_extra_files(cls, part, kernel_dir):
+         """
+-        Called before do_prepare_partition(), list the files to copy
++        Parse the files of which to copy.
+         """
+-        extradir = "%s/extra.%d" % (cr_workdir, part.lineno)
+-        install_cmd = "install -d %s" % extradir
+-        exec_cmd(install_cmd)
+-
+-        if not kernel_dir:
+-            kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+-            if not kernel_dir:
+-                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
++        deploy_files = []
+ 
+         extra_files = None
+         for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), ("_part-name-%s", part.part_name), (None, None)):
+@@ -65,10 +56,8 @@ class ExtraPartitionPlugin(SourcePlugin):
+         if extra_files is None:
+             raise WicError('No extra files defined, %s unset for entry #%d' % (cls.image_extra_partition_files_var_name, part.lineno))
+ 
+-        logger.info('Extra files: %s', extra_files)
+ 
+-        # list of tuples (src_name, dst_name)
+-        deploy_files = []
++        logger.info('Extra files: %s', extra_files)
+         for src_entry in re.findall(r'[\w;\-./*]+', extra_files):
              if ';' in src_entry:
                  dst_entry = tuple(src_entry.split(';'))
-                 if not dst_entry[0] or not dst_entry[1]:
-@@ -80,7 +80,7 @@ class ExtraPartitionPlugin(SourcePlugin):
-             logger.debug('Destination entry: %r', dst_entry)
-             deploy_files.append(dst_entry)
+@@ -103,6 +92,23 @@ class ExtraPartitionPlugin(SourcePlugin):
+             else:
+                 cls.install_task.append((src, dst))
  
--        cls.install_task = [];
-+        cls.install_task = []
-         for deploy_entry in deploy_files:
-             src, dst = deploy_entry
-             if '*' in src:
-@@ -111,7 +111,7 @@ class ExtraPartitionPlugin(SourcePlugin):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
--        In this case, we copies all files listed in IMAGE_EXTRA_PARTITION_FILES variable.
-+        In this case, we copy all files listed in IMAGE_EXTRA_PARTITION_FILES variable.
-         """
-         extradir = "%s/extra.%d" % (cr_workdir, part.lineno)
++    @classmethod
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
++                             oe_builddir, bootimg_dir, kernel_dir,
++                             native_sysroot):
++        """
++        Called before do_prepare_partition(), list the files to copy
++        """
++        extradir = "%s/extra.%d" % (cr_workdir, part.lineno)
++        install_cmd = "install -d %s" % extradir
++        exec_cmd(install_cmd)
++
++        if not kernel_dir:
++            kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            if not kernel_dir:
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
++
++        cls._parse_extra_files(part, kernel_dir)
  
+     @classmethod
+     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
 -- 
 2.52.0
 
