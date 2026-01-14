@@ -1,94 +1,119 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C678ED30CF6
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 00:36:00 +0000 (UTC)
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.165.1768350958202269095
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1DB2D30CF6
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 01:19:10 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.847.1768353549285160932
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jan 2026 16:35:58 -0800
+ Tue, 13 Jan 2026 17:19:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ievb0nkH;
- spf=pass (domain: gmail.com, ip: 74.125.82.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-121a0bcd376so6229814c88.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jan 2026 16:35:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768350957; x=1768955757; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lguc/yXTzinhLvplsKCqLPZ0noko3vjgA227S9dM8c4=;
-        b=Ievb0nkHB9DxOQR2HbZ36+ysbHn1arnmYx9n2q5uaSc2rTLh0RUedQG7z1xRsKZ/3T
-         OL+OkMc7HyCQeZkDNtqpW81GQ1jKeph/O8FN8VoriGV0R6TAzEd+HtKQySB+X5VHgnKO
-         3Aso/fO5hTonwDT0JydXFHuVL13QhEkbVry2Kjf0MOg/8iWESDYHSyZ4T4//tJ04ThUD
-         16JxqwCNzUNghWYQrBrE7NbMBcf4TSed/qDVPguHsmIsMGsywoFilJeb1pvjxK9CJ9ql
-         r2oMDHBFFwZ7Qxpz7bH52mEOk/3IxuRddSYPiCv3ofN7cj6+u5y80OQZY6tZAVPUZqBl
-         uDuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768350957; x=1768955757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lguc/yXTzinhLvplsKCqLPZ0noko3vjgA227S9dM8c4=;
-        b=VBcM+W/gRvSDMdOdbxHcddNT9Cnk+CrAZRF4R6LtCM/HblawOd4NCz05TbL9C/i6F/
-         rpDkT4TOn4cRHnehLdLK1b7ZwDUfOVdjr02Bfgs4zG6g9N8OZcGhlsXMJ66RQRCCPhd3
-         iuR4ZXd+tLVmDT8xFZULfn1CQk9AAmNl7Q0klJJYA/R2x0gM9wNouriw37ygcLOK4SA/
-         tzAj0mg9kVZ2Sev1cgt19i/13KeUey2YhT3rLK3h9RUDcBRwmIiSw+iB/6y8KI53Lige
-         Izrt9Y639QF5WC4onqmGT/3wHz/zerudBD7bf1bbP4lqQABS2f+vZoMfiHbLr7CLqbjx
-         Gibg==
-X-Gm-Message-State: AOJu0YwYY6eYEC4R2lwa1wgjYh+btZRtlUCQxTUb53Y8a/UK03Zzl9fy
-	k0ZzYVvK340oasmLACooXRQOkPKChUn1Ikz11WkAo+Px+Z7uJYruva447x4Z8w==
-X-Gm-Gg: AY/fxX6WCF3s9uGgHcFfXzRtKIMbOl3FoQSNVdOGixIt85lI7F5ELJ9+bA1ZDFiv3M4
-	h7NpVsid0+CRHYnWSx5WMfqQhDOB8PhgtkoNA9CBkKbEnrA4aRxt/aHn+2mENXXR/HKEXrBeNLo
-	SR7+2VeG77RcXUIiWSrhx5OI5c+BOwUb3euG80DHPbAxBWSiEpV8wwflsPBgTDNW4VJvdgvCOQ6
-	2hTuPkD4tmh0++2eMlCWRI4/yjB3Xq+AUfIDJwJzHsVv6I3gabsZ5vzVlbCg+ysSnnmxT7x7S4A
-	YZQK4NgbbT7lO5BIsROO0w8+raul63uQbEDefBPhyotXmZXcbxEZCQdbgEv7ipDnU7gSLWOXPUC
-	Wq2JULamLidFdJj/Heup/TGqzX2uKfRSm4gPQ0dZt5xypLYAYWfAmgO08FxWzkd5jiwyZ9h4fA4
-	BFWxNEurYOxVLG+5trM3ccJrxJi++RPspsCnEw+dIiP/KbO/GbrvpoQ1YpjoHVC/meeKHp05ra0
-	hzW5O4XSfTKBTinoqIUcnqu0StgBBI=
-X-Received: by 2002:a05:701b:2089:20b0:11b:3742:1257 with SMTP id a92af1059eb24-12336a89a23mr937098c88.34.1768350957077;
-        Tue, 13 Jan 2026 16:35:57 -0800 (PST)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::28b])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121f248c246sm29297192c88.11.2026.01.13.16.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 16:35:56 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=ifZq1OLv;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1768353549; x=1799889549;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0wQU1Iy10ObNYEw9izuMtc6Cy5hU1O+wPhtKzSHIxgQ=;
+  b=ifZq1OLv/hd07Gy8JQLAIjuXbq7D7h22ubpWarsLNCnOMAGH8XPGeQmc
+   ilq+wMhLV4am67Q2PM1x2VsemHLU/U6Ba5h4KqVKMRVJEXLVcZgEcYR7U
+   SokdI00obBV4YaHCOPJzdZvd4qb6XmgAgpVM8SIcsURT5TKM6VDne+/IZ
+   8FkNoU49A22JH/ihVVt/jfVayxTeN9f+1bVelhkW8MlDCsfgk+5d37HBD
+   lAMF4+oNA3cFH7qvkrTDCIJBMVs16nUZxN73HBHCNfp4Cqd/vTMTFST4z
+   qZ8KploPIhFE9/mOLZLsP1wnLEuB9bJ0IGEsYFML68CUi4KpTUF5Re0Um
+   w==;
+X-CSE-ConnectionGUID: oTFqM/CcTL2bGvAmCrK34g==
+X-CSE-MsgGUID: gZ6rhL9qRR6vU6bi0OuTFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="225095394"
+X-IronPort-AV: E=Sophos;i="6.21,224,1763391600"; 
+   d="scan'208";a="225095394"
+Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([20.61.8.234])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 10:19:07 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 88AB11000345
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 01:19:07 +0000 (UTC)
+Received: from az2uksmom1.o.css.fujitsu.com (az2uksmom1.o.css.fujitsu.com [10.151.22.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id 3CC191003BE8
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 01:19:07 +0000 (UTC)
+Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
+	by az2uksmom1.o.css.fujitsu.com (Postfix) with ESMTP id E5D8F1801C7D
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 01:19:04 +0000 (UTC)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libpcre2: Limit the undefined-version to non-native variants
-Date: Tue, 13 Jan 2026 16:35:53 -0800
-Message-ID: <20260114003553.44099-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Subject: [OE-core][PATCH v2] orc: upgrade 0.4.41 -> 0.4.42
+Date: Wed, 14 Jan 2026 09:19:00 +0800
+Message-ID: <20260114011902.10064-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 00:36:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229299
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 01:19:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229300
 
-Native variant maybe built with GNU linker which does not recognize.
+1.Changelog
+ - Initial 64-bit RISC-V support (Maksymilian Knust, Filip Wasil)
+ - Add 64-bit LoongArch support (Jin Bo, Hecai Yuan)
+ - Implement release and reuse of temporary registers for some targets (Jorge Zapata)
+ - x86: Implement EVEX encoding and an opcode validation system (Jorge Zapata)
+ - x86: Opcode refactor, improved constant handling and various other fixes (Jorge Zapata)
+ - x86: add missing rounding operands for AVX and SSE (L. E. Segovia)
+ - x86: Implement 64-bit single move constant load (L. E. Segovia)
+ - includes: stop exporting the private compiler and OrcTarget definitions (Jorge Zapata)
+ - Use hotdoc instead of gtk-doc to generate the documentation (Jorge Zapata)
+ - ORC_DEBUG_FATAL environment variable allows abort on log messages of a certain level (Carlos Falgueras García)
+ - Error message improvements and NEON backend clean-ups (Alexander Slobodeniuk)
+ - Fix a few valgrind issues (Doug Nazar)
+ - Build: enable tools such as orcc and orc-bugreport by default (Nirbheek Chauhan)
+ - Various build fixes (L. E. Segovia, Sebastian Dröge)
 
-Fixes build on ubuntu 22.04
-/home/kraj200/yoe/build/tmp/hosttools/ld: unrecognized option '--undefined-version'
+2.Documentation are no longer built with gtk_doc,it was replaced by hotdoc.
+ https://gitlab.freedesktop.org/gstreamer/orc/-/commit/0ad1f5884c654b614cf1ddd114a7ec9140311a3a
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- meta/recipes-support/libpcre/libpcre2_10.47.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../recipes-devtools/orc/{orc_0.4.41.bb => orc_0.4.42.bb} | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/orc/{orc_0.4.41.bb => orc_0.4.42.bb} (81%)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index 2ac249f05b..217a60aae9 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -39,7 +39,8 @@ EXTRA_OECONF = "\
- "
- CFLAGS += "-D_REENTRANT"
- CXXFLAGS:append:powerpc = " -lstdc++"
--LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-Wl,--undefined-version', '', d)}"
-+LDFLAGS:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-Wl,--undefined-version', '', d)}"
-+LDFLAGS:append:class-nativesdk = " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-Wl,--undefined-version', '', d)}"
+diff --git a/meta/recipes-devtools/orc/orc_0.4.41.bb b/meta/recipes-devtools/orc/orc_0.4.42.bb
+similarity index 81%
+rename from meta/recipes-devtools/orc/orc_0.4.41.bb
+rename to meta/recipes-devtools/orc/orc_0.4.42.bb
+index 60677577b0..f56b9058c2 100644
+--- a/meta/recipes-devtools/orc/orc_0.4.41.bb
++++ b/meta/recipes-devtools/orc/orc_0.4.42.bb
+@@ -5,17 +5,13 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
  
- PACKAGES =+ "libpcre2-16 libpcre2-32 pcre2grep pcre2grep-doc pcre2test pcre2test-doc"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "cb1bfd4f655289cd39bc04642d597be9de5427623f0861c1fc19c08d98467fa2"
++SRC_URI[sha256sum] = "7ec912ab59af3cc97874c456a56a8ae1eec520c385ec447e8a102b2bd122c90c"
  
+-inherit meson pkgconfig gtk-doc
++inherit meson pkgconfig
+ 
+ # distinguish from apache:orc
+ CVE_PRODUCT = "gstreamer:orc"
+ 
+-GTKDOC_MESON_OPTION = "gtk_doc"
+-GTKDOC_MESON_ENABLE_FLAG = "enabled"
+-GTKDOC_MESON_DISABLE_FLAG = "disabled"
+-
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ PACKAGES =+ "orc-examples"
+-- 
+2.43.0
+
 
