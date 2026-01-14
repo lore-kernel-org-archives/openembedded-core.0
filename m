@@ -1,116 +1,206 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A300D31A2C
-	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 09:04:23 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6405.1768381457207411895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B2DD31A33
+	for <webhook@archiver.kernel.org>; Wed, 14 Jan 2026 09:26:23 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6634.1768382778582802379
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 01:04:18 -0800
+ Wed, 14 Jan 2026 01:26:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=J0hGioiV;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5474771f1a=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60E5cSQB2773568
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 09:04:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=iTRJ77kWSntOB+k3FXM9
-	m2tZm6PajsL424FIV/fuFnE=; b=J0hGioiVdIFfKkLjgTYQ0UGjo5YTzzva2doK
-	xoYLSN2OW1yHkRzRQdWRX4/5T2ohYeepGzwTxwztXOtoTU3vCf/cDEmBR1EjMNSM
-	PO9RmB8lU/5tTGdTxv6Lz3egoTtI4ZAkJfUfIbBIC418EOFIgcMh7/4fQhyQAal1
-	98HRDnU5pOfau8N0xoWGn3Mplfgm9raof2tJ4yKvkdmcet0R5XeyioYolG6ywQYO
-	pAWRVWJoM/I1ztImOHyBpwHDU+Y2RTQfA0km92OSsGFN4EglxFf57YT/ddsQD6fp
-	DABnxXKu0AEP3Nh20xbp+mfGLK8nKJT/bbFOpdtOaS7xYnA3vA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bkdr2m807-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 09:04:15 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 14 Jan 2026 01:04:14 -0800
-Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 14 Jan 2026 01:04:14 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] sanity.bbclass: Lower the length of TMPDIR limit to 300
-Date: Wed, 14 Jan 2026 17:04:13 +0800
-Message-ID: <20260114090413.586488-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=EWe3lU12;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.53, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64b6f896689so1110646a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 01:26:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768382777; cv=none;
+        d=google.com; s=arc-20240605;
+        b=b6gjUh87BT7BeToKxWwO5vubfp8izVmPhV7A/lSUiq25aJe8W11Odhiu4aQNEK0Wcb
+         5yY+wm/0yL+KdekWxPcbKlT9i+7RPB34USveolNhieNXm/L3WHoslg4KdqKGCZSR46hr
+         DqWnWg3aHvDu1O3ohcpi4C0p2BT8+4DcLn6fHY8INBAeLfqZOmThGdZxrVSf2gJdjxgC
+         LYzCBHQeXYHx6kHXkEnQkuX2gVfojWjfcvxNkp4uSTvGy/ztnCrrNw4Ka163byF6tkq0
+         RHH+6D89xLw+5FyyFJYMEiyvSRJBQgUbDxWtspGK70VfFIKMu6stdz8m8hMrpL+kLvow
+         Qhdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1rV8aacFaRPkrAJFr3YfX9vo6mzjzXz4p+fI5+YrRCg=;
+        fh=Htrtf6tcKeuHYwhT3Feqs2aWr0CPzN1U6b0F0T3T/w4=;
+        b=PPSD+IwkgRPmmUPIpUBniT8qgHzXQ4KVoxRPrcD1I268y46Ec3n8uTnojpKAUwkv5s
+         qkNaoOUplsRhkl8HQyTYnyStvSqSO25ahEl7E71Yp1fzbzqcvYZGvIliIwb7XvnDQge5
+         lhPJbGPeiz/CZlwqfIyNg3Yg6e09OSBIx7l2mrjpYKQyNY0bTkDlJzDkOUGYd1pE0Yvs
+         Tfa3DTjniF8S7ocFhYSUvYohVJPSafkTcqxGFk2TRwT+jO/uGF6SyOKpFO+pJKrGm1X0
+         wroSajE+9fpvCz2CPtTCxYnQD2SEli8Ui8dtUGKneFxT20whOk+nO147TAuUJmDizcra
+         ZF/w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1768382777; x=1768987577; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1rV8aacFaRPkrAJFr3YfX9vo6mzjzXz4p+fI5+YrRCg=;
+        b=EWe3lU12tbqcSbWI4KBye0wgH8pRClIaIXAYIkmmbL5LW6CPMq0bKkLiSwWgkpZaPk
+         vVSOFHWt9FLuN1RC5NNPthogrz2heAv7J62Mpx+RwqR7zgKvUXN3YZq6XIAZiUmd0Awe
+         hLg4WV7831C5Seh391QaCqOv69thb96YXwUYg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768382777; x=1768987577;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1rV8aacFaRPkrAJFr3YfX9vo6mzjzXz4p+fI5+YrRCg=;
+        b=qQVQbcmGdJx3g0qCjwtqF2PH7tvp7KGrIORuU5wursn8D/UMplKqcNZxaG6lJ4Ga2N
+         q2Lo5OskUldN4qnOJ1vkhuhTNdKn+HQAUuZ0xk0aLSuLLNCbCMq0WvsIyt8P6+Xl1+jy
+         yuEgz5GPpHUyQxu6J3jrzUtWnnwYICLOf7+gggrtvUtQPrVNQO9Wqt+EhFAzde/0aTAT
+         OheqV3YliQngOmuIufAmPiF7WfgDG/hhKpjBe+6to/2Z2xZh3brXnGKE5NwMNRFLdhGK
+         fmTz/QulwQbtoOSUmDumvmG7zjk6+0YnxoZL/zC402AHZSc93q7dznne5xTsy5kO5dR4
+         PDaA==
+X-Gm-Message-State: AOJu0YyQ+7oErx9SkpN/11dDjNoWvQIFZFi+4IqCqR6gnS2WyIK2ap4F
+	4Q365xIaVwxPwT581OnEQ/kSYnV1p0WScZOwHyuWYM/G+Im91TbpUttaT4I3VfQbXao9xnZBKRI
+	3ykqMVkxXW2GRF+3P36flBnAtOzAXHudlurIP6hDWEg==
+X-Gm-Gg: AY/fxX4nTmyEX47kmxqzImQ7dmhChgsbcUBxwaRV/rrE9H6jOLu78kJhQkcsFNOi90y
+	0fAMYBfV3oX2iTaCOuwoGyJgHXv4maS2otGRLRtK3+vjV2pdx6onJdFpRFPfRPQlYBh25OmHV2W
+	NJeQ9IZrFsSRxPe8Hb5hbZrGe82TXaeo+PvY1lruZgJa7Bp6LZoaipB461JZ4TLluKKcluXvLns
+	7vVY74bnnEyuY11lmoLY38rLMTi42BednhBznQFVW1okLKZq1hcxFZy2K8f7Bb1+3AZUoROYhR4
+	4q3qBHzVYMp8ri8p4ZEBGTVcZLwO
+X-Received: by 2002:a05:6402:1ecc:b0:64d:1762:9bce with SMTP id
+ 4fb4d7f45d1cf-653ec495b08mr916835a12.8.1768382776692; Wed, 14 Jan 2026
+ 01:26:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 7PxavJg985fxgAm3mia_QNb_W8c5GIQD
-X-Authority-Analysis: v=2.4 cv=fLo0HJae c=1 sm=1 tr=0 ts=69675c0f cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=HMG2ayM1AAAA:20
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pKvnJipwrYfUzYSC_JwA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-GUID: 7PxavJg985fxgAm3mia_QNb_W8c5GIQD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA3MiBTYWx0ZWRfX0KlPcDzVMmdQ
- FxAI2bCSl1rBenJy8bmaoIfgtFGygux9fn8TGlaFVcNfSl0GeviY3sd1d3pbcI34jockR6hHnNO
- qfmeR7AsO3jcGc4SzT8tYFdjOpjUIUWX0yEJeRYwSTMWREXh4LbSi2ipDEA91sZ2txx5tqoSHI+
- wJ2XR1jaJLmnOfCt1WlPskXJn0GpNIpwpV7EFuMqrTX9TkL8f7dyd8DPHfdmjX53puGwIfg0m29
- tNmLhSaDxfYez/u92lxEz3Yf6VL20my1VYKcOxQ1imwdeFka4HkCaD2KbHRXuh/yzSGhQn2heYc
- nYZZTSMxbE1SJqADr3YgQO7KZPB1ni8l35A7sqgechSo53lJIC0xNXfw1MRjKl7vYWwWwLEMc1b
- teLtzhWVpsK8YMuxGEsq/VBfsIsFthGcjXkkFnpAcGf0s2mBJ3YcwUiwILIrsRndDCKPGYg7jYR
- ZmZJPSY6Hmy966kP6DQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-14_02,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 clxscore=1015 priorityscore=1501 spamscore=0
- phishscore=0 bulkscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140072
+References: <20260113144314.3563680-1-adam.duskett@amarulasolutions.com>
+ <20260113144314.3563680-5-adam.duskett@amarulasolutions.com> <575011.1768317186376112526@lists.openembedded.org>
+In-Reply-To: <575011.1768317186376112526@lists.openembedded.org>
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
+Date: Wed, 14 Jan 2026 10:26:05 +0100
+X-Gm-Features: AZwV_QjsquC9XBgvjVtBFmAAcHbdbXGdlNwKSil4_MeO17KYzmH-jFQUrTWtiRQ
+Message-ID: <CAHDQB6M5xD30LAKA5T9T39v4ywXmZWHmceLx2HZxhNkyJW2pVA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/6] wic: extra-partitions: Make extra-files optional
+To: pierre-loup.gosse@smile.fr
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000003b6040064855b394"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 09:04:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229308
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jan 2026 09:26:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229309
 
-From: Changqing Li <changqing.li@windriver.com>
+--0000000000003b6040064855b394
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With TMPDIR set to 400, gtk+3-native compile failed with failure:
-ninja: fatal: posix_spawn: Argument list too long
+Hi Pierre! Thanks for the review!
 
-Refer [1], one of the meson.build of gtk3, the list of files is long,
-and with a long path, there files list will make arguments huge for
-ninja. Refer [2], the open issue for ninja, meson need to improve
-to make this work, and there is a fix for this, refer [3], but we can
-still reproduce this issue with poky, I open an new issue for meson,
-refer [4], and meantime, change our TMPDIR limit to 300 to avoid
-this kind of issue. I also tested with 350, not works.
+On Tue, Jan 13, 2026 at 4:13=E2=80=AFPM Pierre-loup GOSSE via lists.openemb=
+edded.org
+<pierre-loup.gosse=3Dsmile.fr@lists.openembedded.org> wrote:
 
-[1] https://github.com/gooroom/gtk3/blob/gooroom-3.0/gtk/meson.build
-[2] https://github.com/ninja-build/ninja/issues/1261
-[3] https://github.com/mesonbuild/meson/pull/7245
-[4] https://github.com/mesonbuild/meson/issues/15423
+> Hi Adam,
+>
+> Thanks for your contribution to the plugin.
+>
+>
+> There are many use cases where a user may need a blank partition of a giv=
+en
+> size and format with no extra files added. Such as an empty data partitio=
+n.
+>
+>
+> A blank partition can already be created without the extra-partition
+> plugin.
+>
+> Personally, I use the following example line in my WKS file:
+>
+>   part --fstype=3Dext4 --label data --fixed-size 500M
+>
+> This command creates a blank 500MB partition with an ext4 filesystem.
+>
+> In my opinion, the extra plugin should always requires files, similar to
+> the bootimg partition plugin (on which the extra partition plugin is base=
+d).
+>
+>
+I'm not seeing the problem with making this optional. A bootimg partition
+requires certain files to be present for a system to boot.
+An extra partition doesn't.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/classes-global/sanity.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Adam
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index c89ff2c51f..376f6e66af 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -803,8 +803,8 @@ def check_sanity_version_change(status, d):
-     if not oes_bb_conf:
-         status.addresult('You are not using the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
- 
--    # The length of TMPDIR can't be longer than 400
--    status.addresult(check_path_length(tmpdir, "TMPDIR", 400))
-+    # The length of TMPDIR can't be longer than 300
-+    status.addresult(check_path_length(tmpdir, "TMPDIR", 300))
- 
-     # Check that TOPDIR does not contain non ascii chars (perl_5.40.0, Perl-native and shadow-native build failures)
-     status.addresult(check_non_ascii(topdir, "TOPDIR"))
--- 
-2.34.1
+> Pierre-Loup,
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#229273):
+> https://lists.openembedded.org/g/openembedded-core/message/229273
+> Mute This Topic: https://lists.openembedded.org/mt/117243676/10152556
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> adam.duskett@amarulasolutions.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--0000000000003b6040064855b394
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Pierre! Thanks for the review!</d=
+iv></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Tue, Jan 13, 2026 at 4:13=E2=80=AFPM Pierre-lou=
+p GOSSE via <a href=3D"http://lists.openembedded.org">lists.openembedded.or=
+g</a> &lt;pierre-loup.gosse=3D<a href=3D"mailto:smile.fr@lists.openembedded=
+.org">smile.fr@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex"><div>Hi Adam,</div>
+<div>=C2=A0</div>
+<div>Thanks for your contribution to the plugin.</div>
+<div>=C2=A0</div>
+<blockquote>
+<div>There are many use cases where a user may need a blank partition of a =
+given<br>size and format with no extra files added. Such as an empty data p=
+artition.</div>
+</blockquote>
+<div>=C2=A0</div>
+<div>A blank partition can already be created without the extra-partition p=
+lugin.</div>
+<div>=C2=A0</div>
+<div>Personally, I use the following example line in my WKS file:</div>
+<div>=C2=A0</div>
+<div><span style=3D"font-family:&quot;courier new&quot;,courier">=C2=A0 par=
+t --fstype=3Dext4 --label data --fixed-size 500M</span></div>
+<div>=C2=A0</div>
+<div>This command creates a blank 500MB partition with an ext4 filesystem.<=
+/div>
+<div>=C2=A0</div>
+<div>In my opinion, the extra plugin should always requires files, similar =
+to the bootimg partition plugin (on which the extra partition plugin is bas=
+ed).</div>
+<div>=C2=A0</div></blockquote><div>I&#39;m not seeing the problem with maki=
+ng this optional. A bootimg partition requires certain files to be present =
+for a system to boot.</div><div>An extra partition doesn&#39;t.</div><div><=
+br></div><div>Adam=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+<div>Pierre-Loup,</div>
+<div>=C2=A0</div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#229273): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/229273" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/229273</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117243676/101=
+52556" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+mt/117243676/10152556</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:adam.duskett@amarulasoluti=
+ons.com" target=3D"_blank">adam.duskett@amarulasolutions.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000003b6040064855b394--
 
