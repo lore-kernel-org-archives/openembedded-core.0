@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3383D3CC92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C33B9D3CC93
 	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 00:25:58 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25254.1768436751531926576
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.25255.1768436755015410150
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jan 2026 16:25:52 -0800
+ Wed, 14 Jan 2026 16:25:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GVa+tKwT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260115002549bd8f83061a0002072e-ctbcvt@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260115002549bd8f83061a0002072e
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=JgqLHwcA;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260115002553e29403b09b0002076f-bakbo0@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260115002553e29403b09b0002076f
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 15 Jan 2026 01:25:49 +0100
+        Thu, 15 Jan 2026 01:25:53 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=r2i2HW2vylO06zEK2bu7/GOdduB1pur+vFZWzGp6XGU=;
- b=GVa+tKwTUVzMT3xzZpuQHjgCppSgQvWBmjPngSrkqtPVFLh8NIIf5138lRWfaM77YT7CQq
- H/WjBtyO8LBn/pnrm9IfYPPmc6zop3QmUv9cCjtuhe0jF2ztiTgHV2x4Bq/wFNDfzK/KDBBF
- AYadL6HJTVvVK5yb+tEA1zkwjt4rqaCiQEBqVKTPcZmNEyMTQNUjmFWlJT5Dc93PyScs/y0u
- 53roNIQO0poxsj/oQ4veFlQfPd/Opz36E3kJyor9M6U1vD3FfVu6oRKmFMZpNVCPlNZGlmh6
- dmxFfwcATLA+f3tNVPQL7/8w9fOM5a2P9xW168u83U7hvvgqBHW30jjw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=u1+l3PM7CQQ4MUelvVwG9G7KOWlMvvTpVrQZ0Crt69c=;
+ b=JgqLHwcAv3vomK6ZChKJgPW3nT6mKssD+0oNThNsU/Qnia9c/+QGkznPXzWvtpYPvNzo+W
+ DgiFjHSHJq5nuw6B+iaCffJtG/NvfXYD2dRT5Mgl6LETNOMbNa10Fhwd21LgeAnP9k8Oh31A
+ iAccLWGdVV18lmNsqAZdMLv/e2d2MAx0G4+c+Rv3Uj/a43LE5ugtSYTkxMO8ZH28Uo10ucbW
+ 5F5ydPe6HvDpGautjRMLY0iSBzOKpf2cQVeJJt3wS3wqRIlGNV4LprDdJX/qmEsfXkKZ46YP
+ RDlacM4wBr6CKdrtjwygQ4M7iA6QaVDNOgfk4IBWWJtNFjtbJC340yYw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 1/2] libpng: patch CVE-2026-22695
-Date: Thu, 15 Jan 2026 01:25:44 +0100
-Message-Id: <20260115002545.49200-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH 2/2] libpng: patch CVE-2026-22801
+Date: Thu, 15 Jan 2026 01:25:45 +0100
+Message-Id: <20260115002545.49200-2-peter.marko@siemens.com>
+In-Reply-To: <20260115002545.49200-1-peter.marko@siemens.com>
+References: <20260115002545.49200-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,114 +39,200 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 00:25:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229377
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229378
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit per [1].
-This CVE is regression of fix for CVE-2025-65018.
+Pick comit per [1].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-22695
+[1] https://github.com/pnggroup/libpng/security/advisories/GHSA-vgjq-8cw5-ggw8
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libpng/files/CVE-2026-22695.patch         | 77 +++++++++++++++++++
- .../libpng/libpng_1.6.39.bb                   |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+ .../libpng/files/CVE-2026-22801.patch         | 164 ++++++++++++++++++
+ .../libpng/libpng_1.6.39.bb                   |   1 +
+ 2 files changed, 165 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
 new file mode 100644
-index 00000000000..673411eb341
+index 00000000000..544134e1342
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-@@ -0,0 +1,77 @@
-+From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
+@@ -0,0 +1,164 @@
++From cf155de014fc6c5cb199dd681dd5c8fb70429072 Mon Sep 17 00:00:00 2001
 +From: Cosmin Truta <ctruta@gmail.com>
-+Date: Fri, 9 Jan 2026 20:51:53 +0200
-+Subject: [PATCH] Fix a heap buffer over-read in `png_image_read_direct_scaled`
++Date: Sat, 10 Jan 2026 15:20:18 +0200
++Subject: [PATCH] fix: Remove incorrect truncation casts from
++ `png_write_image_*`
 +
-+Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea.
++The type of the row stride (`display->row_bytes`) is ptrdiff_t. Casting
++to png_uint_16 before division will truncate large strides, causing
++incorrect pointer arithmetic for images exceeding 65535 bytes per row.
++For bottom-up images (negative stride), the truncation also corrupts
++the sign, advancing the row pointer forward instead of backward.
 +
-+The function `png_image_read_direct_scaled`, introduced by the fix for
-+CVE-2025-65018, copies transformed row data from an intermediate buffer
-+(`local_row`) to the user's output buffer. The copy incorrectly used
-+`row_bytes` (the caller's stride) as the size parameter to memcpy, even
-+though `local_row` is only `png_get_rowbytes()` bytes long.
++Remove the erroneous casts and let the compiler handle the pointer
++arithmetic correctly. Also replace `sizeof (png_uint_16)` with 2.
 +
-+This causes a heap buffer over-read when:
++Add regression test via `pngstest --stride-extra N` where N > 32767
++triggers the affected code paths.
 +
-+1. The caller provides a padded stride (e.g., for memory alignment):
-+   memcpy reads past the end of `local_row` by `stride - row_width`
-+   bytes.
++A NOTE ABOUT HISTORY:
++The original code in libpng 1.5.6 (2011) had no such casts. They were
++introduced in libpng 1.6.26 (2016), likely to silence compiler warnings
++on 16-bit systems where the cast would be a no-op. On 32/64-bit systems
++the cast truncates the strides above 65535 and corrupts the negative
++strides.
 +
-+2. The caller provides a negative stride (for bottom-up layouts):
-+   casting ptrdiff_t to size_t produces ~2^64, causing memcpy to
-+   attempt reading exabytes, resulting in an immediate crash.
-+
-+The fix consists in using the size of the row buffer for the copy and
-+using the stride for pointer advancement only.
-+
-+Reported-by: Petr Simecek <simecek@users.noreply.github.com>
-+Analyzed-by: Stanislav Fort
-+Analyzed-by: Pavel Kohout
-+Co-authored-by: Petr Simecek <simecek@users.noreply.github.com>
-+Signed-off-by: Cosmin Truta <ctruta@gmail.com>
-+
-+CVE: CVE-2026-22695
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b7691925d9786]
++CVE: CVE-2026-22801
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/cf155de014fc6c5cb199dd681dd5c8fb70429072]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ AUTHORS   | 1 +
-+ pngread.c | 4 +++-
-+ 2 files changed, 4 insertions(+), 1 deletion(-)
++ CMakeLists.txt              |  7 +++++++
++ contrib/libtests/pngstest.c | 29 ++++++++++++++++++++++++++++-
++ pngwrite.c                  | 10 +++++-----
++ tests/pngstest-large-stride |  8 ++++++++
++ 4 files changed, 48 insertions(+), 6 deletions(-)
++ create mode 100755 tests/pngstest-large-stride
 +
-+diff --git a/AUTHORS b/AUTHORS
-+index 26b7bb50f..b9c0fffcf 100644
-+--- a/AUTHORS
-++++ b/AUTHORS
-+@@ -22,6 +22,7 @@ Authors, for copyright and licensing purposes.
-+  * Mike Klein
-+  * Pascal Massimino
-+  * Paul Schmidt
-++ * Petr Simecek
-+  * Qiang Zhou
-+  * Sam Bushell
-+  * Samuel Williams
-+diff --git a/pngread.c b/pngread.c
-+index e3426292b..9d86b01dc 100644
-+--- a/pngread.c
-++++ b/pngread.c
-+@@ -3268,9 +3268,11 @@ png_image_read_direct_scaled(png_voidp argument)
-+        argument);
-+    png_imagep image = display->image;
-+    png_structrp png_ptr = image->opaque->png_ptr;
-++   png_inforp info_ptr = image->opaque->info_ptr;
-+    png_bytep local_row = png_voidcast(png_bytep, display->local_row);
-+    png_bytep first_row = png_voidcast(png_bytep, display->first_row);
-+    ptrdiff_t row_bytes = display->row_bytes;
-++   size_t copy_bytes = png_get_rowbytes(png_ptr, info_ptr);
-+    int passes;
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index a8cd82402..a595ed91d 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -804,6 +804,13 @@ if(PNG_TESTS AND PNG_SHARED)
++     endforeach()
++   endforeach()
 + 
-+    /* Handle interlacing. */
-+@@ -3300,7 +3302,7 @@ png_image_read_direct_scaled(png_voidp argument)
-+          png_read_row(png_ptr, local_row, NULL);
+++  # Regression test:
+++  # Use stride_extra > 32767 to trigger row_bytes > 65535 for linear images.
+++  png_add_test(NAME pngstest-large-stride
+++               COMMAND pngstest
+++               OPTIONS --stride-extra 33000 --tmpfile "large-stride-" --log
+++               FILES "${CMAKE_CURRENT_SOURCE_DIR}/contrib/testpngs/rgb-alpha-16-linear.png")
+++
++   add_executable(pngunknown ${pngunknown_sources})
++   target_link_libraries(pngunknown png)
 + 
-+          /* Copy from local_row to user buffer. */
-+-         memcpy(output_row, local_row, (size_t)row_bytes);
-++         memcpy(output_row, local_row, copy_bytes);
-+          output_row += row_bytes;
++diff --git a/contrib/libtests/pngstest.c b/contrib/libtests/pngstest.c
++index ff4c2b24a..2f29afee2 100644
++--- a/contrib/libtests/pngstest.c
+++++ b/contrib/libtests/pngstest.c
++@@ -1,7 +1,7 @@
++ 
++ /* pngstest.c
++  *
++- * Copyright (c) 2021 Cosmin Truta
+++ * Copyright (c) 2021-2026 Cosmin Truta
++  * Copyright (c) 2013-2017 John Cunningham Bowler
++  *
++  * This code is released under the libpng license.
++@@ -3571,6 +3571,33 @@ main(int argc, char **argv)
++          opts |= NO_RESEED;
++       else if (strcmp(arg, "--fault-gbg-warning") == 0)
++          opts |= GBG_ERROR;
+++      else if (strcmp(arg, "--stride-extra") == 0)
+++      {
+++         if (c+1 < argc)
+++         {
+++            char *ep;
+++            unsigned long val = strtoul(argv[++c], &ep, 0);
+++
+++            if (ep > argv[c] && *ep == 0 && val <= 65535)
+++               stride_extra = (int)val;
+++
+++            else
+++            {
+++               fflush(stdout);
+++               fprintf(stderr, "%s: bad argument for --stride-extra: %s\n",
+++                  argv[0], argv[c]);
+++               exit(99);
+++            }
+++         }
+++
+++         else
+++         {
+++            fflush(stdout);
+++            fprintf(stderr, "%s: missing argument for --stride-extra\n",
+++               argv[0]);
+++            exit(99);
+++         }
+++      }
++       else if (strcmp(arg, "--tmpfile") == 0)
++       {
++          if (c+1 < argc)
++diff --git a/pngwrite.c b/pngwrite.c
++index 08066bcc4..a95b846c8 100644
++--- a/pngwrite.c
+++++ b/pngwrite.c
++@@ -1,7 +1,7 @@
++ 
++ /* pngwrite.c - general routines to write a PNG file
++  *
++- * Copyright (c) 2018-2022 Cosmin Truta
+++ * Copyright (c) 2018-2026 Cosmin Truta
++  * Copyright (c) 1998-2002,2004,2006-2018 Glenn Randers-Pehrson
++  * Copyright (c) 1996-1997 Andreas Dilger
++  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
++@@ -1632,7 +1632,7 @@ png_write_image_16bit(png_voidp argument)
++       }
++ 
++       png_write_row(png_ptr, png_voidcast(png_const_bytep, display->local_row));
++-      input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
+++      input_row += display->row_bytes / 2;
++    }
++ 
++    return 1;
++@@ -1758,7 +1758,7 @@ png_write_image_8bit(png_voidp argument)
++ 
++          png_write_row(png_ptr, png_voidcast(png_const_bytep,
++              display->local_row));
++-         input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
+++         input_row += display->row_bytes / 2;
++       } /* while y */
++    }
++ 
++@@ -1783,7 +1783,7 @@ png_write_image_8bit(png_voidp argument)
++          }
++ 
++          png_write_row(png_ptr, output_row);
++-         input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
+++         input_row += display->row_bytes / 2;
 +       }
 +    }
++ 
++@@ -2102,7 +2102,7 @@ png_image_write_main(png_voidp argument)
++       ptrdiff_t row_bytes = display->row_stride;
++ 
++       if (linear != 0)
++-         row_bytes *= (sizeof (png_uint_16));
+++         row_bytes *= 2;
++ 
++       if (row_bytes < 0)
++          row += (image->height-1) * (-row_bytes);
++diff --git a/tests/pngstest-large-stride b/tests/pngstest-large-stride
++new file mode 100755
++index 000000000..7958c5b42
++--- /dev/null
+++++ b/tests/pngstest-large-stride
++@@ -0,0 +1,8 @@
+++#!/bin/sh
+++
+++# Regression test:
+++# Use stride_extra > 32767 to trigger row_bytes > 65535 for linear images.
+++exec ./pngstest \
+++     --stride-extra 33000 \
+++     --tmpfile "large-stride-" \
+++     --log "${srcdir}/contrib/testpngs/rgb-alpha-16-linear.png"
 diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-index 70685b68e7b..9ca68d9b8bc 100644
+index 9ca68d9b8bc..c4347a67151 100644
 --- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
 +++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-@@ -22,6 +22,7 @@ SRC_URI = "\
-            file://CVE-2025-65018-02.patch \
+@@ -23,6 +23,7 @@ SRC_URI = "\
             file://CVE-2025-66293-01.patch \
             file://CVE-2025-66293-02.patch \
-+           file://CVE-2026-22695.patch \
+            file://CVE-2026-22695.patch \
++           file://CVE-2026-22801.patch \
  "
  
  SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
