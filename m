@@ -2,76 +2,75 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18979D44C50
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 13:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 236A3D44C51
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 14:02:04 +0000 (UTC)
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36097.1768485221954063052
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36355.1768485718387723075
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 05:53:42 -0800
+ Thu, 15 Jan 2026 06:01:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=f4AK98mC;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=AmpB2tzg;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=b4Ildmwe;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=AIQVPWJ9;
  spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1F0C37A0124;
-	Thu, 15 Jan 2026 08:53:41 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 15 Jan 2026 08:53:41 -0500
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id C40687A0074;
+	Thu, 15 Jan 2026 09:01:57 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 15 Jan 2026 09:01:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1768485220; x=1768571620; bh=OTyWMMaRa6
-	KGYqhrF/+cIdGUgQa6FNQISkAfPKP3mJQ=; b=f4AK98mCsQIsPeBKzcshlTT0uv
-	QxyWLgtO583RcqNRy1GdhDdttZgIJH6l0D6HAWaXwCJ5RNruhUCTDmHNCzO1AiK3
-	VENdyDCBTUIxo6zJPVFT+5mEY28PLXb7wo1ygzLxw2EzKVuPEBozbYwndUQEOglJ
-	U0Dr6ffy7rGYspzwgIdlR3O2Wf239RAOM4eLHTZHKJtkHZgsCk74zDC/ppICeQAl
-	sf8QUZJe72DQQCl76n2NdsqECF1IR8AKZagEKxBzMaiqQK7C5n5ECf/PwHLFZJ8s
-	LvE0XtblQ8tawIo1+4Trp0VQq95TJzIIGv7yLrN+Fk2qK6DcP3zVArabHpVA==
+	:subject:to:to; s=fm1; t=1768485717; x=1768572117; bh=vE4y9cAuUj
+	U3GBkeeU3i4Z6L1lpSq6gMS+NhIg4cFik=; b=b4IldmweN4vjUa6nLUdUKuvuFF
+	ZBIEFJsFEd4sLc4XfL0MJXoq5Nz0Tou9ZOAVq0gKZ1rjoJhOZ5RV8JrNSZ8DNoWw
+	si4FoK9OlgnGB48nif+eAQktct11lAqyG27v0rAWfhOwKi0mSTwYBiR7AbtCt+0R
+	gXl0F+Fn7I9FroiD80eQYRspQWh769Ky2G/8gDVVA13STIAhRCxqZlgnEBidkcUF
+	W+/Eazj+A34dXhyDLXQzA5NgMvjqGS/AuCKoTv9tXoH2Un37kT/UFR9WgN6ZBS3P
+	Yo6BwgpEipTmE2Ez3OQFkfkIylwTzJRR7dS5yRu/8qfKwjkTJRq2SUcgt7yw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1768485220; x=1768571620; bh=OTyWMMaRa6KGYqhrF/+cIdGUgQa6FNQISkA
-	fPKP3mJQ=; b=AmpB2tzggQJAgHfNVfPaZp6OYE/5tqb0ddCZCjjzrhROPxc7kpv
-	vA9c9avLkt5LAwBrM3XvbI5mw0jePICJEvY+YCQ8Wz+j00xK7UTHHuqB3iz5XCFO
-	oRdmefGy3GSjf9jo3wVGk/XGo7tl6lNwjSa2b+hCR+qkP1jn2rWTFKkwjYPIRwvD
-	MgGzoC64FcOujKZkdW8lovAPXSiHpzKQlEv6ukTD1FIB3mkO8JSlt090qnLLz/Z5
-	sKCUfUt90VSh/KWQ74KbdsVKLELXfOdsvPfMgeTK0hYnZ/AuMCdjWp+KmP32pKh9
-	W7gY04YhEOUJQsJ2smaRzeA7AprhNpbOK+Q==
-X-ME-Sender: <xms:ZPFoaaMs3B8wMCwSDvV-jy_JaqfDT79YNOakgS-3mk0fEanoT5p_ug>
-    <xme:ZPFoae8Ssbk8uXUJTgzWoXoqkth25-doZUA9MSqYzsd7Xf_6_D8EmnCFL09EWAk99
-    xFTHbzbCWrbvjrSovaTXVa9pM-j1UnvkYUzdfp5ObgaR-8EB-bi1Ws>
-X-ME-Received: <xmr:ZPFoae6_BBKrUR9XNRstR5RMrj2PBJR3NWGgSaF5Idk_KzC5m3C2mV5d4makLufjKl1x9YcYX3NBQMFh8Jl_wg0Tf_YDIjqLxKEwrTnoXYBC>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdeivdefucetufdoteggodetrf
+	1768485717; x=1768572117; bh=vE4y9cAuUjU3GBkeeU3i4Z6L1lpSq6gMS+N
+	hIg4cFik=; b=AIQVPWJ9VQeykY0pIGABi6KwN6bLui2DevqxQ5uneg5ZNgbugpR
+	R9pxQn7nsYXicrMXNn7tAwg050BslhAgsCtF+x6f4uIUdkRdDp3+Tcb1Fom5Zfsl
+	BsTmyuet+XoKp9VDmSxWRFAH9WL3+eiFjXGwx/lcGcJStnhKIjjtTJjPUnwaGA8A
+	5x66JNWj/OqxPd4+Q/n67ne6G9awagQ58iCQrKeQ6w4x9/b9Wq8YeEymC40/zbar
+	WaXV6vEtNKkXZ8A8yv407kbJ++rR43AQfyMzwMvuBy7S+L05372xbiA0O3c+PfTm
+	K9QeBT3pm6ZB/TbZjHxAfz9jPtrouLbAaFg==
+X-ME-Sender: <xms:VfNoadVO3chFVzpulfYRoKCkqvBmiUqXAxJUv-qVfTkx8qQhIv1yvA>
+    <xme:VfNoaTmO_ZWkm42ywemmfwUZ2yZ_SyIgF99aVwJyXy2irfJGVHALhSDjyy18AovQi
+    CPVcPi4HrmmPkdK2nj1yzfE7uNPu4ARZ-u_cJGLoGnERZDZgHSjd1M>
+X-ME-Received: <xmr:VfNoaXC6kWlRuHrCL2b_1-TjVJifZ1bBr2DNApxvqFS8VhW7k9fwt8-s2q83HMfs5T4uwSgGyJ3ch_gB_HbvngzL7pqBDtdMBf-mRag90VHR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdeivdegucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
     erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepheefffelieelleevudevjeegtdevfeeggfefte
-    ekkefhueegffelffejgfdviedtnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
-    ohhrghdpshgvlhhfthgvshhtrdgtrghsvgdpuggvtghorhgrthhorhdruggrthgrnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehp
-    sggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuth
-    dprhgtphhtthhopehuvhhvrdhmrghilhesghhmrghilhdrtghomhdprhgtphhtthhopeho
-    phgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvug
-    drohhrgh
-X-ME-Proxy: <xmx:ZPFoaV3Vt2vV6uOGRyfETDLiUtfrf4h60wOLJErz_yn0iNFZFJntrg>
-    <xmx:ZPFoaVDkeUiDRFWIEeaZ1m7TuT0y7zHUzzh9AUL4pAN0yUxyehB_bg>
-    <xmx:ZPFoaX0BXtahuPR-hHI6_BgaExpraPFP7KTbTbWG6nkCyqKF-_p0JQ>
-    <xmx:ZPFoafuiLVwe-4fEg7AN1BFcwXWMNQxnzwZSqvIp6eQXDJkQHqOXNQ>
-    <xmx:ZPFoaXdKFO-Banl5Te3puksw6cPk1pE_g-1zJjZafQVEe9sKaObNTVOS>
+    uggvvheqnecuggftrfgrthhtvghrnheptedufeeutdefvdejtdegvedujeeguefhjefhtd
+    dtffetjeeihfejhefggffhgedtnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghdpfihkshdrihhnnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedv
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehuvhhvrdhmrghilhesghhmrghilh
+    drtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhs
+    rdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:VfNoabdKpwe71kG0lh2jpCL6PRKApb6IvxO43UzBTy7J9buDtXbDbQ>
+    <xmx:VfNoaaK31QudMpPZjaweejl1_C8hrjD0w8iBZjJADb83F-EqiSnPQA>
+    <xmx:VfNoaWen6m8xlKkuQ9pfSCGoCq7Bf5pnoZsCNmqJt8t1rTK9Bs9U9g>
+    <xmx:VfNoaZ2D2Pn0WC-eOJJjzvkMP0KmXgEvOc1UqJ2rXcvDRTn_Oz6TRQ>
+    <xmx:VfNoaemCYTwM7z9BlubgnnQa98LUP4Q_6tqbhfoEHPkB1rSdnRqVUW0E>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Jan 2026 08:53:40 -0500 (EST)
-Message-ID: <b06c5771c4f1405605db5aa21937a12d0ad73d2d.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v3 2/3] oe-selftest: overlayfs: Make the test
- more deterministic
+ 15 Jan 2026 09:01:56 -0500 (EST)
+Message-ID: <be7883dff8fd91544d073ad317185e25dc215e25.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v3 3/3] oe-selftest: overlayfs: Add a demo
+ case for /etc
 From: Paul Barker <paul@pbarker.dev>
 To: uvv.mail@gmail.com, openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jan 2026 13:53:37 +0000
-In-Reply-To: <20260114185508.380709-3-uvv.mail@gmail.com>
+Date: Thu, 15 Jan 2026 14:01:53 +0000
+In-Reply-To: <20260114185508.380709-4-uvv.mail@gmail.com>
 References: <20260114185508.380709-1-uvv.mail@gmail.com>
-	 <20260114185508.380709-3-uvv.mail@gmail.com>
+	 <20260114185508.380709-4-uvv.mail@gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -117,17 +116,17 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  OqpPZn7Ij1ga5IAOHNRi5MbyRFROYOeaOj7sz7S7roHQwdP3Q1qTwTOv30hlOSe6uz4PTBiEIKBQH
  ep0k17xg==
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ICrnb69G2FvrqCNqM9jD"
+	protocol="application/pgp-signature"; boundary="=-x0cOZZmWXI2svPINunTz"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 13:53:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229412
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 14:02:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229413
 
 
---=-ICrnb69G2FvrqCNqM9jD
+--=-x0cOZZmWXI2svPINunTz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -135,55 +134,155 @@ On Wed, 2026-01-14 at 18:54 +0000, Vyacheslav Yurkov via
 lists.openembedded.org wrote:
 > From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 >=20
-> The test orignally was written under assumption that poky distro is
-> used. When poky-altcft is used for example, then systemd is already set
-> in DISTRO_FETURES, which the test did not expect.
+> /etc is a special directory. It's possible to create a mount unit for
+> it, but many system services that start early at boot time will not
+> rescan its content when you mount overlay on top. The added test case
+> demonstrates this by adding a sample systemd service and enabling it in
+> overlay.
 
 Hi,
 
-The commit title here still talks about determinism. The test case was
-deterministic though - previously it would always fail if systemd was
-already in DISTRO_FEATURES. I think I misunderstood a little last time,
-but this still needs renaming.
+I still don't understand what we're actually trying to test here. We
+know that overlayfs.bbclass can't be used this way. The documentation
+already says "The class does not support the /etc directory itself" and
+points users at the overlayfs-etc class. What do we gain by having a
+test case for this?
 
-I also wonder why we're testing this here. Perhaps this can be turned
-into a more generic test that REQUIRED_DISTRO_FEATURES behaves as
-expected - we can use the overlayfs bbclass as part of that as we know
-it sets REQUIRED_DISTRO_FEATURES.
+Perhaps what we should have is a check at build time to catch '/etc/' in
+an OVERLAYFS_MOUNT_POINT entry, which prints an error telling the user
+to use overlayfs-etc instead. That way the runtime misbehaviour is
+actually prevented.
 
 >=20
 > Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 > ---
->  meta/lib/oeqa/selftest/cases/overlayfs.py | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  meta/lib/oeqa/selftest/cases/overlayfs.py | 98 +++++++++++++++++++++++
+>  1 file changed, 98 insertions(+)
 >=20
 > diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/se=
 lftest/cases/overlayfs.py
-> index 580fbdcb9c..3e55e97927 100644
+> index 3e55e97927..426b4ccee3 100644
 > --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
 > +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> @@ -5,7 +5,7 @@
->  #
+> @@ -263,6 +263,104 @@ EOT
 > =20
->  from oeqa.selftest.case import OESelftestTestCase
-> -from oeqa.utils.commands import bitbake, runqemu, get_bb_vars
-> +from oeqa.utils.commands import bitbake, runqemu, get_bb_vars, get_bb_va=
-r
->  from oeqa.core.decorator import OETestTag
->  from oeqa.core.decorator.data import skipIfNotMachine
+>          self._test_correct_image('systemd-machine-units', systemd_machin=
+e_unit_append)
 > =20
-> @@ -46,7 +46,8 @@ inherit overlayfs
->          res =3D bitbake('core-image-minimal', ignore_status=3DTrue)
->          line =3D getline(res, "overlayfs-user was skipped: missing requi=
-red distro features")
->          self.assertTrue("overlayfs" in res.output, msg=3Dres.output)
-> -        self.assertTrue("systemd" in res.output, msg=3Dres.output)
-> +        if not "systemd" in get_bb_var('DISTRO_FEATURES'):
-> +            self.assertTrue("systemd" in res.output, msg=3Dres.output)
->          self.assertTrue("ERROR: Required build target 'core-image-minima=
-l' has no buildable providers." in res.output, msg=3Dres.output)
-> =20
->      def test_not_all_units_installed(self):
+> +    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curre=
+ntly")
+> +    def test_etc_mount(self):
+> +        """
+> +        Summary:   /etc is not supposed to be used with overlayfs.bbclas=
+s
+> +        Expected:  Observe inconsistencies after using etc overlay with =
+a mount unit
+> +        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
+> +        """
+> +        systemd_machine_unit_append =3D """
+> +SYSTEMD_SERVICE:${PN} +=3D " \
+> +    data.mount \
+> +    etc.mount \
+> +"
+> +
+> +do_install:append() {
+> +    install -d ${D}${systemd_system_unitdir}
+> +    install -d ${D}${ROOT_HOME}
+> +    cat <<EOT > ${D}${systemd_system_unitdir}/etc.mount
+> +[Unit]
+> +Description=3DOverlayFS mount for /etc directory
+> +DefaultDependencies=3Dno
+> +RequiresMountsFor=3D/data
+> +
+> +[Mount]
+> +What=3Doverlay
+> +Where=3D/etc
+> +Type=3Doverlay
+> +Options=3Dlowerdir=3D/etc,upperdir=3D/data/overlay/etc,workdir=3D/data/o=
+verlay-workdir/etc
+> +[Install]
+> +WantedBy=3Dlocal-fs.target
+> +EOT
+> +
+> +    cat <<EOT >${D}${systemd_system_unitdir}/data.mount
+> +[Unit]
+> +Description=3DPersistent storage partition
+> +
+> +[Mount]
+> +What=3D/dev/sda3
+> +Where=3D/data
+> +Type=3Dext4
+> +Options=3Ddefaults
+> +
+> +[Install]
+> +WantedBy=3Dlocal-fs.target
+> +EOT
+> +    cat <<EOT > ${D}${ROOT_HOME}/test-daemon.service
+> +[Unit]
+> +Description=3DMy one-shot task
+> +After=3Dlocal-fs.target
+> +
+> +[Service]
+> +Type=3Doneshot
+> +ExecStart=3D/usr/bin/echo test
+> +RemainAfterExit=3Dyes
+> +
+> +[Install]
+> +WantedBy=3Dmulti-user.target
+> +EOT
+> +}
+> +
+> +FILES:${PN} +=3D "${ROOT_HOME}"
+> +"""
+> +
+> +        config =3D """
+> +IMAGE_INSTALL:append =3D " systemd-machine-units"
+> +DISTRO_FEATURES:append =3D " overlayfs"
+> +
+> +# Use systemd as init manager
+> +INIT_MANAGER =3D "systemd"
+> +
+> +# enable overlayfs in the kernel
+> +KERNEL_EXTRA_FEATURES:append =3D " features/overlayfs/overlayfs.scc"
+> +
+> +IMAGE_FSTYPES +=3D "wic"
+> +WKS_FILE =3D "overlayfs_etc.wks.in"
+> +OVERLAYFS_ROOTFS_TYPE =3D "ext4"
+> +"""
+> +
+> +        self.write_config(config)
+> +
+> +        machine_inc =3D """
+> +OVERLAYFS_MOUNT_POINT[etc] =3D "/etc"
+> +OVERLAYFS_QA_SKIP[mnt-overlay] =3D "mount-configured"
+> +"""
+> +        self.set_machine_config(machine_inc)
+> +        self.write_recipeinc('systemd-machine-units', systemd_machine_un=
+it_append)
+> +        bitbake('core-image-minimal')
+> +        with runqemu('core-image-minimal', image_fstype=3D'wic', discard=
+_writes=3DFalse) as qemu:
+> +            test_daemon_path =3D get_bb_var('ROOT_HOME') + '/test-daemon=
+.service'
+> +            status, output =3D qemu.run_serial('cp -f ' + test_daemon_pa=
+th + ' /etc/systemd/system/')
+> +            status, output =3D qemu.run_serial("systemctl enable test-da=
+emon")
+> +            status, output =3D qemu.run_serial("sync")
+> +        with runqemu('core-image-minimal', image_fstype=3D'wic') as qemu=
+:
+> +            # Check the test service status. It's enabled and supposed t=
+o start, but it didn't
+> +            status, output =3D qemu.run_serial("systemctl is-enabled tes=
+t-daemon")
+> +            self.assertTrue("enabled" in output, msg=3Doutput)
+> +            status, output =3D qemu.run_serial("systemctl is-active test=
+-daemon")
+> +            self.assertTrue("inactive" in output, msg=3Doutput)
+> +
+>  @OETestTag("runqemu")
+>  class OverlayFSEtcRunTimeTests(OESelftestTestCase):
+>      """overlayfs-etc class tests"""
 
 Best regards,
 
@@ -191,17 +290,17 @@ Best regards,
 Paul Barker
 
 
---=-ICrnb69G2FvrqCNqM9jD
+--=-x0cOZZmWXI2svPINunTz
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaWjxYREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bpFDAQCScpM8CV9ffH1GNEAvqi9H15DhUIWpUJsq
-QL1686Et6QEAztcF1+FVcPM3XofK2gEjEHkF//LdOfrLHfDfISVHOA8=
-=riXh
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaWjzUREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bhTtAQDJRqh+BwPOn2XIpWuSjEFYra8OsRlaaTdV
+aE/m7peaBAEAgwSfxy/JVMYyBcdpWZP3/+jr11pZSvqFSizGEGGawAU=
+=Nb+p
 -----END PGP SIGNATURE-----
 
---=-ICrnb69G2FvrqCNqM9jD--
+--=-x0cOZZmWXI2svPINunTz--
 
