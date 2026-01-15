@@ -1,237 +1,248 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <daiane.angolini@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 474AFD41171
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 11:13:53 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33144.1768475619803481271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D59BD41173
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 11:16:23 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33233.1768475781401229087
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 03:13:39 -0800
+ Thu, 15 Jan 2026 03:16:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jUGFQo+9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5475b384d2=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FAUkOo584280
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 03:13:39 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=tS6+gGjDhEXZ+oOJ801lP9fJfJJAzvf2EuXF3YGnEes=; b=
-	jUGFQo+9iY8fZ6SGzSWmQ78PCwkDSSJUTGk88QJXntLjGVnldbT1k551EMFw0CBC
-	hre+eLF/RSQEgZWa3KHKxR0x0zi1WNmRMxAinZdv0Lpn+BD1Va7/A6Ql/XHeQ6rm
-	GjnOCgdGDV52pwWgmIemNA47D0ejtyd5Q9gULRekWV2Kl5ds+e9VroNTrTfE/Vy3
-	fhw4qUJyLZjnW2g06GO8QxxoU+saT6+TWjRgNqK1HqvhBkCdRR+7tgN5P1gadYGh
-	F4RmBLaUzeUZUS6QBFqh+3O6kY4caMJ8zWcK20KK+8OYQjbxgCxGzJ2AHwAQHK14
-	NWoRQxVCJ2DD4y+oV3QYDA==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010042.outbound.protection.outlook.com [52.101.201.42])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bkjx0wnbt-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 15 Jan 2026 03:13:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x6DzYZzOwbb1X1czXoxwHl9PN4I+oKUs8RenFBPISSz3SnUgFKYmCmd10WI9uEb8ldynIQVG4ODWxmHcQqNRYVNJoxQuf0YhF/Mea+QCWLH6KLVFI+VMu6KG0K2o7FLiak/tTNf0UMTgOiCPRJuzkfdt2GhQHEBx+C5vQZqmlDDhsE5xW1YUcqscZf2vCF8lILYDaf9IZ6HAywPnhctdp5j7fAuAy9xFfiMkQVt2msuJrBM4Mk9qTLFPwJ1v53WDdyoBrSW4lpiZPigvMMuS2XHAADxKNkIHaN9o7Izwxcr355OLmhR6Zk37Aa1rW+WTEpLL37v4ny9OTADhdUyiMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tS6+gGjDhEXZ+oOJ801lP9fJfJJAzvf2EuXF3YGnEes=;
- b=AQDOqF7gRCjXFGa75Qmg+XSN47/Upmc7KNmdFUBzSMxJpNt1Qf81xeUh7CrU8FIuSXfBsIv63nJdNyBvOELENQNMOEgEGTzJFGICPgigvlZXWHvDKz7dxv7d8pe3g3GFGbkYhWQ9WhdDzOoQclQAvlTl372OcPWgSduGVVULYRbBdymq0zgE92kpXEHUi2kd5Zw9pGutFYaA+o7C8etwiJoJ2b6WrcJkmnkx/BqYLSlUXBI2HtCxcgHimvwzj+zMHcTlTq+TomwZel2rmJ/RSrWZd+3BSOqZUIiLoQXTgj29SMateZSftjttQ5xcLHM2paiS8+bl9cj3ZVtJusiwDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from LV3PR11MB8531.namprd11.prod.outlook.com (2603:10b6:408:1b6::15)
- by DS0PR11MB7683.namprd11.prod.outlook.com (2603:10b6:8:df::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 11:13:36 +0000
-Received: from LV3PR11MB8531.namprd11.prod.outlook.com
- ([fe80::d341:6ff5:fce1:c6d]) by LV3PR11MB8531.namprd11.prod.outlook.com
- ([fe80::d341:6ff5:fce1:c6d%5]) with mapi id 15.20.9520.003; Thu, 15 Jan 2026
- 11:13:36 +0000
-Message-ID: <109ae7a8-2ec8-44ef-94b9-f6bdb77dca37@windriver.com>
-Date: Thu, 15 Jan 2026 19:13:23 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/1] rpm: 4.20.1 -> 6.0.1
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-References: <cover.1768469892.git.liezhi.yang@windriver.com>
- <f69b7f8ddf584c045a6fa168f6add2850519e410.1768469892.git.liezhi.yang@windriver.com>
- <CANNYZj-C+1htk4XR-uaSbsCw8OwE-bskmucyw0qLkD4TnNDbTQ@mail.gmail.com>
- <e94a5ab8-88fd-457c-8130-8b738895787c@windriver.com>
- <CANNYZj-_cRUQXiWij81yP4QaN3ewGYWrpc8o6FhhGev6R1D8gw@mail.gmail.com>
-Content-Language: en-US
-From: Robert Yang <liezhi.yang@windriver.com>
-In-Reply-To: <CANNYZj-_cRUQXiWij81yP4QaN3ewGYWrpc8o6FhhGev6R1D8gw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: KUZPR02CA0004.apcprd02.prod.outlook.com
- (2603:1096:d10:33::14) To LV3PR11MB8531.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::15)
+ dkim=pass header.i=@foundries.io header.s=google header.b=fIaUGYeJ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: foundries.io, ip: 205.220.168.131, mailfrom: daiane.angolini@foundries.io)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60F6fuMQ1582092
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 11:16:21 GMT
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bpj1pt99t-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 11:16:20 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-34c43f8ef9bso1851683a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 03:16:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=foundries.io; s=google; t=1768475780; x=1769080580; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z7uYiUl4OJXVTv866RjmZueEWWkfhMrvSNeHwIZMp7I=;
+        b=fIaUGYeJI8SvPbypq6a3Oey3ISPwqW+r5a17OHJmxh4/GsdjoYENBo8CbCIXhQqI5a
+         17b/i8a9hCiZ+yw1EN6Vu3oE/bxGxXt1Ft0TTJwowahiYcrbXUhGKyJBP7syx5/WU59M
+         nf9Eic6W9DhA0/7tgiCE1Qp3WhkzW2Q09B6+ep8RjAltoNppCGM07AY3sY03TknSN3Sn
+         yvt6qZgUCOy5fqslVfNpJh5CuCiheLjTszDu7hHzqJh+yTAg9qoaMKJbESjgnY7UJDlp
+         N72fJ7q1iNG+0iZu/WrqV7T1BHJNTdgOYKPUMnkQ/vYKJgSJ2rx6dR94ET+9TZ/ZHVUE
+         lygg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768475780; x=1769080580;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=z7uYiUl4OJXVTv866RjmZueEWWkfhMrvSNeHwIZMp7I=;
+        b=RD+pq01byyw/DC5C5S1EaVRkoZN64xjft1k2mQ1N4tjg7H8Fv4U1S08YkpF94vpZMY
+         CZuUP5NH7Sk2NjQhuCZZJm5eC4Yo6tcKUvjuavKXXWoTf1XhkyWkiUGmJJ761E0Fx4R8
+         Jl090wjRLRS1O2XORNJtJy6cb57zKuyoza97LyPSzTvzPKZFUsJ6g0j7CztUpRqdSTl7
+         jylh2VHsdyYFhaPA42EealBfZfV2svnq5thAxeid3sprKBO/EpzJHvc/bXqPzx2mIl5V
+         lYpY20NOpFVp639S7uWzrHk8zIf6wsh9jB2iIkg/qhIkao9fDsKVL1rOfbhOYO1QccnN
+         o+pg==
+X-Forwarded-Encrypted: i=1; AJvYcCVfD35lUip61BG8qmwYmLPEsUqFcu9k9K7dO5o2GarW0dMr/z5iShu6jhFMDBSumMYTfEfdWbv1iOHA8F2NArFZOQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyZsjqHxlOyleAJMEFbCJPigubzbhkn1pcq6fELBm5JyBqV0PpC
+	pU2YuzNFCns0Vn/gMYl1DiA2sJIV8lT+RRcivIqo/6/T2wAPjcvfuvCX5EriaZ/SPY2hpdc54Hr
+	KAIlR/6yLJrKPwND2pvFdUy/Y2xg/Qeng0oUHgNpq/9uJuGRgI7rw9Qcra3TJHNSfrKncCOstpi
+	TcCdnVb4RQNIUad3jTBqiiKiM9uxxQLtaqpv9nMv/LM6liyc9l1s65BLa/LKxpFbbSXac=
+X-Gm-Gg: AY/fxX4bDklMx0194b7T4BSxikBY7AGA2/nwV6eASVSSXjosi0yREtGXpecHsLf53ju
+	zdf9WARcMEpJ1qEKfFSm7Hry52BhVj1gV9x6o/MRrDCbTB7cdMh++q1MVMfiDb7HzgdRNYPBVW/
+	hMd/odhtcupv0TpQigHPwjDWkw59oScqz76v/B8U/mN6PCQ9OjldBJlGTKfQH5OIFlmXmd5USyo
+	z6tnwXgh1mlLRjqtdYJrvei/974MxoA9Qy/AmewK4+moadLCpy0z0ih
+X-Received: by 2002:a17:90b:3a8e:b0:340:b501:7b83 with SMTP id 98e67ed59e1d1-35267865126mr2386154a91.10.1768475779716;
+        Thu, 15 Jan 2026 03:16:19 -0800 (PST)
+X-Received: by 2002:a17:90b:3a8e:b0:340:b501:7b83 with SMTP id
+ 98e67ed59e1d1-35267865126mr2386139a91.10.1768475779286; Thu, 15 Jan 2026
+ 03:16:19 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8531:EE_|DS0PR11MB7683:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14942510-b9d6-463d-e435-08de54272079
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|4022899009;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?Rm5EK1pSTHBDNURGUVFvQmZ4dE9HcENXSWJrdmc5b3hsV21CVWIyalo2TzJM?=
- =?utf-8?B?TWV2UUZRY3lzcDJkZzNKbHJCTGlUTkZaM0ZJM0I5azJDenh3RjVQKzBteXJL?=
- =?utf-8?B?bGM5bWxkbmRXWnliMVpQM3ovaWpJR2VNOEdhYis3TjFBQnp3WUhTTUxCeGdk?=
- =?utf-8?B?UTlYaVJVZU5qK3VzMFI4Z0MyTEh1UWw0NGRoSzgwMStBbWx0dVZNMkViQmZ1?=
- =?utf-8?B?L2oxSm0yeWxkTmpTQ3RZRStOR1pVUXQvV0FWdiswVnloZXNQb3lpTHkyUVdq?=
- =?utf-8?B?WGZLOEtqak81SVVyQzZpb2ZqRXRGRE9Tdy90eVN0SzdyS00xZFQ3WE9ENG01?=
- =?utf-8?B?MVA5NmFDTzRoOE9GR0dNMnFMWGJaa2xZVEEwd2ZJa0wzTFJXK0xDbVdudEVs?=
- =?utf-8?B?cngzRCtWQXEvRllqNkkyczNJNGxqbUlKanNTeGlnSm9jM29GRzFwK3ljRTFa?=
- =?utf-8?B?cDU0TWo3cEZHWTZLYTN6UzhBTWJUR2ZGd3B2d3QxZFhhMHNjeFNqSXc4aU9v?=
- =?utf-8?B?TmlSaFMyYzd6NHJXWGFkOHNPL0NDcG5vd1p3RHBIOFlYVFg2YnJ0L3lNUTRO?=
- =?utf-8?B?L01PeThiTVZHM09oYWlxSE1QdFdnb0s3c1BVN2FXQ1pSRjFqTEhEdUtlYk5v?=
- =?utf-8?B?QjEyNnh3ZWRnUWsxODI5bUt0em1STEk5S3JhVFRuNFF1RXpZUjI4ak5tN3BU?=
- =?utf-8?B?emJZbVhNRm80aVpHZWJySXNBUEZpcm9WajM4Q0wzWkt2UVpXSWFGNzVPdXI3?=
- =?utf-8?B?UlNTTFN1bzVKdWRoTE5qRzBtaUd3R3lHMm83VFBta1hKV2N2UWFjMENubUZL?=
- =?utf-8?B?cEFlS290RTRhMU5peXBkN3ZGUU9wSTB0dS9yUFBjZVF2TWt0MzE0ckVXZXRQ?=
- =?utf-8?B?a0hGeHYrTmZKTi9xSFJZSC9vYkMxNG1tbmxEWlpMZXlrQUZESWJzMGZBS2I1?=
- =?utf-8?B?cDRZT0h6cGVkb0dJaUM5ZGhhUXM5NWp3N0tHWEF1UGswUE1KRGhBUWxsa3Z4?=
- =?utf-8?B?NFFuSVpJQ2luTEs4Z3daU242YjZ6N0dZOHNtcmE4a25HR2xVZ2dmZlZmamsx?=
- =?utf-8?B?eHo2cU1sRG1zQTdEY3cybVUyb2EzTTFRNWpWdGFxN1YwV2VMd2ZFUFhQRU9W?=
- =?utf-8?B?MytJdDBkR3Y0SHE2M1dkQXczRDAvbGtBb2VOaXJGM1ZTZXBnc1pzWk1leUdS?=
- =?utf-8?B?RkhIYk12alZMWnRtK1NMTWVuUGMrMGtGTkloUXVEMnBjNkdJZUxwTXRwYU1z?=
- =?utf-8?B?TzdWVy9SbUFhQ1ljYkg4UWJNNnRSc2FvQXdMc1ZtdmZQWnNOY0dGbVZyZm5i?=
- =?utf-8?B?d2NsWEc1YmJ1YXlZVG1PRTNqN29id3JQeGVqbFFGam91dmNDQWoxd0RCMFZS?=
- =?utf-8?B?dVMvVEk0VFhOUEh5Ri9xcmFuVlJJc0R0VGNRY2RlbnBCU0g2bkZxK1RxZVFC?=
- =?utf-8?B?RWdaZEljdXVsKzVzK29JY095OWo2UHp0NjlmanVQUDRFWE5sbWtZUlRMaUdG?=
- =?utf-8?B?TVZEblQ2OEhDOWtnVTRmdVV1OTFRUDFuUGJ3Zkt1WTNpTTBMME1EdDZYNENT?=
- =?utf-8?B?SzlRMVYrMU1QUzZQQ1lhMExvd2c2VUZZZ0VRMUtWUHB3cFdlbHpkQ0s2cWJ4?=
- =?utf-8?B?TkJtZGtadVVwZDVZclNDMEpDODhFY1dZRGNvZi8wK3lLT2dtSnlLNzJ4Slly?=
- =?utf-8?B?NStqZ21ja3N2Zkt0MmYyM1RmRG1TZ0lMWE93MlM1amJKV3FJMm9ZeklXb2FG?=
- =?utf-8?B?cHZCdERiSEdKbzNFNjQwbjlGdzdab05xZGVNK0kzbGF1bG85ZGlaaFljcUlk?=
- =?utf-8?B?bEVjWnhseVc5VEx2UkNURmhmTEtralprM2FTVlpKbEZRVVFxMEdjV1pTV2Vx?=
- =?utf-8?B?K041aUJuRk02cEZTdjN0U0gzK2doU1VTenpqZVJOckUvOTV6UGJVNWQyeVBI?=
- =?utf-8?B?dFdnSllYRVh2NnpHMmFXRi9oUEZ1L2tubExDcXZ5ajBGUjNFWFo5N1RncFFs?=
- =?utf-8?B?SW5hUmtnSmV4WCt1TURFUkxGYmp0WENJbW9xMUhoR1hwTTRkWmlJbUVjV3M0?=
- =?utf-8?B?eFozM0FXdnhXbGFNeWZvbC84QTRkVUlxQ21WL2d1enc3Y3A4VzZSeFJDK2lL?=
- =?utf-8?Q?/ahPVDjWczSyC1K2tiYM4ZiOm?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8531.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(4022899009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?My9EK05TZXY2Z0VXMjl1bHZkejEwVDFINkkxdVdTR1lZLzRtZnoxQktmN1Vs?=
- =?utf-8?B?ODhnSWNKeTllWEN4Qzg4enVtREhFbWIyL0ZmcjlVSHhTL1R3L291REIzY2Z2?=
- =?utf-8?B?bHpvMTlkODBNNERtZG42dVRhQXRiMzFpb29lWUc5akpWRFhHU1VZeXNXODNJ?=
- =?utf-8?B?Snl4aEF1UUJxam9nSXJoN0cwRmw5MTlGQkVURTZlMm1PYmdXU1MrbXhNVDVu?=
- =?utf-8?B?ZkM4MWVvdDlISHBWTWVnbkR4LzZIQlNiUld1K21QTTJ4WnltUXl6L3lOcEwz?=
- =?utf-8?B?Wlo0Skc3Z2xSc08xK2NRU0NoMEZRV3NmVWhCQ3lmdUJST1VPTHErbkVoT2xx?=
- =?utf-8?B?dWFrV3JTRWthOTRHMWh3MTVkNElzYndWUWNjMUQ3WEtZMm90MllxNFl3TWUv?=
- =?utf-8?B?cWhPb3VpWUI4aUEwamxsYWF3WS9VdVNVUFlkNlZrNXJWbG5RUkZQbjhtMHI0?=
- =?utf-8?B?eEJrK2I0Y2pIak16MERsRWhycDhObDVLNWlZMEZ6dkJHakxkMy90VjhuMHFz?=
- =?utf-8?B?RFBuUjM4TDF4NzZOcnpJLzhBOEdmR2FPWUpRcVRESW00TFhCNXJvbXVFMUJD?=
- =?utf-8?B?S2o5MHgxenEwSG55N3IvMFdWYVZ4SDNTMFM0K1FtK0plRVlJL1B2NFByZXM1?=
- =?utf-8?B?d1FIUGlqb2lPVUdGZFQ5K2tKL1ZTVGpobytMSmZPTmNwSnpqTm9ZMFVrbmk2?=
- =?utf-8?B?aGdabTd3eldZU2I4UGplaUkxUlVrVnhqNUpkc0E5TzQrK1dvakFPeU5teTA1?=
- =?utf-8?B?NmcvNmhXRzNlWFNUSTNiL2hzMU1NNk5maFJZakh0d0RtOGFJSG1HSVVzcVpT?=
- =?utf-8?B?REhWU3ZDZTQxbTJBNy92MzNTZGUwTTlnTHk2aFhVSTJBN3h5OXEzV1JyRG01?=
- =?utf-8?B?a3F0NThlTXplN21JZ1p3MlZyV2U3MlA0dkVTU3M0WGkxRVZkYjZqeWJhT1RH?=
- =?utf-8?B?NTcvaGtabWp1bGVkZ2JTb1IwcWRuOUs4bSt6UEVobzBGaWFlN1FxN1p2V0I4?=
- =?utf-8?B?RWRYbUtvaUExWXJhdHVIMGt4dlM1dmR0d21tdWxmT1l5L21oSFpReSt2UmM4?=
- =?utf-8?B?MFlXeXZ0aDYrNXVPV1VQMjMvdmRqSEZGd2o3VlVLSGN4L04yeXNSaDVJZmNi?=
- =?utf-8?B?am9SRUswVUNyTmdaT0ExVENtcnF6dEFHeS9oR0M1YTA2UEtVZlF2OFVvWWp1?=
- =?utf-8?B?WVp1YllkZkVVWkVkQ3dOLzZrck1ia3ZaYjgrVEhHRnhIRHdGdGpPMnZMN2hF?=
- =?utf-8?B?TEdMUFU1R2lWMkRvVFZzaEhSWXBmUEtGSHhmT0lOazkzMHREMEhKM0xjR0NB?=
- =?utf-8?B?QWE2ZUZOSXM5VERGRld3ci9lRGlJQmwwYzl5WCtqeWdLQ2Ewb2VOVXQ4N2JP?=
- =?utf-8?B?SkdRTlhsK0lBNmJGeEQ2dGlYMEcwK0k1YWk3RGMzSkZUWWpYWEtGMFBZa2Rh?=
- =?utf-8?B?VTJycE9pcy9zOVplZU0vek54LzJ2VlNPOVl4NDUrdGVNK2FONnlTdnFqR25K?=
- =?utf-8?B?UkNSY0RuaThqRXgwN2Z3c0xOMG9XSVFiRG1LeDJBZzBiWTJvQXhhelRnV0Iy?=
- =?utf-8?B?M0JHU2ZyOGkwK05xZlhta242V1pHMlZlay9QNm91TXJhejVlck9qMGt6dDcz?=
- =?utf-8?B?VlduTUNTRVdFT3NmMStGVGJwT3gyZ1FNMm1pdjlMeGNzbS9HbmExdmZQdlMv?=
- =?utf-8?B?R0EwKy9pVGY0MnJESDh5YkVLQWNJVmNSZ2dRMWpLSW93UWc2eVNnbHRYNSs0?=
- =?utf-8?B?ejZTL2RUZ0lHTzlXTG1BaFdjUUhtTDBuOGNCYUxjUzNsMXpLQ0UwVzlzUU1M?=
- =?utf-8?B?K2wvaDkxSW56OFdIQ1VBbFVHUSsyU05kMkVxa2VZbGdNMHhLOFNsMjRWc2xv?=
- =?utf-8?B?aUp3RUhkeDBkZDQ2NXdmMjlBdWVlbmQyaWJMclZYRXJZMlVaT09oSFgwcWRq?=
- =?utf-8?B?aTBrT3l4MHZpaGRGZzRLbkhTMElGK2R5eEhldGNIeTNWcVlSRmI0NmtXUHFv?=
- =?utf-8?B?eXRsOWFJZzZwaWgvbXNTcVNTemFyS2J0YVkrbTlyeFN2dWoyYTBVcmkwalJa?=
- =?utf-8?B?bHUxY281YmRRWDR0cHZ1Ri94aHRkK0NxR29sdE01YnNiL2sxbXMwU3JRV2ZB?=
- =?utf-8?B?aGZMdTRIaWNKWnZMeHgwUUp2SnFNcGErSWtNb3ZXTjduUEpWYUFBZDA3U0xz?=
- =?utf-8?B?K1p5T013TDI2YXlwN21vVjIxaGZVMFd0WUpyWjlLeDF3bEx2MDUwbTR2OUxU?=
- =?utf-8?B?TFQwUlJ3dEtVYzJ4dytBcDJCUThuc3BIT2dwQW9rWWVEMDJ0Qm51WUttRVhU?=
- =?utf-8?B?eVd4akdWNXlsbXBtQTNIdGxqb0FHZU1PVVYrczlNQVRaNWFHQWdzdWt2d0JJ?=
- =?utf-8?Q?J3AIwyHOHLDRMJN0=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14942510-b9d6-463d-e435-08de54272079
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8531.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 11:13:36.2443
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9rUEEVYxNIfOJrMtJ1NTwjd5042/uZhwj5fb0qdI51gvh2C6wm/ER8Lpu52XWsjq0eOMs2aRuag15MHKaUgQN5zez/vUeRkYDKZFMK8GXbg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7683
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: 2uyi9vHnXkzs8j8fVgn5pLxMk6wApwjf
-X-Authority-Analysis: v=2.4 cv=e5ULiKp/ c=1 sm=1 tr=0 ts=6968cbe3 cx=c_pps
- a=/Dg/agRq+0IGp9KZEOxzXg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=5JnKibzKD7VPnva55iEA:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA4MSBTYWx0ZWRfX4gBbfqORrwUJ
- wYRmWhSKz/sVrgYv+ZR/WOEqdrv1wO5icAEj+VXFMvEsV+5QU1gmToyTuk9+HUbFx9PZMqo3EVi
- 5lOVU4YzhMsoR1jXZrRZhbkme87vN1ghDB32MIWZzTYGu3UH/TsADL0+BDij5QPYcIq4hdUZCZL
- xVHnf0PYE2s0Mrm9Kw0uqi3jASXsWm/HjgccvpuRzEp3uMDYIGAIL167hiZO554xNs/pShls8MK
- YRyDdEMSC9ARb4bCnWl2yzE387VjgbE3wDrbiQKprPdG4zL4/QUbVqeB10317BZa0nJ/rKdPROB
- cspEjvsOrSGXIYPCQuxmWUchJS+UjAFgxakHTl9zuwiXrO+4hm0UProMOGQw/eB2a1w84/afHVy
- FcFZib52t5us6t/eiASk8EGk/sv5K4QxBBmLNZX83hCSDBL3iALwuQW4lWvaU4SXAp6GsbQ+ZAj
- q4eprCCTjBUgDMcFxnQ==
-X-Proofpoint-ORIG-GUID: EHQ2We3xaKgEO-Sznpc3XwWFfOo7ZMXr
+References: <CAP9ODKowQqn-VuqaT1w3cXCWGfBeMtG2rHR9HXBFqxSfttAk4Q@mail.gmail.com>
+ <CANNYZj_ERuqEY6w49NRKO5OsBr-HqG8hDSHiAB-e55LVhZq=cQ@mail.gmail.com>
+ <CA+HEL78C8y7fgiw1GVkGovT-rEBObyqF1+eRy62suE-wHHW-og@mail.gmail.com> <CANNYZj9yJrsWAnjFMSXZbZJGoqMjC9Hc5cHg7MtX9qRiEFGQqw@mail.gmail.com>
+In-Reply-To: <CANNYZj9yJrsWAnjFMSXZbZJGoqMjC9Hc5cHg7MtX9qRiEFGQqw@mail.gmail.com>
+From: Daiane Angolini <daiane.angolini@foundries.io>
+Date: Thu, 15 Jan 2026 08:16:07 -0300
+X-Gm-Features: AZwV_Qi0n3j7pxOToivhPp991lYwlmWnfXdcAsEHXLVAkTMc3hfFpJJOh4MhsFk
+Message-ID: <CA+HEL7_sm9vGAYravu8eqLMBEJy7J6fhU_pjHgyN8uZWy8owmA@mail.gmail.com>
+Subject: Re: [bitbake-devel] [RFC] bitbake-setup: Documentation terminology
+ and tooling suggestions
+To: alex.kanavin@gmail.com
+Cc: otavio.salvador@ossystems.com.br, bitbake-devel@lists.openembedded.org,
+        Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA4MiBTYWx0ZWRfX++5+fMaHsDcA
+ yYfzzybdWlNJIshZTz2RorJkRW6TLQsUq0shzD+IIyK9L5iJYomeYh+HDOAT84TZFm1oIAS+Hww
+ ZjgPgvlulaBfVZo4nZNEskTkCqcvYVG+tKEu9tFokFqu9T+Mz0R/8WpJ5LdX1s15/b5acmTirZ7
+ d1tKsSDgyBIdewc+qiZl3nHbT2pTMkcpV9wDRZpzKQgRjB14Er+FluZnGvf1Sjkf4kM3YzbzLji
+ oFaxT59Tfg3EhEEG+2rQ4PYHujVdCRivKx5VHCLsuNYhqsrAMzhDuTTqtmUgwGw2aUVd8bkrRNI
+ +bXaporxXPJSOOVzydFWfCWQdY0w6K09cFoFGa4YFacm09VQJrJu20n+S4Da9yutr5iWZxc8I5G
+ /fl8eMw4A7UTAKd6npJOIppTjr/TDJQ0NSaOHbRRlahwhiKUmyfOXA2J/8WzVp1zYchxW754XJP
+ KZlMq/Nz7fHQ4TuwTWg==
+X-Authority-Analysis: v=2.4 cv=J+KnLQnS c=1 sm=1 tr=0 ts=6968cc84 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=9UA2AVYIz8kA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8
+ a=J8eAvVc7XXdmLa8d9I8A:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: Vrb1PfMtpgy46TEIPbY1Ni3lh1sbwhCq
+X-Proofpoint-ORIG-GUID: Vrb1PfMtpgy46TEIPbY1Ni3lh1sbwhCq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-15_03,2026-01-14_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150081
+ spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ clxscore=1015 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601150082
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 11:13:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229405
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 11:16:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229406
 
+On Thu, Jan 15, 2026 at 5:00=E2=80=AFAM Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> On Wed, 14 Jan 2026 at 18:43, Daiane Angolini
+> <daiane.angolini@foundries.io> wrote:
+> > Let me frase this in another way. My project has all and every
+> > configuration needed into a distro conf file. I want to create a
+> > .conf.json to share. Can I create one file without any
+> > variant/fragment/bitbake configuration?
+>
+> You still need to specify in the json what layers need to be included
+> into a bitbake configuration, and what distro and what machine needs
+> to be selected, if you want bitbake-setup to produce a functional
+> build where bitbake can run. If you don't do that, bitbake will
+> immediately tell that a machine isn't set, or that there are no layers
+> or some such error.
+>
+> So you need to define at least one top level variant thusly:
+>
+>     "bitbake-setup": {
+>         "configurations": [
+>         {
+>             "name": "poky how it used to be"
+>             "bb-layers":
+> ["openembedded-core/meta","meta-yocto/meta-yocto-bsp","meta-yocto/meta-po=
+ky"],
+>             "oe-fragments": ["machine/qemux86-64", "distro/poky"]
+>         }
+>         ]
+>     }
+>
+> In another message there's a question of what would be the equivalent of:
+>
+> git clone <poky> -b LTS
+> source oe-init-build-env
+> bitbake <image>
+>
+> The above is the equivalent. bitbake-setup will not ask any questions
+> about choosing something, because there is only one choice.
+>
+> I appreciate the standard configs are quite a bit more complex than
+> that, and a 'simple' example might've been helpful, but we want to
+> give users a range of options rather than impose very specific
+> selections on them as was done previously.
+>
+> > Or, Why is the variant "poky" empty? [1]
+>
+> There's a "poky-with-sstate" variant next to it. Both variants are
+> nested in a higher level variant that sets common configuration for
+> both of them. One is supposed to use that common configuration without
+> change, the other adds the sstate enabling fragment. Think of it as a
+> tree of variants. You can define sub-variants with as much nesting as
+> you want. For example if you have a range of target machines, they
+> could all share a common configuration, and then each would add a
+> specific machine fragment.
+>
+> > Or, why is there "two pokys" for me to choose?
+> >
+> > ```
+> > Available configurations:
+> > 1. poky-master  Poky - The Yocto Project testing distribution
+> > configurations and hardware test platforms
+> >
+> > Available bitbake configurations:
+> > 1. poky Poky - The Yocto Project testing distribution
+> > ```
+> > from the iterative `bitbake-setup init` output, from [2]
+>
+> Please do not trim the output because that gives a misleading
+> impression that the same question is being asked.
+>
+> The first question is about whether you want poky (the reference
+> testing distro) or a basic openembedded build, and which release of
+> either (master, or whinlatter, or soon there will be the upcoming LTS
+> option there as well) you prefer:
+>
+> Available configurations:
+> 1. oe-nodistro-master    OpenEmbedded - 'nodistro' basic configuration
+> 2. oe-nodistro-whinlatter    OpenEmbedded - 'nodistro' basic
+> configuration, release 5.3 'whinlatter' (supported until 2026-05-31)
+> 3. poky-master    Poky - The Yocto Project testing distribution
+> configurations and hardware test platforms
+> 4. poky-whinlatter    Poky - The Yocto Project testing distribution
+> configurations and hardware test platforms, release 5.3 'whinlatter'
+> (supported until 2026-05-31)
+>
+> Assuming you chose poky, he second question is about whether you want
+> to enable pre-build sstate from yocto infrastructure to accelerate
+> your builds if your machine isn't very powerful:
+>
+> Available bitbake configurations:
+> 1. poky    Poky - The Yocto Project testing distribution
+> 2. poky-with-sstate    Poky - The Yocto Project testing distribution
+> with internet sstate acceleration. Use with caution as it requires a
+> completely robust local network with sufficient bandwidth.
+>
+> We could probably improve the descriptions and suggestions in these,
+> but the intents of these choices are hopefully more clear now.
+>
+> > And when I created the draft `conf.json` for meta-freescale I realized
+> > I could just choose none of the variants (because the base is the
+> > DISTRO and I might want only that)
+>
+> You still need to create one top level variant with that distro name
+> specified in it, and the list of layers to enable, and perhaps a
+> target machine.
 
+I understand the intention here is that "Assuming you chose poky, he
+second question is about whether you want to enable pre-build sstate
+from yocto infrastructure" or not.
 
-On 1/15/26 18:01, Alexander Kanavin via lists.openembedded.org wrote:
-> On Thu, 15 Jan 2026 at 10:59, Robert Yang <liezhi.yang@windriver.com> wrote:
->>>> diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_6.0.1.bb
->>>> similarity index 100%
->>>> rename from meta/recipes-devtools/rpm/rpm_4.20.1.bb
->>>> rename to meta/recipes-devtools/rpm/rpm_6.0.1.bb
->>>
->>> This can't be right?
->>
->> You're right, I was curious that why there wasn't errors for such an upgrade.
->>
->> I checked the PV and rpm file name, both of them are changed..., but I should
->> update the SRCREV, I will re-do it.
-> 
-> I guess there's no tag= in SRC_URI at the moment, otherwise it
-> would've been caught?
+In the terms of: I know you want poky as DISTRO, but you want clean
+poky or poky with sstate configured?
 
-Yes, you are right, I will add it.
+I was thinking in terms of: Now that you have already decided which
+DISTRO do you want, what do you want to add to that? <fragment1>
+<fragment2> <set of fragments 3>
 
-// Robert
+this way, if I only want to use the clean DISTRO, no variant is needed.
 
-> 
+Ok, I can work with that. Thanks.
+
+Daiane
+>
+> > I'm not sure it makes sense, please help me understand
+>
+> Hopefully this is a bit more clear now.
+>
 > Alex
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#229398): https://lists.openembedded.org/g/openembedded-core/message/229398
-> Mute This Topic: https://lists.openembedded.org/mt/117276630/7304958
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [liezhi.yang@eng.windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+> View/Reply Online (#18765): https://lists.openembedded.org/g/bitbake-deve=
+l/message/18765
+> Mute This Topic: https://lists.openembedded.org/mt/117253653/5992125
+> Group Owner: bitbake-devel+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/bitbake-devel/unsub [daiane=
+.angolini@foundries.io]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
