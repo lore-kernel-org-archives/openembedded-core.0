@@ -2,61 +2,61 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF264D41163
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBB5D41161
 	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 10:14:42 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32415.1768472077571564264
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32364.1768472079080674019
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 02:14:37 -0800
+ Thu, 15 Jan 2026 02:14:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=Q2nbcKjA;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.208.46, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6505d1420daso93067a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 02:14:37 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=SdlaH8M/;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.54, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64b5b22f723so131123a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 02:14:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1768472076; x=1769076876; darn=lists.openembedded.org;
+        d=amarulasolutions.com; s=google; t=1768472077; x=1769076877; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s/+AV/zXln/QnECKSwHy4iuUjEmpKREEs/qjLDqP/T0=;
-        b=Q2nbcKjA6h+Twx3aGqhu8B+vNAHSoWgUjr3XodMXd4CQ8UuDnPetzGfUFAOgzqFkIM
-         ne1T/ZBXnTj1tYnje63LVD1Kfg+/5GKQr863ZA5LxyPoIEBO5ICFnyS8V55ltW7HPuA1
-         4bK8N7GOCyK+O2mGH3tBzcP1wUA+A+T3Ed19k=
+        bh=mbqtCxy1aIUAoDNXAqbqLiAPApKlcNCX+JDNcW/83fM=;
+        b=SdlaH8M/Ln6+gXRQCCbNpA6Gp+AIaRjLRtn8SFBBKgzMv1wIlSpsJbXH43kxgCNKjS
+         OrVNGD0FNiJnMm1nxOxzD0aSx0/ub5tib1f5ubzX451bSmbDzRXa5EHZVfA6la+ojW6u
+         fgkBvGD04+wUrNjF9SQ2dDHdxIS3AFlFFVyDk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768472076; x=1769076876;
+        d=1e100.net; s=20230601; t=1768472077; x=1769076877;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=s/+AV/zXln/QnECKSwHy4iuUjEmpKREEs/qjLDqP/T0=;
-        b=ZG7aq+5gn0I+HgdwedC+soW+jGpCH7oR3O69UMlE+zSvcyXiCqIcjT7/zSOt+Q7nj9
-         L/+IgxZ6YRCUvqZMx3vkEEo60lW32a8fb2e4uYsTc6layk0knjuGwC/687M76aRG4b+6
-         wVFi99v7fLX9Vx0JsnlZm1p3byxaMVW7ks5XhofOMcrf/u4P+E1qUd03c8Bqv8WSFkkJ
-         arbc7YSfUmJs3yunT1ZfTSD4TMCAnCUPzAPTjSCsqsMRzYSVSDq6/9zxq7J+DD/2AcsF
-         ALIcPmsBFdmnl/KPXvyODKhNBg9GxU7dPpPNyGF4Xa4Spe1kJNDp05H/c+HTBs/3eJvS
-         K6lw==
-X-Gm-Message-State: AOJu0Yz3cWsQfGNt4IJHuY97LDXzrtIqjrabSgf9MsSpKzsxK6a+TQth
-	fP2DR6e+ECxYTAkWwDbkqfj8VLp+z8oriEIPqz/ulu0QxfGvUUSjZFx5yFSUpGSVJuKoSSugcYG
-	UukXZ
-X-Gm-Gg: AY/fxX5LUcdJKHJDmFZp6RQfsOV9R834QbNwt9e04DBPZVEWipdCjQfZzZuD70veslM
-	C3x6xEkyd1C9EV4bNHfHgwQAmbgDanjqdg/7Ng36Z9G9aYNPfNyQ5d3/PDGzJ1u5u8xCau+bUKH
-	JELqYTBpW83xItyMf8VjGWmHJZm3wmnDJ7ikENQY6PRw8zen8Vd+ZcjnUExUK2LJT4oUNgCDp+X
-	XpDs80f7j4OFNUmPwKOcgCQsZB/SgluGo4JTTQzgWt9ogNkZH5inxDXJDbgakZAFveAgSUfW/6A
-	U2Lw/1QHa51hdPrzDNI55zgBI+vlxnxXv+XPktW6cZb8zv8TQaeXdRz3vebkLP+tuvM6qL392wv
-	Fm6elLcqMhc+KdooE2CNvUYLJTWYVQN6BwGrkDsBDI0i6rzvEttn+GbZCUeHXu4t3hvyOkAvD4y
-	SG3AxvD2mPCyJMhkMsrBaTr1qVKPic9WVW7WLngtL7r/mdNy4sVOcKHtf7ZqAjvtqnX+WB02vs3
-	Zm01FC1jnribhQhhDQPMa2ylfXR2miLGjPRaT24uEuEqazFZeIA+RFPIeiiSrsqvIva
-X-Received: by 2002:a05:6402:1ed6:b0:64d:1bbf:9548 with SMTP id 4fb4d7f45d1cf-653ec46eccemr2637656a12.6.1768472075958;
-        Thu, 15 Jan 2026 02:14:35 -0800 (PST)
+        bh=mbqtCxy1aIUAoDNXAqbqLiAPApKlcNCX+JDNcW/83fM=;
+        b=I08LES0EyIM64FcXraIwKwmkueb9zorXZPh+yIoxnXqMxnFv99ONyUUeSPhEb7y2jS
+         +oXrsLIuLB9TimsFUZFFkQIHYr1WNXYVkjctzncZfQ46pA/ixDOuI2hp+ZJveA4nqsQA
+         8svxqFc8jeBflNeCr0OsgDso2ZMh8qOIhjlQcJpr2S+4xyx5Qv+Md4wcU/zea+tyXaym
+         KyXsHX65uOjQFxr/t9XAY64fgaRpKJCcV57h0dRzN/b7MyOAY6mvLhu0UenX/Kaa/mpc
+         WhF6KtAfc9d6UStDrl2bhFscMXdmztt2TTOF2JYKlZ6CmHmejSJQ5k+QBye4FVSz+BBk
+         +LRg==
+X-Gm-Message-State: AOJu0Yw22sHRnLMrvlV10/x9vVZkIZQKOMIxP8nDeTFddIOQmwSBR/Fx
+	OBqkDlEzfxO7QmJnQp3T86HGL54zVSipcvvxyKxNOdpE4uRrD9jveuba85kHvm2662gRjCpUz2D
+	KCHh3
+X-Gm-Gg: AY/fxX72SfNVf4r47lLWaofA1Cl5j5Xxu2c2TAc+VgE0oQkFCKvglemH1Y1SVA9WgfW
+	IuQ09IcZu1CEFDnv/QcdLxbhL78iGpYIJ5qMnV1Ja3WUFi5fvmBAygrakaDLq+lCvnzDCFYHjoq
+	Dba4cwHcgXdQweYUXl1D69ntGnfJ8UC9QpssX8eFul/YJs86z0e6wkf9rTGsTfqS9gUaDrY+sAp
+	LMp4e4rVbIsOnhqBJnD9o5sR3fHlyQkrYiWPyUbDitdcK0XKz/HDqWIUzcANNzJVIV35VNv5m1p
+	QpZQnVZYd8D9Enz7vLkF9nXCHOzxSsoFD4KjwEC1CKu4jVnwz4vpSjHtuiOw7igQsnjQnmmpN7G
+	PznUetlJoWXVZsYUPhVjOe1p5JnwYaZ/VII/LZp+23QoDBk5MrbCogKrjTyWKFbl/tkDGUcT2HB
+	t8bT+CR1kufmUnF5nyIiUrxUy6btU8oYAdbQxRUzPL2i7COI4ROkKluOMgGJRc4P1VerXCVuxj2
+	u/tcFIyHByGW0QzXUysAL/K6ShXCFBxEKIFxn3qBn36wq929pKUaCjmCg==
+X-Received: by 2002:a05:6402:40ca:b0:64d:521e:161a with SMTP id 4fb4d7f45d1cf-653ec466877mr2548187a12.5.1768472077499;
+        Thu, 15 Jan 2026 02:14:37 -0800 (PST)
 Received: from adam.amarulasolutions.com (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6541209cd87sm2038643a12.35.2026.01.15.02.14.35
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6541209cd87sm2038643a12.35.2026.01.15.02.14.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 02:14:35 -0800 (PST)
+        Thu, 15 Jan 2026 02:14:37 -0800 (PST)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH v4 2/6] wic: extra-partition: Move extra file parsing to a dedicated method
-Date: Thu, 15 Jan 2026 11:14:28 +0100
-Message-ID: <20260115101432.162696-2-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v4 4/6] wic: extra-partition: Rename install_task to extra_files_task
+Date: Thu, 15 Jan 2026 11:14:30 +0100
+Message-ID: <20260115101432.162696-4-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115101432.162696-1-adam.duskett@amarulasolutions.com>
 References: <20260115101432.162696-1-adam.duskett@amarulasolutions.com>
@@ -66,79 +66,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 10:14:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229400
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229402
 
-For organizational purposes, and to make the following patches
-easier to follow, move the extra file parsing to a dedicated
-method.
+Rename install_task to extra_files_task for clarity
 
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- .../lib/wic/plugins/source/extra_partition.py | 35 +++++++++++--------
- 1 file changed, 20 insertions(+), 15 deletions(-)
+ scripts/lib/wic/plugins/source/extra_partition.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/lib/wic/plugins/source/extra_partition.py
-index a1d9aa9a7b..aa4fb931c2 100644
+index 05b0ace361..25aab06c52 100644
 --- a/scripts/lib/wic/plugins/source/extra_partition.py
 +++ b/scripts/lib/wic/plugins/source/extra_partition.py
-@@ -37,20 +37,11 @@ class ExtraPartitionPlugin(SourcePlugin):
-     image_extra_partition_files_var_name = 'IMAGE_EXTRA_PARTITION_FILES'
+@@ -73,7 +73,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+             logger.debug('Destination entry: %r', dst_entry)
+             deploy_files.append(dst_entry)
  
-     @classmethod
--    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
--                             oe_builddir, bootimg_dir, kernel_dir,
--                             native_sysroot):
-+    def _parse_extra_files(cls, part, kernel_dir):
-         """
--        Called before do_prepare_partition(), list the files to copy
-+        Parse the files of which to copy.
-         """
--        extradir = "%s/extra.%d" % (cr_workdir, part.lineno)
--        install_cmd = "install -d %s" % extradir
--        exec_cmd(install_cmd)
--
--        if not kernel_dir:
--            kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
--            if not kernel_dir:
--                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
-+        deploy_files = []
- 
-         extra_files = None
-         for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), ("_part-name-%s", part.part_name), (None, None)):
-@@ -66,9 +57,6 @@ class ExtraPartitionPlugin(SourcePlugin):
-             raise WicError('No extra files defined, %s unset for entry #%d' % (cls.image_extra_partition_files_var_name, part.lineno))
- 
-         logger.info('Extra files: %s', extra_files)
--
--        # list of tuples (src_name, dst_name)
--        deploy_files = []
-         for src_entry in re.findall(r'[\w;\-./*]+', extra_files):
-             if ';' in src_entry:
-                 dst_entry = tuple(src_entry.split(';'))
-@@ -103,6 +91,23 @@ class ExtraPartitionPlugin(SourcePlugin):
+-        cls.install_task = []
++        cls.extra_files_task = []
+         for deploy_entry in deploy_files:
+             src, dst = deploy_entry
+             if '*' in src:
+@@ -92,9 +92,9 @@ class ExtraPartitionPlugin(SourcePlugin):
+                 for entry in srcs:
+                     src = os.path.relpath(entry, kernel_dir)
+                     entry_dst_name = entry_name_fn(entry)
+-                    cls.install_task.append((src, entry_dst_name))
++                    cls.extra_files_task.append((src, entry_dst_name))
              else:
-                 cls.install_task.append((src, dst))
- 
-+    @classmethod
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             native_sysroot):
-+        """
-+        Called before do_prepare_partition(), list the files to copy
-+        """
-+        extradir = "%s/extra.%d" % (cr_workdir, part.lineno)
-+        install_cmd = "install -d %s" % extradir
-+        exec_cmd(install_cmd)
-+
-+        if not kernel_dir:
-+            kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-+            if not kernel_dir:
-+                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
-+
-+        cls._parse_extra_files(part, kernel_dir)
+-                cls.install_task.append((src, dst))
++                cls.extra_files_task.append((src, dst))
  
      @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+     def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+@@ -130,7 +130,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+             if not kernel_dir:
+                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+-        for task in cls.install_task:
++        for task in cls.extra_files_task:
+             src_path, dst_path = task
+             logger.debug('Install %s as %s', src_path, dst_path)
+             install_cmd = "install -m 0644 -D %s %s" \
 -- 
 2.52.0
 
