@@ -1,85 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9758AD41157
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 10:02:02 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32220.1768471318407188077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA414D4115D
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 10:14:42 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32362.1768472078429716682
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 02:01:58 -0800
+ Thu, 15 Jan 2026 02:14:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=d7/ZObjh;
- spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8c5265d06c3so174012685a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 02:01:58 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=Zaj+g+KO;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.48, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64b5b22f723so131122a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 02:14:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768471317; x=1769076117; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H5OQft0pUbNjbAQa+u9xVPaKc5WIBQ2T5hJkZ7kg9Fc=;
-        b=d7/ZObjhMGR4i75fwBlSf7TpaoTak9VziDBDayiMeiivjrzynbWXX4tNp1CNSShcmR
-         TrKD7aMFvNSS4bUaYlepriJCYHbBXI/uLmwbLEWZfgdRXOD2xEWrZRH4ZqCgivA26afK
-         oYkz1NWWjv9JjfuYOpVAA9/RZIthIE7OD/jRbEoBw/2PvVmsokdUQrFXHrY6n6sdMJUl
-         KSdZquRgarze739Xsvibm3qpXCo+AdeEoNHXjPzHYOW6UE64TAJIWcS622IbWqmI3brd
-         TFyW/5l66YGzlRbnKqWMYW1ckpKuI8X4bdUqZm4pL/0W0+E23ZUK5Vm0irz7TcUUGoH1
-         tDbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768471317; x=1769076117;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=amarulasolutions.com; s=google; t=1768472077; x=1769076877; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H5OQft0pUbNjbAQa+u9xVPaKc5WIBQ2T5hJkZ7kg9Fc=;
-        b=TD8qNwZtKUdvtM7p9Hesx5a6U/xNmNAWNk29mYIwcgTno085+oHmpUtfyzIM8NTakn
-         tDcWgxUU5LdRLAR1jfPln+TQAggEremGSpKl5wO+hLGAnuRFL+nONgzoFnJKUl1MRhRI
-         v1swEJ5BEcUMRSM4nVM4m9pCKItBufqM6nY6y2vDwqW/jurB3IUwHwn3JB5xwtR/DcFf
-         EeyEp7OcBfbmZpJAQcP23FmjNV8/4aQAxChzWEWNcuYIJT/TQXexVvErnKx5GbvvysHF
-         h18ZddWorApMcp0iX+VDo6/cnPd/ncpdYIGlUj3zk/nhKwsvEAyQe+bBSAPastL5ZR4R
-         O3mQ==
-X-Gm-Message-State: AOJu0YyFHkwV/6IZBiEbLPJOF8c0ZzQiw98ek7BrQJ/z/xCtmW6zXxsG
-	XS48+1gdLevD6K7oM/xGrRsEIEmZLHEn6yUtoZMtaXNWE2+xzjLRkyD8vR7OWMNvhkeHWAWD6qF
-	Do0VrMq4bFjcEiW2JdoKzMB6tPWMeekyV4mwF
-X-Gm-Gg: AY/fxX5chVt373W7JmKO+hWfH8oZk1FHJ/9EGFzzwWGNO96qo4F7tnoCpY2JxRYcdpl
-	TEq+GWR/wjuxgK/NPPcA/aPGMA/Z7V3bytU7/GAMfkdGBMe0dR5C+Q+Dil35swLKTwSgahtmyMq
-	sQYYmXbkZp/YEvbAfoINW5i0znGtCqRlAsVX3fjDQ/xIZdx20XGAl1hu0r7Mo9PK/HjgXN0l6Bl
-	LTTk9kPDM+JSpbAO//4bj5x9KEdRIYqd1i5ppguipOkepCGQvFSzDmxMqueGjqE0aNt/e1a
-X-Received: by 2002:a05:620a:7009:b0:8b8:7f8d:c33c with SMTP id
- af79cd13be357-8c591a2d0f5mr297066185a.44.1768471317416; Thu, 15 Jan 2026
- 02:01:57 -0800 (PST)
+        bh=XS839wYQCt34M6w0vqSouQF8mgM5YG3VWs2swfA2GQA=;
+        b=Zaj+g+KOwHAtogsnlgMoYbnqWlIkkQOu1KB6Vdd0qu+7VZJj6/IZkPHKRbFxLzTE6Y
+         /y8wdeb3SOdbj1bjptFBxo8F8qyYqZzn4uuw1DmzFwqHbyQbF2HRXlmToaRSTBS3ieWZ
+         matN7aG788ali+heDJvfFf3huKc5SCWbbfAgY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768472077; x=1769076877;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XS839wYQCt34M6w0vqSouQF8mgM5YG3VWs2swfA2GQA=;
+        b=Pm0GZM0uyoB7fW3rDYQCytF/9tbM3YuHAIgJOoTSJV2XenFwYChtLxOIEEi/NK9Qle
+         wtx8DnfcoTAcvzNN+RCS6s/bzRQT+DKbN72AppcVu3UgxdZ90b1QTz+F13eAu7pGj40p
+         fU0Kp14aLv3gCY7M20i6NFaTPm8o5jOy3nrXycmmT67OjbbxzbjTKVI9kz1fiz/QXLV8
+         c1mmTB0J4YC8pbhXJ4yovW4zlEIe0OtX0Gu4cE1EGTLwX0c7c4qEoDJNItrf8J4AUyoR
+         707wABD6OaawQD2uReV1R0Z/47cndYqadjigcOBr4yedUswyVtV6XRB6eRzW8kaavQCh
+         Jbag==
+X-Gm-Message-State: AOJu0Yw+pYm6DuYgjleQlGKBdMK0FyuiDAZr+tP8LZLUuwLw+kFB3+SS
+	u6lljpqNPVuUhz2nM0+KA8OmwxArql80wpHQ8JKntqFsvUR2Uc85M5/KIN1WqM0AjOVR502lB1h
+	5MCKz
+X-Gm-Gg: AY/fxX7G0psEqnP8EzgHDbWB8OcTig65ZRL9VlDuiQDAJMG0EvA4yIulSc8aqh1D282
+	8VOm/EbkTTWK7P7wEY6zXyOd4gqOKrGufLi3pCj2+UWmSvXpwgT69uGX03DD43RdoTthL+/bXFD
+	dkSkwiwNNwloSxaErLwwDU/YgV38jFE512xCrVHZcYOQeK4RgMZ4HcpHGn5ZRh/zVgeVIdJYevW
+	MfHvm3qE9v+de77n/dQi+ZggfpmJD4SZIk2utaymYQ8dWuS49gxG/9XT9pgA+IZIBFhHczptsM/
+	NBsWYvh7Av5kYM0bW3bxTVGxivZiudh1KdsQmUHkPGh3kBOfaJ/xC94AZ2gIv2KKr5N6GfQx7BQ
+	3gHSwsEOuvhgxwxuRwcEVIT6o2bNIiQ47Wsu1JpB241y6FUu7Ylhiu/1NTHl5E4N3BIH/J9T6Tj
+	5gljDvexQKUNPTh8k1df+cwRlEs4/LW2Zpb02DtxygFnzxlLKseau84VfQPv1dA82VDyehdaxJ9
+	+g0XvRBAFqRomf8TjQLb6o4HDLFKSMNIieBQtemFBz8PzN5yBF5kYDpPg==
+X-Received: by 2002:a05:6402:35ca:b0:64d:2889:cf4e with SMTP id 4fb4d7f45d1cf-653ec47d79emr2639796a12.7.1768472076816;
+        Thu, 15 Jan 2026 02:14:36 -0800 (PST)
+Received: from adam.amarulasolutions.com (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6541209cd87sm2038643a12.35.2026.01.15.02.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 02:14:36 -0800 (PST)
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
+Subject: [PATCH v4 3/6] wic: extra-partition: Move extra var handling to a dedicated method
+Date: Thu, 15 Jan 2026 11:14:29 +0100
+Message-ID: <20260115101432.162696-3-adam.duskett@amarulasolutions.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260115101432.162696-1-adam.duskett@amarulasolutions.com>
+References: <20260115101432.162696-1-adam.duskett@amarulasolutions.com>
 MIME-Version: 1.0
-References: <cover.1768469892.git.liezhi.yang@windriver.com>
- <f69b7f8ddf584c045a6fa168f6add2850519e410.1768469892.git.liezhi.yang@windriver.com>
- <CANNYZj-C+1htk4XR-uaSbsCw8OwE-bskmucyw0qLkD4TnNDbTQ@mail.gmail.com> <e94a5ab8-88fd-457c-8130-8b738895787c@windriver.com>
-In-Reply-To: <e94a5ab8-88fd-457c-8130-8b738895787c@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 15 Jan 2026 11:01:45 +0100
-X-Gm-Features: AZwV_QhcWCt7NWUd0xV9lzviRoIehe1N6Czii6r-4Zt9oCzOcXIQ1r-zjvhSh9M
-Message-ID: <CANNYZj-_cRUQXiWij81yP4QaN3ewGYWrpc8o6FhhGev6R1D8gw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] rpm: 4.20.1 -> 6.0.1
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 10:02:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229398
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 10:14:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229401
 
-On Thu, 15 Jan 2026 at 10:59, Robert Yang <liezhi.yang@windriver.com> wrote:
-> >> diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_6.0.1.bb
-> >> similarity index 100%
-> >> rename from meta/recipes-devtools/rpm/rpm_4.20.1.bb
-> >> rename to meta/recipes-devtools/rpm/rpm_6.0.1.bb
-> >
-> > This can't be right?
->
-> You're right, I was curious that why there wasn't errors for such an upgrade.
->
-> I checked the PV and rpm file name, both of them are changed..., but I should
-> update the SRCREV, I will re-do it.
+For organizational purposes, and to make the following patches
+easier to follow, move the extra file parsing to a dedicated
+method.
 
-I guess there's no tag= in SRC_URI at the moment, otherwise it
-would've been caught?
+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+---
+ .../lib/wic/plugins/source/extra_partition.py | 25 +++++++++++--------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-Alex
+diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/lib/wic/plugins/source/extra_partition.py
+index aa4fb931c2..05b0ace361 100644
+--- a/scripts/lib/wic/plugins/source/extra_partition.py
++++ b/scripts/lib/wic/plugins/source/extra_partition.py
+@@ -36,6 +36,20 @@ class ExtraPartitionPlugin(SourcePlugin):
+     name = 'extra_partition'
+     image_extra_partition_files_var_name = 'IMAGE_EXTRA_PARTITION_FILES'
+ 
++    @classmethod
++    def _get_extra_vars(cls, part, var_name):
++        """Get extra partition directory or file variables"""
++        extra_vars = None
++        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), ("_part-name-%s", part.part_name), (None, None)):
++            var = ""
++            if fmt:
++                var = fmt % id
++            thing = var_name + var
++            extra_vars = get_bitbake_var(thing)
++            if extra_vars is not None:
++                break
++        return extra_vars
++
+     @classmethod
+     def _parse_extra_files(cls, part, kernel_dir):
+         """
+@@ -43,16 +57,7 @@ class ExtraPartitionPlugin(SourcePlugin):
+         """
+         deploy_files = []
+ 
+-        extra_files = None
+-        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), ("_part-name-%s", part.part_name), (None, None)):
+-            if fmt:
+-                var = fmt % id
+-            else:
+-                var = ""
+-            extra_files = get_bitbake_var(cls.image_extra_partition_files_var_name + var)
+-            if extra_files is not None:
+-                break
+-
++        extra_files = cls._get_extra_vars(part, cls.image_extra_partition_files_var_name)
+         if extra_files is None:
+             raise WicError('No extra files defined, %s unset for entry #%d' % (cls.image_extra_partition_files_var_name, part.lineno))
+ 
+-- 
+2.52.0
+
 
