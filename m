@@ -1,124 +1,91 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <valentin.boudevin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DC2D44C67
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 15:30:54 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38541.1768491045125785713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB66D44C69
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 15:34:24 +0000 (UTC)
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38645.1768491257841667452
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 07:30:45 -0800
+ Thu, 15 Jan 2026 07:34:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=xe6woiRt;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wYMzHNhs7jXrGbuTN3+4hmk8ft8+VbaP+a8AhWnwRnU=; b=xe6woiRtn0MxyYiOmGD9vg7MqH
-	d4iL4KQwxFFVSrx3F+qxkFhxAIV4dlOyrugU5LzLteuMBcY8WVYsuH0rUx4EHLhPZwlFWqLCQPC6C
-	gEVEQguWOO8Ko1Bqreo8j2yeW6G1V5yAxiqP/ywXaxFBblD7Yp3S3aJeoG/GnTUpbDBfBtUXtATMm
-	arQqfJkWvnTdWArPBC4zkETm2gTwd3+8jKZsU/xFZcxAAc18gUvgCw1mP7DhQCVxzkIuVpAYeYmtk
-	i+92EWS8sP7KiDgShM8B9uqYS1Lp83Bsz1KdUtsKwEbnpxBjTwK17YIIn+Bv2f/kop4aqyhh1UOl5
-	T9u6qcNg==;
-Received: from [147.129.179.166] (port=38044 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.1)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1vgPJ3-00000009kOa-2Xao
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Jan 2026 10:30:43 -0500
-Date: Thu, 15 Jan 2026 10:34:11 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: packaging error for linux-libc-headers: "Files installed but not
- shipped ..."
-Message-ID: <f7ecaee8-192f-1abe-08fd-f2b1ff95e7b7@crashcourse.ca>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DbYzEcCk;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: valentin.boudevin@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id d75a77b69052e-50148a1cc40so1178311cf.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 07:34:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768491257; x=1769096057; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w7s5ER4aLTSJK1J2ra9yMe2myNd9SKesT5moRbtoKhU=;
+        b=DbYzEcCkiRytOh7eCfHAe+3cZTkfCoDhoY3uzA3KwDT+Fhby9Y4Wobya1ons7dSFMg
+         oa9nCBfevHoKOz6cXq6OZ2hg8XUeyNWvytKM/AWgh2OGRzQyk90EzdlfPNeeLN/ctVbV
+         Bl+Bt6LGV9AW7bzltRnf+R36LbMWMb23k0etY79OXcICmO9wD4CwINs3I8BdP9e2eik0
+         jhBs17WUkyyovk0ZvD78iBlEMc/ER/R9enyx2QBpZ/ZHZ/8I5X8V8prM/OHLp3JJjxGF
+         1v8809ZJvoalw46Nn3J8MKwoNigf5GbrfkjpaYAnmxJMm7Y+EqKXvUgjIgWc3L+uuo3c
+         I0Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768491257; x=1769096057;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w7s5ER4aLTSJK1J2ra9yMe2myNd9SKesT5moRbtoKhU=;
+        b=dn8+vXyErZvCUd0je0gHojpVpSzvSbYe0pECg8b6N7zwU3ywnXR4tjtcvH8G9kvtE6
+         UrF0Qhn4jYtsvoeJNW+Y9DVoJYre3bK8uSEa2GfWig5GHr64wiEhqTMk8xCojlHvZjCD
+         lcS98K178Z4C14v7r53YADiilxtnbnICUo9itRpeq2KuMK0caJ/IsPxoPrEcewUN1oGn
+         76YskYYZOfsk+t1GQ5HDmupvula7L/O7D/Ud9XmXH+pp71B5UoBZYfczo6T6nvtQ08pQ
+         yOCaSCfWez8ZzkCYw823ptHcBPkWstxhEU5Nv/4zp5xmvQVAP8kUodB6hlyzYxKJWOGl
+         KNBQ==
+X-Gm-Message-State: AOJu0Yy/qNVLNQ1tV6930N0Uzdm8hgvaso/mSw79MQssaZGp5Y6Czi+b
+	ODle6EsIQrlhkUpATfBNzNIAjubAG1+QCqfREwwP8Esjl+3tSsWm3VwuBhA+KRr4SGlnmw==
+X-Gm-Gg: AY/fxX7KzLeYtforHzSNzlFfeQ/BmnkyqeZDqP4m1X36kyYUF70H52uLp7lLPzdyul7
+	JfspsfE1gEoF6wqveoXCDmdeMbe3MA8B/p0V88G0tcQI7XviiKVOCVF7J4cd9X8jPMU70yianDE
+	xD/Qlk2F0XgfQ049IwN//BvrCYUdR9NUJq1nGxPB6w8E9yOHPQVUDMFjLMjio5y+t9xwPdD7uR9
+	5PEBxjjFWLFX8HKrtCvZxxYx5+Zz/W74SypcacGKcAzt3vwJAMC+X5thYlHg7Qc0yOUQ5CAlpJM
+	tgR97OHFP7HsjDPrW0IREjTB51qslc6lDWY4UZpHZfkH8hSrh0nTuFS7I59ncsA0+m6hoV1hw2M
+	fwr+HMf1c2AQza4Z9db/lNdwi1JWzxsnvw2wVoxTafr7wE7VOmkKR8aRir/WGo1MxyOkGtBlPmU
+	4j/i3ugze0LZPP4zo42BzG1EWh+wcoHtv4NHWiFRvh11LW/qR/EWlTeHJoVaXwP+4b4w==
+X-Received: by 2002:a05:622a:1a8d:b0:501:3ac5:1dc9 with SMTP id d75a77b69052e-5014824e9e4mr69922451cf.3.1768491256548;
+        Thu, 15 Jan 2026 07:34:16 -0800 (PST)
+Received: from vboudevin-pc.mtl.sfl (mtl.savoirfairelinux.net. [208.88.110.46])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890772346f8sm204173136d6.35.2026.01.15.07.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 07:34:16 -0800 (PST)
+From: ValentinBoudevin <valentin.boudevin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: ValentinBoudevin <valentin.boudevin@gmail.com>
+Subject: [PATCH v2 0/1] improve_kerne_cve_report: Add a bbclass support
+Date: Thu, 15 Jan 2026 10:34:10 -0500
+Message-ID: <20260115153412.1454732-1-valentin.boudevin@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 15:30:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229418
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 15:34:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229419
+
+Changes since v1:
+- IMPROVE_KERNEL_CVE_SRC_URI and IMPROVE_KERNEL_CVE_SRCREV can be used to set a different source repository
+or a deterministic revision.
+- IMPROVE_KERNEL_CVE_NETWORK variable can be used to use this repo offline
+based on existing fetch repo in DL_DIR.
+- Add support for SPDX2.2 with a new bbclass improve_kernel_cve_report-spdx-2.2.bbclass.
+
+ValentinBoudevin (1):
+  improve_kerne_cve_report: Add a bbclass support
+
+ ...improve_kernel_cve_report-spdx-2.2.bbclass | 117 ++++++++++++++++++
+ .../improve_kernel_cve_report-spdx.bbclass    | 117 ++++++++++++++++++
+ 2 files changed, 234 insertions(+)
+ create mode 100644 meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
+ create mode 100644 meta/classes/improve_kernel_cve_report-spdx.bbclass
 
 
-  (hoping that someone might have an idea of what weirdness might be
-happening here, or might have seen this before.)
-
-  i've jumped into an existing YP build and am trying to untangle it,
-so here's the layout. all "walnascar" releases for:
-
-  * STMicroelectronics (STM) layer meta-st-stm32mp for MACHINE defn
-  * Poky
-  * meta-openembedded for some basic networking stuff
-
-rather than try to build for the final image, i do as i always do and
-back off and try to build a simple core-image-minimal (or even
-simpler) and work up from there.
-
-  given that the STM layer defines a linux-stm32mp recipe file and
-that's the preferred provider for "virtual/kernel", i started simple:
-
-  $ bitbake linux-stm32mp
-
-... snip ...
-
-WARNING: linux-libc-headers-6.12-r0 do_package: linux-libc-headers-lic
-package already existed in linux-libc-headers.
-ERROR: linux-libc-headers-6.12-r0 do_package: QA Issue:
-linux-libc-headers: Files/directories were installed but not shipped
-in any package:
-  /usr/share
-  /usr/share/licenses
-  /usr/share/licenses/linux-libc-headers
-  /usr/share/licenses/linux-libc-headers/COPYING
-  /usr/share/licenses/linux-libc-headers/generic_GPL-2.0-only
-Please set FILES such that these items are packaged. Alternatively if
-they are unneeded, avoid installing them or delete them within
-do_install.
-linux-libc-headers: 5 installed and not shipped files.
-[installed-vs-shipped]
-ERROR: linux-libc-headers-6.12-r0 do_package: Fatal QA errors were
-found, failing task.
-ERROR: Logfile of failure stored in:
-/home/rpjday/BOARDS/nexus/walnascar/core_plus_nexus/build/tmp/work/cortexa7t2hf-neon-vfpv4-ostl-linux-gnueabi/linux-libc-headers/6.12/temp/log.do_package.1893820
-ERROR: Task
-(/home/rpjday/layers/oe/walnascar/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_package)
-failed with exit code '1'
-
-
-  OK, i find that puzzling, that a well-established recipe like
-linux-libc-headers could have such a blatant packaging flaw. i went
-looking in the STM layer and in the local layers for anything that
-might have modified that recipe with a bbappend file or something, but
-found nothing. and then i ran across this little nugget.
-
-  the STM layer insists that it is compatible with walnascar, so
-that's the branch i checked out. but when i looked closer, their
-kernel recipe file is linux-stm32mp_6.6.bb. that is, 6.6, not 6.12
-that one would find in the OE layer for the walnascar branch. so it
-seems that the build is trying to build a 6.6 kernel based on the STM
-layer, but is trying to build 6.12 of linux-libc-headers based on the
-poky layer.
-
-  if i go to the STM layer and check out the scarthgap branch, sure
-enough, it has the same linux-stm32mp_6.6.bb, so it seems STM bumped
-their layer compatibility from scarthgap to walnascar but never
-updated their kernel recipe. is that a possible explanation as to what
-is going on here?
-
-rday
+base-commit: 0ed4776533145c901611d7f4f942490e33481335
+prerequisite-patch-id: a3e47db25577688655f52f1a0ebf3e53dd0107f5
+prerequisite-patch-id: 1f3d87c0445772c79310afc8a1afbb25ee6e46d8
+prerequisite-patch-id: 4667d64f5d65fb71a41df271d95f153e4928b54e
+prerequisite-patch-id: d67350e38405171c8e2f05f6747a2e30199421b8
 
