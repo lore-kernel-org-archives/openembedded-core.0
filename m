@@ -1,122 +1,139 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B3ED4661E
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 19:49:58 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3512.1768506594317373806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F41E8D46629
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 21:18:40 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1057.1768511913858159882
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 11:49:54 -0800
+ Thu, 15 Jan 2026 13:18:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mR2YAXPo;
- spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-45c889aba0dso799121b6e.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 11:49:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZI2oNNNL;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so8836945e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 13:18:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768506593; x=1769111393; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B1VZMDdZ8oNUQ7mcL7TD27XHkCtOa2HX+ZHPrttr2g0=;
-        b=mR2YAXPoRbsFavEIMypSbULY7Fnu/3BZZ8gDAQ9Ys40mzXIEuzI1j32/kviosSs5I0
-         jnTRHKB3LOnNwohnUuJV9PjQWJRlSO37Y2Jjrd+iiHn/kL4QfwzXGlWgjWyMfLDN4+zc
-         eQxf/xUtwRHyKro9DbBgjQG5t7AMGuEqdUGyPIaQB6rEeSfMqtovPKDskHeX0kc+F4cJ
-         9ptz3fGfcR914slZJyt5A8TR6cY2zk0vtRQ57kgbv7I/2tnU008AuwzHojVNOpWaFECw
-         Kvh2fzDVhCFhJ794yqRmIZqd2WPl0ZL5WAmKZwZiquCZh0jwk+RaEnf7bbpfRSyEcA4r
-         03rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768506593; x=1769111393;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=gmail.com; s=20230601; t=1768511912; x=1769116712; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=B1VZMDdZ8oNUQ7mcL7TD27XHkCtOa2HX+ZHPrttr2g0=;
-        b=jQccBG1asJQ+PqoQQBb2aKA+n7ncwJbyxVT2oDsk2HzgSAyU+WmgQRpGeKPIzFyIDm
-         olbrf3l4c+AtNbyvhoUWyA7BIPx+Py7f0DQXNVwYbtzqp8FMnliHnie+LNJAUMqybYsx
-         w94jnNgNHGQVocSrzXnsLMLMv6B2dkQi+xx8tTiwhDF2IHZ0CgmhEYgCsX1q8pX0rla2
-         KEHXwPCbom9ZZ+DwLup3fXJoWt+bS/ce+xDyrnIF7b2qpway8fPl4s1KaTMd80lP2uPI
-         VR9V5DzXjUyEQylcTCE6FrJimpJ+ZR+wQcSPC1M4B6QlWLUqXhaZDGKa/KmI9pERfvNg
-         Y9jg==
-X-Gm-Message-State: AOJu0YwhpRfHw1XoatgveZcfl0K6efEPWKo+G73YF/2vGWQB7MogWvp2
-	qQWY/oJ4ntJ2EGOZegjSpVb/9OebPgrQNRgmLg/PgSdVVCLADy6WXc04XlKX3VkxQqDXPKhKpCQ
-	5XWTzJm/PFLSfW83O63NMRh1F74h8aXc9T0wq
-X-Gm-Gg: AY/fxX6IQg7zknG7/yb1/c8ASTzXcK0yCfWGnXD4sNkg15uwQP8zorH+j46OopqF+Z+
-	aGVXs0XiydG9NA6yOqE2egDMIYeraZIIZJw3UARF7f5UkA/YyRhqMLIW1B1y9/0TYb5U5K6uc5m
-	ugng++b8beMLH/2VrEIqMofYcqWJFtQ7m/OmMIK5NWwVs6Nquwl26y+WA6s+vZaO6l9HtqPOfUE
-	7W3Z1unUKW9Zvx+O2t95AUJAXfzZzZr7pq8NJiUox1uzrHMjd+mW0RE+ia6r05XHmhCuZefc9vK
-	venfXws=
-X-Received: by 2002:a05:6808:6c93:b0:453:7403:888f with SMTP id
- 5614622812f47-45c8816f3c6mr2617571b6e.28.1768506593515; Thu, 15 Jan 2026
- 11:49:53 -0800 (PST)
+        bh=APtfshnCOgMAd4qOU37PjC1UzuVGkxwBiC286J3SILw=;
+        b=ZI2oNNNLFXGZzEwRsaZvru0wQ1jYDfTbyfTw7knZ0HQdkz9ZRDkutUQoeDRL0crTbh
+         jrl398lMIdbBQmLzXuaScL8YzRRRFpwayZEhsIPRpvF6/uXrTwUW9qKY9nr39tJLck13
+         EwkQcQatm0RYok4AkOidz6yO8g8JjIMkl75ZwygoTcAXi8JxSDURQjeZ+uZCe+G8KhO5
+         EZAZ8J8pKmcw48VFGOON9lj55gIeoLItz1Kl00kV77sgWLNAkeFQ26ediZXKlwO0ZyGH
+         fNksnU+misaZaiCYijZTZYnqcaxErCrqc4rx1OW/UAvNjY6RTkuIjc1zYChAMseARyJB
+         RVAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768511912; x=1769116712;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=APtfshnCOgMAd4qOU37PjC1UzuVGkxwBiC286J3SILw=;
+        b=k1odERsQLkX7pj3TwmMdRexoJ0lMStAvHh/w5GZDi7OMfd93ZrFcWdYbOH9tlbzO4w
+         0pSqzsORH7u9Qoa8pvvAle5eEEK+Ye0vol2erY3IP/Mzf9MHFdAxdpDILhRVq34aV/St
+         gXN5LzrnluoVgmUi9Y8TSH4ODhA6dm5jAP5EanVxPj9r4kXK8KQp8/m8H4i5tq9nCr/B
+         653WK0etYpGbEP0DQJAYfZO6uEAvR9HYkzGxIlvd30hbiw1/+DNY84TiZISv0j/If/me
+         tAUrKunbL+dLvIVJfhmCI9QoOJ6IU8wUc4x69y7bpMUasRPq7bIyAsQ6L27S9igtKmqc
+         oWkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUioNnNJOiJZBSTVQmVccO+vDTiPNtKXHzZALToaAaLHO4AHVlnljq8B45CYiX8n2bNs7l3mGh1GKXK4Doe2ZuZyQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzkLBKIaQ4fswRgHFZ46l+GDKvbswkfXQEN+yOieiUtOVXKSJzc
+	+QhHCRFXTB6PscUq4hIuPzZI+YgieFFM5eJ8E+9edEmA6yL47xhcBeHj
+X-Gm-Gg: AY/fxX6NSbw/Sbo9LssHjVS3NOv8n8AuFf6FswnIfxeXTOz+Sdvm4oSMVpelCI38o2+
+	pgYWoam4f9oa+lBbfPZ1ILjTBGeRUBT0wdI0ZtRPpoJDJvBmElrDOpn0hOjbd8352HXteAddmkJ
+	NVBhjQj2iij9HT/u6jISBTAarXMB+OKPTt+5xtnsRyrYcOg/LwTGwWOg2UVPSP8uIJgiYt6vKN1
+	3xuQMXyctQ40Vaodh+3NdKo4mCvmJ6iVQVXKt7FxsPxrsTIcBwlUupPmkE1rO+Ep8m2O9hQEhjQ
+	yvkNyKjBrsv7emnzwx4bpC7O6bGFvDNsTf/J+7cx9gyWS+f4+wXj8nWMXQNeJv2q2sXDQYA++01
+	qjhWjmBKudY4Jgi00yPmoB4WbyELUShP2wCgA2o0q7elfqa3FE0fmfe+acSqhUbhPzUyujtL3BN
+	YqV7hnm6FpjBMJqGhbwd7UWsCWkg==
+X-Received: by 2002:a05:600c:3495:b0:477:7975:30ea with SMTP id 5b1f17b1804b1-4801e343a9fmr12196765e9.29.1768511911949;
+        Thu, 15 Jan 2026 13:18:31 -0800 (PST)
+Received: from [10.54.7.179] ([154.47.27.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e80c477sm13308015e9.0.2026.01.15.13.18.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jan 2026 13:18:31 -0800 (PST)
+Message-ID: <30338f3a-39e5-4e2a-b7a6-120142ecd6b3@gmail.com>
+Date: Thu, 15 Jan 2026 22:18:30 +0100
 MIME-Version: 1.0
-References: <20260115190331.2276779-1-valentin.boudevin@gmail.com>
-In-Reply-To: <20260115190331.2276779-1-valentin.boudevin@gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Fri, 16 Jan 2026 08:49:40 +1300
-X-Gm-Features: AZwV_Qho-Srlklz8qG556gQ939tGCCv4_y9UQtekUrlyG725u2F4G2AspLJPCH4
-Message-ID: <CADySD0Fov-=8PnT=Y2hEHz+JLMcmfgYfOfjWW_XT69arWo9-Cg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/4] generate-cve-exclusions: Add a new bbclass
-To: valentin.boudevin@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 1/3] overlayfs: Fix the QA skip for ignored
+ mounts
+To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
+References: <20260114185508.380709-1-uvv.mail@gmail.com>
+ <20260114185508.380709-2-uvv.mail@gmail.com>
+ <4c89ce299fb704382932a367669852b0617c9232.camel@pbarker.dev>
+Content-Language: en-US
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <4c89ce299fb704382932a367669852b0617c9232.camel@pbarker.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 19:49:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229437
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 21:18:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229438
 
-On Fri, Jan 16, 2026 at 8:03=E2=80=AFAM vboudevin via lists.openembedded.or=
-g
-<valentin.boudevin=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Changes since v3:
-> - Patch 2/4:
->   * Add variables to control offline mode, source URI and
->   SRCREV for deterministic testing (GENERATE_CVE_EXCLUSIONS_SRC_URI,
->   GENERATE_CVE_EXCLUSIONS_SRCREV, GENERATE_CVE_EXCLUSIONS_NETWORK).
->   * Updated generate_cve_exclusions task scheduling to be executed before
->   do_cve_check.
->
-> Changes since v2:
-> - Patch 4/4: Inherit the new bbclass in linux-yocto.inc instead of
->   individual recipes.
->
-> Changes since v1:
-> - Patch 2/4: Removed the mandatory execution of the
->   generate-cve-exclusions class on every build. It now needs to be
->   manually run using:
->     bitbake -c generate-cve-exclusions <kernel-recipe>
+This is actually a good point, but I'm not sure how WARN_QA/ERROR_QA can 
+be utilized here. WARN_QA/ERROR_QA expects one keyword, but 
+OVERLAYFS_QA_SKIP expects a flag per mount unit. If we simplify it to 
+WARN_QA/ERROR_QA, then we enable/disable the QA for all mount units. 
+This will be a breaking change though, but it sounds like it might 
+simplify things a bit. Do you think that would be better to use 
+WARN_QA/ERROR_QA instead of current mechanism?
 
-I think it will be good to update documentation as well mentioning new
-variables and the step
+As for the check performed twice question. The file list is populated / 
+expanded at the parsing stage, but the actual QA is performed at the 
+rootfs postprocessing, because the overlayfs class works on a recipe 
+basis, so to check if everything is provided the whole file system is 
+needed.
 
-https://docs.yoctoproject.org/dev/ref-manual/variables.html
-https://docs.yoctoproject.org/dev/dev-manual/vulnerabilities.html
+Slava
 
-> ValentinBoudevin (4):
->   generate-cve-exclusions: Add --output-json option
->   generate-cve-exclusions: Add a .bbclass
->   generate-cve-exclusions: Move python script
->   linux: Add inherit on generate-cve-exclusions
+On 15.01.2026 14:41, Paul Barker wrote:
+> On Wed, 2026-01-14 at 18:54 +0000, Vyacheslav Yurkov via
+> lists.openembedded.org wrote:
+>> From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+>>
+>> The supressing of QA check for mounts should happens twice, at parsing stage
+>> and at rootfs postprocessing. If the mount point is configured to be skipped,
+>> but it is still present in the configuration (machine or distro), then the
+>> parsing would complain.
+> Thanks for respinning these patches.
 >
->  meta/classes/generate-cve-exclusions.bbclass  | 97 +++++++++++++++++++
->  meta/recipes-kernel/linux/linux-yocto.inc     |  3 +
->  .../contrib}/generate-cve-exclusions.py       | 64 +++++++++---
->  3 files changed, 150 insertions(+), 14 deletions(-)
->  create mode 100644 meta/classes/generate-cve-exclusions.bbclass
->  rename {meta/recipes-kernel/linux =3D> scripts/contrib}/generate-cve-exc=
-lusions.py (71%)
+> I'm still unsure why the check is being performed twice. Are we checking
+> for different errors at parse time and rootfs time?
 >
+> Also, can we convert this to fit in our existing QA framework so that it
+> is controlled by the WARN_QA/ERROR_QA variables?
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229427): https://lists.openembedded.org/g/openembedde=
-d-core/message/229427
-> Mute This Topic: https://lists.openembedded.org/mt/117285139/3619737
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+>> ---
+>>   meta/lib/oe/overlayfs.py | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
+>> index 5a5ea03d45..3805746d90 100644
+>> --- a/meta/lib/oe/overlayfs.py
+>> +++ b/meta/lib/oe/overlayfs.py
+>> @@ -33,7 +33,8 @@ def unitFileList(d):
+>>       # check that we have required mount points set first
+>>       requiredMountPoints = d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
+>>       for mountPoint in requiredMountPoints:
+>> -        if mountPoint not in overlayMountPoints:
+>> +        qaSkip = (d.getVarFlag("OVERLAYFS_QA_SKIP", mountPoint) or "").split()
+>> +        if mountPoint not in overlayMountPoints and not "mount-configured" in qaSkip:
+>>               bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_POINT[%s] in your MACHINE configuration" % mountPoint)
+>>   
+>>       for mountPoint in overlayMountPoints:
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#229369): https://lists.openembedded.org/g/openembedded-core/message/229369
+>> Mute This Topic: https://lists.openembedded.org/mt/117266570/1826184
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [paul@pbarker.dev]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+
 
