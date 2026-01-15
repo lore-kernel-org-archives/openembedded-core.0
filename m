@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D735AD47CAB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D639CD47CAA
 	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 23:51:00 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.912.1768521059757391171
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.907.1768521051165451894
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 15:51:00 -0800
+ Thu, 15 Jan 2026 15:50:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=O/WjKl+c;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202601152350573f7a33124700020715-py9i4j@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202601152350573f7a33124700020715
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GbKDfX5C;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260115235048c4d32ba88400020754-jrriw1@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260115235048c4d32ba88400020754
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 16 Jan 2026 00:50:57 +0100
+        Fri, 16 Jan 2026 00:50:48 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
  bh=pnxU4pTuE1CCDOwmjBtsdB64nGvKfmGIwkv96xyGX1Q=;
- b=O/WjKl+c6Wfzq6JrVFE3td50OZdncBwQ26XKnKg+LOBgrhxZVHL6mGE/5VPN1Cx4hXH4tX
- 4hx8IJWciOwtxbrHep0+edLuxEv/IX+egdjGUIG/GYcFjw7HDH04OCs9C3j01TjpBAr1Wvvx
- I4S5z4vBrF8yoIf2p+X/4HKbN+VF/+BCr1TLmcq2F2klDU3MvcCFCQE21YhMWv+LKXQm9S/C
- SvIAwfINlZVYmQ+QpfhSbq1I6zC/UgtId238zwd0ybLQycNxcM8si6mZtBuZBOX0IkLrE0f3
- uc0a6qletk66L/+meJPQJIM/1BWCTFkD23d6toMXjATsDBKQ3m5h8Jfg==;
+ b=GbKDfX5CcOra94n+CZKq5fwZRpZke1V63KadPynTFY54nhKkWmLRYyTnWat8JkW0qGJuP+
+ FPofGIkF914nt/4jfPjcTfBI15gZdL3Qqa8tnQnGhIWnDfBHXdxZB/BVg89DfEzOgCT2ewov
+ t+nzHD0nWERG9SE72tWd2zgBM2rsg3lFZMTJH2UUquCl/6Mth6808VyDPr460WGOFvpXkBSA
+ FgYEl7lPJou+4ZhXJFAJLmqxK3GolnxB6QDdOSXdjQNH1194eBEN+RwcDr+Z8+w4+emhgoiD
+ zkT8qV7Q71hLIJBVEz78UCUcHgPbIJ1yI063ggu7mdKcfRWHrEUk1Ilw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH] go: upgrade 1.25.5 -> 1.25.6
-Date: Fri, 16 Jan 2026 00:50:54 +0100
-Message-Id: <20260115235054.1782313-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH] go: upgrade 1.25.5 -> 1.25.6
+Date: Fri, 16 Jan 2026 00:50:40 +0100
+Message-Id: <20260115235040.1782290-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,7 +37,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 23:51:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229443
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229442
 
 From: Peter Marko <peter.marko@siemens.com>
 
