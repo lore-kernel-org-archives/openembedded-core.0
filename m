@@ -1,804 +1,517 @@
-Return-Path: <pierre-loup.gosse@smile.fr>
+Return-Path: <amaury.couderc@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57196D44C5F
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 14:56:04 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37529.1768488959317907156
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B44D44C67
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 15:21:04 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38282.1768490461917518857
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 06:55:59 -0800
+ Thu, 15 Jan 2026 07:21:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=1SBlWLW5;
- spf=pass (domain: smile.fr, ip: 209.85.167.41, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59b7bb3b913so1221235e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 06:55:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768488957; x=1769093757; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c5CMO9DEARVNTEBXMiHQq1UiNYyhJQAjXtsuScNkw6M=;
-        b=1SBlWLW5GOmpRstnVKwN5vEW4FinC41Vq1tOBUpYeIwGJlJCiysTwimlD7zdfj+ka/
-         DmVcmRmgs+6JyN6EyRDiWCGBq660i0sHwvnck/hvOHoOgzq/4CqZNv/taIOpfF1QHTQH
-         ml8pabiJTRGjKQQvFp5GoS3WChK3VZ9eoq8Do=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768488957; x=1769093757;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c5CMO9DEARVNTEBXMiHQq1UiNYyhJQAjXtsuScNkw6M=;
-        b=qZNUj8J3u6wdS9MBGxvu7B7Js7XolJ6lgAJfJckbsaooJ2hMmuvkVQIr500pYW1CA5
-         XhGTrsI0lVRKSBiE8/ds77QeQs57Hep2J/jXeAJOFF6/Fjuk5kx3gOyJY9MavujP+CuD
-         sp6+yrMq/4Ecn2BRd3o8t7C80mJjUJsNyQEkz2vddhilTjfzt9nOr9ltnIrkkwYzO+bT
-         f5+25udtIHvvdBK2c4dG8o7gVwR5gG27gkOWhBeHfNE6Al54JYCsco2YNr77wTepn69E
-         esEq2UUxZld47r8HU18drtZiv7/phI5ZEc1VAbOozMzadsMI5TjABUhODwp9t0khuj/I
-         BirQ==
-X-Gm-Message-State: AOJu0Yzc8/y+UgLPZ+KUIU/dGJ4ON0y1PJng3drDC3xGzkl8KgoPpwjd
-	gPGG6qaqUySPrnWlW9q+EZhSZbnUgvr1/TVWv7cLOiQ6F9iGi1ckXsLauid+P209J1XMjfyZDv8
-	t3R+zFx0MrwUVvHJu74Uqw1hE47fRd+ZHMbxsZMz/gw==
-X-Gm-Gg: AY/fxX4IXlIvykM/RHSKHopcFI+ko0fWaI/SRHg/R9oRKek6ytRaLfTo3D/b97Hudxt
-	6cjjCiQoSXaOyjUWnXrB18fsel3Ha6LwBnPBldQix4iA/gBs5ZpebwuasVUww3jyiyhsZV+m8Z0
-	UhmH6cf8LgB2rz4aAzaYafo5XT1Q84u0+m9E106fzkuFtPcoH9dUCbUWHGpsVMP+6MwQNt9QgOg
-	MnF4I8RWTVDgxPgzUr6gkn1mVgUvP9VzhQhn222vJeN7rXFL9xV6i5w6OEX8oZ4uMsDW1QUp2Ad
-	ZPliS5mVV5Gm1kEG3sqDv6xoBCerzzdCpMEqMEznhYCPH46QHrIIkYe13s3bAAt+JoF7cB8JynN
-	wsi39HfTSK6IkKQ==
-X-Received: by 2002:a05:6512:64e5:b0:59b:a8f0:5abd with SMTP id
- 2adb3069b0e04-59ba8f05b91mr934267e87.1.1768488957050; Thu, 15 Jan 2026
- 06:55:57 -0800 (PST)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=CKoWp5IA;
+ spf=pass (domain: est.tech, ip: 52.101.69.54, mailfrom: amaury.couderc@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ozk0P3keINp7WApyT0VMx/VthW4QpgOBESo/iz+vDUbh1crkk1419XADzdYQFyBYWw3mZlXQoeMGXMboRVJ4RA2PYwPU1blMXljovhAm5QuXN/U2VP3ShiVydbkFcSY5vjMeelk/bAr/5jKJOnaXFJBno2HmpgwDBKGib5fBd/qmqVHvvAy+V2PHCBXozz1bTKvvcC1AuCIonhD7GRu248CftnHEVr3cAXoPnMLnktmehWqReaZyzqVkrM/7LqD9eawcrbhXclokIooqZ/4gTkEdWvCaFeM2tRWWqLG7wRRrBzMlGwOo2bY9DQqys4Zm+01BNs0f1xrMhYbF5ULgbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ft0WjQIpK12yhuluUXuyMJYtEqlrSY0GVu8puJjOWBc=;
+ b=qKaZFX5VECTmiPIDT1Cz+v7grqZn7mE1TAukZlrwmosW9OE5foSVBiXDW1ncWbWy14qSLFnVhJGO1UoS9UL9pmNlLSEDHeLNB0vX9zhJsYj3NWfJ6rBjXobEgCPs1+GKxWvUaHROir5N5PYmt8sXn1kMpxnSTW6hiYxV+2aww8cvXxTDWD0hfW1m/98XJp4pT3Kro+kg6NzbQzQ0YF9rUWysyKaT75EPn7RPkZK8ihJEgEVg8cVQWjkeFjSta5xC7lxbBSO8tFAWss2Y1dU8ekze4nbA/5sjouaZrs4U4M/v8MthXqxJyThb4734DQcCCyXfvPclDT1D+skLNi+XEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ft0WjQIpK12yhuluUXuyMJYtEqlrSY0GVu8puJjOWBc=;
+ b=CKoWp5IAlvqOctHZFZvFWsJqOfUd6WCL2trKQY4KdccxQDRrG/7ZYoRXrQCqOk27pdXyJFwwMUjM00Ojio7CuDyuTufMai8PD1OE05hRjkl1GOqLbGOVVHV4AAn90mldV55XZ4DvUWdEtWaOdXgSLD16ed62TJYYfprUt1EK88MczMfypIbsw+WyzEr9rCMJRCSxhFL5jHxpOpHrcJNg68zlT+13jyhKlT9JVnI6Rh1csXlLB3xzkW8KSIquZ87z+Gpd34aiC9k2LwEQ+EdIUh1+jqkRzwdu394/TMFXpF1SrKuvb0UbYut+EhEcr8tLm4AWDm7/oqGcJi1GtcKRXQ==
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
+ by DU0P189MB2498.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:424::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
+ 2026 15:20:57 +0000
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::3cc6:ccd5:b124:2a6a]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::3cc6:ccd5:b124:2a6a%7]) with mapi id 15.20.9520.003; Thu, 15 Jan 2026
+ 15:20:57 +0000
+From: Amaury Couderc <amaury.couderc@est.tech>
+To: "Song, Jiaying (CN)" <Jiaying.Song.CN@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] grub: fix CVE-2025-54771
+Thread-Topic: [OE-core] [PATCH] grub: fix CVE-2025-54771
+Thread-Index: AQHcgIO69c4Hscy0Wk6qMlaRWiTlDbVS78eAgABzIUk=
+Date: Thu, 15 Jan 2026 15:20:57 +0000
+Message-ID: 
+ <AMBP189MB3196B414593E6411CDD53C1FF88CA@AMBP189MB3196.EURP189.PROD.OUTLOOK.COM>
+References: <20260108094644.12175-1-amaury.couderc@est.tech>
+ <IA4PR11MB9420116AE74A162A6B7475FFB88CA@IA4PR11MB9420.namprd11.prod.outlook.com>
+In-Reply-To: 
+ <IA4PR11MB9420116AE74A162A6B7475FFB88CA@IA4PR11MB9420.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AMBP189MB3196:EE_|DU0P189MB2498:EE_
+x-ms-office365-filtering-correlation-id: 1886cafb-1aa3-4611-01f5-08de5449aeb4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|8096899003|13003099007|38070700021|7053199007;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?hETAZwTJG3f8bW2H81ebo73xqyyeL7WoVi1ylBDoYVNDsHZYdIxzGDWx2DKi?=
+ =?us-ascii?Q?Ksxe1mdtrSKOyHXhHxjQYPhPo0lZJ/a+AI+WPQ49uwzlY/PL4NcjyM1nRimp?=
+ =?us-ascii?Q?Hsp5cmptXLrF6YTIEOi+fxZSaQQUDPzqFKUk/XmH+jVtg8yGEgPI1fN2ETDJ?=
+ =?us-ascii?Q?4aSDUFJrVxHrXUjdXHivJwck2NuD86VYyAeLAJUgMMTm6bmEXLyLlXVL7PUX?=
+ =?us-ascii?Q?j4EiZggGrzt3zxgTvdZmhQ28WeJRc/ubZgIuLIuTqnf6u8Q2b5acskXXxSIE?=
+ =?us-ascii?Q?6+0oD5zecrpK8LjXfeQMngwGH1lxIvdQwS3sqj1kh3EWBsOTarl+xYjfoRRT?=
+ =?us-ascii?Q?pkZYEBTFZvviCHPh05SkBpFWz8Pc8S5vOPKnGETpsJNy3SH3mozqBr03Sm9t?=
+ =?us-ascii?Q?jFzM7/TOFPUQzvw3H3MH4Z53aS81aYuprw7vutMjYgQX4eaNkRLwzVCe5G3J?=
+ =?us-ascii?Q?67O5cUOamivqAoH/uqT/1ZhIAcdce4dAG6s8VD4tjox6JjG0joII5jL5isLV?=
+ =?us-ascii?Q?HxDpEL0dC+kUS8/RYWwUq0DTFisKG45/497n1itA2DdM9HFY5wlzUhb6wlAM?=
+ =?us-ascii?Q?YrdfKS2haIEIAcG8NrZUV7+g6UhUwrwd+pYdcQGNsH6Ls8F8aHZo6sM+0R0Z?=
+ =?us-ascii?Q?ZaOhULWAGMIozgPwbrUZT0ckdhk+gDbHqoUM1jyY3gXsmmB6yE+Qd14GHkLS?=
+ =?us-ascii?Q?zx6RVZhoS58dSrMaP8hFhtqowfM6aTF7oU1J/6BWNXNUzbGj5ct4qyYR6z8B?=
+ =?us-ascii?Q?t5UuJ5kCD1knpAnNxtkSsjlfFdf6KZTF9oatMXt85VE9uTQng6pzuRtqQE1o?=
+ =?us-ascii?Q?o1qRD8TZmpsApQE/FwLHuDB1g+cA9bqpf/SxDaMTQmzPJ1udLIdx7qP6nZOr?=
+ =?us-ascii?Q?6C1CybXN6kLCUueXT2lcQeyWEYhs8im0L/ptOlCaEbKZHlVVHNuSuH3hoZKz?=
+ =?us-ascii?Q?oFmcin57wagcjDBs+o9l7OZmolT/iX02E9XnSC5HVvvBrhjrZbaJJ3/IWrlB?=
+ =?us-ascii?Q?abmmHVkqEx187XM0HJFU4VrDBv1BMTBD2KHA9ElpaEl7YhcQ4BmnFpyV84TF?=
+ =?us-ascii?Q?uaC+P+SgqTYEyy1rlSp6T0Qc6lyZrgK6ga+Qrtzy117X5KP9lTazJSPBnRbJ?=
+ =?us-ascii?Q?2IKIN5yUSk9grkafVMLB+G0Xy9q4ClCpiwo7DlAto577gA8eappa9hvsNlDn?=
+ =?us-ascii?Q?2tXhMTpJ7f78E7PqYyaeaEGxY3P2wlV/kOKiZaXAyC7xcRiwRATufIOPIop8?=
+ =?us-ascii?Q?hfltPkOU3ohHR7hLSB9cConLMshiHHkve0/eH6m4+72u7k2ieUmgHErrzqSf?=
+ =?us-ascii?Q?BhYpP/gPR5Eayj7Vaw3j/4UJJ7Q39Roxt982GA4+FH5V9LWxrFY2nHK0MSMj?=
+ =?us-ascii?Q?G8kCHJs50Xrrj+lsHSzw59MhDpcPc0kQ7r6WP8CqlfWXfAFEyszo+95xhxnH?=
+ =?us-ascii?Q?uY+k0Vpd406281f7jeLGFi8l4tqfpuBtBrh76LUVipyPOkrZeyUNs2ZbUrbV?=
+ =?us-ascii?Q?bIJB09QlJNtue4vHMaNqkdjUDyrYaD/IvPcJhqhgoYaoqueIYbjThPQT6zr0?=
+ =?us-ascii?Q?l2zKZL0eQn8pfAGZs1vDwORfIFwkvuKjo8+hFSgg?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(8096899003)(13003099007)(38070700021)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?fZjtBM/x4tCBIW+jRWW64j/lpsQtmnYCzABOHqZpW6dgjgyJHluW/whLEpPm?=
+ =?us-ascii?Q?2gqfjR4UwuGW4rSgwwnRDQi32b97CTWE750SeBVNZFZoxtHdrOV1Y8oyDgU5?=
+ =?us-ascii?Q?tsQTHepyBR/fvvIvfc9HlQx8OX/oisTGs9ABYyRxRMGviiTGuoDzngZDRiIV?=
+ =?us-ascii?Q?z0QADqsPPGWPYEvYKWaymp14cagYyfROjPx7ogNodjlU0YAgbkj3ZbIG5LeO?=
+ =?us-ascii?Q?CR1WlKrmTPKn8aZBKIADAbFy1OWiYOrET0cmwIpdSbwc7lt0Wq3kH7mItpuC?=
+ =?us-ascii?Q?rzut1XDyQsmIQFS08MyFVKoX/5mmm4XXEUwxfcC5X2pCRaiOR1TVCookMQoE?=
+ =?us-ascii?Q?nuUQZhFdLA5X4mZAt8whbKlCRnOsWzHmZNzgQ3KPZh2AI4iL6vwgLFrj30jE?=
+ =?us-ascii?Q?RQDR0LvbkGmSk5es4G2LK8Tlr4QBOlWMrUSpoGVH6utYzlYN9Z+LQW/Ne26d?=
+ =?us-ascii?Q?o3klkGHHMfGKE0Aofk2F0ln5yCC0u3wC0YfSjI9l0ssM+zsUR2wZ74Y5rpVD?=
+ =?us-ascii?Q?zuzkQUWRaqNu2N0ZOJOIh9+96pnPtGLidy03sqzZvtVc3NtknwLkxvqTpO8c?=
+ =?us-ascii?Q?5JiuvKziKBwzWDW2vKjJczMs7QoA9I8uaIlQAe9ezeO97mpOoNebI8HPEqo9?=
+ =?us-ascii?Q?8zEEMs+wKFkOGZNDYT6G8lWDiw//V9RsJqYFuPq3WHblkxM5Hj4BPH+AE9IN?=
+ =?us-ascii?Q?rdr5NLnp64GnhMKjlJDzJUOGDiWaquEczqIOq0zZdQn879Z+S0j6CpU0r49T?=
+ =?us-ascii?Q?6vqhEdEG03rNhDCBoAddA4CZWpd+jCGnMN8Ho7fGKCCQLh+SZhzeU28oottU?=
+ =?us-ascii?Q?vN3dYdRESvzf7+JY4L+cuZvEuCN1IacBGePTZ2JWd9ak/kwUxayIpQdYnFEA?=
+ =?us-ascii?Q?Pcfq9Ujb85yz287SPaDfjNskOcBon0sPovcwlpC5Q+/Do+nz4s2KtOhdqLcE?=
+ =?us-ascii?Q?IdzREMQNaeVquM74KQeNjFPq+ExDkCutuuFBXyU9fw351y0CWn6q4/CR09QC?=
+ =?us-ascii?Q?rtkoMKBMrXuncCzEoIOELTq0DJC83mTZJx8vzgR/aYwHcG30jktldpe+RPrf?=
+ =?us-ascii?Q?UFP7H27E+Vpe8bglw2kbUi8cEELQcnkw//9BLeBgxAb1M6+T4qYLbrFkPweW?=
+ =?us-ascii?Q?Nap44mDLo7yjwER3qmJMxMi4tqlGOMyuyGg6uFIBACg6DYjZl2o5V581FBG6?=
+ =?us-ascii?Q?NJWLUSxUbivQip/gG6kbsvD3ChA41U2jg5BfMjbx7istdpX0YSpEFhHQe0Gs?=
+ =?us-ascii?Q?GeKCTVzA02yGDrPoS1CXilp9zTHNgGzfFDBd7n93P30Rj0gORX1au/PI96WQ?=
+ =?us-ascii?Q?PMRxr2IldmP0zPqwVVBjljh9k1+hFm7TOEFMC2o59sHRhS4kV/zmIsoG95uK?=
+ =?us-ascii?Q?3Gjrn+EcMQI8VAb3j66deL6lLooP02hbaB4MFoldiahHiAGjcrGH5+2rqrIN?=
+ =?us-ascii?Q?gkx/mPJ0E6dTHl+ga0Rr8DGZB+nKqBrIGirNBXx8Wvg2KJQlDpJ4dmT8ChBC?=
+ =?us-ascii?Q?KRymTUfRF/W8J79gcZJyYrc6uAFJgV8CWttQjampsAxvW0XY7kmQWMFS0+Ux?=
+ =?us-ascii?Q?ZYX11VYv9dSFFi009+G2gWjckNOFUJFgJPVg1oUi+CvcrBkkppujiXe4XJfm?=
+ =?us-ascii?Q?woUT4Wsr6JObt7CezMVGFXkKiGGchngwh3dvg//KxEn4glhHSCT2qXIu0Tu5?=
+ =?us-ascii?Q?J/6RyQNFqMzdA6Hqq98T1FTnUabAL6P+4TzVUYsL3lgnoYgP?=
+Content-Type: multipart/alternative;
+	boundary="_000_AMBP189MB3196B414593E6411CDD53C1FF88CAAMBP189MB3196EURP_"
 MIME-Version: 1.0
-References: <20260115101432.162696-1-adam.duskett@amarulasolutions.com> <20260115101432.162696-6-adam.duskett@amarulasolutions.com>
-In-Reply-To: <20260115101432.162696-6-adam.duskett@amarulasolutions.com>
-From: Pierre-loup GOSSE <pierre-loup.gosse@smile.fr>
-Date: Thu, 15 Jan 2026 15:55:45 +0100
-X-Gm-Features: AZwV_QiNJM3MuOHbeQc-1WPvI_GqRzdoE6uHEGPaAqH-qTFZ7fBTRa-ZV9PooB4
-Message-ID: <CAHT-cZvh=aH5gyDbR0eE3ZQn3FJ=i=SQQtHhU+swZeXnLnUyBA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 6/6] wic: extra-partitions: extend to support
- extra directories
-To: adam.duskett@amarulasolutions.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000013135b06486e6c85"
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1886cafb-1aa3-4611-01f5-08de5449aeb4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2026 15:20:57.3518
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3TOCkaF43bH2txn/MBpUXKXOzT3y7VPvQthOxRTBwH0z9d1f1PraTRsxnO8PY8VfqJBbh9mTCrP8K9lciG99XA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2498
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 14:56:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229416
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 15:21:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229417
 
---00000000000013135b06486e6c85
-Content-Type: text/plain; charset="UTF-8"
+--_000_AMBP189MB3196B414593E6411CDD53C1FF88CAAMBP189MB3196EURP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Adam,
+Hi,
 
-Thanks for this v4 patch series.
+According to the metadata of CVE-2025-54771, the known affected versions in=
+cluded grub-2.12 (link<https://github.com/CVEProject/cvelistV5/blob/main/cv=
+es/2025/54xxx/CVE-2025-54771.json>) , but we did not check for the actual f=
+irst implementation of the feature that generated the CVE. Thanks for your =
+input.
 
--        if not cls.extra_files_task:
-> -            raise WicError("Entry #%d does not have a corresponding %s
-> variable set!"
-> +        if not cls.extra_dirs_task and not cls.extra_files_task:
-> +            raise WicError("Entry #%d does not have a corresponding %s o=
-r
-> %s variable set!"
->                             "If you wish to create an empty partition,
-> remove "
->                             "--source extra-partition from the wks file"
-> -                           % (part.lineno,
-> cls.image_extra_partition_dirs_var_name))
-> +                           % (part.lineno,
-> cls.image_extra_partition_dirs_var_name,
-> +                              cls.image_extra_partition_dirs_var_name))
+Kind Regards,
+
+Amaury
+________________________________
+From: Song, Jiaying (CN) <Jiaying.Song.CN@windriver.com>
+Sent: Thursday, January 15, 2026 9:24 AM
+To: Amaury Couderc <amaury.couderc@est.tech>; openembedded-core@lists.opene=
+mbedded.org <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] grub: fix CVE-2025-54771
+
+Hi,
+
+Based on the upstream analysis and the fix commit:
+https://gitweb.git.savannah.gnu.org/gitweb/?p=3Dgrub.git;a=3Dcommitdiff;h=
+=3Dc4fb4cbc941981894a00ba8e75d634a41967a27f;hp=3Dcc9d621dd06bfa12eac511b37b=
+4ceda5bd2f8246
+
+This issue was introduced by commit 16f196874
+("kern/file: Implement filesystem reference counting"), as clearly stated
+in the Fixes tag of the upstream patch.
+
+According to the upstream history, commit 16f196874 is only present startin=
+g
+from grub-2.14-rc1. The currently used grub-2.12 version does not include
+this change.
+
+Therefore, grub-2.12 is not affected by CVE-2025-54771, and the proposed
+patch is not applicable to this version.
+
+Best regards,
+Jiaying
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of amaury.couderc via lists.openembedded.org
+Sent: Thursday, January 8, 2026 5:43 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Amaury Couderc <amaury.couderc@est.tech>
+Subject: [OE-core] [PATCH] grub: fix CVE-2025-54771
+
+CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
+
+From: Amaury Couderc <amaury.couderc@est.tech>
+
+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+---
+ .../grub/files/CVE-2025-54771.patch           | 65 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54771.patch
+
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54771.patch b/meta/recipe=
+s-bsp/grub/files/CVE-2025-54771.patch
+new file mode 100644
+index 0000000000..02beca45ad
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-54771.patch
+@@ -0,0 +1,65 @@
++From d1553f532f6796578dc10809e3abc751c4e2d90f Mon Sep 17 00:00:00 2001
++From: Thomas Frauendorfer | Miray Software <tf@miray.de>
++Date: Wed, 7 Jan 2026 11:04:38 +0100
++Subject: [PATCH] kern/file: Call grub_dl_unref() after fs->fs_close()
++
++With commit 16f196874 (kern/file: Implement filesystem reference
++counting) files hold a reference to their file systems.
++
++When closing a file in grub_file_close() we should not expect
++file->fs to stay valid after calling grub_dl_unref() on file->fs->mod.
++So, grub_dl_unref() should be called after file->fs->fs_close().
++
++Fixes: CVE-2025-54771
++Fixes: 16f196874 (kern/file: Implement filesystem reference counting)
++
++CVE-2025-54771
++
++Upstream-Status: Backport
++[https://www.openwall.com/lists/oss-security/2025/11/18/]
++
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ grub-core/kern/file.c | 3 +++
++ include/grub/fs.h     | 4 ++++
++ 2 files changed, 7 insertions(+)
++
++diff --git a/grub-core/kern/file.c b/grub-core/kern/file.c index
++750177248..81600527d 100644
++--- a/grub-core/kern/file.c
+++++ b/grub-core/kern/file.c
++@@ -197,6 +197,9 @@ grub_file_close (grub_file_t file)
++   if (file->fs->fs_close)
++     (file->fs->fs_close) (file);
++
+++  if (file->fs->mod)
+++    grub_dl_unref (file->fs->mod);
+++
++   if (file->device)
++     grub_device_close (file->device);
++   grub_free (file->name);
++diff --git a/include/grub/fs.h b/include/grub/fs.h index
++026bc3bb8..d37f38e91 100644
++--- a/include/grub/fs.h
+++++ b/include/grub/fs.h
++@@ -23,6 +23,7 @@
++ #include <grub/device.h>
++ #include <grub/symbol.h>
++ #include <grub/types.h>
+++#include <grub/dl.h>
++
++ #include <grub/list.h>
++ /* For embedding types.  */
++@@ -54,6 +55,9 @@ struct grub_fs
++   struct grub_fs *next;
++   struct grub_fs **prev;
++
+++  /* My module */
+++  grub_dl_t mod;
+++
++   /* My name.  */
++   const char *name;
++
++--
++2.43.0
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
+inc index 3160708113..876536e42b 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -42,6 +42,7 @@ SRC_URI =3D "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2025-61661.patch \
+            file://CVE-2025-61662.patch \
+            file://CVE-2025-61663_61664.patch \
++           file://CVE-2025-54771.patch \
+ "
+
+ SRC_URI[sha256sum] =3D "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2=
+b6f56154cb9c91"
+--
+2.52.0
 
 
-There is a typo, one of the printed variables should be
-image_extra_partition_files_var_name.
-
-
-+        if cls.extra_dirs_task:
-> +            for task in cls.extra_dirs_task:
-> +                mkdir_cmd =3D "mkdir -p %s/%s" % (extradir, task)
-> +                logger.debug(mkdir_cmd)
-> +                exec_cmd(mkdir_cmd)
-> +
-
-
-To maintain consistency with the extra files log, instead of printing the
-mkdir command, you could print something like:
-
-    logger.debug("Create directory %s" % task)
-
-
-@@ -13,20 +13,29 @@ logger =3D logging.getLogger('wic')
->  class ExtraPartitionPlugin(SourcePlugin):
->      """
->      Populates an extra partition with files listed in the
-> IMAGE_EXTRA_PARTITION_FILES
-> -    BitBake variable. Files should be deployed to the DEPLOY_DIR_IMAGE
-> directory.
-> +    BitBake variable or directories listed in the
-> IMAGE_EXTRA_PARTITION_DIRECTORIES Bitbake variable.
-> +
-> +    Directories are created automatically.
-> +    Files should be deployed to the DEPLOY_DIR_IMAGE directory.
->
-
-I think the description should be reworded to avoid the confusion that the
-plugin copies directories from DEPLOY_DIR_IMAGE like the files. Here is my
-suggestion:
-
-    Populates an extra partition with:
-    - Files listed in the IMAGE_EXTRA_PARTITION_FILES BitBake variable.
-Files should be deployed to
-      the DEPLOY_DIR_IMAGE directory.
-    - Empty directories listed in the IMAGE_EXTRA_PARTITION_DIRECTORIES
-Bitbake variable.
-      Directories are created automatically.
-
-What do you think ?
-
-
-And just two minor points:
-
-     For example:
->
-> +        IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo =3D "/foo /bar/baz"
-> +
-> IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d10=
-5d
-> =3D "/foo /bar/baz"
-> +
->          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> "bar.conf;foobar.conf"
->          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
->          WICVARS:append =3D "\
-> +            IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo \
-> +
-> IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d10=
-5d
-> \
->              IMAGE_EXTRA_PARTITION_FILES_label-foo \
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
->
-
-I would add an extra line in the plugin description before the WICVARS,
-just as you did to separate the directories and files variables.
-
-
-@@ -50,6 +60,23 @@ class ExtraPartitionPlugin(SourcePlugin):
->                  break
->          return extra_vars
->
-> +
-> +    @classmethod
-> +    def _parse_extra_directories(cls, part):
-> +        """
-> +        Parse the directories of which to copy.
-> +        """
->
-
-There is an extra line between the functions.
-
-
-Thanks for your compromise, I appreciate it.
-
-Pierre-Loup,
-
-
-
-On Thu, Jan 15, 2026 at 11:15=E2=80=AFAM Adam Duskett via lists.openembedde=
-d.org
-<adam.duskett=3Damarulasolutions.com@lists.openembedded.org> wrote:
-
->   - Add the ability to define a space-delminated list of directories
->     to create on the extra partition.
->
->   - Extend the fail condition to fail if both extra directories and
->     extra files is not defined.
->
-> Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-> ---
-> v1 -> v2: Make the list space deliminated instead of semicolon deliminate=
-d.
->           If the list is blank, print a warning instead of an info.
->
-> v2 -> v3: Remove uneeded logic in _parse_extra_directories
->
-> v3 -> v4: Rework to error if extra directories and files are not set.
->
->  meta/lib/oeqa/selftest/cases/wic.py           | 11 +++++
->  .../lib/wic/plugins/source/extra_partition.py | 43 +++++++++++++++++--
->  2 files changed, 50 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py
-> b/meta/lib/oeqa/selftest/cases/wic.py
-> index d7a9b14658..83072deaae 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -1657,10 +1657,14 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
->      def test_extra_partition_plugin(self):
->          """Test extra partition plugin"""
->          config =3D dedent("""\
-> +        IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo =3D "/test1
-> /test2/test3"
-> +
-> IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d10=
-5d
-> =3D "/test1 /test2/test3"
->          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> "bar.conf;foobar.conf"
->          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
->          WICVARS:append =3D "\
-> +            IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo \
-> +
-> IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d10=
-5d
-> \
->              IMAGE_EXTRA_PARTITION_FILES_label-foo \
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
->          "
-> @@ -1692,6 +1696,13 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
->                  result =3D runCmd("wic ls %s | wc -l" % wicimg)
->                  self.assertEqual('4', result.output, msg=3D"Expect 3
-> partitions, not %s" % result.output)
->
-> +                for part, extra_dir in enumerate(["test1", "test2"]):
-> +                    result =3D runCmd("wic ls %s:%d | grep -q \"%s\"" %
-> (wicimg, part + 1, extra_dir))
-> +                    self.assertEqual(0, result.status, msg=3D"Directory
-> '%s' not found in the partition #%d" % (extra_dir, part))
-> +
-> +                    result =3D runCmd("wic ls %s:%d/test2 | grep -q
-> \"test3\"" % (wicimg, part + 1))
-> +                    self.assertEqual(0, result.status, msg=3D"Directory
-> test2/test3 not found in the partition #%d" % part)
-> +
->                  for part, file in enumerate(["foo.conf", "foobar.conf",
-> "bar.conf"]):
->                      result =3D runCmd("wic ls %s:%d | grep -q \"%s\"" %
-> (wicimg, part + 1, file))
->                      self.assertEqual(0, result.status, msg=3D"File '%s' =
-not
-> found in the partition #%d" % (file, part))
-> diff --git a/scripts/lib/wic/plugins/source/extra_partition.py
-> b/scripts/lib/wic/plugins/source/extra_partition.py
-> index 62a7b4b1d3..185fcab585 100644
-> --- a/scripts/lib/wic/plugins/source/extra_partition.py
-> +++ b/scripts/lib/wic/plugins/source/extra_partition.py
-> @@ -13,20 +13,29 @@ logger =3D logging.getLogger('wic')
->  class ExtraPartitionPlugin(SourcePlugin):
->      """
->      Populates an extra partition with files listed in the
-> IMAGE_EXTRA_PARTITION_FILES
-> -    BitBake variable. Files should be deployed to the DEPLOY_DIR_IMAGE
-> directory.
-> +    BitBake variable or directories listed in the
-> IMAGE_EXTRA_PARTITION_DIRECTORIES Bitbake variable.
-> +
-> +    Directories are created automatically.
-> +    Files should be deployed to the DEPLOY_DIR_IMAGE directory.
->
->      The plugin supports:
->      - Glob pattern matching for file selection.
->      - File renaming.
->      - Suffixes to specify the target partition (by label, UUID, or
-> partname),
->        enabling multiple extra partitions to coexist.
-> +    - Extra directories.
->
->      For example:
->
-> +        IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo =3D "/foo /bar/baz"
-> +
-> IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d10=
-5d
-> =3D "/foo /bar/baz"
-> +
->          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> "bar.conf;foobar.conf"
->          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
->          WICVARS:append =3D "\
-> +            IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo \
-> +
-> IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d10=
-5d
-> \
->              IMAGE_EXTRA_PARTITION_FILES_label-foo \
->
->  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
->          "
-> @@ -34,6 +43,7 @@ class ExtraPartitionPlugin(SourcePlugin):
->      """
->
->      name =3D 'extra_partition'
-> +    image_extra_partition_dirs_var_name =3D
-> 'IMAGE_EXTRA_PARTITION_DIRECTORIES'
->      image_extra_partition_files_var_name =3D 'IMAGE_EXTRA_PARTITION_FILE=
-S'
->
->      @classmethod
-> @@ -50,6 +60,23 @@ class ExtraPartitionPlugin(SourcePlugin):
->                  break
->          return extra_vars
->
-> +
-> +    @classmethod
-> +    def _parse_extra_directories(cls, part):
-> +        """
-> +        Parse the directories of which to copy.
-> +        """
-> +        cls.extra_dirs_task =3D []
-> +
-> +        extra_dirs =3D cls._get_extra_vars(part,
-> cls.image_extra_partition_dirs_var_name)
-> +        if extra_dirs is None:
-> +            logger.warning('No extra directories defined, %s unset for
-> entry #%d' % (cls.image_extra_partition_dirs_var_name, part.lineno))
-> +            return
-> +
-> +        logger.info('Extra dirs: %s', extra_dirs)
-> +        for src_entry in extra_dirs.strip().split(' '):
-> +            cls.extra_dirs_task.append(src_entry)
-> +
->      @classmethod
->      def _parse_extra_files(cls, part, kernel_dir):
->          """
-> @@ -113,6 +140,7 @@ class ExtraPartitionPlugin(SourcePlugin):
->              if not kernel_dir:
->                  raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting"=
-)
->
-> +        cls._parse_extra_directories(part)
->          cls._parse_extra_files(part, kernel_dir)
->
->      @classmethod
-> @@ -126,17 +154,24 @@ class ExtraPartitionPlugin(SourcePlugin):
->          """
->          extradir =3D "%s/extra.%d" % (cr_workdir, part.lineno)
->
-> -        if not cls.extra_files_task:
-> -            raise WicError("Entry #%d does not have a corresponding %s
-> variable set!"
-> +        if not cls.extra_dirs_task and not cls.extra_files_task:
-> +            raise WicError("Entry #%d does not have a corresponding %s o=
-r
-> %s variable set!"
->                             "If you wish to create an empty partition,
-> remove "
->                             "--source extra-partition from the wks file"
-> -                           % (part.lineno,
-> cls.image_extra_partition_dirs_var_name))
-> +                           % (part.lineno,
-> cls.image_extra_partition_dirs_var_name,
-> +                              cls.image_extra_partition_dirs_var_name))
->
->          if not kernel_dir:
->              kernel_dir =3D get_bitbake_var("DEPLOY_DIR_IMAGE")
->              if not kernel_dir:
->                  raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting"=
-)
->
-> +        if cls.extra_dirs_task:
-> +            for task in cls.extra_dirs_task:
-> +                mkdir_cmd =3D "mkdir -p %s/%s" % (extradir, task)
-> +                logger.debug(mkdir_cmd)
-> +                exec_cmd(mkdir_cmd)
-> +
->          if cls.extra_files_task:
->              for task in cls.extra_files_task:
->                  src_path, dst_path =3D task
-> --
-> 2.52.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Liens: Vous recevez tous les messages envoy=C3=A9s =C3=A0 ce groupe.
-> Voir/R=C3=A9pondre en ligne (#229404):
-> https://lists.openembedded.org/g/openembedded-core/message/229404
-> Sujets: https://lists.openembedded.org/mt/117276849/9955716
-> Propri=C3=A9taire du groupe: openembedded-core+owner@lists.openembedded.o=
-rg
-> Se d=C3=A9sabonner: https://lists.openembedded.org/g/openembedded-core/un=
-sub [
-> pierre-loup.gosse@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---00000000000013135b06486e6c85
-Content-Type: text/html; charset="UTF-8"
+--_000_AMBP189MB3196B414593E6411CDD53C1FF88CAAMBP189MB3196EURP_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Adam,</div><div><br></div><div>Th=
-anks for this v4 patch series.</div><div><br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.extra_fil=
-es_task:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise WicError(&quot;Entry #%d d=
-oes not have a corresponding %s variable set!&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.extra_dirs_task and not cls.extra_f=
-iles_task:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise WicError(&quot;Entry #%d d=
-oes not have a corresponding %s or %s variable set!&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;If you wish to create an empty partition, re=
-move &quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;--source extra-partition from the wks file&q=
-uot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0% (part.lineno, cls.image_extra_partition_dirs_var_=
-name))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0% (part.lineno, cls.image_extra_partition_dirs_var_=
-name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.image_extra_partition_dirs_var_name))</=
-blockquote><div>=C2=A0</div><div>There is a typo, one of the printed variab=
-les should be=C2=A0<span style=3D"font-family:monospace">image_extra_partit=
-ion_files_var_name</span>.</div><div><br></div><div><br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if cls.ex=
-tra_dirs_task:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for task in cls.extra_dirs_task:=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir_cmd =3D &quo=
-t;mkdir -p %s/%s&quot; % (extradir, task)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(mkdir=
-_cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_cmd(mkdir_cmd=
-)<br>
-+</blockquote><div><br></div><div>To maintain consistency with the extra fi=
-les log, instead of printing the mkdir command, you could print something l=
-ike:</div><div><span style=3D"font-family:monospace"><br></span></div><div>=
-<span style=3D"font-family:monospace">=C2=A0 =C2=A0 logger.debug(&quot;Crea=
-te directory %s&quot; % task)</span></div><div><br></div><div><br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">@@ -13,20 +13,29 @@ logger =
-=3D logging.getLogger(&#39;wic&#39;)<br>
-=C2=A0class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Populates an extra partition with files listed in the I=
-MAGE_EXTRA_PARTITION_FILES<br>
--=C2=A0 =C2=A0 BitBake variable. Files should be deployed to the DEPLOY_DIR=
-_IMAGE directory.<br>
-+=C2=A0 =C2=A0 BitBake variable or directories listed in the IMAGE_EXTRA_PA=
-RTITION_DIRECTORIES Bitbake variable.<br>
-+<br>
-+=C2=A0 =C2=A0 Directories are created automatically.<br>
-+=C2=A0 =C2=A0 Files should be deployed to the DEPLOY_DIR_IMAGE directory.<=
-br></blockquote><div><br></div><div>I think the description should be rewor=
-ded to avoid the confusion that the plugin copies directories from DEPLOY_D=
-IR_IMAGE like the files. Here is my suggestion:</div><div><br></div><div><s=
-pan style=3D"font-family:monospace">=C2=A0 =C2=A0 Populates an extra partit=
-ion with:<br>=C2=A0 =C2=A0 - Files listed in the IMAGE_EXTRA_PARTITION_FILE=
-S BitBake variable. Files should be deployed to</span></div><div><span styl=
-e=3D"font-family:monospace">=C2=A0 =C2=A0 =C2=A0 the DEPLOY_DIR_IMAGE direc=
-tory.<br>=C2=A0 =C2=A0 - Empty directories listed in the IMAGE_EXTRA_PARTIT=
-ION_DIRECTORIES Bitbake variable.<br>=C2=A0 =C2=A0 =C2=A0 Directories are c=
-reated automatically.</span></div><div><br></div><div>What do you think ?</=
-div><div><br></div><div><br></div><div>And just two minor points:</div><div=
-><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 =C2=A0 =
-=C2=A0For example:<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo =
-=3D &quot;/foo /bar/baz&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824=
-e-cda3-4bed-9f54-9ef5312d105d =3D &quot;/foo /bar/baz&quot;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
- &quot;bar.conf;foo.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
--cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
-/*&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WICVARS:append =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIE=
-S_label-foo \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIE=
-S_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_label-foo \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br></blockquote><div><br></div=
-><div>I would add an extra line in the plugin description before the WICVAR=
-S, just as you did to separate the directories and files variables.</div><d=
-iv><br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">@@ -50,6 +60,23 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return extra_vars<br>
-<br>
-+<br>
-+=C2=A0 =C2=A0 @classmethod<br>
-+=C2=A0 =C2=A0 def _parse_extra_directories(cls, part):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Parse the directories of which to copy.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br></blockquote><div><br></=
-div><div>There is an extra line between the functions.</div><div><br></div>=
-<div><br></div><div>Thanks for your compromise, I appreciate it.</div><div>=
-<br></div><div>Pierre-Loup,</div><div><br></div><div><br></div></div><br><d=
-iv class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Thu, Jan 15, 2026 at 11:15=E2=80=AFAM Adam Duskett via <a href=
-=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;adam.dusk=
-ett=3D<a href=3D"mailto:amarulasolutions.com@lists.openembedded.org">amarul=
-asolutions.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">=C2=A0 - Add the ability to define a s=
-pace-delminated list of directories<br>
-=C2=A0 =C2=A0 to create on the extra partition.<br>
-<br>
-=C2=A0 - Extend the fail condition to fail if both extra directories and<br=
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-=C2=A0 =C2=A0 extra files is not defined.<br>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Hi,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
 <br>
-Signed-off-by: Adam Duskett &lt;<a href=3D"mailto:adam.duskett@amarulasolut=
-ions.com" target=3D"_blank">adam.duskett@amarulasolutions.com</a>&gt;<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+According to the metadata of CVE-2025-54771, the known affected versions in=
+cluded grub-2.12 (<a title=3D"https://github.com/CVEProject/cvelistV5/blob/=
+main/cves/2025/54xxx/CVE-2025-54771.json" href=3D"https://github.com/CVEPro=
+ject/cvelistV5/blob/main/cves/2025/54xxx/CVE-2025-54771.json">link</a>)
+ , but we did not check for the actual first implementation of the feature =
+that generated the CVE. Thanks for your input.</div>
+<div class=3D"elementToProof" id=3D"Signature">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, &quot;Aptos_EmbeddedFont&quot;, &quot;Apt=
+os_MSFontService&quot;, Calibri, Helvetica, sans-serif; font-size: 12pt; co=
+lor: rgb(0, 0, 0);" class=3D"elementToProof">
+Kind Regards,</div>
+<div style=3D"font-family: Aptos, &quot;Aptos_EmbeddedFont&quot;, &quot;Apt=
+os_MSFontService&quot;, Calibri, Helvetica, sans-serif; font-size: 12pt; co=
+lor: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, &quot;Aptos_EmbeddedFont&quot;, &quot;Apt=
+os_MSFontService&quot;, Calibri, Helvetica, sans-serif; font-size: 12pt; co=
+lor: rgb(0, 0, 0);" class=3D"elementToProof">
+Amaury</div>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Song, Jiaying (CN) &l=
+t;Jiaying.Song.CN@windriver.com&gt;<br>
+<b>Sent:</b> Thursday, January 15, 2026 9:24 AM<br>
+<b>To:</b> Amaury Couderc &lt;amaury.couderc@est.tech&gt;; openembedded-cor=
+e@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<b=
+r>
+<b>Subject:</b> RE: [OE-core] [PATCH] grub: fix CVE-2025-54771</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Hi,<br>
+<br>
+Based on the upstream analysis and the fix commit:<br>
+<a href=3D"https://gitweb.git.savannah.gnu.org/gitweb/?p=3Dgrub.git;a=3Dcom=
+mitdiff;h=3Dc4fb4cbc941981894a00ba8e75d634a41967a27f;hp=3Dcc9d621dd06bfa12e=
+ac511b37b4ceda5bd2f8246">https://gitweb.git.savannah.gnu.org/gitweb/?p=3Dgr=
+ub.git;a=3Dcommitdiff;h=3Dc4fb4cbc941981894a00ba8e75d634a41967a27f;hp=3Dcc9=
+d621dd06bfa12eac511b37b4ceda5bd2f8246</a><br>
+<br>
+This issue was introduced by commit 16f196874<br>
+(&quot;kern/file: Implement filesystem reference counting&quot;), as clearl=
+y stated<br>
+in the Fixes tag of the upstream patch.<br>
+<br>
+According to the upstream history, commit 16f196874 is only present startin=
+g<br>
+from grub-2.14-rc1. The currently used grub-2.12 version does not include<b=
+r>
+this change.<br>
+<br>
+Therefore, grub-2.12 is not affected by CVE-2025-54771, and the proposed<br=
+>
+patch is not applicable to this version.<br>
+<br>
+Best regards,<br>
+Jiaying<br>
+-----Original Message-----<br>
+From: openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.=
+openembedded.org&gt; On Behalf Of amaury.couderc via lists.openembedded.org=
+<br>
+Sent: Thursday, January 8, 2026 5:43 PM<br>
+To: openembedded-core@lists.openembedded.org<br>
+Cc: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
+Subject: [OE-core] [PATCH] grub: fix CVE-2025-54771<br>
+<br>
+CAUTION: This email comes from a non Wind River email account!<br>
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.<br>
+<br>
+From: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
+<br>
+Signed-off-by: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
 ---<br>
-v1 -&gt; v2: Make the list space deliminated instead of semicolon deliminat=
-ed.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 If the list is blank, print a warning in=
-stead of an info.<br>
-<br>
-v2 -&gt; v3: Remove uneeded logic in _parse_extra_directories<br>
-<br>
-v3 -&gt; v4: Rework to error if extra directories and files are not set.<br=
->
-<br>
-=C2=A0meta/lib/oeqa/selftest/cases/wic.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 11 +++++<br>
-=C2=A0.../lib/wic/plugins/source/extra_partition.py | 43 +++++++++++++++++-=
--<br>
-=C2=A02 files changed, 50 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/c=
-ases/wic.py<br>
-index d7a9b14658..83072deaae 100644<br>
---- a/meta/lib/oeqa/selftest/cases/wic.py<br>
-+++ b/meta/lib/oeqa/selftest/cases/wic.py<br>
-@@ -1657,10 +1657,14 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot=
-&quot;<br>
-=C2=A0 =C2=A0 =C2=A0def test_extra_partition_plugin(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Test extra partition pl=
-ugin&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config =3D dedent(&quot;&quot;&quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo =
-=3D &quot;/test1 /test2/test3&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824=
-e-cda3-4bed-9f54-9ef5312d105d =3D &quot;/test1 /test2/test3&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
- &quot;bar.conf;foo.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
--cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
-/*&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WICVARS:append =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIE=
-S_label-foo \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIE=
-S_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_label-foo \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-@@ -1692,6 +1696,13 @@ INITRAMFS_IMAGE =3D &quot;core-image-initramfs-boot&=
-quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D ru=
-nCmd(&quot;wic ls %s | wc -l&quot; % wicimg)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEq=
-ual(&#39;4&#39;, result.output, msg=3D&quot;Expect 3 partitions, not %s&quo=
-t; % result.output)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for part, extra_di=
-r in enumerate([&quot;test1&quot;, &quot;test2&quot;]):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resu=
-lt =3D runCmd(&quot;wic ls %s:%d | grep -q \&quot;%s\&quot;&quot; % (wicimg=
-, part + 1, extra_dir))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
-.assertEqual(0, result.status, msg=3D&quot;Directory &#39;%s&#39; not found=
- in the partition #%d&quot; % (extra_dir, part))<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resu=
-lt =3D runCmd(&quot;wic ls %s:%d/test2 | grep -q \&quot;test3\&quot;&quot; =
-% (wicimg, part + 1))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
-.assertEqual(0, result.status, msg=3D&quot;Directory test2/test3 not found =
-in the partition #%d&quot; % part)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for part, fil=
-e in enumerate([&quot;foo.conf&quot;, &quot;foobar.conf&quot;, &quot;bar.co=
-nf&quot;]):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0result =3D runCmd(&quot;wic ls %s:%d | grep -q \&quot;%s\&quot;&quot; % =
-(wicimg, part + 1, file))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0self.assertEqual(0, result.status, msg=3D&quot;File &#39;%s&#39; not fou=
-nd in the partition #%d&quot; % (file, part))<br>
-diff --git a/scripts/lib/wic/plugins/source/extra_partition.py b/scripts/li=
-b/wic/plugins/source/extra_partition.py<br>
-index 62a7b4b1d3..185fcab585 100644<br>
---- a/scripts/lib/wic/plugins/source/extra_partition.py<br>
-+++ b/scripts/lib/wic/plugins/source/extra_partition.py<br>
-@@ -13,20 +13,29 @@ logger =3D logging.getLogger(&#39;wic&#39;)<br>
-=C2=A0class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Populates an extra partition with files listed in the I=
-MAGE_EXTRA_PARTITION_FILES<br>
--=C2=A0 =C2=A0 BitBake variable. Files should be deployed to the DEPLOY_DIR=
-_IMAGE directory.<br>
-+=C2=A0 =C2=A0 BitBake variable or directories listed in the IMAGE_EXTRA_PA=
-RTITION_DIRECTORIES Bitbake variable.<br>
-+<br>
-+=C2=A0 =C2=A0 Directories are created automatically.<br>
-+=C2=A0 =C2=A0 Files should be deployed to the DEPLOY_DIR_IMAGE directory.<=
-br>
-<br>
-=C2=A0 =C2=A0 =C2=A0The plugin supports:<br>
-=C2=A0 =C2=A0 =C2=A0- Glob pattern matching for file selection.<br>
-=C2=A0 =C2=A0 =C2=A0- File renaming.<br>
-=C2=A0 =C2=A0 =C2=A0- Suffixes to specify the target partition (by label, U=
-UID, or partname),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0enabling multiple extra partitions to coexist.<b=
-r>
-+=C2=A0 =C2=A0 - Extra directories.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0For example:<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIES_label-foo =
-=3D &quot;/foo /bar/baz&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIES_uuid-e7d0824=
-e-cda3-4bed-9f54-9ef5312d105d =3D &quot;/foo /bar/baz&quot;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_label-foo =3D=
- &quot;bar.conf;foo.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e=
--cda3-4bed-9f54-9ef5312d105d =3D &quot;bar.conf;foobar.conf&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES =3D &quot;foo=
-/*&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WICVARS:append =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIE=
-S_label-foo \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IMAGE_EXTRA_PARTITION_DIRECTORIE=
-S_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_label-foo \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IMAGE_EXTRA_PARTITION_FILES=
-_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-@@ -34,6 +43,7 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0name =3D &#39;extra_partition&#39;<br>
-+=C2=A0 =C2=A0 image_extra_partition_dirs_var_name =3D &#39;IMAGE_EXTRA_PAR=
-TITION_DIRECTORIES&#39;<br>
-=C2=A0 =C2=A0 =C2=A0image_extra_partition_files_var_name =3D &#39;IMAGE_EXT=
-RA_PARTITION_FILES&#39;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0@classmethod<br>
-@@ -50,6 +60,23 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return extra_vars<br>
-<br>
-+<br>
-+=C2=A0 =C2=A0 @classmethod<br>
-+=C2=A0 =C2=A0 def _parse_extra_directories(cls, part):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Parse the directories of which to copy.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.extra_dirs_task =3D []<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 extra_dirs =3D cls._get_extra_vars(part, cls.i=
-mage_extra_partition_dirs_var_name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if extra_dirs is None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&#39;No extra dir=
-ectories defined, %s unset for entry #%d&#39; % (cls.image_extra_partition_=
-dirs_var_name, part.lineno))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferr=
-er" target=3D"_blank">logger.info</a>(&#39;Extra dirs: %s&#39;, extra_dirs)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for src_entry in extra_dirs.strip().split(&#39=
-; &#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.extra_dirs_task.append(src_e=
-ntry)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0@classmethod<br>
-=C2=A0 =C2=A0 =C2=A0def _parse_extra_files(cls, part, kernel_dir):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-@@ -113,6 +140,7 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not kernel_dir:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise WicErro=
-r(&quot;Couldn&#39;t find DEPLOY_DIR_IMAGE, exiting&quot;)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls._parse_extra_directories(part)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cls._parse_extra_files(part, kernel_dir)<=
-br>
-<br>
-=C2=A0 =C2=A0 =C2=A0@classmethod<br>
-@@ -126,17 +154,24 @@ class ExtraPartitionPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extradir =3D &quot;%s/extra.%d&quot; % (c=
-r_workdir, part.lineno)<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.extra_files_task:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise WicError(&quot;Entry #%d d=
-oes not have a corresponding %s variable set!&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.extra_dirs_task and not cls.extra_f=
-iles_task:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise WicError(&quot;Entry #%d d=
-oes not have a corresponding %s or %s variable set!&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;If you wish to create an empty partition, re=
-move &quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;--source extra-partition from the wks file&q=
-uot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0% (part.lineno, cls.image_extra_partition_dirs_var_=
-name))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0% (part.lineno, cls.image_extra_partition_dirs_var_=
-name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.image_extra_partition_dirs_var_name))<b=
+&nbsp;.../grub/files/CVE-2025-54771.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; | 65 +++++++++++++++++++<br>
+&nbsp;meta/recipes-bsp/grub/grub2.inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +<br>
+&nbsp;2 files changed, 66 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54771.patch<b=
 r>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not kernel_dir:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_dir =3D get_bitbake_=
-var(&quot;DEPLOY_DIR_IMAGE&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not kernel_dir:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise WicErro=
-r(&quot;Couldn&#39;t find DEPLOY_DIR_IMAGE, exiting&quot;)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if cls.extra_dirs_task:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for task in cls.extra_dirs_task:=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir_cmd =3D &quo=
-t;mkdir -p %s/%s&quot; % (extradir, task)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(mkdir=
-_cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_cmd(mkdir_cmd=
-)<br>
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54771.patch b/meta/recipe=
+s-bsp/grub/files/CVE-2025-54771.patch<br>
+new file mode 100644<br>
+index 0000000000..02beca45ad<br>
+--- /dev/null<br>
++++ b/meta/recipes-bsp/grub/files/CVE-2025-54771.patch<br>
+@@ -0,0 +1,65 @@<br>
++From d1553f532f6796578dc10809e3abc751c4e2d90f Mon Sep 17 00:00:00 2001<br>
++From: Thomas Frauendorfer | Miray Software &lt;tf@miray.de&gt;<br>
++Date: Wed, 7 Jan 2026 11:04:38 +0100<br>
++Subject: [PATCH] kern/file: Call grub_dl_unref() after fs-&gt;fs_close()<b=
+r>
 +<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if cls.extra_files_task:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for task in cls.extra_files=
-_task:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0src_path, dst=
-_path =3D task<br>
--- <br>
++With commit 16f196874 (kern/file: Implement filesystem reference<br>
++counting) files hold a reference to their file systems.<br>
++<br>
++When closing a file in grub_file_close() we should not expect<br>
++file-&gt;fs to stay valid after calling grub_dl_unref() on file-&gt;fs-&gt=
+;mod.<br>
++So, grub_dl_unref() should be called after file-&gt;fs-&gt;fs_close().<br>
++<br>
++Fixes: CVE-2025-54771<br>
++Fixes: 16f196874 (kern/file: Implement filesystem reference counting)<br>
++<br>
++CVE-2025-54771<br>
++<br>
++Upstream-Status: Backport<br>
++[<a href=3D"https://www.openwall.com/lists/oss-security/2025/11/18/">https=
+://www.openwall.com/lists/oss-security/2025/11/18/</a>]<br>
++<br>
++Signed-off-by: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
++---<br>
++ grub-core/kern/file.c | 3 +++<br>
++ include/grub/fs.h&nbsp;&nbsp;&nbsp;&nbsp; | 4 ++++<br>
++ 2 files changed, 7 insertions(+)<br>
++<br>
++diff --git a/grub-core/kern/file.c b/grub-core/kern/file.c index <br>
++750177248..81600527d 100644<br>
++--- a/grub-core/kern/file.c<br>
+++++ b/grub-core/kern/file.c<br>
++@@ -197,6 +197,9 @@ grub_file_close (grub_file_t file)<br>
++&nbsp;&nbsp; if (file-&gt;fs-&gt;fs_close)<br>
++&nbsp;&nbsp;&nbsp;&nbsp; (file-&gt;fs-&gt;fs_close) (file);<br>
++<br>
+++&nbsp; if (file-&gt;fs-&gt;mod)<br>
+++&nbsp;&nbsp;&nbsp; grub_dl_unref (file-&gt;fs-&gt;mod);<br>
+++<br>
++&nbsp;&nbsp; if (file-&gt;device)<br>
++&nbsp;&nbsp;&nbsp;&nbsp; grub_device_close (file-&gt;device);<br>
++&nbsp;&nbsp; grub_free (file-&gt;name);<br>
++diff --git a/include/grub/fs.h b/include/grub/fs.h index <br>
++026bc3bb8..d37f38e91 100644<br>
++--- a/include/grub/fs.h<br>
+++++ b/include/grub/fs.h<br>
++@@ -23,6 +23,7 @@<br>
++ #include &lt;grub/device.h&gt;<br>
++ #include &lt;grub/symbol.h&gt;<br>
++ #include &lt;grub/types.h&gt;<br>
+++#include &lt;grub/dl.h&gt;<br>
++<br>
++ #include &lt;grub/list.h&gt;<br>
++ /* For embedding types.&nbsp; */<br>
++@@ -54,6 +55,9 @@ struct grub_fs<br>
++&nbsp;&nbsp; struct grub_fs *next;<br>
++&nbsp;&nbsp; struct grub_fs **prev;<br>
++<br>
+++&nbsp; /* My module */<br>
+++&nbsp; grub_dl_t mod;<br>
+++<br>
++&nbsp;&nbsp; /* My name.&nbsp; */<br>
++&nbsp;&nbsp; const char *name;<br>
++<br>
++--<br>
++2.43.0<br>
++<br>
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
+inc index 3160708113..876536e42b 100644<br>
+--- a/meta/recipes-bsp/grub/grub2.inc<br>
++++ b/meta/recipes-bsp/grub/grub2.inc<br>
+@@ -42,6 +42,7 @@ SRC_URI =3D &quot;${GNU_MIRROR}/grub/grub-${PV}.tar.gz \<=
+br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2025-61661.patch">file://CVE-2025-61661.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2025-61662.patch">file://CVE-2025-61662.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2025-61663_61664.patch">file://CVE-2025-61663_61664.patch</a=
+> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2025-54771.patch">file://CVE-2025-54771.patch</a> \<br>
+&nbsp;&quot;<br>
+<br>
+&nbsp;SRC_URI[sha256sum] =3D &quot;b30919fa5be280417c17ac561bb1650f60cfb80c=
+c6237fa1e2b6f56154cb9c91&quot;<br>
+--<br>
 2.52.0<br>
 <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Liens: Vous recevez tous les messages envoy=C3=A9s =C3=A0 ce groupe.<br>
-Voir/R=C3=A9pondre en ligne (#229404): <a href=3D"https://lists.openembedde=
-d.org/g/openembedded-core/message/229404" rel=3D"noreferrer" target=3D"_bla=
-nk">https://lists.openembedded.org/g/openembedded-core/message/229404</a><b=
-r>
-Sujets: <a href=3D"https://lists.openembedded.org/mt/117276849/9955716" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/1172768=
-49/9955716</a><br>
-Propri=C3=A9taire du groupe: <a href=3D"mailto:openembedded-core%2Bowner@li=
-sts.openembedded.org" target=3D"_blank">openembedded-core+owner@lists.opene=
-mbedded.org</a><br>
-Se d=C3=A9sabonner: <a href=3D"https://lists.openembedded.org/g/openembedde=
-d-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
-ed.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:pierre-loup.gosse@s=
-mile.fr" target=3D"_blank">pierre-loup.gosse@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+</div>
+</span></font></div>
+</body>
+</html>
 
---00000000000013135b06486e6c85--
+--_000_AMBP189MB3196B414593E6411CDD53C1FF88CAAMBP189MB3196EURP_--
 
