@@ -2,14 +2,14 @@ Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB76D46603
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 17:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD0FD4660A
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 18:01:17 +0000 (UTC)
 Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.41359.1768497074596110579
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.973.1768500070105151399
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 09:11:15 -0800
+ Thu, 15 Jan 2026 10:01:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=DHtdz5H/;
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=XP7NUld8;
  spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
@@ -17,26 +17,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=XxG2kAj92QlyZbQl5AyTaJV2NvZ5wwjUm471cpvNGdI=; b=DHtdz5H/7VOuUPZu12wRT+yw2N
-	HTSRGmjIlzknjJqcaT0F9BTc9OiANNO6jsIg4/MFK/8ls4itk8PaD9I0gPDM9ekgMFF3zL5UTTnfV
-	4LbWTUHHsvZlOVyFLkDhpL1+Kh+IE/Cxavbxaf0FBMcx+Xjt4r4c52BxNurn7TYQeYvrS6I2o8XvL
-	jkFyp2JZ7CwIKdm+jXE2ULLUwx34JYJ0GnMhTwxEJUETC2wyD+tzWcTNz2eFPi0hp/5LjT1UVM+Go
-	82OZS2zwedK627ucEYjZ2/YEuDeDM1H0/PolpZyi8qg6zo+Zs5CSO0ddk81jzoBavVpoApNyP12md
-	2RTzwFCg==;
-Received: from [147.129.179.166] (port=54872 helo=rday)
+	bh=zZASOoyBL05TcUj4DOf+XXaVIGjvBLBNUk7BS8NSfTk=; b=XP7NUld8wQp8WIdRzNYQrb5AdJ
+	c3GRrWebG8/1ESNac5xm3d34cY943Q5/3QOZ2jm8H0DDDITGAq4ZgdYPvpeVuXp0xBNvhNdLfi1XC
+	2d3KaytxRw/dDfOjqqntRJJc2UZuZt72ypXPrExbGy53xsDuhENiA8GeL/NFTqK/Vm9hWNhFrsa3x
+	893OAGO47Wt5DMLY/mO/8L6f75lzpHLwl/El+DzfiEz4Mh71ko3Jh223iVwvWuwsXqqj3ru2pcesL
+	C4P1qYUP2sjyO+v0z4PiwJ/8h+Gx9v8WudkuXiftEeDjxU6E4K+RQdHFOztp+BcLfp21EbqG9d4Os
+	78j6Wv3Q==;
+Received: from [147.129.179.166] (port=35356 helo=rday)
 	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.99.1)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1vgQsJ-0000000A12a-1xh2;
-	Thu, 15 Jan 2026 12:11:13 -0500
-Date: Thu, 15 Jan 2026 12:14:37 -0500 (EST)
+	id 1vgRee-0000000A8YY-3TK6;
+	Thu, 15 Jan 2026 13:01:08 -0500
+Date: Thu, 15 Jan 2026 13:04:38 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 To: Quentin Schulz <quentin.schulz@cherry.de>
 cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] packaging error for linux-libc-headers: "Files installed
  but not shipped ..."
 In-Reply-To: <5705db27-bb7a-4ca6-997e-eda10ad04fa5@cherry.de>
-Message-ID: <eabc4951-71c9-d57e-5423-a99c64a5d721@crashcourse.ca>
+Message-ID: <a2df40fe-6edd-5653-ee88-c40497e069e4@crashcourse.ca>
 References: <f7ecaee8-192f-1abe-08fd-f2b1ff95e7b7@crashcourse.ca> <5705db27-bb7a-4ca6-997e-eda10ad04fa5@cherry.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,8 +53,8 @@ X-Source-Dir:
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 17:11:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229425
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 18:01:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229426
 
 On Thu, 15 Jan 2026, Quentin Schulz wrote:
 
@@ -146,53 +146,27 @@ On Thu, 15 Jan 2026, Quentin Schulz wrote:
 > recollection I have of it was that it goes away after cleaning and that the
 > fix wasn't straightforward?
 
-  i knew that you could have kernel headers newer than the kernel, i
-just wasn't sure if there was some spectacularly obscure issue related
-to building in OE that might surface.
+  after digging around, i found the following lines buried in the
+internal distro file that i just started using, i wasn't sure of their
+correctness so i commented them out and things are building:
 
-  i did a complete clean of the build directory (leaving in place only
-the conf/ directory), then focused on building just the headers:
+=========================================================================
+ # License texts
+ #
+=========================================================================
+-COPY_LIC_MANIFEST = "1"
+-COPY_LIC_DIRS = "1"
+-PACKAGES += " ${PN}-lic"
+-LICENSE_CREATE_PACKAGE = "1"
++# COPY_LIC_MANIFEST = "1"
++# COPY_LIC_DIRS = "1"
++# PACKAGES += " ${PN}-lic"
++# LICENSE_CREATE_PACKAGE = "1"
 
-  $ bitbake linux-libc-headers
-
-and got the same error:
-
-WARNING: linux-libc-headers-6.12-r0 do_package: linux-libc-headers-lic
-package already existed in linux-libc-headers.
-ERROR: linux-libc-headers-6.12-r0 do_package: QA Issue:
-linux-libc-headers: Files/directories were installed but not shipped
-in any package:
-  /usr/share
-  /usr/share/licenses
-  /usr/share/licenses/linux-libc-headers
-  /usr/share/licenses/linux-libc-headers/COPYING
-  /usr/share/licenses/linux-libc-headers/generic_GPL-2.0-only
-Please set FILES such that these items are packaged. Alternatively if
-they are unneeded, avoid installing them or delete them within
-do_install.
-linux-libc-headers: 5 installed and not shipped files.
-[installed-vs-shipped]
-ERROR: linux-libc-headers-6.12-r0 do_package: Fatal QA errors were
-found, failing task.
-ERROR: Logfile of failure stored in:
-/home/rpjday/BOARDS/nexus/walnascar/core_plus_nexus/build/tmp/work/cortexa7t2hf-neon-vfpv4-ostl-linux-gnueabi/linux-libc-headers/6.12/temp/log.do_package.3799275
-ERROR: Task
-(/home/rpjday/layers/oe/walnascar/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb:do_package)
-failed with exit code '1'
-
-
-  what i find intriguing is that first line:
-
-WARNING: linux-libc-headers-6.12-r0 do_package: linux-libc-headers-lic
-package already existed in linux-libc-headers.
-
-suggesting that the license package was already created by the recipe,
-and that perhaps it's trying to duplicate that work unnecessarily and
-that's why it's failing(?)
-
-  i'm going to go over the non-OE/YP layers to see if there is
-*anything* trying to process that recipe or package that might be
-causing this, but so far, i don't see anything like that.
+  it's not clear to me what all of that *should* have said to have
+properly built and packaged linux-libc-headers, but that's research
+for another day. (wondering if there are any other booby traps in this
+code.)
 
 rday
 
