@@ -1,139 +1,157 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F41E8D46629
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 21:18:40 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1057.1768511913858159882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 069D5D4662D
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 21:26:51 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1241.1768512409064826864
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 13:18:34 -0800
+ Thu, 15 Jan 2026 13:26:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZI2oNNNL;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so8836945e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 13:18:33 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TGlTLDfS;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=HZxv56ng;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FFYGNs2866207
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 21:26:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=mx0nBtraikH0QZx3DqIBhYoK52tVXq45050
+	RYCsaTbM=; b=TGlTLDfSK8Yg75DZJL5MNBNx3XaAt3ZWBg/qX8cWNoOjo2DHmWX
+	5l4nfGTQf8SShVZS65AJv1G+OfLf4yZeSiKAiMnGnDAbbJzv6T2VxkXG7zhOC8Bi
+	zmxYZjuFWLpPWpFRNwBerawEXUWxiieLE2fknFioDBztb27z79z6sOPrgrKJoNwT
+	TkKyE2pk5zDkXpmiqQbdT2nD8wFG+xQ9KRNmWmEspJvF5Z9doT0GLFYitS6D5lNo
+	HZVIy57yD60W3M98t81dVJeIB3uKDpc/hXoxJccLvvnhcB9CXb4NNxhehJhhmr1D
+	IPSQxt2rVX5NKqaoES/uHOHuxtRt2e1OSew==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bptu2jhb6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 21:26:47 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c52d3be24cso183706685a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 13:26:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768511912; x=1769116712; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=APtfshnCOgMAd4qOU37PjC1UzuVGkxwBiC286J3SILw=;
-        b=ZI2oNNNLFXGZzEwRsaZvru0wQ1jYDfTbyfTw7knZ0HQdkz9ZRDkutUQoeDRL0crTbh
-         jrl398lMIdbBQmLzXuaScL8YzRRRFpwayZEhsIPRpvF6/uXrTwUW9qKY9nr39tJLck13
-         EwkQcQatm0RYok4AkOidz6yO8g8JjIMkl75ZwygoTcAXi8JxSDURQjeZ+uZCe+G8KhO5
-         EZAZ8J8pKmcw48VFGOON9lj55gIeoLItz1Kl00kV77sgWLNAkeFQ26ediZXKlwO0ZyGH
-         fNksnU+misaZaiCYijZTZYnqcaxErCrqc4rx1OW/UAvNjY6RTkuIjc1zYChAMseARyJB
-         RVAQ==
+        d=oss.qualcomm.com; s=google; t=1768512407; x=1769117207; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mx0nBtraikH0QZx3DqIBhYoK52tVXq45050RYCsaTbM=;
+        b=HZxv56ngGtbNauFH5roNObMG1kaoUA16Uy0BXUGplV8FUeYV5mEzLQ67s8iNnPPCOV
+         rY1NPZtWHOQRkrRdTv+r4o9c5bs7ZfOP1mB/xiGDW5reGC/Ehy+sldKZ30SpkLCcpse6
+         B59/42GSJYdSUDzlJgUcgw+NF7aYbNp90DM/GWXLzfDUguxPLao6K1Rrzr0KlZ02Aggq
+         C5FO0xb9QaJjPxsCinOXfQJ8a6q3VhigV9MYyYlttuhY+31l0bO7Jb3tEHxwiOZ43EFG
+         SYLHhd4FvGBuLNSqVYkRfEcSMUq5726BvzcfJ7HJl2nBmhiSJSX74niRm2nijsqQSzoX
+         bbjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768511912; x=1769116712;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1768512407; x=1769117207;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=APtfshnCOgMAd4qOU37PjC1UzuVGkxwBiC286J3SILw=;
-        b=k1odERsQLkX7pj3TwmMdRexoJ0lMStAvHh/w5GZDi7OMfd93ZrFcWdYbOH9tlbzO4w
-         0pSqzsORH7u9Qoa8pvvAle5eEEK+Ye0vol2erY3IP/Mzf9MHFdAxdpDILhRVq34aV/St
-         gXN5LzrnluoVgmUi9Y8TSH4ODhA6dm5jAP5EanVxPj9r4kXK8KQp8/m8H4i5tq9nCr/B
-         653WK0etYpGbEP0DQJAYfZO6uEAvR9HYkzGxIlvd30hbiw1/+DNY84TiZISv0j/If/me
-         tAUrKunbL+dLvIVJfhmCI9QoOJ6IU8wUc4x69y7bpMUasRPq7bIyAsQ6L27S9igtKmqc
-         oWkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUioNnNJOiJZBSTVQmVccO+vDTiPNtKXHzZALToaAaLHO4AHVlnljq8B45CYiX8n2bNs7l3mGh1GKXK4Doe2ZuZyQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzkLBKIaQ4fswRgHFZ46l+GDKvbswkfXQEN+yOieiUtOVXKSJzc
-	+QhHCRFXTB6PscUq4hIuPzZI+YgieFFM5eJ8E+9edEmA6yL47xhcBeHj
-X-Gm-Gg: AY/fxX6NSbw/Sbo9LssHjVS3NOv8n8AuFf6FswnIfxeXTOz+Sdvm4oSMVpelCI38o2+
-	pgYWoam4f9oa+lBbfPZ1ILjTBGeRUBT0wdI0ZtRPpoJDJvBmElrDOpn0hOjbd8352HXteAddmkJ
-	NVBhjQj2iij9HT/u6jISBTAarXMB+OKPTt+5xtnsRyrYcOg/LwTGwWOg2UVPSP8uIJgiYt6vKN1
-	3xuQMXyctQ40Vaodh+3NdKo4mCvmJ6iVQVXKt7FxsPxrsTIcBwlUupPmkE1rO+Ep8m2O9hQEhjQ
-	yvkNyKjBrsv7emnzwx4bpC7O6bGFvDNsTf/J+7cx9gyWS+f4+wXj8nWMXQNeJv2q2sXDQYA++01
-	qjhWjmBKudY4Jgi00yPmoB4WbyELUShP2wCgA2o0q7elfqa3FE0fmfe+acSqhUbhPzUyujtL3BN
-	YqV7hnm6FpjBMJqGhbwd7UWsCWkg==
-X-Received: by 2002:a05:600c:3495:b0:477:7975:30ea with SMTP id 5b1f17b1804b1-4801e343a9fmr12196765e9.29.1768511911949;
-        Thu, 15 Jan 2026 13:18:31 -0800 (PST)
-Received: from [10.54.7.179] ([154.47.27.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e80c477sm13308015e9.0.2026.01.15.13.18.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jan 2026 13:18:31 -0800 (PST)
-Message-ID: <30338f3a-39e5-4e2a-b7a6-120142ecd6b3@gmail.com>
-Date: Thu, 15 Jan 2026 22:18:30 +0100
+        bh=mx0nBtraikH0QZx3DqIBhYoK52tVXq45050RYCsaTbM=;
+        b=psbdf4RUfQ7XUQ6T1JwhOj2J2Atk5agtWfk2Rj5YDVEMM/OkybAm/vp0vnVmnMDsUB
+         /wuiTpbVRuoZICwPeKF5LFPajusCUagEWSwpj3TK9BNl44kBsqwMOsFVvW1tO5awXg7C
+         5yiOZ56nt423hHxvwMenLIPYv+CM4spz8lzcnC6JAXu2tH7MxXOqiKXSNxuy9Z9jXDPM
+         d/mhuidx9Q69JUPGh4jpqJiQD4cEsl6iEhlChlUrqq+Zy/33uxl/lbED+s42XyqquVKk
+         nVVA8r2N+rMYixqXQk4dEKsf0iAis9xs5ENVpYggzPp0lO7j4WawOuKoF/GN1V5lvEN6
+         XYFw==
+X-Gm-Message-State: AOJu0Yz39lrxhyFTVTWJQiWunWeish6ublMKytMDql/mDX/xmh8n4Vae
+	4hW8LnzQSBhZl5zoHXV5wE09E6FgxG8ZhdUFzIL9e8zChRlLC7YQZGLC22gnN2ddkCpY9YVdcXm
+	ylyFEUyLgOHJ9ErGd7DPHyn/om4yCim1+VtOC2HgI42JWUv2BWQ9WoDRwfGuuwzBqPV/TS16jCa
+	RH5AnLcNVO7m5ZVEY=
+X-Gm-Gg: AY/fxX6YgmV3XXV2V+o/2Ufr+KYKYw1EZrdGonpJcFhdYol0qSTdoF2CSoa2zEP37Pq
+	51taCxFEnzAyhm+25aGgtZGOV2uaR9xBERO5fa75OfYG1trqDSyaJbRs9AT3GNGQYs4VnHtzHZM
+	wnWkQBQhsv6VgiMnjECpX+LPG/KeN/w9AKlHhyPr5AAZFrNfXWQBPcX9DNTaJvZD5SoEfwanRX3
+	TO0ODQAAz+hp8Oz/eDVIvZY/UNrhyBton3X+LssDQ0LKN+VJKCRsWVyyxV4ma+xfYXXGCJZmfiO
+	ZO5Hdr4dv+Dg+SZVjGcCi2GyfqsDfQWjOkPopF34IKpbi31YcyJ1GaY3fQAjWbFLxHg03u/RITr
+	fOrLVveOU/d6t19lBLHiYxidMWXL+M81TiFzou7vi9iM62moIKZgEToed2Nzw06gMi5ZoTsCw4E
+	l6k7A9mCJ+LBN0OW4rCxNHp/A=
+X-Received: by 2002:a05:620a:bcd:b0:88e:1671:2e4f with SMTP id af79cd13be357-8c6a67c464cmr126817285a.78.1768512406695;
+        Thu, 15 Jan 2026 13:26:46 -0800 (PST)
+X-Received: by 2002:a05:620a:bcd:b0:88e:1671:2e4f with SMTP id af79cd13be357-8c6a67c464cmr126813585a.78.1768512406063;
+        Thu, 15 Jan 2026 13:26:46 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384fb8ff0sm1676591fa.45.2026.01.15.13.26.43
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 13:26:44 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] mesa: drop VDPAU remnants
+Date: Thu, 15 Jan 2026 23:26:40 +0200
+Message-ID: <20260115212642.932690-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v3 1/3] overlayfs: Fix the QA skip for ignored
- mounts
-To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-References: <20260114185508.380709-1-uvv.mail@gmail.com>
- <20260114185508.380709-2-uvv.mail@gmail.com>
- <4c89ce299fb704382932a367669852b0617c9232.camel@pbarker.dev>
-Content-Language: en-US
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <4c89ce299fb704382932a367669852b0617c9232.camel@pbarker.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE2NyBTYWx0ZWRfX9qeMQ8BpnYF+
+ oFXAa3LEdMehEPAD1CN0oqX4oCx2W9InYHTUnPepOeMUEoN+IyqLS4+nR/M/tF2zw/22yqCSajW
+ X7tXt3a23nORojGIXVcQgshlopvHM7dkNKZ+mb2HTqss2pHSm2a2487+h7AJ5NPAmmqvuKSPh9X
+ m1gGdCbhj6PX8OjdMf3EMNfhX5CrwxK1wmVLH/BWtmeXT+BHn+iEBGyC4IO813XkP7Ft/swvx85
+ q6Zcv/SQOMyhqSi5asKaoVySW2gandHojmHInVBby+ivdejgVSCEjOtzqkyZ5UfN5pK8HfA/sUQ
+ 54fmjexFh9wx9pEzPa8NcsBZrLBpB48khCu6QhIfqbq4hjgwSCzTEYLjnfBCi0WqMCZE1YbguLb
+ vqeThq+lY7I0dAlcoRMNEJh+yNfKuBYrYLzeJ7qJrdt3W/jS7g0XBPKl78PyTYA4U//ptmQ2Raf
+ +rtmdPI8XuH2Be7rRyg==
+X-Proofpoint-ORIG-GUID: CJ_ScpHaHYR8BgPadVKOHeFA6a5_BRd-
+X-Authority-Analysis: v=2.4 cv=W6Y1lBWk c=1 sm=1 tr=0 ts=69695b97 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=4i8Wih8DhwBXQvXYEdwA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: CJ_ScpHaHYR8BgPadVKOHeFA6a5_BRd-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-15_06,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601150167
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 21:18:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229438
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 21:26:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229439
 
-This is actually a good point, but I'm not sure how WARN_QA/ERROR_QA can 
-be utilized here. WARN_QA/ERROR_QA expects one keyword, but 
-OVERLAYFS_QA_SKIP expects a flag per mount unit. If we simplify it to 
-WARN_QA/ERROR_QA, then we enable/disable the QA for all mount units. 
-This will be a breaking change though, but it sounds like it might 
-simplify things a bit. Do you think that would be better to use 
-WARN_QA/ERROR_QA instead of current mechanism?
+Mesa 25.3.x dropped support for VDPAU. Commit 88e26a937549 ("mesa:
+upgrade 25.2.5 -> 25.3.1") has dropped most of VDPAU-related items,
+but it didn't drop mesa-vdpau-drivers package (nor did it drop VDPAU
+bits from mesa-dev). Drop those remnants.
 
-As for the check performed twice question. The file list is populated / 
-expanded at the parsing stage, but the actual QA is performed at the 
-rootfs postprocessing, because the overlayfs class works on a recipe 
-basis, so to check if everything is provided the whole file system is 
-needed.
+Fixes: 88e26a937549 ("mesa: upgrade 25.2.5 -> 25.3.1")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Slava
-
-On 15.01.2026 14:41, Paul Barker wrote:
-> On Wed, 2026-01-14 at 18:54 +0000, Vyacheslav Yurkov via
-> lists.openembedded.org wrote:
->> From: Vyacheslav Yurkov <uvv.mail@gmail.com>
->>
->> The supressing of QA check for mounts should happens twice, at parsing stage
->> and at rootfs postprocessing. If the mount point is configured to be skipped,
->> but it is still present in the configuration (machine or distro), then the
->> parsing would complain.
-> Thanks for respinning these patches.
->
-> I'm still unsure why the check is being performed twice. Are we checking
-> for different errors at parse time and rootfs time?
->
-> Also, can we convert this to fit in our existing QA framework so that it
-> is controlled by the WARN_QA/ERROR_QA variables?
->
->> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
->> ---
->>   meta/lib/oe/overlayfs.py | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
->> index 5a5ea03d45..3805746d90 100644
->> --- a/meta/lib/oe/overlayfs.py
->> +++ b/meta/lib/oe/overlayfs.py
->> @@ -33,7 +33,8 @@ def unitFileList(d):
->>       # check that we have required mount points set first
->>       requiredMountPoints = d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
->>       for mountPoint in requiredMountPoints:
->> -        if mountPoint not in overlayMountPoints:
->> +        qaSkip = (d.getVarFlag("OVERLAYFS_QA_SKIP", mountPoint) or "").split()
->> +        if mountPoint not in overlayMountPoints and not "mount-configured" in qaSkip:
->>               bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_POINT[%s] in your MACHINE configuration" % mountPoint)
->>   
->>       for mountPoint in overlayMountPoints:
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#229369): https://lists.openembedded.org/g/openembedded-core/message/229369
->> Mute This Topic: https://lists.openembedded.org/mt/117266570/1826184
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [paul@pbarker.dev]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 835e4d46ead6..a82bfb613549 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -251,7 +251,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libopencl-mesa \
+              libteflon \
+              mesa-megadriver mesa-vulkan-drivers \
+-             mesa-vdpau-drivers mesa-tools \
++             mesa-tools \
+             "
+ 
+ # For the packages that make up the OpenGL interfaces, inject variables so that
+@@ -325,7 +325,6 @@ PACKAGES_DYNAMIC:class-native = "^mesa-driver-.*-native"
+ 
+ FILES:mesa-megadriver = "${libdir}/dri/* ${datadir}/drirc.d"
+ FILES:mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${libdir}/libpowervr_rogue.so ${datadir}/vulkan"
+-FILES:${PN}-vdpau-drivers = "${libdir}/vdpau/*.so.*"
+ FILES:libegl-mesa = "${libdir}/libEGL*.so.* ${datadir}/glvnd/egl_vendor.d"
+ FILES:libgbm = "${libdir}/libgbm.so.* ${libdir}/gbm/*_gbm.so"
+ FILES:libgallium = "${libdir}/libgallium-*.so"
+@@ -336,7 +335,7 @@ FILES:libglx-mesa = "${libdir}/libGLX*.so.*"
+ FILES:libopencl-mesa = "${libdir}/lib*OpenCL.so* ${sysconfdir}/OpenCL/vendors/*.icd"
+ FILES:libglapi = "${libdir}/libglapi.so.*"
+ 
+-FILES:${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/GL/internal/dri_interface.h ${includedir}/vulkan ${libdir}/vdpau/*.so"
++FILES:${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/GL/internal/dri_interface.h ${includedir}/vulkan"
+ FILES:libegl-mesa-dev = "${libdir}/libEGL*.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
+ FILES:libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h ${includedir}/gbm_backend_abi.h"
+ FILES:libgl-mesa-dev = "${libdir}/libGL.* ${includedir}/GL/*.h ${libdir}/pkgconfig/gl.pc ${libdir}/pkgconfig/glx.pc"
+-- 
+2.47.3
 
 
