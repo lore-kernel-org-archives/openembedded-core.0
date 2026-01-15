@@ -2,75 +2,76 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 105D4D44C4C
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 13:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18979D44C50
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 13:53:44 +0000 (UTC)
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35921.1768484515567035848
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36097.1768485221954063052
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 05:41:55 -0800
+ Thu, 15 Jan 2026 05:53:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=iwdI8Tql;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=q9BGjG7S;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=f4AK98mC;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=AmpB2tzg;
  spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id D3EE57A0090;
-	Thu, 15 Jan 2026 08:41:54 -0500 (EST)
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1F0C37A0124;
+	Thu, 15 Jan 2026 08:53:41 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Thu, 15 Jan 2026 08:41:54 -0500
+  by phl-compute-10.internal (MEProxy); Thu, 15 Jan 2026 08:53:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1768484514; x=1768570914; bh=y5ed834gYe
-	xdVVuP+Kzds1YeHPE1+03PQkmmo4g1AvI=; b=iwdI8TqlTQS2AWEMdsoPwpfiiY
-	Sak7VKknci5B0uXf9C+XVoDk2/5mK3Pj9RZKqOJpUiCLv7aa4nqFeaA/Xb5i3iq+
-	77YyJMgmggun/5rLOHSdiTzeKpl+NuO56E2B/VD9AV4xMycLbXsHAZcxEYvwkXp1
-	WAlXvU3hV58+Dtyv0Yb6nlw8FXGZUqf6UzWPdZmNo1o3DEEr1ioZYduL8/fPKTcA
-	4+E4mlvVFfB4o4MwpLENo+appVaiGu2IDLkbeANmdwFPHVjdlpqaiRWbgKiOAcEH
-	5+1MRVxpIAvN+FB1155SZjprVqMVOaGYCwTmkr684KfC8zIigeRIlSo9r+/A==
+	:subject:to:to; s=fm1; t=1768485220; x=1768571620; bh=OTyWMMaRa6
+	KGYqhrF/+cIdGUgQa6FNQISkAfPKP3mJQ=; b=f4AK98mCsQIsPeBKzcshlTT0uv
+	QxyWLgtO583RcqNRy1GdhDdttZgIJH6l0D6HAWaXwCJ5RNruhUCTDmHNCzO1AiK3
+	VENdyDCBTUIxo6zJPVFT+5mEY28PLXb7wo1ygzLxw2EzKVuPEBozbYwndUQEOglJ
+	U0Dr6ffy7rGYspzwgIdlR3O2Wf239RAOM4eLHTZHKJtkHZgsCk74zDC/ppICeQAl
+	sf8QUZJe72DQQCl76n2NdsqECF1IR8AKZagEKxBzMaiqQK7C5n5ECf/PwHLFZJ8s
+	LvE0XtblQ8tawIo1+4Trp0VQq95TJzIIGv7yLrN+Fk2qK6DcP3zVArabHpVA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1768484514; x=1768570914; bh=y5ed834gYexdVVuP+Kzds1YeHPE1+03PQkm
-	mo4g1AvI=; b=q9BGjG7SlNY6lHBnkiYetEBUdjWnP9DYU5VX5dupt4GCLwUZTzW
-	1TwrztLwtk6hTkYU/DQBjWha4XfGHRRLXhiLSXsU/Rusya4FgcBcU1bwrE/2nGRO
-	QGKx6pSVz08AdjvRJ10Mv+37Ne0ydVNhQXjPkfGqzyei9UaYxBaEDtpBlId3if7E
-	slBAhtkzEKLIflffICFsIVCADVMMSQ8G0dEKTjCPP2qWoifBVLVzJWhifZQuCT/q
-	NcyVyp+ojUT6+VrnBARRP/RnoUJ0St1tMw/ig6V2u79e23rGdpUVE2qIr5Ss7odx
-	DGchXrSS78CpW7g6Cfp449qgjJUeW1iRgWA==
-X-ME-Sender: <xms:ou5oaTGCVRuw2ynAQ7I_7x3msUKE2atqpBvYmOaHWuDzXRhNLDyEzQ>
-    <xme:ou5oaWUUINIloB6mYRI2mwxj7EAp3RIJHiVK5ctsfVhqFcn9rKlfNS0i110FjTtAy
-    OV2H0D8o0BTDpzUvYkoqAbUNdUMSuhq7FzgMaaCU3CWm1uN-K3Wqg0>
-X-ME-Received: <xmr:ou5oaSxjYOFSgHjky4qM_T8y74OOyIRvXNVn3BWqDAE036rdFb95hcTyWoy4llurkM8theUNtE0pc4ZFLQI-jQwZI91BnQlTut7yJoV14nQ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdeivdduucetufdoteggodetrf
+	1768485220; x=1768571620; bh=OTyWMMaRa6KGYqhrF/+cIdGUgQa6FNQISkA
+	fPKP3mJQ=; b=AmpB2tzggQJAgHfNVfPaZp6OYE/5tqb0ddCZCjjzrhROPxc7kpv
+	vA9c9avLkt5LAwBrM3XvbI5mw0jePICJEvY+YCQ8Wz+j00xK7UTHHuqB3iz5XCFO
+	oRdmefGy3GSjf9jo3wVGk/XGo7tl6lNwjSa2b+hCR+qkP1jn2rWTFKkwjYPIRwvD
+	MgGzoC64FcOujKZkdW8lovAPXSiHpzKQlEv6ukTD1FIB3mkO8JSlt090qnLLz/Z5
+	sKCUfUt90VSh/KWQ74KbdsVKLELXfOdsvPfMgeTK0hYnZ/AuMCdjWp+KmP32pKh9
+	W7gY04YhEOUJQsJ2smaRzeA7AprhNpbOK+Q==
+X-ME-Sender: <xms:ZPFoaaMs3B8wMCwSDvV-jy_JaqfDT79YNOakgS-3mk0fEanoT5p_ug>
+    <xme:ZPFoae8Ssbk8uXUJTgzWoXoqkth25-doZUA9MSqYzsd7Xf_6_D8EmnCFL09EWAk99
+    xFTHbzbCWrbvjrSovaTXVa9pM-j1UnvkYUzdfp5ObgaR-8EB-bi1Ws>
+X-ME-Received: <xmr:ZPFoae6_BBKrUR9XNRstR5RMrj2PBJR3NWGgSaF5Idk_KzC5m3C2mV5d4makLufjKl1x9YcYX3NBQMFh8Jl_wg0Tf_YDIjqLxKEwrTnoXYBC>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdeivdefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
     erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepgeefhfdutefhffevheevkeejhfegffegieektd
-    efkedttefhuddvffeuieeiteffnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
-    ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepuhhvvhdrmhgrihhlsehgmhgrihhlrdgtohhmpdhrtg
-    hpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghm
-    sggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:ou5oacMKjkvCC_VsqUmF3hnVCFkXTqegQhxmGmHBreo1q9M0sKg3fg>
-    <xmx:ou5oab5EsLjxQaAX7HVI9P_xqBiCMybxWSET1yftN22gCgApj3398g>
-    <xmx:ou5oaVPkj8GQDeGDCRErFmsyhjWM0lyRrh2slz4uY5WZ-ijh6jGrGQ>
-    <xmx:ou5oaRl8fwOA6CJF_eALFZe1QdDgs3HylfVnjqlq43n607jskmE72w>
-    <xmx:ou5oacWBRs78abxdxa18FavLDrUer25WKLpW16jdqWa41TjYu53NUDq6>
+    uggvvheqnecuggftrfgrthhtvghrnhepheefffelieelleevudevjeegtdevfeeggfefte
+    ekkefhueegffelffejgfdviedtnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghdpshgvlhhfthgvshhtrdgtrghsvgdpuggvtghorhgrthhorhdruggrthgrnecuve
+    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehp
+    sggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuth
+    dprhgtphhtthhopehuvhhvrdhmrghilhesghhmrghilhdrtghomhdprhgtphhtthhopeho
+    phgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvug
+    drohhrgh
+X-ME-Proxy: <xmx:ZPFoaV3Vt2vV6uOGRyfETDLiUtfrf4h60wOLJErz_yn0iNFZFJntrg>
+    <xmx:ZPFoaVDkeUiDRFWIEeaZ1m7TuT0y7zHUzzh9AUL4pAN0yUxyehB_bg>
+    <xmx:ZPFoaX0BXtahuPR-hHI6_BgaExpraPFP7KTbTbWG6nkCyqKF-_p0JQ>
+    <xmx:ZPFoafuiLVwe-4fEg7AN1BFcwXWMNQxnzwZSqvIp6eQXDJkQHqOXNQ>
+    <xmx:ZPFoaXdKFO-Banl5Te3puksw6cPk1pE_g-1zJjZafQVEe9sKaObNTVOS>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Jan 2026 08:41:53 -0500 (EST)
-Message-ID: <4c89ce299fb704382932a367669852b0617c9232.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v3 1/3] overlayfs: Fix the QA skip for ignored
- mounts
+ 15 Jan 2026 08:53:40 -0500 (EST)
+Message-ID: <b06c5771c4f1405605db5aa21937a12d0ad73d2d.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v3 2/3] oe-selftest: overlayfs: Make the test
+ more deterministic
 From: Paul Barker <paul@pbarker.dev>
 To: uvv.mail@gmail.com, openembedded-core@lists.openembedded.org
-Date: Thu, 15 Jan 2026 13:41:47 +0000
-In-Reply-To: <20260114185508.380709-2-uvv.mail@gmail.com>
+Date: Thu, 15 Jan 2026 13:53:37 +0000
+In-Reply-To: <20260114185508.380709-3-uvv.mail@gmail.com>
 References: <20260114185508.380709-1-uvv.mail@gmail.com>
-	 <20260114185508.380709-2-uvv.mail@gmail.com>
+	 <20260114185508.380709-3-uvv.mail@gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -116,17 +117,17 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  OqpPZn7Ij1ga5IAOHNRi5MbyRFROYOeaOj7sz7S7roHQwdP3Q1qTwTOv30hlOSe6uz4PTBiEIKBQH
  ep0k17xg==
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ZEDxneCphA4VtlzNpgn9"
+	protocol="application/pgp-signature"; boundary="=-ICrnb69G2FvrqCNqM9jD"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 13:42:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229411
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 13:53:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229412
 
 
---=-ZEDxneCphA4VtlzNpgn9
+--=-ICrnb69G2FvrqCNqM9jD
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -134,55 +135,55 @@ On Wed, 2026-01-14 at 18:54 +0000, Vyacheslav Yurkov via
 lists.openembedded.org wrote:
 > From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 >=20
-> The supressing of QA check for mounts should happens twice, at parsing st=
-age
-> and at rootfs postprocessing. If the mount point is configured to be skip=
-ped,
-> but it is still present in the configuration (machine or distro), then th=
-e
-> parsing would complain.
+> The test orignally was written under assumption that poky distro is
+> used. When poky-altcft is used for example, then systemd is already set
+> in DISTRO_FETURES, which the test did not expect.
 
-Thanks for respinning these patches.
+Hi,
 
-I'm still unsure why the check is being performed twice. Are we checking
-for different errors at parse time and rootfs time?
+The commit title here still talks about determinism. The test case was
+deterministic though - previously it would always fail if systemd was
+already in DISTRO_FEATURES. I think I misunderstood a little last time,
+but this still needs renaming.
 
-Also, can we convert this to fit in our existing QA framework so that it
-is controlled by the WARN_QA/ERROR_QA variables?
+I also wonder why we're testing this here. Perhaps this can be turned
+into a more generic test that REQUIRED_DISTRO_FEATURES behaves as
+expected - we can use the overlayfs bbclass as part of that as we know
+it sets REQUIRED_DISTRO_FEATURES.
 
 >=20
 > Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 > ---
->  meta/lib/oe/overlayfs.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  meta/lib/oeqa/selftest/cases/overlayfs.py | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
-> index 5a5ea03d45..3805746d90 100644
-> --- a/meta/lib/oe/overlayfs.py
-> +++ b/meta/lib/oe/overlayfs.py
-> @@ -33,7 +33,8 @@ def unitFileList(d):
->      # check that we have required mount points set first
->      requiredMountPoints =3D d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
->      for mountPoint in requiredMountPoints:
-> -        if mountPoint not in overlayMountPoints:
-> +        qaSkip =3D (d.getVarFlag("OVERLAYFS_QA_SKIP", mountPoint) or "")=
-.split()
-> +        if mountPoint not in overlayMountPoints and not "mount-configure=
-d" in qaSkip:
->              bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_P=
-OINT[%s] in your MACHINE configuration" % mountPoint)
+> diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/se=
+lftest/cases/overlayfs.py
+> index 580fbdcb9c..3e55e97927 100644
+> --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
+> +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> @@ -5,7 +5,7 @@
+>  #
 > =20
->      for mountPoint in overlayMountPoints:
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229369): https://lists.openembedded.org/g/openembedde=
-d-core/message/229369
-> Mute This Topic: https://lists.openembedded.org/mt/117266570/1826184
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pa=
-ul@pbarker.dev]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>  from oeqa.selftest.case import OESelftestTestCase
+> -from oeqa.utils.commands import bitbake, runqemu, get_bb_vars
+> +from oeqa.utils.commands import bitbake, runqemu, get_bb_vars, get_bb_va=
+r
+>  from oeqa.core.decorator import OETestTag
+>  from oeqa.core.decorator.data import skipIfNotMachine
+> =20
+> @@ -46,7 +46,8 @@ inherit overlayfs
+>          res =3D bitbake('core-image-minimal', ignore_status=3DTrue)
+>          line =3D getline(res, "overlayfs-user was skipped: missing requi=
+red distro features")
+>          self.assertTrue("overlayfs" in res.output, msg=3Dres.output)
+> -        self.assertTrue("systemd" in res.output, msg=3Dres.output)
+> +        if not "systemd" in get_bb_var('DISTRO_FEATURES'):
+> +            self.assertTrue("systemd" in res.output, msg=3Dres.output)
+>          self.assertTrue("ERROR: Required build target 'core-image-minima=
+l' has no buildable providers." in res.output, msg=3Dres.output)
+> =20
+>      def test_not_all_units_installed(self):
 
 Best regards,
 
@@ -190,17 +191,17 @@ Best regards,
 Paul Barker
 
 
---=-ZEDxneCphA4VtlzNpgn9
+--=-ICrnb69G2FvrqCNqM9jD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaWjumxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bjN3AQDd6u6163FGbo3Wby/8qgUsL4oXTphiEkjk
-yn3J9+p5PgEAoeO80UQmOFZ7p8Sqk+35nAkHq5TEhTxnOeWA9hx5oAc=
-=kjw3
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaWjxYREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bpFDAQCScpM8CV9ffH1GNEAvqi9H15DhUIWpUJsq
+QL1686Et6QEAztcF1+FVcPM3XofK2gEjEHkF//LdOfrLHfDfISVHOA8=
+=riXh
 -----END PGP SIGNATURE-----
 
---=-ZEDxneCphA4VtlzNpgn9--
+--=-ICrnb69G2FvrqCNqM9jD--
 
