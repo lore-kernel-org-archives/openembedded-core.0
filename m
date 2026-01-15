@@ -1,100 +1,76 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A97D7D4114E
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 09:38:42 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31978.1768469915845612006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B337BD41150
+	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 09:49:32 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32121.1768470564116657595
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 01:38:36 -0800
+ Thu, 15 Jan 2026 01:49:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=aAvDt0Lz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5475b384d2=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60F5k8cr4021586
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 01:38:35 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=j+yfmpDx/Qxtj/lDC/x+YNWO0k5/6+J9G22dROc+nBg=; b=aAvDt0LzrnIg
-	PGdgu6jZmYQ6Rmzv+4Pyq1yZAE1iJj7INC2mdfRU0DKCqXiyGQXWT9gItIDPdNH/
-	OmcDkgKLTSCCDqluLC4ijZMwCngvl5/vriElR4cvpVwhr7izJ7KS/OFv+oStyNFF
-	/qaEnJoPAlL+6FyzSw0Adst6BtMkJArSaoCmpq7oxyVjclLfPmESXDactqqTO54s
-	eETpVnaZyy6hTH+79a312S8aCUGC78fBMSgMKHMlMy9f9ARK1NVfGEkB0TBoGcue
-	Wes8+mVvq2KoANWZHRsH38GdJiym8CGTtCZEfnYBswDpx1TOypVgkA3ZPFUckdiw
-	KR82rjTF4Q==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bkq5fwdsa-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 01:38:35 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 15 Jan 2026 01:38:34 -0800
-Received: from ala-lpggp3.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 15 Jan 2026 01:38:34 -0800
-From: <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] rpm: 4.20.1 -> 6.0.1
-Date: Thu, 15 Jan 2026 01:38:34 -0800
-Message-ID: <f69b7f8ddf584c045a6fa168f6add2850519e410.1768469892.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1768469892.git.liezhi.yang@windriver.com>
-References: <cover.1768469892.git.liezhi.yang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GOBxCQKZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-88fe44cce7eso7584786d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 01:49:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768470563; x=1769075363; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uxPJAaI08huWX3HJPQN6JasYtFjldiDlDQfiL+yGDhs=;
+        b=GOBxCQKZPyyDJoEkamYI+xhvc8Z1puFeyZORipg0WbiBK4cE5gXfiwsR3pnlwZvPbT
+         X/1FGBhhHDScq56yj/I1A/UkkEp9hO9tbNuhMHOAic+XfpvKOlVvfSr5kYdspJfags6H
+         lt/R9TrooYLH5eSMYmA9CpHxs6LcLP4SEI0AELhP8572PZ9Nv9W3LYni2uiNmWmgEN+p
+         irZ6Tb1UeB8udYWdbNlnyboyyUqvZyuICmXRj9ClRYyuLT+xodhZceToQ+I7018YoeER
+         d01QCPDyuAfJtiOtn+EIEbwVhh2EGvJ/A1b9GNYqge5xiwTsxFNrYS+3Teou8HD6tJ1Y
+         crIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768470563; x=1769075363;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uxPJAaI08huWX3HJPQN6JasYtFjldiDlDQfiL+yGDhs=;
+        b=jhP6xRud80lEfi0mMrsZg6uvi/2q1tkUN4Mpx+aEfSX6Yqkx7tlDoSIBbef4EASVoW
+         LjUngt9ZXRD1jZVVY72dnNNldNkJZLe19cVvpp9NldETIoY/auUIAF1KEA6wqcb+aNFf
+         xMwP/Wk+Ta6wmBgxuz+Sc0wbIHR97ydz5xSf1+JVwz5lyGbLSvV8jfvg94s0xU9H8RJP
+         JDvGtzEVatMonu3t+FY45Or/2v6//YWPk+XveM49qhyPdMoNYnOL+kDHbU4sYEUQagxB
+         kuXYNSRSHHe5Fdnq1hby/zLrowDaPzsxUwmM9As5HXCYUTZWtdSD+Hhn9lmqNSNTF92r
+         aXnA==
+X-Gm-Message-State: AOJu0Yw1unbjrrtDNf2zi49KHcsrNhCAVTnuYAt9po+hN6JuBQwg7AOj
+	qNWJNSw4/Sa0QqthMFCQcof7tI3JXrVFEiGKs7JMh9YcCKltgZBOeD3ROWhQHdKAvGYoGumTqHm
+	yeJopfMWS/p4ztpZDR9ynfLpLXHDKbdrtR79B
+X-Gm-Gg: AY/fxX48YiG7Z4kRVsW9FgFPZJbxn+8Eg3Ahso+xuzvShS0K785zMm4te5EuoT+L3Uj
+	rp72lgrc5aowwzTRn572iyaBrdPlFzpQrY9nVNQuBQ+uVWQw2+/l03u04bV6bIYzaZLaO4bsxyb
+	MosfKIw5E5j8Ep/4up8ODkvkECEwT8hECTQRcwacND5eEg0gGmKc21amUmDWyJdbNHiiRl4Mxy/
+	RlwiNaFic1cb/e4P4KJsTdasVa2bqc5Pci2/SYI18S9Ealv8FJLqeBgpH23/jpdXi9TaOWl
+X-Received: by 2002:a05:6214:21a1:b0:888:fc37:f9b7 with SMTP id
+ 6a1803df08f44-89274354caamr68011966d6.25.1768470562985; Thu, 15 Jan 2026
+ 01:49:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=d/z4CBjE c=1 sm=1 tr=0 ts=6968b59b cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=GMGn13PZAAAA:8 a=t7CeM3EgAAAA:8
- a=FzFx-O5CkA9YSjBAPGoA:9 a=jIF0orF5dxDFSsn8Ms5I:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA2OCBTYWx0ZWRfXzvs6Cn2dkbx+
- /Wd3uHSfpcM+s9Y5XKKrwms+f7tkchOM7DMSqKgg74XOsOgLLF/s28rAkwFe+IFfWL9Lde7IiZ5
- /y2XzFVZuJdRIJkP7KBxikq6eqxubrtly+KdXDFvYhwWwCd595obVt55SXMMpjyz9S5h9UvePyI
- UgarKRD8EHnXYYLQUofvDgI1qmDkZ6hPb8Rvg3Q4sYh6loyIT7qDSVFwBzfSeTr5AeAvj87gF8S
- Hfs8qgp22nZ5Pg4tkiCnuBs2Tq2v71maxfsCx5Nll4U1+rZqxSDMkR/8xsiErysQ1lglpSyOuwV
- JonFYNd9/pyKOrpHAwxuvOv+lyI4UldJGZZCaOFl6gGKV4R/jEHRTR/eCh9wGzivvjP0m8Bhs7A
- nKfgpHn3nQidE0k/Q2Cu6dFH6S/5mzu4G59pGAJS1mLizQPOzMDnY61027vXI4n1O0wRRprFBxc
- iIXvZIhFr5pvcXF3ZhQ==
-X-Proofpoint-ORIG-GUID: VzEwJTKHCihH4KJ8qMc2EH1QmfJ_Xx2F
-X-Proofpoint-GUID: VzEwJTKHCihH4KJ8qMc2EH1QmfJ_Xx2F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_03,2026-01-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150068
+References: <cover.1768469892.git.liezhi.yang@windriver.com> <f69b7f8ddf584c045a6fa168f6add2850519e410.1768469892.git.liezhi.yang@windriver.com>
+In-Reply-To: <f69b7f8ddf584c045a6fa168f6add2850519e410.1768469892.git.liezhi.yang@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 15 Jan 2026 10:49:11 +0100
+X-Gm-Features: AZwV_QgxqiyVG2BXlis-E_GIYrXOuG5u3gjGtf0_gZJ85Vi85UP5EBnEqhvVQE8
+Message-ID: <CANNYZj-C+1htk4XR-uaSbsCw8OwE-bskmucyw0qLkD4TnNDbTQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] rpm: 4.20.1 -> 6.0.1
+To: liezhi.yang@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 09:38:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229395
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 09:49:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229396
 
-From: Robert Yang <liezhi.yang@windriver.com>
+On Thu, 15 Jan 2026 at 10:38, Robert Yang via lists.openembedded.org
+<liezhi.yang=windriver.com@lists.openembedded.org> wrote:
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_6.0.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/rpm/rpm_4.20.1.bb
+> rename to meta/recipes-devtools/rpm/rpm_6.0.1.bb
 
-* RPM 6.0.0 Release Notes: https://rpm.org/releases/6.0.0
-* RPM 6.0.1 Release Notes: https://rpm.org/releases/6.0.1
-* Test info:
-  PACKAGE_CLASSES = "package_rpm"
-  $ bitbake core-image-sato world
+This can't be right?
 
-Works well
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/rpm/{rpm_4.20.1.bb => rpm_6.0.1.bb} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-devtools/rpm/{rpm_4.20.1.bb => rpm_6.0.1.bb} (100%)
-
-diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_6.0.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/rpm/rpm_4.20.1.bb
-rename to meta/recipes-devtools/rpm/rpm_6.0.1.bb
--- 
-2.49.0
-
+Alex
 
