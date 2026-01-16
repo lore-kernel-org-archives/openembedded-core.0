@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B6AD4A5EA
-	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:26:05 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1436.1768526749201889216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA81D47CCA
+	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:26:04 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1428.1768526743617480580
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:54 -0800
+ Thu, 15 Jan 2026 17:25:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RoWATNmq;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SXQfE/wZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019bc468b345-9e7b4054-b3d1-4887-a316-3abdad000017-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ciRjcsl4;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rBsGV36O;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019bc468b97f-66a93e43-f6b4-448e-a447-776d182dc118-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526754;
+	t=1768526756;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YJcU8QzNga2wuMKHMQh6doBVsrWNAorBIwD/XmONjMY=;
-	b=RoWATNmqXx5TYxbdISmh3SCqI5JrwvMvaiOdoLCoBO9bWWoik5rv7hgtGnHOnNFO
-	NqekJrFGvRplqc9egqPtISo0PpUy8AZpDOsRwbv63zzHUj5Z1CFxBISoVX19hlvii1o
-	0Ak05fSpChhJUmbD4ExwrsBiQWiZ6tDqwEv9Byxo=
+	bh=0eucIctXW8MgduoQQyzwYVZkh0k+soDnZ2Jmx7Qe6kQ=;
+	b=ciRjcsl4kDGEKbv5VOO8+++UTwicErS7/oyDydG5c6sKE2jUH95cBx1rHc0JbISq
+	uAPOvAVqfEkGfWz7GdTQkrrUXsNPXS52SKfx9k1HAOQHTyWlPK5B70Da0w1CN3OP3He
+	NWZ6KQalIATfGEFJAv6buNmc8yIIKTHmyVzZA/Aw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526754;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526756;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YJcU8QzNga2wuMKHMQh6doBVsrWNAorBIwD/XmONjMY=;
-	b=SXQfE/wZwkzZB4DZBnGj7a+Wp7JrVSW4iKGLRRW6rFOdE+c0KsUYwJNRitzeXEiE
-	dTo+R2t7XQiwFf6CbHzzzg2JKoz8rX4HaofiUmBoiI/h4FM7YvPJUBphF9vkN6pEa8g
-	igBXIdCaUK68WGUY48pBgN1QYhtx9qnQxJEAFlqs=
-Content-Type: multipart/mixed; boundary="===============3514195172848665882=="
+	bh=0eucIctXW8MgduoQQyzwYVZkh0k+soDnZ2Jmx7Qe6kQ=;
+	b=rBsGV36OaI1CZC9g6lQ5VNdrDtNkMmImLPypfOvyuI65NUUeABpwXPcVKMuuf9EN
+	XRcG96CdA/aHRPyasGjsa8r2UBcJuZoEPWn6+ajDeRBVZX7WZKqyWfLjRPs3iap88Rq
+	m83wFk1THcWOwxSilD+nVniPU2VV+Xb7eRF8UTqE=
+Content-Type: multipart/mixed; boundary="===============5976375717099853316=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtraceevent: upgrading to 1.8.7 SUCCEEDED
-Message-ID: <0101019bc468b345-9e7b4054-b3d1-4887-a316-3abdad000017-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:54 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.26.10 SUCCEEDED
+Message-ID: <0101019bc468b97f-66a93e43-f6b4-448e-a447-776d182dc118-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.31
+X-SES-Outgoing: 2026.01.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:26:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229493
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:26:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229501
 
---===============3514195172848665882==
+--===============5976375717099853316==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libtraceevent* to *1.8.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.26.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtraceevent-upgrade-1.8.6-1.8.7.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.26.9-1.26.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,126 +72,98 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 73eee64eb02de2d3809c3e29684813f1a1dfa4da Mon Sep 17 00:00:00 2001
+From a08c8aa7f68b87607da0e7d7d8142ca338888141 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 16 Jan 2026 00:07:40 +0000
-Subject: [PATCH] libtraceevent: upgrade 1.8.6 -> 1.8.7
+Date: Fri, 16 Jan 2026 00:37:25 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.26.9 -> 1.26.10
 
 ---
- .../{libtraceevent_1.8.6.bb => libtraceevent_1.8.7.bb}        | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
- rename meta/recipes-kernel/libtraceevent/{libtraceevent_1.8.6.bb => libtraceevent_1.8.7.bb} (90%)
+ ...eamer1.0-python_1.26.9.bb => gstreamer1.0-python_1.26.10.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.9.bb => gstreamer1.0-python_1.26.10.bb} (91%)
 
-diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
-similarity index 90%
-rename from meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
-rename to meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
-index deddb60f63..0e891c1498 100644
---- a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
-+++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97
-                     file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
- SECTION = "libs"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.10.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.10.bb
+index 57ddf0bbba..a5c60ab439 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.10.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
--SRCREV = "98c217427183f66f09f4a27300ad87d71814c38f"
-+SRCREV = "7a8fee57d87aa61c9d578cd67e99d2677b894772"
- SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
-           "
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "21a51d35fd973af1186795d3d9d696f321584aeb09ab4d176b59f26e842b8849"
++SRC_URI[sha256sum] = "6fd89a8e8b0cb8455f40794e4cdfc5993bdedb07ea660dac54ba88e294319805"
  
-@@ -19,3 +19,5 @@ EXTRA_OEMESON = "-Ddoc=false"
- PACKAGES += "${PN}-plugins"
- 
- FILES:${PN}-plugins += "${libdir}/traceevent/plugins"
-+
-+BPN = "libtraceevent-v1.8"
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.47.1
 
 
---===============3514195172848665882==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libtraceevent-upgrade-1.8.6-1.8.7.patch"
-
-RnJvbSA3M2VlZTY0ZWIwMmRlMmQzODA5YzNlMjk2ODQ4MTNmMWExZGZhNGRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTYgSmFuIDIwMjYgMDA6MDc6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ0cmFjZWV2ZW50OiB1cGdyYWRlIDEuOC42IC0+IDEuOC43CgotLS0KIC4uLi97bGlidHJhY2Vl
-dmVudF8xLjguNi5iYiA9PiBsaWJ0cmFjZWV2ZW50XzEuOC43LmJifSAgICAgICAgfCA0ICsrKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMta2VybmVsL2xpYnRyYWNlZXZlbnQve2xpYnRyYWNlZXZlbnRfMS44LjYuYmIg
-PT4gbGlidHJhY2VldmVudF8xLjguNy5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMta2VybmVsL2xpYnRyYWNlZXZlbnQvbGlidHJhY2VldmVudF8xLjguNi5iYiBiL21ldGEvcmVj
-aXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOC43LmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVu
-dC9saWJ0cmFjZWV2ZW50XzEuOC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2xp
-YnRyYWNlZXZlbnQvbGlidHJhY2VldmVudF8xLjguNy5iYgppbmRleCBkZWRkYjYwZjYzLi4wZTg5
-MWMxNDk4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpYnRyYWNlZXZlbnQvbGli
-dHJhY2VldmVudF8xLjguNi5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpYnRyYWNlZXZl
-bnQvbGlidHJhY2VldmVudF8xLjguNy5iYgpAQCAtOCw3ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vTElDRU5TRVMvR1BMLTIuMDttZDU9ZTZhNzUzNzFiYTRkMTY3NDkyNTRhNTEy
-MTVkMTNmOTcKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOU0VTL0xHUEwtMi4xO21k
-NT1iMzcwODg3OTgwZGI1ZGQ0MDY1OWI1MDkwOTIzOGRiZCIKIFNFQ1RJT04gPSAibGlicyIKIAot
-U1JDUkVWID0gIjk4YzIxNzQyNzE4M2Y2NmYwOWY0YTI3MzAwYWQ4N2Q3MTgxNGMzOGYiCitTUkNS
-RVYgPSAiN2E4ZmVlNTdkODdhYTYxYzlkNTc4Y2Q2N2U5OWQyNjc3Yjg5NDc3MiIKIFNSQ19VUkkg
-PSAiZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saWJzL2xpYnRyYWNlL2xpYnRyYWNlZXZl
-bnQuZ2l0O2JyYW5jaD0ke0JQTn07cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICIKIApAQCAt
-MTksMyArMTksNSBAQCBFWFRSQV9PRU1FU09OID0gIi1EZG9jPWZhbHNlIgogUEFDS0FHRVMgKz0g
-IiR7UE59LXBsdWdpbnMiCiAKIEZJTEVTOiR7UE59LXBsdWdpbnMgKz0gIiR7bGliZGlyfS90cmFj
-ZWV2ZW50L3BsdWdpbnMiCisKK0JQTiA9ICJsaWJ0cmFjZWV2ZW50LXYxLjgiCi0tIAoyLjQ3LjEK
-Cg==
-
---===============3514195172848665882==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.8.7"
-Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
-  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.8.7
-  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.8.7
-
---===============3514195172848665882==
+--===============5976375717099853316==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libtraceevent: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent: SRC_URI changed from "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=libtraceevent;protocol=https" to "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=libtraceevent-v1.8;protocol=https"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGSIZE changed from 608312 to 612704 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: FILELIST: removed "/usr/lib/.debug/libtraceevent.so.1.8.6", added "/usr/lib/.debug/libtraceevent.so.1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGSIZE changed from 28895 to 29056 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: FILES: removed "/usr/lib/libtraceevent/*.la", added "/usr/lib/libtraceevent-v1.8/*.la"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGSIZE changed from 398698 to 400743 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: FILELIST: directory renamed /usr/src/debug/libtraceevent/1.8.6/plugins -> /usr/src/debug/libtraceevent/1.8.7/plugins, directory renamed /usr/src/debug/libtraceevent/1.8.6/include/traceevent -> /usr/src/debug/libtraceevent/1.8.7/include/traceevent, directory renamed /usr/src/debug/libtraceevent/1.8.6/src -> /usr/src/debug/libtraceevent/1.8.7/src
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 751910 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: FILES: removed "/usr/lib/libtraceevent/*.a", added "/usr/lib/libtraceevent-v1.8/*.a"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILES: removed "/usr/lib/libtraceevent/* /usr/share/libtraceevent", added "/usr/lib/libtraceevent-v1.8/* /usr/share/libtraceevent-v1.8"
-Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
-  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.8.7
-  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.8.7
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGSIZE changed from 211600 to 214312 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGSIZE changed from 67958 to 69520 (+2%)
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-python/1.26.9/plugin -> /usr/src/debug/gstreamer1.0-python/1.26.10/plugin, directory renamed /usr/src/debug/gstreamer1.0-python/1.26.9/gi/overrides -> /usr/src/debug/gstreamer1.0-python/1.26.10/gi/overrides
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGSIZE changed from 190321 to 195177 (+3%)
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python: PV changed from "1.26.9" to "1.26.10"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.26.9.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.26.10.tar.xz"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
 
---===============3514195172848665882==--
+--===============5976375717099853316==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-python-upgrade-1.26.9-1.26.10.patch"
+
+RnJvbSBhMDhjOGFhN2Y2OGI4NzYwN2RhMGU3ZDdkODE0MmNhMzM4ODg4MTQxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTYgSmFuIDIwMjYgMDA6Mzc6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjYuOSAtPiAxLjI2LjEwCgotLS0KIC4uLmVh
+bWVyMS4wLXB5dGhvbl8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI2LjEwLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLXB5
+dGhvbl8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI2LjEwLmJifSAoOTElKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
+LjAtcHl0aG9uXzEuMjYuOS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAtcHl0aG9uXzEuMjYuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRo
+b25fMS4yNi45LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI2LjEwLmJiCmluZGV4IDU3ZGRmMGJiYmEuLmE1YzYwYWI0
+MzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtcHl0aG9uXzEuMjYuOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI2LjEwLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNF
+TlNFID0gIkxHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9YzM0ZGVhZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9
+LSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyMWE1MWQzNWZkOTczYWYxMTg2
+Nzk1ZDNkOWQ2OTZmMzIxNTg0YWViMDlhYjRkMTc2YjU5ZjI2ZTg0MmI4ODQ5IgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjZmZDg5YThlOGIwY2I4NDU1ZjQwNzk0ZTRjZGZjNTk5M2JkZWRiMDdlYTY2
+MGRhYzU0YmE4OGUyOTQzMTk4MDUiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1l
+cjEuMC1wbHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QgZ3N0cmVhbWVyMS4wLXBsdWdpbnMt
+YmFkIgogUkRFUEVORFM6JHtQTn0gKz0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lu
+cy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgotLSAKMi40Ny4xCgo=
+
+--===============5976375717099853316==--
 
