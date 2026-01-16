@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA7CD47CCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F91D47CCA
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:52 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1437.1768526749272694186
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1438.1768526749311986654
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jan 2026 17:25:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M2D/VxM4;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Sd42ut4f;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019bc4689b8f-0e918601-50fc-40f8-97c8-a769fba6b0d9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=A2+w/dlM;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YEQFJJ8w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019bc4689bbc-4400f28b-4fdd-4d5e-bb72-2c4424972a49-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1768526748;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5pDJ/Y0AbNhAx0P+Rqq4K3X1+4fT/IcRFHT7v/rqYuA=;
-	b=M2D/VxM4XDsYphP41B0ksgf9nVDy1Tvkikl2+ult1FJxLme6dWhQqODdiwUfMOdu
-	Vxyl27e4M7Li+nkGGNHC40ZHVxYLeRdbYxMYfkunfszOd34sMvABxEU0wCi4z6D6CdX
-	U6fM4/rBaygm5z3+ahgeKCjl5weCfpSKMEyMH7iA=
+	bh=ckSLsE6qQnq27n3POrMBk+VOKD4t+M4D+qfwY1LoWJ8=;
+	b=A2+w/dlMrNk0qLRO4bk2XJqY9ulQV7G1KIdkiv2F/koV21jBLeyhDMMMK6V1MeVA
+	f/q1rDZh6CL/tRKniWoT0b635z4rQTCbvAa+t3KEjHWS2sK9STwPnDEYteHAYavGWii
+	8pJRW1JybSK1K+1uaGDJQVbjdLi8BcFmem02sXlE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526748;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5pDJ/Y0AbNhAx0P+Rqq4K3X1+4fT/IcRFHT7v/rqYuA=;
-	b=Sd42ut4fav9oXd2yXyHGIR7URkI9Yr0vDJac6Xgb3zrVizXZIOjIJOYGc7lgQxNU
-	JMkZSMp/N3Rp5AVXZp3PWVroBO7gYUQbPLyAWzihJMbCvfupzaqhB9aR7GBrKqTSt6O
-	8f1JJNgxICvzJ3FpTv5ZmEuGavS18eVE50CxZh6s=
-Content-Type: multipart/mixed; boundary="===============1050343326093472898=="
+	bh=ckSLsE6qQnq27n3POrMBk+VOKD4t+M4D+qfwY1LoWJ8=;
+	b=YEQFJJ8wCwjT3AeVhDMdt5bXNLlVCPitqu2Vcd4C7oRhQXzZzJUAuuqRO72OXEpC
+	pbG8QLGD2appOKVgqVhDCtomrAhC/YTCZAc3wdKmN/g9KwlgGSXkuApP/2Zl813MvBG
+	q8MCrmy9zFyjIlnqpL59fu4UGHE5Kedfz2dk2reI=
+Content-Type: multipart/mixed; boundary="===============6022971384405436145=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Koen Kooi <koen.kooi@oss.qualcomm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyzstd: upgrading to 0.19.1 FAILED
-Message-ID: <0101019bc4689b8f-0e918601-50fc-40f8-97c8-a769fba6b0d9-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-sphinx-rtd-theme: upgrading to 3.1.0 SUCCEEDED
+Message-ID: <0101019bc4689bbc-4400f28b-4fdd-4d5e-bb72-2c4424972a49-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jan 2026 01:25:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.23
+X-SES-Outgoing: 2026.01.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229471
 
---===============1050343326093472898==
+--===============6022971384405436145==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,91 +51,125 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyzstd* to *0.19.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-sphinx-rtd-theme* to *3.1.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-sphinx-rtd-theme-upgrade-3.0.2-3.1.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-pyzstd failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1955 targets, 47 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-c4459dc821ba6f5bfe5bb4229dcf2834273775e7"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:c4459dc821ba6f5bfe5bb4229dcf2834273775e7"
-meta-yocto-bsp       
-meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 952 .bb files complete (0 cached, 952 parsed). 1956 targets, 47 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-c4459dc821ba6f5bfe5bb4229dcf2834273775e7"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:c4459dc821ba6f5bfe5bb4229dcf2834273775e7"
-meta-yocto-bsp       
-meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  62% |######################              | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pyzstd/pyzstd-0.19.1.tar.gz;downloadfilename=pyzstd-0.19.1.tar.gz...
-INFO: Rebasing devtool onto 1d1c8942e067cfe840326e1632afa37c23c1ed49
-WARNING: Command 'git rebase 1d1c8942e067cfe840326e1632afa37c23c1ed49' failed:
-Auto-merging pyproject.toml
-CONFLICT (content): Merge conflict in pyproject.toml
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-pyzstd
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-pyzstd/python3-pyzstd_0.19.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1050343326093472898==--
+
+-- >8 --
+From 28a42da822083621f244ddc326c8fc3649203b5e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Jan 2026 21:51:23 +0000
+Subject: [PATCH] python3-sphinx-rtd-theme: upgrade 3.0.2 -> 3.1.0
+
+---
+ ...inx-rtd-theme_3.0.2.bb => python3-sphinx-rtd-theme_3.1.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-sphinx-rtd-theme_3.0.2.bb => python3-sphinx-rtd-theme_3.1.0.bb} (89%)
+
+diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.2.bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.2.bb
+rename to meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
+index 03e7a50125..05e2c097c5 100644
+--- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.2.bb
++++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
+@@ -15,7 +15,7 @@ RDEPENDS:${PN} += " \
+ PYPI_PACKAGE = "sphinx_rtd_theme"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ 
+-SRC_URI[sha256sum] = "b7457bc25dda723b20b086a670b9953c859eab60a2a03ee8eb2bb23e176e5f85"
++SRC_URI[sha256sum] = "b44276f2c276e909239a4f6c955aa667aaafeb78597923b1c60babc76db78e4c"
+ 
+ inherit setuptools3 pypi
+ 
+-- 
+2.47.1
+
+
+--===============6022971384405436145==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: FILELIST: directory renamed /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.1.0.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info -> /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.1.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme (sysroot):
+  /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info moved to /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.1.0.dist-info
+
+--===============6022971384405436145==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/sphinx_rtd_theme/sphinx_rtd_theme-3.0.2.tar.gz;downloadfilename=sphinx_rtd_theme-3.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/s/sphinx_rtd_theme/sphinx_rtd_theme-3.1.0.tar.gz;downloadfilename=sphinx_rtd_theme-3.1.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dbg: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dbg: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dev: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dev: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-doc: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-doc: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-locale: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-locale: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-src: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-src: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-staticdev: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-staticdev: PV changed from "3.0.2" to "3.1.0"
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PKGSIZE changed from 9956839 to 9956967 (+0%)
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: FILELIST: directory renamed /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info -> /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.1.0.dist-info, directory renamed /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.1.0.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PKGV changed from 3.0.2 [default] to 3.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PV changed from "3.0.2" to "3.1.0"
+Changes to packages/x86-64-v3-poky-linux/python3-sphinx-rtd-theme (sysroot):
+  /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.0.2.dist-info moved to /usr/lib/python3.13/site-packages/sphinx_rtd_theme-3.1.0.dist-info
+
+--===============6022971384405436145==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-sphinx-rtd-theme-upgrade-3.0.2-3.1.0.patch"
+
+RnJvbSAyOGE0MmRhODIyMDgzNjIxZjI0NGRkYzMyNmM4ZmMzNjQ5MjAzYjVlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjE6NTE6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNwaGlueC1ydGQtdGhlbWU6IHVwZ3JhZGUgMy4wLjIgLT4gMy4xLjAKCi0tLQogLi4u
+aW54LXJ0ZC10aGVtZV8zLjAuMi5iYiA9PiBweXRob24zLXNwaGlueC1ydGQtdGhlbWVfMy4xLjAu
+YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zcGhpbngtcnRk
+LXRoZW1lXzMuMC4yLmJiID0+IHB5dGhvbjMtc3BoaW54LXJ0ZC10aGVtZV8zLjEuMC5iYn0gKDg5
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3Bo
+aW54LXJ0ZC10aGVtZV8zLjAuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1zcGhpbngtcnRkLXRoZW1lXzMuMS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggODklCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbngtcnRkLXRo
+ZW1lXzMuMC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc3BoaW54LXJ0ZC10aGVtZV8zLjEuMC5iYgppbmRleCAwM2U3YTUwMTI1Li4wNWUyYzA5N2M1
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54
+LXJ0ZC10aGVtZV8zLjAuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtc3BoaW54LXJ0ZC10aGVtZV8zLjEuMC5iYgpAQCAtMTUsNyArMTUsNyBAQCBSREVQRU5E
+Uzoke1BOfSArPSAiIFwKIFBZUElfUEFDS0FHRSA9ICJzcGhpbnhfcnRkX3RoZW1lIgogVVBTVFJF
+QU1fQ0hFQ0tfUFlQSV9QQUNLQUdFID0gIiR7UFlQSV9QQUNLQUdFfSIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImI3NDU3YmMyNWRkYTcyM2IyMGIwODZhNjcwYjk5NTNjODU5ZWFiNjBhMmEwM2Vl
+OGViMmJiMjNlMTc2ZTVmODUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjQ0Mjc2ZjJjMjc2ZTkw
+OTIzOWE0ZjZjOTU1YWE2NjdhYWFmZWI3ODU5NzkyM2IxYzYwYmFiYzc2ZGI3OGU0YyIKIAogaW5o
+ZXJpdCBzZXR1cHRvb2xzMyBweXBpCiAKLS0gCjIuNDcuMQoK
+
+--===============6022971384405436145==--
 
