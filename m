@@ -2,50 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F18B0D4898B
-	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:52 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1465.1768526743272598335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBDBD4A5E4
+	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:26:05 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1444.1768526752375640149
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:43 -0800
+ Thu, 15 Jan 2026 17:25:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=H/g8v6Jx;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OUsmTRg2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019bc46886d4-e050016e-aad7-454b-b5e9-d83f682a7a34-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qMtE9iip;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=lHMPup1B;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019bc468ae54-a7c101fc-6631-4fab-90e4-82db7e3dfca0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526743;
+	t=1768526753;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BjHfmArN91ZxR+5aWhGCh33Zfi9jMpUA1/c4b06P6nE=;
-	b=H/g8v6Jxf34fbb45Gku76/MJKerMgXXWYnohIj5AIh+hjhTXTZmYvfVmXJG3Pprx
-	n/W+fd8oFYnsfybeSUnYtb2LRwdCjn3W03jXXgO4PwQBtyAXXEMm9TzilJjpUuSi1A4
-	SkehY85XXtukrTJR6DUIS7He6La9YgTzBCAOrKZs=
+	bh=ukFXxLl12GICE6A11LySm+v6Z2zr5/C5Ah7F6e4ekIk=;
+	b=qMtE9iipBJ2GwD0lOlYZZj+PQk2JL+i1oHC9WQUNWzER6hBxb/sP15OxB4DEGAXk
+	vDAfmVAGsDqabhNMxTyufYbY2cygdxxthWeVFfKAq2b1GOdbScKiK1qDb0gW4qksRN8
+	s4Z/n5yKKExKA9OurYkC9jO1OIc0XjLiv/YhCb60=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526743;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526753;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BjHfmArN91ZxR+5aWhGCh33Zfi9jMpUA1/c4b06P6nE=;
-	b=OUsmTRg2lzO5EqAN7dJiqUNT72vYQFxRBg9qVx7nSrzytSBPQdl6Wg5wamOHy522
-	sazfpI4XOpwm1CHC8p99uukQY8IYurTTuWUNL4dL9d6fmPJWOz/v03bYtcNYSl/DFEt
-	6nhmPbnnhagzJUazOiBNn0f1OI8yBZ0kQ61WIx2s=
-Content-Type: multipart/mixed; boundary="===============2948941907280861973=="
+	bh=ukFXxLl12GICE6A11LySm+v6Z2zr5/C5Ah7F6e4ekIk=;
+	b=lHMPup1BPzFguIFmV0ADeMK0PhUI07bGKFdO1VqoafHn2v9nOwp+LJqTtGtRr86X
+	8OcqXiGelHaHarlOIfDjXb0+YCXQDe5Gu4G+GQfYib7AnQFm3/b3/r0ztNaTG3z7HwH
+	0MjaS17LVse2v/MaSHcNJIsXp+KJ6vZ7cRHmsjbI=
+Content-Type: multipart/mixed; boundary="===============4024190869325687714=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH]
- gstreamer1.0-plugins-bad,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base,gstreamer1.0-rtsp-server:
- upgrading to 1.26.10,1.26.10,1.26.10,1.26.10,1.26.10 SUCCEEDED
-Message-ID: <0101019bc46886d4-e050016e-aad7-454b-b5e9-d83f682a7a34-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:43 +0000
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gtk4: upgrading to 4.20.3 SUCCEEDED
+Message-ID: <0101019bc468ae54-a7c101fc-6631-4fab-90e4-82db7e3dfca0-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.29
+X-SES-Outgoing: 2026.01.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229453
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:26:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229489
 
---===============2948941907280861973==
+--===============4024190869325687714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -53,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-plugins-bad,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base,gstreamer1.0-rtsp-server* to *1.26.10,1.26.10,1.26.10,1.26.10,1.26.10* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gtk4* to *4.20.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-plugins-bad-gstreamer1.0-plugins-ugly-g.patch
+    - apply the patch: git am 0001-gtk4-upgrade-4.20.2-4.20.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -74,1685 +72,2623 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1dc5adbf4772c0287eb4071848cbc211ade0b897 Mon Sep 17 00:00:00 2001
+From bd0b59f0cc3a89aa70d2ef14a6840bebe2ea36a8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jan 2026 19:43:02 +0000
-Subject: [PATCH] 
- gstreamer1.0-plugins-bad,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base,gstreamer1.0-rtsp-server:
- upgrade 1.26.9 -> 1.26.10,1.26.9 -> 1.26.10,1.26.9 -> 1.26.10,1.26.9 ->
- 1.26.10,1.26.9 -> 1.26.10
+Date: Thu, 15 Jan 2026 23:26:14 +0000
+Subject: [PATCH] gtk4: upgrade 4.20.2 -> 4.20.3
 
 ---
- ...x-maybe-uninitialized-warnings-when-compiling-with.patch | 2 +-
- .../0002-avoid-including-sys-poll.h-directly.patch          | 2 +-
- ...encv-resolve-missing-opencv-data-dir-in-yocto-buil.patch | 2 +-
- ...ns-bad_1.26.9.bb => gstreamer1.0-plugins-bad_1.26.10.bb} | 2 +-
- ...ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 6 +++---
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch      | 2 +-
- .../0003-viv-fb-Make-sure-config.h-is-included.patch        | 2 +-
- ...-base_1.26.9.bb => gstreamer1.0-plugins-base_1.26.10.bb} | 2 +-
- ...-good_1.26.9.bb => gstreamer1.0-plugins-good_1.26.10.bb} | 2 +-
- ...-ugly_1.26.9.bb => gstreamer1.0-plugins-ugly_1.26.10.bb} | 2 +-
- ...server_1.26.9.bb => gstreamer1.0-rtsp-server_1.26.10.bb} | 2 +-
- 11 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.26.9.bb => gstreamer1.0-plugins-bad_1.26.10.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.9.bb => gstreamer1.0-plugins-base_1.26.10.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.26.9.bb => gstreamer1.0-plugins-good_1.26.10.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.26.9.bb => gstreamer1.0-plugins-ugly_1.26.10.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.26.9.bb => gstreamer1.0-rtsp-server_1.26.10.bb} (90%)
+ meta/recipes-gnome/gtk+/{gtk4_4.20.2.bb => gtk4_4.20.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.20.2.bb => gtk4_4.20.3.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-index 307d669645..a01c832212 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-@@ -1,4 +1,4 @@
--From d24bb949e547a0ad69f3f47e4cf262a75bb9fe73 Mon Sep 17 00:00:00 2001
-+From 3bfab9678788cd157fefefdf955279a462199b2e Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Tue, 26 Jan 2016 15:16:01 -0800
- Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-index 7da8994e3d..b096fc24bb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-@@ -1,4 +1,4 @@
--From 728238129a8a91cad857023d2e7131591321409d Mon Sep 17 00:00:00 2001
-+From 5b7d22bd17535e733e6435fcffdb923f3cf2baa4 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Wed, 3 Feb 2016 18:05:41 -0800
- Subject: [PATCH] avoid including <sys/poll.h> directly
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-index 1edcf07c14..398e032a89 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-@@ -1,4 +1,4 @@
--From 8f7a1c5591e27681f294ae5edf0f32689198abff Mon Sep 17 00:00:00 2001
-+From 0bc86eb603b590f7da59208ef1aa73880679ec04 Mon Sep 17 00:00:00 2001
- From: Andrey Zhizhikin <andrey.z@gmail.com>
- Date: Mon, 27 Jan 2020 10:22:35 +0000
- Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.10.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.10.bb
-index 4a9cb37dd8..0ff6bb66c7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.10.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "a96bfb68c53a7c9ab1ae279eac7c101f4204fb5c0e4729683b2be64261707446"
-+SRC_URI[sha256sum] = "fec973dff512b507d9dcb5a828e04e061e52188f4d5989e953aed6a41beda437"
- 
- S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 719c73d3e3..2d13dcf5e9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From a37f0063103e98f5109132ea302b919b92e26a38 Mon Sep 17 00:00:00 2001
-+From 1c7dd8eddcb39c3dbddd9e1308158357a89fe833 Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-@@ -16,10 +16,10 @@ Signed-off-by: zhouming <b42586@freescale.com>
- diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
- old mode 100644
- new mode 100755
--index 975fe83..df82840
-+index 16bf001..e17a144
- --- a/gst-libs/gst/tag/gsttagdemux.c
- +++ b/gst-libs/gst/tag/gsttagdemux.c
--@@ -1796,6 +1796,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
-+@@ -1797,6 +1797,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
-        }
-        break;
-      }
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index bf1e2a89e3..20db02697f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From f892f0be8ae88acc6482f4b9a9a4db5f03b7adf8 Mon Sep 17 00:00:00 2001
-+From da868dda9f59e53a8269f8a39f2edc21291cef85 Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index 1a988b99de..1be45ebef7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 6f06f4b2f13f028250189225a46a39f402428930 Mon Sep 17 00:00:00 2001
-+From 446f89b13738260119f2b15d2fe5280510b95b4c Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.10.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.10.bb
-index 74b6f2308d..6c6c1b4c7f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.10.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "11db4ec9ae5be2194ff8ccf2b5fecdc069252fe4416921b083a921ef71dd000a"
-+SRC_URI[sha256sum] = "1c1531dd8f2d480c89c57b08a930545a3375077391789762e40e490cdbbf03fd"
- 
- S = "${UNPACKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.10.bb
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb b/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb
 similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.10.bb
-index 4977415f71..ba72aa8849 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.10.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
+rename from meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.20.3.bb
+index 92791db169..ef9a05f7fe 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = " \
+     file://tests/testgtk.c;endline=25;md5=49d06770681b8322466b52ed19d29fb2 \
+ "
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
+-SRC_URI[archive.sha256sum] = "5e8240edecafaff2b8baf4663bdceaa668ef10a207bee4d7f90e010e10bddc5c"
++SRC_URI[archive.sha256sum] = "2873f2903088a66c71173ea2ed85ffae266a66b972c3a4842bbb2f6f187ec153"
  
--SRC_URI[sha256sum] = "f38566fb53ae56b7019a039475311756a28eb978a781154d67813dcb551ff5fe"
-+SRC_URI[sha256sum] = "7beacb5daba3c6751ebc1c85017d9b1d6de64e24798125932c73c8b1dbeb3bc9"
- 
- S = "${UNPACKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.10.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.10.bb
-index e04bfcc81b..c4d174b1bf 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.10.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "184e4c6e765bc463ed806b2263cb9b2aaa3a65415df0a3c22fd520d5d1bacb4d"
-+SRC_URI[sha256sum] = "b2c648ef62cbf03cdc215f55dca01e2e8372983d8c88de3fa03671ddf08d7d14"
- 
- S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.10.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.10.bb
-index ac6b52ee46..af58fa11bc 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.10.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "67e92e9a5b0f2b51eb571cc893b80da2ae2374f19b05d381d1e364393fe12654"
-+SRC_URI[sha256sum] = "4476cda6912b6a92179d6004d2df821e253afdf7c916ebaea5fad9bd082f5604"
- 
- S = "${UNPACKDIR}/${PNREAL}-${PV}"
+ S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
  
 -- 
 2.47.1
 
 
---===============2948941907280861973==
+--===============4024190869325687714==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1956 targets, 71 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-a4191bcce7bd4142c72f153ae42b445633a6d883"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 = "tmp-auh-upgrades:a4191bcce7bd4142c72f153ae42b445633a6d883"
+meta-yocto-bsp       
+meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 970 Local 903 Mirrors 0 Missed 67 Current 454 (93% match, 95% complete)
+done.
+Removing 11 stale sstate objects for arch allarch...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 463 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 487 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 490 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 496 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 506 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 529 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_qa_setscene)
+NOTE: Running setscene task 558 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.29.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 560 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb:do_package_qa_setscene)
+NOTE: Running setscene task 562 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 563 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 577 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.85.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 578 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 596 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 597 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 600 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 602 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb:do_create_spdx_setscene)
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_qa_setscene: Started
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libusb1-1.0.29-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_qa_setscene: Started
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgudev-238-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sbc-2.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gtk4-4.20.3-r0: task do_populate_lic_setscene: Started
+NOTE: recipe bluez5-5.85-r0: task do_create_spdx_setscene: Started
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 603 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_packagedata_setscene)
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 608 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 612 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.18.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 613 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/iso-codes/iso-codes_4.19.0.bb:do_create_spdx_setscene)
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 616 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 617 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_25.0.bb:do_packagedata_setscene)
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 620 of 1424 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_create_spdx_setscene)
+NOTE: recipe librsvg-2.61.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libusb1-1.0.29-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 622 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_create_spdx_setscene)
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe libgudev-238-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 623 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 624 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: recipe sbc-2.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 625 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 627 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb:do_packagedata_setscene)
+NOTE: recipe gtk4-4.20.3-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe bluez5-5.85-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 628 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 635 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 637 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_create_spdx_setscene)
+NOTE: recipe libwebp-1.6.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe coreutils-9.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.18.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe iso-codes-4.19.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-packaging-25.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe librsvg-2.61.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 638 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_create_spdx_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_create_spdx_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe orc-native-0.4.41-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 647 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_create_spdx_setscene)
+NOTE: recipe curl-8.18.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 649 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxv-1.0.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe liberation-fonts-1_2.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 654 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 655 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe iso-codes-4.19.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 656 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_create_spdx_setscene)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 661 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 674 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe orc-0.4.41-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 676 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_create_spdx_setscene)
+NOTE: recipe orc-native-0.4.41-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 681 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 682 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-packaging-25.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 687 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 690 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
+NOTE: recipe adwaita-icon-theme-49.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 697 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_packagedata_setscene)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe orc-0.4.41-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 702 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_recipe_qa_setscene)
+NOTE: recipe pango-1.57.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe tiff-4.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gtk4-4.20.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 703 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_packagedata_setscene)
+NOTE: Running setscene task 705 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mesa-2_25.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 707 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 708 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe pango-1.57.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 709 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 711 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.18.0.bb:do_packagedata_setscene)
+NOTE: recipe coreutils-9.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 714 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 715 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 716 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 717 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_create_spdx_setscene)
+NOTE: recipe gtk4-4.20.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 719 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.29.bb:do_packagedata_setscene)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 720 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe tiff-4.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgudev-238-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 721 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe mesa-2_25.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libwebp-1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 723 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 726 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 727 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.131.bb:do_create_spdx_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sbc-2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgudev-238-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe curl-8.18.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libusb1-1.0.29-r0: task do_packagedata_setscene: Started
+NOTE: recipe librsvg-2.61.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe graphene-1.10.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 729 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_packagedata_setscene)
+NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libgudev-238-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gtk4-4.20.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 732 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libdrm-2.4.131-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 733 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 735 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.29.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxi-1_1.8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 738 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.85.bb:do_populate_sysroot_setscene)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 739 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx_setscene)
+NOTE: recipe curl-8.18.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sbc-2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 740 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.85.bb:do_packagedata_setscene)
+NOTE: recipe libgudev-238-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 742 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 744 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 747 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gtk4-4.20.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libusb1-1.0.29-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 755 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
+NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 757 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.335.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 758 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb:do_create_spdx_setscene)
+NOTE: recipe sbc-2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.131-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 759 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.18.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe tiff-4.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libusb1-1.0.29-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 761 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_create_spdx_setscene)
+NOTE: recipe librsvg-2.61.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 763 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shared-mime-info-2.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bluez5-5.85-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe tiff-4.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe bluez5-5.85-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 764 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_recipe_qa_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe librsvg-2.61.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe curl-8.18.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sbc-2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 767 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shared-mime-info-2.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 771 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 773 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb:do_create_spdx_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libusb1-1.0.29-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 777 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_packagedata_setscene)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 782 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 783 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 787 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 788 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bluez5-5.85-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 791 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_packagedata_setscene)
+NOTE: Running setscene task 792 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 795 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 796 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland-protocols_1.47.bb:do_create_spdx_setscene)
+NOTE: recipe bluez5-5.85-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 798 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_packagedata_setscene)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe harfbuzz-12.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe curl-8.18.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 799 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 804 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe librsvg-2.61.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 807 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe tiff-4.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe orc-0.4.41-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-protocols-1.47-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 808 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe harfbuzz-12.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 812 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_packagedata_setscene)
+NOTE: recipe gtk+3-3.24.51-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 813 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe tiff-4.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 814 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 817 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-protocols-1.47-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 820 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_spdx_setscene)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe orc-0.4.41-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 824 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 826 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 830 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 834 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxv-1.0.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 835 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_3.0.20.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 836 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 842 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_recipe_qa_setscene)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 843 of 1424 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 845 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 847 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_packagedata_setscene)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 848 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_packagedata_setscene)
+NOTE: recipe libical-3.0.20-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 851 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 852 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 856 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_recipe_qa_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 860 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 863 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe orc-native-0.4.41-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 864 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 865 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe gtk+3-3.24.51-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 871 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 873 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.18.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 875 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.24.0.bb:do_create_spdx_setscene)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libical-3.0.20-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 876 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.335.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 878 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_3.0.20.bb:do_packagedata_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 879 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_create_spdx_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 880 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_packagedata_setscene)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 881 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_packagedata_setscene)
+NOTE: recipe orc-native-0.4.41-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe orc-0.4.41-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 883 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_create_spdx_setscene)
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 886 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe curl-8.18.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.24.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 887 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.17.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 888 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_packagedata_setscene)
+NOTE: recipe libical-3.0.20-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 890 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe curl-8.18.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 891 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot_setscene)
+NOTE: recipe readline-8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe wayland-1.24.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 893 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.92.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 895 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pango-1.57.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 896 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 898 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libunistring-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 899 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe orc-0.4.41-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 900 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_spdx_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libical-3.0.20-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 902 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe mesa-2_25.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 903 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.85.bb:do_recipe_qa_setscene)
+NOTE: recipe sbc-2.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libstd-rs-1.92.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 905 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe mesa-2_25.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 907 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_packagedata_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 909 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_spdx_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libunistring-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 910 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libwebp-1.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pango-1.57.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sbc-2.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 915 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.92.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 918 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe bluez5-5.85-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libwebp-1.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 919 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_recipe_qa_setscene)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 920 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 921 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.1.bb:do_recipe_qa_setscene)
+NOTE: recipe dbus-1.16.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 925 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe bluez5-5.85-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libunistring-1.4.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 927 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_packagedata_setscene)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_25.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 931 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 932 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.29.bb:do_recipe_qa_setscene)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 933 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb:do_packagedata_setscene)
+NOTE: recipe libstd-rs-1.92.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_25.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 935 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 937 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 941 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 942 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libusb1-1.0.29-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pango-1.57.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.13.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 945 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 946 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 947 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.53.bb:do_create_spdx_setscene)
+NOTE: recipe libunistring-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libstd-rs-1.92.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 950 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 951 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 952 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_create_spdx_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libusb1-1.0.29-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 955 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_3.0.20.bb:do_recipe_qa_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe librsvg-2.61.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 957 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb:do_packagedata_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pango-1.57.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 958 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_recipe_qa_setscene)
+NOTE: recipe libpng-1.6.53-r0: task do_create_spdx_setscene: Started
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.15.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 959 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_recipe_qa_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 961 of 1424 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.41.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.41.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libstd-rs-1.92.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe librsvg-2.61.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 964 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb:do_populate_sysroot_setscene)
+NOTE: recipe libical-3.0.20-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 966 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 968 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_recipe_qa_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 970 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 972 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata_setscene)
+NOTE: recipe libpng-1.6.53-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.46-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 974 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.18.bb:do_populate_sysroot_setscene)
+NOTE: recipe orc-0.4.41-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 975 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.15.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 976 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libical-3.0.20-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 977 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.41.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.46-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 978 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 979 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe orc-native-0.4.41-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flac-1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 980 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe orc-0.4.41-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 983 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe vala-0.56.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 984 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: recipe kmod-34.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe orc-native-0.4.41-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe readline-8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 986 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_create_spdx_setscene)
+NOTE: recipe kmod-34.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gstreamer1.0-1.26.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 987 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 988 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.18.bb:do_packagedata_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 989 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_recipe_qa_setscene)
+NOTE: recipe flac-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 992 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe xkeyboard-config-2.46-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 993 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libx11-1_1.8.12-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 994 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.131.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 996 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_packagedata_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vala-0.56.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 997 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 998 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.335.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe vala-0.56.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 999 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1000 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xkeyboard-config-2.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1002 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_recipe_qa_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1004 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1006 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.92.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1008 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libdrm-2.4.131-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1012 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libunistring-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1013 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1015 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vala-0.56.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1016 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1017 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.1.bb:do_recipe_qa_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libstd-rs-1.92.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1018 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1021 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunwind/libunwind_1.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1022 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.335.0.bb:do_packagedata_setscene)
+NOTE: recipe libxft-1_2.3.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1023 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_recipe_qa_setscene)
+NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe harfbuzz-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libdrm-2.4.131-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1024 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1025 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunwind/libunwind_1.8.3.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1031 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libstd-rs-1.92.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1033 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.11.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1037 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1038 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunwind-1.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1039 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.0.bb:do_recipe_qa_setscene)
+NOTE: recipe alsa-lib-1.2.15.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libunwind-1.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1040 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1041 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_packagedata_setscene)
+NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1042 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_25.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe harfbuzz-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1043 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.11-r0: task do_create_spdx_setscene: Started
+NOTE: recipe pango-1.57.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe dbus-1.16.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_25.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1044 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1045 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1047 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_setscene)
+NOTE: recipe libunwind-1.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunwind-1.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.57.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.13.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe harfbuzz-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1051 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.131.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1056 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1057 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1058 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libucontext_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1060 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1061 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1066 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.335.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1067 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1068 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1075 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1077 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1078 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1079 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1085 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.24.0.bb:do_packagedata_setscene)
+NOTE: recipe harfbuzz-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1086 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libucontext-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.131-r0: task do_packagedata_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe openssl-3.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xkeyboard-config-2.46-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.24.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1088 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1089 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1090 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.335.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.46-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1091 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
+NOTE: recipe openssl-3.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1095 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1096 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.24.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1100 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1102 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_recipe_qa_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1103 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1105 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libucontext_1.3.2.bb:do_packagedata_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libucontext-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1107 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1109 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_packagedata_setscene)
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe wayland-1.24.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1110 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1112 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_create_spdx_setscene)
+NOTE: recipe libdrm-2.4.131-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1113 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.24.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libucontext-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe harfbuzz-12.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1117 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1118 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1120 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_recipe_qa_setscene)
+NOTE: recipe harfbuzz-12.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1122 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunwind/libunwind_1.8.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1123 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1124 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1125 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe flac-1.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1127 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1128 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libucontext-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1129 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1130 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_recipe_qa_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1131 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.24.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1133 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1134 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1138 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.335.0.bb:do_recipe_qa_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunwind-1.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe icu-78.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe icu-78.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1139 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe dbus-1.16.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1140 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libunwind-1.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1142 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.18.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1146 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1147 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.24.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1151 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxft-1_2.3.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1153 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_packagedata_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1155 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.131.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1157 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.335.0.bb:do_recipe_qa_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1158 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-loader-1.4.335.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1159 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vala-0.56.18-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1160 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe icu-78.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1162 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_recipe_qa_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1164 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe wayland-1.24.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1165 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libdrm-2.4.131-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1166 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_packagedata_setscene)
+NOTE: recipe vala-0.56.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1169 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1172 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.24.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1173 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe icu-78.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1174 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.17.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-headers-1.4.335.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libdrm-2.4.131-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1175 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1176 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1177 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1178 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1179 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fontconfig-2.17.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1181 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libucontext_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1182 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1185 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1187 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.1.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1188 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libucontext-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fontconfig-2.17.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe icu-78.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libucontext-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1197 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1198 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1199 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1200 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1201 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1202 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1203 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1204 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_packagedata_setscene)
+NOTE: recipe icu-78.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1206 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe freetype-2.14.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.14.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libx11-1_1.8.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fontconfig-2.17.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe freetype-2.14.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1213 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1214 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
+NOTE: recipe freetype-2.14.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1216 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libx11-1_1.8.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1217 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1219 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1220 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.14.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe freetype-2.14.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1223 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1225 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1226 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1227 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1228 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1229 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1230 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1231 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1232 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1234 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1136 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1239 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1240 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1242 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1244 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1245 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1246 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1248 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1250 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 1282 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1304 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1588 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1254 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1256 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1838 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1905 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_fetch)
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1906 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_fetch)
+NOTE: Running task 1907 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_fetch)
+NOTE: Running task 1908 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_fetch)
+NOTE: Running task 1957 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_fetch)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: Running task 1997 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_fetch)
+NOTE: Running task 1998 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_fetch)
+NOTE: Running task 1999 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_fetch)
+NOTE: Running task 2000 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_fetch)
+NOTE: Running task 2008 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_fetch)
+NOTE: Running task 2050 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_write_config)
+NOTE: Running task 2051 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_write_config)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_fetch: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_fetch: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_fetch: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running task 2104 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2111 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_write_config)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_fetch: Started
+NOTE: Running task 2120 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_unpack)
+NOTE: Running task 2124 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_fetch)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_fetch: Started
+NOTE: recipe tiff-4.7.1-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_fetch: Succeeded
+NOTE: recipe graphene-1.10.8-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_fetch: Started
+NOTE: Running task 2125 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_unpack)
+NOTE: recipe gtk+3-3.24.51-r0: task do_fetch: Started
+NOTE: recipe graphene-1.10.8-r0: task do_fetch: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_fetch: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_write_config: Started
+NOTE: Running task 2126 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_unpack)
+NOTE: recipe gtk+3-3.24.51-r0: task do_fetch: Succeeded
+NOTE: Running task 2127 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_unpack)
+NOTE: Running task 2128 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_unpack)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_write_config: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_write_config: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_unpack: Started
+NOTE: recipe gtk4-4.20.3-r0: task do_fetch: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_write_config: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_write_config: Succeeded
+NOTE: recipe gtk4-4.20.3-r0: task do_fetch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_unpack: Started
+NOTE: Running task 2153 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: Running task 2154 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_unpack)
+NOTE: Running task 2157 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_write_config)
+NOTE: Running task 2158 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_write_config)
+NOTE: recipe graphene-1.10.8-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_unpack: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_unpack: Started
+NOTE: Running task 2165 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_write_config)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2166 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe gtk4-4.20.3-r0: task do_unpack: Started
+NOTE: recipe graphene-1.10.8-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_write_config: Started
+NOTE: recipe graphene-1.10.8-r0: task do_unpack: Succeeded
+NOTE: recipe gtk+3-3.24.51-r0: task do_write_config: Started
+NOTE: Running task 2167 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_patch)
+NOTE: recipe graphene-1.10.8-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_write_config: Succeeded
+NOTE: Running task 2195 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_fetch)
+NOTE: Running task 2206 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_patch: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_write_config: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_patch: Succeeded
+NOTE: recipe graphene-1.10.8-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_unpack: Succeeded
+NOTE: Running task 2257 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_patch)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_fetch: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2288 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_unpack)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
+NOTE: Running task 2300 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_write_config)
+NOTE: Running task 2317 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_fetch)
+NOTE: recipe graphene-1.10.8-r0: task do_patch: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_patch: Started
+NOTE: Running task 2319 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_fetch)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2320 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_patch)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_fetch: Started
+NOTE: recipe gtk4-4.20.3-r0: task do_write_config: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_fetch: Succeeded
+NOTE: Running task 2342 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gtk4-4.20.3-r0: task do_write_config: Succeeded
+NOTE: Running task 2343 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_unpack)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_fetch: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 2344 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_patch)
+NOTE: Running task 2345 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_unpack: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2346 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: Running task 2348 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_unpack)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_patch: Succeeded
+NOTE: Running task 2387 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_write_config)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_unpack: Succeeded
+NOTE: Running task 2388 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_patch)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2389 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_patch)
+NOTE: recipe gtk+3-3.24.51-r0: task do_unpack: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_write_config: Started
+NOTE: Running task 2390 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_patch)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_write_config: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_patch: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_patch: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_patch: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gtk+3-3.24.51-r0: task do_patch: Started
+NOTE: Running task 2437 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_configure)
+NOTE: recipe gtk4-4.20.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2438 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_patch)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_patch: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_configure: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_patch: Succeeded
+NOTE: recipe gtk4-4.20.3-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 56f86136d7a4cf1994dc4410aea1740546a49f4519d7112a9e473f8c6a2f81f4
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 8556b01e3639acc06a244965fab732cce4e58677da6fd4edd6bf39d2ff60c00d to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '6a0151bab45da27cbcf4b9f9b4866e0bcc18d3a560eca6a7293395f71d09bf45', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '8556b01e3639acc06a244965fab732cce4e58677da6fd4edd6bf39d2ff60c00d'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 6a0151bab45da27cbcf4b9f9b4866e0bcc18d3a560eca6a7293395f71d09bf45 -> 8556b01e3639acc06a244965fab732cce4e58677da6fd4edd6bf39d2ff60c00d as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe gtk4-4.20.3-r0: task do_patch: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_configure: Succeeded
+NOTE: Running task 2443 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_compile)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 1257 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.53.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1258 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.53.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1259 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1260 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1261 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1262 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1263 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb:do_packagedata_setscene)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_compile: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_compile: Succeeded
+NOTE: recipe libpng-1.6.53-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.53-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 2445 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_install)
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1264 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_fetch: Succeeded
+NOTE: Running task 2446 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_unpack)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_install: Started
+NOTE: recipe libpng-1.6.53-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.53-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1268 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.53.bb:do_recipe_qa_setscene)
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1270 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_unpack: Started
+NOTE: recipe libpng-1.6.53-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_install: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.1.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpng-1.6.53-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 2463 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_populate_sysroot)
+NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1271 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_setscene)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2464 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_unpack)
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_unpack: Succeeded
+NOTE: Running task 2465 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_patch)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_unpack: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_patch: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2466 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_patch)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_populate_sysroot unihash changed to 51778725f194616169f7bd986fe6a210102aab443a45fbba5c1fe4f7017cc1bc
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2467 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
+NOTE: recipe libepoxy-1.5.10-r0: task do_patch: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_patch: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_patch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
+NOTE: recipe tiff-4.7.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2470 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_unpack)
+NOTE: recipe tiff-4.7.1-r0: task do_unpack: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_fetch: Succeeded
+NOTE: Running task 2471 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_unpack)
+NOTE: recipe tiff-4.7.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2472 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_patch)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_unpack: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2473 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
+NOTE: recipe tiff-4.7.1-r0: task do_patch: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_fetch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
+NOTE: Running task 2474 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_unpack)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 2475 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_patch)
+NOTE: recipe tiff-4.7.1-r0: task do_patch: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_unpack: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_patch: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_patch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2479 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 2480 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_patch: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 8556b01e3639acc06a244965fab732cce4e58677da6fd4edd6bf39d2ff60c00d to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': 'd50536851c7643071e697030eea00c4cd7c7dd801628e3fb8e7da46fd5149d7f', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '8556b01e3639acc06a244965fab732cce4e58677da6fd4edd6bf39d2ff60c00d'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed d50536851c7643071e697030eea00c4cd7c7dd801628e3fb8e7da46fd5149d7f -> 8556b01e3639acc06a244965fab732cce4e58677da6fd4edd6bf39d2ff60c00d as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 1273 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1274 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1275 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1276 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1277 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxml2-2.15.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxml2-2.15.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1278 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libxml2-2.15.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.15.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1281 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.1.bb:do_recipe_qa_setscene)
+NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxml2-2.15.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxml2-2.15.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1282 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_setscene)
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 1283 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1284 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1285 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1286 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1287 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1288 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1289 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1291 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1294 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1295 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1297 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1301 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.11.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1303 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.13.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1305 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1306 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1308 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1309 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1310 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1311 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1312 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1314 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1315 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1317 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1318 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1319 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1320 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1321 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1322 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1323 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1324 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1325 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1326 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.7.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.51.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1330 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1332 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.13.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1333 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1334 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1335 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1336 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.51.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1339 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1341 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.7.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1343 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1344 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.51.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1345 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1346 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1347 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1351 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.11.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.7.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.51.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1357 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1359 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1360 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1362 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.13.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1364 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1366 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.7.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1369 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1370 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.51.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.13.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1372 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1374 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.51.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1377 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1378 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.7.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1381 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.7.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1383 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1384 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1385 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1387 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1389 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1391 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1392 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1394 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1396 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1398 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1399 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1401 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1402 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1403 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1404 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1406 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1410 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1412 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1413 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1418 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1420 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1422 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3506 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3507 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3508 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3509 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3538 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3582 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3583 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3584 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libepoxy-1.5.10-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3684 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3729 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3730 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe tiff-4.7.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3752 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_collect_spdx_deps)
+NOTE: recipe graphene-1.10.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3753 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_collect_spdx_deps)
+NOTE: Running task 3754 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_collect_spdx_deps)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3755 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_collect_spdx_deps)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3775 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_collect_spdx_deps)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 3776 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_configure)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3777 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_configure)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe tiff-4.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3785 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_collect_spdx_deps)
+NOTE: Running task 3786 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_configure)
+NOTE: Running task 3787 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_configure)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_configure: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_configure: Started
+NOTE: Running task 3788 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_collect_spdx_deps)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_configure: Started
+NOTE: recipe tiff-4.7.1-r0: task do_configure: Started
+NOTE: recipe tiff-4.7.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3789 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_collect_spdx_deps)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 3790 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_configure)
+NOTE: Running task 3791 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: Running task 3792 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_ipk)
+NOTE: recipe tiff-4.7.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 3793 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_deb)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe graphene-1.10.8-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 3794 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_configure)
+NOTE: recipe libepoxy-1.5.10-r0: task do_configure: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe graphene-1.10.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3795 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_configure)
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_ipk: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_deb: Started
+NOTE: Running task 3796 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_configure)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_configure: Started
+NOTE: recipe graphene-1.10.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 3797 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_rpm)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 3803 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_configure)
+NOTE: recipe graphene-1.10.8-r0: task do_configure: Started
+NOTE: Running task 3804 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_configure)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_configure: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_configure: Succeeded
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_rpm: Started
+NOTE: Running task 3805 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_compile)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_configure: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_configure: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_configure: Succeeded
+NOTE: Running task 3806 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_compile)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_compile: Succeeded
+NOTE: Running task 3807 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_install)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_compile: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_install: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_configure: Succeeded
+NOTE: Running task 3808 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_compile)
+NOTE: recipe libepoxy-1.5.10-r0: task do_compile: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_install: Succeeded
+NOTE: Running task 3809 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_package)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_package: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_ipk unihash changed to 197ae3d0942d7f23cb0c4cebf56614f9bf5acc01744543f5b6917b713074b5b6
+NOTE: recipe desktop-file-utils-0.28-r0: task do_compile: Succeeded
+NOTE: Running task 3810 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_install)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_install: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_deb unihash changed to 17b290acaac0b59eb0001bda1cf3182ef7985470be2375742020f7e0ea8f0d02
+NOTE: recipe graphene-1.10.8-r0: task do_configure: Succeeded
+NOTE: Running task 3811 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_compile)
+NOTE: recipe graphene-1.10.8-r0: task do_compile: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_install: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package_write_rpm unihash changed to cbdfd793856b25035591e37cd1f6572fc57569f56cfab9a9d55f22849ca45229
+NOTE: Running task 3812 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_package)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_package: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_package unihash changed to 3bbb10917aaa4cc785d70ab0c631f69349db5f0dc844570daa8c973ea16d16c5
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_packagedata became valid
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-dbusmock-0.37.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_configure: Succeeded
+NOTE: Running task 3814 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_compile)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_package unihash changed to 1ec1a1784033181d5db670a4439dabee04a9645c663b0e17fa7bb0407167da66
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_packagedata became valid
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_packagedata_setscene)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: Running task 3815 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
+NOTE: Running task 3817 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 3818 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_compile)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_configure: Succeeded
+NOTE: Running task 3819 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_compile)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_compile: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
+NOTE: Running task 3820 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_compile: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_compile: Succeeded
+NOTE: Running task 3821 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_install)
+NOTE: Running task 3822 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_install)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_install: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_install: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_configure: Succeeded
+NOTE: Running task 3823 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_compile)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_compile: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_install: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_install: Succeeded
+NOTE: Running task 3825 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_package)
+NOTE: Running task 3826 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_package)
+NOTE: recipe graphene-1.10.8-r0: task do_compile: Succeeded
+NOTE: Running task 3828 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_install)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_package: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_package: Started
+NOTE: recipe graphene-1.10.8-r0: task do_install: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_compile: Succeeded
+NOTE: Running task 3829 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_install)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_install: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_configure: Succeeded
+NOTE: Running task 3830 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_compile)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_compile: Started
+NOTE: recipe graphene-1.10.8-r0: task do_install: Succeeded
+NOTE: Running task 3831 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_package)
+NOTE: Running task 3832 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_populate_sysroot)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_install: Succeeded
+NOTE: Running task 3834 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_package)
+NOTE: recipe graphene-1.10.8-r0: task do_populate_sysroot: Started
+NOTE: recipe graphene-1.10.8-r0: task do_package: Started
+NOTE: recipe tiff-4.7.1-r0: task do_configure: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_package: Started
+NOTE: Running task 3835 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_compile)
+NOTE: recipe tiff-4.7.1-r0: task do_compile: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_compile: Succeeded
+NOTE: Running task 3836 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_install)
+NOTE: recipe graphene-1.10.8-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_install: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_populate_sysroot unihash changed to 1eebae2493deb92242caca83ed3e4cf32faad971a23691d56db766b678b02213
+NOTE: Setscene tasks completed
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package unihash changed to 25c9218910212ad44349c509022b2fbfae29ccdf669b0933c8e35a7c7a769fa9
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_qa became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_qa became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata became valid
+NOTE: Running setscene task 1420 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_qa_setscene)
+NOTE: Running setscene task 1423 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_qa_setscene)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_qa_setscene: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_package: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_package: Succeeded
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_package unihash changed to 944fc8ea28d35d88fd919969aa63ab1441549e22c941c4d05efb7e37e37b29ff
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_packagedata became valid
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_package unihash changed to 865fb2f3dc8b0a0840249482bc56c0ca168a2a429e4558dd96f7561712dd8886
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx as unihash 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '7ceeec353421eb587cbbd981af6454be492ca7bbb26dd8d43af5eca86c4ba1fa', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx unihash changed 7ceeec353421eb587cbbd981af6454be492ca7bbb26dd8d43af5eca86c4ba1fa -> 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata became valid
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1423 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata_setscene)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_install: Succeeded
+NOTE: Running task 3837 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_populate_sysroot)
+NOTE: Running task 3838 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_package)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Started
+NOTE: Running task 3840 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_write_ipk)
+NOTE: Running task 3841 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_write_deb)
+NOTE: Running task 3842 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_write_rpm)
+NOTE: Running task 3844 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_write_ipk)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_populate_sysroot: Started
+NOTE: Running task 3845 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_write_deb)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_package: Started
+NOTE: Running task 3846 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_write_rpm)
+NOTE: Setscene tasks completed
+NOTE: Running task 3849 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_create_spdx)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_write_ipk: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_write_deb: Started
+NOTE: Running task 3850 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_create_spdx)
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_write_ipk: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_write_deb: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_write_rpm: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_create_spdx: Started
+NOTE: recipe graphene-1.10.8-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_package unihash changed to a3c80324dd4067ff32981fc12c28bdc0fc5e48fe0dcaef9f0331f03f857e2280
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_packagedata became valid
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_packagedata_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_populate_sysroot unihash changed to 51de226b753450cafbd1bfbf4ca716398166d129a83ba50d6fac1db0fb4bfecd
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot as unihash 26ce94be619f3a19fb1c35f2ef51e316f780ae9ab6a80ec79840ee2b056aaac2 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '559b766bf0d058f52cae666557c3d731a90843fe157a2c7b54d461dc285b485e', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '26ce94be619f3a19fb1c35f2ef51e316f780ae9ab6a80ec79840ee2b056aaac2'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot unihash changed 559b766bf0d058f52cae666557c3d731a90843fe157a2c7b54d461dc285b485e -> 26ce94be619f3a19fb1c35f2ef51e316f780ae9ab6a80ec79840ee2b056aaac2 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot so ignoring rehash (remap)
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx as unihash 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '5afbe5a61bc7b51b9ddee5f313d5399c4f49faacac6dd93c00f6758b6df7207a', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx unihash changed 5afbe5a61bc7b51b9ddee5f313d5399c4f49faacac6dd93c00f6758b6df7207a -> 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe graphene-1.10.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe graphene-1.10.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3853 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_create_spdx)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_package unihash changed to 55f4f59aafa9786ed1e215be8d621537edca6191074385bcbfb23436f31b7f49
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx as unihash 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': 'eb042c204a3298c18cfd043f937c92cf8dae03808f50ddaa64f73988b6311462', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx unihash changed eb042c204a3298c18cfd043f937c92cf8dae03808f50ddaa64f73988b6311462 -> 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_packagedata became valid
+NOTE: recipe graphene-1.10.8-r0: task do_create_spdx: Started
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_packagedata_setscene)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3855 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_create_spdx)
+NOTE: recipe graphene-1.10.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_create_spdx: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_write_ipk unihash changed to a216646cd22b6bc39c75db250c5455856570ccdd3a1975769dd0804ec56cfa95
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_write_ipk unihash changed to 9331ffebc00f694d5116eb5b57bffef044e34ba8c356f12eb5cd5ecec09d35cb
+NOTE: recipe libepoxy-1.5.10-r0: task do_compile: Succeeded
+NOTE: Running task 3856 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_install)
+NOTE: recipe libepoxy-1.5.10-r0: task do_install: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_write_rpm unihash changed to 8056c2245cbf5bb527aaf8a12c9a7d09820e5c2f4e92c32dd6d96cd5fcb9defb
+NOTE: recipe tiff-4.7.1-r0: task do_compile: Succeeded
+NOTE: Running task 3857 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_install)
+NOTE: recipe tiff-4.7.1-r0: task do_install: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_install: Succeeded
+NOTE: Running task 3858 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot)
+NOTE: Running task 3859 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_package)
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_write_rpm unihash changed to 9861b6c12d7f6bf59410267c1b4c004984ace7f474605b2b14d7db66e7242970
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot unihash changed to c7c40c459804d8ec8589281bb5a54cd87387699db6ccaf6d4ea4b19b4bc98626
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot as unihash 26ce94be619f3a19fb1c35f2ef51e316f780ae9ab6a80ec79840ee2b056aaac2 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '1e045cf453b9e6b47b7bd8d161746a4fb881303361a145c500b9d05257899480', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '26ce94be619f3a19fb1c35f2ef51e316f780ae9ab6a80ec79840ee2b056aaac2'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot unihash changed 1e045cf453b9e6b47b7bd8d161746a4fb881303361a145c500b9d05257899480 -> 26ce94be619f3a19fb1c35f2ef51e316f780ae9ab6a80ec79840ee2b056aaac2 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot so ignoring rehash (remap)
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx as unihash 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '517045b42be2237006d6ed86e1d2ae892b03e2eab26200e4241238cfe60d1f84', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx unihash changed 517045b42be2237006d6ed86e1d2ae892b03e2eab26200e4241238cfe60d1f84 -> 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: Running task 3860 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gtk+3-3.24.51-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gdk-pixbuf-2.44.4-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_package_write_deb unihash changed to e36309b132aaae580463b9a79b64043d06b06d1c11bb771bb9a1b9011234860e
+NOTE: recipe libepoxy-1.5.10-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_package unihash changed to e805e70cb79e225c2d6b964114e3eabbf8a987afa4313b96cf06c795adc24f5c
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx as unihash 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '679c41f6a399d8f89ef9ce860461ec4c984926e63e924ae2ccb35072eb4380f4', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx unihash changed 679c41f6a399d8f89ef9ce860461ec4c984926e63e924ae2ccb35072eb4380f4 -> 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata became valid
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
+NOTE: recipe gtk+3-3.24.51-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3861 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_configure)
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_configure: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3863 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx)
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_package unihash changed to ad74300806260008e773833a64741e675e46125b36e6e4be77e5b318dec5fc6e
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx as unihash 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': 'f738221b791659b7201664fb83fecbc41f975f44ab568e21382ec4bfeab7ded4', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx unihash changed f738221b791659b7201664fb83fecbc41f975f44ab568e21382ec4bfeab7ded4 -> 377b835c0d46f4ca46371414d0d3fa1702d60ea25c198b2f9af0d584791bc932 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_packagedata became valid
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_packagedata_setscene)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx: Succeeded
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3865 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.3.bb:do_create_spdx)
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_create_spdx: Started
+NOTE: recipe at-spi2-core-2.58.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe tiff-4.7.1-r0: task do_install: Succeeded
+NOTE: Running task 3867 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_package)
+NOTE: recipe tiff-4.7.1-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_package_write_deb unihash changed to 2246600abbc6d0c816b4495930d6ec3448de6c697604f0998ebc7f05a6da6bfa
+NOTE: recipe tiff-4.7.1-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_package unihash changed to ad6e1bd4a6145774c8201abaf98119fb7a44a3f0e128b1a7952bd687be7762c6
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_packagedata became valid
+NOTE: Running setscene task 1424 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_packagedata_setscene)
+NOTE: recipe tiff-4.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe tiff-4.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3870 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_create_spdx)
+NOTE: recipe tiff-4.7.1-r0: task do_create_spdx: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3871 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_compile)
+NOTE: recipe gtk+3-3.24.51-r0: task do_compile: Started
+NOTE: recipe tiff-4.7.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_compile: Succeeded
+NOTE: Running task 3872 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_install)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_install: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_install: Succeeded
+NOTE: Running task 3873 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_populate_sysroot)
+NOTE: Running task 3874 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_package)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_populate_sysroot: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_package: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_populate_sysroot unihash changed to d7cb60796700f48b2e6b7664310294797a6bf29d7c6810504ae11a9d24b5a55d
+NOTE: Setscene tasks completed
+NOTE: Running task 3875 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3876 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_configure)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_configure: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_package unihash changed to b4d856cc83bf53ac7f5bbcb6c32e55a4e91c27750c6b1f973d6746c84f32b85e
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_packagedata became valid
+NOTE: Running setscene task 1422 of 1424 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_packagedata_setscene)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/gstreamer1.0-plugins-base/1.26.9/temp/log.do_packagedata_setscene.2391906
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Setscene tasks completed
+NOTE: Running task 3877 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_packagedata)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_packagedata: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 3878 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_create_spdx)
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_create_spdx: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3879 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_compile)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.26.9-r0: task do_create_spdx: Succeeded
+NOTE: Running task 3880 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gtk+3-3.24.51-r0: task do_compile: Succeeded
+NOTE: Running task 3881 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_install)
+NOTE: recipe gtk+3-3.24.51-r0: task do_install: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_install: Succeeded
+NOTE: Running task 3882 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_package)
+NOTE: recipe gtk+3-3.24.51-r0: task do_package: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_compile: Succeeded
+NOTE: Running task 3889 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_install)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_install: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_install: Succeeded
+NOTE: Running task 3890 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_package)
+NOTE: Running task 3891 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_populate_sysroot)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_package: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_populate_sysroot: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 3892 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gtk4-4.20.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gtk4-4.20.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gtk+3-3.24.51-r0: task do_package: Succeeded
+NOTE: Running task 3893 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_configure)
+NOTE: Running task 3894 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_packagedata)
+NOTE: recipe gtk4-4.20.3-r0: task do_configure: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_packagedata: Started
+NOTE: recipe gtk+3-3.24.51-r0: task do_packagedata: Succeeded
+NOTE: recipe gtk4-4.20.3-r0: task do_configure: Succeeded
+NOTE: Running task 3904 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.3.bb:do_compile)
+NOTE: recipe gtk4-4.20.3-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_package: Succeeded
+NOTE: Running task 3905 of 3918 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_packagedata)
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_packagedata: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.9-r0: task do_packagedata: Failed
+NOTE: recipe gtk4-4.20.3-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 3905 tasks of which 3735 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260115232404.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260115232404.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/gstreamer1.0-plugins-bad/1.26.9/temp/log.do_packagedata.2413229
+Summary: There were 290 ERROR messages, returning a non-zero exit code.
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-basedebug went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-dsd went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-base-1.26.9-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-src went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dbg went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-staticdev went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dev went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-doc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-af went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ast went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-az went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-bg went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ca went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-cs went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-da went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-de went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-el went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-en-gb went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-eo went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-es went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-eu went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-fi went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-fr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-fur went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-gl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-hr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-hu went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-id went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-it went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ja went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ka went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ky went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-lt went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-lv went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-mt went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-nb went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-nl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-or went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-pl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-pt-br went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ro went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-ru went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-sk went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-sl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-sq went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-sr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-sv went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-tr went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-uk went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-vi went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-zh-cn went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-locale-zh-tw went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-apps went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-meta went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-glib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstadaptivedemux-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstanalytics-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstbadaudio-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstbasecamerabinsrc-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstcodecparsers-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstcodecs-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstcuda-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstdxva-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstinsertbin-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstisoff-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstmpegts-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstmse-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstphotography-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstplay-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstplayer-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstsctp-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgsttranscoder-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgsturidownloader-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstvulkan-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstwayland-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package libgstwebrtc-1.0 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-accurip went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-adpcmdec went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-adpcmenc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-aes went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-aiff went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-analyticsoverlay went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-asfmux went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-audiobuffersplit went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-audiofxbad went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-audiolatency went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-audiomixmatrix went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-audiovisualizers went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-autoconvert went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-bayer went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-bluez went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-bz2 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-camerabin went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-closedcaption went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-codecalpha went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-codectimestamper went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-coloreffects went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-curl went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dash went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-debugutilsbad went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-decklink went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dtls went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dvb went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dvbsubenc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dvbsuboverlay went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dvdspu went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-faceoverlay went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-fbdevsink went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-festival went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-fieldanalysis went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-freeverb went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-frei0r went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-gaudieffects went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-gdp went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-geometrictransform went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-hls went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-id3tag went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-insertbin went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-inter went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-interlace went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-ipcpipeline went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-ivfparse went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-ivtc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-jp2kdecimator went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-jpegformat went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-legacyrawparse went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-midi went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mpegpsdemux went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mpegpsmux went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mpegtsdemux went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mpegtsmux went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mse went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mxf went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-netsim went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-pcapparse went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-pnm went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-proxy went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-removesilence went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-rfbsrc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-rist went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-rsvg went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-rtmp2 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-rtpmanagerbad went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-rtponvif went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-sbc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-sdpelem went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-segmentclip went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-shm went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-siren went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-smooth went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-smoothstreaming went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-sndfile went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-speed went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-subenc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-switchbin went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-timecode went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-transcode went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-ttmlsubs went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-unixfd went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-uvcgadget went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-uvch264 went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-videofiltersbad went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-videoframe-audiolevel went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-videoparsersbad went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-videosignal went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-vmnc went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-vulkan went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-waylandsink went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-webp went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-y4mdec went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-analytics-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-badaudio-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-codecs-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-cuda-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-dxva-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-insertbin-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mpegts-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-mse-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-play-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-player-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-transcoder-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-vulkan-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-vulkanwayland-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-vulkanxcb-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-bad-webrtc-typelib went backwards which would break package feeds (from 0:1.26.10-r0 to 0:1.26.9-r0) [version-going-backwards]
+ERROR: gstreamer1.0-plugins-bad-1.26.9-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/gstreamer1.0-plugins-bad/1.26.9/temp/log.do_packagedata.2413229
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_packagedata) failed with exit code '1'
+
+--===============4024190869325687714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PKGSIZE changed from 39032 to 43128 (+10%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2609.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: FILELIST: removed "/usr/lib/libgstanalytics-1.0.so.0.2609.0", added "/usr/lib/libgstanalytics-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2609.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2609.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2609.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2609.0", added "/usr/lib/libgstcodecs-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2609.0", added "/usr/lib/libgstcuda-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: FILELIST: removed "/usr/lib/libgstdxva-1.0.so.0.2609.0", added "/usr/lib/libgstdxva-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2609.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2609.0", added "/usr/lib/libgstisoff-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2609.0", added "/usr/lib/libgstmpegts-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: FILELIST: removed "/usr/lib/libgstmse-1.0.so.0.2609.0", added "/usr/lib/libgstmse-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2609.0", added "/usr/lib/libgstphotography-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2609.0", added "/usr/lib/libgstplay-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2609.0", added "/usr/lib/libgstplayer-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2609.0", added "/usr/lib/libgstsctp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2609.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2609.0", added "/usr/lib/libgstvulkan-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2609.0", added "/usr/lib/libgstwayland-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2609.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2610.0"
-Changes to packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad (sysroot):
-  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2609.0 to libgstadaptivedemux-1.0.so.0.2610.0
-  /usr/lib/libgstanalytics-1.0.so.0 changed symlink target from libgstanalytics-1.0.so.0.2609.0 to libgstanalytics-1.0.so.0.2610.0
-  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2609.0 to libgstbadaudio-1.0.so.0.2610.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2609.0 to libgstbasecamerabinsrc-1.0.so.0.2610.0
-  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2609.0 to libgstcodecparsers-1.0.so.0.2610.0
-  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2609.0 to libgstcodecs-1.0.so.0.2610.0
-  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2609.0 to libgstcuda-1.0.so.0.2610.0
-  /usr/lib/libgstdxva-1.0.so.0 changed symlink target from libgstdxva-1.0.so.0.2609.0 to libgstdxva-1.0.so.0.2610.0
-  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2609.0 to libgstinsertbin-1.0.so.0.2610.0
-  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2609.0 to libgstisoff-1.0.so.0.2610.0
-  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2609.0 to libgstmpegts-1.0.so.0.2610.0
-  /usr/lib/libgstmse-1.0.so.0 changed symlink target from libgstmse-1.0.so.0.2609.0 to libgstmse-1.0.so.0.2610.0
-  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2609.0 to libgstphotography-1.0.so.0.2610.0
-  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2609.0 to libgstplay-1.0.so.0.2610.0
-  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2609.0 to libgstplayer-1.0.so.0.2610.0
-  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2609.0 to libgstsctp-1.0.so.0.2610.0
-  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2609.0 to libgsturidownloader-1.0.so.0.2610.0
-  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2609.0 to libgstvulkan-1.0.so.0.2610.0
-  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2609.0 to libgstwayland-1.0.so.0.2610.0
-  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2609.0 to libgstwebrtc-1.0.so.0.2610.0
-  /usr/lib/libgstadaptivedemux-1.0.so.0.2609.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2610.0
-  /usr/lib/libgstanalytics-1.0.so.0.2609.0 moved to /usr/lib/libgstanalytics-1.0.so.0.2610.0
-  /usr/lib/libgstbadaudio-1.0.so.0.2609.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2610.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2609.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2610.0
-  /usr/lib/libgstcodecparsers-1.0.so.0.2609.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2610.0
-  /usr/lib/libgstcodecs-1.0.so.0.2609.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2610.0
-  /usr/lib/libgstcuda-1.0.so.0.2609.0 moved to /usr/lib/libgstcuda-1.0.so.0.2610.0
-  /usr/lib/libgstdxva-1.0.so.0.2609.0 moved to /usr/lib/libgstdxva-1.0.so.0.2610.0
-  /usr/lib/libgstinsertbin-1.0.so.0.2609.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2610.0
-  /usr/lib/libgstisoff-1.0.so.0.2609.0 moved to /usr/lib/libgstisoff-1.0.so.0.2610.0
-  /usr/lib/libgstmpegts-1.0.so.0.2609.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2610.0
-  /usr/lib/libgstmse-1.0.so.0.2609.0 moved to /usr/lib/libgstmse-1.0.so.0.2610.0
-  /usr/lib/libgstphotography-1.0.so.0.2609.0 moved to /usr/lib/libgstphotography-1.0.so.0.2610.0
-  /usr/lib/libgstplay-1.0.so.0.2609.0 moved to /usr/lib/libgstplay-1.0.so.0.2610.0
-  /usr/lib/libgstplayer-1.0.so.0.2609.0 moved to /usr/lib/libgstplayer-1.0.so.0.2610.0
-  /usr/lib/libgstsctp-1.0.so.0.2609.0 moved to /usr/lib/libgstsctp-1.0.so.0.2610.0
-  /usr/lib/libgsturidownloader-1.0.so.0.2609.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2610.0
-  /usr/lib/libgstvulkan-1.0.so.0.2609.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2610.0
-  /usr/lib/libgstwayland-1.0.so.0.2609.0 moved to /usr/lib/libgstwayland-1.0.so.0.2610.0
-  /usr/lib/libgstwebrtc-1.0.so.0.2609.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2610.0
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2609.0", added "/usr/lib/libgstallocators-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2609.0", added "/usr/lib/libgstapp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2609.0", added "/usr/lib/libgstaudio-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2609.0", added "/usr/lib/libgstfft-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2609.0", added "/usr/lib/libgstgl-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2609.0", added "/usr/lib/libgstpbutils-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2609.0", added "/usr/lib/libgstriff-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2609.0", added "/usr/lib/libgstrtp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2609.0", added "/usr/lib/libgstrtsp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2609.0", added "/usr/lib/libgstsdp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2609.0", added "/usr/lib/libgsttag-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2609.0", added "/usr/lib/libgstvideo-1.0.so.0.2610.0"
-Changes to packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base (sysroot):
-  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2609.0 to libgstallocators-1.0.so.0.2610.0
-  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2609.0 to libgstapp-1.0.so.0.2610.0
-  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2609.0 to libgstaudio-1.0.so.0.2610.0
-  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2609.0 to libgstfft-1.0.so.0.2610.0
-  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2609.0 to libgstgl-1.0.so.0.2610.0
-  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2609.0 to libgstpbutils-1.0.so.0.2610.0
-  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2609.0 to libgstriff-1.0.so.0.2610.0
-  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2609.0 to libgstrtp-1.0.so.0.2610.0
-  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2609.0 to libgstrtsp-1.0.so.0.2610.0
-  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2609.0 to libgstsdp-1.0.so.0.2610.0
-  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2609.0 to libgsttag-1.0.so.0.2610.0
-  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2609.0 to libgstvideo-1.0.so.0.2610.0
-  /usr/lib/libgstallocators-1.0.so.0.2609.0 moved to /usr/lib/libgstallocators-1.0.so.0.2610.0
-  /usr/lib/libgstapp-1.0.so.0.2609.0 moved to /usr/lib/libgstapp-1.0.so.0.2610.0
-  /usr/lib/libgstaudio-1.0.so.0.2609.0 moved to /usr/lib/libgstaudio-1.0.so.0.2610.0
-  /usr/lib/libgstfft-1.0.so.0.2609.0 moved to /usr/lib/libgstfft-1.0.so.0.2610.0
-  /usr/lib/libgstgl-1.0.so.0.2609.0 moved to /usr/lib/libgstgl-1.0.so.0.2610.0
-  /usr/lib/libgstpbutils-1.0.so.0.2609.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2610.0
-  /usr/lib/libgstriff-1.0.so.0.2609.0 moved to /usr/lib/libgstriff-1.0.so.0.2610.0
-  /usr/lib/libgstrtp-1.0.so.0.2609.0 moved to /usr/lib/libgstrtp-1.0.so.0.2610.0
-  /usr/lib/libgstrtsp-1.0.so.0.2609.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2610.0
-  /usr/lib/libgstsdp-1.0.so.0.2609.0 moved to /usr/lib/libgstsdp-1.0.so.0.2610.0
-  /usr/lib/libgsttag-1.0.so.0.2609.0 moved to /usr/lib/libgsttag-1.0.so.0.2610.0
-  /usr/lib/libgstvideo-1.0.so.0.2609.0 moved to /usr/lib/libgstvideo-1.0.so.0.2610.0
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2609.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2610.0"
-Changes to packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2609.0 to libgstrtspserver-1.0.so.0.2610.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2609.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2610.0
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-th: PKGSIZE changed from 124843 to 167657 (+34%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ug: PKGSIZE changed from 73153 to 147744 (+102%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4: FILELIST: removed "/usr/lib/libgtk-4.so.1.2000.2", added "/usr/lib/libgtk-4.so.1.2000.3"
+Changes to packages/x86-64-v3-poky-linux/gtk4 (sysroot):
+  /usr/lib/libgtk-4.so.1 changed symlink target from libgtk-4.so.1.2000.2 to libgtk-4.so.1.2000.3
+  /usr/lib/libgtk-4.so.1.2000.2 moved to /usr/lib/libgtk-4.so.1.2000.3
 
---===============2948941907280861973==
+--===============4024190869325687714==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-plugins-bad-gstreamer1.0-plugins-ugly-g.patch"
+ filename="0001-gtk4-upgrade-4.20.2-4.20.3.patch"
 
-RnJvbSAxZGM1YWRiZjQ3NzJjMDI4N2ViNDA3MTg0OGNiYzIxMWFkZTBiODk3IE1vbiBTZXAgMTcg
+RnJvbSBiZDBiNTlmMGNjM2E4OWFhNzBkMmVmMTRhNjg0MGJlYmUyZWEzNmE4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMTk6NDM6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSAK
-IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZCxnc3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5LGdzdHJl
-YW1lcjEuMC1wbHVnaW5zLWdvb2QsZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSxnc3RyZWFtZXIx
-LjAtcnRzcC1zZXJ2ZXI6CiB1cGdyYWRlIDEuMjYuOSAtPiAxLjI2LjEwLDEuMjYuOSAtPiAxLjI2
-LjEwLDEuMjYuOSAtPiAxLjI2LjEwLDEuMjYuOSAtPgogMS4yNi4xMCwxLjI2LjkgLT4gMS4yNi4x
-MAoKLS0tCiAuLi54LW1heWJlLXVuaW5pdGlhbGl6ZWQtd2FybmluZ3Mtd2hlbi1jb21waWxpbmct
-d2l0aC5wYXRjaCB8IDIgKy0KIC4uLi8wMDAyLWF2b2lkLWluY2x1ZGluZy1zeXMtcG9sbC5oLWRp
-cmVjdGx5LnBhdGNoICAgICAgICAgIHwgMiArLQogLi4uZW5jdi1yZXNvbHZlLW1pc3Npbmctb3Bl
-bmN2LWRhdGEtZGlyLWluLXlvY3RvLWJ1aWwucGF0Y2ggfCAyICstCiAuLi5ucy1iYWRfMS4yNi45
-LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZF8xLjI2LjEwLmJifSB8IDIgKy0KIC4uLkVO
-R1IwMDMxMjUxNS1nZXQtY2Fwcy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVyeS1jYXBzLnBhdGNoIHwg
-NiArKystLS0KIC4uLi8wMDAyLXNzYXBhcnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2lu
-Zy5wYXRjaCAgICAgIHwgMiArLQogLi4uLzAwMDMtdml2LWZiLU1ha2Utc3VyZS1jb25maWcuaC1p
-cy1pbmNsdWRlZC5wYXRjaCAgICAgICAgfCAyICstCiAuLi4tYmFzZV8xLjI2LjkuYmIgPT4gZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8xLjI2LjEwLmJifSB8IDIgKy0KIC4uLi1nb29kXzEuMjYu
-OS5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEuMjYuMTAuYmJ9IHwgMiArLQogLi4u
-LXVnbHlfMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yNi4xMC5iYn0g
-fCAyICstCiAuLi5zZXJ2ZXJfMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8x
-LjI2LjEwLmJifSB8IDIgKy0KIDExIGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEz
-IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97
-Z3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lu
-cy1iYWRfMS4yNi4xMC5iYn0gKDk4JSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIve2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNi45LmJiID0+IGdzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhc2VfMS4yNi4xMC5iYn0gKDk4JSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2RfMS4yNi45LmJi
-ID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2RfMS4yNi4xMC5iYn0gKDk3JSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVn
-bHlfMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yNi4xMC5iYn0gKDk0
-JSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
-MC1ydHNwLXNlcnZlcl8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjYu
-MTAuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZC8wMDAxLWZpeC1tYXliZS11bmluaXRpYWxpemVk
-LXdhcm5pbmdzLXdoZW4tY29tcGlsaW5nLXdpdGgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGlt
-ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDEtZml4LW1heWJlLXVu
-aW5pdGlhbGl6ZWQtd2FybmluZ3Mtd2hlbi1jb21waWxpbmctd2l0aC5wYXRjaAppbmRleCAzMDdk
-NjY5NjQ1Li5hMDFjODMyMjEyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDEtZml4LW1heWJlLXVuaW5pdGlh
-bGl6ZWQtd2FybmluZ3Mtd2hlbi1jb21waWxpbmctd2l0aC5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDEtZml4
-LW1heWJlLXVuaW5pdGlhbGl6ZWQtd2FybmluZ3Mtd2hlbi1jb21waWxpbmctd2l0aC5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gZDI0YmI5NDllNTQ3YTBhZDY5ZjNmNDdlNGNmMjYyYTc1YmI5
-ZmU3MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2JmYWI5Njc4Nzg4Y2QxNTdmZWZl
-ZmRmOTU1Mjc5YTQ2MjE5OWIyZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFuZHJl
-IE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDI2IEphbiAyMDE2IDE1
-OjE2OjAxIC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGZpeCBtYXliZS11bmluaXRpYWxpemVkIHdh
-cm5pbmdzIHdoZW4gY29tcGlsaW5nIHdpdGggLU9zCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDItYXZvaWQt
-aW5jbHVkaW5nLXN5cy1wb2xsLmgtZGlyZWN0bHkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGlt
-ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDItYXZvaWQtaW5jbHVk
-aW5nLXN5cy1wb2xsLmgtZGlyZWN0bHkucGF0Y2gKaW5kZXggN2RhODk5NGUzZC4uYjA5NmZjMjRi
-YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhZC8wMDAyLWF2b2lkLWluY2x1ZGluZy1zeXMtcG9sbC5oLWRpcmVjdGx5
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
-LjAtcGx1Z2lucy1iYWQvMDAwMi1hdm9pZC1pbmNsdWRpbmctc3lzLXBvbGwuaC1kaXJlY3RseS5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzI4MjM4MTI5YThhOTFjYWQ4NTcwMjNkMmU3MTMx
-NTkxMzIxNDA5ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWI3ZDIyYmQxNzUzNWU3
-MzNlNjQzNWZjZmZkYjkyM2YzY2YyYmFhNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDMgRmViIDIw
-MTYgMTg6MDU6NDEgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gYXZvaWQgaW5jbHVkaW5nIDxzeXMv
-cG9sbC5oPiBkaXJlY3RseQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0
-cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZC8wMDA0LW9wZW5jdi1yZXNvbHZlLW1pc3Np
-bmctb3BlbmN2LWRhdGEtZGlyLWluLXlvY3RvLWJ1aWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDQtb3BlbmN2LXJl
-c29sdmUtbWlzc2luZy1vcGVuY3YtZGF0YS1kaXItaW4teW9jdG8tYnVpbC5wYXRjaAppbmRleCAx
-ZWRjZjA3YzE0Li4zOThlMDMyYTg5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
-YS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDQtb3BlbmN2LXJlc29sdmUt
-bWlzc2luZy1vcGVuY3YtZGF0YS1kaXItaW4teW9jdG8tYnVpbC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDQt
-b3BlbmN2LXJlc29sdmUtbWlzc2luZy1vcGVuY3YtZGF0YS1kaXItaW4teW9jdG8tYnVpbC5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOGY3YTFjNTU5MWUyNzY4MWYyOTRhZTVlZGYwZjMyNjg5
-MTk4YWJmZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMGJjODZlYjYwM2I1OTBmN2Rh
-NTkyMDhlZjFhYTczODgwNjc5ZWMwNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFu
-ZHJleSBaaGl6aGlraW4gPGFuZHJleS56QGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgMjcgSmFuIDIw
-MjAgMTA6MjI6MzUgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gb3BlbmN2OiByZXNvbHZlIG1pc3Np
-bmcgb3BlbmN2IGRhdGEgZGlyIGluIHlvY3RvIGJ1aWxkCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjYuOS5i
-YiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lu
-cy1iYWRfMS4yNi4xMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjYu
-OS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhZF8xLjI2LjEwLmJiCmluZGV4IDRhOWNiMzdkZDguLjBmZjZiYjY2Yzcg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
-LjAtcGx1Z2lucy1iYWRfMS4yNi45LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
-dHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yNi4xMC5iYgpAQCAtMTAsNyArMTAs
-NyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0
-LXBsdWdpbnMtYmFkL2dzdC1wbHVnaW5zLWJhZAogICAgICAgICAgICBmaWxlOi8vMDAwMi1hdm9p
-ZC1pbmNsdWRpbmctc3lzLXBvbGwuaC1kaXJlY3RseS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDA0LW9wZW5jdi1yZXNvbHZlLW1pc3Npbmctb3BlbmN2LWRhdGEtZGlyLWluLXlvY3RvLWJ1
-aWwucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTk2YmZiNjhj
-NTNhN2M5YWIxYWUyNzllYWM3YzEwMWY0MjA0ZmI1YzBlNDcyOTY4M2IyYmU2NDI2MTcwNzQ0NiIK
-K1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmZWM5NzNkZmY1MTJiNTA3ZDlkY2I1YTgyOGUwNGUwNjFl
-NTIxODhmNGQ1OTg5ZTk1M2FlZDZhNDFiZWRhNDM3IgogCiBTID0gIiR7VU5QQUNLRElSfS9nc3Qt
-cGx1Z2lucy1iYWQtJHtQVn0iCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
-L2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1LWdl
-dC1jYXBzLWZyb20tc3JjLXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAxLUVOR1Iw
-MDMxMjUxNS1nZXQtY2Fwcy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVyeS1jYXBzLnBhdGNoCmluZGV4
-IDcxOWM3M2QzZTMuLjJkMTNkY2Y1ZTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1l
-ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1
-LWdldC1jYXBzLWZyb20tc3JjLXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAw
-MS1FTkdSMDAzMTI1MTUtZ2V0LWNhcHMtZnJvbS1zcmMtcGFkLXdoZW4tcXVlcnktY2Fwcy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTM3ZjAwNjMxMDNlOThmNTEwOTEzMmVhMzAyYjkxOWI5
-MmUyNmEzOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMWM3ZGQ4ZWRkY2IzOWMzZGJk
-ZGQ5ZTEzMDgxNTgzNTdhODlmZTgzMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IHpo
-b3VtaW5nIDxiNDI1ODZAZnJlZXNjYWxlLmNvbT4KIERhdGU6IFdlZCwgMTQgTWF5IDIwMTQgMTA6
-MTY6MjAgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gRU5HUjAwMzEyNTE1OiBnZXQgY2FwcyBmcm9t
-IHNyYyBwYWQgd2hlbiBxdWVyeSBjYXBzCkBAIC0xNiwxMCArMTYsMTAgQEAgU2lnbmVkLW9mZi1i
-eTogemhvdW1pbmcgPGI0MjU4NkBmcmVlc2NhbGUuY29tPgogZGlmZiAtLWdpdCBhL2dzdC1saWJz
-L2dzdC90YWcvZ3N0dGFnZGVtdXguYyBiL2dzdC1saWJzL2dzdC90YWcvZ3N0dGFnZGVtdXguYwog
-b2xkIG1vZGUgMTAwNjQ0CiBuZXcgbW9kZSAxMDA3NTUKLWluZGV4IDk3NWZlODMuLmRmODI4NDAK
-K2luZGV4IDE2YmYwMDEuLmUxN2ExNDQKIC0tLSBhL2dzdC1saWJzL2dzdC90YWcvZ3N0dGFnZGVt
-dXguYwogKysrIGIvZ3N0LWxpYnMvZ3N0L3RhZy9nc3R0YWdkZW11eC5jCi1AQCAtMTc5Niw2ICsx
-Nzk2LDE5IEBAIGdzdF90YWdfZGVtdXhfcGFkX3F1ZXJ5IChHc3RQYWQgKiBwYWQsIEdzdE9iamVj
-dCAqIHBhcmVudCwgR3N0UXVlcnkgKiBxdWVyeSkKK0BAIC0xNzk3LDYgKzE3OTcsMTkgQEAgZ3N0
-X3RhZ19kZW11eF9wYWRfcXVlcnkgKEdzdFBhZCAqIHBhZCwgR3N0T2JqZWN0ICogcGFyZW50LCBH
-c3RRdWVyeSAqIHF1ZXJ5KQogICAgICAgIH0KICAgICAgICBicmVhazsKICAgICAgfQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVn
-aW5zLWJhc2UvMDAwMi1zc2FwYXJzZS1lbmhhbmNlLVNTQS10ZXh0LWxpbmVzLXBhcnNpbmcucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdp
-bnMtYmFzZS8wMDAyLXNzYXBhcnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRj
-aAppbmRleCBiZjFlMmE4OWUzLi4yMGRiMDI2OTdmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAyLXNzYXBh
-cnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAyLXNz
-YXBhcnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gZjg5MmYwYmU4YWU4OGFjYzY0ODJmNGI5YTlhNGRiNWYwM2I3YWRmOCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGE4NjhkZGE5ZjU5ZTUzYTgyNjlmOGEzOWYyZWRjMjEy
-OTFjZWY4NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE1pbmdrZSBXYW5nIDxtaW5n
-a2Uud2FuZ0BmcmVlc2NhbGUuY29tPgogRGF0ZTogVGh1LCAxOSBNYXIgMjAxNSAxNDoxNzoxMCAr
-MDgwMAogU3ViamVjdDogW1BBVENIXSBzc2FwYXJzZTogZW5oYW5jZSBTU0EgdGV4dCBsaW5lcyBw
-YXJzaW5nLgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
-dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlz
-LWluY2x1ZGVkLnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
-YW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlzLWlu
-Y2x1ZGVkLnBhdGNoCmluZGV4IDFhOTg4Yjk5ZGUuLjFiZTQ1ZWJlZjcgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
-LzAwMDMtdml2LWZiLU1ha2Utc3VyZS1jb25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaAorKysgYi9t
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZS8wMDAzLXZpdi1mYi1NYWtlLXN1cmUtY29uZmlnLmgtaXMtaW5jbHVkZWQucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDZmMDZmNGIyZjEzZjAyODI1MDE4OTIyNWE0NmEzOWY0MDI0Mjg5MzAg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQ0NmY4OWIxMzczODI2MDExOWYyYjE1ZDJm
-ZTUyODA1MTBiOTViNGMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDYXJsb3MgUmFm
-YWVsIEdpYW5pIDxjcmc3NDc1QG1haWxib3gub3JnPgogRGF0ZTogVHVlLCAyMSBNYXkgMjAxOSAx
-NDowMToxMSArMDIwMAogU3ViamVjdDogW1BBVENIXSB2aXYtZmI6IE1ha2Ugc3VyZSBjb25maWcu
-aCBpcyBpbmNsdWRlZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNi45LmJiIGIvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNi4xMC5iYgpz
-aW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8xLjI2LjkuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
-XzEuMjYuMTAuYmIKaW5kZXggNzRiNmYyMzA4ZC4uNmM2YzFiNGM3ZiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2Vf
-MS4yNi45LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjYuMTAuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9
-ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLWJhc2Uv
-Z3N0LXBsdWdpbnMtYmEKICAgICAgICAgICAgZmlsZTovLzAwMDMtdml2LWZiLU1ha2Utc3VyZS1j
-b25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLXNzYXBh
-cnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaCBcCiAgICAgICAgICAgICIK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxMWRiNGVjOWFlNWJlMjE5NGZmOGNjZjJiNWZlY2RjMDY5
-MjUyZmU0NDE2OTIxYjA4M2E5MjFlZjcxZGQwMDBhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFj
-MTUzMWRkOGYyZDQ4MGM4OWM1N2IwOGE5MzA1NDVhMzM3NTA3NzM5MTc4OTc2MmU0MGU0OTBjZGJi
-ZjAzZmQiCiAKIFMgPSAiJHtVTlBBQ0tESVJ9L2dzdC1wbHVnaW5zLWJhc2UtJHtQVn0iCiAKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
-cGx1Z2lucy1nb29kXzEuMjYuOS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEuMjYuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5
-NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1wbHVnaW5zLWdvb2RfMS4yNi45LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGlt
-ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjI2LjEwLmJiCmluZGV4
-IDQ5Nzc0MTVmNzEuLmJhNzJhYTg4NDkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1l
-ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEuMjYuOS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29v
-ZF8xLjI2LjEwLmJiCkBAIC02LDcgKzYsNyBAQCBCVUdUUkFDS0VSID0gImh0dHBzOi8vZ2l0bGFi
-LmZyZWVkZXNrdG9wLm9yZy9nc3RyZWFtZXIvZ3N0LXBsdWdpbnMtZ29vZC8tL2lzc3VlcwogCiBT
-UkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LXBsdWdp
-bnMtZ29vZC9nc3QtcGx1Z2lucy1nb29kLSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImYzODU2NmZiNTNhZTU2YjcwMTlhMDM5NDc1MzExNzU2YTI4ZWI5NzhhNzgxMTU0ZDY3
-ODEzZGNiNTUxZmY1ZmUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiN2JlYWNiNWRhYmEzYzY3NTFl
-YmMxYzg1MDE3ZDliMWQ2ZGU2NGUyNDc5ODEyNTkzMmM3M2M4YjFkYmViM2JjOSIKIAogUyA9ICIk
-e1VOUEFDS0RJUn0vZ3N0LXBsdWdpbnMtZ29vZC0ke1BWfSIKIApkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4y
-Ni45LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1w
-bHVnaW5zLXVnbHlfMS4yNi4xMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWds
-eV8xLjI2LjkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
-c3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5XzEuMjYuMTAuYmIKaW5kZXggZTA0YmZjYzgxYi4uYzRk
-MTc0YjFiZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
-dHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yNi45LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5XzEuMjYuMTAuYmIKQEAg
-LTE1LDcgKzE1LDcgQEAgU1JDX1VSSSA9ICIgXAogICAgICAgICAgICAgaHR0cHM6Ly9nc3RyZWFt
-ZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy9nc3QtcGx1Z2lucy11Z2x5L2dzdC1wbHVnaW5zLXVnbHkt
-JHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE4
-NGU0YzZlNzY1YmM0NjNlZDgwNmIyMjYzY2I5YjJhYWEzYTY1NDE1ZGYwYTNjMjJmZDUyMGQ1ZDFi
-YWNiNGQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjJjNjQ4ZWY2MmNiZjAzY2RjMjE1ZjU1ZGNh
-MDFlMmU4MzcyOTgzZDhjODhkZTNmYTAzNjcxZGRmMDhkN2QxNCIKIAogUyA9ICIke1VOUEFDS0RJ
-Un0vZ3N0LXBsdWdpbnMtdWdseS0ke1BWfSIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI2LjkuYmIgYi9t
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVy
-XzEuMjYuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI2LjkuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
-cnRzcC1zZXJ2ZXJfMS4yNi4xMC5iYgppbmRleCBhYzZiNTJlZTQ2Li5hZjU4ZmExMWJjIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0
-c3Atc2VydmVyXzEuMjYuOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjYuMTAuYmIKQEAgLTEwLDcgKzEwLDcgQEAg
-UE5SRUFMID0gImdzdC1ydHNwLXNlcnZlciIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1l
-ci5mcmVlZGVza3RvcC5vcmcvc3JjLyR7UE5SRUFMfS8ke1BOUkVBTH0tJHtQVn0udGFyLnh6Igog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjdlOTJlOWE1YjBmMmI1MWViNTcxY2M4OTNiODBkYTJh
-ZTIzNzRmMTliMDVkMzgxZDFlMzY0MzkzZmUxMjY1NCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0
-NDc2Y2RhNjkxMmI2YTkyMTc5ZDYwMDRkMmRmODIxZTI1M2FmZGY3YzkxNmViYWVhNWZhZDliZDA4
-MmY1NjA0IgogCiBTID0gIiR7VU5QQUNLRElSfS8ke1BOUkVBTH0tJHtQVn0iCiAKLS0gCjIuNDcu
-MQoK
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjM6MjY6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+dGs0OiB1cGdyYWRlIDQuMjAuMiAtPiA0LjIwLjMKCi0tLQogbWV0YS9yZWNpcGVzLWdub21lL2d0
+aysve2d0azRfNC4yMC4yLmJiID0+IGd0azRfNC4yMC4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1n
+bm9tZS9ndGsrL3tndGs0XzQuMjAuMi5iYiA9PiBndGs0XzQuMjAuMy5iYn0gKDk3JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjAuMi5iYiBiL21ldGEvcmVj
+aXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yMC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yMC4yLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjAuMy5iYgppbmRleCA5Mjc5MWRiMTY5Li5l
+ZjlhMDVmN2ZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjAu
+Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjAuMy5iYgpAQCAtMzMs
+NyArMzMsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gIiBcCiAgICAgZmlsZTovL3Rlc3RzL3Rlc3Rn
+dGsuYztlbmRsaW5lPTI1O21kNT00OWQwNjc3MDY4MWI4MzIyNDY2YjUyZWQxOWQyOWZiMiBcCiAi
+CiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjVlODI0MGVkZWNhZmFmZjJiOGJhZjQ2
+NjNiZGNlYWE2NjhlZjEwYTIwN2JlZTRkN2Y5MGUwMTBlMTBiZGRjNWMiCitTUkNfVVJJW2FyY2hp
+dmUuc2hhMjU2c3VtXSA9ICIyODczZjI5MDMwODhhNjZjNzExNzNlYTJlZDg1ZmZhZTI2NmE2NmI5
+NzJjM2E0ODQyYmJiMmY2ZjE4N2VjMTUzIgogCiBTID0gIiR7VU5QQUNLRElSfS8ke0dOT01FQk59
+LSR7UFZ9IgogCi0tIAoyLjQ3LjEKCg==
 
---===============2948941907280861973==
+--===============4024190869325687714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analytics-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analytics-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analyticsoverlay: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analyticsoverlay: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGSIZE changed from 30835904 to 30839024 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: FILELIST: removed "/usr/lib/.debug/libgstdxva-1.0.so.0.2609.0 /usr/lib/.debug/libgstplay-1.0.so.0.2609.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2609.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2609.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2609.0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2609.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2609.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2609.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2609.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2609.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2609.0 /usr/lib/.debug/libgstanalytics-1.0.so.0.2609.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2609.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2609.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2609.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2609.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2609.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2609.0 /usr/lib/.debug/libgstmse-1.0.so.0.2609.0 /usr/li
- b/.debug/libgstwebrtc-1.0.so.0.2609.0", added "/usr/lib/.debug/libgstdxva-1.0.so.0.2610.0 /usr/lib/.debug/libgstplay-1.0.so.0.2610.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2610.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2610.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2610.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2610.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2610.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2610.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2610.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2610.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2610.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2610.0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2610.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2610.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2610.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2610.0 /usr/lib/.debug/libgstanalytics-1.0.so.0.2610.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2610.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2610.0 /usr/lib/.debug/libgstmse-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PKGSIZE changed from 190968 to 195064 (+2%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGSIZE changed from 3883476 to 3883494 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dxva-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dxva-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PKGSIZE changed from 39032 to 43128 (+10%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGSIZE changed from 18107224 to 18109092 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/jpegformat -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/jpegformat, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/audiomixmatrix -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/audiomixmatrix, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/geometrictransform -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/geometrictransform, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/fieldanalysis -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/fieldanalysis, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/interfaces -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/interfaces, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/transcoder -> /usr/src/debug/gstreamer1.0-
- plugins-bad/1.26.10/gst-libs/gst/transcoder, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/festival -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/festival, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/webp -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/webp, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/videosignal -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/videosignal, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/uvch264 -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/uvch264, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/hls -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/hls, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/bluez -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/bluez, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/ipcpipeline -> /usr/src/debug/gstreamer1.0-pl
- ugins-bad/1.26.10/sys/ipcpipeline, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/vulkan/shaders -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/vulkan/shaders, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/adpcmdec -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/adpcmdec, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/pnm -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/pnm, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/dvbsubenc/libimagequant -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/dvbsubenc/libimagequant, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/curl -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/curl, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/sndfile -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/sndfile, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/vmnc -> /usr/
- src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/vmnc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/rtp -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/rtp, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/rtmp2 -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/rtmp2, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/mpegts -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/mpegts, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/switchbin -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/switchbin, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/dtls -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/dtls, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/codecparsers -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/codecparsers, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst
- -libs/gst/webrtc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/webrtc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/autoconvert -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/autoconvert, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/dxva -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/dxva, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/audiovisualizers -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/audiovisualizers, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/y4m -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/y4m, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/audiolatency -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/audiolatency, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/pcapparse -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/pcapparse, directory renamed 
- /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/dvbsubenc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/dvbsubenc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/coloreffects -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/coloreffects, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/gaudieffects -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/gaudieffects, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mpegpsmux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mpegpsmux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mpegtsmux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mpegtsmux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/accurip -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/accurip, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/vulkan/wayland -> /usr/src/debug/gstreamer1.0-plugins-bad/1
- .26.10/gst-libs/gst/vulkan/wayland, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/librfb -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/librfb, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/subenc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/subenc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/unixfd -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/unixfd, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/camerabin2 -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/camerabin2, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/id3tag -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/id3tag, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/wayland -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/wayland, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/smooth -> /usr/src/debug/gstre
- amer1.0-plugins-bad/1.26.10/gst/smooth, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/netsim -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/netsim, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/frei0r -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/frei0r, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/dvdspu -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/dvdspu, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/freeverb -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/freeverb, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/asfmux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/asfmux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/bayer -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/bayer, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/decklink -> /usr/src/debug/gstreamer1.0-plugins-bad/
- 1.26.10/sys/decklink, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/uvcgadget -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/uvcgadget, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/inter -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/inter, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/dash -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/dash, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/analyticsoverlay -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/analyticsoverlay, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/shm -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/shm, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/insertbin -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/insertbin, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/insertbin -> /usr/src/debug/gstrea
- mer1.0-plugins-bad/1.26.10/gst/insertbin, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/interlace -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/interlace, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/midi -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/midi, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/videoframe_audiolevel -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/videoframe_audiolevel, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/play -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/play, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/closedcaption -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/closedcaption, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/sbc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/sbc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gs
- t-libs/gst/audio -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/audio, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/fbdev -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/fbdev, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/decklink/linux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/decklink/linux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/isoff -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/isoff, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/debugutils -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/debugutils, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/speed -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/speed, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/v4l2codecs/linux/usb -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/v4l2codecs/linux/usb, directory r
- enamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/transcode -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/transcode, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/tools -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/tools, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/codectimestamper -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/codectimestamper, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/v4l2codecs/linux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/v4l2codecs/linux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/codecalpha -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/codecalpha, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/rsvg -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/rsvg, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/sctp -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/
- gst-libs/gst/sctp, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mpegdemux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mpegdemux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/rtmp2/rtmp -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/rtmp2/rtmp, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/videofilters -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/videofilters, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/vulkan -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/vulkan, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/vulkan -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/vulkan, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mpegtsdemux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mpegtsdemux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/gdp -> /usr/src/debug
- /gstreamer1.0-plugins-bad/1.26.10/gst/gdp, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/jp2kdecimator -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/jp2kdecimator, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/wayland -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/wayland, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/adaptivedemux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/adaptivedemux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/cuda/stub -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/cuda/stub, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/uridownloader -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/uridownloader, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/cuda -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/cuda, di
- rectory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mxf -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mxf, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/bz2 -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/bz2, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/siren -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/siren, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/basecamerabinsrc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/basecamerabinsrc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/mse -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/mse, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/removesilence -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/removesilence, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/audiobuffersplit -> /usr/src/debug/gstreamer1.
- 0-plugins-bad/1.26.10/gst/audiobuffersplit, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/audiofxbad -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/audiofxbad, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/faceoverlay -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/faceoverlay, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/sdp -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/sdp, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mse -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mse, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/ivfparse -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/ivfparse, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/rawparse -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/rawparse, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/smoothstreaming -> /usr/src/debug/gs
- treamer1.0-plugins-bad/1.26.10/ext/smoothstreaming, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/segmentclip -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/segmentclip, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/aiff -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/aiff, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/mpegtsmux/tsmux -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/mpegtsmux/tsmux, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/codecs -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/codecs, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/onvif -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/onvif, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/sys/dvb -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/sys/dvb, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst
- /vulkan/xcb -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/vulkan/xcb, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/ttml -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/ttml, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/dvbsuboverlay -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/dvbsuboverlay, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/rist -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/rist, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/ivtc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/ivtc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/videoparsers -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/videoparsers, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/proxy -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/proxy, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.
- 9/gst-libs/gst/analytics -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/analytics, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst-libs/gst/player -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst-libs/gst/player, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/adpcmenc -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/adpcmenc, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/gst/timecode -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/gst/timecode, directory renamed /usr/src/debug/gstreamer1.0-plugins-bad/1.26.9/ext/aes -> /usr/src/debug/gstreamer1.0-plugins-bad/1.26.10/ext/aes
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-unixfd: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-unixfd: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvcgadget: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvcgadget: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.9.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.10.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILES: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2609.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2609.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: FILES: removed "/usr/lib/libgstanalytics-1.0.so.0.2609.0", added "/usr/lib/libgstanalytics-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: FILELIST: removed "/usr/lib/libgstanalytics-1.0.so.0.2609.0", added "/usr/lib/libgstanalytics-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILES: removed "/usr/lib/libgstbadaudio-1.0.so.0.2609.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2609.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILES: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2609.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2609.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILES: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2609.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2609.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILES: removed "/usr/lib/libgstcodecs-1.0.so.0.2609.0", added "/usr/lib/libgstcodecs-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2609.0", added "/usr/lib/libgstcodecs-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILES: removed "/usr/lib/libgstcuda-1.0.so.0.2609.0", added "/usr/lib/libgstcuda-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2609.0", added "/usr/lib/libgstcuda-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: FILES: removed "/usr/lib/libgstdxva-1.0.so.0.2609.0", added "/usr/lib/libgstdxva-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: FILELIST: removed "/usr/lib/libgstdxva-1.0.so.0.2609.0", added "/usr/lib/libgstdxva-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILES: removed "/usr/lib/libgstinsertbin-1.0.so.0.2609.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2609.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILES: removed "/usr/lib/libgstisoff-1.0.so.0.2609.0", added "/usr/lib/libgstisoff-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2609.0", added "/usr/lib/libgstisoff-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILES: removed "/usr/lib/libgstmpegts-1.0.so.0.2609.0", added "/usr/lib/libgstmpegts-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2609.0", added "/usr/lib/libgstmpegts-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: FILES: removed "/usr/lib/libgstmse-1.0.so.0.2609.0", added "/usr/lib/libgstmse-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: FILELIST: removed "/usr/lib/libgstmse-1.0.so.0.2609.0", added "/usr/lib/libgstmse-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILES: removed "/usr/lib/libgstphotography-1.0.so.0.2609.0", added "/usr/lib/libgstphotography-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2609.0", added "/usr/lib/libgstphotography-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILES: removed "/usr/lib/libgstplay-1.0.so.0.2609.0", added "/usr/lib/libgstplay-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2609.0", added "/usr/lib/libgstplay-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILES: removed "/usr/lib/libgstplayer-1.0.so.0.2609.0", added "/usr/lib/libgstplayer-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2609.0", added "/usr/lib/libgstplayer-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILES: removed "/usr/lib/libgstsctp-1.0.so.0.2609.0", added "/usr/lib/libgstsctp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2609.0", added "/usr/lib/libgstsctp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILES: removed "/usr/lib/libgsturidownloader-1.0.so.0.2609.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2609.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PKGSIZE changed from 370196 to 370260 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILES: removed "/usr/lib/libgstvulkan-1.0.so.0.2609.0", added "/usr/lib/libgstvulkan-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2609.0", added "/usr/lib/libgstvulkan-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILES: removed "/usr/lib/libgstwayland-1.0.so.0.2609.0", added "/usr/lib/libgstwayland-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2609.0", added "/usr/lib/libgstwayland-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILES: removed "/usr/lib/libgstwebrtc-1.0.so.0.2609.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2609.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-Changes to packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-bad (sysroot):
-  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2609.0 to libgstadaptivedemux-1.0.so.0.2610.0
-  /usr/lib/libgstanalytics-1.0.so.0 changed symlink target from libgstanalytics-1.0.so.0.2609.0 to libgstanalytics-1.0.so.0.2610.0
-  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2609.0 to libgstbadaudio-1.0.so.0.2610.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2609.0 to libgstbasecamerabinsrc-1.0.so.0.2610.0
-  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2609.0 to libgstcodecparsers-1.0.so.0.2610.0
-  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2609.0 to libgstcodecs-1.0.so.0.2610.0
-  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2609.0 to libgstcuda-1.0.so.0.2610.0
-  /usr/lib/libgstdxva-1.0.so.0 changed symlink target from libgstdxva-1.0.so.0.2609.0 to libgstdxva-1.0.so.0.2610.0
-  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2609.0 to libgstinsertbin-1.0.so.0.2610.0
-  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2609.0 to libgstisoff-1.0.so.0.2610.0
-  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2609.0 to libgstmpegts-1.0.so.0.2610.0
-  /usr/lib/libgstmse-1.0.so.0 changed symlink target from libgstmse-1.0.so.0.2609.0 to libgstmse-1.0.so.0.2610.0
-  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2609.0 to libgstphotography-1.0.so.0.2610.0
-  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2609.0 to libgstplay-1.0.so.0.2610.0
-  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2609.0 to libgstplayer-1.0.so.0.2610.0
-  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2609.0 to libgstsctp-1.0.so.0.2610.0
-  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2609.0 to libgsturidownloader-1.0.so.0.2610.0
-  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2609.0 to libgstvulkan-1.0.so.0.2610.0
-  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2609.0 to libgstwayland-1.0.so.0.2610.0
-  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2609.0 to libgstwebrtc-1.0.so.0.2610.0
-  /usr/lib/libgstadaptivedemux-1.0.so.0.2609.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2610.0
-  /usr/lib/libgstanalytics-1.0.so.0.2609.0 moved to /usr/lib/libgstanalytics-1.0.so.0.2610.0
-  /usr/lib/libgstbadaudio-1.0.so.0.2609.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2610.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2609.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2610.0
-  /usr/lib/libgstcodecparsers-1.0.so.0.2609.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2610.0
-  /usr/lib/libgstcodecs-1.0.so.0.2609.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2610.0
-  /usr/lib/libgstcuda-1.0.so.0.2609.0 moved to /usr/lib/libgstcuda-1.0.so.0.2610.0
-  /usr/lib/libgstdxva-1.0.so.0.2609.0 moved to /usr/lib/libgstdxva-1.0.so.0.2610.0
-  /usr/lib/libgstinsertbin-1.0.so.0.2609.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2610.0
-  /usr/lib/libgstisoff-1.0.so.0.2609.0 moved to /usr/lib/libgstisoff-1.0.so.0.2610.0
-  /usr/lib/libgstmpegts-1.0.so.0.2609.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2610.0
-  /usr/lib/libgstmse-1.0.so.0.2609.0 moved to /usr/lib/libgstmse-1.0.so.0.2610.0
-  /usr/lib/libgstphotography-1.0.so.0.2609.0 moved to /usr/lib/libgstphotography-1.0.so.0.2610.0
-  /usr/lib/libgstplay-1.0.so.0.2609.0 moved to /usr/lib/libgstplay-1.0.so.0.2610.0
-  /usr/lib/libgstplayer-1.0.so.0.2609.0 moved to /usr/lib/libgstplayer-1.0.so.0.2610.0
-  /usr/lib/libgstsctp-1.0.so.0.2609.0 moved to /usr/lib/libgstsctp-1.0.so.0.2610.0
-  /usr/lib/libgsturidownloader-1.0.so.0.2609.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2610.0
-  /usr/lib/libgstvulkan-1.0.so.0.2609.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2610.0
-  /usr/lib/libgstwayland-1.0.so.0.2609.0 moved to /usr/lib/libgstwayland-1.0.so.0.2610.0
-  /usr/lib/libgstwebrtc-1.0.so.0.2609.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2610.0
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-basedebug: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-basedebug: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGSIZE changed from 19350200 to 19355568 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: FILELIST: removed "/usr/lib/.debug/libgstallocators-1.0.so.0.2609.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2609.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2609.0 /usr/lib/.debug/libgstgl-1.0.so.0.2609.0 /usr/lib/.debug/libgstriff-1.0.so.0.2609.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2609.0 /usr/lib/.debug/libgstapp-1.0.so.0.2609.0 /usr/lib/.debug/libgsttag-1.0.so.0.2609.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2609.0 /usr/lib/.debug/libgstfft-1.0.so.0.2609.0 /usr/lib/.debug/libgstsdp-1.0.so.0.2609.0 /usr/lib/.debug/libgstaudio-1.0.so.0.2609.0", added "/usr/lib/.debug/libgstaudio-1.0.so.0.2610.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2610.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2610.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2610.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2610.0 /usr/lib/.debug/libgstgl-1.0.so.0.2610.0 /usr/lib/.debug/libgstriff-1.0.so.0.2610.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2610.0 /usr/lib/.d
- ebug/libgstapp-1.0.so.0.2610.0 /usr/lib/.debug/libgstfft-1.0.so.0.2610.0 /usr/lib/.debug/libgstsdp-1.0.so.0.2610.0 /usr/lib/.debug/libgsttag-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PKGSIZE changed from 6283651 to 6283670 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dsd: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dsd: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGSIZE changed from 14566289 to 14568306 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/ext/ogg -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/ogg, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/gl/utils -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/gl/utils, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/tools -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/tools, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/sys/ximage -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/sys/ximage, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/sdp -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/sdp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/encoding -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/encoding, directory renamed /usr/src/debug/
- gstreamer1.0-plugins-base/1.26.9/gst/dsd -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/dsd, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/gl -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/gl, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/audiotestsrc -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/audiotestsrc, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/videotestsrc -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/videotestsrc, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/allocators -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/allocators, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/debugutils -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/debugutils, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/adder -> /usr/src/debug/gstreamer1.0-plugins-base/1.
- 26.10/gst/adder, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/overlaycomposition -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/overlaycomposition, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/rtp -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/rtp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/video -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/video, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/ext/pango -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/pango, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/audiorate -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/audiorate, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/gl/egl -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/gl/egl, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1
- .26.9/gst/videorate -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/videorate, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/audioresample -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/audioresample, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/compositor -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/compositor, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/audiomixer -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/audiomixer, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/ext/gl/effects -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/gl/effects, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/rawparse -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/rawparse, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/subparse -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/subparse, directory renamed 
- /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/ext/theora -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/theora, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/ext/alsa -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/alsa, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/gl/wayland -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/gl/wayland, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/ext/vorbis -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/vorbis, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/gio -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/gio, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/app -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/app, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/pbutils -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/pbutils
- , directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/audio -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/audio, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/gl/x11 -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/gl/x11, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/playback -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/playback, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/volume -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/volume, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/typefind -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/typefind, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/rtsp -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/rtsp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/app -> /usr/sr
- c/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/app, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/tcp -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/tcp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/audioconvert -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/audioconvert, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/fft -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/fft, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/tag -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/tag, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/videoconvertscale -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/videoconvertscale, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/sys/xvimage -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/sys/xvimage, directory renamed /usr/src/debug/gstr
- eamer1.0-plugins-base/1.26.9/ext/gl -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/ext/gl, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst/pbtypes -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst/pbtypes, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/riff -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/riff, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.26.9/gst-libs/gst/gl/glprototypes -> /usr/src/debug/gstreamer1.0-plugins-base/1.26.10/gst-libs/gst/gl/glprototypes
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.26.9.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.26.10.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILES: removed "/usr/lib/libgstallocators-1.0.so.0.2609.0", added "/usr/lib/libgstallocators-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2609.0", added "/usr/lib/libgstallocators-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILES: removed "/usr/lib/libgstapp-1.0.so.0.2609.0", added "/usr/lib/libgstapp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2609.0", added "/usr/lib/libgstapp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILES: removed "/usr/lib/libgstaudio-1.0.so.0.2609.0", added "/usr/lib/libgstaudio-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2609.0", added "/usr/lib/libgstaudio-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILES: removed "/usr/lib/libgstfft-1.0.so.0.2609.0", added "/usr/lib/libgstfft-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2609.0", added "/usr/lib/libgstfft-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILES: removed "/usr/lib/libgstgl-1.0.so.0.2609.0", added "/usr/lib/libgstgl-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2609.0", added "/usr/lib/libgstgl-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILES: removed "/usr/lib/libgstpbutils-1.0.so.0.2609.0", added "/usr/lib/libgstpbutils-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2609.0", added "/usr/lib/libgstpbutils-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILES: removed "/usr/lib/libgstriff-1.0.so.0.2609.0", added "/usr/lib/libgstriff-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2609.0", added "/usr/lib/libgstriff-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILES: removed "/usr/lib/libgstrtp-1.0.so.0.2609.0", added "/usr/lib/libgstrtp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2609.0", added "/usr/lib/libgstrtp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILES: removed "/usr/lib/libgstrtsp-1.0.so.0.2609.0", added "/usr/lib/libgstrtsp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2609.0", added "/usr/lib/libgstrtsp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILES: removed "/usr/lib/libgstsdp-1.0.so.0.2609.0", added "/usr/lib/libgstsdp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2609.0", added "/usr/lib/libgstsdp-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILES: removed "/usr/lib/libgsttag-1.0.so.0.2609.0", added "/usr/lib/libgsttag-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2609.0", added "/usr/lib/libgsttag-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILES: removed "/usr/lib/libgstvideo-1.0.so.0.2609.0", added "/usr/lib/libgstvideo-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2609.0", added "/usr/lib/libgstvideo-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-Changes to packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-base (sysroot):
-  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2609.0 to libgstallocators-1.0.so.0.2610.0
-  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2609.0 to libgstapp-1.0.so.0.2610.0
-  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2609.0 to libgstaudio-1.0.so.0.2610.0
-  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2609.0 to libgstfft-1.0.so.0.2610.0
-  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2609.0 to libgstgl-1.0.so.0.2610.0
-  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2609.0 to libgstpbutils-1.0.so.0.2610.0
-  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2609.0 to libgstriff-1.0.so.0.2610.0
-  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2609.0 to libgstrtp-1.0.so.0.2610.0
-  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2609.0 to libgstrtsp-1.0.so.0.2610.0
-  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2609.0 to libgstsdp-1.0.so.0.2610.0
-  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2609.0 to libgsttag-1.0.so.0.2610.0
-  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2609.0 to libgstvideo-1.0.so.0.2610.0
-  /usr/lib/libgstallocators-1.0.so.0.2609.0 moved to /usr/lib/libgstallocators-1.0.so.0.2610.0
-  /usr/lib/libgstapp-1.0.so.0.2609.0 moved to /usr/lib/libgstapp-1.0.so.0.2610.0
-  /usr/lib/libgstaudio-1.0.so.0.2609.0 moved to /usr/lib/libgstaudio-1.0.so.0.2610.0
-  /usr/lib/libgstfft-1.0.so.0.2609.0 moved to /usr/lib/libgstfft-1.0.so.0.2610.0
-  /usr/lib/libgstgl-1.0.so.0.2609.0 moved to /usr/lib/libgstgl-1.0.so.0.2610.0
-  /usr/lib/libgstpbutils-1.0.so.0.2609.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2610.0
-  /usr/lib/libgstriff-1.0.so.0.2609.0 moved to /usr/lib/libgstriff-1.0.so.0.2610.0
-  /usr/lib/libgstrtp-1.0.so.0.2609.0 moved to /usr/lib/libgstrtp-1.0.so.0.2610.0
-  /usr/lib/libgstrtsp-1.0.so.0.2609.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2610.0
-  /usr/lib/libgstsdp-1.0.so.0.2609.0 moved to /usr/lib/libgstsdp-1.0.so.0.2610.0
-  /usr/lib/libgsttag-1.0.so.0.2609.0 moved to /usr/lib/libgsttag-1.0.so.0.2610.0
-  /usr/lib/libgstvideo-1.0.so.0.2609.0 moved to /usr/lib/libgstvideo-1.0.so.0.2610.0
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-adaptivedemux2: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-adaptivedemux2: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGSIZE changed from 22233648 to 22238040 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ka: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ka: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGSIZE changed from 13631257 to 13634142 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/wavenc -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/wavenc, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/soup -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/soup, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/matroska -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/matroska, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/equalizer -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/equalizer, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/imagefreeze -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/imagefreeze, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/isomp4 -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/isomp4, directory renamed /usr/src/debug/gstrea
- mer1.0-plugins-good/1.26.9/gst/rtpmanager -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/rtpmanager, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/videocrop -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/videocrop, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/lame -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/lame, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/sys/ximage -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/sys/ximage, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/sys/v4l2 -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/sys/v4l2, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/libpng -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/libpng, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/flx -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/flx, directory renamed /usr/src/debug/gstreamer1.0-plu
- gins-good/1.26.9/gst/law -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/law, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/multipart -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/multipart, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/flv -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/flv, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/y4m -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/y4m, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/speex -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/speex, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/cutter -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/cutter, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/soup/stub -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/soup/stub, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/e
- xt/adaptivedemux2/dash -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/adaptivedemux2/dash, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/deinterlace -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/deinterlace, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/debugutils -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/debugutils, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/jpeg -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/jpeg, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/udp -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/udp, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/goom2k1 -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/goom2k1, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/goom -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/goom, directory renamed /usr/src/debug/gstreamer1.0
- -plugins-good/1.26.9/gst/level -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/level, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/rtp -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/rtp, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/cairo -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/cairo, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/adaptivedemux2/mss -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/adaptivedemux2/mss, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/smpte -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/smpte, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/pulse -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/pulse, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/adaptivedemux2 -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/adaptivedemux2, directory renamed /usr/src/de
- bug/gstreamer1.0-plugins-good/1.26.9/gst/alpha -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/alpha, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/effectv -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/effectv, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/taglib -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/taglib, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/deinterlace/tvtime -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/deinterlace/tvtime, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/videomixer -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/videomixer, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/apetag -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/apetag, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/wavparse -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/wavparse, dir
- ectory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/icydemux -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/icydemux, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/adaptivedemux2/hls -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/adaptivedemux2/hls, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/id3demux -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/id3demux, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/interleave -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/interleave, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/gdk_pixbuf -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/gdk_pixbuf, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/audiofx -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/audiofx, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/avi -> /usr/src/debug/gstreamer1.0
- -plugins-good/1.26.10/gst/avi, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/deinterlace/tvtime/tomsmocomp -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/deinterlace/tvtime/tomsmocomp, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/dtmf -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/dtmf, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/monoscope -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/monoscope, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/mpg123 -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/mpg123, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/rtsp -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/rtsp, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/replaygain -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/replaygain, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gs
- t/shapewipe -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/shapewipe, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/multifile -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/multifile, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/sys/oss -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/sys/oss, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/videobox -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/videobox, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/auparse -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/auparse, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/sys/v4l2/ext -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/sys/v4l2/ext, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/ext/flac -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/ext/flac, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/
- gst/autodetect -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/autodetect, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/audioparsers -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/audioparsers, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/videofilter -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/videofilter, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/spectrum -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/spectrum, directory renamed /usr/src/debug/gstreamer1.0-plugins-good/1.26.9/gst/xingmux -> /usr/src/debug/gstreamer1.0-plugins-good/1.26.10/gst/xingmux
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PKGSIZE changed from 374976 to 370880 (-1%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-xingmux: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-xingmux: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.26.9.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.26.10.tar.xz"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-good: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PKGSIZE changed from 791184 to 791208 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.9/gst/dvdsub -> /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.10/gst/dvdsub, directory renamed /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.9/gst/dvdlpcmdec -> /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.10/gst/dvdlpcmdec, directory renamed /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.9/gst/asfdemux -> /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.10/gst/asfdemux, directory renamed /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.9/gst/realmedia -> /usr/src/debug/gstreamer1.0-plugins-ugly/1.26.10/gst/realmedia
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.26.9.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.26.10.tar.xz"
-packages/x86-64-v3-poky-linux/gstreamer1.0-plugins-ugly: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGSIZE changed from 1608632 to 1608664 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: FILELIST: removed "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2609.0", added "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGSIZE changed from 1015729 to 1015730 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-rtsp-server/1.26.9/gst/rtsp-sink -> /usr/src/debug/gstreamer1.0-rtsp-server/1.26.10/gst/rtsp-sink, directory renamed /usr/src/debug/gstreamer1.0-rtsp-server/1.26.9/gst/rtsp-server -> /usr/src/debug/gstreamer1.0-rtsp-server/1.26.10/gst/rtsp-server
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.26.9.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.26.10.tar.xz"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILES: removed "/usr/lib/libgstrtspserver-1.0.so.0.2609.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2609.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2610.0"
-packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-Changes to packages/x86-64-v3-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2609.0 to libgstrtspserver-1.0.so.0.2610.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2609.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2610.0
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: PKGSIZE changed from 73372512 to 73409176 (+0%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: FILELIST: removed "/usr/lib/.debug/libgtk-4.so.1.2000.2", added "/usr/lib/.debug/libgtk-4.so.1.2000.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dev: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dev: PKGSIZE changed from 23794509 to 23802810 (+0%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-dev: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-doc: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-doc: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ab: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ab: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-af: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-af: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-am: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-am: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-an: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-an: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ang: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ang: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ar: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ar: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-as: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-as: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ast: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ast: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az-ir: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az-ir: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be+latin: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be+latin: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bg: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bg: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn-in: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn-in: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-br: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-br: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bs: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bs: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca+valencia: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca+valencia: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-crh: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-crh: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cs: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cs: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cy: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cy: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-da: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-da: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-de: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-de: PKGSIZE changed from 121534 to 122638 (+1%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-de: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-dz: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-dz: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-el: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-el: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en+shaw: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en+shaw: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-ca: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-ca: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-gb: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-gb: PKGSIZE changed from 113168 to 115169 (+2%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-gb: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eo: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eo: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-es: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-es: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-et: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-et: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eu: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eu: PKGSIZE changed from 122561 to 122565 (+0%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eu: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fa: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fa: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fi: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fi: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fr: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fr: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fur: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fur: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ga: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ga: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gd: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gd: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gl: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gl: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gu: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gu: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-he: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-he: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hi: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hi: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hr: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hr: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hu: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hu: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hy: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hy: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ia: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ia: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-id: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-id: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ie: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ie: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-io: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-io: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-is: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-is: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-it: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-it: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ja: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ja: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ka: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ka: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kab: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kab: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kk: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kk: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-km: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-km: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kn: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kn: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ko: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ko: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ku: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ku: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ky: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ky: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lg: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lg: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-li: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-li: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lt: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lt: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lv: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lv: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mai: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mai: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mi: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mi: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mjw: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mjw: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mk: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mk: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ml: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ml: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mn: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mn: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mr: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mr: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ms: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ms: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-my: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-my: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nb: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nb: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nds: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nds: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ne: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ne: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nl: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nl: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nn: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nn: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nso: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nso: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-oc: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-oc: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-or: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-or: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pa: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pa: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pl: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pl: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ps: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ps: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt-br: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt-br: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ro: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ro: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ru: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ru: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-rw: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-rw: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-si: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-si: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sk: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sk: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sl: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sl: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sq: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sq: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+ije: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+ije: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+latin: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+latin: PKGSIZE changed from 115522 to 121144 (+5%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+latin: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr: PKGSIZE changed from 141246 to 148230 (+5%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sv: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sv: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ta: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ta: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-te: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-te: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tg: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tg: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-th: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-th: PKGSIZE changed from 124843 to 167657 (+34%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-th: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tr: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tr: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tt: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tt: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ug: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ug: PKGSIZE changed from 73153 to 147744 (+102%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ug: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uk: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uk: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ur: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ur: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz+cyrillic: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz+cyrillic: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-vi: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-vi: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-wa: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-wa: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-xh: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-xh: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-yi: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-yi: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-cn: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-cn: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-hk: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-hk: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-tw: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-tw: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-src: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-src: PKGSIZE changed from 48648202 to 48660513 (+0%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4-src: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4-src: FILELIST: directory renamed /usr/src/debug/gtk4/4.20.2/gsk/gpu/shaders -> /usr/src/debug/gtk4/4.20.3/gsk/gpu/shaders, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/a11y/atspi -> /usr/src/debug/gtk4/4.20.3/gtk/a11y/atspi, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/inspector -> /usr/src/debug/gtk4/4.20.3/gtk/inspector, directory renamed /usr/src/debug/gtk4/4.20.2/gdk -> /usr/src/debug/gtk4/4.20.3/gdk, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/timsort -> /usr/src/debug/gtk4/4.20.3/gtk/timsort, directory renamed /usr/src/debug/gtk4/4.20.2/gdk/loaders -> /usr/src/debug/gtk4/4.20.3/gdk/loaders, directory renamed /usr/src/debug/gtk4/4.20.2/gsk/gl -> /usr/src/debug/gtk4/4.20.3/gsk/gl, directory renamed /usr/src/debug/gtk4/4.20.2/gsk/gpu -> /usr/src/debug/gtk4/4.20.3/gsk/gpu, directory renamed /usr/src/debug/gtk4/4.20.2/gdk/deprecated -> /usr/src/debug/gtk4/4.20.3/gdk/deprecated, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/depr
+ ecated -> /usr/src/debug/gtk4/4.20.3/gtk/deprecated, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/roaring -> /usr/src/debug/gtk4/4.20.3/gtk/roaring, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/a11y -> /usr/src/debug/gtk4/4.20.3/gtk/a11y, directory renamed /usr/src/debug/gtk4/4.20.2/gdk/wayland -> /usr/src/debug/gtk4/4.20.3/gdk/wayland, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/print -> /usr/src/debug/gtk4/4.20.3/gtk/print, directory renamed /usr/src/debug/gtk4/4.20.2/gdk/x11 -> /usr/src/debug/gtk4/4.20.3/gdk/x11, directory renamed /usr/src/debug/gtk4/4.20.2/tools -> /usr/src/debug/gtk4/4.20.3/tools, directory renamed /usr/src/debug/gtk4/4.20.2/gtk -> /usr/src/debug/gtk4/4.20.3/gtk, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/css -> /usr/src/debug/gtk4/4.20.3/gtk/css, directory renamed /usr/src/debug/gtk4/4.20.2/gsk -> /usr/src/debug/gtk4/4.20.3/gsk, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/media -> /usr/src/debug/gtk4/4.20.3/gtk/media, directory renamed 
+ /usr/src/debug/gtk4/4.20.2/testsuite/reftests -> /usr/src/debug/gtk4/4.20.3/testsuite/reftests, directory renamed /usr/src/debug/gtk4/4.20.2/gtk/print/backends -> /usr/src/debug/gtk4/4.20.3/gtk/print/backends
+packages/x86-64-v3-poky-linux/gtk4/gtk4-staticdev: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4-staticdev: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4/gtk4: PKGSIZE changed from 18779030 to 18833598 (+0%)
+packages/x86-64-v3-poky-linux/gtk4/gtk4: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4/gtk4: FILELIST: removed "/usr/lib/libgtk-4.so.1.2000.2", added "/usr/lib/libgtk-4.so.1.2000.3"
+packages/x86-64-v3-poky-linux/gtk4: PV changed from "4.20.2" to "4.20.3"
+packages/x86-64-v3-poky-linux/gtk4: PKGV changed from 4.20.2 [default] to 4.20.3 [default]
+packages/x86-64-v3-poky-linux/gtk4: SRC_URI changed from "https://download.gnome.org/sources//gtk/4.20/gtk-4.20.2.tar.xz;name=archive" to "https://download.gnome.org/sources//gtk/4.20/gtk-4.20.3.tar.xz;name=archive"
+Changes to packages/x86-64-v3-poky-linux/gtk4 (sysroot):
+  /usr/lib/libgtk-4.so.1 changed symlink target from libgtk-4.so.1.2000.2 to libgtk-4.so.1.2000.3
+  /usr/lib/libgtk-4.so.1.2000.2 moved to /usr/lib/libgtk-4.so.1.2000.3
 
---===============2948941907280861973==--
+--===============4024190869325687714==--
 
