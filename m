@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B45D489B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB89D4899E
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:26:03 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1486.1768526757658865956
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1445.1768526753056960367
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:57 -0800
+ Thu, 15 Jan 2026 17:25:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QRhOH1gf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RRG2g3WJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019bc468bc3d-960bfb47-918a-4641-94b1-69a6131dc9e1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JaGuYRYv;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jMnC+L6i;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019bc468aa6e-056fd4c9-3c73-4aca-9fdc-4370f02eca0d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526757;
+	t=1768526752;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=A7McuGMRayndUp0ZkywPQrm2k6P0n7+JnXwcuzclbvs=;
-	b=QRhOH1gfMrlDBl6z9KpQ2o32oFSPr1syk3pOZw6cFgc9I6YHF2fxHCVwWjR0XS8C
-	AjM5z+MIc0JgZbfm7LkMvmYex6BW2sT2Ch08bsjyo7Cq24UcdDHm08xx24Xo2qNVu53
-	W9x38cE4FK40UNxRxCOA6KOykxKNwmp4M27f953g=
+	bh=X27FL5nKoSoGsNlfm882wf8V2Zrmr1j7JZUGe1by+GM=;
+	b=JaGuYRYvs2mtOBJ8XySA/7Q3wIj3U0bpBpNnPbynKYmlaIiBzj4MGIyGR0UwA2tA
+	JYVWG9wUbZpl+cf7BZhbJBRw1GechNQk64rhUqmrQA2s88lQcSLrQnX9OF2XuTtTAiO
+	9LB0chgiD7EQVpzKRm8/62mH9hcVrQXvKtmMheKE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526757;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526752;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=A7McuGMRayndUp0ZkywPQrm2k6P0n7+JnXwcuzclbvs=;
-	b=RRG2g3WJf3olWqRyqMqq8AUiZd1PIHl4E6LjrZbkae1fuPw2EKg5o3O09ULwpdGg
-	JkJN1rKdhcZRmP33KHOzM/83umxdde0hy6dFET3vQU4WTlKywczUh+D6YFcGa3s13Ny
-	Iwh3YEDIediqWP6T//Mf/Y/HL0+b0p46P4inNFlI=
-Content-Type: multipart/mixed; boundary="===============3382730445940893053=="
+	bh=X27FL5nKoSoGsNlfm882wf8V2Zrmr1j7JZUGe1by+GM=;
+	b=jMnC+L6iYyokguQrFk0I4lIj1ivK7QTIx4xFpK9keYGqDULnEnV3p6v5ta+XZ1hY
+	t/cph2KVg1PV1joy0N9XUPhJnAdZmlGD3gswmj+QDkPjyhvY6u/SY2BbqV2dX20GnyS
+	b6oXiTSjnDpoZ4t38yMBe2r4XtgZSjxtLp3Yzfy4=
+Content-Type: multipart/mixed; boundary="===============1525801648647917828=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.26.10 SUCCEEDED
-Message-ID: <0101019bc468bc3d-960bfb47-918a-4641-94b1-69a6131dc9e1-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:56 +0000
+Subject: [AUH] epiphany: upgrading to 49.2 FAILED
+Message-ID: <0101019bc468aa6e-056fd4c9-3c73-4aca-9fdc-4370f02eca0d-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.193
+X-SES-Outgoing: 2026.01.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:26:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229508
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229484
 
---===============3382730445940893053==
+--===============1525801648647917828==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-vaapi* to *1.26.10* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *epiphany* to *49.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-vaapi-upgrade-1.26.9-1.26.10.patch
+    - apply the patch: git am 0001-epiphany-upgrade-48.5-49.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,97 +78,365 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 435e99a0e57687a2856df2b3fa4e4006e03eb344 Mon Sep 17 00:00:00 2001
+From ab6469e6596310de889b8f81105fd360cbe55244 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 16 Jan 2026 00:40:56 +0000
-Subject: [PATCH] gstreamer1.0-vaapi: upgrade 1.26.9 -> 1.26.10
+Date: Thu, 15 Jan 2026 23:20:26 +0000
+Subject: [PATCH] epiphany: upgrade 48.5 -> 49.2
 
 ---
- ...treamer1.0-vaapi_1.26.9.bb => gstreamer1.0-vaapi_1.26.10.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.9.bb => gstreamer1.0-vaapi_1.26.10.bb} (95%)
+ .../epiphany/{epiphany_48.5.bb => epiphany_49.2.bb}           | 2 +-
+ .../files/0002-help-meson.build-disable-the-use-of-yelp.patch | 2 +-
+ meta/recipes-gnome/epiphany/files/distributor.patch           | 4 ++--
+ meta/recipes-gnome/epiphany/files/migrator.patch              | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_48.5.bb => epiphany_49.2.bb} (94%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.10.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.10.bb
-index dc5055bb0c..4f7dfd580c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.10.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_48.5.bb b/meta/recipes-gnome/epiphany/epiphany_49.2.bb
+similarity index 94%
+rename from meta/recipes-gnome/epiphany/epiphany_48.5.bb
+rename to meta/recipes-gnome/epiphany/epiphany_49.2.bb
+index 6a1abdc553..acd1aa3f08 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_48.5.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_49.2.bb
+@@ -31,7 +31,7 @@ SRC_URI += "\
+            file://migrator.patch \
+            file://distributor.patch \
+            "
+-SRC_URI[archive.sha256sum] = "0f66552ad6593c7952a3ddee5bf515656c8c434871076d9f1a91a7af9346b1b4"
++SRC_URI[archive.sha256sum] = "b3ba3d68213e87f81f1733e85500c37b82b5938f9009e4fe89994963d5fb2b8e"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ # Developer mode enables debugging
+ PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+index 6c00ab9b40..30f3e6fa96 100644
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+@@ -1,4 +1,4 @@
+-From 91045ece41faefbeac14b60d7b19b0c652e586fb Mon Sep 17 00:00:00 2001
++From 987a043349f085e9a3897ef7cd26e9a1487b3a41 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 15:50:38 +0200
+ Subject: [PATCH] help/meson.build: disable the use of yelp
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
+index 54a3305aaf..0c856f7eb7 100644
+--- a/meta/recipes-gnome/epiphany/files/distributor.patch
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -1,4 +1,4 @@
+-From 46084da03b5f20423a2946d988c68e9ea9339c9c Mon Sep 17 00:00:00 2001
++From 9c59658413ea31513559a2d4687cb40b358dce40 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 26 Feb 2021 10:17:52 +0000
+ Subject: [PATCH] Don't encode the distro from /etc/os-release into the
+@@ -11,7 +11,7 @@ RP 2021/2/26
+  1 file changed, 1 insertion(+)
  
--SRC_URI[sha256sum] = "bf989040404515dc9b042f4fdc49ff33a6dccf49d544736150e967b42665598e"
-+SRC_URI[sha256sum] = "64633e188d0b6005847fd8e3ad70c0c20c86caeeae4f211f3e383b1455fc5d09"
- 
- S = "${UNPACKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+ diff --git a/meson.build b/meson.build
+-index df0340c..8ec6c79 100644
++index ba09333..49a2aa8 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -15,6 +15,7 @@ if r.returncode() == 0
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
+index 8ebcdc9991..8a094351dc 100644
+--- a/meta/recipes-gnome/epiphany/files/migrator.patch
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -1,4 +1,4 @@
+-From ca504370b9aa893ceac21141d8f24e28a474b674 Mon Sep 17 00:00:00 2001
++From b7d9c68a2d5de4faa533d65b578542b64451fd73 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Thu, 25 Feb 2021 14:52:32 +0000
+ Subject: [PATCH] epiphany: Fix reproducibility issue
 -- 
 2.47.1
 
 
---===============3382730445940893053==
+--===============1525801648647917828==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PKGSIZE changed from 3665744 to 3665840 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-doc: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-doc: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-locale: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-locale: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-vaapi/1.26.9/gst/vaapi -> /usr/src/debug/gstreamer1.0-vaapi/1.26.10/gst/vaapi, directory renamed /usr/src/debug/gstreamer1.0-vaapi/1.26.9/gst-libs/gst/vaapi -> /usr/src/debug/gstreamer1.0-vaapi/1.26.10/gst-libs/gst/vaapi
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-staticdev: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-staticdev: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-tests: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-tests: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: PV changed from "1.26.9" to "1.26.10"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.26.9.tar.xz" to "https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.26.10.tar.xz"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi: PKGV changed from 1.26.9 [default] to 1.26.10 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi: PV changed from "1.26.9" to "1.26.10"
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1955 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============3382730445940893053==
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-01ebe5ad2c59a3c2d306fae6828aa7b9311abdb6"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:01ebe5ad2c59a3c2d306fae6828aa7b9311abdb6"
+meta-yocto-bsp       
+meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 479 Local 467 Mirrors 0 Missed 12 Current 1317 (97% match, 99% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 1703 of 1796 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1776 of 1796 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_recipe_qa_setscene)
+NOTE: recipe epiphany-49.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe epiphany-49.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 4376 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_fetch)
+NOTE: Running task 4619 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_write_config)
+NOTE: recipe epiphany-49.2-r0: task do_fetch: Started
+NOTE: recipe epiphany-49.2-r0: task do_fetch: Succeeded
+NOTE: Running task 4785 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_unpack)
+NOTE: Running task 4786 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe epiphany-49.2-r0: task do_write_config: Started
+NOTE: recipe epiphany-49.2-r0: task do_unpack: Started
+NOTE: recipe epiphany-49.2-r0: task do_write_config: Succeeded
+NOTE: recipe epiphany-49.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe epiphany-49.2-r0: task do_unpack: Succeeded
+NOTE: Running task 4907 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_patch)
+NOTE: Running task 4908 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_collect_spdx_deps)
+NOTE: recipe epiphany-49.2-r0: task do_patch: Started
+NOTE: recipe epiphany-49.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe epiphany-49.2-r0: task do_patch: Succeeded
+NOTE: Running task 4909 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 4910 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_populate_lic)
+NOTE: recipe epiphany-49.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe epiphany-49.2-r0: task do_populate_lic: Started
+NOTE: recipe epiphany-49.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_populate_lic unihash changed to 74914a526f84b0428a31b6f999e30fd9a9a7f272bc23f528d73520af81bba88f
+NOTE: recipe epiphany-49.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_deploy_source_date_epoch unihash changed to 1fa55205fe96370413a3eadfd5caa432b1d803804b078751047365c2f8fb1cec
+NOTE: Setscene tasks completed
+NOTE: recipe epiphany-49.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe epiphany-49.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 4911 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_configure)
+NOTE: Setscene tasks completed
+NOTE: recipe epiphany-49.2-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.1.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.5.bb:do_populate_sysroot', '/srv/pokybuild/
+ yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.8.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build
+ /layers/openembedded-core/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libportal/libportal_0.9.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-co
+ re/gettext/gettext_0.26.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/bu
+ ild/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.11.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm-tblgen-native', 'llvm', 'cmake-native', 'desktop-file-utils', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gcr', 'gdk-pixbuf', 'gobject-introspection', 'gsettings-desktop-schemas', 'gtk+3', 'gtk4', 'hicolor-icon-theme', 'json-glib', 'libadwaita', 'libdazzle', 'libgudev', 'libhandy', 'libnotify', 'libportal', 'librsvg', 'libsecret', 'libxmlb', 'cairo', 'libdrm', '
+ fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxt', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'libwpe', 'webkitgtk', 'wpebackend-fdo', 'appstream', 'aspell', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'enchant2', 'fribidi', 'gdbm', 'gmp', 'gnut
+ ls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libpsl', 'libseccomp', 'libsoup', 'libunistring', 'libusb1', 'libxslt', 'libyaml', 'nettle', 'nghttp2', 'p11-kit', 'shared-mime-info', 'sqlite3', 'openssl-native', 'coreutils-native', 'dbus-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'llvm-native', 'desktop-file-utils-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'patchelf-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-docutils-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'cargo-c-native', 'cargo-native'
+ , 'rust-native', 'vala-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gdk-pixbuf-native', 'gobject-introspection-native', 'gtk+3-native', 'librsvg-native', 'cairo-native', 'fontconfig-native', 'freetype-native', 'harfbuzz-native', 'libjpeg-turbo-native', 'pango-native', 'libpthread-stubs-native', 'libx11-native', 'libxau-native', 'libxcb-native', 'libxcomposite-native', 'libxcursor-native', 'libxdamage-native', 'libxdmcp-native', 'libxext-native', 'libxfixes-native', 'libxft-native', 'libxi-native', 'libxrandr-native', 'libxrender-native', 'libxtst-native', 'pixman-native', 'xtrans-native', 'xcb-proto-native', 'xorgproto-native', 'util-macros-native', 'libpng-native', 'at-spi2-core-native', 'attr-native', 'ca-certificates-native', 'curl-native', 'fribidi-native', 'gdbm-native', 'gmp-native', 'icu-native', 'libbsd-native', 'libcap-ng-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'libssh2-native', 'mpfr-native', '
+ re2c-native', 'shared-mime-info-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Ddeveloper_mode=false...
+| The Meson build system
+| Version: 1.10.0
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/sources/epiphany-49.2
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/build
+| Build type: cross build
+| Project name: epiphany
+| Project version: 49.2
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot ld.bfd 2.45.1.20251126
+| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
+| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency iso-codes found: YES 4.19.0
+| Run-time dependency cairo found: YES 1.18.4
+| Run-time dependency gck-2 found: YES 4.4.0.1
+| Run-time dependency gcr-4 found: YES 4.4.0.1
+| Run-time dependency gdk-pixbuf-2.0 found: YES 2.44.4
+| Run-time dependency gio-2.0 found: YES 2.86.3
+| Run-time dependency gio-unix-2.0 found: YES 2.86.3
+| Run-time dependency glib-2.0 found: YES 2.86.3
+| Dependency granite-7 skipped: feature granite disabled
+| Run-time dependency gsettings-desktop-schemas found: YES 49.1
+| Run-time dependency gstreamer-1.0 found: YES 1.26.9
+| Run-time dependency gtk4 found: YES 4.20.2
+| Run-time dependency gtk4-unix-print found: YES 4.20.2
+| Run-time dependency hogweed found: YES 3.10.2
+| Dependency iso-codes found: YES 4.19.0 (cached)
+| Run-time dependency json-glib-1.0 found: YES 1.10.8
+| Run-time dependency libarchive found: YES 3.8.5
+| Run-time dependency libadwaita-1 found: YES 1.8.2
+| Run-time dependency libsecret-1 found: YES 0.21.7
+| Run-time dependency libsoup-3.0 found: YES 3.6.5
+| Run-time dependency libxml-2.0 found: YES 2.15.1
+| Run-time dependency nettle found: YES 3.10.2
+| Run-time dependency libportal-gtk4 found: YES 0.9.1
+| Run-time dependency sqlite3 found: YES 3.51.1
+| Run-time dependency webkitgtk-6.0 found: YES 2.50.0
+| Run-time dependency webkitgtk-web-process-extension-6.0 found: YES 2.50.0
+| Configuring config.h.in using configuration
+| Library gmp found: YES
+| Library m found: YES
+| Compiler for C supports arguments -Werror=declaration-after-statement: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports arguments -Wno-cast-function-type: YES
+| Compiler for C supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-unused-parameter: YES
+| Configuring org.gnome.Epiphany.desktop.in using configuration
+| Program msgfmt found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/msgfmt)
+| Configuring org.gnome.Epiphany.metainfo.xml.in using configuration
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Program glib-compile-schemas found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-schemas)
+| Configuring org.gnome.Epiphany.SearchProvider.service using configuration
+| Configuring org.gnome.Epiphany.WebAppProvider.service using configuration
+| Configuring org.gnome.Epiphany.SearchProvider.ini using configuration
+| Configuring default-bookmarks.rdf using configuration
+| Program rst2man found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/rst2man)
+| Program desktop-file-validate found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/desktop-file-validate)
+| Program appstreamcli found: NO
+| Program msginit found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/msginit)
+| Program msgmerge found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/msgmerge)
+| Program xgettext found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/xgettext)
+| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/pkg-config-native) 0.29.2
+| Build-time dependency gio-2.0 found: YES 2.86.3
+| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-resources)
+| Dependency gio-2.0 found: YES 2.86.3 (cached)
+| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-resources)
+| Build-time dependency glib-2.0 found: YES 2.86.3
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency gio-2.0 found: YES 2.86.3 (cached)
+| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-resources)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Program blueprint-compiler found: NO
+| 
+| ../sources/epiphany-49.2/src/meson.build:119:12: ERROR: Program 'blueprint-compiler' not found or not executable
+| 
+| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/build/meson-logs/meson-log.txt
+| 
+| Last 10 lines of meson-log.txt:
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Program blueprint-compiler found: NO
+| 
+| ../sources/epiphany-49.2/src/meson.build:119:12: ERROR: Program 'blueprint-compiler' not found or not executable
+| 
+| ERROR: meson setup failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.2241541:172 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.2241541, line 172
+| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.2241541, line 161
+| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.2241541, line 148
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.2241541, line 185
+NOTE: recipe epiphany-49.2-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 4911 tasks of which 4902 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260115232008.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260115232008.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/log.do_configure.2241541
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: epiphany-49.2-r0 do_configure: meson setup failed
+ERROR: epiphany-49.2-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.2241541' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/log.do_configure.2241541
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_configure) failed with exit code '1'
+
+--===============1525801648647917828==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-vaapi-upgrade-1.26.9-1.26.10.patch"
+ filename="0001-epiphany-upgrade-48.5-49.2.patch"
 
-RnJvbSA0MzVlOTlhMGU1NzY4N2EyODU2ZGYyYjNmYTRlNDAwNmUwM2ViMzQ0IE1vbiBTZXAgMTcg
+RnJvbSBhYjY0NjllNjU5NjMxMGRlODg5YjhmODExMDVmZDM2MGNiZTU1MjQ0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTYgSmFuIDIwMjYgMDA6NDA6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtdmFhcGk6IHVwZ3JhZGUgMS4yNi45IC0+IDEuMjYuMTAKCi0tLQogLi4udHJl
-YW1lcjEuMC12YWFwaV8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLXZhYXBpXzEuMjYuMTAuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtdmFh
-cGlfMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMC12YWFwaV8xLjI2LjEwLmJifSAoOTUlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
-dmFhcGlfMS4yNi45LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
-YW1lcjEuMC12YWFwaV8xLjI2LjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFhcGlfMS4y
-Ni45LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
-bWVyMS4wLXZhYXBpXzEuMjYuMTAuYmIKaW5kZXggZGM1MDU1YmIwYy4uNGY3ZGZkNTgwYyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC12
-YWFwaV8xLjI2LjkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
-dHJlYW1lcjEuMC12YWFwaV8xLjI2LjEwLmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0NPUFlJTkcuTElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhi
-MzY0NTE2YyIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcv
-c3JjLyR7UkVBTFBOfS8ke1JFQUxQTn0tJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiYmY5ODkwNDA0MDQ1MTVkYzliMDQyZjRmZGM0OWZmMzNhNmRjY2Y0OWQ1NDQ3MzYxNTBl
-OTY3YjQyNjY1NTk4ZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2NDYzM2UxODhkMGI2MDA1ODQ3
-ZmQ4ZTNhZDcwYzBjMjBjODZjYWVlYWU0ZjIxMWYzZTM4M2IxNDU1ZmM1ZDA5IgogCiBTID0gIiR7
-VU5QQUNLRElSfS8ke1JFQUxQTn0tJHtQVn0iCiBERVBFTkRTID0gImxpYnZhIGdzdHJlYW1lcjEu
-MCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZCIKLS0g
-CjIuNDcuMQoK
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjM6MjA6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+cGlwaGFueTogdXBncmFkZSA0OC41IC0+IDQ5LjIKCi0tLQogLi4uL2VwaXBoYW55L3tlcGlwaGFu
+eV80OC41LmJiID0+IGVwaXBoYW55XzQ5LjIuYmJ9ICAgICAgICAgICB8IDIgKy0KIC4uLi9maWxl
+cy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggfCAy
+ICstCiBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gg
+ICAgICAgICAgIHwgNCArKy0tCiBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWln
+cmF0b3IucGF0Y2ggICAgICAgICAgICAgIHwgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCA1IGluc2Vy
+dGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdub21lL2VwaXBo
+YW55L3tlcGlwaGFueV80OC41LmJiID0+IGVwaXBoYW55XzQ5LjIuYmJ9ICg5NCUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ4LjUuYmIgYi9tZXRh
+L3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDkuMi5iYgpzaW1pbGFyaXR5IGluZGV4
+IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDgu
+NS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ5LjIu
+YmIKaW5kZXggNmExYWJkYzU1My4uYWNkMWFhM2YwOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ4LjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21l
+L2VwaXBoYW55L2VwaXBoYW55XzQ5LjIuYmIKQEAgLTMxLDcgKzMxLDcgQEAgU1JDX1VSSSArPSAi
+XAogICAgICAgICAgICBmaWxlOi8vbWlncmF0b3IucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8v
+ZGlzdHJpYnV0b3IucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2
+c3VtXSA9ICIwZjY2NTUyYWQ2NTkzYzc5NTJhM2RkZWU1YmY1MTU2NTZjOGM0MzQ4NzEwNzZkOWYx
+YTkxYTdhZjkzNDZiMWI0IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYjNiYTNkNjgy
+MTNlODdmODFmMTczM2U4NTUwMGMzN2I4MmI1OTM4ZjkwMDllNGZlODk5OTQ5NjNkNWZiMmI4ZSIK
+IAogIyBEZXZlbG9wZXIgbW9kZSBlbmFibGVzIGRlYnVnZ2luZwogUEFDS0FHRUNPTkZJR1tkZXZl
+bG9wZXItbW9kZV0gPSAiLURkZXZlbG9wZXJfbW9kZT10cnVlLC1EZGV2ZWxvcGVyX21vZGU9ZmFs
+c2UiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1o
+ZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRo
+ZS11c2Utb2YteWVscC5wYXRjaAppbmRleCA2YzAwYWI5YjQwLi4zMGYzZTZmYTk2IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1lc29uLmJ1
+aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9t
+ZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9m
+LXllbHAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkxMDQ1ZWNlNDFmYWVmYmVhYzE0YjYw
+ZDdiMTliMGM2NTJlNTg2ZmIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDk4N2EwNDMz
+NDlmMDg1ZTlhMzg5N2VmN2NkMjZlOWExNDg3YjNhNDEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6
+IFdlZCwgMzEgSmFuIDIwMTggMTU6NTA6MzggKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gaGVscC9t
+ZXNvbi5idWlsZDogZGlzYWJsZSB0aGUgdXNlIG9mIHllbHAKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaAppbmRleCA1NGEzMzA1YWFm
+Li4wYzg1NmY3ZWI3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmls
+ZXMvZGlzdHJpYnV0b3IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2Zp
+bGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0NjA4NGRhMDNiNWYy
+MDQyM2EyOTQ2ZDk4OGM2OGU5ZWE5MzM5YzljIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSA5YzU5NjU4NDEzZWEzMTUxMzU1OWEyZDQ2ODdjYjQwYjM1OGRjZTQwIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+CiBEYXRlOiBGcmksIDI2IEZlYiAyMDIxIDEwOjE3OjUyICswMDAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIERvbid0IGVuY29kZSB0aGUgZGlzdHJvIGZyb20gL2V0Yy9vcy1yZWxlYXNl
+IGludG8gdGhlCkBAIC0xMSw3ICsxMSw3IEBAIFJQIDIwMjEvMi8yNgogIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWls
+ZAotaW5kZXggZGYwMzQwYy4uOGVjNmM3OSAxMDA2NDQKK2luZGV4IGJhMDkzMzMuLjQ5YTJhYTgg
+MTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBAIC0xNSw2ICsx
+NSw3IEBAIGlmIHIucmV0dXJuY29kZSgpID09IDAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
+bm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9l
+cGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaAppbmRleCA4ZWJjZGM5OTkxLi44YTA5NDM1MWRj
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWlncmF0b3Iu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjYTUwNDM3MGI5YWE4OTNjZWFjMjExNDFkOGYyNGUy
+OGE0NzRiNjc0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiN2Q5YzY4YTJkNWRlNGZh
+YTUzM2Q2NWI1Nzg1NDJiNjQ0NTFmZDczIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+UmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRl
+OiBUaHUsIDI1IEZlYiAyMDIxIDE0OjUyOjMyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGVwaXBo
+YW55OiBGaXggcmVwcm9kdWNpYmlsaXR5IGlzc3VlCi0tIAoyLjQ3LjEKCg==
 
---===============3382730445940893053==--
+--===============1525801648647917828==--
 
