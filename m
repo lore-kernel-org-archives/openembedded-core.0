@@ -1,206 +1,214 @@
-Return-Path: <adam.blank.g@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1931ED4A618
-	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 09:27:05 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2391.1768555618591827955
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B1FD4A619
+	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 09:27:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2395.1768555628414868482
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Jan 2026 01:26:58 -0800
+ Fri, 16 Jan 2026 01:27:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RbBsxRbo;
- spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-45ca0d06eddso261751b6e.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:26:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768555618; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MtveZ+Sy7Al4QhdcUQQ6WAaXlhHHqWE/LpeSyD4pXXvTiMOT8IYkkUPH1SWhQpdRzQ
-         4ah8QZIDon0ytRAOtjEjmTY78RbjPYT2n29IZfHPWbHZjrSzRjNaS2WEBFOkSjEwVEzi
-         o36IZ+lD3yUT6NJFHifpHeWZfQPxxoUtSrnGyPh4mg8QNefsn8U7GsNkrgwRtOULmWKe
-         5VnyMr4S5Mblx2jWvlA7NADMDls4ELiPcssxv7JlrEs8B2NUYkwpCcfW4zm796uS0/VE
-         khkIK6wdHImDUmJsGk1bAz+dl+vsdrxg/ARlLvSThSmLllTquIdRkukxfepzx0jZPbxg
-         15tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZG8siqcv8ZqptGXt+w7RZNK6PmPxLIiAF+ARgLsjM44=;
-        fh=5si+aTY3zLMbGb8pgLJkpHH+NdQED4AR7XslrZooFfs=;
-        b=NKZMpvR82RReLV+rzXVAqXZzy3c2lzPGXT7TWVCtDQ2rmzl3GtisNtGmZXjTV0pJUB
-         Rj76//jMtUQbQg1ecnuTWrNXJXl2BJhP5poIE13pkTr9ekvOgsziQOgQPnBTYLBVmMLX
-         Vex/oenS0449hHkiaLwfdETmStZJopwHy9n+VNqcj0NRgmxKEPWQOqnK1AQ5ySZfCaEf
-         dFRWbXwWpatzDOwh4TyG8khegftjR0vicjvSCzj3v9MDR5ADfijBmNujTvKWgRRl1ThH
-         mqLPISna8aZxUNqzxMN2jgQIjX2IzfUgyG2uOlfSZMWotd71EBHPslTJb6xnVjcyNwAV
-         HR+g==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768555618; x=1769160418; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZG8siqcv8ZqptGXt+w7RZNK6PmPxLIiAF+ARgLsjM44=;
-        b=RbBsxRbo+0mxD18jRlsIhD+j5i+oiJCZnuoGMuKrjjld1r7L08PTHd45HAoRUgC+vS
-         H/9dZ6u1PlxFyLDuyO1AhRWL/ckfVHpPUQNIIg8fzwubMd+5TqnVE/k+owkLFqFmd8u2
-         5tYrui1UOmvfQUDyxYxv+HOCrUsDRLcioKL9g/NQm8wG14p4AthVuuSJ/yCOYdFb1RzH
-         1RSGo2acUz67tl+P+joBi1zQg77elkJIfbQzWB71ZmPSO7jnjlaI6by/ysvNrpDbtpJk
-         oYVOu4AgYCGbjd55qqYv995oC6QCs8GFuZmspmzuHzsIFxheE2w40zZjfAFs6+pOlzAi
-         YqDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768555618; x=1769160418;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZG8siqcv8ZqptGXt+w7RZNK6PmPxLIiAF+ARgLsjM44=;
-        b=ZmDxIZA4TbKc6+Jb2UunJHzIQvcWeR1/w4Md3fOZiUOMtJPIqfmvRfhvx+0MVx0oIL
-         X9Y6mzJaxnAfc1gcAhJ1abHm5pcUHrInlwOlBiyJlwIT7Yt//lH0pJtpEKSLDNFBx4yd
-         TV24zVIlEGG30wgmUFIuEe/m2VnjL34S818L6WCaNt74hs+fVyRD1HdQCQPX3naJxrvl
-         QjxsSzYwm7AaWTBRkgCSsR/JUbeI4dY5PW09kSMqpCM/2WCgegesuoqM77G9JLG2MfmL
-         jWxUClX85BQwB/Z/btRYHVm0GFuAIALp+gSBhs/6sJuN6SJnaNIP0NANE7DPGCeZN//I
-         btRQ==
-X-Gm-Message-State: AOJu0Yysy/rFmwcMNodLrNpsidGjzihlY0ZwlXeDmGsz9M14GM1eETS7
-	LcpBI9shW//HUz1dLDueNA5+wwiYACiyM6p72ciXiW88h/ODgqEBYwNWnRF1oGVIn3JBRe2LGD3
-	bG1Y8mqyB9dnj3U3MKU3A1Cuyht8wj0e7xQ==
-X-Gm-Gg: AY/fxX58rkmsud+504FLiWxxwsjtjQBfNmUBuq+vNId8NoE9qIqpKTAn8/43AGvkOe+
-	VUV4s4Jh4Ywm7KTmtyOJdatSvVEw4jbOXbF8xoL4scRl8hGA2kX0CJhMIPZahQJcWyGVH5o6iCL
-	aYb1eRfn2zwEUDzT3pSKJ0k+l8DVVjC1OFJrs01W2DRC429wuOIrRThLsrltrX2Iwh46ghZgqeE
-	CU05MbevqyBhwmoAgw6M18/CMo51+siM0xKJoRfqbrJGuqBSXy+d+jpvHHtRzhdGoSKDlbcPGFQ
-	L7wGQO36
-X-Received: by 2002:a05:6808:150e:b0:45c:9737:f0c5 with SMTP id
- 5614622812f47-45c9c0f0873mr923324b6e.33.1768555617788; Fri, 16 Jan 2026
- 01:26:57 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=XKAH9YXv;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5476979829=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60G5diY61604995
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 09:27:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=XxXvebgrCb8thv6jrQ2Z
+	eB/5Bw4cWM4URYN2nNxSY+g=; b=XKAH9YXvRYLedr295ChYIfWqz3U+dOUVNR4u
+	T45taiVNy470rOAnljsrOMbdmdklf/ndLHkCzkKj0bluEOXUhCh1UeWOOea/UP4J
+	KsN3vCySx73Znd+3/psagxnPBkG13HtaNuZK82A9vlZlKsbhN+mkywVoW5jzD7YH
+	h9jMDlclN4yW7i1DpKpkFSmvtJcOC2n1w0DKi8Lz4CJ+SktpYOoLkhGV+V1LkwLe
+	WVZrvQbqzLUb1nDv59EMdPEq3PtqvpcRU9VjBXcDKED9WAq86EiHZ88/jOAnB1eo
+	d1i2MEJkk6Pxdk+RpOwN9mi4VEhXEP4Xyhtr/SXsnUyugkHtTg==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bqddvr8sp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 09:27:07 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 16 Jan 2026 01:27:05 -0800
+Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 16 Jan 2026 01:27:05 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V2] procps: support ptest when TCLIBC is glibc
+Date: Fri, 16 Jan 2026 17:27:04 +0800
+Message-ID: <20260116092704.2465341-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20251231-buildhistory-fix-sortpkglist-v1-1-7737a3232be4@gmail.com>
-In-Reply-To: <20251231-buildhistory-fix-sortpkglist-v1-1-7737a3232be4@gmail.com>
-From: Adam Blank <adam.blank.g@gmail.com>
-Date: Fri, 16 Jan 2026 10:26:55 +0100
-X-Gm-Features: AZwV_QjCxl21ELzwv8TXth7-aHhKZksRqT2KtTyMzfjmdsHrgfXtM6RW55tucac
-Message-ID: <CAFAffzywtfAcJfeYaOWzvhKu=SYz7Yydv2C0Hk=4+sw0Jr+iRQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] buildhistory: fix handling of RDEPENDS style strings
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, mathieu.dubois-briand@bootlin.com
-Content-Type: multipart/alternative; boundary="0000000000005d26b206487df16c"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA2OSBTYWx0ZWRfX8LsayPZHrBCH
+ K4E107mAMM53+vkK08Xu7JDGiO6vD6y+f3Idfx6EuwJ3+5DplPvx3AdS4abLq8uUhM5B4lX/dwu
+ sNFoieR2vVXY8ac5dB1C3GVuLMibnewte0Cysuh08rbPTKpXgFWG/XQlknf+jFFM80x0+8Pupgf
+ 6mP/ONbAuDmrGOP5TP+ASZopml11e95+m0eVw524+0e04ktwpZZFl/RLOvctwVUpSK9q03tY+vi
+ CpPTN1fr7Ec/UkON81K/7qAHOCoUDsrWuay+OfOmlXjWEG3y+wUT3anDtU0jt6j29gAas90gsTF
+ Cs0wpRR12SSVnPixlrcahJRhqunFPW0WpB3X2rK12emul0FmCir3jC+735rwvOqAHmSvcyCtSAQ
+ DIhqVYpFDtjg0JmqN+DfS3UrxMiZAp+XajC0c8J2o4GcuxCE2nqZML0dKR8fsXYyxRed2WodVbG
+ lfyXz1E1qfcGLlTM2Pw==
+X-Proofpoint-GUID: n7QnqT8R6ryUzARSvaK4ebe1PxhEDG9x
+X-Proofpoint-ORIG-GUID: n7QnqT8R6ryUzARSvaK4ebe1PxhEDG9x
+X-Authority-Analysis: v=2.4 cv=NqvcssdJ c=1 sm=1 tr=0 ts=696a046b cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8 a=p0WdMEafAAAA:8
+ a=6o7CLz4owJiLX0Cox44A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-16_03,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ phishscore=0 suspectscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 09:27:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229528
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 09:27:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229529
 
---0000000000005d26b206487df16c
-Content-Type: text/plain; charset="UTF-8"
+From: Changqing Li <changqing.li@windriver.com>
 
-Hello,
+* support ptest for procps TCLIBC is glibc. The configure.ac only match
+  LINUX as "linux-gnu", we can patch it to make test can run on musl lib
+system, but the upstream testsuite should only run on gnu libc host,
+some test cases only suitable for glibc, eg: Some of the error messages
+for free command on musl system is not the same as glibc system, which
+will make test failed. In order to avoid some other unexpected failure,
+just support ptest for glibc.
 
-I could see this patch making its way up to master-next of
-openembedded-core on January 8th, but now it's gone...
-Is there a problem with it?
+* procps's testsuite use DejaGnu test framework.  The testsuite is
+  expected to run during build time, this implementation create the same
+folder structure as the testsuite expected to make it can work well.
 
-Thanks,
-Adam
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  2 +
+ meta/recipes-extended/procps/procps/run-ptest |  7 +++
+ meta/recipes-extended/procps/procps_4.0.5.bb  | 51 ++++++++++++++++++-
+ 3 files changed, 58 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/procps/procps/run-ptest
 
-On Wed, 31 Dec 2025 at 12:21, Adam Blank <adam.blank.g@gmail.com> wrote:
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index fff2947177..2391224527 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -57,6 +57,7 @@ PTESTS_FAST = "\
+     nettle \
+     opkg \
+     popt \
++    procps \
+     python3-atomicwrites \
+     python3-attrs \
+     python3-bcrypt \
+@@ -97,6 +98,7 @@ PTESTS_FAST:remove:mips64 = "qemu"
+ PTESTS_PROBLEMS:append:mips64 = " qemu"
+ PTESTS_FAST:remove:riscv32 = "qemu"
+ PTESTS_PROBLEMS:append:riscv32 = " qemu"
++PTESTS_FAST:remove:libc-musl = "procps"
+ 
+ PTESTS_SLOW = "\
+     apr \
+diff --git a/meta/recipes-extended/procps/procps/run-ptest b/meta/recipes-extended/procps/procps/run-ptest
+new file mode 100644
+index 0000000000..0a74907fcc
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/run-ptest
+@@ -0,0 +1,7 @@
++#!/bin/sh
++
++cd ./testsuite
++for tool in @DEJATOOL@;do
++    runtest -a --tool $tool --outdir ../log
++done
++
+diff --git a/meta/recipes-extended/procps/procps_4.0.5.bb b/meta/recipes-extended/procps/procps_4.0.5.bb
+index 0e0e06f0d2..d39bb5062f 100644
+--- a/meta/recipes-extended/procps/procps_4.0.5.bb
++++ b/meta/recipes-extended/procps/procps_4.0.5.bb
+@@ -10,12 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ DEPENDS = "ncurses"
+ 
+-inherit autotools gettext pkgconfig update-alternatives
++inherit autotools gettext pkgconfig update-alternatives ${@bb.utils.contains('TCLIBC', 'glibc', 'ptest', '', d)}
+ 
+ SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master;tag=v${PV} \
+            file://sysctl.conf \
+            file://top_large_pid_fix.patch \
+            "
++SRC_URI:append:libc-glibc = " file://run-ptest"
++
+ SRCREV = "f46b2f7929cdfe2913ed0a7f585b09d6adbf994e"
+ 
+ # Upstream has a custom autogen.sh which invokes po/update-potfiles as they
+@@ -47,8 +49,51 @@ do_install:append () {
+         fi
+ }
+ 
+-CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
++do_compile_ptest() {
++    oe_runmake -C testsuite site.exp
++    oe_runmake src/tests/test_process src/tests/test_strutils  src/tests/test_fileutils src/tests/test_shm
++    DEJATOOL=$(make -C testsuite -s -f Makefile -f - <<'EOF'
++all:
++	$(info $(DEJATOOL))
++EOF
++)
++    echo $DEJATOOL > ${B}/testsuite/.dejatool
++}
++
++do_install_ptest() {
++     install -d ${D}${PTEST_PATH}/testsuite
++     install -d ${D}${PTEST_PATH}/src
++     install -d ${D}${PTEST_PATH}/log
++
++     cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
++     cp -r ${B}/testsuite/* ${D}${PTEST_PATH}/testsuite/
++     cp -r ${B}/src/tests ${D}${PTEST_PATH}/src/
++
++     rm -rf ${D}${PTEST_PATH}/testsuite/Makefile*
++     rm -rf ${D}${PTEST_PATH}/testsuite/README
++     find ${D}${PTEST_PATH}/testsuite/ -type f -name "*.o" -exec rm -f {} +
++     find ${D}${PTEST_PATH}/src/ -type f -name "*.o" -exec rm -f {} +
++
++     sed -i -e "/set srcdir/c\set srcdir ${PTEST_PATH}/testsuite" \
++            -e "/set objdir/c\set objdir ${PTEST_PATH}/testsuite" ${D}${PTEST_PATH}/testsuite/site.exp
++
++     DEJATOOL=$(cat ${B}/testsuite/.dejatool)
++     sed -i -e "s#@DEJATOOL@#$DEJATOOL#g" ${D}${PTEST_PATH}/run-ptest
++     for p in $DEJATOOL; do
++        if [ "$p" = "ps" ]; then
++            install -d ${D}${PTEST_PATH}/src/ps
++            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscommand
++        elif [ "$p" = "sysctl" ]; then
++            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
++        elif [ "$p" = "kill" ] || [ "$p" = "pidof" ] || [ "$p" = "watch" ]; then
++            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
++        else
++            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
++        fi
++     done
++}
+ 
++CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
+ bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime w"
+ base_bindir_progs += "kill pidof ps watch"
+ base_sbindir_progs += "sysctl"
+@@ -80,6 +125,8 @@ RDEPENDS:${PN} += "${PROCPS_PACKAGES}"
+ RDEPENDS:${PN}-ps += "${PN}-lib"
+ RDEPENDS:${PN}-sysctl += "${PN}-lib"
+ 
++RDEPENDS:${PN}-ptest += "dejagnu bash glibc-utils"
++
+ FILES:${PN}-lib = "${libdir}"
+ FILES:${PN}-ps = "${base_bindir}/ps.${BPN}"
+ FILES:${PN}-sysctl = "${base_sbindir}/sysctl.${BPN} ${sysconfdir}/sysctl.conf ${sysconfdir}/sysctl.d"
+-- 
+2.34.1
 
-> RDEPENDS style strings are regex searched for entries matching
-> the usual, allowed package names (plus possible version flags).
-> RPROVIDES however, is also allowed to contain actual file paths
-> like '/bin/sh', which get broken by the current implementation.
->
-> Use bb.utils to handle RDEPENDS style stings.
->
-> Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
-> ---
->  meta/classes/buildhistory.bbclass | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass
-> index 4a380c10c6..78037a6462 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -187,10 +187,7 @@ python buildhistory_emit_pkghistory() {
->              return None
->
->      def sortpkglist(string):
-> -        pkgiter = re.finditer(r'[a-zA-Z0-9.+-]+( \([><=]+[^)]+\))?',
-> string, 0)
-> -        pkglist = [p.group(0) for p in pkgiter]
-> -        pkglist.sort()
-> -        return ' '.join(pkglist)
-> +        return bb.utils.join_deps(bb.utils.explode_dep_versions2(string),
-> False)
->
->      def sortlist(string):
->          items = string.split(' ')
->
-> ---
-> base-commit: 2e10e9a50f12d5de3d22fbed59b65461afa3fa84
-> change-id: 20251217-buildhistory-fix-sortpkglist-8adbcccffc7e
->
-> Best regards,
-> --
-> Adam Blank <adam.blank.g@gmail.com>
->
->
-
---0000000000005d26b206487df16c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hel=
-lo,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
-div class=3D"gmail_default" style=3D"font-size:small">I could see this patc=
-h making its way up to master-next of openembedded-core on January 8th, but=
- now it&#39;s gone...</div><div class=3D"gmail_default" style=3D"font-size:=
-small">Is there a problem with it?</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">Thanks,</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">Adam</div></div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Wed, 31 Dec 2025 at 12:21, Adam Blan=
-k &lt;<a href=3D"mailto:adam.blank.g@gmail.com">adam.blank.g@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">RDEPE=
-NDS style strings are regex searched for entries matching<br>
-the usual, allowed package names (plus possible version flags).<br>
-RPROVIDES however, is also allowed to contain actual file paths<br>
-like &#39;/bin/sh&#39;, which get broken by the current implementation.<br>
-<br>
-Use bb.utils to handle RDEPENDS style stings.<br>
-<br>
-Signed-off-by: Adam Blank &lt;<a href=3D"mailto:adam.blank.g@gmail.com" tar=
-get=3D"_blank">adam.blank.g@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/buildhistory.bbclass | 5 +----<br>
-=C2=A01 file changed, 1 insertion(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
-bbclass<br>
-index 4a380c10c6..78037a6462 100644<br>
---- a/meta/classes/buildhistory.bbclass<br>
-+++ b/meta/classes/buildhistory.bbclass<br>
-@@ -187,10 +187,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return None<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def sortpkglist(string):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgiter =3D re.finditer(r&#39;[a-zA-Z0-9.+-]+(=
- \([&gt;&lt;=3D]+[^)]+\))?&#39;, string, 0)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkglist =3D [p.group(0) for p in pkgiter]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkglist.sort()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39; &#39;.join(pkglist)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return bb.utils.join_deps(bb.utils.explode_dep=
-_versions2(string), False)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def sortlist(string):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0items =3D string.split(&#39; &#39;)<br>
-<br>
----<br>
-base-commit: 2e10e9a50f12d5de3d22fbed59b65461afa3fa84<br>
-change-id: 20251217-buildhistory-fix-sortpkglist-8adbcccffc7e<br>
-<br>
-Best regards,<br>
--- <br>
-Adam Blank &lt;<a href=3D"mailto:adam.blank.g@gmail.com" target=3D"_blank">=
-adam.blank.g@gmail.com</a>&gt;<br>
-<br>
-</blockquote></div>
-
---0000000000005d26b206487df16c--
 
