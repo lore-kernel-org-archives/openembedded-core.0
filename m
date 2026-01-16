@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66998D47CD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C51D47CC9
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:52 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1436.1768526749201889216
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1467.1768526743525013877
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jan 2026 17:25:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hPZh9XjU;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=cRZURxAD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019bc4689acc-b8224c9d-2856-4058-90b4-8b7d856de71e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=sVVFHnmx;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=mPsDDZ3G;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019bc4689d20-70616cb5-63a1-4ed6-9f16-22e7e09ecded-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526748;
+	t=1768526749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Hb6Fh5/0VAW0cOWRgqyIDEGVyscpr4P/7e8qbqAs1JE=;
-	b=hPZh9XjU+eBt4wUF9vIet3QLsIv14WjE2lc/m071AVdIudLRKMBhlMXZGrcBn+Io
-	hvKtmE5tcB2J+x8UuK+AG5jLJPkbZlQolmHSvygsLCdYNIU9v+LN5wsDMYhrXYwNkl/
-	IMyJJ/DhmWp35VGxSm8Hbl58EUmOXTAKhBUxIC40=
+	bh=Q34w1O4LsLmd6Q5GuZ+NpKhO2c8QVLBQ4nVPjyOVdfo=;
+	b=sVVFHnmxzLkkwo3/4A9XTgjF+rdZimfVKdqvEbOwLTIuUrdzQOKqPUNeZQVM35Ha
+	vJ+75sRfAcxvGuL6qPOJTAPpzDUdMrR6rj4zvEp7RQdJLto+RUJUjyE3PURm/CcHKkg
+	wWGdpnAutprOjs/vYu+dkxOtGObhW2jItizYCswY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526748;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Hb6Fh5/0VAW0cOWRgqyIDEGVyscpr4P/7e8qbqAs1JE=;
-	b=cRZURxADxWeEepWG8Vtbhqyi0V59osDwiA3sVg/+A5EFVw3gsZ88pnRPXP/Fh1sj
-	YNAUKP9woyn3ffgLRrTzgyYX/0vKlm3Ss+iEMyJ1yKsS//uOVgrwqzy2xjhC7pXxxri
-	IK7cHev4axKxiHJIA/z+ARlym7bDU557i1tXBNUg=
-Content-Type: multipart/mixed; boundary="===============6294069562211690175=="
+	bh=Q34w1O4LsLmd6Q5GuZ+NpKhO2c8QVLBQ4nVPjyOVdfo=;
+	b=mPsDDZ3GuecvICP22zRoUojciLoux5/20TqnN0+v2JM6BUwR9OFLdrmlf20qJKud
+	J3qNFuw/PIC+Mvbg6FGLwLos7tqcpyWj0UVNNldiD2u0wtvWoj97Qd4svLj++aQl/k+
+	JK5MnVwm5P9W3EdQkQlpZVqk5svpbQTG11e7GH9A=
+Content-Type: multipart/mixed; boundary="===============4156477175853457565=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-meson-python: upgrading to 0.19.0 SUCCEEDED
-Message-ID: <0101019bc4689acc-b8224c9d-2856-4058-90b4-8b7d856de71e-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-trove-classifiers: upgrading to 2026.1.14.14 SUCCEEDED
+Message-ID: <0101019bc4689d20-70616cb5-63a1-4ed6-9f16-22e7e09ecded-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jan 2026 01:25:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.31
+X-SES-Outgoing: 2026.01.16-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229468
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229472
 
---===============6294069562211690175==
+--===============4156477175853457565==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-meson-python* to *0.19.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-trove-classifiers* to *2026.1.14.14* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-meson-python-upgrade-0.18.0-0.19.0.patch
+    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2025.12.1.14-2026..patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,108 +72,166 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1159f9d267c360470162bba5070ecf37cfaf4808 Mon Sep 17 00:00:00 2001
+From d601f234ff4843dd63a4611f8fbbd4d033435c92 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jan 2026 21:33:40 +0000
-Subject: [PATCH] python3-meson-python: upgrade 0.18.0 -> 0.19.0
+Date: Thu, 15 Jan 2026 21:54:09 +0000
+Subject: [PATCH] python3-trove-classifiers: upgrade 2025.12.1.14 ->
+ 2026.1.14.14
 
 ---
- ...n3-meson-python_0.18.0.bb => python3-meson-python_0.19.0.bb} | 2 +-
+ ...025.12.1.14.bb => python3-trove-classifiers_2026.1.14.14.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-meson-python_0.18.0.bb => python3-meson-python_0.19.0.bb} (86%)
+ rename meta/recipes-devtools/python/{python3-trove-classifiers_2025.12.1.14.bb => python3-trove-classifiers_2026.1.14.14.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-meson-python_0.18.0.bb b/meta/recipes-devtools/python/python3-meson-python_0.19.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-meson-python_0.18.0.bb
-rename to meta/recipes-devtools/python/python3-meson-python_0.19.0.bb
-index 742a2580a7..66e636ef82 100644
---- a/meta/recipes-devtools/python/python3-meson-python_0.18.0.bb
-+++ b/meta/recipes-devtools/python/python3-meson-python_0.19.0.bb
-@@ -14,7 +14,7 @@ PYPI_PACKAGE = "meson_python"
+diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2025.12.1.14.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2026.1.14.14.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-trove-classifiers_2025.12.1.14.bb
+rename to meta/recipes-devtools/python/python3-trove-classifiers_2026.1.14.14.bb
+index 5ca8ff24c0..c334fdfc72 100644
+--- a/meta/recipes-devtools/python/python3-trove-classifiers_2025.12.1.14.bb
++++ b/meta/recipes-devtools/python/python3-trove-classifiers_2026.1.14.14.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+-SRC_URI[sha256sum] = "a74f0400524fc83620a9be74a07074b5cbe7594fd4d97fd4c2bfde625fdc1633"
++SRC_URI[sha256sum] = "00492545a1402b09d4858605ba190ea33243d361e2b01c9c296ce06b5c3325f3"
+ 
+ PYPI_PACKAGE = "trove_classifiers"
  UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
- 
- inherit pypi python_mesonpy
--SRC_URI[sha256sum] = "c56a99ec9df669a40662fe46960321af6e4b14106c14db228709c1628e23848d"
-+SRC_URI[sha256sum] = "9959d198aa69b57fcfd354a34518c6f795b781a73ed0656f4d01660160cc2553"
- 
- DEPENDS:remove:class-native = "python3-meson-python-native"
- 
 -- 
 2.47.1
 
 
---===============6294069562211690175==
+--===============4156477175853457565==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-trove-classifiers-upgrade-2025.12.1.14-2026..patch"
+
+RnJvbSBkNjAxZjIzNGZmNDg0M2RkNjNhNDYxMWY4ZmJiZDRkMDMzNDM1YzkyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjE6NTQ6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzOiB1cGdyYWRlIDIwMjUuMTIuMS4xNCAtPgogMjAyNi4x
+LjE0LjE0CgotLS0KIC4uLjAyNS4xMi4xLjE0LmJiID0+IHB5dGhvbjMtdHJvdmUtY2xhc3NpZmll
+cnNfMjAyNi4xLjE0LjE0LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5
+dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNS4xMi4xLjE0LmJiID0+IHB5dGhvbjMtdHJvdmUt
+Y2xhc3NpZmllcnNfMjAyNi4xLjE0LjE0LmJifSAoODMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI1LjEyLjEu
+MTQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3Np
+ZmllcnNfMjAyNi4xLjE0LjE0LmJiCnNpbWlsYXJpdHkgaW5kZXggODMlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI1
+LjEyLjEuMTQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My10cm92ZS1jbGFzc2lmaWVyc18yMDI2LjEuMTQuMTQuYmIKaW5kZXggNWNhOGZmMjRjMC4uYzMz
+NGZkZmM3MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjUuMTIuMS4xNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNi4xLjE0LjE0LmJiCkBA
+IC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vcHlwYS90cm92ZS1j
+bGFzc2lmaWVycyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3IgogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiYTc0ZjA0MDA1MjRmYzgzNjIwYTliZTc0YTA3MDc0YjVjYmU3
+NTk0ZmQ0ZDk3ZmQ0YzJiZmRlNjI1ZmRjMTYzMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwMDQ5
+MjU0NWExNDAyYjA5ZDQ4NTg2MDViYTE5MGVhMzMyNDNkMzYxZTJiMDFjOWMyOTZjZTA2YjVjMzMy
+NWYzIgogCiBQWVBJX1BBQ0tBR0UgPSAidHJvdmVfY2xhc3NpZmllcnMiCiBVUFNUUkVBTV9DSEVD
+S19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BBQ0tBR0V9IgotLSAKMi40Ny4xCgo=
+
+--===============4156477175853457565==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python: FILELIST: directory renamed /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info/licenses/LICENSES -> /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info/licenses/LICENSES, directory renamed /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info -> /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-meson-python (sysroot):
-  /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info moved to /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info
-Changes to packages/x86_64-linux/python3-meson-python-native (sysroot):
-  /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info moved to /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: FILELIST: directory renamed /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info -> /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info, directory renamed /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses -> /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/WHEEL was removed
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/WHEEL was removed
 
---===============6294069562211690175==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-meson-python-upgrade-0.18.0-0.19.0.patch"
-
-RnJvbSAxMTU5ZjlkMjY3YzM2MDQ3MDE2MmJiYTUwNzBlY2YzN2NmYWY0ODA4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjE6MzM6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLW1lc29uLXB5dGhvbjogdXBncmFkZSAwLjE4LjAgLT4gMC4xOS4wCgotLS0KIC4uLm4z
-LW1lc29uLXB5dGhvbl8wLjE4LjAuYmIgPT4gcHl0aG9uMy1tZXNvbi1weXRob25fMC4xOS4wLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtbWVzb24tcHl0aG9u
-XzAuMTguMC5iYiA9PiBweXRob24zLW1lc29uLXB5dGhvbl8wLjE5LjAuYmJ9ICg4NiUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1lc29uLXB5dGhv
-bl8wLjE4LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWVzb24t
-cHl0aG9uXzAuMTkuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWVzb24tcHl0aG9uXzAuMTguMC5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1lc29uLXB5dGhvbl8w
-LjE5LjAuYmIKaW5kZXggNzQyYTI1ODBhNy4uNjZlNjM2ZWY4MiAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1lc29uLXB5dGhvbl8wLjE4LjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1lc29uLXB5dGhvbl8wLjE5
-LjAuYmIKQEAgLTE0LDcgKzE0LDcgQEAgUFlQSV9QQUNLQUdFID0gIm1lc29uX3B5dGhvbiIKIFVQ
-U1RSRUFNX0NIRUNLX1BZUElfUEFDS0FHRSA9ICIke1BZUElfUEFDS0FHRX0iCiAKIGluaGVyaXQg
-cHlwaSBweXRob25fbWVzb25weQotU1JDX1VSSVtzaGEyNTZzdW1dID0gImM1NmE5OWVjOWRmNjY5
-YTQwNjYyZmU0Njk2MDMyMWFmNmU0YjE0MTA2YzE0ZGIyMjg3MDljMTYyOGUyMzg0OGQiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiOTk1OWQxOThhYTY5YjU3ZmNmZDM1NGEzNDUxOGM2Zjc5NWI3ODFh
-NzNlZDA2NTZmNGQwMTY2MDE2MGNjMjU1MyIKIAogREVQRU5EUzpyZW1vdmU6Y2xhc3MtbmF0aXZl
-ID0gInB5dGhvbjMtbWVzb24tcHl0aG9uLW5hdGl2ZSIKIAotLSAKMi40Ny4xCgo=
-
---===============6294069562211690175==
+--===============4156477175853457565==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-meson-python: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.18.0.tar.gz;downloadfilename=meson_python-0.18.0.tar.gz" to "https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.19.0.tar.gz;downloadfilename=meson_python-0.19.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-meson-python: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-dbg: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-dbg: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-dev: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-dev: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-doc: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-doc: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-locale: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-locale: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-src: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-src: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-staticdev: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python-staticdev: PV changed from "0.18.0" to "0.19.0"
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python: PKGV changed from 0.18.0 [default] to 0.19.0 [default]
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python: PKGSIZE changed from 199355 to 206530 (+4%)
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python: FILELIST: directory renamed /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info -> /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info, directory renamed /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info/licenses/LICENSES -> /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info/licenses/LICENSES
-packages/x86-64-v3-poky-linux/python3-meson-python/python3-meson-python: PV changed from "0.18.0" to "0.19.0"
-Changes to packages/x86-64-v3-poky-linux/python3-meson-python (sysroot):
-  /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info moved to /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info
-Changes to packages/x86_64-linux/python3-meson-python-native (sysroot):
-  /usr/lib/python3.13/site-packages/meson_python-0.18.0.dist-info moved to /usr/lib/python3.13/site-packages/meson_python-0.19.0.dist-info
+packages/x86-64-v3-poky-linux/python3-trove-classifiers: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2025.12.1.14.tar.gz;downloadfilename=trove_classifiers-2025.12.1.14.tar.gz" to "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2026.1.14.14.tar.gz;downloadfilename=trove_classifiers-2026.1.14.14.tar.gz"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2025.12.1.14" to "2026.1.14.14"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: FILELIST: directory renamed /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses -> /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info -> /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2025.12.1.14 [default] to 2026.1.14.14 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 95949 to 96097 (+0%)
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2025.12.1.14" to "2026.1.14.14"
+Changes to packages/x86-64-v3-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/WHEEL was removed
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2026.1.14.14.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/trove_classifiers-2025.12.1.14.dist-info/WHEEL was removed
 
---===============6294069562211690175==--
+--===============4156477175853457565==--
 
