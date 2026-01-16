@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13566D47CBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AF13D47CC4
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:52 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1441.1768526751764142559
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1476.1768526750130714605
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:51 -0800
+ Thu, 15 Jan 2026 17:25:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aEQLt39v;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=enFKk2yr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019bc468a5fb-387b8c89-ca4a-4eb2-a64c-ced76a4a297b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YqXRJGN/;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=NIsGyt61;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019bc4689d14-b2b62e2d-48f5-40b2-b8fb-d1be33737645-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526751;
+	t=1768526749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=m0Bm+33t34YwWuGlkSrSLhMOamg7LaaN29Gk+Pi+InY=;
-	b=aEQLt39vKoeHu9hTiCDXEVK921dUzOSiu9VQcKtfEJsWkzCsRcZuZh/tclywU2GP
-	WxC7RnM2R2zbj5WYvvOAYoJGwtWrT+ySd916FCFR5zMWI/cOiRHGm7d5JbJ9pwmejF0
-	W6+NAut6Je5nkLb5BMw5X6PfX7Q46eiYyrreAo0k=
+	bh=o+fCv7uHK/3c8D4lqVR2RkkPVKbTmmHHuFe+m8VO4ac=;
+	b=YqXRJGN/0s6Qu7C6bRABoxgHBhAVO4VAmscNSFZqRdYnnvmUor4c9vLUHvS9lfwx
+	Z8kOidNK0qw3YRpZ7csDKAOHJKJH15f5TSj51tPuMAN88M9x64ef8IlwprwV163C9Cw
+	S7OGJh+kwDacLs5npogZF3LKmLgMvvOaxvfdnIc8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526751;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=m0Bm+33t34YwWuGlkSrSLhMOamg7LaaN29Gk+Pi+InY=;
-	b=enFKk2yrJaupzDYe5G6ryNorzFioKIza6IVEMNj6ohcnoSxOrSdq8Y6J8/ba5iwr
-	Hc857ZOXHO5TmYLY+dd9lWpnGpGb3WzKCK0T/9mbckr8djITfbhfyZNU9MRx4wqhuGI
-	Q6emG3B0Kux5BQp++ga05UKnSxIhb24Tnk9BXUzo=
-Content-Type: multipart/mixed; boundary="===============0511576781923873588=="
+	bh=o+fCv7uHK/3c8D4lqVR2RkkPVKbTmmHHuFe+m8VO4ac=;
+	b=NIsGyt61TRq0vSPQV8UH0JgglzhhX8MR0KIasXlJSougITVQl56YVO/5cCOnGDRH
+	pjVma/mSRceOyNm7SuizqbK5xwFApFldxO442g8ADmYt3UcbrlqEkd6X+h74ofAezXt
+	qbCCPEpuS6qSWOfS5ME7zQLKI0ziDRha1k3ZFebQ=
+Content-Type: multipart/mixed; boundary="===============7845968602653252909=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3: upgrading to 3.14.2 FAILED
-Message-ID: <0101019bc468a5fb-387b8c89-ca4a-4eb2-a64c-ced76a4a297b-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:51 +0000
+Subject: [AUH] python3-pathspec: upgrading to 1.0.3 SUCCEEDED
+Message-ID: <0101019bc4689d14-b2b62e2d-48f5-40b2-b8fb-d1be33737645-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.192
+X-SES-Outgoing: 2026.01.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229477
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229474
 
---===============0511576781923873588==
+--===============7845968602653252909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,122 +51,263 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3* to *3.14.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-pathspec* to *1.0.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pathspec-upgrade-0.12.1-1.0.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3 failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1955 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-Removing 1 recipes from the x86_64_linux sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-d0d471237c95aa4e5f2dacabfea9a94d218df021"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:d0d471237c95aa4e5f2dacabfea9a94d218df021"
-meta-yocto-bsp       
-meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 952 .bb files complete (0 cached, 952 parsed). 1956 targets, 47 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-d0d471237c95aa4e5f2dacabfea9a94d218df021"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:d0d471237c95aa4e5f2dacabfea9a94d218df021"
-meta-yocto-bsp       
-meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   4% |#                                   | ETA:  0:00:03
-Adding changed files:   8% |###                                 | ETA:  0:00:02
-Adding changed files:  13% |####                                | ETA:  0:00:01
-Adding changed files:  17% |######                              | ETA:  0:00:01
-Adding changed files:  22% |#######                             | ETA:  0:00:01
-Adding changed files:  26% |#########                           | ETA:  0:00:01
-Adding changed files:  30% |###########                         | ETA:  0:00:01
-Adding changed files:  35% |############                        | ETA:  0:00:01
-Adding changed files:  39% |##############                      | ETA:  0:00:01
-Adding changed files:  44% |###############                     | ETA:  0:00:01
-Adding changed files:  48% |#################                   | ETA:  0:00:01
-Adding changed files:  52% |###################                 | ETA:  0:00:00
-Adding changed files:  57% |####################                | ETA:  0:00:00
-Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  66% |#######################             | ETA:  0:00:00
-Adding changed files:  70% |#########################           | ETA:  0:00:00
-Adding changed files:  74% |##########################          | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  83% |##############################      | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:02
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.python.org/ftp/python/3.14.2/Python-3.14.2.tar.xz...
-INFO: Rebasing devtool onto 81fbbad6dbc54f54757c678a4077a20c0cdd8e8d
-WARNING: Command 'git rebase 81fbbad6dbc54f54757c678a4077a20c0cdd8e8d' failed:
-Auto-merging Lib/test/_test_multiprocessing.py
-Auto-merging Lib/test/test_time.py
-CONFLICT (content): Merge conflict in Lib/test/test_time.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 81fbbad6dbc54f54757c678a4077a20c0cdd8e8d
-WARNING: Command 'git rebase 81fbbad6dbc54f54757c678a4077a20c0cdd8e8d' failed:
-Auto-merging Lib/test/_test_multiprocessing.py
-Auto-merging Lib/test/test_time.py
-CONFLICT (content): Merge conflict in Lib/test/test_time.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3/python3_3.14.2.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0511576781923873588==--
+
+-- >8 --
+From 33c3dbe8b763213175054e00a9dc68adb32f1a1e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Jan 2026 21:44:43 +0000
+Subject: [PATCH] python3-pathspec: upgrade 0.12.1 -> 1.0.3
+
+---
+ .../{python3-pathspec_0.12.1.bb => python3-pathspec_1.0.3.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pathspec_0.12.1.bb => python3-pathspec_1.0.3.bb} (80%)
+
+diff --git a/meta/recipes-devtools/python/python3-pathspec_0.12.1.bb b/meta/recipes-devtools/python/python3-pathspec_1.0.3.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pathspec_0.12.1.bb
+rename to meta/recipes-devtools/python/python3-pathspec_1.0.3.bb
+index 2c80b24c28..58651bced2 100644
+--- a/meta/recipes-devtools/python/python3-pathspec_0.12.1.bb
++++ b/meta/recipes-devtools/python/python3-pathspec_1.0.3.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "MPL-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=815ca599c9df247a0c7f619bab123dad"
+ 
+-SRC_URI[sha256sum] = "a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712"
++SRC_URI[sha256sum] = "bac5cf97ae2c2876e2d25ebb15078eb04d76e4b98921ee31c6f85ade8b59444d"
+ 
+ inherit pypi python_flit_core
+ 
+-- 
+2.47.1
+
+
+--===============7845968602653252909==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info -> /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info, directory renamed /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/licenses, added "/usr/lib/python3.13/site-packages/pathspec/__pycache__/_typing.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/basic.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/_base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/base.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/spec.cpython-3
+ 13.pyc /usr/lib/python3.13/site-packages/pathspec/_typing.py /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/gitignore.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/gitignore.py /usr/lib/python3.13/site-packages/pathspec/backend.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/base.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/spec.py /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/gitignore.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/simpl
+ e/gitignore.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/_base.py /usr/lib/python3.13/site-packages/pathspec/_backends/agg.py /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/gitignore.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/gitignore.py /usr/lib/python3.13/site-packages/pathspec/_version.py /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/_utils.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/pathspec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/_base.py /usr/lib/python3.13/site-packages/pathspec/__pycache__/backend.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__init__.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/hype
+ rscan/pathspec.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/pathspec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/agg.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/pathspec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/basic.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/_base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/simple/pathspec.py /usr/lib/python3.13/site-packages/pathspec/__pycache__/_version.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/base.py /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec
+ /_backends/re2/pathspec.py /usr/lib/python3.13/site-packages/pathspec/_backends/_utils.py"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec: PKGSIZE changed from 171034 to 287288 (+68%)
+Changes to packages/x86-64-v3-poky-linux/python3-pathspec (sysroot):
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/pathspec/backend.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/agg.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/_base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/gitignore.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/pathspec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/_base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/gitignore.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/pathspec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/agg.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/_utils.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2 was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/_base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/gitignore.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/pathspec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/_base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/gitignore.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/pathspec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/gitignore.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/pathspec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/gitignore.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/pathspec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/_utils.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/basic.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/basic.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/spec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/spec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/__pycache__/backend.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/__pycache__/_typing.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/__pycache__/_version.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_typing.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_version.py was added
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/WHEEL was removed
+
+--===============7845968602653252909==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pathspec: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pathspec/pathspec-0.12.1.tar.gz;downloadfilename=pathspec-0.12.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pathspec/pathspec-1.0.3.tar.gz;downloadfilename=pathspec-1.0.3.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pathspec: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-dbg: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-dbg: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-dev: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-dev: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-doc: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-doc: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-locale: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-locale: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-src: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-src: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-staticdev: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec-staticdev: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec: PKGSIZE changed from 171034 to 287288 (+68%)
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec: PV changed from "0.12.1" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info -> /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info, directory renamed /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/licenses, added "/usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__init__.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/base.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/base.py /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/_utils.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/_base.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/__init__.
+ cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/simple/pathspec.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/pathspec.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/spec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/gitignore.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/base.py /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/gitignore.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/_utils.py /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/_base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/spec.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/__init__.cp
+ ython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/__pycache__/backend.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/simple/gitignore.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/gitignore.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__init__.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/basic.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/pathspec.py /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/basic.py /usr/lib/python3.13/site-packages/pathspec/_typing.py /usr/lib/python3.13/site-packages/pathspec/backend.py /usr/lib/python3.13/site-packages/pathspec/_ba
+ ckends/__pycache__/agg.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/_base.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/__init__.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/pathspec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/_base.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/__pycache__/_typing.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_version.py /usr/lib/python3.13/site-packages/pathspec/_backends/re2/gitignore.py /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/pathspec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/pathspec.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/__pycache__/_version.cpython-313.pyc /usr/lib/python3.13/site-packages/pathspec/_backends/agg.py /usr/
+ lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/gitignore.cpython-313.pyc"
+packages/x86-64-v3-poky-linux/python3-pathspec/python3-pathspec: PKGV changed from 0.12.1 [default] to 1.0.3 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-pathspec (sysroot):
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/pathspec-1.0.3.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/pathspec/backend.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/agg.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/_base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/gitignore.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/pathspec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/_base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/gitignore.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/hyperscan/__pycache__/pathspec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/agg.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/__pycache__/_utils.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2 was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/_base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/gitignore.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/pathspec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/_base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/gitignore.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/re2/__pycache__/pathspec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/gitignore.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/pathspec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/gitignore.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/simple/__pycache__/pathspec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_backends/_utils.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/base.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/basic.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__init__.py was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__ was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/base.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/basic.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/__init__.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/__pycache__/spec.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/patterns/gitignore/spec.py was added
+  /usr/lib/python3.13/site-packages/pathspec/__pycache__/backend.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/__pycache__/_typing.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/__pycache__/_version.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/pathspec/_typing.py was added
+  /usr/lib/python3.13/site-packages/pathspec/_version.py was added
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/pathspec-0.12.1.dist-info/WHEEL was removed
+
+--===============7845968602653252909==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pathspec-upgrade-0.12.1-1.0.3.patch"
+
+RnJvbSAzM2MzZGJlOGI3NjMyMTMxNzUwNTRlMDBhOWRjNjhhZGIzMmYxYTFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjE6NDQ6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBhdGhzcGVjOiB1cGdyYWRlIDAuMTIuMSAtPiAxLjAuMwoKLS0tCiAuLi4ve3B5dGhv
+bjMtcGF0aHNwZWNfMC4xMi4xLmJiID0+IHB5dGhvbjMtcGF0aHNwZWNfMS4wLjMuYmJ9ICAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBhdGhzcGVjXzAuMTIuMS5i
+YiA9PiBweXRob24zLXBhdGhzcGVjXzEuMC4zLmJifSAoODAlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYXRoc3BlY18wLjEyLjEuYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGF0aHNwZWNfMS4wLjMuYmIKc2ltaWxh
+cml0eSBpbmRleCA4MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXBhdGhzcGVjXzAuMTIuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXBhdGhzcGVjXzEuMC4zLmJiCmluZGV4IDJjODBiMjRjMjguLjU4NjUx
+YmNlZDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
+YXRoc3BlY18wLjEyLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXBhdGhzcGVjXzEuMC4zLmJiCkBAIC00LDcgKzQsNyBAQCBTRUNUSU9OID0gImRldmVsL3B5
+dGhvbiIKIExJQ0VOU0UgPSAiTVBMLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJ
+Q0VOU0U7bWQ1PTgxNWNhNTk5YzlkZjI0N2EwYzdmNjE5YmFiMTIzZGFkIgogCi1TUkNfVVJJW3No
+YTI1NnN1bV0gPSAiYTQ4MmQ1MTUwM2ExYWIzM2IxYzY3YTZjMzgxM2EyNjk1M2RiZGM3MWMzMWRh
+Y2FlZjlhODM4YzRlMjlmNTcxMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiYWM1Y2Y5N2FlMmMy
+ODc2ZTJkMjVlYmIxNTA3OGViMDRkNzZlNGI5ODkyMWVlMzFjNmY4NWFkZThiNTk0NDRkIgogCiBp
+bmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3LjEKCg==
+
+--===============7845968602653252909==--
 
