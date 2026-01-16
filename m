@@ -1,219 +1,115 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D639CD47CAA
-	for <webhook@archiver.kernel.org>; Thu, 15 Jan 2026 23:51:00 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.907.1768521051165451894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29DBED47CAE
+	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:42 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1464.1768526740207822311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 15:50:52 -0800
+ Thu, 15 Jan 2026 17:25:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GbKDfX5C;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260115235048c4d32ba88400020754-jrriw1@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260115235048c4d32ba88400020754
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 16 Jan 2026 00:50:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=pnxU4pTuE1CCDOwmjBtsdB64nGvKfmGIwkv96xyGX1Q=;
- b=GbKDfX5CcOra94n+CZKq5fwZRpZke1V63KadPynTFY54nhKkWmLRYyTnWat8JkW0qGJuP+
- FPofGIkF914nt/4jfPjcTfBI15gZdL3Qqa8tnQnGhIWnDfBHXdxZB/BVg89DfEzOgCT2ewov
- t+nzHD0nWERG9SE72tWd2zgBM2rsg3lFZMTJH2UUquCl/6Mth6808VyDPr460WGOFvpXkBSA
- FgYEl7lPJou+4ZhXJFAJLmqxK3GolnxB6QDdOSXdjQNH1194eBEN+RwcDr+Z8+w4+emhgoiD
- zkT8qV7Q71hLIJBVEz78UCUcHgPbIJ1yI063ggu7mdKcfRWHrEUk1Ilw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] go: upgrade 1.25.5 -> 1.25.6
-Date: Fri, 16 Jan 2026 00:50:40 +0100
-Message-Id: <20260115235040.1782290-1-peter.marko@siemens.com>
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GvfhBdIN;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=mUPwxa3u;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019bc468778f-ff59a352-6a94-4e20-8da7-e3d0cb3bb2a4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1768526739;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=SexDypBAaeqgrBUAMAKaxXjxqakc+L4I0UJ3JIUB6n4=;
+	b=GvfhBdIN3F+sHOnoDEVXxLsd5uYGCZm37RhtxYgZ7HboPfMwz0DdwlffXJnXVxGg
+	XU51LIPrqfmeGYg8mMPfWbkm45q9x6NAQaiq2yij4rtkcQh07wxwcDgVIrHTltkT3vX
+	R17ucrX1JSU0I0gckV7fNdem8lKCfpgXWVEOnn54=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526739;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=SexDypBAaeqgrBUAMAKaxXjxqakc+L4I0UJ3JIUB6n4=;
+	b=mUPwxa3uT0rFjXlT8XR0wcYLgS2N8AGOvekO56ClRF+Z27/pXQ8faALQA+GXMorB
+	CxhjPOPYT0Y+BfkBv6gwnpS6e2hmmqUnFfUFxk8Eb2hqcpLtXJtgGvRjfMvvT7m77fe
+	nl30/bNkOzEB7FJYMWcukci6NOgqD5+8SqpmYSBs=
+Content-Type: multipart/mixed; boundary="===============2566521134507797882=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+From: auh@yoctoproject.org
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>, 
+	Chen Qi <Qi.Chen@windriver.com>, Chen Qi <Qi.Chen@windriver.com>, 
+	Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH]
+ systemd-boot-native,systemd-boot,systemd,systemd-systemctl-native: upgrading
+ to 259,259,259,259 FAILED
+Message-ID: <0101019bc468778f-ff59a352-6a94-4e20-8da7-e3d0cb3bb2a4-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:39 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.01.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Jan 2026 23:51:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229442
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229444
 
-From: Peter Marko <peter.marko@siemens.com>
+--===============2566521134507797882==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Upgrade to latest 1.25.x release [1]:
+Hello,
 
-$ git --no-pager log --oneline go1.25.5..go1.25.6
-69801b25b9 (tag: go1.25.6) [release-branch.go1.25] go1.25.6
-9d497df196 [release-branch.go1.25] archive/zip: reduce CPU usage in index construction
-afa9b66ac0 [release-branch.go1.25] net/url: add urlmaxqueryparams GODEBUG to limit the number of query parameters
-2526187481 [release-branch.go1.25] cmd/go/internal/work: sanitize flags before invoking 'pkg-config'
-082365aa55 [release-branch.go1.25] cmd/go: update VCS commands to use safer flag/argument syntax
-4be38528a6 [release-branch.go1.25] crypto/tls: don't copy auto-rotated session ticket keys in Config.Clone
-525dd85363 [release-branch.go1.25] crypto/tls: reject trailing messages after client/server hello
-ddcf27fc8c [release-branch.go1.25] Revert "errors: optimize errors.Join for single unwrappable errors"
-14f50f6e3e [release-branch.go1.25] cmd/compile: handle propagating an out-of-range jump table index
-4e531b2f14 [release-branch.go1.25] runtime: mark getfp as nosplit
-6f07a57145 [release-branch.go1.25] runtime/race: set missing argument frame for ppc64x atomic And/Or wrappers
-ea603eea37 [release-branch.go1.25] os: allow direntries to have zero inodes on Linux
-93f5d1c27e [release-branch.go1.25] os,internal/poll: don't call IsNonblock for consoles and Stdin
-d5bfdcbc47 [release-branch.go1.25] crypto/tls: use inner hello for earlyData when using QUIC and ECH
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *systemd-boot-native,systemd-boot,systemd,systemd-systemctl-native* to *259,259,259,259* has Failed (devtool error).
 
-Fixes CVE-2025-61728, CVE-2025-61726, CVE-2025-68121, CVE-2025-61731,
-      CVE-2025-68119 and CVE-2025-61730.
+Detailed error information:
 
-Release information: [2]
+Running 'devtool upgrade' for recipe systemd-boot-native failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1955 targets, 47 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-[1] https://github.com/golang/go/compare/go1.25.5...go1.25.6
-[2] https://groups.google.com/g/golang-announce/c/Vd2tYVM8eUc
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-beb0a16ac408d741213b635ab6151f5a921bd129"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:beb0a16ac408d741213b635ab6151f5a921bd129"
+meta-yocto-bsp       
+meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
+workspace            = "<unknown>:<unknown>"
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/{go-1.25.5.inc => go-1.25.6.inc} | 2 +-
- ...binary-native_1.25.5.bb => go-binary-native_1.25.6.bb} | 6 +++---
- ...oss-canadian_1.25.5.bb => go-cross-canadian_1.25.6.bb} | 0
- .../go/{go-cross_1.25.5.bb => go-cross_1.25.6.bb}         | 0
- .../go/{go-crosssdk_1.25.5.bb => go-crosssdk_1.25.6.bb}   | 0
- .../go/{go-runtime_1.25.5.bb => go-runtime_1.25.6.bb}     | 0
- ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
- ...ime-when-using-cgo-on-386-call-C-sigaction-funct.patch | 4 ++--
- .../go/0006-cmd-go-make-GOROOT-precious-by-default.patch  | 2 +-
- meta/recipes-devtools/go/{go_1.25.5.bb => go_1.25.6.bb}   | 0
- 10 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-devtools/go/{go-1.25.5.inc => go-1.25.6.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.5.bb => go-binary-native_1.25.6.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.5.bb => go-cross-canadian_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.5.bb => go-cross_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.5.bb => go-crosssdk_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.5.bb => go-runtime_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.5.bb => go_1.25.6.bb} (100%)
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 9ca433482f2281d71718718705ca8cd3bf562ad6
+WARNING: Command 'git rebase 9ca433482f2281d71718718705ca8cd3bf562ad6' failed:
+Auto-merging mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
+CONFLICT (content): Merge conflict in mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
 
-diff --git a/meta/recipes-devtools/go/go-1.25.5.inc b/meta/recipes-devtools/go/go-1.25.6.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.25.5.inc
-rename to meta/recipes-devtools/go/go-1.25.6.inc
-index 47d5c3912c..2c31c4a235 100644
---- a/meta/recipes-devtools/go/go-1.25.5.inc
-+++ b/meta/recipes-devtools/go/go-1.25.6.inc
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
- "
--SRC_URI[main.sha256sum] = "22a5fd0a91efcd28a1b0537106b9959b2804b61f59c3758b51e8e5429c1a954f"
-+SRC_URI[main.sha256sum] = "58cbf771e44d76de6f56d19e33b77d745a1e489340922875e46585b975c2b059"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.5.bb b/meta/recipes-devtools/go/go-binary-native_1.25.6.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.6.bb
-index 5ecbca6d17..6429bb385b 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.6.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "9e9b755d63b36acf30c12a9a3fc379243714c1c6d3dd72861da637f336ebb35b"
--SRC_URI[go_linux_arm64.sha256sum] = "b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
--SRC_URI[go_linux_ppc64le.sha256sum] = "f0904b647b5b8561efc5d48bb59a34f2b7996afab83ccd41c93b1aeb2c0067e4"
-+SRC_URI[go_linux_amd64.sha256sum] = "f022b6aad78e362bcba9b0b94d09ad58c5a70c6ba3b7582905fababf5fe0181a"
-+SRC_URI[go_linux_arm64.sha256sum] = "738ef87d79c34272424ccdf83302b7b0300b8b096ed443896089306117943dd5"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "bee02dbe034b12b839ae7807a85a61c13bee09ee38f2eeba2074bd26c0c0ab73"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.25.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.25.6.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.25.5.bb b/meta/recipes-devtools/go/go-cross_1.25.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.25.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.25.6.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.25.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.25.6.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.25.5.bb b/meta/recipes-devtools/go/go-runtime_1.25.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.25.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.25.6.bb
-diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-index b55ad1e787..6d75266cbe 100644
---- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-+++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-@@ -109,7 +109,7 @@ index 7b073165d5..1f618be0bb 100644
-  	}
-  
-  	// Configuration specific to compiler toolchain.
--@@ -2631,8 +2633,25 @@ func envList(key, def string) []string {
-+@@ -2639,8 +2641,25 @@ func envList(key, def string) []string {
-  	return args
-  }
-  
-@@ -136,7 +136,7 @@ index 7b073165d5..1f618be0bb 100644
-  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
-  		return
-  	}
--@@ -2648,6 +2667,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-+@@ -2656,6 +2675,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-  	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
-  		return
-  	}
-@@ -150,7 +150,7 @@ index 7b073165d5..1f618be0bb 100644
-  
-  	return
-  }
--@@ -2665,7 +2691,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
-+@@ -2673,7 +2699,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
-  	p := a.Package
-  	sh := b.Shell(a)
-  
-@@ -159,7 +159,7 @@ index 7b073165d5..1f618be0bb 100644
-  	if err != nil {
-  		return nil, nil, err
-  	}
--@@ -3229,7 +3255,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
-+@@ -3237,7 +3263,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
-  	p := a.Package
-  	sh := b.Shell(a)
-  
-diff --git a/meta/recipes-devtools/go/go/0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch b/meta/recipes-devtools/go/go/0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch
-index 33e3b033a1..d27809a7f4 100644
---- a/meta/recipes-devtools/go/go/0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch
-+++ b/meta/recipes-devtools/go/go/0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch
-@@ -168,7 +168,7 @@ diff --git a/src/runtime/os_linux.go b/src/runtime/os_linux.go
- index c9d25a5be8..f9fe1b5f33 100644
- --- a/src/runtime/os_linux.go
- +++ b/src/runtime/os_linux.go
--@@ -486,7 +486,8 @@ func setsig(i uint32, fn uintptr) {
-+@@ -487,7 +487,8 @@ func setsig(i uint32, fn uintptr) {
-  	sigfillset(&sa.sa_mask)
-  	// Although Linux manpage says "sa_restorer element is obsolete and
-  	// should not be used". x86_64 kernel requires it. Only use it on
-@@ -178,7 +178,7 @@ index c9d25a5be8..f9fe1b5f33 100644
-  	if GOARCH == "386" || GOARCH == "amd64" {
-  		sa.sa_restorer = abi.FuncPCABI0(sigreturn__sigaction)
-  	}
--@@ -562,6 +563,21 @@ func sysSigaction(sig uint32, new, old *sigactiont) {
-+@@ -563,6 +564,21 @@ func sysSigaction(sig uint32, new, old *sigactiont) {
-  //go:noescape
-  func rt_sigaction(sig uintptr, new, old *sigactiont, size uintptr) int32
-  
-diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
-index 5117379444..15ffdb3cf3 100644
---- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
-+++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
-@@ -94,7 +94,7 @@ index 1f618be0bb..651fa64582 100644
-  	if err := sh.Mkdir(a.Objdir); err != nil {
-  		return err
-  	}
--@@ -1731,6 +1748,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
-+@@ -1739,6 +1756,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
-  		return err
-  	}
-  
-diff --git a/meta/recipes-devtools/go/go_1.25.5.bb b/meta/recipes-devtools/go/go_1.25.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.25.5.bb
-rename to meta/recipes-devtools/go/go_1.25.6.bb
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/systemd-boot-native
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemd-boot-native/systemd-boot-native_259.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2566521134507797882==--
 
