@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B50C982FE
-	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 19:39:57 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5589.1768592386960057480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20DD8C982FF
+	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 19:40:07 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5855.1768592399937058093
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Jan 2026 11:39:47 -0800
+ Fri, 16 Jan 2026 11:40:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OhvwSRe9;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260116193944bd5ad4121600020707-fluomz@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260116193944bd5ad4121600020707
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Sr5WVhgh;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202601161939583df1be3830000207d0-mexfyq@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202601161939583df1be3830000207d0
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 16 Jan 2026 20:39:44 +0100
+        Fri, 16 Jan 2026 20:39:58 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=MCnf6h5tL9IFdWt8iSg///zu14cEojCyO4hO4aCJDLw=;
- b=OhvwSRe9/iQ0Rvv7exHkAIFZefziqwQgRbIk3mtXFri6Vq2EZa25AusKiesvsLHiEUvqd+
- TFBT2RvTNSaLAcTG99NaSmoGtPI0unjpqCCwnwQHrELyWbYH3cy96ilWiffoHniXD1fS9Pyc
- QaimbOXGmSRI6B3ZX9+ECO76xAH7Lf6FjYzzO8sJI78HaiyWc3T9ib+UKy16/H9iHeljHsb8
- D1XcACi0rF088mXGOcJUn+eSdU/rcTW6+zIm+qFgCeKXQgOKUlVubILCq+5XSMf3NVk+FelO
- of3RA8PAYY2LbZR3sO5yAefaRT8kP2isVtGeimEEcKygrosgZfzEiK8Q==;
+ bh=2uwDy0WLCwOyI/ZppD2YaFkQOq89i1L1uKn5aUDA3RQ=;
+ b=Sr5WVhghgRDG2dIQMtydNQXZsyllF+/FI6YhtGvi9w+UCoq278dV3sGXu0oOqXd9XxZGW4
+ fnl6cAGH1g0v5Fumsrw6PsI4alQejpBmPnx0D5e+HiJp6OYDL2iHU+L4UFWqzGQHoZfkLbH4
+ jaDEZNaGpNpkL1B1sPes2aNrD0reGp5f48z2uLt6H0jz7OwYAbFAC6CS5zH+NUO+m0CAisv9
+ Jy/FFpzEw/3iDacx7M+BzsmNcyLQOzzv7zA6pKBJtm80dHTwYEdSpOefu5ow6/6rkeMBOYuE
+ YdMmB4mGyagO3h/tvB704zYCcOcpEMlx5WbDY1F3gMPlxiTEl4mvhFag==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH] zlib: ignore CVE-2026-22184
-Date: Fri, 16 Jan 2026 20:39:41 +0100
-Message-Id: <20260116193941.1015797-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] zlib: ignore CVE-2026-22184
+Date: Fri, 16 Jan 2026 20:39:56 +0100
+Message-Id: <20260116193956.1015818-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 19:39:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229565
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 19:40:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229566
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -48,17 +48,16 @@ This CVE has controversial CVSS3 score of 9.8.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-core/zlib/zlib_1.3.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/zlib/zlib_1.3.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zlib/zlib_1.3.1.bb
-index 592b7f1422..ef83142121 100644
+index e6a81ef7898..8ebc6befc2b 100644
 --- a/meta/recipes-core/zlib/zlib_1.3.1.bb
 +++ b/meta/recipes-core/zlib/zlib_1.3.1.bb
-@@ -51,3 +51,5 @@ BBCLASSEXTEND = "native nativesdk"
+@@ -48,3 +48,4 @@ BBCLASSEXTEND = "native nativesdk"
  
- # Adding 'CVE_PRODUCT' to avoid false detection of CVEs
- CVE_PRODUCT = "zlib:zlib gnu:zlib"
-+
+ CVE_STATUS[CVE-2023-45853] = "not-applicable-config: we don't build minizip"
+ CVE_STATUS[CVE-2023-6992] = "cpe-incorrect: this CVE is for cloudflare zlib"
 +CVE_STATUS[CVE-2026-22184] = "not-applicable-config: vulnerable file is not compiled"
 
