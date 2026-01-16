@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74DB7D47CD5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9996D44C4C
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:52 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1465.1768526743272598335
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1474.1768526746643274091
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:49 -0800
+ Thu, 15 Jan 2026 17:25:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=D0JbhjQK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PTRbIixK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019bc4689c4f-08d99eba-e013-4bd5-903f-a3e6ccff87b5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UkPjsrGf;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FzKp+zBJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019bc4689143-8acda0ab-370d-410d-a6d4-be160a2b9d31-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526748;
+	t=1768526746;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gEKq6K8qRcjd/s4fBM6bYY7w3U3+ptqCxqMk4OKor/E=;
-	b=D0JbhjQKyMF7WUCaRllgAr62aLpJ6aiPG+gMa3yiRswqQMcRVd51ff5m1u77I+/5
-	lEZ5FWmCfM2VPMS0gfk1J1VVuT9mJQ7qdjhGQ6Z5ev2EtVlH9/5oJVrZBthTQHcynjy
-	BbHlcuPd3CoeMYWP1cBMUQ2RAhzG3XnSHYoZ65P4=
+	bh=+6ZxML7IKQ5CMHUngfwOhhbybxvhRctkPFA/IBiMasI=;
+	b=UkPjsrGfnfHs83+isjmmNNef0acH3RhQLeioezB40Ztt+lkLfl604VMQ3IbEUVYq
+	5b9qOIl+2MZyYwJ1TWPIl8owiE0CEEUW7CB8xi5ZaIVipUimB0r9G4qi0p7TkpdRtfC
+	cKp/JkwKDJJ36QInhLug2wHTlMQUdiBdEXqzQTTc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526748;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526746;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gEKq6K8qRcjd/s4fBM6bYY7w3U3+ptqCxqMk4OKor/E=;
-	b=PTRbIixKc7SLclkR9b9PjRg+XgUPUkBiok1wsKnWoUKa6oOGvLH709F7yH/aZ5OS
-	y4mmBDM3om37oaXBePkxjMR9OuJEU/FGyz/BCYb981YWAgVCtNSz+hSwbbnX9AnQuQ/
-	2y/RFWkUxSKMGQ2jzzrynbUCKBUnedTrRSZMTV8U=
-Content-Type: multipart/mixed; boundary="===============2130008177139863418=="
+	bh=+6ZxML7IKQ5CMHUngfwOhhbybxvhRctkPFA/IBiMasI=;
+	b=FzKp+zBJcpcelj+C4MlE8s9wbNXGqmTL8T/JNErmLEAA5u17i7gf5rjARS6Zp+nC
+	mjLQJYrMy7VZCXJx6a/fCjgpY4cdfTL8PAG0FOEXiQlc/eHFg2EZOEz5tk/zSyhM49J
+	8ErVsDX7EFY+3D3OnrZeH6tUKgo+KYYroD5vsEHY=
+Content-Type: multipart/mixed; boundary="===============1393022159818603714=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm: upgrading to 2.26.4 SUCCEEDED
-Message-ID: <0101019bc4689c4f-08d99eba-e013-4bd5-903f-a3e6ccff87b5-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:48 +0000
+Subject: [AUH] go-binary-native: upgrading to 1.25.6 SUCCEEDED
+Message-ID: <0101019bc4689143-8acda0ab-370d-410d-a6d4-be160a2b9d31-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.01.16-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229467
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229460
 
---===============2130008177139863418==
+--===============1393022159818603714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.26.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *go-binary-native* to *1.25.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pdm-upgrade-2.26.2-2.26.4.patch
+    - apply the patch: git am 0001-go-binary-native-upgrade-1.25.5-1.25.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,118 +72,91 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 73e18b64aff9186225a64d844d7731284fb90159 Mon Sep 17 00:00:00 2001
+From 40a5a446a878f74cfd025f6ce7999da768298def Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jan 2026 21:47:21 +0000
-Subject: [PATCH] python3-pdm: upgrade 2.26.2 -> 2.26.4
+Date: Thu, 15 Jan 2026 20:29:23 +0000
+Subject: [PATCH] go-binary-native: upgrade 1.25.5 -> 1.25.6
 
 ---
- .../python/{python3-pdm_2.26.2.bb => python3-pdm_2.26.4.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.26.2.bb => python3-pdm_2.26.4.bb} (80%)
+ ...{go-binary-native_1.25.5.bb => go-binary-native_1.25.6.bb} | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+ rename meta/recipes-devtools/go/{go-binary-native_1.25.5.bb => go-binary-native_1.25.6.bb} (79%)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.26.2.bb b/meta/recipes-devtools/python/python3-pdm_2.26.4.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pdm_2.26.2.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.26.4.bb
-index 13dd1ec0db..de4a7618d4 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.26.2.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.26.4.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.5.bb b/meta/recipes-devtools/go/go-binary-native_1.25.6.bb
+similarity index 79%
+rename from meta/recipes-devtools/go/go-binary-native_1.25.5.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.25.6.bb
+index 5ecbca6d17..400355dc15 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.25.5.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.25.6.bb
+@@ -9,9 +9,7 @@ PROVIDES = "go-native"
  
--SRC_URI[sha256sum] = "98207f8aabd6913a25ee0b4985e79e1652e2db274915f3ccf9408e33191ede4e"
-+SRC_URI[sha256sum] = "d1030f6bd8e9449b5791e7768f1a856cc54617ee7b00f56fa1a843a84ad77f6e"
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "9e9b755d63b36acf30c12a9a3fc379243714c1c6d3dd72861da637f336ebb35b"
+-SRC_URI[go_linux_arm64.sha256sum] = "b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "f0904b647b5b8561efc5d48bb59a34f2b7996afab83ccd41c93b1aeb2c0067e4"
++SRC_URI[go_linux_amd64.sha256sum] = "f022b6aad78e362bcba9b0b94d09ad58c5a70c6ba3b7582905fababf5fe0181a"
  
- inherit pypi python_pdm
- 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
 -- 
 2.47.1
 
 
---===============2130008177139863418==
+--===============1393022159818603714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pdm-2.26.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/pdm-2.26.4.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/pdm-2.26.2.dist-info -> /usr/lib/python3.13/site-packages/pdm-2.26.4.dist-info, removed "/usr/lib/python3.13/site-packages/pdm/models/__pycache__/serializers.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/models/serializers.py", added "/usr/lib/python3.13/site-packages/pdm/misc/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/misc/__init__.py /usr/lib/python3.13/site-packages/pdm/misc/sysconfig_patcher.py /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/sysconfig_patcher.cpython-313.pyc"
-Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.26.2.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.26.4.dist-info
-  /usr/lib/python3.13/site-packages/pdm/misc was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__init__.py was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__pycache__ was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/__init__.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/sysconfig_patcher.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/misc/sysconfig_patcher.py was added
-  /usr/lib/python3.13/site-packages/pdm/models/__pycache__/serializers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pdm/models/serializers.py was removed
+Changes to packages/x86_64-linux/go-binary-native (sysroot):
+  /usr/lib/go/test/fixedbugs/issue76950.go was added
 
---===============2130008177139863418==
+--===============1393022159818603714==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pdm-upgrade-2.26.2-2.26.4.patch"
+ filename="0001-go-binary-native-upgrade-1.25.5-1.25.6.patch"
 
-RnJvbSA3M2UxOGI2NGFmZjkxODYyMjVhNjRkODQ0ZDc3MzEyODRmYjkwMTU5IE1vbiBTZXAgMTcg
+RnJvbSA0MGE1YTQ0NmE4NzhmNzRjZmQwMjVmNmNlNzk5OWRhNzY4Mjk4ZGVmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjE6NDc6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBkbTogdXBncmFkZSAyLjI2LjIgLT4gMi4yNi40CgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcGRtXzIuMjYuMi5iYiA9PiBweXRob24zLXBkbV8yLjI2LjQuYmJ9ICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcGRtXzIuMjYuMi5iYiA9PiBweXRo
-b24zLXBkbV8yLjI2LjQuYmJ9ICg4MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtcGRtXzIuMjYuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDgwJQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjYuMi5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjQu
-YmIKaW5kZXggMTNkZDFlYzBkYi4uZGU0YTc2MThkNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI2LjQuYmIKQEAgLTQsNyArNCw3IEBAIExJ
-Q0VOU0UgPSAiTUlUIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT0yZWIzMWEyY2MxYTc1OGMzNGI0OTlmMjg3ZGQwNGVmMiIK
-IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjk4MjA3ZjhhYWJkNjkxM2EyNWVlMGI0OTg1ZTc5ZTE2
-NTJlMmRiMjc0OTE1ZjNjY2Y5NDA4ZTMzMTkxZWRlNGUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-ZDEwMzBmNmJkOGU5NDQ5YjU3OTFlNzc2OGYxYTg1NmNjNTQ2MTdlZTdiMDBmNTZmYTFhODQzYTg0
-YWQ3N2Y2ZSIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9wZG0KIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjA6Mjk6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+by1iaW5hcnktbmF0aXZlOiB1cGdyYWRlIDEuMjUuNSAtPiAxLjI1LjYKCi0tLQogLi4ue2dvLWJp
+bmFyeS1uYXRpdmVfMS4yNS41LmJiID0+IGdvLWJpbmFyeS1uYXRpdmVfMS4yNS42LmJifSB8IDQg
+Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby97Z28tYmluYXJ5LW5hdGl2ZV8xLjI1LjUuYmIg
+PT4gZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjYuYmJ9ICg3OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yNS41LmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yNS42LmJiCnNpbWlsYXJpdHkgaW5k
+ZXggNzklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0
+aXZlXzEuMjUuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFy
+eS1uYXRpdmVfMS4yNS42LmJiCmluZGV4IDVlY2JjYTZkMTcuLjQwMDM1NWRjMTUgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0aXZlXzEuMjUuNS5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjYuYmIK
+QEAgLTksOSArOSw3IEBAIFBST1ZJREVTID0gImdvLW5hdGl2ZSIKIAogIyBDaGVja3N1bXMgYXZh
+aWxhYmxlIGF0IGh0dHBzOi8vZ28uZGV2L2RsLwogU1JDX1VSSSA9ICJodHRwczovL2RsLmdvb2ds
+ZS5jb20vZ28vZ28ke1BWfS4ke0JVSUxEX0dPT1N9LSR7QlVJTERfR09BUkNIfS50YXIuZ3o7bmFt
+ZT1nb18ke0JVSUxEX0dPVFVQTEV9IgotU1JDX1VSSVtnb19saW51eF9hbWQ2NC5zaGEyNTZzdW1d
+ID0gIjllOWI3NTVkNjNiMzZhY2YzMGMxMmE5YTNmYzM3OTI0MzcxNGMxYzZkM2RkNzI4NjFkYTYz
+N2YzMzZlYmIzNWIiCi1TUkNfVVJJW2dvX2xpbnV4X2FybTY0LnNoYTI1NnN1bV0gPSAiYjAwYjY5
+NDkwM2QxMjZjNTg4YzM3OGU3MmQzNTQ1NTQ5OTM1ZDM5ODI2MzViYTNmN2E5NjRjOWZhMjNmZTNi
+OSIKLVNSQ19VUklbZ29fbGludXhfcHBjNjRsZS5zaGEyNTZzdW1dID0gImYwOTA0YjY0N2I1Yjg1
+NjFlZmM1ZDQ4YmI1OWEzNGYyYjc5OTZhZmFiODNjY2Q0MWM5M2IxYWViMmMwMDY3ZTQiCitTUkNf
+VVJJW2dvX2xpbnV4X2FtZDY0LnNoYTI1NnN1bV0gPSAiZjAyMmI2YWFkNzhlMzYyYmNiYTliMGI5
+NGQwOWFkNThjNWE3MGM2YmEzYjc1ODI5MDVmYWJhYmY1ZmUwMTgxYSIKIAogVVBTVFJFQU1fQ0hF
+Q0tfVVJJID0gImh0dHBzOi8vZ29sYW5nLm9yZy9kbC8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9
+ICJnbyg/UDxwdmVyPlxkKyhcLlxkKykrKVwubGludXgiCi0tIAoyLjQ3LjEKCg==
 
---===============2130008177139863418==
+--===============1393022159818603714==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pdm: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.26.2.tar.gz;downloadfilename=pdm-2.26.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.26.4.tar.gz;downloadfilename=pdm-2.26.4.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PV changed from "2.26.2" to "2.26.4"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.26.2 [default] to 2.26.4 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2252358 to 2269333 (+1%)
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pdm-2.26.2.dist-info -> /usr/lib/python3.13/site-packages/pdm-2.26.4.dist-info, directory renamed /usr/lib/python3.13/site-packages/pdm-2.26.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/pdm-2.26.4.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/pdm/models/__pycache__/serializers.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/models/serializers.py", added "/usr/lib/python3.13/site-packages/pdm/misc/__init__.py /usr/lib/python3.13/site-packages/pdm/misc/sysconfig_patcher.py /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/sysconfig_patcher.cpython-313.pyc"
-Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.26.2.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.26.4.dist-info
-  /usr/lib/python3.13/site-packages/pdm/misc was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__init__.py was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__pycache__ was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/__init__.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/misc/__pycache__/sysconfig_patcher.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/pdm/misc/sysconfig_patcher.py was added
-  /usr/lib/python3.13/site-packages/pdm/models/__pycache__/serializers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pdm/models/serializers.py was removed
+Changes to packages/x86_64-linux/go-binary-native (sysroot):
+  /usr/lib/go/test/fixedbugs/issue76950.go was added
 
---===============2130008177139863418==--
+--===============1393022159818603714==--
 
