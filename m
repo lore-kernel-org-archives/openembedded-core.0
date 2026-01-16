@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E88ED47CD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B6AD4A5EA
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:26:05 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1472.1768526746499768659
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1436.1768526749201889216
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:56 -0800
+ Thu, 15 Jan 2026 17:25:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zFHQjTqB;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dh4+dFZx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019bc468b796-04379845-a10f-4976-83df-27964902a662-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RoWATNmq;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SXQfE/wZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019bc468b345-9e7b4054-b3d1-4887-a316-3abdad000017-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526755;
+	t=1768526754;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6zmlI52hMemTPTz6Jqg674H0b83jm/Q3SLNirOtJ0n8=;
-	b=zFHQjTqBVt6xPlrWZrl3vD6cArQ9BBXHgdRA2/yjBLHwT0DyxaxbC8km4Yo2QEK3
-	SNN8LuFhOFMv/YQJzwNelN1LbjxAA7p8Na87sp7tM16iqQxgXcc8obAjmcIwiR4OMHU
-	2AXUNNaIeLImstjD8Mz9o+Jslw1oQ7vIoHPRxya0=
+	bh=YJcU8QzNga2wuMKHMQh6doBVsrWNAorBIwD/XmONjMY=;
+	b=RoWATNmqXx5TYxbdISmh3SCqI5JrwvMvaiOdoLCoBO9bWWoik5rv7hgtGnHOnNFO
+	NqekJrFGvRplqc9egqPtISo0PpUy8AZpDOsRwbv63zzHUj5Z1CFxBISoVX19hlvii1o
+	0Ak05fSpChhJUmbD4ExwrsBiQWiZ6tDqwEv9Byxo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526755;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526754;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6zmlI52hMemTPTz6Jqg674H0b83jm/Q3SLNirOtJ0n8=;
-	b=dh4+dFZxYEuXkYH4JliLWMcDrjJuGbi0ioCNQD4FNcL4xDWR+dCw5KXTIhV6dDnJ
-	xpt2eLS+hx+Z3w6Yo44i5QEqd4PPnSkyxR1CmSF/aM832IxC5qppgvuIrXY2CVA3Wd5
-	NwuRtGsTyrro5Sd9SeOWfE0rGquZgifdmRi13hig=
-Content-Type: multipart/mixed; boundary="===============1959955833478817137=="
+	bh=YJcU8QzNga2wuMKHMQh6doBVsrWNAorBIwD/XmONjMY=;
+	b=SXQfE/wZwkzZB4DZBnGj7a+Wp7JrVSW4iKGLRRW6rFOdE+c0KsUYwJNRitzeXEiE
+	dTo+R2t7XQiwFf6CbHzzzg2JKoz8rX4HaofiUmBoiI/h4FM7YvPJUBphF9vkN6pEa8g
+	igBXIdCaUK68WGUY48pBgN1QYhtx9qnQxJEAFlqs=
+Content-Type: multipart/mixed; boundary="===============3514195172848665882=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gst-examples: upgrading to 1.26.10 FAILED
-Message-ID: <0101019bc468b796-04379845-a10f-4976-83df-27964902a662-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:55 +0000
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libtraceevent: upgrading to 1.8.7 SUCCEEDED
+Message-ID: <0101019bc468b345-9e7b4054-b3d1-4887-a316-3abdad000017-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.29
+X-SES-Outgoing: 2026.01.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:26:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229498
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229493
 
---===============1959955833478817137==
+--===============3514195172848665882==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gst-examples* to *1.26.10* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libtraceevent* to *1.8.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gst-examples-upgrade-1.26.9-1.26.10.patch
+    - apply the patch: git am 0001-libtraceevent-upgrade-1.8.6-1.8.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,277 +72,126 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 35f0edc49a88eccd7b954050e155dacc041e6499 Mon Sep 17 00:00:00 2001
+From 73eee64eb02de2d3809c3e29684813f1a1dfa4da Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 16 Jan 2026 00:30:18 +0000
-Subject: [PATCH] gst-examples: upgrade 1.26.9 -> 1.26.10
+Date: Fri, 16 Jan 2026 00:07:40 +0000
+Subject: [PATCH] libtraceevent: upgrade 1.8.6 -> 1.8.7
 
 ---
- ...001-Make-player-examples-installable.patch | 25 +++++++++----------
- ...ples_1.26.9.bb => gst-examples_1.26.10.bb} |  2 +-
- 2 files changed, 13 insertions(+), 14 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.9.bb => gst-examples_1.26.10.bb} (96%)
+ .../{libtraceevent_1.8.6.bb => libtraceevent_1.8.7.bb}        | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-kernel/libtraceevent/{libtraceevent_1.8.6.bb => libtraceevent_1.8.7.bb} (90%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-index e12ca0b613..6b47ed28fb 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-@@ -1,4 +1,4 @@
--From 7924016fce2d0b435891a335cdae52fc939c7e3b Mon Sep 17 00:00:00 2001
-+From 783f6f6904f408f87f29c88172c5729669619b02 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Thu, 17 Aug 2017 11:07:02 +0300
- Subject: [PATCH] Make player examples installable
-@@ -7,16 +7,15 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Upstream-Status: Denied [Upstream considers these code examples, for now a least]
+diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
+similarity index 90%
+rename from meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
+rename to meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
+index deddb60f63..0e891c1498 100644
+--- a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
++++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97
+                     file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
+ SECTION = "libs"
  
- https://bugzilla.gnome.org/show_bug.cgi?id=777827
--
- ---
-- playback/player/gst-play/meson.build | 1 +
-- playback/player/gtk/meson.build      | 1 +
-+ subprojects/gst-examples/playback/player/gst-play/meson.build | 1 +
-+ subprojects/gst-examples/playback/player/gtk/meson.build      | 1 +
-  2 files changed, 2 insertions(+)
+-SRCREV = "98c217427183f66f09f4a27300ad87d71814c38f"
++SRCREV = "7a8fee57d87aa61c9d578cd67e99d2677b894772"
+ SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
+           "
  
--Index: gst-examples/playback/player/gst-play/meson.build
--===================================================================
----- gst-examples.orig/playback/player/gst-play/meson.build
--+++ gst-examples/playback/player/gst-play/meson.build
-+diff --git a/subprojects/gst-examples/playback/player/gst-play/meson.build b/subprojects/gst-examples/playback/player/gst-play/meson.build
-+index 5e80ca8dd4..129e5bdcbe 100644
-+--- a/subprojects/gst-examples/playback/player/gst-play/meson.build
-++++ b/subprojects/gst-examples/playback/player/gst-play/meson.build
- @@ -2,5 +2,6 @@ executable('gst-play',
-      ['gst-play.c',
-       'gst-play-kb.c',
-@@ -24,11 +23,11 @@ Index: gst-examples/playback/player/gst-play/meson.build
- +    install: true,
-      dependencies : [gst_dep, dependency('gstreamer-play-1.0'), m_dep])
-  
--Index: gst-examples/playback/player/gtk/meson.build
--===================================================================
----- gst-examples.orig/playback/player/gtk/meson.build
--+++ gst-examples/playback/player/gtk/meson.build
--@@ -20,5 +20,6 @@ if gtk_dep.found()
-+diff --git a/subprojects/gst-examples/playback/player/gtk/meson.build b/subprojects/gst-examples/playback/player/gtk/meson.build
-+index 6892f15254..20d7505877 100644
-+--- a/subprojects/gst-examples/playback/player/gtk/meson.build
-++++ b/subprojects/gst-examples/playback/player/gtk/meson.build
-+@@ -21,5 +21,6 @@ if gtk_dep.found()
-         'gtk-video-renderer.h',
-         'gtk-video-renderer.c'],
-        c_args :  extra_c_args,
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb
-index febfd6736f..c70c5b32b8 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
-            file://gst-player.desktop \
-            "
+@@ -19,3 +19,5 @@ EXTRA_OEMESON = "-Ddoc=false"
+ PACKAGES += "${PN}-plugins"
  
--SRCREV = "f313fae193089408e278c0dd3450145e5a12307b"
-+SRCREV = "bfdc62185e243d3633aa916187a566d03a587792"
- 
- S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
- 
+ FILES:${PN}-plugins += "${libdir}/traceevent/plugins"
++
++BPN = "libtraceevent-v1.8"
 -- 
 2.47.1
 
 
---===============1959955833478817137==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1955 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-11e3e5e664a315456b93bc46036f5ff7f9f15240"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:11e3e5e664a315456b93bc46036f5ff7f9f15240"
-meta-yocto-bsp       
-meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 413 Local 401 Mirrors 0 Missed 12 Current 1179 (97% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 1592 of 1592 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_recipe_qa_setscene)
-NOTE: recipe gst-examples-1.26.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gst-examples-1.26.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3816 of 4313 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_fetch)
-NOTE: recipe gst-examples-1.26.10-r0: task do_fetch: Started
-NOTE: Running task 4114 of 4313 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_write_config)
-NOTE: recipe gst-examples-1.26.10-r0: task do_write_config: Started
-NOTE: recipe gst-examples-1.26.10-r0: task do_write_config: Succeeded
-NOTE: recipe gst-examples-1.26.10-r0: task do_fetch: Succeeded
-NOTE: Running task 4295 of 4313 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_unpack)
-NOTE: Running task 4296 of 4313 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-examples-1.26.10-r0: task do_unpack: Started
-NOTE: recipe gst-examples-1.26.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-examples-1.26.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gst-examples-1.26.10-r0: task do_unpack: Succeeded
-NOTE: Running task 4297 of 4313 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_patch)
-NOTE: Running task 4298 of 4313 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_collect_spdx_deps)
-NOTE: recipe gst-examples-1.26.10-r0: task do_patch: Started
-NOTE: recipe gst-examples-1.26.10-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gst-examples-1.26.10-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gst-examples-1.26.10-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 4298 tasks of which 4292 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260116003003.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260116003003.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gst-examples/1.26.10/temp/log.do_patch.2851669
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: gst-examples-1.26.10-r0 do_patch: Applying patch '0001-Make-player-examples-installable.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gst-examples/1.26.10/sources/gst-examples-1.26.10/subprojects/gst-examples'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gst-examples/1.26.10/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch 0001-Make-player-examples-installable.patch
-can't find file to patch at input line 19
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|From 783f6f6904f408f87f29c88172c5729669619b02 Mon Sep 17 00:00:00 2001
-|From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-|Date: Thu, 17 Aug 2017 11:07:02 +0300
-|Subject: [PATCH] Make player examples installable
-|
-|Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-|Upstream-Status: Denied [Upstream considers these code examples, for now a least]
-|
-|https://bugzilla.gnome.org/show_bug.cgi?id=777827
-|---
-| subprojects/gst-examples/playback/player/gst-play/meson.build | 1 +
-| subprojects/gst-examples/playback/player/gtk/meson.build      | 1 +
-| 2 files changed, 2 insertions(+)
-|
-|diff --git a/subprojects/gst-examples/playback/player/gst-play/meson.build b/subprojects/gst-examples/playback/player/gst-play/meson.build
-|index 5e80ca8dd4..129e5bdcbe 100644
-|--- a/subprojects/gst-examples/playback/player/gst-play/meson.build
-|+++ b/subprojects/gst-examples/playback/player/gst-play/meson.build
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-can't find file to patch at input line 30
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|diff --git a/subprojects/gst-examples/playback/player/gtk/meson.build b/subprojects/gst-examples/playback/player/gtk/meson.build
-|index 6892f15254..20d7505877 100644
-|--- a/subprojects/gst-examples/playback/player/gtk/meson.build
-|+++ b/subprojects/gst-examples/playback/player/gtk/meson.build
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-Patch 0001-Make-player-examples-installable.patch does not apply (enforce with -f)
-
-stderr: ")
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gst-examples/1.26.10/temp/log.do_patch.2851669
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gst-examples_1.26.10.bb:do_patch) failed with exit code '1'
-
---===============1959955833478817137==
+--===============3514195172848665882==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gst-examples-upgrade-1.26.9-1.26.10.patch"
+ filename="0001-libtraceevent-upgrade-1.8.6-1.8.7.patch"
 
-RnJvbSAzNWYwZWRjNDlhODhlY2NkN2I5NTQwNTBlMTU1ZGFjYzA0MWU2NDk5IE1vbiBTZXAgMTcg
+RnJvbSA3M2VlZTY0ZWIwMmRlMmQzODA5YzNlMjk2ODQ4MTNmMWExZGZhNGRhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTYgSmFuIDIwMjYgMDA6MzA6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3QtZXhhbXBsZXM6IHVwZ3JhZGUgMS4yNi45IC0+IDEuMjYuMTAKCi0tLQogLi4uMDAxLU1ha2Ut
-cGxheWVyLWV4YW1wbGVzLWluc3RhbGxhYmxlLnBhdGNoIHwgMjUgKysrKysrKysrLS0tLS0tLS0t
-LQogLi4ucGxlc18xLjI2LjkuYmIgPT4gZ3N0LWV4YW1wbGVzXzEuMjYuMTAuYmJ9IHwgIDIgKy0K
-IDIgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3QtZXhhbXBsZXNfMS4yNi45
-LmJiID0+IGdzdC1leGFtcGxlc18xLjI2LjEwLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXMvMDAwMS1NYWtlLXBsYXll
-ci1leGFtcGxlcy1pbnN0YWxsYWJsZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
-dHJlYW1lci9nc3QtZXhhbXBsZXMvMDAwMS1NYWtlLXBsYXllci1leGFtcGxlcy1pbnN0YWxsYWJs
-ZS5wYXRjaAppbmRleCBlMTJjYTBiNjEzLi42YjQ3ZWQyOGZiIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWV4YW1wbGVzLzAwMDEtTWFrZS1wbGF5ZXIt
-ZXhhbXBsZXMtaW5zdGFsbGFibGUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
-Z3N0cmVhbWVyL2dzdC1leGFtcGxlcy8wMDAxLU1ha2UtcGxheWVyLWV4YW1wbGVzLWluc3RhbGxh
-YmxlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3OTI0MDE2ZmNlMmQwYjQzNTg5MWEzMzVj
-ZGFlNTJmYzkzOWM3ZTNiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3ODNmNmY2OTA0
-ZjQwOGY4N2YyOWM4ODE3MmM1NzI5NjY5NjE5YjAyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogSnVzc2kgS3Vra29uZW4gPGp1c3NpLmt1a2tvbmVuQGludGVsLmNvbT4KIERhdGU6IFRo
-dSwgMTcgQXVnIDIwMTcgMTE6MDc6MDIgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gTWFrZSBwbGF5
-ZXIgZXhhbXBsZXMgaW5zdGFsbGFibGUKQEAgLTcsMTYgKzcsMTUgQEAgU2lnbmVkLW9mZi1ieTog
-SnVzc2kgS3Vra29uZW4gPGp1c3NpLmt1a2tvbmVuQGludGVsLmNvbT4KIFVwc3RyZWFtLVN0YXR1
-czogRGVuaWVkIFtVcHN0cmVhbSBjb25zaWRlcnMgdGhlc2UgY29kZSBleGFtcGxlcywgZm9yIG5v
-dyBhIGxlYXN0XQogCiBodHRwczovL2J1Z3ppbGxhLmdub21lLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9
-Nzc3ODI3Ci0KIC0tLQotIHBsYXliYWNrL3BsYXllci9nc3QtcGxheS9tZXNvbi5idWlsZCB8IDEg
-KwotIHBsYXliYWNrL3BsYXllci9ndGsvbWVzb24uYnVpbGQgICAgICB8IDEgKworIHN1YnByb2pl
-Y3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3N0LXBsYXkvbWVzb24uYnVpbGQgfCAx
-ICsKKyBzdWJwcm9qZWN0cy9nc3QtZXhhbXBsZXMvcGxheWJhY2svcGxheWVyL2d0ay9tZXNvbi5i
-dWlsZCAgICAgIHwgMSArCiAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKIAotSW5k
-ZXg6IGdzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3N0LXBsYXkvbWVzb24uYnVpbGQKLT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT0KLS0tLSBnc3QtZXhhbXBsZXMub3JpZy9wbGF5YmFjay9wbGF5ZXIvZ3N0LXBsYXkv
-bWVzb24uYnVpbGQKLSsrKyBnc3QtZXhhbXBsZXMvcGxheWJhY2svcGxheWVyL2dzdC1wbGF5L21l
-c29uLmJ1aWxkCitkaWZmIC0tZ2l0IGEvc3VicHJvamVjdHMvZ3N0LWV4YW1wbGVzL3BsYXliYWNr
-L3BsYXllci9nc3QtcGxheS9tZXNvbi5idWlsZCBiL3N1YnByb2plY3RzL2dzdC1leGFtcGxlcy9w
-bGF5YmFjay9wbGF5ZXIvZ3N0LXBsYXkvbWVzb24uYnVpbGQKK2luZGV4IDVlODBjYThkZDQuLjEy
-OWU1YmRjYmUgMTAwNjQ0CistLS0gYS9zdWJwcm9qZWN0cy9nc3QtZXhhbXBsZXMvcGxheWJhY2sv
-cGxheWVyL2dzdC1wbGF5L21lc29uLmJ1aWxkCisrKysgYi9zdWJwcm9qZWN0cy9nc3QtZXhhbXBs
-ZXMvcGxheWJhY2svcGxheWVyL2dzdC1wbGF5L21lc29uLmJ1aWxkCiBAQCAtMiw1ICsyLDYgQEAg
-ZXhlY3V0YWJsZSgnZ3N0LXBsYXknLAogICAgICBbJ2dzdC1wbGF5LmMnLAogICAgICAgJ2dzdC1w
-bGF5LWtiLmMnLApAQCAtMjQsMTEgKzIzLDExIEBAIEluZGV4OiBnc3QtZXhhbXBsZXMvcGxheWJh
-Y2svcGxheWVyL2dzdC1wbGF5L21lc29uLmJ1aWxkCiArICAgIGluc3RhbGw6IHRydWUsCiAgICAg
-IGRlcGVuZGVuY2llcyA6IFtnc3RfZGVwLCBkZXBlbmRlbmN5KCdnc3RyZWFtZXItcGxheS0xLjAn
-KSwgbV9kZXBdKQogIAotSW5kZXg6IGdzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3RrL21l
-c29uLmJ1aWxkCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09Ci0tLS0gZ3N0LWV4YW1wbGVzLm9yaWcvcGxheWJhY2svcGxh
-eWVyL2d0ay9tZXNvbi5idWlsZAotKysrIGdzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3Rr
-L21lc29uLmJ1aWxkCi1AQCAtMjAsNSArMjAsNiBAQCBpZiBndGtfZGVwLmZvdW5kKCkKK2RpZmYg
-LS1naXQgYS9zdWJwcm9qZWN0cy9nc3QtZXhhbXBsZXMvcGxheWJhY2svcGxheWVyL2d0ay9tZXNv
-bi5idWlsZCBiL3N1YnByb2plY3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3RrL21l
-c29uLmJ1aWxkCitpbmRleCA2ODkyZjE1MjU0Li4yMGQ3NTA1ODc3IDEwMDY0NAorLS0tIGEvc3Vi
-cHJvamVjdHMvZ3N0LWV4YW1wbGVzL3BsYXliYWNrL3BsYXllci9ndGsvbWVzb24uYnVpbGQKKysr
-KyBiL3N1YnByb2plY3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3RrL21lc29uLmJ1
-aWxkCitAQCAtMjEsNSArMjEsNiBAQCBpZiBndGtfZGVwLmZvdW5kKCkKICAgICAgICAgJ2d0ay12
-aWRlby1yZW5kZXJlci5oJywKICAgICAgICAgJ2d0ay12aWRlby1yZW5kZXJlci5jJ10sCiAgICAg
-ICAgY19hcmdzIDogIGV4dHJhX2NfYXJncywKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXNfMS4yNi45LmJiIGIvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1leGFtcGxlc18xLjI2LjEwLmJiCnNpbWlsYXJpdHkgaW5k
-ZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Qt
-ZXhhbXBsZXNfMS4yNi45LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
-ZWFtZXIvZ3N0LWV4YW1wbGVzXzEuMjYuMTAuYmIKaW5kZXggZmViZmQ2NzM2Zi4uYzcwYzViMzJi
-OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1leGFt
-cGxlc18xLjI2LjkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
-dC1leGFtcGxlc18xLjI2LjEwLmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8v
-Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9nc3RyZWFtZXIvZ3N0cmVhbWVyLmdpdDtwcm90b2NvbD1o
-dHRwcztiCiAgICAgICAgICAgIGZpbGU6Ly9nc3QtcGxheWVyLmRlc2t0b3AgXAogICAgICAgICAg
-ICAiCiAKLVNSQ1JFViA9ICJmMzEzZmFlMTkzMDg5NDA4ZTI3OGMwZGQzNDUwMTQ1ZTVhMTIzMDdi
-IgorU1JDUkVWID0gImJmZGM2MjE4NWUyNDNkMzYzM2FhOTE2MTg3YTU2NmQwM2E1ODc3OTIiCiAK
-IFMgPSAiJHtVTlBBQ0tESVJ9LyR7QlB9L3N1YnByb2plY3RzL2dzdC1leGFtcGxlcyIKIAotLSAK
-Mi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMTYgSmFuIDIwMjYgMDA6MDc6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ0cmFjZWV2ZW50OiB1cGdyYWRlIDEuOC42IC0+IDEuOC43CgotLS0KIC4uLi97bGlidHJhY2Vl
+dmVudF8xLjguNi5iYiA9PiBsaWJ0cmFjZWV2ZW50XzEuOC43LmJifSAgICAgICAgfCA0ICsrKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMta2VybmVsL2xpYnRyYWNlZXZlbnQve2xpYnRyYWNlZXZlbnRfMS44LjYuYmIg
+PT4gbGlidHJhY2VldmVudF8xLjguNy5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMta2VybmVsL2xpYnRyYWNlZXZlbnQvbGlidHJhY2VldmVudF8xLjguNi5iYiBiL21ldGEvcmVj
+aXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOC43LmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVu
+dC9saWJ0cmFjZWV2ZW50XzEuOC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2xp
+YnRyYWNlZXZlbnQvbGlidHJhY2VldmVudF8xLjguNy5iYgppbmRleCBkZWRkYjYwZjYzLi4wZTg5
+MWMxNDk4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpYnRyYWNlZXZlbnQvbGli
+dHJhY2VldmVudF8xLjguNi5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpYnRyYWNlZXZl
+bnQvbGlidHJhY2VldmVudF8xLjguNy5iYgpAQCAtOCw3ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NV
+TSA9ICJmaWxlOi8vTElDRU5TRVMvR1BMLTIuMDttZDU9ZTZhNzUzNzFiYTRkMTY3NDkyNTRhNTEy
+MTVkMTNmOTcKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOU0VTL0xHUEwtMi4xO21k
+NT1iMzcwODg3OTgwZGI1ZGQ0MDY1OWI1MDkwOTIzOGRiZCIKIFNFQ1RJT04gPSAibGlicyIKIAot
+U1JDUkVWID0gIjk4YzIxNzQyNzE4M2Y2NmYwOWY0YTI3MzAwYWQ4N2Q3MTgxNGMzOGYiCitTUkNS
+RVYgPSAiN2E4ZmVlNTdkODdhYTYxYzlkNTc4Y2Q2N2U5OWQyNjc3Yjg5NDc3MiIKIFNSQ19VUkkg
+PSAiZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saWJzL2xpYnRyYWNlL2xpYnRyYWNlZXZl
+bnQuZ2l0O2JyYW5jaD0ke0JQTn07cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICIKIApAQCAt
+MTksMyArMTksNSBAQCBFWFRSQV9PRU1FU09OID0gIi1EZG9jPWZhbHNlIgogUEFDS0FHRVMgKz0g
+IiR7UE59LXBsdWdpbnMiCiAKIEZJTEVTOiR7UE59LXBsdWdpbnMgKz0gIiR7bGliZGlyfS90cmFj
+ZWV2ZW50L3BsdWdpbnMiCisKK0JQTiA9ICJsaWJ0cmFjZWV2ZW50LXYxLjgiCi0tIAoyLjQ3LjEK
+Cg==
 
---===============1959955833478817137==--
+--===============3514195172848665882==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.8.7"
+Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
+  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.8.7
+  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.8.7
+
+--===============3514195172848665882==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/libtraceevent: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent: SRC_URI changed from "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=libtraceevent;protocol=https" to "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=libtraceevent-v1.8;protocol=https"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGSIZE changed from 608312 to 612704 (+1%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: FILELIST: removed "/usr/lib/.debug/libtraceevent.so.1.8.6", added "/usr/lib/.debug/libtraceevent.so.1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGSIZE changed from 28895 to 29056 (+1%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: FILES: removed "/usr/lib/libtraceevent/*.la", added "/usr/lib/libtraceevent-v1.8/*.la"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGSIZE changed from 398698 to 400743 (+1%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: FILELIST: directory renamed /usr/src/debug/libtraceevent/1.8.6/plugins -> /usr/src/debug/libtraceevent/1.8.7/plugins, directory renamed /usr/src/debug/libtraceevent/1.8.6/include/traceevent -> /usr/src/debug/libtraceevent/1.8.7/include/traceevent, directory renamed /usr/src/debug/libtraceevent/1.8.6/src -> /usr/src/debug/libtraceevent/1.8.7/src
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 751910 (+1%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: FILES: removed "/usr/lib/libtraceevent/*.a", added "/usr/lib/libtraceevent-v1.8/*.a"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PV changed from "1.8.6" to "1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.8.7"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILES: removed "/usr/lib/libtraceevent/* /usr/share/libtraceevent", added "/usr/lib/libtraceevent-v1.8/* /usr/share/libtraceevent-v1.8"
+Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
+  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.8.7
+  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.8.7
+
+--===============3514195172848665882==--
 
