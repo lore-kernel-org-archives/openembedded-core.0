@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65195D47CD0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DD1D48986
 	for <webhook@archiver.kernel.org>; Fri, 16 Jan 2026 01:25:52 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1464.1768526740207822311
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1425.1768526740192686188
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jan 2026 17:25:49 -0800
+ Thu, 15 Jan 2026 17:25:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Mq8FmpEV;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YHX/QY2p;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019bc4689c21-bb6dada0-58b6-4762-b71e-167955d85d14-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=1by3TOTl;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AfB5/9EO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019bc46890f1-0207e83b-b697-433d-9d9d-66a74eda45db-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768526748;
+	t=1768526745;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=aVcTmVAjWfBnQ4mxFyAiZetm+KT2cRIEcEoC3b0wzSI=;
-	b=Mq8FmpEVK1Lm/SB3NW32Uzh3ZSdhAO3bcrd1kBMriLKb8Zw27hF0bQZQt70dQVlO
-	uvx7KO99Q9TpSjkn3l23QerUp15eswXkNAIY2aO68V2UbMNdqmIAJ9lVhUQD5NxZ/U9
-	b54CVGpjgVDlZ6133Qxd4JxUrz37lyMArJ7/rq50=
+	bh=JHSgyyVYNd8qH27E5neHmoy0VfjrV2sSZnyNqSL/wHU=;
+	b=1by3TOTlJIWeK35uFCi7kqnCAjIqXrsYWg+XieR4m65lnI8GOs+TVcxiw/dV+Qmb
+	1yaTF0HlxRdsaMG8icFWLklu7I1MUgH/MST/fWpyX6lb/WmoXux5LlH13SrC1ZE9UnL
+	ud+oBgX5dRyKCbv5dZBGL377N0Js3N+ADr/wakww=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526748;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768526745;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=aVcTmVAjWfBnQ4mxFyAiZetm+KT2cRIEcEoC3b0wzSI=;
-	b=YHX/QY2pRiHxgEpL97A8kpwRRQDKxes3g+7PQSzTdOYtjkdetbX/fdg55Xg6iz5C
-	qkSabQZVN1gmMaIYOT+UkTlpO2LB7BFHBM54Iqe5HNyrW66rMLezCX/m/EiLWWfqvKQ
-	I7CLsCLOA0kGSg0y4oZuUvM/o4l6wi+kJqY+EtOM=
-Content-Type: multipart/mixed; boundary="===============1033221598244181167=="
+	bh=JHSgyyVYNd8qH27E5neHmoy0VfjrV2sSZnyNqSL/wHU=;
+	b=AfB5/9EOjGa8UpeCZjpaHbnkdZco7ji4I/P0WvCTCfXDqAaNOEt5Srg/4sLNouzj
+	pOeVqkWqsovMxK/6xqCMyDTZM+vll4prXE7pfRepjwPMYXD7wl+nQSSb7ncSq4q+mNU
+	7ce+quecs4PMqVGFDSs2gmkUVSDmcZg8yGuTmdio=
+Content-Type: multipart/mixed; boundary="===============4851428304449270278=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-numpy: upgrading to 2.4.1 SUCCEEDED
-Message-ID: <0101019bc4689c21-bb6dada0-58b6-4762-b71e-167955d85d14-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jan 2026 01:25:48 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] lua: upgrading to 5.5.0 FAILED
+Message-ID: <0101019bc46890f1-0207e83b-b697-433d-9d9d-66a74eda45db-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jan 2026 01:25:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.27.191
+X-SES-Outgoing: 2026.01.16-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jan 2026 01:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229469
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229456
 
---===============1033221598244181167==
+--===============4851428304449270278==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-numpy* to *2.4.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *lua* to *5.5.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-numpy-upgrade-2.3.5-2.4.1.patch
+    - apply the patch: git am 0001-lua-upgrade-5.4.8-5.5.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,332 +78,281 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 02f9014d2d01dad1924ef023e25b0acbb008aca0 Mon Sep 17 00:00:00 2001
+From 886cf98c0b5bba1bb46d575b1cafe349045cf6eb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jan 2026 21:42:04 +0000
-Subject: [PATCH] python3-numpy: upgrade 2.3.5 -> 2.4.1
+Date: Thu, 15 Jan 2026 20:32:32 +0000
+Subject: [PATCH] lua: upgrade 5.4.8 -> 5.5.0
 
 ---
- ...1-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch | 2 +-
- .../python/python3-numpy/fix_reproducibility.patch              | 2 +-
- .../python/{python3-numpy_2.3.5.bb => python3-numpy_2.4.1.bb}   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-numpy_2.3.5.bb => python3-numpy_2.4.1.bb} (97%)
+ .../lua/{lua_5.4.8.bb => lua_5.5.0.bb}        | 37 ++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/lua/{lua_5.4.8.bb => lua_5.5.0.bb} (63%)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-index 3a77ffa4e0..20a70186ba 100644
---- a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-@@ -1,4 +1,4 @@
--From 5cb7316128845e3da1ce1618a42b2e3222b59ba9 Mon Sep 17 00:00:00 2001
-+From 5101b105cbb4d4fc31d00d0794211aad0a2449a6 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 10 Dec 2015 13:20:30 +0200
- Subject: [PATCH] Don't search /usr and so on for libraries by default to
-diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-index 71b3634b77..f8960adb48 100644
---- a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-@@ -1,4 +1,4 @@
--From 6fd79cbe7ae9f0a7a5fc4e5cd6c5c3da9ea09815 Mon Sep 17 00:00:00 2001
-+From 8124ebf8492408cdec2e4080d7665d15455ebae9 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 29 Sep 2023 22:53:24 +0100
- Subject: [PATCH] This regex decides whether to use O3 opimisation on numpy or
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.3.5.bb b/meta/recipes-devtools/python/python3-numpy_2.4.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/python/python3-numpy_2.3.5.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.4.1.bb
-index 55b8091ff8..2555627858 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.3.5.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.4.1.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://fix_reproducibility.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "784db1dcdab56bf0517743e746dfb0f885fc68d948aba86eeec2cba234bdf1c0"
-+SRC_URI[sha256sum] = "a1ceafc5042451a858231588a104093474c6a5c57dcc724841f5c888d237d690"
+diff --git a/meta/recipes-devtools/lua/lua_5.4.8.bb b/meta/recipes-devtools/lua/lua_5.5.0.bb
+similarity index 63%
+rename from meta/recipes-devtools/lua/lua_5.4.8.bb
+rename to meta/recipes-devtools/lua/lua_5.5.0.bb
+index 1d37cddeb8..3b23b1d4ad 100644
+--- a/meta/recipes-devtools/lua/lua_5.4.8.bb
++++ b/meta/recipes-devtools/lua/lua_5.5.0.bb
+@@ -1,7 +1,40 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- doc/readme.html
++# +++ doc/readme.html
++# @@ -1,9 +1,3 @@
++# -Copyright &copy; 1994&ndash;2025 Lua.org, PUC-Rio.
++# -
++# -<P>
++# -Permission is hereby granted, free of charge, to any person obtaining a copy
++# -of this software and associated documentation files (the "Software"), to deal
++# -in the Software without restriction, including without limitation the rights
++#  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++#  copies of the Software, and to permit persons to whom the Software is
++#  furnished to do so, subject to the following conditions:
++# @@ -20,3 +14,9 @@
++#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++#  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++#  THE SOFTWARE.
++# +</BLOCKQUOTE>
++# +<P>
++# +
++# +<P CLASS="footer">
++# +Last update:
++# +Wed Dec 10 11:37:23 UTC 2025
++# 
++#
++
+ SUMMARY = "Lua is a powerful light-weight programming language designed \
+ for extending applications."
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=305;endline=326;md5=0e573c143cb6491b41cf02cfbcb8c267"
++LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=305;endline=326;md5=b61eb40fb7838eaf69a3186c50060b8c"
+ HOMEPAGE = "http://www.lua.org/"
  
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
+@@ -12,7 +45,7 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
+ # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
+ PV_testsuites = "${PV}"
+ 
+-SRC_URI[tarballsrc.sha256sum] = "4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae"
++SRC_URI[tarballsrc.sha256sum] = "57ccc32bbbd005cab75bcc52444052535af691789dba2b9016d5c50640d68b3d"
+ SRC_URI[tarballtest.sha256sum] = "9581d5a7c39ffbf29b8ccde2709083c380f7bbddbd968dcb15712d2f2e33f4e5"
+ 
+ inherit pkgconfig binconfig ptest
 -- 
 2.47.1
 
 
---===============1033221598244181167==
+--===============4851428304449270278==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: FILELIST: removed "/usr/lib/python3.13/site-packages/numpy/fft/__pycache__/helper.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/_core/_machar.pyi /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/LICENSE.txt /usr/lib/python3.13/site-packages/numpy/linalg/linalg.py /usr/lib/python3.13/site-packages/numpy/fft/helper.pyi /usr/lib/python3.13/site-packages/numpy/fft/helper.py /usr/lib/python3.13/site-packages/numpy/_core/_machar.py /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/numpy/linalg/__pycache__/linalg.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/__pycache__/simple_py3.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/_core/__pycache__/_machar.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/linalg/linalg.pyi /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/WHEEL /usr/lib/python3.13/site-packages
- /numpy/_core/tests/__pycache__/test_machar.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/simple_py3.py /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/METADATA /usr/lib/python3.13/site-packages/numpy/_core/tests/test_machar.py", added "/usr/lib/python3.13/site-packages/numpy/_core/tests/test_finfo.py /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/distributions/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_finfo.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dis
- t-info/licenses/numpy/random/src/mt19937/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/WHEEL /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/highway/LICENSE /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/philox/LICENSE.md /usr/lib/python3.13/site-packages/numpy/ma/testutils.pyi /usr/lib/python3.13/site-packages/numpy/_core/tests/test_multiprocessing.py /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/LICENSE.txt /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/numpy/typing/__init__.pyi /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt /usr/lib/python3.13/site-pack
- ages/numpy-2.4.1.dist-info/licenses/numpy/ma/LICENSE /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_multiprocessing.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/METADATA /usr/lib/python3.13/site-packages/numpy/_core/_umath_tests.pyi"
-Changes to packages/x86-64-v3-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info moved to /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy/libdivide was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/highway was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/highway/LICENSE was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/multiarray was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath/svml was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft/pocketfft was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg/lapack_lite was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/ma was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/ma/LICENSE was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/distributions was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/distributions/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/mt19937 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/pcg64 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/philox was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/philox/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/sfc64 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/splitmix64 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_finfo.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_multiprocessing.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/test_finfo.py was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/test_multiprocessing.py was added
-  /usr/lib/python3.13/site-packages/numpy/_core/_umath_tests.pyi was added
-  /usr/lib/python3.13/site-packages/numpy/ma/testutils.pyi was added
-  /usr/lib/python3.13/site-packages/numpy/typing/__init__.pyi was added
-  /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/_machar.py was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/_machar.pyi was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/__pycache__/_machar.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_machar.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/test_machar.py was removed
-  /usr/lib/python3.13/site-packages/numpy/fft/helper.py was removed
-  /usr/lib/python3.13/site-packages/numpy/fft/helper.pyi was removed
-  /usr/lib/python3.13/site-packages/numpy/fft/__pycache__/helper.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/linalg/linalg.py was removed
-  /usr/lib/python3.13/site-packages/numpy/linalg/linalg.pyi was removed
-  /usr/lib/python3.13/site-packages/numpy/linalg/__pycache__/linalg.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/__pycache__/simple_py3.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/simple_py3.py was removed
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1955 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============1033221598244181167==
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-299ef5f5307b56e54638b0127df021189513f980"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:299ef5f5307b56e54638b0127df021189513f980"
+meta-yocto-bsp       
+meta-poky            = "master:c23c19e0b300812bad314f1d0a901965315271ae"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 154 Local 91 Mirrors 0 Missed 63 Current 301 (59% match, 86% complete)
+done.
+Removing 16 stale sstate objects for arch qemux86_64...done.
+Removing 28 stale sstate objects for arch x86-64-v3...done.
+Removing 1 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 424 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 438 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 440 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 445 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_stash_locale_setscene)
+NOTE: Running setscene task 450 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe lua-5.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_stash_locale_setscene: Started
+NOTE: recipe gawk-native-5.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe lua-5.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 921 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch)
+NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 922 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_fetch)
+NOTE: recipe lua-native-5.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 451 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gawk-native-5.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 453 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_create_spdx_setscene)
+NOTE: recipe lua-5.5.0-r0: task do_fetch: Started
+NOTE: recipe ncurses-6.5-r0: task do_fetch: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-native-6.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 928 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch)
+NOTE: recipe ncurses-native-6.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1096 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_unpack)
+NOTE: recipe lua-native-5.5.0-r0: task do_fetch: Started
+NOTE: recipe glibc-2.42+git-r1: task do_stash_locale_setscene: Succeeded
+NOTE: recipe lua-native-5.5.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 455 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1119 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_unpack)
+NOTE: Running task 1120 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ncurses-6.5-r0: task do_unpack: Started
+NOTE: recipe gawk-native-5.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_unpack: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1121 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_patch)
+NOTE: recipe lua-native-5.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
+WARNING: lua-5.5.0-r0 do_fetch: Checksum failure encountered with download of http://www.lua.org/tests/lua-5.5.0-tests.tar.gz;name=tarballtest - will attempt other sources if available
+NOTE: recipe gawk-native-5.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1131 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-native-5.5.0-r0: task do_patch: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_patch: Succeeded
+NOTE: Running task 1135 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_configure)
+NOTE: recipe glibc-2.42+git-r1: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_configure: Started
+NOTE: recipe lua-native-5.5.0-r0: task do_configure: Succeeded
+NOTE: Running task 1136 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_compile)
+NOTE: recipe lua-native-5.5.0-r0: task do_compile: Started
+NOTE: recipe ncurses-6.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1137 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_patch)
+NOTE: recipe ncurses-6.5-r0: task do_patch: Started
+NOTE: recipe glibc-2.42+git-r1: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1138 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_configure)
+NOTE: recipe glibc-2.42+git-r1: task do_configure: Started
+NOTE: recipe ncurses-6.5-r0: task do_patch: Succeeded
+NOTE: recipe glibc-2.42+git-r1: task do_configure: Succeeded
+NOTE: Running task 1140 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_compile)
+NOTE: recipe glibc-2.42+git-r1: task do_compile: Started
+NOTE: recipe lua-5.5.0-r0: task do_fetch: Failed
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75 CC=gcc  -fPIC MYCFLAGS=-isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/include -O2 -pipe -fPIC MYLDFLAGS=-L/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/lib                         -L/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/lib                         -Wl,-rpath,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/srv/pokybuild/yo
+ cto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -pthread AR=ar rcD RANLIB=ranlib -D linux-readline
+| make: *** No rule to make target 'linux-readline'.  Stop.
+| ERROR: oe_runmake failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518:168 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518, line 168
+| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518, line 152
+| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518, line 147
+| 	#4: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518, line 142
+| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518, line 181
+NOTE: recipe lua-native-5.5.0-r0: task do_compile: Failed
+NOTE: recipe glibc-2.42+git-r1: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1140 tasks of which 1127 didn't need to be rerun and 2 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260115203112.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260115203112.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 2 tasks failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lua/5.5.0/temp/log.do_fetch.529257
+  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/log.do_compile.529518
+Summary: There was 1 WARNING message.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: lua-5.5.0-r0 do_fetch: Fetcher failure for URL: 'http://www.lua.org/tests/lua-5.5.0-tests.tar.gz;name=tarballtest'. Checksum mismatch!
+File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/lua-5.5.0-tests.tar.gz.tmp' has sha256 checksum '5e47bbfad7db2965d69580e918ee64edeb8d8d32de404b8dae9ce5c6d76a1472' when '9581d5a7c39ffbf29b8ccde2709083c380f7bbddbd968dcb15712d2f2e33f4e5' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[tarballtest.sha256sum] = "5e47bbfad7db2965d69580e918ee64edeb8d8d32de404b8dae9ce5c6d76a1472"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: lua-5.5.0-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.lua.org/tests/lua-5.5.0-tests.tar.gz;name=tarballtest')
+ERROR: lua-native-5.5.0-r0 do_compile: oe_runmake failed
+ERROR: lua-native-5.5.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.529518' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lua/5.5.0/temp/log.do_fetch.529257
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch) failed with exit code '1'
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/log.do_compile.529518
+ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_compile) failed with exit code '1'
+
+--===============4851428304449270278==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-numpy-upgrade-2.3.5-2.4.1.patch"
+Content-Disposition: attachment; filename="0001-lua-upgrade-5.4.8-5.5.0.patch"
 
-RnJvbSAwMmY5MDE0ZDJkMDFkYWQxOTI0ZWYwMjNlMjViMGFjYmIwMDhhY2EwIE1vbiBTZXAgMTcg
+RnJvbSA4ODZjZjk4YzBiNWJiYTFiYjQ2ZDU3NWIxY2FmZTM0OTA0NWNmNmViIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjE6NDI6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLW51bXB5OiB1cGdyYWRlIDIuMy41IC0+IDIuNC4xCgotLS0KIC4uLjEtRG9uLXQtc2Vh
-cmNoLXVzci1hbmQtc28tb24tZm9yLWxpYnJhcmllcy1ieS1kZWZhdWx0LS5wYXRjaCB8IDIgKy0K
-IC4uLi9weXRob24vcHl0aG9uMy1udW1weS9maXhfcmVwcm9kdWNpYmlsaXR5LnBhdGNoICAgICAg
-ICAgICAgICB8IDIgKy0KIC4uLi9weXRob24ve3B5dGhvbjMtbnVtcHlfMi4zLjUuYmIgPT4gcHl0
-aG9uMy1udW1weV8yLjQuMS5iYn0gICB8IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRp
-b25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24ve3B5dGhvbjMtbnVtcHlfMi4zLjUuYmIgPT4gcHl0aG9uMy1udW1weV8yLjQuMS5iYn0gKDk3
-JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVt
-cHkvMDAwMS1Eb24tdC1zZWFyY2gtdXNyLWFuZC1zby1vbi1mb3ItbGlicmFyaWVzLWJ5LWRlZmF1
-bHQtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5LzAw
-MDEtRG9uLXQtc2VhcmNoLXVzci1hbmQtc28tb24tZm9yLWxpYnJhcmllcy1ieS1kZWZhdWx0LS5w
-YXRjaAppbmRleCAzYTc3ZmZhNGUwLi4yMGE3MDE4NmJhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHkvMDAwMS1Eb24tdC1zZWFyY2gtdXNyLWFu
-ZC1zby1vbi1mb3ItbGlicmFyaWVzLWJ5LWRlZmF1bHQtLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1weS8wMDAxLURvbi10LXNlYXJjaC11c3ItYW5k
-LXNvLW9uLWZvci1saWJyYXJpZXMtYnktZGVmYXVsdC0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
-cm9tIDVjYjczMTYxMjg4NDVlM2RhMWNlMTYxOGE0MmIyZTMyMjJiNTliYTkgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCitGcm9tIDUxMDFiMTA1Y2JiNGQ0ZmMzMWQwMGQwNzk0MjExYWFkMGEyNDQ5
-YTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMTAgRGVjIDIwMTUgMTM6MjA6MzAgKzAy
-MDAKIFN1YmplY3Q6IFtQQVRDSF0gRG9uJ3Qgc2VhcmNoIC91c3IgYW5kIHNvIG9uIGZvciBsaWJy
-YXJpZXMgYnkgZGVmYXVsdCB0bwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLW51bXB5L2ZpeF9yZXByb2R1Y2liaWxpdHkucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHkvZml4X3JlcHJvZHVjaWJpbGl0eS5wYXRj
-aAppbmRleCA3MWIzNjM0Yjc3Li5mODk2MGFkYjQ4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHkvZml4X3JlcHJvZHVjaWJpbGl0eS5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHkvZml4X3JlcHJv
-ZHVjaWJpbGl0eS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmZkNzljYmU3YWU5ZjBhN2E1
-ZmM0ZTVjZDZjNWMzZGE5ZWEwOTgxNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gODEy
-NGViZjg0OTI0MDhjZGVjMmU0MDgwZDc2NjVkMTU0NTVlYmFlOSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnPgogRGF0ZTogRnJpLCAyOSBTZXAgMjAyMyAyMjo1MzoyNCArMDEwMAogU3ViamVjdDog
-W1BBVENIXSBUaGlzIHJlZ2V4IGRlY2lkZXMgd2hldGhlciB0byB1c2UgTzMgb3BpbWlzYXRpb24g
-b24gbnVtcHkgb3IKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1udW1weV8yLjMuNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1udW1weV8yLjQuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHlfMi4zLjUuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1weV8yLjQuMS5iYgppbmRleCA1
-NWI4MDkxZmY4Li4yNTU1NjI3ODU4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtbnVtcHlfMi4zLjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLW51bXB5XzIuNC4xLmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkg
-PSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke1NSQ05BTUV9LSR7UFZ9LnRh
-ci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9maXhfcmVwcm9kdWNpYmlsaXR5LnBhdGNoIFwKICAg
-ICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICI3ODRkYjFkY2RhYjU2YmYwNTE3NzQzZTc0NmRmYjBmODg1ZmM2OGQ5NDhhYmE4NmVl
-ZWMyY2JhMjM0YmRmMWMwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImExY2VhZmM1MDQyNDUxYTg1
-ODIzMTU4OGExMDQwOTM0NzRjNmE1YzU3ZGNjNzI0ODQxZjVjODg4ZDIzN2Q2OTAiCiAKIEdJVEhV
-Ql9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vbnVtcHkvbnVtcHkvcmVsZWFzZXMiCiBV
-UFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvdj8oP1A8cHZlcj5cZCsoXC5cZCsp
-KykkIgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMTUgSmFuIDIwMjYgMjA6MzI6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+dWE6IHVwZ3JhZGUgNS40LjggLT4gNS41LjAKCi0tLQogLi4uL2x1YS97bHVhXzUuNC44LmJiID0+
+IGx1YV81LjUuMC5iYn0gICAgICAgIHwgMzcgKysrKysrKysrKysrKysrKysrLQogMSBmaWxlIGNo
+YW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2x1YS97bHVhXzUuNC44LmJiID0+IGx1YV81LjUuMC5iYn0gKDYzJSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuOC5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggNjMlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC44LmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjUuMC5iYgppbmRleCAxZDM3Y2RkZWI4
+Li4zYjIzYjFkNGFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81
+LjQuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjUuMC5iYgpAQCAt
+MSw3ICsxLDQwIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
+ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
+IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
+UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
+dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
+JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
+dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gZG9jL3JlYWRtZS5odG1sCisjICsr
+KyBkb2MvcmVhZG1lLmh0bWwKKyMgQEAgLTEsOSArMSwzIEBACisjIC1Db3B5cmlnaHQgJmNvcHk7
+IDE5OTQmbmRhc2g7MjAyNSBMdWEub3JnLCBQVUMtUmlvLgorIyAtCisjIC08UD4KKyMgLVBlcm1p
+c3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9i
+dGFpbmluZyBhIGNvcHkKKyMgLW9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1l
+bnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsCisjIC1pbiB0aGUgU29mdHdh
+cmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbiB0aGUg
+cmlnaHRzCisjICB0byB1c2UsIGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1
+dGUsIHN1YmxpY2Vuc2UsIGFuZC9vciBzZWxsCisjICBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBh
+bmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUgU29mdHdhcmUgaXMKKyMgIGZ1cm5pc2hl
+ZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisjIEBAIC0y
+MCwzICsxNCw5IEBACisjICBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRS
+QUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORyBGUk9NLAorIyAgT1VUIE9GIE9SIElOIENP
+Tk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUiBERUFMSU5HUyBJ
+TgorIyAgVEhFIFNPRlRXQVJFLgorIyArPC9CTE9DS1FVT1RFPgorIyArPFA+CisjICsKKyMgKzxQ
+IENMQVNTPSJmb290ZXIiPgorIyArTGFzdCB1cGRhdGU6CisjICtXZWQgRGVjIDEwIDExOjM3OjIz
+IFVUQyAyMDI1CisjIAorIworCiBTVU1NQVJZID0gIkx1YSBpcyBhIHBvd2VyZnVsIGxpZ2h0LXdl
+aWdodCBwcm9ncmFtbWluZyBsYW5ndWFnZSBkZXNpZ25lZCBcCiBmb3IgZXh0ZW5kaW5nIGFwcGxp
+Y2F0aW9ucy4iCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2Rv
+Yy9yZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzA1O2VuZGxpbmU9MzI2O21kNT0wZTU3M2MxNDNjYjY0
+OTFiNDFjZjAyY2ZiY2I4YzI2NyIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2RvYy9yZWFk
+bWUuaHRtbDtiZWdpbmxpbmU9MzA1O2VuZGxpbmU9MzI2O21kNT1iNjFlYjQwZmI3ODM4ZWFmNjlh
+MzE4NmM1MDA2MGI4YyIKIEhPTUVQQUdFID0gImh0dHA6Ly93d3cubHVhLm9yZy8iCiAKIFNSQ19V
+UkkgPSAiaHR0cDovL3d3dy5sdWEub3JnL2Z0cC9sdWEtJHtQVn0udGFyLmd6O25hbWU9dGFyYmFs
+bHNyYyBcCkBAIC0xMiw3ICs0NSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5sdWEub3JnL2Z0
+cC9sdWEtJHtQVn0udGFyLmd6O25hbWU9dGFyYmFsbHNyYyBcCiAjIGlmIG5vIHRlc3Qgc3VpdGUg
+bWF0Y2hlcyBQViByZWxlYXNlIG9mIEx1YSBleGFjdGx5LCBkb3dubG9hZCB0aGUgc3VpdGUgZm9y
+IHRoZSBjbG9zZXN0IEx1YSByZWxlYXNlLgogUFZfdGVzdHN1aXRlcyA9ICIke1BWfSIKIAotU1JD
+X1VSSVt0YXJiYWxsc3JjLnNoYTI1NnN1bV0gPSAiNGYxOGRkYWUxNTRlNzkzZTQ2ZWVhYjcyN2M1
+OWVmMWMwYzBjMmI3NDRlN2I5NDIxOTcxMGQ3NmY1MzA2MjlhZSIKK1NSQ19VUklbdGFyYmFsbHNy
+Yy5zaGEyNTZzdW1dID0gIjU3Y2NjMzJiYmJkMDA1Y2FiNzViY2M1MjQ0NDA1MjUzNWFmNjkxNzg5
+ZGJhMmI5MDE2ZDVjNTA2NDBkNjhiM2QiCiBTUkNfVVJJW3RhcmJhbGx0ZXN0LnNoYTI1NnN1bV0g
+PSAiOTU4MWQ1YTdjMzlmZmJmMjliOGNjZGUyNzA5MDgzYzM4MGY3YmJkZGJkOTY4ZGNiMTU3MTJk
+MmYyZTMzZjRlNSIKIAogaW5oZXJpdCBwa2djb25maWcgYmluY29uZmlnIHB0ZXN0Ci0tIAoyLjQ3
+LjEKCg==
 
---===============1033221598244181167==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-numpy: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy: SRC_URI changed from "https://github.com/numpy/numpy/releases/download/v2.3.5/numpy-2.3.5.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://fix_reproducibility.patch file://run-ptest" to "https://github.com/numpy/numpy/releases/download/v2.4.1/numpy-2.4.1.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://fix_reproducibility.patch file://run-ptest"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 100493688 to 94714288 (-6%)
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-ptest: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-ptest: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 24901289 to 25090450 (+1%)
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: FILELIST: directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/npymath -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/npymath, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/textreading -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/textreading, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/mtrand.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/mtrand.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/npysort -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/npysort, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/bit_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/bit_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory
-  renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/src/philox -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/src/philox, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/fft/pocketfft -> /usr/src/debug/python3-numpy/2.4.1/numpy/fft/pocketfft, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx2 -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx2, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/highway/hwy -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/highway/hwy, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/_bounded_integers.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_bounded_integers.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/stringdtype -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/stringdtype, directory 
- renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/include/numpy/libdivide -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/include/numpy/libdivide, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/src/legacy -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/src/legacy, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/src/pcg64 -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/src/pcg64, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/pythoncapi-compat -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/pythoncapi-compat, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/src/sfc64 -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/src/sfc64, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/_mt19937.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_mt19937.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/
- src/debug/python3-numpy/2.3.5/numpy/random/_pcg64.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_pcg64.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/dlpack -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/dlpack, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/fft -> /usr/src/debug/python3-numpy/2.4.1/numpy/fft, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/_sfc64.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_sfc64.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/sse -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/sse, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core, directory renamed /usr/src/debug
- /python3-numpy/2.3.5/numpy/_core/include/numpy -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/include/numpy, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/src/mt19937 -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/src/mt19937, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/include/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/include/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_generator.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/umath -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/umath, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/_simd -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/_simd, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/include -> /u
- sr/src/debug/python3-numpy/2.4.1/numpy/random/include, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/npysort/x86-simd-sort/src -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/npysort/x86-simd-sort/src, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/linalg -> /usr/src/debug/python3-numpy/2.4.1/numpy/linalg, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/_common.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_common.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/_philox.cpython-313-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/_philox.cpython-313-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/highway/hwy/ops -> /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/highway/hwy/ops, directory renamed /usr/src/debug/pyt
- hon3-numpy/2.3.5/numpy/linalg/lapack_lite -> /usr/src/debug/python3-numpy/2.4.1/numpy/linalg/lapack_lite, directory renamed /usr/src/debug/python3-numpy/2.3.5/numpy/random/src/distributions -> /usr/src/debug/python3-numpy/2.4.1/numpy/random/src/distributions, removed "/usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/conversion.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/nditer_api.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/scalartypes.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_method.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/half.hpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/meta.hpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_extint128.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_converter.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_cpu_features.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/m
- ultiarray/iterators.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_assign_array.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/usertypes.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_method.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_cpu_features.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/iterators.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/usertypes.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_converter.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/alloc.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/nditer_pywrap.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/ufunc_override.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/ctors.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/descriptor.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/nditer
- _pywrap.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/alloc.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/unique.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/descriptor.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/binop_override.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/ufunc_override.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/ctors.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/array_assign.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime_strings.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/numpy_tag.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/array_assign.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime_strings.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/public_dtype_api.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_hashtable.h /usr/src/debug/pyt
- hon3-numpy/2.3.5/numpy/_core/src/multiarray/convert_datatype.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/public_dtype_api.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/convert_datatype.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/unique.cpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_sort.h.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/simd.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/shape.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_binsearch.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/templ_common.h.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/shape.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_assign_scalar.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/vdot.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/nditer_impl.h /usr/src/debug/python3-numpy/2.3.5/n
- umpy/_core/src/multiarray/vdot.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/scalartypes.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/common_dtype.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_hashtable.cpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npstd.hpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/utils.hpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/npy_static_data.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/multiarraymodule.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/npy_buffer.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/multiarraymodule.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/npy_static_data.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/compiled_base.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/compiled_base.h /usr/src/debug/python3-numpy/2.3.5/numpy/_
- core/src/multiarray/strfuncs.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/misc.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/arithmetic.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/strfuncs.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_import.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/umathmodule.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_argparse.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_longdouble.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_argparse.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_import.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_longdouble.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/blas_utils.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/flagsobject.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/item_selection
- .c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/blas_utils.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/flagsobject.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/item_selection.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_cpu_dispatch.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/hashdescr.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_cpu_dispatch.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/hashdescr.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/legacy_dtype_implementation.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/argfunc.dispatch.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/legacy_dtype_implementation.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dlpack.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/co
- mmon/npy_ctypes.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/numpyos.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/scalarapi.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/utils.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/number.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/number.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/_datetime.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/numpyos.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/refcount.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/buffer.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/refcount.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/maskop.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dtype_transfer.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_dlpack.h /usr/src/debug/python3-numpy/
- 2.3.5/numpy/_core/src/multiarray/conversion_utils.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dtype_transfer.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/conversion_utils.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dtypemeta.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arraytypes.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dtypemeta.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/einsum_sumprod.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/abstractdtypes.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/mem_overlap.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/get_attr_string.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/getset.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/abstractdtypes.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/getset.c /usr/src/debug/python3-nump
- y/2.3.5/numpy/_core/src/common/mem_overlap.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/intdiv.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/methods.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/_multiarray_tests.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/nditer_templ.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/convert.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/methods.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/convert.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/can_cast_table.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/temp_elide.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/calculation.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dtype_traversal.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_partition.h /usr/src/debug/python3-numpy/2.3.5/numpy/
- _core/src/common/simd/avx512/math.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arraytypes.h.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/calculation.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/temp_elide.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dtype_traversal.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime_busday.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/sequence.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arraywrap.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arraywrap.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/memory.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/sequence.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime_busday.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/common.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/
- src/common/simd/avx512/operators.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime_busdaycal.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/einsum_sumprod.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/common.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/datetime_busdaycal.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/reorder.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/mapping.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/mapping.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/nditer_constr.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/float_status.hpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/emulate_maskop.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/half_private.hpp /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/lowlevel_strided_loops.c.src /usr/src/debug/python3-
- numpy/2.3.5/numpy/_core/src/multiarray/array_api_standard.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arrayfunction_override.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_api_standard.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arrayfunction_override.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/gil_utils.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arrayobject.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/einsum.c.src /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/npy_atomic.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/gil_utils.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/arrayobject.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_coercion.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dragon4.h /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/lowlevel_strided_loops.h /usr/src
- /debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/dragon4.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/multiarray/array_coercion.c /usr/src/debug/python3-numpy/2.3.5/numpy/_core/src/common/simd/avx512/avx512.h", added "/usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/conversion.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/nditer_api.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/scalartypes.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_method.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/half.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/meta.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_extint128.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_converter.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_cpu_features.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/iterators.c /usr/src/debug/p
- ython3-numpy/2.4.1/numpy/_core/src/multiarray/array_assign_array.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/usertypes.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_method.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_cpu_features.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/iterators.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/usertypes.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_converter.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/alloc.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/nditer_pywrap.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/ufunc_override.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/ctors.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/descriptor.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/nditer_pywrap.c /usr/src/debug/python3-numpy
- /2.4.1/numpy/_core/src/multiarray/alloc.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/unique.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/descriptor.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/binop_override.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/ufunc_override.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/ctors.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/array_assign.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime_strings.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/numpy_tag.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/array_assign.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime_strings.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/public_dtype_api.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_hashtable.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multi
- array/convert_datatype.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/public_dtype_api.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/convert_datatype.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/unique.cpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_sort.h.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/simd.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/shape.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_binsearch.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/templ_common.h.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/shape.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_assign_scalar.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/vdot.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/nditer_impl.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/vdot.h /usr/
- src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/scalartypes.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/common_dtype.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_hashtable.cpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npstd.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/utils.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/npy_static_data.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/multiarraymodule.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/npy_buffer.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/multiarraymodule.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/npy_static_data.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/compiled_base.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/compiled_base.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/strfuncs.c /usr/sr
- c/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/misc.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/arithmetic.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/strfuncs.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_longdouble.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_import.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_argparse.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/umathmodule.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_argparse.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_longdouble.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_import.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/einsum.cpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/blas_utils.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/flagsobject.h /usr/src/debug/python3-numpy/2.4.1/numpy/
- _core/src/multiarray/item_selection.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/blas_utils.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/flagsobject.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/item_selection.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_cpu_dispatch.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/hashdescr.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/fnv.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_cpu_dispatch.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/fnv.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/hashdescr.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/simd.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/legacy_dtype_implementation.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/argfunc.dispatch.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core
- /src/multiarray/legacy_dtype_implementation.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dlpack.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_ctypes.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/numpyos.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/scalarapi.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/number.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/number.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/_datetime.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/numpyos.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/refcount.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/buffer.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/refcount.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/maskop.h /usr/src/debug
- /python3-numpy/2.4.1/numpy/_core/src/common/raii_utils.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dtype_transfer.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_dlpack.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/conversion_utils.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dtype_transfer.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/conversion_utils.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dtypemeta.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arraytypes.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dtypemeta.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/einsum_sumprod.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/simd.inc.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/abstractdtypes.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/mem_overlap.h /usr/src/d
- ebug/python3-numpy/2.4.1/numpy/_core/src/common/get_attr_string.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/getset.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/abstractdtypes.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/getset.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/mem_overlap.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/intdiv.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/methods.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/_multiarray_tests.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/nditer_templ.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/convert.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/methods.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/convert.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/can_cast_table.h /usr/src/debug/python3-numpy/2.4
- .1/numpy/_core/src/multiarray/temp_elide.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/calculation.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dtype_traversal.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_partition.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/math.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arraytypes.h.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/calculation.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/temp_elide.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dtype_traversal.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime_busday.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/sequence.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arraywrap.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arraywrap.h /usr/src/debug/python3-numpy/2.4.1/n
- umpy/_core/src/common/simd/avx512/memory.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/sequence.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime_busday.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/common.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/operators.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime_busdaycal.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/einsum_sumprod.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/common.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/datetime_busdaycal.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/reorder.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/mapping.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/mapping.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/nditer_constr.c /usr/src/debug/python3-numpy/2
- .4.1/numpy/_core/src/common/float_status.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/emulate_maskop.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/half_private.hpp /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/lowlevel_strided_loops.c.src /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_api_standard.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arrayfunction_override.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_api_standard.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arrayfunction_override.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/gil_utils.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arrayobject.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/npy_atomic.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/gil_utils.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/arrayobject.h /us
- r/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_coercion.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dragon4.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/lowlevel_strided_loops.h /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/dragon4.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/multiarray/array_coercion.c /usr/src/debug/python3-numpy/2.4.1/numpy/_core/src/common/simd/avx512/avx512.h"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PKGSIZE changed from 354326 to 355718 (+0%)
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PV changed from "2.3.5" to "2.4.1"
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 40809996 to 39813076 (-2%)
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PKGV changed from 2.3.5 [default] to 2.4.1 [default]
-packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: FILELIST: removed "/usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/__pycache__/simple_py3.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/fft/__pycache__/helper.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/_core/_machar.pyi /usr/lib/python3.13/site-packages/numpy/linalg/linalg.pyi /usr/lib/python3.13/site-packages/numpy/linalg/linalg.py /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/LICENSE.txt /usr/lib/python3.13/site-packages/numpy/_core/__pycache__/_machar.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/simple_py3.py /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_machar.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/_core/tests/test_machar.py /usr/lib/python3.13/site-packages/numpy/linalg/__pycache__/linalg.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/entry_points.txt /usr/lib/python3.13/site-
- packages/numpy-2.3.5.dist-info/WHEEL /usr/lib/python3.13/site-packages/numpy/fft/helper.py /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/METADATA /usr/lib/python3.13/site-packages/numpy/_core/_machar.py /usr/lib/python3.13/site-packages/numpy/fft/helper.pyi", added "/usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_finfo.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/LICENSE.txt /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/highway/LICENSE /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md /usr/lib/python3.13/site
- -packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md /usr/lib/python3.13/site-packages/numpy/_core/tests/test_finfo.py /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/ma/LICENSE /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/WHEEL /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/distributions/LICENSE.md /usr/lib/python3.13/site-packages/numpy/ma/testutils.pyi /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_multiprocessing.cpython-313.pyc /usr/lib/python3.13/site-packages/numpy/_core/tests/test_multiprocessing.py /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/METADATA /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md /usr/
- lib/python3.13/site-packages/numpy/typing/__init__.pyi /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md /usr/lib/python3.13/site-packages/numpy/_core/_umath_tests.pyi /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/philox/LICENSE.md /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt"
-Changes to packages/x86-64-v3-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info moved to /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy/libdivide was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/highway was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/highway/LICENSE was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/multiarray was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath/svml was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft/pocketfft was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg/lapack_lite was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/ma was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/ma/LICENSE was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/distributions was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/distributions/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/mt19937 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/pcg64 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/philox was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/philox/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/sfc64 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/splitmix64 was added
-  /usr/lib/python3.13/site-packages/numpy-2.4.1.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_finfo.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_multiprocessing.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/test_finfo.py was added
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/test_multiprocessing.py was added
-  /usr/lib/python3.13/site-packages/numpy/_core/_umath_tests.pyi was added
-  /usr/lib/python3.13/site-packages/numpy/ma/testutils.pyi was added
-  /usr/lib/python3.13/site-packages/numpy/typing/__init__.pyi was added
-  /usr/lib/python3.13/site-packages/numpy-2.3.5.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/_machar.py was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/_machar.pyi was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/__pycache__/_machar.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/__pycache__/test_machar.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/_core/tests/test_machar.py was removed
-  /usr/lib/python3.13/site-packages/numpy/fft/helper.py was removed
-  /usr/lib/python3.13/site-packages/numpy/fft/helper.pyi was removed
-  /usr/lib/python3.13/site-packages/numpy/fft/__pycache__/helper.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/linalg/linalg.py was removed
-  /usr/lib/python3.13/site-packages/numpy/linalg/linalg.pyi was removed
-  /usr/lib/python3.13/site-packages/numpy/linalg/__pycache__/linalg.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/__pycache__/simple_py3.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/numpy/typing/tests/data/pass/simple_py3.py was removed
-
---===============1033221598244181167==--
+--===============4851428304449270278==--
 
