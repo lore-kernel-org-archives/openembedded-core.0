@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E3F6C98315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F57DC9832F
 	for <webhook@archiver.kernel.org>; Sun, 18 Jan 2026 21:18:06 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22627.1768771074707285911
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22629.1768771080615954163
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Jan 2026 13:17:56 -0800
+ Sun, 18 Jan 2026 13:18:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=HB4GPkcF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026011821175128836ac8180002070f-zbcupx@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026011821175128836ac8180002070f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=EI+pTke8;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202601182117589820d2fa2e000207ae-rrrayt@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202601182117589820d2fa2e000207ae
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 18 Jan 2026 22:17:51 +0100
+        Sun, 18 Jan 2026 22:17:58 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=X2wW95LWtJmWxKmZQworpRtW/AO1TYkeW5tcpKWz5m4=;
- b=HB4GPkcFoohirHH+tDauzn1amL+9buFNVSvYaGX5v25sI6s4rL812UIO/QYj2h35WSjZwR
- diwG+1CSV58EgxlsE2Z61DM5PEvkF7HMzvk0bGdqYC4oUsKfAK+s9qMJhiTr7g1im4FROfHK
- PozhT+xQnkSYFwrsPtnQPEf4PprkZtHc7e0eOeSCXyYgn+hMPnvlMi0rjhWMxIS40BouJdjr
- ya7jEea8wM+9JrQbFhhkq/9O6zX0r5z2/z9awN6moXj/pB+bolxKTgtZhgY6H8dPgJMlz9O1
- 2nf803qsi5oolNklh4VZ7UkvQqUut3srLydadSKGQAtcgZGRAKyKZiMw==;
+ bh=jKNGkkFZxcNGtkSd9zCQkd6fhzTO4wV9wRksDONm6PM=;
+ b=EI+pTke8FN91k9NjQihSaSLr/rFDY3/1Uqri+F2Z2yYz5hYjTyHHvhCBGRUYrzd6esU9ph
+ 0MEiOYNWEBW9bx94t47zZJ0/SbbblTfXlr7eQd3qKtGgvOPy8fWXIpY0IEq5g4OhDProvHNx
+ H7U00TqEaaA8Yx3VAg8kMBnYWKNkkemtY9sC2iJdpXrc4Sk6Okl62j6A2rgbQ06wA2dZCmka
+ +lXeere+udjOWe/7XtLV4ZQQiKj4AS6KGC4sW2lc2YOUiJJFa8JUPyXuewCSp4TZetjER54U
+ mj4XcIhc5g2r5rWGMGRPY+m53/o05DAs9S8aXkGaP2z+loo+vHQsPq2w==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] python3: patch CVE-2025-13837
-Date: Sun, 18 Jan 2026 22:17:49 +0100
-Message-Id: <20260118211749.3870312-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] python3: patch CVE-2025-13837
+Date: Sun, 18 Jan 2026 22:17:56 +0100
+Message-Id: <20260118211756.3870338-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,7 +37,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 21:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229586
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229587
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -46,13 +46,13 @@ Pick patch from 3.12 branch per NVD report.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../python/python3/CVE-2025-13837.patch       | 162 ++++++++++++++++++
- .../python/python3_3.12.12.bb                 |   1 +
+ .../python/python3_3.10.19.bb                 |   1 +
  2 files changed, 163 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13837.patch
 
 diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13837.patch b/meta/recipes-devtools/python/python3/CVE-2025-13837.patch
 new file mode 100644
-index 00000000000..0f2e06a4912
+index 00000000000..36bf75792bb
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3/CVE-2025-13837.patch
 @@ -0,0 +1,162 @@
@@ -149,7 +149,7 @@ index 00000000000..0f2e06a4912
 +index fa46050658..229a5a242e 100644
 +--- a/Lib/test/test_plistlib.py
 ++++ b/Lib/test/test_plistlib.py
-+@@ -841,8 +841,7 @@ class TestPlistlib(unittest.TestCase):
++@@ -838,8 +838,7 @@ class TestPlistlib(unittest.TestCase):
 + 
 + class TestBinaryPlistlib(unittest.TestCase):
 + 
@@ -159,7 +159,7 @@ index 00000000000..0f2e06a4912
 +         data = [b'bplist00']
 +         offset = 8
 +         offsets = []
-+@@ -854,7 +853,11 @@ class TestBinaryPlistlib(unittest.TestCase):
++@@ -851,7 +850,11 @@ class TestBinaryPlistlib(unittest.TestCase):
 +                            len(objects), 0, offset)
 +         data.extend(offsets)
 +         data.append(tail)
@@ -172,7 +172,7 @@ index 00000000000..0f2e06a4912
 + 
 +     def test_nonstandard_refs_size(self):
 +         # Issue #21538: Refs and offsets are 24-bit integers
-+@@ -963,6 +966,34 @@ class TestBinaryPlistlib(unittest.TestCase):
++@@ -959,6 +962,34 @@ class TestBinaryPlistlib(unittest.TestCase):
 +                 with self.assertRaises(plistlib.InvalidFileException):
 +                     plistlib.loads(b'bplist00' + data, fmt=plistlib.FMT_BINARY)
 + 
@@ -218,14 +218,14 @@ index 00000000000..0f2e06a4912
 ++an arbitrary amount of memory to be allocated.
 ++This could have led to symptoms including a :exc:`MemoryError`, swapping, out
 ++of memory (OOM) killed processes or containers, or even system crashes.
-diff --git a/meta/recipes-devtools/python/python3_3.12.12.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
-index b70f434ca95..2cb7ab4b591 100644
---- a/meta/recipes-devtools/python/python3_3.12.12.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.12.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
+diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
+index 5140445ad81..b87fc8d9ef2 100644
+--- a/meta/recipes-devtools/python/python3_3.10.19.bb
++++ b/meta/recipes-devtools/python/python3_3.10.19.bb
+@@ -39,6 +39,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
             file://CVE-2025-6075.patch \
+            file://CVE-2025-13836.patch \
 +           file://CVE-2025-13837.patch \
             "
  
