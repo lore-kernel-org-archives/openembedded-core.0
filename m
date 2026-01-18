@@ -2,91 +2,94 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 854A4C9832F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 896EFD4A5F4
 	for <webhook@archiver.kernel.org>; Sun, 18 Jan 2026 15:07:34 +0000 (UTC)
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15758.1768748846053357775
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15760.1768748846549467939
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jan 2026 07:07:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RLX5W/iw;
- spf=pass (domain: gmail.com, ip: 74.125.82.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1233bb90317so2777519c88.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c2vpMUNm;
+ spf=pass (domain: gmail.com, ip: 74.125.82.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-124566b6693so2644537c88.0
         for <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 07:07:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768748845; x=1769353645; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i4qQYiINPmcARgmjVWeHkXvgjz8Yi6Gmp7xuPZ9y1Oo=;
-        b=RLX5W/iwS0LtFhE0HMg1rRwboE5wcBF3FN4abzEOozHvN2Okz+YP7ER8ri4p6p0oFL
-         GW2voHGGwiHtpSKopkyt10P14sGE4AKdTgOYavtZVdCUQBX1t4W+QU3Sx92DwJAyyr5H
-         bsn6CeEcBqiZ29If4S0bfjpgxbW70kHVpCPxLtnaalL3PON1BQv2UksMgYkHLg7jm6uB
-         5rywY6Q+P7UeYrDCHS72CTGlkUyVIP4z281if4hVHU3nA8z+8sU6NgKLrKsq7ZUqPXZk
-         Naxhuc2jQ8PFDjZTW1wocmZH3stbBAReTj80Q6dP0wvMDX2RpPoxogmVnhKiH30AkFNK
-         xkFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768748845; x=1769353645;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768748846; x=1769353646; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i4qQYiINPmcARgmjVWeHkXvgjz8Yi6Gmp7xuPZ9y1Oo=;
-        b=b7BAl2HMlZ4IbuvjHHTIZhnZm3xsMNA1YaU24pDMng7z+M3lrXSfdH0ENn+MzM9uoS
-         LtCVUM18KvfrC3vH6pVmh4SpjirzM4ySu4faansMLodD7mIyBnX0pxBHnitMllwdMwU/
-         G7rmhhe3nX9wFZWuQ5kWOLrT29NEUsJhHICAvnRqg6lqlCTiEdq/in9JmeeBzW+KjysL
-         jlntGyY6rR4y7nn9OMFnZrteMV1OF4zsxk2h6Yk2JXlJvgfBeolE5Ae+Al8zMprW7QoT
-         hsoBYqnOYHFsd2r79vMO0TAPek6n6bxeQgIRY+0l0D3Qz9/7hpzesxB+kXblvsCVxJqc
-         5Mpw==
-X-Gm-Message-State: AOJu0YyIpzNXpDdFrI2rsxsi3rps337InkRULNekQFjZIj/CkTDSFSrC
-	+Hcpiz1HNeyqqs6zob9y9zQ/i3QgamIN6lfEq/LPRcAfTs+PN2nlIwkQAinBuQ==
-X-Gm-Gg: AY/fxX6ZCU8phwIia5DfIq49qS9+4uGKJMv7IUXpE67/0rBsskMDOB96H1EE1cZvcYK
-	MooPETcBmOP5uNgPvKZPgnOMzjdThsXNFZTT4JIx25QlxOU5axOXoQmio8nTJ4Nti97oig8Qlxu
-	GcC0TVD+92FdfrnYNxiiqt0ns1JE/CsTT6kIt8aFtBNcgN8bauV8uRlZVHrJFNIiJqOMX5IbKcm
-	5cF+B2GHX+TbsHG2x5aaH5gqpvtUQ0DurT8Fd0POXjD1g15N6VaJW+h21NCNpsIuqoLglXHlu2e
-	IkgT5vWDKsTcV5cKDARx0uYk1qeHBieNb2oXCgy0UbfyGOkass5n0flhj8TyqJ0uYBAIAaFbVZf
-	A9+QuY3OE9aNstyQEQfCiRt18O9zD4AQw6L6prZNml1km6OWVdgorjWuQEYCGE1Paq4p8kiPkH3
-	Eu5xZPn0vbCkg/+VYaHiweky/Tz1Hw+6mhBlsJUzBNTA7htbeYTswM1OxSYLbeXl3vfkLz3Cm3w
-	fSlXBxGhUVLdsZlJkU8MWB/or7wfIA=
-X-Received: by 2002:a05:7022:e21:b0:119:e569:f875 with SMTP id a92af1059eb24-1244ae9c26cmr7270724c88.18.1768748844535;
-        Sun, 18 Jan 2026 07:07:24 -0800 (PST)
+        bh=1Cu2xyH7JAmego4ZNQbbNTBXClGWvJC5nDELJmQZylA=;
+        b=c2vpMUNmHYTPMvH31mBBtMac0Ww99sucIhffjk1hfyhFBPqqqFImlofg1zDx10YDj6
+         i/CqxEsHakBfNx69LS/rFR9Z0M7MnKdYzTqBnjYzOHjn+CL/2um4Bnd/e8fSkEIkiLOt
+         zii4bTamVkmQ5JubCA1KFAStm5IOdM9fXpaD4iQsvil8E9JdE4Qk66vL0dt1DglHKoRR
+         Vt63oTg6A7yfOXl89Bs82WJ1Hdlx4oHd6iM3Y+smA4VMwTCGK+EDCttDE/fsycyCmWcH
+         cUJU+n4DHVhUDD4nHhZkKEfao8MGWQLpNG2APAoN97TD7Dzu2vA9BAnFiAynorAXqSRm
+         pNig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768748846; x=1769353646;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1Cu2xyH7JAmego4ZNQbbNTBXClGWvJC5nDELJmQZylA=;
+        b=RpVyfbtH2ErX89FuDO4WBBhsKbbpGLQgIzKODfqqlyATGtb26iIxx0Qq+Mp3RU4o/O
+         9QeqpHpe838jR2+TvNzSql7j1RIO7KGSPjLvoVxGH5XdmuQCfl7m7FO+B15T8YRO79hV
+         DDIVwlDWqBO//EqfRjQIfJg+lEHyTht4rkSx5/hXQ8xLDsc+236ofG/ZtC6arNj+hvwT
+         EZo+j+JCTFmi0WX/vhvAFQ27PRQ6kwm66/3xOFaSd/e4pxnhVm6rJ9h3uhcQuLTPcn8G
+         JhpiVQvmFqNr/r5UC1V48bB/hyoFcUltxtf0fkE124/IKVO9Jm2dgwTE0wu6YRIh3hoe
+         4bmQ==
+X-Gm-Message-State: AOJu0Yz/Z3jGSzvrJ3sqGbKqCOShmsY4d08Hi9KGz5RvIdDLGTaPBvXV
+	tBo5mSna4XMSv0L8thKnPZIg1kuG5SrEfgvmlkjlnK0fDTyoWjKiX9g9cazYgw==
+X-Gm-Gg: AY/fxX5i9gFE9q90bmIaVdGxq+KQoa7lM7swTK736LHhsGY1gT8X5ub1g7llI7mjhil
+	mWPJYhci2+6OAd6hL/A9QgGYNqIdUMlN0GeXukq5Ybs8g/tOKTEZtB1Urkfhi3ta9uTLBuEQDg9
+	YRwp+mbRHIujvkiH8vRzL72Gl02CTbZCkB33Z7WwRDrzhsvwK/dg9BBPAjnvbmlFlM59b7bCKVb
+	0C9Z7L1w//OHXVJXNNjTZK60m5J/0mXAb8xWO/7OoEDP2pknDCMu9occk3dMDLyUFgr2vDqcHcu
+	kg5FnGC8McKYO1ssGZEX7Poer/29ZKQt2cARy7miyBU1byUHKn3dVmjkZpHfTb5CH1VCQ2usLRg
+	voyvK/rWtrOnCc5xJmYh3e79RZBXXd7QGUW+KzYQ1O4zRJehJNgE3dFgw0YNrAY7SqQMfDkp9uZ
+	Fm/CNtgm8geiHsTBF6IkPnidq2ccBY913kCgthh55oJN77OBWS3gTGR7RCJ2ODBEVJCQrsbXRWX
+	vlSid/GbVwedGDo+iqQwdBb8jsTqx+rL/H0P80bVQ==
+X-Received: by 2002:a05:7022:2386:b0:119:e569:f277 with SMTP id a92af1059eb24-1244b370588mr6250484c88.32.1768748845607;
+        Sun, 18 Jan 2026 07:07:25 -0800 (PST)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::28b])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244aefa7c5sm12274637c88.10.2026.01.18.07.07.23
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244aefa7c5sm12274637c88.10.2026.01.18.07.07.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 07:07:24 -0800 (PST)
+        Sun, 18 Jan 2026 07:07:25 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] re2c: upgrade 4.3.1 -> 4.4
-Date: Sun, 18 Jan 2026 07:07:20 -0800
-Message-ID: <20260118150722.2045208-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] python3-pdm: upgrade 2.26.2 -> 2.26.4
+Date: Sun, 18 Jan 2026 07:07:21 -0800
+Message-ID: <20260118150722.2045208-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260118150722.2045208-1-raj.khem@gmail.com>
+References: <20260118150722.2045208-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 15:07:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229580
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229581
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/re2c/{re2c_4.3.1.bb => re2c_4.4.bb} | 2 +-
+ .../python/{python3-pdm_2.26.2.bb => python3-pdm_2.26.4.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/re2c/{re2c_4.3.1.bb => re2c_4.4.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-pdm_2.26.2.bb => python3-pdm_2.26.4.bb} (80%)
 
-diff --git a/meta/recipes-support/re2c/re2c_4.3.1.bb b/meta/recipes-support/re2c/re2c_4.4.bb
-similarity index 90%
-rename from meta/recipes-support/re2c/re2c_4.3.1.bb
-rename to meta/recipes-support/re2c/re2c_4.4.bb
-index bead73279f..3be66d1388 100644
---- a/meta/recipes-support/re2c/re2c_4.3.1.bb
-+++ b/meta/recipes-support/re2c/re2c_4.4.bb
-@@ -7,7 +7,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+diff --git a/meta/recipes-devtools/python/python3-pdm_2.26.2.bb b/meta/recipes-devtools/python/python3-pdm_2.26.4.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pdm_2.26.2.bb
+rename to meta/recipes-devtools/python/python3-pdm_2.26.4.bb
+index 13dd1ec0db..de4a7618d4 100644
+--- a/meta/recipes-devtools/python/python3-pdm_2.26.2.bb
++++ b/meta/recipes-devtools/python/python3-pdm_2.26.4.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ SECTION = "devel/python"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "5f5e8a618960f68bb46ee8728ecd4132e1275b595cfc7a48476f977afd01d0cc"
-+SRC_URI[sha256sum] = "6b6b865924447ef992d5db4e52fb9307e5f65f26edd43efa91395da810f4280a"
- GITHUB_BASE_URI = "https://github.com/skvadrik/re2c/releases"
+-SRC_URI[sha256sum] = "98207f8aabd6913a25ee0b4985e79e1652e2db274915f3ccf9408e33191ede4e"
++SRC_URI[sha256sum] = "d1030f6bd8e9449b5791e7768f1a856cc54617ee7b00f56fa1a843a84ad77f6e"
  
- BBCLASSEXTEND = "native nativesdk"
+ inherit pypi python_pdm
+ 
 
