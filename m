@@ -1,95 +1,92 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 896EFD4A5F4
-	for <webhook@archiver.kernel.org>; Sun, 18 Jan 2026 15:07:34 +0000 (UTC)
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15760.1768748846549467939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9035CCA5FE1
+	for <webhook@archiver.kernel.org>; Sun, 18 Jan 2026 15:15:54 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15922.1768749350322112708
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Jan 2026 07:07:26 -0800
+ Sun, 18 Jan 2026 07:15:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c2vpMUNm;
- spf=pass (domain: gmail.com, ip: 74.125.82.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-124566b6693so2644537c88.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 07:07:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768748846; x=1769353646; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Cu2xyH7JAmego4ZNQbbNTBXClGWvJC5nDELJmQZylA=;
-        b=c2vpMUNmHYTPMvH31mBBtMac0Ww99sucIhffjk1hfyhFBPqqqFImlofg1zDx10YDj6
-         i/CqxEsHakBfNx69LS/rFR9Z0M7MnKdYzTqBnjYzOHjn+CL/2um4Bnd/e8fSkEIkiLOt
-         zii4bTamVkmQ5JubCA1KFAStm5IOdM9fXpaD4iQsvil8E9JdE4Qk66vL0dt1DglHKoRR
-         Vt63oTg6A7yfOXl89Bs82WJ1Hdlx4oHd6iM3Y+smA4VMwTCGK+EDCttDE/fsycyCmWcH
-         cUJU+n4DHVhUDD4nHhZkKEfao8MGWQLpNG2APAoN97TD7Dzu2vA9BAnFiAynorAXqSRm
-         pNig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768748846; x=1769353646;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1Cu2xyH7JAmego4ZNQbbNTBXClGWvJC5nDELJmQZylA=;
-        b=RpVyfbtH2ErX89FuDO4WBBhsKbbpGLQgIzKODfqqlyATGtb26iIxx0Qq+Mp3RU4o/O
-         9QeqpHpe838jR2+TvNzSql7j1RIO7KGSPjLvoVxGH5XdmuQCfl7m7FO+B15T8YRO79hV
-         DDIVwlDWqBO//EqfRjQIfJg+lEHyTht4rkSx5/hXQ8xLDsc+236ofG/ZtC6arNj+hvwT
-         EZo+j+JCTFmi0WX/vhvAFQ27PRQ6kwm66/3xOFaSd/e4pxnhVm6rJ9h3uhcQuLTPcn8G
-         JhpiVQvmFqNr/r5UC1V48bB/hyoFcUltxtf0fkE124/IKVO9Jm2dgwTE0wu6YRIh3hoe
-         4bmQ==
-X-Gm-Message-State: AOJu0Yz/Z3jGSzvrJ3sqGbKqCOShmsY4d08Hi9KGz5RvIdDLGTaPBvXV
-	tBo5mSna4XMSv0L8thKnPZIg1kuG5SrEfgvmlkjlnK0fDTyoWjKiX9g9cazYgw==
-X-Gm-Gg: AY/fxX5i9gFE9q90bmIaVdGxq+KQoa7lM7swTK736LHhsGY1gT8X5ub1g7llI7mjhil
-	mWPJYhci2+6OAd6hL/A9QgGYNqIdUMlN0GeXukq5Ybs8g/tOKTEZtB1Urkfhi3ta9uTLBuEQDg9
-	YRwp+mbRHIujvkiH8vRzL72Gl02CTbZCkB33Z7WwRDrzhsvwK/dg9BBPAjnvbmlFlM59b7bCKVb
-	0C9Z7L1w//OHXVJXNNjTZK60m5J/0mXAb8xWO/7OoEDP2pknDCMu9occk3dMDLyUFgr2vDqcHcu
-	kg5FnGC8McKYO1ssGZEX7Poer/29ZKQt2cARy7miyBU1byUHKn3dVmjkZpHfTb5CH1VCQ2usLRg
-	voyvK/rWtrOnCc5xJmYh3e79RZBXXd7QGUW+KzYQ1O4zRJehJNgE3dFgw0YNrAY7SqQMfDkp9uZ
-	Fm/CNtgm8geiHsTBF6IkPnidq2ccBY913kCgthh55oJN77OBWS3gTGR7RCJ2ODBEVJCQrsbXRWX
-	vlSid/GbVwedGDo+iqQwdBb8jsTqx+rL/H0P80bVQ==
-X-Received: by 2002:a05:7022:2386:b0:119:e569:f277 with SMTP id a92af1059eb24-1244b370588mr6250484c88.32.1768748845607;
-        Sun, 18 Jan 2026 07:07:25 -0800 (PST)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::28b])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244aefa7c5sm12274637c88.10.2026.01.18.07.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 07:07:25 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/3] python3-pdm: upgrade 2.26.2 -> 2.26.4
-Date: Sun, 18 Jan 2026 07:07:21 -0800
-Message-ID: <20260118150722.2045208-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.52.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UEH1mHxK;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CK34QWkc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019bd1ad39f5-13bd8be7-dba9-4f9a-910c-20372358831d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1768749349; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=WQyENKmmvCEfSPis45oiNT4OgFEcuhUAtJR2V+iYHNM=;
+	b=UEH1mHxKavnJkVvlPk2T5Br4Idf2vpPO9+Hi43wg2S+LkVLx5H9byPCdyN2JwyRV
+	LMJErgw3KzlrdXQA4MIYeh3MvrqF3F6tH/wicewIyN+ESf6a0K5FmZLzY9qrimFZNaX
+	v98aFzQRi50P4poR8I0UvVy8SsSW8pIHYrTCfXUE=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768749349;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=WQyENKmmvCEfSPis45oiNT4OgFEcuhUAtJR2V+iYHNM=;
+	b=CK34QWkcWxSwSpllRrt2OXmrR+8NuB/iZs4KwlFEq6mcEy1DSDSAHe4ySpOSiWaV
+	FGUvFk0acEzFSM9BWy0zwgNyvnuULUT2yzlnue3eYeUAXFpFoTqxvA93Y2V+MeyMefF
+	0jvTtLNAI2JFGfnXydGu7IYVwFhpxEHjLd+PCL0U=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] re2c: upgrade 4.3.1 -> 4.4
 In-Reply-To: <20260118150722.2045208-1-raj.khem@gmail.com>
 References: <20260118150722.2045208-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019bd1ad39f5-13bd8be7-dba9-4f9a-910c-20372358831d-000000@us-west-2.amazonses.com>
+Date: Sun, 18 Jan 2026 15:15:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.01.18-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 15:07:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229581
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 15:15:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229583
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../python/{python3-pdm_2.26.2.bb => python3-pdm_2.26.4.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.26.2.bb => python3-pdm_2.26.4.bb} (80%)
+Testing patch /home/patchtest/share/mboxes/1-3-re2c-upgrade-4.3.1---4.4.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.26.2.bb b/meta/recipes-devtools/python/python3-pdm_2.26.4.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pdm_2.26.2.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.26.4.bb
-index 13dd1ec0db..de4a7618d4 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.26.2.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.26.4.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
- 
--SRC_URI[sha256sum] = "98207f8aabd6913a25ee0b4985e79e1652e2db274915f3ccf9408e33191ede4e"
-+SRC_URI[sha256sum] = "d1030f6bd8e9449b5791e7768f1a856cc54617ee7b00f56fa1a843a84ad77f6e"
- 
- inherit pypi python_pdm
- 
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
