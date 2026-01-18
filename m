@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE1FC9832F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A16A9D4A5F4
 	for <webhook@archiver.kernel.org>; Sun, 18 Jan 2026 15:15:54 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15923.1768749351071129948
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15931.1768749351839493018
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jan 2026 07:15:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aO1rPNZh;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=nLmpzuOC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019bd1ad3d01-797b8bf4-7f60-4c2f-9539-b489deac5ba0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hAnstMig;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pHLOpWMa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019bd1ad4017-e14645a6-ae07-4c34-bf9e-aae3c0b011db-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768749350; i=@automation.yoctoproject.org;
+	t=1768749351; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=9g6vaAzv9lNnjkEnU/dj+/UdaE/kvmA+OOligOaJpOU=;
-	b=aO1rPNZhsn62DzjDdW3lZVpffXfP1BOMG1Jxv4QgcYpKsEaY20IZubdi8iAmOUGy
-	lTJy28nKxm01UBJ+M4lLfnIlerTLrnM/3yJGCpq7akMxkwG0rIDsopK8vxtXs9b20Mz
-	bsxiC9UDJSElFw1so90xwUOrnRTm3vOq5Pb2nLGQ=
+	bh=vr+IHfH9MQgeKds7zL1GDMKp9BZRgv27nU3ZEArjlfo=;
+	b=hAnstMiglxfWfrmbON9Nswk25GevBkF2CZJoVRBNsw77sb3hXZxC2t2aMHG30kcM
+	3lMIFab2h4sxRzjiUa9KY/l3LpPf41+AY1ZdeN2cTYtRfLUSG71sMBGyTW1jn+fbMA6
+	MEBSZtuxbEZsHpflkPKBucRnZFKxG3JXIQakmliU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768749350;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768749351;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=9g6vaAzv9lNnjkEnU/dj+/UdaE/kvmA+OOligOaJpOU=;
-	b=nLmpzuOCV6Q8INZIHiJNK4CaCzwq0fpp0wtcTAfall5rUnPUOKdwc7zFNEP2xcLt
-	Ddg6Fvl4tcDaJdLH8HlhcVBCYUfp97ikwDLfYczepDR6DuvyrHONlTvkQcGOnp+N8td
-	OiP939RyCbszMPJtVielxI7MO61HJ7vFtBha9Lak=
+	bh=vr+IHfH9MQgeKds7zL1GDMKp9BZRgv27nU3ZEArjlfo=;
+	b=pHLOpWMarTHEt+1nUJOtaKSSA+fra+ynsYvXkPEzSonCt/qmyQywRIVD33iAPuzj
+	MIwE2xRXaf8aB42FMP+j7S/crw6Hot4qL1d6IN8SwTze021yiSG3fXhSBpdZXXDuxNe
+	X19OQk/qeRUS0aBWs5DxVegu9YCQ8AYXQWJ6WI6s=
 From: patchtest@automation.yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] python3-pdm: upgrade 2.26.2 -> 2.26.4
-In-Reply-To: <20260118150722.2045208-2-raj.khem@gmail.com>
-References: <20260118150722.2045208-2-raj.khem@gmail.com>
+Subject: Patchtest results for [PATCH 3/3] gn: upgrade to latest revision
+In-Reply-To: <20260118150722.2045208-3-raj.khem@gmail.com>
+References: <20260118150722.2045208-3-raj.khem@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019bd1ad3d01-797b8bf4-7f60-4c2f-9539-b489deac5ba0-000000@us-west-2.amazonses.com>
+Message-ID: <0101019bd1ad4017-e14645a6-ae07-4c34-bf9e-aae3c0b011db-000000@us-west-2.amazonses.com>
 Date: Sun, 18 Jan 2026 15:15:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.18-54.240.27.23
+X-SES-Outgoing: 2026.01.18-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 Jan 2026 15:15:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229584
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229585
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/2-3-python3-pdm-upgrade-2.26.2---2.26.4.patch
+Testing patch /home/patchtest/share/mboxes/3-3-gn-upgrade-to-latest-revision.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
