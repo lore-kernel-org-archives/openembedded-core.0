@@ -2,106 +2,130 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA37ED489BD
-	for <webhook@archiver.kernel.org>; Mon, 19 Jan 2026 12:54:40 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34544.1768827272385806360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D4CD29C23
+	for <webhook@archiver.kernel.org>; Mon, 19 Jan 2026 12:56:51 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34586.1768827409421644779
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jan 2026 04:54:32 -0800
+ Mon, 19 Jan 2026 04:56:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Glep/etp;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-88a35a00502so43221296d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 04:54:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IhZowafd;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-502acd495feso28374921cf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 04:56:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768827408; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Po9KoT7+aTnKGk4PWepF9SoO9+9Q5WIwhWAEKO5BwMd6+Xt5UlBfU3vErdRbgl7VlV
+         XUnAWupAxU7UFsA3GZsQbiCAtTaaQivEu2QBMhIgrb7Pwbv1b7dX9GZI0L/q+cGN5iY/
+         aprKY4B54TB3hkPx/NLIEG3y+cnbn1IWqkMrK25dB4Qc29sPStd4Wrm4ToxFPmCit/al
+         czgIr80+px+X/E4D0jC4zwW32bctZKhALWiNBOebChVV7gJJgAYNCviWNewN5++1CN1f
+         nN95N0HS7lM0CysiPwv8+zp/i+NLFlH55T7RPVKyWLJK+sFxRZRr28D6RXq8CPlO6R3e
+         EAqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=605tmqfWRpfkG0MMqZlYpGqX0qj+0SNBDzZjFBrOWcg=;
+        fh=TFKVyiGTDYUpyLMcI4xXf/jLjE9Pmz2JmBbBWU2U9Xk=;
+        b=TVoye9s5EiVh9b4UBU7BsN14mjOaEZCGOSPoHsnzlxP6yBlJurDFtomljc7J/qQYB+
+         ZkTfh3b1aWCNeqJghmuk3nct7f8H3585ZlxppfGmlFkWjSaSJABd+MBBGxsy70+8huxg
+         DY03UVxuBsEjHc/YZiguGcTX4i2mqj1p+jOaF0FsKU40V9wV66FR7iXzwslJlrivnJXX
+         caDbtb0mINe5aca57Q1S4RWF0tqL2nworM9hcH+UoDeek1wt3gX1nhztQQdChv3MdQ7t
+         3SHMnRISxg4GGPjLu/cHniM+Oiv1gdjQuv+Gm360C7RCCn9uq6FILkL1/z6KBNvQymgE
+         lhMQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768827271; x=1769432071; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1768827408; x=1769432208; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rNXSQx+jWtg6PCznwOB4v/DjC+SV7oWBghAkqnEiI/A=;
-        b=Glep/etpDR2wjVUe76W6mWJ0mjB1mPhZ/y0TS6s10tVKBAZDZ8GbFIlTQK8yt2Pree
-         Lxj3YFSzZ1JUox3I9eKi2JKJCbIOrVh6MwFCFX2zIvIh2cJVeQsd7SJFRjR7dJ4EO7iP
-         Q7OgJuWNXl/Bj6ii1Vlng/gOWvFIjb20adpBvyxCcnzAC4RvfQJ2xXl5VMNVJVdyIIax
-         5vCB5+MtdplNI7ZEP0k/Oy6KGSfrS/hTD74kIMk6DT/+8vQ2xtmrMQY4IqKqmA8SdQNB
-         hYldK0UHtrCf3koes+Am8dlrv/RRWdDxed3NAP6tCuWfNvLL7my1Cvn4/c2iRP/w6HWw
-         8VKA==
+        bh=605tmqfWRpfkG0MMqZlYpGqX0qj+0SNBDzZjFBrOWcg=;
+        b=IhZowafdCHKEwYHTxVduRHWUE4ZyXjRfAIZNg6SLNMTyoZk3hWfwE1MZoCg3XBOumi
+         Wt0SA4h2bCN5L1XBTGmrPiHkkrI8rT/gs63Kpi3ewBLuKR8jUNSZXoZzKL9rSdYCEuQJ
+         K5yLEAClduODykThdkt553fn/Y5+xYlgalT86OUICfEwKFnzgNf+ONqPZvJysOI/3zoX
+         WnWv/2GX/dia9J1EVAeKXXiOjPWSfBGMBdPesJfdQb6UhOMt8c+5yyUhElvXiUQRUlkv
+         rxGQ/BWkYd4fd7zMBBxywi9EGIFLhgc3T+zKrTsGABTPCEIcskd914MUYYwGY7TfYuha
+         8zOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768827271; x=1769432071;
+        d=1e100.net; s=20230601; t=1768827408; x=1769432208;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rNXSQx+jWtg6PCznwOB4v/DjC+SV7oWBghAkqnEiI/A=;
-        b=OUyOzf03Zts6QL9M0RgvUMrEV6iQH4csLSTsnw0Oain3QSF2frXY3PZS1UdCfTzl2v
-         vyCGhT8Oo/V/UKKy2D8DMhdsRR1D/SS2H0GkxIOa141qW2DrpUiJzY4aNrgF67Q2CDBH
-         4L4yCsa3t9uDgI1vKptq1/Eu7/puP0JPk0vtxD3ktMLjtVunBeYNRlxOkLba04039M1K
-         q7OBfhxFAKEXYQBHhd5b1G/jq54XKWMSDzG2OhOI8K4IxVKWapsS+DSibl/6xYS8E5eY
-         w+cbAo9OsZareDGHz4j6Yi7NXVw5weBFsCsv8U5Up2awEy0uICO1r+I+/1iY3PleEck0
-         QkLg==
-X-Gm-Message-State: AOJu0YxhIFmwdq3rpGE2TRCfiTOX+fKGQ8XVl0VS4y1NLZ2B9hMQbIQA
-	85Ph56SW8etz1gyuFk0misLTxkXKQAKbVIGdiculWxja0PdYAzJ269zPLYiitihvcOvx41EixTR
-	mb8+bb96oxIjZV4dRUQW5UDWhpUlgSDfCUg==
-X-Gm-Gg: AZuq6aLc5l+No7YgLKRs0dMCqVr/xWlNXvgKGlr3Vr8PG1aJf5vT2Rc2UkLWe2LaBVf
-	vUVAoeCtRLki3mMXwE3OnE/KbwKNl/nSwxTIqxsZlq6PLuV46a6uzfFkoae5RyrMz23Nv7p+E51
-	LncCGalhRt31aVMlZa5J3Oo8xj2bH/g45zz2NntDERI2lSmoMUZM+s6qrjQWd3kKf+dKetUtODo
-	oMYoVgYDDcb195fS4lFf0HvZS69RLhex4ACT3921OkDociwzfR12tphGFeFqkjB4VfkCNExuZP5
-	zbDKoGdWVjx4s/Z8zS6zLEL1U7e0Ea/ySiFTOvrn
-X-Received: by 2002:a05:6214:80c6:10b0:894:5d03:374f with SMTP id
- 6a1803df08f44-8945d0337b8mr1769826d6.44.1768827271390; Mon, 19 Jan 2026
- 04:54:31 -0800 (PST)
+        bh=605tmqfWRpfkG0MMqZlYpGqX0qj+0SNBDzZjFBrOWcg=;
+        b=SH+QpREK8OLNnnuDKSko5tPdLwdoPz6FvrX5nYoiXRSel5m3PrOkrXgfKjlLizeURf
+         Cn32IrmrjF1xiu8b2lcspuYv9HX551X2/XOxzOIcidOBWA7z8ftSOq9m9/V9tDsslRKv
+         NiTZ0l4Q+piyY4ppmJ6xPUvGPnPbZPcCJAqNDnqjfUJtet5F7sLykNLbaYIa0xIxsKAS
+         8leKKdlGzqKUr6994G7KwkaePgFG01KndoU0dQKzJdiScv3+a6e+jaji4L6+C3qvZdj+
+         3nguBH0ZbzgTfQXg6w7a+HORrF4oOEFNs/tFyys1us2MkA1lwq25HF8Hwot6/moMH2eW
+         i8vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3UT/hHvo+UOYJU2tc2euXn+QO8KGFVifnMxJV/9oAOUF/vCZjsOEjOnqMEHMXkuyN/6R6oexdmAfylHlkyHAukQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyqCQ6tVWds3K5JC/IFc/MBOmrEwECgE3AJKeiyZFxIG84BRDyk
+	zTxelLoAM5ob2yM31KedNVMa7/Gbtwzkl1rq3yeDwZqTBMqt+rE/Vjljd50gbaLCLxI2mweVnOu
+	Vf38tAmAWxNBmmwpQJTxl2ECtxXO8ejkQZw==
+X-Gm-Gg: AY/fxX67kO+/+rRJAVUBR9hiVjKwS9AoxhbkYN4jYamuBrPyQk8YfLKe7qsCqpQtXK0
+	mR8VHJu3WkjbWq1Tk/pnckcMGksaGv63TwTXIGeBLgi0l4FtXj/xcdv7XDxJmCWQQ0WFu/PfEvU
+	8Upby8jpm7Que618GTSW8s1gbUD8222W31w6oOCigJRm8esFrr9c9i4euMgdxSFAH9hLQ2ag+3t
+	8j93nkDuPwNdjYlLH1g+4gP68ghMCLuh5nkXgKCSZwei8EuzGqyx6gfTkd3v/2stenlBE+cvTXf
+	iVe45QmDFBfe0E7HHDPj8l7fPeiMLQ==
+X-Received: by 2002:ac8:5e49:0:b0:4ee:60a6:ee03 with SMTP id
+ d75a77b69052e-502a1f2cd8dmr124710191cf.41.1768827408424; Mon, 19 Jan 2026
+ 04:56:48 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1768802844.git.liezhi.yang@windriver.com> <c75310f8f8162bcca3c24dcaf9230cbbdec3f399.1768802844.git.liezhi.yang@windriver.com>
-In-Reply-To: <c75310f8f8162bcca3c24dcaf9230cbbdec3f399.1768802844.git.liezhi.yang@windriver.com>
+References: <20260116090121.2432867-1-yi.zhao@windriver.com> <DFSFM1N0VE78.3VSI0XQ6PSXXJ@bootlin.com>
+In-Reply-To: <DFSFM1N0VE78.3VSI0XQ6PSXXJ@bootlin.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 19 Jan 2026 13:54:20 +0100
-X-Gm-Features: AZwV_QgHJUTShTeeGQqjS7qWoTv_S2EcH_2I92i9-1UFd-0MIMIWkLxarU2DXU0
-Message-ID: <CANNYZj_pDx1bwBx4wphrnesESKUBJT3atpk5CWcgTQ_HwN0vgw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] rpm: 4.20.1 -> 6.0.1
-To: liezhi.yang@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Jan 2026 13:56:36 +0100
+X-Gm-Features: AZwV_Qgf594qHJwqhZ9MV0FAnIocCQkn_ncASShI2QJ_EU5uDg7L0pOOSKKdNMs
+Message-ID: <CANNYZj_bBj+btrm79ZJ9wsdCFSX-8K_ns8hhz5D3jz9YRLv0uQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2 v2] blueprint-compiler: add recipe
+To: antonin.godard@bootlin.com
+Cc: yi.zhao@eng.windriver.com, openembedded-core@lists.openembedded.org, 
+	liuyd.fnst@fujitsu.com
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 12:54:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229615
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 12:56:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229616
 
-On Mon, 19 Jan 2026 at 07:09, <liezhi.yang@windriver.com> wrote:
->   - 0001-macros.in-Set-_rpmformat-to-4.patch
->     Fixed:
->     error: External dependency generator is incompatible with v6 packages
-
-This one is creating technical debt. I can imagine support for v4
-packages will be dropped at some not-too-distant point. We've had this
-deprecation warning for a long time, but it looks like the matter is
-becoming more pressing now. Can you look into it?
-
->   - 0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
->     Fixed:
->     GPG check FAILED
+On Mon, 19 Jan 2026 at 09:44, Antonin Godard via
+lists.openembedded.org
+<antonin.godard=bootlin.com@lists.openembedded.org> wrote:
+> This failed to build:
 >
-> * Add scdoc-native to DEPENDS to fix do_configure error for both native and
->   target:
->   Could not find SCDOC using the following names: scdoc
-
-Is this a hard dependency? Is there a cmake switch to turn it off?
-
->   Note, both target and native need scdoc-native.
+> ERROR: blueprint-compiler-0.18.0-r0 do_package: QA Issue: blueprint-compiler: Files/directories were installed but not shipped in any package:
+>   /usr/lib
+>   /usr/lib/python3.14
+>   /usr/lib/python3.14/site-packages
+>   /usr/lib/python3.14/site-packages/blueprintcompiler
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/formatter.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/decompiler.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/interactive_port.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/__init__.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/errors.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/gir.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/main.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/ast_utils.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/utils.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/reference_docs.json
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/completions_utils.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/parse_tree.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/tokenizer.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/typelib.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/lsp_utils.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/parser.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/completions.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/xml_reader.py
+>   /usr/lib/python3.14/site-packages/blueprintcompiler/lsp.py
 >
-> * Add bash to RDEPENDS:${PN} to fix:
->   ERROR: rpm-1_6.0.1-r0 do_package_qa: QA Issue: /usr/lib/rpm/rpm-setup-autosign
->   contained in package rpm requires /bin/bash, but no providers found in
->   RDEPENDS:rpm? [file-rdeps]
+> Log: https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4986196/raw_inline
+> Parent build: https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/2884
+>
+> It only seemed to happen with the qemux86-64 builds.
+>
+> Can you have a look?
 
-All things that depend on bash are specifically placed into
-${PN}-build, so that the main package will not pull in gplv3 licensed
-items. I can imagine this will fail in no-gpl3 tests too.
-
-> -EXTRA_OECMAKE:append:class-native = " -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=/var"
-> +EXTRA_OECMAKE:append:class-native = " -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=/var -DLIBELF_FOUND=False"
-
-Addition of LIBELF_FOUND=False is not explained. Also I think it can
-be easily provided?
-
-Otherwise, looks good, thanks for working on it!
+I suspect the issue is in multilib setups, e.g. upstream is hardcoding
+'/usr/lib/' prefix instead of $libdir.
 
 Alex
 
