@@ -1,521 +1,380 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A25CCF2DB
-	for <webhook@archiver.kernel.org>; Mon, 19 Jan 2026 10:35:00 +0000 (UTC)
-Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32821.1768818889505742130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33141CCF2DB
+	for <webhook@archiver.kernel.org>; Mon, 19 Jan 2026 10:41:00 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.35])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32891.1768819257658199707
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jan 2026 02:34:50 -0800
+ Mon, 19 Jan 2026 02:40:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=B4H33Hwq;
- spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=4728db818=moritz.haase@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1768818887; x=1800354887;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=A0HXKlajX8EU4PcsyWlmxtSZIpf6samLkKiS52dPlFI=;
-  b=B4H33HwqNqVAoss/UnHM0Re7mYmVmpJSL6uNoXKc66Ge/rcTnl/V1yTq
-   jJP4bOxFreMI2ErL5ZwhmTa7P75EgZKDR8mBJ1YgVp9e5elJeSsvTkN2M
-   P6HRkDDDxsv2uOF2hW/i4lOptYbKpf0nvY/S3yYHqqF+QtDWUaVghErCL
-   M=;
-X-CSE-ConnectionGUID: FRF/gs5xRh2+HvsS+xbTgQ==
-X-CSE-MsgGUID: oyDkwvqiTUGW9WgHj89yQg==
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 19 Jan 2026 11:34:45 +0100
-Received: from unknown (HELO esabb1.muc) ([10.31.187.132]) by esagw4.muc with
- ESMTP/TLS; 19 Jan 2026 11:34:47 +0100
-Received: from smucmp17c.bmwgroup.net (HELO smucmp17c.europe.bmw.corp)
- ([10.30.13.153]) by esabb1.muc with ESMTP/TLS; 19 Jan 2026 11:34:47 +0100
-Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
- smucmp17c.europe.bmw.corp (2a03:1e80:a15:58f::1:46) with Microsoft SMTP
- Server (version=TLS; Mon, 19 Jan 2026 11:34:46 +0100
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.211) by
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
- Server (version=TLS; Mon, 19 Jan 2026 11:34:46 +0100
-X-CSE-ConnectionGUID: vDK7JYAsSouZ26AhW2Fgrw==
-X-CSE-MsgGUID: OrwB9Cl8TheLip5bsCC2Xg==
-X-CSE-ConnectionGUID: s/Ad1qykRM6dfpXTbAmPaQ==
-X-CSE-MsgGUID: xhSk+n63RtabNxTnibXA3Q==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH] createrepo-c: upgrade 1.2.1 -> 1.2.2
-Date: Mon, 19 Jan 2026 11:34:25 +0100
-Message-ID: <20260119103425.137973-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.52.0
+ dkim=pass header.i=@ericsson.com header.s=selector1 header.b=BlXU+amc;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.35, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uRpXyWCK4lUWsjcMS9vAwycqs7D8oZ65Zhm/GtEo9rfqstI+ictadfsvYLn74JvdOR5Mu4zda4fVd3zF+anOipaGaUsnVNK1KxBC9oO38LqLzu4alDiNXpemaSsex2DBIZ2BmC3AwveVakz0ug/AZd48ukVZ3HAblHAIf5T4wp/23jeE7OE7QQZjrQBLwEcm2XKeZ+xQ36A94MRe029L7oa3JOqtjasNkTBrbqSISQz9bkweTeINQlgpY+aTD1CKDwAW/zk0XEx/GKCv6ctIXGLimtvKMz3KPAqcUtHQ+dVU/w6Hi578Liy/KNe7038UvNQ7RlZlA/4YLcGXQIeXcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oJ2e0UoYQ54xCu0HJzwB8wIXGPJMBkseWCi6uN4DjHE=;
+ b=fmYu55Wi+ZbTUX3HRfd9Iu1C2Cf09XBrPM/P0kd95+hCh6RJYPVCE3omD96rC7Wd3pEggtJbduJi1lefN+Abqm2HhoJkoSvjy+A9cVXLniRQP9xlTy6lnI+KorDVph3zYOk9QrCY1mXj1a+wloBJYtOoQvURQE1qlYAYBimM3AmjDVSWdORc06kqSQkQsK9M7T8R+3T/KHAAToH9oWFY4NoUfaMsvcLRMsuM8YC+qKtNagWS7SkV4xQFZWxs3D0e5LJXpnZ4tMOtmFSxvsxGBYbqdues8M9OgxTL0uy3hmpzmm+qcXmd4mrELGDUr43i+t/IJIuwP0Sg7XbLKPmKeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oJ2e0UoYQ54xCu0HJzwB8wIXGPJMBkseWCi6uN4DjHE=;
+ b=BlXU+amcVFNd7AgQqw6ctuWQpP9w6mQwhh3iKZnW3VXBoTneALeGZFnkAg2IhEhjmI6uBLN4xNsxVBu6cxqiKNs5Tno/04PIDPZEOaFGBKyvZWZk4zlGk8fmFNb6BvxPD9pyknyRH6D3x4U4JVhhFg4eF+U9NYcMSCIAo7VHf+ouS9BPvoQCSnfhhDkMcdoPrVXtxiK8+Gmt/5IVX2yQ9uBrA1Np77p0AnYTZb+nGf0TIpRJ9k9LTdDfggLNuqPiN830HVj0euA/pXeD5z/Isrfngwbaro2b5AfwTm4EJof4XveSpoq8kZOaJQcVJjD3frKMHo6mDd0ZyXxnE0nSig==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by AM7PR07MB6692.eurprd07.prod.outlook.com (2603:10a6:20b:1ab::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Mon, 19 Jan
+ 2026 10:40:54 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.20.9520.010; Mon, 19 Jan 2026
+ 10:40:54 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"valentin.boudevin@gmail.com" <valentin.boudevin@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "jerome.oufella@savoirfairelinux.com"
+	<jerome.oufella@savoirfairelinux.com>, "antonin.godard@bootlin.com"
+	<antonin.godard@bootlin.com>
+Subject: RE: [OE-core] [PATCH v5 2/4] generate-cve-exclusions: Add a .bbclass
+Thread-Topic: [OE-core] [PATCH v5 2/4] generate-cve-exclusions: Add a .bbclass
+Thread-Index: AQHchxwgY73bUya0GUes5kG3X+c2QbVWXkkAgALzNyA=
+Date: Mon, 19 Jan 2026 10:40:53 +0000
+Message-ID: 
+ <PA3PR07MB10721154AC2A349A1019407178A88A@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: <188AFCD98EA3E578.3200434@lists.openembedded.org>
+ <20260116190520.118714-1-valentin.boudevin@gmail.com>
+ <20260116190520.118714-4-valentin.boudevin@gmail.com>
+ <DB5PR02MB102136612472AF32CE794B59BEF8AA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: 
+ <DB5PR02MB102136612472AF32CE794B59BEF8AA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AM7PR07MB6692:EE_
+x-ms-office365-filtering-correlation-id: 9a07d82e-1a80-45e2-a83b-08de574738ce
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|7053199007;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?WUhINDV5eEhYN25tbUdsT2tHMTlueXhscUN1SHZJQzc3bzMxY0NJbW9JMVlT?=
+ =?utf-8?B?NHJwME05WU1tRW1rRGhkSjFFWHh3UnZMcGwxc3FJWGZyVVRqaTlUY3RBaHhK?=
+ =?utf-8?B?WE81NCt4cXUvcFV4MGl1STZvT1Z5aCt3L3NTdDFDODR3dFRDV0NTbStXdll0?=
+ =?utf-8?B?TXY1VmxJY1J2dTVBT29wdjNJcW1VV1doV1ZhWWVvSGhIMkRGa1EySVlMbk45?=
+ =?utf-8?B?b2txMGdDSWN6dVh0SkUvSGkxQ1BHT3ZUazVzYmNoOFBUWDZLMHdlcFN6NmlK?=
+ =?utf-8?B?dDZMYm5ydkpXbTBudW5YbVB3WGZLNUlyN0NScmIyRFFOb3JHenk1cFdIZFZ2?=
+ =?utf-8?B?UFF6RWt6NzVuZTlJc3RJdk03QzR6aUxnbzd0b2FTM01RZzJacGtCWlNUbU52?=
+ =?utf-8?B?NWs5a1ROSnYrNjgrTlppeWgrVTg4aEJiSHp5Wk41VmFwNnhWU1RUSmZYWHpH?=
+ =?utf-8?B?T3gwRjA3elJVemY1ZnBKYkV4WEtITWxKZnRBVXdaQmZXdEtUL01MMWQxWVBV?=
+ =?utf-8?B?dWxZYWhyN1dOZU5kTWZJMWZDaGU5NVNaaHZ6Vm95cVBVV2pJbE5Wa3lEVW8y?=
+ =?utf-8?B?QTlTTFIzYTROOEk5QWREREJ5Z3dhLzN1YWVHQ2QyK2p0cDBhazhPblhDSEZD?=
+ =?utf-8?B?UWlEV2JFZEJxWnRIZm5CL3JUVWlrQjJZVVVmOXd6SXFldFMzRzM5VTNVN1Nu?=
+ =?utf-8?B?dFpuOEtqeEw3ak9PMDhjV1ljdkZXMm40bUJwbFBERHF4Q0drWndRWGovdnZF?=
+ =?utf-8?B?OTBobENEYjFLUThrVmphUlo4SlRINVpJYTFjUnhOcDBFY1RXYVpRTHR3RWtx?=
+ =?utf-8?B?a1FIK2ZlelBLazJwYXd2WmFuNTYwdkdqUnlFVm1rRnZvQWR4VUdNSno1NnZ1?=
+ =?utf-8?B?VC9oNUJHZ01hbnNucTFyK0hzOGppNVZxWnB1RzBOSU00cWhxK21RN1pyMHUz?=
+ =?utf-8?B?TWtDMWV3cm1YNmhRTTRNeklKMktzQktjRzJnbkJyM2NnSlVCSHp1ejlGZkFO?=
+ =?utf-8?B?azlDbU14Z0tZVFVXeTlYM0IwT2VuN3JJL3FaVnpVQkQ4REhybGZuOC9LbnY0?=
+ =?utf-8?B?Qk1yN0pHdFEvMUFpdWFFOFVkb0F3ZFRReHRFTTNzOEI5NmF2TUVJYlRWUkxO?=
+ =?utf-8?B?UW42L1htcU03a2RsMDBZY1I2SXBZZVBOS2luQ2NGNlAyWStiV2dSaGM3bXk2?=
+ =?utf-8?B?VzJjcTB1VFNhM2FOK3Z1V1d5emhFTXU0YWRxMUdPdnpGUkN2M2xqQUZWS0p0?=
+ =?utf-8?B?K2NOMUc4eWMxeGV6ZjBOREpSUFFJc1dpaENFNjZpNHhBN3JJZWVBSlpVUVBm?=
+ =?utf-8?B?bTdaalE2TVJJblp6N1pib2ZZazBBeVdQdW1iN01kbUFaMXQ3UVpKREdyVUdn?=
+ =?utf-8?B?TFNpajh2MUNmQTdKcXdCaTMyNUl1TWM4ZkFTL2htK1dkaTF5cVAxOHJrMFZR?=
+ =?utf-8?B?RHVmblhuZ3ROQVBhMUcydWNBaUdGV1NYTVkrQjVEczNsemhoRWl2K3Jwa0xh?=
+ =?utf-8?B?L0lUdHJmMFZlWDZ4ODA1TThyYm9aVXB2RkhINjFXdEovVm41dFlmVkV2NmJu?=
+ =?utf-8?B?cnMwV2lIV3ZOTUlXbTdIN1dDbis4a0VJMTJNeWFSL3lBaFFlWHFKRFQ1VW1T?=
+ =?utf-8?B?QVlqenpHTkoyVEFWdEdHVjR6eFBVSEUrK0FEMjBHT1ovUjVxSUNtd1BJVVhK?=
+ =?utf-8?B?WGtmMkMxLytDRk54a2hlNkdyOVhSVkc5UGVjbEVuTWJFalpsMm5taXZsYWRF?=
+ =?utf-8?B?ciswYXJpQmdCTWplVys2ZGdROXFoaGQxM1JtV25uSVZjVHJhTXhYcDMwVzMr?=
+ =?utf-8?B?M3Nvd1JIREpKYzZYRlQwSG9TSWR3cTl0bzA0N0tjcDVWWmtkMVF0bFp1MG1L?=
+ =?utf-8?B?TW9ZTTB3OWliQlliT2x0SkFBbzEvOXdHdFZTaWNCSmZ3Mm9ya0Z3UCtLWGda?=
+ =?utf-8?B?TFlrdTBmR0tnUDV6aDAzS2pkQkd3M21rSkZ1U3Z2MDNVck1rTitPcmhUdkFa?=
+ =?utf-8?B?bWNHZXRMT2wwN1BaL0ljbmY0WkpDOEo3MitWYllmTDdoUUhBWG5kSnQ5dDZm?=
+ =?utf-8?B?QkN1eGF1aXMvREEzN3FOaEZzdFU4ZytKRjhZMVViMzZwUUZjMit6d3ZsZ2VW?=
+ =?utf-8?B?SGkzRmRjeU1UeHJHbmh5NmRkZGduNldTMzRqM3FaWVl3NGIxY1FCUitldUlp?=
+ =?utf-8?Q?sF1YcYwY3lHxlAisKQ7AUog=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?QjFlZUx4LzNNV25PNzZWWGVMZXhCRXdxdjNIQ0RYSHlMWnZaMUpPM2dSaEFl?=
+ =?utf-8?B?S1c3bUd2TS8zMzErNnZVMkZaQ0pLSitCMFJOTTUrR1ZuZjhGOVh5OUV6dHJ1?=
+ =?utf-8?B?VGRpclAxcEtuUUFyelpqamtSSTlUS2JuVVJ5SlFqU05lMFNsK1ZPdkhEc0o1?=
+ =?utf-8?B?V3dhL0wvdldvcDRIQi9EbStBb2JDMWoyaHJOVllFV1dyNlpIQVhyc1RhMU51?=
+ =?utf-8?B?UkZ3Q290Q2ZXc3hBbVplWUdua3hKWTQvU2JFbXVnYWtWTFBaQkdxdVc2RXpK?=
+ =?utf-8?B?ZnF3M1NBUDRwMHJoUDA0anR3MHp3NWwzRWY5Z1dDbzVSc0YwTWRnRGFGbnZr?=
+ =?utf-8?B?Z2ZDU3BxUjYremFiVWFSSDUwYTFtcFhPQUZBcXBLUjNSVnBQZDNzL3A2MnU4?=
+ =?utf-8?B?cGhrcjhHa21hNVhDWlZWQWtBM1lHTGRZZGVLd3RtRmUvdzlKTGtHSjdpQ0oz?=
+ =?utf-8?B?UExtS1JMWHREa3AvTWhGMFdTb3RwSzB6Rk53ZFNCejhwQTBVR00zMlN5aVlt?=
+ =?utf-8?B?bk1mWG1oTFV0cVdsd3h0U1RoZzU4Y05UNXR6SngxNTBRaGlvUlZIZExiRXkz?=
+ =?utf-8?B?OExML2pvSXgvWWlkbWhkRDVZTkcxTTd3YTZYMjBHWjFIdFB1SEY5aGdEYzFX?=
+ =?utf-8?B?Tm1xQWtaajVzeDBvUm5rNWdIVkg2OUthVk1ISVFLMzZDdDRObWtzdlNXVU9r?=
+ =?utf-8?B?SFk1Q2ltNnVZSnNjUWpHT0ZGQ2E4R3E2cUhqVlB5SElGWFB0TTdMTVFLZEgz?=
+ =?utf-8?B?VEJVWW9LTlc4U0dRWTAzck9PRjRFemMwOUdWTy9zWjhvckwvVFFpNC9XejRV?=
+ =?utf-8?B?QzRscFBXbEh4TEpUU0FHK0toRFN2Q3hOa2cvTVZManBsSGZwakNMZDIwSXM5?=
+ =?utf-8?B?SXlFSmM1OG5uM05NRjRFR3FaNXFRMzY5bVl3YzRoVVhITmE5K1JWYjBEa0hu?=
+ =?utf-8?B?cnJGME41cGR5aXFTajAzYkZ3dCtBNUVJUE5KWG9HOHhPNThpOEx4clp1RHBL?=
+ =?utf-8?B?LzdQUnEva0RXTXUrRVZsdE45a1lhRnFzekl5c3FmNm16MVFqb1ZrYW5YazQ0?=
+ =?utf-8?B?cVhqVGYwUXArTHdzc2NTWVZRNDR5R2VCc09GdjFpYXQxbXJobXF4c2lWSWF2?=
+ =?utf-8?B?Q00zOTdFdjR2WmszSWRxZENUZlFFbVE5UWlwZUhUSWtRR2d3SzVKWHF6R0NV?=
+ =?utf-8?B?OGdHYmFQeGtrTnkxN3FZTVJqY2RGQW1tMU9TVU1PWkEvRjRpWEgwSjV3UWlE?=
+ =?utf-8?B?YkIvUzkwRklNclk1UUV2djk0VWlaekZ4bkdVUnpoT0dhTnZLcmJ5ZDV6MFNO?=
+ =?utf-8?B?RUlZc3RKUmp2ckEzK0JsdzRjcEVNUVVBbFJDclBGM01SVlJkN1JaK2xodGM0?=
+ =?utf-8?B?SU1pY2RSZjUvYmZETUY1NUJpVVBPK3liMnV4cW5kZTMwbzU4QTA5STQ1T2Zp?=
+ =?utf-8?B?RUU5eVplN2xzaU5GREVqQVlJUnJ1WnhDZ3FaakpOcTFtTVRtbmVrRDBTZXVi?=
+ =?utf-8?B?Rm1nNjd1QTA5SWhSWGRraE5JMk1lWm5ZM3ZtZ0hSTjM1Q3VIamhCTEtTVVdo?=
+ =?utf-8?B?QXdlcjJCWExnMXJRWW5mdXVLT2Z6TkVmbHhnZHNqY2VWK1Y3UWx1bCtLazI1?=
+ =?utf-8?B?N2xLd1lQNTlFc3lQQXlHWHNFdHJuWE1UUlllN2lieDh2aEY2ZldLUk0rV0R6?=
+ =?utf-8?B?RXNCOE5ZdUJYc0U1N0REU0xRYVJRcjBjb2plNU9VTWZ4SnRFTjlkVStPczNH?=
+ =?utf-8?B?eEtqNHBkZDBCN0NybG1sbnJ4TGVZT1NSbFNxb2J0UjdyT003KzNjRmhJWC9s?=
+ =?utf-8?B?cU9NQkpsNkRPNGRUeUtqZ212ZEVhc1JzV3FRSkhZVEZEMTVaaW5ieTNvcitV?=
+ =?utf-8?B?QTkrV0R3U29lamRvTGZCbE03UUJUVTJLRitEeERrRzR3RFNqUURHL3JoVnpR?=
+ =?utf-8?B?UVhYRklKNEhzOCtxNVBOWS9yUkJSVTJreHd0UjZDNDB6RjBCcTlWeVFaMnV4?=
+ =?utf-8?B?UVQydkt4ZUM1am1SdlZxTWI3NzJyTzVyUHhSQkkrZEJJdmVIblVRY1Y0NnZM?=
+ =?utf-8?B?SVBtTDB1ekwrUndXdXhKWUdUanZJTDBtZS9MNTZ5cVBRMlRxeCt1b3pCdzRu?=
+ =?utf-8?B?N1cyOEdZTG8wTDc3QUdVM1o3Q1hCQnpCYndFV29Wd0E1cVdnTzQ0VWRaR0dE?=
+ =?utf-8?B?dUNkVHJhZ29odHd5amxCdWlxbWxicXU5Yk9XRG0xdWU1OUYyeWNRb0xYMUU3?=
+ =?utf-8?B?OVREWFZCTGFYMkNucjdGNEoxWVVaZDhUZDN1YXdEdmJaek5sRTFZZHoweUtC?=
+ =?utf-8?B?SjA3WXZCTG1oaDMzeGlDZG14NWlWYXpSb2ljMHFsVE9UelJWQTVPZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp15c.europe.bmw.corp (2a03:1e80:a15:58f::1:49) To
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a07d82e-1a80-45e2-a83b-08de574738ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2026 10:40:54.0159
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: k8U2p9WFECAv3lrqsH5sRl+/LQmY9b15pDniKqRgCInRQIImR4saX4v1oRj5kHGXi9/SXB79LOEnxFFGCS5JNZqX1FJJ4OV9iKtTxL3nY6U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6692
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 10:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229603
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 10:41:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229604
 
-Full list of changes in this release is available at [0].
-
-[0]: https://github.com/rpm-software-management/createrepo_c/releases/tag/1.2.2
-
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
----
- .../0001-Fix-libname-of-Libs.private.patch    |  22 --
- .../0001-include-rpm-rpmstring.h.patch        |  29 ---
- ...ED_TARGET-for-3rd-party-dependencies.patch | 226 ------------------
- ...-imported-targets-of-turned-off-depe.patch |  53 ----
- ...ds-without-Doxygen-being-present-wit.patch |  50 ----
- ...erepo-c_1.2.1.bb => createrepo-c_1.2.2.bb} |   9 +-
- 6 files changed, 2 insertions(+), 387 deletions(-)
- delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-libname-of-Libs.private.patch
- delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch
- delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0002-Use-IMPORTED_TARGET-for-3rd-party-dependencies.patch
- delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0003-Don-t-try-to-use-imported-targets-of-turned-off-depe.patch
- delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0004-cmake-Allow-builds-without-Doxygen-being-present-wit.patch
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_1.2.1.bb => createrepo-c_1.2.2.bb} (78%)
-
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-libname-of-Libs.private.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-libname-of-Libs.private.patch
-deleted file mode 100644
-index ceccbda9d63181505cc9d73346babb71e0d3017d..0000000000000000000000000000000000000000
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-libname-of-Libs.private.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--From 122963c764b06a4b487b32d4d1da330bd83da4d8 Mon Sep 17 00:00:00 2001
--From: fundawang <fundawang@yeah.net>
--Date: Mon, 17 Mar 2025 19:05:08 +0800
--Subject: [PATCH] Fix libname of Libs.private
--
--Upstream-Status: Backport [1c712194e604f6dd4f8a881e09d8236d4f770b67]
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-----
-- src/createrepo_c.pc.cmake | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/createrepo_c.pc.cmake b/src/createrepo_c.pc.cmake
--index 466487e2f490db28576611924e3d9ac94a99cb51..b7eb66318781b01f2b1348ab2c9dbd24d9a5c32f 100644
----- a/src/createrepo_c.pc.cmake
--+++ b/src/createrepo_c.pc.cmake
--@@ -8,5 +8,5 @@ Version: @VERSION@
-- Requires: glib-2.0 rpm libcurl sqlite3
-- Requires.private: zlib libxml-2.0
-- Libs: -L${libdir} -lcreaterepo_c
---Libs.private: -lbz2 -lzma
--+Libs.private: -lbz2 -llzma
-- Cflags: -I${includedir}
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch
-deleted file mode 100644
-index 4f2f780a6417f91c7c7eaed65e45d4eca45f6694..0000000000000000000000000000000000000000
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From aa508662cfa48f706bf68ace55ed311a9e820d3f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 13 Jan 2023 13:21:51 -0800
--Subject: [PATCH] include rpm/rpmstring.h
--
--Its needed for rasprintf declaration
--
--Fixes
--src/xml_file.c:341:36: error: call to undeclared functi
--on 'rasprintf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/340]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/xml_file.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/xml_file.c b/src/xml_file.c
--index 44b38f9..de5176b 100644
----- a/src/xml_file.c
--+++ b/src/xml_file.c
--@@ -19,6 +19,7 @@
-- 
-- #include <glib.h>
-- #include <glib/gstdio.h>
--+#include <rpm/rpmstring.h>
-- #include <assert.h>
-- #include <rpm/rpmstring.h>
-- #include "xml_file.h"
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0002-Use-IMPORTED_TARGET-for-3rd-party-dependencies.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0002-Use-IMPORTED_TARGET-for-3rd-party-dependencies.patch
-deleted file mode 100644
-index da50d27a762b991d85b05005b3e1cf69f86ce604..0000000000000000000000000000000000000000
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0002-Use-IMPORTED_TARGET-for-3rd-party-dependencies.patch
-+++ /dev/null
-@@ -1,226 +0,0 @@
--From 545532ec468d0dc768fee8a5e83153440509b273 Mon Sep 17 00:00:00 2001
--From: Pietro Cerutti <gahr@gahr.ch>
--Date: Tue, 1 Oct 2024 12:10:40 +0000
--Subject: [PATCH] Use IMPORTED_TARGET for 3rd-party dependencies
--
--The current CMakeLists.txt fails to include the required link directories for 3rd-party packages.
--As an example, on FreeBSD where packages are installed under /usr/local, the link lines include -lgio-2.0 but not -L/usr/local/lib.
--
--The suggested solution is to use the IMPORTED_TARGET mode of pkg_check_modules. This requires CMake 3.6, so I have bumped the minimum required version.
--
--Upstream-Status: Backport [89fa02828cdaf1c710c38bde5fcbcf59538a9cce]
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-----
-- CMakeLists.txt       | 22 +++++++++++-----------
-- src/CMakeLists.txt   | 36 ++++++++++++++++++------------------
-- tests/CMakeLists.txt | 30 +++++++++++++++---------------
-- 3 files changed, 44 insertions(+), 44 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 9a18393f526a4eb74a53d5bddc84f75afcf0499c..c4bf525200ba24eb69ad08feb68b30f065bdac22 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -1,4 +1,4 @@
---CMAKE_MINIMUM_REQUIRED (VERSION 2.8.12)
--+CMAKE_MINIMUM_REQUIRED (VERSION 3.7)
-- PROJECT (createrepo_c C)
--
-- include(GNUInstallDirs)
--@@ -39,13 +39,13 @@ find_package(LibXml2 REQUIRED)
-- find_package(OpenSSL REQUIRED)
-- find_package(ZLIB REQUIRED)
--
---pkg_check_modules(GLIB2 REQUIRED glib-2.0)
---pkg_check_modules(GIO REQUIRED gio-2.0)
---pkg_check_modules(GTHREAD2 REQUIRED gthread-2.0)
---pkg_check_modules(LZMA REQUIRED liblzma)
---pkg_check_modules(SQLITE3 REQUIRED sqlite3>=3.6.18)
---pkg_check_modules(RPM REQUIRED rpm)
---pkg_check_modules(ZSTD REQUIRED libzstd)
--+pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
--+pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
--+pkg_check_modules(GTHREAD2 REQUIRED IMPORTED_TARGET gthread-2.0)
--+pkg_check_modules(LZMA REQUIRED IMPORTED_TARGET liblzma)
--+pkg_check_modules(SQLITE3 REQUIRED IMPORTED_TARGET sqlite3>=3.6.18)
--+pkg_check_modules(RPM REQUIRED IMPORTED_TARGET rpm)
--+pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
--
-- # Add include dirs
--
--@@ -73,7 +73,7 @@ ENDIF (WITH_LEGACY_HASHES)
-- # drpm
-- OPTION (ENABLE_DRPM "Enable delta RPM support?" OFF)
-- IF (ENABLE_DRPM)
---    pkg_check_modules(DRPM REQUIRED drpm>=0.4.0)
--+    pkg_check_modules(DRPM REQUIRED IMPORTED_TARGET drpm>=0.4.0)
--     include_directories (${DRPM_INCLUDE_DIRS})
--     ADD_DEFINITIONS("-DCR_DELTA_RPM_SUPPORT")
-- ENDIF (ENABLE_DRPM)
--@@ -83,7 +83,7 @@ OPTION (ENABLE_PYTHON "Enable python support?" ON)
--
-- OPTION (WITH_ZCHUNK "Build with zchunk support" ON)
-- IF (WITH_ZCHUNK)
---    pkg_check_modules(ZCK REQUIRED zck)
--+    pkg_check_modules(ZCK REQUIRED IMPORTED_TARGET zck)
--     include_directories(${ZCK_INCLUDE_DIRS})
--     SET (CMAKE_C_FLAGS          "${CMAKE_C_FLAGS} -DWITH_ZCHUNK")
--     SET (CMAKE_C_FLAGS_DEBUG    "${CMAKE_C_FLAGS_DEBUG} -DWITH_ZCHUNK")
--@@ -91,7 +91,7 @@ ENDIF (WITH_ZCHUNK)
--
-- OPTION (WITH_LIBMODULEMD "Build with libmodulemd support" ON)
-- IF (WITH_LIBMODULEMD)
---    pkg_check_modules(LIBMODULEMD REQUIRED modulemd-2.0)
--+    pkg_check_modules(LIBMODULEMD REQUIRED IMPORTED_TARGET modulemd-2.0)
--     include_directories(${LIBMODULEMD_INCLUDE_DIRS})
--     SET (CMAKE_C_FLAGS          "${CMAKE_C_FLAGS} -DWITH_LIBMODULEMD")
--     SET (CMAKE_C_FLAGS_DEBUG    "${CMAKE_C_FLAGS_DEBUG} -DWITH_LIBMODULEMD")
--diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
--index 61b048044392b4204984af8969c3b1d74a9b8094..5309050bdadf6a14d9cddf4529d309ef97cc6d2c 100644
----- a/src/CMakeLists.txt
--+++ b/src/CMakeLists.txt
--@@ -86,18 +86,18 @@ ENDIF ()
-- ADD_LIBRARY(libcreaterepo_c ${createrepo_c_library_type} ${createrepo_c_SRCS})
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${BZIP2_LIBRARIES})
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${CURL_LIBRARY})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${GLIB2_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${GIO_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${LIBMODULEMD_LIBRARIES})
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::GLIB2)
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::GIO)
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::LIBMODULEMD)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${LIBXML2_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${LZMA_LIBRARIES})
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::LZMA)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${OPENSSL_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${RPM_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${SQLITE3_LIBRARIES})
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::RPM)
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::SQLITE3)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${ZLIB_LIBRARY})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${ZCK_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${DRPM_LIBRARIES})
---TARGET_LINK_LIBRARIES(libcreaterepo_c ${ZSTD_LIBRARIES})
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::ZCK)
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::DRPM)
--+TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::ZSTD)
--
-- SET_TARGET_PROPERTIES(libcreaterepo_c PROPERTIES
--                       OUTPUT_NAME "createrepo_c"
--@@ -108,27 +108,27 @@ SET_TARGET_PROPERTIES(libcreaterepo_c PROPERTIES
-- ADD_EXECUTABLE(createrepo_c createrepo_c.c cmd_parser.c)
-- TARGET_LINK_LIBRARIES(createrepo_c
--                         libcreaterepo_c
---                        ${GLIB2_LIBRARIES}
---                        ${GTHREAD2_LIBRARIES})
--+                        PkgConfig::GLIB2
--+                        PkgConfig::GTHREAD2)
--
-- ADD_EXECUTABLE(mergerepo_c mergerepo_c.c)
-- TARGET_LINK_LIBRARIES(mergerepo_c
--                         libcreaterepo_c
---                        ${GLIB2_LIBRARIES}
---                        ${GTHREAD2_LIBRARIES}
---                        ${LIBMODULEMD_LIBRARIES})
--+                        PkgConfig::GLIB2
--+                        PkgConfig::GTHREAD2
--+                        PkgConfig::LIBMODULEMD)
--
-- ADD_EXECUTABLE(modifyrepo_c modifyrepo_c.c)
-- TARGET_LINK_LIBRARIES(modifyrepo_c
--                         libcreaterepo_c
---                        ${GLIB2_LIBRARIES}
---                        ${GTHREAD2_LIBRARIES})
--+                        PkgConfig::GLIB2
--+                        PkgConfig::GTHREAD2)
--
-- ADD_EXECUTABLE(sqliterepo_c sqliterepo_c.c)
-- TARGET_LINK_LIBRARIES(sqliterepo_c
--                         libcreaterepo_c
---                        ${GLIB2_LIBRARIES}
---                        ${GTHREAD2_LIBRARIES})
--+                        PkgConfig::GLIB2
--+                        PkgConfig::GTHREAD2)
--
-- CONFIGURE_FILE("createrepo_c.pc.cmake" "${CMAKE_SOURCE_DIR}/src/createrepo_c.pc" @ONLY)
-- CONFIGURE_FILE("version.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/version.h" @ONLY)
--diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
--index 4ffe837edb64153a7261d19dbaf67aceac4b5746..37339ad75190827a8e501de64dbf929f9aee4cd4 100644
----- a/tests/CMakeLists.txt
--+++ b/tests/CMakeLists.txt
--@@ -1,61 +1,61 @@
-- ADD_EXECUTABLE(test_checksum test_checksum.c)
---TARGET_LINK_LIBRARIES(test_checksum libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_checksum libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_checksum)
--
-- ADD_EXECUTABLE(test_compression_wrapper test_compression_wrapper.c)
---TARGET_LINK_LIBRARIES(test_compression_wrapper libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_compression_wrapper libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_compression_wrapper)
--
-- ADD_EXECUTABLE(test_load_metadata test_load_metadata.c)
---TARGET_LINK_LIBRARIES(test_load_metadata libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_load_metadata libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_load_metadata)
--
-- ADD_EXECUTABLE(test_locate_metadata test_locate_metadata.c)
---TARGET_LINK_LIBRARIES(test_locate_metadata libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_locate_metadata libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_locate_metadata)
--
-- ADD_EXECUTABLE(test_misc test_misc.c)
---TARGET_LINK_LIBRARIES(test_misc libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_misc libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_misc)
--
-- ADD_EXECUTABLE(test_sqlite test_sqlite.c)
---TARGET_LINK_LIBRARIES(test_sqlite libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_sqlite libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_sqlite)
--
-- ADD_EXECUTABLE(test_xml_file test_xml_file.c)
---TARGET_LINK_LIBRARIES(test_xml_file libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_file libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_file)
--
-- ADD_EXECUTABLE(test_xml_parser_filelists test_xml_parser_filelists.c)
---TARGET_LINK_LIBRARIES(test_xml_parser_filelists libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_parser_filelists libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_parser_filelists)
--
-- ADD_EXECUTABLE(test_xml_parser_repomd test_xml_parser_repomd.c)
---TARGET_LINK_LIBRARIES(test_xml_parser_repomd libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_parser_repomd libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_parser_repomd)
--
-- ADD_EXECUTABLE(test_xml_parser_updateinfo test_xml_parser_updateinfo.c)
---TARGET_LINK_LIBRARIES(test_xml_parser_updateinfo libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_parser_updateinfo libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_parser_updateinfo)
--
-- ADD_EXECUTABLE(test_xml_parser_main_metadata_together test_xml_parser_main_metadata_together.c)
---TARGET_LINK_LIBRARIES(test_xml_parser_main_metadata_together libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_parser_main_metadata_together libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_parser_main_metadata_together)
--
-- ADD_EXECUTABLE(test_xml_dump test_xml_dump.c)
---TARGET_LINK_LIBRARIES(test_xml_dump libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_dump libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_dump)
--
-- ADD_EXECUTABLE(test_xml_dump_primary test_xml_dump_primary.c)
---TARGET_LINK_LIBRARIES(test_xml_dump_primary libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_xml_dump_primary libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_xml_dump_primary)
--
-- ADD_EXECUTABLE(test_koji test_koji.c)
---TARGET_LINK_LIBRARIES(test_koji libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_koji libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_koji)
--
-- ADD_EXECUTABLE(test_modifyrepo_shared test_modifyrepo_shared.c)
---TARGET_LINK_LIBRARIES(test_modifyrepo_shared libcreaterepo_c ${GLIB2_LIBRARIES})
--+TARGET_LINK_LIBRARIES(test_modifyrepo_shared libcreaterepo_c PkgConfig::GLIB2)
-- ADD_DEPENDENCIES(tests test_modifyrepo_shared)
--
-- CONFIGURE_FILE("run_tests.sh.in"  "${CMAKE_BINARY_DIR}/tests/run_tests.sh")
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0003-Don-t-try-to-use-imported-targets-of-turned-off-depe.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0003-Don-t-try-to-use-imported-targets-of-turned-off-depe.patch
-deleted file mode 100644
-index 769976694ef21e807e51d117da3dc1c3ee678e34..0000000000000000000000000000000000000000
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0003-Don-t-try-to-use-imported-targets-of-turned-off-depe.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From cfd899731f40695e9fd362dc64098e27636808fe Mon Sep 17 00:00:00 2001
--From: Pietro Cerutti <gahr@gahr.ch>
--Date: Mon, 14 Oct 2024 11:49:42 +0000
--Subject: [PATCH] Don't try to use imported targets of turned-off dependencies
--
--Upstream-Status: Backport [0a2da7c87ae9b7e3e11e77416a8e75633d4608a0]
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-----
-- src/CMakeLists.txt | 18 +++++++++++++-----
-- 1 file changed, 13 insertions(+), 5 deletions(-)
--
--diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
--index 5309050bdadf6a14d9cddf4529d309ef97cc6d2c..9444875ff1a2fd2ce0ccc678e121ea54ce0d1b83 100644
----- a/src/CMakeLists.txt
--+++ b/src/CMakeLists.txt
--@@ -88,15 +88,21 @@ TARGET_LINK_LIBRARIES(libcreaterepo_c ${BZIP2_LIBRARIES})
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${CURL_LIBRARY})
-- TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::GLIB2)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::GIO)
---TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::LIBMODULEMD)
--+IF (WITH_LIBMODULEMD)
--+    TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::LIBMODULEMD)
--+ENDIF (WITH_LIBMODULEMD)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${LIBXML2_LIBRARIES})
-- TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::LZMA)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${OPENSSL_LIBRARIES})
-- TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::RPM)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::SQLITE3)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c ${ZLIB_LIBRARY})
---TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::ZCK)
---TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::DRPM)
--+IF (WITH_ZCHUNK)
--+    TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::ZCK)
--+ENDIF (WITH_ZCHUNK)
--+IF (ENABLE_DRPM)
--+    TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::DRPM)
--+ENDIF (ENABLE_DRPM)
-- TARGET_LINK_LIBRARIES(libcreaterepo_c PkgConfig::ZSTD)
--
-- SET_TARGET_PROPERTIES(libcreaterepo_c PROPERTIES
--@@ -115,8 +121,10 @@ ADD_EXECUTABLE(mergerepo_c mergerepo_c.c)
-- TARGET_LINK_LIBRARIES(mergerepo_c
--                         libcreaterepo_c
--                         PkgConfig::GLIB2
---                        PkgConfig::GTHREAD2
---                        PkgConfig::LIBMODULEMD)
--+                        PkgConfig::GTHREAD2)
--+IF (WITH_LIBMODULEMD)
--+    TARGET_LINK_LIBRARIES(mergerepo_c PkgConfig::LIBMODULEMD)
--+ENDIF (WITH_LIBMODULEMD)
--
-- ADD_EXECUTABLE(modifyrepo_c modifyrepo_c.c)
-- TARGET_LINK_LIBRARIES(modifyrepo_c
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0004-cmake-Allow-builds-without-Doxygen-being-present-wit.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0004-cmake-Allow-builds-without-Doxygen-being-present-wit.patch
-deleted file mode 100644
-index acf888e7ba4e674be0b5a8ba228f63a5b36d78b2..0000000000000000000000000000000000000000
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0004-cmake-Allow-builds-without-Doxygen-being-present-wit.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From 90f39874bd122ca9e966f32c01e43e922031018e Mon Sep 17 00:00:00 2001
--From: Moritz Haase <Moritz.Haase@bmw.de>
--Date: Mon, 23 Jun 2025 09:21:07 +0200
--Subject: [PATCH] cmake: Allow builds without Doxygen being present with CMake
-- 4+
--
--With CMake 4+, the initial CMake run fails with
--
--    CMake Error at doc/CMakeLists.txt:18 (ADD_DEPENDENCIES):
--      The dependency target "doc-c" of target "doc" does not exist.
--
--in case Doxygen is not installed on the system, since non-existent dependencies
--are not ignored anymore (see [0]). Rectify that by making sure that we only add
--the dependency in case Doxygen has been found.
--
--[0]: https://cmake.org/cmake/help/latest/policy/CMP0046.html
--
--Upstream-Status: Backport [908e3a4a5909ab107da41c2631a06c6b23617f3c]
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-----
-- doc/CMakeLists.txt | 7 ++++---
-- 1 file changed, 4 insertions(+), 3 deletions(-)
--
--diff --git a/doc/CMakeLists.txt b/doc/CMakeLists.txt
--index 6b2ef5e0593757c7b977cd5d228b7774b4f45641..6332b91260ff87f16e331071e652bfe0b167f518 100644
----- a/doc/CMakeLists.txt
--+++ b/doc/CMakeLists.txt
--@@ -1,11 +1,15 @@
-- ADD_SUBDIRECTORY (python)
--
--+ADD_CUSTOM_TARGET (doc)
--+ADD_DEPENDENCIES (doc doc-python)
--+
-- find_package(Doxygen)
-- if(DOXYGEN_FOUND)
--     CONFIGURE_FILE("Doxyfile.in.in" "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.in" @ONLY)
--     add_custom_target(doc-c
--         ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.in
--         COMMENT "Building C API documentation with Doxygen" VERBATIM)
--+    ADD_DEPENDENCIES (doc doc-c)
-- endif(DOXYGEN_FOUND)
--
-- IF(CREATEREPO_C_INSTALL_MANPAGES)
--@@ -13,6 +17,3 @@ IF(CREATEREPO_C_INSTALL_MANPAGES)
--             DESTINATION "${CMAKE_INSTALL_MANDIR}/man8"
--             COMPONENT bin)
-- ENDIF(CREATEREPO_C_INSTALL_MANPAGES)
---
---ADD_CUSTOM_TARGET (doc)
---ADD_DEPENDENCIES (doc doc-python doc-c)
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.1.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.2.bb
-similarity index 78%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_1.2.1.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.2.2.bb
-index ecd43b0c0b331010e1c831f03299b1c4f3472c92..1dd5165260718aea987b7947bdfbbd9490b53273 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.1.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.2.bb
-@@ -6,21 +6,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https;tag=${PV} \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
--           file://0001-include-rpm-rpmstring.h.patch \
--           file://0001-Fix-libname-of-Libs.private.patch \
--           file://0002-Use-IMPORTED_TARGET-for-3rd-party-dependencies.patch \
--           file://0003-Don-t-try-to-use-imported-targets-of-turned-off-depe.patch \
--           file://0004-cmake-Allow-builds-without-Doxygen-being-present-wit.patch \
-            "
- 
--SRCREV = "8c6e6f88df86d1e34ca26d3835d77a2816326414"
-+SRCREV = "46b86c9b14bd724cb6bec0bfa81a7b179847f3db"
- 
- DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm"
- DEPENDS:append:class-native = " file-replacement-native"
- 
- inherit cmake pkgconfig bash-completion setuptools3-base
- 
--EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DWITH_ZCHUNK=OFF -DENABLE_DRPM=OFF -DWITH_LIBMODULEMD=OFF"
-+EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DWITH_ZCHUNK=OFF -DENABLE_DRPM=OFF -DWITH_LIBMODULEMD=OFF -DBUILD_DOC_C=OFF"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgS2plbGxlcnN0
+ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IFNlbnQ6IFNhdHVyZGF5LCAxNyBK
+YW51YXJ5IDIwMjYgMTQ6MzYNCj4gVG86IHZhbGVudGluLmJvdWRldmluQGdtYWlsLmNvbTsgb3Bl
+bmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IERhbmllbCBU
+dXJ1bGwgPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tPjsNCj4gamVyb21lLm91ZmVsbGFAc2F2
+b2lyZmFpcmVsaW51eC5jb207IGFudG9uaW4uZ29kYXJkQGJvb3RsaW4uY29tDQo+IFN1YmplY3Q6
+IFJFOiBbT0UtY29yZV0gW1BBVENIIHY1IDIvNF0gZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnM6IEFk
+ZCBhIC5iYmNsYXNzDQo+IA0KPiBbWW91IGRvbid0IG9mdGVuIGdldCBlbWFpbCBmcm9tIHBldGVy
+LmtqZWxsZXJzdGVkdEBheGlzLmNvbS4gTGVhcm4gd2h5IHRoaXMgaXMNCj4gaW1wb3J0YW50IGF0
+IGh0dHBzOi8vYWthLm1zL0xlYXJuQWJvdXRTZW5kZXJJZGVudGlmaWNhdGlvbiBdDQo+IA0KPiA+
+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgdmJvdWRldmluDQo+IHZpYQ0KPiA+IGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcNCj4gPiBTZW50OiBkZW4gMTYgamFudWFyaSAyMDI2IDIwOjA1DQo+ID4g
+VG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBDYzogZGFu
+aWVsLnR1cnVsbEBlcmljc3Nvbi5jb207IGplcm9tZS5vdWZlbGxhQHNhdm9pcmZhaXJlbGludXgu
+Y29tOw0KPiA+IGFudG9uaW4uZ29kYXJkQGJvb3RsaW4uY29tOyBWYWxlbnRpbkJvdWRldmluDQo+
+ID4gPHZhbGVudGluLmJvdWRldmluQGdtYWlsLmNvbT4NCj4gPiBTdWJqZWN0OiBbT0UtY29yZV0g
+W1BBVENIIHY1IDIvNF0gZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnM6IEFkZCBhDQo+ID4gLmJiY2xh
+c3MNCj4gDQo+IFRoZSBwcmVmaXggc2hvdWxkIG1hdGNoIHRoZSBjbGFzcyBuYW1lLg0KPiANCj4g
+Pg0KPiA+IEFkZCBhIG5ldyBjbGFzcyBuYW1lZCBrZXJuZWwtZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lv
+bnMuYmJjbGFzcyB0bw0KPiA+IGdlbmVyYXRlLWN2ZS1leGNsdXNpb25zIHRvIHVzZSB0aGlzIHNj
+cmlwdCBhdCBldmVyeSBydW4uDQo+ID4NCj4gPiBUd28gc3RlcHMgZm9yIHRlc3Rpbmc6DQo+ID4g
+MSkgSW5oZXJpdCB0aGlzIGNsYXNzIGluIHRoZSBrZXJuZWwgcmVjaXBlIHdpdGggImluaGVyaXQN
+Cj4gPiAgICBrZXJuZWwtZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnMuYmJjbGFzcyINCj4gPiAyKSBU
+dXJuIHRoZSB2YXJpYWJsZSBFTkFCTEVfS0VSTkVMX0NWRV9FWENMVVNJT05TIHRvICIxIi4NCj4g
+PiAzKSBVc2UgdGhlIGZvbGxvd2luZyBjb21tYW5kIHRvIGdlbmVyYXRlIGEgY3ZlbGlzdFY1IGVu
+dHJ5IHdpdGggYSBKU09ODQo+ID4gICAgZmlsZSBpbiBpbiAke1dPUktESVJ9L2N2ZWxpc3RWNS8g
+Og0KPiA+ICAgICJiaXRiYWtlIGxpbnV4LXlvY3RvIC1jIGdlbmVyYXRlLWN2ZS1leGNsdXNpb25z
+Ig0KPiA+DQpUaGUgdGFzayBpcyB1c2luZyBfIGluc3RlYWQgb2YgLQ0KDQogYml0YmFrZSBsaW51
+eC15b2N0byAtYyBkb19nZW5lcmF0ZV9jdmVfZXhjbHVzaW9ucyANCg0KPiA+IFRoZSBKU09OIGZp
+bGUgY2FuIHRoZW4gYmUgcGFyc2VkIGluIHRoZSBmb2xsb3dpbmcgcnVuIGJ5IGN2ZS1jaGVjay4N
+Cj4gPg0KPiA+IFRoaXMgY2xhc3MgY29udGFpbnMgc2V2ZXJhbCBtZXRob2RzOg0KPiA+DQo+ID4g
+KmRvX2Nsb25lX2N2ZWxpc3RWNTogQ2xvbmUgdGhlIGN2ZWxpc3RWNSByZXBvIGluDQo+ID4gJHtX
+T1JLRElSfS9jdmVsaXN0VjUvZ2l0DQo+ID4NCj4gPiAoZS5nLiBiaXRiYWtlLWJ1aWxkcy9wb2t5
+LW1hc3Rlci9idWlsZC90bXAvd29yay9xZW11eDg2XzY0LXBva3ktbGludXgvDQo+ID4gbGludXgt
+eW9jdG8vNi4xOC4xK2dpdC9jdmVsaXN0VjUvZ2l0KQ0KPiA+DQo+ID4gKmRvX2dlbmVyYXRlX2N2
+ZV9leGNsdXNpb25zOiBVc2UgdGhlIHNjcmlwdCBnZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5weS4N
+Cj4gPiBJdCB1c2VzIHRoZSBuZXcgIi0tb3V0cHV0LWpzb24iIGFyZ3VtZW50IHRvIGdlbmVyYXRl
+IGEgSlNPTiBmaWxlIGFzIGFuDQo+ID4gb3V0cHV0IHN0b3JlZCBpbg0KPiA+ICR7V09SS0RJUn0v
+Y3ZlbGlzdFY1Ly9jdmUtZXhjbHVzaW9uXyR7TElOVVhfVkVSU0lPTn0uanNvbg0KPiA+DQo+ID4g
+KmRvX2N2ZV9jaGVjazpwcmVwZW5kOiBQYXJzZSB0aGUgcHJldmlvdXNseSBnZW5lcmF0ZWQgSlNP
+TiBmaWxlIHRvIHNldA0KPiA+IHRoZSB2YXJpYWJsZSBDVkVfU1RBVFVTIGNvcnJldGx5DQo+ID4N
+Cj4gPiBUaGUgY2xhc3MgYWxzbyBwcm92aWRlcyBzb21lIHZhcmlhYmxlczoNCj4gPiAqRU5BQkxF
+X0tFUk5FTF9DVkVfRVhDTFVTSU9OUzogRW5hYmxlL0Rpc2FibGUgdGhpcyBjbGFzcyAob2ZmIGJ5
+DQo+ID4gZGVmYXVsdCB0byBub3QgYWZmZWN0IGxpbnV4LXlvY3RvIE9FIGV4YW1wbGUpDQo+ID4g
+KkdFTkVSQVRFX0NWRV9FWENMVVNJT05TX1NSQ19VUkkgYW5kDQo+IEdFTkVSQVRFX0NWRV9FWENM
+VVNJT05TX1NSQ1JFVg0KPiA+IGNhbiBiZSB1c2VkIHRvIGNoYW5nZSB0aGUgc291cmNlIHJlcG9z
+aXRvcnkgb3IgZml4IGEgY29tbWl0IHdpdGgNCj4gPiBTUkNSRVYgKHVzZWZ1bGwgZm9yIGRldGVy
+bWluaXN0aWMgdGVzdGluZykNCj4gPiAqR0VORVJBVEVfQ1ZFX0VYQ0xVU0lPTlNfTkVUV09SSyBj
+YW4gYmUgc2V0IHRvIDAgdG8gcHJvdmlkZSBhbg0KPiBvZmZsaW5lDQo+ID4gbW9kZSBiYXNlZCBv
+biBETF9ESVIgZGlyZWN0b3J5Lg0KPiA+ICpHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19XT1JLRElS
+IHBhdGggdXNlZCBhcyBhIHdvcmtpbmcgZGlyZWN0b3J5DQo+IGZvcg0KPiA+IHRoaXMgY2xhc3Mg
+KkdFTkVSQVRFX0NWRV9FWENMVVNJT05TX0RFU1RTVUZGSVggc3VmZml4IHVzZWQgZm9yIHRoZSBn
+aXQNCj4gPiB1bnBhY2sgKkdFTkVSQVRFX0NWRV9FWENMVVNJT05TX1VOUEFDS19ESVIgcGF0aCBv
+ZiB0aGUgdW5wYWNrIGZvcg0KPiB0aGUNCj4gPiBnaXQgcmVwb3NpdG9yeQ0KPiA+DQo+ID4gU2ln
+bmVkLW9mZi1ieTogVmFsZW50aW4gQm91ZGV2aW4gPHZhbGVudGluLmJvdWRldmluQGdtYWlsLmNv
+bT4NCj4gPiAtLS0NCj4gPiAgLi4uL2tlcm5lbC1nZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5iYmNs
+YXNzICAgIHwgMTM1ICsrKysrKysrKysrKysrKysrKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTM1
+IGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+ID4gbWV0YS9jbGFzc2Vz
+L2tlcm5lbC1nZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5iYmNsYXNzDQo+ID4NCj4gPiBkaWZmIC0t
+Z2l0IGEvbWV0YS9jbGFzc2VzL2tlcm5lbC1nZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5iYmNsYXNz
+DQo+ID4gYi9tZXRhL2NsYXNzZXMva2VybmVsLWdlbmVyYXRlLWN2ZS1leGNsdXNpb25zLmJiY2xh
+c3MNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLmNkODFj
+YzU4OTkNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2tlcm5lbC1n
+ZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5iYmNsYXNzDQo+ID4gQEAgLTAsMCArMSwxMzUgQEANCj4g
+PiArIyBHZW5lcmF0ZSBDVkUgZXhjbHVzaW9ucyBmb3IgdGhlIGtlcm5lbCBidWlsZCAoc2V0IHRv
+ICIxIiB0byBlbmFibGUpDQo+ID4gK0VOQUJMRV9LRVJORUxfQ1ZFX0VYQ0xVU0lPTlMgPz0gIjAi
+DQo+ID4gKw0KPiA+ICsjIENWRSBleGNsdXNpb25zIHNvdXJjZSByZXBvc2l0b3J5IHNldHRpbmdz
+DQo+ID4gK0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX1NSQ19VUkkgPz0NCj4gImdpdDovL2dpdGh1
+Yi5jb20vQ1ZFUHJvamVjdC9jdmVsaXN0VjUuZ2l0O2JyYW5jaD1tYWluO3Byb3RvY29sPWh0dHBz
+Ig0KPiA+ICtHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19TUkNSRVYgPz0gIiR7QGJiLmZldGNoMi5n
+ZXRfYXV0b3JldihkKX0iDQo+ID4gK0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX05FVFdPUksgPz0g
+IjEiDQo+ID4gK0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX1dPUktESVIgPz0gIiR7V09SS0RJUn0v
+Y3ZlbGlzdFY1Ig0KPiA+ICtHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19ERVNUU1VGRklYID89ICJn
+aXQiDQo+ID4gK0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX1VOUEFDS19ESVIgPz0NCj4gIiR7R0VO
+RVJBVEVfQ1ZFX0VYQ0xVU0lPTlNfV09SS0RJUn0vJHtHRU5FUkFURV9DVkVfRVhDTFVTSU9OU18N
+Cj4gREVTVFNVRkZJWH0iDQo+ID4gKw0KPiA+ICtweXRob24gX19hbm9ueW1vdXMoKSB7DQo+ID4g
+KyAgICAjIE9ubHkgcnVuIGlmIENWRSBleGNsdXNpb25zIGFyZSBlbmFibGVkDQo+ID4gKyAgICBp
+ZiBkLmdldFZhcigiRU5BQkxFX0tFUk5FTF9DVkVfRVhDTFVTSU9OUyIsIFRydWUpID09ICIxIjoN
+Cj4gPiArICAgICAgICBzcmNyZXYgPSBkLmdldFZhcigiR0VORVJBVEVfQ1ZFX0VYQ0xVU0lPTlNf
+U1JDUkVWIiwgVHJ1ZSkgb3IgIiINCj4gPiArICAgICAgICBuZXR3b3JrID0gZC5nZXRWYXIoIkdF
+TkVSQVRFX0NWRV9FWENMVVNJT05TX05FVFdPUksiLCBUcnVlKQ0KPiBvciAiMCINCj4gPiArICAg
+ICAgICAjIENoZWNrIG9mZmxpbmUgbW9kZSB3aXRoIEFVVE9SRVYtbGlrZSBTUkNSRVYNCj4gPiAr
+ICAgICAgICBpZiBuZXR3b3JrID09ICIwIiBhbmQgc3JjcmV2LnN0cmlwKCkgaW4gKCIke0FVVE9S
+RVZ9IiwgIkFVVE9JTkMiLA0KPiAiSU5WQUxJRCIpOg0KPiA+ICsgICAgICAgICAgICBiYi5mYXRh
+bCgiZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnM6IE9mZmxpbmUgbW9kZSBidXQgU1JDUkVWIGlzIHNl
+dCB0bw0KPiBBVVRPUkVWL0FVVE9JTkMvSU5WQUxJRC4gIg0KPiA+ICsgICAgICAgICAgICAgICAg
+ICAgICAiQ2Fubm90IHByb2NlZWQgd2l0aG91dCBuZXR3b3JrIGFjY2VzcyBvciB1c2UgYSBmaXhl
+ZA0KPiBTUkNSRVYuIikNCj4gPiArICAgICAgICBkLmFwcGVuZFZhcigiU1JDX1VSSSIsICINCj4g
+JHtHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19TUkNfVVJJfTtuYW1lPWdlbmVyYXRlLWN2ZS0NCj4g
+ZXhjbHVzaW9ucztkZXN0c3VmZml4PSR7R0VORVJBVEVfQ1ZFX0VYQ0xVU0lPTlNfREVTVFNVRkZJ
+WH0iKQ0KPiA+ICsgICAgICAgIGQuc2V0VmFyKCJTUkNSRVZfZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lv
+bnMiLA0KPiA+ICtkLmdldFZhcigiR0VORVJBVEVfQ1ZFX0VYQ0xVU0lPTlNfU1JDUkVWIikpDQo+
+ID4gK30NCj4gPiArDQo+ID4gK3B5dGhvbiBkb19jbG9uZV9jdmVsaXN0VjUoKSB7DQo+ID4gKyAg
+ICBpbXBvcnQgc3VicHJvY2Vzcw0KPiA+ICsgICAgaW1wb3J0IHNodXRpbCwgb3MNCj4gPiArICAg
+ICMgT25seSBydW4gaWYgQ1ZFIGV4Y2x1c2lvbnMgYXJlIGVuYWJsZWQNCj4gPiArICAgIGlmIG5v
+dCBkLmdldFZhcigiRU5BQkxFX0tFUk5FTF9DVkVfRVhDTFVTSU9OUyIpID09ICIxIjoNCj4gPiAr
+ICAgICAgICByZXR1cm4NCj4gPiArICAgIG5ldHdvcmtfYWxsb3dlZCA9IGQuZ2V0VmFyKCJHRU5F
+UkFURV9DVkVfRVhDTFVTSU9OU19ORVRXT1JLIikNCj4gPT0gIjEiDQo+ID4gKyAgICB3b3JrZGly
+ID0gZC5nZXRWYXIoIkdFTkVSQVRFX0NWRV9FWENMVVNJT05TX1dPUktESVIiKQ0KPiA+ICsgICAg
+dW5wYWNrX2RpciA9IGQuZ2V0VmFyKCJHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19VTlBBQ0tfRElS
+IikNCj4gPiArICAgICMgUmVtb3ZlIGV4aXN0aW5nIHVucGFja2VkIGRpcmVjdG9yeSBpZiBhbnkN
+Cj4gPiArICAgIGlmIG9zLnBhdGguZXhpc3RzKHdvcmtkaXIpOg0KPiA+ICsgICAgICAgIHNodXRp
+bC5ybXRyZWUod29ya2RpcikNCj4gPiArICAgICMgUHJlcGFyZSBmZXRjaGVyDQo+ID4gKyAgICBz
+cmNfdXJpX2xpc3QgPSAoZC5nZXRWYXIoJ1NSQ19VUkknKSBvciAiIikuc3BsaXQoKQ0KPiA+ICsg
+ICAgY3ZlX3VyaXMgPSBbXQ0KPiA+ICsgICAgZm9yIHVyaSBpbiBzcmNfdXJpX2xpc3Q6DQo+ID4g
+KyAgICAgICAgaWYgIm5hbWU9Z2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnMiIGluIHVyaToNCj4gPiAr
+ICAgICAgICAgICAgY3ZlX3VyaXMuYXBwZW5kKHVyaSkNCj4gPiArICAgIGlmIG5vdCBjdmVfdXJp
+czoNCj4gPiArICAgICAgICBiYi5ub3RlKCJObyBDVkUgZXhjbHVzaW9ucyBTUkNfVVJJIGZvdW5k
+LCBza2lwcGluZyBmZXRjaCIpDQo+ID4gKyAgICAgICAgcmV0dXJuDQo+ID4gKyAgICBmZXRjaGVy
+ID0gYmIuZmV0Y2gyLkZldGNoKGN2ZV91cmlzLCBkKQ0KPiA+ICsgICAgIyBDbG9uZSBvbmx5IGlm
+IG5ldHdvcmsgaXMgYWxsb3dlZA0KPiA+ICsgICAgaWYgbmV0d29ya19hbGxvd2VkOg0KPiA+ICsg
+ICAgICAgIGZldGNoZXIuZG93bmxvYWQoKQ0KPiA+ICsgICAgZWxzZToNCj4gPiArICAgICAgICAj
+IE9mZmxpbmUgbW9kZSB3aXRob3V0IG5ldHdvcmsgYWNjZXNzDQo+ID4gKyAgICAgICAgYmIubm90
+ZSgiR0VORVJBVEVfQ1ZFX0VYQ0xVU0lPTlNfTkVUV09SSz0wOiBTa2lwcGluZyBvbmxpbmUNCj4g
+ZmV0Y2guIENoZWNraW5nIGxvY2FsIGRvd25sb2FkcyBpbiBETF9ESVIuLi4iKQ0KPiA+ICsgICAg
+ICAgIGhhdmVfc291cmNlcyA9IEZhbHNlDQo+ID4gKyAgICAgICAgZGxfZGlyID0gZC5nZXRWYXIo
+IkRMX0RJUiIpDQo+ID4gKyAgICAgICAgc3JjcmV2ID0gZC5nZXRWYXIoIlNSQ1JFVl9nZW5lcmF0
+ZS1jdmUtZXhjbHVzaW9ucyIpDQo+ID4gKyAgICAgICAgYmIubm90ZShmIkNoZWNraW5nIGZvciBz
+b3VyY2VzIGZvciBTUkNSRVY6IHtzcmNyZXZ9IikNCj4gPiArICAgICAgICAjIENoZWNrIFNSQ1JF
+ViBpcyBOT1Qgc2V0IHRvIEFVVE9SRVYNCj4gPiArICAgICAgICBpZiBzcmNyZXYuc3RyaXAoKSBp
+biAoIiR7QVVUT1JFVn0iLCAiQVVUT0lOQyIsICJJTlZBTElEIik6DQo+ID4gKyAgICAgICAgICAg
+IGJiLmZhdGFsKCJnZW5lcmF0ZS1jdmUtZXhjbHVzaW9uczogT2ZmbGluZSBtb2RlIGJ1dCBTUkNS
+RVYgaXMgc2V0IHRvDQo+IEFVVE9SRVYvQVVUT0lOQy9JTlZBTElELiBDYW5ub3QgcHJvY2VlZCB3
+aXRob3V0IG5ldHdvcmsgYWNjZXNzIG9yIHVzZQ0KPiBhIGZpeGVkIFNSQ1JFVi4iKQ0KPiA+ICsg
+ICAgICAgICAgICByZXR1cm4NCj4gPiArICAgICAgICAjIExvb3AgdGhyb3VnaCB0aGUgZmV0Y2hl
+cidzIGV4cGFuZGVkIFVSTCBkYXRhDQo+ID4gKyAgICAgICAgZm9yIHVkIGluIGZldGNoZXIuZXhw
+YW5kZWRfdXJsZGF0YSgpOg0KPiA+ICsgICAgICAgICAgICB1ZC5zZXR1cF9sb2NhbHBhdGgoZCkN
+Cj4gPiArICAgICAgICAgICAgIyBDaGVjayBtaXJyb3IgdGFyYmFsbHMgZmlyc3QNCj4gPiArICAg
+ICAgICAgICAgZm9yIG1pcnJvcl9mbmFtZSBpbiB1ZC5taXJyb3J0YXJiYWxsczoNCj4gPiArICAg
+ICAgICAgICAgICAgIG1pcnJvcl9wYXRoID0gb3MucGF0aC5qb2luKGRsX2RpciwgbWlycm9yX2Zu
+YW1lKQ0KPiA+ICsgICAgICAgICAgICAgICAgaWYgb3MucGF0aC5leGlzdHMobWlycm9yX3BhdGgp
+Og0KPiA+ICsgICAgICAgICAgICAgICAgICAgIGJiLm5vdGUoZiJGb3VuZCBtaXJyb3IgdGFyYmFs
+bDoge21pcnJvcl9wYXRofSIpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgaGF2ZV9zb3VyY2Vz
+ID0gVHJ1ZQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIGJyZWFrDQo+ID4gKyAgICAgICAgICAg
+ICMgSWYgbm8gbWlycm9yLCBjaGVjayBvcmlnaW5hbCBkb3dubG9hZCBwYXRoDQo+ID4gKyAgICAg
+ICAgICAgIGlmIG5vdCBoYXZlX3NvdXJjZXMgYW5kIHVkLmxvY2FscGF0aCBhbmQNCj4gb3MucGF0
+aC5leGlzdHModWQubG9jYWxwYXRoKToNCj4gPiArICAgICAgICAgICAgICAgIGJiLm5vdGUoZiJG
+b3VuZCBsb2NhbCBkb3dubG9hZDoge3VkLmxvY2FscGF0aH0iKQ0KPiA+ICsgICAgICAgICAgICAg
+ICAgaGF2ZV9zb3VyY2VzID0gVHJ1ZQ0KPiA+ICsgICAgICAgICAgICBpZiBub3QgaGF2ZV9zb3Vy
+Y2VzOg0KPiA+ICsgICAgICAgICAgICAgICAgYmIuZmF0YWwoImdlbmVyYXRlLWN2ZS1leGNsdXNp
+b25zOiBPZmZsaW5lIG1vZGUgYnV0IHJlcXVpcmVkDQo+IHNvdXJjZSBpcyBtaXNzaW5nLlxuImYi
+U1JDX1VSSSA9IHt1ZC51cmx9IikNCj4gPiArICAgICAgICAgICAgICAgIHJldHVybg0KPiA+ICsg
+ICAgIyBVbnBhY2sgaW50byB0aGUgc3RhbmRhcmQgd29yayBkaXJlY3RvcnkNCj4gPiArICAgIGZl
+dGNoZXIudW5wYWNrKHVucGFja19kaXIpDQo+ID4gKyAgICAjIFJlbW92ZSB0aGUgZm9sZGVyICR7
+UE59IHNldCBieSB1bnBhY2sNCj4gPiArICAgIHN1YmRpcnMgPSBbZCBmb3IgZCBpbiBvcy5saXN0
+ZGlyKHVucGFja19kaXIpIGlmDQo+IG9zLnBhdGguaXNkaXIob3MucGF0aC5qb2luKHVucGFja19k
+aXIsIGQpKV0NCj4gPiArICAgIGlmIGxlbihzdWJkaXJzKSA9PSAxOg0KPiA+ICsgICAgICAgIHNy
+Y2RpciA9IG9zLnBhdGguam9pbih1bnBhY2tfZGlyLCBzdWJkaXJzWzBdKQ0KPiA+ICsgICAgICAg
+IGZvciBmIGluIG9zLmxpc3RkaXIoc3JjZGlyKToNCj4gPiArICAgICAgICAgICAgc2h1dGlsLm1v
+dmUob3MucGF0aC5qb2luKHNyY2RpciwgZiksIHVucGFja19kaXIpDQo+ID4gKyAgICAgICAgc2h1
+dGlsLnJtdHJlZShzcmNkaXIpDQo+ID4gKyAgICBiYi5ub3RlKCJWdWxuZXJhYmlsaXRpZXMgcmVw
+byB1bnBhY2tlZCBpbnRvOiAlcyIgJSB1bnBhY2tfZGlyKSB9DQo+ID4gK2RvX2Nsb25lX2N2ZWxp
+c3RWNVtuZXR3b3JrXSA9DQo+ICIke0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX05FVFdPUkt9Ig0K
+PiA+ICtkb19jbG9uZV9jdmVsaXN0VjVbbm9zdGFtcF0gPSAiMSINCj4gPiArZG9fY2xvbmVfY3Zl
+bGlzdFY1W2RvY10gPSAiQ2xvbmUgQ1ZFIGluZm9ybWF0aW9uIGZyb20gdGhlIENWRSBQcm9qZWN0
+Og0KPiBodHRwczovL2V1cjAyLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9
+aHR0cHMlM0ElMkYlMkZnaXRodWIuDQo+IGNvbSUyRkNWRVByb2plY3QlMkZjdmVsaXN0VjUuZ2l0
+JmRhdGE9MDUlN0MwMiU3Q2RhbmllbC50dXJ1bGwlNDBlcmljc3MNCj4gb24uY29tJTdDZmE1NTg5
+NTEwZmE3NDI0MTZkOGEwOGRlNTVjZDY1MjAlN0M5MmU4NGNlYmZiZmQ0N2FiYmU1Mg0KPiAwODBj
+NmI4Nzk1M2YlN0MwJTdDMCU3QzYzOTA0MjUzNzgxNTQwNjUyMSU3Q1Vua25vd24lN0NUV0ZwYg0K
+PiBHWnNiM2Q4ZXlKRmJYQjBlVTFoY0draU9uUnlkV1VzSWxZaU9pSXdMakF1TURBd01DSXNJbEFp
+T2lKWGFXNHpNDQo+IGlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRJTNEJTNEJTdDMCU3QyU3
+QyU3QyZzZGF0YT14blhrNk9Fa1ENCj4gMjhzQnU1Unp1WDN4dFdUJTJCMWhmRUVLYVNNZW9EaHJl
+bzMwJTNEJnJlc2VydmVkPTAiDQo+ID4gK2FkZHRhc2sgY2xvbmVfY3ZlbGlzdFY1IGJlZm9yZSBk
+b19nZW5lcmF0ZV9jdmVfZXhjbHVzaW9ucw0KPiA+ICsNCj4gPiArZG9fZ2VuZXJhdGVfY3ZlX2V4
+Y2x1c2lvbnMoKSB7DQo+ID4gKyAgICAjIE9ubHkgcnVuIGlmIENWRSBleGNsdXNpb25zIGFyZSBl
+bmFibGVkDQo+ID4gKyAgICBpZiBbICIke0VOQUJMRV9LRVJORUxfQ1ZFX0VYQ0xVU0lPTlN9IiAh
+PSAiMSIgXTsgdGhlbg0KPiA+ICsgICAgICAgIHJldHVybiAwDQo+ID4gKyAgICBmaQ0KPiA+ICsg
+ICAgZ2VuZXJhdGVfY3ZlX2V4Y2x1c2lvbnNfc2NyaXB0PSR7Q09SRUJBU0V9L3NjcmlwdHMvY29u
+dHJpYi9nZW5lcmF0ZS0NCj4gY3ZlLWV4Y2x1c2lvbnMucHkNCj4gPiArICAgIGlmIFsgISAtZiAi
+JHtnZW5lcmF0ZV9jdmVfZXhjbHVzaW9uc19zY3JpcHR9IiBdOyB0aGVuDQo+ID4gKyAgICAgICAg
+YmJ3YXJuICJnZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5weSBub3QgZm91bmQgaW4gJHtDT1JFQkFT
+RX0uIg0KPiA+ICsgICAgICAgIHJldHVybiAwDQo+ID4gKyAgICBmaQ0KPiA+ICsgICAgaWYgWyAh
+IC1kICIke0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX1VOUEFDS19ESVJ9IiBdOyB0aGVuDQo+ID4g
+KyAgICAgICAgYmJ3YXJuICJDVkUgZXhjbHVzaW9ucyBzb3VyY2UgZGlyZWN0b3J5IG5vdCBmb3Vu
+ZCBpbg0KPiAke0dFTkVSQVRFX0NWRV9FWENMVVNJT05TX1VOUEFDS19ESVJ9LiINCj4gPiArICAg
+ICAgICByZXR1cm4gMA0KPiA+ICsgICAgZmkNCj4gPiArICAgIHB5dGhvbjMgIiR7Z2VuZXJhdGVf
+Y3ZlX2V4Y2x1c2lvbnNfc2NyaXB0fSIgXA0KPiA+ICsgICAgICAgICIke0dFTkVSQVRFX0NWRV9F
+WENMVVNJT05TX1VOUEFDS19ESVJ9IiBcDQo+ID4gKyAgICAgICAgJHtMSU5VWF9WRVJTSU9OfSBc
+DQo+ID4gKyAgICAgICAgLS1vdXRwdXQtanNvbiA+ICR7R0VORVJBVEVfQ1ZFX0VYQ0xVU0lPTlNf
+V09SS0RJUn0vY3ZlLQ0KPiBleGNsdXNpb25fJHtMSU5VWF9WRVJTSU9OfS5qc29uDQo+ID4gKyAg
+ICBiYnBsYWluICJDVkUgZXhjbHVzaW9ucyBnZW5lcmF0ZWQgZm9yIGtlcm5lbCB2ZXJzaW9uICR7
+TElOVVhfVkVSU0lPTn0NCj4gYXQgJHtHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19XT1JLRElSfS9j
+dmUtDQo+IGV4Y2x1c2lvbl8ke0xJTlVYX1ZFUlNJT059Lmpzb24uIg0KPiA+ICt9DQo+ID4gK2Rv
+X2dlbmVyYXRlX2N2ZV9leGNsdXNpb25zW25vc3RhbXBdID0gIjEiDQo+ID4gK2RvX2dlbmVyYXRl
+X2N2ZV9leGNsdXNpb25zW2RvY10gPSAiR2VuZXJhdGUgQ1ZFIGV4Y2x1c2lvbnMgZm9yIHRoZQ0K
+PiBrZXJuZWwgYnVpbGQuIChlLmcuLCBjdmUtZXhjbHVzaW9uXzYuMTIuaW5jKSINCj4gPiArYWRk
+dGFzayBnZW5lcmF0ZV9jdmVfZXhjbHVzaW9ucyBhZnRlciBkb19jbG9uZV9jdmVsaXN0VjUgYmVm
+b3JlDQo+ID4gK2RvX2N2ZV9jaGVjaw0KPiA+ICsNCj4gPiArcHl0aG9uIGRvX2N2ZV9jaGVjazpw
+cmVwZW5kKCkgew0KPiA+ICsgICAgaW1wb3J0IG9zDQo+ID4gKyAgICBpbXBvcnQganNvbg0KPiA+
+ICsgICAgd29ya2RpciA9IGQuZ2V0VmFyKCJHRU5FUkFURV9DVkVfRVhDTFVTSU9OU19XT1JLRElS
+IikNCj4gPiArICAgIGtlcm5lbF92ZXJzaW9uID0gZC5nZXRWYXIoIkxJTlVYX1ZFUlNJT04iKQ0K
+PiA+ICsgICAganNvbl9pbnB1dF9maWxlID0gb3MucGF0aC5qb2luKHdvcmtkaXIsICJjdmUtZXhj
+bHVzaW9uXyVzLmpzb24iICUNCj4ga2VybmVsX3ZlcnNpb24pDQo+ID4gKyAgICBpZiBvcy5wYXRo
+LmV4aXN0cyhqc29uX2lucHV0X2ZpbGUpOg0KPiA+ICsgICAgICAgIHdpdGggb3Blbihqc29uX2lu
+cHV0X2ZpbGUsICdyJywgZW5jb2Rpbmc9J3V0Zi04JykgYXMgZjoNCj4gPiArICAgICAgICAgICAg
+Y3ZlX2RhdGEgPSBqc29uLmxvYWQoZikNCj4gPiArICAgICAgICBjdmVfc3RhdHVzX2RpY3QgPSBj
+dmVfZGF0YS5nZXQoImN2ZV9zdGF0dXMiLCB7fSkNCj4gPiArICAgICAgICBjb3VudCA9IDANCj4g
+PiArICAgICAgICBmb3IgY3ZlX2lkLCBpbmZvIGluIGN2ZV9zdGF0dXNfZGljdC5pdGVtcygpOg0K
+PiA+ICsgICAgICAgICAgICBpZiBpbmZvLmdldCgiYWN0aXZlIiwgVHJ1ZSk6DQo+ID4gKyAgICAg
+ICAgICAgICAgICBjb250aW51ZQ0KPiA+ICsgICAgICAgICAgICBkLnNldFZhckZsYWcoIkNWRV9T
+VEFUVVMiLCBjdmVfaWQsIGluZm8uZ2V0KCJtZXNzYWdlIiwgIiIpKQ0KPiA+ICsgICAgICAgICAg
+ICBjb3VudCArPSAxDQo+ID4gKyAgICAgICAgYmIubm90ZSgiTG9hZGVkICVkIENWRV9TVEFUVVMg
+ZW50cmllcyBmcm9tIEpTT04gb3V0cHV0IGZvcg0KPiA+ICtrZXJuZWwgJXMiICUgKGNvdW50LCBr
+ZXJuZWxfdmVyc2lvbikpIH0NCj4gPiBcIE5vIG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUNCj4gDQo+
+IFBsZWFzZSBhZGQgYSBuZXdsaW5lIGF0IHRoZSBlbmQuDQo+IA0KPiAvL1BldGVyDQoNCg==
 
