@@ -1,164 +1,101 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C655D29C2E
-	for <webhook@archiver.kernel.org>; Mon, 19 Jan 2026 14:22:01 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35611.1768832513928336088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 841BED29C33
+	for <webhook@archiver.kernel.org>; Mon, 19 Jan 2026 14:38:21 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36381.1768833496698175925
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jan 2026 06:21:55 -0800
+ Mon, 19 Jan 2026 06:38:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=C6JbdLDZ;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E18E81A2958
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 14:21:51 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B74C960731
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 14:21:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4DC8610B6B06E;
-	Mon, 19 Jan 2026 15:21:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768832511; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=yrWU+tSdQLnPaSdeIZE5s89BejqcT0GqXaNsxUtpmD8=;
-	b=C6JbdLDZxD4gGtMIA3utAdN1yTKVqEZuWg+gZyDkkP3SuNvVYnaxzfPKuEU2WvbKT1dn4k
-	lRq5CYsMlZ2F/VtsJo69tC6w42fYR2wa0jYPr6DQpa1dN9QVL3HDc3cMCAZiGoQ6O5Wh0w
-	RSv1nDCaKGIPnN9ENlSrLUQ7IDtmpmiGU95S/xMew4RbXozifuaLomMSYdZPz9904CYAMH
-	2+091zTlvaz1/TyQRCWc9LurHN0F9t2abfddLGCsyFxhqboo8CFJ7+Znr8QK53wnvmexxL
-	C1GfZdPNXCNYtQnnM53dGpKg2xPnxgO32hZiuwfuRhlFgtpaQ+0PQkSc/Vvb1g==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Mon, 19 Jan 2026 15:21:43 +0100
-Subject: [PATCH] python3: skip flaky test_default_timeout test
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WIrIEQfk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso28634015e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 06:38:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1768833495; x=1769438295; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vQjFwCQued8VyOC5dXrxrV0P51s8keZjMTAXI6CHx5s=;
+        b=WIrIEQfkpAikJLtZX1gOiXVMVCpSsgFS2n/ywv8a64lAKuHhKd1/5S7ZZ8ANcJC12q
+         WsJvX1Z+bre6OizKJ2N8v3iz8FwiGN1PzRKaA1wAjY0z5G2oSclaq3S2tCAttNk3rdMa
+         Xa0u5108fsrBiEU1ifWfU4JVfRu+3iV/XAAzw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768833495; x=1769438295;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vQjFwCQued8VyOC5dXrxrV0P51s8keZjMTAXI6CHx5s=;
+        b=takHR//vD1Qiwm+F6te6Cpm7lx/1H8mCbUBxAimxwmMak7pKI/1UwhoxB1UzW1l62e
+         0r+iNXOzVsMueN/SJV8Cz+1YymIIfylxmsf2reQOL+A+rXlChtf7c9PHTtucdkDYsVUh
+         lO1GuiS1szA94ovhJ2s/hU0b49wWLKODDXj7oxccYLejBXzhhGB5326X6N4KfjO1gpUi
+         vS1r4BT3MTPhdJHOuLB9y/m2B2MfX5dGA5jZnwfq17FGUCVC+MVBR9pfK8VuEFGFg4Ue
+         FBIbqMaZqRJ+PnQg27EIlG9pzqGiDDYqP9T5AAxwRdV7gHeV8vjmDjm+lwq6sEw9sS8Y
+         92oA==
+X-Gm-Message-State: AOJu0YxI0TRkmA8UhaFwDnwvz9WFmstKybGQmAFCCORrRcCXisuTmlcl
+	FV5ClGMcPdT+V3jkxoT+xW1IRcrLLP5/MpwqQQca+uP7YlaePD+UjB+74nv4GqK38wU=
+X-Gm-Gg: AY/fxX6y4LyzG3LXW+S7+sTjQdzQaX9Si9kc36LZE2NSrwxOmwBc1fW4Ra5AZ24yZ2+
+	3dlBfxfbPXwBI4xa32BWRuiSuqi3JQsgEZhZmwozWeEjE5pihPpMDTnn3Usg3IcuAokxC618tQo
+	TTG/8sVxLBE8zxCxS/0qnvGdek+XijZGfzWzSi5A3Nlza79wSrqVLMp7ZONi2hZF/jFfxzO+6av
+	TE/W5juQ2u9nZcQX+Xv5WTim3FCSY/OQQFpDweEpmufl9WzamneL9CI6k71TfA6XJIgznJPrqKx
+	/zviQombGrnZvF4dIR1kwk5/omMXkurDHdFezLApOIspt7V+xXWMEmiko34+L3segUAWbPUdi+e
+	Tx/MNQb8wnR5QwaYqHdsDJCeL3KdMeB0ZKcBy44AWQ7G13dn9DQzRl+ThdZyjSvVY/ZBINbGkWa
+	CqISf/3jAZZOZd1DxaxxjZuxvlw2WDFAhe+a4sinBMDCpeVL4g6yR7dPcXU0y2WFQg2RgIWi81E
+	O0LATq4euwL6w==
+X-Received: by 2002:a05:600c:314f:b0:479:13e9:3d64 with SMTP id 5b1f17b1804b1-4801e67c8ecmr136277665e9.15.1768833494977;
+        Mon, 19 Jan 2026 06:38:14 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7cb0:ccc0:c4cf:d0a1? ([2001:8b0:aba:5f3c:7cb0:ccc0:c4cf:d0a1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f429071besm249012885e9.10.2026.01.19.06.38.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 06:38:14 -0800 (PST)
+Message-ID: <3d99b9245edf44f560cb198e7bb0cb2ed3ce8159.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] dpkg: Fix ADMINDIR
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, mark.hatle@kernel.crashing.org
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Jan 2026 14:38:13 +0000
+In-Reply-To: <CANNYZj-fAJ4xS2GuHazHeExo7FQduObgdvjXYcq_wShv+sp4mQ@mail.gmail.com>
+References: 
+	<1768683431-5604-1-git-send-email-mark.hatle@kernel.crashing.org>
+	 <CANNYZj-fAJ4xS2GuHazHeExo7FQduObgdvjXYcq_wShv+sp4mQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260119-skip-python3-test-default-timeout-v1-1-e15fce4cb867@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAPY9bmkC/yXNTQ7CIBBA4as0s3aSQiOiVzFdtHRqxx8gMBhN0
- 7uLuvw2762QKTFlODUrJHpy5uAr1K4Btwz+QshTNehWm1apI+YbR4xvWYLvUCgLTjQP5S4o/KB
- QBG1nD1bvzaicgdqJiWZ+/R7n/u9cxis5+YZh2z4imzxThQAAAA==
-X-Change-ID: 20260119-skip-python3-test-default-timeout-83878256b1c6
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4246;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=EmLFqfPsBSUb0nDD6+EFrKwmGT02X7kWt6sKkeYDjWw=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBpbj3+VXwOHWU+a462f9zav4O1lX08JuVDExWzk
- Y+gMPKC+XKJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaW49/gAKCRDRgEFAKaOo
- NjKbD/0f0ltN9oRdvc+p3OcndIgzhluHsTPYtMjlAnMYCGGsoDuukevgiG4e6UMJ4+F5wDSj4H0
- FFxfPSa4dHDw8bBRBtQdRYtYg2H8noMUA+oefNfbLnKLzlFAFXOHcl1C896iZvQedcggT6A9BFL
- dT+kLScih3i1c4Y0V9a6RKcZM5NWGXATzn7sHYbdNfRt+ntlL35agU3/rfCOY+FlYlK20fLKr1q
- Z0BHcYfUDvGvjfvAQ2mLwFMrc7R+llkfN6VlbrWcTuqAvl9XWq1HSrEwQ/yy19+9akatp2rxyGY
- PkXHo9WvW2raXfLJCRyse0eXRUDoGy8k1y/+4nMj33Znwi3A9rwnrxlTiflG1pseN4AqwZNep0H
- nZ13XMax4HrTleekKhCFeDUzUHB0yZprNKKG5ypyDBV2HFSwm80FRsI8XKvgzOeXWHZI2sgiW5E
- J4plTOnW1Gh2sSveVhELfM1/ibqmbXAwe0w+TkJJuP09SGYWPVe+bGeH0gLls8AZ2gXXGgHFK2X
- jhUns4dJW88yvDF9MSMYcbSv7vLzJdV/q9HB5HHg2bhYJy8X1G2E6XFg6JOuRV9zx6ZcUBVZq7Z
- hZf3ytZwzC4ukYX/lFCdCS5+JoiD35R3U+zpQOJhhhmNLEa2Blx3J6thVKkNTMS0OfhMKuWOlhL
- 8zIf6MU6xJFs8dA==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 14:22:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229621
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 14:38:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229622
 
-We have been observing intermittent issues with this test on the Autobuilder:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15885
+On Mon, 2026-01-19 at 13:30 +0100, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> On Sat, 17 Jan 2026 at 21:57, Mark Hatle via lists.openembedded.org
+> <mark.hatle=3Dkernel.crashing.org@lists.openembedded.org> wrote:
+> > +Subject: [PATCH] lib/dpkg/options-dirs.c: set_rootfs was not checking
+> > + environment
+> > +
+> > +The set_rootfs function was using the hardcoded ADMINDIR (define).=C2=
+=A0 It
+> > +should be checking the environment, and then falling back to the defin=
+e
+> > +if not set.
+> > +
+> > +This matches the behavior in db_dir.c.
+> > +
+> > +Upstream-Status: Pending
+>=20
+> Please no pending patches without a reason. This should be submitted
+> upstream first.
 
-This is probably due to the Autobuilder being heavily loaded at the time
-of the test.
+I understand the sentiment however I should mention this is blocking
+pseudo getting updated to resolve several bugs. I did queue and test
+this overnight and can confirm it does fix problems in dpkg once we
+merge the pseudo fixes...
 
-The logs on the ticket above do not allow us to know which of the two
-"test_default_timeout" tests is failing, so disable both with
-self.skipTest().
+Cheers,
 
-Excerpt from `ptest-runner python3`:
-
-  test_default_timeout (test.test_multiprocessing_fork.test_manager.WithManagerTestBarrier.test_default_timeout)
-  SKIP: Test the barrier's default timeout 'skip flaky timeout test'
-
-[YOCTO #15885]
-
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
----
- ...001-Skip-flaky-test_default_timeout-tests.patch | 49 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.13.11.bb    |  1 +
- 2 files changed, 50 insertions(+)
-
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch b/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-new file mode 100644
-index 0000000000..4e1bd833b4
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-@@ -0,0 +1,49 @@
-+From baf2dda48e51fcb17a716e52cc5c4e162a6bb7d3 Mon Sep 17 00:00:00 2001
-+From: Antonin Godard <antonin.godard@bootlin.com>
-+Date: Mon, 19 Jan 2026 11:38:36 +0100
-+Subject: [PATCH] Skip flaky test_default_timeout tests
-+
-+We have been observing issues with this test on the Autobuilder:
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15885
-+
-+The logs on the ticket above do not allow us to know which of the two
-+"test_default_timeout" tests is failing, so disable both with
-+self.skipTest().
-+
-+Excerpt from `ptest-runner python3`:
-+
-+  test_default_timeout (test.test_multiprocessing_fork.test_manager.WithManagerTestBarrier.test_default_timeout)
-+  SKIP: Test the barrier's default timeout 'skip flaky timeout test'
-+
-+Upstream-Status: Inappropriate [OE specific, but might be related to https://github.com/python/cpython/issues/129266#issuecomment-2613058866]
-+
-+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-+---
-+ Lib/test/_test_multiprocessing.py | 1 +
-+ Lib/test/lock_tests.py            | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
-+index e8064e7..9ab1f9e 100644
-+--- a/Lib/test/_test_multiprocessing.py
-++++ b/Lib/test/_test_multiprocessing.py
-+@@ -2259,6 +2259,7 @@ class _TestBarrier(BaseTestCase):
-+         """
-+         Test the barrier's default timeout
-+         """
-++        self.skipTest('skip flaky timeout test')
-+         barrier = self.Barrier(self.N, timeout=0.5)
-+         results = self.DummyList()
-+         self.run_threads(self._test_default_timeout_f, (barrier, results))
-+diff --git a/Lib/test/lock_tests.py b/Lib/test/lock_tests.py
-+index 8c8f890..43e9b90 100644
-+--- a/Lib/test/lock_tests.py
-++++ b/Lib/test/lock_tests.py
-+@@ -1165,6 +1165,7 @@ class BarrierTests(BaseTestCase):
-+         """
-+         Test the barrier's default timeout
-+         """
-++        self.skipTest('skip flaky timeout test')
-+         timeout = 0.100
-+         barrier = self.barriertype(2, timeout=timeout)
-+         def f():
-diff --git a/meta/recipes-devtools/python/python3_3.13.11.bb b/meta/recipes-devtools/python/python3_3.13.11.bb
-index 2fcfd4aba1..2bc2389b7e 100644
---- a/meta/recipes-devtools/python/python3_3.13.11.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.11.bb
-@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
-            file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch \
-+           file://0001-Skip-flaky-test_default_timeout-tests.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-
----
-base-commit: 5b2365406fa35f8be345cfb05768ccb41faf4882
-change-id: 20260119-skip-python3-test-default-timeout-83878256b1c6
-
+Richard
 
