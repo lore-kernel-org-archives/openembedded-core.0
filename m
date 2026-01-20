@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C9F2D2ED0F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A667CD2ED19
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:26 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6485.1768916303139138935
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6480.1768916299385035380
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 05:38:23 -0800
+ Tue, 20 Jan 2026 05:38:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=pvGA+9a2;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4801bbbdb4aso27713035e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:22 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=E9OLVIz6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso19181345e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768916301; x=1769521101; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768916297; x=1769521097; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ilMKlRQY/10UAVKjx7aQWg6+R9GK+WobpA/H+LHEURE=;
-        b=pvGA+9a20MmBTejPFT/hW8rW6Pr1IeUlik/aFxGQ1yLFZc05jvqbu1AwyFa1cjm8b0
-         +QxthXJiTOpevA1kAC6PO7Ryp1HHPVtrpvGGDf2oSLhirEe4luT1uTvuYQqWuxjiN75J
-         Dsha3hyEdRfNYrTPkgituAuTV10AXLrqntgWk=
+        bh=XStaf7ehbBJIePHC346sE0YpAQ0kf8A6IPlxMKxuwyc=;
+        b=E9OLVIz6JFsImuJpdpt4QVQpvCLnUEYr8FOPez6EnCBee+DhsW6Le0OUsNShZ35m2G
+         wriCj1xp0N90gpq0Ge4EwKS3A8dBLew8CzQ4EsszCE6dOqaXWgngJsz5W9jM7MZI35ef
+         Q/kccCarPDf6QJMRePVBimUK0SoawGxHDa4Kw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768916301; x=1769521101;
+        d=1e100.net; s=20230601; t=1768916297; x=1769521097;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ilMKlRQY/10UAVKjx7aQWg6+R9GK+WobpA/H+LHEURE=;
-        b=V013S2eRIIN+ewBNv6ytMDu9ct77/8iTnsGUMrsHh6CAq7poYvV4xGrX+q2GTln8N5
-         4KG/YI3YWvXXmjsjHpoL8cggK1+L/roDqzF7Okcuyc4m9HETO/dF8IFUUaMrunqr8CW0
-         nkmt0VnMmMv1Xbux3WgxaquFO4FmLzNXBAGGBbWiBXKx5zAw/Pm4J0PL2+WOjUyMYMXb
-         PFDXIfpgiXpij2XZgcVmykD3kGoy9xtoOn1OBqQOHouP5C+89FbfmVX2IvDc86RVTQNw
-         zFJC8FSJ0UwGRUCiK9XFouogqDyV+DequxvddRGv/LiWe32/d+szQXmNVGAHzuJNOL26
-         f5gg==
-X-Gm-Message-State: AOJu0YzdgWIhLZnYqVnkdz9y7GJYbbmFX/1YA3ADKeml23C9d70VF6eG
-	buoZkCwWA97rucmlI1oPZkYimwpFiqjRu3IQUgnYekLu1WFSinnf7vUKYpVNckwwyoI3MnvwaxC
-	80zJD
-X-Gm-Gg: AY/fxX5UJJT59nXjVd6muqF8coHkJfB0tTohck/n1/PD3nf2plS4NxaZklBvAy+jgim
-	TO8sAIHQOlqMuV78fz4DHJ8isokl6LYt5WOXEu2nD+/4+GysbNcsNg+WetjGlOqgaqi9tGMl8qm
-	lFbfLcqOhrAHH9KBXox4mRZb00hDi/S3jXzKfAV++Pp80CSzKmBH6bnRW5S1YLcBDWFerN6CBit
-	cp4XkY1Vb1SvNBJMttbWqZP3tTQ3AY5pN02XDRytrBqzlHvhvVofSegIjhdD7+hTYVnahgheUNF
-	Qim0GJScUPPe+D1AllpHp6HkqIp5swCp34WUDkU2OVdk535y/VUPU/AhjBVDuvOQ9pXmnyfdXtl
-	jpqAiM/gNbG62YKJwCfprNT5G8GNhnjU79N5v2OeuuZjtuTch04ZTh0+S8+a4qxY8PyfEj+dhWQ
-	XjY7CG/DmRMfRAaoi7AJ3u2WMVp2QjHjfqKnJWlQND3gQlfg7ThVwKy9yjZNHjtA+z+dcrp9z4H
-	YeuREBK4iRRg0hDhxlYNw==
-X-Received: by 2002:a05:600c:8184:b0:475:d9de:952e with SMTP id 5b1f17b1804b1-4801e530d08mr183396255e9.1.1768916301288;
-        Tue, 20 Jan 2026 05:38:21 -0800 (PST)
+        bh=XStaf7ehbBJIePHC346sE0YpAQ0kf8A6IPlxMKxuwyc=;
+        b=DfyJYsJeKy+pf08t6PBmMh2liiRjr2pVV2g2m8vppVmrdqxG9JPxsZvaX+Ld5N5+NF
+         8Cj6kTTy4R8QYjqVT5XVSsb0d5dift2GJQ0CVUEgMk6+sGubSEBBTKs4FwvMBGzf9TA0
+         /hOACqACCvzFuomILyLB9DpkXMgJdcsV9O+6uYTprVQNDLIC9n+58W1gwLQgkeoTM9lF
+         AbU3i6Y9QriDVY783SdYze77QCGDQXDkNBxpVUu32iobNzCGbvGYLa6Lv9g3dW5zDFZ3
+         JfKNU/GVkSVtyvHZHmwEMPEAdVh5CspzAe1IlCfKDMr1vQRvWfvvi/uSPfBjBCdiK9Gl
+         E6AQ==
+X-Gm-Message-State: AOJu0Yx59JpNlW93L04YgP09rRKwvyNKkd+MNi+nY48Rc2SDxcel2Tkl
+	D4tOE3GQUk6rE4DJbHv70CxQi/LZANd7yunemjktRlTuu32C/5b/8miIFoSH7gz+Ao8gPQma4Ao
+	LB9ud
+X-Gm-Gg: AY/fxX5C0WHK9WXcPxHvPw2udVa+6TF+VtWSCUZORcEf4NEVV8Mqwm1LXRK2SecOxc/
+	P7YHZ6G06OCLikektGxRrxjIuH4fcMc46ZeSSEkpy3rqw1ZJRZD15o2ED6RXZh2jS0TPaW5IMLZ
+	5P2KQJEQqLV+C017ZMeo8hK135x9LxFlDHAQ1tSnljW/3uydFf5LTZzkMXVhZUM9n04+di902VX
+	XvIQ4ksWgw2UtQfxmJlCGS88vOVKKU2R87LMRnjwBStxAmH5CjezOwsPo9q60iXvLYqc51RBksF
+	cYshgx/E5uZq+dcaxxIx0SR88b0qGc9tLj/wbImd0LV/uRaa1picIQYD0Rqkjalw/TRZgrpcLVo
+	v+vqPNuVEYA/bzOloS8Z7sTurPqoIbkBEfMrvDpTcqMC8g1D5tYIytu45/+BRofTxfwAN9XgaWs
+	T9FAdNOI7NM5H47D1Yt/AyonU8ykfr+dXSGyW9csOfoQwQNy04ZOpptPOda0vtPb2mTlVlZK2Tm
+	gx6jTJmjKjLytEpgSJG2Q==
+X-Received: by 2002:a05:600c:8109:b0:480:1c69:9d36 with SMTP id 5b1f17b1804b1-4801eb04f54mr180878705e9.17.1768916297561;
+        Tue, 20 Jan 2026 05:38:17 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:20 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:17 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 26/26] oeqa: Use 2.14 release of cpio instead of 2.13
-Date: Tue, 20 Jan 2026 14:37:48 +0100
-Message-ID: <20ff1a4ac744855b54952d7fad7424696500a230.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 21/26] pseudo: 1.9.0 -> 1.9.2
+Date: Tue, 20 Jan 2026 14:37:43 +0100
+Message-ID: <829a0d214c3f47d37f6d8b00404243a021dfe411.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
 References: <cover.1768914702.git.yoann.congal@smile.fr>
@@ -66,70 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229732
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229727
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-2.13 may not be buildable with latest compilers without patching
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-(cherry picked from commit 406a33f896accc35a9cb6ab156f1e0f42dda67d8)
-Backport: Fix [YOCTO #16137] by using the same archive as the cpio
-recipe, ensuring the archive is in DL_DIR and so, avoiding reaching
-unreliable upstream server.
-This upgrade is safe to do because this archive is only use to test that
-it compiles.
-
+(cherry picked from commit 48a42747fd280ce68283e1491971d22273e3bdf2)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/runtime/cases/buildcpio.py | 2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py     | 4 ++--
- meta/lib/oeqa/selftest/cases/meta_ide.py | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
-index e29bf16ccb..90abd98c40 100644
---- a/meta/lib/oeqa/runtime/cases/buildcpio.py
-+++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
-@@ -12,7 +12,7 @@ class BuildCpioTest(OERuntimeTestCase):
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index a4ce08378b..a4053ac2b3 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,9 +12,9 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
-     @classmethod
-     def setUpClass(cls):
--        uri = 'https://downloads.yoctoproject.org/mirror/sources/cpio-2.13.tar.gz'
-+        uri = 'https://downloads.yoctoproject.org/mirror/sources/cpio-2.14.tar.gz'
-         cls.project = TargetBuildProject(cls.tc.target,
-                                          uri,
-                                          dl_dir = cls.tc.td['DL_DIR'])
-diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
-index 00088d0ea0..2e9d4f5f18 100644
---- a/meta/lib/oeqa/sdk/cases/buildcpio.py
-+++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
-@@ -17,10 +17,10 @@ class BuildCpioTest(OESDKTestCase):
-     """
-     def test_cpio(self):
-         with tempfile.TemporaryDirectory(prefix="cpio-", dir=self.tc.sdk_dir) as testdir:
--            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://ftpmirror.gnu.org/gnu/cpio/cpio-2.13.tar.gz")
-+            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://ftpmirror.gnu.org/gnu/cpio/cpio-2.14.tar.gz")
+-SRCREV = "3fac97341f0f8270ca28a91098d0a58ca306a6bd"
++SRCREV = "b4645cb30573c5b3d5e94b9d50e1e2f8beefe9be"
+ S = "${WORKDIR}/git"
+-PV = "1.9.0+git${SRCPV}"
++PV = "1.9.2"
  
-             dirs = {}
--            dirs["source"] = os.path.join(testdir, "cpio-2.13")
-+            dirs["source"] = os.path.join(testdir, "cpio-2.14")
-             dirs["build"] = os.path.join(testdir, "build")
-             dirs["install"] = os.path.join(testdir, "install")
- 
-diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
-index 3dc81b20a7..1432736b7e 100644
---- a/meta/lib/oeqa/selftest/cases/meta_ide.py
-+++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
-@@ -40,7 +40,7 @@ class MetaIDE(OESelftestTestCase):
-     def test_meta_ide_can_build_cpio_project(self):
-         dl_dir = self.td.get('DL_DIR', None)
-         self.project = SDKBuildProject(self.tmpdir_metaideQA + "/cpio/", self.environment_script_path,
--                        "https://ftpmirror.gnu.org/gnu/cpio/cpio-2.13.tar.gz",
-+                        "https://ftpmirror.gnu.org/gnu/cpio/cpio-2.14.tar.gz",
-                         self.tmpdir_metaideQA, self.td['DATETIME'], dl_dir=dl_dir)
-         self.project.download_archive()
-         self.assertEqual(self.project.run_configure('$CONFIGURE_FLAGS --disable-maintainer-mode','sed -i -e "/char \*program_name/d" src/global.c;'), 0,
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
+ # remove them for pseudo since pseudo intercepts some of the functions which will be
 
