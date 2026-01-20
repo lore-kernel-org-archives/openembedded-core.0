@@ -2,218 +2,158 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F53AD2ED12
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11674D2ECF7
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:24:34 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4164.1768908272911993506
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4235.1768908266528841701
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 03:24:33 -0800
+ Tue, 20 Jan 2026 03:24:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SstLQTsA;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so27091105e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:32 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Hzf6ICPH;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-432d2670932so4146347f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768908271; x=1769513071; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iCkZXbOYUY+8jeD7PaJWMDhrICPXKTTbVmavTeFyM6k=;
-        b=SstLQTsAvhaqDDUaNTvVCUmG/Tcpf6BHau60y7V5JPz8KIqJ6t0EWN++44LXJf48ET
-         gmhz7Agd613B1uvnNk5n4i85pUmMGijkSxK9BJHbgcN+8mthnnKwK7LobozxHTESZHsY
-         Fy/L5IgjMq3+7B3xismFeM4FNp39wohgj76n4=
+        d=smile.fr; s=google; t=1768908265; x=1769513065; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uvTeS4IBu3E810BxGkQIh1ZV0NvP01hXBoJPTR8YhAA=;
+        b=Hzf6ICPHxmSZiwAKJnkoUuLpdN+qGkgaootrJoXudrZGcgC5IHKyvqjFbGO+has0zW
+         u9PVkQVuwwAWuAUbRbmJ/tyM8hgiwNjBvDh/X3K1IYYTPfLM8HdUPg5eWGswY5pIh4+S
+         rNMN1x2/7Hrj3MMoiXrXQXWnrp5VdVxNqNwlo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768908271; x=1769513071;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iCkZXbOYUY+8jeD7PaJWMDhrICPXKTTbVmavTeFyM6k=;
-        b=hTG4baPjvxOZrUGeVdyiLgJkSpy3eoaQzBu8BQIDHEYtTt+XCV8FZ60IPeTbERjv4R
-         i4SBWbc+YZZbEoEym2k6X05AXevzwEQHsGjrpHXlB5h1wIFw/US0zDkosQavXTW1EUl3
-         IoOpVxbJJWX4khGxZM8H6mXOguhC8aXgnl/O7QONjxSbblxnjYhAwCiAVahY3nCFxAAI
-         /BO9ESc4WtkyqeUqBT75Q/Yztt9bK/UDtvDGArd0vD3bKchEcZGc6N/6ohtUXDX/f6Ze
-         1AyxU73waTY/ueoRHit+PSfDw8xLRpXS833bemn8eZwH7+c+xiuFU/hKrzwflTu6wgbR
-         aw6A==
-X-Gm-Message-State: AOJu0YxNzdfAOr36Yf7G6rnJ8HPhFPzub9sv3HjGeXqtFicpHiW7ra+W
-	jytkGTs+v6gNP0//Vd+T7aoVyWiYJ/gj82Fd1vgBDCLpKigHVPN2XFgaWoZ/GFH2Si7GIBGsOr5
-	Xg5Ii
-X-Gm-Gg: AY/fxX7hS6xwqqnO/jWdFbWrXVqjj0XLS6Yw7C+pZRgNdSCA3bie3bymtVBn9VB5xyP
-	xL9iJvp7TZ0TVURcNobpiTuvonuKXeXhJT2xJEx0jziWmqKO4HAC6BWeaptThmsTfEySb9wb118
-	9ViRlOr25GV66yipqCUAlBF95NGt1h9H1OQytoRDjdTlnsGtPGWgYfTU2C5eXo8eQxzntX+y23H
-	+RdXiv0rxBBNeEq04RDA97n9f4uuoPWaa2buYWRDjWLMDc87PeDR+8TENwSrdD9AhPrI3WGmrZB
-	6eZ2Sme5DWe+Lk2Oq/z5lb6ImzlKcXYhLIzT/gMbdKy02XnJN4ykLV9Dpc/fqfpNQlXlW6BVNWp
-	wEjIduFmvxd+WTNCp33Bq8gWHh3koT4GUw7AihmW1GEIr+7RFe4ySLolmeDnwxaAuJ8M9Z3epbw
-	z3zZzJPbdvXOvUJO5cTRAMNqM4snr7Q4e5GijQ87qbJcVNL1UfEMnJoR22XtegNAaX8/BN69dCi
-	2Pr2H+Ut7vdBFKOxocKoA==
-X-Received: by 2002:a05:600c:45d1:b0:477:7ae0:cd6e with SMTP id 5b1f17b1804b1-4801eab5602mr171787235e9.5.1768908270913;
-        Tue, 20 Jan 2026 03:24:30 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768908265; x=1769513065;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uvTeS4IBu3E810BxGkQIh1ZV0NvP01hXBoJPTR8YhAA=;
+        b=UeKxldtJen45gb24oedHRjsEtDDoepQmOeGSx1GS8O8axr7PG48rhBqOnNP8ZHzD/R
+         VJ2wzAMBAyvbe/qg6e3GDVm2/2rlYJAbEAt2WDDy/1VSS1BTN0eQ4xIWMzYyqOLvmMtZ
+         3jo8Vkb0xJhv0W+n6heGqIIlnWPo6AN9QBpCQlMi0lLH45zTmBv2HHqQieD9ir0Vz1/v
+         dvVJA70jI4DcdNn8EWFrhzqgn93tc6UbSI/bdRFPNIDCfmRP8iZpAzuC7otS6baB0Cow
+         4k/8tkcWwOb5BCbaM205LxLCYDER0tcmbJoarrdujqhFfgBfI8h5R5YuJwbwrK7+gRtz
+         StNw==
+X-Gm-Message-State: AOJu0Yx+NqXjrk4RyJGRoVGkkfYpYMi6RcWgBknSs97Fa2+PxnygPRVR
+	WWOP7JWXA+Ylpmy3TJB9muPxmJA/T7P1KT1qa7ZOobs6TWuwL4zx0SAETX7baUCcGcmCa1F0bhe
+	B5vCH
+X-Gm-Gg: AZuq6aI7EoBNlF0bhBIEEIAqnwX7BapcwNasw5FO+yUhBaYOVcgJG0WHhDGwRgT+03i
+	aIaAGgGqq9ofeyOnUIVgOBosNiFw6CgmdH9mXcq3A5712I2f/rjJQHIDCJo4pDb4pLg2k0iB82K
+	nS3+IJc/LoBtUnbd62Cr04byGqpFj37+WHHK22JjDAp25uaeQpChfUawxHcRG1fzm/af9VG01B8
+	FbmkBFqsG83rFgCJKJITnE4mIojggYf4GTJ8dst6rm657rqyUUtCJcbEC2xq9PPvzvS4reT0Oey
+	FKLYy1wGgTglaitbkFtkanYfuyo/W6wwx+AOKYJMWLpV8YFu/XWhC3x2Nak8l5lTXD3avSXO2j3
+	5mXbFetP7U5Ajj25rY4yrrS8B4Hv8WoItKJqskY346PjrrLMszPHxlchL9tVLIY7DOqGSJlfhcn
+	5o9DvXF/lsw91iT3mJDPTlfO/CF2I2z2v4N69KCWEeBt9hBHARp5rvdzvUNd5Bvv46z8HXGVhUM
+	Smhgh31gH7Ox3mhEuL+yA==
+X-Received: by 2002:a05:6000:2483:b0:431:5ac:1fc with SMTP id ffacd0b85a97d-43569998b49mr18250459f8f.14.1768908264569;
+        Tue, 20 Jan 2026 03:24:24 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm29558435f8f.3.2026.01.20.03.24.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm29558435f8f.3.2026.01.20.03.24.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 03:24:30 -0800 (PST)
+        Tue, 20 Jan 2026 03:24:24 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 10/15] curl: patch CVE-2025-14017
-Date: Tue, 20 Jan 2026 12:23:55 +0100
-Message-ID: <f2b04c009267a57f97918787283b9a629cb50298.1768906687.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 00/15] Patch review
+Date: Tue, 20 Jan 2026 12:23:45 +0100
+Message-ID: <cover.1768906687.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1768906687.git.yoann.congal@smile.fr>
-References: <cover.1768906687.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:24:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229670
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229660
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for whinlatter and have comments back by
+end of day Thursday, January 22.
 
-Pick patch per [1].
+This whinlatter patch review request is aimed at getting kirkstone
+4.0.33 built on monday:
+* Ensuring fixes in kirkstone have their equivalent in more recent
+  stable branches.
+* pseudo upgrade to fix 16117 – AB-INT: do_package: Error executing a python function in exec_func_python() autogenerated
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16117
+* ffmpeg patches to fix 16000 – AB-INT: ffmpeg build failing
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16000
 
-[1] https://curl.se/docs/CVE-2025-14017.html
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3092
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
+
+The following changes since commit dd10706cfafb5574b7cf316fca2300d166ef71b0:
+
+  build-appliance-image: Update to whinlatter head revisions (2026-01-12 10:58:53 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-nut
+
+for you to fetch changes up to e7891f39ae90d1c23bfcb59af0064591513a671d:
+
+  libarchive: upgrade 3.8.4 -> 3.8.5 (2026-01-19 23:29:16 +0100)
+
+----------------------------------------------------------------
+
+Alexander Kanavin (3):
+  libpng: upgrade 1.6.52 -> 1.6.53
+  ffmpeg: add a (possible) build race fix
+  ffmpeg: fix a build race, hopefully for real this time
+
+Paul Barker (1):
+  selftest: devtool: Set PATH when running pseudo
+
+Peter Marko (9):
+  util-linux: patch CVE-2025-14104
+  gnupg: patch CVE-2025-68973
+  curl: patch CVE-2025-13034
+  curl: patch CVE-2025-14017
+  curl: patch CVE-2025-14524
+  curl: patch CVE-2025-14819
+  curl: patch CVE-2025-15079
+  curl: patch CVE-2025-15224
+  libarchive: upgrade 3.8.4 -> 3.8.5
+
+Richard Purdie (2):
+  pseudo: Update to pull in openat2 and efault return code changes
+  pseudo: Update to pull in 'makewrappers: Fix EFAULT implementation'
+
+ meta/lib/oeqa/selftest/cases/devtool.py       |   5 +-
+ meta/recipes-core/util-linux/util-linux.inc   |   2 +
+ .../util-linux/CVE-2025-14104-01.patch        |  33 +++++
+ .../util-linux/CVE-2025-14104-02.patch        |  28 +++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ ...ibarchive_3.8.4.bb => libarchive_3.8.5.bb} |   2 +-
+ ...k-Consolidate-pattern-rules-for-comp.patch | 106 ++++++++++++++++
+ ...s-Fix-double-build-by-disabling-.d-f.patch |  78 ++++++++++++
+ ...ak-ensure-target-directories-are-cre.patch |  43 +++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb  |   6 +-
+ .../{libpng_1.6.52.bb => libpng_1.6.53.bb}    |   2 +-
+ .../curl/curl/CVE-2025-13034.patch            |  37 ++++++
  .../curl/curl/CVE-2025-14017.patch            | 116 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.17.0.bb      |   1 +
- 2 files changed, 117 insertions(+)
+ .../curl/curl/CVE-2025-14524.patch            |  40 ++++++
+ .../curl/curl/CVE-2025-14819.patch            |  73 +++++++++++
+ .../curl/curl/CVE-2025-15079.patch            |  32 +++++
+ .../curl/curl/CVE-2025-15224.patch            |  31 +++++
+ meta/recipes-support/curl/curl_8.17.0.bb      |   6 +
+ .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.5.11.bb    |   1 +
+ 20 files changed, 745 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
+ rename meta/recipes-extended/libarchive/{libarchive_3.8.4.bb => libarchive_3.8.5.bb} (96%)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.52.bb => libpng_1.6.53.bb} (97%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-13034.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14819.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15079.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15224.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2025-14017.patch b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
-new file mode 100644
-index 0000000000..79be357ded
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
-@@ -0,0 +1,116 @@
-+From 39d1976b7f709a516e3243338ebc0443bdd8d56d Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 4 Dec 2025 00:14:20 +0100
-+Subject: [PATCH] ldap: call ldap_init() before setting the options
-+
-+Closes #19830
-+
-+CVE: CVE-2025-14017
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/39d1976b7f709a516e3243338ebc0443bdd8d56d]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/ldap.c | 50 +++++++++++++++++++-------------------------------
-+ 1 file changed, 19 insertions(+), 31 deletions(-)
-+
-+diff --git a/lib/ldap.c b/lib/ldap.c
-+index 63b2cbc414..0911a9239a 100644
-+--- a/lib/ldap.c
-++++ b/lib/ldap.c
-+@@ -382,16 +382,29 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
-+     passwd = conn->passwd;
-+   }
-+ 
-++#ifdef USE_WIN32_LDAP
-++  if(ldap_ssl)
-++    server = ldap_sslinit(host, (curl_ldap_num_t)ipquad.remote_port, 1);
-++  else
-++#else
-++    server = ldap_init(host, (curl_ldap_num_t)ipquad.remote_port);
-++#endif
-++  if(!server) {
-++    failf(data, "LDAP: cannot setup connect to %s:%u",
-++          conn->host.dispname, ipquad.remote_port);
-++    result = CURLE_COULDNT_CONNECT;
-++    goto quit;
-++  }
-++
-+ #ifdef LDAP_OPT_NETWORK_TIMEOUT
-+-  ldap_set_option(NULL, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
-++  ldap_set_option(server, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
-+ #endif
-+-  ldap_set_option(NULL, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
-++  ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
-+ 
-+   if(ldap_ssl) {
-+ #ifdef HAVE_LDAP_SSL
-+ #ifdef USE_WIN32_LDAP
-+     /* Win32 LDAP SDK does not support insecure mode without CA! */
-+-    server = ldap_sslinit(host, (curl_ldap_num_t)ipquad.remote_port, 1);
-+     ldap_set_option(server, LDAP_OPT_SSL, LDAP_OPT_ON);
-+ #else /* !USE_WIN32_LDAP */
-+     int ldap_option;
-+@@ -411,7 +424,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
-+         goto quit;
-+       }
-+       infof(data, "LDAP local: using PEM CA cert: %s", ldap_ca);
-+-      rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
-++      rc = ldap_set_option(server, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
-+       if(rc != LDAP_SUCCESS) {
-+         failf(data, "LDAP local: ERROR setting PEM CA cert: %s",
-+               ldap_err2string(rc));
-+@@ -423,20 +436,13 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
-+     else
-+       ldap_option = LDAP_OPT_X_TLS_NEVER;
-+ 
-+-    rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
-++    rc = ldap_set_option(server, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
-+     if(rc != LDAP_SUCCESS) {
-+       failf(data, "LDAP local: ERROR setting cert verify mode: %s",
-+             ldap_err2string(rc));
-+       result = CURLE_SSL_CERTPROBLEM;
-+       goto quit;
-+     }
-+-    server = ldap_init(host, ipquad.remote_port);
-+-    if(!server) {
-+-      failf(data, "LDAP local: Cannot connect to %s:%u",
-+-            conn->host.dispname, ipquad.remote_port);
-+-      result = CURLE_COULDNT_CONNECT;
-+-      goto quit;
-+-    }
-+     ldap_option = LDAP_OPT_X_TLS_HARD;
-+     rc = ldap_set_option(server, LDAP_OPT_X_TLS, &ldap_option);
-+     if(rc != LDAP_SUCCESS) {
-+@@ -445,16 +451,6 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
-+       result = CURLE_SSL_CERTPROBLEM;
-+       goto quit;
-+     }
-+-#if 0
-+-    rc = ldap_start_tls_s(server, NULL, NULL);
-+-    if(rc != LDAP_SUCCESS) {
-+-      failf(data, "LDAP local: ERROR starting SSL/TLS mode: %s",
-+-            ldap_err2string(rc));
-+-      result = CURLE_SSL_CERTPROBLEM;
-+-      goto quit;
-+-    }
-+-#endif
-+-
-+ #else /* !LDAP_OPT_X_TLS */
-+     (void)ldap_option;
-+     (void)ldap_ca;
-+@@ -473,15 +469,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
-+     result = CURLE_NOT_BUILT_IN;
-+     goto quit;
-+   }
-+-  else {
-+-    server = ldap_init(host, (curl_ldap_num_t)ipquad.remote_port);
-+-    if(!server) {
-+-      failf(data, "LDAP local: Cannot connect to %s:%u",
-+-            conn->host.dispname, ipquad.remote_port);
-+-      result = CURLE_COULDNT_CONNECT;
-+-      goto quit;
-+-    }
-+-  }
-++
-+ #ifdef USE_WIN32_LDAP
-+   ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
-+   rc = ldap_win_bind(data, server, user, passwd);
-diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
-index edae6ebb95..e0a9bae23d 100644
---- a/meta/recipes-support/curl/curl_8.17.0.bb
-+++ b/meta/recipes-support/curl/curl_8.17.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = " \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-     file://CVE-2025-13034.patch \
-+    file://CVE-2025-14017.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
 
