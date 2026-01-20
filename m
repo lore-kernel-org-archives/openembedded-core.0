@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FF00D2ED16
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 894C6D2ED12
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:26 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6484.1768916302094279641
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6491.1768916302713508806
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 05:38:22 -0800
+ Tue, 20 Jan 2026 05:38:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=u3tGsnyA;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4801c1ad878so42597765e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:21 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=errhaScN;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee4539adfso44798705e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768916300; x=1769521100; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768916301; x=1769521101; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=APiuQhKOmgPihr/ovs4gB/ei0IAq9h+zfvTFvpNb6uY=;
-        b=u3tGsnyAZgwjBaIiMPll3pJkXbphUF4qodzwlY0sFNejCJ3MyUjzLl86Yy03F1XXDB
-         QF+Y4iF0d7lOPX3QCEwmEXslAovtxbD1HhSRV3h2tx1by43sKJLMhn111/Cfr78pt/7S
-         MKHa6eQT6qUM2VeULkOJzasSrw+7iG2AxxDTc=
+        bh=C7R5cglNmpbUTbkBObI1Fnz3pw9dow44tsfoaZQn0vU=;
+        b=errhaScNXYQ7Lik8rkkimxBDgMZoiGFEnXuw0aHoetsKYIn77MQxOloFjrq29g3xZZ
+         JnzVjwbBwU1HIdEw3GoA22kaT/MmNjOHNBXZj0MQmfY5yFzbLzJEVu9qTodnyTtgr/PA
+         kLUh4vCaiBeuxE1s5lKbA0A0SgWwVyKOEnIYI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768916300; x=1769521100;
+        d=1e100.net; s=20230601; t=1768916301; x=1769521101;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=APiuQhKOmgPihr/ovs4gB/ei0IAq9h+zfvTFvpNb6uY=;
-        b=TlDT2iY8RqmDa9d8ZGklMUUStBBGmgeUFCAGO39ji4rLmXfO+NWVhYHcF4cX1+3Pk7
-         Waox3UD1QjUG4WnmRkkbhlAeXkNTZxaoxnZAH4KZ+iR3E8TQU0KrrYdiPUojbBWOIr97
-         6xVfGltdAcKtyuHhEscJ+tQ4OtmxOCoftdcUPPs1TAcxTkBUDnyIhjgRyLPpElD3vcRb
-         6S0gVXktXyQbs/sVNk9BZXzCsygga0QgawcS17SF8+K3dRhaawOe/SrtIO4zVVO84du3
-         ldMr9fbGUDuwlkYknKbZsT4W250XaZZtOkG9jqqlWvVrkkBum7Lsu3j5Kjipe+NdYK+o
-         TDkw==
-X-Gm-Message-State: AOJu0Yyq+AxANIrhLGZQ5kdIHPLaklUeB43enLqkmRIrbi1O7OgaEVD1
-	4PakCGWbbC8ZYvJQ4S9RCAJBTysH3HdwP2YjWEz1jGthAZVcR+QIQ46DwUSFMIOmtobO06zvTcI
-	4HG6d
-X-Gm-Gg: AY/fxX4t4PIWGFkS6E5nnG9nyqqn4LWQhzb9K6uJW8e/pPafw2JLMi+5Msc91K75JtT
-	hcxfy5uk2HVBfW8kQgSIEnyTS9kJ3izLr9OU5hm8kQOsbnTO5nP1EFJkZQV/SOFPhTx8odWK/aR
-	brjMrsfnBnvfIxLQcCvKDGLJrLT8w7T/3VTSi/AsKWmzZV03w64QwEHWbDDDraRMh3STKsTmTEq
-	n850pPKqKboEvxIoQXWiLxWsgmg+jRGXrXJkRCr6g2wHq6exvvC/K7SpLfc2Wi+ZZC7/FnhhPCk
-	okfI52cMI4A0UL2PHFAo7mvQqXBPwZqtZ9WzKSvnrhTGgfr3AVBULYb07Y4Q902uzQuSmT7XG8u
-	6Ilh29iDBughf79uL3HoxaIJmAQmjcUwf8scguus1i8zUCKMsN4LdO/ipHfjEqVZgkxy9110WMr
-	nOteHzLlAWyhegDIwTBYg8Ckd3KzNLxe8Vz4KDayVd4fZ6Ddyk+Zzo7EtOszT/xXlaE5vlE/Trz
-	UuPUjeBi1RCy/XDNfYufA==
-X-Received: by 2002:a05:600c:3e0e:b0:47a:80f8:82ab with SMTP id 5b1f17b1804b1-4803e7e8592mr25572485e9.24.1768916300171;
+        bh=C7R5cglNmpbUTbkBObI1Fnz3pw9dow44tsfoaZQn0vU=;
+        b=HA0B9VTtwKoDzERP0yJfFKEGtaKIPyq7wnHN5LXR68mW+8DDZyQtAPn03/Y65kpD3u
+         cSCmUeG5CefdgBdKpcDt0dEFTIsm57FCKx8y/W4yGg3bcStvkvGsvY3grxC1v4g/aVde
+         ywlIYEbKCJvYLb+X5QTTXD91kLqvJTSl6hzFvdulszDeX1bjevQM5OlAILNdqCShFsBy
+         rjHxK0C4qXJQnNy1Qn1Ueg1sS/q2aUaR4L9Y2pkv0XdVH5B6rmWzlWmmbAiK6XNv/rBg
+         /tf8xZgXk+ARF0jWbbz/kogUGjwETz1aNX6aQSodfWXOZHo7C7ArQub0FlQb/ptloay/
+         iiNg==
+X-Gm-Message-State: AOJu0YwJka54jOHqv3JkZEGy8je72aNSgSN11AL31pEZJOxpZzlVXSA5
+	kYEMH+Fz57NYduyAX1oP7a/jI2ZC5KlOzD+jI10PD9ww2P6tz8ubIEUUSWVjNZdpTMjgRHtcBSp
+	5UNt5
+X-Gm-Gg: AY/fxX5X1rhMN29zRZ6qfqMpyUYpx3o7SracqPsBBOmfnTBqc8zsIRC2wp9TD6HyAPB
+	BxFYabFC7PRZrdJ7l2DPPstQMmO921D5VQno2rqgyQixhKiljxMYU3mxzvX05qs8FfR5yDYIKpq
+	BMUx1vMXsKDGc/rPSQDJsvEF/0U7VMwMaPWv3k0GQpkUIYfCyOI1nxhI/K8eFxfUASq5uMetjgM
+	4vB+nXgBljCZdA9dVxINSyeudwWpHI0kiw1H3uuyJETpYRhbZOmK0ZZKgAaLiOr/GQ5mIS+UwYv
+	1eOaCEt2ba0dlFgiMJwj/9j4J2D6L8UkopeVSHglSyPNMTgHCOZNevIKQDbuRG4Ch1iXLRfCCEn
+	cXqb2djYuFgLlwsxXgm7ASTpzhZTRDYsBoj0NfmR4AdGjCv1ffIKmcBimJC8Uc3QH0OQoatYeK4
+	IKRdqzv6ou7E1EG1cJHatTUq3XDsgFAvlZENbwDC9dDywP59mGI3UUd3cb65JkQXRLGAgYiuxTO
+	LPktqQlp49byBYqLp5YKA==
+X-Received: by 2002:a05:600c:1d05:b0:477:fcb:2256 with SMTP id 5b1f17b1804b1-4803e7e7c62mr30439175e9.17.1768916300717;
         Tue, 20 Jan 2026 05:38:20 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:19 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:20 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 24/26] pseudo: Update to pull in openat2 and efault return code changes
-Date: Tue, 20 Jan 2026 14:37:46 +0100
-Message-ID: <771c70fe0d68302a006ddb4be5a30771f5d0f1eb.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 25/26] pseudo: Update to pull in 'makewrappers: Fix EFAULT implementation'
+Date: Tue, 20 Jan 2026 14:37:47 +0100
+Message-ID: <092488b12817ae69204d287b1c0365710820e2ac.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
 References: <cover.1768914702.git.yoann.congal@smile.fr>
@@ -66,38 +66,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229730
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229731
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Pulls in the following fixes:
-
- * makewrappers: Enable a new efault option
- * ports/linux/openat2: Add dummy wrapper
- * test-syscall: Add a syscall test
- * ports/linux/pseudo_wrappers: Avoid openat2 usage via syscall
-
-which should fix issues with the tar CVE fix on Centos/Alma/Rocky 9 distros
-that uses openat2 as well as the efault issue breaking rust based uutils.
+The pseudo update was causing hangs in builds, pull in the fix.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-(cherry picked from commit 51f1388dd1679a28ec3ca468cf16aa0ea32bccf9)
+(cherry picked from commit 8acdbefd0a148c8b7713f46066ae8489984c5d2d)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
  meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 4e31748cc4..31d473cf67 100644
+index 31d473cf67..dae4f4bc84 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
 @@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
      file://older-glibc-symbols.patch"
  SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--SRCREV = "d1db9c219abf92f15303486a409292237f1fc790"
-+SRCREV = "9ce8c09980af23ebd4ebf072010469882d0459a6"
+-SRCREV = "9ce8c09980af23ebd4ebf072010469882d0459a6"
++SRCREV = "125b020dd2bc46baa37a80784704e382732357b4"
  S = "${WORKDIR}/git"
  PV = "1.9.2+git"
  
