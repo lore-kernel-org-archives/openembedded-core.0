@@ -1,102 +1,238 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D15D2ECF7
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 10:39:03 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3669.1768905534260037528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02654D2ED0F
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:15:24 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4050.1768907720518463963
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 02:38:54 -0800
+ Tue, 20 Jan 2026 03:15:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f2hYPDJR;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47edffe5540so45084835e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:38:54 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=XEXAgM9l;
+ spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a1388cdac3so36032385ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768905532; x=1769510332; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2mOozIG5qiq1k6XEZayL8daL4h9+HGjHyZGW8h0BHMA=;
-        b=f2hYPDJRA6vI/CR+HIfW9h/2A/EnebjWPKjsI2vDf3pPuvF4ZHoXfQJ7FgewejOhp8
-         EbBPE91AAI590EaT4IAUuSw2h+wYSmUs9Z0OFnMroBiK95wEX5H3aEEtQpgL7PC0mdGy
-         5UDj21XbzijvNP1kj7yg6d1hGgFapuv4MkmnOepOS8y96pDU7IA7Pi77fakytoxOXbVM
-         eQDNc75aXVKE7CVolbs/2f5w7kInGtIeNgHTf5hWj3qs10E/EbITsyqhlsd0HFA0jcg1
-         pIptn85asHXH4NRwTOmKliJxnopEZbvAzAld06lBsqkD0+82XF4AA4dqMoqZ2NqrPRUn
-         YuUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768905532; x=1769510332;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1768907720; x=1769512520; darn=lists.openembedded.org;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2mOozIG5qiq1k6XEZayL8daL4h9+HGjHyZGW8h0BHMA=;
-        b=voQaT0FSat43bv7YHd40napBn0Dr0/5441MvwMDQ3XHBzEeUYkDQMA9Uqb09xnV7YS
-         WStRvV1NNRQZEeOJF20nDCgSgbRwNlTTxetql9cKEzUYYPLhkq4fwq46Nwo/6kq5Da7c
-         r4AH1y3yerJE9TVjflu5aY5YhBq44MitDmJU3X1bNZ7oPtmeCs+QIV4L/DdE9E2lAYOY
-         dpJ/QoxAZSZc3aMPtJqx0X0EJ2AA1QMARUnymRPiEraaUmjLOcwRcSZY06ojTycVn7wW
-         xnBS6Umo7Bojl18f3OZo6dSEL5+FN//s27HZ28Pf9OUu6r53wOBRGV0u5APU9eLKrWfv
-         6+Jg==
-X-Gm-Message-State: AOJu0Yw1Hqi1zC7oVYE22IHjm2ibisFXdu/oxSFHD5Q5+zmzLWzM4Xv2
-	00wf/aHOAoC5Wg7BW2P/nQnAY/3HtYyUVJCSQedj6ECSV6cpHr8KI4g66s8K7wro
-X-Gm-Gg: AY/fxX6sHYsRnxF7ZRquZ12rlL3YCW/5T5WLZdpRIFl+8tuMPfbmXlLD6mewTGGH02Y
-	KZKBwP8HlY+pnm1HLzQCK661GqCu3pbzm1Cv+C/EzDAnzG9KwMZlPDTEGi9ElE6FBKKkJNEh4FR
-	jFf9Lmlo0Rv9vQAfiGxn56g4VM5LJAnKTtM+BGkRZ8D1sCqm3X5V+uUA6c6BWz1b94y5xJHgog/
-	/sg1dz5OSz8ChUhtD6TZu7ypcydivb7b3R4lPHToB0T/gtoNtMQXthwN5JlqC1K8sQAmwQA0ATu
-	gIrW/l5tk1bay1gRh7qu6fUMWI2k2mrafjsVMH4LRRCKcmDs3QzsUVowJwaQjhk66oXYMZ3g6HO
-	1eLTWqSw/RWS2HKrEef0ADl+JZ5YPrjMuHNv2U44/vs1N19dYDfnr73lg+t95WDxbEPeJx9SXqy
-	Hlx2MPz1JG0iY0
-X-Received: by 2002:a05:600c:4ecd:b0:46e:4a30:2b0f with SMTP id 5b1f17b1804b1-4803e7f3c81mr17053525e9.29.1768905532003;
-        Tue, 20 Jan 2026 02:38:52 -0800 (PST)
-Received: from Ubuntu-2204-jammy-amd64-base.. ([2a01:4f8:272:3f67::2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e86c1b2sm236881025e9.3.2026.01.20.02.38.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 02:38:51 -0800 (PST)
-From: uvv.mail@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>,
-	=?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [PATCH] time64: Use consistent TIME defines
-Date: Tue, 20 Jan 2026 10:38:34 +0000
-Message-ID: <20260120103834.1780598-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=21Kk14ExijPiW2koN6Icd768N4qXIa+bkskX38N40J8=;
+        b=XEXAgM9lHDuzzXNJ11nPTsxZzPEuiT2dB277N2JqMd9HA8KYUbf87u8IdGJbfGUxC7
+         FE7YFKzm43YnDe9jVjhKEdqxhHdZoiFCtQkRf1EzRZtfwHHjyjHqQk9nzW4c2iaVnLMU
+         gmj4xtOOsRN6UKcp3cYN3gcjkI2c9Mo1HHtGk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768907720; x=1769512520;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=21Kk14ExijPiW2koN6Icd768N4qXIa+bkskX38N40J8=;
+        b=lhcgD8U3H2Ei64kzSGLcCwsC71iFLjSXD+DRXMdr3ze9vbTYtZH6FWM9HnqBhFXwiX
+         Q0WDKzGnoiKKoEI0N4xcDXm4OoRhzWl1bpqsGED0bTMoBHWG6GoYHzUn10CM8OetckOB
+         VNEqMknB79tKagE7gqiwAuF3Hr7T6FCOG+Sd8/OeuwU3WJAp/fDtEXyF2NcauUMhFPbM
+         Ty7nWuAwAo5aMJbtBK+te74srUQJoDsvEYZ9PIgPTWiWbAfEa8128//eY3Ar7mcYzm/a
+         SdK8mQ4i8spVsRtGlwvS8vEyxotiuEeFiG3ZqPo7QAJdfEr7iTTs+1tm+ty99DtyNONu
+         cR8Q==
+X-Gm-Message-State: AOJu0YwSNgIpt77hJ/3Whj8ehjxQV+bpP1y6ovcNdT3XJM5oiDctttuZ
+	6oaaPSRe2D4qkYlAmvwr/kSGP0TNPeBo5gBQKmmVtmmV8PYQIuormARQXJJNUHqrDhlPIObOTlL
+	BJU6u
+X-Gm-Gg: AZuq6aJI8I8OGhwdvf/OsZmoUJcK6aPgYRCsYcGLnBE88hGZM7xwifiLChDF33usROY
+	QD0U78DIyVWib7EK3KTpcOnsusPzEBQpqvaOWwA9+rSKaaSioFN6BK26k5RKziE/U6inKjtr+xL
+	BidbebJaPV5RitY8js4rhCBKcEtlq1joFPRw0KxZguU7wlwLTumY/1lnbey84bwp3HlA+VXIMXM
+	80/E1mzEvHXHTAhPikRzZvi8Jc4B9i/jv2EdjEtVF+T2vreYHGFkUG0NbFOePh9Wn1N6LuN+II0
+	cqZLNmADHhaw4dqNWJdqcmr4yu5tmLgVfdzo0SRs/m9mhUJ5RspXgDd54twJHufQ55W3y4PQhEh
+	A0Ygbqt5QgQ1c28nHewGyzUGzwzdr/bYCFVwbgsjztNs+rp8f1JB35JjaWljpG6e3nE4mMr0MqZ
+	UeXRbMBZY+ErI0NfJ+4A==
+X-Received: by 2002:a17:903:b4f:b0:2a7:683c:afc6 with SMTP id d9443c01a7336-2a7683cb24dmr16180165ad.39.1768907719844;
+        Tue, 20 Jan 2026 03:15:19 -0800 (PST)
+Received: from [192.168.1.100] ([150.129.170.138])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7190ce53fsm123032145ad.30.2026.01.20.03.15.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jan 2026 03:15:19 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------Agn7QsdZEI6Y8GhJBGkTQyhJ"
+Message-ID: <c697bb31-f5e9-4360-9264-5ce3e2386b49@mvista.com>
+Date: Tue, 20 Jan 2026 16:45:15 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [scarthgap][PATCH] curl: fix CVE-2025-10148
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+References: <20260107045240.170121-1-hprajapati@mvista.com>
+ <256810.1768887388424073608@lists.openembedded.org>
+ <CAMSfU+62Kh1t6Be66SnUeL=OEE8JmEhm37qyT1wRy4WGrErwRw@mail.gmail.com>
+Content-Language: en-US
+From: Hitendra Prajapati <hprajapati@mvista.com>
+In-Reply-To: <CAMSfU+62Kh1t6Be66SnUeL=OEE8JmEhm37qyT1wRy4WGrErwRw@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 10:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229658
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:15:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229659
 
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+This is a multi-part message in MIME format.
+--------------Agn7QsdZEI6Y8GhJBGkTQyhJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Pipewire crashes when other dependent libraries are built with the
-different TIME and FILE_OFFSET defines. pw-v4l2/libcamera will most
-likely not work with 32-bits that have 64-bit time but that has to be
-fixed in the respective projects.
+Hi Yoann,
 
-Related bug report:
-https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/5055
+Thank you for Quick update.
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Signed-off-by: Barnabás Pőcze <pobrn@protonmail.com>
----
- meta/conf/distro/include/time64.inc | 4 ----
- 1 file changed, 4 deletions(-)
+Regards,
 
-diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index 24a81c83f1..3ed0a4253d 100644
---- a/meta/conf/distro/include/time64.inc
-+++ b/meta/conf/distro/include/time64.inc
-@@ -21,10 +21,6 @@ TARGET_CC_ARCH:append:x86 = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLI
- 
- GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
- GLIBC_64BIT_TIME_FLAGS:pn-glibc-testsuite = ""
--# pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
--# both 32 and 64 bit file APIs.  But it does not handle the time side?
--# Needs further investigation
--GLIBC_64BIT_TIME_FLAGS:pn-pipewire = ""
- # Undefines _FILE_OFFSET_BITS on purpose in
- # libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cpp
- GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
+Hitendra
+
+On 20/01/26 2:42 pm, Yoann Congal wrote:
+>
+>
+> Le mar. 20 janv. 2026 à 06:36, Hitendra Prajapati via 
+> lists.openembedded.org <http://lists.openembedded.org> 
+> <hprajapati=mvista.com@lists.openembedded.org> a écrit :
+>
+>     Hi Team,
+>     Any update on this ?
+>
+>
+> Hello,
+>
+> I'm currently focussed on getting Kirkstone 4.0.33 built. And, while I 
+> will send a scarthgap patch series soon, this one is not included, sorry.
+> It does look good. I will definitely consider it for the next scartgap 
+> release (5.0.16 built on 2026-02-09).
+>
+> Regards,
+>
+>     Regards,
+>     Hitendra
+>
+>     -=-=-=-=-=-=-=-=-=-=-=-
+>     Links: You receive all messages sent to this group.
+>     View/Reply Online (#229643):
+>     https://lists.openembedded.org/g/openembedded-core/message/229643
+>     Mute This Topic: https://lists.openembedded.org/mt/117129750/4316185
+>     Group Owner: openembedded-core+owner@lists.openembedded.org
+>     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>     Unsubscribe:
+>     https://lists.openembedded.org/g/openembedded-core/unsub
+>     [yoann.congal@smile.fr]
+>     -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+>
+> -- 
+> Yoann Congal
+> Smile ECS
+-- 
+Regards,
+Hitendra Prajapati
+MontaVista Software LLC
+Mo: +91 9998906483
+--------------Agn7QsdZEI6Y8GhJBGkTQyhJ
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Yoann,</p>
+    <p>Thank you for Quick update. <br>
+    </p>
+    <p>Regards,</p>
+    <p>Hitendra<font size="2"><br>
+      </font></p>
+    <div class="moz-cite-prefix">On 20/01/26 2:42 pm, Yoann Congal
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAMSfU+62Kh1t6Be66SnUeL=OEE8JmEhm37qyT1wRy4WGrErwRw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr"><br>
+        </div>
+        <br>
+        <div class="gmail_quote gmail_quote_container">
+          <div dir="ltr" class="gmail_attr">Le mar. 20 janv. 2026
+            à 06:36, Hitendra Prajapati via <a
+              href="http://lists.openembedded.org"
+              moz-do-not-send="true">lists.openembedded.org</a>
+            &lt;hprajapati=<a
+              href="mailto:mvista.com@lists.openembedded.org"
+              moz-do-not-send="true" class="moz-txt-link-freetext">mvista.com@lists.openembedded.org</a>&gt;
+            a écrit :<br>
+          </div>
+          <blockquote class="gmail_quote"
+style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div>Hi Team,</div>
+            <div>Any update on this ?</div>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Hello,</div>
+          <div><br>
+          </div>
+          <div>I'm currently focussed on getting Kirkstone 4.0.33
+            built. And, while I will send a scarthgap patch series soon,
+            this one is not included, sorry.</div>
+          <div>It does look good. I will definitely consider it for the
+            next scartgap release (5.0.16 built on 2026-02-09).</div>
+          <div><br>
+          </div>
+          <div>Regards,</div>
+          <div> </div>
+          <blockquote class="gmail_quote"
+style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div> </div>
+            <div>Regards,</div>
+            <div>Hitendra</div>
+            <br>
+            -=-=-=-=-=-=-=-=-=-=-=-<br>
+            Links: You receive all messages sent to this group.<br>
+            View/Reply Online (#229643): <a
+href="https://lists.openembedded.org/g/openembedded-core/message/229643"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://lists.openembedded.org/g/openembedded-core/message/229643</a><br>
+            Mute This Topic: <a
+              href="https://lists.openembedded.org/mt/117129750/4316185"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://lists.openembedded.org/mt/117129750/4316185</a><br>
+            Group Owner: <a
+href="mailto:openembedded-core%2Bowner@lists.openembedded.org"
+              target="_blank" moz-do-not-send="true">openembedded-core+owner@lists.openembedded.org</a><br>
+            Unsubscribe: <a
+href="https://lists.openembedded.org/g/openembedded-core/unsub"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://lists.openembedded.org/g/openembedded-core/unsub</a>
+            [<a href="mailto:yoann.congal@smile.fr" target="_blank"
+              moz-do-not-send="true" class="moz-txt-link-freetext">yoann.congal@smile.fr</a>]<br>
+            -=-=-=-=-=-=-=-=-=-=-=-<br>
+            <br>
+          </blockquote>
+        </div>
+        <div><br clear="all">
+        </div>
+        <br>
+        <span class="gmail_signature_prefix">-- </span><br>
+        <div dir="ltr" class="gmail_signature">
+          <div dir="ltr"><font face="Raleway, regular">Yoann Congal</font>
+            <div><font face="Raleway, regular">Smile ECS</font></div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      <font color="#0000FF">
+        Regards,<br>
+        Hitendra Prajapati<br>
+        MontaVista Software LLC<br>
+        Mo: +91 9998906483 <br>
+      </font></div>
+  </body>
+</html>
+
+--------------Agn7QsdZEI6Y8GhJBGkTQyhJ--
 
