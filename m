@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2EF8D2ED17
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D045AD2ED16
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 12:09:24 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5024.1768910960525535898
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5018.1768910954976542443
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 04:09:20 -0800
+ Tue, 20 Jan 2026 04:09:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=TrQ3nf7Y;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-430fbb6012bso4488634f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:20 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mKMTlaGK;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-435903c4040so303596f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768910958; x=1769515758; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768910953; x=1769515753; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t6ib1HyLTnzDH59OrmzQ+JBc9Kwzr5LuB62JjkW/KEo=;
-        b=TrQ3nf7Y0bFbiUNy19foheSkI8QhgCZl5xAdVCClz76d3TvrqErNWt708v9+oSkLJD
-         5rPE4capL5DsIxaUrfPZFOTSj1reBZVNvb6uY0042PlGiDiCjoMt3hUkPAL48yCxd0fK
-         UKCfJpCYJROOg3AzIJnp9WC+ABqhHtC1L1rLc=
+        bh=+tV7x4k7cEXVW4G988bUhCoPX+/hsrKpIjJ+Ew5ybgI=;
+        b=mKMTlaGK3kiCt28DJAPwiur1EfW214LG9iMls3Dpe1Kh0urcoL7NK+i0iz1XASiepe
+         1xYpPvMTNAKJ+UMY1uyVMeT2kyCSHU0eWVa1nK0RCeCKJsccwFUEcBH5LhwUJxwQYJjE
+         G4c338PTh+DHnE6UQPoHXS42G2a3999Iu7kQM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768910958; x=1769515758;
+        d=1e100.net; s=20230601; t=1768910953; x=1769515753;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=t6ib1HyLTnzDH59OrmzQ+JBc9Kwzr5LuB62JjkW/KEo=;
-        b=rbhozZ8clDHbnHgFcIYMReRviVJw1h6suW0dDIS7xNL2qdFrRgpa42XYJnqQO83s+T
-         HdSrh8YF8C9Ng7SIZEqTO3OLVwKHgZuE/2KAOTJfVymII3hqGBnKScCIcAwpBj69K0ND
-         mYOJi/6XARqx9dpj4cUxoywRYscVgxrTfTxS6vswSzCMFHqADtgPeUmbQgNyNGI3DQo7
-         +oyIM79kfIm471gLilhc1SM2XshYE1jDCjdiA3L6eynlY6jTqoh41t/T4twBf9UtNdYV
-         mlCpLsZg9PCY8ln1ROVAtenM+f9UeEOqvl/5dWqqrbUoS5P41L/bZUbnG3SNMGb1+Y9M
-         mNhA==
-X-Gm-Message-State: AOJu0YxOUv7Skizft954+5gmA0U2uYx5mnT6kyhPj7REsd9UxWfP0i0W
-	gYiw9WvEcz2sy+sJIE6hXcWs0WZPeaRZJMnaDAPnLxTnOrqRe31qjP+7ilxmaivzPz73xRjuokA
-	WWvC7
-X-Gm-Gg: AZuq6aJdeNR4dqjNAFZ5zp1L/18KfZH2zU9pI4Va/viaDcnUPxv1iBDKmR/tN+HYa2G
-	jKJjqmxL5cs9tnNTmkwTEHuYapSQz18U6JlbzQQ267gw7Vmdxe3jXvOVN4dlYsBgosaHlyqTDyh
-	ADtP+pygVJn4G+BnYpvJZSEDhM+1cnwOZ7FSgUzK7Rf6uvL+43co5fvyCBxsAQgrPSGqn83Kz+1
-	ky8LuHBZrB5S1VYtyLR5TIz1ZimM3jCRV+huF8ePupR59JCGAXAWlpqoVg5lQzE6ExCGZzxo8kV
-	vHi/1MzQylndjsabrCix78Cl79wssG3pZGzVJZr34eChJmkWeKXWrQ4DdFeBrS/WJ0obdW/34wm
-	MV2B8MmWhCaWhaIXV01HsWTuVlX/B8o7u+QYC5nYTPbpwQLZGMiOCGX5xt9RXpZXWXjdIVb2QLB
-	2hdo1AvUIO4CtSWBg6mCqV1zoMIrEa3KhXi5eQe30J03N5bUXaaVgWzHs6Vaih41f2j7hwW16oW
-	HRPZSY8y8s9MWuCJozzMtO68F8+uGgn
-X-Received: by 2002:a05:6000:2386:b0:42f:bab5:953b with SMTP id ffacd0b85a97d-4358fed7979mr2502295f8f.16.1768910958502;
-        Tue, 20 Jan 2026 04:09:18 -0800 (PST)
+        bh=+tV7x4k7cEXVW4G988bUhCoPX+/hsrKpIjJ+Ew5ybgI=;
+        b=PACKfN7enEBpTI5bIgQQU2tzFtkkkcKPvIWusRkGL2HrgTvYWB2pLvgQrp1/Img4g3
+         r1Vnwl7ryhcsq5L5GRaCIny/e9/8V9Wbj0ppP+ADqI4rTpbjUq/oEyljlTEHGsKi6m2Q
+         SpEnOBN0QvR+hqmxsxArZ0qAXJPOQIWVDHxBD4qJXLr/S0vC/F6GRCLQcXjTIB4VlC0y
+         +kSMoFSbM5fdy/2I0egdj5aWdWVQattYg93s6gsC2ArRGUd3hgySQD47LhnqsCNx6S4n
+         eA3ty9tMmph0f2vbeHgJc61ddru01l3pbeVMduUw/xW2hviHhGrjMfnCD9Mxt0mWCnVj
+         5jhw==
+X-Gm-Message-State: AOJu0Yweyg/P2ZUStMjSBk5Al2eUsxbVmOi7XcT98Hgmktn/EAXVkLYE
+	FGFFivXu68VYjZyB7TnMEg3CHvU9pszqNOYM7OaomhZ3ziZ/+TtrBMu29Emr72/YB4D+4nwrlBp
+	zbpwF
+X-Gm-Gg: AZuq6aI4kbclBglSQai4fvOtqboKwzfrsa78lje8bgx4bbRsIKtkZS6qJJyNMxEa6fs
+	K+WNMmx4u7S8SHNDMKbIEcnI03ijgbC6WqqFjLQ8sBdoTki1do1bh9b81P79hb+1jaF/RULKTEj
+	pJlo4dUuy3EYzWwnaNX8qROdNgJ679FGjZ/MBJvqUwbmTAPTkGiXm3NTggQBq0tLc7AcoTBu4gg
+	V0GsUrfsrU5R4g7WAdu9gmwYRGhS1+Y6uS6Q+i7x2fP4AV10M122BQ7w5pEi0e1pI/zSr/qC9K5
+	3Ozor5FTNK1R1WJUPQgPQwPFCd085p7cU/B1GcZV926pFuY3ds8ZAFwsJrSWvmbS6VoSHcyTBIZ
+	GKzOMqGCPIKADjxxrPe/yKhlgCz/SXRQt5bXzXiaW67sRvUVfWMVIj/TPmxuXooIpmdCQqTZ4um
+	NOCn4ukZYdzlXewDcVRtSgF6v55bvpPfUewGJXCPhCdspU+1RjF52A1uHjUqn458fOAyetf/mBC
+	+acsF4eWfikNBkO7tHCzg==
+X-Received: by 2002:a05:6000:22c4:b0:42f:b65c:1e4f with SMTP id ffacd0b85a97d-4356a02c2b2mr17644150f8f.17.1768910952984;
+        Tue, 20 Jan 2026 04:09:12 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 04:09:18 -0800 (PST)
+        Tue, 20 Jan 2026 04:09:12 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/22] libpcap: patch CVE-2025-11964
-Date: Tue, 20 Jan 2026 13:08:24 +0100
-Message-ID: <58f0bb5bef7092585c53dda9fc8bfa2955a27c1a.1768910519.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/22] python3: patch CVE-2025-13836
+Date: Tue, 20 Jan 2026 13:08:16 +0100
+Message-ID: <cdad34eef142f6fdc214177ca0342a415d0dc058.1768910519.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768910519.git.yoann.congal@smile.fr>
 References: <cover.1768910519.git.yoann.congal@smile.fr>
@@ -66,71 +66,200 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 12:09:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229688
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229680
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
+Pick commit from branch 3.12 mentioned in [1].
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-11964
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-13836
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpcap/libpcap/CVE-2025-11964.patch      | 33 +++++++++++++++++++
- .../libpcap/libpcap_1.10.4.bb                 |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+ .../python/python3/CVE-2025-13836.patch       | 162 ++++++++++++++++++
+ .../python/python3_3.12.12.bb                 |   1 +
+ 2 files changed, 163 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13836.patch
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13836.patch b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
 new file mode 100644
-index 0000000000..003d21fb1f
+index 0000000000..b90fc5f0ec
 --- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
-@@ -0,0 +1,33 @@
-+From 7fabf607f2319a36a0bd78444247180acb838e69 Mon Sep 17 00:00:00 2001
-+From: Guy Harris <gharris@sonic.net>
-+Date: Sun, 7 Sep 2025 12:51:56 -0700
-+Subject: [PATCH] Fix a copy-and-pasteo in utf_16le_to_utf_8_truncated().
++++ b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+@@ -0,0 +1,162 @@
++From 14b1fdb0a94b96f86fc7b86671ea9582b8676628 Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Mon, 22 Dec 2025 14:50:18 +0100
++Subject: [PATCH] [3.12] gh-119451: Fix a potential denial of service in
++ http.client (GH-119454) (#142140)
 +
-+For the four octets of UTF-8 case, it was decrementing the remaining
-+buffer length by 3, not 4.
++gh-119451: Fix a potential denial of service in http.client (GH-119454)
 +
-+Thanks to a team of developers from the Univesity of Waterloo for
-+reporting this.
++Reading the whole body of the HTTP response could cause OOM if
++the Content-Length value is too large even if the server does not send
++a large amount of data. Now the HTTP client reads large data by chunks,
++therefore the amount of consumed memory is proportional to the amount
++of sent data.
++(cherry picked from commit 5a4c4a033a4a54481be6870aa1896fad732555b5)
 +
-+(cherry picked from commit aebfca1aea2fc8c177760a26e8f4de27b51d1b3b)
++Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
 +
-+CVE: CVE-2025-11964
-+Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/7fabf607f2319a36a0bd78444247180acb838e69]
++CVE: CVE-2025-13836
++Upstream-Status: Backport [https://github.com/python/cpython/commit/14b1fdb0a94b96f86fc7b86671ea9582b8676628]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ fmtutils.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Lib/http/client.py                            | 28 ++++++--
++ Lib/test/test_httplib.py                      | 66 +++++++++++++++++++
++ ...-05-23-11-47-48.gh-issue-119451.qkJe9-.rst |  5 ++
++ 3 files changed, 95 insertions(+), 4 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
 +
-+diff --git a/fmtutils.c b/fmtutils.c
-+index a5a4fe62..78a0f8b7 100644
-+--- a/fmtutils.c
-++++ b/fmtutils.c
-+@@ -235,7 +235,7 @@ utf_16le_to_utf_8_truncated(const wchar_t *utf_16, char *utf_8,
-+ 			*utf_8++ = ((uc >> 12) & 0x3F) | 0x80;
-+ 			*utf_8++ = ((uc >> 6) & 0x3F) | 0x80;
-+ 			*utf_8++ = ((uc >> 0) & 0x3F) | 0x80;
-+-			utf_8_len -= 3;
-++			utf_8_len -= 4;
-+ 		}
-+ 	}
++diff --git a/Lib/http/client.py b/Lib/http/client.py
++index fb29923d942..70451d67d4c 100644
++--- a/Lib/http/client.py
+++++ b/Lib/http/client.py
++@@ -111,6 +111,11 @@ responses = {v: v.phrase for v in http.HTTPStatus.__members__.values()}
++ _MAXLINE = 65536
++ _MAXHEADERS = 100
 + 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
-index df091e5ca2..ee7d7540f6 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
-            file://CVE-2024-8006.patch \
-            file://CVE-2025-11961-01.patch \
-            file://CVE-2025-11961-02.patch \
-+           file://CVE-2025-11964.patch \
-           "
+++# Data larger than this will be read in chunks, to prevent extreme
+++# overallocation.
+++_MIN_READ_BUF_SIZE = 1 << 20
+++
+++
++ # Header name/value ABNF (http://tools.ietf.org/html/rfc7230#section-3.2)
++ #
++ # VCHAR          = %x21-7E
++@@ -639,10 +644,25 @@ class HTTPResponse(io.BufferedIOBase):
++         reading. If the bytes are truly not available (due to EOF), then the
++         IncompleteRead exception can be used to detect the problem.
++         """
++-        data = self.fp.read(amt)
++-        if len(data) < amt:
++-            raise IncompleteRead(data, amt-len(data))
++-        return data
+++        cursize = min(amt, _MIN_READ_BUF_SIZE)
+++        data = self.fp.read(cursize)
+++        if len(data) >= amt:
+++            return data
+++        if len(data) < cursize:
+++            raise IncompleteRead(data, amt - len(data))
+++
+++        data = io.BytesIO(data)
+++        data.seek(0, 2)
+++        while True:
+++            # This is a geometric increase in read size (never more than
+++            # doubling out the current length of data per loop iteration).
+++            delta = min(cursize, amt - cursize)
+++            data.write(self.fp.read(delta))
+++            if data.tell() >= amt:
+++                return data.getvalue()
+++            cursize += delta
+++            if data.tell() < cursize:
+++                raise IncompleteRead(data.getvalue(), amt - data.tell())
++ 
++     def _safe_readinto(self, b):
++         """Same as _safe_read, but for reading into a buffer."""
++diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
++index 01f5a101901..e46dac00779 100644
++--- a/Lib/test/test_httplib.py
+++++ b/Lib/test/test_httplib.py
++@@ -1452,6 +1452,72 @@ class BasicTest(TestCase):
++         thread.join()
++         self.assertEqual(result, b"proxied data\n")
++ 
+++    def test_large_content_length(self):
+++        serv = socket.create_server((HOST, 0))
+++        self.addCleanup(serv.close)
+++
+++        def run_server():
+++            [conn, address] = serv.accept()
+++            with conn:
+++                while conn.recv(1024):
+++                    conn.sendall(
+++                        b"HTTP/1.1 200 Ok\r\n"
+++                        b"Content-Length: %d\r\n"
+++                        b"\r\n" % size)
+++                    conn.sendall(b'A' * (size//3))
+++                    conn.sendall(b'B' * (size - size//3))
+++
+++        thread = threading.Thread(target=run_server)
+++        thread.start()
+++        self.addCleanup(thread.join, 1.0)
+++
+++        conn = client.HTTPConnection(*serv.getsockname())
+++        try:
+++            for w in range(15, 27):
+++                size = 1 << w
+++                conn.request("GET", "/")
+++                with conn.getresponse() as response:
+++                    self.assertEqual(len(response.read()), size)
+++        finally:
+++            conn.close()
+++            thread.join(1.0)
+++
+++    def test_large_content_length_truncated(self):
+++        serv = socket.create_server((HOST, 0))
+++        self.addCleanup(serv.close)
+++
+++        def run_server():
+++            while True:
+++                [conn, address] = serv.accept()
+++                with conn:
+++                    conn.recv(1024)
+++                    if not size:
+++                        break
+++                    conn.sendall(
+++                        b"HTTP/1.1 200 Ok\r\n"
+++                        b"Content-Length: %d\r\n"
+++                        b"\r\n"
+++                        b"Text" % size)
+++
+++        thread = threading.Thread(target=run_server)
+++        thread.start()
+++        self.addCleanup(thread.join, 1.0)
+++
+++        conn = client.HTTPConnection(*serv.getsockname())
+++        try:
+++            for w in range(18, 65):
+++                size = 1 << w
+++                conn.request("GET", "/")
+++                with conn.getresponse() as response:
+++                    self.assertRaises(client.IncompleteRead, response.read)
+++                conn.close()
+++        finally:
+++            conn.close()
+++            size = 0
+++            conn.request("GET", "/")
+++            conn.close()
+++            thread.join(1.0)
+++
++     def test_putrequest_override_domain_validation(self):
++         """
++         It should be possible to override the default validation
++diff --git a/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
++new file mode 100644
++index 00000000000..6d6f25cd2f8
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
++@@ -0,0 +1,5 @@
+++Fix a potential memory denial of service in the :mod:`http.client` module.
+++When connecting to a malicious server, it could cause
+++an arbitrary amount of memory to be allocated.
+++This could have led to symptoms including a :exc:`MemoryError`, swapping, out
+++of memory (OOM) killed processes or containers, or even system crashes.
+diff --git a/meta/recipes-devtools/python/python3_3.12.12.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
+index 786f52875a..280d98424a 100644
+--- a/meta/recipes-devtools/python/python3_3.12.12.bb
++++ b/meta/recipes-devtools/python/python3_3.12.12.bb
+@@ -36,6 +36,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_readline-skip-limited-history-test.patch \
+            file://CVE-2025-6075.patch \
+            file://CVE-2025-12084.patch \
++           file://CVE-2025-13836.patch \
+            "
  
- SRC_URI[sha256sum] = "ed19a0383fad72e3ad435fd239d7cd80d64916b87269550159d20e47160ebe5f"
+ SRC_URI:append:class-native = " \
 
