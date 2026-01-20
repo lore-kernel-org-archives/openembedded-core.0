@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE4DD2ED15
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDE5D2ED13
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:24:34 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4162.1768908271782690624
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4242.1768908272292366330
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 Jan 2026 03:24:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=JhdrjVm9;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so49560435e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:31 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=r3vdpZVi;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso49164305e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1768908270; x=1769513070; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Qf7r5P8R6uL8XQgSzye11t9Rcr9MLD3C5DxPyoZco2k=;
-        b=JhdrjVm97tq/uLOsfC/hxVTFK2zR0exiAklDXjmgO+ukcxWB5OUF11H49/fx1+16pG
-         Yb5EHL/kagFUkDk/uB1OAsr4/VDK8HGSzi/9Tq/sBYEzJBB57RQw7ULtkmhfVT1inh1Q
-         lkL/ycGZ6vXB8pPQMufQ739wRyfd86vhRH4rg=
+        bh=h4XmcVxtoZGwu7MIe3A5UxcBHlD04m+rvAP56mN5duY=;
+        b=r3vdpZViI8G2mwIrRpTrNK9oPCav60rqvixI44FEEne8vGhRvP+zOQdhvVh2nwdfNj
+         sLhZnMSASRTo93XFvsXl/rIvcjkie0xLI6YvJY/Lev/iYBhlQcxLaE/5YvSdubx4G4P4
+         RJupEyYPCk5UfXVnP1iMZewcKz6+lvSlJ4Es8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1768908270; x=1769513070;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Qf7r5P8R6uL8XQgSzye11t9Rcr9MLD3C5DxPyoZco2k=;
-        b=aVsWpLGtyi2c+poVT+of6IFN4h6n+pDDqIboDzEoEt0qEx+7Eje/lwcQdF7tpnjgoS
-         +RG+lQDdoYco15hZiMa0TIR9o/xX8EaxPurn0y6y7gt2szsQoRBYCiMcMiPlwThnzXhK
-         pk15yyIIH5+ECCwnTx3J8dZdm1weGF+ZNDaqyGRR7k4Kb39/ORzpYqnhZnyuVBu8s9ue
-         f/KuyQPpEDx9/gsudG450n6Kj1u12sxCCh3rAbtG5tt5hyx+LiBCA8bgJmaTSEhP+Hzb
-         9QP3rIbkB/rFbR6AsMtFy3pc0PLwuVoTzSVbM5mEjmr7NAbMKyYTlmvwEYvqc9XHpy+5
-         R1/g==
-X-Gm-Message-State: AOJu0YysmOB0eMo5+7wgij4vN+Tjd5Vs2zGRa0BhdPrmI2GlLjH+uuje
-	Ci/oHwnmYgdqSBCNsRYnFBTpi4N/GK0U+0IByVe0kVwWRUN4dJkZkFSnkdj5amrlSaqblxp8qn8
-	C8puu
-X-Gm-Gg: AY/fxX6N+/BRtmTe+KsRIJl7bqT1UyBcRqy/Jth77bG1B8ZCO3JB4wWH89QLdWf9Keb
-	hbErk+EX7Co/BlGmlUIsQYoE2ap1jYrh5q4rmgt+iDegTgE+n1WkTey3QjxBVbH474tne7RM29w
-	JJdNiEIfV/fhy+my4sAOWSdlGbb6TymDdA456EiU0NSpQetn+IJAihxLDd9y93r0zQ53puM2a+H
-	8oAQW9jux496YpNjGxXGPV5RMOJBQyluPi4RRZqmov10LRW7y8rZNdRQaEM/ybZ0ew+U460JWqc
-	zsmpM/AskyOtLQ1akaDkO8EH8T8ILro7xhS1RYhjQtnaCSEBPxhr4ON7rqhI3jjQ+pz3jUSowgU
-	Gx8nMgI3rJUp826pw/AXMMgzjig87WeJx/VSOxpZFB8XbkIWTaT0d21wTAVXIys/XBSx1SsnwRX
-	KaxmZV4Fyw2z6PV1Zitw9IhAw5oWoR65L1xIkz0B6wKGRy8NDubQPTdnx9Ry5gGCWe97dKF8MTO
-	CO0e86xPFe/yP0/ulVedsHuoWHk5wbp
-X-Received: by 2002:a05:600c:4e15:b0:480:19ed:7efa with SMTP id 5b1f17b1804b1-4803e8020fdmr21318485e9.36.1768908269800;
-        Tue, 20 Jan 2026 03:24:29 -0800 (PST)
+        bh=h4XmcVxtoZGwu7MIe3A5UxcBHlD04m+rvAP56mN5duY=;
+        b=uJXa5sdujeZvUOSLndQIUgY1gCygHlOlWvDfJEKLg2c7nlVcY9bCod51WqQPYlOTJd
+         sWhRgL+aCLNPkPWu1XsDU1AjiuczfmbVLi43FyooQH/JLdriHqIhdb6ntkWM1TxZhSip
+         17ROrThr/vNexoEyWAFqxjXCLhIzr8nUqHxXzgPnoqKneA4QbBrI3aBsStq0uKsY40Q6
+         P95uWpYV1FBLVWOSFnyah7+Swzx6KJ3zksTpPwCA9YYuqWUeZDbOLoG0XJ0Fr1lKZ3lu
+         aLyDtNZcVQXrr12D586D8TKSlZMFS9z0ZaQvyse2H6d6tU1NIV8CCUlCMk8o+n79XuZw
+         4ngA==
+X-Gm-Message-State: AOJu0YyG48grTUDj/nA/VnmqsRYwpQo/TobW2zcPnavHjUYoEIqFduli
+	RkCrkmk2R6zrYMHJM8nvlGKSFM7/dtweLsfdRf4u2vG4lzL9ncylF14A+Q9U1jJyT/w/9AN1mUC
+	QLfRB
+X-Gm-Gg: AY/fxX44Q01NiYoHYukw5WE6iewwOcLKfvKNRrh9W/hmMlAmIwp81L5moAmHUTDIgHF
+	DAlzxeKmG0ktJAeURSpmHGG0KcUUsHSJOKjSZo1wLuEeSac/40C+ejPRg+Dg2xHCByJafM9eq0B
+	hAehROUSX1si8i8CZdczeQmGNf/yl1KDO5U2Jqge6oAco/ZDkjaymBlB73DiVaMt86IRD+6fQxv
+	du5KJVF3Q4n8C982H07nWtubbipUYL1LPtla6gLQn0Ulq2U0nJ1Qk58Yp36iGsXy2lXcOg4EV0j
+	twCPYAV7dfw4+WqyCixMyyefSYKGHwutOx/Up5RWB9OE5CNloNEjL3zNKxQ0iXYngJmUzsCOfo8
+	rMYbZc7g7TcDJpp3vVOqp/YaHrDGby9F8k5Hu/o/RPoJo2//WKrGpM8DWwoAmQITUSeGDTRURqC
+	587/G4DtozD2nb8vejBRQohHsDRYiylRHw1qAdRiAhPW0c6ozfp7c+kJnyyIwxJY+kg9CXE6Ebh
+	2DaoCb48xKsqOEGmXRX6A==
+X-Received: by 2002:a05:600c:8685:b0:47a:975b:e3e6 with SMTP id 5b1f17b1804b1-4801eb035e1mr119617085e9.18.1768908270444;
+        Tue, 20 Jan 2026 03:24:30 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm29558435f8f.3.2026.01.20.03.24.29
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouygu
         Tue, 20 Jan 2026 03:24:29 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 08/15] selftest: devtool: Set PATH when running pseudo
-Date: Tue, 20 Jan 2026 12:23:53 +0100
-Message-ID: <842f5a492d79f218e81c48acd02b6e06eaab0f70.1768906687.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 09/15] curl: patch CVE-2025-13034
+Date: Tue, 20 Jan 2026 12:23:54 +0100
+Message-ID: <db4e7bba77db09f1e53a92077a55fb4588fe4f3a.1768906687.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768906687.git.yoann.congal@smile.fr>
 References: <cover.1768906687.git.yoann.congal@smile.fr>
@@ -66,46 +66,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:24:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229668
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229669
 
-From: Paul Barker <paul@pbarker.dev>
+From: Peter Marko <peter.marko@siemens.com>
 
-When running pseudo outside of bitbake, we need to use the same PATH as
-we would use if we were running inside bitbake instead of the host
-environment's PATH.
+Pick patch per [1].
 
-This is particularly important on Ubuntu 25.10 where 'ls' on this host's
-PATH is provided by uutils and we have setup links in HOSTTOOLS_DIR to
-ensure that the gnu coreutils implementation is used instead.
+[1] https://curl.se/docs/CVE-2025-13034.html
 
-Fixes [YOCTO #16099]
-
-Signed-off-by: Paul Barker <paul@pbarker.dev>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8a264cb75ab456c22568b135c473064553e5321b)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../curl/curl/CVE-2025-13034.patch            | 37 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.17.0.bb      |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-13034.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 8d7e984753..c7bd1831a9 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1843,11 +1843,12 @@ class DevtoolDeployTargetTests(DevtoolBase):
-                 result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
-                 # Check if it deployed all of the files with the right ownership/perms
-                 # First look on the host - need to do this under pseudo to get the correct ownership/perms
--                bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD'], testrecipe)
-+                bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
-                 installdir = bb_vars['D']
-                 fakerootenv = bb_vars['FAKEROOTENV']
-                 fakerootcmd = bb_vars['FAKEROOTCMD']
--                result = runCmd('%s %s find . -type f -exec ls -l {} \\;' % (fakerootenv, fakerootcmd), cwd=installdir)
-+                path = bb_vars['PATH']
-+                result = runCmd('PATH="%s" %s %s find . -type f -exec ls -l {} \\;' % (path, fakerootenv, fakerootcmd), cwd=installdir)
-                 filelist1 = self._process_ls_output(result.output)
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-13034.patch b/meta/recipes-support/curl/curl/CVE-2025-13034.patch
+new file mode 100644
+index 0000000000..0c3fe42509
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2025-13034.patch
+@@ -0,0 +1,37 @@
++From 3d91ca8cdb3b434226e743946d428b4dd3acf2c9 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 14 Nov 2025 16:42:23 +0100
++Subject: [PATCH] vquic-tls/gnutls: call Curl_gtls_verifyserver unconditionally
++
++Closes #19531
++
++CVE: CVE-2025-13034
++Upstream-Status: Backport [https://github.com/curl/curl/commit/3d91ca8cdb3b434226e743946d428b4dd3acf2c9]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/vquic/vquic-tls.c | 12 +++++-------
++ 1 file changed, 5 insertions(+), 7 deletions(-)
++
++diff --git a/lib/vquic/vquic-tls.c b/lib/vquic/vquic-tls.c
++index f4ef06c33b..46bb4c7d4c 100644
++--- a/lib/vquic/vquic-tls.c
+++++ b/lib/vquic/vquic-tls.c
++@@ -168,13 +168,11 @@ CURLcode Curl_vquic_tls_verify_peer(struct curl_tls_ctx *ctx,
++   (void)conn_config;
++   result = Curl_ossl_check_peer_cert(cf, data, &ctx->ossl, peer);
++ #elif defined(USE_GNUTLS)
++-  if(conn_config->verifyhost) {
++-    result = Curl_gtls_verifyserver(cf, data, ctx->gtls.session,
++-                                    conn_config, &data->set.ssl, peer,
++-                                    data->set.str[STRING_SSL_PINNEDPUBLICKEY]);
++-    if(result)
++-      return result;
++-  }
+++  result = Curl_gtls_verifyserver(cf, data, ctx->gtls.session,
+++                                  conn_config, &data->set.ssl, peer,
+++                                  data->set.str[STRING_SSL_PINNEDPUBLICKEY]);
+++  if(result)
+++    return result;
++ #elif defined(USE_WOLFSSL)
++   (void)data;
++   if(conn_config->verifyhost) {
+diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
+index 352f407d28..edae6ebb95 100644
+--- a/meta/recipes-support/curl/curl_8.17.0.bb
++++ b/meta/recipes-support/curl/curl_8.17.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = " \
+     file://run-ptest \
+     file://disable-tests \
+     file://no-test-timeout.patch \
++    file://CVE-2025-13034.patch \
+ "
  
-                 # Now look on the target
+ SRC_URI:append:class-nativesdk = " \
 
