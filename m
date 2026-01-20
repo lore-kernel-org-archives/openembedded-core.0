@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A667CD2ED19
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C13E7D2ED1B
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:26 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6480.1768916299385035380
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6479.1768916298931767101
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 Jan 2026 05:38:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=E9OLVIz6;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso19181345e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:19 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=yx+BObxt;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47eddddcdcfso26193885e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1768916297; x=1769521097; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XStaf7ehbBJIePHC346sE0YpAQ0kf8A6IPlxMKxuwyc=;
-        b=E9OLVIz6JFsImuJpdpt4QVQpvCLnUEYr8FOPez6EnCBee+DhsW6Le0OUsNShZ35m2G
-         wriCj1xp0N90gpq0Ge4EwKS3A8dBLew8CzQ4EsszCE6dOqaXWgngJsz5W9jM7MZI35ef
-         Q/kccCarPDf6QJMRePVBimUK0SoawGxHDa4Kw=
+        bh=eyn11i7sB5tmSoFl0T6/xfqo5Na8td3Lr7A759lewmg=;
+        b=yx+BObxtAE6ay4UGV4Gem+CV68m+7tIkF9LTdkll4IFUa+/l9pW4K3XMUb6NKSMqO/
+         qp3ggqH/Sp8fY+TtUrNgj1cm2hX4mNT93a3qyDpuydte/Qslihh6cIP3QMPk5riRArgN
+         o4SpSAnQscfoht7ZrW+4HVQbmfAez9SCuD3LM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1768916297; x=1769521097;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XStaf7ehbBJIePHC346sE0YpAQ0kf8A6IPlxMKxuwyc=;
-        b=DfyJYsJeKy+pf08t6PBmMh2liiRjr2pVV2g2m8vppVmrdqxG9JPxsZvaX+Ld5N5+NF
-         8Cj6kTTy4R8QYjqVT5XVSsb0d5dift2GJQ0CVUEgMk6+sGubSEBBTKs4FwvMBGzf9TA0
-         /hOACqACCvzFuomILyLB9DpkXMgJdcsV9O+6uYTprVQNDLIC9n+58W1gwLQgkeoTM9lF
-         AbU3i6Y9QriDVY783SdYze77QCGDQXDkNBxpVUu32iobNzCGbvGYLa6Lv9g3dW5zDFZ3
-         JfKNU/GVkSVtyvHZHmwEMPEAdVh5CspzAe1IlCfKDMr1vQRvWfvvi/uSPfBjBCdiK9Gl
-         E6AQ==
-X-Gm-Message-State: AOJu0Yx59JpNlW93L04YgP09rRKwvyNKkd+MNi+nY48Rc2SDxcel2Tkl
-	D4tOE3GQUk6rE4DJbHv70CxQi/LZANd7yunemjktRlTuu32C/5b/8miIFoSH7gz+Ao8gPQma4Ao
-	LB9ud
-X-Gm-Gg: AY/fxX5C0WHK9WXcPxHvPw2udVa+6TF+VtWSCUZORcEf4NEVV8Mqwm1LXRK2SecOxc/
-	P7YHZ6G06OCLikektGxRrxjIuH4fcMc46ZeSSEkpy3rqw1ZJRZD15o2ED6RXZh2jS0TPaW5IMLZ
-	5P2KQJEQqLV+C017ZMeo8hK135x9LxFlDHAQ1tSnljW/3uydFf5LTZzkMXVhZUM9n04+di902VX
-	XvIQ4ksWgw2UtQfxmJlCGS88vOVKKU2R87LMRnjwBStxAmH5CjezOwsPo9q60iXvLYqc51RBksF
-	cYshgx/E5uZq+dcaxxIx0SR88b0qGc9tLj/wbImd0LV/uRaa1picIQYD0Rqkjalw/TRZgrpcLVo
-	v+vqPNuVEYA/bzOloS8Z7sTurPqoIbkBEfMrvDpTcqMC8g1D5tYIytu45/+BRofTxfwAN9XgaWs
-	T9FAdNOI7NM5H47D1Yt/AyonU8ykfr+dXSGyW9csOfoQwQNy04ZOpptPOda0vtPb2mTlVlZK2Tm
-	gx6jTJmjKjLytEpgSJG2Q==
-X-Received: by 2002:a05:600c:8109:b0:480:1c69:9d36 with SMTP id 5b1f17b1804b1-4801eb04f54mr180878705e9.17.1768916297561;
-        Tue, 20 Jan 2026 05:38:17 -0800 (PST)
+        bh=eyn11i7sB5tmSoFl0T6/xfqo5Na8td3Lr7A759lewmg=;
+        b=QnPRyqcMbArCh170XAbelTmKCsx7JqfHDl1lxt38wwg8GB5wr90PT4VPFuhzxKC0a+
+         zKtF0H95SkLjxECgUXaJQ8YQfBUai4xhvhueATYJQJkpeLYrhwUfpsgaY5EDhknYMaea
+         BQuO4o6fw8/Q0t9NbrkHBn430ME3MwRjH7YFhI0gc4sGRVd3DTzvFgljbIaihjw4Shc3
+         6QK7MXJFHUZ/yncOfsHarp9YNCrq3nzIap6Wd+odANnmBtecOH+uvs2jdCbkpSD9sHIy
+         f7KxQeNy8DBTaX/6xa8DAK1aknF/WT5jODTtdjcHx+42L1ZuEzIrA5AxoNLA/EKiFtkc
+         oLkA==
+X-Gm-Message-State: AOJu0Yz8R5wBMQ59SmJr055zMj4gkJN6cYyJ8T2atlmxcTi0xuyJW0qV
+	UObXUntskLHGJe4V5fQHUlROQUhUDW4bxims1Utj1w5RfexeXoZru5AW6U9webUdhJ6ooo6+BBj
+	/DGkA
+X-Gm-Gg: AY/fxX6zmjOQtN3gPT/MhCdHr+tWgkkNl1+hhQ9yjap4cFSo0LbzZtj2d496Ta3hOAe
+	jL7rodNyv5dbEP2GGQrPPV0hKNXZOKS37pay9SId7yJKNYKvQ15unB3KJtEte04qev8MUJePm3Q
+	Mml8nAWnwma1TBS5115v8p4iox8MKS4DHtr3wtrIIzmv/zNatS6p3BBBgwGj1ixtnnTMElKhzla
+	3DJYP8g7ZgDkwR4naPEVoVowN7yeLY49njLtx3J0MC5oRtiwZIhLPz1NA0lFKgWAzhUst8bwz9g
+	dhZb9uzZbzHZGXmNdVCIqnxkWgLYH/rnW2u54Gqn89WOxVz6ODpvqLjrN2Yzobtytp6o0ukFF2i
+	Xiw0DO1/L43Iph7EVQY8+eMx7PAdW/vFZ6R0ysOpT3tZY1lncehXNgZEIcmLG/gU05GJLh8SF7S
+	LczVtKSLmcEZDFzZ5P5wTx8MsqjnNuSbK1xvVQ1wOokwbI0K5UbQznfPVu0LW83091NlhlQ+Bf4
+	FPILS+kh7mEtvi8F8ol9Mrwe+VGw2sy
+X-Received: by 2002:a05:600c:1552:b0:47e:e946:3a72 with SMTP id 5b1f17b1804b1-4801eb0e021mr184937405e9.27.1768916296932;
+        Tue, 20 Jan 2026 05:38:16 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:17 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:16 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/26] pseudo: 1.9.0 -> 1.9.2
-Date: Tue, 20 Jan 2026 14:37:43 +0100
-Message-ID: <829a0d214c3f47d37f6d8b00404243a021dfe411.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 20/26] pseudo: Upgrade to version 1.9.1
+Date: Tue, 20 Jan 2026 14:37:42 +0100
+Message-ID: <db8ce12077822de97f1b0b7128b14624c2d369c1.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
 References: <cover.1768914702.git.yoann.congal@smile.fr>
@@ -66,32 +66,194 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229727
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229726
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+This brings in:
+ * nftw, nftw64: add wrapper
+ * ftw, nftw, ftw64, nftw64: add tests
+ * Move ftw and ftw64 to calling ntfw and nftw64
+ * makewrappers: Introduce 'array' support
+ * pseudo_util.c: Avoid warning when we intentionally discard const
+ * pseudo_client.c: Fix warning
+ * yocto-older-glibc-symbols.path: Add as a reference patch
+ * pseudo/pseudo_client: Add wrapper functions to operate correctly with glibc 2.38 onwards
+ * configure: Prune PIE flags
+ * test/test-parallel-rename.sh: Add parallel rename test
+ * test/test-parallel-symlinks.sh: Add parallel symlink test
+ * ports/linux/guts: Add .gitignore to ignore generated files
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 48a42747fd280ce68283e1491971d22273e3bdf2)
+(cherry picked from commit 994e508b2a0ede8b5cc4fe39444cf25dc9a53faf)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../0001-configure-Prune-PIE-flags.patch      | 44 -------------
+ .../pseudo/files/glibc238.patch               | 65 -------------------
+ .../pseudo/files/older-glibc-symbols.patch    |  4 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  4 +-
+ 4 files changed, 3 insertions(+), 114 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/glibc238.patch
 
+diff --git a/meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch b/meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
+deleted file mode 100644
+index 43504eaab9..0000000000
+--- a/meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From b5545c08e6c674c49aef14b47a56a3e92df4d2a7 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 17 Feb 2016 07:36:34 +0000
+-Subject: [pseudo][PATCH] configure: Prune PIE flags
+-
+-LDFLAGS are not taken from environment and CFLAGS is used for LDFLAGS
+-however when using security options -fpie and -pie options are coming
+-as part of ARCH_FLAGS and they get into LDFLAGS of shared objects as
+-well so we end up with conflicting options -shared -pie, which gold
+-rejects outright and bfd linker lets the one appearning last in cmdline
+-take effect. This create quite a unpleasant situation in OE when
+-security flags are enabled and gold or not-gold options are used
+-it errors out but errors are not same.
+-
+-Anyway, with this patch we filter pie options from ARCH_FLAGS
+-ouright and take control of generating PIC objects
+-
+-Helps with errors like
+-
+-| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: pseudo_client.o: relocation R_X86_64_PC32 against symbol `pseudo_util_debug_flags' can not be used when making a shared object; recompile with -fPIC
+-| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: final link failed: Bad value
+-| collect2: error: ld returned 1 exit status
+-| make: *** [lib/pseudo/lib64/libpseudo.so] Error 1
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- configure | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/configure b/configure
+-index e5ef9ce..83b0890 100755
+---- a/configure
+-+++ b/configure
+-@@ -339,3 +339,5 @@ sed -e '
+-   s,@ARCH@,'"$opt_arch"',g
+-   s,@BITS@,'"$opt_bits"',g
+- ' < Makefile.in > Makefile
+-+
+-+sed -i -e 's/\-[f]*pie//g' Makefile
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-devtools/pseudo/files/glibc238.patch b/meta/recipes-devtools/pseudo/files/glibc238.patch
+deleted file mode 100644
+index dfb5c283f6..0000000000
+--- a/meta/recipes-devtools/pseudo/files/glibc238.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-glibc 2.38 would include  __isoc23_strtol and similar symbols. This is trggerd by
+-_GNU_SOURCE but we have to set that for other definitions. Therefore play with defines
+-to turn this off within pseudo_wrappers.c. Elsewhere we can switch to _DEFAULT_SOURCE
+-rather than _GNU_SOURCE.
+-
+-Upstream-Status: Pending
+-
+-Index: git/pseudo_wrappers.c
+-===================================================================
+---- git.orig/pseudo_wrappers.c
+-+++ git/pseudo_wrappers.c
+-@@ -6,6 +6,18 @@
+-  * SPDX-License-Identifier: LGPL-2.1-only
+-  *
+-  */
+-+/* glibc 2.38 would include  __isoc23_strtol and similar symbols. This is trggerd by
+-+ * _GNU_SOURCE but we have to set that for other definitions. Therefore play with defines
+-+ * to turn this off.
+-+ */
+-+#include <features.h>
+-+#undef __GLIBC_USE_ISOC2X
+-+#undef __GLIBC_USE_C2X_STRTOL
+-+#define __GLIBC_USE_C2X_STRTOL 0
+-+#undef __GLIBC_USE_ISOC23
+-+#undef __GLIBC_USE_C23_STRTOL
+-+#define __GLIBC_USE_C23_STRTOL 0
+-+
+- #include <assert.h>
+- #include <stdlib.h>
+- #include <limits.h>
+-Index: git/pseudo_util.c
+-===================================================================
+---- git.orig/pseudo_util.c
+-+++ git/pseudo_util.c
+-@@ -8,6 +8,17 @@
+-  */
+- /* we need access to RTLD_NEXT for a horrible workaround */
+- #define _GNU_SOURCE
+-+/* glibc 2.38 would include  __isoc23_strtol and similar symbols. This is trggerd by
+-+ * _GNU_SOURCE but we have to set that for other definitions. Therefore play with defines
+-+ * to turn this off.
+-+ */
+-+#include <features.h>
+-+#undef __GLIBC_USE_ISOC2X
+-+#undef __GLIBC_USE_C2X_STRTOL
+-+#define __GLIBC_USE_C2X_STRTOL 0
+-+#undef __GLIBC_USE_ISOC23
+-+#undef __GLIBC_USE_C23_STRTOL
+-+#define __GLIBC_USE_C23_STRTOL 0
+- 
+- #include <ctype.h>
+- #include <errno.h>
+-Index: git/pseudo_client.c
+-===================================================================
+---- git.orig/pseudo_client.c
+-+++ git/pseudo_client.c
+-@@ -6,7 +6,7 @@
+-  * SPDX-License-Identifier: LGPL-2.1-only
+-  *
+-  */
+--#define _GNU_SOURCE
+-+#define _DEFAULT_SOURCE
+- 
+- #include <stdio.h>
+- #include <signal.h>
+diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+index c453b5f735..f42b32b8d9 100644
+--- a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
++++ b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+@@ -28,10 +28,10 @@ diff --git a/Makefile.in b/Makefile.in
+ @@ -120,7 +120,7 @@ $(PSEUDODB): pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o | $(BIN)
+  libpseudo: $(LIBPSEUDO)
+  
+- $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_ipc.o $(SHOBJS) | $(LIB)
++ $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o $(SHOBJS) | $(LIB)
+ -	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+ +	$(CC) $(CFLAGS)  -Lprebuilt/$(shell uname -m)-linux/lib/ $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+- 		pseudo_client.o pseudo_ipc.o \
++ 		pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o \
+  		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
+  
+ diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index a4ce08378b..a4053ac2b3 100644
+index 405d2340ae..a4ce08378b 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,9 +12,9 @@ SRC_URI:append:class-nativesdk = " \
+@@ -1,8 +1,6 @@
+ require pseudo.inc
+ 
+ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master \
+-           file://0001-configure-Prune-PIE-flags.patch \
+-           file://glibc238.patch \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
+@@ -14,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
      file://older-glibc-symbols.patch"
  SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--SRCREV = "3fac97341f0f8270ca28a91098d0a58ca306a6bd"
-+SRCREV = "b4645cb30573c5b3d5e94b9d50e1e2f8beefe9be"
+-SRCREV = "28dcefb809ce95db997811b5662f0b893b9923e0"
++SRCREV = "3fac97341f0f8270ca28a91098d0a58ca306a6bd"
  S = "${WORKDIR}/git"
--PV = "1.9.0+git${SRCPV}"
-+PV = "1.9.2"
+ PV = "1.9.0+git${SRCPV}"
  
- # largefile and 64bit time_t support adds these macros via compiler flags globally
- # remove them for pseudo since pseudo intercepts some of the functions which will be
 
