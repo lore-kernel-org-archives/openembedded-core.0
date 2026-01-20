@@ -1,95 +1,147 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C8AD2ED0F
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:47:16 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6668.1768916831636922543
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 078C9D2ECE9
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:52:57 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6773.1768917169126081871
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 05:47:11 -0800
+ Tue, 20 Jan 2026 05:52:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k02dhO6o;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=EYnrNdVu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019bdba8ca26-2433d14a-6be6-460a-845f-44cf56fc0d2f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768916830; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=j2QopmEehxryJsrC2JuXbO3BAEe/oUej9PqwqZLaRt4=;
-	b=k02dhO6ojV0X/qvMy6UmOrmVXQ9mHQof0REjHVjimo041REs3GYdApB94i2yK8j0
-	xiQZOCQcctzTYsBoM2SIdDjzLc2R6CiEUlpGck4DS/2YdLyYqq5SlYEQQxl6h1TawAG
-	G3dLUPvNMz6X/Sju+pvmG2sXEs94s9HGTq5yP4jk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768916830;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=j2QopmEehxryJsrC2JuXbO3BAEe/oUej9PqwqZLaRt4=;
-	b=EYnrNdVuy0y0J7zWzCoYimcPuIh52EgT/lGYIpy46uxax0K/VA0bzmXAju5Gwu4M
-	8euSWUbnXCveJNb4f8cYyzcXheAuu1ZSLYYOsy3NOlbYUA3lP6iPrHpskxyfje5qX2F
-	y4ZH/9WE05hSXaBC9BJAlxr/psMJJ6qNXIQN0fos=
-From: patchtest@automation.yoctoproject.org
-To: Yoann Congal <yoann.congal@smile.fr>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone 08/26] cups: allow unknown directives in conf
- files
-In-Reply-To: 
- <d5ffa7b0c9ef975a53d743205d2a1d159cf54bf1.1768914702.git.yoann.congal@smile.fr>
-References: 
- <d5ffa7b0c9ef975a53d743205d2a1d159cf54bf1.1768914702.git.yoann.congal@smile.fr>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019bdba8ca26-2433d14a-6be6-460a-845f-44cf56fc0d2f-000000@us-west-2.amazonses.com>
-Date: Tue, 20 Jan 2026 13:47:10 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.20-54.240.27.193
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=DjN+Yf00;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202601201352461adbb9b22f000207e0-6c8hhj@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202601201352461adbb9b22f000207e0
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 20 Jan 2026 14:52:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=5WDdrhr4rkPhxIFDRN2Qj9/nOm6ndbuytNlwqWfsWV8=;
+ b=DjN+Yf00Jk1pJGf3az9c9bpeLHxqH9J/+WXwKbypIfQ/Ex6ppQWaXINY2rznkFrTgw68NG
+ UVVv8JXCEFCe+6JHq7uUXM9cTZgicG4FShkTnmS6Hl5iIiJnlqDanaylCTAEX81J7r7wG0Uc
+ Bjfryh4t4jUmawpYDcHTdHCClUlk31s0UzzoxmqNBar4rcpYpdmR13eUVQTsXL50DMfxPmrk
+ MdxAgJaDMD2eW2En4ALtiOHRcDXBrYH6CU9n8xWwhkxSlo6EGQgN3J1KfK8afCotj95VtxvU
+ ZeJgrXnzg7j2xK3J1BskPSqfQn/oiqZprIqap1tiXxCEWfIVX8isX+Rw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH v2] python3-urllib3: patch CVE-2025-66418
+Date: Tue, 20 Jan 2026 14:52:43 +0100
+Message-Id: <20260120135243.2125879-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:47:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229733
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:52:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229735
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Pick patch per [1].
 
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-66418
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-08-26-cups-allow-unknown-directives-in-conf-files.patch
+ .../python3-urllib3/CVE-2025-66418.patch      | 74 +++++++++++++++++++
+ .../python/python3-urllib3_1.26.20.bb         |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
+new file mode 100644
+index 00000000000..b490019d877
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
+@@ -0,0 +1,74 @@
++From 24d7b67eac89f94e11003424bcf0d8f7b72222a8 Mon Sep 17 00:00:00 2001
++From: Illia Volochii <illia.volochii@gmail.com>
++Date: Fri, 5 Dec 2025 16:41:33 +0200
++Subject: [PATCH] Merge commit from fork
++
++* Add a hard-coded limit for the decompression chain
++
++* Reuse new list
++
++CVE: CVE-2025-66418
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/24d7b67eac89f94e11003424bcf0d8f7b72222a8]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ changelog/GHSA-gm62-xv2j-4w53.security.rst |  4 ++++
++ src/urllib3/response.py                    | 12 +++++++++++-
++ test/test_response.py                      | 10 ++++++++++
++ 3 files changed, 25 insertions(+), 1 deletion(-)
++ create mode 100644 changelog/GHSA-gm62-xv2j-4w53.security.rst
++
++diff --git a/changelog/GHSA-gm62-xv2j-4w53.security.rst b/changelog/GHSA-gm62-xv2j-4w53.security.rst
++new file mode 100644
++index 00000000..6646eaa3
++--- /dev/null
+++++ b/changelog/GHSA-gm62-xv2j-4w53.security.rst
++@@ -0,0 +1,4 @@
+++Fixed a security issue where an attacker could compose an HTTP response with
+++virtually unlimited links in the ``Content-Encoding`` header, potentially
+++leading to a denial of service (DoS) attack by exhausting system resources
+++during decoding. The number of allowed chained encodings is now limited to 5.
++diff --git a/src/urllib3/response.py b/src/urllib3/response.py
++index 4ba42136..069f726c 100644
++--- a/src/urllib3/response.py
+++++ b/src/urllib3/response.py
++@@ -135,8 +135,18 @@ class MultiDecoder(object):
++         they were applied.
++     """
++ 
+++    # Maximum allowed number of chained HTTP encodings in the
+++    # Content-Encoding header.
+++    max_decode_links = 5
+++
++     def __init__(self, modes):
++-        self._decoders = [_get_decoder(m.strip()) for m in modes.split(",")]
+++        encodings = [m.strip() for m in modes.split(",")]
+++        if len(encodings) > self.max_decode_links:
+++            raise DecodeError(
+++                "Too many content encodings in the chain: "
+++                f"{len(encodings)} > {self.max_decode_links}"
+++            )
+++        self._decoders = [_get_decoder(e) for e in encodings]
++ 
++     def flush(self):
++         return self._decoders[0].flush()
++diff --git a/test/test_response.py b/test/test_response.py
++index 9592fdd9..d824ae70 100644
++--- a/test/test_response.py
+++++ b/test/test_response.py
++@@ -295,6 +295,16 @@ class TestResponse(object):
++ 
++         assert r.data == b"foo"
++ 
+++    def test_read_multi_decoding_too_many_links(self) -> None:
+++        fp = BytesIO(b"foo")
+++        with pytest.raises(
+++            DecodeError, match="Too many content encodings in the chain: 6 > 5"
+++        ):
+++            HTTPResponse(
+++                fp,
+++                headers={"content-encoding": "gzip, deflate, br, zstd, gzip, deflate"},
+++            )
+++
++     def test_body_blob(self):
++         resp = HTTPResponse(b"foo")
++         assert resp.data == b"foo"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_1.26.20.bb b/meta/recipes-devtools/python/python3-urllib3_1.26.20.bb
+index 58988e42055..1f1132d5b5d 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_1.26.20.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_1.26.20.bb
+@@ -9,6 +9,7 @@ inherit pypi setuptools3
+ 
+ SRC_URI += " \
+     file://CVE-2025-50181.patch \
++    file://CVE-2025-66418.patch \
+ "
+ 
+ RDEPENDS:${PN} += "\
 
