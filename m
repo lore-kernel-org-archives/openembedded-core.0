@@ -2,215 +2,263 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F02BAD2ECF7
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:15 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6465.1768916285463963380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E59ED2ED16
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:16 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6474.1768916294017131628
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 05:38:05 -0800
+ Tue, 20 Jan 2026 05:38:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=pPTp9Fwj;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso50646575e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:05 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=phthxzav;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee0291921so36471615e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768916283; x=1769521083; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GmINQwgmYKePf3O9IyFxrytdJ89b5Oj88kg+hmdsa/E=;
-        b=pPTp9FwjHa6QKSl4eMyrwQUrstW/3RtLIZZ/x57yrNp7CW2+VtO4uxE9tfb7GhIjvn
-         HYc+J7SYNvz8hWUsZKRKjxT2v8yHKelZH/7T3x1ZP68/pqQ9XEsEpvkEXbT9v/CHc20b
-         bYmxVHsNjIvW/VdpSTOtPZa5I1HyYlBmt5NwI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768916283; x=1769521083;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1768916292; x=1769521092; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GmINQwgmYKePf3O9IyFxrytdJ89b5Oj88kg+hmdsa/E=;
-        b=o3eelAdfGYwCg/4ThWF6mOryNCVZWPPyEbFWZWV/t/0q6XGR/NzZxjb+LIl5uQS2J2
-         i28+un6qh2gPvO58Ec8ufqr6C5mWB8lJ0XLIzRGeqULlvDgzBuKH2PUPhj8USUVYGIPD
-         df4rk4lSAOS0KiohiJJtLMFtjRMiO/AIg7zAN5FJMzY99U/e0QiC5tMUrei7DevjZozI
-         g89OjhCsHnqlE4OrzXCoJ3DBXQFLFJpzM4BPTejBIBTL0WYbTIh0NK7DnTFJtR0NStUY
-         i+rFR/O61T82fsezgtgJThe7AzlB9goBu1E8KgRPEdtYq36hWoXajNIrY7BvSnNVs1jn
-         ZGqg==
-X-Gm-Message-State: AOJu0YwaUh8u8RYYclKI/mIFNT25i8tL/l+RZd4tm19u+8xVePW+o82V
-	l0kw7qXT6Rr5r+1cU8J0RnOJv9DdxWYtJcDMkyzf2JPGE5FdmCej2yhPM0sxyKVEHcI1W9DP1WJ
-	1eyx0
-X-Gm-Gg: AY/fxX7R+4XlqVYH3D7/mAwKiElUhBSrEHu23GF/Oyr/E9wYFcSJjBLZmpHVX2uHc0m
-	EogdZv58IMl0qfhgm6bNCPG2hq50W0mat9ZYuTLnAdBpgCh2ix727BSFm9cg7euSJp3OcVB7qDD
-	PMNN5Q7yT5wm7P9ZYAB153mGiq1OPbYNe4kxaxbm2fDr9VmUnOgBrP1x/IZ/vUtq8clYlsYYuFL
-	LzIe/UN5rhK46R9QNVGArfBz2IBwbyFQey/lyPCMmXaoEClcqJotvQnrJxwhZe/Q2C5tlFRfbW1
-	GQCWVrBo+C6BxmBJP22CJVlAtHbUkmsamffOpPz+MC1USz7/AQPPgP2wbwH9OzMopTRv3lCHfTG
-	qkJ/9z2UNhpN5fEK2TGHWQh5nUebQNZyCQdRVWlNucX0drbDkKft/6XaVVtp53O3fb00Ce6DAso
-	h9xwSi0mQfWmFDS6wSKpORUaIE0JrFbmYJ+BA+eaSv/MI0Ck1Zdo/Qru5KXvwoPmYLwNjdebCdY
-	ElwfpnqX/hOE6NyQxbbIw==
-X-Received: by 2002:a05:600c:1d15:b0:477:5ad9:6df1 with SMTP id 5b1f17b1804b1-4803caa7f4dmr30433095e9.3.1768916283371;
-        Tue, 20 Jan 2026 05:38:03 -0800 (PST)
+        bh=FasFGe1CH0bN58XN/2TOKNzMT14WmaWgC5QxW4PkkEQ=;
+        b=phthxzaven4+j9NdeAMhfTUZ3WfTyGesAGZNCbzxzquI9UkPNbElKRMFp/luVv9pPZ
+         OQZnOQYYRciVFz3tqA/1zEBUU7Y25RhOQ2RwPJERV+840KnNLeQyuNagjOqFyw/Pzl0M
+         xRYOFbFbTIQaE0mPhBz4OLf4HnhbVPCenZV2s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768916292; x=1769521092;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FasFGe1CH0bN58XN/2TOKNzMT14WmaWgC5QxW4PkkEQ=;
+        b=CbxcfVn02rjmVE8Jor85NcmlTd0c+JX6B6FzEzhT/JIo8dDt6uNgDNEfKscFL6StUv
+         74u8KcohGD5DB2KpKOLEAvSLV1i5sIQl6A8lc+Z3Q20nrjXVPxkuWWvIFVSIXmaFtAPW
+         sJ2wpGXLSAh6DUyssAzkKoYrDoIPUiawuTWFegwZgsBvHmWKgun+HA+uh8Zs85UKUjYw
+         0RfiojgDBHH2e8AzMCSrtGJ+0SUrfRUh+UD0tuOW+ZYm4oYZZZd43RATw6788G8A3IEA
+         OjwHyVjz6mDZwV93G+kU/dhiq/1/9THl5WV3ZgJJbq8fXGp1z7MoMTb/eOIkdjpIVBZ5
+         DNuQ==
+X-Gm-Message-State: AOJu0YwCfSFOxOBnM5VYqG8TP0CqemKfWAfg93tEpl6yfIWs/cWt5Oul
+	ON9+kRW5MPYJxb7/xf+KILzQH+J1sJ7WspnaVxXcugw830qaiip9ziK0BAYyb4tXm2U8z0MiVTa
+	B50cf
+X-Gm-Gg: AY/fxX4L0uiTXwTKSv1dv/M38sdFrPPS7JncVhVvJPT+mjSCusj6i17sl7CjtRgdyiT
+	75mlGE19cqTk15q/J0BpofIHQJizeuqki0H9QzuxrOIQ++8P0r7qMZtjk44524P0eg1sBFNp77f
+	+LGXIzApQnjws0jHcegxlCpPwSQGimwFgtaO5x1MuY327qC6N/ka/W8fMkACDXzbhJP/mDmds6d
+	yEach3zMVLaL/11jIW/EEsn3gylmKnSZgS/HX0gG1O8iFyITO6ip7Z6jcDV+Ne5c1v7mDdgDtpz
+	fIODYVHEZb4cyz5oiKQyS1Zn7rlxVXULQnJdA78fy0LdHDX0O4PbBAU1oN1EgOxlVVEPlMyB8mE
+	h3yzAOXisJdJObVEymEbv0Fv9NrFKUrF11O/hHt3KMRSVEsuWv1AGamJ2qQIH3hfqrqanWrHwev
+	wTJA72xYUDw8aDqovQToia5X90Y0POqtfWcVN9wNvOettksBztfiCaGRVYEXc7G4lI9h4Nfcc+/
+	lO+q7duB9oJIPeGS6XcxQ==
+X-Received: by 2002:a05:600c:46cf:b0:479:3a88:de5e with SMTP id 5b1f17b1804b1-4801eb15549mr147769785e9.37.1768916292030;
+        Tue, 20 Jan 2026 05:38:12 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:03 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:11 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/26] Patch review
-Date: Tue, 20 Jan 2026 14:37:22 +0100
-Message-ID: <cover.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 13/26] python3: fix CVE-2025-13836
+Date: Tue, 20 Jan 2026 14:37:35 +0100
+Message-ID: <ae5ccda58ed62e93ededaa81cc3af973244caff3.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
+References: <cover.1768914702.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229706
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229719
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Thursday, January 22.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-This is the last patch review request for kirkstone 4.0.33 before it is
-built on monday: In addition to normal CVE fixes:
-* pseudo upgrade to fix 16117 – AB-INT: do_package: Error executing a python function in exec_func_python() autogenerated
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16117
-* A oeqa fix for 16137 – AB-INT: core-image-sato.bb:do_testsdk fails on ftpmirror.gnu.org returning 502 Bad Gateway
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16137
+Upstream-Status: Backport from https://github.com/python/cpython/commit/289f29b0fe38baf2d7cb5854f4bb573cc34a6a15
 
-Passed (with rebuild) a-full on autobuilder:
-* https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3090
-  * via poky-contrib stable/kirkstone-nut :
-    * OE-core tip is at https://git.yoctoproject.org/poky-contrib/commit/?h=stable/kirkstone-nut&id=08f446ecb3d3b78daaf8e5b90dec1bff6cb1d5d8
-  * meta-mingw failed https://autobuilder.yoctoproject.org/valkyrie/?#/builders/7/builds/3115
-    * Bug is: #16145 – [kirkstone] AB-INT: mingw-sdktest fail with "wine %CC" returning 1
-  * then, with the same commits, meta-mingw was successfully rebuilt https://autobuilder.yoctoproject.org/valkyrie/?#/builders/7/builds/3119
-
-The following changes since commit 0057fc49725db8637656fac10631d8f89799bad3:
-
-  go: Fix CVE-2025-61729 (2025-12-29 08:48:27 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-for you to fetch changes up to 20ff1a4ac744855b54952d7fad7424696500a230:
-
-  oeqa: Use 2.14 release of cpio instead of 2.13 (2026-01-19 23:44:02 +0100)
-
-----------------------------------------------------------------
-
-Hitendra Prajapati (1):
-  python3: fix CVE-2025-13836
-
-Khem Raj (1):
-  oeqa: Use 2.14 release of cpio instead of 2.13
-
-Paul Barker (1):
-  pseudo: Add hard sstate dependencies for pseudo-native
-
-Peter Marko (17):
-  util-linux: patch CVE-2025-14104
-  glib-2.0: patch CVE-2025-13601
-  glib-2.0: patch CVE-2025-14087
-  glib-2.0: patch CVE-2025-14512
-  qemu: ignore CVE-2025-54566 and CVE-2025-54567
-  cups: patch CVE-2025-58436
-  cups: patch CVE-2025-61915
-  cups: allow unknown directives in conf files
-  dropbear: patch CVE-2019-6111
-  python3-urllib3: patch CVE-2025-66418
-  libpcap: patch CVE-2025-11961
-  libpcap: patch CVE-2025-11964
-  libarchive: fix CVE-2025-60753 regression
-  curl: patch CVE-2025-14017
-  curl: patch CVE-2025-15079
-  curl: patch CVE-2025-15224
-  gnupg: patch CVE-2025-68973
-
-Richard Purdie (4):
-  pseudo: Upgrade to version 1.9.1
-  pseudo: Update to pull in memleak fix
-  pseudo: Update to pull in openat2 and efault return code changes
-  pseudo: Update to pull in 'makewrappers: Fix EFAULT implementation'
-
-Robert Yang (1):
-  pseudo: 1.9.0 -> 1.9.2
-
-Vijay Anusuri (1):
-  binutils: Fix CVE-2025-1181
-
- meta/lib/oeqa/runtime/cases/buildcpio.py      |   2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py          |   4 +-
- meta/lib/oeqa/selftest/cases/meta_ide.py      |   2 +-
- .../libpcap/libpcap/CVE-2025-11961-01.patch   |  38 ++
- .../libpcap/libpcap/CVE-2025-11961-02.patch   | 433 ++++++++++++
- .../libpcap/libpcap/CVE-2025-11964.patch      |  33 +
- .../libpcap/libpcap_1.10.1.bb                 |   3 +
- meta/recipes-core/dropbear/dropbear.inc       |   1 +
- .../dropbear/dropbear/CVE-2019-6111.patch     | 157 +++++
- .../glib-2.0/glib-2.0/CVE-2025-13601-01.patch | 125 ++++
- .../glib-2.0/glib-2.0/CVE-2025-13601-02.patch | 128 ++++
- .../glib-2.0/glib-2.0/CVE-2025-14087-01.patch |  69 ++
- .../glib-2.0/glib-2.0/CVE-2025-14087-02.patch | 240 +++++++
- .../glib-2.0/glib-2.0/CVE-2025-14087-03.patch | 150 +++++
- .../glib-2.0/glib-2.0/CVE-2025-14512.patch    |  70 ++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   6 +
- meta/recipes-core/util-linux/util-linux.inc   |   2 +
- .../util-linux/CVE-2025-14104-01.patch        |  33 +
- .../util-linux/CVE-2025-14104-02.patch        |  28 +
- .../binutils/binutils-2.38.inc                |   2 +
- .../binutils/binutils/CVE-2025-1181-pre.patch | 149 +++++
- .../binutils/binutils/CVE-2025-1181.patch     | 342 ++++++++++
- .../0001-configure-Prune-PIE-flags.patch      |  44 --
- .../pseudo/files/glibc238.patch               |  65 --
- .../pseudo/files/older-glibc-symbols.patch    |   4 +-
- meta/recipes-devtools/pseudo/pseudo.inc       |   7 +
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   6 +-
- .../python3-urllib3/CVE-2025-66418.patch      |  70 ++
- .../python/python3-urllib3_1.26.20.bb         |   1 +
- .../python/python3/CVE-2025-13836.patch       | 163 +++++
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../python/python3/CVE-2025-13836.patch       | 163 ++++++++++++++++++
  .../python/python3_3.10.19.bb                 |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   3 +
- meta/recipes-extended/cups/cups.inc           |   3 +
- ...pping-scheduler-on-unknown-directive.patch |  43 ++
- .../cups/cups/CVE-2025-58436.patch            | 630 ++++++++++++++++++
- .../cups/cups/CVE-2025-61915.patch            | 487 ++++++++++++++
- ...25-60753.patch => CVE-2025-60753-01.patch} |   0
- .../libarchive/CVE-2025-60753-02.patch        |  46 ++
- .../libarchive/libarchive_3.6.2.bb            |   3 +-
- .../curl/curl/CVE-2025-14017.patch            | 115 ++++
- .../curl/curl/CVE-2025-15079.patch            |  32 +
- .../curl/curl/CVE-2025-15224.patch            |  31 +
- meta/recipes-support/curl/curl_7.82.0.bb      |   3 +
- .../gnupg/gnupg/CVE-2025-68973.patch          | 108 +++
- meta/recipes-support/gnupg/gnupg_2.3.7.bb     |   1 +
- 45 files changed, 3763 insertions(+), 120 deletions(-)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-01.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-02.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-13601-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-13601-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14087-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14087-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14087-03.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1181-pre.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1181.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/glibc238.patch
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
+ 2 files changed, 164 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13836.patch
- create mode 100644 meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2025-58436.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2025-61915.patch
- rename meta/recipes-extended/libarchive/libarchive/{CVE-2025-60753.patch => CVE-2025-60753-01.patch} (100%)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-60753-02.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15079.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15224.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13836.patch b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+new file mode 100644
+index 0000000000..c4387b6019
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+@@ -0,0 +1,163 @@
++From 289f29b0fe38baf2d7cb5854f4bb573cc34a6a15 Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Fri, 5 Dec 2025 16:21:57 +0100
++Subject: [PATCH] [3.13] gh-119451: Fix a potential denial of service in
++ http.client (GH-119454) (#142139)
++
++gh-119451: Fix a potential denial of service in http.client (GH-119454)
++
++Reading the whole body of the HTTP response could cause OOM if
++the Content-Length value is too large even if the server does not send
++a large amount of data. Now the HTTP client reads large data by chunks,
++therefore the amount of consumed memory is proportional to the amount
++of sent data.
++(cherry picked from commit 5a4c4a033a4a54481be6870aa1896fad732555b5)
++
++CVE: CVE-2025-13836
++Upstream-Status: Backport [https://github.com/python/cpython/commit/289f29b0fe38baf2d7cb5854f4bb573cc34a6a15]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ Lib/http/client.py                            | 28 ++++++--
++ Lib/test/test_httplib.py                      | 66 +++++++++++++++++++
++ ...-05-23-11-47-48.gh-issue-119451.qkJe9-.rst |  5 ++
++ 3 files changed, 95 insertions(+), 4 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
++
++diff --git a/Lib/http/client.py b/Lib/http/client.py
++index d1b7b10..c8ab5b7 100644
++--- a/Lib/http/client.py
+++++ b/Lib/http/client.py
++@@ -111,6 +111,11 @@ responses = {v: v.phrase for v in http.HTTPStatus.__members__.values()}
++ _MAXLINE = 65536
++ _MAXHEADERS = 100
++ 
+++# Data larger than this will be read in chunks, to prevent extreme
+++# overallocation.
+++_MIN_READ_BUF_SIZE = 1 << 20
+++
+++
++ # Header name/value ABNF (http://tools.ietf.org/html/rfc7230#section-3.2)
++ #
++ # VCHAR          = %x21-7E
++@@ -628,10 +633,25 @@ class HTTPResponse(io.BufferedIOBase):
++         reading. If the bytes are truly not available (due to EOF), then the
++         IncompleteRead exception can be used to detect the problem.
++         """
++-        data = self.fp.read(amt)
++-        if len(data) < amt:
++-            raise IncompleteRead(data, amt-len(data))
++-        return data
+++        cursize = min(amt, _MIN_READ_BUF_SIZE)
+++        data = self.fp.read(cursize)
+++        if len(data) >= amt:
+++            return data
+++        if len(data) < cursize:
+++            raise IncompleteRead(data, amt - len(data))
+++
+++        data = io.BytesIO(data)
+++        data.seek(0, 2)
+++        while True:
+++            # This is a geometric increase in read size (never more than
+++            # doubling out the current length of data per loop iteration).
+++            delta = min(cursize, amt - cursize)
+++            data.write(self.fp.read(delta))
+++            if data.tell() >= amt:
+++                return data.getvalue()
+++            cursize += delta
+++            if data.tell() < cursize:
+++                raise IncompleteRead(data.getvalue(), amt - data.tell())
++ 
++     def _safe_readinto(self, b):
++         """Same as _safe_read, but for reading into a buffer."""
++diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
++index 77152cf..89ec5f6 100644
++--- a/Lib/test/test_httplib.py
+++++ b/Lib/test/test_httplib.py
++@@ -1226,6 +1226,72 @@ class BasicTest(TestCase):
++         thread.join()
++         self.assertEqual(result, b"proxied data\n")
++ 
+++    def test_large_content_length(self):
+++        serv = socket.create_server((HOST, 0))
+++        self.addCleanup(serv.close)
+++
+++        def run_server():
+++            [conn, address] = serv.accept()
+++            with conn:
+++                while conn.recv(1024):
+++                    conn.sendall(
+++                        b"HTTP/1.1 200 Ok\r\n"
+++                        b"Content-Length: %d\r\n"
+++                        b"\r\n" % size)
+++                    conn.sendall(b'A' * (size//3))
+++                    conn.sendall(b'B' * (size - size//3))
+++
+++        thread = threading.Thread(target=run_server)
+++        thread.start()
+++        self.addCleanup(thread.join, 1.0)
+++
+++        conn = client.HTTPConnection(*serv.getsockname())
+++        try:
+++            for w in range(15, 27):
+++                size = 1 << w
+++                conn.request("GET", "/")
+++                with conn.getresponse() as response:
+++                    self.assertEqual(len(response.read()), size)
+++        finally:
+++            conn.close()
+++            thread.join(1.0)
+++
+++    def test_large_content_length_truncated(self):
+++        serv = socket.create_server((HOST, 0))
+++        self.addCleanup(serv.close)
+++
+++        def run_server():
+++            while True:
+++                [conn, address] = serv.accept()
+++                with conn:
+++                    conn.recv(1024)
+++                    if not size:
+++                        break
+++                    conn.sendall(
+++                        b"HTTP/1.1 200 Ok\r\n"
+++                        b"Content-Length: %d\r\n"
+++                        b"\r\n"
+++                        b"Text" % size)
+++
+++        thread = threading.Thread(target=run_server)
+++        thread.start()
+++        self.addCleanup(thread.join, 1.0)
+++
+++        conn = client.HTTPConnection(*serv.getsockname())
+++        try:
+++            for w in range(18, 65):
+++                size = 1 << w
+++                conn.request("GET", "/")
+++                with conn.getresponse() as response:
+++                    self.assertRaises(client.IncompleteRead, response.read)
+++                conn.close()
+++        finally:
+++            conn.close()
+++            size = 0
+++            conn.request("GET", "/")
+++            conn.close()
+++            thread.join(1.0)
+++
++     def test_putrequest_override_domain_validation(self):
++         """
++         It should be possible to override the default validation
++diff --git a/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
++new file mode 100644
++index 0000000..6d6f25c
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
++@@ -0,0 +1,5 @@
+++Fix a potential memory denial of service in the :mod:`http.client` module.
+++When connecting to a malicious server, it could cause
+++an arbitrary amount of memory to be allocated.
+++This could have led to symptoms including a :exc:`MemoryError`, swapping, out
+++of memory (OOM) killed processes or containers, or even system crashes.
++-- 
++2.50.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
+index 6f23d258c1..5140445ad8 100644
+--- a/meta/recipes-devtools/python/python3_3.10.19.bb
++++ b/meta/recipes-devtools/python/python3_3.10.19.bb
+@@ -38,6 +38,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
+            file://CVE-2025-6075.patch \
++           file://CVE-2025-13836.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
 
