@@ -1,238 +1,219 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02654D2ED0F
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:15:24 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4050.1768907720518463963
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F53AD2ED12
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:24:34 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4164.1768908272911993506
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 03:15:20 -0800
+ Tue, 20 Jan 2026 03:24:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=XEXAgM9l;
- spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a1388cdac3so36032385ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:15:20 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=SstLQTsA;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so27091105e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1768907720; x=1769512520; darn=lists.openembedded.org;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=21Kk14ExijPiW2koN6Icd768N4qXIa+bkskX38N40J8=;
-        b=XEXAgM9lHDuzzXNJ11nPTsxZzPEuiT2dB277N2JqMd9HA8KYUbf87u8IdGJbfGUxC7
-         FE7YFKzm43YnDe9jVjhKEdqxhHdZoiFCtQkRf1EzRZtfwHHjyjHqQk9nzW4c2iaVnLMU
-         gmj4xtOOsRN6UKcp3cYN3gcjkI2c9Mo1HHtGk=
+        d=smile.fr; s=google; t=1768908271; x=1769513071; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iCkZXbOYUY+8jeD7PaJWMDhrICPXKTTbVmavTeFyM6k=;
+        b=SstLQTsAvhaqDDUaNTvVCUmG/Tcpf6BHau60y7V5JPz8KIqJ6t0EWN++44LXJf48ET
+         gmhz7Agd613B1uvnNk5n4i85pUmMGijkSxK9BJHbgcN+8mthnnKwK7LobozxHTESZHsY
+         Fy/L5IgjMq3+7B3xismFeM4FNp39wohgj76n4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768907720; x=1769512520;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=21Kk14ExijPiW2koN6Icd768N4qXIa+bkskX38N40J8=;
-        b=lhcgD8U3H2Ei64kzSGLcCwsC71iFLjSXD+DRXMdr3ze9vbTYtZH6FWM9HnqBhFXwiX
-         Q0WDKzGnoiKKoEI0N4xcDXm4OoRhzWl1bpqsGED0bTMoBHWG6GoYHzUn10CM8OetckOB
-         VNEqMknB79tKagE7gqiwAuF3Hr7T6FCOG+Sd8/OeuwU3WJAp/fDtEXyF2NcauUMhFPbM
-         Ty7nWuAwAo5aMJbtBK+te74srUQJoDsvEYZ9PIgPTWiWbAfEa8128//eY3Ar7mcYzm/a
-         SdK8mQ4i8spVsRtGlwvS8vEyxotiuEeFiG3ZqPo7QAJdfEr7iTTs+1tm+ty99DtyNONu
-         cR8Q==
-X-Gm-Message-State: AOJu0YwSNgIpt77hJ/3Whj8ehjxQV+bpP1y6ovcNdT3XJM5oiDctttuZ
-	6oaaPSRe2D4qkYlAmvwr/kSGP0TNPeBo5gBQKmmVtmmV8PYQIuormARQXJJNUHqrDhlPIObOTlL
-	BJU6u
-X-Gm-Gg: AZuq6aJI8I8OGhwdvf/OsZmoUJcK6aPgYRCsYcGLnBE88hGZM7xwifiLChDF33usROY
-	QD0U78DIyVWib7EK3KTpcOnsusPzEBQpqvaOWwA9+rSKaaSioFN6BK26k5RKziE/U6inKjtr+xL
-	BidbebJaPV5RitY8js4rhCBKcEtlq1joFPRw0KxZguU7wlwLTumY/1lnbey84bwp3HlA+VXIMXM
-	80/E1mzEvHXHTAhPikRzZvi8Jc4B9i/jv2EdjEtVF+T2vreYHGFkUG0NbFOePh9Wn1N6LuN+II0
-	cqZLNmADHhaw4dqNWJdqcmr4yu5tmLgVfdzo0SRs/m9mhUJ5RspXgDd54twJHufQ55W3y4PQhEh
-	A0Ygbqt5QgQ1c28nHewGyzUGzwzdr/bYCFVwbgsjztNs+rp8f1JB35JjaWljpG6e3nE4mMr0MqZ
-	UeXRbMBZY+ErI0NfJ+4A==
-X-Received: by 2002:a17:903:b4f:b0:2a7:683c:afc6 with SMTP id d9443c01a7336-2a7683cb24dmr16180165ad.39.1768907719844;
-        Tue, 20 Jan 2026 03:15:19 -0800 (PST)
-Received: from [192.168.1.100] ([150.129.170.138])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7190ce53fsm123032145ad.30.2026.01.20.03.15.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 03:15:19 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------Agn7QsdZEI6Y8GhJBGkTQyhJ"
-Message-ID: <c697bb31-f5e9-4360-9264-5ce3e2386b49@mvista.com>
-Date: Tue, 20 Jan 2026 16:45:15 +0530
+        d=1e100.net; s=20230601; t=1768908271; x=1769513071;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iCkZXbOYUY+8jeD7PaJWMDhrICPXKTTbVmavTeFyM6k=;
+        b=hTG4baPjvxOZrUGeVdyiLgJkSpy3eoaQzBu8BQIDHEYtTt+XCV8FZ60IPeTbERjv4R
+         i4SBWbc+YZZbEoEym2k6X05AXevzwEQHsGjrpHXlB5h1wIFw/US0zDkosQavXTW1EUl3
+         IoOpVxbJJWX4khGxZM8H6mXOguhC8aXgnl/O7QONjxSbblxnjYhAwCiAVahY3nCFxAAI
+         /BO9ESc4WtkyqeUqBT75Q/Yztt9bK/UDtvDGArd0vD3bKchEcZGc6N/6ohtUXDX/f6Ze
+         1AyxU73waTY/ueoRHit+PSfDw8xLRpXS833bemn8eZwH7+c+xiuFU/hKrzwflTu6wgbR
+         aw6A==
+X-Gm-Message-State: AOJu0YxNzdfAOr36Yf7G6rnJ8HPhFPzub9sv3HjGeXqtFicpHiW7ra+W
+	jytkGTs+v6gNP0//Vd+T7aoVyWiYJ/gj82Fd1vgBDCLpKigHVPN2XFgaWoZ/GFH2Si7GIBGsOr5
+	Xg5Ii
+X-Gm-Gg: AY/fxX7hS6xwqqnO/jWdFbWrXVqjj0XLS6Yw7C+pZRgNdSCA3bie3bymtVBn9VB5xyP
+	xL9iJvp7TZ0TVURcNobpiTuvonuKXeXhJT2xJEx0jziWmqKO4HAC6BWeaptThmsTfEySb9wb118
+	9ViRlOr25GV66yipqCUAlBF95NGt1h9H1OQytoRDjdTlnsGtPGWgYfTU2C5eXo8eQxzntX+y23H
+	+RdXiv0rxBBNeEq04RDA97n9f4uuoPWaa2buYWRDjWLMDc87PeDR+8TENwSrdD9AhPrI3WGmrZB
+	6eZ2Sme5DWe+Lk2Oq/z5lb6ImzlKcXYhLIzT/gMbdKy02XnJN4ykLV9Dpc/fqfpNQlXlW6BVNWp
+	wEjIduFmvxd+WTNCp33Bq8gWHh3koT4GUw7AihmW1GEIr+7RFe4ySLolmeDnwxaAuJ8M9Z3epbw
+	z3zZzJPbdvXOvUJO5cTRAMNqM4snr7Q4e5GijQ87qbJcVNL1UfEMnJoR22XtegNAaX8/BN69dCi
+	2Pr2H+Ut7vdBFKOxocKoA==
+X-Received: by 2002:a05:600c:45d1:b0:477:7ae0:cd6e with SMTP id 5b1f17b1804b1-4801eab5602mr171787235e9.5.1768908270913;
+        Tue, 20 Jan 2026 03:24:30 -0800 (PST)
+Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm29558435f8f.3.2026.01.20.03.24.30
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 03:24:30 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][whinlatter 10/15] curl: patch CVE-2025-14017
+Date: Tue, 20 Jan 2026 12:23:55 +0100
+Message-ID: <f2b04c009267a57f97918787283b9a629cb50298.1768906687.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1768906687.git.yoann.congal@smile.fr>
+References: <cover.1768906687.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [scarthgap][PATCH] curl: fix CVE-2025-10148
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-References: <20260107045240.170121-1-hprajapati@mvista.com>
- <256810.1768887388424073608@lists.openembedded.org>
- <CAMSfU+62Kh1t6Be66SnUeL=OEE8JmEhm37qyT1wRy4WGrErwRw@mail.gmail.com>
-Content-Language: en-US
-From: Hitendra Prajapati <hprajapati@mvista.com>
-In-Reply-To: <CAMSfU+62Kh1t6Be66SnUeL=OEE8JmEhm37qyT1wRy4WGrErwRw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:15:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229659
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:24:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229670
 
-This is a multi-part message in MIME format.
---------------Agn7QsdZEI6Y8GhJBGkTQyhJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Peter Marko <peter.marko@siemens.com>
 
-Hi Yoann,
+Pick patch per [1].
 
-Thank you for Quick update.
+[1] https://curl.se/docs/CVE-2025-14017.html
 
-Regards,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../curl/curl/CVE-2025-14017.patch            | 116 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.17.0.bb      |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
 
-Hitendra
-
-On 20/01/26 2:42 pm, Yoann Congal wrote:
->
->
-> Le mar. 20 janv. 2026 à 06:36, Hitendra Prajapati via 
-> lists.openembedded.org <http://lists.openembedded.org> 
-> <hprajapati=mvista.com@lists.openembedded.org> a écrit :
->
->     Hi Team,
->     Any update on this ?
->
->
-> Hello,
->
-> I'm currently focussed on getting Kirkstone 4.0.33 built. And, while I 
-> will send a scarthgap patch series soon, this one is not included, sorry.
-> It does look good. I will definitely consider it for the next scartgap 
-> release (5.0.16 built on 2026-02-09).
->
-> Regards,
->
->     Regards,
->     Hitendra
->
->     -=-=-=-=-=-=-=-=-=-=-=-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#229643):
->     https://lists.openembedded.org/g/openembedded-core/message/229643
->     Mute This Topic: https://lists.openembedded.org/mt/117129750/4316185
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe:
->     https://lists.openembedded.org/g/openembedded-core/unsub
->     [yoann.congal@smile.fr]
->     -=-=-=-=-=-=-=-=-=-=-=-
->
->
->
-> -- 
-> Yoann Congal
-> Smile ECS
--- 
-Regards,
-Hitendra Prajapati
-MontaVista Software LLC
-Mo: +91 9998906483
---------------Agn7QsdZEI6Y8GhJBGkTQyhJ
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi Yoann,</p>
-    <p>Thank you for Quick update. <br>
-    </p>
-    <p>Regards,</p>
-    <p>Hitendra<font size="2"><br>
-      </font></p>
-    <div class="moz-cite-prefix">On 20/01/26 2:42 pm, Yoann Congal
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAMSfU+62Kh1t6Be66SnUeL=OEE8JmEhm37qyT1wRy4WGrErwRw@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr"><br>
-        </div>
-        <br>
-        <div class="gmail_quote gmail_quote_container">
-          <div dir="ltr" class="gmail_attr">Le mar. 20 janv. 2026
-            à 06:36, Hitendra Prajapati via <a
-              href="http://lists.openembedded.org"
-              moz-do-not-send="true">lists.openembedded.org</a>
-            &lt;hprajapati=<a
-              href="mailto:mvista.com@lists.openembedded.org"
-              moz-do-not-send="true" class="moz-txt-link-freetext">mvista.com@lists.openembedded.org</a>&gt;
-            a écrit :<br>
-          </div>
-          <blockquote class="gmail_quote"
-style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>Hi Team,</div>
-            <div>Any update on this ?</div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>Hello,</div>
-          <div><br>
-          </div>
-          <div>I'm currently focussed on getting Kirkstone 4.0.33
-            built. And, while I will send a scarthgap patch series soon,
-            this one is not included, sorry.</div>
-          <div>It does look good. I will definitely consider it for the
-            next scartgap release (5.0.16 built on 2026-02-09).</div>
-          <div><br>
-          </div>
-          <div>Regards,</div>
-          <div> </div>
-          <blockquote class="gmail_quote"
-style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div> </div>
-            <div>Regards,</div>
-            <div>Hitendra</div>
-            <br>
-            -=-=-=-=-=-=-=-=-=-=-=-<br>
-            Links: You receive all messages sent to this group.<br>
-            View/Reply Online (#229643): <a
-href="https://lists.openembedded.org/g/openembedded-core/message/229643"
-              rel="noreferrer" target="_blank" moz-do-not-send="true"
-              class="moz-txt-link-freetext">https://lists.openembedded.org/g/openembedded-core/message/229643</a><br>
-            Mute This Topic: <a
-              href="https://lists.openembedded.org/mt/117129750/4316185"
-              rel="noreferrer" target="_blank" moz-do-not-send="true"
-              class="moz-txt-link-freetext">https://lists.openembedded.org/mt/117129750/4316185</a><br>
-            Group Owner: <a
-href="mailto:openembedded-core%2Bowner@lists.openembedded.org"
-              target="_blank" moz-do-not-send="true">openembedded-core+owner@lists.openembedded.org</a><br>
-            Unsubscribe: <a
-href="https://lists.openembedded.org/g/openembedded-core/unsub"
-              rel="noreferrer" target="_blank" moz-do-not-send="true"
-              class="moz-txt-link-freetext">https://lists.openembedded.org/g/openembedded-core/unsub</a>
-            [<a href="mailto:yoann.congal@smile.fr" target="_blank"
-              moz-do-not-send="true" class="moz-txt-link-freetext">yoann.congal@smile.fr</a>]<br>
-            -=-=-=-=-=-=-=-=-=-=-=-<br>
-            <br>
-          </blockquote>
-        </div>
-        <div><br clear="all">
-        </div>
-        <br>
-        <span class="gmail_signature_prefix">-- </span><br>
-        <div dir="ltr" class="gmail_signature">
-          <div dir="ltr"><font face="Raleway, regular">Yoann Congal</font>
-            <div><font face="Raleway, regular">Smile ECS</font></div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      <font color="#0000FF">
-        Regards,<br>
-        Hitendra Prajapati<br>
-        MontaVista Software LLC<br>
-        Mo: +91 9998906483 <br>
-      </font></div>
-  </body>
-</html>
-
---------------Agn7QsdZEI6Y8GhJBGkTQyhJ--
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-14017.patch b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
+new file mode 100644
+index 0000000000..79be357ded
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
+@@ -0,0 +1,116 @@
++From 39d1976b7f709a516e3243338ebc0443bdd8d56d Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 4 Dec 2025 00:14:20 +0100
++Subject: [PATCH] ldap: call ldap_init() before setting the options
++
++Closes #19830
++
++CVE: CVE-2025-14017
++Upstream-Status: Backport [https://github.com/curl/curl/commit/39d1976b7f709a516e3243338ebc0443bdd8d56d]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/ldap.c | 50 +++++++++++++++++++-------------------------------
++ 1 file changed, 19 insertions(+), 31 deletions(-)
++
++diff --git a/lib/ldap.c b/lib/ldap.c
++index 63b2cbc414..0911a9239a 100644
++--- a/lib/ldap.c
+++++ b/lib/ldap.c
++@@ -382,16 +382,29 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     passwd = conn->passwd;
++   }
++ 
+++#ifdef USE_WIN32_LDAP
+++  if(ldap_ssl)
+++    server = ldap_sslinit(host, (curl_ldap_num_t)ipquad.remote_port, 1);
+++  else
+++#else
+++    server = ldap_init(host, (curl_ldap_num_t)ipquad.remote_port);
+++#endif
+++  if(!server) {
+++    failf(data, "LDAP: cannot setup connect to %s:%u",
+++          conn->host.dispname, ipquad.remote_port);
+++    result = CURLE_COULDNT_CONNECT;
+++    goto quit;
+++  }
+++
++ #ifdef LDAP_OPT_NETWORK_TIMEOUT
++-  ldap_set_option(NULL, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
+++  ldap_set_option(server, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
++ #endif
++-  ldap_set_option(NULL, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
+++  ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
++ 
++   if(ldap_ssl) {
++ #ifdef HAVE_LDAP_SSL
++ #ifdef USE_WIN32_LDAP
++     /* Win32 LDAP SDK does not support insecure mode without CA! */
++-    server = ldap_sslinit(host, (curl_ldap_num_t)ipquad.remote_port, 1);
++     ldap_set_option(server, LDAP_OPT_SSL, LDAP_OPT_ON);
++ #else /* !USE_WIN32_LDAP */
++     int ldap_option;
++@@ -411,7 +424,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++         goto quit;
++       }
++       infof(data, "LDAP local: using PEM CA cert: %s", ldap_ca);
++-      rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
+++      rc = ldap_set_option(server, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
++       if(rc != LDAP_SUCCESS) {
++         failf(data, "LDAP local: ERROR setting PEM CA cert: %s",
++               ldap_err2string(rc));
++@@ -423,20 +436,13 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     else
++       ldap_option = LDAP_OPT_X_TLS_NEVER;
++ 
++-    rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
+++    rc = ldap_set_option(server, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
++     if(rc != LDAP_SUCCESS) {
++       failf(data, "LDAP local: ERROR setting cert verify mode: %s",
++             ldap_err2string(rc));
++       result = CURLE_SSL_CERTPROBLEM;
++       goto quit;
++     }
++-    server = ldap_init(host, ipquad.remote_port);
++-    if(!server) {
++-      failf(data, "LDAP local: Cannot connect to %s:%u",
++-            conn->host.dispname, ipquad.remote_port);
++-      result = CURLE_COULDNT_CONNECT;
++-      goto quit;
++-    }
++     ldap_option = LDAP_OPT_X_TLS_HARD;
++     rc = ldap_set_option(server, LDAP_OPT_X_TLS, &ldap_option);
++     if(rc != LDAP_SUCCESS) {
++@@ -445,16 +451,6 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++       result = CURLE_SSL_CERTPROBLEM;
++       goto quit;
++     }
++-#if 0
++-    rc = ldap_start_tls_s(server, NULL, NULL);
++-    if(rc != LDAP_SUCCESS) {
++-      failf(data, "LDAP local: ERROR starting SSL/TLS mode: %s",
++-            ldap_err2string(rc));
++-      result = CURLE_SSL_CERTPROBLEM;
++-      goto quit;
++-    }
++-#endif
++-
++ #else /* !LDAP_OPT_X_TLS */
++     (void)ldap_option;
++     (void)ldap_ca;
++@@ -473,15 +469,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     result = CURLE_NOT_BUILT_IN;
++     goto quit;
++   }
++-  else {
++-    server = ldap_init(host, (curl_ldap_num_t)ipquad.remote_port);
++-    if(!server) {
++-      failf(data, "LDAP local: Cannot connect to %s:%u",
++-            conn->host.dispname, ipquad.remote_port);
++-      result = CURLE_COULDNT_CONNECT;
++-      goto quit;
++-    }
++-  }
+++
++ #ifdef USE_WIN32_LDAP
++   ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
++   rc = ldap_win_bind(data, server, user, passwd);
+diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
+index edae6ebb95..e0a9bae23d 100644
+--- a/meta/recipes-support/curl/curl_8.17.0.bb
++++ b/meta/recipes-support/curl/curl_8.17.0.bb
+@@ -15,6 +15,7 @@ SRC_URI = " \
+     file://disable-tests \
+     file://no-test-timeout.patch \
+     file://CVE-2025-13034.patch \
++    file://CVE-2025-14017.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
 
