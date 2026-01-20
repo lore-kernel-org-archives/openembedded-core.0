@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A54BD2ED1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 768BCCCF2DD
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:16 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6469.1768916289582528827
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6475.1768916295446131228
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 05:38:10 -0800
+ Tue, 20 Jan 2026 05:38:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=vx68Nuw8;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee76e8656so62781145e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:09 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Ux99ccDv;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso38227905e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768916288; x=1769521088; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768916294; x=1769521094; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=L5/8cL+ZZSM4mrQQm86/PXtR2dYBi8Ddu8yDFXXcmiU=;
-        b=vx68Nuw8I7TSNO0y8kWMEB57BKtWzE9hD2mlWNJcuP87Dj9438QMZJ1QXA3NNytzmN
-         4s1JhYYPsmLI/l3LWpZPfPrXPQP5T4OI1U88pjmfIUzjRlp0avrrA7P8Xy7eTzyknZlB
-         b5rHp/qNBoLG6SxCBkIVD+iLOiiCtGOuD3+gg=
+        bh=HpXrPLagsO1Gm2P9neCLNl+ucO0IwNjwE459Blz7BLY=;
+        b=Ux99ccDv6vSogY8zrhwmJgsbBuX5pRM+v4gOn7YIfqAMO76DGrBm87BYEvaLF5I3sO
+         h9c2OU2oYl15BimFDbj4hyZtQ1IHLEVy0GsdpjKs8KQWzTePm9yJWoSDhofitZWP+V94
+         R+/dTi7Qn+ifB20iZqaOpuCv+n4ivzsRdVH3A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768916288; x=1769521088;
+        d=1e100.net; s=20230601; t=1768916294; x=1769521094;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=L5/8cL+ZZSM4mrQQm86/PXtR2dYBi8Ddu8yDFXXcmiU=;
-        b=KuasMMkOulRHHSdjShoNN1cUSqsKznU8IhkuUBJbNfDfbmyJc7LDlFOKlQ0TV6vteZ
-         W7uBBBLdZd5KQgncouNDnkK5wYC4fBb7RY+b1tThNy1pM2MGIO+/fYBINjA1zU/nMRqi
-         1SDY//V+Pw1ngk1bG5EoUm9HAAOk+sxOoZ2xBP10ffHHyaE3ufBDzGFcfaniC42+rhRC
-         gJvvGm5yLfbw2b9TGHunFMMuvrrIBthQM8QcYWbksXOfW+CRD6qpvMhvoZ34Sg66TL91
-         gy8tNuVOFbZrU06CDF8Wi0tSSnDh7jvp7/NGwmLFzW3yW/R7+Bm0Gh4+5v45AFrvCRc2
-         FEtg==
-X-Gm-Message-State: AOJu0Yy9eMFsKU6yk5pnYKQFkFwLd97kkyljwTSH1vmJTKnqMXpgjQ+X
-	M04jS36ReqfPBWDG0duXJ1i1zzAGoCbB6lXnjLfAboHt9yZAv2u0CTTpTmhCzNrJO0ia0qqd6tZ
-	Btdg4
-X-Gm-Gg: AY/fxX4JX6I/UfS6il8F/G9hVmukLPSX2q7I8lKeyCJrtsqxwprm7rherBl/GSGXrGF
-	+aSJLYx7y7zCRiYdb6/HYAY1GP4m0JrLOiOdEXFkXnuJGQS9TgfgIleahM7lBu2iMvgY712Gq3i
-	vzy5BaZYPF0Cp+GMwCcHXDy/C8OEmhOGojbV79eOf4C0zDR3GW6gzOxtvG+BRhksDxcs7mqSwBB
-	xSEejyHkwsvVhuyFCNZIdBoaiEU1inEJ0hNlAHQTks6636cmQhnqF4/eyrWToGRHR8YhEay3lWQ
-	Vc4lppRPLEhQoBtVi6c4VSmq2MYKIRDSED5m48HHG8dNfkwNFgIPznFIvAbuu3ErmxYTTA1xBec
-	D09+lgumGy2qVD9CiURJHaDiAHySCjA9aVbVBTG1zslfxBPAiX6cCcCji3EfHPCdV+vOZcWFxNP
-	3/6+4RTZ9vJ9A9a/TpuZRecWXZrvW9E7QGHeDmXoOERGhyFwi/xSzB3wlMa/6G6CZ8xx71KkCbz
-	tPIJ3GSUuFCj22njLB0Qg==
-X-Received: by 2002:a05:600c:1c0f:b0:477:9986:5e6b with SMTP id 5b1f17b1804b1-480416867bemr4979785e9.28.1768916287220;
-        Tue, 20 Jan 2026 05:38:07 -0800 (PST)
+        bh=HpXrPLagsO1Gm2P9neCLNl+ucO0IwNjwE459Blz7BLY=;
+        b=VhUF58Weeez45bBMngREwBOo48MWI43Nkb+oXcXRwDqZBAw3V+QcXtUg5IxdDN5SKG
+         yQRwRE06oV7KPnzKBr9nJBWzwoxQwLah5yyqla+1t3wSsWnWWhU+/jnUcXt7zMGkfUjF
+         1LSmYN4jF4YHL2cBDpG098gmBwFzQ2BqIk7DJT2bv71ukVsiysm8q8Vi8ZZnxZ96Tfbl
+         aTBZOFldOdhJW0oQulT/OKPgVfmiok80ehcT8ZTBK7bfIwoBK0PlACbReyM5M/4Js7Ne
+         BYxlkgSeiMCOhai9VKw5Mjo58ktA/VJhz03Q1D2jRYsJP/3Too/SlmfzkKu0htzQnQc7
+         +jtw==
+X-Gm-Message-State: AOJu0YyFlQ93fdbqweOrqokTu9P90wsG698Uy3NBf0woGZabucB8EbJA
+	4vAM7Z5ai9vct6EhYtRBTMxqRMN2RvADbi7euOKpIpjW4vqnvVLJTTtVVOtAEqym+dab18tBQCU
+	WwGCP
+X-Gm-Gg: AY/fxX6Zm3u22GWooiSPd908DDK16U09G3iREUKec1T6S8oDY0IOKzaEG6Ky3FJFj8/
+	SrcZJgZiqUwZgyFQRcYq+heKbccFwXUcIu/6zb3CMtgeRBvjBLBrO/WT6dPwfzb5dDZY7Y9/TQg
+	I+LvZ7z7H82Q6CNznFlZ6WfQg0378UO/kvrDknD4jnfWI5Ht58sMQ5iqA1PE8E/NonF0ohRH7MG
+	2Mdh658LLzuOYwBIDKCEtXDBeSxu1CXpWeQDpwHAniIC5tO5iVNaQq1oFWN2XVzekOrGtK1TaQU
+	nhnVr3ee8vbj2W3AbO+dd6ZcodXrlxW70vXuxebP+sYWZd2Pm5c80Gu/xaknubCXekjy5erGav8
+	RSMCokSjBSBarsz4QWhhOhs2v06MC3AGXs+7GkA7T7KHNFnDDU6CIILLNieWmY3Ogrm/f6nCZpJ
+	mH8+eAJualHuuEwoUQp7stzb0J9CGiUXFLySHG5esIqMCM0Gj0vXf6/eW9gckysAR+N5Eljd0+E
+	iiT8XoIm8xrm1/Ybjxu5Q==
+X-Received: by 2002:a05:600c:8b21:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-4801e30b946mr202534595e9.13.1768916293585;
+        Tue, 20 Jan 2026 05:38:13 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:06 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:13 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/26] cups: patch CVE-2025-58436
-Date: Tue, 20 Jan 2026 14:37:28 +0100
-Message-ID: <a5f7dadf4a11bd934bc5ae602f6f24892a907448.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 15/26] curl: patch CVE-2025-14017
+Date: Tue, 20 Jan 2026 14:37:37 +0100
+Message-ID: <11e04ebbc7556e04020b1f7c04f09dafe3ecbc49.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
 References: <cover.1768914702.git.yoann.congal@smile.fr>
@@ -66,668 +66,153 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229712
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229721
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from branch 2.4.x corresponding to patch mentioned in [1].
+Pick patch per [1].
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-58436
+[1] https://curl.se/docs/CVE-2025-14017.html
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/cups/cups.inc           |   1 +
- .../cups/cups/CVE-2025-58436.patch            | 630 ++++++++++++++++++
- 2 files changed, 631 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2025-58436.patch
+ .../curl/curl/CVE-2025-14017.patch            | 115 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+ 2 files changed, 116 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index cba4406720..c808eef9a7 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -27,6 +27,7 @@ SRC_URI = "https://github.com/OpenPrinting/cups/releases/download/v${PV}/cups-${
- 	   file://CVE-2024-47175-5.patch \
- 	   file://CVE-2025-58060.patch \
- 	   file://CVE-2025-58364.patch \
-+           file://CVE-2025-58436.patch \
-            "
- 
- UPSTREAM_CHECK_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2025-58436.patch b/meta/recipes-extended/cups/cups/CVE-2025-58436.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-14017.patch b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
 new file mode 100644
-index 0000000000..388c5e57b5
+index 0000000000..a18e1d74dd
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2025-58436.patch
-@@ -0,0 +1,630 @@
-+From 5d414f1f91bdca118413301b148f0b188eb1cdc6 Mon Sep 17 00:00:00 2001
-+From: Zdenek Dohnal <zdohnal@redhat.com>
-+Date: Mon, 13 Oct 2025 10:16:48 +0200
-+Subject: [PATCH] Fix unresponsive cupsd process caused by a slow client
++++ b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
+@@ -0,0 +1,115 @@
++From 39d1976b7f709a516e3243338ebc0443bdd8d56d Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 4 Dec 2025 00:14:20 +0100
++Subject: [PATCH] ldap: call ldap_init() before setting the options
 +
-+If client is very slow, it will slow cupsd process for other clients.
-+The fix is the best effort without turning scheduler cupsd into
-+multithreaded process which would be too complex and error-prone when
-+backporting to 2.4.x series.
++Closes #19830
 +
-+The fix for unencrypted communication is to follow up on communication
-+only if there is the whole line on input, and the waiting time is
-+guarded by timeout.
-+
-+Encrypted communication now starts after we have the whole client hello
-+packet, which conflicts with optional upgrade support to HTTPS via
-+methods other than method OPTIONS, so this optional support defined in
-+RFC 2817, section 3.1 is removed. Too slow or incomplete requests are
-+handled by connection timeout.
-+
-+Fixes CVE-2025-58436
-+
-+CVE: CVE-2025-58436
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/5d414f1f91bdca118413301b148f0b188eb1cdc6]
++CVE: CVE-2025-14017
++Upstream-Status: Backport [https://github.com/curl/curl/commit/39d1976b7f709a516e3243338ebc0443bdd8d56d]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ cups/http-private.h |   7 +-
-+ cups/http.c         |  80 +++++++++++++-------
-+ cups/tls-openssl.c  |  15 +++-
-+ scheduler/client.c  | 178 ++++++++++++++++++++++++++++----------------
-+ scheduler/client.h  |   3 +
-+ scheduler/select.c  |  12 +++
-+ 6 files changed, 198 insertions(+), 97 deletions(-)
++ lib/ldap.c | 49 +++++++++++++++++++------------------------------
++ 1 file changed, 19 insertions(+), 30 deletions(-)
 +
-+diff --git a/cups/http-private.h b/cups/http-private.h
-+index d9854faed..2d9035032 100644
-+--- a/cups/http-private.h
-++++ b/cups/http-private.h
-+@@ -120,6 +120,7 @@ extern "C" {
-+  * Constants...
-+  */
++diff --git a/lib/ldap.c b/lib/ldap.c
++index 63b2cbc414..0911a9239a 100644
++--- a/lib/ldap.c
+++++ b/lib/ldap.c
++@@ -333,16 +333,29 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     passwd = conn->passwd;
++   }
 + 
-++#  define _HTTP_MAX_BUFFER	32768	/* Size of read buffer */
-+ #  define _HTTP_MAX_SBUFFER	65536	/* Size of (de)compression buffer */
-+ #  define _HTTP_RESOLVE_DEFAULT	0	/* Just resolve with default options */
-+ #  define _HTTP_RESOLVE_STDERR	1	/* Log resolve progress to stderr */
-+@@ -231,8 +232,8 @@ struct _http_s				/**** HTTP connection structure ****/
-+   http_encoding_t	data_encoding;	/* Chunked or not */
-+   int			_data_remaining;/* Number of bytes left (deprecated) */
-+   int			used;		/* Number of bytes used in buffer */
-+-  char			buffer[HTTP_MAX_BUFFER];
-+-					/* Buffer for incoming data */
-++  char			_buffer[HTTP_MAX_BUFFER];
-++					/* Old read buffer (deprecated) */
-+   int			_auth_type;	/* Authentication in use (deprecated) */
-+   unsigned char		_md5_state[88];	/* MD5 state (deprecated) */
-+   char			nonce[HTTP_MAX_VALUE];
-+@@ -306,6 +307,8 @@ struct _http_s				/**** HTTP connection structure ****/
-+ 					/* Allocated field values */
-+   			*default_fields[HTTP_FIELD_MAX];
-+ 					/* Default field values, if any */
-++  char			buffer[_HTTP_MAX_BUFFER];
-++					/* Read buffer */
-+ };
-+ #  endif /* !_HTTP_NO_PRIVATE */
+++#ifdef USE_WIN32_LDAP
+++  if(ldap_ssl)
+++    server = ldap_sslinit(host, (int)conn->port, 1);
+++  else
+++#else
+++    server = ldap_init(host, (int)conn->port);
+++#endif
+++  if(!server) {
+++    failf(data, "LDAP local: Cannot connect to %s:%ld",
+++          conn->host.dispname, conn->port);
+++    result = CURLE_COULDNT_CONNECT;
+++    goto quit;
+++  }
+++
++ #ifdef LDAP_OPT_NETWORK_TIMEOUT
++-  ldap_set_option(NULL, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
+++  ldap_set_option(server, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
++ #endif
++-  ldap_set_option(NULL, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
+++  ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
 + 
-+diff --git a/cups/http.c b/cups/http.c
-+index 7a42cb3d6..214e45158 100644
-+--- a/cups/http.c
-++++ b/cups/http.c
-+@@ -53,7 +53,7 @@ static http_t		*http_create(const char *host, int port,
-+ static void		http_debug_hex(const char *prefix, const char *buffer,
-+ 			               int bytes);
-+ #endif /* DEBUG */
-+-static ssize_t		http_read(http_t *http, char *buffer, size_t length);
-++static ssize_t		http_read(http_t *http, char *buffer, size_t length, int timeout);
-+ static ssize_t		http_read_buffered(http_t *http, char *buffer, size_t length);
-+ static ssize_t		http_read_chunk(http_t *http, char *buffer, size_t length);
-+ static int		http_send(http_t *http, http_state_t request,
-+@@ -1188,7 +1188,7 @@ httpGets(char   *line,			/* I - Line to read into */
-+         return (NULL);
++   if(ldap_ssl) {
++ #ifdef HAVE_LDAP_SSL
++ #ifdef USE_WIN32_LDAP
++     /* Win32 LDAP SDK doesn't support insecure mode without CA! */
++-    server = ldap_sslinit(host, (int)conn->port, 1);
++     ldap_set_option(server, LDAP_OPT_SSL, LDAP_OPT_ON);
++ #else
++     int ldap_option;
++@@ -410,7 +423,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++         goto quit;
 +       }
++       infof(data, "LDAP local: using PEM CA cert: %s", ldap_ca);
++-      rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
+++      rc = ldap_set_option(server, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
++       if(rc != LDAP_SUCCESS) {
++         failf(data, "LDAP local: ERROR setting PEM CA cert: %s",
++                 ldap_err2string(rc));
++@@ -422,20 +435,13 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     else
++       ldap_option = LDAP_OPT_X_TLS_NEVER;
 + 
-+-      bytes = http_read(http, http->buffer + http->used, (size_t)(HTTP_MAX_BUFFER - http->used));
-++      bytes = http_read(http, http->buffer + http->used, (size_t)(_HTTP_MAX_BUFFER - http->used), http->wait_value);
-+ 
-+       DEBUG_printf(("4httpGets: read " CUPS_LLFMT " bytes.", CUPS_LLCAST bytes));
-+ 
-+@@ -1706,24 +1706,13 @@ httpPeek(http_t *http,			/* I - HTTP connection */
-+ 
-+     ssize_t	buflen;			/* Length of read for buffer */
-+ 
-+-    if (!http->blocking)
-+-    {
-+-      while (!httpWait(http, http->wait_value))
-+-      {
-+-	if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
-+-	  continue;
-+-
-+-	return (0);
-+-      }
++-    rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
+++    rc = ldap_set_option(server, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
++     if(rc != LDAP_SUCCESS) {
++       failf(data, "LDAP local: ERROR setting cert verify mode: %s",
++               ldap_err2string(rc));
++       result = CURLE_SSL_CERTPROBLEM;
++       goto quit;
++     }
++-    server = ldap_init(host, (int)conn->port);
++-    if(!server) {
++-      failf(data, "LDAP local: Cannot connect to %s:%ld",
++-            conn->host.dispname, conn->port);
++-      result = CURLE_COULDNT_CONNECT;
++-      goto quit;
 +-    }
-+-
-+     if ((size_t)http->data_remaining > sizeof(http->buffer))
-+       buflen = sizeof(http->buffer);
-+     else
-+       buflen = (ssize_t)http->data_remaining;
-+ 
-+     DEBUG_printf(("2httpPeek: Reading %d bytes into buffer.", (int)buflen));
-+-    bytes = http_read(http, http->buffer, (size_t)buflen);
-++    bytes = http_read(http, http->buffer, (size_t)buflen, http->wait_value);
-+ 
-+     DEBUG_printf(("2httpPeek: Read " CUPS_LLFMT " bytes into buffer.",
-+                   CUPS_LLCAST bytes));
-+@@ -1744,9 +1733,9 @@ httpPeek(http_t *http,			/* I - HTTP connection */
-+     int		zerr;			/* Decompressor error */
-+     z_stream	stream;			/* Copy of decompressor stream */
-+ 
-+-    if (http->used > 0 && ((z_stream *)http->stream)->avail_in < HTTP_MAX_BUFFER)
-++    if (http->used > 0 && ((z_stream *)http->stream)->avail_in < _HTTP_MAX_BUFFER)
-+     {
-+-      size_t buflen = HTTP_MAX_BUFFER - ((z_stream *)http->stream)->avail_in;
-++      size_t buflen = _HTTP_MAX_BUFFER - ((z_stream *)http->stream)->avail_in;
-+ 					/* Number of bytes to copy */
-+ 
-+       if (((z_stream *)http->stream)->avail_in > 0 &&
-+@@ -2004,7 +1993,7 @@ httpRead2(http_t *http,			/* I - HTTP connection */
-+ 
-+       if (bytes == 0)
-+       {
-+-        ssize_t buflen = HTTP_MAX_BUFFER - (ssize_t)((z_stream *)http->stream)->avail_in;
-++        ssize_t buflen = _HTTP_MAX_BUFFER - (ssize_t)((z_stream *)http->stream)->avail_in;
-+ 					/* Additional bytes for buffer */
-+ 
-+         if (buflen > 0)
-+@@ -2754,7 +2743,7 @@ int					/* O - 1 to continue, 0 to stop */
-+ _httpUpdate(http_t        *http,	/* I - HTTP connection */
-+             http_status_t *status)	/* O - Current HTTP status */
-+ {
-+-  char		line[32768],		/* Line from connection... */
-++  char		line[_HTTP_MAX_BUFFER],	/* Line from connection... */
-+ 		*value;			/* Pointer to value on line */
-+   http_field_t	field;			/* Field index */
-+   int		major, minor;		/* HTTP version numbers */
-+@@ -2762,12 +2751,46 @@ _httpUpdate(http_t        *http,	/* I - HTTP connection */
-+ 
-+   DEBUG_printf(("_httpUpdate(http=%p, status=%p), state=%s", (void *)http, (void *)status, httpStateString(http->state)));
-+ 
-++  /* When doing non-blocking I/O, make sure we have a whole line... */
-++  if (!http->blocking)
-++  {
-++    ssize_t	bytes;			/* Bytes "peeked" from connection */
-++
-++    /* See whether our read buffer is full... */
-++    DEBUG_printf(("2_httpUpdate: used=%d", http->used));
-++
-++    if (http->used > 0 && !memchr(http->buffer, '\n', (size_t)http->used) && (size_t)http->used < sizeof(http->buffer))
-++    {
-++      /* No, try filling in more data... */
-++      if ((bytes = http_read(http, http->buffer + http->used, sizeof(http->buffer) - (size_t)http->used, /*timeout*/0)) > 0)
-++      {
-++	DEBUG_printf(("2_httpUpdate: Read %d bytes.", (int)bytes));
-++	http->used += (int)bytes;
-++      }
-++    }
-++
-++    /* Peek at the incoming data... */
-++    if (!http->used || !memchr(http->buffer, '\n', (size_t)http->used))
-++    {
-++      /* Don't have a full line, tell the reader to try again when there is more data... */
-++      DEBUG_puts("1_htttpUpdate: No newline in buffer yet.");
-++      if ((size_t)http->used == sizeof(http->buffer))
-++	*status = HTTP_STATUS_ERROR;
-++      else
-++	*status = HTTP_STATUS_CONTINUE;
-++      return (0);
-++    }
-++
-++    DEBUG_puts("2_httpUpdate: Found newline in buffer.");
-++  }
-++
-+  /*
-+   * Grab a single line from the connection...
-+   */
-+ 
-+   if (!httpGets(line, sizeof(line), http))
-+   {
-++    DEBUG_puts("1_httpUpdate: Error reading request line.");
-+     *status = HTTP_STATUS_ERROR;
-+     return (0);
-+   }
-+@@ -4089,7 +4112,8 @@ http_debug_hex(const char *prefix,	/* I - Prefix for line */
-+ static ssize_t				/* O - Number of bytes read or -1 on error */
-+ http_read(http_t *http,			/* I - HTTP connection */
-+           char   *buffer,		/* I - Buffer */
-+-          size_t length)		/* I - Maximum bytes to read */
-++          size_t length,		/* I - Maximum bytes to read */
-++          int    timeout)		/* I - Wait timeout */
-+ {
-+   ssize_t	bytes;			/* Bytes read */
-+ 
-+@@ -4098,7 +4122,7 @@ http_read(http_t *http,			/* I - HTTP connection */
-+ 
-+   if (!http->blocking || http->timeout_value > 0.0)
-+   {
-+-    while (!httpWait(http, http->wait_value))
-++    while (!_httpWait(http, timeout, 1))
-+     {
-+       if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
-+ 	continue;
-+@@ -4201,7 +4225,7 @@ http_read_buffered(http_t *http,	/* I - HTTP connection */
-+     else
-+       bytes = (ssize_t)length;
-+ 
-+-    DEBUG_printf(("8http_read: Grabbing %d bytes from input buffer.",
-++    DEBUG_printf(("8http_read_buffered: Grabbing %d bytes from input buffer.",
-+                   (int)bytes));
-+ 
-+     memcpy(buffer, http->buffer, (size_t)bytes);
-+@@ -4211,7 +4235,7 @@ http_read_buffered(http_t *http,	/* I - HTTP connection */
-+       memmove(http->buffer, http->buffer + bytes, (size_t)http->used);
-+   }
-+   else
-+-    bytes = http_read(http, buffer, length);
-++    bytes = http_read(http, buffer, length, http->wait_value);
-+ 
-+   return (bytes);
-+ }
-+@@ -4557,15 +4581,15 @@ http_set_timeout(int    fd,		/* I - File descriptor */
-+ static void
-+ http_set_wait(http_t *http)		/* I - HTTP connection */
-+ {
-+-  if (http->blocking)
-+-  {
-+-    http->wait_value = (int)(http->timeout_value * 1000);
-++  http->wait_value = (int)(http->timeout_value * 1000);
-+ 
-+-    if (http->wait_value <= 0)
-++  if (http->wait_value <= 0)
-++  {
-++    if (http->blocking)
-+       http->wait_value = 60000;
-++    else
-++      http->wait_value = 1000;
-+   }
-+-  else
-+-    http->wait_value = 10000;
-+ }
-+ 
-+ 
-+diff --git a/cups/tls-openssl.c b/cups/tls-openssl.c
-+index 9fcbe0af3..f746f4cba 100644
-+--- a/cups/tls-openssl.c
-++++ b/cups/tls-openssl.c
-+@@ -180,12 +180,14 @@ cupsMakeServerCredentials(
-+   // Save them...
-+   if ((bio = BIO_new_file(keyfile, "wb")) == NULL)
-+   {
-++    DEBUG_printf(("1cupsMakeServerCredentials: Unable to create private key file '%s': %s", keyfile, strerror(errno)));
-+     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, strerror(errno), 0);
-+     goto done;
-+   }
-+ 
-+   if (!PEM_write_bio_PrivateKey(bio, pkey, NULL, NULL, 0, NULL, NULL))
-+   {
-++    DEBUG_puts("1cupsMakeServerCredentials: PEM_write_bio_PrivateKey failed.");
-+     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to write private key."), 1);
-+     BIO_free(bio);
-+     goto done;
-+@@ -195,12 +197,14 @@ cupsMakeServerCredentials(
-+ 
-+   if ((bio = BIO_new_file(crtfile, "wb")) == NULL)
-+   {
-++    DEBUG_printf(("1cupsMakeServerCredentials: Unable to create certificate file '%s': %s", crtfile, strerror(errno)));
-+     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, strerror(errno), 0);
-+     goto done;
-+   }
-+ 
-+   if (!PEM_write_bio_X509(bio, cert))
-+   {
-++    DEBUG_puts("1cupsMakeServerCredentials: PEM_write_bio_X509 failed.");
-+     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to write X.509 certificate."), 1);
-+     BIO_free(bio);
-+     goto done;
-+@@ -1044,10 +1048,10 @@ _httpTLSStart(http_t *http)		// I - Connection to server
-+ 
-+       if (!cupsMakeServerCredentials(tls_keypath, cn, 0, NULL, time(NULL) + 365 * 86400))
-+       {
-+-	DEBUG_puts("4_httpTLSStart: cupsMakeServerCredentials failed.");
-++	DEBUG_printf(("4_httpTLSStart: cupsMakeServerCredentials failed: %s", cupsLastErrorString()));
-+ 	http->error  = errno = EINVAL;
-+ 	http->status = HTTP_STATUS_ERROR;
-+-	_cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to create server credentials."), 1);
-++//	_cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to create server credentials."), 1);
-+         SSL_CTX_free(context);
-+ 
-+ 	return (-1);
-+@@ -1272,14 +1276,17 @@ http_bio_read(BIO  *h,			// I - BIO data
-+ 
-+   http = (http_t *)BIO_get_data(h);
-+ 
-+-  if (!http->blocking)
-++  if (!http->blocking || http->timeout_value > 0.0)
-+   {
-+    /*
-+     * Make sure we have data before we read...
-+     */
-+ 
-+-    if (!_httpWait(http, 10000, 0))
-++    while (!_httpWait(http, http->wait_value, 0))
-+     {
-++      if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
-++	continue;
-++
-+ #ifdef WIN32
-+       http->error = WSAETIMEDOUT;
-+ #else
-+diff --git a/scheduler/client.c b/scheduler/client.c
-+index f0349a6c9..9593c9138 100644
-+--- a/scheduler/client.c
-++++ b/scheduler/client.c
-+@@ -34,11 +34,11 @@
-+ 
-+ static int		check_if_modified(cupsd_client_t *con,
-+ 			                  struct stat *filestats);
-++#ifdef HAVE_TLS
-++static int		check_start_tls(cupsd_client_t *con);
-++#endif /* HAVE_TLS */
-+ static int		compare_clients(cupsd_client_t *a, cupsd_client_t *b,
-+ 			                void *data);
-+-#ifdef HAVE_TLS
-+-static int		cupsd_start_tls(cupsd_client_t *con, http_encryption_t e);
-+-#endif /* HAVE_TLS */
-+ static char		*get_file(cupsd_client_t *con, struct stat *filestats,
-+ 			          char *filename, size_t len);
-+ static http_status_t	install_cupsd_conf(cupsd_client_t *con);
-+@@ -360,14 +360,20 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+   if (lis->encryption == HTTP_ENCRYPTION_ALWAYS)
-+   {
-+    /*
-+-    * https connection; go secure...
-++    * HTTPS connection, force TLS negotiation...
-+     */
-+ 
-+-    if (cupsd_start_tls(con, HTTP_ENCRYPTION_ALWAYS))
-+-      cupsdCloseClient(con);
-++    con->tls_start = time(NULL);
-++    con->encryption = HTTP_ENCRYPTION_ALWAYS;
-+   }
-+   else
-++  {
-++   /*
-++    * HTTP connection, but check for HTTPS negotiation on first data...
-++    */
-++
-+     con->auto_ssl = 1;
-++  }
-+ #endif /* HAVE_TLS */
-+ }
-+ 
-+@@ -597,17 +603,46 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
-+ 
-+     con->auto_ssl = 0;
-+ 
-+-    if (recv(httpGetFd(con->http), buf, 1, MSG_PEEK) == 1 &&
-+-        (!buf[0] || !strchr("DGHOPT", buf[0])))
-++    if (recv(httpGetFd(con->http), buf, 5, MSG_PEEK) == 5 && buf[0] == 0x16 && buf[1] == 3 && buf[2])
-+     {
-+      /*
-+-      * Encrypt this connection...
-++      * Client hello record, encrypt this connection...
-+       */
-+ 
-+-      cupsdLogClient(con, CUPSD_LOG_DEBUG2, "Saw first byte %02X, auto-negotiating SSL/TLS session.", buf[0] & 255);
-++      cupsdLogClient(con, CUPSD_LOG_DEBUG2, "Saw client hello record, auto-negotiating TLS session.");
-++      con->tls_start = time(NULL);
-++      con->encryption = HTTP_ENCRYPTION_ALWAYS;
-++    }
-++  }
-+ 
-+-      if (cupsd_start_tls(con, HTTP_ENCRYPTION_ALWAYS))
-+-        cupsdCloseClient(con);
-++  if (con->tls_start)
-++  {
-++   /*
-++    * Try negotiating TLS...
-++    */
-++
-++    int tls_status = check_start_tls(con);
-++
-++    if (tls_status < 0)
-++    {
-++     /*
-++      * TLS negotiation failed, close the connection.
-++      */
-++
-++      cupsdCloseClient(con);
-++      return;
-++    }
-++    else if (tls_status == 0)
-++    {
-++     /*
-++      * Nothing to do yet...
-++      */
-++
-++      if ((time(NULL) - con->tls_start) > 5)
-++      {
-++	// Timeout, close the connection...
-++	cupsdCloseClient(con);
-++      }
-+ 
-+       return;
++     ldap_option = LDAP_OPT_X_TLS_HARD;
++     rc = ldap_set_option(server, LDAP_OPT_X_TLS, &ldap_option);
++     if(rc != LDAP_SUCCESS) {
++@@ -444,15 +450,6 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++       result = CURLE_SSL_CERTPROBLEM;
++       goto quit;
 +     }
-+@@ -771,9 +806,7 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
-+         * Parse incoming parameters until the status changes...
-+ 	*/
-+ 
-+-        while ((status = httpUpdate(con->http)) == HTTP_STATUS_CONTINUE)
-+-	  if (!httpGetReady(con->http))
-+-	    break;
-++	status = httpUpdate(con->http);
-+ 
-+ 	if (status != HTTP_STATUS_OK && status != HTTP_STATUS_CONTINUE)
-+ 	{
-+@@ -935,11 +968,10 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
-+ 	  return;
-+ 	}
-+ 
-+-        if (cupsd_start_tls(con, HTTP_ENCRYPTION_REQUIRED))
-+-        {
-+-	  cupsdCloseClient(con);
-+-	  return;
-+-	}
-++	con->tls_start = time(NULL);
-++	con->tls_upgrade = 1;
-++	con->encryption = HTTP_ENCRYPTION_REQUIRED;
-++	return;
-+ #else
-+ 	if (!cupsdSendError(con, HTTP_STATUS_NOT_IMPLEMENTED, CUPSD_AUTH_NONE))
-+ 	{
-+@@ -978,32 +1010,11 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
-+       if (!_cups_strcasecmp(httpGetField(con->http, HTTP_FIELD_CONNECTION),
-+                             "Upgrade") && !httpIsEncrypted(con->http))
-+       {
-+-#ifdef HAVE_TLS
-+-       /*
-+-        * Do encryption stuff...
-+-	*/
-+-
-+-        httpClearFields(con->http);
-+-
-+-	if (!cupsdSendHeader(con, HTTP_STATUS_SWITCHING_PROTOCOLS, NULL,
-+-	                     CUPSD_AUTH_NONE))
-+-	{
-+-	  cupsdCloseClient(con);
-+-	  return;
-+-	}
-+-
-+-        if (cupsd_start_tls(con, HTTP_ENCRYPTION_REQUIRED))
-+-        {
-+-	  cupsdCloseClient(con);
-+-	  return;
-+-	}
-+-#else
-+ 	if (!cupsdSendError(con, HTTP_STATUS_NOT_IMPLEMENTED, CUPSD_AUTH_NONE))
-+ 	{
-+ 	  cupsdCloseClient(con);
-+ 	  return;
-+ 	}
-+-#endif /* HAVE_TLS */
-+       }
-+ 
-+       if ((status = cupsdIsAuthorized(con, NULL)) != HTTP_STATUS_OK)
-+@@ -2631,6 +2642,69 @@ check_if_modified(
-+ }
-+ 
-+ 
-++#ifdef HAVE_TLS
-++/*
-++ * 'check_start_tls()' - Start encryption on a connection.
-++ */
-++
-++static int				/* O - 0 to continue, 1 on success, -1 on error */
-++check_start_tls(cupsd_client_t *con)	/* I - Client connection */
-++{
-++  unsigned char	chello[4096];		/* Client hello record */
-++  ssize_t	chello_bytes;		/* Bytes read/peeked */
-++  int		chello_len;		/* Length of record */
-++
-++
-++ /*
-++  * See if we have a good and complete client hello record...
-++  */
-++
-++  if ((chello_bytes = recv(httpGetFd(con->http), (char *)chello, sizeof(chello), MSG_PEEK)) < 5)
-++    return (0);				/* Not enough bytes (yet) */
-++
-++  if (chello[0] != 0x016 || chello[1] != 3 || chello[2] == 0)
-++    return (-1);			/* Not a TLS Client Hello record */
-++
-++  chello_len = (chello[3] << 8) | chello[4];
-++
-++  if ((chello_len + 5) > chello_bytes)
-++    return (0);				/* Not enough bytes yet */
-++
-++ /*
-++  * OK, we do, try negotiating...
-++  */
-++
-++  con->tls_start = 0;
-++
-++  if (httpEncryption(con->http, con->encryption))
-++  {
-++    cupsdLogClient(con, CUPSD_LOG_ERROR, "Unable to encrypt connection: %s", cupsLastErrorString());
-++    return (-1);
-++  }
-++
-++  cupsdLogClient(con, CUPSD_LOG_DEBUG, "Connection now encrypted.");
-++
-++  if (con->tls_upgrade)
-++  {
-++    // Respond to the original OPTIONS command...
-++    con->tls_upgrade = 0;
-++
-++    httpClearFields(con->http);
-++    httpClearCookie(con->http);
-++    httpSetField(con->http, HTTP_FIELD_CONTENT_LENGTH, "0");
-++
-++    if (!cupsdSendHeader(con, HTTP_STATUS_OK, NULL, CUPSD_AUTH_NONE))
-++    {
-++      cupsdCloseClient(con);
-++      return (-1);
-++    }
-++  }
-++
-++  return (1);
-++}
-++#endif /* HAVE_TLS */
-++
-++
-+ /*
-+  * 'compare_clients()' - Compare two client connections.
-+  */
-+@@ -2651,28 +2725,6 @@ compare_clients(cupsd_client_t *a,	/* I - First client */
-+ }
-+ 
-+ 
-+-#ifdef HAVE_TLS
 +-/*
-+- * 'cupsd_start_tls()' - Start encryption on a connection.
-+- */
-+-
-+-static int				/* O - 0 on success, -1 on error */
-+-cupsd_start_tls(cupsd_client_t    *con,	/* I - Client connection */
-+-                http_encryption_t e)	/* I - Encryption mode */
-+-{
-+-  if (httpEncryption(con->http, e))
-+-  {
-+-    cupsdLogClient(con, CUPSD_LOG_ERROR, "Unable to encrypt connection: %s",
-+-                   cupsLastErrorString());
-+-    return (-1);
-+-  }
-+-
-+-  cupsdLogClient(con, CUPSD_LOG_DEBUG, "Connection now encrypted.");
-+-  return (0);
-+-}
-+-#endif /* HAVE_TLS */
-+-
-+-
-+ /*
-+  * 'get_file()' - Get a filename and state info.
-+  */
-+diff --git a/scheduler/client.h b/scheduler/client.h
-+index 9fe4e2ea6..2939ce997 100644
-+--- a/scheduler/client.h
-++++ b/scheduler/client.h
-+@@ -51,6 +51,9 @@ struct cupsd_client_s
-+   cups_lang_t		*language;	/* Language to use */
-+ #ifdef HAVE_TLS
-+   int			auto_ssl;	/* Automatic test for SSL/TLS */
-++  time_t		tls_start;	/* Do TLS negotiation? */
-++  int			tls_upgrade;	/* Doing TLS upgrade via OPTIONS? */
-++  http_encryption_t	encryption;	/* Type of TLS negotiation */
-+ #endif /* HAVE_TLS */
-+   http_addr_t		clientaddr;	/* Client's server address */
-+   char			clientname[256];/* Client's server name for connection */
-+diff --git a/scheduler/select.c b/scheduler/select.c
-+index 2e64f2a7e..ac6205c51 100644
-+--- a/scheduler/select.c
-++++ b/scheduler/select.c
-+@@ -408,6 +408,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
-+ 
-+   cupsd_in_select = 1;
-+ 
-++  // Prevent 100% CPU by releasing control before the kevent call...
-++  usleep(1);
-++
-+   if (timeout >= 0 && timeout < 86400)
-+   {
-+     ktimeout.tv_sec  = timeout;
-+@@ -454,6 +457,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
-+     struct epoll_event	*event;		/* Current event */
-+ 
-+ 
-++    // Prevent 100% CPU by releasing control before the epoll_wait call...
-++    usleep(1);
-++
-+     if (timeout >= 0 && timeout < 86400)
-+       nfds = epoll_wait(cupsd_epoll_fd, cupsd_epoll_events, MaxFDs,
-+                 	timeout * 1000);
-+@@ -546,6 +552,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
-+     }
++-    rc = ldap_start_tls_s(server, NULL, NULL);
++-    if(rc != LDAP_SUCCESS) {
++-      failf(data, "LDAP local: ERROR starting SSL/TLS mode: %s",
++-              ldap_err2string(rc));
++-      result = CURLE_SSL_CERTPROBLEM;
++-      goto quit;
++-    }
++-*/
++ #else
++     /* we should probably never come up to here since configure
++        should check in first place if we can support LDAP SSL/TLS */
++@@ -469,15 +466,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     result = CURLE_NOT_BUILT_IN;
++     goto quit;
 +   }
-+ 
-++  // Prevent 100% CPU by releasing control before the poll call...
-++  usleep(1);
++-  else {
++-    server = ldap_init(host, (int)conn->port);
++-    if(!server) {
++-      failf(data, "LDAP local: Cannot connect to %s:%ld",
++-            conn->host.dispname, conn->port);
++-      result = CURLE_COULDNT_CONNECT;
++-      goto quit;
++-    }
++-  }
 ++
-+   if (timeout >= 0 && timeout < 86400)
-+     nfds = poll(cupsd_pollfds, (nfds_t)count, timeout * 1000);
-+   else
-+@@ -599,6 +608,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
-+   cupsd_current_input  = cupsd_global_input;
-+   cupsd_current_output = cupsd_global_output;
-+ 
-++  // Prevent 100% CPU by releasing control before the select call...
-++  usleep(1);
-++
-+   if (timeout >= 0 && timeout < 86400)
-+   {
-+     stimeout.tv_sec  = timeout;
++ #ifdef USE_WIN32_LDAP
++   ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
++   rc = ldap_win_bind(data, server, user, passwd);
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index 2326392a4f..db3dc01929 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -67,6 +67,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2024-11053-0002.patch \
+            file://CVE-2025-0167.patch \
+            file://CVE-2025-9086.patch \
++           file://CVE-2025-14017.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ 
 
