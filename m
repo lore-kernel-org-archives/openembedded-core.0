@@ -1,148 +1,119 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 848C3D2ECFF
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 02:43:29 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27.1768876999124627199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BAC6D2ED00
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 02:48:49 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.123.1768877320826515499
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jan 2026 18:43:19 -0800
+ Mon, 19 Jan 2026 18:48:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=HUjrG3I2;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=QnE1j5hR;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60JMbDmx1931209
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:43:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=St1lITjMKWyH4K15qRscpckE/3ElI/I2dE1
-	C1CtoXYE=; b=HUjrG3I2xim4RJzTfxkmfFTRWo2y9Za0nydAC/s3L2uqOwrAXVq
-	YRA9SQ42nn40NHsIEgwhtpTVimKbgerxkELfY9+Vc0RnbduKZhSmUPllrv3l3c1+
-	VkHzF/7ofMqvrBzZHetBBygcXu+Mb71Gh9j4NwpaZmCY4iprpToiSoO/3KR1n2LZ
-	Fwvh45fm6fhaER0Z8l2gVgc+2w4eX2u7ZmOtgcA+yWW95Z3nTOrf7PSS1hvZ0bd9
-	jqP0tYNd5IRyITP2otLC8Q+Mooxb5aQImisSFZGypRORFhQjy8IIjYfVEJv0x/wE
-	pCUkGOlVn360oK0QYaRRPryF2tU3yjoY6Ew==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsgfrargq-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:43:17 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c5e166fb75so1198577385a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 18:43:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768876997; x=1769481797; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=St1lITjMKWyH4K15qRscpckE/3ElI/I2dE1C1CtoXYE=;
-        b=QnE1j5hRbOWfN+p5HKkVgjZl2SaaOGj4op7lvlkSPf9a/kB7PF+oVDM9vZInVvpAjc
-         r0fpwBs5FstYKWouyUKL4F2OIHiNwCFwuf14Gkx8fmdASdtGlxwa5wJAfJB0mSN0qznY
-         lCtwYdtNnyqpiY1O5xDCmYlRrWoMh88+hmi2uG50k6mrCBZE2Z2KuMUTJvKF32sqOavx
-         KPqDcOHyoYbcsWT9c/wcD6zmVyfMCEk1QmIk7skvY1x/c3Yh181kZRFf2nznYHqEnhZB
-         YHDG02Dn69N/SDYsthI7WKLP4u2tHgwwuNCmiTGIj4Qra4RmemM3wAFSO7D1Cyf+lvN+
-         mDUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768876997; x=1769481797;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=St1lITjMKWyH4K15qRscpckE/3ElI/I2dE1C1CtoXYE=;
-        b=rsGdwCPmPtCRRvs1jtN66hZsVWc+SMTg5XyeRTcJhZfagNwOybLRyVzcD8GrTv3Ddr
-         OHg+OhHp/rqlhawVbDo7Nh4nrHEnWWgnrHN0EAr+gUEQHuXQqxk49UMBiTSChXL3DXbx
-         vhZ4rqlmZwnabz87MfDUzuPxqrKUV+bqCuOnILGLDGopIR3F/OsOk3ZR8/pEddrYptac
-         7j0UNUy9MJYHEzIkj5yQh58JPKgdEJsIeV1v0Taj9u7a642b5ToB0rHlOGKVVy3YkOj9
-         TlIVeQ6TRvp+YHzA2bstgwfyPNS47mvf3iPskRHfdBd3H3C8+bGQyuAhM62I1Z/Gbp9k
-         CWhw==
-X-Gm-Message-State: AOJu0YzQaywzjjTum/jPRkpgU209AGE/8Uu5yaF1Nk5PavPHz/7am5Xc
-	6WbjULjf4iktX9um9S2LsNOPe5owNvcU91vrzFPKx+xPO5UmTWdjtVo8RiLyCwxJd/Wzo/khMS5
-	RQTen2E7vwSdnPvpA76liUSOr5sLOAEggBehMI8CfGN+QQBVqM13WJ2VnR2IUzU33gcCvhj9pFY
-	XCR34nJXSLmlHouE1NLgzj
-X-Gm-Gg: AY/fxX7myczwxSyOaXun9ZQ0MqWyTChP5feB8OySGi5jRL1fQN1+MMnkIvZYIPXp2OP
-	86BXvyBrLiVv+j1ql8CfS8LBA+48pz9pNTTWNGOpLjdVQBPBBAHH7QVQHPFM+evH+IJhTIF3sFq
-	u10o9mp0AMNoH7U3lOm2ThW5jwNg4p50pMkk0p8GYpWKVj9c+KTEtAuvCr6hIsaU87P/+3l1Kwp
-	Od/W0SwHWVW0Uiet51Ke/wPdKsRyvu7Uxs6bbob97HjLhRjhtVUSYvdEtozyf/i3TfDd0BPRGv3
-	oIDbZrvZF2Utijfzz6ZZtSfmriStAu+LegWeL48hsB5vLI/RTxhJ3+HCnJOMDbcQUUiFq4Xkhhq
-	/DVs/DEKTawO/ymu5R6xo3qffhrrSSs2mcoCww68uHBRxeDD3MpIGL19NCGwaRSqbZ7nS6JKirx
-	ikOqgcrp2mIqD3w3bUFt7XZwI=
-X-Received: by 2002:a05:620a:690f:b0:8b2:7224:b254 with SMTP id af79cd13be357-8c6a66d2232mr1790243185a.13.1768876996883;
-        Mon, 19 Jan 2026 18:43:16 -0800 (PST)
-X-Received: by 2002:a05:620a:690f:b0:8b2:7224:b254 with SMTP id af79cd13be357-8c6a66d2232mr1790241285a.13.1768876996257;
-        Mon, 19 Jan 2026 18:43:16 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59baf34f2b2sm3857122e87.34.2026.01.19.18.43.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 18:43:15 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] uki.bbclass: fix building of UKI images with multiple initramfs fstypes
-Date: Tue, 20 Jan 2026 04:43:13 +0200
-Message-ID: <20260120024313.3467088-1-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Si1SWQAG;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=548000d0aa=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60K2K2bI2637816;
+	Tue, 20 Jan 2026 02:48:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=XXzbNssRsGkIiucV6NVZ
+	yJOBCuVKTuJQAOkSftUe5wY=; b=Si1SWQAGCqvzcPTOOfoqOjoEwxmekbMhin4q
+	ZIrmVrE2UHSngpNRRrudSnSItqCAm/V8BUlIMoGa5nmyMfoXcO4zQo0UUglTSGSf
+	okU7O34vvjGtPfYutFsphZ8yEZAT3amBqqbPDRg05awiWM50Wt8Xh9jgMX2WnjeB
+	BDMAJ9sQFVRZyNn7IGgBcS+b6UmqfugjHG3jubK+GO1CtnCZqdFPkpAVuAODMhic
+	8/oNACT9gEPQpZzTJhBlBSwSDOPkrftKOAlKsOawyGflNQWdhIh0ON8TEq8vXv/H
+	IDxaK6+qMO8I0bVYyvuuWWDSbMpUu3qUxmaO43TXM2CNKYLDfg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bqymujhuu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 20 Jan 2026 02:48:35 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Mon, 19 Jan 2026 18:48:34 -0800
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Mon, 19 Jan 2026 18:48:33 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <Ross.Burton@arm.com>, <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] flac: fix compile failed on musl
+Date: Tue, 20 Jan 2026 10:48:32 +0800
+Message-ID: <20260120024832.3683926-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: vfEYXwS-z3s1DTKeSGSz23jUG2V5iFaj
-X-Proofpoint-GUID: vfEYXwS-z3s1DTKeSGSz23jUG2V5iFaj
-X-Authority-Analysis: v=2.4 cv=c4OmgB9l c=1 sm=1 tr=0 ts=696eebc5 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=Iv4kaBUZLcscCCURl44A:9 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDAyMSBTYWx0ZWRfXyysVJ4n163jK
- 814DWjB50oWAUHMzeD8QkrxfZ2KfS4b0MvenNewrlNkyLntIShJGdEadLr5bNhHAL2YsZcRVqUJ
- RPRrDUD7lmcZcsdPbOw8P7hcwB2z8Ve/3SccIdpYHyOMjM338eYjFEH4JqHFdnX/Eo574+R95bU
- P3rVOEIsQ9SANXn7rnVv7dsKw0/lPOUCVE0K/XJ2RsVsHr8JMZehYuFe0H9UuNtsMnFX6L9nTUe
- rCq2L/RFW0VT9+KA7qBpG0b4CVRiBOmzcie1PY3PXf0ZGLiGNRE8rTiwMq545ESZTtWdUSJtkub
- FOuX+rxz3MBgbkrb6yQgpJjdVTDrrkL/lrOE4WhVx5e4Y3Eivbzyh785F5SG67gdhBFrXQtyA+1
- CF8F1nHJq2/3IjJwtUBmbyeLJQLZHXcGMBbzelZwQYabinYNS2poKzWj62WO3ty4oXwZ7YMN5l5
- dyPBpA+esqa30S32miA==
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=AqDjHe9P c=1 sm=1 tr=0 ts=696eed03 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=XkRKQH6RAAAA:8 a=t7CeM3EgAAAA:8
+ a=UsiYnwEOF0ai7ImNx9wA:9 a=1gUyE30hU_ULiMxJiLUW:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: eGRRsWPy8Sh8lAj5GJPBIFIVSVTsRLag
+X-Proofpoint-ORIG-GUID: eGRRsWPy8Sh8lAj5GJPBIFIVSVTsRLag
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDAyMiBTYWx0ZWRfX+rIEyMQ6ZqDW
+ h5nVzQV9drBA4dQxdiJ0N5Ymdv+5ZDaLGQV58pvC3c9RTTTxjonh2zydHaC3NLG/ey14NBHvAs2
+ /EVk2LfVO+hT7kalUrnZzjTrxn8jmvx4zmOTD9lJ1ZHDdlL1c0b9QKtiSE7zyvaNdQ4FM8H1d4B
+ mDybv/S/aVMwaqURU5WgWTvSIa2kDY2vximusb8n8yJ7VzVgq2tWFdNrOfFOUPsfiqC4N+BZUOr
+ z8fJndj1JpuuREOGcv+SPAjt7s+laxegJ3Ga6Knh9d0EfNt8jUOzxMhSrGMbCTF0/Jn5CyKOqBW
+ WcV5gtFK8wqIe5inhigDv3wNbtW7m+7idPHGLFrgvngzJ9qZ+CBWQIpg1wPTwlYqMkxNsonTeCp
+ nyykqt39FD+L/YzXXjhk0qSqH44T+JfV1T5OfL4zjb3i+4duMwJZ6WPS8WXMimLRrXaJb8Deiy8
+ XYDMPZdn/J3MfnkNLhg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-20_01,2026-01-19_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
- suspectscore=0 spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601200021
+ impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 clxscore=1015
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601200022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:43:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229639
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:48:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229640
 
-If INITRAMFS_FSTYPES contains more than one entry, ukify build command
-will fail as INITRD_ARCHIVE will contain extra strings. Use only the
-first initramfs type, letting the user to specify other fstypes in
-INITRAMFS_FSTYPES.
+While not including security_flags.inc
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+$ echo "TCLIBC = 'musl'" >> conf/local.conf
+$ echo "MACHINE = 'qemux86'" >> conf/local.conf
+$ bitbake flac
+...
+| libtool: link: (cd .libs/libFLAC++-static.lax/libFLAC-static.a && i686-oe-linux-musl-gcc-arx
+"/buildarea5/hjia/oe-core/build/tmp/work/core2-32-oe-linux-musl/flac/1.5.0/build/src/libFLAC++/
+../libFLAC/.libs/libFLAC-static.a")
+| build/tmp/work/core2-32-oe-linux-musl/flac/1.5.0/recipe-sysroot-native/usr/bin/
+i686-oe-linux-musl/../../libexec/i686-oe-linux-musl/gcc/i686-oe-linux-musl/15.2.0/ld:
+.libs/metadata.o: in function `FLAC::Metadata::VorbisCo
+mment::set_comment(unsigned int, FLAC::Metadata::VorbisComment::Entry const&)':
+| /usr/src/debug/flac/1.5.0/src/libFLAC++/metadata.cpp:913:(.text+0x2032): undefined reference to `__stack_chk_fail_local'
+...
+
+Refer [1], make gcc pass -lssp_nonshared to the linker whether
+including security_flags.inc or not
+
+[1] https://www.openwall.com/lists/musl/2018/09/11/2
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes-recipe/uki.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-multimedia/flac/flac_1.5.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-index a2b1c8a82d6f..ea449540db66 100644
---- a/meta/classes-recipe/uki.bbclass
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -73,8 +73,6 @@ require ../conf/image-uefi.conf
+diff --git a/meta/recipes-multimedia/flac/flac_1.5.0.bb b/meta/recipes-multimedia/flac/flac_1.5.0.bb
+index d6df801aec..e227133ad7 100644
+--- a/meta/recipes-multimedia/flac/flac_1.5.0.bb
++++ b/meta/recipes-multimedia/flac/flac_1.5.0.bb
+@@ -26,6 +26,10 @@ EXTRA_OECONF = "--disable-oggtest \
+                 --without-libiconv-prefix \
+                 "
  
- INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
- 
--INITRD_ARCHIVE ?= "${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}"
--
- do_image_complete[depends] += "${INITRAMFS_IMAGE}:do_image_complete"
- 
- UKIFY_CMD ?= "ukify build"
-@@ -127,7 +125,8 @@ python do_uki() {
-     ukify_cmd += " --stub %s" % (stub)
- 
-     # initrd
--    initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
-+    uki_fstype = d.getVar("INITRAMFS_FSTYPES").split()[0]
-+    initramfs_image = "%s-%s.%s" % (d.getVar('INITRAMFS_IMAGE'), d.getVar('MACHINE'), uki_fstype)
-     ukify_cmd += " --initrd=%s" % (os.path.join(deploy_dir_image, initramfs_image))
- 
-     # kernel
++# /usr/src/debug/flac/1.5.0/src/libFLAC++/metadata.cpp:913:
++# (.text+0x2032): undefined reference to `__stack_chk_fail_local'
++LDFLAGS:append:libc-musl = " -lssp_nonshared"
++
+ PACKAGECONFIG ??= " \
+     ogg \
+ "
 -- 
-2.47.3
+2.34.1
 
 
