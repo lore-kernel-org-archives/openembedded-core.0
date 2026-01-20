@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C382D2ED1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F56D2ED1F
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 12:09:25 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5042.1768910958680656605
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5029.1768910964577065789
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 04:09:18 -0800
+ Tue, 20 Jan 2026 04:09:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=246PIiqz;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47ee4539adfso44009995e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:18 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Idid7ryH;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so33429925e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768910957; x=1769515757; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768910963; x=1769515763; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LkjmSAKt0Gg0OCpmRuhXxiy9bc+7Ga8tR+m7S57RKxY=;
-        b=246PIiqzCri4CsXjxI0D/DPEyIg5xmP13MT3wR8p7fceerte1KU0/IF8QFQvdEPrb4
-         3c0Ql1bRxoAH/CgCFEspdUNYnNxwT2bTWN0WF9d5XKIBFSJcIW+8gxk/IHZEPip6KD1P
-         S+GKtETFX8BOd0ZmImXgSO4GSQLl67E7JOqfM=
+        bh=g0YgtcVhkJ7CP6nGcujqmnxpQ2XHlercjg7OBocF/6Q=;
+        b=Idid7ryHfT9qDNWHHSnyRMDXrfiQENx0so5X9pV+8iRmbyJEO9G78bQtKN/2dbmqxh
+         AHCRV1s0+Iz9zr+RKQRHhWxIIUnTPeSWPNzf+inpcI+30p3c5xoqb3dI0AY49fPodwLv
+         KRxnNJDxftYJnOUIS7mt1TcyTc5yh/HmKHjxs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768910957; x=1769515757;
+        d=1e100.net; s=20230601; t=1768910963; x=1769515763;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=LkjmSAKt0Gg0OCpmRuhXxiy9bc+7Ga8tR+m7S57RKxY=;
-        b=nmPfPp+MbViK1FsYBHhdtmOVwtDxGHrlr5CwsHZU9mIHa+eKXnRXh1VAL7KxGC7DO7
-         rY1IvvmD2VJ6TDhl6/QfsoqXEd7JvY/w42LmydSW4fVcT5uucYZmAK01hn6qbtbqiCPw
-         gChefkK2NL81HiNwWXQ7DVSwLRtxPOiCr1giKLbEkcVMPSMZOqpyyG3ZLs84Ozhrc78W
-         HzNkMKXCYMc/38EFd54gbFcekVcDCcbcHzk4XGKCLGQ4gtIp3P+TijJKFFZc6fL45fwK
-         wfLsAnpj/mInzcW+lHp/I/Ipe/38u5XiHF2kgWN/LQQj0xsWg/166VlryPfQHofpXG1W
-         D2cg==
-X-Gm-Message-State: AOJu0Yy8Qs2u9TCpWGECzaHbd3xDtxQX6CSBYLHhn8zSKin+QSPJg9iT
-	57NI2SSHqNUlqafvGUmk4r2ncmnQETBDKLeK0DXyyN3e7Bbx/oLlN9UxE9HMzw07UOFncVyjRgz
-	lon/y
-X-Gm-Gg: AY/fxX7NXqz7FzAc/O9vBFwuW5wqhKAhr4fzlS0YNe01YoSs9bZ5G2kR1eGSEn93DMr
-	qgzylYlKD+PX5tAif8fLnk04LTzzJeYY7V0JIiX2pMpCvKDooc7afY4uiE2CLgQ6rpxhzlk+XcE
-	Xn8XxjweyOehmUN/sD7tFh67U9ie4feZkGwj0O7fJTELZHawZqm36Kis+DNh7puGXrpTemn6t8P
-	bVzJkHEYlnf3f5ZBnAtIHM8Pr+DbBetgZaEnfmXF9OJ8HWXJo1vlqbWVtAnVBzBlUUg21qvz3yC
-	FEk2nYsvTXdWsSp8qcO3CrHQWcYqGVoP5ZqZ1ZAJQ/TVqLc0vxdP9hiPo5CbJy4020L7lbqSKHK
-	R2XFr1oDGtlQeMTuRf64lMp4Zx7vgiFjshv+aFCCRaeLiBYqWnOa1LwZn6vVvnDZPpENorYfJwF
-	uvjcgrf+5V7HxajpIG/T1U2xLw1VRANdid1GOIsvHVaFTenWB16iteQMb3BHHHij/uf6HqdXfp1
-	iTCpfWBc8wrDtCQROcX9g==
-X-Received: by 2002:a05:600c:820b:b0:47a:9560:ec28 with SMTP id 5b1f17b1804b1-4803e7a2d1dmr21465195e9.13.1768910956767;
-        Tue, 20 Jan 2026 04:09:16 -0800 (PST)
+        bh=g0YgtcVhkJ7CP6nGcujqmnxpQ2XHlercjg7OBocF/6Q=;
+        b=oDk7t2CJGwZ663JGj8ncJmCIZzzoxg+SyzRxD43poEcwcVu6GulAFN5QTtVaiqMUJd
+         WaKcXUF0nuYN6W67broA+6CTJVL5/68H68bigbsCEsrkqE+uadp42g0CcZP9CN6neGsx
+         C+yRQQr5KbYwVY5sRyUMVrjhchlU6huLQS0+Ug23dvtz0KtW46odgMdjrRgOJ5qJWvNL
+         dHKuOQJnn6QDtEPFvEw56yz7YWO4y7oy7VsL13vCa0befDWOfzFe/sssG2o+B9HmfIdx
+         m2o0lf9bdJzSeBZZEOjCdVIx8C38E3wkBj0Ior6Ifng95URQOk2uv2+JAtIn/kcqXo4+
+         kB4w==
+X-Gm-Message-State: AOJu0YwiW1c5cgqhOjEFoQiO/oRbpiu/glEzHzu3o4NwVLTKpU8OOX1I
+	GyRzCik/9RFVn03QUljahtpfz0kAVgIpV+M3VcaT+6obM2+nxy2t3XObJWu2F3mSwOktePMyiK7
+	MiL9f
+X-Gm-Gg: AY/fxX6+pe3NEMwZ4TK1IRbabXppnACaF5sAnp1Bi4V6U4Q7+HCqKBm9zChtdkzbAMq
+	xHt28/AYPGQT8nqKiLKmHW/DHPfThu6uL2Rb9Rw3Av3rq6ZEWJ5aAPCDrOmFi6BjYxztg0sOHiU
+	1hoik5xb3EzcIlE4kecr+exup4oHsQZybsEqzo69CqdkRNJmm+DkYC1zcAJViwNU3xYoWLzeTzQ
+	hw+v/pFMqhCWyz6AAu6vaHPVzK6Sv0aI1kVH7dvoJ7R4cP1lXz5l4WlqlHxH5mrYLTxZNRzZZho
+	ohW/aIP+xY75XVnT75Uq0O3iXaS2xt2fDrATpX4jf4dNK7ipqgbbVHXW0JCVD2CYfktta2nSFik
+	XZSmhU60yWX4zO8R+kNzhcntiA8xPOZtxLkpvY1u80et7rvyzxxZVu+nWf3EseOYsgPkIUfOaiT
+	0t8YGo72JoVeJmiooPN+xq7zB9stkoAuAIUpbNwJF+aOpgPbEol6bo045Q1xLUsLtE8SP7o5Ngs
+	Fb/Yn9hr8Nteyju2PNAfQ==
+X-Received: by 2002:a05:600c:354a:b0:479:3a86:dc1f with SMTP id 5b1f17b1804b1-4801e3503c2mr168718935e9.37.1768910962779;
+        Tue, 20 Jan 2026 04:09:22 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 04:09:16 -0800 (PST)
+        Tue, 20 Jan 2026 04:09:22 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/22] glib-2.0: patch CVE-2025-14512
-Date: Tue, 20 Jan 2026 13:08:21 +0100
-Message-ID: <d73ff33860101e8b90c65c64e94df76bf235868e.1768910519.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 15/22] curl: patch CVE-2025-15079
+Date: Tue, 20 Jan 2026 13:08:29 +0100
+Message-ID: <e9f3003b124d7390a88c2c8f4ca22c4f07b71cd6.1768910519.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768910519.git.yoann.congal@smile.fr>
 References: <cover.1768910519.git.yoann.congal@smile.fr>
@@ -66,109 +66,70 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 12:09:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229685
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229693
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from [1] linked from [2].
+Pick patch per [1].
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4935
-[2] https://gitlab.gnome.org/GNOME/glib/-/issues/3845
+[1] https://curl.se/docs/CVE-2025-15079.html
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/glib-2.0/CVE-2025-14512.patch    | 70 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
+ .../curl/curl/CVE-2025-15079.patch            | 32 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15079.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-15079.patch b/meta/recipes-support/curl/curl/CVE-2025-15079.patch
 new file mode 100644
-index 0000000000..689a433079
+index 0000000000..47fa518309
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
-@@ -0,0 +1,70 @@
-+From 1909d8ea9297287f1ff6862968608dcf06e60523 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 4 Dec 2025 16:37:19 +0000
-+Subject: [PATCH] gfileattribute: Fix integer overflow calculating escaping for
-+ byte strings
++++ b/meta/recipes-support/curl/curl/CVE-2025-15079.patch
+@@ -0,0 +1,32 @@
++From adca486c125d9a6d9565b9607a19dce803a8b479 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 24 Dec 2025 17:47:03 +0100
++Subject: [PATCH] libssh: set both knownhosts options to the same file
 +
-+The number of invalid characters in the byte string (characters which
-+would have to be percent-encoded) was only stored in an `int`, which
-+gave the possibility of a long string largely full of invalid
-+characters overflowing this and allowing an attacker-controlled buffer
-+size to be allocated.
++Reported-by: Harry Sintonen
 +
-+This could be triggered by an attacker controlled file attribute (of
-+type `G_FILE_ATTRIBUTE_TYPE_BYTE_STRING`), such as
-+`G_FILE_ATTRIBUTE_THUMBNAIL_PATH` or `G_FILE_ATTRIBUTE_STANDARD_NAME`,
-+being read by user code.
++Closes #20092
 +
-+Spotted by Codean Labs.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Fixes: #3845
-+
-+CVE: CVE-2025-14512
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/1909d8ea9297287f1ff6862968608dcf06e60523]
++CVE: CVE-2025-15079
++Upstream-Status: Backport [https://github.com/curl/curl/commit/adca486c125d9a6d9565b9607a19dce803a8b479]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ gio/gfileattribute.c | 11 +++++++++--
-+ 1 file changed, 9 insertions(+), 2 deletions(-)
++ lib/vssh/libssh.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/gio/gfileattribute.c b/gio/gfileattribute.c
-+index c6fde60fa..d3083e5bd 100644
-+--- a/gio/gfileattribute.c
-++++ b/gio/gfileattribute.c
-+@@ -22,6 +22,7 @@
-+ 
-+ #include "config.h"
-+ 
-++#include <stdint.h>
-+ #include <string.h>
-+ 
-+ #include "gfileattribute.h"
-+@@ -273,11 +274,12 @@ valid_char (char c)
-+   return c >= 32 && c <= 126 && c != '\\';
-+ }
-+ 
-++/* Returns NULL on error */
-+ static char *
-+ escape_byte_string (const char *str)
-+ {
-+   size_t i, len;
-+-  int num_invalid;
-++  size_t num_invalid;
-+   char *escaped_val, *p;
-+   unsigned char c;
-+   const char hex_digits[] = "0123456789abcdef";
-+@@ -295,7 +297,12 @@ escape_byte_string (const char *str)
-+     return g_strdup (str);
-+   else
-+     {
-+-      escaped_val = g_malloc (len + num_invalid*3 + 1);
-++      /* Check for overflow. We want to check the inequality:
-++       * !(len + num_invalid * 3 + 1 > SIZE_MAX) */
-++      if (num_invalid >= (SIZE_MAX - len) / 3)
-++        return NULL;
-++
-++      escaped_val = g_malloc (len + num_invalid * 3 + 1);
-+ 
-+       p = escaped_val;
-+       for (i = 0; i < len; i++)
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index f4df61c896..c7e18c7bc4 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -38,6 +38,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-14087-01.patch \
-            file://CVE-2025-14087-02.patch \
-            file://CVE-2025-14087-03.patch \
-+           file://CVE-2025-14512.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
++diff --git a/lib/vssh/libssh.c b/lib/vssh/libssh.c
++index 7d5905c83d..98c109ab59 100644
++--- a/lib/vssh/libssh.c
+++++ b/lib/vssh/libssh.c
++@@ -2224,6 +2224,11 @@ static CURLcode myssh_connect(struct Curl_easy *data, bool *done)
++     infof(data, "Known hosts: %s", data->set.str[STRING_SSH_KNOWNHOSTS]);
++     rc = ssh_options_set(ssh->ssh_session, SSH_OPTIONS_KNOWNHOSTS,
++                          data->set.str[STRING_SSH_KNOWNHOSTS]);
+++    if(rc == SSH_OK)
+++      /* libssh has two separate options for this. Set both to the same file
+++         to avoid surprises */
+++      rc = ssh_options_set(ssh->ssh_session, SSH_OPTIONS_GLOBAL_KNOWNHOSTS,
+++                           data->set.str[STRING_SSH_KNOWNHOSTS]);
++     if(rc != SSH_OK) {
++       failf(data, "Could not set known hosts file path");
++       return CURLE_FAILED_INIT;
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 3134846e57..85b91ef958 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -28,6 +28,7 @@ SRC_URI = " \
+     file://CVE-2025-14017.patch \
+     file://0001-build-enable-Wcast-qual-fix-or-silence-compiler-warn.patch \
+     file://CVE-2025-14819.patch \
++    file://CVE-2025-15079.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
 
