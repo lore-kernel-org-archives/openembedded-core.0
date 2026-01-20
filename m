@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC1AD2ED1C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5706CD2ED1F
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:16 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6480.1768916290591955402
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6467.1768916287689894676
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 05:38:10 -0800
+ Tue, 20 Jan 2026 05:38:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=VMgg2uv+;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so50916035e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:10 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=A+cQMvfj;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee0291921so36470395e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768916289; x=1769521089; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768916286; x=1769521086; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=heTDfoh649jmidpfyy43Tt33d7fnRIyyittQVRJsedg=;
-        b=VMgg2uv+U84uVwSp4RDnBfzJOnFTXx/mqEJzoIUzcI8ygIM+iyhlmn9JgFXN4oD2Ae
-         G8yvmOvYm7+KR0z8B9cNmAlclDgpBTULZVdKJCDZHvfyx0j3BEapO5t/Cm6Gco+XfxHJ
-         GXbbEFQX31laGqAXqTn1FYNdffCGAiB5MywGY=
+        bh=Cu9r7P8Z5D/iQtu6B9uXWBn7dzzRr+bx1pNyuBVpngk=;
+        b=A+cQMvfjSdyqVjVgkDjHo6T+OogmJJyVctNkgAqRf6ybE6y2dlX6awBSFqbX2oEOxE
+         sPXJonMQytP4RoobSa/6lqelRWubPKBh/oyXOrmJqNByZcrtXkRsXsdpdR8+uWt1zdXj
+         qDtnjncF6JlKJVpbma7mndoKQzb2r3h9N37kA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768916289; x=1769521089;
+        d=1e100.net; s=20230601; t=1768916286; x=1769521086;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=heTDfoh649jmidpfyy43Tt33d7fnRIyyittQVRJsedg=;
-        b=Zk7cK9OCDqI5ID48EQcKKLaL89KCj5O2ONP0ouWi+veh0fliD0q1MKk/MbWEOcS0YO
-         gyjWIfPbvRuwwDQ2uc/fZRdSZsl4yVjazI5FK1PBifl7T4XR8yv+2/HRXak95r/OovAL
-         riRwG2lC5VjeUTh+MVp8xBoWv4oN8YPCTyPr3/s5cHOHE7XT1d7ris28aJei4ROwE8wb
-         PBzr35zevQnCeEq1O+dCvgZg3CCJfPAx4Mj0O6n5u9VEwIaYPEN9oM88noIRVMAUgS9m
-         6uwCM3VRRHXOeFStszog+wWjgPEPaKlawBOJjA1vLvLF/F4q+w4YvSDspPvdViRaZKPn
-         ye6g==
-X-Gm-Message-State: AOJu0YyL5qgXIT95bFmvjRu82jIBRlnGgU+p0exoFe00Uj2z4LAfah5Q
-	GtMMz4PR2RoeZFN4NsgUIeeUrXt1tlB+L36duDgfcTsHl82qb8fYN0QPhMA5QiivudZyWaFMg1y
-	G7Y6u
-X-Gm-Gg: AY/fxX5sWCmGlCrO2Oy6RXLPJg4n0bd+2eDHb6/crp04T0ftm4edFzHFONe5b5ieCFK
-	HktcNIbkRqMln9iw+JQhSJI4mcitYAvsqFxnWqY9ROp0oNyUndCTbV9F6R6MUELiVShgN35nujl
-	bgbfG6nFN2+HnVfmwodLc7hbuA2I9O1wfjHZ6cCTjl5OE8tfelAxzuKTAo0fpJu3gkVj7551xru
-	mIQkK+BX6bvZrjjE74G6LzfSyLXbVuyMoRkTUU2U/Me8t63ImmOlA9yilTiZCwUmdl7VOQEYrDy
-	tBxfElWTdjMyuPk+1k/PWZxlPw8bfG65R6B+OvLAhIlaZ1dG75+jIKssHzIIAd5IU0bLy8DR33G
-	sTMnP+P6kjT8A0NwU2J3JIQKN3trcLRd7FBGTeZLjb5Jgw3HZpoP4TlPe6he+799Xh7Twyfv9Ve
-	mg8KoUrPxHfGX1ogUf4Foi0wlo6XZgFm9rIQnBdo+tqBKBCkXqEicvhpruOe2Rdzk0mYWb4U7Ki
-	MFSDXzezDUAvUf6vfjmzA==
-X-Received: by 2002:a05:600c:3150:b0:477:6374:6347 with SMTP id 5b1f17b1804b1-4803e7e7dacmr28119795e9.22.1768916288690;
-        Tue, 20 Jan 2026 05:38:08 -0800 (PST)
+        bh=Cu9r7P8Z5D/iQtu6B9uXWBn7dzzRr+bx1pNyuBVpngk=;
+        b=i3PLe3yDc9CcjF9Ntzp/6VVllvUcNacuG+0s9d6Pfydt1s17Hn0XVSXD0ZNSzZwPq5
+         ezUrZy8PltGfmDdEhw2qJtJHlyuLTr5X8ExSsvlpkrzzAP94WEGC6HkaNRk6XRfPACVY
+         4zcpYSbfyByZ0SoClqRUhtQjRzz+D0EwItLzeZ5vjhWf9LBGTy7pTszy8g9ugT5qfIda
+         nu+oCvGzbGy5PN8GSJiMzMF4D4zJs3rYsv3FcnkBJ2FgtyTichGGrkRtH4LC+NE/5nGb
+         p8XWsyS7dFkOLa7nITF0hdC/k2tQmInFlXlhL9IbMu4V4RxPKMZYpHPeFb0iAZBW8chj
+         Nu0w==
+X-Gm-Message-State: AOJu0Yy5hDY/ljl865aihuxplGu6KSNpSV8OAVoEwuEZ4k+qXqpAtwKS
+	mr1gt5M7mtEXWN+oJLS8ODV7bd/xxzqZfLhJKM2l0khafoao6nySue/FPl70uLS2vjXAPTLHwBN
+	tmlY0
+X-Gm-Gg: AY/fxX5uUS0GVLLYmAnDaRam37YYVs8ScO+9VB2atxfgTNaWOpSv4cY9oibOfIj5DsP
+	NQ4gXnpQTKsYkAuU779xGSrX8SufQPTlHoP+qs+Gf3aRSx6gbGWNOVVsnS1ni1kUM+ecjytGAUy
+	KTOrmB8QSR/I5sxM/Ck9clie4vyT3eLwjL6TE+8EsyPBAcRnnk6GGA2b9zXu/ezAOlV92e+FErZ
+	YakTfnI6l6Oxa/rOaVoI0TsCoVm1XtwRmmMxRlVvWaVvkJGL6Eqv7e3MgK9RmSWFvSOSfzVn/O3
+	S6hIFf8MH0OqLF3o6CGkai+bWwTFV/LmR4TB+V8FmOcBAXRYNaLFtIvVRlDtzpxSQlZoqKhUTOi
+	aqQON4mGZOnLQWMqkrTYEDmcgtBbr0B9C+Plvy5kgGwWg7GjI0O8WPaIIYH9f8fMVw7aav4AXO5
+	0LYeoic4HL55GHabCYYf8faJPFX39AAfc+H6ylXh9caQTc2j/2mFKex0gPX0EAF9MxOyvfPxMfY
+	6BcPGgujD6T81tVSokoFw==
+X-Received: by 2002:a05:600c:46ce:b0:477:7b16:5f9f with SMTP id 5b1f17b1804b1-4801eb0efe0mr202186175e9.31.1768916285619;
+        Tue, 20 Jan 2026 05:38:05 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:08 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:05 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/26] cups: allow unknown directives in conf files
-Date: Tue, 20 Jan 2026 14:37:30 +0100
-Message-ID: <d5ffa7b0c9ef975a53d743205d2a1d159cf54bf1.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 04/26] glib-2.0: patch CVE-2025-14512
+Date: Tue, 20 Jan 2026 14:37:26 +0100
+Message-ID: <e1f4bfda4f0f5d481b44264c5f4acff7a78614bd.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
 References: <cover.1768914702.git.yoann.congal@smile.fr>
@@ -66,85 +66,109 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229714
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229710
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Patch for CVE-2025-61915 by mistake causes fatal error on unknown
-directives in configuration files.
-The default configuration already contains unknown directive in
-non-systemd setups:
-Unknown directive IdleExitTimeout on line 32 of /etc/cups/cupsd.conf
+Pick patch from [1] linked from [2].
 
-Backport fix for this from 2.4.x branch which reverts this behavior.
+[1] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4935
+[2] https://gitlab.gnome.org/GNOME/glib/-/issues/3845
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/cups/cups.inc           |  1 +
- ...pping-scheduler-on-unknown-directive.patch | 43 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
+ .../glib-2.0/glib-2.0/CVE-2025-14512.patch    | 70 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index ce55a8ef6f..f70c4e7026 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -29,6 +29,7 @@ SRC_URI = "https://github.com/OpenPrinting/cups/releases/download/v${PV}/cups-${
- 	   file://CVE-2025-58364.patch \
-            file://CVE-2025-58436.patch \
-            file://CVE-2025-61915.patch \
-+           file://0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch \
-            "
- 
- UPSTREAM_CHECK_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch b/meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
 new file mode 100644
-index 0000000000..572a8941f4
+index 0000000000..fd3ba765b1
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
-@@ -0,0 +1,43 @@
-+From 277d3b1c49895f070bbf4b73cada011d71fbf9f3 Mon Sep 17 00:00:00 2001
-+From: Zdenek Dohnal <zdohnal@redhat.com>
-+Date: Thu, 4 Dec 2025 09:04:37 +0100
-+Subject: [PATCH] conf.c: Fix stopping scheduler on unknown directive
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
+@@ -0,0 +1,70 @@
++From 1909d8ea9297287f1ff6862968608dcf06e60523 Mon Sep 17 00:00:00 2001
++From: Philip Withnall <pwithnall@gnome.org>
++Date: Thu, 4 Dec 2025 16:37:19 +0000
++Subject: [PATCH] gfileattribute: Fix integer overflow calculating escaping for
++ byte strings
 +
-+Change the return value to do not trigger stopping the scheduler in case
-+of unknown directive, because stopping the scheduler on config errors
-+should only happen in case of syntax errors.
++The number of invalid characters in the byte string (characters which
++would have to be percent-encoded) was only stored in an `int`, which
++gave the possibility of a long string largely full of invalid
++characters overflowing this and allowing an attacker-controlled buffer
++size to be allocated.
 +
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/277d3b1c49895f070bbf4b73cada011d71fbf9f3]
++This could be triggered by an attacker controlled file attribute (of
++type `G_FILE_ATTRIBUTE_TYPE_BYTE_STRING`), such as
++`G_FILE_ATTRIBUTE_THUMBNAIL_PATH` or `G_FILE_ATTRIBUTE_STANDARD_NAME`,
++being read by user code.
++
++Spotted by Codean Labs.
++
++Signed-off-by: Philip Withnall <pwithnall@gnome.org>
++
++Fixes: #3845
++
++CVE: CVE-2025-14512
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/1909d8ea9297287f1ff6862968608dcf06e60523]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ scheduler/conf.c | 14 +++++++-------
-+ 1 file changed, 7 insertions(+), 7 deletions(-)
++ gio/gfileattribute.c | 11 +++++++++--
++ 1 file changed, 9 insertions(+), 2 deletions(-)
 +
-+diff --git a/scheduler/conf.c b/scheduler/conf.c
-+index 7d6da0252..0e7be0ef4 100644
-+--- a/scheduler/conf.c
-++++ b/scheduler/conf.c
-+@@ -2695,16 +2695,16 @@ parse_variable(
-+   {
-+    /*
-+     * Unknown directive!  Output an error message and continue...
-++    *
-++    * Return value 1 is on purpose - we ignore unknown directives to log
-++    * error, but do not stop the scheduler in case error in configuration
-++    * is set to be fatal.
-+     */
++diff --git a/gio/gfileattribute.c b/gio/gfileattribute.c
++index c6fde60fa..d3083e5bd 100644
++--- a/gio/gfileattribute.c
+++++ b/gio/gfileattribute.c
++@@ -20,6 +20,7 @@
 + 
-+-    if (!value)
-+-      cupsdLogMessage(CUPSD_LOG_ERROR, "Missing value for %s on line %d of %s.",
-+-		      line, linenum, filename);
-+-    else
-+-      cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown directive %s on line %d of %s.",
-+-		      line, linenum, filename);
-++    cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown directive %s on line %d of %s.",
-++		    line, linenum, filename);
++ #include "config.h"
 + 
-+-    return (0);
-++    return (1);
-+   }
+++#include <stdint.h>
++ #include <string.h>
 + 
-+   switch (var->type)
++ #include "gfileattribute.h"
++@@ -271,11 +272,12 @@ valid_char (char c)
++   return c >= 32 && c <= 126 && c != '\\';
++ }
++ 
+++/* Returns NULL on error */
++ static char *
++ escape_byte_string (const char *str)
++ {
++   size_t i, len;
++-  int num_invalid;
+++  size_t num_invalid;
++   char *escaped_val, *p;
++   unsigned char c;
++   const char hex_digits[] = "0123456789abcdef";
++@@ -293,7 +295,12 @@ escape_byte_string (const char *str)
++     return g_strdup (str);
++   else
++     {
++-      escaped_val = g_malloc (len + num_invalid*3 + 1);
+++      /* Check for overflow. We want to check the inequality:
+++       * !(len + num_invalid * 3 + 1 > SIZE_MAX) */
+++      if (num_invalid >= (SIZE_MAX - len) / 3)
+++        return NULL;
+++
+++      escaped_val = g_malloc (len + num_invalid * 3 + 1);
++ 
++       p = escaped_val;
++       for (i = 0; i < len; i++)
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index c5704a27bc..50701be3d0 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -69,6 +69,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-14087-01.patch \
+            file://CVE-2025-14087-02.patch \
+            file://CVE-2025-14087-03.patch \
++           file://CVE-2025-14512.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
+ 
 
