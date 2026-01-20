@@ -1,109 +1,191 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB1FD2ED0F
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:59:24 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4885.1768910353211712595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE228D2ED0F
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 12:09:14 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5036.1768910953353891457
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 03:59:14 -0800
+ Tue, 20 Jan 2026 04:09:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=L3oBE7pt;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4CABE4E421AC;
-	Tue, 20 Jan 2026 11:59:11 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 23B3C606AB;
-	Tue, 20 Jan 2026 11:59:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8C7A910B6B3FA;
-	Tue, 20 Jan 2026 12:59:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768910350; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=3Ihki4qaRmVk/chFbzWeKdxXNcIjgmrc3kU2/pyHPhw=;
-	b=L3oBE7ptHW2RR8deHchMFBz7MrBYj26s3kPqZG6PZ4dRDJqjbLhmEoV5EahwJ1Y+1RCJLP
-	uBCnAbefMm8kZ7wzFNPno4ccy+P1GFXXNLsJLX7uId7aVnU5hP1B3jbYpuOt8Ma0ZD7JnB
-	rTpgah6HYQ+LaiWKJhK2Z7sL9zq4lRgL3NbnR/czFhTuqZA/EMbiadPnhRFQ3PQmlvkBKU
-	LX78ukXjdVoFjeGefQl/YPAs7QGcAa/qjohf6qzC0dXNUV2QhaaFGH/ZFeLfVZsw1wyGGq
-	9P7p4G7fLohmo30cZX39xZTskSBrj1y+EfieD03xtt+Pn9sgXTHWdOQ+NinuPQ==
+ dkim=pass header.i=@smile.fr header.s=google header.b=LILSk71G;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-432dc56951eso3575416f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1768910951; x=1769515751; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wIQOfYhjLvDCiL2nT1Vl2kqoreia4Y/vFQwM1jsTwKY=;
+        b=LILSk71Gfq8O8OwJEzqRJEAfe3HJl5cgbtg3NWBqXSENXjNrOwizp2R7nuglS7h0jh
+         vDooF9R9JiVMHPnP2XCqXKjolL7SYxED6qB9vbripVnvmJSTtXxXLZKMoik1nKx4UkUU
+         LLwZoqkJKA+tFAYUpIYlKBFrNb1yPmqKy30jA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768910951; x=1769515751;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wIQOfYhjLvDCiL2nT1Vl2kqoreia4Y/vFQwM1jsTwKY=;
+        b=R6tzb54xtCj2j4VWQtnnLGHjoKfL/av5pyGex34/C3LlD2jU1gOztNjbzIuKf4zg25
+         WwbE8UOuzfC02XgwGXGfaMxjWc+TDr0lmQUECzYqL/Wbg6XNCwELMTd382FQDbbJYT5H
+         5/FnTvBJHIXTznl0uzVjVVCs+UbOeYjesKWz3quTyrOKeyiCvFif6lKZx1iRq4dyscaa
+         IekGIJp1FCFfQCwhiQFi+3K8Y4CffhsZ/iefa0FOJQ+uDfcM18WjX2yJwJvB9dnJn2sw
+         Yk/do+VGJzLt4yf6SQ0BBxXP/dfpBQXk523Ru/TlmcOVdLN2CTPko53PuV3hGBF67iI3
+         3Uow==
+X-Gm-Message-State: AOJu0YyUT2uXXt9u5ldHIN1CeoWirxgGsFl2iZdaN7fM2tWBkxdadofs
+	iTytThRAgOAi6Zcxv8Ta1igsNZVdnLLfRCV0rzaE5baX8wAjkpME1pI7U4MVBGnFLm7JYBiAdiX
+	5PsKh
+X-Gm-Gg: AZuq6aKnNnBih+hk7Ima9lF+ophY4zdGHlm9PKcdftsE7nxM7r5mgq1OPVaAtzuYnJB
+	8USryyj/SEGb3t9kcEwfZy6Z1JXboyG7fXQ9zLEezIgnlv3gtVfuVC5+WD6bqC+WSZ9JBkOFG6R
+	m600FYPER9HPeLl/lmR3J0PDMbOvU/MqmhUR5qWV7mk3rBB0oAH5+8I4KvHNn0S2b+k1dVZne7G
+	4qdpvZmbAtn/n6h9YI4iTN/kc4iCXm2fU201044lX9KpIkSJsE+py19lNknjvJlc+Xhq9I4DJjk
+	8uxgOsRwzw755CK+Zh1ynGJFP5PcZfCTibHVp/ZnQcjfRvMLuGZbIM5TN2Ew+lKA+qcsOKfPhV7
+	hv+AyQiwv9ZsAsv1M4kUE8zlcM6eXLEa00YXFpe5hWX209NwAZ0d0kA0mE9AOJz5JSJBLRgn+m1
+	7QMkkOUqzhCQ/FLifmOHXdvlL+OGTmZB+wlfQMWml4n2J5mOgBG1cNqDRAw1tMjPEYDVJ5MRblv
+	khBqr+LWxpjwIGA2dZE+g==
+X-Received: by 2002:a05:6000:200b:b0:431:35a:4a7d with SMTP id ffacd0b85a97d-4358ff6f98bmr2656498f8f.58.1768910951369;
+        Tue, 20 Jan 2026 04:09:11 -0800 (PST)
+Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 04:09:10 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 00/22] Patch review
+Date: Tue, 20 Jan 2026 13:08:14 +0100
+Message-ID: <cover.1768910519.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 20 Jan 2026 12:59:09 +0100
-Message-Id: <DFTEDVX1EJ4O.ADHORW5LAF40@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2 00/14] IDE SDK Improvements
-From: "Antonin Godard" <antonin.godard@bootlin.com>
-To: <adrian.freihofer@gmail.com>, <adrian.freihofer@siemens.com>,
- <openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-References: <20251231114718.4031606-1-adrian.freihofer@siemens.com>
- <DFNBA0VIZPB8.12G68QK151UGC@bootlin.com>
- <3fce84b4562ce40c8ee858f36640ca1cfca39b20.camel@gmail.com>
-In-Reply-To: <3fce84b4562ce40c8ee858f36640ca1cfca39b20.camel@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:59:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229677
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 12:09:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229678
 
-Hi,
+Please review this set of changes for scarthgap and have comments back by
+end of day Thursday, January 22.
 
-On Wed Jan 14, 2026 at 7:37 PM CET, adrian.freihofer wrote:
-> Hi Antonin
->
-> My proposal for proceeding here is to drop one patch from my series:
->   [OE-core] [PATCH v2 13/14]
->   oe-selftest: devtool: add test for gdb pretty-printing
->
-> This one get killed by patches which are currently on master-next too.
-> This makes it almost impossible to fix at the moment.
-> When things will settle down, I will test and send this one again.
->
-> It is just one more test step which would be nice to have but not
-> essential.
-> It also fails only on a ARM host, which I cannot reproduce.
->
-> All in all just too many floating parts for getting this to final state
-> right now.
->
-> Could we please proceed with 13 out of 14 patches from my series as a
-> next step? Mathieu already hat such a branch for a while.
+ This scarthgap patch review request is aimed at getting kirkstone
+4.0.33 built on monday:
+* Ensuring fixes in kirkstone have their equivalent in more recent
+  stable branches.
+* pseudo upgrade to fix 16117 – AB-INT: do_package: Error executing a python function in exec_func_python() autogenerated
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16117
 
-Sorry for messing up with what Mathieu had on his branch, probably a miss o=
-n my
-side as I've picked up his work.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3091
+via poky-contrib stable/scarthgap-nut. The tip of OE-Core is at:
+https://git.yoctoproject.org/poky-contrib/commit/?h=stable/scarthgap-nut&id=a7e7530d8ece2ee31ffcb220264cc9c52616b526
 
-I picked your patches again, and while some oe-selftest runs did succeed, I=
- hit
-this error, which seem related to your series:
+The following changes since commit 6988157ad983978ffd6b12bcefedd4deaffdbbd1:
 
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4983396/raw_inlin=
-e
+  build-appliance-image: Update to scarthgap head revision (2026-01-02 06:57:59 -0800)
 
-From this build:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3035
+are available in the Git repository at:
 
-It was run with the following commits:
-https://git.yoctoproject.org/poky-ci-archive/log/?h=3Doecore/autobuilder.yo=
-ctoproject.org/valkyrie/a-full-3073
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-I don't recall hitting the issue before having your series in my branch, so=
- to
-be sure I ran another build with only your series applied on master, and I =
-still
-have the issue:
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5038061/raw_inlin=
-e
+for you to fetch changes up to 199c6518f5e363a2d8648bdfe14233afd9b0ba6e:
 
-Can you have a look?
+  pseudo: Update to pull in 'makewrappers: Fix EFAULT implementation' (2026-01-19 17:44:48 +0100)
 
-Antonin
+----------------------------------------------------------------
 
---=20
-Antonin Godard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Paul Barker (1):
+  pseudo: Add hard sstate dependencies for pseudo-native
+
+Peter Marko (16):
+  python3: patch CVE-2025-12084
+  python3: patch CVE-2025-13836
+  util-linux: patch CVE-2025-14104
+  qemu: ignore CVE-2025-54566 and CVE-2025-54567
+  glib-2.0: patch CVE-2025-13601
+  glib-2.0: patch CVE-2025-14087
+  glib-2.0: patch CVE-2025-14512
+  dropbear: patch CVE-2019-6111
+  libpcap: patch CVE-2025-11961
+  libpcap: patch CVE-2025-11964
+  cups: allow unknown directives in conf files
+  libarchive: fix CVE-2025-60753 regression
+  curl: patch CVE-2025-14017
+  curl: patch CVE-2025-14819
+  curl: patch CVE-2025-15079
+  curl: patch CVE-2025-15224
+
+Richard Purdie (4):
+  pseudo: Upgrade to version 1.9.1
+  pseudo: Update to pull in memleak fix
+  pseudo: Update to pull in openat2 and efault return code changes
+  pseudo: Update to pull in 'makewrappers: Fix EFAULT implementation'
+
+Robert Yang (1):
+  pseudo: 1.9.0 -> 1.9.2
+
+ .../libpcap/libpcap/CVE-2025-11961-01.patch   |  38 ++
+ .../libpcap/libpcap/CVE-2025-11961-02.patch   | 433 ++++++++++++++++++
+ .../libpcap/libpcap/CVE-2025-11964.patch      |  33 ++
+ .../libpcap/libpcap_1.10.4.bb                 |   3 +
+ .../dropbear/dropbear/CVE-2019-6111.patch     | 157 +++++++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |   1 +
+ .../glib-2.0/glib-2.0/CVE-2025-13601-01.patch | 125 +++++
+ .../glib-2.0/glib-2.0/CVE-2025-13601-02.patch | 128 ++++++
+ .../glib-2.0/glib-2.0/CVE-2025-14087-01.patch |  69 +++
+ .../glib-2.0/glib-2.0/CVE-2025-14087-02.patch | 240 ++++++++++
+ .../glib-2.0/glib-2.0/CVE-2025-14087-03.patch | 150 ++++++
+ .../glib-2.0/glib-2.0/CVE-2025-14512.patch    |  70 +++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   6 +
+ meta/recipes-core/util-linux/util-linux.inc   |   2 +
+ .../util-linux/CVE-2025-14104-01.patch        |  33 ++
+ .../util-linux/CVE-2025-14104-02.patch        |  28 ++
+ .../0001-configure-Prune-PIE-flags.patch      |  44 --
+ .../pseudo/files/glibc238.patch               |  65 ---
+ .../pseudo/files/older-glibc-symbols.patch    |   4 +-
+ meta/recipes-devtools/pseudo/pseudo.inc       |   7 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   6 +-
+ .../python/python3/CVE-2025-12084.patch       | 144 ++++++
+ .../python/python3/CVE-2025-13836.patch       | 162 +++++++
+ .../python/python3_3.12.12.bb                 |   2 +
+ meta/recipes-devtools/qemu/qemu.inc           |   3 +
+ meta/recipes-extended/cups/cups.inc           |   1 +
+ ...pping-scheduler-on-unknown-directive.patch |  43 ++
+ ...25-60753.patch => CVE-2025-60753-01.patch} |   0
+ .../libarchive/CVE-2025-60753-02.patch        |  46 ++
+ .../libarchive/libarchive_3.7.9.bb            |   3 +-
+ ...st-qual-fix-or-silence-compiler-warn.patch |  85 ++++
+ .../curl/curl/CVE-2025-14017.patch            | 115 +++++
+ .../curl/curl/CVE-2025-14819.patch            |  73 +++
+ .../curl/curl/CVE-2025-15079.patch            |  32 ++
+ .../curl/curl/CVE-2025-15224.patch            |  31 ++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   5 +
+ 36 files changed, 2271 insertions(+), 116 deletions(-)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-01.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-02.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-13601-01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-13601-02.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14087-01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14087-02.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14087-03.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-14512.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-configure-Prune-PIE-flags.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/glibc238.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-12084.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+ create mode 100644 meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
+ rename meta/recipes-extended/libarchive/libarchive/{CVE-2025-60753.patch => CVE-2025-60753-01.patch} (100%)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-60753-02.patch
+ create mode 100644 meta/recipes-support/curl/curl/0001-build-enable-Wcast-qual-fix-or-silence-compiler-warn.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14819.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15079.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15224.patch
 
 
