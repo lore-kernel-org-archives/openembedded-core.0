@@ -2,158 +2,110 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11674D2ECF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE4DD2ED15
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 11:24:34 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4235.1768908266528841701
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4162.1768908271782690624
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 03:24:26 -0800
+ Tue, 20 Jan 2026 03:24:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Hzf6ICPH;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-432d2670932so4146347f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:26 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=JhdrjVm9;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so49560435e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:24:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768908265; x=1769513065; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uvTeS4IBu3E810BxGkQIh1ZV0NvP01hXBoJPTR8YhAA=;
-        b=Hzf6ICPHxmSZiwAKJnkoUuLpdN+qGkgaootrJoXudrZGcgC5IHKyvqjFbGO+has0zW
-         u9PVkQVuwwAWuAUbRbmJ/tyM8hgiwNjBvDh/X3K1IYYTPfLM8HdUPg5eWGswY5pIh4+S
-         rNMN1x2/7Hrj3MMoiXrXQXWnrp5VdVxNqNwlo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768908265; x=1769513065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1768908270; x=1769513070; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uvTeS4IBu3E810BxGkQIh1ZV0NvP01hXBoJPTR8YhAA=;
-        b=UeKxldtJen45gb24oedHRjsEtDDoepQmOeGSx1GS8O8axr7PG48rhBqOnNP8ZHzD/R
-         VJ2wzAMBAyvbe/qg6e3GDVm2/2rlYJAbEAt2WDDy/1VSS1BTN0eQ4xIWMzYyqOLvmMtZ
-         3jo8Vkb0xJhv0W+n6heGqIIlnWPo6AN9QBpCQlMi0lLH45zTmBv2HHqQieD9ir0Vz1/v
-         dvVJA70jI4DcdNn8EWFrhzqgn93tc6UbSI/bdRFPNIDCfmRP8iZpAzuC7otS6baB0Cow
-         4k/8tkcWwOb5BCbaM205LxLCYDER0tcmbJoarrdujqhFfgBfI8h5R5YuJwbwrK7+gRtz
-         StNw==
-X-Gm-Message-State: AOJu0Yx+NqXjrk4RyJGRoVGkkfYpYMi6RcWgBknSs97Fa2+PxnygPRVR
-	WWOP7JWXA+Ylpmy3TJB9muPxmJA/T7P1KT1qa7ZOobs6TWuwL4zx0SAETX7baUCcGcmCa1F0bhe
-	B5vCH
-X-Gm-Gg: AZuq6aI7EoBNlF0bhBIEEIAqnwX7BapcwNasw5FO+yUhBaYOVcgJG0WHhDGwRgT+03i
-	aIaAGgGqq9ofeyOnUIVgOBosNiFw6CgmdH9mXcq3A5712I2f/rjJQHIDCJo4pDb4pLg2k0iB82K
-	nS3+IJc/LoBtUnbd62Cr04byGqpFj37+WHHK22JjDAp25uaeQpChfUawxHcRG1fzm/af9VG01B8
-	FbmkBFqsG83rFgCJKJITnE4mIojggYf4GTJ8dst6rm657rqyUUtCJcbEC2xq9PPvzvS4reT0Oey
-	FKLYy1wGgTglaitbkFtkanYfuyo/W6wwx+AOKYJMWLpV8YFu/XWhC3x2Nak8l5lTXD3avSXO2j3
-	5mXbFetP7U5Ajj25rY4yrrS8B4Hv8WoItKJqskY346PjrrLMszPHxlchL9tVLIY7DOqGSJlfhcn
-	5o9DvXF/lsw91iT3mJDPTlfO/CF2I2z2v4N69KCWEeBt9hBHARp5rvdzvUNd5Bvv46z8HXGVhUM
-	Smhgh31gH7Ox3mhEuL+yA==
-X-Received: by 2002:a05:6000:2483:b0:431:5ac:1fc with SMTP id ffacd0b85a97d-43569998b49mr18250459f8f.14.1768908264569;
-        Tue, 20 Jan 2026 03:24:24 -0800 (PST)
+        bh=Qf7r5P8R6uL8XQgSzye11t9Rcr9MLD3C5DxPyoZco2k=;
+        b=JhdrjVm97tq/uLOsfC/hxVTFK2zR0exiAklDXjmgO+ukcxWB5OUF11H49/fx1+16pG
+         Yb5EHL/kagFUkDk/uB1OAsr4/VDK8HGSzi/9Tq/sBYEzJBB57RQw7ULtkmhfVT1inh1Q
+         lkL/ycGZ6vXB8pPQMufQ739wRyfd86vhRH4rg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768908270; x=1769513070;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Qf7r5P8R6uL8XQgSzye11t9Rcr9MLD3C5DxPyoZco2k=;
+        b=aVsWpLGtyi2c+poVT+of6IFN4h6n+pDDqIboDzEoEt0qEx+7Eje/lwcQdF7tpnjgoS
+         +RG+lQDdoYco15hZiMa0TIR9o/xX8EaxPurn0y6y7gt2szsQoRBYCiMcMiPlwThnzXhK
+         pk15yyIIH5+ECCwnTx3J8dZdm1weGF+ZNDaqyGRR7k4Kb39/ORzpYqnhZnyuVBu8s9ue
+         f/KuyQPpEDx9/gsudG450n6Kj1u12sxCCh3rAbtG5tt5hyx+LiBCA8bgJmaTSEhP+Hzb
+         9QP3rIbkB/rFbR6AsMtFy3pc0PLwuVoTzSVbM5mEjmr7NAbMKyYTlmvwEYvqc9XHpy+5
+         R1/g==
+X-Gm-Message-State: AOJu0YysmOB0eMo5+7wgij4vN+Tjd5Vs2zGRa0BhdPrmI2GlLjH+uuje
+	Ci/oHwnmYgdqSBCNsRYnFBTpi4N/GK0U+0IByVe0kVwWRUN4dJkZkFSnkdj5amrlSaqblxp8qn8
+	C8puu
+X-Gm-Gg: AY/fxX6N+/BRtmTe+KsRIJl7bqT1UyBcRqy/Jth77bG1B8ZCO3JB4wWH89QLdWf9Keb
+	hbErk+EX7Co/BlGmlUIsQYoE2ap1jYrh5q4rmgt+iDegTgE+n1WkTey3QjxBVbH474tne7RM29w
+	JJdNiEIfV/fhy+my4sAOWSdlGbb6TymDdA456EiU0NSpQetn+IJAihxLDd9y93r0zQ53puM2a+H
+	8oAQW9jux496YpNjGxXGPV5RMOJBQyluPi4RRZqmov10LRW7y8rZNdRQaEM/ybZ0ew+U460JWqc
+	zsmpM/AskyOtLQ1akaDkO8EH8T8ILro7xhS1RYhjQtnaCSEBPxhr4ON7rqhI3jjQ+pz3jUSowgU
+	Gx8nMgI3rJUp826pw/AXMMgzjig87WeJx/VSOxpZFB8XbkIWTaT0d21wTAVXIys/XBSx1SsnwRX
+	KaxmZV4Fyw2z6PV1Zitw9IhAw5oWoR65L1xIkz0B6wKGRy8NDubQPTdnx9Ry5gGCWe97dKF8MTO
+	CO0e86xPFe/yP0/ulVedsHuoWHk5wbp
+X-Received: by 2002:a05:600c:4e15:b0:480:19ed:7efa with SMTP id 5b1f17b1804b1-4803e8020fdmr21318485e9.36.1768908269800;
+        Tue, 20 Jan 2026 03:24:29 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm29558435f8f.3.2026.01.20.03.24.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm29558435f8f.3.2026.01.20.03.24.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 03:24:24 -0800 (PST)
+        Tue, 20 Jan 2026 03:24:29 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 00/15] Patch review
-Date: Tue, 20 Jan 2026 12:23:45 +0100
-Message-ID: <cover.1768906687.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 08/15] selftest: devtool: Set PATH when running pseudo
+Date: Tue, 20 Jan 2026 12:23:53 +0100
+Message-ID: <842f5a492d79f218e81c48acd02b6e06eaab0f70.1768906687.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1768906687.git.yoann.congal@smile.fr>
+References: <cover.1768906687.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:24:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229660
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229668
 
-Please review this set of changes for whinlatter and have comments back by
-end of day Thursday, January 22.
+From: Paul Barker <paul@pbarker.dev>
 
-This whinlatter patch review request is aimed at getting kirkstone
-4.0.33 built on monday:
-* Ensuring fixes in kirkstone have their equivalent in more recent
-  stable branches.
-* pseudo upgrade to fix 16117 – AB-INT: do_package: Error executing a python function in exec_func_python() autogenerated
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16117
-* ffmpeg patches to fix 16000 – AB-INT: ffmpeg build failing
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=16000
+When running pseudo outside of bitbake, we need to use the same PATH as
+we would use if we were running inside bitbake instead of the host
+environment's PATH.
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3092
+This is particularly important on Ubuntu 25.10 where 'ls' on this host's
+PATH is provided by uutils and we have setup links in HOSTTOOLS_DIR to
+ensure that the gnu coreutils implementation is used instead.
 
+Fixes [YOCTO #16099]
 
-The following changes since commit dd10706cfafb5574b7cf316fca2300d166ef71b0:
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8a264cb75ab456c22568b135c473064553e5321b)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-  build-appliance-image: Update to whinlatter head revisions (2026-01-12 10:58:53 +0000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-nut
-
-for you to fetch changes up to e7891f39ae90d1c23bfcb59af0064591513a671d:
-
-  libarchive: upgrade 3.8.4 -> 3.8.5 (2026-01-19 23:29:16 +0100)
-
-----------------------------------------------------------------
-
-Alexander Kanavin (3):
-  libpng: upgrade 1.6.52 -> 1.6.53
-  ffmpeg: add a (possible) build race fix
-  ffmpeg: fix a build race, hopefully for real this time
-
-Paul Barker (1):
-  selftest: devtool: Set PATH when running pseudo
-
-Peter Marko (9):
-  util-linux: patch CVE-2025-14104
-  gnupg: patch CVE-2025-68973
-  curl: patch CVE-2025-13034
-  curl: patch CVE-2025-14017
-  curl: patch CVE-2025-14524
-  curl: patch CVE-2025-14819
-  curl: patch CVE-2025-15079
-  curl: patch CVE-2025-15224
-  libarchive: upgrade 3.8.4 -> 3.8.5
-
-Richard Purdie (2):
-  pseudo: Update to pull in openat2 and efault return code changes
-  pseudo: Update to pull in 'makewrappers: Fix EFAULT implementation'
-
- meta/lib/oeqa/selftest/cases/devtool.py       |   5 +-
- meta/recipes-core/util-linux/util-linux.inc   |   2 +
- .../util-linux/CVE-2025-14104-01.patch        |  33 +++++
- .../util-linux/CVE-2025-14104-02.patch        |  28 +++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
- ...ibarchive_3.8.4.bb => libarchive_3.8.5.bb} |   2 +-
- ...k-Consolidate-pattern-rules-for-comp.patch | 106 ++++++++++++++++
- ...s-Fix-double-build-by-disabling-.d-f.patch |  78 ++++++++++++
- ...ak-ensure-target-directories-are-cre.patch |  43 +++++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb  |   6 +-
- .../{libpng_1.6.52.bb => libpng_1.6.53.bb}    |   2 +-
- .../curl/curl/CVE-2025-13034.patch            |  37 ++++++
- .../curl/curl/CVE-2025-14017.patch            | 116 ++++++++++++++++++
- .../curl/curl/CVE-2025-14524.patch            |  40 ++++++
- .../curl/curl/CVE-2025-14819.patch            |  73 +++++++++++
- .../curl/curl/CVE-2025-15079.patch            |  32 +++++
- .../curl/curl/CVE-2025-15224.patch            |  31 +++++
- meta/recipes-support/curl/curl_8.17.0.bb      |   6 +
- .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.5.11.bb    |   1 +
- 20 files changed, 745 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
- rename meta/recipes-extended/libarchive/{libarchive_3.8.4.bb => libarchive_3.8.5.bb} (96%)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch
- rename meta/recipes-multimedia/libpng/{libpng_1.6.52.bb => libpng_1.6.53.bb} (97%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-13034.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14819.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15079.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-15224.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
-
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 8d7e984753..c7bd1831a9 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1843,11 +1843,12 @@ class DevtoolDeployTargetTests(DevtoolBase):
+                 result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
+                 # Check if it deployed all of the files with the right ownership/perms
+                 # First look on the host - need to do this under pseudo to get the correct ownership/perms
+-                bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD'], testrecipe)
++                bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
+                 installdir = bb_vars['D']
+                 fakerootenv = bb_vars['FAKEROOTENV']
+                 fakerootcmd = bb_vars['FAKEROOTCMD']
+-                result = runCmd('%s %s find . -type f -exec ls -l {} \\;' % (fakerootenv, fakerootcmd), cwd=installdir)
++                path = bb_vars['PATH']
++                result = runCmd('PATH="%s" %s %s find . -type f -exec ls -l {} \\;' % (path, fakerootenv, fakerootcmd), cwd=installdir)
+                 filelist1 = self._process_ls_output(result.output)
+ 
+                 # Now look on the target
 
