@@ -1,98 +1,92 @@
-Return-Path: <ungerer.ricardo@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 342E2D2629C
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 19:47:49 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15237.1768938459712384975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 667CDD2629D
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 20:00:59 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15495.1768939252217038186
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 11:47:40 -0800
+ Tue, 20 Jan 2026 12:00:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XxE4kLEg;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: ungerer.ricardo@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59b72a1e2f0so6718040e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 11:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768938457; x=1769543257; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V4Xiv8RLKVQDpes8AJ6Xt7Td0iiUU0khCfUbFMstCaA=;
-        b=XxE4kLEggutTmTsCW6xFP07lGWUtJjEBqKdhIBEZ6uc/L3Czd1hCKLkNxBRbU//+zU
-         Zo/wHAfFMaXDCkFBEh1l9ZW4MmrPudmN8DUI8CgLR7cUK1OojGlJQvYRt97+NJV8s38a
-         Afl3uFXCKkQeEronFTEe4dCXGPNry0atMy/qqKaANKhmMwoWx35bKQVG9GH3MfBsutVu
-         pZsCLH/NUl52e4eYr+S+pMjje3XKlI/6FwRncFD0NeNd/JGRvOLEBVE5zmSIcTnP9nvM
-         dnuarp3HcLM3N5hW9+RZOXHIpoVbQfg7Py1T1CGWNr3yKYawiTOaMMPfmOZ01vkQQhs3
-         0zzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768938457; x=1769543257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V4Xiv8RLKVQDpes8AJ6Xt7Td0iiUU0khCfUbFMstCaA=;
-        b=VpkO0fVvkTg/oDT2lPHkecCzfR+N3CYCwDpDNUmUiHc4/qBZq8YJlVYGAJVl7mV084
-         2PqZ1TLZLkIIEWodBB+g+uu1rcSzmteQetdul5OsnpbaAWZvqm5je0C3Qj+PFxjtPG2N
-         BqdEw7p7q8MskE7NMsiBME44MHnGj29FJ1VEqtf6pIMSTk9BF+hOh19yanj7+xRNyUH+
-         0lY0CtEGcSa8MQrkQexHf+oY5ZGuQRnJw391+ZNnzDLUUdTXbv/Agy4vRm804tqV3+WZ
-         YfJ8xzzQP4KoErbQ50bN3VdAk59epqzi9cPdP1o5RvE33y7Tmrmonhod6Tm6XofcNHia
-         fPXQ==
-X-Gm-Message-State: AOJu0YyZDEcnHmtNhMhGHCSX2X7BVw98bhlncHcUxEDLaslXUrNBlAgq
-	oQzpzkzAfCEkSPR+l6816ewv5yPaVftpa71oUpOOOr3w9Z6eBkYYPXuOyplIuA==
-X-Gm-Gg: AZuq6aKj/obTW4R/tolDS3nUvLLLh3EiOfOjcHtkrh2lqncl8r4ex96VWni3T/ByTEj
-	A6vHlsZb1gB95mUJDkmsZFbcW040sFQTpfw+JlesKCpAJrwNY1wF8D0R7k2q6DzceX77ddlP7QE
-	9iuhMY7KncZFWlPoQdWu3sIu3CXxHPKbbG+WLjQiaUDCbGqx8zfdjZJJqDAEF7y8PVRPpON7R8K
-	hWml5SNWSuK8kJvCuC8ucKRqxyx5y6Ya3kD7MedyXtyXHcsMda/SPJ+8JJMWln1g++HwwcrzGuH
-	2rJS/BlFMyStMBNTpY9oHDp1fwBbk1bEBu75dmRs6syardpICqVLZh9tHeW8iw6iawbfkmhs0ir
-	e/Mo6SXSNYhR/3nMZxOg1xsGXWTObhynASc9e4QHpiWIAyjoHSKuXPJ52f+CwszGuQeaPBJ9HXF
-	c9EzNG5y8nsj8X7ThU
-X-Received: by 2002:a05:6512:3c8a:b0:59a:103d:2918 with SMTP id 2adb3069b0e04-59dc93565d1mr919200e87.37.1768938457196;
-        Tue, 20 Jan 2026 11:47:37 -0800 (PST)
-Received: from bolonheso.. ([45.94.208.114])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-59baf9d442dsm4395035e87.94.2026.01.20.11.47.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 11:47:35 -0800 (PST)
-From: Ricardo Ungerer <ungerer.ricardo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ricardo Ungerer <ungerer.ricardo@gmail.com>
-Subject: [PATCH 2/3] yocto-check-layer: Fix README email check
-Date: Tue, 20 Jan 2026 19:47:21 +0000
-Message-ID: <20260120194722.142355-3-ungerer.ricardo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260120194722.142355-1-ungerer.ricardo@gmail.com>
-References: <20260120194722.142355-1-ungerer.ricardo@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rODeMdI+;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dY9kjJDU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019bdcfee645-64b76e30-e598-4631-84d3-84ca40c9d1ca-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1768939251; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=a5SKUatTI9MxYKHv+HSi493jvrRyCzoT45wBMLcUsT0=;
+	b=rODeMdI+BWx4dZTNR5C7XulQMpJ6wSdG1TK/zkOMuI8+W708vcP1Mgam5XKBgyv0
+	Wrar0L+hRg3vuUoI+23+NUF3/mnPanaIiGymMHgnThydKwNpnVS/zCx7nydjSYCCVYt
+	YFn4JdkwblE7d6p1x1mpzVJdFEnQo2h9Ny1Gjzxs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768939251;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=a5SKUatTI9MxYKHv+HSi493jvrRyCzoT45wBMLcUsT0=;
+	b=dY9kjJDUOWhD7ZcdYq0BoVZTdJpmPjYljyFqDEfqz8cSQUku+XO2LyC/4OdMQ8EF
+	SB3mZbgw74yXQAHO5f5/yctpOKOzG5V87Clh000vVv93V0AeUZPv4YS1w4qN2ih+PuX
+	x5sXn58FzFxvgXP9qKO2I3uOU5BVeoZaoATPqC94=
+From: patchtest@automation.yoctoproject.org
+To: Ricardo Ungerer <ungerer.ricardo@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/3] yocto-check-layer: Add docstring to test_readme method
+In-Reply-To: <20260120194722.142355-4-ungerer.ricardo@gmail.com>
+References: <20260120194722.142355-4-ungerer.ricardo@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019bdcfee645-64b76e30-e598-4631-84d3-84ca40c9d1ca-000000@us-west-2.amazonses.com>
+Date: Tue, 20 Jan 2026 20:00:51 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.01.20-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 19:47:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229790
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 20:00:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229792
 
-So far the test_readme have been use of re.match to find an email
-address in the README file. This only matches if the email address
-is at the start of the file. This commit changes this to re.search to
-find email addresses anywhere in the README file.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Ricardo Ungerer <ungerer.ricardo@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- scripts/lib/checklayer/cases/common.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/3-3-yocto-check-layer-Add-docstring-to-test_readme-method.patch
 
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index 0114481434..9ea7592ba6 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -39,7 +39,7 @@ class CommonCheckLayer(OECheckLayerTestCase):
-         self.assertIn('patch', data.lower(), msg="No patching information found in README.")
-         # Check that there is an email address in the README
-         email_regex = re.compile(r"[^@]+@[^@]+")
--        self.assertTrue(email_regex.match(data), msg="No email address found in README.")
-+        self.assertTrue(email_regex.search(data), msg="No email address found in README.")
- 
-     def find_file_by_name(self, globs):
-         """
--- 
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
