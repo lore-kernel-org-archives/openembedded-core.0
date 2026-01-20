@@ -1,189 +1,208 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FAECA5FC1
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 17:52:58 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12421.1768931570537364771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 282BCCA5FC4
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 17:54:18 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12550.1768931655863282293
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 09:52:51 -0800
+ Tue, 20 Jan 2026 09:54:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=yG8cVa44;
- spf=pass (domain: baylibre.com, ip: 209.85.128.52, mailfrom: tgamblin@baylibre.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47eddddcdcfso28034835e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 09:52:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1768931569; x=1769536369; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/4zW5c+45sVjUF/JdNPGXdRJcRnH6atIFu1RhYsfdHk=;
-        b=yG8cVa44bqcaNyYT17SPEjw19zHeamHJiHt9k6M7kgWOAQmDPesFs8iqGVGS7LQ3fB
-         FBjKcLZtBmml0RJD8YEfRktrORtCf1qJsPTUZqmIRT22ZM1Arw+6+br/4saUzEHyp/7S
-         06zEKGh5dqJudwyT6Qhmb1ZMb3CeytsiYWtKX/OpoESC2QEIym5D5ehUOYFZsmy96WaV
-         8YJX+NBOImcge/02qOeS460IZfa5OClCmYkKnz3cgFerhdBSKI3IrJKt8W1ZMFuXrZYS
-         TXozAfPhWyHJyVqBdcSdrv2Atfdh2IX+XRc8qToLfwr+XBOjmLhZ7hcesUD9afttZWbs
-         lStA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768931569; x=1769536369;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/4zW5c+45sVjUF/JdNPGXdRJcRnH6atIFu1RhYsfdHk=;
-        b=SFQ7k+YKm8DZdTpsaJ1jtL98PEV9haA99rRkBJnGJ0UOS4BYkqcAIXSkg1s9xyAwEw
-         9sC38KRlhS4FpWALU1JxGJH1mCz2ux4Ucx96gE7hKEpTcjKJqBWcVZtHXAClkNmDacjH
-         DCRhXtnLgTXnxngF/a6yVDXXJY9IBYz67mLofO3aFsdwyEPsyav14tDT5Q+SdePyGHGB
-         vkbUkyoqJ5myh5G+kVMEJzCxVqO+B6wWckua2iYpwknBV05Q3HzMRxJuKkFs1wq1DCXu
-         xbAigvc+vaajfr64//TH1qkMgyHXfL24IYr/koAZAKOJE7pVtiJI7hKBlK8RoE7hfMiH
-         oOFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKhZa+lgaLaeMJwM+oe9YjbSfvBFIbcrYA0Sr9gLHSR75JIDgkkQAKy83CCq0dtcNObZVssnmOcD/HuGK5MjKB5g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw3s3yFR8eOJPQDoe0IYUSPyIUakJ+zFQyNzPebb0xti7SKzm9k
-	dvG9cpOBfcZkORR+B9+VVKNP8YzYBsBUc0BTuZPpLsdr+kAFpvE5OV2M9hFYQ/QGrkQ=
-X-Gm-Gg: AY/fxX46cxy29yGrPtSp6Zn18ik15zYkptsgNg5Bbx4JaY+BRzqCFnk/E0Dtut8a4Dd
-	OsNpPPE/PuC7tlvDPnfeURXXiWCoWk/8TSTvN+CJxa9lXlGHaFs2hbd+r4AFkZ6sxkLMmUkeWTs
-	17wgTlMW/VggQpfasVhl1b/lk3MXpWSQGmpEw0mPoyv378+SAq0L5i9nXOO0DqR+ch1clzKt/ph
-	dG0q7gJDU3xeS8PqduoK+RBLDALCHGN80nilgFG+3k8K8Qxw4u78RdRZbBsiIvCmIPhxm/xXdmM
-	1Sq4lcT9w8us8HZA+aVotQHnwnn77m0rKrwkXh9eu2XCnyU+ZMFpnnJ5maZYpn01JrKM43aTk5U
-	oBu7Or+3vDJM//YRZX75W2nHsbXo98AA09Pn+pjWZ+Ccuqgk5kAED9g1YqqLjl+W2yusW59CTkH
-	0dJ4th7qb3bt8znQK4ApFoUJhmm0mVKeqW98lDcOyUN6fQ71uYDokTVfWC1XbBDpqz
-X-Received: by 2002:a05:600c:8b85:b0:47b:de05:aa28 with SMTP id 5b1f17b1804b1-4801eab1a91mr168416865e9.2.1768931568712;
-        Tue, 20 Jan 2026 09:52:48 -0800 (PST)
-Received: from ?IPV6:2001:1970:3847:e000:1977:be2f:4a71:2892? ([2001:1970:3847:e000:1977:be2f:4a71:2892])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e879542sm268415085e9.4.2026.01.20.09.52.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 09:52:48 -0800 (PST)
-Message-ID: <7b0978c4-3e1c-4147-ad60-da683182ac17@baylibre.com>
-Date: Tue, 20 Jan 2026 12:52:45 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [OE-core][scarthgap 11/22] cups: allow
- unknown directives in conf files
-To: yoann.congal@smile.fr, "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "patchtest@automation.yoctoproject.org"
- <patchtest@automation.yoctoproject.org>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <534f207c2869c6fbbef5d061607a28b6114c7a22.1768910519.git.yoann.congal@smile.fr>
- <0101019bdb562a2b-484d0628-8997-4935-86c3-0033faa83721-000000@us-west-2.amazonses.com>
- <AS1PR10MB56978D4AFCBC674510C81B86FD89A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CAMSfU+6qqthiP2bD0VSu4XVJKOutwLHy=O+sByC5LXqJN2X2yg@mail.gmail.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <CAMSfU+6qqthiP2bD0VSu4XVJKOutwLHy=O+sByC5LXqJN2X2yg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JU1wsSLk;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=548098e00b=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60K5TJXu1083235
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 17:54:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=OFFrZm01wqxVjPezwt63WNk14vc+a6cLbjRlFUrBU18=; b=
+	JU1wsSLk73eAdmVi/D1iIn7qXLNqzrb66uyMn6BqxQP/r9y84A+W+2ZLN+V3ger6
+	DgdOayYpyFj8eXvnSHatCgQewtzfePv7WXwSPVdUt57BsKm/26BYeQUsuSUtvCH/
+	lO7+tTkrCrOUb01xFPUNknZDvEVEABpYccddvIn9nO8AGGLJQ7YgTjo5weFZWoXY
+	yArysENe0yPFA6nv8ebZH60KpC9lKoAQVityVxyg6vvyRMHpXDlK6UHM8/r5oNRo
+	+sMykoStR1pQRTfyu9DWuRsXFsj0DymyeMcVWp24XQgBUCDoXcUBWfW+rMcQhaEc
+	LSLmklbh8427/UjvTQ31cg==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012028.outbound.protection.outlook.com [52.101.48.28])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4br1d4bcpx-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 20 Jan 2026 17:54:14 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m6RBb3JOmyvSHRjvWYhEb/S+yavRfCoxQNAck5uFFD3kncc8W0NSUtMXf7sQWz8SB2wS7kmZhLKbwX4mnJL4XEPVyR9CPXOZ+eqNxqHIRFlViwJLrh9HUl2vkGvVYNbnnuv3Wu1exE6BaHuSDlmIwf7yw2QUQdKMmCSseEyj2Ww/nOLzOX/PtGgYSGhtW37jV14Z9RjF/EYli0Uv6X+aQ+a+hUKLmENRo5rj4qES5JSRKMKicvg0Md8/5tOaYygrEiC+HRR4r7mh1AUV/b+RMi9KbWCexZ7J+Vn3HwzdgWefao6z9r9/tb5BgD5akg0IcVx0sZhkRf1nOHgy0icl2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OFFrZm01wqxVjPezwt63WNk14vc+a6cLbjRlFUrBU18=;
+ b=goqEeA0u+FoVTvCV3T7vO4P7aZdBrmVblAWNZhAxSLDFw5bd4bQXuEJHrLwWFrNfVe4ZbzrhdcxeXIthfNed+0LwwwAr1pSIlvUQ0VIxA51EVjT2r5aQBFuaU41rfeuFGB9/oeehNIiOsxyEqRS/2ZcuwC5tgB5I0SMc791TUYjiKPR4XL0gyIYbRJ+eYvSVilqey0B5PpAwuhKxdSkr/PoFY2xl+jQpXtvX1Kyrd5FsmBoYW3/eFIMi39d/SlTLQHJoNHVKt/AqkphnE0no1jJbc98DHEL4Q7EDOsiglHZZDMuKByyT3fr76ajS3ldKtOVqrRozyJsrPONmtKgkHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by SA2PR11MB5004.namprd11.prod.outlook.com (2603:10b6:806:112::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Tue, 20 Jan
+ 2026 17:54:10 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%4]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 17:54:10 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, alistair.francis@wdc.com,
+        Sundeep.Kokkonda@windriver.com, bruce.ashfield@gmail.com,
+        richard.purdie@linuxfoundation.org, yoann.congal@smile.fr,
+        elmehdi.younes@smile.fr
+Subject: [PATCH v3 01/16] linux-yocto: conditionally add clang/rust/bindgen-cli-native to DEPENDS
+Date: Tue, 20 Jan 2026 09:52:31 -0800
+Message-ID: <20260120175246.2052341-2-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260120175246.2052341-1-Harish.Sadineni@windriver.com>
+References: <20260120175246.2052341-1-Harish.Sadineni@windriver.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0289.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::24) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|SA2PR11MB5004:EE_
+X-MS-Office365-Filtering-Correlation-Id: ecf79d40-799f-4c59-804f-08de584cea03
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Atv6dqjL1qkGgnX4AbgMh0sewVqya9b9buDyF9ji1/drPz/dODGlGRJD17+s?=
+ =?us-ascii?Q?TY5ZlVjE+xYpmlK/ri1ixxB2tcyDJuZu20eckUFlvFO135fjf86IRcFAA6s8?=
+ =?us-ascii?Q?I1CQkCG+/B9Ls93++3RxiAC81cGHlJTM96T2WaxKDpFSS2DOhioyjWIKmW2S?=
+ =?us-ascii?Q?cKOhGV4Ht9G7cvxGPNXiNNdlMC6xtUEYTDAZiTcfxOqfj93ze/N8bogqbqfv?=
+ =?us-ascii?Q?chJsUauAjYWtcRCyqJBmHv6nNoX/bIVzNwEu1VSyIhVMgfkS9Ae1VEmLHDl5?=
+ =?us-ascii?Q?AThaigRO6GpzpdmVTYuIwYnZARdfBj2eXguGFdQncTOTiuDaL/1skY5Tovfl?=
+ =?us-ascii?Q?FZaXRNlmfo15IJhgR16xJNPy3AU6P/TSQYS+gnDtjIHy7IqntZKSbkaut5ZP?=
+ =?us-ascii?Q?RjbJ5H6kxO+XAowCErjXO1/QpAQ7cEiuEM0qZOOl8um5lGd4hlflJcMWIbyW?=
+ =?us-ascii?Q?jDSuDDevSfMyI6QclQ0mFjBpZKmy3kr060R2g05ngkuGn2lRfAS6BOXBWnMR?=
+ =?us-ascii?Q?zox5rn77u4WynX7IxBt0xWG5A36JUdx4k6X9JJc6WdbE1wC/97wQW5HdaQP7?=
+ =?us-ascii?Q?xtjBv312O3g9wwdBONDvepceaI1k5zLVhLzC4VLG1yu+cKxX/1jbpXd+dSg7?=
+ =?us-ascii?Q?rp1IjE8aPzP3YUWtw5au1XrV3CvY0EnyhPhkx836S5v4ULHAC3gsirkfIUtY?=
+ =?us-ascii?Q?xjJugqqyjJigW55pnErW+Y4pdacXHNVeSLxsaBFREF56w39HnZiu44ZqsQhJ?=
+ =?us-ascii?Q?Y3oD2a8Z2tELAOqCqFwsVzLCqFtsEnGpnrPxNQRQKEXo2A+vQwceXCtSIHma?=
+ =?us-ascii?Q?UuEikh5lUJllw+xy+taqdY1CkdexuEThZGGNeHq+7KarAyu8WfQzoej/tfhs?=
+ =?us-ascii?Q?vGIIN0htqlMUfanfhpla1rCjhIKzgKQMH0AnaAkwXgfPb+Y6KccOfUVZI4JX?=
+ =?us-ascii?Q?kPf4nWktkgyHhVJOEKJp46ZS1k9RfX2RDhNPPHU5XGJDtBHZtFA7Sg80qwuA?=
+ =?us-ascii?Q?bXiNF/XvKmKNz59WGlNjAx9phwL5nKCtgW1LoTBr09tpwzNiEgkMhjpmgAyt?=
+ =?us-ascii?Q?UwrVzEOxLvfAjK7Sd+N79WOYhTKQIKpaC99mlagstJil++GKz+lJ2sHwNlyT?=
+ =?us-ascii?Q?3Rs53UextB98XNbUySXlpZUEvS+ngPA9rFnrSB9Mv7q+7po191dM4+69b9e5?=
+ =?us-ascii?Q?RA/JGuz05yIHHP7lBRTHkRADXW2idrrB5NP6fkpVMQp16BBX1VCSIXD9AEMi?=
+ =?us-ascii?Q?fS3yQgzVAe/UAbGMvIm+ItuPKBt7IoJSDtbv4cvTnVOUVjA/+QuZ4xi1qpaJ?=
+ =?us-ascii?Q?EhTTaNXIXTK7CyOz7Cd95Ul3KNdIV+KCAXwa46rgO0OyqGwiyz+bhq94hHFf?=
+ =?us-ascii?Q?/NiC6hTt/xr0f9t2cqMpX2mwiR7XhOpbsCFFxt0KWEx+caGMsxfOewfBXo84?=
+ =?us-ascii?Q?PA11wpuvTvtQsPFR34sIjlIOZbpv3uCBwWhJLk7brZVzzzdBWMoBVCvMZJ9e?=
+ =?us-ascii?Q?LQ8voT9qVXPKv01UdxHmlaIcHMxrQw0DwVU34lHnG1mVDxxRnjH3PhHtWJ5Z?=
+ =?us-ascii?Q?9XvtMJzCfYaU15+kwHzCx4gaPwqj2yDGXy3/60d8X+dCx33ygdBqHEQkIKmM?=
+ =?us-ascii?Q?qAJCPKAMf5KWo+2N0gN56xg=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?wRAZzuQOwcGKGeoxzwFpkkwkq3DzStDyVoJ9+tJGnMIkhH2s2GCseuskQN7u?=
+ =?us-ascii?Q?lnN8FqiXKjl1WTNqaB4dVTsIC4Iq+6LJHs2KKJyQw19Yes6tYZJ3zViC2tNv?=
+ =?us-ascii?Q?sl5TrdKXN4B52lErS6/S7qvxu/7HgsZk4j7PiTO7qDtVY05HRNad02Ufd0Ga?=
+ =?us-ascii?Q?qI5WN7S5PXs5MDkf6/n8a5nhySKdJfQcejwNjAkQFaE06oU346OueFbF6bxp?=
+ =?us-ascii?Q?/M8kWSUaBWnbdza0jHdfd7asbMIPIXqoaRciQj1WA16qsW+pN5GwiNPPoKi1?=
+ =?us-ascii?Q?O2fE7oOl/NU9Qyu/oH956JuVG9rU9XeAHg1ia1DhXxVO7AJV9mCkRIzbZWut?=
+ =?us-ascii?Q?3sLGNoa8M+KdUwhJdkIPGvTc5vpCpWpEK8XNL6tIfLQo5UaCBEbYGjDVoWOZ?=
+ =?us-ascii?Q?TrjD4nnDk9YtwLobD+koYo5+XGSrBheAV9d2cayDtZyug5bGAPLbW/4Xz4Tf?=
+ =?us-ascii?Q?CJHc9+Hb8o/+8QefftZFvW/JoX4iJSwAXmhGue8aWjeKdIFZju9Orz9ZgC1h?=
+ =?us-ascii?Q?vzSZM8ywx3QQo9Cq1D6LCgiMYQi9rWnHFZAyXQUjUDpa562QfQnpoJ16YGUi?=
+ =?us-ascii?Q?7Kz1cpahgOQ3i0nmUt0w4rhNlhnulia0UU84jjZH02XwGCENrurfnZt6/+61?=
+ =?us-ascii?Q?Cb6R5xIJ3SOT6n8LN/zGKB+S0RZ53zblKTVSyJMrm7OBrbrCV7ivEHpd7evt?=
+ =?us-ascii?Q?4IpI6MESSEJ0Pj7JCBY+V3OnIe7BI+elM0slux7Cszvkae7MRyyTv/XSrtj1?=
+ =?us-ascii?Q?Stgt50fwWLO8CC+/EAh0rFl09w1qTlzqW7KrCrNeaykCTg+eiv2KHhiuYsBQ?=
+ =?us-ascii?Q?KzM+ZdfCDDHyfMYbkQ9ahV7Qq3the3nPlKOzooSVdto4MhPBFJPm7WI/KZMQ?=
+ =?us-ascii?Q?dvn7MiHrDQl3kNlixk09u9DX/TY6amN7ofaAfUDEBEBbmJ0yuXFgP+CTQ4A/?=
+ =?us-ascii?Q?r7fNsVimPEuJ8+8RNWauXc/Bc8XsRuWJBuKW2WKAQW9Cn8oGS8D7EU4uETaP?=
+ =?us-ascii?Q?ITm3cip6Hi+4mP5I1NOoiaN+VOgJI2BZKxKcszJsDZmY/Rb0zYzrGk6qZkKy?=
+ =?us-ascii?Q?a2iJXCiyFL6Kz2XugeNm3RJs088KLkHZqDcRwZCBEPUVheG5Xsff7xI1a2Sw?=
+ =?us-ascii?Q?B4IqTfSX+4Gay9EhH5b5zlwC/QAuDRz5w3PGyHWsEeU+TbNy2wtBRLblK/9I?=
+ =?us-ascii?Q?sKrtw9W/nv1Oc4s0t9Kmf2vrUsFByLN/cpesIuSJhp31dLLgCpo9q4K2UiCp?=
+ =?us-ascii?Q?E6723f0Cc8qbtFpFcdRNWffSBJ6ntAnwPDaIGEJaF/S/Q6uz2DsRj6etUO4q?=
+ =?us-ascii?Q?M/ZPwWj90LJ5dyiiQiNvyWWkVThpWzBpdCZ6Wj7bXembbKyPeNXYzgnHfOnZ?=
+ =?us-ascii?Q?iMG49FQ/LZvOeQVKnHJnEOthfBoiKfikyDA+eEgl0iF9AIKMzmZHvpQXdePI?=
+ =?us-ascii?Q?oR8vMPp0IiMKMfd0CkkagNTuv6c8W/DzoPvCGeqbJFTo4Lwa2BWjudR9xtPF?=
+ =?us-ascii?Q?b41TyvoRwRCDDHx1mpWgz0OdnUsQyKOeyrqnsEFvEEdqDcN9EtEMMr9ZZDT0?=
+ =?us-ascii?Q?MXNBtXuLOg45j6w4smtp5lOiQeK7h316HHonDeUb4zH3e3JJUFD4Qp64GuFY?=
+ =?us-ascii?Q?6BmdO7QdTYelVt9jnLzIzu7Rr1BpMBTOK+12ssYMqdvOaKNevsjQF9FsHZav?=
+ =?us-ascii?Q?5Fh8eLsPLqdHV0Y0vh+7Nb/LVlD/KY4Ld8swujbSBwH8DoG+FzCqay32G+ED?=
+ =?us-ascii?Q?GxfAo5VwfF8iF0CCJ2UxmC6dhrljbRU=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecf79d40-799f-4c59-804f-08de584cea03
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 17:54:10.1667
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8KxdUfrkhhQuc2yt0wwhKbr0f94gSx4jhkAMEt4aDv+0BVsh5uSJacowZfcerN2OjAmLYTf7gc29mQQCFUl4B/LO2+BHTFkijvK8BIMTYfI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5004
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: n5HgzTCESeV5huNGh3VpjYxFAUP9_A69
+X-Authority-Analysis: v=2.4 cv=Rs3I7SmK c=1 sm=1 tr=0 ts=696fc146 cx=c_pps
+ a=4FhRDsKUqNVV+vA+egT0Jw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=t7CeM3EgAAAA:8 a=Rfw2oJpr3f21ZIbSA5sA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: DpLV1ehfoLgvqKNcq2qTVs_fjxq1gc__
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDE0OSBTYWx0ZWRfXzya4DtXLQvq4
+ p7Zk5ZIp7esAtKb/1HxIEEJvHCiyEwKdctW1FYHBi9TrMkAVd2/LamxsoZiOFEjVGmPaEBOkPq3
+ 9pO7aSRMDG6P/16+slsPCMED3hPfvINVKWZbdHwCnEzEH3lYLws3a9atNxXSOjO2q351sQCHV9g
+ W2+1+QZvvUgGTVyvj3hnq5whs5uH65GgSEJAe1wTUWYB/WICGkN04e7P6cexWbjDnrqxqnoIjGC
+ XCT/bEbqXSWEufG0JQQNOH7dEDgrxI4u1YFxkceQBMa2lFgaNHlKEyEvY75byLmxRawko1Z/nPD
+ IK3jv+xPjq0+SSJ/V8ViSfPk5Bi99jaYkJcMBlhCY0l0dpUuYWVGSlR2UWQpleT2Skfet1EXN23
+ hAW9BbPNb5w++DwxVbVo2cGmkEhlLboSuScaz1a3qvBf7eQR6HwAf9DO0xoHY3fK7CeBJ3B3VvD
+ SZZcswy1ovh2qNDqqCA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-20_05,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 adultscore=0 clxscore=1015 suspectscore=0
+ malwarescore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601200149
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 17:52:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229746
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 17:54:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229748
 
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-On 2026-01-20 07:59, Yoann Congal via lists.openembedded.org wrote:
->
->
-> Le mar. 20 janv. 2026 à 13:21, Marko, Peter <Peter.Marko@siemens.com> 
-> a écrit :
->
->     False positive as this does not fix CVE, only mentions CVE in
->     commit message.
->
->
-> Thanks for the analysis :)
->
->     I'm wondering why this was sent now and not when I submitted the
->     patch.
->     In recent months there is almost 0 emails from patchtest.
->     I guess it's broken and revives only from time to time?
->
->
-> Yup, that's it. It was down for a few weeks but looks better now.
-Yes, it went down for a bit but is back up. I think it may have missed 
-some patch IDs in its tracker, hence why this was sent now.
->
->     Peter
->
->     > -----Original Message-----
->     > From: openembedded-core@lists.openembedded.org <openembedded-
->     > core@lists.openembedded.org> On Behalf Of Patchtest via
->     > lists.openembedded.org <http://lists.openembedded.org>
->     > Sent: Tuesday, January 20, 2026 13:17
->     > To: Yoann Congal <yoann.congal@smile.fr>
->     > Cc: openembedded-core@lists.openembedded.org
->     > Subject: Patchtest results for [OE-core][scarthgap 11/22] cups:
->     allow unknown
->     > directives in conf files
->     >
->     > Thank you for your submission. Patchtest identified one
->     > or more issues with the patch. Please see the log below for
->     > more information:
->     >
->     > ---
->     > Testing patch
->     /home/patchtest/share/mboxes/scarthgap-11-22-cups-allow-
->     > unknown-directives-in-conf-files.patch
->     >
->     > FAIL: test CVE tag format: Missing or incorrectly formatted CVE
->     tag in patch file.
->     > Correct or include the CVE tag in the patch with format: "CVE:
->     CVE-YYYY-XXXX"
->     > (test_patch.TestPatch.test_cve_tag_format)
->     >
->     > PASS: test Signed-off-by presence
->     > (test_mbox.TestMbox.test_signed_off_by_presence)
->     > PASS: test Signed-off-by presence
->     > (test_patch.TestPatch.test_signed_off_by_presence)
->     > PASS: test Upstream-Status presence
->     > (test_patch.TestPatch.test_upstream_status_presence_format)
->     > PASS: test author valid (test_mbox.TestMbox.test_author_valid)
->     > PASS: test commit message presence
->     > (test_mbox.TestMbox.test_commit_message_presence)
->     > PASS: test commit message user tags
->     > (test_mbox.TestMbox.test_commit_message_user_tags)
->     > PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
->     > PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
->     > PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
->     > PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
->     > PASS: test target mailing list
->     (test_mbox.TestMbox.test_target_mailing_list)
->     >
->     > SKIP: pretest pylint: No python related patches, skipping test
->     > (test_python_pylint.PyLint.pretest_pylint)
->     > SKIP: test bugzilla entry format: No bug ID found
->     > (test_mbox.TestMbox.test_bugzilla_entry_format)
->     > SKIP: test pylint: No python related patches, skipping test
->     > (test_python_pylint.PyLint.test_pylint)
->     > SKIP: test series merge on head: Merge test is disabled for now
->     > (test_mbox.TestMbox.test_series_merge_on_head)
->     >
->     > ---
->     >
->     > Please address the issues identified and
->     > submit a new revision of the patch, or alternatively, reply to this
->     > email with an explanation of why the patch should be accepted.
->     If you
->     > believe these results are due to an error in patchtest, please
->     submit a
->     > bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest'
->     category
->     > under 'Yocto Project Subprojects'). For more information on specific
->     > failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
->     > you!
->
->
->
-> -- 
-> Yoann Congal
-> Smile ECS
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229703): https://lists.openembedded.org/g/openembedded-core/message/229703
-> Mute This Topic: https://lists.openembedded.org/mt/117361790/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Conditionally add 'clang-native', 'rust-native' and 'bindgen-cli-native' to 'DEPENDS'
+when rust-kernel distro feature is enabled to support Rust-based kernel modules or
+features that require generating Rust FFI bindings using bindgen during the kernel
+build process.
+
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 4d0a726bb6..41b12b6f14 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -81,6 +81,8 @@ KERNEL_DEBUG ?= ""
+ DEPENDS += '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powerpc" ], "elfutils-native", "", d)}'
+ DEPENDS += "openssl-native util-linux-native"
+ DEPENDS += "gmp-native libmpc-native"
++RUST_KERNEL_DEPENDS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', 'clang-native rust-native bindgen-cli-native', '', d)}"
++DEPENDS += "${RUST_KERNEL_DEPENDS}"
+ 
+ # Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native available before do_kernel_configme
+ do_kernel_configme[depends] += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native:do_populate_sysroot", "", d)}'
+-- 
+2.49.0
+
 
