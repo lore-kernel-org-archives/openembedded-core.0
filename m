@@ -1,95 +1,46 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A17EBD2ED0F
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 03:15:49 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.506.1768878944540085186
- for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jan 2026 19:15:44 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=C7qIwDzA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MUrhZjjE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019bd966adfe-c36472ba-727d-45f1-91af-1a87b740073d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1768878943; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=/cjoL6qKG+NCIX/RHIb0I07VEPoCxnOGdCKrWVZEC/g=;
-	b=C7qIwDzAX8Atfwh41E4fzO/DEyZyxUcuD8yP2ocjBS0OjxMmgGwfch3gsM6jER0P
-	EqfSIfveIARChlL02No4QiTc6EbN4qaMf4EmB8f9qELmtwICBwgzGu9RBj8MB5KAMWt
-	HShjkT5RU71I1WZiSisQ0kgM40+sto8TCpTea0aA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768878943;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=/cjoL6qKG+NCIX/RHIb0I07VEPoCxnOGdCKrWVZEC/g=;
-	b=MUrhZjjEBsvpCbK95AjICCSCood6EEi8K7j2WL7JiYO1KzVOnzPkiOakBvlPU98n
-	NY0dVdgKG6A71n7FiflU94/xu5VCtRn3l4Yjj8mp+qbjjQ2jt2YH6Zxb+GcYQWrLFBf
-	dSOaNj1tgUuVuRaOFLULsAfrCzwF7Yda/dZH/4nM=
-From: patchtest@automation.yoctoproject.org
-To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for =?utf-8?b?5Zue5aSNOiBbT0UtY29yZV1bUEFUQ0ggdjJdIG9yYzogdXBncmFkZSAw?=
-	=?utf-8?b?LjQuNDEgLT4gMC40LjQy?=
-In-Reply-To: 
- <TY3PR01MB101108DAC402C9A25B09F0FFB9B89A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
-References: 
- <TY3PR01MB101108DAC402C9A25B09F0FFB9B89A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019bd966adfe-c36472ba-727d-45f1-91af-1a87b740073d-000000@us-west-2.amazonses.com>
-Date: Tue, 20 Jan 2026 03:15:43 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.20-54.240.27.191
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C551D2ECF9
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 05:36:32 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH] curl: fix CVE-2025-10148
+To: openembedded-core@lists.openembedded.org
+From: "Hitendra Prajapati" <hprajapati@mvista.com>
+X-Originating-Location: =?UTF-8?B?TmFkacSBZCwgR3VqYXJhdCwgSU4=?= (27.121.101.71)
+X-Originating-Platform: Linux Firefox 136
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Mon, 19 Jan 2026 21:36:28 -0800
+References: <20260107045240.170121-1-hprajapati@mvista.com>
+In-Reply-To: <20260107045240.170121-1-hprajapati@mvista.com>
+Message-ID: <256810.1768887388424073608@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="YPqmLtPnpzFa2fMrSIWd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 03:15:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229642
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:36:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229643
 
---NextPart
-Content-Type: text/plain
+--YPqmLtPnpzFa2fMrSIWd
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Team,
+Any update on this ?
 
----
-Testing patch /home/patchtest/share/mboxes/OE-core-PATCH-v2-orc-upgrade-0.4.41---0.4.42.patch
+Regards,
+Hitendra
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 101 characters) (test_mbox.TestMbox.test_shortlog_length)
+--YPqmLtPnpzFa2fMrSIWd
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+<div>Hi Team,</div>
+<div>Any update on this ?</div>
+<div>&nbsp;</div>
+<div>Regards,</div>
+<div>Hitendra</div>
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--YPqmLtPnpzFa2fMrSIWd--
 
