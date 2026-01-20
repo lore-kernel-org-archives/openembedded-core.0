@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D045AD2ED16
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5273D2ED13
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 12:09:24 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5018.1768910954976542443
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5027.1768910963212877849
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 04:09:15 -0800
+ Tue, 20 Jan 2026 04:09:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=mKMTlaGK;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-435903c4040so303596f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:14 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tyupW+U5;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso2876552f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 04:09:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1768910953; x=1769515753; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1768910961; x=1769515761; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+tV7x4k7cEXVW4G988bUhCoPX+/hsrKpIjJ+Ew5ybgI=;
-        b=mKMTlaGK3kiCt28DJAPwiur1EfW214LG9iMls3Dpe1Kh0urcoL7NK+i0iz1XASiepe
-         1xYpPvMTNAKJ+UMY1uyVMeT2kyCSHU0eWVa1nK0RCeCKJsccwFUEcBH5LhwUJxwQYJjE
-         G4c338PTh+DHnE6UQPoHXS42G2a3999Iu7kQM=
+        bh=McgWnosgCoWTpmUV0hgBTmL2Ns6M0LNmMsJ59blKGcU=;
+        b=tyupW+U5nR1RuAEMprg3ftFu/HNEEHvZ++xBzWAizFMXCEUA6PrlifVl+c0mGMmFoN
+         ReDjxE3TtExJEva0RqVjpoOfzqlFDb0WugGMHWLwTyhHipt7rjlcGf0OjefBg5Nqts5f
+         UdlVYPwaBSb4s4Yn2se1GH/3zhdzzgvv0UEn0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768910953; x=1769515753;
+        d=1e100.net; s=20230601; t=1768910961; x=1769515761;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+tV7x4k7cEXVW4G988bUhCoPX+/hsrKpIjJ+Ew5ybgI=;
-        b=PACKfN7enEBpTI5bIgQQU2tzFtkkkcKPvIWusRkGL2HrgTvYWB2pLvgQrp1/Img4g3
-         r1Vnwl7ryhcsq5L5GRaCIny/e9/8V9Wbj0ppP+ADqI4rTpbjUq/oEyljlTEHGsKi6m2Q
-         SpEnOBN0QvR+hqmxsxArZ0qAXJPOQIWVDHxBD4qJXLr/S0vC/F6GRCLQcXjTIB4VlC0y
-         +kSMoFSbM5fdy/2I0egdj5aWdWVQattYg93s6gsC2ArRGUd3hgySQD47LhnqsCNx6S4n
-         eA3ty9tMmph0f2vbeHgJc61ddru01l3pbeVMduUw/xW2hviHhGrjMfnCD9Mxt0mWCnVj
-         5jhw==
-X-Gm-Message-State: AOJu0Yweyg/P2ZUStMjSBk5Al2eUsxbVmOi7XcT98Hgmktn/EAXVkLYE
-	FGFFivXu68VYjZyB7TnMEg3CHvU9pszqNOYM7OaomhZ3ziZ/+TtrBMu29Emr72/YB4D+4nwrlBp
-	zbpwF
-X-Gm-Gg: AZuq6aI4kbclBglSQai4fvOtqboKwzfrsa78lje8bgx4bbRsIKtkZS6qJJyNMxEa6fs
-	K+WNMmx4u7S8SHNDMKbIEcnI03ijgbC6WqqFjLQ8sBdoTki1do1bh9b81P79hb+1jaF/RULKTEj
-	pJlo4dUuy3EYzWwnaNX8qROdNgJ679FGjZ/MBJvqUwbmTAPTkGiXm3NTggQBq0tLc7AcoTBu4gg
-	V0GsUrfsrU5R4g7WAdu9gmwYRGhS1+Y6uS6Q+i7x2fP4AV10M122BQ7w5pEi0e1pI/zSr/qC9K5
-	3Ozor5FTNK1R1WJUPQgPQwPFCd085p7cU/B1GcZV926pFuY3ds8ZAFwsJrSWvmbS6VoSHcyTBIZ
-	GKzOMqGCPIKADjxxrPe/yKhlgCz/SXRQt5bXzXiaW67sRvUVfWMVIj/TPmxuXooIpmdCQqTZ4um
-	NOCn4ukZYdzlXewDcVRtSgF6v55bvpPfUewGJXCPhCdspU+1RjF52A1uHjUqn458fOAyetf/mBC
-	+acsF4eWfikNBkO7tHCzg==
-X-Received: by 2002:a05:6000:22c4:b0:42f:b65c:1e4f with SMTP id ffacd0b85a97d-4356a02c2b2mr17644150f8f.17.1768910952984;
-        Tue, 20 Jan 2026 04:09:12 -0800 (PST)
+        bh=McgWnosgCoWTpmUV0hgBTmL2Ns6M0LNmMsJ59blKGcU=;
+        b=AGZShVqZN1t9FcIBe5olC9fTUBSoSHepObyEps4XW7V7xMxiPYVErhX4mxF2u6HwSb
+         TQFNM5r6nKHm6LvPdCd6rmzLTnbrzgUGGrHb6f5Ggbn3itPrRT0RVpe1GF07cYEPuk4t
+         epAWzv4+gM5xj2l1YytWu9kTBvItITeHtcpqdxH6RAW6pYykgIJ+APKAuT/LhA6IOA/F
+         1+okgShSLbsB6dgZ7ChfAMeLxiRrySNSYP9gxQ88VkFY9hf9V/3VicIXLsvJo+I8Yysr
+         ZLcLpZUXQfLyqFrc0QuAzjzIFVudZJuNIWVDSJSKPfU2fDa5rpQjC3as89huOg8lWvB1
+         HI0g==
+X-Gm-Message-State: AOJu0YyB7ztWHn6PPiCCLP84AMq03grcSlgKU0Vg4kQPbgT55bLDKgsc
+	pWh7fDrLo4bD7qybyapzIIwjQ2+iAJCImjLE22p6ieIGC1f6w9pknooAQFDYtfurBy09UgO9ejn
+	joBbA
+X-Gm-Gg: AZuq6aJtmvQZZAG00iviQPRUndq75GfB4LFOli4GejsnXjRp3a22pJ8MErE8NcIm1hJ
+	HH/Djdod2mNh6OEB97ykT51PcUv/FRB4QA7DstKSooS9/ARl/MqF9+ZsQYnvwJAM+SmYwMwmtiw
+	5PPxuJ7X+9rjFNAhP/yar5JJNHmDZSrPoYygTfPZmIOaCPI5Sesi4P+3RdP/1WOJgmdtLpitUFD
+	qtgCnkl2KfaJW+ox8eoM3wJTi+e/eoKhFK5JkByyiTIN8/mfYXVuWWh8qnTXb2seef7pt5eDuzn
+	Uh76EaPIv3xOwEzZ0+Gn21DiYBnIUij/xnHE6Uyl9S4azLMc8y4Z5XGN0a9cUwbjLkiv1m07fAA
+	9L5EL71MxkJTKcLG5L7gv0xmXkL2bKXYPLFBCJCU19nI/vwhcohX7v1XblneEpVrsmrCXhEj2j/
+	IoIh8L6Ri6GFvbJScvdcchlbiw5ICJ26gTdQ4ysSQpektUO4JroaHTHbMwyQnx+aCxnC2tCTi0+
+	p1OR34rby/QSbJ8hXB3aA==
+X-Received: by 2002:a05:6000:1acd:b0:431:8f8:7f1e with SMTP id ffacd0b85a97d-435901751cdmr2247325f8f.48.1768910961373;
+        Tue, 20 Jan 2026 04:09:21 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569927007sm28916097f8f.16.2026.01.20.04.09.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 04:09:12 -0800 (PST)
+        Tue, 20 Jan 2026 04:09:20 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/22] python3: patch CVE-2025-13836
-Date: Tue, 20 Jan 2026 13:08:16 +0100
-Message-ID: <cdad34eef142f6fdc214177ca0342a415d0dc058.1768910519.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 13/22] curl: patch CVE-2025-14017
+Date: Tue, 20 Jan 2026 13:08:27 +0100
+Message-ID: <da0bc3bad74216b3a8b94664a55f6b97d56e8a57.1768910519.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768910519.git.yoann.congal@smile.fr>
 References: <cover.1768910519.git.yoann.congal@smile.fr>
@@ -66,200 +66,153 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 12:09:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229680
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229691
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit from branch 3.12 mentioned in [1].
+Pick patch per [1].
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-13836
+[1] https://curl.se/docs/CVE-2025-14017.html
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python/python3/CVE-2025-13836.patch       | 162 ++++++++++++++++++
- .../python/python3_3.12.12.bb                 |   1 +
- 2 files changed, 163 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+ .../curl/curl/CVE-2025-14017.patch            | 115 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+ 2 files changed, 116 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14017.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13836.patch b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-14017.patch b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
 new file mode 100644
-index 0000000000..b90fc5f0ec
+index 0000000000..887ff2f97c
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
-@@ -0,0 +1,162 @@
-+From 14b1fdb0a94b96f86fc7b86671ea9582b8676628 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Mon, 22 Dec 2025 14:50:18 +0100
-+Subject: [PATCH] [3.12] gh-119451: Fix a potential denial of service in
-+ http.client (GH-119454) (#142140)
++++ b/meta/recipes-support/curl/curl/CVE-2025-14017.patch
+@@ -0,0 +1,115 @@
++From 39d1976b7f709a516e3243338ebc0443bdd8d56d Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 4 Dec 2025 00:14:20 +0100
++Subject: [PATCH] ldap: call ldap_init() before setting the options
 +
-+gh-119451: Fix a potential denial of service in http.client (GH-119454)
++Closes #19830
 +
-+Reading the whole body of the HTTP response could cause OOM if
-+the Content-Length value is too large even if the server does not send
-+a large amount of data. Now the HTTP client reads large data by chunks,
-+therefore the amount of consumed memory is proportional to the amount
-+of sent data.
-+(cherry picked from commit 5a4c4a033a4a54481be6870aa1896fad732555b5)
-+
-+Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
-+
-+CVE: CVE-2025-13836
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/14b1fdb0a94b96f86fc7b86671ea9582b8676628]
++CVE: CVE-2025-14017
++Upstream-Status: Backport [https://github.com/curl/curl/commit/39d1976b7f709a516e3243338ebc0443bdd8d56d]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ Lib/http/client.py                            | 28 ++++++--
-+ Lib/test/test_httplib.py                      | 66 +++++++++++++++++++
-+ ...-05-23-11-47-48.gh-issue-119451.qkJe9-.rst |  5 ++
-+ 3 files changed, 95 insertions(+), 4 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
++ lib/ldap.c | 49 +++++++++++++++++++------------------------------
++ 1 file changed, 19 insertions(+), 30 deletions(-)
 +
-+diff --git a/Lib/http/client.py b/Lib/http/client.py
-+index fb29923d942..70451d67d4c 100644
-+--- a/Lib/http/client.py
-++++ b/Lib/http/client.py
-+@@ -111,6 +111,11 @@ responses = {v: v.phrase for v in http.HTTPStatus.__members__.values()}
-+ _MAXLINE = 65536
-+ _MAXHEADERS = 100
++diff --git a/lib/ldap.c b/lib/ldap.c
++index 63b2cbc414..0911a9239a 100644
++--- a/lib/ldap.c
+++++ b/lib/ldap.c
++@@ -362,16 +362,29 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     passwd = conn->passwd;
++   }
 + 
-++# Data larger than this will be read in chunks, to prevent extreme
-++# overallocation.
-++_MIN_READ_BUF_SIZE = 1 << 20
+++#ifdef USE_WIN32_LDAP
+++  if(ldap_ssl)
+++    server = ldap_sslinit(host, conn->primary.remote_port, 1);
+++  else
+++#else
+++    server = ldap_init(host, conn->primary.remote_port);
+++#endif
+++  if(!server) {
+++    failf(data, "LDAP: cannot setup connect to %s:%u",
+++          conn->host.dispname, conn->primary.remote_port);
+++    result = CURLE_COULDNT_CONNECT;
+++    goto quit;
+++  }
 ++
-++
-+ # Header name/value ABNF (http://tools.ietf.org/html/rfc7230#section-3.2)
-+ #
-+ # VCHAR          = %x21-7E
-+@@ -639,10 +644,25 @@ class HTTPResponse(io.BufferedIOBase):
-+         reading. If the bytes are truly not available (due to EOF), then the
-+         IncompleteRead exception can be used to detect the problem.
-+         """
-+-        data = self.fp.read(amt)
-+-        if len(data) < amt:
-+-            raise IncompleteRead(data, amt-len(data))
-+-        return data
-++        cursize = min(amt, _MIN_READ_BUF_SIZE)
-++        data = self.fp.read(cursize)
-++        if len(data) >= amt:
-++            return data
-++        if len(data) < cursize:
-++            raise IncompleteRead(data, amt - len(data))
-++
-++        data = io.BytesIO(data)
-++        data.seek(0, 2)
-++        while True:
-++            # This is a geometric increase in read size (never more than
-++            # doubling out the current length of data per loop iteration).
-++            delta = min(cursize, amt - cursize)
-++            data.write(self.fp.read(delta))
-++            if data.tell() >= amt:
-++                return data.getvalue()
-++            cursize += delta
-++            if data.tell() < cursize:
-++                raise IncompleteRead(data.getvalue(), amt - data.tell())
++ #ifdef LDAP_OPT_NETWORK_TIMEOUT
++-  ldap_set_option(NULL, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
+++  ldap_set_option(server, LDAP_OPT_NETWORK_TIMEOUT, &ldap_timeout);
++ #endif
++-  ldap_set_option(NULL, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
+++  ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
 + 
-+     def _safe_readinto(self, b):
-+         """Same as _safe_read, but for reading into a buffer."""
-+diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
-+index 01f5a101901..e46dac00779 100644
-+--- a/Lib/test/test_httplib.py
-++++ b/Lib/test/test_httplib.py
-+@@ -1452,6 +1452,72 @@ class BasicTest(TestCase):
-+         thread.join()
-+         self.assertEqual(result, b"proxied data\n")
++   if(ldap_ssl) {
++ #ifdef HAVE_LDAP_SSL
++ #ifdef USE_WIN32_LDAP
++     /* Win32 LDAP SDK doesn't support insecure mode without CA! */
++-    server = ldap_sslinit(host, conn->primary.remote_port, 1);
++     ldap_set_option(server, LDAP_OPT_SSL, LDAP_OPT_ON);
++ #else
++     int ldap_option;
++@@ -439,7 +452,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++         goto quit;
++       }
++       infof(data, "LDAP local: using PEM CA cert: %s", ldap_ca);
++-      rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
+++      rc = ldap_set_option(server, LDAP_OPT_X_TLS_CACERTFILE, ldap_ca);
++       if(rc != LDAP_SUCCESS) {
++         failf(data, "LDAP local: ERROR setting PEM CA cert: %s",
++                 ldap_err2string(rc));
++@@ -451,20 +464,13 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     else
++       ldap_option = LDAP_OPT_X_TLS_NEVER;
 + 
-++    def test_large_content_length(self):
-++        serv = socket.create_server((HOST, 0))
-++        self.addCleanup(serv.close)
++-    rc = ldap_set_option(NULL, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
+++    rc = ldap_set_option(server, LDAP_OPT_X_TLS_REQUIRE_CERT, &ldap_option);
++     if(rc != LDAP_SUCCESS) {
++       failf(data, "LDAP local: ERROR setting cert verify mode: %s",
++               ldap_err2string(rc));
++       result = CURLE_SSL_CERTPROBLEM;
++       goto quit;
++     }
++-    server = ldap_init(host, conn->primary.remote_port);
++-    if(!server) {
++-      failf(data, "LDAP local: Cannot connect to %s:%u",
++-            conn->host.dispname, conn->primary.remote_port);
++-      result = CURLE_COULDNT_CONNECT;
++-      goto quit;
++-    }
++     ldap_option = LDAP_OPT_X_TLS_HARD;
++     rc = ldap_set_option(server, LDAP_OPT_X_TLS, &ldap_option);
++     if(rc != LDAP_SUCCESS) {
++@@ -473,15 +479,6 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++       result = CURLE_SSL_CERTPROBLEM;
++       goto quit;
++     }
++-/*
++-    rc = ldap_start_tls_s(server, NULL, NULL);
++-    if(rc != LDAP_SUCCESS) {
++-      failf(data, "LDAP local: ERROR starting SSL/TLS mode: %s",
++-              ldap_err2string(rc));
++-      result = CURLE_SSL_CERTPROBLEM;
++-      goto quit;
++-    }
++-*/
++ #else
++     /* we should probably never come up to here since configure
++        should check in first place if we can support LDAP SSL/TLS */
++@@ -498,15 +495,7 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++     result = CURLE_NOT_BUILT_IN;
++     goto quit;
++   }
++-  else {
++-    server = ldap_init(host, conn->primary.remote_port);
++-    if(!server) {
++-      failf(data, "LDAP local: Cannot connect to %s:%u",
++-            conn->host.dispname, conn->primary.remote_port);
++-      result = CURLE_COULDNT_CONNECT;
++-      goto quit;
++-    }
++-  }
 ++
-++        def run_server():
-++            [conn, address] = serv.accept()
-++            with conn:
-++                while conn.recv(1024):
-++                    conn.sendall(
-++                        b"HTTP/1.1 200 Ok\r\n"
-++                        b"Content-Length: %d\r\n"
-++                        b"\r\n" % size)
-++                    conn.sendall(b'A' * (size//3))
-++                    conn.sendall(b'B' * (size - size//3))
-++
-++        thread = threading.Thread(target=run_server)
-++        thread.start()
-++        self.addCleanup(thread.join, 1.0)
-++
-++        conn = client.HTTPConnection(*serv.getsockname())
-++        try:
-++            for w in range(15, 27):
-++                size = 1 << w
-++                conn.request("GET", "/")
-++                with conn.getresponse() as response:
-++                    self.assertEqual(len(response.read()), size)
-++        finally:
-++            conn.close()
-++            thread.join(1.0)
-++
-++    def test_large_content_length_truncated(self):
-++        serv = socket.create_server((HOST, 0))
-++        self.addCleanup(serv.close)
-++
-++        def run_server():
-++            while True:
-++                [conn, address] = serv.accept()
-++                with conn:
-++                    conn.recv(1024)
-++                    if not size:
-++                        break
-++                    conn.sendall(
-++                        b"HTTP/1.1 200 Ok\r\n"
-++                        b"Content-Length: %d\r\n"
-++                        b"\r\n"
-++                        b"Text" % size)
-++
-++        thread = threading.Thread(target=run_server)
-++        thread.start()
-++        self.addCleanup(thread.join, 1.0)
-++
-++        conn = client.HTTPConnection(*serv.getsockname())
-++        try:
-++            for w in range(18, 65):
-++                size = 1 << w
-++                conn.request("GET", "/")
-++                with conn.getresponse() as response:
-++                    self.assertRaises(client.IncompleteRead, response.read)
-++                conn.close()
-++        finally:
-++            conn.close()
-++            size = 0
-++            conn.request("GET", "/")
-++            conn.close()
-++            thread.join(1.0)
-++
-+     def test_putrequest_override_domain_validation(self):
-+         """
-+         It should be possible to override the default validation
-+diff --git a/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
-+new file mode 100644
-+index 00000000000..6d6f25cd2f8
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
-+@@ -0,0 +1,5 @@
-++Fix a potential memory denial of service in the :mod:`http.client` module.
-++When connecting to a malicious server, it could cause
-++an arbitrary amount of memory to be allocated.
-++This could have led to symptoms including a :exc:`MemoryError`, swapping, out
-++of memory (OOM) killed processes or containers, or even system crashes.
-diff --git a/meta/recipes-devtools/python/python3_3.12.12.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
-index 786f52875a..280d98424a 100644
---- a/meta/recipes-devtools/python/python3_3.12.12.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.12.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-test_readline-skip-limited-history-test.patch \
-            file://CVE-2025-6075.patch \
-            file://CVE-2025-12084.patch \
-+           file://CVE-2025-13836.patch \
-            "
++ #ifdef USE_WIN32_LDAP
++   ldap_set_option(server, LDAP_OPT_PROTOCOL_VERSION, &ldap_proto);
++   rc = ldap_win_bind(data, server, user, passwd);
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 0af6a41399..aa978f0346 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -25,6 +25,7 @@ SRC_URI = " \
+     file://CVE-2024-11053-0003.patch \
+     file://CVE-2025-0167.patch \
+     file://CVE-2025-9086.patch \
++    file://CVE-2025-14017.patch \
+ "
  
- SRC_URI:append:class-native = " \
+ SRC_URI:append:class-nativesdk = " \
 
