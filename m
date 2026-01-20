@@ -1,125 +1,148 @@
-Return-Path: <philip@balister.org>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 387E7D2ECFE
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 01:55:45 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.49934.1768872369897305614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 848C3D2ECFF
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 02:43:29 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27.1768876999124627199
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jan 2026 17:26:10 -0800
+ Mon, 19 Jan 2026 18:43:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@igorinstitute.com header.s=google header.b=MdtIq1fc;
- spf=none, err=SPF record not found (domain: igorinstitute.com, ip: 209.85.219.47, mailfrom: trent.piepho@igorinstitute.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-88a288811a4so50753986d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 17:26:09 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=HUjrG3I2;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=QnE1j5hR;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60JMbDmx1931209
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:43:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=St1lITjMKWyH4K15qRscpckE/3ElI/I2dE1
+	C1CtoXYE=; b=HUjrG3I2xim4RJzTfxkmfFTRWo2y9Za0nydAC/s3L2uqOwrAXVq
+	YRA9SQ42nn40NHsIEgwhtpTVimKbgerxkELfY9+Vc0RnbduKZhSmUPllrv3l3c1+
+	VkHzF/7ofMqvrBzZHetBBygcXu+Mb71Gh9j4NwpaZmCY4iprpToiSoO/3KR1n2LZ
+	Fwvh45fm6fhaER0Z8l2gVgc+2w4eX2u7ZmOtgcA+yWW95Z3nTOrf7PSS1hvZ0bd9
+	jqP0tYNd5IRyITP2otLC8Q+Mooxb5aQImisSFZGypRORFhQjy8IIjYfVEJv0x/wE
+	pCUkGOlVn360oK0QYaRRPryF2tU3yjoY6Ew==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsgfrargq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:43:17 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c5e166fb75so1198577385a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jan 2026 18:43:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igorinstitute.com; s=google; t=1768872368; x=1769477168; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2n8GY7/sm4tH+CCNnBxOYXXfyJYyTQLe1tzkGqXatq4=;
-        b=MdtIq1fcUKw4bwZZo1WmkAhkMFXx9diRsCnv05zsbKcAAzpD0LKqSvZzFpFo3VlKUI
-         25JulKPuv8n4UxbONXNJJa4hFm3UmaMlxGfBSuCKZssZCe53tFFk4nLX9+IBk8RCuA6Z
-         96IA4c/pQFvpXEy6PTh8dHDppOUWd8INyeCRLBu98mIV2bqdZYUFxaYoaSW4xRuzPABo
-         KmAxNV2usFokKil53tPngiYu3dK7JEu5HIhNhpVSa+3QZJYL63E+1hVZXOLRQS2JxxQS
-         L5nVBgljBSb1Yee7twSYL8gqAS38UEfnLvTkml6DYze5gkKbhsNzIcGIThag/aaiF0/t
-         71vg==
+        d=oss.qualcomm.com; s=google; t=1768876997; x=1769481797; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=St1lITjMKWyH4K15qRscpckE/3ElI/I2dE1C1CtoXYE=;
+        b=QnE1j5hRbOWfN+p5HKkVgjZl2SaaOGj4op7lvlkSPf9a/kB7PF+oVDM9vZInVvpAjc
+         r0fpwBs5FstYKWouyUKL4F2OIHiNwCFwuf14Gkx8fmdASdtGlxwa5wJAfJB0mSN0qznY
+         lCtwYdtNnyqpiY1O5xDCmYlRrWoMh88+hmi2uG50k6mrCBZE2Z2KuMUTJvKF32sqOavx
+         KPqDcOHyoYbcsWT9c/wcD6zmVyfMCEk1QmIk7skvY1x/c3Yh181kZRFf2nznYHqEnhZB
+         YHDG02Dn69N/SDYsthI7WKLP4u2tHgwwuNCmiTGIj4Qra4RmemM3wAFSO7D1Cyf+lvN+
+         mDUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768872368; x=1769477168;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2n8GY7/sm4tH+CCNnBxOYXXfyJYyTQLe1tzkGqXatq4=;
-        b=sHZ0mSxuDQZWkmoySdO1f1U8wbgmSpO7bow+uVIDjSKLZyRqqzq8Q9F3wq0dceGttf
-         nJ/T26Hem0RgAEzLoaauZHg8yuItKXIfBoh3LiyAsXyfsFZ9vtfYjYfS1CUHSPdMjEcm
-         5bILnMtaZdfei1ZJTVBCS+jxdPZyccpcJLWBiCNB2hmL5VV2UV2EH0KtDqF65mhiPRmy
-         OPlP85DiYC1VVAQxISrU1aFZu/YO5LxVObG1+E59pd3QhbAb2UDw8rxgEDp8bwtHIso6
-         hqGPEiCpLU3NEKsxKIZfv2kYEUVp9oWVyDzHJUJASpyPfJ5AT3Pgpni64D5LWRaDzbuh
-         QVVw==
-X-Gm-Message-State: AOJu0YzFPY7pSTmhGdmomfpO23+7a7qGIEJGG0q5cxulXh1PmIPtZskT
-	ewW+NReS2oB1cbYVpumlKdx9hWPle9xIfMZAQxMlWD/26oU6qmtZlIsyDdrA0KSdzYY9yPJgbpH
-	JrB04
-X-Gm-Gg: AZuq6aJy3Vk+SDtYawkvG2+dGXb0IM0SFn8WABiv024d9XNsdHaByyXcOnjRfd0eBJl
-	u5/35YVjqhpzxg12jXCRGBBV51p7+uH9Fzdb1s71Zj4neghzEyd1xsnerhWOfXgHALP7Q/Jn7/t
-	lqqGQgQRJ4BWgxVtmcYirhGYjcrLlb2jMCW0SfvzhDfrMLergmL9BvI1tjwqTagcxotM4dQ5e7g
-	zF7Uzq09tSbVpc5TZ0+I8p9bX+rjfuX+paLZtK5TsVR2iJvhB5/ziYBcKkhyZcLgn/pxSmmlwV4
-	Ol25DtGGJLZlp8R5lN/6FXG+ONd+e7vditTlDNTVHxNu2y/9MSLHc8bns+0n9Z4i/bsZRipJaFZ
-	CalTm5pbAz6bi/+Wkcb3lFf7RPDCPe1CNNTLy8r+ut1YaSz6/oLpAFHqcGmg2JXvCq+i0DYm0+K
-	/XG6HhoRBQtRjnkim/+rezvxDavYjLjZ1exj1i/Utproz4x32mZBnqw+dhpSSV6jhCZDy1UIIRK
-	h5GmYDOQ20jVI0oY4Lio/fvDzCqRpc=
-X-Received: by 2002:a05:6a00:22cb:b0:81a:ab38:d4e with SMTP id d2e1a72fcca58-81fe87c7fc9mr327462b3a.9.1768871878903;
-        Mon, 19 Jan 2026 17:17:58 -0800 (PST)
-Received: from zen.local (97-113-82-89.tukw.qwest.net. [97.113.82.89])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa12784ffsm10158981b3a.40.2026.01.19.17.17.58
+        d=1e100.net; s=20230601; t=1768876997; x=1769481797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=St1lITjMKWyH4K15qRscpckE/3ElI/I2dE1C1CtoXYE=;
+        b=rsGdwCPmPtCRRvs1jtN66hZsVWc+SMTg5XyeRTcJhZfagNwOybLRyVzcD8GrTv3Ddr
+         OHg+OhHp/rqlhawVbDo7Nh4nrHEnWWgnrHN0EAr+gUEQHuXQqxk49UMBiTSChXL3DXbx
+         vhZ4rqlmZwnabz87MfDUzuPxqrKUV+bqCuOnILGLDGopIR3F/OsOk3ZR8/pEddrYptac
+         7j0UNUy9MJYHEzIkj5yQh58JPKgdEJsIeV1v0Taj9u7a642b5ToB0rHlOGKVVy3YkOj9
+         TlIVeQ6TRvp+YHzA2bstgwfyPNS47mvf3iPskRHfdBd3H3C8+bGQyuAhM62I1Z/Gbp9k
+         CWhw==
+X-Gm-Message-State: AOJu0YzQaywzjjTum/jPRkpgU209AGE/8Uu5yaF1Nk5PavPHz/7am5Xc
+	6WbjULjf4iktX9um9S2LsNOPe5owNvcU91vrzFPKx+xPO5UmTWdjtVo8RiLyCwxJd/Wzo/khMS5
+	RQTen2E7vwSdnPvpA76liUSOr5sLOAEggBehMI8CfGN+QQBVqM13WJ2VnR2IUzU33gcCvhj9pFY
+	XCR34nJXSLmlHouE1NLgzj
+X-Gm-Gg: AY/fxX7myczwxSyOaXun9ZQ0MqWyTChP5feB8OySGi5jRL1fQN1+MMnkIvZYIPXp2OP
+	86BXvyBrLiVv+j1ql8CfS8LBA+48pz9pNTTWNGOpLjdVQBPBBAHH7QVQHPFM+evH+IJhTIF3sFq
+	u10o9mp0AMNoH7U3lOm2ThW5jwNg4p50pMkk0p8GYpWKVj9c+KTEtAuvCr6hIsaU87P/+3l1Kwp
+	Od/W0SwHWVW0Uiet51Ke/wPdKsRyvu7Uxs6bbob97HjLhRjhtVUSYvdEtozyf/i3TfDd0BPRGv3
+	oIDbZrvZF2Utijfzz6ZZtSfmriStAu+LegWeL48hsB5vLI/RTxhJ3+HCnJOMDbcQUUiFq4Xkhhq
+	/DVs/DEKTawO/ymu5R6xo3qffhrrSSs2mcoCww68uHBRxeDD3MpIGL19NCGwaRSqbZ7nS6JKirx
+	ikOqgcrp2mIqD3w3bUFt7XZwI=
+X-Received: by 2002:a05:620a:690f:b0:8b2:7224:b254 with SMTP id af79cd13be357-8c6a66d2232mr1790243185a.13.1768876996883;
+        Mon, 19 Jan 2026 18:43:16 -0800 (PST)
+X-Received: by 2002:a05:620a:690f:b0:8b2:7224:b254 with SMTP id af79cd13be357-8c6a66d2232mr1790241285a.13.1768876996257;
+        Mon, 19 Jan 2026 18:43:16 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59baf34f2b2sm3857122e87.34.2026.01.19.18.43.14
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 17:17:58 -0800 (PST)
-From: Trent Piepho <trent.piepho@igorinstitute.com>
+        Mon, 19 Jan 2026 18:43:15 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Trent Piepho <trent.piepho@igorinstitute.com>
-Subject: [PATCH] systemd-systemctl: Fix instance name parsing with escapes or periods
-Date: Mon, 19 Jan 2026 17:17:45 -0800
-Message-ID: <20260120011745.2474832-1-trent.piepho@igorinstitute.com>
-X-Mailer: git-send-email 2.47.0
+Subject: [PATCH v2] uki.bbclass: fix building of UKI images with multiple initramfs fstypes
+Date: Tue, 20 Jan 2026 04:43:13 +0200
+Message-ID: <20260120024313.3467088-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: vfEYXwS-z3s1DTKeSGSz23jUG2V5iFaj
+X-Proofpoint-GUID: vfEYXwS-z3s1DTKeSGSz23jUG2V5iFaj
+X-Authority-Analysis: v=2.4 cv=c4OmgB9l c=1 sm=1 tr=0 ts=696eebc5 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=Iv4kaBUZLcscCCURl44A:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDAyMSBTYWx0ZWRfXyysVJ4n163jK
+ 814DWjB50oWAUHMzeD8QkrxfZ2KfS4b0MvenNewrlNkyLntIShJGdEadLr5bNhHAL2YsZcRVqUJ
+ RPRrDUD7lmcZcsdPbOw8P7hcwB2z8Ve/3SccIdpYHyOMjM338eYjFEH4JqHFdnX/Eo574+R95bU
+ P3rVOEIsQ9SANXn7rnVv7dsKw0/lPOUCVE0K/XJ2RsVsHr8JMZehYuFe0H9UuNtsMnFX6L9nTUe
+ rCq2L/RFW0VT9+KA7qBpG0b4CVRiBOmzcie1PY3PXf0ZGLiGNRE8rTiwMq545ESZTtWdUSJtkub
+ FOuX+rxz3MBgbkrb6yQgpJjdVTDrrkL/lrOE4WhVx5e4Y3Eivbzyh785F5SG67gdhBFrXQtyA+1
+ CF8F1nHJq2/3IjJwtUBmbyeLJQLZHXcGMBbzelZwQYabinYNS2poKzWj62WO3ty4oXwZ7YMN5l5
+ dyPBpA+esqa30S32miA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-20_01,2026-01-19_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
+ suspectscore=0 spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601200021
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 01:55:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229638
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 02:43:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229639
 
-Fixes [YOCTO #16130]
+If INITRAMFS_FSTYPES contains more than one entry, ukify build command
+will fail as INITRD_ARCHIVE will contain extra strings. Use only the
+first initramfs type, letting the user to specify other fstypes in
+INITRAMFS_FSTYPES.
 
-When extracting the instance name from a template instances such as
-'example@host.domain.com.service', the systemctl replacement script will
-split the instance on the first period, producing an instance argument of
-'host' and a template of 'example@.domain.com.service'.  This is incorrect,
-as systemd will split on the last period, producing an instance argument of
-'host.domain.com' and a template of 'example@.service'.
-
-When constructing the template name, the script will also pass the string
-as is to re.sub(), which will try to process any backslash escapes in the
-string.  These are legal in systemd unit names and should be preserved.
-They also are not valid Python escape sequences.  Use re.escape() to
-preserve anything in the unit name that might be considered a regex
-exscape.
-
-Signed-off-by: Trent Piepho <trent.piepho@igorinstitute.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-core/systemd/systemd-systemctl/systemctl | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/classes-recipe/uki.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-index 2229bc7b6d..b9e04a9070 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -202,7 +202,8 @@ class SystemdUnit():
-         try:
-             for dependent in config.get('Install', prop):
-                 # expand any %i to instance (ignoring escape sequence %%)
--                dependent = re.sub("([^%](%%)*)%i", "\\g<1>{}".format(instance), dependent)
-+                if instance is not None:
-+                    dependent = re.sub("([^%](%%)*)%i", "\\g<1>{}".format(re.escape(instance)), dependent)
-                 wants = systemdir / "{}.{}".format(dependent, dirstem) / service
-                 add_link(wants, target)
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+index a2b1c8a82d6f..ea449540db66 100644
+--- a/meta/classes-recipe/uki.bbclass
++++ b/meta/classes-recipe/uki.bbclass
+@@ -73,8 +73,6 @@ require ../conf/image-uefi.conf
  
-@@ -212,13 +213,13 @@ class SystemdUnit():
-     def enable(self, units_enabled=[]):
-         # if we're enabling an instance, first extract the actual instance
-         # then figure out what the template unit is
--        template = re.match(r"[^@]+@(?P<instance>[^\.]*)\.", self.unit)
-+        template = re.match(r"[^@]+@(?P<instance>.*)\.", self.unit)
-         instance_unit_name = None
-         if template:
-             instance = template.group('instance')
-             if instance != "":
-                 instance_unit_name = self.unit
--            unit = re.sub(r"@[^\.]*\.", "@.", self.unit, 1)
-+            unit = re.sub(r"@{}\.".format(re.escape(instance)), "@.", self.unit, 1)
-         else:
-             instance = None
-             unit = self.unit
+ INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
+ 
+-INITRD_ARCHIVE ?= "${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}"
+-
+ do_image_complete[depends] += "${INITRAMFS_IMAGE}:do_image_complete"
+ 
+ UKIFY_CMD ?= "ukify build"
+@@ -127,7 +125,8 @@ python do_uki() {
+     ukify_cmd += " --stub %s" % (stub)
+ 
+     # initrd
+-    initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
++    uki_fstype = d.getVar("INITRAMFS_FSTYPES").split()[0]
++    initramfs_image = "%s-%s.%s" % (d.getVar('INITRAMFS_IMAGE'), d.getVar('MACHINE'), uki_fstype)
+     ukify_cmd += " --initrd=%s" % (os.path.join(deploy_dir_image, initramfs_image))
+ 
+     # kernel
 -- 
-2.47.0
+2.47.3
 
 
