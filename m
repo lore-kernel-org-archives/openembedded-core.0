@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0819FD2ED12
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11534D2ED17
 	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 13:38:16 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6473.1768916293357401099
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6483.1768916292925647665
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 Jan 2026 05:38:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=c9JwgxXl;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47ee3da7447so34406535e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:13 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Iu0sgrPA;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee9817a35so30508125e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 05:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1768916291; x=1769521091; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/eU+frBv4hwSWyQeyaKK/tEbxFfFPCfcGdQ/EnuEpGY=;
-        b=c9JwgxXlthUsWzjab1/g3pDB9tRPE4b/g7qRO6Jvo22qERbBF2S5YFPq1p8Cfe+GQo
-         wSD8I+xLgakmEXL6Ayiom24GCMNWqJcqGsILsJS2yFs2STuXNKqxW5xYsuIrCuSi8Y8d
-         zvLERxiMQd5NpIM8b63x4E2KP0urFKygWlBGQ=
+        bh=1Gx38F3rYZ1ybxxqNl0D6u+mL2FoWV2GkBhgXsDeupM=;
+        b=Iu0sgrPAmeCMB2lvvNM+LBf0O2rJJYi4+FG42kII6XafXXS9sT5iInwwATLxDFpW/G
+         7sGj9zSBYSIdMU25leIVXlf8Nc/aFI/cgnKmMNNFPW7WupDRUx3iSREuLrSYcqdxq+IJ
+         fEVoC2o8HhaK3Av0+twplVpvA2j1G6jkAYX9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1768916291; x=1769521091;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=/eU+frBv4hwSWyQeyaKK/tEbxFfFPCfcGdQ/EnuEpGY=;
-        b=aKGJCfI3BmNkobl1/lKrC/ZQmqd7ytnuW8Y8g0wbR8K8bzTQOc/anCRCOawWdoNzIz
-         M7hUaKZVl0UtXwaFdJVyDlG1kcL/Uik9kLkJ7M6JR0DSCB9tl5hmcFWodyqgh7PD/KUH
-         wrcgTYrXAm9+Jzbc/qfs40UdS6xIMHYSSmRGZYiam5koQIdjjxH3NFLLMIviLhTuBUoT
-         lmecSexx8hi2l1NGpvPAwPIMg1grAIfbEe2plpQEDGOrrqyCCFyRiiHbfXBIE8P2Kzsg
-         H6JRY3bzRy3zADS4Ks8SS7UuQseGpYdYNtrJh0D4n1eerFGe4Sa6gzqSkXsnXeQ0Bn2z
-         JRZQ==
-X-Gm-Message-State: AOJu0YyUJOCTU+xparDzNvwLKg21JLNTeFT9Ejl68E4BVuPIpH6QUXvG
-	gWR4VZKk2INqAKKYgIIhi4hi7XVuAyt+wuB8XNx52aByUAR8ia3/O1JoMxt8kaQyNRy6yc/dF07
-	9mh8I
-X-Gm-Gg: AY/fxX63gk+MKoZ1erQM0XDT0Y78H4d+uqipUoXkTuvLTk68aLVFxo99QdTmNHyu5vy
-	NvTndz1038troS2y0LIRlnbAXQ5II9vsO6uvxbmB8KqrCZK9LQea7SdaMkhwE0FTGNAKD3uEE/y
-	Hk9evRf+fEkSo98nc4aHT5JDaNwy6rJpBLD4DvtpCpwYDlpDL4971AQ2FSMMd6NfVGRvu7Uqtzu
-	A9R9xUbSnIxxEM+V435rzWD0gQ77VXI5FBU738c839bW2YTavZveUf594zQYes3Yfz49TYI3+WH
-	qUQxLb3JlNxFMBI/aXdFrgtvFXsmjSuXJVGdXuGiMiHef5Iq+LTf6pSrL6zDbiHgUc8qzJc4vZG
-	3E6DCa55xKghRwVBT0Zz6tAS/JwajW7EXtgAo69PJYcF8SZAvEEWzq3o8AWcvdqxuIB5dfv+TSH
-	5ld3Jy/+AaAtxQTeOYVqiWogDRb3WoY2VRbS2Zj9bkBekuNIbXbGjpIQEMqT6WV6z0SoUnRD6HZ
-	PSnTysKrsR9qp6MUsOLrg==
-X-Received: by 2002:a05:600c:3555:b0:480:1d0b:2d32 with SMTP id 5b1f17b1804b1-4801e2fe352mr199423425e9.12.1768916291440;
-        Tue, 20 Jan 2026 05:38:11 -0800 (PST)
+        bh=1Gx38F3rYZ1ybxxqNl0D6u+mL2FoWV2GkBhgXsDeupM=;
+        b=NoZGmWLL1nqIEO26JXaJ4dEjliciaHnd9w8lTNpX4GIQULyV5Krjd1YAIpLxl3s8cC
+         6NQ13fSmp3OMhsW41Ry7mXwlWcljOdahIcyRbqUcNOoi5L+blQH2Z0aBbruhTS/oFSF+
+         Ijxe7Nj/ZXZ1xUpzWaNqNBAwzdm2j7degTshiz0r3JnhxJ79xQ5L8eA7OjExXVDd62Hh
+         TF7Cjk2eQB4hVYBn1fAZNXsh3AnsQzuW8kyhCXVzHIBJJovUcn9dgAX35cbuiTmK23T+
+         UXg+TtUr0Z21hmkfdmPsffnK78JIPZx4VFiTSBsMNNyJaTqYfeCDNcPDHrW+P4pVNha2
+         5HrQ==
+X-Gm-Message-State: AOJu0YzfXsDf8Dr+90ufCurqUJJ9UZyXg0WXieOp18CZVoMC6HK9JJ/V
+	B0hQLl+6VrGeTM2Nc6t477872NRy26PWBcisQ+S38g2QbZF72Uf00PG5FUhtJZFWI/Xpb+tyU/2
+	gKggk
+X-Gm-Gg: AY/fxX4m6nBFYiIpd2/LDfAHslsErtgfjYulrEfqmafRkPLVqkUqln1HvjHRvpt+GTr
+	ROV763mzU7rmm9VgcLx9ew3410b9C8WxU3qlcg8kVRb6tvfAi6cwf0k4amUtOWS+6XoXp+WZn67
+	p5u1yKbLRM17Ikk35aSLiJmTNO/RyL7fIy55HT8X2lvrfJJ01up6IW0K0ioVBntwHfAiLh42n/R
+	sAlUVWp5Bl5txAuIXq25DGkUl9GevEvPFUwcSFmUegtO/zTITabWCWXvRt63nUMD/d6j39A3u7F
+	1Fjayp4M4OpffswUOpfq2lj5+b0/x8m56Sw2AVPEmgp3aWPZGY2SbslnzC2AVc4VO36uvz8TiY0
+	POra+wrobg9jKwMBSk3x/nDGo1iF90i1NE5nQsfG63Ef/lDoK4phr8JAOsSBEFZ8QS6CIeh++fW
+	xZ73XTcvVgfzt/C0yzCJz3kg3Jb5Ufn7CGMhVt6dPWIKAo6NxwEU/THD1L6lzAkCiZIzdSvPouB
+	Sb6drV9OSBvS4i4yltQag==
+X-Received: by 2002:a05:600c:1d14:b0:47e:e076:c7a5 with SMTP id 5b1f17b1804b1-4803e7a4430mr24407775e9.11.1768916290815;
+        Tue, 20 Jan 2026 05:38:10 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm303400035e9.12.2026.01.20.05.38.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 05:38:11 -0800 (PST)
+        Tue, 20 Jan 2026 05:38:10 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/26] libpcap: patch CVE-2025-11964
-Date: Tue, 20 Jan 2026 14:37:34 +0100
-Message-ID: <674dda9170cf471010fc1cbaae52e6054a91c7f8.1768914702.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 11/26] libpcap: patch CVE-2025-11961
+Date: Tue, 20 Jan 2026 14:37:33 +0100
+Message-ID: <633e5d2e6626964cd5aada261df4522065a4ed03.1768914702.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768914702.git.yoann.congal@smile.fr>
 References: <cover.1768914702.git.yoann.congal@smile.fr>
@@ -66,70 +66,518 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 13:38:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229718
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229717
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch per [1].
+Also pick additional preparation patch to apply it cleanly.
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-11964
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-11961
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpcap/libpcap/CVE-2025-11964.patch      | 33 +++++++++++++++++++
- .../libpcap/libpcap_1.10.1.bb                 |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+ .../libpcap/libpcap/CVE-2025-11961-01.patch   |  38 ++
+ .../libpcap/libpcap/CVE-2025-11961-02.patch   | 433 ++++++++++++++++++
+ .../libpcap/libpcap_1.10.1.bb                 |   2 +
+ 3 files changed, 473 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-01.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-02.patch
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-01.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-01.patch
 new file mode 100644
-index 0000000000..003d21fb1f
+index 0000000000..73c3ab3f5c
 --- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
-@@ -0,0 +1,33 @@
-+From 7fabf607f2319a36a0bd78444247180acb838e69 Mon Sep 17 00:00:00 2001
-+From: Guy Harris <gharris@sonic.net>
-+Date: Sun, 7 Sep 2025 12:51:56 -0700
-+Subject: [PATCH] Fix a copy-and-pasteo in utf_16le_to_utf_8_truncated().
++++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-01.patch
+@@ -0,0 +1,38 @@
++From 7224be0fe2f4beb916b7b69141f478facd0f0634 Mon Sep 17 00:00:00 2001
++From: Denis Ovsienko <denis@ovsienko.info>
++Date: Sat, 27 Dec 2025 21:36:11 +0000
++Subject: [PATCH] Rename one of the xdtoi() copies to simplify backporting.
 +
-+For the four octets of UTF-8 case, it was decrementing the remaining
-+buffer length by 3, not 4.
-+
-+Thanks to a team of developers from the Univesity of Waterloo for
-+reporting this.
-+
-+(cherry picked from commit aebfca1aea2fc8c177760a26e8f4de27b51d1b3b)
-+
-+CVE: CVE-2025-11964
-+Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/7fabf607f2319a36a0bd78444247180acb838e69]
++CVE: CVE-2025-11961
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/7224be0fe2f4beb916b7b69141f478facd0f0634]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ fmtutils.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ nametoaddr.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/fmtutils.c b/fmtutils.c
-+index a5a4fe62..78a0f8b7 100644
-+--- a/fmtutils.c
-++++ b/fmtutils.c
-+@@ -235,7 +235,7 @@ utf_16le_to_utf_8_truncated(const wchar_t *utf_16, char *utf_8,
-+ 			*utf_8++ = ((uc >> 12) & 0x3F) | 0x80;
-+ 			*utf_8++ = ((uc >> 6) & 0x3F) | 0x80;
-+ 			*utf_8++ = ((uc >> 0) & 0x3F) | 0x80;
-+-			utf_8_len -= 3;
-++			utf_8_len -= 4;
++diff --git a/nametoaddr.c b/nametoaddr.c
++index dc75495c..bdaacbf1 100644
++--- a/nametoaddr.c
+++++ b/nametoaddr.c
++@@ -646,7 +646,7 @@ pcap_nametollc(const char *s)
++ 
++ /* Hex digit to 8-bit unsigned integer. */
++ static inline u_char
++-xdtoi(u_char c)
+++pcapint_xdtoi(u_char c)
++ {
++ 	if (c >= '0' && c <= '9')
++ 		return (u_char)(c - '0');
++@@ -728,10 +728,10 @@ pcap_ether_aton(const char *s)
++ 	while (*s) {
++ 		if (*s == ':' || *s == '.' || *s == '-')
++ 			s += 1;
++-		d = xdtoi(*s++);
+++		d = pcapint_xdtoi(*s++);
++ 		if (PCAP_ISXDIGIT(*s)) {
++ 			d <<= 4;
++-			d |= xdtoi(*s++);
+++			d |= pcapint_xdtoi(*s++);
 + 		}
++ 		*ep++ = d;
 + 	}
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-02.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-02.patch
+new file mode 100644
+index 0000000000..0b0dc5ac40
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11961-02.patch
+@@ -0,0 +1,433 @@
++From b2d2f9a9a0581c40780bde509f7cc715920f1c02 Mon Sep 17 00:00:00 2001
++From: Denis Ovsienko <denis@ovsienko.info>
++Date: Fri, 19 Dec 2025 17:31:13 +0000
++Subject: [PATCH] CVE-2025-11961: Fix OOBR and OOBW in pcap_ether_aton().
++
++pcap_ether_aton() has for a long time required its string argument to be
++a well-formed MAC-48 address, which is always the case when the argument
++comes from other libpcap code, so the function has never validated the
++input and used a simple loop to parse any of the three common MAC-48
++address formats.  However, the function has also been a part of the
++public API, so calling it directly with a malformed address can cause
++the loop to read beyond the end of the input string and/or to write
++beyond the end of the allocated output buffer.
++
++To handle invalid input more appropriately, replace the simple loop with
++new functions and require the input to match a supported address format.
++
++This problem was reported by Jin Wei, Kunwei Qian and Ping Chen.
++
++(backported from commit dd08e53e9380e217ae7c7768da9cc3d7bf37bf83)
++
++CVE: CVE-2025-11961
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/b2d2f9a9a0581c40780bde509f7cc715920f1c02]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ gencode.c    |   5 +
++ nametoaddr.c | 367 +++++++++++++++++++++++++++++++++++++++++++++++----
++ 2 files changed, 349 insertions(+), 23 deletions(-)
++
++diff --git a/gencode.c b/gencode.c
++index 3ddd15f8..76fb2d82 100644
++--- a/gencode.c
+++++ b/gencode.c
++@@ -7206,6 +7206,11 @@ gen_ecode(compiler_state_t *cstate, const char *s, struct qual q)
++ 		return (NULL);
++ 
++ 	if ((q.addr == Q_HOST || q.addr == Q_DEFAULT) && q.proto == Q_LINK) {
+++		/*
+++		 * Because the lexer guards the input string format, in this
+++		 * context the function returns NULL iff the implicit malloc()
+++		 * has failed.
+++		 */
++ 		cstate->e = pcap_ether_aton(s);
++ 		if (cstate->e == NULL)
++ 			bpf_error(cstate, "malloc");
++diff --git a/nametoaddr.c b/nametoaddr.c
++index f9fcd288..f50d0da5 100644
++--- a/nametoaddr.c
+++++ b/nametoaddr.c
++@@ -703,39 +703,360 @@ __pcap_atodn(const char *s, bpf_u_int32 *addr)
++ 	return(32);
++ }
++ 
+++// Man page: "xxxxxxxxxxxx", regexp: "^[0-9a-fA-F]{12}$".
+++static u_char
+++pcapint_atomac48_xxxxxxxxxxxx(const char *s, uint8_t *addr)
+++{
+++	if (strlen(s) == 12 &&
+++	    PCAP_ISXDIGIT(s[0]) &&
+++	    PCAP_ISXDIGIT(s[1]) &&
+++	    PCAP_ISXDIGIT(s[2]) &&
+++	    PCAP_ISXDIGIT(s[3]) &&
+++	    PCAP_ISXDIGIT(s[4]) &&
+++	    PCAP_ISXDIGIT(s[5]) &&
+++	    PCAP_ISXDIGIT(s[6]) &&
+++	    PCAP_ISXDIGIT(s[7]) &&
+++	    PCAP_ISXDIGIT(s[8]) &&
+++	    PCAP_ISXDIGIT(s[9]) &&
+++	    PCAP_ISXDIGIT(s[10]) &&
+++	    PCAP_ISXDIGIT(s[11])) {
+++		addr[0] = pcapint_xdtoi(s[0]) << 4 | pcapint_xdtoi(s[1]);
+++		addr[1] = pcapint_xdtoi(s[2]) << 4 | pcapint_xdtoi(s[3]);
+++		addr[2] = pcapint_xdtoi(s[4]) << 4 | pcapint_xdtoi(s[5]);
+++		addr[3] = pcapint_xdtoi(s[6]) << 4 | pcapint_xdtoi(s[7]);
+++		addr[4] = pcapint_xdtoi(s[8]) << 4 | pcapint_xdtoi(s[9]);
+++		addr[5] = pcapint_xdtoi(s[10]) << 4 | pcapint_xdtoi(s[11]);
+++		return 1;
+++	}
+++	return 0;
+++}
+++
+++// Man page: "xxxx.xxxx.xxxx", regexp: "^[0-9a-fA-F]{4}(\.[0-9a-fA-F]{4}){2}$".
+++static u_char
+++pcapint_atomac48_xxxx_3_times(const char *s, uint8_t *addr)
+++{
+++	const char sep = '.';
+++	if (strlen(s) == 14 &&
+++	    PCAP_ISXDIGIT(s[0]) &&
+++	    PCAP_ISXDIGIT(s[1]) &&
+++	    PCAP_ISXDIGIT(s[2]) &&
+++	    PCAP_ISXDIGIT(s[3]) &&
+++	    s[4] == sep &&
+++	    PCAP_ISXDIGIT(s[5]) &&
+++	    PCAP_ISXDIGIT(s[6]) &&
+++	    PCAP_ISXDIGIT(s[7]) &&
+++	    PCAP_ISXDIGIT(s[8]) &&
+++	    s[9] == sep &&
+++	    PCAP_ISXDIGIT(s[10]) &&
+++	    PCAP_ISXDIGIT(s[11]) &&
+++	    PCAP_ISXDIGIT(s[12]) &&
+++	    PCAP_ISXDIGIT(s[13])) {
+++		addr[0] = pcapint_xdtoi(s[0]) << 4 | pcapint_xdtoi(s[1]);
+++		addr[1] = pcapint_xdtoi(s[2]) << 4 | pcapint_xdtoi(s[3]);
+++		addr[2] = pcapint_xdtoi(s[5]) << 4 | pcapint_xdtoi(s[6]);
+++		addr[3] = pcapint_xdtoi(s[7]) << 4 | pcapint_xdtoi(s[8]);
+++		addr[4] = pcapint_xdtoi(s[10]) << 4 | pcapint_xdtoi(s[11]);
+++		addr[5] = pcapint_xdtoi(s[12]) << 4 | pcapint_xdtoi(s[13]);
+++		return 1;
+++	}
+++	return 0;
+++}
+++
++ /*
++- * Convert 's', which can have the one of the forms:
+++ * Man page: "xx:xx:xx:xx:xx:xx", regexp: "^[0-9a-fA-F]{1,2}(:[0-9a-fA-F]{1,2}){5}$".
+++ * Man page: "xx-xx-xx-xx-xx-xx", regexp: "^[0-9a-fA-F]{1,2}(-[0-9a-fA-F]{1,2}){5}$".
+++ * Man page: "xx.xx.xx.xx.xx.xx", regexp: "^[0-9a-fA-F]{1,2}(\.[0-9a-fA-F]{1,2}){5}$".
+++ * (Any "xx" above can be "x", which is equivalent to "0x".)
++  *
++- *	"xx:xx:xx:xx:xx:xx"
++- *	"xx.xx.xx.xx.xx.xx"
++- *	"xx-xx-xx-xx-xx-xx"
++- *	"xxxx.xxxx.xxxx"
++- *	"xxxxxxxxxxxx"
+++ * An equivalent (and parametrisable for EUI-64) FSM could be implemented using
+++ * a smaller graph, but that graph would be neither acyclic nor planar nor
+++ * trivial to verify.
++  *
++- * (or various mixes of ':', '.', and '-') into a new
++- * ethernet address.  Assumes 's' is well formed.
+++ *                |
+++ *    [.]         v
+++ * +<---------- START
+++ * |              |
+++ * |              | [0-9a-fA-F]
+++ * |  [.]         v
+++ * +<--------- BYTE0_X ----------+
+++ * |              |              |
+++ * |              | [0-9a-fA-F]  |
+++ * |  [.]         v              |
+++ * +<--------- BYTE0_XX          | [:\.-]
+++ * |              |              |
+++ * |              | [:\.-]       |
+++ * |  [.]         v              |
+++ * +<----- BYTE0_SEP_BYTE1 <-----+
+++ * |              |
+++ * |              | [0-9a-fA-F]
+++ * |  [.]         v
+++ * +<--------- BYTE1_X ----------+
+++ * |              |              |
+++ * |              | [0-9a-fA-F]  |
+++ * |  [.]         v              |
+++ * +<--------- BYTE1_XX          | <sep>
+++ * |              |              |
+++ * |              | <sep>        |
+++ * |  [.]         v              |
+++ * +<----- BYTE1_SEP_BYTE2 <-----+
+++ * |              |
+++ * |              | [0-9a-fA-F]
+++ * |  [.]         v
+++ * +<--------- BYTE2_X ----------+
+++ * |              |              |
+++ * |              | [0-9a-fA-F]  |
+++ * |  [.]         v              |
+++ * +<--------- BYTE2_XX          | <sep>
+++ * |              |              |
+++ * |              | <sep>        |
+++ * |  [.]         v              |
+++ * +<----- BYTE2_SEP_BYTE3 <-----+
+++ * |              |
+++ * |              | [0-9a-fA-F]
+++ * |  [.]         v
+++ * +<--------- BYTE3_X ----------+
+++ * |              |              |
+++ * |              | [0-9a-fA-F]  |
+++ * |  [.]         v              |
+++ * +<--------- BYTE3_XX          | <sep>
+++ * |              |              |
+++ * |              | <sep>        |
+++ * |  [.]         v              |
+++ * +<----- BYTE3_SEP_BYTE4 <-----+
+++ * |              |
+++ * |              | [0-9a-fA-F]
+++ * |  [.]         v
+++ * +<--------- BYTE4_X ----------+
+++ * |              |              |
+++ * |              | [0-9a-fA-F]  |
+++ * |  [.]         v              |
+++ * +<--------- BYTE4_XX          | <sep>
+++ * |              |              |
+++ * |              | <sep>        |
+++ * |  [.]         v              |
+++ * +<----- BYTE4_SEP_BYTE5 <-----+
+++ * |              |
+++ * |              | [0-9a-fA-F]
+++ * |  [.]         v
+++ * +<--------- BYTE5_X ----------+
+++ * |              |              |
+++ * |              | [0-9a-fA-F]  |
+++ * |  [.]         v              |
+++ * +<--------- BYTE5_XX          | \0
+++ * |              |              |
+++ * |              | \0           |
+++ * |              |              v
+++ * +--> (reject)  +---------> (accept)
+++ *
+++ */
+++static u_char
+++pcapint_atomac48_x_xx_6_times(const char *s, uint8_t *addr)
+++{
+++	enum {
+++		START,
+++		BYTE0_X,
+++		BYTE0_XX,
+++		BYTE0_SEP_BYTE1,
+++		BYTE1_X,
+++		BYTE1_XX,
+++		BYTE1_SEP_BYTE2,
+++		BYTE2_X,
+++		BYTE2_XX,
+++		BYTE2_SEP_BYTE3,
+++		BYTE3_X,
+++		BYTE3_XX,
+++		BYTE3_SEP_BYTE4,
+++		BYTE4_X,
+++		BYTE4_XX,
+++		BYTE4_SEP_BYTE5,
+++		BYTE5_X,
+++		BYTE5_XX,
+++	} fsm_state = START;
+++	uint8_t buf[6];
+++	const char *seplist = ":.-";
+++	char sep;
+++
+++	while (*s) {
+++		switch (fsm_state) {
+++		case START:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[0] = pcapint_xdtoi(*s);
+++				fsm_state = BYTE0_X;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE0_X:
+++			if (strchr(seplist, *s)) {
+++				sep = *s;
+++				fsm_state = BYTE0_SEP_BYTE1;
+++				break;
+++			}
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[0] = buf[0] << 4 | pcapint_xdtoi(*s);
+++				fsm_state = BYTE0_XX;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE0_XX:
+++			if (strchr(seplist, *s)) {
+++				sep = *s;
+++				fsm_state = BYTE0_SEP_BYTE1;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE0_SEP_BYTE1:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[1] = pcapint_xdtoi(*s);
+++				fsm_state = BYTE1_X;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE1_X:
+++			if (*s == sep) {
+++				fsm_state = BYTE1_SEP_BYTE2;
+++				break;
+++			}
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[1] = buf[1] << 4 | pcapint_xdtoi(*s);
+++				fsm_state = BYTE1_XX;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE1_XX:
+++			if (*s == sep) {
+++				fsm_state = BYTE1_SEP_BYTE2;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE1_SEP_BYTE2:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[2] = pcapint_xdtoi(*s);
+++				fsm_state = BYTE2_X;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE2_X:
+++			if (*s == sep) {
+++				fsm_state = BYTE2_SEP_BYTE3;
+++				break;
+++			}
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[2] = buf[2] << 4 | pcapint_xdtoi(*s);
+++				fsm_state = BYTE2_XX;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE2_XX:
+++			if (*s == sep) {
+++				fsm_state = BYTE2_SEP_BYTE3;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE2_SEP_BYTE3:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[3] = pcapint_xdtoi(*s);
+++				fsm_state = BYTE3_X;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE3_X:
+++			if (*s == sep) {
+++				fsm_state = BYTE3_SEP_BYTE4;
+++				break;
+++			}
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[3] = buf[3] << 4 | pcapint_xdtoi(*s);
+++				fsm_state = BYTE3_XX;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE3_XX:
+++			if (*s == sep) {
+++				fsm_state = BYTE3_SEP_BYTE4;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE3_SEP_BYTE4:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[4] = pcapint_xdtoi(*s);
+++				fsm_state = BYTE4_X;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE4_X:
+++			if (*s == sep) {
+++				fsm_state = BYTE4_SEP_BYTE5;
+++				break;
+++			}
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[4] = buf[4] << 4 | pcapint_xdtoi(*s);
+++				fsm_state = BYTE4_XX;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE4_XX:
+++			if (*s == sep) {
+++				fsm_state = BYTE4_SEP_BYTE5;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE4_SEP_BYTE5:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[5] = pcapint_xdtoi(*s);
+++				fsm_state = BYTE5_X;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE5_X:
+++			if (PCAP_ISXDIGIT(*s)) {
+++				buf[5] = buf[5] << 4 | pcapint_xdtoi(*s);
+++				fsm_state = BYTE5_XX;
+++				break;
+++			}
+++			goto reject;
+++		case BYTE5_XX:
+++			goto reject;
+++		} // switch
+++		s++;
+++	} // while
+++
+++	if (fsm_state == BYTE5_X || fsm_state == BYTE5_XX) {
+++		// accept
+++		memcpy(addr, buf, sizeof(buf));
+++		return 1;
+++	}
+++
+++reject:
+++	return 0;
+++}
+++
+++// The 'addr' argument must point to an array of at least 6 elements.
+++static int
+++pcapint_atomac48(const char *s, uint8_t *addr)
+++{
+++	return s && (
+++	    pcapint_atomac48_xxxxxxxxxxxx(s, addr) ||
+++	    pcapint_atomac48_xxxx_3_times(s, addr) ||
+++	    pcapint_atomac48_x_xx_6_times(s, addr)
+++	);
+++}
+++
+++/*
+++ * If 's' is a MAC-48 address in one of the forms documented in pcap-filter(7)
+++ * for "ether host", return a pointer to an allocated buffer with the binary
+++ * value of the address.  Return NULL on any error.
++  */
++ u_char *
++ pcap_ether_aton(const char *s)
++ {
++-	register u_char *ep, *e;
++-	register u_char d;
+++	uint8_t tmp[6];
+++	if (! pcapint_atomac48(s, tmp))
+++		return (NULL);
++ 
++-	e = ep = (u_char *)malloc(6);
+++	u_char *e = malloc(6);
++ 	if (e == NULL)
++ 		return (NULL);
++-
++-	while (*s) {
++-		if (*s == ':' || *s == '.' || *s == '-')
++-			s += 1;
++-		d = pcapint_xdtoi(*s++);
++-		if (PCAP_ISXDIGIT(*s)) {
++-			d <<= 4;
++-			d |= pcapint_xdtoi(*s++);
++-		}
++-		*ep++ = d;
++-	}
++-
+++	memcpy(e, tmp, sizeof(tmp));
++ 	return (e);
++ }
 + 
 diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
-index b3bd4f669a..5e136e3b1a 100644
+index 584e98c76d..b3bd4f669a 100644
 --- a/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
 +++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+@@ -17,6 +17,8 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+            file://CVE-2023-7256-pre4.patch \
+            file://CVE-2023-7256.patch \
             file://CVE-2024-8006.patch \
-            file://CVE-2025-11961-01.patch \
-            file://CVE-2025-11961-02.patch \
-+           file://CVE-2025-11964.patch \
++           file://CVE-2025-11961-01.patch \
++           file://CVE-2025-11961-02.patch \
            "
  
  SRC_URI[sha256sum] = "ed285f4accaf05344f90975757b3dbfe772ba41d1c401c2648b7fa45b711bdd4"
