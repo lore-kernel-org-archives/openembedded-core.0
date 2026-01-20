@@ -1,117 +1,81 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <fred.w.bacon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29568D2ECE9
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 15:01:47 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8290.1768921302713113234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB92CD29C4A
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 15:57:57 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9743.1768924673252002324
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 07:01:43 -0800
+ Tue, 20 Jan 2026 07:57:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 60KF1clX2704232;
-	Tue, 20 Jan 2026 09:01:38 -0600
-Received: from [192.168.2.106] ([192.168.2.106])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 60KF1clA015911;
-	Tue, 20 Jan 2026 09:01:38 -0600
-Message-ID: <919b27a6-0223-4749-a77b-1580f3e7cdd6@kernel.crashing.org>
-Date: Tue, 20 Jan 2026 09:01:38 -0600
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kC+G6SjG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: fred.w.bacon@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c531473fdcso735563585a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 07:57:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768924672; x=1769529472; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LN85BVCmKLizfcpptZiwCkBBsoNhVWmq/R0p36MRr8c=;
+        b=kC+G6SjG853U3xE4aDApCGVu1J0VgRpiO0Qbl4+gGSCOb4Wi7JuEwaAv78B/tlwWfD
+         +TSVuvUjjbLpbpoyt/Xf0q7x9sagfutvvBu4Zr6JurTEHwymBU/PqBlIKMDiiSyWNi1z
+         eC077urAo2SWrmlBdYHkVt6ZDyQkI8tmjgZY6c6xexU//lYvZ9fL5kjjfN0WnUyv7evk
+         0+juW2sSd8NW47KXYomIpy9Bk4vQT/zkOeI3ut2cdxVMWqP7MnExFKzJIoTfabsPygxZ
+         FIhRqqbdhppr8k5Qd9tNUs0vaSgcVxk5pqrB9IDGhUnBpz6t17JKwdXPcEnZrTQixbjN
+         ckiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768924672; x=1769529472;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LN85BVCmKLizfcpptZiwCkBBsoNhVWmq/R0p36MRr8c=;
+        b=RDdwXKzdJTxE8+f1aILgI4QeztzQ7dsC7r/PugyRP5bWZZSMOBseLYwJeSc+b5e4sx
+         l65wSa+LP9yWSirNXYscL5vUCdS9DMHIiQp9iUWYvNUlr7JFOyRbIkNY09tcFGNa58DA
+         sgl3147Csy5FwK1W1sY90bRkW6jrVrsSSO8WBYwIlHifOrEQCAxM7ZQFpojRHmyt0h+D
+         XshKTgoZzAzRILJxuveDUDu6zyDJJvI34zoGcJ48/6QBhdvZRhPC2a+Roskk8KNXwbu1
+         4MWJVXDaRrORWVpr9IKBa6V5TclWuYxmebRlbGZoytq2IrkaWeq82xitbuL/XMgAVK1m
+         PY6g==
+X-Gm-Message-State: AOJu0Yw0hnlknv5AWxqjvlQ0TMldCvgBNaR3C6ykrAOWY1YjsG7SCaAd
+	ZOGGXj/njgXacB/wgDpO/N4hF5YkMhX5Au3ljhFHUbfUiqk0CYJ1F1U1GflamQ==
+X-Gm-Gg: AY/fxX5CDcn8mx74vJHgCa1SknM8wZaLn3iIwNVWpFlddRkmGGxe2RUC4N2l9bg5l/e
+	jiXQt0+WH05ofrQJaqmlhmw5J411/wwivf29Ap5MsQkkc0ChgjvSr9KWsukgzeGlnaE87/4jlNG
+	+G+XRmxJN7U9+w2Okd2NY5Hcc/nMmFYq2GymzhsUIrlGFcHfh+1HkSdMJQdQv4ECUUatEwY6cn7
+	spAi705mB12seYLWFk7oYpw6hqWZyqfAr7enrwPajG5KXaFvI6ecl5YyX6XwyJ2oWlX8JjyFOAE
+	Yzu/imS4ZCZTEdN5dENQbVA2q89+EtzWcVSUJuUtR7uk34djS95yWIJlSyvTT4m3cIWekvZjIWz
+	L0OhflhJ4Z38YY+LWGDbWWsTRhO164ZMd6pWC6nBvdlzpPF48kZK8H6JTNrVoctfVXWmc20AQwe
+	LERecCndMFZ2BXlzei+FR1IwdzHLYPfup47A==
+X-Received: by 2002:a05:620a:4413:b0:8c6:d34e:9c51 with SMTP id af79cd13be357-8c6d34e9d12mr17779385a.24.1768924671915;
+        Tue, 20 Jan 2026 07:57:51 -0800 (PST)
+Received: from rl80220dt-bacon.aerodyne.com ([208.211.193.106])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a72602f3sm1059103985a.40.2026.01.20.07.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 07:57:51 -0800 (PST)
+From: fred.w.bacon@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Fred Bacon <fred.w.bacon@gmail.com>
+Subject: [scarthgap][PATCH 0/1] lighttpd: fix trailing '/' on files in dirlisting
+Date: Tue, 20 Jan 2026 10:57:47 -0500
+Message-ID: <20260120155748.32482-1-fred.w.bacon@gmail.com>
+X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] pseudo: Update to 1.9.3 release
-Content-Language: en-US
-To: richard.purdie@linuxfoundation.org, Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-References: <20260120085227.3719998-1-richard.purdie@linuxfoundation.org>
- <CAMSfU+5Xyi8RZFaC4q4b9B9DGGB7=AjbKkvn2s+WtJKcsBVRKA@mail.gmail.com>
- <83cb39fb9474846d054baa83925e63cb4bdef32c.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <83cb39fb9474846d054baa83925e63cb4bdef32c.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 60KF1clX2704232
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 15:01:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229740
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 15:57:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229741
 
-I do think we should take it, but it does require the dpkg change as RP m=
-entions=20
-below.
+From: Fred Bacon <fred.w.bacon@gmail.com>
 
-This should fix the known openat2 issue with RHEL9 and similar systems, a=
-nd then=20
-maybe deal with issues elsewhere as well.  (realpath, statx and other dif=
-ferences)
+Backporting an upstream bug fix for lighttpd's mod_dirlisting. 
 
---Mark
+Fred Bacon (1):
+  lighttpd: Fix trailing slash on files in mod_dirlisting
 
-On 1/20/26 4:31 AM, Richard Purdie via lists.openembedded.org wrote:
-> On Tue, 2026-01-20 at 09:59 +0100, Yoann Congal wrote:
->> Le=C2=A0mar. 20 janv. 2026 =C3=A0=C2=A009:52, Richard Purdie via
->> lists.openembedded.org
->> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> a =C3=A9=
-crit=C2=A0:
->>> Pulls in the following changes:
->>>
->>>  =C2=A0 Makefile.in: Bump version to 1.9.3
->>>  =C2=A0 configure: Minor code quality changes
->>>  =C2=A0 pseudo: code quality scan - resolved various potential issues
->>>  =C2=A0 makewrappers: improve error handling and robustness
->>>  =C2=A0 Update COPYRIGHT files
->>>  =C2=A0 ports/linux/pseudo_wrappers.c: Call the wrappers where possib=
-le
->>>  =C2=A0 ports/linux/pseudo_wrappers.c: Workaround compile error on De=
-bian
->>> 11
->>>  =C2=A0 ports/linux/pseudo_wrappers.c: Reorder the syscall operations
->>>  =C2=A0 ports/unix/guts/realpath.c: Fix indents
->>>  =C2=A0 pseudo_util.c: Skip realpath like expansion for /proc on Linu=
-x
->>>  =C2=A0 test/test-proc-pipe.sh: Add test case for proc pipes
->>>  =C2=A0 ports/unix/guts/realpath.c: realpath fails if the resolved pa=
-th
->>> doesn't exist
->>>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> Do you think I should take this for stable inclusion? (leaning toward
->> yes)
->=20
-> Good question. Copying Mark.
->=20
-> I suspect it will be easier all around if we did take it. There are a
-> lot of fixes in here and it is hard to know which ones any given user
-> might need or run into. There isn't any real feature work, just various
-> fixes for new glibc calls or existing code. The failure modes for
-> pseudo are problematic for end users who wouldn't understand many of
-> them. The realpath/proc fixes are the most invasive piece.
->=20
-> I would suggest we wait a little bit before taking it, just so we can
-> test things with master and ensure there is are no regressions.
->=20
-> You would need to take the dpkg ADMINDIR change as well as the pseudo
-> changes won't work without that.
->=20
-> I'm open to other thoughts either way...
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229656): https://lists.openembedded.org/g/openembed=
-ded-core/message/229656
-> Mute This Topic: https://lists.openembedded.org/mt/117360386/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+ .../lighttpd/0001-mod_dirlisting.patch        | 48 +++++++++++++++++++
+ .../lighttpd/lighttpd_1.4.74.bb               |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_dirlisting.patch
+
 
