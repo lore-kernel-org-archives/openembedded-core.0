@@ -1,128 +1,102 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF5BCCA5FAC
-	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 16:35:57 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10602.1768926956323717441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2382ECA5FB7
+	for <webhook@archiver.kernel.org>; Tue, 20 Jan 2026 17:18:18 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11626.1768929497374657782
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 08:35:56 -0800
+ Tue, 20 Jan 2026 09:18:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NhmznVWU;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6581234d208so222508a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 08:35:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eKo2tifI;
+ spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-502b0aa36feso320541cf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 09:18:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768929496; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VjZxWMLzOEa2NbxeV6GB+tnOJvbdrB6yELLm77e20hKMBd2dklLUHI6xPITEIi55Zl
+         8SjpgdT9+NxmZZ7+QCD0HSHrdVvV7HG6LAz4hRGkZwGJAh9fUOjGO1s68wf/5ELR2r7k
+         Bpeul36hurR2Ayaz88ZqTkSVc/EQtRUe0GfVj2fwZIsIt15PMH7aPJco1HXQzJ2XUfLA
+         auziZ3pZr7rGm4/dvPJCSQURuYfgJKjnMGA82fZ9jh+OuKJ/zRc50gxsgw8tPniNA1pH
+         rg0BgBc8S1Ej2iyTdowo1AfPtb1+oSm1dWERpGGGfPOexqXIfXqLsJsfW2Fb47RrQohg
+         oujQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sy/JSgHzOShj+wwFum2QvM1zBgDGWCF7JwbRsHKiK6c=;
+        fh=KclkrtLVSu+LV938TMebq0qrqAb+d8VdXkMSfxqDJAc=;
+        b=jLnlYhP6N3gwkI7xYhEOsr8nchxQHKKFMtmNDQvdbi2ZM7Wy45YSdQesEEIzOVy78y
+         iZG/4FgRHJyI7A3OoAljRPU4K+UCG/jtdIn7Nwv8YHauoOEUnuyuwId7/MqqSWq4brcm
+         Fxdo+DKM/rUhFkuqryLAxFhinhCGbhwcBWOGNi3YV/1VJvOT+V6trqTP9exbrBeeQcUB
+         kWWMBEmvaX201SOT9NaJKKwBy8chE7FF1/Q5d4LBKrnCYf53UzIY3qHhUgn9B6r25r1m
+         K7rOsaU7btOCzhOIO/ZEfhshaENZizB3IoGIjfy1T7nr9zFtbkRG/jCgy9QiYsgoUIZk
+         eqIA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768926955; x=1769531755; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9mE9lcV5jX5246vU2AoiZjON8UeEKzBxZHXu0+cxG+o=;
-        b=NhmznVWU4Z2Xeiy607Qb4Ispby3aghI3VFkBlzWqdHunzSF0OJ+9QNU5Khg/AHjBlz
-         8Ud2kE7xQmxu2DRpt4UhJvKuDaMxEK3xlsSCKl3MxqSPa0mMK1Hq06wQoAaJjBRK9IR2
-         m97u57NbySL+I/48tHMx2vYwZIBzh8MG/HrY9Cv5KX80FqSwFe2ZcPuuUxZ6M/t7kI6R
-         CdTVdlymIby98kE7BXnOkvHhYH3YpvUJJlqd5L2U7mlIiKf2aq7Jlq4mpIKtBAHyhswf
-         fsp3PgLKhPKT2u8KRlwuJ5qHXRt4xlZes+7bwyu8y6YYxrj2WjLPVLv61JIF3jCqai0+
-         TBag==
+        d=gmail.com; s=20230601; t=1768929496; x=1769534296; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sy/JSgHzOShj+wwFum2QvM1zBgDGWCF7JwbRsHKiK6c=;
+        b=eKo2tifIJtqnJvBhHeYWbAiT6OC/4wvBvr4ARFhBlw5uCHv1ZWNIMKLFdsMRuIl0EX
+         STcaI726WnFqN9fJ5C8n7UbZvq2UNZuun5F7j7bamnTO0hXKHF2gLo10WQ4kFkgbwEnp
+         qFJq8ChfOmueh6CVsy4esw+ZlFj8EzUGvtT4CQvFaY5FDDLM0WVTVwibqzNYXxWZ5rP9
+         tAKOX2KWk73T8+C+Vp1flqYAUg/AlOCrSHwMvQYW84va2gjxe0oYt/t/dV715Sk/SLtW
+         7Xe18yYkZDrceN+8sob9192togXJfplkBEzowFm44xccGIjCC+a+RyA7bLELwVtrTLtj
+         rhlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768926955; x=1769531755;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1768929496; x=1769534296;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9mE9lcV5jX5246vU2AoiZjON8UeEKzBxZHXu0+cxG+o=;
-        b=MySFniRkXedx9ew3lLZG0bga5Bqq0IVsXjKrZmAYFEt+UgrmPMQz2c0tWguqBqvfDj
-         Bnsc6A2KFQzYYdQ17aokbgzuFr4KbrLp1ZHILdrBsyJ2kYkINZnUpHMaSJziM/JXyqPi
-         IDYQWJnpiVcPKM8HFaFUYCBpaAQhLhGsrxcxhfqu5phKj1Nza7+I/PIJxYF2uWQ9mwuL
-         s0UTr3uEIJJr0x89RC3zkYegbkb2S8fSng93zIMCarlU8+0ppxmtnv4fgei12oZz1FHK
-         VtXrm4duVctSbITOFzlfMdOMEqai4xDeg/lezooS90ZIsKbFiI86gfN/zKeRBSNFvb5I
-         BWBQ==
-X-Gm-Message-State: AOJu0YxMnnBJeiU3Al1TJy5qFjw/Eb1trRERYQkrGdLsnF6flIn0sST3
-	d+9jbhj/XD+NbWOc/CPU3nxHXkN5tjFXhsNMHFcdErCJZ6W8QPqEpJbz3YXfPg==
-X-Gm-Gg: AZuq6aJ2vTu0Zg5Yr62tswp80VtYW3UYJvUxY5IbQgHhtP1cR56R0Hoj5WN/bDfByb7
-	izcMDbJpnraUPAtex5fMopq4hw6T4OhueT/004ya2QG/H++l/aCy3AmFt58SUcq4CW10zI12jsc
-	1w9bhdGVicVqU+7rqj3oD/5R4lHajI9GAtMEXTbcGmhVa2GV+6umzDiOVQvviASOnOmXrLox9Ti
-	sJGhNFBDml/VX4jWtpj9hYQQm7PwpU76m8QsG3ResiriFaqPnEQKMxsYfME2P5At7HA5S32xciv
-	9Wa0ucbBZ2JsnJhy407fx8ir/GT6XTPhmgOlWO+bN3Zfk416yBYM31tkZRtKXZERF4k2qbd1BrF
-	/0XejGNGrdV1I5tGGP+qGcbY5A1M7zs1JMfYy1IG1wSXh8Nc34MG8sN6Xd7cW7Ev8mEOnBtL9DX
-	zYcrnwrhIqxFEnwfrhcy6cdkG8
-X-Received: by 2002:a17:907:6d06:b0:b73:3e15:a370 with SMTP id a640c23a62f3a-b8796bb87cfmr1358893066b.57.1768926954323;
-        Tue, 20 Jan 2026 08:35:54 -0800 (PST)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959f6e53sm1473375066b.47.2026.01.20.08.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 08:35:53 -0800 (PST)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCHv2] lsb.py: strip ' from os-release file
-Date: Tue, 20 Jan 2026 17:35:51 +0100
-Message-ID: <20260120163551.1841281-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=sy/JSgHzOShj+wwFum2QvM1zBgDGWCF7JwbRsHKiK6c=;
+        b=aa8ifoZzjK7orY++SGNZedRvcJ2/P/OnekfpRgF7aw2HXQMqKxS2a07NKartBSRGlC
+         4BR4mLMHKy6BfjxR3YFkao/kS6w916/64lmtP26e5mQqrtLv8FG8XhoqMsxCwNF4YKHC
+         6WWC79J739tQj3yT3/2VoQTl05ylLLDpAMz19KtT0RuqCsOrxLfP45yT7ute6ncwKD3A
+         7Oqt74M0SkbqDC7t7OALafC1d1/oV6zklPywy64OgxbcBDSL/sbzdAAN+egrDy7//aBD
+         0xkUQnhwroaZz5VorSqsZO0Xji6TWmwfjBaVLlnFe4CUNI5n9lDyGAo+pKz3c7QuJwej
+         dr+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXLWOD87W25DmVaYVko0NU6zzPsg6t7cH8HQoHnF/lX3NMn9jB/JKuFRn3pWo0ZQ63wLXInYhwRIyziNrDdPzqBig==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yycged/nHge5xbERP3K8IJVzk4civTuDhtxeveQ2yrQjlxo8eg3
+	VGUtH3XYdCR9pZI6/1HFrj9ZSVoZb2BjlF1+ZIZ/6vKk2+ZIdcr3hqmRuWiMoOZbjJGf1a2oPvQ
+	qaAUgvGt75Gzx4fNjfmuCESQ8IPnxnp4=
+X-Gm-Gg: AY/fxX5bC5yj1FIP5Ml9KWGWpvv9AcamkFjQAuHOEHfbGK71gNtalloIGt2mWNGZq3Y
+	0+8RI492F11fdj486mglPlVPwDR8gVQGmAhqPyJzM2/xn1szjZA6bOGGhGvZeGmebhb+ra5xvRi
+	Fl2TCj9Ik4IChje6XeXhf0KsNG/qYdy1aHJw/caGm+pK23T328AgO4Mw9iJZjmOfi50jg6U1Mdz
+	aBw6B+alGR6kMvD9TPtXgPrPfAejPR6ctqmnsCo5zAszjb3nvAYWE+OMgbyiH+DLcOInuGv8R3r
+	9v2GBb9DxiPS7cTApS5BbxHSNeacuw==
+X-Received: by 2002:a05:622a:283:b0:501:3aed:fa5f with SMTP id
+ d75a77b69052e-5019f84ac6amr246100501cf.12.1768929496165; Tue, 20 Jan 2026
+ 09:18:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1768683431-5604-1-git-send-email-mark.hatle@kernel.crashing.org>
+ <CANNYZj-fAJ4xS2GuHazHeExo7FQduObgdvjXYcq_wShv+sp4mQ@mail.gmail.com>
+ <3d99b9245edf44f560cb198e7bb0cb2ed3ce8159.camel@linuxfoundation.org> <a1c69479-0aa9-4d75-89a7-05580263cfbf@kernel.crashing.org>
+In-Reply-To: <a1c69479-0aa9-4d75-89a7-05580263cfbf@kernel.crashing.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 20 Jan 2026 18:18:04 +0100
+X-Gm-Features: AZwV_QgGkieWcOhhWhDQH7EOJMUfNDij3jNJGt7HZOYlpxRYo_Qrax8srptcW3U
+Message-ID: <CANNYZj-p4HkASNVWtkQ3BUAkQ+bkyhMBdNwXLUEJuRvd53p0Pg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] dpkg: Fix ADMINDIR
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 16:35:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229744
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 17:18:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229745
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Mon, 19 Jan 2026 at 22:53, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>
+> This has been sent to the upstream dpkg mailing list, and should eventually
+> appear in the index at "https://lists.debian.org/debian-dpkg/2026/01/maillist.html"
 
-In gentoo the file looks like this:
+Thanks! It has now appeared, and the patch to oe-core hasn't yet
+merged. Can you send a v2, replacing Pending with Submitted
+[https://lists.debian.org/debian-dpkg/2026/01/maillist.html] ?
 
-NAME='Gentoo'
-ID='gentoo'
-PRETTY_NAME='Gentoo Linux'
-VERSION='2.18'
-VERSION_ID='2.18'
-HOME_URL='https://www.gentoo.org/'
-SUPPORT_URL='https://www.gentoo.org/support/'
-BUG_REPORT_URL='https://bugs.gentoo.org/'
-ANSI_COLOR='1;32'
-
-' were added with:
-https://github.com/gentoo/gentoo/commit/2f590e35c9d3d13d5673163527120b2de97fdc80
-
-before that the os-release file looked like this:
-
-NAME=Gentoo
-ID=gentoo
-PRETTY_NAME="Gentoo Linux"
-ANSI_COLOR="1;32"
-HOME_URL="https://www.gentoo.org/"
-SUPPORT_URL="https://www.gentoo.org/support/"
-BUG_REPORT_URL="https://bugs.gentoo.org/"
-VERSION_ID="2.18"
-
-The ' is stripped from the ID later in distro_identifier with:
-    # Filter out any non-alphanumerics and convert to lowercase
-    distro_id = re.sub(r'\W', '', distro_id).lower()
-but not from version which results in a weird NATIVELSBSTRING like:
-    NATIVELSBSTRING      = "gentoo-'2.18'"
-
-And similarly the directory name in sstate-cache:
-
-oe-core $ ls -d sstate-cache/gentoo-*
-"sstate-cache/gentoo-'2.18'"   sstate-cache/gentoo-2.18
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
-v2: rebased to apply properly (v1 was based on debug commit)
-
- meta/lib/oe/lsb.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
-index 3ec03e5042..1fc3b968a0 100644
---- a/meta/lib/oe/lsb.py
-+++ b/meta/lib/oe/lsb.py
-@@ -16,7 +16,7 @@ def get_os_release():
-                     key, val = line.rstrip().split('=', 1)
-                 except ValueError:
-                     continue
--                data[key.strip()] = val.strip('"')
-+                data[key.strip()] = val.strip('"\'')
-     return data
- 
- def release_dict_osr():
+Alex
 
