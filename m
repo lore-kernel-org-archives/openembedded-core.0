@@ -1,239 +1,370 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AE8D262B2
-	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 07:54:59 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7203.1768982088918516666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B8FD262B0
+	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 08:17:09 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7505.1768983425957431003
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 23:54:51 -0800
+ Wed, 21 Jan 2026 00:17:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cVu3BP3f;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=548136b405=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60L1Y2Hp3155707
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:54:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=IWvrAof0I
-	pyG/wnr3SPSK/A4kP6yvBMKTeRyqbS0OTQ=; b=cVu3BP3ft8kqdK4cewlm9t8fu
-	r54xyTw6D0gU+nGVdGYY5GAEngorVlmqq9cm92BIlwtb6NKK5c70lchup+x9JWd6
-	g6f+pD8XpQ8B5fYVWby3vpDmEdkw4uWZwPgga51Df9ZYPDsBOA1Sa2ok5Du56wU9
-	5bgFuhydIHRSv9BLqzKAcVm/MEOtpl/q2Xc+I0/49EPhG5bib7VjHqr+fq1EtrUI
-	gpwYJn9Cb2A7YrNnPrLoPeb+B92Fz6mbb5IYP8dxlC+K9h1Otz8LXOa3nSeEYxlt
-	VcMgF1tz1yMAQv9iFwRxwFyH87hrBJl6oUb/UprU7beqETxeN/RyMg69dnceQ==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013067.outbound.protection.outlook.com [40.107.201.67])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4btn74r95m-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:54:47 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hfHsQOcy/bep2YwN3xcHOoasMp53QR+bueh5Z2+UUwqyy6Sg/HwYRQUYaVF/KmWtTC+pw/W3QmKpOUjaQy9IYjvTU+5N4ZrJUYN0dEtpMHIl6xgHySeBYGRBkjQZ0nLVhWtBnKU8v3pzqHpypXRBgBs+fMfFTUny7wM5R8stBOg2PvHBB4fByfQF8QZ5t7Bl2Ovxv7x3xpa9ZBqPVKUO9kJH7uBeo6YRFDnjSZ/UVoEp8QHNIle29kqVsuY01/7eBQBoxwetRqzWn90BAdzbLkQvJdDvDxMsbeO3LOYWiQaMKw1T/Bxnphb6e84Gmtc1H+5wXmeFKCl28hUfEQhn6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IWvrAof0IpyG/wnr3SPSK/A4kP6yvBMKTeRyqbS0OTQ=;
- b=dy1SnJRw35Mmx2KtZjJTkdeY8chd4p6WkK2kb609Lo065GyfqmMWq0qQG0nggFVxfgCl6MwfvEbti6ytDFp1KgcYST9yFSDCqca8u1v/w3ScZNXWhBpw6Q8JvGQEVt26f4xEL49uyiJ3E4klDy54utJWSvHmhfs5W5i8iToP06WZgcwebv7AgKY8sB/t2M3/LBhFvrE/DlahTTUlOx4NzD5cj/lOhqLO/kos6t9xBqjqZsZeb4ybcinHeE0PLP72N/pCNFGKT2ju1rdA5E58P+hg5MCdznmCqZYqStTIk8h+zG5SfT/DM6Pe42YgaRyT4dU2dL1Ba5jJCCXxLPOnvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
- by SA1PR11MB8473.namprd11.prod.outlook.com (2603:10b6:806:3a7::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
- 2026 07:54:43 +0000
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f%3]) with mapi id 15.20.9520.011; Wed, 21 Jan 2026
- 07:54:43 +0000
-From: Deepesh.Varatharajan@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [PATCH] rust: Drop oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch
-Date: Tue, 20 Jan 2026 23:54:30 -0800
-Message-ID: <20260121075430.436353-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0007.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::12) To SJ0PR11MB5648.namprd11.prod.outlook.com
- (2603:10b6:a03:302::11)
+ dkim=pass header.i=@smile.fr header.s=google header.b=pO9LNvNM;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4327555464cso3307152f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 00:17:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768983424; cv=none;
+        d=google.com; s=arc-20240605;
+        b=co8HrXb8oj2aup9mEYM16bJlfpOwyN4Eq8vfCSfRaxpxQVb3aCz4YaCh0+SPWlW7UZ
+         tE7skUZnOm/b8RbkuJjotpAl2cqvsTcOCo3GzwsFIt59DGVBfsYRB/PPOJLEVDoJ+TRi
+         4bPE74aGhpKjg2V+ETl5vnkYABMm7nZZCAuOxM5YYZvgSfko+YoL9bsF+g8TK6wbjpix
+         CORC/fV5bWxH8odFCRbOXqVt1qxe7WQx1zPnRb6sw6asQyL9dAqjKd/C9ukzwbhT5Uqs
+         srOLfERt+Ww8QBlk/nfkyR6enZb32mDvetAVXZ4yzjc3UNtNel9JDGEyzNI9HRokvRUB
+         pyhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=I5QhlNhZXCHlCYzzYdoI4h7F5bRKxS0qt/QUyd1cLgU=;
+        fh=8PqwfhFekQejlvbVMXUiGT793E1R63OvowZnDbuHfEE=;
+        b=hZez1x/SOERlPYlmyA0RDM1a7GB1wdQAH/de6iHjxobJR6bBHgiocB0V0UrqnxMKQx
+         VZd+8Sn73uFCkB35cwL/ZP1zpot53QBwl/TdPqFZMn/W2SVci4B3xDnv3BdBYiX0Gau0
+         LTrFo+ft5CW88RTyjirkukcB7Hw/A+Vs9x4Yi7k4fQWI7XH2VtVRkA/jjvD+ZPUetVBM
+         BsErocwkIx7PuX2hf8xTqsg1GeFEJuqriRJRBFgqyVoN5bHjZBKsjNBs/h8UBnGz2XBp
+         NcRanJSdNr8PTApLcmfSUyIChEqxgxafKRTzFpUTPp+zWWBYMPDWkT4TK4CEuUQUAoDI
+         JqNg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1768983424; x=1769588224; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=I5QhlNhZXCHlCYzzYdoI4h7F5bRKxS0qt/QUyd1cLgU=;
+        b=pO9LNvNMD6yQre2/+8g5/Y8pQ0GFt/y78t1HZ1oMc/10XgsKCt1oSm76Nfau8GYA/5
+         eN8OPsKmldV6y9vt6LAv7B+aQQO1y1yDqDTq68oAC3bYQpkhOHFFpZ/AtxcQYVh1e214
+         U9GZPfewP6Wk0sWcAMU5xKWBDUNsG7SXYSl6Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768983424; x=1769588224;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I5QhlNhZXCHlCYzzYdoI4h7F5bRKxS0qt/QUyd1cLgU=;
+        b=LLU6p5QLgGrhfviugHQl1KXu3JpBBzJdxrIIJs1+X6aFOP+NrbNqzQO+cUL9zvJoiT
+         4NUcrMX1H8W8D6OgsoL2sJRiWbMj7iEAcoOzXfj4ar1WgszJypGoElsOm5Xu9tLP2Qcs
+         019zQzBD6EccT2DBKxstgOtEC/9pDbo+R7OMx+fZ6Wb/cnc8cMDaTDECH0YE0vfki9Xy
+         ST3nH1/SNBzgL5GYn2KxfquB8MW2ZfIUtlfGm+/pEbvKfvXoZfvNm43TlQScdfQHSSdH
+         G1l6juUr+9P4vwx0yiOumYW0X4xdRiCdFoPy+yYn3g6y8uvPO6ztX9sqFKqhc9VcLrr1
+         uGhA==
+X-Gm-Message-State: AOJu0Yw3KNNOp3Q6xNrLy/jm/rzvpXUTGIvHSqluCz3WMSsjNw6O6CZj
+	s6UFuByW4dtxm6YK7mFvrMm9NjZPw84RsygS+Sp+GfLy+LEHle+TZdcBxIhSJtRanjWLomYFDc1
+	F1lnBtZ7HzU9fQvH6a7BRnnnSLQc0ojMXYoYk3RxoSw==
+X-Gm-Gg: AZuq6aKzS6mkTLq7ENDnsFaS8/40+vGEOAjjlpw12xaq/ftu84hR+Akm4szqzCVNHt5
+	C4D5HXJllxA6LDG52KTjJaLf/ityD9IndpuzumfcoogbfSRKOCNWm7ZyLhHBShkhQytW/p5j8F5
+	3jfo9eNjJCOytTiwSAxpcuGoAM0yFk3B+0earFxR1HkVBcYmX3xW/fKEhiZ9xTGJqCRD2GBhCjy
+	n7L+FLDe0BLLbCi3RpT5IMo4NJjw+MDFfQf3E+jem7ORdtG5dL6QH+xabOGDnu6mU5OUVzDjPKM
+	VdIMxglKNqMVvsHfuequFbb6ViVTLQ==
+X-Received: by 2002:a05:6000:178c:b0:431:7a0:dbc2 with SMTP id
+ ffacd0b85a97d-4358ff7cec8mr6813062f8f.31.1768983424150; Wed, 21 Jan 2026
+ 00:17:04 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|SA1PR11MB8473:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc06f220-7490-41de-5ac3-08de58c25675
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?txeCz+L2Zj/+OwsDctsscqPGb7EUrC37JgwQi/8jxbfqeTeu9UhftD4VcWHA?=
- =?us-ascii?Q?pmxdZImCvGN+WCjCvKbbMx9vrw79xWtJpLsAEcPS47dwSJvXR80aP1P6SDLN?=
- =?us-ascii?Q?fvVoXd7GQIQsDalmnNCcjGyMHASBzAurQdkLVpcmVwHuc94M7s5sNTkmJDwu?=
- =?us-ascii?Q?keE6HQMXK4hYeUEbJYNTve3LFyyfz8m3fo1GNV30x7ol3ge7F1RBLIfuTYXF?=
- =?us-ascii?Q?s2RDWXn6bB2vpgRAggYzPTDCIYeWO2azlx8/mURSUeUH3iI5stwPyIGcJrZV?=
- =?us-ascii?Q?lyrDnaXoCgQKOc0iI9+ICygCpDlH5gQbZcZbevxn20BLkFkwWv/lUcbA00p4?=
- =?us-ascii?Q?/VXThsoImprhfwamuH4ON3lxS87uPjz1QCA/mW4LScbNRjRQokCl91oIV4oc?=
- =?us-ascii?Q?Wz0BmqMda66ENjWTN9ywJ8OEMEW2jxADtv9bt2gv1fsPwjHrBy6VutsIusxu?=
- =?us-ascii?Q?hyxYVNrrikb09VYIWpAZaQeGtuv5Gh+PKoza4ESg8/xv0+DBem9Z6P5UrS99?=
- =?us-ascii?Q?5DgT//8vLSCgRtdarsuviNB1JjAcRHa2eLS4MqENnJ7PQLu1TyHVFzHICx6G?=
- =?us-ascii?Q?zaagt5vN+6BoHCTF2E/4ktbib4hQ5LpxZl7a0FFrqmmJvD/M58y5c3e4Qhtt?=
- =?us-ascii?Q?LaTn+9P9VUesWSRrS+F4/we0Y2br6J0LvkRRXf2DTsFp0eOxZ8nGzc+FqFYh?=
- =?us-ascii?Q?SZVg3gP7U4bRsTG5SypGFv1FULQsk97FT1wYVELaDeMlqirYILinYXrTEDP8?=
- =?us-ascii?Q?ikA5CO6PlYD2Xn38tBJXDQq5+9odQUd6TqeuJwASj+Q61Co7PcOlZ4Dv1FJ9?=
- =?us-ascii?Q?0lEiNsDKBL15FfIKHPQhsq67V/1gUU8ghYgPtq9wPPyv7fLHFaM2AxvHeXAS?=
- =?us-ascii?Q?PbC2PKwqTx3wL56QGSPdQBGhSXRotB8NpgNoOCyy6bgvlvrQuI8dCAwfpjQg?=
- =?us-ascii?Q?vYUOmr31BBCtl3ba1qx7KeF0xTGZhxi+iT+s1lkfypAGeiHHmE83kJpVsOgI?=
- =?us-ascii?Q?C5Xq+NA5tHhG2WJn9UGJH8MeY4DqYyMpwsa8Va1OyHXcg5jLvtHtSfoea/EZ?=
- =?us-ascii?Q?hlSqMepySL2kSOmSLLZZi0SHHm5GUs8zyApuhCSAJTiO4wqcBBtKHlvB+1Lw?=
- =?us-ascii?Q?4G3GBB/PhX1NCMkGUpEzvNBaLVYvTapxGuXhK2p1zjMhlNm+Gin2KK8lMHiM?=
- =?us-ascii?Q?UBozlW9r6IR64BJc7tDIuroYcuuu/xx4JE22AXGh5Br90eI09hVj3V/oq4Ap?=
- =?us-ascii?Q?rck1YPCgHjnVXtslh5NqTGco97YSeDQjGbJGAGl2r1CnTTkdbYermvnlFhkR?=
- =?us-ascii?Q?0H+LuIK90wu/UfhW4XC9nNTlqD6GK64BWD8Jqfl/P47Ch4GUZ0tiST5MaNkV?=
- =?us-ascii?Q?leFtXKM5n9UzKLJcAmeSKsVvwsBSqMe0PIYG45+TlfkLkaSTo/WLVMyFPI7k?=
- =?us-ascii?Q?atfDAvFVWlmVX6yqZzR+MmLzuxOA+YtSeZp2fN4eWPTAwQJOooqNbxJaoyb0?=
- =?us-ascii?Q?WiDpnNo7OqqExh/aWaBOlVV4J1UQhKDt/IBW+4Wovxf2Eme2/4SzE5d7MG9r?=
- =?us-ascii?Q?d16yfa09DgqAPQUXbBM=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?o5B1/NPGqQEoGiYxLPcJGFqK14oIu8ZLWuTgLGbx35LIk6P0PgBitj6wnVjn?=
- =?us-ascii?Q?vOhCE08QVmOmA6DhrQbGrICkFsIdkcsm/1s+jaky0YyCuXqZU8DE2j1xyjaE?=
- =?us-ascii?Q?SayybAc1xTkfASuwRjrQKtmzBWftzrb9ZB1AQcxhuRX6U29rH5evCBAz4iDK?=
- =?us-ascii?Q?i6YQs7Q2aEPtaqRBTS981iFHATDdfbBUQKjuertDhSxjFyMQYoNSzv/xwCIL?=
- =?us-ascii?Q?chXlHgFc3FEPn6Uvf4xuHklbCF1HL0jUApQFx4nv57ezOE2brqPaW7AhOfIB?=
- =?us-ascii?Q?qv61wxKngI9EHUlfxqComz7BF8HIZThGZSzcUQjOKjK9Cw7XDQBFQ2vTPKN0?=
- =?us-ascii?Q?QgjlpWhD2e+R7GqpJ5eeTIH9uK5nsCXg+Wtry52gO9G834oi0BAC5Y6LUqBq?=
- =?us-ascii?Q?9Alid+0FwYSvlCczqFdWJwhz8J/kQ1x87WTSNzB9wH62seZZB7ISJ/zqQOZy?=
- =?us-ascii?Q?Kc5aZmTiVyKJykcqtMb1+blAI7TANz2BZ7E2I8m/bgpYulIDODQqvym7cDrl?=
- =?us-ascii?Q?qyVGKAKZbd5Z9eILaRqKNzwVsC555LDx9ryHa2wA7JQlVUO4rSChqH/HpDam?=
- =?us-ascii?Q?EmakXpAmP627nsv254lNE9ni4p9YJ+90aP+7gNKyEOLQRJk0XKO2F+Mt26H5?=
- =?us-ascii?Q?pTT1IWrAiaiDbNmBdmHTt0e883apZUouXq4dvylPou/n77/A/LsaLiW7c42b?=
- =?us-ascii?Q?RExX1SAnWrDIy7f96UzaH+xh/DKisj+Te/eNcuFrZdrQiE96PUG6M1gDon3z?=
- =?us-ascii?Q?QRMOdP36deJ0iSglnUUGTe/vG1CSrww5VJd8dqzfW1ZSFVhoTavAMic5GzRG?=
- =?us-ascii?Q?GewHdYCgsASZQM3OBoVFwqj3ZpL/MS5eRMxUkdnoYcqa0DmFvQIUCO6/1M5O?=
- =?us-ascii?Q?89SdLqps+c3bDBh7FaVct3SGc22unmbleLRHdqHgp0jNwqCucnP4jVlWrMFh?=
- =?us-ascii?Q?ZHWec59xdfCANKp1sVPEt+rdHwbMqswjL4ULqKa4kyvTewJOs7G/c8YxLHok?=
- =?us-ascii?Q?HhxQoB5V0o0BQKvmfSMZApK0w7CN31z75Hx3pG0gzPA0EyNwm30CrKh9TqLS?=
- =?us-ascii?Q?KYDkYyuw4mdAbaKr/PJ1ABIkLzYOlVSAq12qiRyaFa6NJ55DlHzW5irEn0/J?=
- =?us-ascii?Q?3To3qIBm320/7K6aWWrg3HoWAs5NvqBwUgbTOX2dWDl/0YgN7TBG095AIZn4?=
- =?us-ascii?Q?w8hizfcWrC00Z0itBEA25fhVFrpxSQjyTOrq2en2fcciEFSCbEF0kmOphNrj?=
- =?us-ascii?Q?dBXHU8g0j8rINdFVWfdBr3ySVwRKckSO0Af8xOP2jomRwJgTTufybzfw+7/H?=
- =?us-ascii?Q?AKLxnkbzCTHS+3hrcboQ/h1DUbizug0NIkAQ/I9k+ab378cj71TKw5jQqXmY?=
- =?us-ascii?Q?alCcxL1qfN0onRRVUsmYamC/HPcYVEHZz/qCOn1WWaX24xuM54ni/W+RBSMu?=
- =?us-ascii?Q?65YjtprKSwDwPRGV7EjhcOaTLejKWPZOKCTU+BAMefh+XDK0LLxfxV0Vm4Nt?=
- =?us-ascii?Q?TVQECsVO4V0kOoN1YfFIHWt5fTtLa4C7qH4JAjsQoVjryHRqPAKSt231575G?=
- =?us-ascii?Q?nJINEJ5O1jL0Q5D6hn/1B986Upq0AnVNkUyQ/og3pPmaxUknZd65I1X4GpRX?=
- =?us-ascii?Q?GjSEqe5Mtp88TUgkdk7nfOWxoliivgFpV1qrORLVKwGB64nfy13vIzjfVVAv?=
- =?us-ascii?Q?xUBzxKep0rA353sNcLOjb0DN6fgFnQYrYh0QbPhraLVkiqD7SYpLuBYmOlJS?=
- =?us-ascii?Q?/ZGdjZaSQOF1WmokTZhrkWrfehgB7Ifa973L6g+9VQUHdaC/p0aL?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc06f220-7490-41de-5ac3-08de58c25675
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 07:54:43.1990
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x42ogtOoJSFrouojtvimacn5e1+/iNXQkA02vLXcJjeq9a6z1neTHk4wN6SbWtILPTtLPsjmt/dwL90ztBaZBEa5V1kGajuTdCvvf5U9HpQ9tqwRQiy64azyktpfjxfT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8473
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDA2NSBTYWx0ZWRfX8ZFNru7Ugb7O
- u/KrYCKTTdDIzbo4jAPWsSpv5sCxRy9f3uTVqUhndQOptJqwiku+Z10ZDTnafHw15hvmW0zmkc3
- qs3oFfEOTm37B445xWaZ5OOxsTPmJ3Dyv65+YjUPY+5lg+vHx8n5DnCaP+k2zj36C5GaYDmT32w
- igsL24RvxyiECdiTaJqdoS33HP+fauwIZd1W2KTXiBtm3dnsUVYFUM7JItVsJwzA3keu6H3scgo
- n4sCa7Dy1LVIH6iY2FaxH8vumKGWqFauZOXDCeuBrp/sUlECnpa8LvMzuLYRot4oHjUIvn++bUn
- gFZ4X1FxBSo2w4o1RzQ0KsudQ3dM/HrYYe/mbz6TXY74ST8SjLDlT86wDDrr1TDWlj2xZtlgL13
- 5MSNVSC4a2tswupjPTAeqb+CeHVpbxwcXfb1E3onuWQB4L1M7ohNQoQt0F5+eTxIYphWfnyTU5J
- OyG1P4uJLcf74U16rrw==
-X-Proofpoint-GUID: MdRsnmfZHee82o5vX7Mz6v9OvzuzvlZO
-X-Authority-Analysis: v=2.4 cv=C6rkCAP+ c=1 sm=1 tr=0 ts=69708647 cx=c_pps
- a=WMD2V7/OXcB8V+UEbxscyA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8 a=a_U1oVfrAAAA:8 a=q1SAu9DnQ7EJbCrOdkMA:9
- a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: MdRsnmfZHee82o5vX7Mz6v9OvzuzvlZO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-21_01,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601210065
+References: <2fb5a1df2514dd372d6681314737889411eb935f.camel@pbarker.dev>
+In-Reply-To: <2fb5a1df2514dd372d6681314737889411eb935f.camel@pbarker.dev>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Wed, 21 Jan 2026 09:16:37 +0100
+X-Gm-Features: AZwV_QiIOs7O-YuT9qPZWPuhl1b9hr7VevHlEI2RS9jMava12gi_R4AR_zftYcI
+Message-ID: <CAMSfU+5uQ8w-O4=5Q23rkVX4nTZatJV7zOsMugb8oOoFMLjYTw@mail.gmail.com>
+Subject: Re: [yocto] Progress on AB-INT issues // Help needed!
+To: yocto@lists.yoctoproject.org, paul@pbarker.dev
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000009c409b0648e18cd9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:54:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229797
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 08:17:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229798
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+--0000000000009c409b0648e18cd9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch was originally added to address a rare failure on the PPC
-target observed in AB. Currently, we are no longer testing the PPC
-target in OE-Core. Therefore, we can remove this local patch. We have
-also verified PPC testing locally several times without this patch,
-and the issue has not reoccurred.
+Le mar. 20 janv. 2026 =C3=A0 18:58, Paul Barker via lists.yoctoproject.org =
+<paul=3D
+pbarker.dev@lists.yoctoproject.org> a =C3=A9crit :
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
----
- ...crease-timeout-in-process-sigpipe-ru.patch | 31 -------------------
- meta/recipes-devtools/rust/rust-source.inc    |  1 -
- 2 files changed, 32 deletions(-)
- delete mode 100644 meta/recipes-devtools/rust/files/oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch
+> Hi all,
+>
+> Firstly I want to thank everyone who has helped out with the
+> intermittent autobuilder issues and our current high priority issues so
+> far. There have been contributions from several different folks and they
+> are really appreciated.
+>
+> This help means that we've made good progress!
+>
+> We've been able to resolve several AB-INT issues so far (#16118, #16121,
+> #15912, #15188, #15495) and have patches available for others which need
+> reviewing and merging (#15696, #15885). Some issues are resolved on
+> master and just waiting on backporting of patches to the relevant stable
+> branches (#16000, maybe others).
+>
 
-diff --git a/meta/recipes-devtools/rust/files/oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch b/meta/recipes-devtools/rust/files/oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch
-deleted file mode 100644
-index 5bd1abffb4..0000000000
---- a/meta/recipes-devtools/rust/files/oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From b4524278985f517b0785b6f64a21380dcf1ff096 Mon Sep 17 00:00:00 2001
--From: Peter Tatrai <peter.tatrai.ext@siemens.com>
--Date: Mon, 4 Nov 2024 13:58:16 +0100
--Subject: [PATCH] oeqa/selftest: Increase timeout in process-sigpipe rust test
--
--This patch increases the timeout for the process-sigpipe rust test, which
--occasionally fails when the server is under heavy load. Increasing the timeout
--reduces the likelihood of false negatives under load.
--
--Fixes [YOCTO #15625]
--
--Upstream-Status: Inappropriate [OE testing specific]
--
--Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
-----
-- tests/ui/process/process-sigpipe.rs | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tests/ui/process/process-sigpipe.rs b/tests/ui/process/process-sigpipe.rs
--index 11f363d62..c12d66016 100644
----- a/tests/ui/process/process-sigpipe.rs
--+++ b/tests/ui/process/process-sigpipe.rs
--@@ -23,7 +23,7 @@ use std::thread;
-- fn main() {
--     // Just in case `yes` or `while-echo` doesn't check for EPIPE...
--     thread::spawn(|| {
---        thread::sleep_ms(5000);
--+        thread::sleep_ms(50000);
--         process::exit(1);
--     });
--     // QNX Neutrino does not have `yes`. Therefore, use `while-echo` for `nto`
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index d7d44510e4..3edf0899ab 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -4,7 +4,6 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch;patchdir=${RUSTSRC} \
-             file://rust-oe-selftest.patch;patchdir=${RUSTSRC} \
-             file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=${RUSTSRC} \
--            file://oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch;patchdir=${RUSTSRC} \
-             file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=${RUSTSRC} \
-             file://revert-link-std-statically-in-rustc_driver-feature.patch;patchdir=${RUSTSRC} \
-             file://0001-riscv32-Define-plain-syscalls-as-their-time64-varian.patch;patchdir=${RUSTSRC} \
--- 
-2.49.0
+As for stable branches, some AB-INT bugs have fixes in review:
+* 16000 =E2=80=93 AB-INT: ffmpeg build failing =3D> fix currently in review=
+ for
+integration in whinlatter
+* 16099 =E2=80=93 devtool: oe-selftest failing on Ubuntu 25.10: couldn't al=
+locate
+absolute path for 'null'. =3D> patch in review for integration in whinlatte=
+r
+* 16137 =E2=80=93 AB-INT: core-image-sato.bb:do_testsdk fails on ftpmirror.=
+gnu.org
+returning 502 Bad Gateway =3D> patch in review for integration in kirkstone
 
+Some are "in progress":
+* 15696 =E2=80=93 AB_INT: resulttool: File exists =3D> I've tried a fix but=
+ it was
+apparently incomplete for stable, I will wait for the recent patches to
+land and get tested on master before trying again.
+* 16122 =E2=80=93 [scarthgap] AB-INT: qemuarm64-tc/qemux86-tc
+rust.RustSelfTestSystemEmulated.test_rust fails with "panicked at
+src/tools/compiletest/src/lib.rs:1054:31" =3D> I keep to reproduce this one
+under an instrumented branch but no luck. On the other hand, I also did not
+trigger this one during my tests on the recent scarthgap patch series.
+
+We need to keep up the momentum as we still have a couple of open issues
+> blocking the Yocto 6.0 M1 build and we still have too many intermittent
+> failures occurring on the autobuilder.
+>
+> There are a few issues I can flag where we need extra help:
+>
+> - segfault in matchbox-windowmanager on qemux86-64 intermittently
+>   (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13908):
+>   It's unclear why the simple-looking code here is segfaulting. Ross has
+>   tried running with ASAN but that didn't give us any new information.
+>   Can someone add further debugging to the code to catch what's going
+>   on?
+>
+> - AB-INT: fetch/sstate/CDN - Missing objects in the cache: Bad file
+>   descriptor (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15945):
+>   The error here suggests we may have exceeded limits on the number of
+>   open file descriptors. Can someone add diagnostics to the relevant
+>   code path to print how many open file descriptors we have when the
+>   error occurs?
+>
+> - AB-INT: runqemu.QemuTest.test_qemu_can_shutdown hangs with "Data
+>   received serial thread"
+>   (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15698):
+>   This needs further investigation.
+>
+> - AB-INT PTEST: openssl ['Dubious,_test_returned_1', 'openssl'] test
+>   failure (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15357):
+>   We need someone to check the logs and confirm that it is always the
+>   same test case that is failing. If that's true, we can take a patch to
+>   skip the flaky test.
+>
+> - Various gstreamer PTEST failures (#16127, #16108, #15408, #15973,
+>   #15910, #15718):
+>   Each of these needs to be reviewed to see if upstream have replied to
+>   our bug reports. If any haven't been filed upstream then they need to
+>   be. If there isn't an upstream fix available, we can take patches to
+>   skip the flaky tests.
+>
+> - Various PTEST failures on RISC-V (#15895, #15884, #15942, #15929,
+>   #15896):
+>   We don't use KVM for running qemuriscv64 so tests can be much slower,
+>   this may be causing various timeouts. Some of the failing cases create
+>   a large amount of data so there may be issues with buffering. Further
+>   investigation is needed, we could take patches to skip these tests on
+>   RISC-V.
+>
+> We will have another call tomorrow at 09:00 PST / 17:00 UTC to discuss
+> the issues further and make sure we're focusing effort in the right
+> places. Please attend via zoom if you're able to help out:
+>
+> https://lists.yoctoproject.org/g/yocto/topic/yocto_project_ab_int_bug/117=
+364044
+> .
+>
+> If you're unable to attend the call then you can still help by picking
+> up one of the issues above.
+>
+> Best regards,
+>
+> --
+> Paul Barker
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#66163):
+> https://lists.yoctoproject.org/g/yocto/message/66163
+> Mute This Topic: https://lists.yoctoproject.org/mt/117367430/4316185
+> Group Owner: yocto+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/yocto/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Yoann Congal
+Smile ECS
+
+--0000000000009c409b0648e18cd9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 20=
+ janv. 2026 =C3=A0=C2=A018:58, Paul Barker via <a href=3D"http://lists.yoct=
+oproject.org">lists.yoctoproject.org</a> &lt;paul=3D<a href=3D"mailto:pbark=
+er.dev@lists.yoctoproject.org">pbarker.dev@lists.yoctoproject.org</a>&gt; a=
+ =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Hi all,<br>
+<br>
+Firstly I want to thank everyone who has helped out with the<br>
+intermittent autobuilder issues and our current high priority issues so<br>
+far. There have been contributions from several different folks and they<br=
+>
+are really appreciated.<br>
+<br>
+This help means that we&#39;ve made good progress!<br>
+<br>
+We&#39;ve been able to resolve several AB-INT issues so far (#16118, #16121=
+,<br>
+#15912, #15188, #15495) and have patches available for others which need<br=
+>
+reviewing and merging (#15696, #15885). Some issues are resolved on<br>
+master and just waiting on backporting of patches to the relevant stable<br=
+>
+branches (#16000, maybe others).<br></blockquote><div><br></div><div>As for=
+ stable branches, some AB-INT bugs have fixes in review:</div><div>* 16000 =
+=E2=80=93 AB-INT: ffmpeg build failing =3D&gt; fix currently in review for =
+integration in whinlatter<br>* 16099 =E2=80=93 devtool: oe-selftest failing=
+ on Ubuntu 25.10: couldn&#39;t allocate absolute path for &#39;null&#39;. =
+=3D&gt; patch in review for integration in whinlatter</div><div>* 16137 =E2=
+=80=93 AB-INT: core-image-sato.bb:do_testsdk fails on=20
+<a href=3D"http://ftpmirror.gnu.org">ftpmirror.gnu.org</a> returning 502 Ba=
+d Gateway =3D&gt; patch in review for=20
+integration in kirkstone</div><div><br></div><div>Some are &quot;in progres=
+s&quot;:</div><div>* 15696 =E2=80=93 AB_INT: resulttool: File exists =3D&gt=
+; I&#39;ve tried a fix but it was apparently incomplete for stable, I will =
+wait for the recent patches to land and get tested on master before trying =
+again.<br>* 16122 =E2=80=93 [scarthgap] AB-INT: qemuarm64-tc/qemux86-tc=20
+rust.RustSelfTestSystemEmulated.test_rust fails with &quot;panicked at=20
+src/tools/compiletest/src/lib.rs:1054:31&quot; =3D&gt; I keep to reproduce =
+this one under an instrumented branch but no luck. On the other hand, I als=
+o did not trigger this one during my tests on the recent scarthgap patch se=
+ries.<br><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+We need to keep up the momentum as we still have a couple of open issues<br=
+>
+blocking the Yocto 6.0 M1 build and we still have too many intermittent<br>
+failures occurring on the autobuilder.<br>
+<br>
+There are a few issues I can flag where we need extra help:<br>
+<br>
+- segfault in matchbox-windowmanager on qemux86-64 intermittently<br>
+=C2=A0 (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1390=
+8" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/s=
+how_bug.cgi?id=3D13908</a>):<br>
+=C2=A0 It&#39;s unclear why the simple-looking code here is segfaulting. Ro=
+ss has<br>
+=C2=A0 tried running with ASAN but that didn&#39;t give us any new informat=
+ion.<br>
+=C2=A0 Can someone add further debugging to the code to catch what&#39;s go=
+ing<br>
+=C2=A0 on?<br>
+<br>
+- AB-INT: fetch/sstate/CDN - Missing objects in the cache: Bad file<br>
+=C2=A0 descriptor (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cg=
+i?id=3D15945" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctopr=
+oject.org/show_bug.cgi?id=3D15945</a>):<br>
+=C2=A0 The error here suggests we may have exceeded limits on the number of=
+<br>
+=C2=A0 open file descriptors. Can someone add diagnostics to the relevant<b=
+r>
+=C2=A0 code path to print how many open file descriptors we have when the<b=
+r>
+=C2=A0 error occurs?<br>
+<br>
+- AB-INT: runqemu.QemuTest.test_qemu_can_shutdown hangs with &quot;Data<br>
+=C2=A0 received serial thread&quot;<br>
+=C2=A0 (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1569=
+8" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/s=
+how_bug.cgi?id=3D15698</a>):<br>
+=C2=A0 This needs further investigation.<br>
+<br>
+- AB-INT PTEST: openssl [&#39;Dubious,_test_returned_1&#39;, &#39;openssl&#=
+39;] test<br>
+=C2=A0 failure (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?i=
+d=3D15357" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproje=
+ct.org/show_bug.cgi?id=3D15357</a>):<br>
+=C2=A0 We need someone to check the logs and confirm that it is always the<=
+br>
+=C2=A0 same test case that is failing. If that&#39;s true, we can take a pa=
+tch to<br>
+=C2=A0 skip the flaky test.<br>
+<br>
+- Various gstreamer PTEST failures (#16127, #16108, #15408, #15973,<br>
+=C2=A0 #15910, #15718):<br>
+=C2=A0 Each of these needs to be reviewed to see if upstream have replied t=
+o<br>
+=C2=A0 our bug reports. If any haven&#39;t been filed upstream then they ne=
+ed to<br>
+=C2=A0 be. If there isn&#39;t an upstream fix available, we can take patche=
+s to<br>
+=C2=A0 skip the flaky tests.<br>
+<br>
+- Various PTEST failures on RISC-V (#15895, #15884, #15942, #15929,<br>
+=C2=A0 #15896):<br>
+=C2=A0 We don&#39;t use KVM for running qemuriscv64 so tests can be much sl=
+ower,<br>
+=C2=A0 this may be causing various timeouts. Some of the failing cases crea=
+te<br>
+=C2=A0 a large amount of data so there may be issues with buffering. Furthe=
+r<br>
+=C2=A0 investigation is needed, we could take patches to skip these tests o=
+n<br>
+=C2=A0 RISC-V.<br>
+<br>
+We will have another call tomorrow at 09:00 PST / 17:00 UTC to discuss<br>
+the issues further and make sure we&#39;re focusing effort in the right<br>
+places. Please attend via zoom if you&#39;re able to help out:<br>
+<a href=3D"https://lists.yoctoproject.org/g/yocto/topic/yocto_project_ab_in=
+t_bug/117364044" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctopr=
+oject.org/g/yocto/topic/yocto_project_ab_int_bug/117364044</a>.<br>
+<br>
+If you&#39;re unable to attend the call then you can still help by picking<=
+br>
+up one of the issues above.<br>
+<br>
+Best regards,<br>
+<br>
+-- <br>
+Paul Barker<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#66163): <a href=3D"https://lists.yoctoproject.org/g/yoc=
+to/message/66163" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctop=
+roject.org/g/yocto/message/66163</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/117367430/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/117367430/4316185</a><br>
+Group Owner: <a href=3D"mailto:yocto%2Bowner@lists.yoctoproject.org" target=
+=3D"_blank">yocto+owner@lists.yoctoproject.org</a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/yocto/unsub" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/yocto/un=
+sub</a> [<a href=3D"mailto:yoann.congal@smile.fr" target=3D"_blank">yoann.c=
+ongal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+
+--0000000000009c409b0648e18cd9--
 
