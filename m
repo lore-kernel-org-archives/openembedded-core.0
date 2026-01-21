@@ -1,284 +1,695 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2459D262B3
-	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 02:00:37 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3192.1768960827010074736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7F8D262B0
+	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 07:30:39 +0000 (UTC)
+Received: from aer-iport-7.cisco.com (aer-iport-7.cisco.com [173.38.203.69])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7004.1768980632438424180
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 18:00:27 -0800
+ Tue, 20 Jan 2026 23:30:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=MLtF9Mkj;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5481fe97a1=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60L1ZJFM1784890
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Jan 2026 18:00:26 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=Y/CNTDpaF4NyArq79+8ytR/lclUtWxAPXmHrIiZqVkw=; b=
-	MLtF9Mkjis191oRJlbDj3xrYSbweaK0V14rlKQ2UpArGPpDbTUgG2t9EV6Hk0LGU
-	USOYot8xweyCDc1iQgd9DGK4p/udOlGvO24vW7YfNiF5ZU93f2vm4qhd5hF2Mvd/
-	YB+NpiNQHK9/LCi5D2rQux4puM85v7YzETK0F38ufwOXZsYS294Sppa8OGEnA+ht
-	/H5cWT8VhtNkGOBsm76DsTZxbOOnLyC8Vtxemfnl1WN47Yg183pZVaeFVRK8dMPD
-	AEr1Npny64XUrp+dnzJm7QdBRzbAak1wh7kaPYu+lLXduIgWwGphtuXB2gzmEfar
-	TIx5bkjVnmuOvvABRCXeXQ==
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010019.outbound.protection.outlook.com [52.101.46.19])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4btn75r0px-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 20 Jan 2026 18:00:26 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iLk1kUoh;
+ spf=pass (domain: cisco.com, ip: 173.38.203.69, mailfrom: hetpat@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=20019; q=dns/txt;
+  s=iport01; t=1768980632; x=1770190232;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=pJ80yfvD2Q76f+lKETcFEWB2JQKTbhNQYmWjmvJ2hT8=;
+  b=iLk1kUoh88pvpvnhketnrnjhVCzM+TBCNnHgqYgdmMcJf+F1wXH/RnhE
+   iRahvT2962qzFRkpG9mwfZNocUzRzFTXAdlNFAoiLX72WysVYhFreqq3H
+   eV1BqYIWaDzCGTX6wzxNJrJqnluBMe360ebSJrSTv9utBWZ90wR/DK2Zw
+   3/Fu66Fb3jpCpOnW4oGgfQ26FP1W0FW6qzxr8+HP0HkWkMmzrmb7ej5m8
+   Z9oxH9rXy14Gh31WMw3ptH3sssEDsz18NP2lQa3B4ep0Rrm1OluCwSg5a
+   kWmzNq63np6OwkQbDgnj6okpKNt3D4z2i8wrJQg1m/vqaGplgmHDWmTH8
+   g==;
+X-CSE-ConnectionGUID: V92y62oHRgW1lO/wI+S5BA==
+X-CSE-MsgGUID: /46TWscRT56XZ7gYAJs5UQ==
+X-IPAS-Result: =?us-ascii?q?A0D5AgBQf3Bp/9VK/pBagQklgSuBPQEwUwcPbwKBIUkDi?=
+ =?us-ascii?q?CADhSyIeQOeGoF/DwEBAQ0CLgEOFAQBAYUHAo0BAiY0CQ4BAgQBAQEBAwIDA?=
+ =?us-ascii?q?QEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4YVCDIBDIZaAQEBAQMBEWcQAgEIE?=
+ =?us-ascii?q?QQBASgHJwoUCQgCBA4FCBqCYYIdFkADAQIOolUBgUACiit4gTSBAeAhAQsUA?=
+ =?us-ascii?q?QWBM4UDOIJ9GgEBBSVJa4JagR40HYRAJxsbgXKBV4I3MT6CYQQBF4EdKzQIE?=
+ =?us-ascii?q?INHgi8EgiJ6FB2TalJyIgMmMywBVRMXCwcFgSNDAyovLSMPPAUtHYEjIR0XE?=
+ =?us-ascii?q?x9YGwcFEyNTBhsGHBICAwECAjpTDIF1AgIEghB7ggEPhwWBAAUubxoOIgIsF?=
+ =?us-ascii?q?WsDC209NxQbAwSBNQWOG1tFgi4BgQ0rASItCyEWD4ESk0ePP45flRcKKIN0i?=
+ =?us-ascii?q?niBJo0+iDIXhASBV6UQmQYigjaLMZVgIIUNAgQCBAUCEAEBBoFSFjwrG4ETc?=
+ =?us-ascii?q?BU7gmcJSRkPh36GYYIdhjjCUXgCARApAgcBCgEBAwmRaoF9AQE?=
+IronPort-PHdr: A9a23:UUV/vxUIa4inlewH8WgGBK4yb/vV8K3PAWYlg6HPw5pUeailupP6M
+ 1OaubNmjUTCWsPQ7PcXw+bVsqW1QWUb+t7Bq3ENdpVQSgUIwdsbhQ0uAcOJSAX7IffmYjZ8H
+ ZFqX15+9Hb9Ok9QcPs=
+IronPort-Data: A9a23:m0PY7avT910lXiipkZR6ExemWefnVApfMUV32f8akzHdYApBsoF/q
+ tZmKTiCb/aINjH1fot1bom/9E9TvpKExtMxTQY4qixjQSsQgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFYTdJ5xYuajhKs/vZ8Es01BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwxLctED8U8
+ twiJw9UajfEmMP1+++RY7w57igjBJGD0II3s3x6iDWcBvE8TNWaGePB5MRT23E7gcUm8fT2P
+ pZFL2AyMFKfP1sVYwx/5JEWxI9EglH/fiFAoU69rqss6G+Vxwt0uFToGIaPIYfbGpUL9qqej
+ iWaoVjGGRogCIHB+Qja/UOFpPSSoBquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4GuAgrQXIwa3O7kPAXC4PTyVKb5ots8peqSEW6
+ 2JlVujBXFRHmLaUUnmasLyTqFuP1eI9dwfuuQdsodM53uTe
+IronPort-HdrOrdr: A9a23:hK3xv6w8VyLSDomTi4dKKrPxaugkLtp133Aq2lEZdPULSL36qy
+ n+ppQmPEHP6Qr5AEtQ5+xoWJPtfZvdnaQFh7X5To3SLTUO2VHYYr2KgrGSuQEIdxeOktK1kJ
+ 0QDJSWa+eATGSS7/yKnTVQeuxIqLLogcLY4Ns2jU0dMT2CAJsQljuRfzzraXGeMzM2fabReq
+ DsgfavjgDQCkg/X4CQPFVAde7FoNHAiZLhZjA7JzNP0mOzpALtwoTXVzyD0Dkjcx4n+9ofGG
+ 7+/DDR1+GGibWW2xXc32jc49B9g9360OZOA8SKl4w8NijsohzAXvUjZ5Sy+BQO5M2/4lcjl9
+ fB5z06Od5o1n/Xdmap5TPwxgjb1io04XOK8y7bvZKjm729eNsJMbsHuWtrSGqe16PmhqAk7E
+ t/5RPci3OQN2KZoM2y3amSa/ggrDvFnZNrq59gs5UYa/pfVFeUxrZvoX+81/w7bXjHAIxLKp
+ gaMOjMoPlRal+UdHbfoy1mx8GtRG06GlOcTlEFodH96UkaoJlV9TpS+CUkpAZLyLstD51fo+
+ jUOKVhk79DCscQcKJmHe8EBc+6EHbETx7AOH+bZQ2PLtBJB1vd75rspLkl7uCjf5IFiJM0hZ
+ TaSVtd8Wo/YVjnB8GC1IBCthrNXGK+VzLwzdw23ek0hpTsAL7wdSGTQlEnlMWt5/0ZH83AQv
+ 62fIlbBvfyRFGeUbqhHzeOEqW6BUNuJvH94OxLL25mivi7XbHXig==
+X-Talos-CUID: 9a23:3L1SImEVj9gJ6ptfqmJZpRQFRJoiUkfS8y7UBAinKCVSFZe8HAo=
+X-Talos-MUID: 9a23:tBihWAhx9ZKbu4T5cNd++8Mpc5s235u1A3oxzMs2iZaLBAVSIGqgtWHi
+X-IronPort-Anti-Spam-Filtered: true
+Received: from aer-l-core-12.cisco.com ([144.254.74.213])
+  by aer-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Jan 2026 07:30:30 +0000
+Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by aer-l-core-12.cisco.com (Postfix) with ESMTPS id 9B4A818000ADC
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:30:29 +0000 (GMT)
+X-CSE-ConnectionGUID: FKNVXA0FTxSrBAB6Iv7Teg==
+X-CSE-MsgGUID: hIpyBlNaSmSBhC4g17WNeA==
+Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.21,242,1763424000"; 
+   d="scan'208,217";a="67244337"
+Received: from mail-byapr08cu00306.outbound.protection.outlook.com (HELO BYAPR08CU003.outbound.protection.outlook.com) ([40.93.1.110])
+  by rcdn-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Jan 2026 07:30:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QOkSPK2KaX5lQf8XtYaA+2xOuARNlvCIEHAQHfRAJd6PYc7j3vjZFg4e8oIfOBKBcwYDqIzdan15H5ifd/y8XiRy1Sj2Hec+xZinsWj86AjLVAA7kXZaBvROOEb5ajfYa3/K9NPgpq/YhCZn1nNADyGQTJ3cLOdw0KBeJs4gEl6gybS7Z/bu76QQ6+tB4cIdzoUyk24JGPpbomyaYGIe+TFJ11HV+MgISr3o3A3+ByFpdLw8A594+0TTwP6LsttfYc5iljFrbQFcuGi0W+8S9yIn/tvFcA7V7uTQw6Jewul+9Lj54zhFko4YGJf+IOd+ZhDR17pV4b/Qy6J+wwe8oQ==
+ b=yFuqhwhPHX0WaWoCQQZewCNM4210MC8jWlJTRFSveN+jQw1fkMcN54JuG/QHicsgAXP2abxF9yUIzaJb6oB9RdnX2NWU2E7cfpwenfDftyfHQsVivh5Kad5DYRv44k5YhXz3F7HIlO8Rw1NVDobkSgqZ1wg9JurRvkODtk7arM4UnOUnbrDjyH3bO4t1+LGDC3dHFOM6AsBOAE/Bl3zfKa7m/14inJ+vF2RV8GMeeGQao64abICilliarQNpty1kWopsPzHjPOebo9MHDhaaoHmCAujUO40uk/ZcTVgjQ5ha4yKGDNi2UDYUBQYSrDbcoT0hebiXWfmKn6EuJ29bvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y/CNTDpaF4NyArq79+8ytR/lclUtWxAPXmHrIiZqVkw=;
- b=jPnT0Kof/aH+vsIe+VKx5aZHwJC7HecYkNniDR4Sjao5YyZuDRLbOO06w6mHb39j8bE+0/l9GZ5DR77ueVGzvRv7S9c98rRMv1nTZnBkD2Fg4K3xLacQ9HfWHZHOsgjAixhYa4Yg0ljFBNAFO19ZAnbb+zpj5Znvpg+Y6kdaC1uPIYDeL25oTLjdMya+CrrhLWlZPWXo2abpFP8FxR6QlX7fCtPNsHW3X82E/jgmU7i8nqVkrfHY/2/zjrrynBjGsfUX/ZUfCJF1BMh60yn5vr5GvmxviyazORqBlDsHZRe5VmCuw1nfdHnZwVUK8UVg4NRbl7vqgvX0F2hc2J+1dg==
+ bh=pJ80yfvD2Q76f+lKETcFEWB2JQKTbhNQYmWjmvJ2hT8=;
+ b=IP/V6tFSytte7v6KIwQipkIYM1hTQ9kFK2MKGnhL37BV7JjDacDtx8+U+hTxFc3Xjsy/nBajMg+4TkyQ56/Anp5vVop+6NlV59ozHRtVuX2YKwjjM/mw2njPFP4UvzyFM5FNjPZAK+DI2By9qc1ZsOhnGeJegZUBRHJzUVlQmgyhq34zBGzKWvSM+xe342fg84S+oYN67gldbY6FQlMFpjg5wX+dDDoFWSX2kwRLGp0YoApm7CLFldo75bMuhQH8zH/5QMheHIKPFiyj57gm1o9Tk9q4XSCgZZ7jsDXPLpzLErIzQ3OEoVJg8LGrR52XxclZuHzGhekw4YEBjdw2ZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by SJ2PR11MB7713.namprd11.prod.outlook.com (2603:10b6:a03:4f6::8) with
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from DS0PR11MB7405.namprd11.prod.outlook.com (2603:10b6:8:134::16)
+ by BN9PR11MB5321.namprd11.prod.outlook.com (2603:10b6:408:136::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Wed, 21 Jan
- 2026 02:00:23 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c%3]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
- 02:00:23 +0000
-Message-ID: <a66da3ed-f19e-4552-bfa0-f15204282db1@windriver.com>
-Date: Wed, 21 Jan 2026 10:00:17 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] go: fix multilib file conflicts
-To: Ross Burton <Ross.Burton@arm.com>,
-        "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20251222032455.2683666-1-changqing.li@windriver.com>
- <522E1A76-C605-4C0C-AB6A-F568E5676905@arm.com>
- <979d9d7f-8a2c-4cb3-8849-d8724f3d0f58@windriver.com>
- <D3892BD1-671E-4177-9154-08CA89880ADC@arm.com>
- <1889E2B366748363.2902090@lists.openembedded.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Wed, 21 Jan
+ 2026 07:30:25 +0000
+Received: from DS0PR11MB7405.namprd11.prod.outlook.com
+ ([fe80::f6a0:8764:5448:20be]) by DS0PR11MB7405.namprd11.prod.outlook.com
+ ([fe80::f6a0:8764:5448:20be%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
+ 07:30:25 +0000
+From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<hetpat@cisco.com>
+To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "xe-linux-external(mailer list)"
+	<xe-linux-external@cisco.com>
+Subject: Re: [OE-core] [scarthgap] [PATCH] Fix CVE CVSS scoring to use maximum
+ score from all sources
+Thread-Topic: [OE-core] [scarthgap] [PATCH] Fix CVE CVSS scoring to use
+ maximum score from all sources
+Thread-Index: AQHchFt4WO/OLNc5b0+8J3rzzOn3G7VUncgAgAeoNPA=
+Date: Wed, 21 Jan 2026 07:30:24 +0000
+Message-ID: 
+ <DS0PR11MB74058D1A2E3E3A611DD9AE4EDC96A@DS0PR11MB7405.namprd11.prod.outlook.com>
+References: <20260113070840.115911-1-hetpat@cisco.com>
+ <CAMSfU+5u5Th9njzGNjCbx5kuiaspf_27FcocZnpq3OxDyyse2g@mail.gmail.com>
+In-Reply-To: 
+ <CAMSfU+5u5Th9njzGNjCbx5kuiaspf_27FcocZnpq3OxDyyse2g@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <1889E2B366748363.2902090@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SI1PR02CA0011.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::19) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB7405:EE_|BN9PR11MB5321:EE_
+x-ms-office365-filtering-correlation-id: 5cf01f65-cc6a-4227-6565-08de58bef165
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|13003099007|8096899003|7053199007|38070700021;
+x-microsoft-antispam-message-info: 
+ =?Windows-1252?Q?M+MBUH80dSQsVmHpWcEfw+UMo/0d69wdk3eVttNvYkebcmBHR0MEgyJ9?=
+ =?Windows-1252?Q?2X7NYseu7y7l1WW8+6Sn7rTT+hd/jeOD7i/Ft+bAnvVWBhafvajIh3Q6?=
+ =?Windows-1252?Q?gi78PGFlFSyVtRjH5i4aGARty8pws9kup0c/ShFUwLlkTIsLxdoB5v64?=
+ =?Windows-1252?Q?iy1oqkji5FHP4oD1t3MGa/GpJteuHcwnEEEyQsZhdl4y8p+oclyUoYVn?=
+ =?Windows-1252?Q?HSz/TIjpup7hCXeXVQGF+j5V+ZDbBFiOGv4Vtg5dbfjk65msUbXAvJNs?=
+ =?Windows-1252?Q?FQjEajdHpJ67cwpoTwuwS84Clt1/IcJbJC5P9oBDjGTChSIzVIy5J9co?=
+ =?Windows-1252?Q?G0wumU3Hibhwe3nr5ZsDarzBoD45f6mdSok7jojXxvEH3CVaRghEXD4A?=
+ =?Windows-1252?Q?JqUgYOPFhLWazrm90HqUh384lM0qBTCY+UZPydgX681yJ6MGi7jQbNhY?=
+ =?Windows-1252?Q?u2GOp/A5yFvTfkK2RNXN03MVjXgZ5nYJTR0377KNP1jut5E5f+adchaU?=
+ =?Windows-1252?Q?1uNtGbvq/Dj6kSOdShcZvHFRAzCBP+eYoW9ZVwcSdGS6GTc3ArlpYoqq?=
+ =?Windows-1252?Q?jcogmRYjCko8e776UJpOE6QAOdAj3S41EFKofTWeBvplBbYavJa9HuU2?=
+ =?Windows-1252?Q?ALjsOSK77P9A6zIbmRAVsmrjx56+/rC3DFgZZ5nYtvB8RF/yFNKx8Kgy?=
+ =?Windows-1252?Q?gt5nHd2Dyqz+PbM7MVn5lSN2lwpWAojVWpx7j+//HQlgJBbbriKrgJCn?=
+ =?Windows-1252?Q?uZczxx18seiNE/pt6LADO6cgQTyvM3BUl38ZTbUXPpFwU8VDDwh6LEpE?=
+ =?Windows-1252?Q?NJUEJ7bE2pcJGZWobW3087cxYZfg4Ftz/3TIS2Q70EoylteNeVxdwnMc?=
+ =?Windows-1252?Q?qLgoL0b0X7GrT133sCYpJSPBw3UP4eWNP2SMPPjYkataDcKYeD5PqEDI?=
+ =?Windows-1252?Q?Pp59R2y9oFbKLXRHNzHdhD+TuZ0JwWUVB86oeJyG8+gFldZwkSu629+S?=
+ =?Windows-1252?Q?/2ETziB3WdrWI66QJvQQsl1PRE7CT7SuQpUfkSZQWGY9SzoAYDo5v96x?=
+ =?Windows-1252?Q?+b8hvKuK/5oPa6+iHpWgBXOWp+JO2h/fWnn4KgOYYANoRTA4L56ntHRz?=
+ =?Windows-1252?Q?a0PmxrYwaEL91G1Tt7MkIfEncQ/qRM0HKyhGpvMlLSenso0OA10lxfVR?=
+ =?Windows-1252?Q?BErTzIHS/CM7Ayb827PtwR6NRxKXMaUX0i1OOWD5gN2TZZZ+3//1m6ZK?=
+ =?Windows-1252?Q?2X3JftKq8fL6u7l4jRq7309Ixlcs+khSh/VFBUnMIlQ6ighmzYD/u2bW?=
+ =?Windows-1252?Q?VU9mCk3vJXzkTMd0ZFiGgna3GusuORVeiM6sIMoCORPg8dFRZm0QcBdP?=
+ =?Windows-1252?Q?4gQbG7pWgUzbiNUVOTBZVdMEnKOPvyviwmsVh3T45himJbTyXIX6AVyC?=
+ =?Windows-1252?Q?PbNc1YqIi6mChcsLpOcvFToKkXx2EpXhFZwDP/YwYkXw4svbb1gBt8Z1?=
+ =?Windows-1252?Q?8ZTbsC0zY94ps13RuqgMHnsNpBBZWxRJRIPuHJNhG2hDVGy9fztpffp0?=
+ =?Windows-1252?Q?eg4w413YJR6Smgflvqgmy1D65Q54YGWLiiY+oiNj0YY8btE5ChMerVEl?=
+ =?Windows-1252?Q?BfdeLpp1r8+j7lO7ZLppymWjwORVLuGNKJmjrB3azExa6LQzIxIdPpx4?=
+ =?Windows-1252?Q?vUmiVUTQAQ8=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7405.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(8096899003)(7053199007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?Windows-1252?Q?gJMkCV1ly6SJbMwbuqRH5rXKNC2T+y5AkUR7bZiJd3HVhplRpoiKwxYe?=
+ =?Windows-1252?Q?ZfqRnj6R+px8hgzF1gtY/noOJA1ygVAyD2VmLAEhWgMF7qGmlfUITqSJ?=
+ =?Windows-1252?Q?8UVBaj36qV7FLaiv7BlDSvKoc2FnJiahvCy/oVDMjBf4xWDCWc3zHZON?=
+ =?Windows-1252?Q?znVgzYDM+UA3tuYeDCmm8zEdKYpyW5j03BfoARjODYCo+jz0IWMw5Zw5?=
+ =?Windows-1252?Q?o/h0r7fK3/wFgtY/QquzbuE8gfPhSu3y4kWe2Bb6SxJJiSTa6GmA/xxy?=
+ =?Windows-1252?Q?/4VVsgvGp40jKppFD0EouXSiU7t+Hxd7QkwlGEd6EH2igVocqOf3ZUGm?=
+ =?Windows-1252?Q?7a+mhUWspV/Lrq6RX05JsMEMPgJTrsetydMMkz+C1ZSuG3gYbdWlPlvk?=
+ =?Windows-1252?Q?Oi0KryINz7O7udwgiKozW4IUrcojNogTRkgkl/MTGUSEhWlgSlJrQ9Lg?=
+ =?Windows-1252?Q?teuMUk3WR01IH6lSMjGBoHZYOSdW5SamrluN8NGSn+Nl6DejOPrwybnY?=
+ =?Windows-1252?Q?zXO9otLBG5oS0MhVvlxO4d1h6/EKSH9+15648zxpeIhLQINO4n9QOs1t?=
+ =?Windows-1252?Q?vDc6LlRap5/cmxD2OkaBOPMo4dVkC7LRnDzAeGmzSSZOaVU06x+D8UZ3?=
+ =?Windows-1252?Q?BsEihnhGN5jQXCOVya2cZkrTOWp8nNQBOErm4YN1l0Vg1FbRviuugSWP?=
+ =?Windows-1252?Q?FdSQOv0OkXigOwcJ1iblQcUTGkTD/e2WcSnxaID5vQEKaFJC0Qb+q3rO?=
+ =?Windows-1252?Q?W5l8yKR06Sj/WjRfXmmPCF6HNrDt+ILRN0A5zTHw0mgLuJM7iSddiVNV?=
+ =?Windows-1252?Q?wxIk9LNvysqsxpHWUW7PlGD+7iIgyP+59k1U3Eh7c/3sWW5Z6tKMQ1nB?=
+ =?Windows-1252?Q?PQ0v9aFzLQd9Psuz1RUp2pvYCk7PhxZO+GaKJGLtJ9OM73tu+IW13JM8?=
+ =?Windows-1252?Q?5tcyQGFJ9s0wpufY2CkNIOdXpN4FqN2ju+05gwqMPNVE8VXckb75S7CS?=
+ =?Windows-1252?Q?nOKdAN4hts1dyBO/SR+5x0UVnLdW43wqR0wn6m2WSTqHjKoKeUp3B5g8?=
+ =?Windows-1252?Q?8LzixZEIQDJ3sJYsMNGOC9ekxTBlEbndApNCXznZADoU4R753u2XQ+2b?=
+ =?Windows-1252?Q?5JsuQHlYaYKSWRYhwCI+odoXnKabR7bDFP9Im78rpHfc7JCSGSt6RfdA?=
+ =?Windows-1252?Q?eQ2fkDicHXkCls0c1xFT6AUtNBW6B7EH/xhePHW7yNMMLvvgER8x+o9M?=
+ =?Windows-1252?Q?3Q3/BfG+wBSvnzJQbV6YRpX73ZiOsMsCaxCt0GSyEGBMBKX2rpp7JRwY?=
+ =?Windows-1252?Q?E57DF0k8yglohhhlMYI/67uOESbWF5iSfrWxNvj3FLMBxo/6KGcn4apd?=
+ =?Windows-1252?Q?Nl6t6tTUAmIwibgxvKViQMSzk6u+hQq8Pee9NRbCjclXIaheLTg+reT+?=
+ =?Windows-1252?Q?tuVwNICXLuGGrnXVDaxMXsCGfblOsBWF8S1fs7J3hO05Ip5pv2LbOYCg?=
+ =?Windows-1252?Q?sE7ZK4YdwR5vUyTHsVSRvGAxblrHU9l+5a1DRKIkdqmLlkvaNyva290l?=
+ =?Windows-1252?Q?YZjVYPr9K9MNf+rAgf3M4KzYnMM+9h150/gh+oaw6+gfw0gKt7P2Toc4?=
+ =?Windows-1252?Q?II2B25IVg1BfMO5KbolscO0QHhMkwS/XbVLM+bVQ727Hj83cOZyRuywk?=
+ =?Windows-1252?Q?NIpJGtPR3QD6o9nhgdk43Fb1mg4weJWibpsFX/FtlEAoa+xc9cF8d0cw?=
+ =?Windows-1252?Q?xCy3lq4w+DLG6TEDVN+A1oSnlzDAEfiqmg/mM5G90NPXiFqR5hslQc4V?=
+ =?Windows-1252?Q?MWEt/+b0Z4zb8ItEbN4Vlt6MCzx4p6hyejqtiu3bx4QumtRj?=
+Content-Type: multipart/alternative;
+	boundary="_000_DS0PR11MB74058D1A2E3E3A611DD9AE4EDC96ADS0PR11MB7405namp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|SJ2PR11MB7713:EE_
-X-MS-Office365-Filtering-Correlation-Id: c14f9a9a-72ab-4de0-b54a-08de5890d675
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|4022899009|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?NjFLOFdTSFgycndsZXZqMk5uYXBXYjJCQkVDeHFDS25kTVhDTkJ4Wm9sc0po?=
- =?utf-8?B?cEhienVCMTVmOG82d2lWK2dpSHNUR0hIRjJCcG5mT3BsMm42akhiTlpEUy9L?=
- =?utf-8?B?UHBsSmc5bUZkZnNvblhBMFlwcHNXZXdmdEFObHpKZVg1NklRTzhMT1BXcFc0?=
- =?utf-8?B?Z3VBZHNTUUNoZHJPK2YyVzFEUE93eWJxa3p2ZnI3a2VLQzhJdmZ6bnNTVGQ4?=
- =?utf-8?B?OGQ1aGFqLy9JTEdiN2dVZlRYMnpVZGJsalhYSE5BWm9hZmp2YmtUeVhpMjlp?=
- =?utf-8?B?a1FkRjJJU2hOQVB3djVPMklTSktxMGZRV1BjTjlESVAvUGhTWHVRRlZGOHYr?=
- =?utf-8?B?SkRMZyswNGlac2pySGJQNW41ZTlEakFEMDVBNFBwWCtQa05scmVicmE0aURp?=
- =?utf-8?B?ZTZHMTIyb3hpR1ZyT2VBeFM0YnhhcncxSEdRZENrVnVsSWUyenlDeWhoTFlH?=
- =?utf-8?B?bmVleEYwM05qK1pLVzVhT1R4RWc1dU50NWVhV3N6SUFMUlpxRlVtYTFpVDNq?=
- =?utf-8?B?VFdzSVpXa1ZXZ1g1S3RMZnp5Q1RJRmk5Skw3QUs1TGk5bFQxaC9mdmxvREJI?=
- =?utf-8?B?WW51Zjl3VVhSSDIxbkRZVEJET0RweHFHbVBRcThUUEVYL1VCMGxwall2VG5X?=
- =?utf-8?B?aUVEVlZmdlFUYnN3dUovQzhRT05kbHBvSmhlQ3Z4bEs5dzVra1J0V3dXOWcy?=
- =?utf-8?B?SnJzYnJwcGJTbG54RjFqU0pnc3M0VS90SHVLK0s3MTQyekxtQTQwZXRPd2xY?=
- =?utf-8?B?VzhCYk42cWhzQVVWY1JrZ0ttZHJrL0xvRmFGcHQvdjNqY21tTVRaU2dEU0hS?=
- =?utf-8?B?a2ZLMFhrTWJoZHlsTVI5L1ZZQ1BjMFljT3N1NFhKRVdSczI0aWpOMXlEeWQ0?=
- =?utf-8?B?b0U1bE9UY2ZvK091bGpzTTFIN05XZ2ZLN29zM2Z4MzQ0aTFBd0tYUDUwT2wz?=
- =?utf-8?B?MnFOSmw3ajhMMFI0QjZlUFNOTVZGR2x3bk5wTW4zY0FQd1hrNnM1K2NOT0RE?=
- =?utf-8?B?eUxVc2Q4eHIrdUNuNFlTN21sMDk3TTB0cGt1YXg0VlVpVzI0WVBScDRrL29M?=
- =?utf-8?B?dVp5ZFdCUms1b3hDd0dVTnFEQ2RsRDlCazJaQkFzeks4RzdtQWJWOEFnOHpR?=
- =?utf-8?B?VkZFZnV3bzhFT0JYNEx5eWJpeThPMUxUZzd2d2pmSlUrQnZ2V2llZEthVTRw?=
- =?utf-8?B?bnBkNkdsQ00rQ050aWVFUW45TDkvZXdYMHltZGJVWS9oYW00TFdkaXlQbnhw?=
- =?utf-8?B?TXROWk9yZzd5NGFnZWp2MFFOWlFPVHhScWJMbzhWRTJOY3hJdUFhR0JNaXly?=
- =?utf-8?B?QVlIeXVaajl5ZmRiYW1mZ2ZheE5UQnFDV25KZS9ySENJWUlISG9GVGJDbXVS?=
- =?utf-8?B?Z0VHYUhtQkY3a3FralIrMkFRLzVKT0I5dmhxSjFmbWFLWHJmU2k4Ym1pZ0p6?=
- =?utf-8?B?dVNIUm5jdHN5K1loT2ppdlh4MGlndi85QzVweGdTOXZrbFJJdHFRVFZoSVVh?=
- =?utf-8?B?bXFrb2ljSVFVQmI4aHJ4aW1rTDdTbEwvU1M0MUdIdzVzSFJ2NGZOYk9wM0dZ?=
- =?utf-8?B?K0J3eTh3Y0orc0c1enBXOFdQUElSRkpxWjQydlFsMkhlNGNSQkJOSmdYRnRl?=
- =?utf-8?B?b1dONi9RckF5ajNkVXpKelJISDdwNlRTMllTdXpVU0dZaG9EcVg3c3R3VUxE?=
- =?utf-8?B?a2Qyc1N1WmJ6bVcyY2RReVphWE1BVW83ZE5PalhxNk5SZDJNZVlYUDk5YzBS?=
- =?utf-8?B?LytpVXI2VXZ2eDAwWkNTRGpCVXB6NVZEZkVPZmtDN2tCU1JtTnJpbi9mMlBt?=
- =?utf-8?B?ZDB5aStnZG1IaHFVVVVTZ2pJVERLZzRuWmRJNWl5bjU3eG5pTll1UGJpTlZT?=
- =?utf-8?B?NzdkMHJYMExSckttZ08rdU9sQ0VjUEZUY2FGVXplakxUMlBHS3lFd21JOWZB?=
- =?utf-8?B?TkI0ck9VQzg0YUVrQmlSSUFoNnoyVmhkWUErRUVXWjRMQzY0a0FLK3g3elhU?=
- =?utf-8?B?UnZCTDhRUjhaODFMcU1PR2VvWFo0cjZpcUhHODRFOXlKeDRMT3AxZDFuU08w?=
- =?utf-8?B?NTZQaVZiVnMyK2Q4YTF6ZEsrNUhsL1I2ZFVNbkd1SC9FMU10Z1BKVDI4MUFQ?=
- =?utf-8?Q?Zj9kC/U6ZhHFCHN4YGsLfNe3U?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MXdyRFI1YWtEUXIxNFBYZElhcGF2d1RlK25zT0s3Wjh6cEpra0NrT0NTekpQ?=
- =?utf-8?B?WGlsbngxRkpPUjFDR1R5NWRwZWh2VzFYeENnWHJBZGlUb2lPZ2NSVDhseVFs?=
- =?utf-8?B?S2hQZkxpT3ZjdmdMT3dORVFtOEN5Mlp6czIwdGRXL0NJOTZZaVlyNWs3aitZ?=
- =?utf-8?B?MWFPaGtlYnM1VXZ5MHN4dENlVVNTckh4ZGhaUTRYRGg5RVp3NjQ5eC9HdUh3?=
- =?utf-8?B?ZDVoNlZCbmlvZEs1TWxjMzZib201S0RPYXRhRkFDVWRwejJIN2dsWjN0bEJ2?=
- =?utf-8?B?eG41bzNDakZCNDQxR0NzU093QkJHN2k4aXBZanF2SmcyK2F0QnF6cldVVU1N?=
- =?utf-8?B?dytjRGNsVGxTUlI5cWx6WENIQkdmdEdXemUwOHE4bGtpbVNwaklGK2treGdI?=
- =?utf-8?B?Wmt1R0YvbUh2MmJFb3BEVFRCV2h5dFFnVkcvYXBSLzVXK2RDS0tYR0NjdGVr?=
- =?utf-8?B?Uk4wT0JNbC93cGRSVjg5dTMxblBwenYvVnZtY1o3dkpPMDEwUXdicGZLMlJO?=
- =?utf-8?B?N3BFNXNMUzBYdHVLVHJqTTZ1dmhlU0JjVHI2NmdKQnA2UkFsMUtZSTR2RDZj?=
- =?utf-8?B?MEpYRENIbExZZjdaRGc1eklPZFcxUjBHdXMvaFgxcTVVREpUSnNYbFZvTjlH?=
- =?utf-8?B?VXQwY1JRVFZtMS9qK1Q0NHhrRGZ2cWViemM2Uzc2QmJ0eHlsSzdMUDZTSmZz?=
- =?utf-8?B?eGZpajBPQnNjaVlIMXZLeE1DZXlIWlRObURCWVBIbGtQM3VwL29rbXNXREZu?=
- =?utf-8?B?UGpqUC9EUUZBZ2pUU01IcDkzM0ZCcjMwaTc1MTJqSWp5Z05IbTYyUythSTFr?=
- =?utf-8?B?T25RZDVkUWEvN3ZNS3ZoT1FwL2JHSjFxYUdmOXpnY3RMQkZNUzF5dFROQm0w?=
- =?utf-8?B?bTQxNGpSVXd0eU5KYnVhS0VXaXE2YkhaaHpwQnE2RktYV1VDR1JaU2NyZkZT?=
- =?utf-8?B?akxnRi8vODhkeDBTS09BQmUwV0h2Y3VCOWU2YVpQZnRzRWgrTEVueGErS3R1?=
- =?utf-8?B?b2F2MFQxU29ZUndGcE12MmNjNFVlNGlQc0luUTY2Q051ZkQrdVBtM0dSekVq?=
- =?utf-8?B?Zk1ISkpBWUg5RDBhTk9yMU1EK1R0MnpkUEM4Vlh6d3A0eVpXZXJWTnhOQTUw?=
- =?utf-8?B?SmRjYVUzS2dyR3VHbUpnUDJCWjdxbTBnVzZtNGQxUXI0QkdzaUtwQzlOTHhC?=
- =?utf-8?B?YUErQ1huMjBxeDFxMXpIRmZoNmxiWmhTcmRzU0ExMWIraHBJUWVpcm9CUjRC?=
- =?utf-8?B?cUZGU2oxR3Z0N2ZLb2t1UFcxTHJnVm9MNFhDd1VKb2hLY1REVGlnQjVNZVo3?=
- =?utf-8?B?bjVhYUg4eGJVd3dRd0M4ajBDWm9YNVhxNUJ2amY0WEM2QTFsaklwbXZQdU9L?=
- =?utf-8?B?ZTFIN1VkanhubnM4M1UxcW44bUJEZDJGQXlKRHRXdlhVayt6K3ZNS2Q5NXMy?=
- =?utf-8?B?N25ib1R0UFlkVDlXbERBcnZ3QW9xNzVNMksyQWhyYk1FckVsd1FpZ01XTUJv?=
- =?utf-8?B?Y1NSSjVZWDJJcHBuZEhIa3ZMYkNxWm1jQk11YWtFcmVyeUtodll3SStaSnZV?=
- =?utf-8?B?VGlpbU10eUMrdGpFTFJkbkhTTkFxcXNHN2hDMGMxUmRObjAxMUwrV2lGQmta?=
- =?utf-8?B?VEJ0WTVmN093RXV6eFRJdGQxS1FvTklGblJUbURlMk0yOVJzZENLWGY0elBJ?=
- =?utf-8?B?cUFxYnFxaWJ4Wi9xWlYxUVc2eENOR1JFUXRIemhMZHBYR08vcFFMc3VvbnI2?=
- =?utf-8?B?OWk2bldYRjJ2ODZKcWtjT05rbXFyUWNid3NQdHdrTVhSOGpiNUlYRnlNaTRV?=
- =?utf-8?B?Y3B0M2FnNExpY0g0SUQ1Q04zR0t1WTZyWW8xQ2hlUE9BOTlkQTVsbCtPQm0w?=
- =?utf-8?B?Y3U5bkRxNElTa0hndUs4bXFJZjVQWFZsa3pNTWdzUnRaOEtrMm9ueWE5c2VG?=
- =?utf-8?B?UkJudkd3cXdpWkFsQWsyd1ExRkRnZUtOS1YxVHdseFQzSGVmeXpWclhrWHRZ?=
- =?utf-8?B?OVY3WkxTNEwzOHZMaTE5ZVNpUUxGQVJpYW8wb1puWFl2NWJoei80eEpwczJs?=
- =?utf-8?B?T3UrNURwY0ZJOW50dFFmRFpZUHFDaUowRjNsaUNGVDlHYUlxTlZnQ3pvSzFi?=
- =?utf-8?B?TXIyenZ6cTB3UVo3a3Q3aStkSHZLKzZnbWdRSW8vWHZYQit3Tjc4OVl0dnNP?=
- =?utf-8?B?UEdhbHExSC9WUjVBQlp6SUpTS0JzbzJMTHNxM2xqTWRFRDh2aHFlcWRobTA5?=
- =?utf-8?B?RFBPKzFNd1pDZDRlNFU5TFdWc0VYdGs4NGNvOTk0U2RRK0dMRXIwN3ZQdGsy?=
- =?utf-8?B?NWg5Mjc5UTdlU0phb2M3QWhIVGlyWGI5OGZ6ZFRwdVIydGZENEpnN2Ntc3gz?=
- =?utf-8?Q?bJiwroYVB0I1tv4E=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c14f9a9a-72ab-4de0-b54a-08de5890d675
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 02:00:23.2492
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7405.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cf01f65-cc6a-4227-6565-08de58bef165
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2026 07:30:24.9803
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3T1NrzipaBqhzfHO3h3mXgNB1PIsHqeJNygMr6c8iLbYAY4nLX7guayh8e1PMD4FiOB6RD5ptD1k8dzyl03KuJq2cm8MQgs0IIoBx0MSzHc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7713
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: F4mF08rJcQWxEAMkWI0746iVvtOLZ_0g
-X-Proofpoint-GUID: kJu4H2R18qFkYODoYki-ajLeR-0mYmvN
-X-Authority-Analysis: v=2.4 cv=fpzRpV4f c=1 sm=1 tr=0 ts=6970333a cx=c_pps
- a=cN7CqoUBHbDFA2NMQtMNyA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=IvQJNAUUq8ru2VKf7xoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDAxNSBTYWx0ZWRfXw1qJNf/kqSW0
- rY7ewrSaWLfPWeVkpjjKcmqNcYUCgsE80lYMscmK4I8nvXZU4dALbgnHX3HQJS8Uq6km2cJ1i6Z
- T62UIgBmG/YjcFsmYgV//n/JaSCHXRDYdAvwwOtFLq7DiniZ851ogocY/++Qt63h3XG70fRYXd7
- JOs04X8G99k0Whe/gPESxSKNc6Q4qgjEKw3wzVOX/uaqwiC14jx6Ue+9zvkgRUL5Y8wZWAaL9cj
- ICnj8a8KexJxW7pe1T9y1YxJg4tNO2HxTfq+zZCus6teykMBMSF8yERX3LRdXP57ONmBxgv6VhB
- Mv0Om7TQjdIRVlLMzb91ZbiSUSBkaZUN1e/wuWakgn1VWMx3ChLgBb8z3zi61UUy/AGzOLCKrjD
- Yr4uCuQSsp0rlKcL5qsjMmTk5zzKQvt5dBMxR4tRoK4EI+XHuzBMH9fhMrqcDGF8rbzPt6jyL4K
- fakeBeLD61TzAgtmIeQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-21_01,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 clxscore=1015 spamscore=0 priorityscore=1501
- suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601210015
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60L1ZJFM1784890
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3To4gRvb58rhXvFTYyT/bfF0HCJMee3bcsQuhSbonIlZ99NkxPgX1x3oOkeS3MTeSAKw9Di/OdgQwhYMTLqgBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5321
+X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
+X-Outbound-Node: aer-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 02:00:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229793
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:30:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229794
+
+--_000_DS0PR11MB74058D1A2E3E3A611DD9AE4EDC96ADS0PR11MB7405namp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Yes, this patch directly addresses Bug 15931 (CVE Reporting wrong CVSSv3 sc=
+ore). The bug reports two issues:
 
 
-On 1/12/26 12:52, Changqing Li via lists.openembedded.org wrote:
->
-> On 1/8/26 18:10, Ross Burton wrote:
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the=20
->> sender and know the content is safe.
->>
->> On 6 Jan 2026, at 01:15, Changqing Li via lists.openembedded.org=20
->> <changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
->>>
->>> On 1/6/26 02:08, Ross Burton wrote:
->>>> CAUTION: This email comes from a non Wind River email account!
->>>> Do not click links or open attachments unless you recognize the=20
->>>> sender and know the content is safe.
->>>>
->>>> On 22 Dec 2025, at 03:24, Changqing Li via lists.openembedded.org=20
->>>> <changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
->>>>
->>>>> From: Changqing Li <changqing.li@windriver.com>
->>>>>
->>>>> This is for fixing the following error of 'bitbake meta-go-toolchai=
-n'
->>>>> when multilib is enabled:
->>>>> Error: Transaction test error:
->>>>> file /usr/bin/go conflicts between attempted installs of=20
->>>>> go-1.25.4-r0.x86_64_v3 and lib32-go-1.25.4-r0.core2_32
->>>>> file /usr/bin/gofmt conflicts between attempted installs of=20
->>>>> go-1.25.4-r0.x86_64_v3 and lib32-go-1.25.4-r0.core2_32
->>>>>
->>>> Why would you do this though? We don=E2=80=99t support installing ba=
-sh and=20
->>>> lib32-bash either.
->>> Hi, Ross
->>> The issue reproduced when multilib is enabled globally in local.conf=20
->>> by following config:
->>> ```
->>> require conf/multilib.conf
->>> MULTILIBS ?=3D "multilib:lib32"
->>> DEFAULTTUNE:virtclass-multilib-lib32 ?=3D "core2-32"
->>> ```
->>> bitbake meta-go-toolchain will failed with above failure.
->>>
->>> [snip of meta-go-toolchain.bb]
->>> TOOLCHAIN_TARGET_TASK:append =3D " \ ${@multilib_pkg_extend(d,=20
->>> 'packagegroup-go-sdk-target')} \ "
->>> [snip of meta-go-toolchain.bb]
->>>
->>> go is in packagegroup-go-sdk-target,=C2=A0 it is extended by=20
->>> multilib_pkg_extend.=C2=A0 so both go and lib32-go will be installed.
->>> go is added in to packagegroup-go-sdk-target for providing entire=20
->>> toolchain include compiler.
->> Maybe the packagegroup shouldn=E2=80=99t be doing that expansion then?
->
-> We don't want go to be extended, but packagegroup-go-sdk-target not=20
-> only include go, it also includes go-runtime/go-runtime-dev, we need=20
-> to extend go-runtime/go-runtime-dev.
->
-> so fix go packaging for multilib as this patch to avoid the conflicts=20
-> issue.
->
-> //Changqing
+  1.
+The code only extracted the first element [0] from the CVSS metrics arrays,=
+ which could be a Secondary source with a lower score instead of the Primar=
+y source
+  2.
+The cvssv3 =3D cvssv3 or ... logic meant v3.0 scores took precedence over v=
+3.1 scores
 
-ping
+This patch fixes both by iterating through all metric entries and selecting=
+ the maximum score.
 
-//Changqing
+I will send this patch to the master first. Once merged, I'll submit a back=
+port request to the stable branches.
 
+Thanks,
+Het
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: Friday, January 16, 2026 4:01 PM
+To: Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco) <hetpat@ci=
+sco.com>
+Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>; xe-linux-external(mailer list) <xe-linux-external@cisco.com>
+Subject: Re: [OE-core] [scarthgap] [PATCH] Fix CVE CVSS scoring to use maxi=
+mum score from all sources
+
+
+
+Le mar. 13 janv. 2026 =E0 08:08, Het Patel via lists.openembedded.org<http:=
+//lists.openembedded.org> <hetpat=3Dcisco.com@lists.openembedded.org<mailto=
+:cisco.com@lists.openembedded.org>> a =E9crit :
+From: Het Patel <hetpat@cisco.com<mailto:hetpat@cisco.com>>
+
+The CVE check system was incorrectly reporting lower CVSS scores when
+multiple scoring sources were available in the NVD database. This
+occurred because the code only extracted the first element from the
+CVSSv2, CVSSv3, and CVSSv4 metrics arrays, which could be a Secondary
+source with a lower score instead of the Primary source with the
+actual severity score.
+
+This fix takes maximum CVSS score.
+
+Hello,
+
+Does this patch interact with the open bug 15931 =96 CVE Reporting wrong CV=
+SSv3 score (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15931) ?
+
+Also, does this need to be fixed on master and/or whinlatter?
+If yes, you should first send this patch (adapted most likely) to master. T=
+hen, once merged, send a backport request to the stable branches.
+
+Thanks!
+
+
+Signed-off-by: Het Patel <hetpat@cisco.com<mailto:hetpat@cisco.com>>
+---
+ .../meta/cve-update-nvd2-native.bb<http://cve-update-nvd2-native.bb>      =
+      | 55 +++++++++++++------
+ 1 file changed, 39 insertions(+), 16 deletions(-)
+
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb<http://cve-up=
+date-nvd2-native.bb> b/meta/recipes-core/meta/cve-update-nvd2-native.bb<htt=
+p://cve-update-nvd2-native.bb>
+index 945bd1d927..28d5810d5d 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb<http://cve-update-nv=
+d2-native.bb>
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb<http://cve-update-nv=
+d2-native.bb>
+@@ -352,32 +352,55 @@ def update_db(conn, elt):
+         if desc['lang'] =3D=3D 'en':
+             cveDesc =3D desc['value']
+     date =3D elt['cve']['lastModified']
++
++    # Extract maximum CVSS scores from all sources (Primary and Secondary)
++    cvssv2 =3D 0.0
+     try:
+-        accessVector =3D elt['cve']['metrics']['cvssMetricV2'][0]['cvssDat=
+a']['accessVector']
+-        vectorString =3D elt['cve']['metrics']['cvssMetricV2'][0]['cvssDat=
+a']['vectorString']
+-        cvssv2 =3D elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['b=
+aseScore']
++        # Iterate through all cvssMetricV2 entries and find the maximum sc=
+ore
++        for metric in elt['cve']['metrics']['cvssMetricV2']:
++            score =3D metric['cvssData']['baseScore']
++            if score > cvssv2:
++                cvssv2 =3D score
++                accessVector =3D metric['cvssData']['accessVector']
++                vectorString =3D metric['cvssData']['vectorString']
+     except KeyError:
+-        cvssv2 =3D 0.0
+-    cvssv3 =3D None
++        pass
++
++    cvssv3 =3D 0.0
+     try:
+-        accessVector =3D accessVector or elt['cve']['metrics']['cvssMetric=
+V30'][0]['cvssData']['attackVector']
+-        vectorString =3D vectorString or elt['cve']['metrics']['cvssMetric=
+V30'][0]['cvssData']['vectorString']
+-        cvssv3 =3D elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['=
+baseScore']
++        # Iterate through all cvssMetricV30 entries and find the maximum s=
+core
++        for metric in elt['cve']['metrics']['cvssMetricV30']:
++            score =3D metric['cvssData']['baseScore']
++            if score > cvssv3:
++                cvssv3 =3D score
++                accessVector =3D accessVector or metric['cvssData']['attac=
+kVector']
++                vectorString =3D vectorString or metric['cvssData']['vecto=
+rString']
+     except KeyError:
+         pass
++
+     try:
+-        accessVector =3D accessVector or elt['cve']['metrics']['cvssMetric=
+V31'][0]['cvssData']['attackVector']
+-        vectorString =3D vectorString or elt['cve']['metrics']['cvssMetric=
+V31'][0]['cvssData']['vectorString']
+-        cvssv3 =3D cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cv=
+ssData']['baseScore']
++        # Iterate through all cvssMetricV31 entries and find the maximum s=
+core
++        for metric in elt['cve']['metrics']['cvssMetricV31']:
++            score =3D metric['cvssData']['baseScore']
++            if score > cvssv3:
++                cvssv3 =3D score
++                accessVector =3D accessVector or metric['cvssData']['attac=
+kVector']
++                vectorString =3D vectorString or metric['cvssData']['vecto=
+rString']
+     except KeyError:
+         pass
+-    cvssv3 =3D cvssv3 or 0.0
++
++    cvssv4 =3D 0.0
+     try:
+-        accessVector =3D accessVector or elt['cve']['metrics']['cvssMetric=
+V40'][0]['cvssData']['attackVector']
+-        vectorString =3D vectorString or elt['cve']['metrics']['cvssMetric=
+V40'][0]['cvssData']['vectorString']
+-        cvssv4 =3D elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['=
+baseScore']
++        # Iterate through all cvssMetricV40 entries and find the maximum s=
+core
++        for metric in elt['cve']['metrics']['cvssMetricV40']:
++            score =3D metric['cvssData']['baseScore']
++            if score > cvssv4:
++                cvssv4 =3D score
++                accessVector =3D accessVector or metric['cvssData']['attac=
+kVector']
++                vectorString =3D vectorString or metric['cvssData']['vecto=
+rString']
+     except KeyError:
+-        cvssv4 =3D 0.0
++        pass
++
+     accessVector =3D accessVector or "UNKNOWN"
+     vectorString =3D vectorString or "UNKNOWN"
+
+
+
+
+
+
+--
+Yoann Congal
+Smile ECS
+
+--_000_DS0PR11MB74058D1A2E3E3A611DD9AE4EDC96ADS0PR11MB7405namp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Hi,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Yes, this patch directly addresses Bug 15931 (CVE Reporting wrong CVSSv3 sc=
+ore). The bug reports two issues:</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<ol style=3D"margin-top: 0px; margin-bottom: 0px; list-style-type: decimal;=
+" data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:true}" start=3D=
+"1">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation" class=3D"elementToProof">The code only extracted=
+ the first element
+<span style=3D"color: rgb(12, 100, 192);">[0] </span>from the CVSS metrics =
+arrays, which could be a Secondary source with a lower score instead of the=
+ Primary source</div>
+</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
+ce, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation" class=3D"elementToProof">The <span style=3D"colo=
+r: rgb(12, 100, 192);">
+cvssv3 =3D cvssv3 or ... </span>logic meant v3.0 scores took precedence ove=
+r v3.1 scores</div>
+</li></ol>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+This patch fixes both by iterating through all metric entries and selecting=
+ the maximum score.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+I will send this patch to the master first. Once merged, I'll submit a back=
+port request to the stable branches.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Thanks,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Het</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
+lists.openembedded.org&gt;<br>
+<b>Sent:</b> Friday, January 16, 2026 4:01 PM<br>
+<b>To:</b> Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco) &lt=
+;hetpat@cisco.com&gt;<br>
+<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;; xe-linux-external(mailer list) &lt;xe-linux-exte=
+rnal@cisco.com&gt;<br>
+<b>Subject:</b> Re: [OE-core] [scarthgap] [PATCH] Fix CVE CVSS scoring to u=
+se maximum score from all sources</font>
+<div>&nbsp;</div>
+</div>
+<div>
+<div dir=3D"ltr">
+<div dir=3D"ltr"><br>
+</div>
+<br>
+<div class=3D"x_gmail_quote x_gmail_quote_container">
+<div dir=3D"ltr" class=3D"x_gmail_attr">Le&nbsp;mar. 13 janv. 2026 =E0&nbsp=
+;08:08, Het Patel via <a href=3D"http://lists.openembedded.org">
+lists.openembedded.org</a> &lt;hetpat=3D<a href=3D"mailto:cisco.com@lists.o=
+penembedded.org">cisco.com@lists.openembedded.org</a>&gt; a =E9crit&nbsp;:<=
+br>
+</div>
+<blockquote class=3D"x_gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; bord=
+er-left:1px solid rgb(204,204,204); padding-left:1ex">
+From: Het Patel &lt;<a href=3D"mailto:hetpat@cisco.com" target=3D"_blank">h=
+etpat@cisco.com</a>&gt;<br>
+<br>
+The CVE check system was incorrectly reporting lower CVSS scores when<br>
+multiple scoring sources were available in the NVD database. This<br>
+occurred because the code only extracted the first element from the<br>
+CVSSv2, CVSSv3, and CVSSv4 metrics arrays, which could be a Secondary<br>
+source with a lower score instead of the Primary source with the<br>
+actual severity score.<br>
+<br>
+This fix takes maximum CVSS score.<br>
+</blockquote>
+<div><br>
+</div>
+<div>Hello,</div>
+<div><br>
+</div>
+<div>Does this patch interact with the open bug 15931 =96 CVE Reporting wro=
+ng CVSSv3 score (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?=
+id=3D15931">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15931</a>) =
+?</div>
+<div><br>
+</div>
+<div>Also, does this need to be fixed on master and/or whinlatter?</div>
+<div>If yes, you should first send this patch (adapted most likely) to mast=
+er. Then, once merged, send a backport request to the stable branches.</div=
 >
->>
->> Ross
+<div><br>
+</div>
+<div>Thanks!</div>
+<div>&nbsp;</div>
+<blockquote class=3D"x_gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; bord=
+er-left:1px solid rgb(204,204,204); padding-left:1ex">
+<br>
+Signed-off-by: Het Patel &lt;<a href=3D"mailto:hetpat@cisco.com" target=3D"=
+_blank">hetpat@cisco.com</a>&gt;<br>
+---<br>
+&nbsp;.../meta/<a href=3D"http://cve-update-nvd2-native.bb" rel=3D"noreferr=
+er" target=3D"_blank">cve-update-nvd2-native.bb</a>&nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; | 55 +++++++++++++------<br>
+&nbsp;1 file changed, 39 insertions(+), 16 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-nativ=
+e.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a> b/=
+meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" rel=3D"=
+noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><br>
+index 945bd1d927..28d5810d5d 100644<br>
+--- a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" r=
+el=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><br>
++++ b/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" r=
+el=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><br>
+@@ -352,32 +352,55 @@ def update_db(conn, elt):<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if desc['lang'] =3D=3D 'en':<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cveDesc =3D desc['value']<b=
+r>
+&nbsp; &nbsp; &nbsp;date =3D elt['cve']['lastModified']<br>
++<br>
++&nbsp; &nbsp; # Extract maximum CVSS scores from all sources (Primary and =
+Secondary)<br>
++&nbsp; &nbsp; cvssv2 =3D 0.0<br>
+&nbsp; &nbsp; &nbsp;try:<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D elt['cve']['metrics']['cvssMe=
+tricV2'][0]['cvssData']['accessVector']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D elt['cve']['metrics']['cvssMe=
+tricV2'][0]['cvssData']['vectorString']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; cvssv2 =3D elt['cve']['metrics']['cvssMetricV2=
+'][0]['cvssData']['baseScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; # Iterate through all cvssMetricV2 entries and=
+ find the maximum score<br>
++&nbsp; &nbsp; &nbsp; &nbsp; for metric in elt['cve']['metrics']['cvssMetri=
+cV2']:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; score =3D metric['cvssData']['ba=
+seScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if score &gt; cvssv2:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cvssv2 =3D score<b=
+r>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D m=
+etric['cvssData']['accessVector']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D m=
+etric['cvssData']['vectorString']<br>
+&nbsp; &nbsp; &nbsp;except KeyError:<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; cvssv2 =3D 0.0<br>
+-&nbsp; &nbsp; cvssv3 =3D None<br>
++&nbsp; &nbsp; &nbsp; &nbsp; pass<br>
++<br>
++&nbsp; &nbsp; cvssv3 =3D 0.0<br>
+&nbsp; &nbsp; &nbsp;try:<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D accessVector or elt['cve']['m=
+etrics']['cvssMetricV30'][0]['cvssData']['attackVector']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D vectorString or elt['cve']['m=
+etrics']['cvssMetricV30'][0]['cvssData']['vectorString']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; cvssv3 =3D elt['cve']['metrics']['cvssMetricV3=
+0'][0]['cvssData']['baseScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; # Iterate through all cvssMetricV30 entries an=
+d find the maximum score<br>
++&nbsp; &nbsp; &nbsp; &nbsp; for metric in elt['cve']['metrics']['cvssMetri=
+cV30']:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; score =3D metric['cvssData']['ba=
+seScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if score &gt; cvssv3:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cvssv3 =3D score<b=
+r>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D a=
+ccessVector or metric['cvssData']['attackVector']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D v=
+ectorString or metric['cvssData']['vectorString']<br>
+&nbsp; &nbsp; &nbsp;except KeyError:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;pass<br>
++<br>
+&nbsp; &nbsp; &nbsp;try:<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D accessVector or elt['cve']['m=
+etrics']['cvssMetricV31'][0]['cvssData']['attackVector']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D vectorString or elt['cve']['m=
+etrics']['cvssMetricV31'][0]['cvssData']['vectorString']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; cvssv3 =3D cvssv3 or elt['cve']['metrics']['cv=
+ssMetricV31'][0]['cvssData']['baseScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; # Iterate through all cvssMetricV31 entries an=
+d find the maximum score<br>
++&nbsp; &nbsp; &nbsp; &nbsp; for metric in elt['cve']['metrics']['cvssMetri=
+cV31']:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; score =3D metric['cvssData']['ba=
+seScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if score &gt; cvssv3:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cvssv3 =3D score<b=
+r>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D a=
+ccessVector or metric['cvssData']['attackVector']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D v=
+ectorString or metric['cvssData']['vectorString']<br>
+&nbsp; &nbsp; &nbsp;except KeyError:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;pass<br>
+-&nbsp; &nbsp; cvssv3 =3D cvssv3 or 0.0<br>
++<br>
++&nbsp; &nbsp; cvssv4 =3D 0.0<br>
+&nbsp; &nbsp; &nbsp;try:<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D accessVector or elt['cve']['m=
+etrics']['cvssMetricV40'][0]['cvssData']['attackVector']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D vectorString or elt['cve']['m=
+etrics']['cvssMetricV40'][0]['cvssData']['vectorString']<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; cvssv4 =3D elt['cve']['metrics']['cvssMetricV4=
+0'][0]['cvssData']['baseScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; # Iterate through all cvssMetricV40 entries an=
+d find the maximum score<br>
++&nbsp; &nbsp; &nbsp; &nbsp; for metric in elt['cve']['metrics']['cvssMetri=
+cV40']:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; score =3D metric['cvssData']['ba=
+seScore']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if score &gt; cvssv4:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cvssv4 =3D score<b=
+r>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; accessVector =3D a=
+ccessVector or metric['cvssData']['attackVector']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; vectorString =3D v=
+ectorString or metric['cvssData']['vectorString']<br>
+&nbsp; &nbsp; &nbsp;except KeyError:<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; cvssv4 =3D 0.0<br>
++&nbsp; &nbsp; &nbsp; &nbsp; pass<br>
++<br>
+&nbsp; &nbsp; &nbsp;accessVector =3D accessVector or &quot;UNKNOWN&quot;<br=
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229183): https://lists.openembedded.org/g/openembed=
-ded-core/message/229183
-> Mute This Topic: https://lists.openembedded.org/mt/116896974/3616873
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-changqing.li@windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+&nbsp; &nbsp; &nbsp;vectorString =3D vectorString or &quot;UNKNOWN&quot;<br=
 >
+<br>
+<br>
+<br>
+<br>
+</blockquote>
+</div>
+<div><br clear=3D"all">
+</div>
+<br>
+<span class=3D"x_gmail_signature_prefix">-- </span><br>
+<div dir=3D"ltr" class=3D"x_gmail_signature">
+<div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font>
+<div><font face=3D"Raleway, regular">Smile ECS</font></div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_DS0PR11MB74058D1A2E3E3A611DD9AE4EDC96ADS0PR11MB7405namp_--
 
