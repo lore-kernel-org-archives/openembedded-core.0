@@ -1,178 +1,250 @@
-Return-Path: <hetpat@cisco.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D5D5C44502
-	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 10:08:40 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8491.1768990115485094673
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBACDC44503
+	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 10:41:30 +0000 (UTC)
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8883.1768992081315914016
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Jan 2026 02:08:35 -0800
+ Wed, 21 Jan 2026 02:41:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VmKj0XMk;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: hetpat@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4057; q=dns/txt;
-  s=iport01; t=1768990115; x=1770199715;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mdYIwnXPMdC2MlSEYLWZ4jYgl0d/advlDEOipfD4iDI=;
-  b=VmKj0XMkMgg1+xdpScynKOuEMevFhatoPn87CUDUkgok3DCG6VlsKabh
-   W74s1XNaOlSXd/E7buOWX78ccaJwJR2lBwgCEYgu+8XrR3BweningPbXc
-   PSFcQiPKbL+oWw2ineTkocvzDJw3mYyoOpV5FgkthwrdVZxwsKlnfo0SJ
-   Ge1a8eW3wjOfpW2hIGJntqGt0BIfW5On/vmAKrALcfUbcUYI4xF+OAE8n
-   Km2NKhOrqiVupuoPAWrSEqVbld7N43TI0NugQwwG3LfhOHmgYA+Qqo7Qt
-   seI6bIen0wuQMT+ugSdIdQGAugMlO81ajGYA8Rwyg3M9Kyws9MljFWgRu
-   A==;
-X-CSE-ConnectionGUID: hwfaZ5oiSJyIELT0h9+GMw==
-X-CSE-MsgGUID: vs8eyTElSKOfkkLYrT1m0g==
-X-IPAS-Result: =?us-ascii?q?A0AmAwBtpHBp/47/Ja1aHgE8DAILgWWCSA9xX0JJA5NXA?=
- =?us-ascii?q?YJwnh2Bfw8BAQEPNxoEAQGFB40DAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBA?=
- =?us-ascii?q?QELAQEFAQEBAgEHBYEOE4YVCDINhl02AUYwXESDAgGCcwIBry+CLIEBhHzbJ?=
- =?us-ascii?q?gELFAGBOIU7iBdoCYR4JxsbgXKEDm+LBwSCIoEOlAdIgR4DWSwBVRMNCgsHB?=
- =?us-ascii?q?YFmAzUSKhVuMh2BIz4XgQobBwWBCQaDbYUOD4kneIEAAwsYDUgRLDcUGwQ+b?=
- =?us-ascii?q?gePAEWCLgFzGoEnJacAoQ4KKIN0jB6VOhozhASmZ5kGgliiAYRogWg8RoETc?=
- =?us-ascii?q?BWDIglJGQ+HfoZhgh3JJyI1EykCBwsBAQMJk2cBAQ?=
-IronPort-Data: A9a23:bPVQqKBkSxloVRVW/37iw5YqxClBgxIJ4kV8jS/XYbTApDlw0jwBz
- zRJX26HOv+LM2TyKdslYY7kpklXvJbQnYdmOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWmthh
- fuo+5eBYAb/g2YvWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEw+pgBXNrOowj2PdWLEVyr
- fxJax8ocUXW7w626OrTpuhEnM8vKozveYgYoHwllWyfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGY1BPjDS0Un1lM/CJ8ihO60rnL+aDZf7lmSoMLb5kCPkVQviua2aoe9ltqiW94Fk1eki
- 2b93EP3ARI+BcajkD/d/Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVl+zf4h2SAS4PSTsphMEaifLajAcCj
- jeh9+4FzxQ12FFJYRpxLoupkA4=
-IronPort-HdrOrdr: A9a23:IuNRI6ztXEc96HbeWlMfKrPwJ71zdoMgy1knxilNoNJuHfBw8P
- re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcKuweQeBEXMoVmpM
- Bdm28UMqyVMWRH
-X-Talos-CUID: =?us-ascii?q?9a23=3AolRWhWujwvk2555MYvgwtjxh6IslbXPU/irXInS?=
- =?us-ascii?q?aGEdEbIHNSQ7T14Z7xp8=3D?=
-X-Talos-MUID: 9a23:iE7dEwjstKl3uERNm0MQlsMpKtw47rWSJUQ2srIIuMqgBDZMYjLFg2Hi
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.21,242,1763424000"; 
-   d="scan'208";a="450626325"
-Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Jan 2026 10:08:34 +0000
-Received: from sjc-ads-1153.cisco.com (sjc-ads-1153.cisco.com [171.70.58.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 7B9E518000370;
-	Wed, 21 Jan 2026 10:08:34 +0000 (GMT)
-Received: by sjc-ads-1153.cisco.com (Postfix, from userid 1847788)
-	id 24446C64E40; Wed, 21 Jan 2026 02:08:34 -0800 (PST)
-From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core] [PATCH v2] cve-update-nvd2-native: Use maximum CVSS score from all sources
-Date: Wed, 21 Jan 2026 02:08:32 -0800
-Message-Id: <20260121100832.448281-1-hetpat@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=f/Xh8hkH;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=LUdp0p3i;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.150, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6AFDB1D0013D;
+	Wed, 21 Jan 2026 05:41:20 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Wed, 21 Jan 2026 05:41:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1768992080; x=1769078480; bh=Tb
+	03YMAwDZAdV8BiIC6t3LQoi9zOTvcjYsrL8Bq5osA=; b=f/Xh8hkH3SEKggN12E
+	QwVzThVz3tFiq1wr1Ll1VkISr8vmH8d76H6+mWONMbx7lfl5GQxB+d4xZccCbAaf
+	rMqLkKPdlQibMZn0YSS4796gG7n4kwg8LYsrTwTNwKhkR8p9bizzdkuQoEi5o24S
+	cUXxjQ7SyJZoHeRIkDfitAed7T4JRhAKBx+jJwvFO3K+gspm1MxGquKLmLE8Z6QZ
+	MtbkLeucggR/ApFenX/W024i2N9AU9yt3C7JRPV79a5FnBz1ucRGRt05miymhweG
+	gpkzTw0Rdku/GeiGaAiJt/jXpU644DWT2K2d3XvjlO2T8Ti10YIGSC13ROxh1I9N
+	aqRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1768992080; x=1769078480; bh=Tb03YMAwDZAdV8BiIC6t3LQoi9zO
+	TvcjYsrL8Bq5osA=; b=LUdp0p3iZMEHOeJUBwEW/i/XKpgTj2pZy/a3bxUNvcS4
+	KJbXFGBVeDoJbeqrdKMkY6TIqz9Z9PzVIg3hH7LM8oaOxdbuQ+RfWZNuu8+yAdX4
+	qfNbLckIQi090ZHL+b99QCYthF1+cqRBG60WsFmlYiu44KlHbQyBq3EWbsf4AYI5
+	LXhq73ZaVNqagbEpB9pbTuFW6usERtvNadeQR1TUnH+eomQac3WNOXHFZmG2XxqA
+	iXDD1CpYlbKH9I2dVvmVlJ+A3v2Tpjj52TV2UN8zV2jvOcJUo3qmFAUwhFkAviKt
+	RxxwcvBa6QkataFZuJCacE0Anlx9CFZfSLOtr1WrZg==
+X-ME-Sender: <xms:T61waWX5MbKk7KJso7oy9_OfLJi6SbrroOr6b_X3bOvwT4E5NUCvWQ>
+    <xme:T61waYmNBx0xiyFwHSkktZPcUZeICJQ7QJ1coECRBF0PJ1Htn_c9WcScHl6CAo9nF
+    le6v6AiNaTw4RhK0S7V8s1bYHPIJOpfA5UmreGAkWjHdO980qVP2v0>
+X-ME-Received: <xmr:T61waYBP9aHDT4LnN8rk9ce3_YQynQQjQDLqAEmiX24fQB-ZBrbWGpDNZRY8Nj0fy-_xWbakmJB-UpZtG7jGa-Dx8eyJ-xI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeeftdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhfffugggtgffkvfevofesthejredtre
+    dtjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepgeekvddvteelvdehgeffhfevveeuvdfhjedugf
+    euveevfefhgeektdektdfftdehnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpghhn
+    uhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslh
+    hishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepphgruhhlsehp
+    sggrrhhkvghrrdguvghv
+X-ME-Proxy: <xmx:T61waYciusz0sxJvuB548xt_fRdACUexpELA0eY4QrwHtsMKgOvz0w>
+    <xmx:T61waTJ7gDaWC2NQCnRSooCG-8L_rW--wkJna4AnC4BolzbVroZcMQ>
+    <xmx:T61wabdLEy_6O457CqCgBbqogaykBp8XGFvHjxkxZn6kkRWwOMROKQ>
+    <xmx:T61waa1ZhrtToOT8dp7el5DABhHesESGLj3TX8j9AeGWaO1MCZ7AQQ>
+    <xmx:UK1waX5EviKuMORxQv8NpYZyukQESRuTm2dtR-Kf4SImCIOgicb_ZL_N>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Jan 2026 05:41:19 -0500 (EST)
+From: Paul Barker <paul@pbarker.dev>
+Date: Wed, 21 Jan 2026 10:41:11 +0000
+Subject: [PATCH] coreutils: Backport fix for lseek_copy loop
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.70.58.95, sjc-ads-1153.cisco.com
-X-Outbound-Node: rcdn-l-core-05.cisco.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260121-fix-coreutils-v1-1-30a1769b5733@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIAEatcGkC/x2MQQqAIBAAvyJ7TlCjwr4SHUrXWggNrQjEvycdB
+ 2YmQ8JImGBkGSI+lCj4CrJhYPbFb8jJVgYlVC+kEtzRy02IeF90JI521a4dHHZaQ23OiFX4f9N
+ cygcfaB0FXwAAAA==
+X-Change-ID: 20260120-fix-coreutils-edb9f37fe599
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6321; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=WycFkOyP04Ut4pWeZanSiyEBR4Llg3UsgS13wrcX4ps=;
+ b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQWrPXbHNEVyFL6z9fNdn7qIaHb/pXTtwlvKd/mIx0gb
+ qF3VnpdRykLgxgXg6yYIsvmnq/3n/Y68maE3FKAmcPKBDKEgYtTACby5iDDf8/Vn4vOLhfZLfKU
+ 31RS0GXlzVmRuesLThrm/ZuXu/zrfB9GhkPObpxmGx3usEj+SvnvJnDypdkhvQvsv2Iff13P9uq
+ eEBcA
+X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
+ fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 10:08:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229803
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 10:41:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229804
 
-From: Het Patel <hetpat@cisco.com>
+We've seen intermittent failures on the autobuilder related to creating
+hddimg images after updating to coreutils 9.9. The error message seen
+is:
 
-The CVE check system was incorrectly reporting lower CVSS scores when
-multiple scoring sources were available in the NVD database. This
-occurred because the code only extracted the first element from the
-CVSSv2, CVSSv3, and CVSSv4 metrics arrays, which could be a Secondary
-source with a lower score instead of the Primary source with the
-actual severity score.
+  install: cannot lseek '.../core-image-minimal/1.0/sources/core-image-minimal-1.0/hddimg/rootfs.img': Invalid argument
 
-This fix iterates through all available sources and takes the maximum
-CVSS score to ensure the highest severity is reported.
+This corresponds to an invalid argument passed to lseek() in the
+create_hole() function in src/copy-file-data.c in coreutils. This in
+turn is being given bad arguments due to incorrect handling of loop
+variables in lseek_copy().
 
-Fixes [YOCTO #15931]
+The upstream bug report [1] refers to an infinite loop, which isn't
+quite what we're seeing, but the cause is likely the same. So, we're
+applying the upstream fixes.
 
-Signed-off-by: Het Patel <hetpat@cisco.com>
+[1]: https://github.com/coreutils/coreutils/issues/159
+
+[YOCTO #16120]
+
+Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- .../meta/cve-update-nvd2-native.bb            | 55 +++++++++++++------
- 1 file changed, 39 insertions(+), 16 deletions(-)
+I've tested this several times on the autobuilder via oe-selftest-debian
+& oe-selftest-fedora and not hit the lseek error :)
+---
+ .../coreutils/0001-fix-lseek-copy-loop.patch       | 35 +++++++++++++
+ .../coreutils/0002-fix-lseek-copy-loop.patch       | 58 ++++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_9.9.bb       |  2 +
+ 3 files changed, 95 insertions(+)
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 8c8148dd92..41c34ba0d0 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -350,32 +350,55 @@ def update_db(conn, elt):
-         if desc['lang'] == 'en':
-             cveDesc = desc['value']
-     date = elt['cve']['lastModified']
+diff --git a/meta/recipes-core/coreutils/coreutils/0001-fix-lseek-copy-loop.patch b/meta/recipes-core/coreutils/coreutils/0001-fix-lseek-copy-loop.patch
+new file mode 100644
+index 000000000000..75286dc43cb9
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils/0001-fix-lseek-copy-loop.patch
+@@ -0,0 +1,35 @@
++From bd528f923482223649aa84be7d131e69356149da Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
++Date: Sun, 4 Jan 2026 12:45:46 +0000
++Subject: [PATCH] copy: fix possible infinite loop with SEEK_HOLE
 +
-+    # Extract maximum CVSS scores from all sources (Primary and Secondary)
-+    cvssv2 = 0.0
-     try:
--        accessVector = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['accessVector']
--        vectorString = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['vectorString']
--        cvssv2 = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV2 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV2']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv2:
-+                cvssv2 = score
-+                accessVector = metric['cvssData']['accessVector']
-+                vectorString = metric['cvssData']['vectorString']
-     except KeyError:
--        cvssv2 = 0.0
--    cvssv3 = None
-+        pass
++Commit v9.8-95-g4c0cf3864 intended to initialize
++ext_start to src_pos, as was described at:
++https://lists.gnu.org/r/coreutils/2025-11/msg00035.html
++However ipos was inadvertently used, which is only
++valid the first time through the loop.
 +
-+    cvssv3 = 0.0
-     try:
--        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['attackVector']
--        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['vectorString']
--        cvssv3 = elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV30 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV30']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv3:
-+                cvssv3 = score
-+                accessVector = accessVector or metric['cvssData']['attackVector']
-+                vectorString = vectorString or metric['cvssData']['vectorString']
-     except KeyError:
-         pass
++* src/copy-file-data.c (lseek_copy): Use scan_inference->hole_start
++only with the initial offset passed to lseek_copy().
++* NEWS: Mention the bug fix.
++Reported at https://github.com/coreutils/coreutils/issues/159
 +
-     try:
--        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['attackVector']
--        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
--        cvssv3 = cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV31 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV31']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv3:
-+                cvssv3 = score
-+                accessVector = accessVector or metric['cvssData']['attackVector']
-+                vectorString = vectorString or metric['cvssData']['vectorString']
-     except KeyError:
-         pass
--    cvssv3 = cvssv3 or 0.0
++Upstream-Status: Backport (commit bd528f923482223649aa84be7d131e69356149da)
++  - Removed changes to NEWS as they don't apply.
 +
-+    cvssv4 = 0.0
-     try:
--        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['attackVector']
--        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['vectorString']
--        cvssv4 = elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV40 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV40']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv4:
-+                cvssv4 = score
-+                accessVector = accessVector or metric['cvssData']['attackVector']
-+                vectorString = vectorString or metric['cvssData']['vectorString']
-     except KeyError:
--        cvssv4 = 0.0
-+        pass
++Signed-off-by: Paul Barker <paul@pbarker.dev>
++---
 +
-     accessVector = accessVector or "UNKNOWN"
-     vectorString = vectorString or "UNKNOWN"
++diff --git a/src/copy-file-data.c b/src/copy-file-data.c
++index 927a6e0480..56b669fe72 100644
++--- a/src/copy-file-data.c
+++++ b/src/copy-file-data.c
++@@ -338,7 +338,7 @@ lseek_copy (int src_fd, int dest_fd, char **abuf, idx_t buf_size,
++   for (off_t ext_start = scan_inference->ext_start;
++        0 <= ext_start && ext_start < max_ipos; )
++     {
++-      off_t ext_end = (ext_start == ipos
+++      off_t ext_end = (ext_start == src_pos
++                        ? scan_inference->hole_start
++                        : lseek (src_fd, ext_start, SEEK_HOLE));
++       if (0 <= ext_end)
+diff --git a/meta/recipes-core/coreutils/coreutils/0002-fix-lseek-copy-loop.patch b/meta/recipes-core/coreutils/coreutils/0002-fix-lseek-copy-loop.patch
+new file mode 100644
+index 000000000000..412c4835387a
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils/0002-fix-lseek-copy-loop.patch
+@@ -0,0 +1,58 @@
++From 33bc44e1ba3aa4c70f3cd16aa9c41331543986dd Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
++Date: Mon, 5 Jan 2026 14:46:33 +0000
++Subject: [PATCH] copy: protect against infinite loop due to pathological race
++
++Consider:
++
++1. In infer_scantype():
++    - SEEK_DATA returns 0
++      - hole punched at 0
++    - SEEK_HOLE returns 0 (now a hole)
++    - Cache scan_inference->hole_start = 0
++2. In lseek_copy():
++      - data written at 0
++    - ext_start = 0, use cached hole_start = 0
++    - ext_len = 0
++    - now loop doesn't progress
++
++* src/copy-file-data.c (lseek_copy): Apply a more defensive check
++to ensure we only use the cached offsets in SCAN_INFERENCE once.
++This protects against an infinite loop where an extent (at SRC_POS)
++flip flops between data and hole extent while infer_scantype()
++and lseek_copy() are inspecting it.  I.e. ensure we use SEEK_HOLE
++to progress the copy.
++
++Upstream-Status: Backport (commit 33bc44e1ba3aa4c70f3cd16aa9c41331543986dd)
++Signed-off-by: Paul Barker <paul@pbarker.dev>
++---
++ src/copy-file-data.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/src/copy-file-data.c b/src/copy-file-data.c
++index 56b669fe72..9bc4311af4 100644
++--- a/src/copy-file-data.c
+++++ b/src/copy-file-data.c
++@@ -335,12 +335,19 @@ lseek_copy (int src_fd, int dest_fd, char **abuf, idx_t buf_size,
++ 
++   debug->sparse_detection = COPY_DEBUG_EXTERNAL;
++ 
+++  bool used_scan_inference = false;
+++
++   for (off_t ext_start = scan_inference->ext_start;
++        0 <= ext_start && ext_start < max_ipos; )
++     {
++-      off_t ext_end = (ext_start == src_pos
++-                       ? scan_inference->hole_start
++-                       : lseek (src_fd, ext_start, SEEK_HOLE));
+++      off_t ext_end;
+++      if (ext_start == src_pos && ! used_scan_inference)
+++        {
+++          ext_end = scan_inference->hole_start;
+++          used_scan_inference = true;
+++        }
+++      else
+++        ext_end = lseek (src_fd, ext_start, SEEK_HOLE);
++       if (0 <= ext_end)
++         ext_end = MIN (ext_end, max_ipos);
++       else
+diff --git a/meta/recipes-core/coreutils/coreutils_9.9.bb b/meta/recipes-core/coreutils/coreutils_9.9.bb
+index cded545efb2c..7deadded062a 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.9.bb
+@@ -15,6 +15,8 @@ inherit autotools gettext texinfo
  
+ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
++           file://0001-fix-lseek-copy-loop.patch \
++           file://0002-fix-lseek-copy-loop.patch \
+            file://run-ptest \
+            "
+ SRC_URI[sha256sum] = "19bcb6ca867183c57d77155eae946c5eced88183143b45ca51ad7d26c628ca75"
+
+---
+base-commit: c6e2bfc538258086053a569c2143ad8bc9a840bd
+change-id: 20260120-fix-coreutils-edb9f37fe599
+
+Best regards,
+-- 
+Paul Barker
+
 
