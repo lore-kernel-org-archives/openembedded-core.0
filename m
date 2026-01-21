@@ -1,178 +1,94 @@
-Return-Path: <hetpat@cisco.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CF2D262B2
-	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 07:35:39 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7130.1768980931862042289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C365AD262B0
+	for <webhook@archiver.kernel.org>; Wed, 21 Jan 2026 07:45:49 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7192.1768981545038318026
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jan 2026 23:35:32 -0800
+ Tue, 20 Jan 2026 23:45:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=T8PoPZ/K;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: hetpat@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4008; q=dns/txt;
-  s=iport01; t=1768980931; x=1770190531;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DmWinzJJuWhaaB9UK0ITMWfjSdTah0iusSSM9NNzDVI=;
-  b=T8PoPZ/KvTyNHo0eWtOiCBBLvl00MbE3yNi4kyRDaN6GWDzYr2KqbP9W
-   UNpbmuBb4Es3WoMYJGeuAiQuCQ7subSixIB2x4p7PARG3aI+9wNVOiUw2
-   sukZGsXS0EysQElXDyz0dtScZKXF8/6qXz/ToK2ghMf5NZeUGWkC4Ylo2
-   MgBsRZVvzPwKVVOdOTiDJdhrGyNhvLpbi5aVbahJRYjNl31P2luq4OnDC
-   4gUC10+vHdc/RL3BPDQzH4GtCCT6gsP0iynvLsatDNSFAFJuXlQKclSP5
-   xeE0CWGms0V8/GtQzbbaGKX6LLbcH1dJLyGrGsxCLKseqGofzD+aK/abU
-   Q==;
-X-CSE-ConnectionGUID: EYD0dcE2RKmWD/iLtiMW0A==
-X-CSE-MsgGUID: EljqARlfRTiCupBqUF0iuw==
-X-IPAS-Result: =?us-ascii?q?A0AdCgDAgHBp/5T/Ja1aHQEBPAEFBQECAQkBgWUCgkYPc?=
- =?us-ascii?q?V9CSQOTVwGCcJ4dgX8PAQEBDxQCJxQEAQGFB40DAiY0CQ4BAgQBAQEBAwIDA?=
- =?us-ascii?q?QEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4YVCDINhl02AUYwXESDAgGCcwIBE?=
- =?us-ascii?q?a5BgiyBAYR82yUBCxQBgTgBhTqIF4VpJxsbgXKEDoNQBBiICgSCIoEOlAdIg?=
- =?us-ascii?q?R4DWSwBVRMNCgsHBYFmAzUSKhUyPDIdgSM+F4EKGwcFgQkGiHsPiSd4gQADC?=
- =?us-ascii?q?xgNSBEsNxQbBD5uB48ARYIuAYENLHslpwChDgoog3SMHpU6GjOEBKZnmQaCW?=
- =?us-ascii?q?IsxllCEaIFoPEaBE3AVgyIJSRkPh36GYYIdhjjCeiI1AhEpAgcLAQEDCZNnA?=
- =?us-ascii?q?QE?=
-IronPort-Data: A9a23:3DUiJKLOg4Lp1fAuFE+RhpQlxSXFcZb7ZxGr2PjKsXjdYENS0D0Dm
- 2BJWj2AMvyJN2Ske95yOou29khXv5/Vy4BlQQMd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnU0
- T/Oi5eHYgH9gmQsajl8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1DPW1uMYY1oNxUBF5is
- v08NDEoUUiq0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAVLAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MESojx5nYj/7DLo+kfuwj2XXeDxDo1XTrq0yi4TW5FAsiOW2YYeNJrRmQ+14mkSBj
- 1jC8V7FAzoHLPaG9BTd82+z07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/ONpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOf9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:+Y3hw64NSY7cK2BeMAPXwMPXdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7d8+mUzJ876U
- +mGJIObOHNMQ==
-X-Talos-CUID: 9a23:lG4FcW+pvKM5JcZt5aCVv2MlNpgpeVCH9lTVHGP/CEJ1SZiqEXbFrQ==
-X-Talos-MUID: =?us-ascii?q?9a23=3AkDRzTA189Lnm943r+lQNoh6+RTUjzqCsEWk3lZs?=
- =?us-ascii?q?8h8ivKDRaIgqz1DWqXdpy?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.21,242,1763424000"; 
-   d="scan'208";a="450539504"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Jan 2026 07:35:31 +0000
-Received: from sjc-ads-1153.cisco.com (sjc-ads-1153.cisco.com [171.70.58.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id D643F18000149;
-	Wed, 21 Jan 2026 07:35:30 +0000 (GMT)
-Received: by sjc-ads-1153.cisco.com (Postfix, from userid 1847788)
-	id 7E0F3C64E40; Tue, 20 Jan 2026 23:35:29 -0800 (PST)
-From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core] [master] [PATCH] Fix CVE CVSS scoring to use maximum score from all sources
-Date: Tue, 20 Jan 2026 23:35:28 -0800
-Message-Id: <20260121073528.3679178-1-hetpat@cisco.com>
-X-Mailer: git-send-email 2.35.6
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.70.58.95, sjc-ads-1153.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lOK+9WoS;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=fpFagPSs;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019bdf843cdb-4d2276eb-d444-4b0b-8772-3a7a780cec72-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1768981544; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Epw457m6C/DKq6zOleD2tsYlqMDZz3wbECdhPxibsfI=;
+	b=lOK+9WoS2F6xv0RusQapTO+gzcF2amT+/saCxL1zPmpfc63t6zDny7UnsvWuDyfH
+	RtE2k6GAL4Pmp1moxrwPtmgiZ/vteguZr1342FamCROeFlihw6X6h1rlYVRI/gKpK3+
+	rlCSy/mKN+Rp6Xn3SVuZaeeqnv10Da8w/T+bssmE=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1768981544;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Epw457m6C/DKq6zOleD2tsYlqMDZz3wbECdhPxibsfI=;
+	b=fpFagPSsSM/pE7ZafLjFYvfAKyEvY/z75gVw/Z905bj+f7Zt7hRwZjJ9VjDaNOZO
+	M1WlEiecVnIj+1cetKsmG4lanz6cBnvpCo8Dr7mCzVQbdsK0L5ILzi67DuS/PmeI0Jk
+	pl882MTNJIXU3JokompvVwpAwG0hV9MR0wSerO1w=
+From: patchtest@automation.yoctoproject.org
+To: 
+	"Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core] [master] [PATCH] Fix CVE CVSS scoring to use maximum score
+ from all sources
+In-Reply-To: <20260121073528.3679178-1-hetpat@cisco.com>
+References: <20260121073528.3679178-1-hetpat@cisco.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019bdf843cdb-4d2276eb-d444-4b0b-8772-3a7a780cec72-000000@us-west-2.amazonses.com>
+Date: Wed, 21 Jan 2026 07:45:44 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.01.21-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:35:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229795
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Jan 2026 07:45:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229796
 
-From: Het Patel <hetpat@cisco.com>
+--NextPart
+Content-Type: text/plain
 
-The CVE check system was incorrectly reporting lower CVSS scores when
-multiple scoring sources were available in the NVD database. This
-occurred because the code only extracted the first element from the
-CVSSv2, CVSSv3, and CVSSv4 metrics arrays, which could be a Secondary
-source with a lower score instead of the Primary source with the
-actual severity score.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This fix takes maximum CVSS score.
-
-Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15931
-
-Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- .../meta/cve-update-nvd2-native.bb            | 55 +++++++++++++------
- 1 file changed, 39 insertions(+), 16 deletions(-)
+Testing patch /home/patchtest/share/mboxes/master-Fix-CVE-CVSS-scoring-to-use-maximum-score-from-all-sources.patch
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 8c8148dd92..41c34ba0d0 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -350,32 +350,55 @@ def update_db(conn, elt):
-         if desc['lang'] == 'en':
-             cveDesc = desc['value']
-     date = elt['cve']['lastModified']
-+
-+    # Extract maximum CVSS scores from all sources (Primary and Secondary)
-+    cvssv2 = 0.0
-     try:
--        accessVector = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['accessVector']
--        vectorString = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['vectorString']
--        cvssv2 = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV2 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV2']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv2:
-+                cvssv2 = score
-+                accessVector = metric['cvssData']['accessVector']
-+                vectorString = metric['cvssData']['vectorString']
-     except KeyError:
--        cvssv2 = 0.0
--    cvssv3 = None
-+        pass
-+
-+    cvssv3 = 0.0
-     try:
--        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['attackVector']
--        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['vectorString']
--        cvssv3 = elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV30 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV30']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv3:
-+                cvssv3 = score
-+                accessVector = accessVector or metric['cvssData']['attackVector']
-+                vectorString = vectorString or metric['cvssData']['vectorString']
-     except KeyError:
-         pass
-+
-     try:
--        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['attackVector']
--        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
--        cvssv3 = cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV31 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV31']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv3:
-+                cvssv3 = score
-+                accessVector = accessVector or metric['cvssData']['attackVector']
-+                vectorString = vectorString or metric['cvssData']['vectorString']
-     except KeyError:
-         pass
--    cvssv3 = cvssv3 or 0.0
-+
-+    cvssv4 = 0.0
-     try:
--        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['attackVector']
--        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['vectorString']
--        cvssv4 = elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['baseScore']
-+        # Iterate through all cvssMetricV40 entries and find the maximum score
-+        for metric in elt['cve']['metrics']['cvssMetricV40']:
-+            score = metric['cvssData']['baseScore']
-+            if score > cvssv4:
-+                cvssv4 = score
-+                accessVector = accessVector or metric['cvssData']['attackVector']
-+                vectorString = vectorString or metric['cvssData']['vectorString']
-     except KeyError:
--        cvssv4 = 0.0
-+        pass
-+
-     accessVector = accessVector or "UNKNOWN"
-     vectorString = vectorString or "UNKNOWN"
- 
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
