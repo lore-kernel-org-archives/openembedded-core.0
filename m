@@ -1,184 +1,400 @@
-Return-Path: <rs@ti.com>
+Return-Path: <daniel.dragomir@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C452D6CFA9
-	for <webhook@archiver.kernel.org>; Thu, 22 Jan 2026 22:05:02 +0000 (UTC)
-Received: from SA9PR02CU001.outbound.protection.outlook.com (SA9PR02CU001.outbound.protection.outlook.com [40.93.196.70])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.50571.1769119496632420085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B81D6CFAC
+	for <webhook@archiver.kernel.org>; Thu, 22 Jan 2026 22:48:52 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.51615.1769122125804505410
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jan 2026 14:04:57 -0800
+ Thu, 22 Jan 2026 14:48:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=TW3VGH9a;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.196.70, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=sUPoXDo9;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=54825d6134=daniel.dragomir@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60MLq5Xq2232321
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Jan 2026 14:48:41 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=UYiS7yeNRHKwfPea+MJRYBObB1wrtWdxydcqr1aoGTw=; b=
+	sUPoXDo99hyKL5hLBMYUkCh/5Yi340pFx4JH0urgbVjVT/cBDgxnbtr99ILDT1b1
+	QO7cldO3+wnWYQTFmqZoURiQ5fZki7VKsomoJzTDhE9QB2mH+WDI3M79KvSR90sB
+	nzwfy6m4Xi22sSAOOa5jRwzFKPoJIe8mimHmF7S7tUgHXVDXZFKyj3DlgpbECngi
+	p2yZHOzyYvVv/pkMKEfB+sC8h8FVrVQ+PD24eKhs/pVrtXyKA5pWTM4pHFsNmXAb
+	HD1SshtpkibBurOOWQrIypj/PCRXl7o1AF91PI6ymcj9BsKHt+8u8Z6c+fSbeBys
+	RxST/e9HSI5NfPXxtq0iQQ==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010068.outbound.protection.outlook.com [52.101.201.68])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4btnd73be7-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 22 Jan 2026 14:48:41 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TaVAOco+7iiPtE5aXOfqF8HKg6Nfsy0dqgydunJHIEHZpYWDUn5BdIQpoVZGlT3aHrwP5gDkwtUUsCjJTwCvKNTVWHrilr3Vz08K1hy395O9xhKmDrbgycXRudjl7wbrz2iPTZ7xWIyqwF2S+SAAb1arjOLuqAVQCyv7RM4/3A6j40ovj5O/8SSTt7JvH2yFS4ojbw/vOyXchpl+PwFRp0Avx+IhaVKezMxnSZv39ZCQLS1FZVhXEcSN4wreSEbA71e1FYvGNAkZXPlsd73MeIdKgvA3Sbbbdc2Ruhd3pUagZkUX+bgwqhBreS3ZEqAyeKzeDu4KY4DM2YLAhcU6tw==
+ b=Coh6K4HnsXm7T1xOyMD/46NZzOXjbXnFdm70WHgnz4jMC9sgk7juhwB/o9qfWmFoVwVoBfC6V++Yj8ySfa7Wd5eT+V82d3PxDuRv/2rJXod0sOuimlfQQJhwkKIFOKWL7iNF957M1fow7pZtBT2w9vdNTNlw+W8nE13FTvQDnz9jLNTVtJODQVfgrKScZF0cTdl2hZy5p74Vhx+zJF3hLUf7Q/FImu0SX4RiYfjufwArZfY1c8A8F6rSf2uSaeHmzGJVxLEy50D0TIII3320ZBCOxxA6sH4XAlIKPdQBprUIe6ssWZSQoSayzgh+nSw/UFJllshgQKUw9kvaQpHQTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3rxFvUiwU2Egx7nC4WSparZ5ngMDYv1WBtla0H1SmGY=;
- b=ysdSucHRof6kRDZZXJ3JRIwEB8lvKVB7g84tkLUoYGyggb0EZfMnQq6uzbXckqn/z2p+aIBW9K7iCt+umyKP/AylMjmGDOhSbHWhf6Q0CqYMWK2Pt1NPnpAnMlCI4jYhp4lr2H8J05GicHT7u1HxUrno4ipCkDgCZdybjradWhCHWId0RuQ3G1zuv1hunTvpRjxMcwyll3G4qB9CKFAbKS8MfPbBP/YTZNRPZLzvWbHmRvmxfeB+nCToIp0zS+9nyGjFk4w9MRCdYzLyuFucZrQfu0cGY+N0wNISL2xLR4V2dZPakamiaEUvIJAI9uYlUhzm9Y4arV+i0HZ8A0/T8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3rxFvUiwU2Egx7nC4WSparZ5ngMDYv1WBtla0H1SmGY=;
- b=TW3VGH9axXXiNw3y6FdHJTiu31Z6+Oc1etTa9C7A/Mnzo27NHiXaMXan2ScTyPqv/qbXlkL7RfJkGjJqCH9GGc4bLNQOlWdLuFGg38xvuY7jEz5VBr+TCbXmr9G1G6WPLqEJ0NqbnzSaSBb/e/U2CNMQTZ4mFpasLMdTQ1X3VE4=
-Received: from CH2PR15CA0019.namprd15.prod.outlook.com (2603:10b6:610:51::29)
- by CH2PR10MB4197.namprd10.prod.outlook.com (2603:10b6:610:7d::18) with
+ bh=UYiS7yeNRHKwfPea+MJRYBObB1wrtWdxydcqr1aoGTw=;
+ b=XnWhgxOiY22bKyWO4o5/rZj0oZjpHpVMNWh113lQIj4KobwGKBIK2iVJyk41Ai5mcJ5BspFDy1BR77DJnK6L7paIMDEbWcPwu1NsN68V8m/50g9bR0NC1jwijsg5w8rlhFUzElvAL/uFe7DVJ2Mlu34Dnow7s0aUPooXLZiFBh1mG9G7opBg4vLQxYY45DxVUQoiwezQWa/0wEC4m20QcIfcvitD6sV6Dat40vsrwyQKeXbeyWo3DLHJzYpwGPJ8WmQFS5fnprL0A+DXEUxVRloISa9SLYcTEtpQ4MTDnPdcri9smrdX8QVLxK8aqk5LQt5TQ0nDGkfFME05ORCArA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BY1PR11MB7981.namprd11.prod.outlook.com (2603:10b6:a03:52f::12)
+ by PH0PR11MB5160.namprd11.prod.outlook.com (2603:10b6:510:3e::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Thu, 22 Jan
- 2026 22:04:52 +0000
-Received: from CH1PEPF0000AD82.namprd04.prod.outlook.com
- (2603:10b6:610:51:cafe::ad) by CH2PR15CA0019.outlook.office365.com
- (2603:10b6:610:51::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.10 via Frontend Transport; Thu,
- 22 Jan 2026 22:04:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CH1PEPF0000AD82.mail.protection.outlook.com (10.167.244.91) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Thu, 22 Jan 2026 22:04:52 +0000
-Received: from DLEE209.ent.ti.com (157.170.170.98) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 22 Jan
- 2026 13:53:23 -0600
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 22 Jan
- 2026 13:53:22 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 22 Jan 2026 13:53:22 -0600
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60MJrMIE1093678;
-	Thu, 22 Jan 2026 13:53:22 -0600
-From: <rs@ti.com>
-To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
-	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from TARGET_LDFLAGS
-Date: Thu, 22 Jan 2026 13:50:00 -0600
-Message-ID: <20260122194959.13457-2-rs@ti.com>
-X-Mailer: git-send-email 2.52.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Thu, 22 Jan
+ 2026 22:48:37 +0000
+Received: from BY1PR11MB7981.namprd11.prod.outlook.com
+ ([fe80::4a4e:8d21:83b0:ab7e]) by BY1PR11MB7981.namprd11.prod.outlook.com
+ ([fe80::4a4e:8d21:83b0:ab7e%5]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
+ 22:48:37 +0000
+Message-ID: <ab832338-75c4-44e7-b649-ba6251045a86@windriver.com>
+Date: Fri, 23 Jan 2026 00:48:01 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][scarthgap][PATCH] wic/engine: fix copying directories
+ into wic image with ext* partition
+To: Steve Sakoman <steve@sakoman.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20251001163457.49114-1-daniel.dragomir@windriver.com>
+ <CAOSpxdas1e33jheu0ELXgQQf9e9+8ccwbFTkffhPPYObAnjJRA@mail.gmail.com>
+ <BY1PR11MB79813ED8D397932BA1178D36F7E4A@BY1PR11MB7981.namprd11.prod.outlook.com>
+ <CAOSpxdZwfQG_8JUbmvqnpGg=0oTimNv2q=XOc4iW71rX8G04zA@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+In-Reply-To: <CAOSpxdZwfQG_8JUbmvqnpGg=0oTimNv2q=XOc4iW71rX8G04zA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: VI1P191CA0002.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:800:1ba::20) To BY1PR11MB7981.namprd11.prod.outlook.com
+ (2603:10b6:a03:52f::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD82:EE_|CH2PR10MB4197:EE_
-X-MS-Office365-Filtering-Correlation-Id: 526540cc-b80f-49c3-1f84-08de5a0244cf
+X-MS-TrafficTypeDiagnostic: BY1PR11MB7981:EE_|PH0PR11MB5160:EE_
+X-MS-Office365-Filtering-Correlation-Id: b86e4f96-4059-4235-8e5f-08de5a08616c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024|7142099003;
+	BCL:0;ARA:13230040|376014|366016|4022899009|1800799024|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?QVHjiLl2dJ3aIyCUHuBRenzdzlaUQgtZ7SXpq1oDPAhmVPiJurtR7S5GnFlq?=
- =?us-ascii?Q?SORV7+6bV0OzrAKPPW+pbvC0ESoJfeuRGNx9n3kyA0pKZjn+wZf5H3jkrUbD?=
- =?us-ascii?Q?wlA69sWmqF9AEXz4H472zS+XYedI3Wnkl7DZ83V8wIubxUPc+2+QFyUO/omf?=
- =?us-ascii?Q?oTBY5+hBjKzX0HV2fmfi6YQutC0xsCHVn9OJSWwSD4JgpZArkDLfXCluuEVm?=
- =?us-ascii?Q?tqkAZGTlPOD+AGFYNMIDNBnMo5H3LI1yb8IfrJkdOCroBFq8Xqn//Et3dGcj?=
- =?us-ascii?Q?F9IBk5EY0FOAbyeoHIf99jv243H8APihTe+23yLehElwPxgoWJGlMOVm9iTu?=
- =?us-ascii?Q?8W2Q4io0cvFkj25YFtEDGhbgFbANyoVOx69bTdtjtpusdaZxGQwlrsf6KUTp?=
- =?us-ascii?Q?taureUMWGrLrp4Zode9DDc1DDgJCtUGHEW5VJXeV/GDc6wPajKeVGzc+6JLE?=
- =?us-ascii?Q?xWgMbTnxeU1mLggYp9HfYPNLssD4iuCa5xJy2In6m7EE/IoMNqA16OGeeUvQ?=
- =?us-ascii?Q?C1gEpSsDrHEQ98rD7a0rtmMQLwAzWqOOrFDHjNdKN/ksxY5PJeBUmv5ybsb7?=
- =?us-ascii?Q?bELPrGMsMjFkGWGf/g/TYutRPkpaDdDu3oQIU15jmXMIlL2dSsVNVe0stft8?=
- =?us-ascii?Q?TmgRTwU53ufb8ILejzzvvNnflbGSPmyQZghY9dvDVwk1AhGOvta/4TGDCtA/?=
- =?us-ascii?Q?rMvXt4Bnranfj1Hggw3jWeG0uYjqe3CiYunBiPXhyFNa7e+TaS1s5KY4SXBe?=
- =?us-ascii?Q?CYDPfu+N+n1o9gzf5B939wcOu88rh3gkkFxWkGq2MoAN9CqQ9iniwYP6yed8?=
- =?us-ascii?Q?zEFC+BKjMrOHcIjAMwRgwYqSqeTCW9Ou6bgCiKA/7fmVbE5CKDgV/MRbVYss?=
- =?us-ascii?Q?EQTpgEvv8kvN/0iMDTI6Sn5BVHX+pbkJfE7EIAmmqIOj3eae5k7nxtDl0x9r?=
- =?us-ascii?Q?pGsdSF+lcBWQBJ7pVCnkZeTrxRHTRlwuEK3JevwSRtTwTBoSu39/qWiZGml4?=
- =?us-ascii?Q?FFHFGvNUsr56Cz5SkaixtY8hBVuGkbm4qROlrr/EhyD8zGUOQzWYqpHFbDMf?=
- =?us-ascii?Q?p1CfJppMogEFlcv3dpCPvvv9er2NGFZ2OAdI7vUn0oeoGifhDmm+7ZQvys5z?=
- =?us-ascii?Q?0k2b5b+xh3NF7miXdfpipkm/nAWyRqqBP3EcElUfiVgvs9qcSJA8hQ8LYhlw?=
- =?us-ascii?Q?Y8OTsHlMHNiruHE771uBmPwAWr6dfOt9gcCQHNM2CVMgfeJJEL5Ihr4Wz9PM?=
- =?us-ascii?Q?x+ed4elXTUwQ7czQp1FMtJyjYTnXIfOUhg9tzUyE09zFhGAAauE2TVJtdzOu?=
- =?us-ascii?Q?WjgCrXzq9K0UD8a9SJo0jEbQ4KPIead649lWxh3K+xzy6LO94/lt7jnfk/Qn?=
- =?us-ascii?Q?yKcP0cJlwVHKS/Fo+gPzbntvXz51Bux0VHCyIlQWnQbezLJUasby7q7CTi73?=
- =?us-ascii?Q?RQaQk+NqkDtnsyQD7re3r7XJotSonmLWkxzai6aokiUAlT/PpRc7Q87iDHrC?=
- =?us-ascii?Q?qG6XWnPV7nYG8xfhh5sagdr8UN7k8yPyYBJndXLk3MUCqPyr0+e5bVNnYgYz?=
- =?us-ascii?Q?AQJY3FXFxS/r+y4t5xQMymryTN+wAkTtYdQaol8I2TTK4X7Bdf+Ex8aPO59B?=
- =?us-ascii?Q?Z/WdsSNNg1ITx5wZlZB5ytkLmwceok78SyOuP02rM22F46Zoq+DIldlEONl+?=
- =?us-ascii?Q?uTwyDw=3D=3D?=
+	=?utf-8?B?MEVFcFh5VnV4bG5zVVdQSUVEYk1kdjI4aG9jNmNpSVkzMWxLcW0rNWV4Q2Uw?=
+ =?utf-8?B?RFRjVW9EWFBabGt5c1BKR2Y2M0N4WUczbC9JeklLSFVFZWd6RHFQSDd6SHla?=
+ =?utf-8?B?YVYwWFU2R3F6MnljdGQwb0FpdlFpalZIZGFWaTRiYWo5b2RZMGl5Z2hBSGpq?=
+ =?utf-8?B?RkZaeERLMisvZWhlL2FBS1JGNVRaRzc0NFJDS21PbCtvRERKWWxsWm1CMW9U?=
+ =?utf-8?B?V0VKT0JLaHRnMkRCcXdiQVJFdlBJK09UVEk0dWdXRlVsTXJ4TnptaU1Eem1N?=
+ =?utf-8?B?cVNDVGJ0dldleDEvTGZsL2ptcldUbUI1U2NwL3RlejRNQ0ZBOUc0OFlKSmF0?=
+ =?utf-8?B?RVNES3kveDg3dFdHclZOaVJkcG4xNStiQnlOTURDa0JZVUx5cmtpUTNHYmlw?=
+ =?utf-8?B?UEFoS2xOa0VIRGlyRFdQTzBHYSt6bncyMVkyY3VOUE9ULzV4d2ZwMHc2a0NL?=
+ =?utf-8?B?ODBzVk9rQ1lTS2ZTeE5SclVzaVhmL2k3REk0UThUcWViaU1sbWh6c01NdnNs?=
+ =?utf-8?B?M1F1MThGWmVYQ0U0QnE1QmtNTDQ1S09vUmpIa2I2Wk9tWkJ4aHk3dTFXeExP?=
+ =?utf-8?B?ZmoxTWdqWVd1TjR4RHBIdUxDWFdxNzdralRVSGp4YzNXTDFoNGdSMWIyRE9w?=
+ =?utf-8?B?eEgwR3dHeDhRN2hqb0F4d2t3V2d2NkJUekZ1YWhhVU1NbGgwWXZRUmV4WnVD?=
+ =?utf-8?B?T2p3bXdTR2ZmcTJBZFpteXlBSVhZVDZJMHpWblhtcWFCakZoUHFzSjcxUVJK?=
+ =?utf-8?B?WlpQbzhnM2lSRVZVZzBBS2hzc1IzZHRUakdPajNQR08zY2hsd2xodEZuVnk2?=
+ =?utf-8?B?ZlNpZlJsU1NPd2swVEx1NTF1TEtGR1ZDdzRBRUR2WjcxdFpQRDhTRzI4RmFT?=
+ =?utf-8?B?VTE1REd3S0QzL2lERFlHMkVWVjdJd000REs5SEhGVDkrMGRvSnN4d1VPVTQy?=
+ =?utf-8?B?akZuelJ6NWdpeHJnRWRPT0lhYTh6dVU2R0Fnc1RCSmtFSW9EbDhwc01zNVJP?=
+ =?utf-8?B?TlR6Y0x5elkycGdjc2srLzU1SVdqNkdUMVovdzdCYTNyVVYzcWhndzhFS0tF?=
+ =?utf-8?B?bFRrMkwzd3VEd1J0ckEyNXBHeGRhczEwc2Z2eWxpa0ovMVVDVDBpbVE0U1Vm?=
+ =?utf-8?B?cGVBNEpFWUYyaE5udUFHeWV0ekxFYnZhTzRnT240bTdPQk5IRkdFaEs0WGta?=
+ =?utf-8?B?eTR3UmpycS9QU0ZMaDZIV1BwL1ovSUdNaTdaSmVoOVMxbitUcms2VllqMGNq?=
+ =?utf-8?B?VkdaK1QvTnd6eHlId0VyT3E1SDJJM0Jud2EwVkhmS0xVbS9rR3JQdUtYdVJM?=
+ =?utf-8?B?NjhteC83Wk5mN29mV3h1R3lSK0Z3NjRrMjZvV24xNzB2NVBVbGw2WVJ1TDFp?=
+ =?utf-8?B?eHBmZWNHVk1sK2F0QzZLRS9PYlgvUEM4VWxuQmpiY1VFVFZCYThNcEd3QVhD?=
+ =?utf-8?B?dUp1VW5XTnFoTkptMVJoRGgrbjBEKy9qMWlSdVVnd3ZSOUxLNktMQUxGMHlO?=
+ =?utf-8?B?TVpFV1Y1cjdhVHZHY0xjZUdVUnVkbkkvcnZWQkYxUThpblovTzVQUkVEQXFC?=
+ =?utf-8?B?VGlObWJtcENxai9RQm9LQm5QQzE2S29uazZZYkNTaW1neFduYzc2YzJXQkRQ?=
+ =?utf-8?B?L2l1RUhhODJNL00vSUNvVmJYKy85elNlNXczblZXNWplWXdMbFZDR0htNHIw?=
+ =?utf-8?B?OXZWMUpFTWVGRjBUYStVSVJGWVY4Ym0wQUE4N2dmTVgwN2FHYmtVRklINTdD?=
+ =?utf-8?B?Z1lkWk5qdTdaU1BLSXVVZlp6ckFPdytnNE9aVTFEcmtOVFZTMHNBS1dXUlNH?=
+ =?utf-8?B?VDJVM3B5RnBNU0VyWVJqTTRzQ1VEOTNtbDM0a1JIRjNiMmpmMjFObG10VWd4?=
+ =?utf-8?B?T2hhUm9jcDVQMDNSR3lrR09tWnZESVRzQ1pPenRMbjRMcHJBVm9XTGR5T1gr?=
+ =?utf-8?B?WHQ5M2xkcm1TbHZhTTBqS0hYdE9MUGlhOWdLUHpBallsVmEydzh6dHY0VnB1?=
+ =?utf-8?B?SEdaU1JreW5RaHJkQUpqanpwY1ZKalZNNUZBMTdoY0lFOTlBcit0WGc0ZUNO?=
+ =?utf-8?B?d0FyamdCTytnem5QTmo0R25YQUNDb3IzZE14TGxNcW9oazRycGg1MnZPQnEr?=
+ =?utf-8?Q?p1jT9vd/zrsdyVQd74gRu+t6Q?=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024)(7142099003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 22:04:52.3135
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB7981.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(4022899009)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZTN5a0NvaGU1dUlSMitBNGY3VC9IL290amJ6eGs5NVNLYWRuYmVodGFoendn?=
+ =?utf-8?B?RGdzdjEwWWltSWRSWUtSRmM2VWVWS3I2MDc1Mkc3NldFck5iTG81TmxZckkz?=
+ =?utf-8?B?c0JQSkZ2bVpQalhveGNMV05yTW9VNTJiY1htcFB5VWxIYnFPVTdMTkVGbE8y?=
+ =?utf-8?B?NFF5Ni8zQXVPWkNBalhFZnJBaUduaktVc21FTU9rU1VLY2o2eTRIb2RxYjhG?=
+ =?utf-8?B?RFB0V2xWK3o1YzlNeno2Wkx2ZEdrdDlzYVd3K09hTkl1WktDYjlkQVQvZGFw?=
+ =?utf-8?B?a3pmbjNsOEtPbGM0cFJvMFVKcUU4NXRFQTFBZzR2VkM0MVl1N2oyTDd1R2lu?=
+ =?utf-8?B?clRreGF2M21ZL3l4NHlpV0hVUGl4V1drQnRFS0V6ZFBSaC9MWXc2eDdITEll?=
+ =?utf-8?B?V0JYT3E0blBqOEIvWmUvL3N2b1RYQncrSUtPRUFncElidi9pMzFMVktUSHI5?=
+ =?utf-8?B?dzJ0TDAwTkUrWkxCeFRWZWE3cmE5SGF0TVQwdWlTRktKT2FkUEcydUFnazZs?=
+ =?utf-8?B?dXVLM3F6Z1FuU2hsalZnZlRvTnVnc3ErbXMrUHhCWUJZUEJQZmM4c01vWmwz?=
+ =?utf-8?B?V1IrOVBMSS81elVZdmpncjBoamU0eHQ5eXBkYURSWmg5T2hIcngreE1TREla?=
+ =?utf-8?B?S3JlUHFldmZKcUx2dVZUMVZjc3QvQWhzdlRJcnVPRDlYR0pTc00yR3dwbkRa?=
+ =?utf-8?B?alRIOVJoVDYvVmZFeiszbmJDV1B4bmhVbkp6TGQ3QThXaVZETUJFa0lOL2My?=
+ =?utf-8?B?bldYSldvckZ0MEdmVnZ4OHRyVFZ3ZE82U2FtNVpVTE4zU2lTekJ6MFloMzhH?=
+ =?utf-8?B?Y21mQVQ0bHkrL3hod2lNNFBZcGdWV1plblA4dDNYZGkwOTR4OFhBamE1OWVv?=
+ =?utf-8?B?bE9NTHptRkxROU5yYStTQU5zMHBZVTRiZnBoYXpsVnhwY0dQTkNtMVZrTmlD?=
+ =?utf-8?B?bi9qaHlIMEZQa2RVZWJYTkxabTJlT0JqcVE4N1NZei9TUktyaS93em52ajgy?=
+ =?utf-8?B?dlEyQVYrTEJ6MjlRcWNhTktMdmJTbG9SaDNpc2RYZHdzd2xuSzNYZnRnNmsx?=
+ =?utf-8?B?YWZJR2RZRVZxTzUrUFNNdEFzcUJNdXlib25pT0R4WFVTYll1VDhOUUkrYXp1?=
+ =?utf-8?B?bjVic0tNckFveHdyVzgxV0hZbGlqSzVtcldObmdUUlFyYVFZTHJxREVMMWZY?=
+ =?utf-8?B?cDFVcjNWVjZOYk9FcGJlZXdPUjV5TElLYW9ETDN0VlZ0Z1BKWk8ra0Vwclpq?=
+ =?utf-8?B?NnlxSE5RTkQ0eWJnSXp6NUtkS0llQlZEMnAvQVRIVy9VUmZkbHZram1qL3Rq?=
+ =?utf-8?B?bWhSTGZ1b0ppVGtPNE5jbVdFaGZkYnA1Qm9KQ0VPSXkwWDhRWVp4bUZoQ0Uz?=
+ =?utf-8?B?TW9aN3VCVS9qb0tqelZ5U0lZWVlIbFU0TGh1amNkanRXczd0SHcyN0M1WHVi?=
+ =?utf-8?B?N1pOZWpBZHBCR3FkbXFMaHRVaGZkMEZ1WWkzcG40SUFHLzRZMGlmeHVrWk1F?=
+ =?utf-8?B?SDRzUlJDM0ZTdUhiNXZjVStib2c4cm94ZE5rTkVtS1NNUWEyNGtlU3Mxd0tH?=
+ =?utf-8?B?c3lEaWlSWmxpOUNTODEzeDQ5UmIxd2hBblVsQXd6bmFiSnd0dWY4R2ZmQXJM?=
+ =?utf-8?B?MmxTTFptQm4wejBSbkxqYU1DMW9qZG04aDZNbkU4em53aHpMNlowRXhCcEI2?=
+ =?utf-8?B?YmwyYmdFejJTdUh0dzVYUFZYQUR1enFUaVZLazJ2WWtkNkdvSWdIYmtnK1Nj?=
+ =?utf-8?B?aUYvb3pzOHZHbXdEM1BwZkU3K1JqLzVndEd1MnlvZUdDY25mdGxiK2VCUUQw?=
+ =?utf-8?B?LzJ0anR6ejJ6U0F5YzdrNUtldmpQRG5vdTNncDZwRTRwNmJPQWkwNFc0bHlt?=
+ =?utf-8?B?c1cvZHltSkVzSERtMWk1YWEyV2J6WEVSZElabWFjMW1kU0liSXdqMGszVEZo?=
+ =?utf-8?B?SEpiNnhCR1kwK0d5RUtmT2tGeHByMnhac3lEdTdvK1FpQU84Nk1sM1pkNlVH?=
+ =?utf-8?B?WXZpUE43bUZPenJhdFVkVHRKcU1yVWdNVENJMzFlQ2s1c0RSWUkrelJ3bWZ6?=
+ =?utf-8?B?TThJVWJrQ1FUbGRaZTViaDAyN0lqT1ZQWGJqK0ZwdmRwV3lVWlJZbkdSUVFq?=
+ =?utf-8?B?SkpVVVkrdkZ1OHhqNCtsaU9qSEJpbU5DNk5NMk1VL3BldVJWTHF5S3VpaVJi?=
+ =?utf-8?B?bS9OeEJqVS92TFk5NEczRTUyUUQxVEhGWnNIQVRUeE9kQ2hMdDF2Y29WSWpX?=
+ =?utf-8?B?dlZWVmQ3TGgxYXhoczFBZmVIRFNoWUp1NlBuV24rTm9RMHZxQmd2UVFiZ0E3?=
+ =?utf-8?B?d3FxUDdmNHJOenZLajNsdU1DbjhWak1RMmdDUGR0dGZFV2lwUG94bzB0K3VE?=
+ =?utf-8?Q?WaN7zkJSn7zj9Q08=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b86e4f96-4059-4235-8e5f-08de5a08616c
+X-MS-Exchange-CrossTenant-AuthSource: BY1PR11MB7981.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 22:48:37.5751
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 526540cc-b80f-49c3-1f84-08de5a0244cf
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CH1PEPF0000AD82.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4197
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q6Kkpg2rtueMiEMM16OCEMhxfr+pFha5BnkQaRuo42KA6Mu/Bmp7JULK1lS0ifXyd4bPvUbOkh8KcfGjFH3DHdiHYRttOCVPR6yMIFJQ3fg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5160
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: XF6y77JWm39YZh-24TeC9pyQGf_HyOkv
+X-Proofpoint-GUID: tgraJIFehHDu5bYaPJCfaJl9DFBisGm7
+X-Authority-Analysis: v=2.4 cv=U++fzOru c=1 sm=1 tr=0 ts=6972a949 cx=c_pps
+ a=mDGR2lWCdzQo6q5c8Yz5oA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=_enOPnqeAAAA:8
+ a=XdLFQ8KsTHmtDSzCC4YA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=XAbD3I9PDrnSMThV5XoS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDE3MiBTYWx0ZWRfX8jn1P2ci+kb6
+ hmfewbTIeOY4goGyR23CN7urLjIarGGLIpPHYqT1ggJREHtimHVvRs9qPPzUduWgsjXrjJ7mFuR
+ ywuG87vfBSt99lSMnOtd/JHbdSL44vujNftDO5WTwHYb9fNhTgc4EKxo2YSYlN2XIvG0psVB4mI
+ eGltwi0CpI4CMjThAwJ1atL3/XAvsl2coU5oGEfTnw9tho1XVG28fDsgmeoKJEZ7eMdQAbKbXPj
+ cTsnO3LyTSTPdv7hlsU3+tvYCVU4kTKZmBgHKyiqhzgVZq0yNoSqvWqR5FRKq6NxfA/0pRkEq50
+ BXLQxzjRKqWH/yRbUWoAuyaDe/xaK3+jS9f96xRgT1O2JSf3KubtKieoMrm7gIGEs+PaepSZ7rA
+ BlOBI8Q+XNg9XDvSjZLs6UbyoxFDgMY295bPPvz7PY4GRHxj8PONaKrd4KUovFbrhZzM5fBsXqx
+ /x0biw262l8EOb0uz5Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-22_05,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601220172
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60MLq5Xq2232321
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Jan 2026 22:05:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229857
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Jan 2026 22:48:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229858
 
-From: Randolph Sapp <rs@ti.com>
 
-Now that the previous bug affecting binary reproducibility has been
-addressed [1], we can revert this patch. This will resolve issues with
-cgo applications becoming unreprodcible.
 
-Currently go considers link arguments to be sacred, meaning any change
-should produce a different binary output. They ensure this by baking
-link arguments into the intermediary output, changing the content ID of
-that step. As such, the marco prefixes inadvertently end up adding build
-paths to the output binary instead of removing them if they are passed
-as link arguments to cgo applications.
+On 10/3/25 19:43, Steve Sakoman wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>=20
+> On Fri, Oct 3, 2025 at 12:13=E2=80=AFAM Dragomir, Daniel
+> <Daniel.Dragomir@windriver.com> wrote:
+>>
+>> Yes, this is an issue on master/master-next too.
+>> I tested and the same patch can be applied fine on both master and sca=
+rthgap branches.
+>=20
+> Thanks for checking.
+>=20
+> Please submit the patch for the master branch.  It would be helpful if
+> you would then ping me when you see that it has been accepted.  I'll
+> try to remember to watch for it, but a ping would ensure I don't miss
+> it :-)
 
-These paths are later stripped out again, but at this point the content
-ID of the dependency has changed and thus the build ID of the end
-application will be affected by the cascade of hash changes. See the
-upstream bug for more information [2].
+Hi Steve,
 
-This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
+Those changes were accepted in master branch. I created also a selftest=20
+for this scenario.
+Could you please back-port the commits to scarthgap branch? I tried=20
+locally and there is a minor merge conflict on one of the commits. If=20
+you want me to send again a scarthgap version of the commits on the=20
+mailing list, let me know.
 
-[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473
-[2] https://github.com/golang/go/issues/77218
+Commits from master branch are:
+6de3d2602f oeqa/selftest/wic: test recursive dir copy on ext partitions
+1ed38aff5f wic/engine: fix copying directories into wic image with ext*=20
+partition
 
-Signed-off-by: Randolph Sapp <rs@ti.com>
+Regards,
+Daniel
+
+>=20
+> Steve
+>=20
+>>
+>> Regards,
+>> Daniel
+>>
+>> ________________________________
+>> From: Steve Sakoman <steve@sakoman.com>
+>> Sent: Thursday, October 2, 2025 5:55 PM
+>> To: Dragomir, Daniel <Daniel.Dragomir@windriver.com>
+>> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.=
+openembedded.org>
+>> Subject: Re: [OE-core][scarthgap][PATCH] wic/engine: fix copying direc=
+tories into wic image with ext* partition
+>>
+>> Is this also an issue on master?  If so, you will need to submit this
+>> patch for master before I can take it for scarthgap.  If not, can you
+>> explain why it isn't needed there?
+>>
+>> Thanks,
+>>
+>> Steve
+>>
+>> On Wed, Oct 1, 2025 at 2:25=E2=80=AFPM Dragomir, Daniel via
+>> lists.openembedded.org
+>> <daniel.dragomir=3Dwindriver.com@lists.openembedded.org> wrote:
+>>>
+>>> wic uses debugfs to write on ext* partitions, but debugfs can only
+>>> write to the current working directory and it cannot copy complete
+>>> directory trees. Running 'wic ls' on a copied directory show this:
+>>>      -l: Ext2 inode is not a directory
+>>>
+>>> Fix this by creating a command list for debugfs (-f parameter) when
+>>> recursive parsing the host directory in order to create a similar
+>>> directory structure (mkdir) and copy files (write) on each level
+>>> into the destination directory from the wic's ext* partition.
+>>>
+>>> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+>>> ---
+>>>   scripts/lib/wic/engine.py | 63 ++++++++++++++++++++++++++++++------=
 ---
-
-This resolves the previously reported emptty issues:
-https://lists.openembedded.org/g/openembedded-core/message/228549
-
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 88f4d0df69..da873c3f4e 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D "${@['-Wl,--hash-style=3Dgn=
-u',''][d.getVar('LINKER_HASH_
- ASNEEDED ?=3D "-Wl,--as-needed"
-=20
- export LDFLAGS =3D "${TARGET_LDFLAGS}"
--TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${DEBUG_=
-PREFIX_MAP}"
-+TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
- # mips does not support GNU hash style therefore we override
- LINKER_HASH_STYLE:mipsarch:libc-musl =3D "sysv"
-=20
---=20
-2.52.0
-
+>>>   1 file changed, 49 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+>>> index b9e60cbe4e..9d596be3a7 100644
+>>> --- a/scripts/lib/wic/engine.py
+>>> +++ b/scripts/lib/wic/engine.py
+>>> @@ -345,29 +345,64 @@ class Disk:
+>>>                                                      path))
+>>>
+>>>       def copy(self, src, dest):
+>>> -        """Copy partition image into wic image."""
+>>> -        pnum =3D  dest.part if isinstance(src, str) else src.part
+>>> +        """Copy files or directories to/from the vfat or ext* partit=
+ion."""
+>>> +        pnum =3D dest.part if isinstance(src, str) else src.part
+>>> +        partimg =3D self._get_part_image(pnum)
+>>>
+>>>           if self.partitions[pnum].fstype.startswith('ext'):
+>>> -            if isinstance(src, str):
+>>> -                cmd =3D "printf 'cd {}\nwrite {} {}\n' | {} -w {}".\
+>>> -                      format(os.path.dirname(dest.path), src, os.pat=
+h.basename(src),
+>>> -                             self.debugfs, self._get_part_image(pnum=
+))
+>>> -            else: # copy from wic
+>>> -                # run both dump and rdump to support both files and =
+directory
+>>> +            if isinstance(src, str): # host to image case
+>>> +                if os.path.isdir(src):
+>>> +                    base =3D os.path.abspath(src)
+>>> +                    base_parent =3D os.path.dirname(base)
+>>> +                    cmds =3D []
+>>> +                    made =3D set()
+>>> +
+>>> +                    for root, dirs, files in os.walk(base):
+>>> +                        for fname in files:
+>>> +                            host_file =3D os.path.join(root, fname)
+>>> +                            rel =3D os.path.relpath(host_file, base_=
+parent)
+>>> +                            dest_file =3D os.path.join(dest.path, re=
+l)
+>>> +                            dest_dir =3D os.path.dirname(dest_file)
+>>> +
+>>> +                            # create dir structure (mkdir -p)
+>>> +                            parts =3D dest_dir.strip('/').split('/')
+>>> +                            cur =3D ''
+>>> +                            for p in parts:
+>>> +                                cur =3D cur + '/' + p
+>>> +                                if cur not in made:
+>>> +                                    cmds.append(f'mkdir "{cur}"')
+>>> +                                    made.add(cur)
+>>> +
+>>> +                            cmds.append(f'write "{host_file}" "{dest=
+_file}"')
+>>> +
+>>> +                    # write script to a temp file
+>>> +                    with tempfile.NamedTemporaryFile(mode=3D'w', del=
+ete=3DFalse,
+>>> +                                                     prefix=3D'wic-d=
+ebugfs-') as tf:
+>>> +                        for line in cmds:
+>>> +                            tf.write(line + '\n')
+>>> +                        scriptname =3D tf.name
+>>> +
+>>> +                    cmd =3D f"{self.debugfs} -w -f {scriptname} {par=
+timg}"
+>>> +
+>>> +                else: # single file
+>>> +                    cmd =3D "printf 'cd {}\nwrite {} {}\n' | {} -w {=
+}".\
+>>> +                          format(os.path.dirname(dest.path), src,
+>>> +                                 os.path.basename(src), self.debugfs=
+, partimg)
+>>> +
+>>> +            else: # image to host case
+>>>                   cmd =3D "printf 'cd {}\ndump /{} {}\nrdump /{} {}\n=
+' | {} {}".\
+>>>                         format(os.path.dirname(src.path), src.path,
+>>> -                             dest, src.path, dest, self.debugfs,
+>>> -                             self._get_part_image(pnum))
+>>> +                             dest, src.path, dest, self.debugfs, par=
+timg)
+>>> +
+>>>           else: # fat
+>>>               if isinstance(src, str):
+>>>                   cmd =3D "{} -i {} -snop {} ::{}".format(self.mcopy,
+>>> -                                                  self._get_part_ima=
+ge(pnum),
+>>> -                                                  src, dest.path)
+>>> +                                                      partimg,
+>>> +                                                      src, dest.path=
+)
+>>>               else:
+>>>                   cmd =3D "{} -i {} -snop ::{} {}".format(self.mcopy,
+>>> -                                                  self._get_part_ima=
+ge(pnum),
+>>> -                                                  src.path, dest)
+>>> +                                                      partimg,
+>>> +                                                      src.path, dest=
+)
+>>>
+>>>           exec_cmd(cmd, as_shell=3DTrue)
+>>>           self._put_part_image(pnum)
+>>> --
+>>> 2.39.5
+>>>
+>>>
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#224331): https://lists.openembedded.org/g/openemb=
+edded-core/message/224331
+>>> Mute This Topic: https://lists.openembedded.org/mt/115542019/3620601
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [steve@sakoman.com]
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>
 
