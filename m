@@ -1,183 +1,353 @@
-Return-Path: <tgaige.opensource@witekio.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1736D72373
-	for <webhook@archiver.kernel.org>; Fri, 23 Jan 2026 10:47:17 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.139])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.64706.1769165227340499467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12AB0D7237B
+	for <webhook@archiver.kernel.org>; Fri, 23 Jan 2026 11:49:58 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.65786.1769168997371397586
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jan 2026 02:47:08 -0800
+ Fri, 23 Jan 2026 03:49:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector1 header.b=P9k8AKSE;
- spf=pass (domain: witekio.com, ip: 40.107.130.139, mailfrom: tgaige@witekio.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SHy4+6Uyom7aoPvrNVE1Uu3J2vQ0qAGwF0RD/HGUXVEUjSKaQMmV4qyUFMDJt30wNdmdZWgSU0dW+oY/W/NlfiS98FD/NWl3aJq2ohNZI71a/FuOEoH7fRVV5gWG1t1SfGmm/hBWqbRTuequlk+D4nSmFN4bzW4ccA7kIMLl2HIuKlRbdE/YpM/71tiBgfYtbdQEVv9iGNaYAQAnwUScL2Bif1rIKwaDK2iMr/txHi75C/lGTrOLDoUvRugJlr3ydtHR6yTzhGro1tSYcXOKT5vKsoCSa2ULOfw3yeBhYxj3zoh2IaQO3Eaas+2Zh4u4IthSpB3pGHxSLJxUwcyF4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X70Gqy5NQT30ndBnb9nzr9vJmF0FLAlbNdkRZALx6EM=;
- b=gDNfxA7CmorDpZ2D7GoOqBOz1eU3+PXqPDdyg25jmztPlJwmtjzhusQE81LG/cDJ3JIfMEXbSqBz9eI00Nu8mHH1O8VhpuphEcrOnu+Jtml3Ir4KyjWW2uvfCM0g5bpU2u5aOv5cDnzgz6EmtGT3+vnswgaLX7SdhU0erb6FtCSwFJrCNrhalTkgUaroaLsH6GjodY9ifQvjSOYjzIFnrMG9hk7nLNGROuW5vcDI1VupwCPWli5ELvGvePIC7Dg1wj7ogfTQLRuXrR9VN1HW/H8nK5OOJBJmJG7j8GeOoVmZLZKDl3pUyO0JeuYcXQzvXGyH4nzvjQfDeOEJTTtfWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
- dkim=pass header.d=witekio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X70Gqy5NQT30ndBnb9nzr9vJmF0FLAlbNdkRZALx6EM=;
- b=P9k8AKSE0MyFcwBpz0HG//vsrADXsF/gcScuXic3EuzI1T75owJ/iTtQKEPKBi2gtXkf1aFgKeOgm5BaSD7jNLMS84dWNM2xLpbikw2qxCMRojSDIoYBK3/znCBzaDklrRD/GZ2Mh4viUBIp6xxGT4lHnITgqPMwLFoRz31+9t3Zp3Mi6BcF6NgLe7SHfmCpqmywa697DLeeuqK+eArtFKKzsGY+KQoY3APVOCcDPXc6hbVVjBuft4frADmSsK9Ez/N+evTTQYCmbPqcppgFf2T4Mo+KLUQkGGF+xpW4UalmBbGj6PlT3RKeG6DWb8soisoOsqPvJ+MySlCGVUNhDA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witekio.com;
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by DB3P192MB2084.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:438::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Fri, 23 Jan
- 2026 10:47:03 +0000
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38%6]) with mapi id 15.20.9542.010; Fri, 23 Jan 2026
- 10:47:03 +0000
-From: tgaige.opensource@witekio.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=Hla8hWUY;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-29efd139227so15226935ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 03:49:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1769168997; x=1769773797; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q6ohGIUvksdciKSeGVSOSSgShVyJ1npuvx7ZP1stWR4=;
+        b=Hla8hWUYjSZ9VTRJmNOPaVmCCKXxoLhXNl5KP2voyKZVEtKQ148Im3/2W1E0NSo45W
+         6aMTGMnTOSh4dMfyDRGQZV2Nc5xS/N4pinTm1AsfcUEpe54hrJl0D2MRKrRAmRh3B72P
+         J7zoiRzz+MoRYCS8xiXNA1i8KVSNHPGgF8MYs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769168997; x=1769773797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q6ohGIUvksdciKSeGVSOSSgShVyJ1npuvx7ZP1stWR4=;
+        b=EOHwLCBYlBDs4TSR6L0xmFDQmg4vw/sK99thr/2xiSrACGb176lpTTkwUfE70bD+7m
+         iY/Yw53xHjAmPQ49WoIVlFSyWIAlJlfY2svCoM6AiGX8egRDNGX3wo5jFc2jQWc6HGRI
+         jlRKR20Wz64E/nYuTEYYvrQDsYpml0qjlecVtItc1r1RURpWD0P8B06xlGk/Pazx6jzb
+         ZN9fFuubEvIf4cmpZcJoH3mPe9SAjc4g2XyNg69C6ivAJ8HYT1wJPS49O6ML7WR5rgjy
+         PoUUkwGFk2eftl57uWAfV41acc7q34xjBvR+dQLK09eZ7ryXSEiH/OfEDy10yt9V3+bB
+         j6Xg==
+X-Gm-Message-State: AOJu0Yy5BFvyNsZMwqbCvbebB5Qx1dZ2gUhW51eG13aHV9cQG/Cm8OSq
+	P20XROvplJ54oR8gqEU386j9WozQR7gmrYeLd8OsoNeRpEEKS08Mc2i5sZOKPCzvGMvpd/EScMc
+	1CsOO
+X-Gm-Gg: AZuq6aJzHTxeYS48nx3RyfyO/QxseySzjFf6JirCWyPEJYxCnNRRJK3PgsQXZQCNKRR
+	w093RUOSFCQLrDDztlKSzU5ETxtaH2DveXJHbSM4l+Br7bGui6lYglYD7FW2y0WAj0lRGVXPX3c
+	xvfCMWcpILcuCOHKmPK14CskHbQcDdG5oX7l81I0I6nf82pKkNm7SpsWYlsyTvk4smAZm+MAFyZ
+	GK618UpQARAFaBzOV7wk4cfAE07G0EM2T32WD6Gdu57MlziyIfQ9qQA+p7PTuD0zw8airNI9FbX
+	eCuoaXNSMSQ3h3EfiJYWfReCogpN/aJy6Hfj2kqZyoxohp35v8SP2F7kZfs01MA0I6S27LYWVCa
+	HD+C26Cm87ZD8SmxwFLKWuwpvIUiQUsIo2JVQwtQ+C983jH41aBhDkG23p9ZYKCsCF4FTWpLM/W
+	nndiZs4z4yw1DjQkmaIkJx+C7uD3bjZjBeGG4=
+X-Received: by 2002:a17:902:ecc9:b0:2a0:f0db:690e with SMTP id d9443c01a7336-2a7fe755992mr23354495ad.52.1769168996399;
+        Fri, 23 Jan 2026 03:49:56 -0800 (PST)
+Received: from MVIN00013.mvista.com ([103.250.136.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802daa8cfsm18385875ad.4.2026.01.23.03.49.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jan 2026 03:49:55 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-CC: Theo GAIGE <tgaige.opensource@witekio.com>,
-	Louis Rannou <louis.rannou@non.se.com>
-Subject: [OE-core][PATCH] python3-pyelftools: add python3-logging to RDEPENDS
-Date: Fri, 23 Jan 2026 11:46:49 +0100
-Message-ID: <20260123104650.2405-1-tgaige.opensource@witekio.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0020.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::7) To AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:3ad::23)
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] qemu: fix for CVE-2025-11234
+Date: Fri, 23 Jan 2026 17:19:28 +0530
+Message-ID: <20260123114929.275588-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|DB3P192MB2084:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab25597f-11d5-438f-0ac2-08de5a6cbeaa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|366016|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?CLo0rC+ru3rLIg3iTYpdBh0O3mAworxGCArtSh3wmK3oQF8ZyxaY7KKNWV2+?=
- =?us-ascii?Q?LDq5urQC/6R1nWKMoSwXWTUakd2y/8NImh0uC/Jum5VZRmfU+pYnkfRks73x?=
- =?us-ascii?Q?onZyb8dq96T9s29oKQWA2aqEXm2p/4iXP0ntCUy0yb1kBEAqQf7h6Jrig1Cd?=
- =?us-ascii?Q?tojUjeGMq0bBAaFNKkk2d8/s9EmJC3Pin2elqaaZvGtwSTo2KRk/T8rEIJ9t?=
- =?us-ascii?Q?kuKvlu2w/1/eBndU1JlGLTYdU0yqB2dSj8FVO4ZRRoFvTwkLwM65nsiCb0vx?=
- =?us-ascii?Q?s+VQnFp7eXQncL7qEKuapbv/Q7aTckXTmhE0TNW7iIfTn9kLk7QJDTlSXWNX?=
- =?us-ascii?Q?aM0JV129HVN01sGxAtAzqBLTpnWtFrcwBTJU1pMZsfODHLneUJK8xaKjjeih?=
- =?us-ascii?Q?5H/0Oevb2cTDT1+l4KiXCFxWi9IngIxo9LpHMySqRFD0J7hMDN3yr10cqDAD?=
- =?us-ascii?Q?D/FT5g03yqrvku26C5HyqZPaGfUaY4zSxU1Fw5RD0qft2nBtQgc2lxfsBjaM?=
- =?us-ascii?Q?G0Rc70GDQ8UhY7qTQWN7D1uorbWE+ZcJxuTWeNRDQCuIE2siBUaK1LKhoyhh?=
- =?us-ascii?Q?x9mNZOucMQ+3mwyNmbbfk3j0g4IigtFipO+vpNVnRYyVdQGThUxi8jyHimd3?=
- =?us-ascii?Q?ljAyTsf2uUnzpurEHNpbZLPKWZ1Um+8Ngq0N5gc+8mNdUk5WzxgBJlBr/6K0?=
- =?us-ascii?Q?T1y4q4zw0BIi68deDcwopq2OPLb7Z4L0wjnTg8Y4Rl5jR8kLMgF3Jd7A6xhY?=
- =?us-ascii?Q?ovLamLPG453+BYweIssc4wG3FauxxnwBrxVc9WyGzeYRAcMRoVN4T2BUzmiY?=
- =?us-ascii?Q?yB+0llYZuAWwy7bsABhbLRhjrWZiyg95JpTAffzzG2UlJ6HqQWkmtAxxzRzC?=
- =?us-ascii?Q?oMBjT70uA1KRwZUaIuEXoJGX7JpU+3D1JQNCG6ulKRaagpkv/q1oTWpLU/Sx?=
- =?us-ascii?Q?KU3i0tVQxxVAudbTUiy4kPWQEkiEc9xQlUXTcBjkfUM136Olz7XKO6gT8usd?=
- =?us-ascii?Q?L2CUsZNHZmuXGx4M8h41rqbNoQtPBnwI8Yw/Vb+SIRhyQOK0AETzU/qG3Gs9?=
- =?us-ascii?Q?Xp3Z/mVabWaAO+NrCDGhHfPX9KyfXJQVnX5LpiptKlhwRruhSle62/HC5tn6?=
- =?us-ascii?Q?MjQBRJHj2SZw/ybsCm6MzAssCFT1i6d+TuKprWJt2yRvILKFEzc/oh9LeVZV?=
- =?us-ascii?Q?ciD3mgGH2jKdXEnQJH4G16MASowM88lXY0kRiRFvByJO833t/0WBggKO1bzA?=
- =?us-ascii?Q?UX8x1Z2IC9M/iaMvA4uHvcVXYKcwQJ+My6MKPmtL0t1NpPHTs5K7tV/jgE+W?=
- =?us-ascii?Q?idak5gy7lDDqrFqlnwqR/l1NikfTHQEY00ySFsoN0txltD8HHXJml2axe15a?=
- =?us-ascii?Q?mYmPqzSdwGiVCZYZdS+LrCRsDkWm5DrYOeAh7pg+xfQc/t1DY358RFpJ8L1h?=
- =?us-ascii?Q?UHcYiSS0w8eecnkI1Ocfqyc8FFx4kbu2GmnxfwQv0S6HeX/mnaxxET9XdWtl?=
- =?us-ascii?Q?TmGd+B4Jsb/LWCCx/Ed/KP4BiYJNiLzFhsLc8Y0bQkV5EQ2m0tjUwMrnkXqC?=
- =?us-ascii?Q?RVvGBYDi7yEylLShedGAIMNYZcVpaSjY+poKw2ploDlzN1exN6/GueP1y2qJ?=
- =?us-ascii?Q?PgRgolickGit0QAs0dpqZC8=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Sfy8ITnP11jEjZJwU1Q/H72nN2/aeUV4TWxeamvFMJIIgvf93JUpUgJm2Sq6?=
- =?us-ascii?Q?B2vNnhmuEynJ4I5ce5RS2vIc29y+2CVYatXQxQ8mD2XMldetFT0IVynJhSfo?=
- =?us-ascii?Q?18x+O82WNdRduzbY8BHW+VQNjoTWCkzolNO7SfctErgWpfFL/IlcYWv68C41?=
- =?us-ascii?Q?JrN+941gexGm7cS8bCSa0rhcQIMAu7DaZ2ddhFZBpMaoNveip/1Dr+ECvmXA?=
- =?us-ascii?Q?W6Mu4c5OmRU3aWw38so1xn4uXS1CTZ69EBwZleOH8/Axq6/XBXUNJ7UTZRqr?=
- =?us-ascii?Q?RwEReGknPkNsv5SY3c7wLTLNzlCxKqHNNvzLD2pLZP0MsMK6ao1XQqtZE3FH?=
- =?us-ascii?Q?qzxOs3r5rkwszXWPE1kAgrWcPZixoN1YgXm5lmsP9Hp8BPSHTRg08Ye6VSny?=
- =?us-ascii?Q?HFl86VByEWBVLgOaTwbcjcJusHNq8QzCPcKVSYfZaFY+Grm7MsFXNk8aUpNj?=
- =?us-ascii?Q?J2E5upW1+xvNDMg/nUeF6ozpD19WvXxlTIeZuWAGLgt7LPf8pAVl2GlhAuI2?=
- =?us-ascii?Q?I6W5C3vgkIgsYqFSsHBz53fsLYaWbZR8+2cMCRGrB+s5UUuCjRyjYI2tz7H0?=
- =?us-ascii?Q?sx9l0UU9my4ij/HjdrU5KLDLTrBx3aw4ZkqHSNVcbQ30U40ToaeKH8OeqLdj?=
- =?us-ascii?Q?Y2vzD6xaeCKnLAr2z82qhInmAPD5wAbUKgOxnlWQvWBniKAFNlYCaA3ET+oR?=
- =?us-ascii?Q?E2Bez0XpbqlgtFKRQLALp6gfLKPeky5Olznv6pUr7M4+YhG/UaUC+5EtjmU4?=
- =?us-ascii?Q?UtmSoDxchGzBYcrob67dHTrefUVfJwSbgPiUB/Thjh3pA+A3MMoWl3GRcGMK?=
- =?us-ascii?Q?T4eWQX1psP87f+yCACzzDBzLI86otpbifV5/IQLPVwgi65BVTN16YRIAS7TS?=
- =?us-ascii?Q?TKwW0GGRCtMPZWLno94Rmu6WmHaY8VCyrtUzi/zb9IhZZlfSJnC3bf8mNE4h?=
- =?us-ascii?Q?7Z3w19aAq56v9zs7z7D5jqBw20tptROUlzX/j+wxI5MhZluZi6PMy00PQONn?=
- =?us-ascii?Q?zN68ynM9dshcSJG900RHmhgZoAJ4fRGaN9je5+jZis1F+7zgu79EG6caEleE?=
- =?us-ascii?Q?bRM+P3N2QimhtB823p8I9oHCxYiZbe2q0KPqI2Hz4CmJgF4mwMkMSCS2VAZB?=
- =?us-ascii?Q?PS9QVjbjcLcayc10ZnQz2dFylJ9EwgA+4WFH73KKIXsAeQLPiXVxzMLy7n0Q?=
- =?us-ascii?Q?Gb7a+LIBWcniuZrKKFnHH+DWAf9GWmCWIfcM3vBYrkrm1WGYkk0/SQ9SxwsY?=
- =?us-ascii?Q?dw2Pi0FVkrW+chnyK/nPh2CrYApvQT0uZbeWsbqUP3AcpkM0UvuDZ1U6aXYj?=
- =?us-ascii?Q?uLWslBLwIzAkzIHT4vCCSOZQ3vGxT/0ZPwEIYSFHw5YbQ3eO66/ep7pNaBH2?=
- =?us-ascii?Q?Bss95MAbaswcR17Y0UnYuIqLT1HRRzlcf/UFLbQhyJJ/TE2lAsMvHCUXXpkq?=
- =?us-ascii?Q?t0fpjWccMcqayduDxF5cEyMrXsG19lkXUxsVRO2hKMIhGNbQbG4NI2YEFCbK?=
- =?us-ascii?Q?a6gCWVW+8KRmkZ6dK9H/GEplLgipel1Iw/6pdt/Xq5mPn4nNfjSH/xthJpSw?=
- =?us-ascii?Q?VEE5d6sADWSKX9s5g8Vr0dchmN2RTF3WLnJsYRLC3atu2S0X9rBLCvKmIPEx?=
- =?us-ascii?Q?qXqVyp9XY06WxnM2dec+nNSdedMOdt4ovaeWEzVtq0vhh4Z3aeCAEvyyYxLM?=
- =?us-ascii?Q?AGckrLyYW50wkWlzCS9FrSqVHk21s/5c4vumXoagOfLlqv5Ls1I177divAbD?=
- =?us-ascii?Q?MMRAlc00JA=3D=3D?=
-X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab25597f-11d5-438f-0ac2-08de5a6cbeaa
-X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 10:47:03.5984
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /AmHGyV/uad27Rralo8aBjXSLf9+Qz1Sg5p3xOuhdOdViP8Y5Pk1ZQuYluBShos1WCHWqxp8meSPmt/wgRtYEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3P192MB2084
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:47:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229882
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 11:49:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229883
 
-From: Theo GAIGE <tgaige.opensource@witekio.com>
+Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/commit/911c814c8cc5f836286bd96694843036db83e99f && https://gitlab.com/qemu-project/qemu/-/commit/cebdbd038e44af56e74272924dc2bf595a51fd8f
 
-python3-logging is needed as a runtime dependency of python3-pyelftools
-else the readelf.py script run into the following error :
-
-```
-Traceback (most recent call last):
-  File "/usr/bin/readelf.py", line 31, in <module>
-    from elftools.elf.elffile import ELFFile
-  File "/usr/lib/python3.12/site-packages/elftools/elf/elffile.py", line 29=
-, in <module>
-    from ..dwarf.dwarfinfo import DWARFInfo, DebugSectionDescriptor, DwarfC=
-onfig
-  File "/usr/lib/python3.12/site-packages/elftools/dwarf/dwarfinfo.py", lin=
-e 17, in <module>
-    from .structs import DWARFStructs
-  File "/usr/lib/python3.12/site-packages/elftools/dwarf/structs.py", line =
-10, in <module>
-    from logging.config import valid_ident
-ModuleNotFoundError: No module named 'logging'
-```
-
-Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
-Reviewed-by: Louis Rannou <louis.rannou@non.se.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/python/python3-pyelftools_0.32.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2025-11234-01.patch         |  72 ++++++++
+ .../qemu/qemu/CVE-2025-11234-02.patch         | 174 ++++++++++++++++++
+ 3 files changed, 248 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.32.bb b/meta=
-/recipes-devtools/python/python3-pyelftools_0.32.bb
-index 13e9efff8d..447c8ad6af 100644
---- a/meta/recipes-devtools/python/python3-pyelftools_0.32.bb
-+++ b/meta/recipes-devtools/python/python3-pyelftools_0.32.bb
-@@ -12,4 +12,4 @@ inherit pypi python_setuptools_build_meta
-=20
- BBCLASSEXTEND =3D "native"
-=20
--RDEPENDS:${PN} +=3D "python3-debugger python3-pprint"
-+RDEPENDS:${PN} +=3D "python3-debugger python3-pprint python3-logging"
---=20
-2.43.0
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 764f0e110a..78f4e2c3f1 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -130,6 +130,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2024-3447.patch \
+            file://CVE-2024-8354.patch \
+            file://CVE-2025-12464.patch \
++           file://CVE-2025-11234-01.patch \
++           file://CVE-2025-11234-02.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
+new file mode 100644
+index 0000000000..a49bd51cab
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
+@@ -0,0 +1,72 @@
++From 911c814c8cc5f836286bd96694843036db83e99f Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 30 Sep 2025 11:58:35 +0100
++Subject: [PATCH] io: move websock resource release to close method
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The QIOChannelWebsock object releases all its resources in the
++finalize callback. This is later than desired, as callers expect
++to be able to call qio_channel_close() to fully close a channel
++and release resources related to I/O.
++
++The logic in the finalize method is at most a failsafe to handle
++cases where a consumer forgets to call qio_channel_close.
++
++This adds equivalent logic to the close method to release the
++resources, using g_clear_handle_id/g_clear_pointer to be robust
++against repeated invocations. The finalize method is tweaked
++so that the GSource is removed before releasing the underlying
++channel.
++
++Reviewed-by: Eric Blake <eblake@redhat.com>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit 322c3c4f3abee616a18b3bfe563ec29dd67eae63)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++CVE: CVE-2025-11234
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/911c814c8cc5f836286bd96694843036db83e99f]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ io/channel-websock.c | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/io/channel-websock.c b/io/channel-websock.c
++index 70889bb54..9f82a7399 100644
++--- a/io/channel-websock.c
+++++ b/io/channel-websock.c
++@@ -921,13 +921,13 @@ static void qio_channel_websock_finalize(Object *obj)
++     buffer_free(&ioc->encinput);
++     buffer_free(&ioc->encoutput);
++     buffer_free(&ioc->rawinput);
++-    object_unref(OBJECT(ioc->master));
++     if (ioc->io_tag) {
++         g_source_remove(ioc->io_tag);
++     }
++     if (ioc->io_err) {
++         error_free(ioc->io_err);
++     }
+++    object_unref(OBJECT(ioc->master));
++ }
++ 
++ 
++@@ -1216,6 +1216,15 @@ static int qio_channel_websock_close(QIOChannel *ioc,
++     QIOChannelWebsock *wioc = QIO_CHANNEL_WEBSOCK(ioc);
++ 
++     trace_qio_channel_websock_close(ioc);
+++    buffer_free(&wioc->encinput);
+++    buffer_free(&wioc->encoutput);
+++    buffer_free(&wioc->rawinput);
+++    if (wioc->io_tag) {
+++        g_clear_handle_id(&wioc->io_tag, g_source_remove);
+++    }
+++    if (wioc->io_err) {
+++        g_clear_pointer(&wioc->io_err, error_free);
+++    }
++     return qio_channel_close(wioc->master, errp);
++ }
++ 
++-- 
++2.50.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
+new file mode 100644
+index 0000000000..a63e522c59
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
+@@ -0,0 +1,174 @@
++From cebdbd038e44af56e74272924dc2bf595a51fd8f Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 30 Sep 2025 12:03:15 +0100
++Subject: [PATCH] io: fix use after free in websocket handshake code
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++If the QIOChannelWebsock object is freed while it is waiting to
++complete a handshake, a GSource is leaked. This can lead to the
++callback firing later on and triggering a use-after-free in the
++use of the channel. This was observed in the VNC server with the
++following trace from valgrind:
++
++==2523108== Invalid read of size 4
++==2523108==    at 0x4054A24: vnc_disconnect_start (vnc.c:1296)
++==2523108==    by 0x4054A24: vnc_client_error (vnc.c:1392)
++==2523108==    by 0x4068A09: vncws_handshake_done (vnc-ws.c:105)
++==2523108==    by 0x44863B4: qio_task_complete (task.c:197)
++==2523108==    by 0x448343D: qio_channel_websock_handshake_io (channel-websock.c:588)
++==2523108==    by 0x6EDB862: UnknownInlinedFun (gmain.c:3398)
++==2523108==    by 0x6EDB862: g_main_context_dispatch_unlocked.lto_priv.0 (gmain.c:4249)
++==2523108==    by 0x6EDBAE4: g_main_context_dispatch (gmain.c:4237)
++==2523108==    by 0x45EC79F: glib_pollfds_poll (main-loop.c:287)
++==2523108==    by 0x45EC79F: os_host_main_loop_wait (main-loop.c:310)
++==2523108==    by 0x45EC79F: main_loop_wait (main-loop.c:589)
++==2523108==    by 0x423A56D: qemu_main_loop (runstate.c:835)
++==2523108==    by 0x454F300: qemu_default_main (main.c:37)
++==2523108==    by 0x73D6574: (below main) (libc_start_call_main.h:58)
++==2523108==  Address 0x57a6e0dc is 28 bytes inside a block of size 103,608 free'd
++==2523108==    at 0x5F2FE43: free (vg_replace_malloc.c:989)
++==2523108==    by 0x6EDC444: g_free (gmem.c:208)
++==2523108==    by 0x4053F23: vnc_update_client (vnc.c:1153)
++==2523108==    by 0x4053F23: vnc_refresh (vnc.c:3225)
++==2523108==    by 0x4042881: dpy_refresh (console.c:880)
++==2523108==    by 0x4042881: gui_update (console.c:90)
++==2523108==    by 0x45EFA1B: timerlist_run_timers.part.0 (qemu-timer.c:562)
++=2523108==    by 0x45EC765: main_loop_wait (main-loop.c:600)
++==2523108==    by 0x423A56D: qemu_main_loop (runstate.c:835)
++==2523108==    by 0x454F300: qemu_default_main (main.c:37)
++==2523108==    by 0x73D6574: (below main) (libc_start_call_main.h:58)
++==2523108==  Block was alloc'd at
++==2523108==    at 0x5F343F3: calloc (vg_replace_malloc.c:1675)
++==2523108==    by 0x6EE2F81: g_malloc0 (gmem.c:133)
++==2523108==    by 0x4057DA3: vnc_connect (vnc.c:3245)
++==2523108==    by 0x448591B: qio_net_listener_channel_func (net-listener.c:54)
++==2523108==    by 0x6EDB862: UnknownInlinedFun (gmain.c:3398)
++==2523108==    by 0x6EDB862: g_main_context_dispatch_unlocked.lto_priv.0 (gmain.c:4249)
++==2523108==    by 0x6EDBAE4: g_main_context_dispatch (gmain.c:4237)
++==2523108==    by 0x45EC79F: glib_pollfds_poll (main-loop.c:287)
++==2523108==    by 0x45EC79F: os_host_main_loop_wait (main-loop.c:310)
++==2523108==    by 0x45EC79F: main_loop_wait (main-loop.c:589)
++==2523108==    by 0x423A56D: qemu_main_loop (runstate.c:835)
++==2523108==    by 0x454F300: qemu_default_main (main.c:37)
++==2523108==    by 0x73D6574: (below main) (libc_start_call_main.h:58)
++==2523108==
++
++The above can be reproduced by launching QEMU with
++
++  $ qemu-system-x86_64 -vnc localhost:0,websocket=5700
++
++and then repeatedly running:
++
++  for i in {1..100}; do
++     (echo -n "GET / HTTP/1.1" && sleep 0.05) | nc -w 1 localhost 5700 &
++  done
++
++CVE-2025-11234
++Reported-by: Grant Millar | Cylo <rid@cylo.io>
++Reviewed-by: Eric Blake <eblake@redhat.com>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit b7a1f2ca45c7865b9e98e02ae605a65fc9458ae9)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++CVE: CVE-2025-11234
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/cebdbd038e44af56e74272924dc2bf595a51fd8f]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ include/io/channel-websock.h |  3 ++-
++ io/channel-websock.c         | 22 ++++++++++++++++------
++ 2 files changed, 18 insertions(+), 7 deletions(-)
++
++diff --git a/include/io/channel-websock.h b/include/io/channel-websock.h
++index e180827c5..6700cf894 100644
++--- a/include/io/channel-websock.h
+++++ b/include/io/channel-websock.h
++@@ -61,7 +61,8 @@ struct QIOChannelWebsock {
++     size_t payload_remain;
++     size_t pong_remain;
++     QIOChannelWebsockMask mask;
++-    guint io_tag;
+++    guint hs_io_tag; /* tracking handshake task */
+++    guint io_tag; /* tracking watch task */
++     Error *io_err;
++     gboolean io_eof;
++     uint8_t opcode;
++diff --git a/io/channel-websock.c b/io/channel-websock.c
++index 9f82a7399..4773e08e7 100644
++--- a/io/channel-websock.c
+++++ b/io/channel-websock.c
++@@ -545,6 +545,7 @@ static gboolean qio_channel_websock_handshake_send(QIOChannel *ioc,
++         trace_qio_channel_websock_handshake_fail(ioc, error_get_pretty(err));
++         qio_task_set_error(task, err);
++         qio_task_complete(task);
+++        wioc->hs_io_tag = 0;
++         return FALSE;
++     }
++ 
++@@ -560,6 +561,7 @@ static gboolean qio_channel_websock_handshake_send(QIOChannel *ioc,
++             trace_qio_channel_websock_handshake_complete(ioc);
++             qio_task_complete(task);
++         }
+++        wioc->hs_io_tag = 0;
++         return FALSE;
++     }
++     trace_qio_channel_websock_handshake_pending(ioc, G_IO_OUT);
++@@ -586,6 +588,7 @@ static gboolean qio_channel_websock_handshake_io(QIOChannel *ioc,
++         trace_qio_channel_websock_handshake_fail(ioc, error_get_pretty(err));
++         qio_task_set_error(task, err);
++         qio_task_complete(task);
+++        wioc->hs_io_tag = 0;
++         return FALSE;
++     }
++     if (ret == 0) {
++@@ -597,7 +600,7 @@ static gboolean qio_channel_websock_handshake_io(QIOChannel *ioc,
++     error_propagate(&wioc->io_err, err);
++ 
++     trace_qio_channel_websock_handshake_reply(ioc);
++-    qio_channel_add_watch(
+++    wioc->hs_io_tag = qio_channel_add_watch(
++         wioc->master,
++         G_IO_OUT,
++         qio_channel_websock_handshake_send,
++@@ -906,11 +909,12 @@ void qio_channel_websock_handshake(QIOChannelWebsock *ioc,
++ 
++     trace_qio_channel_websock_handshake_start(ioc);
++     trace_qio_channel_websock_handshake_pending(ioc, G_IO_IN);
++-    qio_channel_add_watch(ioc->master,
++-                          G_IO_IN,
++-                          qio_channel_websock_handshake_io,
++-                          task,
++-                          NULL);
+++    ioc->hs_io_tag = qio_channel_add_watch(
+++        ioc->master,
+++        G_IO_IN,
+++        qio_channel_websock_handshake_io,
+++        task,
+++        NULL);
++ }
++ 
++ 
++@@ -921,6 +925,9 @@ static void qio_channel_websock_finalize(Object *obj)
++     buffer_free(&ioc->encinput);
++     buffer_free(&ioc->encoutput);
++     buffer_free(&ioc->rawinput);
+++    if (ioc->hs_io_tag) {
+++        g_source_remove(ioc->hs_io_tag);
+++    }
++     if (ioc->io_tag) {
++         g_source_remove(ioc->io_tag);
++     }
++@@ -1219,6 +1226,9 @@ static int qio_channel_websock_close(QIOChannel *ioc,
++     buffer_free(&wioc->encinput);
++     buffer_free(&wioc->encoutput);
++     buffer_free(&wioc->rawinput);
+++    if (wioc->hs_io_tag) {
+++        g_clear_handle_id(&wioc->hs_io_tag, g_source_remove);
+++    }
++     if (wioc->io_tag) {
++         g_clear_handle_id(&wioc->io_tag, g_source_remove);
++     }
++-- 
++2.50.1
++
+-- 
+2.50.1
 
 
