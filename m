@@ -1,400 +1,917 @@
-Return-Path: <daniel.dragomir@windriver.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B81D6CFAC
-	for <webhook@archiver.kernel.org>; Thu, 22 Jan 2026 22:48:52 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51615.1769122125804505410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D560D6CFC8
+	for <webhook@archiver.kernel.org>; Fri, 23 Jan 2026 05:21:55 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.61500.1769145709619841867
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jan 2026 14:48:46 -0800
+ Thu, 22 Jan 2026 21:21:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=sUPoXDo9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=54825d6134=daniel.dragomir@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60MLq5Xq2232321
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Jan 2026 14:48:41 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=UYiS7yeNRHKwfPea+MJRYBObB1wrtWdxydcqr1aoGTw=; b=
-	sUPoXDo99hyKL5hLBMYUkCh/5Yi340pFx4JH0urgbVjVT/cBDgxnbtr99ILDT1b1
-	QO7cldO3+wnWYQTFmqZoURiQ5fZki7VKsomoJzTDhE9QB2mH+WDI3M79KvSR90sB
-	nzwfy6m4Xi22sSAOOa5jRwzFKPoJIe8mimHmF7S7tUgHXVDXZFKyj3DlgpbECngi
-	p2yZHOzyYvVv/pkMKEfB+sC8h8FVrVQ+PD24eKhs/pVrtXyKA5pWTM4pHFsNmXAb
-	HD1SshtpkibBurOOWQrIypj/PCRXl7o1AF91PI6ymcj9BsKHt+8u8Z6c+fSbeBys
-	RxST/e9HSI5NfPXxtq0iQQ==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010068.outbound.protection.outlook.com [52.101.201.68])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4btnd73be7-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 22 Jan 2026 14:48:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Coh6K4HnsXm7T1xOyMD/46NZzOXjbXnFdm70WHgnz4jMC9sgk7juhwB/o9qfWmFoVwVoBfC6V++Yj8ySfa7Wd5eT+V82d3PxDuRv/2rJXod0sOuimlfQQJhwkKIFOKWL7iNF957M1fow7pZtBT2w9vdNTNlw+W8nE13FTvQDnz9jLNTVtJODQVfgrKScZF0cTdl2hZy5p74Vhx+zJF3hLUf7Q/FImu0SX4RiYfjufwArZfY1c8A8F6rSf2uSaeHmzGJVxLEy50D0TIII3320ZBCOxxA6sH4XAlIKPdQBprUIe6ssWZSQoSayzgh+nSw/UFJllshgQKUw9kvaQpHQTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UYiS7yeNRHKwfPea+MJRYBObB1wrtWdxydcqr1aoGTw=;
- b=XnWhgxOiY22bKyWO4o5/rZj0oZjpHpVMNWh113lQIj4KobwGKBIK2iVJyk41Ai5mcJ5BspFDy1BR77DJnK6L7paIMDEbWcPwu1NsN68V8m/50g9bR0NC1jwijsg5w8rlhFUzElvAL/uFe7DVJ2Mlu34Dnow7s0aUPooXLZiFBh1mG9G7opBg4vLQxYY45DxVUQoiwezQWa/0wEC4m20QcIfcvitD6sV6Dat40vsrwyQKeXbeyWo3DLHJzYpwGPJ8WmQFS5fnprL0A+DXEUxVRloISa9SLYcTEtpQ4MTDnPdcri9smrdX8QVLxK8aqk5LQt5TQ0nDGkfFME05ORCArA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BY1PR11MB7981.namprd11.prod.outlook.com (2603:10b6:a03:52f::12)
- by PH0PR11MB5160.namprd11.prod.outlook.com (2603:10b6:510:3e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Thu, 22 Jan
- 2026 22:48:37 +0000
-Received: from BY1PR11MB7981.namprd11.prod.outlook.com
- ([fe80::4a4e:8d21:83b0:ab7e]) by BY1PR11MB7981.namprd11.prod.outlook.com
- ([fe80::4a4e:8d21:83b0:ab7e%5]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
- 22:48:37 +0000
-Message-ID: <ab832338-75c4-44e7-b649-ba6251045a86@windriver.com>
-Date: Fri, 23 Jan 2026 00:48:01 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap][PATCH] wic/engine: fix copying directories
- into wic image with ext* partition
-To: Steve Sakoman <steve@sakoman.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20251001163457.49114-1-daniel.dragomir@windriver.com>
- <CAOSpxdas1e33jheu0ELXgQQf9e9+8ccwbFTkffhPPYObAnjJRA@mail.gmail.com>
- <BY1PR11MB79813ED8D397932BA1178D36F7E4A@BY1PR11MB7981.namprd11.prod.outlook.com>
- <CAOSpxdZwfQG_8JUbmvqnpGg=0oTimNv2q=XOc4iW71rX8G04zA@mail.gmail.com>
-Content-Language: en-US
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
-In-Reply-To: <CAOSpxdZwfQG_8JUbmvqnpGg=0oTimNv2q=XOc4iW71rX8G04zA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: VI1P191CA0002.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:800:1ba::20) To BY1PR11MB7981.namprd11.prod.outlook.com
- (2603:10b6:a03:52f::12)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NsTyrJ2V;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: ticotimo@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59de77e2e30so146621e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jan 2026 21:21:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769145708; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PwhTjTalwesUPrvmz6KavgrIeWwsGq+Z0LTHNuJdPaHnVEG2Nu3BQ0Re041e/Yokq1
+         UtQOqFuGUJfGho6TznSVpKgMfAM0o71UatGu3OM93ifmDh8fnRcn8GNLai7lTPZ9pGFE
+         wY05DiGLCXEPI/nA18ykv2BNKGQA1EBeMvV0CbwBLjUdGgH14f+YO4OgLyfD9q+wF+UR
+         AiOA+SmjBiFYnbaV2BR2EJIP9injcsRQCwoyUj2/UiHq5li7vQ9CpEk0urf7m5K8fcuK
+         UbOyomuXOxXE3vQitUsvYS22MgHq4GfiOFWox4im/H5AWUaRlWerWL7FZLw7NrsImKIn
+         xQZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gzPXtQ3E50Qsj0uYdL9SSwY6+8kagNT+d2CoPM4eAn4=;
+        fh=Wn5htX/0JoB0YvO7i42vPZMjChKZfhfchWltsRKLGhQ=;
+        b=ECj7LpHFl7VlqEVpRqIGL0+0fGQj8ViLLfHtgMB2u+tFYkxXwcMkxR5rShdWsEPEb8
+         2QnNi97wlUCoBgz+YW8iqaQwH5tfFjXexvg57IZZd79QE/76oOCTEYnK7hTaUXXajprA
+         IcLOeelo40GrbJ1Rm8hnxjWwT3l+McVm31mD49WKTJHKBkGfKwzHF97Px3dkHAXc26SB
+         DA8IbEcyfyiVFIa9Xoe8YjgSz5iKcsBes0AijQBhV6CcFHIIBuo7juLtjowAwpL+gIrS
+         s7SqhoUujbZrjErz9adM3u9ne/+ZtrjuhOTJE5JPVWnr93jpOnN5Yuc4iGcc7/EKa4Mt
+         5CIw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769145708; x=1769750508; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gzPXtQ3E50Qsj0uYdL9SSwY6+8kagNT+d2CoPM4eAn4=;
+        b=NsTyrJ2VXb9MfCHKWlgvdZPigg2tSnrrh8HczKliKUDOUc1Jv0mqWLZqk1viegLhSS
+         ktTLj10zaCcDLmBnW4WZD3sUA/7nI8nAkskwY6gvf/xkFzp6o2rS8tZyiO76Fl8gZo8T
+         HKOGmJ23Me3SnW/jjVNDO99iouPQCXH/PaIjZzc3TzT10lmVH6sPyrCykyMQF2/YnlLi
+         6AaNUwkYfnPocLZ7WZpqz6p4ZeQAcLAEglZZvM1Rm770vxgIHc3osYyceToGQhVEOAH1
+         vpRTuQ+1DTuUt/8+C5xKulm8tOZMUmXpCtuCD06ohKtSn1FZGT4IG7govpgUsKn/BHvH
+         NFnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769145708; x=1769750508;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gzPXtQ3E50Qsj0uYdL9SSwY6+8kagNT+d2CoPM4eAn4=;
+        b=NhXdIwtU0pcBsZfx7kEf+ydFSGuUbhIWvG/CeDchOETP0CHMXd0cmh3ZxmncbxiaR/
+         wT2JmiS3i6yIkAzxqOOtNUo9f8Veoec0PCzYpKr/xIJLLZoYfpxH47aGVuu7Q04mED3o
+         R2pGmz5zZit0q837uqQEq/iYGrGZQShnNby/UUWpdW5qZft4aWvAftTcMGPNju93QHQn
+         hom4YtMn3cEVHHDXLvS3CbVZd9qGIWZWwhA+TjURQB3yK103MKrcvxpdCK/k9XR9jVhr
+         RDxu4P1syx49y2F1iRbVv0DHNWBrUvEZnPr8bwbfDOeAtOaK1DMPaXv60EAcGm2krGbX
+         3N1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWMkUtjj8awquHFEHhs9nO2UXtQ9xqnyg1O2KoT/BDLgNdnkmfedohJDeSUoZBwtDd3rqhA9FmXX6k470ExIQDqlw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx1VQAnMcy4Vdi8Dnwl6W/lTkD6F0vVYzfdlqaovyb767KjHwKb
+	zDR0dy4/7hOpe5GBwD9dVgKn4WKndBRQpyw5ler2HaqgwEm9W/VCHiU8fbMTza6QtxUKqOUZ7yo
+	QEbUxgXg1FzXHtnmYAqgwm1+6Hryt24M=
+X-Gm-Gg: AZuq6aIIR5ajIun2K2gt1f4ldJ85TfbDOco4HfWTpCd8q1L2wPFRmtLPC1ED3LvpMfu
+	s1UusGX+vy50Qw8pszBk/wLJhHvtMe3cjxluGNP/z+j4WH4/RKgvA9+Qv7u1BS1taSrv2z6c5wz
+	ZiZFBevs1Jhm/xXRBoHSHnvb/Rmb+iLS2PVI6OwWwRtRGt6e/qyCJzTYtY0M8jHrE9QDeDMoBCh
+	UYwI5MXi9dnB1jho9rgO9EyMby3a9r/A0lGusfcnpG8DaYvnk1Ucz35rOPQwFyCGVQd7+s1m45w
+	waNFCKAWbuoQWIR25TKYwSxQXT7S
+X-Received: by 2002:a05:6512:a94:b0:59b:7016:951c with SMTP id
+ 2adb3069b0e04-59de4a2b38cmr577379e87.48.1769145707375; Thu, 22 Jan 2026
+ 21:21:47 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PR11MB7981:EE_|PH0PR11MB5160:EE_
-X-MS-Office365-Filtering-Correlation-Id: b86e4f96-4059-4235-8e5f-08de5a08616c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|4022899009|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?MEVFcFh5VnV4bG5zVVdQSUVEYk1kdjI4aG9jNmNpSVkzMWxLcW0rNWV4Q2Uw?=
- =?utf-8?B?RFRjVW9EWFBabGt5c1BKR2Y2M0N4WUczbC9JeklLSFVFZWd6RHFQSDd6SHla?=
- =?utf-8?B?YVYwWFU2R3F6MnljdGQwb0FpdlFpalZIZGFWaTRiYWo5b2RZMGl5Z2hBSGpq?=
- =?utf-8?B?RkZaeERLMisvZWhlL2FBS1JGNVRaRzc0NFJDS21PbCtvRERKWWxsWm1CMW9U?=
- =?utf-8?B?V0VKT0JLaHRnMkRCcXdiQVJFdlBJK09UVEk0dWdXRlVsTXJ4TnptaU1Eem1N?=
- =?utf-8?B?cVNDVGJ0dldleDEvTGZsL2ptcldUbUI1U2NwL3RlejRNQ0ZBOUc0OFlKSmF0?=
- =?utf-8?B?RVNES3kveDg3dFdHclZOaVJkcG4xNStiQnlOTURDa0JZVUx5cmtpUTNHYmlw?=
- =?utf-8?B?UEFoS2xOa0VIRGlyRFdQTzBHYSt6bncyMVkyY3VOUE9ULzV4d2ZwMHc2a0NL?=
- =?utf-8?B?ODBzVk9rQ1lTS2ZTeE5SclVzaVhmL2k3REk0UThUcWViaU1sbWh6c01NdnNs?=
- =?utf-8?B?M1F1MThGWmVYQ0U0QnE1QmtNTDQ1S09vUmpIa2I2Wk9tWkJ4aHk3dTFXeExP?=
- =?utf-8?B?ZmoxTWdqWVd1TjR4RHBIdUxDWFdxNzdralRVSGp4YzNXTDFoNGdSMWIyRE9w?=
- =?utf-8?B?eEgwR3dHeDhRN2hqb0F4d2t3V2d2NkJUekZ1YWhhVU1NbGgwWXZRUmV4WnVD?=
- =?utf-8?B?T2p3bXdTR2ZmcTJBZFpteXlBSVhZVDZJMHpWblhtcWFCakZoUHFzSjcxUVJK?=
- =?utf-8?B?WlpQbzhnM2lSRVZVZzBBS2hzc1IzZHRUakdPajNQR08zY2hsd2xodEZuVnk2?=
- =?utf-8?B?ZlNpZlJsU1NPd2swVEx1NTF1TEtGR1ZDdzRBRUR2WjcxdFpQRDhTRzI4RmFT?=
- =?utf-8?B?VTE1REd3S0QzL2lERFlHMkVWVjdJd000REs5SEhGVDkrMGRvSnN4d1VPVTQy?=
- =?utf-8?B?akZuelJ6NWdpeHJnRWRPT0lhYTh6dVU2R0Fnc1RCSmtFSW9EbDhwc01zNVJP?=
- =?utf-8?B?TlR6Y0x5elkycGdjc2srLzU1SVdqNkdUMVovdzdCYTNyVVYzcWhndzhFS0tF?=
- =?utf-8?B?bFRrMkwzd3VEd1J0ckEyNXBHeGRhczEwc2Z2eWxpa0ovMVVDVDBpbVE0U1Vm?=
- =?utf-8?B?cGVBNEpFWUYyaE5udUFHeWV0ekxFYnZhTzRnT240bTdPQk5IRkdFaEs0WGta?=
- =?utf-8?B?eTR3UmpycS9QU0ZMaDZIV1BwL1ovSUdNaTdaSmVoOVMxbitUcms2VllqMGNq?=
- =?utf-8?B?VkdaK1QvTnd6eHlId0VyT3E1SDJJM0Jud2EwVkhmS0xVbS9rR3JQdUtYdVJM?=
- =?utf-8?B?NjhteC83Wk5mN29mV3h1R3lSK0Z3NjRrMjZvV24xNzB2NVBVbGw2WVJ1TDFp?=
- =?utf-8?B?eHBmZWNHVk1sK2F0QzZLRS9PYlgvUEM4VWxuQmpiY1VFVFZCYThNcEd3QVhD?=
- =?utf-8?B?dUp1VW5XTnFoTkptMVJoRGgrbjBEKy9qMWlSdVVnd3ZSOUxLNktMQUxGMHlO?=
- =?utf-8?B?TVpFV1Y1cjdhVHZHY0xjZUdVUnVkbkkvcnZWQkYxUThpblovTzVQUkVEQXFC?=
- =?utf-8?B?VGlObWJtcENxai9RQm9LQm5QQzE2S29uazZZYkNTaW1neFduYzc2YzJXQkRQ?=
- =?utf-8?B?L2l1RUhhODJNL00vSUNvVmJYKy85elNlNXczblZXNWplWXdMbFZDR0htNHIw?=
- =?utf-8?B?OXZWMUpFTWVGRjBUYStVSVJGWVY4Ym0wQUE4N2dmTVgwN2FHYmtVRklINTdD?=
- =?utf-8?B?Z1lkWk5qdTdaU1BLSXVVZlp6ckFPdytnNE9aVTFEcmtOVFZTMHNBS1dXUlNH?=
- =?utf-8?B?VDJVM3B5RnBNU0VyWVJqTTRzQ1VEOTNtbDM0a1JIRjNiMmpmMjFObG10VWd4?=
- =?utf-8?B?T2hhUm9jcDVQMDNSR3lrR09tWnZESVRzQ1pPenRMbjRMcHJBVm9XTGR5T1gr?=
- =?utf-8?B?WHQ5M2xkcm1TbHZhTTBqS0hYdE9MUGlhOWdLUHpBallsVmEydzh6dHY0VnB1?=
- =?utf-8?B?SEdaU1JreW5RaHJkQUpqanpwY1ZKalZNNUZBMTdoY0lFOTlBcit0WGc0ZUNO?=
- =?utf-8?B?d0FyamdCTytnem5QTmo0R25YQUNDb3IzZE14TGxNcW9oazRycGg1MnZPQnEr?=
- =?utf-8?Q?p1jT9vd/zrsdyVQd74gRu+t6Q?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB7981.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(4022899009)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZTN5a0NvaGU1dUlSMitBNGY3VC9IL290amJ6eGs5NVNLYWRuYmVodGFoendn?=
- =?utf-8?B?RGdzdjEwWWltSWRSWUtSRmM2VWVWS3I2MDc1Mkc3NldFck5iTG81TmxZckkz?=
- =?utf-8?B?c0JQSkZ2bVpQalhveGNMV05yTW9VNTJiY1htcFB5VWxIYnFPVTdMTkVGbE8y?=
- =?utf-8?B?NFF5Ni8zQXVPWkNBalhFZnJBaUduaktVc21FTU9rU1VLY2o2eTRIb2RxYjhG?=
- =?utf-8?B?RFB0V2xWK3o1YzlNeno2Wkx2ZEdrdDlzYVd3K09hTkl1WktDYjlkQVQvZGFw?=
- =?utf-8?B?a3pmbjNsOEtPbGM0cFJvMFVKcUU4NXRFQTFBZzR2VkM0MVl1N2oyTDd1R2lu?=
- =?utf-8?B?clRreGF2M21ZL3l4NHlpV0hVUGl4V1drQnRFS0V6ZFBSaC9MWXc2eDdITEll?=
- =?utf-8?B?V0JYT3E0blBqOEIvWmUvL3N2b1RYQncrSUtPRUFncElidi9pMzFMVktUSHI5?=
- =?utf-8?B?dzJ0TDAwTkUrWkxCeFRWZWE3cmE5SGF0TVQwdWlTRktKT2FkUEcydUFnazZs?=
- =?utf-8?B?dXVLM3F6Z1FuU2hsalZnZlRvTnVnc3ErbXMrUHhCWUJZUEJQZmM4c01vWmwz?=
- =?utf-8?B?V1IrOVBMSS81elVZdmpncjBoamU0eHQ5eXBkYURSWmg5T2hIcngreE1TREla?=
- =?utf-8?B?S3JlUHFldmZKcUx2dVZUMVZjc3QvQWhzdlRJcnVPRDlYR0pTc00yR3dwbkRa?=
- =?utf-8?B?alRIOVJoVDYvVmZFeiszbmJDV1B4bmhVbkp6TGQ3QThXaVZETUJFa0lOL2My?=
- =?utf-8?B?bldYSldvckZ0MEdmVnZ4OHRyVFZ3ZE82U2FtNVpVTE4zU2lTekJ6MFloMzhH?=
- =?utf-8?B?Y21mQVQ0bHkrL3hod2lNNFBZcGdWV1plblA4dDNYZGkwOTR4OFhBamE1OWVv?=
- =?utf-8?B?bE9NTHptRkxROU5yYStTQU5zMHBZVTRiZnBoYXpsVnhwY0dQTkNtMVZrTmlD?=
- =?utf-8?B?bi9qaHlIMEZQa2RVZWJYTkxabTJlT0JqcVE4N1NZei9TUktyaS93em52ajgy?=
- =?utf-8?B?dlEyQVYrTEJ6MjlRcWNhTktMdmJTbG9SaDNpc2RYZHdzd2xuSzNYZnRnNmsx?=
- =?utf-8?B?YWZJR2RZRVZxTzUrUFNNdEFzcUJNdXlib25pT0R4WFVTYll1VDhOUUkrYXp1?=
- =?utf-8?B?bjVic0tNckFveHdyVzgxV0hZbGlqSzVtcldObmdUUlFyYVFZTHJxREVMMWZY?=
- =?utf-8?B?cDFVcjNWVjZOYk9FcGJlZXdPUjV5TElLYW9ETDN0VlZ0Z1BKWk8ra0Vwclpq?=
- =?utf-8?B?NnlxSE5RTkQ0eWJnSXp6NUtkS0llQlZEMnAvQVRIVy9VUmZkbHZram1qL3Rq?=
- =?utf-8?B?bWhSTGZ1b0ppVGtPNE5jbVdFaGZkYnA1Qm9KQ0VPSXkwWDhRWVp4bUZoQ0Uz?=
- =?utf-8?B?TW9aN3VCVS9qb0tqelZ5U0lZWVlIbFU0TGh1amNkanRXczd0SHcyN0M1WHVi?=
- =?utf-8?B?N1pOZWpBZHBCR3FkbXFMaHRVaGZkMEZ1WWkzcG40SUFHLzRZMGlmeHVrWk1F?=
- =?utf-8?B?SDRzUlJDM0ZTdUhiNXZjVStib2c4cm94ZE5rTkVtS1NNUWEyNGtlU3Mxd0tH?=
- =?utf-8?B?c3lEaWlSWmxpOUNTODEzeDQ5UmIxd2hBblVsQXd6bmFiSnd0dWY4R2ZmQXJM?=
- =?utf-8?B?MmxTTFptQm4wejBSbkxqYU1DMW9qZG04aDZNbkU4em53aHpMNlowRXhCcEI2?=
- =?utf-8?B?YmwyYmdFejJTdUh0dzVYUFZYQUR1enFUaVZLazJ2WWtkNkdvSWdIYmtnK1Nj?=
- =?utf-8?B?aUYvb3pzOHZHbXdEM1BwZkU3K1JqLzVndEd1MnlvZUdDY25mdGxiK2VCUUQw?=
- =?utf-8?B?LzJ0anR6ejJ6U0F5YzdrNUtldmpQRG5vdTNncDZwRTRwNmJPQWkwNFc0bHlt?=
- =?utf-8?B?c1cvZHltSkVzSERtMWk1YWEyV2J6WEVSZElabWFjMW1kU0liSXdqMGszVEZo?=
- =?utf-8?B?SEpiNnhCR1kwK0d5RUtmT2tGeHByMnhac3lEdTdvK1FpQU84Nk1sM1pkNlVH?=
- =?utf-8?B?WXZpUE43bUZPenJhdFVkVHRKcU1yVWdNVENJMzFlQ2s1c0RSWUkrelJ3bWZ6?=
- =?utf-8?B?TThJVWJrQ1FUbGRaZTViaDAyN0lqT1ZQWGJqK0ZwdmRwV3lVWlJZbkdSUVFq?=
- =?utf-8?B?SkpVVVkrdkZ1OHhqNCtsaU9qSEJpbU5DNk5NMk1VL3BldVJWTHF5S3VpaVJi?=
- =?utf-8?B?bS9OeEJqVS92TFk5NEczRTUyUUQxVEhGWnNIQVRUeE9kQ2hMdDF2Y29WSWpX?=
- =?utf-8?B?dlZWVmQ3TGgxYXhoczFBZmVIRFNoWUp1NlBuV24rTm9RMHZxQmd2UVFiZ0E3?=
- =?utf-8?B?d3FxUDdmNHJOenZLajNsdU1DbjhWak1RMmdDUGR0dGZFV2lwUG94bzB0K3VE?=
- =?utf-8?Q?WaN7zkJSn7zj9Q08=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b86e4f96-4059-4235-8e5f-08de5a08616c
-X-MS-Exchange-CrossTenant-AuthSource: BY1PR11MB7981.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 22:48:37.5751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q6Kkpg2rtueMiEMM16OCEMhxfr+pFha5BnkQaRuo42KA6Mu/Bmp7JULK1lS0ifXyd4bPvUbOkh8KcfGjFH3DHdiHYRttOCVPR6yMIFJQ3fg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5160
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: XF6y77JWm39YZh-24TeC9pyQGf_HyOkv
-X-Proofpoint-GUID: tgraJIFehHDu5bYaPJCfaJl9DFBisGm7
-X-Authority-Analysis: v=2.4 cv=U++fzOru c=1 sm=1 tr=0 ts=6972a949 cx=c_pps
- a=mDGR2lWCdzQo6q5c8Yz5oA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=_enOPnqeAAAA:8
- a=XdLFQ8KsTHmtDSzCC4YA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=XAbD3I9PDrnSMThV5XoS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDE3MiBTYWx0ZWRfX8jn1P2ci+kb6
- hmfewbTIeOY4goGyR23CN7urLjIarGGLIpPHYqT1ggJREHtimHVvRs9qPPzUduWgsjXrjJ7mFuR
- ywuG87vfBSt99lSMnOtd/JHbdSL44vujNftDO5WTwHYb9fNhTgc4EKxo2YSYlN2XIvG0psVB4mI
- eGltwi0CpI4CMjThAwJ1atL3/XAvsl2coU5oGEfTnw9tho1XVG28fDsgmeoKJEZ7eMdQAbKbXPj
- cTsnO3LyTSTPdv7hlsU3+tvYCVU4kTKZmBgHKyiqhzgVZq0yNoSqvWqR5FRKq6NxfA/0pRkEq50
- BXLQxzjRKqWH/yRbUWoAuyaDe/xaK3+jS9f96xRgT1O2JSf3KubtKieoMrm7gIGEs+PaepSZ7rA
- BlOBI8Q+XNg9XDvSjZLs6UbyoxFDgMY295bPPvz7PY4GRHxj8PONaKrd4KUovFbrhZzM5fBsXqx
- /x0biw262l8EOb0uz5Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-22_05,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601220172
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60MLq5Xq2232321
+References: <20260113175758.1409859-1-tgamblin@baylibre.com> <CAMKF1sqV8FyUWsbC8RgmQQk7KrP9Mv7idA_T+BL3nESDCHA5=A@mail.gmail.com>
+In-Reply-To: <CAMKF1sqV8FyUWsbC8RgmQQk7KrP9Mv7idA_T+BL3nESDCHA5=A@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Thu, 22 Jan 2026 21:21:36 -0800
+X-Gm-Features: AZwV_QhzqHtjW4AqcE6UqSaF_eQugcv4cpLdLbQD2orUblexQMLCj2L_hX4DHhQ
+Message-ID: <CANx9H-DJ5EQ_8xNtwmH9rM8XKeG7ig6nS3u_SOV_XVWx3+S9aw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/7 v4] python3: upgrade 3.13.11 -> 3.14.2
+To: raj.khem@gmail.com
+Cc: tgamblin@baylibre.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000071ae87064907555c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Jan 2026 22:48:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229858
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 05:21:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229859
+
+--00000000000071ae87064907555c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 22, 2026 at 9:33=E2=80=AFAM Khem Raj via lists.openembedded.org
+<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+
+> here are few recipes in meta-openembedded which are failing with python
+> 3.14, help in fixing this is appreciated
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/81/builds/1260
+>
+
+I have an upgrade for python3-orjson staged (including a fix for riscv64).
+I would like to add ptest and do some more testing on other architectures.
+Upstream seems resistant to embedded and cross-compilation, so I am trying
+to decide what to do with submitting. (My testing also was on top of the
+python3-maturin upgrade in oe-core).
+
+https://git.openembedded.org/meta-openembedded-contrib/log/?h=3Dtimo/python=
+3-orjson-3.11.5
+
+If we want to take this as is and address ptest and Upstream-Status later,
+I am fine with that.
 
 
-
-On 10/3/25 19:43, Steve Sakoman wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->=20
-> On Fri, Oct 3, 2025 at 12:13=E2=80=AFAM Dragomir, Daniel
-> <Daniel.Dragomir@windriver.com> wrote:
+> On Tue, Jan 13, 2026 at 9:58=E2=80=AFAM Trevor Gamblin via lists.openembe=
+dded.org
+> <tgamblin=3Dbaylibre.com@lists.openembedded.org> wrote:
+>
+>> I know that there's a large backlog and bigger issues than taking an
+>> upgrade
+>> patch series right now, but I wanted to make sure I had tested this
+>> properly and
+>> submitted it with all of the necessary components before moving on.
 >>
->> Yes, this is an issue on master/master-next too.
->> I tested and the same patch can be applied fine on both master and sca=
-rthgap branches.
->=20
-> Thanks for checking.
->=20
-> Please submit the patch for the master branch.  It would be helpful if
-> you would then ping me when you see that it has been accepted.  I'll
-> try to remember to watch for it, but a ping would ensure I don't miss
-> it :-)
+>> Compared to v3
+>> (https://lists.openembedded.org/g/openembedded-core/topic/117176199):
+>>
+>> - Added compression module changes to python3-compression split in a new
+>> patch
+>>
+>> One final set of tests:
+>>
+>> ptests:
+>>
+>> |=3D=3D Tests result: SUCCESS =3D=3D
+>> |
+>> |28 tests skipped:
+>> |    test.test_asyncio.test_windows_events
+>> |    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrace
+>> |    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
+>> |    test.test_gdb.test_misc test.test_gdb.test_pretty_print
+>> |    test_android test_apple test_asdl_parser test_clinic test_devpoll
+>> |    test_free_threading test_generated_cases test_idle test_kqueue
+>> |    test_launcher test_msvcrt test_startfile test_tcl test_tkinter
+>> |    test_ttk test_ttk_textonly test_turtle test_winapi
+>> |    test_winconsoleio test_winreg test_wmi
+>> |
+>> |8 tests skipped (resource denied):
+>> |    test_curses test_peg_generator test_smtpnet test_socketserver
+>> |    test_urllib2net test_urllibnet test_winsound test_zipfile64
+>> |
+>> |455 tests OK.
+>> |
+>> |Total duration: 3 min 43 sec
+>> |Total tests: run=3D46,462 skipped=3D2,384
+>> |Total test files: run=3D483/491 skipped=3D28 resource_denied=3D8
+>> |Result: SUCCESS
+>> |DURATION: 224
+>> |END: /usr/lib/python3/ptest
+>> |2026-01-13T17:51
+>> |STOP: ptest-runner
+>> |TOTAL: 1 FAIL: 0
+>> |root@qemux86-64:~#
+>>
+>> Reproducibility (gcc-doc failed, python3 did not):
+>>
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO -
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO - FAIL:
+>> test_reproducible_builds
+>> (reproducible.ReproducibleTests.test_reproducible_builds)
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO -
+>> ----------------------------------------------------------------------
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO - Traceback (most recent
+>> call last):
+>> |  File
+>> "/home/tgamblin/workspace/yocto/openembedded-core/meta/lib/oeqa/selftest=
+/cases/reproducible.py",
+>> line 406, in test_reproducible_builds
+>> |    self.fail('\n'.join(fails))
+>> |    ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+>> |AssertionError: The following deb packages are different and not in
+>> exclusion list:
+>>
+>> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB=
+-extended/tmp/deploy/deb/./x86-64-v3/gcc-doc_15.2.0-r0_amd64.deb
+>> |The following ipk packages are different and not in exclusion list:
+>>
+>> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB=
+-extended/tmp/deploy/ipk/./x86-64-v3/gcc-doc_15.2.0-r0_x86-64-v3.ipk
+>> |The following rpm packages are different and not in exclusion list:
+>>
+>> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB=
+-extended/tmp/deploy/rpm/./x86_64_v3/gcc-doc-15.2.0-r0.x86_64_v3.rpm
+>> |
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO -
+>> ----------------------------------------------------------------------
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO - Ran 1 test in 1549.611s
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO - FAILED
+>> |2026-01-13 12:42:25,446 - oe-selftest - INFO -  (failures=3D1)
+>> |2026-01-13 12:42:28,656 - oe-selftest - INFO - RESULTS:
+>> |2026-01-13 12:42:28,656 - oe-selftest - INFO - RESULTS -
+>> reproducible.ReproducibleTests.test_reproducible_builds: FAILED (1549.36=
+s)
+>> |2026-01-13 12:42:31,461 - oe-selftest - INFO - SUMMARY:
+>> |2026-01-13 12:42:31,461 - oe-selftest - INFO - oe-selftest () - Ran 1
+>> test in 1549.611s
+>> |2026-01-13 12:42:31,461 - oe-selftest - INFO - oe-selftest - FAIL -
+>> Required tests failed (successes=3D0, skipped=3D0, failures=3D1, errors=
+=3D0)
+>>
+>> buildall-qemu:
+>>
+>> |BUILDALL-QEMU LOG FOR python3
+>> |START TIME: 2026-01-13_11:25:54
+>> |HOSTNAME: megalith
+>> |HOST OS: Fedora Linux 43 (Server Edition)
+>> |HOST KERNEL: 6.17.12-300.fc43.x86_64
+>> |=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> |BUILD RESULTS:
+>> |[glibc]
+>> |PASS: qemuarm
+>> |PASS: qemuarm64
+>> |PASS: qemuarmv5
+>> |PASS: qemuloongarch64
+>> |PASS: qemumips
+>> |PASS: qemumips64
+>> |PASS: qemuppc
+>> |PASS: qemuppc64
+>> |PASS: qemuriscv32
+>> |PASS: qemuriscv64
+>> |PASS: qemux86-64
+>> |PASS: qemux86
+>> |[musl]
+>> |PASS: qemuarm
+>> |PASS: qemuarm64
+>> |PASS: qemuarmv5
+>> |FAIL: qemuloongarch64
+>> |PASS: qemumips
+>> |PASS: qemumips64
+>> |PASS: qemuppc
+>> |PASS: qemuppc64
+>> |PASS: qemuriscv32
+>> |PASS: qemuriscv64
+>> |PASS: qemux86-64
+>> |PASS: qemux86
+>> |=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> |PASSED: 23
+>> |FAILED: 1
+>>
+>> v3 details below.
+>>
+>> Compared to v2
+>> (https://lists.openembedded.org/g/openembedded-core/message/228232):
+>>
+>> - rebase on top of the 3.13.11 python3 recipe in master;
+>> - add a patch to include the _ast_unparse module in the core split,
+>> fixing some
+>>   import issues for annotationlib
+>>
+>> I've kept the original ptest, reproducibility, and buildall checks in th=
+e
+>> respective patches, but here is another set of runs for completeness:
+>>
+>> ptests:
+>>
+>> |=3D=3D Tests result: SUCCESS =3D=3D
+>> |
+>> |28 tests skipped:
+>> |    test.test_asyncio.test_windows_events
+>> |    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrace
+>> |    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
+>> |    test.test_gdb.test_misc test.test_gdb.test_pretty_print
+>> |    test_android test_apple test_asdl_parser test_clinic test_devpoll
+>> |    test_free_threading test_generated_cases test_idle test_kqueue
+>> |    test_launcher test_msvcrt test_startfile test_tcl test_tkinter
+>> |    test_ttk test_ttk_textonly test_turtle test_winapi
+>> |    test_winconsoleio test_winreg test_wmi
+>> |
+>> |8 tests skipped (resource denied):
+>> |    test_curses test_peg_generator test_smtpnet test_socketserver
+>> |    test_urllib2net test_urllibnet test_winsound test_zipfile64
+>> |
+>> |455 tests OK.
+>> |
+>> |Total duration: 3 min 44 sec
+>> |Total tests: run=3D46,462 skipped=3D2,384
+>> |Total test files: run=3D483/491 skipped=3D28 resource_denied=3D8
+>> |Result: SUCCESS
+>> |DURATION: 224
+>> |END: /usr/lib/python3/ptest
+>> |2026-01-08T14:58
+>> |STOP: ptest-runner
+>> |TOTAL: 1 FAIL: 0
+>>
+>> Reproducibility OK (saw issue with gcc-doc, but not python3):
+>>
+>>
+>> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB=
+-extended/tmp/deploy/deb/./x86-64-v3/gcc-doc_15.2.0-r0_amd64.deb
+>> |The following ipk packages are different and not in exclusion list:
+>>
+>> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB=
+-extended/tmp/deploy/ipk/./x86-64-v3/gcc-doc_15.2.0-r0_x86-64-v3.ipk
+>> |The following rpm packages are different and not in exclusion list:
+>>
+>> |/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB=
+-extended/tmp/deploy/rpm/./x86_64_v3/gcc-doc-15.2.0-r0.x86_64_v3.rpm
+>> |
+>> |2026-01-08 13:18:28,640 - oe-selftest - INFO -
+>> ----------------------------------------------------------------------
+>> |2026-01-08 13:18:28,640 - oe-selftest - INFO - Ran 1 test in 1285.587s
+>> |2026-01-08 13:18:28,640 - oe-selftest - INFO - FAILED
+>> |2026-01-08 13:18:28,640 - oe-selftest - INFO -  (failures=3D1)
+>> |2026-01-08 13:18:31,656 - oe-selftest - INFO - RESULTS:
+>> |2026-01-08 13:18:31,656 - oe-selftest - INFO - RESULTS -
+>> reproducible.ReproducibleTests.test_reproducible_builds: FAILED (1285.41=
+s)
+>> |2026-01-08 13:18:31,660 - oe-selftest - INFO - SUMMARY:
+>> |2026-01-08 13:18:31,660 - oe-selftest - INFO - oe-selftest () - Ran 1
+>> test in 1285.588s
+>> |2026-01-08 13:18:31,660 - oe-selftest - INFO - oe-selftest - FAIL -
+>> Required tests failed (successes=3D0, skipped=3D0, failures=3D1, errors=
+=3D0)
+>>
+>> buildall-qemu:
+>>
+>> |BUILDALL-QEMU LOG FOR python3
+>> |START TIME: 2026-01-08_13:27:10
+>> |HOSTNAME: megalith
+>> |HOST OS: Fedora Linux 43 (Server Edition)
+>> |HOST KERNEL: 6.17.12-300.fc43.x86_64
+>> |=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> |BUILD RESULTS:
+>> |[glibc]
+>> |PASS: qemuarm
+>> |PASS: qemuarm64
+>> |PASS: qemuarmv5
+>> |PASS: qemuloongarch64
+>> |PASS: qemumips
+>> |PASS: qemumips64
+>> |PASS: qemuppc
+>> |PASS: qemuppc64
+>> |PASS: qemuriscv32
+>> |PASS: qemuriscv64
+>> |PASS: qemux86-64
+>> |PASS: qemux86
+>> |[musl]
+>> |PASS: qemuarm
+>> |PASS: qemuarm64
+>> |PASS: qemuarmv5
+>> |FAIL: qemuloongarch64
+>> |PASS: qemumips
+>> |PASS: qemumips64
+>> |PASS: qemuppc
+>> |PASS: qemuppc64
+>> |PASS: qemuriscv32
+>> |PASS: qemuriscv64
+>> |PASS: qemux86-64
+>> |PASS: qemux86
+>> |=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> |PASSED: 23
+>> |FAILED: 1
+>>
+>> v2 details below.
+>>
+>> Compared to v1
+>> (https://lists.openembedded.org/g/openembedded-core/message/227955):
+>>
+>> - Drop python3-bcrypt upgrade, as someone else has submitted that;
+>> - Drop rpm patch to manually override Python3_SITEARCH with a patch, as
+>> that was
+>>   masking the real issue (see below);
+>> - Add a new patch to fix python3targetconfig by exporting
+>> _PYTHON_PROJECT_BASE,
+>>   which Python's sysconfig looks for (as of 3.14.0) when doing
+>>   cross-compilation. The absence of this was resulting in packages like
+>> rpm
+>>   finding paths for the native interpreter when making use of sysconfig,
+>> when
+>>   they needed the host values.
+>>
+>> Note that I've dropped my own version of the python3-bcrypt upgrade, but=
+ I
+>> tested this patch series on top of the other one that was submitted, as
+>> otherwise the ptest images would break during build (version mismatch
+>> errors
+>> around PyO3, which is fixed with the bcrypt upgrade).
+>>
+>> v1 details below.
+>>
+>> This supersedes a previous series sent, which only did the 3.14.0 upgrad=
+e.
+>>
+>> Compared to the first series
+>> (https://lists.openembedded.org/g/openembedded-core/message/227310), I'v=
+e
+>> done the following:
+>>
+>> - Added a commit for including the '_py_warnings' and 'annotationlib'
+>> modules in
+>>   python3-core;
+>> - Adds the python 3.14.2 upgrade;
+>> - Removed commits for adding python3-misc to RDEPENDS for python3-pytest
+>> and
+>>   python3-jsonpointer, as these are now solved by a new patch to add new
+>> modules
+>>   to python3-core in the manifest. Doing it this way was fragile in the
+>> sense
+>>   that there were many other recipes needing this same fix that testing
+>> didn't
+>>   easily catch, and it doesn't make sense to add python3-misc to recipe
+>> RDEPENDS
+>>   just because (for example) python3-logging (another package split) is
+>> trying
+>>   to make use of warnings, but can't find the right module;
+>> - Modified the rpm commit to apply a patch (submitted upstream) to fix
+>>   CMakeLists.txt, rather than a do_configure prepend;
+>> - Fixed the Python 3.14.0 upgrade commit so that one of the patches we
+>> carry to
+>>   skip tests doesn't include duplicate calls to the relevant skip
+>> functions.
+>>
+>> I've kept the upgrades from 3.13.11 to 3.14.0 and 3.14.0 to 3.14.2
+>> separate to
+>> reflect separate testing and let people review those changelogs
+>> individually if
+>> desired.
+>>
+>> Trevor Gamblin (7):
+>>   python3: upgrade 3.13.11 -> 3.14.0
+>>   python3targetconfig: export _PYTHON_PROJECT_BASE
+>>   python_pep517: add --prefix to nativepython3 call
+>>   python3: upgrade 3.14.0 -> 3.14.2
+>>   python3: add _py_warnings, annotationlib to core
+>>   python3: add _ast_unparse to core
+>>   python3: add new files to compression
+>>
+>>  meta/classes-recipe/python3-dir.bbclass       |    2 +-
+>>  .../python3targetconfig.bbclass               |    1 +
+>>  meta/classes-recipe/python_pep517.bbclass     |    2 +-
+>>  ...r-OpenSSL-3.4-and-add-it-to-multissl.patch | 1452 -----------------
+>>  ...-use-prefix-value-from-build-configu.patch |   35 +-
+>>  ...sts-due-to-load-variability-on-YP-AB.patch |   31 +-
+>>  ...ctive_children-skip-problematic-test.patch |   17 +-
+>>  ...1-test_cmd-skip-bang-completion-test.patch |   31 +
+>>  ...-test_unix_console.test_cursor_back_.patch |   46 +
+>>  ...kip-test_sysconfig.test_sysconfigdat.patch |   32 +
+>>  .../python/python3/python3-manifest.json      |   14 +-
+>>  .../{python3_3.13.11.bb =3D> python3_3.14.2.bb} |   20 +-
+>>  12 files changed, 195 insertions(+), 1488 deletions(-)
+>>  delete mode 100644
+>> meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL-3.4-=
+and-add-it-to-multissl.patch
+>>  create mode 100644
+>> meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-=
+test.patch
+>>  create mode 100644
+>> meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_con=
+sole.test_cursor_back_.patch
+>>  create mode 100644
+>> meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysco=
+nfig.test_sysconfigdat.patch
+>>  rename meta/recipes-devtools/python/{python3_3.13.11.bb =3D>
+>> python3_3.14.2.bb} (95%)
+>>
+>> --
+>> 2.52.0
+>>
+>>
+>>
+>>
+>>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#229854):
+> https://lists.openembedded.org/g/openembedded-core/message/229854
+> Mute This Topic: https://lists.openembedded.org/mt/117247400/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Hi Steve,
+--00000000000071ae87064907555c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Those changes were accepted in master branch. I created also a selftest=20
-for this scenario.
-Could you please back-port the commits to scarthgap branch? I tried=20
-locally and there is a minor merge conflict on one of the commits. If=20
-you want me to send again a scarthgap version of the commits on the=20
-mailing list, let me know.
+<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 22, 2026 at 9:33=E2=80=AFAM=
+ Khem Raj via <a href=3D"http://lists.openembedded.org">lists.openembedded.=
+org</a> &lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">=
+gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">=
+<div dir=3D"ltr">here are few recipes in meta-openembedded which are failin=
+g with python 3.14, help in fixing this is appreciated<div><br></div><div><=
+a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/81/build=
+s/1260" target=3D"_blank">https://autobuilder.yoctoproject.org/valkyrie/#/b=
+uilders/81/builds/1260</a></div></div></blockquote><div dir=3D"auto"><br></=
+div><div dir=3D"auto">I have an upgrade for python3-orjson staged (includin=
+g a fix for riscv64). I would like to add ptest and do some more testing on=
+ other architectures. Upstream seems resistant to embedded and cross-compil=
+ation,=C2=A0so I am trying to decide what to do with submitting. (My testin=
+g also was on top of the python3-maturin upgrade in oe-core).</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><div style=3D"font-size:inherit"><a h=
+ref=3D"https://git.openembedded.org/meta-openembedded-contrib/log/?h=3Dtimo=
+/python3-orjson-3.11.5" style=3D"font-size:inherit">https://git.openembedde=
+d.org/meta-openembedded-contrib/log/?h=3Dtimo/python3-orjson-3.11.5</a></di=
+v><br></div><div dir=3D"auto">If we want to take this as is and address pte=
+st and Upstream-Status later, I am fine with that.</div><div dir=3D"auto"><=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-lef=
+t-color:rgb(204,204,204)"><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Tue, Jan 13, 2026 at 9:58=E2=80=AFAM Trevor Gamblin =
+via <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.opene=
+mbedded.org</a> &lt;tgamblin=3D<a href=3D"mailto:baylibre.com@lists.openemb=
+edded.org" target=3D"_blank">baylibre.com@lists.openembedded.org</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;borde=
+r-left-color:rgb(204,204,204)">I know that there&#39;s a large backlog and =
+bigger issues than taking an upgrade<br>
+patch series right now, but I wanted to make sure I had tested this properl=
+y and<br>
+submitted it with all of the necessary components before moving on.<br>
+<br>
+Compared to v3<br>
+(<a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/117176=
+199" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/=
+openembedded-core/topic/117176199</a>):<br>
+<br>
+- Added compression module changes to python3-compression split in a new pa=
+tch<br>
+<br>
+One final set of tests:<br>
+<br>
+ptests:<br>
+<br>
+|=3D=3D Tests result: SUCCESS =3D=3D<br>
+|<br>
+|28 tests skipped:<br>
+|=C2=A0 =C2=A0 test.test_asyncio.test_windows_events<br>
+|=C2=A0 =C2=A0 test.test_asyncio.test_windows_utils test.test_gdb.test_back=
+trace<br>
+|=C2=A0 =C2=A0 test.test_gdb.test_cfunction test.test_gdb.test_cfunction_fu=
+ll<br>
+|=C2=A0 =C2=A0 test.test_gdb.test_misc test.test_gdb.test_pretty_print<br>
+|=C2=A0 =C2=A0 test_android test_apple test_asdl_parser test_clinic test_de=
+vpoll<br>
+|=C2=A0 =C2=A0 test_free_threading test_generated_cases test_idle test_kque=
+ue<br>
+|=C2=A0 =C2=A0 test_launcher test_msvcrt test_startfile test_tcl test_tkint=
+er<br>
+|=C2=A0 =C2=A0 test_ttk test_ttk_textonly test_turtle test_winapi<br>
+|=C2=A0 =C2=A0 test_winconsoleio test_winreg test_wmi<br>
+|<br>
+|8 tests skipped (resource denied):<br>
+|=C2=A0 =C2=A0 test_curses test_peg_generator test_smtpnet test_socketserve=
+r<br>
+|=C2=A0 =C2=A0 test_urllib2net test_urllibnet test_winsound test_zipfile64<=
+br>
+|<br>
+|455 tests OK.<br>
+|<br>
+|Total duration: 3 min 43 sec<br>
+|Total tests: run=3D46,462 skipped=3D2,384<br>
+|Total test files: run=3D483/491 skipped=3D28 resource_denied=3D8<br>
+|Result: SUCCESS<br>
+|DURATION: 224<br>
+|END: /usr/lib/python3/ptest<br>
+|2026-01-13T17:51<br>
+|STOP: ptest-runner<br>
+|TOTAL: 1 FAIL: 0<br>
+|root@qemux86-64:~#<br>
+<br>
+Reproducibility (gcc-doc failed, python3 did not):<br>
+<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - FAIL: test_reproducible_bui=
+lds (reproducible.ReproducibleTests.test_reproducible_builds)<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - ---------------------------=
+-------------------------------------------<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - Traceback (most recent call=
+ last):<br>
+|=C2=A0 File &quot;/home/tgamblin/workspace/yocto/openembedded-core/meta/li=
+b/oeqa/selftest/cases/reproducible.py&quot;, line 406, in test_reproducible=
+_builds<br>
+|=C2=A0 =C2=A0 self.fail(&#39;\n&#39;.join(fails))<br>
+|=C2=A0 =C2=A0 ~~~~~~~~~^^^^^^^^^^^^^^^^^^<br>
+|AssertionError: The following deb packages are different and not in exclus=
+ion list:<br>
+|/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-ex=
+tended/tmp/deploy/deb/./x86-64-v3/gcc-doc_15.2.0-r0_amd64.deb<br>
+|The following ipk packages are different and not in exclusion list:<br>
+|/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-ex=
+tended/tmp/deploy/ipk/./x86-64-v3/gcc-doc_15.2.0-r0_x86-64-v3.ipk<br>
+|The following rpm packages are different and not in exclusion list:<br>
+|/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-ex=
+tended/tmp/deploy/rpm/./x86_64_v3/gcc-doc-15.2.0-r0.x86_64_v3.rpm<br>
+|<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - ---------------------------=
+-------------------------------------------<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - Ran 1 test in 1549.611s<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO - FAILED<br>
+|2026-01-13 12:42:25,446 - oe-selftest - INFO -=C2=A0 (failures=3D1)<br>
+|2026-01-13 12:42:28,656 - oe-selftest - INFO - RESULTS:<br>
+|2026-01-13 12:42:28,656 - oe-selftest - INFO - RESULTS - reproducible.Repr=
+oducibleTests.test_reproducible_builds: FAILED (1549.36s)<br>
+|2026-01-13 12:42:31,461 - oe-selftest - INFO - SUMMARY:<br>
+|2026-01-13 12:42:31,461 - oe-selftest - INFO - oe-selftest () - Ran 1 test=
+ in 1549.611s<br>
+|2026-01-13 12:42:31,461 - oe-selftest - INFO - oe-selftest - FAIL - Requir=
+ed tests failed (successes=3D0, skipped=3D0, failures=3D1, errors=3D0)<br>
+<br>
+buildall-qemu:<br>
+<br>
+|BUILDALL-QEMU LOG FOR python3<br>
+|START TIME: 2026-01-13_11:25:54<br>
+|HOSTNAME: megalith<br>
+|HOST OS: Fedora Linux 43 (Server Edition)<br>
+|HOST KERNEL: 6.17.12-300.fc43.x86_64<br>
+|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+|BUILD RESULTS:<br>
+|[glibc]<br>
+|PASS: qemuarm<br>
+|PASS: qemuarm64<br>
+|PASS: qemuarmv5<br>
+|PASS: qemuloongarch64<br>
+|PASS: qemumips<br>
+|PASS: qemumips64<br>
+|PASS: qemuppc<br>
+|PASS: qemuppc64<br>
+|PASS: qemuriscv32<br>
+|PASS: qemuriscv64<br>
+|PASS: qemux86-64<br>
+|PASS: qemux86<br>
+|[musl]<br>
+|PASS: qemuarm<br>
+|PASS: qemuarm64<br>
+|PASS: qemuarmv5<br>
+|FAIL: qemuloongarch64<br>
+|PASS: qemumips<br>
+|PASS: qemumips64<br>
+|PASS: qemuppc<br>
+|PASS: qemuppc64<br>
+|PASS: qemuriscv32<br>
+|PASS: qemuriscv64<br>
+|PASS: qemux86-64<br>
+|PASS: qemux86<br>
+|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+|PASSED: 23<br>
+|FAILED: 1<br>
+<br>
+v3 details below.<br>
+<br>
+Compared to v2<br>
+(<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/2282=
+32" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/o=
+penembedded-core/message/228232</a>):<br>
+<br>
+- rebase on top of the 3.13.11 python3 recipe in master;<br>
+- add a patch to include the _ast_unparse module in the core split, fixing =
+some<br>
+=C2=A0 import issues for annotationlib<br>
+<br>
+I&#39;ve kept the original ptest, reproducibility, and buildall checks in t=
+he<br>
+respective patches, but here is another set of runs for completeness:<br>
+<br>
+ptests:<br>
+<br>
+|=3D=3D Tests result: SUCCESS =3D=3D<br>
+|<br>
+|28 tests skipped:<br>
+|=C2=A0 =C2=A0 test.test_asyncio.test_windows_events<br>
+|=C2=A0 =C2=A0 test.test_asyncio.test_windows_utils test.test_gdb.test_back=
+trace<br>
+|=C2=A0 =C2=A0 test.test_gdb.test_cfunction test.test_gdb.test_cfunction_fu=
+ll<br>
+|=C2=A0 =C2=A0 test.test_gdb.test_misc test.test_gdb.test_pretty_print<br>
+|=C2=A0 =C2=A0 test_android test_apple test_asdl_parser test_clinic test_de=
+vpoll<br>
+|=C2=A0 =C2=A0 test_free_threading test_generated_cases test_idle test_kque=
+ue<br>
+|=C2=A0 =C2=A0 test_launcher test_msvcrt test_startfile test_tcl test_tkint=
+er<br>
+|=C2=A0 =C2=A0 test_ttk test_ttk_textonly test_turtle test_winapi<br>
+|=C2=A0 =C2=A0 test_winconsoleio test_winreg test_wmi<br>
+|<br>
+|8 tests skipped (resource denied):<br>
+|=C2=A0 =C2=A0 test_curses test_peg_generator test_smtpnet test_socketserve=
+r<br>
+|=C2=A0 =C2=A0 test_urllib2net test_urllibnet test_winsound test_zipfile64<=
+br>
+|<br>
+|455 tests OK.<br>
+|<br>
+|Total duration: 3 min 44 sec<br>
+|Total tests: run=3D46,462 skipped=3D2,384<br>
+|Total test files: run=3D483/491 skipped=3D28 resource_denied=3D8<br>
+|Result: SUCCESS<br>
+|DURATION: 224<br>
+|END: /usr/lib/python3/ptest<br>
+|2026-01-08T14:58<br>
+|STOP: ptest-runner<br>
+|TOTAL: 1 FAIL: 0<br>
+<br>
+Reproducibility OK (saw issue with gcc-doc, but not python3):<br>
+<br>
+|/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-ex=
+tended/tmp/deploy/deb/./x86-64-v3/gcc-doc_15.2.0-r0_amd64.deb<br>
+|The following ipk packages are different and not in exclusion list:<br>
+|/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-ex=
+tended/tmp/deploy/ipk/./x86-64-v3/gcc-doc_15.2.0-r0_x86-64-v3.ipk<br>
+|The following rpm packages are different and not in exclusion list:<br>
+|/home/tgamblin/workspace/yocto/openembedded-core/build-st/reproducibleB-ex=
+tended/tmp/deploy/rpm/./x86_64_v3/gcc-doc-15.2.0-r0.x86_64_v3.rpm<br>
+|<br>
+|2026-01-08 13:18:28,640 - oe-selftest - INFO - ---------------------------=
+-------------------------------------------<br>
+|2026-01-08 13:18:28,640 - oe-selftest - INFO - Ran 1 test in 1285.587s<br>
+|2026-01-08 13:18:28,640 - oe-selftest - INFO - FAILED<br>
+|2026-01-08 13:18:28,640 - oe-selftest - INFO -=C2=A0 (failures=3D1)<br>
+|2026-01-08 13:18:31,656 - oe-selftest - INFO - RESULTS:<br>
+|2026-01-08 13:18:31,656 - oe-selftest - INFO - RESULTS - reproducible.Repr=
+oducibleTests.test_reproducible_builds: FAILED (1285.41s)<br>
+|2026-01-08 13:18:31,660 - oe-selftest - INFO - SUMMARY:<br>
+|2026-01-08 13:18:31,660 - oe-selftest - INFO - oe-selftest () - Ran 1 test=
+ in 1285.588s<br>
+|2026-01-08 13:18:31,660 - oe-selftest - INFO - oe-selftest - FAIL - Requir=
+ed tests failed (successes=3D0, skipped=3D0, failures=3D1, errors=3D0)<br>
+<br>
+buildall-qemu:<br>
+<br>
+|BUILDALL-QEMU LOG FOR python3<br>
+|START TIME: 2026-01-08_13:27:10<br>
+|HOSTNAME: megalith<br>
+|HOST OS: Fedora Linux 43 (Server Edition)<br>
+|HOST KERNEL: 6.17.12-300.fc43.x86_64<br>
+|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+|BUILD RESULTS:<br>
+|[glibc]<br>
+|PASS: qemuarm<br>
+|PASS: qemuarm64<br>
+|PASS: qemuarmv5<br>
+|PASS: qemuloongarch64<br>
+|PASS: qemumips<br>
+|PASS: qemumips64<br>
+|PASS: qemuppc<br>
+|PASS: qemuppc64<br>
+|PASS: qemuriscv32<br>
+|PASS: qemuriscv64<br>
+|PASS: qemux86-64<br>
+|PASS: qemux86<br>
+|[musl]<br>
+|PASS: qemuarm<br>
+|PASS: qemuarm64<br>
+|PASS: qemuarmv5<br>
+|FAIL: qemuloongarch64<br>
+|PASS: qemumips<br>
+|PASS: qemumips64<br>
+|PASS: qemuppc<br>
+|PASS: qemuppc64<br>
+|PASS: qemuriscv32<br>
+|PASS: qemuriscv64<br>
+|PASS: qemux86-64<br>
+|PASS: qemux86<br>
+|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+|PASSED: 23<br>
+|FAILED: 1<br>
+<br>
+v2 details below.<br>
+<br>
+Compared to v1<br>
+(<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/2279=
+55" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/o=
+penembedded-core/message/227955</a>):<br>
+<br>
+- Drop python3-bcrypt upgrade, as someone else has submitted that;<br>
+- Drop rpm patch to manually override Python3_SITEARCH with a patch, as tha=
+t was<br>
+=C2=A0 masking the real issue (see below);<br>
+- Add a new patch to fix python3targetconfig by exporting _PYTHON_PROJECT_B=
+ASE,<br>
+=C2=A0 which Python&#39;s sysconfig looks for (as of 3.14.0) when doing<br>
+=C2=A0 cross-compilation. The absence of this was resulting in packages lik=
+e rpm<br>
+=C2=A0 finding paths for the native interpreter when making use of sysconfi=
+g, when<br>
+=C2=A0 they needed the host values.<br>
+<br>
+Note that I&#39;ve dropped my own version of the python3-bcrypt upgrade, bu=
+t I<br>
+tested this patch series on top of the other one that was submitted, as<br>
+otherwise the ptest images would break during build (version mismatch error=
+s<br>
+around PyO3, which is fixed with the bcrypt upgrade).<br>
+<br>
+v1 details below.<br>
+<br>
+This supersedes a previous series sent, which only did the 3.14.0 upgrade.<=
+br>
+<br>
+Compared to the first series<br>
+(<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/2273=
+10" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/o=
+penembedded-core/message/227310</a>), I&#39;ve<br>
+done the following:<br>
+<br>
+- Added a commit for including the &#39;_py_warnings&#39; and &#39;annotati=
+onlib&#39; modules in<br>
+=C2=A0 python3-core;<br>
+- Adds the python 3.14.2 upgrade;<br>
+- Removed commits for adding python3-misc to RDEPENDS for python3-pytest an=
+d<br>
+=C2=A0 python3-jsonpointer, as these are now solved by a new patch to add n=
+ew modules<br>
+=C2=A0 to python3-core in the manifest. Doing it this way was fragile in th=
+e sense<br>
+=C2=A0 that there were many other recipes needing this same fix that testin=
+g didn&#39;t<br>
+=C2=A0 easily catch, and it doesn&#39;t make sense to add python3-misc to r=
+ecipe RDEPENDS<br>
+=C2=A0 just because (for example) python3-logging (another package split) i=
+s trying<br>
+=C2=A0 to make use of warnings, but can&#39;t find the right module;<br>
+- Modified the rpm commit to apply a patch (submitted upstream) to fix<br>
+=C2=A0 CMakeLists.txt, rather than a do_configure prepend;<br>
+- Fixed the Python 3.14.0 upgrade commit so that one of the patches we carr=
+y to<br>
+=C2=A0 skip tests doesn&#39;t include duplicate calls to the relevant skip =
+functions.<br>
+<br>
+I&#39;ve kept the upgrades from 3.13.11 to 3.14.0 and 3.14.0 to 3.14.2 sepa=
+rate to<br>
+reflect separate testing and let people review those changelogs individuall=
+y if<br>
+desired.<br>
+<br>
+Trevor Gamblin (7):<br>
+=C2=A0 python3: upgrade 3.13.11 -&gt; 3.14.0<br>
+=C2=A0 python3targetconfig: export _PYTHON_PROJECT_BASE<br>
+=C2=A0 python_pep517: add --prefix to nativepython3 call<br>
+=C2=A0 python3: upgrade 3.14.0 -&gt; 3.14.2<br>
+=C2=A0 python3: add _py_warnings, annotationlib to core<br>
+=C2=A0 python3: add _ast_unparse to core<br>
+=C2=A0 python3: add new files to compression<br>
+<br>
+=C2=A0meta/classes-recipe/python3-dir.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A0 2 +-<br>
+=C2=A0.../python3targetconfig.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
+=C2=A0meta/classes-recipe/python_pep517.bbclass=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A0 2 +-<br>
+=C2=A0...r-OpenSSL-3.4-and-add-it-to-multissl.patch | 1452 ----------------=
+-<br>
+=C2=A0...-use-prefix-value-from-build-configu.patch |=C2=A0 =C2=A035 +-<br>
+=C2=A0...sts-due-to-load-variability-on-YP-AB.patch |=C2=A0 =C2=A031 +-<br>
+=C2=A0...ctive_children-skip-problematic-test.patch |=C2=A0 =C2=A017 +-<br>
+=C2=A0...1-test_cmd-skip-bang-completion-test.patch |=C2=A0 =C2=A031 +<br>
+=C2=A0...-test_unix_console.test_cursor_back_.patch |=C2=A0 =C2=A046 +<br>
+=C2=A0...kip-test_sysconfig.test_sysconfigdat.patch |=C2=A0 =C2=A032 +<br>
+=C2=A0.../python/python3/python3-manifest.json=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A014 +-<br>
+=C2=A0.../{<a href=3D"http://python3_3.13.11.bb" rel=3D"noreferrer" target=
+=3D"_blank">python3_3.13.11.bb</a> =3D&gt; <a href=3D"http://python3_3.14.2=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.14.2.bb</a>} |=C2=A0 =
+=C2=A020 +-<br>
+=C2=A012 files changed, 195 insertions(+), 1488 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/0001-Generate=
+-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3/0001-test_cmd=
+-skip-bang-completion-test.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3/0001-test_pyr=
+epl-skip-test_unix_console.test_cursor_back_.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3/0001-test_sys=
+config-skip-test_sysconfig.test_sysconfigdat.patch<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3_3.13.1=
+1.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.13.11.bb</a> =3D&gt; <=
+a href=3D"http://python3_3.14.2.bb" rel=3D"noreferrer" target=3D"_blank">py=
+thon3_3.14.2.bb</a>} (95%)<br>
+<br>
+-- <br>
+2.52.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#229854): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/229854" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/229854</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117247400/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/117247400/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Commits from master branch are:
-6de3d2602f oeqa/selftest/wic: test recursive dir copy on ext partitions
-1ed38aff5f wic/engine: fix copying directories into wic image with ext*=20
-partition
-
-Regards,
-Daniel
-
->=20
-> Steve
->=20
->>
->> Regards,
->> Daniel
->>
->> ________________________________
->> From: Steve Sakoman <steve@sakoman.com>
->> Sent: Thursday, October 2, 2025 5:55 PM
->> To: Dragomir, Daniel <Daniel.Dragomir@windriver.com>
->> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.=
-openembedded.org>
->> Subject: Re: [OE-core][scarthgap][PATCH] wic/engine: fix copying direc=
-tories into wic image with ext* partition
->>
->> Is this also an issue on master?  If so, you will need to submit this
->> patch for master before I can take it for scarthgap.  If not, can you
->> explain why it isn't needed there?
->>
->> Thanks,
->>
->> Steve
->>
->> On Wed, Oct 1, 2025 at 2:25=E2=80=AFPM Dragomir, Daniel via
->> lists.openembedded.org
->> <daniel.dragomir=3Dwindriver.com@lists.openembedded.org> wrote:
->>>
->>> wic uses debugfs to write on ext* partitions, but debugfs can only
->>> write to the current working directory and it cannot copy complete
->>> directory trees. Running 'wic ls' on a copied directory show this:
->>>      -l: Ext2 inode is not a directory
->>>
->>> Fix this by creating a command list for debugfs (-f parameter) when
->>> recursive parsing the host directory in order to create a similar
->>> directory structure (mkdir) and copy files (write) on each level
->>> into the destination directory from the wic's ext* partition.
->>>
->>> Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
->>> ---
->>>   scripts/lib/wic/engine.py | 63 ++++++++++++++++++++++++++++++------=
----
->>>   1 file changed, 49 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
->>> index b9e60cbe4e..9d596be3a7 100644
->>> --- a/scripts/lib/wic/engine.py
->>> +++ b/scripts/lib/wic/engine.py
->>> @@ -345,29 +345,64 @@ class Disk:
->>>                                                      path))
->>>
->>>       def copy(self, src, dest):
->>> -        """Copy partition image into wic image."""
->>> -        pnum =3D  dest.part if isinstance(src, str) else src.part
->>> +        """Copy files or directories to/from the vfat or ext* partit=
-ion."""
->>> +        pnum =3D dest.part if isinstance(src, str) else src.part
->>> +        partimg =3D self._get_part_image(pnum)
->>>
->>>           if self.partitions[pnum].fstype.startswith('ext'):
->>> -            if isinstance(src, str):
->>> -                cmd =3D "printf 'cd {}\nwrite {} {}\n' | {} -w {}".\
->>> -                      format(os.path.dirname(dest.path), src, os.pat=
-h.basename(src),
->>> -                             self.debugfs, self._get_part_image(pnum=
-))
->>> -            else: # copy from wic
->>> -                # run both dump and rdump to support both files and =
-directory
->>> +            if isinstance(src, str): # host to image case
->>> +                if os.path.isdir(src):
->>> +                    base =3D os.path.abspath(src)
->>> +                    base_parent =3D os.path.dirname(base)
->>> +                    cmds =3D []
->>> +                    made =3D set()
->>> +
->>> +                    for root, dirs, files in os.walk(base):
->>> +                        for fname in files:
->>> +                            host_file =3D os.path.join(root, fname)
->>> +                            rel =3D os.path.relpath(host_file, base_=
-parent)
->>> +                            dest_file =3D os.path.join(dest.path, re=
-l)
->>> +                            dest_dir =3D os.path.dirname(dest_file)
->>> +
->>> +                            # create dir structure (mkdir -p)
->>> +                            parts =3D dest_dir.strip('/').split('/')
->>> +                            cur =3D ''
->>> +                            for p in parts:
->>> +                                cur =3D cur + '/' + p
->>> +                                if cur not in made:
->>> +                                    cmds.append(f'mkdir "{cur}"')
->>> +                                    made.add(cur)
->>> +
->>> +                            cmds.append(f'write "{host_file}" "{dest=
-_file}"')
->>> +
->>> +                    # write script to a temp file
->>> +                    with tempfile.NamedTemporaryFile(mode=3D'w', del=
-ete=3DFalse,
->>> +                                                     prefix=3D'wic-d=
-ebugfs-') as tf:
->>> +                        for line in cmds:
->>> +                            tf.write(line + '\n')
->>> +                        scriptname =3D tf.name
->>> +
->>> +                    cmd =3D f"{self.debugfs} -w -f {scriptname} {par=
-timg}"
->>> +
->>> +                else: # single file
->>> +                    cmd =3D "printf 'cd {}\nwrite {} {}\n' | {} -w {=
-}".\
->>> +                          format(os.path.dirname(dest.path), src,
->>> +                                 os.path.basename(src), self.debugfs=
-, partimg)
->>> +
->>> +            else: # image to host case
->>>                   cmd =3D "printf 'cd {}\ndump /{} {}\nrdump /{} {}\n=
-' | {} {}".\
->>>                         format(os.path.dirname(src.path), src.path,
->>> -                             dest, src.path, dest, self.debugfs,
->>> -                             self._get_part_image(pnum))
->>> +                             dest, src.path, dest, self.debugfs, par=
-timg)
->>> +
->>>           else: # fat
->>>               if isinstance(src, str):
->>>                   cmd =3D "{} -i {} -snop {} ::{}".format(self.mcopy,
->>> -                                                  self._get_part_ima=
-ge(pnum),
->>> -                                                  src, dest.path)
->>> +                                                      partimg,
->>> +                                                      src, dest.path=
-)
->>>               else:
->>>                   cmd =3D "{} -i {} -snop ::{} {}".format(self.mcopy,
->>> -                                                  self._get_part_ima=
-ge(pnum),
->>> -                                                  src.path, dest)
->>> +                                                      partimg,
->>> +                                                      src.path, dest=
-)
->>>
->>>           exec_cmd(cmd, as_shell=3DTrue)
->>>           self._put_part_image(pnum)
->>> --
->>> 2.39.5
->>>
->>>
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#224331): https://lists.openembedded.org/g/openemb=
-edded-core/message/224331
->>> Mute This Topic: https://lists.openembedded.org/mt/115542019/3620601
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [steve@sakoman.com]
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>
+--00000000000071ae87064907555c--
 
