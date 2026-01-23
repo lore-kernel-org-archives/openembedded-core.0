@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D67D778A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A8DD778AA
 	for <webhook@archiver.kernel.org>; Fri, 23 Jan 2026 18:04:59 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1638.1769191498979072918
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1647.1769191498331852828
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jan 2026 10:04:59 -0800
+ Fri, 23 Jan 2026 10:04:58 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12E521476
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:52 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B6591476
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:51 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 46FB13F694
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:58 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9FEF13F694
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:57 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/8] classes/pkgconfig: move variable exports to the class
-Date: Fri, 23 Jan 2026 18:04:44 +0000
-Message-ID: <20260123180448.2997378-5-ross.burton@arm.com>
+Subject: [PATCH 3/8] python3-numpy: backport a Meson patch to fix pkg-config lookups
+Date: Fri, 23 Jan 2026 18:04:43 +0000
+Message-ID: <20260123180448.2997378-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260123180448.2997378-1-ross.burton@arm.com>
 References: <20260123180448.2997378-1-ross.burton@arm.com>
@@ -30,67 +30,96 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 18:04:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229907
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229906
 
-All recipes that use pkg-config should be inheriting the class so this
-is a no-op change for those, and for recipes that do not use pkg-config
-will no longer need to rebuild if these variables are changed.
+When Meson uses pkg-config to introspect the Python install it resets
+PKG_CONFIG_PATH and PKG_CONFIG_LIBDIR to the location that the running
+python3 says is the library directory. However, when it writes to
+PKG_CONFIG_LIBDIR it uses the _target_ library directory without
+prefixing this with the sysroot, which breaks the build if _LIBDIR is
+the primary search path.
 
-Any recipes that use pkg-config but do not inherit the class will fail
-to build, and this is intentional: those recipes should inherit the class=
-.
-
-This commit is simply the move of the exports, the values do not change.
+This has been fixed in Meson since 1.10.0[1] but numpy has a vendored
+fork of Meson that is currently at 1.9.2, so backport the specific fix
+to solve this problem.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/pkgconfig.bbclass |  7 +++++++
- meta/conf/bitbake.conf                | 14 +++++++-------
- 2 files changed, 14 insertions(+), 7 deletions(-)
+ .../python3-numpy/0001-python-sysroot.patch   | 34 +++++++++++++++++++
+ .../python/python3-numpy_2.3.5.bb             |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-numpy/0001-pytho=
+n-sysroot.patch
 
-diff --git a/meta/classes-recipe/pkgconfig.bbclass b/meta/classes-recipe/=
-pkgconfig.bbclass
-index 1e1f3824dd..ea91338d34 100644
---- a/meta/classes-recipe/pkgconfig.bbclass
-+++ b/meta/classes-recipe/pkgconfig.bbclass
-@@ -6,3 +6,10 @@
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-python-sysro=
+ot.patch b/meta/recipes-devtools/python/python3-numpy/0001-python-sysroot=
+.patch
+new file mode 100644
+index 0000000000..b22c123493
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-numpy/0001-python-sysroot.patc=
+h
+@@ -0,0 +1,34 @@
++From c40218577305f5953ef63d943c26a27c5a931770 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Wed, 21 Jan 2026 14:12:36 +0000
++Subject: [PATCH] Add sysroot to pkgconfig libdir
++
++When Meson uses pkg-config to introspect the Python install it resets PK=
+G_CONFIG_PATH
++and PKG_CONFIG_LIBDIR. However, when it writes to PKG_CONFIG_LIBDIR it u=
+ses the
++_target_ library directory without prefixing this with the sysroot, whic=
+h breaks=20
++the build if _LIBDIR is the primary search path.
++
++This has been fixed in Meson since 1.10.0[1] but numpy has a vendored fo=
+rk of Meson
++that is currently at 1.9.2, so backport the specific fix to solve this p=
+roblem.
++
++[1] meson 59c3dd1fd ("python: add a python.build_config option (PEP 739)=
+")
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ vendored-meson/meson/mesonbuild/dependencies/python.py | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/vendored-meson/meson/mesonbuild/dependencies/python.py b/ve=
+ndored-meson/meson/mesonbuild/dependencies/python.py
++index 7f9bd20..fdcf714 100644
++--- a/vendored-meson/meson/mesonbuild/dependencies/python.py
+++++ b/vendored-meson/meson/mesonbuild/dependencies/python.py
++@@ -412,6 +412,8 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++     if DependencyMethods.PKGCONFIG in methods:
++         if from_installation:
++             pkg_libdir =3D installation.info['variables'].get('LIBPC')
+++            sysroot =3D env.properties[for_machine].get_sys_root() or '=
+'
+++            pkg_libdir =3D sysroot + pkg_libdir
++             pkg_embed =3D '-embed' if embed and mesonlib.version_compar=
+e(installation.info['version'], '>=3D3.8') else ''
++             pkg_name =3D f'python-{pkg_version}{pkg_embed}'
++=20
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.3.5.bb b/meta/r=
+ecipes-devtools/python/python3-numpy_2.3.5.bb
+index 55b8091ff8..78972c98d3 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.3.5.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.3.5.bb
+@@ -11,6 +11,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${SRCNA=
+ME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-defau=
+lt-.patch \
+            file://fix_reproducibility.patch \
+            file://run-ptest \
++           file://0001-python-sysroot.patch \
+            "
+ SRC_URI[sha256sum] =3D "784db1dcdab56bf0517743e746dfb0f885fc68d948aba86e=
+eec2cba234bdf1c0"
 =20
- DEPENDS:prepend =3D "pkgconfig-native "
-=20
-+export PKG_CONFIG_DIR
-+export PKG_CONFIG_PATH
-+export PKG_CONFIG_LIBDIR
-+export PKG_CONFIG_SYSROOT_DIR
-+export PKG_CONFIG_DISABLE_UNINSTALLED
-+export PKG_CONFIG_SYSTEM_LIBRARY_PATH
-+export PKG_CONFIG_SYSTEM_INCLUDE_PATH
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 88f4d0df69..8779f65157 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -768,13 +768,13 @@ BUILDCFG_NEEDEDVARS[type] =3D "list"
-=20
- # Other
-=20
--export PKG_CONFIG_DIR =3D "${STAGING_DIR_HOST}${libdir}/pkgconfig"
--export PKG_CONFIG_PATH =3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconf=
-ig"
--export PKG_CONFIG_LIBDIR =3D "${PKG_CONFIG_DIR}"
--export PKG_CONFIG_SYSROOT_DIR =3D "${STAGING_DIR_HOST}"
--export PKG_CONFIG_DISABLE_UNINSTALLED =3D "yes"
--export PKG_CONFIG_SYSTEM_LIBRARY_PATH =3D "${base_libdir}:${libdir}"
--export PKG_CONFIG_SYSTEM_INCLUDE_PATH =3D "${includedir}"
-+PKG_CONFIG_DIR =3D "${STAGING_DIR_HOST}${libdir}/pkgconfig"
-+PKG_CONFIG_PATH =3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconfig"
-+PKG_CONFIG_LIBDIR =3D "${PKG_CONFIG_DIR}"
-+PKG_CONFIG_SYSROOT_DIR =3D "${STAGING_DIR_HOST}"
-+PKG_CONFIG_DISABLE_UNINSTALLED =3D "yes"
-+PKG_CONFIG_SYSTEM_LIBRARY_PATH =3D "${base_libdir}:${libdir}"
-+PKG_CONFIG_SYSTEM_INCLUDE_PATH =3D "${includedir}"
-=20
- # Don't allow git to chdir up past WORKDIR or TMPDIR so that it doesn't =
-detect the OE
- # repository when building a recipe.
 --=20
 2.43.0
 
