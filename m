@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83965D778A9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D67D778A5
 	for <webhook@archiver.kernel.org>; Fri, 23 Jan 2026 18:04:59 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1636.1769191497333048973
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1638.1769191498979072918
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jan 2026 10:04:57 -0800
+ Fri, 23 Jan 2026 10:04:59 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28FC31515
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:50 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12E521476
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:52 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5D19F3F694
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:56 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 46FB13F694
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:58 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/8] pkgconfig: inherit the pkgconfig class
-Date: Fri, 23 Jan 2026 18:04:41 +0000
-Message-ID: <20260123180448.2997378-2-ross.burton@arm.com>
+Subject: [PATCH 4/8] classes/pkgconfig: move variable exports to the class
+Date: Fri, 23 Jan 2026 18:04:44 +0000
+Message-ID: <20260123180448.2997378-5-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260123180448.2997378-1-ross.burton@arm.com>
 References: <20260123180448.2997378-1-ross.burton@arm.com>
@@ -30,50 +30,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 18:04:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229907
 
-Building target pkgconfig needs pkgconfig-native because pkgconfig uses
-pkgconfig to find libglib.  Inherit the pkgconfig class so that the
-pkgconfig recipe does not need to know the details of how pkgconfig is
-integrated.
+All recipes that use pkg-config should be inheriting the class so this
+is a no-op change for those, and for recipes that do not use pkg-config
+will no longer need to rebuild if these variables are changed.
 
-Native builds use an internal copy of glib to avoid the circular
-dependency, and the self-dependency on pkgconfig-native is automatically
-pruned.
+Any recipes that use pkg-config but do not inherit the class will fail
+to build, and this is intentional: those recipes should inherit the class=
+.
+
+This commit is simply the move of the exports, the values do not change.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes-recipe/pkgconfig.bbclass |  7 +++++++
+ meta/conf/bitbake.conf                | 14 +++++++-------
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/reci=
-pes-devtools/pkgconfig/pkgconfig_git.bb
-index 19b9b6bc9d..d4350be212 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -19,7 +19,7 @@ SRC_URI =3D "git://gitlab.freedesktop.org/pkg-config/pk=
-g-config.git;branch=3Dmaster;
- 		   file://0001-Backport-g-s-size-g-u-intptr-atomics-in-builtin-glib.pa=
-tch \
-            "
+diff --git a/meta/classes-recipe/pkgconfig.bbclass b/meta/classes-recipe/=
+pkgconfig.bbclass
+index 1e1f3824dd..ea91338d34 100644
+--- a/meta/classes-recipe/pkgconfig.bbclass
++++ b/meta/classes-recipe/pkgconfig.bbclass
+@@ -6,3 +6,10 @@
 =20
--inherit autotools
-+inherit autotools pkgconfig
+ DEPENDS:prepend =3D "pkgconfig-native "
 =20
- # Because of a faulty test, the current auto mode always evaluates to no=
-,
- # so just continue that behaviour.
-@@ -29,7 +29,7 @@ EXTRA_OECONF +=3D "--disable-indirect-deps"
- PACKAGECONFIG ??=3D "glib"
- PACKAGECONFIG:class-native =3D ""
++export PKG_CONFIG_DIR
++export PKG_CONFIG_PATH
++export PKG_CONFIG_LIBDIR
++export PKG_CONFIG_SYSROOT_DIR
++export PKG_CONFIG_DISABLE_UNINSTALLED
++export PKG_CONFIG_SYSTEM_LIBRARY_PATH
++export PKG_CONFIG_SYSTEM_INCLUDE_PATH
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 88f4d0df69..8779f65157 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -768,13 +768,13 @@ BUILDCFG_NEEDEDVARS[type] =3D "list"
 =20
--PACKAGECONFIG[glib] =3D "--without-internal-glib,--with-internal-glib,gl=
-ib-2.0 pkgconfig-native"
-+PACKAGECONFIG[glib] =3D "--without-internal-glib,--with-internal-glib,gl=
-ib-2.0"
+ # Other
 =20
- BBCLASSEXTEND =3D "native nativesdk"
+-export PKG_CONFIG_DIR =3D "${STAGING_DIR_HOST}${libdir}/pkgconfig"
+-export PKG_CONFIG_PATH =3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconf=
+ig"
+-export PKG_CONFIG_LIBDIR =3D "${PKG_CONFIG_DIR}"
+-export PKG_CONFIG_SYSROOT_DIR =3D "${STAGING_DIR_HOST}"
+-export PKG_CONFIG_DISABLE_UNINSTALLED =3D "yes"
+-export PKG_CONFIG_SYSTEM_LIBRARY_PATH =3D "${base_libdir}:${libdir}"
+-export PKG_CONFIG_SYSTEM_INCLUDE_PATH =3D "${includedir}"
++PKG_CONFIG_DIR =3D "${STAGING_DIR_HOST}${libdir}/pkgconfig"
++PKG_CONFIG_PATH =3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconfig"
++PKG_CONFIG_LIBDIR =3D "${PKG_CONFIG_DIR}"
++PKG_CONFIG_SYSROOT_DIR =3D "${STAGING_DIR_HOST}"
++PKG_CONFIG_DISABLE_UNINSTALLED =3D "yes"
++PKG_CONFIG_SYSTEM_LIBRARY_PATH =3D "${base_libdir}:${libdir}"
++PKG_CONFIG_SYSTEM_INCLUDE_PATH =3D "${includedir}"
 =20
+ # Don't allow git to chdir up past WORKDIR or TMPDIR so that it doesn't =
+detect the OE
+ # repository when building a recipe.
 --=20
 2.43.0
 
