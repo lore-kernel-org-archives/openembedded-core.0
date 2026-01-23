@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D2ACD778AD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F87D778AB
 	for <webhook@archiver.kernel.org>; Fri, 23 Jan 2026 18:05:09 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1641.1769191501632786568
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1639.1769191500900448311
  for <openembedded-core@lists.openembedded.org>;
  Fri, 23 Jan 2026 10:05:01 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A1DD01476
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 06C971476
 	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:04:54 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D68313F694
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 31C8C3F694
 	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 10:05:00 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/8] kernel: remove pkg-config variables for old (<5.15) kernels
-Date: Fri, 23 Jan 2026 18:04:48 +0000
-Message-ID: <20260123180448.2997378-9-ross.burton@arm.com>
+Subject: [PATCH 7/8] pkgconf: add pkg-config-native to the nativesdk package
+Date: Fri, 23 Jan 2026 18:04:47 +0000
+Message-ID: <20260123180448.2997378-8-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260123180448.2997378-1-ross.burton@arm.com>
 References: <20260123180448.2997378-1-ross.burton@arm.com>
@@ -30,91 +30,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Jan 2026 18:05:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229911
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229910
 
-The kernel has supported setting an alternative binary for pkg-config
-with a variable since 5.19 (in 2022[1]) and we set that to
-pkg-config-native, so there is no longer any need to also manually set
-the PKG_CONFIG_* variables.
-
-The relevant commit was backported and is present in 5.15.91 onwards,
-but is not yet in 5.10.x.
-
-[1] linux d5ea4fece450 ("kbuild: Allow kernel installation packaging to o=
-verride pkg-config")
+This was added to the pkg-config recipe but not pkgconf.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/kernel.bbclass        | 9 ---------
- meta/recipes-kernel/linux/linux-yocto.inc | 7 ++-----
- 2 files changed, 2 insertions(+), 14 deletions(-)
+ meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-index b43b4ff4fb..1ebf027281 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -251,7 +251,6 @@ KERNEL_EXTRA_ARGS ?=3D ""
- EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" OBJCOPY=3D"$=
-{KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP}"'
- EXTRA_OEMAKE +=3D ' HOSTCC=3D"${BUILD_CC}" HOSTCFLAGS=3D"${BUILD_CFLAGS}=
-" HOSTLDFLAGS=3D"${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}"'
- EXTRA_OEMAKE +=3D ' HOSTCXX=3D"${BUILD_CXX}" HOSTCXXFLAGS=3D"${BUILD_CXX=
-FLAGS}"'
--# Only for newer kernels (5.19+), native pkg-config variables are set fo=
-r older kernels when building kernel and modules
- EXTRA_OEMAKE +=3D ' HOSTPKG_CONFIG=3D"pkg-config-native"'
-=20
- KERNEL_ALT_IMAGETYPE ??=3D ""
-@@ -364,10 +363,6 @@ KERNEL_DEBUG_TIMESTAMPS ??=3D "0"
- kernel_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-=20
--	# setup native pkg-config variables (kconfig scripts call pkg-config di=
-rectly, cannot generically be overriden to pkg-config-native)
--	export PKG_CONFIG_LIBDIR=3D"${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGIN=
-G_DATADIR_NATIVE}/pkgconfig"
--	export PKG_CONFIG_SYSROOT_DIR=3D""
--
- 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
- 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
- 		# be set....
-@@ -418,10 +413,6 @@ addtask transform_kernel after do_compile before do_=
-install
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-=20
--	# setup native pkg-config variables (kconfig scripts call pkg-config di=
-rectly, cannot generically be overriden to pkg-config-native)
--	export PKG_CONFIG_LIBDIR=3D"${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGIN=
-G_DATADIR_NATIVE}/pkgconfig"
--	export PKG_CONFIG_SYSROOT_DIR=3D""
--
- 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
- 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
- 		# be set....
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-ker=
-nel/linux/linux-yocto.inc
-index d57c1aae25..4e230d405a 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -88,9 +88,6 @@ do_kernel_configme[depends] +=3D '${@bb.utils.contains(=
-"KERNEL_DEBUG", "True", "pa
- EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAH=
-OLE=3Dfalse", d)}'
-=20
- do_devshell:prepend() {
--    # setup native pkg-config variables (kconfig scripts call pkg-config=
- directly, cannot generically be overriden to pkg-config-native)
--    d.setVar("PKG_CONFIG_PATH", "")
--    d.setVar("PKG_CONFIG_LIBDIR", "${STAGING_LIBDIR_NATIVE}/pkgconfig:${=
-STAGING_DATADIR_NATIVE}/pkgconfig")
--    d.setVarFlag("PKG_CONFIG_SYSROOT_DIR", "unexport", "1")
--    d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_PATH PKG_CONFIG_LIBD=
-IR PKG_CONFIG_SYSROOT_DIR")
-+    d.setVar("HOSTPKG_CONFIG", "pkg-config-native")
-+    d.appendVar("OE_TERMINAL_EXPORTS", " HOSTPKG_CONFIG")
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb b/meta/recipe=
+s-devtools/pkgconf/pkgconf_2.5.1.bb
+index e3500431b3..e335c843bd 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
+@@ -43,6 +43,15 @@ do_install:append:class-native () {
+     install -m755 ${B}/pkg-config-esdk ${D}${bindir}/pkg-config-esdk
  }
+=20
++do_install:append:class-nativesdk () {
++    # Install a pkg-config-native wrapper that will use the native sysro=
+ot instead
++    # of the MACHINE sysroot, for using pkg-config when building native =
+tools.
++    sed -e "s|@PATH_NATIVE@|\$OECORE_NATIVE_SYSROOT|" \
++        -e "s|@LIBDIR_NATIVE@|\$OECORE_NATIVE_SYSROOT/usr/lib/pkgconfig|=
+" \
++        < ${UNPACKDIR}/pkg-config-native.in > ${B}/pkg-config-native
++    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
++}
++
+ # When using the RPM generated automatic package dependencies, some pack=
+ages
+ # will end up requiring 'pkgconfig(pkg-config)'.  Allow this behavior by
+ # specifying an appropriate provide.
 --=20
 2.43.0
 
