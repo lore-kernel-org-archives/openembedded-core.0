@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE15D715FB
-	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:53:47 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27071.1769288026361495608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC2C1D715FC
+	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:53:57 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27070.1769288032715859231
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Jan 2026 12:53:46 -0800
+ Sat, 24 Jan 2026 12:53:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=AUNiDOoI;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260124205344444d0dd22b00020781-vai8f_@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260124205344444d0dd22b00020781
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=NCOBc5a7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260124205350011c296d5a00020754-pfd65b@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260124205350011c296d5a00020754
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 24 Jan 2026 21:53:44 +0100
+        Sat, 24 Jan 2026 21:53:50 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Dtq6NpMD51TOdTaseZUIBVQ9q/cH94IQqVkts6XLaG0=;
- b=AUNiDOoIl5yDOjVeBedItBsxSsZt59W9TMnHCP8dGWxJPRPYmSgrnHEBsQf/j5dCm3Vrwn
- P0QeA/JUPp2QsfpHCDJ5K+niW/7chkf59bIiyPFq5QU6iPtEu4ROlMJ6d29LazKLPRdnawn3
- yf79Rsw2RcDHR3qyrUxQe+v21cT2lejQagUxbI2r4pnjdwSVpjPn4mMtokyOaMA7hLRtf2TL
- +hUTbmCoI1FFZ+Z+AvS4rqiM3P6NUcka1Fgth0TSdA4cGgnrxFt3Ni1q+BqNdMYWEWJY9uOD
- GqecHdkxQoaqqMK1FS+5ijmdguJn/6mcjft8+cE7HA8oDWZu2aaS5TKA==;
+ bh=94+8eJAEUoFtimlOfxLGT/VHLB0eGneL5nZ53Y2yCso=;
+ b=NCOBc5a7iOU70DKfLoJex5zU26caT/a0xYrKkLUIqDFhs/IWJs3TDxm6i7pB0huIm8yhKk
+ 9GIZzuN2Xc9I4UvCOJckQ0wirs344AItU3dfRnDTTlPRQZwD8POmaTZGUwojOrSGFoCdMfbB
+ cM7wunO9U882gWGjV4wiS6NO44W/czqromtxR0y3eVQotfooMLTj5cAuMMVSrj6gMrVcGBRF
+ YrS/2kMev7pHSdreW5zfOctvbxJKV3E/5NH/fYDv61EJrXuI4iXYS8hnM4aG4pupCOMjshVe
+ PV4SrLMowDqJmS7vMsn88skiFHyN3LlcvC9i1ZCUSuc670C0b7C95ufg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] glib-2.0: patch CVE-2026-0988
-Date: Sat, 24 Jan 2026 21:53:40 +0100
-Message-Id: <20260124205340.2057130-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] glib-2.0: patch CVE-2026-0988
+Date: Sat, 24 Jan 2026 21:53:46 +0100
+Message-Id: <20260124205346.2059762-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:53:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229926
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:53:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229927
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -49,13 +49,13 @@ Pick relevant commit from [2] linked from [1].
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
  2 files changed, 59 insertions(+)
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 new file mode 100644
-index 00000000000..daf86224d5d
+index 0000000000..1cdc3735ed
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 @@ -0,0 +1,58 @@
@@ -87,7 +87,7 @@ index 00000000000..daf86224d5d
 +index 9e6bacc62..56d656be0 100644
 +--- a/gio/gbufferedinputstream.c
 ++++ b/gio/gbufferedinputstream.c
-+@@ -590,7 +590,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
++@@ -588,7 +588,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
 + 
 +   available = g_buffered_input_stream_get_available (stream);
 + 
@@ -100,7 +100,7 @@ index 00000000000..daf86224d5d
 +index a1af4eeff..2b2a0d9aa 100644
 +--- a/gio/tests/buffered-input-stream.c
 ++++ b/gio/tests/buffered-input-stream.c
-+@@ -60,6 +60,16 @@ test_peek (void)
++@@ -58,6 +58,16 @@ test_peek (void)
 +   g_assert_cmpint (npeek, ==, 0);
 +   g_free (buffer);
 + 
@@ -117,16 +117,16 @@ index 00000000000..daf86224d5d
 +   g_object_unref (in);
 +   g_object_unref (base);
 + }
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 9f93655739b..79c40747536 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -33,6 +33,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-6052-01.patch \
-            file://CVE-2025-6052-02.patch \
-            file://CVE-2025-6052-03.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index 7ba52b5c79..89cb126b73 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -64,6 +64,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-4373-02.patch \
+            file://CVE-2025-7039-01.patch \
+            file://CVE-2025-7039-02.patch \
 +           file://CVE-2026-0988.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
+ 
 
