@@ -1,240 +1,380 @@
-Return-Path: <afd@ti.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6213DD715E4
-	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 18:21:07 +0000 (UTC)
-Received: from SA9PR02CU001.outbound.protection.outlook.com (SA9PR02CU001.outbound.protection.outlook.com [40.93.196.60])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24150.1769278864278061149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D74C7D715F4
+	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:03:27 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26148.1769285006580573803
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Jan 2026 10:21:04 -0800
+ Sat, 24 Jan 2026 12:03:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=fcXdmz7k;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.196.60, mailfrom: afd@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uuOiU73Y7b6yr1UV+hOZ8+Uvw6qW3fu9w9bGAjNmDTTSHlMN9oFk63W7EfZTJn2uP87RbgFuxMBIezerPwXzvNgQNphUZ3FLz+vwq3G6gxdP6kpmK93M9sNKD8qqLf5S2GHeUnHeVpWxOsklKGp6GbKdinHb/iqNK1fIYHzqOYepvMTCfcdKvk8yeYBShGuV2fQMH0qmu+8AfoMjVjp3FiI4PcwSY/0Q53NJB9FR3w0JnOcqXtHY6mdYWMGf32W3NoWYbMEZ6cMJE0gPZ42Ia3m77eBu2QEzspWY4wt+5MOGA+vA/+0sXhCsphF1GzpV8wEa+uLXBfkB9QjUMPs2eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gKOwAtsKfjejrMVVFqAdaxpDmrhnvRJsCUCj+xcxojU=;
- b=n0PngZT4OKFijlQ2rE8GUewstWyeGDx9d0PkTCwWVaGi6GRx+8q2y31fdkCzIaDlt17KlK0faPih+2U5cqqhrIU/qmWpXtpTzRKge9onjtXut0sssSOA053cVqo+QkmRYbUjJKjlYq05qS0l7JaFO1KRTum1IBZvNKr5jAyRRDD9tUVXxCFbzyDn0SDJ4s+0zar66NX+20sSyjTPKdw17/xAIexUXmQsT48SR3avUBkpkEbNzB4/G0zgF9fGzns0pO33SzS2XA+xtxgn81Hc8oZN9g91B9AN9knviT+uir/H6aDUUQ/UQHOjKOn5uecETxLVc2QRcOfuWfhbuFuBXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gKOwAtsKfjejrMVVFqAdaxpDmrhnvRJsCUCj+xcxojU=;
- b=fcXdmz7kbr00i+kUK5lAKy/NgBpJR4fwA8gBvoznBTAzPJy5r9NZdcotJNydwnvltfiue0XmtF/f4qPyBwM9Sgve9bHTiOFuRRc1WtLavtXWg7CRJtyB5Q2bLmpixsIzeSyKbKWyLwQZDIK2534RnIlJKhL754qBcVJV3xMM44E=
-Received: from BYAPR02CA0050.namprd02.prod.outlook.com (2603:10b6:a03:54::27)
- by IA3PR10MB7995.namprd10.prod.outlook.com (2603:10b6:208:50d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.14; Sat, 24 Jan
- 2026 18:21:00 +0000
-Received: from SJ5PEPF000001D5.namprd05.prod.outlook.com
- (2603:10b6:a03:54:cafe::73) by BYAPR02CA0050.outlook.office365.com
- (2603:10b6:a03:54::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.14 via Frontend Transport; Sat,
- 24 Jan 2026 18:21:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SJ5PEPF000001D5.mail.protection.outlook.com (10.167.242.57) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Sat, 24 Jan 2026 18:21:00 +0000
-Received: from DLEE208.ent.ti.com (157.170.170.97) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sat, 24 Jan
- 2026 12:20:59 -0600
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sat, 24 Jan
- 2026 12:20:59 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Sat, 24 Jan 2026 12:20:59 -0600
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60OIKxQ1059797;
-	Sat, 24 Jan 2026 12:20:59 -0600
-Message-ID: <3b59555b-0edb-4c2c-b203-e1172d0482b4@ti.com>
-Date: Sat, 24 Jan 2026 12:20:58 -0600
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=i4JXF2Bq;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34e730f5fefso2293255a91.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 12:03:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769285006; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WhHeXB0hNWa9LW8wLCjFoJpf1yW2jPYpn27Bfq6iDI77xQIA7PsNEXCL1vn8IF1Y6S
+         OFZfdofUC3e1ZjNIRuSk8Ksn2QrvdFyFG8JWCf3pKlaBh2VxHETxy715cvtWfbaiBYhG
+         U9GNbdiz0C3eq2m1ysk2ANNevHZp/tUrDCzJ9iEo1zIg6LgrfRPsofgr3fP7JO5AEoeG
+         8M3xvDOEcC4oWG6kJ+WPVCubVj8gKbgU8Z58oSaXxOR8sBnr6DGiEWiOP03p6NMSQdjY
+         ZNuruTIa33WHA4WU8Ce6JOszswXK7qDL4mVB+5nI6Rndqur2XGtN0KxUPHxW2soW5KJ0
+         v3nA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uGHd23M++f3laGw+2p77OdT/mzkbt3iihLQ0GROv6IA=;
+        fh=WirXrjMFXSIhNborpqhbjwHlpaDfDdKfIw4VkrL58E8=;
+        b=UZYY81MB5IdNa/llMV96+AM0n/d1naVUTZ3BycEz2jw3via1hTgkEoU3zjxXkQS/9E
+         hVBcvz5IDMA3rZ4/darqmg9yR+qeTpe94AIvUTf5Rhzx1L5EAJiB0NAmy1ybLpPbafuW
+         IIvimBRlrAPojRIgM5ThOYEw7r7ta39Qdy7Jav/oouQa/T8c4lZVzpXwsankFEI+MRG9
+         CDQP5Rb+8Xa+1O/1KEYSvMTY6YieYE0ywROW0Ij3oo0i+29cUy3nc0hkCFHxE2vRiuZ+
+         tL4T4HHPUh+ncul4pOPy5Dnq6A87/9cikGNYB+H8iCiDPMeea9jcxYeN53Cf0Q/guOlS
+         4Img==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769285006; x=1769889806; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uGHd23M++f3laGw+2p77OdT/mzkbt3iihLQ0GROv6IA=;
+        b=i4JXF2Bqjr836nFd2RImfGR9Nlh39KUz9beSKRvqJCRBwBD1b3RdR5vl3dPSPxghA/
+         L/rSWSdIM8tRB/pXuY5MMkn5uI3MpyBmTfH59jMYJriFvaeu6eCSI4dhOQsdzj/h0pUV
+         tl024oX8pU4PrF9OSxj6c/DEjTnsWO74Q38VQZz/R++aD+vp3v+gu69PF6QhPtAQ0anT
+         eH/srTf1dDXGWT0v4PZQnlIGrIqN5E2iOebsSarC/rfGyitJAI6FPE5vSIV+ybS0upgF
+         5xrra6nFxcEuyBXKeidyYgsNIVixvckizI3MUGEPX/b5pQ/HuWopmmGhmce4JGTuGZVa
+         05LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769285006; x=1769889806;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uGHd23M++f3laGw+2p77OdT/mzkbt3iihLQ0GROv6IA=;
+        b=CnHWXFtRX/WEzDU7Arj6JYbixXGxrFzoaCoeldzMMLPNLfljaSSgbAwxvCUFKALbFf
+         fmlonLzmBMYrxSu891G4MZ/rCCbExmmhDlB6eVCaKQSCWZp7NojOeI9yWdKCxBiPlMJS
+         mCpJmSG0XW7r4k+fOwNc8uD5poPtw4gbuSyztHrAJ7am5SQecMs3lLmRpl1A53A26Rh5
+         0IeLVjYnAHJMQxkQYYz2wscL4o4qmkytmg0sZI5DWZhrgqt2y+iGbxVzxTmoaUaRsXn5
+         QGl4SQ1ig5s/jYxkjgbYgOgXIBzuw553RDKlZ6kftdTrJGW/BxJTuEH1UEA7aAc5b8d+
+         3heA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWE6Cy97/HlZhSnvRC/G38Fo/35+9Y1n0SHWoHAQT4D3ZsMCXLMc/bNFJw5lxx9LWvcUG4Nltqgx5lIYAb84i0Lg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx7c1fVUWyyTbJjr6Z8QCqYCvtKnknVoayp3kTnaWwOyafb5LDk
+	WmesnCJTU73hsSfL5QHU8iMJ7SgfCUPnLY0wjXEyyi1UTHH3V+NmfkldelUnY/Rv0LxJ8qmXBJf
+	hIOBwFQskGPnjyZlVMbIYWyd40u0Jm7o=
+X-Gm-Gg: AZuq6aItISaw8YW/c1E/6qw11waztn0ZOUSXzRxCfK+U/z3aTh1IoOS76SnuDbbNNcp
+	v11ZNhVsaxD3g8t6870mISa5SBj/Tf8A6TURBkpyOpNWDuJP3tDNOax2S3TZwJEHAcCyefMZD8K
+	rsYqt9JCB8/SI3vvHXG9TslK2Ls1YxhmgzOFHJTpSG94ygupIrOUatYzxz4BCFkNT5To0WXZ0u8
+	Ydisdj3gSwfiA1Dn31+T1W8ALd6pNIgbACS+frixs0ZV9042tn5bs9L5LJNU3+RD7jobZAp
+X-Received: by 2002:a17:90b:3503:b0:341:ae23:85fd with SMTP id
+ 98e67ed59e1d1-35367025551mr5993673a91.11.1769285005724; Sat, 24 Jan 2026
+ 12:03:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20260123230820.289540-1-reatmon@ti.com> <CADkTA4OA-Vx9tPqkuyK4tLsxv2BXB8r_1+jKxJ6x5vB-5xC-Dg@mail.gmail.com>
+ <3b59555b-0edb-4c2c-b203-e1172d0482b4@ti.com>
+In-Reply-To: <3b59555b-0edb-4c2c-b203-e1172d0482b4@ti.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sat, 24 Jan 2026 15:03:13 -0500
+X-Gm-Features: AZwV_QhWT3gwydzPX7tdjKj5MTbYc4ERjtJmgsPzUfrzKy7o7c70zSOdA74bmQs
+Message-ID: <CADkTA4O9wPhDM1c8oG0guSE-4fAL=iM2W2T+kBO=zn_C4+rZUQ@mail.gmail.com>
 Subject: Re: [OE-core][PATCH] lttng-modules: Fix CONFIG_TRACEPOINTS patch
-To: <bruce.ashfield@gmail.com>, <reatmon@ti.com>
-CC: <openembedded-core@lists.openembedded.org>
-References: <20260123230820.289540-1-reatmon@ti.com>
- <CADkTA4OA-Vx9tPqkuyK4tLsxv2BXB8r_1+jKxJ6x5vB-5xC-Dg@mail.gmail.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <CADkTA4OA-Vx9tPqkuyK4tLsxv2BXB8r_1+jKxJ6x5vB-5xC-Dg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D5:EE_|IA3PR10MB7995:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb76381e-b8ea-4416-815d-08de5b75539c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|4022899009|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?LhakpvGLUcqgX0cszQt5FTjXFF25Emaya7bMklWRBnfXt5NCK3rttDmBsgua?=
- =?us-ascii?Q?r4WOiAwuNuxVPzHkSybjLd0haW+6qsgX3ZEBWwHWBZ1IKDZK8ZwBz6HHK55+?=
- =?us-ascii?Q?YZimZWWn0KYVE7LvVhDTNF9VE6VvhWaGWo0ZtJMFCYypOJOUkXhnvk5/MlGj?=
- =?us-ascii?Q?k5Gpp7DpovebIKnduGAE5/ZSSSp44YvCIYxOwnivYg9L6Fe3aEQSZ7lLCGCO?=
- =?us-ascii?Q?csDI8dwgIS4Eismzi+c4CNmwG/AKSyvO5X9fogC5Wp9zMnPj2BEUvEL7WppY?=
- =?us-ascii?Q?IEzpubTyg9u+GaL+6RlJIDwnyfzGakmNMqFvmyOVPK9nWkBbLNtKZiGqFajo?=
- =?us-ascii?Q?kY1kshXZIMLzvA7faX29Jz65gUzVTmAL6atRuMLSq0mFb+wvkfZ5Lslxy/p/?=
- =?us-ascii?Q?tK+zndaaqmv/upjN9es/hL+NeA1UQI0IiQmfLWaKN57CRI7u31vC9vWsCS5l?=
- =?us-ascii?Q?V/xcHTnJBS2OOL2M+040BmAMY7r+lwR9IE12DNnd4aiu4JyvBHy53mP2vOSN?=
- =?us-ascii?Q?g2bM5gjDFtbaM9LQcYb6VCJ8GeV5S+S5hwvyV5dV3TQ1HgsFl7QMtGEcmsxM?=
- =?us-ascii?Q?6SAVCJbgLXgAWsp+j9LIbSGu62Y/oYhWFLd88UnqTRMGBce8Rk5sfaM+1WZ+?=
- =?us-ascii?Q?idoGIMigXe1l1haOL4yJgH7zmU5DtmwS5mwS4qZaD2sj/sFfx64H814Od+/a?=
- =?us-ascii?Q?nvooc+AdAW50hbiGPZ8Fnz5a/ugNFNGkcVfUr44C5mHBmScmI+mYS1RZAju+?=
- =?us-ascii?Q?dFu0k/nIL9WzmL3sz/HZRlt2jpGLVCtLmaLfXmpN/79HDlhlmBEftNSmGE/G?=
- =?us-ascii?Q?z5TEsjiqsMriShAPLCKOGELafUnPyUBhXm/bQP0x5Eb5mt+fzSh1k3ogXMZL?=
- =?us-ascii?Q?6yi/DAtVlbabEeW8bARqdPkWTmwJ4Yn/ep5ajiVlhOncXmdc2W7b6nbKvZ7m?=
- =?us-ascii?Q?1eXW+W8Yvc/0Y1t/HQXnoAJ6bJS25ABNVttMtbGhx4srRN1Px9NyYMa7RSFH?=
- =?us-ascii?Q?D73ygqbEH39XAk1Bm8BWT2QmAVgf9lNb/voKDVXBBPskAfsNRxd3i/kQ5Jrk?=
- =?us-ascii?Q?XAPVtkoXsb+Gpxt4wC2oOUegTaIxg/KKD3QyBQb3TQdMkiVzmjQQp1it5GFr?=
- =?us-ascii?Q?AnPGl4Iae9oiLZTjZgjppCDSgLTik61KwJRaAb+k9UxTeXPilWR3AvQwTqot?=
- =?us-ascii?Q?SHGrNfhVh5gdVfSk2ZgmSCUU7JaV0zxtsWb9CsWJOlOAdXSBYDAouW1NI+YG?=
- =?us-ascii?Q?LCKgiE2MCFcwLtHWkgpEGAGHOVs/MYlmSAlhB/RknhBOxi1ENSS1576krRE6?=
- =?us-ascii?Q?+fXKLojLp16om+fCJEKKsJYyEjlC3Er0hwpyrZDkPnkeJseNyvijK8L+6H5q?=
- =?us-ascii?Q?HNEogu0rzmvM2lHexlGY03z1jmNDcdkBT2hP6xGXeE3FpYfHhhiQAy4bVQkf?=
- =?us-ascii?Q?+px3YWNIB+qtoJLrWSyAXY3Of8fIFdPb4qQTgfaECL+XWwzMgq5dFA4V5vvD?=
- =?us-ascii?Q?i3Pw7sW1mIYmX2jOLO9we3ZuRli6ImMBm1BZBs1XAydGrk05szpzcTY9vgMe?=
- =?us-ascii?Q?hnA1UIEkd+YuyMZnjo+wjK9V1xsknRn5Gof72Yt3TY1BwSDKMgMW65jri7S2?=
- =?us-ascii?Q?Kw=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(4022899009)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2026 18:21:00.3964
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb76381e-b8ea-4416-815d-08de5b75539c
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ5PEPF000001D5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB7995
+To: Andrew Davis <afd@ti.com>
+Cc: reatmon@ti.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000045d0bb064927c463"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 18:21:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229920
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:03:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229921
 
-On 1/23/26 5:55 PM, Bruce Ashfield via lists.openembedded.org wrote:
->=20
->=20
-> On Fri, Jan 23, 2026 at 6:08=E2=80=AFPM Ryan Eatmon via lists.openembedde=
-d.org <http://lists.openembedded.org> <reatmon=3Dti.com@lists.openembedded.=
-org <mailto:ti.com@lists.openembedded.org>> wrote:
->=20
->     The check for CONFIG_TRACEPOINTS is guarded by a check for
->     CONFIG_LOCALVERSION.=C2=A0 But what happens if your .config has
->     CONFIG_LOCALVERSION=3D"" ?=C2=A0 Then the check never runs and you tr=
-y and
->     build the module even though CONFIG_TRACEPOINTS is missing.
->=20
->     Update the guard to check for either CONFIG_LOCALVERSION or
->     CONFIG_LOCALVERSION_AUTO.
->=20
->     Signed-off-by: Ryan Eatmon <reatmon@ti.com <mailto:reatmon@ti.com>>
->     ---
->      =C2=A0...-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch | 7=
- ++++---
->      =C2=A01 file changed, 4 insertions(+), 3 deletions(-)
->=20
->     diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-=
-change-missing-CONFIG_TRACEPOINTS-to-warn.patch b/meta/recipes-kernel/lttng=
-/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.pa=
-tch
->     index 1854d9a944..a47b5b9789 100644
->     --- a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-=
-missing-CONFIG_TRACEPOINTS-to-warn.patch
->     +++ b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-=
-missing-CONFIG_TRACEPOINTS-to-warn.patch
->     @@ -16,8 +16,8 @@ Upstream-Status: Inappropriate [embedded specific]
->=20
->      =C2=A0Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com <mailt=
-o:bruce.ashfield@gmail.com>>
->      =C2=A0---
->     - src/Kbuild | 7 ++++++-
->     - 1 file changed, 6 insertions(+), 1 deletion(-)
->     + src/Kbuild | 9 +++++++--
->     + 1 file changed, 7 insertions(+), 2 deletions(-)
->=20
->      =C2=A0Index: lttng-modules-2.14.0/src/Kbuild
->      =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+--00000000000045d0bb064927c463
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Jan 24, 2026 at 1:21=E2=80=AFPM Andrew Davis <afd@ti.com> wrote:
+
+> On 1/23/26 5:55 PM, Bruce Ashfield via lists.openembedded.org wrote:
+> >
+> >
+> > On Fri, Jan 23, 2026 at 6:08=E2=80=AFPM Ryan Eatmon via lists.openembed=
+ded.org <
+> http://lists.openembedded.org> <reatmon=3Dti.com@lists.openembedded.org
+> <mailto:ti.com@lists.openembedded.org>> wrote:
+> >
+> >     The check for CONFIG_TRACEPOINTS is guarded by a check for
+> >     CONFIG_LOCALVERSION.  But what happens if your .config has
+> >     CONFIG_LOCALVERSION=3D"" ?  Then the check never runs and you try a=
+nd
+> >     build the module even though CONFIG_TRACEPOINTS is missing.
+> >
+> >     Update the guard to check for either CONFIG_LOCALVERSION or
+> >     CONFIG_LOCALVERSION_AUTO.
+> >
+> >     Signed-off-by: Ryan Eatmon <reatmon@ti.com <mailto:reatmon@ti.com>>
+> >     ---
+> >       ...-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch | 7
+> ++++---
+> >       1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> >     diff --git
+> a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-=
+CONFIG_TRACEPOINTS-to-warn.patch
+> b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-=
+CONFIG_TRACEPOINTS-to-warn.patch
+> >     index 1854d9a944..a47b5b9789 100644
+> >     ---
+> a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-=
+CONFIG_TRACEPOINTS-to-warn.patch
+> >     +++
+> b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-=
+CONFIG_TRACEPOINTS-to-warn.patch
+> >     @@ -16,8 +16,8 @@ Upstream-Status: Inappropriate [embedded specific=
+]
+> >
+> >       Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com <mailto:
+> bruce.ashfield@gmail.com>>
+> >       ---
+> >     - src/Kbuild | 7 ++++++-
+> >     - 1 file changed, 6 insertions(+), 1 deletion(-)
+> >     + src/Kbuild | 9 +++++++--
+> >     + 1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> >       Index: lttng-modules-2.14.0/src/Kbuild
+> >       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     @@ -25,7 +25,8 @@ Index: lttng-modules-2.14.0/src/Kbuild
->      =C2=A0+++ lttng-modules-2.14.0/src/Kbuild
->      =C2=A0@@ -3,10 +3,13 @@
->=20
->     - ifdef CONFIG_LOCALVERSION=C2=A0 =C2=A0 =C2=A0# Check if dot-config =
-is included.
->     +-ifdef CONFIG_LOCALVERSION=C2=A0 =C2=A0 =C2=A0# Check if dot-config =
-is included.
->     ++ifneq ($(CONFIG_LOCALVERSION)$(CONFIG_LOCALVERSION_AUTO),)=C2=A0 =
-=C2=A0 # Check if dot-config is included.
->      =C2=A0 =C2=A0 ifeq ($(CONFIG_TRACEPOINTS),)
->      =C2=A0-=C2=A0 =C2=A0 $(error The option CONFIG_TRACEPOINTS needs to =
-be enabled in your kernel configuration)
->      =C2=A0+=C2=A0 =C2=A0 $(warning The option CONFIG_TRACEPOINTS needs t=
-o be enabled in your kernel configuration)
->=20
->=20
-> Why is this changing to a warning ?
->=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >     @@ -25,7 +25,8 @@ Index: lttng-modules-2.14.0/src/Kbuild
+> >       +++ lttng-modules-2.14.0/src/Kbuild
+> >       @@ -3,10 +3,13 @@
+> >
+> >     - ifdef CONFIG_LOCALVERSION     # Check if dot-config is included.
+> >     +-ifdef CONFIG_LOCALVERSION     # Check if dot-config is included.
+> >     ++ifneq ($(CONFIG_LOCALVERSION)$(CONFIG_LOCALVERSION_AUTO),)    #
+> Check if dot-config is included.
+> >          ifeq ($(CONFIG_TRACEPOINTS),)
+> >       -    $(error The option CONFIG_TRACEPOINTS needs to be enabled in
+> your kernel configuration)
+> >       +    $(warning The option CONFIG_TRACEPOINTS needs to be enabled
+> in your kernel configuration)
+> >
+> >
+> > Why is this changing to a warning ?
+> >
+>
+> It isn't, this is a patch for a patch, these diff change lines are alread=
+y
+> part of
+> the patch from before.
+>
+>
+Right!
 
-It isn't, this is a patch for a patch, these diff change lines are already =
-part of
-the patch from before.
+It is even my patch :)
 
+Bruce
+
+
+
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=3D6215ffec6a3d5=
+069cc74ae9853167c3c6395b1db
+>
+> Andrew
+>
+> > You have no mention of it in the changelog. Although the check wasn't
+> > working, the intention of making this an error is still the same.
+> >
+> > Bruce
+> >
+> >     --
+> >     2.43.0
+> >
+> >
+> >
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+> >
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#229917):
+> https://lists.openembedded.org/g/openembedded-core/message/229917
+> > Mute This Topic: https://lists.openembedded.org/mt/117427953/3619733
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> afd@ti.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000045d0bb064927c463
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jan 24, 2026 at 1:21=
+=E2=80=AFPM Andrew Davis &lt;<a href=3D"mailto:afd@ti.com">afd@ti.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 1/2=
+3/26 5:55 PM, Bruce Ashfield via <a href=3D"http://lists.openembedded.org" =
+rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Fri, Jan 23, 2026 at 6:08=E2=80=AFPM Ryan Eatmon via <a href=3D"htt=
+p://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.open=
+embedded.org</a> &lt;<a href=3D"http://lists.openembedded.org" rel=3D"noref=
+errer" target=3D"_blank">http://lists.openembedded.org</a>&gt; &lt;reatmon=
+=3D<a href=3D"mailto:ti.com@lists.openembedded.org" target=3D"_blank">ti.co=
+m@lists.openembedded.org</a> &lt;mailto:<a href=3D"mailto:ti.com@lists.open=
+embedded.org" target=3D"_blank">ti.com@lists.openembedded.org</a>&gt;&gt; w=
+rote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0The check for CONFIG_TRACEPOINTS is guarded by a ch=
+eck for<br>
+&gt;=C2=A0 =C2=A0 =C2=A0CONFIG_LOCALVERSION.=C2=A0 But what happens if your=
+ .config has<br>
+&gt;=C2=A0 =C2=A0 =C2=A0CONFIG_LOCALVERSION=3D&quot;&quot; ?=C2=A0 Then the=
+ check never runs and you try and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0build the module even though CONFIG_TRACEPOINTS is =
+missing.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Update the guard to check for either CONFIG_LOCALVE=
+RSION or<br>
+&gt;=C2=A0 =C2=A0 =C2=A0CONFIG_LOCALVERSION_AUTO.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Ryan Eatmon &lt;<a href=3D"mailto:re=
+atmon@ti.com" target=3D"_blank">reatmon@ti.com</a> &lt;mailto:<a href=3D"ma=
+ilto:reatmon@ti.com" target=3D"_blank">reatmon@ti.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0...-Kbuild-change-missing-CONFIG_TRACEPOINTS=
+-to-warn.patch | 7 ++++---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A01 file changed, 4 insertions(+), 3 deletions=
+(-)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0diff --git a/meta/recipes-kernel/lttng/lttng-module=
+s/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch b/meta/re=
+cipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRAC=
+EPOINTS-to-warn.patch<br>
+&gt;=C2=A0 =C2=A0 =C2=A0index 1854d9a944..a47b5b9789 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0--- a/meta/recipes-kernel/lttng/lttng-modules/0001-=
+src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-=
+src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch<br>
+&gt;=C2=A0 =C2=A0 =C2=A0@@ -16,8 +16,8 @@ Upstream-Status: Inappropriate [e=
+mbedded specific]<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Signed-off-by: Bruce Ashfield &lt;<a href=3D=
+"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.co=
+m</a> &lt;mailto:<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_bla=
+nk">bruce.ashfield@gmail.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- src/Kbuild | 7 ++++++-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- 1 file changed, 6 insertions(+), 1 deletion(-)<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0+ src/Kbuild | 9 +++++++--<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+ 1 file changed, 7 insertions(+), 2 deletions(-)<b=
+r>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Index: lttng-modules-2.14.0/src/Kbuild<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0@@ -25,7 +25,8 @@ Index: lttng-modules-2.14.0/src/K=
+build<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0+++ lttng-modules-2.14.0/src/Kbuild<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -3,10 +3,13 @@<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0- ifdef CONFIG_LOCALVERSION=C2=A0 =C2=A0 =C2=A0# Ch=
+eck if dot-config is included.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+-ifdef CONFIG_LOCALVERSION=C2=A0 =C2=A0 =C2=A0# Ch=
+eck if dot-config is included.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0++ifneq ($(CONFIG_LOCALVERSION)$(CONFIG_LOCALVERSIO=
+N_AUTO),)=C2=A0 =C2=A0 # Check if dot-config is included.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ifeq ($(CONFIG_TRACEPOINTS),)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 $(error The option CONFIG_TRA=
+CEPOINTS needs to be enabled in your kernel configuration)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 $(warning The option CONFIG_T=
+RACEPOINTS needs to be enabled in your kernel configuration)<br>
+&gt; <br>
+&gt; <br>
+&gt; Why is this changing to a warning ?<br>
+&gt; <br>
+<br>
+It isn&#39;t, this is a patch for a patch, these diff change lines are alre=
+ady part of<br>
+the patch from before.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">Right!=C2=A0</div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sm=
+all">It is even my patch :)</div><div class=3D"gmail_default" style=3D"font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">
+<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D6215=
+ffec6a3d5069cc74ae9853167c3c6395b1db" rel=3D"noreferrer" target=3D"_blank">=
 https://git.openembedded.org/openembedded-core/commit/?id=3D6215ffec6a3d506=
-9cc74ae9853167c3c6395b1db
+9cc74ae9853167c3c6395b1db</a><br>
+<br>
+Andrew<br>
+<br>
+&gt; You have no mention of it in the changelog. Although the check wasn&#3=
+9;t<br>
+&gt; working, the intention of making this an error is still the same.<br>
+&gt; <br>
+&gt; Bruce<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0-- <br>
+&gt;=C2=A0 =C2=A0 =C2=A02.43.0<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; -- <br>
+&gt; - Thou shalt not follow the NULL pointer, for chaos and madness await =
+thee at its end<br>
+&gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#229917): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/229917" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/229917</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11742795=
+3/3619733" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/117427953/3619733</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:afd@ti.com" target=3D=
+"_blank">afd@ti.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
 
-Andrew
-
-> You have no mention of it in the changelog. Although the check wasn't
-> working, the intention of making this an error is still the same.
->=20
-> Bruce
->=20
->     --=20
->     2.43.0
->=20
->=20
->=20
->=20
->=20
->=20
-> --=20
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229917): https://lists.openembedded.org/g/openembedde=
-d-core/message/229917
-> Mute This Topic: https://lists.openembedded.org/mt/117427953/3619733
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [af=
-d@ti.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
+--00000000000045d0bb064927c463--
 
