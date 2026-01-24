@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DBBDD715FB
-	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:53:38 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27064.1769288011649113033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE15D715FB
+	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:53:47 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27071.1769288026361495608
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Jan 2026 12:53:34 -0800
+ Sat, 24 Jan 2026 12:53:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=HlTT8HV/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202601242053336fe34c900a00020790-ijwrm7@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202601242053336fe34c900a00020790
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=AUNiDOoI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260124205344444d0dd22b00020781-vai8f_@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260124205344444d0dd22b00020781
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 24 Jan 2026 21:53:33 +0100
+        Sat, 24 Jan 2026 21:53:44 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=x1nZ/0euJIyZM9kZPSKOSf52Us/zRFX4dp44yPizUcE=;
- b=HlTT8HV/GrdoD8zrAdOviPaSrNZ/rIbF/mQChNYm6tSfg7K4cbVYCcLqBkxDR8YvdNxKff
- 3G+GQpErKMv0jPsqDwwj5dbJKRCATebKTbiDKbSlT36+gdwFoyqbXv+bDkF8nVZjdn6AOe7x
- avU1iGpMCgdsDhxyw8BG/VTuh4ZqQzJmZZ4eLm1HCtQCSEEAF56Y46VHQYkYw0Xyueh/8raf
- 18VIFVWnvDJBrW0I9t/nj+4HdnfwSzYVHibC8w3Ydar9BlQVPRO3VwxnBFsv3xC+rIGOb/SP
- U1oXgbKGvojYp+6X+o+tvT0jjxIVMXH6VBtgqpIvQxplXukLzTj/rxlA==;
+ bh=Dtq6NpMD51TOdTaseZUIBVQ9q/cH94IQqVkts6XLaG0=;
+ b=AUNiDOoIl5yDOjVeBedItBsxSsZt59W9TMnHCP8dGWxJPRPYmSgrnHEBsQf/j5dCm3Vrwn
+ P0QeA/JUPp2QsfpHCDJ5K+niW/7chkf59bIiyPFq5QU6iPtEu4ROlMJ6d29LazKLPRdnawn3
+ yf79Rsw2RcDHR3qyrUxQe+v21cT2lejQagUxbI2r4pnjdwSVpjPn4mMtokyOaMA7hLRtf2TL
+ +hUTbmCoI1FFZ+Z+AvS4rqiM3P6NUcka1Fgth0TSdA4cGgnrxFt3Ni1q+BqNdMYWEWJY9uOD
+ GqecHdkxQoaqqMK1FS+5ijmdguJn/6mcjft8+cE7HA8oDWZu2aaS5TKA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH] glib-2.0: patch CVE-2026-0988
-Date: Sat, 24 Jan 2026 21:53:29 +0100
-Message-Id: <20260124205329.2053154-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] glib-2.0: patch CVE-2026-0988
+Date: Sat, 24 Jan 2026 21:53:40 +0100
+Message-Id: <20260124205340.2057130-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:53:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229925
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:53:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229926
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -48,16 +48,16 @@ Pick relevant commit from [2] linked from [1].
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../glib-2.0/files/CVE-2026-0988.patch        | 58 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc           |  1 +
+ .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
  2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 new file mode 100644
-index 0000000000..daf86224d5
+index 00000000000..daf86224d5d
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 @@ -0,0 +1,58 @@
 +From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
 +From: Philip Withnall <pwithnall@gnome.org>
@@ -117,14 +117,14 @@ index 0000000000..daf86224d5
 +   g_object_unref (in);
 +   g_object_unref (base);
 + }
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index bd87d9c601..2e15cc7675 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -231,6 +231,7 @@ SRC_URI += "\
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
-            file://skip-timeout.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index 9f93655739b..79c40747536 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -33,6 +33,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-6052-01.patch \
+            file://CVE-2025-6052-02.patch \
+            file://CVE-2025-6052-03.patch \
 +           file://CVE-2026-0988.patch \
             "
  SRC_URI:append:class-native = " file://relocate-modules.patch \
