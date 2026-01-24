@@ -1,117 +1,132 @@
-Return-Path: <michael.opdenacker@rootcommit.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7622D715F8
-	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:33:27 +0000 (UTC)
-Received: from siberian.tulip.relay.mailchannels.net (siberian.tulip.relay.mailchannels.net [23.83.218.246])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26753.1769286804778485330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CDB3D715F6
+	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:53:38 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27064.1769288011649113033
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Jan 2026 12:33:24 -0800
+ Sat, 24 Jan 2026 12:53:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@rootcommit.com header.s=hostingermail-a header.b=cBt9Awry;
- spf=pass (domain: rootcommit.com, ip: 23.83.218.246, mailfrom: michael.opdenacker@rootcommit.com)
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 46D6F92167D;
-	Sat, 24 Jan 2026 20:33:24 +0000 (UTC)
-Received: from de-fra-smtpout9.hostinger.io (trex-green-5.trex.outbound.svc.cluster.local [100.116.80.177])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 70B53920BA5;
-	Sat, 24 Jan 2026 20:33:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1769286803;
-	b=pV84t79zAUJj4kE7bvrV5JunzPzYwZ4wXANWEw8jlkTpg+koBjwTYQcMgNnhM9UsC67KsW
-	a9zuLRex86igofpjTATNfFRI1iRggKgsgBzrkOs7v2v765vA9Tyo+73Tc16Gq+Y4hjrXPS
-	//eRC7BH6RsPswIGF9Jf/AhPz1RDkwqnNZwd4EgXc1u8KDDxStPPwEck73RSVQ7KdM/axg
-	hqHlxb+K/+6WKxRDSyA1DfXzvyVtdrAAZvGuFuBk2QFCluw/2PfDZcP+EflDaUC1haeSdI
-	buMa61UJ+TwLxLiWDV+e9JMY0Z2nxLGepCANVQsbZg3SxG/9GG0WSX1VahMEyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1769286803;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=mgpB3SdsDWUHd4rQMOgRbPUav8GqQET3mfgMJb2PMbs=;
-	b=9LuM/zB9QZIv6iTPN5rUt6dAKnnGvC9wAaDWbTYE9jRdGOr8A3SREmRkTZ4JZfuoIzAHKy
-	XFJPjqi4NFhWnl37PhMuk8r9HtD8oksqdwCEslu0093Zn//aZ9MMmz2LcWrlds0vQQcTRR
-	bMlIPg2YuVvzglaflfRSaeuoKhrchORzSjwZTekGvtefaiJA2d3JdXuDFjRDbr7NdTFlHo
-	Dj5mAZNVDmae+idYcLUPVsEYPinxJTLO6aO/lPWiXP8lkhgPVOo4ipv1PigArwJguIreR1
-	P973GtEy4m+wBgetyvYDiRVlyY3I8MvXIvwtZ2TeWCvTnUyM0jE6Z7lR4OnOGw==
-ARC-Authentication-Results: i=1;
-	rspamd-5cbb8c6dcc-9czcm;
-	auth=pass smtp.auth=hostingeremail
- smtp.mailfrom=michael.opdenacker@rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: 
- hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Glossy-Zesty: 6e1c65f86b72af33_1769286804166_267794600
-X-MC-Loop-Signature: 1769286804165:3524861971
-X-MC-Ingress-Time: 1769286804165
-Received: from de-fra-smtpout9.hostinger.io (de-fra-smtpout9.hostinger.io
- [148.222.55.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.116.80.177 (trex/7.1.3);
-	Sat, 24 Jan 2026 20:33:24 +0000
-Received: from [IPV6:2001:861:4450:d360:a02d:502d:b853:da37] (unknown [IPv6:2001:861:4450:d360:a02d:502d:b853:da37])
-	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dz6292cYqz3xF5;
-	Sat, 24 Jan 2026 20:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1769286801;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mgpB3SdsDWUHd4rQMOgRbPUav8GqQET3mfgMJb2PMbs=;
-	b=cBt9AwryY+nSBD5CzTW7oubMTabFyGCjOi6kUba96yHcle/O1RRooWI0FBSsJIizzjj8dg
-	tcXYBsmFdFHupGKjK4WXJ+wfJaWHLVx08wNG2MiYaOBxrqXXBGlCfEHZ0bhELi0Dqlbjrb
-	gXbOexysvRJVaSvN1y0tOluTSo2z5zEGUubr+13E2TMjp2UN3s4LMK8iExeQLBvVLfIvAD
-	rwMgHyvN8U3QQwnXzIM0OkW6uRK512oG3b7y9yqpSruxYvL48HaXWZkIh+qxUOJL8awFtQ
-	GDs7dzPCQHRq/Oq4UVsB5F7xIxQ7077TdCuVSGU9splBckRRQs4X2VQGpFp+GA==
-Message-ID: <0c3c18a3-c3af-4458-a843-2041ffc6650e@rootcommit.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=R2O2J+WG;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260124205328d4eb799bce0002070f-m5sx9x@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260124205328d4eb799bce0002070f
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 24 Jan 2026 21:53:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=x1nZ/0euJIyZM9kZPSKOSf52Us/zRFX4dp44yPizUcE=;
+ b=R2O2J+WG4CwonqK76vxON5rM6hoU3hKmyXPWEM2UGBp/RZkm9IH0r/XTtSDMN1/HPPZoWc
+ 4sE5i2AyqTWY5J7EQBiMe3UWjE6BTxX6E2MyLliCPLtHpDp7VgPBeQMv5szQ32EMvDf/pcU5
+ ExfO/Ew388V9NqLTj2YpDH0nMjX7iJdMSgBM3rgKv5tfqzMvYR65GRCBS0Pho8zvBoYLwf0w
+ ZM3Lgu+xQumjhTtbf33JvntYQop4Dg8ZZpBH3hY+QRNyRdVhd3fUrzd7d2Sqa0Q7rToNKann
+ wSytu0Hg0vMnSI87iglBJd9uFxV4prU/BC06xP2KKPnWFGIJ5JVqnyYA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] glib-2.0: patch CVE-2026-0988
+Date: Sat, 24 Jan 2026 21:53:23 +0100
+Message-Id: <20260124205323.2050674-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: michael.opdenacker@rootcommit.com
-Subject: Re: [OE-core] [PATCH 1/5] alsa-lib: upgrade 1.2.15.2 -> 1.2.15.3
-To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
-References: <20260122090513.888-1-wangmy@fujitsu.com>
-Content-Language: en-US
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-In-Reply-To: <20260122090513.888-1-wangmy@fujitsu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Sat, 24 Jan 2026 20:33:21 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=Ceda56rl c=1 sm=1 tr=0 ts=69752c91 a=+g6tKCGzLSkO/Q+yF6g+4A==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=foHCeV_ZAAAA:8 a=d70CFdQeAAAA:8 a=Q4-j1AaZAAAA:8 a=omOdbC7AAAAA:8 a=PZZK4-DerkTEqitZnKAA:9 a=QEXdDO2ut3YA:10 a=h8a9FgHX5U4dIE3jaWyr:22 a=NcxpMcIZDGm-g932nG_k:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-CM-Envelope: MS4xfNMqe1KT8WVTiXcg3rs3Z2rtv63VnvFaJbLZczLPz+2s39fmMvVFTp6oqvKzpX5FH8FP3Qpgg7zqdU7sw8slPkhIcnPL/cUuGDSM4SJW2PfWim2H+RVO XLhXZwQ8ji7+3T9BLG2WG3rbQfTWUCQXtrHAJyAvSchRTZ6JNvmEN9SRSpltEHkpl19Bk6PBdUjl5Urm5nmq+0hRkDeiGFmFmK785aETjQTW3+w7un1SX5k4 x7XpvqXbvIDYl4JejpzLc1V+AOVzbXy2TmDaZhcEdvrAHQd6I/0oFzt3ed/IOXj+k100t1gsWewK5b2EaMgB4VuBp1W34yUHO7tV4SJWmXpQY9n9FIKacsXM rawmc3C7OO6Lik/LKVxQ7mN3t/CZ+mVuJEIVhIVA5KlvJf6MPqf2KdxMbXL37xQKo/v9SQdI
-X-AuthUser: michael.opdenacker@rootcommit.com
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:33:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229923
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:53:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229924
 
-Hi Wang
+From: Peter Marko <peter.marko@siemens.com>
 
-Thanks for this second patch,
+Pick relevant commit from [2] linked from [1].
 
-On 1/22/26 10:05 AM, wangmy via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Here again, you should mention the upstream changes:
-https://www.alsa-project.org/wiki/Changes_v1.2.15.2_v1.2.15.3
+[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3851
+[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4944
 
-Reviewed-by: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-Cheers
-Michael.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../glib-2.0/files/CVE-2026-0988.patch        | 58 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib.inc           |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
 
--- 
-Root Commit
-Embedded Linux Training and Consulting
-https://rootcommit.com
-
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
+new file mode 100644
+index 0000000000..daf86224d5
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
+@@ -0,0 +1,58 @@
++From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
++From: Philip Withnall <pwithnall@gnome.org>
++Date: Thu, 18 Dec 2025 23:12:18 +0000
++Subject: [PATCH] gbufferedinputstream: Fix a potential integer overflow in
++ peek()
++
++If the caller provides `offset` and `count` arguments which overflow,
++their sum will overflow and could lead to `memcpy()` reading out more
++memory than expected.
++
++Spotted by Codean Labs.
++
++Signed-off-by: Philip Withnall <pwithnall@gnome.org>
++
++Fixes: #3851
++
++CVE: CVE-2026-0988
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c5766cff61ffce0b8e787eae09908ac348338e5f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ gio/gbufferedinputstream.c        |  2 +-
++ gio/tests/buffered-input-stream.c | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/gio/gbufferedinputstream.c b/gio/gbufferedinputstream.c
++index 9e6bacc62..56d656be0 100644
++--- a/gio/gbufferedinputstream.c
+++++ b/gio/gbufferedinputstream.c
++@@ -590,7 +590,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
++ 
++   available = g_buffered_input_stream_get_available (stream);
++ 
++-  if (offset > available)
+++  if (offset > available || offset > G_MAXSIZE - count)
++     return 0;
++ 
++   end = MIN (offset + count, available);
++diff --git a/gio/tests/buffered-input-stream.c b/gio/tests/buffered-input-stream.c
++index a1af4eeff..2b2a0d9aa 100644
++--- a/gio/tests/buffered-input-stream.c
+++++ b/gio/tests/buffered-input-stream.c
++@@ -60,6 +60,16 @@ test_peek (void)
++   g_assert_cmpint (npeek, ==, 0);
++   g_free (buffer);
++ 
+++  buffer = g_new0 (char, 64);
+++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 8, 0);
+++  g_assert_cmpint (npeek, ==, 0);
+++  g_free (buffer);
+++
+++  buffer = g_new0 (char, 64);
+++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 5, G_MAXSIZE);
+++  g_assert_cmpint (npeek, ==, 0);
+++  g_free (buffer);
+++
++   g_object_unref (in);
++   g_object_unref (base);
++ }
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index bd87d9c601..2e15cc7675 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -231,6 +231,7 @@ SRC_URI += "\
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://skip-timeout.patch \
++           file://CVE-2026-0988.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
 
