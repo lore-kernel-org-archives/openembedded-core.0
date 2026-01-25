@@ -1,132 +1,150 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patrick.vogelaar.dev@mailbox.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC2C1D715FC
-	for <webhook@archiver.kernel.org>; Sat, 24 Jan 2026 20:53:57 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27070.1769288032715859231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71EA4E63C96
+	for <webhook@archiver.kernel.org>; Sun, 25 Jan 2026 09:16:11 +0000 (UTC)
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.35884.1769332569403825390
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Jan 2026 12:53:53 -0800
+ Sun, 25 Jan 2026 01:16:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=NCOBc5a7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260124205350011c296d5a00020754-pfd65b@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260124205350011c296d5a00020754
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 24 Jan 2026 21:53:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=94+8eJAEUoFtimlOfxLGT/VHLB0eGneL5nZ53Y2yCso=;
- b=NCOBc5a7iOU70DKfLoJex5zU26caT/a0xYrKkLUIqDFhs/IWJs3TDxm6i7pB0huIm8yhKk
- 9GIZzuN2Xc9I4UvCOJckQ0wirs344AItU3dfRnDTTlPRQZwD8POmaTZGUwojOrSGFoCdMfbB
- cM7wunO9U882gWGjV4wiS6NO44W/czqromtxR0y3eVQotfooMLTj5cAuMMVSrj6gMrVcGBRF
- YrS/2kMev7pHSdreW5zfOctvbxJKV3E/5NH/fYDv61EJrXuI4iXYS8hnM4aG4pupCOMjshVe
- PV4SrLMowDqJmS7vMsn88skiFHyN3LlcvC9i1ZCUSuc670C0b7C95ufg==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] glib-2.0: patch CVE-2026-0988
-Date: Sat, 24 Jan 2026 21:53:46 +0100
-Message-Id: <20260124205346.2059762-1-peter.marko@siemens.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=BrbFDyLM;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=EZrq7Lub;
+ spf=pass (domain: mailbox.org, ip: 80.241.56.161, mailfrom: patrick.vogelaar.dev@mailbox.org)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dzQyH0Pp5z9srX;
+	Sun, 25 Jan 2026 10:16:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1769332567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cAAF3zk5OKNrS1ISEsBiVTS2O8hEYYXmE3+oNUT8iP4=;
+	b=BrbFDyLMhYAohiFLGiXDW2jqtTF0iVy7sEmGHO5FnG9gNdlImtJREDMAdDRc32I3V0zrTV
+	JiMA1gkmLPKbi+GcaxW4MvZw3Loh8/i6BnG2xHknFDGTA0GUIrgC5I4Ti6goJk1JnRHnNG
+	10SHE0Nef4aQJyzIpcVsWBlOy12kKpovs7MKURs4jeVn1RCsshA8YotTAnEsdmsH39PWM9
+	SCOHLBhltrIyCE97HalAhfpWMLaJKFU4O4u0TEPUtJqCJpcGDp1Y685QPMZ17qWZIgUQ9x
+	YusPFO0N4IkplyFQVhg3IKa2ycdTI0otGmhlvInaCk+py/DOjWH6xltTX3d9aw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=EZrq7Lub;
+	spf=pass (outgoing_mbo_mout: domain of patrick.vogelaar.dev@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=patrick.vogelaar.dev@mailbox.org
+From: Patrick Vogelaar <patrick.vogelaar.dev@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1769332565;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cAAF3zk5OKNrS1ISEsBiVTS2O8hEYYXmE3+oNUT8iP4=;
+	b=EZrq7LubK8bg3wa1yaGHJbGBETUnMvZCBKrJ/kPYm5r2xp9US21jhVtgn/nYZ6MYgMEsoe
+	srunlI/GIYnLeX3LwuZKARcC1HOfHzr/ZyYRPIZll/pQ/5zPSX6wmkrrVyZiht8513awWZ
+	3LQOdTylKtCquB6N1OjHIxCGYuTeQGFVVhdfVxFVjLVY3b9tdlh+aO5DtyQA0p61k7snbn
+	RRNI/BkM2VQKRUpvts7GxHEOet5Vg2h1DzINK0NaO7sdH9Y1W9lX9+/lHtZuvI17gV5y/i
+	cYEdaMKyQ4gd9h5quaZFQON5JM3A3L8HA5DxD+L/q6o9RprO1ZDnc9nGDC/hcw==
+To: patrick.vogelaar.dev@mailbox.org
+Cc: openembedded-core@lists.openembedded.org,
+	paul@pbarker.dev
+Subject: [PATCH v2] openssh: add variable for key path
+Date: Sun, 25 Jan 2026 10:15:40 +0100
+Message-ID: <20260125091540.8808-1-patrick.vogelaar.dev@mailbox.org>
+In-Reply-To: <20260102112702.110486-1-patrick.vogelaar.dev@mailbox.org>
+References: <20260102112702.110486-1-patrick.vogelaar.dev@mailbox.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-MBO-RS-META: kjjy9ae31xk3tmkgpwge3c1dwt4gp7dz
+X-MBO-RS-ID: 6350f9cc1090e7f0a06
+X-Rspamd-Queue-Id: 4dzQyH0Pp5z9srX
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Jan 2026 20:53:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229927
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Jan 2026 09:16:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229928
 
-From: Peter Marko <peter.marko@siemens.com>
+This patch adds a variable for the key directory path. This is especially
+useful when working with a read-only file system where you want to
+specify the location e.g. on a r/w partition. To be consistent, the
+change was also done for the read write path.
 
-Pick relevant commit from [2] linked from [1].
+For changing the path simply create a bbappend and override the
+variable.
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3851
-[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4944
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Patrick Vogelaar <patrick.vogelaar.dev@mailbox.org>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
+ .../openssh/openssh_10.2p1.bb                    | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
-new file mode 100644
-index 0000000000..1cdc3735ed
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
-@@ -0,0 +1,58 @@
-+From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 18 Dec 2025 23:12:18 +0000
-+Subject: [PATCH] gbufferedinputstream: Fix a potential integer overflow in
-+ peek()
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb b/meta/r=
+ecipes-connectivity/openssh/openssh_10.2p1.bb
+index 866129573f..d8ea487ae3 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
+@@ -99,6 +99,10 @@ CACHED_CONFIGUREVARS +=3D "ac_cv_path_PATH_PASSWD_PROG=
+=3D${bindir}/passwd"
+ # We don't want to depend on libblockfile
+ CACHED_CONFIGUREVARS +=3D "ac_cv_header_maillock_h=3Dno"
+=20
++# This allows overriding the key location
++OPENSSH_HOST_KEY_DIR_READONLY_CONFIG ?=3D "/var/run/ssh"
++OPENSSH_HOST_KEY_DIR ?=3D "/etc/ssh"
 +
-+If the caller provides `offset` and `count` arguments which overflow,
-+their sum will overflow and could lead to `memcpy()` reading out more
-+memory than expected.
-+
-+Spotted by Codean Labs.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Fixes: #3851
-+
-+CVE: CVE-2026-0988
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c5766cff61ffce0b8e787eae09908ac348338e5f]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ gio/gbufferedinputstream.c        |  2 +-
-+ gio/tests/buffered-input-stream.c | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/gio/gbufferedinputstream.c b/gio/gbufferedinputstream.c
-+index 9e6bacc62..56d656be0 100644
-+--- a/gio/gbufferedinputstream.c
-++++ b/gio/gbufferedinputstream.c
-+@@ -588,7 +588,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
-+ 
-+   available = g_buffered_input_stream_get_available (stream);
-+ 
-+-  if (offset > available)
-++  if (offset > available || offset > G_MAXSIZE - count)
-+     return 0;
-+ 
-+   end = MIN (offset + count, available);
-+diff --git a/gio/tests/buffered-input-stream.c b/gio/tests/buffered-input-stream.c
-+index a1af4eeff..2b2a0d9aa 100644
-+--- a/gio/tests/buffered-input-stream.c
-++++ b/gio/tests/buffered-input-stream.c
-+@@ -58,6 +58,16 @@ test_peek (void)
-+   g_assert_cmpint (npeek, ==, 0);
-+   g_free (buffer);
-+ 
-++  buffer = g_new0 (char, 64);
-++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 8, 0);
-++  g_assert_cmpint (npeek, ==, 0);
-++  g_free (buffer);
-++
-++  buffer = g_new0 (char, 64);
-++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 5, G_MAXSIZE);
-++  g_assert_cmpint (npeek, ==, 0);
-++  g_free (buffer);
-++
-+   g_object_unref (in);
-+   g_object_unref (base);
-+ }
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-index 7ba52b5c79..89cb126b73 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-@@ -64,6 +64,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-4373-02.patch \
-            file://CVE-2025-7039-01.patch \
-            file://CVE-2025-7039-02.patch \
-+           file://CVE-2026-0988.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
+ do_configure:prepend () {
+ 	export LD=3D"${CC}"
+ 	install -m 0600 ${UNPACKDIR}/sshd_config ${B}/
+@@ -113,24 +117,24 @@ sshd_hostkey_setup() {
+ 	# Enable specific ssh host keys
+ 	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config
+ 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-rsa','true','false',d)=
+}; then
+-		echo "HostKey /etc/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd=
+_config
++		echo "HostKey ${OPENSSH_HOST_KEY_DIR}/ssh_host_rsa_key" >> ${D}${sysco=
+nfdir}/ssh/sshd_config
+ 	fi
+ 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ecdsa','true','false',=
+d)}; then
+-		echo "HostKey /etc/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/ss=
+hd_config
++		echo "HostKey ${OPENSSH_HOST_KEY_DIR}/ssh_host_ecdsa_key" >> ${D}${sys=
+confdir}/ssh/sshd_config
+ 	fi
+ 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ed25519','true','false=
+',d)}; then
+-		echo "HostKey /etc/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/=
+sshd_config
++		echo "HostKey ${OPENSSH_HOST_KEY_DIR}/ssh_host_ed25519_key" >> ${D}${s=
+ysconfdir}/ssh/sshd_config
+ 	fi
+=20
+ 	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-rsa','true','false',d)=
+}; then
+-		echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/=
+sshd_config_readonly
++		echo "HostKey ${OPENSSH_HOST_KEY_DIR_READONLY_CONFIG}/ssh_host_rsa_key=
+" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	fi
+ 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ecdsa','true','false',=
+d)}; then
+-		echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ss=
+h/sshd_config_readonly
++		echo "HostKey ${OPENSSH_HOST_KEY_DIR_READONLY_CONFIG}/ssh_host_ecdsa_k=
+ey" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	fi
+ 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ed25519','true','false=
+',d)}; then
+-		echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/=
+ssh/sshd_config_readonly
++		echo "HostKey ${OPENSSH_HOST_KEY_DIR_READONLY_CONFIG}/ssh_host_ed25519=
+_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	fi
+ }
+=20
+--=20
+2.43.0
+
 
