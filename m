@@ -2,35 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C72DE63CBF
-	for <webhook@archiver.kernel.org>; Sun, 25 Jan 2026 18:42:20 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2016.1769366535391599130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4A8BD715FD
+	for <webhook@archiver.kernel.org>; Sun, 25 Jan 2026 20:42:10 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4660.1769373729602577786
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Jan 2026 10:42:17 -0800
+ Sun, 25 Jan 2026 12:42:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=LcNTy0EY;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026012518421679d5c410b400020735-p9m3wj@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026012518421679d5c410b400020735
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OQaSmOuY;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202601252042084b94faa3e700020733-hvhaqu@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202601252042084b94faa3e700020733
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 25 Jan 2026 19:42:16 +0100
+        Sun, 25 Jan 2026 21:42:08 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=FmI3IwXFevM4sOehAJOlqZl/zlwHlnZy/sNeJ71TUAs=;
- b=LcNTy0EYLC1jrl/MJPoPj3ykpZRwIg6DVWHNOB3xeDdwpBqj4xlBrNipJjStQkyM/PypHa
- hVjusIuaDKq+QZ6iSsqZtxADm1/YSFu2Vl7PWA/g//oKLudnWcng/GnIuAEZOmLM9In879JX
- iW7YyQwxSCr8ollmYZheY8h7hh6ZwzU7JiBEa2HMOrj12ur9qhGEkt2xVFNl5SxZ5gxPVxyx
- 0AwMh8pjsfsMzhk9whNcYupQCjQHi93Ra/YIn5vkNPum6lMcqriXKLwnaBx+6QXBLxwovTJY
- AHg9aLP0YaOY2STZTVY0U5/XcUc4dyNPAKY1r/IvsOdvy2DPGrOW5D0w==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=L7Wtyjmu7Obr2gd58XP2sVlhV7aiZMaN1Jfw8jHgcmE=;
+ b=OQaSmOuYsozrvCads0JzBuu7w8fgivcrLfj5B4gPlKzFmZGiCvTrC3zL0s3U2yn8s0LazQ
+ llxXFic9rjWFbFoRHe68Ln2u7Q+qwsLfCMAcZ3oVTHLaWoM1++4TFEKo8k8dPepdekweVIt4
+ qwwlppU2SiHFcP8WyB/7n7NgGxuAgid+keJ57QHocht/Z/ga6lhOwzKl2SAR7xLKehrNNqlt
+ ZdGV8j5IwFzUjxOX2KS9pqXstV7Vktm/ZnAeCCdvivWrCMiLjbfZG3zTJw61CR2yq2FLZr86
+ p5eorjYB4OhUqlbM8f5ds/YBtfxthNCXSa7zH+jjocQTjfZ5D1/GgC9A==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 2/2] libxml2: patch CVE-2026-0992
-Date: Sun, 25 Jan 2026 19:35:19 +0100
-Message-Id: <20260125183519.1634980-2-peter.marko@siemens.com>
-In-Reply-To: <20260125183519.1634980-1-peter.marko@siemens.com>
-References: <20260125183519.1634980-1-peter.marko@siemens.com>
+Subject: [OE-core][whinlatter][PATCH] expat: patch CVE-2026-24515
+Date: Sun, 25 Jan 2026 21:34:52 +0100
+Message-Id: <20260125203452.120160-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,89 +36,205 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Jan 2026 18:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229948
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Jan 2026 20:42:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229950
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch which closed [1].
-Adapt for missing xmlCatalogPrintDebug per [2].
-
-[1] https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019
-[2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/728869809eb7eee1b1681d558b4b506a8019c151
+Pick commits from PR linked in NVD report.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libxml/libxml2/CVE-2026-0992.patch        | 49 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
+ .../expat/expat/CVE-2026-24515-01.patch       |  43 +++++++
+ .../expat/expat/CVE-2026-24515-02.patch       | 117 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.7.3.bb        |   2 +
+ 3 files changed, 162 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-24515-01.patch b/meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
 new file mode 100644
-index 0000000000..d7c0b47b33
+index 0000000000..c61e49aefd
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
-@@ -0,0 +1,49 @@
-+From f75abfcaa419a740a3191e56c60400f3ff18988d Mon Sep 17 00:00:00 2001
-+From: Daniel Garcia Moreno <daniel.garcia@suse.com>
-+Date: Fri, 19 Dec 2025 11:02:18 +0100
-+Subject: [PATCH] catalog: Ignore repeated nextCatalog entries
++++ b/meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
+@@ -0,0 +1,43 @@
++From 86fc914a7acc49246d5fde0ab6ed97eb8a0f15f9 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 18 Jan 2026 17:53:37 +0100
++Subject: [PATCH] lib: Make XML_ExternalEntityParserCreate copy unknown
++ encoding handler user data
 +
-+This patch makes the catalog parsing to ignore repeated entries of
-+nextCatalog with the same value.
++Patch suggested by Artiphishell Inc.
 +
-+Fix https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019
-+
-+CVE: CVE-2026-0989
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/f75abfcaa419a740a3191e56c60400f3ff18988d]
++CVE: CVE-2026-24515
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/86fc914a7acc49246d5fde0ab6ed97eb8a0f15f9]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ catalog.c | 18 ++++++++++++++++++
-+ 1 file changed, 18 insertions(+)
++ expat/lib/xmlparse.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/catalog.c b/catalog.c
-+index 46b877e6..fa6d77ca 100644
-+--- a/catalog.c
-++++ b/catalog.c
-+@@ -1279,9 +1279,27 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPrefer prefer,
-+ 		BAD_CAST "delegateURI", BAD_CAST "uriStartString",
-+ 		BAD_CAST "catalog", prefer, cgroup);
-+     } else if (xmlStrEqual(cur->name, BAD_CAST "nextCatalog")) {
-++	xmlCatalogEntryPtr prev = parent->children;
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 593cd90d..18577ee3 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -1754,6 +1754,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++   XML_ExternalEntityRefHandler oldExternalEntityRefHandler;
++   XML_SkippedEntityHandler oldSkippedEntityHandler;
++   XML_UnknownEncodingHandler oldUnknownEncodingHandler;
+++  void *oldUnknownEncodingHandlerData;
++   XML_ElementDeclHandler oldElementDeclHandler;
++   XML_AttlistDeclHandler oldAttlistDeclHandler;
++   XML_EntityDeclHandler oldEntityDeclHandler;
++@@ -1799,6 +1800,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++   oldExternalEntityRefHandler = parser->m_externalEntityRefHandler;
++   oldSkippedEntityHandler = parser->m_skippedEntityHandler;
++   oldUnknownEncodingHandler = parser->m_unknownEncodingHandler;
+++  oldUnknownEncodingHandlerData = parser->m_unknownEncodingHandlerData;
++   oldElementDeclHandler = parser->m_elementDeclHandler;
++   oldAttlistDeclHandler = parser->m_attlistDeclHandler;
++   oldEntityDeclHandler = parser->m_entityDeclHandler;
++@@ -1859,6 +1861,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++   parser->m_externalEntityRefHandler = oldExternalEntityRefHandler;
++   parser->m_skippedEntityHandler = oldSkippedEntityHandler;
++   parser->m_unknownEncodingHandler = oldUnknownEncodingHandler;
+++  parser->m_unknownEncodingHandlerData = oldUnknownEncodingHandlerData;
++   parser->m_elementDeclHandler = oldElementDeclHandler;
++   parser->m_attlistDeclHandler = oldAttlistDeclHandler;
++   parser->m_entityDeclHandler = oldEntityDeclHandler;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-24515-02.patch b/meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
+new file mode 100644
+index 0000000000..b160f4f343
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
+@@ -0,0 +1,117 @@
++From 8efea3e255d55c7e0a5b70b226f4652ab00e1a27 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 18 Jan 2026 17:26:31 +0100
++Subject: [PATCH] tests: Cover effect of XML_SetUnknownEncodingHandler user
++ data
++
++CVE: CVE-2026-24515
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/8efea3e255d55c7e0a5b70b226f4652ab00e1a27]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ tests/basic_tests.c | 42 +++++++++++++++++++++++++++++++++++++++
++ tests/handlers.c    | 10 ++++++++++
++ tests/handlers.h    |  3 +++
++ 3 files changed, 55 insertions(+)
++
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 0231e094..0ed98d86 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -4570,6 +4570,46 @@ START_TEST(test_unknown_encoding_invalid_attr_value) {
++ }
++ END_TEST
++ 
+++START_TEST(test_unknown_encoding_user_data_primary) {
+++  // This test is based on ideas contributed by Artiphishell Inc.
+++  const char *const text = "<?xml version='1.0' encoding='x-unk'?>\n"
+++                           "<root />\n";
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  XML_SetUnknownEncodingHandler(parser,
+++                                user_data_checking_unknown_encoding_handler,
+++                                (void *)(intptr_t)0xC0FFEE);
 ++
-+ 	entry = xmlParseXMLCatalogOneNode(cur, XML_CATA_NEXT_CATALOG,
-+ 		BAD_CAST "nextCatalog", NULL,
-+ 		BAD_CAST "catalog", prefer, cgroup);
-++	/* Avoid duplication of nextCatalog */
-++	while (prev != NULL) {
-++	    if ((prev->type == XML_CATA_NEXT_CATALOG) &&
-++		(xmlStrEqual (prev->URL, entry->URL)) &&
-++		(xmlStrEqual (prev->value, entry->value)) &&
-++		(prev->prefer == entry->prefer) &&
-++		(prev->group == entry->group)) {
-++		    if (xmlDebugCatalogs)
-++			fprintf(stderr,
-++			    "Ignoring repeated nextCatalog %s\n", entry->URL);
-++		    xmlFreeCatalogEntry(entry, NULL);
-++		    entry = NULL;
-++		    break;
-++	    }
-++	    prev = prev->next;
-++	}
-+     }
-+     if (entry != NULL) {
-+         if (parent != NULL) {
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index a72aff6c83..bf3099c1f4 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -45,6 +45,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://CVE-2025-9714.patch \
-            file://CVE-2025-7425.patch \
-            file://CVE-2026-0990.patch \
-+           file://CVE-2026-0992.patch \
+++  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++              == XML_STATUS_OK);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_unknown_encoding_user_data_secondary) {
+++  // This test is based on ideas contributed by Artiphishell Inc.
+++  const char *const text_main = "<!DOCTYPE r [\n"
+++                                "  <!ENTITY ext SYSTEM 'ext.ent'>\n"
+++                                "]>\n"
+++                                "<r>&ext;</r>\n";
+++  const char *const text_external = "<?xml version='1.0' encoding='x-unk'?>\n"
+++                                    "<e>data</e>";
+++  ExtTest2 test_data = {text_external, (int)strlen(text_external), NULL, NULL};
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  XML_SetExternalEntityRefHandler(parser, external_entity_loader2);
+++  XML_SetUnknownEncodingHandler(parser,
+++                                user_data_checking_unknown_encoding_handler,
+++                                (void *)(intptr_t)0xC0FFEE);
+++  XML_SetUserData(parser, &test_data);
+++
+++  assert_true(_XML_Parse_SINGLE_BYTES(parser, text_main, (int)strlen(text_main),
+++                                      XML_TRUE)
+++              == XML_STATUS_OK);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Test an external entity parser set to use latin-1 detects UTF-16
++  * BOMs correctly.
++  */
++@@ -6416,6 +6456,8 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_unknown_encoding_invalid_surrogate);
++   tcase_add_test(tc_basic, test_unknown_encoding_invalid_high);
++   tcase_add_test(tc_basic, test_unknown_encoding_invalid_attr_value);
+++  tcase_add_test(tc_basic, test_unknown_encoding_user_data_primary);
+++  tcase_add_test(tc_basic, test_unknown_encoding_user_data_secondary);
++   tcase_add_test__if_xml_ge(tc_basic, test_ext_entity_latin1_utf16le_bom);
++   tcase_add_test__if_xml_ge(tc_basic, test_ext_entity_latin1_utf16be_bom);
++   tcase_add_test__if_xml_ge(tc_basic, test_ext_entity_latin1_utf16le_bom2);
++diff --git a/tests/handlers.c b/tests/handlers.c
++index 5bca2b1f..d077f688 100644
++--- a/tests/handlers.c
+++++ b/tests/handlers.c
++@@ -45,6 +45,7 @@
++ #  undef NDEBUG /* because test suite relies on assert(...) at the moment */
++ #endif
++ 
+++#include <stdint.h>
++ #include <stdio.h>
++ #include <string.h>
++ #include <assert.h>
++@@ -407,6 +408,15 @@ long_encoding_handler(void *userData, const XML_Char *encoding,
++   return XML_STATUS_OK;
++ }
++ 
+++int XMLCALL
+++user_data_checking_unknown_encoding_handler(void *userData,
+++                                            const XML_Char *encoding,
+++                                            XML_Encoding *info) {
+++  const intptr_t number = (intptr_t)userData;
+++  assert_true(number == 0xC0FFEE);
+++  return long_encoding_handler(userData, encoding, info);
+++}
+++
++ /* External Entity Handlers */
++ 
++ int XMLCALL
++diff --git a/tests/handlers.h b/tests/handlers.h
++index fa6267fb..915040e5 100644
++--- a/tests/handlers.h
+++++ b/tests/handlers.h
++@@ -159,6 +159,9 @@ extern int XMLCALL long_encoding_handler(void *userData,
++                                          const XML_Char *encoding,
++                                          XML_Encoding *info);
++ 
+++extern int XMLCALL user_data_checking_unknown_encoding_handler(
+++    void *userData, const XML_Char *encoding, XML_Encoding *info);
+++
++ /* External Entity Handlers */
++ 
++ typedef struct ExtOption {
+diff --git a/meta/recipes-core/expat/expat_2.7.3.bb b/meta/recipes-core/expat/expat_2.7.3.bb
+index 069254e13c..12ca9b004d 100644
+--- a/meta/recipes-core/expat/expat_2.7.3.bb
++++ b/meta/recipes-core/expat/expat_2.7.3.bb
+@@ -10,6 +10,8 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://run-ptest \
++           file://CVE-2026-24515-01.patch \
++           file://CVE-2026-24515-02.patch \
             "
  
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
