@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAAADC88E64
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F50C88E6B
 	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 07:38:34 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14686.1769413110456419918
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15107.1769413110576290590
  for <openembedded-core@lists.openembedded.org>;
  Sun, 25 Jan 2026 23:38:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=BgYtX05Z;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-2026012607382722ceaa559700020794-ry_aaw@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026012607382722ceaa559700020794
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Fv+8DWYm;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20260126073828325ee3fb6a0002079e-gakjk_@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260126073828325ee3fb6a0002079e
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 26 Jan 2026 08:38:28 +0100
+        Mon, 26 Jan 2026 08:38:29 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=gatj7rWzcqLtLm4b8uA1+DwsorURMbQ9dJwqFRdGXcU=;
- b=BgYtX05ZnuomW35wt3vh3g/rSz86sAErKOOoSe9C5pHWJs8YA7hIKt62/DfOWYamcZ2WfO
- 4jeZNlO3sIMffyMarh4LVI+qowqmb2n/FSc3cYO/Im9SDw0cYdQIiJR2ZdOC1fwoxC3KfLel
- jBn/MpMFYO8aaMSuVulbWV4U+aoJKWBEemM04WYR6N7h7opHjEFr+73rEtNxXCOrhmsZ/fhY
- uEm23847OliWYnDoCgsE20G0ErpAzGiabDYFGxp48Ug3ZNG+5R1TmCag7si1qef1NfuvzvEb
- GBJqJzL/T6qJwXHsQ2NBHsATfvJkusK6HeB3DCzZQYTmjPuACu8Y/NaQ==;
+ bh=Pb2CVcyi2Tbrb0594k8JqqK8GfbvknijF9X1OmF2Zjo=;
+ b=Fv+8DWYmUmjiGmMwG5ERwJeGDem7QXK8fxi5YbjXNbzwmap0r95SmmbqP5XtvO7njv+A4T
+ P28rNSLLMMwhbZRrR11uAo8c03rGrttynRpUBUr2lieDJb5hmSkZxaQE4i8cvdNMBu6uiiiU
+ peUexjP+DSb/f9FMBUDbyKv3fKXP8uLAlAHelYG1YX4Fc28ir7XQ0Y/A6iIp7jAydldT120L
+ 77tJsXWMzT9Pbf+M8Iki0O7mj99lxiYblAzHlJTdHuANG8Dn5hw0oJVlei0EY4PjP6obKHvy
+ H80Ic4R9uFqSopZAWwutpMaTWAcpninesi5vA7mGXQyRXsqoUq6FPKBA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 01/13] useradd_base.bbclass: do not use awk
-Date: Mon, 26 Jan 2026 08:37:28 +0100
-Message-ID: <20260126073809.468495-2-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 13/13] devtool: ide-sdk: Support GDB pretty-printing for C++ STL types
+Date: Mon, 26 Jan 2026 08:37:40 +0100
+Message-ID: <20260126073809.468495-14-adrian.freihofer@siemens.com>
 In-Reply-To: <20260126073809.468495-1-adrian.freihofer@siemens.com>
 References: <20260126073809.468495-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,205 +39,151 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 07:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229962
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229960
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-The exception bellow occurred during
-  bitbake build-sysroots:do_build_target_sysroot
-Re-trying the same command again can "solve" the problem, which indicates
-that the problem is transient.
-Transient probably means that libncurses.so.5 was not available at the
-time when the useradd command was executed inside the sysroot population.
-However, adding gawk-native to useradd.bbclass
-DEPENDS:append:class-target does not help.
+GDB requires Python scripts provided by GCC to properly display C++ STL
+types. This commit adds support for configuring GDB to use these
+pretty-printers in the ide-sdk, covering both the ide_none and ide_code
+plugins.
 
-As a workaround this avoids using awk in useradd_base.bbclass.
+The implementation locates the GCC Python helper scripts in the sysroot
+and injects the necessary commands into the GDB initialization files and
+IDE debug configurations. This ensures that when debugging C++
+applications, STL containers and other complex types are displayed in a
+readable format.
 
-ERROR: build-sysroots-1.0-r0 do_build_target_sysroot:
-  Error executing a python function in exec_func_python() autogenerated:
+Without this:
+  (gdb) print numbers
+  $1 = {<std::_Vector_base<int, std::allocator<int> >> = {
+    _M_impl = {<std::allocator<int>> = {<std::__new_allocator<int>> =
+    {<No data fields>}, <No data fields>}, <std::_Vector_base<int,
+    std::allocator<int> >::_Vector_impl_data> =
+    {_M_start = 0x55555556c370, _M_finish = 0x55555556c37c,
+        _M_end_of_storage = 0x55555556c37c}, <No data fields>}},
+        <No data fields>}
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_build_target_sysroot(d)
-     0003:
-File: '...poky-master/layers/openembedded-core/meta/recipes-core/meta/build-sysroots.bb',
-      lineno: 46, function: do_build_target_sysroot
-     0042:    targetsysroot = d.getVar("STANDALONE_SYSROOT")
-     0043:    nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
-     0044:    import os
-     0045:    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" %
-	          (nativesysroot, nativesysroot, os.environ['PATH'])
- *** 0046:    staging_populate_sysroot_dir(targetsysroot, nativesysroot, False, d)
-     0047:}
-     0048:do_build_target_sysroot[cleandirs] = "${STANDALONE_SYSROOT}"
-     0049:do_build_target_sysroot[nostamp] = "1"
-     0050:addtask do_build_target_sysroot
-File: '...poky-master/layers/openembedded-core/meta/classes-global/staging.bbclass',
-      lineno: 249, function: staging_populate_sysroot_dir
-     0245:                        continue
-     0246:
-     0247:    staging_processfixme(fixme, targetdir, targetsysroot, nativesysroot, d)
-     0248:    for p in sorted(postinsts):
- *** 0249:        bb.note("Running postinst {}, output:\n{}".format(
-                      p, subprocess.check_output(p, shell=True,
-                      stderr=subprocess.STDOUT)))
-     0250:
-     0251:#
-     0252:# Manifests here are complicated. The main sysroot area has the unpacked sstate
-     0253:# which us unrelocated and tracked by the main sstate manifests. Each recipe
-File: '/usr/lib64/python3.13/subprocess.py', lineno: 472, function: check_output
-     0468:        else:
-     0469:            empty = b''
-     0470:        kwargs['input'] = empty
-     0471:
- *** 0472:    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
-     0473:               **kwargs).stdout
-     0474:
-     0475:
-     0476:class CompletedProcess(object):
-File: '/usr/lib64/python3.13/subprocess.py', lineno: 577, function: run
-     0573:            # We don't call process.wait() as .__exit__ does that for us.
-     0574:            raise
-     0575:        retcode = process.poll()
-     0576:        if check and retcode:
- *** 0577:            raise CalledProcessError(retcode, process.args,
-     0578:                                     output=stdout, stderr=stderr)
-     0579:    return CompletedProcess(process.args, retcode, stdout, stderr)
-     0580:
-     0581:
-Exception: subprocess.CalledProcessError:
-    Command '...poky-master/build/tmp/sysroots/qemux86-64/usr/bin/postinst-useradd-01group-cmake-example'
-             returned non-zero exit status 1.
-
-Subprocess output:
-...poky-master/build/tmp/sysroots/x86_64/usr/sbin/useradd
-Running groupadd commands...
-NOTE: cmake-example: Performing groupadd with
-  [--root ...poky-master/build/tmp/sysroots/qemux86-64 --system cmake-example]
-awk: error while loading shared libraries: libncurses.so.5:
-     cannot open shared object file: No such file or directory
-groupadd: group 'cmake-example' already exists
-ERROR: cmake-example: groupadd command did not succeed.
+With this:
+  (gdb) print numbers
+  $1 = std::vector of length 3, capacity 3 = {1, 2, 3}
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes/useradd_base.bbclass | 49 +++++++++++++++++++++++--------
- 1 file changed, 36 insertions(+), 13 deletions(-)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 14 +++++++++++
+ scripts/lib/devtool/ide_plugins/ide_none.py |  8 +++++++
+ scripts/lib/devtool/ide_sdk.py              | 26 +++++++++++++++++++++
+ 3 files changed, 48 insertions(+)
 
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index 5e1c699118..2d42864cbd 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -20,7 +20,8 @@ perform_groupadd () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing groupadd with [$opts]"
--	local groupname=`echo "$opts" | awk '{ print $NF }'`
-+	local groupname=
-+	for word in $opts; do groupname=$word; done
- 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
- 	if test "x$group_exists" = "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupadd \$opts\" || true
-@@ -37,7 +38,8 @@ perform_useradd () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing useradd with [$opts]"
--	local username=`echo "$opts" | awk '{ print $NF }'`
-+	local username=
-+	for word in $opts; do username=$word; done
- 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
- 	if test "x$user_exists" = "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c  \"$PSEUDO useradd \$opts\" || true
-@@ -54,8 +56,26 @@ perform_groupmems () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing groupmems with [$opts]"
--	local groupname=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-g" || $i == "--group") print $(i+1) }'`
--	local username=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-a" || $i == "--add") print $(i+1) }'`
-+	local groupname=
-+	found_groupname=0
-+	for opt in $opts; do
-+		if [ "$found_groupname" = "1" ]; then
-+			groupname=$opt
-+			break
-+		elif [ "$opt" = "-g" ] || [ "$opt" = "--group" ]; then
-+			found_groupname=1
-+		fi
-+	done
-+	local username=
-+	found_username=0
-+	for opt in $opts; do
-+		if [ "$found_username" = "1" ]; then
-+			username=$opt
-+			break
-+		elif [ "$opt" = "-a" ] || [ "$opt" = "--add" ]; then
-+			found_username=1
-+		fi
-+	done
- 	bbnote "${PN}: Running groupmems command with group $groupname and user $username"
- 	local mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*$" $rootdir/etc/group || true`"
- 	if test "x$mem_exists" = "x"; then
-@@ -73,14 +93,13 @@ perform_groupdel () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing groupdel with [$opts]"
--	local groupname=`echo "$opts" | awk '{ print $NF }'`
-+	local groupname=
-+	for word in $opts; do groupname=$word; done
- 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 647a5b8cc6..c2ee9b91c6 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -290,6 +290,20 @@ class IdeVSCode(IdeBase):
+             logger.warning(
+                 "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
  
- 	if test "x$group_exists" != "x"; then
--		local awk_input='BEGIN {FS=":"}; $1=="'$groupname'" { print $3 }'
--		local groupid=`echo "$awk_input" | awk -f- $rootdir/etc/group`
--		local awk_check_users='BEGIN {FS=":"}; $4=="'$groupid'" {print $1}'
--		local other_users=`echo "$awk_check_users" | awk -f- $rootdir/etc/passwd`
-+		local groupid=$(grep "^$groupname:" "$rootdir/etc/group" | cut -d: -f3)
-+		local other_users=$(grep ":$groupid:" "$rootdir/etc/passwd" | cut -d: -f1)
++        # Enable pretty-printing for gdb for resolving STL types with help of python scripts
++        pretty_printing_cmd = modified_recipe.gdb_pretty_print_scripts
++        if pretty_printing_cmd:
++            setup_commands += [
++                {
++                    "description": "Enable pretty-printing for gdb",
++                    "text": "python " +";".join(pretty_printing_cmd)
++                },
++                {
++                    "description": "Enable pretty-printing for gdb",
++                    "text": "-enable-pretty-printing"
++                }
++            ]
++
+         launch_config['sourceFileMap'] = src_file_map
+         launch_config['setupCommands'] = setup_commands
  
- 		if test "x$other_users" = "x"; then
- 			eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupdel \$opts\" || true
-@@ -100,7 +119,8 @@ perform_userdel () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing userdel with [$opts]"
--	local username=`echo "$opts" | awk '{ print $NF }'`
-+	local username=
-+	for word in $opts; do username=$word; done
- 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
- 	if test "x$user_exists" != "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO userdel \$opts\" || true
-@@ -120,7 +140,8 @@ perform_groupmod () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing groupmod with [$opts]"
--	local groupname=`echo "$opts" | awk '{ print $NF }'`
-+	local groupname=
-+	for word in $opts; do groupname=$word; done
- 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
- 	if test "x$group_exists" != "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmod \$opts\"
-@@ -139,7 +160,8 @@ perform_usermod () {
- 	local rootdir="$1"
- 	local opts="$2"
- 	bbnote "${PN}: Performing usermod with [$opts]"
--	local username=`echo "$opts" | awk '{ print $NF }'`
-+	local username=
-+	for word in $opts; do username=$word; done
- 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
- 	if test "x$user_exists" != "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO usermod \$opts\"
-@@ -157,7 +179,8 @@ perform_passwd_expire () {
- 	local opts="$2"
- 	bbnote "${PN}: Performing equivalent of passwd --expire with [$opts]"
- 	# Directly set sp_lstchg to 0 without using the passwd command: Only root can do that
--	local username=`echo "$opts" | awk '{ print $NF }'`
-+	local username=
-+	for word in $opts; do username=$word; done	
- 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
- 	if test "x$user_exists" != "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed --follow-symlinks -i \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $rootdir/etc/shadow \" || true
+diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
+index ba65f6f7da..ed96afa33c 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_none.py
++++ b/scripts/lib/devtool/ide_plugins/ide_none.py
+@@ -102,6 +102,14 @@ class GdbCrossConfigNone(GdbCrossConfig):
+                 "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
+         # Disable debuginfod for now, the IDE configuration uses rootfs-dbg from the image workdir.
+         gdbinit_lines.append('set debuginfod enabled off')
++
++        # Enable pretty-printing for gdb for resolving STL types with help of python scripts
++        pretty_printing_cmd = self.modified_recipe.gdb_pretty_print_scripts
++        if pretty_printing_cmd:
++            gdbinit_lines.append(os.linesep +"python")
++            gdbinit_lines += pretty_printing_cmd
++            gdbinit_lines.append("end" + os.linesep)
++
+         gdbinit_lines.append(
+             '%s %s:%d' % (remote_cmd, self.gdb_cross.host, self.gdbserver_port))
+         gdbinit_lines.append('set remote exec-file ' + self.binary.binary_path)
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 78d7ed78c6..ba225f20b9 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -15,6 +15,7 @@ import stat
+ import subprocess
+ import sys
+ import shlex
++import glob
+ from argparse import RawTextHelpFormatter
+ from enum import Enum
+ 
+@@ -414,6 +415,7 @@ class RecipeModified:
+         self.staging_incdir = None
+         self.strip_cmd = None
+         self.target_arch = None
++        self.tcoverride = None
+         self.topdir = None
+         self.workdir = None
+         # Service management
+@@ -437,6 +439,7 @@ class RecipeModified:
+ 
+         # Populated after bitbake built all the recipes
+         self._installed_binaries = None
++        self._gdb_pretty_print_scripts = None
+ 
+     def initialize(self, config, workspace, tinfoil):
+         recipe_d = parse_recipe(
+@@ -488,6 +491,7 @@ class RecipeModified:
+             recipe_d.getVar('STAGING_INCDIR'))
+         self.strip_cmd = recipe_d.getVar('STRIP')
+         self.target_arch = recipe_d.getVar('TARGET_ARCH')
++        self.tcoverride = recipe_d.getVar('TCOVERRIDE')
+         self.topdir = recipe_d.getVar('TOPDIR')
+         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
+ 
+@@ -632,6 +636,28 @@ class RecipeModified:
+ 
+         return mappings
+ 
++    @property
++    def gdb_pretty_print_scripts(self):
++        if self._gdb_pretty_print_scripts is None:
++            if self.tcoverride == "toolchain-gcc":
++                gcc_python_helpers_pattern = os.path.join(self.recipe_sysroot, "usr", "share", "gcc-*", "python")
++                gcc_python_helpers_dirs = glob.glob(gcc_python_helpers_pattern)
++                if gcc_python_helpers_dirs:
++                    gcc_python_helpers = gcc_python_helpers_dirs[0]
++                else:
++                    logger.warning("Could not find gcc python helpers directory matching: %s", gcc_python_helpers_pattern)
++                    gcc_python_helpers = ""
++                pretty_print_scripts = [
++                    "import sys",
++                    "sys.path.insert(0, '" + gcc_python_helpers + "')",
++                    "from libstdcxx.v6.printers import register_libstdcxx_printers",
++                    "register_libstdcxx_printers(None)"
++                ]
++                self._gdb_pretty_print_scripts = pretty_print_scripts
++            else:
++                self._gdb_pretty_print_scripts = ""
++        return self._gdb_pretty_print_scripts
++
+     def __init_exported_variables(self, d):
+         """Find all variables with export flag set.
+ 
 -- 
 2.52.0
 
