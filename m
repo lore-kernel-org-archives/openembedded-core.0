@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5CDBC88E5F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAAADC88E64
 	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 07:38:34 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15099.1769413110453690387
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14686.1769413110456419918
  for <openembedded-core@lists.openembedded.org>;
  Sun, 25 Jan 2026 23:38:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=TEHYFGGS;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202601260738278a7120ddbf00020711-qkniem@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202601260738278a7120ddbf00020711
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=BgYtX05Z;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-2026012607382722ceaa559700020794-ry_aaw@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026012607382722ceaa559700020794
         for <openembedded-core@lists.openembedded.org>;
         Mon, 26 Jan 2026 08:38:28 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=cM6ChC1SB9juDKJdV2HYQPi+YHcHqccAC+KE/OBboAY=;
- b=TEHYFGGSKRSt8hpFXCgNyWEcrW+psFD4xR87LnwFblxpdMvidmfSHjj/pDnQUrIqmX75O5
- diyyLnO8wJ5M/FLf7g+Hkt/8DvD4NnKzTFNJKZGsB3og/hggfV0nww6JGgJCdw/Xx9G/vtPv
- PUCcK9p3TdYh7WO0rSgAQozZ0NuuEPJQdoPX9YvQqLu00yv7LX4nzJu8Gbvw0y3T6J9+Umql
- doPTyqbhQlVJap/vz+WgsY5LkvZSA6kRRflmfqK9KF8sxqCwKnC/ezSC+W/EyZi0C7Q/pdA8
- vBN6ZaPXyt33wKmxMxwzFFIzmJQqSnJt8rBsbRQgEgZqp8PNtyHrDMlg==;
+ bh=gatj7rWzcqLtLm4b8uA1+DwsorURMbQ9dJwqFRdGXcU=;
+ b=BgYtX05ZnuomW35wt3vh3g/rSz86sAErKOOoSe9C5pHWJs8YA7hIKt62/DfOWYamcZ2WfO
+ 4jeZNlO3sIMffyMarh4LVI+qowqmb2n/FSc3cYO/Im9SDw0cYdQIiJR2ZdOC1fwoxC3KfLel
+ jBn/MpMFYO8aaMSuVulbWV4U+aoJKWBEemM04WYR6N7h7opHjEFr+73rEtNxXCOrhmsZ/fhY
+ uEm23847OliWYnDoCgsE20G0ErpAzGiabDYFGxp48Ug3ZNG+5R1TmCag7si1qef1NfuvzvEb
+ GBJqJzL/T6qJwXHsQ2NBHsATfvJkusK6HeB3DCzZQYTmjPuACu8Y/NaQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 04/13] cpp-example: run as a service
-Date: Mon, 26 Jan 2026 08:37:31 +0100
-Message-ID: <20260126073809.468495-5-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 01/13] useradd_base.bbclass: do not use awk
+Date: Mon, 26 Jan 2026 08:37:28 +0100
+Message-ID: <20260126073809.468495-2-adrian.freihofer@siemens.com>
 In-Reply-To: <20260126073809.468495-1-adrian.freihofer@siemens.com>
 References: <20260126073809.468495-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,501 +39,205 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 07:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229965
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229962
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Extend the C++ example to run as systemd/SysV services
+The exception bellow occurred during
+  bitbake build-sysroots:do_build_target_sysroot
+Re-trying the same command again can "solve" the problem, which indicates
+that the problem is transient.
+Transient probably means that libncurses.so.5 was not available at the
+time when the useradd command was executed inside the sysroot population.
+However, adding gawk-native to useradd.bbclass
+DEPENDS:append:class-target does not help.
 
-This change adds service capability to the existing C++ example without
-modifying its original behavior. The example can now run either as:
-- One-shot executables (existing behavior)
-- Long-running services via systemd or SysV init
+As a workaround this avoids using awk in useradd_base.bbclass.
 
-The service runs as an unprivileged user/group, demonstrating security
-best practices for service development. This introduces additional
-complexity to the build process, particularly around proper pseudo usage
-in development builds. The implementation includes:
-- Service configuration files (systemd .service and SysV init script)
-- Dedicated user/group creation with appropriate permissions
-- JSON configuration file for runtime customization, owned by the
-  service user
-- Command-line --endless flag to enable service mode
-- Full support for both CMake and Meson build systems
+ERROR: build-sysroots-1.0-r0 do_build_target_sysroot:
+  Error executing a python function in exec_func_python() autogenerated:
 
-This enhancement enables testing debugger configurations that attach to
-running processes, expanding the examples' utility for development tools.
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_build_target_sysroot(d)
+     0003:
+File: '...poky-master/layers/openembedded-core/meta/recipes-core/meta/build-sysroots.bb',
+      lineno: 46, function: do_build_target_sysroot
+     0042:    targetsysroot = d.getVar("STANDALONE_SYSROOT")
+     0043:    nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
+     0044:    import os
+     0045:    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" %
+	          (nativesysroot, nativesysroot, os.environ['PATH'])
+ *** 0046:    staging_populate_sysroot_dir(targetsysroot, nativesysroot, False, d)
+     0047:}
+     0048:do_build_target_sysroot[cleandirs] = "${STANDALONE_SYSROOT}"
+     0049:do_build_target_sysroot[nostamp] = "1"
+     0050:addtask do_build_target_sysroot
+File: '...poky-master/layers/openembedded-core/meta/classes-global/staging.bbclass',
+      lineno: 249, function: staging_populate_sysroot_dir
+     0245:                        continue
+     0246:
+     0247:    staging_processfixme(fixme, targetdir, targetsysroot, nativesysroot, d)
+     0248:    for p in sorted(postinsts):
+ *** 0249:        bb.note("Running postinst {}, output:\n{}".format(
+                      p, subprocess.check_output(p, shell=True,
+                      stderr=subprocess.STDOUT)))
+     0250:
+     0251:#
+     0252:# Manifests here are complicated. The main sysroot area has the unpacked sstate
+     0253:# which us unrelocated and tracked by the main sstate manifests. Each recipe
+File: '/usr/lib64/python3.13/subprocess.py', lineno: 472, function: check_output
+     0468:        else:
+     0469:            empty = b''
+     0470:        kwargs['input'] = empty
+     0471:
+ *** 0472:    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+     0473:               **kwargs).stdout
+     0474:
+     0475:
+     0476:class CompletedProcess(object):
+File: '/usr/lib64/python3.13/subprocess.py', lineno: 577, function: run
+     0573:            # We don't call process.wait() as .__exit__ does that for us.
+     0574:            raise
+     0575:        retcode = process.poll()
+     0576:        if check and retcode:
+ *** 0577:            raise CalledProcessError(retcode, process.args,
+     0578:                                     output=stdout, stderr=stderr)
+     0579:    return CompletedProcess(process.args, retcode, stdout, stderr)
+     0580:
+     0581:
+Exception: subprocess.CalledProcessError:
+    Command '...poky-master/build/tmp/sysroots/qemux86-64/usr/bin/postinst-useradd-01group-cmake-example'
+             returned non-zero exit status 1.
+
+Subprocess output:
+...poky-master/build/tmp/sysroots/x86_64/usr/sbin/useradd
+Running groupadd commands...
+NOTE: cmake-example: Performing groupadd with
+  [--root ...poky-master/build/tmp/sysroots/qemux86-64 --system cmake-example]
+awk: error while loading shared libraries: libncurses.so.5:
+     cannot open shared object file: No such file or directory
+groupadd: group 'cmake-example' already exists
+ERROR: cmake-example: groupadd command did not succeed.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../recipes-test/cpp/cpp-example.inc          | 52 +++++++++++-
- .../recipes-test/cpp/files/CMakeLists.txt     | 14 +++-
- .../recipes-test/cpp/files/config.h.in        | 10 +++
- .../cpp/files/cpp-example-lib.cpp             | 29 +++++++
- .../cpp/files/cpp-example-lib.hpp             |  3 +
- .../recipes-test/cpp/files/cpp-example.conf   |  3 +
- .../recipes-test/cpp/files/cpp-example.cpp    | 38 ++++++++-
- .../recipes-test/cpp/files/cpp-example.init   | 84 +++++++++++++++++++
- .../cpp/files/cpp-example.service             | 12 +++
- .../recipes-test/cpp/files/meson.build        | 18 +++-
- .../cpp/files/test-cpp-example.cpp            |  2 +
- .../recipes-test/cpp/meson-example.bb         |  2 +
- meta/lib/oeqa/selftest/cases/devtool.py       |  4 +-
- 13 files changed, 264 insertions(+), 7 deletions(-)
- create mode 100644 meta-selftest/recipes-test/cpp/files/config.h.in
- create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.conf
- create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.init
- create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.service
+ meta/classes/useradd_base.bbclass | 49 +++++++++++++++++++++++--------
+ 1 file changed, 36 insertions(+), 13 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
-index 76ff64e87f..2653f45e90 100644
---- a/meta-selftest/recipes-test/cpp/cpp-example.inc
-+++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
-@@ -16,9 +16,59 @@ SRC_URI = "\
-     file://cpp-example-lib.hpp \
-     file://cpp-example-lib.cpp \
-     file://test-cpp-example.cpp \
-+    file://cpp-example.conf \
-+    file://config.h.in \
-+    file://cpp-example.service \
-+    file://cpp-example.init \
-     file://run-ptest \
- "
+diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
+index 5e1c699118..2d42864cbd 100644
+--- a/meta/classes/useradd_base.bbclass
++++ b/meta/classes/useradd_base.bbclass
+@@ -20,7 +20,8 @@ perform_groupadd () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing groupadd with [$opts]"
+-	local groupname=`echo "$opts" | awk '{ print $NF }'`
++	local groupname=
++	for word in $opts; do groupname=$word; done
+ 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
+ 	if test "x$group_exists" = "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupadd \$opts\" || true
+@@ -37,7 +38,8 @@ perform_useradd () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing useradd with [$opts]"
+-	local username=`echo "$opts" | awk '{ print $NF }'`
++	local username=
++	for word in $opts; do username=$word; done
+ 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
+ 	if test "x$user_exists" = "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c  \"$PSEUDO useradd \$opts\" || true
+@@ -54,8 +56,26 @@ perform_groupmems () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing groupmems with [$opts]"
+-	local groupname=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-g" || $i == "--group") print $(i+1) }'`
+-	local username=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-a" || $i == "--add") print $(i+1) }'`
++	local groupname=
++	found_groupname=0
++	for opt in $opts; do
++		if [ "$found_groupname" = "1" ]; then
++			groupname=$opt
++			break
++		elif [ "$opt" = "-g" ] || [ "$opt" = "--group" ]; then
++			found_groupname=1
++		fi
++	done
++	local username=
++	found_username=0
++	for opt in $opts; do
++		if [ "$found_username" = "1" ]; then
++			username=$opt
++			break
++		elif [ "$opt" = "-a" ] || [ "$opt" = "--add" ]; then
++			found_username=1
++		fi
++	done
+ 	bbnote "${PN}: Running groupmems command with group $groupname and user $username"
+ 	local mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*$" $rootdir/etc/group || true`"
+ 	if test "x$mem_exists" = "x"; then
+@@ -73,14 +93,13 @@ perform_groupdel () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing groupdel with [$opts]"
+-	local groupname=`echo "$opts" | awk '{ print $NF }'`
++	local groupname=
++	for word in $opts; do groupname=$word; done
+ 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
  
- S = "${UNPACKDIR}"
+ 	if test "x$group_exists" != "x"; then
+-		local awk_input='BEGIN {FS=":"}; $1=="'$groupname'" { print $3 }'
+-		local groupid=`echo "$awk_input" | awk -f- $rootdir/etc/group`
+-		local awk_check_users='BEGIN {FS=":"}; $4=="'$groupid'" {print $1}'
+-		local other_users=`echo "$awk_check_users" | awk -f- $rootdir/etc/passwd`
++		local groupid=$(grep "^$groupname:" "$rootdir/etc/group" | cut -d: -f3)
++		local other_users=$(grep ":$groupid:" "$rootdir/etc/passwd" | cut -d: -f1)
  
--inherit ptest
-+inherit ptest useradd systemd update-rc.d
-+
-+# Systemd and SysV init support
-+SYSTEMD_SERVICE:${PN} = "${BPN}.service"
-+
-+INITSCRIPT_NAME = "${BPN}"
-+INITSCRIPT_PARAMS = "defaults 99"
-+
-+# Create cpp-example user and group
-+USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM:${PN} = "--system ${BPN}"
-+USERADD_PARAM:${PN} = "--system --home /var/lib/${BPN} --no-create-home --shell /bin/false --gid ${BPN} ${BPN}"
-+
-+EX_BINARY_NAME ?= "${BPN}"
-+
-+do_install:append() {
-+    # Install configuration file owned by unprivileged user
-+    install -d ${D}${sysconfdir}
-+    install -m 0644 -g ${BPN} -o ${BPN} ${S}/cpp-example.conf ${D}${sysconfdir}/${BPN}.conf
-+    sed -i -e 's|@BINARY_NAME@|${BPN}|g' ${D}${sysconfdir}/${BPN}.conf
-+
-+    # Install service files or init scripts and substitute placeholders in service files
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+        install -d ${D}${systemd_system_unitdir}
-+        install -m 0644 ${S}/cpp-example.service ${D}${systemd_system_unitdir}/${BPN}.service
-+        sed -i \
-+            -e 's|@BINDIR@|${bindir}|g' \
-+            -e 's|@BINARY_NAME@|${EX_BINARY_NAME}|g' \
-+            -e 's|@USER@|${BPN}|g' \
-+            -e 's|@GROUP@|${BPN}|g' \
-+            ${D}${systemd_system_unitdir}/${BPN}.service
-+    else
-+        install -d ${D}${sysconfdir}/init.d
-+        install -m 0755 ${S}/cpp-example.init ${D}${sysconfdir}/init.d/${BPN}
-+        sed -i \
-+            -e 's|@BINDIR@|${bindir}|g' \
-+            -e 's|@BINARY_NAME@|${EX_BINARY_NAME}|g' \
-+            -e 's|@USER@|${BPN}|g' \
-+            -e 's|@GROUP@|${BPN}|g' \
-+            ${D}${sysconfdir}/init.d/${BPN}
-+    fi
-+}
-+
-+FILES:${PN} += " \
-+    ${systemd_system_unitdir}/${BPN}.service \
-+    ${sysconfdir}/${BPN}.conf \
-+"
-diff --git a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
-index 6fa6917d89..e363f31af2 100644
---- a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
-+++ b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
-@@ -20,15 +20,25 @@ set(CMAKE_CXX_EXTENSIONS Off)
- 
- include(GNUInstallDirs)
- 
-+# Define the config file path as a constant
-+set(CPP_EXAMPLE_CONFIG_PATH "${CMAKE_INSTALL_FULL_SYSCONFDIR}/cmake-example.conf")
-+
-+# Generate config.h from config.h.in
-+configure_file(config.h.in config.h @ONLY)
-+
- # Linking a small library makes the example more useful for testing.
- find_package(json-c)
- 
- # A simple library linking json-c library found by pkgconfig
- add_library(cmake-example-lib cpp-example-lib.cpp cpp-example-lib.hpp)
--set_target_properties(cmake-example-lib PROPERTIES 
-+set_target_properties(cmake-example-lib PROPERTIES
-     VERSION ${PROJECT_VERSION}
-     SOVERSION ${PROJECT_VERSION_MAJOR}
- )
-+
-+# Add the build directory to include path for config.h
-+target_include_directories(cmake-example-lib PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-+
- target_link_libraries(cmake-example-lib PRIVATE json-c::json-c)
- 
- install(TARGETS cmake-example-lib
-@@ -39,6 +49,7 @@ install(TARGETS cmake-example-lib
- 
- # A simple executable linking the library
- add_executable(cmake-example cpp-example.cpp)
-+target_include_directories(cmake-example PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
- target_link_libraries(cmake-example PRIVATE cmake-example-lib)
- 
- install(TARGETS cmake-example
-@@ -47,6 +58,7 @@ install(TARGETS cmake-example
- 
- # A simple test executable for testing the library
- add_executable(test-cmake-example test-cpp-example.cpp)
-+target_include_directories(test-cmake-example PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
- target_link_libraries(test-cmake-example PRIVATE cmake-example-lib)
- 
- if (FAILING_TEST)
-diff --git a/meta-selftest/recipes-test/cpp/files/config.h.in b/meta-selftest/recipes-test/cpp/files/config.h.in
-new file mode 100644
-index 0000000000..174e266847
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/config.h.in
-@@ -0,0 +1,10 @@
-+/*
-+ * Copyright OpenEmbedded Contributors
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+
-+#pragma once
-+
-+/* Configuration file path */
-+#define EXAMPLE_CONFIG_PATH "@CPP_EXAMPLE_CONFIG_PATH@"
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
-index d3dc976864..c510a13893 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
-@@ -6,6 +6,7 @@
- 
- #include <iostream>
- #include <string>
-+#include <fstream>
- #include <json-c/json.h>
- #include "cpp-example-lib.hpp"
- 
-@@ -31,3 +32,31 @@ void CppExample::print_json()
- 
-     json_object_put(jobj); // Delete the json object
- }
-+
-+std::string CppExample::read_config_message(const std::string &config_path)
-+{
-+    std::ifstream config_file(config_path);
-+    if (!config_file.is_open()) {
-+        return "Error: Could not open config file: " + config_path;
-+    }
-+
-+    std::string config_content((std::istreambuf_iterator<char>(config_file)),
-+                               std::istreambuf_iterator<char>());
-+    config_file.close();
-+
-+    struct json_object *jobj = json_tokener_parse(config_content.c_str());
-+    if (!jobj) {
-+        return "Error: Invalid JSON in config file";
-+    }
-+
-+    struct json_object *message_obj;
-+    if (json_object_object_get_ex(jobj, "hello_world_message", &message_obj)) {
-+        const char *message = json_object_get_string(message_obj);
-+        std::string result = message ? message : "Error: Invalid message format";
-+        json_object_put(jobj);
-+        return result;
-+    }
-+
-+    json_object_put(jobj);
-+    return "Error: 'hello_world_message' not found in config file";
-+}
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
-index 0ad9e7b7b2..24dd0defb6 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
-@@ -7,6 +7,7 @@
- #pragma once
- 
- #include <string>
-+#include "config.h"
- 
- struct CppExample
- {
-@@ -18,4 +19,6 @@ struct CppExample
-     const char *get_json_c_version();
-     /* Call a more advanced function from a library */
-     void print_json();
-+    /* Read hello world message from config file */
-+    std::string read_config_message(const std::string &config_path = EXAMPLE_CONFIG_PATH);
- };
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.conf b/meta-selftest/recipes-test/cpp/files/cpp-example.conf
-new file mode 100644
-index 0000000000..4a666e5cdd
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.conf
-@@ -0,0 +1,3 @@
-+{
-+  "hello_world_message": "Hello World from @BINARY_NAME@ example config file!"
-+}
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-index 9889554e0c..dbf82f15d9 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-@@ -7,12 +7,48 @@
- #include "cpp-example-lib.hpp"
- 
- #include <iostream>
-+#include <unistd.h>
-+#include <string>
- 
--int main()
-+int main(int argc, char* argv[])
- {
-+    bool endless_mode = false;
-+
-+    // Parse command line arguments
-+    for (int i = 1; i < argc; i++) {
-+        if (std::string(argv[i]) == "--endless") {
-+            endless_mode = true;
-+        } else if (std::string(argv[i]) == "--help" || std::string(argv[i]) == "-h") {
-+            std::cout << "Usage: " << argv[0] << " [OPTIONS]" << std::endl;
-+            std::cout << "Options:" << std::endl;
-+            std::cout << "  --endless    Run in endless loop mode (for service)" << std::endl;
-+            std::cout << "  --help, -h   Show this help message" << std::endl;
-+            return 0;
-+        }
-+    }
-+
-     auto cpp_example = CppExample();
-+
-+    if (endless_mode) {
-+        std::cout << "Starting cpp-example service in endless mode..." << std::endl;
-+    } else {
-+        std::cout << "Running cpp-example once..." << std::endl;
-+    }
-+
-     std::cout << "C++ example linking " << cpp_example.get_string() << std::endl;
-     std::cout << "Linking json-c version " << cpp_example.get_json_c_version() << std::endl;
-     cpp_example.print_json();
-+
-+    do {
-+        // Read and print message from config file
-+        std::string config_message = cpp_example.read_config_message();
-+        std::cout << "Config file message: " << config_message << std::endl;
-+
-+        if (endless_mode) {
-+            // Sleep for 1 second
-+            sleep(1);
-+        }
-+    } while (endless_mode);
-+
-     return 0;
- }
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.init b/meta-selftest/recipes-test/cpp/files/cpp-example.init
-new file mode 100644
-index 0000000000..c154fd1126
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.init
-@@ -0,0 +1,84 @@
-+#!/bin/sh
-+#
-+# cpp-example        C++ Example Service
-+#
-+# chkconfig: 35 99 99
-+# description: C++ Example Service daemon
-+#
-+
-+USER="@USER@"
-+DAEMON="@BINARY_NAME@"
-+DAEMON_PATH="@BINDIR@/$DAEMON"
-+DAEMON_ARGS="--endless"
-+PIDFILE="/var/run/$DAEMON.pid"
-+LOCK_FILE="/var/lock/subsys/$DAEMON"
-+
-+start() {
-+    if [ -f $PIDFILE ]; then
-+        echo "$DAEMON is already running."
-+        return 1
-+    fi
-+
-+    echo -n "Starting $DAEMON: "
-+    start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile \
-+        --background --chuid $USER --exec $DAEMON_PATH -- $DAEMON_ARGS
-+    RETVAL=$?
-+    if [ $RETVAL -eq 0 ]; then
-+        echo "OK"
-+        touch $LOCK_FILE
-+    else
-+        echo "FAILED"
-+    fi
-+    return $RETVAL
-+}
-+
-+stop() {
-+    echo -n "Stopping $DAEMON: "
-+    start-stop-daemon --stop --quiet --pidfile $PIDFILE
-+    RETVAL=$?
-+    if [ $RETVAL -eq 0 ]; then
-+        echo "OK"
-+        rm -f $PIDFILE $LOCK_FILE
-+    else
-+        echo "FAILED"
-+    fi
-+    return $RETVAL
-+}
-+
-+status() {
-+    if [ -f $PIDFILE ]; then
-+        PID=$(cat $PIDFILE)
-+        if ps -p $PID > /dev/null 2>&1; then
-+            echo "$DAEMON is running (PID: $PID)"
-+            return 0
-+        else
-+            echo "$DAEMON is not running (stale PID file)"
-+            return 1
-+        fi
-+    else
-+        echo "$DAEMON is not running"
-+        return 1
-+    fi
-+}
-+
-+case "$1" in
-+    start)
-+        start
-+        ;;
-+    stop)
-+        stop
-+        ;;
-+    restart)
-+        stop
-+        start
-+        ;;
-+    status)
-+        status
-+        ;;
-+    *)
-+        echo "Usage: $0 {start|stop|restart|status}"
-+        exit 1
-+        ;;
-+esac
-+
-+exit $?
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.service b/meta-selftest/recipes-test/cpp/files/cpp-example.service
-new file mode 100644
-index 0000000000..4022fa291a
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=C++ Example Service
-+After=network.target
-+
-+[Service]
-+Type=simple
-+User=@USER@
-+Group=@GROUP@
-+ExecStart=@BINDIR@/@BINARY_NAME@ --endless
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta-selftest/recipes-test/cpp/files/meson.build b/meta-selftest/recipes-test/cpp/files/meson.build
-index 74a0e0173c..53248c4380 100644
---- a/meta-selftest/recipes-test/cpp/files/meson.build
-+++ b/meta-selftest/recipes-test/cpp/files/meson.build
-@@ -16,23 +16,37 @@ if get_option('FAILING_TEST').enabled()
-     add_project_arguments('-DFAIL_COMPARISON_STR=foo', language: 'cpp')
- endif
- 
-+# Generate config.h from config.h.in
-+config_path = get_option('sysconfdir') / 'meson-example.conf'
-+conf_data = configuration_data()
-+conf_data.set('CPP_EXAMPLE_CONFIG_PATH', config_path)
-+configure_file(input : 'config.h.in',
-+               output : 'config.h',
-+               configuration : conf_data)
-+
-+# Include the build directory for config.h
-+inc_dir = include_directories('.')
-+
- mesonexlib = shared_library('mesonexlib',
-     'cpp-example-lib.cpp', 'cpp-example-lib.hpp',
--	version: meson.project_version(),
--	soversion: meson.project_version().split('.')[0],
-+    version: meson.project_version(),
-+    soversion: meson.project_version().split('.')[0],
-     dependencies : jsoncdep,
-+    include_directories : inc_dir,
-     install : true
-     )
- 
- executable('mesonex',
-     'cpp-example.cpp',
-     link_with : mesonexlib,
-+    include_directories : inc_dir,
-     install : true
-     )
- 
- test_mesonex = executable('test-mesonex',
-     'test-cpp-example.cpp',
-     link_with : mesonexlib,
-+    include_directories : inc_dir,
-     install : true
- )
- 
-diff --git a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
-index 83c9bfa844..e1909c3168 100644
---- a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
-@@ -22,4 +22,6 @@ int main() {
-         std::cout << "FAIL: " << ret_string << " != " << CppExample::test_string << std::endl;
-         return 1;
-     }
-+
-+    return 0;
- }
-diff --git a/meta-selftest/recipes-test/cpp/meson-example.bb b/meta-selftest/recipes-test/cpp/meson-example.bb
-index 14a7ca8dc9..da0ea18376 100644
---- a/meta-selftest/recipes-test/cpp/meson-example.bb
-+++ b/meta-selftest/recipes-test/cpp/meson-example.bb
-@@ -25,3 +25,5 @@ do_run_tests () {
- do_run_tests[doc] = "Run meson test using qemu-user"
- 
- addtask do_run_tests after do_compile
-+
-+EX_BINARY_NAME = "mesonex"
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 9bbba2ec89..681dcee08c 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2714,7 +2714,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         $1 = 0
-         print CppExample::test_string.compare("cpp-example-lib Magic: 123456789aaa")
-         $2 = -3
--        list cpp-example-lib.hpp:13,13
-+        list cpp-example-lib.hpp:14,14
-         13	    inline static const std::string test_string = "cpp-example-lib Magic: 123456789";
-         continue
-         """
-@@ -2745,7 +2745,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         gdb_batch_cmd += " -ex 'break CppExample::print_json()' -ex 'continue'"
-         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %s\")'" % magic_string
-         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
--        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:13,13'"
-+        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:14,14'"
-         gdb_batch_cmd += " -ex 'continue'"
-         r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
-         self.logger.debug("%s %s returned: %s", gdb_script,
+ 		if test "x$other_users" = "x"; then
+ 			eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupdel \$opts\" || true
+@@ -100,7 +119,8 @@ perform_userdel () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing userdel with [$opts]"
+-	local username=`echo "$opts" | awk '{ print $NF }'`
++	local username=
++	for word in $opts; do username=$word; done
+ 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
+ 	if test "x$user_exists" != "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO userdel \$opts\" || true
+@@ -120,7 +140,8 @@ perform_groupmod () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing groupmod with [$opts]"
+-	local groupname=`echo "$opts" | awk '{ print $NF }'`
++	local groupname=
++	for word in $opts; do groupname=$word; done
+ 	local group_exists="`grep "^$groupname:" $rootdir/etc/group || true`"
+ 	if test "x$group_exists" != "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmod \$opts\"
+@@ -139,7 +160,8 @@ perform_usermod () {
+ 	local rootdir="$1"
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing usermod with [$opts]"
+-	local username=`echo "$opts" | awk '{ print $NF }'`
++	local username=
++	for word in $opts; do username=$word; done
+ 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
+ 	if test "x$user_exists" != "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO usermod \$opts\"
+@@ -157,7 +179,8 @@ perform_passwd_expire () {
+ 	local opts="$2"
+ 	bbnote "${PN}: Performing equivalent of passwd --expire with [$opts]"
+ 	# Directly set sp_lstchg to 0 without using the passwd command: Only root can do that
+-	local username=`echo "$opts" | awk '{ print $NF }'`
++	local username=
++	for word in $opts; do username=$word; done	
+ 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
+ 	if test "x$user_exists" != "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed --follow-symlinks -i \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $rootdir/etc/shadow \" || true
 -- 
 2.52.0
 
