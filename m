@@ -1,103 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F38CF65CF
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 10:17:06 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17118.1769422619990856659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1485CCF65D8
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 10:28:06 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17250.1769423279594284866
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 02:17:00 -0800
+ Mon, 26 Jan 2026 02:27:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jiQ8X3BU;
- spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5014e1312c6so26757581cf.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 02:16:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769422619; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DcjOEDt/xMRLAAYg7NNSI7L9j44AdJtxHg//Vc9kD/c7mpteePpTY/yC/ZhAsckvg7
-         gfeDoZP3Do2QeAl3CphWeUL0BIlVlkZw+7/JTdv9jYgYZAYzktNa3TuIXGmcsdRPuH+y
-         oDQrcW1hQgXkV6OIp1tSo0plr9Retvlx5XNByGk+9j7Meop1JjjiXbv+3ON4UuXIkySx
-         ajOe4asLaaF3mPh4r3gYgICo9NqHv8TdE3Cp+c4OVFmd0smGihK3eScsERqvl35vYB2v
-         IkytvlxDp6IP/N/NhmJ3SDkuoUPGpr2/ZKe7LQzSDVm8GPQXAFyuFZHQMOeqKvta2igl
-         8lEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=S1qXeXx5X5r5KsItIybQiecgn8/wxcc/1wPb/62fABk=;
-        fh=QG0/1kl/iNDCWfShgAIKRpbEE7JIBRGbrVXnRZODZk4=;
-        b=VVKL5M6UVO32WQTopDXTD+uCKE+VpBkqdYAUV39gKTNj5IySIuA0/0eoYihUQf67qv
-         Mhuop7fO4+q1hpVBNIcdPQTZiWou4Mb7UQwrIN29MUOFmsfxwi8fxh5W+PzsS63/Zv3W
-         U+ZYdEU5Nndgaui1IkkowUDuOkAw6dPpPxEQacmhjA5ky7L7GlcHS2a03POMTV0wGMuh
-         I4c6V3UJiiUsrYBBQypXNt2EN6Nkj0doGfd2+2sRKsiyq3T+kDoF6UjyvpCGz6wBPJNA
-         yYp0UblSREIg8FJOObLFCXJAHKs5O5H5KBSCy72hb5Hrakd5auklNglJhgrSzLCJ5usH
-         l4Og==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cja8Hidv;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-81f4c0e2b42so2148822b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 02:27:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769422619; x=1770027419; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1qXeXx5X5r5KsItIybQiecgn8/wxcc/1wPb/62fABk=;
-        b=jiQ8X3BU3vkipkFzU/AomIbGN3VMbRlB7RjVgy8Cey0U//1fgOH06fp7hoCZfqfOZR
-         wKFxXqRPHxdn7Vr71iZ06hoBunhM1127p9/1ihHxZgK+NQFDBjx+gA1+aqlQ4DFExT1s
-         VFq7YR/zoNhAVrMlBbWLD33vR8WUHqr/vkYa+qhA/PehavO6uOnb0P/kANpGyrP2Jvsm
-         taKqpY0VfqKrDlFhZ7MJZYnytckylM3gPpuUcPhKujj151rUAcwOOxLa6RUyiZItQ1pW
-         R5E3aD478sWxaAm3qLBNR5MUXFLnz104yCnreubjQtohoryUJmQuQU2AmCRUJ0wsOM9v
-         dSpA==
+        d=gmail.com; s=20230601; t=1769423279; x=1770028079; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zHzXYT1guTHWSTZuwHpO+GR8ldurP36N9A312x0Hl2w=;
+        b=Cja8HidvlM+vpK5qB/Uww3mG2PRd6MNirXelQBofrCxxGqEipiun8aZPoPqVpo3PsJ
+         kLTlMYq2zekF8Z/w1Jo1O9Q9U5Pco6rcBkcRUC+iSMlj/lVZeLKOMgOjPLdwqr3y/HJz
+         lIXWyNteLbf+PEVF83w0HQjhBaLoNImEPH/Q6hU4qFWpQUtBbHurt+T1Ha9TuXW+5zfp
+         PjysGTQMXR25T1dOE/VB2wkwXrGvgCiGv7OgOBLLDe0nQ6Gq0Xp5AFy2UXuLtRFLXeZj
+         5Bb5MkpOu4F0zZxvqTgElyKFManr86PC13mw3c0DTbwqy2YDAV8lhwQU0byFYnM1S7Rv
+         3X8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769422619; x=1770027419;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1769423279; x=1770028079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S1qXeXx5X5r5KsItIybQiecgn8/wxcc/1wPb/62fABk=;
-        b=iJfPbmGj/+thS57dfY+LPzZ9w++mbWvk6P+3JyOZ8r7tbInsbJ2PmuUQ0IhzUSs1hD
-         uKy+HLzv0LF3sj8epAuxHbJ/NEIcZz9/zQlN6y1k1AYgxulqtgyOYKsoF8i0UYc2vCk/
-         eQayH3Kzy53Jf8Pn8w9GzGVHGoPEASmKvKsZqJ4T3k+uSy68s4LJJgvpRO2sPQy1aEhv
-         CGCQ7mfQkPMVvqYWzHZRa1w3i92XZ1x1HvCAOEvVp9M35+RbpXMJV5rI95ofqJqZjo6R
-         9r9Lv36tm6p3T7YZugZiIHwvOmENIWtAjRFzCsyn2PvQPgPMxmM606Z8RIda/n2n6izx
-         04HA==
-X-Gm-Message-State: AOJu0YyNXyM5QSir3PrKzswDCKvBwkAV2PiOV9eK76Ndan6OV1RmXjlL
-	wBFKTFzupdpgWloYBKgbweyZC6PrXYKO8KBdLDyEoX8+FmLzpDnLHUZE9iwEjuaXwvlxpeUN/FC
-	jjITDiMwafh/CERbKeAx7aY0X3lUHW6Q=
-X-Gm-Gg: AZuq6aJtRWQhiJ6ei8kGDML6HMzK/qENpsp8m82TO1KAqzg9OPPIIg4MIaEyaozS4fP
-	QspkYT0ZNUR3Lx/lMfU7dQ4bky35msQUNxFr2lmyzZe2cXPiFRokdrcN+kdnsHW1JWCTJbGp5DU
-	19AK0xvwiMUXUoE9L7lX3KyZGVHng7q2efleOVB8vZysYVf2GrHBnml/UatOQBmFXCqBGL2Rc8E
-	y5xZgDQcSmiyYDvIe3JmAm5soQ1vQVpXvfTKo7Hf/8ttEqDJ4Gkgpcp7frj6T8AoNqP5+HT/5n4
-	pH9r9tlej2+t7ponD6TeafucqU4uUQ==
-X-Received: by 2002:a05:622a:89:b0:503:4bc:c926 with SMTP id
- d75a77b69052e-50314d0afd1mr39270011cf.83.1769422618912; Mon, 26 Jan 2026
- 02:16:58 -0800 (PST)
+        bh=zHzXYT1guTHWSTZuwHpO+GR8ldurP36N9A312x0Hl2w=;
+        b=RDE1b9T9mXGQBUPGBYAWwZsN5IECy7g9rCsgwL1PmLrJ7MCSDUoUV4lmGyz5uFbopW
+         1Oc6WaGkjQFsQ47GKWe3GqvgDZ00Tdu2M0dWV08HWLQPIMqq7kgwYQCNBcHOfLcEfTSE
+         LiJoEhF7ivJp2PSGJVBF8CR9eUD1ctfzFyTL8x/2TNLiCg2CIZnlgvuRsQyU7KrjcRlE
+         Th0hHUlIqxWW7pRbDHYUkK6v3pzVN7f13YqsDAQBNNcHDO0/WpWd6or3uUGbu3KMoMBw
+         T06h3bq17QzLP6uJl65Dmas5QhIhwxSzjpW+wKgTEi9OSiOEpXn/FdIwmLeOuQw7VLxk
+         WhIQ==
+X-Gm-Message-State: AOJu0YwjzCaMkme9Mdcn3KLG6+ihVNgW5KK65g4F2TEvy5oHXdI8Yb4u
+	FEAYkDuFYcorAV/tPpNhCeDPvOmQymG8ESXkgqgMOrCUxknEVMG+BKWdcdyJK3JG
+X-Gm-Gg: AZuq6aJxjQkof0aGy8wicNKO+3HXcwLe4XuIgmR/k4SBWxMvfqLC3Y9wwhqFI9fS8X8
+	Z9TRDcm5eX+QVoSyufdEI5qQfwtVmd2o8IjoHFO5WYC/N6kxx04zZisfrR6eDmZFwLER8uv0l9O
+	NS4FJ3Dx/vaLqIV+GrJ1hO1/MvJFFCZ1oYlqGYxtmBxXpMORziqpUJbfvgFoRGlEs7yhVhnNwAe
+	Mzu73GEAjxU2NJy3hcGG8UclObMY9JYkXNwQFFmu2lCBIPEoEAF+x7qeSgMGCpGru3h8V4sRgTV
+	orbj/jkVO1TqW7RIhkH/ulU47P76UokKmHzl4i/MjR4Cq94uTtt36advgOnJ4oryubb06C8s3uh
+	xcYpr5ZF664oUatBYqfDGq7qbL8vsr3sJCEz8L70ZBb/6UUoWXRzqg3UGJeMGpQeNZ5Q/ap8v5f
+	d0WiNdWpnZTOY9hAsy0AchY/1D
+X-Received: by 2002:a05:6a00:2294:b0:823:9c0:47a8 with SMTP id d2e1a72fcca58-823411db9dfmr3022926b3a.9.1769423278701;
+        Mon, 26 Jan 2026 02:27:58 -0800 (PST)
+Received: from NVAPF55DW0D-IPD.. ([147.161.216.246])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82318644989sm8880357b3a.13.2026.01.26.02.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 02:27:58 -0800 (PST)
+From: ankur.tyagi85@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 1/4] rgb: update 1.1.0 -> 1.1.1
+Date: Mon, 26 Jan 2026 23:27:44 +1300
+Message-ID: <20260126102747.1077552-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260123052234.970-1-liuyd.fnst@fujitsu.com> <20260123052234.970-6-liuyd.fnst@fujitsu.com>
-In-Reply-To: <20260123052234.970-6-liuyd.fnst@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Jan 2026 11:16:47 +0100
-X-Gm-Features: AZwV_QgLA_v-QfLCt2xieUesUVMxNJ3i9SZFi_1i0zTwk3VSzT0JGNbn9hKZ_u8
-Message-ID: <CANNYZj_YQAsy+0aMFVwWJy3+Y2XFZMBnaC8wj5hF+TKWg8GeqQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 5/5] hotdoc : Add new recipe
-To: liuyd.fnst@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 10:17:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229978
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 10:28:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229979
 
-On Fri, 23 Jan 2026 at 06:22, Yiding Liu (Fujitsu) via
-lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
-wrote:
-> 2.Add INSANE_SKIP to solve buildpaths QA check
->   do_package_qa: QA Issue: File /usr/lib/python3.14/site-packages/hotdoc/parsers/cmark.cpython-314-x86_64-linux-gnu.so in package hotdoc contains reference to TMPDIR [buildpaths]
->
-> 3.Add hotdoc_fix_sources to solve buildpaths QA check
->   do_package_qa:QA Issue: File /usr/src/debug/hotdoc/0.17.4/hotdoc/parsers/c_comment_scanner/scanner.c in package hotdoc-src contains reference to TMPDIR [buildpaths]
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Thanks for looking into this. The above issues need to be resolved, as
-reproducibility tests will fail because of them.
+License-Update: updated md5 hash because of commit[1]
 
-The recipe should also be taken into actual use, so it's tested and useful.
+[1] https://gitlab.freedesktop.org/xorg/app/rgb/-/commit/fb06ee0b71ec15d63b6ee4797f954187ec014a37
 
-Alex
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ meta/recipes-graphics/xorg-app/{rgb_1.1.0.bb => rgb_1.1.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{rgb_1.1.0.bb => rgb_1.1.1.bb} (71%)
+
+diff --git a/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb b/meta/recipes-graphics/xorg-app/rgb_1.1.1.bb
+similarity index 71%
+rename from meta/recipes-graphics/xorg-app/rgb_1.1.0.bb
+rename to meta/recipes-graphics/xorg-app/rgb_1.1.1.bb
+index f14da7fd21..4e1b055f49 100644
+--- a/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb
++++ b/meta/recipes-graphics/xorg-app/rgb_1.1.1.bb
+@@ -7,10 +7,10 @@ lookup, the rgb program to convert the text file into the binary database \
+ format."
+ 
+ DEPENDS += " xorgproto util-macros"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=ef598adbe241bd0b0b9113831f6e249a"
++LIC_FILES_CHKSUM = "file://COPYING;md5=dc4f23db04773a414e3c39cc97a9f415"
+ PE = "1"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[sha256sum] = "fc03d7f56e5b2a617668167f8927948cce54f93097e7ccd9f056077f479ed37b"
++SRC_URI[sha256sum] = "c80ff280a02f56c30fadc2dfa210fc6979c4ab968afa315278cb97768b64ecab"
+ 
+ FILES:${PN} += "${datadir}/X11"
 
