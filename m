@@ -1,222 +1,298 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <colinmca242@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F0FD13C03
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 13:04:27 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19474.1769432659858899984
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5ABFD13C0F
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 13:56:07 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19882.1769435761516994416
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 05:04:20 -0800
+ Mon, 26 Jan 2026 05:56:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=BPnlnqnM;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=BPnlnqnM;
- spf=pass (domain: arm.com, ip: 52.101.84.30, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=SPmbeENlb7S763ZkV5RTqZfxo25+80KvYLrS5U7d/aa/ZUcRBtPkTLb/+nLCWt2ODiAHi4G8Ry8H76/86CJlz7gFsPLo2DsmgY1Ltyp9iM6PgPf79qaaTq4R9AKYaqMfGJQn+b1NMInvwuqmC+FArDvCkWxPnUTA48ouY5vRIjmQt7XVmAEXS3yjiJLa1wfBr8dove5hzWhnj6WbToXz1TiF5buzHf5mPGndkmUmP7CzRyl9FK6VOnjO7BavobSfUawVrqN+ZbSXKkMhISi+9AMc0h/dnidyL7X4q6ozht2IgqmYPUiQn0Q7EoCXDk6USjRuW4SD9BOUhOjciNFvxQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yO+lojvMpCz8VtOeuLUkhgfsLVj3G4ScjUlZLD5pU/E=;
- b=m7h2/B3BnnBI75GxuWqslPQWDxFHM2Lv4yM1lW8vpBMIvwMk8rcYbk1ld2qT3TGH7ONw2mmMKmk8uvlZ22tkcX7z1Q0PQ6PcaisyMXpbiMiHuABNt0h85Q7QYsmhDCIvqMZD3omhSppEb/jrVqsnx0HGmFvBUtmDxmyZBLBBf8ZwHR1O1F4OIW4Q452AKCZ1LWUwORyyFc8l6AUk33ZzGtOJ4f0oSRKVuDbszQXoyT/TXJoPqruuSiZTX406DDqvKwSzACYcMIpmmC/E17u6AB9XvRMnV8V8uLk/RVuDEZr9gB/3S0JbW70yz4tDvIDa5EQF/Ji/0yM1+a9G2CNyhA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yO+lojvMpCz8VtOeuLUkhgfsLVj3G4ScjUlZLD5pU/E=;
- b=BPnlnqnMBOz+PSw3bGnWCMjevE3DmJlTubLFCCb2sEM06VzAGsM/EJHLbJfCRAiATKz6T4h3nCAOGC04YBiVZ/SnOPhDi9aJIWhz/zq6svwmaJN5kDxspepxhSOOMAlTcBhV8bJL6n0yJ1YPpKk+xtd0kqiylNGNA1ade+LtNeo=
-Received: from DUZPR01CA0176.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b3::12) by GV2PR08MB8270.eurprd08.prod.outlook.com
- (2603:10a6:150:c1::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
- 2026 13:04:11 +0000
-Received: from DB5PEPF00014B88.eurprd02.prod.outlook.com
- (2603:10a6:10:4b3:cafe::6f) by DUZPR01CA0176.outlook.office365.com
- (2603:10a6:10:4b3::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.15 via Frontend Transport; Mon,
- 26 Jan 2026 13:04:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB5PEPF00014B88.mail.protection.outlook.com (10.167.8.196) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
- via Frontend Transport; Mon, 26 Jan 2026 13:04:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i9DHxULxUKKGqxSoxMCNCdAUhfY66j90nygtagsBLVpxRPUNVGBHsrLSTHue1dmNilb6uS9ahtXLdEk8ewOxabc2xytoVHIiXjIXo8R+ogAF8aYQBcN1Cjgmxv0uiyCDug0jxYG+75Kqdx5fI7NdmyMBsV9Lcha27xmBpOUChY9/GnODh9fGYU3qnU85iv2rrnfBFdJD1WLVnrrzczyg/w4QQhHflue/44C7EVYc7LTM1hd5i9MPV/Bypj3+U7EaHxOSi5bicJKNSgFMfAsGCrTUUmGsC5qwuErVN+wKwWouDeHdEsXouvgi/a/CyDRPKq/olebl3C6deQ3X0jinaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yO+lojvMpCz8VtOeuLUkhgfsLVj3G4ScjUlZLD5pU/E=;
- b=LA50eylRrE8wYvDT3+gX1DCxZ35wpo8Z/2Wt6lBCrTSLpovRjGT3oDTCwfDxKybdtxj+sl1J7RxCmN05WU+PTg33pWsEm0Ukxo8lzvl8fUH/UfhwWD32QEvlz5af2AHbHa6fXk2FhHZHO8BbnrndqUpg3ernxy01iE9WlGQsytJEdMxRpdRx6Ay3D5AerxDwey4/quY5Jtj7CHMW/zZ3LZ1sk0aolyoPwgEXAIr4wclALtZCalnZsLVtZnno/FTTJ2my+KQeo2qWw53bSE7KiO0dDwz4KU8Yo6BhEcCE4Zdgm+zULcOYMVWitVgzVj9NO2kHNBTPYCgmKtJFC2Mo6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yO+lojvMpCz8VtOeuLUkhgfsLVj3G4ScjUlZLD5pU/E=;
- b=BPnlnqnMBOz+PSw3bGnWCMjevE3DmJlTubLFCCb2sEM06VzAGsM/EJHLbJfCRAiATKz6T4h3nCAOGC04YBiVZ/SnOPhDi9aJIWhz/zq6svwmaJN5kDxspepxhSOOMAlTcBhV8bJL6n0yJ1YPpKk+xtd0kqiylNGNA1ade+LtNeo=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PA6PR08MB11287.eurprd08.prod.outlook.com (2603:10a6:102:514::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
- 2026 13:03:07 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9542.010; Mon, 26 Jan 2026
- 13:03:07 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "jianpeng.chang.cn@windriver.com" <jianpeng.chang.cn@windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] alsa-utils: fix dynamic package splitting
- dependencies
-Thread-Topic: [OE-core][PATCH] alsa-utils: fix dynamic package splitting
- dependencies
-Thread-Index: AQHcjC7e7urZSdZAhkOqGsTeJht8j7Vkb9CA
-Date: Mon, 26 Jan 2026 13:03:07 +0000
-Message-ID: <510ECB90-577D-4972-871E-12451C272B7C@arm.com>
-References: <20260123032747.99010-1-jianpeng.chang.cn@windriver.com>
-In-Reply-To: <20260123032747.99010-1-jianpeng.chang.cn@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PA6PR08MB11287:EE_|DB5PEPF00014B88:EE_|GV2PR08MB8270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57e34b3e-2ef2-4a8a-8aaa-08de5cdb652b
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?Ynd1aG9walRTLzN1aGNhQy9zbkN1MmVUSUorY1daTFRKUlVhZWh3NGNreEd0?=
- =?utf-8?B?RnZBWGtvd0RlQUVFR2tFZUJNa3JTVjhYZCtYdFpmbjRzY01GQVladGZVM01y?=
- =?utf-8?B?OUlrWVYxa25RVmdzNSt3NGczL0lRb1NqT1BpTldmU1hUak5UNEJvbDhTeXQz?=
- =?utf-8?B?TjBHVi94dzZoem5PYm5OOGxuZy93M2pqdDE2UXFReW5CbmZuRlFPc2lvYXlj?=
- =?utf-8?B?NmRQY0t4c3NSSEhYM3dCSHNHeGc0R0JuSTdaOGwrNHhWUWJNYndGdUlJcXFt?=
- =?utf-8?B?Rmd2WFFIbUhRMkdoS2p4SXU2SEtBamZtV0FKUzBDWi9lbTNhYldQUWdYbnhM?=
- =?utf-8?B?TkxMbkJTVFBDQk9RWmtWZElMdVBYbnp4TDFrSVZoY2dNdEhxVms5SUY3UmQ4?=
- =?utf-8?B?WjhSWk1hWnppa3UvOXpaa01Ba0FaODJWMDFxV202SG1ZSHlmS1dWTXI2VlFX?=
- =?utf-8?B?RnM3YTladU5xMTZoV29Vb3pFYWVQTUZ6U1p3S2pEcFFqSEI0S1ZjUkJMN2wy?=
- =?utf-8?B?QU1veDR1dE9BTmVKalhRT05veTA5RGJoVHp5MzZvL3JXVGYyOEdXSUQyZnpa?=
- =?utf-8?B?YWx2bm5vY0R6cHNaMEZzNnB0cDgybUJ4UmxmcnhtZDYrMHRsN0d6b0NWb0cw?=
- =?utf-8?B?OVB2Y1lOSTBqbHdHcHdnVTlodVB3RDZoV3JnSFRnSGJVNW13cmVKalp4ZEZs?=
- =?utf-8?B?MmEzKzRydlVFTTVIc09kZXI1Q3JMM2VDUzA4NjRlZFI1bFRBV0dxU3JlT0ZC?=
- =?utf-8?B?UG5NeURjc2N0Sis5VUo3c0RydXE4aktuTDRCcDkwWUU1QUdHdm9HQnpOdXVp?=
- =?utf-8?B?d0w1TzJxMXg4WjlEZ2xFZFJheWtFdURKWUF3QTFBKzhQUnA4ZENZUmltTzly?=
- =?utf-8?B?cythZmptOU5LYTNRM0Nldnh1b0duYXllSXQ4WWF3TGt6YU1KTU1OVlFoVnZH?=
- =?utf-8?B?R1phNTd4YmxhaDdNaHlYbUd2b2VJdFFXRnhVM0xjeW1oV1JlS1NwcGgxTVZQ?=
- =?utf-8?B?b09pTDg0YUowdFJnMkN0VjJEL0xGWEc0L1htbk9OTzBpa0xYRGFvRjFJNDBo?=
- =?utf-8?B?ZklkMXRVNHY4MjBTdGNiQXVHYjgxMlM2SHBFVWMva2FvQ3o3SVFocW9qQ1Y1?=
- =?utf-8?B?YVI3R0s3WWNRbGF3TllvWHlsR3k3TEE5V0VDcjVPYmhPeEVDcjBLSE9lTWF4?=
- =?utf-8?B?YzN3ZDZzN2g3eHplUkdKeEwvbU81L3d3REd3elREZTIyc3l5N21CVCs1KzVI?=
- =?utf-8?B?T2o2anBrZENzb2FsdDNEdUlFL09pOXpNT2JnUUd0eDVaOWZCb29STm5KOHBW?=
- =?utf-8?B?VUJrc3lmREF0NUhOMlZ6WDFGcGJDTllGNHVSOGpGS3QyRENodWRLVXdmN0Fo?=
- =?utf-8?B?OUYwdmFXa0hnaDltNnFKUEdGODZWQm9RRWdvOW9abzhMT1dVVm93azNVbUUz?=
- =?utf-8?B?RUl5ek5MMVU2d0ZKUlY4d0EwdXM0S3cwaFJ5VE9xeEc3S0dybFVpeDRKNjV0?=
- =?utf-8?B?YWdpUEl0N2Y1Y1dMazZxTGt1eFp6Qzh2WVI1OU1XTkVnTjRPaXhHYmswVDZJ?=
- =?utf-8?B?TjVYM1JYOUFVWWVRZ0RWUWswSzdKOG9uZ0tRY21sV05vOWxUR2RDMWRkamJj?=
- =?utf-8?B?Q2FTNnc1dlpTVStVcjZCV0pPS1JuaklGOEVYYlRBSWVwWWpZd21vakJYWFVT?=
- =?utf-8?B?RUtTUmlpM2J2NWdtNVA1WFJZVCtVU3dQeXl3bkJPWFhxL0tVQlU4N1Fsenox?=
- =?utf-8?B?aVRUT1A1U01FNjNQYXVMYURHSmI2NmZyZ3E0aDI3TlZLM3Y1eVlRNjZTUTVk?=
- =?utf-8?B?NW9ISEVZR3hOU3RqRERrRmRqNnFEU1Y3YytHc3pKL2pwQzBZZU5Qc1YxeEcz?=
- =?utf-8?B?QitCczNtZkt6blZPckZnY3dQbEhpVkpkUHFSSW1OQ1FJVURCbngyMVFZb3pv?=
- =?utf-8?B?YlVvcDl0Z3FRN1JjVEd2RGxaNTV0d3RIV1cyZHF5NHBpZ0kxdXJjcXE3M0VS?=
- =?utf-8?B?aTQ4UStjMVZhV05kRmhTTjdiQm5pODNFbS8xWEsyK094SVgxa1UzUjUxYVJr?=
- =?utf-8?B?NkZGWnROWGJoTThrYjZOa1lGTmdTRHUySk1QK2k4cGJsVytmenA2OW83QU1Z?=
- =?utf-8?B?ZTAyRWY5aFhyYUk4cHNuaEVMbnZDOGNVYzVYYkk4bS84aVpVY01vY1VscG14?=
- =?utf-8?Q?TsjrYQ86J6uA8/U3cE1eVkU=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4E61877111917F41AAFD0FAD33F5D110@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zokox53t;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: colinmca242@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b8870ac4c4eso423574866b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 05:56:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769435760; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LhluSbEsN6d2snEA/mCpGQtSYcs3SJw7Zei4U6NFcpHdyPVuaUieWNlfL0psxC1zr1
+         sxPiHJR+jDVvnmFSzxUmjW1btzT2Mgsl8jKzlrhul3vazgc483ycBQDYiiYrQ6qOgob1
+         GJAnIbbIDTWoVawpCDUWayBvAoxDBLEpQEXZ5JKF1wLdPCEJBX66T4jwFUYXnT7pUUKR
+         gqMQ6aTOxjolUqHXq8u3Ttcwrh0wVsYoyjAysNlfp7xkiSutWwym9pHbizdnpKeuY/OG
+         sa2/Wsy83wHId9bTLsoY54gNO4ayQbglfGRiYdv9s3q4MLIu8W23TagMIjheaNPQAU1O
+         Nu6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gnFHN0nkCDXACJcFzluGi8sMF22yexPKFvs8derKle4=;
+        fh=toEqJZwqRVBtWFdjvbnHcK/jgjDz0NeahqiJS/bEzeo=;
+        b=Jyfg7Ylaq6qKVpWMuaKYcagk88ak63suy41enXunL1+d1Id0oD/1N38NwwiIuyRyI9
+         z2BHwQqM0HeEqjjafFh7YIeWg0RvxNjkhrQ7MFP002253jOPkkV4Alz566Gv59tve4+X
+         QZ0/H+WzWbcSNdJm6LC3AmNmD3m2nk/6ebDFtKhuEeMACIWbeUGMSeV4l34LgaplnzEN
+         cA15MYvWwF80ceB6nyXRDmD533ID0ejrWIc146UMqmbkQ4ueQuUCS3o0VXoDyCpruAeg
+         8PycbJmthFzbgzmYkKbKpq5sfaGECGQX0UF4UtSdvkRaK0QvWWf4f/ebN8b1Z3tXUCW9
+         525w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769435760; x=1770040560; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gnFHN0nkCDXACJcFzluGi8sMF22yexPKFvs8derKle4=;
+        b=Zokox53tVPIBf0wHSwoTISTz66iJrhKUnlPzm5rH5hO4r8fbrNGghOmhPqbclZ60P8
+         MVBCZ7/6tb8WjCrMK24K6KyVaXlAwoVFOX0QtG1xenRYkR3vV89jqc5BGiyfX+UoEqvV
+         r4fphZCUWJmqFRFdhdx3YYrWSZEU3VgwmP/GkOYAI/L2hcfUMGLLEvLvhfcsG3AFBw1y
+         ec216uQPQl4S7WA/oEMIJM64E8/VbQLfu8Xqmddqg0VU7bKyfb3twoNbNv043/Pw8AIA
+         qiRlk27zyG2oBWE36Od0fI11TA8yERF7Om4Yodveczu0BosmbY1whjKutuXRlQlVZ24c
+         wbxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769435760; x=1770040560;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gnFHN0nkCDXACJcFzluGi8sMF22yexPKFvs8derKle4=;
+        b=kku+erR2+yIcPQdFL0JqfE4ju4g26GAoYqUUKBICZsNWAqcSXiI7hJ9Rk3IP/1tApm
+         99PQL/Ih02nX7CJjS9/TRQ41h+bATMgWEAfAhqg+sEIzbgmudPC18Cqom4gll08x6khG
+         iGx07Tu1lTrJN7X4G4ZrpmlOLXLycMkPP0ggA8oM6yTYHma32gskOjKK9h6ereywTHNR
+         6qjRlFpHflrw/Qt3LzUXBX8OwnEhPw70MC04zfcaw2q7YY1G6nmquXo0U75+R70nQtxP
+         DwWLCO01e94LH6u1F/7VI5jLUL+Waf6MfzF/APUCsAeYg8rLxKYryOmxeqFfHC1S0cNr
+         DHmA==
+X-Gm-Message-State: AOJu0YzEvOi+H2iRZIJFl2VIt0xbUrhPYYl1dxU+qysO8pHHnPJjfPVI
+	G3iTDphA8tdlcxCynUXcjuaRBEO7H6KOrjs66EtUCX9J3ZcRhox3xjvKO6JNitbEsqlIeql/oNa
+	/HVTG+fSzJ39Q/dpK+r/5GmWuyT7t0D0=
+X-Gm-Gg: AZuq6aIYYNm9vYjRuliTQr5QY9AabZ9u0D1tuNv95WV5hALNMZjHVGDA+NzGaoNLMQQ
+	GBVdl8ttwGoygRqdSkt5a1yPxBXuX7zwZutVl+CJ//9i3m/NGK0Va2nBSIzsPc8deDfZGNfdxY8
+	ytvkaFl09BFiyZbHNiWAxCDEZ1UcFvdU/ksTYYoknLOVtD79E0OTmfA4srkd8SIraOo7tix0O0h
+	uwD141u72xhIYUEz6bwTpFfHEadCFy31pHC0MDUoAaTdxrzNa9yMuqu9kEXIVgWCbH3/XAhp2Uj
+	pjMhoKg=
+X-Received: by 2002:a17:907:1c95:b0:b76:49ae:6ee6 with SMTP id
+ a640c23a62f3a-b8cfee25b4fmr351306666b.15.1769435759186; Mon, 26 Jan 2026
+ 05:55:59 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB11287
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5PEPF00014B88.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	4e49fb1b-3952-4282-ea26-08de5cdb402f
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|35042699022|376014|1800799024|82310400026|14060799003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?L1N5d2tCQ1VrWmJzYkhRVmwxR3gwYVBxcGdYK1RZNlhJWUU5aUJPZmo0dE13?=
- =?utf-8?B?dmh4WFNSSEFvL2ZseTFBNUNsL0JBQWh2Q3RQRHdwSDM1V3NVd1grdytCMXlD?=
- =?utf-8?B?cVVQdE5xQm5KcFhmV3AvTUNFaWp3TEhwZExRdDJtek1RSitXOFh6b3kyb2VX?=
- =?utf-8?B?K29IMGxQMjIybGxLK2FtdXcvRnlxSHIzMWZqK0hYVTZ1S2lnU2hIRUlzZ1FC?=
- =?utf-8?B?WnlZMERpcGRhUkpNeUVZSFkyVnc0SzhDZEk5S3ZEL3REWGh5WnVTV2VrcDVO?=
- =?utf-8?B?c2ZmbjJ0ZmgyeUpDUm1VOGpmbndzdU80VVVSc3RSbnY3QzBrUUtka2Z4bHlB?=
- =?utf-8?B?SnI4azNhVXRJWXBVTHBuS1l4NkJaVm5NeDg1c0M5d2hWM3NEWGpxeHlRV0xk?=
- =?utf-8?B?SS9IQ2x3OFV4ZWRUa1dhVk56eTNpL04yTXQ3bTVyWVkvNFI3ay96aW1KSFNM?=
- =?utf-8?B?S3ZnS1RrZXdST09QNy9xeHVVK1ovbTlpNlVPYzFvR1hCQm5YYXBQcEU1b1RY?=
- =?utf-8?B?MzZzakY4RHZXRnd5Z0pYcmpBWkxCREowZXcvUHBYNGt1Si9mcG5QYStFemhP?=
- =?utf-8?B?ZXZvSmtKWFlWaGR0bFg4VXdvaUphb0NZUzNraEFOUnJEa1NBYXFQRHQyZ2RZ?=
- =?utf-8?B?NHdpNGtBRU5HbnJKK1lVWUtXTC9WTkdBVk9DSThXN1duTTNCRVkxb0pZTmVn?=
- =?utf-8?B?NzZ5bXNHTDRFQlUwUURaR3kxY1dDOTdURlBBWFlaZXNXY0dWbDZXM0pHY3J1?=
- =?utf-8?B?akhMcFRIMDdiS0pDOGxFYk9xSlBSajJOTUVEMzFWdDE0cnkvRDFHZmRXOE90?=
- =?utf-8?B?bEltYmJEZ3lOWFpKVzY0cktBZW95Z1NCWU5lVDRLaFp3QXdOSVNqOGFtc2dT?=
- =?utf-8?B?UXpXMXk5MUpMbUJjQlhad0ZSUGw2L2FDTzRLekw0cHV0Qk9GUlRCWHE1N1FE?=
- =?utf-8?B?eGpWNndEYmFqeFBlS2NMWC9zYitObnhiYUNudWdtUkRBWE52bHpaSjRRejJK?=
- =?utf-8?B?R1g1aDFTbnJjd3VMMitzZ1JPTVZhU3B3UTBkWE1WeFF4dFlIZ3NzQldVZnVy?=
- =?utf-8?B?cFZmWFA1U0FQb0d3N2NCQzhjZ3A5Nmo5Q285NWdFL1daK3dSTGVoa0ZhZzdX?=
- =?utf-8?B?bUZZYThOZCtDR1hwOUV6ZXlYRHNJNFh1UDdDYnc3R2ZYY21mY2liRGhPZDhB?=
- =?utf-8?B?M245R21rczVia0Q0NFFVSmhDeTNMTnJjUFo2RHNvYUdXUHV6ZC9tK3Y2V2JZ?=
- =?utf-8?B?bm04T3M1akVzS3REUk9tMlA2U1R3dmhOaFUrOUdpZTAxMEs2empjN0NCeWpj?=
- =?utf-8?B?RGdoSG1ObGZLWDdSeFl2czVkL01ndmM2dEdTblVCM1JiVWZaZkJiZWw5bHhm?=
- =?utf-8?B?alRLSzZSU2l0NExQZU5PTkdiWm1tQVZPU1krTVp0S2hZWmRjZDB0dEFGako4?=
- =?utf-8?B?bXFvVWJmMjA0bUpTTXBQZlVZU01FOHZndktOTUlQZ0w0SHlGeWExL0lrM0lG?=
- =?utf-8?B?Y2pSbW1CQXUxUjVESGVyMDhQa3NjWWMwNU5TaTFNNTQwNmRpeVQvRG00ZUx6?=
- =?utf-8?B?Y1JINnNZSzMzTUlhMUI1QkVJYUVIMnZhM2hRUHU4UXNwRGxoQVllZk9iMjlI?=
- =?utf-8?B?R1lUVUdNR1kxcWg5WHNPdzRaaE5yaEg5bVNySjUwNGFxTzBkaURjRGhMR3Rh?=
- =?utf-8?B?MnBvcERKdU1GNC9lOUd6RkNBenFYZlR2UG1XUWp2QWR0aHNiQTZ5OWFPSXVB?=
- =?utf-8?B?UjE2djZXK0pLMWFSWHZ1UTJmaWd0UGkwQjNwRUZTMFpLYVN2a3NsejdXUlps?=
- =?utf-8?B?WDNWN2ZsQTNVangrQzYzRzdwZkFqR1lGNFJoOC9sUlhvbnZPQm9FcDZVcUYv?=
- =?utf-8?B?cm9JZFBWamM0YU42N05xbkxFUmVWbmIvT0JxY1B1dkpjTmc4ZUJjbHlRRmlx?=
- =?utf-8?B?RFhmOUR6V0lJKzgrZnRaUVdoTVFwUi9IQ2ZBRVdCTTNWRTdwQ1k2M0NWNTVJ?=
- =?utf-8?B?VEM2SHdkYVV6Y09JNlZKQlF1eUEzbyswVzl1aWowbWhSNm5wVGMxcFZyanpG?=
- =?utf-8?B?bUxTZE4rUUZncWptcDVwT2orMEdKRlN1dmt0TFY5aGVyYUxxbjlNKzFtRENp?=
- =?utf-8?B?cDQ4bUppUVRxSW1ZLzJvaVdNcTkzd2kwYUxhTXY2YVltNExvV3BuZldVUGRz?=
- =?utf-8?B?VEtscDhNZXJJUXg2cDF0TkV3NFBab1d6emRoVmxVMjNZT1RmNWxkVEE0TDJy?=
- =?utf-8?B?RVFjSERvM3R3VXkwSEdsdEhTd213PT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(35042699022)(376014)(1800799024)(82310400026)(14060799003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 13:04:09.7671
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57e34b3e-2ef2-4a8a-8aaa-08de5cdb652b
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B88.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8270
+References: <20260122025736.187410-1-colinmca242@gmail.com> <CANNYZj_2p1G8EseLFXAnbbUcuSbZxmQ-2V=TaZUSX5CKAiLdXA@mail.gmail.com>
+In-Reply-To: <CANNYZj_2p1G8EseLFXAnbbUcuSbZxmQ-2V=TaZUSX5CKAiLdXA@mail.gmail.com>
+From: Colin <colinmca242@gmail.com>
+Date: Mon, 26 Jan 2026 07:55:47 -0600
+X-Gm-Features: AZwV_QgMJX8y0IpJvuYCqXQT9qS3bdbydKF--8b--EIvW1yqk5frEedaMhiBO6M
+Message-ID: <CAAyLwgRoRG6COWS5==ScEiG99rqRsEbjqgn60LixdwUqY3purQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-cryptography: Add legacy-openssl packageconfig
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e1190b06494addf1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 13:04:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230006
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 13:56:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230007
 
-T24gMjMgSmFuIDIwMjYsIGF0IDAzOjI3LCBqaWFucGVuZy5jaGFuZy5jbiB2aWEgbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyA8amlhbnBlbmcuY2hhbmcuY249d2luZHJpdmVyLmNvbUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gbm90aGluZyBwcm92aWRlcyBhbHNhLXV0aWxzLWFwbGF5
-bWlkaSBuZWVkZWQgYnkNCj4gYWxzYS11dGlscy0xLjIuMTUuMS1yMC5jb3JlaTdfNjQgZnJvbSBv
-ZS1yZXBvLg0KDQpUaGlzIHdhcyBmaXhlZCBieSAiYWxzYS11dGlsczogZml4IHBhY2thZ2luZ+KA
-nSAoNGM2ZDVmOTY5OTBkMzIwMGNiYmU0NzViYjc1MGZlNzU0OTJhMjc3YSkgSSBiZWxpZXZlLg0K
-DQpSb3Nz
+--000000000000e1190b06494addf1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alex,
+
+See my responses inline below.
+
+Best,
+Colin
+
+
+On Mon, Jan 26, 2026 at 4:05=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
+
+> On Thu, 22 Jan 2026 at 03:57, Colin McAllister via
+> lists.openembedded.org <colinmca242=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > Fixes [YOCTO #15416]
+> >
+> > Adds legacy-openssl packageconfig option to allow users to specify
+> > if they would like the cryptography module to support the legacy OpenSS=
+L
+> > module or not. The legacy-openssl packageconfig option ensures the
+> > openssl-ossl-module-legacy package is set as a runtime dependency. If
+> > the packageconfig option is disabled,
+> > CRYPTOGRAPHY_BUILD_OPENSSL_NO_LEGACY will prevent the library from ever
+> > attempting to load the legacy provdier.
+> >
+> > Signed-off-by: Colin Pinnell McAllister <colinmca242@gmail.com>
+> > ---
+> >
+> > I wasn't sure if this new packageconfig option should be enabled or
+> > disabled by default. Leaving it enabled seems like the less disruptive
+> > option, although it's leaving the module in a less secure state by
+> > default.
+> >
+> > I'm happy to update the patch to leave the option disabled by default
+> > if others think that would be better.
+>
+> It would help to understand what this legacy module is for. 'Legacy'
+> and 'crypto' together aren't a great pair of words.
+>
+
+Would you like me to add additional information within the commit message
+or the recipe itself?
+
+Verbose thoughts follow:
+
+The OpenSSL legacy provider provides algorithms that are either used
+infrequently or have been deemed insecure.
+
+https://docs.openssl.org/3.5/man7/OSSL_PROVIDER-legacy/
+
+The openssl-ossl-module-legacy package in oe-core provides this legacy
+module and the module is installed as a separate shared lib
+in ${libdir}/ossl-modules/legacy.so.
+
+The Python3 cryptography module supports the OpenSSL legacy provider.
+Historically, if support wasn't disabled via an env var and this module
+could not be found, the cryptography module would raise an exception. More
+details of this causing issues in oe-core can be found in Yocto #15416
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15416
+
+In Python3 cryptography v45.0.0, this exception was downgraded to a
+warning. However, a build-time env var was also added that can explicitly
+disable support as if the existing runtime flag is always set.
+This patch is my attempt to integrate this support into oe-core where a
+packageconfig option is used to enable/disable support for this legacy
+module and also set an explicit runtime dependency on the
+openssl-oss-module-legacy package.
+
+In master it's possible to break such defaults. If the outcome is a
+> more secure system, it's even desirable.
+
+
+I am a little hesitant to disable this packageconfig option by default.
+With this option disabled, after an upgrade, a user of python3-cryptography
+will suddenly lose support for some algorithms. Based on my testing, the
+exception is not super helpful and may be tricky to track down the root
+cause. Since this is a general-purpose cryptography library, users should
+make their own informed decisions on what OpenSSL algorithms are safe to
+use. End users will not be unknowingly subjected to insecure algorithms
+being used on their product. However, for those that may need to exclude
+the algorithms from their platforms due to compliance/certification
+requirements, the functionality can be disabled.
+
+I do think the discussion within the Cryptography GitHub is worth
+referencing:
+https://github.com/pyca/cryptography/issues/11450
+
+Lastly, the openssl-oss-module-legacy package is enabled by default in the
+OpenSSL recipe, so by disabling this support by default, I'd be introducing
+inconsistent behavior.
+
+I'm happy to push up a v2 patch disabling this packageconfig option by
+default, but I think that should be accompanied with a patch disabling the
+openssl-oss-module-legacy package by default as well.
+
+Please let me know what you think would be best.
+
+Alex
+>
+
+--000000000000e1190b06494addf1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Alex,</div><div><br></div><div>Se=
+e my responses inline below.</div><div><br></div><div>Best,</div><div>Colin=
+</div><div><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><br>=
+</div></div></div></div><br><div class=3D"gmail_quote gmail_quote_container=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 26, 2026 at 4:05=E2=80=
+=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.=
+kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On Thu, 22 Jan 2026 at 03:57, Colin McAllister via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;colinmca242=3D<a href=3D"mailto:gmail.co=
+m@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.or=
+g</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; Fixes [YOCTO #15416]<br>
+&gt;<br>
+&gt; Adds legacy-openssl packageconfig option to allow users to specify<br>
+&gt; if they would like the cryptography module to support the legacy OpenS=
+SL<br>
+&gt; module or not. The legacy-openssl packageconfig option ensures the<br>
+&gt; openssl-ossl-module-legacy package is set as a runtime dependency. If<=
+br>
+&gt; the packageconfig option is disabled,<br>
+&gt; CRYPTOGRAPHY_BUILD_OPENSSL_NO_LEGACY will prevent the library from eve=
+r<br>
+&gt; attempting to load the legacy provdier.<br>
+&gt;<br>
+&gt; Signed-off-by: Colin Pinnell McAllister &lt;<a href=3D"mailto:colinmca=
+242@gmail.com" target=3D"_blank">colinmca242@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt; I wasn&#39;t sure if this new packageconfig option should be enabled o=
+r<br>
+&gt; disabled by default. Leaving it enabled seems like the less disruptive=
+<br>
+&gt; option, although it&#39;s leaving the module in a less secure state by=
+<br>
+&gt; default.<br>
+&gt;<br>
+&gt; I&#39;m happy to update the patch to leave the option disabled by defa=
+ult<br>
+&gt; if others think that would be better.<br>
+<br>
+It would help to understand what this legacy module is for. &#39;Legacy&#39=
+;<br>
+and &#39;crypto&#39; together aren&#39;t a great pair of words.<br></blockq=
+uote><div><br></div><div>Would you like me to add additional information wi=
+thin the commit message or the recipe itself?</div><div><br></div><div>Verb=
+ose thoughts follow:</div><div><br></div><div>The OpenSSL legacy provider p=
+rovides algorithms=C2=A0that are either used infrequently or have been deem=
+ed=C2=A0insecure.</div><div><br></div><div><a href=3D"https://docs.openssl.=
+org/3.5/man7/OSSL_PROVIDER-legacy/">https://docs.openssl.org/3.5/man7/OSSL_=
+PROVIDER-legacy/</a></div><div><br></div><div>The openssl-ossl-module-legac=
+y package in oe-core provides this legacy module and the module is installe=
+d as a separate shared lib=20
+in=C2=A0${libdir}/ossl-modules/legacy.so.</div><div><br></div><div>The Pyth=
+on3 cryptography module supports the OpenSSL legacy provider. Historically,=
+ if support wasn&#39;t disabled via an env var and this module could not be=
+ found, the cryptography module would raise an exception. More details of t=
+his causing issues in oe-core can be found in Yocto #15416</div><div><a hre=
+f=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15416">https://bug=
+zilla.yoctoproject.org/show_bug.cgi?id=3D15416</a></div><div><br></div><div=
+>In Python3 cryptography v45.0.0, this exception was downgraded to a=20
+warning. However, a build-time env var was also added that can=20
+explicitly disable support as if the existing runtime flag is always=20
+set.</div><div>This patch is my attempt to integrate this support into oe-c=
+ore where a packageconfig option is used to enable/disable support for this=
+ legacy module and also set an explicit runtime dependency on the openssl-o=
+ss-module-legacy package.=C2=A0</div><div><br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+In master it&#39;s possible to break such defaults. If the outcome is a<br>
+more secure system, it&#39;s even desirable.</blockquote><div><br></div><di=
+v>I am a little hesitant to disable this packageconfig option by default. W=
+ith this option disabled, after an upgrade, a=C2=A0user of python3-cryptogr=
+aphy will suddenly lose support for some algorithms. Based on my testing, t=
+he exception is not super helpful and may be tricky to track down the root =
+cause. Since this is a general-purpose cryptography library, users should m=
+ake their own informed decisions on what OpenSSL algorithms are safe to use=
+. End users will not be unknowingly subjected to insecure algorithms being =
+used on their product. However, for those that may need to exclude the algo=
+rithms from their platforms due to compliance/certification requirements, t=
+he functionality can be disabled.</div><div><br></div><div>I do think the d=
+iscussion within the Cryptography GitHub is worth referencing:</div><div><a=
+ href=3D"https://github.com/pyca/cryptography/issues/11450">https://github.=
+com/pyca/cryptography/issues/11450</a></div><div><br></div><div>Lastly, the=
+ openssl-oss-module-legacy package is enabled by default in the OpenSSL rec=
+ipe, so by disabling this support by default, I&#39;d be introducing incons=
+istent behavior.</div><div><br></div><div>I&#39;m happy to push up a v2 pat=
+ch disabling this packageconfig option by default, but I think that should =
+be accompanied with a patch disabling the openssl-oss-module-legacy package=
+ by default as well.</div><br></div><div class=3D"gmail_quote gmail_quote_c=
+ontainer">Please let me know what you think would be best.<div><br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+Alex<br>
+</blockquote></div></div>
+
+--000000000000e1190b06494addf1--
 
