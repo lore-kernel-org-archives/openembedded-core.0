@@ -2,63 +2,63 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F10D13C34
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 15:24:07 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22084.1769441038023897743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06923D13C3C
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 15:24:08 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22089.1769441041633094487
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 07:23:58 -0800
+ Mon, 26 Jan 2026 07:24:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PZfNn/du;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8c6b16bd040so525040485a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 07:23:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UsD3GO2g;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-88a3d2f3299so50599976d6.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 07:24:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769441037; x=1770045837; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1769441041; x=1770045841; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZpQ4yxNnGFISj2ddzHjxlie5zuRqjO+Vy2T/8ybuFcg=;
-        b=PZfNn/duRXNJnfFZtK+T9Amzi3EvgcguAoUltiI+HugRXhLXVxXSB+bG35Zcp7OySO
-         3xQSaBmYhpcRXdeQdT5RRsLOkopOSPF/Ih8WtT9ESggR5le7trYQ2+3godiVztL/zUVM
-         7mRlYJOQLCA1zKEM3M5VLojDz+radP8Qe4pfioaixS6xppaucnknxzCpRjPJIDjPJ03M
-         R5DYagFS8+ydGrSirk2RUbE+4OOWQA33xD96Eu/HN/kWAlJk6Bv0Uvs1lc3txYngVEB+
-         wLZXshEr9JOWQsTGkdx11PL5J9Ug0SBcqArGeVpdTBMnnRyAq+OKDCsAcyAvoutCroON
-         OaMw==
+        bh=bxWwkxiiaG1A/qA1KniTckI+8LwcF57R+MdRdOOr93E=;
+        b=UsD3GO2gL/kRg3SKegkEJehfUtYYpo5ehPdeqiFaS8eenXBEU700PBcg3IL7U0tBVk
+         1l4xKcirhQG+Tr0TNVpTVNzhHSlycT/Kt8byOyjQgU69sYM3Imm1knza+jqm0V3OFYK6
+         /XoyQkdpGL3xoUof+v6QGFtQec8bTP4ONg1NjDWULMGTxSXSQAD+p9oIqz1WlFMSf+78
+         +aDaXojeZKjgAWFwP6pY+gLEwuIcYhDVS0CPueRsflHtp2vN7rnpnbMHagK3eRz2Myrs
+         A7+fY4HzjNTEi7C9cWO9kGcfm1HiNGwE4YyQysFQHeknFq15qY+ubSeByQhyWyOjJxbv
+         nDlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769441037; x=1770045837;
+        d=1e100.net; s=20230601; t=1769441041; x=1770045841;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZpQ4yxNnGFISj2ddzHjxlie5zuRqjO+Vy2T/8ybuFcg=;
-        b=nPZYDDXbXNZgeEqc2L85zefmD7ovZremnCvCQApewyDv9Ehg7ROsRt8NWDmvFcj/Ev
-         XhljpQiHz/GT29AlNR3m7/34qH3vhJqJOvOgwNkFVag5ol4U+2A9eyQHcqas2a3BxrDu
-         OdjHXU9YBvGQ0MgrfvzMM3bBoDekqO1awUubyi3uExvuVwkkJOy+B0aXto+Wj4a4DX3F
-         GArfFo31ZelQsAIkTmwh2A5FmCDYvLsfaLmA/rPcmaNGnp1NahnoEayWhVc6amSteDX7
-         MpLFfaVJhx4if7szXdIaIemdMbUggW6jh+Uqh2/6fhjSRdE3WA6pl+Zb7LWdKvN5xq8Z
-         nKXg==
-X-Gm-Message-State: AOJu0YyIfeqVkcj65wFjGBF3ux2jKBnDHmSXswWZFB8wMf7FlFOj74qA
-	vGuDXPqB4yd2Fn8JmK1KGk4SQTeKgGmo9UYMSKrsO2gDrGWRUPa0HOZX
-X-Gm-Gg: AZuq6aKB00VVmwFH0Dbepuz1un2S3l/RQWBeQuTvlHPgWdSCLK1AXQw/tOukQZWT/cR
-	Ykx7CreMldd8PxSiSM8g1mF2bI8QOWGY3Ljxvhk9uGnD77DKb89XnxRXp7EKuZAm+zA/wFlKAGG
-	OApVEVbw0Hp0xgaN0dImB4CXD883ZEfYCYDklkiZeykN4BdS2x52gBdTohjU/mtVC+eEW3XmgkE
-	G5eP54XspwFkEOP4bTtAmGDGgP/7+kh328vY4rFhD8xIr2sV9P/CjHUhdZ9mJoRzckeJtHT/SLg
-	N9qbQ66+en522vvF2TF4g1YlDgxsOvU8it1NziEcY6yaghxvv2Q84RsSjjJpUdOBWDRqlXKLSau
-	pCqZun7Xx1eOc+CSjnO97wVZj9UeRys2IIFpvyDvQLtzkxG7Fh2zWYfs4wNWNKNoO24HQG8d5//
-	9Oq6GDB2PsrglpVsV4vNDboJyTcVOlNm4RZZBJu/Lh25P8XfRrAfn6drKcVipO7MNeZZQVRPAeF
-	rq9qGS6BhEMR9k=
-X-Received: by 2002:a05:620a:269b:b0:8b2:e666:70d with SMTP id af79cd13be357-8c6f964323amr522936685a.43.1769441036762;
-        Mon, 26 Jan 2026 07:23:56 -0800 (PST)
+        bh=bxWwkxiiaG1A/qA1KniTckI+8LwcF57R+MdRdOOr93E=;
+        b=G9gHCqUtPNQ3Wo6JYQqrpFP08iUYCnUIHHkaSE9eCcyoGmNJMPRDAijfc0U5WLNJ59
+         iSnjzzgigsnFQitkNBa6HkEMKTNf1bCLShGRjFsQpzrgxUwVskWo2kBvezekgFfK7Y8D
+         8L77qkKE7T7cTUnqfIYijfW8ZonfLui7lNay+3OjoDC/UTK5LwIqMgEPVROKBFzWbkW8
+         CSr0DwaBX/etqY1UFEEMjNF9f5weqD9k90v856ze+1q1geFVVi25UtlqSu3Fs5jUIZ2/
+         2Mr6p8H67J821BuuGmuzVjIiBPbjDACRPzg5eLzXOol+/rMfTH4+D1We+7vEKuZJHXWk
+         lSnQ==
+X-Gm-Message-State: AOJu0YxzMERQ1Ub2m3ydaSmquxf6/4WJeE+VlZIxGAqUv1SFvV4SQf4r
+	qgSn0EgzZNYkLO3JnuaiV+u3V6uuIcA4BmSnGAZRZ1c/XfEjFlSp1j9BLTB7abkiwHo=
+X-Gm-Gg: AZuq6aLqb1p1f5WHqIupF/zhABX3kX1+r3XWUvaHwtGiNdKqcMorYoxNYcGXo1+a+sq
+	3xKj12A+jAz6hHn/fg38RWBu8/bKb5u22fONKTmA+jrMV7vLsoPwt34irNcRlVZzUMH69IHx+IS
+	+frC7Jl4xD0oTtFMRJALkP2YOoRV4VqWssXYIuBfgo0GyZuwY5XGHpOHdIOgrUW9O/BrDQlx0QU
+	PfQdXrtm6p3NYYnODANq2ZupCRePI03IBpJzd5NTjnhu+KpFUXpfipN2sc0UkY7dtkfvLJqsjk7
+	kOegj4YKwIkH5UUdfzr7mLjSTDjECf2d+OAZMNWUsKXrRRRps9f8JmnCCU1eizMm4QzJirkxKPV
+	j/Nfafn8mYVNINpOMFoNic7rC2eJQul15nFLEir3l+n8rN7fWeM9V5b0Vvx2TZ1iE0nnOBwQWn5
+	lVY0pVEt0pnlHIHmMVqoT25cmCpykpaXWkjfnzr6t3nF5cv8vTyr1nb98I2RNx9IxZn4u/5L3Vm
+	i4It0mGwu6UW1l0QR/1+MU8mQ==
+X-Received: by 2002:a05:620a:372a:b0:8b2:e704:5626 with SMTP id af79cd13be357-8c6f95e0ea5mr591127585a.38.1769441040535;
+        Mon, 26 Jan 2026 07:24:00 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e3870c48sm1044157185a.51.2026.01.26.07.23.55
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e3870c48sm1044157185a.51.2026.01.26.07.23.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 07:23:55 -0800 (PST)
+        Mon, 26 Jan 2026 07:24:00 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta][PATCH 01/07] linux-yocto/6.12: update to v6.12.65
-Date: Mon, 26 Jan 2026 10:23:47 -0500
-Message-ID: <20260126152353.2328046-2-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 04/07] linux-yocto/6.12: update CVE exclusions (6.12.66)
+Date: Mon, 26 Jan 2026 10:23:50 -0500
+Message-ID: <20260126152353.2328046-5-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260126152353.2328046-1-bruce.ashfield@gmail.com>
 References: <20260126152353.2328046-1-bruce.ashfield@gmail.com>
@@ -67,136 +67,89 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 15:24:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230012
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 15:24:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230014
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.12 to the latest korg -stable release that comprises
-the following commits:
+Data pulled from: https://github.com/CVEProject/cvelistV5
 
-    39cb076c7dc7 Linux 6.12.65
-    b00d41629d81 Revert "iommu/amd: Skip enabling command/event buffers for kdump"
-    69f542a54578 pwm: stm32: Always program polarity
-    828b59fdf8ef virtio_console: fix order of fields cols and rows
-    1b9c118fe318 sched/fair: Proportional newidle balance
-    c6ae271bc5fd sched/fair: Small cleanup to update_newidle_cost()
-    52aa889c6f57 sched/fair: Small cleanup to sched_balance_newidle()
-    4888e1dcc341 net: Remove RTNL dance for SIOCBRADDIF and SIOCBRDELIF.
-    b03136582acb cpufreq: intel_pstate: Check IDA only before MSR_IA32_PERF_CTL writes
-    c4d18e9540bf drm/amdgpu: Forward VMID reservation errors
-    585dbb5cdbb8 net: phy: mediatek: fix nvmem cell reference leak in mt798x_phy_calibration
-    7b240a8935d5 wifi: mac80211: Discard Beacon frames to non-broadcast address
-    1c7c3a9314d8 mptcp: ensure context reset on disconnect()
-    58a32633d124 mm: consider non-anon swap cache folios in folio_expected_ref_count()
-    11f66b84fa7e mm: simplify folio_expected_ref_count()
-    914769048818 mm/page_alloc: change all pageblocks migrate type on coalescing
-    79f80a7a4784 mptcp: fallback earlier on simult connection
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 10 changes (5 new | 5 updated): - 5 new CVEs: CVE-2026-22278, CVE-2026-23761, CVE-2026-23762, CVE-2026-23763, CVE-2026-23764 - 5 updated CVEs: CVE-2021-47746, CVE-2021-47748, CVE-2025-64097, CVE-2025-69821, CVE-2026-1328
+        Date: Thu, 22 Jan 2026 16:23:30 +0000
+
+    ]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
- .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ .../linux/cve-exclusion_6.12.inc               | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-index 4113aaa21e..254a4b9c9f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
+index 6ab3bd2bb3..52ab4eb807 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
+@@ -1,11 +1,11 @@
  
--SRCREV_machine ?= "07aa4b788a9075e4aaf221026df896d245d40a3a"
--SRCREV_meta ?= "cc667785e15dd19fa8c38117d76ac1c7d60b5ec7"
-+SRCREV_machine ?= "9f8581c660c7b402312572cbf9cbe03833ed20aa"
-+SRCREV_meta ?= "12efb3470e9a439d7806984d360a3712350076d0"
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2026-01-16 00:43:33.551663+00:00 for kernel version 6.12.65
+-# From linux_kernel_cves 2026-01-16_baseline-1-gc984786b0cf
++# Generated at 2026-01-22 16:37:18.329435+00:00 for kernel version 6.12.66
++# From linux_kernel_cves cve_2026-01-22_1600Z-1-g55b49f6e4ba
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
  
--LINUX_VERSION ?= "6.12.64"
-+LINUX_VERSION ?= "6.12.65"
+ python check_kernel_cve_status_version() {
+-    this_version = "6.12.65"
++    this_version = "6.12.66"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -18466,7 +18466,7 @@ CVE_STATUS[CVE-2025-39820] = "fixed-version: only affects 6.15 onwards"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ CVE_STATUS[CVE-2025-39821] = "fixed-version: only affects 6.16 onwards"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-index 5a536f0d5a..6aa9dd7d56 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.12.inc
+-# CVE-2025-39822 needs backporting (fixed from 6.17)
++CVE_STATUS[CVE-2025-39822] = "fixed-version: only affects 6.15 onwards"
  
--LINUX_VERSION ?= "6.12.64"
-+LINUX_VERSION ?= "6.12.65"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ CVE_STATUS[CVE-2025-39823] = "cpe-stable-backport: Backported in 6.12.45"
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+@@ -19112,7 +19112,7 @@ CVE_STATUS[CVE-2025-40145] = "fixed-version: only affects 6.15 onwards"
  
--SRCREV_machine ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_meta ?= "cc667785e15dd19fa8c38117d76ac1c7d60b5ec7"
-+SRCREV_machine ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_meta ?= "12efb3470e9a439d7806984d360a3712350076d0"
+ CVE_STATUS[CVE-2025-40148] = "fixed-version: only affects 6.16 onwards"
  
- PV = "${LINUX_VERSION}+git"
+-# CVE-2025-40149 needs backporting (fixed from 6.18)
++CVE_STATUS[CVE-2025-40149] = "cpe-stable-backport: Backported in 6.12.66"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-index a5184e5812..62f7e8a9bd 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86.104 ?= "v6.12/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.12/standard/base"
- KBRANCH:qemumips64 ?= "v6.12/standard/mti-malta64"
+ # CVE-2025-40150 needs backporting (fixed from 6.18)
  
--SRCREV_machine:qemuarm ?= "e7f4f79edddeab38061c2f88220becde45e3500c"
--SRCREV_machine:qemuarm64 ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemuloongarch64 ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemumips ?= "a6540c970a91fa542babab0633acbd69818686a3"
--SRCREV_machine:qemuppc ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemuriscv64 ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemuriscv32 ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemux86 ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemux86-64 ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_machine:qemumips64 ?= "4b238545c28a667ddd67ff02cb8efb018a5df96c"
--SRCREV_machine ?= "9bd003fd4f7eb668ec3c1d7c5eae095d4b3764bd"
--SRCREV_meta ?= "cc667785e15dd19fa8c38117d76ac1c7d60b5ec7"
-+SRCREV_machine:qemuarm ?= "b9671eac4ed537384b52ae04e7e1c728b631fb13"
-+SRCREV_machine:qemuarm64 ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemuloongarch64 ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemumips ?= "bb006b07c2a942338e7f52070f8026791f30c5f0"
-+SRCREV_machine:qemuppc ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemuriscv64 ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemuriscv32 ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemux86 ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemux86-64 ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_machine:qemumips64 ?= "d9af48f273a9d87a61a46c93d7642d9e72947514"
-+SRCREV_machine ?= "5b6cf700d8a16b91937d61bd3bf0248bb1771644"
-+SRCREV_meta ?= "12efb3470e9a439d7806984d360a3712350076d0"
+@@ -19630,7 +19630,7 @@ CVE_STATUS[CVE-2025-68210] = "cpe-stable-backport: Backported in 6.12.59"
  
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "1a4a7249e794de9e022baabe6387d9c0f831b0be"
-+SRCREV_machine:class-devupstream ?= "39cb076c7dc7e44e3cab5c82ffda16a550ed8436"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.12/base"
+ CVE_STATUS[CVE-2025-68211] = "cpe-stable-backport: Backported in 6.12.59"
  
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
+-CVE_STATUS[CVE-2025-68212] = "fixed-version: only affects 6.14 onwards"
++CVE_STATUS[CVE-2025-68212] = "fixed-version: only affects 6.15 onwards"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.12.64"
-+LINUX_VERSION ?= "6.12.65"
+ CVE_STATUS[CVE-2025-68213] = "cpe-stable-backport: Backported in 6.12.60"
  
- PV = "${LINUX_VERSION}+git"
+@@ -20074,7 +20074,7 @@ CVE_STATUS[CVE-2025-68790] = "fixed-version: only affects 6.18 onwards"
  
+ CVE_STATUS[CVE-2025-68791] = "fixed-version: only affects 6.14 onwards"
+ 
+-# CVE-2025-68792 needs backporting (fixed from 6.19rc1)
++CVE_STATUS[CVE-2025-68792] = "cpe-stable-backport: Backported in 6.12.66"
+ 
+ CVE_STATUS[CVE-2025-68793] = "fixed-version: only affects 6.17 onwards"
+ 
+@@ -20300,3 +20300,7 @@ CVE_STATUS[CVE-2025-71143] = "cpe-stable-backport: Backported in 6.12.64"
+ 
+ CVE_STATUS[CVE-2025-71144] = "cpe-stable-backport: Backported in 6.12.65"
+ 
++CVE_STATUS[CVE-2026-22976] = "cpe-stable-backport: Backported in 6.12.66"
++
++CVE_STATUS[CVE-2026-22977] = "cpe-stable-backport: Backported in 6.12.66"
++
 -- 
 2.43.0
 
