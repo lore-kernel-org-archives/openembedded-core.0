@@ -1,255 +1,109 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A856CF65D9
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 10:28:26 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16747.1769423293693504247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D562DCF65EF
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 12:28:56 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18383.1769430529955882674
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 02:28:13 -0800
+ Mon, 26 Jan 2026 04:28:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QhhjP1jV;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81f5381d168so4072205b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 02:28:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XEvc9jzQ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8947ddce09fso40012386d6.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 04:28:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769430529; cv=none;
+        d=google.com; s=arc-20240605;
+        b=J68SqhZfpH/ehoJW05JzZLsW/JudJ/Ue4uKylaOfJz7imFzE9N0sXYNIB3gZEn1f/G
+         XJP4sMqNBlB2TjLHPoVnnLenSXlCS1iHZqCZZfB+LZ6D6vP5XN45uxzJXUWJw07AXtlm
+         wlLtzjQg1w9l9f1NwfXl5jDBsG9IW39nlyZX4zUnsnWB2M2hJr+goq/GE97670Fq/B6B
+         bfzohwSC4T5H9CtSTdSe56HiGia+CMlCS7VJsQSzkanxfE/ZHV30d9dypWwtfrZNJvg7
+         LNmBM3rPPnHtBaQ5wkUtm/MHP/jSVWhTMrGfjZqMCvGIA8h2e7BtCA4DD00rymRD1C0C
+         N09w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aOJ8uv3Icy0VyDkJ8P9pNbXFUSgEATiYT3zAwZrBdME=;
+        fh=Ts2miz9THootZNYvcqGpy7vnj6UTS9hCaEvSRnRb+Rs=;
+        b=kqoZ1wEutr909ijauGqQCu/GtShytC43MTzDedxvTM/8+qWeFP53J7q3sewg3N1d3V
+         e2FkBNddXA9kfZuXvcUuzPpU43oJuvX98dBTj1ChITV2u1stfOflTojoOaOijQQFTWsG
+         +qqrgRyMjyio5ESO5G6Y3k1NOpmpLGLLMF4Hh+DodaibJ404pRQ3cj+pg+pWCCfd8O5x
+         NhvvDtqAS6wC2MVe4HlPBviwM4Ij8dXOWrLNMG3ROCyzRoJg7FuXI2PI+97Vsiet3aqD
+         7GQ0UaQK/7+zANWv+ERWVlfs1Yg8U5RJhRv2v9ZWWaBSuBq/8XajfMJtwRVpqJDErkCE
+         z3fA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769423293; x=1770028093; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jYvOJNAn7ebbRSvhx4paKBm6AkMIXzYWuxXZf6agtbg=;
-        b=QhhjP1jVGUYzTWF4tJjAeBG81m06R5L0QorMbcjI07dxiQpRMUBPmJMSKGO6hrTDPd
-         5ILqO5XP1LXmyF/DW7YlmRrk2qQzxHG587jlNh+TNG6+DythIy8j+dbbbLXMAEDe0yAz
-         Dh6r34O4dyjtkq6HyoH1SHA6yG3nOKK+nfFu4+0NMYkee3TCyK6NidUBYOpWEYpbfuZE
-         KGR4OOOhDubK2Gv8+7GYypN8DaJB4KXwASeqKnsiCAZ3APh9qKA6v4EqtFsBvO5QPWLd
-         xTY+03DREgvelfMNz0vqwI+U/jKKy3YKoIHen6HGjrZi6NyPgiGxhjkMPXTYe3iu34s/
-         +VKQ==
+        d=gmail.com; s=20230601; t=1769430529; x=1770035329; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aOJ8uv3Icy0VyDkJ8P9pNbXFUSgEATiYT3zAwZrBdME=;
+        b=XEvc9jzQqSgfH3kktMOK3NGQGJRhpCpu2wFimdl+unT3R+mezPOwRFn7CmcOKZJpju
+         o8Q1NR/Movvz4zuXm/LnKoJyFMY+1hR+Z9iGFLLw/jNYH/g9uUq+EaXPTx5vksQZVUE0
+         Le6kezgpTRuXgOtaY3wwTNFWlqOy9ap4l5g+boh5sIvyPLb0vFyUj5rZt+ou0ESQjwXL
+         KT9N968Ps3kHBMQhiOH8OnHZbXxP0OitAaIjd9IJg9EnQGIquk551B93t2qBlLebbFMS
+         uOxyIvhvFeu+oNxhY9ghHe4a67gpZ1YIqUW1ifMRFfWGH9bmCV022sbNLbnJ62NTVBuK
+         3XxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769423293; x=1770028093;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jYvOJNAn7ebbRSvhx4paKBm6AkMIXzYWuxXZf6agtbg=;
-        b=f9ZM9/QxGIkNv8KGOWc/S6uQR/3VhjfWij8ccXqlz0eV4DN+TkSnbX548WBPGEF13F
-         W8FTts6on6/NpO3SuCZwRfK4491ehILERlHkhs5G4/aBAccwvFZ2YWxHnrky3a/oAkwj
-         kT7XStEnhth5XjHqhS6uRH8OIY/CfsaTI/8y5a17HvqMD9SlwtvRpIJfONnt6gmNdNG8
-         yfNIdjsSjiBNvuaV62dF0O6YBLfBBKUZPqYMuzOk7p44HsNAIESrlGFWbPlKTO5zbvKV
-         4TtAEU0fI7y32Yi7QXHC2hkIf8r+2v5j7048vQx53hzuSfSC8KkbOWvjhBZs69Ux3gVs
-         GpJA==
-X-Gm-Message-State: AOJu0YyMBp07XfDLTZJ4IaLLtYQ4Pr/vatcNzmpnLcUxuXI7xDJQmtuQ
-	6yP6pnOVR1gxWXyE6S2AO9XblTPyjHuH6kOvng3JzIHHPW1Y9/JAUAeTmk+iWJU4
-X-Gm-Gg: AZuq6aKhp/2MX8H2n0aLTrqNXljKsHFG+N1mrcY/Tv6i8sjx0kVYoXCj6LTeIXw87TL
-	loy9NlTTIA8N5nZXB+xJu89HSld0/iw63k9m5G+q4HF0rElrKSlvqlZm5qp4buLS+FiwcHg64wo
-	MrNuq95IWMkyFw0rJvk9LqtnGVDRBecoa3vKDEpRMDZ9B7BR3D2LQ/+iFw7rBB2+L9tQhLhioDD
-	7LKYPSg3MrfSSeuAOdA9WBHU6ao4rAzx53C5F1vNUVUotPAYl6j8oUCmTvhshSdbE2CNrBg/b5M
-	77G0Hb0zMQmlp77o+2f0HS9dHTVG0VHtRvuhF732oD55AumJkpLL57Bi5BmMM3OmjAMi1hC7qWG
-	6iYDQakWg0DfYyXPXSi0KfNyNTrStnovQTvc/wvVJfz/ZXXh061csPRUHUwVwXRiNwU147AgJ0c
-	EQE9IW0zr/2pkaNtTbo1Gs1isR
-X-Received: by 2002:a05:6a00:2e83:b0:81f:4f47:c6d6 with SMTP id d2e1a72fcca58-823412d360fmr2998951b3a.65.1769423292795;
-        Mon, 26 Jan 2026 02:28:12 -0800 (PST)
-Received: from NVAPF55DW0D-IPD.. ([147.161.216.246])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82318644989sm8880357b3a.13.2026.01.26.02.28.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 02:28:12 -0800 (PST)
-From: ankur.tyagi85@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 4/4] mdadm: upgrade 4.4 -> 4.5
-Date: Mon, 26 Jan 2026 23:27:47 +1300
-Message-ID: <20260126102747.1077552-4-ankur.tyagi85@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260126102747.1077552-1-ankur.tyagi85@gmail.com>
-References: <20260126102747.1077552-1-ankur.tyagi85@gmail.com>
+        d=1e100.net; s=20230601; t=1769430529; x=1770035329;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aOJ8uv3Icy0VyDkJ8P9pNbXFUSgEATiYT3zAwZrBdME=;
+        b=fYrlEpHaqLixSXCnMbFI0cNde0pfrsZjjrtEZrXzz2co0XjeBVYZd+/ng8awoOqRYz
+         L/Q7EokBIHVcHfDcUFpFkD85QpUTFkFv/289/G8ldc0djPDCC4U0XohVPC8h49IFdHJq
+         otdwyDx4a6aUBUDy9y7YNVPSPYboJIjQgj8OvLLEzGHUjIZO2F6tP96SyJK3KxRGlri3
+         7wLp8YLctJmBpGv0DyjnFr/aifME1Npi4f2z6egI5uN6s4iXNs6/ZXjbU5QMhprl5Tkr
+         a0GOCmZV8TSdOo0sPQl1VkM2MbdURjYi+iRegXyyd7BZ0fW7vbgwhX7VZJAOb8SDFfDq
+         lXQA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRNoydkS1S0qfEE8wAahFVYROMWUUVmwE7tLJqlKlvO7fO98tFuE0ir4VWWtGA1faIGAiigFEhgt2XBWZTakRkaQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxj6ylkNRTsmhWD/Vei0WrHpv6IQ3PwFkEvz14FNvu63XVcggva
+	vWlZSlCwfupr+jMdxt8AiHZoioQRSQAPkrlsb/OIRrSnT1s2lra7rdj6oyJ7S03I0JT/b+tGBKI
+	IxHJ2G1lUGa1DBNZaue9oad/gbVBZASU=
+X-Gm-Gg: AZuq6aJVvyxskZKQ2sgGXyBK+tlkS7wUI7QUQ4Nlq9ex7u5njMW8KEWSi+iJOM9U/iD
+	VWqiRDhCQztEchinegGxNM+x1y7gIwMXuxdGYvsYayfAw5wLTf6ziUuYawUtR1652KYf2SD2mVz
+	glRx1I2K0NZ6cLQjKG2mEMdqSXY4yU2+VIcSAyIzZzgwuia/uKrNKgcKtaQqMpxNAuFytEJl4UJ
+	bKbnBaxYdcsDE+SNnnkLNuJDUlrzDoorWe5fTzZPLg1NHr4ftx70jovbkyKhlu/DqeozXanbMbf
+	Sj2rw3zxVNpEcX2y0NA24HBP/ifHwg==
+X-Received: by 2002:ad4:5ba5:0:b0:890:8252:96dc with SMTP id
+ 6a1803df08f44-894b06dca9amr49366466d6.15.1769430528877; Mon, 26 Jan 2026
+ 04:28:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260126073809.468495-1-adrian.freihofer@siemens.com>
+ <20260126073809.468495-2-adrian.freihofer@siemens.com> <eba59226-122f-40c1-a83e-184df0e8ffcf@windriver.com>
+In-Reply-To: <eba59226-122f-40c1-a83e-184df0e8ffcf@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 26 Jan 2026 13:28:37 +0100
+X-Gm-Features: AZwV_QiRK3icHei5zqJK6ypDRWdEw0yH3Uvc6fVylAPOfJGT5PQRWxLj6eAagrc
+Message-ID: <CANNYZj9GrL4UTaMKz2gsmUFimRkFCqjyNmy8SPa8i_o9BqfNjg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/13] useradd_base.bbclass: do not use awk
+To: Qi.Chen@windriver.com
+Cc: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 10:28:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229982
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 12:28:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229983
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+On Mon, 26 Jan 2026 at 09:18, Chen Qi via lists.openembedded.org
+<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
+>
+> I have concern on this patch.
+>
+> You're modifying a basic bbclass to fix one case without finding out the
+> root cause.
+> By doing this, you're putting unnecessary restriction on the use of
+> commands in this bbclass. Other commands with similar dependencies could
+> potentially encounter the same issue in the future.
+> I think if you find out the root cause, you'll come up with a better
+> fix. This would not only resolve the current case but also prevent
+> similar issues.
 
-Changelog:
-https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/tree/CHANGELOG.md?h=mdadm-4.5
+I agree, even before the search for the root cause, this does need
+steps to reproduce, so others can also look properly into what the
+issue is.
 
-Replaced 0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
-with 0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch as
-partial changes from first patch are part of the upstream version[1].
-
-Dropped xmalloc.patch which is part of upstream version[2].
-
-Also refreshed other patches.
-
-[1] https://github.com/md-raid-utilities/mdadm/commit/787cc1b60130b8031be59e49d54463c58cd8cf74
-[2] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/raid6check.c?h=mdadm-4.5&id=e0df6c4c984d564e9e40913727e916a6cd8f466e
-
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
----
- ...-corosync-and-dlm-header-files-check.patch |  6 +--
- .../files/0001-Makefile-install-mdcheck.patch |  8 +--
- ...tripe.c-Use-64-bit-off_t-across-both.patch | 54 +++++++++++++++++++
- ...-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch |  6 +--
- .../mdadm/{mdadm_4.4.bb => mdadm_4.5.bb}      |  5 +-
- 5 files changed, 66 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
- rename meta/recipes-extended/mdadm/{mdadm_4.4.bb => mdadm_4.5.bb} (96%)
-
-diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
-index 8598aea1f1..9572c2e8c7 100644
---- a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
-+++ b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
-@@ -1,4 +1,4 @@
--From 232101e2fcc6359fb6db2bc232570e373e368c75 Mon Sep 17 00:00:00 2001
-+From 77e9527a0ea995ed377e00813eeeb17175dbce72 Mon Sep 17 00:00:00 2001
- From: "Maxin B. John" <maxin.john@intel.com>
- Date: Tue, 9 Feb 2016 11:44:01 +0200
- Subject: [PATCH] Fix the path of corosync and dlm header files check
-@@ -14,10 +14,10 @@ Signed-off-by: Maxin B. John <maxin.john@intel.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile b/Makefile
--index bcd092de..0a78cd22 100644
-+index 8031ce24..788ff5d9 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -130,8 +130,8 @@ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
-+@@ -120,8 +120,8 @@ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
-  SYSTEMD_DIR=/lib/systemd/system
-  LIB_DIR=/usr/libexec/mdadm
-  
-diff --git a/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch b/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
-index bb4e8d0604..6d4e8c3f29 100644
---- a/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
-+++ b/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
-@@ -1,4 +1,4 @@
--From 407691e11037709af888ce2cf6bd5eac6971ac61 Mon Sep 17 00:00:00 2001
-+From ed0163039de3e22ee6501162616649b6ec0e0366 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Tue, 25 Jan 2022 16:25:01 +0800
- Subject: [PATCH] Makefile: install mdcheck
-@@ -14,14 +14,14 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Makefile b/Makefile
--index 981e16fa..b28e7855 100644
-+index 788ff5d9..2201a6e3 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -345,6 +345,7 @@ install-systemd: systemd/mdmon@.service
-+@@ -327,6 +327,7 @@ install-systemd: systemd/mdmon@.service
-  install-bin: mdadm mdmon
-  	$(INSTALL) -D $(STRIP) -m 755 mdadm $(DESTDIR)$(BINDIR)/mdadm
-  	$(INSTALL) -D $(STRIP) -m 755 mdmon $(DESTDIR)$(BINDIR)/mdmon
- +	$(INSTALL) -D -m 755 misc/mdcheck $(DESTDIR)/usr/share/mdadm/mdcheck
-  
-  uninstall:
-- 	rm -f $(DESTDIR)$(MAN8DIR)/mdadm.8 $(DESTDIR)$(MAN8DIR)/mdmon.8 $(DESTDIR)$(MAN4DIR)/md.4 $(DESTDIR)$(MAN5DIR)/mdadm.conf.5 $(DESTDIR)$(BINDIR)/mdadm
-+ 	rm -f $(DESTDIR)$(BINDIR)/mdadm $(DESTDIR)$(BINDIR)/mdmon
-diff --git a/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch b/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
-new file mode 100644
-index 0000000000..ca4cec5ab8
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
-@@ -0,0 +1,54 @@
-+From 0d685f4ec8b54860a031fe3e04a2fff535288f80 Mon Sep 17 00:00:00 2001
-+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+Date: Mon, 26 Jan 2026 22:46:51 +1300
-+Subject: [PATCH] raid6check.c, restripe.c: Use 64-bit off_t across both musl
-+ and glibc
-+
-+This commit is adaptation of original patch[1] after commit[2] addressed
-+lseek issues.
-+
-+[1] https://lore.kernel.org/linux-raid/20221110225546.337164-1-raj.khem@gmail.com/
-+[2] https://github.com/md-raid-utilities/mdadm/commit/787cc1b60130b8031be59e49d54463c58cd8cf74
-+
-+Upstream-Status: Submitted [https://github.com/md-raid-utilities/mdadm/pull/235]
-+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+---
-+ raid6check.c | 4 ++--
-+ restripe.c   | 2 +-
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/raid6check.c b/raid6check.c
-+index 4469dc8f..fa50d44e 100644
-+--- a/raid6check.c
-++++ b/raid6check.c
-+@@ -288,7 +288,7 @@ int manual_repair(int chunk_size, int syndrome_disks,
-+ 	}
-+ 
-+ 	int write_res1, write_res2;
-+-	off64_t seek_res;
-++	off_t seek_res;
-+ 
-+ 	seek_res = lseek(source[fd1], offsets[fd1] + start * chunk_size, SEEK_SET);
-+ 	if (seek_res < 0) {
-+@@ -381,7 +381,7 @@ int check_stripes(struct mdinfo *info, int *source, unsigned long long *offsets,
-+ 			goto exitCheck;
-+ 		}
-+ 		for (i = 0 ; i < raid_disks ; i++) {
-+-			off64_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
-++			off_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
-+ 						   SEEK_SET);
-+ 			if (seek_res < 0) {
-+ 				fprintf(stderr, "lseek to source %d failed\n", i);
-+diff --git a/restripe.c b/restripe.c
-+index ec8d6275..58c0f5f5 100644
-+--- a/restripe.c
-++++ b/restripe.c
-+@@ -756,7 +756,7 @@ int restore_stripes(int *dest, unsigned long long *offsets,
-+ 			if (src_buf == NULL) {
-+ 				/* read from file */
-+ 				if (lseek(source, read_offset, 0) !=
-+-					 (off64_t)read_offset) {
-++					 (off_t)read_offset) {
-+ 					rv = -1;
-+ 					goto abort;
-+ 				}
-diff --git a/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch b/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
-index e425fc446e..2ef92418ed 100644
---- a/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
-+++ b/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
-@@ -1,4 +1,4 @@
--From 8de073c637a1ea968b7304f373a20b13a4a47bbc Mon Sep 17 00:00:00 2001
-+From b7e51fbedc1fbc44af00398a4a7aef51cdf191ee Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Tue, 12 Mar 2024 10:54:08 +0100
- Subject: [PATCH] Create.c: include linux/falloc.h for FALLOC_FL_ZERO_RANGE
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Create.c b/Create.c
--index fd6c9215..3210a03e 100644
-+index 4aa75b7e..5d5fc806 100644
- --- a/Create.c
- +++ b/Create.c
--@@ -33,6 +33,7 @@
-+@@ -31,6 +31,7 @@
-  #include	<signal.h>
-  #include	<sys/signalfd.h>
-  #include	<sys/wait.h>
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.4.bb b/meta/recipes-extended/mdadm/mdadm_4.5.bb
-similarity index 96%
-rename from meta/recipes-extended/mdadm/mdadm_4.4.bb
-rename to meta/recipes-extended/mdadm/mdadm_4.5.bb
-index 26a60e4c1a..8305215b07 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.4.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.5.bb
-@@ -13,12 +13,11 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/mdadm/mdadm.git;protocol=https;bra
-            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
-            file://mdadm.init \
-            file://0001-Makefile-install-mdcheck.patch \
--           file://0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch \
-            file://0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch \
--           file://xmalloc.patch \
-+           file://0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch \
-            "
- 
--SRCREV = "8e56efac9afd7080bb42bae4b77cdad5f345633a"
-+SRCREV = "8f0c7692d48414ff7b3fe927ce75799c65ef24b1"
- 
- inherit ptest systemd
- 
+Alex
 
