@@ -1,159 +1,100 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8EDCD13C18
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 14:01:47 +0000 (UTC)
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20012.1769436099433738631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD705D13C1C
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 14:04:27 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20082.1769436263788948303
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 06:01:39 -0800
+ Mon, 26 Jan 2026 06:04:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TUNGrxK9;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4801c1ad878so50494735e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 06:01:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mTYO6QpS;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59dcdf60427so5347329e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 06:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769436098; x=1770040898; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0dQ/vb0j+EM9s6WgPORsPz1t0/Bi+5CgR85jmd5AO0Y=;
-        b=TUNGrxK9+nHt7m1PsGqohZ5Tr6Qv8Ijbz8+iwCVlbFzgHcwPMBG8Jm3pTm0K2Va17G
-         ZY5o1F4oF/fq8x39m+tDOjQwkO+vYIFvfWMp7OjHh58pFwhzDxcKPP8h6RNoOkdkcvWd
-         +BkhNti/eEgBVeJrHWiZlTKdNQiC7577Kii19PEkpYKVtInVk57hPndIVTJHEIJhn1H5
-         7dYQ8pIibZQJlc7mX2ncdKzzskM/Lk0LBvYWL8dUK9Tk4Z5p59P+gBVXEP5M3cGBGoB3
-         a+MjVoHJ0l7b3DvbaXnH9W3lSd7/FZiehhqqdC0wD4Hdy5pmGda2h6juFMfq8OiOXsuv
-         liFQ==
+        d=gmail.com; s=20230601; t=1769436261; x=1770041061; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PwDLYBmYpFHwGxgFW5QAmSil1XBLm4RpsTRh3XBgfMA=;
+        b=mTYO6QpSvvMUhkzqaALsYhZtjpah/uv+T22HZntM6b/FeG+s8eekBpxWqFRCKOQc15
+         zC7OCxSI04M4lCTAxvWXnxKn+c0ZCIqUlPKekkC/8wwGXov1+DLORgaYnjIDr1lUZ938
+         jslU4i/u7iUvVezLHk4NXaR+AR+R3Vo3nCnt5LlwMBZ+z8Psb8XKzgMjb3pP+rIdkasN
+         yM8aA2oqdQOXH1fpXak0eqaxTXrgYCz9oekvuSAz3llNZlVH7Ity4pmVsJT/jcaB7eYg
+         LpLT1U0X8HVE2i+ppHLe16sAWIQjTW4DciIzbaAWXs9ICGjcfRi7k8M3lNmKTGebbWb7
+         20oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769436098; x=1770040898;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0dQ/vb0j+EM9s6WgPORsPz1t0/Bi+5CgR85jmd5AO0Y=;
-        b=nQVbMWStBhUvY6Ngpun1xKGJARNg0W+5JQ/8EleKKJBdiSKgZFbU34Wg2ry0YfBMZu
-         TKfBtYXAdITwASGwHhLFQYddcVNjHzojhHjrIXkVk1ov0C7al6Qs1UaRbv2o7Rj1+Kwc
-         gCgo7bZu1IwLrCqaNm4nnKCd5yPCvDcyxYQgJ55s4lu5Iis4gIVumcInKczdUd8FJLaU
-         9EBYEcTRWl/Sps8ApbydmRc1GwIOAwNZ9BnIk0qGNQHCwO5ijw3DJIykpXREFN5y7L5z
-         1fHRjjJFPF2tp4a90wHFx2O0afEG8ISPZRnWhejT5lz/DY6aeCJ0x50K/q8KPpMXtVIi
-         vusg==
-X-Gm-Message-State: AOJu0Yw9s+olI1HL0+5L6Xs9i9ARfUn6st9+XmTBjDXKgPc+BYDAD1nB
-	YP+d91u0AMSKaP63JTOf7ToJpPyuOuR6Fhze2yAaa49HbM1efklikePE
-X-Gm-Gg: AZuq6aJqmvvPq8GHHRM7U7u17gv75oHWji2ndEiJS1AneEuxRgNxDTVQQEKIkG5funm
-	30fBChAxt/mpMmnxfggqTIciiVbpU4J/vzJafLO6axDv0jedVl+39cvxIhq0nyiHnoh4pxYpUWP
-	4npl1xjaUV8CGycusMT2gwiD20moBzLZXF5LHPmJzJuwEVYEfFhGXsIrbTu0pQGsVU8JV5iS7hp
-	l/VxuGtOsDK0iCSSTCUPp/0YQiECVA8QYPo0SwE7BKVhP9nxoD2RTsZXsrcAAEsk1+yHBNc1F2R
-	QwlwdTybLeEou2MlvfHJvubSVt6wFGiGdumLDqwJwa59ASrEiQgA7IxSPxQE1CYP2NBwv8SvZ9Z
-	DNdPSZV44k0SFRXhGsnspgLmjotVT7kB/fY4LIfdU5kH80YILMBQdfAY1dzjqG6Av15F5MdHdBV
-	oBuQj0hyBsDZhybEavqXHNXVOyjpKgD7r9R2RQcojQYoVqYQAZ0NJ7KKtz9d4o7WIIPZ6uo6I=
-X-Received: by 2002:a05:600c:1382:b0:477:7a53:f493 with SMTP id 5b1f17b1804b1-4805cf66be0mr68129275e9.23.1769436097344;
-        Mon, 26 Jan 2026 06:01:37 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d85cff5sm280887045e9.7.2026.01.26.06.01.36
+        d=1e100.net; s=20230601; t=1769436261; x=1770041061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PwDLYBmYpFHwGxgFW5QAmSil1XBLm4RpsTRh3XBgfMA=;
+        b=t+D9aeKaXBNCqf6NpMP6o+sb91GVvg1MgHDnvTqXgJU9mnNoY6geKMICZFNAbhEXXx
+         MjPrAYEc0dviRsQ6PULbOfRP0l/Yejmo/Nv7VieIll6muboX9EiJZ8/qpYJ3JKkfTaB4
+         4WqBR7yFjU7bmkGkmnEp7cQURyRa54+CQxDBOP8knYZzRUuttceZPiuWEsrhdV2PvGEt
+         YTPL4IU4W2/4RkunMyBa2svE5pYu0qcXyR6PHPUoDjvk3Vv/51dbiwGVfGw8crJ2ekzt
+         jwB7pfa77g7VMQN9YTJTRIxl3o0gHLjo0CL46kJATERd91X9WCqz/t5i63jtIroo65YS
+         AxiA==
+X-Gm-Message-State: AOJu0YwCw75ufJyV9bP6DPhxDLNCXBET44DNTqjO+VZF6dm3JF8iOvR+
+	JRk0O2o1xV0tcSugCmzgIRwIgG3og9ubowulbkwp86uRwUZujpa0PGr/owfqQQ==
+X-Gm-Gg: AZuq6aJwSOfZ8xDyoVrUk/lIO2DOtGCGzpfvYyqv0Og4XyrEeA0Djp4bKWweQWlLTXR
+	qsNPhPml4Z1km1WE9DPMpAePoO+GwYVd5tU9VjDum2hQ8+v/SBjP3RB5HZptOM1F9KoLoh0/UNj
+	zBcr/w7KQOX2lQTeMzSOvCt9VKuDIB0oRQvRJdKBx/d5vf68XHfv15kfa50YliPbDFGAhpSKNJA
+	pvwW5OkCwmUiVu+5l1bWK6KPHTKGszjM/nVfQ6mBf7yHtMxGttZx2ePYu90Hsd391C6LLUjqSHN
+	g8H3QgcPH2HGsog+x6UXqOUEBFsM4rVrukh9RQiq6/1bHURjFrUETyuvC7B06Yq2xowt2w4CTbI
+	OTrTMF+OktaYVltnjmXPVh2GtP7bCuYDsqzlRdJzBRf42ekk4Iy8gSrtAR/MoZUTPIKIuPt6Bri
+	uVM0ioNje4vyiUW6OcuRdSYC/mWB5T7EuM7xLNHvpBY4+ub2zeeH4RxSJiCTCFFNrGZWQqPocp5
+	aSI5J+hf4dDyol60RxBwtE7jIXynGOFHw==
+X-Received: by 2002:a05:6512:4022:b0:59d:fd41:d6e8 with SMTP id 2adb3069b0e04-59dfd41d6famr436189e87.34.1769436261190;
+        Mon, 26 Jan 2026 06:04:21 -0800 (PST)
+Received: from peterliu-precision-5680.emea.group.atlascopco.com ([2a02:aa1:1159:3a3c:c72a:e3b3:afb9:5640])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59de4918f87sm2821599e87.57.2026.01.26.06.04.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 06:01:36 -0800 (PST)
-Message-ID: <a791396b22547baabda7c43fc2b2c4e57e1a2103.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v3 01/13] useradd_base.bbclass: do not use awk
-From: adrian.freihofer@gmail.com
-To: alex.kanavin@gmail.com, Qi.Chen@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Jan 2026 15:01:30 +0100
-In-Reply-To: <CANNYZj9GrL4UTaMKz2gsmUFimRkFCqjyNmy8SPa8i_o9BqfNjg@mail.gmail.com>
-References: <20260126073809.468495-1-adrian.freihofer@siemens.com>
-	 <20260126073809.468495-2-adrian.freihofer@siemens.com>
-	 <eba59226-122f-40c1-a83e-184df0e8ffcf@windriver.com>
-	 <CANNYZj9GrL4UTaMKz2gsmUFimRkFCqjyNmy8SPa8i_o9BqfNjg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        Mon, 26 Jan 2026 06:04:20 -0800 (PST)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] elfutils: fix a compilation race issue
+Date: Mon, 26 Jan 2026 15:04:14 +0100
+Message-ID: <20260126140414.11731-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 14:01:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230008
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 14:04:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230009
 
-On Mon, 2026-01-26 at 13:28 +0100, Alexander Kanavin via
-lists.openembedded.org wrote:
-> On Mon, 26 Jan 2026 at 09:18, Chen Qi via lists.openembedded.org
-> <Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
-> >=20
-> > I have concern on this patch.
-> >=20
-> > You're modifying a basic bbclass to fix one case without finding
-> > out the
-> > root cause.
-> > By doing this, you're putting unnecessary restriction on the use of
-> > commands in this bbclass. Other commands with similar dependencies
-> > could
-> > potentially encounter the same issue in the future.
-> > I think if you find out the root cause, you'll come up with a
-> > better
-> > fix. This would not only resolve the current case but also prevent
-> > similar issues.
->=20
-> I agree, even before the search for the root cause, this does need
-> steps to reproduce, so others can also look properly into what the
-> issue is.
->=20
-> Alex
+A following error was observed occasionally:
 
+| in function `_start':
+| /usr/src/debug/lib32-glibc/2.39+git/csu/../sysdeps/arm/start.S:118:(.text+0x40): undefined reference to `main'
 
-I think the root cause is that awk is called without having a
-dependency on it. A proper fix would be adding this dependency.
-Question is: where? I guess it is from the build-sysroots-1.0-r0
-do_build_target_sysroot task on itself.
+the issue due to build/src/readelf.o is zero size.
 
-How to reproduce this is more or less described in the commit message.
+it can be fixed by inheriting autotools-brokensep per test.
 
-My patches add:
-  +USERADD_PACKAGES =3D "${PN}"
-  +GROUPADD_PARAM:${PN} =3D "--system ${BPN}"
-  +USERADD_PARAM:${PN} =3D "--system --home /var/lib/${BPN}
-   --no-create-home --shell /bin/false --gid ${BPN} ${BPN}"
-to a package.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/recipes-devtools/elfutils/elfutils_0.194.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Then the test case
-devtool.DevtoolIdeSdkTests.test_devtool_ide_sdk_shared_sysroots
-creates an dynamic SDK including this package.
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.194.bb b/meta/recipes-devtools/elfutils/elfutils_0.194.bb
+index f7963afcbe..5d81fadbdb 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.194.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.194.bb
+@@ -26,7 +26,7 @@ SRC_URI:append:libc-musl = " \
+            "
+ SRC_URI[sha256sum] = "09e2ff033d39baa8b388a2d7fbc5390bfde99ae3b7c67c7daaf7433fbcf0f01e"
+ 
+-inherit autotools gettext ptest pkgconfig
++inherit autotools-brokensep gettext ptest pkgconfig
+ 
+ EXTRA_OECONF = "--program-prefix=eu-"
+ 
+-- 
+2.43.0
 
-That means, in the context of
-  build-sysroots-1.0-r0 do_build_target_sysroot
-
-postinst-base-passwd explodes like this:
-
-  Exception: subprocess.CalledProcessError: Command
-  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
-   build-st-254283/tmp/sysroots/qemux86-64/usr/bin/
-   postinst-base-passwd' returned non-zero exit status 1.
-
-  awk: error while loading shared libraries: libtinfo.so.5:
-       cannot open shared object file: No such file or directory
-
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4983396/raw_inlin=
-e
-I'm not sure if this is solvable in a better way because my
-understanding is that the dependency is circular.
-
-If the task gets restarted, it works because the missing libraries are
-then available.
-
-
-Another fix is removing this dependency by not calling awk, what I
-propose here.
-
-
-Adrian
-
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229983):
-> https://lists.openembedded.org/g/openembedded-core/message/229983
-> Mute This Topic: https://lists.openembedded.org/mt/117464897/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 
