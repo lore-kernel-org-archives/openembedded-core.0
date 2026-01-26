@@ -1,124 +1,258 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2F8D19519
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 20:18:39 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30789.1769458716433958025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA6E8D1951B
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 20:50:19 +0000 (UTC)
+Received: from DM1PR04CU001.outbound.protection.outlook.com (DM1PR04CU001.outbound.protection.outlook.com [52.101.61.24])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31153.1769460610566211332
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 12:18:36 -0800
+ Mon, 26 Jan 2026 12:50:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZWSarapp;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-89478e429afso44348056d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 12:18:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769458715; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dpTJzEr+RYCHC3L1/zLMHFhclounrpw0Hd309Cs6wab/Y0RpeExmON54s1b6e4L/33
-         7FvIl1a27jOxUnKRlMEt8UMhNcWuCvnnffmHgxSziYMy5eUna0AWz2NvjdB7x8Kdh2WY
-         eh2HAYjIPFVown/LdKc525tZMgMOS/NyvHyu+d+njC/Kl4LOLVUMjzH4Wd6pGNO6yd6/
-         DcKpYqqFCngCkHcwEJd8YBHbc8hPE9M98RbfnJ4S4IeCJ4BjcAtTArgmTD/mE3eFE14C
-         FMeWrwsD6/1TOG3ItnNSLeTYVvOk6kdswSe3QtFLVlv60FMpqQsFYoZe5y1eIhZxBW4y
-         ds4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yKBWnkJawlu8fSYYZez4oM4PrC8SLNIsEVnnBDijpds=;
-        fh=aZLIios+//Dx4+e3pug2Prppro110KFj1xESBWfuH4g=;
-        b=bj7GZY4FBh1KfmD1c83OVAo3roxvH4o97ywy53IHWKbc2hQ7XsrEalAZvI4auvJ+gS
-         4itS/Y4kts5mIWStPvbyawaxJwpW2+rZff7XwzMpl6eo9rxYyZtmC2BLPW4h4gcqkwPe
-         VQV4NMG1X7Lk+XpOj7LMLaUB2BNmFbE2M3NMiblfJsgFbINSxDqFkG16Zj/5QZMHZ6LX
-         0+sTWTSd+dagDnMnzp72M9e+e13repdCDevbdSbsp2aqWqdPa1rNC9DGi7dKvXgNvWZ3
-         ZyPimXepQW4QWlzS5AAOaXYwg2tA9eNpCRsjaP0Mf5viKuDv0yLLHGIZxJddwKmb2S5p
-         S2ug==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769458715; x=1770063515; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yKBWnkJawlu8fSYYZez4oM4PrC8SLNIsEVnnBDijpds=;
-        b=ZWSarappwaPG30dnT0pk5XXyDfRzuDE4Jvvw+9qOBCa71qKQbqeohEQ/BwgUh9EaBH
-         GxkiMIURtSWFsjD4OxRsngqG3kufgUzS2K1P6tESTPbNyAwmzYFRDj6/+g9hFFKx4vah
-         jAmUeOgRPjhoZmJDOzZD0JNNSj9QIAk1Ijm1iMoyeNpCXfsYfcxRvZFecYYK+bth7btA
-         i1MgI+NSmu9RMm+bMqSHCW/Uujjt6kNtgVADOqvzlNGrd2QxilILS01nPlUy+lHN7vbm
-         TeLQWtVwJ+NaAVb2uKwNdAhLiupPzsl+svI1nwne3w2/x/Cb7z924R+84+YME88g/Xb+
-         +uAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769458715; x=1770063515;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKBWnkJawlu8fSYYZez4oM4PrC8SLNIsEVnnBDijpds=;
-        b=an9Yfv2WhN3yHUyWsx1kelEXpF5xyYoPGQ3binSCs0vIVtmPCC8OT75SEx0mXvm6Wm
-         3m5jeofKZnOmbY5VXe6Oqsnc98ah8vIkAXtx6wL/aJDSgGm16I4dJgcytLwuqa3rXMqu
-         6XDOzeBF9+WScJis7w4tEwK2SmijS+waKUIGLDGK0qvNemz7hFgXkjuL7txlQPFy0Ii7
-         PgP3QAwu/Cigp/51yDGqmyILVwg65B+IKOMsBcFezXyqE0/rP+7TbJHb/Q/gbmRRVf9j
-         yvN/3NijvYgZFzyTWPgIUUGHVoTf4AohCdplZ8bGcKYDs5M9SMzjLGIvEJW/tk1eRrmI
-         wZIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMZyrN/S3dCRusIrmOM2Z/y8sLaBdODwL0bys9zZJKBFUIZrp6cjhvZkBasBbU/PGWRyKbAhxWi477zoDgWyPYFg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzVeo1rJepvgRDo0n6/0B06ojxw8qfqpnXCV3RdqS80AJiJAoM6
-	/8BquW0ER2rAJF6jU5cqIxclfy2rkRb+J8Jg1gd16ERuVjzeRuJk8HZkHyoDD0Ih3zCvUQ0wgF+
-	qP64RLWEKF11h/ja2Mwi+RUcLtcsGa/I=
-X-Gm-Gg: AZuq6aII4+gQz81uSErdSf7rNsN5vMfTv6ENv9N+XjLr3p+DQExkbG4ZpovY2qnv1pl
-	g4Y5VmIa9YtIp9p3DBBs1cmE5gTRkunmI6mtqHW87qiGFQNAEW5R4q1Y5eZlD3bBZeKg0/ZdC67
-	DRFquo+Kx3zl8HsGUbR0OuxIHYKrwaWFitTvV2GycadsqByoFUqiECZHlaGtMHRhMD9JoSC1Sfa
-	GvI5oi5gtDP/pKQvlIbx97WjhwkuX2K7mIgX7S0hWuv6EDgQQTZCje+29jZbgVZKHayio95Nk+s
-	vvxcsMvkWDalGkKc6pP5Lk+EIklyFw==
-X-Received: by 2002:a05:6214:21c6:b0:890:808f:c255 with SMTP id
- 6a1803df08f44-894b06b549dmr78268196d6.14.1769458715191; Mon, 26 Jan 2026
- 12:18:35 -0800 (PST)
+ dkim=pass header.i=@ti.com header.s=selector1 header.b=WegkE3G+;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.61.24, mailfrom: rs@ti.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mhugoas7S4ttyo7wYpGxfIu0yBlHl6Sn4wSJ4Xjg4yUMoMexxXr6OQ0JNiPDgfFu5ZLbJ2VvjpW1N5r8IZqSaWT2OQEWcsfoRmOfREk8sYa/h5EMgc6nnnUF6j9LeV4HA4qCzEluaXVwkyEVgqLKSFu1Ztaz+9Jin7i/JuhrLwDWgrH14hwwsjw17/6J5gpEbKAYaWjMEMJaCXPUbTrntv0h0+IZtC+GrHUSBPp0FaTSwsHYsjunbUrf/x6qqH649UZ/0bLSccz+OBC8u6IPPuGvdfpjyWCR/qjabrwUW0ixIbZGSmvtd69mibHzgPLkvwzOmrY+d4rWLLxJW/tvzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sGZLEZjaz28e+mbjZyAAXkf2zEqyuo+FCIolXY2ImnM=;
+ b=GTF+svZX3U9BnruOOeJbwAM0nb2KCwDee/yxoesGed0qCJ4G5tpoLz0wxiecHq59qXexo2ikJFTnDnVRv5PyHkmvRtbansYbS6PKMTwtfOR59w2fk1kor6VVt86XFANu5LQkFmW84u+T9pAfraCn9OdVTatxn16mSBTjvbTI6FJBHBkLEnA5L8S6YotPgFyDutOzRN76tCo1U5FB0wWAv5eu0WsqJ5oJxi0zCK/ormRi/UZn5FBspDmNhfUsWCz7ZNmACkpKotUToesHEOYBLa2JdE92wTo83o4b4gAKTqpFEDMtPZmeeaQw05EgP4Bo92jciZgs0Ju7NcYXyP3Bsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sGZLEZjaz28e+mbjZyAAXkf2zEqyuo+FCIolXY2ImnM=;
+ b=WegkE3G+A52vadZOC2fHdh69kEx7pt7ThdRi+5hbqRnVT985WQeUFXh4U9ZafzEOxjPvaGAwqbDKhTA9c8pYed2q2iZ0r+O1pQWOE9zQpKrCQIRgj7vBDznVbr26VFyRTj3Q3dwQshEv0DhM50IOzUNNi6w/eIRFv8EzuGa33UA=
+Received: from SA0PR11CA0076.namprd11.prod.outlook.com (2603:10b6:806:d2::21)
+ by BN0PR10MB4837.namprd10.prod.outlook.com (2603:10b6:408:116::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Mon, 26 Jan
+ 2026 20:50:08 +0000
+Received: from SN1PEPF0002636D.namprd02.prod.outlook.com
+ (2603:10b6:806:d2:cafe::7c) by SA0PR11CA0076.outlook.office365.com
+ (2603:10b6:806:d2::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Mon,
+ 26 Jan 2026 20:50:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SN1PEPF0002636D.mail.protection.outlook.com (10.167.241.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 20:50:08 +0000
+Received: from DLEE206.ent.ti.com (157.170.170.90) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 26 Jan
+ 2026 14:50:07 -0600
+Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE206.ent.ti.com
+ (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 26 Jan
+ 2026 14:50:07 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 26 Jan 2026 14:50:07 -0600
+Received: from localhost ([10.249.48.50])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60QKo73r3187258;
+	Mon, 26 Jan 2026 14:50:07 -0600
 MIME-Version: 1.0
-References: <20260126073809.468495-1-adrian.freihofer@siemens.com>
- <20260126073809.468495-2-adrian.freihofer@siemens.com> <eba59226-122f-40c1-a83e-184df0e8ffcf@windriver.com>
- <CANNYZj9GrL4UTaMKz2gsmUFimRkFCqjyNmy8SPa8i_o9BqfNjg@mail.gmail.com> <a791396b22547baabda7c43fc2b2c4e57e1a2103.camel@gmail.com>
-In-Reply-To: <a791396b22547baabda7c43fc2b2c4e57e1a2103.camel@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Jan 2026 21:18:23 +0100
-X-Gm-Features: AZwV_QikLaplp2V83Jr_D2cBt9xebNunfirrPUf5QwWFFBwNlIEl_0j91GqTqq4
-Message-ID: <CANNYZj_pMH4T8b7EN49F_aH8G-6U9PvxzWHUvXz9f0XStWTDoQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 01/13] useradd_base.bbclass: do not use awk
-To: adrian.freihofer@gmail.com
-Cc: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 26 Jan 2026 14:50:07 -0600
+Message-ID: <DFYTFOYS891P.2A5CKLOKP5KGI@ti.com>
+CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from
+ TARGET_LDFLAGS
+From: Randolph Sapp <rs@ti.com>
+To: Tony Battersby <tonyb@cybernetics.com>, Changqing Li
+	<changqing.li@windriver.com>, <rs@ti.com>,
+	<richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
+	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260122194959.13457-2-rs@ti.com>
+ <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
+ <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com>
+In-Reply-To: <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636D:EE_|BN0PR10MB4837:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae8d609c-8e66-4731-2b44-08de5d1c7dd6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026|7142099003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?ZFhOVDRnYWpVUWZMb1VzanRuQ3FaV1kvNzNBYWtiemVnRmFJZXkvYjhrbHo1?=
+ =?utf-8?B?RlM4c2lUVWNlN0V6S1JoMjhwUXZDQUlvcDUyQytnN0tQWk5sQnlxVlpqY2U0?=
+ =?utf-8?B?MkIyR2tValpoYUg2VnA0SlBqTDlRQ0NSUEt4M2hPZ0Mwck14U0ZCME8ra2pO?=
+ =?utf-8?B?ckRxKzdFUHUzSXlJOUJCN29TdWM2eE01d0FHWm16MWczbVBKNngzUTVuaVNL?=
+ =?utf-8?B?TGtNNUZkWXpyMDVtbnVZcTAxaWVjTE9qb2FDU2l6bVlmYWIwaTJZcENmRmxq?=
+ =?utf-8?B?MEl0Y1RKUWU4N0NuSFJuOTZIRFZiQURXbHZ3TjFCTWM1K0tuVTFxazNWUE1s?=
+ =?utf-8?B?ZHNkTkQvYThZOVhCdHc0MjA5VnpTRVpZczBFWSt3dXJQeFFvOGV0bkNRMk9r?=
+ =?utf-8?B?YWRIbmpLVSs2Z1FpTzUwNU9zRzh4eHljU0dsbndiTkt3TFVEWURZR2FHUHlS?=
+ =?utf-8?B?ZjZ5TnIzcmdFZEgyK3U2bGpCbXl5U3h2TFN1Y29OZzRpSkNXemoreHJLZHpP?=
+ =?utf-8?B?cWtEeWNWUXZPN0Q0RTFFek5RTGdJeVlyMlkwV2NCZzg0NEVHdmo2bzJ0NHhh?=
+ =?utf-8?B?eHNKTlNWb0JmTFUxS2Jnck92L3JWQkw0cDFoTzE5RkZQbW43ZDYySnVYOGdN?=
+ =?utf-8?B?S1dIK0M4S20xM1gvcWt4UmxtN0JHc2xuV2p6aktQYnNUdjJyQjhNWGM2V0RV?=
+ =?utf-8?B?Vy9sblFLYTdmZmsvZFczbE4wRTB3SVN1cE1iOVdZcjFYY2JoeHdkVmVvMmY3?=
+ =?utf-8?B?Y2JWSklaMjk0ZWlNOXAxTi9PV2VWeXVNclhOeGZhaElzNDF0dWRqN3pjdkJ6?=
+ =?utf-8?B?c0hBTi9YWENEZy9oc0xXd1BnbXNDditPaVFKWFJvU08zcE5jbllXbFhDdE56?=
+ =?utf-8?B?UjRUeTRNUGZ2ZmxmQi9UUDc3Z2VaU2J6S3FzUVZQeTJCTFlYa3B5SjZST2tC?=
+ =?utf-8?B?QkxEYlZrU1RtbGFuY0FSTCsxK3NBT3NObWZiVEFuQUVscmFDU09IMXJrWS9s?=
+ =?utf-8?B?OFVsdkpNZE8vaFJYWlVDNEhSZlNWOEJ5RUgyTlBTa01EaHRyeDRyQWtuTlVZ?=
+ =?utf-8?B?MWFTUkIrZVg3OW9hQjU5aEhQNzVzZGNGdTNJc1hMNXQ5REpvQXQvdlVzLzJo?=
+ =?utf-8?B?RytWZ2k3UHVrT2sxaEpDWmM0K1psQjhWNXJMQ1I3cGNod2VUdW9pWUFaMlRM?=
+ =?utf-8?B?NHRtTzhFRFQwS0ZiT21VUWd2cGpwdFJkK1dWQ2VmdnhneXNuM0lBM3grNlhG?=
+ =?utf-8?B?Nlo4bC9Ia1I3RlBCbjk1ZGQ3bWNueStQcVVqTmNvMGIzam5PWTJDV1FMTFds?=
+ =?utf-8?B?NkhhNjU3UWRnRTlVYnV4UGFUTDhmTEVUNCt3VzR0TC9ZUjlsc3lqcDA3Z2pF?=
+ =?utf-8?B?RUFpNUR5SjRDbTd0UFdhcllndTRyb0dieENiRHUyVzgwd1JTWkNXNG56eWNU?=
+ =?utf-8?B?VlVkcm5kL1VWcHk1SThsa0dBNFRhV2xlR1N0Snh3NnZmMXh2ZEV3RVdTT3Br?=
+ =?utf-8?B?OEszVzdubGErL0d1YUQwN2lTR21CeTR5MUtGVE9SS2xNTEEyWERVWE16RGdJ?=
+ =?utf-8?B?dHJGL2doRTFCdHZNSFpWVXFNaGZ4YS9ja29XVjhDdytCTE1SRjZXRXp1bWJm?=
+ =?utf-8?B?aFh2Z3g3bVRzQi9kK2Y3Rkk2Yi9DV1BTUFY4c1Z4dDJNa1NrM3VYZ0pFK0lZ?=
+ =?utf-8?B?TGhHUUpFQis1Zm9KOU9BMTJhZzhmY0NCVm5OK1pHUlE2UGVmWWZJeUtxL1hi?=
+ =?utf-8?B?bWxEN1RmL1JMSTQwWDAzWWFEeFhyb0dLK0xtU3VyTnJ6TUxwWjh6dnJ0YzM5?=
+ =?utf-8?B?VTR5Q2dkcDRLeUhhTk10V0kzaGVJdmJHT21QeE9YWFBxRkdDQmtIWlJqdy9o?=
+ =?utf-8?B?eFBLb29ldTgxMHlOdFNKay8wMVpxajFWN0h3YmZ6dHZITFdYdWpPVU9QYlFO?=
+ =?utf-8?B?TGFRQ2FuVTgxclJmeFFWbmIydldsNnRubmVCaWlGTytxRCttRmxDRE1EK0d5?=
+ =?utf-8?B?blhPNWVZL1l5YUVWWU5yUkx2YkI1WTcrZFpWSUp3bW5mblp3SHBTSTlSaW5S?=
+ =?utf-8?B?aXBJV2tabU16ZEJRTnFsWGpyWk1MeFE5Y0VZMFpEaWpibExzSnVXUC9YMG9a?=
+ =?utf-8?B?VUY5VGdiRE9sb2xYdGM3TnBvNEtjL0k3UkMxTDMvUXhOR3c5MmdTTWtDeXBk?=
+ =?utf-8?B?OHc9PQ==?=
+X-Forefront-Antispam-Report: 
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026)(7142099003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 20:50:08.4003
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae8d609c-8e66-4731-2b44-08de5d1c7dd6
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	SN1PEPF0002636D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4837
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 20:18:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230025
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 20:50:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230026
 
-On Mon, 26 Jan 2026 at 15:01, <adrian.freihofer@gmail.com> wrote:
+On Mon Jan 26, 2026 at 9:04 AM CST, Tony Battersby wrote:
+> On 1/26/26 03:39, Changqing Li wrote:
+>>
+>>
+>> On 1/23/26 03:50, Randolph Sapp via lists.openembedded.org wrote:
+>>> CAUTION: This email comes from a non Wind River email account!
+>>> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>>>
+>>> From: Randolph Sapp <rs@ti.com>
+>>>
+>>> Now that the previous bug affecting binary reproducibility has been
+>>> addressed [1], we can revert this patch. This will resolve issues with
+>>> cgo applications becoming unreprodcible.
+>>>
+>>> Currently go considers link arguments to be sacred, meaning any change
+>>> should produce a different binary output. They ensure this by baking
+>>> link arguments into the intermediary output, changing the content ID of
+>>> that step. As such, the marco prefixes inadvertently end up adding buil=
+d
+>>> paths to the output binary instead of removing them if they are passed
+>>> as link arguments to cgo applications.
+>>>
+>>> These paths are later stripped out again, but at this point the content
+>>> ID of the dependency has changed and thus the build ID of the end
+>>> application will be affected by the cascade of hash changes. See the
+>>> upstream bug for more information [2].
+>>>
+>>> This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
+>>>
+>>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473
+>>> [2] https://github.com/golang/go/issues/77218
+>>>
+>>> Signed-off-by: Randolph Sapp <rs@ti.com>
+>>> ---
+>>>
+>>> This resolves the previously reported emptty issues:
+>>> https://lists.openembedded.org/g/openembedded-core/message/228549
+>>>
+>>>  meta/conf/bitbake.conf | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>>> index 88f4d0df69..da873c3f4e 100644
+>>> --- a/meta/conf/bitbake.conf
+>>> +++ b/meta/conf/bitbake.conf
+>>> @@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D "${@['-Wl,--hash-style=
+=3Dgnu',''][d.getVar('LINKER_HASH_ ASNEEDED ?=3D "-Wl,--as-needed"
+>>>
+>>>  export LDFLAGS =3D "${TARGET_LDFLAGS}"
+>>> -TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${DE=
+BUG_PREFIX_MAP}"
+>>> +TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
+>>
+>> Hi,
+>>
+>> After check the related gcc bug and yocto bug,=C2=A0 gcc bug comments 21
+>> ([1])=C2=A0 and yocto bug comments 13 ([2]),
+>>
+>> my understanding is that,=C2=A0 when lto is enabled,=C2=A0 even with gcc=
+ fix
+>> [3],=C2=A0 we still need DEBUG_PREFIX_MAP in LDFLAGS
+>>
+>> to make bin reproducible. Also seems Tony's commit [4] is after gcc
+>> fix [3].
+>>
+>> [1]=C2=A0 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473#c21
+>>
+>> [2]=C2=A0 https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481#c13
+>>
+>> [3]=C2=A0 https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc34a9ad500ae619c
+>>
+>> [4]=C2=A0
+>> https://git.openembedded.org/openembedded-core/commit/?id=3Dfddaecc88979=
+967d0e00e2fafdbaaabec030da9f
+>>
+>>
+>> @Tony, @Randolph, Could please correct me if my understanding is not
+>> right, Thanks.
+>>
+>>
+> Yes,=C2=A0LDFLAGS needs DEBUG_PREFIX_MAP to make LTO builds reproducible,
+> unless something else has changed since 2021 to make it unnecessary. I
+> have not kept up with the issue.
+>
+> Tony
 
->   Exception: subprocess.CalledProcessError: Command
->   '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
->    build-st-254283/tmp/sysroots/qemux86-64/usr/bin/
->    postinst-base-passwd' returned non-zero exit status 1.
->
->   awk: error while loading shared libraries: libtinfo.so.5:
->        cannot open shared object file: No such file or directory
->
-> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4983396/raw_inline
-> I'm not sure if this is solvable in a better way because my
-> understanding is that the dependency is circular.
->
-> If the task gets restarted, it works because the missing libraries are
-> then available.
->
->
-> Another fix is removing this dependency by not calling awk, what I
-> propose here.
+I think there has been some change because I tested this locally with the n=
+ormal
+reproducible builds selftest and no new packages were added to the failing =
+list.
+This included oe-core and some layers from meta-openembedded as well.
 
-We've seen similar issues elsewhere (down to the same missing libtinfo
-error), and they all could be eventually resolved. User management is
-notoriously tricky with these tool dependencies, as it needs to work
-in various different scenarios and contexts.
+The example code given in the report is fairly rudimentary, we should have =
+hit
+the bug if it was still in effect across a majority of packages if my
+understanding is correct.
 
-Anyway, can you please do these steps on the command line, and confirm
-that the same error occurs without having to run the selftest with
-your patches applied, and describe what exact changes need to be made
-and where and what commands in what order need to run? Then I could
-try to look into it.
+I'm also curious to see what golang want's to do about this though. Baking =
+build
+options into a binary seems a little silly, but I'm sure there was some unu=
+sual
+behavior that led them to that point.
 
-Alex
+As indicated on another thread, we could also just remove this string from =
+Go
+packages LDFLAGS if that puts everyone at ease.
+
+- Randolph
 
