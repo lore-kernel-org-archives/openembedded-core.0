@@ -2,121 +2,123 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B77DED19518
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 20:03:19 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29911.1769457797718413718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2F8D19519
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 20:18:39 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30789.1769458716433958025
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 12:03:17 -0800
+ Mon, 26 Jan 2026 12:18:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KOCSXN5a;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8c5389c3cd2so572968385a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 12:03:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769457797; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZWSarapp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-89478e429afso44348056d6.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 12:18:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769458715; cv=none;
         d=google.com; s=arc-20240605;
-        b=AAXGzz6Xkl5xs6KUVMhrXY9Uh7RA+yjVvdkl8zGeyipLFLZDQSqQ6dHLLoDGT9HpYW
-         OyVV798vAAo/9F9M6zaZMwJ2yh0JPTtNEYnQ+NQcikJHPT2KvhTV86W6QPX9HdTOTU2v
-         n7qKY8DrQPxWD0taD3evmZvHQOB3mG4538XflpZ3z9YpjQWVikr9d8Qd71PGOS5ETwAa
-         /2xnKOjpE0aWFEIWo/9ZlVuhsi2kWd9KvGKMDFcCfuVeIhC3ra3LCwwSGrBXRpZ3BJQe
-         Ko0u1Fu3Lioyo4pfIDCvu5+OLifQVWhRZIB1cA2xVlj7q246EV/FijIS7SOlk8bUWYkd
-         bPMQ==
+        b=dpTJzEr+RYCHC3L1/zLMHFhclounrpw0Hd309Cs6wab/Y0RpeExmON54s1b6e4L/33
+         7FvIl1a27jOxUnKRlMEt8UMhNcWuCvnnffmHgxSziYMy5eUna0AWz2NvjdB7x8Kdh2WY
+         eh2HAYjIPFVown/LdKc525tZMgMOS/NyvHyu+d+njC/Kl4LOLVUMjzH4Wd6pGNO6yd6/
+         DcKpYqqFCngCkHcwEJd8YBHbc8hPE9M98RbfnJ4S4IeCJ4BjcAtTArgmTD/mE3eFE14C
+         FMeWrwsD6/1TOG3ItnNSLeTYVvOk6kdswSe3QtFLVlv60FMpqQsFYoZe5y1eIhZxBW4y
+         ds4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=RYYNUgCHfR4AgXn42JG/rNW5gEfGP0r+LybwpNfb/uk=;
-        fh=lokiJlAtW9qnFfMvP1IYisM6SyYPCLLXL8yJBh0eyMk=;
-        b=XqoSM1AFFRrAI1UpmrwQW3mXd24hPUttyrVbPBU1lAFnKWvWT5weBmjnUpUaw64JyU
-         gx4IMByWPfTWLJLhzTTu6PXNB6g02ky/FO6rHrDZR7saXt8of6b2EMPY2L0He18+8vEe
-         eI6BEDNYuHz4IJ0IymLVzg/KbmjaY1tAx3k+6ilBKQGCO92rSBqBtJwOBuJbJLzeqRRj
-         6bGtDzz1Ryy0tXuqJB2krC66xyml7FHpwiGCxGbPxhuhjueoU8vDIcsZ+61n1pH1U4Lx
-         iZemxABTSUFDLggZxw7FOKRE0t9hoSisoy1Htd7XbxMMv0iEFiDyLhPk0dL+RV2yGPZw
-         AdVw==;
+        bh=yKBWnkJawlu8fSYYZez4oM4PrC8SLNIsEVnnBDijpds=;
+        fh=aZLIios+//Dx4+e3pug2Prppro110KFj1xESBWfuH4g=;
+        b=bj7GZY4FBh1KfmD1c83OVAo3roxvH4o97ywy53IHWKbc2hQ7XsrEalAZvI4auvJ+gS
+         4itS/Y4kts5mIWStPvbyawaxJwpW2+rZff7XwzMpl6eo9rxYyZtmC2BLPW4h4gcqkwPe
+         VQV4NMG1X7Lk+XpOj7LMLaUB2BNmFbE2M3NMiblfJsgFbINSxDqFkG16Zj/5QZMHZ6LX
+         0+sTWTSd+dagDnMnzp72M9e+e13repdCDevbdSbsp2aqWqdPa1rNC9DGi7dKvXgNvWZ3
+         ZyPimXepQW4QWlzS5AAOaXYwg2tA9eNpCRsjaP0Mf5viKuDv0yLLHGIZxJddwKmb2S5p
+         S2ug==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769457797; x=1770062597; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1769458715; x=1770063515; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RYYNUgCHfR4AgXn42JG/rNW5gEfGP0r+LybwpNfb/uk=;
-        b=KOCSXN5aIT7QtTSP2xi7Se8R3B87oJ+9RMvCwkLMJpoSN8hkzS220L3eXoPIS8G3bE
-         MPFdhbKrklOTDJ0mtcRFPYfndGH6Ci5wzHtRzPmTRh0tgpvwAKo2Yzo2CQsa8jnKNeZh
-         Y0hZtc/oBpi91EHFY/s1tugEKMH1w1oGN94WZymWmsQ5tR88q1F1P/iB/AJweW5pyoiQ
-         TL3xQf363HKEi+P8e/7iD+3514TE9o4BGHrHV+5OP1L1yzToznrEc4Cv7aZrgzb/2mvl
-         GVZsCu5qf9Eu6fBPlFjTSp+a8w61j1HsF36Myff5eLYugXIgksDtxTsrUpEKlJpJ18fY
-         GYrQ==
+        bh=yKBWnkJawlu8fSYYZez4oM4PrC8SLNIsEVnnBDijpds=;
+        b=ZWSarappwaPG30dnT0pk5XXyDfRzuDE4Jvvw+9qOBCa71qKQbqeohEQ/BwgUh9EaBH
+         GxkiMIURtSWFsjD4OxRsngqG3kufgUzS2K1P6tESTPbNyAwmzYFRDj6/+g9hFFKx4vah
+         jAmUeOgRPjhoZmJDOzZD0JNNSj9QIAk1Ijm1iMoyeNpCXfsYfcxRvZFecYYK+bth7btA
+         i1MgI+NSmu9RMm+bMqSHCW/Uujjt6kNtgVADOqvzlNGrd2QxilILS01nPlUy+lHN7vbm
+         TeLQWtVwJ+NaAVb2uKwNdAhLiupPzsl+svI1nwne3w2/x/Cb7z924R+84+YME88g/Xb+
+         +uAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769457797; x=1770062597;
+        d=1e100.net; s=20230601; t=1769458715; x=1770063515;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RYYNUgCHfR4AgXn42JG/rNW5gEfGP0r+LybwpNfb/uk=;
-        b=KCsljlLKXkqofnBP28DNnQFT/ZyfT7/mX2CiXiy2GDI906AHjNk68gg1ukX01crfZJ
-         5MS9LMWblKaVJeCmxN68iZm7WkqJ08GtRfKAmWimumVoRp/m5BlyOQEIs8/JetILzAkr
-         c/j/8bQ3RgNgih2sQQCxWJpJPFpb9BxazE2iKv4hQnxZ1+ZCCPk6bg11+rIDc83DEU+y
-         1mxVGof2NVTbypuCRb+xIAaVUWVyTSeiX8OODY/QonPpqZ/seJBxPxlIOQ/UOiVy0skj
-         Jg/UyzEx0bfqf9hyGRFWeIPWUSZICXLuTtcdBkgwnZ2l2XfK/c4gCFOm6ECOHRaHLLUk
-         C2Ng==
-X-Gm-Message-State: AOJu0Ywbk3tnxhw5ukjPSfZ7tVIyiIJeB1H9pk2kjijBx6+L8EOMQjho
-	0jGlnuRGnQfSCJ6yPxdAoVYDbvF+25cu+yQt2kJGz9fshzSofiP6OK/0dVvFZ7EfgrxBDOaRs0j
-	WR3zF7wdQ0IvwcLHcl57Ge6X3wy9KDZx5Eg==
-X-Gm-Gg: AZuq6aK3Ulq5CVoPUyy2JaVsNOV/wehPjY4cjCf+tkSym5A+3mjlsYBFLNVsHP0CMHN
-	3C11XvjkRdBdBq7wtvOhPxJjZRdCYavelGswf7h/PGViqRKxcXUl0k5aAcorH0hMiNVujNgTjmc
-	Yq4RvIt8Zg4Hsv9qQ0G4zNYdeqzUuhAe6OepGSxMZL1E/Sw7k0Br5hq3942DpxgCF7GlAR3EHe4
-	D+En5OagqWad8PdtKTTpKrUxPTIfKsoIkhWIy4gfUaTLTP02lNQ9eCy4WdP9St1LzUBYGqodsTu
-	lmBjeZ4q0doqTKfCmhGpt/mrsLoxKvuIhavJpCYK
-X-Received: by 2002:a05:620a:468f:b0:8c6:aaf3:cb3a with SMTP id
- af79cd13be357-8c6f96e5f2cmr691193385a.85.1769457796532; Mon, 26 Jan 2026
- 12:03:16 -0800 (PST)
+        bh=yKBWnkJawlu8fSYYZez4oM4PrC8SLNIsEVnnBDijpds=;
+        b=an9Yfv2WhN3yHUyWsx1kelEXpF5xyYoPGQ3binSCs0vIVtmPCC8OT75SEx0mXvm6Wm
+         3m5jeofKZnOmbY5VXe6Oqsnc98ah8vIkAXtx6wL/aJDSgGm16I4dJgcytLwuqa3rXMqu
+         6XDOzeBF9+WScJis7w4tEwK2SmijS+waKUIGLDGK0qvNemz7hFgXkjuL7txlQPFy0Ii7
+         PgP3QAwu/Cigp/51yDGqmyILVwg65B+IKOMsBcFezXyqE0/rP+7TbJHb/Q/gbmRRVf9j
+         yvN/3NijvYgZFzyTWPgIUUGHVoTf4AohCdplZ8bGcKYDs5M9SMzjLGIvEJW/tk1eRrmI
+         wZIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMZyrN/S3dCRusIrmOM2Z/y8sLaBdODwL0bys9zZJKBFUIZrp6cjhvZkBasBbU/PGWRyKbAhxWi477zoDgWyPYFg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzVeo1rJepvgRDo0n6/0B06ojxw8qfqpnXCV3RdqS80AJiJAoM6
+	/8BquW0ER2rAJF6jU5cqIxclfy2rkRb+J8Jg1gd16ERuVjzeRuJk8HZkHyoDD0Ih3zCvUQ0wgF+
+	qP64RLWEKF11h/ja2Mwi+RUcLtcsGa/I=
+X-Gm-Gg: AZuq6aII4+gQz81uSErdSf7rNsN5vMfTv6ENv9N+XjLr3p+DQExkbG4ZpovY2qnv1pl
+	g4Y5VmIa9YtIp9p3DBBs1cmE5gTRkunmI6mtqHW87qiGFQNAEW5R4q1Y5eZlD3bBZeKg0/ZdC67
+	DRFquo+Kx3zl8HsGUbR0OuxIHYKrwaWFitTvV2GycadsqByoFUqiECZHlaGtMHRhMD9JoSC1Sfa
+	GvI5oi5gtDP/pKQvlIbx97WjhwkuX2K7mIgX7S0hWuv6EDgQQTZCje+29jZbgVZKHayio95Nk+s
+	vvxcsMvkWDalGkKc6pP5Lk+EIklyFw==
+X-Received: by 2002:a05:6214:21c6:b0:890:808f:c255 with SMTP id
+ 6a1803df08f44-894b06b549dmr78268196d6.14.1769458715191; Mon, 26 Jan 2026
+ 12:18:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20260122025736.187410-1-colinmca242@gmail.com>
- <CANNYZj_2p1G8EseLFXAnbbUcuSbZxmQ-2V=TaZUSX5CKAiLdXA@mail.gmail.com> <CAAyLwgRoRG6COWS5==ScEiG99rqRsEbjqgn60LixdwUqY3purQ@mail.gmail.com>
-In-Reply-To: <CAAyLwgRoRG6COWS5==ScEiG99rqRsEbjqgn60LixdwUqY3purQ@mail.gmail.com>
+References: <20260126073809.468495-1-adrian.freihofer@siemens.com>
+ <20260126073809.468495-2-adrian.freihofer@siemens.com> <eba59226-122f-40c1-a83e-184df0e8ffcf@windriver.com>
+ <CANNYZj9GrL4UTaMKz2gsmUFimRkFCqjyNmy8SPa8i_o9BqfNjg@mail.gmail.com> <a791396b22547baabda7c43fc2b2c4e57e1a2103.camel@gmail.com>
+In-Reply-To: <a791396b22547baabda7c43fc2b2c4e57e1a2103.camel@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Jan 2026 21:03:04 +0100
-X-Gm-Features: AZwV_Qikr7Qmv9eQ76oUSCcdx4KqJTh4jHVtJgpyrfwpdQ0t6si3mFt1dmfX4gg
-Message-ID: <CANNYZj9cOSUw-vqC62bnZoA6MnokxeboHKeF1wGUEBRSyw_7cw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-cryptography: Add legacy-openssl packageconfig
-To: Colin <colinmca242@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Jan 2026 21:18:23 +0100
+X-Gm-Features: AZwV_QikLaplp2V83Jr_D2cBt9xebNunfirrPUf5QwWFFBwNlIEl_0j91GqTqq4
+Message-ID: <CANNYZj_pMH4T8b7EN49F_aH8G-6U9PvxzWHUvXz9f0XStWTDoQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 01/13] useradd_base.bbclass: do not use awk
+To: adrian.freihofer@gmail.com
+Cc: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 20:03:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230024
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 20:18:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230025
 
-On Mon, 26 Jan 2026 at 14:56, Colin <colinmca242@gmail.com> wrote:
+On Mon, 26 Jan 2026 at 15:01, <adrian.freihofer@gmail.com> wrote:
 
-> Lastly, the openssl-oss-module-legacy package is enabled by default in the OpenSSL recipe, so by disabling this support by default, I'd be introducing inconsistent behavior.
+>   Exception: subprocess.CalledProcessError: Command
+>   '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
+>    build-st-254283/tmp/sysroots/qemux86-64/usr/bin/
+>    postinst-base-passwd' returned non-zero exit status 1.
 >
-> I'm happy to push up a v2 patch disabling this packageconfig option by default, but I think that should be accompanied with a patch disabling the openssl-oss-module-legacy package by default as well.
+>   awk: error while loading shared libraries: libtinfo.so.5:
+>        cannot open shared object file: No such file or directory
 >
-> Please let me know what you think would be best.
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4983396/raw_inline
+> I'm not sure if this is solvable in a better way because my
+> understanding is that the dependency is circular.
+>
+> If the task gets restarted, it works because the missing libraries are
+> then available.
+>
+>
+> Another fix is removing this dependency by not calling awk, what I
+> propose here.
 
-Thanks for the extended answer. Basically yes, I think we should start
-by looking at openssl itself. It would be good to make a couple of
-patches:
+We've seen similar issues elsewhere (down to the same missing libtinfo
+error), and they all could be eventually resolved. User management is
+notoriously tricky with these tool dependencies, as it needs to work
+in various different scenarios and contexts.
 
-- adding a packageconfig for legacy, and enabling that by default (to
-preserve existing behavior)
-- removing legacy from the defaults (for a more secure build, if
-openssl itself isn't willing to pick that default for its users, which
-I disagree with)
-
-Then the changes in these patches can be reviewed separately.
-
-python3-cryptography ideally should auto-configure itself at runtime:
-if legacy is present, it can be used, if not, then it's not available.
-Otherwise, there should also be a couple patches for it:
-
-- packageconfig for legacy, enabled by default (basically the current
-patch as it is is alright)
-- removing legacy from defaults (would be merged in lockstep with the
-same change in openssl)
-
-You can add the various supporting links and other information in your
-message across the patches, as you see fit.
+Anyway, can you please do these steps on the command line, and confirm
+that the same error occurs without having to run the selftest with
+your patches applied, and describe what exact changes need to be made
+and where and what commands in what order need to run? Then I could
+try to look into it.
 
 Alex
 
