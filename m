@@ -2,119 +2,102 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 125F5CF65CD
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 10:05:56 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16471.1769421951173182257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F38CF65CF
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 10:17:06 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17118.1769422619990856659
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 02:05:51 -0800
+ Mon, 26 Jan 2026 02:17:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O/IHn7NC;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-888bd3bd639so60451656d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 02:05:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769421950; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jiQ8X3BU;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5014e1312c6so26757581cf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 02:16:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769422619; cv=none;
         d=google.com; s=arc-20240605;
-        b=ftULmX0U0rcG72G6ZJ5jyQZG/fCjVu0WU5wZvzHhAT5qQMFFlWqaTalfdmKiHBSuBo
-         Xb69hJ9kmanGuc+ch3zIYrwTw4kjF5dAms9dfI7NwVP7dSGP6ae34WkYABSrM9xyHnSn
-         kgGLHQTVnpohf99wiY07F14EFKohha+0E7tmDfBevfybjW1zu8CCISFQ6G1xktkeHHUt
-         uv9uXQhyoQs3K9+fY/vtqFQ69WvOa1qEDDpJKZ9hcv50N1L8JtK8gkgxku/4alUqHCkr
-         u4E0yz1aR/sZH2KhjVW5FWAHNWmmzn1ELG+xyAMtFgqy9mhHdepupFNunGRPL0CqM8os
-         EAeg==
+        b=DcjOEDt/xMRLAAYg7NNSI7L9j44AdJtxHg//Vc9kD/c7mpteePpTY/yC/ZhAsckvg7
+         gfeDoZP3Do2QeAl3CphWeUL0BIlVlkZw+7/JTdv9jYgYZAYzktNa3TuIXGmcsdRPuH+y
+         oDQrcW1hQgXkV6OIp1tSo0plr9Retvlx5XNByGk+9j7Meop1JjjiXbv+3ON4UuXIkySx
+         ajOe4asLaaF3mPh4r3gYgICo9NqHv8TdE3Cp+c4OVFmd0smGihK3eScsERqvl35vYB2v
+         IkytvlxDp6IP/N/NhmJ3SDkuoUPGpr2/ZKe7LQzSDVm8GPQXAFyuFZHQMOeqKvta2igl
+         8lEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=DNSrhAS0QR4ePfrACCV3H+q/nJzJwXubVvTSc84z1ZY=;
-        fh=QjXAH+OfBTpESV0MwSm6PeAP4WImsPPcdPRkRzUTTJE=;
-        b=c67CvOG6HITyGHXOmwpYt2KNREbGWeSzoOe3Gz6mIJkvirmSKxA7cOWmZ3rKWECmXl
-         6LlJFfi1Q503u5hKO/Z1GXc16O2AhWyYLzfXiF3xxvld/iBahUnLkA5X4x+MGUwd1eGt
-         7eHyn5tpRJ8+74EZjQYl425fIb/l4QEV/LQ4hGZRZsC7BmNhmUEs5dAVNqJgOBmrXH+r
-         U9N99w1Q+VOVkxJNeqp1mUGCMUgqVLFP15zqXxXRwRSQC1oWQrL3wLYCY/cUuFSkOAid
-         BA7HezG2cZB9tih7OMoQFFkcMTdyBeRSQQZY0e7DylFMOwEt5q1hWd72fLE1z6K2mgOI
-         FYJA==;
+        bh=S1qXeXx5X5r5KsItIybQiecgn8/wxcc/1wPb/62fABk=;
+        fh=QG0/1kl/iNDCWfShgAIKRpbEE7JIBRGbrVXnRZODZk4=;
+        b=VVKL5M6UVO32WQTopDXTD+uCKE+VpBkqdYAUV39gKTNj5IySIuA0/0eoYihUQf67qv
+         Mhuop7fO4+q1hpVBNIcdPQTZiWou4Mb7UQwrIN29MUOFmsfxwi8fxh5W+PzsS63/Zv3W
+         U+ZYdEU5Nndgaui1IkkowUDuOkAw6dPpPxEQacmhjA5ky7L7GlcHS2a03POMTV0wGMuh
+         I4c6V3UJiiUsrYBBQypXNt2EN6Nkj0doGfd2+2sRKsiyq3T+kDoF6UjyvpCGz6wBPJNA
+         yYp0UblSREIg8FJOObLFCXJAHKs5O5H5KBSCy72hb5Hrakd5auklNglJhgrSzLCJ5usH
+         l4Og==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769421950; x=1770026750; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1769422619; x=1770027419; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DNSrhAS0QR4ePfrACCV3H+q/nJzJwXubVvTSc84z1ZY=;
-        b=O/IHn7NC3eBp+agEetmyJtBTjO7bgn0AuWRyn+w4hJbgMQsRr01bRbHdyDi7Wv6aJG
-         yuUyLt9vO/EjcDrUssoioGjBjG9XHqPW2HAkcKEy2Xnr5XbzEtZiOiri0/OfBxeMX2RK
-         Q5IwYVuEvfpxYCkkuHVaRev31NqV1GptUnhVGUh28y7mGIUNgL8w8LzEhkPyz8hFHrqc
-         oHkZ74jpPHa7KgTpoFiffDB/9xrYIjNL2FePeH7fj8wYkJIChhBmT4oqNrNa5ng20oa3
-         X77TA7/N2PnaO37QbOAwZEClXl0qLaeYQRlW3TfnEfZroNpwo7cBXzmk3Sdp5m2tB/gA
-         CfXg==
+        bh=S1qXeXx5X5r5KsItIybQiecgn8/wxcc/1wPb/62fABk=;
+        b=jiQ8X3BU3vkipkFzU/AomIbGN3VMbRlB7RjVgy8Cey0U//1fgOH06fp7hoCZfqfOZR
+         wKFxXqRPHxdn7Vr71iZ06hoBunhM1127p9/1ihHxZgK+NQFDBjx+gA1+aqlQ4DFExT1s
+         VFq7YR/zoNhAVrMlBbWLD33vR8WUHqr/vkYa+qhA/PehavO6uOnb0P/kANpGyrP2Jvsm
+         taKqpY0VfqKrDlFhZ7MJZYnytckylM3gPpuUcPhKujj151rUAcwOOxLa6RUyiZItQ1pW
+         R5E3aD478sWxaAm3qLBNR5MUXFLnz104yCnreubjQtohoryUJmQuQU2AmCRUJ0wsOM9v
+         dSpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769421950; x=1770026750;
+        d=1e100.net; s=20230601; t=1769422619; x=1770027419;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DNSrhAS0QR4ePfrACCV3H+q/nJzJwXubVvTSc84z1ZY=;
-        b=NzyzIRQwolfcWK6Uk+ZIjnCBw2renGmD6Z7+r8WxFZvQ7YC6Lpw9hIFjLcP1TjLVYE
-         XnLzfHhHOYDRcXZABDsfSFsjUYGT8dmxXbCvkvk/4KofwX/kX7ujP7d5YrH1Xxgo0ISw
-         7lq/v/j8zQz8kbNdoCickROwPISrCSy8mFQUDFVGCBixQJG+MZGKYX+dwTvEgdZCuxEB
-         x8pOGe+KM8Dsxrmb1jV3WjjiT1c2yqVnB2xddT/K/dCAsG24fSgfz6qJ+nvnuUC3gw4s
-         GkJcipwvl7/lPfyA4bZe6wu+a5x5gnguctaRIe52/KtKxhwZa8RIRRXQjL6+C7lYqa+7
-         s0Og==
-X-Gm-Message-State: AOJu0YwrPH2FDYXgNRwcFEhKxxHjqNl3/SIEbjRmO1cwjKf0YBJR5gqp
-	U7oCr4cewL547S5u6aO6A3l1wxrUZgWbItHnfBeNBQtwcVasJm0zsG5FfM35src116n0Bqoy4J3
-	PuaU5Qq1bV5OszjdoDfoUyzJI6GLjDlo=
-X-Gm-Gg: AZuq6aIbuISWATxckBs/CsWq7mQ8PLZKoSMnRLTUBF08Eir/s2eWMhirHGURw+4/SRi
-	dkNRJwT8pKQmje/sAUIQMGAlW6RzsvEV3Un3+ulZoZW+XrM9UTMdGW3+lpNNxhk+f0/crOTvJQg
-	bxPq5j92eSOEk+d7fxWRU+ury3tWNrjHU/Ks7TTVH/173txADB/9QdTL19jFfSopstTrHn3ThcI
-	HPfUOqgcL51rNy5ft/o+PdM0Oq+BxsNCHWsWLGHtFGgMRok4PytFiorfc4LjlKUGfhDMq1yKwnn
-	C0V8pNs51pC3HT5pX89d2FQM3szYxw==
-X-Received: by 2002:a05:6214:2029:b0:88a:31e5:80fa with SMTP id
- 6a1803df08f44-894b03d166bmr48060006d6.16.1769421950096; Mon, 26 Jan 2026
- 02:05:50 -0800 (PST)
+        bh=S1qXeXx5X5r5KsItIybQiecgn8/wxcc/1wPb/62fABk=;
+        b=iJfPbmGj/+thS57dfY+LPzZ9w++mbWvk6P+3JyOZ8r7tbInsbJ2PmuUQ0IhzUSs1hD
+         uKy+HLzv0LF3sj8epAuxHbJ/NEIcZz9/zQlN6y1k1AYgxulqtgyOYKsoF8i0UYc2vCk/
+         eQayH3Kzy53Jf8Pn8w9GzGVHGoPEASmKvKsZqJ4T3k+uSy68s4LJJgvpRO2sPQy1aEhv
+         CGCQ7mfQkPMVvqYWzHZRa1w3i92XZ1x1HvCAOEvVp9M35+RbpXMJV5rI95ofqJqZjo6R
+         9r9Lv36tm6p3T7YZugZiIHwvOmENIWtAjRFzCsyn2PvQPgPMxmM606Z8RIda/n2n6izx
+         04HA==
+X-Gm-Message-State: AOJu0YyNXyM5QSir3PrKzswDCKvBwkAV2PiOV9eK76Ndan6OV1RmXjlL
+	wBFKTFzupdpgWloYBKgbweyZC6PrXYKO8KBdLDyEoX8+FmLzpDnLHUZE9iwEjuaXwvlxpeUN/FC
+	jjITDiMwafh/CERbKeAx7aY0X3lUHW6Q=
+X-Gm-Gg: AZuq6aJtRWQhiJ6ei8kGDML6HMzK/qENpsp8m82TO1KAqzg9OPPIIg4MIaEyaozS4fP
+	QspkYT0ZNUR3Lx/lMfU7dQ4bky35msQUNxFr2lmyzZe2cXPiFRokdrcN+kdnsHW1JWCTJbGp5DU
+	19AK0xvwiMUXUoE9L7lX3KyZGVHng7q2efleOVB8vZysYVf2GrHBnml/UatOQBmFXCqBGL2Rc8E
+	y5xZgDQcSmiyYDvIe3JmAm5soQ1vQVpXvfTKo7Hf/8ttEqDJ4Gkgpcp7frj6T8AoNqP5+HT/5n4
+	pH9r9tlej2+t7ponD6TeafucqU4uUQ==
+X-Received: by 2002:a05:622a:89:b0:503:4bc:c926 with SMTP id
+ d75a77b69052e-50314d0afd1mr39270011cf.83.1769422618912; Mon, 26 Jan 2026
+ 02:16:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20260122025736.187410-1-colinmca242@gmail.com>
-In-Reply-To: <20260122025736.187410-1-colinmca242@gmail.com>
+References: <20260123052234.970-1-liuyd.fnst@fujitsu.com> <20260123052234.970-6-liuyd.fnst@fujitsu.com>
+In-Reply-To: <20260123052234.970-6-liuyd.fnst@fujitsu.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Jan 2026 11:05:39 +0100
-X-Gm-Features: AZwV_QiD0vbfQaEJrGhPKU-7BzjfhhooWmCkANlb_Sc9LWZ6Sb89-WtTIPw1wnY
-Message-ID: <CANNYZj_2p1G8EseLFXAnbbUcuSbZxmQ-2V=TaZUSX5CKAiLdXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-cryptography: Add legacy-openssl packageconfig
-To: colinmca242@gmail.com
+Date: Mon, 26 Jan 2026 11:16:47 +0100
+X-Gm-Features: AZwV_QgLA_v-QfLCt2xieUesUVMxNJ3i9SZFi_1i0zTwk3VSzT0JGNbn9hKZ_u8
+Message-ID: <CANNYZj_YQAsy+0aMFVwWJy3+Y2XFZMBnaC8wj5hF+TKWg8GeqQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 5/5] hotdoc : Add new recipe
+To: liuyd.fnst@fujitsu.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 10:05:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229977
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 10:17:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229978
 
-On Thu, 22 Jan 2026 at 03:57, Colin McAllister via
-lists.openembedded.org <colinmca242=gmail.com@lists.openembedded.org>
+On Fri, 23 Jan 2026 at 06:22, Yiding Liu (Fujitsu) via
+lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
 wrote:
+> 2.Add INSANE_SKIP to solve buildpaths QA check
+>   do_package_qa: QA Issue: File /usr/lib/python3.14/site-packages/hotdoc/parsers/cmark.cpython-314-x86_64-linux-gnu.so in package hotdoc contains reference to TMPDIR [buildpaths]
 >
-> Fixes [YOCTO #15416]
->
-> Adds legacy-openssl packageconfig option to allow users to specify
-> if they would like the cryptography module to support the legacy OpenSSL
-> module or not. The legacy-openssl packageconfig option ensures the
-> openssl-ossl-module-legacy package is set as a runtime dependency. If
-> the packageconfig option is disabled,
-> CRYPTOGRAPHY_BUILD_OPENSSL_NO_LEGACY will prevent the library from ever
-> attempting to load the legacy provdier.
->
-> Signed-off-by: Colin Pinnell McAllister <colinmca242@gmail.com>
-> ---
->
-> I wasn't sure if this new packageconfig option should be enabled or
-> disabled by default. Leaving it enabled seems like the less disruptive
-> option, although it's leaving the module in a less secure state by
-> default.
->
-> I'm happy to update the patch to leave the option disabled by default
-> if others think that would be better.
+> 3.Add hotdoc_fix_sources to solve buildpaths QA check
+>   do_package_qa:QA Issue: File /usr/src/debug/hotdoc/0.17.4/hotdoc/parsers/c_comment_scanner/scanner.c in package hotdoc-src contains reference to TMPDIR [buildpaths]
 
-It would help to understand what this legacy module is for. 'Legacy'
-and 'crypto' together aren't a great pair of words.
+Thanks for looking into this. The above issues need to be resolved, as
+reproducibility tests will fail because of them.
 
-In master it's possible to break such defaults. If the outcome is a
-more secure system, it's even desirable.
+The recipe should also be taken into actual use, so it's tested and useful.
 
 Alex
 
