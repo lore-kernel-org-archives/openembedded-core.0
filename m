@@ -1,100 +1,151 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <tonyb@cybernetics.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD705D13C1C
-	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 14:04:27 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20082.1769436263788948303
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02366D13C2E
+	for <webhook@archiver.kernel.org>; Mon, 26 Jan 2026 15:04:48 +0000 (UTC)
+Received: from mail.cybernetics.com (mail.cybernetics.com [72.215.153.18])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21526.1769439878188723648
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 06:04:24 -0800
+ Mon, 26 Jan 2026 07:04:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mTYO6QpS;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59dcdf60427so5347329e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 06:04:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769436261; x=1770041061; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PwDLYBmYpFHwGxgFW5QAmSil1XBLm4RpsTRh3XBgfMA=;
-        b=mTYO6QpSvvMUhkzqaALsYhZtjpah/uv+T22HZntM6b/FeG+s8eekBpxWqFRCKOQc15
-         zC7OCxSI04M4lCTAxvWXnxKn+c0ZCIqUlPKekkC/8wwGXov1+DLORgaYnjIDr1lUZ938
-         jslU4i/u7iUvVezLHk4NXaR+AR+R3Vo3nCnt5LlwMBZ+z8Psb8XKzgMjb3pP+rIdkasN
-         yM8aA2oqdQOXH1fpXak0eqaxTXrgYCz9oekvuSAz3llNZlVH7Ity4pmVsJT/jcaB7eYg
-         LpLT1U0X8HVE2i+ppHLe16sAWIQjTW4DciIzbaAWXs9ICGjcfRi7k8M3lNmKTGebbWb7
-         20oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769436261; x=1770041061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PwDLYBmYpFHwGxgFW5QAmSil1XBLm4RpsTRh3XBgfMA=;
-        b=t+D9aeKaXBNCqf6NpMP6o+sb91GVvg1MgHDnvTqXgJU9mnNoY6geKMICZFNAbhEXXx
-         MjPrAYEc0dviRsQ6PULbOfRP0l/Yejmo/Nv7VieIll6muboX9EiJZ8/qpYJ3JKkfTaB4
-         4WqBR7yFjU7bmkGkmnEp7cQURyRa54+CQxDBOP8knYZzRUuttceZPiuWEsrhdV2PvGEt
-         YTPL4IU4W2/4RkunMyBa2svE5pYu0qcXyR6PHPUoDjvk3Vv/51dbiwGVfGw8crJ2ekzt
-         jwB7pfa77g7VMQN9YTJTRIxl3o0gHLjo0CL46kJATERd91X9WCqz/t5i63jtIroo65YS
-         AxiA==
-X-Gm-Message-State: AOJu0YwCw75ufJyV9bP6DPhxDLNCXBET44DNTqjO+VZF6dm3JF8iOvR+
-	JRk0O2o1xV0tcSugCmzgIRwIgG3og9ubowulbkwp86uRwUZujpa0PGr/owfqQQ==
-X-Gm-Gg: AZuq6aJwSOfZ8xDyoVrUk/lIO2DOtGCGzpfvYyqv0Og4XyrEeA0Djp4bKWweQWlLTXR
-	qsNPhPml4Z1km1WE9DPMpAePoO+GwYVd5tU9VjDum2hQ8+v/SBjP3RB5HZptOM1F9KoLoh0/UNj
-	zBcr/w7KQOX2lQTeMzSOvCt9VKuDIB0oRQvRJdKBx/d5vf68XHfv15kfa50YliPbDFGAhpSKNJA
-	pvwW5OkCwmUiVu+5l1bWK6KPHTKGszjM/nVfQ6mBf7yHtMxGttZx2ePYu90Hsd391C6LLUjqSHN
-	g8H3QgcPH2HGsog+x6UXqOUEBFsM4rVrukh9RQiq6/1bHURjFrUETyuvC7B06Yq2xowt2w4CTbI
-	OTrTMF+OktaYVltnjmXPVh2GtP7bCuYDsqzlRdJzBRf42ekk4Iy8gSrtAR/MoZUTPIKIuPt6Bri
-	uVM0ioNje4vyiUW6OcuRdSYC/mWB5T7EuM7xLNHvpBY4+ub2zeeH4RxSJiCTCFFNrGZWQqPocp5
-	aSI5J+hf4dDyol60RxBwtE7jIXynGOFHw==
-X-Received: by 2002:a05:6512:4022:b0:59d:fd41:d6e8 with SMTP id 2adb3069b0e04-59dfd41d6famr436189e87.34.1769436261190;
-        Mon, 26 Jan 2026 06:04:21 -0800 (PST)
-Received: from peterliu-precision-5680.emea.group.atlascopco.com ([2a02:aa1:1159:3a3c:c72a:e3b3:afb9:5640])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59de4918f87sm2821599e87.57.2026.01.26.06.04.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 06:04:20 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] elfutils: fix a compilation race issue
-Date: Mon, 26 Jan 2026 15:04:14 +0100
-Message-ID: <20260126140414.11731-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cybernetics.com header.s=mail header.b=bHGioeqf;
+ spf=pass (domain: cybernetics.com, ip: 72.215.153.18, mailfrom: tonyb@cybernetics.com)
+Received: from cybernetics.com ([10.10.4.126]) by mail.cybernetics.com with ESMTP id 0EJhbDNSLkcLatRB; Mon, 26 Jan 2026 10:04:35 -0500 (EST)
+X-Barracuda-Envelope-From: tonyb@cybernetics.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.10.4.126
+X-ASG-Whitelist: Client
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cybernetics.com; s=mail;
+	bh=Oni9yOEgu9cVETvDK+pXafXUExPvOt2LT2Le9/1BZ1s=;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:Content-Language:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID; b=bHGioeqfA0N5VmTLLkhj
+	v5AHn9AlZHFurI4QeCOKapycf3ieToh1Wb8x+KML7idxtAkOYs+U2tCK9GlIcaYk5E9XDtaUV3lC4
+	VWtX39UstUPoW3S8UahurxWHYWbtJZRplg5+jnGD04h+kNHEKkUiZqv/l86+XBNYhxvEBeMqEA=
+Received: from [10.157.2.224] (HELO [192.168.200.1])
+  by cybernetics.com (CommuniGate SPEC SMTP 8.0.5)
+  with ESMTPS id 14372079; Mon, 26 Jan 2026 10:04:35 -0500
+Message-ID: <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com>
+X-Barracuda-RBL-Trusted-Forwarder: 10.157.2.224
+Date: Mon, 26 Jan 2026 10:04:34 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from
+ TARGET_LDFLAGS
+To: Changqing Li <changqing.li@windriver.com>, rs@ti.com,
+ richard.purdie@linuxfoundation.org, mathieu.dubois-briand@bootlin.com,
+ alex@linutronix.de, otavio@ossystems.com.br, kexin.hao@windriver.com
+X-ASG-Orig-Subj: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from
+ TARGET_LDFLAGS
+Cc: afd@ti.com, detheridge@ti.com, denis@denix.org, reatmon@ti.com,
+ openembedded-core@lists.openembedded.org, vijayp@ti.com
+References: <20260122194959.13457-2-rs@ti.com>
+ <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
+Content-Language: en-US
+From: Tony Battersby <tonyb@cybernetics.com>
+In-Reply-To: <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
+Content-Type: text/plain; charset=UTF-8
+X-Barracuda-Connect: UNKNOWN[10.10.4.126]
+X-Barracuda-Start-Time: 1769439875
+X-Barracuda-URL: https://10.10.4.122:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at cybernetics.com
+X-Barracuda-Scan-Msg-Size: 3149
+X-Barracuda-BRTS-Status: 0
+X-ASG-Debug-ID: 1769439875-1cf43928501b1c60002-7zcVdP
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 14:04:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230009
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 15:04:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230010
 
-A following error was observed occasionally:
+On 1/26/26 03:39, Changqing Li wrote:
+>
+>
+> On 1/23/26 03:50, Randolph Sapp via lists.openembedded.org wrote:
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender=
+ and know the content is safe.
+>>
+>> From: Randolph Sapp <rs@ti.com>
+>>
+>> Now that the previous bug affecting binary reproducibility has been
+>> addressed [1], we can revert this patch. This will resolve issues with
+>> cgo applications becoming unreprodcible.
+>>
+>> Currently go considers link arguments to be sacred, meaning any change
+>> should produce a different binary output. They ensure this by baking
+>> link arguments into the intermediary output, changing the content ID o=
+f
+>> that step. As such, the marco prefixes inadvertently end up adding bui=
+ld
+>> paths to the output binary instead of removing them if they are passed
+>> as link arguments to cgo applications.
+>>
+>> These paths are later stripped out again, but at this point the conten=
+t
+>> ID of the dependency has changed and thus the build ID of the end
+>> application will be affected by the cascade of hash changes. See the
+>> upstream bug for more information [2].
+>>
+>> This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
+>>
+>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473
+>> [2] https://github.com/golang/go/issues/77218
+>>
+>> Signed-off-by: Randolph Sapp <rs@ti.com>
+>> ---
+>>
+>> This resolves the previously reported emptty issues:
+>> https://lists.openembedded.org/g/openembedded-core/message/228549
+>>
+>>  meta/conf/bitbake.conf | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 88f4d0df69..da873c3f4e 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D "${@['-Wl,--hash-style=
+=3Dgnu',''][d.getVar('LINKER_HASH_ ASNEEDED ?=3D "-Wl,--as-needed"
+>>
+>>  export LDFLAGS =3D "${TARGET_LDFLAGS}"
+>> -TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${D=
+EBUG_PREFIX_MAP}"
+>> +TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
+>
+> Hi,
+>
+> After check the related gcc bug and yocto bug,=C2=A0 gcc bug comments 2=
+1
+> ([1])=C2=A0 and yocto bug comments 13 ([2]),
+>
+> my understanding is that,=C2=A0 when lto is enabled,=C2=A0 even with gc=
+c fix
+> [3],=C2=A0 we still need DEBUG_PREFIX_MAP in LDFLAGS
+>
+> to make bin reproducible. Also seems Tony's commit [4] is after gcc
+> fix [3].
+>
+> [1]=C2=A0 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473#c21
+>
+> [2]=C2=A0 https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481#c13
+>
+> [3]=C2=A0 https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc34a9ad500ae619=
+c
+>
+> [4]=C2=A0
+> https://git.openembedded.org/openembedded-core/commit/?id=3Dfddaecc8897=
+9967d0e00e2fafdbaaabec030da9f
+>
+>
+> @Tony, @Randolph, Could please correct me if my understanding is not
+> right, Thanks.
+>
+>
+Yes,=C2=A0LDFLAGS needs DEBUG_PREFIX_MAP to make LTO builds reproducible,
+unless something else has changed since 2021 to make it unnecessary. I
+have not kept up with the issue.
 
-| in function `_start':
-| /usr/src/debug/lib32-glibc/2.39+git/csu/../sysdeps/arm/start.S:118:(.text+0x40): undefined reference to `main'
-
-the issue due to build/src/readelf.o is zero size.
-
-it can be fixed by inheriting autotools-brokensep per test.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-devtools/elfutils/elfutils_0.194.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.194.bb b/meta/recipes-devtools/elfutils/elfutils_0.194.bb
-index f7963afcbe..5d81fadbdb 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.194.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.194.bb
-@@ -26,7 +26,7 @@ SRC_URI:append:libc-musl = " \
-            "
- SRC_URI[sha256sum] = "09e2ff033d39baa8b388a2d7fbc5390bfde99ae3b7c67c7daaf7433fbcf0f01e"
- 
--inherit autotools gettext ptest pkgconfig
-+inherit autotools-brokensep gettext ptest pkgconfig
- 
- EXTRA_OECONF = "--program-prefix=eu-"
- 
--- 
-2.43.0
+Tony
 
 
