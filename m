@@ -1,456 +1,454 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0239D2594B
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 06:13:14 +0000 (UTC)
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4136.1769494387097398571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4B8CA6CAC
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 08:57:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6322.1769504258014933990
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jan 2026 22:13:07 -0800
+ Tue, 27 Jan 2026 00:57:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B5LfeYNK;
- spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6498401cfb4so773341d50.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jan 2026 22:13:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769494386; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lXqHWzFnFnlroK2SCP6mB4xaXRCWjR8eCoHBQlhodCrD6mEQdy+7PnkEMIRHNJq7Ui
-         GCGcl80NaKufh9syw/8lP7o3IjTG8EJ7U6nYFALQs7E+DGvcpC2wTVxkHOnmM9GOjWpB
-         GmM7nqxZKVFnn6SpjtCX7oAyjJmBp3tT8e28v8s+5XJVkLhc2yF4Z9ah6lA0as80wiQD
-         Y85yvkk/Z5eJwCU3/usvYj9NCLSwI4mrR8py/BR+9i1pJgD1go5cjJr96r6nncNdlKsF
-         8D4mbUXeUd9SK0i1ka4JIMkA1jzQ8cH7GVQVmdmmfHWBfM8UgVuY7Z80HKNALAUH85Qr
-         FBXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1e/5FAsX1W0C7ZhxZGf1zkvZetMknOqFnbVBQVJSPLU=;
-        fh=yRup0gQd4Qk9N6eUNj8kXkuKvdCTwWcKSeXZ5+LSHis=;
-        b=lcMXdgEkhJPEBJsTcYWxHgVh2qHZwF4co2GR+tWUrpFY3vKGPM9cnJo3RRxpu81TwD
-         UTzi7xdOs8BHMUkZnyNqI2a5W47ZdN6ZldUZfGqu0VaTJ/glLt3JwSE0HIFaka/uTsAB
-         aafIst9nrfvLtxvRsBSYmCuVDUZlRf08ubIQv6Dr3jCByUdcF01HnDilQTsWraKqCQFB
-         zVNMKq86qpShXzlrVvy4WDua3uUxtsaO4mSqXJYIIiTnSXB/0AeELvw2v7IWX5K6ZBeI
-         /fdlJSp7/ZuStJefJ2DaERAdAnOKVmqF7O59YV7TSoO+SlNTGoS4fqoOWU3zzMerTy/m
-         TMZw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769494386; x=1770099186; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1e/5FAsX1W0C7ZhxZGf1zkvZetMknOqFnbVBQVJSPLU=;
-        b=B5LfeYNK1qclccyXzJmn2spSRGHkEguA7zc0pZllpdrK19mu8WrYa8u2Ci2ZvTuhYd
-         sDq4z2m5W4hh6DPnVZri/9G0OhN8Ep5u8ejl3udDdtfnl9gdLOvy3u4qCpt9fHEWDQ+n
-         Ha5bISVjPBwLJfv+o+zYUx2ThRgRxf93wGudr6CyGzW4SRqRW+8NBXnDf3oiDaDTCLuF
-         2FO5x2LH43R6Sgo3xf72OJGHSowsOEgRt181f4U/tiHE+D3L0kWdJeSE1+tmQKycCLl5
-         mdEab8qQsCbai7ouZYvcwUT9cSCFZBPCqTZOdUwas+asWZEFxfT3j0M1iavRguZMN6ot
-         xe4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769494386; x=1770099186;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1e/5FAsX1W0C7ZhxZGf1zkvZetMknOqFnbVBQVJSPLU=;
-        b=uvKycGsr8Er99dNNG6O+0Xn7LcE9+alTLRLqNhQTk+sZGi+oIgf4rj1B1zw5xaATAE
-         lyrHYIRCti7AuLWQ1eRFnp91R/aMozW1FcDCh1YOEvzoOJ0dmCGePd3hUVmhxNkzupbk
-         lKGTZzrRJ0WghTv5rLmDPiMUhFVzaD3BSXHEZPo4660prqFs3/RkOblZsajBqHlnitHU
-         Cz/BwK3Vd2lVpD4rS8cRDuCOaZLxz1w0+fW0Q+7IKQu3EuYAFUnkNh+oR7xFrMiiwalo
-         +y3iTf0u8vuau7i8+5rG5rNTY0A5Oy6q99KbH5VIOn3fMoW/di2xaMLIBEVc44FP3hXr
-         viDQ==
-X-Gm-Message-State: AOJu0Ywf0id+RzVhmK/qhV0E3LprfiprhQJmDr6a1LRo5fZdYYI/TxJ/
-	VuQQkse8figAv6r112DuS7XUwevQzE8SNVdU/Hx0M+qtB0C503wunCVWMfykmvmbZGR6ySFhqox
-	+T0IiNVrtODdfU0uXJqt/plr9YYXKqRZN0T7IyDE=
-X-Gm-Gg: AZuq6aLfY+0nudjor0EMjp1Ib/BfPKdFpF4fiB/i4hjsDBQcOwXhkvd/BXsQssmmm8u
-	7Npn0yhXVFE32uFicG131QUV8FwuYlRmu+I1lDrsTwJkBAvnycc79A95Bou5J248S2dZBof6u/a
-	mBBIoi8OLMkgLMB5CDQWw3lMa/o7pOL6ywNX1tUWKia9UCQi/Tc7vdDhGo+dItPhQ7S2y+zueKT
-	e3zdrlUhl1B9Y/UfSGA0Mb8OQzVv5i7zEbYrG/uHdYc6VSkSh93qdzOaHlwrMGY0OwL2nxUw7Cd
-	caqTZt4mBJVxIewd4edzlDWQsGpjV3LOO+IpQU1QDcfNUJ0j7gwJV9EOHwOvCJKDq3YAxeiPsWb
-	B6CaFKZNi2g0q2eqBslfykUC1RI9gDZ1jcwWiFGOdCPPM
-X-Received: by 2002:a05:690c:312:b0:78f:a615:2724 with SMTP id
- 00721157ae682-7947ac3fdefmr9103187b3.48.1769494386003; Mon, 26 Jan 2026
- 22:13:06 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=Bz4lpu9V;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=54872b1b3d=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60R7Ygm2606164
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 00:57:37 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=OPfPFrB184AbTy3uh9LG3U
+	+ZlDBEOm7eXgIKwwms3KU=; b=Bz4lpu9VljN9CLkkhIL4nq8rMaZzmbYheUrjff
+	YCwFTDxzRwUC11pBf+pa/tAc58EiAoaZglC+T16W8mtbuqCsakSAouby+WBdCKyD
+	m/BeUTyx0df+m8yHKQBa9hWuGBedAVplhc3ncp3eLsKbDwvmUYC4UCI6Gu+bSjjH
+	oBRy8thvx326QiTc70mKuDnUgvKqyG2leS+jPmRrDfazSklm8KNWoSzxkwIXUJzd
+	dvBzSZisrGfC1B01bbzu+FoE78I1mojKDHlfjPnhuE8Oue5FltjLyvMlIr6p6c+w
+	4V9Mh5XO9Tm4BKh6KJFM3tY31Sk7UeSAckPIpVA9hmhHcBOQ==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012003.outbound.protection.outlook.com [52.101.48.3])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bvt85ar7f-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 27 Jan 2026 00:57:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a9gqZSx+Te+kTBjvRqIBtLHFcKFoSG2yUcQQa0+cmW9VzYyEkFp/K6c8B3St0GlO8QiKcJItxS/SJ/J/QZMBtobjHdifLERLAewG0ZQw+csdZVtotzj59cA1cOu3OfxxWtH0gr4BBVSpkho6xpD0cdBkdgKx/X4mnFdh4G/h/akqj6L84whUf7/1Kpt7IRy//I+6o41MT8IG3NPpVzix94fpr9IrrmHphjsHVaJgqK/fKyIPOSOiiCW9mGQ25LbLdU010VAZd0IlFHfzm4tNxr0bS3mVxoqQ4ANbcIYOiU4GI1MPTEuFEFS+TCwqBTAvMzLfxcLkximi3k78Ud97Fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OPfPFrB184AbTy3uh9LG3U+ZlDBEOm7eXgIKwwms3KU=;
+ b=mZ+hL7GUUEQtNurF4nFEbh6Xq/LRPt6uUR2BZJKoKF9C+v/6poUci4cBSfHCqeB70qp9MCsA+7trHRiKKdTDlQMJfagMpX2eb3FFxrpbD3H2Uojyo51HgDGcqzHJsErfCvit3wlyKDgKmIT5gByOCQWsQq7pokR7tV/jHMAjGOAV1Y/qIHRrDLeBea9BK+41sdCJ39HgYftJYZPQbwWTNBQEwxWISdbFoizKW3Ddy/1hA1L+iq7VjpZ+CwV0DsSn2jODrRX9SUJ8rTtgtpPxio7WU5qYqJuwV/JXmT/FT6UPi7qDkQx2Tc8BKDunC6B1ByqYhrLOdZP/k1vC6Ydb6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by PH3PPF25FF87461.namprd11.prod.outlook.com (2603:10b6:518:1::d10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Tue, 27 Jan
+ 2026 08:57:34 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c%3]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
+ 08:57:34 +0000
+Content-Type: multipart/alternative;
+ boundary="------------CTsUsyvVqG4on3pcs3ZhpdqD"
+Message-ID: <00e8c0f8-7889-4e90-95c0-82de63c1d815@windriver.com>
+Date: Tue, 27 Jan 2026 16:57:32 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH V2] procps: support ptest when TCLIBC is glibc
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20260116092704.2465341-1-changqing.li@windriver.com>
+ <48503D06-1C65-407A-8EE8-B2E5099C797C@arm.com>
+Content-Language: en-US
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <48503D06-1C65-407A-8EE8-B2E5099C797C@arm.com>
+X-ClientProxiedBy: SG2PR02CA0135.apcprd02.prod.outlook.com
+ (2603:1096:4:188::23) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
 MIME-Version: 1.0
-References: <20260122194959.13457-2-rs@ti.com> <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
- <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com> <DFYTFOYS891P.2A5CKLOKP5KGI@ti.com>
- <117668c8-bc3b-46ea-9d2e-b205e3f2f827@windriver.com>
-In-Reply-To: <117668c8-bc3b-46ea-9d2e-b205e3f2f827@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 26 Jan 2026 22:12:40 -0800
-X-Gm-Features: AZwV_QjDE4QkJ4_AfuT7PU7gqcjIwuX8upC3Cm4WkfbdotNhRNXo7wu5l9OEwgM
-Message-ID: <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from TARGET_LDFLAGS
-To: changqing.li@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004f52d30649588450"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|PH3PPF25FF87461:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4bbc03ee-027e-414f-282f-08de5d821c97
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Ykk0MDFZZlAvUXo5NThVbnZmN2dQdXBqcEI1bmlEeWNzVUJhaWZZZEx4eFdW?=
+ =?utf-8?B?b050bHluYys1OHlPWHkxbTE2ankrOHRnQmMvUTN5Tlc5eGp3Y0c1bWRNcXhp?=
+ =?utf-8?B?ZWpMS0FZdHV0SmMwOWlCSnlxaWFhd2xNMUN4T1ZHemp1RElSTnp6RHVKTG14?=
+ =?utf-8?B?QlhYZ1FQZk1JekNlS3g1a081QXpZVU5sZ3p0VWhBblRWSUltVjJXNjliY29u?=
+ =?utf-8?B?d2pTRGVlR2o5cnRLNnRuZ2NpUHpJMUIwTlN2VjVtbkVqSDVHK24vVUxxa1Jn?=
+ =?utf-8?B?ZGtGNStJeHkzNExCRjI5OWtHYU9wV0U0cTIyTTFJWThrZDJjZGF4SU83NHd1?=
+ =?utf-8?B?UFZ6MTlhell3a09ueVlIVzFCK3l6aTdvalU4VGdTRmxmQU1sWk84ZGpNb3Yx?=
+ =?utf-8?B?Y25UcFg2ZWNranNlU2dNdVhBQUZEYnhZSGY3NGFNcSsrUms0cGVtbHlZZG8v?=
+ =?utf-8?B?VkhNNHZ4OStBY1Nqa0xtbXZCOGQxaytVZkphWDBYVGhXbHFmb1RLaE0wUitp?=
+ =?utf-8?B?cHEwUkhRS3B6YmVoWHBMYVljaHR4cGtSRzFydWYvanVvQkRCMlA4OGJkWkFN?=
+ =?utf-8?B?ZE8rQmg2ZnhIRmJuWE5KZUQ5Uk5Cek4yK3lhNEdnbmtqMXRnSHdFRDFneDI5?=
+ =?utf-8?B?R2ErNzcweHp0eUlCY0owejA3ZkpCNllNbGdKZWtkVVBnVDNObXMvNUZwY2Fo?=
+ =?utf-8?B?VEk2d016bEJBVmN0R0dpN3pEakZzbmF0TzE2dlJMR291cWxRamJnK0xNMlZY?=
+ =?utf-8?B?SUoxSTJBOWdzVjFncEY2UUpmTEZzamFyZjZQaXFtRUI5bmdWMkVhUjNtTkVL?=
+ =?utf-8?B?UURKbWRQUHF0OFhBY3VNZDAyRzg2QkxLL25JNHovNEtWQVoxWEdtRWVjbER0?=
+ =?utf-8?B?aWZ1YVE4WFVTeGNBdmx6VmdqZmFkZEFoWDIvK0kvaTdDUFRqZ1NaMUFGMlc1?=
+ =?utf-8?B?RmhJbE5BU2hRSEJ4aFU1MlVTdXVncDVQNnQzUlpJKzRYM2lzMTl3YWZ4OXcr?=
+ =?utf-8?B?aTFvd1BhWktyOE9PZmZFa0NHdVdDKzJEK3k0T2JXeE5jNk55V2owLzdUZDRZ?=
+ =?utf-8?B?bktaR3dFYVZVcTJxMFNVQ1p2L3FCS09xY09aOVJaTXZhcmpyR2UwVWMzRkNX?=
+ =?utf-8?B?dTNjeEczMzlBeVBBb290RmFHY0t1V2xjMC9tbk1KMWlWeGprREdxczVXT1Ny?=
+ =?utf-8?B?S3hlVXc4em5BTWtRNWFkb1RiUm5FZlNKWnVoNWlhbitEWU10MUxjdzZ3K05T?=
+ =?utf-8?B?cEV5Rm4xNnFBZjMrbEhBL2dYZ3RtdnhaVTJTcVJmQjhuZGk3KzdHaW5FOTVa?=
+ =?utf-8?B?ZWNVdDlLZTZpOEFHNnluSjZTSzBSL243c0p0bG5zRVd2elMyeHZ5dHVjVWhU?=
+ =?utf-8?B?WmhRdi9lZi9OcTcrRjFWU0pNbkp2R2Y5dE1sc3ZqUXQ4RmJaanBBOHExZjRv?=
+ =?utf-8?B?TGhKNUpTdXA3b1Q0WlF1VEhvY2g3SjRUSDBOUExpRFpNeitDVjVNdXZFcldR?=
+ =?utf-8?B?NG0rWEFwSHliT2Q1bkhEaytIbkI3Yk15cy9SdnRiSS9kZmIzZGlwZUVFbHlk?=
+ =?utf-8?B?Q3plbjF1SXdqMWVReXFuQ0dSMHplSGk0Mk5aM0V6TytkWHVrTkFhbWhSSnA0?=
+ =?utf-8?B?UGFLVW83VkdCTUh1SlNxSWpYUjBqczBBMDEwTDNrNzdoNzNDL2s0LzNid3BJ?=
+ =?utf-8?B?UVppcnZrODhpTXhvdkpHYU13R1RaL3VuemxyZ1dPVlJ6Y3M3V0I1NkUvRG04?=
+ =?utf-8?B?L01GSU5WUmFxZEJmcFZEU3BCU1hSR3BBay9vM2lvZk1MbzRCRjJsV01Iaktt?=
+ =?utf-8?B?L0x2Z0FsWlhKSER5c0lCUWZaZ2cvZDR2ZXVQV0E4blFKTWh1WllTQ0Zjb2I0?=
+ =?utf-8?B?Yk55TXpGRnZOVXU4RXZyU1E4WUNrMjNaMC83V0k5MFhGazkvRlFoNGlmZUZr?=
+ =?utf-8?B?R3hGeWZNTVdaYklnalJJYmV3Zk94Q3dLSXB1ZlRiZTBsemtpWVZxUjNhTjhm?=
+ =?utf-8?B?T0hSUmZxdWUrei93ZXB6ZlFjTVI3aXJDQ3dCZWJKYlNENTlCeXV1NmxFZ25C?=
+ =?utf-8?Q?BTAEVK?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RG5LT0l5UTZINmhNckt1YUFIeW85MUNMd0VGSU1rOW9uVlJOaFJuclRZc2hE?=
+ =?utf-8?B?bXc3djQvcmlPOG0xNVI5dkdySDNtdXh0MDJWV1dFMW9QUUNHM2N2S3Y0Z2E0?=
+ =?utf-8?B?NjRrMkR6RmJLbFFBWG9XaU1pdkQweUdTRnRxckZhbndWRndvTUM4WEwwVEEw?=
+ =?utf-8?B?cldienZYOWxNQ2pRZHZGWHN1MFgxcGxYcnFDZG1mV2FsbnFUS0hKUXlwRGVz?=
+ =?utf-8?B?NktxM2tDN3cvSXk2bHBoYStlZzdkUDhxaTcraDNaY2NvQW80ang0aUtNNEwz?=
+ =?utf-8?B?QzIwTU43d0ZNa3Y1em8wNjNiTitUT1ZMQ0ovckJrQjcxWGNjOURlbEdFMXp3?=
+ =?utf-8?B?dnJLWUVENXZkcjVIMWhMY3JyQ3pibkhONVIwbTRNSnZXNzY2ZTdOZjZuZXll?=
+ =?utf-8?B?Z2orbWhVTFE2UFlSek1POWdUUUQzeHZneURaenZnS1ZCV1JhVDlINTBzWDlj?=
+ =?utf-8?B?R3YxT2JyLzdVUnkwejd3L2h6aFFyT1RCT0VsWlU5WUdESkVHekpPUDhYOVFR?=
+ =?utf-8?B?Vm5DaXFZUzcza1RYK3ZBSkppTHhzYzNIZmVUTjk2TnRSYXo3MkxITU1vL2FR?=
+ =?utf-8?B?QWRLWlVUV1RTbTRWNElMZmlFSTdaV1pBNGRLakpNb2pzclYrcCtreVFRZGtl?=
+ =?utf-8?B?S29XTWxBd1FWeGRldk5tUW85S2E1OWVJOHpPZi9HYzlrY2pZZFFwVHJzUU5I?=
+ =?utf-8?B?eGhHaDc2MU9YU3NnNmp6U3FMWlJLSGh4ajQ4RkNSNHQyS0paMkhTdjBSQUVt?=
+ =?utf-8?B?M0I3eVkrVEJ0V2FjblU2QVc1enpuRk5LVG16N0R4OUM1VUgvVnRVaGtwV0hG?=
+ =?utf-8?B?OUJJQ3ZKT0I1OGRSQmcrWFA5QmcyMVBRZExacVJCUitZTHFFUXZ2OW9zemFS?=
+ =?utf-8?B?VUtjRFdDNlRETUp1N000RDcrNnppR0pXYnIvY3dURSsySmtJUVRSQTgrd2F6?=
+ =?utf-8?B?bWJoQlE1Q1N2RXhqaitVZmxPN254TThYR2JFS3kycnhVMVFqaHIveGE4a1Fp?=
+ =?utf-8?B?TjJXSDRTYjFob1MzaHZjb3ZtdTkrc2tkbTJpcStveU41RUNJeXVwTWFQYlVx?=
+ =?utf-8?B?T3J6Z2VTYm5IY2RyWUhRRTBqbWhyK2prYjBDeTB5NC9TREhjNjJOTWhKM0I5?=
+ =?utf-8?B?U01aMUJQN1VOb1crSnE0M0VEUXpwVDYwOGltZDRiT0liRGpLa3dOMHROVlNi?=
+ =?utf-8?B?S1o4dG9HSDFlOXRLb0RwQW9sNnUzc1AyYkZPeXE2TEhIUjQ4bnd3OTFlNlBt?=
+ =?utf-8?B?blVoZXcweXZEV0REblU0cnFMa2pkVHVMQmx2SHBjZklKMUtLbkZMcCtRSWcr?=
+ =?utf-8?B?TjRrYm9ob0tMcmQrVlNJK3M3NXZBR3V3OS9BVjhFUVZlaTFxQThvSmo4QXZk?=
+ =?utf-8?B?WERXZFo1UjBCVFNDcmRQaStTQkFNWEwzWVBBbm80YkV6SWswU2lSK2JNNXVP?=
+ =?utf-8?B?b0lUZ2JkOGNoUTA0Wk5hdG15THVDcU4zdDJLODAyNHZRT2loMnpXb1pjQytx?=
+ =?utf-8?B?K01TNFV3aGJOdjN3NFNUUTROZEY5MFk0RFNyejRFTHkwb0ZxZHpKdDZCV1I0?=
+ =?utf-8?B?T1dYd1lpWGpDUlAvTVN6bkxXL2lOck4vQ1lKaHRlVGJBKytpb1BINmhoajU4?=
+ =?utf-8?B?UFZJVFhnanJhSnJ6ZFlxWTdUQTFUbDhIc3ZKMHhHWDcwK3lTT0NZdE1LOUYw?=
+ =?utf-8?B?aXJSODF1WGJpaTNWTFYvV1hYMC9ncTlpRnFJNXlDbmlzVDh4S2VUeDFQRGUx?=
+ =?utf-8?B?d04xS2FUV0xYbHAxR3l5b0txbzFvcCtsMmRXMFF0RjBrZHVQUTZaelc0dEFs?=
+ =?utf-8?B?aGsyWkNQM1A0RjFJUi9VWjJwa2NjcisybnN3YjViTGt5YXBoMmtTdVMrNVNv?=
+ =?utf-8?B?blFkWFFNbmJuUURXVjB0ZDhPaFBtRlRRMlgxd1kzbDdlb012VWhBYjRYd0JC?=
+ =?utf-8?B?dXRyanRLOEcxL1pVT3lFUXRSTVVwV1lQWWxHQXVudFhHYW1vQTFQa1ROUk9x?=
+ =?utf-8?B?OXNRZTJIQUk4RXNHV0FUUXlsd1J6WGgvNzNaLzZMNHBSS3JGQUFWdzQvd1Ur?=
+ =?utf-8?B?ak8yN0hvVmIyeTRYMXdsYjFKSndycXQ4aE91V3ZlT1hLQytqMEw1VUQ2K0hW?=
+ =?utf-8?B?OCtJQUJITU91OUFydU5aK0J3OExMczN5bEFvRzR3YU82V1gyY0hQQU1oSE1u?=
+ =?utf-8?B?dnZkeEsrTGZiVlVvZVo2RXp2clZQSG02MWFQOXVXUVgvZXZCYmZmcFBFMmtP?=
+ =?utf-8?B?QUJuN0c5dU9tRzVVcmVsTGsrREdLRUF3WTJNWWFOUlEzVnpEekhLMFcvNkpL?=
+ =?utf-8?B?MU5NdHE2U01MT1ZNeGRkOE1tRFJiZHI2ekRXQ2taWlRvaW1mRGg0OUh5b3J1?=
+ =?utf-8?Q?SE7OA28hI5qR4ZEo=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bbc03ee-027e-414f-282f-08de5d821c97
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 08:57:34.2892
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y7pp1K+HeYCoC2yZdorJgFoh9vfzk4b56ntdXFXKwtwSSJ8p5S7hS4dDVcQ6aJkTPHmNJJ2Mfh5ImOrtHG/lFm75RbUZLRQ0L8a7rCjCZyM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF25FF87461
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDA3MiBTYWx0ZWRfX1hZn2Aio9Wi7
+ 74gTDDhBSo3BrOonfVh+Fu8ArBYd8koJysOfcozz9939hR4sPx8NikQYvzOY3pWVKANkf7nqYji
+ 5cyOrT/uTzonKK3YXeVrGv9Jpkmy6bcuDoWugNJQY01+FYmAIm7LK7xIvWIC8dW/MSEtw1M4Fe0
+ mvfYawfFLQNYFMnFuIh5GJTgzeed0INM8Nqeco26GLOnDnRjd/N5TB2vwyuXz5fKKJkdl/YvkJx
+ vRfiC7MdlNiuFm4CoiW3cFoGcAMbNafnyerIZYaPMbCHnw3p62Ix5yY1KNhmxagVDXNfFivLzg5
+ 5LtVgUjT1AwRauSVApjY26/WeY4c5lNQcC1urUDmEgpSylUZ7M7Pm9UQ34zrIyJ/2Ecl0WKKrmt
+ 1r3Sbodh0wximTDnB3/Xs2u0lyT5XejEPvW/mKjmh+hdn8RaXh0Bg/qxAspL5Kqv0/OJkGFqrSb
+ 6t0MnARHF25kkdpzurA==
+X-Proofpoint-GUID: 0Ma6W1fzBRY9gPXI1akCT0VLhqJc4mqy
+X-Authority-Analysis: v=2.4 cv=M6lA6iws c=1 sm=1 tr=0 ts=69787e01 cx=c_pps
+ a=O5ql0vl6PVxeYGQXc+vjrA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Q4-j1AaZAAAA:8 a=6eTBPnJexsyPmsKDtKUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=7CQSdrXTAAAA:8 a=LVVdaqqDU9W9cF4QaU8A:9 a=or0laQedkAdgD2GP:21
+ a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: DvHhvQR3urYi-5vfOwTSrnt2JZeC3UJY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-27_01,2026-01-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 malwarescore=0 phishscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601270072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 06:13:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230030
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 08:57:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230031
 
---0000000000004f52d30649588450
-Content-Type: text/plain; charset="UTF-8"
+--------------CTsUsyvVqG4on3pcs3ZhpdqD
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-
-I am seeing some additional diagnostics see
-
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5119153/raw_inlin=
-e
-
-I wonder if this is related.
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60R7Ygm2606164
 
 
-On Mon, Jan 26, 2026 at 6:50=E2=80=AFPM Changqing Li via lists.openembedded=
-.org <
-changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
-
->
-> On 1/27/26 04:50, Randolph Sapp via lists.openembedded.org wrote:
->
+On 1/26/26 21:01, Ross Burton wrote:
 > CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the content is safe.
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
 >
-> On Mon Jan 26, 2026 at 9:04 AM CST, Tony Battersby wrote:
+> On 16 Jan 2026, at 09:27, Changqing Li via lists.openembedded.org<chang=
+qing.li=3Dwindriver.com@lists.openembedded.org> wrote:
+>> +SRC_URI:append:libc-glibc =3D" file://run-ptest"
+> Keep things simple and just add this to SRC_URI, it won=E2=80=99t cause=
+ any problems in musl builds.
+OK
 >
-> On 1/26/26 03:39, Changqing Li wrote:
+>> +    DEJATOOL=3D$(make -C testsuite -s -f Makefile -f - <<'EOF'
+>> +all:
+>> + $(info $(DEJATOOL))
+>> +EOF
+>> +)
+> You can use makefile-getvar (oe-core/scripts) for this, and do it later.
+Corrected in V3,=C2=A0 this script is much better.
 >
-> On 1/23/26 03:50, Randolph Sapp via lists.openembedded.org wrote:
+>> +     rm -rf ${D}${PTEST_PATH}/testsuite/Makefile*
+>> +     rm -rf ${D}${PTEST_PATH}/testsuite/README
+>> +     find ${D}${PTEST_PATH}/testsuite/ -type f -name "*.o" -exec rm -=
+f {} +
+>> +     find ${D}${PTEST_PATH}/src/ -type f -name "*.o" -exec rm -f {} +
+> Might be easier to use makefile-getvar to get the list of tests and the=
+n install them directly, instead of copying * and then deleting files.
 >
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the content is safe.
+> Also find has a -delete option which is better than -exec rm.
 >
-> From: Randolph Sapp <rs@ti.com> <rs@ti.com>
->
-> Now that the previous bug affecting binary reproducibility has been
-> addressed [1], we can revert this patch. This will resolve issues with
-> cgo applications becoming unreprodcible.
->
-> Currently go considers link arguments to be sacred, meaning any change
-> should produce a different binary output. They ensure this by baking
-> link arguments into the intermediary output, changing the content ID of
-> that step. As such, the marco prefixes inadvertently end up adding build
-> paths to the output binary instead of removing them if they are passed
-> as link arguments to cgo applications.
->
-> These paths are later stripped out again, but at this point the content
-> ID of the dependency has changed and thus the build ID of the end
-> application will be affected by the cascade of hash changes. See the
-> upstream bug for more information [2].
->
-> This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
->
-> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473
-> [2] https://github.com/golang/go/issues/77218
->
-> Signed-off-by: Randolph Sapp <rs@ti.com> <rs@ti.com>
-> ---
->
-> This resolves the previously reported emptty issues:https://lists.openemb=
-edded.org/g/openembedded-core/message/228549
->
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 88f4d0df69..da873c3f4e 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D "${@['-Wl,--hash-style=3D=
-gnu',''][d.getVar('LINKER_HASH_ ASNEEDED ?=3D " <$%7B@['-Wl,--hash-style=3D=
-gnu',''][d.getVar('LINKER_HASH_ASNEEDED?=3D>-Wl,--as-needed"
->
->  export LDFLAGS =3D "${TARGET_LDFLAGS}"
-> -TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${DEBU=
-G_PREFIX_MAP}"
-> +TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
->
-> Hi,
->
-> After check the related gcc bug and yocto bug,  gcc bug comments 21
-> ([1])  and yocto bug comments 13 ([2]),
->
-> my understanding is that,  when lto is enabled,  even with gcc fix
-> [3],  we still need DEBUG_PREFIX_MAP in LDFLAGS
->
-> to make bin reproducible. Also seems Tony's commit [4] is after gcc
-> fix [3].
->
-> [1]  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473#c21
->
-> [2]  https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481#c13
->
-> [3]  https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc34a9ad500ae619c
->
-> [4] https://git.openembedded.org/openembedded-core/commit/?id=3Dfddaecc88=
-979967d0e00e2fafdbaaabec030da9f
->
->
-> @Tony, @Randolph, Could please correct me if my understanding is not
-> right, Thanks.
->
->
->
-> Yes, LDFLAGS needs DEBUG_PREFIX_MAP to make LTO builds reproducible,
-> unless something else has changed since 2021 to make it unnecessary. I
-> have not kept up with the issue.
->
-> Tony
->
-> I think there has been some change because I tested this locally with the=
- normal
-> reproducible builds selftest and no new packages were added to the failin=
-g list.
-> This included oe-core and some layers from meta-openembedded as well.
->
-> Got it,  if DEBUG_PREFIX_MAP is not needed any more,  I think remove DEBU=
-G_PREFIX_MAP
-> from LDFLAGS
->
-> is a good way to fix the issue.
->
-> The example code given in the report is fairly rudimentary, we should hav=
-e hit
-> the bug if it was still in effect across a majority of packages if my
-> understanding is correct.
->
-> I'm also curious to see what golang want's to do about this though. Bakin=
-g build
-> options into a binary seems a little silly, but I'm sure there was some u=
-nusual
-> behavior that led them to that point.
->
-> +1
->
-> //Changqing
->
-> As indicated on another thread, we could also just remove this string fro=
-m Go
-> packages LDFLAGS if that puts everyone at ease.
->
-> - Randolph
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230027):
-> https://lists.openembedded.org/g/openembedded-core/message/230027
-> Mute This Topic: https://lists.openembedded.org/mt/117408334/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+>> +     DEJATOOL=3D$(cat ${B}/testsuite/.dejatool)
+> Just use makefile-getvar here?
 
---0000000000004f52d30649588450
-Content-Type: text/html; charset="UTF-8"
+All changed to use makefile-getvar in V3, but for sources under=20
+${S}/testsuites still cp them all, but don't remove unless Makefile.am/in=
+,
+
+because we not only need to install something can be got by=20
+makefile-getvar, but also some config files/folder that only directly=20
+used by *.exp.
+
+>
+>> +     sed -i -e "s#@DEJATOOL@#$DEJATOOL#g" ${D}${PTEST_PATH}/run-ptest
+>> +     for p in $DEJATOOL; do
+>> +        if [ "$p" =3D "ps" ]; then
+>> +            install -d ${D}${PTEST_PATH}/src/ps
+>> +            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscomma=
+nd
+>> +        elif [ "$p" =3D "sysctl" ]; then
+>> +            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
+>> +        elif [ "$p" =3D "kill" ] || [ "$p" =3D "pidof" ] || [ "$p" =3D=
+ "watch" ]; then
+>> +            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
+>> +        else
+>> +            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
+>> +        fi
+>> +     done
+> Not sure I understand the point of iterating a list and then switching =
+off each item in the list. Why not just make all those symlinks without t=
+he loop and conditional?
+
+Because most of the DEJATOOL should match the else branch, but=20
+sysctl/kill/pidof/watch has different install path, not binddir, but=20
+base_sbindir/base_bindir.
+
+For ps, the ps.exp want to run "src/ps/pscommand", but not src/ps like=20
+other programs, so I need to make the link different with others.
+
+>
+>> +RDEPENDS:${PN}-ptest +=3D "dejagnu bash glibc-utils"
+> Have you verified that it _needs_ bash and we can=E2=80=99t send a litt=
+le patch to use sh?
+
+I added this since I met error that reminds this depends,=C2=A0 but it se=
+ems=20
+not need any more, maybe the depends has been removed during rework this=20
+patch.
+
+
+Thanks
+
+Changqing
+
+>
+> Ross
+--------------CTsUsyvVqG4on3pcs3ZhpdqD
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60R7Ygm2606164
 
-<div dir=3D"ltr"><div>I am seeing some additional diagnostics see</div><div=
-><br></div><div><a href=3D"https://autobuilder.yoctoproject.org/valkyrie/ap=
-i/v2/logs/5119153/raw_inline">https://autobuilder.yoctoproject.org/valkyrie=
-/api/v2/logs/5119153/raw_inline</a></div><div><br></div><div>I wonder if th=
-is is related.</div><div><br></div></div><br><div class=3D"gmail_quote gmai=
-l_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 26, 20=
-26 at 6:50=E2=80=AFPM Changqing Li via <a href=3D"http://lists.openembedded=
-.org">lists.openembedded.org</a> &lt;<a href=3D"http://changqing.li">changq=
-ing.li</a>=3D<a href=3D"mailto:windriver.com@lists.openembedded.org">windri=
-ver.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex"><u></u>
-
- =20
-  <div bgcolor=3D"#ffffff">
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#ffffff">
     <p><br>
     </p>
-    <div>On 1/27/26 04:50, Randolph Sapp via
-      <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.ope=
-nembedded.org</a> wrote:<br>
+    <div class=3D"moz-cite-prefix">On 1/26/26 21:01, Ross Burton wrote:<b=
+r>
     </div>
-    <blockquote type=3D"cite">
-      <pre>CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
+    <blockquote type=3D"cite" cite=3D"mid:48503D06-1C65-407A-8EE8-B2E5099=
+C797C@arm.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">CAUTION: This email comes fr=
+om a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
 
-On Mon Jan 26, 2026 at 9:04 AM CST, Tony Battersby wrote:
+On 16 Jan 2026, at 09:27, Changqing Li via lists.openembedded.org <a clas=
+s=3D"moz-txt-link-rfc2396E" href=3D"mailto:changqing.li=3Dwindriver.com@l=
+ists.openembedded.org">&lt;changqing.li=3Dwindriver.com@lists.openembedde=
+d.org&gt;</a> wrote:
 </pre>
       <blockquote type=3D"cite">
-        <pre>On 1/26/26 03:39, Changqing Li wrote:
-</pre>
-        <blockquote type=3D"cite">
-          <pre>On 1/23/26 03:50, Randolph Sapp via <a href=3D"http://lists.=
-openembedded.org" target=3D"_blank">lists.openembedded.org</a> wrote:
-</pre>
-          <blockquote type=3D"cite">
-            <pre>CAUTION: This email comes from a non Wind River email acco=
-unt!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
-
-From: Randolph Sapp <a href=3D"mailto:rs@ti.com" target=3D"_blank">&lt;rs@t=
-i.com&gt;</a>
-
-Now that the previous bug affecting binary reproducibility has been
-addressed [1], we can revert this patch. This will resolve issues with
-cgo applications becoming unreprodcible.
-
-Currently go considers link arguments to be sacred, meaning any change
-should produce a different binary output. They ensure this by baking
-link arguments into the intermediary output, changing the content ID of
-that step. As such, the marco prefixes inadvertently end up adding build
-paths to the output binary instead of removing them if they are passed
-as link arguments to cgo applications.
-
-These paths are later stripped out again, but at this point the content
-ID of the dependency has changed and thus the build ID of the end
-application will be affected by the cascade of hash changes. See the
-upstream bug for more information [2].
-
-This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
-
-[1] <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473" targe=
-t=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473</a>
-[2] <a href=3D"https://github.com/golang/go/issues/77218" target=3D"_blank"=
->https://github.com/golang/go/issues/77218</a>
-
-Signed-off-by: Randolph Sapp <a href=3D"mailto:rs@ti.com" target=3D"_blank"=
->&lt;rs@ti.com&gt;</a>
----
-
-This resolves the previously reported emptty issues:
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/22854=
-9" target=3D"_blank">https://lists.openembedded.org/g/openembedded-core/mes=
-sage/228549</a>
-
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 88f4d0df69..da873c3f4e 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D <a href=3D"mailto:$%7B@[&#3=
-9;-Wl,--hash-style=3Dgnu&#39;,&#39;&#39;][d.getVar(&#39;LINKER_HASH_ASNEEDE=
-D?=3D" target=3D"_blank">&quot;${@[&#39;-Wl,--hash-style=3Dgnu&#39;,&#39;&#=
-39;][d.getVar(&#39;LINKER_HASH_ ASNEEDED ?=3D &quot;</a>-Wl,--as-needed&quo=
-t;
-
- export LDFLAGS =3D &quot;${TARGET_LDFLAGS}&quot;
--TARGET_LDFLAGS =3D &quot;-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${D=
-EBUG_PREFIX_MAP}&quot;
-+TARGET_LDFLAGS =3D &quot;-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}&quo=
-t;
-</pre>
-          </blockquote>
-          <pre>Hi,
-
-After check the related gcc bug and yocto bug,  gcc bug comments 21
-([1])  and yocto bug comments 13 ([2]),
-
-my understanding is that,  when lto is enabled,  even with gcc fix
-[3],  we still need DEBUG_PREFIX_MAP in LDFLAGS
-
-to make bin reproducible. Also seems Tony&#39;s commit [4] is after gcc
-fix [3].
-
-[1]=C2=A0 <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473#=
-c21" target=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D10147=
-3#c21</a>
-
-[2]=C2=A0 <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14=
-481#c13" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bug.cgi?i=
-d=3D14481#c13</a>
-
-[3]=C2=A0 <a href=3D"https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc34a9ad5=
-00ae619c" target=3D"_blank">https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc=
-34a9ad500ae619c</a>
-
-[4]=C2=A0
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3Dfdda=
-ecc88979967d0e00e2fafdbaaabec030da9f" target=3D"_blank">https://git.openemb=
-edded.org/openembedded-core/commit/?id=3Dfddaecc88979967d0e00e2fafdbaaabec0=
-30da9f</a>
-
-
-@Tony, @Randolph, Could please correct me if my understanding is not
-right, Thanks.
-
-
-</pre>
-        </blockquote>
-        <pre>Yes, LDFLAGS needs DEBUG_PREFIX_MAP to make LTO builds reprodu=
-cible,
-unless something else has changed since 2021 to make it unnecessary. I
-have not kept up with the issue.
-
-Tony
+        <pre wrap=3D"" class=3D"moz-quote-pre">+SRC_URI:append:libc-glibc=
+ =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"file://run-ptest">&quot; =
+file://run-ptest&quot;</a>
 </pre>
       </blockquote>
-      <pre>I think there has been some change because I tested this locally=
- with the normal
-reproducible builds selftest and no new packages were added to the failing =
-list.
-This included oe-core and some layers from meta-openembedded as well.</pre>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+Keep things simple and just add this to SRC_URI, it won=E2=80=99t cause a=
+ny problems in musl builds.</pre>
     </blockquote>
-    <pre></pre>
-    <p>Got it,=C2=A0 if <span style=3D"white-space:pre-wrap">DEBUG_PREFIX_M=
-AP</span>
-      is not needed any more,=C2=A0 I think remove <span style=3D"white-spa=
-ce:pre-wrap">DEBUG_PREFIX_MAP from </span><span style=3D"white-space:pre-wr=
-ap">LDFLAGS </span></p>
-    <p><span style=3D"white-space:pre-wrap">is a good way to fix the issue.=
-  </span></p>
-    <blockquote type=3D"cite">
-      <pre>The example code given in the report is fairly rudimentary, we s=
-hould have hit
-the bug if it was still in effect across a majority of packages if my
-understanding is correct.
+    OK<br>
+    <blockquote type=3D"cite" cite=3D"mid:48503D06-1C65-407A-8EE8-B2E5099=
+C797C@arm.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
 
-I&#39;m also curious to see what golang want&#39;s to do about this though.=
- Baking build
-options into a binary seems a little silly, but I&#39;m sure there was some=
- unusual
-behavior that led them to that point.</pre>
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">+    DEJATOOL=3D$(make -C =
+testsuite -s -f Makefile -f - &lt;&lt;'EOF'
++all:
++ $(info $(DEJATOOL))
++EOF
++)
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+You can use makefile-getvar (oe-core/scripts) for this, and do it later.<=
+/pre>
     </blockquote>
-    <p>+1</p>
-    <p>//Changqing<br>
+    Corrected in V3,&nbsp; this script is much better.<br>
+    <blockquote type=3D"cite" cite=3D"mid:48503D06-1C65-407A-8EE8-B2E5099=
+C797C@arm.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">+     rm -rf ${D}${PTEST_P=
+ATH}/testsuite/Makefile*
++     rm -rf ${D}${PTEST_PATH}/testsuite/README
++     find ${D}${PTEST_PATH}/testsuite/ -type f -name &quot;*.o&quot; -ex=
+ec rm -f {} +
++     find ${D}${PTEST_PATH}/src/ -type f -name &quot;*.o&quot; -exec rm =
+-f {} +
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+Might be easier to use makefile-getvar to get the list of tests and then =
+install them directly, instead of copying * and then deleting files.
+
+Also find has a -delete option which is better than -exec rm.
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">+     DEJATOOL=3D$(cat ${B=
+}/testsuite/.dejatool)
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+Just use makefile-getvar here?</pre>
+    </blockquote>
+    <p>All changed to use <span style=3D"white-space: pre-wrap">makefile-=
+getvar in V3,  but for sources under ${S}/testsuites still cp them all,  =
+but don't remove unless Makefile.am/in,</span></p>
+    <p><span style=3D"white-space: pre-wrap">because we not only need to =
+install something can be got by </span><span style=3D"white-space: pre-wr=
+ap">makefile-getvar, but also some config files/folder that only directly=
+ used by *.exp.</span></p>
+    <blockquote type=3D"cite" cite=3D"mid:48503D06-1C65-407A-8EE8-B2E5099=
+C797C@arm.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">+     sed -i -e &quot;s#@D=
+EJATOOL@#$DEJATOOL#g&quot; ${D}${PTEST_PATH}/run-ptest
++     for p in $DEJATOOL; do
++        if [ &quot;$p&quot; =3D &quot;ps&quot; ]; then
++            install -d ${D}${PTEST_PATH}/src/ps
++            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscommand
++        elif [ &quot;$p&quot; =3D &quot;sysctl&quot; ]; then
++            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
++        elif [ &quot;$p&quot; =3D &quot;kill&quot; ] || [ &quot;$p&quot;=
+ =3D &quot;pidof&quot; ] || [ &quot;$p&quot; =3D &quot;watch&quot; ]; the=
+n
++            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
++        else
++            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
++        fi
++     done
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+Not sure I understand the point of iterating a list and then switching of=
+f each item in the list. Why not just make all those symlinks without the=
+ loop and conditional?</pre>
+    </blockquote>
+    <p>Because most of the <span style=3D"white-space: pre-wrap">DEJATOOL=
+ should match the else branch,  but sysctl/kill/pidof/watch has different=
+ install path, not binddir,  but  </span><span style=3D"white-space: pre-=
+wrap">base_sbindir/base_bindir.</span></p>
+    <p><span style=3D"white-space: pre-wrap">For ps,  the ps.exp want to =
+run &quot;src/</span><span style=3D"white-space: pre-wrap">ps/pscommand&q=
+uot;,   but not src/ps like other programs,  so I need to make the link d=
+ifferent with others.</span></p>
+    <blockquote type=3D"cite" cite=3D"mid:48503D06-1C65-407A-8EE8-B2E5099=
+C797C@arm.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">+RDEPENDS:${PN}-ptest +=3D=
+ &quot;dejagnu bash glibc-utils&quot;
+</pre>
+      </blockquote>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+Have you verified that it _needs_ bash and we can=E2=80=99t send a little=
+ patch to use sh?</pre>
+    </blockquote>
+    <p>I added this since I met error that reminds this depends,&nbsp; bu=
+t it
+      seems not need any more, maybe the depends has been removed during
+      rework this patch.</p>
+    <p><br>
     </p>
-    <blockquote type=3D"cite">
-      <pre>As indicated on another thread, we could also just remove this s=
-tring from Go
-packages LDFLAGS if that puts everyone at ease.
+    <p>Thanks</p>
+    <p>Changqing<br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:48503D06-1C65-407A-8EE8-B2E5099=
+C797C@arm.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
 
-- Randolph
+Ross
 </pre>
     </blockquote>
-    <blockquote type=3D"cite"><br>
-      <fieldset></fieldset>
-      <pre></pre>
-    </blockquote>
-  </div>
+  </body>
+</html>
 
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#230027): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/230027" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/230027</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117408334/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117408334/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---0000000000004f52d30649588450--
+--------------CTsUsyvVqG4on3pcs3ZhpdqD--
 
