@@ -1,423 +1,370 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBD29CA6CBF
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 09:20:47 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6618.1769505644920426164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02ED0C88E41
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 09:30:08 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6716.1769506200478168285
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 01:20:44 -0800
+ Tue, 27 Jan 2026 01:30:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=DuxL5nJJ;
- spf=pass (domain: konsulko.com, ip: 209.85.215.179, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c63555db09fso1084308a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 01:20:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769505644; cv=none;
+ dkim=pass header.i=@smile.fr header.s=google header.b=OTI37u4l;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso47257615e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 01:30:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769506199; cv=none;
         d=google.com; s=arc-20240605;
-        b=eb0RjOd/kdF8JpC50svLjALVm4vMIDDS9ErrD28tcWqccKA5h3Py4vi922jrphGUvG
-         2RPU4UBu5uUxoWM99NAl8Y5rGJkr5YIKQhuplJhvWfQ8zS9AM1ihp72nS/6iDeynzi7S
-         OdtvIxSuhJnHMrGO630Q5YpqH1W5zh8IbxXFZhbFJtuHxqzjcWFYUZEagw54aJeA/BCu
-         Bk1aijOI55FL9kAc0nZq/0M06FPbBwjsgTQ+njkT9zZIii2TPauhuoVWj/bhd+1H7FwP
-         mfNIaNbv4pITPeyEiZWRRI6Ruup4p2vDAaB5ACGamgMeBuMJdWkB+84gqPBfYwJMIoh7
-         UDag==
+        b=dCSDsJnsrfkP0nnWljQ7gJYI65mR/O7LT/EPyw4JF6UVUB1kY+FlKBMqHiN8WFPTkd
+         AktdaA1Hxt7bv7dgV0MGuVlwgMX0/UEiyQyJeWRtlfCXDLoebishrTtQvhb9Gz0nC1h1
+         VQGRFmRc1Dbe5kklrUylFPMFK4a1iM/6UX//H1LpNHyZgGaCfmyNJyAZtT/jXo0Wz81i
+         H9VmG8eaU4edK+bV3ZuEuBtK1ekeKX2w4tGeDSfeD3TigqWSW01Dw5tIISHK87oyhNQ/
+         a1oHzZBZPQBVPAdOwwYg4by9QaqGxTjdnEWdDbTNGwxtG0dvfxWdaSiKq/jLgiyPivrP
+         l8mQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=b06cSU7ZVKypajqpg7zIuUDdWR7ZXPayFE5C4A0cric=;
-        fh=zkxhuokCMv0Gi8jReSong71i+W1WYaJk421efuLdVxQ=;
-        b=XZPPWkRGpDO17H/at4iKQQFyHYk4yHlJKT4kHZM7bG5/GI2yPgUbRHKHS8HldCaCiS
-         vugtda5RJwoJRD8XiUAds8yrjh3BD3k1yg5js0VQ/Azc7J2vEujNTavjRqlr8Q+UPzv2
-         DkvyL0nkC4F9o23hEn0GUiY8Dai5Rz0ADFKd/7zCDK02LiakpKy00YzKb7Vjfs5nmFiM
-         dXSbj2H2N7Kz5ZGZ1WI8Yizt6NPg3IzZEIyEr2lxwE6aC3SbPqT/ZnqDrntDh9ryCQd9
-         dX7MgNqJGiaBcWNeED9ke6KYnm4VDar/2uuskg6p+bhnNd76s+ZDuJn/fdMN5Al7Hlea
-         eyJw==;
+        bh=TRA8oRF2fs+MwVqRMwN54SEIVA+Ad0NG2vp0wnqfTlA=;
+        fh=6mDpEM+He2vvuXQ6lfoW/2Qt2S91skgzebwT+C3hzE4=;
+        b=WXiw6tCRwJfr/NELCe0RYBxJYm5wujyfp2+YZ7pECY+g7VOnqnDHNQ+tISDh76ksAx
+         NIOpCfPcncdIvyogLim5bepkoc5ICfmuBvWVMSKEDPE7Yx8Q86uLF5sAhvPPpt1LLdEG
+         0KJiRiMfJJmPuWMzyMJnsrUBUuzgesp0AzktBLNubdcAxOEPaVyH1/8Tqekrv+03r1yu
+         7+5FRdkpvFTPmhm5VkyHi4IauGFCbnRUrfSITRpRJeKiQFRgpLPFv9xpeyn7tdyEtW9y
+         kpoCSOG4e4HHWGwFRTwW0Yg20VNMlzgNQ+gnWR++dzUUrUt3pDtXlvPxlC1IokR7oTc1
+         09YQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1769505644; x=1770110444; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1769506199; x=1770110999; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=b06cSU7ZVKypajqpg7zIuUDdWR7ZXPayFE5C4A0cric=;
-        b=DuxL5nJJrRr8HMl7NIM1d9zIA7d1adHDJR5TWIxztYI6rJuJQVutqnfqyOr/PESa2R
-         DgYKm4Oq4hW8TU0Y1AFCQS4zLvJ0wDXYfQyzAmmvlV0ESi8+n14ow7CyL1au8ABSFSZl
-         MkCGnuHdUDk2HeEgWZNoatkkZgam/+8UdtD6I=
+        bh=TRA8oRF2fs+MwVqRMwN54SEIVA+Ad0NG2vp0wnqfTlA=;
+        b=OTI37u4l0aHuTEVAiPEh3R74UwJvdyQQv6x7FdShiGh8oJe2cvztSF9CeJl2G+kSnI
+         1Xpw5suinskKewcFx2wqxdm5JqfKQYbfFXldKNYXn72uPAlFjOQxLhJ6RXoev4M4dTU/
+         Oy1bteDPsqiuRSszN+I6UDBNWiORNPyHMMJp0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769505644; x=1770110444;
+        d=1e100.net; s=20230601; t=1769506199; x=1770110999;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b06cSU7ZVKypajqpg7zIuUDdWR7ZXPayFE5C4A0cric=;
-        b=gHFPGWQzSqoL1evw4GFCm/w1XjeLfSfp5n/kTXe/wg9risSF3nSg+GJR6ENk9nfN09
-         JHl+fuS6sU64+PFbE1c6gulkGBU/Mt+aqci0bc0mwIpn6T3g2oUlZUJkR6FBwPKts8GU
-         P+uv/WNLB1Xsf7RPNHma5w3FtHJFRt4nM7GGhgCGGJOwsX+3YpEPLY4Y491keibcNloL
-         oakzOjafMif7hcBqqa5o5mo4H/FNRIseUHsteInP+c3EM4GNj4/sH3bU3bYX83BqGs1C
-         1vj8R/iysqzYlTnq/kpzw4R4dRsbghUoERrW7BIpwCLM3KebjKOPXpbl5Kuyb3r6ee/9
-         /Qdw==
-X-Gm-Message-State: AOJu0YwruEwAJJg4is3ihCsJwsjZB0EhttJLwl7i9O30okZcEvJ0rTsg
-	m3JsEJm6ukQ/J50P6MJW3dWmgfTIwcsNSE3yqkKz/Pfk75ZxNbA1Xy3wPs+/OuJ9sJMvHJdD5AZ
-	XVUbFe/Pw9DZJoIWJdQyuoXHE3IdmIk1IovfSbVN0GeRHZHqDu0PZyx5AgQ==
-X-Gm-Gg: AZuq6aI/byR1RLIOm9ktcBqrs/lg2/mnhzuG6zINDna5aeIRPaMG2Hk1WjILILmdBU3
-	YqyMkQJ8lk3ic+NANsni48WrfcWIcx7ipAVDIbODg5JnmgO0IPiHXwJL2f7hrNxuqKzpFnN6Ggh
-	fsYUQbnXrsf7uca3/E9tSf9mxx09AAlUbXP0o48A33bR5q1tiS9fMVxsNxUEC+86Mb030Dx1wwW
-	gVY8mPYn7sbYVIk70HoZP+nAvyjUFemnWuisfRrPtTcbQYjX5MwiWhfml87VUzNq6/kdg==
-X-Received: by 2002:a17:90b:3802:b0:343:3898:e7c9 with SMTP id
- 98e67ed59e1d1-353ff8b45a6mr927798a91.2.1769505644215; Tue, 27 Jan 2026
- 01:20:44 -0800 (PST)
+        bh=TRA8oRF2fs+MwVqRMwN54SEIVA+Ad0NG2vp0wnqfTlA=;
+        b=bgwYlOwv1JHGsjSpWmNyCB8BOC7Pj99a2/nCCQbtuxh/lUYZ4BGelnUtkUbwzwnufk
+         OavJtPayTwC/2q5Umbo9YMTPNcTc3wSm7ZjYJxuc56Y1c4a+jTF40rbOSfYTUB+53mXg
+         ELxIXVr//RPoL0G7W97wH2snqkaeWebpTeOpda10xYAnqb9nQYqt8ruDI9saLlyYkD55
+         B3khWCBsbRY2YkLEA241AJBhxRPcvRBPsDv6OPKsfD0j5++JHbXTOnwvQZVMJPJ3F+/q
+         rE96uud+ByygJ4DC1IW1C2l2qrcb0Oip8swQ3asKopxC3h6nr4vY/4Sa3lDPJ5cmFZkP
+         qiMg==
+X-Gm-Message-State: AOJu0YyFnqJ2vAjAiOyk37tzd94bGtXr39X+b0HTFQyHDdB3qwPEmJtK
+	N8UXtRMGexgqZ7fz582B3T7gEireetOmYoy2iKCTRhcFkR/Rp9OKNnwncmoVMQcnnyVyrjWPjpT
+	YvLwnxyfXfZCXZJ0MRhDFtZ5bqZCt/MHCpt0yDOH2Fw==
+X-Gm-Gg: AZuq6aJVt5XNZYtEjUEWVzwk9Um+LOh5OKl3bv3q86j0rb8aQ5gR9RTV46bokJwvwES
+	4PvLR0uZuvKtB+AATHHUn5SFKOytm56yZQQ7YuKb4urysCnCrhJA2w24g4HFxuXWPQE12aCiZRZ
+	CgztYxwaguCLolYh7H4cRXvoZguY8cjHFldOWD/hk8iSdL49dVfk4a8DTuwEKAX6hAR9gLem41p
+	BUia3jrRb+VDtgAu+qJ0SOOpVz5R1XS5ci2C7oKAH6l7WU/GVGHyXkQgXrg7KZ8OEMlVW3HuYLb
+	NNxLICCO731QZo1yxNavjtvEZSAEUGYKsuGqKg8=
+X-Received: by 2002:a05:600c:3e18:b0:480:1c1c:47d6 with SMTP id
+ 5b1f17b1804b1-48069e33b67mr10942095e9.6.1769506198647; Tue, 27 Jan 2026
+ 01:29:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20260123084336.3061764-1-leon.anavi@konsulko.com> <CA+chaQcjfc2w1Tt7L43VR4H=fV8NM9k8h8mNZwjPp3FejQr4ag@mail.gmail.com>
-In-Reply-To: <CA+chaQcjfc2w1Tt7L43VR4H=fV8NM9k8h8mNZwjPp3FejQr4ag@mail.gmail.com>
-From: Leon Anavi <leon.anavi@konsulko.com>
-Date: Tue, 27 Jan 2026 11:20:33 +0200
-X-Gm-Features: AZwV_QgDHN6s0pH8QzBbMQf-7nw86Q9nbLItu4YKV6vRly7hFVjr_pp8Si50YEY
-Message-ID: <CALtQ3O3BZwWd55xXNKoVNkYsHmvDHZQ2Didg=cO9v9WRPkb8CA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-pyzstd: Upgrade 0.17.0 -> 0.19.1
-To: Martin Jansa <martin.jansa@gmail.com>
+References: <20260127091608.598339-1-namanj1@kpit.com>
+In-Reply-To: <20260127091608.598339-1-namanj1@kpit.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Tue, 27 Jan 2026 10:29:32 +0100
+X-Gm-Features: AZwV_Qir7nSLs7F0FaRbreyIJ3YG4fN32NDy6NApYF3V1xaVNJi6rA3MOnyOOww
+Message-ID: <CAMSfU+5X8yphvKpggDiwAva9GNrkgPv23udRXqUhrSrJB6Yi9w@mail.gmail.com>
+Subject: Re: [OE-core] [meta][scarthgap][PATCH] libmd: add ptest for 'libmd'
+To: nmjain23@gmail.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005a0ce106495b23d2"
+Content-Type: multipart/alternative; boundary="000000000000660e5206495b4479"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 09:20:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230037
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 09:30:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230038
 
---0000000000005a0ce106495b23d2
+--000000000000660e5206495b4479
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Martin,
+Le mar. 27 janv. 2026 =C3=A0 10:16, Naman Jain via lists.openembedded.org
+<nmjain23=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
 
-On Fri, Jan 23, 2026 at 10:56=E2=80=AFAM Martin Jansa <martin.jansa@gmail.c=
-om>
-wrote:
-
-> Thanks, but this needs python3-backports-zstd to be imported from
-> meta-oe to fix the ptest as discussed in:
-> https://lists.openembedded.org/g/openembedded-core/message/228548
-> https://lists.openembedded.org/g/openembedded-core/message/229015
+> Adapt the compile 'test' phony target from Makefile and deploy as
+> ptest for libmd.
+> It takes less than 30seconds for ptest completion
 >
-> And if python3-backports-zstd is no longer needed with python-3.14 now
-> in oe-core, then you need to drop the whole
-> do_configure:append:arm:toolchain-clang.
+> Signed-off-by: Naman Jain <namanj1@kpit.com>
 >
 
-Thank you for the feedback. Yes, python3-backports-zstd is no longer needed
-with Python 3.14. I tested it manually at run-time on rpi5 and also ran
-ptest-runner. Based on your recommendation I
-dropped do_configure:append:arm:toolchain-clang and sent v2 of the patch.
+Hello,
 
-Btw on a separate topic: I haven't seen any remarks regarding my other
-patch from Friday for updating python3-wcwidth to 0.3.1 but it hasn't been
-picked up in master-next yet. Please let me know if any modifications are
-needed.
+This patch was also sent to master :
+https://lists.openembedded.org/g/openembedded-core/message/229867
+... but not merged yet.
 
-Best regards, Leon
+Can you please wait for it to be merged on master before resending the
+backport request?
+
+Thanks!
 
 
+---
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  meta/recipes-support/libmd/files/run-ptest    | 18 ++++++++++++++++
+>  meta/recipes-support/libmd/libmd_1.1.0.bb     | 21 +++++++++++++++++--
+>  3 files changed, 38 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-support/libmd/files/run-ptest
 >
-> Regards,
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> b/meta/conf/distro/include/ptest-packagelists.inc
+> index 9950e46776..784176f579 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -29,6 +29,7 @@ PTESTS_FAST =3D "\
+>      json-glib \
+>      libconvert-asn1-perl \
+>      libgpg-error\
+> +    libmd\
+>      libnl \
+>      libpcre \
+>      libssh2 \
+> diff --git a/meta/recipes-support/libmd/files/run-ptest
+> b/meta/recipes-support/libmd/files/run-ptest
+> new file mode 100644
+> index 0000000000..0c4a5f64ec
+> --- /dev/null
+> +++ b/meta/recipes-support/libmd/files/run-ptest
+> @@ -0,0 +1,18 @@
+> +#!/bin/sh
+> +
+> +cd test
+> +status =3D 0
+> +
+> +for testbin in *; do
+> +    if [ -x "$testbin" ] && [ ! -d "$testbin" ]; then
+> +        if "./$testbin"; then
+> +            echo "PASS: $testbin"
+> +        else
+> +            echo "FAIL: $testbin"
+> +            status=3D1
+> +        fi
+> +    fi
+> +done
+> +
+> +return $status
+> +
+> diff --git a/meta/recipes-support/libmd/libmd_1.1.0.bb
+> b/meta/recipes-support/libmd/libmd_1.1.0.bb
+> index dc588a0f95..ffc59deb26 100644
+> --- a/meta/recipes-support/libmd/libmd_1.1.0.bb
+> +++ b/meta/recipes-support/libmd/libmd_1.1.0.bb
+> @@ -8,9 +8,26 @@ HOMEPAGE =3D "https://www.hadrons.org/software/libmd/"
+>  LICENSE =3D "BSD-3-Clause & BSD-2-Clause"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0436d4fb62a71f661d6e8b7812f9e=
+1df"
 >
-> On Fri, Jan 23, 2026 at 9:43=E2=80=AFAM Leon Anavi via lists.openembedded=
-.org
-> <leon.anavi=3Dkonsulko.com@lists.openembedded.org> wrote:
-> >
-> > Upgrade to release 0.19.1:
-> >
-> > - Fix SeekableZstdFile write table entries on 32-bits architectures
-> >   when there is a huge number of entries
-> >
-> > From release 0.19.0:
-> >
-> > - The project has been completely refactored to use the Zstandard
-> >   implementation from the standard library (PEP-784)
-> > - The refactor has some minor impact on public APIs, such as
-> >   changing the exception raised on invalid input
-> > - Add backports.zstd dependency for Python before 3.14
-> > - Changes in build dependency: remove setuptools and C build
-> >   toolchain, add hatchling and hatch-vcs
-> > - Remove git submodule usage
-> > - Drop support for Python 3.9 and below
-> > - Use ruff as formatter and linter
-> > - Embed type hints in Python code, and check with mypy
-> >
-> > All ptests pass following python3 upgrade from 3.13.11 to 3.14.0.
-> >
-> > Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
-> > ---
-> >  ...emove-setuptools-version-limit-of-74.patch | 27 -------------------
-> >  ...std_0.17.0.bb =3D> python3-pyzstd_0.19.1.bb} |  7 ++---
-> >  2 files changed, 4 insertions(+), 30 deletions(-)
-> >  delete mode 100644
-> meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-versio=
-n-limit-of-74.patch
-> >  rename meta/recipes-devtools/python/{python3-pyzstd_0.17.0.bb =3D>
-> python3-pyzstd_0.19.1.bb} (73%)
-> >
-> > diff --git
-> a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-vers=
-ion-limit-of-74.patch
-> b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-vers=
-ion-limit-of-74.patch
-> > deleted file mode 100644
-> > index f2910322ff..0000000000
-> > ---
-> a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-vers=
-ion-limit-of-74.patch
-> > +++ /dev/null
-> > @@ -1,27 +0,0 @@
-> > -From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001
-> > -From: Khem Raj <raj.khem@gmail.com>
-> > -Date: Wed, 9 Apr 2025 14:38:31 -0700
-> > -Subject: [PATCH] Remove setuptools version limit of '74'
-> > -
-> > -Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
-> > -support beyond that which is needed for python 3.9 on windows. We
-> > -do not have this problem on Linux
-> > -
-> > -Upstream-Status: Inappropriate [OE-specific]
-> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ----
-> > - pyproject.toml | 2 +-
-> > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > -
-> > -diff --git a/pyproject.toml b/pyproject.toml
-> > -index dd885e4..5d4d511 100644
-> > ---- a/pyproject.toml
-> > -+++ b/pyproject.toml
-> > -@@ -1,6 +1,6 @@
-> > - [build-system]
-> > - # setuptools 64+ support --build-option
-> > - # setuptools 74+ drops distutils.msvc9compiler required for Python 3.=
-9
-> under Windows
-> > --requires =3D ["setuptools>=3D64,<74"]
-> > -+requires =3D ["setuptools>=3D64"]
-> > - backend-path =3D ["build_script"]
-> > - build-backend =3D "pyzstd_pep517"
-> > diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-> b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-> > similarity index 73%
-> > rename from meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-> > rename to meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-> > index af7069b6ed..a41c16682d 100644
-> > --- a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-> > +++ b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
-> > @@ -9,10 +9,11 @@ LIC_FILES_CHKSUM =3D
-> "file://LICENSE;md5=3Daedb5a2679cd1552fb61c181ef974b9e"
-> >
-> >  PYPI_PACKAGE =3D "pyzstd"
-> >
-> > -SRC_URI +=3D "file://0001-Remove-setuptools-version-limit-of-74.patch"
-> > -SRC_URI[sha256sum] =3D
-> "d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21b81764fa208c1db6"
-> > +SRC_URI[sha256sum] =3D
-> "36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d586937830a8afc7d72"
-> >
-> > -inherit pypi python_setuptools_build_meta ptest-python-pytest
-> > +inherit pypi python_hatchling ptest-python-pytest
-> > +
-> > +DEPENDS +=3D "python3-hatch-vcs-native"
-> >
-> >  # clang-16 with -flto segfaults on arm, therefore ignore flto for now
-> >  do_configure:append:arm:toolchain-clang() {
-> > --
-> > 2.47.3
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#229876):
-> https://lists.openembedded.org/g/openembedded-core/message/229876
-> > Mute This Topic: https://lists.openembedded.org/mt/117415035/3617156
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> martin.jansa@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> -SRC_URI =3D "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.=
+xz"
+> +SRC_URI =3D "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.=
+xz
+> \
+> +          file://run-ptest \
+> +"
+>  SRC_URI[sha256sum] =3D
+> "1bd6aa42275313af3141c7cf2e5b964e8b1fd488025caf2f971f43b00776b332"
+>
+> -inherit autotools
+> +inherit autotools ptest
+> +
+> +do_compile_ptest() {
+> +    sed -i "/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d" test/Makefile
+> +    oe_runmake check
+> +}
+> +
+> +
+> +do_install_ptest() {
+> +    install -d ${D}${PTEST_PATH}/test
+> +    for bin in ${B}/test/*; do
+> +        if [ -x "$bin" ]; then
+> +            ${B}/libtool --mode=3Dinstall install "$bin"
+> ${D}${PTEST_PATH}/test/$(basename "$bin")
+> +        fi
+> +    done
+> +}
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230035):
+> https://lists.openembedded.org/g/openembedded-core/message/230035
+> Mute This Topic: https://lists.openembedded.org/mt/117485645/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 >
 
---0000000000005a0ce106495b23d2
+--=20
+Yoann Congal
+Smile ECS
+
+--000000000000660e5206495b4479
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi=C2=A0Martin,</div><br><div class=3D"gmail_quote gm=
-ail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 23, =
-2026 at 10:56=E2=80=AFAM Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gm=
-ail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 27=
+ janv. 2026 =C3=A0=C2=A010:16, Naman Jain via <a href=3D"http://lists.opene=
+mbedded.org">lists.openembedded.org</a> &lt;nmjain23=3D<a href=3D"mailto:gm=
+ail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; a =
+=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">Adapt the compile &#39;test&#39; phony target from Makefile and deploy as=
+<br>
+ptest for libmd.<br>
+It takes less than 30seconds for ptest completion<br>
+<br>
+Signed-off-by: Naman Jain &lt;<a href=3D"mailto:namanj1@kpit.com" target=3D=
+"_blank">namanj1@kpit.com</a>&gt;<br></blockquote><div><br></div><div>Hello=
+,</div><div><br></div><div>This patch was also sent to master :=C2=A0<a hre=
+f=3D"https://lists.openembedded.org/g/openembedded-core/message/229867">htt=
+ps://lists.openembedded.org/g/openembedded-core/message/229867</a></div><di=
+v>... but not merged yet.</div><div><br></div><div>Can you please wait for =
+it to be merged on master before resending the backport request?</div><div>=
+<br></div><div>Thanks!</div><div><br></div><div><br></div><blockquote class=
 =3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Thanks, but this needs python3-backports-z=
-std to be imported from<br>
-meta-oe to fix the ptest as discussed in:<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/22854=
-8" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
-enembedded-core/message/228548</a><br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/22901=
-5" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
-enembedded-core/message/229015</a><br>
+b(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0.../distro/include/ptest-packagelists.inc=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+1 +<br>
+=C2=A0meta/recipes-support/libmd/files/run-ptest=C2=A0 =C2=A0 | 18 ++++++++=
+++++++++<br>
+=C2=A0meta/recipes-support/libmd/<a href=3D"http://libmd_1.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libmd_1.1.0.bb</a>=C2=A0 =C2=A0 =C2=A0| 21 +++=
+++++++++++++++--<br>
+=C2=A03 files changed, 38 insertions(+), 2 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-support/libmd/files/run-ptest<br>
 <br>
-And if python3-backports-zstd is no longer needed with python-3.14 now<br>
-in oe-core, then you need to drop the whole<br>
-do_configure:append:arm:toolchain-clang.<br></blockquote><div><br>Thank you=
- for the feedback. Yes, python3-backports-zstd is no longer needed with Pyt=
-hon 3.14. I tested it manually at run-time on rpi5 and also ran ptest-runne=
-r. Based on your recommendation I dropped=C2=A0do_configure:append:arm:tool=
-chain-clang and sent v2 of the patch.<br><br>Btw on a separate topic: I hav=
-en&#39;t seen any remarks regarding my other patch from Friday for updating=
- python3-wcwidth=C2=A0to 0.3.1 but it hasn&#39;t been picked up in master-n=
-ext yet. Please let me know if any modifications are needed.<br><br>Best re=
-gards, Leon</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-<br>
-Regards,<br>
-<br>
-On Fri, Jan 23, 2026 at 9:43=E2=80=AFAM Leon Anavi via <a href=3D"http://li=
-sts.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedd=
-ed.org</a><br>
-&lt;leon.anavi=3D<a href=3D"mailto:konsulko.com@lists.openembedded.org" tar=
-get=3D"_blank">konsulko.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Upgrade to release 0.19.1:<br>
-&gt;<br>
-&gt; - Fix SeekableZstdFile write table entries on 32-bits architectures<br=
->
-&gt;=C2=A0 =C2=A0when there is a huge number of entries<br>
-&gt;<br>
-&gt; From release 0.19.0:<br>
-&gt;<br>
-&gt; - The project has been completely refactored to use the Zstandard<br>
-&gt;=C2=A0 =C2=A0implementation from the standard library (PEP-784)<br>
-&gt; - The refactor has some minor impact on public APIs, such as<br>
-&gt;=C2=A0 =C2=A0changing the exception raised on invalid input<br>
-&gt; - Add backports.zstd dependency for Python before 3.14<br>
-&gt; - Changes in build dependency: remove setuptools and C build<br>
-&gt;=C2=A0 =C2=A0toolchain, add hatchling and hatch-vcs<br>
-&gt; - Remove git submodule usage<br>
-&gt; - Drop support for Python 3.9 and below<br>
-&gt; - Use ruff as formatter and linter<br>
-&gt; - Embed type hints in Python code, and check with mypy<br>
-&gt;<br>
-&gt; All ptests pass following python3 upgrade from 3.13.11 to 3.14.0.<br>
-&gt;<br>
-&gt; Signed-off-by: Leon Anavi &lt;<a href=3D"mailto:leon.anavi@konsulko.co=
-m" target=3D"_blank">leon.anavi@konsulko.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 ...emove-setuptools-version-limit-of-74.patch | 27 -------------=
-------<br>
-&gt;=C2=A0 ...<a href=3D"http://std_0.17.0.bb" rel=3D"noreferrer" target=3D=
-"_blank">std_0.17.0.bb</a> =3D&gt; <a href=3D"http://python3-pyzstd_0.19.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.19.1.bb</a>} |=C2=
-=A0 7 ++---<br>
-&gt;=C2=A0 2 files changed, 4 insertions(+), 30 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/python3-pyzstd/0=
-001-Remove-setuptools-version-limit-of-74.patch<br>
-&gt;=C2=A0 rename meta/recipes-devtools/python/{<a href=3D"http://python3-p=
-yzstd_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0=
-.bb</a> =3D&gt; <a href=3D"http://python3-pyzstd_0.19.1.bb" rel=3D"noreferr=
-er" target=3D"_blank">python3-pyzstd_0.19.1.bb</a>} (73%)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-s=
-etuptools-version-limit-of-74.patch b/meta/recipes-devtools/python/python3-=
-pyzstd/0001-Remove-setuptools-version-limit-of-74.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index f2910322ff..0000000000<br>
-&gt; --- a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptoo=
-ls-version-limit-of-74.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,27 +0,0 @@<br>
-&gt; -From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 200=
-1<br>
-&gt; -From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_b=
-lank">raj.khem@gmail.com</a>&gt;<br>
-&gt; -Date: Wed, 9 Apr 2025 14:38:31 -0700<br>
-&gt; -Subject: [PATCH] Remove setuptools version limit of &#39;74&#39;<br>
-&gt; -<br>
-&gt; -Upstream sticks to 0.74 since setuptools have dropped msvc9compiler<b=
-r>
-&gt; -support beyond that which is needed for python 3.9 on windows. We<br>
-&gt; -do not have this problem on Linux<br>
-&gt; -<br>
-&gt; -Upstream-Status: Inappropriate [OE-specific]<br>
-&gt; -Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
-get=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ----<br>
-&gt; - pyproject.toml | 2 +-<br>
-&gt; - 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; -<br>
-&gt; -diff --git a/pyproject.toml b/pyproject.toml<br>
-&gt; -index dd885e4..5d4d511 100644<br>
-&gt; ---- a/pyproject.toml<br>
-&gt; -+++ b/pyproject.toml<br>
-&gt; -@@ -1,6 +1,6 @@<br>
-&gt; - [build-system]<br>
-&gt; - # setuptools 64+ support --build-option<br>
-&gt; - # setuptools 74+ drops distutils.msvc9compiler required for Python 3=
-.9 under Windows<br>
-&gt; --requires =3D [&quot;setuptools&gt;=3D64,&lt;74&quot;]<br>
-&gt; -+requires =3D [&quot;setuptools&gt;=3D64&quot;]<br>
-&gt; - backend-path =3D [&quot;build_script&quot;]<br>
-&gt; - build-backend =3D &quot;pyzstd_pep517&quot;<br>
-&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-py=
-zstd_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0.=
-bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-pyzstd_0.19=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.19.1.bb</a><br=
->
-&gt; similarity index 73%<br>
-&gt; rename from meta/recipes-devtools/python/<a href=3D"http://python3-pyz=
-std_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0.b=
-b</a><br>
-&gt; rename to meta/recipes-devtools/python/<a href=3D"http://python3-pyzst=
-d_0.19.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.19.1.bb<=
-/a><br>
-&gt; index af7069b6ed..a41c16682d 100644<br>
-&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-pyzstd_0.=
-17.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0.bb</a><=
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc<br>
+index 9950e46776..784176f579 100644<br>
+--- a/meta/conf/distro/include/ptest-packagelists.inc<br>
++++ b/meta/conf/distro/include/ptest-packagelists.inc<br>
+@@ -29,6 +29,7 @@ PTESTS_FAST =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0json-glib \<br>
+=C2=A0 =C2=A0 =C2=A0libconvert-asn1-perl \<br>
+=C2=A0 =C2=A0 =C2=A0libgpg-error\<br>
++=C2=A0 =C2=A0 libmd\<br>
+=C2=A0 =C2=A0 =C2=A0libnl \<br>
+=C2=A0 =C2=A0 =C2=A0libpcre \<br>
+=C2=A0 =C2=A0 =C2=A0libssh2 \<br>
+diff --git a/meta/recipes-support/libmd/files/run-ptest b/meta/recipes-supp=
+ort/libmd/files/run-ptest<br>
+new file mode 100644<br>
+index 0000000000..0c4a5f64ec<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/libmd/files/run-ptest<br>
+@@ -0,0 +1,18 @@<br>
++#!/bin/sh<br>
++<br>
++cd test<br>
++status =3D 0<br>
++<br>
++for testbin in *; do<br>
++=C2=A0 =C2=A0 if [ -x &quot;$testbin&quot; ] &amp;&amp; [ ! -d &quot;$test=
+bin&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;./$testbin&quot;; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;PASS: $testbin&quot;<=
 br>
-&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pyzstd_0.=
-19.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.19.1.bb</a><=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;FAIL: $testbin&quot;<=
 br>
-&gt; @@ -9,10 +9,11 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Daedb=
-5a2679cd1552fb61c181ef974b9e&quot;<br>
-&gt;<br>
-&gt;=C2=A0 PYPI_PACKAGE =3D &quot;pyzstd&quot;<br>
-&gt;<br>
-&gt; -SRC_URI +=3D &quot;file://0001-Remove-setuptools-version-limit-of-74.=
-patch&quot;<br>
-&gt; -SRC_URI[sha256sum] =3D &quot;d84271f8baa66c419204c1dd115a4dec8b266f8a=
-2921da21b81764fa208c1db6&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;36723d3c915b3981de9198d0a2c82b2f5fe3eaa3=
-6e4d8d586937830a8afc7d72&quot;<br>
-&gt;<br>
-&gt; -inherit pypi python_setuptools_build_meta ptest-python-pytest<br>
-&gt; +inherit pypi python_hatchling ptest-python-pytest<br>
-&gt; +<br>
-&gt; +DEPENDS +=3D &quot;python3-hatch-vcs-native&quot;<br>
-&gt;<br>
-&gt;=C2=A0 # clang-16 with -flto segfaults on arm, therefore ignore flto fo=
-r now<br>
-&gt;=C2=A0 do_configure:append:arm:toolchain-clang() {<br>
-&gt; --<br>
-&gt; 2.47.3<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#229876): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/229876" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/229876</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11741503=
-5/3617156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/117415035/3617156</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:martin.jansa@gmail.co=
-m" target=3D"_blank">martin.jansa@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div></div>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status=3D1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++=C2=A0 =C2=A0 fi<br>
++done<br>
++<br>
++return $status<br>
++<br>
+diff --git a/meta/recipes-support/libmd/<a href=3D"http://libmd_1.1.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">libmd_1.1.0.bb</a> b/meta/recipes-suppo=
+rt/libmd/<a href=3D"http://libmd_1.1.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">libmd_1.1.0.bb</a><br>
+index dc588a0f95..ffc59deb26 100644<br>
+--- a/meta/recipes-support/libmd/<a href=3D"http://libmd_1.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libmd_1.1.0.bb</a><br>
++++ b/meta/recipes-support/libmd/<a href=3D"http://libmd_1.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libmd_1.1.0.bb</a><br>
+@@ -8,9 +8,26 @@ HOMEPAGE =3D &quot;<a href=3D"https://www.hadrons.org/soft=
+ware/libmd/" rel=3D"noreferrer" target=3D"_blank">https://www.hadrons.org/s=
+oftware/libmd/</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;BSD-3-Clause &amp; BSD-2-Clause&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D0436d4fb62a71f661d6e8=
+b7812f9e1df&quot;<br>
+<br>
+-SRC_URI =3D &quot;<a href=3D"https://archive.hadrons.org/software/libmd/li=
+bmd-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://archive.=
+hadrons.org/software/libmd/libmd-${PV}.tar.xz</a>&quot;<br>
++SRC_URI =3D &quot;<a href=3D"https://archive.hadrons.org/software/libmd/li=
+bmd-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://archive.=
+hadrons.org/software/libmd/libmd-${PV}.tar.xz</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
++&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;1bd6aa42275313af3141c7cf2e5b964e8b1fd488=
+025caf2f971f43b00776b332&quot;<br>
+<br>
+-inherit autotools<br>
++inherit autotools ptest<br>
++<br>
++do_compile_ptest() {<br>
++=C2=A0 =C2=A0 sed -i &quot;/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d&quot; =
+test/Makefile<br>
++=C2=A0 =C2=A0 oe_runmake check<br>
++}<br>
++<br>
++<br>
++do_install_ptest() {<br>
++=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/test<br>
++=C2=A0 =C2=A0 for bin in ${B}/test/*; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -x &quot;$bin&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${B}/libtool --mode=3Dinstall in=
+stall &quot;$bin&quot; ${D}${PTEST_PATH}/test/$(basename &quot;$bin&quot;)<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++=C2=A0 =C2=A0 done<br>
++}<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230035): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230035" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230035</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117485645/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117485645/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---0000000000005a0ce106495b23d2--
+--000000000000660e5206495b4479--
 
