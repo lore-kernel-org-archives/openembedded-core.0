@@ -1,432 +1,310 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B58D340A1
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 16:25:31 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15703.1769531130127277575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD17D340A2
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 16:31:21 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15880.1769531475682932889
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 08:25:30 -0800
+ Tue, 27 Jan 2026 08:31:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=zctzhQ07;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47ee2715254so30801235e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 08:25:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769531128; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TQlRSTxpLd866U4PenKXVB4ReJlIT/qZcgFVUQ394zP3iS3DVQDqApFP2KZTHWwzYN
-         NoaSiPdtAwqfEj1qkob5rAearOBiX+aj6Zhi3JHhJinIO4n60+kdIdErCbQJoHJKsbKD
-         c0xCwCPyFaSQ0oWhlIXaX0dWYmMNArJtK7Nuc17aFwgru4rPbKy/3gq7N65qbfXJYKiV
-         sp/nrYg9kVCgDl+w5Bb5AEDS+k47OG63wt2sH0WXnPep7p6DTmRrUKg9LMuJl5l9BNPD
-         iS+Rk5sgeWTL3/sVCEVNd/2hbXgx+jZVipyaMrentOYE8l3HCQh90NK0/cvwsPNS19sz
-         sEsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=x+K4BU/8z478VjYXj8lVXT8qCIdXrhfFCDO1tXoCchI=;
-        fh=hWZuxx5dUamW/oXfhUXdvxUCcvfzgO0pgIbw24g1Eb0=;
-        b=cHR3T5XYFMyUYw312zxyOACpoVO/4uo8etZsQ4iDp4Ir5SndnORKf5FEPjMhuzV3aS
-         LhdG67T25hXVMxHUjAZG4z+Noj4MUHJNLWv6Ttxp2HouU94gdLeBsoWHW6w0gjIFefxn
-         x/cRf6rCJz6LCQU0xjxTldYZqiTC73Il/yg5rokJzuLZ9ESfm8rlTH4J4+LB1jyfmIlO
-         FdMZD+NdxE1hd6TQ/CGCPGic6HMsOu/TlnZR4mjVoMAHHB03cUQbQoUGjHX2hg5nE7Lj
-         dwWh3yzM8vkFe/094Q1akgOF/2krPNvPsZCd2cM7iH8S5Dt8Nd0KyzA3eXe9gcdrjjd4
-         9p5w==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769531128; x=1770135928; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x+K4BU/8z478VjYXj8lVXT8qCIdXrhfFCDO1tXoCchI=;
-        b=zctzhQ075r8sTeRWOrX7NKM2iQuCChaHNPhsKjeydR4z0u77lcAM4mdo9XF7dbLW7m
-         lMI93aCgLUtPLGs5JDagoMMWpPXVDq5Vh8hzh54W7+aUHq1+Uy5sSCs4RdvcwjuegNf7
-         EOVLAgSmg+Vcb70BynC5t4Pk/WrHwQX+hYslg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769531128; x=1770135928;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x+K4BU/8z478VjYXj8lVXT8qCIdXrhfFCDO1tXoCchI=;
-        b=uU2t0Kxq20dGt9+bGcrPJPukUd2epfUSICAtfVUZU5jmNYtZwpUifr9S1mJef51RA+
-         9qadkjttchRjGzYgmubUMat6s8d4huL1K5bqLgnxTu5+74jWjgPKoNLBUmtc2o0qnNqi
-         bXHJwCdFZ5PJpmHUmiEJXwd7bwufooD8cKRqsisBcPPowbFLFo7vY8WDe10tavCuqP6f
-         5n8svs5sM/u94rlGgfyOeQfWhu+wTBwYcWfLzBsn+r2RF39NEbyHPd+B1yS7ssFr4edx
-         I+hLeeoIN0jc/rWqSikK/MIRfOrPCXyAdjUFS2tMIFTYTluGtidnxBwhI7dODIfKj6fs
-         3Vbw==
-X-Gm-Message-State: AOJu0Yw/phDDkV6TwaUaT6zCC6GYzK2EVMvF/sG/2wSY2Aqb0iDSw9JG
-	WeUdh/yf1vJBXTLd0iw/EkDUjUGNEIPJyfkssYXfo1mo6E1Uh023OBLLD9ZpUiqadNZde0pEt/m
-	vgxvJgIkcFPOG/QjBZgwKG12xwU8trcot1nMDnLPRnw==
-X-Gm-Gg: AZuq6aJC0aDfyXrZMW2FZOYJKDg1ZPkCfhIy57/NewyDHVm2EY2U0yClPTS4dDxqvC1
-	FA4QQcrJJmjQ/BTEvZW3ixLynHt8oB8zKxjVReZQK0Ce0Xvg3RAG69nKVRAso43l/7+OS+2pKUy
-	snG5sVjvfDZ+s4NivoFkPZUNBu24ByxD5FfaN68OMWStWpQBVB7wWQ5hr4/8JwRxXscdfG1CwMm
-	koPXetHnwdLRwXd+BuPoNaTbroqpjnpoEln+yCl6y/8K7aA9A2cayHKAOBwGHMYJPezPTF5bGvE
-	cgGyxt6EXjLBfjumctnTeat3rGB3
-X-Received: by 2002:a05:600c:450b:b0:477:76bf:e1fb with SMTP id
- 5b1f17b1804b1-48069c21c40mr32558495e9.16.1769531128131; Tue, 27 Jan 2026
- 08:25:28 -0800 (PST)
+ dkim=pass header.i=@ti.com header.s=selector1 header.b=M4htkKXb;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.48.30, mailfrom: rs@ti.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V8k/THbz3uVhRmOay6dKL7IrdcE9rBcZxCVXGTn1eb30Gtzz9cMpYFZ9Ehhvdm8P1X31kRPfnbQCtbnpLYwjeo9gDQ38W+EfG9dMtNA5ySfJjWZFHbrDG3bSizmdS6l9SZfnAua1tGTAavOv3MiYo+uvsEhDg4qQf38SBFgDEYhoH8Shmd23sm1Rw7g6Xn7dMBxrtYkPNn/TuDiYYXqgcnlISe5HTE/ZnD5YbLqdiOQuPmDfn5ScLMbQEphwrZoV0JB5Dk1pdcyD8l0MCImwR8iQ1DvcLsPtTN3XbK1du1kOZHsQtKdXwHWeAOaI/h/60kqENSKNhX96Wn1kUlzkUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MqGwvVGew8++9l5rFWTYAaG64uOD9r1pq/VYURDBH24=;
+ b=dfKZFfFTT1M0peW3xplD831IsU4OwZTY8uedxth353PuH3B6wof5RRSQXql8l5NA3aggBsZ3uvDwosLVMBNvUHo3+ZjE3wNkVw+zqd/3K0L9cPAxKjlgd0UaBFZLj07IuM4JGRYJ9JDaAucIITzmz4iSnRrTs6rYQ+XvPmR4XoZel0PsiQB3STtNzyjMFZXZOvdZMK+7w0pdO1VGrqRg2jBCRRE6tpT3PwIpkxFLR6Iw5rJZ+4H/RgZ6Wg46OQh0CTWDtQoLYYYFlQT9joYf1wlSNGitRrl4Z0qxM6AObUEYSUaJjVQI/7q+3Vi8Ya9HkK4T+Yb86opZq9SxMOSCmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MqGwvVGew8++9l5rFWTYAaG64uOD9r1pq/VYURDBH24=;
+ b=M4htkKXbdoAzzLCgKqluP+wUSAqRne1XB4IbSiqakvC/xrStczaSG84lFY1T30OrrPsHSFc/AQNDED3GbEhjb9zw4uVqb0SvsHmXdWUSO9e9A7efR5BN0wDKd/vTILx25qmgs4qqbbb1jhedxg5Rm4dC77Q/TrU9oqfnDxGOqJA=
+Received: from MN0P221CA0030.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:52a::13)
+ by DM3PR10MB7925.namprd10.prod.outlook.com (2603:10b6:0:46::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
+ 2026 16:31:10 +0000
+Received: from BL02EPF00021F6F.namprd02.prod.outlook.com
+ (2603:10b6:208:52a:cafe::ca) by MN0P221CA0030.outlook.office365.com
+ (2603:10b6:208:52a::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Tue,
+ 27 Jan 2026 16:31:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BL02EPF00021F6F.mail.protection.outlook.com (10.167.249.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 16:31:05 +0000
+Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
+ 2026 10:31:04 -0600
+Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
+ 2026 10:31:04 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 27 Jan 2026 10:31:04 -0600
+Received: from localhost ([10.249.33.183])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60RGV4t4804789;
+	Tue, 27 Jan 2026 10:31:04 -0600
 MIME-Version: 1.0
-References: <20260127145831.90764-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20260127145831.90764-1-adarsh.jagadish.kamini@est.tech>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Tue, 27 Jan 2026 17:25:02 +0100
-X-Gm-Features: AZwV_Qi0YrI9X_wRJHrAvpSNsd1nLiuKzVA4JjycSr1CItL2u5ClbtmzUXfHLHo
-Message-ID: <CAMSfU+7DNnktOowduOiJOwQrJA5CbMYAP87jNrHGLcPEL7foJQ@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] avahi: Backport fix for CVE-2025-68276
-To: adarsh.jagadish.kamini@est.tech
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004fd7d206496112c6"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 27 Jan 2026 10:31:04 -0600
+Message-ID: <DFZIJWAQTT0R.2QPUKVEBUL8K7@ti.com>
+From: Randolph Sapp <rs@ti.com>
+To: <raj.khem@gmail.com>, <changqing.li@windriver.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from
+ TARGET_LDFLAGS
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260122194959.13457-2-rs@ti.com>
+ <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
+ <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com>
+ <DFYTFOYS891P.2A5CKLOKP5KGI@ti.com>
+ <117668c8-bc3b-46ea-9d2e-b205e3f2f827@windriver.com>
+ <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6F:EE_|DM3PR10MB7925:EE_
+X-MS-Office365-Filtering-Correlation-Id: 483d2734-a73c-4878-5008-08de5dc1783a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024|7142099003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?MkxxZnMyTS9TT2V3RDlzSXptZWw5dkk4OGh0WHBlME1uNTBJRmc3VFZzTWdh?=
+ =?utf-8?B?VitYQ3h5N2lyU0pZRUxUM0tERyt2U1BjSUdSZ0FwamU4U3VPVEhFTmZ1ZHQz?=
+ =?utf-8?B?c05yemh3R0Mrck5mRXU2RGp0SFhORlF3dDNDTFRZQ1MzRyt0K3Y2Q3A0WnhM?=
+ =?utf-8?B?QTV4Vk9tNVBVc3huU1FOT0RNRzdlQmZYTysvZlN3c1ZVTWRmdTl1RDFBRzZJ?=
+ =?utf-8?B?TVN4NWdhT0RROUNRZDdiS0dGbGZmRDdMTkJvNEdmcW1DbnB0V2QwajFBaEF1?=
+ =?utf-8?B?SWV2bzJBSDNFYzJNVmJFbFNYeEdiTUdnandOSjdGWktOWGk4clBaT1cxelVL?=
+ =?utf-8?B?OFBRQURMWUJCNTdSSzFqUjRRWERVNzc2TlNkbGx4QzZpYldQeUpxR2M0dWc4?=
+ =?utf-8?B?ZlBtSGpmUzh4UmJyTCtyNDhGZFlzSlhPeUlRd0R4Wm5SQWZhRlBvR2lQUXVW?=
+ =?utf-8?B?UldYSTRuS0lFd1FGVUwvQ0tvZFUwamdha2xyeFM0YkdNbkVMOXk5M0ZzWVJy?=
+ =?utf-8?B?L0svMzhaVTErSTlIS3BBZ1RTTmVnZTl0bGlQdEtteHRQdTlTMjdxQmpldDlQ?=
+ =?utf-8?B?T1ZjMU1oZXY5VHJvLzFHdEpKL1ZvWDJ0SmZjSklnMEtmdWpmWmtHMlVXVVBL?=
+ =?utf-8?B?V2tFVXB3VnpkUFBGblExSGhmWFU2dVkxTGt1SnB0c21YWmdPdlN1VDJ1YXVK?=
+ =?utf-8?B?aUNOZWpnZmlBNklJSkhlQU9UeUVzQTN5MFkwK1d2R2laM2ZnODF5L2RTM2l2?=
+ =?utf-8?B?aFhYRXpoa3Y0QW1NWXB4dno0d0w1QnZoN0N4bHZrU29pYVJEYTdSMFJWTWll?=
+ =?utf-8?B?RmxnODFLbXJxRlIxck1pV1lra1JoZDJHR3R0WDJ3OUYwQzhqbnRKMzFHdGtT?=
+ =?utf-8?B?ZmIrV3BUOVFBektjT2x2YUxHQlM3aUFGQXBFWGxGemNFRkRiV3RzVVQ3c3A1?=
+ =?utf-8?B?Yy8zVCtUY25ndDBKeXprZWJjS0pZclNjSU5neUdNOHNyclZUWFRNeFcrMnJP?=
+ =?utf-8?B?NHFnUzhranVpOUcrUjhrajBYYUxEREE4STY0SkFlaCtvRXBqT24wb25oUEFw?=
+ =?utf-8?B?aWFMMkN3VWR6RnVhV09JdkcyQXpqeDhNTWhIeERoc0dFQks1WVVCWFRncGNs?=
+ =?utf-8?B?U2VQeUZINHYrQXlxSzAxWlFvV240c0lMa0gxZ0FHL2U5UERsam1FSkFCTDlJ?=
+ =?utf-8?B?TWxHaXdQVXE1cG1HZVZDeGNIZkVLKzdUZjRvK3VMZXgrbmRkZnJLSkYrakNj?=
+ =?utf-8?B?bW9PZnliUkZyc2hsZ1dudGNGd0lVTFB6bkM3RFN5T2hiL1NtOHYyZzVpZ2ZH?=
+ =?utf-8?B?b2N6R1BQTkcyaXJTUk9RcmZrT3YxVTdFcnF2OWNmMzNtdGpHTGRIa0xVY1dv?=
+ =?utf-8?B?Q2JuUHZCbHRXeUwzUzhpNVRibGlxbkxaeTBsTDFDR3dRRGNjdGlqQ09wOWMx?=
+ =?utf-8?B?eDViNmx6Tjl4Mll1dFBRcUNmZk5Wemt3S25Gd2swVDhvRmQ5dUdhQWpjeDJO?=
+ =?utf-8?B?UDVKbVlMKzkwNDJlQ1AzeVZ6SENDR2RNSmVRU1IreFhZSk5idHBoRUNGNlpD?=
+ =?utf-8?B?SWdpdFNaQ1NWbDNpaVpkZ3JLdEFnUVBpblhKQTJDWnkwa0tUdm5OYlNxWHZk?=
+ =?utf-8?B?LzlRcGZUc1ErM0d4TnR4QkRRT3lXSE0vbzYvcGhqSGc3VjFPTTJzUEpPNndN?=
+ =?utf-8?B?V1dyZkhIb08vVmJKWG5LdlNVN0J3Mk5DcmdieUduNXY4UERXeTVEbHJaWHRK?=
+ =?utf-8?B?QjZveklhTXpLZEtwYXc1QkNORmw4R2xLMWRWMWJwUkdLVFVFNjVNWFFubFNq?=
+ =?utf-8?B?WVU4T3pIUUhNZVVxSXgvVGJpU0JodEViUmQydy9ONW1wNEt5andqYUFOcGdZ?=
+ =?utf-8?B?QnkrdWdWYlFyc2g3QlBPc2dPVXdtOHUwMnZSK0FGdkJBTmNJUEdYMDZvV09h?=
+ =?utf-8?B?WFBXUnUzSEpvNE1hVmVzdC9oK2ljdVQxbEdTQXBFd0ttbDJKTGlwdWNiRFN3?=
+ =?utf-8?B?SG4ycmlSOG9BeWpUUzVIbzNoSUttbkdJeVI2dTJQVDFWTFdzU2pISzRGU1Va?=
+ =?utf-8?B?dkxDbmtVZFgxVkRUOU1oekhacVpxZ0k5NXNJaVN3TE9vMnd3N1pFQ0JjUGxG?=
+ =?utf-8?B?SXFGSUc0SlJ4NThCcTlSM3BsNFVPY0RLZ1lDTUVDVERFNTdxWVlxUVFLNFY2?=
+ =?utf-8?B?TlE9PQ==?=
+X-Forefront-Antispam-Report: 
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024)(7142099003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 16:31:05.9195
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 483d2734-a73c-4878-5008-08de5dc1783a
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	BL02EPF00021F6F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR10MB7925
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 16:25:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230055
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 16:31:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230056
 
---0000000000004fd7d206496112c6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mar. 27 janv. 2026 =C3=A0 15:58, adarsh.jagadish.kamini via
-lists.openembedded.org <adarsh.jagadish.kamini=3D
-est.tech@lists.openembedded.org> a =C3=A9crit :
-
-> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+On Tue Jan 27, 2026 at 12:12 AM CST, Khem Raj via lists.openembedded.org wr=
+ote:
+> I am seeing some additional diagnostics see
 >
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5119153/raw_inl=
+ine
 >
+> I wonder if this is related.
 
-Hello,
+Man, the mail clients are having fun with this thread.
 
-This fix was already sent a few days ago :
-[scarthgap][PATCH 1/2] avahi: patch CVE-2025-68276
-https://lists.openembedded.org/g/openembedded-core/message/229929
-Maybe you can help reviewing it?
+Yeah, I'm able to reproduce that issue locally now. Not sure why it's this
+package subset that's acting up, but it is directly related to the LDFLAGS
+change unfortunately.
 
-Thanks!
+If that bug is actually still in effect then this requires some change to g=
+olang
+to avoid baking cgo_ldflags into the binaries. Right now we can get away wi=
+th a
+go class specific LDFLAGS override if we want to, but that GCC bug may begi=
+n to
+affect go binary reproducibility in the future.
 
+- Randolph
 
-> ---
->  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
->  .../avahi/files/CVE-2025-68276.patch          | 68 +++++++++++++++++++
->  2 files changed, 69 insertions(+)
->  create mode 100644
-> meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
+> On Mon, Jan 26, 2026 at 6:50=E2=80=AFPM Changqing Li via lists.openembedd=
+ed.org <
+> changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> index 7930bd3037..bb20fd17cc 100644
-> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> @@ -37,6 +37,7 @@ SRC_URI =3D
-> "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
->             file://CVE-2023-38473.patch \
->             file://CVE-2024-52616.patch \
->             file://CVE-2024-52615.patch \
-> +           file://CVE-2025-68276.patch \
->             "
->
->  GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
-> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> new file mode 100644
-> index 0000000000..b3e11f9597
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> @@ -0,0 +1,68 @@
-> +From d5d18ced67e969d6a5052cacdbd7d4b2c97a1a3f Mon Sep 17 00:00:00 2001
-> +From: Evgeny Vereshchagin <evvers@ya.ru>
-> +Date: Wed, 17 Dec 2025 08:11:23 +0000
-> +Subject: [PATCH] core: refuse to create wide-area record browsers when
-> + wide-area is off
-> +
-> +It fixes a bug where it was possible for unprivileged local users to
-> +crash avahi-daemon (with wide-area disabled) by creating record browsers
-> +with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by callin=
-g
-> +the RecordBrowserNew method directly or by creating
-> hostname/address/service
-> +resolvers/browsers that create those browsers internally themselves).
-> +
-> +```
-> +$ gdbus call --system --dest org.freedesktop.Avahi --object-path /
-> --method org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -=
-1 1
-> +Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipient
-> disconnected from message bus without replying
-> +```
-> +```
-> +dbus-protocol.c: interface=3Dorg.freedesktop.Avahi.Server, path=3D/,
-> member=3DResolveHostName
-> +avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `e'
-> failed.
-> +=3D=3D307948=3D=3D
-> +=3D=3D307948=3D=3D Process terminating with default action of signal 6 (=
-SIGABRT)
-> +=3D=3D307948=3D=3D    at 0x4B3630C: __pthread_kill_implementation
-> (pthread_kill.c:44)
-> +=3D=3D307948=3D=3D    by 0x4ADF921: raise (raise.c:26)
-> +=3D=3D307948=3D=3D    by 0x4AC74AB: abort (abort.c:77)
-> +=3D=3D307948=3D=3D    by 0x4AC741F: __assert_fail_base.cold (assert.c:11=
-8)
-> +=3D=3D307948=3D=3D    by 0x48D8B85: avahi_wide_area_scan_cache (wide-are=
-a.c:725)
-> +=3D=3D307948=3D=3D    by 0x48C8953: lookup_scan_cache (browse.c:351)
-> +=3D=3D307948=3D=3D    by 0x48C8B1B: lookup_go (browse.c:386)
-> +=3D=3D307948=3D=3D    by 0x48C9148: defer_callback (browse.c:516)
-> +=3D=3D307948=3D=3D    by 0x48AEA0E: expiration_event (timeeventq.c:94)
-> +=3D=3D307948=3D=3D    by 0x489D3AE: timeout_callback (simple-watch.c:447=
-)
-> +=3D=3D307948=3D=3D    by 0x489D787: avahi_simple_poll_dispatch
-> (simple-watch.c:563)
-> +=3D=3D307948=3D=3D    by 0x489D91E: avahi_simple_poll_iterate (simple-wa=
-tch.c:605)
-> +=3D=3D307948=3D=3D
-> +```
-> +
-> +wide-area has been disabled by default since
-> +9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).
-> +
-> +https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-865v-g5rc
-> +
-> +CVE: CVE-2025-68276
-> +Upstream-Status: Backport [
-> https://github.com/avahi/avahi/pull/806/commits/0c013e2e819be3bda74cecf48=
-b5f64956cf8a760
-> ]
-> +
-> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> +---
-> + avahi-core/browse.c | 5 +++++
-> + 1 file changed, 5 insertions(+)
-> +
-> +diff --git a/avahi-core/browse.c b/avahi-core/browse.c
-> +index e8a915e..59d53cb 100644
-> +--- a/avahi-core/browse.c
-> ++++ b/avahi-core/browse.c
-> +@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepare=
-(
-> +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_VALID(flags,
-> AVAHI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST),
-> AVAHI_ERR_INVALID_FLAGS);
-> +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags &
-> AVAHI_LOOKUP_USE_WIDE_AREA) || !(flags & AVAHI_LOOKUP_USE_MULTICAST),
-> AVAHI_ERR_INVALID_FLAGS);
-> +
-> ++    if ((flags & AVAHI_LOOKUP_USE_WIDE_AREA) &&
-> !server->wide_area_lookup_engine) {
-> ++        avahi_server_set_errno(server, AVAHI_ERR_NOT_SUPPORTED);
-> ++        return NULL;
-> ++    }
-> ++
-> +     if (!(b =3D avahi_new(AvahiSRecordBrowser, 1))) {
-> +         avahi_server_set_errno(server, AVAHI_ERR_NO_MEMORY);
-> +         return NULL;
-> +--
-> +2.34.1
-> +
-> --
-> 2.44.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230050):
-> https://lists.openembedded.org/g/openembedded-core/message/230050
-> Mute This Topic: https://lists.openembedded.org/mt/117489381/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+>>
+>> On 1/27/26 04:50, Randolph Sapp via lists.openembedded.org wrote:
+>>
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender a=
+nd know the content is safe.
+>>
+>> On Mon Jan 26, 2026 at 9:04 AM CST, Tony Battersby wrote:
+>>
+>> On 1/26/26 03:39, Changqing Li wrote:
+>>
+>> On 1/23/26 03:50, Randolph Sapp via lists.openembedded.org wrote:
+>>
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender a=
+nd know the content is safe.
+>>
+>> From: Randolph Sapp <rs@ti.com> <rs@ti.com>
+>>
+>> Now that the previous bug affecting binary reproducibility has been
+>> addressed [1], we can revert this patch. This will resolve issues with
+>> cgo applications becoming unreprodcible.
+>>
+>> Currently go considers link arguments to be sacred, meaning any change
+>> should produce a different binary output. They ensure this by baking
+>> link arguments into the intermediary output, changing the content ID of
+>> that step. As such, the marco prefixes inadvertently end up adding build
+>> paths to the output binary instead of removing them if they are passed
+>> as link arguments to cgo applications.
+>>
+>> These paths are later stripped out again, but at this point the content
+>> ID of the dependency has changed and thus the build ID of the end
+>> application will be affected by the cascade of hash changes. See the
+>> upstream bug for more information [2].
+>>
+>> This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
+>>
+>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473
+>> [2] https://github.com/golang/go/issues/77218
+>>
+>> Signed-off-by: Randolph Sapp <rs@ti.com> <rs@ti.com>
+>> ---
+>>
+>> This resolves the previously reported emptty issues:https://lists.openem=
+bedded.org/g/openembedded-core/message/228549
+>>
+>>  meta/conf/bitbake.conf | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 88f4d0df69..da873c3f4e 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D "${@['-Wl,--hash-style=
+=3Dgnu',''][d.getVar('LINKER_HASH_ ASNEEDED ?=3D " <$%7B@['-Wl,--hash-style=
+=3Dgnu',''][d.getVar('LINKER_HASH_ASNEEDED?=3D>-Wl,--as-needed"
+>>
+>>  export LDFLAGS =3D "${TARGET_LDFLAGS}"
+>> -TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${DEB=
+UG_PREFIX_MAP}"
+>> +TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
+>>
+>> Hi,
+>>
+>> After check the related gcc bug and yocto bug,  gcc bug comments 21
+>> ([1])  and yocto bug comments 13 ([2]),
+>>
+>> my understanding is that,  when lto is enabled,  even with gcc fix
+>> [3],  we still need DEBUG_PREFIX_MAP in LDFLAGS
+>>
+>> to make bin reproducible. Also seems Tony's commit [4] is after gcc
+>> fix [3].
+>>
+>> [1]  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473#c21
+>>
+>> [2]  https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481#c13
+>>
+>> [3]  https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc34a9ad500ae619c
+>>
+>> [4] https://git.openembedded.org/openembedded-core/commit/?id=3Dfddaecc8=
+8979967d0e00e2fafdbaaabec030da9f
+>>
+>>
+>> @Tony, @Randolph, Could please correct me if my understanding is not
+>> right, Thanks.
+>>
+>>
+>>
+>> Yes, LDFLAGS needs DEBUG_PREFIX_MAP to make LTO builds reproducible,
+>> unless something else has changed since 2021 to make it unnecessary. I
+>> have not kept up with the issue.
+>>
+>> Tony
+>>
+>> I think there has been some change because I tested this locally with th=
+e normal
+>> reproducible builds selftest and no new packages were added to the faili=
+ng list.
+>> This included oe-core and some layers from meta-openembedded as well.
+>>
+>> Got it,  if DEBUG_PREFIX_MAP is not needed any more,  I think remove DEB=
+UG_PREFIX_MAP
+>> from LDFLAGS
+>>
+>> is a good way to fix the issue.
+>>
+>> The example code given in the report is fairly rudimentary, we should ha=
+ve hit
+>> the bug if it was still in effect across a majority of packages if my
+>> understanding is correct.
+>>
+>> I'm also curious to see what golang want's to do about this though. Baki=
+ng build
+>> options into a binary seems a little silly, but I'm sure there was some =
+unusual
+>> behavior that led them to that point.
+>>
+>> +1
+>>
+>> //Changqing
+>>
+>> As indicated on another thread, we could also just remove this string fr=
+om Go
+>> packages LDFLAGS if that puts everyone at ease.
+>>
+>> - Randolph
+>>
+>>
+>>
+>>=20
+>>
+>>
 
---=20
-Yoann Congal
-Smile ECS
-
---0000000000004fd7d206496112c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0mar. 27 janv. 2026 =C3=A0=C2=A015=
-:58, adarsh.jagadish.kamini via <a href=3D"http://lists.openembedded.org">l=
-ists.openembedded.org</a> &lt;adarsh.jagadish.kamini=3D<a href=3D"mailto:es=
-t.tech@lists.openembedded.org">est.tech@lists.openembedded.org</a>&gt; a =
-=C3=A9crit=C2=A0:</div><div class=3D"gmail_quote gmail_quote_container"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">From: Adarsh Jagadish Kamini=
- &lt;adarsh.jagadish.kamini@est.tech&gt;<br>
-<br>
-Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&g=
-t;<br></blockquote><div><br></div><div>Hello,</div><div><br></div><div>This=
- fix was already sent a few days ago :</div><div>[scarthgap][PATCH 1/2] ava=
-hi: patch CVE-2025-68276<br><a href=3D"https://lists.openembedded.org/g/ope=
-nembedded-core/message/229929">https://lists.openembedded.org/g/openembedde=
-d-core/message/229929</a></div><div>Maybe you can help reviewing it?</div><=
-div><br></div><div>Thanks!</div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
----<br>
-=C2=A0meta/recipes-connectivity/avahi/<a href=3D"http://avahi_0.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">avahi_0.8.bb</a>=C2=A0 |=C2=A0 1 +<br>
-=C2=A0.../avahi/files/CVE-2025-68276.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 68 +++++++++++++++++++<br>
-=C2=A02 files changed, 69 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-682=
-76.patch<br>
-<br>
-diff --git a/meta/recipes-connectivity/avahi/<a href=3D"http://avahi_0.8.bb=
-" rel=3D"noreferrer" target=3D"_blank">avahi_0.8.bb</a> b/meta/recipes-conn=
-ectivity/avahi/<a href=3D"http://avahi_0.8.bb" rel=3D"noreferrer" target=3D=
-"_blank">avahi_0.8.bb</a><br>
-index 7930bd3037..bb20fd17cc 100644<br>
---- a/meta/recipes-connectivity/avahi/<a href=3D"http://avahi_0.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">avahi_0.8.bb</a><br>
-+++ b/meta/recipes-connectivity/avahi/<a href=3D"http://avahi_0.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">avahi_0.8.bb</a><br>
-@@ -37,6 +37,7 @@ SRC_URI =3D &quot;${GITHUB_BASE_URI}/download/v${PV}/avah=
-i-${PV}.tar.gz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-38473.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2024-52616.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2024-52615.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-68276.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0GITHUB_BASE_URI =3D &quot;<a href=3D"https://github.com/avahi/avahi/r=
-eleases/" rel=3D"noreferrer" target=3D"_blank">https://github.com/avahi/ava=
-hi/releases/</a>&quot;<br>
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch b/m=
-eta/recipes-connectivity/avahi/files/CVE-2025-68276.patch<br>
-new file mode 100644<br>
-index 0000000000..b3e11f9597<br>
---- /dev/null<br>
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch<br>
-@@ -0,0 +1,68 @@<br>
-+From d5d18ced67e969d6a5052cacdbd7d4b2c97a1a3f Mon Sep 17 00:00:00 2001<br>
-+From: Evgeny Vereshchagin &lt;<a href=3D"mailto:evvers@ya.ru" target=3D"_b=
-lank">evvers@ya.ru</a>&gt;<br>
-+Date: Wed, 17 Dec 2025 08:11:23 +0000<br>
-+Subject: [PATCH] core: refuse to create wide-area record browsers when<br>
-+ wide-area is off<br>
-+<br>
-+It fixes a bug where it was possible for unprivileged local users to<br>
-+crash avahi-daemon (with wide-area disabled) by creating record browsers<b=
-r>
-+with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by calling<=
-br>
-+the RecordBrowserNew method directly or by creating hostname/address/servi=
-ce<br>
-+resolvers/browsers that create those browsers internally themselves).<br>
-+<br>
-+```<br>
-+$ gdbus call --system --dest org.freedesktop.Avahi --object-path / --metho=
-d org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -1 1<br>
-+Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipient d=
-isconnected from message bus without replying<br>
-+```<br>
-+```<br>
-+dbus-protocol.c: interface=3Dorg.freedesktop.Avahi.Server, path=3D/, membe=
-r=3DResolveHostName<br>
-+avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `e&#3=
-9; failed.<br>
-+=3D=3D307948=3D=3D<br>
-+=3D=3D307948=3D=3D Process terminating with default action of signal 6 (SI=
-GABRT)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 at 0x4B3630C: __pthread_kill_implementatio=
-n (pthread_kill.c:44)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x4ADF921: raise (raise.c:26)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x4AC74AB: abort (abort.c:77)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x4AC741F: __assert_fail_base.cold (ass=
-ert.c:118)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x48D8B85: avahi_wide_area_scan_cache (=
-wide-area.c:725)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x48C8953: lookup_scan_cache (browse.c:=
-351)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x48C8B1B: lookup_go (browse.c:386)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x48C9148: defer_callback (browse.c:516=
-)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x48AEA0E: expiration_event (timeeventq=
-.c:94)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x489D3AE: timeout_callback (simple-wat=
-ch.c:447)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x489D787: avahi_simple_poll_dispatch (=
-simple-watch.c:563)<br>
-+=3D=3D307948=3D=3D=C2=A0 =C2=A0 by 0x489D91E: avahi_simple_poll_iterate (s=
-imple-watch.c:605)<br>
-+=3D=3D307948=3D=3D<br>
-+```<br>
-+<br>
-+wide-area has been disabled by default since<br>
-+9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).<br>
-+<br>
-+<a href=3D"https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-86=
-5v-g5rc" rel=3D"noreferrer" target=3D"_blank">https://github.com/avahi/avah=
-i/security/advisories/GHSA-mhf3-865v-g5rc</a><br>
-+<br>
-+CVE: CVE-2025-68276<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/avahi/avahi/pull/=
-806/commits/0c013e2e819be3bda74cecf48b5f64956cf8a760" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://github.com/avahi/avahi/pull/806/commits/0c013e2e819=
-be3bda74cecf48b5f64956cf8a760</a>]<br>
-+<br>
-+Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&=
-gt;<br>
-+---<br>
-+ avahi-core/browse.c | 5 +++++<br>
-+ 1 file changed, 5 insertions(+)<br>
-+<br>
-+diff --git a/avahi-core/browse.c b/avahi-core/browse.c<br>
-+index e8a915e..59d53cb 100644<br>
-+--- a/avahi-core/browse.c<br>
-++++ b/avahi-core/browse.c<br>
-+@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepare(<=
-br>
-+=C2=A0 =C2=A0 =C2=A0AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_V=
-ALID(flags, AVAHI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST), AVAHI_E=
-RR_INVALID_FLAGS);<br>
-+=C2=A0 =C2=A0 =C2=A0AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags &amp;=
- AVAHI_LOOKUP_USE_WIDE_AREA) || !(flags &amp; AVAHI_LOOKUP_USE_MULTICAST), =
-AVAHI_ERR_INVALID_FLAGS);<br>
-+ <br>
-++=C2=A0 =C2=A0 if ((flags &amp; AVAHI_LOOKUP_USE_WIDE_AREA) &amp;&amp; !se=
-rver-&gt;wide_area_lookup_engine) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 avahi_server_set_errno(server, AVAHI_ERR_NOT_=
-SUPPORTED);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-++=C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0if (!(b =3D avahi_new(AvahiSRecordBrowser, 1))) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0avahi_server_set_errno(server, AVAHI_ERR=
-_NO_MEMORY);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-+-- <br>
-+2.34.1<br>
-+<br>
--- <br>
-2.44.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#230050): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/230050" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/230050</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117489381/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117489381/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---0000000000004fd7d206496112c6--
 
