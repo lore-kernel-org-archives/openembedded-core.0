@@ -1,310 +1,317 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD17D340A2
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 16:31:21 +0000 (UTC)
-Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15880.1769531475682932889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B2EFD340B6
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 16:44:31 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16303.1769532263525075571
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 08:31:16 -0800
+ Tue, 27 Jan 2026 08:44:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=M4htkKXb;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.48.30, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V8k/THbz3uVhRmOay6dKL7IrdcE9rBcZxCVXGTn1eb30Gtzz9cMpYFZ9Ehhvdm8P1X31kRPfnbQCtbnpLYwjeo9gDQ38W+EfG9dMtNA5ySfJjWZFHbrDG3bSizmdS6l9SZfnAua1tGTAavOv3MiYo+uvsEhDg4qQf38SBFgDEYhoH8Shmd23sm1Rw7g6Xn7dMBxrtYkPNn/TuDiYYXqgcnlISe5HTE/ZnD5YbLqdiOQuPmDfn5ScLMbQEphwrZoV0JB5Dk1pdcyD8l0MCImwR8iQ1DvcLsPtTN3XbK1du1kOZHsQtKdXwHWeAOaI/h/60kqENSKNhX96Wn1kUlzkUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MqGwvVGew8++9l5rFWTYAaG64uOD9r1pq/VYURDBH24=;
- b=dfKZFfFTT1M0peW3xplD831IsU4OwZTY8uedxth353PuH3B6wof5RRSQXql8l5NA3aggBsZ3uvDwosLVMBNvUHo3+ZjE3wNkVw+zqd/3K0L9cPAxKjlgd0UaBFZLj07IuM4JGRYJ9JDaAucIITzmz4iSnRrTs6rYQ+XvPmR4XoZel0PsiQB3STtNzyjMFZXZOvdZMK+7w0pdO1VGrqRg2jBCRRE6tpT3PwIpkxFLR6Iw5rJZ+4H/RgZ6Wg46OQh0CTWDtQoLYYYFlQT9joYf1wlSNGitRrl4Z0qxM6AObUEYSUaJjVQI/7q+3Vi8Ya9HkK4T+Yb86opZq9SxMOSCmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MqGwvVGew8++9l5rFWTYAaG64uOD9r1pq/VYURDBH24=;
- b=M4htkKXbdoAzzLCgKqluP+wUSAqRne1XB4IbSiqakvC/xrStczaSG84lFY1T30OrrPsHSFc/AQNDED3GbEhjb9zw4uVqb0SvsHmXdWUSO9e9A7efR5BN0wDKd/vTILx25qmgs4qqbbb1jhedxg5Rm4dC77Q/TrU9oqfnDxGOqJA=
-Received: from MN0P221CA0030.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:52a::13)
- by DM3PR10MB7925.namprd10.prod.outlook.com (2603:10b6:0:46::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 16:31:10 +0000
-Received: from BL02EPF00021F6F.namprd02.prod.outlook.com
- (2603:10b6:208:52a:cafe::ca) by MN0P221CA0030.outlook.office365.com
- (2603:10b6:208:52a::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Tue,
- 27 Jan 2026 16:31:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BL02EPF00021F6F.mail.protection.outlook.com (10.167.249.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 16:31:05 +0000
-Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
- 2026 10:31:04 -0600
-Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
- 2026 10:31:04 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 27 Jan 2026 10:31:04 -0600
-Received: from localhost ([10.249.33.183])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60RGV4t4804789;
-	Tue, 27 Jan 2026 10:31:04 -0600
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=O5wrvXtS;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7947072d0f6so16078277b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 08:44:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769532262; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Npl6f/33giZSQzRTA09VG9UwTAedjEsI7yOF7ps14BjIZ96XMVcIdPRCzgIssDk9qy
+         58CxeqDN3YSAtHUbFoqf453ZYifFv/vUPwaUicDPCCvqmZQzkUu/B8t9CgJPUc+HSYnP
+         HPaIWLLzaxFRXpTLXfC19jNLtAVwuvSzzTOTGPCLvUHsVp9g/yVi2XN2YXGlkwKZuTRc
+         sgtU0SBlWOFjnjXQ5niaEc1s9Sq1oyNAN+L5J+HxRhSE5zKjDMoqER4KMuxTFLINvGNn
+         i7x/gtTu3BTQEH4iPHhnRrE0sxyzQmPqzl63GZmVbOzjx4oBkbmEFLbHyUV02S7idmTR
+         PRsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=E8Ip4nNjVlffWHmG8ayu2OdVekA/tAZIRuvh0Os24+w=;
+        fh=zcX3bZ/T0LOvS6nphuex0OH2KQxjIIsAJwAEKDVS3CM=;
+        b=VRE1z+sfKOaXPHtonibZhsZCFPkZRl4tTvaFYjGGS4XhEnppbLOD+Y1YyYvc0YkqUJ
+         yvmcpUbIL8+vzaIMEECBHwqhY8LD5x0C509QI7VCfNsnC0Ovyq679OUrqWXJfJ2iCck4
+         En+OI+UaAbhFR/VEFKXiCUx+oDJ8LNWZQrA2HakymyDy1RhiCSP+Mjdxy9SqKljawpbq
+         Zwjbu6pER3WXeZLKAHLOrx/TmJi3Iv95I92f42KQQP8oZwtpm9PjfVtrrASPeIGW5yoG
+         aoKekFtBtG0tExgx/a1VwS6qYVrVKqd6ZyDzHRz0MwHay7C9Uf56qnP1+Zb4lHEMjDyr
+         gN6A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769532262; x=1770137062; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=E8Ip4nNjVlffWHmG8ayu2OdVekA/tAZIRuvh0Os24+w=;
+        b=O5wrvXtSTllxQgF5UYFWJiAvH5KZcGdyR54Y9IQdr2SSXcb0pXs0JqdQWefuAHApWX
+         UEBq30NaY6WXmrUMGftZev7UC9qGQB/An3PDzRn6uxd9JzGBLg0a0j4cKPAQSjUFsQ8N
+         ssnyCxPZrjJTcdv07S4MbZB7miwvR6mp2+FK9AdKV2XMS0xChnMAwqpOAr2ytjXy+SXO
+         4T4wDMSVl6bpleDjFjlJ0Ust6tyXvJua3+prbHmRci8tp5wyVjeDEpP3GkJahUEqx1m8
+         zeiOB62d8SXj4ZC8k/4pzeTKUDDaMuFGKTJpBdTQHeOJdHWh0+jHHmMeZ1BqclyiyUl+
+         DKOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769532262; x=1770137062;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E8Ip4nNjVlffWHmG8ayu2OdVekA/tAZIRuvh0Os24+w=;
+        b=Mk+64kWtwooI4Y1fLP61ugv4mqWcfo2FueU1+V5AJPmH+XR64FrJdtdHtiY/xDa6LS
+         Dv6aC3psO5uH5AVV/ogJGqWEJ55DiQ0UvTksWFxeqNVfI2d1ra73yMrDBj1xdGJtPBws
+         AUpCkFKC1kZKOhW7TPVqPI5VD4IgfedaA6t2fnpw/skklkKWGxksuPyF+TE3dWJ7ReE2
+         nCF1zjGS+zATZwnjCFbsAvzkRJvCAD6146sMBlG1Wu05jhU6tMyqHgsn1RsHYO939KWS
+         7933KWaH13MQs33tdqc28qAKzfJXHOb9AtFJY9WAYbSDw7FhxseJeDGJanNiwBJU0Gsn
+         xaVg==
+X-Gm-Message-State: AOJu0Yx0H20/5pM3alK63BDNtNOC5GiJUJNXTAtdQElP0+GfkEjcSChI
+	a5+3doUpvmW6sdy/1wAtPSrGQGSxHItNA1lebpwYsVFmaiYW3SfLVYTHSxmcX3Y0gzTVyDHfque
+	VPLE3UhBIRJdwsycAb6nTiIWYTx3+knw=
+X-Gm-Gg: AZuq6aJtLkXahGQP4vNLkQhC2DZzRh5cSA7Ze5A/0Ap2JwO0xMya/v62JkJGF0Pu8Wf
+	CjPuNgny/el3JE9y7a/dGOgRmwTi7fwvmQ8vY/WKIBqkGjP9+rA8CIYCd9D9B2vUI/sGZtLpKQC
+	6Vfgn6UXzOE3unSd3PVNQPeku6eEtprlA8khNNPEB6HgVtvmPaS/ABSNIa+BYiXYLNNqdy+y7/5
+	UG2i1OZyMX6SolwbStdkVe3ZXk7gKEcreF3WXBRqFubW3h/CSk/LUt3AFt39oNyvmN7W5XRTof2
+	ZcynCEj/yRHs/ud9tDNT0QvvnC+H8M9o0JNTNJpRAibCTreJNnS6ZIxVodVwqoYcODAkaCQf20x
+	2zkKN9lj8id1ctXBqTXlJYEbtbr7mpN72i2YxKzjkCgmbuH3Aa9qR1pjN
+X-Received: by 2002:a05:690c:34c9:b0:794:7ca5:6599 with SMTP id
+ 00721157ae682-7947ca57409mr13574607b3.17.1769532262260; Tue, 27 Jan 2026
+ 08:44:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Tue, 27 Jan 2026 10:31:04 -0600
-Message-ID: <DFZIJWAQTT0R.2QPUKVEBUL8K7@ti.com>
-From: Randolph Sapp <rs@ti.com>
-To: <raj.khem@gmail.com>, <changqing.li@windriver.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from
- TARGET_LDFLAGS
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260122194959.13457-2-rs@ti.com>
- <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
- <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com>
- <DFYTFOYS891P.2A5CKLOKP5KGI@ti.com>
- <117668c8-bc3b-46ea-9d2e-b205e3f2f827@windriver.com>
- <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6F:EE_|DM3PR10MB7925:EE_
-X-MS-Office365-Filtering-Correlation-Id: 483d2734-a73c-4878-5008-08de5dc1783a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024|7142099003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?MkxxZnMyTS9TT2V3RDlzSXptZWw5dkk4OGh0WHBlME1uNTBJRmc3VFZzTWdh?=
- =?utf-8?B?VitYQ3h5N2lyU0pZRUxUM0tERyt2U1BjSUdSZ0FwamU4U3VPVEhFTmZ1ZHQz?=
- =?utf-8?B?c05yemh3R0Mrck5mRXU2RGp0SFhORlF3dDNDTFRZQ1MzRyt0K3Y2Q3A0WnhM?=
- =?utf-8?B?QTV4Vk9tNVBVc3huU1FOT0RNRzdlQmZYTysvZlN3c1ZVTWRmdTl1RDFBRzZJ?=
- =?utf-8?B?TVN4NWdhT0RROUNRZDdiS0dGbGZmRDdMTkJvNEdmcW1DbnB0V2QwajFBaEF1?=
- =?utf-8?B?SWV2bzJBSDNFYzJNVmJFbFNYeEdiTUdnandOSjdGWktOWGk4clBaT1cxelVL?=
- =?utf-8?B?OFBRQURMWUJCNTdSSzFqUjRRWERVNzc2TlNkbGx4QzZpYldQeUpxR2M0dWc4?=
- =?utf-8?B?ZlBtSGpmUzh4UmJyTCtyNDhGZFlzSlhPeUlRd0R4Wm5SQWZhRlBvR2lQUXVW?=
- =?utf-8?B?UldYSTRuS0lFd1FGVUwvQ0tvZFUwamdha2xyeFM0YkdNbkVMOXk5M0ZzWVJy?=
- =?utf-8?B?L0svMzhaVTErSTlIS3BBZ1RTTmVnZTl0bGlQdEtteHRQdTlTMjdxQmpldDlQ?=
- =?utf-8?B?T1ZjMU1oZXY5VHJvLzFHdEpKL1ZvWDJ0SmZjSklnMEtmdWpmWmtHMlVXVVBL?=
- =?utf-8?B?V2tFVXB3VnpkUFBGblExSGhmWFU2dVkxTGt1SnB0c21YWmdPdlN1VDJ1YXVK?=
- =?utf-8?B?aUNOZWpnZmlBNklJSkhlQU9UeUVzQTN5MFkwK1d2R2laM2ZnODF5L2RTM2l2?=
- =?utf-8?B?aFhYRXpoa3Y0QW1NWXB4dno0d0w1QnZoN0N4bHZrU29pYVJEYTdSMFJWTWll?=
- =?utf-8?B?RmxnODFLbXJxRlIxck1pV1lra1JoZDJHR3R0WDJ3OUYwQzhqbnRKMzFHdGtT?=
- =?utf-8?B?ZmIrV3BUOVFBektjT2x2YUxHQlM3aUFGQXBFWGxGemNFRkRiV3RzVVQ3c3A1?=
- =?utf-8?B?Yy8zVCtUY25ndDBKeXprZWJjS0pZclNjSU5neUdNOHNyclZUWFRNeFcrMnJP?=
- =?utf-8?B?NHFnUzhranVpOUcrUjhrajBYYUxEREE4STY0SkFlaCtvRXBqT24wb25oUEFw?=
- =?utf-8?B?aWFMMkN3VWR6RnVhV09JdkcyQXpqeDhNTWhIeERoc0dFQks1WVVCWFRncGNs?=
- =?utf-8?B?U2VQeUZINHYrQXlxSzAxWlFvV240c0lMa0gxZ0FHL2U5UERsam1FSkFCTDlJ?=
- =?utf-8?B?TWxHaXdQVXE1cG1HZVZDeGNIZkVLKzdUZjRvK3VMZXgrbmRkZnJLSkYrakNj?=
- =?utf-8?B?bW9PZnliUkZyc2hsZ1dudGNGd0lVTFB6bkM3RFN5T2hiL1NtOHYyZzVpZ2ZH?=
- =?utf-8?B?b2N6R1BQTkcyaXJTUk9RcmZrT3YxVTdFcnF2OWNmMzNtdGpHTGRIa0xVY1dv?=
- =?utf-8?B?Q2JuUHZCbHRXeUwzUzhpNVRibGlxbkxaeTBsTDFDR3dRRGNjdGlqQ09wOWMx?=
- =?utf-8?B?eDViNmx6Tjl4Mll1dFBRcUNmZk5Wemt3S25Gd2swVDhvRmQ5dUdhQWpjeDJO?=
- =?utf-8?B?UDVKbVlMKzkwNDJlQ1AzeVZ6SENDR2RNSmVRU1IreFhZSk5idHBoRUNGNlpD?=
- =?utf-8?B?SWdpdFNaQ1NWbDNpaVpkZ3JLdEFnUVBpblhKQTJDWnkwa0tUdm5OYlNxWHZk?=
- =?utf-8?B?LzlRcGZUc1ErM0d4TnR4QkRRT3lXSE0vbzYvcGhqSGc3VjFPTTJzUEpPNndN?=
- =?utf-8?B?V1dyZkhIb08vVmJKWG5LdlNVN0J3Mk5DcmdieUduNXY4UERXeTVEbHJaWHRK?=
- =?utf-8?B?QjZveklhTXpLZEtwYXc1QkNORmw4R2xLMWRWMWJwUkdLVFVFNjVNWFFubFNq?=
- =?utf-8?B?WVU4T3pIUUhNZVVxSXgvVGJpU0JodEViUmQydy9ONW1wNEt5andqYUFOcGdZ?=
- =?utf-8?B?QnkrdWdWYlFyc2g3QlBPc2dPVXdtOHUwMnZSK0FGdkJBTmNJUEdYMDZvV09h?=
- =?utf-8?B?WFBXUnUzSEpvNE1hVmVzdC9oK2ljdVQxbEdTQXBFd0ttbDJKTGlwdWNiRFN3?=
- =?utf-8?B?SG4ycmlSOG9BeWpUUzVIbzNoSUttbkdJeVI2dTJQVDFWTFdzU2pISzRGU1Va?=
- =?utf-8?B?dkxDbmtVZFgxVkRUOU1oekhacVpxZ0k5NXNJaVN3TE9vMnd3N1pFQ0JjUGxG?=
- =?utf-8?B?SXFGSUc0SlJ4NThCcTlSM3BsNFVPY0RLZ1lDTUVDVERFNTdxWVlxUVFLNFY2?=
- =?utf-8?B?TlE9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024)(7142099003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 16:31:05.9195
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 483d2734-a73c-4878-5008-08de5dc1783a
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BL02EPF00021F6F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR10MB7925
+References: <20260127151526.788157-1-yi.zhao@windriver.com>
+In-Reply-To: <20260127151526.788157-1-yi.zhao@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 27 Jan 2026 08:43:55 -0800
+X-Gm-Features: AZwV_QgG7xUuzJHcu1qqW9yIFbWiMLqYMegTs7zVPLxGETbMnz3AGAKjEdJ5Cg4
+Message-ID: <CAMKF1sqJzqxU7MwazMApp3WK2+rj3n_Zx+yA0E3ykeMwWGYAzQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2 v4] blueprint-compiler: add recipe
+To: yi.zhao@eng.windriver.com
+Cc: openembedded-core@lists.openembedded.org, liuyd.fnst@fujitsu.com
+Content-Type: multipart/alternative; boundary="000000000000e925360649615558"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 16:31:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230056
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 16:44:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230057
 
-On Tue Jan 27, 2026 at 12:12 AM CST, Khem Raj via lists.openembedded.org wr=
-ote:
-> I am seeing some additional diagnostics see
+--000000000000e925360649615558
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+There is 0.19.0 upgrade posted for meta-gnome, please bring that upgrade
+here as well.
+
+On Tue, Jan 27, 2026 at 7:15=E2=80=AFAM Yi Zhao via lists.openembedded.org =
+<yi.zhao=3D
+eng.windriver.com@lists.openembedded.org> wrote:
+
+> Blueprint-compiler is a markup language and compiler for GTK 4 user
+> interfaces.
 >
-> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5119153/raw_inl=
-ine
+> Move it from meta-openembedded to openembedded-core as it is required by
+> epiphany 49.2.
 >
-> I wonder if this is related.
-
-Man, the mail clients are having fun with this thread.
-
-Yeah, I'm able to reproduce that issue locally now. Not sure why it's this
-package subset that's acting up, but it is directly related to the LDFLAGS
-change unfortunately.
-
-If that bug is actually still in effect then this requires some change to g=
-olang
-to avoid baking cgo_ldflags into the binaries. Right now we can get away wi=
-th a
-go class specific LDFLAGS override if we want to, but that GCC bug may begi=
-n to
-affect go binary reproducibility in the future.
-
-- Randolph
-
-> On Mon, Jan 26, 2026 at 6:50=E2=80=AFPM Changqing Li via lists.openembedd=
-ed.org <
-> changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
+> The original author Liu Yiding, is willing to continue maintaining the
+> recipe. Add him as maintainer for this.
 >
->>
->> On 1/27/26 04:50, Randolph Sapp via lists.openembedded.org wrote:
->>
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender a=
-nd know the content is safe.
->>
->> On Mon Jan 26, 2026 at 9:04 AM CST, Tony Battersby wrote:
->>
->> On 1/26/26 03:39, Changqing Li wrote:
->>
->> On 1/23/26 03:50, Randolph Sapp via lists.openembedded.org wrote:
->>
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender a=
-nd know the content is safe.
->>
->> From: Randolph Sapp <rs@ti.com> <rs@ti.com>
->>
->> Now that the previous bug affecting binary reproducibility has been
->> addressed [1], we can revert this patch. This will resolve issues with
->> cgo applications becoming unreprodcible.
->>
->> Currently go considers link arguments to be sacred, meaning any change
->> should produce a different binary output. They ensure this by baking
->> link arguments into the intermediary output, changing the content ID of
->> that step. As such, the marco prefixes inadvertently end up adding build
->> paths to the output binary instead of removing them if they are passed
->> as link arguments to cgo applications.
->>
->> These paths are later stripped out again, but at this point the content
->> ID of the dependency has changed and thus the build ID of the end
->> application will be affected by the cascade of hash changes. See the
->> upstream bug for more information [2].
->>
->> This reverts commit fddaecc88979967d0e00e2fafdbaaabec030da9f.
->>
->> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473
->> [2] https://github.com/golang/go/issues/77218
->>
->> Signed-off-by: Randolph Sapp <rs@ti.com> <rs@ti.com>
->> ---
->>
->> This resolves the previously reported emptty issues:https://lists.openem=
-bedded.org/g/openembedded-core/message/228549
->>
->>  meta/conf/bitbake.conf | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 88f4d0df69..da873c3f4e 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -634,7 +634,7 @@ TARGET_LINK_HASH_STYLE ?=3D "${@['-Wl,--hash-style=
-=3Dgnu',''][d.getVar('LINKER_HASH_ ASNEEDED ?=3D " <$%7B@['-Wl,--hash-style=
-=3Dgnu',''][d.getVar('LINKER_HASH_ASNEEDED?=3D>-Wl,--as-needed"
->>
->>  export LDFLAGS =3D "${TARGET_LDFLAGS}"
->> -TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${DEB=
-UG_PREFIX_MAP}"
->> +TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
->>
->> Hi,
->>
->> After check the related gcc bug and yocto bug,  gcc bug comments 21
->> ([1])  and yocto bug comments 13 ([2]),
->>
->> my understanding is that,  when lto is enabled,  even with gcc fix
->> [3],  we still need DEBUG_PREFIX_MAP in LDFLAGS
->>
->> to make bin reproducible. Also seems Tony's commit [4] is after gcc
->> fix [3].
->>
->> [1]  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D101473#c21
->>
->> [2]  https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481#c13
->>
->> [3]  https://gcc.gnu.org/g:7cc2df084b7977653a9b59cbc34a9ad500ae619c
->>
->> [4] https://git.openembedded.org/openembedded-core/commit/?id=3Dfddaecc8=
-8979967d0e00e2fafdbaaabec030da9f
->>
->>
->> @Tony, @Randolph, Could please correct me if my understanding is not
->> right, Thanks.
->>
->>
->>
->> Yes, LDFLAGS needs DEBUG_PREFIX_MAP to make LTO builds reproducible,
->> unless something else has changed since 2021 to make it unnecessary. I
->> have not kept up with the issue.
->>
->> Tony
->>
->> I think there has been some change because I tested this locally with th=
-e normal
->> reproducible builds selftest and no new packages were added to the faili=
-ng list.
->> This included oe-core and some layers from meta-openembedded as well.
->>
->> Got it,  if DEBUG_PREFIX_MAP is not needed any more,  I think remove DEB=
-UG_PREFIX_MAP
->> from LDFLAGS
->>
->> is a good way to fix the issue.
->>
->> The example code given in the report is fairly rudimentary, we should ha=
-ve hit
->> the bug if it was still in effect across a majority of packages if my
->> understanding is correct.
->>
->> I'm also curious to see what golang want's to do about this though. Baki=
-ng build
->> options into a binary seems a little silly, but I'm sure there was some =
-unusual
->> behavior that led them to that point.
->>
->> +1
->>
->> //Changqing
->>
->> As indicated on another thread, we could also just remove this string fr=
-om Go
->> packages LDFLAGS if that puts everyone at ease.
->>
->> - Randolph
->>
->>
->>
->>=20
->>
->>
+> CC: Liu Yiding <liuyd.fnst@fujitsu.com>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+> v2 changes: Add tag=3D${PV} in SRC_URI
+> v3 changes: Fix python site path when enable multilib
+> v4 changes: Fix python site path according to Alex's suggestion
+>
+>  meta/conf/distro/include/maintainers.inc         |  1 +
+>  .../blueprint-compiler_0.18.0.bb                 | 16 ++++++++++++++++
+>  2 files changed, 17 insertions(+)
+>  create mode 100644 meta/recipes-gnome/blueprint-compiler/
+> blueprint-compiler_0.18.0.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc
+> b/meta/conf/distro/include/maintainers.inc
+> index e830648945..b231daf485 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -71,6 +71,7 @@ RECIPE_MAINTAINER:pn-binutils-testsuite =3D "Khem Raj <
+> raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-binutils-crosssdk-${SDK_SYS} =3D "Khem Raj <
+> raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-bison =3D "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-blktrace =3D "Unassigned <unassigned@yoctoproject.o=
+rg
+> >"
+> +RECIPE_MAINTAINER:pn-blueprint-compiler =3D "Liu Yiding <
+> liuyd.fnst@fujitsu.com>"
+>  RECIPE_MAINTAINER:pn-bluez5 =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+>  RECIPE_MAINTAINER:pn-bmaptool =3D "Trevor Woerner <twoerner@gmail.com>"
+>  RECIPE_MAINTAINER:pn-boost =3D "Unassigned <unassigned@yoctoproject.org>=
+"
+> diff --git a/meta/recipes-gnome/blueprint-compiler/
+> blueprint-compiler_0.18.0.bb b/meta/recipes-gnome/blueprint-compiler/
+> blueprint-compiler_0.18.0.bb
+> new file mode 100644
+> index 0000000000..2a6636d8ac
+> --- /dev/null
+> +++ b/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.18.0.bb
+> @@ -0,0 +1,16 @@
+> +SUMMARY =3D "A markup language for GTK user interface files."
+> +HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/blueprint-compiler"
+> +LICENSE =3D "LGPL-3.0-only"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D3000208d539ec061b899bce1d9ce9=
+404"
+> +
+> +SRC_URI =3D "git://
+> gitlab.gnome.org/GNOME/blueprint-compiler;protocol=3Dhttps;branch=3Dmain;=
+tag=3D${PV}
+> <http://gitlab.gnome.org/GNOME/blueprint-compiler;protocol=3Dhttps;branch=
+=3Dmain;tag=3D$%7BPV%7D>
+> "
+> +SRCREV =3D "07c9c9df9cd1b6b4454ecba21ee58211e9144a4b"
+> +
+> +inherit meson pkgconfig python3targetconfig
+> +
+> +PACKAGES +=3D "${PN}-python"
+> +
+> +FILES:${PN}-python =3D "${PYTHON_SITEPACKAGES_DIR}"
+> +RDEPENDS:${PN}-python =3D "python3-pygobject"
+> +
+> +BBCLASSEXTEND =3D "native"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230051):
+> https://lists.openembedded.org/g/openembedded-core/message/230051
+> Mute This Topic: https://lists.openembedded.org/mt/117489774/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--000000000000e925360649615558
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">There is 0.19.0 upgrade posted for meta-gnome, please brin=
+g that upgrade here as well.=C2=A0</div><br><div class=3D"gmail_quote gmail=
+_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 27, 202=
+6 at 7:15=E2=80=AFAM Yi Zhao via <a href=3D"http://lists.openembedded.org">=
+lists.openembedded.org</a> &lt;yi.zhao=3D<a href=3D"mailto:eng.windriver.co=
+m@lists.openembedded.org">eng.windriver.com@lists.openembedded.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Blueprint=
+-compiler is a markup language and compiler for GTK 4 user<br>
+interfaces.<br>
+<br>
+Move it from meta-openembedded to openembedded-core as it is required by<br=
+>
+epiphany 49.2.<br>
+<br>
+The original author Liu Yiding, is willing to continue maintaining the<br>
+recipe. Add him as maintainer for this.<br>
+<br>
+CC: Liu Yiding &lt;<a href=3D"mailto:liuyd.fnst@fujitsu.com" target=3D"_bla=
+nk">liuyd.fnst@fujitsu.com</a>&gt;<br>
+Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=
+=3D"_blank">yi.zhao@windriver.com</a>&gt;<br>
+---<br>
+v2 changes: Add tag=3D${PV} in SRC_URI<br>
+v3 changes: Fix python site path when enable multilib<br>
+v4 changes: Fix python site path according to Alex&#39;s suggestion<br>
+<br>
+=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 1 +<br>
+=C2=A0.../<a href=3D"http://blueprint-compiler_0.18.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">blueprint-compiler_0.18.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 16 ++++++++++++++++<br>
+=C2=A02 files changed, 17 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-gnome/blueprint-compiler/<a href=3D"h=
+ttp://blueprint-compiler_0.18.0.bb" rel=3D"noreferrer" target=3D"_blank">bl=
+ueprint-compiler_0.18.0.bb</a><br>
+<br>
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc<br>
+index e830648945..b231daf485 100644<br>
+--- a/meta/conf/distro/include/maintainers.inc<br>
++++ b/meta/conf/distro/include/maintainers.inc<br>
+@@ -71,6 +71,7 @@ RECIPE_MAINTAINER:pn-binutils-testsuite =3D &quot;Khem Ra=
+j &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmai=
+l.com</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-binutils-crosssdk-${SDK_SYS} =3D &quot;Khem Raj =
+&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.=
+com</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-bison =3D &quot;Chen Qi &lt;<a href=3D"mailto:Qi=
+.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;&quot;<=
+br>
+=C2=A0RECIPE_MAINTAINER:pn-blktrace =3D &quot;Unassigned &lt;<a href=3D"mai=
+lto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.=
+org</a>&gt;&quot;<br>
++RECIPE_MAINTAINER:pn-blueprint-compiler =3D &quot;Liu Yiding &lt;<a href=
+=3D"mailto:liuyd.fnst@fujitsu.com" target=3D"_blank">liuyd.fnst@fujitsu.com=
+</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-bluez5 =3D &quot;Unassigned &lt;<a href=3D"mailt=
+o:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.or=
+g</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-bmaptool =3D &quot;Trevor Woerner &lt;<a href=3D=
+"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;&qu=
+ot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-boost =3D &quot;Unassigned &lt;<a href=3D"mailto=
+:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.org=
+</a>&gt;&quot;<br>
+diff --git a/meta/recipes-gnome/blueprint-compiler/<a href=3D"http://bluepr=
+int-compiler_0.18.0.bb" rel=3D"noreferrer" target=3D"_blank">blueprint-comp=
+iler_0.18.0.bb</a> b/meta/recipes-gnome/blueprint-compiler/<a href=3D"http:=
+//blueprint-compiler_0.18.0.bb" rel=3D"noreferrer" target=3D"_blank">bluepr=
+int-compiler_0.18.0.bb</a><br>
+new file mode 100644<br>
+index 0000000000..2a6636d8ac<br>
+--- /dev/null<br>
++++ b/meta/recipes-gnome/blueprint-compiler/<a href=3D"http://blueprint-com=
+piler_0.18.0.bb" rel=3D"noreferrer" target=3D"_blank">blueprint-compiler_0.=
+18.0.bb</a><br>
+@@ -0,0 +1,16 @@<br>
++SUMMARY =3D &quot;A markup language for GTK user interface files.&quot;<br=
+>
++HOMEPAGE =3D &quot;<a href=3D"https://gitlab.gnome.org/GNOME/blueprint-com=
+piler" rel=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/=
+blueprint-compiler</a>&quot;<br>
++LICENSE =3D &quot;LGPL-3.0-only&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D3000208d539ec061b899bce1d9=
+ce9404&quot;<br>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://gitlab.gnome.org/GNOME/blueprint=
+-compiler;protocol=3Dhttps;branch=3Dmain;tag=3D$%7BPV%7D" rel=3D"noreferrer=
+" target=3D"_blank">gitlab.gnome.org/GNOME/blueprint-compiler;protocol=3Dht=
+tps;branch=3Dmain;tag=3D${PV}</a>&quot;<br>
++SRCREV =3D &quot;07c9c9df9cd1b6b4454ecba21ee58211e9144a4b&quot;<br>
++<br>
++inherit meson pkgconfig python3targetconfig<br>
++<br>
++PACKAGES +=3D &quot;${PN}-python&quot;<br>
++<br>
++FILES:${PN}-python =3D &quot;${PYTHON_SITEPACKAGES_DIR}&quot;<br>
++RDEPENDS:${PN}-python =3D &quot;python3-pygobject&quot;<br>
++<br>
++BBCLASSEXTEND =3D &quot;native&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230051): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230051" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230051</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117489774/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117489774/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000e925360649615558--
 
