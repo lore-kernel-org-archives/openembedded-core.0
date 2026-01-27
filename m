@@ -1,103 +1,189 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0D7D2FECD
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 17:50:11 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17846.1769536201991411814
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBF3D2FEDA
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 18:37:02 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19299.1769539019002957067
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 09:50:02 -0800
+ Tue, 27 Jan 2026 10:36:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Lr3vSLs0;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8c5384ee23fso657529385a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 09:50:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769536201; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TFwrJjvvuFl0HBJwgNVyP5B3ZSqIbFfk2c90noRtEILMVa3ZKmiMCf3cOfXo5IkvDp
-         uvfm8OuKmrO7wkqxydZ0VHDHTHbMhMy6T6N2XfV9uPN2hKA0EdCS3ecvsMR6UH76JLVx
-         /LweR0h4b2Joqh3xOi8WI8P7JiczQOxaX9WXhzULlZ+7lbSKFFPR4V6rS8QQVmMwANt8
-         M87w8wsHYhGguFw5oYAY8qPhAZxZkkch2ER8kxxy7vMl9v04hAVp/0d+f8OjJzeDn3h6
-         s7YDUXhob6s2mmrgFo1kZyyJtaXxB0z3+6LpGvaSI+9omT0Fu7t0aJNb1KxaHSYpdHUG
-         ODGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=EYKQ6k7YIHkI9PeNgqf5wGzyd3wVeyagM+o6NOcEpjw=;
-        fh=Wx+49bi7uC8DvDnCIOOa67feo6Xu9DmIMBe6ILAvdCg=;
-        b=k+8+WuOftWnPAKF7aqZVole7SY76HkCbdcNX95zUQ3774AtodeMDNCDWUPDjy5KJ5A
-         iZpST75yS4+0C2afyAhlAcKVsMAYRO3rDfSrMboF4dpIpLxdIgzHsjqPg+pysgq9Y5th
-         zd/TTL+cujBKtRbhKbe67Hzq/cFxj/0vsAxWuzWhJPBwj7VRoYAV4TTi5bdi4/5n69du
-         I8dSdD6H7vC0LSk2ZNe7CgyEBRC1gkJ6qeBCIHL1UBMzSF7vEEtA5taj4fM5Hu+gsKQX
-         9pAjXl5p5/SnchrKBzwsjR7SkU4IZnr/iLKP2AiYIQVOd+YL4Nw7POiRgjhHTmsP/fiv
-         4Irg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769536201; x=1770141001; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EYKQ6k7YIHkI9PeNgqf5wGzyd3wVeyagM+o6NOcEpjw=;
-        b=Lr3vSLs0tOaDN/QKDYiFx78ycewi8z3eiFiusQ7SDi8YvJXYK4Dnpjm3NfpE6lbeHq
-         ETKEmhyzPj7fNY2pW3AaTtp+EJ1BPo2zaLo2MJe9oIzDwMow7YhYQroJZHMz1VziGhac
-         8xgC+/wbGBFWtBCzj1yT81P6m7OnfdgeBtUKqgJQ6O0Werbk1QgFhrIsG6J5uOzVMCcg
-         ctr19iNOOFBBgUqGtcDQkcPCPptMLTRTyhE86cR4OwpykG+79MYZ+WC95uc278CCfH0t
-         GgIZVVCsui2oZfV+wvAm8X/yNc0NqVbumgG6ZO0HWNTQLlJS95hpGw43/wg2TGwRFkkD
-         U4Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769536201; x=1770141001;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EYKQ6k7YIHkI9PeNgqf5wGzyd3wVeyagM+o6NOcEpjw=;
-        b=AP9xOhWF7NFLjbC3Nqc+9Np+mx831F27qkz0poO0DGQ+AuYUDWg0/zHW0E4fmgUssq
-         iEUuFYk1SO7Ot5XwMwuO+y6KHWCkzKiiwr9Tu+aqnDPJumCjg7S3/CJD3GfpeDy1nBPO
-         h/uau3at6yNmu3NV6ceqbNTfF4oQusEO+4N/c8gnwEZF8fn93OWZl4J0IcWOloCfeOOM
-         lxN/UwGQW8MSLgrP2KmNP06b8DCRBHwa+2tN7sE64fnyMo2yvIo5qN/rt37Sc+kOrigi
-         zWqgkpWOZxitV3hJ8Ol6qgNJ/brpl/EYBPAlW9bG08p1OC0YjOMBJCK34ITWlag0Qoq1
-         7YWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUF9x32sHzW4DMd0NTg2XGPGaOOCQlY5Eu/gLN/IhHfztRx2XkCLgiVIIdeH2D1fMwQOZHwYfEO885jlZ72JCKRug==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw6Yoo7dW1z5FgTw1FFsKHCIf4t+Cqq+ct2B+PaI/dZG7b08V1H
-	TaKjlpOq+8ScfID/4OtjA43SVsme6NIErcsJCH5ta8tV+k171Xdv95La8K1VoHtPiHieB0OWoCN
-	SLDI4H1mS+sSnINWZqxGg/bCiWNAD9xE7QQ==
-X-Gm-Gg: AZuq6aLfRaq0KpZsJgZAp+J7pRx8JKVFVaRTUOwf1sEQBa7NmyGJ+EcLeJ6nUFOtIiV
-	ASxJgSxT4ivl2V8Rgo9FDCx1KBkRt3SmfnagmZX/vzPRhx07klbkrOVL11qqfrq8DK40PUkPmzj
-	ioLCSa+YDcR9AxtVbIYZCLOALhyrshnimDwryhgKjB6NBiDaPG8UViMbvDh0yh7TNAPE4xL5/Ag
-	jV2IWFEPW3muTGC4RkdD/qAJUkVfC1cI1zEDq2rOo0RDymXVjRaDdneeSvfxFnV18I+l18CBAZX
-	SdRrWrXWJ3g/ESDxIeZ9hhmAqpw0sg==
-X-Received: by 2002:a05:620a:1a9d:b0:8c6:a734:7d8a with SMTP id
- af79cd13be357-8c70b84537emr309491385a.4.1769536200880; Tue, 27 Jan 2026
- 09:50:00 -0800 (PST)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=bblf/dZ/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202601271836561264cba1e700020709-x8k4xd@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202601271836561264cba1e700020709
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 27 Jan 2026 19:36:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=rqOUPpQgIqL/1fG+d+o2P4e04g8Lq3dkyzB9c4vMKnc=;
+ b=bblf/dZ/dtq5vwZwvPAm7ixVQlBXTcNdZ8Z2JOcjZ/CuQCFFi5qPuRc1HzeWl1ztxOWs/5
+ cRVrwJvCNFL8/FtSgWUGqWLNAEW2vIUM5qyy6TkJiQaCw3HsAzr+Mm5Jxaq0EMpyHyFf7rFV
+ Dgu19B5N6i0+5EtkNS5vJJ6gfbw2uWjle8Ep6MKKuEpZ7d7sdqNZhsz3AW0jt5zVbrwP2Sfo
+ pUuLxEyfVsyzIthk4Ye7/7ydfxNMe/MTaXweWH+uUT1j02XUzfcP8bUgonCr/AD6QXe23PRA
+ 2iH1UQwfAOF7gw3kqF4O5ObrfuEpoNEsDNay2Btfsm28ND2+vCQBy3/g==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][whinlatter][PATCH] openssl: upgrade 3.5.4 -> 3.5.5
+Date: Tue, 27 Jan 2026 19:36:53 +0100
+Message-Id: <20260127183653.2313803-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20260123172613.3305069-1-corentin.guillevic@smile.fr> <DFZFC4DZCGPP.23B0TOYETVJI8@bootlin.com>
-In-Reply-To: <DFZFC4DZCGPP.23B0TOYETVJI8@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Jan 2026 18:49:50 +0100
-X-Gm-Features: AZwV_QiJA7dxYKAAXsjKy6n6DvFq2fCaB1N0-L1AjzGssqt51Nh77vg8XbEs6xE
-Message-ID: <CANNYZj8nQ2_7XxGnotCO745jfgPM4eE8VOjjYpt-KV+V7tmrnw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5 1/2] oe-setup-layers: support inline URI
-To: mathieu.dubois-briand@bootlin.com
-Cc: corentin.guillevic@smile.fr, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 17:50:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230060
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 18:37:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230062
 
-On Tue, 27 Jan 2026 at 14:59, Mathieu Dubois-Briand via
-lists.openembedded.org
-<mathieu.dubois-briand=bootlin.com@lists.openembedded.org> wrote:
->   from jsonschema.cli import main
-> {'branch': 'master', 'describe': '', 'uri': 'https://github.com/kanavin/meta-alex', 'rev': '05b25605fb8b2399e4706d7323828676bf0da0b5'}: Additional properties are not allowed ('uri' was unexpected)
-> {'branch': 'master', 'describe': '15.0-hardknott-3.3-310-g0a96edae', 'uri': 'git://git.yoctoproject.org/meta-intel', 'rev': '0a96edae609a3f48befac36af82cf1eed6786b4a'}: Additional properties are not allowed ('uri' was unexpected)
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3102
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2998
+From: Peter Marko <peter.marko@siemens.com>
 
-The schema needs to be updated with the corresponding bitbake
-patchset, so these two patchsets must be tested in lockstep.
+Resolved patch conflicts.
 
-Alex
+Release information [1]:
+
+OpenSSL 3.5.5 is a security patch release. The most severe CVE fixed in this release is High.
+This release incorporates the following bug fixes and mitigations:
+* Fixed Improper validation of PBMAC1 parameters in PKCS#12 MAC verification. (CVE-2025-11187)
+* Fixed Stack buffer overflow in CMS AuthEnvelopedData parsing. (CVE-2025-15467)
+* Fixed NULL dereference in SSL_CIPHER_find() function on unknown cipher ID. (CVE-2025-15468)
+* Fixed openssl dgst one-shot codepath silently truncates inputs >16 MiB. (CVE-2025-15469)
+* Fixed TLS 1.3 CompressedCertificate excessive memory allocation. (CVE-2025-66199)
+* Fixed Heap out-of-bounds write in BIO_f_linebuffer on short writes. (CVE-2025-68160)
+* Fixed Unauthenticated/unencrypted trailing bytes with low-level OCB function calls. (CVE-2025-69418)
+* Fixed Out of bounds write in PKCS12_get_friendlyname() UTF-8 conversion. (CVE-2025-69419)
+* Fixed Missing ASN1_TYPE validation in TS_RESP_verify_response() function. (CVE-2025-69420)
+* Fixed NULL Pointer Dereference in PKCS12_item_decrypt_d2i_ex() function. (CVE-2025-69421)
+* Fixed Missing ASN1_TYPE validation in PKCS#12 parsing. (CVE-2026-22795)
+* Fixed ASN1_TYPE Type Confusion in the PKCS7_digest_from_attributes() function. (CVE-2026-22796)
+
+[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-354-and-openssl-355-27-jan-2026
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...ke-history-reporting-when-test-fails.patch | 23 +++++++++----------
+ .../0001-extend-check_cwm-test-timeout.patch  |  2 +-
+ .../{openssl_3.5.4.bb => openssl_3.5.5.bb}    |  2 +-
+ 3 files changed, 13 insertions(+), 14 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.5.5.bb} (99%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+index 5b7365a353..a74c79303f 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+@@ -7,10 +7,10 @@ Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/22481]
+ 
+ Signed-off-by: William Lyu <William.Lyu@windriver.com>
+ ---
+- test/helpers/handshake.c | 137 +++++++++++++++++++++++++++++----------
++ test/helpers/handshake.c | 136 ++++++++++++++++++++++++++++++---------
+  test/helpers/handshake.h |  70 +++++++++++++++++++-
+  test/ssl_test.c          |  44 +++++++++++++
+- 3 files changed, 217 insertions(+), 34 deletions(-)
++ 3 files changed, 217 insertions(+), 33 deletions(-)
+ 
+ diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+ index f611b3a..5703b48 100644
+@@ -119,7 +119,7 @@ index f611b3a..5703b48 100644
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+  {
+      HANDSHAKE_RESULT *ret;
+-@@ -726,15 +822,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
++@@ -724,15 +820,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
+          SSL_set_post_handshake_auth(client, 1);
+  }
+  
+@@ -135,7 +135,7 @@ index f611b3a..5703b48 100644
+  /* An SSL object and associated read-write buffers. */
+  typedef struct peer_st {
+      SSL *ssl;
+-@@ -1081,17 +1168,6 @@ static void do_shutdown_step(PEER *peer)
++@@ -1077,16 +1164,6 @@ static void do_shutdown_step(PEER *peer)
+      }
+  }
+  
+@@ -148,12 +148,11 @@ index f611b3a..5703b48 100644
+ -    SHUTDOWN,
+ -    CONNECTION_DONE
+ -} connect_phase_t;
+--
+ -
+  static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+  {
+      switch (test_ctx->handshake_mode) {
+-@@ -1169,19 +1245,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
++@@ -1164,19 +1241,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
+      }
+  }
+  
+@@ -173,7 +172,7 @@ index f611b3a..5703b48 100644
+  /*
+   * Determine the handshake outcome.
+   * last_status: the status of the peer to have acted last.
+-@@ -1546,6 +1609,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1541,6 +1605,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+  
+      start = time(NULL);
+  
+@@ -184,8 +183,8 @@ index f611b3a..5703b48 100644
+      /*
+       * Half-duplex handshake loop.
+       * Client and server speak to each other synchronously in the same process.
+-@@ -1567,6 +1634,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+-                                       0 /* server went last */);
++@@ -1562,6 +1630,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++                 0 /* server went last */);
+          }
+  
+ +        save_loop_history(&(ret->history),
+@@ -292,14 +291,14 @@ index 78b03f9..b9967c2 100644
+  
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
+ @@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX *server_ctx, SSL_CTX *server2_ctx,
+-                                     CTX_DATA *server2_ctx_data,
+-                                     CTX_DATA *client_ctx_data);
++     CTX_DATA *server2_ctx_data,
++     CTX_DATA *client_ctx_data);
+  
+ +const char *handshake_connect_phase_name(connect_phase_t phase);
+ +const char *handshake_status_name(handshake_status_t handshake_status);
+ +const char *handshake_peer_status_name(peer_status_t peer_status);
+ +
+- #endif  /* OSSL_TEST_HANDSHAKE_HELPER_H */
++ #endif /* OSSL_TEST_HANDSHAKE_HELPER_H */
+ diff --git a/test/ssl_test.c b/test/ssl_test.c
+ index ea60851..9d6b093 100644
+ --- a/test/ssl_test.c
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+index d02d42f1b5..f6eb28069a 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+@@ -20,7 +20,7 @@ index 4a1e886a71..39f8c61ef9 100644
+ +++ b/test/radix/main.c
+ @@ -25,6 +25,11 @@ static int test_script(int idx)
+      int testresult;
+-     TERP_CONFIG cfg = {0};
++     TERP_CONFIG cfg = { 0 };
+  
+ +    // check_cwm test sometimes times out, the default 3000ms is
+ +    // not enough if the test execution starves for CPU
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.4.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+index e760baf3a0..c0d02b617b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"
++SRC_URI[sha256sum] = "b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69bd789f28bc2a89"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 
