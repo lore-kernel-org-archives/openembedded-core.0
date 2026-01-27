@@ -1,235 +1,209 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <reatmon@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C48D2FEDF
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 20:09:12 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21436.1769544544224890041
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D22D2FEE0
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 20:31:02 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.69])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22029.1769545858364552294
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 12:09:04 -0800
+ Tue, 27 Jan 2026 12:30:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BAaCUZ+G;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34c363eb612so3362883a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 12:09:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769544544; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VWq68j/OfZXRhDT+7loCLZ3eJZWjJy9zICygdqfTcBTD20/fICNMsoQ/d5eIdcWOHT
-         aHoDFCHqe79WvX8EgCQvn+ClQ2t9gKi1sUmnyddstYVdcORGjVH19iiNU46MxDKiTKiu
-         ddxSTvQBJ9Xe4aEIiSubRF38YfM1Cn9b+ooHHwZawmVxLjQCy3ZQJqf3XHtq04NvCC0m
-         prL89qsw5dtLyKVFwgtBvYlatM+1Rq/r8lRDpnt2zZYKDML/skFukvxA8bgeGgFppmcC
-         6O/4qfFgHtCkfUYhQZoHU1zCUcxTHhniPY8Tr5rqqMzKJxIAuvVepIbP67A6gYH305oz
-         A+2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZSFGYihNh6QhDIzh5KtRFe1o6pnojaVTCKnCXHGegkU=;
-        fh=hWZuxx5dUamW/oXfhUXdvxUCcvfzgO0pgIbw24g1Eb0=;
-        b=BmAeTUG4HkHEx9e0f4qvw2uTQIZ70LGeRVtwaRodZVpOKfgzoSbkuLNkD/X7PlNdMU
-         ophvjxJD7b2tj88HJpCxdqdu0yTDC/yPz/jvWNwbkOVgmKWnwvVNCuxLThu2yYfvG8pL
-         gD8G0YPfVgcpdlRZwYj3F/NVhw7vjf3wUxvYpvFE+dY9+bz+omhBQlogXQSoJB2DkMH1
-         6uf+EKF/WTxArDT9yO+WSOIFgP11u7ao6TYu0+Q6wx2bLgN2Pmt5uOmndEv+POnj4bux
-         r8XTwSx18aUE2gP9+JfztFQSUN5qxwreUNXQ1MP/njJoQLZ2RZ1nfZkNrKriyCMSP2W4
-         XgsQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769544544; x=1770149344; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZSFGYihNh6QhDIzh5KtRFe1o6pnojaVTCKnCXHGegkU=;
-        b=BAaCUZ+GP172gS+Z6aLNPnFiiQjkJJVlfGPou2yJ3NPxA0VgSu+VqP4CeK/ETvDhtG
-         uBsV/VANagSHu3AJOUmQyXrbrdt3KNOtVsiQh7brapxPxAXOWEtXjvkh4RNl7e9RoRM4
-         HL4764xS+5vOAlu01WGotuNpZLui2FMXSXkX9/F/VqlIMq3HjQcGTjQSQ480pVvDJsZd
-         i+SI/WRpmUDdP7Oi53M1tvBm8oNsmzUshjruF248RCVSTbXm2tSbbStCqyCcIbY6NJKa
-         bFMdA33gbTdc5P4WtJzlgMas0+tLXMfnPNAEbFfGCdiCrJSB/T6V1/crqZrVCr9ZgXan
-         kMFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769544544; x=1770149344;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZSFGYihNh6QhDIzh5KtRFe1o6pnojaVTCKnCXHGegkU=;
-        b=jt4vnrqnmXYacN0bcVAYnZZB1qog8+69K8DgHHpOo6/4Cwr5AsBfwvi5/XVbwTnJvh
-         7D6IdePOv8xZFTucoK0gl8NLFJlKb3kRpDPNwYb6oZ5a9xPl1vwwehZr6qn/BJH9Mjby
-         2dcL72Bp77f58m6ySG53WGdZNdtW01cboROVljdYJoqfnlFhHUpGvcjCEkke/kXy+rEV
-         GdLxIfvZ95TchDZmP2ZvZxOJulZouO5DlQu90QQtXG23OSTIUCbCWfwvE3VzKLPosIuI
-         nXZUXlxDlybHH6deVortE8DG3mw+vo7rqzEsOc4gqp8op/6Ee0brgUaejI9+WVnIn0ma
-         IU5A==
-X-Gm-Message-State: AOJu0YxAtMKqAQdYQY9JMyiOcXn6kq3phmBGttb9CHiDf7GtcGWJfShq
-	2C+XsdmklLy4uP6tk3SFa1XtelVrSzoQh9r/IpZDmPkjaPafjwNpbw0XoXrFv091K9BxMmFkn1k
-	ryUpAmz/uDQpL9AeOIJeI1tQpBWZEtBw=
-X-Gm-Gg: AZuq6aJVQNnlIz1llbm8uRzMs1o3fmIj9i+EDrYM4N5aWrltPCdb+gOYZbut5gXxwwV
-	89Ww/rvSB2zL2iUgiHggG5wXJ9ws10TrVtLQy68kKK+c+QRyvGJMNmvjCI6xKi4km/KGRwfT1Ib
-	MZKjdrvbh345ZUvFg6CvC8UvuCY5oO3J1JCIMdDMQMERACBmDJSeCgKIkAK+CWpTCu/7JDXzIxF
-	oaVaLaTal9npbsUPT3dRABRCNIHWlw8n9p6QV22L3GGds9TNlEikM8+o6y/1JDxYfa/+wu6
-X-Received: by 2002:a17:90b:3c11:b0:352:c995:808a with SMTP id
- 98e67ed59e1d1-353fecda875mr2807626a91.14.1769544543324; Tue, 27 Jan 2026
- 12:09:03 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=Tie3JPjq;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.48.69, mailfrom: reatmon@ti.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PleeEwsAWpGtN6oNymWGuWnsYyqLqHGK7unbBXFvRT2KETBjT5DHqfM3LBDTO841B3x/WSh78wH1oOdp+zi1ZDr0Rg2AbujSZPHGTdEdggSAR/PvqXdjSbZwzdKJCn0cIMliA+Gq3ldfTaxfIG6b3lNzL0AFgJQG+sSw4NsWkEz1cB36qqMmZmj4b63As7YnGemdPTcJeGqru9nClfGLTV21xi7GCj/4/IozLOoKQoiB2VWufhCr42OVHlG1k9MZAHKMI8mt9Dt4gG8+x5eeTe4g8ZdQRC4bbtW8YhOlAPftLgPGlSQ3kLbubwfAk3hsD5gM0jrXA37HKBtpR9jwUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qk9Er9DeQD4s8rm9HEpa7rWfuZ37/Z8xNHjfAROGys4=;
+ b=sju0bjKswPSlCYHU6afrxMO64sI5e1LAmgAfbDXHwbAYr5tUTssjp6li/Sk3Yk55+sMHUzipG9ttVLIQ8xOBhautR+UMI2S/EjTYUATar9WILizUK2f2962XgFe+cAAkri9tLuygxHLBYWwYdEI+Eu9ToqumVA0xbqVtFUXOcSIxvmsnLANKGPi+M9LAUk3Hn7w1jmaZFyS2JzrYS+/EA2IvHLXph4Xpb8TGCMUsu6bi2dySasbe90nq3ZgRceyFSV/2O9sjh/Sw+AXD7k/3AT9eF7FRyP0ugoSvyG54TIiYPVt3T2KssJTjrn2+ji/O4YrrOA/mVb0hhQYCWXP1NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qk9Er9DeQD4s8rm9HEpa7rWfuZ37/Z8xNHjfAROGys4=;
+ b=Tie3JPjqvs6fZdKe48pYt9Jp2TJLgFxHqahG9QPXkvXAXiktNvITidEoj+wjvCSPeg9MbksBOW+45tm549mqD4iqpelzoXiErTdsnCRrQlC1BNT0laxXvVLhjzK8XRR8WYF85kCAo4u+CLILJoN2DrdzPL92QTbY3Rv4qbN/TMk=
+Received: from BL1PR13CA0300.namprd13.prod.outlook.com (2603:10b6:208:2bc::35)
+ by BN0PR10MB5046.namprd10.prod.outlook.com (2603:10b6:408:127::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
+ 2026 20:30:56 +0000
+Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
+ (2603:10b6:208:2bc:cafe::88) by BL1PR13CA0300.outlook.office365.com
+ (2603:10b6:208:2bc::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Tue,
+ 27 Jan 2026 20:30:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 20:30:54 +0000
+Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
+ 2026 14:30:51 -0600
+Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
+ 2026 14:30:51 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 27 Jan 2026 14:30:51 -0600
+Received: from grumpy (grumpy.dhcp.ti.com [128.247.81.229])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60RKUpOL1109933
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 14:30:51 -0600
+Received: from reatmon by grumpy with local (Exim 4.97)
+	(envelope-from <reatmon@ti.com>)
+	id 1vkpi7-000000003pN-2ejx
+	for openembedded-core@lists.openembedded.org;
+	Tue, 27 Jan 2026 14:30:51 -0600
+From: Ryan Eatmon <reatmon@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] uboot: Deprecate legacy UBOOT_CONFIG flow
+Date: Tue, 27 Jan 2026 14:30:51 -0600
+Message-ID: <20260127203051.14706-1-reatmon@ti.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260127152035.94651-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20260127152035.94651-1-adarsh.jagadish.kamini@est.tech>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 28 Jan 2026 09:08:52 +1300
-X-Gm-Features: AZwV_QjVvnv2cjZoI3Q6wD7HW2MXZszNwVmna_kJMcJTNzaXZX98t1DRGcg9Q4E
-Message-ID: <CADySD0EXCmp0CBMzLvcYzDRAG3zAWXa5Md60fiBt8pJ_6Nqucg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] avahi: Backport fix CVE-2025-68276
-To: adarsh.jagadish.kamini@est.tech
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|BN0PR10MB5046:EE_
+X-MS-Office365-Filtering-Correlation-Id: 512034a2-5146-4010-3827-08de5de2f868
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ZqMsSBHziKox/T6GgWEWyoOZwKAfwVpq85q+NtQzzDi+0bzTgK4ewGshK0SH?=
+ =?us-ascii?Q?yG8/06ezPwWkr//8InQ7enyEMhd6iJTm/OsCS0TkrU9i9kLD8WTjC762rTvC?=
+ =?us-ascii?Q?8ZyQV2WgGwhxlG8iv44ZJdb7ZRP/5/6rFFqPiJGw2CKLwJ8fdV5g4N0QISfT?=
+ =?us-ascii?Q?n5JqxChX/cNG734dLwzzSMU4yKOQvKk1F/B3Ra/3aSg2ThZycRrJcjL9V2Au?=
+ =?us-ascii?Q?3/mEX3cREO6OPIMMRH+gsHyIBPCCDX8hgCwn4AjvVIIybw047K1TLUxHZaeG?=
+ =?us-ascii?Q?+NcZpm1gXtCfh0hb/DDBdwRbjfDLGQUAwz8mpW7/dHTDNiLbAL7SzVXUORxh?=
+ =?us-ascii?Q?CY93L6118eVcn0tiU42/DRenT54SSFvLW4Eeed7st6c3lul1vB6gLzl/zrNe?=
+ =?us-ascii?Q?UmaoWr9n74pOH7nWjiO8d04WaOF4THSIeNH7uVdROp4G4oJz3dAz9bgdXicF?=
+ =?us-ascii?Q?NKHbIm22/A+lLz3a8brY/92BnTndEDg7k9orH7TvP1znfmxlN7sLtlk/DrmR?=
+ =?us-ascii?Q?2K3LPQmB0o37AyXi/0XA6VA9qcl5TWU/1A8smQkQ21xtCUYNaZKyNYzWomRZ?=
+ =?us-ascii?Q?/TBU9jB+3jlBm+7rRzORu+fEY50JfwpdQjk6iRm3apbgwhVTwOwge2/KTWsk?=
+ =?us-ascii?Q?ppDxUOcALBPjptfWKEw9fpc5bw/m8sU3KnYhR+8/hoaYAx4KrrQipdydcx5R?=
+ =?us-ascii?Q?RD37xV+pivmBjY5hbwXKLdcdXLjGieDH/SMJoeccQrND7z+FVsm8TGQPyilv?=
+ =?us-ascii?Q?4sG4n+0DxQGymRjGPdCSnHkVH6JQE/7fHke1VE4i6mu2txgDhNxYa4/bpgTi?=
+ =?us-ascii?Q?VhOVDq2T7oDPlymTxsOOevEEA8+lbv/GdjDU4ncqLz7axyFbcnzemBt4blXn?=
+ =?us-ascii?Q?Ny1x33lR8wNpNU34OAGAiCj7Hh5ZPoJitBxENXqYf/TWXRHk+0a0RHaGtDRL?=
+ =?us-ascii?Q?OunE7+I9hMc08MzheIAXUjuV+HTsaHRhOktKFTkoB4edj0/cWlpr59CAkQbi?=
+ =?us-ascii?Q?/IzyhITU8OHI9PxnBFFbSrazDspqeNEIvHgdIz/4c7qkMazIvnSlnme8QX3f?=
+ =?us-ascii?Q?xs/of3/59tvsgUTdKbXd4KSPSHRHxmtphKXKFhMBbZO18Ut6pj5pqf7SKXYF?=
+ =?us-ascii?Q?Ys2FPfF49YSGxwckHL6300up7yoDpt0AS7Khy48dBDLCQu0DsqmBqqW+oaL5?=
+ =?us-ascii?Q?g3mHcde9uQTh4WwwWBlWwl8MyL+LcI9VXukYAZBliDmlqN78DDjiTK5bEeQ7?=
+ =?us-ascii?Q?FXOFI5qnDXNOoIv0R8be8HQQhX/ntRkRbXWJYCnenEHusVAmLeNJg8lifo82?=
+ =?us-ascii?Q?wKwTTveFRxMf2RT0+oOX4V/R5CQtysdD1Q3ciD6WVFQinVb/mCsjzl7pM2KR?=
+ =?us-ascii?Q?1rlbgNlMiuYzBbEQYpj8EF8yVZ+XmGYkBDYUutj4uzo9ZfuVJchCXVTAvIAe?=
+ =?us-ascii?Q?ADBpr7EjKiYlkmK+ZhoOZ9PveQeorcTSJ6PvwdSHJgfAXPedMxwg6aLAp6Tw?=
+ =?us-ascii?Q?zbpCJzsLrekcHFue8gGyz8jPnv3PqmB5xxcsqVOmSyKAH7XcXv8Np+zUCvKP?=
+ =?us-ascii?Q?sTkgbneGAG414GYhY8uP4v4W7o5oB/v3u9AGaKDFfe+EuziIHUU+Y+yGyf8u?=
+ =?us-ascii?Q?4uZM4ps+IAPw360RZVGlDvILawFgmdd1vxKmJwDeOki74TAz1pfJxSM82Zml?=
+ =?us-ascii?Q?/viw0g=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 20:30:54.3621
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 512034a2-5146-4010-3827-08de5de2f868
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	MN1PEPF0000F0DF.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 20:09:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230064
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 20:31:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230065
 
-On Wed, Jan 28, 2026 at 4:20=E2=80=AFAM adarsh.jagadish.kamini via
-lists.openembedded.org
-<adarsh.jagadish.kamini=3Dest.tech@lists.openembedded.org> wrote:
->
-> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
->
-> Include the patch linked in the NVD report: https://github.com/avahi/avah=
-i/pull/806/commits/0c013e2e819be3bda74cecf48b5f64956cf8a760
+Mark the legacy flow for settings the UBOOT_CONFIG options in a comma
+separated list.  This code will still work through wrynose, but will be
+removed once wrynose is released.
 
-Will be helpful to add NVD reference as well.
-In this case https://nvd.nist.gov/vuln/detail/CVE-2025-68276
+Add warnings to point people in the right direction for fixing their
+configs:
 
-Otherwise the patch LGTM.
+WARNING: Legacy use of UBOOT_CONFIG[foo] =3D "foo_config,foo_image,foo_bina=
+ry" is deprecated.  Please move to using UBOOT_CONFIG_* variables:
+WARNING:     UBOOT_CONFIG[foo] =3D "foo_config"
+WARNING:     UBOOT_CONFIG_IMAGE_FSTYPES[foo] =3D "foo_image"
+WARNING:     UBOOT_CONFIG_BINARY[foo] =3D "foo_binary"
+WARNING: Legacy use of UBOOT_CONFIG[bar] =3D "bar_config,bar_image" is depr=
+ecated.  Please move to using UBOOT_CONFIG_* variables:
+WARNING:     UBOOT_CONFIG[bar] =3D "bar_config"
+WARNING:     UBOOT_CONFIG_IMAGE_FSTYPES[bar] =3D "bar_image"
+WARNING: Legacy use of UBOOT_CONFIG[bing] =3D "bing_config,,bing_binary" is=
+ deprecated.  Please move to using UBOOT_CONFIG_* variables:
+WARNING:     UBOOT_CONFIG[bing] =3D "bing_config"
+WARNING:     UBOOT_CONFIG_BINARY[bing] =3D "bing_binary"
 
->
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> ---
->  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
->  .../avahi/files/CVE-2025-68276.patch          | 68 +++++++++++++++++++
->  2 files changed, 69 insertions(+)
->  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.=
-patch
->
-> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-=
-connectivity/avahi/avahi_0.8.bb
-> index 7930bd3037..bb20fd17cc 100644
-> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> @@ -37,6 +37,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/avahi-$=
-{PV}.tar.gz \
->             file://CVE-2023-38473.patch \
->             file://CVE-2024-52616.patch \
->             file://CVE-2024-52615.patch \
-> +           file://CVE-2025-68276.patch \
->             "
->
->  GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
-> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch b=
-/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> new file mode 100644
-> index 0000000000..b3e11f9597
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> @@ -0,0 +1,68 @@
-> +From d5d18ced67e969d6a5052cacdbd7d4b2c97a1a3f Mon Sep 17 00:00:00 2001
-> +From: Evgeny Vereshchagin <evvers@ya.ru>
-> +Date: Wed, 17 Dec 2025 08:11:23 +0000
-> +Subject: [PATCH] core: refuse to create wide-area record browsers when
-> + wide-area is off
-> +
-> +It fixes a bug where it was possible for unprivileged local users to
-> +crash avahi-daemon (with wide-area disabled) by creating record browsers
-> +with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by callin=
-g
-> +the RecordBrowserNew method directly or by creating hostname/address/ser=
-vice
-> +resolvers/browsers that create those browsers internally themselves).
-> +
-> +```
-> +$ gdbus call --system --dest org.freedesktop.Avahi --object-path / --met=
-hod org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -1 1
-> +Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipient=
- disconnected from message bus without replying
-> +```
-> +```
-> +dbus-protocol.c: interface=3Dorg.freedesktop.Avahi.Server, path=3D/, mem=
-ber=3DResolveHostName
-> +avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `e'=
- failed.
-> +=3D=3D307948=3D=3D
-> +=3D=3D307948=3D=3D Process terminating with default action of signal 6 (=
-SIGABRT)
-> +=3D=3D307948=3D=3D    at 0x4B3630C: __pthread_kill_implementation (pthre=
-ad_kill.c:44)
-> +=3D=3D307948=3D=3D    by 0x4ADF921: raise (raise.c:26)
-> +=3D=3D307948=3D=3D    by 0x4AC74AB: abort (abort.c:77)
-> +=3D=3D307948=3D=3D    by 0x4AC741F: __assert_fail_base.cold (assert.c:11=
-8)
-> +=3D=3D307948=3D=3D    by 0x48D8B85: avahi_wide_area_scan_cache (wide-are=
-a.c:725)
-> +=3D=3D307948=3D=3D    by 0x48C8953: lookup_scan_cache (browse.c:351)
-> +=3D=3D307948=3D=3D    by 0x48C8B1B: lookup_go (browse.c:386)
-> +=3D=3D307948=3D=3D    by 0x48C9148: defer_callback (browse.c:516)
-> +=3D=3D307948=3D=3D    by 0x48AEA0E: expiration_event (timeeventq.c:94)
-> +=3D=3D307948=3D=3D    by 0x489D3AE: timeout_callback (simple-watch.c:447=
-)
-> +=3D=3D307948=3D=3D    by 0x489D787: avahi_simple_poll_dispatch (simple-w=
-atch.c:563)
-> +=3D=3D307948=3D=3D    by 0x489D91E: avahi_simple_poll_iterate (simple-wa=
-tch.c:605)
-> +=3D=3D307948=3D=3D
-> +```
-> +
-> +wide-area has been disabled by default since
-> +9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).
-> +
-> +https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-865v-g5rc
-> +
-> +CVE: CVE-2025-68276
-> +Upstream-Status: Backport [https://github.com/avahi/avahi/pull/806/commi=
-ts/0c013e2e819be3bda74cecf48b5f64956cf8a760]
-> +
-> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> +---
-> + avahi-core/browse.c | 5 +++++
-> + 1 file changed, 5 insertions(+)
-> +
-> +diff --git a/avahi-core/browse.c b/avahi-core/browse.c
-> +index e8a915e..59d53cb 100644
-> +--- a/avahi-core/browse.c
-> ++++ b/avahi-core/browse.c
-> +@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepare=
-(
-> +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_VALID(flags, A=
-VAHI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FL=
-AGS);
-> +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags & AVAHI_LOOKUP_USE=
-_WIDE_AREA) || !(flags & AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FLA=
-GS);
-> +
-> ++    if ((flags & AVAHI_LOOKUP_USE_WIDE_AREA) && !server->wide_area_look=
-up_engine) {
-> ++        avahi_server_set_errno(server, AVAHI_ERR_NOT_SUPPORTED);
-> ++        return NULL;
-> ++    }
-> ++
-> +     if (!(b =3D avahi_new(AvahiSRecordBrowser, 1))) {
-> +         avahi_server_set_errno(server, AVAHI_ERR_NO_MEMORY);
-> +         return NULL;
-> +--
-> +2.34.1
-> +
-> --
-> 2.44.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230053): https://lists.openembedded.org/g/openembedde=
-d-core/message/230053
-> Mute This Topic: https://lists.openembedded.org/mt/117489879/3619737
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+---
+ meta/classes-recipe/uboot-config.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
+/uboot-config.bbclass
+index 823a66157a..87ec908000 100644
+--- a/meta/classes-recipe/uboot-config.bbclass
++++ b/meta/classes-recipe/uboot-config.bbclass
+@@ -27,6 +27,9 @@
+ # deemed to be limiting in terms of expanding support to more and more kno=
+bs
+ # that might need to be turned to customize a config build.
+ #
++# NOTE: Suport for this legacy flow is now depcrated and will be removed f=
+rom
++#       master after the wrynose LTS release.
++#
+ # UBOOT_MACHINE =3D ""
+ # UBOOT_CONFIG ??=3D <default>
+ # UBOOT_CONFIG[foo] =3D "foo_config,images,binary"
+@@ -181,14 +184,19 @@ python () {
+                 if config =3D=3D f:=20
+                     found =3D True
+                     items =3D v.split(',')
++                    if items[0] and len(items) > 1:
++                        bb.warn('Legacy use of UBOOT_CONFIG[%s] =3D "%s" i=
+s deprecated.  Please move to using UBOOT_CONFIG_* variables:' % (f, v))
++                        bb.warn('    UBOOT_CONFIG[%s] =3D "%s"' % (f, item=
+s[0]))
+                     if items[0] and len(items) > 3:
+                         raise bb.parse.SkipRecipe('Only config,images,bina=
+ry can be specified!')
+                     d.appendVar('UBOOT_MACHINE', ' ' + items[0])
+                     # IMAGE_FSTYPES appending
+                     if len(items) > 1 and items[1]:
++                        bb.warn('    UBOOT_CONFIG_IMAGE_FSTYPES[%s] =3D "%=
+s"' % (f, items[1]))
+                         bb.debug(1, "Staging '%s' for IMAGE_FSTYPES." % it=
+ems[1])
+                         imagefstype =3D items[1]
+                     if len(items) > 2 and items[2]:
++                        bb.warn('    UBOOT_CONFIG_BINARY[%s] =3D "%s"' % (=
+f, items[2]))
+                         bb.debug(1, "Staging '%s' for UBOOT_CONFIG_BINARY.=
+" % items[2])
+                         binary =3D items[2]
+                     break
+--=20
+2.43.0
+
 
