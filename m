@@ -1,255 +1,265 @@
-Return-Path: <adarsh.jagadish.kamini@est.tech>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 770C5D2F038
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 14:28:00 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12462.1769524071259813395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BBBD2F03E
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 14:40:10 +0000 (UTC)
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12451.1769524800908273914
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 06:27:51 -0800
+ Tue, 27 Jan 2026 06:40:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=d7yTqlOq;
- spf=pass (domain: est.tech, ip: 52.101.83.46, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BynGKH8GMwkZiIuQPTaYW5bHPDkGHGTsnFNGPH2cEGbEDJIxTiKJgVf1d/K9n1EMLNAkhit4JwYpoVl/6YnWT77ie4TmGkHwVTmiANjWWWYjsYivxwm8M7Ij/Hzobtuzxpgjz4oexnKypVQ5fYa2IV5j+TRcd8ga37YkJrjS677t3pMlRO0OM1yGk+tMXCD9zFW02mjWLUHP5ZxkHfTYYCj64weLnjUe1sI/9Z9jknRoJDHHH+IHAqwBP+Dpuc4WpAk55DWqy/PyZxWrRisoQuXHHtAkBDIlW4Uyrdf6HmevvBuFmUUJXEviwfIhoanUzoFAqCibYyb8c7gfPNJ3eA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iG18e9D961Yf/bVHzO5vm70z+plm+A0dN/n1RHO3O2M=;
- b=pmKby6QcSGddcQnhDyLHlx0lZl37xBVo/t6T+nykdZGvGbbeJDiYFUYGl7+HtKaO1ODLiq3p8eAFy/wEEqT/c2QcD+0k3pmKPzyhTU7r1Iy7JaOQ3uBRWjfFBNd8ViUkJp8XkmXYD2NFuqrqiVnbJOmkKvqOE0AvKbND8OXAyBvSDiXDCXzh4dNE1BwMA+JmoCP65S2trsxprlqkhKLXbZC9UACHqJpqr6SlJH70mduUIaXZkWI8rxmC9xhg4H3GJRh8d5rprhPVJG/ZffqH47vImh53tuKAeQrHlTrwBpLpRlZoQqDDTm7lhOC6J62rJi7Lts7ulKsZrdJ7DnUOPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iG18e9D961Yf/bVHzO5vm70z+plm+A0dN/n1RHO3O2M=;
- b=d7yTqlOqVOKJd8G3N0b3C7sjr2yABbU2XJaFiOFsi3IrwaMacQ5sNUaVHnxqVxZDv2XQUSO64cE35YdjxjY8lWLsSkVMnOaeoFWQAfEBgwCw/gGLlt7rIPelDdIJKG4NbSfCVvxKnyawXm/Qxi0vLaExn+ovtwKyS41lkN4Hs+IbDIvigNW7w/K9AeQa4I7HChtSzsGHOsbPhax1kIGI+8WowSEq8a42Xd9pJaPEvYZolcVrEQ929FqIQUep+QxZ1G1SXFdqcAs7XKOGrZWIgrqCZL5iXh130NuaSEcKJzAWyPvF993mLhp20QqdyLftykmId9Ju2dPGACmudOQccQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by AS8P189MB1286.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2a1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Tue, 27 Jan
- 2026 14:27:47 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%5]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
- 14:27:47 +0000
-From: adarsh.jagadish.kamini@est.tech
-To: openembedded-core@lists.openembedded.org
-CC: david.nystrom@est.tech,
-	Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][scarthgap][PATCH] avahi: Backport fix CVE-2025-68276
-Date: Tue, 27 Jan 2026 15:27:39 +0100
-Message-ID: <20260127142742.81887-1-adarsh.jagadish.kamini@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P302CA0039.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:317::12) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=SGa1Uxdv;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=M4c+FmCK;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.152, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0ADBD1400507;
+	Tue, 27 Jan 2026 09:40:00 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 27 Jan 2026 09:40:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1769524800; x=1769611200; bh=4CQFKcNydFtR6TBmV/D6s+DI4mavbtUc
+	Ocd18T5fCnQ=; b=SGa1UxdvExSrwLtj3k6eQ9FDTg423km8b5ZH9ikHWnB1am9B
+	BH3k46qYmxoXs3jLQy7ptr5tON/6M0iiFpX3VY+XB4WYWzWB6RAEPD57a8/sHvxE
+	z8U7Ph6f7Z63z/nE8+OgzfT4evYOJk98IdaEcwGHh0vyk/mFEu1ZjGzkOBCpA45V
+	GRK4tuF+cbpyrruEno79wyQuRF3LOoFhqEV9KTZOhj8CooDAU6nBCOfxmvqLSNIF
+	FLRtrYKrAuh+dI7l1ArFYlKA3/IAJdH4EFjv+2aK7kObV+9zXuKUkfYv/y5/M9LG
+	dj+bRVOfPj/I64tx/6lCqCsoMpMH+okNOO5MRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769524800; x=
+	1769611200; bh=4CQFKcNydFtR6TBmV/D6s+DI4mavbtUcOcd18T5fCnQ=; b=M
+	4c+FmCKQep6xAXFSShwlgP+fw1XIVetV+gIT60I+1aJ1FXihX59ck1Oil0x22i0L
+	d6nzV/oT2OLomZ2lOW4HBSDRDxIVEfJHlMNoZt6W0HBrGzWiwVNHQfh016IwBpK9
+	VAxPqC1svM3BrLuknel6KFAb7tt0DizO+O9k+wpmpoUSS3DEhZJg+Zc1knN6aq06
+	RvWGrfppZJjbwuBcLo9N9a3Fae3bQQbNP0AoCMkTTsEsIMkMLYVKZshbbdHYdfm7
+	kSKAn70sm93lGLiNuyVjQhGuGoVf5DO5l7yl2WS1gEtzt4Z9rima5QnU0kI3U3iP
+	NwKHExdYGox5hLZ0rb9Ag==
+X-ME-Sender: <xms:P854aYps-m5Odfj57kos2MgtvPllmO3n82dSAdZNmNbbup5J2z-dQQ>
+    <xme:P854aaGA8kf35nlKkNp6MGOsYop5ISbLcRAeapyC_CTMqiN3pvRMkCl3Cu_xsgwd0
+    anYgs7_QrN8vm__0I5XqcYv-yLRrlBmJpfA5ph-_H0s3foqT2E8eZY>
+X-ME-Received: <xmr:P854aQt-KDy-pJtBQ4GYqd2sayu9aGuPg3Mvs8oH0VlupGSosppoeTpeKssKYmoJbSQmAzY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduiedtjeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucgoufhushhpvggtthffohhmrghinhculdegledmnecujf
+    gurhepkffuhffvffgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegrrhhk
+    vghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpeefue
+    dvleduvdejvdeuiedviedtjeeludfgleffteelhffgkeefvdelfedvvdeitdenucffohhm
+    rghinhepiihoohhmrdhushdphihotghtohhprhhojhgvtghtrdhorhhgpdihohgtthhord
+    hiohdpohhpvghnvghmsggvugguvggurdhorhhgpdhgohhoghhlvgdrtghomhenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrg
+    hrkhgvrhdruggvvhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhr
+    tghpthhtohephihotghtoheslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhgpd
+    hrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghn
+    vghmsggvugguvggurdhorhhgpdhrtghpthhtohephihotghtohdqshhtrghtuhhssehlih
+    hsthhsrdihohgtthhophhrohhjvggtthdrohhrghdprhgtphhtthhopedfmgenphgruhhl
+    fdesphgsrghrkhgvrhdruggvvh
+X-ME-Proxy: <xmx:P854aUVzzNUDF-K0Yylfc2BYW_ixxfcdxCH3v7xUyhDtSXBeN6oJeQ>
+    <xmx:P854aUGlS3RLfC5fIxmlbb4dD61amMQf06KgfByJs6TJPwZ2tJSWGA>
+    <xmx:P854ae3sOrajU61Pz4RO2V1BFycP7FSQtDwceWNVhIbGMSbAUTHrmA>
+    <xmx:P854aeOLha12BINUvjQ4xPK45FORDL_n7UEvtgvQYv7B-oWaWjuKyQ>
+    <xmx:QM54aaniBzROcOrWMGVdXO5oJQgIrTrf0F0PAY7Nk-IiVF8CXiuelsy1>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Jan 2026 09:39:59 -0500 (EST)
+Message-ID: <dcd18fd1d50785e049d9f9508cce941cc657dead.camel@pbarker.dev>
+Subject: Yocto Project Status 27 January 2026 (WW05)
+From: Paul Barker <paul@pbarker.dev>
+To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, 
+	yocto-status@lists.yoctoproject.org
+Date: Tue, 27 Jan 2026 14:39:39 +0000
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-JmiEDJlkuWome5PGuhmC"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|AS8P189MB1286:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4074e9a-4d9d-4f5e-c6eb-08de5db03e01
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0anAbsQAz7lavX9K7XWtx/Ux11U8iJ4z7wqSpGaEop+/qISdZ0U61OWY28b8?=
- =?us-ascii?Q?V38x4skEUBNlC/MrdQDwQwjug1P8LqpF0GkaEYnq1FdkEiawV3K2G4VR+voK?=
- =?us-ascii?Q?vfJt0rDQ+GBEf503jWFfciz9rpCfbs0H9VcBGaaEy97eXVonHdnhawMJUAjl?=
- =?us-ascii?Q?JaDFlcTfzN98ZcSgeFPnG9TeV2kM8fl21oVPrr8xTbtFNK7fZk3ssznHDZz7?=
- =?us-ascii?Q?E6swb4HkVlRHqCjlUTDys3KrJIYNOzagqasQXW2k1X0h4HxrYTAbl6r1dzVX?=
- =?us-ascii?Q?VS817QuvIFi+SUYChfbIAArp8ZC5ER6HWE9LUY4iCaQ81bzLm1GJiXFpY7BQ?=
- =?us-ascii?Q?mLKYcW4qBaCWgr+hWqdUUoTeXnIe+uRSPIFmAj/snovHcmW4tKTmYMQTJT0O?=
- =?us-ascii?Q?/V1O6vPlO8kS/xJbsnZRvIRqNW28kUPchs8bM2O41LZjKkuHXjEbnE5JDIEc?=
- =?us-ascii?Q?luZrDQH3gG/uzRC71tutGyp9Tl+V+c1NmQRcxpqdedwWJkGyx+EJHM8UPHBT?=
- =?us-ascii?Q?3R1D/2u9sGLuubE5eokra4z4saB+JITgXLAC3Kj/Pepc3XiNqPz8LwMTe/WM?=
- =?us-ascii?Q?zw21AYUrnzN16z5o1mRlGVoOQNratb7DsqnLi6ittgI7XzcmgrkwDLUoF2Xo?=
- =?us-ascii?Q?amZDeqldCBqVT6JK1OZuuYr6J1Ib0bsOOYMRDJUEB2F+6DaWN31MMakImzSs?=
- =?us-ascii?Q?ZbpiWF+CC04sBCG5V/NmatI5X1Q2SIqGqLACySyMcimwnvYOepKf/ZGEDUb4?=
- =?us-ascii?Q?Eo/nZfJnluqsFHzbqwyoOBbXWzFRsHSdV0HUTYaSM0m/LYrNxVwqpUZ8fflK?=
- =?us-ascii?Q?LFeVvWLIKUl/zPf5pE5ZIq4pGYUFz9Xr65gb6jbwSxzlXUUTZRi93aIkpd+S?=
- =?us-ascii?Q?PCpSh2AtoQNy8Nul4Q8t/A/6/Fcy50vxtcevIChJAn57+mNz4eCvtU0EzUE4?=
- =?us-ascii?Q?wr2GOaE237uGTwNXrY4LGCBWMYeXVwoe0rbkoo15vdL8vZYBc/vuLyUQgOh1?=
- =?us-ascii?Q?aMe+Sj7uarRVrs/qOzpR6alYZjXgBG7PDjGJYzPo5FCSITDAS8KJhJ+WVhc4?=
- =?us-ascii?Q?O7m9g6wmc0praYXFv9zryHwTR83VeuLYoCnhqBFBaqK+6I+SmX+OIve3HN6y?=
- =?us-ascii?Q?jgQ/GKBySxPBzmAIaSB1jACpqGrAQ1SURp78azSYLsyLChwP1qkGbojY36lD?=
- =?us-ascii?Q?lBHPO7M/CV6ktMV7Glj9ZYdux/kqxQxttUEcs0oKnt/nwaXJ+mi64/xta/Rv?=
- =?us-ascii?Q?7bbxoQ6TyJL2GK6FfZrv4Ms0ycdDiZ/bFLz+eFH74GVw8VfNfFhvOPPL5KFm?=
- =?us-ascii?Q?a65nCjucHXJf+K32z8qw0ip28uKuZlHkjuGoxD51fwoZzK6rfkRHP42fbfKw?=
- =?us-ascii?Q?rEH3VsgmWvmlZxa8u8wddn2eKNeCNH9AaTqZJ615md9rQ5wLBXdHHnu2mb+O?=
- =?us-ascii?Q?rkS5MU9zw5ue9YML+C+OIgsHFWX/sD5PER86AlQOSX89KoPCoBiOwFvS6u4W?=
- =?us-ascii?Q?j0gXsjJC2L2QNkIc7yzgFTiZA5bzCbOjytPCNbZeyD3ly1sCV2buEv35xqTK?=
- =?us-ascii?Q?yPEg6MTHN7qrRJzwk6ZTWmQ6CqZTE62dikSjQscD?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?8ZbiAUMd14xk5Hrd3HeZiNoq9tFgK2cXZpjU/r86+MxaifLmg0hLBrhTmQWa?=
- =?us-ascii?Q?5z0sS5gd612ABvXpzVYOipNmebyndRBsAsCiVLBTuwi5xFLIx2NL3rK/6YWL?=
- =?us-ascii?Q?M7kxhb0wLCGBq8BBgX1RzHz5dkLOQg4YTUT2RqU2qhbH3icSyiPnVdplwscr?=
- =?us-ascii?Q?Vi9mCjcmcaGDO4AEbpnF1W2q06NELTfVxOgt5NEvg9s+T5znZaf2rM8hajmN?=
- =?us-ascii?Q?HViBrG3YIUfDhcvhLYClB4cmi/vdJnH4oSodbFVjQCadYDAxX9ufblXauidu?=
- =?us-ascii?Q?862uUexR2cJV8F9L97dGCRWsPQqFOUfzLqjjNiTmfJG7O+3b2jZyLudziwho?=
- =?us-ascii?Q?y1bFyMR4ApB5EBb5n4pSepThieKppJh3BJGnthZndJgdJdIvZkXGRLzWi1xF?=
- =?us-ascii?Q?bM9KOuEKlhjiPORj0I1wBPPymOpiKpSTAssepUCnTG8k4c87is1cUs3+vLP0?=
- =?us-ascii?Q?ma5XMILS0amMCeNK1dxE93SQhpbpSY71Bn4Yze+01r5dTwimpduZUUIzk3fJ?=
- =?us-ascii?Q?e7B3qNf+uN73yfwk53T85Ug9B50zNb5VCYVZie6AXRyOQq20pVQFpAz6dss5?=
- =?us-ascii?Q?HQ2KQa/eIr7sVmrWf3TK4dUlQKWwgKjuG4BJHNBkfB1DQFfRRlCu+TM3jRJY?=
- =?us-ascii?Q?c2NBRWT4uwr8S4N+1HKrv+8iA6hAwYXk9gdg9TGZ7RhG7FSfbgMwtjGTroX7?=
- =?us-ascii?Q?VQXWcNP/frQcBloAzyMCo90E1pWvEXFiU24oZ2VYKRWHcgx59n4BJznMw3nS?=
- =?us-ascii?Q?yS/ci6KtXS57CqSaxoIrBFlclgV++Z2q6LP/XJl86wMehorp7gZ1GuQwyrxw?=
- =?us-ascii?Q?IZzcHvd+b2ZLyhc5AshSZpmKaQBOTfRf7rtNEnG1IB+9iaJ3dQiN1g+MPhbM?=
- =?us-ascii?Q?X0o4J9CxF8jHtfVltXe2LAUclp8pOXrnt7QHTrndwW8+vv/9WGKK9SwATSyA?=
- =?us-ascii?Q?hc4QmYanfGwqSbUfRppHljo0FK/D5CuQRnyIrCqRkLS3y0DndhNHOr46WkbF?=
- =?us-ascii?Q?znY1bimPxjcR4J/xxHx+TqcaT3/SimIGRSHLmN367lX6dNHbL/aG2endsSh+?=
- =?us-ascii?Q?C6/dReSNetgyGoAFH6pKQRdU3T4iNBdmCmiZNBGTlRbt/iMhZ/5KToKWbhWR?=
- =?us-ascii?Q?Vw5VN2J1siNHRcP/l42qNxxM7Wuu7jb5NQ+2fNkTCQgKiOJCsyAXmfyNYnkI?=
- =?us-ascii?Q?osY4SiNM5sKuD5tFSSzFNDojXY+lRK52QQyw4fTspybUYKVPtgxcIVmvHcPF?=
- =?us-ascii?Q?Wz9oUR4xCG4TDtiWvUsl09aWVfEP+ogxoVeiIR2zkryAlnvB8pDzeL48Fd1A?=
- =?us-ascii?Q?I9xK8DNavx6pRSlcMGdvz6qz3tN5hKprQp30k5apArW6tTmOg0SdtJc0b/7J?=
- =?us-ascii?Q?BIO4yVdJiY1+0KJPWw4eQW3vnuqGauWqQfVB6SoBb0uH9FfpF1ORYYNoPVZX?=
- =?us-ascii?Q?5N4uEpbc399LNV3Grn8ysF5x5WrqGJK6dWZoID7VANuwPPAR15avvOhagIQ0?=
- =?us-ascii?Q?vEeCkdS82QBaUlW55jhmzrl8NEFTlkr4x2yfO2ls+Q5U9ExjAu5NF1cysBIF?=
- =?us-ascii?Q?D6TDA6zj8PG2SpULM2sKSUeqKjyjl977S8bVSWYSEL9wiYIuGe/Z1c7iC/wv?=
- =?us-ascii?Q?g/TFBIRtWIm5NSweIL8XnZYUoOcmW5X5jM2EUfWKlI38bodNQRrie5opoEcG?=
- =?us-ascii?Q?J1RikKMKfUL3U6ctoRPmZlFR8iPDS31iGSIm2s20sTn//RX6lQ3WcgxNjKBB?=
- =?us-ascii?Q?Kd1jIRoDMRc4nZTigqXTNZ89iN+6ZaQ=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4074e9a-4d9d-4f5e-c6eb-08de5db03e01
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 14:27:47.0347
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lxc8b5kxjP2gcj+5H3adaHUPsY5cotz31BU6MPH4EcS7Aq2ZEqe2mkzuS9Vy/uqJpt32CFJi0KU3tN/24gigplCS/wd7vRiP/d4PFAwjoH4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1286
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 14:28:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230047
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 14:40:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230048
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
----
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
- .../avahi/files/CVE-2025-68276.patch          | 68 +++++++++++++++++++
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.pa=
-tch
+--=-JmiEDJlkuWome5PGuhmC
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-co=
-nnectivity/avahi/avahi_0.8.bb
-index 7930bd3037..bb20fd17cc 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -37,6 +37,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/avahi-${P=
-V}.tar.gz \
-            file://CVE-2023-38473.patch \
-            file://CVE-2024-52616.patch \
-            file://CVE-2024-52615.patch \
-+           file://CVE-2025-68276.patch \
-            "
-=20
- GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch b/m=
-eta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-new file mode 100644
-index 0000000000..b3e11f9597
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-@@ -0,0 +1,68 @@
-+From d5d18ced67e969d6a5052cacdbd7d4b2c97a1a3f Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 17 Dec 2025 08:11:23 +0000
-+Subject: [PATCH] core: refuse to create wide-area record browsers when
-+ wide-area is off
-+
-+It fixes a bug where it was possible for unprivileged local users to
-+crash avahi-daemon (with wide-area disabled) by creating record browsers
-+with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by calling
-+the RecordBrowserNew method directly or by creating hostname/address/servi=
-ce
-+resolvers/browsers that create those browsers internally themselves).
-+
-+```
-+$ gdbus call --system --dest org.freedesktop.Avahi --object-path / --metho=
-d org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -1 1
-+Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipient d=
-isconnected from message bus without replying
-+```
-+```
-+dbus-protocol.c: interface=3Dorg.freedesktop.Avahi.Server, path=3D/, membe=
-r=3DResolveHostName
-+avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `e' f=
-ailed.
-+=3D=3D307948=3D=3D
-+=3D=3D307948=3D=3D Process terminating with default action of signal 6 (SI=
-GABRT)
-+=3D=3D307948=3D=3D    at 0x4B3630C: __pthread_kill_implementation (pthread=
-_kill.c:44)
-+=3D=3D307948=3D=3D    by 0x4ADF921: raise (raise.c:26)
-+=3D=3D307948=3D=3D    by 0x4AC74AB: abort (abort.c:77)
-+=3D=3D307948=3D=3D    by 0x4AC741F: __assert_fail_base.cold (assert.c:118)
-+=3D=3D307948=3D=3D    by 0x48D8B85: avahi_wide_area_scan_cache (wide-area.=
-c:725)
-+=3D=3D307948=3D=3D    by 0x48C8953: lookup_scan_cache (browse.c:351)
-+=3D=3D307948=3D=3D    by 0x48C8B1B: lookup_go (browse.c:386)
-+=3D=3D307948=3D=3D    by 0x48C9148: defer_callback (browse.c:516)
-+=3D=3D307948=3D=3D    by 0x48AEA0E: expiration_event (timeeventq.c:94)
-+=3D=3D307948=3D=3D    by 0x489D3AE: timeout_callback (simple-watch.c:447)
-+=3D=3D307948=3D=3D    by 0x489D787: avahi_simple_poll_dispatch (simple-wat=
-ch.c:563)
-+=3D=3D307948=3D=3D    by 0x489D91E: avahi_simple_poll_iterate (simple-watc=
-h.c:605)
-+=3D=3D307948=3D=3D
-+```
-+
-+wide-area has been disabled by default since
-+9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).
-+
-+https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-865v-g5rc
-+
-+CVE: CVE-2025-68276
-+Upstream-Status: Backport [https://github.com/avahi/avahi/pull/806/commits=
-/0c013e2e819be3bda74cecf48b5f64956cf8a760]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ avahi-core/browse.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/avahi-core/browse.c b/avahi-core/browse.c
-+index e8a915e..59d53cb 100644
-+--- a/avahi-core/browse.c
-++++ b/avahi-core/browse.c
-+@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepare(
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_VALID(flags, AVA=
-HI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FLAG=
-S);
-+     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags & AVAHI_LOOKUP_USE_W=
-IDE_AREA) || !(flags & AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS=
-);
-+=20
-++    if ((flags & AVAHI_LOOKUP_USE_WIDE_AREA) && !server->wide_area_lookup=
-_engine) {
-++        avahi_server_set_errno(server, AVAHI_ERR_NOT_SUPPORTED);
-++        return NULL;
-++    }
-++
-+     if (!(b =3D avahi_new(AvahiSRecordBrowser, 1))) {
-+         avahi_server_set_errno(server, AVAHI_ERR_NO_MEMORY);
-+         return NULL;
-+--=20
-+2.34.1
-+
+Current Dev Position: YP 6.0 M1
+Next Deadline: YP 6.0 M2 Build Date 2026-02-02
+
+Next Team Meetings:
+- Bug Triage meeting - Thursday 29th Jan. 7:30am PDT
+  (https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+- Weekly Project Engineering Sync  - Tuesday 27th Jan. 8am PDT
+  (https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
+- Yocto Project Patch Review - Thursday 29th Jan. 10am GMT and Monday 2nd F=
+eb. 9am PDT
+  (https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1)
+
+Project data dashboard: https://dashboard.yoctoproject.org/=20
+
+Key Status/Updates:
+- YP 5.0.15 was released
+- YP 5.3.1 is under review
+- YP 6.0 M1 is in QA
+- YP 4.0.33 is queued for QA after 6.0 M1
+- YP 6.0 M2 is due next week!
+- Good progress has been made with the autobuilder issues and an M1
+  build is in QA but we still don=E2=80=99t have the stability in builds we=
+ need
+  for reliable project operations.
+- There are currently 6 high open bugs, which will block M2:
+    - Issues reusing binaries from fedora 43 (and maybe ubuntu 25.10) on
+      older systems (patchelf triggered?) (#16074, #16087)
+    - x86 kvm broken on Fedora 43 (#16074)
+    - AB-INT: build-sysroots: useradd command did not succeed (#16135)
+    - Hangs of the autobuilder controller (database locking?) (#16129)
+    - Generation of releases.json needs updating (#16138)
+- The number of intermittent failures affecting builds, both stable and
+  development, continues to be problematic. Any given build is now
+  statistically likely to hit one or more of them and we often don=E2=80=99=
+t
+  have successful builds. Since we struggle to get help in addressing
+  these, we need to change and start potentially blocking releases
+  (including stable/LTS) until these get addressed in some way. We are
+  holding some dedicated meetings to triage these and find ways of
+  removing the failures from our builds which may include reducing
+  testing.
+- Patches are merging again but there is a backlog and we=E2=80=99ve had to
+  prioritize simpler changes. We continue to struggle for bandwidth for
+  changes needing in depth review/feedback. This could impact features
+  making it into the LTS.
+
+Want to contribute? We would appreciate help with the following areas:
+- We have several open issues for pseudo and limited maintainer time to
+  work on them. Help from someone familiar with systems programming in C
+  would be greatly appreciated.
+  https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
+=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
+ution=3D---
+- There are a large number of intermittent failures on our autobuilder,
+  any help with investigating, reproducing or solving these issues would
+  be welcome! https://valkyrie.yocto.io/pub/non-release/abint/
+- Many recipes in openembedded-core would benefit from a new recipe
+  maintainer. Please look at
+  https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/incl=
+ude/maintainers.inc
+  and see if you can adopt any of the unassigned recipes.
+
+For more ways to contribute, see https://docs.google.com/document/d/18oxKWx=
+LorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing
+
+New to the project?
+- We have a list of issues we think are good places to start contributing:
+  https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
+
+Tracking Metrics:
+- WDD 2978 (last week 3041) (https://wiki.yoctoproject.org/charts/combo.htm=
+l)
+- OE-Core/Poky Patch Metrics
+    - Total patches found: 1097 (last week 1099)
+    - Patches in the Pending State: 152 (14%) [last week 152 (14%)]
+      https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+
+YP 6.0 Milestone Dates:
+- YP 6.0 M2 Build Date 2026-02-02
+- YP 6.0 M2 Release Date 2026-02-13
+- YP 6.0 M3 Build Date 2026-03-02
+- YP 6.0 M3 Release Date 2026-03-13
+- YP 6.0 M4 Build Date 2026-03-30
+- YP 6.0 M4 Release Date 2026-04-26
+
+Upcoming dot releases:
+- YP 5.3.1 is under review.
+- YP 4.0.33 is queued for QA after 6.0 M1.
+- YP 5.0.16 Build Date 2026-02-09
+- YP 5.0.16 Release Date 2026-02-20
+- YP 5.3.2 Build Date 2026-02-16
+- YP 5.3.2 Release Date 2026-02-27
+- YP 4.0.34 Build Date 2026-02-23
+- YP 4.0.34 Release Date 2026-03-06
+- YP 5.3.3 Build Date 2026-03-09
+- YP 5.3.3 Release Date 2026-03-20
+- YP 5.0.17 Build Date 2026-03-16
+- YP 5.0.17 Release Date 2026-03-23
+- YP 4.0.35 Build Date 2026-04-06
+- YP 4.0.35 Release Date 2026-04-17
+- YP 5.3.4 Build Date 2026-04-13
+- YP 5.3.4 Release Date 2026-04-24
+- YP 5.0.18 Build Date 2026-04-20
+- YP 5.0.18 Release Date 2026-05-01
+- YP 5.0.19 Build Date 2026-05-26
+- YP 5.0.19 Release Date 2026-06-05
+
+The Yocto Project=E2=80=99s technical governance is through its Technical
+Steering Committee, more information is available at:
+https://wiki.yoctoproject.org/wiki/TSC
+
+The Status reports are now stored on the wiki at:
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
 --=20
-2.44.0
+Paul Barker
 
+
+--=-JmiEDJlkuWome5PGuhmC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaXjOKxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bjx/AQCV/2K4Gh+r2UJVeOPTTFLCMG0MGMwSOpDs
+I+SL7xVaCQEA5kXGqtV+xlPqd+21UGdU0bXTATEa2h4TuN5wn1DSKA0=
+=XVEz
+-----END PGP SIGNATURE-----
+
+--=-JmiEDJlkuWome5PGuhmC--
 
