@@ -1,209 +1,335 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D22D2FEE0
-	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 20:31:02 +0000 (UTC)
-Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.69])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22029.1769545858364552294
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFA0D2FEE1
+	for <webhook@archiver.kernel.org>; Tue, 27 Jan 2026 20:41:42 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22146.1769546494407539355
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 12:30:58 -0800
+ Tue, 27 Jan 2026 12:41:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=Tie3JPjq;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.48.69, mailfrom: reatmon@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PleeEwsAWpGtN6oNymWGuWnsYyqLqHGK7unbBXFvRT2KETBjT5DHqfM3LBDTO841B3x/WSh78wH1oOdp+zi1ZDr0Rg2AbujSZPHGTdEdggSAR/PvqXdjSbZwzdKJCn0cIMliA+Gq3ldfTaxfIG6b3lNzL0AFgJQG+sSw4NsWkEz1cB36qqMmZmj4b63As7YnGemdPTcJeGqru9nClfGLTV21xi7GCj/4/IozLOoKQoiB2VWufhCr42OVHlG1k9MZAHKMI8mt9Dt4gG8+x5eeTe4g8ZdQRC4bbtW8YhOlAPftLgPGlSQ3kLbubwfAk3hsD5gM0jrXA37HKBtpR9jwUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qk9Er9DeQD4s8rm9HEpa7rWfuZ37/Z8xNHjfAROGys4=;
- b=sju0bjKswPSlCYHU6afrxMO64sI5e1LAmgAfbDXHwbAYr5tUTssjp6li/Sk3Yk55+sMHUzipG9ttVLIQ8xOBhautR+UMI2S/EjTYUATar9WILizUK2f2962XgFe+cAAkri9tLuygxHLBYWwYdEI+Eu9ToqumVA0xbqVtFUXOcSIxvmsnLANKGPi+M9LAUk3Hn7w1jmaZFyS2JzrYS+/EA2IvHLXph4Xpb8TGCMUsu6bi2dySasbe90nq3ZgRceyFSV/2O9sjh/Sw+AXD7k/3AT9eF7FRyP0ugoSvyG54TIiYPVt3T2KssJTjrn2+ji/O4YrrOA/mVb0hhQYCWXP1NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qk9Er9DeQD4s8rm9HEpa7rWfuZ37/Z8xNHjfAROGys4=;
- b=Tie3JPjqvs6fZdKe48pYt9Jp2TJLgFxHqahG9QPXkvXAXiktNvITidEoj+wjvCSPeg9MbksBOW+45tm549mqD4iqpelzoXiErTdsnCRrQlC1BNT0laxXvVLhjzK8XRR8WYF85kCAo4u+CLILJoN2DrdzPL92QTbY3Rv4qbN/TMk=
-Received: from BL1PR13CA0300.namprd13.prod.outlook.com (2603:10b6:208:2bc::35)
- by BN0PR10MB5046.namprd10.prod.outlook.com (2603:10b6:408:127::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 20:30:56 +0000
-Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
- (2603:10b6:208:2bc:cafe::88) by BL1PR13CA0300.outlook.office365.com
- (2603:10b6:208:2bc::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Tue,
- 27 Jan 2026 20:30:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 20:30:54 +0000
-Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
- 2026 14:30:51 -0600
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 27 Jan
- 2026 14:30:51 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 27 Jan 2026 14:30:51 -0600
-Received: from grumpy (grumpy.dhcp.ti.com [128.247.81.229])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60RKUpOL1109933
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 14:30:51 -0600
-Received: from reatmon by grumpy with local (Exim 4.97)
-	(envelope-from <reatmon@ti.com>)
-	id 1vkpi7-000000003pN-2ejx
-	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Jan 2026 14:30:51 -0600
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] uboot: Deprecate legacy UBOOT_CONFIG flow
-Date: Tue, 27 Jan 2026 14:30:51 -0600
-Message-ID: <20260127203051.14706-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=eGx3s9ki;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso1781575e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 12:41:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769546493; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VOoawQX69lGycU2dmz9X+LfsPBzpavb6gBnvBPUiW2MiDsRa/SRplxbuf7rjoSH8y9
+         N5qNLKLFUUxJOwfZ2sxJl1+al/1hscb9MYaJUTNJydQMRUCqRQCHrOtVlp/aXq2bUUHk
+         HQF4bDOJsQ9XS+gBalRIrkC5KvEiVyKw5JJzDJb3mPbu0AQD13KHxICdf3ci6kcVkyZy
+         7RwbfoWSviYQrmy6Ids/F1d/ybhC4Xl0bpEZkYEjgJMG5Ms1T5Le6ZGeX8JQWvJsQHxw
+         9pRJ+vo8Ys2/mp8tYrq1gvxRidiDbarJqL8gTo74JH2doXb1x6Lfqxo7yrh4zan8rbxz
+         Y4BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=3nfyPlCglbUue9iQkP5q4fIPWqMcWnDDffstrItk9DQ=;
+        fh=2xcRdSrxlcJCAhyqdTeDZp4r2MPP2xGLphvyZhgylH0=;
+        b=QpuFZYJpRgt3+EwE/lqhF2UqF8ssRsrME2RotHW0Hn8+BAVeq5dHWl8LY1ME0GRYy5
+         vRuJrk4A3ZnXeX8hLLICbvbQWVaW+dMAi/bX59sxkhgqAy4yyaD8yuyD7ACLAIB56EUA
+         fkk0+gGhKc0ClXastg+BSejyvclYphpifHHQ0pu5ey7pJTPlx2eHceIb24Ow3YPUPMUw
+         G+K1j+JyhvgfgOvjdTR3tij27I9DrIidEIZu1BXsOXk0X0wlH86FHzB4CvG8ofe2hrRE
+         5I5ULvdF+Ga6GZpsegbIN11Vnyy6NMC+CbXbOaN6gkjXnxe6rwbXxTJNHTtFaaS0NGko
+         vWfA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1769546493; x=1770151293; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nfyPlCglbUue9iQkP5q4fIPWqMcWnDDffstrItk9DQ=;
+        b=eGx3s9ki7trmMpjkRgCqHFvgjfgztOSo5e5zKV3gxYWgekIrgE2BNBvvfU6Ef9UaCK
+         V9zDoTFA12C/jgxfuiH8GOTLWx7l77EQjIbcuAx5Zkkf4dgDqbd1xcRFGfcgPyIP2S1Q
+         CP9Yprv2vNGq3zFdDJUTlFSWf2wuN4hiZV6SQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769546493; x=1770151293;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3nfyPlCglbUue9iQkP5q4fIPWqMcWnDDffstrItk9DQ=;
+        b=CXGrObiPfhk52ngmNHpuZ9VQ9f0peU4LvoSDwekjuOYJ7f9R/2ZutOaMEllv+hI9BQ
+         Ofx6EatxUL8WUNHhHqcJHTbTKnxCP2FkzixhvBDwFkQDSs98nodIMM82XU8G56szQFQB
+         fjWaphWsyP7KD7alBuV7hiffqXrl2lurjz1ALYlmpgbHNpaNnNamFv9wKe3W0dUzWb2f
+         6iHtyVOxW6aiW5Dw5+IQ4SigoVoV76KQWn3b9i5riJU6LH778hEJKA8f5Wbt0FIo59jo
+         BnN0Krcj9q20fMtB/ZNqKIRLd4EnnZ/pj/PVsGR5pA2p4Zkll2qG4Yrp1UkshzUOtknj
+         lCsA==
+X-Gm-Message-State: AOJu0Yx0XUkFnu03hNTZFNKWeBqd/KHczwz9ibj6a7nnr415L/Iif15P
+	RCjcUxI4JoKUnNO+U3yhGxnVUxsUJ5VPoKrRJm6WBWi5obdKbxm1TYLtK3TITk4f1KzFO1AQDac
+	qykFGL27sd5olUznuJXkCuz2hFMxSmbtakpvQFDSsug==
+X-Gm-Gg: AZuq6aLyZBvl8tEmsmznrkEpadDSnyBxb5rgL/zyOst242lur+yfY9T/aTmukFOm64a
+	H1oNrzpW2p3IRW4pzLZu5TGU2BMC+P3apnHDftvO1rISxq69QY/hHM/RokYO5E80xYvmyU2//dJ
+	uXTsY0mPIzqMUdyBzvzNeuk1mhsfUhBX1S4CTXqRGz08QeItiia3YeKLfX+oKoCnxFIJtCDhcW4
+	LruDfRz3CjUaaJSC0gxlg3QmHBx9GlABHNXjFzVuV4CWwnSwj68IoCD6mWe7svbbcACUxnEAQ+f
+	Vahh8ZpZd8WVLPQsEEN/SRGAwPNv
+X-Received: by 2002:a05:600c:620b:b0:47e:e981:78b4 with SMTP id
+ 5b1f17b1804b1-48069e79968mr36878005e9.12.1769546492669; Tue, 27 Jan 2026
+ 12:41:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|BN0PR10MB5046:EE_
-X-MS-Office365-Filtering-Correlation-Id: 512034a2-5146-4010-3827-08de5de2f868
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ZqMsSBHziKox/T6GgWEWyoOZwKAfwVpq85q+NtQzzDi+0bzTgK4ewGshK0SH?=
- =?us-ascii?Q?yG8/06ezPwWkr//8InQ7enyEMhd6iJTm/OsCS0TkrU9i9kLD8WTjC762rTvC?=
- =?us-ascii?Q?8ZyQV2WgGwhxlG8iv44ZJdb7ZRP/5/6rFFqPiJGw2CKLwJ8fdV5g4N0QISfT?=
- =?us-ascii?Q?n5JqxChX/cNG734dLwzzSMU4yKOQvKk1F/B3Ra/3aSg2ThZycRrJcjL9V2Au?=
- =?us-ascii?Q?3/mEX3cREO6OPIMMRH+gsHyIBPCCDX8hgCwn4AjvVIIybw047K1TLUxHZaeG?=
- =?us-ascii?Q?+NcZpm1gXtCfh0hb/DDBdwRbjfDLGQUAwz8mpW7/dHTDNiLbAL7SzVXUORxh?=
- =?us-ascii?Q?CY93L6118eVcn0tiU42/DRenT54SSFvLW4Eeed7st6c3lul1vB6gLzl/zrNe?=
- =?us-ascii?Q?UmaoWr9n74pOH7nWjiO8d04WaOF4THSIeNH7uVdROp4G4oJz3dAz9bgdXicF?=
- =?us-ascii?Q?NKHbIm22/A+lLz3a8brY/92BnTndEDg7k9orH7TvP1znfmxlN7sLtlk/DrmR?=
- =?us-ascii?Q?2K3LPQmB0o37AyXi/0XA6VA9qcl5TWU/1A8smQkQ21xtCUYNaZKyNYzWomRZ?=
- =?us-ascii?Q?/TBU9jB+3jlBm+7rRzORu+fEY50JfwpdQjk6iRm3apbgwhVTwOwge2/KTWsk?=
- =?us-ascii?Q?ppDxUOcALBPjptfWKEw9fpc5bw/m8sU3KnYhR+8/hoaYAx4KrrQipdydcx5R?=
- =?us-ascii?Q?RD37xV+pivmBjY5hbwXKLdcdXLjGieDH/SMJoeccQrND7z+FVsm8TGQPyilv?=
- =?us-ascii?Q?4sG4n+0DxQGymRjGPdCSnHkVH6JQE/7fHke1VE4i6mu2txgDhNxYa4/bpgTi?=
- =?us-ascii?Q?VhOVDq2T7oDPlymTxsOOevEEA8+lbv/GdjDU4ncqLz7axyFbcnzemBt4blXn?=
- =?us-ascii?Q?Ny1x33lR8wNpNU34OAGAiCj7Hh5ZPoJitBxENXqYf/TWXRHk+0a0RHaGtDRL?=
- =?us-ascii?Q?OunE7+I9hMc08MzheIAXUjuV+HTsaHRhOktKFTkoB4edj0/cWlpr59CAkQbi?=
- =?us-ascii?Q?/IzyhITU8OHI9PxnBFFbSrazDspqeNEIvHgdIz/4c7qkMazIvnSlnme8QX3f?=
- =?us-ascii?Q?xs/of3/59tvsgUTdKbXd4KSPSHRHxmtphKXKFhMBbZO18Ut6pj5pqf7SKXYF?=
- =?us-ascii?Q?Ys2FPfF49YSGxwckHL6300up7yoDpt0AS7Khy48dBDLCQu0DsqmBqqW+oaL5?=
- =?us-ascii?Q?g3mHcde9uQTh4WwwWBlWwl8MyL+LcI9VXukYAZBliDmlqN78DDjiTK5bEeQ7?=
- =?us-ascii?Q?FXOFI5qnDXNOoIv0R8be8HQQhX/ntRkRbXWJYCnenEHusVAmLeNJg8lifo82?=
- =?us-ascii?Q?wKwTTveFRxMf2RT0+oOX4V/R5CQtysdD1Q3ciD6WVFQinVb/mCsjzl7pM2KR?=
- =?us-ascii?Q?1rlbgNlMiuYzBbEQYpj8EF8yVZ+XmGYkBDYUutj4uzo9ZfuVJchCXVTAvIAe?=
- =?us-ascii?Q?ADBpr7EjKiYlkmK+ZhoOZ9PveQeorcTSJ6PvwdSHJgfAXPedMxwg6aLAp6Tw?=
- =?us-ascii?Q?zbpCJzsLrekcHFue8gGyz8jPnv3PqmB5xxcsqVOmSyKAH7XcXv8Np+zUCvKP?=
- =?us-ascii?Q?sTkgbneGAG414GYhY8uP4v4W7o5oB/v3u9AGaKDFfe+EuziIHUU+Y+yGyf8u?=
- =?us-ascii?Q?4uZM4ps+IAPw360RZVGlDvILawFgmdd1vxKmJwDeOki74TAz1pfJxSM82Zml?=
- =?us-ascii?Q?/viw0g=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 20:30:54.3621
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 512034a2-5146-4010-3827-08de5de2f868
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	MN1PEPF0000F0DF.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5046
+References: <20260127203051.14706-1-reatmon@ti.com>
+In-Reply-To: <20260127203051.14706-1-reatmon@ti.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Tue, 27 Jan 2026 21:41:06 +0100
+X-Gm-Features: AZwV_Qjl6adH22XwNzu4thtpoLczm1kN1HSIeLGD6JtrlyA3pGtz_ptN69KCiPM
+Message-ID: <CAMSfU+7L5S2zjkC2DhA_jOYYrLCFN6W7nTkCc6aGg1DRYvGUKA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] uboot: Deprecate legacy UBOOT_CONFIG flow
+To: reatmon@ti.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000001c01a8064964a663"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 20:31:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230065
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 20:41:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230066
 
-Mark the legacy flow for settings the UBOOT_CONFIG options in a comma
-separated list.  This code will still work through wrynose, but will be
-removed once wrynose is released.
+--0000000000001c01a8064964a663
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add warnings to point people in the right direction for fixing their
-configs:
+Le mar. 27 janv. 2026 =C3=A0 21:31, Ryan Eatmon via lists.openembedded.org
+<reatmon=3Dti.com@lists.openembedded.org> a =C3=A9crit :
 
-WARNING: Legacy use of UBOOT_CONFIG[foo] =3D "foo_config,foo_image,foo_bina=
-ry" is deprecated.  Please move to using UBOOT_CONFIG_* variables:
-WARNING:     UBOOT_CONFIG[foo] =3D "foo_config"
-WARNING:     UBOOT_CONFIG_IMAGE_FSTYPES[foo] =3D "foo_image"
-WARNING:     UBOOT_CONFIG_BINARY[foo] =3D "foo_binary"
-WARNING: Legacy use of UBOOT_CONFIG[bar] =3D "bar_config,bar_image" is depr=
-ecated.  Please move to using UBOOT_CONFIG_* variables:
-WARNING:     UBOOT_CONFIG[bar] =3D "bar_config"
-WARNING:     UBOOT_CONFIG_IMAGE_FSTYPES[bar] =3D "bar_image"
-WARNING: Legacy use of UBOOT_CONFIG[bing] =3D "bing_config,,bing_binary" is=
- deprecated.  Please move to using UBOOT_CONFIG_* variables:
-WARNING:     UBOOT_CONFIG[bing] =3D "bing_config"
-WARNING:     UBOOT_CONFIG_BINARY[bing] =3D "bing_binary"
+> Mark the legacy flow for settings the UBOOT_CONFIG options in a comma
+> separated list.  This code will still work through wrynose, but will be
+> removed once wrynose is released.
+>
+> Add warnings to point people in the right direction for fixing their
+> configs:
+>
+> WARNING: Legacy use of UBOOT_CONFIG[foo] =3D
+> "foo_config,foo_image,foo_binary" is deprecated.  Please move to using
+> UBOOT_CONFIG_* variables:
+> WARNING:     UBOOT_CONFIG[foo] =3D "foo_config"
+> WARNING:     UBOOT_CONFIG_IMAGE_FSTYPES[foo] =3D "foo_image"
+> WARNING:     UBOOT_CONFIG_BINARY[foo] =3D "foo_binary"
+> WARNING: Legacy use of UBOOT_CONFIG[bar] =3D "bar_config,bar_image" is
+> deprecated.  Please move to using UBOOT_CONFIG_* variables:
+> WARNING:     UBOOT_CONFIG[bar] =3D "bar_config"
+> WARNING:     UBOOT_CONFIG_IMAGE_FSTYPES[bar] =3D "bar_image"
+> WARNING: Legacy use of UBOOT_CONFIG[bing] =3D "bing_config,,bing_binary" =
+is
+> deprecated.  Please move to using UBOOT_CONFIG_* variables:
+> WARNING:     UBOOT_CONFIG[bing] =3D "bing_config"
+> WARNING:     UBOOT_CONFIG_BINARY[bing] =3D "bing_binary"
+>
+> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> ---
+>  meta/classes-recipe/uboot-config.bbclass | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/classes-recipe/uboot-config.bbclass
+> b/meta/classes-recipe/uboot-config.bbclass
+> index 823a66157a..87ec908000 100644
+> --- a/meta/classes-recipe/uboot-config.bbclass
+> +++ b/meta/classes-recipe/uboot-config.bbclass
+> @@ -27,6 +27,9 @@
+>  # deemed to be limiting in terms of expanding support to more and more
+> knobs
+>  # that might need to be turned to customize a config build.
+>  #
+> +# NOTE: Suport for this legacy flow is now depcrated and will be removed
+> from
+>
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
----
- meta/classes-recipe/uboot-config.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+s/depcrated/deprecated/
 
-diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
-/uboot-config.bbclass
-index 823a66157a..87ec908000 100644
---- a/meta/classes-recipe/uboot-config.bbclass
-+++ b/meta/classes-recipe/uboot-config.bbclass
-@@ -27,6 +27,9 @@
- # deemed to be limiting in terms of expanding support to more and more kno=
-bs
- # that might need to be turned to customize a config build.
- #
-+# NOTE: Suport for this legacy flow is now depcrated and will be removed f=
-rom
-+#       master after the wrynose LTS release.
-+#
- # UBOOT_MACHINE =3D ""
- # UBOOT_CONFIG ??=3D <default>
- # UBOOT_CONFIG[foo] =3D "foo_config,images,binary"
-@@ -181,14 +184,19 @@ python () {
-                 if config =3D=3D f:=20
-                     found =3D True
-                     items =3D v.split(',')
-+                    if items[0] and len(items) > 1:
-+                        bb.warn('Legacy use of UBOOT_CONFIG[%s] =3D "%s" i=
-s deprecated.  Please move to using UBOOT_CONFIG_* variables:' % (f, v))
-+                        bb.warn('    UBOOT_CONFIG[%s] =3D "%s"' % (f, item=
-s[0]))
-                     if items[0] and len(items) > 3:
-                         raise bb.parse.SkipRecipe('Only config,images,bina=
-ry can be specified!')
-                     d.appendVar('UBOOT_MACHINE', ' ' + items[0])
-                     # IMAGE_FSTYPES appending
-                     if len(items) > 1 and items[1]:
-+                        bb.warn('    UBOOT_CONFIG_IMAGE_FSTYPES[%s] =3D "%=
-s"' % (f, items[1]))
-                         bb.debug(1, "Staging '%s' for IMAGE_FSTYPES." % it=
-ems[1])
-                         imagefstype =3D items[1]
-                     if len(items) > 2 and items[2]:
-+                        bb.warn('    UBOOT_CONFIG_BINARY[%s] =3D "%s"' % (=
-f, items[2]))
-                         bb.debug(1, "Staging '%s' for UBOOT_CONFIG_BINARY.=
-" % items[2])
-                         binary =3D items[2]
-                     break
+This might be useful, I grep through code for this word sometimes.
+
+
+> +#       master after the wrynose LTS release.
+> +#
+>  # UBOOT_MACHINE =3D ""
+>  # UBOOT_CONFIG ??=3D <default>
+>  # UBOOT_CONFIG[foo] =3D "foo_config,images,binary"
+> @@ -181,14 +184,19 @@ python () {
+>                  if config =3D=3D f:
+>                      found =3D True
+>                      items =3D v.split(',')
+> +                    if items[0] and len(items) > 1:
+> +                        bb.warn('Legacy use of UBOOT_CONFIG[%s] =3D "%s"=
+ is
+> deprecated.  Please move to using UBOOT_CONFIG_* variables:' % (f, v))
+> +                        bb.warn('    UBOOT_CONFIG[%s] =3D "%s"' % (f,
+> items[0]))
+>                      if items[0] and len(items) > 3:
+>                          raise bb.parse.SkipRecipe('Only
+> config,images,binary can be specified!')
+>                      d.appendVar('UBOOT_MACHINE', ' ' + items[0])
+>                      # IMAGE_FSTYPES appending
+>                      if len(items) > 1 and items[1]:
+> +                        bb.warn('    UBOOT_CONFIG_IMAGE_FSTYPES[%s] =3D
+> "%s"' % (f, items[1]))
+>                          bb.debug(1, "Staging '%s' for IMAGE_FSTYPES." %
+> items[1])
+>                          imagefstype =3D items[1]
+>                      if len(items) > 2 and items[2]:
+> +                        bb.warn('    UBOOT_CONFIG_BINARY[%s] =3D "%s"' %
+> (f, items[2]))
+>                          bb.debug(1, "Staging '%s' for
+> UBOOT_CONFIG_BINARY." % items[2])
+>                          binary =3D items[2]
+>                      break
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230065):
+> https://lists.openembedded.org/g/openembedded-core/message/230065
+> Mute This Topic: https://lists.openembedded.org/mt/117496159/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
+--0000000000001c01a8064964a663
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 27=
+ janv. 2026 =C3=A0=C2=A021:31, Ryan Eatmon via <a href=3D"http://lists.open=
+embedded.org">lists.openembedded.org</a> &lt;reatmon=3D<a href=3D"mailto:ti=
+.com@lists.openembedded.org">ti.com@lists.openembedded.org</a>&gt; a =C3=A9=
+crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Mark=
+ the legacy flow for settings the UBOOT_CONFIG options in a comma<br>
+separated list.=C2=A0 This code will still work through wrynose, but will b=
+e<br>
+removed once wrynose is released.<br>
+<br>
+Add warnings to point people in the right direction for fixing their<br>
+configs:<br>
+<br>
+WARNING: Legacy use of UBOOT_CONFIG[foo] =3D &quot;foo_config,foo_image,foo=
+_binary&quot; is deprecated.=C2=A0 Please move to using UBOOT_CONFIG_* vari=
+ables:<br>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG[foo] =3D &quot;foo_config&quot;<br=
+>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG_IMAGE_FSTYPES[foo] =3D &quot;foo_i=
+mage&quot;<br>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG_BINARY[foo] =3D &quot;foo_binary&q=
+uot;<br>
+WARNING: Legacy use of UBOOT_CONFIG[bar] =3D &quot;bar_config,bar_image&quo=
+t; is deprecated.=C2=A0 Please move to using UBOOT_CONFIG_* variables:<br>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG[bar] =3D &quot;bar_config&quot;<br=
+>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG_IMAGE_FSTYPES[bar] =3D &quot;bar_i=
+mage&quot;<br>
+WARNING: Legacy use of UBOOT_CONFIG[bing] =3D &quot;bing_config,,bing_binar=
+y&quot; is deprecated.=C2=A0 Please move to using UBOOT_CONFIG_* variables:=
+<br>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG[bing] =3D &quot;bing_config&quot;<=
+br>
+WARNING:=C2=A0 =C2=A0 =C2=A0UBOOT_CONFIG_BINARY[bing] =3D &quot;bing_binary=
+&quot;<br>
+<br>
+Signed-off-by: Ryan Eatmon &lt;<a href=3D"mailto:reatmon@ti.com" target=3D"=
+_blank">reatmon@ti.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/uboot-config.bbclass | 8 ++++++++<br>
+=C2=A01 file changed, 8 insertions(+)<br>
+<br>
+diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
+/uboot-config.bbclass<br>
+index 823a66157a..87ec908000 100644<br>
+--- a/meta/classes-recipe/uboot-config.bbclass<br>
++++ b/meta/classes-recipe/uboot-config.bbclass<br>
+@@ -27,6 +27,9 @@<br>
+=C2=A0# deemed to be limiting in terms of expanding support to more and mor=
+e knobs<br>
+=C2=A0# that might need to be turned to customize a config build.<br>
+=C2=A0#<br>
++# NOTE: Suport for this legacy flow is now depcrated and will be removed f=
+rom<br></blockquote><div><br></div><div>s/depcrated/deprecated/</div><div><=
+br></div><div>This might be useful, I grep through code for this word somet=
+imes.=C2=A0</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++#=C2=A0 =C2=A0 =C2=A0 =C2=A0master after the wrynose LTS release.<br>
++#<br>
+=C2=A0# UBOOT_MACHINE =3D &quot;&quot;<br>
+=C2=A0# UBOOT_CONFIG ??=3D &lt;default&gt;<br>
+=C2=A0# UBOOT_CONFIG[foo] =3D &quot;foo_config,images,binary&quot;<br>
+@@ -181,14 +184,19 @@ python () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if config =3D=
+=3D f: <br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0found =3D True<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0items =3D v.split(&#39;,&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if i=
+tems[0] and len(items) &gt; 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 bb.warn(&#39;Legacy use of UBOOT_CONFIG[%s] =3D &quot;%s&quot; i=
+s deprecated.=C2=A0 Please move to using UBOOT_CONFIG_* variables:&#39; % (=
+f, v))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 bb.warn(&#39;=C2=A0 =C2=A0 UBOOT_CONFIG[%s] =3D &quot;%s&quot;&#=
+39; % (f, items[0]))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if items[0] and len(items) &gt; 3:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0raise bb.parse.SkipRecipe(&#39;Only config,images,binary c=
+an be specified!&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0d.appendVar(&#39;UBOOT_MACHINE&#39;, &#39; &#39; + items[0])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0# IMAGE_FSTYPES appending<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if len(items) &gt; 1 and items[1]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 bb.warn(&#39;=C2=A0 =C2=A0 UBOOT_CONFIG_IMAGE_FSTYPES[%s] =3D &q=
+uot;%s&quot;&#39; % (f, items[1]))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0bb.debug(1, &quot;Staging &#39;%s&#39; for IMAGE_FSTYPES.&=
+quot; % items[1])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0imagefstype =3D items[1]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if len(items) &gt; 2 and items[2]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 bb.warn(&#39;=C2=A0 =C2=A0 UBOOT_CONFIG_BINARY[%s] =3D &quot;%s&=
+quot;&#39; % (f, items[2]))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0bb.debug(1, &quot;Staging &#39;%s&#39; for UBOOT_CONFIG_BI=
+NARY.&quot; % items[2])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0binary =3D items[2]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0break<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230065): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230065" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230065</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117496159/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117496159/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+
+--0000000000001c01a8064964a663--
 
