@@ -1,283 +1,312 @@
-Return-Path: <philip@balister.org>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43AD2D3F065
-	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 14:04:53 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.58])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12616.1769606180323048006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62117D3F066
+	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 14:06:53 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14011.1769609210787583094
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 05:16:20 -0800
+ Wed, 28 Jan 2026 06:06:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=CWZUycn6;
- spf=pass (domain: est.tech, ip: 40.107.130.58, mailfrom: adarsh.jagadish.kamini@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ehHjPaDD;
+ spf=pass (domain: est.tech, ip: 52.101.84.58, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lUoBpFDSBiMrOFJLXGOB3vDyhsawIOjSDx+CFoP5qYI78psJZiqZO8hfwrFGqYJB54X+O9bfAu/Ha+OTY8cFPvflRvlO4e8EcYMvbeMKI3p5Ik1f6Z2AKquyLaigeAgJDVL2g0K6DMNIJV36gJ04GZVtQ3Mwsl29a4pu56M/vyKC+IuzeceOWB+idZ3CgByGezPs/3vRRBjaKrq5j01q/PjKXhv7EKulpPHcWWLJHGVPlsO8TqWfMrIRvgORrI/VgNAZVVxREKQKCBrXUfKbzY7fvcovRUm47jY2g+GdnCnJpRFxnMGDYQLIQHMHfgEn9lwhKIvAdqUtoJULPr88mw==
+ b=UOol0DotJnCJPD1BuwVRDHYSHSTMxIbXUm5oaECqnmIglCjhb3PmignNpxJJHE6k70ULcx7hI5wGqzn5C66cQuIX8Zp5bffj0KQ3Ic1n7pDgFJhHgBid75rAXKPH1sfkDyqD5C+9i2Nzutv0nRWSF1bKqJgYHv68+AA+k8/Euv0WAgP6lK4WVllE6s0BC2A4SUsDsGSbT/LRhHrs0LqCWMphISo3UPXghCbNXPoCbsYczUyUAd216yZZV0uyU9xeLTXyd4tFctD0br/bvkkfcdIGcZrdUuSZsAOvBmo1OZv7S9w3szYW/6tQdEhwFsD5Li518IMlngCocivlLQFQQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kjvj4WPYYMOAu0WlNWQm3+omEkmFpQxwyBT9PmnlX7g=;
- b=qkdUL3a4mz4Lx+nMaSHJ3uJeEMEjtucxcl37w9yPNTfIUXmpopB3dR0ET3jOGafqcpkGuStqlROaf/5TRBWM3Xe7N28GzwxqiQrkKQgJA7ivwEVDKPB946qwT1JRvVZcUNhScWLELvHTkr8e/SSzd7W4FNF1KffdoiSurh3YIvQtKL3hns5VWVdvRxm+lZjx/ojwDlLmt8trDP4DVkiQlWJCbvTmj3cit5wZGz6YaHfTox+NZ2K0LOQljqjXIglaXKTZCpNhLRjgh+O152/OJHMRmag4iQ0EOL2ggMEll9sKg/Bo/KbX+Gigv1lBvJt0AjIhH5FSYWMhB89SNMktoQ==
+ bh=uuKWAfmKC0TpMdkTyF1Bs8kvOtwScLG8Q5sP9J+/gKo=;
+ b=fvF5oucErgp0kZ1nDlFxZXZtfU914kQrNKDhx7oLYbqJlrT5wqEQ9zOVMN4iZw2GtCFwVkWAViAi19P2gRqkvPcgFrRsgmX8jeCxVGNZLhGBXaFSXWMUl3cl3WuSkMlJCgAxpbItZg16/5xkawfKZkFdiTId8yaluMfIVyM5TJjRqz0d8f11+DLCIGEofXGq07sxmVYYgiStXW3R0Lw16QJK0wHb7K8ekyAwTqCZ20BqATXneuFVVT0tLbdZhcHdHE2q/MJwwqW89Od0l9R1cj1VTPLFQyz/OkPDeSm5du1uVg6nzQKMmLNOCY0MPReFzolmGp95AH2S6r46w6sM6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kjvj4WPYYMOAu0WlNWQm3+omEkmFpQxwyBT9PmnlX7g=;
- b=CWZUycn649PsiO4V/7f8zpKDMPIelENYfDSwqJ7kNy3bFT7O0U8KDowdXJy+52Xp36bJGkglAlUcMRi51Hagk/tSfrCBPtW3v0gDK9Ry94WUdmvyD0UbJKgig161Fl1S3FXrIIBcdt+zALb+EJgO7Hqr6z5Om+M4nZvm9OHf6CA6w2i9U4ita4MgnArXSz5fSPNNq7etk/7bWqCD2SRPjJjEY47vRJwWgPaHFkWpSJ+Yh/IoQtc4TqRtbHVVCLk5uQaUkefrVUiNTp7nY3f0xxTV29DqNvWyiNvO+3kcHVImOmZ0GdsROxXaPoUWJ1eMuaoYEYpXwt4b5NXeEhEQ3Q==
+ bh=uuKWAfmKC0TpMdkTyF1Bs8kvOtwScLG8Q5sP9J+/gKo=;
+ b=ehHjPaDDcJRLEGqAPr9eukHW9mgXmUOC1mBOi5e5wjzPPrKwLtadaAdbaYD8sma4sUx7nE7maHPxXz64PlBJzZmbRiYGk53ulpavByJOs9QqWPj3st3Dy8F43bkMY/UZMWT/SvSo3frbAAfZn2tStliTUvb242KiNSWk36Bw5bA1VH7rB4O63z4AEqM1XQDJcm5R0XBxLSqaG1DOZPh+UAxjEU9vSoT16B8I0lJ53kcaKL0wM+4giYqllVc5CuBB+OXHOdlPWgP1ZDiBoEqxGZZrPEDPSioNsBnTFTq3uKhmGpsYLiYMKrohXi/6Xg+QR0e7I1dDuLZhggPrddc5ng==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by VI0P189MB3424.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2d2::7) with
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by GV1P189MB3097.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:25b::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Wed, 28 Jan
- 2026 13:16:15 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%5]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 13:16:15 +0000
-From: adarsh.jagadish.kamini@est.tech
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
+ 2026 14:06:46 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::c13f:ef4:ecf2:85af]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::c13f:ef4:ecf2:85af%4]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 14:06:45 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
 To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][PATCH v3] python-urllib3: Backport fix for CVE-2026-21441
-Date: Wed, 28 Jan 2026 14:16:02 +0100
-Message-ID: <20260128131610.130399-1-adarsh.jagadish.kamini@est.tech>
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v1] libconfig: add ptest support
+Date: Wed, 28 Jan 2026 15:06:35 +0100
+Message-ID: <20260128140635.43214-1-pratik.farkase@est.tech>
 X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: LO2P123CA0091.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::6) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0061.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:153::12) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:26e::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|VI0P189MB3424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7cc84a9b-498e-4f44-c827-08de5e6f69f4
+X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|GV1P189MB3097:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8ea859b-cfd3-43cf-72de-08de5e767864
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?pDpebjbB/CiyrHRyy5VWvq3dbjX4qHasxtJFGZJWw6rH1pP1+AOg+tFp9JF5?=
- =?us-ascii?Q?Sk4hdbRBLWXlh6wb5FO9mQFQ72SqlUEEoCg0BnhA129mV2ODEQ/XjERuXZnh?=
- =?us-ascii?Q?bDXgRohJSyhbmRaORb4BHhp1uvIYa38PhQNtxZYlg5dMXzCjthfHiFHQb04x?=
- =?us-ascii?Q?ufAsp+HP1//tuuigr6Nrwi/W+bjluOFa2P5OAlgtGaE4fxb42LFWazh0xPtx?=
- =?us-ascii?Q?iW7R33RqeF3+yb/6zMde02PTF0q9Qa+Z4z9p2fPty5LdmTf7XYupkC5Co2Np?=
- =?us-ascii?Q?qBLUpSNAySnY7EvqZooeYDm5l26FHr3mA596wYwixCcnxVZJ9kAf3Dt3b5vL?=
- =?us-ascii?Q?l7JNv49UyXNZsOxHLAE4HFbyYGE8sqGLypgvGRwCHXjHEzys7e9kSKltybeU?=
- =?us-ascii?Q?5y+uanmR7r0Lim7fT2UZ+eYCuRedk61tHHbvO3SKZaYvaEzAuF10FyzWPF/M?=
- =?us-ascii?Q?BQCXwx8X9RPqjOnTk5y8clUi2YHWbgj/sWst+AepnXURCCJR/p9GJHQ75eD6?=
- =?us-ascii?Q?kmuBad3ca6g26BuAh16GEKxGo9ac9E4krvL7iYeQKfwCMtpSpIdUSRJfe1Xh?=
- =?us-ascii?Q?hIt35g6XcDSYovqVKu0be5+uUU301vL1maYIPFK8vH8TECrelwdVfkcJK1Ht?=
- =?us-ascii?Q?aaYY99389asii/ikJ3sCu/bE5ev8s8bUwioPg601g57jZYGsFdj24lcYinN7?=
- =?us-ascii?Q?fv+DWLd2Mzx2zSjHqul5kRyP9XXrr2aSGqqrz5w3R2w5CXwyRjB8ooiR5Yxh?=
- =?us-ascii?Q?lBirftj320wEbZMyejTR6gEDuP4II/vzeZaC/DEOrk3so3wW3mFmrFbHjkRu?=
- =?us-ascii?Q?RuazeGjZWOhJALgzoyDLxlwUAlNt9rgbAHnfmobnIy5cXqEnF0JHLA1PzmBG?=
- =?us-ascii?Q?zCBOCn8M0Lq7WW9q3HlSmp8/tvWYdPXYSVfP5C4THWBCYgbmz1kqptgrAp1Z?=
- =?us-ascii?Q?1FmsnCVW7pkBs6X5V+STC0QIPxFcX8KOTYfkK4Fbqo/JnA9TYXXWZJvfLZyM?=
- =?us-ascii?Q?GiePgDKkNlXeG2pqXsfmdspnQ2jH5HiCDztPN2SGipnlnoQnX2eNHDzLBMyg?=
- =?us-ascii?Q?hpE7sxvtGCDnfVLnst1Aps+1XX1wdS0Bn80CxAq47wYRbGURmAlttBmaqZfq?=
- =?us-ascii?Q?p3KRrUMKF3RuUOl8ARFKBClVcKuEwchqeasgSsrK9A/18aDUm6OaLTQiRAUL?=
- =?us-ascii?Q?7jGdcRvJOv85LSLVwUlcpe9KoHYDIISfTs0SfZTp/OaDWL/gUzVGu4YHq6ZI?=
- =?us-ascii?Q?rffyei3VRgYgsIQtLelmwjMkp7KZD5cpvQWEwQtDzc1QJESh/qzvVJrEQCJf?=
- =?us-ascii?Q?qScG9/6qky3h9GJCBdfoFyKokbPuW+csoF9phsi1iJVAftBHGww/+6sKCckH?=
- =?us-ascii?Q?8C7Jiyui+PlIkt4EzYfHZzOoNr9lym4raD7Or7eoBM1GVhMcoEV5Dyo1FVpp?=
- =?us-ascii?Q?3h0V/XEZzIC3jhsDHrW9jHahxMf3hP2YEEFpuYD5nkrHBWxEgyAddfro1o1S?=
- =?us-ascii?Q?XunHMUt8xROSvrI/i/3QAOXkx5LZiFPFX4K3kMfPWUx9YXchR//8Hzogz6B9?=
- =?us-ascii?Q?D/2Yy70jDkRGytvNwau1NJHmJ2qMNQeSVq2Nq6/B?=
+	=?us-ascii?Q?/Z3SFztFVTDjx8WAZXNAHRYCQOxNCdpBfjw91gdoI5rMuK5MyjBhz42PWEI2?=
+ =?us-ascii?Q?FFh9dWahcCNXfq7IgjMy6lFAsAMRq2yr0nVbGAi4nWD0lWACbxGHG/nSlEg1?=
+ =?us-ascii?Q?iiZ+PyGoi3kfHhCDRfEyShIeyZj+PArgr/I7Wvt25pyorLpAbXN8mPmFcgyW?=
+ =?us-ascii?Q?2czO/ht8vooAW0SJbEJZBnI24Y5pTb5QIZgS8TQYMGyaA3UKSGcipsZZIvAA?=
+ =?us-ascii?Q?uDmCodqVAsDX6AXFfizfs/3IhG7bnnnjVCXmBvbBrVRvZ/I/7DDgQh6GVuj1?=
+ =?us-ascii?Q?DW54zCdBvNC8wiHudDehI9G2zouOJdLVVdJ3ZaLlovoxh0G8G/aY1MDlwaNU?=
+ =?us-ascii?Q?UKjTUKh8X26terSjOrVrryvWFD5kETnrvIr31u2Q2NwgYGsCaFL3qsEU8y3J?=
+ =?us-ascii?Q?X2QmUIVXZ0hW6ngbR66s679Vs3Xf8DSxk3fIhV58FPEblR94UUEV+XyKe5tH?=
+ =?us-ascii?Q?+285UbnHc33sM6k0QqcPIxOQ4FXKa2ZYHwQ5m9YQgQ6VmuyBVtsWndvvQGhi?=
+ =?us-ascii?Q?O5DdTBjI9WsaSNJlkbiCPkLF2vzaGIU22O86pBfRc/1QtOVX6x/AO4cKwT4Y?=
+ =?us-ascii?Q?Q2q6LIWd7/5TfvcQrk0sH3D5pkMDPL4I4Nnv9igEmE+2NbiGn7ZM9R3BaIJo?=
+ =?us-ascii?Q?xve+Z5cWh55M9RYMAfBVFIziRNNFSe5LfyOUD6kgbF0LwZN4uR7q0A6jg2sI?=
+ =?us-ascii?Q?YocDV+ikP00JVg/tyaFP74L2AgRSWTDyxukBuZao3PDk5a/Ho432UXG1d68V?=
+ =?us-ascii?Q?a6ld/inTB8QpskwT9Ffskt7Xdz/fSr6JyC/9XMIUSgLtiU5VT/GmNH3YTNbi?=
+ =?us-ascii?Q?81YgbXDNCijkp1QxW+E8oou0kmFEDJmYQ9f+xQeOsUgjU2tHdYzdSNLs/8Y1?=
+ =?us-ascii?Q?UHF0k87m44LZ1111PrUW4ZboE9GfPDby2W3+RQZaxqXVQZdmF3WjZBSmJFUY?=
+ =?us-ascii?Q?kSR93gI64lQAN/S0YvJpFTihWj8FISRUQ6Ah9vuqsq9h4LgFvJdhTq67ufCS?=
+ =?us-ascii?Q?lZs+Pv5Hp+opFnYl48rOLfNtTm9gH9NwS0QNOY54KfL2Uru3WdVo0io4o+Wo?=
+ =?us-ascii?Q?x3CwBCcpTR/GoeKbAGo2v48ie3vnHcLvQ6jlXoUPs775ss2wmTzzIyG2dOTX?=
+ =?us-ascii?Q?3RRHH/JdP5JWQU9o6v7rVyHdEIdLDrhykDriYPk2KLhKzddV4be/X7Y3h7Ot?=
+ =?us-ascii?Q?qoGH5a9gkWwh1VI083vlfiezRXHNe6DF5t2zxKwZ5STzAmH2o4ZXe0RMVNb+?=
+ =?us-ascii?Q?7SwABlkAXmMm3GmRdDrIViQTzCIHDULPaA38GOWmQVOHuVhzogOBruDjmP64?=
+ =?us-ascii?Q?BdKSQc5ZhJMXt3ib6M6LjFcpHJGioUcaki/J351HG+MpKrHnIzBvMCQuWiKs?=
+ =?us-ascii?Q?7ifd47tOVo67V8MfUrWmnwt8f2kvY0Su+ZwMhBAKePb/JzBUE+CEu6iKFpxR?=
+ =?us-ascii?Q?rznvwjl74kJI8VeVYS59HBc0MBRxs3AJCq+DthYK3MKa0ll3CBTsfPNpUIW/?=
+ =?us-ascii?Q?dlIodSkPL5/3/MLc9JZmBRs069yt0CgfJT4cwe7QYnl9pdKrLbbYnNhuSQfT?=
+ =?us-ascii?Q?80j+5yQv5apnoR7JB/E=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XDP0I9pEcYCyY/kAlXU+cmp2DOdyPV+LjBoXVMDK6k6AlA/ENI6LsMEesy+W?=
- =?us-ascii?Q?PmNAX4vByyxI1IvgSxHN7CNhhCCHMOsmHHj4v2Mq07DGsB/UBV5yxvK7AFkX?=
- =?us-ascii?Q?BeRsh5VvpmoDdXxVen0giaQdz25/ugXdjPzgDcHlCMQWhMiE/wFHYo6zwi1b?=
- =?us-ascii?Q?fEkipJ74EZpL1XsaqaYrhQmRQYWm4tCPZvRF4HipPG1BCr3ZthhxggYCUtxz?=
- =?us-ascii?Q?vYboHqDJab3S+OffYgc72ji1GNNugZ2JAJRBBiYaAWhvKUWe3JR+X3scbsC0?=
- =?us-ascii?Q?Hkt1B/fkWXJburJlkI8YJruIjKFZWuAoPfFn6G0VNJAtEtOxidjx4Fwh6ySy?=
- =?us-ascii?Q?rW5WIQecXx8doZxcP/i2rONKRG854HIV4qLT+CRG4qjT3tyu+79i7glj4SvM?=
- =?us-ascii?Q?618jlU4+Ff8NHgZlTxIrrY/ms0iunJeQtmcGWIoxxyk/vV8RFrrpGJ0an+WR?=
- =?us-ascii?Q?ZXJW5m9ehqK6LwzQbGzw68HcDy27N0KCSrTMs9NBb1+wEbOJwpw255Y0shw+?=
- =?us-ascii?Q?Ff2MK4elW5xVQywAWu/+kxttaz5HmAEt++KJ6Th97C0FpodSSC3g3eLlMuvq?=
- =?us-ascii?Q?dwL0DIZNQvsrtXOrN5UrxJL1BqsBx4PVP9qj/SFzcpsdH4Tg6mF5afOJ7WmE?=
- =?us-ascii?Q?7qc8bmlbeJpQYzozTb4sXUvlZ/GuVKSGe56EdQwdj4bLAYFsUGsmPAahahr7?=
- =?us-ascii?Q?kOnKYm4rAfYEBNtg3oKgY3aW7Uev71vKLlYBJ+2mmJfo0ZJRvt/id8d6Lz1z?=
- =?us-ascii?Q?OYbl3uUo6cOTwWeRjFLUIXMcVOYJQVqz4oZi/Yc4an+uWYmPy3Tr+aezgG0v?=
- =?us-ascii?Q?CNFDoGW22T8PbIpz/ymwGya044STUCa/lr/3Fwz2SK5mDJHs1ooktHUQfc+/?=
- =?us-ascii?Q?csOTy93lIZv/O6iXneHNi5CuBDKRdyQc6N5x4hQWnWeiaVinfzboISeUUbpB?=
- =?us-ascii?Q?plFAIxofUyGEmcKHEHfpx8h+5g2NELXF381Q/xOytIkuOA91LM5H642sADk6?=
- =?us-ascii?Q?JeIcMEwVrgy2OYpyUisr54m4B0nzJ3kU4iGB0K31LcfvnISSZ/POVE6N4t9B?=
- =?us-ascii?Q?Wx1YpDxylTUHz1Y5z5f0aJXEnIgbF79ti72digF/VaAeg9HqHWPYipnG4rO/?=
- =?us-ascii?Q?2FG7YhE9Grg01Hv+CvNzSLIIntwk+4ZKl/ELqsMZG4pMM/1qTKCbL1CZqxxm?=
- =?us-ascii?Q?jYK/BbauZd/3cqqhDLZOEUjWquojB0gX1iRC8aWTLG3FnE6DV2pFhTqCPo4M?=
- =?us-ascii?Q?nyjgesQfFEUag6lZuACrkJTMbgsc77I07AXty+IoFZ8qKBtLlkE2qN0dHxhA?=
- =?us-ascii?Q?udy6bW8dVsPi+YYLxD0EtIURx0ky1h716JuplZTE1j4BQQiUpbzvtcXwsCZx?=
- =?us-ascii?Q?DhJ5ugHu9k++/ijECyF4AoJQGbsNuDaZZ0BiaBKoejZaWW2wdQFXk2sTBTvD?=
- =?us-ascii?Q?899jsYmPZoaT2oPh5/vIZMAdi+8eio7hISOMObzHw5WTYJhKDO+gcLWjpkp5?=
- =?us-ascii?Q?33ogKDU0Vb2oP1JUCVG+QOzy3iA6dapEsvSgaAyISn/Hapri6TFDWe2eq0Su?=
- =?us-ascii?Q?zT2vf2qCSNU3DuiRmNaSPFX82W+5Nw3OnU9NYxQ4UAJET5gSqqFk/cANWTVB?=
- =?us-ascii?Q?AKfwWL+bZY2uSFSjeBAsgWlmaX/twgRxrRZc3r5Ycp8/DIWuVV9xSrPIKfQo?=
- =?us-ascii?Q?J3CC68m2ptWtAx1SU8U1HLrXsenng9WF8HMsylkG1RX5Vrj1bHM2gocGAyDX?=
- =?us-ascii?Q?2hd/mfnlrbA4tPRjvKAckFEWCGZH768=3D?=
+	=?us-ascii?Q?o4l6YSKB7UlwKslzyaxVeUF7coF4G78KJlplyotaUtC8/um14V5MQpF/1Hl8?=
+ =?us-ascii?Q?H3PQCcE913QopwdqrvcO6S4WMbn5Gkez+KB85yQvXluqv14y2kICObEh99pw?=
+ =?us-ascii?Q?qXiPJvBIS9FCeEdaJgwiGwZTEKoM5qFJh/FQ0WyNStCztOxDyMGVfBQIx416?=
+ =?us-ascii?Q?2olvRIp6kJD9yrFhP4JIWDizBSuORZ4MxQpqMWf2Pb4IB5pLnNXvE1XKuWwi?=
+ =?us-ascii?Q?gE7FFVEfqNFThTKuZ2STqLcCJCMeRGJg4Ow3vIpEeJDOt1diBMg6BgTFB2nC?=
+ =?us-ascii?Q?OozEZyhtCFWl3uPv17ypkSLNW10xNioR/n3xW/qqjKVkKLXNLr9x+a+i3Nn2?=
+ =?us-ascii?Q?1EJ/RtGnL/ZNxlAq/dkk33B4TzjcWG4QgTDMbMxhNclzS7T8etQz7DC5SXQe?=
+ =?us-ascii?Q?/keD2Yc/nVgLbruBXfQrtZ5k1Hm4A3x8vgRrkc1ZePmtbNEyxwZjIT0EivFZ?=
+ =?us-ascii?Q?yRXUNfknVd11x1ijnsGZhKXk/ppNTZW1Jy8xpVbyqJSeiHtZ5TJ/SXvMEtQI?=
+ =?us-ascii?Q?cnctSG/LLBRRAhYkq9HMLvaTNaLwFfXJYUsia7VR7Ym1tHpYMKHCxAj7YRGo?=
+ =?us-ascii?Q?X2OZ8WF+nu+y9l+2jWwwmo9Nstbv8maHbjD8BQXRdOZHEb67DLg6ojss20lC?=
+ =?us-ascii?Q?zM/vsXxbapVwmuw9ZLfrj1bVcfjfj3SqF8FubPSs3BYLu1NTeOwbGKV2FfQJ?=
+ =?us-ascii?Q?8b0ijH9vcbnqa9/3bjVnQrhEeWX8zEaoSD3NzR/0kOE4DYWn1/1r95oh6lAO?=
+ =?us-ascii?Q?dpqceSJ61KT+7l9GGucCme78gKzBzGm0sUiTRJgQ6djn82IwFG3gn2Uexh2k?=
+ =?us-ascii?Q?HEY1cJ+XAFBhLTVkkvrjpbdwhyjj74Teo4h6NFETagpmMOkxRn4SXtWzdVTW?=
+ =?us-ascii?Q?6qwimUdj2IxS0+HmkyhInAR8DlSjEqhu0R782ZWWJssc691UsCk+GtN6cNUS?=
+ =?us-ascii?Q?Ynw6klZOM9DRjjflyMYcu13gEJEWAVZXL2twS4xYN5skU/gBbCfwgvymLSfK?=
+ =?us-ascii?Q?5gdFSJSDSR7+CiKVNipcFsk2WYZwA9ZaJvt2PQ02cKws4jAlFjZBOKSl1YvJ?=
+ =?us-ascii?Q?6oJpAtOK79KBLu1xHlVjFJdcL85yjJhJjbIeJstq0bGuM6m1LhMRd4VBUKxE?=
+ =?us-ascii?Q?K5sv5gp6OJo7HzMtgUm40mllAAIEFxF8X7yFGQrfJVpHhr2Hy4RfMHN9os5n?=
+ =?us-ascii?Q?uWOY4caVUYmaa9OLE6oz5/GVEQFE+F3Cdktjv4jaZcA7PReSwXlZJaxF2Lh5?=
+ =?us-ascii?Q?dk/TCv9NKHQHY90iQ4YWOK5PDnKtL/dvp5bZ9oFlgC+WUo8gsiSdhDWOPsiB?=
+ =?us-ascii?Q?CzaQZYE40lhq0jFMAWk2F9yuP5a8PhYU6vqIZx5J8XQBf9KhcnacBXTX86Zj?=
+ =?us-ascii?Q?6iKVJw9tIdjKAMQ1e5Tpl04W5dWJ33EIQTEn6gUjBEsQVaX48KHjux7xOkU/?=
+ =?us-ascii?Q?fgAKTTGWYKnasez/KHBnBVeXjnYeMB2oEMWqLmWGkvo/tXRqWAGLvK8PGpcw?=
+ =?us-ascii?Q?smQCc5C2+ac3lUC0JN2x9AW7FEOSU9h5C7QC3qF+VT8f6wXrMJvbNOPitTkZ?=
+ =?us-ascii?Q?72OsX/1ZeLfDP6EpPFHwbnmIfS5LgVYvIqlwsOSFYroIUljKmobyeQCkz4lt?=
+ =?us-ascii?Q?MVaV5KtnlYzTaGgasdEgU2Xpj0cC0RsGHJQob7zvZPbaEnNhCUc9DQz8Y4qg?=
+ =?us-ascii?Q?cupDRiE0IFSP8Ts9AuRxpNevV/NirPMEfV/K/znMcS0TcfONl0QMWTJHl01i?=
+ =?us-ascii?Q?mMc5FwKGzQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cc84a9b-498e-4f44-c827-08de5e6f69f4
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8ea859b-cfd3-43cf-72de-08de5e767864
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 13:16:14.9193
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 14:06:45.4918
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KkP1GKArdg1Eh1Oyg1YWIjCxphYSrRgdNKAOkskaA/++cdOBQGTwb1zRgItWfLk/3YlXja8s/srr0Izip9biBzV7RjWO0VleQWnssRhs/+A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3424
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: i4JfMUVEY+Til6SrdoUie+mrysvSsHB3ONIvnnFOGcHRr/Jem5HthrzQceENBotBUQnfuy9xYYL6HkE31zzKhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB3097
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 14:04:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230096
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 14:06:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230097
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Add ptest support to enable automated testing of libconfig
+using ptest-runner.
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+The implementation uses libtool --mode=3Dinstall to properly
+install test binaries, avoiding issues with libtool wrapper
+scripts. Tests are built via 'make check TESTS=3D' to compile
+without running during the build phase.
+
+The test suite includes 16 tests covering parsing, formatting,
+binary/hex values, escaped strings, and various edge cases.
+All tests pass successfully on qemux86-64 :
+START: ptest-runner
+BEGIN: /usr/lib/libconfig/ptest
+[TEST] ParsingAndFormatting
+parsing testdata/input_0.cfg
+parsing testdata/input_1.cfg
+parsing testdata/input_2.cfg
+parsing testdata/input_3.cfg
+parsing testdata/input_4.cfg
+parsing testdata/input_5.cfg
+parsing testdata/input_6.cfg
+parsing testdata/input_7.cfg
+[ OK ] ParsingAndFormatting
+
+[TEST] ParseInvalidFiles
+[ OK ] ParseInvalidFiles
+
+[TEST] ParseInvalidStrings
+[ OK ] ParseInvalidStrings
+
+[TEST] BigInt1
+[ OK ] BigInt1
+
+[TEST] BigInt2
+[ OK ] BigInt2
+
+[TEST] BigInt3
+[ OK ] BigInt3
+
+[TEST] BigInt4
+[ OK ] BigInt4
+
+[TEST] BigInt5
+[ OK ] BigInt5
+
+[TEST] BigInt6
+[ OK ] BigInt6
+
+[TEST] BigInt7
+[ OK ] BigInt7
+
+[TEST] RemoveSetting
+[ OK ] RemoveSetting
+
+[TEST] EscapedStrings
+[ OK ] EscapedStrings
+
+[TEST] OverrideSetting
+[ OK ] OverrideSetting
+
+[TEST] SettingLookups
+[ OK ] SettingLookups
+
+[TEST] ReadStream
+[ OK ] ReadStream
+
+[TEST] BinaryAndHex
+some auto big hex: 4294967296
+some auto big bin: 8589934591
+negativehex: -1430532899
+[ OK ] BinaryAndHex
+
+16 tests; 16 passed, 0 failed
+PASS: libconfig_tests
+DURATION: 0
+END: /usr/lib/libconfig/ptest
+STOP: ptest-runner
+TOTAL: 1 FAIL: 0
+
+Change-Id: Ibd69ccd63ce0168571d46a199c08be59ea748d69
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 ---
- .../python3-urllib3/CVE-2026-21441.patch      | 105 ++++++++++++++++++
- .../python/python3-urllib3_2.2.2.bb           |   1 +
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-2=
-1441.patch
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../libconfig/libconfig/run-ptest             | 16 ++++++++++++++
+ .../libconfig/libconfig_1.8.2.bb              | 21 ++++++++++++++++++-
+ 3 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-extended/libconfig/libconfig/run-ptest
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.pa=
-tch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
-new file mode 100644
-index 0000000000..16af67af31
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 739995bcfe..7c5810f252 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -29,6 +29,7 @@ PTESTS_FAST =3D "\
+     json-c \
+     json-glib \
+     libcheck \
++    libconfig \
+     libconvert-asn1-perl \
+     libexif \
+     libgpg-error\
+diff --git a/meta/recipes-extended/libconfig/libconfig/run-ptest b/meta/rec=
+ipes-extended/libconfig/libconfig/run-ptest
+new file mode 100755
+index 0000000000..d81fcf4def
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
-@@ -0,0 +1,105 @@
-+From 686d2bdd4affd3c86e605f54a72afe53c920f72f Mon Sep 17 00:00:00 2001
-+From: Illia Volochii <illia.volochii@gmail.com>
-+Date: Wed, 7 Jan 2026 18:07:30 +0200
-+Subject: [PATCH] Backport fix CVE-2026-21441 python urllib3
++++ b/meta/recipes-extended/libconfig/libconfig/run-ptest
+@@ -0,0 +1,16 @@
++#!/bin/sh
 +
-+Original commit: 8864ac407bba8607950025e0979c4c69bc7abc7b
-+Original-author: Illia Volochii <illia.volochii@gmail.com>
++cd tests
 +
-+Bugfixes
-+--------
-+
-+- Fixed a high-severity security issue where decompression-bomb safeguards=
- of
-+  the streaming API were bypassed when HTTP redirects were followed.
-+  (`GHSA-38jv-5279-wg99 <https://github.com/urllib3/urllib3/security/advis=
-ories/GHSA-38jv-5279-wg99>`__)
-+
-+* Stop decoding response content during redirects needlessly
-+
-+* Rename the new query parameter
-+
-+* Add a changelog entry
-+
-+Fixes CVE-2026-21441
-+CVE: CVE-2026-21441
-+
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/8864a=
-c407bba8607950025e0979c4c69bc7abc7b]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ dummyserver/app.py                           |  8 +++++++-
-+ src/urllib3/response.py                      |  6 +++++-
-+ test/with_dummyserver/test_connectionpool.py | 19 +++++++++++++++++++
-+ 3 files changed, 31 insertions(+), 2 deletions(-)
-+
-+diff --git a/dummyserver/app.py b/dummyserver/app.py
-+index 9fc9d1b7..c4978152 100644
-+--- a/dummyserver/app.py
-++++ b/dummyserver/app.py
-+@@ -233,10 +233,16 @@ async def redirect() -> ResponseReturnValue:
-+     values =3D await request.values
-+     target =3D values.get("target", "/")
-+     status =3D values.get("status", "303 See Other")
-++    compressed =3D values.get("compressed") =3D=3D "true"
-+     status_code =3D status.split(" ")[0]
-+=20
-+     headers =3D [("Location", target)]
-+-    return await make_response("", status_code, headers)
-++    if compressed:
-++        headers.append(("Content-Encoding", "gzip"))
-++        data =3D gzip.compress(b"foo")
-++    else:
-++        data =3D b""
-++    return await make_response(data, status_code, headers)
-+=20
-+=20
-+ @hypercorn_app.route("/redirect_after")
-+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
-+index a0273d65..909da62b 100644
-+--- a/src/urllib3/response.py
-++++ b/src/urllib3/response.py
-+@@ -646,7 +646,11 @@ class HTTPResponse(BaseHTTPResponse):
-+         Unread data in the HTTPResponse connection blocks the connection =
-from being released back to the pool.
-+         """
-+         try:
-+-            self.read()
-++            self.read(
-++                # Do not spend resources decoding the content unless
-++                # decoding has already been initiated.
-++                decode_content=3Dself._has_decoded_content,
-++            )
-+         except (HTTPError, OSError, BaseSSLError, HTTPException):
-+             pass
-+=20
-+diff --git a/test/with_dummyserver/test_connectionpool.py b/test/with_dumm=
-yserver/test_connectionpool.py
-+index 4fbe6a4f..ebcdf9bf 100644
-+--- a/test/with_dummyserver/test_connectionpool.py
-++++ b/test/with_dummyserver/test_connectionpool.py
-+@@ -480,6 +480,25 @@ class TestConnectionPool(HypercornDummyServerTestCase=
-):
-+             assert r.status =3D=3D 200
-+             assert r.data =3D=3D b"Dummy server!"
-+=20
-++    @mock.patch("urllib3.response.GzipDecoder.decompress")
-++    def test_no_decoding_with_redirect_when_preload_disabled(
-++        self, gzip_decompress: mock.MagicMock
-++    ) -> None:
-++        """
-++        Test that urllib3 does not attempt to decode a gzipped redirect
-++        response when `preload_content` is set to `False`.
-++        """
-++        with HTTPConnectionPool(self.host, self.port) as pool:
-++            # Three requests are expected: two redirects and one final / =
-200 OK.
-++            response =3D pool.request(
-++                "GET",
-++                "/redirect",
-++                fields=3D{"target": "/redirect?compressed=3Dtrue", "compr=
-essed": "true"},
-++                preload_content=3DFalse,
-++            )
-++        assert response.status =3D=3D 200
-++        gzip_decompress.assert_not_called()
-++
-+     def test_303_redirect_makes_request_lose_body(self) -> None:
-+         with HTTPConnectionPool(self.host, self.port) as pool:
-+             response =3D pool.request(
-+--=20
-+2.44.0
-+
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/r=
-ecipes-devtools/python/python3-urllib3_2.2.2.bb
-index 620927322a..f6ac8f89ca 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-@@ -11,6 +11,7 @@ SRC_URI +=3D " \
-     file://CVE-2025-50181.patch \
-     file://CVE-2025-66418.patch \
-     file://CVE-2025-66471.patch \
-+    file://CVE-2026-21441.patch \
- "
++for t in libconfig_tests; do
++    if [ -x ./$t ]; then
++        ./$t
++        if [ $? -eq 0 ]; then
++            echo "PASS: $t"
++        else
++            echo "FAIL: $t"
++        fi
++    else
++        echo "SKIP: $t"
++    fi
++done
+diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/reci=
+pes-extended/libconfig/libconfig_1.8.2.bb
+index 6e08a7b04b..9ae0ce2e6e 100644
+--- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
++++ b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D17c8e32f0f72=
+580cc2906b409d46b5ac"
 =20
- RDEPENDS:${PN} +=3D "\
+ SRC_URI =3D " \
+     git://github.com/hyperrealm/libconfig.git;protocol=3Dhttps;branch=3Dma=
+ster;tag=3Dv${PV} \
++    file://run-ptest \
+ "
+ SRCREV =3D "a42cb47c1526a4f2ed025fcbb2289863375bc898"
+=20
+@@ -17,7 +18,7 @@ DEPENDS +=3D "bison-native flex-native"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "^v(?P<pver>\d+(\.\d+)+)$"
+=20
+-inherit autotools pkgconfig
++inherit autotools pkgconfig ptest
+=20
+ PACKAGE_BEFORE_PN =3D "${PN}++"
+ FILES:${PN}++ =3D "${libdir}/${BPN}++*${SOLIBS}"
+@@ -27,3 +28,21 @@ do_compile:prepend() {
+     rm -f ${S}/lib/grammar.[ch]
+     rm -f ${S}/lib/scanner.[ch]
+ }
++
++do_compile_ptest() {
++    oe_runmake -C tests check TESTS=3D
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests
++
++    if [ -f ${B}/tests/libconfig_tests ]; then
++        libtool --mode=3Dinstall install -m 0755 ${B}/tests/libconfig_test=
+s ${D}${PTEST_PATH}/tests/libconfig_tests
++    fi
++
++    if [ -d ${S}/tests/testdata ]; then
++        cp -r ${S}/tests/testdata ${D}${PTEST_PATH}/tests/
++    fi
++}
++
++RDEPENDS:${PN}-ptest +=3D "bash"
 --=20
-2.34.1
+2.43.0
 
 
