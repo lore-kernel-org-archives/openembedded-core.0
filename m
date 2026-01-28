@@ -1,230 +1,77 @@
-Return-Path: <valentin.boudevin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4819CD3F097
-	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 16:38:52 +0000 (UTC)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1812.1769618330731861792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 222E9D3F097
+	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 16:44:42 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1991.1769618679522727271
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 08:38:50 -0800
+ Wed, 28 Jan 2026 08:44:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VimXOkmu;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: valentin.boudevin@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id d75a77b69052e-503312a8333so2880501cf.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 08:38:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769618330; x=1770223130; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OXEvgub+FJEyB8uTzkLq1e0Xcgd2tEk+49P9OVwDjwM=;
-        b=VimXOkmu0lZ64NdYdnIMkec3H0GoRcgI7U0d+y6l3Klzhf50n9fnfadQEGGc2o53LS
-         wMwX4V+hq1CaPk7h+Js+4Wi1Oj2ybPJOZvjOoswhBTieZkS364ieQ7zaRIGUu6/e9RKs
-         fnB8FWJ3WIcfJJxdKOOXfmhEAj5tflL620KssmWMVRFzIksVY+VI9q5PygdI9xurA34K
-         arK+FBv8RPCucEsXjHBCIlEHY+9VKAf7BA3KPj6iFifkqQGoxVqFzJ8h6DGmRHri1e5o
-         /YHG+2goOM/eIopFUy/tgbsvnGSan0/d+6fH2JnE3CS+eA2NZ9bwFfGckMyNSECuRAyp
-         RZUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769618330; x=1770223130;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OXEvgub+FJEyB8uTzkLq1e0Xcgd2tEk+49P9OVwDjwM=;
-        b=saDLXOC2v8FxWE1NqdgtOaXznoNtDYAAaFPF9GN54XUUN8vneIgBOKk9nl3uqFv8Wh
-         sSOA91aUvUHNW45aDVjTjp+3gg5Ht8KLS1nopWuDYipdSQOGd3KRp8xV2HcAuB/XlOE3
-         pgq72e2Rl+qsiiVcO2fDp7T2rzwCrurXDhX6T6fulFpuGGZd4n3VYNSTKlw8Yk5gglGX
-         DC3XI9UpApxZzFyhFkYt6ozRfJcvm6/1p8L6HOoWZeaVLs9WZLThDYM7pGizqa/gvcKQ
-         cZzo47sMsmWRG+JKENqy/7/ZHyL/Lkvuo19YiFlO6WXk8N+A7M37bdcE0EYqb6S9RW0i
-         QgNQ==
-X-Gm-Message-State: AOJu0YwHYcf8sCeYKFCa7orw+cZZAO34wv6sGFTS8fVvSDBUPda1sB1S
-	f4w2CNmTOaIHdbs7vfr24F1/efcavus6OXTTJIexTVzbQxZvPyIsAsHxKz3pGmThWAM=
-X-Gm-Gg: AZuq6aKfJdyYeXAkQvp7cQalr6fR8AoLRJ2/5XjhtjPvoZxDzzIKelPgSu1V0K3hIuM
-	Ciq/aTTFC3unzT4Bqya7f9bfMnXI6qLLEQol9Yu6laSycK5IBXWU69mHjDX8AwFW5AYXy0gB7k/
-	0UAYABX6WT2yVIreiIVWea3GISucVtkA0gT1IwXQ9gksDEAskGqRglG71nYdovzSpTPqacyZaNs
-	Qj47REVHV+y6k0Xv8/ncI8qb+jYKPG6EmvFzcrwejt5gzjUnsIoc7j4LoBtHN5rgYSXbD+6Ay/X
-	k6Kqsa3D16Hu9aAQesKjSZ/MuLPdDnMuRrgb4Qy1fCjJjSmyCGrbdDfcviHKXkF/xJ7SEbG4F7m
-	oD3NqmZr3DekVAgxWpLM4y7ZpCeEOF5wY/cXg3SWSv6IWIh32/6UvDhjQJSu8269pVrMItkSVDm
-	6qw/S/ZMtMq4AGMbg0DhaMBXY0VG1/fdsltKw8dlLCNbwfgE/Qnf0D7iI=
-X-Received: by 2002:ac8:5f8a:0:b0:501:4de6:96b4 with SMTP id d75a77b69052e-50341af463fmr9256831cf.7.1769618329542;
-        Wed, 28 Jan 2026 08:38:49 -0800 (PST)
-Received: from vboudevin-pc.mtl.sfl (mtl.savoirfairelinux.net. [208.88.110.46])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50337ba4457sm20118311cf.20.2026.01.28.08.38.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 08:38:49 -0800 (PST)
-From: ValentinBoudevin <valentin.boudevin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: daniel.turull@ericsson.com,
-	jerome.oufella@savoirfairelinux.com,
-	ValentinBoudevin <valentin.boudevin@gmail.com>
-Subject: [PATCH v5 2/2] improve_kernel_cve_report: Add a bbclass support
-Date: Wed, 28 Jan 2026 11:38:27 -0500
-Message-ID: <20260128163827.386933-3-valentin.boudevin@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260128163827.386933-1-valentin.boudevin@gmail.com>
-References: <188AFD4FCC1313A8.2683732@lists.openembedded.org>
- <20260128163827.386933-1-valentin.boudevin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=HB5MFxdX;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 47ADD4E422FB
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 16:44:37 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1CE1A6071F;
+	Wed, 28 Jan 2026 16:44:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 09FE0119A8687;
+	Wed, 28 Jan 2026 17:44:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769618676; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=F8dbhBY15EYUN1JxpcXpginYXgG9xjKLphs8jSz66lo=;
+	b=HB5MFxdX3zxsvjGVbRkVCw6+oBnmQ0VS7gUJXBSCjWkKvMiXrrHzQVzuPdzrPw311oU7aT
+	1HTLxh985/lhqqkhT1s2/7GTP7VVk+7xmN6nsWzUtUv4Re8YUF9GdW8IRK+1jax6raqmTC
+	lwHTeHfAb5zrdsMdgZMwkFUjSoRo0lAGs2/kAqybVcj4myaksptm3ltuoDa45ybr3xjCPG
+	ITcD5wPwPE2HDQUn5hA3L2sU4Y0ODnClGlGn2OwYEi6+sy8ziKi0rzs3AtYfehF1hd0xCh
+	2ER48cXt5ntrW4+/eTAVz+lrFetrxDBq1L6i73kzTHm01afdkilBqCmT7pO2Fw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 Jan 2026 17:44:35 +0100
+Message-Id: <DG0DGSLH43T6.27SQHKZ8XUB43@bootlin.com>
+To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 16/17] python3-wheel: upgrade 0.46.1 -> 0.46.3
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260126123844.1052-1-wangmy@fujitsu.com>
+ <20260126123844.1052-5-wangmy@fujitsu.com>
+In-Reply-To: <20260126123844.1052-5-wangmy@fujitsu.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 16:38:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230103
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 16:44:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230104
 
-The script improve_kernel_cve_report.py doesn't have a bbclass.
-It can be useful to have one to generate improved cve-check files at
-every run.
+On Mon Jan 26, 2026 at 1:38 PM CET, wangmy via lists.openembedded.org wrote=
+:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
 
-This commit contains three classes:
+Hi Wang,
 
--improve_kernel_cve_report-base.bbclass: Base class which contains the
-tasks to perform improve_kernel_cve_report.py initialization and
-execution.
+It looks like we also have a failing ptest with this one. I'm not sure
+why id didn't show on my previous builds, either it is linked with other
+commits or it's a bit intermittent.
 
--improve_kernel_cve_report-spdx-2.2.bbclass: Set
-IMPROVE_KERNEL_SPDX_FILE variable for SPDX-2.2 builds and set
-IMPROVE_KERNEL_PREFERRED_PROVIDER to require "create-spdx-2.2" in
-INHERIT.
+Failed ptests:
+{'python3-wheel': ['tests/test_metadata.py:test_pkginfo_to_metadata']}
 
--improve_kernel_cve_report-spdx-3.0.bbclass: Set
-IMPROVE_KERNEL_SPDX_FILE variable for SPDX-3.0 project, and set
-IMPROVE_KERNEL_PREFERRED_PROVIDER to "create-spdx" to requires it in
-INHERIT.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1004
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2963
 
--improve_kernel_cve_report.bbclass: Include this class when you don't
-care what version of SPDX you get.
+Thanks,
+Mathieu
 
-These three new .bbclass files can be used to generate a new output in
-tmp/deploy/images with a .scouted.json file in addition to the existing
-.json cve-check file.
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-The new .scouted.json is based on the cve-check file and the SBOM to
-generate this improved cve-check file with extra entries found by the
-script improve_kernel_cve_report.py.
-
-It only requires to use "inherit" on an image recipe (e.g. on
-core-image-minimal).
-
-The bbclass "improve_kernel_cve_report-spdx-2.2.bbclass" can be used if
-"create-spdx-2.2" is configured in INHERIT, and "create-spdx" is
-removed.
-
-INHERIT:remove = "create-spdx"
-INHERIT:append = " create-spdx-2.2"
-
-By default, projects use SPDX-3.0 and don't require any additional
-configuration.
-
-Signed-off-by: Valentin Boudevin <valentin.boudevin@gmail.com>
----
- .../improve_kernel_cve_report-base.bbclass    | 60 +++++++++++++++++++
- ...improve_kernel_cve_report-spdx-2.2.bbclass |  4 ++
- ...improve_kernel_cve_report-spdx-3.0.bbclass |  4 ++
- .../classes/improve_kernel_cve_report.bbclass |  3 +
- 4 files changed, 71 insertions(+)
- create mode 100644 meta/classes/improve_kernel_cve_report-base.bbclass
- create mode 100644 meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
- create mode 100644 meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass
- create mode 100644 meta/classes/improve_kernel_cve_report.bbclass
-
-diff --git a/meta/classes/improve_kernel_cve_report-base.bbclass b/meta/classes/improve_kernel_cve_report-base.bbclass
-new file mode 100644
-index 0000000000..e78722c59c
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report-base.bbclass
-@@ -0,0 +1,60 @@
-+# Settings for SPDX support
-+
-+# Setting to specify preferred provider for kernel SPDX file ("create-spdx" or "create-spdx-2.2")
-+IMPROVE_KERNEL_PREFERRED_PROVIDER ?= ""
-+# Setting to specify the path to the SPDX file to be used for extra kernel vulnerabilities scouting
-+IMPROVE_KERNEL_SPDX_FILE ?= ""
-+
-+python __anonymous() {
-+    if bb.data.inherits_class("create-spdx-2.2", d):
-+        bb.build.addtask("do_scout_extra_kernel_vulns", "do_build", "do_rootfs", d)
-+    elif bb.data.inherits_class("create-spdx", d):
-+        bb.build.addtask('do_scout_extra_kernel_vulns', 'do_build', 'do_create_image_sbom_spdx', d)
-+}
-+
-+python do_clean:append() {
-+    import os, glob
-+    deploy_dir = d.expand('${DEPLOY_DIR_IMAGE}')
-+    for f in glob.glob(os.path.join(deploy_dir, '*scouted.json')):
-+        bb.note("Removing " + f)
-+        os.remove(f)
-+}
-+
-+do_scout_extra_kernel_vulns() {
-+    new_cve_report_file="${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.scouted.json"
-+    improve_kernel_cve_script="${COREBASE}/scripts/contrib/improve_kernel_cve_report.py"
-+
-+    # Check that IMPROVE_KERNEL_SPDX_FILE is set and the file exists
-+    if [ -z "${IMPROVE_KERNEL_SPDX_FILE}" ] || [ ! -f "${IMPROVE_KERNEL_SPDX_FILE}" ]; then
-+        bbwarn "improve_kernel_cve: IMPROVE_KERNEL_SPDX_FILE is empty or file not found: ${IMPROVE_KERNEL_SPDX_FILE}"
-+        return 0
-+    fi
-+    if [ ! -f "${CVE_CHECK_MANIFEST_JSON}" ]; then
-+        bbwarn "improve_kernel_cve: CVE_CHECK file not found: ${CVE_CHECK_MANIFEST_JSON}. Skipping extra kernel vulnerabilities scouting."
-+        return 0
-+    fi
-+    if [ ! -f "${improve_kernel_cve_script}" ]; then
-+        bbwarn "improve_kernel_cve: improve_kernel_cve_report.py not found in ${COREBASE}."
-+        return 0
-+    fi
-+    if [ ! -d "${STAGING_DATADIR_NATIVE}/vulns-native" ]; then
-+        bbwarn "improve_kernel_cve: Vulnerabilities data not found in ${STAGING_DATADIR_NATIVE}/vulns-native."
-+        return 0
-+    fi
-+
-+    #Run the improve_kernel_cve_report.py script
-+    bbplain "improve_kernel_cve: Using SPDX file for extra kernel vulnerabilities scouting: ${IMPROVE_KERNEL_SPDX_FILE}"
-+    python3 "${improve_kernel_cve_script}" \
-+        --spdx "${IMPROVE_KERNEL_SPDX_FILE}" \
-+        --old-cve-report "${CVE_CHECK_MANIFEST_JSON}" \
-+        --new-cve-report "${new_cve_report_file}" \
-+        --datadir "${STAGING_DATADIR_NATIVE}/vulns-native"
-+    bbplain "Improve CVE report with extra kernel cves: ${new_cve_report_file}"
-+
-+    #Create a symlink as every other JSON file in tmp/deploy/images
-+    ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.scouted.json ${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}.scouted.json
-+}
-+do_scout_extra_kernel_vulns[depends] += "vulns-native:do_populate_sysroot"
-+do_scout_extra_kernel_vulns[nostamp] = "1"
-+do_scout_extra_kernel_vulns[doc] = "Scout extra kernel vulnerabilities and create a new enhanced version of the cve_check file in the deploy directory"
-+addtask scout_extra_kernel_vulnsate_cve_exclusions after do_prepare_recipe_sysroot
-\ No newline at end of file
-diff --git a/meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass b/meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
-new file mode 100644
-index 0000000000..45b483134d
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
-@@ -0,0 +1,4 @@
-+IMPROVE_KERNEL_PREFERRED_PROVIDER = "create-spdx-2.2"
-+IMPROVE_KERNEL_SPDX_FILE = "${DEPLOY_DIR}/spdx/2.2/${@d.getVar('MACHINE').replace('-', '_')}/recipes/recipe-${PREFERRED_PROVIDER_virtual/kernel}.spdx.json"
-+
-+inherit improve_kernel_cve_report-base
-\ No newline at end of file
-diff --git a/meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass b/meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass
-new file mode 100644
-index 0000000000..3849f66aaf
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass
-@@ -0,0 +1,4 @@
-+IMPROVE_KERNEL_PREFERRED_PROVIDER = "create-spdx"
-+IMPROVE_KERNEL_SPDX_FILE = "${SPDXIMAGEDEPLOYDIR}/${IMAGE_LINK_NAME}.spdx.json"
-+
-+inherit improve_kernel_cve_report-base
-\ No newline at end of file
-diff --git a/meta/classes/improve_kernel_cve_report.bbclass b/meta/classes/improve_kernel_cve_report.bbclass
-new file mode 100644
-index 0000000000..7b237d1e22
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report.bbclass
-@@ -0,0 +1,3 @@
-+# Include this class when you don't care what version of SPDX you get; it will
-+# be updated to the latest stable version that is supported
-+inherit improve_kernel_cve_report-spdx-3.0
-\ No newline at end of file
 
