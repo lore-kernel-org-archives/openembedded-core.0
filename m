@@ -2,38 +2,39 @@ Return-Path: <daniel.dragomir@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AB5D3F073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CA7D3F074
 	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 14:36:13 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14722.1769610966714644586
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14323.1769610967089974105
  for <openembedded-core@lists.openembedded.org>;
  Wed, 28 Jan 2026 06:36:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=YYThqdEN;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=pi09Rd8T;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6488b4f5f7=daniel.dragomir@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60SB1mAf3275623
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60SB1mAg3275623
 	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 06:36:06 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=/Cl3G8UvxZs+1KJzC9Ua
-	L1DQH0XtH8J2RqefPJvRMx8=; b=YYThqdEN30Yjcjs53N+d8AQK4wDxWi2JSBsb
-	tJsoJlCkOt0bNqx7su6NwO3UqcgQVKrFi8jDCgFJL0SGsIJw2oRGD8YkszdDdkqU
-	a8tjtriJmAI8UGNln54ZfpQ65nbaf2LmqNOkvi4ysXD9iYm73n5T1eBsPowod8/r
-	CtY8jCBCRm+Kr4uM6hGrWW0bUH4zJbo3qzTjVLviosqqV2zeXwUpag2ejyRmI7Ci
-	5WutaI8LgeO0hsfuronhXQHMpyLtjV+OQBBQC04/v/O2hDBGzgg2Ou5SJkvLZz/q
-	tOVsiW/2QoR2ONRZwKR750QBuf0w/iCfGxZTf6Amj4x46nuyrA==
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=7KI8CQQqfDbPtP2B5vZp8iZCRQ0ZYjd+76vmxRG/T9I=; b=pi09Rd8TA+Dn
+	vD+T2Mhr4csjldQuHSFeLzakoAOi6l74Ps7vScFPiDlwAEE28Ab9OCQD5ozRA7KQ
+	9nzMyaCjKWf5LWdWam4TJRiVJbAu+OlvMnv5OBG1/JBZxTOw+WdPatObwvnPAqRN
+	NaDcPUSIYVL14xeI+gt9QTf8ZoQM0/IqhVE5uxIZ34HymHk8LiwDq4LB40J+ZUwe
+	CtQMbklJki6dxmKRG08r9+/HYre75UbMlbor0m8YpxTIp9NrLLV+5cyhSmQEFzuI
+	VJfIn3GX9XVpk98zItaSsbauIDTAAm2YMnD9N4+H3M7GrmEqzyizZvRXRb9y4Bm0
+	gtIWlG+sgg==
 Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010032.outbound.protection.outlook.com [40.93.198.32])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bvxfm4x5r-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bvxfm4x5r-2
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 06:36:06 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ePGWFH9TAPLyt4D/8UhzC3Bmxy4/lubPJ+jbHFZxHlEKZrwFsmAiTCzS7Ayyeg4Wohn/yGFI/VADkhybMNZwFPoMoqnlPXIWGsN3khcB46cSctt2//peCZEiULFrbFO9V3e6g6ggTm1TvCHXytYUw/CgSmQsJwZRhhbHyikiv/YeQ+z3xe++UK0KmFYqJk2xKXhl3XfeznbjTozh8J2rl1ZY6W1z9ArX1EOQk7HWHSSPs5tCZtRQiBDocuQzpDNgB5BdahuoUmjnS2K3v1JFBVg0nFXO1+hwv6bFfSDovjAMOUdHfT3lXKNw8luPIRU6uHU0exnPgtvk5cyeadHomA==
+ b=ZM4AJIdTeDyc3ti8ZU+wRU01pD2B6OUzMHJ5bStI4LHmpnGc9gTtOjoIi49ThSdF26m1GWPpcW7Joy1vTATkWANKjZWtKaB4faZLfpTnMkAo0G/R5z3MnJ6WtVUjMbjJmO/yDQxwYpl62A6dyA0I5KJSTXVqZbJLaZ5pkMzlcli6a48xi7BYXHzH343P4Cq6+c5L+PUD9yGoSFv89mt31XLWg6ursHTLPoqaGZKd9xinNDUNidK2OK4M8fKlo5JSEnA+4Yh6rtIoh4Xrus2YP3kmIwDBQyzhdWOnL5DjbPhRaw1jXEhu8JI+sWdIGulZWfy/5pyWipHCZUBp810pxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/Cl3G8UvxZs+1KJzC9UaL1DQH0XtH8J2RqefPJvRMx8=;
- b=qFnDQiAPk4MJ5YflnerG41QjJ4+jUdHDzvsAeH0WikgTl/yoj4rJJtK3LuD4oAGYtM4nlZJPCd4H+OQq1hZkemN9swrIC6PeMs9mi8COxJDmbSeNdq7z0Nf6/zVemdVIbcC+M8fP+f04hAzCjcvbMrgNyqNGbA8UdeoJRwCU5BprPrGV3944C4MrfZ2PVfoXaQ1heqRqfo0pyRc+HM7uCkIw2BtvfvYxgxzYqWZDS/NJV6yqN1iEQFmpYOGVxLiPjFlVfkZiILu+vXIs6LkepazT5EofMTHilFR0mEuv+twrsAmisLlTRI7domAY2VeIJ/UERB/Qd7Ik4SbD0lfq+Q==
+ bh=7KI8CQQqfDbPtP2B5vZp8iZCRQ0ZYjd+76vmxRG/T9I=;
+ b=yXc1YA07I7K4VpvBcg0HMUupSLMwhFgsxKgvbANlR5oF39ws1Es4VOfPSw4/6oa7zutQee+KmtPOBqP/HShzgtmzuNiuAvxmpMpYETdQ52QQNh+eTrkcvogrBWB/jY5aydh7aDBEXi2P7aEOLuFacktPorgivkdsgcYROwT5hJ43U/zyPVAdipVEbpRiLOkXx6T5QF9H6/aHM4zgjVI8NNGPe+dzBWo3WgNvb7orGuX76NvMcwIzk/ES0BNTLUZr/y23L1snWOyCaMRr4yPHmFXRshn4lTorUI0CcRD2jOOiAN68F2Pfwp01luJHRL/5y93pFghR9UeZC3KPTw+6zw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -41,120 +42,141 @@ Received: from PH8PR11MB7968.namprd11.prod.outlook.com (2603:10b6:510:25f::14)
  by DM4PR11MB6406.namprd11.prod.outlook.com (2603:10b6:8:8b::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
- 2026 14:36:04 +0000
+ 2026 14:36:05 +0000
 Received: from PH8PR11MB7968.namprd11.prod.outlook.com
  ([fe80::bd3a:5dfd:4a5b:223f]) by PH8PR11MB7968.namprd11.prod.outlook.com
  ([fe80::bd3a:5dfd:4a5b:223f%6]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 14:36:04 +0000
+ 14:36:05 +0000
 From: Daniel Dragomir <daniel.dragomir@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] wic/engine: fix copying directories into wic image with ext* partition
-Date: Wed, 28 Jan 2026 16:35:46 +0200
-Message-Id: <20260128143547.1239286-1-daniel.dragomir@windriver.com>
+Subject: [OE-core][scarthgap][PATCH] oeqa/selftest/wic: test recursive dir copy on ext partitions
+Date: Wed, 28 Jan 2026 16:35:47 +0200
+Message-Id: <20260128143547.1239286-2-daniel.dragomir@windriver.com>
 X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20260128143547.1239286-1-daniel.dragomir@windriver.com>
+References: <20260128143547.1239286-1-daniel.dragomir@windriver.com>
+Content-Type: text/plain; charset=UTF-8
 X-ClientProxiedBy: VI1PR06CA0185.eurprd06.prod.outlook.com
  (2603:10a6:803:c8::42) To PH8PR11MB7968.namprd11.prod.outlook.com
  (2603:10b6:510:25f::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH8PR11MB7968:EE_|DM4PR11MB6406:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e08112b-c4d5-4ac8-7cb4-08de5e7a9092
+X-MS-Office365-Filtering-Correlation-Id: 2c47a83b-ab89-4669-39be-08de5e7a9144
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?rblj/CsF9TrFD7j8YcOGpUxfNJOL3xtFEd5rtaN2aYNGmWeCXyhk4AeGJbGY?=
- =?us-ascii?Q?8KebUErw831Ac7FNxARG0s8+vol0CeFyh17tff2BACs1sxAVqHjlJNyVZoR9?=
- =?us-ascii?Q?g4FuOyTLjBtPpwSHbOnbvtir2ka7i86Ipz4GyAMjfrd4fssFtu5DYBXNIjt8?=
- =?us-ascii?Q?t8aIujOyLiyg9Xu3shLgdoKa6C1P3pAqYwYZPnSXxMjA/8nfNOSnL2so+ZPp?=
- =?us-ascii?Q?uCKty5WwZh0VBN1L3Jw8kwEsYn3Hry/DyBK6qvhQVmOzY7xlxLWN0V+kw9sL?=
- =?us-ascii?Q?dUskfAiwXdnzcwpYPvLAb21YRVoDff1JIS6XT//kbeeb3Fm3c2by/Y7S9p4U?=
- =?us-ascii?Q?frAXjQjfPmji7A6+n5T0TJoy7QNUSwzB8aEuDfO+SnnPGeHLKOR/77N1Xv7L?=
- =?us-ascii?Q?2xcDb3dS4G4IBs1UcWTsuOgN7yiB1LOjzm9qRGYGWBmmmVdHOqyuMgxG1d2Q?=
- =?us-ascii?Q?vp2e60kB5+6ReytnucygmD2JHFqnzOA8jTxPDl2vIWjc9nvmYyiG1CW1bLFJ?=
- =?us-ascii?Q?wP6ZkptlU3yLYh1Otyb8hk9aVFXonDMqcS+4eAbKjOLMT4JSs3dhvQE0wVgC?=
- =?us-ascii?Q?deVciJoSCLYuOTOanIPFTrvJoEEnaGrpktuAUibDi+BOdwPevooeiUZMbiTO?=
- =?us-ascii?Q?00XX0POAYk9b3HJU7OPK5SJgxJ0Mb8i7ucwgzo0R+G1R7IbXgxrEru5qhcw4?=
- =?us-ascii?Q?BPGHeX6737uecviAxDUU7821pnSz2dIRLqHwvUErEr21i77OJMEKT8859qfI?=
- =?us-ascii?Q?QKXg9LMI3R0PZEGe6hLDSYsD7M6ReQaDnBeU550zLwXeNcKYePCAp+Ldyyun?=
- =?us-ascii?Q?a8HOqOt2YKXEgxSNlWfA0TkVZ1Vz6STSHU5sC/rjvZm2V5mOOfnqOiJuucRD?=
- =?us-ascii?Q?8xoPwi61aaPjW9k2YeShKanCu5wIrYFSHyO2RSrBpGmPpLh5oYu0qSHq/z2o?=
- =?us-ascii?Q?lNs+0aWCn6vakfIUcf7+8NpDMCEyLvjQNHiIRJ5TlcFze6dXkq5xTXL/jIkm?=
- =?us-ascii?Q?sD/9yAG98gw2la0+mgeCqvmJB03liQ0NX8YLjWzhSDj0DpZcHUnRw0g6a6FS?=
- =?us-ascii?Q?nvits7cQQbYXxBcKpJSCGpy/QJO91BM9UjWrIAVaP/xVG/bivatvHKkgGZ59?=
- =?us-ascii?Q?2UslENSjePx38waxNgHT+4Gnm+H4g6vhGoeHzEJZrqQSEphpzsDNrG278yuK?=
- =?us-ascii?Q?UOumEe9cAle7sdjdLUFb2dIEjq1zzm6eXHObnAFw8hMiKrTDj6yo6aLccxFb?=
- =?us-ascii?Q?plYL9DMkZH+fEz/fmQUqLRe8I0His6J2zrL/WIXvh6pRpi9i6MSgmgeYRfV+?=
- =?us-ascii?Q?AVDlUjspo14+JxvdaTUxOK+y6+i6OL2uSDGWpJVA4P0AWuxDH7TPOqWS0PpS?=
- =?us-ascii?Q?eLWDiVKOgE2+U/6qe7xm/9fxXHB1sbw2thR7p2aFJS3nKG9ewl+Fe+PuVcoz?=
- =?us-ascii?Q?qd/ihSX97A8zBqgHmpAQYpR690Akm79fKR4seld4N5Oh1qKeEH8SWvf04HJR?=
- =?us-ascii?Q?/YVgBM7aJW/lH9ZY90uzA3r6tbyMVwlG1ux3MhLQP/aDzmJ6RXwEQHo9+2XE?=
- =?us-ascii?Q?Zq2YdTX62/lpB2QQYbqxxLdzcZet5VDP9uNoAJw34nITGadrFSNNKj0ODxSh?=
- =?us-ascii?Q?8+V5Mij0CBgjWAliL638SAY=3D?=
+	=?utf-8?B?UmxjN05VTUpZQlpTWW1OWjZaNTJjRC9mc1ZMOVIrWG9DQ2hHSE9zZ2pPelJB?=
+ =?utf-8?B?WXhST2dDM0Racjc0RE9IUlpzV2dOOG0rKytRQXVIU3QxOXhQMnFJYzBOTFRn?=
+ =?utf-8?B?UFBrN3JzbmhYNnA2dmJGYWpMZFpJKzFlQmllVXZrVWc4T1JqRDNCb2NOMEM1?=
+ =?utf-8?B?SUFoditLa29ySnlBeUxxMTBJQXhwSUNiUm5pdUNWQUxySDByZExWYXBFa1A1?=
+ =?utf-8?B?SHNRTENkdU1uQmdvYnM2Y3JMS2pIT3pyU2h6QmNaOVh2WEVFcFlKQ2M0cUk2?=
+ =?utf-8?B?UkxFNG93Nm1KS0NJdFZPcVlZQ0lweFpkVVhlK2RPMFRZc0s2TzM1UEZXNWc3?=
+ =?utf-8?B?M3BXbzk3RFFheDFDMkM5WUovQmlkSVJYSlV3aDh0alZQamk0L2Y3ME1SQ2NQ?=
+ =?utf-8?B?YzlJd2dkZHJGVzF3dTd6TUs3RWg3RUovMXpKNm9kQzF4SURkTFNzaUt6eGpm?=
+ =?utf-8?B?eFhwMTluc1ZxYmdqTndvQnhpVUg4OUh4QzBkdXpVa3AwRFdBV3Zxd2phRVpu?=
+ =?utf-8?B?TVZwam1ONkVHd3NtUTh2Q2YrWTc0cmNYd1RLOVh5RGdLREpvMmRlWU4yVTI0?=
+ =?utf-8?B?UkFJRk5ObzdubjVpQXkxRTBRejJGU2RMVDg1aGJqNFpNclRpOE11OGZnaGF1?=
+ =?utf-8?B?WWl3NS93NWRqZFp3MmsrZDdiU0l1d2N6SlVFMHRySFhYVEZFZWU5Rm1xSGx0?=
+ =?utf-8?B?RXhIYktsNjJXOEp5dFo5Rm5nUDNvWVZFWTZtd3htc1hWWWpqN2VkYXkranVn?=
+ =?utf-8?B?MUV1QXpLeGpaQkFxRzR6Uk5mUllEYlFaaFg1Q0oreHFmTm0xeGpGV052d3Yy?=
+ =?utf-8?B?WUI2VDBldXhGODAzSStyTlVwNklKbmpseEdVN3huTThudU9Wb3FzZzlOd1Jl?=
+ =?utf-8?B?bWpwSGJqZXIxZmc3TUxBM1VBaE5iOUJBdnpONVdjMWFSM0tnOEZPeWJSMHgv?=
+ =?utf-8?B?clBjcTdPVmNTUmpFVWRPSEFOcGxQR0Y1RXFKcUU5Q3lGZzArcHdGTFM5K2Qv?=
+ =?utf-8?B?UTJjTHlQSWtVT2x0d0d4ZHZvcDM2Mlo2WFdVQ2FzL3FDd3JuVkwzMWdkWFpF?=
+ =?utf-8?B?QWcxUnZoNmNsS1h1eXhpRTBWa3hUMDVXMEcwM1I1TmIyMlFreWVheWxrSGg5?=
+ =?utf-8?B?NEY4L0wvWFh1dzV4YjA5a2NYQjZxQkRWLzMxR2FmeTJDMTJONEZIanJJV0FH?=
+ =?utf-8?B?TWEvMHBUNzk0VjVTR09LNEhRdzhNY1Y2WlZvZitTQ2VmazA0S0xHVHJhUzIy?=
+ =?utf-8?B?ZE1HT1NZVUpVR1JqU3VNUmh0c1k5MGpPS3FOYjhHTDdyYU5DRS8rS1FoVFMz?=
+ =?utf-8?B?UkpCV00xand2cllmeXlCMFNoeWM0R3pBV0lXSGFjbGF1VFRoYlJIbTRaaWRI?=
+ =?utf-8?B?aDhLZDBrWEs2bThWWS8vaFdqc3hhMXlOaGMzRE9NRnJ4ek5lUURldUJmS2w1?=
+ =?utf-8?B?WjA0d1F2cFpJRHZBU2Jwd0orRTZxNnN2ejVuOWdwVk1FZmZHenV4QTl3N1hJ?=
+ =?utf-8?B?NGNrYW52dmdoRk5nS2w1c05ncllhNnNSWHRVSDlnaEpQdUhnMVZDcHkvaUF6?=
+ =?utf-8?B?TWRvVXc1RSswZFRHN0pzbUlTa05DM0hzemJBc0tTK3dXZGxoVnEvYWhCTExJ?=
+ =?utf-8?B?VTBMdlNMQjJoY1pNWXlaWTk1U0xlTURzSlEwQ3EwbDdsOUV5TVpMejZMVWFE?=
+ =?utf-8?B?elZObGtzcmk3QjBxVGRmc1hlcEhRUzVKY01hTEhhYnVSUkFQTXhQSkp0V25i?=
+ =?utf-8?B?ZXZaeFUyK3dhV2ZMN0srOFJMTXhSMGNZTnZwdGpZK3VNVFZCRWhPbm9TWFNn?=
+ =?utf-8?B?dkd6eitwRE0yNlJkUmFFUjhTeE5XY1dFdUZqREFjZEZ2YlVHTGVoUVQybmFv?=
+ =?utf-8?B?bWdTd3BjMUJsbTFkZjlrNFh5ZG5xcGNyb0k0UDlXZnkvZ1RiLy8zL1JhcmlH?=
+ =?utf-8?B?TkZKY1dwMnVEL2krTHdwTXh4YjFuRHd3eWxxeThyYVkzYkZCdHhDMGptczJC?=
+ =?utf-8?B?RUIxSGFzWC9FbHdUbTBLbzVHNGM3dnVxV0UvWHloTTN4aDNKVVBPQU5SRWZn?=
+ =?utf-8?B?dE9Hd1F2YVc0OGg1L2hmRWFSSlB3UnV6S3JFOHhXWXlJR1FUNCtBUmFQeWZa?=
+ =?utf-8?B?RFE5QjIydkp4MUlmb0dtaDBrNXpSM2EyQS9XcE04SmlvZW1zK3YxYlRnTDVF?=
+ =?utf-8?Q?b2Ydfcdh90FmtxEUaRFnHOk=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB7968.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ehhN5Eh8fKOf4zZdgzt5gkt3R0KEOdDx5rx06xpQNt3ryq8C1NaziS3hbS0B?=
- =?us-ascii?Q?1/Y7iq1kSh7z2gX6KMUWovFBhDdIDNWTQsDTTJxpknE+P413LFb+UOY2rfq0?=
- =?us-ascii?Q?0QzJOD/wiWQ29RKkxEgMVBNgxHdOyAUTQDDtoQMTrTAJFxQt5uZ8XcgrEeft?=
- =?us-ascii?Q?7N4S/okb9HmvC+Bf77v6qRfROt+eDOsCHJL7sPa1GQH6XtuuouuS2cuAQrdS?=
- =?us-ascii?Q?9yDAl0hCtZS5Ohq1sWTNCA8ojlYcoD4B9FGdUzFcMphEGP5P6P+0NdTZOFPo?=
- =?us-ascii?Q?3bHKNZsigbVgGJgpjFQnNvkn6LsBW9LFMuDYn1dtrMsZWKog7DlUxB2hN6hn?=
- =?us-ascii?Q?X4nVoefLq0/6yzStNHSegJ/y1DQFnTVgHrQTHvk/EGVWXV10BKPWZhhBjETc?=
- =?us-ascii?Q?eDk2EQT+h47Ztsru9Sa/7/CzJrcf35zjnZFfyQWUk4DPrbWGrlvjDNo4gVdK?=
- =?us-ascii?Q?i5aFs+fv3qjTYqLf6D+3KzQbS2jdJeL/Oj6R1hcDZebiNpxH1s+hT14RhOtR?=
- =?us-ascii?Q?XYyCuvvFkz6JN6NIenYusP0ED1Yke+2+BsRLrE6+u/RsDwuJT5459kHA6Vls?=
- =?us-ascii?Q?SFD+YnoZkewBl5vAb1esBMDMB5A8VbNPiPuaLEIXMFSUGAvesSnLeadgGk7P?=
- =?us-ascii?Q?skBXBqAfr/2INSSZzyc1mR1WooO1/4HGfcsfutKrVVy0/K/Jy0rglpsQk3AZ?=
- =?us-ascii?Q?YSml5Z2+VaV3rQ85W0puHmdyTupLp672W3A2pFifryhK0e/kmGUNEvNj0vGQ?=
- =?us-ascii?Q?Aatahdm1MMSR8nBdvDoq+DAmycBQtB53TQBk/FHY+ZOx3/mpWvkl8L3k7JyX?=
- =?us-ascii?Q?PZKsWFA6LRi5W6W9ZALLIo5TwGA3L6gFNp7Mb49xTshkgaIjcCRIQZJC4ypR?=
- =?us-ascii?Q?rRopbEdfkphVonLtNPBY7sd+zUhKg99Hl8H+LbaC9hxPbvh6GqGkpI4BV6e1?=
- =?us-ascii?Q?BSFapiU9B/1DkfJWxhtg6QVP5D3kTkx/v9VndgwJcfFK0Ju+S4SjtcTKYhN2?=
- =?us-ascii?Q?qcS/jB7cKJW+EBMevHvRe2NXqT/Zg5l3RIDco7UqoWTqJLGMbWUaIE71LKl2?=
- =?us-ascii?Q?gRuhEciMOjlMF5OJD4kWOraiLyyOBgxhZYw1DykgT08021c7zt4MIEGxvZKv?=
- =?us-ascii?Q?JzsYOyNVQp2TqMVHIUwO58aTAA8ksaXHKhjMwjjaAtG8Ay1jPNKSS9LvCYxh?=
- =?us-ascii?Q?8xnyb5TzqEFiabtK+jlIapO3p3hmjtA4L9LcpWLWIbRUQMJdmWgn5qSNbYOo?=
- =?us-ascii?Q?amQ6vcnphqiGng1y31h2B/7o9aj6oHaYnD2zQ4+hp9g3SrLGpYFyRyS9IW52?=
- =?us-ascii?Q?5SFoAZJP3iz+0FIWPpQHZPRA5WkfQlcsafX+5+7ZoVULS8SrFEJ49eSimiE4?=
- =?us-ascii?Q?qvA14KWfmZUT+O6vcupCb0F43FK1lvgFXp2GiwR/pprRaPG8pEbgaFveORcj?=
- =?us-ascii?Q?WH9O4YvJB+rIYQz4OF/86ectHCfSzCr2acfeL5GQI6Dt0QJYXS5H8H3uRuIR?=
- =?us-ascii?Q?LhIkzaV6wmnmE3Cm9A/syMkFtdvBgto4QRSYqq9y5/1mEjVu7ecg+NoNKlSR?=
- =?us-ascii?Q?NQUrIFCudwvQBzOzPdhgFllqdpLVPUHTW+nlInWlXzLXMWx1ofHJTMXgmKPM?=
- =?us-ascii?Q?ZMzov7X7SWaUaZs6j7g43eZwx1xt2sCzIQyudEo78AFBwNdmaIFobRNsfbuy?=
- =?us-ascii?Q?BM42bIz+zoSubXo01OzihDAxugdv22L1Uftut/BKbXqEhOIPmr7vCc9rhaIF?=
- =?us-ascii?Q?wA9K5OzAuGf6eI2sBO6WYO9x3nltxxM=3D?=
+	=?utf-8?B?MlI3ZGhkNzNNQklwNjVpbHZvVThjZ2JzOVRhQzdtbUcrcjlXT24rQWlPN2tD?=
+ =?utf-8?B?VXNwUm9kYkFkV1drTFdzZkE1U2ZxbWtScDFCaWtnOFMrdE5oblBUNnk5YW1X?=
+ =?utf-8?B?MEl5cmpkNzJmR3ZvUXpLOEJSTWN0MytpbzExSGExSXhOL2ttQnBzdkYzU1lz?=
+ =?utf-8?B?WnhPL09lN3Q0UFVyRGF3M0grc094M2NUd3FZTHMvdmh3V2RhMzdSTUFRZVhy?=
+ =?utf-8?B?L0Vhb0x2SndvN2duZlJPcy9LLzNpOUhtZmhEcGdXUENDU21veVVBb2gzTjRo?=
+ =?utf-8?B?R01hNnYwYmgrMFFCRXNzV05jZWs4Tm5CNjZpY1BNdGQ4R3VDRVZkTVBjUG5s?=
+ =?utf-8?B?QmJZQTFiRUJDZ2tnK3I2TEY5cVRiMXpvT3JGOGMxR0dKM0dYeVh2bVZ4cXZF?=
+ =?utf-8?B?WG9lQ3grcE9PZTIwVW9NQjRwMDdpNzY4U1pKOHdqbDlSNEZKZXhjaCtsdGRo?=
+ =?utf-8?B?R0g1SkJXZlB2bkZCVGJQTDMzQncwL21yWVpEdks3V2tteHd0d2YyazRDMUJr?=
+ =?utf-8?B?QmdDam9COTV4VGJBNFlHbWtGZmZ3TWtqczRFczJpcklRVE9USjdLYkNQd0FG?=
+ =?utf-8?B?S21WaldseTZYamY2bjUwYnlvY1hXckw1NVc4QjVuQkI4aWFQNEhmcFRocUZM?=
+ =?utf-8?B?MFFBMytIaTRkWXB3Z1p4Mm4vT01aYVVEeGpmVUhqQVowbXYxRlpiQ2NLb3J1?=
+ =?utf-8?B?enZOakpRWGFQaXE5bnNsSUxXTjdtMUhHN1lYSTdmTmMzcTJpaUVMSjVFUnNm?=
+ =?utf-8?B?eTNGUjJ3ZnJlb1dEY1kwTVdwdEFhaHR2MmJNVjFjWjhBZlIyV2xmUWFNQldP?=
+ =?utf-8?B?OHdwSk9WM09vKy8rdGZmV1B4bUdBa2pDbmh1c0JIRCtGYWxpeDRPcTdJNS8r?=
+ =?utf-8?B?VWlaaE9BM1JpenBCcEY4MG05dG0vN2tYYitxaVBvNDQ5TEZhaXZzRVNIM0Mr?=
+ =?utf-8?B?amg2U085bFBlZEFmOVpqamc1aG9OZDZIZS9DOUlyOVVvUnBEemttc3o3dzdk?=
+ =?utf-8?B?NXRSYnErckN1aGhLekx3RjdjMUJJVGVRMmpxQ1F2Yk5jS1VWa29mMFJRWGRl?=
+ =?utf-8?B?VHBibVE2dlZEYlY4aURpWUJrTzkvbFcyU2Q1WkpHUURnR1VCK2pwU0ozZnI3?=
+ =?utf-8?B?c3gyODZ5Z3kvYWRtYmRQT2pNWXFHRlR1SnFvZ1RCU0Q0TnlXM0FicUtpNCtJ?=
+ =?utf-8?B?N1Q4WHg5ZjBOa2NGQjQ3cDJ6NjNYK1p3ZVVleGl4bEMyWXAycEMxckxyaTFz?=
+ =?utf-8?B?QzhQZ3dEb0IzYUN2Yk51SU9MdFNIWGtoZVVwOWhwdnc1YTZBQk9WRmhFV2Va?=
+ =?utf-8?B?aWJOQVJCNSs3VXlLWEluY2VxUkRMY01sSHNPT0E5NjVPUjBGeDI1dllBYWlN?=
+ =?utf-8?B?MjBVS2l4YklvSkx0NklHdzY4L2YrU1RmV2ZFNEJJMDI0Wk1vWGVaNVBuQ2dG?=
+ =?utf-8?B?T003bXpRQ0tyVjBTSGxiQmtrUWJMNkpqVmJQMHk5d3FNSm1GQ1BQVzBRWDhB?=
+ =?utf-8?B?VDQ3b2hwT21mejBmSU5ET29yM053S2FvREtEVEVLQUtUYTNwQ0xpcTA4WkVV?=
+ =?utf-8?B?cXBiUkZGQTRZS3dwL2h5SHA0NmhsT3VKNXZ4Z0VGTlU5RllQU0pORnY0NDBa?=
+ =?utf-8?B?Q1NrQTc5Rmk0NFlJcitSdnU4VjBOdm9pRmp0MC9HSE04Mk1QVURLOHorVy9P?=
+ =?utf-8?B?N0t2Q0JoOFpXQ3ZLdWZBSFRTOWVDQVp3Ums3aUU1anRiNEg4cndJc25NcUFC?=
+ =?utf-8?B?aVY3NEgvWEJkN094SjJpaXNZVTdMWTJXbldIRnRmVFJ6SnBxSzAzdFgvYkQw?=
+ =?utf-8?B?U2EwaXFzSXBiYk5iejk4eUg3bEZUMVJ2c2l0QkIrUjFoV0lmMUI5d2cvV0R5?=
+ =?utf-8?B?OEJRZEV5ZytqSFNVdzNQYm0wbCtlVFlSUlZxRHJLUXd1aXZKK1BYQWs2alhY?=
+ =?utf-8?B?N2JpMVMrZ1FSMlljNHp6S2MrRlNoZFlqRjgzQWVTWVRVd0tvOFJFdko2aTll?=
+ =?utf-8?B?aVdrdWlxblZiWEhaQ2JWaGFCL3U5Z0twWkszTWpxeld4eVp0bFZCSEJFSGZ5?=
+ =?utf-8?B?SVpNREwvd29iMXRHeFZRS1BPYVlJSTRRbHZyNHF3dy9GcmVrVkFJK05XdzhY?=
+ =?utf-8?B?SVJtN3c5VUJjNm9rR3dsZk14K1R5dW5xMkY3MVREY0tyN1ovVzNlL3dOOVBG?=
+ =?utf-8?B?WlZkMTFpdktudmtVeklZNUtab0lJKzF6TENCRS9Ed3VvSjBieE9nSEl4cG81?=
+ =?utf-8?B?T2VIVnJENUFRNGMyWEJHZ2NBL1JtVFYwNVF0VHQvSlpKQWN3L0I2MTB4VDF3?=
+ =?utf-8?B?OGFvQmxXZFlxaWprSDg4MVJJeFV0VlFjd2tHU1UvUk5GRHN1NERJWnR1a3R6?=
+ =?utf-8?Q?4ZIkbk/IjF9KGkZ8=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e08112b-c4d5-4ac8-7cb4-08de5e7a9092
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c47a83b-ab89-4669-39be-08de5e7a9144
 X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB7968.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 14:36:04.0037
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 14:36:05.1137
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QYc7OoR7S+Rz6AJHEpg2XrAVy9kRa+FpUJ5TbuG1EloVvHY3XsXXjhajNJ0333IlORX830jj3cHdWHIfo9IPQw45nEqwdJi2t01L0k1WNAw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: lRP0RgSwMfZ0FVI8ahEcz8aVhyfe3wXhdGp0gppXSRvzeXkgqEF2VRg/gWvGKhLJxdQUPsSHAvV+7IdlrQnKiab4cfmIqIQXxVrLfUgwwkc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6406
-X-Proofpoint-ORIG-GUID: 1eR4iib088WfYno9cayMzxYaoSLaEg21
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDExOCBTYWx0ZWRfX5W2iVWqM5eEA
- aRe32uLP/WEEqgfLDmJSWAz+2dkdIypdaJoqBzCL7AfZhSBflsr0+t3hr2XDa9blFBrk/g8/ezS
- czoys/sMmhMOinAZ/kANN/bODEhYYl3pZj91OEL8RGZLRXD5j+G7ncSlAGVP7oULj630fAkovYZ
- qQsnjKtxdphQurx3yHn9awbxaGrme5H+4aLUdWrRfBUHZFWRW9eYbYhleGu+54bOZcxIrW/U/f+
- qNxSa3PoKy5u+JbGUErJP8P/wkxFodQKsuESrYCfmbNn7B3QwM9WB/1wf/It9jlLu39JHuiMEoh
- z9MnQcJmSXkNXHiHfus/tALjAlDfRM3PLeWN8dCdNNs6adkjn+8QHw6woigPp3/bB2NElXak2M4
- M0wqmAkxulYSDH9bHMMR+v15qyYDCYZgtu6OQjDhymDrKo+XVumt0NX4Hk6yqBc3NguLor6xCnm
- GiwYMFrz4/M+tW5P9kw==
+X-Proofpoint-ORIG-GUID: JlqvffWLyRRA2GAdinQyuBfE8jTzEjq-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDExOCBTYWx0ZWRfX3fkKekPre2A1
+ 3SzcbspNbK2/kgsAGuUh5KWopnwSLsCM9K8/3si9eQRVaLZehNYJOG+KFIZulM47En/RwwIw8HB
+ iWOGiZyCAT0cXMH82ZMft3a2PuUmK48TuGAiPbg+/78zMy6TcUEsq8XoSOo3uPf1eJa4Uy+NAMA
+ rqjVxqQyFeehIlmHjTOGfHnIjIreteEJdkfoCmMM/81B90W8EOUZ7+Uzh4JHrmn+gj1id9GWmDW
+ TJMQ1V1E4naaXRNsON7ekFMcPQQtVH7k6cQdf5w8gNw7nz4qwhOZYrs1A/b4/GWXvGnG62yX2h5
+ UuGzFpdtRfKEXhVbknTdD6pAgEoJaB1QojrmOMSyHx+XSBYpq8LBuKkdkoIoAAIDEDbZLyHK8aE
+ H7rtFGQWGuEhRF3UZll3ujn52TclgO4SCcEu1ZX+cez5BbUDwm4DzZ2sQ8+DJtvI5NbjbC1O0XX
+ MXAuD6/3tEIKtM+7muQ==
 X-Authority-Analysis: v=2.4 cv=Lo+fC3dc c=1 sm=1 tr=0 ts=697a1ed6 cx=c_pps
  a=A8yAwjBYovhlCeyetBcGtw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=3xY07a9VU1Mei7BdaDQA:9
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8
+ a=AoXOhhOut3wUavBMMSwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
  a=FdTzh2GWekK77mhwV6Dw:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-GUID: 1eR4iib088WfYno9cayMzxYaoSLaEg21
+X-Proofpoint-GUID: JlqvffWLyRRA2GAdinQyuBfE8jTzEjq-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-01-28_02,2026-01-28_02,2025-10-01_01
@@ -163,115 +185,165 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  adultscore=0 malwarescore=0 bulkscore=0 impostorscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601280118
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60SB1mAg3275623
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 14:36:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230099
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230098
 
 From: "Dragomir, Daniel" <daniel.dragomir@windriver.com>
 
-wic uses debugfs to write on ext* partitions, but debugfs can only
-write to the current working directory and it cannot copy complete
-directory trees. Running 'wic ls' on a copied directory show this:
-    -l: Ext2 inode is not a directory
+Extend the wic selftests to cover recursive directory copying
+into ext partitions.
 
-Fix this by creating a command list for debugfs (-f parameter) when
-recursive parsing the host directory in order to create a similar
-directory structure (mkdir) and copy files (write) on each level
-into the destination directory from the wic's ext* partition.
+Previously, copying a directory into an ext partition could
+appear to succeed, but attempting to access the directory
+contents would fail with:
+
+  -l: Ext2 inode is not a directory
+
+This was fixed in commit 4fc3b42774 ("wic/engine: fix copying
+directories into wic image with ext* partition").
+
+This test now verifies that directories copied with "wic cp"
+into an ext4 partition:
+  - are created with correct inode types
+  - can be listed recursively with "wic ls"
+  - preserve files and subdirectories
+  - can be copied back out of the image without data loss
+
+A simple directory structure is used in this test:
+
+wic-test-cp-ext-dir/
+=E2=94=9C=E2=94=80=E2=94=80 topfile.txt
+=E2=94=94=E2=94=80=E2=94=80 subdir/
+    =E2=94=94=E2=94=80=E2=94=80 subfile.txt
 
 Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/wic/engine.py | 63 ++++++++++++++++++++++++++++++---------
- 1 file changed, 49 insertions(+), 14 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 65 +++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index ce7e6c5d75..565a0db38a 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -327,29 +327,64 @@ class Disk:
-                                                    path))
- 
-     def copy(self, src, dest):
--        """Copy partition image into wic image."""
--        pnum =  dest.part if isinstance(src, str) else src.part
-+        """Copy files or directories to/from the vfat or ext* partition."""
-+        pnum = dest.part if isinstance(src, str) else src.part
-+        partimg = self._get_part_image(pnum)
- 
-         if self.partitions[pnum].fstype.startswith('ext'):
--            if isinstance(src, str):
--                cmd = "printf 'cd {}\nwrite {} {}\n' | {} -w {}".\
--                      format(os.path.dirname(dest.path), src, os.path.basename(src),
--                             self.debugfs, self._get_part_image(pnum))
--            else: # copy from wic
--                # run both dump and rdump to support both files and directory
-+            if isinstance(src, str): # host to image case
-+                if os.path.isdir(src):
-+                    base = os.path.abspath(src)
-+                    base_parent = os.path.dirname(base)
-+                    cmds = []
-+                    made = set()
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
+/cases/wic.py
+index b616759209..1ba180ff0e 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -12,6 +12,7 @@ import os
+ import sys
+ import unittest
+ import hashlib
++import filecmp
+=20
+ from glob import glob
+ from shutil import rmtree, copy
+@@ -1662,6 +1663,70 @@ class ModifyTests(WicTestCase):
+             runCmd("wic cp %s:2/etc/fstab %s -n %s" % (images[0], testfi=
+le.name, sysroot))
+             self.assertTrue(os.stat(testfile.name).st_size > 0, msg=3D"F=
+ilesize not as expected %s" % os.stat(testfile.name).st_size)
+=20
++            # prepare directory structure
++            testdir =3D os.path.join(self.resultdir, "wic-test-cp-ext-di=
+r")
++            testsubdir =3D os.path.join(testdir, "subdir")
++            os.makedirs(testsubdir)
 +
-+                    for root, dirs, files in os.walk(base):
-+                        for fname in files:
-+                            host_file = os.path.join(root, fname)
-+                            rel = os.path.relpath(host_file, base_parent)
-+                            dest_file = os.path.join(dest.path, rel)
-+                            dest_dir = os.path.dirname(dest_file)
++            # add a file in the top-level of the directory
++            src_file =3D os.path.join(testdir, "topfile.txt")
++            with open(src_file, "w") as f:
++                f.write("top-level\n")
 +
-+                            # create dir structure (mkdir -p)
-+                            parts = dest_dir.strip('/').split('/')
-+                            cur = ''
-+                            for p in parts:
-+                                cur = cur + '/' + p
-+                                if cur not in made:
-+                                    cmds.append(f'mkdir "{cur}"')
-+                                    made.add(cur)
++            # add file in the subdir
++            src_subfile =3D os.path.join(testsubdir, "subfile.txt")
++            with open(src_subfile, "w") as f:
++                f.write("sub-level\n")
 +
-+                            cmds.append(f'write "{host_file}" "{dest_file}"')
++            # copy directory to the partition root
++            runCmd("wic cp %s %s:2/ -n %s" % (testdir, images[0], sysroo=
+t))
++            basedir =3D os.path.basename(testdir)
 +
-+                    # write script to a temp file
-+                    with tempfile.NamedTemporaryFile(mode='w', delete=False,
-+                                                     prefix='wic-debugfs-') as tf:
-+                        for line in cmds:
-+                            tf.write(line + '\n')
-+                        scriptname = tf.name
++            # check if directory is there at partition root
++            result =3D runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot=
+))
++            root_entries =3D set(line.split()[-1] for line in result.out=
+put.split('\n') if line)
++            self.assertIn(basedir, root_entries, msg=3D"Expected directo=
+ry not present at root: %s" % root_entries)
 +
-+                    cmd = f"{self.debugfs} -w -f {scriptname} {partimg}"
++            # list INSIDE the copied directory
++            result =3D runCmd("wic ls %s:2/%s/ -n %s" % (images[0], base=
+dir, sysroot))
++            self.assertEqual(0, result.status,
++                             msg=3D"wic ls inside copied directory faile=
+d. Output:\n%s" % result.output)
++            self.assertNotIn("Ext2 inode is not a directory", result.out=
+put,
++                             msg=3D"Regression detected (inode not a dir=
+ectory). Output:\n%s" % result.output)
 +
-+                else: # single file
-+                    cmd = "printf 'cd {}\nwrite {} {}\n' | {} -w {}".\
-+                          format(os.path.dirname(dest.path), src,
-+                                 os.path.basename(src), self.debugfs, partimg)
++            inside_entries =3D set(line.split()[-1] for line in result.o=
+utput.split('\n') if line)
++            self.assertTrue(set(["subdir", "topfile.txt"]).issubset(insi=
+de_entries),
++                            msg=3D"Expected entries missing inside dir: =
+%s" % inside_entries)
 +
-+            else: # image to host case
-                 cmd = "printf 'cd {}\ndump /{} {}\nrdump /{} {}\n' | {} {}".\
-                       format(os.path.dirname(src.path), src.path,
--                             dest, src.path, dest, self.debugfs,
--                             self._get_part_image(pnum))
-+                             dest, src.path, dest, self.debugfs, partimg)
++            # list inside the subdir
++            result =3D runCmd("wic ls %s:2/%s/subdir/ -n %s" % (images[0=
+], basedir, sysroot))
++            self.assertEqual(0, result.status,
++                             msg=3D"wic ls inside copied subdir failed. =
+Output:\n%s" % result.output)
++            self.assertNotIn("Ext2 inode is not a directory", result.out=
+put,
++                             msg=3D"Regression detected (inode not a dir=
+ectory). Output:\n%s" % result.output)
 +
-         else: # fat
-             if isinstance(src, str):
-                 cmd = "{} -i {} -snop {} ::{}".format(self.mcopy,
--                                                  self._get_part_image(pnum),
--                                                  src, dest.path)
-+                                                      partimg,
-+                                                      src, dest.path)
-             else:
-                 cmd = "{} -i {} -snop ::{} {}".format(self.mcopy,
--                                                  self._get_part_image(pnum),
--                                                  src.path, dest)
-+                                                      partimg,
-+                                                      src.path, dest)
- 
-         exec_cmd(cmd, as_shell=True)
-         self._put_part_image(pnum)
--- 
++            sub_entries =3D set(line.split()[-1] for line in result.outp=
+ut.split('\n') if line)
++            self.assertIn("subfile.txt", sub_entries, msg=3D"Expected fi=
+le missing in subdir: %s" % sub_entries)
++
++            # copy directory from the partition and compare with origina=
+l
++            outparent =3D os.path.join(self.resultdir, "wic-test-cp-ext-=
+out")
++            os.makedirs(outparent)
++            runCmd("wic cp %s:2/%s %s -n %s" % (images[0], basedir, outp=
+arent, sysroot))
++
++            copied_dir =3D os.path.join(outparent, basedir)
++            self.assertTrue(os.path.isdir(copied_dir), msg=3D"Copied-bac=
+k directory not created: %s" % copied_dir)
++
++            copied_file =3D os.path.join(copied_dir, "topfile.txt")
++            copied_subfile =3D os.path.join(copied_dir, "subdir", "subfi=
+le.txt")
++
++            self.assertTrue(os.path.isfile(copied_file), msg=3D"Missing =
+copied-back file: %s" % copied_file)
++            self.assertTrue(os.path.isfile(copied_subfile), msg=3D"Missi=
+ng copied-back subfile: %s" % copied_subfile)
++
++            self.assertTrue(filecmp.cmp(src_file, copied_file, shallow=3D=
+False),
++                            msg=3D"topfile.txt differs after round-trip =
+copy")
++            self.assertTrue(filecmp.cmp(src_subfile, copied_subfile, sha=
+llow=3DFalse),
++                            msg=3D"subfile.txt differs after round-trip =
+copy")
++
+=20
+     def test_wic_rm_ext(self):
+         """Test removing files from the ext partition."""
+--=20
 2.25.1
 
 
