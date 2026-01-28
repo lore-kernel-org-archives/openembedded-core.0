@@ -1,217 +1,330 @@
-Return-Path: <yi.zhao@eng.windriver.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B7DD35670
-	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 03:19:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5327.1769570370579583031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0A4D35671
+	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 03:55:39 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5768.1769572529280893477
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 19:19:30 -0800
+ Tue, 27 Jan 2026 19:55:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=EysPYmhm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=54881801b1=yi.zhao@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60S0oJHd1661830
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 03:19:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=Z8LwVRYORFJqsTWxyKljWwCHMEz1OWOW2utRN9AHe/s=; b=
-	EysPYmhmrUatJezCutkuQbsHARb2fapuqAae29+jbylxzVWYRW5oNihCeRjuAG8U
-	tlaMaZQfSO5ZMiLMD+v2g3aGGoOES6ZAepclo8Y1e96sI0QaSOg4mao4bHiBQ9vi
-	e/8NxbgVOc486uO6hu21PBYj6vDe5unOVvN/GAg4GhYxqzO3s3U/7hliasNrXxFg
-	zNEJpD0TkNKfRUg0A37h5Bg6RQImQu8T7A1BGvhjJNo3Y5hJCCj2UfEqNskiQZTM
-	CZv2FcGoMigmGeRv/khugrGlpCB1vRtrr9aqE4RNIpBsiiiGE7dSEbmELqwWLflW
-	PwQmoGd3AXu1oQqsy77Qtw==
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011040.outbound.protection.outlook.com [52.101.52.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bvka04ec5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 28 Jan 2026 03:19:28 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W//L9aiIohtTV25tBoTogT+sMh9QgqKsEOx9q+tgNQ9CRwhlb0WUtt2z2wzR1qQUPvJUR+I2Gn/g30By1ranAD8OJdPq8/9WGIV6sISKRHKCmUXiZvCplvQZYTYfMgzp7menDGdxwW5EWRVNaP94aG3j4oCkVqF+L1+z8cWAKrjp+AuXh0BzDKQp0jBx42Qiyf1hheeErQ2KQEiiNdNQhxFRZSc9dAPKFpviDFZD4xuIjXBZFkYWvc0VmLsfCpiEGJip2wHodp2kaIFT9mDChzO+kb3Vm6ameq4DzktKDgMN40D4fcJwxxQHfGHphVYBY9vmaY4udAWOxXhghM9aOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z8LwVRYORFJqsTWxyKljWwCHMEz1OWOW2utRN9AHe/s=;
- b=sTkSBS3Br4nd50f83WE42ebBr2CCYhmorajlxu/Uu5lYR4g39VHZ0Oic9Wzi5TAN02U+aY1xTv+z/Siiw6MSFJOR8nKhmuHRAE/O81qZWseviksjBl/c6eHHyvB0SjzDIEJS+eqS6BoX+lsQqGyOmK6FZQ8fqDExdQLBobYdWWRN9NDJnPo0CCQ7pjUCA1nUQ1DBjpfvrUzI0xxWJ/bi/5azN2BahMx239SLxbkkptr13yKKKkgvvULUWkUlUI+tq6FUsKKRqkk7kFX/D238KjyvfHFok6Ry0ZpmMaj0cC2dH5D66LI7M5SFWQudFnJ0cNg+vxL+2QPQUjzv6us3dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
- CH3PR11MB8751.namprd11.prod.outlook.com (2603:10b6:610:1c1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
- 2026 03:19:27 +0000
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::3432:2eb3:d0a5:7831]) by DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::3432:2eb3:d0a5:7831%6]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 03:19:27 +0000
-From: Yi Zhao <yi.zhao@windriver.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=YLGt01BE;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1769572529; x=1801108529;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lMC5uIGRanzT49hpczG8Unqmr4r/8utgcUOb7U05LXE=;
+  b=YLGt01BEmitsTKZPc4/CqVDjd8niL2jUtD3KbXAHyK/Nw9kfPtkQW1dL
+   lKQwDRhA+5gt/RAUPP9DqiT9Uk28x9BTV80VJEAL9Dq1zd4frXdmZtDvx
+   r9lTGrhE5T6TOoJs0O6WcnNRvZ+XzTi4BbX5bjiDV38w7ETnw5sBnMfLX
+   h+qEfKqt65vxrmYbj+6oRkxo6XftZcJBfpWTqH4XoSOTGg81Kul1jJdL4
+   w+e+u4Ly3ltsd4jQAXj0dQM/54oMm78HogZHqtUd7KHIiKSiht9Qdg4Xa
+   eE1ttuY5dtxaQrW/v5Z/o+YIi8qtveHINoVHAVOHQrIeniu0z4O7xqwHx
+   Q==;
+X-CSE-ConnectionGUID: uv08eSY9SXKWHirea6MMxw==
+X-CSE-MsgGUID: wvLVjGNeQWSmSe66DLB3ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="215961935"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763391600"; 
+   d="scan'208";a="215961935"
+Received: from unknown (HELO az2uksmgr3.o.css.fujitsu.com) ([52.151.125.128])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 12:55:27 +0900
+Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 71EDD1002BBC
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 03:55:27 +0000 (UTC)
+Received: from az2nlsmom4.fujitsu.com (az2nlsmom4.o.css.fujitsu.com [10.150.26.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 1FC73180ABF6
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 03:55:27 +0000 (UTC)
+Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
+	by az2nlsmom4.fujitsu.com (Postfix) with ESMTP id C9F1C2000744
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 03:55:24 +0000 (UTC)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Cc: liuyd.fnst@fujitsu.com
-Subject: [PATCH 2/2 v5] epiphany: upgrade 48.5 -> 49.2
-Date: Wed, 28 Jan 2026 11:19:12 +0800
-Message-Id: <20260128031912.227891-2-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260128031912.227891-1-yi.zhao@windriver.com>
-References: <20260128031912.227891-1-yi.zhao@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0154.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:383::19) To DS0PR11MB6399.namprd11.prod.outlook.com
- (2603:10b6:8:c8::5)
+Subject: [OE-core][PATCH v2] hotdoc : Add new recipe
+Date: Wed, 28 Jan 2026 11:55:21 +0800
+Message-ID: <20260128035521.6671-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|CH3PR11MB8751:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f074d04-d983-43ad-d687-08de5e1c0b40
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014|18082099003;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?LiYWfjWCj7zao6t8YUr7taUD8NXq4liy/pQKneLCI9SL+m+TMGuhBbPq3if8?=
- =?us-ascii?Q?znoSUNclNUf4LZAfjFpCG8gpOi+03jhVsstUH5msOutedZpnNiJn4Rd7d/CD?=
- =?us-ascii?Q?3c/gex678XJNWa2tAcJvm2jFdWKzaBNPkWNJEczQrb8mZ5gvHnTDuJBOIJ1d?=
- =?us-ascii?Q?IQNlNxaIexLPMbD75doEPjvloNe3q7cSnLIAnWTIcOCHXeerMpIhoDqv34Ov?=
- =?us-ascii?Q?Ybf+hj3Hy9PJ1ShvH1jcY5e/pfrGpmDO83NZX/mlPkJdrsiqT9zuF3dG78ts?=
- =?us-ascii?Q?myy1whZKe0+HdCZo79xCVwPfZoVSEmuV4frpaUdIaa8qfpdcU/emlCeOyfi+?=
- =?us-ascii?Q?V0+A0iglnu3FEm5/zV/aru83n3KPFWOH23S5AST3MqMLIijQy5JsrZ6v0wIJ?=
- =?us-ascii?Q?yVJMRX446NgPKwJ0yFbAcDYid9jMSrgLej86nr/DEX2qt9ZRy/1ozvoZNFHH?=
- =?us-ascii?Q?z3eqFsu38ERL68JNe+ldfmbYpAnQ1glpPoXLAkbTTNOVjSrtJemdW4GmWPwO?=
- =?us-ascii?Q?b+mrS3I11dkXUIARhMxJ0lF95G78yDh4HpBm5EEOTK0E8dCHBf1t8n4inRjX?=
- =?us-ascii?Q?Hm+DuRVK3alraSCW3UrgdVlpOl5RCnyYbN3I0y3uY2QvMCR5Npyqx+H6fAQ4?=
- =?us-ascii?Q?a5V1d67s5b5Y7XXuJ+pUHVLF/+/GGoxwVEif5JPDTeixsEBP8Byx6aC6A0Ad?=
- =?us-ascii?Q?4+RNWfsc7uE4AiWIz74LjAeI4uoMA+KPZIHFd7+yNBI4Phrff9LueYNYGXFe?=
- =?us-ascii?Q?G9GtNMtCH2Nutrg8llpL9YS1P0Nj5f7LV4SgrIMDUlETWLu+LgvvL8bGOlIc?=
- =?us-ascii?Q?jQcWuIEft1Mojcjf/c8YIs0FmohuhKiRU+RBS1iIv6+uQYtagBbgWPIyqXDv?=
- =?us-ascii?Q?h9RZCpH5glpn4WMTST4T/u+Ighcf474hcm0u/wpyOVptPskGdY9BxX0PcG2e?=
- =?us-ascii?Q?CXS6KbN+yf1EBUGd7CnLT/Fglqi1/HN+CwEUdse3ZntDrcpqpoXVPPuzZu02?=
- =?us-ascii?Q?kdQH8pJkiJV2M/IH/suHXkgMX650UjT/snu+uRGJKzA9IkbHgLOFM7u5ptI0?=
- =?us-ascii?Q?Dll7B2Pwtrti9+84lOhVsF8lPr9De9q9ivN0nUCyDBjxkvxJEbolHQlj+DZa?=
- =?us-ascii?Q?wg6H6EFMcAOcEXg4XEQtSODbRkByIJO6cM5TZJk27ZohCHTv3QaeWnb0L57n?=
- =?us-ascii?Q?+Uu3t8yaWHpHYNt9AJ8t9BiRG7of9DLtyfFJbxr/D2rZ+h2yCAdmEZj6i8/6?=
- =?us-ascii?Q?zhoXrveXJjcdRyJGGQQqsrDbfNcgch4QQTCJilHADYL8ysgar9XzbUvXSQO/?=
- =?us-ascii?Q?NbGnB54GBu+Ip0HLfb10K3TVNrk2D1d88j+YBFfPyarvW7jNhSuWCatEDKEt?=
- =?us-ascii?Q?kVxMVsPL+RfeywbpVpwNul5e/F6847ouywKauGJPBvaPehsZK6LAcf0qx3Vb?=
- =?us-ascii?Q?8FO5kLHJax8yiExM5HNB+cPs39Mu7oR/J3z4/Nj9nGTMWpuRWEreK8B5I9fk?=
- =?us-ascii?Q?VegPfoIX9f6oViAct2KaM3UYHxJJgm/iFgts6updhaBB6j292lGcC0a/Swhn?=
- =?us-ascii?Q?iiXH37U8uhNKCRL2pt7Tv8n8Lwwv79oKdY6417lDJoVaCR1cJfrLe+5LQHLF?=
- =?us-ascii?Q?E2WAJdzbwJRYf4d1763x7c0=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014)(18082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?UbpCBWJX+DqCpsCzIV/hI0nVVFDFjzWfjBrUD4LanFO3QtD3BzQSEOzuz5wy?=
- =?us-ascii?Q?i34fh14aMiStLoPSi2cM0O41SP+EA678E1ASx2tq6DrXpLNcY6Bz8pjQePW3?=
- =?us-ascii?Q?4PqmNwAF0XLMI62AMQ+92N5WYNFsG+ZIFcWcyAI8TmfmQy1ZkcwQEKwxHcqm?=
- =?us-ascii?Q?r64YenTVYl2RwHxAozdyYOq0qf5P+Hbl8JaMfA+jWsHhaAWGJG1X1gRO4ZKN?=
- =?us-ascii?Q?1YeV6sNcB/h/qayeoiL/cOioNJ2SWf2GOIE+Uxv4AdDJLhqdBJRx+neMhMpv?=
- =?us-ascii?Q?bwgcI9iyJoWkMaMRjrPFe30F1ClpN5fKBTTmozDs2Bp+CJQqQcR3PVtLg3dp?=
- =?us-ascii?Q?+NT2L/7vDIPJ0bqmCebmUJxrS9fG/PpObVHt0aGJ7SoDZkt44H4yZyPA2yU3?=
- =?us-ascii?Q?TeXklW3xfyn656j4mccwRmL/N2dYkdSvbZbWzPfNe3YMrhVRJS3kBTQ6otdJ?=
- =?us-ascii?Q?o5mLNcY/csPPVl4gSyXLzKOfGJy1fR9GGBS0jkTEmLhNaEGMg4UMypJ1B6Zc?=
- =?us-ascii?Q?fHYTTButnFcudMjx2+1KRKw6/UAlB1hWFzmC6J96EIfvxD9dxAMxQLWrUKOE?=
- =?us-ascii?Q?So/UJCFD9Y4XY+EnqGy1D+4/ONuTn8iGGd2Vn2vmMdaJjLy1WyILyrYrdFWu?=
- =?us-ascii?Q?tTB7B1TxsAKv39BrV9hLqUZkAIuCRkheQC6G4nDtE0n0SYPDnN1vNK0LryKo?=
- =?us-ascii?Q?cJLTgMqZKcxAB0v99E1vzIE9pYr0WCs+cJYVx4VUbgalbFzhxKhrcmicSNfB?=
- =?us-ascii?Q?sgR7dJpYbrzKmUqY9uXlqueTTs5Qp18oKPMUSpKSbb0m4sxk9ikUjoJKYlXC?=
- =?us-ascii?Q?ssInp4y0+U+nUHdstIb+rpDHyNTWlGDGJM4QC2txERyLU1frThN6bWkFb4Mr?=
- =?us-ascii?Q?ZlbZyZVpBnUO2cn8GVWDBBJZOjPiTw8Ac+Gtv1gf6yyZWGc7LsI51J6OOcgn?=
- =?us-ascii?Q?y/Oe4tBHjlhEBNu04HZkOEg3i5UEIqHayL4UV/uQxQbLzFNCi5xdDT1+/Ozw?=
- =?us-ascii?Q?sPO09/1BcDaJoFbGg47j8Dvqyp0HGnqlQaHbrD8Iqa4mjV3ggs6vXUqnRJJJ?=
- =?us-ascii?Q?lyif3eyz6qZ44MlXL08aZt0xa2f32paamXiaZQ4MjC2wQVN4pbPllrMmgpks?=
- =?us-ascii?Q?rQbB+E3OKr3pYjGMLL8hyBUPiEAgRiOOZNh8LJQl2BAzQADpc7FnHRIGOFXA?=
- =?us-ascii?Q?FxHhSM6H0T2MPToqv6sQdR5JFtUYMtRt955DOgLAdflbfakWWA9qA3RgpAiq?=
- =?us-ascii?Q?klqXrWH7YfzN0y3q9CNBRXIXun5AuwixWe65c8GfXnzl/2xBa9k5DIG+rP8R?=
- =?us-ascii?Q?WbjS6f/ZDVEV30rDURMYSmnm2NGPhfKadnacGEzvNyGGdzd7hkFRKwoDe4iZ?=
- =?us-ascii?Q?hL8ZZjmBoi71yn5kJsMoH2b4eOJ/QvF8bcsInKPBUTRMD9KYNIXPyFQ8vfNj?=
- =?us-ascii?Q?qfT3glnxn4NCqRoBoKF2ftkdgqwij0IenFvqWaGRaay9MJZdWZfSBdGYIyFn?=
- =?us-ascii?Q?kIKCoGMcVoGiR/yaoXMuXE4s0ktfv9X5K0l2yUygW22NnaEok1QM3dom8mmp?=
- =?us-ascii?Q?mQuCTd8fs/bRARnLB/A3bwil87WuZB5Rokfj3yz4ilcAApXdLWRjhcYurW3m?=
- =?us-ascii?Q?gxmf/0AN/Bo8QdtEg+9K4U3hTQ4IkxUU4E3i5EVBXXPbZEsxYBDFdkLd1X6W?=
- =?us-ascii?Q?k1I3Uj79oBwAz4WPngUFUECROqw0KYrblNs4rEfJ5ukx8UxGckZw/gsviicf?=
- =?us-ascii?Q?qV4Y5ZWH2w=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f074d04-d983-43ad-d687-08de5e1c0b40
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 03:19:27.6492
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jrEEIiQNYmFqRaMSAZ5dfd8ofWW8dDSJv0O9nDqC1jEw8Kh2MZ/gCFIUGFN1lghd2gNikcPHNwzAcxQ66a9WRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8751
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=I+hohdgg c=1 sm=1 tr=0 ts=69798041 cx=c_pps
- a=u7dnV0yUwpVRNDUrCOcuvQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=ACvvd1FpC_yVDdpOqSUA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDAyMyBTYWx0ZWRfX33Fa6jIGCBqk
- 6y3Zq0DPU8PRQv/WgrfYfmk8XOAQaVix+K5pV6SzvDJJnEE2D87YJAylagi9fy35EfZxByMboGi
- EaJXfssPi+Cv4xsfbWvIml0ServqkCf5DjpjlK5DrW/nNXSynHbcvz9uQUld2PsZjjrIcF0QL66
- lqmbVFBYViqFI9sYN7F+EQrgknin9wxDq7M9/VsLHAXaFUUc6V1hLPWonv6pVvj1c6Lb97qtjXC
- d0z/f2Fr07e3FN2Bo0kZ113WQ+3FIvYBXz7On3OyfBpUKiO9ICgJLLEHVSTZGVWOanhDxBG293x
- fhgRlJHJnLIYFm193HsaHHDYe/+ZatWeN1RgadbrRKKaIrvNbYgIg+69I5hwGFqWUJBg23ArzIo
- UxpEg2sTHR/EkAGSlHbvk6ZdOOiQBcgZiKl48hBMiKl/n/35kyKXxYsDwueX8qT4Yh6f/QBi6IL
- R1skIV7KpbL9RUgoJ6w==
-X-Proofpoint-GUID: aG7KK2eGJc6Nl5W4CpJR-15YqdYb_Xbo
-X-Proofpoint-ORIG-GUID: i3x4A-LhrXvW7u8iPQNYGRud_tM0sOLh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-27_05,2026-01-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 priorityscore=1501 phishscore=0 malwarescore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601280023
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 03:19:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230072
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 03:55:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230074
 
-ChangeLog:
-https://gitlab.gnome.org/GNOME/epiphany/-/blob/49.2/NEWS
+1. Backport following patch to solve build and runtime issue
+  0001-c_comment_scanner-fix-function-prototypes.patch
+  0002-avoid-third-party-backports-dependency-on-sufficient.patch
+  0003-CMake-4-compatibility.patch
 
-Add a dependency on blueprint-compiler-native.
+2. Add do_configure:prepend() to solve buildpaths QA check
+  do_package_qa: QA Issue: File /usr/lib/python3.14/site-packages/hotdoc/parsers/cmark.cpython-314-x86_64-linux-gnu.so in package hotdoc contains reference to TMPDIR [buildpaths]
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+3. Add 0004-Make-path-to-relative-in-FlexExtension.patch to solve buildpaths QA check
+  do_package_qa:QA Issue: File /usr/src/debug/hotdoc/0.17.4/hotdoc/parsers/c_comment_scanner/scanner.c in package hotdoc-src contains reference to TMPDIR [buildpaths]
+
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- .../epiphany/{epiphany_48.5.bb => epiphany_49.2.bb}          | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_48.5.bb => epiphany_49.2.bb} (88%)
+ ...ment_scanner-fix-function-prototypes.patch | 32 +++++++++
+ ...y-backports-dependency-on-sufficient.patch | 72 +++++++++++++++++++
+ .../hotdoc/0003-CMake-4-compatibility.patch   | 44 ++++++++++++
+ ...ke-path-to-relative-in-FlexExtension.patch | 34 +++++++++
+ meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb | 27 +++++++
+ 5 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0001-c_comment_scanner-fix-function-prototypes.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0002-avoid-third-party-backports-dependency-on-sufficient.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0003-CMake-4-compatibility.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0004-Make-path-to-relative-in-FlexExtension.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_48.5.bb b/meta/recipes-gnome/epiphany/epiphany_49.2.bb
-similarity index 88%
-rename from meta/recipes-gnome/epiphany/epiphany_48.5.bb
-rename to meta/recipes-gnome/epiphany/epiphany_49.2.bb
-index 6a1abdc553..4c27a6b6c7 100644
---- a/meta/recipes-gnome/epiphany/epiphany_48.5.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_49.2.bb
-@@ -21,6 +21,7 @@ DEPENDS = " \
-           glib-2.0-native \
-           coreutils-native \
-           desktop-file-utils-native \
-+          blueprint-compiler-native \
-           "
- 
- inherit gnomebase gsettings features_check gettext mime-xdg gtk-icon-cache
-@@ -31,7 +32,9 @@ SRC_URI += "\
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "0f66552ad6593c7952a3ddee5bf515656c8c434871076d9f1a91a7af9346b1b4"
-+SRC_URI[archive.sha256sum] = "b3ba3d68213e87f81f1733e85500c37b82b5938f9009e4fe89994963d5fb2b8e"
+diff --git a/meta/recipes-devtools/hotdoc/hotdoc/0001-c_comment_scanner-fix-function-prototypes.patch b/meta/recipes-devtools/hotdoc/hotdoc/0001-c_comment_scanner-fix-function-prototypes.patch
+new file mode 100644
+index 0000000000..c26dde93b3
+--- /dev/null
++++ b/meta/recipes-devtools/hotdoc/hotdoc/0001-c_comment_scanner-fix-function-prototypes.patch
+@@ -0,0 +1,32 @@
++Subject: [PATCH 1/2] c_comment_scanner: fix function prototypes
 +
-+export GI_TYPELIB_PATH = "${STAGING_LIBDIR}/girepository-1.0/"
- 
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
++scanner.l: Fix compile error as the following:
++
++python3-hotdoc/0.17.4/sources/hotdoc-0.17.4/hotdoc/parsers/c_comment_scanner/scanner.l:126:1: error: conflicting types for 'parse_comment'; have 'int(PyObject *)' {aka 'int(struct _object *)'}
++|   126 | parse_comment (PyObject *comments)
++
++Upstream-Status: Backport [https://github.com/hotdoc/hotdoc/commit/adf8518431fafb78c9b47862a0a9a58824b6a421]
++
++Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
++---
++ hotdoc/parsers/c_comment_scanner/scanner.l | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/hotdoc/parsers/c_comment_scanner/scanner.l b/hotdoc/parsers/c_comment_scanner/scanner.l
++index 0408601..7bccd64 100644
++--- a/hotdoc/parsers/c_comment_scanner/scanner.l
+++++ b/hotdoc/parsers/c_comment_scanner/scanner.l
++@@ -34,8 +34,8 @@
++ extern int yylex (PyObject *comments);
++ #define YY_DECL int yylex (PyObject *comments)
++ static int yywrap (void);
++-static int parse_comment ();
++-static int parse_define ();
+++static int parse_comment (PyObject *);
+++static int parse_define (PyObject *);
++ %}
++ 
++ %option nounput
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/hotdoc/hotdoc/0002-avoid-third-party-backports-dependency-on-sufficient.patch b/meta/recipes-devtools/hotdoc/hotdoc/0002-avoid-third-party-backports-dependency-on-sufficient.patch
+new file mode 100644
+index 0000000000..560d1257f0
+--- /dev/null
++++ b/meta/recipes-devtools/hotdoc/hotdoc/0002-avoid-third-party-backports-dependency-on-sufficient.patch
+@@ -0,0 +1,72 @@
++Subject: [PATCH 2/2] avoid third-party backports dependency on sufficiently
++ new python
++
++`backports.entry_points_selectable` backports functionality from python
++3.10 to older versions of python.
++
++Backport this patch to solve runtime backports import problem as following:
++  File "/usr/lib/python3.14/site-packages/hotdoc/utils/utils.py", line 38, in <module>
++  from backports.entry_points_selectable import entry_points
++ModuleNotFoundError: No module named 'backports'
++
++Upstream-Status: Backport [https://github.com/hotdoc/hotdoc/commit/51043c3ef889e36c8232280581598b875073ded7]
++
++Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
++---
++ hotdoc/extensions/gi/utils.py | 6 +++++-
++ hotdoc/utils/utils.py         | 6 +++++-
++ setup.py                      | 2 +-
++ 3 files changed, 11 insertions(+), 3 deletions(-)
++
++diff --git a/hotdoc/extensions/gi/utils.py b/hotdoc/extensions/gi/utils.py
++index 159c2b6..91902cb 100644
++--- a/hotdoc/extensions/gi/utils.py
+++++ b/hotdoc/extensions/gi/utils.py
++@@ -1,9 +1,13 @@
++ import os
++ from collections import namedtuple
++ import pathlib
+++import sys
++ import traceback
++ 
++-from backports.entry_points_selectable import entry_points
+++if sys.version_info >= (3, 10):
+++    from importlib.metadata import entry_points
+++else:
+++    from backports.entry_points_selectable import entry_points
++ 
++ from hotdoc.core.links import Link
++ from hotdoc.utils.loggable import info, debug
++diff --git a/hotdoc/utils/utils.py b/hotdoc/utils/utils.py
++index 518d308..aef657a 100644
++--- a/hotdoc/utils/utils.py
+++++ b/hotdoc/utils/utils.py
++@@ -35,7 +35,11 @@ import importlib.util
++ from urllib.request import urlretrieve
++ from pathlib import Path
++ 
++-from backports.entry_points_selectable import entry_points
+++if sys.version_info >= (3, 10):
+++    from importlib.metadata import entry_points
+++else:
+++    from backports.entry_points_selectable import entry_points
+++
++ try:
++     import importlib.metadata as meta
++ except ImportError:
++diff --git a/setup.py b/setup.py
++index 5d7f131..9ee504d 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -300,7 +300,7 @@ INSTALL_REQUIRES = [
++     'wheezy.template',
++     'toposort>=1.4',
++     'importlib_metadata; python_version<"3.10"',
++-    'backports.entry_points_selectable',
+++    'backports.entry_points_selectable; python_version<"3.10"',
++ ]
++ 
++ # dbus-deviation requires sphinx, which requires python 3.5
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/hotdoc/hotdoc/0003-CMake-4-compatibility.patch b/meta/recipes-devtools/hotdoc/hotdoc/0003-CMake-4-compatibility.patch
+new file mode 100644
+index 0000000000..cb243176ae
+--- /dev/null
++++ b/meta/recipes-devtools/hotdoc/hotdoc/0003-CMake-4-compatibility.patch
+@@ -0,0 +1,44 @@
++Subject: [PATCH] CMake 4 compatibility
++
++All CMake versions older than 3.10 are deprecated.
++
++Upstream-Status: Backport [https://github.com/MathieuDuponchelle/cmark/commit/bd78193dbff98c3860e77629b5c7bfee6169d1da]
++
++Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
++---
++ cmark/CMakeLists.txt            | 11 ++---------
++ cmark/extensions/CMakeLists.txt |  2 +-
++ 2 files changed, 3 insertions(+), 10 deletions(-)
++
++diff --git a/cmark/CMakeLists.txt b/cmark/CMakeLists.txt
++index ff97419..45fdf6c 100755
++--- a/cmark/CMakeLists.txt
+++++ b/cmark/CMakeLists.txt
++@@ -1,12 +1,5 @@
++-cmake_minimum_required(VERSION 2.8.9)
++-
++-# prevent ugly developer warnings because version is set directly, not through project()
++-# it should be redone properly by using VERSION in project() if on CMake 3.x
++-if(CMAKE_MAJOR_VERSION GREATER 2)
++-    cmake_policy(SET CMP0048 OLD)
++-endif()
++-
++-project(cmark)
+++cmake_minimum_required(VERSION 3.10)
+++project(cmark VERSION 0.28.3)
++ 
++ include("FindAsan.cmake")
++ 
++diff --git a/cmark/extensions/CMakeLists.txt b/cmark/extensions/CMakeLists.txt
++index e62d155..b6a1556 100644
++--- a/cmark/extensions/CMakeLists.txt
+++++ b/cmark/extensions/CMakeLists.txt
++@@ -1,4 +1,4 @@
++-cmake_minimum_required(VERSION 2.8)
+++cmake_minimum_required(VERSION 3.10)
++ set(LIBRARY "cmarkextensions")
++ set(LIBRARY_SOURCES
++     core-extensions.c
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/hotdoc/hotdoc/0004-Make-path-to-relative-in-FlexExtension.patch b/meta/recipes-devtools/hotdoc/hotdoc/0004-Make-path-to-relative-in-FlexExtension.patch
+new file mode 100644
+index 0000000000..ae8c2ef3e7
+--- /dev/null
++++ b/meta/recipes-devtools/hotdoc/hotdoc/0004-Make-path-to-relative-in-FlexExtension.patch
+@@ -0,0 +1,34 @@
++Subject: [PATCH] Make path to relative in FlexExtension
++
++To fix following do_package QA Issue:
++
++do_package_qa:QA Issue: File /usr/src/debug/hotdoc/0.17.4/hotdoc/parsers/c_comment_scanner/scanner.c in package hotdoc-src contains reference to TMPDIR [buildpaths]
++
++Upstream-Status: Inappropriate [oe-specific]
++
++Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
++---
++ setup.py | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/setup.py b/setup.py
++index 9ee504d..fc03c57 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -357,11 +357,11 @@ build_c_extension = os.environ.get('HOTDOC_BUILD_C_EXTENSION', 'auto')
++ class FlexExtension (Extension):
++     def __init__(self, flex_sources, *args, **kwargs):
++         Extension.__init__(self, *args, **kwargs)
++-        self.__flex_sources = [src(s) for s in flex_sources]
+++        self.__flex_sources = list(flex_sources)
++ 
++     def __build_flex(self):
++         src_dir = os.path.dirname(self.__flex_sources[0])
++-        built_scanner_path = src(os.path.join(src_dir, 'scanner.c'))
+++        built_scanner_path = os.path.join(src_dir, 'scanner.c')
++ 
++         self.sources.append(built_scanner_path)
++         if newer_group(self.__flex_sources, built_scanner_path):
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb b/meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb
+new file mode 100644
+index 0000000000..6236f03df8
+--- /dev/null
++++ b/meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "Hotdoc is a documentation framework"
++DESCRIPTION = "Hotdoc is a documentation micro-framework. It provides an interface for extensions to plug upon, along with some base objects (formatters, ...)"
++HOMEPAGE = "https://github.com/hotdoc/hotdoc"
++
++LICENSE = "LGPL-2.1-or-later"
++LIC_FILES_CHKSUM = "file://COPYING;md5=90263a49bc1d9a204656fec4d5616c66"
++
++SRC_URI[sha256sum] = "c4d5dff647f03aa87a1d2d06035d2819edd099b91635e3b2ee390829357ae9fc"
++
++SRC_URI = "file://0001-c_comment_scanner-fix-function-prototypes.patch \
++           file://0002-avoid-third-party-backports-dependency-on-sufficient.patch \
++           file://0003-CMake-4-compatibility.patch \
++           file://0004-Make-path-to-relative-in-FlexExtension.patch \
++          "
++
++DEPENDS += "libxml2 glib-2.0 json-glib"
++
++inherit pypi python_setuptools_build_meta pkgconfig
++
++#Fix LIBDIR path to fix buildpaths QA check of hotdoc/parsers/cmark.cpython-314-x86_64-linux-gnu.so
++do_configure:prepend() {
++    sed -i -e "s#'\"%s\"' % CMARK_BUILD_DIR#'\"${PYTHON_SITEPACKAGES_DIR}/${PN}\"'#" ${S}/setup.py
++}
++
++RDEPENDS:${PN} += "python3-appdirs python3-lxml python3-pyyaml python3-schema python3-toposort python3-wheezy-template"
++
++BBCLASSEXTEND = "native"
 -- 
-2.34.1
+2.43.0
 
 
