@@ -2,87 +2,90 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C693D35698
-	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 10:04:31 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9725.1769594666137541892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 947AAD3569B
+	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 10:06:21 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9753.1769594776921677477
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 02:04:26 -0800
+ Wed, 28 Jan 2026 02:06:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PKnyxAlV;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806f80cac9so2485895e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 02:04:25 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=DhxGhNHi;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4807068eacbso2663635e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 02:06:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769594664; x=1770199464; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1769594775; x=1770199575; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:organization:content-language
          :from:references:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=BRqy6zP2i4OkVeQ97BerGGW+4GVhmZEL6PAUxxA9JBU=;
-        b=PKnyxAlVeQ3IzLUnzJx7SGn90iagaGzt0FMwXPbW5QzAuRDa0op2vj3mJBPSKuTl3m
-         MQHdILl+HeWgZYO+sdVBsQfQwG1FXINeVts/PigDj0gUv+CxjypSPlUAW5gDgJbZCZ5G
-         JUeKqnKFCasxuU+bHzj/SAcFYbIDS0Dk/HnHo=
+        bh=N/tz+ecb5Iuw+jtkIJYpra02q3ZRBLaVKJLh6su3XEA=;
+        b=DhxGhNHiHW520xcw4iSKZ1GK4/6l5Ox1D2iVTQdj1HwqheOZKoQGm6IkYb/GWSy7Cs
+         IMSd3VyTipINqjnrH/OwM1Ah1gqTNyKeDP/8ZwjzRwERJ3Vp2Jy15JW1w+jyrXyqGiWK
+         OqeqM2aKIpsmx1DLH3wetP96V6hMF323ofviY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769594664; x=1770199464;
+        d=1e100.net; s=20230601; t=1769594775; x=1770199575;
         h=content-transfer-encoding:in-reply-to:organization:content-language
          :from:references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BRqy6zP2i4OkVeQ97BerGGW+4GVhmZEL6PAUxxA9JBU=;
-        b=lukdt3NYd7fDKEZzpapOh1CWyKiNMSB83L7rJwryoZia+MQVDhJpsYVig1PNESJWSg
-         BKcl92+zypV8XX6dL9vqWNOk4x4vILotltBx2zeuSX5Jf7onf/gJWq6Bj2ff9zgXsc5T
-         trxq5BeXSMyWLTnS1irur5TdzgvfyUlRt/fWXGbh+ReN3ZaWCJPyCtqLoedhY6/6OndP
-         Z0HPuujUQa56/XHf+PVyv6qZh+kF286NNAsQnn+bybOTadoUBWK5hnWx+PnZX8BZTIGA
-         a7AyLfx1ma2xGp9rFLiva+gL7jT4OfOiBIOIM0M7kDAyY0Tftzdodj7w6qUoQsicVRWF
-         N0Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXK1XTFdYfbc/MzDuMQfRigDZhkiIIo2Bql+QDuTzROixqiOuz/do7EYsxRxd8u+15ehlTkiuCN5F5ooc6VBobYLg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YypW5ys635NMgWKU2LUHHhTwIWkB9GPpBG0I7d7H/BFKBcUPend
-	mjUd41y8W9Lx30K16sPsN23rnWhWpyJpNswev/9M1W+xDkwh4YKby5ZMZLUgddgoEdc=
-X-Gm-Gg: AZuq6aLuDj+d3fk536Cw16G02pneE3SoLQk7YV4T0HUvXzPGAx+pIv8WZhU7SVY/7Cc
-	TdYV9diVxIFVDEmU8fM6NYNZlgmkZ++jRnFL1gDTakTmdE1v1cvZH+gVbDqwVkg1djUBPKz2ZI2
-	Twh1AX6SSMvC7CdVkP/vO60iOxZIeyJx+5MAC7Yyh0QL8mGKMUZi7Nu6WXWT3/vY3T8peH+3Qm7
-	K1bB9bxXLzQjq8492qRaZ9Of5byGf2BjNlLqsnuw21H0nrcxHnGUaWpmghGaJcaWnl14IWPoXei
-	QdVf82A4bBvVeuOk2vUvCuWrbD6zIkoe3bPkaOxheQ8EUnXYl1N2yFPr7BZU+22N73a6esDWFUq
-	5BmCRhki/E1W/IRja3B3pFMNBjRGg5mkqvzuWGIyTDJn/Jk0NIN/lPguDcjpSZkyPyTqvfNG7v9
-	90tPjD2fUdUixi0hxkZP5ZWGJjumSQG9Sko1XmRMpQTb5ITyQt2sQyAFWVqxhqEsXtuutZr5Aik
-	gg=
-X-Received: by 2002:a05:600c:3e16:b0:47e:e20e:bba3 with SMTP id 5b1f17b1804b1-48069c40595mr60776135e9.7.1769594664404;
-        Wed, 28 Jan 2026 02:04:24 -0800 (PST)
+        bh=N/tz+ecb5Iuw+jtkIJYpra02q3ZRBLaVKJLh6su3XEA=;
+        b=dDIJk/e9RroayV7fVL2N43z5uz5RTYc5/yYfN/AXHiC9wcjTJ4CSqLTRkEw61W2K6C
+         wf/WV5Dxrkwr6i7IVMABKwXhOL39/i6yZ76IaVmodOwAhm9m94pQpLTnpha3TloCJg2h
+         J5ZDHW15/UDDvPajZ5Xd2yOdkXHD+QRv0+bUOXFMue8rIdMCkreXEqmQX5RFKuuRM3r7
+         xBbJxj31vrJr85nBkzmKlj5zY79ZwYq+aTS3qGxVMDzJoIK4PKHhjI9wesXwbYZJr38e
+         q0dybJDqgfneOs/limvAtQKtufmrusaXmbAinlGxyCppFYJrTev4+DDYDNXGbP+XXxLt
+         eHyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhA7ayzRznrSRROSy1yRRjOMLNpkc06uJSCf8in7kMMPjC/bH84aFgul79VoeHyt/eL/wmmMb/dSmsa9PtSmZDjg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxin26zsmaJSYqLnv9o70IP6Yniv16RKz0PWxiAnLJcB9ajjO89
+	7QRBAx9TQBaAvX+t9JR4avJsrNAZDfZHLijXvx0cusA9kSEK4zNOeVJL6MTTjIrtF5U=
+X-Gm-Gg: AZuq6aKZFvrYAKBXf2Zvn41uYEu2/kwLUMK7IxD56/woLKRSeDsnGg2frkeMwnXt8RF
+	7MKsGxY+pZHvvHxXvciKsYKiFxDtUxGYu/1Ul5fwfrgn1T6BPMTWbbeIkxyWgQnHxbMyrcYdFpe
+	JqqnEOsS6LZD1GyUI+1M/aY2UBuLupLNZ/ETeV+CxhXYsCEEFdY1VvbcQXBWtSXOJCZqwHCs32/
+	/tBUlkXxaAfZujLIZQ5W8YeKhFPXWXccWZvFk0rwbx+n8BJ7c2FpckK6i8lfpSodlpUxV3wGy/T
+	2L98kB6sw/Vn1kQ78Pjqm1rM/zldCAaaSptNu8woFPMWAVvF/irSaPY1NiXYe33DKH2azo7HCTN
+	YQFlMCRBrB9vJ5+YT4ss3q1yfTNtN9y+mw8iVBwH6pxTyf3igIBdj2ukNlcqmR7IVdTEp9XoSOE
+	/2Bkw7uqNMzpDq5As9wxt/7E7L+O1NWuwRVsifpyqFLigX70piC+tAKAaiyQ741fRFpl+5+Sy8i
+	BM=
+X-Received: by 2002:a05:600c:820c:b0:47e:e970:b4e4 with SMTP id 5b1f17b1804b1-48069c7de80mr53008185e9.29.1769594775142;
+        Wed, 28 Jan 2026 02:06:15 -0800 (PST)
 Received: from [10.1.10.24] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066bee687sm180480705e9.5.2026.01.28.02.04.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cddffc0sm63147165e9.5.2026.01.28.02.06.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jan 2026 02:04:24 -0800 (PST)
-Message-ID: <83bc71ce-ec0e-4189-a986-059d752e4d51@smile.fr>
-Date: Wed, 28 Jan 2026 11:04:23 +0100
+        Wed, 28 Jan 2026 02:06:14 -0800 (PST)
+Message-ID: <91584b1f-4740-439c-b27e-4e773f0656c9@smile.fr>
+Date: Wed, 28 Jan 2026 11:06:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap][PATCH v2] Backport fix for CVE-2026-21441
- Python3 urllib3
+Subject: Re: [OE-core] [PATCH v2] Backport fix for CVE-2026-21441 Python3
+ urllib3
 To: adarsh.jagadish.kamini@est.tech, openembedded-core@lists.openembedded.org
-References: <20260127154214.97186-1-adarsh.jagadish.kamini@est.tech>
+References: <20260127154003.96816-1-adarsh.jagadish.kamini@est.tech>
 From: Yoann Congal <yoann.congal@smile.fr>
 Content-Language: en-US, fr
 Organization: Smile ECS
-In-Reply-To: <20260127154214.97186-1-adarsh.jagadish.kamini@est.tech>
+In-Reply-To: <20260127154003.96816-1-adarsh.jagadish.kamini@est.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 10:04:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230085
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 10:06:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230086
 
 
 
-Le 27/01/2026 à 16:42, adarsh.jagadish.kamini via lists.openembedded.org
+Le 27/01/2026 à 16:39, adarsh.jagadish.kamini via lists.openembedded.org
 a écrit :
 > From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 > 
 > Include the patch linked in the NVD report : https://nvd.nist.gov/vuln/detail/CVE-2026-21441
 > Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-This patch looks like it is needed on master as well. Can you wait for
-it to merge there before sending a backport request?
+Hello,
+
+This patch lacks the "tag:" at the start of the title.
+Can you send a v3 with a "python-urllib3: Backport fix CVE-2026-21441"
+title?
 
 Thanks!
 
@@ -220,8 +223,8 @@ Thanks!
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#230084): https://lists.openembedded.org/g/openembedded-core/message/230084
-> Mute This Topic: https://lists.openembedded.org/mt/117504613/4316185
+> View/Reply Online (#230083): https://lists.openembedded.org/g/openembedded-core/message/230083
+> Mute This Topic: https://lists.openembedded.org/mt/117504610/4316185
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [yoann.congal@smile.fr]
 > -=-=-=-=-=-=-=-=-=-=-=-
