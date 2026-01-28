@@ -1,546 +1,541 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E742D35686
-	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 06:46:40 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.13])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7561.1769582797276053462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 917BAD35688
+	for <webhook@archiver.kernel.org>; Wed, 28 Jan 2026 06:49:30 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7580.1769582964039613660
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jan 2026 22:46:37 -0800
+ Tue, 27 Jan 2026 22:49:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=NKW21whw;
- spf=pass (domain: siemens.com, ip: 40.107.162.13, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p6dlm0rrinnvdN2GNBpVTOLgew560/yV5woTyFe9yi3Itm0YfCLTd5CWdH7OZF5Hnb2OjQU5hJeHH5uqoxODeVzVNKS329nap/xA4VzMSbBH7fONyUL6nBHQzLq4iPKqMo/ILG73Moysk7b4DSNPNCw89eiplEaly7l4awgRbeFu4wk/I9PnRqPCFkh5dIWNEIh1mWkC7amLBw+YnS+JAq+F9m3QO46Xqr+0BYaN7XQsll+eotUlS+j03Okpw7Fq+Qo1bSQkmMlaTzuwdeCz9lP9kVIJmb+jqL/PK3mGtyPIP0ofPFW5nYhSCYFCs+IXlxGO5n4CAbFGfynHfYpbUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u0a0/SsT/dmjUYFfq1w7Nq1CKcQDeRfBW8S4HsMxE6E=;
- b=YJ6TB+itcLxH3tH9aQ/MKNX448WFRDMRuanqkZZb/dTmgfBMkh4D0MbAEzp3+bB3+s0nbd4l0Jlco1fcIVQXns8tj6s+fG/a6Ui1Yp9SXqHrf4+7FLi5ZH6fmofPleBJidCh7722G41d6eMn8KS3TIEj7YBKt50rvMA6Ev7HJz4MxIk1im4oxuTmOqsSMc5vaeABrWlq/9zxqQk1U1ORzljhJK2CjneyVO/50MJzFP3g1afNumrxeXtUMfSa3r6c7n7F8OdBNgQr/MiBTkSLvuoIsYkVwFFLV2CjEK3J+psZ8vtKbidraOvK6Da0OtmbMkcpy5eLtleeCOXrv2G4Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u0a0/SsT/dmjUYFfq1w7Nq1CKcQDeRfBW8S4HsMxE6E=;
- b=NKW21whwczHblnSbYq4tsf7k4wil8XgqlMRPpGqcUJ2Lx1f84+T/NblNS8Xp6t6T+TkuyNsx7Q8ikkgAeLRoisTrMLMDqIC4DsYy7mV2cJam0p614SJdnTzQfDgiq1qXaMhr+lT1ujHi5n6KWJTwF8ikVmxYbeceuBMyhTFXDsjXyudIcAJ73niWouIkrWTcetlj3/fUCkF0jjdXNaO2AChC3CRyCWyJiEcUFEdigUdJwDQ+0jeO6bCF1CQaVcWPT8NkKlZ7m0U2yDrgVvz9dujvypryW/7kuQFu9X84hfPfVFO1zXhwamhOk9qX6IQHL8SfxB2oUi9UBQhIPyiuPQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AS2PR10MB7131.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:60d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
- 2026 06:46:31 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 06:46:31 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "mingli.yu@eng.windriver.com" <mingli.yu@eng.windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] libxml2: Fix CVE-2026-0989
-Thread-Topic: [OE-core] [PATCH] libxml2: Fix CVE-2026-0989
-Thread-Index: AQHckBrWxjqS5wipiEKUVRTIPEfHuLVnI0uA
-Date: Wed, 28 Jan 2026 06:46:31 +0000
-Message-ID: 
- <AS1PR10MB5697DCD9D47DB0926A0354DBFD91A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260128055616.3324710-1-mingli.yu@windriver.com>
-In-Reply-To: <20260128055616.3324710-1-mingli.yu@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=16bb2460-c66a-4ddc-b8f9-d76f96712879;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-01-28T06:45:55Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS2PR10MB7131:EE_
-x-ms-office365-filtering-correlation-id: 677d7c61-5f52-4bd8-6fe8-08de5e38f87b
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|13003099007|38070700021;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?A8aSMphGdKUfBJxZqTCDwhepiKl3GaDp0ygXwqLZqHbLNCwKNDzZqPys6iTZ?=
- =?us-ascii?Q?4FUXr0WRy5JbbeM4UcrpAFi/R7z8D9omTXpRrvJeTqDyrBZ6RNwbF8VwYE6V?=
- =?us-ascii?Q?F0HORPNNLeQhWaGCp7kGOlSO3fzsfEYGYzrnHrlLp6U7RkqhskT2f1XOIRN6?=
- =?us-ascii?Q?Qt0rPrjXQaFb4shHQSN13KT6RH5cId+mDw1WPmarnOS9vztK34Yh20JKI8NW?=
- =?us-ascii?Q?/H5m975blZ8JzHQLkaNHFZARJkhOTP/21sm6PtxY1PBkRSL/LxqJjv8Rhl58?=
- =?us-ascii?Q?tp0fd58JsGLLaWuSA0Pr5PmB25L/0gQvH+KqB5AjQ0mT25jEHb+CdvmFdHWA?=
- =?us-ascii?Q?ki67ZadBfe+6dEq9A/5Nawy+TJJ/MVKbqDIGrg7IT0yYJxLCksOcvrwrHRwR?=
- =?us-ascii?Q?V1U17mydUzeNc2VtTFW/zp0Z0g2jeBlb8yPS4+s0wr/gHWZwudRQpY0ug9En?=
- =?us-ascii?Q?qt3p6rfTx8bCKRJSZSnAagyHJS0z3/R7gwQkVJzk9HzK7ItB0Hy361sjVTyH?=
- =?us-ascii?Q?GzelX3ADw/YbaUjZ9SgqqIZLwkOdwsvfcEJ7zCfnDWbLsDYeFaAAMj+iEzn3?=
- =?us-ascii?Q?xONTSRip8aJ1W1gd7yJbidJ25dY9mNZkM1SADwV0SMNbmNu1g5OY8FxuSLPd?=
- =?us-ascii?Q?grDjCm9gce6AjWIdT9XG220aHSYQxheD/pCtmE5HhS2qPEpbeiyTV3CL3ffD?=
- =?us-ascii?Q?qisvh14aWNRlDZ1hen8viIdvoD/QjqzVbDr65p+uG5qeoxGHvHcxvzS/vGrT?=
- =?us-ascii?Q?IGYnhANf+bu9WZPkVheclFfS8H8RJAqFbogNGDF7z2JE8iqFn14ZiONsBokT?=
- =?us-ascii?Q?7Pe2k7NtSZ1XMB54uiCXtq0Db+52/jwqAjAjG3msWOY0cPBQTT2AYPTF7+wK?=
- =?us-ascii?Q?Y+n8FQoxNLiSjaEsE2fEPg/Q5GfZ1t6tYtM24lvlZwf6nI0fTHTM3ntHFWgP?=
- =?us-ascii?Q?i6XVQxMXoVj0oBR8N2SK1ucKg7H+67X5cMmH89hBMDDAD+KZM63nx0zTHF2g?=
- =?us-ascii?Q?MZ6kdd7QkEo8YsGM21XqUZ+hKukRZhem85pJXrBJoDHyBumOTSJFl8/dzasu?=
- =?us-ascii?Q?sYEqIuga42Q8aCU3wh4+KEU1PQ8Rsy+dVX6G7RBdrUtlkmdamKbo/jmZHxx8?=
- =?us-ascii?Q?pRZv8++do1DN6dBJOjHNuuQgqk5FvogWDCqQFvzPvt7Lb6Fxo+QyoHaTs1AG?=
- =?us-ascii?Q?Pd3pJBI9s00FFDFKXUzHkB60fiu1rdAnEeKMvGB186yOXJi0wURGOsCfKvW9?=
- =?us-ascii?Q?brqLq34IB46umDWS1IxEDCknWTsuJw6dWUTfTqLNo2EiHkz5ix57TiuDi5Tp?=
- =?us-ascii?Q?6W+GJXVuHqtPiV+2d4JYMZDBHd+BcXPPyY6VPNa23GhYSrpKCdFwHSEyllxW?=
- =?us-ascii?Q?99Byn+EA81UH+0dvB4iy/elxKLXAl0z8eKA22GCduoytmdEFs677XYZoVV4o?=
- =?us-ascii?Q?zuirrO2aERKPMxnMHs+vE/ZwnxXnSLlenW1l+t2xxC3ynZ3DkGTKFsD+Fh7e?=
- =?us-ascii?Q?25fbA0zZ4ZdUX2JMVHOg2umul3dDDGC8hMrkVwdyskOtUU3UEYXQrWehKPkj?=
- =?us-ascii?Q?EHuTN6Hve1QY3FGolovJbsJ6+Xhbs/PnaCyYTmIjHeZ4czw3x9Yy05p88KlW?=
- =?us-ascii?Q?JoMS1W2jh1RhXuIDLSv9IVY=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?wgViM0wBqUfzZwWl8DJON/gYNYw4TVETsaOhDxl4RWFHitR1kVNU/ZDHP42c?=
- =?us-ascii?Q?wyBqEBHCVsKa/ZtXYLBeUIi2Ez/pb2n4ZAAJN0v3GoH6dIVQXMQr9yeQ6AxI?=
- =?us-ascii?Q?HwpO/eZw/D758CV1cELVNV/GE1RwECg4z4BqnrXrLJTr9tFu251RUVNNn+sx?=
- =?us-ascii?Q?YeEuoN30yhjgwQ5flYA06f9txQFZ4O8Z1O+3EHQzRjCpj+pz9Gk7EU7efv+1?=
- =?us-ascii?Q?y+wRWdSjW+R2Jx9MVN7dZNzI0LMAKqUZAz5dgrshTKI3LN6M0tPd4aYUMLk+?=
- =?us-ascii?Q?57rxAbCD6GgjUS74D9pO1UUflQzpDkNqlExP+pXe2Dg5lLIRqz7sff7IW7FS?=
- =?us-ascii?Q?481+zir5GcvMYctvQYFM7DeQHpPSYncG44Ab2EWm8qOWAf/oh9FTpGQzkkFl?=
- =?us-ascii?Q?h1x3At6wtUw4HNNSTxvjrvY4qCSAwYSAeZZj3La65qYyhcfSV8Q7Jo9q43e7?=
- =?us-ascii?Q?wLr6ZopO0ZBgjLFWWUl+44rR9WzQtmzuon0SjehNzYeKlhMTGSDddGrdLQeV?=
- =?us-ascii?Q?Ptvpk3EZ2N6eyq39PV4/uO3ata/EMQI9+p13TYjzyXzKg5CBmvTVJWdxgKYh?=
- =?us-ascii?Q?6/hsRhZlw1mo4nGCSbaKHCQigH408v7CF9pxuMNcwvT8nOX0IZsF2ahQbLDW?=
- =?us-ascii?Q?FUetPsp+xNkwP48S+dDuhKmUJ0t5Pheg3aAlLf1OkbvdtwG8T8OrbCV3Ux+g?=
- =?us-ascii?Q?HGku3mdpA3BGLCks5HyW+Y42njFkpOInTll3PWegW0Q/hWyw6mT/BfBtLZyw?=
- =?us-ascii?Q?n6XeDjuESHboWz8hjh5oK3oIfMaaCgCSGIEfs24LOcllW4ZVDCqS11wdK1W5?=
- =?us-ascii?Q?nlvhEyPu8105IIX08DMsMCjunvED8TKGrUSxZeCFdc7TP4ccRzqFrfBzDgFq?=
- =?us-ascii?Q?2mfYyGBFhTDwMxEi8pBo1Sg9zl4ftp/TQDlROkQFhtIbX5lDrJ+xF0oqZBQP?=
- =?us-ascii?Q?6QRamEvLFspp6U0iMgHh5WjKgVPKPEsYqHHi0lqeNLz3iSjEZowJ0gQwjbBa?=
- =?us-ascii?Q?S27ZgKZMs8UzjiPLgQFjn2OntBnSPNfE6oYfwY6Hj3oiCn0BTqvhm99b2Hm/?=
- =?us-ascii?Q?OolAnCmBaVB6J1bwtTSvYEWZonquA+yFRxw3ulXkBvoCCzGRo/+g40XKcPu7?=
- =?us-ascii?Q?DfKlOThL0Agqmmh8ZIQeQskeMIpH5ngy6/TQWzIcaIQB+QEbduk8sxPUaJbw?=
- =?us-ascii?Q?OeV7YOub+TCTILiFeHRfv8M1PMh9Y/NpqOOoGUuWszKdKrgM08/V41F/LONV?=
- =?us-ascii?Q?pMu5hrnjzt+RNuxcILiVDi+FVLPWpVneEgvoUPbAfYpR5IpZPDiCrQO7Ym8S?=
- =?us-ascii?Q?K5bm+7xVIjYZ8nLdcTpiFdxFs66Iw98U4hoz//2vG1GEZgwQgWJh7LLmWowH?=
- =?us-ascii?Q?+XcsbcyFBlhUPfKY5ohCCvm/J8WGSCDfjAmb2JNeax/KrVZ0z3y2pqDZA/Pe?=
- =?us-ascii?Q?Hj3xxEFLkPQGWtmAkMZ+7IVNw++P8S/8zVtaS9Go8Ndum95fjIpmO309ve1k?=
- =?us-ascii?Q?1JPWtAgtvi1y6mS5lYgDkE0a79VBKw66d3mzxYvq1vzd6LnDHv6k92dxH9Vg?=
- =?us-ascii?Q?g5aYHBHdP1iNPBfZcBuit9sWhB90mvg/hf6dLmUGIKXVcVs6Zl43LFH7ymhx?=
- =?us-ascii?Q?5OIGZjdc5LAjcvEF5x07/Srw0ZGjh3Vj+pDlm8oD1dkxidfem5ZnWMjPfWvK?=
- =?us-ascii?Q?4mMUYfbD5LCmJoKGFzJGOGH2d6NxV4WQJkXn6oEumkGPxKlMeJoXpY6rkIb1?=
- =?us-ascii?Q?aMbh4PIt6A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@smile.fr header.s=google header.b=fR/F5YOH;
+ spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4359108fd24so3860423f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jan 2026 22:49:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769582962; cv=none;
+        d=google.com; s=arc-20240605;
+        b=D+rmO3OS6iSdAb9OVatLx2GgKGMZ/vwVyWHJtlwdvN5R612FyLo6ft7b7l8pw0oRZA
+         GSrV1WadEEVM2xstrecBTAxnG5UE2JyQLEYOqArQevAF0J6yxLKU4SyhUEo35kgYqFJc
+         ES4Nm5mBpbPF+I9FIpz2fPJZ/Q0EVuKgiLmtE95MctCNUpSpNsX9r8p3G0e/5HbUccJU
+         3JlZW/mdxdCU4bir07GgtFCLmdyjO1wWLEhO4QkzbzRf6OrN4ZN58sCtw9lYT1Q1XKiT
+         Ob5N+c/OgKgkxfF3zSdFAX3IzwKjtU1w414Id+TM/yN1YrVkuOC4gpUcuZnnkeHGETYX
+         B33A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7Il5wrEaSCKopkZX7SxYW9ZyPG/MQGyAWSZdn1Eh+RQ=;
+        fh=9gGAjBmzXxm+6YnJ4YJau3pXgzx9iwFOqKMmYwz06G8=;
+        b=M3QH2KQjOj0jLtvNHywY7o0C1/gYFUyCMqtmkS6DXbYsUVExEb7Q2cf//qSqmc6nUk
+         M1xShTZnncrNd3pMPRswutYNbGUgvGlr7/6YsFUrvUAPTYTv2ENc5iCPJHpuaoEbKkla
+         cqLjmAc1/+UtP6d2nlQkDjBZEVnf1i3BnTzc07ejZ1IKyRG5Jop9P5wR1vJsotZsj3SA
+         lHEVTRaUn6mn+d85DuSlt5hKdoP5yvwxt25WQ15z61RK3zPnUmncYvoJ0+vw1spWIaZd
+         1QB/A6D7l2nou46+PLlLneatKIWxhe8h8rIRTbcEcG3ryGtED7+GvCuxXZ0jkUGcypbr
+         OiJw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1769582962; x=1770187762; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Il5wrEaSCKopkZX7SxYW9ZyPG/MQGyAWSZdn1Eh+RQ=;
+        b=fR/F5YOHxEF/Yy+0NsffL5REIczDpR5dTozSRprmohIdpP7dl1yZQOdy6rtdqMvdcz
+         xUH74C28UDZQ6W6fVEW9kFH2Cc7/jF2/jbV2Q3gjXYR0RMGGMqsqtU+yqBKtKvniM2W7
+         Lpj7ZUBiqUTMwd9yHTiOSrM4zRv8uWHZZIQNE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769582962; x=1770187762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7Il5wrEaSCKopkZX7SxYW9ZyPG/MQGyAWSZdn1Eh+RQ=;
+        b=G66CYVhuCTUevz50TSVt4Ezau3bVMdzptfTD1r7JpB+KMe1+zEeSdErHx3wRHtkaJH
+         9vg0vwUyjvjsoS3i5QYdv0CxtlWTylnZyXVn66PmODYw1hpJ/97vhXoT6o/Q9skjBe5D
+         9307Tp8Lc9LeJdeA4c33Ourd+ijHlouYeO2C5Ecjl5lseamuvu4Fi/JPWioUCpyZL/YW
+         neZNMFXOS6WGgHDCVZqhIG9uUux0F4uK4ltBAhTxYE3LZzoYgAIOLyTZaVN0WiSUn9LC
+         V+nOJoUpOdpPPlxe9279/JU+CKsX9cr7rmlGs86h4wkLnESZY5qTlA6wr9/DoyrmgFeY
+         dKbQ==
+X-Gm-Message-State: AOJu0YzUYfIgclAtMxQeTyNmhRuB3zpeAfOWbEmJ3Om8iahFqmTzzTtP
+	ADoQWT8DZ0UnOVseRxO5nLB5DwamvnAxWM17QzwCLdI/TV9JlbjJHnR2l8QnkfafpQ7ZDDVSKOL
+	0cKG08Iu6O9OvERFSFNsFDfGxYvhZI1sdgZ1U1RLF+g==
+X-Gm-Gg: AZuq6aLrjWez7BL40VO+541egqLGFM5F4yA+yN46RtiuVlBeQNU/pHMWiSqdYOBN/LW
+	M9VJpP4UwQTKlT2gE1skzMo8de3JUfCttqJUw2PS5D/9+uPd2aDJ8btUVvauGGlcOaesJKi5UDx
+	fu3xN+GToO8t7IMKGZMWyiQ5XFlLp/xUcl+g+4xBn6TMQL07qTrboYn7p3Ua7/I2KeUCKXNVO7O
+	Yde7TDe/rWstHHjKmMAtNcQ+zLXx2AbLLg/ua9CxyMxw62uUD4UfE+J6VdwiJEcQnCfRVQw4TV5
+	bNwg+WDC9YKEJokAtRSxMFok7Bt0hw==
+X-Received: by 2002:a05:6000:18a4:b0:435:9bf7:c6b9 with SMTP id
+ ffacd0b85a97d-435dd030782mr5326055f8f.24.1769582962143; Tue, 27 Jan 2026
+ 22:49:22 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 677d7c61-5f52-4bd8-6fe8-08de5e38f87b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2026 06:46:31.2776
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7K/KjkJ6ct7coKTPdKr59s3Sx2Be4QlUmNG76DE6UrxznCyJtHjw+D3pBJyBBwssShSOUG2wp2zyiuy58hVAvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7131
+References: <188D1595910BDEB4.3547823@lists.openembedded.org> <DS0PR11MB740520FCABFFFCD88073D7D4DC91A@DS0PR11MB7405.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB740520FCABFFFCD88073D7D4DC91A@DS0PR11MB7405.namprd11.prod.outlook.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Wed, 28 Jan 2026 07:48:55 +0100
+X-Gm-Features: AZwV_QiLjxsE7wc0mXQShrCQ6DQvStw5oTfYxUneDyAHoLYbDduyrMaDAWAOwiw
+Message-ID: <CAMSfU+6-49xfmMC+f4S=nTOeDgEVnx7zk9cgqZF+w3Bwh5csRw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] cve-update-nvd2-native: Use maximum CVSS
+ score from all sources
+To: hetpat@cisco.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>
+Content-Type: multipart/alternative; boundary="000000000000dc038d06496d23f6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 06:46:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230079
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 06:49:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230080
 
-Patch for this CVE has been already submitted under https://lists.openembed=
-ded.org/g/openembedded-core/message/229940
-Peter
+--000000000000dc038d06496d23f6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Yu, Mingli via
-> lists.openembedded.org
-> Sent: Wednesday, January 28, 2026 6:56
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] libxml2: Fix CVE-2026-0989
->=20
-> From: Mingli Yu <mingli.yu@windriver.com>
->=20
-> Backport a patch [1] to fix CVE-2026-0989.
->=20
-> [1] https://gitlab.gnome.org/GNOME/libxml2/-
-> /commit/19549c61590c1873468c53e0026a2fbffae428ef
->=20
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Le mer. 28 janv. 2026 =C3=A0 07:03, Het Patel via lists.openembedded.org <h=
+etpat=3D
+cisco.com@lists.openembedded.org> a =C3=A9crit :
+
+> Gentle reminder.
+>
+
+Hello,
+
+Your patch was not forgotten: It is in master-next:
+https://git.openembedded.org/openembedded-core/log/?h=3Dmaster-next
+That means that it has passed testing and now needs to be reviewed by the
+review team.
+Please note that there are higher priority subjects right now, as stated in
+the weekly report: https://wiki.yoctoproject.org/wiki/Weekly_Status.
+
+You can ping again if your patch has not been reviewed or merged in two
+weeks.
+
+Regards,
+
+
+> ------------------------------
+> *From:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> on behalf of Het Patel via
+> lists.openembedded.org <hetpat=3Dcisco.com@lists.openembedded.org>
+> *Sent:* Thursday, January 22, 2026 8:29 PM
+> *To:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>
+> *Cc:* xe-linux-external(mailer list) <xe-linux-external@cisco.com>
+> *Subject:* [OE-core] [PATCH v3] cve-update-nvd2-native: Use maximum CVSS
+> score from all sources
+>
+> From: Het Patel <hetpat@cisco.com>
+>
+> The CVE check system was incorrectly reporting lower CVSS scores when
+> multiple scoring sources were available in the NVD database. This
+> occurred because the code only extracted the first element from the
+> metrics arrays, which could be a "Secondary" source with a lower score
+> rather than the "Primary" source or the highest available vendor score.
+>
+> According to the CVSS v4.0 User Guide, "In situations where multiple
+> CVSS-B scores are applicable but only one is provided, the highest
+> CVSS-B score must be utilized." This follows the "reasonable worst-case"
+> principle established by the CVSS SIG.
+>
+> This fix iterates through all available sources (v2, v3.0, v3.1, and
+> v4.0) and selects the maximum CVSS score to ensure the highest severity
+> is reported.
+>
+> Fixes [YOCTO #15931]
+>
+> References:
+> - https://www.first.org/cvss/v4.0/user-guide
+> - https://www.first.org/cvss/v3.1/user-guide
+> - https://www.first.org/cvss/v2/minutes/cvss-meeting-minutes-06202006.pdf
+>
+> Signed-off-by: Het Patel <hetpat@cisco.com>
 > ---
->  .../libxml/libxml2/CVE-2026-0989.patch        | 314 ++++++++++++++++++
->  meta/recipes-core/libxml/libxml2_2.15.1.bb    |   1 +
->  2 files changed, 315 insertions(+)
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
->=20
-> diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch b/meta/=
-recipes-
-> core/libxml/libxml2/CVE-2026-0989.patch
-> new file mode 100644
-> index 0000000000..800c8cf845
-> --- /dev/null
-> +++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
-> @@ -0,0 +1,314 @@
-> +From 19549c61590c1873468c53e0026a2fbffae428ef Mon Sep 17 00:00:00 2001
-> +From: Daniel Garcia Moreno <daniel.garcia@suse.com>
-> +Date: Fri, 10 Oct 2025 09:38:31 +0200
-> +Subject: [PATCH] Add RelaxNG include limit
+>  .../meta/cve-update-nvd2-native.bb            | 55 +++++++++++++------
+>  1 file changed, 39 insertions(+), 16 deletions(-)
+>
+> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> index 8c8148dd92..41c34ba0d0 100644
+> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> @@ -350,32 +350,55 @@ def update_db(conn, elt):
+>          if desc['lang'] =3D=3D 'en':
+>              cveDesc =3D desc['value']
+>      date =3D elt['cve']['lastModified']
 > +
-> +This patch adds a default xmlRelaxNGIncludeLimit of 1.000, and that
-> +limit can be modified at runtime with the env variable
-> +RNG_INCLUDE_LIMIT.
+> +    # Extract maximum CVSS scores from all sources (Primary and Secondar=
+y)
+> +    cvssv2 =3D 0.0
+>      try:
+> -        accessVector =3D
+> elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['accessVector']
+> -        vectorString =3D
+> elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['vectorString']
+> -        cvssv2 =3D
+> elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
+> +        # Iterate through all cvssMetricV2 entries and find the maximum
+> score
+> +        for metric in elt['cve']['metrics']['cvssMetricV2']:
+> +            score =3D metric['cvssData']['baseScore']
+> +            if score > cvssv2:
+> +                cvssv2 =3D score
+> +                accessVector =3D metric['cvssData']['accessVector']
+> +                vectorString =3D metric['cvssData']['vectorString']
+>      except KeyError:
+> -        cvssv2 =3D 0.0
+> -    cvssv3 =3D None
+> +        pass
 > +
-> +Fix https://gitlab.gnome.org/GNOME/libxml2/-/issues/998
+> +    cvssv3 =3D 0.0
+>      try:
+> -        accessVector =3D accessVector or
+> elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['attackVector']
+> -        vectorString =3D vectorString or
+> elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['vectorString']
+> -        cvssv3 =3D
+> elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['baseScore']
+> +        # Iterate through all cvssMetricV30 entries and find the maximum
+> score
+> +        for metric in elt['cve']['metrics']['cvssMetricV30']:
+> +            score =3D metric['cvssData']['baseScore']
+> +            if score > cvssv3:
+> +                cvssv3 =3D score
+> +                accessVector =3D accessVector or
+> metric['cvssData']['attackVector']
+> +                vectorString =3D vectorString or
+> metric['cvssData']['vectorString']
+>      except KeyError:
+>          pass
 > +
-> +CVE: CVE-2026-0989
+>      try:
+> -        accessVector =3D accessVector or
+> elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['attackVector']
+> -        vectorString =3D vectorString or
+> elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
+> -        cvssv3 =3D cvssv3 or
+> elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
+> +        # Iterate through all cvssMetricV31 entries and find the maximum
+> score
+> +        for metric in elt['cve']['metrics']['cvssMetricV31']:
+> +            score =3D metric['cvssData']['baseScore']
+> +            if score > cvssv3:
+> +                cvssv3 =3D score
+> +                accessVector =3D accessVector or
+> metric['cvssData']['attackVector']
+> +                vectorString =3D vectorString or
+> metric['cvssData']['vectorString']
+>      except KeyError:
+>          pass
+> -    cvssv3 =3D cvssv3 or 0.0
 > +
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-
-> /commit/19549c61590c1873468c53e0026a2fbffae428ef]
+> +    cvssv4 =3D 0.0
+>      try:
+> -        accessVector =3D accessVector or
+> elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['attackVector']
+> -        vectorString =3D vectorString or
+> elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['vectorString']
+> -        cvssv4 =3D
+> elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['baseScore']
+> +        # Iterate through all cvssMetricV40 entries and find the maximum
+> score
+> +        for metric in elt['cve']['metrics']['cvssMetricV40']:
+> +            score =3D metric['cvssData']['baseScore']
+> +            if score > cvssv4:
+> +                cvssv4 =3D score
+> +                accessVector =3D accessVector or
+> metric['cvssData']['attackVector']
+> +                vectorString =3D vectorString or
+> metric['cvssData']['vectorString']
+>      except KeyError:
+> -        cvssv4 =3D 0.0
+> +        pass
 > +
-> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> +---
-> + include/libxml/relaxng.h                 |  4 ++
-> + relaxng.c                                | 63 ++++++++++++++++++++--
-> + runtest.c                                | 67 ++++++++++++++++++++++++
-> + test/relaxng/include/include-limit.rng   |  4 ++
-> + test/relaxng/include/include-limit_1.rng |  4 ++
-> + test/relaxng/include/include-limit_2.rng |  4 ++
-> + test/relaxng/include/include-limit_3.rng |  8 +++
-> + 7 files changed, 150 insertions(+), 4 deletions(-)
-> + create mode 100644 test/relaxng/include/include-limit.rng
-> + create mode 100644 test/relaxng/include/include-limit_1.rng
-> + create mode 100644 test/relaxng/include/include-limit_2.rng
-> + create mode 100644 test/relaxng/include/include-limit_3.rng
-> +
-> +diff --git a/include/libxml/relaxng.h b/include/libxml/relaxng.h
-> +index eafc6604..099dacd8 100644
-> +--- a/include/libxml/relaxng.h
-> ++++ b/include/libxml/relaxng.h
-> +@@ -136,6 +136,10 @@ XMLPUBFUN int
-> + 		    xmlRelaxParserSetFlag	(xmlRelaxNGParserCtxt *ctxt,
-> + 						 int flag);
-> +
-> ++XMLPUBFUN int
-> ++		    xmlRelaxParserSetIncLImit	(xmlRelaxNGParserCtxt *ctxt,
-> ++						 int limit);
-> ++
-> + XMLPUBFUN void
-> + 		    xmlRelaxNGFreeParserCtxt	(xmlRelaxNGParserCtxt *ctxt);
-> + XMLPUBFUN void
-> +diff --git a/relaxng.c b/relaxng.c
-> +index 1d74ba9f..c0e94a3c 100644
-> +--- a/relaxng.c
-> ++++ b/relaxng.c
-> +@@ -18,6 +18,8 @@
-> +
-> + #ifdef LIBXML_RELAXNG_ENABLED
-> +
-> ++#include <errno.h>
-> ++#include <stdlib.h>
-> + #include <string.h>
-> + #include <stdio.h>
-> + #include <stddef.h>
-> +@@ -44,6 +46,12 @@
-> + static const xmlChar *xmlRelaxNGNs =3D (const xmlChar *)
-> +     "http://relaxng.org/ns/structure/1.0";
-> +
-> ++/*
-> ++ * Default include limit, this can be override with RNG_INCLUDE_LIMIT
-> ++ * env variable
-> ++ */
-> ++static const int _xmlRelaxNGIncludeLimit =3D 1000;
-> ++
-> + #define IS_RELAXNG(node, typ)						\
-> +    ((node !=3D NULL) && (node->ns !=3D NULL) &&				\
-> +     (node->type =3D=3D XML_ELEMENT_NODE) &&
-> 	\
-> +@@ -218,6 +226,7 @@ struct _xmlRelaxNGParserCtxt {
-> +     int incNr;                  /* Depth of the include parsing stack *=
-/
-> +     int incMax;                 /* Max depth of the parsing stack */
-> +     xmlRelaxNGIncludePtr *incTab;       /* array of incs */
-> ++    int incLimit;               /* Include limit, to avoid stack-overfl=
-ow on parse */
-> +
-> +     int idref;                  /* requires idref checking */
-> +
-> +@@ -1342,6 +1351,23 @@ xmlRelaxParserSetFlag(xmlRelaxNGParserCtxt *ctxt,
-> int flags)
-> +     return(0);
-> + }
-> +
-> ++/**
-> ++ * Semi private function used to set the include recursion limit to a
-> ++ * parser context. Set to 0 to use the default value.
-> ++ *
-> ++ * @param ctxt  a RelaxNG parser context
-> ++ * @param limit the new include depth limit
-> ++ * @returns 0 if success and -1 in case of error
-> ++ */
-> ++int
-> ++xmlRelaxParserSetIncLImit(xmlRelaxNGParserCtxt *ctxt, int limit)
-> ++{
-> ++    if (ctxt =3D=3D NULL) return(-1);
-> ++    if (limit < 0) return(-1);
-> ++    ctxt->incLimit =3D limit;
-> ++    return(0);
-> ++}
-> ++
-> + /**********************************************************************=
-**
-> +  *									*
-> +  *			Document functions				*
-> +@@ -1397,7 +1423,7 @@ xmlRelaxReadMemory(xmlRelaxNGParserCtxtPtr ctxt,
-> const char *buf, int size) {
-> +  *
-> +  * @param ctxt  the parser context
-> +  * @param value  the element doc
-> +- * @returns 0 in case of error, the index in the stack otherwise
-> ++ * @returns -1 in case of error, the index in the stack otherwise
-> +  */
-> + static int
-> + xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr ctxt,
-> +@@ -1411,9 +1437,15 @@ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr
-> ctxt,
-> +                                                sizeof(ctxt->incTab[0]))=
-;
-> +         if (ctxt->incTab =3D=3D NULL) {
-> +             xmlRngPErrMemory(ctxt);
-> +-            return (0);
-> ++            return (-1);
-> +         }
-> +     }
-> ++    if (ctxt->incNr >=3D ctxt->incLimit) {
-> ++        xmlRngPErr(ctxt, (xmlNodePtr)value->doc, XML_RNGP_PARSE_ERROR,
-> ++                   "xmlRelaxNG: inclusion recursion limit reached\n", N=
-ULL, NULL);
-> ++        return(-1);
-> ++    }
-> ++
-> +     if (ctxt->incNr >=3D ctxt->incMax) {
-> +         ctxt->incMax *=3D 2;
-> +         ctxt->incTab =3D
-> +@@ -1422,7 +1454,7 @@ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr
-> ctxt,
-> +                                                 sizeof(ctxt->incTab[0])=
-);
-> +         if (ctxt->incTab =3D=3D NULL) {
-> +             xmlRngPErrMemory(ctxt);
-> +-            return (0);
-> ++            return (-1);
-> +         }
-> +     }
-> +     ctxt->incTab[ctxt->incNr] =3D value;
-> +@@ -1586,7 +1618,9 @@ xmlRelaxNGLoadInclude(xmlRelaxNGParserCtxtPtr
-> ctxt, const xmlChar * URL,
-> +     /*
-> +      * push it on the stack
-> +      */
-> +-    xmlRelaxNGIncludePush(ctxt, ret);
-> ++    if (xmlRelaxNGIncludePush(ctxt, ret) < 0) {
-> ++        return (NULL);
-> ++    }
-> +
-> +     /*
-> +      * Some preprocessing of the document content, this include recursi=
-ng
-> +@@ -7261,11 +7295,32 @@ xmlRelaxNGParse(xmlRelaxNGParserCtxt *ctxt)
-> +     xmlDocPtr doc;
-> +     xmlNodePtr root;
-> +
-> ++    const char *include_limit_env =3D getenv("RNG_INCLUDE_LIMIT");
-> ++
-> +     xmlRelaxNGInitTypes();
-> +
-> +     if (ctxt =3D=3D NULL)
-> +         return (NULL);
-> +
-> ++    if (ctxt->incLimit =3D=3D 0) {
-> ++        ctxt->incLimit =3D _xmlRelaxNGIncludeLimit;
-> ++        if (include_limit_env !=3D NULL) {
-> ++            char *strEnd;
-> ++            unsigned long val =3D 0;
-> ++            errno =3D 0;
-> ++            val =3D strtoul(include_limit_env, &strEnd, 10);
-> ++            if (errno !=3D 0 || *strEnd !=3D 0 || val > INT_MAX) {
-> ++                xmlRngPErr(ctxt, NULL, XML_RNGP_PARSE_ERROR,
-> ++                           "xmlRelaxNGParse: invalid RNG_INCLUDE_LIMIT =
-%s\n",
-> ++                           (const xmlChar*)include_limit_env,
-> ++                           NULL);
-> ++                return(NULL);
-> ++            }
-> ++            if (val)
-> ++                ctxt->incLimit =3D val;
-> ++        }
-> ++    }
-> ++
-> +     /*
-> +      * First step is to parse the input document into an DOM/Infoset
-> +      */
-> +diff --git a/runtest.c b/runtest.c
-> +index 49519aef..45109f0a 100644
-> +--- a/runtest.c
-> ++++ b/runtest.c
-> +@@ -3741,6 +3741,70 @@ rngTest(const char *filename,
-> +     return(ret);
-> + }
-> +
-> ++/**
-> ++ * Parse an RNG schemas with a custom RNG_INCLUDE_LIMIT
-> ++ *
-> ++ * @param filename  the schemas file
-> ++ * @param result  the file with expected result
-> ++ * @param err  the file with error messages
-> ++ * @returns 0 in case of success, an error code otherwise
-> ++ */
-> ++static int
-> ++rngIncludeTest(const char *filename,
-> ++               const char *resul ATTRIBUTE_UNUSED,
-> ++               const char *errr ATTRIBUTE_UNUSED,
-> ++               int options ATTRIBUTE_UNUSED) {
-> ++    xmlRelaxNGParserCtxtPtr ctxt;
-> ++    xmlRelaxNGPtr schemas;
-> ++    int ret =3D 0;
-> ++
-> ++    /* first compile the schemas if possible */
-> ++    ctxt =3D xmlRelaxNGNewParserCtxt(filename);
-> ++    xmlRelaxNGSetParserStructuredErrors(ctxt, testStructuredErrorHandle=
-r,
-> ++                                        NULL);
-> ++
-> ++    /* Should work */
-> ++    schemas =3D xmlRelaxNGParse(ctxt);
-> ++    if (schemas =3D=3D NULL) {
-> ++        testErrorHandler(NULL, "Relax-NG schema %s failed to compile\n"=
-,
-> ++                         filename);
-> ++        ret =3D -1;
-> ++        goto done;
-> ++    }
-> ++    xmlRelaxNGFree(schemas);
-> ++    xmlRelaxNGFreeParserCtxt(ctxt);
-> ++
-> ++    ctxt =3D xmlRelaxNGNewParserCtxt(filename);
-> ++    /* Should fail */
-> ++    xmlRelaxParserSetIncLImit(ctxt, 2);
-> ++    xmlRelaxNGSetParserStructuredErrors(ctxt, testStructuredErrorHandle=
-r,
-> ++                                        NULL);
-> ++    schemas =3D xmlRelaxNGParse(ctxt);
-> ++    if (schemas !=3D NULL) {
-> ++        ret =3D -1;
-> ++        xmlRelaxNGFree(schemas);
-> ++    }
-> ++    xmlRelaxNGFreeParserCtxt(ctxt);
-> ++
-> ++    ctxt =3D xmlRelaxNGNewParserCtxt(filename);
-> ++    /* Should work */
-> ++    xmlRelaxParserSetIncLImit(ctxt, 3);
-> ++    xmlRelaxNGSetParserStructuredErrors(ctxt, testStructuredErrorHandle=
-r,
-> ++                                        NULL);
-> ++    schemas =3D xmlRelaxNGParse(ctxt);
-> ++    if (schemas =3D=3D NULL) {
-> ++        testErrorHandler(NULL, "Relax-NG schema %s failed to compile\n"=
-,
-> ++                         filename);
-> ++        ret =3D -1;
-> ++        goto done;
-> ++    }
-> ++    xmlRelaxNGFree(schemas);
-> ++
-> ++done:
-> ++    xmlRelaxNGFreeParserCtxt(ctxt);
-> ++    return(ret);
-> ++}
-> ++
-> + #ifdef LIBXML_READER_ENABLED
-> + /**
-> +  * Parse a set of files with streaming, applying an RNG schemas
-> +@@ -5202,6 +5266,9 @@ testDesc testDescriptions[] =3D {
-> +     { "Relax-NG regression tests" ,
-> +       rngTest, "./test/relaxng/*.rng", NULL, NULL, NULL,
-> +       XML_PARSE_DTDATTR | XML_PARSE_NOENT },
-> ++    { "Relax-NG include limit tests" ,
-> ++      rngIncludeTest, "./test/relaxng/include/include-limit.rng", NULL,=
- NULL, NULL,
-> ++      0 },
-> + #ifdef LIBXML_READER_ENABLED
-> +     { "Relax-NG streaming regression tests" ,
-> +       rngStreamTest, "./test/relaxng/*.rng", NULL, NULL, NULL,
-> +diff --git a/test/relaxng/include/include-limit.rng b/test/relaxng/inclu=
-de/include-
-> limit.rng
-> +new file mode 100644
-> +index 00000000..51f03942
-> +--- /dev/null
-> ++++ b/test/relaxng/include/include-limit.rng
-> +@@ -0,0 +1,4 @@
-> ++<?xml version=3D"1.0" encoding=3D"UTF-8"?>
-> ++<grammar xmlns=3D"http://relaxng.org/ns/structure/1.0">
-> ++    <include href=3D"include-limit_1.rng"/>
-> ++</grammar>
-> +diff --git a/test/relaxng/include/include-limit_1.rng b/test/relaxng/inc=
-lude/include-
-> limit_1.rng
-> +new file mode 100644
-> +index 00000000..4672da38
-> +--- /dev/null
-> ++++ b/test/relaxng/include/include-limit_1.rng
-> +@@ -0,0 +1,4 @@
-> ++<?xml version=3D"1.0" encoding=3D"UTF-8"?>
-> ++<grammar xmlns=3D"http://relaxng.org/ns/structure/1.0">
-> ++    <include href=3D"include-limit_2.rng"/>
-> ++</grammar>
-> +diff --git a/test/relaxng/include/include-limit_2.rng b/test/relaxng/inc=
-lude/include-
-> limit_2.rng
-> +new file mode 100644
-> +index 00000000..b35ecaa8
-> +--- /dev/null
-> ++++ b/test/relaxng/include/include-limit_2.rng
-> +@@ -0,0 +1,4 @@
-> ++<?xml version=3D"1.0" encoding=3D"UTF-8"?>
-> ++<grammar xmlns=3D"http://relaxng.org/ns/structure/1.0">
-> ++    <include href=3D"include-limit_3.rng"/>
-> ++</grammar>
-> +diff --git a/test/relaxng/include/include-limit_3.rng b/test/relaxng/inc=
-lude/include-
-> limit_3.rng
-> +new file mode 100644
-> +index 00000000..86213c62
-> +--- /dev/null
-> ++++ b/test/relaxng/include/include-limit_3.rng
-> +@@ -0,0 +1,8 @@
-> ++<?xml version=3D"1.0" encoding=3D"UTF-8"?>
-> ++<grammar xmlns=3D"http://relaxng.org/ns/structure/1.0">
-> ++    <start>
-> ++        <element name=3D"root">
-> ++            <empty/>
-> ++        </element>
-> ++    </start>
-> ++</grammar>
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-core/libxml/libxml2_2.15.1.bb b/meta/recipes-
-> core/libxml/libxml2_2.15.1.bb
-> index a64ed8098e..26fe27e933 100644
-> --- a/meta/recipes-core/libxml/libxml2_2.15.1.bb
-> +++ b/meta/recipes-core/libxml/libxml2_2.15.1.bb
-> @@ -17,6 +17,7 @@ inherit gnomebase
->  SRC_URI +=3D
-> "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=3D${BP};name=3Dtestt=
-ar \
->             file://CVE-2026-0990.patch \
->             file://CVE-2026-0992.patch \
-> +           file://CVE-2026-0989.patch \
->             file://run-ptest \
->             file://install-tests.patch \
->             file://0001-Revert-cmake-Fix-installation-directories-in-libx=
-ml2.patch \
-> --
-> 2.34.1
+>      accessVector =3D accessVector or "UNKNOWN"
+>      vectorString =3D vectorString or "UNKNOWN"
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230078):
+> https://lists.openembedded.org/g/openembedded-core/message/230078
+> Mute This Topic: https://lists.openembedded.org/mt/117400902/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--=20
+Yoann Congal
+Smile ECS
+
+--000000000000dc038d06496d23f6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0mer. 28 janv. 2026 =C3=A0=C2=A007=
+:03, Het Patel via <a href=3D"http://lists.openembedded.org">lists.openembe=
+dded.org</a> &lt;hetpat=3D<a href=3D"mailto:cisco.com@lists.openembedded.or=
+g">cisco.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:</div><div c=
+lass=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><div class=3D"msg6275160068375734658">
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Gentle reminder.</div></div></div></blockquote><div><br></div><div>Hello,</=
+div><div><br></div><div>Your patch was not forgotten: It is in master-next:=
+=C2=A0<a href=3D"https://git.openembedded.org/openembedded-core/log/?h=3Dma=
+ster-next">https://git.openembedded.org/openembedded-core/log/?h=3Dmaster-n=
+ext</a></div><div>That=C2=A0means that it has passed testing and now needs =
+to be reviewed by the review team.</div><div>Please note that there are hig=
+her priority subjects right now, as stated in the weekly report: <a href=3D=
+"https://wiki.yoctoproject.org/wiki/Weekly_Status">https://wiki.yoctoprojec=
+t.org/wiki/Weekly_Status</a>.</div><div><br></div><div>You can ping again i=
+f your patch has not been reviewed or merged in two weeks.</div><div><br></=
+div><div>Regards,</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex"><div class=3D"msg6275160068375734658"><div dir=3D"ltr">
+<div id=3D"m_6275160068375734658appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_6275160068375734658divRplyFwdMsg" dir=3D"ltr"><font face=3D"Ca=
+libri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b> =
+<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto:opene=
+mbedded-core@lists.openembedded.org" target=3D"_blank">openembedded-core@li=
+sts.openembedded.org</a>&gt; on behalf of Het Patel via <a href=3D"http://l=
+ists.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt;het=
+pat=3D<a href=3D"mailto:cisco.com@lists.openembedded.org" target=3D"_blank"=
+>cisco.com@lists.openembedded.org</a>&gt;<br>
+<b>Sent:</b> Thursday, January 22, 2026 8:29 PM<br>
+<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt;<br>
+<b>Cc:</b> xe-linux-external(mailer list) &lt;<a href=3D"mailto:xe-linux-ex=
+ternal@cisco.com" target=3D"_blank">xe-linux-external@cisco.com</a>&gt;<br>
+<b>Subject:</b> [OE-core] [PATCH v3] cve-update-nvd2-native: Use maximum CV=
+SS score from all sources</font>
+<div>=C2=A0</div>
+</div>
+<div><font size=3D"2"><span style=3D"font-size:11pt">
+<div>From: Het Patel &lt;<a href=3D"mailto:hetpat@cisco.com" target=3D"_bla=
+nk">hetpat@cisco.com</a>&gt;<br>
+<br>
+The CVE check system was incorrectly reporting lower CVSS scores when<br>
+multiple scoring sources were available in the NVD database. This<br>
+occurred because the code only extracted the first element from the<br>
+metrics arrays, which could be a &quot;Secondary&quot; source with a lower =
+score<br>
+rather than the &quot;Primary&quot; source or the highest available vendor =
+score.<br>
+<br>
+According to the CVSS v4.0 User Guide, &quot;In situations where multiple<b=
+r>
+CVSS-B scores are applicable but only one is provided, the highest<br>
+CVSS-B score must be utilized.&quot; This follows the &quot;reasonable wors=
+t-case&quot;<br>
+principle established by the CVSS SIG.<br>
+<br>
+This fix iterates through all available sources (v2, v3.0, v3.1, and<br>
+v4.0) and selects the maximum CVSS score to ensure the highest severity<br>
+is reported.<br>
+<br>
+Fixes [YOCTO #15931]<br>
+<br>
+References:<br>
+- <a href=3D"https://www.first.org/cvss/v4.0/user-guide" target=3D"_blank">=
+https://www.first.org/cvss/v4.0/user-guide</a><br>
+- <a href=3D"https://www.first.org/cvss/v3.1/user-guide" target=3D"_blank">=
+https://www.first.org/cvss/v3.1/user-guide</a><br>
+- <a href=3D"https://www.first.org/cvss/v2/minutes/cvss-meeting-minutes-062=
+02006.pdf" target=3D"_blank">
+https://www.first.org/cvss/v2/minutes/cvss-meeting-minutes-06202006.pdf</a>=
+<br>
+<br>
+Signed-off-by: Het Patel &lt;<a href=3D"mailto:hetpat@cisco.com" target=3D"=
+_blank">hetpat@cisco.com</a>&gt;<br>
+---<br>
+=C2=A0.../meta/<a href=3D"http://cve-update-nvd2-native.bb" target=3D"_blan=
+k">cve-update-nvd2-native.bb</a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 55 +++++++++++++------<br>
+=C2=A01 file changed, 39 insertions(+), 16 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-nativ=
+e.bb" target=3D"_blank">cve-update-nvd2-native.bb</a> b/meta/recipes-core/m=
+eta/<a href=3D"http://cve-update-nvd2-native.bb" target=3D"_blank">cve-upda=
+te-nvd2-native.bb</a><br>
+index 8c8148dd92..41c34ba0d0 100644<br>
+--- a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" t=
+arget=3D"_blank">cve-update-nvd2-native.bb</a><br>
++++ b/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" t=
+arget=3D"_blank">cve-update-nvd2-native.bb</a><br>
+@@ -350,32 +350,55 @@ def update_db(conn, elt):<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if desc[&#39;lang&#39;] =
+=3D=3D &#39;en&#39;:<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cv=
+eDesc =3D desc[&#39;value&#39;]<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 date =3D elt[&#39;cve&#39;][&#39;lastModified&#39;=
+]<br>
++<br>
++=C2=A0=C2=A0=C2=A0 # Extract maximum CVSS scores from all sources (Primary=
+ and Secondary)<br>
++=C2=A0=C2=A0=C2=A0 cvssv2 =3D 0.0<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 try:<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accessVector =3D elt[&#39;cve&#=
+39;][&#39;metrics&#39;][&#39;cvssMetricV2&#39;][0][&#39;cvssData&#39;][&#39=
+;accessVector&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vectorString =3D elt[&#39;cve&#=
+39;][&#39;metrics&#39;][&#39;cvssMetricV2&#39;][0][&#39;cvssData&#39;][&#39=
+;vectorString&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cvssv2 =3D elt[&#39;cve&#39;][&=
+#39;metrics&#39;][&#39;cvssMetricV2&#39;][0][&#39;cvssData&#39;][&#39;baseS=
+core&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Iterate through all cvssMetri=
+cV2 entries and find the maximum score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for metric in elt[&#39;cve&#39;=
+][&#39;metrics&#39;][&#39;cvssMetricV2&#39;]:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 score =
+=3D metric[&#39;cvssData&#39;][&#39;baseScore&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if scor=
+e &gt; cvssv2:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 cvssv2 =3D score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 accessVector =3D metric[&#39;cvssData&#39;][&#39;accessV=
+ector&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 vectorString =3D metric[&#39;cvssData&#39;][&#39;vectorS=
+tring&#39;]<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 except KeyError:<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cvssv2 =3D 0.0<br>
+-=C2=A0=C2=A0=C2=A0 cvssv3 =3D None<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass<br>
++<br>
++=C2=A0=C2=A0=C2=A0 cvssv3 =3D 0.0<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 try:<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector o=
+r elt[&#39;cve&#39;][&#39;metrics&#39;][&#39;cvssMetricV30&#39;][0][&#39;cv=
+ssData&#39;][&#39;attackVector&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString o=
+r elt[&#39;cve&#39;][&#39;metrics&#39;][&#39;cvssMetricV30&#39;][0][&#39;cv=
+ssData&#39;][&#39;vectorString&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cvssv3 =3D elt[&#39;cve&#39;][&=
+#39;metrics&#39;][&#39;cvssMetricV30&#39;][0][&#39;cvssData&#39;][&#39;base=
+Score&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Iterate through all cvssMetri=
+cV30 entries and find the maximum score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for metric in elt[&#39;cve&#39;=
+][&#39;metrics&#39;][&#39;cvssMetricV30&#39;]:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 score =
+=3D metric[&#39;cvssData&#39;][&#39;baseScore&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if scor=
+e &gt; cvssv3:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 cvssv3 =3D score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector or metric[&#39;cvssData&#3=
+9;][&#39;attackVector&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString or metric[&#39;cvssData&#3=
+9;][&#39;vectorString&#39;]<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 except KeyError:<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass<br>
++<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 try:<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector o=
+r elt[&#39;cve&#39;][&#39;metrics&#39;][&#39;cvssMetricV31&#39;][0][&#39;cv=
+ssData&#39;][&#39;attackVector&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString o=
+r elt[&#39;cve&#39;][&#39;metrics&#39;][&#39;cvssMetricV31&#39;][0][&#39;cv=
+ssData&#39;][&#39;vectorString&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cvssv3 =3D cvssv3 or elt[&#39;c=
+ve&#39;][&#39;metrics&#39;][&#39;cvssMetricV31&#39;][0][&#39;cvssData&#39;]=
+[&#39;baseScore&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Iterate through all cvssMetri=
+cV31 entries and find the maximum score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for metric in elt[&#39;cve&#39;=
+][&#39;metrics&#39;][&#39;cvssMetricV31&#39;]:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 score =
+=3D metric[&#39;cvssData&#39;][&#39;baseScore&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if scor=
+e &gt; cvssv3:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 cvssv3 =3D score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector or metric[&#39;cvssData&#3=
+9;][&#39;attackVector&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString or metric[&#39;cvssData&#3=
+9;][&#39;vectorString&#39;]<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 except KeyError:<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass<br>
+-=C2=A0=C2=A0=C2=A0 cvssv3 =3D cvssv3 or 0.0<br>
++<br>
++=C2=A0=C2=A0=C2=A0 cvssv4 =3D 0.0<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 try:<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector o=
+r elt[&#39;cve&#39;][&#39;metrics&#39;][&#39;cvssMetricV40&#39;][0][&#39;cv=
+ssData&#39;][&#39;attackVector&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString o=
+r elt[&#39;cve&#39;][&#39;metrics&#39;][&#39;cvssMetricV40&#39;][0][&#39;cv=
+ssData&#39;][&#39;vectorString&#39;]<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cvssv4 =3D elt[&#39;cve&#39;][&=
+#39;metrics&#39;][&#39;cvssMetricV40&#39;][0][&#39;cvssData&#39;][&#39;base=
+Score&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Iterate through all cvssMetri=
+cV40 entries and find the maximum score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for metric in elt[&#39;cve&#39;=
+][&#39;metrics&#39;][&#39;cvssMetricV40&#39;]:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 score =
+=3D metric[&#39;cvssData&#39;][&#39;baseScore&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if scor=
+e &gt; cvssv4:<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 cvssv4 =3D score<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector or metric[&#39;cvssData&#3=
+9;][&#39;attackVector&#39;]<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString or metric[&#39;cvssData&#3=
+9;][&#39;vectorString&#39;]<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 except KeyError:<br>
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cvssv4 =3D 0.0<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass<br>
++<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 accessVector =3D accessVector or &quot;UNKNOWN&quo=
+t;<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 vectorString =3D vectorString or &quot;UNKNOWN&quo=
+t;<br>
+=C2=A0<br>
+</div>
+</span></font></div>
+</div>
+
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230078): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230078" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230078</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117400902/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117400902/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</div></blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gm=
+ail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signatu=
+re"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><di=
+v><font face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+
+--000000000000dc038d06496d23f6--
 
