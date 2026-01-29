@@ -2,104 +2,93 @@ Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 424F8D25B54
-	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 03:54:14 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7874.1769658848307879187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B227D25B54
+	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 03:54:24 +0000 (UTC)
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7879.1769658854251724248
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 19:54:08 -0800
+ Wed, 28 Jan 2026 19:54:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=M2a6Kq/s;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: liuyd.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=PEBV4WH/;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: liuyd.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1769658848; x=1801194848;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=c5Dt6AyJJlq+C70ulagtW7Q008RY7v/ZDrE58qM5BYI=;
-  b=M2a6Kq/sj9m4tVj2EWJNwgM9lUNeagYwstJNqUw/21bk8xtop8R/sFY1
-   6p90dM3eY5S0kTp0S3x3mRJHhT1F+MY6zhP2rbqLrJBdx7d2R9dNCaBG/
-   fJkGBtu3gXJFeTywZ0lGylBqDgMNJhPw/rau84Bb9k34Qqg2rOK8Sf3lg
-   kPKBIthPAt4eNAVDZvrgthLCWUXeSg3nDL/fiMXP+bbcTa9tdKuFO/Cff
-   KIVgfAJo296I1FVHppCogN3cXrCzcQmrUmTy16oaYv72vB7bdive0tZDF
-   vVLCNqSDvuC0rEVLSpfkZzbFKxBoGBrZrQ62iMQN0uhT36J464kOfWExT
+  t=1769658854; x=1801194854;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=B07DQXMVzGZUUnuoJr8jNVu3BaiYAdrG718WqsLcJVQ=;
+  b=PEBV4WH/Bk90Wh84kE4+ROA4hs09WIkmsDSZpy3+gHgvU4ryWzpoeKOL
+   hN3PFIApuXcCeuXBQZoNIsN5xjFu7hSF03LUmzxeQiDIDJsYZ2l3iBkz6
+   s1wY1Uedt9J+ZP0j82a4y8jdN/AWltdW8TtKReuGUc2P0XLcdEso2Cvg2
+   3yXiYwOZZkZh5dhGkeroLXqVbWpQqoiJprloNSsIap/jPKACK+LwDjQ2K
+   I4cKCjK0gWhNb5oLifNUR1N9o6aXX+4Twhw9m7uCM5NubYr4Ij2LRGJnm
+   dsfMsf6YFBPu9TiRVGf9Oq65Ui0Zgfv1uPkZ8i4t/GjIv43oN7UMcOoMO
    A==;
-X-CSE-ConnectionGUID: E0dehf2CTd+uPTyOIAlYEA==
-X-CSE-MsgGUID: nbn3sEvTTmuhDykvwR4LoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="215600431"
+X-CSE-ConnectionGUID: fLlIp8uaTTyjeWay+gtQMQ==
+X-CSE-MsgGUID: Kuj31jDrQau4pDmZSx83uQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="227674395"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763391600"; 
-   d="scan'208";a="215600431"
-Received: from unknown (HELO az2uksmgr4.o.css.fujitsu.com) ([52.151.125.128])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 12:54:06 +0900
-Received: from az2uksmgm3.o.css.fujitsu.com (unknown [10.151.22.200])
+   d="scan'208";a="227674395"
+Received: from unknown (HELO az2uksmgr1.o.css.fujitsu.com) ([52.151.125.19])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 12:54:12 +0900
+Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id A677FC0183F
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:06 +0000 (UTC)
+	by az2uksmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 84C351C1C727
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:12 +0000 (UTC)
 Received: from az2uksmom2.o.css.fujitsu.com (az2uksmom2.o.css.fujitsu.com [10.151.22.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgm3.o.css.fujitsu.com (Postfix) with ESMTPS id 5C140C06BF0
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:06 +0000 (UTC)
+	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 3DC6F926775
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:12 +0000 (UTC)
 Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 27EE11401F00
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:03 +0000 (UTC)
+	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 04CA3140769E
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:09 +0000 (UTC)
 From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/6] Investigate hotdoc and add a recipe to build it
-Date: Thu, 29 Jan 2026 11:53:47 +0800
-Message-ID: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
+Subject: [OE-core][PATCH 4/6 v2] python3-wheezy-template: Add new recipe
+Date: Thu, 29 Jan 2026 11:53:51 +0800
+Message-ID: <20260129035353.8982-5-liuyd.fnst@fujitsu.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
+References: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230112
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230116
 
-Add new recipe hotdoc and its runtime dependence.
+Add this new recipe for runtime dependence of hotdoc.
 
-Liu Yiding (6):
-
-  [OE-core][PATCH v3] hotdoc : Add new recipe
-
-  [OE-core][PATCH] orc: Enable hotdoc to produce doc
-    Make a recipe to use hotdoc
-
-  Add following 4 recipes for runtime dependence of hotdoc.
-  [OE-core][PATCH] python3-appdirs: Add new recipe
-    Move it from meta-openembedded to openembedded-core as it is required by hotdoc 0.17.4.
-  [OE-core][PATCH] python3-schema: Add new recipe
-  [OE-core][PATCH] python3-toposort: Add new recipe
-  [OE-core][PATCH v2] python3-wheezy-template: Add new recipe
-
- meta/conf/distro/include/maintainers.inc      |  1 +
- ...ment_scanner-fix-function-prototypes.patch | 32 +++++++++
- ...y-backports-dependency-on-sufficient.patch | 72 +++++++++++++++++++
- .../hotdoc/0003-CMake-4-compatibility.patch   | 44 ++++++++++++
- ...ke-path-to-relative-in-FlexExtension.patch | 34 +++++++++
- meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb | 27 +++++++
- .../orc/orc/0001-Fix-hotdoc-run-error.patch   | 37 ++++++++++
- meta/recipes-devtools/orc/orc_0.4.42.bb       |  5 +-
- .../python/python3-appdirs_1.4.4.bb           | 11 +++
- .../python/python3-schema_0.7.8.bb            | 10 +++
- .../python/python3-toposort_1.10.bb           | 10 +++
- .../python/python3-wheezy-template_3.2.4.bb   | 13 ++++
- 12 files changed, 295 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0001-c_comment_scanner-fix-function-prototypes.patch
- create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0002-avoid-third-party-backports-dependency-on-sufficient.patch
- create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0003-CMake-4-compatibility.patch
- create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0004-Make-path-to-relative-in-FlexExtension.patch
- create mode 100644 meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb
- create mode 100644 meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch
- create mode 100644 meta/recipes-devtools/python/python3-appdirs_1.4.4.bb
- create mode 100644 meta/recipes-devtools/python/python3-schema_0.7.8.bb
- create mode 100644 meta/recipes-devtools/python/python3-toposort_1.10.bb
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+---
+ .../python/python3-wheezy-template_3.2.4.bb         | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-wheezy-template_3.2.4.bb
 
+diff --git a/meta/recipes-devtools/python/python3-wheezy-template_3.2.4.bb b/meta/recipes-devtools/python/python3-wheezy-template_3.2.4.bb
+new file mode 100644
+index 0000000000..9386b0ca2f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-wheezy-template_3.2.4.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "a lightweight template library"
++HOMEPAGE = "https://github.com/akornatskyy/wheezy.template"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fa10554c46b94944529c6a886cf85631"
++
++PYPI_PACKAGE = "wheezy_template"
++UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
++
++SRC_URI[sha256sum] = "465b9ac52e1c38bc9fc30127ae90bd232ce8df07fc2ac53383cb784f238b144f"
++
++inherit pypi python_setuptools_build_meta
++
++BBCLASSEXTEND = "native"
 -- 
 2.43.0
 
