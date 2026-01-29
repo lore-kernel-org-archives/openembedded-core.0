@@ -2,90 +2,104 @@ Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5680ED3566A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 424F8D25B54
 	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 03:54:14 +0000 (UTC)
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7878.1769658852841881489
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7874.1769658848307879187
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 19:54:13 -0800
+ Wed, 28 Jan 2026 19:54:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=UHd7PpAb;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: liuyd.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=M2a6Kq/s;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: liuyd.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1769658852; x=1801194852;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=UVKqeQwjOrh4ZNKaOYqMX5hdrTLnSP13kgskJOJbVBg=;
-  b=UHd7PpAbgEEz+CCd2sJ1xgT/gJ12nIUy++qkL5/eggOqHK9FMIiwEMRe
-   MqP1IGNkxCQ5WpVzT1iawQw5cUF0QeoEZ2B2ixa7WWeKFiPUQl5fsu+Il
-   DiQ1ic84Ax98N3pd3vyfL5sPQm3atxpGC46XZVVuC4Ri0hhbsdNDaaiH7
-   icYXamvbeJhqv+cDBnfNMFSkxbu9TtpsQlJkRRK90U6D/DE02N3zmnTzW
-   uQ4rdDxboWFb0ZNdinwPXNFx6j0uU2ZMsNAaR22UdwIMBW88UwqnD6zgT
-   sAGRWh1/Wnlu/yx/Rldi/zyfDmx0/Z5Cn3lrxG7A+Vxy8HrwhNUTd69YD
-   Q==;
-X-CSE-ConnectionGUID: YKrYuzDDTMyFu/dcZxPLjA==
-X-CSE-MsgGUID: vcBDvUDqTh6sRi8f/KQAhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="206485111"
+  t=1769658848; x=1801194848;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=c5Dt6AyJJlq+C70ulagtW7Q008RY7v/ZDrE58qM5BYI=;
+  b=M2a6Kq/sj9m4tVj2EWJNwgM9lUNeagYwstJNqUw/21bk8xtop8R/sFY1
+   6p90dM3eY5S0kTp0S3x3mRJHhT1F+MY6zhP2rbqLrJBdx7d2R9dNCaBG/
+   fJkGBtu3gXJFeTywZ0lGylBqDgMNJhPw/rau84Bb9k34Qqg2rOK8Sf3lg
+   kPKBIthPAt4eNAVDZvrgthLCWUXeSg3nDL/fiMXP+bbcTa9tdKuFO/Cff
+   KIVgfAJo296I1FVHppCogN3cXrCzcQmrUmTy16oaYv72vB7bdive0tZDF
+   vVLCNqSDvuC0rEVLSpfkZzbFKxBoGBrZrQ62iMQN0uhT36J464kOfWExT
+   A==;
+X-CSE-ConnectionGUID: E0dehf2CTd+uPTyOIAlYEA==
+X-CSE-MsgGUID: nbn3sEvTTmuhDykvwR4LoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="215600431"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763391600"; 
-   d="scan'208";a="206485111"
-Received: from unknown (HELO az2nlsmgr4.o.css.fujitsu.com) ([20.61.8.234])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 12:54:11 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+   d="scan'208";a="215600431"
+Received: from unknown (HELO az2uksmgr4.o.css.fujitsu.com) ([52.151.125.128])
+  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 12:54:06 +0900
+Received: from az2uksmgm3.o.css.fujitsu.com (unknown [10.151.22.200])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id 3B23542A312
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:11 +0000 (UTC)
+	by az2uksmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id A677FC0183F
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:06 +0000 (UTC)
 Received: from az2uksmom2.o.css.fujitsu.com (az2uksmom2.o.css.fujitsu.com [10.151.22.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id DC7D1C006CD
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:10 +0000 (UTC)
+	by az2uksmgm3.o.css.fujitsu.com (Postfix) with ESMTPS id 5C140C06BF0
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:06 +0000 (UTC)
 Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 869B014076A6
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:08 +0000 (UTC)
+	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 27EE11401F00
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:03 +0000 (UTC)
 From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 3/6] python3-toposort: Add new recipe
-Date: Thu, 29 Jan 2026 11:53:50 +0800
-Message-ID: <20260129035353.8982-4-liuyd.fnst@fujitsu.com>
+Subject: [PATCH 0/6] Investigate hotdoc and add a recipe to build it
+Date: Thu, 29 Jan 2026 11:53:47 +0800
+Message-ID: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
-References: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230115
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230112
 
-Add this new recipe for runtime dependence of hotdoc.
+Add new recipe hotdoc and its runtime dependence.
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
----
- meta/recipes-devtools/python/python3-toposort_1.10.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Liu Yiding (6):
+
+  [OE-core][PATCH v3] hotdoc : Add new recipe
+
+  [OE-core][PATCH] orc: Enable hotdoc to produce doc
+    Make a recipe to use hotdoc
+
+  Add following 4 recipes for runtime dependence of hotdoc.
+  [OE-core][PATCH] python3-appdirs: Add new recipe
+    Move it from meta-openembedded to openembedded-core as it is required by hotdoc 0.17.4.
+  [OE-core][PATCH] python3-schema: Add new recipe
+  [OE-core][PATCH] python3-toposort: Add new recipe
+  [OE-core][PATCH v2] python3-wheezy-template: Add new recipe
+
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ ...ment_scanner-fix-function-prototypes.patch | 32 +++++++++
+ ...y-backports-dependency-on-sufficient.patch | 72 +++++++++++++++++++
+ .../hotdoc/0003-CMake-4-compatibility.patch   | 44 ++++++++++++
+ ...ke-path-to-relative-in-FlexExtension.patch | 34 +++++++++
+ meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb | 27 +++++++
+ .../orc/orc/0001-Fix-hotdoc-run-error.patch   | 37 ++++++++++
+ meta/recipes-devtools/orc/orc_0.4.42.bb       |  5 +-
+ .../python/python3-appdirs_1.4.4.bb           | 11 +++
+ .../python/python3-schema_0.7.8.bb            | 10 +++
+ .../python/python3-toposort_1.10.bb           | 10 +++
+ .../python/python3-wheezy-template_3.2.4.bb   | 13 ++++
+ 12 files changed, 295 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0001-c_comment_scanner-fix-function-prototypes.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0002-avoid-third-party-backports-dependency-on-sufficient.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0003-CMake-4-compatibility.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc/0004-Make-path-to-relative-in-FlexExtension.patch
+ create mode 100644 meta/recipes-devtools/hotdoc/hotdoc_0.17.4.bb
+ create mode 100644 meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch
+ create mode 100644 meta/recipes-devtools/python/python3-appdirs_1.4.4.bb
+ create mode 100644 meta/recipes-devtools/python/python3-schema_0.7.8.bb
  create mode 100644 meta/recipes-devtools/python/python3-toposort_1.10.bb
+ create mode 100644 meta/recipes-devtools/python/python3-wheezy-template_3.2.4.bb
 
-diff --git a/meta/recipes-devtools/python/python3-toposort_1.10.bb b/meta/recipes-devtools/python/python3-toposort_1.10.bb
-new file mode 100644
-index 0000000000..ce903dcec3
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-toposort_1.10.bb
-@@ -0,0 +1,10 @@
-+SUMMARY = "Implements a topological sort algorithm"
-+HOMEPAGE = "https://gitlab.com/ericvsmith/toposort"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
-+
-+SRC_URI[sha256sum] = "bfbb479c53d0a696ea7402601f4e693c97b0367837c8898bc6471adfca37a6bd"
-+
-+inherit pypi python_setuptools_build_meta
-+
-+BBCLASSEXTEND = "native"
 -- 
 2.43.0
 
