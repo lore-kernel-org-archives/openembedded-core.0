@@ -1,1090 +1,180 @@
-Return-Path: <rs@ti.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 162F3D73EAA
-	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 23:02:43 +0000 (UTC)
-Received: from CY3PR05CU001.outbound.protection.outlook.com (CY3PR05CU001.outbound.protection.outlook.com [40.93.201.62])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28751.1769727756011362670
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B21D73EA9
+	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 23:46:43 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29808.1769730395790913234
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jan 2026 15:02:36 -0800
+ Thu, 29 Jan 2026 15:46:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=G3SlOui/;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.201.62, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s5EiIjMspMbZvdEz4wWeTOb3jip0XVq4VQ7F80rHlFqCcN7dyeouHRNepd1kiU69gtoBfkYMcm1lPgknWil0Y5Dx32xU3iCHyyZR5ETUdIJwK1qAx1W2bGQWdbmKPpSDwqqp66zurEMF52O1qtg8JbtWlyUoAuAe23LhtvRyR9VTn0b3ONxBCnwQvGBjB79uxiNe9xGfoRyXkK39xm7UvWCsL/R5gyUoPq26PXVLPdq0Etj39Aw+rxx2uV3sa6QntYgkFY6yYuUkN2InuSb2Zmou/Lr3flw5jN/I1AKz5wDZagL5P7tayeFMOttFw6EerKzE9DAasKR+cAfLTMU30g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S9qnIW8i9djWx6n/NzDqRBcNLL1JJSGRF4lgVDstOd0=;
- b=pPaFx5inH97hPSkueDJrblPSs0JEb7dS2aJe4Uxa+NyUXnLVzbpF5GdlUX02n3KroyYok/kvYT+ynm0X/ox5MJUErpnFdjq7bp6coDU816ppJ8JmViuruaH1S4stWmh8L03lb2s/6ZhAQv/DplOIyUu1RvhEswjG1JKpoyjEoLY7hqIfLUtrVFd6c9TWDS8a1O5L/o92fDTkrLMWQqEmuhPOYCgpqQuJM2d0c/GwiFpPwg3aqy6JoovOh25GuOQgFpxyU432dAkGjjynnfaxBtZSeTt9F9rsa+rbQMXcc926J0h3mwvPgO0N3ELSNWDmlpskLE0DgAOIlCXP9N/8AQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S9qnIW8i9djWx6n/NzDqRBcNLL1JJSGRF4lgVDstOd0=;
- b=G3SlOui/Dj0cBKcWIDgwSbjSF4F2cKzwOll9f/G6SJHluzs/4g1SKI52bPizFfFqn+u7XmaH9V8lAGQikpWhBOxvIhWWN2M6tBXv6jILAlQkwq6Rt1s4OCoSdsEzI6ahmiy9/mnnKn3NCXFwi44IJonEQGNWwDWDlqTIrAZfC1U=
-Received: from PH8PR22CA0012.namprd22.prod.outlook.com (2603:10b6:510:2d1::8)
- by PH0PR10MB5705.namprd10.prod.outlook.com (2603:10b6:510:12b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Thu, 29 Jan
- 2026 23:02:32 +0000
-Received: from CO1PEPF000044FD.namprd21.prod.outlook.com
- (2603:10b6:510:2d1:cafe::7a) by PH8PR22CA0012.outlook.office365.com
- (2603:10b6:510:2d1::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Thu,
- 29 Jan 2026 23:02:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- CO1PEPF000044FD.mail.protection.outlook.com (10.167.241.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.0 via Frontend Transport; Thu, 29 Jan 2026 23:02:31 +0000
-Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 17:02:26 -0600
-Received: from DFLE206.ent.ti.com (10.64.6.64) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 17:02:26 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE206.ent.ti.com
- (10.64.6.64) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 29 Jan 2026 17:02:26 -0600
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60TN2QPJ713167;
-	Thu, 29 Jan 2026 17:02:26 -0600
-From: <rs@ti.com>
-To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
-	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>,
-	<a-christidis@ti.com>
-Subject: [oe-core][PATCHv14 4/6] xserver-nodm-init: convert to virtual-emptty-conf
-Date: Thu, 29 Jan 2026 17:02:08 -0600
-Message-ID: <20260129230210.2934333-5-rs@ti.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260129230210.2934333-1-rs@ti.com>
-References: <20260129230210.2934333-1-rs@ti.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Co4Cmqu8;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=B/y5dbnG;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60TJqvek072168
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 23:46:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	N6WRZMppMYNlC+Rtknuj3ovjq/bDpFtk+ritcjuzEhs=; b=Co4Cmqu8Tm57j9dD
+	O65rVrkBbENdZKHEctOK6U2w8gw9whYQlFQIsuDl1QMmnZgE+9KmXfSvuZvpPBGh
+	zpvuPEunIpXJhBTDb9QJNCdYGYSRHdD0QP/3yzowZ7BYJi/3wOCCSQcfRZqJLgCU
+	0hQbgWWGvmaWGiM9TMbqiJZBSAxeQSVDe+bGe90sxnvAcYOriafzvhGYxi7sjbmE
+	6wbwFxhgDGPo7rV078NS85hRhVKDqFHVkbw+fTdAFiVOuLxfn9orsYrreucmUxPR
+	trvquiRXxzGwp709zpFStDR/NUMWQ2iF8VV+ZpAO9VhKYrPgCaENyHS32dtWVFCL
+	2Bq/Mw==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c0e3k8gsv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 23:46:34 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-34c704d5d15so2829201a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 15:46:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769730394; cv=none;
+        d=google.com; s=arc-20240605;
+        b=g5lJ+E+5lZ7mc6a2gxUzAZ08tVD3OhANtycmgWBNyxVuY2nC468y/5TBtPj7Ij5ar0
+         teVSG2ATw+nhVIW0QV66b3+/ycDy28QOd5Qpb8lORMw45cv4p5qd3wk1a9jIajq9au8y
+         ponMl+iqrA8SYikO49euK+3O4ZeWaG8Q5Em7rt9tTxePbriKNS/BVzaZ+HtAvaLDjaQo
+         RCMh8CPNEGLxhJqYxTJ6NxJng5Ei8/qa50vM7rYgVUN7ozFqYLKPnd43pphzqMD9gKpD
+         ZJj+4gLkzQOCDK83YVN1BQfVb3juoeqjDdZkxVHXMtNo24nROtF0sPBs6qgHcHo7kIrs
+         CpOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=N6WRZMppMYNlC+Rtknuj3ovjq/bDpFtk+ritcjuzEhs=;
+        fh=2wxl3+QWFsbbjt2W+0Mm8U++InprfpJIYMs86gRH5L0=;
+        b=A2OD8xtxBCbaYm6NnNdtJgjOWMl8aFqAKLRLM12Q07RObkWRhaNLcJQnlpc6HoSuvR
+         yXxMT/GwZjRPMQql8sTGCdNoJyOCkBngkgvEr8522g1md/GbpuAZQoksOBzFioPsIa3c
+         sZQ/xzM7ceSFqkOtBEiO/aVXYEr76yYzTFFVTqJfUKBL0XTO4lowFo85AVAn6sMy4NbQ
+         lL9HUX8nOOBxM/sfQycFxpnVewVUBMqbywQf5bXmbBASUxFlFPP6kBtLF+Uut3af+wgB
+         o552WVZMa8wwFZfba6CkqMYxkU+67F4K8r8rpSgay6Bipe34SSLM5xIDpS+dDBr73bhJ
+         //4A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1769730394; x=1770335194; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N6WRZMppMYNlC+Rtknuj3ovjq/bDpFtk+ritcjuzEhs=;
+        b=B/y5dbnG/HDe5JQcKWjEzSfeRpajlBH6ULgsM6NSDoIDakWIoYxjoSsWw8eSRq1Kwm
+         OiTwp13icT0VOCjWbq4O0qvngWjMw/E14Wo4MBRdPb7HVw8OJopDXGDOxox6bhAtww4j
+         JZoRR2VqF40ZFmTfeRc+7zIp+zeEZKKGsGukCZzLXOzZ6LBUBpI1CYMl+J4ujfyyss3Q
+         avvR4c+WmIRGDBtPhIWij+N2xEWihFANnEHvJLSjETQHPLLEM+Af2PWD/4IGu6TC4lq6
+         s5Hf65AN5A+UYYRQrztEOkm96GVG5hqyW12X1oYSN4gkZkLgJDe1hIPikNgJ7xJl/4TW
+         UWdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769730394; x=1770335194;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N6WRZMppMYNlC+Rtknuj3ovjq/bDpFtk+ritcjuzEhs=;
+        b=dbOcq2jL9Rgi0gREv8oCZKRA26fh5qrXxR6/jWBtuoUNLqSq0PYa7jSG0JtRgXlhJj
+         9MdbAioDlNR0TyWs7mVZFCsspU/f02IKhBwQQiKq4Qn5YzQ3811TLajLbSdqrR9HXxqU
+         2IZiEX5IOGni0MoybxeKoiZW6fg9aNzNYmCH7uPrlsmvE7WzVvK3WCYeKeG6a6CO00YI
+         DiXQsoV9W2ZYtc4gS8WTNvh4eQtqOD7aOXKgUzAjpK+2gdlwzrUhtHTZ7lVxj9T+PTL1
+         E+uUTnF8e7FK9QBsiLwbMXvtk2DGzxHlwjm4It0zXzqkV2eyoMdRZBUJ5uZmsfSmn2TM
+         azQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUjGGqWKKuiuj8rlShKexJ50+W36jahDUWDNPjDcSueVDfjDcpboYY3hhMMIo8oNdquzT9YJnZIQW2UH1H19Mp6HA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyAzn+Ide8713xfHvEPw+06mjvozLmIi7Infdvzfy/cDRG+8cUJ
+	mtWkgKY0mu2ycJhDXhX+TiWSs2g3TpH1W+nMy0AuTGAyttk3Qfe0nEIHglEiEGi9jgrhTLsJsVq
+	uCcOy73n4zQB8kuBwix+g/DK7jkbR+yib+TjxvUcNK7Yh4n3b+MZqlZqsY9n7NXdkKWn2PqW7Ft
+	fBgz4Q3bZT2+yMXwtnu2DT2Kdkwaxd/pn+Ez43OQ6pBvSb0W9obgpUuYWLyA==
+X-Gm-Gg: AZuq6aLdR2nOC0I/qVqyL/RWMP654OonfyI+aApQkVErVUDmx+HpOhLZvmlE0u6sOCD
+	99i1fBRd4Wz6HpxyJdKYGQDYgwxUzTxPJlj4z0MVng+jULAz/euFuxMj3zj4d0xl6a/ZOx9zl9q
+	tCRgM/ZxXKuVd5gxMThHQLFr3JSRi4V5mDSBrPYWqaxj2LkxRCncvfq+wW7Py/gIOJBaA=
+X-Received: by 2002:a17:90b:2e8e:b0:353:883:aff6 with SMTP id 98e67ed59e1d1-3543b38ac86mr997014a91.20.1769730393584;
+        Thu, 29 Jan 2026 15:46:33 -0800 (PST)
+X-Received: by 2002:a17:90b:2e8e:b0:353:883:aff6 with SMTP id
+ 98e67ed59e1d1-3543b38ac86mr996994a91.20.1769730393110; Thu, 29 Jan 2026
+ 15:46:33 -0800 (PST)
 MIME-Version: 1.0
+References: <20260122194959.13457-2-rs@ti.com> <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
+ <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com> <DFYTFOYS891P.2A5CKLOKP5KGI@ti.com>
+ <117668c8-bc3b-46ea-9d2e-b205e3f2f827@windriver.com> <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
+ <DFZIJWAQTT0R.2QPUKVEBUL8K7@ti.com> <CAMKF1spQbv-WCy9XEBxiK-Hzn1v=XZnGW8jWdOkk2axsx7r13A@mail.gmail.com>
+In-Reply-To: <CAMKF1spQbv-WCy9XEBxiK-Hzn1v=XZnGW8jWdOkk2axsx7r13A@mail.gmail.com>
+From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
+Date: Thu, 29 Jan 2026 20:45:56 -0300
+X-Gm-Features: AZwV_Qi6dT5ZIxIUNEcCWQ4Lrov17dilMrxGsOvhq334pw2Sg2amojoWgfq0Bwo
+Message-ID: <CAA_5you6j=mVutd7JkF7Pxpsn+rhmg+NazFc0=pFXz8=LFW3Ww@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from TARGET_LDFLAGS
+To: raj.khem@gmail.com
+Cc: Randolph Sapp <rs@ti.com>, changqing.li@windriver.com,
+        openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FD:EE_|PH0PR10MB5705:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea40a918-f5a2-48ed-4f7e-08de5f8a7b74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?yoPr+Gcru6RMTjTFlkMICsBS/x+EtzM47eAIAESQJsa1XjAHk+jxMXT49LaC?=
- =?us-ascii?Q?zywvDmsob8nHpNMjLmlX/nXeRgjyGFBch7aXyrivWd1qrBz1jo/0WksaLvLy?=
- =?us-ascii?Q?5P9GqjuU3UCDS4nHMekK20LjP9S/C27s3j6nNH3grBQRB82HcROwIb28RiX3?=
- =?us-ascii?Q?axFjW7jcRHfwv4PbfAf4jthNG2fLLPcpNrDWSlXUb71GDHvuwAJo3IJdqTFO?=
- =?us-ascii?Q?qbu1Po2nxvYwPnQznxpefAU6VenlVmFSLiaITa0OlS4dLlTLXPn4Zat6pNVR?=
- =?us-ascii?Q?h0f5rgxIgcXNkbII+IhisAgKIUv3bbsff2AqQ3xj4dw4I9n3Vbqhh/dbJ6CV?=
- =?us-ascii?Q?O/7/Im8e61ikSJ4ze7AHqwkVXhEAquaFIT3XeqC6i1/e4o3rpiIG5n2Dr+Lh?=
- =?us-ascii?Q?BeM+AqoLx2B2m5GTFVYVyl+QTubvPm64fHelWTTuj7Kr2xkNfd9+NmPcZUEj?=
- =?us-ascii?Q?10Dxar+te4u9HvSbTu/Z2WkYf933MWaLzGRZ2tf4DA4F8NwN8EpruZ/Jdlbl?=
- =?us-ascii?Q?C89J37V2b1LJnCa0FVuux9ETtVepKfoLFXdQV3Wj4DmBK+2kOpJ/JRcDM/sk?=
- =?us-ascii?Q?/pOeEwvEFEIPJm1NU+l4tZ9np/EPjRJySAEB9x+fbW9r2+s0FHpSqdJqWzcU?=
- =?us-ascii?Q?3FOgQvErNJmC25TRAALpuCHY/ESeucG0wlj+nvZez1CwZVl8/ZdR063IjzNY?=
- =?us-ascii?Q?ZizhLARj3O8kI+/bbtRAhXDOwTsGQeuZY48OkLMsgsHo3HE0Ea8LbIWZ7O0g?=
- =?us-ascii?Q?JiSOIdLwph/u1xINf7QbkURU2cPCl3JQVCycq7Lnjg9YZG02R+tu6Cl+PUHh?=
- =?us-ascii?Q?CRk58kytjxXFVzz0FqT03vkTOPC3T0dHCXLFbCOiV3NuVv1WZDsxaZpSxoP1?=
- =?us-ascii?Q?la7z36HQlAe2AcLo1d3XAGCjQwukuAx0a8aRQDuiWIJvhOkvsxxLGC3xQlER?=
- =?us-ascii?Q?l/OL1rwHViM8Dc48ERuDIH0EQ+c1M7h6HOzVr6v2gjnfIflO4Bm+r8ksdKbr?=
- =?us-ascii?Q?Ge6jtIW8Oho4/CmY/oD/JpvU1C0W9J4FmQkOqfHyrwx7JrRkN0yiAsbcNmUh?=
- =?us-ascii?Q?XnTWkxxd5eYN7FrLlJDE4uOQWoLXCLGCS8KWfjntHuhjke6uw9VjqusNa17r?=
- =?us-ascii?Q?lKur44zcNW0/JMd4BQGXveOIZvJetBjQrTaC/YUSBsu4QRrfdRegdpa2o8YE?=
- =?us-ascii?Q?2YQBONHTBYcHvnkrhrDFfdzUiYIohb9gnXdHU2ht2dCF9fZF9p8ucXpExRDN?=
- =?us-ascii?Q?C8Ht3fK2IA+qRPLMTWQKlnL7xR4tB4Rj6d63Ko3WSPjv8E/w3q1+PFQkE7tz?=
- =?us-ascii?Q?K3Pl5VXiR1evzRMSJm2XFrIeaf+N1ZoCc8FCKuqFulMHOaQxLE53WWbGjaZv?=
- =?us-ascii?Q?UlyXyFYYS8e3USPZnVrP6sDEaeA60zz2Bg8aAQKNstWGyUuyVQJtcS6EgX5v?=
- =?us-ascii?Q?xnSN+Uio8wP7v/hmIn8VGMJU30iV4YqXb0yzw+v6mkJEFn9Ole4PmARbwa1A?=
- =?us-ascii?Q?AufH/F++saKcY8H8GxsJh94lSJw7FNckmYiWHVlzu9UxSsCZckxy8aDTkrHS?=
- =?us-ascii?Q?rkVA6NeI7KfAsCdh0XaPNSS9OUVZEPnIip/vQzu+wrtynDdqtXvS/KMseCYL?=
- =?us-ascii?Q?sXc9VXk1xB+rLcOo6iDc260=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	WHeMi9iKJR/HGO4uGOZp2/yijC6QncAAkBcvtOIfL5h0LG7UVvHlJOKRfezeZJ+fBbo7PECROKrts3E5icT4cc4nDXtCEVbQQWPjkgwHSx2GGxrBIUHInES54DeKIcmvH08ObQTIi88i6oS9jbN0SAlMYi8T7ppQ1YGpwGGXBZiVEnMNVYZQPmB274xR/jBnts+jCZqOKkqP/n+1L3GTR/wL56yWWvILMItDIWfi/bcLQPvznYTSyaVKeppWLCMK6ULeCSXtCP5fVPPNeeMvIpsWab0XeykVV+s/aJSpLLtdFM8Qclo7aIId+2rC8uq7AuHcufL/n15DMy5imVOkamdz+v1Z1H8ciBjHtemIklKZbLs7p+WkI8rSc6vUKftLFurZ0dRWVUNW9fZkCIK7D4ALXiVX3h9O0pOsYPZunRq/cwDNhyBmiLsQ9gIKHa8c
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 23:02:31.3184
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea40a918-f5a2-48ed-4f7e-08de5f8a7b74
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CO1PEPF000044FD.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5705
+X-Authority-Analysis: v=2.4 cv=VI3QXtPX c=1 sm=1 tr=0 ts=697bf15a cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8
+ a=sozttTNsAAAA:8 a=HUtcFt96i1aVFhcnGiwA:9 a=QEXdDO2ut3YA:10
+ a=rl5im9kqc5Lf4LNbBjHf:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: unfpEdOTzspOnQWXUSm9ll0nWjxqkruX
+X-Proofpoint-ORIG-GUID: unfpEdOTzspOnQWXUSm9ll0nWjxqkruX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI5MDE3NSBTYWx0ZWRfX576ViP6gaZ52
+ 4j5Ns4h/sswTDK3ED6OQEz8xmtgbTfy7yYmLQ3MBWU5JJneh/6CHDnpNslQeUEWSfzpAArXPVOz
+ nVhRUg7mPS2DhgOHS7smHqAGGNaJygskzlFGlkXf12y/u69+bEZ7ve1iAufkq0pSW4gmAJhe5Lz
+ HgJX3RzfhXDL0FqPEj5YsOdc7H/NY8NTUMo1BT8zYVfJoVOlwOoDxChkCSyX7LHhXzH8jbllB+i
+ x997qm1/YRLcByYNujUq1nRjO+CMayrN3yhpw4+o5kxUW/oHjz9QpnuKP/oiPQt4myGC8Vz5xuD
+ qgW/5oTgVKkHt8EnJoRkjrmg9W7lc9Cm988eJJwbkHitfKHWgRSH2kAVdTRA2Dsmtl0ou878BGV
+ 5lRwtqU4K/eW/Do6NcAVy/OgSs0MUFGhZGcdIFSi1Eap7gk5qhBIbK94G1a76E1M3wVbv8W49AW
+ 2QGqX4f/ro1ORwFYbxQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-29_03,2026-01-29_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601290175
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 23:02:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230169
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 23:46:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230171
 
-From: Randolph Sapp <rs@ti.com>
+On Tue, Jan 27, 2026 at 1:50=E2=80=AFPM Khem Raj via lists.openembedded.org
+<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+> On Tue, Jan 27, 2026 at 8:31=E2=80=AFAM Randolph Sapp <rs@ti.com> wrote:
+>>
+>> On Tue Jan 27, 2026 at 12:12 AM CST, Khem Raj via lists.openembedded.org=
+ wrote:
+>> > I am seeing some additional diagnostics see
+>> >
+>> > https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5119153/raw_=
+inline
+>> >
+>> > I wonder if this is related.
+>>
+>> Man, the mail clients are having fun with this thread.
+>>
+>> Yeah, I'm able to reproduce that issue locally now. Not sure why it's th=
+is
+>> package subset that's acting up, but it is directly related to the LDFLA=
+GS
+>> change unfortunately.
+>
+> I think this is exposing the underlying issue in packages perhaps because=
+ they are
+> not respecting CFLAGS and when it's gone from LDFLAGS the mapping related
+> flags go missing. I have a local patch to fix memstat e.g in master-next,=
+ all failures
+> perhaps need to be looked into one by one and passed cflags from OE env w=
+hich
+> might have been missed thus far.
 
-Convert this script package into a simple config for emptty. This is
-capable of using either the root user or the underprivileged xuser
-account based on the same ROOTLESS_X variable. The xuser will leverage
-the nopasswdlogin session provided by emptty for automatic logins.
-Runtime provide virtual-emptty-conf as we need to set parameters for the
-default session.
+Just noticed a similar failure with lxc (meta-virtualization), but
+while the prefix-map options are provided via CFLAGS, it only works
+when provided via LDFLAGS, probably due LTO (enabled by default by
+lxc).
 
-This also gets rid of the xuser security/capability override since
-emptty sets up required components as root before descending into the
-specified user. This does not currently handle loading of autostart
-applications in "/etc/xdg/autostart".
+Patch available at
+https://lists.yoctoproject.org/g/meta-virtualization/message/9553
 
-This explicitly removes rooted x11 support for security related issues,
-as this recipe has always automatically setup passwordless login for the
-specified account. This was particularly useful for the underprivileged
-xuser account, but is quickly a problem for the root user.
+I guess recipes forcing LTO will probably have similar issues.
 
-See the following discussion for additional information:
-https://lists.openembedded.org/g/openembedded-core/topic/115318655#msg22390=
-6
+Thanks,
 
-License-Update: GPLv2 scripts were replaced with MIT based config files
-Signed-off-by: Randolph Sapp <rs@ti.com>
----
- meta/conf/distro/include/maintainers.inc      |   4 +-
- meta/lib/oeqa/runtime/cases/xorg.py           |   8 +
- .../x11-common/xserver-nodm-init/X11/Xsession |  38 --
- .../X11/Xsession.d/13xdgbasedirs.sh           |  19 -
- .../X11/Xsession.d/89xdgautostart.sh          |   7 -
- .../X11/Xsession.d/90XWindowManager.sh        |   7 -
- .../x11-common/xserver-nodm-init/Xserver      |  25 --
- .../xserver-nodm-init/capability.conf         |   2 -
- .../xserver-nodm-init/default.desktop         |   5 +
- .../xserver-nodm-init/emptty.conf.in}         |   8 +-
- .../xserver-nodm-init/gplv2-license.patch     | 355 ------------------
- .../x11-common/xserver-nodm-init/xserver-nodm |  75 ----
- .../xserver-nodm-init/xserver-nodm.conf.in    |   7 -
- .../xserver-nodm-init/xserver-nodm.service.in |  13 -
- .../x11-common/xserver-nodm-init_3.0.bb       |  64 +---
- .../user-creation/xuser-account_0.1.bb        |   3 +-
- 16 files changed, 35 insertions(+), 605 deletions(-)
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
-Xsession
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
-Xsession.d/13xdgbasedirs.sh
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
-Xsession.d/89xdgautostart.sh
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
-Xsession.d/90XWindowManager.sh
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xser=
-ver
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/capa=
-bility.conf
- create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/defa=
-ult.desktop
- copy meta/recipes-graphics/{wayland/weston-init/emptty.conf =3D> x11-commo=
-n/xserver-nodm-init/emptty.conf.in} (95%)
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/gplv=
-2-license.patch
- delete mode 100755 meta/recipes-graphics/x11-common/xserver-nodm-init/xser=
-ver-nodm
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xser=
-ver-nodm.conf.in
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xser=
-ver-nodm.service.in
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 97c91a0e62..a7425f7020 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -930,12 +930,12 @@ RECIPE_MAINTAINER:pn-xorgproto =3D "Unassigned <unass=
-igned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xprop =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xrandr =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xrestop =3D "Unassigned <unassigned@yoctoproject.org>=
-"
--RECIPE_MAINTAINER:pn-xserver-nodm-init =3D "Unassigned <unassigned@yoctopr=
-oject.org>"
-+RECIPE_MAINTAINER:pn-xserver-nodm-init =3D "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-xserver-xf86-config =3D "Unassigned <unassigned@yocto=
-project.org>"
- RECIPE_MAINTAINER:pn-xserver-xorg =3D "Unassigned <unassigned@yoctoproject=
-.org>"
- RECIPE_MAINTAINER:pn-xset =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xtrans =3D "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-xuser-account =3D "Unassigned <unassigned@yoctoprojec=
-t.org>"
-+RECIPE_MAINTAINER:pn-xuser-account =3D "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-xvinfo =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xwayland =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-xwininfo =3D "Unassigned <unassigned@yoctoproject.org=
->"
-diff --git a/meta/lib/oeqa/runtime/cases/xorg.py b/meta/lib/oeqa/runtime/ca=
-ses/xorg.py
-index 09afb1e3d1..8593be5b77 100644
---- a/meta/lib/oeqa/runtime/cases/xorg.py
-+++ b/meta/lib/oeqa/runtime/cases/xorg.py
-@@ -20,4 +20,12 @@ class XorgTest(OERuntimeTestCase):
-         status, output =3D self.target.run(cmd)
-         msg =3D ('Xorg does not appear to be running %s' %
-               self.target.run(self.tc.target_cmds['ps'])[1])
-+
-+        # dump last 20 lines of emptty log in case of failure
-+        log_cmd =3D 'tail -n 20 /var/log/emptty/7.log'
-+        msg +=3D '\n\n=3D=3D=3D=3D=3D start: snippet =3D=3D=3D=3D=3D\n\n'
-+        msg +=3D 'file: /var/log/emptty/7.log\n\n'
-+        msg +=3D '\n\n%s\n\n' % self.target.run(log_cmd)[1]
-+        msg +=3D '\n\n=3D=3D=3D=3D=3D end: snippet =3D=3D=3D=3D=3D\n\n'
-+
-         self.assertEqual(status, 0, msg=3Dmsg)
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsessio=
-n b/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession
-deleted file mode 100644
-index 0b73127ae1..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession
-+++ /dev/null
-@@ -1,38 +0,0 @@
--#!/bin/sh
--
--if [ -x /usr/bin/dbus-launch ]; then
--    # As this is the X session script, always start a new DBus session.
--    eval `dbus-launch --sh-syntax --exit-with-session </dev/null`
--    echo "D-BUS per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
--fi
--
--. /etc/profile
--
--if [ -f $HOME/.profile ]; then
--    . $HOME/.profile
--fi
--
--SYSSESSIONDIR=3D/etc/X11/Xsession.d
--
--export CLUTTER_DISABLE_MIPMAPPED_TEXT=3D1
--
--for SESSIONFILE in $SYSSESSIONDIR/*; do
--    set +e
--    case "$SESSIONFILE" in
--        *.sh)
--            . "$SESSIONFILE"
--            ;;
--        *.shbg)
--            "$SESSIONFILE" &
--            ;;
--        *~)
--            # Ignore backup files
--            ;;
--        *)
--            "$SESSIONFILE"
--            ;;
--    esac
--    set -e
--done
--
--exit 0
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsessio=
-n.d/13xdgbasedirs.sh b/meta/recipes-graphics/x11-common/xserver-nodm-init/X=
-11/Xsession.d/13xdgbasedirs.sh
-deleted file mode 100644
-index 912f79761c..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/13x=
-dgbasedirs.sh
-+++ /dev/null
-@@ -1,19 +0,0 @@
--# Minimal/stub implementation of the XDG Base Directory specification.
--# http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
--
--# If the runtime directory hasn't been set already (for example by systemd=
-,
--# elogind, or pam) create a directory in TMPDIR.
--if [ -z "$XDG_RUNTIME_DIR" ]; then
--    XDG_RUNTIME_DIR=3D/run/user/$(id -u)
--    export XDG_RUNTIME_DIR
--fi
--
--if [ -d "$XDG_RUNTIME_DIR" ]; then
--    # If the directory exists, check the permissions and ownership
--    if [ "$(stat -c %u-%a "$XDG_RUNTIME_DIR")" !=3D "$(id -u)-700" ]; then
--        echo "ERROR: $XDG_RUNTIME_DIR has incorrect permissions"
--        exit 1
--    fi
--else
--    mkdir --mode 0700 --parents "${XDG_RUNTIME_DIR}"
--fi
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsessio=
-n.d/89xdgautostart.sh b/meta/recipes-graphics/x11-common/xserver-nodm-init/=
-X11/Xsession.d/89xdgautostart.sh
-deleted file mode 100644
-index 3d7008ca45..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/89x=
-dgautostart.sh
-+++ /dev/null
-@@ -1,7 +0,0 @@
--XDGAUTOSTART=3D/etc/xdg/autostart
--if [ -d $XDGAUTOSTART ]; then
--    for SCRIPT in $XDGAUTOSTART/*; do
--        CMD=3D`grep ^Exec=3D $SCRIPT | cut -d '=3D' -f 2`
--        $CMD &
--    done
--fi
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsessio=
-n.d/90XWindowManager.sh b/meta/recipes-graphics/x11-common/xserver-nodm-ini=
-t/X11/Xsession.d/90XWindowManager.sh
-deleted file mode 100644
-index b936dedf3b..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/90X=
-WindowManager.sh
-+++ /dev/null
-@@ -1,7 +0,0 @@
--if [ -x $HOME/.Xsession ]; then
--    exec $HOME/.Xsession
--elif [ -x /usr/bin/x-session-manager ]; then
--    exec /usr/bin/x-session-manager
--else
--    exec /usr/bin/x-window-manager
--fi
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/Xserver b/m=
-eta/recipes-graphics/x11-common/xserver-nodm-init/Xserver
-deleted file mode 100644
-index 0edbfbfc20..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/Xserver
-+++ /dev/null
-@@ -1,25 +0,0 @@
--#!/bin/sh
--
--# This script is only needed to make sure /etc/X11/xserver-common
--# can affect XSERVER, ARGS & DPI: otherwise systemd could just use
--# /etc/default/xserver-nodm as EnvironmentFile and sysvinit could just
--# source the same file
--
--. /etc/profile
--
--# load default values for XSERVER, ARGS, DISPLAY...
--. /etc/default/xserver-nodm
--
--# Allow xserver-common to override ARGS, XSERVER, DPI
--if [ -e /etc/X11/xserver-common ] ; then
--    . /etc/X11/xserver-common
--    if [ ! -e $XSERVER ] ; then
--        XSERVER=3D$(which $XSERVER)
--    fi
--fi
--
--if [ -n "$DPI" ] ; then
--    ARGS=3D"$ARGS -dpi $DPI"
--fi
--
--exec xinit /etc/X11/Xsession -- $XSERVER $DISPLAY $ARGS $*
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/capability.=
-conf b/meta/recipes-graphics/x11-common/xserver-nodm-init/capability.conf
-deleted file mode 100644
-index 7ab7460816..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/capability.conf
-+++ /dev/null
-@@ -1,2 +0,0 @@
--cap_sys_admin	@USER@
--none	*
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/default.des=
-ktop b/meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
-new file mode 100644
-index 0000000000..3357cd9a7f
---- /dev/null
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
-@@ -0,0 +1,5 @@
-+[Desktop Entry]
-+Encoding=3DUTF-8
-+Type=3DApplication
-+Name=3DDefault X11 Desktop
-+Exec=3Dx-session-manager
-diff --git a/meta/recipes-graphics/wayland/weston-init/emptty.conf b/meta/r=
-ecipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
-similarity index 95%
-copy from meta/recipes-graphics/wayland/weston-init/emptty.conf
-copy to meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
-index 1918cc02a7..bdb3bec782 100644
---- a/meta/recipes-graphics/wayland/weston-init/emptty.conf
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
-@@ -11,13 +11,13 @@ PRINT_ISSUE=3Dtrue
- PRINT_MOTD=3Dtrue
-=20
- # Preselected user, if AUTOLOGIN is enabled, this user is logged in.
--DEFAULT_USER=3Dweston
-+DEFAULT_USER=3Dxuser
-=20
- # Enables Autologin, if DEFAULT_USER is defined and part of nopasswdlogin =
-group. Possible values are "true" or "false".
- AUTOLOGIN=3Dtrue
-=20
- # The default session used, if Autologin is enabled. If session is not fou=
-nd in list of session, it proceeds to manual selection.
--AUTOLOGIN_SESSION=3DWeston
-+AUTOLOGIN_SESSION=3DDefault X11 Desktop
-=20
- # If Autologin is enabled and session does not start correctly, the number=
- of retries in short period is kept to eventually stop the infinite loop of=
- restarts. -1 is for infinite retries, 0 is for no retry.
- # AUTOLOGIN_MAX_RETRY=3D2
-@@ -41,7 +41,7 @@ VERTICAL_SELECTION=3Dfalse
- #LOGGING_FILE=3D/var/log/emptty/[TTY_NUMBER].log
-=20
- # Arguments passed to Xorg server.
--#XORG_ARGS=3D
-+XORG_ARGS=3D@NO_CURSOR_ARG@ @BLANK_ARGS@
-=20
- # Allows to use dynamic motd script to generate custom MOTD.
- #DYNAMIC_MOTD=3Dfalse
-@@ -71,7 +71,7 @@ SESSION_ERROR_LOGGING=3Drotate
- #DEFAULT_XAUTHORITY=3Dfalse
-=20
- #If set true, Xorg will be started as rootless, if system allows and emptt=
-y is running in daemon mode.
--#ROOTLESS_XORG=3Dfalse
-+ROOTLESS_XORG=3Dtrue
-=20
- #If set true, environmental groups are printed to differ Xorg/Wayland/Cust=
-om/UserCustom desktops.
- IDENTIFY_ENVS=3Dfalse
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/gplv2-licen=
-se.patch b/meta/recipes-graphics/x11-common/xserver-nodm-init/gplv2-license=
-.patch
-deleted file mode 100644
-index eff975e341..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/gplv2-license.patc=
-h
-+++ /dev/null
-@@ -1,355 +0,0 @@
--COPYING: add GPLv2 license file
--
--this is a local file recipe and the license file is missing.In order
--to pass the license checksum checking, the license file is needed. So
--this patch add the GPLv2 license file.
--
--Upstream-Status: Inappropriate [licensing]
--
--Signed-off-by: Yu Ke <ke.yu@intel.com>
--
--diff --git a/COPYING b/COPYING
--new file mode 100644
--index 0000000..d511905
----- /dev/null
--+++ b/COPYING
--@@ -0,0 +1,339 @@
--+		    GNU GENERAL PUBLIC LICENSE
--+		       Version 2, June 1991
--+
--+ Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
--+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
--+ Everyone is permitted to copy and distribute verbatim copies
--+ of this license document, but changing it is not allowed.
--+
--+			    Preamble
--+
--+  The licenses for most software are designed to take away your
--+freedom to share and change it.  By contrast, the GNU General Public
--+License is intended to guarantee your freedom to share and change free
--+software--to make sure the software is free for all its users.  This
--+General Public License applies to most of the Free Software
--+Foundation's software and to any other program whose authors commit to
--+using it.  (Some other Free Software Foundation software is covered by
--+the GNU Lesser General Public License instead.)  You can apply it to
--+your programs, too.
--+
--+  When we speak of free software, we are referring to freedom, not
--+price.  Our General Public Licenses are designed to make sure that you
--+have the freedom to distribute copies of free software (and charge for
--+this service if you wish), that you receive source code or can get it
--+if you want it, that you can change the software or use pieces of it
--+in new free programs; and that you know you can do these things.
--+
--+  To protect your rights, we need to make restrictions that forbid
--+anyone to deny you these rights or to ask you to surrender the rights.
--+These restrictions translate to certain responsibilities for you if you
--+distribute copies of the software, or if you modify it.
--+
--+  For example, if you distribute copies of such a program, whether
--+gratis or for a fee, you must give the recipients all the rights that
--+you have.  You must make sure that they, too, receive or can get the
--+source code.  And you must show them these terms so they know their
--+rights.
--+
--+  We protect your rights with two steps: (1) copyright the software, and
--+(2) offer you this license which gives you legal permission to copy,
--+distribute and/or modify the software.
--+
--+  Also, for each author's protection and ours, we want to make certain
--+that everyone understands that there is no warranty for this free
--+software.  If the software is modified by someone else and passed on, we
--+want its recipients to know that what they have is not the original, so
--+that any problems introduced by others will not reflect on the original
--+authors' reputations.
--+
--+  Finally, any free program is threatened constantly by software
--+patents.  We wish to avoid the danger that redistributors of a free
--+program will individually obtain patent licenses, in effect making the
--+program proprietary.  To prevent this, we have made it clear that any
--+patent must be licensed for everyone's free use or not licensed at all.
--+
--+  The precise terms and conditions for copying, distribution and
--+modification follow.
--+
--+		    GNU GENERAL PUBLIC LICENSE
--+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
--+
--+  0. This License applies to any program or other work which contains
--+a notice placed by the copyright holder saying it may be distributed
--+under the terms of this General Public License.  The "Program", below,
--+refers to any such program or work, and a "work based on the Program"
--+means either the Program or any derivative work under copyright law:
--+that is to say, a work containing the Program or a portion of it,
--+either verbatim or with modifications and/or translated into another
--+language.  (Hereinafter, translation is included without limitation in
--+the term "modification".)  Each licensee is addressed as "you".
--+
--+Activities other than copying, distribution and modification are not
--+covered by this License; they are outside its scope.  The act of
--+running the Program is not restricted, and the output from the Program
--+is covered only if its contents constitute a work based on the
--+Program (independent of having been made by running the Program).
--+Whether that is true depends on what the Program does.
--+
--+  1. You may copy and distribute verbatim copies of the Program's
--+source code as you receive it, in any medium, provided that you
--+conspicuously and appropriately publish on each copy an appropriate
--+copyright notice and disclaimer of warranty; keep intact all the
--+notices that refer to this License and to the absence of any warranty;
--+and give any other recipients of the Program a copy of this License
--+along with the Program.
--+
--+You may charge a fee for the physical act of transferring a copy, and
--+you may at your option offer warranty protection in exchange for a fee.
--+
--+  2. You may modify your copy or copies of the Program or any portion
--+of it, thus forming a work based on the Program, and copy and
--+distribute such modifications or work under the terms of Section 1
--+above, provided that you also meet all of these conditions:
--+
--+    a) You must cause the modified files to carry prominent notices
--+    stating that you changed the files and the date of any change.
--+
--+    b) You must cause any work that you distribute or publish, that in
--+    whole or in part contains or is derived from the Program or any
--+    part thereof, to be licensed as a whole at no charge to all third
--+    parties under the terms of this License.
--+
--+    c) If the modified program normally reads commands interactively
--+    when run, you must cause it, when started running for such
--+    interactive use in the most ordinary way, to print or display an
--+    announcement including an appropriate copyright notice and a
--+    notice that there is no warranty (or else, saying that you provide
--+    a warranty) and that users may redistribute the program under
--+    these conditions, and telling the user how to view a copy of this
--+    License.  (Exception: if the Program itself is interactive but
--+    does not normally print such an announcement, your work based on
--+    the Program is not required to print an announcement.)
--+
--+These requirements apply to the modified work as a whole.  If
--+identifiable sections of that work are not derived from the Program,
--+and can be reasonably considered independent and separate works in
--+themselves, then this License, and its terms, do not apply to those
--+sections when you distribute them as separate works.  But when you
--+distribute the same sections as part of a whole which is a work based
--+on the Program, the distribution of the whole must be on the terms of
--+this License, whose permissions for other licensees extend to the
--+entire whole, and thus to each and every part regardless of who wrote it.
--+
--+Thus, it is not the intent of this section to claim rights or contest
--+your rights to work written entirely by you; rather, the intent is to
--+exercise the right to control the distribution of derivative or
--+collective works based on the Program.
--+
--+In addition, mere aggregation of another work not based on the Program
--+with the Program (or with a work based on the Program) on a volume of
--+a storage or distribution medium does not bring the other work under
--+the scope of this License.
--+
--+  3. You may copy and distribute the Program (or a work based on it,
--+under Section 2) in object code or executable form under the terms of
--+Sections 1 and 2 above provided that you also do one of the following:
--+
--+    a) Accompany it with the complete corresponding machine-readable
--+    source code, which must be distributed under the terms of Sections
--+    1 and 2 above on a medium customarily used for software interchange; =
-or,
--+
--+    b) Accompany it with a written offer, valid for at least three
--+    years, to give any third party, for a charge no more than your
--+    cost of physically performing source distribution, a complete
--+    machine-readable copy of the corresponding source code, to be
--+    distributed under the terms of Sections 1 and 2 above on a medium
--+    customarily used for software interchange; or,
--+
--+    c) Accompany it with the information you received as to the offer
--+    to distribute corresponding source code.  (This alternative is
--+    allowed only for noncommercial distribution and only if you
--+    received the program in object code or executable form with such
--+    an offer, in accord with Subsection b above.)
--+
--+The source code for a work means the preferred form of the work for
--+making modifications to it.  For an executable work, complete source
--+code means all the source code for all modules it contains, plus any
--+associated interface definition files, plus the scripts used to
--+control compilation and installation of the executable.  However, as a
--+special exception, the source code distributed need not include
--+anything that is normally distributed (in either source or binary
--+form) with the major components (compiler, kernel, and so on) of the
--+operating system on which the executable runs, unless that component
--+itself accompanies the executable.
--+
--+If distribution of executable or object code is made by offering
--+access to copy from a designated place, then offering equivalent
--+access to copy the source code from the same place counts as
--+distribution of the source code, even though third parties are not
--+compelled to copy the source along with the object code.
--+
--+  4. You may not copy, modify, sublicense, or distribute the Program
--+except as expressly provided under this License.  Any attempt
--+otherwise to copy, modify, sublicense or distribute the Program is
--+void, and will automatically terminate your rights under this License.
--+However, parties who have received copies, or rights, from you under
--+this License will not have their licenses terminated so long as such
--+parties remain in full compliance.
--+
--+  5. You are not required to accept this License, since you have not
--+signed it.  However, nothing else grants you permission to modify or
--+distribute the Program or its derivative works.  These actions are
--+prohibited by law if you do not accept this License.  Therefore, by
--+modifying or distributing the Program (or any work based on the
--+Program), you indicate your acceptance of this License to do so, and
--+all its terms and conditions for copying, distributing or modifying
--+the Program or works based on it.
--+
--+  6. Each time you redistribute the Program (or any work based on the
--+Program), the recipient automatically receives a license from the
--+original licensor to copy, distribute or modify the Program subject to
--+these terms and conditions.  You may not impose any further
--+restrictions on the recipients' exercise of the rights granted herein.
--+You are not responsible for enforcing compliance by third parties to
--+this License.
--+
--+  7. If, as a consequence of a court judgment or allegation of patent
--+infringement or for any other reason (not limited to patent issues),
--+conditions are imposed on you (whether by court order, agreement or
--+otherwise) that contradict the conditions of this License, they do not
--+excuse you from the conditions of this License.  If you cannot
--+distribute so as to satisfy simultaneously your obligations under this
--+License and any other pertinent obligations, then as a consequence you
--+may not distribute the Program at all.  For example, if a patent
--+license would not permit royalty-free redistribution of the Program by
--+all those who receive copies directly or indirectly through you, then
--+the only way you could satisfy both it and this License would be to
--+refrain entirely from distribution of the Program.
--+
--+If any portion of this section is held invalid or unenforceable under
--+any particular circumstance, the balance of the section is intended to
--+apply and the section as a whole is intended to apply in other
--+circumstances.
--+
--+It is not the purpose of this section to induce you to infringe any
--+patents or other property right claims or to contest validity of any
--+such claims; this section has the sole purpose of protecting the
--+integrity of the free software distribution system, which is
--+implemented by public license practices.  Many people have made
--+generous contributions to the wide range of software distributed
--+through that system in reliance on consistent application of that
--+system; it is up to the author/donor to decide if he or she is willing
--+to distribute software through any other system and a licensee cannot
--+impose that choice.
--+
--+This section is intended to make thoroughly clear what is believed to
--+be a consequence of the rest of this License.
--+
--+  8. If the distribution and/or use of the Program is restricted in
--+certain countries either by patents or by copyrighted interfaces, the
--+original copyright holder who places the Program under this License
--+may add an explicit geographical distribution limitation excluding
--+those countries, so that distribution is permitted only in or among
--+countries not thus excluded.  In such case, this License incorporates
--+the limitation as if written in the body of this License.
--+
--+  9. The Free Software Foundation may publish revised and/or new versions
--+of the General Public License from time to time.  Such new versions will
--+be similar in spirit to the present version, but may differ in detail to
--+address new problems or concerns.
--+
--+Each version is given a distinguishing version number.  If the Program
--+specifies a version number of this License which applies to it and "any
--+later version", you have the option of following the terms and conditions
--+either of that version or of any later version published by the Free
--+Software Foundation.  If the Program does not specify a version number of
--+this License, you may choose any version ever published by the Free Softw=
-are
--+Foundation.
--+
--+  10. If you wish to incorporate parts of the Program into other free
--+programs whose distribution conditions are different, write to the author
--+to ask for permission.  For software which is copyrighted by the Free
--+Software Foundation, write to the Free Software Foundation; we sometimes
--+make exceptions for this.  Our decision will be guided by the two goals
--+of preserving the free status of all derivatives of our free software and
--+of promoting the sharing and reuse of software generally.
--+
--+			    NO WARRANTY
--+
--+  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANT=
-Y
--+FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
--+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
--+PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSE=
-D
--+OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
--+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
--+TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
--+PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
--+REPAIR OR CORRECTION.
--+
--+  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITI=
-NG
--+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
--+REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES=
-,
--+INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISI=
-NG
--+OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
--+TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
--+YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHE=
-R
--+PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
--+POSSIBILITY OF SUCH DAMAGES.
--+
--+		     END OF TERMS AND CONDITIONS
--+
--+	    How to Apply These Terms to Your New Programs
--+
--+  If you develop a new program, and you want it to be of the greatest
--+possible use to the public, the best way to achieve this is to make it
--+free software which everyone can redistribute and change under these term=
-s.
--+
--+  To do so, attach the following notices to the program.  It is safest
--+to attach them to the start of each source file to most effectively
--+convey the exclusion of warranty; and each file should have at least
--+the "copyright" line and a pointer to where the full notice is found.
--+
--+    <one line to give the program's name and a brief idea of what it does=
-.>
--+    Copyright (C) <year>  <name of author>
--+
--+    This program is free software; you can redistribute it and/or modify
--+    it under the terms of the GNU General Public License as published by
--+    the Free Software Foundation; either version 2 of the License, or
--+    (at your option) any later version.
--+
--+    This program is distributed in the hope that it will be useful,
--+    but WITHOUT ANY WARRANTY; without even the implied warranty of
--+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--+    GNU General Public License for more details.
--+
--+    You should have received a copy of the GNU General Public License alo=
-ng
--+    with this program; if not, write to the Free Software Foundation, Inc=
-.,
--+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
--+
--+Also add information on how to contact you by electronic and paper mail.
--+
--+If the program is interactive, make it output a short notice like this
--+when it starts in an interactive mode:
--+
--+    Gnomovision version 69, Copyright (C) year name of author
--+    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show=
- w'.
--+    This is free software, and you are welcome to redistribute it
--+    under certain conditions; type `show c' for details.
--+
--+The hypothetical commands `show w' and `show c' should show the appropria=
-te
--+parts of the General Public License.  Of course, the commands you use may
--+be called something other than `show w' and `show c'; they could even be
--+mouse-clicks or menu items--whatever suits your program.
--+
--+You should also get your employer (if you work as a programmer) or your
--+school, if any, to sign a "copyright disclaimer" for the program, if
--+necessary.  Here is a sample; alter the names:
--+
--+  Yoyodyne, Inc., hereby disclaims all copyright interest in the program
--+  `Gnomovision' (which makes passes at compilers) written by James Hacker=
-.
--+
--+  <signature of Ty Coon>, 1 April 1989
--+  Ty Coon, President of Vice
--+
--+This General Public License does not permit incorporating your program in=
-to
--+proprietary programs.  If your program is a subroutine library, you may
--+consider it more useful to permit linking proprietary applications with t=
-he
--+library.  If this is what you want to do, use the GNU Lesser General
--+Public License instead of this License.
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nod=
-m b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-deleted file mode 100755
-index 116bb278bc..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-+++ /dev/null
-@@ -1,75 +0,0 @@
--#!/bin/sh
--#
--### BEGIN INIT INFO
--# Provides: xserver
--# Required-Start: $local_fs $remote_fs dbus
--# Required-Stop: $local_fs $remote_fs
--# Default-Start:     5
--# Default-Stop:      0 1 2 3 6
--### END INIT INFO
--
--killproc() {            # kill the named process(es)
--        pid=3D`/bin/pidof $1`
--        [ "$pid" !=3D "" ] && kill $pid
--}
--
--read CMDLINE < /proc/cmdline
--for x in $CMDLINE; do
--        case $x in
--        x11=3Dfalse)
--		echo "X Server disabled"=20
--		exit 0;
--                ;;
--        esac
--done
--
--case "$1" in
--  start)
--       . /etc/profile
--
--       #default for USER
--       . /etc/default/xserver-nodm
--       echo "Starting Xserver"
--       if [ "$USER" !=3D "root" ]; then
--           # setting for rootless X
--           chmod o+w /var/log
--           chmod g+r /dev/tty[0-3]
--           # hidraw device is probably needed
--           if [ -e /dev/hidraw0 ]; then
--               chmod o+rw /dev/hidraw*
--           fi
--           # Make sure that the Xorg has the cap_sys_admin capability whic=
-h is
--           # needed for setting the drm master
--           if ! grep -q "^auth.*pam_cap\.so" /etc/pam.d/su; then
--               echo "auth	optional	pam_cap.so" >>/etc/pam.d/su
--           fi
--           if ! /usr/sbin/getcap $XSERVER |  grep -q cap_sys_admin; then
--               /usr/sbin/setcap cap_sys_admin+eip $XSERVER
--           fi
--       fi
--
--       # Using su rather than sudo as latest 1.8.1 cause failure [YOCTO #1=
-211]
--       su -l -c '/etc/xserver-nodm/Xserver &' $USER
--       # Wait for the desktop to say its finished loading
--       # before loading the rest of the system
--       # dbus-wait org.matchbox_project.desktop Loaded
--  ;;
--
--  stop)
--        echo "Stopping XServer"
--        killproc xinit
--        sleep 1
--        chvt 1 &
--  ;;
--
--  restart)
--	$0 stop
--        $0 start
--  ;;
--
--  *)
--        echo "usage: $0 { start | stop | restart }"
--  ;;
--esac
--
--exit 0
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nod=
-m.conf.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm=
-.conf.in
-deleted file mode 100644
-index 4a9670d8d2..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.=
-in
-+++ /dev/null
-@@ -1,7 +0,0 @@
--# common environment file for sysvinit and systemd
--
--XSERVER=3D/usr/bin/Xorg
--DISPLAY=3D:0
--ARGS=3D" -br -pn @BLANK_ARGS@ @NO_CURSOR_ARG@ "
--HOME=3D@HOME@
--USER=3D@USER@
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nod=
-m.service.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-n=
-odm.service.in
-deleted file mode 100644
-index 43aaa84c0f..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.servi=
-ce.in
-+++ /dev/null
-@@ -1,13 +0,0 @@
--[Unit]
--Description=3DXserver startup without a display manager
--After=3Dsystemd-udev-settle.service
--Wants=3Dsystemd-udev-settle.service
--
--[Service]
--EnvironmentFile=3D/etc/default/xserver-nodm
--User=3D@USER@
--ExecStart=3D/etc/xserver-nodm/Xserver
--Restart=3Dalways
--
--[Install]
--Alias=3Ddisplay-manager.service
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/me=
-ta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-index 169269eefb..ed056df72f 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-@@ -1,25 +1,16 @@
- SUMMARY =3D "Simple Xserver Init Script (no dm)"
--LICENSE =3D "GPL-2.0-only"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882bb=
-e"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
-88c80a0384361b4de20420"
- SECTION =3D "x11"
-=20
--SRC_URI =3D "file://xserver-nodm \
--           file://Xserver \
--           file://X11 \
--           file://gplv2-license.patch \
--           file://xserver-nodm.service.in \
--           file://xserver-nodm.conf.in \
--           file://capability.conf \
--"
-+SRC_URI =3D "file://emptty.conf.in \
-+           file://default.desktop"
-=20
- S =3D "${UNPACKDIR}"
-=20
--# Since we refer to ROOTLESS_X which is normally enabled per-machine
--PACKAGE_ARCH =3D "${MACHINE_ARCH}"
-+inherit features_check
-=20
--inherit update-rc.d systemd features_check
--
--REQUIRED_DISTRO_FEATURES =3D "x11 ${@oe.utils.conditional('ROOTLESS_X', '1=
-', 'pam', '', d)}"
-+REQUIRED_DISTRO_FEATURES =3D "x11"
-=20
- PACKAGECONFIG ??=3D "blank"
- # dpms and screen saver will be on only if 'blank' is in PACKAGECONFIG
-@@ -27,45 +18,18 @@ PACKAGECONFIG[blank] =3D ""
- PACKAGECONFIG[nocursor] =3D ""
-=20
- do_install() {
--    install -d ${D}${sysconfdir}/default
--    install xserver-nodm.conf.in ${D}${sysconfdir}/default/xserver-nodm
--    install -d ${D}${sysconfdir}/xserver-nodm
--    install Xserver ${D}${sysconfdir}/xserver-nodm/Xserver
--    install -d ${D}${sysconfdir}/X11/Xsession.d
--    install X11/Xsession.d/* ${D}${sysconfdir}/X11/Xsession.d/
--    install X11/Xsession ${D}${sysconfdir}/X11/
-+    install -D -p -m0644 ${S}/emptty.conf.in ${D}${sysconfdir}/emptty/conf
-+    install -D -p -m0644 ${S}/default.desktop ${D}${datadir}/xsessions/def=
-ault.desktop
-=20
-     BLANK_ARGS=3D"${@bb.utils.contains('PACKAGECONFIG', 'blank', '', '-s 0=
- -dpms', d)}"
-     NO_CURSOR_ARG=3D"${@bb.utils.contains('PACKAGECONFIG', 'nocursor', '-n=
-ocursor', '', d)}"
--    if [ "${ROOTLESS_X}" =3D "1" ] ; then
--        XUSER_HOME=3D"/home/xuser"
--        XUSER=3D"xuser"
--        install -D capability.conf ${D}${sysconfdir}/security/capability.c=
-onf
--        sed -i "s:@USER@:${XUSER}:" ${D}${sysconfdir}/security/capability.=
-conf
--    else
--        XUSER_HOME=3D${ROOT_HOME}
--        XUSER=3D"root"
--    fi
--    sed -i "s:@HOME@:${XUSER_HOME}:; s:@USER@:${XUSER}:; s:@BLANK_ARGS@:${=
-BLANK_ARGS}:" \
--        ${D}${sysconfdir}/default/xserver-nodm
--    sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/default=
-/xserver-nodm
--
--    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}=
-; then
--        install -d ${D}${systemd_system_unitdir}
--        install -m 0644 ${S}/xserver-nodm.service.in ${D}${systemd_system_=
-unitdir}/xserver-nodm.service
--        sed -i "s:@USER@:${XUSER}:" ${D}${systemd_system_unitdir}/xserver-=
-nodm.service
--    fi
-=20
--    if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)=
-}; then
--        install -d ${D}${sysconfdir}/init.d
--        install xserver-nodm ${D}${sysconfdir}/init.d
--    fi
-+    sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/emptty/=
-conf
-+    sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/conf
- }
-=20
--RDEPENDS:${PN} =3D "xinit ${@oe.utils.conditional('ROOTLESS_X', '1', 'xuse=
-r-account libcap libcap-bin', '', d)}"
--
--INITSCRIPT_NAME =3D "xserver-nodm"
--INITSCRIPT_PARAMS =3D "start 9 5 . stop 20 0 1 2 3 6 ."
--SYSTEMD_SERVICE:${PN} =3D "xserver-nodm.service"
-+FILES:${PN} =3D "${sysconfdir}/emptty/conf \
-+               ${datadir}/xsessions/default.desktop"
-=20
--RCONFLICTS:${PN} =3D "xserver-common (< 1.34-r9) x11-common"
-+RDEPENDS:${PN} =3D "emptty xuser-account"
-+RPROVIDES:${PN} +=3D "virtual-emptty-conf"
-diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta=
-/recipes-support/user-creation/xuser-account_0.1.bb
-index 04f506e7a3..f1e4cb674f 100644
---- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
-+++ b/meta/recipes-support/user-creation/xuser-account_0.1.bb
-@@ -24,7 +24,8 @@ FILES:${PN} =3D "${sysconfdir}/dbus-1/system.d/system-xus=
-er.conf"
-=20
- USERADD_PACKAGES =3D "${PN}"
- USERADD_PARAM:${PN} =3D "--create-home \
--                       --groups video,tty,audio,input,shutdown,disk \
-+                       --groups video,tty,audio,input,shutdown,disk,nopass=
-wdlogin \
-                        --user-group xuser"
-+GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
-=20
- ALLOW_EMPTY:${PN} =3D "1"
---=20
-2.52.0
-
+Ricardo
 
