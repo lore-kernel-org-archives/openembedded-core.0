@@ -1,247 +1,237 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E41CD358D8
-	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 07:48:55 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10497.1769672928905234720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC85D358D8
+	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 08:07:05 +0000 (UTC)
+Received: from OS0P286CU010.outbound.protection.outlook.com (OS0P286CU010.outbound.protection.outlook.com [40.107.74.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10537.1769674003750687801
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 23:48:49 -0800
+ Thu, 29 Jan 2026 00:06:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=NFMYD7jG;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6489911ce8=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60T5Acmg2637028
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 07:48:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=/Ei7dDolcdEmXixYsjkUMdV507JFO5rjYMYbMI4+yNY=; b=NFMYD7jGY3HX
-	siLFn1N9rACFKG7tqQz4GrRjZWwoUg4MguG29X2spqtRiiTILRYGaZHt6ZH21EkX
-	SW+nCoCdipRrBwFGTMgdLNYqh6syZNkEvwyvmslVcIUv5aWmhs/VmgDdz0JiGSK0
-	EDpb6hvsb8P63o9ib3HjQCS7MxA2q1+/holeLIoiUZgI15Vuh3qzXU0+YuQmURL/
-	83C3SMG9wayVt78qKH4G9wCVhBF1WtAQphqMaDX562XTPIO1SVfwMJIYC0J12MZR
-	o1ACaYV2paR4UMsf66h8hcNdXKzNcMPYeL5eHJtVz6hPg+LPB/pjQrwvd+uAf7BW
-	brNRWan6Wg==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bywwjg90v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 07:48:47 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 28 Jan 2026 23:48:46 -0800
-Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 28 Jan 2026 23:48:45 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V4] procps: support ptest when TCLIBC is glibc
-Date: Thu, 29 Jan 2026 15:48:44 +0800
-Message-ID: <20260129074844.2927936-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <9b4c9e13e430e3cbf0a45fe15b5a361b63a2b250.camel@linuxfoundation.org>
-References: <9b4c9e13e430e3cbf0a45fe15b5a361b63a2b250.camel@linuxfoundation.org>
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=NznbxeuR;
+ spf=pass (domain: fujitsu.com, ip: 40.107.74.49, mailfrom: wangmy@fujitsu.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gDSNNCWefSoVnSx0WUv4v5flNC8gOJAKCiw/9wxxSXNoCJaRdaZI+HjrsrIzhdkrWB0e+5pAni7xXaGLO5MBgLd/fSyGhlU25n/y1GugI10hGk95I2nT1MctiUahaT1Th4Z3nWZ18r+gdXRjQz/Cj1rYyW1M/Vgc7vLGY7rx9S0m4PmaWoCZse7oVbStcNlCQcatEdVCCG+RH0oFfnsfiffDb8gxtP3oQon0WktvtYk5PsTCHq9xfO5cBYpyqB1Y8aB7lU3uwGLVf5rQzIiwYmDtgvrlfYqANiz/olK+cNN/PDXl1e4M3xLE+HLDwM53qWUEAkeoGJwD78VsdOB/Ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0du5kekKI3xguNmaUu/0F6k0yc8U0p+K8GxTJb5H8dg=;
+ b=j4hdjxqjjrJ8ba5uL/zEG39P4QCIt6UT4WtM7/oTG7qmIBDzdDQbY3s9bKMyiB/Mef4hWZ9VTFgsV+VPMvYO+K5rryMmAYtycodyKu/ZxOuD4rm59FDZe1RNErCerPW1pxwe9GClCzxod+MgOW5yvxplYqMI/A+nFuLje32U5tIDjKwP8yEPss0FItp0rKM5oZxyVIHItIjHlPcOHfz5zkya4w8PJDD6y5pczHaAaQOMePYcfhcZuwPQ3dSuC1oSeoo1/0cWoeO/Igri8hqrS05otRPqsFx5RXzTseoSkm45PnJLtvfz70HzyCIQ9qgmoE4EAM7/cydRZv8hibhr2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0du5kekKI3xguNmaUu/0F6k0yc8U0p+K8GxTJb5H8dg=;
+ b=NznbxeuRYIZflvLHABFZ4hsy8M1qRtc+M4vJsQ9zk6G2YAHF22rpyHUwx3JT4wdANQhMOiA7+85tUfwjB97/1fb+/3RYIlNtlQEBpiIJaMLT206EnjvsKtYyEugjMS1M5wFy3i37sQ4bKZm51mQJN0VMg7mAyPwmIWMVAnjHuqvYk3wfBSXj3tfwrE8xhbpaujM95AmvxkmMCxIOUvtD0kk6+HFvqwXtZtrj1e8XZU8JOrJx5OJG0vi7t+qX4c63YVE4JPNxKRSNOovK5IrGvH9GV+nhnGtrPM7J7mHv0qgrx+7HCG2HjBlF+zrQxlbsmEh5VCdSvt2urb16dRo74g==
+Received: from TYWPR01MB11861.jpnprd01.prod.outlook.com
+ (2603:1096:400:3fb::13) by OS3PR01MB10024.jpnprd01.prod.outlook.com
+ (2603:1096:604:1df::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Thu, 29 Jan
+ 2026 08:06:39 +0000
+Received: from TYWPR01MB11861.jpnprd01.prod.outlook.com
+ ([fe80::e879:dd8f:65fd:b1a8]) by TYWPR01MB11861.jpnprd01.prod.outlook.com
+ ([fe80::e879:dd8f:65fd:b1a8%3]) with mapi id 15.20.9564.006; Thu, 29 Jan 2026
+ 08:06:39 +0000
+From: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 16/17] python3-wheel: upgrade 0.46.1 -> 0.46.3
+Thread-Topic: [OE-core] [PATCH 16/17] python3-wheel: upgrade 0.46.1 -> 0.46.3
+Thread-Index: AQHcjsDC1KJcyp2YnEKoPdFnjY+xYLVnzUOAgAD9h1A=
+Date: Thu, 29 Jan 2026 08:06:39 +0000
+Message-ID: 
+ <TYWPR01MB118611A95E3F90AB1A23E2F1DDC9EA@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+References: <20260126123844.1052-1-wangmy@fujitsu.com>
+ <20260126123844.1052-5-wangmy@fujitsu.com>
+ <DG0DGSLH43T6.27SQHKZ8XUB43@bootlin.com>
+In-Reply-To: <DG0DGSLH43T6.27SQHKZ8XUB43@bootlin.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9YTQ1ZGJiYmEtODU5Zi00OGRiLTg1MzctYzhhNDJjZWM4?=
+ =?utf-8?B?MTg0O01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFROKAiztNU0lQ?=
+ =?utf-8?B?X0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9T?=
+ =?utf-8?B?ZXREYXRlPTIwMjYtMDEtMjlUMDc6NTE6NTlaO01TSVBfTGFiZWxfYTcyOTVj?=
+ =?utf-8?B?YzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
+ =?utf-8?B?ZC04MWUxLTQ4NTgtYTlkOC03MzZlMjY3ZmQ0Yzc7TVNJUF9MYWJlbF9hNzI5?=
+ =?utf-8?B?NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfVGFnPTEwLCAzLCAw?=
+ =?utf-8?Q?,_1;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYWPR01MB11861:EE_|OS3PR01MB10024:EE_
+x-ms-office365-filtering-correlation-id: b0c6f285-708c-44f8-e411-08de5f0d54cf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|1580799027|14052099004|13003099007|38070700021;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?N3VOSWNvWmdBV3FlNGZKaUNVNU1Vamh2T1hVL3hEbUtvdUVFRTlmZnRmVTRk?=
+ =?utf-8?B?bXhXNzdNNEhtNmpxTUlqZDZuV045aEJOa1ZKcCtJejhqaUZwOWJKVzVpN0py?=
+ =?utf-8?B?NHVOT1dKdW1aWDNjTVBhSTZ0M0tRczdhMGV1WXlnRVpOaHRlWXZZWEkvbGVl?=
+ =?utf-8?B?OXZvSnUwTlRycXh5MHVBM09sTUxsRC9nemdJM2MybDJMU3VWaGZOVE4xekRQ?=
+ =?utf-8?B?ajQ0ZTliRnZwaEVJNHUyaDgyeW1wVGlueUdBWGlaeW4rVzhQL1FPSXpFdEd5?=
+ =?utf-8?B?cEM5alIrTkZRQlZhTXIvWXVzVUQ0Z0t5b0lWRkxkMFp1NUFMaEFxNTJ4WTZy?=
+ =?utf-8?B?a2pUeEMxYnJOcUJWV2FEbTdQVDZ6QjMrbGNwRmlYeHorY1RiT1ZMbG9kS2d5?=
+ =?utf-8?B?Y1hEbURqZngxc2RQR1FyWktnazVuQXJSQkZmTUtiYkRlM0FhSDlpZTM3K1VN?=
+ =?utf-8?B?VUdpYWhZbDJIR2hOdGxXSVhGOU5kaEQ1UnU4VWk0MGhqMHBwS3hIMHV6Zk9U?=
+ =?utf-8?B?eXRHT0tBalI5WTR5L1NST1YyWlA5WXVXTTB0MVJZN2huQnZVQ1ROOWtkWTdX?=
+ =?utf-8?B?WVBjTm9WTlJ2VmdjNGVlNmNJbHFiNXVlLzZ4bGpORkR0M1pKKzBMZjlMVHBl?=
+ =?utf-8?B?WUNBUmNSWTRpSXUvOFhXV0lUUHd3TkhZa0x3TUJ1L1Y4UFpaSmNCdnhHWTNa?=
+ =?utf-8?B?UUoxNEo1WWFDRTRIcGIzWFRLQUhSU1ZRNXBlbHVab2xmbEtiVXhLMjVoa205?=
+ =?utf-8?B?a1huUXFqblYzd0ZKa3dGY2J2Y2hUOWVDQ3lIQlMzSlhGRjNDaXJoejB5UlJj?=
+ =?utf-8?B?VWRORk94czhuc1VzS0g5S3MwWUVDckRTOVZTOCtIT0hHVjM0TFlKMlI1ckVi?=
+ =?utf-8?B?TFlrejRWQXRzU1ZvZ1hpZjlpTFBLM1IwaERXNkV1SlZGRUVVVWcwc2JEOWhD?=
+ =?utf-8?B?QUM4Ti83eFFQMVh4N2MvSDJxUXhiUzJ2bUcvNC9tZkxXUXJBNElPZVNYOFNX?=
+ =?utf-8?B?L1NzYW9ReCs2Vjl0VnI4eG0yTkVEYmJXL2FKMHFlQkpJTnJ2aXNEbFRFR1hU?=
+ =?utf-8?B?RkVlbUtjeCs1RHBLaENGVXF4UlhlVHV2aTNIRmNTK29aYnNpQWRNMGtkQWZ4?=
+ =?utf-8?B?OE5rMk0yTmF0WDYzQk1KRnlMcThqdlp6eER5aG9XeW1GTlB4UDJHVUU5SDEr?=
+ =?utf-8?B?T3hiV2RodFBXNUpOT0lOZFVXakJveDdFZXlTeEwxWW1XZjJDbmF6RG91eDNy?=
+ =?utf-8?B?M254eVJwWkQwODRrSVI1R25LeWViTU1HaGsySDVvVXNZZjQ0dk1RMTZQZk9j?=
+ =?utf-8?B?bFh2YnhVSmwxUTd0MUhiRU5zQVdkSDBtVnBZcTBoOXExZ2JIYVI2bENveGxu?=
+ =?utf-8?B?aXJIWUxxam1kQTdRdDRNektkRTBCd1RtWTIzTzB1WEhmam8wWmpiL1AydXBU?=
+ =?utf-8?B?RU1iRWR6LzFzb1pPa2VnUERlSi94bGpqeGtFSHNEUTdrMXkzL1Z0ZktKR3ZJ?=
+ =?utf-8?B?Z2tubEFEKzNvTlNraUtRdU9hajZEL25lRUk0SmxmYnpVclRGbndCM0FTb1RD?=
+ =?utf-8?B?TGJ3bmdnNXpFVGtKbDgwTmdFZ3g5Z1dLYk1OaG5rdk5tWFNuM3UvaWRUcWM3?=
+ =?utf-8?B?cGsyY2pibXNZUFhjSWtmVnNJdFFiclBNL05ESkNmSXNaOThmZUVLRTBaT3hY?=
+ =?utf-8?B?VHdlVHh1d01WR29GYko2R3YvK2d2MmhjUTY4dFJuVFdyZEN5NkMzTU5rT2Q0?=
+ =?utf-8?B?UTU2ODhTNjB3K2dEdlNSdEJISWxXbjVSaCswcGZjN3I1c29IblF3a01Wb0pH?=
+ =?utf-8?B?NUNPZGRlcGQ4OSt0aVNYMGoyS1kyckJuSUwyUzNrOGlTWE1GcVBTTDdXcm1V?=
+ =?utf-8?B?VlJpVVJjelJxcVRsb3VuaXFJc244U05GZmx5WllSRWRndzJyWDh2emduQUpr?=
+ =?utf-8?B?VUFNOXgrTHMxanA0QkJhZ1RTWWtBMHJvSkxpMW92VWdpT01Ha1lzZjMzakdn?=
+ =?utf-8?B?RTZTb0FXTTdCSG1URE5waTA1RzJRMGhiRzRnQldnVXJXYmM3TXZlSjVGblVh?=
+ =?utf-8?B?MG9yWm5xUG9xY25YbmJjUk83endUeUo4RlVGSDU1UWd4eVh1dGl5SUorbXox?=
+ =?utf-8?B?engyejlQcGRyYWkrdjRZNXIrYS9CTWppTG4vdWNjdzA1R2xxMWpuU3BSQVJ2?=
+ =?utf-8?B?VlE9PQ==?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB11861.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(1580799027)(14052099004)(13003099007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?VlhYUE5JNDNDSFNPYlpWWUo4THpIOGlpejJteURIVkxzV2JycE5HOSt1UVYz?=
+ =?utf-8?B?Yk5TaDRPWXhoNXB0RkRRa09DeDlZNUNVMjIxOHhQUGg4N0RRaE9NV3h1VWFB?=
+ =?utf-8?B?Qk5GdFAzekxBRnNRYURzcEIyV2pva3VjTHA5K1R2NEJCR0o5YnF4Q2RJSm5N?=
+ =?utf-8?B?WWh6Q0E0SGRianFhMmllbXVGOHJNbHNZRm9mWXg4WUlrZUR5OXVYazkxVnJ5?=
+ =?utf-8?B?bmt4U0ZlWXlmZE5sWjJlUWFFRmJwMVJpMXNOanFTUW9HU1VrdUwyQkpkVzIv?=
+ =?utf-8?B?QUJGUlBsTTRiQi8zVnVBeWs4cXcxTlc4NEkxM2RIZUl3encxOWx6WW1lSkRi?=
+ =?utf-8?B?VWowS1dpOGlYU1J6Z2hmdHhUZktUTkJKcWlXSzJpZkpNMnJNSFl0WnpCdVJG?=
+ =?utf-8?B?K3Q3U2h5cjJ2VmFaQW8rVnBrNVV3K0FZMUZYV3d1c1hmODBWQ3lrOXgvTm5k?=
+ =?utf-8?B?dWVuQTFLcVV0dmxZbU9uWWkzWENIc01ZUXZ6bExCMzRZeWtGc1Q3MjRFa2l6?=
+ =?utf-8?B?WkNxOVhHY1lhTzdkUUNzU1VLVUU2Q2hQM2FVcnB6L1JkN0VMOUIvVHJXbXF0?=
+ =?utf-8?B?aDgwYmNaVXIvMmJrd3hqdjRjcndCYXZWTm1LeVV0RGcyYXUxSjdSTXVRejI2?=
+ =?utf-8?B?cFlZYUJmdi9IWElBWE1RUTR3bXhwRUVLRWRvQkZyc25EZ2wrS205bTlYbWpC?=
+ =?utf-8?B?SW16Ri84MXpobFdQTDUwQ0NpVDlhUzQwUFZEdVo2cWx3R1VOVUs0Yko2OXNG?=
+ =?utf-8?B?ZXVkeHVvOGxUTDRXY2w2YVY3TnJpMEhRUVhjVkZCOE15MGNZZkttOWF6N1lL?=
+ =?utf-8?B?QnlsekVTSXdIbTNpTDlZS296RDZWUnFGaDI0dXV0bEJnTXNteEVlbzNGODli?=
+ =?utf-8?B?VUlpYmpRM1RBa2NPVno5MTdkVklLOUN4anRoRU16bVIyeWZFUUdMODQrRW15?=
+ =?utf-8?B?VnJ2djR1TVFDc25GZUN6bXFTUWxvVkJtSW5UK3lzOUpyYlhlQ2tlaitrdFNp?=
+ =?utf-8?B?MU9FZkJjZzhOM2tKTU5sMVVTOVhsVUdXUUdMS3pxZS9PSTIrOWNQY0tmS3Vt?=
+ =?utf-8?B?bUNPK0pXUnJweXg0QU1VYVM0NTlYUE9lbGpQSmw3QUhLQUI4YXZuekVSTFRn?=
+ =?utf-8?B?ZXAxaXBiODBqUzFSSHpXSFl3NDdLTHFzK2hiVlVKQmNWaUZsWlBoWE01V0dm?=
+ =?utf-8?B?TGZ6QWUzZk1tMzF2ejZGakhKcWxlaGhrNWcvbHZ2aFFjMHYvajhtdEQyZHdE?=
+ =?utf-8?B?QUFaUkxNODZIbXhCclgya2hRY3NEQUZtTWh5RlAyaytXenNCYlRQVGJaRWJq?=
+ =?utf-8?B?YW1XbjllWVFkUjVNeDcybWRIem0rYlFaMkRYekpoQ2JDTjZTL2I4bHpHUmQ0?=
+ =?utf-8?B?clpOZWFIUWZTWWhiZjNmcVJaelZBV2dMeEplQ1VHeEdESk1uZVR1ZFE5V2Zr?=
+ =?utf-8?B?am1VdWlIUWNOUGhkdlhscUFsTU1NQjM4WGptZDh3Vmg3M0RCVVJuTER0NVg1?=
+ =?utf-8?B?VUpKWGlSb3RXQ0VZWDEyaTQxdUcvWmtPblFaT0lxQzBIZENhODlJbU5TcW10?=
+ =?utf-8?B?R2FsTW1pNFFPb2tmNXNabkRoc08xVVBIMmg4ODZqd2twQ3A4VWxIRVZGWDB0?=
+ =?utf-8?B?OENwMmtVVXBpcXpWbTZOSkF1ZU9DNVNMSjZWM0prZitKWHNMUExQSnFOUE5z?=
+ =?utf-8?B?ZldzeHNqYk9xb3BEd1dTUDJNby9GK3hKU2FNcWNaL3hFQ25YMGYvbUFpKzRp?=
+ =?utf-8?B?K09nL1QxVDFxblo5a1FlV2FxWS9yODAyS3plYlV4YjFiVzNSK0JYVjJZVEQz?=
+ =?utf-8?B?ODE3SFlaV1ppMGhnM09hNVhseUNaS0IvRWZlY0dRdjFiN1QyTFlCOGozSGRs?=
+ =?utf-8?B?VmRta21kcnhuVkd0bnRNVGFkRUJxTE9ha2MwUFFBcTNqdFBOVWQzUlVIcGFM?=
+ =?utf-8?B?WHUyaVZTcFE4OG56ZmorMENiUlNYaVBtMXZlVWJKa1RsNk5zNEdHRm1mRUps?=
+ =?utf-8?B?blhXbHd5K0wzVTV6aVRtNDZjZG1MZTgxZnZieitWQnRxUWdTdmtycnFsUytn?=
+ =?utf-8?B?RVk3eEdCNERrTEFiMHdHS2ZVRXRyV281Q2ZaeTl6WGNJM205eUNQUUdHVFEr?=
+ =?utf-8?B?cGFmaG5zTUc5NU14L3B6dXF4cFBodDNSbzBmd21VbndTVUF4WlF6UjUyVlVw?=
+ =?utf-8?B?Q1daZDhNWTc5emkvdzdMTGxLOVpad0haNlc3dUh2RTRsR2QwL25xZC82VGpo?=
+ =?utf-8?B?TERDdW92cHdCOWVQVmlramhqOGpTTndUTjB1YUphajYxc21jUC81bFhUSjJC?=
+ =?utf-8?Q?Nh6aQNuhJwlnfnCnxi?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI5MDA0NSBTYWx0ZWRfXzBe/fhe+CSJH
- 7O7QMoesAMtZ+4ddiO1mgOUYwwG2TEJFV2mwaD4WeYm7OziD3h74xXsycsLj0H0vGp1qTpvrOyl
- Zx3fxNxCrX2cUVK58WDGCW/wgnSWV7cRKuR+UrKKgoAqPmKWPbPCEoO3QBjrd1TY2U8xLRQ65A7
- E1k4ToIUmZ4Z1P9pHpiQ8Z7N53FnzSl0TwM43bPmEUCIsmmsRx4p+lPWYTmnsaaGlNgaKE/IVMX
- KEF9hOxMOTRpORMncXlngi7VRUPlLfOO/DM6zpgpWBjD8E9wVY5fq6RDOi9NtcrrEvANnAlrAyH
- q4zeOGzp7O+Al9l5Wo0q1rILHDt7uEs2m0gynqnE5HEU0BWB7bMjgw/+5LNdc+k1Qc3yZs1X9Kn
- sGRdVdGvV96YBj1hm5DO+Vm8pnJG0cjJLEDcj5NXrODRXEVjoUJq9n/c5v9Zo0fbWwvBRwQSygJ
- DN5rVKa/WKxN5GheR9Q==
-X-Authority-Analysis: v=2.4 cv=I7hohdgg c=1 sm=1 tr=0 ts=697b10df cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=p0WdMEafAAAA:8 a=t7CeM3EgAAAA:8
- a=0m6fdvx-0sT87eH2KvsA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: rj6N_nQQ43_2VNEpSnP3tm5TUQFQgCbP
-X-Proofpoint-ORIG-GUID: rj6N_nQQ43_2VNEpSnP3tm5TUQFQgCbP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-29_01,2026-01-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601290045
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB11861.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0c6f285-708c-44f8-e411-08de5f0d54cf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2026 08:06:39.4942
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FIPPZERKhvjeaOH5csX1szIRoIexoepHB+MAtrPUZJRHWMvAKFjnTy6kJ/fsRTbsOPthOEH2LtrCRrtObHx2wg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 07:48:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230122
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 08:07:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230123
 
-From: Changqing Li <changqing.li@windriver.com>
-
-* support ptest for procps TCLIBC is glibc. The configure.ac only match
-  LINUX as "linux-gnu", we can patch it to make test can run on musl lib
-system, but the upstream testsuite should only run on gnu libc host,
-some test cases only suitable for glibc, eg: Some of the error messages
-for free command on musl system is not the same as glibc system, which
-will make test failed. In order to avoid some other unexpected failure,
-just support ptest for glibc.
-
-* procps's testsuite use DejaGnu test framework.  The testsuite is
-  expected to run during build time, this implementation create the same
-folder structure as the testsuite expected to make it can work well.
-
-* Two pmap test cases may randomly run failed, so set it as xfail, and
-  open a issue upstream
-
-[1] https://gitlab.com/procps-ng/procps/-/issues/409
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../distro/include/ptest-packagelists.inc     |  2 +
- meta/recipes-extended/procps/procps/run-ptest | 24 ++++++++
- meta/recipes-extended/procps/procps_4.0.5.bb  | 60 ++++++++++++++++++-
- 3 files changed, 84 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/procps/procps/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index fff2947177..2391224527 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -57,6 +57,7 @@ PTESTS_FAST = "\
-     nettle \
-     opkg \
-     popt \
-+    procps \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-@@ -97,6 +98,7 @@ PTESTS_FAST:remove:mips64 = "qemu"
- PTESTS_PROBLEMS:append:mips64 = " qemu"
- PTESTS_FAST:remove:riscv32 = "qemu"
- PTESTS_PROBLEMS:append:riscv32 = " qemu"
-+PTESTS_FAST:remove:libc-musl = "procps"
- 
- PTESTS_SLOW = "\
-     apr \
-diff --git a/meta/recipes-extended/procps/procps/run-ptest b/meta/recipes-extended/procps/procps/run-ptest
-new file mode 100644
-index 0000000000..7e132653b0
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/run-ptest
-@@ -0,0 +1,24 @@
-+#!/bin/sh
-+
-+# Run testsuite which use dejagnu
-+cd ./testsuite
-+for tool in @DEJATOOL@; do
-+    runtest -a --tool $tool --outdir ../log
-+done
-+cd -
-+
-+# Run test programs not used by dejagnu but run directly
-+for p in @TESTS@; do
-+    ./src/tests/"$p" > ./log/"$p".log 2>&1
-+    case "$?" in
-+        0)
-+            echo "PASS: $p"
-+            ;;
-+        77)
-+            echo "SKIP: $p"
-+            ;;
-+        *)
-+            echo "FAIL: $p"
-+            ;;
-+    esac
-+done
-diff --git a/meta/recipes-extended/procps/procps_4.0.5.bb b/meta/recipes-extended/procps/procps_4.0.5.bb
-index 0e0e06f0d2..bccfee1de9 100644
---- a/meta/recipes-extended/procps/procps_4.0.5.bb
-+++ b/meta/recipes-extended/procps/procps_4.0.5.bb
-@@ -10,11 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- DEPENDS = "ncurses"
- 
--inherit autotools gettext pkgconfig update-alternatives
-+inherit autotools gettext pkgconfig update-alternatives ${@bb.utils.contains('TCLIBC', 'glibc', 'ptest', '', d)}
- 
- SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master;tag=v${PV} \
-            file://sysctl.conf \
-            file://top_large_pid_fix.patch \
-+           file://run-ptest \
-            "
- SRCREV = "f46b2f7929cdfe2913ed0a7f585b09d6adbf994e"
- 
-@@ -47,8 +48,61 @@ do_install:append () {
-         fi
- }
- 
--CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
-+do_compile_ptest() {
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        oe_runmake $p
-+    done
-+    oe_runmake -C testsuite site.exp
-+}
-+
-+do_install_ptest() {
-+     install -d ${D}${PTEST_PATH}/testsuite
-+     install -d ${D}${PTEST_PATH}/src/tests
-+     install -d ${D}${PTEST_PATH}/log
-+
-+     install -m644 ${B}/testsuite/site.exp ${D}${PTEST_PATH}/testsuite/
-+     for p in $(makefile-getvar ${B}/testsuite/Makefile noinst_PROGRAMS); do
-+         install -m755 ${B}/testsuite/$p ${D}${PTEST_PATH}/testsuite/
-+     done
-+     cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+
-+     for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS);do
-+         case "$p" in
-+             src/tests/*)
-+                 install -m 0755 ${B}/$p ${D}${PTEST_PATH}/src/tests/ ;;
-+             library/tests/*)
-+                 install -m 0755 ${B}/library/tests/.libs/$(basename $p)  ${D}${PTEST_PATH}/src/tests/ ;;
-+         esac
-+     done
-+
-+     tests=""
-+     for p in $(makefile-getvar ${B}/Makefile TESTS); do
-+         tests="$tests $(basename $p)"
-+     done
-+     sed -i -e "s#@TESTS@#$tests#" ${D}${PTEST_PATH}/run-ptest
-+
-+     sed -i -e "/set srcdir/c\set srcdir ${PTEST_PATH}/testsuite" \
-+            -e "/set objdir/c\set objdir ${PTEST_PATH}/testsuite" ${D}${PTEST_PATH}/testsuite/site.exp
-+
-+     sed -i -e "s#@DEJATOOL@#$(makefile-getvar ${B}/testsuite/Makefile DEJATOOL)#" ${D}${PTEST_PATH}/run-ptest
-+     for p in $(makefile-getvar ${B}/testsuite/Makefile DEJATOOL); do
-+        if [ "$p" = "ps" ]; then
-+            install -d ${D}${PTEST_PATH}/src/ps
-+            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscommand
-+        elif [ "$p" = "sysctl" ]; then
-+            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
-+        elif [ "$p" = "kill" ] || [ "$p" = "pidof" ] || [ "$p" = "watch" ]; then
-+            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        else
-+            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        fi
-+     done
- 
-+     sed -i -e '/set test "pmap X pid pid has same total"/a \setup_xfail *-*-linux*' \
-+            -e '/set test "pmap XX pid pid has same total"/a \setup_xfail *-*-linux*' ${D}${PTEST_PATH}/testsuite/pmap.test/pmap.exp
-+}
-+
-+CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
- bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime w"
- base_bindir_progs += "kill pidof ps watch"
- base_sbindir_progs += "sysctl"
-@@ -80,6 +134,8 @@ RDEPENDS:${PN} += "${PROCPS_PACKAGES}"
- RDEPENDS:${PN}-ps += "${PN}-lib"
- RDEPENDS:${PN}-sysctl += "${PN}-lib"
- 
-+RDEPENDS:${PN}-ptest += "dejagnu glibc-utils"
-+
- FILES:${PN}-lib = "${libdir}"
- FILES:${PN}-ps = "${base_bindir}/ps.${BPN}"
- FILES:${PN}-sysctl = "${base_sbindir}/sysctl.${BPN} ${sysconfdir}/sysctl.conf ${sysconfdir}/sysctl.d"
--- 
-2.34.1
-
+VGhlIGZhaWx1cmUgb2NjdXJzIGluIHRoZSB0ZXN0X3BrZ2luZm9fdG9fbWV0YWRhdGF0ZXN0IHdp
+dGggdGhlIGZvbGxvd2luZyBlcnJvcjoNCkZBSUxFRCB0ZXN0cy90ZXN0X21ldGFkYXRhLnB5Ojp0
+ZXN0X3BrZ2luZm9fdG9fbWV0YWRhdGEgLSBhc3NlcnQgWygnTWV0YWRhdGEtVi4uLndpbjMyIicp
+LCAuLi5dID09IFsoJ01ldGFkYXRhLVYuLi53aW4zMiInKSwgLi4uXQ0KQXQgaW5kZXggMyBkaWZm
+OiAoJ1JlcXVpcmVzLURpc3QnLCAncGlwQCBodHRwczovL2dpdGh1Yi5jb20vcHlwYS9waXAvYXJj
+aGl2ZS8xLjMuMS56aXAnKSANCiAgICAgICAgICAgICAgICE9ICgnUmVxdWlyZXMtRGlzdCcsICdw
+aXAgQCBodHRwczovL2dpdGh1Yi5jb20vcHlwYS9waXAvYXJjaGl2ZS8xLjMuMS56aXAnKQ0KUm9v
+dCBjYXVzZSBhbmFseXNpczoNClRoZSBpc3N1ZSB3YXMgaW50cm9kdWNlZCBpbiB3aGVlbCB2ZXJz
+aW9uIDAuNDYuMywgd2hlcmUgdGhlIHVwc3RyZWFtIG1haW50YWluZXJzIG1vZGlmaWVkIHRoZSB0
+ZXN0IGV4cGVjdGF0aW9ucyBpbiB0ZXN0cy90ZXN0X21ldGFkYXRhLnB5LiBTcGVjaWZpY2FsbHks
+IHRoZXkgY2hhbmdlZCB0aGUgZXhwZWN0ZWQgQHN5bWJvbCBzcGFjaW5nIGZvcm1hdDoNClVwc3Ry
+ZWFtIGNoYW5nZSAoaW4gd2hlZWwgMC40Ni4zKToNCi0gICAgICAoIlJlcXVpcmVzLURpc3QiLCAi
+cGlwQCBodHRwczovL2dpdGh1Yi5jb20vcHlwYS9waXAvYXJjaGl2ZS8xLjMuMS56aXAiKSwNCisg
+ICAgICAoIlJlcXVpcmVzLURpc3QiLCAicGlwIEAgaHR0cHM6Ly9naXRodWIuY29tL3B5cGEvcGlw
+L2FyY2hpdmUvMS4zLjEuemlwIiksDQoNCi0gICAgICAoIlJlcXVpcmVzLURpc3QiLCAnZm9vQCBo
+dHRwOi8vaG9zdC9mb28uemlwIDsgc3lzX3BsYXRmb3JtID09ICJ3aW4zMiInKSwNCisgICAgICAo
+IlJlcXVpcmVzLURpc3QiLCAnZm9vIEAgaHR0cDovL2hvc3QvZm9vLnppcCA7IHN5c19wbGF0Zm9y
+bSA9PSAid2luMzIiJyksDQoNCi0gICAgICAoIlJlcXVpcmVzLURpc3QiLCAnYmFyQCBodHRwOi8v
+aG9zdC9iYXIuemlwIDsgZXh0cmEgPT0gImV4dHJhIicpLA0KKyAgICAgICgiUmVxdWlyZXMtRGlz
+dCIsICdiYXIgQCBodHRwOi8vaG9zdC9iYXIuemlwIDsgZXh0cmEgPT0gImV4dHJhIicpLA0KDQpI
+b3dldmVyLCB0aGUgYWN0dWFsIGltcGxlbWVudGF0aW9uIGluIHdoZWVsL21ldGFkYXRhLnB5c3Rp
+bGwgcHJvZHVjZXMgdGhlIG9sZCBmb3JtYXQgKHBpcEAgaHR0cHM6Ly8uLi4pLCBjcmVhdGluZyBh
+IG1pc21hdGNoIGJldHdlZW4gdGVzdCBleHBlY3RhdGlvbnMgYW5kIGNvZGUgYmVoYXZpb3IuDQpU
+aGUgY29uZmxpY3Q6DQpUZXN0IGV4cGVjdHM6ICJwaXAgQCBodHRwczovLy4uLiIoc3BhY2UgYmVm
+b3JlIEApDQpDb2RlIHByb2R1Y2VzOiAicGlwQCBodHRwczovLy4uLiIoc3BhY2UgYWZ0ZXIgQCkN
+Cg0KV2hpbGUgd2UgY291bGQgc2ltcGx5IHJldmVydCB0aGUgdGVzdCBmaWxlIHRvIG1hdGNoIHRo
+ZSBpbXBsZW1lbnRhdGlvbiwgdGhpcyB3b3VsZCBudWxsaWZ5IHRoZSB1cHN0cmVhbSBjaGFuZ2Ug
+d2l0aG91dCB1bmRlcnN0YW5kaW5nIGl0cyBwdXJwb3NlLiBUaGUgdXBzdHJlYW0gY29tbWl0IG1l
+c3NhZ2UgaW5kaWNhdGVzICJGaXhlZCB0ZXN0IGZhaWx1cmVzIGR1ZSB0byBtZXRhZGF0YSBub3Jt
+YWxpemF0aW9uIGNoYW5nZXMsIiBzdWdnZXN0aW5nIHRoaXMgY2hhbmdlIHdhcyBpbnRlbnRpb25h
+bC4NCg0KSSBoYXZlIGFscmVhZHkgcmVwb3J0ZWQgdGhpcyBpbmNvbnNpc3RlbmN5IHRvIHRoZSB3
+aGVlbCB1cHN0cmVhbSB0ZWFtDQoNCiAgLS0NCkJlc3QgUmVnYXJkcw0KLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpXYW5nIE1pbmd5dQ0KRlVKSVRT
+VSBOQU5KSU5HIFNPRlRXQVJFIFRFQ0hOT0xPR1kgQ08uLCBMVEQuIChGTlNUKQ0KTm8uNiBXZW56
+aHUgUm9hZCwgTmFuamluZywgMjEwMDEyLCBDaGluYQ0KVEVM77yaKzg2KzI1LTg2NjMwNTY2LS04
+NTY4DQpDT0lOUzogNzk5ODg1NDgNCkZBWDogKzg2KzI1LTgzMzE3Njg1DQpNQUlMOiB3YW5nbXlA
+ZnVqaXRzdS5jb20NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXRo
+aWV1IER1Ym9pcy1CcmlhbmQgPG1hdGhpZXUuZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4NCj4g
+U2VudDogVGh1cnNkYXksIEphbnVhcnkgMjksIDIwMjYgMTI6NDUgQU0NCj4gVG86IFdhbmcsIE1p
+bmd5dS/njosg6bij55GcIDx3YW5nbXlAZnVqaXRzdS5jb20+Ow0KPiBvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+IDE2LzE3XSBweXRob24zLXdoZWVsOiB1cGdyYWRlIDAuNDYuMSAtPiAwLjQ2LjMNCj4gDQo+IE9u
+IE1vbiBKYW4gMjYsIDIwMjYgYXQgMTozOCBQTSBDRVQsIHdhbmdteSB2aWEgbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZw0KPiB3cm90ZToNCj4gPiBGcm9tOiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0
+c3UuY29tPg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogV2FuZyBNaW5neXUgPHdhbmdteUBmdWpp
+dHN1LmNvbT4NCj4gPiAtLS0NCj4gDQo+IEhpIFdhbmcsDQo+IA0KPiBJdCBsb29rcyBsaWtlIHdl
+IGFsc28gaGF2ZSBhIGZhaWxpbmcgcHRlc3Qgd2l0aCB0aGlzIG9uZS4gSSdtIG5vdCBzdXJlIHdo
+eSBpZCBkaWRuJ3QNCj4gc2hvdyBvbiBteSBwcmV2aW91cyBidWlsZHMsIGVpdGhlciBpdCBpcyBs
+aW5rZWQgd2l0aCBvdGhlciBjb21taXRzIG9yIGl0J3MgYSBiaXQNCj4gaW50ZXJtaXR0ZW50Lg0K
+PiANCj4gRmFpbGVkIHB0ZXN0czoNCj4geydweXRob24zLXdoZWVsJzogWyd0ZXN0cy90ZXN0X21l
+dGFkYXRhLnB5OnRlc3RfcGtnaW5mb190b19tZXRhZGF0YSddfQ0KPiANCj4gaHR0cHM6Ly9hdXRv
+YnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMvNTYvYnVpbGRzLzEw
+MDQNCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVp
+bGRlcnMvNjEvYnVpbGRzLzI5NjMNCj4gDQo+IFRoYW5rcywNCj4gTWF0aGlldQ0KPiANCj4gLS0N
+Cj4gTWF0aGlldSBEdWJvaXMtQnJpYW5kLCBCb290bGluDQo+IEVtYmVkZGVkIExpbnV4IGFuZCBL
+ZXJuZWwgZW5naW5lZXJpbmcNCj4gaHR0cHM6Ly9ib290bGluLmNvbQ0KDQo=
 
