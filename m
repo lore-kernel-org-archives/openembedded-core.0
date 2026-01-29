@@ -1,137 +1,92 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35483D46C01
-	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 03:54:24 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7766.1769658857027692502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 863ABD3569D
+	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 04:01:14 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7850.1769659264187902415
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 19:54:17 -0800
+ Wed, 28 Jan 2026 20:01:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=DFhETNEI;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1769658857; x=1801194857;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=6J1EudrmG3pCMUCKLcZulDpVSzUqsrA40UvaU1R1uUE=;
-  b=DFhETNEI/aeTJZhpwQIzks9iSTIO3wPUe6iSl3YUYxjP3ziwf8vK8l35
-   sAFmbqNrhx5HOf1Hxl7ZdSKLfgWnQdHUF8tYd10UxkwN897jzDDLPvvgu
-   LKXURq9HGhpX0Oay5VCTLu4ttu7y6RoJwIjerlfPzQ8Xw+hTvzGS6aT/N
-   J7+KbsCq8gbppNZ6M2uP8J5tyyGOxSCV2gasSrpRt8cJun75RdsjWvp5f
-   Kc6wGs0bCphkfXZWJLJokcvSwh51/yKSIPlnxC6IRvu/8YqmPfcdU9TvR
-   cDbNyAe3tSS63B5m4TsrS3XD2otff1smKGiwq+oCervkpdZSeyNIsnriR
-   Q==;
-X-CSE-ConnectionGUID: lgnLCOZ7QQSrXDaEJj7npQ==
-X-CSE-MsgGUID: UHsHOftLTtyGQsp3lcXiUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="216257441"
-X-IronPort-AV: E=Sophos;i="6.21,260,1763391600"; 
-   d="scan'208";a="216257441"
-Received: from unknown (HELO az2nlsmgr2.o.css.fujitsu.com) ([51.138.80.169])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 12:54:15 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgr2.o.css.fujitsu.com (Postfix) with ESMTPS id 987F481C4
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:15 +0000 (UTC)
-Received: from az2uksmom2.o.css.fujitsu.com (az2uksmom2.o.css.fujitsu.com [10.151.22.203])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 3C138C0370A
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:15 +0000 (UTC)
-Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id E74A51401F20
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:12 +0000 (UTC)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 6/6] orc: Enable hotdoc to produce doc
-Date: Thu, 29 Jan 2026 11:53:53 +0800
-Message-ID: <20260129035353.8982-7-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
-References: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lqzgskZj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Z7vJI/6z;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019c07e9692e-8ad2f832-bf38-4fab-b2ab-cdfec86b728e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1769659263; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=D10/DN8q7FjnJ0P7OXbpfsXU7JUl2ik/9mdMqfWrCIg=;
+	b=lqzgskZjhGylv4g5Eos0oTSyvh1UDKn0BRog3mbPt31ZdkA4qF3ETeptU+Ys2wFk
+	ykytGHWqh+VzH6vsek/Jyd4V7Kie1uPQusJ8G7TbCLin7OAh0QroXmIm7cyuT4KITSY
+	1S6Kbylt1Mndxrlzev2OexRJMXIk+FLfFGuxH1Oc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769659263;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=D10/DN8q7FjnJ0P7OXbpfsXU7JUl2ik/9mdMqfWrCIg=;
+	b=Z7vJI/6zTJlA4CZvo2oUC9+sUxjYSgjtgA8diN8+H/N7wXzajItt6/XFhOvHmwvl
+	pRymg/Gfc5c+jas0zNETtl65i8/m8auwbV6ZK8WYVfdcnV1gn9pb/jJQ0bSyQKsgmwD
+	eIXutwjRiSROhXgXP/QSSjVsK+G402aVadPt7SPM=
+From: patchtest@automation.yoctoproject.org
+To: Liu Yiding <liuyd.fnst@fujitsu.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH 6/6] orc: Enable hotdoc to produce doc
+In-Reply-To: <20260129035353.8982-7-liuyd.fnst@fujitsu.com>
+References: <20260129035353.8982-7-liuyd.fnst@fujitsu.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019c07e9692e-8ad2f832-bf38-4fab-b2ab-cdfec86b728e-000000@us-west-2.amazonses.com>
+Date: Thu, 29 Jan 2026 04:01:03 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.01.29-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:54:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230118
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 04:01:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230119
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../orc/orc/0001-Fix-hotdoc-run-error.patch   | 37 +++++++++++++++++++
- meta/recipes-devtools/orc/orc_0.4.42.bb       |  5 ++-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch
+Testing patch /home/patchtest/share/mboxes/6-6-orc-Enable-hotdoc-to-produce-doc.patch
 
-diff --git a/meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch b/meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch
-new file mode 100644
-index 0000000000..277ce038f8
---- /dev/null
-+++ b/meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch
-@@ -0,0 +1,36 @@
-+Subject: [PATCH] Fix hotdoc run error.
-+
-+Fix the following error.
-+| Running custom install script 'tmp/work/x86-64-v3-poky-linux/orc/0.4.42/recipe-sysroot-native/usr/bin/meson.real --internal hotdoc --install orc-doc/html --docdir /usr/share/doc/orc/html --name orc --builddir tmp/work/x86-64-v3-poky-linux/orc/0.4.42/build/doc tmp/work/x86-64-v3-poky-linux/orc/0.4.42/recipe-sysroot-native/usr/bin/hotdoc run --conf-file orc-doc.json'
-+| --- stdout ---
-+|
-+| --- stderr ---
-+| ERROR: [doc-tree]: (index-extension-not-found): tmp/work/x86-64-v3-poky-linux/orc/0.4.42/sources/orc-0.4.42/doc/sitemap.txt:8:10: No extension named c for index page
-+| 00006:                tutorial.md
-+| 00007:                opcodes.md
-+| 00008:        c-index
-+|               ^
-+| 00009:
-+|
-+
-+Remove c-index as it is not in the doc directory.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
-+---
-+ doc/sitemap.txt | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/doc/sitemap.txt b/doc/sitemap.txt
-+index 568b367..40a7f99 100644
-+--- a/doc/sitemap.txt
-++++ b/doc/sitemap.txt
-+@@ -5,4 +5,3 @@ index.md
-+ 		concepts.md
-+ 		tutorial.md
-+ 		opcodes.md
-+-	c-index
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/orc/orc_0.4.42.bb b/meta/recipes-devtools/orc/orc_0.4.42.bb
-index f56b9058c2..b73c8df04d 100644
---- a/meta/recipes-devtools/orc/orc_0.4.42.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.42.bb
-@@ -4,11 +4,14 @@ DESCRIPTION = "Optimised Inner Loop Runtime Compiler is a Library and set of too
- LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
- 
--SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
-+SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz \
-+           file://0001-Fix-hotdoc-run-error.patch \
-+          "
- SRC_URI[sha256sum] = "7ec912ab59af3cc97874c456a56a8ae1eec520c385ec447e8a102b2bd122c90c"
- 
- inherit meson pkgconfig
- 
-+DEPENDS = "hotdoc-native"
- # distinguish from apache:orc
- CVE_PRODUCT = "gstreamer:orc"
- 
--- 
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
