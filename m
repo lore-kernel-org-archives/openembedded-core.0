@@ -1,598 +1,287 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5320AD46C16
-	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 00:26:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0F7D46C1A
+	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 03:08:44 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4525.1769646406768155164
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7165.1769656114258187671
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jan 2026 16:26:46 -0800
+ Wed, 28 Jan 2026 19:08:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=UNjpq2GX;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=64891ae679=randy.macleod@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=F01c/lbc;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=64891eafc2=qi.chen@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60SB4Px43435633
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 16:26:46 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60T1fZtT759257
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 19:08:33 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=n608OM5jGXmy2XLXNVzQ51
-	0vHanLJ35FpPUiS6l3gXY=; b=UNjpq2GXsjmuIOI9ulxWCbySHl1Pl4cgWwGlYG
-	09XW3klyEsGYaX8MqasOau23wfYGaKMhXe8+Ie7Sm5MCOfFbVz1NB3YGADgyNjeS
-	eZW6cgZ/wOxVE7FFSHmVNVyySEXnc0mrFDi32pj6bK25yTgLwmmpuE6nBjIQEkLZ
-	ps+HAy17OyaXtVXDl9qqYnlFbwlLbpkldC9+JHYig1THCRT7XNFHwx2ZYYwumtgm
-	4bv4NRNyR+shv4a3tyLNWUCia0Nz+I9T4lFMYb0WrW/1IlKQ+Mi4AOPSws0vDgmr
-	X2ZvPCo62xkwKzcBiQqukrol9Z6cd/ZnWgaMKQM8mBj+pwMQ==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010032.outbound.protection.outlook.com [52.101.193.32])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bvt85drjy-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 28 Jan 2026 16:26:45 -0800 (PST)
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=w4KD3KYF+9ncDz/04CKE
+	U+Nq4QpXBa6Xuo/X4ExsZ7o=; b=F01c/lbcc+MuyGshLt4DGkudsHt0lOVJCj8b
+	HoIyEbz1/Bj9+Y6EF49h8/JdJKiPm0r3GwysYh4LDzhXDIl862wY6CbWvMqtd7cP
+	Xg/nhQHpWUPjrUnM4vVUf1e9x8novMMcP8OCHxnYU2zG23tauyo1G0WXL6dL0A1H
+	ms7CK9YYz+y9VtrT6BHZ6LvDjFpZd0mXGvEKbDbLDv9h74UwGUMYhvsgbrCKqK1W
+	ydF4nb7KzeLtUR6Vj+4ISRYuvY5B3g+/XErtnkLQaHKvEJ4rpSph5+3jYHGMHwTk
+	Jzf823aHk1981zYbvCn1FZYoIyezRqlLRL1XdBbVOG0itXONHQ==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011010.outbound.protection.outlook.com [52.101.62.10])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4byx2t82aa-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jan 2026 19:08:33 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WxKhKc9eh33kyv50NDvFztf1vnRxmgTdcHxKFfUsYB2csRrBRTph1h6K+bhB1G9Gfxo1u7azIvN9pQRijqm9QK9uJVQBGTmkm8x1ScMbe7R2E8CTNgdaTgaO+vqbd1gNFHI4jBqVxIQxJ3m6D+cqCTGGqVXoesLk6Zv9ly150xbTd06WPHFx1/LPfDfJ1k/belDBzS4+hk6xqDFAZpKW8uiTQkP4Ci56JUYzno6xmAcUrmKM50eHdrDOb6fSAWX/phGuoxrwToYjfT4Kmv4K8ZjzHvTewKti2hsA6XhKL467/uFA4y2257z0qxJ2Y8gSN9RFwGUgcXJzDqqGJXtofA==
+ b=IB4oo6SB+BFZJrJTDEnZmOE0NifWRLCQLuPXvzCV33tQ03xohhPRB3fz8fnvES/HgI8/wfur+/z3Vgh3PHynGVUuJtE+gX8QS1W624AjUpLtwDVGIAHZN1uDfG0tHqVwISH/01cgKs9E4NaFTX1zCJcBxTaoam2FuUoPQoYGpr81iJ/NjkDemrum9AH0c8B7g9b716SrTFl6774vY0WbNFy61Xg2p3XSoP4drilIuSji+ikDkyxbg8+GwgvFYN/6gC5hLmwEbLxdTM5cLGpbQHQj2ldopLuTytNFSwN70y7bE5AP/d30InJP+MLlluqk5f497jmT6w5vKlQ22pnogA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n608OM5jGXmy2XLXNVzQ510vHanLJ35FpPUiS6l3gXY=;
- b=JcHknGmEltTO3xk7IdJDlSZfHTBjY/3YM+xbt8EYsUGMc25Hk/Z7YVa4Fj2oSF9U5z18B6U3VWS7bBEebNC9d1/5lLfzKfhkWa5lJXOLFWra+G+72H1IzhIYVnhe/WLw7zsQ8Jm6JnyI+s3JAlUMQorGMcYZlp9puPRTJzqjeCpvX8vMU1VO/M8nYSzReWMu8EzpbHsLM10Yp5JKBVo4IroYsxVrHMN9nSQF1AzXaZkV+dqtjdCaqwnzjHayxQvptV5oyZzd3x3Z+q3IRof0sXGFO/FZz+bzjXGot19qSvvTM8up7o4q43j4zG65weAZNnwIb5gkMVMT0C0nKHwkjQ==
+ bh=w4KD3KYF+9ncDz/04CKEU+Nq4QpXBa6Xuo/X4ExsZ7o=;
+ b=mDo5V7PEel/co/bEPkvmynAJ59TusSvQCfS3X1mDE20uCx64grQq+YhV37yUufJS6WI0zCoUys53LXYRjQ/Q16UyjZoP2Bz1YfQmlWsoFAi/1JnOBrUCy30Rnv567db4fF6QTL20TSYB4qKeppT0wrvhnG3lCqvwR4qJQcf2lgghc8rD7zvMqSN8tq9AJC7mtUtqVkEOIbkjIqf491qTlZ8H0oyEUoqGpsx/MllCk94AUuW9f2+1CxTiNUi2c02psRBumBNg8f4Eh5EWrS0eBqCQertcarD++UB9N6yq9P2FXTg3Jq1Be/HboSchsND80ZHOQDLbti3Hq466mq6MCQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by DM4PR11MB6503.namprd11.prod.outlook.com (2603:10b6:8:8c::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.9; Thu, 29 Jan 2026 00:26:43 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9564.006; Thu, 29 Jan 2026
- 00:26:43 +0000
-Content-Type: multipart/alternative;
- boundary="------------JAef3Iu9SbZJz8mtw9gnMBHW"
-Message-ID: <5f426a3e-4220-4274-b38b-e2bae5188cee@windriver.com>
-Date: Wed, 28 Jan 2026 19:26:39 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v1] libconfig: add ptest support
-To: pratik.farkase@est.tech, openembedded-core@lists.openembedded.org
-Cc: pratik.farkase@ericsson.com
-References: <20260128140635.43214-1-pratik.farkase@est.tech>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20260128140635.43214-1-pratik.farkase@est.tech>
-X-ClientProxiedBy: BYAPR01CA0064.prod.exchangelabs.com (2603:10b6:a03:94::41)
- To CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MN0PR11MB6010.namprd11.prod.outlook.com (2603:10b6:208:371::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Thu, 29 Jan
+ 2026 03:08:30 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62%4]) with mapi id 15.20.9564.008; Thu, 29 Jan 2026
+ 03:08:29 +0000
+From: Qi.Chen@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] runqemu: restore support to run without bitbake
+Date: Thu, 29 Jan 2026 11:08:11 +0800
+Message-Id: <20260129030811.104017-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0253.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::11) To PH0PR11MB5611.namprd11.prod.outlook.com
+ (2603:10b6:510:ed::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|DM4PR11MB6503:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05e94b19-ad0e-40a0-cce5-08de5ecd13c9
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MN0PR11MB6010:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32b4ca82-ed1e-44dc-148b-08de5ee3ad17
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|4022899009|366016|376014|7053199007|13003099007|8096899003;
+	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?MDZhQkNrV2RveVR2Y3VEd3pZa1hkRHV3emVPM2NtRi83ckNrOXNrTW9XZmFR?=
- =?utf-8?B?OHUwUkxyU2tsN0sxenBQMURIR0dVakFqeWQvU3gwa2RRTjVqT2hZZk1UQjlQ?=
- =?utf-8?B?VDVXOWNsUVdRNlAyTlhTMFZCN3d5QWRsNy9SNmt3eHM3SkQ0empkdVY1VmxM?=
- =?utf-8?B?SVVtVGQ1TkdOMUlkdnY2SXY4emZvajk4Vm8rVzhOYWNuZzFCQlp5RWs2SW5u?=
- =?utf-8?B?ZHYxQTVqQmNtSUh2c0hMbnRHUG1kcG43RGNBV2N4VTFaazZsWHR0WW9uNUNl?=
- =?utf-8?B?YisvZkdkL1ZDRSt6MHJKQUd3RTRIVHVNaldTYVROY1F0RmUrZlVFU1dxdG1o?=
- =?utf-8?B?eVA0bzE5UGIrRnRBMkhKT3VGTWliKzVQZlVkbVdLZ3FrTi91TWFNOG9xWlEy?=
- =?utf-8?B?SWFyL0E3dXBqb05XeGVVVDhsenZXdmZHMlptczFsUmg1cnNSbXhwcjRRbCs0?=
- =?utf-8?B?MlI0K2dUSCtSVjI3N0owd01pOG1oaDZoelJUT1J1S2Q5Ym9UcVU5UU5OQks0?=
- =?utf-8?B?MGxQU0xudXpKeExXRnVPTFJkbmtQMkd1UkJDREJXcXBabnFwRmZIR0lSaVdS?=
- =?utf-8?B?M3cyemNDYkhra2w2K2lReGwzelJveWZYOFNUOEg2T29RMktwRURsZlI5MXli?=
- =?utf-8?B?Z1hUeGMwYVkrakZSWXpvSk9CNUhtRTZwRUJRc1p3bWtadHVvSmhEblRyUzRp?=
- =?utf-8?B?NUd3MHBiZjZUY3k3RkNkdllxOCtjYm9RekFRWUt4R0plaXVHbXZaL1RaVFBJ?=
- =?utf-8?B?QnZmU2VJQmVualMybXZsM0daUDJ1dkhDYk1STSsvdnV3a0NCMU1USnNaK1pi?=
- =?utf-8?B?TE0rS3pxTUZSTm0zeXJOZ3pLTFJCcnBnQlErTHV6N1BacE1GTVR1NVFXa3VN?=
- =?utf-8?B?bCt5S0F1QzJSRE9saDVUb0pkOGY5VE82eXJWNEhhd2xiZ1FyNWdPWlNzRzVu?=
- =?utf-8?B?NHpTbU5LcDQ0NXlBcXUvMUhpd0owd21aNFlNNU16NHdaRkNNQ0w3dFViNFZX?=
- =?utf-8?B?U2hKZWZUNHR2WCtiSU1zalk2NmlTZjQ3MlZvQnBWeHdyNGY0NGVRVGc0NGlU?=
- =?utf-8?B?WkJod1hDOEd5KzYweHp1YldMeS82MjVkdURqRC9RRUs3ZWh5MlJMaVFzMHdm?=
- =?utf-8?B?ZDd1bG9pajZsWEIvOHRNbXdRSG9nUHBWU3dDd1J2d3pELzVCZ0V1Zm1xZUxI?=
- =?utf-8?B?QTJsMEtNU0RLVGc3ajhYMndqc3ZYVXBqaE0xQzB6bFhqc3VBZjNpKzhyYkR5?=
- =?utf-8?B?dXB5K2Y0RjVldXB4bTV1bnNkY3BNSUF1dWlHMUNMRzJNMEdHNkxLU1VJNzJm?=
- =?utf-8?B?T2RpOTRzUmE2NlNlZGNFcGx5THhFVHNEa1V0a01SU21FME82aE8yNEVxZUcr?=
- =?utf-8?B?ZFdhbGd3Uml6dzFpWEdKNll5U2JMT0pUaXRpczlnb0F2aXdPMFV3eHhKeXUx?=
- =?utf-8?B?R3FHKytEYkQ1eCthendpZEtDUVN4cElCS0s0aDB3OW4zbzNYUE82cHZjSXh5?=
- =?utf-8?B?Z2JuUXFKc2lwUFdPZzlUdVZBNUdsVnZBelRpbUhoVURySGlmbjZ3djYrYVg2?=
- =?utf-8?B?OE0rQ3oxb0xDU2ZxQ09nclEvZGMyalVhODNNZENsREh2dTllT0J3bEJDSU91?=
- =?utf-8?B?cFZPTFUxZzM5TGpxeks3MUw3K3d1UEhKd2JrUzlvNUNCeCs4SnRBUmtxV1Y3?=
- =?utf-8?B?MHp4eFEyWm9DSzUrVzhhWFkraWtyZzN4TzVxVHVhYzhzQUduQXJsQVhXRzRy?=
- =?utf-8?B?Skh1RGNBd2hneHNES0VXWU9jMUdqdUNpMTdDZnFYVVVrMCtyN0tlMHd0dTRu?=
- =?utf-8?B?b3hJNERyaWtaRUpKcmZKOWF0M0xoWmxoN1RDWE5kMENVUjNoWjZFbndHTjRS?=
- =?utf-8?B?cWdpSkRmQTdjbzFqaEpEeEdHU0p3Y3ZEaXBVbVBmYVB1bXBLelI0T1poY2Zj?=
- =?utf-8?B?OFZlYjFneUQ3VGFtbW9Va0xTTnErNzFwL0pwdWxqdHpZQ29vc0Y2ckVrenBS?=
- =?utf-8?B?SnUrMEpEUHB1ZUlZdGNTVTJ2eEVZZGtvblZHOUY5UDlXUFduWE9uQ1BPVTZS?=
- =?utf-8?Q?79Mo+5?=
+	=?us-ascii?Q?VEVodVDz1PCDWcNSO0RJxenHY22rTot+2Q4VLVw/2JsM3pMufG/dKj9No0kh?=
+ =?us-ascii?Q?R51OMY6Y/eKiJgIDVQqRhkQURekeMvDq7w8eiFRyfo+90vnj8RogRfHUEXls?=
+ =?us-ascii?Q?IvJpPTcc+XukyfQ2zVebVO1zmx8E+tSEp33OFDR40dwz1eAP6imqkTdudeYW?=
+ =?us-ascii?Q?LBu+S5SjaCLkf5auvLWRi6l1Kgflwf9jDIy2twthFa7NdkfhFs8U9+1M8vZi?=
+ =?us-ascii?Q?kcUo4LJ6ZXy951dVU5r23WIOxZ9nImVqe2IjY+gxiANNsAhEFehoA3mZN3Sw?=
+ =?us-ascii?Q?4fF/+Zipu97P5j+tUrID5vBnRAs1eCz9So1TZUVcwcymfEeA1o9LWzolm4nF?=
+ =?us-ascii?Q?qmg58VufafORvO6zCrk63GPj22tQljMgDC5h6SUOWtT1/ExqONXjED2y2623?=
+ =?us-ascii?Q?Aq0XVuxWIIBcLs3tWsVhWTDjgJdtJ/atb4FUbwohBsB6wgghTJZ6OUiCapa7?=
+ =?us-ascii?Q?+3JBdXqFuMOH1eICQtZ1O4Pl6R5cGsNz8gonlBAmlDyzYOkAdCwzp1+1F5hW?=
+ =?us-ascii?Q?MUQCjabkXU9WfBuoCzoscmCgQs7rhef+9YwtoatVgOGM+oGmA2RPOqu9f+eH?=
+ =?us-ascii?Q?ERGWGN8C/9yptHzeW4gLXJvTSWEVVW4vmmM6FXEd5MyyqrfLSXJ/x+NwEJli?=
+ =?us-ascii?Q?orQVXq3hElVVmTSBGttgEvjCnW3jbl2UrWPswZU7nr//zCj8cauEpdMxLQGz?=
+ =?us-ascii?Q?XiWCENQTMUvdM5tT8P5EqjRH7U/GwksckPpWCBvJd1YV4AZtxM/quXuy0FQX?=
+ =?us-ascii?Q?XerN6nsUM6eXGvNET5kivVnlXgnUiXoTrNdv0u3gWX5oC9ukq7dZSrfQIrPH?=
+ =?us-ascii?Q?+/B47H/+F6DQ6yrYZKNl+TGqcSX9BGD17naf2lhx5HTVQtwRh6HDsdQjRH44?=
+ =?us-ascii?Q?oc0ND8BAfQ9R2oFlAGHH5eJsAH2/ULj1qKY30JWTlzbrTVqHIgigtgCSaAtG?=
+ =?us-ascii?Q?al6MDVDObGk9vqkMz1M33EtCYZhnXfPJ9qeWg1horexuP9dkN6SElppRmzFJ?=
+ =?us-ascii?Q?jIysvwFXSxKX3eUEhMDfEBt2kLbW6DCH42DNuV5yPBglRdVW35d3sFwGyhly?=
+ =?us-ascii?Q?ffEu3/x0tBlkIbIr7T6wxGNSgLT7C8eiKqbt2UJnYbXv1WziXZFAEV4SRAt2?=
+ =?us-ascii?Q?cgqo+ePe5j3N3WYklsJZuu0oLfiV31ef36Kkv8t3PD+b2aRwndQvqhjwmlTC?=
+ =?us-ascii?Q?k1LjFAfiRtIhym0IM2mImq2h/maBFfGoHvTtLPLq2THgK1mmB43uu3C1m1hf?=
+ =?us-ascii?Q?Irpbd4HlNpTfbFNUgPN+r/swXFIm3UkNPPzu3EvicZLqV+/b8TLFb5ewp3EO?=
+ =?us-ascii?Q?daYgPDt69IjeEtPJBIi1y/q+vTGUu85SoRwobFMYkvWbhfByFrwle9xL95KJ?=
+ =?us-ascii?Q?2EteMc3+VsUIwHIZqmH288epWj+Ieq5ndm+ZfAnfTlulA4rBNpZ0BslIjd9t?=
+ =?us-ascii?Q?GnDdtcCp7eObX4ft4AFKdlssfWfjrsjYKf0rNmvBV6/RXk0Mv5TgXGid7iy4?=
+ =?us-ascii?Q?nEYI05gijmQwvcYlbGqRItEZsiccRlubeRGFt/HpU/gOZSbMzQ5FtNGQBoCZ?=
+ =?us-ascii?Q?F9+xXxpZoM4xZUoTsp3Zd/YCam5wQr/vXUuOtx3olh7z8p3KAVxo1zCuCbQA?=
+ =?us-ascii?Q?i5dnoCF5PEUn6JAFN75wQAfLEPWnTIRih8xvQY47QX4U?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(366016)(376014)(7053199007)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NlVzdlJFMkpSUnFKRUloMFNPd0Q5cEtFWWJWV1h6N3k2T0NwYTFEdDJPTjZo?=
- =?utf-8?B?Nm42L2N1RVhEWlRzTmMxdVBJZ09tNFllQitwb3FMRGwwSHdoanM2UVJwWlBN?=
- =?utf-8?B?dDdoWXZjaWV2a2hLTTA1WVN1Wjd4cVBkK29LNGxMMFRzSTc0Vk1McFhQM3hT?=
- =?utf-8?B?QWxwUDc1QWNJWGVyZFMxY3I2WnV0bUJqL2dVUDJma0lja1A4TGJmd2x2OGpU?=
- =?utf-8?B?Q2lUNHI0NTdpVUpha0xPTkJBbWVOcTFQSEZjRTZLUDI2c1krVDFibDlxdzEr?=
- =?utf-8?B?bTdPQm9tWXNwWFFVQkVyQlFiWVdSRzMrNnVqWUJWZWRqUklTNGZkT0pvUFBC?=
- =?utf-8?B?MXpLZmJidDg1RUNMclZNdVJBUllkUVFvY0ZkTUZ3TTE2ODUzbTAyZEFYc3hD?=
- =?utf-8?B?bzhKMm5NY3kzbHFjTDFXT0ZOazVJSm5LeWFXZi9BNG5RQkZxNmJuVVJseGZn?=
- =?utf-8?B?UEduVDF0NUsrV1k1aVRsc3AyaksvekFEUlpPVzAxalRVdlJ4RzRUVE83WE4w?=
- =?utf-8?B?ZVlRb0FWM1YyTWZZYWhDTEtuUVFlbkRqU2hreWlxZUJ2dDRWbkNlNEVqb1M1?=
- =?utf-8?B?cW5uc2xzN1FVNDdLV2FaUWY1eVQ2ZkhteCtyL3JuWUdsTzl5eC82bXozUUov?=
- =?utf-8?B?WnFoVWx2bHl2cW1EVkZtSVN5MXd1Qy9BSW9NNWFKazJ4cXdJc09MeUZMb3NI?=
- =?utf-8?B?TS9iWXFlaDJvdzhKMGtJam9uenVrQ2orL2g0Tlo5Q0R5K2FzVFJvSG9BWjVs?=
- =?utf-8?B?UStKYWpwOVIxYVFEV1l1Myt6ZElIS1E0SjhPSzRZeS9JaEFYL043anAwa0pz?=
- =?utf-8?B?dDJqNUErU0dhL0VlMC81TnlqRUdzZnNPbFRhTm1VN0ErdFJrNWNxTDlwUXFG?=
- =?utf-8?B?T1p2cEF1ZHk3MUdORUswMEk2Zmk1Z21qOFRFWG5CTVNTUG80bnNFMzlpRDBJ?=
- =?utf-8?B?amM5RFlNV3IySyt5NkhvLzRickFxcUVRUkpUSEVCYzh2M0hVelYxdTRRbndp?=
- =?utf-8?B?aVlxc0RmeGU1UVdOVmhyZ01UM2UvTWFxRmVHdzBMZncyMnBiRUxrdzI2OWhQ?=
- =?utf-8?B?Vk1IQytZSlkyTnZyN1ovb3NvZndiUUdHbE4vS3BWdHBlWjh5YUUzRGd6Q1Na?=
- =?utf-8?B?UDZYSjFvUE03NmcwSyt6ckU2SFZzdVJBeHhabmIwOTM0UWhVT0lEaUNySVg2?=
- =?utf-8?B?QStYOXpwR2trMk40eG5DOW1lTWpLV0V2UTFJZVhJUzhSbjVRNW9ySDdNdVlY?=
- =?utf-8?B?RnBobllzV01ZQ1hYVGNEVUJFTFJnMHpEOG0rL0p4bnJHQ0s4LzArNlpMUzdE?=
- =?utf-8?B?aitaOVRVY1VyWHdNOUV4a3JlY1BYcmZjc3VadEN4dTNjYnQ0ZXdMWU1mRWI4?=
- =?utf-8?B?eVd6REFkR2EwY09ZRlgwMkpOSytRdVFiYkRpNjlIbjRlU3hFNXNDL29HS0hY?=
- =?utf-8?B?UitEM3BkY2VzY3Zlb2tsd1FRVFY1V1g2dlFHR2oweVRrUTdUWmtmbjRmNytU?=
- =?utf-8?B?aFZzRm9POWhMWDFiY0NpU1VBRlJuc0I1WXErV0U3R1NUUXFwdTErY1NtRFpW?=
- =?utf-8?B?b0I4b3FoSUpkdHdjNThzQy83UEEzQzllOVAydHBXZDRkSjJaRlBVQ2s3cFBT?=
- =?utf-8?B?c2N5SlZMSUhPakpLRUEvU3VMTlRIbVE3NTcyVERGMW0vNjkzNnFkTHAvVWdF?=
- =?utf-8?B?dC8wTVdLYm1MRWM4STIyU08rdHdYWGVGWjVUNE5TODRib2JBZi9BSjVBSWo2?=
- =?utf-8?B?UmJVU2tpRUJBVTFmOVNjUlNhT3phSlEyRkYxb0JPOHlKL0hGOTZJQ1dtMzY4?=
- =?utf-8?B?aldsRU1jOWZlSG45SmJIcm5kZzR4VXRKbVdhOTJsUVV4OU52M2lQZXM0Q3B1?=
- =?utf-8?B?MTVURXlYYjRSRlBRWlNTanMyTWZQYkplU3VSY2dUUzZaa3E4eWgvODZUZWdQ?=
- =?utf-8?B?cjdYOFVFZlNTR2xwNmhpNGhTOGxWTFJQaDNXcGVoMUgxN0Z2dnR5dDZlbXk4?=
- =?utf-8?B?NlhBYjNzeDlpYjk0OHlGc3VlZlBrNnBBSklFWDY2YWJpc2xNcG1ZU2xzckVl?=
- =?utf-8?B?SnNidjE2NlZjeEsyNGNGVm9aNUtIdUxsQlcrai9wWldZckZxMFoyQTNUc3ds?=
- =?utf-8?B?RlhJS00wbHUyMFFOcWVkQUNMQ25MeitNRytJbms3cE1CU0RBVnZiM3BlcnRk?=
- =?utf-8?B?STJhZk1TZnd6Qk9laGY2V0Exbk9jUEorU291aXdpNmNpcy9PUzBRT0RzVXlI?=
- =?utf-8?B?OTdLelRsVFlZT0Fwc211azd0R0JzZGROU1Jpc0FTb1Q2allJeEg3TU9SZFpa?=
- =?utf-8?B?QllzUWV5S2VlUXFiMGRLOEpZTDdmTGxxaC83TkZHNi9EVTQrcndZUjdJYUk3?=
- =?utf-8?Q?Mw6XFn3NJTx/l1BM=3D?=
+	=?us-ascii?Q?8ArDRIYDAjpNxyuOKIKkEb3LX9xBWWPoNG+hQ/YGlIuSdrVSSoFY6vCmgL7W?=
+ =?us-ascii?Q?nBDb2gNWcU+Bb4apExWCn9LGkDx/g7Qx797pl/EHwp0yCg6AUCEaHwrsff4V?=
+ =?us-ascii?Q?YxjANwWyFyZudpnCrn/yunhADLn3zYLcbKKfIHgDX34wK7VvJ4xPkmQTnLis?=
+ =?us-ascii?Q?TkhvSb5c6WeZPvk78J6uxvcPXzByKg9bEHBf/jLVsdySB4ZcaeP5BnroMNes?=
+ =?us-ascii?Q?lU9YwmIEP23w7rpprZmR0tPUzr/7AK6vR30WlwUAOX7Vr+BZLBERIBhi1/ma?=
+ =?us-ascii?Q?aDXR2LBDSKmK33Kj0vqeizsV91udrQQ08A0HZsjoK+kt6j9C1zIIddFZ6oN/?=
+ =?us-ascii?Q?+L27De8olGfRfdJSWeAt0Bme7Z2/jTmY4vi57mMYUFMYQR3Y170l4c6ASNPO?=
+ =?us-ascii?Q?2BRTtUdnloSxMMNUWBo7HYB1xtHCVr8ZTc3tVzZ3MtvaPSghfPoREPn07cvQ?=
+ =?us-ascii?Q?HCNcs1n+Q4A0pLnJ9Jd5HwEqWkvo7Wci1SYPaGOPmgvPk7MnuuO7nAFuq+s5?=
+ =?us-ascii?Q?nWFavxRoVw6GQs5Mnp5vdhi16K9vWRiu+XkYr3vYBbGu4KdrQZLWCagUqMOw?=
+ =?us-ascii?Q?u5/DBtjYskNbb8f+lG0sSq7M9s2jHeiq9wOZxHzouBVBRyRMVMosH74Pxqda?=
+ =?us-ascii?Q?1a6e8mnapU5c0QyCdJ6JZlvghv+P1E/C9mM1ppOhzYsPKMgB49+HMSzsMGOA?=
+ =?us-ascii?Q?mw5ZBJV9kKkBKc348UUnwLB/lxXVp7XWVpvhTcDvPeu6NdcCda4nrzd/clgF?=
+ =?us-ascii?Q?/zf3frNxzfUM+p/JrFfYQHtkX3ZyVP+TKW0x443Rd06quHla7CXbdKkm9J+o?=
+ =?us-ascii?Q?xH+/8IR1sn8mjX3MT29UI/YD3OG43B5Sy5NarbDFehCTTAXaxSE8+YNQ5hGv?=
+ =?us-ascii?Q?w6WthcOyletoufsLDAbkFjOGdP5R3cLOUQvPLLcnT0X9y5x3Q10Qfm/Cc1wC?=
+ =?us-ascii?Q?OOjkXY45ZJS5nC2ENEKkGeD3Qh4OL81H/7nmyc7h1ZBrBzxVQiKygoR80ImD?=
+ =?us-ascii?Q?Nkc36dC/6Cgl/7kJRAvyHszCIqp01YaXIkqAuFGrc7yvyQewuS3HA4XQAluH?=
+ =?us-ascii?Q?QflATrOYM5SIZZXnvdqPAxEn6Jk2of5NA7/o7bBf+WOVe5aCwzErIR6z9f1Z?=
+ =?us-ascii?Q?4+jTqy5xR+lgHU3LBQjw4GIRd8W+8uk82wnk49lQ6FOenJMf52ad7zBA1To6?=
+ =?us-ascii?Q?AnlAOdZMUYSyffLLKnQ+k8IWgHBFLZMQ36Fn4/ACb9fZ1I5P8aEvjqWLUDrA?=
+ =?us-ascii?Q?oQau3E/A8TGgtqpRIVxnlrrW4jsumzL5TzQAwwBilwSulCgrTnZ5IiJtXejh?=
+ =?us-ascii?Q?/5dgtrHS0hBxQqxE8I6BVaTn0G5s9Uke8QJ784AqBCAOpsegk+sqFDyeCn+z?=
+ =?us-ascii?Q?Ir/RmwyGacRX7iw5k1yDUaVshs3v6DOvlX/s0L9mWO6+Z6tdFApEk7qahZlM?=
+ =?us-ascii?Q?OvFzazZW+Druko9Yi17oZt1A4rjyAi+AsH1Pcz5JoHfjzvK7ohJKZPZE7+8O?=
+ =?us-ascii?Q?ZtAC4EU2Jbwu5U44sm728OPeDg1hw5v7RReJYenKg2wJDmE8FKtkXSoODefa?=
+ =?us-ascii?Q?tt4Qt3hkI0ldrMJe0m0JWjrgVcCpTPwEBS/FtUdJeqw6oUE/IQuZ771JkF9z?=
+ =?us-ascii?Q?Gt9Z2edOvk7NhJ1M58Lpncywqa9o8Kv7Cth6x1wXTJWtWsF24aHaGA9qesig?=
+ =?us-ascii?Q?2TOHT6kN7vxtt9BQyMNw6xOdMjG9QDplPr1FxZ/gPYjlj7nF/6pNP2tRHUEF?=
+ =?us-ascii?Q?azz38WbdIA=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05e94b19-ad0e-40a0-cce5-08de5ecd13c9
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32b4ca82-ed1e-44dc-148b-08de5ee3ad17
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 00:26:42.9435
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 03:08:29.8968
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FHRAq4UaokYPbAlLtPFwzt/z4g71PcBDqi90oWnHS/JcM+PPexO+0UW1ETRlawWOgm9q8xjyt5b0T6w9fo8mz92QzxILQ1y/MTRLr2qKCY4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6503
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI5MDAwMSBTYWx0ZWRfX1sMxCuCs0r4W
- RnNPhruzwhErvV1zg5B7RqXy8fpKW+zAh0xjr0tLT2jAvVTxPXRM0Fp3uJbb7kWAtFHZV3f++eI
- m7dujLpaUrwhPZh7GOqqIHynvQ2phfh8znGOT8AHcXmzqibP6R3Z03uecGKM8wgFq4JaAE4+i8i
- 3yqIO1k22rzpoa/i755QdJIpC1kywAA5NN/BkUGvdel/jJLLrhYR2ltxcPcpPewEDVslhlQKU67
- 9rA8HNwjrHwQP+tLVTAJlAgL5fBhi6ekLaAFZBDXidRCmV1Yp83ebcmhTMFypXeqnjUuTD/72ki
- d0HaQQoB4CC/qg2QdePf8H1jAbSOFyzmOj7E1PF7qETtre0YGe929ZeS0YyLVcakgX1JMYz5J79
- 7/SvR3NjGaz9I8CCOuKSTBqW7lA2+1IeITXRAys8cjPVGi28nxRE5ssu4XxJghgj6Rb4oafBLv0
- jw74rma7sZRxiU2seOg==
-X-Proofpoint-GUID: LDqBPUuXFC9bIv8BtfoFLZ8XUiymyp_2
-X-Authority-Analysis: v=2.4 cv=M6lA6iws c=1 sm=1 tr=0 ts=697aa946 cx=c_pps
- a=eJMC1fB0Wmzbl6MXJ2sZyA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: H/vsy3jBC2Cfd24q/sIt8eAK5Mf0x0DWaBxngslPTrmB4khgmARvireTG8NRYJK1KULHe6xqje2uaIwsSk7X8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6010
+X-Proofpoint-ORIG-GUID: PB5Ccgg6rWz68a72qAmgIASJulc9Dnh7
+X-Proofpoint-GUID: PB5Ccgg6rWz68a72qAmgIASJulc9Dnh7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI5MDAxOSBTYWx0ZWRfXzBkeYbkcaIhu
+ lMq69g31kGguhBrTY+BlAhQWNbA3N0hD0mJuVD6V1eNSqf/17VlXaBttfrJFO9WJIIltB/QnzAI
+ h/+W2nOM82/CckootfX+i1d2tQoD3GCL7cvDUh5cLFgzsmIiuJEIOpDTEtmFF5KIGRuDM/2KXlq
+ +0eJcD/BqFesmuchLdX8ov+QNJ2yWg6klxhJ4IW3keCxmy3Ewpm0fokuBn7Tg+/czMRAxY1NNEo
+ g0noAA6NFwR4yrNwRzgXneVZpH4PgxdFZBrCxGxnom8e2anREGAQAD9B9ik7ot76wxLFpMg6PX9
+ PhgsaSlKkg8vmVWVs8zHmVxiWztVuD+imMU92SwQ8c58zDhgb4PJHEc3wuW8KBDJou2N4UfatiM
+ r21I9qem0Yj5Ax+Cfy6gTATNCiqVIjerxV3+79OeMye39r8xyBIt+uqnj5xr7fOn2/k2uYppZZw
+ oSlNr32fthmDWnZ128Q==
+X-Authority-Analysis: v=2.4 cv=NcDrFmD4 c=1 sm=1 tr=0 ts=697acf31 cx=c_pps
+ a=1oswHZhTlIntAJ9aeONiTQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=ozPUOsCc-64JgSptfX4A:9
- a=QEXdDO2ut3YA:10 a=0MH6S1u3OS19dlpsmasA:9 a=qg5tjGnNrBhjWbTa:21
- a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: Nt_2ernZSm9Nvc53UfmnnxNdwjP9g8Rc
+ a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=2V6DY6BgAAAA:8 a=Oi8JoTq9TeFMMREfi6MA:9
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=ldqKKs2zR4t-S6fqr-1n:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-01-28_06,2026-01-28_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 malwarescore=0 phishscore=0 spamscore=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601290001
+ spamscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 clxscore=1015 malwarescore=0 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601290019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 00:26:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230109
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 03:08:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230110
 
---------------JAef3Iu9SbZJz8mtw9gnMBHW
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Hi Pratik,
+This patch is basically a revert of the following three patches:
+- 0c10a78796 scripts/runqemu: raise an error when bitbake was not found
+- b931f74442 scripts/runqemu: remove the code block that works around the missing bitbake environment
+- 8197be4dd3 runqemu: ensure that bitbake environment is either returned, or an exception is raised
 
-On 2026-01-28 9:06 a.m., Pratik Farkase via lists.openembedded.org wrote:
-> Add ptest support to enable automated testing of libconfig
-> using ptest-runner.
-Nice, thanks.
->
-> The implementation uses libtool --mode=install to properly
-> install test binaries, avoiding issues with libtool wrapper
-> scripts. Tests are built via 'make check TESTS=' to compile
-> without running during the build phase.
->
-> The test suite includes 16 tests covering parsing, formatting,
-> binary/hex values, escaped strings, and various edge cases.
-> All tests pass successfully on qemux86-64 :
-> START: ptest-runner
-> BEGIN: /usr/lib/libconfig/ptest
-> [TEST] ParsingAndFormatting
-> parsing testdata/input_0.cfg
-> parsing testdata/input_1.cfg
-> parsing testdata/input_2.cfg
-> parsing testdata/input_3.cfg
-> parsing testdata/input_4.cfg
-> parsing testdata/input_5.cfg
-> parsing testdata/input_6.cfg
-> parsing testdata/input_7.cfg
-> [ OK ] ParsingAndFormatting
->
-> [TEST] ParseInvalidFiles
-> [ OK ] ParseInvalidFiles
->
-> [TEST] ParseInvalidStrings
-> [ OK ] ParseInvalidStrings
->
-> [TEST] BigInt1
-> [ OK ] BigInt1
->
-> [TEST] BigInt2
-> [ OK ] BigInt2
->
-> [TEST] BigInt3
-> [ OK ] BigInt3
->
-> [TEST] BigInt4
-> [ OK ] BigInt4
->
-> [TEST] BigInt5
-> [ OK ] BigInt5
->
-> [TEST] BigInt6
-> [ OK ] BigInt6
->
-> [TEST] BigInt7
-> [ OK ] BigInt7
->
-> [TEST] RemoveSetting
-> [ OK ] RemoveSetting
->
-> [TEST] EscapedStrings
-> [ OK ] EscapedStrings
->
-> [TEST] OverrideSetting
-> [ OK ] OverrideSetting
->
-> [TEST] SettingLookups
-> [ OK ] SettingLookups
->
-> [TEST] ReadStream
-> [ OK ] ReadStream
->
-> [TEST] BinaryAndHex
-> some auto big hex: 4294967296
-> some auto big bin: 8589934591
-> negativehex: -1430532899
-> [ OK ] BinaryAndHex
->
-> 16 tests; 16 passed, 0 failed
-> PASS: libconfig_tests
-> DURATION: 0
-> END: /usr/lib/libconfig/ptest
-> STOP: ptest-runner
-> TOTAL: 1 FAIL: 0
->
-> Change-Id: Ibd69ccd63ce0168571d46a199c08be59ea748d69
-> Signed-off-by: Pratik Farkase<pratik.farkase@est.tech>
-> ---
->   .../distro/include/ptest-packagelists.inc     |  1 +
->   .../libconfig/libconfig/run-ptest             | 16 ++++++++++++++
->   .../libconfig/libconfig_1.8.2.bb              | 21 ++++++++++++++++++-
->   3 files changed, 37 insertions(+), 1 deletion(-)
->   create mode 100755 meta/recipes-extended/libconfig/libconfig/run-ptest
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index 739995bcfe..7c5810f252 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -29,6 +29,7 @@ PTESTS_FAST = "\
->       json-c \
->       json-glib \
->       libcheck \
-> +    libconfig \
->       libconvert-asn1-perl \
->       libexif \
->       libgpg-error\
-> diff --git a/meta/recipes-extended/libconfig/libconfig/run-ptest b/meta/recipes-extended/libconfig/libconfig/run-ptest
-> new file mode 100755
-> index 0000000000..d81fcf4def
-> --- /dev/null
-> +++ b/meta/recipes-extended/libconfig/libconfig/run-ptest
-> @@ -0,0 +1,16 @@
-> +#!/bin/sh
-> +
-> +cd tests
-> +
-> +for t in libconfig_tests; do
-> +    if [ -x ./$t ]; then
-> +        ./$t
-> +        if [ $? -eq 0 ]; then
-> +            echo "PASS: $t"
-> +        else
-> +            echo "FAIL: $t"
-> +        fi
-> +    else
-> +        echo "SKIP: $t"
-> +    fi
-> +done
-> diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-> index 6e08a7b04b..9ae0ce2e6e 100644
-> --- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-> +++ b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM ="file://COPYING.LIB;md5=17c8e32f0f72580cc2906b409d46b5ac"
->   
->   SRC_URI = " \
->       git://github.com/hyperrealm/libconfig.git;protocol=https;branch=master;tag=v${PV} \
-> +file://run-ptest \
->   "
->   SRCREV = "a42cb47c1526a4f2ed025fcbb2289863375bc898"
->   
-> @@ -17,7 +18,7 @@ DEPENDS += "bison-native flex-native"
->   
->   UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
->   
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig ptest
->   
->   PACKAGE_BEFORE_PN = "${PN}++"
->   FILES:${PN}++ = "${libdir}/${BPN}++*${SOLIBS}" @@ -27,3 +28,21 @@ do_compile:prepend() { rm -f 
-> ${S}/lib/grammar.[ch] rm -f ${S}/lib/scanner.[ch] } + 
-> +do_compile_ptest() { + oe_runmake -C tests check TESTS= +} + 
-> +do_install_ptest() { + install -d ${D}${PTEST_PATH}/tests + + if [ -f 
-> ${B}/tests/libconfig_tests ]; then + libtool --mode=install install -m 
-> 0755 ${B}/tests/libconfig_tests 
-> ${D}${PTEST_PATH}/tests/libconfig_tests + fi + + if [ -d 
-> ${S}/tests/testdata ]; then + cp -r ${S}/tests/testdata 
-> ${D}${PTEST_PATH}/tests/ + fi +} + +RDEPENDS:${PN}-ptest += "bash"
-Why do you need bash rather than any posix shell?
-We run the ptests in a minimal environment so if busybox shell works, 
-please drop this.
+The comment is also changed to reflect the current usage:
+"invoked from a running bitbake instance" ->
+"invoked from environment with no bitbake (e.g., SDK)"
 
-If not, please either remove the bash dependency or explain it in the 
-commit log.
+This code path was deleted by accident based on the reason that nobody
+is using it. But in fact, running runqemu from SDK needs this code path.
+Such case has been supported for years.
 
-Thanks,
+A little more history on this code path:
+In 2016/09/09, this code path was introduced[1]. It was introduced
+originally to handle running bitbake inside bitbake situation.
+In 2026/09/19, running runqemu from SDK is supported using this code
+path[2]. This means that this code path was then needed by one more case: SDK.
 
-../Randy
+Supporting running nativesdk-qemu from SDK easily via our script dates back to
+more than 18 years ago, as shown by 'git blame' on the nativesdk-qemu-helper recipe[3].
 
+[1] https://git.openembedded.org/openembedded-core/commit/?id=1e8165ea2f19aecdc03ccd102ee44ef0544f0f39
+[2] https://git.openembedded.org/openembedded-core/commit/?id=93649edc034f2540ff55dc9b41638797209cfb9c
+[3] https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
 
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230097):https://lists.openembedded.org/g/openembedded-core/message/230097
-> Mute This Topic:https://lists.openembedded.org/mt/117507676/3616765
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------JAef3Iu9SbZJz8mtw9gnMBHW
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Hi Pratik,<br>
-      <br>
-      On 2026-01-28 9:06 a.m., Pratik Farkase via lists.openembedded.org
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20260128140635.43214-1-pratik.farkase@est.tech">
-      <pre wrap="" class="moz-quote-pre">Add ptest support to enable automated testing of libconfig
-using ptest-runner.</pre>
-    </blockquote>
-    Nice, thanks.<br>
-    <blockquote type="cite" cite="mid:20260128140635.43214-1-pratik.farkase@est.tech">
-      <pre wrap="" class="moz-quote-pre">
-
-The implementation uses libtool --mode=install to properly
-install test binaries, avoiding issues with libtool wrapper
-scripts. Tests are built via 'make check TESTS=' to compile
-without running during the build phase.
-
-The test suite includes 16 tests covering parsing, formatting,
-binary/hex values, escaped strings, and various edge cases.
-All tests pass successfully on qemux86-64 :
-START: ptest-runner
-BEGIN: /usr/lib/libconfig/ptest
-[TEST] ParsingAndFormatting
-parsing testdata/input_0.cfg
-parsing testdata/input_1.cfg
-parsing testdata/input_2.cfg
-parsing testdata/input_3.cfg
-parsing testdata/input_4.cfg
-parsing testdata/input_5.cfg
-parsing testdata/input_6.cfg
-parsing testdata/input_7.cfg
-[ OK ] ParsingAndFormatting
-
-[TEST] ParseInvalidFiles
-[ OK ] ParseInvalidFiles
-
-[TEST] ParseInvalidStrings
-[ OK ] ParseInvalidStrings
-
-[TEST] BigInt1
-[ OK ] BigInt1
-
-[TEST] BigInt2
-[ OK ] BigInt2
-
-[TEST] BigInt3
-[ OK ] BigInt3
-
-[TEST] BigInt4
-[ OK ] BigInt4
-
-[TEST] BigInt5
-[ OK ] BigInt5
-
-[TEST] BigInt6
-[ OK ] BigInt6
-
-[TEST] BigInt7
-[ OK ] BigInt7
-
-[TEST] RemoveSetting
-[ OK ] RemoveSetting
-
-[TEST] EscapedStrings
-[ OK ] EscapedStrings
-
-[TEST] OverrideSetting
-[ OK ] OverrideSetting
-
-[TEST] SettingLookups
-[ OK ] SettingLookups
-
-[TEST] ReadStream
-[ OK ] ReadStream
-
-[TEST] BinaryAndHex
-some auto big hex: 4294967296
-some auto big bin: 8589934591
-negativehex: -1430532899
-[ OK ] BinaryAndHex
-
-16 tests; 16 passed, 0 failed
-PASS: libconfig_tests
-DURATION: 0
-END: /usr/lib/libconfig/ptest
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-Change-Id: Ibd69ccd63ce0168571d46a199c08be59ea748d69
-Signed-off-by: Pratik Farkase <a class="moz-txt-link-rfc2396E" href="mailto:pratik.farkase@est.tech">&lt;pratik.farkase@est.tech&gt;</a>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libconfig/libconfig/run-ptest             | 16 ++++++++++++++
- .../libconfig/libconfig_1.8.2.bb              | 21 ++++++++++++++++++-
- 3 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-extended/libconfig/libconfig/run-ptest
+ scripts/runqemu | 47 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 36 insertions(+), 11 deletions(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 739995bcfe..7c5810f252 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -29,6 +29,7 @@ PTESTS_FAST = &quot;\
-     json-c \
-     json-glib \
-     libcheck \
-+    libconfig \
-     libconvert-asn1-perl \
-     libexif \
-     libgpg-error\
-diff --git a/meta/recipes-extended/libconfig/libconfig/run-ptest b/meta/recipes-extended/libconfig/libconfig/run-ptest
-new file mode 100755
-index 0000000000..d81fcf4def
---- /dev/null
-+++ b/meta/recipes-extended/libconfig/libconfig/run-ptest
-@@ -0,0 +1,16 @@
-+#!/bin/sh
-+
-+cd tests
-+
-+for t in libconfig_tests; do
-+    if [ -x ./$t ]; then
-+        ./$t
-+        if [ $? -eq 0 ]; then
-+            echo &quot;PASS: $t&quot;
-+        else
-+            echo &quot;FAIL: $t&quot;
-+        fi
-+    else
-+        echo &quot;SKIP: $t&quot;
-+    fi
-+done
-diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-index 6e08a7b04b..9ae0ce2e6e 100644
---- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-+++ b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://COPYING.LIB;md5=17c8e32f0f72580cc2906b409d46b5ac">&quot;file://COPYING.LIB;md5=17c8e32f0f72580cc2906b409d46b5ac&quot;</a>
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 32a3d6296a..7e3d11f653 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1007,12 +1007,34 @@ to your build configuration.
+             if not self.bitbake_e:
+                 self.load_bitbake_env()
  
- SRC_URI = &quot; \
-     git://github.com/hyperrealm/libconfig.git;protocol=https;branch=master;tag=v${PV} \
-+    <a class="moz-txt-link-freetext" href="file://run-ptest">file://run-ptest</a> \
- &quot;
- SRCREV = &quot;a42cb47c1526a4f2ed025fcbb2289863375bc898&quot;
+-            native_vars = ['STAGING_DIR_NATIVE']
+-            for nv in native_vars:
+-                s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
+-                if s and s.group(1) != self.get(nv):
+-                    logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
+-                    self.set(nv, s.group(1))
++            if self.bitbake_e:
++                native_vars = ['STAGING_DIR_NATIVE']
++                for nv in native_vars:
++                    s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
++                    if s and s.group(1) != self.get(nv):
++                        logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
++                        self.set(nv, s.group(1))
++            else:
++                # when we're invoked from environment with no bitbake (e.g., SDK),
++                # we won't be able to call `bitbake -e`, then try:
++                # - get OE_TMPDIR from environment and guess paths based on it
++                # - get OECORE_NATIVE_SYSROOT from environment (for sdk)
++                tmpdir = self.get('OE_TMPDIR')
++                oecore_native_sysroot = self.get('OECORE_NATIVE_SYSROOT')
++                if tmpdir:
++                    logger.info('Setting STAGING_DIR_NATIVE and STAGING_BINDIR_NATIVE relative to OE_TMPDIR (%s)' % tmpdir)
++                    hostos, _, _, _, machine = os.uname()
++                    buildsys = '%s-%s' % (machine, hostos.lower())
++                    staging_dir_native = '%s/sysroots/%s' % (tmpdir, buildsys)
++                    self.set('STAGING_DIR_NATIVE', staging_dir_native)
++                elif oecore_native_sysroot:
++                    logger.info('Setting STAGING_DIR_NATIVE to OECORE_NATIVE_SYSROOT (%s)' % oecore_native_sysroot)
++                    self.set('STAGING_DIR_NATIVE', oecore_native_sysroot)
++                if self.get('STAGING_DIR_NATIVE'):
++                    # we have to assume that STAGING_BINDIR_NATIVE is at usr/bin
++                    staging_bindir_native = '%s/usr/bin' % self.get('STAGING_DIR_NATIVE')
++                    logger.info('Setting STAGING_BINDIR_NATIVE to %s' % staging_bindir_native)
++                    self.set('STAGING_BINDIR_NATIVE', '%s/usr/bin' % self.get('STAGING_DIR_NATIVE'))
  
-@@ -17,7 +18,7 @@ DEPENDS += &quot;bison-native flex-native&quot;
+     def print_config(self):
+         logoutput = ['Continuing with the following parameters:']
+@@ -1691,6 +1713,9 @@ to your build configuration.
+         self.cleaned = True
  
- UPSTREAM_CHECK_GITTAGREGEX = &quot;^v(?P&lt;pver&gt;\d+(\.\d+)+)$&quot;
+     def run_bitbake_env(self, mach=None, target=''):
++        bitbake = shutil.which('bitbake')
++        if not bitbake:
++            return
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig ptest
+         if not mach:
+             mach = self.get('MACHINE')
+@@ -1707,10 +1732,6 @@ to your build configuration.
+         else:
+             cmd = 'bitbake -e %s %s' % (multiconfig, target)
  
- PACKAGE_BEFORE_PN = &quot;${PN}++&quot;
- FILES:${PN}++ = &quot;${libdir}/${BPN}++*${SOLIBS}<a class="moz-txt-link-rfc2396E" href="mailto:@@-27,3+28,21@@do_compile:prepend(){rm-f${S}/lib/grammar.[ch]rm-f${S}/lib/scanner.[ch]}++do_compile_ptest(){+oe_runmake-CtestscheckTESTS=+}++do_install_ptest(){+install-d${D}${PTEST_PATH}/tests++if[-f${B}/tests/libconfig_tests];then+libtool--mode=installinstall-m0755${B}/tests/libconfig_tests${D}${PTEST_PATH}/tests/libconfig_tests+fi++if[-d${S}/tests/testdata];then+cp-r${S}/tests/testdata${D}${PTEST_PATH}/tests/+fi+}++RDEPENDS:${PN}-ptest+=">&quot;
-@@ -27,3 +28,21 @@ do_compile:prepend() {
-     rm -f ${S}/lib/grammar.[ch]
-     rm -f ${S}/lib/scanner.[ch]
- }
-+
-+do_compile_ptest() {
-+    oe_runmake -C tests check TESTS=
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+
-+    if [ -f ${B}/tests/libconfig_tests ]; then
-+        libtool --mode=install install -m 0755 ${B}/tests/libconfig_tests ${D}${PTEST_PATH}/tests/libconfig_tests
-+    fi
-+
-+    if [ -d ${S}/tests/testdata ]; then
-+        cp -r ${S}/tests/testdata ${D}${PTEST_PATH}/tests/
-+    fi
-+}
-+
-+RDEPENDS:${PN}-ptest += &quot;</a>bash&quot;</pre>
-    </blockquote>
-    Why do you need bash rather than any posix shell?<br>
-    We run the ptests in a minimal environment so if busybox shell
-    works, please drop this.<br>
-    <p>If not, please either remove the bash dependency or explain it in
-      the commit log.</p>
-    <p>Thanks,<br>
-    </p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:20260128140635.43214-1-pratik.farkase@est.tech">
-      <pre wrap="" class="moz-quote-pre">
-</pre>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#230097): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/230097">https://lists.openembedded.org/g/openembedded-core/message/230097</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/117507676/3616765">https://lists.openembedded.org/mt/117507676/3616765</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+-        bitbake = shutil.which('bitbake')
+-        if not bitbake:
+-            raise OEPathError("Bitbake is needed to run '%s', but it is not found in PATH. Please source the bitbake build environment." % cmd.strip())
+-
+         logger.info('Running %s...' % cmd)
+         try:
+             return subprocess.check_output(cmd, shell=True).decode('utf-8')
+@@ -1722,7 +1743,11 @@ to your build configuration.
+                 cmd = 'MACHINE=%s bitbake -e %s %s' % (mach, multiconfig, target)
+             else:
+                 cmd = 'bitbake -e %s %s' % (multiconfig, target)
+-            return subprocess.check_output(cmd, shell=True).decode('utf-8')
++            try:
++                return subprocess.check_output(cmd, shell=True).decode('utf-8')
++            except subprocess.CalledProcessError as err:
++                logger.warning("Couldn't run '%s' to gather environment information, giving up with 'bitbake -e':\n%s" % (cmd, err.output.decode('utf-8')))
++                return ''
+ 
+ 
+     def load_bitbake_env(self, mach=None, target=None):
+-- 
+2.34.1
 
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------JAef3Iu9SbZJz8mtw9gnMBHW--
 
