@@ -1,380 +1,225 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D133D358EE
-	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 09:39:56 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11695.1769679592912696210
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D0CD358F2
+	for <webhook@archiver.kernel.org>; Thu, 29 Jan 2026 09:58:06 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11721.1769680679582182308
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jan 2026 01:39:53 -0800
+ Thu, 29 Jan 2026 01:57:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=HBkSLAH/;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-432d28870ddso478159f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 01:39:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769679591; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M+VuSBng;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5014b7de222so9094651cf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 01:57:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769680678; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZXQ4JCjB5S3dEymJF+9Pwp0dmbMsYkAnQ7CXJyHPBvtRwNUUDN72Ss20EwdULcTJJs
-         pT2ptIj2U6r4DY4V5gROYn+uD2x+/mfILWnQFna8v4D1TYLgHscm4aJ/+38xlPjylVvV
-         x3CTN38CoWoT4d9Cp71E5uVP2LDD8zTarazZrpikwuli5qLlWxzhe/tcu6gA7DXtdmmK
-         rcf1nPyEQXQZkkiLtgRwvsjLn3LL9BB3mu5DPGrMWEQdCZZ55Jk0fQj42nNrrARwDu9d
-         Bs/k7JFSS9BQ1Am9Un4inkfLwSUGkWzD0zQsSiJAtGFm7TNRWYCuxkZG3oVd4qviIvfO
-         LQbA==
+        b=XHjKPJIGKzO6NyO3Zz8eHok2cFHjJcZhXixPJWm5FhhZ4EH2ViJgA+5/TcfBhaT7SI
+         XK4KzvllTB7QSdVXDDLNHLtpc/8kuu4/xZ6ljSfjGh23R2VUJwrgOLWMnICJS7olqU3X
+         cMvIQ8V6TL49paOGZs0ZCAE6amUORwuobxV1MK0q1un1rEhpBE/y8rkJ2sWgkm0EFpNP
+         FSwErPhKkpUa+oByvtL9tFcvrofl1wcky/lE1OR75AB3l0H3bmW54aIBIlyikloZ3uyq
+         flIaX+qssunQTOYiPzrREcFdDSSlQXoz8pL4iQrt+lZNLz8mrUxc0rfs1Abrk/cnPXoK
+         35eQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=VfsSFzTDa0vVY4jnjuZaF8nN065QhQM8dWuu4mZSSuQ=;
-        fh=dI4eGhhXRYQf7RsXLxEGaKg0Olh6BsHtf/nuVeEubBo=;
-        b=F8sKGAu48ovhplOWEKY7o88zP8o3/5Tbz0TGZHgcTy+ddHWsHvV85Qe2AyxSPBLpQ6
-         kl0VQnkQHQVKKQmsq9OykiYjECN+ug5VmarQHrlBi8tT+a8m0mokMqEdpIiOfd1+Z1DJ
-         G4I0ORw2C/WyTaxJBtOfcRggbVBpoR35+puoFQsuy8k6zWH2eft9tANgtCrP6eT9zjuD
-         j+8aqxdYIYdVB3jq5A4PA9J/ie6OC91BcG8p/WENGMtPdM0MCACh0wlwkzGNC9rHTAj6
-         +UlTelX9Q89d3BMnPGDLqZwc5nPEXMYtIqpFfgmyq++b+lyCzbpzVtb08h5CrDPcIFMy
-         bfMg==;
+        bh=VywBhHQe/uATiuqt2Purj3b0mr5jT/T8wve2a0zNm/0=;
+        fh=85FywoQ4TyE09dpZ07ihji6RE1UFygBEWt/2b8ei3sM=;
+        b=XCtXqMcq8QBcH+IJ1lO4U8cd0qYvGe8wku3TwNT+MhIxA0GN5npR+14omV9cTE7OFA
+         GIDVI6mOqnMN8ndAapTpr0sgpBtd/MlV6sM4ZwySZYNwxBgfYKz9x2GEyDcVHvA5mDS9
+         BEmO0smZDxYawvgwwzQDQHuzqsqD4742APexXLlKMuiInnlpuXFUl5Xm9L3EKjcIurLB
+         g2Wtr6FdDcQKq/vDNgcyva+VK2nR92UREVglIpRMcAWGuWQCsBBj6UeZPZLDd2/kL+hY
+         wWaZJjpImwMky1KmMDFsbtdRJJGfVPE8FfLerf0TDA99g0Vx9mgnq3ICHiOKkOp6StIS
+         dpgw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769679591; x=1770284391; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1769680678; x=1770285478; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VfsSFzTDa0vVY4jnjuZaF8nN065QhQM8dWuu4mZSSuQ=;
-        b=HBkSLAH/dETQpXy5wC/kMMoZ2qUtfH8S26smZOE9JQXgrbXWQdD1maRTTEr1mzSdCL
-         zDjuIti30etTpXmrQpE2yO3DZOQ+WczoTy3hfsyLkua03NemOqVSYS4icgv6NlRCsJhF
-         sOKCq8I53VtO0enzOjV0eGdiE75FU2mCCgZHU=
+        bh=VywBhHQe/uATiuqt2Purj3b0mr5jT/T8wve2a0zNm/0=;
+        b=M+VuSBngWdOVrhTWPbEzXeArrIhTxTFgaIoe4MnMmON08CLt6qWmZCi4zq1xv5FBBT
+         +U1VInfOHcr0FmNhQqoWlEW25MS7RxhM8F+cmQTnQV0/1ibaHQ7WDCVwr94qs73sX2WB
+         Tbho+tI89LK2g35LtnAx3i8BVinR0uz2RUokHCY7hiTg6mD5gjNqrNyq2Rc06HPDxa44
+         4TDKx5HKJu+KgQj/gaMfk0IHzm26r9q+p6V0TSBwmTvDzmXXj3d550p2Y7IVq2Ohh/cr
+         xS0JGk2bKLNBhEfoRWhoNH6VZ8k3exE4P5gp7LSa3bDeKb3jA8V2KtFQuWEOIBo/CJdZ
+         ib3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769679591; x=1770284391;
+        d=1e100.net; s=20230601; t=1769680678; x=1770285478;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VfsSFzTDa0vVY4jnjuZaF8nN065QhQM8dWuu4mZSSuQ=;
-        b=nwZexzgewnkbjZpYmsJ2eEdPwTLpHjF2P6NDb/tNRxOA3K4rxfBWKdaMv7mA0wpJiq
-         ZpKxTUAZGup5lODEs+BD2bk3Fg46YSQvZKkGCMFp6QW0DCHybSuvlnoAUTlDgPYCnJvP
-         6pCL4ae8D0tBKJ93D7JrLF5snrMLMxWmptc8MQNTnEQGeMSSLo+KppUjBvTVGinBRARS
-         DJIDAdx0/HoustWsWC5SFvok3SxG1d2OTkTRjsPKx2PFoqkL4svf745+3snSpIJnhvH7
-         AQlvwtZxyr1ugg9gAsHD5ZTrvlEFWu7p7zrTKzV9Z61zysA3DFdgzgde9QyleB9pFPHO
-         PZQA==
-X-Gm-Message-State: AOJu0Yw9t4OICQSgpPUmcaf11yZLTIiS5uMEBUYNBtgQjX0mEdlNgCNq
-	dvqXZW7sXNR6lqaXUJXQOaiQiajCdQaehuVx5/Gep3Ebzog9flfHOzYIA1zN9xnfYvXuLo2UU+4
-	JoU92e0csApRkvt0wkzGxtoSq8wxR1TbTaJxPJFK1AC5jmKcfGcYSsUM=
-X-Gm-Gg: AZuq6aLVIJugy+NyvF/maDF8VsKVj13ir0AxnDli834lpXWezeVrfMnzwagvNlrM2po
-	P/+4Wxikzg+LzCa6V0nqZe2uHvPqzfFjPeIFCNylEjq/YsFD3X32XLZlNaYOsR5ThzKiShIlwPT
-	3xFpPWhvxG1jsPfQBPR+EIzUepBdPYDOKoidipgk0NSSpWQECoCfRNSswLpTSJNmuTQCqAckLdM
-	w/5PiSOnd3dL8aPZq07KktoKPh7jl9ViDkDSeYlmkGvCpQGGjsQFEo45OXF4piU5y2lX3kzpNDr
-	0NFw4Hy3hmh3CQ3f8//QH/rHCjfi
-X-Received: by 2002:a05:6000:2481:b0:435:aecf:9674 with SMTP id
- ffacd0b85a97d-435dd1bcdd2mr10445182f8f.55.1769679590753; Thu, 29 Jan 2026
- 01:39:50 -0800 (PST)
+        bh=VywBhHQe/uATiuqt2Purj3b0mr5jT/T8wve2a0zNm/0=;
+        b=u+bOLjmyYV8IgZSJpsuqVny+zVRJvab9gbU7ja4wBmc1qWSWDONa+jAarZUPwii5Yi
+         PTC9Wluv09WBEi6T1p/4iTfx3nHhymyc54hdh8prVzPoeap2diGigdwIyp/w39lvfoHL
+         tMS3n2uFSjm4GM6nLzoye2hRzrrEfUqoYXsMu0QDWFjwAVtwZEb84kB0Tny4Mi/buNOE
+         01j1Vi2rRSD0YRm8gCnqDrP9KS6Mn/2Wv8X466fBkyXOzsoQT+B/ayNYjNyaeiuKSc9V
+         fNVj6YpWQuyLiexYswoy28yBb92Y+Zck3LduJ5ijrIXbLrmjVGVknJrNCk706tWnls6C
+         PR0w==
+X-Gm-Message-State: AOJu0YxJ4ejCPhvTofC+Rhh1d5UFI8AgYSxvQiBWOYz8RikYtJB5W6q7
+	ZXc+vHElu+CJoyGVPimJgi3GXBxzQXJBPRP+EFZdBaBEGX02EawM53HqT3CTq/c7f4w9R+KQQ7m
+	JSblQc7iMGwlqZJhlr1nPVYFzUiDhPyw=
+X-Gm-Gg: AZuq6aI+EckUImIYXXKP+2kxcbwtRtZ7MdHDcgQCgbo2KyGUd6TosihZxpKpUk2bQlW
+	KhrY39FNBI2QyfY4zKJgYbD5pqcKyGPx/AkrDQtpAe9Gutk004Q31SHvLZ07vIocZWgGM0fYzV4
+	im8Cg0n0S+m5Eq6S3x5ZFfae0a/Y41Rr61YdOZcHkGQUer42LBzVoawjxEONeKNiADLb/hIb5fR
+	PceTK0Tcb+1gQNxqjfqyIXGP28k0LSINSbeKeKQU+zOMg8w2WCvSZ7JxEMZLePIcgVdzLfftMpF
+	TmJ8WnZNgV1tn6gwRyCCeOx6cW0GJw==
+X-Received: by 2002:ac8:5ac4:0:b0:502:a1d7:7d52 with SMTP id
+ d75a77b69052e-5032f76d753mr109927121cf.4.1769680678359; Thu, 29 Jan 2026
+ 01:57:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20260125183438.1579158-1-peter.marko@siemens.com> <20260125183438.1579158-3-peter.marko@siemens.com>
-In-Reply-To: <20260125183438.1579158-3-peter.marko@siemens.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 29 Jan 2026 10:39:24 +0100
-X-Gm-Features: AZwV_QhSB7EDdI63snRgGjASVEO3GEUWIujscECihDM2fbpUoaEZ9xmWAVHuTEg
-Message-ID: <CAMSfU+5=9iLmbvM=1R=AHOvQhCjTOR0ovbqGShzV1s7p8YWVrw@mail.gmail.com>
-Subject: Re: [OE-core][whinlatter][PATCH 3/3] libxml2: patch CVE-2026-0992
-To: peter.marko@siemens.com
+References: <20260129030811.104017-1-Qi.Chen@windriver.com>
+In-Reply-To: <20260129030811.104017-1-Qi.Chen@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 29 Jan 2026 10:57:47 +0100
+X-Gm-Features: AZwV_QjH60PqPZzPQlWTYLhsLqLRfsBd8BPpn88mNdycSvFSlZpxmGvs2sqHPqA
+Message-ID: <CANNYZj89FNRQXGM6MQUDKhZnTt9in3=i7rgNkh1BnkThUnEtyg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] runqemu: restore support to run without bitbake
+To: Qi.Chen@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005fa209064983a384"
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 09:39:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230126
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 09:58:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230127
 
---0000000000005fa209064983a384
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Apologies, but you can't just hastily undo these because something
+broke in your setup. We've made these fixes to solve other problems
+and improve usability, so if there's a use case that needs to be
+supported, you need to show steps to perform that use case, what you
+expect to happen, what actually happens, and whether we need to
+introduce tests that ensure this use case works. Then we can work
+towards a fix that does not re-introduce the same old problems.
 
-Le dim. 25 janv. 2026 =C3=A0 19:41, Peter Marko via lists.openembedded.org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> a =C3=A9crit :
+Alex
 
-> From: Peter Marko <peter.marko@siemens.com>
+On Thu, 29 Jan 2026 at 04:08, Chen Qi via lists.openembedded.org
+<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
 >
-> Pick patch which closed [1].
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> [1] https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019
-
-
-Hello,
-
-Did you see
-Fix for CVE-2026-0992 is incomplete (#1040) =C2=B7 Issue =C2=B7 GNOME/libxm=
-l2
-https://gitlab.gnome.org/GNOME/libxml2/-/issues/1040
-... and the fixing commit:
-catalog: Do not check value for duplication nextCatalog (deed3b78) =C2=B7
-Commits =C2=B7 GNOME / libxml2 =C2=B7 GitLab
-https://gitlab.gnome.org/GNOME/libxml2/-/commit/deed3b7873dff30b7f87f7f3315=
-4c9932a772522
-?
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> This patch is basically a revert of the following three patches:
+> - 0c10a78796 scripts/runqemu: raise an error when bitbake was not found
+> - b931f74442 scripts/runqemu: remove the code block that works around the missing bitbake environment
+> - 8197be4dd3 runqemu: ensure that bitbake environment is either returned, or an exception is raised
+>
+> The comment is also changed to reflect the current usage:
+> "invoked from a running bitbake instance" ->
+> "invoked from environment with no bitbake (e.g., SDK)"
+>
+> This code path was deleted by accident based on the reason that nobody
+> is using it. But in fact, running runqemu from SDK needs this code path.
+> Such case has been supported for years.
+>
+> A little more history on this code path:
+> In 2016/09/09, this code path was introduced[1]. It was introduced
+> originally to handle running bitbake inside bitbake situation.
+> In 2026/09/19, running runqemu from SDK is supported using this code
+> path[2]. This means that this code path was then needed by one more case: SDK.
+>
+> Supporting running nativesdk-qemu from SDK easily via our script dates back to
+> more than 18 years ago, as shown by 'git blame' on the nativesdk-qemu-helper recipe[3].
+>
+> [1] https://git.openembedded.org/openembedded-core/commit/?id=1e8165ea2f19aecdc03ccd102ee44ef0544f0f39
+> [2] https://git.openembedded.org/openembedded-core/commit/?id=93649edc034f2540ff55dc9b41638797209cfb9c
+> [3] https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  .../libxml/libxml2/CVE-2026-0992.patch        | 49 +++++++++++++++++++
->  meta/recipes-core/libxml/libxml2_2.14.6.bb    |  1 +
->  2 files changed, 50 insertions(+)
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
+>  scripts/runqemu | 47 ++++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 36 insertions(+), 11 deletions(-)
 >
-> diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
-> b/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
-> new file mode 100644
-> index 0000000000..ad23498a4c
-> --- /dev/null
-> +++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
-> @@ -0,0 +1,49 @@
-> +From f75abfcaa419a740a3191e56c60400f3ff18988d Mon Sep 17 00:00:00 2001
-> +From: Daniel Garcia Moreno <daniel.garcia@suse.com>
-> +Date: Fri, 19 Dec 2025 11:02:18 +0100
-> +Subject: [PATCH] catalog: Ignore repeated nextCatalog entries
-> +
-> +This patch makes the catalog parsing to ignore repeated entries of
-> +nextCatalog with the same value.
-> +
-> +Fix https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019
-> +
-> +CVE: CVE-2026-0992
-> +Upstream-Status: Backport [
-> https://gitlab.gnome.org/GNOME/libxml2/-/commit/f75abfcaa419a740a3191e56c=
-60400f3ff18988d
-> ]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + catalog.c | 18 ++++++++++++++++++
-> + 1 file changed, 18 insertions(+)
-> +
-> +diff --git a/catalog.c b/catalog.c
-> +index 46b877e6..fa6d77ca 100644
-> +--- a/catalog.c
-> ++++ b/catalog.c
-> +@@ -1227,9 +1227,27 @@ xmlParseXMLCatalogNode(xmlNodePtr cur,
-> xmlCatalogPrefer prefer,
-> +               BAD_CAST "delegateURI", BAD_CAST "uriStartString",
-> +               BAD_CAST "catalog", prefer, cgroup);
-> +     } else if (xmlStrEqual(cur->name, BAD_CAST "nextCatalog")) {
-> ++      xmlCatalogEntryPtr prev =3D parent->children;
-> ++
-> +       entry =3D xmlParseXMLCatalogOneNode(cur, XML_CATA_NEXT_CATALOG,
-> +               BAD_CAST "nextCatalog", NULL,
-> +               BAD_CAST "catalog", prefer, cgroup);
-> ++      /* Avoid duplication of nextCatalog */
-> ++      while (prev !=3D NULL) {
-> ++          if ((prev->type =3D=3D XML_CATA_NEXT_CATALOG) &&
-> ++              (xmlStrEqual (prev->URL, entry->URL)) &&
-> ++              (xmlStrEqual (prev->value, entry->value)) &&
-> ++              (prev->prefer =3D=3D entry->prefer) &&
-> ++              (prev->group =3D=3D entry->group)) {
-> ++                  if (xmlDebugCatalogs)
-> ++                      xmlCatalogPrintDebug(
-> ++                          "Ignoring repeated nextCatalog %s\n",
-> entry->URL);
-> ++                  xmlFreeCatalogEntry(entry, NULL);
-> ++                  entry =3D NULL;
-> ++                  break;
-> ++          }
-> ++          prev =3D prev->next;
-> ++      }
-> +     }
-> +     if (entry !=3D NULL) {
-> +         if (parent !=3D NULL) {
-> diff --git a/meta/recipes-core/libxml/libxml2_2.14.6.bb
-> b/meta/recipes-core/libxml/libxml2_2.14.6.bb
-> index 7b47f823f9..b881a89a5f 100644
-> --- a/meta/recipes-core/libxml/libxml2_2.14.6.bb
-> +++ b/meta/recipes-core/libxml/libxml2_2.14.6.bb
-> @@ -21,6 +21,7 @@ SRC_URI +=3D "
-> http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=3D${BP};name=3Dtestt
->             file://CVE-2025-6021.patch \
->             file://CVE-2026-0989.patch \
->             file://CVE-2026-0990.patch \
-> +           file://CVE-2026-0992.patch \
->             "
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 32a3d6296a..7e3d11f653 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1007,12 +1007,34 @@ to your build configuration.
+>              if not self.bitbake_e:
+>                  self.load_bitbake_env()
 >
->  SRC_URI[archive.sha256sum] =3D
-> "7ce458a0affeb83f0b55f1f4f9e0e55735dbfc1a9de124ee86fb4a66b597203a"
+> -            native_vars = ['STAGING_DIR_NATIVE']
+> -            for nv in native_vars:
+> -                s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
+> -                if s and s.group(1) != self.get(nv):
+> -                    logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
+> -                    self.set(nv, s.group(1))
+> +            if self.bitbake_e:
+> +                native_vars = ['STAGING_DIR_NATIVE']
+> +                for nv in native_vars:
+> +                    s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
+> +                    if s and s.group(1) != self.get(nv):
+> +                        logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
+> +                        self.set(nv, s.group(1))
+> +            else:
+> +                # when we're invoked from environment with no bitbake (e.g., SDK),
+> +                # we won't be able to call `bitbake -e`, then try:
+> +                # - get OE_TMPDIR from environment and guess paths based on it
+> +                # - get OECORE_NATIVE_SYSROOT from environment (for sdk)
+> +                tmpdir = self.get('OE_TMPDIR')
+> +                oecore_native_sysroot = self.get('OECORE_NATIVE_SYSROOT')
+> +                if tmpdir:
+> +                    logger.info('Setting STAGING_DIR_NATIVE and STAGING_BINDIR_NATIVE relative to OE_TMPDIR (%s)' % tmpdir)
+> +                    hostos, _, _, _, machine = os.uname()
+> +                    buildsys = '%s-%s' % (machine, hostos.lower())
+> +                    staging_dir_native = '%s/sysroots/%s' % (tmpdir, buildsys)
+> +                    self.set('STAGING_DIR_NATIVE', staging_dir_native)
+> +                elif oecore_native_sysroot:
+> +                    logger.info('Setting STAGING_DIR_NATIVE to OECORE_NATIVE_SYSROOT (%s)' % oecore_native_sysroot)
+> +                    self.set('STAGING_DIR_NATIVE', oecore_native_sysroot)
+> +                if self.get('STAGING_DIR_NATIVE'):
+> +                    # we have to assume that STAGING_BINDIR_NATIVE is at usr/bin
+> +                    staging_bindir_native = '%s/usr/bin' % self.get('STAGING_DIR_NATIVE')
+> +                    logger.info('Setting STAGING_BINDIR_NATIVE to %s' % staging_bindir_native)
+> +                    self.set('STAGING_BINDIR_NATIVE', '%s/usr/bin' % self.get('STAGING_DIR_NATIVE'))
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>      def print_config(self):
+>          logoutput = ['Continuing with the following parameters:']
+> @@ -1691,6 +1713,9 @@ to your build configuration.
+>          self.cleaned = True
+>
+>      def run_bitbake_env(self, mach=None, target=''):
+> +        bitbake = shutil.which('bitbake')
+> +        if not bitbake:
+> +            return
+>
+>          if not mach:
+>              mach = self.get('MACHINE')
+> @@ -1707,10 +1732,6 @@ to your build configuration.
+>          else:
+>              cmd = 'bitbake -e %s %s' % (multiconfig, target)
+>
+> -        bitbake = shutil.which('bitbake')
+> -        if not bitbake:
+> -            raise OEPathError("Bitbake is needed to run '%s', but it is not found in PATH. Please source the bitbake build environment." % cmd.strip())
+> -
+>          logger.info('Running %s...' % cmd)
+>          try:
+>              return subprocess.check_output(cmd, shell=True).decode('utf-8')
+> @@ -1722,7 +1743,11 @@ to your build configuration.
+>                  cmd = 'MACHINE=%s bitbake -e %s %s' % (mach, multiconfig, target)
+>              else:
+>                  cmd = 'bitbake -e %s %s' % (multiconfig, target)
+> -            return subprocess.check_output(cmd, shell=True).decode('utf-8')
+> +            try:
+> +                return subprocess.check_output(cmd, shell=True).decode('utf-8')
+> +            except subprocess.CalledProcessError as err:
+> +                logger.warning("Couldn't run '%s' to gather environment information, giving up with 'bitbake -e':\n%s" % (cmd, err.output.decode('utf-8')))
+> +                return ''
+>
+>
+>      def load_bitbake_env(self, mach=None, target=None):
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#229943):
-> https://lists.openembedded.org/g/openembedded-core/message/229943
-> Mute This Topic: https://lists.openembedded.org/mt/117455086/4316185
+> View/Reply Online (#230110): https://lists.openembedded.org/g/openembedded-core/message/230110
+> Mute This Topic: https://lists.openembedded.org/mt/117521005/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
->
-
---=20
-Yoann Congal
-Smile ECS
-
---0000000000005fa209064983a384
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0dim. 25=
- janv. 2026 =C3=A0=C2=A019:41, Peter Marko via <a href=3D"http://lists.open=
-embedded.org">lists.openembedded.org</a> &lt;peter.marko=3D<a href=3D"mailt=
-o:siemens.com@lists.openembedded.org">siemens.com@lists.openembedded.org</a=
->&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com"=
- target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-<br>
-Pick patch which closed [1].<br>
-<br>
-[1] <a href=3D"https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019" rel=3D=
-"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/libxml2/-/iss=
-ues/1019</a></blockquote><div><br></div><div>Hello,</div><div><br></div><di=
-v>Did you see</div><div>Fix for CVE-2026-0992 is incomplete (#1040) =C2=B7 =
-Issue =C2=B7 GNOME/libxml2<br><a href=3D"https://gitlab.gnome.org/GNOME/lib=
-xml2/-/issues/1040">https://gitlab.gnome.org/GNOME/libxml2/-/issues/1040</a=
-><br></div><div>... and the fixing commit:</div><div>catalog: Do not check =
-value for duplication nextCatalog (deed3b78) =C2=B7 Commits =C2=B7 GNOME / =
-libxml2 =C2=B7 GitLab<br><a href=3D"https://gitlab.gnome.org/GNOME/libxml2/=
--/commit/deed3b7873dff30b7f87f7f33154c9932a772522">https://gitlab.gnome.org=
-/GNOME/libxml2/-/commit/deed3b7873dff30b7f87f7f33154c9932a772522</a></div><=
-div>?</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
-arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
----<br>
-=C2=A0.../libxml/libxml2/CVE-2026-0992.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4=
-9 +++++++++++++++++++<br>
-=C2=A0meta/recipes-core/libxml/<a href=3D"http://libxml2_2.14.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">libxml2_2.14.6.bb</a>=C2=A0 =C2=A0 |=C2=A0 1 =
-+<br>
-=C2=A02 files changed, 50 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992.pat=
-ch<br>
-<br>
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch b/meta/re=
-cipes-core/libxml/libxml2/CVE-2026-0992.patch<br>
-new file mode 100644<br>
-index 0000000000..ad23498a4c<br>
---- /dev/null<br>
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch<br>
-@@ -0,0 +1,49 @@<br>
-+From f75abfcaa419a740a3191e56c60400f3ff18988d Mon Sep 17 00:00:00 2001<br>
-+From: Daniel Garcia Moreno &lt;<a href=3D"mailto:daniel.garcia@suse.com" t=
-arget=3D"_blank">daniel.garcia@suse.com</a>&gt;<br>
-+Date: Fri, 19 Dec 2025 11:02:18 +0100<br>
-+Subject: [PATCH] catalog: Ignore repeated nextCatalog entries<br>
-+<br>
-+This patch makes the catalog parsing to ignore repeated entries of<br>
-+nextCatalog with the same value.<br>
-+<br>
-+Fix <a href=3D"https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019" rel=
-=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/libxml2/-/=
-issues/1019</a><br>
-+<br>
-+CVE: CVE-2026-0992<br>
-+Upstream-Status: Backport [<a href=3D"https://gitlab.gnome.org/GNOME/libxm=
-l2/-/commit/f75abfcaa419a740a3191e56c60400f3ff18988d" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://gitlab.gnome.org/GNOME/libxml2/-/commit/f75abfcaa41=
-9a740a3191e56c60400f3ff18988d</a>]<br>
-+Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" =
-target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-+---<br>
-+ catalog.c | 18 ++++++++++++++++++<br>
-+ 1 file changed, 18 insertions(+)<br>
-+<br>
-+diff --git a/catalog.c b/catalog.c<br>
-+index 46b877e6..fa6d77ca 100644<br>
-+--- a/catalog.c<br>
-++++ b/catalog.c<br>
-+@@ -1227,9 +1227,27 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPr=
-efer prefer,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BAD_CAST &quot;dele=
-gateURI&quot;, BAD_CAST &quot;uriStartString&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BAD_CAST &quot;cata=
-log&quot;, prefer, cgroup);<br>
-+=C2=A0 =C2=A0 =C2=A0} else if (xmlStrEqual(cur-&gt;name, BAD_CAST &quot;ne=
-xtCatalog&quot;)) {<br>
-++=C2=A0 =C2=A0 =C2=A0 xmlCatalogEntryPtr prev =3D parent-&gt;children;<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0entry =3D xmlParseXMLCatalogOneNode(cur, XML_CA=
-TA_NEXT_CATALOG,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BAD_CAST &quot;next=
-Catalog&quot;, NULL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0BAD_CAST &quot;cata=
-log&quot;, prefer, cgroup);<br>
-++=C2=A0 =C2=A0 =C2=A0 /* Avoid duplication of nextCatalog */<br>
-++=C2=A0 =C2=A0 =C2=A0 while (prev !=3D NULL) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((prev-&gt;type =3D=3D XML_CATA_NEX=
-T_CATALOG) &amp;&amp;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (xmlStrEqual (prev-&gt;U=
-RL, entry-&gt;URL)) &amp;&amp;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (xmlStrEqual (prev-&gt;v=
-alue, entry-&gt;value)) &amp;&amp;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (prev-&gt;prefer =3D=3D =
-entry-&gt;prefer) &amp;&amp;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (prev-&gt;group =3D=3D e=
-ntry-&gt;group)) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (xmlDeb=
-ugCatalogs)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 xmlCatalogPrintDebug(<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &quot;Ignoring repeated nextCatalog %s\n&quot;, entry-&gt=
-;URL);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xmlFreeCat=
-alogEntry(entry, NULL);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 entry =3D =
-NULL;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prev =3D prev-&gt;next;<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0if (entry !=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (parent !=3D NULL) {<br>
-diff --git a/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.14.6.bb" =
-rel=3D"noreferrer" target=3D"_blank">libxml2_2.14.6.bb</a> b/meta/recipes-c=
-ore/libxml/<a href=3D"http://libxml2_2.14.6.bb" rel=3D"noreferrer" target=
-=3D"_blank">libxml2_2.14.6.bb</a><br>
-index 7b47f823f9..b881a89a5f 100644<br>
---- a/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.14.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">libxml2_2.14.6.bb</a><br>
-+++ b/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.14.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">libxml2_2.14.6.bb</a><br>
-@@ -21,6 +21,7 @@ SRC_URI +=3D &quot;<a href=3D"http://www.w3.org/XML/Test/=
-xmlts20130923.tar;subdir=3D$%7BBP%7D;name=3Dtestt" rel=3D"noreferrer" targe=
-t=3D"_blank">http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=3D${BP};na=
-me=3Dtestt</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2025-6021.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2026-0989.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2026-0990.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2026-0992.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0SRC_URI[archive.sha256sum] =3D &quot;7ce458a0affeb83f0b55f1f4f9e0e557=
-35dbfc1a9de124ee86fb4a66b597203a&quot;<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#229943): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/229943" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/229943</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117455086/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117455086/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---0000000000005fa209064983a384--
 
