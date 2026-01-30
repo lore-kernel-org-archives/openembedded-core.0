@@ -1,415 +1,429 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5163FD73EAF
-	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 01:12:46 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.623.1769735558374671262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A48CAD73EB3
+	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 02:19:56 +0000 (UTC)
+Received: from TYVP286CU001.outbound.protection.outlook.com (TYVP286CU001.outbound.protection.outlook.com [52.101.125.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1739.1769739583229181710
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jan 2026 17:12:38 -0800
+ Thu, 29 Jan 2026 18:19:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=KL/ruy6J;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6490b94fbc=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60U07f2P3256500
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 17:12:38 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=epnC0oN190w1g1+IlsdfSe
-	PbCffcjjbvJS//OAS/Qzo=; b=KL/ruy6J91Ywgj1V7iHhI3RC63hFXU5DB2EeI5
-	kCIJsWTvbEtuvLXiba0iNZHueRhFLoRJtxRXFRS28xM80d52Z6uP1bLLmC1GqymG
-	qMLHflZyE5AlMzLOyrCbXoBR4JNwZ4OOLlMZ3W4PJvqkVVJvE0C1DlVa+kauMm0L
-	WLAOmnqSb2ToPzJB3XVbR7TKPu2Sus7r17v1IcTPm7+0OCZk9FaOA5qR5CNx862V
-	zT4tThqJMcb6Yr9ZWsH0IWCgqYgLrikLSVq/4mwbKeYMOQTZEdqwWZnERtdH948T
-	ddqBG3YiyZ6b7iyeZEFu4U8aaxcioBtogbXCSiofjHIy4zyQ==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010010.outbound.protection.outlook.com [52.101.61.10])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bywwrhhau-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 29 Jan 2026 17:12:37 -0800 (PST)
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=TCJlE9sn;
+ spf=pass (domain: fujitsu.com, ip: 52.101.125.23, mailfrom: liuyd.fnst@fujitsu.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xwbClIxHcRVFKurt6OLORVJ0Lh8cWnI0I9I5qHzIX6pvM4rjtYSbJVycTTHKVjXp41U83PzMT8P4kIp353HxT/GS9ptk775r7BDbpP9lgckpBLizG245OOKdxAjLAXtCCP15iyI/CGUF1rQ664tJT+13eNtlg1+J1sgNGxAqhQuVXKm7zz4xcDEI1WcubYPm2qs7Ak2B/STuEK18aiCA6bvt9Cp755H5iKGcTM7m0Hd02u0nZZKoIC5jbVVanTjwlNr44NIFT7HBAsfAxLVrqyFHxtUMWRQvMkeG/wFBEiiPch+I1QRsNpifaKqqjl6ww51Jqgs2MLJj8bKR6FAhzA==
+ b=LoLxK07Vo8GxB+zIYQVDFtPkePs37iiheO3bCphr74aKwRULnJzk1eS6fCw0BcDUQs2Dta1Dt1nZZxhjtnTbRRvgvPqZ8Lqc7wQBMkoPl4ckJTcm96KMo6i23yYJnjfUmBK/jgOvoUpWbjtroZ5lfM/IITLRGZAQ6S/ol4wB4WiC0N2FsP87lUxMChytB16yKTg3a8it3rMr6abCZLY7HnpNebuGZ4iW/UfaNLnfGSRq6fw2dRoqCoq4ZnHEom7axO1qR33EoOUMA3u5kD2b34RjYy3A4mHgzQjWRpKhAnefYSdFDBcF2K1qEiy8JLKQlBfKgc8/+0/Fo+XivQB3/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=epnC0oN190w1g1+IlsdfSePbCffcjjbvJS//OAS/Qzo=;
- b=eW2fnnHZUDA/m6aHm/JYf3WTTDuG70YqiyjugV4beT96IfVxv20+tTPdrKjXqTVJPDG6GJZVhqeY2jhxt34X05j4olDiNRDcaenuLJEiJI4qhTnQEDFDEuW7z8Wq4loevimvFYqQWN6TlU9BkRABXfHPlMnAysaVNDOyrFzYuB6HS8PPfB+8PeIlGYtGrmlSTUkwoy98Fr5Ik26/OxVv0AsT4WtoSH9ZlpFoVQlhtmhjZhmMDLDCnKP1Wi6kW7C6ORiEVlbLVdC2KjBH6GwraQegq0jtQPpuHzmcJXrVjHjDDsfew0Yjx2Vq2WvBVRriJAzHJLNM6AYP+ZVCT1RRuQ==
+ bh=CArHKGN6RMHIrTSVLSJsmaOjPya5/U4ggPg1iAzjMUI=;
+ b=fpzkkwKEibWNrUgAcFPRKYxl07pQJPIGC5BsWZJvy3bSlPcRb3CkSWtd7bXdR/R4A85s3HDq/tBU1238SX/ZwvJSLnCOlYNi0ZnQcZG4RrbDqwik4RmTLnNsqrEasYwPY+wLY/9zim2e0X5wluKkOMud3I+RrG58N9jBPXDb0cFo0vBDGac/TYcwBX9FnDNhpoSTFRRftl02EAppm8jwktMm8Tw2AAH85sgLGL6DcMEsIZ59rkZBmjdDNhV+3WAD8GeUvHYBNmbSZpKdVKKzxop0ZUChUwWi8rkYyJu/gtDnZYG1QEyZwT0Giaw1Sen99oXecVomI7mgF/16rxTcPw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by IA4PR11MB9082.namprd11.prod.outlook.com (2603:10b6:208:56a::15) with
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CArHKGN6RMHIrTSVLSJsmaOjPya5/U4ggPg1iAzjMUI=;
+ b=TCJlE9snpuw65/9LVHu318nVZCCmtEzVI5q2dCnFnbypUP8lWNLdSCtYsWCLlUpBJt7KuygEYB3j16zYoIQdnOmAmNqX4RzjC0nTGlufgjqdimDQg37eUHXuqJGnJAYJ0HVTMUEiLlcOq0Jj4jV8F4t3WZD3Bo8+HJN4ar7M13SDagkEi9ibypbftLJr8qakPsCEXHarLkeGYlRhelTUChrrXzaIzCkLbn6DpyUwGu/3ADWMPagKVVMBw07W67QAWtk0CEgEQV9w/Wi1GU+x/7CqRBn0wbXPL7Py2hZqTniep3V0s2NazVKfXsw+2onJZFd08oWz2m/phDvsqbffOQ==
+Received: from TY3PR01MB10110.jpnprd01.prod.outlook.com (2603:1096:400:1d9::5)
+ by TYCPR01MB12095.jpnprd01.prod.outlook.com (2603:1096:400:43a::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Fri, 30 Jan
- 2026 01:12:30 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9564.006; Fri, 30 Jan 2026
- 01:12:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Fri, 30 Jan
+ 2026 02:19:38 +0000
+Received: from TY3PR01MB10110.jpnprd01.prod.outlook.com
+ ([fe80::65d2:5fd:bb96:1df2]) by TY3PR01MB10110.jpnprd01.prod.outlook.com
+ ([fe80::65d2:5fd:bb96:1df2%5]) with mapi id 15.20.9564.006; Fri, 30 Jan 2026
+ 02:19:38 +0000
+From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: 
+ =?gb2312?B?u9i4tDogW09FLWNvcmVdW1BBVENIIDYvNl0gb3JjOiBFbmFibGUgaG90ZG9j?=
+ =?gb2312?Q?_to_produce_doc?=
+Thread-Topic: [OE-core][PATCH 6/6] orc: Enable hotdoc to produce doc
+Thread-Index: AQHckRIdFxGjs2+yRkygseyoFd9O5LVp+IWb
+Date: Fri, 30 Jan 2026 02:19:38 +0000
+Message-ID: 
+ <TY3PR01MB1011061788269D6E4EAC2C8999B9FA@TY3PR01MB10110.jpnprd01.prod.outlook.com>
+References: <20260129035353.8982-1-liuyd.fnst@fujitsu.com>
+ <20260129035353.8982-7-liuyd.fnst@fujitsu.com>
+ <CANNYZj9TRt0GqyafY0eD+bwuTBUb3iEeBFD16po7kxPHwQJ-Kg@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9TRt0GqyafY0eD+bwuTBUb3iEeBFD16po7kxPHwQJ-Kg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-01-30T02:19:37.718Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB10110:EE_|TYCPR01MB12095:EE_
+x-ms-office365-filtering-correlation-id: 57556e7c-3c9a-4afa-bb33-08de5fa60514
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|4022899009|376014|1800799024|366016|7053199007|38070700021|8096899003|1580799027|13003099007;
+x-microsoft-antispam-message-info: 
+ =?gb2312?B?TFE3V0tYUlU1Lzhsc3VySFJZSmNoeFErUC9lRUVnZGRtQmoxa0xlTjJBdm9K?=
+ =?gb2312?B?WkFlL2wydG1hV1A0YzRha0VpdTRvbWZZMGlHc3c2aFUzVGdUQ0RBRnE0RnhV?=
+ =?gb2312?B?WC9ILzdCVXQvRkROdUZzam94cWQ0cVRScU1zTHFGTFNsQkt0VzV6Z2hPNm8x?=
+ =?gb2312?B?SC8wc0t4clB3djBxSnp6eWhIaDdvcll0dE5oOVptRXVpbEYrOEJlTFRiTFJR?=
+ =?gb2312?B?RHlQZ1pyanphUEJFRlJONHY4eC83Z21uMCtCWEpYd2ZsdEYxL1ZURzNMUGk1?=
+ =?gb2312?B?dUlGK2ZtSTdTL2lLQTA5R0RxK0lHTTJYeGRleUJHT016NUZJMjB2dVc2bmtU?=
+ =?gb2312?B?bkJQNjlvYmU3KzcvaDZCSjFhd1g2R2VqNWNZM1RYbnU5cm1KbkF3clpUS002?=
+ =?gb2312?B?R0liNW03NWJaYjBYSHdDVk0vcUIyS2NoQkhHcnBSLzNaRk1FdHpPSzNhZ3V1?=
+ =?gb2312?B?RHAxbGZwb2NmOGJCMDArOHVLZmVoMFJPUmVZbVNoS2l0aGc2U3pHYjUzZDNP?=
+ =?gb2312?B?OVZ1UWdxRDI4TXBWbktNY1Jpb0R4U09xQ1d6UlYxUTVTMENuYytyb1BiRmt2?=
+ =?gb2312?B?MlBPZXI1eFFIQUlHN3dzSURLSCtsVXk5MzhYZTM3OXNzWGw2S1hpekdDdm44?=
+ =?gb2312?B?dTJCN29XYjkxd0Q0dmlsZm9uUEk0eE1ZRjM0aHlvNVh3SzdnK0UweDcweEd1?=
+ =?gb2312?B?a2M3NllrN3pyUmFJU0NRb0J1c0x1RGVWd3BmTHE1NkFOc2xwVGZUZmJ5R2VG?=
+ =?gb2312?B?bzJCMnVqV3h1anYwQTFzV0RDV1E0TzNVNTd3Tys3YVluU3pUc1ZiR3hNQ2k3?=
+ =?gb2312?B?V0tsTGU0bVpMTStQM3dNZ0gwdy9YQm0ycVo2NGF4bXFHM2lrWGhxcmFkSTll?=
+ =?gb2312?B?a0kxZDM2cnpSbHhWcWgxTk1kYlRLbUdEZXVUb2o2RzlOeVljWGtvSG82d2tI?=
+ =?gb2312?B?SWtudlRUZE1jdURTdjhyNlRISVJacFkxUHhKMG5QbHdIRnpJRmNnZFQ2RnFz?=
+ =?gb2312?B?alVhVzM5cXlpRk1yYS9XQm9pOWxNa0xHcTRGS2FTcGtuTllTbmtBOXljZ0o1?=
+ =?gb2312?B?U2tsYytNcDBTU2xsbmZmd2tqUStOZklDUUdYSXNyOGpUS3k5b1ZhQll1UmFZ?=
+ =?gb2312?B?NmlRNExSbXAzREdOaFhDeXExZ1Vjb0o3aVUzTmQwekxqQm80MnFwRGs3MFlV?=
+ =?gb2312?B?d2RzU0JnQU45V3I1S21SaEJCYjlqMTFEb1NvOTVnajRrVnpCeXVrVDFIQXNl?=
+ =?gb2312?B?WW4zVkRlcHUzOXRvSS83SnQ0VWg5U05uU2pmRVRkdVhPQVgweWlFanJZNU9K?=
+ =?gb2312?B?WHhDRVZrWmpmSHpabCtWYUd5b0lvY0FzVlBhQ3UxQ3ZoSGlWVWs3YXU3MXhy?=
+ =?gb2312?B?bXRFbHFZVEhhdm41T3dZbCs5NXhCQ2ZiMlhXR2FCWmZPalFFejY4QU4xRzJP?=
+ =?gb2312?B?a3JxSkw3dDhlL0YwOW9qWUdCQ3NCT2xJc2dDcTl6VzNuNmJteVBrWTRodFVL?=
+ =?gb2312?B?ajBjSnozcEpzOUZtdEl6Z2lja0JBcVZaNXNhK2FQRVBubjBhbm4vTGdMWDFE?=
+ =?gb2312?B?WWd0OTF3OUxmcGZYeGJOM0pVY3JnbGZRbDE2RS9oTmJqcEkyK1RMVUhlSHI0?=
+ =?gb2312?B?T3NQek0rVjJoTUdITXc5QXFoTC9SSkRtMDRuajZZTCt5UHAyV2R6bmdjVXE3?=
+ =?gb2312?B?dko0QThVYnJtMmxGb0MrcWlZR2J5TlcyNE1kUEh5L2NpM2NtNHFSQTlEaWh3?=
+ =?gb2312?B?SWtIRHBkeFFiYXNRcDBFOHdoOVpHS2R0STl3MnNhMGZ1RVlWRHQ1M2VDNXNN?=
+ =?gb2312?B?QnN1WFJHenFaMHROVG13RlNJQ0JZbVhCNmpTZ3liL3M0RFJqUzQyeDUrSXg4?=
+ =?gb2312?B?RjhhRWlDR29qdmlLZk9YekxZcGpqcHBibFpQUC82T3JyNkxHR3ZpbHUyRWdl?=
+ =?gb2312?B?SVhEK2hqTERXL3grV25mNWlMUWVEb2pLRVc2emZMbUQzQ1ZGd1N0THRzQWFL?=
+ =?gb2312?B?WldRTzBYKzVMeTJkdkN5YWFNcFdzbi9XV2QrZnFlQnRyNWJLVmtvTGhDWnM1?=
+ =?gb2312?B?RitpejNJRjhjZkV1RU9GK09HN3FaMzgwU2lXUnBjWnRyMmE0SDMvWmtMSVNV?=
+ =?gb2312?B?VHFZQUNsTG40Q0orY0Y2cTBVdStDdHVOdmRlWXBiTG9xbHN1OElCWE9zZGJF?=
+ =?gb2312?B?NlE9PQ==?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10110.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(1800799024)(366016)(7053199007)(38070700021)(8096899003)(1580799027)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?gb2312?B?VkZLMjFmaGR1cWUvMmw5TlhWaGVURHVYdDc5SnlNZElsQlB4cXpUcGc1VTlt?=
+ =?gb2312?B?czduSmVlalBFci9RaklzMWg5MUtoTk1Xd0U0aGF0WGtWT21hTTFVcHRQVjBa?=
+ =?gb2312?B?RU1UYVBaNmdybTJJcjVVZmNYeDBMRmNsR1JHT1RWQXVWRmN0VkhtaDlEaFVN?=
+ =?gb2312?B?VTlGUXlUQ05jUy9zVStMdDBQVkp1Q2Fva25ocDJFanhwR1dYUjdpVWZCeHVX?=
+ =?gb2312?B?TTBhb3d2d2xGTThITmFaOFpIOFp1dXA0MXJ5VHNuNG40L0hGYVdkTUdXSHkr?=
+ =?gb2312?B?bEVCNFNVRWhDdzdYaDNmdlZSbFFDZDFRSVJtL0N6T1hWaktFMFFBMms3a2JF?=
+ =?gb2312?B?VVhwcW50VDZrNE83b1lhamJpRC9rZVpaNnFnTjh2Ymd2dTBaSW5kSkdsZlBN?=
+ =?gb2312?B?R05CMlNtamJmWWNwOVJTNDZpNFlOTU1wTGtramEwWXIvbEdjWTVnZ0F4Nnp1?=
+ =?gb2312?B?RmQ4ajJEMSt0ekx4eUVCdk5jQU9QWllhdTJNVnQvVFVHRkFQQzQ2SzZxNDM4?=
+ =?gb2312?B?azNWcndQTU1VaGFFbERGR2hDV0JJZWtuT2s1T0NaMkh1RDNTZ1FNMFRGcWZ3?=
+ =?gb2312?B?dXFPRFlUZHBJcHlUa0x5SmZjWlhsRmVqdk9zUGk0b1hIOHRRTnVhTUxSMVhH?=
+ =?gb2312?B?QitpN0ZZU3AzYy9HR1Y4aTJ4U2hsb1JiSUhDLyt6MVNBNXZTVlJ0WWRZeXcz?=
+ =?gb2312?B?a3BNbGV6WCszREZHYU5BZjE4WHRzR0xaTElyQXlvWWh5bmNXaHhxVFVPb3Jn?=
+ =?gb2312?B?NjJhUDB0RUxyTTFPYXlvNnhqS1ZQU01ncHZxNFFLN0I4WlY1SDFIelE5M09a?=
+ =?gb2312?B?Yzc1UFZmdG9lN3ZJaVoyY2lsbzRQajQ5S1oycHZFMW9XMm1CbkU5RGtHcmE0?=
+ =?gb2312?B?WDRkU3ZFZzJxcGxUSHBDVzdqRmJHalFHRWpDRGo5cURlZ09DQ1dQZUdSRkJq?=
+ =?gb2312?B?OFNiMlE5bjE3anhvR21TS0ZuQnlyK2dzVG5VUURxSVp3MmxnTmV5UjJ4R1NF?=
+ =?gb2312?B?Tm1ER2szVlNkbEVodGxxdU10Z1E0M2RTUWhjUXQ4UkVzUkl2c0dDN3lsVkJD?=
+ =?gb2312?B?VlYyQXZmWHBOWTRlRVhqL1NPTXRkbTM1N0lxdWl1Q2U2MEdweWUvdk1ZUXJM?=
+ =?gb2312?B?TDRjNkdyS0Y5NUNJQ2kzMkZDWDFTNHl5OWdMRWxsUGRSTXZzMUlxYnpvQmpq?=
+ =?gb2312?B?WEcxN0hOTWlyR0ZsOWQ0RjVBZS9CM2NYNzc3MENNckZDZmc2VndJTUl0ZkVD?=
+ =?gb2312?B?ZGsrU3dwWjc3RUord0JrUk90WFFPMTlMMVo4NjY2U0IySUp2RVAzczQ3NkVW?=
+ =?gb2312?B?TFlQMVF0ZElDcnAvWUlhdURYTFNMWnN6TUxHc0hFb1RyT0NybXlOK0trMzJI?=
+ =?gb2312?B?bExoV0Q5b3RjWXZ2KzB6aWVLVVRIZUh2ckxvbGtUTUdiMHdDVGFvbUtNc3Fu?=
+ =?gb2312?B?aEFtZ2N1YkJaVWkyY0NpK2gyTTdsRmM4VUMyTWNKNDYzWDRSS2EzOEhPQjQz?=
+ =?gb2312?B?VTA4d2RTRVkwY3RVK0lvalUzZDVUc29Ya3lrM1lVblFKNURia3JPMUx6NkRh?=
+ =?gb2312?B?c0VkenN2bjhMSzhKS3dTNEd3bk9SUzU4aTd3TUhoVm1jY1FOOXlFZUV2ZGRR?=
+ =?gb2312?B?YVViNWI5Z2Ntd2ZUOUlsTVBNb1pRWno1Rm1BbTFXMW5LWVFycENhSGkxWXd0?=
+ =?gb2312?B?YXNzdzFWaEgyNFNZWW1tRE9pRVYyV3ZTRGtWWCtjOW9XVm5pbkdvTWtuSEpt?=
+ =?gb2312?B?RjNERjlUVjFna0Q1eDV1bFdoOHFXRUZkcVp4M0s5NlE1ZFcreVlZRWtlNjZT?=
+ =?gb2312?B?QnFmQU5oaGJkeUtXOXMxaU41VkowendVWWRiZEhXWnltVWh3YSttaURUOGZR?=
+ =?gb2312?B?TlpWaTRxdDY0QVVjVFQySVNHMjJ4aEF3SlhQekJaMVN0dktJQXR6MzlxMDFr?=
+ =?gb2312?B?a0JnNVZDUFNmaU9ZUTJkbFVXRUpYV2JMVmJBUTUxSll2dVo3YWphdTVjNldV?=
+ =?gb2312?B?OGU2N2dJK2UwdHllNi9aRUpGYTZLTXR0V28ra0VLbitISHUrNUZBUGZDSmJ6?=
+ =?gb2312?B?QWlwT2Rjekd3NGZBZS90cFhLUXhGZWozT1NnNUdtbEo1QlVnd29ITGwzU244?=
+ =?gb2312?B?aUx2eEkySlRzNnIwSWhvREp1ZnlZVTkyYWs4R2JTdGwySHdjV25nQnVPeXRP?=
+ =?gb2312?B?NjZ6V2V3eFRkdVU3ZUFocGlqUG9FQ2tQUnJzZGYrVGRNVWlITmQvaktEaUs1?=
+ =?gb2312?B?azZsekdHcjhvOHUxR1NCUHM1MmVGaVY2Z0dUaXNpZzJJRGZxekN5M2pUK0d1?=
+ =?gb2312?B?UHZJSVNvTmR3QmtKZ1R4aTF4R2RNWUhjV3ZyS3ErWWVmNHFlekVuUT09?=
 Content-Type: multipart/alternative;
- boundary="------------XYqflUkcrgfqY8qUgYZbABCV"
-Message-ID: <9dddbad2-9d69-4ba4-9a8e-fdabe70e9018@windriver.com>
-Date: Thu, 29 Jan 2026 20:12:23 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 21/33] python3-ply: move from meta-python
-To: openembedded-core@lists.openembedded.org,
-        Tim Orling <tim.orling@konsulko.com>
-Cc: mrybczynska@syslinbit.com, Rob Woolley <rob.woolley@windriver.com>,
-        Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>,
-        Konrad Weihmann <kweihmann@outlook.com>
-References: <20220314224837.834776-1-richard.purdie@linuxfoundation.org>
- <20220314224837.834776-21-richard.purdie@linuxfoundation.org>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20220314224837.834776-21-richard.purdie@linuxfoundation.org>
-X-ClientProxiedBy: FR4P281CA0135.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b9::20) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+	boundary="_000_TY3PR01MB1011061788269D6E4EAC2C8999B9FATY3PR01MB10110jp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|IA4PR11MB9082:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1d60bb8-7fe9-49e3-0ec2-08de5f9ca3c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|8096899003|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?QjYrcTFMTmdyMk81Vmhvck1ZN2JFcEJMSVBIZGI4ZjlsM0NZMjRGR04rUUN5?=
- =?utf-8?B?MFBtNlJHRVlqRXVLSWtzeDE4UnhURGFuenh5aUpPZHZWVDRrZGxGa0RRMyty?=
- =?utf-8?B?NUs1bEVXYW00L0tPZnpBbDdTYkh5VWFTLzlsVWQwSjNmL3dCeVNhaGdOU29H?=
- =?utf-8?B?VW8yRHN2NTV2T2toVFlnSWpubWFseUlXVDN1SGFtUCt3S1cvRkFZU1M3ZGUx?=
- =?utf-8?B?NVlIN0ZkNU5HRllPaE1JNWpzVjdkS3I5eU1yaWMrRXIvYnMwd3hQYzBOYmsr?=
- =?utf-8?B?MGNXZGRHLzJLdlJzd3NuY3BKNUJvdGRZdkNYZ0Npb0tlNnp6K282bjA2ZmFt?=
- =?utf-8?B?Smd1Vi9EeUFLbXg5REFBZG0wZGxJeEhSUTdRd0tqMDVMYlh4UmwraFFyWW9H?=
- =?utf-8?B?TUgvWVI4UldsWlltRzhjR0JXcVQzcHNFbjNmU0EwUmlhc3FYMkZYUGJKM1F3?=
- =?utf-8?B?OGplVUhBV3dqR3AyQlFSZDV1NFE3UDBBczdSTWJGQXZGdmxOT0FPb3l3SkF4?=
- =?utf-8?B?c2l3cC8vRXp6b3VLQmg5NENMKzRTUWRoQ0dIQ1ZjQWlKeUIvRURpUzFDUjFw?=
- =?utf-8?B?cTNVM0JUTEN4NFdWYXhaRTNJaTdRb3hDUkhhVFM5K0ZwWjNqVUNRL0ZzaUxM?=
- =?utf-8?B?aXI5MWtDc1pqbXVwWU1QVlRaclYvUi9NVU5heTRkYmRUNlJQMG9vSWx3Unhv?=
- =?utf-8?B?bzFuelBlcEVDNitCdHY4ZXZmOGZndlhaOUhoSVdLb1dQcldnN2JyT0J2TW9T?=
- =?utf-8?B?SzlFQlFFQWlUK2xzWXNVaVdmNzlUV2hxa29LRTlkNFIvR2VLR0x5d3VhZEZV?=
- =?utf-8?B?QVQ2eWFJUW5sT3E2L2F4QzBWdktZUDh1Rjh3dkxublBHa1JVTWxHT1Fncmwv?=
- =?utf-8?B?emx0U1d0WWFNclR0NU82Nm9NZVJSWXNwRzZleGxsQ3VRei9xQzk1dm5PSHJj?=
- =?utf-8?B?R3lKNG1aekNMa1ZLL2lFcnpYZUJhTHBrQkZ6M2V3WGlQeDJtQ0VQTVpENU9Q?=
- =?utf-8?B?bmlOVTVEditsRS9VVFM1b0Zxc01Md09PV25QdmtpV28zTURyNEkrWHNnNVZT?=
- =?utf-8?B?L1lwa0JYdng2ZkhHWXdnYlBzL1dyN2ZZNzFBWkRsK2N2WU4wRjVTSzNnTHB5?=
- =?utf-8?B?MG9TSEpRZENmWTltSVc3S09hSnhRdExBS1Yyc2U5UFpCanI3Y1QzQnE5d21R?=
- =?utf-8?B?ZEFraDYvV1h2clBkTlMzdUtBR1dJZXEzZzRUdXRhRi9DaDRhclQvb2h0Y0pI?=
- =?utf-8?B?L2RJemlCd2VBeUJDcm9PY1p6NHVxYmtFOGhQc0xPS1JBZlg3SVV3Unhld2NY?=
- =?utf-8?B?WWd4Z2NPYnRNa09RQ05yZEhSSExwL0pkbDFUVGN6bWVmMHNCTldPcmIzMm1H?=
- =?utf-8?B?YUVjeTY2ZEY0bU12THFzaFJzYUcwNWtiUDNsS0U4WklpSCtpdjNXeE9YZjRW?=
- =?utf-8?B?YVB6N3RZRlE5UGY3V2NKYXg2Slk2UW0xK0ErdWp5U3V0OFEyTXRkSXIxR21I?=
- =?utf-8?B?VTRuOEw0MVh1dHZuckl1SjFrenQzNURGTUhDNlN4cmlFNkFyRVI3QUo0d0dj?=
- =?utf-8?B?dEljRGJZMmh2eTNIRFJLSWxTSTN6Qzg4ZVNkcnFkOVVvK0hudGtmOUlMN1g5?=
- =?utf-8?B?YXdRSWdmWkFFc1lJV3hXNEZLU0Mzd2tIZlBHMG1LRTQ4Zm5jSzd2Rnd0T0s3?=
- =?utf-8?B?UnVaZ3BKZHdBU1hZUVRnY3RzMkVmVy9hWWhZcGp4cHBnYUN5MGJPcE5sZFdw?=
- =?utf-8?B?QUpIWFVLbDlLWjhkNnNNcVFET1lwMGwwZzI2eFdGamV4TWYzR1FiYm5FcmJn?=
- =?utf-8?B?cXV1d2JqSjY2bW1zZ1ExTWhZdTd6dDJiVjVlUTdoU2JRcTBPYVlVNm5nVjlV?=
- =?utf-8?B?S0VrcWVhZ1NQekVtZE5rSEJGWHVFcHpmS3FZVTVzejJmeEtScnl5c09nQ3Js?=
- =?utf-8?B?aFpIWFl1UzIrY01ISHViYktXK0kvcHBFNnorMEFZaktKTzMzR29HL0RSd20x?=
- =?utf-8?B?Mkw0c1hJaUtobU02OFFNcU1tMldGa0pJY2VreDJwYnNkOXZEc0VRNjFYeXMw?=
- =?utf-8?B?cjY3bmRJdmk5aVhqVXJIQ1dZVi81ZWNWbXl5RDk4OTUzQlhuaTJucFBMVkEw?=
- =?utf-8?Q?gSC0g1y8A6g+dIvwogcnQbbX4?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?N0VyUGI1WGFrZnpEbmNqbmtTZFE5aldLdHRiUkVlK2tyWTdNQWkyT3Rtc0xh?=
- =?utf-8?B?ZVJoNDl0NDFBc3ZXODA2aE45aEdJSTZLeDZ5RUpEb0lGVWs2dURYeGxZd1dS?=
- =?utf-8?B?UlBiUTBxWGk3a2I3ZngwaGE3a2JmVmxCMkVtb2xhYnplSElHczh4SDhJSGhp?=
- =?utf-8?B?WEVYUDlPaHBPb2NheE90WXBpZjQ3OFRQS2VFcnEwOVV4cmlqUXJveEdUT3pq?=
- =?utf-8?B?VXJveXZJa1NTWWVGMmNSbnNjWnRUd3FuTzlSWGR4T1JNb29kWWlKaGhCcGFh?=
- =?utf-8?B?ZUV6cG1yRW41ZXQ0RFE3TGNhY2NyVnU2aXliYUYvRENacExuSE5aV0xxdG1O?=
- =?utf-8?B?aXY0dG9EdkRNeDdGUlpNeDZJcWdad0YxenV5Z3NraFA2cjZNNDhFNi9qclVZ?=
- =?utf-8?B?UUZ0Y0ZTdVFsNkU2TE83RTR6VitVQ09vbHg3UG9WbkxaNHd6bWMrd2JQNzM5?=
- =?utf-8?B?b0RCeXI1MldEYjY2UnNnSUQ0YlpTSHZnamtwYWhjQ00rWDdmL1FFL1lieGEx?=
- =?utf-8?B?ZncwU2lkT2dvWWZtRzdLODRiN1JtQUpPdVkybzIyeGxUTm8wS1RTMjF5eUxD?=
- =?utf-8?B?dDdDakFmRGt1d3hDakFTL0xSMnZhcDNZZXBIWXRKd1plWHN3a0hjVUFCdnJJ?=
- =?utf-8?B?Yy9ncGFsL0VpRWgzVGErQ1hITjJZZWh3OVA1eldsYjFncTB4VHl1UlRMNXkv?=
- =?utf-8?B?Q0lGMEtZNE9sSC9vWUdTMU5SSUpUTDc0Ynd4S0tCOCtZRVlLT21uYmVzNnZR?=
- =?utf-8?B?ZkdTU0t1WjU0YVY5ZFE3NmVSdUdxV0JSV3oxVnh2aUFFcFlxL1QvcXcrbjJm?=
- =?utf-8?B?cENhRkVrQ08zYTlKYXdndGRrOGx6MGlublhCL3R6ME03YU5SRzkvalhyM3pq?=
- =?utf-8?B?UWFFNWU0b0xBVnJ4alpmV0IzYzdaVzJpdmhnVC90WDFvTXM5bDlxaCtRWTRB?=
- =?utf-8?B?RXRoMmhRTWFtN2dqYmVjSDU0aWt5S1lHSXlabTFGeVNkZUpkVjJaRG01VURV?=
- =?utf-8?B?aHZNZ2tGSGNVWXRRaTgwaWtFTzNYd1hxTUtKU3M4c01PYklmZUtkblBLU1lS?=
- =?utf-8?B?VnF3eHN4Mm5XM1JtYzRneEN5cU01eDZaY3lKSHBKdWtCV2Rub3QzQXZjRXhR?=
- =?utf-8?B?WjZyalU0a1VjV1FSQ2tBcmg0S1F1TklFQ0tvSUtaQzFlNWFWblkvemtic2Vq?=
- =?utf-8?B?bE9MaG5jQVlmS2d4Zk5QRHd4b21zeFNGS09BdDhyUlZreTRUa1pCYTc1YVVx?=
- =?utf-8?B?OFZOaHplVVVIQ1hCcll3RzVXRmdRclRBR1oxM1lwR3JMZ2l4WW1ESFNtRU53?=
- =?utf-8?B?OHVsSTVUNE1zdnFFTzdNQXcrcGVFVzY1aFFjeHlidTQ1Q2dNSXBieDNkTHFE?=
- =?utf-8?B?WWxMc2tPMkROVThEWkZ2eEJUY1JVTzFqL20yNEc1b0tQeWt5TkkrRnE3UGpD?=
- =?utf-8?B?aEJEUFpBM3gyZEFEL0xHVFF0SjBPYjFuandqMlFiaWhRZVM0ejdjYkp6elNT?=
- =?utf-8?B?Z21JMzIreWw0amxOU2w2b1huK2xyV2o2VkhmbnNjZDdMaE94dkdtSEdlYjZY?=
- =?utf-8?B?NHNOeERZeG1iejc5WjVmZ3hMUUE3NVdWMHVXWHlkeXcwbDVDL3ZHbWl6ZlhQ?=
- =?utf-8?B?SFN6NG9mdUluSFdHSGsrcmFkU0Y3MWpXN3JkT3k5Q3Zic0V3UllEN1ZpVENr?=
- =?utf-8?B?QWpMQ3R4alZsL1BPaGpTN3NrQWozWG5CTko0R0tGTnR0NHlEMzVTSVZHdXpa?=
- =?utf-8?B?elZhSFZ1Y3V6VmUycFZ4SVRnelNHejU1eEhwQ3ZuUFJwTGQrZGlaYklNV1Qy?=
- =?utf-8?B?Nm1FckQ2QXVDdmN4THFsTFBValJHRWU4dnlNZFZ0NGdxNUIxQ2xTcWdRWjhu?=
- =?utf-8?B?TEM1aHhxbG4yVlUrR0s1bkQxMmlvOXpCa1Y2ZCtLWDhXSzYwR3h2ZkRFQ255?=
- =?utf-8?B?bU1GaC8xYWpjRU9GTlIrM0pIWUtnWU11d0tXckR3aVRJUzBCdStkWnhDNTlI?=
- =?utf-8?B?b0REN0F1QitnZnlTQzgwa3ErZWJoQ3pDZ0JJeElLR2p4djZ0eWxTTEdOd0cv?=
- =?utf-8?B?Yks3UUs5RlRLTUdFVGV6NWRtOTRQN0c1VktYTEtaZzVoWEhHRkI1cjh2dS9S?=
- =?utf-8?B?d05EeVJJM2YwRXFyRlhXTm9GYnpmNFd5R25vVEFLSVB2dlRENWhEZXlhbTdH?=
- =?utf-8?B?YWVOMUJPbmJ5allNS0psTkt3MFh1SitKY3FvTTNsK25hRWtLQnhnbjNZSkg1?=
- =?utf-8?B?N2FXMVlMRXhjYnNydytuTDZVRm8wNmo4eDVFU3c3dXpKZlpnYTI3Y0hjRHpn?=
- =?utf-8?B?SndXdHdWMGl3M1FwbGEzVDh2djdIN08xeFNMVjFVdTBDa3M2bC9wdGlZdlVB?=
- =?utf-8?Q?m0nPA2uEIUehNlSQ=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1d60bb8-7fe9-49e3-0ec2-08de5f9ca3c3
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-OriginatorOrg: fujitsu.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 01:12:30.2299
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10110.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57556e7c-3c9a-4afa-bb33-08de5fa60514
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2026 02:19:38.7071
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mTKT8q4TO0XDkB4DCj5rnKpQ55mnQe75SCEn+Fn6NrwWFm1NQZGuM+N/xDVQv386wJWorfboju6RppyWJk+b+qXtW5RorIWSmpEBOXtpaKQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9082
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: IXq_BXR0kEsaim98uysrAnhbyFM2fR94
-X-Authority-Analysis: v=2.4 cv=KMVXzVFo c=1 sm=1 tr=0 ts=697c0585 cx=c_pps
- a=QZCRoNrmhm2x71JB/dW4Lw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=8AHkEIZyAAAA:8 a=k-42gJp3AAAA:8
- a=i8PUBiQ3jRtBHGnszk0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ag1SF4gXAAAA:8
- a=M9o1KOA16XSL0SnBVJEA:9 a=RH0siUWtQy9f_A2M:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=uCSXFHLys93vLW5PjgO_:22
- a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTMwMDAwNyBTYWx0ZWRfX7snMcb/dGSMH
- QOop1UNOQkE8nGf3pOXjzTR95ZkN3eQwWgreDtTiZytFGi0uU+8sjeDFOclWtOdMqfvKulsoFeB
- nCHTPHlJDYu1eq/juYX0uBK/RPUFak3Wna81RP4cwiPt75Dnx4kqKkHTfeGGMbQ3kRDHtYEUhVB
- Lj0U3f94Oj4MlMGJR5/IigU25Hw/iXy2SK48uE50tyE3YdCdDqFbgFieboD8SWNpA681UfXMgXr
- Gib31Vu0MXfX2gIQFSLbuxmlxuy5nvtjZWC0VTCFnBrdD5vR1mZQz+pAkY9LjoqtrFoJOxsMk2C
- SEp5FCJf/Ww4nQzh8IXmVtxcov6OIzjyKKbtYyKh4eeOLUbUmAykgRkJejBxI5kEq+22F1X+RGb
- agFX26uRycgdLl0i723mC8t0BUgLNxuXi9MC/ds198C2lAzEB0GNyui263MpP8fBfvcPuNToxb5
- bZVZCuDPWnL2g63Z06A==
-X-Proofpoint-GUID: uXTpmOP48-Ew8wVa5dzyFSR9luyIqp3u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-29_03,2026-01-29_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0 clxscore=1015
- spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601300007
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JAUq2pgNdp0jz1mnuPsE+VROI+4TDdZEuf4luGBMRP6jkTsCk7rzrOz42qEoiPsjPNFRjB5vzq4/LvrkPzuQnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB12095
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 01:12:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230173
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 02:19:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230174
 
---------------XYqflUkcrgfqY8qUgYZbABCV
-Content-Type: text/plain; charset=UTF-8; format=flowed
+--_000_TY3PR01MB1011061788269D6E4EAC2C8999B9FATY3PR01MB10110jp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+
+SGkgQWxleA0KDQogICAgIEkgc2VhcmNoIHRoZSBjaGFuZ2Vsb2cgaW4gZ2l0IGxvZywgYW5kIGZv
+dW5kIHRoYXQgYmVzaWRlcyBvcmMsIGdzdHJlYW1lcjEuMC12YWFwaSwgIGdzdHJlYW1lcjEuMC1w
+bHVnaW5zLWJhc2UgYW5kIGdzdHJlYW1lcjEuMCB1c2VkIGhvdGRvYyBpbiBuZXcgdmVyc2lvbi4N
+Cg0KTGl1DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBBbGV4YW5k
+ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCreiy83KsbzkOiAyMDI2xOox1MIy
+OcjVIDE5OjI2DQrK1bz+yMs6IExpdSwgWWlkaW5nL8H1INLStqEgPGxpdXlkLmZuc3RAZnVqaXRz
+dS5jb20+DQqzrcvNOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K1vfM4jogUmU6IFtPRS1j
+b3JlXVtQQVRDSCA2LzZdIG9yYzogRW5hYmxlIGhvdGRvYyB0byBwcm9kdWNlIGRvYw0KDQpUaGFu
+a3MgZm9yIGxvb2tpbmcgaW50byB0aGlzLiBBcmUgdGhlcmUgb3RoZXIgcmVjaXBlcyBpbiBvZS1j
+b3JlIHRoYXQNCmhhdmUgaG90ZG9jIHN1cHBvcnQ/IFlvdSBjYW4gcGVyaGFwcyB1bnBhY2sgZXZl
+cnl0aGluZyAod2l0aG91dA0KYnVpbGRpbmcgaXQpLCBhbmQgdGhlbiBncmVwIGluIFdPUktESVIg
+Zm9yIGhvdGRvYy4NCg0KSWYgdGhlcmUncyBqdXN0IG9yYywgd2UgY291bGQgcHJvYmFibHkgYWRk
+IGhvdGRvYyB0byBtZXRhLW9wZW5lbWJlZGRlZCBmaXJzdC4NCg0KVGhlIHBlbmRpbmcgcGF0Y2gg
+bmVlZHMgdG8gYmUgc3VibWl0dGVkIHVwc3RyZWFtLg0KDQpBbGV4DQoNCk9uIFRodSwgMjkgSmFu
+IDIwMjYgYXQgMDQ6NTQsIFlpZGluZyBMaXUgKEZ1aml0c3UpIHZpYQ0KbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyA8bGl1eWQuZm5zdD1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K
+d3JvdGU6DQo+DQo+IFNpZ25lZC1vZmYtYnk6IExpdSBZaWRpbmcgPGxpdXlkLmZuc3RAZnVqaXRz
+dS5jb20+DQo+IC0tLQ0KPiAgLi4uL29yYy9vcmMvMDAwMS1GaXgtaG90ZG9jLXJ1bi1lcnJvci5w
+YXRjaCAgIHwgMzcgKysrKysrKysrKysrKysrKysrKw0KPiAgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L29yYy9vcmNfMC40LjQyLmJiICAgICAgIHwgIDUgKystDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDQx
+IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yYy8wMDAxLUZpeC1ob3Rkb2MtcnVuLWVycm9yLnBhdGNo
+DQo+DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yYy8wMDAxLUZp
+eC1ob3Rkb2MtcnVuLWVycm9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmMv
+MDAwMS1GaXgtaG90ZG9jLXJ1bi1lcnJvci5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0K
+PiBpbmRleCAwMDAwMDAwMDAwLi4yNzdjZTAzOGY4DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmMvMDAwMS1GaXgtaG90ZG9jLXJ1bi1lcnJvci5w
+YXRjaA0KPiBAQCAtMCwwICsxLDM2IEBADQo+ICtTdWJqZWN0OiBbUEFUQ0hdIEZpeCBob3Rkb2Mg
+cnVuIGVycm9yLg0KPiArDQo+ICtGaXggdGhlIGZvbGxvd2luZyBlcnJvci4NCj4gK3wgUnVubmlu
+ZyBjdXN0b20gaW5zdGFsbCBzY3JpcHQgJ3RtcC93b3JrL3g4Ni02NC12My1wb2t5LWxpbnV4L29y
+Yy8wLjQuNDIvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vbWVzb24ucmVhbCAtLWludGVy
+bmFsIGhvdGRvYyAtLWluc3RhbGwgb3JjLWRvYy9odG1sIC0tZG9jZGlyIC91c3Ivc2hhcmUvZG9j
+L29yYy9odG1sIC0tbmFtZSBvcmMgLS1idWlsZGRpciB0bXAvd29yay94ODYtNjQtdjMtcG9reS1s
+aW51eC9vcmMvMC40LjQyL2J1aWxkL2RvYyB0bXAvd29yay94ODYtNjQtdjMtcG9reS1saW51eC9v
+cmMvMC40LjQyL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2hvdGRvYyBydW4gLS1jb25m
+LWZpbGUgb3JjLWRvYy5qc29uJw0KPiArfCAtLS0gc3Rkb3V0IC0tLQ0KPiArfA0KPiArfCAtLS0g
+c3RkZXJyIC0tLQ0KPiArfCBFUlJPUjogW2RvYy10cmVlXTogKGluZGV4LWV4dGVuc2lvbi1ub3Qt
+Zm91bmQpOiB0bXAvd29yay94ODYtNjQtdjMtcG9reS1saW51eC9vcmMvMC40LjQyL3NvdXJjZXMv
+b3JjLTAuNC40Mi9kb2Mvc2l0ZW1hcC50eHQ6ODoxMDogTm8gZXh0ZW5zaW9uIG5hbWVkIGMgZm9y
+IGluZGV4IHBhZ2UNCj4gK3wgMDAwMDY6ICAgICAgICAgICAgICAgIHR1dG9yaWFsLm1kDQo+ICt8
+IDAwMDA3OiAgICAgICAgICAgICAgICBvcGNvZGVzLm1kDQo+ICt8IDAwMDA4OiAgICAgICAgYy1p
+bmRleA0KPiArfCAgICAgICAgICAgICAgIF4NCj4gK3wgMDAwMDk6DQo+ICt8DQo+ICsNCj4gK1Jl
+bW92ZSBjLWluZGV4IGFzIGl0IGlzIG5vdCBpbiB0aGUgZG9jIGRpcmVjdG9yeS4NCj4gKw0KPiAr
+VXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+ICsNCj4gK1NpZ25lZC1vZmYtYnk6IExpdSBZaWRp
+bmcgPGxpdXlkLmZuc3RAZnVqaXRzdS5jb20+DQo+ICstLS0NCj4gKyBkb2Mvc2l0ZW1hcC50eHQg
+fCAxIC0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQ0KPiArDQo+ICtkaWZmIC0t
+Z2l0IGEvZG9jL3NpdGVtYXAudHh0IGIvZG9jL3NpdGVtYXAudHh0DQo+ICtpbmRleCA1NjhiMzY3
+Li40MGE3Zjk5IDEwMDY0NA0KPiArLS0tIGEvZG9jL3NpdGVtYXAudHh0DQo+ICsrKysgYi9kb2Mv
+c2l0ZW1hcC50eHQNCj4gK0BAIC01LDQgKzUsMyBAQCBpbmRleC5tZA0KPiArICAgICAgICAgICAg
+ICAgY29uY2VwdHMubWQNCj4gKyAgICAgICAgICAgICAgIHR1dG9yaWFsLm1kDQo+ICsgICAgICAg
+ICAgICAgICBvcGNvZGVzLm1kDQo+ICstICAgICAgYy1pbmRleA0KPiArLS0NCj4gKzIuNDMuMA0K
+PiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuNDIu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuNDIuYmINCj4gaW5kZXggZjU2
+YjkwNThjMi4uYjczYzhkZjA0ZCAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L29yYy9vcmNfMC40LjQyLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3Jj
+XzAuNC40Mi5iYg0KPiBAQCAtNCwxMSArNCwxNCBAQCBERVNDUklQVElPTiA9ICJPcHRpbWlzZWQg
+SW5uZXIgTG9vcCBSdW50aW1lIENvbXBpbGVyIGlzIGEgTGlicmFyeSBhbmQgc2V0IG9mIHRvbw0K
+PiAgTElDRU5TRSA9ICJCU0QtMi1DbGF1c2UgJiBCU0QtMy1DbGF1c2UiDQo+ICBMSUNfRklMRVNf
+Q0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xNDAwYmQ5ZDA5ZThhZjU2YjllYzk4MmIzZDg1
+Nzk3ZSINCj4NCj4gLVNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcv
+c3JjL29yYy9vcmMtJHtQVn0udGFyLnh6Ig0KPiArU1JDX1VSSSA9ICJodHRwOi8vZ3N0cmVhbWVy
+LmZyZWVkZXNrdG9wLm9yZy9zcmMvb3JjL29yYy0ke1BWfS50YXIueHogXA0KPiArICAgICAgICAg
+ICBmaWxlOi8vMDAwMS1GaXgtaG90ZG9jLXJ1bi1lcnJvci5wYXRjaCBcDQo+ICsgICAgICAgICAg
+Ig0KPiAgU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdlYzkxMmFiNTlhZjNjYzk3ODc0YzQ1NmE1NmE4
+YWUxZWVjNTIwYzM4NWVjNDQ3ZThhMTAyYjJiZDEyMmM5MGMiDQo+DQo+ICBpbmhlcml0IG1lc29u
+IHBrZ2NvbmZpZw0KPg0KPiArREVQRU5EUyA9ICJob3Rkb2MtbmF0aXZlIg0KPiAgIyBkaXN0aW5n
+dWlzaCBmcm9tIGFwYWNoZTpvcmMNCj4gIENWRV9QUk9EVUNUID0gImdzdHJlYW1lcjpvcmMiDQo+
+DQo+IC0tDQo+IDIuNDMuMA0KPg0KPg0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBMaW5r
+czogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmlldy9S
+ZXBseSBPbmxpbmUgKCMyMzAxMTgpOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9v
+cGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIzMDExOA0KPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBz
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMTc1MjE0NTQvMTY4NjQ4OQ0KPiBHcm91cCBP
+d25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBV
+bnN1YnNjcmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVk
+LWNvcmUvdW5zdWIgW2FsZXgua2FuYXZpbkBnbWFpbC5jb21dDQo+IC09LT0tPS09LT0tPS09LT0t
+PS09LT0tDQo+DQo=
+
+--_000_TY3PR01MB1011061788269D6E4EAC2C8999B9FATY3PR01MB10110jp_
+Content-Type: text/html; charset="gb2312"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60U07f2P3256500
 
- From almost 4 years ago:
-
-On 2022-03-14 6:48 p.m., Richard Purdie wrote:
-> From: Tim Orling<tim.orling@konsulko.com>
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif;" class=3D"elementToProof">
+<span style=3D"font-size: 12pt; color: rgb(0, 0, 0);">Hi Alex<br>
+<br>
+&nbsp; &nbsp; &nbsp;I search the changelog in git log, and found that besid=
+es&nbsp;</span><span style=3D"font-size: 11pt; color: rgb(0, 0, 0);">orc, g=
+streamer1.0-vaapi, &nbsp;gstreamer1.0-plugins-base and gstreamer1.0 used ho=
+tdoc in new version.<br>
+<br>
+Liu</span></div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> Alexand=
+er Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2026=C4=EA1=D4=C229=C8=D5 19:26<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> Liu, Yiding/=C1=F5 =D2=D2=B6=A1 &lt;liuyd.fnst@f=
+ujitsu.com&gt;<br>
+<b>=B3=AD=CB=CD:</b> openembedded-core@lists.openembedded.org &lt;openembed=
+ded-core@lists.openembedded.org&gt;<br>
+<b>=D6=F7=CC=E2:</b> Re: [OE-core][PATCH 6/6] orc: Enable hotdoc to produce=
+ doc</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Thanks for looking into this. Are there other reci=
+pes in oe-core that<br>
+have hotdoc support? You can perhaps unpack everything (without<br>
+building it), and then grep in WORKDIR for hotdoc.<br>
+<br>
+If there's just orc, we could probably add hotdoc to meta-openembedded firs=
+t.<br>
+<br>
+The pending patch needs to be submitted upstream.<br>
+<br>
+Alex<br>
+<br>
+On Thu, 29 Jan 2026 at 04:54, Yiding Liu (Fujitsu) via<br>
+lists.openembedded.org &lt;liuyd.fnst=3Dfujitsu.com@lists.openembedded.org&=
+gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; Signed-off-by: Liu Yiding &lt;liuyd.fnst@fujitsu.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; .../orc/orc/0001-Fix-hotdoc-run-error.patch&nbsp;&nbsp; | 37 +++=
+++++++++++++++++<br>
+&gt;&nbsp; meta/recipes-devtools/orc/orc_0.4.42.bb&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; |&nbsp; 5 ++-<br>
+&gt;&nbsp; 2 files changed, 41 insertions(+), 1 deletion(-)<br>
+&gt;&nbsp; create mode 100644 meta/recipes-devtools/orc/orc/0001-Fix-hotdoc=
+-run-error.patch<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.p=
+atch b/meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..277ce038f8<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-devtools/orc/orc/0001-Fix-hotdoc-run-error.patch<br=
 >
-> Dependency for python3-cryptography
->
-> Signed-off-by: Tim Orling<tim.orling@konsulko.com>
-> ---
->   .../python/python3-ply_3.11.bb                 | 18 +++++++++++++++++=
-+
-
-
-I was looking at a python3-ply CVE the other day and I noticed that
-the upstream repository was archived by the owner on Dec 21, 2025. It is=20
-now read-only.
-https://github.com/dabeaz/ply
-
-so we'll have to see if anyone takes over maintenance or
-if the users switch to a different lex/yacc in python implementation.
-
-
-On master there are only 2 current users via a layer index depends query:
-
-https://layers.openembedded.org/layerindex/branch/master/recipes/?q=3Ddep=
-ends%3Apython3-ply
-
-but there could be some recipes that use it such as meta-sca.
-
-I don't see where it was ever used by python3-cryptography but it is=20
-still declared as a dependency=C2=A0 for spdx-tools:
-
-=E2=9D=AF rg python3-ply
-..
-meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb
-16:# Dependencies required for conversion to spdx3 :=20
-python3-semantic-version, python3-ply
-24:=C2=A0 python3-ply \
-
-
-Consider this a head up for those CCed.
-
-Since it's not maintained, it would be nice to replace it
-or if not really used by spdx-tools, move it back to meta-oe.
-
-../Randy
-
-
->   1 file changed, 18 insertions(+)
->   create mode 100644 meta/recipes-devtools/python/python3-ply_3.11.bb
->
-> diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/re=
-cipes-devtools/python/python3-ply_3.11.bb
-> new file mode 100644
-> index 00000000000..99c037bb734
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
-> @@ -0,0 +1,18 @@
-> +SUMMARY =3D "Python Lex and Yacc"
-> +DESCRIPTION =3D "Python ply: PLY is yet another implementation of lex =
-and yacc for Python"
-> +HOMEPAGE =3D"https://pypi.python.org/pypi/ply"
-> +SECTION =3D "devel/python"
-> +LICENSE =3D "BSD-3-Clause"
-> +LIC_FILES_CHKSUM =3D"file://README.md;beginline=3D5;endline=3D32;md5=3D=
-f5ee5c355c0e6719c787a71b8f0fa96c"
-> +
-> +SRC_URI[md5sum] =3D "6465f602e656455affcd7c5734c638f8"
-> +SRC_URI[sha256sum] =3D "00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b=
-095321aef446081da3"
-> +
-> +inherit pypi setuptools3
-> +
-> +RDEPENDS:${PN}:class-target +=3D "\
-> +    ${PYTHON_PN}-netclient \
-> +    ${PYTHON_PN}-shell \
-> +"
-> +
-> +BBCLASSEXTEND =3D "native"
->
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------XYqflUkcrgfqY8qUgYZbABCV
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60U07f2P3256500
-
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <div class=3D"moz-cite-prefix">From almost 4 years ago:<br>
-      <br>
-    </div>
-    <div class=3D"moz-cite-prefix">On 2022-03-14 6:48 p.m., Richard Purdi=
-e
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:20220314224837.834776-21-richar=
-d.purdie@linuxfoundation.org">
-      <pre wrap=3D"" class=3D"moz-quote-pre">From: Tim Orling <a class=3D=
-"moz-txt-link-rfc2396E" href=3D"mailto:tim.orling@konsulko.com">&lt;tim.o=
-rling@konsulko.com&gt;</a>
-
-Dependency for python3-cryptography
-
-Signed-off-by: Tim Orling <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
-to:tim.orling@konsulko.com">&lt;tim.orling@konsulko.com&gt;</a>
----
- .../python/python3-ply_3.11.bb                 | 18 ++++++++++++++++++</=
-pre>
-    </blockquote>
-    <p><br>
-      I was looking at a python3-ply CVE the other day and I noticed
-      that<br>
-      the upstream repository was archived by the owner on Dec 21, 2025.
-      It is now read-only.<br>
-      &nbsp;&nbsp; <a class=3D"moz-txt-link-freetext" href=3D"https://git=
-hub.com/dabeaz/ply">https://github.com/dabeaz/ply</a><br>
-      <br>
-      so we'll have to see if anyone takes over maintenance or <br>
-      if the users switch to a different lex/yacc in python
-      implementation.</p>
-    <p><br>
-    </p>
-    <p>On master there are only 2 current users via a layer index
-      depends query:<br>
-      <br>
-<a class=3D"moz-txt-link-freetext" href=3D"https://layers.openembedded.or=
-g/layerindex/branch/master/recipes/?q=3Ddepends%3Apython3-ply">https://la=
-yers.openembedded.org/layerindex/branch/master/recipes/?q=3Ddepends%3Apyt=
-hon3-ply</a><br>
-      <br>
-      but there could be some recipes that use it such as meta-sca.<br>
-      <br>
-      I don't see where it was ever used by python3-cryptography but it
-      is still declared as a dependency&nbsp; for spdx-tools:<br>
-      <br>
-      =E2=9D=AF rg python3-ply<br>
-      ..<br>
-      meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb<br>
-      16:# Dependencies required for conversion to spdx3 :
-      python3-semantic-version, python3-ply<br>
-      24:&nbsp; python3-ply \<br>
-    </p>
-    <p><br>
-      Consider this a head up for those CCed.<br>
-      <br>
-      Since it's not maintained, it would be nice to replace it<br>
-      or if not really used by spdx-tools, move it back to meta-oe.</p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type=3D"cite" cite=3D"mid:20220314224837.834776-21-richar=
-d.purdie@linuxfoundation.org">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
- 1 file changed, 18 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-ply_3.11.bb
-
-diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/reci=
-pes-devtools/python/python3-ply_3.11.bb
-new file mode 100644
-index 00000000000..99c037bb734
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
-@@ -0,0 +1,18 @@
-+SUMMARY =3D &quot;Python Lex and Yacc&quot;
-+DESCRIPTION =3D &quot;Python ply: PLY is yet another implementation of l=
-ex and yacc for Python&quot;
-+HOMEPAGE =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"https://pypi.pyt=
-hon.org/pypi/ply">&quot;https://pypi.python.org/pypi/ply&quot;</a>
-+SECTION =3D &quot;devel/python&quot;
-+LICENSE =3D &quot;BSD-3-Clause&quot;
-+LIC_FILES_CHKSUM =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"file://R=
-EADME.md;beginline=3D5;endline=3D32;md5=3Df5ee5c355c0e6719c787a71b8f0fa96=
-c">&quot;file://README.md;beginline=3D5;endline=3D32;md5=3Df5ee5c355c0e67=
-19c787a71b8f0fa96c&quot;</a>
-+
-+SRC_URI[md5sum] =3D &quot;6465f602e656455affcd7c5734c638f8&quot;
-+SRC_URI[sha256sum] =3D &quot;00c7c1aaa88358b9c765b6d3000c6eec0ba42abca53=
-51b095321aef446081da3&quot;
-+
-+inherit pypi setuptools3
-+
-+RDEPENDS:${PN}:class-target +=3D &quot;\
-+    ${PYTHON_PN}-netclient \
-+    ${PYTHON_PN}-shell \
-+&quot;
-+
-+BBCLASSEXTEND =3D &quot;native&quot;
-</pre>
-      <br>
-      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
+&gt; @@ -0,0 +1,36 @@<br>
+&gt; +Subject: [PATCH] Fix hotdoc run error.<br>
+&gt; +<br>
+&gt; +Fix the following error.<br>
+&gt; +| Running custom install script 'tmp/work/x86-64-v3-poky-linux/orc/0.=
+4.42/recipe-sysroot-native/usr/bin/meson.real --internal hotdoc --install o=
+rc-doc/html --docdir /usr/share/doc/orc/html --name orc --builddir tmp/work=
+/x86-64-v3-poky-linux/orc/0.4.42/build/doc
+ tmp/work/x86-64-v3-poky-linux/orc/0.4.42/recipe-sysroot-native/usr/bin/hot=
+doc run --conf-file orc-doc.json'<br>
+&gt; +| --- stdout ---<br>
+&gt; +|<br>
+&gt; +| --- stderr ---<br>
+&gt; +| ERROR: [doc-tree]: (index-extension-not-found): tmp/work/x86-64-v3-=
+poky-linux/orc/0.4.42/sources/orc-0.4.42/doc/sitemap.txt:8:10: No extension=
+ named c for index page<br>
+&gt; +| 00006:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tutorial.md<br>
+&gt; +| 00007:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; opcodes.md<br>
+&gt; +| 00008:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c-index<br>
+&gt; +|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; ^<br>
+&gt; +| 00009:<br>
+&gt; +|<br>
+&gt; +<br>
+&gt; +Remove c-index as it is not in the doc directory.<br>
+&gt; +<br>
+&gt; +Upstream-Status: Pending<br>
+&gt; +<br>
+&gt; +Signed-off-by: Liu Yiding &lt;liuyd.fnst@fujitsu.com&gt;<br>
+&gt; +---<br>
+&gt; + doc/sitemap.txt | 1 -<br>
+&gt; + 1 file changed, 1 deletion(-)<br>
+&gt; +<br>
+&gt; +diff --git a/doc/sitemap.txt b/doc/sitemap.txt<br>
+&gt; +index 568b367..40a7f99 100644<br>
+&gt; +--- a/doc/sitemap.txt<br>
+&gt; ++++ b/doc/sitemap.txt<br>
+&gt; +@@ -5,4 +5,3 @@ index.md<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; concepts.md<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; tutorial.md<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; opcodes.md<br>
+&gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c-index<br>
+&gt; +--<br>
+&gt; +2.43.0<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-devtools/orc/orc_0.4.42.bb b/meta/recipes-de=
+vtools/orc/orc_0.4.42.bb<br>
+&gt; index f56b9058c2..b73c8df04d 100644<br>
+&gt; --- a/meta/recipes-devtools/orc/orc_0.4.42.bb<br>
+&gt; +++ b/meta/recipes-devtools/orc/orc_0.4.42.bb<br>
+&gt; @@ -4,11 +4,14 @@ DESCRIPTION =3D &quot;Optimised Inner Loop Runtime C=
+ompiler is a Library and set of too<br>
+&gt;&nbsp; LICENSE =3D &quot;BSD-2-Clause &amp; BSD-3-Clause&quot;<br>
+&gt;&nbsp; LIC_FILES_CHKSUM =3D &quot;<a href=3D"file://COPYING;md5=3D1400b=
+d9d09e8af56b9ec982b3d85797e">file://COPYING;md5=3D1400bd9d09e8af56b9ec982b3=
+d85797e</a>&quot;<br>
+&gt;<br>
+&gt; -SRC_URI =3D &quot;<a href=3D"http://gstreamer.freedesktop.org/src/orc=
+/orc-${PV}.tar.xz">http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.x=
+z</a>&quot;<br>
+&gt; +SRC_URI =3D &quot;<a href=3D""></a>http://gstreamer.freedesktop.org/s=
+rc/orc/orc-${PV}.tar.xz \<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://0001-Fix-hotdoc-run-error.patch">file://0001-Fix-hotdoc-run-erro=
+r.patch</a> \<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<br>
+&gt;&nbsp; SRC_URI[sha256sum] =3D &quot;7ec912ab59af3cc97874c456a56a8ae1eec=
+520c385ec447e8a102b2bd122c90c&quot;<br>
+&gt;<br>
+&gt;&nbsp; inherit meson pkgconfig<br>
+&gt;<br>
+&gt; +DEPENDS =3D &quot;hotdoc-native&quot;<br>
+&gt;&nbsp; # distinguish from apache:orc<br>
+&gt;&nbsp; CVE_PRODUCT =3D &quot;gstreamer:orc&quot;<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.43.0<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#230118): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/230118">
+https://lists.openembedded.org/g/openembedded-core/message/230118</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11752145=
+4/1686489">
+https://lists.openembedded.org/mt/117521454/1686489</a><br>
+&gt; Group Owner: openembedded-core+owner@lists.openembedded.org<br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [alex.kanavin@=
+gmail.com]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</div>
+</span></font></div>
+</body>
 </html>
 
---------------XYqflUkcrgfqY8qUgYZbABCV--
+--_000_TY3PR01MB1011061788269D6E4EAC2C8999B9FATY3PR01MB10110jp_--
 
