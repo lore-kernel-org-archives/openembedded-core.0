@@ -1,215 +1,415 @@
-Return-Path: <rs@ti.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93DAFD73EAA
-	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 00:15:33 +0000 (UTC)
-Received: from CH5PR02CU005.outbound.protection.outlook.com (CH5PR02CU005.outbound.protection.outlook.com [40.107.200.15])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30376.1769732128129927204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5163FD73EAF
+	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 01:12:46 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.623.1769735558374671262
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jan 2026 16:15:28 -0800
+ Thu, 29 Jan 2026 17:12:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=BDMpe9su;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.107.200.15, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=KL/ruy6J;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6490b94fbc=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60U07f2P3256500
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jan 2026 17:12:38 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=epnC0oN190w1g1+IlsdfSe
+	PbCffcjjbvJS//OAS/Qzo=; b=KL/ruy6J91Ywgj1V7iHhI3RC63hFXU5DB2EeI5
+	kCIJsWTvbEtuvLXiba0iNZHueRhFLoRJtxRXFRS28xM80d52Z6uP1bLLmC1GqymG
+	qMLHflZyE5AlMzLOyrCbXoBR4JNwZ4OOLlMZ3W4PJvqkVVJvE0C1DlVa+kauMm0L
+	WLAOmnqSb2ToPzJB3XVbR7TKPu2Sus7r17v1IcTPm7+0OCZk9FaOA5qR5CNx862V
+	zT4tThqJMcb6Yr9ZWsH0IWCgqYgLrikLSVq/4mwbKeYMOQTZEdqwWZnERtdH948T
+	ddqBG3YiyZ6b7iyeZEFu4U8aaxcioBtogbXCSiofjHIy4zyQ==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010010.outbound.protection.outlook.com [52.101.61.10])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bywwrhhau-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 29 Jan 2026 17:12:37 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fl9d2V1Xlbn2UJvINQRCSFpNrTWmkef2+lr04qNh7YQ+4j41vNHGwoxBocjbLcHsWMcqKX91mIse2FXQ5gefznyEC1Br89DJ5LM93ybj6AApaccKqum4mUSqBCgGMcC/f3CRhL8UwpAdfzS/wOsBcmvEFbyZ87gOOY0/34OwzfNoXqIcMdJqSwoiEA2f34C8+dd8VXLfUc3BRWsZHeA7qt3U2CG1RBAL4DmGkBJcdOdgWRQKz8WH7B7FiEFIwQQwt3DfaC+uym81P3teANwlZ4zMwmzG69+c1C+r8pi/9BRn5ASNJcUniAm4l8BvaQ2xupElulgEloRaM/YHnfqnLg==
+ b=xwbClIxHcRVFKurt6OLORVJ0Lh8cWnI0I9I5qHzIX6pvM4rjtYSbJVycTTHKVjXp41U83PzMT8P4kIp353HxT/GS9ptk775r7BDbpP9lgckpBLizG245OOKdxAjLAXtCCP15iyI/CGUF1rQ664tJT+13eNtlg1+J1sgNGxAqhQuVXKm7zz4xcDEI1WcubYPm2qs7Ak2B/STuEK18aiCA6bvt9Cp755H5iKGcTM7m0Hd02u0nZZKoIC5jbVVanTjwlNr44NIFT7HBAsfAxLVrqyFHxtUMWRQvMkeG/wFBEiiPch+I1QRsNpifaKqqjl6ww51Jqgs2MLJj8bKR6FAhzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JN32E0IA+AADtwCZTv5nyiKxC9Mbk88ajHotoivAWB4=;
- b=nJVQciv8Q1BE4yHMLBUMdCk9cQcLbhcC2PGFK03o+20GwE9X4IgvM2PtKhf427yjPHonEhM62cPA3/vI0znSSL1RQgFFUp2XT08pNDKxXWm83KWVAB9nBmLJsQAz+a80Qlak3VVjnKbuZIV3DKR3XvyY101RnXqydvOKGtAIRxMzMHPXDaCOcWQe0/fb5xB9qefPGaojcNe+sCmKkarMEX6d1EwKIr+0TU7UQU++ESdSvktaevRuoaelkR7/J4BTbUg9fNra6Q4Gq6lIxrmBPfVFHZUacs6KhFaouj2w9Nzdvkr+CV5zz3Huf0IzUi8BU/x/Z+rDYxfO7OueZiBNxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JN32E0IA+AADtwCZTv5nyiKxC9Mbk88ajHotoivAWB4=;
- b=BDMpe9suT8jUjfnMCWi9grBkmS2CsoEZ5o40Sgi3uyTzLtx6gR+VXb1N649BLOAn8N6gWEqLyaqvkygSF0QGWQ2SERIISyVm0AaL8zFlgEWX52GM78Bfwzb6hgVfKyYiUvxqzBov/HFPaz2m3ULVK8MRejYUutN3TuPqi1FPtTc=
-Received: from DS7PR03CA0271.namprd03.prod.outlook.com (2603:10b6:5:3ad::6) by
- PH8PR10MB6410.namprd10.prod.outlook.com (2603:10b6:510:1c5::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.7; Fri, 30 Jan 2026 00:15:21 +0000
-Received: from CY4PEPF0000EDD3.namprd03.prod.outlook.com
- (2603:10b6:5:3ad:cafe::5) by DS7PR03CA0271.outlook.office365.com
- (2603:10b6:5:3ad::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Fri,
- 30 Jan 2026 00:15:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CY4PEPF0000EDD3.mail.protection.outlook.com (10.167.241.199) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Fri, 30 Jan 2026 00:15:20 +0000
-Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 18:15:20 -0600
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 18:15:20 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 29 Jan 2026 18:15:19 -0600
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60U0FKhX391989;
-	Thu, 29 Jan 2026 18:15:20 -0600
+ bh=epnC0oN190w1g1+IlsdfSePbCffcjjbvJS//OAS/Qzo=;
+ b=eW2fnnHZUDA/m6aHm/JYf3WTTDuG70YqiyjugV4beT96IfVxv20+tTPdrKjXqTVJPDG6GJZVhqeY2jhxt34X05j4olDiNRDcaenuLJEiJI4qhTnQEDFDEuW7z8Wq4loevimvFYqQWN6TlU9BkRABXfHPlMnAysaVNDOyrFzYuB6HS8PPfB+8PeIlGYtGrmlSTUkwoy98Fr5Ik26/OxVv0AsT4WtoSH9ZlpFoVQlhtmhjZhmMDLDCnKP1Wi6kW7C6ORiEVlbLVdC2KjBH6GwraQegq0jtQPpuHzmcJXrVjHjDDsfew0Yjx2Vq2WvBVRriJAzHJLNM6AYP+ZVCT1RRuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by IA4PR11MB9082.namprd11.prod.outlook.com (2603:10b6:208:56a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Fri, 30 Jan
+ 2026 01:12:30 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9564.006; Fri, 30 Jan 2026
+ 01:12:30 +0000
+Content-Type: multipart/alternative;
+ boundary="------------XYqflUkcrgfqY8qUgYZbABCV"
+Message-ID: <9dddbad2-9d69-4ba4-9a8e-fdabe70e9018@windriver.com>
+Date: Thu, 29 Jan 2026 20:12:23 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 21/33] python3-ply: move from meta-python
+To: openembedded-core@lists.openembedded.org,
+        Tim Orling <tim.orling@konsulko.com>
+Cc: mrybczynska@syslinbit.com, Rob Woolley <rob.woolley@windriver.com>,
+        Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>,
+        Konrad Weihmann <kweihmann@outlook.com>
+References: <20220314224837.834776-1-richard.purdie@linuxfoundation.org>
+ <20220314224837.834776-21-richard.purdie@linuxfoundation.org>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20220314224837.834776-21-richard.purdie@linuxfoundation.org>
+X-ClientProxiedBy: FR4P281CA0135.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b9::20) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Thu, 29 Jan 2026 18:15:20 -0600
-Message-ID: <DG1HOGASBF39.XTOA1VCZCPSR@ti.com>
-CC: Randolph Sapp <rs@ti.com>, <changqing.li@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] bitbake.conf: remove DEBUG_PREFIX_MAP from
- TARGET_LDFLAGS
-From: Randolph Sapp <rs@ti.com>
-To: <ricardo.salveti@oss.qualcomm.com>, <raj.khem@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260122194959.13457-2-rs@ti.com>
- <8684a6b5-809b-41e4-a3b0-c99b424a1b2a@windriver.com>
- <0387b4a0-1457-4de6-9571-022b997199e4@cybernetics.com>
- <DFYTFOYS891P.2A5CKLOKP5KGI@ti.com>
- <117668c8-bc3b-46ea-9d2e-b205e3f2f827@windriver.com>
- <CAMKF1srfwp+o0FC5r+Y+NfmWV3hFCJr7ifO5rH1C0+Gos-HejQ@mail.gmail.com>
- <DFZIJWAQTT0R.2QPUKVEBUL8K7@ti.com>
- <CAMKF1spQbv-WCy9XEBxiK-Hzn1v=XZnGW8jWdOkk2axsx7r13A@mail.gmail.com>
- <CAA_5you6j=mVutd7JkF7Pxpsn+rhmg+NazFc0=pFXz8=LFW3Ww@mail.gmail.com>
-In-Reply-To: <CAA_5you6j=mVutd7JkF7Pxpsn+rhmg+NazFc0=pFXz8=LFW3Ww@mail.gmail.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD3:EE_|PH8PR10MB6410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52e5f93d-9bdc-4666-4d75-08de5f94a7c8
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|IA4PR11MB9082:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1d60bb8-7fe9-49e3-0ec2-08de5f9ca3c3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+	BCL:0;ARA:13230040|366016|376014|1800799024|8096899003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?d2o3d2twUlVHaXVCcUpQZklEUGtMK3ArS25qZU1NK1cvOU1uZStzaVA3MXBq?=
- =?utf-8?B?blRjd00xR28wOXJBZktydTJXZmNrQU16bzBMM0RicStHR1ZSV3VTRE8wemRk?=
- =?utf-8?B?Q0pQWitrbWFiZzQxTWN3cUszUHBHQzZNa0xGY1p5akNETG05cnFISjNxNmoz?=
- =?utf-8?B?V01oRzY3T2RrZ3pWWVFEa1hmSDYxcEpBSzZYYWhRSFh1cVpKWFZTSDdxZzRl?=
- =?utf-8?B?Qk9sK1YxRnZFM2RhVG9LclMvVjl4bVp5bHhWOS9zR0gxc0hsRlAzZWxwS1Yz?=
- =?utf-8?B?dkZwRlNJQVlnN3BWV0NSSW0zOFA3ZW5lYi84WWpSeWNhUUxPdXc0c0dScUlv?=
- =?utf-8?B?bjgxb2RlMHVnbjlCd0libS96YUY1SEJ6MHlDbWk4aUU0OE5PRDhQSktRUDI5?=
- =?utf-8?B?aDFOS1MvU3Q0NHNPdmVGTHdNVzRpQXFOaXdZQ3N4OStHcGw2WW41cnl4bXV3?=
- =?utf-8?B?UG9UVlFFMGsrcHN5Z2MrK2ZJaUozdG1ZSkhYOGdWWHBkMkZnU2ZEMDJNclpO?=
- =?utf-8?B?YkNOb3dHRDUzbUVHMTFWS21hM1hLby9mTU8wWXdyK1diS3d1bVBuWjNUbkoz?=
- =?utf-8?B?TW40QnU5YUt3d0dFYkJSdW95bFJ2U2ozajgzbHNQMzdPc3QyZDg4bDFzenpk?=
- =?utf-8?B?M0g3WlZWVy9sbERBY3hEUWpHcmRwaHpYTHpJNWo5SGU0NEtVVUxTMmRXR3ph?=
- =?utf-8?B?MGQ2cG1PY2tRclc0MjFxTkFVNHd4NHZLOTYxR0NBOTVGZVk5c2lBVlNjRWox?=
- =?utf-8?B?YjVYY2FvbVNuQ0FITDRVaHVmY0FmeHZSTVk2MDl3dzJjRFJMZjkzbHFYNXBm?=
- =?utf-8?B?SzdZSzJxYlU1SjB5NUFINVJLa0UzWS9YUEpUMWFSVFNab2xWdnBKUmlNSGF3?=
- =?utf-8?B?MlErSkdnTHZyYThpSHFObzYyeWhFcTVrTk13MzBtN0p5SENzQlJtbmhDQ0tC?=
- =?utf-8?B?RU1VNTZIc0QzYW1qUHBpSy92OEFIMFRtZVE0S3VqaWJRcEcvK0NOY3luVVFq?=
- =?utf-8?B?K1BJam9MZndCWnYvc25seUFkdlZycEZ4NjhpYTY0M3ByR1hzWDV6OXNsWFhs?=
- =?utf-8?B?VEdIcDBieGZTcHcrbCtLTElIRm5wbzJ3ekkvNDQ5Q0VMOXFrNlh6Yy9OYzEr?=
- =?utf-8?B?SkNOTVpDYjBEb0dLQk94Z3poS0l5d0NobnFDQmpFVXU4SHFTZHhHV3dQNjRz?=
- =?utf-8?B?TXRBeERGaXBMandWSEo1alFQTlcycWlFOVNrRVN3Yjg4MmdnNWt6WFd1Vm5n?=
- =?utf-8?B?TklDZE5hZlBqeC92SDIxWWxrOU96TkNjNDJCN21ZclRhcWpNMG0xYTdUUmQ2?=
- =?utf-8?B?V3hldGlldnNxZXNSdW56VTFRQVV5b1hmN3VTRmtOaTBzSkFBM2Z0alFuT2ZT?=
- =?utf-8?B?OG4rVC92ZDEwRUtzRVAwazN0VVdrVHVhWng3V3JJbnpBbG12RXFBN1haa1JO?=
- =?utf-8?B?OXJsZDFWd00vb0M2YlJnUDg0QmpxZDhnY0JPaGhJV2JmZVBqRVFFK2k5cm1M?=
- =?utf-8?B?Qi9NcDNuUERCQ1c5dzRtYlprMjVVNkJHOHJXa2lKUGVCNytNLys4c2t1cFRF?=
- =?utf-8?B?RmNBTTlRbjhxSXA1TGpwUm1jWDFaNWE2WVVsekFRRko3SUNSaDMzc08vaDBm?=
- =?utf-8?B?Y1oybHNPczJzL1hQT3JyTm9YTVBibGg4WC9DaWFOblZYYzR6QXNHbWF6Tmw5?=
- =?utf-8?B?a0VBTGkyNnh3WjM5ejJrYVh6UWtGUGlNZ0FjaHNaSjBoeTlQZUVWcUtzdnRP?=
- =?utf-8?B?MzM0cGJIVDdlZlVwVmdxcXJrVlc1ZXY1alA4bUdQZThjL2xBSWkvdU92eDF5?=
- =?utf-8?B?TVFORXV2cDlibWFMZnE1bVFuWW13NCs0Uk9wSlhYRlFMR3V1NlN3UGhHSWpm?=
- =?utf-8?B?YjIvbjQ2MExWMit2SjNDeGVmalBseVdXem9UeEtOWEphY3dSRDJzWmNxWUdq?=
- =?utf-8?B?K2lrRFBhUWZ0a1R1ajNjc1dlK0JIcXl4NjBRSzZ1b1ovSW16ZVJKSklnUGtP?=
- =?utf-8?B?U2NzeEJiZW5BRTc4dVZ0d2UrbVVwa3BMQTNSbEp3QnZsMlo0QnIvSm1tcDhB?=
- =?utf-8?B?TWVnc21GWmZGOWtveFRzTlovaFM2SEZ6eE5PU09FTWc4Tm1LSUIyM3ZRZC9k?=
- =?utf-8?B?azBmSjdDb2FOeVE4UGlHR1BtT1M5enNjazIrOHF3clR1MExGNHF6ZVRIaEpw?=
- =?utf-8?B?VGZkbWZEM2NSdkI1SmNoZllJZlBFcDc5MHRWTGxHZGpXWUMyUDY3dUw4Q2w2?=
- =?utf-8?B?MXFRVEJ4RWtubTkwSkhQVjY2YVh3PT0=?=
+	=?utf-8?B?QjYrcTFMTmdyMk81Vmhvck1ZN2JFcEJMSVBIZGI4ZjlsM0NZMjRGR04rUUN5?=
+ =?utf-8?B?MFBtNlJHRVlqRXVLSWtzeDE4UnhURGFuenh5aUpPZHZWVDRrZGxGa0RRMyty?=
+ =?utf-8?B?NUs1bEVXYW00L0tPZnpBbDdTYkh5VWFTLzlsVWQwSjNmL3dCeVNhaGdOU29H?=
+ =?utf-8?B?VW8yRHN2NTV2T2toVFlnSWpubWFseUlXVDN1SGFtUCt3S1cvRkFZU1M3ZGUx?=
+ =?utf-8?B?NVlIN0ZkNU5HRllPaE1JNWpzVjdkS3I5eU1yaWMrRXIvYnMwd3hQYzBOYmsr?=
+ =?utf-8?B?MGNXZGRHLzJLdlJzd3NuY3BKNUJvdGRZdkNYZ0Npb0tlNnp6K282bjA2ZmFt?=
+ =?utf-8?B?Smd1Vi9EeUFLbXg5REFBZG0wZGxJeEhSUTdRd0tqMDVMYlh4UmwraFFyWW9H?=
+ =?utf-8?B?TUgvWVI4UldsWlltRzhjR0JXcVQzcHNFbjNmU0EwUmlhc3FYMkZYUGJKM1F3?=
+ =?utf-8?B?OGplVUhBV3dqR3AyQlFSZDV1NFE3UDBBczdSTWJGQXZGdmxOT0FPb3l3SkF4?=
+ =?utf-8?B?c2l3cC8vRXp6b3VLQmg5NENMKzRTUWRoQ0dIQ1ZjQWlKeUIvRURpUzFDUjFw?=
+ =?utf-8?B?cTNVM0JUTEN4NFdWYXhaRTNJaTdRb3hDUkhhVFM5K0ZwWjNqVUNRL0ZzaUxM?=
+ =?utf-8?B?aXI5MWtDc1pqbXVwWU1QVlRaclYvUi9NVU5heTRkYmRUNlJQMG9vSWx3Unhv?=
+ =?utf-8?B?bzFuelBlcEVDNitCdHY4ZXZmOGZndlhaOUhoSVdLb1dQcldnN2JyT0J2TW9T?=
+ =?utf-8?B?SzlFQlFFQWlUK2xzWXNVaVdmNzlUV2hxa29LRTlkNFIvR2VLR0x5d3VhZEZV?=
+ =?utf-8?B?QVQ2eWFJUW5sT3E2L2F4QzBWdktZUDh1Rjh3dkxublBHa1JVTWxHT1Fncmwv?=
+ =?utf-8?B?emx0U1d0WWFNclR0NU82Nm9NZVJSWXNwRzZleGxsQ3VRei9xQzk1dm5PSHJj?=
+ =?utf-8?B?R3lKNG1aekNMa1ZLL2lFcnpYZUJhTHBrQkZ6M2V3WGlQeDJtQ0VQTVpENU9Q?=
+ =?utf-8?B?bmlOVTVEditsRS9VVFM1b0Zxc01Md09PV25QdmtpV28zTURyNEkrWHNnNVZT?=
+ =?utf-8?B?L1lwa0JYdng2ZkhHWXdnYlBzL1dyN2ZZNzFBWkRsK2N2WU4wRjVTSzNnTHB5?=
+ =?utf-8?B?MG9TSEpRZENmWTltSVc3S09hSnhRdExBS1Yyc2U5UFpCanI3Y1QzQnE5d21R?=
+ =?utf-8?B?ZEFraDYvV1h2clBkTlMzdUtBR1dJZXEzZzRUdXRhRi9DaDRhclQvb2h0Y0pI?=
+ =?utf-8?B?L2RJemlCd2VBeUJDcm9PY1p6NHVxYmtFOGhQc0xPS1JBZlg3SVV3Unhld2NY?=
+ =?utf-8?B?WWd4Z2NPYnRNa09RQ05yZEhSSExwL0pkbDFUVGN6bWVmMHNCTldPcmIzMm1H?=
+ =?utf-8?B?YUVjeTY2ZEY0bU12THFzaFJzYUcwNWtiUDNsS0U4WklpSCtpdjNXeE9YZjRW?=
+ =?utf-8?B?YVB6N3RZRlE5UGY3V2NKYXg2Slk2UW0xK0ErdWp5U3V0OFEyTXRkSXIxR21I?=
+ =?utf-8?B?VTRuOEw0MVh1dHZuckl1SjFrenQzNURGTUhDNlN4cmlFNkFyRVI3QUo0d0dj?=
+ =?utf-8?B?dEljRGJZMmh2eTNIRFJLSWxTSTN6Qzg4ZVNkcnFkOVVvK0hudGtmOUlMN1g5?=
+ =?utf-8?B?YXdRSWdmWkFFc1lJV3hXNEZLU0Mzd2tIZlBHMG1LRTQ4Zm5jSzd2Rnd0T0s3?=
+ =?utf-8?B?UnVaZ3BKZHdBU1hZUVRnY3RzMkVmVy9hWWhZcGp4cHBnYUN5MGJPcE5sZFdw?=
+ =?utf-8?B?QUpIWFVLbDlLWjhkNnNNcVFET1lwMGwwZzI2eFdGamV4TWYzR1FiYm5FcmJn?=
+ =?utf-8?B?cXV1d2JqSjY2bW1zZ1ExTWhZdTd6dDJiVjVlUTdoU2JRcTBPYVlVNm5nVjlV?=
+ =?utf-8?B?S0VrcWVhZ1NQekVtZE5rSEJGWHVFcHpmS3FZVTVzejJmeEtScnl5c09nQ3Js?=
+ =?utf-8?B?aFpIWFl1UzIrY01ISHViYktXK0kvcHBFNnorMEFZaktKTzMzR29HL0RSd20x?=
+ =?utf-8?B?Mkw0c1hJaUtobU02OFFNcU1tMldGa0pJY2VreDJwYnNkOXZEc0VRNjFYeXMw?=
+ =?utf-8?B?cjY3bmRJdmk5aVhqVXJIQ1dZVi81ZWNWbXl5RDk4OTUzQlhuaTJucFBMVkEw?=
+ =?utf-8?Q?gSC0g1y8A6g+dIvwogcnQbbX4?=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(8096899003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	whfo6Zkl6qPpOB1NwnzwXYc3ze6xV5+wkVKBCGx+c+/sAmmkXlbPHPHo3BbZyHtFisWIAV+Owc5tlRalvzleBk5Cq+1E3wAcZv0rPtVpoiMgAGOXlh8dsTWJMI1tlT4loeaJkcxcDwK2J1VofpGel4RAiFej5oP86ktb21MeT57pzeMuJaQn7cOTRvFEmQpJaUKsVnt/wHuyVb0rG66VYzKbRhmzpvj8LUVVomunMQBKByyjhMdWOrldpJbq1wPUQUzQmR+7ZBSYhtqjmKRS/Ks4hvQUUqKkONt+2Jwl22tpZXrdmdRIHeT9mPmOQQ7V3ld6pt03YtOq5Bp54x0OyLOJvR3th38wEv9Fvkr6RDuGRZ7y4xQybp7T734h8HxZB53Skp8uZbRqsHPxbrrPU7huoI/MRHBBJOacBHhE8gCq3RKk5rJr5r3/URpTF5EP
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 00:15:20.7063
+	=?utf-8?B?N0VyUGI1WGFrZnpEbmNqbmtTZFE5aldLdHRiUkVlK2tyWTdNQWkyT3Rtc0xh?=
+ =?utf-8?B?ZVJoNDl0NDFBc3ZXODA2aE45aEdJSTZLeDZ5RUpEb0lGVWs2dURYeGxZd1dS?=
+ =?utf-8?B?UlBiUTBxWGk3a2I3ZngwaGE3a2JmVmxCMkVtb2xhYnplSElHczh4SDhJSGhp?=
+ =?utf-8?B?WEVYUDlPaHBPb2NheE90WXBpZjQ3OFRQS2VFcnEwOVV4cmlqUXJveEdUT3pq?=
+ =?utf-8?B?VXJveXZJa1NTWWVGMmNSbnNjWnRUd3FuTzlSWGR4T1JNb29kWWlKaGhCcGFh?=
+ =?utf-8?B?ZUV6cG1yRW41ZXQ0RFE3TGNhY2NyVnU2aXliYUYvRENacExuSE5aV0xxdG1O?=
+ =?utf-8?B?aXY0dG9EdkRNeDdGUlpNeDZJcWdad0YxenV5Z3NraFA2cjZNNDhFNi9qclVZ?=
+ =?utf-8?B?UUZ0Y0ZTdVFsNkU2TE83RTR6VitVQ09vbHg3UG9WbkxaNHd6bWMrd2JQNzM5?=
+ =?utf-8?B?b0RCeXI1MldEYjY2UnNnSUQ0YlpTSHZnamtwYWhjQ00rWDdmL1FFL1lieGEx?=
+ =?utf-8?B?ZncwU2lkT2dvWWZtRzdLODRiN1JtQUpPdVkybzIyeGxUTm8wS1RTMjF5eUxD?=
+ =?utf-8?B?dDdDakFmRGt1d3hDakFTL0xSMnZhcDNZZXBIWXRKd1plWHN3a0hjVUFCdnJJ?=
+ =?utf-8?B?Yy9ncGFsL0VpRWgzVGErQ1hITjJZZWh3OVA1eldsYjFncTB4VHl1UlRMNXkv?=
+ =?utf-8?B?Q0lGMEtZNE9sSC9vWUdTMU5SSUpUTDc0Ynd4S0tCOCtZRVlLT21uYmVzNnZR?=
+ =?utf-8?B?ZkdTU0t1WjU0YVY5ZFE3NmVSdUdxV0JSV3oxVnh2aUFFcFlxL1QvcXcrbjJm?=
+ =?utf-8?B?cENhRkVrQ08zYTlKYXdndGRrOGx6MGlublhCL3R6ME03YU5SRzkvalhyM3pq?=
+ =?utf-8?B?UWFFNWU0b0xBVnJ4alpmV0IzYzdaVzJpdmhnVC90WDFvTXM5bDlxaCtRWTRB?=
+ =?utf-8?B?RXRoMmhRTWFtN2dqYmVjSDU0aWt5S1lHSXlabTFGeVNkZUpkVjJaRG01VURV?=
+ =?utf-8?B?aHZNZ2tGSGNVWXRRaTgwaWtFTzNYd1hxTUtKU3M4c01PYklmZUtkblBLU1lS?=
+ =?utf-8?B?VnF3eHN4Mm5XM1JtYzRneEN5cU01eDZaY3lKSHBKdWtCV2Rub3QzQXZjRXhR?=
+ =?utf-8?B?WjZyalU0a1VjV1FSQ2tBcmg0S1F1TklFQ0tvSUtaQzFlNWFWblkvemtic2Vq?=
+ =?utf-8?B?bE9MaG5jQVlmS2d4Zk5QRHd4b21zeFNGS09BdDhyUlZreTRUa1pCYTc1YVVx?=
+ =?utf-8?B?OFZOaHplVVVIQ1hCcll3RzVXRmdRclRBR1oxM1lwR3JMZ2l4WW1ESFNtRU53?=
+ =?utf-8?B?OHVsSTVUNE1zdnFFTzdNQXcrcGVFVzY1aFFjeHlidTQ1Q2dNSXBieDNkTHFE?=
+ =?utf-8?B?WWxMc2tPMkROVThEWkZ2eEJUY1JVTzFqL20yNEc1b0tQeWt5TkkrRnE3UGpD?=
+ =?utf-8?B?aEJEUFpBM3gyZEFEL0xHVFF0SjBPYjFuandqMlFiaWhRZVM0ejdjYkp6elNT?=
+ =?utf-8?B?Z21JMzIreWw0amxOU2w2b1huK2xyV2o2VkhmbnNjZDdMaE94dkdtSEdlYjZY?=
+ =?utf-8?B?NHNOeERZeG1iejc5WjVmZ3hMUUE3NVdWMHVXWHlkeXcwbDVDL3ZHbWl6ZlhQ?=
+ =?utf-8?B?SFN6NG9mdUluSFdHSGsrcmFkU0Y3MWpXN3JkT3k5Q3Zic0V3UllEN1ZpVENr?=
+ =?utf-8?B?QWpMQ3R4alZsL1BPaGpTN3NrQWozWG5CTko0R0tGTnR0NHlEMzVTSVZHdXpa?=
+ =?utf-8?B?elZhSFZ1Y3V6VmUycFZ4SVRnelNHejU1eEhwQ3ZuUFJwTGQrZGlaYklNV1Qy?=
+ =?utf-8?B?Nm1FckQ2QXVDdmN4THFsTFBValJHRWU4dnlNZFZ0NGdxNUIxQ2xTcWdRWjhu?=
+ =?utf-8?B?TEM1aHhxbG4yVlUrR0s1bkQxMmlvOXpCa1Y2ZCtLWDhXSzYwR3h2ZkRFQ255?=
+ =?utf-8?B?bU1GaC8xYWpjRU9GTlIrM0pIWUtnWU11d0tXckR3aVRJUzBCdStkWnhDNTlI?=
+ =?utf-8?B?b0REN0F1QitnZnlTQzgwa3ErZWJoQ3pDZ0JJeElLR2p4djZ0eWxTTEdOd0cv?=
+ =?utf-8?B?Yks3UUs5RlRLTUdFVGV6NWRtOTRQN0c1VktYTEtaZzVoWEhHRkI1cjh2dS9S?=
+ =?utf-8?B?d05EeVJJM2YwRXFyRlhXTm9GYnpmNFd5R25vVEFLSVB2dlRENWhEZXlhbTdH?=
+ =?utf-8?B?YWVOMUJPbmJ5allNS0psTkt3MFh1SitKY3FvTTNsK25hRWtLQnhnbjNZSkg1?=
+ =?utf-8?B?N2FXMVlMRXhjYnNydytuTDZVRm8wNmo4eDVFU3c3dXpKZlpnYTI3Y0hjRHpn?=
+ =?utf-8?B?SndXdHdWMGl3M1FwbGEzVDh2djdIN08xeFNMVjFVdTBDa3M2bC9wdGlZdlVB?=
+ =?utf-8?Q?m0nPA2uEIUehNlSQ=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1d60bb8-7fe9-49e3-0ec2-08de5f9ca3c3
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 01:12:30.2299
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52e5f93d-9bdc-4666-4d75-08de5f94a7c8
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CY4PEPF0000EDD3.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6410
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mTKT8q4TO0XDkB4DCj5rnKpQ55mnQe75SCEn+Fn6NrwWFm1NQZGuM+N/xDVQv386wJWorfboju6RppyWJk+b+qXtW5RorIWSmpEBOXtpaKQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9082
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: IXq_BXR0kEsaim98uysrAnhbyFM2fR94
+X-Authority-Analysis: v=2.4 cv=KMVXzVFo c=1 sm=1 tr=0 ts=697c0585 cx=c_pps
+ a=QZCRoNrmhm2x71JB/dW4Lw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=8AHkEIZyAAAA:8 a=k-42gJp3AAAA:8
+ a=i8PUBiQ3jRtBHGnszk0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ag1SF4gXAAAA:8
+ a=M9o1KOA16XSL0SnBVJEA:9 a=RH0siUWtQy9f_A2M:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=uCSXFHLys93vLW5PjgO_:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTMwMDAwNyBTYWx0ZWRfX7snMcb/dGSMH
+ QOop1UNOQkE8nGf3pOXjzTR95ZkN3eQwWgreDtTiZytFGi0uU+8sjeDFOclWtOdMqfvKulsoFeB
+ nCHTPHlJDYu1eq/juYX0uBK/RPUFak3Wna81RP4cwiPt75Dnx4kqKkHTfeGGMbQ3kRDHtYEUhVB
+ Lj0U3f94Oj4MlMGJR5/IigU25Hw/iXy2SK48uE50tyE3YdCdDqFbgFieboD8SWNpA681UfXMgXr
+ Gib31Vu0MXfX2gIQFSLbuxmlxuy5nvtjZWC0VTCFnBrdD5vR1mZQz+pAkY9LjoqtrFoJOxsMk2C
+ SEp5FCJf/Ww4nQzh8IXmVtxcov6OIzjyKKbtYyKh4eeOLUbUmAykgRkJejBxI5kEq+22F1X+RGb
+ agFX26uRycgdLl0i723mC8t0BUgLNxuXi9MC/ds198C2lAzEB0GNyui263MpP8fBfvcPuNToxb5
+ bZVZCuDPWnL2g63Z06A==
+X-Proofpoint-GUID: uXTpmOP48-Ew8wVa5dzyFSR9luyIqp3u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-29_03,2026-01-29_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0 clxscore=1015
+ spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601300007
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 00:15:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230172
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 01:12:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230173
 
-On Thu Jan 29, 2026 at 5:45 PM CST, Ricardo Salveti via lists.openembedded.=
-org wrote:
-> On Tue, Jan 27, 2026 at 1:50=E2=80=AFPM Khem Raj via lists.openembedded.o=
-rg
-> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
->> On Tue, Jan 27, 2026 at 8:31=E2=80=AFAM Randolph Sapp <rs@ti.com> wrote:
->>>
->>> On Tue Jan 27, 2026 at 12:12 AM CST, Khem Raj via lists.openembedded.or=
-g wrote:
->>> > I am seeing some additional diagnostics see
->>> >
->>> > https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5119153/raw=
-_inline
->>> >
->>> > I wonder if this is related.
->>>
->>> Man, the mail clients are having fun with this thread.
->>>
->>> Yeah, I'm able to reproduce that issue locally now. Not sure why it's t=
-his
->>> package subset that's acting up, but it is directly related to the LDFL=
-AGS
->>> change unfortunately.
->>
->> I think this is exposing the underlying issue in packages perhaps becaus=
-e they are
->> not respecting CFLAGS and when it's gone from LDFLAGS the mapping relate=
-d
->> flags go missing. I have a local patch to fix memstat e.g in master-next=
-, all failures
->> perhaps need to be looked into one by one and passed cflags from OE env =
-which
->> might have been missed thus far.
->
-> Just noticed a similar failure with lxc (meta-virtualization), but
-> while the prefix-map options are provided via CFLAGS, it only works
-> when provided via LDFLAGS, probably due LTO (enabled by default by
-> lxc).
->
-> Patch available at
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9553
->
-> I guess recipes forcing LTO will probably have similar issues.
->
-> Thanks,
->
-> Ricardo
+--------------XYqflUkcrgfqY8qUgYZbABCV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60U07f2P3256500
 
-Ran a test locally. Looking at the do_compile log there are actually severa=
-l
-compilation steps that do not have the macro prefixes passed as cc argument=
-s.
+ From almost 4 years ago:
 
-That LTO bug has actually been addressed, it's just as Khem Raj pointed out=
-,
-sometimes CFLAGS is ignored and passing the prefixes with LDFLAGS was maski=
-ng
-that problem.
+On 2022-03-14 6:48 p.m., Richard Purdie wrote:
+> From: Tim Orling<tim.orling@konsulko.com>
+>
+> Dependency for python3-cryptography
+>
+> Signed-off-by: Tim Orling<tim.orling@konsulko.com>
+> ---
+>   .../python/python3-ply_3.11.bb                 | 18 +++++++++++++++++=
++
 
-- Randolph
+
+I was looking at a python3-ply CVE the other day and I noticed that
+the upstream repository was archived by the owner on Dec 21, 2025. It is=20
+now read-only.
+https://github.com/dabeaz/ply
+
+so we'll have to see if anyone takes over maintenance or
+if the users switch to a different lex/yacc in python implementation.
+
+
+On master there are only 2 current users via a layer index depends query:
+
+https://layers.openembedded.org/layerindex/branch/master/recipes/?q=3Ddep=
+ends%3Apython3-ply
+
+but there could be some recipes that use it such as meta-sca.
+
+I don't see where it was ever used by python3-cryptography but it is=20
+still declared as a dependency=C2=A0 for spdx-tools:
+
+=E2=9D=AF rg python3-ply
+..
+meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb
+16:# Dependencies required for conversion to spdx3 :=20
+python3-semantic-version, python3-ply
+24:=C2=A0 python3-ply \
+
+
+Consider this a head up for those CCed.
+
+Since it's not maintained, it would be nice to replace it
+or if not really used by spdx-tools, move it back to meta-oe.
+
+../Randy
+
+
+>   1 file changed, 18 insertions(+)
+>   create mode 100644 meta/recipes-devtools/python/python3-ply_3.11.bb
+>
+> diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/re=
+cipes-devtools/python/python3-ply_3.11.bb
+> new file mode 100644
+> index 00000000000..99c037bb734
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
+> @@ -0,0 +1,18 @@
+> +SUMMARY =3D "Python Lex and Yacc"
+> +DESCRIPTION =3D "Python ply: PLY is yet another implementation of lex =
+and yacc for Python"
+> +HOMEPAGE =3D"https://pypi.python.org/pypi/ply"
+> +SECTION =3D "devel/python"
+> +LICENSE =3D "BSD-3-Clause"
+> +LIC_FILES_CHKSUM =3D"file://README.md;beginline=3D5;endline=3D32;md5=3D=
+f5ee5c355c0e6719c787a71b8f0fa96c"
+> +
+> +SRC_URI[md5sum] =3D "6465f602e656455affcd7c5734c638f8"
+> +SRC_URI[sha256sum] =3D "00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b=
+095321aef446081da3"
+> +
+> +inherit pypi setuptools3
+> +
+> +RDEPENDS:${PN}:class-target +=3D "\
+> +    ${PYTHON_PN}-netclient \
+> +    ${PYTHON_PN}-shell \
+> +"
+> +
+> +BBCLASSEXTEND =3D "native"
+>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------XYqflUkcrgfqY8qUgYZbABCV
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 60U07f2P3256500
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">From almost 4 years ago:<br>
+      <br>
+    </div>
+    <div class=3D"moz-cite-prefix">On 2022-03-14 6:48 p.m., Richard Purdi=
+e
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:20220314224837.834776-21-richar=
+d.purdie@linuxfoundation.org">
+      <pre wrap=3D"" class=3D"moz-quote-pre">From: Tim Orling <a class=3D=
+"moz-txt-link-rfc2396E" href=3D"mailto:tim.orling@konsulko.com">&lt;tim.o=
+rling@konsulko.com&gt;</a>
+
+Dependency for python3-cryptography
+
+Signed-off-by: Tim Orling <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
+to:tim.orling@konsulko.com">&lt;tim.orling@konsulko.com&gt;</a>
+---
+ .../python/python3-ply_3.11.bb                 | 18 ++++++++++++++++++</=
+pre>
+    </blockquote>
+    <p><br>
+      I was looking at a python3-ply CVE the other day and I noticed
+      that<br>
+      the upstream repository was archived by the owner on Dec 21, 2025.
+      It is now read-only.<br>
+      &nbsp;&nbsp; <a class=3D"moz-txt-link-freetext" href=3D"https://git=
+hub.com/dabeaz/ply">https://github.com/dabeaz/ply</a><br>
+      <br>
+      so we'll have to see if anyone takes over maintenance or <br>
+      if the users switch to a different lex/yacc in python
+      implementation.</p>
+    <p><br>
+    </p>
+    <p>On master there are only 2 current users via a layer index
+      depends query:<br>
+      <br>
+<a class=3D"moz-txt-link-freetext" href=3D"https://layers.openembedded.or=
+g/layerindex/branch/master/recipes/?q=3Ddepends%3Apython3-ply">https://la=
+yers.openembedded.org/layerindex/branch/master/recipes/?q=3Ddepends%3Apyt=
+hon3-ply</a><br>
+      <br>
+      but there could be some recipes that use it such as meta-sca.<br>
+      <br>
+      I don't see where it was ever used by python3-cryptography but it
+      is still declared as a dependency&nbsp; for spdx-tools:<br>
+      <br>
+      =E2=9D=AF rg python3-ply<br>
+      ..<br>
+      meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb<br>
+      16:# Dependencies required for conversion to spdx3 :
+      python3-semantic-version, python3-ply<br>
+      24:&nbsp; python3-ply \<br>
+    </p>
+    <p><br>
+      Consider this a head up for those CCed.<br>
+      <br>
+      Since it's not maintained, it would be nice to replace it<br>
+      or if not really used by spdx-tools, move it back to meta-oe.</p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:20220314224837.834776-21-richar=
+d.purdie@linuxfoundation.org">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-ply_3.11.bb
+
+diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/reci=
+pes-devtools/python/python3-ply_3.11.bb
+new file mode 100644
+index 00000000000..99c037bb734
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
+@@ -0,0 +1,18 @@
++SUMMARY =3D &quot;Python Lex and Yacc&quot;
++DESCRIPTION =3D &quot;Python ply: PLY is yet another implementation of l=
+ex and yacc for Python&quot;
++HOMEPAGE =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"https://pypi.pyt=
+hon.org/pypi/ply">&quot;https://pypi.python.org/pypi/ply&quot;</a>
++SECTION =3D &quot;devel/python&quot;
++LICENSE =3D &quot;BSD-3-Clause&quot;
++LIC_FILES_CHKSUM =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"file://R=
+EADME.md;beginline=3D5;endline=3D32;md5=3Df5ee5c355c0e6719c787a71b8f0fa96=
+c">&quot;file://README.md;beginline=3D5;endline=3D32;md5=3Df5ee5c355c0e67=
+19c787a71b8f0fa96c&quot;</a>
++
++SRC_URI[md5sum] =3D &quot;6465f602e656455affcd7c5734c638f8&quot;
++SRC_URI[sha256sum] =3D &quot;00c7c1aaa88358b9c765b6d3000c6eec0ba42abca53=
+51b095321aef446081da3&quot;
++
++inherit pypi setuptools3
++
++RDEPENDS:${PN}:class-target +=3D &quot;\
++    ${PYTHON_PN}-netclient \
++    ${PYTHON_PN}-shell \
++&quot;
++
++BBCLASSEXTEND =3D &quot;native&quot;
+</pre>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------XYqflUkcrgfqY8qUgYZbABCV--
 
