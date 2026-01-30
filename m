@@ -2,299 +2,351 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35AADD49C9D
-	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 10:34:29 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7596.1769769268368855589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E56D49C9E
+	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 10:41:09 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7641.1769769665826927379
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jan 2026 02:34:28 -0800
+ Fri, 30 Jan 2026 02:41:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=R4yrHWug;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-435a517be33so1264466f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 02:34:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769769267; cv=none;
+ dkim=pass header.i=@smile.fr header.s=google header.b=GzW9OPAn;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43591b55727so1723312f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 02:41:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769769664; cv=none;
         d=google.com; s=arc-20240605;
-        b=GKckyskH5uK1PGVx+5TGFjVPmSSSWagHwAT3u0GdR/nY1ikAYPtWVX6+puf/LNiKOE
-         d/sWsDDuNjOOXDwY54Jc0e96XXKdbNnEu3bpcG988lTpw5JtUrCMiDLcUPSP3+f9fYRS
-         mQmuNqXaL0vvXpvhqV5XYvBYQDhyAchess37pEXpmVWj5+ivJTCxWPHcf7QWg14ohQYV
-         L8lqtkBF7W5e9t8BbVTGRxqBXTMtkhP/FXYnzKbrDub7szB3Gi+XP+DIhdNcJ8AT1Gwo
-         PrpiatyRqkXiKlxkFOkbRcnnv1R7t/LHFAtxFzMOHV+0wt3dqbcjvE5H6Yzk3hjxHzkB
-         J59w==
+        b=LjYsrhWOColVGGnCmhq2kcOTv8BxodpTwSQmso/p/KL80Jbee6DnPM9XH/ohPVS/6d
+         okHb0Ng+Gos6dMALvCW5DsBtbqVw2guakqzeWF9+FbYra4CKp935/0fSJ6HIShTcBJG5
+         oMBrV7cuGT62bY5bAQVFxqJN/ALmFNwKaBmrYzJM50I6G51Wc2bPF/tqLGtgI1fk6yLA
+         8I1IQYRZs2phHTBphcSO5+Y3DrwvJaT+WljjiAk9bOGNT7GiRsyopRFuSs0AVdhIUaL6
+         n0su5jzQ4FUPzkyY79utJiMp3yd9pbpaIVlcZFtDngJmLSL3cSsBlwzaYaNG3C7nzWOv
+         yTvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=S+zhzXSswckOlw3FDnOxbFzjoDzNZ0VwW3lKIzn7hGg=;
-        fh=TFXMLSdPN1LRXPLhm/ovV401g+euqThi6T/uxE7P8zk=;
-        b=F9R1S5T5c1PtI+ziRcx2+0ZqNN991fFewN2NoD5HG8YARp59Np20Nmo0yPIkc2z+Bd
-         lO1O13hNKVKcOGPZLlwa5mE2iWyto/fWQrDafBmY/FWpAD3JzQDz/DobKwhOWf9B4E6B
-         NuJsqaT/vI3E46WwN02TPFTdP/YEhOqm6dmmfHV/SjB4CwLQKyIPLheIU+dJF3lvlmPr
-         Qubvt+DYGaSaIr8VMsd2uH4Io+hPTc+s7Jy2NoYT4UKFWULSOWWlO+nqVD1s/+rJx5UG
-         KXlTHaFK9NqAW6oY+AZExSTFVSFichI1cnvKKHMs954tGE615EgzYtk7eQgmFHGn+jGX
-         8BuA==;
+        bh=fHvA8PB0tgSMuTR67A1hSmLqr9H726zG7edX61sJKlg=;
+        fh=zpA/4GtAkvobBJyjDg1TcRJfdnto+nhr2WEiIeZxLlU=;
+        b=ZW+/FXLwSac3Lu1u6xBIykl0jWrCMNiu/IgoCLcKq9u4QLbFy+tTDFsIMnGAPKbO4e
+         uvStJo2H+Ug0w5uGK5YoBJUIf6Edov7CzTgxJ7RqLI/s2YjcLo0y2eGF7MYbR6QXDJEw
+         H2xqpkloAW4mfEcjaAZ6p9k+K1CuF6yy+ulI6cIKov+PhZExtRGOGVYDHkaVTqXlYj+P
+         kOnEZrMONifGLkaLgcP1zqQhDZ39C9obm6lP/GpC9xCCVkWcYee7fnh6jqcdg1dWvHbW
+         c9PpM7NrZueBdp0tIKHqvxeHUN/m2CdTPO5h4dLlRDE7e/+SOTQbiY2xjmGfvmnIznZR
+         Tg/w==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769769267; x=1770374067; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1769769664; x=1770374464; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S+zhzXSswckOlw3FDnOxbFzjoDzNZ0VwW3lKIzn7hGg=;
-        b=R4yrHWugiV7gU2FUGMPpfx+U4IUcPBlI9z16xROiOUmkZmd1GsRKAk9d9BB4W8jhLJ
-         /4zgLsswFUsA0AuXADUDXVtt+DW4zqlHrmTZzXWCPIeGSoejZ6l1c9fJsLZgy4engzlp
-         /jB06vh2KrTsu0aCHSk4paasp+32Swv+IU1Nw=
+        bh=fHvA8PB0tgSMuTR67A1hSmLqr9H726zG7edX61sJKlg=;
+        b=GzW9OPAncVajAsKEonQVNG8Vx4U4VTU4EjLXwsIaAv0T1Ka7Y76eQkXRxzPIkvyxkr
+         EbiWP3LsgF7pyyrErycog5vIgq1AB/w7Y/PQSz/ejc5N+mHU5DqQKiazuNkmXEEEMzMn
+         HQ+F4sR/SrWmBDQTxUhM1Z0d9/3eyeaLeQui0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769769267; x=1770374067;
+        d=1e100.net; s=20230601; t=1769769664; x=1770374464;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S+zhzXSswckOlw3FDnOxbFzjoDzNZ0VwW3lKIzn7hGg=;
-        b=LzVyyVfIH33cTKAfs2yKvz4O3A83WL9ihn4WGwp9doqVDuDrzeRvzp9WhXKLt6FEBa
-         V51NGVwqySK7GTL7weR/K5G04jsNb6gWjS/Dxm4niNZOyn8cflUgbYktQcm/z5EciZYH
-         GoiR6b43T+/G5HtDkuVi8exQVBY4pjszn+HxMDgJx7Kgsk4p9g9zC/uhPE+4Z0XEolzo
-         1c7X8SspSXAMbckT1fbQnNQYOIKOqDK1/c9GQX+xpQSo9Ngu4ojpchIStFeKBi46cPhJ
-         dchQXvy/vY0wH7AAgkouFPSJ2oCE40H0rIK55EQUBdxQJSGh5VZsm1af+qO4GLhOCLPA
-         eNCw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1m40j9T8v+XwCO+P4+ILb5Nx99vL5vxzeUAGPu6IKZARJSVWe9bjoFm37H5oW28QQoAS/FVh/8Mo6M+M9VY0Kzw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxkxW/OCkq5FgFEV+zZvZSw+R84LTcQf4lbmtImcB7B/vR6A4vD
-	7+6bBfiTbjrAuKBkBb3F6KJf066L2WlVLKMRWZYX6FiEi4bhWDelcocaJK6lucJZt6iuXd+7uzG
-	aWDFGNCI3HcD3twuveSujzHUgX/yIQ4obbdccpP7Pcw==
-X-Gm-Gg: AZuq6aJTr76DOTYBdF6wSJzH62ZodnqiBwphaptKQOCF6UePYhWiaKhszcsuFRR6ZTK
-	iTXWl5IF7UcXhwVJlZ7hu5vz3konhB92fIybx5vyEm4d8DiCp0ot5UMZAiX3mhtlW2jV7V32LcT
-	B0b6soVcPGZ+HPEiPIWlsQrawlyQnT4BpbrHm0ixkUGFdUBkfUei175RaZ9i7oU6/wqwBezVQ7C
-	cXgdcdE5UV18nkNQOZjDzJMehiyT9IihlbytcUcaG0rSIEcm3qAGpcQWH/lo2LNFkbpLkL4chHw
-	NugRXuZTYMwcrbQYQT2EZQg/6Ufv
-X-Received: by 2002:a05:6000:26c3:b0:435:b7b9:afe5 with SMTP id
- ffacd0b85a97d-435f3a66f53mr3318124f8f.1.1769769266506; Fri, 30 Jan 2026
- 02:34:26 -0800 (PST)
+        bh=fHvA8PB0tgSMuTR67A1hSmLqr9H726zG7edX61sJKlg=;
+        b=qm7hLSGQFLDCgEpBZbZEUcnVUM9vizoHIJ+IPSkXbvxeaFlN3UP8QRNyIE6+GGIrrh
+         4rXfrvutlae+Fjbmtd5hScUtloJtkuAwajptaLPB7gGUFoIRPlFni6BfAU9+ucSJ3FJz
+         6hR1rkM5qU6C9KSmoUMlezV0LZvMGNipgD0kbV2VVt7EwmvHoRpLKEbeDJZr6i276ktB
+         FSpverZFi/TDKmEFHEzhAPkXd7qwyOB6BubonnSQBhu5KjOPWsoau4zO/A4veKZ0qhX5
+         p5h/8DAsBWtmKG2C+8OgVAYW/wjupINL90MPcSeh4i3p6oYNq6GOXhojBrWHDHP7y4uB
+         do9Q==
+X-Gm-Message-State: AOJu0YyAXqCJYGPsSjfXFxAmN+DgsaMvJ0e66bwbg9/Z/Cm4uapCMUzT
+	hojfXU1tKnSce070KGL1FAgrw6nvs4hkS/SKUE1MCILN6oAbz/6DGjiP9z3R3zkme2OxrNodkVh
+	i267yL1kpuUwH7uq4VSQkRlTy4TEAdDQm/rWMr7gZxA8cKRdT+2Jkbko=
+X-Gm-Gg: AZuq6aKdWbnJYNzjZt0JRUZJSRNE9xKJGr28IuyTAkeDXjwk71Yjgu2NNl0uPDfDkOn
+	NrAv0yArJ8ncyoNaRdG0M62WMDIMvxc2CK3IUhsw1R6wxLRVkt1ZJi0uFyJJpxpnp583tIPpcvi
+	9lbv5OEGgkTH/oLc/qUnEE7YjQgDdrMcNS1hQ57ANsxwrU0i6CYmwIn3+FrhafcjXXLtE1McxG0
+	SOkN+FH+blhBabAlgEoAIc3yhgPjcslZbz2PrtE+QBYXR4dd69AZerMBYGZKmxZRaXpZ3sqMw0I
+	RSPS6p1wS3Ix33/DTFXYhedoT6FBwDmPEaq5zEE=
+X-Received: by 2002:a5d:5f83:0:b0:435:9d3f:92eb with SMTP id
+ ffacd0b85a97d-435f3a6a9f1mr3289669f8f.1.1769769664002; Fri, 30 Jan 2026
+ 02:41:04 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1767772757.git.yoann.congal@smile.fr> <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
- <c19daed92270797942ebbb4b51c6f6b03fec16b3.camel@pbarker.dev>
- <AS1PR10MB5697BF5D70C1BCB02E7F1129FD84A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <5549493a25264654b39a48522691b15feece176c.camel@pbarker.dev>
- <04c34334-5342-4711-bcdf-177da37b6fdc@smile.fr> <6164cc2da28a6a9e637b47bde280254af4ed6384.camel@pbarker.dev>
-In-Reply-To: <6164cc2da28a6a9e637b47bde280254af4ed6384.camel@pbarker.dev>
+References: <20260130101650.19830-1-amaury.couderc@est.tech>
+In-Reply-To: <20260130101650.19830-1-amaury.couderc@est.tech>
 From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 30 Jan 2026 11:33:58 +0100
-X-Gm-Features: AZwV_QjUJDGxAoqljuyTN4xNGjzy-ghQNVwI8883qa5khgzvAoyW-DZJi2qATiU
-Message-ID: <CAMSfU+4xvshEKX3ze=w10+iwFsNm7sr8Mz5svaRQ_tuZ2Z-1xA@mail.gmail.com>
-Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
-To: Paul Barker <paul@pbarker.dev>
-Cc: "Marko, Peter" <Peter.Marko@siemens.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Jiaying Song <jiaying.song.cn@windriver.com>
-Content-Type: multipart/alternative; boundary="00000000000076fda10649988426"
+Date: Fri, 30 Jan 2026 11:40:38 +0100
+X-Gm-Features: AZwV_QiqfNLRxcM9OdoB-h-DXma0mAKv0oz9krTl92a2RZnQ0wId8j95bbCNaII
+Message-ID: <CAMSfU+4SfoT8xMcAx=HesFsLcKAJZPpKPsGkWG6RhTDAJUgwmw@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] curl_sasl:_if_redirected,_require_permission_to_use_bearer
+To: amaury.couderc@est.tech
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000286fef0649989cc5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 10:34:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230192
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 10:41:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230193
 
---00000000000076fda10649988426
+--000000000000286fef0649989cc5
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mer. 7 janv. 2026 =C3=A0 15:05, Paul Barker <paul@pbarker.dev> a =C3=A9c=
-rit :
+Le ven. 30 janv. 2026 =C3=A0 11:17, Amaury Couderc via lists.openembedded.o=
+rg
+<amaury.couderc=3Dest.tech@lists.openembedded.org> a =C3=A9crit :
 
-> On Wed, 2026-01-07 at 13:47 +0100, Yoann Congal wrote:
-> >
-> > Le 07/01/2026 =C3=A0 13:32, Paul Barker a =C3=A9crit :
-> > > On Wed, 2026-01-07 at 12:19 +0000, Marko, Peter wrote:
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Paul Barker <paul@pbarker.dev>
-> > > > > Sent: Wednesday, January 7, 2026 12:49
-> > > > > To: yoann.congal@smile.fr;
-> openembedded-core@lists.openembedded.org;
-> > > > > Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > > > > Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
-> > > > >
-> > > > > On Wed, 2026-01-07 at 09:08 +0100, Yoann Congal via
-> > > > > lists.openembedded.org wrote:
-> > > > > > From: Peter Marko <peter.marko@siemens.com>
-> > > > > >
-> > > > > > Pick patch per [1].
-> > > > > >
-> > > > > > [1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
-> > > > > >
-> > > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > > > > > ---
-> > > > > >  .../python3-urllib3/CVE-2025-66471.patch      | 930
-> ++++++++++++++++++
-> > > > > >  .../python/python3-urllib3_2.5.0.bb           |   1 +
-> > > > > >  2 files changed, 931 insertions(+)
-> > > > > >  create mode 100644
-> meta/recipes-devtools/python/python3-urllib3/CVE-2025-
-> > > > > 66471.patch
-> > > > >
-> > > > > This seems like a very large patch for a CVE issue. The changelog
-> entry
-> > > > > in the patch also says that the API of
-> urllib3.response.ContentDecoder
-> > > > > is changed.
-> > > > >
-> > > > > We should look for a narrower fix, and only take this if there is
-> no
-> > > > > other option.
-> > > >
-> > > > I originally didn't want to patch this CVE due to this reason (and
-> didn't patch it in kirkstone).
-> > > > But since this has landed in scarthgap, I decided for the same in
-> whinlatter for consistency.
-> > > > Should we revert it from scartghap?
-> > >
-> > > I don't think we need to rush to a decision.
-> >
-> > On my side, I need to do the whinlatter 5.3.1 release build on Monday.
-> > I propose to set this patch aside to not block the release and the othe=
-r
-> > patches.
+> From: Amaury Couderc <amaury.couderc@est.tech>
 >
-> Agreed.
->
-> > For scarthgap, we can revert the current fix and add the "proper" fix
-> > when we have it. I'd rather avoid a patched->applicable transition on a
-> CVE.
->
-> We don't need to do this immediately, let's take a little time to think
-> and see if others have any thoughts.
+> Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
 >
 
-Ubuntu seem to have applied the patch with post-fixes :
-https://git.launchpad.net/ubuntu/+source/python-urllib3/tree/debian/patches=
-?h=3Dubuntu%2Fnoble-security
-CVE-2025-66471.patch # the upstream patch
-CVE-2025-66471-post1.patch  # Remove brotli version warning
-CVE-2025-66471-fix1.patch # Revert fix for zstd
-CVE-2025-66471-fix2.patch # Fix zstandard using unknown attribute
+Hello,
 
-but also, has deem the fix too intrusive for most maintained releases:
-https://ubuntu.com/security/CVE-2025-66471#status
+The subject for this patch should be "[scarthgap][PATCH] curl: patch
+CVE-2025-14524"
+"curl_sasl: if redirected, require permission to use bearer" has very
+little meaning outside of the curl source code.
 
-Debian has not patched:
-https://security-tracker.debian.org/tracker/CVE-2025-66471
+Can you send a v2 with that?
 
-> Intrusive to backport; requires update for src:brotli for effective fix
-> The fix requires an updated src:brotli >=3D 1.2.0 for the fix to be
-> effective,
-> which adds the optional output_buffer_limit option to avoid these attacks=
-.
+Also, can you ensure the Upstream-Status line is not split?
 
+Thanks!
+
+---
+>  .../curl/curl/CVE-2025-14524.patch            | 45 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+>  2 files changed, 46 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2025-14524.patch
+> b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
+> new file mode 100644
+> index 0000000000..bd0dd86acb
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
+> @@ -0,0 +1,45 @@
+> +From 0bccd8d29c89d70120444088d3893af59f3772bf Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Wed, 10 Dec 2025 11:40:47 +0100
+> +Subject: [PATCH] curl_sasl: if redirected, require permission to use
+> bearer
+> +
+> +Closes #19933
+> +
+> +CVE: CVE-2025-14524
+> +Upstream-Status: Backport
+> +[
+> https://github.com/curl/curl/commit/1a822275d333dc6da6043497160fd04c8fa48=
+640
+> ]
+> +
+> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+> +---
+> + lib/curl_sasl.c | 8 ++++++--
+> + 1 file changed, 6 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/lib/curl_sasl.c b/lib/curl_sasl.c
+> +index 66639cbacc..fe646548a8 100644
+> +--- a/lib/curl_sasl.c
+> ++++ b/lib/curl_sasl.c
+> +@@ -357,7 +357,9 @@ CURLcode Curl_sasl_start(struct SASL *sasl, struct
+> Curl_easy *data,
+> +     data->set.str[STRING_SERVICE_NAME] :
+> +     sasl->params->service;
+> + #endif
+> +-  const char *oauth_bearer =3D data->set.str[STRING_BEARER];
+> ++  const char *oauth_bearer =3D
+> ++    (!data->state.this_is_a_follow ||
+> data->set.allow_auth_to_other_hosts) ?
+> ++    data->set.str[STRING_BEARER] : NULL;
+> +   struct bufref nullmsg;
+> +
+> +   Curl_conn_get_host(data, FIRSTSOCKET, &hostname, &disp_hostname,
+> &port);
+> +@@ -544,7 +546,9 @@ CURLcode Curl_sasl_continue(struct SASL *sasl, struc=
+t
+> Curl_easy *data,
+> +     data->set.str[STRING_SERVICE_NAME] :
+> +     sasl->params->service;
+> + #endif
+> +-  const char *oauth_bearer =3D data->set.str[STRING_BEARER];
+> ++  const char *oauth_bearer =3D
+> ++    (!data->state.this_is_a_follow ||
+> data->set.allow_auth_to_other_hosts) ?
+> ++    data->set.str[STRING_BEARER] : NULL;
+> +   struct bufref serverdata;
+> +
+> +   Curl_conn_get_host(data, FIRSTSOCKET, &hostname, &disp_hostname,
+> &port);
+> +--
+> +2.43.0
+> +
+> diff --git a/meta/recipes-support/curl/curl_8.7.1.bb
+> b/meta/recipes-support/curl/curl_8.7.1.bb
+> index 0af6a41399..33bf6b1163 100644
+> --- a/meta/recipes-support/curl/curl_8.7.1.bb
+> +++ b/meta/recipes-support/curl/curl_8.7.1.bb
+> @@ -25,6 +25,7 @@ SRC_URI =3D " \
+>      file://CVE-2024-11053-0003.patch \
+>      file://CVE-2025-0167.patch \
+>      file://CVE-2025-9086.patch \
+> +    file://CVE-2025-14524.patch \
+>  "
+>
+>  SRC_URI:append:class-nativesdk =3D " \
+> --
+> 2.52.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230190):
+> https://lists.openembedded.org/g/openembedded-core/message/230190
+> Mute This Topic: https://lists.openembedded.org/mt/117542226/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
 --=20
 Yoann Congal
 Smile ECS
 
---00000000000076fda10649988426
+--000000000000286fef0649989cc5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 7 =
-janv. 2026 =C3=A0=C2=A015:05, Paul Barker &lt;<a href=3D"mailto:paul@pbarke=
-r.dev">paul@pbarker.dev</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">On Wed, 2026-01-07 at 13:47 +0100, Yoan=
-n Congal wrote:<br>
-&gt; <br>
-&gt; Le 07/01/2026 =C3=A0 13:32, Paul Barker a =C3=A9crit=C2=A0:<br>
-&gt; &gt; On Wed, 2026-01-07 at 12:19 +0000, Marko, Peter wrote:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; -----Original Message-----<br>
-&gt; &gt; &gt; &gt; From: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.de=
-v" target=3D"_blank">paul@pbarker.dev</a>&gt;<br>
-&gt; &gt; &gt; &gt; Sent: Wednesday, January 7, 2026 12:49<br>
-&gt; &gt; &gt; &gt; To: <a href=3D"mailto:yoann.congal@smile.fr" target=3D"=
-_blank">yoann.congal@smile.fr</a>; <a href=3D"mailto:openembedded-core@list=
-s.openembedded.org" target=3D"_blank">openembedded-core@lists.openembedded.=
-org</a>;<br>
-&gt; &gt; &gt; &gt; Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Pe=
-ter.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br=
->
-&gt; &gt; &gt; &gt; Subject: Re: [OE-core][whinlatter 04/11] python3-urllib=
-3: patch<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; On Wed, 2026-01-07 at 09:08 +0100, Yoann Congal via<br>
-&gt; &gt; &gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"norefe=
-rrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; &gt; &gt; &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.mark=
-o@siemens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; Pick patch per [1].<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CV=
-E-2025-66471" rel=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vul=
-n/detail/CVE-2025-66471</a><br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:p=
-eter.marko@siemens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<b=
-r>
-&gt; &gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt; &gt;=C2=A0 .../python3-urllib3/CVE-2025-66471.patch=C2=
-=A0 =C2=A0 =C2=A0 | 930 ++++++++++++++++++<br>
-&gt; &gt; &gt; &gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-urllib3=
-_2.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-urllib3_2.5.0.bb</a=
->=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-&gt; &gt; &gt; &gt; &gt;=C2=A0 2 files changed, 931 insertions(+)<br>
-&gt; &gt; &gt; &gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/pyt=
-hon/python3-urllib3/CVE-2025-<br>
-&gt; &gt; &gt; &gt; 66471.patch<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; This seems like a very large patch for a CVE issue. The=
- changelog entry<br>
-&gt; &gt; &gt; &gt; in the patch also says that the API of urllib3.response=
-.ContentDecoder<br>
-&gt; &gt; &gt; &gt; is changed.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; We should look for a narrower fix, and only take this i=
-f there is no<br>
-&gt; &gt; &gt; &gt; other option.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; I originally didn&#39;t want to patch this CVE due to this r=
-eason (and didn&#39;t patch it in kirkstone).<br>
-&gt; &gt; &gt; But since this has landed in scarthgap, I decided for the sa=
-me in whinlatter for consistency.<br>
-&gt; &gt; &gt; Should we revert it from scartghap?<br>
-&gt; &gt; <br>
-&gt; &gt; I don&#39;t think we need to rush to a decision.<br>
-&gt; <br>
-&gt; On my side, I need to do the whinlatter 5.3.1 release build on Monday.=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 30=
+ janv. 2026 =C3=A0=C2=A011:17, Amaury Couderc via <a href=3D"http://lists.o=
+penembedded.org">lists.openembedded.org</a> &lt;amaury.couderc=3D<a href=3D=
+"mailto:est.tech@lists.openembedded.org">est.tech@lists.openembedded.org</a=
+>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">From: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
 <br>
-&gt; I propose to set this patch aside to not block the release and the oth=
-er<br>
-&gt; patches.<br>
+Signed-off-by: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br></blockquo=
+te><div><br></div><div>Hello,</div><div><br></div><div>The subject for this=
+ patch should be &quot;[scarthgap][PATCH] curl: patch CVE-2025-14524&quot;=
+=C2=A0</div><div>&quot;curl_sasl: if redirected, require permission to use =
+bearer&quot; has very little meaning outside of the curl source code.</div>=
+<div><br></div><div>Can you send a v2 with that?</div><div><br></div><div>A=
+lso, can you ensure the=C2=A0Upstream-Status line is not split?</div><div><=
+br></div><div>Thanks!</div><div><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+---<br>
+=C2=A0.../curl/curl/CVE-2025-14524.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 45 +++++++++++++++++++<br>
+=C2=A0meta/recipes-support/curl/<a href=3D"http://curl_8.7.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">curl_8.7.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 1 +<br>
+=C2=A02 files changed, 46 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patc=
+h<br>
 <br>
-Agreed.<br>
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-14524.patch b/meta/rec=
+ipes-support/curl/curl/CVE-2025-14524.patch<br>
+new file mode 100644<br>
+index 0000000000..bd0dd86acb<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/curl/curl/CVE-2025-14524.patch<br>
+@@ -0,0 +1,45 @@<br>
++From 0bccd8d29c89d70120444088d3893af59f3772bf Mon Sep 17 00:00:00 2001<br>
++From: Daniel Stenberg &lt;<a href=3D"mailto:daniel@haxx.se" target=3D"_bla=
+nk">daniel@haxx.se</a>&gt;<br>
++Date: Wed, 10 Dec 2025 11:40:47 +0100<br>
++Subject: [PATCH] curl_sasl: if redirected, require permission to use beare=
+r<br>
++<br>
++Closes #19933<br>
++<br>
++CVE: CVE-2025-14524<br>
++Upstream-Status: Backport<br>
++[<a href=3D"https://github.com/curl/curl/commit/1a822275d333dc6da604349716=
+0fd04c8fa48640" rel=3D"noreferrer" target=3D"_blank">https://github.com/cur=
+l/curl/commit/1a822275d333dc6da6043497160fd04c8fa48640</a>]<br>
++<br>
++Signed-off-by: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
++---<br>
++ lib/curl_sasl.c | 8 ++++++--<br>
++ 1 file changed, 6 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/lib/curl_sasl.c b/lib/curl_sasl.c<br>
++index 66639cbacc..fe646548a8 100644<br>
++--- a/lib/curl_sasl.c<br>
+++++ b/lib/curl_sasl.c<br>
++@@ -357,7 +357,9 @@ CURLcode Curl_sasl_start(struct SASL *sasl, struct Cur=
+l_easy *data,<br>
++=C2=A0 =C2=A0 =C2=A0data-&gt;set.str[STRING_SERVICE_NAME] :<br>
++=C2=A0 =C2=A0 =C2=A0sasl-&gt;params-&gt;service;<br>
++ #endif<br>
++-=C2=A0 const char *oauth_bearer =3D data-&gt;set.str[STRING_BEARER];<br>
+++=C2=A0 const char *oauth_bearer =3D<br>
+++=C2=A0 =C2=A0 (!data-&gt;state.this_is_a_follow || data-&gt;set.allow_aut=
+h_to_other_hosts) ?<br>
+++=C2=A0 =C2=A0 data-&gt;set.str[STRING_BEARER] : NULL;<br>
++=C2=A0 =C2=A0struct bufref nullmsg;<br>
++ <br>
++=C2=A0 =C2=A0Curl_conn_get_host(data, FIRSTSOCKET, &amp;hostname, &amp;dis=
+p_hostname, &amp;port);<br>
++@@ -544,7 +546,9 @@ CURLcode Curl_sasl_continue(struct SASL *sasl, struct =
+Curl_easy *data,<br>
++=C2=A0 =C2=A0 =C2=A0data-&gt;set.str[STRING_SERVICE_NAME] :<br>
++=C2=A0 =C2=A0 =C2=A0sasl-&gt;params-&gt;service;<br>
++ #endif<br>
++-=C2=A0 const char *oauth_bearer =3D data-&gt;set.str[STRING_BEARER];<br>
+++=C2=A0 const char *oauth_bearer =3D<br>
+++=C2=A0 =C2=A0 (!data-&gt;state.this_is_a_follow || data-&gt;set.allow_aut=
+h_to_other_hosts) ?<br>
+++=C2=A0 =C2=A0 data-&gt;set.str[STRING_BEARER] : NULL;<br>
++=C2=A0 =C2=A0struct bufref serverdata;<br>
++ <br>
++=C2=A0 =C2=A0Curl_conn_get_host(data, FIRSTSOCKET, &amp;hostname, &amp;dis=
+p_hostname, &amp;port);<br>
++-- <br>
++2.43.0<br>
++<br>
+diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_8.7.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">curl_8.7.1.bb</a> b/meta/recipes-support/=
+curl/<a href=3D"http://curl_8.7.1.bb" rel=3D"noreferrer" target=3D"_blank">=
+curl_8.7.1.bb</a><br>
+index 0af6a41399..33bf6b1163 100644<br>
+--- a/meta/recipes-support/curl/<a href=3D"http://curl_8.7.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">curl_8.7.1.bb</a><br>
++++ b/meta/recipes-support/curl/<a href=3D"http://curl_8.7.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">curl_8.7.1.bb</a><br>
+@@ -25,6 +25,7 @@ SRC_URI =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0file://CVE-2024-11053-0003.patch \<br>
+=C2=A0 =C2=A0 =C2=A0file://CVE-2025-0167.patch \<br>
+=C2=A0 =C2=A0 =C2=A0file://CVE-2025-9086.patch \<br>
++=C2=A0 =C2=A0 file://CVE-2025-14524.patch \<br>
+=C2=A0&quot;<br>
 <br>
-&gt; For scarthgap, we can revert the current fix and add the &quot;proper&=
-quot; fix<br>
-&gt; when we have it. I&#39;d rather avoid a patched-&gt;applicable transit=
-ion on a CVE.<br>
+=C2=A0SRC_URI:append:class-nativesdk =3D &quot; \<br>
+-- <br>
+2.52.0<br>
 <br>
-We don&#39;t need to do this immediately, let&#39;s take a little time to t=
-hink<br>
-and see if others have any thoughts.<br></blockquote><div><br></div><div>Ub=
-untu seem to have applied the patch with post-fixes :</div><div><a href=3D"=
-https://git.launchpad.net/ubuntu/+source/python-urllib3/tree/debian/patches=
-?h=3Dubuntu%2Fnoble-security">https://git.launchpad.net/ubuntu/+source/pyth=
-on-urllib3/tree/debian/patches?h=3Dubuntu%2Fnoble-security</a><br><div>CVE-=
-2025-66471.patch # the upstream patch</div>CVE-2025-66471-post1.patch=C2=A0=
- # Remove brotli version warning<br>CVE-2025-66471-fix1.patch # Revert fix =
-for zstd<br>CVE-2025-66471-fix2.patch # Fix zstandard using unknown attribu=
-te</div><div><br></div><div>but also, has deem the fix too intrusive for mo=
-st maintained releases: <a href=3D"https://ubuntu.com/security/CVE-2025-664=
-71#status">https://ubuntu.com/security/CVE-2025-66471#status</a></div><div>=
-<br></div><div>Debian has not patched:=C2=A0<a href=3D"https://security-tra=
-cker.debian.org/tracker/CVE-2025-66471">https://security-tracker.debian.org=
-/tracker/CVE-2025-66471</a></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">Intrusive to backport; requires update for src:brotli for effective=
- fix<br>The fix requires an updated src:brotli &gt;=3D 1.2.0 for the fix to=
- be effective,<br>which adds the optional output_buffer_limit option to avo=
-id these attacks.</blockquote><div><br></div></div><span class=3D"gmail_sig=
-nature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><di=
-v dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font=
- face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230190): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230190" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230190</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117542226/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117542226/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---00000000000076fda10649988426--
+--000000000000286fef0649989cc5--
 
