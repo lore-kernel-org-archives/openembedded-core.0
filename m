@@ -1,357 +1,221 @@
-Return-Path: <jaeyoon.jung@lge.com>
+Return-Path: <amaury.couderc@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED5FD49C96
-	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 10:09:49 +0000 (UTC)
-Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7339.1769767779924335934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2755ED49C9A
+	for <webhook@archiver.kernel.org>; Fri, 30 Jan 2026 10:17:19 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.1])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7411.1769768235785454599
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jan 2026 02:09:40 -0800
+ Fri, 30 Jan 2026 02:17:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: jaeyoon.jung@lge.com)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-	by 156.147.23.52 with ESMTP; 30 Jan 2026 19:09:37 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-Received: from unknown (HELO sniperexo1.lge.com) (165.244.147.11)
-	by 156.147.1.125 with ESMTP; 30 Jan 2026 19:09:37 +0900
-X-Original-SENDERIP: 165.244.147.11
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-Received: from unknown (HELO SE2P216CU007.outbound.protection.outlook.com) (40.93.138.29)
-	by 165.244.147.11 with ESMTP; 30 Jan 2026 19:09:37 +0900
-X-Original-SENDERIP: 40.93.138.29
-X-Original-SENDERCOUNTRY: unknown
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-X-Original-RCPTTO: mathieu.dubois-briand@bootlin.com,
-	openembedded-core@lists.openembedded.org
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=v6rzgCOB;
+ spf=pass (domain: est.tech, ip: 52.101.66.1, mailfrom: amaury.couderc@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SmLRykFwxsBjNNedjykeSoNTugNpiR1KdJlDn8lu4QXisq1Zo0+gHY31dEuAz/odEC3t1qUY1DgZ3/BnNBByZ9P90W0zjqUGo6B6c1D1bd/H2OmJXODqELez6g9mfB41MOuOkVDbkiUVB4mQ3SsZU9pmNE82RJP4gJLoUBPvkZY5gFM/JhaedsMDzOusvl8GhDsaQVrBc6SdzG0MSj3cDSlSNDcS0v2tqwCliR1D2eOiTuwN/Wx3O0Zg876TG8SjU8G6JSmqoRbrheGqZkbOuvFEUeFaSbESk7Lyti/IolLK2NpXtdhcBnCMa8MZfuafu0rWrS6nqJjZcHTwxigM5A==
+ b=MC3L4fPd/bqs1bCrZ0+V6xzMYpF9sTq4LuT4ud62J5zYPmfTE5i17re4jPeXvCznH9nhnYTGtYOj6TfZsFsZvka3t9GUWClkoNXx9gh+F9c/Ejrsg3QK8wHer48uRLRQleDSwDXRub05h8XYSoYi3lKLEMjUh8KPwacTr3Us9DOo2zcYR+tUuvi2KLi/N7cvDmOoDBKcIZI8HVMf3G9ak6uJ1urk4y/LNw/pyAMgtUv+FIWIoHJv/KmciZ5/xQcjWkFeBjAqBXrty3IQVp8GHB5r1x/P8nyo/EKaawterGHp3rGwM6B58fT5QZgz9z0DrNjM71CODODiZruKK2+BfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T7RU086zwvL5ZnQvZbmomhURBPHZIXM91VnyctmYbCQ=;
- b=rqT1JiRM0tZKNKsFRhnjPlb137AWMwIG/eoSVQwvhiqwXF1aiQE1TovAqUfuVXQqgtgbpXarYZbjhYDxj8easFpYo0l/Yh5OSd6AXFh+F89RvAqO3CHwrx744biGk2fzhKIWKEL333OyaLBocMvTq7eRRBsnBgUnG357QK33sjR+Ar3heVd7XwyeZAGsRBh8mth/uwHqbUb8GFWC54eGKjY+21ejuwQKOrFyAX4GsMl2j2IMzbr8kLH22QLfcEynJ6Q1sfqSnKzvVQpZUwg2pNXUKgG7+pKsYd+XKugCbF9OODnSAgpnuorMMyRsCuD0OE9PsaFGoR5OEgAvFDxgAQ==
+ bh=E17zEKKGaSmnm5p1oeSblnQBjly5WglZIm8qBR4/dYo=;
+ b=aR8/spFPCw5prm/+UDw/oSFcDpeaYHnQaO5GM+ewz2CUkgF+yAyXmHRmgcmqah9kVZ4z+SMpZEOmgm/P6bdojUg2bPEFXOo80K3f2faN0OEVPfvM6ZtStJdDdJH3bFTo24v6BBDcn/OiBGJpKXLAvj7UyGOdZ/oLgzveBUWds+5etCj7UNZ8MMC5i/57i4cWZaD/UU91fGGTPYd0XxKK4k7y3BOuDJMZwVoruK96IHq+MLBx/1Y8IoAHeZuAEneWP5qTddAIsHm+PYo4WbZn6ntcBLe/sLeNKCSypguB9RwBmEB+BnA1bQBTXjEpzPAlzj4tUB7FKplIUEDdtFLteA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
- header.d=lge.com; arc=none
-Received: from PU4P216MB1133.KORP216.PROD.OUTLOOK.COM (2603:1096:301:72::13)
- by SL2P216MB1417.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1f::12) with
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E17zEKKGaSmnm5p1oeSblnQBjly5WglZIm8qBR4/dYo=;
+ b=v6rzgCOBNCkqFM5F/T5DhOX51VgDukCjF4HQFNHIDKmkewvw0MGQyzjCdPbEJPA5frw1WONhmN8pitYK+98kFxjMkcEekb2kjuuX/jOtSeDpUzpXn7Z2oiSZyNDbOIvADZ9O/tZp3bElBwEdU4ZkhlKzag7NyI8lbqCOBny5qPX8FpUGFgan2Cid6ejNT9vDj25nbuMwqnQ4HWWAWLKZXQvrAoioiIbh/e4P5CeFgdXDB+ZDyDgNj+1lrxV3sYccvQOxcvcRtggvG3Jou52Pit7qm1tuiYtatIc7XVoywgkWafiGqotNNT7HtqSs3InGZS1NwZEOBzNe21kKnLK08A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
+ by DB9P189MB2026.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:391::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
- 2026 10:09:36 +0000
-Received: from PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
- ([fe80::962e:eea5:5f2:1cb]) by PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
- ([fe80::962e:eea5:5f2:1cb%4]) with mapi id 15.20.9520.006; Fri, 30 Jan 2026
- 10:09:36 +0000
-From: =?ks_c_5601-1987?B?waTA58CxL1Rhc2sgTGVhZGVyL1NXIFBsYXRmb3JtKL+sKbyxx+BQ?=
- =?ks_c_5601-1987?B?bGF0Zm9ybbCzud+9xyBMaWdodHdlaWdodCBTeXN0ZW0gVGFzaw==?=
-	<jaeyoon.jung@lge.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] apt: Set gid to nogroup
-Thread-Topic: [OE-core] [PATCH] apt: Set gid to nogroup
-Thread-Index: AQHcj/1o9TS2c7y3UEqKzfQbrmO+WLVpAKiAgAFk1/k=
-Date: Fri, 30 Jan 2026 10:09:36 +0000
-Message-ID: 
- <PU4P216MB1133E4B9F9206417E060E11C9A9FA@PU4P216MB1133.KORP216.PROD.OUTLOOK.COM>
-References: <20260128022514.3257715-1-jaeyoon.jung@lge.com>
- <DG111YGX0CQT.2JFTQEWR8YUUJ@bootlin.com>
-In-Reply-To: <DG111YGX0CQT.2JFTQEWR8YUUJ@bootlin.com>
-Accept-Language: en-US, ko-KR
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lge.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PU4P216MB1133:EE_|SL2P216MB1417:EE_
-x-ms-office365-filtering-correlation-id: ef02030f-53c3-45ea-514a-08de5fe7ac37
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|1800799024|8096899003|13003099007|7053199007|38070700021|95630200002;
-x-microsoft-antispam-message-info: 
- =?ks_c_5601-1987?B?d3E0dnNia3VXLzg5emtZU3dIZEFLSTExV3VTTXIwNkZoSlpKdFo2?=
- =?ks_c_5601-1987?B?blZpMFU3WkNxT1RycElxRWREb3dZNDNYbW9VdUpLeUdxWk5RbkZi?=
- =?ks_c_5601-1987?B?S3hkeXpMa09mSjNWSkp5QWRtN015TUQvVmJNSGVmVXJFcXhjOEx4?=
- =?ks_c_5601-1987?B?S0diV0xFSkpEVkJ0TXdKVUZ6dTVaSXpXOEZiYVhwOGMyTWg5L2xJ?=
- =?ks_c_5601-1987?B?SC9vdko2dEQ3aHVNWmpuckFQRjZWcHAvWWJ6bHlUdi80T1h3Z05O?=
- =?ks_c_5601-1987?B?Rkw3M0wzay9XSFVjMlV2UHo5MTRKOFdjbDR0UHRxblM4c0Y2bGpD?=
- =?ks_c_5601-1987?B?bU41SmNXQWZtaC9ONDN5ZnpYSTBoekxTTVlGOU4rWDhkVG1yYXdU?=
- =?ks_c_5601-1987?B?eGpXRWQyTnk0MC9MenNCaHI2ekJCTHFtRlJrRWZ0blBkSy9Qc3oy?=
- =?ks_c_5601-1987?B?NU5YRTNOQjdPYTk5YjBTd0N5VG91Wkh2UnlFOU1abkloaWs2R1RG?=
- =?ks_c_5601-1987?B?dkFRS3RKK0JaNmc2aGRoeWxOQm1SVmU5ZzBCOEZ1RjVmams0U1F2?=
- =?ks_c_5601-1987?B?bEczRkhaZ2FydFdBOFhMS0NUWW0xRzJScDRhN2dJUUt2Wk0xczF1?=
- =?ks_c_5601-1987?B?UlNCUGxhTGtxOWJpTURBRXA4NE95a3ZOM2lmS093OGJ0QmFROU5l?=
- =?ks_c_5601-1987?B?OW5KSVFTR2h3eXI5MXQyVEg5cXliVWJaeW83aE0wWVAwYk5UVnp4?=
- =?ks_c_5601-1987?B?cE44Sy91ZTdxK2VvYjBHWkZTMUlQMVd0WnNqQUxyRVEvT0VWUk1B?=
- =?ks_c_5601-1987?B?cUEzdTFOOFRKb05WOFBkeEpabXovV2dPK2gxeUlBM3hJU0ZybnV5?=
- =?ks_c_5601-1987?B?L3l3RW9jZjJSSWQyQ1ZzNXJrbEpXUTVRMW1Ka1ZqaU05YjJYdm9O?=
- =?ks_c_5601-1987?B?L2hPdHJoOFRGYitUcm5MYWFnamlwRDVST3EraVNvWVRXaXF0S3Yv?=
- =?ks_c_5601-1987?B?ZjVQWUkrZm01dVJZbHNiNG9xaTIvSDJvRTc5QkxxcDhDTWpGdUJs?=
- =?ks_c_5601-1987?B?eGJ1VFJoUFpzbVZmVzc0MjltVmZScHdKdnpYWGNBMk1XeTZHWFM2?=
- =?ks_c_5601-1987?B?N0Zob0xkM0ZmTHM0Sm1Dam02bXFqRG5ETlRlZk05VkNWa1VWQWx0?=
- =?ks_c_5601-1987?B?VDhobjFDc2pjR3pUUVRWSUVSREc1M3hlUGxjYmt0eHc0QjE0NzhX?=
- =?ks_c_5601-1987?B?Nm9EaHNtTHJSdlo0NDVLY0ZhdFN5eEgwU0FLR21ZVHVTdHBaTTZD?=
- =?ks_c_5601-1987?B?UkU1aTVyMUhVRS9MVnhXdVVRd0hJU1Rvclo3QUk5Mk1meVNLdnl5?=
- =?ks_c_5601-1987?B?aGxkK0VJVWRxaVVwTTdtZVcra01CSUNVMEx3c2dvbFlUQmVvOGxK?=
- =?ks_c_5601-1987?B?cmhsbm1kaUVHaE0zMXFzblptd1hZOUtxUHdlVGhRRXMzSW5hekdw?=
- =?ks_c_5601-1987?B?cEhqTFFVZy9QMndaYXlrWHlibzFsZFJudE5xN0o4eDIyUW1id2x1?=
- =?ks_c_5601-1987?B?V2pJVGlubGVkNStqVHFJQ1dFcHNrVVkxS3kyWkpaTmE4RlRUczY5?=
- =?ks_c_5601-1987?B?dFQ5cHJldWNCNGR1NEpWSmZURGZQSU0wQWhFSlR6OUlmNlFIWHkz?=
- =?ks_c_5601-1987?B?VDdTcVI2UTlwUXdnYmkzcStRMnVxVExraVNSelVuMWJ5WVRSQTF1?=
- =?ks_c_5601-1987?B?by9XUFhxWWtLdHR5YlpYR01NSkRiSGtES0hidzQzUi9veWFTWjVu?=
- =?ks_c_5601-1987?B?cHllV3pnaktjSldFOUZ5bGZDTCtEU1IzTG5TdTY1SmUwSjJZYURr?=
- =?ks_c_5601-1987?B?OCt2OEJrWThOeDFmSnl3QnBzN3VPelVpYU1SYVJjNnUxVURqNklM?=
- =?ks_c_5601-1987?B?VmFyVStERG1KbFVCVHAzdVJoZlA4SVYrNThvWTYraVVUazcyNkow?=
- =?ks_c_5601-1987?B?cWM1MHliMDZhaGV2L0FlcGlvN3VNSEFmdFpzTGQ5dHp4K2l4U2ZB?=
- =?ks_c_5601-1987?B?QUlnS3duZThRcDF6TkJVRXpaRm96eHFzdjUzM1FpUUVDT3NuNUgx?=
- =?ks_c_5601-1987?B?Rm80cngxVUVob3NhalFiTklIcDk1MkhLRUpQaXV0bHNSeFBNK2dZ?=
- =?ks_c_5601-1987?B?NUg3Qkl1SWd0U1UvOU9nZnVRcWt5cWhiNTZvV2VrdDQ5ZHIxSHBu?=
- =?ks_c_5601-1987?B?WENkTE53SkFDK1E1ZXE2MkRMbFYrbUtlMDVqWjNVTG11bVV2RkVZ?=
- =?ks_c_5601-1987?B?UUo3Rkl3RVl5Ky8rSDBqN2FrNEZyMGg1dGYyL1VlMDBjbWhWN2Rh?=
- =?ks_c_5601-1987?B?N3RFU01ZejhyeXRZdDdJSng1eW8rOEVWeU1QL2ZQVVJ2WW5FeFQ1?=
- =?ks_c_5601-1987?B?eDcrSnlqenIxcXBtOG9saGQxa3pCTFV1N2lIVWg3WG1WUWQ2SGlh?=
- =?ks_c_5601-1987?B?Q2ZxRjBiS2NUNU5RK1Avd082Uk11U0E9PQ==?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:ko;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB1133.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(8096899003)(13003099007)(7053199007)(38070700021)(95630200002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?ks_c_5601-1987?B?a3k4emNKcXJ0RHl5bnVWNVJ0RUFWMUZoemg4R1kyalNqYkRvZFdl?=
- =?ks_c_5601-1987?B?OHdHUXhrMHlhVGVEY2VybTdtUFl4Rnp6aTVVYVRob0xMM1lKMzY0?=
- =?ks_c_5601-1987?B?UDFZaCtyeHUzNmxobFJ6SGR2OUhPMk9GVytYUWRDbnBpNUhGN2Fm?=
- =?ks_c_5601-1987?B?clRLRXIrbU1qL1JMbzVYWURjSmVCUURwTVIyajRZU0VKVisyTGpz?=
- =?ks_c_5601-1987?B?ckZuS2VUTHVQZ1VCTzFOdC90OVN3UVFmQWZ3MjJ6YnhGSFJzR1R4?=
- =?ks_c_5601-1987?B?QUhMRVdiVXBvYWxOekIxbzBjL05FVDZNVzVJbmYzd2VlOUxBTXBl?=
- =?ks_c_5601-1987?B?a1lEVElvY3lVdUtnb1BQNjl4STk4MCsySHNoc3JIT1U5SmZORUoy?=
- =?ks_c_5601-1987?B?ODNpeTZyYk95YkxGMlhjZTlqTU5OY3FhdFdpYjl5eVE2YVA3Mmgv?=
- =?ks_c_5601-1987?B?RGFyMXMwRWR0U2p2bmNVZEtOL3lKTEl2eGY3ZmExMFAxMUpMUGVa?=
- =?ks_c_5601-1987?B?RzlyZWZYb2c0ODZVOGpRSjhVMGZNbW1IS010WFZkY0JnMHhiZ2RF?=
- =?ks_c_5601-1987?B?R1lRLzlLb0ZxUE80Qzl4WVJGdzJ3NTlnMUZxZTA4MHBnZEpUWjY1?=
- =?ks_c_5601-1987?B?SlY3ZWw1NjBrb0t1RUZQVWN6M3NHbXlTWGRDT3RXbm0yayttUUtq?=
- =?ks_c_5601-1987?B?SlFoWFBlaysvMURwRnI2KzY5MmYrZ201cy9vMzFGZEhqMGdOZnhY?=
- =?ks_c_5601-1987?B?QXNDTjRKTldGakg0L1hNR2R6ZmNVZ0trRnNCTk1HRitqQmdRUWFS?=
- =?ks_c_5601-1987?B?Z0EwRmhZaW96Tjh1MFdBTi9yZjdUaGJDaDNvb0VpYXY2bVlqVGc3?=
- =?ks_c_5601-1987?B?ck9zRVF1M2psdk5nSmtqMnNmNU1KcGh6NmpkV1psejdtbFVaajJo?=
- =?ks_c_5601-1987?B?TFg0MTBxc2czdGZaZWxWV1lRczExYlJtTXZ1ZTdQUzNyWTlnZDBB?=
- =?ks_c_5601-1987?B?UVBNZTFHL2JoQ05sdUhFbDJOUGF1UGYwOTFWNmZ0bHFVZnF5VWI2?=
- =?ks_c_5601-1987?B?QzV6ZmQvVnU5YUNNTnI2VlY1bXFZMlcrWUY5TFUyZGVyZVcyVk9q?=
- =?ks_c_5601-1987?B?dnFLeG9VOWIvUDZHcVNSai8rN3U1VTV5RTloRGw4WEI1OXVEQXpP?=
- =?ks_c_5601-1987?B?M0RkYTBUL1VnRHBuQUZsUm1vTE9lK1NIbkovcGpCdmhLR1BOMDNs?=
- =?ks_c_5601-1987?B?WXBucldrdDdadXNkY2tMdlJWTjlIQTlyOHRUV1NMNVFRWjZKK3h4?=
- =?ks_c_5601-1987?B?aDlPOE1lWnZnVWNBUVgvQllkQjE3MUN6OW9IbDY0RS9TQ0t4cDdx?=
- =?ks_c_5601-1987?B?U1MyTHBhc1QxL3RLR2ZVTzBQdzIzcW53VlZiQnFUMHduMzRwUFA3?=
- =?ks_c_5601-1987?B?SFIwQ3hLdFFtY3BvR3M5ZnZyT29IR1Jwck9laU4zbHFaRjduMW1X?=
- =?ks_c_5601-1987?B?VHlGOEU2dWgzTUNwUGtBMEdJcEl4M1pFd1djMHFLdis4Y2xTUXNM?=
- =?ks_c_5601-1987?B?L2JhU3A1cm1yeEI0TGJlV3dLUDh0K2tlbzhZNlhiaVpqTi9LNXFG?=
- =?ks_c_5601-1987?B?MlpRTzZRWVlncWsxWFZyekhvY0txY2hyT0ZLNWdFUjA3NEdOLytK?=
- =?ks_c_5601-1987?B?L3hXNDJPUUlaZFJ2VDErUjlsMmVRYy9OYWhLMTY4eG0zT3hvTkZ5?=
- =?ks_c_5601-1987?B?N3BkNlpvRWlRdVVncTY5bzZrV3R4MmpTdlAwUkVaU0RMKzRUTFJ6?=
- =?ks_c_5601-1987?B?OG1rOUNTdDlZUmp6dVdPSFNaaVNIdndYYWNNSkhrQ1lWN0J1M0lL?=
- =?ks_c_5601-1987?B?b1A0SHdTeGRqVjZhZndxM3QzOTNMM085Y0JDOEZ6QXIxZ05BbnZF?=
- =?ks_c_5601-1987?B?bHM5d3FnUEcxYWxCb0RzU1Z4MXZyMkh6NHI2TUVvOWhGZFVoWFhn?=
- =?ks_c_5601-1987?B?cExWUUhKVjZlMXQ4V2h3aWZKcFVXVkRtdkZKNlQxSUc4c1l4Z3Nv?=
- =?ks_c_5601-1987?B?M0hxS0FJTE9QZmNGUGxjM1lpYVpQNFRnczJPbURlTFRRL1hDeXVL?=
- =?ks_c_5601-1987?B?SERKRzVNb3BVcW5yV2JYV1NVa3FzZldlZXFHemNHcCs3a1dOa2pp?=
- =?ks_c_5601-1987?B?Yy9aTEZ2SVRLMnVZdFFmait5SXZOcXNqTDBZK2g5M3F0V2tsZ3Bk?=
- =?ks_c_5601-1987?B?VjRFTnI2SGNzUGJxYzZ2TlV0S0F5T0NIdHNTSklBNjZ3dE4vOFQv?=
- =?ks_c_5601-1987?B?alEvZWZNSmI0UVZkTEY1dWV5REswU0lNQkJ4aUVhVzNPRjlGYktN?=
- =?ks_c_5601-1987?B?YkJlbzU5cUlrUTZKTksrS05hZUdZRmtyNFhnRlJWUEpocGtzT01S?=
- =?ks_c_5601-1987?B?UUgvTUJPMHFvK1BGdDR0UjJ5MzdqSnhscXZ5emZ3RkI3ZDJ3d2o5?=
- =?ks_c_5601-1987?B?eVRVbDF1d3o2QVNtdnE3Vjk1UWVkOTl3WVlub1JvcHpuMUFRaytz?=
- =?ks_c_5601-1987?B?Zis3NktJdXRoT3NJc0hMNFBqWFBYYS9FY24zZmlKK2ZrVWZmU1Zk?=
- =?ks_c_5601-1987?B?cUJkV3NwVDErMUFBQTZEL3R6RDU5THI4VUNRRmU1MS83clFWVG9N?=
- =?ks_c_5601-1987?B?MTRtMm41ZHpUSHQxUWhScDJyWk9iczNMRXU1WXhybHFUQT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_PU4P216MB1133E4B9F9206417E060E11C9A9FAPU4P216MB1133KORP_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Fri, 30 Jan
+ 2026 10:17:12 +0000
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::3cc6:ccd5:b124:2a6a]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::3cc6:ccd5:b124:2a6a%7]) with mapi id 15.20.9542.015; Fri, 30 Jan 2026
+ 10:17:12 +0000
+From: amaury.couderc@est.tech
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH] curl_sasl:_if_redirected,_require_permission_to_use_bearer
+Date: Fri, 30 Jan 2026 11:16:06 +0100
+Message-ID: <20260130101650.19830-1-amaury.couderc@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0113.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::13) To AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6ad::11)
 MIME-Version: 1.0
-X-OriginatorOrg: lge.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBP189MB3196:EE_|DB9P189MB2026:EE_
+X-MS-Office365-Filtering-Correlation-Id: 688633ac-4b6a-4eb1-2cee-08de5fe8bbc4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?O3SHld3Ao4pVh1CF/36ljbwvMiZm/Htbd2xJYcgKExsbZFOPOe/RPgGWsQ2O?=
+ =?us-ascii?Q?UibiwTnvtPRcyc0X70eBBLA15Jz/eLaGv/6YKfyxXZva4QbUz1cKtlCNWEyd?=
+ =?us-ascii?Q?YJKFwNr5q/vzYyKuRNopxtBTlBqE4WIJstouidla3BaB3oLNR0OIFtXVdFG0?=
+ =?us-ascii?Q?3W/C3ZvMpASpDGwLIo4yj6MRRA/OxMVJ2QMybCyrhywrsj7cnevMcwJH/NGP?=
+ =?us-ascii?Q?+zEKaSlMGNWYYtJsNOtE8ZJlXhSK4lnIYk1PmVdq3MGe8aX3fEzvo84X/C5s?=
+ =?us-ascii?Q?fiBnrTNWYiKHjUft9bLpYOJ/1X46UVzTnL0d5/MDH81zGIJnv03ySfDiXvNj?=
+ =?us-ascii?Q?eHgUyOGZlp19rd/qL/KmcZ6lUXvB1NP5ILWqGNBu9QoLM1B4uJ8G1+fgaXUD?=
+ =?us-ascii?Q?uoTey+gj+vH6So8klghpOtV/tEoXvWpCthi2mRStWB9PoKv8ktAxb3wHDUWo?=
+ =?us-ascii?Q?ISwsF8/qTD+S1f+xPa7eNl2hPk3HgdjIyEoxqV6TNIQhFtvZhMTD8hmC4c9W?=
+ =?us-ascii?Q?5abpWhD3fwvZYslHt+C6oLNv9HtErcRO3OhDn4JGr+wR8TwV7BxcPFHtmYh5?=
+ =?us-ascii?Q?VO3oUF2ahVeTzXdOVtZlOrUlaZOT/9f+/xW1FnsRcV+0nB+7o7qVVBrqeznW?=
+ =?us-ascii?Q?vdGpMnKcXQGWevy80ozcYswOtGTPqtXzW5y6azvXpQSRW+6+OnoZQXLhmJdp?=
+ =?us-ascii?Q?2FZIL5yO6TCKH6DVrqX/lQz0H1n9ee055jiosxTNesZ9jsDoHVPNkibdaJlP?=
+ =?us-ascii?Q?Wj4HL+xun9GLhGZnhS2qoD/Y2mulcn31uIUvf4wVB/bTqVK70bbyAwTgVqMe?=
+ =?us-ascii?Q?zS9P1jYeQC5MFGrP701VH0x4DM4ZU6439NdzYlCIadpOtLeIrdeU7xGI2B4D?=
+ =?us-ascii?Q?FEdj24+kA62l2aJjp1JPVaarWCIemwqZ/MyKxY6AqzvcLRXZF22AJKJaiCw7?=
+ =?us-ascii?Q?Noi3IccmdhN34922vP8mZ0qGk4VN+UpJAApq3L/vpYXstGQMhujOFlnx8/Pm?=
+ =?us-ascii?Q?WUZmcWSTKaCY4QjR0nfgZAl5p8yrjQeEs7aqf4e6HGHGM1PXS0ME4Z2iCrMO?=
+ =?us-ascii?Q?YeJRcz9v+mvbiNStMiYM9spQir0/KjwN3k1WFVcdKv6EffFeA+LYAuZjrg5/?=
+ =?us-ascii?Q?iolHxb3qGiRGCtGyeZ3bcX1U3CCkO3KO5u9mrQxWm8LWSDIiMO4uHFoDVXQN?=
+ =?us-ascii?Q?XQ+8/ohhjh97Hh5QCDVH7O5ICYYKQn72K7KdbYxcJCv87js9PDc1QJMCtD0S?=
+ =?us-ascii?Q?Yl7kGaiu13iWibKtfWPJoDvRS7cE19Z5sh8bQkeDe7o8BWp8NeSA2XEH3DKn?=
+ =?us-ascii?Q?spmrm1Pg65p0uARz+eV7KLoEQe5HzTqbCHO2TnHZ9Q3xzSfPesxZ/PjYMepQ?=
+ =?us-ascii?Q?yebiQfHy5rdk6frQfljSkuKKXfFHxpaAn6a1emFAeyU2T1t3FwenPIsqJ9i8?=
+ =?us-ascii?Q?Lwl3nf94tNlV5Ib3d+WeKe5Zi+cBMjOWyXQjGqh6f+PS661HsLI2WHBMPDpm?=
+ =?us-ascii?Q?duOrC+4gSa02cPKneswSfJmo+fZnHY30u0RaXwlDyareSGLD8Mfo58v9Iruo?=
+ =?us-ascii?Q?y5BRhtiKnUnM33Aw4/Y=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?IWCI0vEN+1zWWQJA+iomnZ/w7ZmUV5FuWt0hdVOXDPTPY0VIPZipK7BokRGB?=
+ =?us-ascii?Q?TQWiVCKCKlqojNLqXOqu+bqVABbKy9gR9zjKh8L2g6bppK0PSXDu3QYNQzDR?=
+ =?us-ascii?Q?VD3int9DXoRoqxI6ulWgCCPiMWZUCRx1F3B3zJ/enm8xdiLNs9ZGC+SsYjhe?=
+ =?us-ascii?Q?prcpnt+ZWReVsXEPCbCesq9K5mfbxVPs9reYVG50Uq1jJ2qSBkORrxcWyycu?=
+ =?us-ascii?Q?NOZFJFau6LUvsanLMjn9c1r5uxng+nxGoz1j55MWrfHHOW/aO7HSRKRwbdL/?=
+ =?us-ascii?Q?Uu0mcAqWXn0tjpsJe91ehfnhF/iRzsHcGd0fgfI6dClxK/TIdFnI3k/7UAwu?=
+ =?us-ascii?Q?OmrauZMo8AMWQhz7a7HRtd9Hyj6CwRNEfZy7rWopXeXVyEfF5GOyXgIfVmTF?=
+ =?us-ascii?Q?0dVUT8cRULppQTBVW1Zg4xzygYsBfunBZr8sQcoKvAj32gSit/TPbFpN4N7O?=
+ =?us-ascii?Q?QHIEp0h2ABxVZwdBDRBc4Y1VCdB/tFo/cGFMXb55fv2cuFSMT9YzuWIE+NWr?=
+ =?us-ascii?Q?ckXAMKU1XY0pojQ6m20Ul9o8SHQhX4hn3R+XnRcatp1AYQOALceN986n06Ht?=
+ =?us-ascii?Q?XAnRu6QnJddjToAriDhrztGOSZhDwz4CMgFtV8ADoc+K0PHb3VBKYaBDeQuR?=
+ =?us-ascii?Q?ctQXGvroKUTOVtSrEn2YaUpWLFHyFclQkKQmfNgrz0Axq9ryIRntIv2KQRJh?=
+ =?us-ascii?Q?lz6aJ/SHH4Vm/+xieWqAYg8WRr4Ox65a2sB1msqr0kaRkLYEGoMqwGQNhQyv?=
+ =?us-ascii?Q?ZCnp69pHrh8+EIQaJlrGIJeXQxYMVTg4123pWm/eqfIShjbYZyMvpvr+0cmc?=
+ =?us-ascii?Q?0WV05R0jrXX63T2QRteky4wDCHV3iM+vOxMcIDmAgorpyXd1G7mBMsdrJ6vf?=
+ =?us-ascii?Q?ARAxmx6x1Acx0FvLHNVNRoGrcxAqvTykFChoqRBeVYjiA026ytgrO4lF30Zg?=
+ =?us-ascii?Q?cB6Bc1wS4fU1s3hIGD+ipITRfWpRVC9dDj9vb+Ah7HcmZxXjnq+83MYj2Sx+?=
+ =?us-ascii?Q?dTPPuMf+EHl1mpQyBIH+NOuoQ6y5UtWcDHD8dT6KdsgjKBcTGf2yDJuVDb9R?=
+ =?us-ascii?Q?Nt6tzBu+geZHHvJmVCQd6ngFW14RKD/HhcgudfKzqCXyMBdLfUuIY619NFAa?=
+ =?us-ascii?Q?chz7Xrt6mU5aeLiZLYRDLHTkbT5qMDr6hP4moWem8vfMpVUDO4DERQG21IqA?=
+ =?us-ascii?Q?tXPW3Q5fymFo6VQoivAvaFwujfQH62LoqHz9whRbnjRBQKwmbxIOruvwNIhj?=
+ =?us-ascii?Q?KT1M64RCk8YYQWLI6n46/ga53Z3kAkkoLdlGG+MtEaZCEz8KvcTYuIdO1bgq?=
+ =?us-ascii?Q?h84V3nPaLQ7itDpRURhueLmzlSavl5hu+JkIBkag1H7NLBahgQFsbkSQKULG?=
+ =?us-ascii?Q?gS9aWPLg+CQcnPcwZ2pOPj6N8JTk0kb2yumgroKMD8uf90uSPr9BlYReaig1?=
+ =?us-ascii?Q?Hp69QHUyfEKici+R08LdeN9i687FWFEntcVyaKCZWg2fFcUTAG4VQWUzDbaz?=
+ =?us-ascii?Q?9iSarQj3DZItJCFQEHjCp80Ak2vOKHccD9gjeqvbubF5CtM/FWdZ+ubwAeMt?=
+ =?us-ascii?Q?wp8ZvfNWw//5Rf+UR3dQBQILdbV7sYO4u4LBTWmNWy+YDpywo+YejaLoPudR?=
+ =?us-ascii?Q?SBw7/S4k2sedRCWXuvcBFdIxNMmLZb+pHAs4SBx0p+CB2hV6nri6STCtV4yY?=
+ =?us-ascii?Q?ma2j8yXJk/UQZC0I9EKbGZepH2QRB+6t9RIgeX4IFFSQmw0HIXO9b97shzJ8?=
+ =?us-ascii?Q?k7aX5OsP2g=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 688633ac-4b6a-4eb1-2cee-08de5fe8bbc4
+X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef02030f-53c3-45ea-514a-08de5fe7ac37
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2026 10:09:36.4500
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 10:17:12.1112
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vT23poeK7nb9FxgcJ/cs4B1yKuc6vvVxECkcJ0h152YQgo6s9iyN6rzxWxv2FZ5AVCxdRW9+JUJ2UdBq6mLNTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB1417
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W213Jgk90QW4tICj11IUkUOGNTThpX+XjRSSMznh5ndKVjyFBfVYCHw2hBiogrZsMpyA2QAlijUJz6OVFdrjag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB2026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 10:09:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230189
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 10:17:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230190
 
---_000_PU4P216MB1133E4B9F9206417E060E11C9A9FAPU4P216MB1133KORP_
-Content-Type: text/plain; charset="ks_c_5601-1987"
-Content-Transfer-Encoding: base64
+From: Amaury Couderc <amaury.couderc@est.tech>
 
-VGhhbmtzIGZvciByZXBvcnRpbmcuIEknbSBzZW5kaW5nIHYyIHRoYXQgYWRkcmVzc2VzIHRoZSBp
-c3N1ZS4NCg0KQmVzdCByZWdhcmRzLA0KLS0tDQpKYWV5b29uIEp1bmcNClNvZnR3YXJlIFBsYXRm
-b3JtIExhYi4gLyBDb3Jwb3JhdGUgUiZEIC8gTEcgRWxlY3Ryb25pY3MgSW5jLg0KDQoNCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fDQpGcm9tOiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQg
-PG1hdGhpZXUuZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4NClNlbnQ6IFRodXJzZGF5LCBKYW51
-YXJ5IDI5LCAyMDI2IDIwOjEzDQpUbzogwaTA58CxL1Rhc2sgTGVhZGVyL1NXIFBsYXRmb3JtKL+s
-Kbyxx+BQbGF0Zm9ybbCzud+9xyBMaWdodHdlaWdodCBTeXN0ZW0gVGFzayA8amFleW9vbi5qdW5n
-QGxnZS5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBbUEFUQ0hdIGFwdDogU2V0IGdpZCB0byBub2dyb3VwDQoNCk9uIFdlZCBKYW4gMjgsIDIw
-MjYgYXQgMzoyNSBBTSBDRVQsIEphZXlvb24gSnVuZyAoTEdFKSB2aWEgbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyB3cm90ZToNCj4gRnJvbTogSmFleW9vbiBKdW5nIDxqYWV5b29uLmp1bmdAbGdlLmNv
-bT4NCj4NCj4gV2l0aCBubyAtLW5vLXVzZXItZ3JvdXAsIGl0IHRyaWVzIHRvIGFzc2lnbiAiX2Fw
-dCIgZ2lkIHdoaWNoIGVuZHMgdXANCj4gd2l0aCBhbiBlcnJvciB3aGVuIHVzaW5nIHN0YXRpYyBn
-aWQgdmFsdWVzIGFuZCAiX2FwdCIgaXMgbm90IGRlZmluZWQgaW4NCj4gVVNFUkFERF9HSURfVEFC
-TEVTLiBDb252ZW50aW9uYWxseSAiX2FwdCIgZG9lcyBub3QgaGF2ZSBpdHMgb3duIGdpZCBidXQN
-Cj4gcmF0aGVyIHVzZXMgIm5vZ3JvdXAiLg0KPg0KPiB8IGFwdCB3YXMgc2tpcHBlZDogUmVjaXBl
-IGFwdCwgcGFja2FnZSBhcHQ6IG5vcm1hbCBncm91cG5hbWUgIl9hcHQiIGRvZXMgbm90IGhhdmUg
-YSBzdGF0aWMgSUQgZGVmaW5lZC4NCj4NCj4gU2lnbmVkLW9mZi1ieTogSmFleW9vbiBKdW5nIDxq
-YWV5b29uLmp1bmdAbGdlLmNvbT4NCj4gLS0tDQoNCkhpIEphZXlvb24sDQoNClRoYW5rcyBmb3Ig
-eW91ciBwYXRjaC4NCg0KSXQgbG9va3MgbGlrZSB0aGlzIGlzIGdlbmVyYXRpbmcgYnVpbGQgZXJy
-b3JzIGluIHNvbWUgY29uZGl0aW9uLiBTbyBmYXINCml0IG9ubHkgc2hvd3MgZHVyaW5nIHRoZSBy
-ZXByb2R1Y2liaWxpdHkgdGVzdDoNCg0KMjAyNi0wMS0yOCAxNjo1NzoxOSwzODIgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSAgICAgICBFUlJPUjogTm90aGluZyBSUFJPVklERVMgJ2FwdCcgKGJ1dCAv
-c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvcmVwcm9kdWNpYmxlL2J1aWxkL2xheWVycy9vcGVu
-ZW1iZWRkZWQtY29yZS9tZXRhL3JlY2lwZXMtc2F0by9pbWFnZXMvY29yZS1pbWFnZS1zYXRvLmJi
-LCAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvcmVwcm9kdWNpYmxlL2J1aWxkL2xheWVycy9v
-cGVuZW1iZWRkZWQtY29yZS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvaW1hZ2VzL2NvcmUtaW1hZ2Ut
-ZnVsbC1jbWRsaW5lLmJiLCAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvcmVwcm9kdWNpYmxl
-L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaW1h
-Z2VzL2NvcmUtaW1hZ2Utd2VzdG9uLmJiIFJERVBFTkRTIG9uIG9yIG90aGVyd2lzZSByZXF1aXJl
-cyBpdCkNCjIwMjYtMDEtMjggMTY6NTc6MTksMzgyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gICAg
-ICAgYXB0IHdhcyBza2lwcGVkOiBSZWNpcGUgYXB0LCBwYWNrYWdlIGFwdDogbm9ybWFsIGdyb3Vw
-bmFtZSAibm9ncm91cCIgZG9lcyBub3QgaGF2ZSBhIHN0YXRpYyBJRCBkZWZpbmVkLiBBZGQgbm9n
-cm91cCB0byBvbmUgb2YgdGhlc2UgZmlsZXM6IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9y
-ZXByb2R1Y2libGUvYnVpbGQvYnVpbGQtc3QvbWV0YS1zZWxmdGVzdC9maWxlcy9zdGF0aWMtZ3Jv
-dXANCg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVp
-bGRlcnMvMzcvYnVpbGRzLzMyNzANCg0KQ2FuIHlvdSBoYXZlIGEgbG9vayBhdCB0aGUgaXNzdWU/
-DQoNClRoYW5rcywNCk1hdGhpZXUNCg0KLS0NCk1hdGhpZXUgRHVib2lzLUJyaWFuZCwgQm9vdGxp
-bg0KRW1iZWRkZWQgTGludXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KaHR0cHM6Ly9ib290bGlu
-LmNvbQ0KDQo=
+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+---
+ .../curl/curl/CVE-2025-14524.patch            | 45 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
 
---_000_PU4P216MB1133E4B9F9206417E060E11C9A9FAPU4P216MB1133KORP_
-Content-Type: text/html; charset="ks_c_5601-1987"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-14524.patch b/meta/rec=
+ipes-support/curl/curl/CVE-2025-14524.patch
+new file mode 100644
+index 0000000000..bd0dd86acb
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2025-14524.patch
+@@ -0,0 +1,45 @@
++From 0bccd8d29c89d70120444088d3893af59f3772bf Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 10 Dec 2025 11:40:47 +0100
++Subject: [PATCH] curl_sasl: if redirected, require permission to use beare=
+r
++
++Closes #19933
++
++CVE: CVE-2025-14524
++Upstream-Status: Backport
++[https://github.com/curl/curl/commit/1a822275d333dc6da6043497160fd04c8fa48=
+640]
++
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ lib/curl_sasl.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/lib/curl_sasl.c b/lib/curl_sasl.c
++index 66639cbacc..fe646548a8 100644
++--- a/lib/curl_sasl.c
+++++ b/lib/curl_sasl.c
++@@ -357,7 +357,9 @@ CURLcode Curl_sasl_start(struct SASL *sasl, struct Cur=
+l_easy *data,
++     data->set.str[STRING_SERVICE_NAME] :
++     sasl->params->service;
++ #endif
++-  const char *oauth_bearer =3D data->set.str[STRING_BEARER];
+++  const char *oauth_bearer =3D
+++    (!data->state.this_is_a_follow || data->set.allow_auth_to_other_hosts=
+) ?
+++    data->set.str[STRING_BEARER] : NULL;
++   struct bufref nullmsg;
++=20
++   Curl_conn_get_host(data, FIRSTSOCKET, &hostname, &disp_hostname, &port)=
+;
++@@ -544,7 +546,9 @@ CURLcode Curl_sasl_continue(struct SASL *sasl, struct =
+Curl_easy *data,
++     data->set.str[STRING_SERVICE_NAME] :
++     sasl->params->service;
++ #endif
++-  const char *oauth_bearer =3D data->set.str[STRING_BEARER];
+++  const char *oauth_bearer =3D
+++    (!data->state.this_is_a_follow || data->set.allow_auth_to_other_hosts=
+) ?
+++    data->set.str[STRING_BEARER] : NULL;
++   struct bufref serverdata;
++=20
++   Curl_conn_get_host(data, FIRSTSOCKET, &hostname, &disp_hostname, &port)=
+;
++--=20
++2.43.0
++
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support=
+/curl/curl_8.7.1.bb
+index 0af6a41399..33bf6b1163 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -25,6 +25,7 @@ SRC_URI =3D " \
+     file://CVE-2024-11053-0003.patch \
+     file://CVE-2025-0167.patch \
+     file://CVE-2025-9086.patch \
++    file://CVE-2025-14524.patch \
+ "
+=20
+ SRC_URI:append:class-nativesdk =3D " \
+--=20
+2.52.0
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dks_c_5601=
--1987">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 11pt;=
- color: rgb(0, 0, 0);" class=3D"elementToProof">
-Thanks for reporting. I'm sending v2 that addresses the issue.&nbsp;</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 11pt;=
- color: rgb(0, 0, 0);" class=3D"elementToProof">
-<br>
-</div>
-<div class=3D"elementToProof" id=3D"Signature">
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 11pt;=
- color: rgb(0, 0, 0);" class=3D"elementToProof">
-Best regards,</div>
-<div style=3D"font-family: &quot;Malgun Gothic&quot;, &quot;=B8=BC=C0=BA =
-=B0=ED=B5=F1&quot;, AppleGothic, sans-serif; font-size: 11pt; color: rgb(0,=
- 0, 0);" class=3D"elementToProof">
-<span style=3D"font-family: Calibri; font-size: 13.3333px; background-color=
-: rgb(255, 255, 255);">---</span><span style=3D"font-family: Aptos, Aptos_E=
-mbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size=
-: 12pt;"><br>
-</span><span style=3D"font-family: Calibri; font-size: 13.3333px; backgroun=
-d-color: rgb(255, 255, 255);">Jaeyoon Jung</span><span style=3D"font-family=
-: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-=
-serif; font-size: 12pt;"><br>
-</span><span style=3D"font-family: Calibri; font-size: 13.3333px; backgroun=
-d-color: rgb(255, 255, 255);">Software Platform Lab. / Corporate R&amp;D / =
-LG Electronics Inc.</span></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 11pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div id=3D"divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Mathieu Dubois-Briand &lt;mathieu.dubois-briand@bootlin.c=
-om&gt;<br>
-<b>Sent:</b>&nbsp;Thursday, January 29, 2026 20:13<br>
-<b>To:</b>&nbsp;=C1=A4=C0=E7=C0=B1/Task Leader/SW Platform(=BF=AC)=BC=B1=C7=
-=E0Platform=B0=B3=B9=DF=BD=C7 Lightweight System Task &lt;jaeyoon.jung@lge.=
-com&gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lis=
-ts.openembedded.org&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core] [PATCH] apt: Set gid to nogroup</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"font-size: 11pt;">On Wed Jan 28, 2026 at 3:25 AM CET, Jaeyoon=
- Jung (LGE) via lists.openembedded.org wrote:<br>
-&gt; From: Jaeyoon Jung &lt;jaeyoon.jung@lge.com&gt;<br>
-&gt;<br>
-&gt; With no --no-user-group, it tries to assign &quot;_apt&quot; gid which=
- ends up<br>
-&gt; with an error when using static gid values and &quot;_apt&quot; is not=
- defined in<br>
-&gt; USERADD_GID_TABLES. Conventionally &quot;_apt&quot; does not have its =
-own gid but<br>
-&gt; rather uses &quot;nogroup&quot;.<br>
-&gt;<br>
-&gt; | apt was skipped: Recipe apt, package apt: normal groupname &quot;_ap=
-t&quot; does not have a static ID defined.<br>
-&gt;<br>
-&gt; Signed-off-by: Jaeyoon Jung &lt;jaeyoon.jung@lge.com&gt;<br>
-&gt; ---<br>
-<br>
-Hi Jaeyoon,<br>
-<br>
-Thanks for your patch.<br>
-<br>
-It looks like this is generating build errors in some condition. So far<br>
-it only shows during the reproducibility test:<br>
-<br>
-2026-01-28 16:57:19,382 - oe-selftest - INFO -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; ERROR: Nothing RPROVIDES 'apt' (but /srv/pokybuild/yocto-worker/rep=
-roducible/build/layers/openembedded-core/meta/recipes-sato/images/core-imag=
-e-sato.bb, /srv/pokybuild/yocto-worker/reproducible/build/layers/openembedd=
-ed-core/meta/recipes-extended/images/core-image-full-cmdline.bb,
- /srv/pokybuild/yocto-worker/reproducible/build/layers/openembedded-core/me=
-ta/recipes-graphics/images/core-image-weston.bb RDEPENDS on or otherwise re=
-quires it)<br>
-2026-01-28 16:57:19,382 - oe-selftest - INFO -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; apt was skipped: Recipe apt, package apt: normal groupname &quot;no=
-group&quot; does not have a static ID defined. Add nogroup to one of these =
-files: /srv/pokybuild/yocto-worker/reproducible/build/build-st/meta-selftes=
-t/files/static-group<br>
-<br>
-<a class=3D"OWAAutoLink" id=3D"OWAa6c1c95b-ac23-b13c-955b-d9fdf9281ff6" dat=
-a-auth=3D"NotApplicable" href=3D"https://autobuilder.yoctoproject.org/valky=
-rie/#/builders/37/builds/3270">https://autobuilder.yoctoproject.org/valkyri=
-e/#/builders/37/builds/3270</a><br>
-<br>
-Can you have a look at the issue?<br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
---<br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a class=3D"OWAAutoLink" id=3D"OWAf2e43588-d4ed-504a-22c0-12f01133527a" dat=
-a-auth=3D"NotApplicable" href=3D"https://bootlin.com">https://bootlin.com</=
-a><br>
-<br>
-</div>
-</body>
-</html>
-
---_000_PU4P216MB1133E4B9F9206417E060E11C9A9FAPU4P216MB1133KORP_--
 
