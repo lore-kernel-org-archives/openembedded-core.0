@@ -1,378 +1,174 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8F8D79765
-	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 09:01:37 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5622.1769850089669331317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A01D79766
+	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 09:09:47 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5592.1769850580977945137
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jan 2026 01:01:30 -0800
+ Sat, 31 Jan 2026 01:09:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=LmaU52pe;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-432d2670932so2696501f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 01:01:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769850088; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jjaqGS7I+9xCPU/X9aJxzOGho6yIrFvWZ8HSwTsu4nMT8b4mVZoz+i7WwXYNo1poeh
-         2WqnyxoPwuFC4BEPnx8oBVq3mh/0DpubDyQkH8GcPkn4pYHOX/ImsNBltQEw9g9A4QQw
-         /dtMOi9bvPeMgWvQJ1ue/gbOI3c1uFYuvReUd6SauuL3kB1GiAbg+dqxrnB6oAW4qphk
-         WcXuESp9B/09eLCZBARyfgIqNdV6QLjRekvXzKUb12F4VVFaWxYCpYvnlYz8EGqezhm9
-         /GJ7JbvBp+4LM2sg1hiRJo6kqSGkyalvFDpXMi3nFp5EIdyqB8Wi1nWgzpwSQGzUzD+5
-         RQvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=OMAfeh7widmKT4j3HlgsTrjC5UTAjiLZ5omVbq46xeA=;
-        fh=pW7DkiKdJowwinuLl8m7+Zy8GLN8iupENRp5yyrC7eI=;
-        b=kFZiKLeKC/QWyOXseQOvB6guR5kaPzoWItYgxBbrpZDqAvO2CN7+6aibLn1vBUEr6c
-         tWvY5d/2aYDxFe6a26iijKGpDCQiqWidQUmfBnXMgwJ0va6x9rvq4K1ci+SbOQt3Th7k
-         L+lmdlkushq/46TU2M1svY8VhlDeZAp/UUYQ4mqiCqcktvGHd1Oy9dxZ283Wj8/r9OnE
-         mE1LHcieW9iOYNDri7xZDEaZob6KQaRKHK66eonxM8MBkmazrYLmjRXQM34JXweYcfz5
-         F+o5PDtiywXow7GnuDsfVox571seNTEoIfEeiG2rRf9ms/yK6PjYqzsH5EzKTG+qT8ku
-         StUw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769850088; x=1770454888; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OMAfeh7widmKT4j3HlgsTrjC5UTAjiLZ5omVbq46xeA=;
-        b=LmaU52peXmtxecXDXlPOU+Q2O8V5nM3QgOWh5kBg20W+xODKNvXnvqSibHHawMsaWz
-         Q0se7xN6MKSFgXEpmlCVQUwRlqt2mMAs4zrn7WZMJDqnS9/Y/Kf77dj6Qfhq4pWbTyXc
-         zanpQWh/jrIBY1KKfwqNaGbJCMZpf7RCTdlNo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769850088; x=1770454888;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OMAfeh7widmKT4j3HlgsTrjC5UTAjiLZ5omVbq46xeA=;
-        b=ibiioaCRoq1s+ePpHXXzsWfjAJVl9k4z0wTHsDyExajbOEf9VZs56iHyK2l23wFNFO
-         wPRRMCWpSuFpubkBw5r3/x6PP5Rt1fW7YRX5Lw/skwwAWW/oX41Hq3gTfP+wnAdOWh9d
-         fhNiIv57VHhnauZrInDvi9uj1wRDtL+9DnX8JwGm9IF+Y03x/H19n/eP2hyr7Jyz3QtE
-         fkF/BlSxdslQK/Oa6dZ93FcLUYcwCEWsI6Pzt4C9nXcftpGqrWgK1biPzOSB/hZduvxb
-         /emTHZsNp1I8cpXGUOapKepGCF0HOrm1z7gMpsWxTsuZNykzU2WuFCGTKAO7OPfoU4Ie
-         CK3w==
-X-Gm-Message-State: AOJu0YxenrN+5ZvaB5y7rSxrR7PA3N1htV6Nk6CTZj1o5ZDIUD2+7CDU
-	EEzOt6naaItL+otXgWOs8Q8Iwm86Bzb0nL3zr+4RCYixNoGRv2ordLQpduRHWm/tmcv2Mg4K456
-	vvm6DgxwGDRUyJfpDBd4lyMDHqaPQvKTLueowK5Cr9jHkgpS+/kaOB/I=
-X-Gm-Gg: AZuq6aIfTWMlXiJqx5LbcgE7BzX7DVAI4D2UF3X0OodTioD0BVMtcWDiPcnqT631LsW
-	p8WKdBb1EI2HgNaZLE3cherWW560wLBTLUON13MvtgK0ATUkK24lz8RSJD6rjz/qHeOB1x04hfw
-	+5le12k8gDqhiUpJFsdYd/fu8Wn852m0Q7SzZo46jMbE75RJ0JU5YLMO+FeP0P+RKAtsM0spbqo
-	z4t0PY//E9jtWSLZziCIo5nlSXef5oPylv2pY4t47+LfiiO+QEVTpawlkGjbwjgF/bqjujAhfYm
-	lOIuFh1abRcChDm5zFOztsAtJOJnhxPrtucpk/E=
-X-Received: by 2002:a05:6000:24c3:b0:435:95fb:a0f2 with SMTP id
- ffacd0b85a97d-435f3aaf7a1mr7864518f8f.46.1769850087467; Sat, 31 Jan 2026
- 01:01:27 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1769845858.git.yoann.congal@smile.fr> <0b4dabed3345944da878326baed133dab8c8af5b.1769845858.git.yoann.congal@smile.fr>
-In-Reply-To: <0b4dabed3345944da878326baed133dab8c8af5b.1769845858.git.yoann.congal@smile.fr>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Sat, 31 Jan 2026 10:01:01 +0100
-X-Gm-Features: AZwV_QiCVSBGo3UyC_ZvDIqw3B7s7wPXpxvcbp9PERLvx5ZXDaxqrXapeU3pZGY
-Message-ID: <CAMSfU+7e+LGbkSoRVDe9A4_zbLd8EF3WdS3NvYVmSySbLOr-HQ@mail.gmail.com>
-Subject: Re: [OE-core][whinlatter 05/22] mesa: fix build error with llvmpipe
- gallium driver
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>
-Content-Type: multipart/alternative; boundary="000000000000c503150649ab55ac"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=qGfv5g7X;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id A535DC22F77;
+	Sat, 31 Jan 2026 09:09:42 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BFEAE606B6;
+	Sat, 31 Jan 2026 09:09:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1C770119A88ED;
+	Sat, 31 Jan 2026 10:09:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769850578; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=4cV2MsydPDUF/PhdHmCSNkZ91QXwE59rjcBwZOMCCLQ=;
+	b=qGfv5g7XiAl/2vRBju/O8iYZpQLnZAnGQAOr/vut/CC5ywxV2DA9Ox7gjT///6xibYmMK0
+	f6R6buy8hCpE/9dt5GoWEnJQIc6VtbUaStfejBtLeiQHgBbFn74hM2B7bgb/x5PRf58ZHr
+	eTlQnZTcg8h/UGj0d/iVC71B9db77iQOSio9f1Artxu16IPEh5Fk31oqrVY5jo9HOryJv4
+	jA+tgiLxEPaNjfrPKzL0E3jr52pgPR2QCwT/boSFHyg9Hr0KsF9+FgcdBt4tv1eBMD/q8s
+	VqFxJTjVfeeID8p/Bixes3ADRbDIKJCtgccQ8F0OU1wKvF/s+ghLm6MZ0Wex+g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 31 Jan 2026 10:09:35 +0100
+Message-Id: <DG2NO21MCM0Z.1O2COT6XY25OU@bootlin.com>
+Subject: Re: [OE-core] [[PATCHv2] python3-pyzstd: Upgrade 0.17.0 -> 0.19.1
+Cc: <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Leon Anavi" <leon.anavi@konsulko.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260127091829.3500551-1-leon.anavi@konsulko.com>
+ <DG0DVCEFA5HX.L3N59E48OKKP@bootlin.com>
+ <CALtQ3O3yqQrStH+99WU04rah6d-pOBGP2nONOW=mPK5d+DkKSw@mail.gmail.com>
+In-Reply-To: <CALtQ3O3yqQrStH+99WU04rah6d-pOBGP2nONOW=mPK5d+DkKSw@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 09:01:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230233
+ <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 09:09:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230234
 
---000000000000c503150649ab55ac
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le sam. 31 janv. 2026 =C3=A0 08:56, Yoann Congal <yoann.congal@smile.fr> a
-=C3=A9crit :
-
-> From: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+On Thu Jan 29, 2026 at 12:22 PM CET, Leon Anavi wrote:
+> Hi Mathieu,
 >
-> For RISC-V, and if the PACKAGECONFIG 'gallium-llvm' is enabled, mesa's
-> do_compile fails due to a change in setObjectLinkingLayerCreator's
-> signature. This change was first included in LLVM v21.
+> On Wed, Jan 28, 2026 at 7:03=E2=80=AFPM Mathieu Dubois-Briand <
+> mathieu.dubois-briand@bootlin.com> wrote:
 >
-> This issue is further described below:
-> https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852
+>> On Tue Jan 27, 2026 at 10:18 AM CET, Leon Anavi via lists.openembedded.o=
+rg
+>> wrote:
+>> > Upgrade to release 0.19.1:
+>> >
+>> > - Fix SeekableZstdFile write table entries on 32-bits architectures
+>> >   when there is a huge number of entries
+>> >
+>> > From release 0.19.0:
+>> >
+>> > - The project has been completely refactored to use the Zstandard
+>> >   implementation from the standard library (PEP-784)
+>> > - The refactor has some minor impact on public APIs, such as
+>> >   changing the exception raised on invalid input
+>> > - Add backports.zstd dependency for Python before 3.14
+>> > - Changes in build dependency: remove setuptools and C build
+>> >   toolchain, add hatchling and hatch-vcs
+>> > - Remove git submodule usage
+>> > - Drop support for Python 3.9 and below
+>> > - Use ruff as formatter and linter
+>> > - Embed type hints in Python code, and check with mypy
+>> >
+>> > All ptests pass following python3 upgrade from 3.13.11 to 3.14.0.
+>> >
+>> > Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+>> > ---
+>>
+>> Hi Leon,
+>>
+>> Thanks for the new version.
+>>
+>> It looks like this is breaking some ptest:
+>>
+>> Failed ptests:
+>> {'python3-pyzstd': 'START: ptest-runner\n'
+>>                    '2026-01-28T16:27\n'
+>>                    '\n'
+>> ...
+>>                    "E   ImportError: cannot import name 'zstd' from "
+>>                    "'compression' (unknown location)\n"
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2996
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1005
+>>
+>> Test results can be found here:
+>>
+>>
+>> https://valkyrie.yocto.io/pub/non-release/20260128-86/testresults/qemux8=
+6-64-ptest/core-image-ptest-python3-pyzstd/
+>> Test results for riscv64 and arm64 are not published at this time, as
+>> some tests are still running. They will all end-up in
+>> https://valkyrie.yocto.io/pub/non-release/20260128-86/testresults/
+>>
+>> Can you have a look at these failures?
+>>
 >
-> Backport the fix - from upstream - to Whinlatter.
+> Hm, I am not exactly sure what's going on. On my Raspberry Pi 5 test
+> setup ptest-runner python3-pyzstd doesn't report any issues:
 >
-> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
->  .../files/0001-gallivm-support-LLVM-21.patch  | 56 +++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa.inc           |  1 +
->  2 files changed, 57 insertions(+)
->  create mode 100644
-> meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
+> Testsuite summary
+> # TOTAL: 209
+> # PASS: 209
+> # SKIP: 0
+> # XFAIL: 0
+> # FAIL: 0
+> # XPASS: 0
+> # ERROR: 0
+> DURATION: 4
+> END: /usr/lib/python3-pyzstd/ptest
+> 2026-01-29T11:17
+> STOP: ptest-runner
+> TOTAL: 1 FAIL: 0
 >
-> diff --git
-> a/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
-> b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
-> new file mode 100644
-> index 00000000000..cf3bdd36cf9
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
-> @@ -0,0 +1,56 @@
-> +From cd129dbf8af2d16b1243f2ce287ff69c6a5dc557 Mon Sep 17 00:00:00 2001
-> +From: no92 <no92.mail@gmail.com>
-> +Date: Wed, 27 Aug 2025 16:02:31 +0200
-> +Subject: gallivm: support LLVM 21
-> +
-> +LLVM PR#146819 changed the signature of `setObjectLinkingLayerCreator`,
-> +dropping the Triple argument. The PR was first included in the LLVM 21
-> +series, and the new signature is gated behind a version check for that.
-> +
-> +`LLVMOrcThreadSafeContextGetContext` was removed in LLVM commit b18e5b6,
-> +and the ORC examples in the LLVM tree seem to just create a context
-> +instead, which we replicate here.
-> +
-> +With this commit, mesa successfully builds the llvmpipe gallium driver
-> +on riscv64 with LLVM 21.1.0.
-> +
-> +Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13785
-> +Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852
-> +
-> +Reviewed-by: David Heidelberg <david@ixit.cz>
-> +Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3702=
-7
-> >
-> +
-> +Upstream-Status: Backport [
-> https://cgit.freedesktop.org/mesa/mesa/commit/?id=3Dcd129dbf8af2d16b1243f=
-2ce287ff69c6a5dc557
-> ]
+> I will take another look after FOSDEM. I will likely need to reproduce yo=
+ur
+> exact test environment. In the meantime, do you have any hints about what
+> might be causing the test failures on your side?
 >
-
-Jo=C3=A3o, patchtest is right, this patch is missing your signed-off-by.
-(Patchtest must have been down when you first sent this)
-Can you send a v2 with it?
-
-Thanks!
-
-
-> +---
-> + src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp | 7 ++++++-
-> + 1 file changed, 6 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
-> b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
-> +index 6651ea439da..e5d8e461dd6 100644
-> +--- a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
-> ++++ b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
-> +@@ -339,7 +339,12 @@ LPJit::LPJit() :jit_dylib_count(0) {
-> +          .setJITTargetMachineBuilder(std::move(JTMB))
-> + #ifdef USE_JITLINK
-> +          .setObjectLinkingLayerCreator(
-> ++#if LLVM_VERSION_MAJOR >=3D 21
-> ++            /* LLVM 21 removed the Triple argument */
-> ++            [&](ExecutionSession &ES) {
-> ++#else
-> +             [&](ExecutionSession &ES, const llvm::Triple &TT) {
-> ++#endif
-> +                return std::make_unique<ObjectLinkingLayer>(
-> +                   ES,
-> ExitOnErr(llvm::jitlink::InProcessMemoryManager::Create()));
-> +             })
-> +@@ -551,7 +556,7 @@ init_gallivm_state(struct gallivm_state *gallivm,
-> const char *name,
-> +    gallivm->cache =3D cache;
-> +
-> +    gallivm->_ts_context =3D context->ref;
-> +-   gallivm->context =3D LLVMOrcThreadSafeContextGetContext(context->ref=
-);
-> ++   gallivm->context =3D LLVMContextCreate();
-> +
-> +    gallivm->module_name =3D LPJit::get_unique_name(name);
-> +    gallivm->module =3D
-> LLVMModuleCreateWithNameInContext(gallivm->module_name,
-> +--
-> +cgit v1.2.3
-> +
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc
-> b/meta/recipes-graphics/mesa/mesa.inc
-> index cf2c2a57a07..d880673f273 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -17,6 +17,7 @@ PE =3D "2"
->  SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
->             file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h
-> \
+> Best regards, Leon
 >
-> file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
-> +           file://0001-gallivm-support-LLVM-21.patch \
->  "
->
->  SRC_URI[sha256sum] =3D
-> "097842f3e49d996868b38688db87b006f7d4541e93ce86d2f341d8b3e7be7c93"
 >
 
+Hi Leon,
+
+I'm not really sure about what is the issue here, but maybe a different
+configuration or a missing dependency.
+
+If you need any data about how to reproduce it in qemu, all data should
+be in the build, particularly in the "Write config" step:
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5139973/raw_inlin=
+e
+
+So basically:
+
+SDKMACHINE =3D "x86_64"
+TEST_SUITES =3D 'ping ssh ptest'
+SANITY_TESTED_DISTROS =3D ''
+EXTRA_IMAGE_FEATURES ?=3D 'allow-empty-password empty-root-password allow-r=
+oot-login'
+
+bitbake-config-build enable-fragment machine/qemux86-64
+bitbake-config-build enable-fragment distro/poky
+
+bitbake core-image-ptest-python3-pyzstd
+bitbake -c do_testimage core-image-ptest-python3-pyzstd
+
+Please tell me if you have any issue reproducing the failure.
+
+Thanks,
+Mathieu
 
 --=20
-Yoann Congal
-Smile ECS
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---000000000000c503150649ab55ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0sam. 31=
- janv. 2026 =C3=A0=C2=A008:56, Yoann Congal &lt;<a href=3D"mailto:yoann.con=
-gal@smile.fr">yoann.congal@smile.fr</a>&gt; a =C3=A9crit=C2=A0:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">From: Jo=C3=A3o Marcos Cost=
-a &lt;<a href=3D"mailto:joaomarcos.costa@bootlin.com" target=3D"_blank">joa=
-omarcos.costa@bootlin.com</a>&gt;<br>
-<br>
-For RISC-V, and if the PACKAGECONFIG &#39;gallium-llvm&#39; is enabled, mes=
-a&#39;s<br>
-do_compile fails due to a change in setObjectLinkingLayerCreator&#39;s<br>
-signature. This change was first included in LLVM v21.<br>
-<br>
-This issue is further described below:<br>
-<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852" rel=3D"=
-noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/mesa/-/is=
-sues/13852</a><br>
-<br>
-Backport the fix - from upstream - to Whinlatter.<br>
-<br>
-Signed-off-by: Jo=C3=A3o Marcos Costa &lt;<a href=3D"mailto:joaomarcos.cost=
-a@bootlin.com" target=3D"_blank">joaomarcos.costa@bootlin.com</a>&gt;<br>
-Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" ta=
-rget=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
----<br>
-=C2=A0.../files/0001-gallivm-support-LLVM-21.patch=C2=A0 | 56 +++++++++++++=
-++++++<br>
-=C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 1 +<br>
-=C2=A02 files changed, 57 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm-supp=
-ort-LLVM-21.patch<br>
-<br>
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.=
-patch b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch=
-<br>
-new file mode 100644<br>
-index 00000000000..cf3bdd36cf9<br>
---- /dev/null<br>
-+++ b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch<b=
-r>
-@@ -0,0 +1,56 @@<br>
-+From cd129dbf8af2d16b1243f2ce287ff69c6a5dc557 Mon Sep 17 00:00:00 2001<br>
-+From: no92 &lt;<a href=3D"mailto:no92.mail@gmail.com" target=3D"_blank">no=
-92.mail@gmail.com</a>&gt;<br>
-+Date: Wed, 27 Aug 2025 16:02:31 +0200<br>
-+Subject: gallivm: support LLVM 21<br>
-+<br>
-+LLVM PR#146819 changed the signature of `setObjectLinkingLayerCreator`,<br=
->
-+dropping the Triple argument. The PR was first included in the LLVM 21<br>
-+series, and the new signature is gated behind a version check for that.<br=
->
-+<br>
-+`LLVMOrcThreadSafeContextGetContext` was removed in LLVM commit b18e5b6,<b=
-r>
-+and the ORC examples in the LLVM tree seem to just create a context<br>
-+instead, which we replicate here.<br>
-+<br>
-+With this commit, mesa successfully builds the llvmpipe gallium driver<br>
-+on riscv64 with LLVM 21.1.0.<br>
-+<br>
-+Closes: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/13785=
-" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/=
-mesa/-/issues/13785</a><br>
-+Closes: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852=
-" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/=
-mesa/-/issues/13852</a><br>
-+<br>
-+Reviewed-by: David Heidelberg &lt;<a href=3D"mailto:david@ixit.cz" target=
-=3D"_blank">david@ixit.cz</a>&gt;<br>
-+Part-of: &lt;<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_r=
-equests/37027" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesk=
-top.org/mesa/mesa/-/merge_requests/37027</a>&gt;<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://cgit.freedesktop.org/mesa/me=
-sa/commit/?id=3Dcd129dbf8af2d16b1243f2ce287ff69c6a5dc557" rel=3D"noreferrer=
-" target=3D"_blank">https://cgit.freedesktop.org/mesa/mesa/commit/?id=3Dcd1=
-29dbf8af2d16b1243f2ce287ff69c6a5dc557</a>]<br></blockquote><div><br></div><=
-div>Jo=C3=A3o, patchtest=C2=A0is right, this patch is missing your signed-o=
-ff-by.</div><div>(Patchtest must have been down when you first sent this)</=
-div><div>Can you send a v2 with it?</div><div><br></div><div>Thanks!</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+---<br>
-+ src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp | 7 ++++++-<br>
-+ 1 file changed, 6 insertions(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp b/src/galli=
-um/auxiliary/gallivm/lp_bld_init_orc.cpp<br>
-+index 6651ea439da..e5d8e461dd6 100644<br>
-+--- a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp<br>
-++++ b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp<br>
-+@@ -339,7 +339,12 @@ LPJit::LPJit() :jit_dylib_count(0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .setJITTargetMachineBuilder(std::move(J=
-TMB))<br>
-+ #ifdef USE_JITLINK<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .setObjectLinkingLayerCreator(<br>
-++#if LLVM_VERSION_MAJOR &gt;=3D 21<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* LLVM 21 removed the Triple a=
-rgument */<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [&amp;](ExecutionSession &amp;E=
-S) {<br>
-++#else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&amp;](ExecutionSession &=
-amp;ES, const llvm::Triple &amp;TT) {<br>
-++#endif<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return std::make_u=
-nique&lt;ObjectLinkingLayer&gt;(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ES, E=
-xitOnErr(llvm::jitlink::InProcessMemoryManager::Create()));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0})<br>
-+@@ -551,7 +556,7 @@ init_gallivm_state(struct gallivm_state *gallivm, cons=
-t char *name,<br>
-+=C2=A0 =C2=A0 gallivm-&gt;cache =3D cache;<br>
-+ <br>
-+=C2=A0 =C2=A0 gallivm-&gt;_ts_context =3D context-&gt;ref;<br>
-+-=C2=A0 =C2=A0gallivm-&gt;context =3D LLVMOrcThreadSafeContextGetContext(c=
-ontext-&gt;ref);<br>
-++=C2=A0 =C2=A0gallivm-&gt;context =3D LLVMContextCreate();<br>
-+ <br>
-+=C2=A0 =C2=A0 gallivm-&gt;module_name =3D LPJit::get_unique_name(name);<br=
->
-+=C2=A0 =C2=A0 gallivm-&gt;module =3D LLVMModuleCreateWithNameInContext(gal=
-livm-&gt;module_name,<br>
-+-- <br>
-+cgit v1.2.3<br>
-+<br>
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
-sa/mesa.inc<br>
-index cf2c2a57a07..d880673f273 100644<br>
---- a/meta/recipes-graphics/mesa/mesa.inc<br>
-+++ b/meta/recipes-graphics/mesa/mesa.inc<br>
-@@ -17,6 +17,7 @@ PE =3D &quot;2&quot;<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://archive.mesa3d.org/mesa-$%7BPV%7=
-D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://archive.mesa3d.org/m=
-esa-${PV}.tar.xz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-meson-misdetects-64bi=
-t-atomics-on-mips-clang.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-freedreno-don-t-encod=
-e-build-path-into-binaries.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-gallivm-support-LLVM-=
-21.patch \<br>
-=C2=A0&quot;<br>
-<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;097842f3e49d996868b38688db87b006f7d4541e=
-93ce86d2f341d8b3e7be7c93&quot;<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---000000000000c503150649ab55ac--
 
