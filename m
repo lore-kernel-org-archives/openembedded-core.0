@@ -1,174 +1,108 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patrick.vogelaar.dev@mailbox.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A01D79766
-	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 09:09:47 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5592.1769850580977945137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86886D79769
+	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 10:01:47 +0000 (UTC)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6220.1769853698883906983
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jan 2026 01:09:42 -0800
+ Sat, 31 Jan 2026 02:01:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=qGfv5g7X;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A535DC22F77;
-	Sat, 31 Jan 2026 09:09:42 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BFEAE606B6;
-	Sat, 31 Jan 2026 09:09:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1C770119A88ED;
-	Sat, 31 Jan 2026 10:09:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769850578; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=4cV2MsydPDUF/PhdHmCSNkZ91QXwE59rjcBwZOMCCLQ=;
-	b=qGfv5g7XiAl/2vRBju/O8iYZpQLnZAnGQAOr/vut/CC5ywxV2DA9Ox7gjT///6xibYmMK0
-	f6R6buy8hCpE/9dt5GoWEnJQIc6VtbUaStfejBtLeiQHgBbFn74hM2B7bgb/x5PRf58ZHr
-	eTlQnZTcg8h/UGj0d/iVC71B9db77iQOSio9f1Artxu16IPEh5Fk31oqrVY5jo9HOryJv4
-	jA+tgiLxEPaNjfrPKzL0E3jr52pgPR2QCwT/boSFHyg9Hr0KsF9+FgcdBt4tv1eBMD/q8s
-	VqFxJTjVfeeID8p/Bixes3ADRbDIKJCtgccQ8F0OU1wKvF/s+ghLm6MZ0Wex+g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mailbox.org header.s=mail20150812 header.b=H1GEVgOA;
+ spf=pass (domain: mailbox.org, ip: 80.241.56.172, mailfrom: patrick.vogelaar.dev@mailbox.org)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4f37gy3s6Nz9tfX;
+	Sat, 31 Jan 2026 11:01:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1769853694;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZxaiGvskUgyi6GPn7JslYGiacTgq6CaQ8UcgXTKRe+c=;
+	b=H1GEVgOAcqcJjsMyX2RdmyruXaIo0DMXcwlM+fiWEyBoxPF72N8AT35UFTUSvuPX5utY8S
+	tpnRLYFeB8ZzgE6PumDssDVF9H7h+/YRVffsti60L722QcWOuIqye7OMWpEJGX+mgVC5qC
+	kntCBZzT0DXmM4dSeynOweOKlcvkmi6lB7uSPl8sNRDFzeguBpwNJogbciutGr7fLIo4jt
+	1ScG4zm4dw7O1Vqf8ENRI4yhtzTdG4GXIpgiHSk5R03eSp17UPEdAYTJ2bnTyln3FxtSLn
+	S9QB3Q/O3n32zu030uU6sMMtC8vQ7H9v2Y2WA+hGj2rYzjagJFRgCSAEtEhacA==
+Date: Sat, 31 Jan 2026 11:01:32 +0100 (CET)
+From: patrick.vogelaar.dev@mailbox.org
+To: Antonin Godard <antonin.godard@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, paul@pbarker.dev
+Message-ID: <1439731459.127966.1769853692567@app.mailbox.org>
+In-Reply-To: <DG1159ZW7WWD.1S10T841PJ8PX@bootlin.com>
+References: <20260102112702.110486-1-patrick.vogelaar.dev@mailbox.org>
+ <20260125091540.8808-1-patrick.vogelaar.dev@mailbox.org>
+ <DG1159ZW7WWD.1S10T841PJ8PX@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] openssh: add variable for key path
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Jan 2026 10:09:35 +0100
-Message-Id: <DG2NO21MCM0Z.1O2COT6XY25OU@bootlin.com>
-Subject: Re: [OE-core] [[PATCHv2] python3-pyzstd: Upgrade 0.17.0 -> 0.19.1
-Cc: <openembedded-core@lists.openembedded.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Leon Anavi" <leon.anavi@konsulko.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260127091829.3500551-1-leon.anavi@konsulko.com>
- <DG0DVCEFA5HX.L3N59E48OKKP@bootlin.com>
- <CALtQ3O3yqQrStH+99WU04rah6d-pOBGP2nONOW=mPK5d+DkKSw@mail.gmail.com>
-In-Reply-To: <CALtQ3O3yqQrStH+99WU04rah6d-pOBGP2nONOW=mPK5d+DkKSw@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-MBO-RS-ID: b5f606575d860724988
+X-MBO-RS-META: qr8bmrgjes5njj1mbfewwmbh6tzzdg61
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 09:09:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230234
+ <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 10:01:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230235
 
-On Thu Jan 29, 2026 at 12:22 PM CET, Leon Anavi wrote:
-> Hi Mathieu,
->
-> On Wed, Jan 28, 2026 at 7:03=E2=80=AFPM Mathieu Dubois-Briand <
-> mathieu.dubois-briand@bootlin.com> wrote:
->
->> On Tue Jan 27, 2026 at 10:18 AM CET, Leon Anavi via lists.openembedded.o=
-rg
->> wrote:
->> > Upgrade to release 0.19.1:
->> >
->> > - Fix SeekableZstdFile write table entries on 32-bits architectures
->> >   when there is a huge number of entries
->> >
->> > From release 0.19.0:
->> >
->> > - The project has been completely refactored to use the Zstandard
->> >   implementation from the standard library (PEP-784)
->> > - The refactor has some minor impact on public APIs, such as
->> >   changing the exception raised on invalid input
->> > - Add backports.zstd dependency for Python before 3.14
->> > - Changes in build dependency: remove setuptools and C build
->> >   toolchain, add hatchling and hatch-vcs
->> > - Remove git submodule usage
->> > - Drop support for Python 3.9 and below
->> > - Use ruff as formatter and linter
->> > - Embed type hints in Python code, and check with mypy
->> >
->> > All ptests pass following python3 upgrade from 3.13.11 to 3.14.0.
->> >
->> > Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
->> > ---
->>
->> Hi Leon,
->>
->> Thanks for the new version.
->>
->> It looks like this is breaking some ptest:
->>
->> Failed ptests:
->> {'python3-pyzstd': 'START: ptest-runner\n'
->>                    '2026-01-28T16:27\n'
->>                    '\n'
->> ...
->>                    "E   ImportError: cannot import name 'zstd' from "
->>                    "'compression' (unknown location)\n"
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2996
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1005
->>
->> Test results can be found here:
->>
->>
->> https://valkyrie.yocto.io/pub/non-release/20260128-86/testresults/qemux8=
-6-64-ptest/core-image-ptest-python3-pyzstd/
->> Test results for riscv64 and arm64 are not published at this time, as
->> some tests are still running. They will all end-up in
->> https://valkyrie.yocto.io/pub/non-release/20260128-86/testresults/
->>
->> Can you have a look at these failures?
->>
->
-> Hm, I am not exactly sure what's going on. On my Raspberry Pi 5 test
-> setup ptest-runner python3-pyzstd doesn't report any issues:
->
-> Testsuite summary
-> # TOTAL: 209
-> # PASS: 209
-> # SKIP: 0
-> # XFAIL: 0
-> # FAIL: 0
-> # XPASS: 0
-> # ERROR: 0
-> DURATION: 4
-> END: /usr/lib/python3-pyzstd/ptest
-> 2026-01-29T11:17
-> STOP: ptest-runner
-> TOTAL: 1 FAIL: 0
->
-> I will take another look after FOSDEM. I will likely need to reproduce yo=
-ur
-> exact test environment. In the meantime, do you have any hints about what
-> might be causing the test failures on your side?
->
-> Best regards, Leon
->
->
+Hi Antonin,
 
-Hi Leon,
+> Antonin Godard <antonin.godard@bootlin.com> hat am 29.01.2026 12:17 CET geschrieben:
+> 
+>  
+> Hi,
+> 
+> On Sun Jan 25, 2026 at 10:15 AM CET, Patrick Vogelaar via lists.openembedded.org wrote:
+> > This patch adds a variable for the key directory path. This is especially
+> > useful when working with a read-only file system where you want to
+> > specify the location e.g. on a r/w partition. To be consistent, the
+> > change was also done for the read write path.
+> >
+> > For changing the path simply create a bbappend and override the
+> > variable.
+> >
+> > Signed-off-by: Patrick Vogelaar <patrick.vogelaar.dev@mailbox.org>
+> > ---
+> >  .../openssh/openssh_10.2p1.bb                    | 16 ++++++++++------
+> >  1 file changed, 10 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb b/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
+> > index 866129573f..d8ea487ae3 100644
+> > --- a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
+> > +++ b/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
+> > @@ -99,6 +99,10 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
+> >  # We don't want to depend on libblockfile
+> >  CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
+> >  
+> > +# This allows overriding the key location
+> > +OPENSSH_HOST_KEY_DIR_READONLY_CONFIG ?= "/var/run/ssh"
+> > +OPENSSH_HOST_KEY_DIR ?= "/etc/ssh"
+> 
+> Thanks for the patch, it was merged in master. As a follow-up, could you
+> send patches to document these variables in
+> https://git.yoctoproject.org/yocto-docs/tree/documentation/ref-manual/variables.rst?
+> 
+> And add a note here
+> https://git.yoctoproject.org/yocto-docs/tree/documentation/migration-guides/release-notes-6.0.rst#n24?
 
-I'm not really sure about what is the issue here, but maybe a different
-configuration or a missing dependency.
+I will send a patch that documents the variable. But I don't know where to put it in the release notes. Can you guide me to the section where this would fit in.
 
-If you need any data about how to reproduce it in qemu, all data should
-be in the build, particularly in the "Write config" step:
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/5139973/raw_inlin=
-e
+> 
+> Thanks!
+> Antonin
+> 
+> -- 
+> Antonin Godard, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-So basically:
-
-SDKMACHINE =3D "x86_64"
-TEST_SUITES =3D 'ping ssh ptest'
-SANITY_TESTED_DISTROS =3D ''
-EXTRA_IMAGE_FEATURES ?=3D 'allow-empty-password empty-root-password allow-r=
-oot-login'
-
-bitbake-config-build enable-fragment machine/qemux86-64
-bitbake-config-build enable-fragment distro/poky
-
-bitbake core-image-ptest-python3-pyzstd
-bitbake -c do_testimage core-image-ptest-python3-pyzstd
-
-Please tell me if you have any issue reproducing the failure.
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Thanks
+Patrick
 
