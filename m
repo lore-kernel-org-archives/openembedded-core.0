@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3C5BD79775
-	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 14:51:48 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10242.1769871103798289948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B5ED79778
+	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 14:51:58 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10246.1769871116589550636
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jan 2026 06:51:45 -0800
+ Sat, 31 Jan 2026 06:51:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=S6wBavhl;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260131145139b407b43001000207a0-7gkujm@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260131145139b407b43001000207a0
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Oj4d0ucV;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2026013114515401378a1f5400020711-5frlvz@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2026013114515401378a1f5400020711
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 31 Jan 2026 15:51:40 +0100
+        Sat, 31 Jan 2026 15:51:54 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=oJ99aFdVm0Fqrcb/WiX7QoKqo3niPPe+2jQ1YUZujGs=;
- b=S6wBavhliR7EPJo1FJAfDa3cfwS+4q6f7PE2yksnSBj0k6+JcQhbwm0GqN9mFqFgNdhHA/
- ZbESVkOHOymE4KxiC1grjtR2DLRGkMIxRtu0SQFpGp7TqBh/Wj2QuneCyKs0+Yw1rcGPLg+j
- S2QUX7SJKZb/SZDUoGhZmCIDIOMXuKXMZRpN4rRYAO5xZaEbCwll/06XFzu0cTU4kaqmLHzq
- LidVI4lEVS8rVnnf3QUeTFrnItSavLwAd/NGy96VMwUJ0qxR3inNH5t0sgaHjWcvvOJtn2T/
- HxrK3f1Eh895RJHM8E8XyjX+tKIn81CZXfMCT7/wTxEIJsupRnjEOmug==;
+ bh=fT5kaDo2XPFixBC9Uf15s7YL25wv4nH0cHChiuXSmrA=;
+ b=Oj4d0ucVM6EavUI3MJm9PEg8KpWYLGm1TMVrbiqe7DvCjbC/vlrQoeNMvFARTqss8DCSpQ
+ GMW92V2Xomv94b9SGzOaWb6fOmYccOz06UOrGc5G2anQolg8cSOP7n9kJ0XKnvfsyyBlV4Js
+ myhstUC9W3OzYpggGZXh2bpIrZ6SWzdz2EHp0+LMzeJx9AVDMcaKDZKWi7pn/NKYzyoD6dKJ
+ 9zDrKdtg/0yoPGVw6K7GGkbQRgVMOTk/TJdqDXpiBOjFkeMt3eHMaxR3jivwZEevaEyfHkJ7
+ k/HSAq37RmzlzRReDGdgkgy6AAs3SYlT+FvK2wGEFNRCBGPZS1aKL7UA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] libxml2: add follow-up patch for CVE-2026-0992
-Date: Sat, 31 Jan 2026 15:51:37 +0100
-Message-Id: <20260131145137.3770911-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] libxml2: add follow-up patch for CVE-2026-0992
+Date: Sat, 31 Jan 2026 15:51:51 +0100
+Message-Id: <20260131145151.3770945-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 14:51:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230237
+ <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 14:51:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230239
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -48,10 +48,10 @@ References:
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  ...2026-0992.patch => CVE-2026-0992-01.patch} |   0
- .../libxml/libxml2/CVE-2026-0992-02.patch     | 336 ++++++++++++++++++
+ .../libxml/libxml2/CVE-2026-0992-02.patch     | 323 ++++++++++++++++++
  .../libxml/libxml2/CVE-2026-0992-03.patch     |  33 ++
- meta/recipes-core/libxml/libxml2_2.15.1.bb    |   4 +-
- 4 files changed, 372 insertions(+), 1 deletion(-)
+ meta/recipes-core/libxml/libxml2_2.12.10.bb   |   4 +-
+ 4 files changed, 359 insertions(+), 1 deletion(-)
  rename meta/recipes-core/libxml/libxml2/{CVE-2026-0992.patch => CVE-2026-0992-01.patch} (100%)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
@@ -62,10 +62,10 @@ rename from meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
 rename to meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.patch
 diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
 new file mode 100644
-index 0000000000..ebf6893b38
+index 00000000000..bab0c4e1f0c
 --- /dev/null
 +++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
-@@ -0,0 +1,336 @@
+@@ -0,0 +1,323 @@
 +From f8399e62a31095bf1ced01827c33f9b29494046f Mon Sep 17 00:00:00 2001
 +From: Daniel Garcia Moreno <daniel.garcia@suse.com>
 +Date: Fri, 19 Dec 2025 12:27:54 +0100
@@ -91,11 +91,10 @@ index 0000000000..ebf6893b38
 + Makefile.am                             |  6 ++
 + catalog.c                               | 63 +++++++++++-----
 + include/libxml/catalog.h                |  2 +
-+ meson.build                             |  1 +
 + test/catalogs/catalog-recursive.xml     |  3 +
 + test/catalogs/repeated-next-catalog.xml | 10 +++
 + testcatalog.c                           | 96 +++++++++++++++++++++++++
-+ 8 files changed, 164 insertions(+), 19 deletions(-)
++ 7 files changed, 163 insertions(+), 19 deletions(-)
 + create mode 100644 test/catalogs/catalog-recursive.xml
 + create mode 100644 test/catalogs/repeated-next-catalog.xml
 + create mode 100644 testcatalog.c
@@ -104,35 +103,35 @@ index 0000000000..ebf6893b38
 +index 163661f8..7d5702df 100644
 +--- a/CMakeLists.txt
 ++++ b/CMakeLists.txt
-+@@ -465,6 +465,7 @@ if(LIBXML2_WITH_TESTS)
-+         runxmlconf
-+         runsuite
-+         testapi
-++        testcatalog
-+         testchar
-+         testdict
-+         testModule
-+@@ -487,6 +488,7 @@ if(LIBXML2_WITH_TESTS)
-+         add_test(NAME runxmlconf COMMAND runxmlconf WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-+     endif()
-+     add_test(NAME testapi COMMAND testapi)
-++    add_test(NAME testcatalog COMMAND testcatalog)
-+     add_test(NAME testchar COMMAND testchar)
-+     add_test(NAME testdict COMMAND testdict)
-+     add_test(NAME testparser COMMAND testparser WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
++@@ -517,6 +517,7 @@ if(LIBXML2_WITH_TESTS)
++ 		runxmlconf
++ 		runsuite
++ 		testapi
+++		testcatalog
++ 		testchar
++ 		testdict
++ 		testModule
++@@ -543,6 +544,7 @@ if(LIBXML2_WITH_TESTS)
++ 	if(NOT WIN32)
++ 		add_test(NAME testapi COMMAND testapi)
++ 	endif()
+++	add_test(NAME testcatalog COMMAND testcatalog)
++ 	add_test(NAME testchar COMMAND testchar)
++ 	add_test(NAME testdict COMMAND testdict)
++ 	add_test(NAME testparser COMMAND testparser)
 +diff --git a/Makefile.am b/Makefile.am
 +index c51dfd8e..c794eac8 100644
 +--- a/Makefile.am
 ++++ b/Makefile.am
-+@@ -23,6 +23,7 @@ check_PROGRAMS = \
-+ 	runxmlconf \
++@@ -21,6 +21,7 @@ check_PROGRAMS = \
 + 	testModule \
++ 	testThreads \
 + 	testapi \
 ++	testcatalog \
 + 	testchar \
 + 	testdict \
 + 	testlimits \
-+@@ -128,6 +129,10 @@ testlimits_SOURCES=testlimits.c
++@@ -143,6 +144,10 @@ testlimits_SOURCES=testlimits.c
 + testlimits_DEPENDENCIES = $(DEPS)
 + testlimits_LDADD= $(LDADDS)
 + 
@@ -143,7 +142,7 @@ index 0000000000..ebf6893b38
 + testchar_SOURCES=testchar.c
 + testchar_DEPENDENCIES = $(DEPS)
 + testchar_LDADD= $(LDADDS)
-+@@ -175,6 +180,7 @@ check-local:
++@@ -206,6 +211,7 @@ check-local:
 + 	$(CHECKER) ./runtest$(EXEEXT)
 + 	$(CHECKER) ./testrecurse$(EXEEXT)
 + 	$(CHECKER) ./testapi$(EXEEXT)
@@ -155,7 +154,7 @@ index 0000000000..ebf6893b38
 +index 401dbc14..eb889162 100644
 +--- a/catalog.c
 ++++ b/catalog.c
-+@@ -640,43 +640,54 @@ static void xmlDumpXMLCatalogNode(xmlCatalogEntryPtr catal, xmlNodePtr catalog,
++@@ -649,43 +649,54 @@ static void xmlDumpXMLCatalogNode(xmlCatalogEntryPtr catal, xmlNodePtr catalog,
 +     }
 + }
 + 
@@ -229,7 +228,7 @@ index 0000000000..ebf6893b38
 +     /*
 +      * reserialize it
 +      */
-+@@ -3339,6 +3350,20 @@ xmlCatalogDump(FILE *out) {
++@@ -3417,6 +3428,20 @@ xmlCatalogDump(FILE *out) {
 + 
 +     xmlACatalogDump(xmlDefaultCatalog, out);
 + }
@@ -254,7 +253,7 @@ index 0000000000..ebf6893b38
 +index 88a7483c..e1bc5feb 100644
 +--- a/include/libxml/catalog.h
 ++++ b/include/libxml/catalog.h
-+@@ -138,6 +138,8 @@ XMLPUBFUN void
++@@ -119,6 +119,8 @@ XMLPUBFUN void
 + #ifdef LIBXML_OUTPUT_ENABLED
 + XMLPUBFUN void
 + 		xmlCatalogDump		(FILE *out);
@@ -263,18 +262,6 @@ index 0000000000..ebf6893b38
 + #endif /* LIBXML_OUTPUT_ENABLED */
 + XMLPUBFUN xmlChar *
 + 		xmlCatalogResolve	(const xmlChar *pubID,
-+diff --git a/meson.build b/meson.build
-+index 1cd89f09..4bf17f6c 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -509,6 +509,7 @@ checks = {
-+ # Disabled for now, see #694
-+ #    'testModule': [],
-+     'testapi': [],
-++    'testcatalog': [],
-+     'testchar': [],
-+     'testdict': [],
-+     'testlimits': [],
 +diff --git a/test/catalogs/catalog-recursive.xml b/test/catalogs/catalog-recursive.xml
 +new file mode 100644
 +index 00000000..3b3d03f9
@@ -404,7 +391,7 @@ index 0000000000..ebf6893b38
 ++#endif
 diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
 new file mode 100644
-index 0000000000..b7a4e4cf63
+index 00000000000..5964fd16b51
 --- /dev/null
 +++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
 @@ -0,0 +1,33 @@
@@ -433,7 +420,7 @@ index 0000000000..b7a4e4cf63
 +index eb889162..ba9ee7ae 100644
 +--- a/catalog.c
 ++++ b/catalog.c
-+@@ -1243,7 +1243,6 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPrefer prefer,
++@@ -1286,7 +1286,6 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPrefer prefer,
 + 	while (prev != NULL) {
 + 	    if ((prev->type == XML_CATA_NEXT_CATALOG) &&
 + 		(xmlStrEqual (prev->URL, entry->URL)) &&
@@ -441,24 +428,19 @@ index 0000000000..b7a4e4cf63
 + 		(prev->prefer == entry->prefer) &&
 + 		(prev->group == entry->group)) {
 + 		    if (xmlDebugCatalogs)
-diff --git a/meta/recipes-core/libxml/libxml2_2.15.1.bb b/meta/recipes-core/libxml/libxml2_2.15.1.bb
-index 2f741a2d71..be37fa27fe 100644
---- a/meta/recipes-core/libxml/libxml2_2.15.1.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.15.1.bb
-@@ -16,12 +16,14 @@ inherit gnomebase
- 
- SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testtar \
+diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+index fa081c2382f..25da11bd2d3 100644
+--- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+@@ -27,7 +27,9 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://CVE-2025-7425.patch \
+            file://CVE-2026-0989.patch \
             file://CVE-2026-0990.patch \
 -           file://CVE-2026-0992.patch \
 +           file://CVE-2026-0992-01.patch \
-            file://run-ptest \
-            file://install-tests.patch \
-            file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch \
-            file://0001-testlimits-optionally-accept-timeout-input.patch \
-            file://CVE-2026-0989.patch \
 +           file://CVE-2026-0992-02.patch \
 +           file://CVE-2026-0992-03.patch \
             "
  
- SRC_URI[archive.sha256sum] = "c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c"
+ SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
 
