@@ -2,289 +2,377 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E47DBD79763
-	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 08:25:36 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5384.1769847928019012840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8F8D79765
+	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 09:01:37 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5622.1769850089669331317
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jan 2026 00:25:28 -0800
+ Sat, 31 Jan 2026 01:01:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=P3fmFkUl;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-432d2c7a8b9so2576389f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 00:25:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769847926; cv=none;
+ dkim=pass header.i=@smile.fr header.s=google header.b=LmaU52pe;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-432d2670932so2696501f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 01:01:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769850088; cv=none;
         d=google.com; s=arc-20240605;
-        b=JjHrB/IUyyw3H4XeLL3KAvfksEMecQ5JupRPhJ71QArHXlCTV+Qyyn8HoDGNJ4PRM0
-         HgercZiIK4ewXpieeGUA140I/jVhCHjSCQWiEx0HJfxgzMKJQUP5+EQCrTvqHGtL6qp8
-         9TFmaW+InIjLvRGiyJKcucLZS9fprR5cfvzBgm0EZPENg8KM6xaXevHc7ZyRdYmwyUCD
-         8/GHGR/y9FC77NaSpnJhGWBAxE47FQNsJwLzyg9zi3QF6JgBLBLAb9AkXOozs8dyN9jp
-         SEiBwV9fPIr4guCo4XozuKefe3IV7kTmy7xyEKLv+bhrTcePy+3bOI5NFbjaLKi0Qu52
-         4GwQ==
+        b=jjaqGS7I+9xCPU/X9aJxzOGho6yIrFvWZ8HSwTsu4nMT8b4mVZoz+i7WwXYNo1poeh
+         2WqnyxoPwuFC4BEPnx8oBVq3mh/0DpubDyQkH8GcPkn4pYHOX/ImsNBltQEw9g9A4QQw
+         /dtMOi9bvPeMgWvQJ1ue/gbOI3c1uFYuvReUd6SauuL3kB1GiAbg+dqxrnB6oAW4qphk
+         WcXuESp9B/09eLCZBARyfgIqNdV6QLjRekvXzKUb12F4VVFaWxYCpYvnlYz8EGqezhm9
+         /GJ7JbvBp+4LM2sg1hiRJo6kqSGkyalvFDpXMi3nFp5EIdyqB8Wi1nWgzpwSQGzUzD+5
+         RQvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :dkim-signature;
-        bh=MEqT6y5YT8c0Zq6MAyh7Umrt8ehyspTQH5Y3B+juMCk=;
-        fh=UxP1HceJM0T1LJz3AZ4pRYR3KesS3Uwc4ek1/I2Z9pE=;
-        b=i3S+TePkjpAKieBUaPGsTkmsLKKNrPrMGc+qyx2HgR+xNMzvqRdb8fFdLYdk5dm/k9
-         hMigiO9Te3enUS/WVfs95sj2vJS5Rx3Fy5X4A3CLP0hZb+Gn4WBlW9hJ8+5aM7sJGprt
-         DhV1JGMbuFwg5B+M6XCRC1kEC6YXDnG9KcxRKd0rmtruLasB80SpZsHKK8S1KHAnsSwy
-         7nZtsYUPJLJq5hCPKsjnXms8XtYZjNaAzQCeQurX/QwO7oaqvFvj4pbj0f+GkA9zxsNO
-         9/Kg4A4E3VVC6F/RTiyzXO/WTIWPcIDn9iKmfdMi+mhzqv5k3aDNDIMD0/lt3xP/53GF
-         yRVg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OMAfeh7widmKT4j3HlgsTrjC5UTAjiLZ5omVbq46xeA=;
+        fh=pW7DkiKdJowwinuLl8m7+Zy8GLN8iupENRp5yyrC7eI=;
+        b=kFZiKLeKC/QWyOXseQOvB6guR5kaPzoWItYgxBbrpZDqAvO2CN7+6aibLn1vBUEr6c
+         tWvY5d/2aYDxFe6a26iijKGpDCQiqWidQUmfBnXMgwJ0va6x9rvq4K1ci+SbOQt3Th7k
+         L+lmdlkushq/46TU2M1svY8VhlDeZAp/UUYQ4mqiCqcktvGHd1Oy9dxZ283Wj8/r9OnE
+         mE1LHcieW9iOYNDri7xZDEaZob6KQaRKHK66eonxM8MBkmazrYLmjRXQM34JXweYcfz5
+         F+o5PDtiywXow7GnuDsfVox571seNTEoIfEeiG2rRf9ms/yK6PjYqzsH5EzKTG+qT8ku
+         StUw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769847926; x=1770452726; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MEqT6y5YT8c0Zq6MAyh7Umrt8ehyspTQH5Y3B+juMCk=;
-        b=P3fmFkUlNe20SmUpHqxZWye7XMcj+ssG+D45udHEHEblKQTe9DtWK7BByKmTQTKvaS
-         0UAdPCoLu5VmUpLENbtZfxjNh84Qg4m8vDZjbQati6MDOGymdjpSul2w3l9G/jF79ytl
-         G1p2HSyX0Tk3wcHjnO84cOF7hv+6kSbPCG0n4=
+        d=smile.fr; s=google; t=1769850088; x=1770454888; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OMAfeh7widmKT4j3HlgsTrjC5UTAjiLZ5omVbq46xeA=;
+        b=LmaU52peXmtxecXDXlPOU+Q2O8V5nM3QgOWh5kBg20W+xODKNvXnvqSibHHawMsaWz
+         Q0se7xN6MKSFgXEpmlCVQUwRlqt2mMAs4zrn7WZMJDqnS9/Y/Kf77dj6Qfhq4pWbTyXc
+         zanpQWh/jrIBY1KKfwqNaGbJCMZpf7RCTdlNo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769847926; x=1770452726;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MEqT6y5YT8c0Zq6MAyh7Umrt8ehyspTQH5Y3B+juMCk=;
-        b=i0G+NEpetalvTsnP0aBhjypL6UX/6yyMZ/IoOw7FieiLNuK2xhXXRpBPdmCD/EkesH
-         +O4REPD01DcKhiEOH1AE4DbR8rBSd1sskMPNOECYmfEICC+o6fR8QOCdATmpy4Lp3eQN
-         fUH9YPSOUDwji0I5XbW1GObD04DjKffUz4Xk5K4XX5s1JXSpiHR0IffePX86PORsn093
-         n/CnbhaKbSuojKBxq6xO2ysM9UYGOtVsuPCRKS8OvXUaM5v37cKcHMsL9OZjHjp6eJCQ
-         DlGQRjNnqdyE0p4jJZ6QkhA+Gkd7DN3sIJ3QCghQJg1xb1gMWWeiB7ed3VAcYZ/l4LGn
-         G+gQ==
-X-Gm-Message-State: AOJu0YyR4+224Dfhyk6vs/jSUu8yAO5h/rxcTfrHf2PvTNbk9g9v78Ox
-	n+ls3i7H38NZccXVw82muUoICsrtEML+AI7MqG8qrdFapXpo6ele0OXDxfeUWHvgaNd2JMomY6J
-	hbwieFwXHfGYKABS7G6n13KU5J2y0aBGF26eYiZOOjNn4zXPelujROug=
-X-Gm-Gg: AZuq6aKC/dAlqWBBfBv3plzfDhYr8yDpmK641/ZMz3ZtL7uZnNRnwyt2dGYNZej4Q5S
-	P8XnLj1bwFofzhersPJlyOML4dN/3cXkmGp7gzOov9UPUkrLkxj636pjjysaeUjcg6wo2qirA8U
-	CXqTL/Dgf3nMCKk5ApN5k+1Qomj2RnQA8HdvzY23uPVhVpqFIQ+MnJXVY/E6u8VyRQt4oJ1CzdQ
-	s9f06oiYzx8ZLraQuDd+xbl1PlTX06Simh51jX5pgAX8tsifsn2llZSRz3PMWShmtUM8gbt95VZ
-	0EdXYb3H4xiWkH+/vCeeWab3oPHUOw==
-X-Received: by 2002:a05:6000:25c1:b0:435:a4a9:6f79 with SMTP id
- ffacd0b85a97d-435f3a6aa94mr7401521f8f.8.1769847925931; Sat, 31 Jan 2026
- 00:25:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769850088; x=1770454888;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OMAfeh7widmKT4j3HlgsTrjC5UTAjiLZ5omVbq46xeA=;
+        b=ibiioaCRoq1s+ePpHXXzsWfjAJVl9k4z0wTHsDyExajbOEf9VZs56iHyK2l23wFNFO
+         wPRRMCWpSuFpubkBw5r3/x6PP5Rt1fW7YRX5Lw/skwwAWW/oX41Hq3gTfP+wnAdOWh9d
+         fhNiIv57VHhnauZrInDvi9uj1wRDtL+9DnX8JwGm9IF+Y03x/H19n/eP2hyr7Jyz3QtE
+         fkF/BlSxdslQK/Oa6dZ93FcLUYcwCEWsI6Pzt4C9nXcftpGqrWgK1biPzOSB/hZduvxb
+         /emTHZsNp1I8cpXGUOapKepGCF0HOrm1z7gMpsWxTsuZNykzU2WuFCGTKAO7OPfoU4Ie
+         CK3w==
+X-Gm-Message-State: AOJu0YxenrN+5ZvaB5y7rSxrR7PA3N1htV6Nk6CTZj1o5ZDIUD2+7CDU
+	EEzOt6naaItL+otXgWOs8Q8Iwm86Bzb0nL3zr+4RCYixNoGRv2ordLQpduRHWm/tmcv2Mg4K456
+	vvm6DgxwGDRUyJfpDBd4lyMDHqaPQvKTLueowK5Cr9jHkgpS+/kaOB/I=
+X-Gm-Gg: AZuq6aIfTWMlXiJqx5LbcgE7BzX7DVAI4D2UF3X0OodTioD0BVMtcWDiPcnqT631LsW
+	p8WKdBb1EI2HgNaZLE3cherWW560wLBTLUON13MvtgK0ATUkK24lz8RSJD6rjz/qHeOB1x04hfw
+	+5le12k8gDqhiUpJFsdYd/fu8Wn852m0Q7SzZo46jMbE75RJ0JU5YLMO+FeP0P+RKAtsM0spbqo
+	z4t0PY//E9jtWSLZziCIo5nlSXef5oPylv2pY4t47+LfiiO+QEVTpawlkGjbwjgF/bqjujAhfYm
+	lOIuFh1abRcChDm5zFOztsAtJOJnhxPrtucpk/E=
+X-Received: by 2002:a05:6000:24c3:b0:435:95fb:a0f2 with SMTP id
+ ffacd0b85a97d-435f3aaf7a1mr7864518f8f.46.1769850087467; Sat, 31 Jan 2026
+ 01:01:27 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1769845858.git.yoann.congal@smile.fr> <f05ec33d17952009ad6ac272d3aa2183074f1312.1769845858.git.yoann.congal@smile.fr>
-In-Reply-To: <f05ec33d17952009ad6ac272d3aa2183074f1312.1769845858.git.yoann.congal@smile.fr>
+References: <cover.1769845858.git.yoann.congal@smile.fr> <0b4dabed3345944da878326baed133dab8c8af5b.1769845858.git.yoann.congal@smile.fr>
+In-Reply-To: <0b4dabed3345944da878326baed133dab8c8af5b.1769845858.git.yoann.congal@smile.fr>
 From: Yoann Congal <yoann.congal@smile.fr>
-Date: Sat, 31 Jan 2026 09:25:00 +0100
-X-Gm-Features: AZwV_QhaJldS-zY5A3JdJXwWJtuE5zEZFkVVlrP_ukqdJrnsKi1umR9a30ZwWHY
-Message-ID: <CAMSfU+7Tbo6RYz4Yjo_S-aXHBVTfLwxBcvG5W5V8mBe0O1wiKw@mail.gmail.com>
-Subject: Re: [OE-core][whinlatter 17/22] libpng: upgrade 1.6.53 -> 1.6.54
+Date: Sat, 31 Jan 2026 10:01:01 +0100
+X-Gm-Features: AZwV_QiCVSBGo3UyC_ZvDIqw3B7s7wPXpxvcbp9PERLvx5ZXDaxqrXapeU3pZGY
+Message-ID: <CAMSfU+7e+LGbkSoRVDe9A4_zbLd8EF3WdS3NvYVmSySbLOr-HQ@mail.gmail.com>
+Subject: Re: [OE-core][whinlatter 05/22] mesa: fix build error with llvmpipe
+ gallium driver
 To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ee91050649aad473"
+Cc: =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>
+Content-Type: multipart/alternative; boundary="000000000000c503150649ab55ac"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 08:25:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230232
+ <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 09:01:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230233
 
---000000000000ee91050649aad473
+--000000000000c503150649ab55ac
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le sam. 31 janv. 2026 =C3=A0 08:57, Yoann Congal <yoann.congal@smile.fr> a
+Le sam. 31 janv. 2026 =C3=A0 08:56, Yoann Congal <yoann.congal@smile.fr> a
 =C3=A9crit :
 
-> From: Peter Marko <peter.marko@siemens.com>
+> From: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 >
-> Handles CVE-2026-22695 and CVE-2026-22801.
+> For RISC-V, and if the PACKAGECONFIG 'gallium-llvm' is enabled, mesa's
+> do_compile fails due to a change in setObjectLinkingLayerCreator's
+> signature. This change was first included in LLVM v21.
 >
-> License-Update: copyright years refreshed
+> This issue is further described below:
+> https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852
 >
-> Changelog:
-> Version 1.6.54 [January 12, 2026]
->   Fixed CVE-2026-22695 (medium severity):
->     Heap buffer over-read in `png_image_read_direct_scaled.
->     (Reported and fixed by Petr Simecek.)
->   Fixed CVE-2026-22801 (medium severity):
->     Integer truncation causing heap buffer over-read in
-> `png_image_write_*`.
->   Implemented various improvements in oss-fuzz.
->     (Contributed by Philippe Antoine.)
+> Backport the fix - from upstream - to Whinlatter.
 >
-
-Hello,
-
-I'm on the fence with this one :
-The changelog line "Implemented various improvements in oss-fuzz" sounds
-incompatible with the stable policy but it changes code in the contrib/
-directory that we don't use/compile.
-
-> Files in this directory are used by the oss-fuzz project
-> (https://github.com/google/oss-fuzz/tree/master/projects/libpng).
-> for "fuzzing" libpng.
->
-
-We already upgraded libpng for whinlatter with a similar change "Added
-allocation failure fuzzing to oss-fuzz." in the -> 1.6.52 upgrade.
-
-I'm leaning towards taking it (hence why it is included in testing and in
-this series) but I wonder what you think.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 9c18cb1d4dd0edf2e9c638c3c576cb803e1ff4c6)
-> [YC: Added changelog]
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 > ---
->  .../libpng/{libpng_1.6.53.bb =3D> libpng_1.6.54.bb}             | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-multimedia/libpng/{libpng_1.6.53.bb =3D>
-> libpng_1.6.54.bb} (94%)
+>  .../files/0001-gallivm-support-LLVM-21.patch  | 56 +++++++++++++++++++
+>  meta/recipes-graphics/mesa/mesa.inc           |  1 +
+>  2 files changed, 57 insertions(+)
+>  create mode 100644
+> meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
 >
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-> b/meta/recipes-multimedia/libpng/libpng_1.6.54.bb
-> similarity index 94%
-> rename from meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-> rename to meta/recipes-multimedia/libpng/libpng_1.6.54.bb
-> index 956cd243b19..3f2b80a060f 100644
-> --- a/meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.54.bb
-> @@ -5,7 +5,7 @@ library for use in applications that read, create, and
-> manipulate PNG \
->  HOMEPAGE =3D "http://www.libpng.org/"
->  SECTION =3D "libs"
->  LICENSE =3D "Libpng"
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5516d77a3cf75f55a0d37254e3e65=
-a20"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D9dc350edbbbee660c7d9af7948716=
-8f2"
->  DEPENDS =3D "zlib"
+> diff --git
+> a/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
+> b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
+> new file mode 100644
+> index 00000000000..cf3bdd36cf9
+> --- /dev/null
+> +++ b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
+> @@ -0,0 +1,56 @@
+> +From cd129dbf8af2d16b1243f2ce287ff69c6a5dc557 Mon Sep 17 00:00:00 2001
+> +From: no92 <no92.mail@gmail.com>
+> +Date: Wed, 27 Aug 2025 16:02:31 +0200
+> +Subject: gallivm: support LLVM 21
+> +
+> +LLVM PR#146819 changed the signature of `setObjectLinkingLayerCreator`,
+> +dropping the Triple argument. The PR was first included in the LLVM 21
+> +series, and the new signature is gated behind a version check for that.
+> +
+> +`LLVMOrcThreadSafeContextGetContext` was removed in LLVM commit b18e5b6,
+> +and the ORC examples in the LLVM tree seem to just create a context
+> +instead, which we replicate here.
+> +
+> +With this commit, mesa successfully builds the llvmpipe gallium driver
+> +on riscv64 with LLVM 21.1.0.
+> +
+> +Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13785
+> +Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852
+> +
+> +Reviewed-by: David Heidelberg <david@ixit.cz>
+> +Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3702=
+7
+> >
+> +
+> +Upstream-Status: Backport [
+> https://cgit.freedesktop.org/mesa/mesa/commit/?id=3Dcd129dbf8af2d16b1243f=
+2ce287ff69c6a5dc557
+> ]
 >
->  LIBV =3D "16"
-> @@ -14,7 +14,7 @@ SRC_URI =3D
-> "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
->             file://run-ptest \
+
+Jo=C3=A3o, patchtest is right, this patch is missing your signed-off-by.
+(Patchtest must have been down when you first sent this)
+Can you send a v2 with it?
+
+Thanks!
+
+
+> +---
+> + src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp | 7 ++++++-
+> + 1 file changed, 6 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
+> b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
+> +index 6651ea439da..e5d8e461dd6 100644
+> +--- a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
+> ++++ b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp
+> +@@ -339,7 +339,12 @@ LPJit::LPJit() :jit_dylib_count(0) {
+> +          .setJITTargetMachineBuilder(std::move(JTMB))
+> + #ifdef USE_JITLINK
+> +          .setObjectLinkingLayerCreator(
+> ++#if LLVM_VERSION_MAJOR >=3D 21
+> ++            /* LLVM 21 removed the Triple argument */
+> ++            [&](ExecutionSession &ES) {
+> ++#else
+> +             [&](ExecutionSession &ES, const llvm::Triple &TT) {
+> ++#endif
+> +                return std::make_unique<ObjectLinkingLayer>(
+> +                   ES,
+> ExitOnErr(llvm::jitlink::InProcessMemoryManager::Create()));
+> +             })
+> +@@ -551,7 +556,7 @@ init_gallivm_state(struct gallivm_state *gallivm,
+> const char *name,
+> +    gallivm->cache =3D cache;
+> +
+> +    gallivm->_ts_context =3D context->ref;
+> +-   gallivm->context =3D LLVMOrcThreadSafeContextGetContext(context->ref=
+);
+> ++   gallivm->context =3D LLVMContextCreate();
+> +
+> +    gallivm->module_name =3D LPJit::get_unique_name(name);
+> +    gallivm->module =3D
+> LLVMModuleCreateWithNameInContext(gallivm->module_name,
+> +--
+> +cgit v1.2.3
+> +
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index cf2c2a57a07..d880673f273 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -17,6 +17,7 @@ PE =3D "2"
+>  SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+>             file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
+h
+> \
+>
+> file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+> +           file://0001-gallivm-support-LLVM-21.patch \
 >  "
 >
-> -SRC_URI[sha256sum] =3D
-> "1d3fb8ccc2932d04aa3663e22ef5ef490244370f4e568d7850165068778d98d4"
-> +SRC_URI[sha256sum] =3D
-> "01c9d8a303c941ec2c511c14312a3b1d36cedb41e2f5168ccdaa85d53b887805"
+>  SRC_URI[sha256sum] =3D
+> "097842f3e49d996868b38688db87b006f7d4541e93ce86d2f341d8b3e7be7c93"
 >
->  MIRRORS +=3D "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/
-> ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
->
->
+
 
 --=20
 Yoann Congal
 Smile ECS
 
---000000000000ee91050649aad473
+--000000000000c503150649ab55ac
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
 mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0sam. 31=
- janv. 2026 =C3=A0=C2=A008:57, Yoann Congal &lt;<a href=3D"mailto:yoann.con=
+ janv. 2026 =C3=A0=C2=A008:56, Yoann Congal &lt;<a href=3D"mailto:yoann.con=
 gal@smile.fr">yoann.congal@smile.fr</a>&gt; a =C3=A9crit=C2=A0:<br></div><b=
 lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">From: Peter Marko &lt;<a hr=
-ef=3D"mailto:peter.marko@siemens.com" target=3D"_blank">peter.marko@siemens=
-.com</a>&gt;<br>
+ft:1px solid rgb(204,204,204);padding-left:1ex">From: Jo=C3=A3o Marcos Cost=
+a &lt;<a href=3D"mailto:joaomarcos.costa@bootlin.com" target=3D"_blank">joa=
+omarcos.costa@bootlin.com</a>&gt;<br>
 <br>
-Handles CVE-2026-22695 and CVE-2026-22801.<br>
+For RISC-V, and if the PACKAGECONFIG &#39;gallium-llvm&#39; is enabled, mes=
+a&#39;s<br>
+do_compile fails due to a change in setObjectLinkingLayerCreator&#39;s<br>
+signature. This change was first included in LLVM v21.<br>
 <br>
-License-Update: copyright years refreshed<br>
+This issue is further described below:<br>
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852" rel=3D"=
+noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/mesa/-/is=
+sues/13852</a><br>
 <br>
-Changelog:<br>
-Version 1.6.54 [January 12, 2026]<br>
-=C2=A0 Fixed CVE-2026-22695 (medium severity):<br>
-=C2=A0 =C2=A0 Heap buffer over-read in `png_image_read_direct_scaled.<br>
-=C2=A0 =C2=A0 (Reported and fixed by Petr Simecek.)<br>
-=C2=A0 Fixed CVE-2026-22801 (medium severity):<br>
-=C2=A0 =C2=A0 Integer truncation causing heap buffer over-read in `png_imag=
-e_write_*`.<br>
-=C2=A0 Implemented various improvements in oss-fuzz.<br>
-=C2=A0 =C2=A0 (Contributed by Philippe Antoine.)<br></blockquote><div><br><=
-/div><div>Hello,</div><div><br></div><div>I&#39;m on the fence with this on=
-e :</div><div>The changelog line &quot;Implemented various improvements in =
-oss-fuzz&quot; sounds incompatible with the stable policy but it changes co=
-de in the contrib/ directory that we don&#39;t use/compile.</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">Files in this directory are used by=
- the oss-fuzz project<br>(<a href=3D"https://github.com/google/oss-fuzz/tre=
-e/master/projects/libpng">https://github.com/google/oss-fuzz/tree/master/pr=
-ojects/libpng</a>).<br>for &quot;fuzzing&quot; libpng.<br></blockquote><div=
->=C2=A0</div><div>We already upgraded libpng for whinlatter with a similar =
-change &quot;Added allocation failure fuzzing to oss-fuzz.&quot; in the -&g=
-t; 1.6.52 upgrade.</div><div><br></div><div>I&#39;m leaning towards taking =
-it (hence why it is included in testing and in this series) but I wonder wh=
-at you think.</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
-arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-Signed-off-by: Antonin Godard &lt;<a href=3D"mailto:antonin.godard@bootlin.=
-com" target=3D"_blank">antonin.godard@bootlin.com</a>&gt;<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
-(cherry picked from commit 9c18cb1d4dd0edf2e9c638c3c576cb803e1ff4c6)<br>
-[YC: Added changelog]<br>
+Backport the fix - from upstream - to Whinlatter.<br>
+<br>
+Signed-off-by: Jo=C3=A3o Marcos Costa &lt;<a href=3D"mailto:joaomarcos.cost=
+a@bootlin.com" target=3D"_blank">joaomarcos.costa@bootlin.com</a>&gt;<br>
 Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" ta=
 rget=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
 ---<br>
-=C2=A0.../libpng/{<a href=3D"http://libpng_1.6.53.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">libpng_1.6.53.bb</a> =3D&gt; <a href=3D"http://libpng_1.6.5=
-4.bb" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.54.bb</a>}=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-multimedia/libpng/{<a href=3D"http://libpng_1.6.5=
-3.bb" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.53.bb</a> =3D&gt; <a =
-href=3D"http://libpng_1.6.54.bb" rel=3D"noreferrer" target=3D"_blank">libpn=
-g_1.6.54.bb</a>} (94%)<br>
+=C2=A0.../files/0001-gallivm-support-LLVM-21.patch=C2=A0 | 56 +++++++++++++=
+++++++<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 57 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm-supp=
+ort-LLVM-21.patch<br>
 <br>
-diff --git a/meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.53=
-.bb" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.53.bb</a> b/meta/recip=
-es-multimedia/libpng/<a href=3D"http://libpng_1.6.54.bb" rel=3D"noreferrer"=
- target=3D"_blank">libpng_1.6.54.bb</a><br>
-similarity index 94%<br>
-rename from meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.53.=
-bb" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.53.bb</a><br>
-rename to meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.54.bb=
-" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.54.bb</a><br>
-index 956cd243b19..3f2b80a060f 100644<br>
---- a/meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.53.bb" re=
-l=3D"noreferrer" target=3D"_blank">libpng_1.6.53.bb</a><br>
-+++ b/meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.54.bb" re=
-l=3D"noreferrer" target=3D"_blank">libpng_1.6.54.bb</a><br>
-@@ -5,7 +5,7 @@ library for use in applications that read, create, and mani=
-pulate PNG \<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.libpng.org/" rel=3D"noreferr=
-er" target=3D"_blank">http://www.libpng.org/</a>&quot;<br>
-=C2=A0SECTION =3D &quot;libs&quot;<br>
-=C2=A0LICENSE =3D &quot;Libpng&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D5516d77a3cf75f55a0d37254e3=
-e65a20&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D9dc350edbbbee660c7d9af7948=
-7168f2&quot;<br>
-=C2=A0DEPENDS =3D &quot;zlib&quot;<br>
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.=
+patch b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch=
 <br>
-=C2=A0LIBV =3D &quot;16&quot;<br>
-@@ -14,7 +14,7 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LI=
-BV}/${BP}.tar.xz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+new file mode 100644<br>
+index 00000000000..cf3bdd36cf9<br>
+--- /dev/null<br>
++++ b/meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch<b=
+r>
+@@ -0,0 +1,56 @@<br>
++From cd129dbf8af2d16b1243f2ce287ff69c6a5dc557 Mon Sep 17 00:00:00 2001<br>
++From: no92 &lt;<a href=3D"mailto:no92.mail@gmail.com" target=3D"_blank">no=
+92.mail@gmail.com</a>&gt;<br>
++Date: Wed, 27 Aug 2025 16:02:31 +0200<br>
++Subject: gallivm: support LLVM 21<br>
++<br>
++LLVM PR#146819 changed the signature of `setObjectLinkingLayerCreator`,<br=
+>
++dropping the Triple argument. The PR was first included in the LLVM 21<br>
++series, and the new signature is gated behind a version check for that.<br=
+>
++<br>
++`LLVMOrcThreadSafeContextGetContext` was removed in LLVM commit b18e5b6,<b=
+r>
++and the ORC examples in the LLVM tree seem to just create a context<br>
++instead, which we replicate here.<br>
++<br>
++With this commit, mesa successfully builds the llvmpipe gallium driver<br>
++on riscv64 with LLVM 21.1.0.<br>
++<br>
++Closes: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/13785=
+" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/=
+mesa/-/issues/13785</a><br>
++Closes: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/issues/13852=
+" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/=
+mesa/-/issues/13852</a><br>
++<br>
++Reviewed-by: David Heidelberg &lt;<a href=3D"mailto:david@ixit.cz" target=
+=3D"_blank">david@ixit.cz</a>&gt;<br>
++Part-of: &lt;<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_r=
+equests/37027" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesk=
+top.org/mesa/mesa/-/merge_requests/37027</a>&gt;<br>
++<br>
++Upstream-Status: Backport [<a href=3D"https://cgit.freedesktop.org/mesa/me=
+sa/commit/?id=3Dcd129dbf8af2d16b1243f2ce287ff69c6a5dc557" rel=3D"noreferrer=
+" target=3D"_blank">https://cgit.freedesktop.org/mesa/mesa/commit/?id=3Dcd1=
+29dbf8af2d16b1243f2ce287ff69c6a5dc557</a>]<br></blockquote><div><br></div><=
+div>Jo=C3=A3o, patchtest=C2=A0is right, this patch is missing your signed-o=
+ff-by.</div><div>(Patchtest must have been down when you first sent this)</=
+div><div>Can you send a v2 with it?</div><div><br></div><div>Thanks!</div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++---<br>
++ src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp | 7 ++++++-<br>
++ 1 file changed, 6 insertions(+), 1 deletion(-)<br>
++<br>
++diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp b/src/galli=
+um/auxiliary/gallivm/lp_bld_init_orc.cpp<br>
++index 6651ea439da..e5d8e461dd6 100644<br>
++--- a/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp<br>
+++++ b/src/gallium/auxiliary/gallivm/lp_bld_init_orc.cpp<br>
++@@ -339,7 +339,12 @@ LPJit::LPJit() :jit_dylib_count(0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .setJITTargetMachineBuilder(std::move(J=
+TMB))<br>
++ #ifdef USE_JITLINK<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .setObjectLinkingLayerCreator(<br>
+++#if LLVM_VERSION_MAJOR &gt;=3D 21<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* LLVM 21 removed the Triple a=
+rgument */<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [&amp;](ExecutionSession &amp;E=
+S) {<br>
+++#else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&amp;](ExecutionSession &=
+amp;ES, const llvm::Triple &amp;TT) {<br>
+++#endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return std::make_u=
+nique&lt;ObjectLinkingLayer&gt;(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ES, E=
+xitOnErr(llvm::jitlink::InProcessMemoryManager::Create()));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0})<br>
++@@ -551,7 +556,7 @@ init_gallivm_state(struct gallivm_state *gallivm, cons=
+t char *name,<br>
++=C2=A0 =C2=A0 gallivm-&gt;cache =3D cache;<br>
++ <br>
++=C2=A0 =C2=A0 gallivm-&gt;_ts_context =3D context-&gt;ref;<br>
++-=C2=A0 =C2=A0gallivm-&gt;context =3D LLVMOrcThreadSafeContextGetContext(c=
+ontext-&gt;ref);<br>
+++=C2=A0 =C2=A0gallivm-&gt;context =3D LLVMContextCreate();<br>
++ <br>
++=C2=A0 =C2=A0 gallivm-&gt;module_name =3D LPJit::get_unique_name(name);<br=
+>
++=C2=A0 =C2=A0 gallivm-&gt;module =3D LLVMModuleCreateWithNameInContext(gal=
+livm-&gt;module_name,<br>
++-- <br>
++cgit v1.2.3<br>
++<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
+sa/mesa.inc<br>
+index cf2c2a57a07..d880673f273 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -17,6 +17,7 @@ PE =3D &quot;2&quot;<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"https://archive.mesa3d.org/mesa-$%7BPV%7=
+D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://archive.mesa3d.org/m=
+esa-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-meson-misdetects-64bi=
+t-atomics-on-mips-clang.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-freedreno-don-t-encod=
+e-build-path-into-binaries.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-gallivm-support-LLVM-=
+21.patch \<br>
 =C2=A0&quot;<br>
 <br>
--SRC_URI[sha256sum] =3D &quot;1d3fb8ccc2932d04aa3663e22ef5ef490244370f4e568=
-d7850165068778d98d4&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;01c9d8a303c941ec2c511c14312a3b1d36cedb41e2f51=
-68ccdaa85d53b887805&quot;<br>
-<br>
-=C2=A0MIRRORS +=3D &quot;${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}=
-/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/&quot;<=
-br>
-<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;097842f3e49d996868b38688db87b006f7d4541e=
+93ce86d2f341d8b3e7be7c93&quot;<br>
 </blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
 gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
 iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
 t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---000000000000ee91050649aad473--
+--000000000000c503150649ab55ac--
 
