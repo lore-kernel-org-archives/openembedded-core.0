@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FD7D79761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F5AD79759
 	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 07:57:16 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5012.1769846230054765577
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5115.1769846232125142428
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jan 2026 23:57:10 -0800
+ Fri, 30 Jan 2026 23:57:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bCHpdQza;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806fbc6bf3so29283505e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 23:57:09 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=3WebLKHV;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48069a48629so29093535e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 23:57:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769846228; x=1770451028; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1769846230; x=1770451030; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hVnYBIZkPJEM46n6wdRq2rGL8cCprUD2lhx4NFA8VaQ=;
-        b=bCHpdQzaqIEYKhnKnGFBlT+1pOzanBfMwPgq4bGzpjrOZTmUyAIAzeT5r2cMjrWT7J
-         crH5VnRQ8MFZlSR5TScv9Mum0KLvKV5aKJvWnPMWQGolZCstrgDyKCRnvWeZtSC1/fCl
-         fOcOEdv5lN2tuE5QeRud+nKZFjS9z6IAFFaGk=
+        bh=6IJ69mVhfVWjztas+9P69KN4H/Aar0+yT/0I1IVFB2A=;
+        b=3WebLKHV22f8Po284fQ7pEWYtXnLOawROY/kMV/7b09aZXXKuUtPi/TZMA5FKaI4+I
+         Ewe6wZaevBxLnFQydtYbJv8V2AMTBmqTWzGwBuiiogeHSxxOQrkWQJbeVQFRxVwY2QQi
+         Ncpcqi8POiQ8xwsvQ1m0zpUwv09ZY+o2leoPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769846228; x=1770451028;
+        d=1e100.net; s=20230601; t=1769846230; x=1770451030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hVnYBIZkPJEM46n6wdRq2rGL8cCprUD2lhx4NFA8VaQ=;
-        b=irdXJqiwTKWSL3Vqc5J9S+08x6HbUKBzaz84nES/6+dR6dX2wHPiowuXhqzh7nHgfW
-         5g5GusrI845aEOcnkPTSW1/tDI9wscuJAfgGOiQpzweSJeVFYs0NmBck8n3hB7j7AlCO
-         2eIOp/MsLErFEbXBSjYbR2aBzTJNauBnf45MzkS/8pYkA2WEca6m9ea7oYUjPOSOEWT+
-         XnYRd4hPe2FJry2yOJadTT1p/Y9+ysYMsyHQpF65vlH1/4OKSjtJeZXAcX/WbSi0VzRX
-         cW2sG2CCYdloVLndreWAdPq+36x+Z9aHWLwCrC4/OBQosPkMftGvOptW4JzHmEyA6+Mv
-         ld/A==
-X-Gm-Message-State: AOJu0Yx4ZrqvnmXkswubSc/KloagabXAfyFTC58kc7Wa0MU9Q9hQlcqW
-	qMk3i3Vbco95Bs8FKugQDWbxOjDTGMdnvU4Evj+BTEaJ7/8olDNpagRJDYqe2aJEpUFpBdAvWKF
-	Ltyj64N0=
-X-Gm-Gg: AZuq6aK5qO05qYniFvFEl4mVCwQ+LO4j4ypijfY9NErSMydW9BYZVq8KkiZ7ZfP6aaG
-	5gi+CpViVHSmYLYoiDtqFOqWpTZ6vY5scFfNpNf98rVA17Mh+on2jR/2l9tBOkKUhTwCBTpJzq7
-	OiucyG6/yQ65tc4hSKo7RTrvG5eOiTp6xIK708OfL4LacpjMLsw0GdEhOahzXt9GLOHPS97UKx7
-	RTxYtP7MbpZVYrYaNC5+mA40aiD4hzOhQhPWaXiySvZw9xhwwVLQ/KU4+kE8uCi5cdCcJptpSpC
-	5rfB0JXGE5CCsXa/KszORrolTmirqbh7nCM3QDpCPbdPNKu8D7MYbLubLqF+1XBairK5bOzsd6b
-	dLEv0o+ZuWdy1GUXHBlUmcW5A1qsCAC/wGXN/ZKinc4VxgmUtSNlPbKiKDU3ClXZW/8xmsmmE+2
-	zInkVofb1rS1eRFSeGX7N2+XwUomCZEKHLlmab72laMI5+CBtc2X2ycm+qwjGNfaxXN8k9AyTpL
-	uDqIBwJV+GsvEzw
-X-Received: by 2002:a05:600c:64c6:b0:477:5ad9:6df1 with SMTP id 5b1f17b1804b1-482db4593a1mr66102475e9.3.1769846228184;
-        Fri, 30 Jan 2026 23:57:08 -0800 (PST)
+        bh=6IJ69mVhfVWjztas+9P69KN4H/Aar0+yT/0I1IVFB2A=;
+        b=I+38ecybb22JN3mC7ZmfeuxJ0TMeamlAeiB8abH0W7IxpaktAWa/aIkz6R79HASzou
+         m3QoLzNDvs4SGEebgMdn5LLJH6TNo7V1Caw0uesKrSnFkzOZ1DvPVkCo3QJVPTkqoB52
+         56wN+0mrxl8dz+YjhrB9VEAzhDkiEBdbPWobAvU7ElnDojYTLAIULmaEpo+rwFa0hj3v
+         UgUmPxT/VUxSBB/90KVj+vyELpXMgxWdB6Q5V0zy7lHQ7ed9pUwthgOPGCVad16Uehyj
+         AKp4lfXANeYoAgJZenDnczZVzmilQTgTfcB+e2OhPulIgEWK6ZgZYyKuUNWd2l24O3Jy
+         eWrw==
+X-Gm-Message-State: AOJu0YwfWvB5pk+zpIjCziLUTGZgIQyCgdP6GLAZW4etLCxLZX0kMOo6
+	ahimL4I9XgchRGfwHgBS3Ijnt3KyfSTM665Wog5p0YMLyBvnLbPTtyMKIMtzADc46VSMV4XMCym
+	HN1JZMgs=
+X-Gm-Gg: AZuq6aIafzVqGSnoK7dtccDPR9u8m0kmrdxyVWj3/Y9Bpp3In6I85Ew4GgiVynT67n/
+	M2TJn1mR0EPQXWuHqSWB6Sd9DBcwsGMbH6fUPPt5p+tj47buFlIbfhlptLvara1q/tEvJaD9SRs
+	miF7PnWeoVdZ+mdw6J5USuPJEUUA60KuM/RzX4rdlGeDW8vnBjmC2yeFDQc4JO6lYeaIaIvrHTH
+	rQO2toruTVFLvoRdDl1N1bd8dfTHUblO4yt7Wz37UyMMoTqTe9s1uL9DOAIUvqR/wyqJxJHxg1n
+	JfeObw5vSlauu90u8RMjtVPvyjmPuT9auiF033q7nXO3ijFBdIwX50OFtTwEql6PjHv0t0YFi8k
+	6snqzSzD+7tJHWdOYIhG9CemdvNvyWi06AM2J3Xbqv5K3cj50JsjNyhTYZE0ocrOgkWEWOHm4l6
+	zt6/Jf6e3qBlEbcQeo+7fMoLbrZO3iYLLs2cX8gOpzapzEffd7eA/zIoNdqISuH+nRUntgrI2yR
+	dMFzhZrpadTQoVF
+X-Received: by 2002:a05:600c:4e12:b0:477:c478:46d7 with SMTP id 5b1f17b1804b1-482db481c85mr72573765e9.22.1769846230272;
+        Fri, 30 Jan 2026 23:57:10 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fa8b238ae1dd6dd8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fa8b:238a:e1dd:6dd8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce564f9sm258621475e9.14.2026.01.30.23.57.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce564f9sm258621475e9.14.2026.01.30.23.57.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 23:57:07 -0800 (PST)
+        Fri, 30 Jan 2026 23:57:09 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 20/22] libxml2: patch CVE-2026-0990
-Date: Sat, 31 Jan 2026 08:56:31 +0100
-Message-ID: <a8684a230cd69dd54f4cf71b0121d36efa70052e.1769845858.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 22/22] openssl: upgrade 3.5.4 -> 3.5.5
+Date: Sat, 31 Jan 2026 08:56:33 +0100
+Message-ID: <030e8e0e4af2349abeea7c1de02e9062fd8aebbe.1769845858.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1769845858.git.yoann.congal@smile.fr>
 References: <cover.1769845858.git.yoann.congal@smile.fr>
@@ -66,114 +66,154 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 07:57:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230225
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230226
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch which closed [1].
+Resolved patch conflicts.
 
-[1] https://gitlab.gnome.org/GNOME/libxml2/-/issues/1018
+Release information [1]:
+
+OpenSSL 3.5.5 is a security patch release. The most severe CVE fixed in this release is High.
+This release incorporates the following bug fixes and mitigations:
+* Fixed Improper validation of PBMAC1 parameters in PKCS#12 MAC verification. (CVE-2025-11187)
+* Fixed Stack buffer overflow in CMS AuthEnvelopedData parsing. (CVE-2025-15467)
+* Fixed NULL dereference in SSL_CIPHER_find() function on unknown cipher ID. (CVE-2025-15468)
+* Fixed openssl dgst one-shot codepath silently truncates inputs >16 MiB. (CVE-2025-15469)
+* Fixed TLS 1.3 CompressedCertificate excessive memory allocation. (CVE-2025-66199)
+* Fixed Heap out-of-bounds write in BIO_f_linebuffer on short writes. (CVE-2025-68160)
+* Fixed Unauthenticated/unencrypted trailing bytes with low-level OCB function calls. (CVE-2025-69418)
+* Fixed Out of bounds write in PKCS12_get_friendlyname() UTF-8 conversion. (CVE-2025-69419)
+* Fixed Missing ASN1_TYPE validation in TS_RESP_verify_response() function. (CVE-2025-69420)
+* Fixed NULL Pointer Dereference in PKCS12_item_decrypt_d2i_ex() function. (CVE-2025-69421)
+* Fixed Missing ASN1_TYPE validation in PKCS#12 parsing. (CVE-2026-22795)
+* Fixed ASN1_TYPE Type Confusion in the PKCS7_digest_from_attributes() function. (CVE-2026-22796)
+
+[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-354-and-openssl-355-27-jan-2026
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libxml/libxml2/CVE-2026-0990.patch        | 76 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.14.6.bb    |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
+ ...ke-history-reporting-when-test-fails.patch | 23 +++++++++----------
+ .../0001-extend-check_cwm-test-timeout.patch  |  2 +-
+ .../{openssl_3.5.4.bb => openssl_3.5.5.bb}    |  2 +-
+ 3 files changed, 13 insertions(+), 14 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.5.5.bb} (99%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
-new file mode 100644
-index 00000000000..62cb8c27541
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
-@@ -0,0 +1,76 @@
-+From 1961208e958ca22f80a0b4e4c9d71cfa050aa982 Mon Sep 17 00:00:00 2001
-+From: Daniel Garcia Moreno <daniel.garcia@suse.com>
-+Date: Wed, 17 Dec 2025 15:24:08 +0100
-+Subject: [PATCH] catalog: prevent inf recursion in xmlCatalogXMLResolveURI
-+
-+Fix https://gitlab.gnome.org/GNOME/libxml2/-/issues/1018
-+
-+CVE: CVE-2026-0990
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1961208e958ca22f80a0b4e4c9d71cfa050aa982]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ catalog.c | 31 +++++++++++++++++++++++--------
-+ 1 file changed, 23 insertions(+), 8 deletions(-)
-+
-+diff --git a/catalog.c b/catalog.c
-+index 76c063a8..46b877e6 100644
-+--- a/catalog.c
-++++ b/catalog.c
-+@@ -2047,12 +2047,21 @@ static xmlChar *
-+ xmlCatalogListXMLResolveURI(xmlCatalogEntryPtr catal, const xmlChar *URI) {
-+     xmlChar *ret = NULL;
-+     xmlChar *urnID = NULL;
-++    xmlCatalogEntryPtr cur = NULL;
-+ 
-+     if (catal == NULL)
-+         return(NULL);
-+     if (URI == NULL)
-+ 	return(NULL);
-+ 
-++    if (catal->depth > MAX_CATAL_DEPTH) {
-++	xmlCatalogErr(catal, NULL, XML_CATALOG_RECURSION,
-++		      "Detected recursion in catalog %s\n",
-++		      catal->name, NULL, NULL);
-++	return(NULL);
-++    }
-++    catal->depth++;
-++
-+     if (!xmlStrncmp(URI, BAD_CAST XML_URN_PUBID, sizeof(XML_URN_PUBID) - 1)) {
-+ 	urnID = xmlCatalogUnWrapURN(URI);
-+ 	if (xmlDebugCatalogs) {
-+@@ -2066,21 +2075,27 @@ xmlCatalogListXMLResolveURI(xmlCatalogEntryPtr catal, const xmlChar *URI) {
-+ 	ret = xmlCatalogListXMLResolve(catal, urnID, NULL);
-+ 	if (urnID != NULL)
-+ 	    xmlFree(urnID);
-++	catal->depth--;
-+ 	return(ret);
-+     }
-+-    while (catal != NULL) {
-+-	if (catal->type == XML_CATA_CATALOG) {
-+-	    if (catal->children == NULL) {
-+-		xmlFetchXMLCatalogFile(catal);
-++    cur = catal;
-++    while (cur != NULL) {
-++	if (cur->type == XML_CATA_CATALOG) {
-++	    if (cur->children == NULL) {
-++		xmlFetchXMLCatalogFile(cur);
-+ 	    }
-+-	    if (catal->children != NULL) {
-+-		ret = xmlCatalogXMLResolveURI(catal->children, URI);
-+-		if (ret != NULL)
-++	    if (cur->children != NULL) {
-++		ret = xmlCatalogXMLResolveURI(cur->children, URI);
-++		if (ret != NULL) {
-++		    catal->depth--;
-+ 		    return(ret);
-++		}
-+ 	    }
-+ 	}
-+-	catal = catal->next;
-++	cur = cur->next;
-+     }
-++
-++    catal->depth--;
-+     return(ret);
-+ }
-+ 
-diff --git a/meta/recipes-core/libxml/libxml2_2.14.6.bb b/meta/recipes-core/libxml/libxml2_2.14.6.bb
-index f214fcd88f6..7b47f823f92 100644
---- a/meta/recipes-core/libxml/libxml2_2.14.6.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.14.6.bb
-@@ -20,6 +20,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch \
-            file://CVE-2025-6021.patch \
-            file://CVE-2026-0989.patch \
-+           file://CVE-2026-0990.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+index 5b7365a3531..a74c79303f6 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+@@ -7,10 +7,10 @@ Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/22481]
+ 
+ Signed-off-by: William Lyu <William.Lyu@windriver.com>
+ ---
+- test/helpers/handshake.c | 137 +++++++++++++++++++++++++++++----------
++ test/helpers/handshake.c | 136 ++++++++++++++++++++++++++++++---------
+  test/helpers/handshake.h |  70 +++++++++++++++++++-
+  test/ssl_test.c          |  44 +++++++++++++
+- 3 files changed, 217 insertions(+), 34 deletions(-)
++ 3 files changed, 217 insertions(+), 33 deletions(-)
+ 
+ diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+ index f611b3a..5703b48 100644
+@@ -119,7 +119,7 @@ index f611b3a..5703b48 100644
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+  {
+      HANDSHAKE_RESULT *ret;
+-@@ -726,15 +822,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
++@@ -724,15 +820,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
+          SSL_set_post_handshake_auth(client, 1);
+  }
+  
+@@ -135,7 +135,7 @@ index f611b3a..5703b48 100644
+  /* An SSL object and associated read-write buffers. */
+  typedef struct peer_st {
+      SSL *ssl;
+-@@ -1081,17 +1168,6 @@ static void do_shutdown_step(PEER *peer)
++@@ -1077,16 +1164,6 @@ static void do_shutdown_step(PEER *peer)
+      }
+  }
+  
+@@ -148,12 +148,11 @@ index f611b3a..5703b48 100644
+ -    SHUTDOWN,
+ -    CONNECTION_DONE
+ -} connect_phase_t;
+--
+ -
+  static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+  {
+      switch (test_ctx->handshake_mode) {
+-@@ -1169,19 +1245,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
++@@ -1164,19 +1241,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
+      }
+  }
+  
+@@ -173,7 +172,7 @@ index f611b3a..5703b48 100644
+  /*
+   * Determine the handshake outcome.
+   * last_status: the status of the peer to have acted last.
+-@@ -1546,6 +1609,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1541,6 +1605,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+  
+      start = time(NULL);
+  
+@@ -184,8 +183,8 @@ index f611b3a..5703b48 100644
+      /*
+       * Half-duplex handshake loop.
+       * Client and server speak to each other synchronously in the same process.
+-@@ -1567,6 +1634,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+-                                       0 /* server went last */);
++@@ -1562,6 +1630,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++                 0 /* server went last */);
+          }
+  
+ +        save_loop_history(&(ret->history),
+@@ -292,14 +291,14 @@ index 78b03f9..b9967c2 100644
+  
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
+ @@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX *server_ctx, SSL_CTX *server2_ctx,
+-                                     CTX_DATA *server2_ctx_data,
+-                                     CTX_DATA *client_ctx_data);
++     CTX_DATA *server2_ctx_data,
++     CTX_DATA *client_ctx_data);
+  
+ +const char *handshake_connect_phase_name(connect_phase_t phase);
+ +const char *handshake_status_name(handshake_status_t handshake_status);
+ +const char *handshake_peer_status_name(peer_status_t peer_status);
+ +
+- #endif  /* OSSL_TEST_HANDSHAKE_HELPER_H */
++ #endif /* OSSL_TEST_HANDSHAKE_HELPER_H */
+ diff --git a/test/ssl_test.c b/test/ssl_test.c
+ index ea60851..9d6b093 100644
+ --- a/test/ssl_test.c
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+index d02d42f1b51..f6eb28069ac 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+@@ -20,7 +20,7 @@ index 4a1e886a71..39f8c61ef9 100644
+ +++ b/test/radix/main.c
+ @@ -25,6 +25,11 @@ static int test_script(int idx)
+      int testresult;
+-     TERP_CONFIG cfg = {0};
++     TERP_CONFIG cfg = { 0 };
+  
+ +    // check_cwm test sometimes times out, the default 3000ms is
+ +    // not enough if the test execution starves for CPU
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.4.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+index e760baf3a02..c0d02b617ba 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
             "
  
- SRC_URI[archive.sha256sum] = "7ce458a0affeb83f0b55f1f4f9e0e55735dbfc1a9de124ee86fb4a66b597203a"
+-SRC_URI[sha256sum] = "967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"
++SRC_URI[sha256sum] = "b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69bd789f28bc2a89"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 
