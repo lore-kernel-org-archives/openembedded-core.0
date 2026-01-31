@@ -2,210 +2,156 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03DD8D79748
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26912D7974F
 	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 07:57:06 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5097.1769846216584991168
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5106.1769846222651565278
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jan 2026 23:56:57 -0800
+ Fri, 30 Jan 2026 23:57:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=k/HoCb38;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so27798735e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 23:56:56 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=GoBWqTw0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso28476045e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 23:57:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769846215; x=1770451015; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VpmTxxqgiNpML1LUbVONF5mZll5LuZ8itAHHMWAvhEc=;
-        b=k/HoCb38c0J+Y7wf7ELCSicnsZRx14p04H7LWf51G49A/Nxr6Jzro19SDTzaXXwhAN
-         cYMjppZX5vZ+snf3vhsdgem3Lfqvz6xftUCLhourQ22JZJPMFZr4+ly/sORZCLycCXfL
-         GNwJ+63dpqQRGOA6pWBTYvmEAtvwMZhxzsYlw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769846215; x=1770451015;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1769846221; x=1770451021; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VpmTxxqgiNpML1LUbVONF5mZll5LuZ8itAHHMWAvhEc=;
-        b=ZVFHVOdkxud2mBDYajLxjrWuwnouh30ce6EqLchfPLZtyiQXfOjFSwRUun+bOMWiZ6
-         8DtLgcXa3dn/KbyxhDbn2q8PEaHIxaMzMjq3FuHnaH9XrW8413SownSsJoL0qCNid29/
-         6vnEQJaParSMm8ryd7a7+8Z9D+lBk78xHBMxS/nypmSOyMC6ZkP/R8cQahWN4eTXOE12
-         uv2+9PKNBKaY7r/xKBXlsiZ/syUAZUGkyvUBAUhm3wh1bt3UEFavYym0V0Egr/UQWbAb
-         cvk37QW7Dj3c3X/abX7g4Ja018+fdrlnzjOHgNi1WDwcdAcS2FKmwz3sSych/yoW1PZy
-         ou/A==
-X-Gm-Message-State: AOJu0YzZxWyJAVs/c9g+pQTKvJ4Ta/Sh2eZ3lX3cEPBTnTYUMmKVMzh1
-	stIMntHyjyvzYQhkMppGUioSTYjygCaXxC7gy7VlCz59ec3rqOe8yJFfQNXuQEimCFmR0jLvzI5
-	cpspkSBU=
-X-Gm-Gg: AZuq6aJM9ItqeVR0YkT4RMekhuYNM6elR0aYJz9ZYJqGfQY9RK4XBe0vJhm/X/+FlNq
-	eoSGSG85rzdqCepY9pl5fCapr0a6YRhds45xOcZX+/l26M5PoI2l6xorITlVhrqGZX7tj17OmDT
-	GJhTwYAfhIH+mNz+801J5einDw1qDqwupRkcwDv/bu1WOKWbeVnEjRyE63sN9hxH+kQF7Y6vYp5
-	3Avm0Cg1kypJJytW0eVIzB7kDnYl15FOcZmCDCYRJrKjDKOnbSRfWynaGzhCW4+SuQhRd35Pl2h
-	FMuIgQk/MkqZRziQ0TAa6NEB2uneCjFQNMPJTcTO2gf3nd14ZzxM18k+/Heig/Y5D3bowcfjjGV
-	trNPyPEsUiBdg+t51lTu04s/4WYSmAXYpitAh59iE5AtmINoXmT87ybMqdl0zGMa8oBlAX8NqB3
-	AUHs8QXdFQJCtc5JMfAHButKttDwE5OoBGRU1kAN7fl6wHAA+ko/nFY+ZvSE/xE0wQbj26M9RmC
-	fOZ8SFOHrgRgBmj
-X-Received: by 2002:a05:600c:528f:b0:480:6fbc:695f with SMTP id 5b1f17b1804b1-482db49702dmr58568315e9.32.1769846214507;
-        Fri, 30 Jan 2026 23:56:54 -0800 (PST)
+        bh=y6Spzk7r+/ZPe8BJaSqxqZ+Z5LTsQ7ZNbAfkct6fYBs=;
+        b=GoBWqTw0floMqCPZEQW8iftheB5vGANSQf6nrEwZtI2aJmx9tQ7w73Iguh3yRGWciS
+         WnLPI7YeK2BHAPyTZl4Up8jyMPB7fih3MZFv9nqgN1rgbGQz3eivCjhMiW743Fiq+jTo
+         9xyu/tzLfVUjLzacQwW+yptKLSTAoXSj7ns+E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769846221; x=1770451021;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=y6Spzk7r+/ZPe8BJaSqxqZ+Z5LTsQ7ZNbAfkct6fYBs=;
+        b=v/qrjKFtvNkQq7dbT1LH3mw56SGbCuCBer4MAwiz7wC/Ev2J0GRbaeYtwRyhkiKvOg
+         jp/jm7MB+vOXWJmsgs1G2qAYkRKfkxP5/WCoocv4YC36Yx9MJr7tAAr4SL6ILYgd+smZ
+         h6SQkybYRwa/nBBcPbrdMfEN09IPfQiRa5TNs1AwEtVwdD9a2tsjiZfK64eiAnAOkjYh
+         2J6MJP8J68+5SwTU5IVWgTl9abetNZoruyfSeSWJ276Cmm5lq+viUXslEbUQsV+eNgWx
+         GMh+XmxmO8ZYv0kkO+pEXCvG40djWzOB4cAuC6Q1955g3NKr2IGnIcL66n7/nUhjWBnC
+         j1sg==
+X-Gm-Message-State: AOJu0YwXpnSS2uHwljpbhntftqeyVx5hrVm9Qou2qcYto0Ri4bVAZuYG
+	K7vK13vGU5Jabbljxh3tg8THxSGD+H4tSn1+dKfoTvLQJnOoMfa0hAwV8NpYP4+F11firIQqhz2
+	gGqMmA+0=
+X-Gm-Gg: AZuq6aLGiS9FP8Y2ds9icLUx8tykqozinHEX3aiANOBINqquokHlp0Oyx9F6KDOVhTZ
+	5FTmq3Pq1A8TvoUpKAY3mAjYYNR5cWN5h9njAYGjUrOebp7HxKXufoT9ZvhNxpSXc7jO7/VkjTy
+	9lBMmETvfG4KgXR7yic+ui1NHLs0t9fQhe6y7e2qLu2/4upgEUo3XMcbFxqfyVuPc/u3nEgFxSY
+	r8q4tuBWxMvVCqPT3/gi5/61OQEcKbNzvkzWvBHnvn6minvuOLdPLTmcU6FSZ75ZzWMzzvJz7mR
+	nN55gt31JNUkz158Q3nMsSx8btT+St/31yhggUL3ZpBdZxfEAzYQUJKfljSMDzDtG3g92fjvjrq
+	8GeqpmPUcZGtU0GyQGlD/zVH6BNqek/n0x+PCU+edJMIm5z2/ifJRESvWI17lwWEA0JZdfpVYIm
+	e9b6E/xlmoh6NP0cgFZ5/Un4/kGUzF7OaK/6hPuPBN/oHTHX1zE4bZ2B5O6xGWmnNb/547rw7Gq
+	8D3IIAyl5llr7+/
+X-Received: by 2002:a05:600c:4591:b0:480:4a4f:c363 with SMTP id 5b1f17b1804b1-482db45fc65mr65322665e9.9.1769846220789;
+        Fri, 30 Jan 2026 23:57:00 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fa8b238ae1dd6dd8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fa8b:238a:e1dd:6dd8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce564f9sm258621475e9.14.2026.01.30.23.56.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce564f9sm258621475e9.14.2026.01.30.23.57.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 23:56:54 -0800 (PST)
+        Fri, 30 Jan 2026 23:57:00 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 00/22] Patch review
-Date: Sat, 31 Jan 2026 08:56:11 +0100
-Message-ID: <cover.1769845858.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 10/22] glibc: stable 2.42 branch updates
+Date: Sat, 31 Jan 2026 08:56:21 +0100
+Message-ID: <c5401d89c51fe73d93afc73d73cb0f93c00bbca7.1769845858.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1769845858.git.yoann.congal@smile.fr>
+References: <cover.1769845858.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 07:57:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230205
+ <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 07:57:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230215
 
-Please review this set of changes for whinlatter and have comments back by
-end of day Tuesday, February 3.
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3151
+git log --oneline e34453cd6a8c592c325756ff3c7ac0afd3975cb4..912d89a766847649a3857985a3b5e6065c51bfd4
+912d89a766 (HEAD -> release/2.42/master, origin/release/2.42/master) Switch currency symbol for the bg_BG locale to euro
+cbf39c26b2 posix: Reset wordexp_t fields with WRDE_REUSE (CVE-2025-15281 / BZ 33814)
+453e6b8dba resolv: Fix NSS DNS backend for getnetbyaddr (CVE-2026-0915)
+b0ec8fb689 memalign: reinstate alignment overflow check (CVE-2026-0861)
+f122d0b4d1 nptl: Optimize trylock for high cache contention workloads (BZ #33704)
+a1d3294a5b support: Exit on consistency check failure in resolv_response_add_name
+8dfb84ad4e support: Fix FILE * leak in check_for_unshare_hints in test-container
+2a0873aa81 sprof: fix -Wformat warnings on 32-bit hosts
+efdf4c0c87 sprof: check pread size and offset for overflow
+b11411fe2e posix: Fix invalid flags test for p{write,read}v2
+8aaf4b732d ppc64le: Power 10 rawmemchr clobbers v20 (bug #33091)
+2dbf973fe0 ppc64le: Restore optimized strncmp for power10
+6b2957cfe8 ppc64le: Restore optimized strcmp for power10
+828b8d23f3 AArch64: Fix and improve SVE pow(f) special cases
+710d7a2e83 AArch64: fix SVE tanpi(f) [BZ #33642]
+0c9430ed97 AArch64: Fix instability in AdvSIMD sinh
+ec041b1f53 AArch64: Fix instability in AdvSIMD tan
+97297120ce AArch64: Optimise SVE scalar callbacks
+17c3eab387 aarch64: fix includes in SME tests
+de1fe81f47 aarch64: fix cfi directives around __libc_arm_za_disable
+bf499c2a49 x86: fix wmemset ifunc stray '!' (bug 33542)
+71874f167a aarch64: tests for SME
+256030b984 aarch64: clear ZA state of SME before clone and clone3 syscalls
+6de12fc9ad aarch64: define macro for calling __libc_arm_za_disable
+ab8c1b5d62 x86: Detect Intel Nova Lake Processor
+bf48b17a28 x86: Detect Intel Wildcat Lake Processor
+18fd689cdc nptl: Fix MADV_GUARD_INSTALL logic for thread without guard page (BZ 33356)
+46b4e37c9e nss: Group merge does not react to ERANGE during merge (bug 33361)
+1166170d95 libio: Define AT_RENAME_* with the same tokens as Linux
 
-The following changes since commit fa31089d48cac2aa11279e932a77f4dbdc02c02d:
+Testing Results:
+             Before     After   Diff
+PASS         6809      6815     +6
+XPASS        4         4         0
+FAIL         180       173      -7
+XFAIL        16        16        0
+UNSUPPORTED  129       129       0
 
-  libarchive: upgrade 3.8.4 -> 3.8.5 (2026-01-26 08:44:38 +0000)
+Changes in failed testcases:
 
-are available in the Git repository at:
+testcase-name                                   before   after
+malloc/tst-malloc_info                          FAIL     PASS
+malloc/tst-malloc-too-large                     FAIL     PASS
+malloc/tst-malloc-too-large-malloc-check        FAIL     PASS
+malloc/tst-malloc-too-large-malloc-hugetlb1     FAIL     PASS
+malloc/tst-malloc-too-large-malloc-largetcache  FAIL     PASS
+malloc/tst-malloc-too-large-mcheck              FAIL     PASS
+nptl/tst-robustpi7                              FAIL     PASS
+posix/tst-wait3                                 FAIL     PASS
+stdio-common/tst-read-offset                    PASS     FAIL
 
-  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-nut
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.42.bb     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Hemanth Kumar M D (1):
-  binutils: Upgrade to 2.45.1 release
-
-Hugo SIMELIERE (1):
-  libtasn1: Fix CVE-2025-13151
-
-Jiaying Song (1):
-  grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663
-    CVE-2025-61664
-
-João Marcos Costa (1):
-  mesa: fix build error with llvmpipe gallium driver
-
-Ken Kurematsu (1):
-  libtheora: set CVE_PRODUCT
-
-Khai Dang (1):
-  docbook-xml-dtd4: fix the fetching failure
-
-Mark Hatle (1):
-  dpkg: Fix ADMINDIR
-
-Mathieu Dubois-Briand (2):
-  oeqa/gitarchive: Fix git push URL parameter
-  oeqa/gitarchive: Push tag before copying log files
-
-Peter Marko (11):
-  go: upgrade 1.25.5 -> 1.25.6
-  zlib: ignore CVE-2026-22184
-  python3-urllib3: patch CVE-2026-21441
-  glibc: stable 2.42 branch updates
-  expat: patch CVE-2026-24515
-  dropbear: patch CVE-2025-14282
-  libpng: upgrade 1.6.53 -> 1.6.54
-  glib-2.0: patch CVE-2026-0988
-  libxml2: patch CVE-2026-0989
-  libxml2: patch CVE-2026-0990
-  openssl: upgrade 3.5.4 -> 3.5.5
-
-Richard Purdie (2):
-  scripts/oe-git-archive: Ensure new push parameter is specified
-  pseudo: Update to 1.9.3 release
-
- meta/lib/oe/package_manager/deb/__init__.py   |    4 +
- .../oeqa/selftest/cases/gitarchivetests.py    |    4 +-
- meta/lib/oeqa/utils/gitarchive.py             |    8 +-
- .../grub/files/CVE-2025-54770.patch           |   41 +
- .../grub/files/CVE-2025-61661.patch           |   40 +
- .../grub/files/CVE-2025-61662.patch           |   72 +
- .../grub/files/CVE-2025-61663_61664.patch     |   64 +
- meta/recipes-bsp/grub/grub2.inc               |    4 +
- ...ke-history-reporting-when-test-fails.patch |   23 +-
- .../0001-extend-check_cwm-test-timeout.patch  |    2 +-
- .../{openssl_3.5.4.bb => openssl_3.5.5.bb}    |    2 +-
- .../dropbear/dropbear/CVE-2025-14282-01.patch |  280 +++
- .../dropbear/dropbear/CVE-2025-14282-02.patch |   97 +
- .../dropbear/dropbear/CVE-2025-14282-03.patch |  282 +++
- .../dropbear/dropbear/CVE-2025-14282-04.patch |   72 +
- .../dropbear/dropbear/CVE-2025-14282-05.patch |   46 +
- .../recipes-core/dropbear/dropbear_2025.88.bb |    5 +
- .../expat/expat/CVE-2026-24515-01.patch       |   43 +
- .../expat/expat/CVE-2026-24515-02.patch       |  117 ++
- meta/recipes-core/expat/expat_2.7.3.bb        |    2 +
- .../glib-2.0/files/CVE-2026-0988.patch        |   58 +
- meta/recipes-core/glib-2.0/glib.inc           |    1 +
- meta/recipes-core/glibc/glibc-version.inc     |    2 +-
- meta/recipes-core/glibc/glibc_2.42.bb         |    2 +-
- .../libxml/libxml2/CVE-2026-0989.patch        |  309 +++
- .../libxml/libxml2/CVE-2026-0990.patch        |   76 +
- meta/recipes-core/libxml/libxml2_2.14.6.bb    |    2 +
- meta/recipes-core/zlib/zlib_1.3.1.bb          |    2 +
- .../binutils/binutils-2.45.inc                |    6 +-
- ...-system-directories-when-cross-linki.patch |   38 +-
- .../binutils/0008-Use-libtool-2.4.patch       | 1827 ++++++++---------
- .../docbook-xml/docbook-xml-dtd4_4.5.bb       |   10 +-
- ...-dirs.c-set_rootfs-was-not-checking-.patch |   46 +
- meta/recipes-devtools/dpkg/dpkg_1.22.21.bb    |    1 +
- .../go/{go-1.25.5.inc => go-1.25.6.inc}       |    2 +-
- ...e_1.25.5.bb => go-binary-native_1.25.6.bb} |    6 +-
- ..._1.25.5.bb => go-cross-canadian_1.25.6.bb} |    0
- ...{go-cross_1.25.5.bb => go-cross_1.25.6.bb} |    0
- ...osssdk_1.25.5.bb => go-crosssdk_1.25.6.bb} |    0
- ...runtime_1.25.5.bb => go-runtime_1.25.6.bb} |    0
- ...ent-based-hash-generation-less-pedan.patch |    8 +-
- ...ng-cgo-on-386-call-C-sigaction-funct.patch |    4 +-
- ...d-go-make-GOROOT-precious-by-default.patch |    2 +-
- .../go/{go_1.25.5.bb => go_1.25.6.bb}         |    0
- meta/recipes-devtools/pseudo/pseudo_git.bb    |    4 +-
- .../python3-urllib3/CVE-2026-21441.patch      |  111 +
- .../python/python3-urllib3_2.5.0.bb           |    1 +
- .../files/0001-gallivm-support-LLVM-21.patch  |   56 +
- meta/recipes-graphics/mesa/mesa.inc           |    1 +
- .../{libpng_1.6.53.bb => libpng_1.6.54.bb}    |    4 +-
- .../libtheora/libtheora_1.2.0.bb              |    2 +
- .../gnutls/libtasn1/CVE-2025-13151.patch      |   30 +
- .../recipes-support/gnutls/libtasn1_4.20.0.bb |    1 +
- scripts/lib/resulttool/store.py               |    9 +-
- scripts/oe-git-archive                        |    2 +-
- 55 files changed, 2752 insertions(+), 1079 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.5.5.bb} (99%)
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-01.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-02.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-03.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-04.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-05.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-lib-dpkg-options-dirs.c-set_rootfs-was-not-checking-.patch
- rename meta/recipes-devtools/go/{go-1.25.5.inc => go-1.25.6.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.5.bb => go-binary-native_1.25.6.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.5.bb => go-cross-canadian_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.5.bb => go-cross_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.5.bb => go-crosssdk_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.5.bb => go-runtime_1.25.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.5.bb => go_1.25.6.bb} (100%)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
- create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm-support-LLVM-21.patch
- rename meta/recipes-multimedia/libpng/{libpng_1.6.53.bb => libpng_1.6.54.bb} (94%)
- create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
-
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index a3ce970c29c..9991c024953 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.42/master"
+ PV = "2.42+git"
+-SRCREV_glibc ?= "e34453cd6a8c592c325756ff3c7ac0afd3975cb4"
++SRCREV_glibc ?= "912d89a766847649a3857985a3b5e6065c51bfd4"
+ SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc_2.42.bb b/meta/recipes-core/glibc/glibc_2.42.bb
+index f9c1cdc2f14..a8717c0eae2 100644
+--- a/meta/recipes-core/glibc/glibc_2.42.bb
++++ b/meta/recipes-core/glibc/glibc_2.42.bb
+@@ -17,7 +17,7 @@ Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, m
+ easier access for another. 'ASLR bypass itself is not a vulnerability.'"
+ 
+ CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
+-CVE_STATUS_STABLE_BACKPORTS = ""
++CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915"
+ CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
+ DEPENDS += "gperf-native bison-native"
 
