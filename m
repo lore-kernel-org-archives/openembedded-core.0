@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BE1D7974A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44063D79756
 	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 07:57:06 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5104.1769846221471795042
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5100.1769846218364480780
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jan 2026 23:57:01 -0800
+ Fri, 30 Jan 2026 23:56:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=B+t3z4F/;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso12905755e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 23:57:01 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=c8sWv+EM;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48068ed1eccso25660595e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jan 2026 23:56:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1769846219; x=1770451019; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1769846216; x=1770451016; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=42ylXkdUGfq8kHAqdH2LLApxmlGycZrLoYuwTTyDTYM=;
-        b=B+t3z4F/Xt/o45eWz2MGNlpFfxWFhwS7CWgjmXNWGmDDvASVXyTaGnsWyNs0u3+yU9
-         F48xg8R0PXa89vza7NwGKp7RzBFJm4mn+MzM/GcLuLr/u/QQOlsh/IN9avAop0cmRFdn
-         wowQKD0B0EOgcd2w+W2b2OGDb9SOAZdWEQ4tQ=
+        bh=d+BzhpS/sSwy4fvSNjCvJN3XhrgXofjWG4LRJNMT3B8=;
+        b=c8sWv+EMmHAXnZYUtDgV9yGOb+O13ugVd8h3vC00S4p+dSAtwjReQJziqf5khoE6Kc
+         6MrOpz4L0wJlfPV75Da+S6sv/hLFMJNVPBrVoVH8NALHPJwzvMs2KP3soLdzAwH4iD0Y
+         xGMFBuhWzJnd3c/XlIufpnGwmkuol5UDUFqBM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769846219; x=1770451019;
+        d=1e100.net; s=20230601; t=1769846216; x=1770451016;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=42ylXkdUGfq8kHAqdH2LLApxmlGycZrLoYuwTTyDTYM=;
-        b=PfMtgwuqRn4BjhF1nlT3XcDnPckbe3gdiL8vo8tmZuGtz2j6Y7PsIV1930wzQIyVf3
-         a1FFm58OJ2e/dVUleeKK8kSByZHsBk7OtY5d4Ob7htWa0bUCdibWwM6RJs76nEyg1aqK
-         7O82ZYfyGoF8o5YHbuTK0YwTr5f0R9ACmKJOaMfyD5yk6Iu/z46B0/eUMrEOwD4IM4nD
-         Bgn6+ESYGmIY//eIaas2p/7c2yp9lL25mKbZtoHansFBq0WwrkZPV0GuQgr61etYPHqS
-         XlJyvfuEPgGMX5WwiJ26UDTFAOejsVoVKzOaqvsS5Vl8Zpt0yCpL4lJ4zcPjVl4vDm7a
-         Leng==
-X-Gm-Message-State: AOJu0Yx+mHOR1BrmEC7FhxFjOPZlSwtXDjjvFLkfKImHXmH1rqaXjo6E
-	CkoM/7dAHvq61E7d/IjfC31atXxht+zglWplrnMtJBpKKEcYgQTsdKiUQOy/F86jsDl9QmALDPf
-	ssZmgTqM=
-X-Gm-Gg: AZuq6aLUbODMgp6Du958RZ9KVxjPBIQYv5UwpxxyH3rU3TRw6NsQLjpOJEfQlB/tHLH
-	T4gtjMD272/iUR+Pc2JD/nw50Z4jW+yNFTzYmuIF1qDs/RTo4ZkGItHHq7tYolT1WlYM7brQVj+
-	W9onx5qU6RUsAiJ+kEFasRSqfrV04Q5PWMKgmBv1gj2wcuzkzEHP6gcPOdrXCxoP1g8FRck/GH1
-	Sft61CzcYN58pypBB3F6/e+VdcBa0x476lzkT4rxjHCIifEoax55ckkeueVQB7E272atQ071AQ8
-	e6PbK2M5EiSmK21W+lXSWW+nUZxGVfDsWpN0veCJFINnKymt+IZhCWUffZli51ZzOTDw8YtCVyu
-	k3ud7otUT+DgOew/q4G94OqfQDPA/csuWqSDlRr+GVOCplR9bB057d2ffcDWhbOs4k8OkWOZVI3
-	nsYQ2ClKtYUuCcC/ftsvZI2iWVRyi5SYUIMtAeczIAW7lSFgwt0CQcSAO3aO5gFwozaQhSqX9Uw
-	FuSSb1NZHbH2tGJ
-X-Received: by 2002:a05:600c:1da8:b0:477:7b16:5f77 with SMTP id 5b1f17b1804b1-482db493ff1mr68899885e9.3.1769846219510;
-        Fri, 30 Jan 2026 23:56:59 -0800 (PST)
+        bh=d+BzhpS/sSwy4fvSNjCvJN3XhrgXofjWG4LRJNMT3B8=;
+        b=eg2v1IZ82v76Fo/T4muoufzBkvNadZxlxZhGCKTdhTRlr7AMR4TQmx0rB2Smt0vYvk
+         P+5798ZSjPw+9grvdwemdz6qtG9VFjggeVT67XGXhcWXzQs3ZlKyYz+mxdN3OlZ51Yi0
+         ijBZzgCtZRN49BiItzus0peIR4+bTZvQXUm5qNhUiNi0Efq51UDiKXzw7T/hJsmbUG55
+         OpoNX5b2W1bjzUqC0Cjx16glcJDRgmV1Xth46b77Wql18TmW/ILslCjvPT+xQKYs4Iyp
+         0xswI8UIDwD9MGm4X9ldzD/ZQKWAIhsuEgzml7oAwVwbO9JJ+8qyKx4Q6MjMKWi66PHJ
+         /3FA==
+X-Gm-Message-State: AOJu0YzyCq793WTxFEgwR+UBP6BIHNFf0kfdjdp7W2kJVJMWasAhhpo0
+	eNCC32WO1/KEFTtFjd+kFc3JzsjpLmT9gfiAicJM4P1X+Qtj1xrRfHWM9+hIDfyK82Xv5FBfGFt
+	EIXbiSiI=
+X-Gm-Gg: AZuq6aKK3seE0ivn+Ri3Q02euoDwAeHrRyBP/x0nkSm2LMJOQHci83RK6/eibHZCzbu
+	DQsorm0p1rL27c03XTwzGc32TqL77Qkw7i6lDZ8BkKDwBNAXLthRmP3AIph4b897f+C9XqCAfbS
+	uaJMYtAdyA15NwStK25hVXOGb3zGA6x0QNXPU47uEmdvn2baOB1poesW4G8zHwv+xU3cmUIJ6ma
+	QGg2dJOr2WXKUoHYdhW0n/hD8ZcxBITcHcVj9VDZ2ZrX0N6iIFpC6rwekypNjtk7pFyPPMRThdz
+	JjAU2hKXz8amkVmhZA6C05Jh0Elp8PRoGaeyOmKgfo+gSWFxVPoO4CRyDdXYofM8xrOZp1WfCa1
+	EbzTONlJLwNT5uPFbHEDnn20CkTSYgWQuxWyq3UMR12h9253Tq87/EYcv1z3+It+6bsQcQ9UXvk
+	SAOeH1hNSEANUm1yoqEOKK6VLri3ipnys0MOa8D38eHm1okOpFea/PV/tvoVdoItBJTCEsKK5xb
+	ykpaPcbhoQ1aLa3
+X-Received: by 2002:a05:600c:6206:b0:477:b0b9:3129 with SMTP id 5b1f17b1804b1-482db44d215mr65769265e9.3.1769846216466;
+        Fri, 30 Jan 2026 23:56:56 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fa8b238ae1dd6dd8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fa8b:238a:e1dd:6dd8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce564f9sm258621475e9.14.2026.01.30.23.56.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce564f9sm258621475e9.14.2026.01.30.23.56.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 23:56:58 -0800 (PST)
+        Fri, 30 Jan 2026 23:56:55 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 08/22] python3-urllib3: patch CVE-2026-21441
-Date: Sat, 31 Jan 2026 08:56:19 +0100
-Message-ID: <f7b4ebfcdac7a402e1a80e8896dab80c5685fbc8.1769845858.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 03/22] scripts/oe-git-archive: Ensure new push parameter is specified
+Date: Sat, 31 Jan 2026 08:56:14 +0100
+Message-ID: <ff3f70212c4ddf2892663d831fd53097247f87c7.1769845858.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1769845858.git.yoann.congal@smile.fr>
 References: <cover.1769845858.git.yoann.congal@smile.fr>
@@ -65,148 +65,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 07:57:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230213
+ <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 07:57:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230208
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Pick patch mentioned in NVD report.
+Fixes a regresion in "oeqa/gitarchive: Fix git push URL parameter" due to a missing parameter.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 983cb2171e53564bc9dd188136439f3e2ad9e188)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python3-urllib3/CVE-2026-21441.patch      | 111 ++++++++++++++++++
- .../python/python3-urllib3_2.5.0.bb           |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
+ scripts/oe-git-archive | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
-new file mode 100644
-index 00000000000..f3a60138177
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
-@@ -0,0 +1,111 @@
-+From 8864ac407bba8607950025e0979c4c69bc7abc7b Mon Sep 17 00:00:00 2001
-+From: Illia Volochii <illia.volochii@gmail.com>
-+Date: Wed, 7 Jan 2026 18:07:30 +0200
-+Subject: [PATCH] Merge commit from fork
-+
-+* Stop decoding response content during redirects needlessly
-+
-+* Rename the new query parameter
-+
-+* Add a changelog entry
-+
-+CVE: CVE-2026-21441
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/8864ac407bba8607950025e0979c4c69bc7abc7b]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ CHANGES.rst                                  | 13 +++++++++++++
-+ dummyserver/app.py                           |  8 +++++++-
-+ src/urllib3/response.py                      |  6 +++++-
-+ test/with_dummyserver/test_connectionpool.py | 19 +++++++++++++++++++
-+ 4 files changed, 44 insertions(+), 2 deletions(-)
-+
-+diff --git a/CHANGES.rst b/CHANGES.rst
-+index 2de9f016..4c0b9cea 100644
-+--- a/CHANGES.rst
-++++ b/CHANGES.rst
-+@@ -1,3 +1,16 @@
-++(TBD)
-++==================
-++
-++Bugfixes
-++--------
-++
-++- Fixed a high-severity security issue where decompression-bomb safeguards of
-++  the streaming API were bypassed when HTTP redirects were followed.
-++  (`GHSA-38jv-5279-wg99 <https://github.com/urllib3/urllib3/security/advisories/GHSA-38jv-5279-wg99>`__)
-++
-++TODO: add other entries.
-++
-++
-+ 2.5.0 (2025-06-18)
-+ ==================
-+ 
-+diff --git a/dummyserver/app.py b/dummyserver/app.py
-+index 0eeb93f7..5b82e932 100644
-+--- a/dummyserver/app.py
-++++ b/dummyserver/app.py
-+@@ -233,10 +233,16 @@ async def redirect() -> ResponseReturnValue:
-+     values = await request.values
-+     target = values.get("target", "/")
-+     status = values.get("status", "303 See Other")
-++    compressed = values.get("compressed") == "true"
-+     status_code = status.split(" ")[0]
-+ 
-+     headers = [("Location", target)]
-+-    return await make_response("", status_code, headers)
-++    if compressed:
-++        headers.append(("Content-Encoding", "gzip"))
-++        data = gzip.compress(b"foo")
-++    else:
-++        data = b""
-++    return await make_response(data, status_code, headers)
-+ 
-+ 
-+ @hypercorn_app.route("/redirect_after")
-+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
-+index f6266f1a..ff6d1f49 100644
-+--- a/src/urllib3/response.py
-++++ b/src/urllib3/response.py
-+@@ -687,7 +687,11 @@ class HTTPResponse(BaseHTTPResponse):
-+         Unread data in the HTTPResponse connection blocks the connection from being released back to the pool.
-+         """
-+         try:
-+-            self.read()
-++            self.read(
-++                # Do not spend resources decoding the content unless
-++                # decoding has already been initiated.
-++                decode_content=self._has_decoded_content,
-++            )
-+         except (HTTPError, OSError, BaseSSLError, HTTPException):
-+             pass
-+ 
-+diff --git a/test/with_dummyserver/test_connectionpool.py b/test/with_dummyserver/test_connectionpool.py
-+index ce165e24..8d6107ae 100644
-+--- a/test/with_dummyserver/test_connectionpool.py
-++++ b/test/with_dummyserver/test_connectionpool.py
-+@@ -508,6 +508,25 @@ class TestConnectionPool(HypercornDummyServerTestCase):
-+             assert r.status == 200
-+             assert r.data == b"Dummy server!"
-+ 
-++    @mock.patch("urllib3.response.GzipDecoder.decompress")
-++    def test_no_decoding_with_redirect_when_preload_disabled(
-++        self, gzip_decompress: mock.MagicMock
-++    ) -> None:
-++        """
-++        Test that urllib3 does not attempt to decode a gzipped redirect
-++        response when `preload_content` is set to `False`.
-++        """
-++        with HTTPConnectionPool(self.host, self.port) as pool:
-++            # Three requests are expected: two redirects and one final / 200 OK.
-++            response = pool.request(
-++                "GET",
-++                "/redirect",
-++                fields={"target": "/redirect?compressed=true", "compressed": "true"},
-++                preload_content=False,
-++            )
-++        assert response.status == 200
-++        gzip_decompress.assert_not_called()
-++
-+     def test_303_redirect_makes_request_lose_body(self) -> None:
-+         with HTTPConnectionPool(self.host, self.port) as pool:
-+             response = pool.request(
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-index c39e9676e89..7892fc0874e 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-@@ -9,6 +9,7 @@ inherit pypi python_hatchling
+diff --git a/scripts/oe-git-archive b/scripts/oe-git-archive
+index 9305ed0b0f9..9484fc53c7d 100755
+--- a/scripts/oe-git-archive
++++ b/scripts/oe-git-archive
+@@ -106,7 +106,7 @@ def main(argv=None):
+         gitarchive.gitarchive(args.data_dir, args.git_dir, args.no_create, args.bare,
+                               args.commit_msg_subject.strip(), args.commit_msg_body, args.branch_name,
+                               args.no_tag, args.tag_name, args.tag_msg_subject, args.tag_msg_body,
+-                              args.exclude, args.notes, args.push, keywords, log)
++                              args.exclude, args.notes, bool(args.push), args.push, keywords, log)
  
- SRC_URI += "\
-     file://CVE-2025-66418.patch \
-+    file://CVE-2026-21441.patch \
- "
- 
- DEPENDS += "python3-hatch-vcs-native"
+     except gitarchive.ArchiveError as err:
+         log.error(str(err))
 
