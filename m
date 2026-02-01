@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6904BD172D2
-	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 13:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13332D172AA
+	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 13:12:56 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29189.1769951567213826413
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29196.1769951573142473470
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Feb 2026 05:12:47 -0800
+ Sun, 01 Feb 2026 05:12:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cwggYWMP;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RbZ5D2+I;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019c19559b28-92983e09-3b89-40f6-af9f-b7be3721acaf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aRClx+75;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Q8jvd7eV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019c1955b197-e2fba53a-1c29-45e2-a186-8ad68104a376-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1769951566;
+	t=1769951572;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Mt9+syEYrJTwT8vnsdgOdrP9U8gTCjXyItp/OL+8R2Q=;
-	b=cwggYWMPti3QcqnlDrqo4zYTQh61M479+fblZw/lbAMrSw5FFdSvHGDZzP/xVi9X
-	qcDGLbSIp9vpeag+CeyyvzpUe+eqPKt0dMbN+y/g0rYnu/ZoYq5ATPACZYRboNLF8Dr
-	zka8ZUlFGH+btUCttRP8MewJRKZGQvMCEfdaVVmc=
+	bh=59n2lCu0BF965mxw79WtE9ezlS8Z2nYgPiq4f+0B/Co=;
+	b=aRClx+75m0b0olc001kiPf6gs3GVP2HFaAzcSBpRytZ8gdGqAl8xBnoie7kEuLxP
+	slReF9dtXbhqhLsz41xkPEFfPNxEey1N9ta+F1lRuul1Imn/Jvokb6qD9hFyQffTXr1
+	I8GRuzmbS6PW52oKrP6+3AXj4YZfX9vH333H0OGw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951566;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951572;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Mt9+syEYrJTwT8vnsdgOdrP9U8gTCjXyItp/OL+8R2Q=;
-	b=RbZ5D2+IK/WPSNAzArLjoE75RZoK0CaXeQmiW9R6mCVTii+KuEMaV+X1bDyZolhs
-	GlKqJqCBFOElwKug6J1XMgeT/Lzh+X5p8BRpD7VW7W4jdIBXz6Q5ibuH1ZRK0nQ/NJx
-	mSpKHwNwCw3IQuhrjgBv1yrMjx3X0eHvYp0AH/aM=
-Content-Type: multipart/mixed; boundary="===============4589471734758396279=="
+	bh=59n2lCu0BF965mxw79WtE9ezlS8Z2nYgPiq4f+0B/Co=;
+	b=Q8jvd7eVn1BMoH3RR+QwCApvTuu21VTkm9TiqDsnTaGUZM2wLh7JDa9U1Eikbfzo
+	CZt9bFAXhQ5qX5+YXvoT7zL//a5I9B4zfgbRNo8YN4N0vFBjnnAE/+w9MUEdNaUOn2y
+	q7JhAoFMfBAx1bFfDtaQ9EQebUYD4hi9hUpBYTXs=
+Content-Type: multipart/mixed; boundary="===============1474229413817946455=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] lua: upgrading to 5.5.0 FAILED
-Message-ID: <0101019c19559b28-92983e09-3b89-40f6-af9f-b7be3721acaf-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Feb 2026 13:12:46 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-setuptools: upgrading to 80.10.2 SUCCEEDED
+Message-ID: <0101019c1955b197-e2fba53a-1c29-45e2-a186-8ad68104a376-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Feb 2026 13:12:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.02.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 13:12:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230272
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 13:12:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230294
 
---===============4589471734758396279==
+--===============1474229413817946455==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lua* to *5.5.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-setuptools* to *80.10.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lua-upgrade-5.4.8-5.5.0.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-80.9.0-80.10.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,314 +72,1071 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7f67699eb79dd425afd7b5a01ec90ebe06c2dcf6 Mon Sep 17 00:00:00 2001
+From 1b57adf4d8b6f0dcc611c2c965a01e8eb584042c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Feb 2026 07:58:39 +0000
-Subject: [PATCH] lua: upgrade 5.4.8 -> 5.5.0
+Date: Sun, 1 Feb 2026 09:23:00 +0000
+Subject: [PATCH] python3-setuptools: upgrade 80.9.0 -> 80.10.2
 
 ---
- .../lua/{lua_5.4.8.bb => lua_5.5.0.bb}        | 37 ++++++++++++++++++-
- 1 file changed, 35 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/lua/{lua_5.4.8.bb => lua_5.5.0.bb} (63%)
+ ...1-_distutils-sysconfig.py-make-it-possible-to-substite.patch | 2 +-
+ ...thon3-setuptools_80.9.0.bb => python3-setuptools_80.10.2.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_80.9.0.bb => python3-setuptools_80.10.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/lua/lua_5.4.8.bb b/meta/recipes-devtools/lua/lua_5.5.0.bb
-similarity index 63%
-rename from meta/recipes-devtools/lua/lua_5.4.8.bb
-rename to meta/recipes-devtools/lua/lua_5.5.0.bb
-index 1d37cddeb8..3b23b1d4ad 100644
---- a/meta/recipes-devtools/lua/lua_5.4.8.bb
-+++ b/meta/recipes-devtools/lua/lua_5.5.0.bb
-@@ -1,7 +1,40 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- doc/readme.html
-+# +++ doc/readme.html
-+# @@ -1,9 +1,3 @@
-+# -Copyright &copy; 1994&ndash;2025 Lua.org, PUC-Rio.
-+# -
-+# -<P>
-+# -Permission is hereby granted, free of charge, to any person obtaining a copy
-+# -of this software and associated documentation files (the "Software"), to deal
-+# -in the Software without restriction, including without limitation the rights
-+#  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+#  copies of the Software, and to permit persons to whom the Software is
-+#  furnished to do so, subject to the following conditions:
-+# @@ -20,3 +14,9 @@
-+#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+#  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+#  THE SOFTWARE.
-+# +</BLOCKQUOTE>
-+# +<P>
-+# +
-+# +<P CLASS="footer">
-+# +Last update:
-+# +Wed Dec 10 11:37:23 UTC 2025
-+# 
-+#
-+
- SUMMARY = "Lua is a powerful light-weight programming language designed \
- for extending applications."
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=305;endline=326;md5=0e573c143cb6491b41cf02cfbcb8c267"
-+LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=305;endline=326;md5=b61eb40fb7838eaf69a3186c50060b8c"
- HOMEPAGE = "http://www.lua.org/"
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+index 39153883b0..cfc7433f29 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+@@ -1,4 +1,4 @@
+-From e2eab8c254f16c461de25123f6859b8a18db5cd8 Mon Sep 17 00:00:00 2001
++From d91a2908e97894b7533d4b5cec8296a78a07ce92 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 11 May 2022 21:41:14 +0200
+ Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
+diff --git a/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb b/meta/recipes-devtools/python/python3-setuptools_80.10.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_80.9.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_80.10.2.bb
+index 533d8ce3d4..9d3783159a 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_80.10.2.bb
+@@ -11,7 +11,7 @@ CVE_PRODUCT = "python3-setuptools python:setuptools"
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
- SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
-@@ -12,7 +45,7 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
- # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
- PV_testsuites = "${PV}"
+-SRC_URI[sha256sum] = "f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c"
++SRC_URI[sha256sum] = "8b0e9d10c784bf7d262c4e5ec5d4ec94127ce206e8738f29a437945fbc219b70"
  
--SRC_URI[tarballsrc.sha256sum] = "4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae"
-+SRC_URI[tarballsrc.sha256sum] = "57ccc32bbbd005cab75bcc52444052535af691789dba2b9016d5c50640d68b3d"
- SRC_URI[tarballtest.sha256sum] = "9581d5a7c39ffbf29b8ccde2709083c380f7bbddbd968dcb15712d2f2e33f4e5"
+ DEPENDS += "python3"
  
- inherit pkgconfig binconfig ptest
 -- 
 2.47.1
 
 
---===============4589471734758396279==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-lua-upgrade-5.4.8-5.5.0.patch"
-
-RnJvbSA3ZjY3Njk5ZWI3OWRkNDI1YWZkN2I1YTAxZWM5MGViZTA2YzJkY2Y2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBGZWIgMjAyNiAwNzo1ODozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGx1
-YTogdXBncmFkZSA1LjQuOCAtPiA1LjUuMAoKLS0tCiAuLi4vbHVhL3tsdWFfNS40LjguYmIgPT4g
-bHVhXzUuNS4wLmJifSAgICAgICAgfCAzNyArKysrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hh
-bmdlZCwgMzUgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvbHVhL3tsdWFfNS40LjguYmIgPT4gbHVhXzUuNS4wLmJifSAoNjMlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC44LmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2x1YS9sdWFfNS41LjAuYmIKc2ltaWxhcml0eSBpbmRleCA2MyUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2x1YS9sdWFfNS40LjguYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNS4wLmJiCmluZGV4IDFkMzdjZGRlYjgu
-LjNiMjNiMWQ0YWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUu
-NC44LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNS4wLmJiCkBAIC0x
-LDcgKzEsNDAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJl
-ZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUg
-ZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQ
-bGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0
-aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTon
-IHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0
-ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBkb2MvcmVhZG1lLmh0bWwKKyMgKysr
-IGRvYy9yZWFkbWUuaHRtbAorIyBAQCAtMSw5ICsxLDMgQEAKKyMgLUNvcHlyaWdodCAmY29weTsg
-MTk5NCZuZGFzaDsyMDI1IEx1YS5vcmcsIFBVQy1SaW8uCisjIC0KKyMgLTxQPgorIyAtUGVybWlz
-c2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0
-YWluaW5nIGEgY29weQorIyAtb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVu
-dGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksIHRvIGRlYWwKKyMgLWluIHRoZSBTb2Z0d2Fy
-ZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSBy
-aWdodHMKKyMgIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0
-ZSwgc3VibGljZW5zZSwgYW5kL29yIHNlbGwKKyMgIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFu
-ZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcworIyAgZnVybmlzaGVk
-IHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgQEAgLTIw
-LDMgKzE0LDkgQEAKKyMgIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJB
-Q1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sCisjICBPVVQgT0YgT1IgSU4gQ09O
-TkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElO
-CisjICBUSEUgU09GVFdBUkUuCisjICs8L0JMT0NLUVVPVEU+CisjICs8UD4KKyMgKworIyArPFAg
-Q0xBU1M9ImZvb3RlciI+CisjICtMYXN0IHVwZGF0ZToKKyMgK1dlZCBEZWMgMTAgMTE6Mzc6MjMg
-VVRDIDIwMjUKKyMgCisjCisKIFNVTU1BUlkgPSAiTHVhIGlzIGEgcG93ZXJmdWwgbGlnaHQtd2Vp
-Z2h0IHByb2dyYW1taW5nIGxhbmd1YWdlIGRlc2lnbmVkIFwKIGZvciBleHRlbmRpbmcgYXBwbGlj
-YXRpb25zLiIKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vZG9j
-L3JlYWRtZS5odG1sO2JlZ2lubGluZT0zMDU7ZW5kbGluZT0zMjY7bWQ1PTBlNTczYzE0M2NiNjQ5
-MWI0MWNmMDJjZmJjYjhjMjY3IgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vZG9jL3JlYWRt
-ZS5odG1sO2JlZ2lubGluZT0zMDU7ZW5kbGluZT0zMjY7bWQ1PWI2MWViNDBmYjc4MzhlYWY2OWEz
-MTg2YzUwMDYwYjhjIgogSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5sdWEub3JnLyIKIAogU1JDX1VS
-SSA9ICJodHRwOi8vd3d3Lmx1YS5vcmcvZnRwL2x1YS0ke1BWfS50YXIuZ3o7bmFtZT10YXJiYWxs
-c3JjIFwKQEAgLTEyLDcgKzQ1LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3Lmx1YS5vcmcvZnRw
-L2x1YS0ke1BWfS50YXIuZ3o7bmFtZT10YXJiYWxsc3JjIFwKICMgaWYgbm8gdGVzdCBzdWl0ZSBt
-YXRjaGVzIFBWIHJlbGVhc2Ugb2YgTHVhIGV4YWN0bHksIGRvd25sb2FkIHRoZSBzdWl0ZSBmb3Ig
-dGhlIGNsb3Nlc3QgTHVhIHJlbGVhc2UuCiBQVl90ZXN0c3VpdGVzID0gIiR7UFZ9IgogCi1TUkNf
-VVJJW3RhcmJhbGxzcmMuc2hhMjU2c3VtXSA9ICI0ZjE4ZGRhZTE1NGU3OTNlNDZlZWFiNzI3YzU5
-ZWYxYzBjMGMyYjc0NGU3Yjk0MjE5NzEwZDc2ZjUzMDYyOWFlIgorU1JDX1VSSVt0YXJiYWxsc3Jj
-LnNoYTI1NnN1bV0gPSAiNTdjY2MzMmJiYmQwMDVjYWI3NWJjYzUyNDQ0MDUyNTM1YWY2OTE3ODlk
-YmEyYjkwMTZkNWM1MDY0MGQ2OGIzZCIKIFNSQ19VUklbdGFyYmFsbHRlc3Quc2hhMjU2c3VtXSA9
-ICI5NTgxZDVhN2MzOWZmYmYyOWI4Y2NkZTI3MDkwODNjMzgwZjdiYmRkYmQ5NjhkY2IxNTcxMmQy
-ZjJlMzNmNGU1IgogCiBpbmhlcml0IHBrZ2NvbmZpZyBiaW5jb25maWcgcHRlc3QKLS0gCjIuNDcu
-MQoK
-
---===============4589471734758396279==
+--===============1474229413817946455==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1957 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 8385954 to 7369889 (-12%)
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context, directory renamed /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__pycache__ -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__pycache__, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__ -> /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__, directory renam
+ ed /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli -> /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info -> /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info -> /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info, removed "/usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_exceptions.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/utils.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/METADATA 
+ /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_memo.py /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context.py /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_utils.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__pycache__/__init__.cpython-314.pyc /usr/
+ lib/python3.14/site-packages/setuptools/_vendor/typeguard/_exceptions.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_union_transformer.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_structures.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/specifiers.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/requirements.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendor
+ ed/packaging/LICENSE.BSD /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_parser.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_pytest_plugin.py /usr/lib/python3.14/site-packages/setuptools/_vendor/__pycache__/typing_extensions.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_elffile.cpython-314.pyc /usr/lib/python3.14/site-pack
+ ages/setuptools/_vendor/inflect-7.3.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_functions.py /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_decorators.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist
+ -info/entry_points.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/vendor.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_decorators.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/version.cpython-314.pyc /usr/lib/python3.
+ 14/site-packages/setuptools/_vendor/typeguard/__pycache__/_memo.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/util.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/tags.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/util.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/tags.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_functions.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_musllinux.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_manylinux.py /usr/lib/pytho
+ n3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_suppression.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/py38.py /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/py38.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/__pycache__/context.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/__init__.cpython-314.pyc /usr/lib/pyt
+ hon3.14/site-packages/setuptools/_vendor/inflect/compat/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_tokenizer.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_config.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_pytest_plugin.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_config.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_importhook.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/specifiers.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_elffile.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_manylinux.cpython-314.pyc /usr/lib/python3.14/s
+ ite-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_musllinux.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_transformer.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_tokenizer.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/py.typed /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/entry_points.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_union_transformer.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_util
+ s.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_suppression.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_transformer.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/markers.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/requirements.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_checkers.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typegu
+ ard/__pycache__/_checkers.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/version.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/markers.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/utils.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_importhook.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptoo
+ ls/_vendor/packaging-24.2.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_structures.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/py.typed /usr/lib/python3.14/site-packa
+ ges/setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_parser.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE", added "/usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/
+ _vendor/jaraco_functools-4.4.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_typing.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/pylock.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/py313.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/.lock /usr/l
+ ib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.BSD /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/__pycache__/_functools.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/_functools.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.APACHE /usr/lib/python3.14/site-packages/setuptools/_vendor/autocommand-2.2.2.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist
+ -info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/entry_points.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/_metadata.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/
+ setuptools/_vendor/importlib_metadata/_typing.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_metadata.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/__pycache__/pylock.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/py313.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_ven
+ dor/wheel-0.46.3.dist-info/licenses/LICENSE.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/overlay.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/overlay.py /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/REQUESTED"
+Changes to packages/x86-64-v3-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/autocommand-2.2.2.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_typing.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/_typing.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__pycache__ was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__pycache__/__init__.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/py.typed was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/.lock was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.APACHE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.BSD was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/__pycache__/pylock.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/pylock.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/convert.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/pack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__ was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/convert.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/__init__.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/pack.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/tags.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/unpack.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/tags.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/unpack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_metadata.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/_metadata.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/overlay.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/py313.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/overlay.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/py313.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/_functools.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/__pycache__/_functools.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/py38.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/py38.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/__pycache__/context.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/__pycache__/typing_extensions.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_checkers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_config.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_decorators.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_exceptions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_functions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_importhook.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_memo.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_checkers.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_config.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_decorators.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_exceptions.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_functions.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_importhook.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_memo.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_pytest_plugin.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_suppression.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_transformer.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_union_transformer.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_utils.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_pytest_plugin.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_suppression.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_union_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/convert.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/pack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/convert.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/pack.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/tags.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/unpack.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/unpack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/util.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/util.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_elffile.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_manylinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/markers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_musllinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_parser.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_elffile.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_manylinux.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/markers.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_musllinux.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_parser.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/requirements.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/specifiers.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_structures.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/tags.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_tokenizer.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/utils.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/version.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/requirements.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/specifiers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_structures.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_tokenizer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/version.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/vendor.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/autocommand-2.2.2.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/_typing.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/py.typed was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/.lock was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.APACHE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.BSD was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/pylock.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/convert.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/pack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/tags.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/unpack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_metadata.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/overlay.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/py313.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/_functools.py was added
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/py38.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_checkers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_config.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_decorators.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_exceptions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_functions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_importhook.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_memo.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_pytest_plugin.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_suppression.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_union_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/convert.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/pack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/unpack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/util.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_elffile.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_manylinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/markers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_musllinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_parser.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/requirements.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/specifiers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_structures.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_tokenizer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/version.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/vendor.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE was removed
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-6fd8fe0c682b2d5fd502e71093dcc256036f6a00"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:6fd8fe0c682b2d5fd502e71093dcc256036f6a00"
-meta-yocto-bsp       
-meta-poky            = "master:de4abc0a175af12eacc761a2e1e60ca7fdfeaa1b"
-workspace            = "<unknown>:<unknown>"
+--===============1474229413817946455==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 159 Local 95 Mirrors 0 Missed 64 Current 296 (59% match, 85% complete)
-done.
-Removing 24 stale sstate objects for arch x86-64-v3...done.
-Removing 1 stale sstate objects for arch x86_64...done.
-Removing 16 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 385 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 391 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 405 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 416 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 420 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 421 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/systemd/systemd-systemctl-native_258.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 430 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_stash_locale_setscene)
-NOTE: Running setscene task 435 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe qemu-native-10.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe systemd-systemctl-native-258.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe lua-5.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe readline-8.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glibc-2.42+git-r1: task do_stash_locale_setscene: Started
-NOTE: recipe gawk-native-5.3.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe qemu-native-10.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 436 of 455 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe lua-5.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe readline-8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe systemd-systemctl-native-258.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 856 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch)
-NOTE: Running task 857 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_fetch)
-NOTE: Running setscene task 440 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.1.bb:do_create_spdx_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 870 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_fetch)
-NOTE: recipe lua-native-5.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 872 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch)
-NOTE: recipe gawk-native-5.3.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe qemu-native-10.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lua-5.5.0-r0: task do_fetch: Started
-NOTE: recipe readline-8.3-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Started
-NOTE: recipe readline-8.3-r0: task do_fetch: Succeeded
-NOTE: recipe meson-native-1.10.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 877 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_unpack)
-NOTE: recipe lua-native-5.5.0-r0: task do_fetch: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_fetch: Succeeded
-NOTE: Running task 878 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_unpack)
-NOTE: recipe meson-native-1.10.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 448 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.2.bb:do_create_spdx_setscene)
-NOTE: recipe readline-8.3-r0: task do_unpack: Started
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Succeeded
-NOTE: Running task 903 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_unpack)
-NOTE: recipe lua-native-5.5.0-r0: task do_unpack: Started
-NOTE: recipe readline-8.3-r0: task do_unpack: Succeeded
-NOTE: Running task 904 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_patch)
-NOTE: recipe lua-native-5.5.0-r0: task do_unpack: Succeeded
-NOTE: Running task 905 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_patch)
-NOTE: recipe python3-native-3.14.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Started
-NOTE: recipe glibc-2.42+git-r1: task do_stash_locale_setscene: Succeeded
-NOTE: Running setscene task 449 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.3-r0: task do_patch: Started
-NOTE: recipe python3-native-3.14.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe qemu-native-10.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 453 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 454 of 455 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe lua-native-5.5.0-r0: task do_patch: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_patch: Succeeded
-NOTE: Running task 931 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gawk-native-5.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe meson-native-1.10.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-native-6.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_deploy_source_date_epoch: Started
-WARNING: lua-5.5.0-r0 do_fetch: Checksum failure encountered with download of http://www.lua.org/tests/lua-5.5.0-tests.tar.gz;name=tarballtest - will attempt other sources if available
-NOTE: recipe ncurses-native-6.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gawk-native-5.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1075 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe readline-8.3-r0: task do_patch: Succeeded
-NOTE: recipe meson-native-1.10.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1116 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lua-native-5.5.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_deploy_source_date_epoch unihash changed to 040cada2914b329281820fb425fd76210948c70d9be21a6ca1992e2a03898056
-NOTE: recipe glibc-2.42+git-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1135 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_configure)
-NOTE: Running task 1136 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_patch)
-NOTE: recipe ncurses-6.5-r0: task do_patch: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_configure: Started
-NOTE: recipe lua-native-5.5.0-r0: task do_configure: Succeeded
-NOTE: recipe glibc-2.42+git-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1137 of 1317 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_compile)
-NOTE: Setscene tasks completed
-NOTE: Running task 1138 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_configure)
-NOTE: recipe lua-native-5.5.0-r0: task do_compile: Started
-NOTE: recipe glibc-2.42+git-r1: task do_configure: Started
-NOTE: recipe ncurses-6.5-r0: task do_patch: Succeeded
-NOTE: recipe glibc-2.42+git-r1: task do_configure: Succeeded
-NOTE: Running task 1140 of 1317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_compile)
-NOTE: recipe glibc-2.42+git-r1: task do_compile: Started
-NOTE: recipe lua-5.5.0-r0: task do_fetch: Failed
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75 CC=gcc  -fPIC MYCFLAGS=-isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/include -O2 -pipe -fPIC MYLDFLAGS=-L/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/lib                         -L/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/lib                         -Wl,-rpath,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/srv/pokybuild/yo
- cto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -pthread AR=ar rcD RANLIB=ranlib -D linux-readline
-| make: *** No rule to make target 'linux-readline'.  Stop.
-| ERROR: oe_runmake failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666:168 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666, line 168
-| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666, line 152
-| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666, line 147
-| 	#4: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666, line 142
-| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666, line 181
-NOTE: recipe lua-native-5.5.0-r0: task do_compile: Failed
-NOTE: recipe glibc-2.42+git-r1: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1140 tasks of which 1123 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260201075715.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260201075715.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/x86-64-v3-poky-linux/python3-setuptools: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-80.9.0.tar.gz;downloadfilename=setuptools-80.9.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-80.10.2.tar.gz;downloadfilename=setuptools-80.10.2.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/x86-64-v3-poky-linux/python3-setuptools: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 492729 to 492737 (+0%)
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "80.9.0" to "80.10.2"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 8385954 to 7369889 (-12%)
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__pycache__ -> /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__pycache__, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli -> /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands, directory renamed /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info -> /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info -> /usr
+ /lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__ -> /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__, directory renamed /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/setuptools/_vendor/__pycache__/typing_extensions.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_pytest_plugin.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/
+ __pycache__/context.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_elffile.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_elffile.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_importhook.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/specifiers.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/util.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/WHEEL /usr/lib/python3.14/site-pa
+ ckages/setuptools/_vendor/packaging-24.2.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/entry_points.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/version.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_suppression.py /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect
+ -7.3.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_config.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_decorators.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/py38.py /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/py.typed /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/tags.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_structures.py /u
+ sr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/py38.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_manylinux.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_musllinux.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_union_transformer.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_tokenizer.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_importhook.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/utils.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_union_transformer.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/
+ _vendor/typeguard/_memo.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_parser.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_suppression.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_transformer.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/utils.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt /usr/lib/python3.14/site-package
+ s/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_exceptions.py /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_transformer.py /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.1
+ 9.2.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_checkers.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/entry_points.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_utils.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_memo.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/vendor.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/
+ jaraco.context-5.3.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/py.typed /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/version.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_utils.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools
+ /_vendor/wheel/vendored/packaging/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__pycache__/__init__.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_parser.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/requirements.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_structures.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_musllinux.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_ven
+ dor/wheel/vendored/__init__.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/markers.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/tags.py /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-i
+ nfo/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/specifiers.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_decorators.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_tokenizer.py /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/util.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_exceptions.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/conte
+ xt.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_pytest_plugin.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_functions.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_checkers.py /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_config.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/markers.cpython-314.pyc /usr/lib
+ /python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/requirements.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_manylinux.py /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_functions.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD", added "/usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/pylock.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/entry_points.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_typing.cpython-314.p
+ yc /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/autocommand-2.2.2.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.BSD /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/py313.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/INSTALLER
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/_functools.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/__pycache__/_functools.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/.lock /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/METADATA /usr/lib/python3
+ .14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/overlay.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/_metadata.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/WHEEL /usr
+ /lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_metadata.py /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.APACHE /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/__pycache__/pylock.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/REQUESTED /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-
+ info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses/LICENSE.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/WHEEL /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/overlay.py /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/top_level.txt /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/METADATA /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses/LICENSE /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/py313.cpython-314.pyc /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/INSTALLER /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/_typing.py"
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 80.9.0 [default] to 80.10.2 [default]
+packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PV changed from "80.9.0" to "80.10.2"
+Changes to packages/x86-64-v3-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/autocommand-2.2.2.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_typing.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/_typing.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__pycache__ was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__pycache__/__init__.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/py.typed was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/.lock was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.APACHE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.BSD was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/__pycache__/pylock.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/pylock.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/convert.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/pack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__ was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/convert.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/__init__.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/pack.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/tags.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__pycache__/unpack.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/tags.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/unpack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_metadata.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/_metadata.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/overlay.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/py313.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/overlay.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/__pycache__/py313.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/_functools.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/__pycache__/_functools.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/py38.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__pycache__/py38.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/__pycache__/context.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/__pycache__/typing_extensions.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_checkers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_config.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_decorators.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_exceptions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_functions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_importhook.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_memo.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_checkers.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_config.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_decorators.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_exceptions.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_functions.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_importhook.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_memo.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_pytest_plugin.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_suppression.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_transformer.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_union_transformer.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__pycache__/_utils.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_pytest_plugin.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_suppression.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_union_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/convert.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/pack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/convert.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/pack.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/tags.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__pycache__/unpack.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/unpack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/__pycache__/util.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/util.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_elffile.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_manylinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/markers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_musllinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_parser.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_elffile.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_manylinux.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/markers.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_musllinux.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_parser.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/requirements.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/specifiers.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_structures.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/tags.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/_tokenizer.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/utils.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__pycache__/version.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/requirements.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/specifiers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_structures.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_tokenizer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/version.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__pycache__ was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__pycache__/__init__.cpython-314.pyc was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/vendor.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.2.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/platformdirs-4.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info moved to /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools-80.10.2.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/autocommand-2.2.2.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata/_typing.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_context-6.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context/py.typed was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco_functools-4.4.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/INSTALLER was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/REQUESTED was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-4.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/.lock was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.8.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.APACHE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-26.0.dist-info/licenses/LICENSE.BSD was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging/pylock.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.4.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.46.3.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/convert.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/__init__.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/pack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/tags.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_commands/unpack.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/_metadata.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.23.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/overlay.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/compat/py313.py was added
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp/_functools.py was added
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools-80.9.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect-7.3.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/compat/py38.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/inflect/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/collections/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/REQUESTED was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/jaraco.text-3.12.1.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_checkers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_config.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_decorators.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_exceptions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_functions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_importhook.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_memo.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_pytest_plugin.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/py.typed was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_suppression.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_union_transformer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typeguard/_utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/INSTALLER was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions-4.12.2.dist-info/WHEEL was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/convert.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/pack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/cli/unpack.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/util.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_elffile.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/__init__.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_manylinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/markers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_musllinux.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_parser.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/requirements.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/specifiers.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_structures.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/tags.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/_tokenizer.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/utils.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/packaging/version.py was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/wheel/vendored/vendor.txt was removed
+  /usr/lib/python3.14/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE was removed
 
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lua/5.5.0/temp/log.do_fetch.646009
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/log.do_compile.646666
-Summary: There was 1 WARNING message.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: lua-5.5.0-r0 do_fetch: Fetcher failure for URL: 'http://www.lua.org/tests/lua-5.5.0-tests.tar.gz;name=tarballtest'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/lua-5.5.0-tests.tar.gz.tmp' has sha256 checksum '5e47bbfad7db2965d69580e918ee64edeb8d8d32de404b8dae9ce5c6d76a1472' when '9581d5a7c39ffbf29b8ccde2709083c380f7bbddbd968dcb15712d2f2e33f4e5' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tarballtest.sha256sum] = "5e47bbfad7db2965d69580e918ee64edeb8d8d32de404b8dae9ce5c6d76a1472"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: lua-5.5.0-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.lua.org/tests/lua-5.5.0-tests.tar.gz;name=tarballtest')
-ERROR: lua-native-5.5.0-r0 do_compile: oe_runmake failed
-ERROR: lua-native-5.5.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/run.do_compile.646666' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lua/5.5.0/temp/log.do_fetch.646009
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/lua-native/5.5.0/temp/log.do_compile.646666
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/lua/lua_5.5.0.bb:do_compile) failed with exit code '1'
+--===============1474229413817946455==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-80.9.0-80.10.2.patch"
 
---===============4589471734758396279==--
+RnJvbSAxYjU3YWRmNGQ4YjZmMGRjYzYxMWMyYzk2NWEwMWU4ZWI1ODQwNDJjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBGZWIgMjAyNiAwOToyMzowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc2V0dXB0b29sczogdXBncmFkZSA4MC45LjAgLT4gODAuMTAuMgoKLS0tCiAuLi4xLV9k
+aXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0Y2gg
+fCAyICstCiAuLi50aG9uMy1zZXR1cHRvb2xzXzgwLjkuMC5iYiA9PiBweXRob24zLXNldHVwdG9v
+bHNfODAuMTAuMi5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRo
+b24zLXNldHVwdG9vbHNfODAuOS4wLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc184MC4xMC4yLmJi
+fSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1zZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJs
+ZS10by1zdWJzdGl0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1zZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJs
+ZS10by1zdWJzdGl0ZS5wYXRjaAppbmRleCAzOTE1Mzg4M2IwLi5jZmM3NDMzZjI5IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAx
+LV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0
+Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMv
+MDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRl
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlMmVhYjhjMjU0ZjE2YzQ2MWRlMjUxMjNmNjg1
+OWI4YTE4ZGI1Y2Q4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkOTFhMjkwOGU5Nzg5
+NGI3NTMzZDRiNWNlYzgyOTZhNzhhMDdjZTkyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFdlZCwgMTEg
+TWF5IDIwMjIgMjE6NDE6MTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gX2Rpc3R1dGlscy9zeXNj
+b25maWcucHk6IG1ha2UgaXQgcG9zc2libGUgdG8gc3Vic3RpdGUgdGhlCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc184MC45LjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc184MC4xMC4y
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzgwLjkuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfODAuMTAuMi5iYgppbmRleCA1
+MzNkOGNlM2Q0Li45ZDM3ODMxNTlhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc184MC45LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfODAuMTAuMi5iYgpAQCAtMTEsNyArMTEs
+NyBAQCBDVkVfUFJPRFVDVCA9ICJweXRob24zLXNldHVwdG9vbHMgcHl0aG9uOnNldHVwdG9vbHMi
+CiBTUkNfVVJJICs9ICIgXAogICAgICAgICAgICAgZmlsZTovLzAwMDEtX2Rpc3R1dGlscy1zeXNj
+b25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaCIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImYzNmI0NzQwMmVjZGU3NjhkYmZhZmM0NmU4ZTQyMDdiNDM2MGM2NTRmMWYz
+YmI4NDQ3NWYwYTI4NjI4ZmIxOWMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGIwZTlkMTBjNzg0
+YmY3ZDI2MmM0ZTVlYzVkNGVjOTQxMjdjZTIwNmU4NzM4ZjI5YTQzNzk0NWZiYzIxOWI3MCIKIAog
+REVQRU5EUyArPSAicHl0aG9uMyIKIAotLSAKMi40Ny4xCgo=
+
+--===============1474229413817946455==--
 
