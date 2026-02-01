@@ -1,146 +1,183 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8057FE65294
-	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 15:12:41 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31201.1769958754912441757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C1AE65296
+	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 15:55:01 +0000 (UTC)
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32030.1769961294899892803
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Feb 2026 07:12:35 -0800
+ Sun, 01 Feb 2026 07:54:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C0CR6lk2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee2715254so19171655e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 07:12:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Le95ci9B;
+ spf=pass (domain: gmail.com, ip: 74.125.82.47, mailfrom: rybczynska@gmail.com)
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1233bb90317so3656120c88.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 07:54:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769961294; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QKhOJKgQi0ypgz/Pxdf7Nxs5vRGryAd9XbNIG2MBA0LJqYlaU5MOYBnl3wZwPyY0wM
+         4arDvLmqS9/nvybWZLtsvpvJ9KKCARVSC8vxtpL1gqoYOayYRKBjT37ZBMwHNPdxWz+6
+         HA6odKkaU4npY96CvZrgAXK/rTva7I0vSonySYoP/JGaOnebo/F9S+B9Uhm7AcGnP34K
+         XzKHJ3RX8jEWhGRecac+BnwoQRDGNWzWAHBdZC/tZ7cbATDIdKEXVn6+XwA9yWL8yxcc
+         KmMXs7G0MuX87PBrltrvlsDB0M9AoSD03cATYhxPJMqqlVdZ1MpkNMawVNYVAGoTjcy0
+         n+bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=SJqCS/pSb9GIReM/6ypVhlb9LPHlt/dz2IDzEQU/hPI=;
+        fh=9U4BnAiEa7eItK9LVH7ymtwYlG2X5W224rxbeOh9R0M=;
+        b=jpxqsk7lSdnY0HFhDAKc/D4C7hwB1kXlIy2fToIzK8LQhoDTtteletiykzNW16+RKj
+         pewXe8vgeGclx++8R5v4NRauRrTOspKiVmoSp8hEinnitp95xpx5ETv9Qs+QnTej8YI2
+         CJFVv6pOdW2QOoHDXsz6u14U9dMpSGbb9z9Dt26I9OwgtAir6HGY93PksKtMS1T9g3mo
+         buZQtY+xh7a1KdIEsB8CsVOySbBialTjIrJW6igVvfwKnCuyAx7U2fWOC9JTwfAt/z6m
+         t5riTCrCo0JvUvfRNvM/aFfNzk1dH7cj5PpwzkRMRH+OCay7vfnse7hv5lVB8Ao8rjtX
+         NfJA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1769958753; x=1770563553; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=2uVJxJxuPLa4sqikBwMQJ62B/y1c+L7TJOTwtTril+s=;
-        b=C0CR6lk2nd7nmxHWQxm3JL/4Gq8n+Sf7SgjRgmfDyQYZHl1haNNuilwzSF4ieUZ5E5
-         c7kBG3qCECEKnvtDWp12wd8pxzpQLtA6LQtTt2ztSE+il3SzZZGgE8xz/soydEev6g8P
-         F0sBbjmZD6fW6z8pciuUagzdCNdfOkdsOaWsY=
+        d=gmail.com; s=20230601; t=1769961294; x=1770566094; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SJqCS/pSb9GIReM/6ypVhlb9LPHlt/dz2IDzEQU/hPI=;
+        b=Le95ci9BsfbGLGHv8VcnikHirSuOTsTDn1XxQQQMt38JBev3sOVliUo02Trz4R4/fH
+         RUigZqQv2FGW/g45QH+96PMKstYzS3tsVI9l6ccl/I+xDpTJtrHDNnIa4bXhdnzvY+QN
+         ywXRsikiR26olR2GXKbEFXLJd2954tyEdTCQRVLfCKCIDpu6CqKWXwqFkkU+sfH6JTLR
+         HMFGr88CYtauJ4LYn6sbFGhlWfTnvXJ5J3xmd/avoxdoTGgGv7pTIQEarsJA4G1KOPqY
+         Xrghpf/MGrvwSZQ9k631gr9vwLP/y5Bnk49pKAdeug6oKQUIF89pokUJQayDikR5rbQu
+         FabQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769958753; x=1770563553;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2uVJxJxuPLa4sqikBwMQJ62B/y1c+L7TJOTwtTril+s=;
-        b=ec/j5bPKTfAPX7T7x3pBITlKVY5VYpDkwkv5M7RT+81ZwSvfz2wsCOftNyVPKVW7x7
-         UpdYtUVbYsec8yxkwOEcCyRDVDSBTwMi7BLgCTyGM2hElH9QmGTK2XyhEFsNZ9HI2PiF
-         t8YjtXg4fFm6OKO6PrJItyappNL0nt6bl0oi9Xr4f17kbNLiijtsUrVo2+dZw8Ymp1PR
-         hkpu+BxEzmXoywrd5ot+GH36lQa1Ml7p7oIPyuxBJbTcz3D6dTfhjl03DuloRgJYNG1X
-         TCwLFpyZyp69PtbxIMexYQPfPc1pGASo6ytmw6mDXw82s9DoxftfTCpCzCpZvNuvrwbv
-         HM/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWd0cejR5V1OMtwiT41gz7AU2buAtRFuU4rXPGr42jCsZcSp+wTMquhkZmiHVjDA38Y8kaWxzsmIOMIICgiTu6IYA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwFidboc7V8zL+p5JX/SwbrV8QRwJMtNIiCS++jerexeqsIbmf4
-	JkbREz9q0iT69GfdWCkmwowaD7Ja1dMSveUaJvnxruhhv5X2TmbaiE1m0VJ0QKAqrSU=
-X-Gm-Gg: AZuq6aJX0AHFrMERE2Pm0GGqCvsbaY8nkbYLIdRORkQdiitwlkMl0PqixccrHeWl1Cf
-	MQF9gJTsbFLfbTjr2s8qlQJO+JfWrbEPXBFAbBGCKHlMa09u1p0pGACUJljhljrPejhdVU+Ws8s
-	ryMZSCcqwLLpXdtVJvDwzHXARvlQGAiluOr865fBPDhAn2Sme9+Ua8K+DKdjWxJUtjbd7Fyvcgl
-	epYIrKgTQlz3mvoIuvBxbR3Py17rn9H6IAUpEbG8JMiBBxGRw6ylMNBOgnxo3bfFAITnmX+Zlb2
-	IxCDaNo73hjqGnWG+1eO9lAo5BB3SclWDUGRQyHQO1WVfRwhw6kSyTlAI8jjfhttn1qCf38rqls
-	19YUJ5g5OUabW73NTA/++s1uIAiu8OcqRkYJRIbYZuOOP7AIGEA7QP5jeAj39T2zQIP9a4h1hB9
-	wBgZtgGdUMD/+sAfDHNR/DAxvMlStkaK6d+hSUU1XdU32OuP9eGseUdkKhfHp8gSGef48ddAv1T
-	zk=
-X-Received: by 2002:a05:600c:4ed3:b0:477:a246:8398 with SMTP id 5b1f17b1804b1-482db45929emr126125435e9.2.1769958753226;
-        Sun, 01 Feb 2026 07:12:33 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d5b0:6cca:83b2:cbd0? ([2001:8b0:aba:5f3c:d5b0:6cca:83b2:cbd0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c40e04sm404295205e9.13.2026.02.01.07.12.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 07:12:31 -0800 (PST)
-Message-ID: <49de779cc2db0ef5c2bade9c8b07e076dedc340f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v6 2/4] cvelistv5: add a new recipe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: valentin.boudevin@gmail.com, openembedded-core@lists.openembedded.org
-Cc: daniel.turull@ericsson.com, jerome.oufella@savoirfairelinux.com
-Date: Sun, 01 Feb 2026 15:12:30 +0000
-In-Reply-To: <20260129211012.623827-3-valentin.boudevin@gmail.com>
-References: <188AFCD98EA3E578.3200434@lists.openembedded.org>
-	 <20260129211012.623827-1-valentin.boudevin@gmail.com>
-	 <20260129211012.623827-3-valentin.boudevin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+        d=1e100.net; s=20230601; t=1769961294; x=1770566094;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SJqCS/pSb9GIReM/6ypVhlb9LPHlt/dz2IDzEQU/hPI=;
+        b=m6SdITNoQQ7SNq9F938Q7eOdgRynPn+VH0/bBWatZo6MsSB0yTkro9FKQ6j1yxRdhg
+         Pwp1HDul1e0f0Fa8+m+dS7bszdazJUIAEaj42bpyxQTyurgyntfOuvCCTbIwxJ9XdGvg
+         mUyRtr7r6EjJrC1ksGhjdSIPNdbbq5Y+tlpU6MN5BjbHt1pOfIjoIlGhvZ+A0b0eD/zN
+         v/IseY/Bk4yMR8C+ZGHTJiZI53AS5LL/Ouc/UkWLBRWMNHs0mGX5WN12BaLKvtmvszC9
+         mfsz8VqBRFGrFIOLaBopqFTM/8q8F4s22f7Dlmf/mLEoM4r8iG9zDsXbP7tUuKe02kqw
+         5cUg==
+X-Gm-Message-State: AOJu0Yy1AGECW+2QU9lV/G/TlHyhMGCD5XuEiz52SW32VemapP4GCIXK
+	onsoQBCSQxgLMDYplIYuV7dEDsQI8Rm7OGNl9E/i2dBLjOoLsm8Fssh9DP/wfvedEFLdqDnQx2c
+	5r+qO2NFOxTdLsbVp1OqRj+2XIdUXqzs=
+X-Gm-Gg: AZuq6aIuaLIGevamLimOD5j06Lf/FyC6zzGEF+ePHc3i/Fp+K5BRKuDl5kcdAuYMOtW
+	Mse2iUDovFsK6VVRx8/9U81Ac2ycmxoA7ifac79k9Wv3CCOj/8Us1VyP9UlHaiJYHoFWLvgbfqD
+	oqCOs/XhPOXgJ7975oDSPS7ZfL+ZiT38xrhELA3ZZs/h1HK/F1qeqjvvfQnEfrGT6sF9T3Ub33Z
+	DOBR9QiZFc0SE/LNWNjwGUwVvMe5h20xkohpwbF8rGcmT1UzXsG1X3lhppZ4WKnYgWxcVM/0jiA
+	0LYaCosW5yCcBKc0/D+MnhdGB8Y=
+X-Received: by 2002:a05:7022:128c:b0:123:3673:8459 with SMTP id
+ a92af1059eb24-124b106a7e8mr5431159c88.12.1769961294025; Sun, 01 Feb 2026
+ 07:54:54 -0800 (PST)
 MIME-Version: 1.0
+References: <188AFD4FCC1313A8.2683732@lists.openembedded.org>
+ <20260128163827.386933-1-valentin.boudevin@gmail.com> <PA3PR07MB10721FE43E226CB23A078A1C18A9EA@PA3PR07MB10721.eurprd07.prod.outlook.com>
+ <1014278.1769704485995392702@lists.openembedded.org>
+In-Reply-To: <1014278.1769704485995392702@lists.openembedded.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Sun, 1 Feb 2026 16:54:42 +0100
+X-Gm-Features: AZwV_Qh8BHagGCcE5KF78ly04TOEtl8PpzamuohkWq3W3VyczNTcR2UH4ewiYyY
+Message-ID: <CAApg2=TFaG1kNe0UZJuZbV9Qka7SaRPpXpT0VUzK4z6+pOgL3w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 0/2] improve_kernel_cve_report: Add a bbclass support
+To: valentin.boudevin@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000325a3e0649c53af2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 15:12:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230336
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 15:55:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230337
 
-On Thu, 2026-01-29 at 16:10 -0500, vboudevin via lists.openembedded.org wro=
-te:
-> This recipe is in charge of cloning and setting the cvelistv5
-> repository: https://github.com/CVEProject/cvelistV5
->=20
-> The variable CVELISTV5_USE_AUTOREV can be used to use AUTOREV to use the
-> latest available commit on the remote repository and stay
-> up-to-date with the latest CVE information available.
->=20
-> AUTOREV would make the build non-deterministic, turned off by default.
->=20
-> Signed-off-by: ValentinBoudevin <valentin.boudevin@gmail.com>
-> ---
-> =C2=A0.../cvelistv5-native/cvelistv5-native_git.bb=C2=A0 | 24 +++++++++++=
-++++++++
-> =C2=A01 file changed, 24 insertions(+)
-> =C2=A0create mode 100644 meta/recipes-kernel/cvelistv5-native/cvelistv5-n=
-ative_git.bb
->=20
-> diff --git a/meta/recipes-kernel/cvelistv5-native/cvelistv5-native_git.bb=
- b/meta/recipes-kernel/cvelistv5-native/cvelistv5-native_git.bb
-> new file mode 100644
-> index 0000000000..f25dda9f3d
-> --- /dev/null
-> +++ b/meta/recipes-kernel/cvelistv5-native/cvelistv5-native_git.bb
-> @@ -0,0 +1,24 @@
-> +SUMMARY =3D "CVE List V5"
-> +DESCRIPTION =3D "Official CVE List. It is a catalog of all CVE Records i=
-dentified by, or reported to, the CVE Program. \
-> +The cvelistV5 repository hosts downloadable files of CVE Records in the =
-CVE Record Format."
-> +HOMEPAGE =3D "https://github.com/CVEProject/cvelistV5"
-> +LICENSE =3D "cve-tou"
-> +LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/cve-tou;md5=3D4f7e96b=
-3094e80e66b53359a8342c7f8"
-> +
-> +inherit native allarch
-> +
-> +SRC_URI =3D "git://github.com/CVEProject/cvelistV5.git;branch=3Dmain;pro=
-tocol=3Dhttps"
-> +CVELISTV5_USE_AUTOREV ?=3D "0"
-> +CVELISTV5_DEFAULT_SRCREV ?=3D "644ce1758db1773336ebebb6a0da90e132da0eb7"
-> +
-> +python __anonymous () {
-> +=C2=A0=C2=A0=C2=A0 if d.getVar("CVELISTV5_USE_AUTOREV") =3D=3D "1":
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar("SRCREV", d.getVar("=
-AUTOREV"))
-> +=C2=A0=C2=A0=C2=A0 else:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar("SRCREV", d.getVar("=
-CVELISTV5_DEFAULT_SRCREV"))
-> +}
-> +
-> +do_install(){
-> +	install -d ${D}${datadir}/cvelistv5-native
-> +	cp -r ${UNPACKDIR}/cvelistv5-git/* ${D}${datadir}/cvelistv5-native/
-> +}
+--000000000000325a3e0649c53af2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Why add a CVELISTV5_DEFAULT_SRCREV variable when this is a standard usage o=
-f autorev?
+Hello,
+Please take into account that the VEX class is using the same file names
+for results as the cve-check. The reason was to avoid duplication
+of all intermediary files, and also the final files. This was a design
+decision, as not many people are expected to switch between cve-check
+and vex classes, instead keep one.
 
-SRCREV =3D "644ce1758db1773336ebebb6a0da90e132da0eb7"
+Kind regards,
+Marta
 
-and then users can set:
+On Thu, Jan 29, 2026 at 5:34=E2=80=AFPM vboudevin via lists.openembedded.or=
+g
+<valentin.boudevin=3Dgmail.com@lists.openembedded.org> wrote:
 
-SRCREV:pn-cvelistv5-native =3D "${AUTROREV}"
+> Hello Daniel,
+>
+> I made some tests with the new vex class. I may be wrong, but it doesn't
+> seem like an issue linked with improve_kernel_cve_report bbclass.
+>
+> I tried to clean the build, remove "inherit improve_kernel_cve_report",
+> and keep "INHERIT +=3D "vex"" . But, the cve-summary file is still empty
+> after the rebuild.
+>
+> If I change back to "cve-check" (still without improve_kernel_cve_report
+> class) cve-summary seems correct and not empty.
+>
+> It looks more like a vex class issue. Also, VEX does not seem to recreate
+> a new .json file at every build, which is strange.
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230139):
+> https://lists.openembedded.org/g/openembedded-core/message/230139
+> Mute This Topic: https://lists.openembedded.org/mt/117510774/5827677
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rybczynska@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-if they want it, just the same as any other recipe?
+--000000000000325a3e0649c53af2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hello,</div><div>Please take into ac=
+count that the VEX class is using the same file names for results as the cv=
+e-check. The reason was to avoid duplication</div><div>of all intermediary =
+files, and also the final files. This was a design decision, as not many pe=
+ople are expected to switch between cve-check</div><div>and vex classes, in=
+stead keep one.</div><div><br></div><div>Kind regards,</div><div>Marta<br><=
+/div></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Thu, Jan 29, 2026 at 5:34=E2=80=AFPM vboudevi=
+n via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> =
+&lt;valentin.boudevin=3D<a href=3D"mailto:gmail.com@lists.openembedded.org"=
+>gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div>Hello Daniel, <br><br>I made some tes=
+ts with the new vex class. I may be wrong, but it doesn&#39;t seem like an =
+issue linked with improve_kernel_cve_report bbclass.<br><br>I tried to clea=
+n the build, remove &quot;inherit improve_kernel_cve_report&quot;, and keep=
+ &quot;INHERIT=C2=A0+=3D &quot;vex&quot;&quot;=C2=A0. But, the cve-summary =
+file is still empty after the rebuild. <br><br>If I change back to &quot;cv=
+e-check&quot; (still without improve_kernel_cve_report class) cve-summary s=
+eems correct and not empty.<br><br>
+<div>It looks more like a vex class issue. Also, VEX does not seem to recre=
+ate a new .json file at every build, which is strange.</div>
+</div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230139): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230139" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230139</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117510774/582=
+7677" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117510774/5827677</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmail.com" targ=
+et=3D"_blank">rybczynska@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Richard
-
+--000000000000325a3e0649c53af2--
 
