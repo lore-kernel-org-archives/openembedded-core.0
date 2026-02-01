@@ -2,50 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 491F2D46C1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6789BD79779
 	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 13:12:45 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29053.1769951564839847440
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29050.1769951564229594144
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Feb 2026 05:12:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gmwDfzAl;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Xq68dnpi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c19559189-a5ed2875-2fe8-4aa4-8a78-311839f81c03-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CEYcPTlg;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UVxxqTv8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019c19558e55-6a4ec676-52ee-4419-9d2e-c7ca0aa961ac-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1769951564;
+	t=1769951563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=E+pYKbYTcwP2uhv5wphF62Lz05GM0ioFXsr53y/7XYw=;
-	b=gmwDfzAlQ8wUB9MAdD8t+LX6Fvad+/sBLfvD9pC6fl6va3I7xx3/2daW2prxXR07
-	AVeN+5caYKuTwEYxAK+QSceRA/n0zpausF8j2sTDjpEpCUBQbGikJAwMcOPZIbVo8QP
-	1TE63ZPBcuI/2adMzPKkcH4mmqK5p4/S6LZqhYC8=
+	bh=2VyA0ScIiR1Rt4m2nQHnDYWuILVOOsP9GjbZX2xxVJw=;
+	b=CEYcPTlg1SOvFnegUaDtwu0GIYd1SpK55CTbHSxX5XfptqfBuGs95qc/EfRxMY1z
+	uO3iP/mZAWuzs1iPfEZMgCWSmwHt6nUq4ochooLORXyt4laPfRgGz5iYWzgu0z5GNk5
+	nV0InROMqcc7b2EVLt5EFm67q6K+2hAXSXz/Kje4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951564;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=E+pYKbYTcwP2uhv5wphF62Lz05GM0ioFXsr53y/7XYw=;
-	b=Xq68dnpioIN+WahwsK+R7Z8f5xsIbhDHZfy4UgNIwo6OybFqsLE/+XEYa4xXupWb
-	3izEUUCnaiXJbk1bwrCW6VJpdcwV44Ts8q8cypRweliz5DCeHyn9O3DVP61t9JSwWLZ
-	RKYeegcUttSyO4iUcXoH47/nQqViCUqiN63qPIKM=
-Content-Type: multipart/mixed; boundary="===============3922119669081664896=="
+	bh=2VyA0ScIiR1Rt4m2nQHnDYWuILVOOsP9GjbZX2xxVJw=;
+	b=UVxxqTv8e2bDRIPHI1p8SdqMDi+xlVo/ZW2EafJ0R7EdAm23S3rIYAcoJuBCu7jm
+	c39R7u0iHNVMVtd4o6MeHav2GLG/jbPr/uNhXEK/CRx2T4NPoLmgrjCOFPaJdzF4NRM
+	hCzGEH9R+iKTgHcNr7LqmbNz0MvPRERVGv3wkAAE=
+Content-Type: multipart/mixed; boundary="===============8769651598820185518=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>, 
-	Randy MacLeod <Randy.MacLeod@windriver.com>, 
-	Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>, 
+	Chen Qi <Qi.Chen@windriver.com>, Chen Qi <Qi.Chen@windriver.com>, 
+	Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo,libstd-rs,rust: upgrading to 1.93.0,1.93.0,1.93.0 FAILED
-Message-ID: <0101019c19559189-a5ed2875-2fe8-4aa4-8a78-311839f81c03-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Feb 2026 13:12:44 +0000
+Subject: [AUH]
+ systemd-boot-native,systemd-boot,systemd,systemd-systemctl-native: upgrading
+ to 259,259,259,259 FAILED
+Message-ID: <0101019c19558e55-6a4ec676-52ee-4419-9d2e-c7ca0aa961ac-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Feb 2026 13:12:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.01-54.240.27.192
+X-SES-Outgoing: 2026.02.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 13:12:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230266
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230263
 
---===============3922119669081664896==
+--===============8769651598820185518==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -53,69 +55,51 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cargo,libstd-rs,rust* to *1.93.0,1.93.0,1.93.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *systemd-boot-native,systemd-boot,systemd,systemd-systemctl-native* to *259,259,259,259* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  finish -f cargo /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust
+Running 'devtool upgrade' for recipe systemd-boot-native failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1960 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 954 .bb files complete (951 cached, 3 parsed). 1965 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
+Loaded 1957 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
 
-ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/conf/layer.conf not found
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 164, in wrapped
-    return func(fn, *args)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 181, in parse_config_file
-    return bb.parse.handle(fn, data, include, baseconfig=True)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
-    return h['handle'](fn, data, include, baseconfig)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/conf/layer.conf not found
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.3.99+snapshot-58b9f90779d1227e30a7de4948b10e49fb5b5ac1"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:58b9f90779d1227e30a7de4948b10e49fb5b5ac1"
+meta-yocto-bsp       
+meta-poky            = "master:de4abc0a175af12eacc761a2e1e60ca7fdfeaa1b"
+workspace            = "<unknown>:<unknown>"
 
-During handling of the above exception, another exception occurred:
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 9ca433482f2281d71718718705ca8cd3bf562ad6
+WARNING: Command 'git rebase 9ca433482f2281d71718718705ca8cd3bf562ad6' failed:
+Auto-merging mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
+CONFLICT (content): Merge conflict in mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
 
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
-    ret = main()
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 2177, in finish
-    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1874, in _update_recipe
-    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
-                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1703, in _update_recipe_patch
-    appendfile, destpath = oe.recipeutils.bbappend_recipe(
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-                    rd, appendlayerdir, files,
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<2 lines>...
-                    redirect_output=dry_run_outdir,
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                    params=params)
-                    ^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
-    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
-                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
-    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 176, in wrapped
-    raise bb.BBHandledException()
-bb.BBHandledException
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/systemd-boot-native
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemd-boot-native/systemd-boot-native_259.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -123,5 +107,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3922119669081664896==--
+--===============8769651598820185518==--
 
