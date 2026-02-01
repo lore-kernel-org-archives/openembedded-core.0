@@ -1,145 +1,134 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D65A3E7C711
-	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 07:52:13 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25825.1769932324733658397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC72E7C717
+	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 11:02:34 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27674.1769943746357118231
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jan 2026 23:52:06 -0800
+ Sun, 01 Feb 2026 03:02:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=FJ/M9YMf;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 9433BC237CB
-	for <openembedded-core@lists.openembedded.org>; Sun,  1 Feb 2026 07:52:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4008260720;
-	Sun,  1 Feb 2026 07:52:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6674B119A88ED;
-	Sun,  1 Feb 2026 08:51:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769932321; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=iERvEaufDWbX2GqURicys/wlCg/om9xz5lDVJmaMayE=;
-	b=FJ/M9YMfjgHWPaAMFc1EBbzPFAHrpKh12mCq/jA88y9fXEfYE/j1/aKAlPcEP3nTbNm5ID
-	6fcUG/MOCV9wJ27TBRwxxEDZ//zJm2cWwet0YYF5C51RKx48oaepI0LNnW64sCqAwbLpV/
-	WycOy0oJfrW0Tgu2Wk6K8jwnpZ0eq63fqwGsP11nKbmMDX2zNMAazecDx6QSHH79flnNxi
-	qYG7au01/ZE2BTTmDr5rZLl8PMVvHy/C8KL2LqOADINU5QnsqlAQFxl8evXIA5Y0HjS0nV
-	d525JVUSV+/eGmEdTzbnmu5N4/3TPL6g4gkKc9jrN1T1gtSSjYxDL8fTsC4EoQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 01 Feb 2026 08:51:55 +0100
-Message-Id: <DG3GN4VGMAU4.OOYLJKHV2X2B@bootlin.com>
-Subject: Re: [OE-core] [PATCH] rust: Upgrade 1.92.0 -> 1.93.0
-Cc: <Sundeep.Kokkonda@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <Hemanth.KumarMD@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260130134137.2463745-1-Hemanth.KumarMD@windriver.com>
-In-Reply-To: <20260130134137.2463745-1-Hemanth.KumarMD@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1AOOzot9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a09d981507so25399525ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 03:02:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1769943745; x=1770548545; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SeG9oF1HE6TatN/FkSTIJaH+D+SZv3JZvmFb1yLp6fU=;
+        b=1AOOzot97PBsbc7WKjFbSQxBJZXYMt+xiniU52YetZtaLSCVGJhPQJxqi3L8mvnUWN
+         1Zt9ZbHcmj+SH8G171McgKJ6vEBFiwZT03KZidA99/Nr3l+r4ZoOYBg/Wp9YJPwgBa7L
+         ej9Vib8f2+Nr9eMAWNU/JeolGKD4YRZtuKVAQgZRCIazLnm5ZyZVXurTFmNpfKdm/Fi4
+         3xjURa/2eLcnnPZx3XKCAo+9+93sWVNsAa3kXP9KbCybsMKx1PN2JSOTCLd/R3PvDcwC
+         xwlZjeptGMKjn331XuJGazBqvFJtw7n1IJ7wokIWUx0aBoojpqhibHdSNoTKPbSuYMHv
+         TNFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769943745; x=1770548545;
+        h=message-id:date:user-agent:to:from:subject:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SeG9oF1HE6TatN/FkSTIJaH+D+SZv3JZvmFb1yLp6fU=;
+        b=pg6wHTxk8rK/77iE+5m0uwL5skLE0L/2Ao8ibL411RvULFKa7EEAhr2jIJ3/itf877
+         6fgIY2EmhxPVgn4NPXnS9Yew6o5XF6Mjwst1gAjlmA04EbTdnGf1dK50/xkEKjZBkM4/
+         ye8DsC8EwZlVRlucCVmwO+V5qsLMTRk5YBc5//lVGabGySSVzUTrFde72nTEg7kTaO9g
+         GvprllCkVu+tP7WBR/NPbDp1wHrvbmrrLQdVMgypJgCR1uRtfLu/gNNVraEL2VnFBtl5
+         MAEEOARmM407SwLKtywAGmL15Lm1W1k7pnv/hdSXyox46zscSllqrJZM8TLZuNtaR0gm
+         /H2A==
+X-Gm-Message-State: AOJu0YwbdjWh+PrePEPMwRp42ym+w3iDlu9G8SuI3nvdTH9TE8zasrQ/
+	fuLoeLTpJ7bZWH8WCWdvUErHr1QXLH7+BWnHtn2A9JDYuxZ4jmZThP8/IF+evvJrz4PYPgISDcl
+	rc2+t+KA=
+X-Gm-Gg: AZuq6aKRq2Wh1jLOw99+1lvOlOOSICk69p209Ngx4NTvDL1Kxv1GjDuun1MqSV9wcEV
+	c/QfdDsKFxwmRfzEwm8SULtsbqoyHoXu16AplCT0NW5CD0AihKVS5T1pUWza6VPf/uu2hLjDalB
+	Zce7siASCmEcGsaH+1bL+KrGwWnNDeKAwW7ptDyffFjUQmEkOAua+ysyEdbjXOSU67H6rZQlNvF
+	orOgzz9LXXsWEyBXZ+U+XRNPdTIdO/QU779J05TiN25KeNSaq54BXcsrkUx/aoNYoGgtljWsocj
+	Yfl8cHOYZewc4zpdBQPD9I3q7mMdVHSAwS6nMzacLTKTezpfOczvlJ8c9MRsQyUDFUTjn4j/ZIF
+	XYE5lGS1fZ0nFZ2cA6TLAkT9rhg5jUdyH9mxZrxDSKo3WSDWO8MmAD+BaotAYXv4p8Vb2UfIUqY
+	V2sBjZNPS6picAgEk=
+X-Received: by 2002:a17:903:283:b0:2a0:7f8b:c0cb with SMTP id d9443c01a7336-2a8d96cb4c0mr96927655ad.4.1769943745549;
+        Sun, 01 Feb 2026 03:02:25 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4c45c4sm114986155ad.62.2026.02.01.03.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 03:02:24 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 2B5B21003CE; Sun,  1 Feb 2026 01:02:24 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 01 Feb 2026 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  1 Feb 2026 01:02:24 -1000
+Message-Id: <20260201110224.2B5B21003CE@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 07:52:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230253
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 11:02:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230254
 
-On Fri Jan 30, 2026 at 2:41 PM CET, Hemanth.KumarMD via lists.openembedded.=
-org wrote:
-> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
->
-> https://blog.rust-lang.org/2026/01/22/Rust-1.93.0/
-> Rust changes: https://github.com/rust-lang/rust/releases/tag/1.93.0
-> Cargo changes: https://doc.rust-lang.org/nightly/cargo/CHANGELOG.html#car=
-go-193-2026-01-22
->
-> * rust-oe-selftest.patch updated for 1.93:
->   Renamed UI test directive from add-core-stubs to add-minicore as in
->   https://github.com/rust-lang/rust/commit/3796f7de57f5d4cf4325d1f13aeb07=
-fdaa57983b
->
-> * OE-selftests:
->   - Exclude src/tools/remote-test-client from test suite.
->     This unit test modifies the TEST_DEVICE_ADDR environment variable,
->     which breaks the OE test harness that uses the same variable for
->     QEMU remote testing. Filed a bug with upstream:
->     https://github.com/rust-lang/rust/issues/151823
->
->   - Enable +v8a feature for cortexa57.
->     Rust 1.93.0 added a regression test (PR #149549) to verify that the
->     ARMv8-A system register ttbr0_el2 is recognized in inline assembly.
->     This addresses issue #97724 where LLVM wasn't recognizing ttbr0_el2
->     as a valid register. Upstream Rust enables +v8a by default for all
->     AArch64 targets (PR #105026), but Yocto's custom target specification
->     doesn't inherit this. Adding +v8a ensures LLVM recognizes ARMv8-A
->     system registers, fixing the test failure.
->
->     Related upstream links:
->     - PR #149549: https://github.com/rust-lang/rust/pull/149549
->     - Issue #97724: https://github.com/rust-lang/rust/issues/97724
->     - PR #105026: https://github.com/rust-lang/rust/pull/105026
->
-> Test results:
->
-> rust v1.93.0
-> +-------------+--------+---------+
-> | Machine     | Passed | Skipped |
-> +-------------+--------+---------+
-> | qemux86-64  | 21,689 |   646   |
-> | qemux86     | 21,439 |   896   |
-> | qemuarm64   | 21,495 |   840   |
-> | qemuarm     | 21,421 |   914   |
-> | qemuriscv64 | 21,466 |   869   |
-> +-------------+--------+---------+
->
-> Test results difference (1.93.0 - 1.92.0):
->
-> +-------------+--------+---------+
-> | Machine     | Passed | Skipped |
-> +-------------+--------+---------+
-> | qemux86-64  |  +205  |   +33   |
-> | qemux86     |  +205  |   +33   |
-> | qemuarm64   |  +206  |   +32   |
-> | qemuarm     |  +205  |   +33   |
-> | qemuriscv64 |  +205  |   +33   |
-> +-------------+--------+---------+
->
-> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-> ---
+Branch: master
 
-Hi Hemanth,
+New this week: 5 CVEs
+CVE-2025-25468 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-25468 *
+CVE-2025-25469 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-25469 *
+CVE-2025-66476 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66476 *
+CVE-2026-24061 (CVSS3: N/A): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-24061 *
+CVE-2026-24515 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-24515 *
 
-Thanks for the upgrade.
+Removed this week: 0 CVEs
 
-I suspect this is responsible of the
-runtime_test.RustKernel.test_kernel_rust_sample selftest failure:
+Full list:  Found 40 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
+CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
+CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-51791 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51791 *
+CVE-2023-51793 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51793 *
+CVE-2023-51794 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51794 *
+CVE-2023-51795 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51795 *
+CVE-2023-51796 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51796 *
+CVE-2023-51797 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51797 *
+CVE-2023-51798 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51798 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2025-22921 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22921 *
+CVE-2025-25468 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-25468 *
+CVE-2025-25469 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-25469 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-56226 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-56226 *
+CVE-2025-59529 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59529 *
+CVE-2025-60876 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-60876 *
+CVE-2025-66382 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66382 *
+CVE-2025-66476 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66476 *
+CVE-2025-68276 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68276 *
+CVE-2025-68468 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68468 *
+CVE-2025-68471 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68471 *
+CVE-2026-0915 (CVSS3: N/A): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-0915 *
+CVE-2026-24061 (CVSS3: N/A): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-24061 *
+CVE-2026-24515 (CVSS3: N/A): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-24515 *
 
-2026-01-31 16:20:41,991 - oe-selftest - INFO - runtime_test.RustKernel.test=
-_kernel_rust_sample (subunit.RemotedTestCase)
-2026-01-31 16:20:41,994 - oe-selftest - INFO -  ... FAIL
-...
-ERROR: linux-yocto-6.16.11+git-r0 do_compile: Execution of '/srv/pokybuild/=
-yocto-worker/oe-selftest-debian/build/build-st-766138/tmp/work/qemux86_64-p=
-oky-linux/linux-yocto/6.16.11+git/temp/run.do_compile.189616' failed with e=
-xit code 1
-...
-| error: unknown unstable option: `no-jump-tables`
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  ffmpeg: 10
+  avahi: 4
+  libsndfile1: 3
+  expat:expat-native: 2
+  busybox: 1
+  glibc: 1
+  inetutils: 1
+  qemu:qemu-native:qemu-system-native: 1
+  vim: 1
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3127
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3022
-
-Can you have a look at what is going wrong here?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
