@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 856D6D172B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9E44D172C0
 	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 13:12:56 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29194.1769951570514286567
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29053.1769951564839847440
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Feb 2026 05:12:50 -0800
+ Sun, 01 Feb 2026 05:12:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Bx1XAPNg;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SQ8DY/p4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019c1955a7d1-455039cd-a3ca-4163-92b6-90d54435692c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kbQOXjFM;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jK1vHReR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c1955a3f1-02d0d019-8c3a-4ab1-aeb8-8328961cd2bf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1769951570;
+	t=1769951569;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TfsACgV4ytFe41hAA+ENfZAoBoLbX4IlG0+gmvPFF8k=;
-	b=Bx1XAPNgzZt8HkSyRUdPIuuUfr5k9i7qH4fLAYeRhb8go0ZVBM1y+1QooYilnxQl
-	zFBNZBCrETx7yZTyUU6Ivt/+onJJk+7rOtnYMlYByN4d5iQRi7lKZH+rCY9GFaf8jpI
-	JozfoAjqnb/FJ1nB+bvqREU6hoVWr3JQDdbieTys=
+	bh=5DGG4MpcEmKBznl+NocfKnrEJnDB/jTiPIn85+Cgsxo=;
+	b=kbQOXjFMt+8omfJp6sPQoHi/a9lH+B0SkXrMpRL7S/rwkvSwFt0O20RD0wI1duWE
+	JOTK5XFcb0PfOptRB2+c7GJy/WHsi6E8Ck8Ux4OOC8hiePyewGysWjOg1HyX+HmU+xv
+	mymzeY9+WiGE9ZNCmIaG/XiCzOX4TrqKkAcjz40I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951570;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951569;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TfsACgV4ytFe41hAA+ENfZAoBoLbX4IlG0+gmvPFF8k=;
-	b=SQ8DY/p4kKi35+14Q2yqXCdEJYgra6/bRSJeiqCl0rAfjgdLH+nQ0BXF1FPG+aHt
-	R3+PW71T2M5FYqQTbQ91UvKLCeLdHTb8tS+rUhwuFNjeI/ADNfSYb6us05mqlofam6V
-	Md6sITKY8fquk1Xi7DTsywaQCDrTWoM+8jS3NWjE=
-Content-Type: multipart/mixed; boundary="===============7101231771413801088=="
+	bh=5DGG4MpcEmKBznl+NocfKnrEJnDB/jTiPIn85+Cgsxo=;
+	b=jK1vHReRXsHnOHdM4uMTyNsk0RpRLxyJZHYMq187CXs57BYkMqX6QRXSADvbvM31
+	5y3CcMBvv5GZ1o7hAbJI7Dqqbxfj1RSbKiD6zBxohuQ4VdynmyQ4qTZrVRt0AyqDE+l
+	VSKqqZgM/qkkIu3AYJKSMI51lMBwnxHQs8O8h300=
+Content-Type: multipart/mixed; boundary="===============4402691034020127162=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-packaging: upgrading to 26.0 SUCCEEDED
-Message-ID: <0101019c1955a7d1-455039cd-a3ca-4163-92b6-90d54435692c-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Feb 2026 13:12:49 +0000
+Subject: [AUH] python3-hypothesis: upgrading to 6.151.4 SUCCEEDED
+Message-ID: <0101019c1955a3f1-02d0d019-8c3a-4ab1-aeb8-8328961cd2bf-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Feb 2026 13:12:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.01-54.240.27.23
+X-SES-Outgoing: 2026.02.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 13:12:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230286
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230281
 
---===============7101231771413801088==
+--===============4402691034020127162==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-packaging* to *26.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.151.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-packaging-upgrade-25.0-26.0.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.150.3-6.151.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,177 +72,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2d4fd4375090797c46b5c35435aa9457a8da2284 Mon Sep 17 00:00:00 2001
+From 62379d56546e115a9d5b6a9dc59c7a6ac1fca8b6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Feb 2026 08:37:03 +0000
-Subject: [PATCH] python3-packaging: upgrade 25.0 -> 26.0
+Date: Sun, 1 Feb 2026 08:14:53 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.150.3 -> 6.151.4
 
 ---
- .../{python3-packaging_25.0.bb => python3-packaging_26.0.bb}    | 2 +-
+ ...hon3-hypothesis_6.150.3.bb => python3-hypothesis_6.151.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-packaging_25.0.bb => python3-packaging_26.0.bb} (93%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.150.3.bb => python3-hypothesis_6.151.4.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-packaging_25.0.bb b/meta/recipes-devtools/python/python3-packaging_26.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-packaging_25.0.bb
-rename to meta/recipes-devtools/python/python3-packaging_26.0.bb
-index 9cb5c68f58..cadf913db8 100644
---- a/meta/recipes-devtools/python/python3-packaging_25.0.bb
-+++ b/meta/recipes-devtools/python/python3-packaging_26.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/packaging"
- LICENSE = "Apache-2.0 | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.150.3.bb b/meta/recipes-devtools/python/python3-hypothesis_6.151.4.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.150.3.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.151.4.bb
+index 889f86de81..425b2e6441 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.150.3.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.151.4.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
--SRC_URI[sha256sum] = "d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"
-+SRC_URI[sha256sum] = "00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"
+-SRC_URI[sha256sum] = "32c88d4b7df3a8483e69877561b520320bf7779b0709c11869e392025e9279d4"
++SRC_URI[sha256sum] = "658a62da1c3ccb36746ac2f7dc4bb1a6e76bd314e0dc54c4e1aaba2503d5545c"
  
- SRC_URI += "file://run-ptest.in"
- 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.47.1
 
 
---===============7101231771413801088==
+--===============4402691034020127162==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: FILELIST: removed "/usr/lib/python3-packaging/ptest/tests/.pytest_cache/CACHEDIR.TAG /usr/lib/python3-packaging/ptest/tests/.pytest_cache/v/cache/nodeids /usr/lib/python3-packaging/ptest/tests/.pytest_cache/.gitignore /usr/lib/python3-packaging/ptest/tests/.pytest_cache/v/cache/stepwise /usr/lib/python3-packaging/ptest/tests/.pytest_cache/v/cache/lastfailed /usr/lib/python3-packaging/ptest/tests/.pytest_cache/README.md /usr/lib/python3-packaging/ptest/tests/requirements.txt", added "/usr/lib/python3-packaging/ptest/tests/pylock/pylock.spec-example.toml /usr/lib/python3-packaging/ptest/tests/test_pylock.py"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PKGSIZE changed from 2180286 to 311685 (-86%)
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: FILELIST: directory renamed /usr/lib/python3.14/site-packages/packaging-25.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/packaging-26.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/packaging-25.0.dist-info -> /usr/lib/python3.14/site-packages/packaging-26.0.dist-info, added "/usr/lib/python3.14/site-packages/packaging/pylock.py /usr/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PKGSIZE changed from 506679 to 602735 (+19%)
-Changes to packages/x86-64-v3-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-25.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.0.dist-info
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/pylock.py was added
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was removed
-Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-25.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.0.dist-info
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/pylock.py was added
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.150.3.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.151.4.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.150.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.151.4.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.150.3.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.151.4.dist-info
 
---===============7101231771413801088==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-packaging-upgrade-25.0-26.0.patch"
-
-RnJvbSAyZDRmZDQzNzUwOTA3OTdjNDZiNWMzNTQzNWFhOTQ1N2E4ZGEyMjg0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBGZWIgMjAyNiAwODozNzowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGFja2FnaW5nOiB1cGdyYWRlIDI1LjAgLT4gMjYuMAoKLS0tCiAuLi4ve3B5dGhvbjMt
-cGFja2FnaW5nXzI1LjAuYmIgPT4gcHl0aG9uMy1wYWNrYWdpbmdfMjYuMC5iYn0gICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBhY2thZ2luZ18yNS4wLmJiID0+
-IHB5dGhvbjMtcGFja2FnaW5nXzI2LjAuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBhY2thZ2luZ18yNS4wLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBhY2thZ2luZ18yNi4wLmJiCnNpbWlsYXJpdHkg
-aW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1wYWNrYWdpbmdfMjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXBhY2thZ2luZ18yNi4wLmJiCmluZGV4IDljYjVjNjhmNTguLmNhZGY5MTNkYjgg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYWNrYWdp
-bmdfMjUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGFj
-a2FnaW5nXzI2LjAuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHVi
-LmNvbS9weXBhL3BhY2thZ2luZyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCB8IEJTRC0yLUNsYXVz
-ZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWZhYWRhZWRjYTkyNTFh
-OTBiMjA1YzkxNjc1NzhjZTkxIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDQ0Mzg3MmM5OGQ2
-NzdiZjYwZjZhMWYyZjhjMWNiNzQ4ZThmZTc2MmQyYmY5ZDMxNDhiNTU5OTI5NWIwZmM0ZiIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICIwMDI0M2FlMzUxYTI1NzExN2I2YTI0MTA2MTc5NjY4NGIwODRl
-ZDFjNTE2YTA4YzQ4YTNmN2UxNDdhOWQ4MGI0IgogCiBTUkNfVVJJICs9ICJmaWxlOi8vcnVuLXB0
-ZXN0LmluIgogCi0tIAoyLjQ3LjEKCg==
-
---===============7101231771413801088==
+--===============4402691034020127162==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-packaging: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/packaging/packaging-25.0.tar.gz;downloadfilename=packaging-25.0.tar.gz file://run-ptest.in" to "https://files.pythonhosted.org/packages/source/p/packaging/packaging-26.0.tar.gz;downloadfilename=packaging-26.0.tar.gz file://run-ptest.in"
-packages/x86-64-v3-poky-linux/python3-packaging: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dbg: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dbg: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dev: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-dev: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-doc: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-doc: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-locale: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-locale: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: FILELIST: removed "/usr/lib/python3-packaging/ptest/tests/.pytest_cache/v/cache/nodeids /usr/lib/python3-packaging/ptest/tests/.pytest_cache/v/cache/lastfailed /usr/lib/python3-packaging/ptest/tests/.pytest_cache/v/cache/stepwise /usr/lib/python3-packaging/ptest/tests/.pytest_cache/.gitignore /usr/lib/python3-packaging/ptest/tests/.pytest_cache/README.md /usr/lib/python3-packaging/ptest/tests/requirements.txt /usr/lib/python3-packaging/ptest/tests/.pytest_cache/CACHEDIR.TAG", added "/usr/lib/python3-packaging/ptest/tests/pylock/pylock.spec-example.toml /usr/lib/python3-packaging/ptest/tests/test_pylock.py"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-ptest: PKGSIZE changed from 2180286 to 311685 (-86%)
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-src: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-src: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-staticdev: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging-staticdev: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PV changed from "25.0" to "26.0"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PKGV changed from 25.0 [default] to 26.0 [default]
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: FILELIST: directory renamed /usr/lib/python3.14/site-packages/packaging-25.0.dist-info -> /usr/lib/python3.14/site-packages/packaging-26.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/packaging-25.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/packaging-26.0.dist-info/licenses, added "/usr/lib/python3.14/site-packages/packaging/pylock.py /usr/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc"
-packages/x86-64-v3-poky-linux/python3-packaging/python3-packaging: PKGSIZE changed from 506679 to 602735 (+19%)
-Changes to packages/x86-64-v3-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-25.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.0.dist-info
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/pylock.py was added
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemux86-64-tc/build/build-st-2534613/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was removed
-Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.14/site-packages/packaging-25.0.dist-info moved to /usr/lib/python3.14/site-packages/packaging-26.0.dist-info
-  /usr/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/packaging/pylock.py was added
+packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.150.3.tar.gz;downloadfilename=hypothesis-6.150.3.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.151.4.tar.gz;downloadfilename=hypothesis-6.151.4.tar.gz file://test_binary_search.py file://test_rle.py"
+packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.150.3" to "6.151.4"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3920609 to 3924129 (+0%)
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.150.3.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.151.4.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.150.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.151.4.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.150.3 [default] to 6.151.4 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.150.3" to "6.151.4"
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.150.3.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.151.4.dist-info
 
---===============7101231771413801088==--
+--===============4402691034020127162==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hypothesis-upgrade-6.150.3-6.151.4.patch"
+
+RnJvbSA2MjM3OWQ1NjU0NmUxMTVhOWQ1YjZhOWRjNTljN2E2YWMxZmNhOGI2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBGZWIgMjAyNiAwODoxNDo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtaHlwb3RoZXNpczogdXBncmFkZSA2LjE1MC4zIC0+IDYuMTUxLjQKCi0tLQogLi4uaG9u
+My1oeXBvdGhlc2lzXzYuMTUwLjMuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTUxLjQuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oeXBvdGhlc2lzXzYu
+MTUwLjMuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTUxLjQuYmJ9ICg5MSUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4x
+NTAuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lz
+XzYuMTUxLjQuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTAuMy5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTEuNC5i
+YgppbmRleCA4ODlmODZkZTgxLi40MjViMmU2NDQxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE1MC4zLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTUxLjQuYmIKQEAg
+LTEzLDcgKzEzLDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUucHkgXAog
+ICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMyYzg4ZDRiN2RmM2E4NDgzZTY5ODc3NTYx
+YjUyMDMyMGJmNzc3OWIwNzA5YzExODY5ZTM5MjAyNWU5Mjc5ZDQiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiNjU4YTYyZGExYzNjY2IzNjc0NmFjMmY3ZGM0YmIxYTZlNzZiZDMxNGUwZGM1NGM0ZTFh
+YWJhMjUwM2Q1NTQ1YyIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9uMy1hdHRy
+cyBcCi0tIAoyLjQ3LjEKCg==
+
+--===============4402691034020127162==--
 
