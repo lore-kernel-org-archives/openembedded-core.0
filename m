@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A73E6529C
-	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 13:13:10 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29183.1769951561014824633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A614FE6528A
+	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 13:13:09 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29051.1769951564325005732
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Feb 2026 05:12:59 -0800
+ Sun, 01 Feb 2026 05:13:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WALY/XUz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=g4gT0vEv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019c1955ca8c-e4cb92b9-ceda-4b26-a5c8-c03b7dcd41ff-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AOVVHHUg;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QmW1K2PL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019c1955ce5a-b45c2ccb-bc00-47f8-8d66-cc68815656f8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1769951578;
+	t=1769951580;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cos63fKbxqkCGPSqHWmC6GOK4PuImHAMqbIe2gr/kX4=;
-	b=WALY/XUzGMDT/E4jG38/WUDpfqEQKLHfa854g70Bg6JVrp8RMUf+QJhl7duityrX
-	PQ8Z+NlTO4k4XbvLG5nLQcUKAzk36J0rnjd6+e7jAvpc5ag3uj78KdPJS03maVQJ8G8
-	/q5kMgH4lVjYJbUyIzZoVEJkcWzZDj7x3eJMKKP0=
+	bh=N0eSO093IFePMbzAqj/M4SjD097RdefWjzLs7Qz3/zM=;
+	b=AOVVHHUgk6jaR3Hm2rimKRi1QyJ4SMCGy5ZzhS03xd4NDjMc2LWRgCQE62WY/Eu6
+	sqjGqFJkQ6ZEgIwfQPd2Mh5cOxc3juyN14VzJqaEh0O+UIbZhwCD66gBQsW0foQUSA2
+	ObGcSjFAST2XKj3mZWoh6tdD3oAqOFHdxGMb3b7U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951578;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1769951580;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cos63fKbxqkCGPSqHWmC6GOK4PuImHAMqbIe2gr/kX4=;
-	b=g4gT0vEvBAwTj2dAjnQnxv+e+w2+eLVKporRLfHnbD1dxb0q3aih9IyRYm1csM0y
-	DOzfp0yzDWOnvkcsVcnaPHmYVNypp96DJ5ON+zS/KKFkzHqG7Xt/Ll6QAEWiQlFErCo
-	aIH3culhYp3ECkvObtuW6pU0ZFN8UQCg9NZOFS9c=
-Content-Type: multipart/mixed; boundary="===============6105620539361116884=="
+	bh=N0eSO093IFePMbzAqj/M4SjD097RdefWjzLs7Qz3/zM=;
+	b=QmW1K2PLZTuiGFmVBBQOxkGgc/kAuXNW3x84n41NsnHqGEcFtg4VkJWuIhUYzWK/
+	fPJi/yp7WyXdCXposwRM0LsLPUOcIjtYM146GZQSJOiuWfL0B4e7H5VjG2BrqXDvrJg
+	SVUDx8+1bJpDSevO47aNf3P2E7Kz+gCijF8AE90g=
+Content-Type: multipart/mixed; boundary="===============3323031362849379023=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] gstreamer1.0-libav: upgrading to 1.28.0 FAILED
-Message-ID: <0101019c1955ca8c-e4cb92b9-ceda-4b26-a5c8-c03b7dcd41ff-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Feb 2026 13:12:58 +0000
+Subject: [AUH] gstreamer1.0: upgrading to 1.28.0 SUCCEEDED
+Message-ID: <0101019c1955ce5a-b45c2ccb-bc00-47f8-8d66-cc68815656f8-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Feb 2026 13:12:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.01-54.240.27.23
+X-SES-Outgoing: 2026.02.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 13:13:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230317
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 13:13:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230327
 
---===============6105620539361116884==
+--===============3323031362849379023==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-libav* to *1.28.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0* to *1.28.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.26.9-1.28.0.patch
+    - apply the patch: git am 0001-gstreamer1.0-upgrade-1.26.9-1.28.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,214 +72,450 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8c2386cc2ed91898a67c3d2f68affdf78d1f7876 Mon Sep 17 00:00:00 2001
+From b99b4d35bb9bcedf2aac000cf974cbbcf8af24fe Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Feb 2026 12:26:16 +0000
-Subject: [PATCH] gstreamer1.0-libav: upgrade 1.26.9 -> 1.28.0
+Date: Sun, 1 Feb 2026 12:38:25 +0000
+Subject: [PATCH] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
 
 ---
- ...streamer1.0-libav_1.26.9.bb => gstreamer1.0-libav_1.28.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.9.bb => gstreamer1.0-libav_1.28.0.bb} (91%)
+ ...ts-respect-the-idententaion-used-in-meson.patch |  2 +-
+ ...2-tests-add-support-for-install-the-tests.patch | 14 +++++++-------
+ ...-tests-use-a-dictionaries-for-environment.patch |  2 +-
+ ...-helper-script-to-run-the-installed_tests.patch |  2 +-
+ ...treamer1.0_1.26.9.bb => gstreamer1.0_1.28.0.bb} |  2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.9.bb => gstreamer1.0_1.28.0.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb
-index a652dbba33..70dfe3206d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+index e1d870b040..92718b7900 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+@@ -1,4 +1,4 @@
+-From ad4c577ff8d29f6dbaf5ca2d013e9d21c44f9122 Mon Sep 17 00:00:00 2001
++From 6031afdfee66e9d1dcef1b43ecb7a95cbba34035 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: respect the idententaion used in meson
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+index ccfc869813..0661b66f35 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+@@ -1,4 +1,4 @@
+-From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:00 2001
++From 01c38018cfbba9b0c93003b0e93c8cc1e73e8477 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: add support for install the tests
+@@ -12,17 +12,17 @@ Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+ ---
+  meson.build                  |  4 ++++
+- meson_options.txt            |  1 +
++ meson.options                |  1 +
+  tests/check/meson.build      | 22 +++++++++++++++++++++-
+  tests/check/template.test.in |  3 +++
+  4 files changed, 29 insertions(+), 1 deletion(-)
+  create mode 100644 tests/check/template.test.in
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "08a8e944fc61ef26df515784a089c8ac41765304a5d55b98199835b28a98dbdf"
-+SRC_URI[sha256sum] = "e3c93db7da2da3b2374ccc2e7394316f9192460abdea81651652791d46ccb8fb"
+ diff --git a/meson.build b/meson.build
+-index 0a77e90..cadfaeb 100644
++index 8adc055..b5c9e5b 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -664,6 +664,10 @@ if bashcomp_dep.found()
++@@ -667,6 +667,10 @@ if bashcomp_dep.found()
+    endif
+  endif
+  
+@@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644
+  plugins_install_dir = join_paths(get_option('libdir'), 'gstreamer-1.0')
+  
+  pkgconfig = import('pkgconfig')
+-diff --git a/meson_options.txt b/meson_options.txt
++diff --git a/meson.options b/meson.options
+ index 39255cf..78af552 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
++--- a/meson.options
+++++ b/meson.options
+ @@ -16,6 +16,7 @@ option('poisoning', type : 'boolean', value : false, description : 'Enable poiso
+  option('memory-alignment', type: 'combo',
+         choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+index 1236290e2b..9f22384225 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+@@ -1,4 +1,4 @@
+-From 374c6ace83e9697aae0b21ba26f316b79279c39c Mon Sep 17 00:00:00 2001
++From f650bcc99128f85da30fe12f0a28150a33b2362d Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 24 Apr 2021 10:34:47 +0100
+ Subject: [PATCH] tests: use a dictionaries for environment
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+index df382a4445..bb8a8acbfb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+@@ -1,4 +1,4 @@
+-From e31ab477eed061cc72ed6795b483795d53af6dfc Mon Sep 17 00:00:00 2001
++From 68f47fe16f3d726d5f42cc2d3078c251a9db781c Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 2 May 2021 01:58:01 +0100
+ Subject: [PATCH] tests: add helper script to run the installed_tests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+index c66f614629..63633fea05 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+            "
+-SRC_URI[sha256sum] = "8ee8772e468102ebe86d414d8c4c7440dd91d9f3e9396952ff23aecde80670c8"
++SRC_URI[sha256sum] = "6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce59575db945a3a623afd"
  
- S = "${UNPACKDIR}/gst-libav-${PV}"
- 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
 2.47.1
 
 
---===============6105620539361116884==
+--===============3323031362849379023==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1957 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: FILELIST: added "/usr/include/gstreamer-1.0/gst/gstcpuid.h /usr/include/gstreamer-1.0/gst/gstmetafactory.h"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstcheck-1.0.so.0.2609.0 /usr/lib/libgstnet-1.0.so.0.2609.0 /usr/lib/libgstreamer-1.0.so.0.2609.0 /usr/lib/libgstcontroller-1.0.so.0.2609.0 /usr/lib/libgstbase-1.0.so.0.2609.0", added "/usr/lib/libgstnet-1.0.so.0.2800.0 /usr/lib/libgstcontroller-1.0.so.0.2800.0 /usr/lib/libgstreamer-1.0.so.0.2800.0 /usr/lib/libgstbase-1.0.so.0.2800.0 /usr/lib/libgstcheck-1.0.so.0.2800.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PACKAGES: added "gstreamer1.0-locale-ar"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2609.0 to libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2609.0 to libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2609.0 to libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2609.0 to libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2609.0 to libgstreamer-1.0.so.0.2800.0
+  /usr/lib/libgstbase-1.0.so.0.2609.0 moved to /usr/lib/libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0.2609.0 moved to /usr/lib/libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0.2609.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0.2609.0 moved to /usr/lib/libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0.2609.0 moved to /usr/lib/libgstreamer-1.0.so.0.2800.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2609.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2800.0-gdb.py
+  /usr/include/gstreamer-1.0/gst/gstcpuid.h was added
+  /usr/include/gstreamer-1.0/gst/gstmetafactory.h was added
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-80d131b21371622b211634995d274e572d09b66c"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:80d131b21371622b211634995d274e572d09b66c"
-meta-yocto-bsp       
-meta-poky            = "master:de4abc0a175af12eacc761a2e1e60ca7fdfeaa1b"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 293 Local 281 Mirrors 0 Missed 12 Current 869 (95% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2848 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_recipe_qa)
-NOTE: Running task 2972 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_write_config)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_recipe_qa: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 3191 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_fetch)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_fetch: Succeeded
-NOTE: Running task 3192 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_unpack)
-NOTE: Running task 3193 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3194 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_patch)
-NOTE: Running task 3195 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_patch: Succeeded
-NOTE: Running task 3196 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3197 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3198 of 3210 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_populate_lic: Succeeded
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_populate_sysroot', '/srv/pokybuild/yoct
- o-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.2.bb:do_populate_sysroot', 
- 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'lib
- xv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'alsa-lib', 'ffmpeg', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'nettle', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native',
-  'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dtests=disabled -Ddoc=disabled ...
-| The Meson build system
-| Version: 1.10.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/sources/gst-libav-1.28.0
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/build
-| Build type: cross build
-| Project name: gst-libav
-| Project version: 1.28.0
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/recipe-sysroot ld.bfd 2.45.1.20251126
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency libavcodec found: YES 62.11.100
-| Run-time dependency libavfilter found: YES 11.4.100
-| Run-time dependency libavformat found: YES 62.3.100
-| Run-time dependency libavutil found: YES 60.8.100
-| Checking if "libav is provided by FFmpeg" with dependencies libavcodec, libavfilter, libavformat, libavutil compiles: YES
-| Has header "unistd.h" : YES
-| Dependency gstreamer-1.0 found: NO. Found 1.26.9 but need: '>= 1.28.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| ERROR: Subproject gstreamer is buildable: NO
-| 
-| ../sources/gst-libav-1.28.0/meson.build:88:10: ERROR: Attempted to resolve subproject without subprojects directory present.
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/build/meson-logs/meson-log.txt
-| 
-| Last 10 lines of meson-log.txt:
-| CMake binary for host machine is not cached
-| CMake binary missing from cross or native file, or env var undefined.
-| Default target is not allowed for cross use
-| Found CMake: NO
-| CMake binary for machine host machine not found. Giving up.
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| ERROR: Subproject gstreamer is buildable: NO
-| 
-| ../sources/gst-libav-1.28.0/meson.build:88:10: ERROR: Attempted to resolve subproject without subprojects directory present.
-| 
-| ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1051337:171 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1051337, line 171
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1051337, line 160
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1051337, line 147
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1051337, line 184
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3198 tasks of which 3188 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260201122553.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260201122553.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/log.do_configure.1051337
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-libav-1.28.0-r0 do_configure: meson setup failed
-ERROR: gstreamer1.0-libav-1.28.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1051337' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/log.do_configure.1051337
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_configure) failed with exit code '1'
-
---===============6105620539361116884==
+--===============3323031362849379023==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-libav-upgrade-1.26.9-1.28.0.patch"
+ filename="0001-gstreamer1.0-upgrade-1.26.9-1.28.0.patch"
 
-RnJvbSA4YzIzODZjYzJlZDkxODk4YTY3YzNkMmY2OGFmZmRmNzhkMWY3ODc2IE1vbiBTZXAgMTcg
+RnJvbSBiOTliNGQzNWJiOWJjZWRmMmFhYzAwMGNmOTc0Y2JiY2Y4YWYyNGZlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBGZWIgMjAyNiAxMjoyNjoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1saWJhdjogdXBncmFkZSAxLjI2LjkgLT4gMS4yOC4wCgotLS0KIC4uLnN0cmVh
-bWVyMS4wLWxpYmF2XzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjAtbGliYXZfMS4yOC4wLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLWxpYmF2
-XzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjAtbGliYXZfMS4yOC4wLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGli
-YXZfMS4yNi45LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1saWJhdl8xLjI4LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1saWJhdl8xLjI2Ljku
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
-LjAtbGliYXZfMS4yOC4wLmJiCmluZGV4IGE2NTJkYmJhMzMuLjcwZGZlMzIwNmQgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZf
-MS4yNi45LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtbGliYXZfMS4yOC4wLmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PTY5MzMzZGFhMDQ0Y2I3N2U0ODZjYzM2MTI5ZjdhNzcwIFwK
-ICAgICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZy
-ZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LWxpYmF2L2dzdC1saWJhdi0ke1BWfS50YXIueHoiCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiMDhhOGU5NDRmYzYxZWYyNmRmNTE1Nzg0YTA4OWM4YWM0MTc2NTMw
-NGE1ZDU1Yjk4MTk5ODM1YjI4YTk4ZGJkZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlM2M5M2Ri
-N2RhMmRhM2IyMzc0Y2NjMmU3Mzk0MzE2ZjkxOTI0NjBhYmRlYTgxNjUxNjUyNzkxZDQ2Y2NiOGZi
-IgogCiBTID0gIiR7VU5QQUNLRElSfS9nc3QtbGliYXYtJHtQVn0iCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFN1biwgMSBGZWIgMjAyNiAxMjozODoyNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMDogdXBncmFkZSAxLjI2LjkgLT4gMS4yOC4wCgotLS0KIC4uLnRzLXJlc3BlY3Qt
+dGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoIHwgIDIgKy0KIC4uLjItdGVzdHMt
+YWRkLXN1cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRlc3RzLnBhdGNoIHwgMTQgKysrKysrKy0tLS0t
+LS0KIC4uLi10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMtZm9yLWVudmlyb25tZW50LnBhdGNoIHwg
+IDIgKy0KIC4uLi1oZWxwZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3RzLnBhdGNo
+IHwgIDIgKy0KIC4uLnRyZWFtZXIxLjBfMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMF8xLjI4LjAu
+YmJ9IHwgIDIgKy0KIDUgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRp
+b25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFt
+ZXIxLjBfMS4yNi45LmJiID0+IGdzdHJlYW1lcjEuMF8xLjI4LjAuYmJ9ICg5NyUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAx
+LXRlc3RzLXJlc3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAxLXRlc3RzLXJl
+c3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoCmluZGV4IGUxZDg3MGIw
+NDAuLjkyNzE4Yjc5MDAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjAvMDAwMS10ZXN0cy1yZXNwZWN0LXRoZS1pZGVudGVudGFpb24tdXNl
+ZC1pbi1tZXNvbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wLzAwMDEtdGVzdHMtcmVzcGVjdC10aGUtaWRlbnRlbnRhaW9uLXVzZWQtaW4t
+bWVzb24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGFkNGM1NzdmZjhkMjlmNmRiYWY1Y2Ey
+ZDAxM2U5ZDIxYzQ0ZjkxMjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDYwMzFhZmRm
+ZWU2NmU5ZDFkY2VmMWI0M2VjYjdhOTVjYmJhMzQwMzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFN1
+biwgMTEgQXByIDIwMjEgMTk6NDg6MTMgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IHJl
+c3BlY3QgdGhlIGlkZW50ZW50YWlvbiB1c2VkIGluIG1lc29uCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDItdGVzdHMtYWRkLXN1
+cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAyLXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0
+YWxsLXRoZS10ZXN0cy5wYXRjaAppbmRleCBjY2ZjODY5ODEzLi4wNjYxYjY2ZjM1IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDIt
+dGVzdHMtYWRkLXN1cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRlc3RzLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMi10ZXN0cy1hZGQt
+c3VwcG9ydC1mb3ItaW5zdGFsbC10aGUtdGVzdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
+IGMzMzA2MzM2MDc5MWUxNzhkZTEzODMwNGUyOWFiMjI2NDU4MmQ5MTcgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tIDAxYzM4MDE4Y2ZiYmE5YjBjOTMwMDNiMGU5M2M4Y2MxZTczZTg0Nzcg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5q
+b3NlQGdtYWlsLmNvbT4KIERhdGU6IFN1biwgMTEgQXByIDIwMjEgMTk6NDg6MTMgKzAxMDAKIFN1
+YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGFkZCBzdXBwb3J0IGZvciBpbnN0YWxsIHRoZSB0ZXN0cwpA
+QCAtMTIsMTcgKzEyLDE3IEBAIFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dp
+dGxhYi5mcmVlZGVza3RvcC5vcmcvZ3N0cmVhbWVyL2dzdHJlYW1lci8tCiBTaWduZWQtb2ZmLWJ5
+OiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIC0tLQogIG1lc29uLmJ1
+aWxkICAgICAgICAgICAgICAgICAgfCAgNCArKysrCi0gbWVzb25fb3B0aW9ucy50eHQgICAgICAg
+ICAgICB8ICAxICsKKyBtZXNvbi5vcHRpb25zICAgICAgICAgICAgICAgIHwgIDEgKwogIHRlc3Rz
+L2NoZWNrL21lc29uLmJ1aWxkICAgICAgfCAyMiArKysrKysrKysrKysrKysrKysrKystCiAgdGVz
+dHMvY2hlY2svdGVtcGxhdGUudGVzdC5pbiB8ICAzICsrKwogIDQgZmlsZXMgY2hhbmdlZCwgMjkg
+aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9j
+aGVjay90ZW1wbGF0ZS50ZXN0LmluCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29u
+LmJ1aWxkCi1pbmRleCAwYTc3ZTkwLi5jYWRmYWViIDEwMDY0NAoraW5kZXggOGFkYzA1NS4uYjVj
+OWU1YiAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAotQEAgLTY2
+NCw2ICs2NjQsMTAgQEAgaWYgYmFzaGNvbXBfZGVwLmZvdW5kKCkKK0BAIC02NjcsNiArNjY3LDEw
+IEBAIGlmIGJhc2hjb21wX2RlcC5mb3VuZCgpCiAgICBlbmRpZgogIGVuZGlmCiAgCkBAIC0zMywx
+MCArMzMsMTAgQEAgaW5kZXggMGE3N2U5MC4uY2FkZmFlYiAxMDA2NDQKICBwbHVnaW5zX2luc3Rh
+bGxfZGlyID0gam9pbl9wYXRocyhnZXRfb3B0aW9uKCdsaWJkaXInKSwgJ2dzdHJlYW1lci0xLjAn
+KQogIAogIHBrZ2NvbmZpZyA9IGltcG9ydCgncGtnY29uZmlnJykKLWRpZmYgLS1naXQgYS9tZXNv
+bl9vcHRpb25zLnR4dCBiL21lc29uX29wdGlvbnMudHh0CitkaWZmIC0tZ2l0IGEvbWVzb24ub3B0
+aW9ucyBiL21lc29uLm9wdGlvbnMKIGluZGV4IDM5MjU1Y2YuLjc4YWY1NTIgMTAwNjQ0Ci0tLS0g
+YS9tZXNvbl9vcHRpb25zLnR4dAotKysrIGIvbWVzb25fb3B0aW9ucy50eHQKKy0tLSBhL21lc29u
+Lm9wdGlvbnMKKysrKyBiL21lc29uLm9wdGlvbnMKIEBAIC0xNiw2ICsxNiw3IEBAIG9wdGlvbign
+cG9pc29uaW5nJywgdHlwZSA6ICdib29sZWFuJywgdmFsdWUgOiBmYWxzZSwgZGVzY3JpcHRpb24g
+OiAnRW5hYmxlIHBvaXNvCiAgb3B0aW9uKCdtZW1vcnktYWxpZ25tZW50JywgdHlwZTogJ2NvbWJv
+JywKICAgICAgICAgY2hvaWNlcyA6IFsnMScsICcyJywgJzQnLCAnOCcsICcxNicsICczMicsICc2
+NCcsICcxMjgnLCAnMjU2JywgJzUxMicsICcxMDI0JywgJzIwNDgnLCAnNDA5NicsICc4MTkyJywg
+J21hbGxvYycsICdwYWdlc2l6ZSddLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1m
+b3ItZW52aXJvbm1lbnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wLzAwMDMtdGVzdHMtdXNlLWEtZGljdGlvbmFyaWVzLWZvci1lbnZpcm9ubWVu
+dC5wYXRjaAppbmRleCAxMjM2MjkwZTJiLi45ZjIyMzg0MjI1IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDMtdGVzdHMtdXNlLWEt
+ZGljdGlvbmFyaWVzLWZvci1lbnZpcm9ubWVudC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVs
+dGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDMtdGVzdHMtdXNlLWEtZGljdGlvbmFy
+aWVzLWZvci1lbnZpcm9ubWVudC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMzc0YzZhY2U4
+M2U5Njk3YWFlMGIyMWJhMjZmMzE2Yjc5Mjc5YzM5YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gZjY1MGJjYzk5MTI4Zjg1ZGEzMGZlMTJmMGEyODE1MGEzM2IyMzYyZCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwu
+Y29tPgogRGF0ZTogU2F0LCAyNCBBcHIgMjAyMSAxMDozNDo0NyArMDEwMAogU3ViamVjdDogW1BB
+VENIXSB0ZXN0czogdXNlIGEgZGljdGlvbmFyaWVzIGZvciBlbnZpcm9ubWVudApkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDA0LXRl
+c3RzLWFkZC1oZWxwZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3RzLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDA0LXRlc3Rz
+LWFkZC1oZWxwZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3RzLnBhdGNoCmluZGV4
+IGRmMzgyYTQ0NDUuLmJiOGE4YWNiZmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10
+by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQt
+dG8tcnVuLXRoZS1pbnN0YWxsZWRfdGVzdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGUz
+MWFiNDc3ZWVkMDYxY2M3MmVkNjc5NWI0ODM3OTVkNTNhZjZkZmMgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIDY4ZjQ3ZmUxNmYzZDcyNmQ1ZjQyY2MyZDMwNzhjMjUxYTlkYjc4MWMgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3Nl
+QGdtYWlsLmNvbT4KIERhdGU6IFN1biwgMiBNYXkgMjAyMSAwMTo1ODowMSArMDEwMAogU3ViamVj
+dDogW1BBVENIXSB0ZXN0czogYWRkIGhlbHBlciBzY3JpcHQgdG8gcnVuIHRoZSBpbnN0YWxsZWRf
+dGVzdHMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjBfMS4yNi45LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
+dHJlYW1lcjEuMF8xLjI4LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMF8xLjI2LjkuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4y
+OC4wLmJiCmluZGV4IGM2NmY2MTQ2MjkuLjYzNjMzZmVhMDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yNi45LmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yOC4wLmJiCkBA
+IC0yMiw3ICsyMiw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Au
+b3JnL3NyYy9nc3RyZWFtZXIvZ3N0cmVhbWVyLSR7UFZ9LnRhci54CiAgICAgICAgICAgIGZpbGU6
+Ly8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2ggXAog
+ICAgICAgICAgICBmaWxlOi8vMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhl
+LWluc3RhbGxlZF90ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICI4ZWU4NzcyZTQ2ODEwMmViZTg2ZDQxNGQ4YzRjNzQ0MGRkOTFkOWYzZTkzOTY5NTJmZjIz
+YWVjZGU4MDY3MGM4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZjODY3NmJjMzlhMmI0MTA4NGZk
+NGIyMWQyYzM3OTg1YzY5YWM5NzljMDNjZTU5NTc1ZGI5NDVhM2E2MjNhZmQiCiAKIFBBQ0tBR0VD
+T05GSUcgPz89ICIke0BiYi51dGlscy5jb250YWlucygnUFRFU1RfRU5BQkxFRCcsICcxJywgJ3Rl
+c3RzJywgJycsIGQpfSBcCiAgICAgICAgICAgICAgICAgICAgY2hlY2sgXAotLSAKMi40Ny4xCgo=
 
---===============6105620539361116884==--
+--===============3323031362849379023==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGSIZE changed from 17631839 to 17968655 (+2%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: FILELIST: removed "/usr/lib/.debug/libgstnet-1.0.so.0.2609.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2609.0-gdb.py /usr/lib/.debug/libgstcheck-1.0.so.0.2609.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2609.0 /usr/lib/.debug/libgstbase-1.0.so.0.2609.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2609.0", added "/usr/lib/.debug/libgstreamer-1.0.so.0.2800.0 /usr/lib/.debug/libgstnet-1.0.so.0.2800.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2800.0-gdb.py /usr/lib/.debug/libgstbase-1.0.so.0.2800.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2800.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2800.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGSIZE changed from 6481612 to 6775774 (+5%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: FILELIST: added "/usr/include/gstreamer-1.0/gst/gstmetafactory.h /usr/include/gstreamer-1.0/gst/gstcpuid.h"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGSIZE changed from 13998 to 13883 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGSIZE changed from 28463 to 28344 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGSIZE changed from 52434 to 53090 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGSIZE changed from 32510 to 32380 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGSIZE changed from 37787 to 37646 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGSIZE changed from 36788 to 36675 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGSIZE changed from 40955 to 41391 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGSIZE changed from 42423 to 42275 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGSIZE changed from 10731 to 10631 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGSIZE changed from 38113 to 37954 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGSIZE changed from 41069 to 41556 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGSIZE changed from 28283 to 28177 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGSIZE changed from 31282 to 31147 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGSIZE changed from 41210 to 41083 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGSIZE changed from 39467 to 39363 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGSIZE changed from 34099 to 33960 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGSIZE changed from 39747 to 40234 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGSIZE changed from 40656 to 40490 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGSIZE changed from 38549 to 38435 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGSIZE changed from 38503 to 38376 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGSIZE changed from 14226 to 14167 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGSIZE changed from 30112 to 29953 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGSIZE changed from 40384 to 40265 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGSIZE changed from 38482 to 38371 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGSIZE changed from 39768 to 40280 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGSIZE changed from 40186 to 40651 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGSIZE changed from 40910 to 40787 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGSIZE changed from 42137 to 42628 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGSIZE changed from 51483 to 51307 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGSIZE changed from 36462 to 36331 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGSIZE changed from 39168 to 39697 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGSIZE changed from 12676 to 12556 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGSIZE changed from 51119 to 51655 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGSIZE changed from 39682 to 39566 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGSIZE changed from 39130 to 39012 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGSIZE changed from 52692 to 53258 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGSIZE changed from 41106 to 40863 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGSIZE changed from 36044 to 35944 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGSIZE changed from 33144 to 33044 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGSIZE changed from 4144747 to 4218467 (+2%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGSIZE changed from 9738771 to 10020276 (+3%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0/1.26.9/plugins/elements -> /usr/src/debug/gstreamer1.0/1.28.0/plugins/elements, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/helpers -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/helpers, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/elements -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/elements, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tools -> /usr/src/debug/gstreamer1.0/1.28.0/tools, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/gst/printf -> /usr/src/debug/gstreamer1.0/1.28.0/gst/printf, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/controller -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/controller, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/base -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/base, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/gst ->
+  /usr/src/debug/gstreamer1.0/1.28.0/tests/check/gst, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/libs -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/libs, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/generic -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/generic, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/check/libcheck -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/check/libcheck, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/pipelines -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/pipelines, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/validate -> /usr/src/debug/gstreamer1.0/1.28.0/tests/validate, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/net -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/net, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/tools -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/tools, directory renamed /usr/src/debug/gstreamer
+ 1.0/1.26.9/libs/gst/check -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/check, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/gst/parse -> /usr/src/debug/gstreamer1.0/1.28.0/gst/parse, removed "/usr/src/debug/gstreamer1.0/1.26.9/gst/gstbuffer.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevice.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmemory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstformat.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstobject.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstplugin.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferpool.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpreset.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsample.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracer.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbuffer.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcompat.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferpool.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevice.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstformat.h /usr/src/debug/gstreame
+ r1.0/1.26.9/gst/gstmemory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstobject.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstplugin.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpreset.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbus.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsystemclock.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvecdeque.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvecdeque.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsystemclock.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbus.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpipeline.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistry.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreamcollection.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistry.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpipeline.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreamcollection.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttask.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstprotection.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolbinding.h /usr/
+ src/debug/gstreamer1.0/1.26.9/gst/gstprotection.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttask.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolbinding.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gst.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdynamictypefactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdynamictypefactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gst.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginfeature.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontext.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstatomicqueue.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelement.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelementfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginfeature.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpoll.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsegment.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaglist.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpoll.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelementfactory.h /usr/src/debug/gstreamer1.0
+ /1.26.9/gst/gstatomicqueue.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontext.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelement.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsegment.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaglist.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstinfo.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstutils.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstinfo.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvalue.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstclock.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsterror.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmeta.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstevent.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gst_private.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstidstr.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstparse.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstquery.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmeta.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsterror.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdatetime.c /usr/src
+ /debug/gstreamer1.0/1.26.9/gst/gstevent.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstidstr.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstparse.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstquery.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstclock.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstutils.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvalue.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdatetime.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstenumtypes.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstenumtypes.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstiterator.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreams.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreams.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstiterator.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbin.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbin.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferlist.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferlist.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmessage.c /usr/src/debug/gstreamer1.
+ 0/1.26.9/gst/gstpromise.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gststructure.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gststructure.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmessage.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpromise.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstghostpad.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpadtemplate.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpadtemplate.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstghostpad.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttagsetter.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttocsetter.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerutils.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttagsetter.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttocsetter.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerutils.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstidstr-private.h /usr/src/debug/gstreamer1.0/1.26.9/gst/
+ gstregistrybinary.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrychunks.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrybinary.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrychunks.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsturi.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefindfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefindfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsturi.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceprovider.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceprovider.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstchildproxy.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcaps.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstchildproxy.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcaps.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceproviderfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevicemonitor.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsample.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracer.h /usr/src/debug/gstreamer1.0/1.26
+ .9/gst/gstdeviceproviderfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevicemonitor.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttoc.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttoc.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcapsfeatures.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefind.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstallocator.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstallocator.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcapsfeatures.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefind.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbytearrayinterface.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaskpool.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginloader.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdebugutils.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaskpool.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdebugutils.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginloader.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerrecord.c /usr/src/debug/gstreamer1.0/1.2
+ 6.9/gst/gstparamspecs.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpad.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerrecord.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpad.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstparamspecs.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstminiobject.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstminiobject.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolsource.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolsource.h", added "/usr/src/debug/gstreamer1.0/1.28.0/gst/gsttocsetter.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttagsetter.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerutils.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttagsetter.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttocsetter.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerutils.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstidstr-private.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrybinary.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrychunks.c /usr/src/debug/gstreamer1.
+ 0/1.28.0/gst/gstregistrybinary.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrychunks.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsturi.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefindfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefindfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsturi.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceprovider.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceprovider.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstutils.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstchildproxy.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcaps.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstchildproxy.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcaps.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceproviderfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracer.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevicemonitor.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceproviderfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevicemonitor.c /usr/src/debug
+ /gstreamer1.0/1.28.0/gst/gsttoc.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttoc.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcapsfeatures.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefind.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstallocator.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstparse.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstquery.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstallocator.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcapsfeatures.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefind.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbytearrayinterface.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaskpool.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginloader.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdebugutils.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaskpool.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdebugutils.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginloader.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerrecord.c /usr/src/debug/gstreamer1.0/1.28.0/gs
+ t/gstparamspecs.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpad.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerrecord.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpad.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstparamspecs.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstminiobject.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstminiobject.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolsource.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolsource.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbuffer.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevice.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstformat.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsample.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmemory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstobject.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferpool.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstplugin.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpreset.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracer.c /usr/src/debug/gstreamer1.0/1.2
+ 8.0/gst/gstmemory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbuffer.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferpool.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcompat.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevice.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstformat.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstobject.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsystemclock.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvecdeque.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbus.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvecdeque.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsystemclock.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbus.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpipeline.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistry.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreamcollection.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistry.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpipeline.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreamcollection.h /usr/src/debug/gstr
+ eamer1.0/1.28.0/gst/gsttask.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstprotection.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolbinding.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstprotection.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttask.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolbinding.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gst.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmetafactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdynamictypefactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdynamictypefactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gst.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmetafactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginfeature.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontext.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstatomicqueue.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelement.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerfactory.h /usr/src/debug/gstreamer1.0/
+ 1.28.0/gst/gstelementfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginfeature.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpoll.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsegment.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaglist.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpoll.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelementfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstatomicqueue.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontext.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelement.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsegment.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaglist.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstinfo.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstinfo.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvalue.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstclock.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsterror.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstevent.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmeta.c /usr/src/debug/gstreamer1.0/1.28.0/g
+ st/gst_private.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstidstr.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstparse.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstquery.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmeta.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstutils.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvalue.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstplugin.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpreset.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstclock.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdatetime.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcpuid.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsterror.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstevent.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstidstr.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsample.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdatetime.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstenumtypes.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstenumtypes.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstiterator.h /usr/src/de
+ bug/gstreamer1.0/1.28.0/gst/gststreams.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreams.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstiterator.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbin.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbin.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferlist.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferlist.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmessage.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpromise.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gststructure.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gststructure.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmessage.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpromise.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstghostpad.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpadtemplate.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpadtemplate.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstghostpad.c"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PKGSIZE changed from 3360142 to 3409318 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstcheck-1.0.so.0.2609.0 /usr/lib/libgstreamer-1.0.so.0.2609.0 /usr/lib/libgstnet-1.0.so.0.2609.0 /usr/lib/libgstcontroller-1.0.so.0.2609.0 /usr/lib/libgstbase-1.0.so.0.2609.0", added "/usr/lib/libgstbase-1.0.so.0.2800.0 /usr/lib/libgstnet-1.0.so.0.2800.0 /usr/lib/libgstcontroller-1.0.so.0.2800.0 /usr/lib/libgstcheck-1.0.so.0.2800.0 /usr/lib/libgstreamer-1.0.so.0.2800.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PACKAGES: added "gstreamer1.0-locale-ar"
+packages/x86-64-v3-poky-linux/gstreamer1.0: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.26.9.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch" to "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.0.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2609.0 to libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2609.0 to libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2609.0 to libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2609.0 to libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2609.0 to libgstreamer-1.0.so.0.2800.0
+  /usr/lib/libgstbase-1.0.so.0.2609.0 moved to /usr/lib/libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0.2609.0 moved to /usr/lib/libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0.2609.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0.2609.0 moved to /usr/lib/libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0.2609.0 moved to /usr/lib/libgstreamer-1.0.so.0.2800.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2609.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2800.0-gdb.py
+  /usr/include/gstreamer-1.0/gst/gstcpuid.h was added
+  /usr/include/gstreamer-1.0/gst/gstmetafactory.h was added
+
+--===============3323031362849379023==--
 
