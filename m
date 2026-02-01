@@ -1,105 +1,145 @@
-Return-Path: <charles.embedded@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92007E7C6EE
-	for <webhook@archiver.kernel.org>; Sat, 31 Jan 2026 21:12:10 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17663.1769893930108183766
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D65A3E7C711
+	for <webhook@archiver.kernel.org>; Sun,  1 Feb 2026 07:52:13 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25825.1769932324733658397
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jan 2026 13:12:10 -0800
+ Sat, 31 Jan 2026 23:52:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LkxD4g9G;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: charles.embedded@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-794719afcd4so33378567b3.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 13:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769893929; x=1770498729; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KJ2CWbr77Fgjf6Z+48ARAq/IPIdmAXs7ZFZe5D7PxIA=;
-        b=LkxD4g9GaplaK8Ylmon1X7B/I5XpZfkQFJOjNQTaZrlBfpMrROdjCaWP5JuICnmpw5
-         GD4+UacZV+Efd2+SvQ3H6ltmuyYP/z0eLyAkos/4t6F9j6r1dh3h7b0SyBQaL16kL4MK
-         o/ezk9Q23wUwq4Jpu8S/CzzwKWoHpdwJVNdusxvJ4oNMlsxi+kxYaJHY/LiwPLmZLK6U
-         uh5/mKPVVgpkhmCXXp6LXcu+/dEI2yZN6SYEIif28Kr8xKSEovjFRBHkQcEqooed1T5s
-         ryiXlAYBo+rWm8RDHHkyAnIsQLA15tsJP8mCODD7Qyzo3Yvlp51laASRQoX39teEVEY7
-         E4Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769893929; x=1770498729;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KJ2CWbr77Fgjf6Z+48ARAq/IPIdmAXs7ZFZe5D7PxIA=;
-        b=cCdM87RuIPn39GJ0r6L4QLoi027d7MHf83Z552cQSbGjvwa9quhNcdvjaWJbdpRQpf
-         0OiriAlkV4dMxO9ZSaQx/x92Vnv0wXHK92RHmNKypzQcz11POsufLEH+8+l30Cj/zNy4
-         dd6jB5QI/2Z8n4ZwpHZAnl9vrO/FCeISQ60u0CPpwk1bNJumvznjyL175xgrYF46nZ3T
-         f7Ngdk8PUub7x3MCb3kmuOXY48yYPV04hbZ/FzNUppBYUFtkCdai7mOXjCHyr6InS7v9
-         CGw9fqCdRt7k/ict/63yv5KjeuCRH/84Qxp7GRZJyXkSSD4jbFNhRUdv8zHKqPfU4s2u
-         4l4Q==
-X-Gm-Message-State: AOJu0Yyfs0cxOLnU4LKmcwjsuXlfmKU33xdaieO4XtPKLfEjY20nXLWh
-	RZPojTHXcFpfCGJn9Ji+kLSCoxqWiJ9CvlejrWQLlXQdU0QbvPDO9hkeSZADWg==
-X-Gm-Gg: AZuq6aL5BT2Y5fVyP4JbiBaw7p3wTCeC16VjEuqqGYweYxHBwdDVnht4eh+tZ3xTXUT
-	p0wg+8vBlg8/KEZlxkO7aMMK95gKoS2kXQhGS6nPDxtNVbKPebXnM9hEtK0rtqmgoiIS6hFKmH3
-	pfCJunAhUpQBvezq6rQ3XJBii9xh0tYzuoZE/4B1z5/juIhcPXfIiFcJCHIWPGyyyowTc5wUplc
-	yyD9Qw0omig4hFGBWN5otkIpLHVC+uMYvL2eYnql/D/Wo+kWRGA/xLF11g3mA/ft4aWvx9hd7K2
-	kRGux4il0MLWmjGNOSlRjmJt5NAbdvSYllaYleoOvPB5oIO9+H4h1y/66Rf2sLGfRGOEZfFNWvA
-	nl6PkS9KZurrV9x9MUppdpMUnMWna9rDjWrCgIvnh2/F0naLyeeAzBXgGS1qMsTGs5FzFdjIjGL
-	1qV6M3zRPFiw6bUXdWQ7U=
-X-Received: by 2002:a05:690c:6612:b0:794:3023:8596 with SMTP id 00721157ae682-7949dfbf60amr65890687b3.40.1769893928816;
-        Sat, 31 Jan 2026 13:12:08 -0800 (PST)
-Received: from charlesdias.. ([191.22.16.59])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-794828cb304sm49415187b3.45.2026.01.31.13.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 13:12:08 -0800 (PST)
-From: charles.embedded@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	Charles Dias <charlesdias.cd@outlook.com>
-Subject: [PATCH] runqemu: parse QB_GRAPHICS for nographic flag
-Date: Sat, 31 Jan 2026 18:11:11 -0300
-Message-ID: <20260131211111.1189479-1-charles.embedded@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=FJ/M9YMf;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 9433BC237CB
+	for <openembedded-core@lists.openembedded.org>; Sun,  1 Feb 2026 07:52:06 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4008260720;
+	Sun,  1 Feb 2026 07:52:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6674B119A88ED;
+	Sun,  1 Feb 2026 08:51:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769932321; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=iERvEaufDWbX2GqURicys/wlCg/om9xz5lDVJmaMayE=;
+	b=FJ/M9YMfjgHWPaAMFc1EBbzPFAHrpKh12mCq/jA88y9fXEfYE/j1/aKAlPcEP3nTbNm5ID
+	6fcUG/MOCV9wJ27TBRwxxEDZ//zJm2cWwet0YYF5C51RKx48oaepI0LNnW64sCqAwbLpV/
+	WycOy0oJfrW0Tgu2Wk6K8jwnpZ0eq63fqwGsP11nKbmMDX2zNMAazecDx6QSHH79flnNxi
+	qYG7au01/ZE2BTTmDr5rZLl8PMVvHy/C8KL2LqOADINU5QnsqlAQFxl8evXIA5Y0HjS0nV
+	d525JVUSV+/eGmEdTzbnmu5N4/3TPL6g4gkKc9jrN1T1gtSSjYxDL8fTsC4EoQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 01 Feb 2026 08:51:55 +0100
+Message-Id: <DG3GN4VGMAU4.OOYLJKHV2X2B@bootlin.com>
+Subject: Re: [OE-core] [PATCH] rust: Upgrade 1.92.0 -> 1.93.0
+Cc: <Sundeep.Kokkonda@windriver.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <Hemanth.KumarMD@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260130134137.2463745-1-Hemanth.KumarMD@windriver.com>
+In-Reply-To: <20260130134137.2463745-1-Hemanth.KumarMD@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Jan 2026 21:12:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230252
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 07:52:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230253
 
-From: Charles Dias <charlesdias.cd@outlook.com>
+On Fri Jan 30, 2026 at 2:41 PM CET, Hemanth.KumarMD via lists.openembedded.=
+org wrote:
+> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+>
+> https://blog.rust-lang.org/2026/01/22/Rust-1.93.0/
+> Rust changes: https://github.com/rust-lang/rust/releases/tag/1.93.0
+> Cargo changes: https://doc.rust-lang.org/nightly/cargo/CHANGELOG.html#car=
+go-193-2026-01-22
+>
+> * rust-oe-selftest.patch updated for 1.93:
+>   Renamed UI test directive from add-core-stubs to add-minicore as in
+>   https://github.com/rust-lang/rust/commit/3796f7de57f5d4cf4325d1f13aeb07=
+fdaa57983b
+>
+> * OE-selftests:
+>   - Exclude src/tools/remote-test-client from test suite.
+>     This unit test modifies the TEST_DEVICE_ADDR environment variable,
+>     which breaks the OE test harness that uses the same variable for
+>     QEMU remote testing. Filed a bug with upstream:
+>     https://github.com/rust-lang/rust/issues/151823
+>
+>   - Enable +v8a feature for cortexa57.
+>     Rust 1.93.0 added a regression test (PR #149549) to verify that the
+>     ARMv8-A system register ttbr0_el2 is recognized in inline assembly.
+>     This addresses issue #97724 where LLVM wasn't recognizing ttbr0_el2
+>     as a valid register. Upstream Rust enables +v8a by default for all
+>     AArch64 targets (PR #105026), but Yocto's custom target specification
+>     doesn't inherit this. Adding +v8a ensures LLVM recognizes ARMv8-A
+>     system registers, fixing the test failure.
+>
+>     Related upstream links:
+>     - PR #149549: https://github.com/rust-lang/rust/pull/149549
+>     - Issue #97724: https://github.com/rust-lang/rust/issues/97724
+>     - PR #105026: https://github.com/rust-lang/rust/pull/105026
+>
+> Test results:
+>
+> rust v1.93.0
+> +-------------+--------+---------+
+> | Machine     | Passed | Skipped |
+> +-------------+--------+---------+
+> | qemux86-64  | 21,689 |   646   |
+> | qemux86     | 21,439 |   896   |
+> | qemuarm64   | 21,495 |   840   |
+> | qemuarm     | 21,421 |   914   |
+> | qemuriscv64 | 21,466 |   869   |
+> +-------------+--------+---------+
+>
+> Test results difference (1.93.0 - 1.92.0):
+>
+> +-------------+--------+---------+
+> | Machine     | Passed | Skipped |
+> +-------------+--------+---------+
+> | qemux86-64  |  +205  |   +33   |
+> | qemux86     |  +205  |   +33   |
+> | qemuarm64   |  +206  |   +32   |
+> | qemuarm     |  +205  |   +33   |
+> | qemuriscv64 |  +205  |   +33   |
+> +-------------+--------+---------+
+>
+> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+> ---
 
-The setup_vga() function was ignoring -nographic in QB_GRAPHICS
-because it only checked the command-line self.nographic flag.
-This caused QB_GRAPHICS to be appended after display autodetection,
-resulting in conflicting options like "-device virtio-vga -display sdl"
-and "-nographic" in the same command.
+Hi Hemanth,
 
-Add a check after reading qemuboot.conf to detect -nographic in
-QB_GRAPHICS and set self.nographic accordingly. This prevents
-unnecessary display autodetection for BSPs that specify -nographic
-in their machine configuration, as happens in meta-zephyr layer.
+Thanks for the upgrade.
 
-Signed-off-by: Charles Dias <charlesdias.cd@outlook.com>
----
- scripts/runqemu | 6 ++++++
- 1 file changed, 6 insertions(+)
+I suspect this is responsible of the
+runtime_test.RustKernel.test_kernel_rust_sample selftest failure:
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 32a3d6296a..b791abfda3 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -986,6 +986,12 @@ to your build configuration.
-                 v = os.path.dirname(self.qemuboot)
-             self.set(k_upper, v)
- 
-+        # Parse QB_GRAPHICS to set internal flags if not already set by command-line
-+        if not self.nographic and self.get('QB_GRAPHICS'):
-+            if '-nographic' in self.get('QB_GRAPHICS'):
-+                logger.debug('Detected -nographic in QB_GRAPHICS, setting nographic mode')
-+                self.nographic = True
-+
-     def validate_paths(self):
-         """Ensure all relevant path variables are set"""
-         # When we're started with a *.qemuboot.conf arg assume that image
+2026-01-31 16:20:41,991 - oe-selftest - INFO - runtime_test.RustKernel.test=
+_kernel_rust_sample (subunit.RemotedTestCase)
+2026-01-31 16:20:41,994 - oe-selftest - INFO -  ... FAIL
+...
+ERROR: linux-yocto-6.16.11+git-r0 do_compile: Execution of '/srv/pokybuild/=
+yocto-worker/oe-selftest-debian/build/build-st-766138/tmp/work/qemux86_64-p=
+oky-linux/linux-yocto/6.16.11+git/temp/run.do_compile.189616' failed with e=
+xit code 1
+...
+| error: unknown unstable option: `no-jump-tables`
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3127
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3022
+
+Can you have a look at what is going wrong here?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
