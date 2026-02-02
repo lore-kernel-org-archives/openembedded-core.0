@@ -1,91 +1,137 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9821D172C6
-	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 04:08:34 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.45550.1770005306950664463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ABF4D172CC
+	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 04:36:35 +0000 (UTC)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46122.1770006989030724258
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Feb 2026 20:08:27 -0800
+ Sun, 01 Feb 2026 20:36:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Js9wBQ+v;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7f89d0b37f0so2033913b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 20:08:26 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=L0niA9z/;
+ spf=pass (domain: mvista.com, ip: 209.85.214.194, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2a7786d7895so29097105ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Feb 2026 20:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770005306; x=1770610106; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qcMjXYaujTKolTPFw6o91qxRM3yVjMPueazzorFhIUA=;
-        b=Js9wBQ+v3u0D8GjhWpM7g/YTi0GN+Pn8pAJ7pGwPt9HXOiVwV31fsLfJNQnAiauuJB
-         uTwF5vvvplPJF8SFpW90I1dgiIK5WBrDOySnbZyMDlRDh0Cfl3DPqmc4gJCb7+7N1RMi
-         hu3e0lLjxDeoMZNmem0DBcKzJBpXooKEh0fVhPY0DgqqDgIo03qF+i9ryQGdFLNS1C6N
-         nKKP7XastRAM+pglm1D0A3aIHI0obtX8Af1pa9+dx6bNTe47odUNSPR2McxlNEqNB6ey
-         ZRt0v/SOWwtsOvRGQXmQRPhE0FzdUTARm5VqbcsvPrljY0fUr7NzHOqaOuh5j/FOps8V
-         f3nA==
+        d=mvista.com; s=google; t=1770006988; x=1770611788; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NOErQzZEc+6eYwzF84IGnYImbeSvM+KD1p7TmBJrDv4=;
+        b=L0niA9z/Kj+10kwGj+PmLzi3C3qx5hW1Rc1Jl03/CTkIa1b2QTJeTWXX7niy8uyPiX
+         z/arg9/FSA42yZDYUv4gt164REwwaoFEA52UD9MtuonnJRO8tc8Dr+xTlN+UPkTeEmsT
+         B/ydM4iSHtsnazou+I+4gNmPQRGEKsqwbTWJQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770005306; x=1770610106;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qcMjXYaujTKolTPFw6o91qxRM3yVjMPueazzorFhIUA=;
-        b=nbVHPRFCTkqKAXBpIL5ifThI8F9t7CH4UPzIf4zLx703V1kSE2Vg2+DxYqVlfiwgB4
-         U8E3M4iIrUNUWxbCaJfwnPIrBOJmH0YCE7mPMBGc4fu1e/FaI/eGq/frk3LaVkcDMs2Q
-         RS4huvrrzNXRUhVhaFv42rUX/Uhnv9Y3LG11xLaLsFVyNlRPF1PNBeuGs0gk8Oqs7GfV
-         Xz+KXTIKXLzRh1eDNnVfEdBHmFxJZ/3UMiqrKWSdjModK7jrwDro6vGG181lSBYgjmEW
-         ag+TgGwNMtFcVMrJN3pHrNWArgTwoU23QoTzyeFXs8n+K94/5bBmOsyv+Ylk/sjdppLV
-         XAlw==
-X-Gm-Message-State: AOJu0YxVDBCf4e/VqlGGPUWFBuS09NNVILxXXEKSQerJLf6mJyB59O9C
-	WVEhrNAja9Oikyf0dD2SkR9BS474ft63vzAgdGxNu4laLsIFop/2Ocm3LGY2EQ==
-X-Gm-Gg: AZuq6aKsU45nasIvhWWVGtcOqHEcuNYmU8xujSeOOvX+BUCFofO9w+MgCaQyPtxOjPe
-	KuhyJIcLwepGkljTjZBKNkn89bVrs8wEpJCvHCaInz6PP6UWyNMKV8YRxZm+rR/mOEz27X4VxnE
-	q6Q16lDqONiKbcexI1wYNB95NegWE540lWawNYRqzbQ3vY6X3jLlV2BqF2bEfHJ/x4bLK1/cWUK
-	9Lta2LdHoe6ofNFh1vx7FVnX4oylhxRxffwEKLCzcjy2gbniF+lMjgnDuJZoyrSRcn2HAkqcWT0
-	jjDFYcv0wVSFFTH7w3aYJJEwXE/89Iv1f8kG9jxAr8fJemlMyvAd9/ErMWRAono6Dv1CKzhNUrN
-	TB7u5vYIV30/8eblQB/0ZpKGheGPVnUxOrq37y1XnMh8k3xpBuMStYioB8XcSRkAM+9AqzNweSU
-	BtGA+k7RF287OgSJjUQUS8Fjs=
-X-Received: by 2002:a05:6a20:d525:b0:2cb:519b:33fe with SMTP id adf61e73a8af0-392dfb97906mr9394533637.21.1770005306136;
-        Sun, 01 Feb 2026 20:08:26 -0800 (PST)
-Received: from NVAPF55DW0D-IPD.. ([147.161.217.20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3543babe4aasm4926588a91.0.2026.02.01.20.08.24
+        d=1e100.net; s=20230601; t=1770006988; x=1770611788;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NOErQzZEc+6eYwzF84IGnYImbeSvM+KD1p7TmBJrDv4=;
+        b=In4UoIKMiD7Be0svwn5QA3yB/v8/D6YkEEd92dEc8+XtyoiI/EcV5ebaej1u0kQ8al
+         eDTYEvB3xFjCPwdVYRHp+YgLhcn5wZO4zhbJqMZbCZKSWsMfE6ZRf5RBUl6avaFkg16R
+         T7RbMdmNdvgaISUW6aXJ17N6F7Anb5ouBSgeddoi2uNTFDmbgc+3/Z8unBz/vP9hDZMC
+         xwV4kr9UUyco1XEHaWaaNkGfN0t8Jynz/Z1zDGqX0c5/Rc14lznW2yWkalYjGUNjTuTW
+         nISZFpJgdnz0sJju9hxkvRIzUKHo1s5o3Yii/WPPBS+k5wUFJa46tkJe4yBIPu7XG5R0
+         c9Mw==
+X-Gm-Message-State: AOJu0YxVMF0eIuUoGDWrxBfSmU0ERCjIVYHf6hExMmcMZkQhewZzNvPT
+	Hfsxxm5iD0RJ1SDa5RwdyDe3w8mmgocB09W4Ah87giCaT7zaFvcSDcowMD7/X7uNWEJEP0ff/ZT
+	ERlepnZg=
+X-Gm-Gg: AZuq6aIUzhPWCQSHokvC4ZOV9PVkN8pkMA51PvJlFRt3VMcrFBhFXnMZhb8f5jikG1O
+	aoWFHmS71p7sIhqt29WhRVcnj8Zo/5HZJlc1GED6JaNApkX++lx4w+CPa4KwGdbb7JotBVS8aKy
+	eZvJV6gXYXUbBRY4X8JWxyPZdsFFHOcvZ3HL/zfEmk/AgOfhZCdVOXS281YnWGypMe9UIf9jrxw
+	6nbUF1jW++wxFUdQOl1mbm3pOVbul1JcERyKWlMjSNWWkJv706RlOIu57ScoGzrCJZHxff1cNXA
+	wGRn5QFxgUbaQSQOpu+IB1zUyJYdYoeIGd241oxUfZUEj6P3hdVyyJ1LuILkQkBR8Wfg4sAwnEp
+	Df9F/HznYLmFqpQTcYBp8VNYKl6uDqHMZuwIx165vhUh/i2xklRr7Ecn91fXP/09eAle9wBJElJ
+	0/+KGLsnQIxftsRP3095d/Q8lX
+X-Received: by 2002:a17:903:1112:b0:2a7:6d72:829c with SMTP id d9443c01a7336-2a8d993a81cmr89723195ad.50.1770006988240;
+        Sun, 01 Feb 2026 20:36:28 -0800 (PST)
+Received: from MVIN00013.mvista.com ([103.250.136.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b6e4110sm125861135ad.84.2026.02.01.20.36.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 20:08:25 -0800 (PST)
-From: ankur.tyagi85@gmail.com
+        Sun, 01 Feb 2026 20:36:27 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][scarthgap][PATCH 3/3] vim: ignore CVE-2025-66476
-Date: Mon,  2 Feb 2026 17:08:05 +1300
-Message-ID: <20260202040805.596021-3-ankur.tyagi85@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260202040805.596021-1-ankur.tyagi85@gmail.com>
-References: <20260202040805.596021-1-ankur.tyagi85@gmail.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] openssl: fix CVE-2025-15468
+Date: Mon,  2 Feb 2026 10:04:31 +0530
+Message-ID: <20260202043432.92025-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 04:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230344
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 04:36:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230345
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Upstream-Status: Backport from https://github.com/openssl/openssl/commit/1f08e54bad32843044fe8a675948d65e3b4ece65
 
-Details https://nvd.nist.gov/vuln/detail/CVE-2025-66476
-
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-support/vim/vim_9.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../openssl/openssl/CVE-2025-15468.patch      | 39 +++++++++++++++++++
+ .../openssl/openssl_3.2.6.bb                  |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
 
-diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.1.bb
-index fee9f055e9..c492342ffb 100644
---- a/meta/recipes-support/vim/vim_9.1.bb
-+++ b/meta/recipes-support/vim/vim_9.1.bb
-@@ -21,3 +21,5 @@ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
- # in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
- #
- lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
+new file mode 100644
+index 0000000000..dcd862bedf
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
+@@ -0,0 +1,39 @@
++From 1f08e54bad32843044fe8a675948d65e3b4ece65 Mon Sep 17 00:00:00 2001
++From: Daniel Kubec <kubec@openssl.org>
++Date: Fri, 9 Jan 2026 14:33:24 +0100
++Subject: [PATCH] ossl_quic_get_cipher_by_char(): Add a NULL guard before
++ dereferencing SSL_CIPHER
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+CVE_STATUS[CVE-2025-66476] = "not-applicable-platform: Issue only applies on Windows"
++Fixes CVE-2025-15468
++
++Reviewed-by: Saša Nedvědický <sashan@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++MergeDate: Mon Jan 26 19:36:04 2026
++(cherry picked from commit 293b55de0c434a99d0e744d0521170ca280606a9)
++
++CVE: CVE-2025-15468
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/1f08e54bad32843044fe8a675948d65e3b4ece65]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ ssl/quic/quic_impl.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/ssl/quic/quic_impl.c b/ssl/quic/quic_impl.c
++index 98b6a0a..4abde64 100644
++--- a/ssl/quic/quic_impl.c
+++++ b/ssl/quic/quic_impl.c
++@@ -3646,6 +3646,8 @@ const SSL_CIPHER *ossl_quic_get_cipher_by_char(const unsigned char *p)
++ {
++     const SSL_CIPHER *ciph = ssl3_get_cipher_by_char(p);
++ 
+++    if (ciph == NULL)
+++        return NULL;
++     if ((ciph->algorithm2 & SSL_QUIC) == 0)
++         return NULL;
++ 
++-- 
++2.50.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.6.bb b/meta/recipes-connectivity/openssl/openssl_3.2.6.bb
+index fac62245d7..4fd13d52fe 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.6.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.6.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
+            file://CVE-2025-15467-01.patch \
+            file://CVE-2025-15467-02.patch \
+            file://CVE-2025-15467-03.patch \
++           file://CVE-2025-15468.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.50.1
+
 
