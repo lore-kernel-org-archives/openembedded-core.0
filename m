@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5459AE7317E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EF6D172B4
 	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 13:54:38 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.52584.1770040470240546640
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52591.1770040477804212402
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 05:54:30 -0800
+ Mon, 02 Feb 2026 05:54:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DGEAS/HW;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c531473fdcso568134585a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 05:54:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kfwDRHQF;
+ spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-8947ddce09fso35633006d6.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 05:54:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770040469; x=1770645269; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770040476; x=1770645276; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ryctmHXpFOG0diRk09ybCwebYtxsvFkLKBFJ7SyXSAc=;
-        b=DGEAS/HWgbyMrCRUKyY+rAfhQVdNL1ADmNqmzZ27TqWjlNVFw4BakTu6A7VKbZA7/G
-         T7G6nsRfkZSjmhkZT8GufxGbQCidQHxgERIECQooztD2Xudv+r4Cp8aJKjHHxS/KpSc+
-         Hq4zoeuGRhnJEZxScHT5UsXJoejwaydqkiHEzbrtd6qjVylmGjRHEm+cQ0GVKZjcPPhB
-         f/h5TQ0/+dvsvWuiGqyPgFZos2HpnJ702u7XL9W0/zlRfouvVltP/r94TzradX2sREaP
-         3cvYChiVFMAC60XK18g0UomH5Et9VQaGrPlwcIUW4b8qajJd1uqn0XPa+cHZ2Lv5y812
-         wExg==
+        bh=4jKjW2oPqfDzN66/VYZdT+dJq2HWrtB5x+WgYQpQh1E=;
+        b=kfwDRHQFmC7fZDRhoA6g+YyOkEKEaeEFzAYEo2+/iZ9bFb1dCmI31rV8oQSrHNCM8p
+         QqanpbDLnZ1+YugeGIQXhI1DSoMvrGayEzre/26PDW9aqRaiYaiYnafjh+1IfkTwCBU/
+         CB2HvDBBuY8dQVyEy8L84eFnF3fPogaMBIaA4Mf2Ye3wrfAvIdTAosNcXnYqju8hk2pI
+         Ucr1Rwu0hKYI6zITbZTJtEBdj7/RZs8jQK7xjC775+I9qG5VBe61vbRL9FAxklHQhcKN
+         vkQyMxIOHX5SmstQCKOnJ372QmfUuI7LevBr8dXzVd+/dtsaA1/cZJSO6Hki50xd6ffq
+         dguQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770040469; x=1770645269;
+        d=1e100.net; s=20230601; t=1770040476; x=1770645276;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ryctmHXpFOG0diRk09ybCwebYtxsvFkLKBFJ7SyXSAc=;
-        b=NH0zNIYMQUHR10Yp8XYYRHC/f0RYiC1JqsP1n58QG7KCvsUneCXORzhf/WF/nLBm2X
-         nnrBOzi7eg6IP+FIOcXZ46kpIA+87qn13jHGPcnGBd0ogkdgCTvLlQbCgEWeqctI3RKr
-         jqoJ8uNSJgNxZwqnHzm96YNxFKZbWBVTm8e+9623Zx9HV8+OcKMVMdIYXqh/GpbzO6G7
-         BRKQITd7opAJETtxYndNjdIjzvTIlsXt2ysn/dXqUqcPjV+VUpl56/4iS+kh4wsZuGdO
-         Z6jDbh6EptZNxc6zxekhfk3PdJd+c44eVP5TmixwoNWoyyght2a9oQsUKjSwgowU7saq
-         kyHw==
-X-Gm-Message-State: AOJu0Yyiy9RN1Cm2a1s8oFB92rnf/aq0Q7t7jU+imwZNKWllzIFe5hd2
-	Ie8hbXa1dntAETrhNW4x1Aag/Kk9C0wKcdM6ITuhN8ZNYzDMablcv68WElJUVQ==
-X-Gm-Gg: AZuq6aI90/nc9IbFfuCWmo7QshKm2RYBnGu8rpBVSZyyHsHOYlNzqmZp42Ip4p+OFn3
-	5L8xyFY1Sr3orlpSXP4J1Yv4yJJrD0a6taIjJSNkEwN4QqkbBhOFSLlaj4+RXvqGpZeo3Ga80dO
-	RbNh/Gzv582aSEBThX9nC0Aka21hEbsU0/V1C6LzCyUruiNOYlF8hC/ywG+4FHnxO8HNaSup2EN
-	2qwOOvs5eZHwGkjZyu+H39OUBwvKa8k4SGtD1/n7UCa61adZH+Gn/vlW8T4MMdqDL4WqmAC91wT
-	gxn0Wqq/Mmk0FjKWVilajcsjGlQVxuaGm7jh/SI9qstE087cZxkj29VXbP5fB+MvxNaMmADfgiu
-	/BOMeMXGHxKvUrFAUaCiYM8CryVmc33vpkXGyokmN8o7YRcs7A8TfyVXKBuGR43NT395DlB5zAL
-	CL8diQcnVJiU7JujWwlgN2486WQ5jv70I+pr/tXAuu+wtu/HjFvo+sAw==
-X-Received: by 2002:a05:620a:9518:b0:8c9:ebce:43ff with SMTP id af79cd13be357-8c9ebce4568mr1110842485a.64.1770040468237;
-        Mon, 02 Feb 2026 05:54:28 -0800 (PST)
+        bh=4jKjW2oPqfDzN66/VYZdT+dJq2HWrtB5x+WgYQpQh1E=;
+        b=dicS3M/cDnZb/7Mk+pm/P6XMGPedjrnCOy689NVESRttOqdopA7OqHp4emaFFpFzPA
+         z1N7gzZDb88C6WXzQbl9+MKRxqj5VYcW7MXeMithoOEGJdrz96uASpWG17LDd6/zjSS1
+         Ov8wYMqa1F9cQTYNi86EWFUPTO/YezSlAnaEEI6OwDc99SMJXUcXFFydXQqRVXD6AAQN
+         5L9ifXHnE4ADgPN6GDLwiJ+wYN5rw1RB6xgqa07fOo8M4aFYH80ZUCCR/yD2tJEw03vm
+         R3rZaeRUxVPGqdLU17AeDv6HAkcS6DNRaysv4umtBgONfCqBMxoxrfOBcN4medM56maw
+         ko8g==
+X-Gm-Message-State: AOJu0Yxb18f4UEneZaxwgCFNTvXKzNpzrugTTBR0odajyHeOqm8h/8e2
+	wrIjtW7QxQ4FEUwsxQ2fgg3X07lCY4PSj45JHNFPcU6JJj5noX2iqI4iQNnkVnLZ
+X-Gm-Gg: AZuq6aJoHsOZP8ESBDufbmvt8PwftzDcT3sO1jmPWRJsi1+z/qX5qQycSKK5L26WH0q
+	miCjfClw1oLqqVLvQlK3Rhetmi7vDzGls9u9bzkeujrisRGxNZGThAvR9+ICiTQiJAHP77f9HFA
+	O+iDcnW34TD5Kd2dV84yJ8dXo/Rd3rVhwpUrNXzqc6fvPjliFCV2XwUvEL0n3p0tqe1N1AMbqnd
+	01CAiVLDZn762rttZCRvoe+K10O4oPbOWN4eV0jRwsnivIQ16t1hwuEaRuCO9QimMfhNZu5/p03
+	loacdL9uDl+1EmAQfvE13jQZhy8rhesOaew9ynrbJvYZdZJJVtMCn58XUhjxcB0w0B8awSwx490
+	/ati7QEwlpFo819PybnRbsfSuMef1enCb8apMtvCV/HrJ57q89Ul3YCYOIJYnUBqiS4GMwaJmoV
+	tnoGQM4hu/SxZHxz5UJ/KSlpSqTNsFWL8GJnpwboBUUpIiXD94Wf3PkA==
+X-Received: by 2002:a05:6214:d66:b0:890:8252:96dc with SMTP id 6a1803df08f44-894e9f8369dmr133808876d6.15.1770040475744;
+        Mon, 02 Feb 2026 05:54:35 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2845fsm1248654585a.31.2026.02.02.05.54.27
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2845fsm1248654585a.31.2026.02.02.05.54.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 05:54:27 -0800 (PST)
+        Mon, 02 Feb 2026 05:54:33 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC][PATCH 2/9] provide oe-core wks files
-Date: Mon,  2 Feb 2026 08:54:07 -0500
-Message-ID: <20260202135414.682558-2-twoerner@gmail.com>
+Subject: [RFC][PATCH 7/9] oe-selftest -r wic.Wic -> PASS
+Date: Mon,  2 Feb 2026 08:54:12 -0500
+Message-ID: <20260202135414.682558-7-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260202135414.682558-1-twoerner@gmail.com>
 References: <20260202135414.682558-1-twoerner@gmail.com>
@@ -67,287 +67,538 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 13:54:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230353
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230359
 
-By coded convention, wic will look for a "wic" directory in the
-top-level of all BBLAYERS in order to find *wks files. oe-core was the
-only exception; it stored its *wks files in scripts/lib/wic/canned-wks.
-Take the *wks, *wks.in, *inc, and *cfg files that were in the old wks
-location and place them in a "wic" top-level directory in the oe-core
-layer, thereby following the convention of every other layer.
+Changes for the wic.Wic oe-selftests to pass now that wic is a
+stand-alone app and no longer part of oe-core.
 
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/classes-recipe/image_types_wic.bbclass |  2 +-
- meta/wic/common.wks.inc                     |  3 +++
- meta/wic/directdisk-bootloader-config.cfg   | 27 +++++++++++++++++++++
- meta/wic/directdisk-bootloader-config.wks   |  8 ++++++
- meta/wic/directdisk-gpt.wks                 | 10 ++++++++
- meta/wic/directdisk-multi-rootfs.wks        | 23 ++++++++++++++++++
- meta/wic/directdisk.wks                     |  8 ++++++
- meta/wic/efi-bootdisk.wks.in                |  3 +++
- meta/wic/efi-uki-bootdisk.wks.in            |  3 +++
- meta/wic/mkefidisk.wks                      | 11 +++++++++
- meta/wic/mkhybridiso.wks                    |  7 ++++++
- meta/wic/qemuloongarch.wks                  |  3 +++
- meta/wic/qemuriscv.wks                      |  3 +++
- meta/wic/qemux86-directdisk.wks             |  8 ++++++
- meta/wic/sdimage-bootpart.wks               |  6 +++++
- meta/wic/systemd-bootdisk.wks               | 11 +++++++++
- 16 files changed, 135 insertions(+), 1 deletion(-)
- create mode 100644 meta/wic/common.wks.inc
- create mode 100644 meta/wic/directdisk-bootloader-config.cfg
- create mode 100644 meta/wic/directdisk-bootloader-config.wks
- create mode 100644 meta/wic/directdisk-gpt.wks
- create mode 100644 meta/wic/directdisk-multi-rootfs.wks
- create mode 100644 meta/wic/directdisk.wks
- create mode 100644 meta/wic/efi-bootdisk.wks.in
- create mode 100644 meta/wic/efi-uki-bootdisk.wks.in
- create mode 100644 meta/wic/mkefidisk.wks
- create mode 100644 meta/wic/mkhybridiso.wks
- create mode 100644 meta/wic/qemuloongarch.wks
- create mode 100644 meta/wic/qemuriscv.wks
- create mode 100644 meta/wic/qemux86-directdisk.wks
- create mode 100644 meta/wic/sdimage-bootpart.wks
- create mode 100644 meta/wic/systemd-bootdisk.wks
+ meta/lib/oeqa/selftest/cases/wic.py | 176 +++++++++++++++-------------
+ 1 file changed, 94 insertions(+), 82 deletions(-)
 
-diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-index 675aa9751367..f2fd00e6d7ec 100644
---- a/meta/classes-recipe/image_types_wic.bbclass
-+++ b/meta/classes-recipe/image_types_wic.bbclass
-@@ -45,7 +45,7 @@ inherit_defer ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifa
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 0dc17dcd5614..3b24d0a5a645 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -101,6 +101,12 @@ class WicTestCase(OESelftestTestCase):
+             WicTestCase.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
+         return WicTestCase.wicenv_cache[image]
  
- WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
- WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
--WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
-+WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}"
- WKS_FULL_PATH = "${@wks_search(d.getVar('WKS_FILES').split(), d.getVar('WKS_SEARCH_PATH')) or ''}"
++    def _create_image_env_file(self, image):
++        bitbake('%s -c rootfs_wicenv' % image)
++        stagingdir = get_bb_var('STAGING_DIR', image)
++        machine = self.td['MACHINE']
++        return os.path.join(stagingdir, machine, 'imgdata', image) + '.env'
++
+ class CLITests(WicTestCase):
+     def test_version(self):
+         """Test wic --version"""
+@@ -177,8 +183,8 @@ class Wic(WicTestCase):
+             with TemporaryDirectory() as tmpdir:
+                 img = 'core-image-minimal'
+                 # build the image using the WKS file
+-                cmd = "wic create %s -e %s -o %s" % (
+-                    wks.name, img, self.resultdir)
++                cmd = "wic create %s -e %s -o %s --vars %s" % (
++                    wks.name, img, self.resultdir, self.envfile)
+                 runCmd(cmd)
+                 wksname = os.path.splitext(os.path.basename(wks.name))[0]
+                 out = glob(os.path.join(
+@@ -186,7 +192,7 @@ class Wic(WicTestCase):
+                 self.assertEqual(1, len(out))
+                 sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+                 # extract the content of the disk image to the temporary directory
+-                cmd = "wic cp %s:1 %s -n %s" % (out[0], tmpdir, sysroot)
++                cmd = "wic cp %s:1 %s -n %s --vars %s" % (out[0], tmpdir, sysroot, self.envfile)
+                 runCmd(cmd)
+                 # check if the kernel is installed or not
+                 kimgtype = get_bb_var('KERNEL_IMAGETYPE', img)
+@@ -210,14 +216,14 @@ class Wic(WicTestCase):
+             with TemporaryDirectory() as tmpdir:
+                 img = 'core-image-minimal'
+                 # build the image using the WKS file
+-                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
+                 runCmd(cmd)
+                 wksname = os.path.splitext(os.path.basename(wks.name))[0]
+                 out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
+                 self.assertEqual(1, len(out))
+                 sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+                 # extract the content of the disk image to the temporary directory
+-                cmd = "wic cp %s:1 %s -n %s" % (out[0], tmpdir, sysroot)
++                cmd = "wic cp %s:1 %s -n %s --vars %s" % (out[0], tmpdir, sysroot, self.envfile)
+                 runCmd(cmd)
+                 # check if the kernel is installed or not
+                 kimgtype = get_bb_var('KERNEL_IMAGETYPE', img)
+@@ -254,7 +260,7 @@ class Wic(WicTestCase):
+                 bitbake(img)
+                 self.remove_config(config)
  
- def wks_search(files, search_path):
-diff --git a/meta/wic/common.wks.inc b/meta/wic/common.wks.inc
-new file mode 100644
-index 000000000000..4a440ddafe64
---- /dev/null
-+++ b/meta/wic/common.wks.inc
-@@ -0,0 +1,3 @@
-+# This file is included into 3 canned wks files from this directory
-+part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
-diff --git a/meta/wic/directdisk-bootloader-config.cfg b/meta/wic/directdisk-bootloader-config.cfg
-new file mode 100644
-index 000000000000..c58e74a853cb
---- /dev/null
-+++ b/meta/wic/directdisk-bootloader-config.cfg
-@@ -0,0 +1,27 @@
-+# This is an example configuration file for syslinux.
-+TIMEOUT 50
-+ALLOWOPTIONS 1
-+SERIAL 0 115200
-+PROMPT 0
-+
-+UI vesamenu.c32
-+menu title Select boot options
-+menu tabmsg Press [Tab] to edit, [Return] to select
-+
-+DEFAULT Graphics console boot
-+
-+LABEL Graphics console boot
-+KERNEL /vmlinuz
-+APPEND label=boot rootwait
-+
-+LABEL Serial console boot
-+KERNEL /vmlinuz
-+APPEND label=boot rootwait console=ttyS0,115200
-+
-+LABEL Graphics console install
-+KERNEL /vmlinuz
-+APPEND label=install rootwait
-+
-+LABEL Serial console install
-+KERNEL /vmlinuz
-+APPEND label=install rootwait console=ttyS0,115200
-diff --git a/meta/wic/directdisk-bootloader-config.wks b/meta/wic/directdisk-bootloader-config.wks
-new file mode 100644
-index 000000000000..3529e05c876e
---- /dev/null
-+++ b/meta/wic/directdisk-bootloader-config.wks
-@@ -0,0 +1,8 @@
-+# short-description: Create a 'pcbios' direct disk image with custom bootloader config
-+# long-description: Creates a partitioned legacy BIOS disk image that the user
-+# can directly dd to boot media. The bootloader configuration source is a user file.
-+
-+include common.wks.inc
-+
-+bootloader --configfile="directdisk-bootloader-config.cfg"
-+
-diff --git a/meta/wic/directdisk-gpt.wks b/meta/wic/directdisk-gpt.wks
-new file mode 100644
-index 000000000000..cb640056f199
---- /dev/null
-+++ b/meta/wic/directdisk-gpt.wks
-@@ -0,0 +1,10 @@
-+# short-description: Create a 'pcbios' direct disk image
-+# long-description: Creates a partitioned legacy BIOS disk image that the user
-+# can directly dd to boot media.
-+
-+
-+part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+
-+bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
-+
-diff --git a/meta/wic/directdisk-multi-rootfs.wks b/meta/wic/directdisk-multi-rootfs.wks
-new file mode 100644
-index 000000000000..4fd1999ffb69
---- /dev/null
-+++ b/meta/wic/directdisk-multi-rootfs.wks
-@@ -0,0 +1,23 @@
-+# short-description: Create multi rootfs image using rootfs plugin
-+# long-description: Creates a partitioned disk image with two rootfs partitions
-+# using rootfs plugin.
-+#
-+# Partitions can use either
-+#   - indirect rootfs references to image recipe(s):
-+#     wic create directdisk-multi-indirect-recipes -e core-image-minimal \
-+#         --rootfs-dir rootfs1=core-image-minimal
-+#         --rootfs-dir rootfs2=core-image-minimal-dev
-+#
-+#   - or paths to rootfs directories:
-+#     wic create directdisk-multi-rootfs \
-+#         --rootfs-dir rootfs1=tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/
-+#         --rootfs-dir rootfs2=tmp/work/qemux86_64-poky-linux/core-image-minimal-dev/1.0-r0/rootfs/
-+#
-+#   - or any combinations of -r and --rootfs command line options
-+
-+part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext4 --label platform --align 1024
-+part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext4 --label secondary --align 1024
-+
-+bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
-+
-diff --git a/meta/wic/directdisk.wks b/meta/wic/directdisk.wks
-new file mode 100644
-index 000000000000..8c8e06b02c66
---- /dev/null
-+++ b/meta/wic/directdisk.wks
-@@ -0,0 +1,8 @@
-+# short-description: Create a 'pcbios' direct disk image
-+# long-description: Creates a partitioned legacy BIOS disk image that the user
-+# can directly dd to boot media.
-+
-+include common.wks.inc
-+
-+bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
-+
-diff --git a/meta/wic/efi-bootdisk.wks.in b/meta/wic/efi-bootdisk.wks.in
-new file mode 100644
-index 000000000000..5211972955a5
---- /dev/null
-+++ b/meta/wic/efi-bootdisk.wks.in
-@@ -0,0 +1,3 @@
-+bootloader --ptable gpt
-+part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.2
-+part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
-diff --git a/meta/wic/efi-uki-bootdisk.wks.in b/meta/wic/efi-uki-bootdisk.wks.in
-new file mode 100644
-index 000000000000..cac0fa32cdab
---- /dev/null
-+++ b/meta/wic/efi-uki-bootdisk.wks.in
-@@ -0,0 +1,3 @@
-+bootloader --ptable gpt --timeout=5
-+part /boot --source bootimg_efi --sourceparams="loader=${EFI_PROVIDER}" --label boot --active --align 1024 --use-uuid --part-name="ESP" --part-type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B --overhead-factor=1
-+part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
-diff --git a/meta/wic/mkefidisk.wks b/meta/wic/mkefidisk.wks
-new file mode 100644
-index 000000000000..16dfe76dfe27
---- /dev/null
-+++ b/meta/wic/mkefidisk.wks
-@@ -0,0 +1,11 @@
-+# short-description: Create an EFI disk image
-+# long-description: Creates a partitioned EFI disk image that the user
-+# can directly dd to boot media.
-+
-+part /boot --source bootimg_efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
-+
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+
-+part swap --ondisk sda --size 44 --label swap1 --fstype=swap
-+
-+bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=${KERNEL_CONSOLE} console=tty0"
-diff --git a/meta/wic/mkhybridiso.wks b/meta/wic/mkhybridiso.wks
-new file mode 100644
-index 000000000000..c3a030e5b40e
---- /dev/null
-+++ b/meta/wic/mkhybridiso.wks
-@@ -0,0 +1,7 @@
-+# short-description: Create a hybrid ISO image
-+# long-description: Creates an EFI and legacy bootable hybrid ISO image
-+# which can be used on optical media as well as USB media.
-+
-+part /boot --source isoimage_isohybrid --sourceparams="loader=grub-efi,image_name=HYBRID_ISO_IMG" --ondisk cd --label HYBRIDISO
-+
-+bootloader  --timeout=15  --append=""
-diff --git a/meta/wic/qemuloongarch.wks b/meta/wic/qemuloongarch.wks
-new file mode 100644
-index 000000000000..8465c7a8c0a2
---- /dev/null
-+++ b/meta/wic/qemuloongarch.wks
-@@ -0,0 +1,3 @@
-+# short-description: Create qcow2 image for LoongArch QEMU machines
-+
-+part / --source rootfs --fstype=ext4 --label root --align 4096 --size 5G
-diff --git a/meta/wic/qemuriscv.wks b/meta/wic/qemuriscv.wks
-new file mode 100644
-index 000000000000..12c68b706917
---- /dev/null
-+++ b/meta/wic/qemuriscv.wks
-@@ -0,0 +1,3 @@
-+# short-description: Create qcow2 image for RISC-V QEMU machines
-+
-+part / --source rootfs --fstype=ext4 --label root --align 4096 --size 5G
-diff --git a/meta/wic/qemux86-directdisk.wks b/meta/wic/qemux86-directdisk.wks
-new file mode 100644
-index 000000000000..808997611a4a
---- /dev/null
-+++ b/meta/wic/qemux86-directdisk.wks
-@@ -0,0 +1,8 @@
-+# short-description: Create a qemu machine 'pcbios' direct disk image
-+# long-description: Creates a partitioned legacy BIOS disk image that the user
-+# can directly use to boot a qemu machine.
-+
-+include common.wks.inc
-+
-+bootloader  --timeout=0  --append="rw oprofile.timer=1 rootfstype=ext4 console=tty console=ttyS0 "
-+
-diff --git a/meta/wic/sdimage-bootpart.wks b/meta/wic/sdimage-bootpart.wks
-new file mode 100644
-index 000000000000..f9f8044f7dc4
---- /dev/null
-+++ b/meta/wic/sdimage-bootpart.wks
-@@ -0,0 +1,6 @@
-+# short-description: Create SD card image with a boot partition
-+# long-description: Creates a partitioned SD card image. Boot files
-+# are located in the first vfat partition.
-+
-+part /boot --source bootimg_partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4 --size 16
-+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4
-diff --git a/meta/wic/systemd-bootdisk.wks b/meta/wic/systemd-bootdisk.wks
-new file mode 100644
-index 000000000000..3fb2c0e35f3a
---- /dev/null
-+++ b/meta/wic/systemd-bootdisk.wks
-@@ -0,0 +1,11 @@
-+# short-description: Create an EFI disk image with systemd-boot
-+# long-description: Creates a partitioned EFI disk image that the user
-+# can directly dd to boot media. The selected bootloader is systemd-boot.
-+
-+part /boot --source bootimg_efi --sourceparams="loader=systemd-boot" --ondisk sda --label msdos --active --align 1024 --use-uuid
-+
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+
-+part swap --ondisk sda --size 44 --label swap1 --fstype=swap --use-uuid
-+
-+bootloader --ptable gpt --timeout=5 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
+-                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
+                 runCmd(cmd)
+ 
+                 wksname = os.path.splitext(os.path.basename(wks.name))[0]
+@@ -264,23 +270,23 @@ class Wic(WicTestCase):
+                 sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+ 
+                 # Check if grub.cfg is installed
+-                result = runCmd("wic ls %s:1/boot/grub -n %s" % (out[0], sysroot))
++                result = runCmd("wic ls %s:1/boot/grub -n %s --vars %s" % (out[0], sysroot, self.envfile))
+                 self.assertIn('grub', result.output)
+ 
+                 # Check if normal.mod is installed
+-                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s" % (out[0], sysroot))
++                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s --vars %s" % (out[0], sysroot, self.envfile))
+                 self.assertIn('normal', result.output)
+ 
+     def test_build_image_name(self):
+         """Test wic create wictestdisk --image-name=core-image-minimal"""
+-        cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join (self.resultdir, "wictestdisk-*.direct"))))
+ 
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
+     def test_gpt_image(self):
+         """Test creation of core-image-minimal with gpt table and UUID boot"""
+-        cmd = "wic create directdisk-gpt --image-name core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create directdisk-gpt --image-name core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "directdisk-*.direct"))))
+ 
+@@ -293,7 +299,7 @@ class Wic(WicTestCase):
+         self.append_config(config)
+         bitbake('core-image-minimal core-image-minimal-initramfs')
+         self.remove_config(config)
+-        cmd = "wic create mkhybridiso --image-name core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create mkhybridiso --image-name core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "HYBRID_ISO_IMG-*.direct"))))
+         self.assertEqual(1, len(glob(os.path.join (self.resultdir, "HYBRID_ISO_IMG-*.iso"))))
+@@ -301,14 +307,14 @@ class Wic(WicTestCase):
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
+     def test_qemux86_directdisk(self):
+         """Test creation of qemux-86-directdisk image"""
+-        cmd = "wic create qemux86-directdisk -e core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create qemux86-directdisk -e core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "qemux86-directdisk-*direct"))))
+ 
+     @skipIfNotArch(['i586', 'i686', 'x86_64', 'aarch64'])
+     def test_mkefidisk(self):
+         """Test creation of mkefidisk image"""
+-        cmd = "wic create mkefidisk -e core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create mkefidisk -e core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "mkefidisk-*direct"))))
+ 
+@@ -319,7 +325,7 @@ class Wic(WicTestCase):
+         self.append_config(config)
+         bitbake('core-image-minimal')
+         self.remove_config(config)
+-        cmd = "wic create directdisk-bootloader-config -e core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create directdisk-bootloader-config -e core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "directdisk-bootloader-config-*direct"))))
+ 
+@@ -330,26 +336,28 @@ class Wic(WicTestCase):
+         self.append_config(config)
+         bitbake('core-image-minimal')
+         self.remove_config(config)
+-        cmd = "wic create systemd-bootdisk -e core-image-minimal -o %s" % self.resultdir
++        cmd = "wic create systemd-bootdisk -e core-image-minimal -o %s --vars %s" % (self.resultdir, self.envfile)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "systemd-bootdisk-*direct"))))
+ 
+     def test_efi_bootpart(self):
+         """Test creation of efi-bootpart image"""
+-        cmd = "wic create mkefidisk -e core-image-minimal -o %s" % self.resultdir
+         kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
+         self.append_config('IMAGE_EFI_BOOT_FILES = "%s;kernel"\n' % kimgtype)
++        envvars = self._create_image_env_file('core-image-minimal')
++        cmd = "wic create mkefidisk -e core-image-minimal -o %s --vars %s" % (self.resultdir, envvars)
+         runCmd(cmd)
+         sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+         images = glob(os.path.join(self.resultdir, "mkefidisk-*.direct"))
+-        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))       
++        result = runCmd("wic ls %s:1/ -n %s --vars %s" % (images[0], sysroot, envvars))
+         self.assertIn("kernel",result.output)
+ 
+     def test_sdimage_bootpart(self):
+         """Test creation of sdimage-bootpart image"""
+-        cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
+         kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
+-        self.write_config('IMAGE_BOOT_FILES = "%s"\n' % kimgtype)
++        self.append_config('IMAGE_BOOT_FILES = "%s"\n' % kimgtype)
++        envvars = self._create_image_env_file('core-image-minimal')
++        cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s --vars %s" % (self.resultdir, envvars)
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "sdimage-bootpart-*direct"))))
+ 
+@@ -363,7 +371,7 @@ class Wic(WicTestCase):
+         self.append_config(config)
+         bitbake('core-image-minimal')
+         self.remove_config(config)
+-        cmd = "wic create directdisk -e core-image-minimal"
++        cmd = "wic create directdisk -e core-image-minimal --vars %s" % self.envfile
+         runCmd(cmd)
+         self.assertEqual(1, len(glob("directdisk-*.direct")))
+ 
+@@ -376,97 +384,99 @@ class Wic(WicTestCase):
+                                    'core-image-minimal'))
+         bbvars = {key.lower(): value for key, value in bb_vars.items()}
+         bbvars['resultdir'] = self.resultdir
++        bbvars['envfile'] = self.envfile
+         runCmd("wic create directdisk "
+                         "-b %(staging_datadir)s "
+                         "-k %(deploy_dir_image)s "
+                         "-n %(recipe_sysroot_native)s "
+                         "-r %(image_rootfs)s "
+-                        "-o %(resultdir)s" % bbvars)
++                        "-o %(resultdir)s "
++                        "-v %(envfile)s" % bbvars)
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "directdisk-*.direct"))))
+ 
+     def test_compress_gzip(self):
+         """Test compressing an image with gzip"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name core-image-minimal "
+-                                   "-c gzip -o %s" % self.resultdir)
++                                   "-c gzip -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct.gz"))))
+ 
+     def test_compress_bzip2(self):
+         """Test compressing an image with bzip2"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-c bzip2 -o %s" % self.resultdir)
++                                   "-c bzip2 -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct.bz2"))))
+ 
+     def test_compress_xz(self):
+         """Test compressing an image with xz"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "--compress-with=xz -o %s" % self.resultdir)
++                                   "--compress-with=xz -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct.xz"))))
+ 
+     def test_wrong_compressor(self):
+         """Test how wic breaks if wrong compressor is provided"""
+-        self.assertEqual(2, runCmd("wic create wictestdisk "
++        self.assertEqual(2, runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-c wrong -o %s" % self.resultdir,
++                                   "-c wrong -o %s" % (self.envfile, self.resultdir),
+                                    ignore_status=True).status)
+ 
+     def test_debug_short(self):
+         """Test -D option"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "tmp.wic*"))))
+ 
+     def test_debug_long(self):
+         """Test --debug option"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "--debug -o %s" % self.resultdir)
++                                   "--debug -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "tmp.wic*"))))
+ 
+     def test_skip_build_check_short(self):
+         """Test -s option"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-s -o %s" % self.resultdir)
++                                   "-s -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))))
+ 
+     def test_skip_build_check_long(self):
+         """Test --skip-build-check option"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+                                    "--skip-build-check "
+-                                   "--outdir %s" % self.resultdir)
++                                   "--outdir %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))))
+ 
+     def test_build_rootfs_short(self):
+         """Test -f option"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-f -o %s" % self.resultdir)
++                                   "-f -o %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))))
+ 
+     def test_build_rootfs_long(self):
+         """Test --build-rootfs option"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+                                    "--build-rootfs "
+-                                   "--outdir %s" % self.resultdir)
++                                   "--outdir %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))))
+ 
+     # TODO this doesn't have to be x86-specific
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
+     def test_rootfs_indirect_recipes(self):
+         """Test usage of rootfs plugin with rootfs recipes"""
+-        runCmd("wic create directdisk-multi-rootfs "
++        runCmd("wic create directdisk-multi-rootfs --vars %s "
+                         "--image-name=core-image-minimal "
+                         "--rootfs rootfs1=core-image-minimal "
+                         "--rootfs rootfs2=core-image-minimal "
+-                        "--outdir %s" % self.resultdir)
++                        "--outdir %s" % (self.envfile, self.resultdir))
+         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "directdisk-multi-rootfs*.direct"))))
+ 
+     # TODO this doesn't have to be x86-specific
+@@ -480,7 +490,8 @@ class Wic(WicTestCase):
+         bbvars = {key.lower(): value for key, value in bb_vars.items()}
+         bbvars['wks'] = "directdisk-multi-rootfs"
+         bbvars['resultdir'] = self.resultdir
+-        runCmd("wic create %(wks)s "
++        bbvars['envfile'] = self.envfile
++        runCmd("wic create %(wks)s --vars %(envfile)s "
+                         "--bootimg-dir=%(staging_datadir)s "
+                         "--kernel-dir=%(deploy_dir_image)s "
+                         "--native-sysroot=%(recipe_sysroot_native)s "
+@@ -505,8 +516,8 @@ part /usr --source rootfs --ondisk mmcblk0 --fstype=ext4 --rootfs-dir %s/usr
+ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --rootfs-dir %s/usr
+ part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoami --rootfs-dir %s/usr"""
+                           % (rootfs_dir, rootfs_dir, rootfs_dir))
+-            runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++            runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+ 
+             os.remove(wks_file)
+             wicout = glob(os.path.join(self.resultdir, "%s-*direct" % 'temp'))
+@@ -622,7 +633,7 @@ part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoa
+         machine = bb_vars['MACHINE']
+         nativesysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+         wicout = glob(os.path.join(deploy_dir, "core-image-minimal-%s.rootfs-*.wic" % machine))[0]
+-        size_of_root_partition = int(runCmd("wic ls %s --native-sysroot %s" % (wicout, nativesysroot)).output.split('\n')[2].split()[3])
++        size_of_root_partition = int(runCmd("wic ls %s --native-sysroot %s --vars %s" % (wicout, nativesysroot, self.envfile)).output.split('\n')[2].split()[3])
+         self.assertGreater(size_of_root_partition, 500000000)
+ 
+     def test_include_path(self):
+@@ -643,8 +654,8 @@ part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoa
+ part /part1 --source rootfs --ondisk mmcblk0 --fstype=ext4
+ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
+                           % (include_path))
+-            runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++            runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+ 
+             part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
+             part2 = glob(os.path.join(self.resultdir, 'temp-*.direct.p2'))[0]
+@@ -680,8 +691,8 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
+                 wks.write("""
+ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-image-minimal-mtdutils export/"""
+                           % (include_path))
+-            runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++            runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+ 
+             part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
+ 
+@@ -705,22 +716,22 @@ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-imag
+         # Absolute argument.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils /export")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+         # Argument pointing to parent directory.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils ././..")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+         # 3 Argument pointing to parent directory.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils export/ dummy")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+     def test_exclude_path_errors(self):
+@@ -730,15 +741,15 @@ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-imag
+         # Absolute argument.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path /usr")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+         # Argument pointing to parent directory.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path ././..")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+     def test_permissions(self):
+@@ -773,8 +784,8 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+                 wks_file = os.path.join(include_path, 'temp.wks')
+                 with open(wks_file, 'w') as wks:
+                     wks.write(test)
+-                runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++                runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+ 
+                 for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
+                     res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
+@@ -810,8 +821,8 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+             wks_file = os.path.join(include_path, 'temp.wks')
+             with open(wks_file, 'w') as wks:
+                 wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
+-            runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++            runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+ 
+             part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
+ 
+@@ -829,15 +840,15 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+         # Absolute argument.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --change-directory /usr")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+         # Argument pointing to parent directory.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --change-directory ././..")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+     def test_no_fstab_update(self):
+@@ -860,8 +871,8 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+                 wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
+                                 'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
+                                 '--fstype=ext4 --label p2 --no-fstab-update\n'])
+-            runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++            runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+ 
+             part_fstab_md5sum = []
+             for i in range(1, 3):
+@@ -886,23 +897,23 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+         # Absolute argument.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update /etc")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+         # Argument pointing to parent directory.
+         with open(wks_file, 'w') as wks:
+             wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update ././..")
+-        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                      % (wks_file, self.resultdir, self.envfile), ignore_status=True).status)
+         os.remove(wks_file)
+ 
+     def test_extra_space(self):
+         """Test --extra-space wks option."""
+         extraspace = 1024**3
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name core-image-minimal "
+-                                   "--extra-space %i -o %s" % (extraspace ,self.resultdir))
++                                   "--extra-space %i -o %s" % (self.envfile, extraspace ,self.resultdir))
+         wicout = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(wicout))
+         size = os.path.getsize(wicout[0])
+@@ -915,7 +926,7 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+         # Absolute argument.
+         with open(wks_file, 'w') as wks:
+             wks.write("part testspace --no-table --fixed-size 16k --offset 4080k")
+-        runCmd("wic create %s --image-name core-image-minimal -o %s" % (wks_file, self.resultdir))
++        runCmd("wic create %s --image-name core-image-minimal -o %s --vars %s" % (wks_file, self.resultdir, self.envfile))
+ 
+         wicout = glob(os.path.join(self.resultdir, "*.*"))
+ 
+@@ -936,8 +947,8 @@ part / --source rootfs --fstype=ext4
+ part / --source rootfs --fstype=ext4 --hidden
+ bootloader --ptable gpt""")
+ 
+-            runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                       % (wks_file, self.resultdir))
++            runCmd("wic create %s -e core-image-minimal -o %s --vars %s" \
++                                       % (wks_file, self.resultdir, self.envfile))
+             wicout = os.path.join(self.resultdir, "*.direct")
+ 
+             result = runCmd("%s/usr/sbin/sfdisk --part-attrs %s 1" % (sysroot, wicout))
+@@ -960,6 +971,7 @@ bootloader --ptable gpt""")
+                      'WICVARS:append = " WIC_SECTOR_SIZE"\n'
+             self.append_config(config)
+             bitbake('core-image-minimal')
++            envvars = self._create_image_env_file('core-image-minimal')
+ 
+             # Check WIC_SECTOR_SIZE apply to bitbake variable
+             wic_sector_size_str = get_bb_var('WIC_SECTOR_SIZE', 'core-image-minimal')
+@@ -974,7 +986,7 @@ bootloader --ptable gpt""")
+                      'part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"\n',
+                      'part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"\n'])
+                 wks.flush()
+-                cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
++                cmd = "wic create %s -e core-image-minimal -o %s --vars %s" % (wks.name, self.resultdir, envvars)
+                 runCmd(cmd)
+                 wksname = os.path.splitext(os.path.basename(wks.name))[0]
+                 images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
+@@ -982,7 +994,7 @@ bootloader --ptable gpt""")
+ 
+             sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+             # list partitions
+-            result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
++            result = runCmd("wic ls %s -n %s --vars %s" % (images[0], sysroot, envvars))
+             self.assertEqual(3, len(result.output.split('\n')))
+ 
+             # verify partition size with wic
 -- 
 2.51.0
 
