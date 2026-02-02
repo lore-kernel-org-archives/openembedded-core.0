@@ -1,112 +1,197 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 493D9E7DEFC
-	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 15:58:29 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.56330.1770047899453006807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6419E7DF0C
+	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 17:08:09 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.57904.1770052085775571378
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 07:58:19 -0800
+ Mon, 02 Feb 2026 09:08:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SK4SHWXc;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c6a50c17fdso487735585a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 07:58:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770047898; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Hj/QrBLcfSHK5qFRw5sOiDkWdzslT2yi1WiXIIEIr5rUc/D6eGcBu9Gj1kzxVpANFD
-         X/Wd1vlRptsM48dRIrp9f0wbr67vGK0u3s7v4FM5kWYhll2XuE3l9+g+bAEUKaIxMWos
-         zzIkIdnVkhjHXRjPSHa7Le8MFKG61JYtTRleVxMzB2uky0fGrrdyoc9/2YYNhoHA1mmf
-         5ucnsh0CrAAlBqLpEWhYaPVYw9V/GuaW1chwpAnUIky+KuyYXixRQJtjvo7bKNYbPN2T
-         xdHfBX/rINphiDs3LrGWiYoCp4yDCZrZPygFAE1wnY//uJ0xenzU8j0FgEjpdQyDepxj
-         +h2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jqpgqApFZrmG8loh+B2GLQ4egbwfUOh+pg5QuFQ243E=;
-        fh=5d/x43IPv3dchei7/ZEIxHUqqMHlSFQXzUJUuGToiyw=;
-        b=fhp93UZQ01Wt+DI8ocGFoBevu46bGvPPho7tpT7ZhK+ybly88MyL14SyKkfdQszkGz
-         CRSmWufbgCFINTbwIr6i2nZ0K26RcmJEZ2g4rkceAZoveOxKsjioQh5sFrYsimkeubPF
-         dMSkGV0kHjynMv96ZIAaCpOjIy4+wa+OBF7IpqRDGSKJ5mZ+9Aagenj92LCUb/qnqjFe
-         lybsRFm+61lXliMDxIVRaBdJQ6IM/Le2gUnDEd8UNy9OTukR5T5mf4DqqqmtL+oTT9Kg
-         1EAIxtzcBIbLP0DFegVnu+htWk0eAt8vCegt7e/XvdPdSYJLJNsPKIb6o6m0TqbS+gao
-         I4tw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FHOFing1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8c532d8be8cso473354385a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 09:08:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770047898; x=1770652698; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jqpgqApFZrmG8loh+B2GLQ4egbwfUOh+pg5QuFQ243E=;
-        b=SK4SHWXcNDxJZiBHSQRyCQyXqQKddr3CAOtFjOvazbh7LkTKzGlmie3u5noArz4W5q
-         WlpgmbT//trOeeqAJ7zky3rKDPmG7X5Fd7j08ML6FdzoIIhc4C6Vw3g8MJxJCYE5z4GN
-         kJT4Yg/5b5+69ji60Z7S12JhP8K1Vz+HpcwZ32ccJ3rAfBoXOMQpQbtNf2PsKT4Ayhbp
-         rqxh090mM4/u9Xp8tRqHQzhNG0+5DUd/0/tAmClmFCcHpPoJjmlUYljL7qIQu1AFSnKu
-         O2iweNGXG1SG4jPv3/O390wcN8tecUGi9nNsZFFu9gI9DAi7MrFjreD3Rso0ElHhA4rJ
-         HyqA==
+        d=gmail.com; s=20230601; t=1770052084; x=1770656884; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OIsWVeQONWZdTMJEc4Uc3H+3b+Y/FFs8otv3EtY6xYs=;
+        b=FHOFing1BNBCoJckajat5W/PWCHxZCODBijRQGbGxY409e6EWTDmKnnxNxQSD07dqq
+         6bcFy78OebJdjyeUtr0b71CjS4J42oA30wkurUhm7+HymX/HRn6DxIkX64OGLPsRcHLO
+         ma/tSMnnXssY91Z05KMQ5Wl/SjVVTFI/PsQt/UFaAVvNQP3OjXmQ0bgWeMuf4NszwnUl
+         UtU08ufkUACbpdfO5Z5hwECG3s1jxdpmCFPrw3B4Es3tqzfY+s6TEEUEw3zp8R7T36zW
+         Y16poMoZWZ4Mb2X9LgmFOYKtGRWXCfnqNRFVgJq7oT9TEy1Qxn1DnOrXuGBXsLQKXBiY
+         G5Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770047898; x=1770652698;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jqpgqApFZrmG8loh+B2GLQ4egbwfUOh+pg5QuFQ243E=;
-        b=DXJPoAt4YkCSXmkRnIvQmg3tHfTggVJ/PT4PWbt9B2PSBkbPajjzXoBwzGkhWBkAEW
-         CTXfVJAkX7gwCjHWc9ieLkkWZAIGPD5ocZ5Cf9iq1BOV7DKRv6Fv6A2I+byiOTOCOIvP
-         wkFLbJHDdbUZQ2iiSblB+Ys6+0NKLJINp7dng+8WeLRL76gxevRuk7TChKh8xZe+ABOD
-         8d+JJrsBq9eFE8PiajRWyWMiFxlniWntH6d7a2FJSsFC4ZGAmVXiEQtEITY9vI1zWT3e
-         LMDyGHgDDso5y0gXvaHwBqEaVhJD4Wq2eE77HV+EfoFk8wbxQYdyO8MjNSkZWEKYJzCY
-         fZLQ==
-X-Gm-Message-State: AOJu0Yx194nu2O6BSttsoahDSEy72W5Q6Nv2RBYtcYTIpP40stOYA9Xo
-	MtKASp7s5ohbiYznkQzLp3YWHD1n/suRNlcqlucpKom07N0wpBm84h1IbWyNIpX97UDZnXoyX5W
-	UlB22Mj3menIEZJBvGxsvNerIgdX4FGk=
-X-Gm-Gg: AZuq6aJlmqIRB22eD1UY4i0xwuBobvEDKb7HQYyw66m4m4D6T86lzs70Dwl+njH1mRt
-	nHBRlBaxphZ0brj3lU1VeZmgr5/biy+aFZLYR+6DbtJdKCCdst77oLXg4n4tJbT//s0wnLm1IdW
-	quQW9oIk6jG3IYRvKRcRPNrsdaGGXha9qxYl5TXGNPzBJsJQH21hQgF/DOTWQEDlb1gvNRvvg8g
-	FBfVizMNu8JM0e2n3jRDEz1J2iG1mC2ZOVYmvBdu+0yYbtRq59/9qCE+EnF00kDd346DKgj+UhO
-	OJAb0sww4ALo7t0w9ILO8NPwimUXZA==
-X-Received: by 2002:ad4:594c:0:b0:894:6cb6:b270 with SMTP id
- 6a1803df08f44-894ea0b58c2mr179023096d6.45.1770047898396; Mon, 02 Feb 2026
- 07:58:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770052084; x=1770656884;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OIsWVeQONWZdTMJEc4Uc3H+3b+Y/FFs8otv3EtY6xYs=;
+        b=BJ5UCRD+KD7Y+LVT9JAWKmcOYIof+9Cvc44iBVCau4j4velRhq1zy7MTO6KYfOpwCH
+         5b/4WVqTs3vGEo38b9LYNe9Q6AChb26pWmf6qh0J2iGN12nrsy+5osjPeBeRc58+QTC2
+         dQbOtY7/1XGfZbSeHOIP8dpv4g9ZT/CHONwXv+W5pLuOFjZLCLadEvxXoSrBwnvYoBBs
+         Okcw/7jWwEy/DjMF5Lg7vAiUp4nPYmlOh8F1XZ7g96r0P+nzvw/C0NSWx4EzNOYowHjt
+         0ybnompxHScG9h5Z1dZy9+c+BFBXI5f9LiTcs/56vUrWjoxnwLbJDd+eB9Zu0+ee+5q2
+         OKZQ==
+X-Gm-Message-State: AOJu0YxktvNIFoXayOXyXsPIZlgx6EWgw4hIgjfnwO/bWVAEmmckdX/8
+	cx42N0olFyL2jztaI50DabAC80OUY82Let63MSkQ/WOFCGau8V/xNBYg09zv3g==
+X-Gm-Gg: AZuq6aJSB4fdl6rDZHTUmQFTdOMMeel0obodIABFdeXUiZEOi+oV4WQLoNnJjBAs30n
+	UwFffNgs91+R7ZntsupsfqDGGKOVVj2aYzWzE6+9F9jXpDyF85LR9FO3SkMEV1wPMNR61OmuK4I
+	uAkwDkwEy+rBgQ4AmDOKfxPs2fyp0TmUDaCShT0WLPrXLjwNiPOSrXiqtQu9yQJ4+4/RXR57uM4
+	ftDDpv5KajJ8KNLE112MDE8jvvy8FsDvGytSZmmaUYVxy03tB60zFzJ9jEyBc+lpa373+WD/g2H
+	4caQ4G55Oq37YbVOjoisURYRJRFRfdBYEpHTRCNgkQ/MgKg9UUnTlMFFstgN/dfX+qtY/m1pisU
+	4RvX7BplW6pmV6/xImeFE7/NLi+aU4XvhHmDYl/iGRfb4ZqnLStUZGcgvKbBoHcjiU/KQ1CxCzw
+	xX9TH5TryFp6uBCYJE4mANM6vHpJuhmElNy26k9O+yMZdxU2CVekLkMPZIv0NGFErd
+X-Received: by 2002:a05:620a:3195:b0:8c5:1f9a:6b52 with SMTP id af79cd13be357-8c9eb27627bmr1448052585a.28.1770052083903;
+        Mon, 02 Feb 2026 09:08:03 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca02f07efasm502815585a.51.2026.02.02.09.08.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Feb 2026 09:08:03 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC][PATCH v2 0/9] standalone wic
+Date: Mon,  2 Feb 2026 12:07:51 -0500
+Message-ID: <20260202170800.4172778-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <20260131211111.1189479-1-charles.embedded@gmail.com>
-In-Reply-To: <20260131211111.1189479-1-charles.embedded@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 2 Feb 2026 16:58:07 +0100
-X-Gm-Features: AZwV_QgU7HPw1ahK3ztPcb2lRNa_QIGGH2ZfVXsjfuw_IRDchtuIdBT30qlnsiw
-Message-ID: <CANNYZj82ZMXiNpFC4tihxgmcLJEJ143Jui+1KAaAXokrj-uYXw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] runqemu: parse QB_GRAPHICS for nographic flag
-To: charles.embedded@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, Charles Dias <charlesdias.cd@outlook.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 15:58:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230378
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 17:08:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230379
 
-On Sat, 31 Jan 2026 at 22:12, charles.embedded via
-lists.openembedded.org
-<charles.embedded=gmail.com@lists.openembedded.org> wrote:
-> The setup_vga() function was ignoring -nographic in QB_GRAPHICS
-> because it only checked the command-line self.nographic flag.
-> This caused QB_GRAPHICS to be appended after display autodetection,
-> resulting in conflicting options like "-device virtio-vga -display sdl"
-> and "-nographic" in the same command.
->
-> Add a check after reading qemuboot.conf to detect -nographic in
-> QB_GRAPHICS and set self.nographic accordingly. This prevents
-> unnecessary display autodetection for BSPs that specify -nographic
-> in their machine configuration, as happens in meta-zephyr layer.
+This series of patches explores the possibility of splitting wic out
+from oe-core into its own standalone utility. The wic utility will
+continue to fall under The Yocto Project umbrella, but will no longer
+be integrated into the project as part of oe-core. The ultimate goal is
+to make wic a completely independent tool, hosted on PyPI, with its own
+tests, development roadmap, and releases.
 
-I'm not sure specifying -nographic in a BSP layer via QB_GRAPHICS is
-correct. QB_GRAPHICS is intended for what emulated hardware should be
-present in the guest machine.
+Some benefits include:
+- relieving the oe-core maintainers from having to review, understand,
+   merge, or reject wic patches
+- allow the tool to be used outside of The Yocto Project for generating
+  Linux images
+- provide more flexibility to explore other features, libraries,
+  mechanisms, etc
 
--nographic is a host option that tells qemu what to do with the
-graphical output (in case of -nographic, discard it). I don't think
-it's up to the BSP layer to make that decision.
+The initial task of splitting wic out into its own repository was
+performed with the help of AI. It was checked, and subsequent work was
+done without AI.
 
-Alex
+These changes have been tested with oe-selftest as follows:
+	$ sudo .../layers/openembedded-core/scripts/runqemu-gen-tapdevs <my numeric group id> 4
+	$ oe-selftest -v -r wic
+
+On my machine my oe-selftest results for an unmodified oe-core give:
+	successes=93, skipped=1, failures=0, errors=1
+with these patches I get:
+	successes=91, skipped=1, failures=2, errors=0
+
+There are 2 tests that need to be fixed, but it would be great to get
+some feedback on this work, and to see what the AB thinks of it so far.
+I have also done some adhoc testing with meta-rockchip and
+meta-raspberrypi.
+
+Should this work eventually make its way to oe-core, it would need to
+be squashed into a single commit otherwise builds will break when only
+partially applied. They have been submitted here in this RFC series
+separately to make review easier.
+
+Trevor Woerner (9):
+  remove wic
+  provide oe-core wks files
+  add wic recipe
+  oe-selftest/cases/wic.py: update WicTestCase
+  oe-selftest -r wic.CLITests -> PASS
+  oe-selftest -r wic.ModifyTests -> PASS (except 1)
+  oe-selftest -r wic.Wic -> PASS
+  oe-selftest -r wic.Wic2 (non-runqemu) -> PASS
+  oe-selftest -r wic.Wic2 (runqemu) -> PASS (mostly)
+
+ meta/classes-recipe/image_types_wic.bbclass   |    8 +-
+ meta/conf/distro/include/maintainers.inc      |    3 +-
+ meta/lib/oeqa/selftest/cases/wic.py           |  360 ++---
+ meta/recipes-core/meta/wic-tools.bb           |    1 +
+ meta/recipes-support/wic/wic_0.3.0.bb         |   18 +
+ .../canned-wks => meta/wic}/common.wks.inc    |    0
+ .../wic}/directdisk-bootloader-config.cfg     |    0
+ .../wic}/directdisk-bootloader-config.wks     |    0
+ .../wic}/directdisk-gpt.wks                   |    0
+ .../wic}/directdisk-multi-rootfs.wks          |    0
+ .../canned-wks => meta/wic}/directdisk.wks    |    0
+ .../wic}/efi-bootdisk.wks.in                  |    0
+ .../wic}/efi-uki-bootdisk.wks.in              |    0
+ .../wic/canned-wks => meta/wic}/mkefidisk.wks |    0
+ .../canned-wks => meta/wic}/mkhybridiso.wks   |    0
+ .../canned-wks => meta/wic}/qemuloongarch.wks |    0
+ .../wic/canned-wks => meta/wic}/qemuriscv.wks |    0
+ .../wic}/qemux86-directdisk.wks               |    0
+ .../wic}/sdimage-bootpart.wks                 |    0
+ .../wic}/systemd-bootdisk.wks                 |    0
+ scripts/lib/wic/__init__.py                   |   10 -
+ scripts/lib/wic/engine.py                     |  681 ----------
+ scripts/lib/wic/filemap.py                    |  583 --------
+ scripts/lib/wic/help.py                       | 1188 -----------------
+ scripts/lib/wic/ksparser.py                   |  322 -----
+ scripts/lib/wic/misc.py                       |  266 ----
+ scripts/lib/wic/partition.py                  |  562 --------
+ scripts/lib/wic/pluginbase.py                 |  144 --
+ scripts/lib/wic/plugins/imager/direct.py      |  710 ----------
+ .../wic/plugins/source/bootimg_biosplusefi.py |  213 ---
+ scripts/lib/wic/plugins/source/bootimg_efi.py |  435 ------
+ .../wic/plugins/source/bootimg_partition.py   |  162 ---
+ .../lib/wic/plugins/source/bootimg_pcbios.py  |  483 -------
+ scripts/lib/wic/plugins/source/empty.py       |   89 --
+ .../lib/wic/plugins/source/extra_partition.py |  134 --
+ .../wic/plugins/source/isoimage_isohybrid.py  |  463 -------
+ scripts/lib/wic/plugins/source/rawcopy.py     |  115 --
+ scripts/lib/wic/plugins/source/rootfs.py      |  236 ----
+ scripts/wic                                   |  600 ---------
+ 39 files changed, 207 insertions(+), 7579 deletions(-)
+ create mode 100644 meta/recipes-support/wic/wic_0.3.0.bb
+ rename {scripts/lib/wic/canned-wks => meta/wic}/common.wks.inc (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-bootloader-config.cfg (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-bootloader-config.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-gpt.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-multi-rootfs.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/efi-bootdisk.wks.in (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/efi-uki-bootdisk.wks.in (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/mkefidisk.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/mkhybridiso.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/qemuloongarch.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/qemuriscv.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/qemux86-directdisk.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/sdimage-bootpart.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/systemd-bootdisk.wks (100%)
+ delete mode 100644 scripts/lib/wic/__init__.py
+ delete mode 100644 scripts/lib/wic/engine.py
+ delete mode 100644 scripts/lib/wic/filemap.py
+ delete mode 100644 scripts/lib/wic/help.py
+ delete mode 100644 scripts/lib/wic/ksparser.py
+ delete mode 100644 scripts/lib/wic/misc.py
+ delete mode 100644 scripts/lib/wic/partition.py
+ delete mode 100644 scripts/lib/wic/pluginbase.py
+ delete mode 100644 scripts/lib/wic/plugins/imager/direct.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_efi.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_partition.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_pcbios.py
+ delete mode 100644 scripts/lib/wic/plugins/source/empty.py
+ delete mode 100644 scripts/lib/wic/plugins/source/extra_partition.py
+ delete mode 100644 scripts/lib/wic/plugins/source/isoimage_isohybrid.py
+ delete mode 100644 scripts/lib/wic/plugins/source/rawcopy.py
+ delete mode 100644 scripts/lib/wic/plugins/source/rootfs.py
+ delete mode 100755 scripts/wic
+
+-- 
+2.51.0
+
 
