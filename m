@@ -2,48 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 302ACE7DF13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F230E7DF11
 	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 17:16:20 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.58441.1770052573487900579
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.58130.1770052579458814660
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 09:16:13 -0800
+ Mon, 02 Feb 2026 09:16:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ta1kts+j;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Or/wI8d+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c1f5ad5b9-4270c2f2-5958-42d8-8f77-0241d3c91989-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0AcPpHEv;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=U7xEDf9A;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019c1f5aed75-0a01a735-9736-4d1d-b0f8-fae6269e5311-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1770052572; i=@automation.yoctoproject.org;
+	t=1770052578; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=KQY6MEnLZRs8CJ7TqS44PcoqT0HlnA1tBKlrKoSraEw=;
-	b=ta1kts+jHWrf01HlzTdr/NORTuToESbTZZgdEHfa/4LPv0P/zAvyUBLGP7LrsXjj
-	X+GKfKEXYf94/Sjxcfz0Lg58F8p0eJVmKZKmA2fUu592wa2JALoaLVWaJsawIpUzvHg
-	eAOFxDD7/vnEDApJN/GEb8R5rfYjhDlVBnlkzPug=
+	bh=i1VPf2Nxt8p83vbjLX9ivhxqRoPfVw6Nf4w9YkiMJ4Y=;
+	b=0AcPpHEvugwf0ek0rJPDFtvg4/WI9msGnpZ0/tC9bKEW+xYnwM5+jFtmkkVlUatD
+	FxkV6Gta9LSLEQbYTmXNcSohJAUQKIVtD9/HOEh40fWJYDq6DE8kpUydsG3Xoh7nEFi
+	8UsJnD+1LXih+ApkbBK1e0XDLVTxANpAwpOGgVZo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770052572;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770052578;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=KQY6MEnLZRs8CJ7TqS44PcoqT0HlnA1tBKlrKoSraEw=;
-	b=Or/wI8d+BX1E8VgfYYfi9Xzwx4pc5dGzoHHa/3gMjZ14FhydYVK6XK+zd06P3ylx
-	ZYNOh8z/6NamyCKPM5xCNwcd8MLsHbPqd86+7dojaDR3iErvP5B8+xElKUJrGjUvydk
-	R4oUIKgwiMn+NDBuNzJi3RmBRP2Ea17TDUKxd1Rk=
+	bh=i1VPf2Nxt8p83vbjLX9ivhxqRoPfVw6Nf4w9YkiMJ4Y=;
+	b=U7xEDf9ALeo978ogjE/uXTLu4pHu9g2Vcl8QcQgMQaytvls3T2g7vAvouSYVxXV+
+	k6RiUgax1kYbzbaZceBUyGi095hm9FRUTQ7lj2nVwwnTbhCH9NJEPOfjsRnLsURSC+j
+	1+9yOsy+ylEpvXOWKPrnu2Ujc00Qfa/ynFkNwaPk=
 From: patchtest@automation.yoctoproject.org
 To: Trevor Woerner <twoerner@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC][PATCH v2 1/9] remove wic
-In-Reply-To: <20260202170800.4172778-2-twoerner@gmail.com>
-References: <20260202170800.4172778-2-twoerner@gmail.com>
+Subject: Patchtest results for [RFC][PATCH v2 9/9] oe-selftest -r wic.Wic2 (runqemu) -> PASS
+ (mostly)
+In-Reply-To: <20260202170800.4172778-10-twoerner@gmail.com>
+References: <20260202170800.4172778-10-twoerner@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019c1f5ad5b9-4270c2f2-5958-42d8-8f77-0241d3c91989-000000@us-west-2.amazonses.com>
-Date: Mon, 2 Feb 2026 17:16:12 +0000
+Message-ID: <0101019c1f5aed75-0a01a735-9736-4d1d-b0f8-fae6269e5311-000000@us-west-2.amazonses.com>
+Date: Mon, 2 Feb 2026 17:16:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.02-54.240.27.192
+X-SES-Outgoing: 2026.02.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 17:16:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230389
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230396
 
 --NextPart
 Content-Type: text/plain
@@ -53,25 +54,25 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/RFC-v2-1-9-remove-wic.patch
+
+Testing patch /home/patchtest/share/mboxes/RFC-v2-9-9-oe-selftest--r-wic.Wic2-runqemu---PASS-mostly.patch
 
 FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
-
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
 PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
 SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
 SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
 
 ---
