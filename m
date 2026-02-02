@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AF1E7DF11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3327E7DF15
 	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 17:08:19 +0000 (UTC)
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.57910.1770052098301926948
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.57909.1770052095216939618
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 09:08:18 -0800
+ Mon, 02 Feb 2026 09:08:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CaZYR8T0;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8c5384ee23fso527438885a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 09:08:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C/PfKwr0;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8c7199e7f79so736642285a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 09:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770052097; x=1770656897; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770052093; x=1770656893; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OSmM8GMPzfAADO+mdqPSzD5XFKdrCP7WKV8QDVIYGDg=;
-        b=CaZYR8T0XaBNnUOamJHlUQ5zHQEhxSlan1JxFnK360GmnysqZD13APi23ZQLqRNXPf
-         ffaOCsa1kYote8gCuddTJadvhTXcQOmpDlN/U+UaFzDrDoGDt3o7lbpSuwz5810eIYg5
-         2sbXcgUYmzpzj0wxadp+9EzebivZrpsDj5AdeujLCqzm5YC98laC7OEM/1p00NY9k09X
-         3I9LQoEfV1OVLFFVRlZcKe9HAlrWZe1bXx2ZVb8NK+4xPlmWC8CWtGGTkkWAdOcvz0Hj
-         N3crfHDdGtImrLw63mRBJXLkqD3oSnnUef5/ft6IQtiz5p2Lg//voNb/tisbhwe1Kdzx
-         elVA==
+        bh=qe+TrByvlPxvDQ6C/P4JfHnk1OQVTLl7Y6uo9drlL/w=;
+        b=C/PfKwr0IPZPlCVaw5aPXckWhf8Oi6Rg00rMgoZ406PlpeIsE+zAhxfgmBDWtHoPXP
+         MpN811nnNhrlnUlG+uhFlh9favH1crSM2sDXooGs0BraqhM6OfPtV8swAnq6nLhRigHs
+         8cODUtGfaK/CJnRtq8fkJvgObDTNeRKvBZk3NfQ+KTbwzcDS0MkgQEzQR98TxxrE9Uhv
+         VzmcMbX2nAzOo/Oz1pZ4jk6ahteBZn9G+YWVH46GUzIwrdtzbSNji4qXFePhIDvdmaQw
+         HnieJ09PBBKHzd9oV1x3o33vX0ETRUilgupJG0PrcY3MAU/AUB+Xx2diSaXatUl09Uu2
+         6cVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770052097; x=1770656897;
+        d=1e100.net; s=20230601; t=1770052093; x=1770656893;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OSmM8GMPzfAADO+mdqPSzD5XFKdrCP7WKV8QDVIYGDg=;
-        b=YM7cF+bwWtClzmxOV9/KHrhNkrFwCmEKJp0YIfwYNmxN23SXCW+E5BxHv/zUmeAm6N
-         4jKtefKbEtZ9/cDMBjfo3ILcM3osnUP7D58tVHAVAPNUDAIzmKlWElC1m5l2njBpASHi
-         Z6AS1eHUc/IIiP9TrYp2n6T5AWb50Sexoum+KSeK+akdoL6MKy30u5fff0GEn2N5qw2R
-         wT58ygOlopyYkqt5GSNky5QfbKUBA3MQ4Lmf1p5hVTOWBz27VXRQ+xfNrlTpR8D/DCqU
-         MWs07kagAEb7P9xlzEUy7YZraFGo7jFzR/qT2PXwDfka/qdLplr+AWvVzfl+SgsqFCGX
-         bRMw==
-X-Gm-Message-State: AOJu0Yxbk68S+Dq6aEQCe/I+dDXBvLqIt/DnkilcdXRZlDpmrEb4r03z
-	FBgkrx08YxwhZsTWyHs8yGAvw2os7W7QfwY9QTRGK6APrN8QO+ucqjcKK4b/kvH2
-X-Gm-Gg: AZuq6aKoKDRy63G6KZNCmvO3FiZ43+EDagFLGeTp7RKWfwCypfe4AXGlbuMjXMORaRl
-	Ys+XfNmEU/aB33wriMa02EA3VZP9oWCXUMFZOk6Ahi1IzdSkci8XK9XQ7TKBRMlbNyt2k7x7PfE
-	YYY9crEH4F+l5hi7EQimop1SSgiqO03wdp5+1mlCUwRV5myJXLyPT/WDnoRxjMpOBiQFtR5RZsY
-	Xqt2URCVN3iDxnh+ycAtwcy1ko/Vu0Vc5Z5q8ETKsyszMjM1NpZo8ixyvjDiWDaGoClysTc5C05
-	eqqNjO+H62le1ob4LQSRTnrcTT1yI9O4Nla6cADdPepWz4IFZ7xW+dIrFnDtPHbhgJqNB7n2+c8
-	HusvXNxempl0/2yjwNT6T+j4DCKRfXEGtRgvQD/oh10LdNCp/5cFBiVO6N9B1Ofo+tJf2VG29HZ
-	qBth7t1QfLJhNEDvgpV1NMziiWa0FF3nLMIS6HHpL3P/AqR9MfU2x7fA==
-X-Received: by 2002:a05:620a:400f:b0:8c6:893e:b38c with SMTP id af79cd13be357-8c9eb2a338cmr1607412485a.22.1770052096239;
-        Mon, 02 Feb 2026 09:08:16 -0800 (PST)
+        bh=qe+TrByvlPxvDQ6C/P4JfHnk1OQVTLl7Y6uo9drlL/w=;
+        b=Pdnj+84eakSZktudwTaqW0YLtMUZc7jaXXRB0tqUygNxGEF2HJz4Lm7JoV38NUypB/
+         sSaLkI+QD0lj2ZyIpAJTmYzTqwWiiV0IqVbEfSU5osfHKPWgTqnE8mmMloIxC9fBOw94
+         3LkYr9Pc2zvL7Bxi4L8I1s2QiwydVOgB3CapA5h5pZDGsKXRcu8OcXU+Szlh5AcpwyDX
+         5ymO4cfHprDZeXvNRaatgn5uXylAZoqf8FHv+uXbKCRhRwFI95azxvRW4AE0UpHLjBzW
+         tNd73WpFBmrShc6uJyP/fbLMYuSl+qnjzR6JNFtIN67Qd/7k5UcoKli4ZANCTwvq1K4L
+         SubQ==
+X-Gm-Message-State: AOJu0Yzed3ecA5r2sQDM/XlSh+RUdTYlFCCzMMcosXfUV3tf02hJW250
+	OiJl2TvOFVkj3nIQSPyDOGkauDbgBEIP3f/unxM92QdqnyKBVoeQnfVGuGQomlb4
+X-Gm-Gg: AZuq6aJKUUdHnrnQdU0qcHvTy7sP7Z5o3qiPHJGqFbrnbCp7/77lfp/JifyRU4CrQ4K
+	DEwgIVuUVbknqPjUAA1qTrBhEOrPC7TkCkZSimBVcXeIp3py6K05KYxzdAUFt0/K8eHa1bqgoV/
+	supHfrKzAjL0DSgdQwafulkSo30sCTTxLfxC3jIsbJSkQfaiiW9jbjZqZINL5SKi4Vl4TI+F1P8
+	xAdtLJnVL2loWdmE1FbfsWKrsNNMn41JQN9ZiOrUk3UNmd/WDiBF2x6aewtEX4+oTYPRYtV2vAu
+	uBzFgZrS6eq8OGURUKpzOaQZ9IbtVU3Nh/ahahEmIAgk7xP63gZcZNUhQBxcTDoW6P8jkS7/Dzh
+	AR+DpuwMulxnRy9NlzO3V4c0xMzqUHFgvM1S3qdBgToxXBmcnHgsmKc3+nYDAoJMcLLqdCOSIF3
+	dEVXyfRDZ9XqkcT5Paz3Z+osmtXtVghu8BG8h+KeS23hwdXKWnUqdP9A==
+X-Received: by 2002:a05:620a:298d:b0:8c6:afa6:2700 with SMTP id af79cd13be357-8c9eb2fad44mr1620905585a.47.1770052093002;
+        Mon, 02 Feb 2026 09:08:13 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca02f07efasm502815585a.51.2026.02.02.09.08.15
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca02f07efasm502815585a.51.2026.02.02.09.08.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:08:15 -0800 (PST)
+        Mon, 02 Feb 2026 09:08:11 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC][PATCH v2 8/9] oe-selftest -r wic.Wic2 (non-runqemu) -> PASS
-Date: Mon,  2 Feb 2026 12:07:59 -0500
-Message-ID: <20260202170800.4172778-9-twoerner@gmail.com>
+Subject: [RFC][PATCH v2 6/9] oe-selftest -r wic.ModifyTests -> PASS (except 1)
+Date: Mon,  2 Feb 2026 12:07:57 -0500
+Message-ID: <20260202170800.4172778-7-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260202170800.4172778-1-twoerner@gmail.com>
 References: <20260202170800.4172778-1-twoerner@gmail.com>
@@ -67,249 +67,266 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 17:08:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230387
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230385
 
-Changes for the wic.Wic2 non-runqemu oe-selftests to pass now that wic
-is a stand-alone app and no longer part of oe-core.
+Changes for the wic.ModifyTests oe-selftests to pass now that wic is a
+stand-alone app and no longer part of oe-core.
 
-NOTE: the wic.Wic2.test_sparse_copy test was deleted since it tests a
-      submodule of the wic project itself and therefore should be tested
-      in the wic project itself, instead of in oe-core
+NOTE: wic.ModifyTests.test_wic_cp_ext fails
 
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 70 ++++++++++-------------------
- 1 file changed, 23 insertions(+), 47 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 82 ++++++++++++++---------------
+ 1 file changed, 41 insertions(+), 41 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 3b24d0a5a645..b35dbd9fb348 100644
+index d8f89e79e7f2..0dc17dcd5614 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1020,14 +1020,14 @@ class Wic2(WicTestCase):
- 
-     def test_bmap_short(self):
-         """Test generation of .bmap file -m option"""
--        cmd = "wic create wictestdisk -e core-image-minimal -m -o %s" % self.resultdir
-+        cmd = "wic create wictestdisk -e core-image-minimal -m -o %s --vars %s" % (self.resultdir, self.envfile)
-         runCmd(cmd)
-         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*direct"))))
-         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*direct.bmap"))))
- 
-     def test_bmap_long(self):
-         """Test generation of .bmap file --bmap option"""
--        cmd = "wic create wictestdisk -e core-image-minimal --bmap -o %s" % self.resultdir
-+        cmd = "wic create wictestdisk -e core-image-minimal --bmap -o %s --vars %s" % (self.resultdir, self.envfile)
-         runCmd(cmd)
-         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*direct"))))
-         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "wictestdisk-*direct.bmap"))))
-@@ -1045,7 +1045,7 @@ class Wic2(WicTestCase):
- 
-         wicvars = set(bb_vars['WICVARS'].split())
-         # filter out optional variables
--        wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
-+        wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES', 'WIC_SECTOR_SIZE',
-                                       'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
-                                       'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME',
-                                       'APPEND', 'IMAGE_EFI_BOOT_FILES', 'IMAGE_EXTRA_PARTITION_FILES'))
-@@ -1090,6 +1090,7 @@ class Wic2(WicTestCase):
-         config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "wic-image-minimal"\n'\
-                  'MACHINE_FEATURES:append = " efi"\n'
-         image_recipe_append = """
-+DEPENDS:append = " wic-native"
- do_image_wic[postfuncs] += "run_wic_cmd"
- run_wic_cmd() {
-     echo "test" >> ${WORKDIR}/test.wic-cp
-@@ -1111,7 +1112,7 @@ run_wic_cmd() {
+@@ -1958,44 +1958,44 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
+ class ModifyTests(WicTestCase):
+     def test_wic_ls(self):
+         """Test listing image content using 'wic ls'"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
  
          sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-         # check if file is there
--        result = runCmd("wic ls %s:1/ -n %s" % (prefix+"wic", sysroot))
-+        result = runCmd("wic ls %s:1/ -n %s --vars %s" % (prefix+"wic", sysroot, self.envfile))
-         self.assertIn("test.wic-cp", result.output)
  
-         # check if we have result image and manifests symlinks
-@@ -1194,7 +1195,7 @@ run_wic_cmd() {
-         return wkspath
+         # list partitions
+-        result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertEqual(3, len(result.output.split('\n')))
  
-     def _get_wic(self, wkspath, ignore_status=False):
--        p = runCmd("wic create %s -e core-image-minimal -o %s" % (wkspath, self.resultdir),
-+        p = runCmd("wic create %s -e core-image-minimal -o %s --vars %s" % (wkspath, self.resultdir, self.envfile),
-                    ignore_status=ignore_status)
+         # list directory content of the first partition
+-        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:1/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertEqual(6, len(result.output.split('\n')))
  
-         if p.status:
-@@ -1435,7 +1436,7 @@ run_wic_cmd() {
-             wks.write('part / --source rawcopy --sourceparams="file=%s.%s%s"\n'\
-                       % (bb_vars['IMAGE_LINK_NAME'], fstype, params))
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, image, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, image, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -1471,7 +1472,7 @@ run_wic_cmd() {
+     def test_wic_cp(self):
+         """Test copy files and directories to the the wic image."""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
  
-         # Fstype column from 'wic ls' should be empty for the second partition
-         # as listed in test_empty_plugin.wks
--        result = runCmd("wic ls %s -n %s | awk -F ' ' '{print $1 \" \" $5}' | grep '^2' | wc -w" % (image_path, sysroot))
-+        result = runCmd("wic ls %s -n %s -v %s| awk -F ' ' '{print $1 \" \" $5}' | grep '^2' | wc -w" % (image_path, sysroot, self.envfile))
-         self.assertEqual('1', result.output)
+         sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
  
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-@@ -1528,7 +1529,7 @@ run_wic_cmd() {
-                             'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
-                             'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-@@ -1540,6 +1541,7 @@ run_wic_cmd() {
-         config = 'IMAGE_EFI_BOOT_FILES="/etc/fstab;testfile"\nIMAGE_FSTYPES = "wic"\nWKS_FILE = "test_uefikernel.wks"\nMACHINE_FEATURES:append = " efi"\n'
-         self.append_config(config)
-         bitbake('core-image-minimal')
-+        envvars = self._create_image_env_file('core-image-minimal')
-         self.remove_config(config)
+         # list directory content of the first partition
+-        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:1/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertEqual(6, len(result.output.split('\n')))
  
-         img = 'core-image-minimal'
-@@ -1548,7 +1550,7 @@ run_wic_cmd() {
-                             'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
-                             'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, envvars)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-@@ -1692,6 +1694,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-         "
-         """)
-         self.append_config(config)
-+        self.envfile = self._create_image_env_file('core-image-minimal')
+         with NamedTemporaryFile("w", suffix=".wic-cp") as testfile:
+             testfile.write("test")
  
-         deploy_dir = get_bb_var('DEPLOY_DIR_IMAGE')
+             # copy file to the partition
+-            runCmd("wic cp %s %s:1/ -n %s" % (testfile.name, images[0], sysroot))
++            runCmd("wic cp %s %s:1/ -n %s --vars %s" % (testfile.name, images[0], sysroot, self.envfile))
  
-@@ -1715,11 +1718,11 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-                 wks.flush()
-                 _, wicimg = self._get_wic(wks.name)
+             # check if file is there
+-            result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++            result = runCmd("wic ls %s:1/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+             self.assertEqual(7, len(result.output.split('\n')))
+             self.assertIn(os.path.basename(testfile.name), result.output)
  
--                result = runCmd("wic ls %s | wc -l" % wicimg)
-+                result = runCmd("wic ls %s -v %s | wc -l" % (wicimg, self.envfile))
-                 self.assertEqual('4', result.output, msg="Expect 3 partitions, not %s" % result.output)
+@@ -2006,25 +2006,25 @@ class ModifyTests(WicTestCase):
+             copy(testfile.name, testdir)
  
-                 for part, file in enumerate(["foo.conf", "foobar.conf", "bar.conf"]):
--                    result = runCmd("wic ls %s:%d | grep -q \"%s\"" % (wicimg, part + 1, file))
-+                    result = runCmd("wic ls %s:%d -v %s| grep -q \"%s\"" % (wicimg, part + 1, self.envfile, file))
-                     self.assertEqual(0, result.status, msg="File '%s' not found in the partition #%d" % (file, part))
+             # copy directory to the partition
+-            runCmd("wic cp %s %s:1/ -n %s" % (testdir, images[0], sysroot))
++            runCmd("wic cp %s %s:1/ -n %s --vars %s" % (testdir, images[0], sysroot, self.envfile))
  
-             self.remove_config(config)
-@@ -1740,7 +1743,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-                             'part emptyext2   --fstype ext2   --size 1M\n',
-                             'part emptybtrfs  --fstype btrfs  --size 150M\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -1752,7 +1755,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-             wks.writelines(['part / --fstype ext3 --source rootfs --system-id 0xFF '\
-                             '--overhead-factor 1.2 --size 100k\n'])
-             wks.flush()
--            cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
-+            cmd = "wic create %s -e core-image-minimal -o %s --vars %s" % (wks.name, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -1761,41 +1764,14 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-     def test_image_bootpart_globbed(self):
-         """Test globbed sources with image-bootpart plugin"""
-         img = "core-image-minimal"
--        cmd = "wic create sdimage-bootpart -e %s -o %s" % (img, self.resultdir)
-         config = 'IMAGE_BOOT_FILES = "%s*"' % get_bb_var('KERNEL_IMAGETYPE', img)
-         self.append_config(config)
-+        envvars = self._create_image_env_file('core-image-minimal')
-+        cmd = "wic create sdimage-bootpart -e %s -o %s --vars %s" % (img, self.resultdir, envvars)
-         runCmd(cmd)
-         self.remove_config(config)
-         self.assertEqual(1, len(glob(os.path.join(self.resultdir, "sdimage-bootpart-*direct"))))
+             # check if directory is there
+-            result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
++            result = runCmd("wic ls %s:1/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+             self.assertEqual(8, len(result.output.split('\n')))
+             self.assertIn(os.path.basename(testdir), result.output)
  
--    def test_sparse_copy(self):
--        """Test sparse_copy with FIEMAP and SEEK_HOLE filemap APIs"""
--        libpath = os.path.join(self.td['COREBASE'], 'scripts', 'lib', 'wic')
--        sys.path.insert(0, libpath)
--        from  filemap import FilemapFiemap, FilemapSeek, sparse_copy, ErrorNotSupp
--        with NamedTemporaryFile("w", suffix=".wic-sparse") as sparse:
--            src_name = sparse.name
--            src_size = 1024 * 10
--            sparse.truncate(src_size)
--            # write one byte to the file
--            with open(src_name, 'r+b') as sfile:
--                sfile.seek(1024 * 4)
--                sfile.write(b'\x00')
--            dest = sparse.name + '.out'
--            # copy src file to dest using different filemap APIs
--            for api in (FilemapFiemap, FilemapSeek, None):
--                if os.path.exists(dest):
--                    os.unlink(dest)
--                try:
--                    sparse_copy(sparse.name, dest, api=api)
--                except ErrorNotSupp:
--                    continue # skip unsupported API
--                dest_stat = os.stat(dest)
--                self.assertEqual(dest_stat.st_size, src_size)
--                # 8 blocks is 4K (physical sector size)
--                self.assertEqual(dest_stat.st_blocks, 8)
--            os.unlink(dest)
--
-     def test_mkfs_extraopts(self):
-         """Test wks option --mkfs-extraopts for empty and not empty partitions"""
-         img = 'core-image-minimal'
-@@ -1809,7 +1785,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-                  'part emptyext2   --fstype ext2   --size 1M --mkfs-extraopts "-D -F -i 8192"\n',
-                  'part emptybtrfs  --fstype btrfs  --size 100M --mkfs-extraopts "--mixed -K"\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -1908,7 +1884,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-                  'part empty --source empty --sourceparams="size=2048k,bs=512K" --ondisk sda --size 4M --align 1024\n'
-                  ])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             wicout = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -1926,7 +1902,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-         with NamedTemporaryFile("w", suffix=".wks") as wks:
-             wks.writelines(['part empty --source empty --sourceparams="fill" --ondisk sda --size 1M\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             result = runCmd(cmd, ignore_status=True)
-             self.assertIn("Source parameter 'fill' only works with the '--fixed-size' option, exiting.", result.output)
-             self.assertNotEqual(0, result.status)
-@@ -1940,7 +1916,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-                             'part /boot --size=100M --active --fstype=ext4 --label boot\n'
-                             'part /     --source rootfs      --fstype=ext4 --label root\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -1958,7 +1934,7 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-                             'part /boot --size=100M --active --fstype=ext4 --label boot\n'
-                             'part /     --source rootfs      --fstype=ext4 --label root\n'])
-             wks.flush()
--            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            cmd = "wic create %s -e %s -o %s --vars %s" % (wks.name, img, self.resultdir, self.envfile)
-             runCmd(cmd)
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
+             # copy the file from the partition and check if it success
+             dest = '%s-cp' % testfile.name
+-            runCmd("wic cp %s:1/%s %s -n %s" % (images[0],
+-                    os.path.basename(testfile.name), dest, sysroot))
++            runCmd("wic cp %s:1/%s %s -n %s --vars %s" % (images[0],
++                    os.path.basename(testfile.name), dest, sysroot, self.envfile))
+             self.assertTrue(os.path.exists(dest), msg="File %s wasn't generated as expected" % dest)
+ 
+ 
+     def test_wic_rm(self):
+         """Test removing files and directories from the the wic image."""
+-        runCmd("wic create mkefidisk "
++        runCmd("wic create mkefidisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "mkefidisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+@@ -2033,48 +2033,48 @@ class ModifyTests(WicTestCase):
+         kerneltype = get_bb_var('KERNEL_IMAGETYPE', 'virtual/kernel')
+ 
+         # list directory content of the first partition
+-        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:1 -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertIn('\n%s ' % kerneltype.upper(), result.output)
+         self.assertIn('\nEFI          <DIR>     ', result.output)
+ 
+         # remove file. EFI partitions are case-insensitive so exercise that too
+-        runCmd("wic rm %s:1/%s -n %s" % (images[0], kerneltype.lower(), sysroot))
++        runCmd("wic rm %s:1/%s -n %s --vars %s" % (images[0], kerneltype.lower(), sysroot, self.envfile))
+ 
+         # remove directory
+-        runCmd("wic rm %s:1/efi -n %s" % (images[0], sysroot))
++        runCmd("wic rm %s:1/efi -n %s --vars %s" % (images[0], sysroot, self.envfile))
+ 
+         # check if they're removed
+-        result = runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:1 -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertNotIn('\n%s        ' % kerneltype.upper(), result.output)
+         self.assertNotIn('\nEFI          <DIR>     ', result.output)
+ 
+     def test_wic_ls_ext(self):
+         """Test listing content of the ext partition using 'wic ls'"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+         sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+ 
+         # list directory content of the second ext4 partition
+-        result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:2/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertTrue(set(['bin', 'home', 'proc', 'usr', 'var', 'dev', 'lib', 'sbin']).issubset(
+                             set(line.split()[-1] for line in result.output.split('\n') if line)), msg="Expected directories not present %s" % result.output)
+ 
+     def test_wic_cp_ext(self):
+         """Test copy files and directories to the ext partition."""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+         sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+ 
+         # list directory content of the ext4 partition
+-        result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:2/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         dirs = set(line.split()[-1] for line in result.output.split('\n') if line)
+         self.assertTrue(set(['bin', 'home', 'proc', 'usr', 'var', 'dev', 'lib', 'sbin']).issubset(dirs), msg="Expected directories not present %s" % dirs)
+ 
+@@ -2082,20 +2082,20 @@ class ModifyTests(WicTestCase):
+             testfile.write("test")
+ 
+             # copy file to the partition
+-            runCmd("wic cp %s %s:2/ -n %s" % (testfile.name, images[0], sysroot))
++            runCmd("wic cp %s %s:2/ -n %s --vars %s" % (testfile.name, images[0], sysroot, self.envfile))
+ 
+             # check if file is there
+-            result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
++            result = runCmd("wic ls %s:2/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+             newdirs = set(line.split()[-1] for line in result.output.split('\n') if line)
+             self.assertEqual(newdirs.difference(dirs), set([os.path.basename(testfile.name)]))
+ 
+             # check if the file to copy is in the partition
+-            result = runCmd("wic ls %s:2/etc/ -n %s" % (images[0], sysroot))
++            result = runCmd("wic ls %s:2/etc/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+             self.assertIn('fstab', [line.split()[-1] for line in result.output.split('\n') if line])
+ 
+             # copy file from the partition, replace the temporary file content with it and
+             # check for the file size to validate the copy
+-            runCmd("wic cp %s:2/etc/fstab %s -n %s" % (images[0], testfile.name, sysroot))
++            runCmd("wic cp %s:2/etc/fstab %s -n %s --vars %s" % (images[0], testfile.name, sysroot, self.envfile))
+             self.assertTrue(os.stat(testfile.name).st_size > 0, msg="Filesize not as expected %s" % os.stat(testfile.name).st_size)
+ 
+             # prepare directory structure
+@@ -2114,16 +2114,16 @@ class ModifyTests(WicTestCase):
+                 f.write("sub-level\n")
+ 
+             # copy directory to the partition root
+-            runCmd("wic cp %s %s:2/ -n %s" % (testdir, images[0], sysroot))
++            runCmd("wic cp %s %s:2/ -n %s --vars %s" % (testdir, images[0], sysroot, self.envfile))
+             basedir = os.path.basename(testdir)
+ 
+             # check if directory is there at partition root
+-            result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
++            result = runCmd("wic ls %s:2/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+             root_entries = set(line.split()[-1] for line in result.output.split('\n') if line)
+             self.assertIn(basedir, root_entries, msg="Expected directory not present at root: %s" % root_entries)
+ 
+             # list INSIDE the copied directory
+-            result = runCmd("wic ls %s:2/%s/ -n %s" % (images[0], basedir, sysroot))
++            result = runCmd("wic ls %s:2/%s/ -n %s --vars %s" % (images[0], basedir, sysroot, self.envfile))
+             self.assertEqual(0, result.status,
+                              msg="wic ls inside copied directory failed. Output:\n%s" % result.output)
+             self.assertNotIn("Ext2 inode is not a directory", result.output,
+@@ -2134,7 +2134,7 @@ class ModifyTests(WicTestCase):
+                             msg="Expected entries missing inside dir: %s" % inside_entries)
+ 
+             # list inside the subdir
+-            result = runCmd("wic ls %s:2/%s/subdir/ -n %s" % (images[0], basedir, sysroot))
++            result = runCmd("wic ls %s:2/%s/subdir/ -n %s --vars %s" % (images[0], basedir, sysroot, self.envfile))
+             self.assertEqual(0, result.status,
+                              msg="wic ls inside copied subdir failed. Output:\n%s" % result.output)
+             self.assertNotIn("Ext2 inode is not a directory", result.output,
+@@ -2146,7 +2146,7 @@ class ModifyTests(WicTestCase):
+             # copy directory from the partition and compare with original
+             outparent = os.path.join(self.resultdir, "wic-test-cp-ext-out")
+             os.makedirs(outparent)
+-            runCmd("wic cp %s:2/%s %s -n %s" % (images[0], basedir, outparent, sysroot))
++            runCmd("wic cp %s:2/%s %s -n %s --vars %s" % (images[0], basedir, outparent, sysroot, self.envfile))
+ 
+             copied_dir = os.path.join(outparent, basedir)
+             self.assertTrue(os.path.isdir(copied_dir), msg="Copied-back directory not created: %s" % copied_dir)
+@@ -2165,28 +2165,28 @@ class ModifyTests(WicTestCase):
+ 
+     def test_wic_rm_ext(self):
+         """Test removing files from the ext partition."""
+-        runCmd("wic create mkefidisk "
++        runCmd("wic create mkefidisk --vars %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "mkefidisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+         sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
+ 
+         # list directory content of the /etc directory on ext4 partition
+-        result = runCmd("wic ls %s:2/etc/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:2/etc/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertIn('fstab', [line.split()[-1] for line in result.output.split('\n') if line])
+ 
+         # remove file
+-        runCmd("wic rm %s:2/etc/fstab -n %s" % (images[0], sysroot))
++        runCmd("wic rm %s:2/etc/fstab -n %s --vars %s" % (images[0], sysroot, self.envfile))
+ 
+         # check if it's removed
+-        result = runCmd("wic ls %s:2/etc/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:2/etc/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertNotIn('fstab', [line.split()[-1] for line in result.output.split('\n') if line])
+ 
+         # remove non-empty directory
+-        runCmd("wic rm -r %s:2/etc/ -n %s" % (images[0], sysroot))
++        runCmd("wic rm -r %s:2/etc/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+ 
+         # check if it's removed
+-        result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
++        result = runCmd("wic ls %s:2/ -n %s --vars %s" % (images[0], sysroot, self.envfile))
+         self.assertNotIn('etc', [line.split()[-1] for line in result.output.split('\n') if line])
 -- 
 2.51.0
 
