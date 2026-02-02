@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C3BE7DF1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CF5E7DF1D
 	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 17:08:19 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.57906.1770052090528147308
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.58259.1770052092474714386
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 09:08:10 -0800
+ Mon, 02 Feb 2026 09:08:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZMuPgNUw;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c9f6b78ca4so425285685a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 09:08:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ltK/ndp1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8c52f15c5b3so471327585a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 09:08:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770052089; x=1770656889; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770052090; x=1770656890; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kTfTYoHocKI09OXRkp1x5HUyp1pHMtWG2Rk6iKiyZFo=;
-        b=ZMuPgNUwli9nqIuqpZt3XNXyb6k6EnFHgBWw7PW+Fq6FNS/fQ7lQPNcPfMiZUnzA9f
-         hnhWrUL7oh/kAto+PQIfQM6YcFhJnX1pdtr3uBgUETxyULQHIv0f8/3CNX/Av4bKKhl/
-         xXZQmEijyda+mRVKgs6XAzIuh7zlHg9q7TiwxCsoGKk/gAHrD+uecXV1mAsAiAcvGM8o
-         mWTte3MnUOuc9FVvYrCGzN+nCNGJefCIyO6ebYRe9AQI/eEuWEiVNgCiM3/rm7fhGSMQ
-         b74IOBIr6RD+1pfj9r4BDUlyf3yOuq5Gy5mbW+hK1jNAMwi1WWoNo7t/AxA7BJJSDUdV
-         L6bg==
+        bh=AdZiFV0F7HYcvJBxPlkQUUT3jWKbX3uQvbkw+JAP7NQ=;
+        b=ltK/ndp1pLX0gSK1As3AXUnA39QOmIzua/KjQMa1IAMHb5kj8qG++boE+3aRNxNGis
+         f1R4eCoa9Fq7N6daOPj8/D+hFHvJTk00FdMAVqoj6l4noMwcqd61Tz2pbJtPpOi9pnVy
+         3VKk/+z/DsfyK9iihoBl/jYPstMCMZIWCdsyPeKk3G5VyOmXyGy+B4TD6umhEI4g84UA
+         nfUrSqvPd6qUEycG35z5of07efbriSVSYcEmi3GFEb85ChQAVOTzvD21frZ4MY9nSPa4
+         tTVUo+BfTuVUexPDxqk/fwEJbFbh2BM3zS9s+KwrqBrzDXBCdu+0JUMSA3lEIqw6kPrq
+         EMkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770052089; x=1770656889;
+        d=1e100.net; s=20230601; t=1770052090; x=1770656890;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=kTfTYoHocKI09OXRkp1x5HUyp1pHMtWG2Rk6iKiyZFo=;
-        b=Nuhl/B+gNtUHlgS3CJajG8XQQRctBIq3sbJqVjLpYphO8Tz/fCsX8UxuUfdL2KhHqc
-         70QJi3I7oSgH4AlTDXYwbT5RSD+uiPf+eL6JKyiQp6pWV9i7Bh3dntYTuS5FtxpNuzSY
-         tZhc3C8OwXhRcaJWrjjSKnzWKTnjp26rgrcTobbW0+wNlUBA/Tl02MjqYeXsaC88lcHa
-         uLKejsDDf2jdd/J4dyLE+iFdAMPwgb+rfda1V4kmoqLEKDUdJk1N38/2GTFsKdzX9C8I
-         Y+GaSWyBe8WxsxowrlM4GeBj8qsK/zIZPBdXXaMuurz4lpWCcNEls3iKjpZGlshznFnu
-         5sGw==
-X-Gm-Message-State: AOJu0Yxc1MYXjJivma8DYgUxYzdSgVvECkyD+UX8loZQaIKE+tHr4sPW
-	703l7oXUPFDJMVETrLSvXnjKtVktI+IOVDlyfNKWQi+d6ttRJjEErxoWT7syVA==
-X-Gm-Gg: AZuq6aL1pxPOpXkH8zuYYk893FmG8cQrABmcalG2HXx+0GXP9FESiepaFQaj6lIlzg3
-	eSpd0G+Ap+v5DyorXIqW2hqf+o3kL2MMCM8F0/MIGCk+NL02pep8o+zfWhaw++PXSV0+205X1Ed
-	DolyBkMnb6ufctPC+08WwSp5I8LMVia/mtwVh6F/oslO6MMLsR4tuE6OgE0H+BlJg6ejF5JOR+q
-	LNe9tiRYx21vKK2QItesuZIAMMBzqMaxIi5zRyF5TY8KKFSiKBdn6nIg5lKhTeA7XStz2HFI08+
-	8Sj5O0AyI/vFhqatP/ctsAsukzRuIf42Bly+P7L4S9wf//c0lR3/8sVwQ7MY2bm+Pvg89r0zHoZ
-	T8mzU0acN5rXGa6q+d/jelvSqwn2fyIKDzHYGqy2aMg0TkdcNrPt+M7L7LkyFudFv7nXeCYrGMC
-	8Q9iAs5yRep1mLV7jFFnnujG2nKpZ4hmAuGO7+CcTLn6Ri5x0LnMQ2zTWVIVACTrUG
-X-Received: by 2002:a05:620a:404d:b0:8c6:a84e:2a2d with SMTP id af79cd13be357-8c9eb23d652mr1601932385a.31.1770052088529;
-        Mon, 02 Feb 2026 09:08:08 -0800 (PST)
+        bh=AdZiFV0F7HYcvJBxPlkQUUT3jWKbX3uQvbkw+JAP7NQ=;
+        b=NgaW6HDOvgSxMtgCnCNcs4PxxsDjp8Zz4VtwljHyvDGIL3nbcnDcwwDlNJ3A4Ts33T
+         sKdMC0MyGkmleBE60ZHdYfmgxqWYChKhnjiUMMT/Fw9T14/ilPQJdDZGK7a68wnxNYdA
+         HlTMtK7VZDwBrOm7hnsI34dMgLh6FTk3bnpjZvTDmC1O2RYYcXnZab/wwcNQcbQH2rih
+         U2iLDmYyh84yYgK2BW7PWj0KDsrSEd1BW1ybRPjrHnfe93lRGbEaNQBcd8Fq/t8Eu/z2
+         KRloEw13DJaoQg23xm6SsvR268bkGrIngxc4InfWTg4JY9AaaTr1Z6lZj5IhbS10D0KZ
+         aaww==
+X-Gm-Message-State: AOJu0Yzvw6dwucNXCQ/VvtD7AMVj2dlEG9pU5qCkoSstg3lOIvfIcNcB
+	v8LVOAX3Cz93Jgithvg3mu2aerv3gIVUGIuNtB2/h5rUttmzv1u9bpHS+IcRwA==
+X-Gm-Gg: AZuq6aIQO1kgu6HmWYOkKAbZNOPOGKOe4r9REiW+YE8Yupgnii03AQnlvwql+CTISq/
+	s6IZWtrFMNSLiL3VFPpqSmE/ueUHQHl5jpyEpyqTYPE1kgCXPCFNItB7t7ypS5SB7+UQeptKqKd
+	qrN3RGL2Yrf9hqfyX1m8qpEKoeOeO/3WjskeToR13OcpxWt9BxY1EMU8D77npe9A4SFIesFs4dA
+	5aGTF8RCC0n/wXF7SZNSw4os4ddyIbQZLyYfH/FHqfGLbZHstL4zrdZJCWvX6zoZbLBpX8Hi93Q
+	Qw4eXZQ7epQ6JTZYH5puEU4tw2NQGof8ykcu7aW0CKJZ1IXWlgqq9thw4/3CYZT6BEcWQgU7j+X
+	BP417tb7DVSUffobsrkIo4hqFjYDxUyptuUKACuik45OrALk4xlBK9A2Amb2PRuATZKwsDC3c6L
+	DlneKivDP7XvCUrAwHRL0/Y+ehIwdpysB4M2sH1J9jhP4VntYIXohIOw==
+X-Received: by 2002:a05:620a:4691:b0:8c6:ed6b:5865 with SMTP id af79cd13be357-8c9eb11ec46mr1497360985a.0.1770052090418;
+        Mon, 02 Feb 2026 09:08:10 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca02f07efasm502815585a.51.2026.02.02.09.08.07
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca02f07efasm502815585a.51.2026.02.02.09.08.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:08:07 -0800 (PST)
+        Mon, 02 Feb 2026 09:08:08 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC][PATCH v2 3/9] add wic recipe
-Date: Mon,  2 Feb 2026 12:07:54 -0500
-Message-ID: <20260202170800.4172778-4-twoerner@gmail.com>
+Subject: [RFC][PATCH v2 4/9] oe-selftest/cases/wic.py: update WicTestCase
+Date: Mon,  2 Feb 2026 12:07:55 -0500
+Message-ID: <20260202170800.4172778-5-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260202170800.4172778-1-twoerner@gmail.com>
 References: <20260202170800.4172778-1-twoerner@gmail.com>
@@ -67,104 +67,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 17:08:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230382
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230383
 
-Add a recipe to pull in the newly-externalized wic utility. Add wic to
-the list of native wic-tools, and make it a dependency of the image
-bbclass for wic images.
-
-Add some bitbake variables to the default list of WICVARS that will
-likely be needed in the environment file when invoking wic.
+The wic oe-selftest defines its own class, WicTestCase, for handling
+setup, teardown, and other pieces needed to run the individual wic
+oe-selftests. Now that wic is a tool external to oe-core, it, and the
+tools on which it depends, need to be built natively before the test
+can be run, need to be made available to the tests, and need to remain
+available while the test is running.
 
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/classes-recipe/image_types_wic.bbclass |  6 ++++--
- meta/conf/distro/include/maintainers.inc    |  3 ++-
- meta/recipes-core/meta/wic-tools.bb         |  1 +
- meta/recipes-support/wic/wic_0.3.0.bb       | 18 ++++++++++++++++++
- 4 files changed, 25 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/wic/wic_0.3.0.bb
+ meta/lib/oeqa/selftest/cases/wic.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-index f2fd00e6d7ec..693f49ddf608 100644
---- a/meta/classes-recipe/image_types_wic.bbclass
-+++ b/meta/classes-recipe/image_types_wic.bbclass
-@@ -39,6 +39,8 @@ WICVARS ?= "\
- 	STAGING_DIR_HOST \
- 	STAGING_LIBDIR \
- 	TARGET_SYS \
-+	TOPDIR \
-+	WIC_SECTOR_SIZE \
- "
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 958f1d084fd2..8eb0d3dcc464 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -57,12 +57,24 @@ class WicTestCase(OESelftestTestCase):
  
- inherit_defer ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
-@@ -111,14 +113,14 @@ do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
- USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
- WKS_FILE_CHECKSUM = "${@wks_checksums(d.getVar('WKS_FILES').split(), d.getVar('WKS_SEARCH_PATH')) if '${USING_WIC}' else ''}"
- do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
--do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
-+do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('wic', 'parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
+     image_is_ready = False
+     wicenv_cache = {}
++    oldpath = ""
++    pathPlusTools = ""
++    envfile = ""
  
- # We ensure all artfacts are deployed (e.g virtual/bootloader)
- do_image_wic[recrdeptask] += "do_deploy"
- do_image_wic[deptask] += "do_image_complete"
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+         self.resultdir = os.path.join(self.builddir, "wic-tmp")
+         super(WicTestCase, self).setUpLocal()
  
- WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
--WKS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
-+WKS_FILE_DEPENDS_DEFAULT += "wic-native bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
- # Unified kernel images need objcopy
- WKS_FILE_DEPENDS_DEFAULT += "virtual/cross-binutils"
- WKS_FILE_DEPENDS_BOOTLOADERS = ""
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e830648945f3..22f974cae890 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -885,7 +885,8 @@ RECIPE_MAINTAINER:pn-weston = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-weston-init = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-which = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-wic-tools = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-wic = "Trevor Woerner <twoerner@gmail.com>"
-+RECIPE_MAINTAINER:pn-wic-tools = "Trevor Woerner <twoerner@gmail.com>"
- RECIPE_MAINTAINER:pn-wireless-regdb = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-wpa-supplicant = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-wpebackend-fdo = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-index fa983ed5f12c..45fb873dd6bd 100644
---- a/meta/recipes-core/meta/wic-tools.bb
-+++ b/meta/recipes-core/meta/wic-tools.bb
-@@ -3,6 +3,7 @@ SUMMARY = "A meta recipe to build native tools used by wic."
- LICENSE = "MIT"
++        wic_tools_depends = get_bb_var("DEPENDS", "wic-tools")
++        config = 'DEPENDS:pn-core-image-minimal += " %s"' % wic_tools_depends
++        self.append_config(config)
++        bitbake('wic-tools core-image-minimal core-image-minimal-mtdutils')
++        WicTestCase.envfile = self._get_image_env_path('core-image-minimal') + "/core-image-minimal.env"
++        WicTestCase.oldpath = os.environ['PATH']
++        WicTestCase.pathPlusTools = get_bb_var("PATH", "wic-tools") + ":" + os.environ['PATH']
++        os.environ['PATH'] = WicTestCase.pathPlusTools
++
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
+         # setUpClass being unavailable.
+@@ -78,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
+         """Remove resultdir as it may contain images."""
+         rmtree(self.resultdir, ignore_errors=True)
+         super(WicTestCase, self).tearDownLocal()
++        os.environ['PATH'] = WicTestCase.oldpath
  
- DEPENDS = "\
-+           wic-native \
-            parted-native gptfdisk-native dosfstools-native \
-            mtools-native bmaptool-native grub-native cdrtools-native \
-            btrfs-tools-native squashfs-tools-native pseudo-native \
-diff --git a/meta/recipes-support/wic/wic_0.3.0.bb b/meta/recipes-support/wic/wic_0.3.0.bb
-new file mode 100644
-index 000000000000..f0c58f527c70
---- /dev/null
-+++ b/meta/recipes-support/wic/wic_0.3.0.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "OpenEmbedded Image Creator (wic) standalone CLI"
-+HOMEPAGE = "https://github.com/twoerner/wic"
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://LICENSE.GPL-2.0-only;md5=4ee23c52855c222cba72583d301d2338"
-+
-+SRC_URI = "git://github.com/twoerner/wic.git;branch=master;protocol=https"
-+SRCREV = "c9305099546888d17b33c16e98bb2012e36d734a"
-+
-+inherit python_hatchling
-+
-+RDEPENDS:${PN} += " \
-+    python3-core \
-+    python3-json \
-+    python3-logging \
-+    python3-misc \
-+    "
-+
-+BBCLASSEXTEND = "native nativesdk"
+     def _get_image_env_path(self, image):
+         """Generate and obtain the path to <image>.env"""
 -- 
 2.51.0
 
