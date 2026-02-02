@@ -1,176 +1,190 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E3A4E7DEEE
-	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 14:04:48 +0000 (UTC)
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.52848.1770041086108002298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BD3E7DEF1
+	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 14:44:39 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.54233.1770043477077263560
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 06:04:46 -0800
+ Mon, 02 Feb 2026 06:44:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nr7tamup;
- spf=pass (domain: gmail.com, ip: 74.125.82.49, mailfrom: rybczynska@gmail.com)
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12336c0a8b6so3270059c88.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 06:04:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770041085; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fWjT5U38x8xMg9V8pEsXABkJrAG3TCps4UErEtPhYVD2YZguyOEKFZixFYsmugTufE
-         Css4LKmM9mY+yxAtAYCBztsWG8GGr0ATyj6Y4zmZhY7gnF1UG0JeIWRTUFeLEYwm9zvY
-         gZUdSeIRXgf43Ns7WT8aixDPyvTQearhHBXbJQYyt64j2JqogpMUyttcVSHY694N+2JQ
-         yvbc7gRKq4YGneQJIv+OS6bi7b1gb0WTlINzIwGldCt9ysgLzHwvS5233QHORe2AUEub
-         JuaS33UM+I6D6kcRfPqEHU4FVQQO+IfZFJcSGJu+LrbeKY3aOj3r6Yrx3Iihz5/NNsK+
-         EEeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=nzcgjwLWHjTtujiAOo3NakEeClfrfihVBssWKywwSF4=;
-        fh=wewoptkNe5hTbyEXUNO0YSFjffTnAWbLZUJr0Ckk5Xk=;
-        b=LkMfl+58ApGZ3vToD81CwI9HLc1jgk/deKIf4YKrwTHYr99bvWpqh3+wMHmTEYMXns
-         053hSmDK3DIvTsrC2C++0Ux/haEJlU/GYvwe6eqx02qGo7yT+dWQY+zp3VJsvhBH1KCF
-         edfigOXWZ/7BBxD8aGeaDvhTiJseqNH1gfW5VKFAvFWdz4FawNCxUJMIlZ+jV0z608/v
-         VoDk9qmQ2LzKBirxn93OW4EZGRS80/OBLpA0jjIwPQaRnb5IjRI6UXnA4UoK9Tk/b8l0
-         J+7AhMfEqaErSYdTGMOrnOoJbc+fwOPT4KLSIqEQNc6dS2Ockmy5IGX7jcC0ISdpq9GA
-         vimQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hh/d7e/P;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8c711959442so479050585a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 06:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770041085; x=1770645885; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nzcgjwLWHjTtujiAOo3NakEeClfrfihVBssWKywwSF4=;
-        b=Nr7tamupbApAGMkAOw5lh7aXX/OlXgyRDMS3X66Snudqo83yntJmQq4Wy+2iz27bG6
-         TC4VfqGxyVuKYCApoUB2q5VT4nNLJ3ry2DDQiaMq3EST0VfedyWemDcCcJJt8O/q0GTc
-         Qg4NoebDBE95MyfTE3cylfYGjwxV1xuclhSdzQF6TWfqFFapIboKjU9yd7rdRknnth1S
-         fasIcFvXxiJKMzcgYsH5ukUYKvC/e950Uy6cjxADaRn6Km8b+4gzKAOUc5xPHB71t7Zq
-         RmNS1x1hQQpIBD1zQoVA3OYbwk6gZSw4dkoM5KAvconqDUtNANi3f7un0Ql03kfmgxE7
-         SfzA==
+        d=gmail.com; s=20230601; t=1770043475; x=1770648275; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=siSdLt6QbPk0Ta860yVoGYP9k07NE7oWHldZdXv2zZA=;
+        b=hh/d7e/Pj4s+AU+dObso7MLuAHeth7r+6tWZr4Hv9wAFm5zZ/49YbccbH/Kv0vML0l
+         Gu793KjQTLXUWecNpIH6NViynyr8fABeD4XzoQuqOboZzgSJyH8z6WNV0bkF+BeTOe4T
+         l9TC8DJC89Wu//IMKJtd1EmDFEYKqrgnvBZIQP5pDvuHYDNfCXGmnDU1y/jHitqnfCLb
+         HjEli+sSp5ofOIl94pBjxkfSru2AzFBGi2b9Z4CnLgFW5bvgRkz3L01ymZ6scMCca3kt
+         D18Ug8OOj4NXTkcSPLZoIfzdyyNHPe+l3zc2DHb73IUQw1qDXJPVtETdLC4MlNTOfbR9
+         T9Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770041085; x=1770645885;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nzcgjwLWHjTtujiAOo3NakEeClfrfihVBssWKywwSF4=;
-        b=R/MWKxB+yhyg9rWh55HC1CJAcsIR6WzedojmxOV8IWZBRdP6cyGyPInc/VyQuynjy7
-         pL14XiD4CK4ckowVa/nv8gv8PbfsUPXcRh1uKisWtI6Ul3pOGABn8bs0Z/4J26mYVnKv
-         6mRTdoWJcZjD8A0mrncufRAVmUDOvu5SgZWjI5TS8E4YRcbBJcAuquGtFd+F+Ujn72ap
-         9owbLjyXyuwiOgAYNpwsGiYdPyAcUlQ/9+Fp/cs18+Cc6oukDqmkiywQN4BJXUFbPdwM
-         PzYBMuh2ZhC59OEvmLopxkE4+aFfz2Glq7wEpkxR7Al9NlFl8/LOPHrZ8XQZow+pc1WY
-         jRMQ==
-X-Gm-Message-State: AOJu0YzJx/7q0yN7dVzj3t2o5BZK01qaz8hdY+rsb39GeLWn+N+8DgXQ
-	PJVRfuC3J2pIBmtzrEdnD8ALWFb3X6P7thM0pNpdvpy03913w0p0Spixm6ZaFbjVXAgHmMdTpRm
-	DHuj/ACa40AZWs+mvo/AR/6QfBXDftSM=
-X-Gm-Gg: AZuq6aLTH0oTyzu+QOXyqXghBoKNuR2lA5rh1dLn9C1dNXyIEZaw/hHIY3MOGVTJJ13
-	WTG/cptXieQ6yLn2SulzUsYUAzymPPOohPyfpguN13sHrPXN8ZZwCRhnYzlfgQOPeDKnJ7LaWDY
-	vI+D2+bUypi7glJss/WA5KzXfiL/GjLnVFFyS8tHaf9uHg5+CECaUySVS6eLo6RkqGRZcPN79n2
-	Za+RcrqGN4RhXyAAnCVfPzFlKp0jNmJOO7qZZj5MNzzCEwlX+TOX5LalB1kpFDGH5tytBAaitHJ
-	ajIKusWLtyVBGaQFhak4ZEWqlMvfm+MyOu8IRA==
-X-Received: by 2002:a05:7022:e13:b0:11b:c4ee:66b with SMTP id
- a92af1059eb24-125c10092c8mr5552733c88.37.1770041085156; Mon, 02 Feb 2026
- 06:04:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770043475; x=1770648275;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=siSdLt6QbPk0Ta860yVoGYP9k07NE7oWHldZdXv2zZA=;
+        b=dHTIEQMqduS685ktyh/HHk5q12AA3tkYMcM6TcjFun+tk3i8cy63ZboRUvJfL9Dn+V
+         rB4tgnY04gzF4ODJqhQxR6XanrTxHIkGNgle0QUHdjVr50VpPANFnvosHzouEFFKDoTD
+         e3eUWwavwbhoK2L6iRNKIJGltvAAw9LG0T4bEqGMVhvsp+6oLBt0xYF1aANC3swB337A
+         alzgU+spe2fI+LmNWlVQeqZc3o26qgpkKKQmerKk0kv5PLSvlygItQwseJO8zF4TU+HB
+         /rPTpjkidWN2kLKNL/HSEwYQYf5iqlDhFCJ9+9dla/s1TQjwKOOtvpFD5kzZ39/VWbeH
+         k53Q==
+X-Gm-Message-State: AOJu0YwdcpogDk2/hNTalCzH1s+8uavTsnbVJaZr/lA5gFJK2huMnPQx
+	zuPTsRxOQUeS2Gor4S4ifhBdT4RN68FfAZt927fEHdmi2WFBO8ZoAQTiIodsqg==
+X-Gm-Gg: AZuq6aI6qyjvbDc6zgpt0iOelORL+1HZk0I8Fe6mSXSovYLL0y9+FPHFrThoqIDcfO1
+	5gyYy14P9Y4o2Vm/l1eYiV6EAffOnsgsLJPelfwfXd1KSblgix/H+jGWxUZYp9SzEMLBZFnP0+I
+	ezOaaxUG+1ybcvQdhEeNweILqDvI8WuaWONMGOdPjbzCfkYjbSO8WErT5LqBCQvobQ/+IkKau1y
+	00ka0MHuuwDPNsSGBYgssGoto4OlcdyRdPjhJDH7nEbH7sPAb/yd9RX39Z2N8/v8Fn1HtzWCNCV
+	GtaNa1LybiaCb0wkHosmkNzNnOj9FaF12BIgkQR1MhmCNZc3GynHjC6Ti9Dib4FGG37qYZdHUwj
+	fj9ki9AYi9rdw4LWm5EhwKrHDhvl5NraiREztXeZCihmHaIndyVnUKIKQ19T4YdSLEg2JxW6ks3
+	BnUMxGyvPXDTm8n/nnClxXChhZiEEEyIvEoDlmEygh9d68nZ3ypegTsg==
+X-Received: by 2002:a05:620a:1729:b0:8c5:2de4:d6ee with SMTP id af79cd13be357-8c9ebdf1abemr1261303185a.33.1770043475255;
+        Mon, 02 Feb 2026 06:44:35 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711b95e4esm1344037085a.15.2026.02.02.06.44.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Feb 2026 06:44:34 -0800 (PST)
+Date: Mon, 2 Feb 2026 09:44:32 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [RFC][PATCH 1/9] remove wic
+Message-ID: <aYC4UFMriap9O_zh@localhost.localdomain>
+References: <20260202135414.682558-1-twoerner@gmail.com>
+ <189072D7050C78DA.4987@lists.openembedded.org>
 MIME-Version: 1.0
-References: <188AFCD98EA3E578.3200434@lists.openembedded.org>
- <20260129211012.623827-1-valentin.boudevin@gmail.com> <20260129211012.623827-3-valentin.boudevin@gmail.com>
- <49de779cc2db0ef5c2bade9c8b07e076dedc340f.camel@linuxfoundation.org> <442096.1770040131832557569@lists.openembedded.org>
-In-Reply-To: <442096.1770040131832557569@lists.openembedded.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Mon, 2 Feb 2026 15:04:30 +0100
-X-Gm-Features: AZwV_QgonL4gpgXaX2N1VpQ1C-5PfEzQCPRqfmTUfJ6iZLBA10CXl0FlxxS84t0
-Message-ID: <CAApg2=Q10Dbk2kJ1k0ZLp3sw2wsw9pqxBeOcMQPP9tVr6dkoig@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v6 2/4] cvelistv5: add a new recipe
-To: valentin.boudevin@gmail.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001e63600649d7ce17"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <189072D7050C78DA.4987@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 14:04:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230371
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 14:44:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230372
 
---0000000000001e63600649d7ce17
-Content-Type: text/plain; charset="UTF-8"
+On Mon 2026-02-02 @ 09:01:56 AM, Trevor Woerner via lists.openembedded.org wrote:
+> On Mon 2026-02-02 @ 08:54:06 AM, Trevor Woerner wrote:
+> > The wic utility will continue to fall under The Yocto Project umbrella,
+> > but will no longer be integrated into the project as part of oe-core.
+> > The ultimate goal is to make wic a completely independent tool, hosted
+> > on PyPI, with its own tests, development roadmap, and releases.
+> > 
+> > Some benefits include:
+> > - relieving the oe-core maintainers from having to review, understand,
+> >    merge, or reject wic patches
+> > - allow the tool to be used outside of The Yocto Project for generating
+> >   Linux images
+> > - provide more flexibility to explore other features, libraries,
+> >   mechanisms, etc
+> > 
+> > AI-Generated: AI was used to help with the initial split of wic from oe-core
+> > AI-Tool: codex
+> > AI-Model: gpt-5.1-codex-max
+> > 
+> > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> > ---
+> >  scripts/lib/wic/__init__.py                   |   10 -
+> >  scripts/lib/wic/canned-wks/common.wks.inc     |    3 -
+> >  .../directdisk-bootloader-config.cfg          |   27 -
+> >  .../directdisk-bootloader-config.wks          |    8 -
+> >  scripts/lib/wic/canned-wks/directdisk-gpt.wks |   10 -
+> >  .../canned-wks/directdisk-multi-rootfs.wks    |   23 -
+> >  scripts/lib/wic/canned-wks/directdisk.wks     |    8 -
+> >  .../lib/wic/canned-wks/efi-bootdisk.wks.in    |    3 -
+> >  .../wic/canned-wks/efi-uki-bootdisk.wks.in    |    3 -
+> >  scripts/lib/wic/canned-wks/mkefidisk.wks      |   11 -
+> >  scripts/lib/wic/canned-wks/mkhybridiso.wks    |    7 -
+> >  scripts/lib/wic/canned-wks/qemuloongarch.wks  |    3 -
+> >  scripts/lib/wic/canned-wks/qemuriscv.wks      |    3 -
+> >  .../lib/wic/canned-wks/qemux86-directdisk.wks |    8 -
+> >  .../lib/wic/canned-wks/sdimage-bootpart.wks   |    6 -
+> >  .../lib/wic/canned-wks/systemd-bootdisk.wks   |   11 -
+> >  scripts/lib/wic/engine.py                     |  681 ----------
+> >  scripts/lib/wic/filemap.py                    |  583 --------
+> >  scripts/lib/wic/help.py                       | 1188 -----------------
+> >  scripts/lib/wic/ksparser.py                   |  322 -----
+> >  scripts/lib/wic/misc.py                       |  266 ----
+> >  scripts/lib/wic/partition.py                  |  562 --------
+> >  scripts/lib/wic/pluginbase.py                 |  144 --
+> >  scripts/lib/wic/plugins/imager/direct.py      |  710 ----------
+> >  .../wic/plugins/source/bootimg_biosplusefi.py |  213 ---
+> >  scripts/lib/wic/plugins/source/bootimg_efi.py |  435 ------
+> >  .../wic/plugins/source/bootimg_partition.py   |  162 ---
+> >  .../lib/wic/plugins/source/bootimg_pcbios.py  |  483 -------
+> >  scripts/lib/wic/plugins/source/empty.py       |   89 --
+> >  .../lib/wic/plugins/source/extra_partition.py |  134 --
+> >  .../wic/plugins/source/isoimage_isohybrid.py  |  463 -------
+> >  scripts/lib/wic/plugins/source/rawcopy.py     |  115 --
+> >  scripts/lib/wic/plugins/source/rootfs.py      |  236 ----
+> >  scripts/wic                                   |  600 ---------
+> >  34 files changed, 7530 deletions(-)
+> >  delete mode 100644 scripts/lib/wic/__init__.py
+> >  delete mode 100644 scripts/lib/wic/canned-wks/common.wks.inc
+> >  delete mode 100644 scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+> >  delete mode 100644 scripts/lib/wic/canned-wks/directdisk-bootloader-config.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/directdisk-gpt.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/directdisk.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+> >  delete mode 100644 scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
+> >  delete mode 100644 scripts/lib/wic/canned-wks/mkefidisk.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/mkhybridiso.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/qemuloongarch.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/qemuriscv.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/sdimage-bootpart.wks
+> >  delete mode 100644 scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+> >  delete mode 100644 scripts/lib/wic/engine.py
+> >  delete mode 100644 scripts/lib/wic/filemap.py
+> >  delete mode 100644 scripts/lib/wic/help.py
+> >  delete mode 100644 scripts/lib/wic/ksparser.py
+> >  delete mode 100644 scripts/lib/wic/misc.py
+> >  delete mode 100644 scripts/lib/wic/partition.py
+> >  delete mode 100644 scripts/lib/wic/pluginbase.py
+> >  delete mode 100644 scripts/lib/wic/plugins/imager/direct.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/bootimg_efi.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/bootimg_partition.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/bootimg_pcbios.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/empty.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/extra_partition.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/isoimage_isohybrid.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/rawcopy.py
+> >  delete mode 100644 scripts/lib/wic/plugins/source/rootfs.py
+> >  delete mode 100755 scripts/wic
+> 
+> This set of patches is being sent to the mailing list to give others an
+> idea of the work being done to split wic out into its own independent
+> project. It is an RFC patch set.
+> 
+> If the day comes when they might be applied, they will need to be
+> squashed. Otherwise any future bisection that lands in the middle of
+> these patches will likely cause build failures. This RFC patch set was
+> created to make review easier. Each patch is quite small and does one
+> thing.
 
-Hello,
+On my machine, for an unmodified oe-core. when I run the wic-related
+oe-selftests I see:
 
-Cve-check already has variables disabling the database download. Maybe a
-rework of the variable set can be an option ti make sure that either both
-download, or both dont.
+	successes=93, skipped=1, failures=0, errors=1
 
-It requires a bit of design, however.
+with these changes, this is what I get on my machine:
 
-Kind regards
-Marta
+	successes=91, skipped=1, failures=2, errors=0
 
-On Mon, 2 Feb 2026, 14:48 vboudevin via lists.openembedded.org,
-<valentin.boudevin=gmail.com@lists.openembedded.org> wrote:
+to run:
+	$ sudo .../openembedded-core/scripts/runqemu-gen-tapdevs <your numeric gid> 4
+	$ oe-selftest -v -r wic.CLITests wic.ModifyTests wic.Wic wic.Wic2
 
-> I wanted to indicate that the recipe is not meant to be used with a fixed
-> commit with a deterministic approach.
->
-> Having ${AUTOREV} by default can lead to many offline issues.
->
-> I guess the correct implementation would be to specify, in the
-> documentation, the need for "SRCREV:pn-cvelistv5-native = "${AUTOREV}"" to
-> stay up-to-date with CVE data, and also add this information in a comment
-> inside the recipe.
->
-> Thank you for your feedback
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230352):
-> https://lists.openembedded.org/g/openembedded-core/message/230352
-> Mute This Topic: https://lists.openembedded.org/mt/117534181/5827677
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> rybczynska@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---0000000000001e63600649d7ce17
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Hello,</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Cve-check already has variables disabling the database download. Mayb=
-e a rework of the variable set can be an option ti make sure that either bo=
-th download, or both dont.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">It requires a bit of design, however.</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">Kind regards=C2=A0</div><div dir=3D"auto">Marta<br><br><di=
-v class=3D"gmail_quote gmail_quote_container" dir=3D"auto"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Mon, 2 Feb 2026, 14:48 vboudevin via <a href=3D"ht=
-tp://lists.openembedded.org">lists.openembedded.org</a>, &lt;valentin.boude=
-vin=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.o=
-penembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
->I wanted to indicate that the recipe is not meant to be used with a fixed =
-commit with a deterministic approach.=C2=A0<br>=C2=A0<br>Having ${AUTOREV} =
-by default can lead to many offline issues.<br>=C2=A0<br>I guess the correc=
-t implementation would be to specify, in the documentation, the need for &q=
-uot;SRCREV:pn-cvelistv5-native =3D &quot;${AUTOREV}&quot;&quot; to stay up-=
-to-date with CVE data, and also add this information in a comment inside th=
-e recipe.=C2=A0<br>=C2=A0<br>Thank you for your feedback</div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#230352): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/230352" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/230352</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117534181/582=
-7677" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/117534181/5827677</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmai=
-l.com" target=3D"_blank" rel=3D"noreferrer">rybczynska@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000001e63600649d7ce17--
+There are still 2 test cases that are eluding me, but I wanted to get
+this patchset out there in case anyone was interested in looking at it,
+and to see how it will do on the AB (knowing that there is a little more
+to do).
 
