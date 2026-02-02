@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F669E7C70C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8576CE7C714
 	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 13:54:38 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52976.1770040472158667643
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52588.1770040473630329984
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 05:54:32 -0800
+ Mon, 02 Feb 2026 05:54:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RbH0gXJh;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c7199e7f79so708003985a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 05:54:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=efz1Gswd;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8c6a0702b86so455423885a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 05:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770040470; x=1770645270; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770040472; x=1770645272; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AdZiFV0F7HYcvJBxPlkQUUT3jWKbX3uQvbkw+JAP7NQ=;
-        b=RbH0gXJhnaAw2ZoJMsmnswLdJjKX7OrFsACjmjk8yEjSXnXwx4KrOANcefx6Zueyz5
-         DWAs/ARKGkjxYzpX0jJmE87sFC/DzQDx+Kc7IWNddtuf1GIUZk95xdV+oVpjgbILOcKZ
-         Hjm2iGoudmgC5SaJ2NWuoJcpJmOFtzUF1tLsN5hc7Yrnb56cdzYGdZxduiCZONN8E4rm
-         H0UkD/8ZxsqgHurw9qwqQvQeN3IxSKN/C8Fe+uNMakNpQu7yOWNyJNjUyRwzN+l0kIkd
-         F55sLwjV1y59I9r4E8oZy9bUIA8InpQm9R7nhp5EbYWVNPYb0X48RUlYGFPGVBxGpL3p
-         8TMQ==
+        bh=jSdMgrwzPdhJkSuOGoM+i0LfjbuvMK6UhGPaoMbc5cY=;
+        b=efz1GswdgN4WMrjs6eFCsJt3CjipYPCDDnFB+DTj2IGY840IHO8F4WFMJoLUw7CSQP
+         6IBkbK1DphP4zmrwFEiXWPc0UijWvMCRCWsD3wHPmvDfkqgk4UsSYDca62/N2iYrGz01
+         h1KEO0xMGor8kdzItE6zVaTVdwmBtloYGWe4FrYWaefl1Ef0FLQdCnVf8DIbh3U8oT56
+         LHeiiBKd+2Ehof3LhzluGhOrP0MJLxQ5Fax4bkhp10QogrAM4BM5QKo1zTzaz0uJjUWz
+         dCXo7yJpdqpkqIeSFzcy+145jxhau9Md+ZS4XXdyHdjLGcDDXGScXIQgQp2di8AoiHZW
+         VmKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770040470; x=1770645270;
+        d=1e100.net; s=20230601; t=1770040472; x=1770645272;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=AdZiFV0F7HYcvJBxPlkQUUT3jWKbX3uQvbkw+JAP7NQ=;
-        b=IVom9+fiQcFa6sP9Fk5d5si2UrMor/LlF9mD6kTc+c21iPCqi+ze9PsJIDttml+k/+
-         hgnLGQ12p6JOW1JFEH51E4ejLFMpOnQ+PD4qmVEQZRcstyCTTBEwcTyVI0+XXSc7hwtS
-         VfD2QQftbPFKQu0lJcYlk2TbQpZlNZUYoXLhDF6MjoyMUKRraPYGO8qmvm67VJzDS12S
-         iIMybVhNE1YGm0uJ+cMr3HRFUNPp3sKhTTPv7zeut0fserd1UfhNWRdGPftf7ZPBC7Ut
-         u9IuTXaD7GcWMe+/yU9FMShGjRmKuOk8e2V5uhahyqgQACUICm28JmlZn2Hw805DB2xo
-         oS4g==
-X-Gm-Message-State: AOJu0YzKwqsIX6xdhy33bkVPJrvA7ESx3iqcvz+FmBYpkGi7C+hAynjv
-	kmTnK1z+oWTFNjrjBrDIbRuVnGhM8iKJV2gDgZF0ieMapcvgMJu8X8IORMEVXw==
-X-Gm-Gg: AZuq6aIOQDAP0OPzzkk0jTr9OpEBtb1Ev3GbS4P9DPzVrg6IibhprP/PI/NHAIB78QH
-	9ajMSU1E+zKHP/fNA9vaIE/EF2UMVVg5C4peldeJDW4PWiaZlAPDITI1Kq63XpofATvvUrYPBYs
-	VogmBMvdVd9GuzEgNRWeOloCm9kxW+f5sL0IIQGZHioaDmSpx1lawQ21cOxGV/kCnDWIaf97P0g
-	jxzx1bBaowcOQB3LHpaPGuPikGllnksUXrcrahQzTwX3z6mO5pjzqxH/f3L0JvI7exx+lKGQrbP
-	xMbGfM/sGJnk+iy0/uDM3aNGxWvixmnOgvcJdJDjHbJDJPF5/6zFSLGxeKoga0RiELcFqnqti7I
-	P9IU3DCms/dbbs3KyQvllYI6/mcYW4KXOgXyfTfkcqthI4dLB6enP/4yYu8RWqRkKq/RoG05IRi
-	VEnTDp0WwvZoAi/QOnmW6tpJsi5UAcmPd+dcYpEQusIGf+2EVs6CA5/g==
-X-Received: by 2002:a05:620a:298d:b0:8c6:afa6:2700 with SMTP id af79cd13be357-8c9eb2fad44mr1533996985a.47.1770040470413;
-        Mon, 02 Feb 2026 05:54:30 -0800 (PST)
+        bh=jSdMgrwzPdhJkSuOGoM+i0LfjbuvMK6UhGPaoMbc5cY=;
+        b=WV1oi1WPSXno75MbuAy2ycKUFAJSknACbPr8cshUi1ajsczbRM+ALi8xWgJytvR+Oz
+         YJ90bV1qbFUjDWFc9GxtJznTe8fzqSppCa0TL8sErIEN2oYtTX/pauL+F7BT+sL807Em
+         LAYoWdvmUpl0JIzucikg0gKj4+r+U8tSlUWroA6EjLayUSrgG7kFUoNQBiY9Dd8G/2y6
+         hnq8gaSqGI3CHtqG4nzQffirQO7i5I4w44zwtB4eefQj9QM5L7CWx75xWSh5En6Dxbtr
+         8VjNsI5vx2SixTHOlhmKU6gGkOthVJv4mBjY6ZYuFCUPRdDQa5N9cTAkxchTGa2s3N2Z
+         eQ6w==
+X-Gm-Message-State: AOJu0YySW59xNOVZi8R9ciLRHx+j4GK+619GHIDHnaSDC6bbB7z7K/z0
+	4ocCM6zC704wISjgb+7rzBixsjlbbiHn8+uX201hT9IBjrNdOPKmgZwKC13oyzij
+X-Gm-Gg: AZuq6aLC0SPFpkgNKFfVnvBZAVKBhRyNmnna8bkCEInz1Bdg/+w9GgTwqRM5PLZ3XEA
+	l6tBTgGPAR/hLIybdnIAsoTnGgOy5Jjp5nWF7v607/YeOOY3fchGNKbp/dSg2GZrclr6f3oRk8E
+	9SEg9wPxq2yo9KS+9TZbirpbgH1LqyLv+mnK0CoUD+KoivcIPSDYlJjy6snUIxQccQwJ0/nWSVs
+	ipQWZocvCdzTdDtDfLcWRkBzIbh1ztu6+sT6Ryc7ldNO3sfGww9ucpfDQ3XSTj9fp1tEzCdaXxf
+	nuysFxE4GSDOFDlshMw0+uSzacRkSRqRRszu6gT4WVU8raceS6oj+XxyB/ZnZoY3wfyFJq+gial
+	KswzvpI7MHmmWzkUsA3zS4Sc3ZUaR6YAVV7RVLbhxnUn5t8nS1DNJghuQfsm/a+uR+/awI9AnEU
+	P9fEC9VS7QS8UFWSY+LBEPvLDdgCRL2ef0vqKHPMmwvh4mTMH3UE3i3g==
+X-Received: by 2002:a05:620a:408d:b0:8c0:ceb0:890a with SMTP id af79cd13be357-8c9eb215d76mr1496125885a.16.1770040472039;
+        Mon, 02 Feb 2026 05:54:32 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2845fsm1248654585a.31.2026.02.02.05.54.29
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2845fsm1248654585a.31.2026.02.02.05.54.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 05:54:29 -0800 (PST)
+        Mon, 02 Feb 2026 05:54:30 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC][PATCH 4/9] oe-selftest/cases/wic.py: update WicTestCase
-Date: Mon,  2 Feb 2026 08:54:09 -0500
-Message-ID: <20260202135414.682558-4-twoerner@gmail.com>
+Subject: [RFC][PATCH 5/9] oe-selftest -r wic.CLITests -> PASS
+Date: Mon,  2 Feb 2026 08:54:10 -0500
+Message-ID: <20260202135414.682558-5-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260202135414.682558-1-twoerner@gmail.com>
 References: <20260202135414.682558-1-twoerner@gmail.com>
@@ -67,57 +67,55 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 13:54:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230356
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230357
 
-The wic oe-selftest defines its own class, WicTestCase, for handling
-setup, teardown, and other pieces needed to run the individual wic
-oe-selftests. Now that wic is a tool external to oe-core, it, and the
-tools on which it depends, need to be built natively before the test
-can be run, need to be made available to the tests, and need to remain
-available while the test is running.
+Changes for the wic.CLITests oe-selftests to pass now that wic is a
+stand-alone app and no longer part of oe-core.
+
+Note that the base class for these tests had to change to WicTestCase so
+that the wic-native tool would be built and available.
 
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/lib/oeqa/selftest/cases/wic.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 958f1d084fd2..8eb0d3dcc464 100644
+index 8eb0d3dcc464..d8f89e79e7f2 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -57,12 +57,24 @@ class WicTestCase(OESelftestTestCase):
+@@ -101,7 +101,7 @@ class WicTestCase(OESelftestTestCase):
+             WicTestCase.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
+         return WicTestCase.wicenv_cache[image]
  
-     image_is_ready = False
-     wicenv_cache = {}
-+    oldpath = ""
-+    pathPlusTools = ""
-+    envfile = ""
+-class CLITests(OESelftestTestCase):
++class CLITests(WicTestCase):
+     def test_version(self):
+         """Test wic --version"""
+         runCmd('wic --version')
+@@ -141,18 +141,18 @@ class CLITests(OESelftestTestCase):
  
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-         self.resultdir = os.path.join(self.builddir, "wic-tmp")
-         super(WicTestCase, self).setUpLocal()
+     def test_list_images(self):
+         """Test wic list images"""
+-        runCmd('wic list images')
++        runCmd('wic list images --vars %s' % self.envfile)
  
-+        wic_tools_depends = get_bb_var("DEPENDS", "wic-tools")
-+        config = 'DEPENDS:pn-core-image-minimal += " %s"' % wic_tools_depends
-+        self.append_config(config)
-+        bitbake('wic-tools core-image-minimal core-image-minimal-mtdutils')
-+        WicTestCase.envfile = self._get_image_env_path('core-image-minimal') + "/core-image-minimal.env"
-+        WicTestCase.oldpath = os.environ['PATH']
-+        WicTestCase.pathPlusTools = get_bb_var("PATH", "wic-tools") + ":" + os.environ['PATH']
-+        os.environ['PATH'] = WicTestCase.pathPlusTools
-+
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-         # setUpClass being unavailable.
-@@ -78,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
-         """Remove resultdir as it may contain images."""
-         rmtree(self.resultdir, ignore_errors=True)
-         super(WicTestCase, self).tearDownLocal()
-+        os.environ['PATH'] = WicTestCase.oldpath
+     def test_list_source_plugins(self):
+         """Test wic list source-plugins"""
+-        runCmd('wic list source-plugins')
++        runCmd('wic list source-plugins --vars %s' % self.envfile)
  
-     def _get_image_env_path(self, image):
-         """Generate and obtain the path to <image>.env"""
+     def test_listed_images_help(self):
+         """Test wic listed images help"""
+-        output = runCmd('wic list images').output
++        output = runCmd('wic list images --vars %s' % self.envfile).output
+         imagelist = [line.split()[0] for line in output.splitlines()]
+         for image in imagelist:
+-            runCmd('wic list %s help' % image)
++            runCmd('wic list %s help --vars %s' % (image, self.envfile))
+ 
+     def test_unsupported_subcommand(self):
+         """Test unsupported subcommand"""
 -- 
 2.51.0
 
