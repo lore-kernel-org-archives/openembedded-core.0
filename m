@@ -1,92 +1,90 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <valentin.boudevin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C517E63C8C
-	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 17:16:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.58124.1770052575037106121
- for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 09:16:15 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gj94NIgE;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CGIU5Gab;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019c1f5adc4d-55999b57-a68b-4450-828f-43512d07f525-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1770052574; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Ss0LZkwug70pvIs7TfKyM+0rg/22S7z5jpyu1w57wEg=;
-	b=gj94NIgE/rFzTcN/ek5FpbfQE4Y4jnYzQbbWu25KdhenJVFjX4+7fOfLaWBeJmVo
-	UW6gVQJkGCIvTpjCLjQvIrlbdrzUpbEA5BChAgPJkdEUq45n4UqFwd4BBCWfw47U6jH
-	k5bB+VTni/Z1c1Y15/gm8pUbO4Vnj0onBoMvOMtY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770052574;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Ss0LZkwug70pvIs7TfKyM+0rg/22S7z5jpyu1w57wEg=;
-	b=CGIU5Gab7ejwBvLkbm0B4EX89MOJNPx/0qj0pMRuCGfIR/2pbN1/wM0/fRCtj+/H
-	1bblCngmktiwYkPXnAFWAm8ZjCqIHjYKKTlWh4ke3PwWu4G59TGq1p0HFdlPfXBFpMZ
-	kr1iR2xvKgjQ+VMq2G/dMemRz1XiLwV4Mi+RNTgY=
-From: patchtest@automation.yoctoproject.org
-To: Trevor Woerner <twoerner@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC][PATCH v2 3/9] add wic recipe
-In-Reply-To: <20260202170800.4172778-4-twoerner@gmail.com>
-References: <20260202170800.4172778-4-twoerner@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019c1f5adc4d-55999b57-a68b-4450-828f-43512d07f525-000000@us-west-2.amazonses.com>
-Date: Mon, 2 Feb 2026 17:16:14 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.02-54.240.27.191
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61492E7FDCB
+	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 19:54:51 +0000 (UTC)
+Subject: Re: [PATCH v6 2/4] cvelistv5: add a new recipe
+To: openembedded-core@lists.openembedded.org
+From: "vboudevin" <valentin.boudevin@gmail.com>
+X-Originating-Location: Laval, Quebec, CA (208.88.110.46)
+X-Originating-Platform: Linux Firefox 146
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Mon, 02 Feb 2026 11:54:41 -0800
+References: <188AFCD98EA3E578.3200434@lists.openembedded.org> <20260129211012.623827-1-valentin.boudevin@gmail.com> <20260129211012.623827-3-valentin.boudevin@gmail.com> <49de779cc2db0ef5c2bade9c8b07e076dedc340f.camel@linuxfoundation.org> <442096.1770040131832557569@lists.openembedded.org> <CAApg2=Q10Dbk2kJ1k0ZLp3sw2wsw9pqxBeOcMQPP9tVr6dkoig@mail.gmail.com>
+In-Reply-To: <CAApg2=Q10Dbk2kJ1k0ZLp3sw2wsw9pqxBeOcMQPP9tVr6dkoig@mail.gmail.com>
+Message-ID: <1043486.1770062081174158975@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="naSVx5Vt2KL8vlxiXJKb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 17:16:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230391
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 19:54:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230397
 
---NextPart
-Content-Type: text/plain
+--naSVx5Vt2KL8vlxiXJKb
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello Martha,
 
----
-Testing patch /home/patchtest/share/mboxes/RFC-v2-3-9-add-wic-recipe.patch
+Thanks for the feedback.
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+As I understand, you are referring to CVE_DB_UPDATE_INTERVAL, which can be =
+set to a negative value to disable the download.
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+I have already tried using a custom "do_fetch" task with a git fetch/pull a=
+ttempt, as well as with a fixed commit reference in failing scenarios.
+But, it seems that I can't avoid a parsing issue if the SRCREV is set to ${=
+AUTOREV} with the build machine not connected to any network (due to a fail=
+ed attempt to resolve the latest commit hash).
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+A new .bbclass seems appropriate (e.g., non_deterministic_native.bbclass) t=
+o handle natives recipes that require an up-to-date git database.
+Adding a non-deterministic class to fetch the latest available commit seems=
+ a necessary tool for CVE, as you always want to look at the latest availab=
+le information (e.g., I have a PR also open for improve_kernel_cve, which h=
+as the same issue).
 
----
+This class could be used to redefine fetch and unpack mechanisms provided b=
+y the "base" class, as you did with cve-update-nvd2-native.
+It would take a default commit as a reference (e.g., "644ce1758db1773336ebe=
+bb6a0da90e132da0eb7"), which won't break the build without any network. In =
+addition, the new do_fetch task would try at the same time to pull the late=
+st available commit if any network is available.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+But I don't think I want to handle this mechanism in my current PR. It may =
+be preferable to keep it in a future dedicated one. I would prefer to have =
+my boilerplate merge first with a fixed SRCREV.
 
---NextPart
+--naSVx5Vt2KL8vlxiXJKb
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div>Hello Martha,&nbsp;<br />&nbsp;<br />Thanks for the feedback.<br />&nb=
+sp;<br />As I understand, you are referring to CVE_DB_UPDATE_INTERVAL, whic=
+h can be set to a negative value to disable the download.&nbsp;<br /><br />=
+I have already tried using a custom "do_fetch" task with a git fetch/pull a=
+ttempt, as well as with a fixed commit reference in failing scenarios.<br /=
+>But, it seems that I can't avoid a parsing issue if the SRCREV is set to $=
+{AUTOREV} with the build machine not connected to any network (due to a fai=
+led attempt to resolve the latest commit hash).<br /><br />A new .bbclass s=
+eems appropriate (e.g., non_deterministic_native.bbclass) to handle natives=
+ recipes that require an up-to-date git database.</div>
+<div>Adding a non-deterministic class to fetch the latest available commit =
+seems a necessary tool for CVE, as you always want to look at the latest av=
+ailable information (e.g., I have a PR also open for improve_kernel_cve, wh=
+ich has the same issue).</div>
+<div>&nbsp;</div>
+<div>This class could be used to redefine fetch and unpack mechanisms provi=
+ded by the "base" class, as you did with cve-update-nvd2-native.<br />It wo=
+uld take a default commit as a reference (e.g., "644ce1758db1773336ebebb6a0=
+da90e132da0eb7"), which won't break the build without any network. In addit=
+ion, the new do_fetch task would try at the same time to pull the latest av=
+ailable commit if any network is available.<br /><br />But I don't think I =
+want to handle this mechanism in my current PR. It may be preferable to kee=
+p it in a future dedicated one. I would prefer to have my boilerplate merge=
+ first with a fixed SRCREV.</div>
 
---NextPart--
+--naSVx5Vt2KL8vlxiXJKb--
 
