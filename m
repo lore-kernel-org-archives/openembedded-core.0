@@ -2,49 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F230E7DF11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41965E7DF16
 	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 17:16:20 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.58130.1770052579458814660
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.58446.1770052578748320473
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 09:16:19 -0800
+ Mon, 02 Feb 2026 09:16:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0AcPpHEv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=U7xEDf9A;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019c1f5aed75-0a01a735-9736-4d1d-b0f8-fae6269e5311-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=xaa5WNsV;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=b+0M9sD1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019c1f5aea7a-faa5859a-4e1d-424a-ae09-5c91153c5e92-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1770052578; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=i1VPf2Nxt8p83vbjLX9ivhxqRoPfVw6Nf4w9YkiMJ4Y=;
-	b=0AcPpHEvugwf0ek0rJPDFtvg4/WI9msGnpZ0/tC9bKEW+xYnwM5+jFtmkkVlUatD
-	FxkV6Gta9LSLEQbYTmXNcSohJAUQKIVtD9/HOEh40fWJYDq6DE8kpUydsG3Xoh7nEFi
-	8UsJnD+1LXih+ApkbBK1e0XDLVTxANpAwpOGgVZo=
+	bh=K7QAncj05J3RhtMvklcV9Pqnri55hoP2cxwxbxI0n+Y=;
+	b=xaa5WNsVyTfg7RKP3viaY6f0t10Gav87ZLin7qOd5AZGDbRFkkLxCx4J1ihRvXTp
+	iW+82JYAX+puiBh3ZIUQpHXHSGEc6DgNsDAF8ErozzjhClbAHANemAmdbTRpjOdJ9Hr
+	xncdCplTh3Xeoe4DPAUS+7xCLwkGeUBlCHh3mC7A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770052578;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=i1VPf2Nxt8p83vbjLX9ivhxqRoPfVw6Nf4w9YkiMJ4Y=;
-	b=U7xEDf9ALeo978ogjE/uXTLu4pHu9g2Vcl8QcQgMQaytvls3T2g7vAvouSYVxXV+
-	k6RiUgax1kYbzbaZceBUyGi095hm9FRUTQ7lj2nVwwnTbhCH9NJEPOfjsRnLsURSC+j
-	1+9yOsy+ylEpvXOWKPrnu2Ujc00Qfa/ynFkNwaPk=
+	bh=K7QAncj05J3RhtMvklcV9Pqnri55hoP2cxwxbxI0n+Y=;
+	b=b+0M9sD1d4i8lTIRuWumSa7wObUX3qrozZXSkEHnFMchU0SkodYcAGmbx5UgSr39
+	DnEobgbbLYIISiyr9TI0wO7NY/MykNuicnlZMl2whi5YqPaKmBZ7yS2G5dtiyOeDeGp
+	8vV9Q8QuKdVE59hWGG0dktYrhIldr9VJRISh57jM=
 From: patchtest@automation.yoctoproject.org
 To: Trevor Woerner <twoerner@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC][PATCH v2 9/9] oe-selftest -r wic.Wic2 (runqemu) -> PASS
- (mostly)
-In-Reply-To: <20260202170800.4172778-10-twoerner@gmail.com>
-References: <20260202170800.4172778-10-twoerner@gmail.com>
+Subject: Patchtest results for [RFC][PATCH v2 8/9] oe-selftest -r wic.Wic2 (non-runqemu) -> PASS
+In-Reply-To: <20260202170800.4172778-9-twoerner@gmail.com>
+References: <20260202170800.4172778-9-twoerner@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019c1f5aed75-0a01a735-9736-4d1d-b0f8-fae6269e5311-000000@us-west-2.amazonses.com>
-Date: Mon, 2 Feb 2026 17:16:18 +0000
+Message-ID: <0101019c1f5aea7a-faa5859a-4e1d-424a-ae09-5c91153c5e92-000000@us-west-2.amazonses.com>
+Date: Mon, 2 Feb 2026 17:16:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.02.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 17:16:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230396
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230395
 
 --NextPart
 Content-Type: text/plain
@@ -55,7 +54,7 @@ more information:
 
 ---
 
-Testing patch /home/patchtest/share/mboxes/RFC-v2-9-9-oe-selftest--r-wic.Wic2-runqemu---PASS-mostly.patch
+Testing patch /home/patchtest/share/mboxes/RFC-v2-8-9-oe-selftest--r-wic.Wic2-non-runqemu---PASS.patch
 
 FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
