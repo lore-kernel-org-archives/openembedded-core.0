@@ -1,234 +1,128 @@
-Return-Path: <valentin.boudevin@gmail.com>
+Return-Path: <charles.embedded@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B93E7FDDC
-	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 21:08:29 +0000 (UTC)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1432.1770066500025799338
- for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 13:08:20 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fs250xLD;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: valentin.boudevin@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id d75a77b69052e-50151954d0bso2052131cf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 13:08:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770066499; x=1770671299; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sZdBkn29gWzeBKhf++n4nRAtrMGmyumUIcPf6D4vvkM=;
-        b=Fs250xLDvbc6c7euB+UvhtT3AE8bTNWMBAFEqq21Zv8klnkSE1QgAmGK55akwkfxbF
-         rFbrjfFyrn5iPejpJ+uKV2Mp+07UbCzNL/UYUruZYIfadrdzDD6Taj349znIXipQXeBg
-         lpBAz3eL35EIkQNZ78oeuoepxX13k+rH0lU1UKqbEb4whptx5BJQmDqC+xj5VwhizG88
-         RhWIjA1JJ8fhPXGdcNu7CGOJF7ffa6MbOURXF5FUnKfzfxjPqXG4D4rJHkionse44Fcb
-         kdTw6bdlcnuJQIAsqQS3vE/Eh9OIKfm2mjZqzv7bLzhQX9vz+o/b6+ahtOLfq3OyYgpP
-         c6yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770066499; x=1770671299;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sZdBkn29gWzeBKhf++n4nRAtrMGmyumUIcPf6D4vvkM=;
-        b=s4jKof7PocvJl9CTGNNLwFG3/Kwe6usFysnLz4elQb6sc1Wt5Jy4dNd6mqOS8D10Fy
-         QqpiDKSW+4XC96Ftj5LLJrdOvMHAOw52yPzVrMJMEYwlBbuScbumzja33ePTT797MxPA
-         Q20IMn/+mbQoJOQnHDIF6I3O3PuQY+bomdlxMYaOdYdjtdaJ+yDz5FYNyf4JeHyfIfNr
-         pkLcx1QPP40k7101N5CYOfZ4uAQ2wyd/6BsgRRrn8pPDTt3eISgHKFMDq1lDep5l7ZEV
-         P3kfyre0F2xuwT3dAxHt29ev2ccR0bS6rsCuxJmarDdM0++4BwwBTFSZy1wR/k3xBOUx
-         ugHQ==
-X-Gm-Message-State: AOJu0YxCxPcn87Dw6bxHeTe9ETMtC1PZhUtUtF557nKEsMuCit/ni9wx
-	ti1YCvDwywsmrWze5aRax5ywI7nHugiTNxwxbpWOJn7/nxHsi3h+Ixw+IFgRJd3WzkTjUA==
-X-Gm-Gg: AZuq6aIPVM91TBRaNtrbx9zcXwKxdJA+noRDXGYDRVvcMYm4kIUbUDqAPxr3Ty3X2Dy
-	LX3cqOhSWCe14EVdv24uQCIvUiiAoZ8jHNt/CNkxLWD1SIdTyxf2hd23QlvuVMT8aiLYFjMRwj9
-	vXiwSE+dHV67UmTzUpcUN0pEk223mLLOHcfME1khFEOPEqp//uzaq3kcTwAQKe5l9YVJdDiM3wL
-	hnAkj47ykfeRs+IJcrQLDigisyZAiJ5dm6iIYY4A24geRU3DV10E0ZtcX4l2OKhzyGljLiASFZD
-	QobCBTlXjb6XsuSiwYWqYN4z5qRoF+QSImLxZmIticggdybM4TOKU9hySY8AGQqQZ1mier+A6jI
-	HROxgSJzOrcWd+T9LOYA/UIssFbIV5Cvno/7cqXrFNmwRPhOSSl7aaXBhb83W1nHwk03ekdhSWN
-	K6f8o6jDc2HljDL1SjyFQBhV85z2vqrEYT+Q2lMLcUFTL7TkS8OPp3cWw=
-X-Received: by 2002:ac8:5d46:0:b0:4f1:ac43:8122 with SMTP id d75a77b69052e-505d2122b1emr145344861cf.1.1770066498872;
-        Mon, 02 Feb 2026 13:08:18 -0800 (PST)
-Received: from vboudevin-pc.mtl.sfl (mtl.savoirfairelinux.net. [208.88.110.46])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50337bb9a30sm117547431cf.23.2026.02.02.13.08.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 13:08:18 -0800 (PST)
-From: ValentinBoudevin <valentin.boudevin@gmail.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB2FE7FDF3
+	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 22:09:00 +0000 (UTC)
+Subject: Re: [PATCH] runqemu: parse QB_GRAPHICS for nographic flag
 To: openembedded-core@lists.openembedded.org
-Cc: daniel.turull@ericsson.com,
-	jerome.oufella@savoirfairelinux.com,
-	ValentinBoudevin <valentin.boudevin@gmail.com>
-Subject: [PATCH v6 2/2] improve_kernel_cve_report: Add a bbclass support
-Date: Mon,  2 Feb 2026 16:08:11 -0500
-Message-ID: <20260202210811.2136027-3-valentin.boudevin@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260202210811.2136027-1-valentin.boudevin@gmail.com>
-References: <188AFD4FCC1313A8.2683732@lists.openembedded.org>
- <20260202210811.2136027-1-valentin.boudevin@gmail.com>
+From: charles.embedded@gmail.com
+X-Originating-Location: =?UTF-8?B?Sm/Do28gUGVzc29hLCBQYXJhw61iYSwgQlI=?= (179.211.75.188)
+X-Originating-Platform: Linux Chrome 144
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 02 Feb 2026 14:08:50 -0800
+References: <20260131211111.1189479-1-charles.embedded@gmail.com> <CANNYZj82ZMXiNpFC4tihxgmcLJEJ143Jui+1KAaAXokrj-uYXw@mail.gmail.com>
+In-Reply-To: <CANNYZj82ZMXiNpFC4tihxgmcLJEJ143Jui+1KAaAXokrj-uYXw@mail.gmail.com>
+Message-ID: <496119.1770070130858397788@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="eEzvO4bwIX8drMs1jDGt"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 21:08:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230406
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 22:09:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230407
 
-The script improve_kernel_cve_report.py doesn't have a bbclass.
-It can be useful to have one to generate improved cve-check files at
-every run.
+--eEzvO4bwIX8drMs1jDGt
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This commit contains three classes:
+On Mon, Feb 2, 2026 at 12:58 PM, Alexander Kanavin wrote:
 
--improve_kernel_cve_report-base.bbclass: Base class which contains the
-tasks to perform improve_kernel_cve_report.py initialization and
-execution.
+>=20
+> I'm not sure specifying -nographic in a BSP layer via QB_GRAPHICS is
+> correct. QB_GRAPHICS is intended for what emulated hardware should be
+> present in the guest machine.
+>=20
+> -nographic is a host option that tells qemu what to do with the
+> graphical output (in case of -nographic, discard it). I don't think
+> it's up to the BSP layer to make that decision.
 
--improve_kernel_cve_report-spdx-2.2.bbclass: Set
-IMPROVE_KERNEL_SPDX_FILE variable for SPDX-2.2 builds and set
-IMPROVE_KERNEL_PREFERRED_PROVIDER to require "create-spdx-2.2" in
-INHERIT.
+Hi Alex,
 
--improve_kernel_cve_report-spdx-3.0.bbclass: Set
-IMPROVE_KERNEL_SPDX_FILE variable for SPDX-3.0 project, and set
-IMPROVE_KERNEL_PREFERRED_PROVIDER to "create-spdx" to requires it in
-INHERIT.
+Thanks for the feedback.
 
--improve_kernel_cve_report.bbclass: Include this class when you don't
-care what version of SPDX you get.
+In meta-zephyr/meta-zephyr-bsp/conf/machine/qemu-x86.conf are defined sever=
+al QEMU settings that are used to generate the.qemuboot.conf file during th=
+e image build (e.g. ${TMPDIR}/deploy/images/qemu-x86/zephyr-helloworld-qemu=
+-x86-20260201174846.elf).
 
-These three new .bbclass files can be used to generate a new output in
-tmp/deploy/images with a .scouted.json file in addition to the existing
-.json cve-check file.
+The expectation is that, based on the resulting.qemuboot.conf , running run=
+qemu should be sufficient to boot Zephyr and see the console output in the =
+terminal (no GUI required). However, in this case QB_GRAPHICS=3D"-nographic=
+" is ignored, and the generated QEMU invocation still selects a graphical d=
+isplay device, so the Zephyr output does not appear on the terminal as expe=
+cted. Please see the QEMU command:
 
-The new .scouted.json is based on the cve-check file and the SBOM to
-generate this improved cve-check file with extra entries found by the
-script improve_kernel_cve_report.py.
+/<path-to>/usr/bin/qemu-system-i386 -nic none -object rng-random,filename=
+=3D/dev/urandom,id=3Drng0 -device virtio-rng-pci,rng=3Drng0 =C2=A0 =C2=A0-m=
+achine type=3Dq35 -cpu qemu32,+nx,+pae =C2=A0-m 256 -serial mon:vc -serial =
+null -device virtio-vga =C2=A0-display sdl,show-cursor=3Don -nographic -mac=
+hine acpi=3Doff -kernel <path-to-build> /tmp/deploy/images/qemu-x86/zephyr-=
+helloworld-qemu-x86-20260201174846.elf -append ' =C2=A0mem=3D256M swiotlb=
+=3D0 '
 
-It only requires to use "inherit" on an image recipe (e.g. on
-core-image-minimal).
+So even though -nographic is present, QEMU is still invoked with -device vi=
+rtio-vga and -display sdl , and the serial is set to mon:vc.
 
-The bbclass "improve_kernel_cve_report-spdx-2.2.bbclass" can be used if
-"create-spdx-2.2" is configured in INHERIT, and "create-spdx" is
-removed.
+My intent with the patch is to ensure that when QB_GRAPHICS includes -nogra=
+phic , runqemu does not select a graphical display device and routes the se=
+rial console to the terminal (so the Zephyr log is visible as expected).
 
-INHERIT:remove = "create-spdx"
-INHERIT:append = " create-spdx-2.2"
+Please let me know if I'm not on the right track. Thank you!
 
-By default, projects use SPDX-3.0 and don't require any additional
-configuration.
+Charles Dias
 
-Signed-off-by: Valentin Boudevin <valentin.boudevin@gmail.com>
----
- .../improve_kernel_cve_report-base.bbclass    | 64 +++++++++++++++++++
- ...improve_kernel_cve_report-spdx-2.2.bbclass |  4 ++
- ...improve_kernel_cve_report-spdx-3.0.bbclass |  4 ++
- .../classes/improve_kernel_cve_report.bbclass |  3 +
- 4 files changed, 75 insertions(+)
- create mode 100644 meta/classes/improve_kernel_cve_report-base.bbclass
- create mode 100644 meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
- create mode 100644 meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass
- create mode 100644 meta/classes/improve_kernel_cve_report.bbclass
+--eEzvO4bwIX8drMs1jDGt
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes/improve_kernel_cve_report-base.bbclass b/meta/classes/improve_kernel_cve_report-base.bbclass
-new file mode 100644
-index 0000000000..8bc6000903
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report-base.bbclass
-@@ -0,0 +1,64 @@
-+# Settings for SPDX support
-+
-+# Setting to specify preferred provider for kernel SPDX file ("create-spdx" or "create-spdx-2.2")
-+IMPROVE_KERNEL_PREFERRED_PROVIDER ?= ""
-+# Setting to specify the path to the SPDX file to be used for extra kernel vulnerabilities scouting
-+IMPROVE_KERNEL_SPDX_FILE ?= ""
-+
-+python __anonymous() {
-+    if bb.data.inherits_class("create-spdx-2.2", d):
-+        if not d.getVar("IMPROVE_KERNEL_PREFERRED_PROVIDER") == "create-spdx-2.2":
-+            bb.fatal("improve_kernel_cve_report: IMPROVE_KERNEL_PREFERRED_PROVIDER is set to '%s', but 'create-spdx-2.2' class is inherited. Please check your configuration." % d.getVar("IMPROVE_KERNEL_PREFERRED_PROVIDER"))
-+        bb.build.addtask("do_scout_extra_kernel_vulns", "do_build", "do_rootfs", d)
-+    elif bb.data.inherits_class("create-spdx", d):
-+        if not d.getVar("IMPROVE_KERNEL_PREFERRED_PROVIDER") == "create-spdx":
-+            bb.fatal("improve_kernel_cve_report: IMPROVE_KERNEL_PREFERRED_PROVIDER is set to '%s', but 'create-spdx' class is inherited. Please check your configuration." % d.getVar("IMPROVE_KERNEL_PREFERRED_PROVIDER"))
-+        bb.build.addtask('do_scout_extra_kernel_vulns', 'do_build', 'do_create_image_sbom_spdx', d)
-+}
-+
-+python do_clean:append() {
-+    import os, glob
-+    deploy_dir = d.expand('${DEPLOY_DIR_IMAGE}')
-+    for f in glob.glob(os.path.join(deploy_dir, '*scouted.json')):
-+        bb.note("Removing " + f)
-+        os.remove(f)
-+}
-+
-+do_scout_extra_kernel_vulns() {
-+    new_cve_report_file="${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.scouted.json"
-+    improve_kernel_cve_script="${COREBASE}/scripts/contrib/improve_kernel_cve_report.py"
-+
-+    # Check that IMPROVE_KERNEL_SPDX_FILE is set and the file exists
-+    if [ -z "${IMPROVE_KERNEL_SPDX_FILE}" ] || [ ! -f "${IMPROVE_KERNEL_SPDX_FILE}" ]; then
-+        bbwarn "improve_kernel_cve: IMPROVE_KERNEL_SPDX_FILE is empty or file not found: ${IMPROVE_KERNEL_SPDX_FILE}"
-+        return 0
-+    fi
-+    if [ ! -f "${CVE_CHECK_MANIFEST_JSON}" ]; then
-+        bbwarn "improve_kernel_cve: CVE_CHECK file not found: ${CVE_CHECK_MANIFEST_JSON}. Skipping extra kernel vulnerabilities scouting."
-+        return 0
-+    fi
-+    if [ ! -f "${improve_kernel_cve_script}" ]; then
-+        bbwarn "improve_kernel_cve: improve_kernel_cve_report.py not found in ${COREBASE}."
-+        return 0
-+    fi
-+    if [ ! -d "${STAGING_DATADIR_NATIVE}/vulns-native" ]; then
-+        bbwarn "improve_kernel_cve: Vulnerabilities data not found in ${STAGING_DATADIR_NATIVE}/vulns-native."
-+        return 0
-+    fi
-+
-+    #Run the improve_kernel_cve_report.py script
-+    bbplain "improve_kernel_cve: Using SPDX file for extra kernel vulnerabilities scouting: ${IMPROVE_KERNEL_SPDX_FILE}"
-+    python3 "${improve_kernel_cve_script}" \
-+        --spdx "${IMPROVE_KERNEL_SPDX_FILE}" \
-+        --old-cve-report "${CVE_CHECK_MANIFEST_JSON}" \
-+        --new-cve-report "${new_cve_report_file}" \
-+        --datadir "${STAGING_DATADIR_NATIVE}/vulns-native"
-+    bbplain "Improve CVE report with extra kernel cves: ${new_cve_report_file}"
-+
-+    #Create a symlink as every other JSON file in tmp/deploy/images
-+    ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.scouted.json ${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}.scouted.json
-+}
-+do_scout_extra_kernel_vulns[depends] += "vulns-native:do_populate_sysroot"
-+do_scout_extra_kernel_vulns[nostamp] = "1"
-+do_scout_extra_kernel_vulns[doc] = "Scout extra kernel vulnerabilities and create a new enhanced version of the cve_check file in the deploy directory"
-+addtask scout_extra_kernel_vulnsate_cve_exclusions after do_prepare_recipe_sysroot
-\ No newline at end of file
-diff --git a/meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass b/meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
-new file mode 100644
-index 0000000000..45b483134d
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report-spdx-2.2.bbclass
-@@ -0,0 +1,4 @@
-+IMPROVE_KERNEL_PREFERRED_PROVIDER = "create-spdx-2.2"
-+IMPROVE_KERNEL_SPDX_FILE = "${DEPLOY_DIR}/spdx/2.2/${@d.getVar('MACHINE').replace('-', '_')}/recipes/recipe-${PREFERRED_PROVIDER_virtual/kernel}.spdx.json"
-+
-+inherit improve_kernel_cve_report-base
-\ No newline at end of file
-diff --git a/meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass b/meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass
-new file mode 100644
-index 0000000000..3849f66aaf
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report-spdx-3.0.bbclass
-@@ -0,0 +1,4 @@
-+IMPROVE_KERNEL_PREFERRED_PROVIDER = "create-spdx"
-+IMPROVE_KERNEL_SPDX_FILE = "${SPDXIMAGEDEPLOYDIR}/${IMAGE_LINK_NAME}.spdx.json"
-+
-+inherit improve_kernel_cve_report-base
-\ No newline at end of file
-diff --git a/meta/classes/improve_kernel_cve_report.bbclass b/meta/classes/improve_kernel_cve_report.bbclass
-new file mode 100644
-index 0000000000..7b237d1e22
---- /dev/null
-+++ b/meta/classes/improve_kernel_cve_report.bbclass
-@@ -0,0 +1,3 @@
-+# Include this class when you don't care what version of SPDX you get; it will
-+# be updated to the latest stable version that is supported
-+inherit improve_kernel_cve_report-spdx-3.0
-\ No newline at end of file
+<div>On Mon, Feb 2, 2026 at 12:58 PM, Alexander Kanavin wrote:</div>
+<div>
+<blockquote>I'm not sure specifying -nographic in a BSP layer via QB_GRAPHI=
+CS is<br />correct. QB_GRAPHICS is intended for what emulated hardware shou=
+ld be<br />present in the guest machine.<br /><br />-nographic is a host op=
+tion that tells qemu what to do with the<br />graphical output (in case of =
+-nographic, discard it). I don't think<br />it's up to the BSP layer to mak=
+e that decision.</blockquote>
+<div>Hi Alex,</div>
+<div>&nbsp;</div>
+<div>Thanks for the feedback.</div>
+<div>&nbsp;</div>
+<div>In <em>meta-zephyr/meta-zephyr-bsp/conf/machine/qemu-x86.conf</em>&nbs=
+p; are defined several QEMU settings that are used to generate the <em>.qem=
+uboot.conf</em> file during the image build (e.g. <em>${TMPDIR}/deploy/imag=
+es/qemu-x86/zephyr-helloworld-qemu-x86-20260201174846.elf)</em>.</div>
+<div>&nbsp;</div>
+<div>The expectation is that, based on the resulting <em>.qemuboot.conf</em=
+>, running <em>runqemu</em> should be sufficient to boot Zephyr and see the=
+ console output in the terminal (no GUI required). However, in this case QB=
+_GRAPHICS=3D"-nographic" is ignored, and the generated QEMU invocation stil=
+l selects a graphical display device, so the Zephyr output does not appear =
+on the terminal as expected. Please see the QEMU command:</div>
+<div>&nbsp;</div>
+<div>/&lt;path-to&gt;/usr/bin/qemu-system-i386 -nic none -object rng-random=
+,filename=3D/dev/urandom,id=3Drng0 -device virtio-rng-pci,rng=3Drng0 &nbsp;=
+ &nbsp;-machine type=3Dq35 -cpu qemu32,+nx,+pae &nbsp;-m 256 -serial mon:vc=
+ -serial null -device virtio-vga &nbsp;-display sdl,show-cursor=3Don -nogra=
+phic -machine acpi=3Doff -kernel <em>&lt;path-to-build&gt;</em>/tmp/deploy/=
+images/qemu-x86/zephyr-helloworld-qemu-x86-20260201174846.elf -append ' &nb=
+sp;mem=3D256M swiotlb=3D0 '</div>
+<div>&nbsp;</div>
+<div>
+<div>So even though <em>-nographic</em> is present, QEMU is still invoked w=
+ith <em>-device virtio-vga and -display sdl</em>, and the serial is set to =
+<em>mon:vc.</em></div>
+<div>&nbsp;</div>
+<div>My intent with the patch is to ensure that when QB_GRAPHICS includes <=
+em>-nographic</em>, <em>runqemu</em> does not select a graphical display de=
+vice and routes the serial console to the terminal (so the Zephyr log is vi=
+sible as expected).</div>
+<div>&nbsp;</div>
+<div>Please let me know if I'm not on the right track. Thank you!</div>
+<div>&nbsp;</div>
+<div>Charles Dias</div>
+</div>
+</div>
+
+--eEzvO4bwIX8drMs1jDGt--
 
