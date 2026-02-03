@@ -1,148 +1,254 @@
-Return-Path: <samuli.piippo@gmail.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9BE0E8784C
-	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 16:57:06 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21683.1770137821723378451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FDCE8784D
+	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 17:02:36 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21868.1770138146269208804
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Feb 2026 08:57:02 -0800
+ Tue, 03 Feb 2026 09:02:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hokEyeg8;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65832e566edso8086127a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 08:57:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770137820; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Vy3DYMM09TyU0iRGAV6LimCJjlzVsKUI9CKXmn3AUPh8B0tuD2yFQt1WeAmCvy7s1u
-         +c1lLVEswLpBXRST8VL/vWC/xmPF6yQanUtDGvCEj/Clh9BEGKRJmT4qTa2X4tNyaHts
-         uHoSh1JLXQg+JI2QtsRMeiWVKBuaAr6A56lrqBZjLmcHPcWWVUqoClqUtSCNjs0Keu1f
-         ayjh6bhNpcRZejOotDqqa0kEosecVc0NWzzazOjfJFJt0E52uEBpB9tXjn8aLkyVNz5U
-         dLwKW7PvpvKEfQO9Q+JQ0Uz0JrabPg88aM/MwROFysFhRg9mMH/QCUQALneqKLksQMQh
-         Xd0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1tynsBKV7XiDP622nNZ/OBQnULwTN/BaxjeJqWklix4=;
-        fh=toEqJZwqRVBtWFdjvbnHcK/jgjDz0NeahqiJS/bEzeo=;
-        b=g24dI7vnnM3hpIykKoQMFLl/QlYtnuI/nKp/0Dx4d50qNiJ30RNpQEaOnV0L+EHc8k
-         sQ4WbZWVqfZ7W11rimvd2/joxJG8nr1vWYEyu83zhDr4tMaiuReCLyJcx+PvDxYVXhpe
-         kWZPXpDLLNUAMjfXrT5yxs4pDC2ErmbaSU6NSCmtZAPSBpVCcgWcTlqKkj9XuiCg+ZIV
-         2cPiuk8mxPOcvqqUjK5zkMSqo9klHupMWAiLNcbWTIDOEmtQkDUduNsC2sHJsc4A/E2e
-         Cv/yl9FdKTvbv+W9/MpxeLAQzIK+xj2ngvphgngb6kbU0h3kA0HMIw7f7CiMZXwaAOOy
-         Y1xA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770137820; x=1770742620; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1tynsBKV7XiDP622nNZ/OBQnULwTN/BaxjeJqWklix4=;
-        b=hokEyeg85yti84bKA5dkO9P5O3sbd6ziNKpqQg3fpd3yyJkY5KMEnGdo4/8E6Q7Krj
-         sQvv7Y1k59mMXALdcdg+huTZk8HX+9loERvgyoSZu1c+ZpKo7gDfzZowtm+0tsGLzKfk
-         3vja06Dr/0fU4Eg88WQTHOlCk5Vv0aogtj1v2B3MRXwUtpqN2k8+NnRYsa9tG30R4aDq
-         Tg7I69EUvAB/uVmiUjSYrsSL7j5+pza6PfsHU1VPJynDPaItNabqxrwthK1MGNsn75Gs
-         wtwNCS6w9uqLWpJJzkhvjeKaiizS/oiS3UBpv7Rc19wyw1pOerMIDJHz+mhLGh47lHkE
-         G28g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770137820; x=1770742620;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1tynsBKV7XiDP622nNZ/OBQnULwTN/BaxjeJqWklix4=;
-        b=pte+FbVUpt0aQBMYBa5DK2N7iMvFPutdKhvNDLD+qfQd2nOzstUQ4gdt0QA/VyeADd
-         mkeICNxhmWfdu8tf3fXcdIOUCl31s6lc7XFYM0bnQJ+3aGL57uz3KyhXp4p7m6+8/aHT
-         qTNox//DdIp6jws7cqdxjq673JRJ02jNfjzSpNprO2s+SedQwLh7V9LtUu+v2vbL0Vpz
-         HwPOK8cHCD+HgC6VFQIn6HH91P33VDnx2HE7pBXDvFwrxtpvVL7raj3HfQRS7jwJ4BWq
-         Lu0eSwJmXViUpKEV/VpQIWmD7iG+2DIwYBul8r14cFNYrWZfzuW/r+Uy9/YuFrP1/Ejr
-         R8bw==
-X-Gm-Message-State: AOJu0YwuQ4QYfN3dXf4zCQ980OoEGcf2+biXaWHzfsqRqga3JgyzL3d9
-	65fELqlhe05xuvawyVMMrLU5I+42ahDoPWhjAL6HfNZhL7lUeH0HS30aRWjrKZ4y+7hONnVpVzV
-	Pe7iRXIQiW1ses8h4uEZr88wV5mhk0Zc=
-X-Gm-Gg: AZuq6aKlH0ThDqJrAIKlqEgdmoy3pX4gzDbHIHDWobw7PS0JhLznd6y5GW6ZcVS4sl/
-	0COv8DeBD1jHc0uJLG3Qkw1B0NGkVmg7r+cq+4MQwtqmdM2K1L2ZDWRxWshj++t2ZXhAeqB/K2A
-	qrxrzV9TV08/SdfbST1gyQ1GWbfsfk2RVk+f4BlktMhXiyx5QXNkBrXoC8Rz4Z8dhy+adpnAh6N
-	S4v9tqwJ/ZImEQ/EwrlT8hE7EqM2aGgWom/F3ZSI4Q1vapUsXZqsgMp3hB72ejidRXXpA==
-X-Received: by 2002:a17:907:3fa4:b0:b88:73ea:a1d5 with SMTP id
- a640c23a62f3a-b8e9f4363e3mr9051466b.51.1770137819645; Tue, 03 Feb 2026
- 08:56:59 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=naI39NpU;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: thomas.perrot@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 207214E423CC
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Feb 2026 17:02:24 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D988960728;
+	Tue,  3 Feb 2026 17:02:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 61406119A88EE;
+	Tue,  3 Feb 2026 18:02:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1770138140; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references:autocrypt;
+	bh=brMY7pcFmsTq1Kq7/VJbspaY6yX2P0fIZrUf04+g3aU=;
+	b=naI39NpUdOOi0enrUmgyopDZODe/HCgGI3TDhtWwN/wNcpDXr2qeMZzdjD9Iw77klvoX9e
+	HloOrk5xGLuzGLVg6IxnPh08QaqSe0lzwfcG0ALslZw/L7wqND2yAzaXtGh2fXHrZWMGh7
+	bWfiUPrRRkYIk39V9m+YUPLVEh8qOkRqxAOOOVNLpJcZNvYokdd6XNzYaFbukjY5o/NBmU
+	lgY7oMwg9pRO7cITkNb7+Uz66dXDxz+TbhT8ZX5rNjDWk58OBmQCdCFyqf4tyQ99UOQ01Y
+	uGoUns7CBwHJYQnJK95FxQ14fj4KeaP2tQlcEqUE15vKXltUVnpjBVpn+TgrJA==
+Message-ID: <60a0590f584c498d5fff88f016c2bd9d0df864b2.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] opensbi: force gcc toolchain
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: raj.khem@gmail.com
+Cc: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org, 
+	thomas.petazzoni@bootlin.com
+Date: Tue, 03 Feb 2026 18:02:17 +0100
+In-Reply-To: <CAMKF1sqD8T-5g8S2nhDEivcg84U0Kw3GjnAs_0qDqKqy13_Q1A@mail.gmail.com>
+References: <20260122153050.341395-1-thomas.perrot@bootlin.com>
+	 <CAMKF1sqD8T-5g8S2nhDEivcg84U0Kw3GjnAs_0qDqKqy13_Q1A@mail.gmail.com>
+Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
+ keydata=mQGNBF+/ZOUBDAC2DghCjZvmgYcve02OG7dGZ7Iy58uEwne3LB7w7nRwdAxKw7ZaiVqwY
+ O+yNGVi+GVx7oA6Wn4pv46z+QDRLQiq6OseuXhkSGCg7U/yBCUq12B/GRGO1Qt2Qi1mJJT1s+1qZ5
+ Gxv6Nypz9qKVn94GM2bR1hXBga0t87vBpebThOHmX5d/0dqIcVxRCM7onNb0dDyRoVgLS5rBhQzrL
+ CMrJaCy39xZUy0J1SOlH4Mgk6EhJIPYY4wlzikGX6urg+Tc9EjGd78ry0e0p5U5qgjFR5QGJDy1Gn
+ U3CfwbT9sowdCASDbQDUoltlv2iWJCLa0xl97KVchCa0pr7HKbFA3J5SLKqFYUBCkFL+5WudYlz2n
+ XxiUgyviMQxyK+ij66kEi6/2zFDAecd43pHV7790ptqZBC3Jc67Emj7Vo3ShX6RXPPxxbeCTOF2uk
+ I45aJ9XcVFH/MFE96NjXj8uahnIsiTPyuCUoJu8tj7TSQyue874qJqVQvqlFyt2aZYJZ8ruq8AEQE
+ AAbQpVGhvbWFzIFBlcnJvdCA8dGhvbWFzLnBlcnJvdEBib290bGluLmNvbT6JAc4EEwEIADgCGwMF
+ CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSHQHfGpqMKIwOoEiGfwAsFcf4K7QUCX79mdwAKCRCfw
+ AsFcf4K7fhbC/wP0kSl6id2E/K3+UdXk6CLMVRbCFLCREzQs5WFpQ6l/I0WGOamhrOgegdszheiVF
+ orlUP8d37XSpFAqydhKGaN78V5Dps0Wmwm4lIlS4MtQXJtSLUHXDJLIZLW0pw8tiPLKsd1o/yDkXE
+ dnpsjJTRG6SdDSHnyOB2/gh4p+yTaLytFdARk/r4/P26+L+FiH0fFl+RnBt19LPklfKgeDc7GwIif
+ ja+nIWpp3W23DAUuI6xduEut25Q89yu7Ci8CliLfAiLy9bIGjBQWU2Y+1/j/7KuPj6VbBsZWLTZY0
+ hUmpJSTnWAqc9SMsNxo7NSQuddgviz5e2tqucaRqxP02FGzNa8U4NAKdWaXrlHG5Dglj9XH0DK+SH
+ +c96qqFewYD8VPQ6XAGxQcXbrtJmiMor1R2DfziispLRvJcfYs8xqabbCtoS3ouXB9XRi8hn7A2kh
+ ME1ryS+Oh63JshXHnw6bmjCpVd/p+fGLIGU6A47pJOpviKR4jEO84pl2ejtDZ3Tc=
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-ag6Upqw5pAqSy1wErOxN"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 MIME-Version: 1.0
-References: <20260203143434.3117764-1-samuli.piippo@qt.io> <CANNYZj_WD666FjyPdrrrWCGqsSb+cgLen+y2K8rD-Vhx-UcpYg@mail.gmail.com>
-In-Reply-To: <CANNYZj_WD666FjyPdrrrWCGqsSb+cgLen+y2K8rD-Vhx-UcpYg@mail.gmail.com>
-From: Samuli Piippo <samuli.piippo@gmail.com>
-Date: Tue, 3 Feb 2026 18:56:48 +0200
-X-Gm-Features: AZwV_Qhw7AXGR-8XYvgdEkgBccTk-lCVcLE86biJVsLeD0UQBM_Gtp_g7NrmzBo
-Message-ID: <CABXoSoVRGebfQDmN8Sc2X7v93gbxkZ7dY5u8tXLdPGfFs-MBYA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oe/utils: filter license packages
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f1893f0649ee530f"
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 16:57:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230464
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 17:02:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230465
 
---000000000000f1893f0649ee530f
+
+--=-ag6Upqw5pAqSy1wErOxN
+Content-Type: multipart/alternative; boundary="=-n/2v4jN/Ql/IrqmzHDDm"
+
+--=-n/2v4jN/Ql/IrqmzHDDm
 Content-Type: text/plain; charset="UTF-8"
-
-The function is used at least in PACKAGESPLITFUNCS to filter out all the
-system packages
-and then settings rdepends/recommends/etc for the remaining dynamic
-packages.
-Without this commit, the *-lic license package gets pulled in
-unintentionally.
-
--samuli
-
-On Tue, 3 Feb 2026 at 18:25, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Tue, 3 Feb 2026 at 15:34, Samuli Piippo via lists.openembedded.org
-> <samuli.piippo=gmail.com@lists.openembedded.org> wrote:
-> > Make packages_filter_out_system() filter out also the
-> > license (-lic) packages.
->
-> Why? What does the function do, and where is it used?
->
-> Yes, it's possible to spend time, read the code, and find the answers,
-> but you would really help the review by writing those things into the
-> commit message.
->
-> Alex
->
-
---000000000000f1893f0649ee530f
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>The function is used at least in=C2=A0PACKAGESPLITFUN=
-CS to filter out all the system packages=C2=A0</div><div>and then settings =
-rdepends/recommends/etc for the remaining dynamic packages.</div><div>Witho=
-ut this commit, the *-lic license package gets pulled in unintentionally.</=
-div><div><br></div><div>-samuli</div></div><br><div class=3D"gmail_quote gm=
-ail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 3 Feb 20=
-26 at 18:25, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com=
-">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On Tue, 3 Feb 2026 at 15:34, Samuli Piippo via <a h=
-ref=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">=
-lists.openembedded.org</a><br>
-&lt;samuli.piippo=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" tar=
-get=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; Make packages_filter_out_system() filter out also the<br>
-&gt; license (-lic) packages.<br>
-<br>
-Why? What does the function do, and where is it used?<br>
-<br>
-Yes, it&#39;s possible to spend time, read the code, and find the answers,<=
-br>
-but you would really help the review by writing those things into the<br>
-commit message.<br>
-<br>
-Alex<br>
-</blockquote></div>
+Hello Khem,
 
---000000000000f1893f0649ee530f--
+On Thu, 2026-01-22 at 09:19 -0800, Khem Raj via lists.openembedded.org
+wrote:
+>=20
+>=20
+> On Thu, Jan 22, 2026 at 7:31=E2=80=AFAM Thomas Perrot via
+> lists.openembedded.org
+> <thomas.perrot=3Dbootlin.com@lists.openembedded.org> wrote:
+> > From: Thomas Perrot <thomas.perrot@bootlin.com>
+> >=20
+> > OpenSBI requires the gcc toolchain to build correctly. Set
+> > TOOLCHAIN
+> > explicitly to prevent build failures when using alternative
+> > toolchains.
+> >=20
+>=20
+>=20
+> I am assuming you are having issues compiling it with clang, it would
+> be good to document whats=C2=A0going wrong.
+> Since it's a bug to address, openSBI does not intend to use a
+> particular compiler.
+> =C2=A0
+
+We are figuring out the linker issue when Clang is used as the default
+toolchain. We haven't taken the time to figure it out yet.
+
+Kind regards,
+Thomas Perrot
+
+> >=20
+> > Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> > ---
+> > =C2=A0meta/recipes-bsp/opensbi/opensbi_1.8.1.bb | 2 ++
+> > =C2=A01 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
+> > b/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
+> > index 0a9652c2831e..52d7b38ff2ba 100644
+> > --- a/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
+> > +++ b/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
+> > @@ -15,6 +15,8 @@ TARGET_DBGSRC_DIR =3D
+> > "/share/opensbi/*/generic/firmware/"
+> >=20
+> > =C2=A0TARGET_CC_ARCH +=3D "${LDFLAGS}"
+> >=20
+> > +TOOLCHAIN =3D "gcc"
+> > +
+> > =C2=A0RISCV_SBI_FW_TEXT_START ??=3D "0x80000000"
+> > =C2=A0EXTRA_OEMAKE +=3D "REPRODUCIBLE=3Dy CROSS_COMPILE=3D${HOST_PREFIX=
+}
+> > ELFFLAGS=3D"${LDFLAGS}" PLATFORM=3D${RISCV_SBI_PLAT} I=3D${D}
+> > FW_TEXT_START=3D${RISCV_SBI_FW_TEXT_START}"
+> > =C2=A0EXTRA_OEMAKE:append:toolchain-clang =3D " LLVM=3Dy"
+> >=20
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#229853):
+> > https://lists.openembedded.org/g/openembedded-core/message/229853
+> > Mute This Topic:
+> > https://lists.openembedded.org/mt/117401535/5443093
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> > thomas.perrot@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >=20
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--=-n/2v4jN/Ql/IrqmzHDDm
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>Hello Khem,</div><div><br></div><div>On Thu, 2026=
+-01-22 at 09:19 -0800, Khem Raj via lists.openembedded.org wrote:</div><blo=
+ckquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf s=
+olid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div=
+ class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Thu, Jan 22, 2026 at 7:31=E2=80=AFAM Thomas Perrot via <a href=
+=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;thomas.pe=
+rrot=3D<a href=3D"mailto:bootlin.com@lists.openembedded.org">bootlin.com@li=
+sts.openembedded.org</a>&gt; wrote:<br></div><blockquote type=3D"cite" styl=
+e=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><di=
+v>From: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@bootlin.com" targ=
+et=3D"_blank">thomas.perrot@bootlin.com</a>&gt;<br></div><div><br>OpenSBI r=
+equires the gcc toolchain to build correctly. Set TOOLCHAIN<br>explicitly t=
+o prevent build failures when using alternative<br>toolchains.<br></div><br=
+></blockquote><div><br></div><div>I am assuming you are having issues compi=
+ling it with clang, it would be good to document whats&nbsp;going wrong.</d=
+iv><div>Since it's a bug to address, openSBI does not intend to use a parti=
+cular compiler.</div><div>&nbsp;</div></div></div></blockquote><div><br></d=
+iv><div><div>We are figuring out the linker issue when Clang is used as the=
+ default=20
+toolchain. We haven't taken the time to figure it out yet.</div></div><div>=
+<br></div><div>Kind regards,<br>Thomas Perrot</div><div><br></div><blockquo=
+te type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;=
+padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_co=
+ntainer"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:=
+2px #729fcf solid;padding-left:1ex"><div><br>Signed-off-by: Thomas Perrot &=
+lt;<a href=3D"mailto:thomas.perrot@bootlin.com" target=3D"_blank">thomas.pe=
+rrot@bootlin.com</a>&gt;<br>---<br>&nbsp;meta/recipes-bsp/opensbi/<a href=
+=3D"http://opensbi_1.8.1.bb" rel=3D"noreferrer" target=3D"_blank">opensbi_1=
+.8.1.bb</a> | 2 ++<br>&nbsp;1 file changed, 2 insertions(+)<br></div><div><=
+br>diff --git a/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.8.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">opensbi_1.8.1.bb</a> b/meta/recipes-=
+bsp/opensbi/<a href=3D"http://opensbi_1.8.1.bb" rel=3D"noreferrer" target=
+=3D"_blank">opensbi_1.8.1.bb</a><br>index 0a9652c2831e..52d7b38ff2ba 100644=
+<br>--- a/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.8.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">opensbi_1.8.1.bb</a><br>+++ b/meta/recipe=
+s-bsp/opensbi/<a href=3D"http://opensbi_1.8.1.bb" rel=3D"noreferrer" target=
+=3D"_blank">opensbi_1.8.1.bb</a><br>@@ -15,6 +15,8 @@ TARGET_DBGSRC_DIR =3D=
+ "/share/opensbi/*/generic/firmware/"<br></div><div><br>&nbsp;TARGET_CC_ARC=
+H +=3D "${LDFLAGS}"<br></div><div><br>+TOOLCHAIN =3D "gcc"<br>+<br>&nbsp;RI=
+SCV_SBI_FW_TEXT_START ??=3D "0x80000000"<br>&nbsp;EXTRA_OEMAKE +=3D "REPROD=
+UCIBLE=3Dy CROSS_COMPILE=3D${HOST_PREFIX} ELFFLAGS=3D"${LDFLAGS}" PLATFORM=
+=3D${RISCV_SBI_PLAT} I=3D${D} FW_TEXT_START=3D${RISCV_SBI_FW_TEXT_START}"<b=
+r>&nbsp;EXTRA_OEMAKE:append:toolchain-clang =3D " LLVM=3Dy"<br></div><div><=
+br></div><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br></div><div>L=
+inks: You receive all messages sent to this group.<br></div><div>View/Reply=
+ Online (#229853): <a href=3D"https://lists.openembedded.org/g/openembedded=
+-core/message/229853">https://lists.openembedded.org/g/openembedded-core/me=
+ssage/229853</a><br></div><div>Mute This Topic: <a href=3D"https://lists.op=
+enembedded.org/mt/117401535/5443093">https://lists.openembedded.org/mt/1174=
+01535/5443093</a><br></div><div>Group Owner: <a href=3D"mailto:openembedded=
+-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembed=
+ded.org</a><br></div><div>Unsubscribe: <a href=3D"https://lists.openembedde=
+d.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembed=
+ded-core/unsub</a>&nbsp;[<a href=3D"mailto:thomas.perrot@bootlin.com">thoma=
+s.perrot@bootlin.com</a>]<br></div><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
+=3D-=3D-=3D-<br></div><div><br></div></blockquote></div></div></blockquote>=
+<div><br></div><div><span><pre>-- <br></pre><pre>Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+</pre></span></div></body></html>
+
+--=-n/2v4jN/Ql/IrqmzHDDm--
+
+--=-ag6Upqw5pAqSy1wErOxN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmmCKhkACgkQn8ALBXH+
+Cu1ofQv/ZtC0RjsHwPYdcolw+8K0pK/zodN+LAqlyEJB5w9GK8LIJJZtWFCFVu8t
+xC1oSuTspCRNJqcLU+Aqt0uuIpnrDh/NKU2mJ1Tpg1gWBAUNe/cB+WytQhhFEIPG
+kFLv7pg8u969cTF4NpM6QVmm5bqr6Gcxteq6XNrn2LqCFMcHt8KIuQx6mXbgXnO0
+8UBskySa+aSUC7NOfmDSuOnGEVNLwqfTAQY9wCoZaS2f4SsRJLHKAdnQxuy9DzSJ
+oqSjXbiBsqLi9LWMu2bHdVV7zl8WVtK8jig9jS1b8U/nCVD4mzrXoi+1SmV4OFHi
+Q+n3QR02Lx8bT6k8oodFfwvjbWpsNCiGV+YuGnqy+1KoS5+nGg5Xud1ZHORepmXe
+cQN3usoziIABsrIVmJQfCeT5osdJFKSUFY9d0H/xSUxTOHBaUV4h2l3fbC2yRhql
+rpQldjkzyPh+D4myJif0qMkWNe7AoW983v4TTC9+Bx09PXKqfcADlSYDSPt/XpNY
+IdWRx3Rz
+=7WxZ
+-----END PGP SIGNATURE-----
+
+--=-ag6Upqw5pAqSy1wErOxN--
 
