@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDC3E6E7EE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD61E6E7E9
 	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 10:19:34 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13361.1770113973836815209
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13357.1770113969948277337
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Feb 2026 02:19:34 -0800
+ Tue, 03 Feb 2026 02:19:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=BPqSexud;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so3456661f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 02:19:33 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=t5fKdf3X;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43615d9c507so167411f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 02:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770113972; x=1770718772; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770113968; x=1770718768; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XhJ4yY5BJPf0KFv5k+0mGLtSCNE4wpH75EyXvlNaoL8=;
-        b=BPqSexudd/PmwaQy6fD3KVJts/vx1L0IbJcScHxOH0qGi+LFoglcMQOKZeaxTJZEsn
-         VvhFcOmJ0h12xwUF9dzH8R5Ej3loppu/45BtdpMfUc+2IaBkBwru6Ci4zIF1eEcfElqX
-         7qZfQN8r+JYu8uYHqr4Mb/6bYfLZHUVNhaEaQ=
+        bh=Cci+XdPd5TXzBJ7WTfZGi6s8ulHOjrzOjlw31HCfIJo=;
+        b=t5fKdf3Xftdo+iCCBpLdJbsrj0x2drJMqajsiG3yGGLVZgzFdNUtPQmCIpjxl5z25I
+         GAGIVKvzF28Ji+m8Zlg5MwdCtY1ooCo93RxI4TsBGr56vPUr0XbCrGy04pq3jASqgZPA
+         /hb3Z4uSNVH4eRrmm5eJZI3YiDyAezDrh8cec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770113972; x=1770718772;
+        d=1e100.net; s=20230601; t=1770113968; x=1770718768;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XhJ4yY5BJPf0KFv5k+0mGLtSCNE4wpH75EyXvlNaoL8=;
-        b=UvQImt3RUFqn/4TpxDp8sNWPq+QA0lMWViW6d89b4L5xDw/v6tKHRTnMJbEBcehizE
-         kb/ik7dg9uSCorg+PeJdiSmCOifbcq03KV7iq18GlfiaF/NBzk7RVu+JCrdwXeoAh2Cb
-         4FQrF4Sv8hZgIaoHI3vPBzs8TxvL9IqAwSLXd9Mg1xuhXPgRA7CzluxJiHvZHjKUysi1
-         ZbkbUw728ekwKAtPrxHbXlRevNs0nCjCcCRixymgsBJZ4Pf5avaeTgbUWKQhvpXPN74d
-         7kRJcNUQQUWnMToIwostfDn5QuHLaElavKdtepeQiEvopVMMCDa4IF2/f6yarFueH94S
-         rREA==
-X-Gm-Message-State: AOJu0YwbtxaC+RJaYBrjD2C0nmJnlgL3NJAsC0kPFCGmyn+2SxtCSbSx
-	SbvN/xyxL7rkRm5sqKcgIFbAIZI8jIfEDV7NkaXJweDqWz8eY+G447LpqAgkHO4beipd61by+pz
-	tZcCX1ks=
-X-Gm-Gg: AZuq6aIhgO82j/2s+mdggLe/VsdehBfWaEXsUKKz+dclKfsnHKHmB9g6QDk84CiIaO2
-	WB7BB/7GzsVcKAqH7N50LXfUTGKsAzydQs/9XYTpnnHvAmgPfDwVSdjBI7E7Ju7O0b6g7j6VHug
-	VzEqS2BBTZKt0dhYn+uI02z3/wKIIvWrIi2O8cLVOxOsPFOqPL+KS/+amCyKKGEUuTUOjAM9meG
-	IDkXeQjKftpNULRuhrhto+94HmhxEfurbQi2YyNSFO+weC0/0kBtrre63GqyKWA6R8kF96W40Lh
-	aKrOriaD4bO1syzG5/LNBdc5S4HqS8h0AG44S37jB+u7dAHCkkL31CWq6aT7Zx8pcGnSpDjYC0H
-	skDer4KQ5yrl+4nc1zEEG0Ee3jTseD4+6a/xasSaAjeUmD9S4v0/tcLdSAnsDoW2T77quhrwWt9
-	G8MpVUGahOHOYVQjDyF4qTx8Gzc+xzUkP9FDW53CkhtcTrFijuZ9/rtIbNMbeHcPtB7SbfdSinv
-	ykLiL2yvqI4dv07wcQuAk8OUg==
-X-Received: by 2002:a5d:5d13:0:b0:42f:b707:56e6 with SMTP id ffacd0b85a97d-435f3aaa6a0mr21027011f8f.34.1770113971974;
-        Tue, 03 Feb 2026 02:19:31 -0800 (PST)
+        bh=Cci+XdPd5TXzBJ7WTfZGi6s8ulHOjrzOjlw31HCfIJo=;
+        b=LFrKARzEWSNiWJ6JDfugO7fk6zQHcaW0/m78MBNkQr/3wRIlYfJxgktPgaewsKUHhW
+         OjNIjXUZIhjo6fl35r3qRxVbgYEzEkVcqM3X0sfxkilR4kQc2PqIE1KzdmgeAHOyoddR
+         eoA9zNTZDTj8JfG2tW+SasufdtTP4kt5+t09FooLaUipkrsa1YGS668C/6QIkqsXPiSr
+         nqCXGjlDKs7EJsnPHo4YWItpyWJk3tdedcq1D7PysipNLKjc7GZMZ2oJe80FH7AOrkWt
+         xF9Nahydl0ujsDUHezwT2/141tCKPE8StgBiczhFiSTR3L58tohTK+xoadjthlpwRPnl
+         8/SQ==
+X-Gm-Message-State: AOJu0Yw32M3SvrDHdUgmhc1sNcOnUKh2Z/fewHF88kuOuZN5c/6dM/vb
+	MN9u1QjSJr0dBv/GZOheXcboPnn8leA3acc6yDlyJkYqgUvaD9KtuEevk36TuWHG41B6oKPHH+w
+	P2xyf/k4=
+X-Gm-Gg: AZuq6aJFoPm6EIL+maGS2f+Lv5cgo+PCDMO3l42rePOC4ou1jTOl7AaEVWqaSYw9Wlg
+	TGvsJpzAan4uNtu4Hs274e3GjHFemYLXxLpO8EH8Z4JNCuz4wPCzP1wdVPOfbU0LVsP/DkFY40/
+	8JRYwmweTR9RggsqwxjxgdMJDC0oFml7+PI/zk7MFlER+uplaGX6bkd/wodBmhlxL96NcrQPDJH
+	fce9NCmo0JLO0xYXzoY36MQAvk6c4I3SHyrOEzsdwYRPN8VoyHrnDNUhozWfaH4elv7ivS+8v+G
+	+jroOO9twXuuqSmYwDsrRuBFE+BZc/5jE/wtBcrxqtCinrbeLYW5NDvomYFkmsGA0RZB5jDzOru
+	6G8FiHMSOSTHZd/BLsJYHQjDHzN0xEDv2TIFTCvZzVKWgCQ6JphtL2RS0D8sb8aoRiZNHZ3Xbr8
+	fkbYTon6hvMxUlt+eJO/kbbe1gahApEwv6BjFpjC3TL7lHnF6ZDkmOsdFwTJ53dZ4HxijqQOtCC
+	yT13easUVld2iE=
+X-Received: by 2002:a05:600c:4e56:b0:480:1b1a:551d with SMTP id 5b1f17b1804b1-482db47cf43mr183433795e9.18.1770113967781;
+        Tue, 03 Feb 2026 02:19:27 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm52293041f8f.27.2026.02.03.02.19.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm52293041f8f.27.2026.02.03.02.19.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 02:19:31 -0800 (PST)
+        Tue, 03 Feb 2026 02:19:27 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 15/22] libpng: upgrade 1.6.53 -> 1.6.54
-Date: Tue,  3 Feb 2026 11:16:44 +0100
-Message-ID: <0d7e8b4fdc95ddd9a32603f2f692e0a1e7f510d5.1770109549.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 08/22] libtasn1: Fix CVE-2025-13151
+Date: Tue,  3 Feb 2026 11:16:37 +0100
+Message-ID: <e6b85f9a4cdcc4175fe259c0a5bfa764cd1be1f9.1770109549.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770109549.git.yoann.congal@smile.fr>
 References: <cover.1770109549.git.yoann.congal@smile.fr>
@@ -66,58 +66,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 10:19:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230443
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230436
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 
-Handles CVE-2026-22695 and CVE-2026-22801.
+Upstream-Status: Backport from https://gitlab.com/gnutls/libtasn1/-/commit/d276cc495a2a32b182c3c39851f1ba58f2d9f9b8
 
-License-Update: copyright years refreshed
-
-Changelog:
-Version 1.6.54 [January 12, 2026]
-  Fixed CVE-2026-22695 (medium severity):
-    Heap buffer over-read in `png_image_read_direct_scaled.
-    (Reported and fixed by Petr Simecek.)
-  Fixed CVE-2026-22801 (medium severity):
-    Integer truncation causing heap buffer over-read in `png_image_write_*`.
-  Implemented various improvements in oss-fuzz.
-    (Contributed by Philippe Antoine.)
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9c18cb1d4dd0edf2e9c638c3c576cb803e1ff4c6)
-[YC: Added changelog]
+Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpng/{libpng_1.6.53.bb => libpng_1.6.54.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.53.bb => libpng_1.6.54.bb} (94%)
+ .../gnutls/libtasn1/CVE-2025-13151.patch      | 30 +++++++++++++++++++
+ .../recipes-support/gnutls/libtasn1_4.20.0.bb |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.53.bb b/meta/recipes-multimedia/libpng/libpng_1.6.54.bb
-similarity index 94%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.54.bb
-index 956cd243b19..3f2b80a060f 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.54.bb
-@@ -5,7 +5,7 @@ library for use in applications that read, create, and manipulate PNG \
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=5516d77a3cf75f55a0d37254e3e65a20"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=9dc350edbbbee660c7d9af79487168f2"
- DEPENDS = "zlib"
+diff --git a/meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch b/meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
+new file mode 100644
+index 00000000000..5047d679840
+--- /dev/null
++++ b/meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
+@@ -0,0 +1,30 @@
++From ff7aa7ef2b9ba41df8f2d1e71b05bf2c2ad868dd Mon Sep 17 00:00:00 2001
++From: Vijay Sarvepalli <vssarvepalli@cert.org>
++Date: Mon, 22 Dec 2025 12:24:27 -0500
++Subject: [PATCH] Fix for CVE-2025-13151 Buffer overflow
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/libtasn1/-/commit/d276cc495a2a32b182c3c39851f1ba58f2d9f9b8]
++CVE: CVE-2025-13151
++
++Signed-off-by: Simon Josefsson <simon@josefsson.org>
++Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
++---
++ lib/decoding.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/decoding.c b/lib/decoding.c
++index 1e0fcb3..abcb49f 100644
++--- a/lib/decoding.c
+++++ b/lib/decoding.c
++@@ -1983,7 +1983,7 @@ int
++ asn1_expand_octet_string (asn1_node_const definitions, asn1_node *element,
++ 			  const char *octetName, const char *objectName)
++ {
++-  char name[2 * ASN1_MAX_NAME_SIZE + 1], value[ASN1_MAX_NAME_SIZE];
+++  char name[2 * ASN1_MAX_NAME_SIZE + 2], value[ASN1_MAX_NAME_SIZE];
++   int retCode = ASN1_SUCCESS, result;
++   int len, len2, len3;
++   asn1_node_const p2;
++-- 
++2.47.1
++
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.20.0.bb b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+index 8127ba5b1db..bfc011a2f17 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
  
- LIBV = "16"
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-            file://run-ptest \
- "
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://dont-depend-on-help2man.patch \
++           file://CVE-2025-13151.patch \
+            "
  
--SRC_URI[sha256sum] = "1d3fb8ccc2932d04aa3663e22ef5ef490244370f4e568d7850165068778d98d4"
-+SRC_URI[sha256sum] = "01c9d8a303c941ec2c511c14312a3b1d36cedb41e2f5168ccdaa85d53b887805"
- 
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
- 
+ DEPENDS = "bison-native"
 
