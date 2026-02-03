@@ -1,95 +1,172 @@
-Return-Path: <samuli.piippo@gmail.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B144E8783B
-	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 14:34:46 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17768.1770129279938126653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921AFE87841
+	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 15:37:46 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19556.1770133062594500590
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Feb 2026 06:34:40 -0800
+ Tue, 03 Feb 2026 07:37:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EPX9ogNO;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59dd7bfeb8aso6313582e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 06:34:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A8K9EJ99;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8947e6ffd20so77579266d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 07:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770129278; x=1770734078; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4DvQRRFqKY8Cd/hXypDWGO/O3iY3yGxteWzsd/ls878=;
-        b=EPX9ogNO9Ssi4iGo1YwYIQq8bILujjzdSK3TltO7K0Ply0ybwApcQr77fHPje2ju8k
-         9XA9FQwCZ5X+Aj9vyTFgvhilRz6tcff5Cl8MrFkAPolk657cbvNZSevmjyvLtTE4RnmD
-         xahm33yapR/NwLCXGvuk1d6JL8IbquToJSeg/VcKWjxx57Bx0w/qY3PAfspzFrciYMOY
-         S5EIJMIDLhsRO2aZd7n4QUGJHSrGTSZAaqIwzlaKIMdPgSrmymxwau1nSQB4SnDhoKh1
-         2KKj89DdGVz95GIsg+UkqRmllA01ZMGOylPFaCEKGL2XEUL3IJBH6nbVjRBTcKucEN0e
-         USAw==
+        d=gmail.com; s=20230601; t=1770133061; x=1770737861; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMLApj4ekp08srAOHaVxVlg7DebpAKolyJlc5T3VBTI=;
+        b=A8K9EJ99pFrFPXo5Qk8BRnztms/LoPg3qZn1NIccM5FAvIHhO/wZ0p9F1+VH9WLmEn
+         +KLDt7+U64DJ9EjIcaZePslcvQj7DNsxLCMzhVEtOk+XcVOjvHFpAYBX8YK87JySWLqm
+         iY1F4EJt7nnHiGT7+NqBKlRUGQwkauI0C1ijaL0N+OKrM5sveACkTU1oQrUnoA8bBJWx
+         40gI/iFN0p7NdWHgd/rOXG5brYfqWO6K4cn5wvDeL+egZYtzhqVH8LNDwZeM3fhvMnsg
+         rSlmt6aTjFeXozNGwjwc5iUuMSHruM5noEMPGQLuv8tkOBiGz7oz6NVr/7EeHkOJc3T1
+         Rz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770129278; x=1770734078;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4DvQRRFqKY8Cd/hXypDWGO/O3iY3yGxteWzsd/ls878=;
-        b=Ay/UgQnQfrsVTqn4ybExrkOcpHMpLxZK6YwFrIEtsviJcuN0PkIV5FJka7mdVQsYpq
-         c8Gk3vrvV1F7oPxv8gG2iHSgwC+Wc841vOayPeZtMfW1Jk09ljINs8h+tHEdzNe89Z5J
-         BEKnTeUEol8Mnj6r32JXBQsb/iAOtYTnn23DrgpIMucL6it6HYRC9aT1Iwxj+BXqbaus
-         s0Oz+p8UgOiaNX5/RMAg6Ot3p8kNZPS9+Kw/JRrWSsZ3ghn69We2kMRjppIM5lIUzptI
-         lQ5qYy4EM+dLtXBfajQR5t52e2Fx9TzsPKy6UeS5xT0jC6OLkYeoWBortfOB1mPR9wFB
-         elhA==
-X-Gm-Message-State: AOJu0YxpILjzEvqrz4F9XNvY5LV9vdhQBbO49Oowoiqx0gCj3vDf+gZ9
-	N2QDOjH1uvmhfqyOOjqyE6iLP9CBTBz8/YpmSgzRDJ0ZAMKxG0LEUtakYXYThw==
-X-Gm-Gg: AZuq6aKom0JbQYJon9o1QMSvu6VGM04nDCwohiaKPwQ9bqaxPGUVvWUb/P9DgcurzAo
-	OVH2d0ZQsgCqanGKXllogdnAGTivBHxvgEk6kwwIGr391VNnFHEI/juhuRx8EkFyn4G7UT47UT7
-	I985MV7lUvsMhMK0/o7p4aeOhLTcbWxEBhFocKscLoz9VG7KrPGjkDroaNiH2ZTSTHromdtNtnM
-	gLRiQalV/9wvoT1Zaz2fnslNEqj+G2NHNXo7K/6sg1Cj+H7o9g63jJ4xr5z6+iUs+H49/8SN0lr
-	gbsTfKb4KO3UzmdQ96NuCC7Zdw+uuE6Adto6vniKZMQyW15rKpCkCkRgaPVgOfdPVxH1DSXwv1l
-	IGPDxsNS+0VpC5vmqUEq7fvLFrl29hnDVUudXbyP+o8GKsgQ0uOIyVyydpX1bJTL/RRPfU681M6
-	auecOQLMGRxY+qGGBt6n7+j4j8JcBcObwOUq6ve991Jp9FA1Ss4aOp6xWi0a8p8Jcy+ofikAi9D
-	g==
-X-Received: by 2002:a05:6512:23a5:b0:59e:2242:fb9 with SMTP id 2adb3069b0e04-59e2242114fmr3863808e87.16.1770129277419;
-        Tue, 03 Feb 2026 06:34:37 -0800 (PST)
-Received: from dcbuildsrv.ci.qt.io (ip-109-75-238-172.customer.as29154.net. [109.75.238.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e08b2fa5bsm4052911e87.26.2026.02.03.06.34.37
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1770133061; x=1770737861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uMLApj4ekp08srAOHaVxVlg7DebpAKolyJlc5T3VBTI=;
+        b=CwHaCfYUQDTnT9xlWG6/p6sc+RxYI+lKsaeGrw4EIiyJeWFi90ZsFe8qaVxfgdzXaO
+         DX181+/KA9DSKRrQ+nUXKLvmZMLnxwcfXnEV2ocfXlk3DnPxHRWjuKqoWBlXD0EjQ0zQ
+         gOeWzBaOu8xU4gTApFqJs8q9+eVC1cOaQZFV5KPZR/eWsEHRncm6XNjQC//tgRKkvfdK
+         +I5VzFh6h+k2AQd09LuH2ZPlVCnM+WQv3eq2O8soR28LC+s80MAedxSEhzKFPpN4er3Z
+         Ydy6XLS5Yl/3Sm557x3Jeopmd8dwtoUpAitnQgDvzxfyx+B0owXYx7hFL/u3wWksU/69
+         JXBQ==
+X-Gm-Message-State: AOJu0YzlP38wxwcWKpIFZo+pAJHnwdAuqN4fj+fSSuhqzAnAwdhUz0+f
+	oJFp+mXKGY80VefIvulaFirRKmGZGHBTqK0d6d8Xvw6mu+yW8im1QRaF
+X-Gm-Gg: AZuq6aIu/5VvU3HAN5QbE8+uvzLDAUqNwF50MZOdKkawI6ucIZRFZ4aR2BRpS2q3dIr
+	ZIhuyZItts5ufuIGpSb6NyF9XJBvVUA5wkngnqZ59gZ6EDXmixX6JX/TMN+rDQXWEZGLSV46USD
+	G9NY7iPG2ghwODT/ET3HQnGIGmXmTEC0y1nH3CiRMjIEbNJSrLwcOW7IytKU3lzoxRz5AZ7A+5t
+	MT744Q40Vtt6ZeBXebl9g1GlpBWTedxgNaffv2pBkIvA2DzTb0rtYggMwnzOUXfxsQzTLszC+KE
+	XLCQD6mAnF8tSzEriPO1iOj4pn0e0UA3np0tAZdmVgHEIVY+YJpxaXPQsoJiPkjWBeJENjHBfbA
+	pcEhjoGR4OxL3doGvOVOuV5FRi2aYAp7UgcoK4iF1od4td7eOyuHatplnsZA24MechbVp1WjW3S
+	lmsHmweysf7jsYO243HeB+HcYRwmSauZzY6fjOovIoMj/KKhwdvmUkS+zcFrO1W/y2
+X-Received: by 2002:ac8:5e53:0:b0:4ee:87a:4d10 with SMTP id d75a77b69052e-505d22bb1a3mr200419271cf.78.1770133061494;
+        Tue, 03 Feb 2026 07:37:41 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89521bffb41sm17116d6.4.2026.02.03.07.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 06:34:37 -0800 (PST)
-From: Samuli Piippo <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oe/utils: filter license packages
-Date: Tue,  3 Feb 2026 14:34:34 +0000
-Message-ID: <20260203143434.3117764-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.43.0
+        Tue, 03 Feb 2026 07:37:40 -0800 (PST)
+Date: Tue, 3 Feb 2026 10:37:37 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [RFC][PATCH v2 0/9] standalone wic
+Message-ID: <aYIWQZ15R3L11w0F@localhost.localdomain>
+References: <20260202170800.4172778-1-twoerner@gmail.com>
+ <DG5DNB0A90R2.3TNBMJXIFZGJT@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DG5DNB0A90R2.3TNBMJXIFZGJT@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 14:34:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230459
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 15:37:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230460
 
-Make packages_filter_out_system() filter out also the
-license (-lic) packages.
+Hi Mathieu,
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/lib/oe/utils.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for giving them a run on the AB.
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 0128ee411d..2b39d4e0dd 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -236,7 +236,7 @@ def packages_filter_out_system(d):
-     PN-dbg PN-doc PN-locale-eb-gb removed.
-     """
-     pn = d.getVar('PN')
--    pkgfilter = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev', '-src')]
-+    pkgfilter = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev', '-src', '-lic')]
-     localepkg = pn + "-locale-"
-     pkgs = []
- 
--- 
-2.43.0
+On Tue 2026-02-03 @ 02:56:25 PM, Mathieu Dubois-Briand wrote:
+> On Mon Feb 2, 2026 at 6:07 PM CET, Trevor Woerner via lists.openembedded.org wrote:
+> > This series of patches explores the possibility of splitting wic out
+> > from oe-core into its own standalone utility. The wic utility will
+> > continue to fall under The Yocto Project umbrella, but will no longer
+> > be integrated into the project as part of oe-core. The ultimate goal is
+> > to make wic a completely independent tool, hosted on PyPI, with its own
+> > tests, development roadmap, and releases.
+> >
+> > Some benefits include:
+> > - relieving the oe-core maintainers from having to review, understand,
+> >    merge, or reject wic patches
+> > - allow the tool to be used outside of The Yocto Project for generating
+> >   Linux images
+> > - provide more flexibility to explore other features, libraries,
+> >   mechanisms, etc
+> >
+> > The initial task of splitting wic out into its own repository was
+> > performed with the help of AI. It was checked, and subsequent work was
+> > done without AI.
+> >
+> > These changes have been tested with oe-selftest as follows:
+> > 	$ sudo .../layers/openembedded-core/scripts/runqemu-gen-tapdevs <my numeric group id> 4
+> > 	$ oe-selftest -v -r wic
+> >
+> > On my machine my oe-selftest results for an unmodified oe-core give:
+> > 	successes=93, skipped=1, failures=0, errors=1
+> > with these patches I get:
+> > 	successes=91, skipped=1, failures=2, errors=0
+> >
+> > There are 2 tests that need to be fixed, but it would be great to get
+> > some feedback on this work, and to see what the AB thinks of it so far.
+> > I have also done some adhoc testing with meta-rockchip and
+> > meta-raspberrypi.
+> >
+> > Should this work eventually make its way to oe-core, it would need to
+> > be squashed into a single commit otherwise builds will break when only
+> > partially applied. They have been submitted here in this RFC series
+> > separately to make review easier.
+> >
+> 
+> Hi Trevor,
+> 
+> Thanks for this series. I ran it on the autobuilder, a few issues (maybe
+> just a single one actually), but most tests succeed.
+> 
+> 
+> So first, we have the wic tests, which try to invoke the wic tools
+> directly. These one entirely failed because wic was not found in the
+> path at all:
+> 
+> Running '. ./init-build-env; wic create directdisk -e core-image-sato -o ${BUILDDIR}/tmp/deploy/wic_images/qemux86/directdisk/core-image-sato/' with output to /srv/pokybuild/yocto-worker/wic/build/build/command-1-cmds.log in /srv/pokybuild/yocto-worker/wic/build/build
+> /bin/bash: line 1: wic: command not found
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/15/builds/3076
+> 
+> So I still have to look in depth at your patches, but I suspect, as the
+> tool is now in a separate git, it can no longer be used just by sourcing
+> the environment file.
+> 
+> In the context of the test, this is probably not really an issue, we can
+> just fix it to have wic tools. But thinking about users, this might be a
+> bigger issue as it does change a bit the flow if they want to use wic
+> directly.
+> 
+> 
+> The second issue is similar: one of the selftests fails as the wic
+> command was not found:
+> 
+> 2026-02-03 09:54:38,418 - oe-selftest - INFO - systemd_boot.Systemdboot.test_efi_systemdboot_images_can_be_built (subunit.RemotedTestCase)
+> 2026-02-03 09:54:38,419 - oe-selftest - INFO -  ... FAIL
+> ...
+> AssertionError: Command 'wic cp /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1720620/tmp/deploy/images/genericx86-64/core-image-minimal-genericx86-64.rootfs.wic:1/EFI/BOOT/bootx64.efi /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1720620/tmp/deploy/images/genericx86-64/bootx64.efi -n /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1720620/tmp/work/core2-64-poky-linux/wic-tools/1.0/recipe-sysroot-native' returned non-zero exit status 127:
+> /bin/sh: 1: wic: not found
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3260
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3136
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3034
+> 
+> 
+> And so far, that's all. So we might have other issues masked behind
+> this, but overall it looks pretty good in term of tests.
 
+Wow, this is excellent results!
+	successes=619, skipped=43, failures=1, errors=0
+	successes=642, skipped=20, failures=1, errors=0
+	successes=644, skipped=18, failures=1, errors=0
+
+
+In my testing, locally, I had 2 tests that were failing, but the AB only
+has one :-) The one that is failing on the AB:
+	systemd_boot.Systemdboot.test_efi_systemdboot_images_can_be_built
+
+is not one I had tested.
+
+Thanks!
 
