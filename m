@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C69E8B381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE5CE8B383
 	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 22:22:02 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6172.1770157316057612085
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6011.1770157316229346232
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Feb 2026 14:21:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=YcQAKCT9;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-2026020322215317a58be3c50002079d-_mnpxg@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026020322215317a58be3c50002079d
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=FOMAoRGE;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20260203222153ca4d0a28c2000207d9-wiynfw@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260203222153ca4d0a28c2000207d9
         for <openembedded-core@lists.openembedded.org>;
         Tue, 03 Feb 2026 23:21:53 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=4YkhFkhSFeT/siTvy3IM3+piO228DeZOkUt+Xd1BCIA=;
- b=YcQAKCT9JwCeW9nyL93qYOB1B3pH2a4zAyixtrXS3zZlh9e+n0ZEFgGwrM2k03ailjKeUu
- MIrqRjYjlGgO4GNjMWGNvPfb0IuAECdayjG1TJvlLNA9L6nBRNpS/0DwWKqy+7Zqlus5OEKs
- ahAW4p0BXqqhXEW6nK8QKEmcKyHj2O6xbfKKUNbOLTZ7M7OtPAkXzhu6Ef5gOxjs0AljUffV
- JkiaPFzTLntV/ocallgd6W+mP2wjpQHPsl6m8wJ8vgD5Qe+9fzPAal3KkxR5Nmkg15wyYv0y
- zFIEEGkv2Ca2nP7ekLf61msNMmjwuc7f6w2W78nw2Su3a/Oew3jdZ/tQ==;
+ bh=rpNB84JLDbz97FMf5o14lPfRC9uUMpX4uuAYleJnLBQ=;
+ b=FOMAoRGE55jcL16Tf0Xps/ESkccXDzP0hsusLie9v29FDgjoIPMoCnZecJ9oDEvMGpngeF
+ Njp//4EZGNM7Pl5TNnsEOaHv+eeeEpmIrTu+oc2bF1v84Vm+NGbj7nUwO4/lTDnl0wiX0i4/
+ go7s1E7RhIrs+JGxIa+/jAyhz/VAYOwB4xXCTY6cKbN06DL5UEBLf2IljEJTpVCjFLiDQ2hz
+ 2hRHKH4eVRQ4BlZtIdcUG7e9btNSSCWUlffTrPHWfMP5SFhTbzvfkU4KQILp0mkf+tDtcRL+
+ Ep1DD3G2WW39W2ZTvxS7bQpHRZVPUco9BqDmdepM9eGjd3B1YybKHU/g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 06/12] devtool: ide-sdk: move code to ide_none
-Date: Tue,  3 Feb 2026 23:16:22 +0100
-Message-ID: <20260203222139.1599349-7-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 02/12] oe-selftest: devtool: DevtoolIdeSdkTests debug logging
+Date: Tue,  3 Feb 2026 23:16:18 +0100
+Message-ID: <20260203222139.1599349-3-adrian.freihofer@siemens.com>
 In-Reply-To: <20260203222139.1599349-1-adrian.freihofer@siemens.com>
 References: <20260203222139.1599349-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,299 +39,324 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 22:22:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230479
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230480
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Move code which is used by the ide_none plugin from the base class
-to the ide_none plugin. This is just a refactoring, no functional
-change.
+Add optional debug logging to all runCmd calls in DevtoolIdeSdkTests
+to improve debugging capabilities when tests fail. The logging is only
+enabled when the test logger is set to DEBUG level.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/__init__.py | 115 +-------------------
- scripts/lib/devtool/ide_plugins/ide_none.py | 112 +++++++++++++++++++
- 2 files changed, 116 insertions(+), 111 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 90 ++++++++++++++-----------
+ 1 file changed, 51 insertions(+), 39 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index 70f47d6e68..80dfc1e235 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -9,10 +9,8 @@ import errno
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index cf5ac6e9d7..9bbba2ec89 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -13,6 +13,7 @@ import glob
+ import fnmatch
+ import unittest
  import json
- import logging
- import os
--import stat
- from enum import Enum, auto
- from devtool import DevtoolError
--from bb.utils import mkdirhier
++import logging
  
- logger = logging.getLogger('devtool')
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
+@@ -2524,6 +2525,13 @@ class DevtoolUpgradeTests(DevtoolBase):
  
-@@ -130,19 +128,6 @@ class GdbCrossConfig:
-             raise DevtoolError("Unsupported gdbserver mode: %s" % gdbserver_mode)
-         return "\"/bin/sh -c '" + gdbserver_cmd_start + "'\""
  
--    def _target_gdbserver_stop_cmd(self, gdbserver_mode):
--        """Kill a gdbserver process"""
--        # This is the usual behavior: gdbserver is stopped on demand
--        if gdbserver_mode == GdbServerModes.MULTI:
--            gdbserver_cmd_stop = "test -f %s && kill \\$(cat %s);" % (
--                self.gdbserver_pid_file(gdbserver_mode), self.gdbserver_pid_file(gdbserver_mode))
--            gdbserver_cmd_stop += " rm -rf %s" % self.gdbserver_tmp_dir(gdbserver_mode)
--        # This is unexpected since gdbserver should terminate after each debug session
--        # Just kill all gdbserver instances to keep it simple
--        else:
--            gdbserver_cmd_stop = "killall gdbserver"
--        return "\"/bin/sh -c '" + gdbserver_cmd_stop + "'\""
--
-     def _target_gdbserver_kill_cmd(self):
-         """Get the ssh command to kill gdbserver on the target device"""
-         return "\"kill \\$(pgrep -o -f 'gdbserver --attach :%s') 2>/dev/null || true\"" % self.gdbserver_port
-@@ -157,91 +142,6 @@ class GdbCrossConfig:
-             ssh_args.append(self.gdb_cross.target_device.target)
-         return ssh_args
- 
--    def _gen_gdbserver_start_script(self, gdbserver_mode=None):
--        """Generate a shell script starting the gdbserver on the remote device via ssh"""
--        if gdbserver_mode is None:
--            gdbserver_mode = self.gdbserver_default_mode
--        gdbserver_cmd_start = self._target_gdbserver_start_cmd(gdbserver_mode)
--        gdbserver_cmd_stop = self._target_gdbserver_stop_cmd(gdbserver_mode)
--        remote_ssh = "%s %s" % (self.gdb_cross.target_device.ssh_sshexec,
--                                " ".join(self._target_ssh_gdbserver_args()))
--        gdbserver_cmd = ['#!/bin/sh']
--        gdbserver_cmd.append('if [ "$1" = "stop" ]; then')
--        gdbserver_cmd.append('  shift')
--        gdbserver_cmd.append("  %s %s" % (remote_ssh, gdbserver_cmd_stop))
--        gdbserver_cmd.append('else')
--        gdbserver_cmd.append("  %s %s" % (remote_ssh, gdbserver_cmd_start))
--        gdbserver_cmd.append('fi')
--        GdbCrossConfig.write_file(self.gdbserver_script(gdbserver_mode), gdbserver_cmd, True)
--
--    def _gen_gdbinit_config(self, gdbserver_mode=None):
--        """Generate a gdbinit file for this binary and the corresponding gdbserver configuration"""
--        if gdbserver_mode is None:
--            gdbserver_mode = self.gdbserver_default_mode
--        gdbinit_lines = ['# This file is generated by devtool ide-sdk']
--        if gdbserver_mode == GdbServerModes.MULTI:
--            target_help = '#   gdbserver --multi :%d' % self.gdbserver_port
--            remote_cmd = 'target extended-remote'
--        else:
--            target_help = '#   gdbserver :%d %s' % (
--                self.gdbserver_port, self.binary)
--            remote_cmd = 'target remote'
--        gdbinit_lines.append('# On the remote target:')
--        gdbinit_lines.append(target_help)
--        gdbinit_lines.append('# On the build machine:')
--        gdbinit_lines.append('#   cd ' + self.modified_recipe.real_srctree)
--        gdbinit_lines.append(
--            '#   ' + self.gdb_cross.gdb + ' -ix ' + self.gdbinit)
--        gdbinit_lines.append('set sysroot ' + self.modified_recipe.d)
--
--        if self.image_recipe.rootfs_dbg:
--            gdbinit_lines.append(
--                'set solib-search-path "' + self.modified_recipe.solib_search_path_str(self.image_recipe) + '"')
--
--        gdbinit_lines.append('set substitute-path "/usr/include" "' +
--                             os.path.join(self.modified_recipe.recipe_sysroot, 'usr', 'include') + '"')
--        if self.image_recipe.rootfs_dbg:
--            # First: Search for sources of this recipe in the workspace folder
--            if self.modified_recipe.pn in self.modified_recipe.target_dbgsrc_dir:
--                gdbinit_lines.append('set substitute-path "%s" "%s"' %
--                                     (self.modified_recipe.target_dbgsrc_dir, self.modified_recipe.real_srctree))
--            else:
--                logger.error(
--                    "TARGET_DBGSRC_DIR must contain the recipe name PN.")
--            # Second: Search for sources of other recipes in the rootfs-dbg
--            if self.modified_recipe.target_dbgsrc_dir.startswith("/usr/src/debug"):
--                gdbinit_lines.append('set substitute-path "/usr/src/debug" "%s"' % os.path.join(
--                    self.image_recipe.rootfs_dbg, "usr", "src", "debug"))
--            else:
--                logger.error(
--                    "TARGET_DBGSRC_DIR must start with /usr/src/debug.")
--        else:
--            logger.warning(
--                "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
--        # Disable debuginfod for now, the IDE configuration uses rootfs-dbg from the image workdir.
--        gdbinit_lines.append('set debuginfod enabled off')
--        gdbinit_lines.append(
--            '%s %s:%d' % (remote_cmd, self.gdb_cross.host, self.gdbserver_port))
--        gdbinit_lines.append('set remote exec-file ' + self.binary.binary_path)
--        gdbinit_lines.append('run ' + self.binary.binary_path)
--
--        GdbCrossConfig.write_file(self.gdbinit, gdbinit_lines)
--
--    def _gen_gdb_start_script(self):
--        """Generate a script starting GDB with the corresponding gdbinit configuration."""
--        cmd_lines = ['#!/bin/sh']
--        cmd_lines.append('cd ' + self.modified_recipe.real_srctree)
--        cmd_lines.append(self.gdb_cross.gdb + ' -ix ' +
--                         self.gdbinit + ' "$@"')
--        GdbCrossConfig.write_file(self.gdb_script, cmd_lines, True)
--
--    def initialize(self):
--        self._gen_gdbserver_start_script()
--        if self.binary.runs_as_service and self.gdbserver_default_mode != GdbServerModes.ATTACH:
--            self._gen_gdbserver_start_script(GdbServerModes.ATTACH)
--        self._gen_gdbinit_config()
--        self._gen_gdb_start_script()
--
-     def gdbserver_modes(self):
-         """Get the list of gdbserver modes for which scripts are generated"""
-         modes = [self.gdbserver_default_mode]
-@@ -249,17 +149,10 @@ class GdbCrossConfig:
-             modes.append(GdbServerModes.ATTACH)
-         return modes
- 
--    @staticmethod
--    def write_file(script_file, cmd_lines, executable=False):
--        script_dir = os.path.dirname(script_file)
--        mkdirhier(script_dir)
--        with open(script_file, 'w') as script_f:
--            script_f.write(os.linesep.join(cmd_lines))
--            script_f.write(os.linesep)
--        if executable:
--            st = os.stat(script_file)
--            os.chmod(script_file, st.st_mode | stat.S_IEXEC)
--        logger.info("Created: %s" % script_file)
-+    def initialize(self):
-+        """Interface function to initialize the gdb config generation"""
-+        pass
+ class DevtoolIdeSdkTests(DevtoolBase):
 +
++    def setUp(self):
++        super().setUp()
++        self._cmd_logger = None
++        if self.logger.isEnabledFor(logging.DEBUG):
++            self._cmd_logger = self.logger
++
+     def _write_bb_config(self, recipe_names):
+         """Helper to write the bitbake local.conf file"""
+         conf_lines = [
+@@ -2563,7 +2571,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.track_for_cleanup(tempdir)
+         self.add_command_to_tearDown('bitbake -c clean %s' % recipe_name)
  
+-        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir))
++        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir), output_log=self._cmd_logger)
+         self.assertExists(os.path.join(tempdir, build_file),
+                           'Extracted source could not be found')
+         self.assertExists(os.path.join(self.workspacedir, 'conf',
+@@ -2573,7 +2581,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertTrue(matches, 'bbappend not created %s' % result.output)
  
- class IdeBase:
-diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
-index 04677aba9d..8284c4e0a5 100644
---- a/scripts/lib/devtool/ide_plugins/ide_none.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_none.py
-@@ -7,6 +7,8 @@
+         # Test devtool status
+-        result = runCmd('devtool status')
++        result = runCmd('devtool status', output_log=self._cmd_logger)
+         self.assertIn(recipe_name, result.output)
+         self.assertIn(tempdir, result.output)
+         self._check_src_repo(tempdir)
+@@ -2629,7 +2637,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self._workspace_scripts_dir(recipe_name), i_and_d_script)
+         self.assertExists(install_deploy_cmd,
+                           '%s script not found' % install_deploy_cmd)
+-        runCmd(install_deploy_cmd)
++        runCmd(install_deploy_cmd, output_log=self._cmd_logger)
  
- import os
- import logging
-+import stat
-+from bb.utils import mkdirhier
- from devtool.ide_plugins import IdeBase, GdbCrossConfig, GdbServerModes
+         MAGIC_STRING_ORIG = "Magic: 123456789"
+         MAGIC_STRING_NEW = "Magic: 987654321"
+@@ -2662,7 +2670,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             cpp_code = cpp_code.replace(MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
+         with open(cpp_example_lib_hpp, 'w') as file:
+             file.write(cpp_code)
+-        runCmd(install_deploy_cmd, cwd=tempdir)
++        runCmd(install_deploy_cmd, cwd=tempdir, output_log=self._cmd_logger)
  
- logger = logging.getLogger('devtool')
-@@ -18,6 +20,116 @@ class GdbCrossConfigNone(GdbCrossConfig):
-         super().__init__(image_recipe, modified_recipe, binary,
-                          gdbserver_default_mode)
+         # Verify the modified example prints the modified magic string
+         status, output = qemu.run(example_exe)
+@@ -2689,7 +2697,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
  
-+    def _target_gdbserver_stop_cmd(self, gdbserver_mode):
-+        """Kill a gdbserver process"""
-+        # This is the usual behavior: gdbserver is stopped on demand
-+        if gdbserver_mode == GdbServerModes.MULTI:
-+            gdbserver_cmd_stop = "test -f %s && kill \\$(cat %s);" % (
-+                self.gdbserver_pid_file(gdbserver_mode), self.gdbserver_pid_file(gdbserver_mode))
-+            gdbserver_cmd_stop += " rm -rf %s" % self.gdbserver_tmp_dir(gdbserver_mode)
-+        # This is unexpected since gdbserver should terminate after each debug session
-+        # Just kill all gdbserver instances to keep it simple
-+        else:
-+            gdbserver_cmd_stop = "killall gdbserver"
-+        return "\"/bin/sh -c '" + gdbserver_cmd_stop + "'\""
-+
-+    def _gen_gdbserver_start_script(self, gdbserver_mode=None):
-+        """Generate a shell script starting the gdbserver on the remote device via ssh"""
-+        if gdbserver_mode is None:
-+            gdbserver_mode = self.gdbserver_default_mode
-+        gdbserver_cmd_start = self._target_gdbserver_start_cmd(gdbserver_mode)
-+        gdbserver_cmd_stop = self._target_gdbserver_stop_cmd(gdbserver_mode)
-+        remote_ssh = "%s %s" % (self.gdb_cross.target_device.ssh_sshexec,
-+                                " ".join(self._target_ssh_gdbserver_args()))
-+        gdbserver_cmd = ['#!/bin/sh']
-+        gdbserver_cmd.append('if [ "$1" = "stop" ]; then')
-+        gdbserver_cmd.append('  shift')
-+        gdbserver_cmd.append("  %s %s" % (remote_ssh, gdbserver_cmd_stop))
-+        gdbserver_cmd.append('else')
-+        gdbserver_cmd.append("  %s %s" % (remote_ssh, gdbserver_cmd_start))
-+        gdbserver_cmd.append('fi')
-+        GdbCrossConfigNone.write_file(self.gdbserver_script(gdbserver_mode), gdbserver_cmd, True)
-+
-+    def _gen_gdbinit_config(self, gdbserver_mode=None):
-+        """Generate a gdbinit file for this binary and the corresponding gdbserver configuration"""
-+        if gdbserver_mode is None:
-+            gdbserver_mode = self.gdbserver_default_mode
-+        gdbinit_lines = ['# This file is generated by devtool ide-sdk']
-+        if gdbserver_mode == GdbServerModes.MULTI:
-+            target_help = '#   gdbserver --multi :%d' % self.gdbserver_port
-+            remote_cmd = 'target extended-remote'
-+        else:
-+            target_help = '#   gdbserver :%d %s' % (
-+                self.gdbserver_port, self.binary)
-+            remote_cmd = 'target remote'
-+        gdbinit_lines.append('# On the remote target:')
-+        gdbinit_lines.append(target_help)
-+        gdbinit_lines.append('# On the build machine:')
-+        gdbinit_lines.append('#   cd ' + self.modified_recipe.real_srctree)
-+        gdbinit_lines.append(
-+            '#   ' + self.gdb_cross.gdb + ' -ix ' + self.gdbinit)
-+        gdbinit_lines.append('set sysroot ' + self.modified_recipe.d)
-+
-+        if self.image_recipe.rootfs_dbg:
-+            gdbinit_lines.append(
-+                'set solib-search-path "' + self.modified_recipe.solib_search_path_str(self.image_recipe) + '"')
-+
-+        gdbinit_lines.append('set substitute-path "/usr/include" "' +
-+                             os.path.join(self.modified_recipe.recipe_sysroot, 'usr', 'include') + '"')
-+        if self.image_recipe.rootfs_dbg:
-+            # First: Search for sources of this recipe in the workspace folder
-+            if self.modified_recipe.pn in self.modified_recipe.target_dbgsrc_dir:
-+                gdbinit_lines.append('set substitute-path "%s" "%s"' %
-+                                     (self.modified_recipe.target_dbgsrc_dir, self.modified_recipe.real_srctree))
-+            else:
-+                logger.error(
-+                    "TARGET_DBGSRC_DIR must contain the recipe name PN.")
-+            # Second: Search for sources of other recipes in the rootfs-dbg
-+            if self.modified_recipe.target_dbgsrc_dir.startswith("/usr/src/debug"):
-+                gdbinit_lines.append('set substitute-path "/usr/src/debug" "%s"' % os.path.join(
-+                    self.image_recipe.rootfs_dbg, "usr", "src", "debug"))
-+            else:
-+                logger.error(
-+                    "TARGET_DBGSRC_DIR must start with /usr/src/debug.")
-+        else:
-+            logger.warning(
-+                "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
-+        # Disable debuginfod for now, the IDE configuration uses rootfs-dbg from the image workdir.
-+        gdbinit_lines.append('set debuginfod enabled off')
-+        gdbinit_lines.append(
-+            '%s %s:%d' % (remote_cmd, self.gdb_cross.host, self.gdbserver_port))
-+        gdbinit_lines.append('set remote exec-file ' + self.binary.binary_path)
-+        gdbinit_lines.append('run ' + self.binary.binary_path)
-+
-+        GdbCrossConfigNone.write_file(self.gdbinit, gdbinit_lines)
-+
-+    def _gen_gdb_start_script(self):
-+        """Generate a script starting GDB with the corresponding gdbinit configuration."""
-+        cmd_lines = ['#!/bin/sh']
-+        cmd_lines.append('cd ' + self.modified_recipe.real_srctree)
-+        cmd_lines.append(self.gdb_cross.gdb + ' -ix ' +
-+                         self.gdbinit + ' "$@"')
-+        GdbCrossConfigNone.write_file(self.gdb_script, cmd_lines, True)
-+
-+    def initialize(self):
-+        self._gen_gdbserver_start_script()
-+        if self.binary.runs_as_service and self.gdbserver_default_mode != GdbServerModes.ATTACH:
-+            self._gen_gdbserver_start_script(GdbServerModes.ATTACH)
-+        self._gen_gdbinit_config()
-+        self._gen_gdb_start_script()
-+
-+    @staticmethod
-+    def write_file(script_file, cmd_lines, executable=False):
-+        script_dir = os.path.dirname(script_file)
-+        mkdirhier(script_dir)
-+        with open(script_file, 'w') as script_f:
-+            script_f.write(os.linesep.join(cmd_lines))
-+            script_f.write(os.linesep)
-+        if executable:
-+            st = os.stat(script_file)
-+            os.chmod(script_file, st.st_mode | stat.S_IEXEC)
-+        logger.info("Created: %s" % script_file)
-+
+         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", gdb_recipe)
+         r = runCmd("%s --version" % gdb_binary,
+-                   native_sysroot=native_sysroot, target_sys=target_sys)
++                   native_sysroot=native_sysroot, target_sys=target_sys, output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertIn("GNU gdb", r.output)
  
- class IdeNone(IdeBase):
-     """Generate some generic helpers for other IDEs
+@@ -2717,18 +2725,18 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             recipe_name), 'gdb_1234_usr-bin-' + example_exe)
+ 
+         # Start a gdbserver
+-        r = runCmd(gdbserver_script)
++        r = runCmd(gdbserver_script, output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+ 
+         # Check there is a gdbserver running
+-        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'), output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertIn("gdbserver ", r.output)
+ 
+         # Check the pid file is correct
+         test_cmd = "cat /proc/$(cat /tmp/gdbserver_1234_usr-bin-" + \
+             example_exe + "/pid)/cmdline"
+-        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd))
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd), output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertIn("gdbserver", r.output)
+ 
+@@ -2739,7 +2747,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
+         gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:13,13'"
+         gdb_batch_cmd += " -ex 'continue'"
+-        r = runCmd(gdb_script + gdb_batch_cmd)
++        r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
+         self.logger.debug("%s %s returned: %s", gdb_script,
+                           gdb_batch_cmd, r.output)
+         self.assertEqual(r.status, 0)
+@@ -2751,11 +2759,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertIn("exited normally", r.output)
+ 
+         # Stop the gdbserver
+-        r = runCmd(gdbserver_script + ' stop')
++        r = runCmd(gdbserver_script + ' stop', output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+ 
+         # Check there is no gdbserver running
+-        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'), output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertNotIn("gdbserver ", r.output)
+ 
+@@ -2776,29 +2784,29 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertExists(cmake_exe)
+ 
+         # Verify the cmake preset generated by devtool ide-sdk is available
+-        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir)
++        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn(preset_name, result.output)
+ 
+         # Verify cmake re-uses the o files compiled by bitbake
+         result = runCmd('%s --build --preset %s' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("ninja: no work to do.", result.output)
+ 
+         # Verify the unit tests work (in Qemu user mode)
+         result = runCmd('%s --build --preset %s --target test' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("100% tests passed", result.output)
+ 
+         # Verify re-building and testing works again
+         result = runCmd('%s --build --preset %s --target clean' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Cleaning", result.output)
+         result = runCmd('%s --build --preset %s' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Building", result.output)
+         self.assertIn("Linking", result.output)
+         result = runCmd('%s --build --preset %s --target test' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Running tests...", result.output)
+         self.assertIn("100% tests passed", result.output)
+ 
+@@ -2823,7 +2831,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                 recipe_name, build_file, testimage)
+             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+-            runCmd(bitbake_sdk_cmd)
++            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._gdb_cross()
+             self._verify_cmake_preset(tempdir)
+             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
+@@ -2839,7 +2847,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                 recipe_name, build_file, testimage)
+             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+-            runCmd(bitbake_sdk_cmd)
++            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._gdb_cross()
+             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
+             # Verify the oe-scripts sym-link is valid
+@@ -2858,7 +2866,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             recipe_name, build_file, testimage)
+         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
+             recipe_name, testimage)
+-        runCmd(bitbake_sdk_cmd)
++        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+         self._verify_cmake_preset(tempdir)
+         self._verify_install_script_code(tempdir,  recipe_name)
+         self._gdb_cross()
+@@ -2875,7 +2883,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             recipe_name, build_file, testimage)
+         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
+             recipe_name, testimage)
+-        runCmd(bitbake_sdk_cmd)
++        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+         with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
+             settings_d = json.load(settings_j)
+@@ -2887,20 +2895,22 @@ class DevtoolIdeSdkTests(DevtoolBase):
+ 
+         # Verify meson re-uses the o files compiled by bitbake
+         result = runCmd('%s compile -C  %s' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir)
++                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("ninja: no work to do.", result.output)
+ 
+         # Verify the unit tests work (in Qemu)
+-        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
++               output_log=self._cmd_logger)
+ 
+         # Verify re-building and testing works again
+         result = runCmd('%s compile -C  %s --clean' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir)
++                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Cleaning...", result.output)
+         result = runCmd('%s compile -C  %s' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir)
++                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Linking target", result.output)
+-        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
++               output_log=self._cmd_logger)
+ 
+         self._verify_install_script_code(tempdir,  recipe_name)
+         self._gdb_cross()
+@@ -2912,7 +2922,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self._check_workspace()
+ 
+         result_init = runCmd(
+-            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code')
++            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code',
++            output_log=self._cmd_logger)
+         bb_vars = get_bb_vars(
+             ['REAL_MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'], "meta-ide-support")
+         environment_script = 'environment-setup-%s' % bb_vars['REAL_MULTIMACH_TARGET_SYS']
+@@ -2924,21 +2935,21 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         # Verify the cross environment script is available
+         self.assertExists(environment_script_path)
+ 
+-        def runCmdEnv(cmd, cwd):
++        def runCmdEnv(cmd, cwd, output_log=self._cmd_logger):
+             cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
+                 environment_script_path, cmd)
+-            return runCmd(cmd, cwd)
++            return runCmd(cmd, cwd, output_log=output_log)
+ 
+         # Verify building the C++ example works with CMake
+         tempdir_cmake = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir_cmake)
+ 
+-        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake)
++        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake, output_log=self._cmd_logger)
+         cmake_native = os.path.normpath(result_cmake.output.strip())
+         self.assertExists(cmake_native)
+ 
+-        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake)
+-        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake)
++        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake, output_log=self._cmd_logger)
++        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake, output_log=self._cmd_logger)
+ 
+         # Verify the printed note really referres to a cmake executable
+         cmake_native_code = ""
+@@ -2954,12 +2965,12 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         tempdir_meson = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir_meson)
+ 
+-        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson)
++        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson, output_log=self._cmd_logger)
+         meson_native = os.path.normpath(result_cmake.output.strip())
+         self.assertExists(meson_native)
+ 
+-        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src)
+-        runCmdEnv('meson compile', cwd=tempdir_meson)
++        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src, output_log=self._cmd_logger)
++        runCmdEnv('meson compile', cwd=tempdir_meson, output_log=self._cmd_logger)
+ 
+     def test_devtool_ide_sdk_plugins(self):
+         """Test that devtool ide-sdk can use plugins from other layers."""
+@@ -2982,7 +2993,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             return m.group(1).split(',')
+ 
+         # verify the default plugins are available but the foo plugin is not
+-        result = runCmd('devtool ide-sdk -h')
++        result = runCmd('devtool ide-sdk -h', output_log=self._cmd_logger)
+         found_ides = get_ides_from_help(result.output)
+         self.assertIn('code', found_ides)
+         self.assertIn('none', found_ides)
+@@ -3013,7 +3024,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             plugin_file.write(plugin_code)
+ 
+         # Verify the foo plugin is available as well
+-        result = runCmd('devtool ide-sdk -h')
++        result = runCmd('devtool ide-sdk -h', output_log=self._cmd_logger)
+         found_ides = get_ides_from_help(result.output)
+         self.assertIn('code', found_ides)
+         self.assertIn('none', found_ides)
+@@ -3021,14 +3032,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
+ 
+         # Verify the foo plugin generates a shared config
+         result = runCmd(
+-            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name)
++            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name,
++            output_log=self._cmd_logger)
+         with open(shared_config_file) as shared_config:
+             shared_config_new = shared_config.read()
+         self.assertEqual(shared_config_str, shared_config_new)
+ 
+         # Verify the foo plugin generates a modified config
+         result = runCmd('devtool ide-sdk --skip-bitbake --ide foo %s %s' %
+-                        (modified_recipe_name, testimage))
++                        (modified_recipe_name, testimage), output_log=self._cmd_logger)
+         with open(modified_config_file) as modified_config:
+             modified_config_new = modified_config.read()
+         self.assertEqual(modified_config_str, modified_config_new)
 -- 
 2.52.0
 
