@@ -2,73 +2,73 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B278AD172A0
-	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 01:20:41 +0000 (UTC)
-Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.71])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6839.1770081634417662778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FA9D172A0
+	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 01:21:11 +0000 (UTC)
+Received: from SA9PR02CU001.outbound.protection.outlook.com (SA9PR02CU001.outbound.protection.outlook.com [40.93.196.34])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6846.1770081661429886859
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 17:20:34 -0800
+ Mon, 02 Feb 2026 17:21:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=ZRSyhzy+;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.48.71, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=HkxoF8ky;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.196.34, mailfrom: rs@ti.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r1XjzYzsMDJtu6bSu3CbBpn9FPYVHubSwQXbse5tZA/PkaKUfYqf04wXe2aFGWpRS+NzWF82hHibEChbjcUhMZBhBUafXlyK56Vowln5crYnHvzUSxu6YnQW7J44TuQ1bFiQJU5nZKir4ltv526yo8XPRjXx7N5OHSC3zp8WPpnX/Oqv1XNUiPd33cu5h+HTyTS0fd0mLBkj8wQrPCFTYCYxM9OR8LxEm/xmy+Dp/UnTCX6Smq1pu73pIaKBM8uyCn4mwPV8dog7HO84hpquC2QyFhM5UOuCThfPIjK2qti4GG2mAglTT33fDYRNChgPB9CHFTkQb1UQPJ/oc/JHFg==
+ b=GFe3gi91Lt8zwwodpMa+KZNyUrMZWvIbD/j3PhVqxiIXY1YQv1FfH6iKFiqJnHFCoUoeAawip08a8dJaZa23JxugMeM9NuELDVl1HOKO+EBXeTM0DhxkcpEowPNcK7LiCVsiUbUu/W6LT/Cej76+zFk1TvozSo8CY4srzJ0CvaTXxnms7cnNDAN3pbhDbaEd3uPoRYt81dUYJJEWMqpLCBLSklpXr4yAJkUMBT9KU3h8GtdyRnq0LASgxRhPGaI+UWTeifUDwELwe1UcY8r8coHNJm5AX76fCbtWitOZAPnu+/8dIuuVjH+g9L8TZM06PyRKh3X8ejou34Rxj1JA8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/yO0O0LeKxzgQ0ojIsFuCmUKDZtO2eWlDT7JFgS5lVc=;
- b=Z5u84wmHXLslviQwjH7Hb1p63NUSuDj9+9V0g7Jl36L2SizBND/EoNP+QEgpz08gY1Ym9HI0Tf6e628FTpXWtSAQromWwwS0gs+/u5IIJNkCJL+DrU1bUpOn2IhelurfIJCaWFf25R14UqXFmKrAb/CNnlVYoS/1UmmbmiN80kJsCRDNiHBue7Fzp8GRF0HZA3U2FM/OiQYxYVPIO17hCfcRyS67nSszPZplvFV6Z6vb2JskwvqagZ6w+m59EKWy81njh6IiHRWvXyRjMBXa7aP29gwqR7lxQBLkx+Fv88WrC2BBLYnA95mWT9kqocv17GA5XmGnA3ixWfiwoWRvdA==
+ bh=lrGt6bIzBhI4pPcj9UthfXQfJT6TVivAlnQ35ErbCps=;
+ b=jW20Y2+LpWn3egwsuPdX3SwSAJDgrkKbo92siIrpmKdDnneaoPuelvClW7IWaiwO1AUZYxaQNA/JIUunW4o+Sm+XkXdsZR+Xz2xfA+5DNqXVDyxCdf79g31rRmo/e6LwbBaK7GtQasxes/95YxoFwm4z7i2pS9QAfY3BCOI6L3JuDswCT0cOb/pmdRIZRrZ96n4PGrmHOCc5d5CHzt2+edzU+GIezUWFc3BApc/r2tOi5O1+Xc53RmEWKmFgpmlZ3XmZjOzIkm686s/RLaBh5ckn+dTqmixuMvpdIXXSSAggM5Hipbs5Z0rBj8ISdyF8/J5zHfq2U+UzLy4RNG8+5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ 198.47.21.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/yO0O0LeKxzgQ0ojIsFuCmUKDZtO2eWlDT7JFgS5lVc=;
- b=ZRSyhzy+uJkcoWXc6FQPRl7SK0FKX8KNFwhZiL8mpQdnRzDCtcWJ4h7TfUVYEN1Lx+Et/PwSviuSIXvLFuBRjvCOjBlp1s5tI1Ew/gt1VWlwiOagAxvAHzPn0WpNi4oClgGeiW8jEpIVw3A22moKO0M5SIZ80XzJJIlUkmZu2Yk=
-Received: from BN9PR03CA0401.namprd03.prod.outlook.com (2603:10b6:408:111::16)
- by DS3PR10MB997703.namprd10.prod.outlook.com (2603:10b6:8:348::22) with
+ bh=lrGt6bIzBhI4pPcj9UthfXQfJT6TVivAlnQ35ErbCps=;
+ b=HkxoF8kysYnQtaZpflcdvOlWt8/roBEYXT0h31XKPLtqHFs2usz6Fydbf33sAroh5oISD/aSEzeEjjfJjAjCx13iu522TFn2Wvjxc76vxDEhG6+5TULmJ6kfyDcgCOUsRlBeYOShb9dvUUPNrhU/Q2Zb24lc3TyBUExV8tTtIJc=
+Received: from SJ0PR13CA0227.namprd13.prod.outlook.com (2603:10b6:a03:2c1::22)
+ by DS0PR10MB7455.namprd10.prod.outlook.com (2603:10b6:8:161::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
- 2026 01:20:31 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:408:111:cafe::47) by BN9PR03CA0401.outlook.office365.com
- (2603:10b6:408:111::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.16 via Frontend Transport; Tue,
- 3 Feb 2026 01:20:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ 2026 01:20:58 +0000
+Received: from SJ5PEPF000001EF.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c1:cafe::4f) by SJ0PR13CA0227.outlook.office365.com
+ (2603:10b6:a03:2c1::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.12 via Frontend Transport; Tue,
+ 3 Feb 2026 01:21:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ SJ5PEPF000001EF.mail.protection.outlook.com (10.167.242.203) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Tue, 3 Feb 2026 01:20:31 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9587.10 via Frontend Transport; Tue, 3 Feb 2026 01:20:56 +0000
+Received: from DFLE210.ent.ti.com (10.64.6.68) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Feb
  2026 19:20:29 -0600
-Received: from DLEE206.ent.ti.com (157.170.170.90) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE210.ent.ti.com
+ (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Feb
  2026 19:20:29 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
  Transport; Mon, 2 Feb 2026 19:20:29 -0600
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6131KTrW3095493;
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6131KTrV3095493;
 	Mon, 2 Feb 2026 19:20:29 -0600
 From: <rs@ti.com>
 To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
 	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
 CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
 	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv15 2/6] weston-init: convert to virtual-emptty-conf
-Date: Mon, 2 Feb 2026 19:20:24 -0600
-Message-ID: <20260203012028.4008229-3-rs@ti.com>
+Subject: [oe-core][PATCHv15 1/6] emptty: add version 0.15.0
+Date: Mon, 2 Feb 2026 19:20:23 -0600
+Message-ID: <20260203012028.4008229-2-rs@ti.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260203012028.4008229-1-rs@ti.com>
 References: <20260203012028.4008229-1-rs@ti.com>
@@ -78,676 +78,317 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|DS3PR10MB997703:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6027672-1538-4945-b866-08de62c26c45
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EF:EE_|DS0PR10MB7455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b179e67-6581-44da-c9bc-08de62c27b85
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|7142099003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?RFI5YGmdSmJ7WAhnbhmHjtOcMcmQ/K/81vywwHkyk+LjnxECoeXBuMkzwYFz?=
- =?us-ascii?Q?MunX7KXlDYrUWUqFsz1h731BVlT5mYM7UbBtf2sH9rElxLq64FGxsvAs313G?=
- =?us-ascii?Q?jKWwMrPBEIcB9wAV20nNl1S9Xz0Bparp7AhVapf/FgHindAyc+ELuNBuOwik?=
- =?us-ascii?Q?yfFIVE3O1lkiQH2uzZJvjSsvC/5JMDKOFZggDMhsZu2YqTvfAIxYgVLcZeXe?=
- =?us-ascii?Q?bBeT9fuSYYGOzWXNbAg56Akq49dsue+4Zc9wh1pB8V34ghuRFJtj34dVhsGe?=
- =?us-ascii?Q?+xGXUpHj+iHZDfYw6bDJfomCFtMaYPyEzfVYjEVWm17hrHc1eQyxV0LZJcpT?=
- =?us-ascii?Q?zABBmPafQUIexHms9Hh56OviThRZ86C0ddr9g98NSQ6SxpB7ozCaH/Xl9aFO?=
- =?us-ascii?Q?FUZ7iHEfafqHWX2WWISqzL0/TukpPs4PytmflYdHyen1MFiG/6xSXHsZ9+zh?=
- =?us-ascii?Q?ulzvDwG2GuzF1LKZLRmlC/N1BKujJA7UaKiRv4x9qYKiy1oo37Yj+Z8rEkgr?=
- =?us-ascii?Q?BfSii0PUIjKaKxd8nKRLWnK/ilfHf3yYbTXSFH3sjwNS1NKaiy3FrS+cxpC5?=
- =?us-ascii?Q?eFj1K3ErKLyMbQNFJLiu7B6USjD3NkAtCVZo68jQGTt6c4PVQCA6x8OQ31FE?=
- =?us-ascii?Q?sLcili3APyffM4hOLCWqFcvi2ifjWi9rDT6p0JZKvxqIWfKIrGMSiMq+i+06?=
- =?us-ascii?Q?x2S3r5d0zlDXzfORE/6OxnWCJhfboy58bs1Oi8lendvoDWFrarR1SsRObrqe?=
- =?us-ascii?Q?p/WusJbLR/YLJ3zRtgtDG9PR66rKZnNEXVQ6DZqwonvxFTLXWwDPXyy3PJ/6?=
- =?us-ascii?Q?79HdExMd2H7btAXl89l5EviQ4JvVkU4Uuw6IW2d2ya67QmmpppHRSq5Oxo5Q?=
- =?us-ascii?Q?8HaV4aNy0/BnQm3l6bl1aFjGxUbf6ge8c0B5vTy6/7xya7ZQD+RsSGKFGu3M?=
- =?us-ascii?Q?c+mWB3+/FmAoUluj0lYVoeBi8kJoGTpfQI/EnrWrPUa5AjBlzYnXE7mFCnK+?=
- =?us-ascii?Q?kYppq26+PXGRjO3lYC/IRhF5kGtWxtQSr96coRe/WEw6Wn7B+ByUFop5tggh?=
- =?us-ascii?Q?6FwdzZvnCq5aMmfaCnb8AXagqic/BNxVdKSWZavArj8oDLq5u+upuQLS7AD0?=
- =?us-ascii?Q?kWAtvwPiyAzCYSbxJMM6FFC8tmZ2t65+sLrWlsCCym0jCDTBUIDgDpSFhD6H?=
- =?us-ascii?Q?qBMoXhxtmJJhJslcUA3A/SwFuKM2l5eK1lxg/fTdLPu3FvQfJ9yHK/Q5Cg37?=
- =?us-ascii?Q?1+w3PONPqONrdJCf/C7vo4aINR6jgSumrII4YLPIqxuPPWDqYCJo/A5bX5jM?=
- =?us-ascii?Q?mTzBiiTO1vcVvzDrr5FLAUk2e8xXz/N+7KAl0nk7JcQ95rsxMM3U2yCJJul8?=
- =?us-ascii?Q?LYFaECOilqlB0m/3tXoq71aFUoN2e7pfEXa1T5vmLLm25dRE4k6ZC97SH0cG?=
- =?us-ascii?Q?UIODsj+lGqESF18Q9JrcTE9HdraBrrsMMY8/SEQZfRxpCAHvT/MHERBo9e9Z?=
- =?us-ascii?Q?xuAuafrEnrtR11ibl+FkcxoZVYw5uQEoa3Wk9q704Vh1NSn+dRA9g9XyI08J?=
- =?us-ascii?Q?DbYMngCSGoAn3icj4yihwqSJ6eKFvsB7zlW/lVDejk7Fxvx+ysvWaz+Dmitu?=
- =?us-ascii?Q?6A=3D=3D?=
+	=?us-ascii?Q?NAzGMhP+/0G6XZNfYWBPl+420CnoVfMMrodhyHuwL2O9yMmzU4AzqiboSrKm?=
+ =?us-ascii?Q?03SF5NIEstFyCZKKqLhe4SOjAqw7ZiIsxdtsYzD0USCj4W5EAHgqDLUW/reE?=
+ =?us-ascii?Q?7EHI4HoHax5hMb9yxRPR5hA0qS6P17V9rvr7OEkLWpY9NVzoR2O1shACInLj?=
+ =?us-ascii?Q?lbt9gaZbxgawBR3fS11vt+qdhP1pEziHo2Uw4H3QmCY0wl96DTAOsrGwJ3+g?=
+ =?us-ascii?Q?+AdSAX+HVls0pp+RWfJp6Pl9AJzDWTb3XDinuxXT9j0gr55/rHfdx1oMaCxO?=
+ =?us-ascii?Q?py2z4QL+PTzgaWTe1/qFgV+AJlUnQG1IRbH0eIrXAGC4+aJJJKYnvtlpevln?=
+ =?us-ascii?Q?06xljvNB39HAOdAnC1BYO5Vs+4oGQs/ArvdwKQvN418yzkI2558LRam0I+Is?=
+ =?us-ascii?Q?kCbO9QgMmKB3/1NCrZ/KJabj8S02Nl+9aJAVgBItA5XW+PROqni5XZ0JXdAM?=
+ =?us-ascii?Q?uUZDM9IX/Jqi8FS1dJ5s+4TCi9c79WZ7y83zcTphND9V0nDexrmASWu/ANqj?=
+ =?us-ascii?Q?n8JamlgyTqw/46lnFrJ5BfhHuHtChlhOrIcGtzq7HmGDlSo76SehTVuanhoo?=
+ =?us-ascii?Q?E+EP9lsHQPfITYvDwRWM1jGxkw21PhUgG3f+dFI17ov/jl0YCe6ZKBx+n5Lg?=
+ =?us-ascii?Q?W3pAEUsBnxDIy220TvRfA/7B5hBw2nCacfxgtwo1/CxtHfVYKxB9pgoPfgah?=
+ =?us-ascii?Q?1Kl2CX7itdOGD4I4c1K2XAJmdgke+P1efA9feYQ3wBmp671F+ordvwLr/0Cx?=
+ =?us-ascii?Q?HVqmlqDNIt8/KL2oFuCeaei8BOzpz0VKn80ThNYGRY46t8fmkExmsZo1ZJzE?=
+ =?us-ascii?Q?MO/w27snRQEwu6fYN9g0t3ZdMGumpxyvPhknvAC5O3NIokhXnVNBV2tbVNKm?=
+ =?us-ascii?Q?R7p+N8hHwWS2TGO/gN/lPFtSQ8hUyGc2cRivbStGcnKA/E0uaEkOaqjtXFDz?=
+ =?us-ascii?Q?kz9t0wCEe53uxGnuYv9cYvPSYI6DwmXJ0vzuRN7TsW0HOZbDWOmbP+qk45bW?=
+ =?us-ascii?Q?4BlzCDuFsIZI1kfcduuQfolyke0Sy/U/GoxBzPxb/W5oVJwossgSJDkWNGpm?=
+ =?us-ascii?Q?Zpj9DSlUGkpMLHB5l1A8WNXiiUA5DHwcJqk1GHgvvBj48OfuOuQ7BY3AhxM1?=
+ =?us-ascii?Q?zG51FKcZkLSR7J7/+Nz6IWJKIwXMLahzhO7uxTK6Y5mguKYOWp9QNPvA7NSy?=
+ =?us-ascii?Q?J2slHteCKuISH3FAKb/0ks0MaOUfa1+PFB1LUpnVu+lOyQXhXPmGM9Oqkzsv?=
+ =?us-ascii?Q?NFO7n4V+XnVKPRQAalIoT8KC2QcdrfrD4Vcyby6zjWgCIzfQW8Q2uPlHmEwa?=
+ =?us-ascii?Q?WdJP+KN0nAyTXzl/wVNU6ZPfVBeLOdFLlnnHIuLa9OyxVmxLQWSFlUJ6sV3O?=
+ =?us-ascii?Q?dPu2DDyXIRkUGQr4aBcqxPn4yGqprEFqkRNe7TJ6pJT1zyUcsoIsXoiP1jKw?=
+ =?us-ascii?Q?wNqakghD3vQ43HtekIzwjl7ydh41VVDBZic+XEOtFc614TWavjLNR/SZR4Ky?=
+ =?us-ascii?Q?3YW6Z46JnDhe1wIfoTasnTJV01wMGKGrTK2G4wnzwiCvgGLCAGJ1mdEO/rdC?=
+ =?us-ascii?Q?QfurpFblnidjvlXS9oQBYqLVy73BHnhPtl77mCVic92IzCbts6Ft7l23ZOAU?=
+ =?us-ascii?Q?NPiUe+iVneEOVe8315t/cHg=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7142099003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	3WcJXWOniNCGr4py/LBm4QEF+IiVzs97zjdJzQAh9B5/Du6AaAvRFhEScm/zojUMp57yRjRY2veXfIla78C3TvB9RS2ohuPI+JaazZCr1cbcGYAb4akD/Sa8kFYXKLkPjg7nrS1Eh1kj2VpOuCBANqgKbpPT2LMf0N0yXy0ey5mKPbzfCOlYcJa+OA38UwXQmVhLFKp1al3+zphNHC77U+rkXifBKhnWXL4BaoT7g5he7LydgmbZgkINAYHglIerj5Mu5FnXmxORuUqM/10QdMnp00FqeXcdcBWJFq4f9LdFu2tRMdYdEnkqUpursVqMFKgGWnLFhfA+9uqleMoLElFWIq/FwuQ18lke7HvY7TqtU+MioDU3MAwCYpufZPqk1mSKrB05bcMpHVJ3fM7dmypDNxw8sTvMUdCo2MD0OG7Teeq+bP+i7b2aam9HIg2W
+	ul/8En2DTY7Owj+lBWfRL4SHApyzfqKVw8kpKnOCq8o/W/PtW3YtYLJq74xAq+YXK+6jqV9Czon3dyvYm/Jh3MqHNvEjPc3FlovB+l4H6fbnqEtJP1izS4HCB+Qx7SeajFRtWvfIJxJrJ7YkS3sSqdVNYW6a7GESkY43j/8a8jEyRzrs5ZzkbtfGyuu6fruLu2aqweqomZZI/Bembjh8a4QknaI41ZS70uieYnXWo1BgVaokkcLLnbXqMrJ69gsgr+21y3grJWEhnIvTlj7+RTZeQ+59vpyrAYKDd4nfCqu8P5agXvVuJyBj6c3fnxRn44ZkxXxrIiQ4XWCPHJSnczv/XJ8AfV1qN6cQj8m2sRrPPOs7nB4aH/xj3prwByc+6B+23uHrcw/AhxxCCzv6gUubDdloRS1wpb+1bicneLC21FMQYl5YNyaOGBLrCToJ
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 01:20:31.1648
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 01:20:56.7488
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6027672-1538-4945-b866-08de62c26c45
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b179e67-6581-44da-c9bc-08de62c27b85
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	BN1PEPF00004682.namprd03.prod.outlook.com
+	SJ5PEPF000001EF.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS3PR10MB997703
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7455
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 01:20:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230409
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 01:21:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230412
 
 From: Randolph Sapp <rs@ti.com>
 
-Convert this script package into a simple config for emptty using the
-same weston user but leveraging the nopasswdlogin session provided by
-emptty. Runtime provide virtual-emptty-conf as we need to set parameters
-for the default session.
+Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
+relatively lightweight display manager that supports x11 as well as
+wayland through both a CLI and an automatic login mechanism.
+
+This can effectively replace the custom init scripts for both x11
+(xserver-nodm-init) and wayland (weston-init) with a single tool with
+more verbose logging capabilities.
+
+This is split into two recipes. The emptty package provides the binary
+and various agnostic configs while the emptty-conf package provides the
+default configuration for the application itself. This RPROVIDES
+virtual-emptty-conf, allowing other recipes to provide their own
+configurations to override the default behavior.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta-selftest/files/static-group              |  1 -
- meta/lib/oeqa/runtime/cases/weston.py         | 18 +++--
- meta/recipes-graphics/wayland/weston-init.bb  | 66 +++-------------
- .../wayland/weston-init/emptty.conf           | 77 +++++++++++++++++++
- .../recipes-graphics/wayland/weston-init/init | 54 -------------
- .../wayland/weston-init/weston-autologin      | 11 ---
- .../wayland/weston-init/weston-socket.sh      | 20 -----
- .../wayland/weston-init/weston-start          | 76 ------------------
- .../wayland/weston-init/weston.env            |  0
- .../wayland/weston-init/weston.service        | 71 -----------------
- .../wayland/weston-init/weston.socket         | 14 ----
- 11 files changed, 101 insertions(+), 307 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.conf
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autolo=
-gin
- delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket=
-.sh
- delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.servic=
-e
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
+ meta-selftest/files/static-group              |  1 +
+ .../rootfs-postcommands.bbclass               | 14 ++++-
+ .../conf/distro/include/default-providers.inc |  1 +
+ meta/conf/distro/include/maintainers.inc      |  2 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
+ meta/recipes-graphics/emptty/emptty.inc       | 25 +++++++++
+ meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
+ meta/recipes-graphics/emptty/emptty_0.15.0.bb | 55 +++++++++++++++++++
+ 8 files changed, 121 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
+ create mode 100644 meta/recipes-graphics/emptty/emptty.inc
+ create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
+ create mode 100644 meta/recipes-graphics/emptty/emptty_0.15.0.bb
 
 diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-=
 group
-index a197216165..c6c2501531 100644
+index 252fdac67d..a197216165 100644
 --- a/meta-selftest/files/static-group
 +++ b/meta-selftest/files/static-group
-@@ -22,7 +22,6 @@ builder:x:522:
- _apt:x:523:
- weston-launch:x:524:
- weston:x:525:
--wayland:x:526:
- render:x:527:
- sgx:x:528:
- ptest:x:529:
-diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime/=
-cases/weston.py
-index b0dccee73b..bf18331e84 100644
---- a/meta/lib/oeqa/runtime/cases/weston.py
-+++ b/meta/lib/oeqa/runtime/cases/weston.py
-@@ -33,7 +33,7 @@ class WestonTest(OERuntimeTestCase):
+@@ -29,3 +29,4 @@ ptest:x:529:
+ xuser:x:530:
+ seat:x:531:
+ audio:x:532:
++nopasswdlogin:x:533:
+diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes=
+-recipe/rootfs-postcommands.bbclass
+index f0c7ee658d..a6a23b46a9 100644
+--- a/meta/classes-recipe/rootfs-postcommands.bbclass
++++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+@@ -45,7 +45,7 @@ POSTINST_LOGFILE ?=3D "${localstatedir}/log/postinstall.l=
+og"
+ SYSTEMD_DEFAULT_TARGET ?=3D '${@bb.utils.contains_any("IMAGE_FEATURES", [ =
+"x11-base", "weston" ], "graphical.target", "multi-user.target", d)}'
+ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES", "=
+systemd", "set_systemd_default_target systemd_sysusers_check systemd_handle=
+_machine_id", "", d)}'
 =20
-     def run_weston_init(self):
-         if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
--            self.target.run('systemd-run --collect --unit=3Dweston-ptest.s=
-ervice --uid=3D0 -p PAMName=3Dlogin -p TTYPath=3D/dev/tty6 -E XDG_RUNTIME_D=
-IR=3D/tmp -E WAYLAND_DISPLAY=3Dwayland-0 /usr/bin/weston --socket=3Dwayland=
--1 --log=3D%s' % self.weston_log_file)
-+            self.target.run(self.get_weston_command('systemd-run --collect=
- --unit=3Dweston-ptest.service --uid=3D0 -p PAMName=3Dlogin -p TTYPath=3D/d=
-ev/tty6 -E XDG_RUNTIME_DIR -E WAYLAND_DISPLAY /usr/bin/weston --socket=3Dwa=
-yland-2 --log=3D%s' % self.weston_log_file))
-         else:
-             self.target.run(self.get_weston_command('openvt -- weston --so=
-cket=3Dwayland-2 --log=3D%s' % self.weston_log_file))
+-ROOTFS_POSTPROCESS_COMMAND +=3D 'empty_var_volatile'
++ROOTFS_POSTPROCESS_COMMAND +=3D 'empty_var_volatile add_emptty_inittab'
 =20
-@@ -51,12 +51,18 @@ class WestonTest(OERuntimeTestCase):
+ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES", "=
+overlayfs", "overlayfs_qa_check", "", d)}'
 =20
-     @OEHasPackage(['wayland-utils'])
-     def test_wayland_info(self):
--        if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
--            command =3D 'XDG_RUNTIME_DIR=3D/run wayland-info'
--        else:
--            command =3D self.get_weston_command('wayland-info')
-+        command =3D self.get_weston_command('wayland-info')
-         status, output =3D self.target.run(command)
--        self.assertEqual(status, 0, msg=3D'wayland-info error: %s' % outpu=
-t)
-+        msg =3D 'wayland-info error: %s' % output
-+
-+        # dump last 20 lines of emptty log in case of failure
-+        log_cmd =3D 'tail -n 20 /var/log/emptty/7.log'
-+        msg +=3D '\n\n=3D=3D=3D=3D=3D start: snippet =3D=3D=3D=3D=3D\n\n'
-+        msg +=3D 'file: /var/log/emptty/7.log\n\n'
-+        msg +=3D '\n\n%s\n\n' % self.target.run(log_cmd)[1]
-+        msg +=3D '\n\n=3D=3D=3D=3D=3D end: snippet =3D=3D=3D=3D=3D\n\n'
-+
-+        self.assertEqual(status, 0, msg=3Dmsg)
-=20
-     @OEHasPackage(['weston'])
-     def test_weston_can_initialize_new_wayland_compositor(self):
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-gr=
-aphics/wayland/weston-init.bb
-index 29cfba0833..7ef49e06f7 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -1,18 +1,14 @@
--SUMMARY =3D "Startup script and systemd unit file for the Weston Wayland c=
-ompositor"
-+SUMMARY =3D "Autologin package for the Weston Wayland compositor"
- HOMEPAGE =3D "https://www.yoctoproject.org/"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
-88c80a0384361b4de20420"
-=20
- PACKAGE_ARCH =3D "${MACHINE_ARCH}"
-=20
--SRC_URI =3D "file://init \
--           file://weston.env \
-+SRC_URI =3D "\
-            file://weston.ini \
--           file://weston.service \
--           file://weston.socket \
--           file://weston-socket.sh \
--           file://weston-autologin \
--           file://weston-start"
-+           file://emptty.conf \
-+"
-=20
- S =3D "${UNPACKDIR}"
-=20
-@@ -30,37 +26,8 @@ WESTON_USER ??=3D "weston"
- WESTON_USER_HOME ??=3D "/home/${WESTON_USER}"
-=20
- do_install() {
--	# Install weston-start script
--	if [ "${VIRTUAL-RUNTIME_init_manager}" !=3D "systemd" ]; then
--		install -Dm755 ${S}/weston-start ${D}${bindir}/weston-start
--		sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
--		sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
--		install -Dm755 ${S}/init ${D}/${sysconfdir}/init.d/weston
--		sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}/${sysconfdir}/init.d/weston
--	fi
--
--	# Install Weston systemd service
--	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; t=
-hen
--		install -D -p -m0644 ${S}/weston.service ${D}${systemd_system_unitdir}/w=
-eston.service
--		install -D -p -m0644 ${S}/weston.socket ${D}${systemd_system_unitdir}/we=
-ston.socket
--		install -D -p -m0644 ${S}/weston-socket.sh ${D}${sysconfdir}/profile.d/w=
-eston-socket.sh
--		sed -i -e s:@sysconfdir@:${sysconfdir}:g \
--			-e s:@bindir@:${bindir}:g \
--			-e s:@localstatedir@:${localstatedir}:g \
--			-e s:@runtimedir@:${runtimedir}:g \
--			-e s:@WESTON_USER@:${WESTON_USER}:g \
--			-e s:@WESTON_USER_HOME@:${WESTON_USER_HOME}:g \
--			${D}${systemd_system_unitdir}/weston.service \
--			${D}${systemd_system_unitdir}/weston.socket \
--			${D}${sysconfdir}/profile.d/weston-socket.sh
--	fi
--
--	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
--		install -D -p -m0644 ${S}/weston-autologin ${D}${sysconfdir}/pam.d/westo=
-n-autologin
--	fi
--
- 	install -D -p -m0644 ${S}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.=
-ini
--	install -Dm644 ${S}/weston.env ${D}${sysconfdir}/default/weston
-+	install -D -p -m0644 ${S}/emptty.conf ${D}${sysconfdir}/emptty/conf
-=20
- 	if [ -n "${DEFAULTBACKEND}" ]; then
- 		sed -i -e "/^\[core\]/a backend=3D${DEFAULTBACKEND}-backend.so" ${D}${sy=
-sconfdir}/xdg/weston/weston.ini
-@@ -81,9 +48,7 @@ do_install() {
- 	install -dm 755 -o ${WESTON_USER} -g ${WESTON_USER} ${D}/${WESTON_USER_HO=
-ME}
+@@ -193,6 +193,18 @@ systemd_handle_machine_id() {
+     fi
  }
 =20
--INHIBIT_UPDATERCD_BBCLASS =3D "${@oe.utils.conditional('VIRTUAL-RUNTIME_in=
-it_manager', 'systemd', '1', '', d)}"
--
--inherit update-rc.d systemd useradd
-+inherit useradd
-=20
- USERADD_PACKAGES =3D "${PN}"
-=20
-@@ -91,23 +56,16 @@ USERADD_PACKAGES =3D "${PN}"
++#
++# A hook function to work around limitations of legacy inittab behavior
++#
++add_emptty_inittab() {
++    [ -f ${IMAGE_ROOTFS}${sysconfdir}/inittab ] || return 0
++
++    if ${@bb.utils.contains_any("IMAGE_FEATURES", [ "x11-base", "weston" ]=
+, "true", "false", d)}
++    then
++	echo "7:5:respawn:${bindir}/emptty -t 7 -d" >> ${IMAGE_ROOTFS}${sysconfdi=
+r}/inittab
++    fi
++}
++
  #
- require ${THISDIR}/required-distro-features.inc
-=20
--RDEPENDS:${PN} =3D "weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xway=
-land', 'weston-xwayland', '', d)}"
--
--INITSCRIPT_NAME =3D "weston"
--INITSCRIPT_PARAMS =3D "start 9 5 2 . stop 20 0 1 6 ."
-+RDEPENDS:${PN} =3D "emptty weston kbd ${@bb.utils.contains('PACKAGECONFIG'=
-, 'xwayland', 'weston-xwayland', '', d)}"
-=20
- FILES:${PN} +=3D "\
-     ${sysconfdir}/xdg/weston/weston.ini \
--    ${sysconfdir}/profile.d/weston-socket.sh \
--    ${systemd_system_unitdir}/weston.service \
--    ${systemd_system_unitdir}/weston.socket \
--    ${sysconfdir}/default/weston \
--    ${sysconfdir}/pam.d/ \
-+    ${sysconfdir}/emptty/conf \
-     ${WESTON_USER_HOME} \
-     "
-=20
--CONFFILES:${PN} +=3D "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/de=
-fault/weston"
-+CONFFILES:${PN} +=3D "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/em=
-ptty/conf"
-+RPROVIDES:${PN} +=3D "virtual-emptty-conf"
-=20
--SYSTEMD_SERVICE:${PN} =3D "weston.service weston.socket"
--USERADD_PARAM:${PN} =3D "--home ${WESTON_USER_HOME} --shell /bin/sh --user=
--group -G video,input,render,seat,wayland ${WESTON_USER}"
--GROUPADD_PARAM:${PN} =3D "-r wayland; -r render; -r seat"
-+USERADD_PARAM:${PN} =3D "--home ${WESTON_USER_HOME} --shell /bin/sh --user=
--group -G video,input,render,seat,nopasswdlogin weston"
-+GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin; -r render; -r seat"
-diff --git a/meta/recipes-graphics/wayland/weston-init/emptty.conf b/meta/r=
-ecipes-graphics/wayland/weston-init/emptty.conf
+ # A hook function to support read-only-rootfs IMAGE_FEATURES
+ #
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/dis=
+tro/include/default-providers.inc
+index 5101ad78f8..e9a6d299bc 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -67,3 +67,4 @@ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?=3D "native=
+sdk-libsdl2"
+ PREFERRED_RPROVIDER_virtual-libegl-icd ?=3D "mesa"
+ PREFERRED_RPROVIDER_virtual-libglx-icd ?=3D "mesa"
+ PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?=3D "rxvt-unicode"
++PREFERRED_RPROVIDER_virtual-emptty-conf ?=3D "emptty-conf"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc
+index e830648945..97c91a0e62 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -170,6 +170,8 @@ RECIPE_MAINTAINER:pn-efivar =3D "Ross Burton <ross.burt=
+on@arm.com>"
+ RECIPE_MAINTAINER:pn-efibootmgr =3D "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-elfutils =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+ RECIPE_MAINTAINER:pn-ell =3D "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-emptty =3D "Randolph Sapp <rs@ti.com>"
++RECIPE_MAINTAINER:pn-emptty-conf =3D "Randolph Sapp <rs@ti.com>"
+ RECIPE_MAINTAINER:pn-enchant2 =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+ RECIPE_MAINTAINER:pn-encodings =3D "Unassigned <unassigned@yoctoproject.or=
+g>"
+ RECIPE_MAINTAINER:pn-epiphany =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-gra=
+phics/emptty/emptty-conf.bb
 new file mode 100644
-index 0000000000..1918cc02a7
+index 0000000000..0b98e2e13e
 --- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/emptty.conf
-@@ -0,0 +1,77 @@
-+# TTY, where emptty will start.
-+TTY_NUMBER=3D7
++++ b/meta/recipes-graphics/emptty/emptty-conf.bb
+@@ -0,0 +1,14 @@
++require emptty.inc
 +
-+# Enables switching to defined TTY number.
-+SWITCH_TTY=3Dtrue
++SUMMARY +=3D " (Default config)"
 +
-+# Enables printing of /etc/issue in daemon mode.
-+PRINT_ISSUE=3Dtrue
++do_configure[noexec] =3D "1"
++do_compile[noexec] =3D "1"
 +
-+# Enables printing of default motd, /etc/emptty/motd or /etc/emptty/motd-g=
-en.sh.
-+PRINT_MOTD=3Dtrue
++do_install () {
++    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=3D${D} install-config
++}
 +
-+# Preselected user, if AUTOLOGIN is enabled, this user is logged in.
-+DEFAULT_USER=3Dweston
++FILES:${PN} =3D "${sysconfdir}/emptty/conf"
++CONFFILES:${PN} =3D "${sysconfdir}/emptty/conf"
++RPROVIDES:${PN} +=3D "virtual-emptty-conf"
+diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphic=
+s/emptty/emptty.inc
+new file mode 100644
+index 0000000000..7a0d4d257e
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty.inc
+@@ -0,0 +1,25 @@
++SUMMARY =3D "Dead simple CLI Display Manager on TTY"
++DESCRIPTION =3D "Emptty is a simple display manager with a command line gr=
+eeter \
++It supports both X11 and Wayland sessions, exporting required variables an=
+d \
++creating user paths as necessary."
 +
-+# Enables Autologin, if DEFAULT_USER is defined and part of nopasswdlogin =
-group. Possible values are "true" or "false".
-+AUTOLOGIN=3Dtrue
++HOMEPAGE =3D "https://github.com/tvrzna/emptty"
++BUGTRACKER =3D "https://github.com/tvrzna/emptty/issues"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://src/${GO_IMPORT}/LICENSE;md5=3Dd1e4d12c7d1d17=
+367ba5668706a405ba"
 +
-+# The default session used, if Autologin is enabled. If session is not fou=
-nd in list of session, it proceeds to manual selection.
-+AUTOLOGIN_SESSION=3DWeston
++S =3D "${UNPACKDIR}"
 +
-+# If Autologin is enabled and session does not start correctly, the number=
- of retries in short period is kept to eventually stop the infinite loop of=
- restarts. -1 is for infinite retries, 0 is for no retry.
-+# AUTOLOGIN_MAX_RETRY=3D2
++FILESEXTRAPATHS:append =3D ":${THISDIR}/emptty"
 +
-+# Default LANG, if user does not have set own in init script.
-+#LANG=3Den_US.UTF-8
++GO_IMPORT =3D "github.com/tvrzna/emptty"
++GO_IMPORT_pam =3D "github.com/msteinert/pam"
++SRC_URI =3D "\
++    git://${GO_IMPORT}.git;protocol=3Dhttps;branch=3Dmaster;destsuffix=3Ds=
+rc/${GO_IMPORT} \
++    git://${GO_IMPORT_pam}.git;protocol=3Dhttps;branch=3Dmaster;name=3Dpam=
+;destsuffix=3Dsrc/${GO_IMPORT_pam} \
++    file://pamconf \
++    "
++SRCREV =3D "bb203ad0a224731a7a2ff50deeb342ab79c4af09"
++SRCREV_pam =3D "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
 +
-+# Starts desktop with calling "dbus-launch".
-+DBUS_LAUNCH=3Dtrue
++SRCREV_FORMAT .=3D "_pam"
+diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-gra=
+phics/emptty/emptty/pamconf
+new file mode 100644
+index 0000000000..9cbfd6c4a5
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/pamconf
+@@ -0,0 +1,10 @@
++#%PAM-1.0
++auth            sufficient      pam_succeed_if.so user ingroup nopasswdlog=
+in
++auth            include         common-auth
++-auth           optional        pam_gnome_keyring.so
++-auth           optional        pam_kwallet5.so
++account         include         common-account
++session         include         common-session
++-session        optional        pam_gnome_keyring.so auto_start
++-session        optional        pam_kwallet5.so auto_start force_run
++password        include         common-password
+diff --git a/meta/recipes-graphics/emptty/emptty_0.15.0.bb b/meta/recipes-g=
+raphics/emptty/emptty_0.15.0.bb
+new file mode 100644
+index 0000000000..732bb45ff1
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty_0.15.0.bb
+@@ -0,0 +1,55 @@
++require emptty.inc
 +
-+# Starts Xorg desktop with calling "~/.xinitrc" script, if is true, file e=
-xists and selected WM/DE is Xorg session, it overrides DBUS_LAUNCH.
-+XINITRC_LAUNCH=3Dfalse
++PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
++PACKAGECONFIG[pam] =3D ",,libpam,pam-plugin-succeed-if"
++PACKAGECONFIG[x11] =3D ",,virtual/libx11,util-linux-mcookie"
 +
-+# Prints available WM/DE each on new line instead of printing on single li=
-ne.
-+VERTICAL_SELECTION=3Dfalse
++DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/cr=
+ypt', d)}"
 +
-+# Defines the way, how is logging handled. Possible values are "rotate", "=
-appending" or "disabled".
-+#LOGGING=3Drotate
++GO_TAGS =3D ""
++GO_TAGS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nop=
+am', d)}"
++GO_TAGS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',nox=
+lib', d)}"
 +
-+# Overrides path of log file
-+#LOGGING_FILE=3D/var/log/emptty/[TTY_NUMBER].log
++GOBUILDFLAGS:append =3D " -tags=3D${GO_TAGS}"
 +
-+# Arguments passed to Xorg server.
-+#XORG_ARGS=3D
++export GO111MODULE =3D "off"
 +
-+# Allows to use dynamic motd script to generate custom MOTD.
-+#DYNAMIC_MOTD=3Dfalse
++inherit go
 +
-+# Allows to override default path to dynamic motd.
-+#DYNAMIC_MOTD_PATH=3D/etc/emptty/motd-gen.sh
++DEPENDS +=3D "gzip"
 +
-+# Allows to override default path to static motd.
-+#MOTD_PATH=3D/etc/emptty/motd
++do_install () {
++    # general collateral
++    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
++    install -d ${D}${mandir}/man1
++    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptt=
+y.1.gz
 +
-+# Foreground color, available only in daemon mode.
-+#FG_COLOR=3DLIGHT_BLACK
++    # pam config
++    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
++    then
++        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
++    fi
 +
-+# Background color, available only in daemon mode.
-+#BG_COLOR=3DBLACK
++    # systemd init service
++    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
++    then
++        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=3D${D} install-systemd
++    fi
++}
 +
-+# Enables numlock in daemon mode. Possible values are "true" or "false".
-+#ENABLE_NUMLOCK=3Dfalse
++FILES:${PN} =3D "\
++    ${systemd_system_unitdir}/emptty.service \
++    ${bindir}/emptty \
++    ${mandir}/man1/emptty.1.gz \
++    ${sysconfdir}/pam.d/emptty \
++"
 +
-+# Defines the way, how is logging of session errors handled. Possible valu=
-es are "rotate", "appending" or "disabled".
-+SESSION_ERROR_LOGGING=3Drotate
++RDEPENDS:${PN} +=3D "virtual-emptty-conf"
++SYSTEMD_SERVICE:${PN} =3D "emptty.service"
 +
-+# Overrides path of session errors log file
-+#SESSION_ERROR_LOGGING_FILE=3D/var/log/emptty/session-errors.[TTY_NUMBER].=
-log
++inherit systemd
 +
-+# If set true, it will not use `.emptty-xauth` file, but the standard `~/.=
-Xauthority` file. This allows to handle xauth issues.
-+#DEFAULT_XAUTHORITY=3Dfalse
++USERADD_PACKAGES =3D "${PN}"
++GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
 +
-+#If set true, Xorg will be started as rootless, if system allows and emptt=
-y is running in daemon mode.
-+#ROOTLESS_XORG=3Dfalse
-+
-+#If set true, environmental groups are printed to differ Xorg/Wayland/Cust=
-om/UserCustom desktops.
-+IDENTIFY_ENVS=3Dfalse
-diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-=
-graphics/wayland/weston-init/init
-deleted file mode 100644
-index a5c54e001e..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/init
-+++ /dev/null
-@@ -1,54 +0,0 @@
--#!/bin/sh
--#
--### BEGIN INIT INFO
--# Provides: weston
--# Required-Start: $local_fs $remote_fs
--# Required-Stop: $local_fs $remote_fs
--# Default-Start:     2 3 4 5
--# Default-Stop:      0 1 6
--### END INIT INFO
--
--if test -e /etc/default/weston ; then
--        . /etc/default/weston
--fi
--
--killproc() {
--        pid=3D`/bin/pidof $1`
--        [ "$pid" !=3D "" ] && kill $pid
--}
--
--read CMDLINE < /proc/cmdline
--for x in $CMDLINE; do
--        case $x in
--        weston=3Dfalse)
--		echo "Weston disabled"
--		exit 0;
--                ;;
--        esac
--done
--
--case "$1" in
--  start)
--        . /etc/profile
--	      export HOME=3DROOTHOME
--
--        WESTON_USER=3Dweston weston-start $OPTARGS &
--  ;;
--
--  stop)
--        echo "Stopping Weston"
--        killproc weston
--  ;;
--
--  restart)
--	$0 stop
--        sleep 1
--        $0 start
--  ;;
--
--  *)
--        echo "usage: $0 { start | stop | restart }"
--  ;;
--esac
--
--exit 0
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-autologin b/m=
-eta/recipes-graphics/wayland/weston-init/weston-autologin
-deleted file mode 100644
-index f6e6d106de..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston-autologin
-+++ /dev/null
-@@ -1,11 +0,0 @@
--auth      required  pam_nologin.so
--auth      required  pam_unix.so     try_first_pass nullok
--
--account   required  pam_nologin.so
--account   required  pam_unix.so
--
--session   required  pam_env.so
--session   required  pam_unix.so
---session  optional  pam_systemd.so type=3Dwayland class=3Duser desktop=3Dw=
-eston
---session  optional  pam_loginuid.so
--
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh b/m=
-eta/recipes-graphics/wayland/weston-init/weston-socket.sh
-deleted file mode 100755
-index 8f652862da..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
-+++ /dev/null
-@@ -1,20 +0,0 @@
--#!/bin/sh
--
--# set weston variables for use with global weston socket
--global_socket=3D"@runtimedir@/wayland-0"
--if [ -e "$global_socket" ]; then
--	weston_group=3D$(stat -c "%G" "$global_socket")
--	if [ "$(id -u)" =3D "0" ]; then
--		export WAYLAND_DISPLAY=3D"$global_socket"
--	else
--		case "$(groups "$USER")" in
--			*"$weston_group"*)
--				export WAYLAND_DISPLAY=3D"$global_socket"
--				;;
--			*)
--				;;
--		esac
--	fi
--	unset weston_group
--fi
--unset global_socket
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/=
-recipes-graphics/wayland/weston-init/weston-start
-deleted file mode 100755
-index 3b13a0047a..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ /dev/null
-@@ -1,76 +0,0 @@
--#!/bin/sh
--# Copyright (C) 2016 O.S. Systems Software LTDA.
--# Copyright (C) 2016 Freescale Semiconductor
--
--export PATH=3D"/sbin:/usr/sbin:/bin:/usr/bin"
--
--usage() {
--	cat <<EOF
--	$0 [<weston options>]
--EOF
--}
--
--## Module support
--modules_dir=3D@DATADIR@/weston-start
--
--# Add weston extra argument
--add_weston_argument() {
--	weston_args=3D"$weston_args $1"
--}
--
--## Add module to --modules argument
--add_weston_module() {
--	if [[ "x${weston_modules}" =3D=3D "x" ]]; then
--		weston_modules=3D"--modules "
--	fi;
--	weston_modules+=3D"${1},"
--}
--
--if [ -n "$WAYLAND_DISPLAY" ]; then
--	echo "ERROR: A Wayland compositor is already running, nested Weston insta=
-nce is not supported yet."
--	exit 1
--fi
--
--if [ -n "$WESTON_USER" ]; then
--	if [ -z "$WESTON_GROUP" ]; then
--		# no explicit WESTON_GROUP given, therefore use WESTON_USER
--		export WESTON_GROUP=3D"${WESTON_USER}"
--	fi
--fi
--
--weston_args=3D$*
--
--# Load and run modules
--if [ -d "$modules_dir" ]; then
--	for m in "$modules_dir"/*; do
--		# Skip backup files
--		if [ "`echo $m | sed -e 's/\~$//'`" !=3D "$m" ]; then
--			continue
--		fi
--
--		# process module
--		. $m
--		if [[ x"{$weston_modules}" !=3D "x" ]]; then
--			add_weston_argument "${weston_modules}"
--		fi;
--	done
--fi
--
--if test -z "$XDG_RUNTIME_DIR"; then
--	export XDG_RUNTIME_DIR=3D/run/user/`id -u ${WESTON_USER}`
--	if test -d "$XDG_RUNTIME_DIR"; then
--	    # Check permissions on existing directory
--	    if [ "$(stat -c %u-%a "$XDG_RUNTIME_DIR")" !=3D "$(id -u ${WESTON_USE=
-R})-700" ]; then
--			echo "ERROR: $XDG_RUNTIME_DIR has incorrect permissions"
--			exit 1
--		fi
--	else
--		mkdir --mode 0700 --parents $XDG_RUNTIME_DIR
--		if [ -n "$WESTON_USER" ]
--		then
--			chown $WESTON_USER:$WESTON_GROUP $XDG_RUNTIME_DIR
--		fi
--	fi
--fi
--
--su -c "XDG_RUNTIME_DIR=3D$XDG_RUNTIME_DIR weston $weston_args --log=3D/tmp=
-/weston.log" $WESTON_USER
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.env b/meta/re=
-cipes-graphics/wayland/weston-init/weston.env
-deleted file mode 100644
-index e69de29bb2..0000000000
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/met=
-a/recipes-graphics/wayland/weston-init/weston.service
-deleted file mode 100644
-index b7e845e88d..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ /dev/null
-@@ -1,71 +0,0 @@
--# This is a system unit for launching Weston with auto-login as the
--# user configured here.
--#
--# Weston must be built with systemd support, and your weston.ini must load
--# the plugin systemd-notify.so.
--[Unit]
--Description=3DWeston, a Wayland compositor, as a system service
--Documentation=3Dman:weston(1) man:weston.ini(5)
--Documentation=3Dhttp://wayland.freedesktop.org/
--
--# Make sure we are started after logins are permitted.
--Requires=3Dsystemd-user-sessions.service
--After=3Dsystemd-user-sessions.service
--
--# If Plymouth is used, we want to start when it is on its way out.
--After=3Dplymouth-quit-wait.service
--
--# D-Bus is necessary for contacting logind. Logind is required.
--Wants=3Ddbus.socket
--After=3Ddbus.socket
--
--# Ensure the socket is present
--Requires=3Dweston.socket
--
--# Since we are part of the graphical session, make sure we are started bef=
-ore
--# it is complete.
--Before=3Dgraphical.target
--
--# Prevent starting on systems without virtual consoles, Weston requires on=
-e
--# for now.
--ConditionPathExists=3D/dev/tty0
--
--[Service]
--# Requires systemd-notify.so Weston plugin.
--Type=3Dnotify
--EnvironmentFile=3D@sysconfdir@/default/weston
--ExecStart=3D@bindir@/weston --modules=3Dsystemd-notify.so
--
--# Optional watchdog setup
--#TimeoutStartSec=3D60
--#WatchdogSec=3D20
--
--# The user to run Weston as.
--User=3D@WESTON_USER@
--Group=3D@WESTON_USER@
--
--# Make sure the working directory is the users home directory
--WorkingDirectory=3D@WESTON_USER_HOME@
--
--# Set up a full user session for the user, required by Weston.
--PAMName=3Dweston-autologin
--
--# A virtual terminal is needed.
--TTYPath=3D/dev/tty7
--TTYReset=3Dyes
--TTYVHangup=3Dyes
--TTYVTDisallocate=3Dyes
--
--# Fail to start if not controlling the tty.
--StandardInput=3Dtty-fail
--StandardOutput=3Djournal
--StandardError=3Djournal
--
--# Log this user with utmp, letting it show up with commands 'w' and 'who'.
--UtmpIdentifier=3Dtty7
--UtmpMode=3Duser
--
--[Install]
--# Note: If you only want weston to start on-demand, remove this line with =
-a
--# service drop file
--WantedBy=3Dgraphical.target
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.socket b/meta=
-/recipes-graphics/wayland/weston-init/weston.socket
-deleted file mode 100644
-index a7d461ee30..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston.socket
-+++ /dev/null
-@@ -1,14 +0,0 @@
--[Unit]
--Description=3DWeston socket
--RequiresMountsFor=3D@runtimedir@
--
--[Socket]
--ListenStream=3D@runtimedir@/wayland-0
--SocketMode=3D0775
--SocketUser=3D@WESTON_USER@
--SocketGroup=3Dwayland
--RemoveOnStop=3Dyes
--
--[Install]
--WantedBy=3Dsockets.target
--
++inherit useradd
 --=20
 2.52.0
 
