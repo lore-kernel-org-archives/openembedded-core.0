@@ -1,401 +1,279 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9258E7FDF5
-	for <webhook@archiver.kernel.org>; Mon,  2 Feb 2026 22:36:40 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.38])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3618.1770071799092406490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF8B5E7FDE0
+	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 01:20:41 +0000 (UTC)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (SN4PR2101CU001.outbound.protection.outlook.com [40.93.195.64])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6840.1770081635382381586
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Feb 2026 14:36:39 -0800
+ Mon, 02 Feb 2026 17:20:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=di0f6Cph;
- spf=pass (domain: est.tech, ip: 40.107.130.38, mailfrom: pratik.farkase@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=ZTSSN/DK;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.195.64, mailfrom: rs@ti.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U8j7v2VyYhz55OgliTb4hOpzisywW1GUwvNB/lFBQkx1qYlAolpJ8DighZ1JHUJMBExjIzxxpqmKW7oItxdFFmJXNfx8ICnq6D4itVC/sNT3ajqJJ54INMe+Bk8N/RMbVRXnixFSP4EZxBGEQjocEbi0tIObgUsJ0LXbdXIxIWcOOfBAQxBjFQOEfTDeiapFqW/C1H5JWzWcOeicJ/zgo9sRtwRzMfErHJfJ2eCXSp1mbHeRqokWLP6rGoDpDcCgkJ9bWTw5uDpmp8ufOc5QtOX3hS3oxx9wJffrBAeiRf5DztJ7HDBni2zutoao5ZzsUfUDjBRQjDftIZbS5B9GSw==
+ b=EMkMTsX1/eDriUjMxYTiRavZ/8N78COqRt+6H+ONqRzS2vM5thveQ8bCMR2jvStCCluyZc04TP8DfSwxYHv33gPrQXVFPB787CTIJVgPWiWjaTgPiDE1eLOevTqOUdmHwqe23cO95abLhJwiyPOZxQ0nISTgl16Ro1t/LmQ3MmaLtR1gE+dfZAVdTSuu39fmIvdCWNqqHmTvn4F8PFPxoVBARhDd7XzyCpJCx9UADrG+bExJdTa2YfwNCq7IUZk2TlBS3uQ5g65DdHBn1+TKEnj5ATbEsD7ROgwCZsx7mKIx9NI8xtk/OIVXgwi28UdhZIXi6PSb8Z41rVJstLi/6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wHApW8Lav1kO0YAVofrRQw8WEWy/1Qdagcbf8i/IBnc=;
- b=tfZEdTb7Ze1JigsMBQ+1f0J7G+yKbh3bK43FRHRGDyHsjbAABOT6itOOSf0ClU1RowtWapp5n6OXep85UpR76Caz/1RJE+G2WDbFO+ay6SgJKHxHZcM8RikU17zKTHL1xlscSESfqxf93ktEHZveliZuBgA4NmXObGO+kHJDaTx+BvFhgsF/FjdMfjzxjGBqDRaTKxOTzZLtrH4mPQt20OefnpJ/8dvckDPxWNeVSwhbT7dc9sjYkWMeAaQu7SCZAukphLdF47lSN1TQnjSERHGR1oTS8WZPSpQYa97iN8p1m23MoPtFsYiF3rOCWRagxQ/x9k+8ukcgfMMuUNaKOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ bh=W46n+bH959tfLW1WdKLPyzMIfK8030ekmk0E2GvNtes=;
+ b=Ur0jue9PTne7zAxuNnqqcJ9i65r2BoQCe6CwVzpMGmyBy5Tc2iuNL9KJjXDsShZRt8vc7dO39hWYeUk6vNzBSNHImd1xuKwtfo4El1yFbPNdy7JBq3Iy6q4m0fMbquYqyrLPBwbONT+3ccd/Qsog8QaiNvHKtce5smE4Ns2OYevGVpJ1zGRjZYbPIHwUS3DyL8LVIK+HGipHtN+yJgQDCFHuj8sSXnmnMx7tCOez/MDm+juw/kZ8R06wuLCoMzKdZS4i1JWobDbTPSE7ratLDaMy7WQjMWI8bq5W3fQgOqyXsc+viextp3PtOUQbeyG+0nH1wqVibxydPDv9prSLuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wHApW8Lav1kO0YAVofrRQw8WEWy/1Qdagcbf8i/IBnc=;
- b=di0f6CphrOHvNTPFPJ5AIepdCGBOKUo5rLsph9/VpkbEVUjDtCxo43dCxOp4WHy8C2KGDTM5vsvopVYJk7xnzKaWUZPipOfhq5V7ST3jJUoKbZRetGeX/vK05WsgYk6mP4CX3BHWigPK9P8bPAFsrZIXN1PPxoEkjlWie/8l3aZko15+tzfiGMQ0XzbY113By2bB9lLOevjmRe4/W3c+kDgVUgHltH9TLQG6IdnQwwmoAHjVBO7EeMRf6+Jm5z1io/46DpUpfAJ30YRo/lj9Vj8lU4wYFz1CwYV9tUWn7GfBEaHzk6ghY5lqVyOATVFSVs0hm8xRiGvcnSxcDoLw+w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by DU0P189MB2201.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3ee::18) with
+ bh=W46n+bH959tfLW1WdKLPyzMIfK8030ekmk0E2GvNtes=;
+ b=ZTSSN/DKjtVfPNEf4okUu+eIGoMW/1lUIy1xFy0dN4ZJ4bXDamjuYPZo5PSBK2eA3z8f2eqBAP1R354F+BXJR6zX9VSr/o2zid2I67OKTjhDLAcbQXFzpYvmXdUqACnjVFGM7sLCk3p3GE5+6302FHmE29qvW6/VZk3BpilcxRg=
+Received: from PH8PR21CA0024.namprd21.prod.outlook.com (2603:10b6:510:2ce::23)
+ by SA2PR10MB4796.namprd10.prod.outlook.com (2603:10b6:806:115::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
- 2026 22:36:34 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
- 22:36:34 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v1] libsolv: add ptest support
-Date: Mon,  2 Feb 2026 23:36:06 +0100
-Message-ID: <20260202223606.19978-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
+ 2026 01:20:31 +0000
+Received: from CO1PEPF000044F9.namprd21.prod.outlook.com
+ (2603:10b6:510:2ce:cafe::22) by PH8PR21CA0024.outlook.office365.com
+ (2603:10b6:510:2ce::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.12 via Frontend Transport; Tue,
+ 3 Feb 2026 01:20:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ CO1PEPF000044F9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.0 via Frontend Transport; Tue, 3 Feb 2026 01:20:30 +0000
+Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Feb
+ 2026 19:20:30 -0600
+Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Feb
+ 2026 19:20:29 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 2 Feb 2026 19:20:29 -0600
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6131KTrZ3095493;
+	Mon, 2 Feb 2026 19:20:29 -0600
+From: <rs@ti.com>
+To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
+	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
+CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][PATCHv15 5/6] xuser-account: merge with xserver-nodm-init
+Date: Mon, 2 Feb 2026 19:20:27 -0600
+Message-ID: <20260203012028.4008229-6-rs@ti.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260203012028.4008229-1-rs@ti.com>
+References: <20260203012028.4008229-1-rs@ti.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0559.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:33b::15) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
-MIME-Version: 1.0
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|DU0P189MB2201:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03a391bd-2f4b-4162-9acc-08de62ab84e6
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F9:EE_|SA2PR10MB4796:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4bd8cf8-27c4-45ee-97fb-08de62c26be8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700013;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Jl7Od8NrJTCqkJvqkdg2YT/N3q5kq+cfxdoPRxMK+xsHzyv9+Sjn4XhFxjAJ?=
- =?us-ascii?Q?Px6pBIZs/b+fE4E3Hl/3bFl7W4BOitl/LS3Ppw/AYJvOKL3SuCiiEKP2TfXF?=
- =?us-ascii?Q?Duhpt2z+eV9nAahNoloIRUC3zjXa0LPoID6gO3OZ2heTwAyn4yhJOAcZbmu2?=
- =?us-ascii?Q?vdRid6PMSjW2V4lloSVE+xzU5vi3AdvGskgDPJpHzBE1T5kyJBpc/j/nAObS?=
- =?us-ascii?Q?qrQodIP//iYUn954cGSrijEJW3ILtx4pLq1q/ot5jIZqGdsmmJUOejH/Idqz?=
- =?us-ascii?Q?gHmruRb4eFPHInl0Wuaa3ZbDmGFv3XOVHpElZSEKvs5DYQvMMwTLOB4h5tDB?=
- =?us-ascii?Q?qNl8/7nxMIQI3fFpzMOANLBof8xovOrhiOiyMu55DbCKERHTSlSmK9N2q87N?=
- =?us-ascii?Q?Pl7I30tL+uQiDxewNkbEqUJcpAhYXt6Zoq2n1h/pyX4pljFta4Oxb/wDMgTD?=
- =?us-ascii?Q?o0g3A1ZaBRZh3b9Hv0x4m5f39q6FVW2rS5MhllBcg8Q1Pi73TdUlAwmG5tqN?=
- =?us-ascii?Q?Vw0Z8QzSThQn4ogRj/VTaL/zJ5+8J6cgpMoe/LigAzDE43+tuHYFMEOWEZKB?=
- =?us-ascii?Q?Pd7iCtZnO1uUZCZ5VuttkfKyT0OVOAWuC4CsJQpxxfH8rxejxq8oysyHYA4c?=
- =?us-ascii?Q?ixNdsMPZ0ga3GbjTjjzH43XAbWXoSZNQdUuKH9selavOJrWd58BCLtQTmIeY?=
- =?us-ascii?Q?L4CZrTvZX+mYz4IniJXcgHhZstu/4gvAeyKSYFRPjwiCEMGXk3nnWjKBQxAm?=
- =?us-ascii?Q?N1eI38X+g1yMsIxy76puSdLameX/nKbI/g24zURJgqeXTlx0VHPwQL1NR8GQ?=
- =?us-ascii?Q?aOWcfFgZBq3DztjQLYaMCs7hRXPclnmpIABGwWNZhmVXBhMZGpFZIs6/GPiU?=
- =?us-ascii?Q?brg/Rozuzi4K+RovdewCQRuMEJM1Myx5vrQ/GZm4fMtIOUsepdjxTVOIlq9t?=
- =?us-ascii?Q?mCDvNx0mLtaf4z4F8qTXGr++63b3M4PMmBFIv4qUbwqvGzxrE883k1JofJPL?=
- =?us-ascii?Q?keJjGJ6uu0r4N57HZQRlQRsMFJsuIt7M9CQBo9SOh0jBxbwiTDKfym5fM3Uv?=
- =?us-ascii?Q?lx+eGmnQ7aqtvhzXh2bNlbmaPtdmufJ5Wf3BwQKux4liURJGA3aleaE+xmfo?=
- =?us-ascii?Q?gOftglvpR/s6+6AdNL8dYYSdswYIKrYhwrGPDFMR17hOrwTqrQffTaAd0uT7?=
- =?us-ascii?Q?Xr0/x4y/pp03Ls548kESh/7slsmzG6dOZNXM6nIdFXtt69WWWTy75tlaXOJk?=
- =?us-ascii?Q?+nTodhPpusd8rzN8E+b7qFDVnErYPYKmGuN/QDWOmD0WF0PBH3CtRy9sHXb6?=
- =?us-ascii?Q?qTdoDcWHTNe6ov+XMpxUROYFoer89z5cMVzmYH/as+UNcJugvKAiySSMmh5A?=
- =?us-ascii?Q?Xh0HJbEqaFCRk0RmHQLFAEFKht4n3fuGyfGh3eDITtkqwO+BPoGnRcVREdXe?=
- =?us-ascii?Q?D0LjBgnVdfkHIcTHu+8Yi01/5YOYppSDUwKr4rJsTVj4vpdgAtwXUMDjF2Qr?=
- =?us-ascii?Q?ScUmx+Tss6d+17Dscxuk1dY2WeJV9P4mnehQ87vYH88ItPKuar3nQ8r0IcXu?=
- =?us-ascii?Q?xg6/AFD5mTdO6LuGhrY=3D?=
+	=?us-ascii?Q?5is4FBAoqtV2u/8bkAEJKxmEItNeGKJjr58EIlx6yCCnJc4erjoT0SairChD?=
+ =?us-ascii?Q?5LuxxfO5zxZiZZET+RZpwQiTeG2Ij2BhNPVGyD0/yZFe9xJl74FGgbltjL57?=
+ =?us-ascii?Q?cVmvAsXyg+w5c0c6NlKE0SY0eQzIQLzBFvd26mMAMa+Hn/YIexR66AED5C5+?=
+ =?us-ascii?Q?dXZJyxgJ4B2YSxlU/qz/tEDRzStFOUEps+kAfUTCXpDXqARAyIVYSP5K4+Fp?=
+ =?us-ascii?Q?zN+m5iAF2e/3jQWE6fDEwtFqCPo/d6Prtb7eGv+vPYMOWPW0ezQ8SZOU4G4J?=
+ =?us-ascii?Q?vfJHha+0fmu+82zkZCTzIllriOdJKgzSaSqDbsBmzDFLrbmX/jkmtwW4Q2/l?=
+ =?us-ascii?Q?tC0Q9kxSf5qTkeohUN6J8CrljDPK1MfdXL1ifonwjkyaiiZGrcGIeZ2vqYnr?=
+ =?us-ascii?Q?UeU5U3o4JTZfrWNKdCTSdAkxiT02MYZYuWmqH1mvaRMhdWHG1az2Ly105Qp8?=
+ =?us-ascii?Q?aKczegnrkmCFy3JHCYmETJKoqxSHfOC5/gK8eu0SrcsxKAmctaws9nWBxnPH?=
+ =?us-ascii?Q?oqUHPNrAmqZm+oWlWMwClVMQK+xHGXPQymM1DlmQ2/EtSWjeTdYueEc56zgQ?=
+ =?us-ascii?Q?UdKRqtU7BG5uBYkfIKHfOwTWBBfkYjA1HVEcczjO0HYQo6bA6MjfmewEUdJo?=
+ =?us-ascii?Q?+G3hS0I+3Ma3Z5bbNYAJrX/j83Gxdqa2bS2Qo83iaQe70XkHOdTNnUEBIs+i?=
+ =?us-ascii?Q?DIbSfardL6LEJh8iUGgO2OnubIZ6k1vvJ4jtM0D6Gaxga+lYpnA8cingr2hf?=
+ =?us-ascii?Q?2N4LZWAF44b8zjZVj/LTAOQF5YJbLYGPPu1cfpDZG/90wQPSRsNp2uU1xY2i?=
+ =?us-ascii?Q?jseEHcIGI8K0BTKQS7ocy+YD7cmQ3Xff0Quo1uqLMT0zt9RUSZ1n8d/kThpF?=
+ =?us-ascii?Q?QPozZvIsPZ145cp8cSnleuCBT1bUXYju0Yz7v7tUVuigr0pGCAsIbCELG3rO?=
+ =?us-ascii?Q?DpeUoAlvIU8yNvog2zMA0uvt4zHQC3axi3RqVQ27DoYOzi8/0ZiZxrkFiPzx?=
+ =?us-ascii?Q?QfE220dJuYZmnOmFoj0ric9ES0JZ1G2t0sJVDu/B5sWVsX0YcCW6TKJC+Ny6?=
+ =?us-ascii?Q?Cjd4Bwxw9Jr3tyYTEpWmOZ6dfB2RXnUui+G+A7vnVdHyeld3Vii0P9IiqCl9?=
+ =?us-ascii?Q?xlIqAIKL9u1anu9eGazTHd/IVoLqHiDrKmCZjjkiKU/FKpftnT46Meb9SKjX?=
+ =?us-ascii?Q?LQ0/KJmsU5SmmQ+i7T99KeGyjLnKY/q4hJwMGXhJ6qh9+EaRKqRhJeySr+vl?=
+ =?us-ascii?Q?PkmztTqhO8riw5yiGaMFDV1qkwDooTSVWjtKuY7bWT6UCL6HGyEnVkPh8ShU?=
+ =?us-ascii?Q?zI3knoDkDZfAxF8HHDa6y/VbeHTJ2p8gcBRZDeC3y5M8O4UGFX18n5ycz6FB?=
+ =?us-ascii?Q?zJ1LL30Ucf8QS3YQfpgsVzFc0kMwu+W0+eOMmwJrRmsPj9cNZbMIS2S2iAo4?=
+ =?us-ascii?Q?LlIrRCHHJqWFzGmvJqJrZloNEQrCfmA1vcaQK32IDwZrE0QOFdRbhV7Md8jo?=
+ =?us-ascii?Q?CIyNoWcEsBuMWiQvhAW1fLx7CQnvhLQ+5gDGWCX3Qi4zE/RFCG+6P9Hm8cd4?=
+ =?us-ascii?Q?pvj4gm3uj4GnJ7A3/JHC4YhbSCYk8J4LT87WaJtu1TYFTapw8zhNogiiKDSh?=
+ =?us-ascii?Q?8WYdRKDC6riLtG0WBwtBrkz6iHo8CFcV7TM6MBXVd5saIt+BOiseADzDZggd?=
+ =?us-ascii?Q?IEr49w=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6JWuMknfiALXPmv3Ue9bagdy+yWdetNcw1Qb+MphJjIN2U9vOcRrCl+tbjvT?=
- =?us-ascii?Q?DD2a+5NK83Nm1YDBpCg7277MXSoejQrr6S7komjzzkPFlqs7/5aOXKM4p+8t?=
- =?us-ascii?Q?hKCk0mEtsw0Fcf4WKGHfU3GbqAGfj+dk/cfu/8Uh5xLOegkLqJoXI66my931?=
- =?us-ascii?Q?GnhTjIPNQEeVG9JK/JGh8dm+xkWazcnO3YLiNhxSyrOihitw+ZlJDLungCiZ?=
- =?us-ascii?Q?JFkau6sWGheI6Hn652wgZV8Z2PWlFQjGbj5JwNZcjMkL9axuqazzzTBQmERJ?=
- =?us-ascii?Q?NFL/BnQd10YgQYxWcal3RF/v1PWUrMSxw6/YsS5+9BxD6K66LkahOWCIKNVa?=
- =?us-ascii?Q?l5O7kqs+eXctYf4L4D+kyeDAipDLiGGhONRjS77aELb8qvULBL3MzS3R5hZi?=
- =?us-ascii?Q?IrVaj7xdL3hxLZoLqrbEaTqAxO+MrbOX49y+w/RQkhwkGjOQcFEY2+lp7MPO?=
- =?us-ascii?Q?irvX9Ipcsvbi3aBpkiwi9TxJxc6fLuGVCngh27B/KCr7qtNTAlWAvwC2iSuU?=
- =?us-ascii?Q?RmKSsAI0fYbOS5cBr+qZuIKPf4Tgalbj3yXZagkCbphZPsdBzzapY7d4/efN?=
- =?us-ascii?Q?5Rr3X2WRDUY0wBjrTyZ+2XYlH5svg9MkwEVNb7d5W4moxKRflVKWdhemYSrg?=
- =?us-ascii?Q?ABFbmaNfZn2ZkrBhY0oAsYTs5qwluGLiK+A323sru8N7N5SfT1wiZlFLsvme?=
- =?us-ascii?Q?RjSs9SOffFYieIOyu2UO2WuEyXY/iR0G7Fl6sjn69PQRcux2u4bYQTQFL3Gm?=
- =?us-ascii?Q?Q6BSx2V12lSSAX++SL1YBgc9Y263dgFoPvMYVHQ6a6enL/ArHVUH2YL0iPxk?=
- =?us-ascii?Q?IiJNVKZQA0Pdkh6bO8mYyISOom3ygR2LQwR9OyqrF++VFTr5FdRr491CVKD0?=
- =?us-ascii?Q?IEMFuH3Dqrex9XJWtOWrrJMc/Pvi7oYpnpVaW6qSZRgCVtAPkf+cGg8ecSMh?=
- =?us-ascii?Q?wEBu1/oLKhdzYrr0zfq1brNGVHwX75etHbhF0maBylDzU94QZLFbrWZpoCVj?=
- =?us-ascii?Q?bxKvoc0EHLnIiV0rZHOzeeRTaPv/JE4nXeeHQH7aadw8ynL02GqS8V9mRLDT?=
- =?us-ascii?Q?Ds6A6Qf0tPOb9Ao9g54X7zDkM/PvbH3N1oAeJiVXTrdzFY52+uljCSd8MO3j?=
- =?us-ascii?Q?zsxFX2TC8vc7QFG3bbD2l0Dl93bznc4luXDC8ik6BZMjJRKMkv3cQB6tLBS9?=
- =?us-ascii?Q?R/G3UBycz+r8rv+sXlw0EyXVMfthCAoGdf+N2Ir8Z9OoNbP7SPz/Ofm1bCVD?=
- =?us-ascii?Q?Ttztl9UHkOdTWnEBW50o4x2TjTpEcKV92IAVSsR4rPY3tAusV2JEnJ+2Y+Bg?=
- =?us-ascii?Q?6xRMfyKkpg993tK7TLxpwBbJ5uKZjAyTnH4X7hiMkcjeYVUD4BboVGDO9E3y?=
- =?us-ascii?Q?EI5jDPneXK3QBHsJfGlfPWYErMQ7fkBRLiHKP8oC/NrB0XDlHyGvPRxRuACN?=
- =?us-ascii?Q?+CBFjyyTOElfyONvGTUa85Y3nhXWbs7Beyv3qJSqAn4ZePrRe8ngXg1VTytT?=
- =?us-ascii?Q?VCyoWghyctA68I1AdZEaxWcKCE2+gM4BzRRXShKfek87DLH3v2htqwT0qEB+?=
- =?us-ascii?Q?KsJbFz9VM6gYIlJxSHNYPT+5LU/zlhmfmQk2rccqC/VuonOckPGkwWR/YmGZ?=
- =?us-ascii?Q?gyXlfln0RMB01HhrzeafNzRLSH3MmbbvCwib7L11+P1JQQFKxNaGN/PYhXdG?=
- =?us-ascii?Q?18JkOt3PUC5veEy0WH8oEVYqZ+Kldon7PzWVn9cFPvTkn3c3ds59RZHjsxpf?=
- =?us-ascii?Q?+UJK9gpT7Q=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03a391bd-2f4b-4162-9acc-08de62ab84e6
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 22:36:34.3497
+	AEw/bvv1KpjzRYLZrQNkWsY/qda5B45o7sr0iVNEPDeSLqk36tabekVOHOMGqbBXt3Bw6UTFDDSo7jaGmrhVbsRQL+588zwyWljEjJaUkSvubDYTNShIeYpDjQGhIoRH5WbTT1evy/4AjnYELB1JoylYYTrWn9mQaubM8zz2gSDUmlExWEsKiEK5pcJ1qfwKSDJ5GSYcltBH0L1EKzkFj/WNzVc4/7GuzsoOxoJYQ+m2DoBmraOJoKLEii8WxKb9Fs0MnYe4brP2JF8GQIVEG7WfIgR/b9RZJvEamt5d6bBfkGOXhZkpctgnt9BvaGTvCzVGh7ND7A7t7284meP9M0vGXwDrH96TXdel/fwzUyvKN1gbIxFB7drrY2ZFGpMkKEvVdRmzRIAYHBmI+FAhIXIE3bj2bB3ESJUxoij5WltKhsnnYu1YVmgHFI2X3+oT
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 01:20:30.5447
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nfNf6EjdDRrjLkUP79UO1ZM89qcfGpiglE1wk0gT6j5O2FNwx/jBUg0mH1jRPfyHOru7kIwm9BsYJ+3otMSU7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2201
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4bd8cf8-27c4-45ee-97fb-08de62c26be8
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	CO1PEPF000044F9.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4796
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Feb 2026 22:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230408
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 01:20:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230410
 
-Add ptest support to enable automated testing of libsolv
-using ptest-runner.
+From: Randolph Sapp <rs@ti.com>
 
-The implementation uses upstream's test infrastructure:
-testsolv binary, runtestcases.sh script, and testcase data.
-The test suite runs 28 test categories covering solver
-functionality, package dependencies, and repository handling.
+Merge the xuser-account recipe with xserver-nodm-init, since:
 
-All 28 upstream tests pass successfully on qemux86-64:
-START: ptest-runner
-BEGIN: /usr/lib/libsolv/ptest
-conflict.t .......................................   Passed
-forcebest.t ......................................   Passed
-PASS: allowuninstall
-job.t ............................................   Passed
-learnt.t .........................................   Passed
-recommends.t .....................................   Passed
-requires.t .......................................   Passed
-strongrecommends.t ...............................   Passed
-update.t .........................................   Passed
-yumobs.t .........................................   Passed
-PASS: alternative
-ptf.t ............................................   Passed
-retracted.t ......................................   Passed
-PASS: blacklist
-choice1.t ........................................   Passed
-choice1b.t .......................................   Passed
-choice2.t ........................................   Passed
-choice2b.t .......................................   Passed
-choice3.t ........................................   Passed
-choice3b.t .......................................   Passed
-choice4.t ........................................   Passed
-choice5.t ........................................   Passed
-choice6.t ........................................   Passed
-choice7.t ........................................   Passed
-PASS: choicerules
-default.t ........................................   Passed
-enhanced.t .......................................   Passed
-oldversion.t .....................................   Passed
-suggested.t ......................................   Passed
-versioned.t ......................................   Passed
-versioned2.t .....................................   Passed
-PASS: choose
-cleandeps_dup.t ..................................   Passed
-cleandeps_in.t ...................................   Passed
-cleandeps_up.t ...................................   Passed
-cleandeps_up3.t ..................................   Passed
-mistake.t ........................................   Passed
-PASS: cleandeps
-and.t ............................................   Passed
-andor.t ..........................................   Passed
-if.t .............................................   Passed
-ifelse.t .........................................   Passed
-ifelse_rec.t .....................................   Passed
-or.t .............................................   Passed
-orand.t ..........................................   Passed
-PASS: cplxdeps
-dup_allowuninstall.t .............................   Passed
-dup_multiversion1.t ..............................   Passed
-dup_multiversion2.t ..............................   Passed
-dup_multiversion3.t ..............................   Passed
-dup_noarchchange.t ...............................   Passed
-dup_orphan1.t ....................................   Passed
-dup_orphan2.t ....................................   Passed
-dup_orphan3.t ....................................   Passed
-PASS: distupgrade
-caret.t ..........................................   Passed
-testevr.t ........................................   Passed
-PASS: evrcmp
-excludefromweak-obsoletes.t ......................   Passed
-excludefromweak.t ................................   Passed
-PASS: excludefromweak
-recommends.t .....................................   Passed
-recommends2.t ....................................   Passed
-requires.t .......................................   Passed
-single.t .........................................   Passed
-supplements.t ....................................   Passed
-PASS: favor
-best.t ...........................................   Passed
-installed.t ......................................   Passed
-new1.t ...........................................   Passed
-new2.t ...........................................   Passed
-normal.t .........................................   Passed
-PASS: focus
-forcebest_dup.t ..................................   Passed
-forcebest_in.t ...................................   Passed
-forcebest_up.t ...................................   Passed
-PASS: forcebest
-best.t ...........................................   Passed
-dup.t ............................................   Passed
-PASS: lock
-infarch_install_best.t ...........................   Passed
-lockstep_install.t ...............................   Passed
-lockstep_update.t ................................   Passed
-PASS: lockstep
-multiversion.t ...................................   Passed
-update.t .........................................   Passed
-update2.t ........................................   Passed
-PASS: multiversion
-namespaceprovides.t ..............................   Passed
-PASS: namespace
-pubg1.t ..........................................   Passed
-pubg2.t ..........................................   Passed
-PASS: proof
-recommended_conflicts.t ..........................   Passed
-recommended_multirepo.t ..........................   Passed
-recommended_oldversion.t .........................   Passed
-recommended_targeted.t ...........................   Passed
-recommended_version.t ............................   Passed
-suggested_conflicts.t ............................   Passed
-suggested_multirepo.t ............................   Passed
-suggested_oldversion.t ...........................   Passed
-suggested_targeted.t .............................   Passed
-suggested_version.t ..............................   Passed
-PASS: recommendations
-assert.t .........................................   Passed
-mm-test.t ........................................   Passed
-reuse.t ..........................................   Passed
-PASS: sat
-disable: unknown package 'E-1-1.src@available'
-disable: unknown package 'F-1-1.src@available'
-selection_canon_rpm.t ............................   Passed
-selection_filelist.t .............................   Passed
-selection_matchdeps.t ............................   Passed
-selection_matchsolvable.t ........................   Passed
-selection_name.t .................................   Passed
-selection_provides.t .............................   Passed
-PASS: selection
-strictrepoprio.t .................................   Passed
-PASS: strictrepoprio
-break.t ..........................................   Passed
-disfavored.t .....................................   Passed
-strongr.t ........................................   Passed
-PASS: strongrecommends
-targeted_color.t .................................   Passed
-targeted_dup.t ...................................   Passed
-targeted_up.t ....................................   Passed
-PASS: targeted
-nested.t .........................................   Passed
-str2dep.t ........................................   Passed
-PASS: testcase
-supplements_implicitobsoleteusescolors.t .........   Passed
-PASS: weakdeps
-dup.t ............................................   Passed
-dup2.t ...........................................   Passed
-forcebest_in.t ...................................   Passed
-forcebest_up.t ...................................   Passed
-PASS: whatprovideswithdisabled
-split.t ..........................................   Passed
-split2.t .........................................   Passed
-PASS: yumobs
-DURATION: 7
-END: /usr/lib/libsolv/ptest
-STOP: ptest-runner
+ - This is the only recipe dependent on it
+ - This matches the current behavior in weston-init
+ - Running x11 as root is no longer a supported path in
+   xserver-nodm-init
+ - The display manager configuration and user account name are heavily
+   connected
+ - The existing method of integration ignored this connection
 
-Note: runtestcases.sh requires bash as it uses bash-specific features.
-
-Change-Id: I408ed9786e2d97c48c08c7ceb43e7bcf91a754fd
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libsolv/libsolv/run-ptest                 | 21 +++++++++++++++
- .../libsolv/libsolv_0.7.35.bb                 | 26 ++++++++++++++++++-
- 3 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-extended/libsolv/libsolv/run-ptest
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../xserver-nodm-init}/system-xuser.conf      |  0
+ .../x11-common/xserver-nodm-init_3.0.bb       | 20 +++++++++---
+ .../user-creation/xuser-account_0.1.bb        | 31 -------------------
+ 4 files changed, 15 insertions(+), 37 deletions(-)
+ rename meta/{recipes-support/user-creation/files =3D> recipes-graphics/x11=
+-common/xserver-nodm-init}/system-xuser.conf (100%)
+ delete mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index b9616e9bf4..fbbd118255 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -36,6 +36,7 @@ PTESTS_FAST =3D "\
-     libnl \
-     libpcre \
-     librsvg \
-+    libsolv \
-     libssh2 \
-     libtest-fatal-perl \
-     libtest-needs-perl \
-diff --git a/meta/recipes-extended/libsolv/libsolv/run-ptest b/meta/recipes=
--extended/libsolv/libsolv/run-ptest
-new file mode 100755
-index 0000000000..1462aecd61
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/run-ptest
-@@ -0,0 +1,21 @@
-+#!/bin/sh
-+
-+cd test
-+
-+for t in allowuninstall alternative blacklist choicerules choose cleandeps=
- \
-+         cplxdeps distupgrade evrcmp excludefromweak favor focus forcebest=
- \
-+         lock lockstep multiversion namespace proof recommendations sat \
-+         selection strictrepoprio strongrecommends targeted testcase weakd=
-eps \
-+         whatprovideswithdisabled yumobs; do
-+
-+    if [ -x ./runtestcases.sh ] && [ -d testcases/$t ]; then
-+        ./runtestcases.sh ../tools/testsolv testcases/$t
-+        if [ $? -eq 0 ]; then
-+            echo "PASS: $t"
-+        else
-+            echo "FAIL: $t"
-+        fi
-+    else
-+        echo "SKIP: $t"
-+    fi
-+done
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb b/meta/recipes=
--extended/libsolv/libsolv_0.7.35.bb
-index ec74308bb5..53daa36106 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
-@@ -10,13 +10,14 @@ DEPENDS =3D "expat zlib zstd"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc
+index a7425f7020..ec0a128901 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -935,7 +935,6 @@ RECIPE_MAINTAINER:pn-xserver-xf86-config =3D "Unassigne=
+d <unassigned@yoctoproject.
+ RECIPE_MAINTAINER:pn-xserver-xorg =3D "Unassigned <unassigned@yoctoproject=
+.org>"
+ RECIPE_MAINTAINER:pn-xset =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xtrans =3D "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-xuser-account =3D "Randolph Sapp <rs@ti.com>"
+ RECIPE_MAINTAINER:pn-xvinfo =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xwayland =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+ RECIPE_MAINTAINER:pn-xwininfo =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+diff --git a/meta/recipes-support/user-creation/files/system-xuser.conf b/m=
+eta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
+similarity index 100%
+rename from meta/recipes-support/user-creation/files/system-xuser.conf
+rename to meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.c=
+onf
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/me=
+ta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+index ed056df72f..0e9fe1e65a 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+@@ -1,14 +1,15 @@
+-SUMMARY =3D "Simple Xserver Init Script (no dm)"
++SUMMARY =3D "Simple Xserver Init Script and user account"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
+88c80a0384361b4de20420"
+ SECTION =3D "x11"
 =20
- SRC_URI =3D "git://github.com/openSUSE/libsolv.git;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV} \
-            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
-+           file://run-ptest \
- "
+ SRC_URI =3D "file://emptty.conf.in \
+-           file://default.desktop"
++           file://default.desktop \
++           file://system-xuser.conf"
 =20
- SRCREV =3D "fb4b4340d46108cb365113e432642d6024886c7a"
+ S =3D "${UNPACKDIR}"
 =20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
+-inherit features_check
++inherit features_check useradd
 =20
--inherit cmake
-+inherit cmake ptest
+ REQUIRED_DISTRO_FEATURES =3D "x11"
 =20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('PACKAGE_CLASSES','package_rpm',=
-'rpm','',d)}"
- PACKAGECONFIG[rpm] =3D "-DENABLE_RPMMD=3DON -DENABLE_RPMDB=3DON,,rpm"
-@@ -29,3 +30,26 @@ FILES:${PN}-tools =3D "${bindir}/*"
- FILES:${PN}ext =3D "${libdir}/${PN}ext.so.*"
+@@ -26,10 +27,19 @@ do_install() {
 =20
- BBCLASSEXTEND =3D "native nativesdk"
+     sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/emptty/=
+conf
+     sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/conf
 +
-+do_compile_ptest() {
-+    cmake_runcmake_build --target testsolv
-+}
++    install -D -m 0644 ${S}/system-xuser.conf ${D}${sysconfdir}/dbus-1/sys=
+tem.d/system-xuser.conf
+ }
+=20
+ FILES:${PN} =3D "${sysconfdir}/emptty/conf \
+-               ${datadir}/xsessions/default.desktop"
++               ${datadir}/xsessions/default.desktop \
++               ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
 +
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tools
-+    install -d ${D}${PTEST_PATH}/test
-+
-+    if [ -f ${B}/tools/testsolv ]; then
-+        install -m 0755 ${B}/tools/testsolv ${D}${PTEST_PATH}/tools/
-+    fi
-+
-+    if [ -f ${S}/test/runtestcases.sh ]; then
-+        install -m 0755 ${S}/test/runtestcases.sh ${D}${PTEST_PATH}/test/
-+    fi
-+
-+    if [ -d ${S}/test/testcases ]; then
-+        cp -r ${S}/test/testcases ${D}${PTEST_PATH}/test/
-+    fi
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "bash"
++USERADD_PACKAGES =3D "${PN}"
++USERADD_PARAM:${PN} =3D "--create-home \
++                       --groups video,tty,audio,input,shutdown,disk,nopass=
+wdlogin \
++                       --user-group xuser"
++GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
+=20
+-RDEPENDS:${PN} =3D "emptty xuser-account"
++RDEPENDS:${PN} =3D "emptty"
+ RPROVIDES:${PN} +=3D "virtual-emptty-conf"
+diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta=
+/recipes-support/user-creation/xuser-account_0.1.bb
+deleted file mode 100644
+index f1e4cb674f..0000000000
+--- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
++++ /dev/null
+@@ -1,31 +0,0 @@
+-SUMMARY =3D "Creates an 'xuser' account used for running X11"
+-LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
+88c80a0384361b4de20420"
+-
+-SRC_URI =3D "file://system-xuser.conf"
+-
+-inherit allarch useradd
+-
+-S =3D "${UNPACKDIR}"
+-
+-do_configure() {
+-    :
+-}
+-
+-do_compile() {
+-    :
+-}
+-
+-do_install() {
+-    install -D -m 0644 ${UNPACKDIR}/system-xuser.conf ${D}${sysconfdir}/db=
+us-1/system.d/system-xuser.conf
+-}
+-
+-FILES:${PN} =3D "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
+-
+-USERADD_PACKAGES =3D "${PN}"
+-USERADD_PARAM:${PN} =3D "--create-home \
+-                       --groups video,tty,audio,input,shutdown,disk,nopass=
+wdlogin \
+-                       --user-group xuser"
+-GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
+-
+-ALLOW_EMPTY:${PN} =3D "1"
 --=20
-2.43.0
+2.52.0
 
 
