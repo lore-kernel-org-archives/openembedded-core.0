@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0AE1E6E7EB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDE7E6E7EF
 	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 10:19:34 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13354.1770113965111681079
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13355.1770113966103773807
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Feb 2026 02:19:25 -0800
+ Tue, 03 Feb 2026 02:19:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ni3WKt6Z;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43596062728so363173f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 02:19:24 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=WHO1pvaS;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-435a11957f6so4228337f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 02:19:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770113963; x=1770718763; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770113964; x=1770718764; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vH6BK87+e/mwaObVUH+CZXj4Q/sC6OfiwDoCePdFOkc=;
-        b=ni3WKt6ZTU7pGlE4mlGqoPSOAaCpljvq9wLuMBe40qN5seRwUAu86kgKeGfuZoFG3A
-         gIVJOsnPZhixp4IML0nCM2EZ8YceMZ/oIGBVgHpXUrUJmWRKL+HLg5swBJ8NZQ7y961W
-         FUku2IOA4GLxZLMniulfQASd/JaIaJOqzvoU8=
+        bh=d+BzhpS/sSwy4fvSNjCvJN3XhrgXofjWG4LRJNMT3B8=;
+        b=WHO1pvaSubEZLPvD4XfDuSysg8l/CYVTvGx12ALMXAibLHcI5d7zO/a+BIzYdguWqC
+         GsUhcGQUHlpS2k0pzpICOPETGoHqxsza+mwAfZTLIimObteRFSyYkD27Eah2Y6nC5ieh
+         r4KG4B0rXY8cnjVzz52KopQfy0sa6xCEBu4kY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770113963; x=1770718763;
+        d=1e100.net; s=20230601; t=1770113964; x=1770718764;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=vH6BK87+e/mwaObVUH+CZXj4Q/sC6OfiwDoCePdFOkc=;
-        b=cxeYGlKtQO3TXDn0WbMnuIZnCDb/RuvWtw5S9SqxiPzqPp20ystm5NFJzPUJOnfzlB
-         fVMcrDbH/4tsNT3/+jvXNvSASoh4uJHer3F4jMe7NLN6tr561MPzN55lcDLTOqVNPbT7
-         8NGhYsR6olIQjLYybQZy/TLk6iI5UasE53AZIKGSRDNKZICKIueGmz8Fj0SAUh7YgBZ7
-         kuroJwGSyn8APJsC10YPQNIKRjIa+u0Fzt/obcFWTA/B1xXKo3ZxADQ+CIjaj4nubdGL
-         HJuNZRJsJqyqATz+DEUMprEbXuBpdRiZErakauzRl7/ur8S9NWSylbtt+7p+hnyqN2DF
-         EjNg==
-X-Gm-Message-State: AOJu0YwSI1UJZwvasn5rb0/AjYRpKt2GvIdDIr1LIb2KtRBCD1C+Rb4u
-	gWfHHnMb3K3hfrtvN6Rs8vl8o9H2c6H8k3/+IRYOkicR/26nJX6s5qljZMrdjYpgs3wyhtOw98E
-	lOd1UZKs=
-X-Gm-Gg: AZuq6aLUwXjGxufZL2205kzMvjRA241DddaE9lEf5pTCJWSV72mESjSSj1bo4Sz9WiA
-	M7MpzhAtK8VJ9+JUeQUpyWjHVWOhRzmetVAoXdCoA2twz7p37sMFIlYc65zKvIRbckq3lshf5YR
-	hROpB5aFo3sjnC7pkgE7I3bFCpjlYRTb1FTqrYw1lIQkmgFuyCNDxEuuNTlQO/RXyjpZC1xoGF9
-	dqmXXfS8CYPROJvo1W4b6OuHIkgDiX2gPQ62aTzVI15NXzyIbWcyJ2Q4EPe9o0k0rS6CshSTWeM
-	0REnwqo6YVXSc2jYDsQE2Nee0l4GAVSYNq/bvdDqNBPYqgr8LIgBbfGMj9vzNP5z6jYrSbscYY8
-	tloN0t7Lkw0RiV5hsyqMUp3bqj/QhrKCSgabghQDXTjopnJrVnPMSpRFG4/RI/dmp8objl93Re7
-	qnt1Odd8UWPNNRi+YH+Tnvx7/3L0dnPvoC8cT8C1JzvUQ2csKeJ2rq5TeqF7jvQ8ZltPR4ZMqNQ
-	X0t4sE9ov0Z+eo=
-X-Received: by 2002:a5d:6408:0:b0:436:251:b574 with SMTP id ffacd0b85a97d-4361130b3eemr2812747f8f.5.1770113963204;
-        Tue, 03 Feb 2026 02:19:23 -0800 (PST)
+        bh=d+BzhpS/sSwy4fvSNjCvJN3XhrgXofjWG4LRJNMT3B8=;
+        b=F+Qwmec8eOxphpSc2206qcAdUQaqhRkw0GST8cq5H/k7iLXrSEFxTVwrmN0UNpMcxR
+         t5MVVtijgQ9ShwI36gEZdZBWf5o/P4SZoNC0z9NiThZJwtcT56WVZUEVfC+SpJPXbjTL
+         vR2g8bO5nI+zHza2CArUy7fdrWIN8FSiNvMW88gMj32kk7F5btvmvLSJQ9b2R/Oe48T+
+         Ca59ZNLwAy2p4qbgpPsGZxIU4Tu5FiSNe4C6iY0NjKd2gsHLKUKpVfW+y+dsqKl9t1N6
+         hQbjqFH9x4izZDymjFpcBdIudnnvV5/20Lx0ocXM3rCTgASNJzeQvM0orLIpDzRESMNB
+         m39w==
+X-Gm-Message-State: AOJu0YwTD3ICnbOn/ua2/09lVbibeahPuTIVA/f2DDcxVCfZg89IEB90
+	Vuc62I02Ype4QdSx/KyJjnnwdDPjL1WYWo/fPBk1jPxf1YjqxPvx4doayKBDbCQjREMwu7JMk+2
+	izUxe5XQ=
+X-Gm-Gg: AZuq6aIilgdKtPWoa9AdPqNlx6/AISCzRK7pTx/yY/CMfRVOPNqNVT4D9tarZh9/7dV
+	ab70vbuJu8ZcavuovfajNcopbJn/9sxv43lNznu3V+2PR48fQwtjrEWL4MdE7X4y7bm/tVmDymg
+	VWLhOSU3a4+ph6JvHCRDaAey+XJdTzGsI71UQns+PwPcjW1PkbpB+KhGKBNHliSMb38DGxCQLmv
+	b9/qci7ab7GKgowFiwQD0RoRXHTc+kxg/vNSXJ1QlyjMuKMv54jX/fE4yHHRV1iiYuzNveeLsc6
+	2jprkuekgFTk8W7q8SQ/kWfUJXvxJO+8io0xZN+vepPLBuLfuk7k60o7i+gAxD0HscdiCXNH+T9
+	bw7o24wiOcUYochzf51eSU0oezGReiiHYPPXdD+lVcWl22g/v2cjcwHFIKsrLUSvpkGZR5oYGTs
+	M/b7902mElxL1qmKj70GKkdB1yFs6olwMc8RMpI9LKb/jlCx9qI0BaxbtsbluWtZwPx7s1CHIep
+	m6CfelFJ0SyVFzTsPc3UYdxXA==
+X-Received: by 2002:a05:6000:61e:b0:435:9241:37b4 with SMTP id ffacd0b85a97d-435f3aafcb4mr20615623f8f.53.1770113964178;
+        Tue, 03 Feb 2026 02:19:24 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm52293041f8f.27.2026.02.03.02.19.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm52293041f8f.27.2026.02.03.02.19.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 02:19:22 -0800 (PST)
+        Tue, 03 Feb 2026 02:19:23 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 02/22] oeqa/gitarchive: Push tag before copying log files
-Date: Tue,  3 Feb 2026 11:16:31 +0100
-Message-ID: <c35be1a5b2b07569d00a1b49665d8d238dd773b6.1770109549.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 03/22] scripts/oe-git-archive: Ensure new push parameter is specified
+Date: Tue,  3 Feb 2026 11:16:32 +0100
+Message-ID: <ff3f70212c4ddf2892663d831fd53097247f87c7.1770109549.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770109549.git.yoann.congal@smile.fr>
 References: <cover.1770109549.git.yoann.congal@smile.fr>
@@ -66,57 +66,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 10:19:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230430
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230431
 
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Resulttool creates a git tag in the yocto-testresults git and then
-copies log files to a newly created folder on the NFS share, whose name
-is controlled by the name of this git tag. As tags are unique, the
-folder name is also unique, preventing any clash between different
-builds.
+Fixes a regresion in "oeqa/gitarchive: Fix git push URL parameter" due to a missing parameter.
 
-Today, the tag is pushed from the calling script, so after the folder is
-copied. This can lead to some issues if for any reason the tag is not
-pushed. This might also lead to some race condition. Allow to push the
-tag before coying data, in order to prevent these issues, and add a
-warning if the calling script choose to not push the tag but still copy
-the log files on the NFS share.
-
-Fixes [YOCTO #15696]
-
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7d869c9c5aaeeda9fa476bfe6b05ded6e225379d)
+(cherry picked from commit 983cb2171e53564bc9dd188136439f3e2ad9e188)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/lib/resulttool/store.py | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ scripts/oe-git-archive | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index f3caafaff82..dc2c259331b 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -82,9 +82,14 @@ def store(args, logger):
-                                   "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
-                                   False, "{branch}/{commit_count}-g{commit}/{tag_number}",
-                                   'Test run #{tag_number} of {branch}:{commit}', '',
--                                  excludes, [], False, None, keywords, logger)
-+                                  excludes, [], args.push_tags, None, keywords, logger)
+diff --git a/scripts/oe-git-archive b/scripts/oe-git-archive
+index 9305ed0b0f9..9484fc53c7d 100755
+--- a/scripts/oe-git-archive
++++ b/scripts/oe-git-archive
+@@ -106,7 +106,7 @@ def main(argv=None):
+         gitarchive.gitarchive(args.data_dir, args.git_dir, args.no_create, args.bare,
+                               args.commit_msg_subject.strip(), args.commit_msg_body, args.branch_name,
+                               args.no_tag, args.tag_name, args.tag_msg_subject, args.tag_msg_body,
+-                              args.exclude, args.notes, args.push, keywords, log)
++                              args.exclude, args.notes, bool(args.push), args.push, keywords, log)
  
-             if args.logfile_archive:
-+                if not args.push_tags:
-+                    # As no tag was pushed, we can't guarantee there "tagname"
-+                    # is uniq and so we might have several builds trying to use
-+                    # the same "logdir" target.
-+                    logger.warning("Archiving log files but the %s tag was not pushed: this may result in target folder conflicts")
-                 logdir = args.logfile_archive + "/" + tagname
-                 shutil.copytree(tempdir, logdir)
-                 os.chmod(logdir, 0o755)
-@@ -123,3 +128,5 @@ def register_commands(subparsers):
-                               help='only store data for the specified revision')
-     parser_build.add_argument('-l', '--logfile-archive', default='',
-                               help='directory to separately archive log files along with a copy of the results')
-+    parser_build.add_argument('-p', '--push-tags', action='store_true',
-+                              help='push created tags to remote git')
+     except gitarchive.ArchiveError as err:
+         log.error(str(err))
 
