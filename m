@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFFB2E8B36D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D53CFE8B375
 	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 22:22:01 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6178.1770157316319166633
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6013.1770157316261529153
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Feb 2026 14:21:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=ICsn1LMG;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260203222154454113eb9e000207d2-t1yhpt@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260203222154454113eb9e000207d2
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=IB8R0TsO;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20260203222153a2d3e5df210002077f-7jfoaz@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260203222153a2d3e5df210002077f
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 03 Feb 2026 23:21:54 +0100
+        Tue, 03 Feb 2026 23:21:53 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=NVAqGQRqbcEtQszMyuoNFUTh3Y+66wYlXcG2CjppYIc=;
- b=ICsn1LMGXcMtGmECYMgK5Xjdn82vSN/tWN+4UB6eELWkkNax9dUiI3dy3yVrZOzsYd4SG1
- z0qjt93ZJYnwMwWPISNge0Olx7tdm2RWm81xtImSoV2bxJcP1z9RtY8sHd3fD7Y6O6ouFlzy
- ezVhnT/yAQwSrv9oF3Z6INBryKJn2R3hISou80bPyxtsII3IPqkmAVv4LNnLHFNpNpofUbew
- ZjoHARG25ZK3Jcm/WC44w3zFHbauRoD7cVpR1SKnbxQ8MlKZwfYBkTjE7xgBEjOgvVVVmAfM
- ycIpklwvMT+HeVMkRYp99MuYvKXQep9Y/NOBG1J0OOk/XZk64WfBKOhg==;
+ bh=a3XS/ZJR1NxGoapWsVY8Y2f+J7CRdSuy+y8wsy4MiIE=;
+ b=IB8R0TsOUr6BqtD//xjCvLXNDwIa9tSltLYmTbgobSVa+DOr/FkuAaAThvAimOGPGq0xiE
+ S+WjBR/oaJjeS22Gqjj34qLSYOAw1jAOsLNS8XMvImR6Qqsji6kwZxUcgSaNb+K2BRoE+9Jw
+ jIsM1SQBhP7eLE1IXuUGRPFu8Oc4gxfTC5y+MziZBiRy3hT6EocGneP974rGeLHwhqmZmnRA
+ oYAgHv+bQqgWc4oObUzUiqdxuSExV/MLbmCKStHc63cOP60Oi23PnSdLbRice/RxOCkw+Elf
+ lrNd3vpqJog5a51fXDzJr5ucRs5YlSYmeFt8ajfPkqtcHQRE8bzgOQnQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 11/12] cpp-example: Add std::vector example
-Date: Tue,  3 Feb 2026 23:16:27 +0100
-Message-ID: <20260203222139.1599349-12-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 04/12] oe-selftest: devtool: check example services are running
+Date: Tue,  3 Feb 2026 23:16:20 +0100
+Message-ID: <20260203222139.1599349-5-adrian.freihofer@siemens.com>
 In-Reply-To: <20260203222139.1599349-1-adrian.freihofer@siemens.com>
 References: <20260203222139.1599349-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,46 +39,114 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 22:22:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230475
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230484
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add a standard container (std::vector) to the C++ example program to
-demonstrate the debugger's capability to inspect and traverse STL
-containers during a debugging session. This requires enabling GDB's
-pretty-printing feature, which depends on Python scripts shipped with
-the compiler.
+When running the devtool ide-sdk test with qemu, verify that the example
+services are actually running on the target by using pgrep to check for
+the example executable names.
+
+Also verify that the configuration files in /etc are owned by the proper
+user and group, both before and after the install_and_deploy scripts
+have run. This is also a check that the install_and_deploy scripts
+are working correctly with pseudo.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta-selftest/recipes-test/cpp/files/cpp-example.cpp | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/lib/oeqa/selftest/cases/devtool.py | 45 +++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-index dbf82f15d9..23d7169092 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-@@ -9,6 +9,7 @@
- #include <iostream>
- #include <unistd.h>
- #include <string>
-+#include <vector>
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 681dcee08c..e78e6ed226 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2810,6 +2810,22 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertIn("Running tests...", result.output)
+         self.assertIn("100% tests passed", result.output)
  
- int main(int argc, char* argv[])
- {
-@@ -50,5 +51,12 @@ int main(int argc, char* argv[])
-         }
-     } while (endless_mode);
- 
-+    // Example: Demonstrate std::vector traversal for debugger inspection
-+    std::vector<int> numbers = {1, 2, 3};
-+    std::cout << "Traversing std::vector<int> numbers:" << std::endl;
-+    for (size_t i = 0; i < numbers.size(); ++i) {
-+        std::cout << "numbers[" << i << "] = " << numbers[i] << std::endl;
-+    }
++    def _verify_service_running(self, qemu, service_name):
++        """Helper to verify a service is running in Qemu"""
++        status, output = qemu.run("pgrep %s" % service_name)
++        self.assertEqual(status, 0, msg="%s service not running: %s" %
++                         (service_name, output))
++        self.assertTrue(output.strip().isdigit(),
++                        f"pgrep output should be a PID integer, got: {output.strip()}")
 +
-     return 0;
- }
++    def _verify_conf_file(self, qemu, conf_file, owner, group):
++        """Helper to verify a configuration file is owned by the proper user and group"""
++        ls_cmd = "ls -l %s" % conf_file
++        status, output = qemu.run(ls_cmd)
++        self.assertEqual(status, 0, msg="Failed to ls %s: %s" % (conf_file, output))
++        self.assertRegex(output, rf"^-.+ {owner} {group} .+ {re.escape(conf_file)}$",
++                         msg="%s not owned by %s:%s: %s" % (conf_file, owner, group, output))
++
+     @OETestTag("runqemu")
+     def test_devtool_ide_sdk_none_qemu(self):
+         """Start qemu-system and run tests for multiple recipes. ide=none is used."""
+@@ -2826,7 +2842,16 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             # cmake-example recipe
+             recipe_name = "cmake-example"
+             example_exe = "cmake-example"
++            example_user_group = "cmake-example"
++            conf_file = "/etc/cmake-example.conf"
+             build_file = "CMakeLists.txt"
++
++            # Verify the cmake-example service is running on the target
++            self._verify_service_running(qemu, example_exe)
++            # Verify /etc/cmake-example.conf is owned by the cmake-example user
++            self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
++
++            # Setup the recipe with devtool ide-sdk cmake-example ...
+             tempdir = self._devtool_ide_sdk_recipe(
+                 recipe_name, build_file, testimage)
+             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
+@@ -2835,14 +2860,29 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self._gdb_cross()
+             self._verify_cmake_preset(tempdir)
+             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
++
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+                 recipe_name), self._sources_scripts_dir(tempdir))
+ 
++            # Verify /etc/meson-example.conf is still owned by the cmake-example user
++            # after the install and deploy scripts updated the file
++            self._verify_conf_file(qemu, conf_file, example_exe, example_exe)
++
++
+             # meson-example recipe
+             recipe_name = "meson-example"
+             example_exe = "mesonex"
++            example_user_group = "meson-example"
++            conf_file = "/etc/meson-example.conf"
+             build_file = "meson.build"
++
++            # Verify the meson-example service is running on the target
++            self._verify_service_running(qemu, example_exe)
++            # Verify /etc/meson-example.conf is owned by the meson-example user
++            self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
++
++            # Setup the recipe with devtool ide-sdk meson-example ...
+             tempdir = self._devtool_ide_sdk_recipe(
+                 recipe_name, build_file, testimage)
+             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
+@@ -2850,10 +2890,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._gdb_cross()
+             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
++
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+                 recipe_name), self._sources_scripts_dir(tempdir))
+ 
++            # Verify /etc/meson-example.conf is still owned by the meson-example user
++            # after the install and deploy scripts updated the file
++            self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
++
+     def test_devtool_ide_sdk_code_cmake(self):
+         """Verify a cmake recipe works with ide=code mode"""
+         recipe_name = "cmake-example"
 -- 
 2.52.0
 
