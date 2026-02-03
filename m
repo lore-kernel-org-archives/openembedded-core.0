@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D53CFE8B375
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7CD9E8B377
 	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 22:22:01 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6013.1770157316261529153
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6010.1770157316179802737
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Feb 2026 14:21:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=IB8R0TsO;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20260203222153a2d3e5df210002077f-7jfoaz@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260203222153a2d3e5df210002077f
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=NfWvKzTb;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20260203222153815891c2de0002072f-sbvqf5@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260203222153815891c2de0002072f
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 03 Feb 2026 23:21:53 +0100
+        Tue, 03 Feb 2026 23:21:54 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=a3XS/ZJR1NxGoapWsVY8Y2f+J7CRdSuy+y8wsy4MiIE=;
- b=IB8R0TsOUr6BqtD//xjCvLXNDwIa9tSltLYmTbgobSVa+DOr/FkuAaAThvAimOGPGq0xiE
- S+WjBR/oaJjeS22Gqjj34qLSYOAw1jAOsLNS8XMvImR6Qqsji6kwZxUcgSaNb+K2BRoE+9Jw
- jIsM1SQBhP7eLE1IXuUGRPFu8Oc4gxfTC5y+MziZBiRy3hT6EocGneP974rGeLHwhqmZmnRA
- oYAgHv+bQqgWc4oObUzUiqdxuSExV/MLbmCKStHc63cOP60Oi23PnSdLbRice/RxOCkw+Elf
- lrNd3vpqJog5a51fXDzJr5ucRs5YlSYmeFt8ajfPkqtcHQRE8bzgOQnQ==;
+ bh=zsG78H0SKqBOmxoDV4BYv2WG8ibBz5AkAdNOwu9Mn/E=;
+ b=NfWvKzTbgDdrM0+QvZmgH0SBp5uLZ2PH7NHyZNUFCmAqSZY7e2M8ItF3y+bZ5OQ+TE8WzH
+ aIC+1xfHWjLGMsnrg3fU6OJud4+Ec4IwJIiIFccN1R8IpELDh3NLpv/WIxmVX/PB9OW6SRXy
+ ggq7kZ3RaBryCgYMNAXesgcl/4DFM1rFr7VBHDSLwh+fh4nmWwtYBgF0fd2Y4dK4Sp4uZ3oS
+ mnVwfXNJDxqB08auLXnMXpFo82e+Z+hG/4u/RB2N+hHQiKle9QrGdunT8cOWzzGvtJ4orYo7
+ 6sueOvI/TgivRe4SwlPXZjs1FDyLPfCZ0CmFH9fouVUwV95u7RcZdzTQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 04/12] oe-selftest: devtool: check example services are running
-Date: Tue,  3 Feb 2026 23:16:20 +0100
-Message-ID: <20260203222139.1599349-5-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 07/12] devtool: ide-sdk: make install_and_deploy script pass target arg
+Date: Tue,  3 Feb 2026 23:16:23 +0100
+Message-ID: <20260203222139.1599349-8-adrian.freihofer@siemens.com>
 In-Reply-To: <20260203222139.1599349-1-adrian.freihofer@siemens.com>
 References: <20260203222139.1599349-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,114 +39,61 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 22:22:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230484
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230485
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-When running the devtool ide-sdk test with qemu, verify that the example
-services are actually running on the target by using pgrep to check for
-the example executable names.
+Previously, the target was hardcoded in the install_and_deploy script,
+limiting flexibility. This change allows passing the target as a
+command-line argument, enabling IDEs to configure the target dynamically
+rather than only at IDE configuration generation time.
 
-Also verify that the configuration files in /etc are owned by the proper
-user and group, both before and after the install_and_deploy scripts
-have run. This is also a check that the install_and_deploy scripts
-are working correctly with pseudo.
+This is a first step towards making the target configurable from the IDE.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 45 +++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 4 ++++
+ scripts/lib/devtool/ide_sdk.py              | 5 ++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 681dcee08c..e78e6ed226 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2810,6 +2810,22 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertIn("Running tests...", result.output)
-         self.assertIn("100% tests passed", result.output)
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 67bd341347..3f8c1a44a3 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -306,6 +306,10 @@ class IdeVSCode(IdeBase):
+                     "label": install_task_name,
+                     "type": "shell",
+                     "command": run_install_deploy,
++                    "args": [
++                        "--target",
++                        args.target
++                    ],
+                     "problemMatcher": []
+                 }
+             ]
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 2af4dca256..96d60ad4f1 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -859,6 +859,9 @@ class RecipeModified:
+         cmd_lines.append('        for key in my_dict:')
+         cmd_lines.append('            setattr(self, key, my_dict[key])')
+         cmd_lines.append('filtered_args = Dict2Class(filtered_args_dict)')
++        cmd_lines.append('if len(sys.argv) > 2:')
++        cmd_lines.append('    if sys.argv[1] == "-t" or sys.argv[1] == "--target":')
++        cmd_lines.append('        setattr(filtered_args, "target", sys.argv[2])')
+         cmd_lines.append(
+             'setattr(filtered_args, "recipename", "%s")' % self.bpn)
+         cmd_lines.append('deploy_no_d("%s", "%s", "%s", "%s", "%s", "%s", %d, "%s", "%s", filtered_args)' %
+@@ -884,7 +887,7 @@ class RecipeModified:
+             'bitbake %s -c install --force || { echo "bitbake %s -c install --force failed"; exit 1; }' % (self.bpn, self.bpn))
  
-+    def _verify_service_running(self, qemu, service_name):
-+        """Helper to verify a service is running in Qemu"""
-+        status, output = qemu.run("pgrep %s" % service_name)
-+        self.assertEqual(status, 0, msg="%s service not running: %s" %
-+                         (service_name, output))
-+        self.assertTrue(output.strip().isdigit(),
-+                        f"pgrep output should be a PID integer, got: {output.strip()}")
-+
-+    def _verify_conf_file(self, qemu, conf_file, owner, group):
-+        """Helper to verify a configuration file is owned by the proper user and group"""
-+        ls_cmd = "ls -l %s" % conf_file
-+        status, output = qemu.run(ls_cmd)
-+        self.assertEqual(status, 0, msg="Failed to ls %s: %s" % (conf_file, output))
-+        self.assertRegex(output, rf"^-.+ {owner} {group} .+ {re.escape(conf_file)}$",
-+                         msg="%s not owned by %s:%s: %s" % (conf_file, owner, group, output))
-+
-     @OETestTag("runqemu")
-     def test_devtool_ide_sdk_none_qemu(self):
-         """Start qemu-system and run tests for multiple recipes. ide=none is used."""
-@@ -2826,7 +2842,16 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             # cmake-example recipe
-             recipe_name = "cmake-example"
-             example_exe = "cmake-example"
-+            example_user_group = "cmake-example"
-+            conf_file = "/etc/cmake-example.conf"
-             build_file = "CMakeLists.txt"
-+
-+            # Verify the cmake-example service is running on the target
-+            self._verify_service_running(qemu, example_exe)
-+            # Verify /etc/cmake-example.conf is owned by the cmake-example user
-+            self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
-+
-+            # Setup the recipe with devtool ide-sdk cmake-example ...
-             tempdir = self._devtool_ide_sdk_recipe(
-                 recipe_name, build_file, testimage)
-             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-@@ -2835,14 +2860,29 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             self._gdb_cross()
-             self._verify_cmake_preset(tempdir)
-             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
-+
-             # Verify the oe-scripts sym-link is valid
-             self.assertEqual(self._workspace_scripts_dir(
-                 recipe_name), self._sources_scripts_dir(tempdir))
+         # Self contained devtool deploy-target
+-        cmd_lines.append(self.gen_deploy_target_script(args))
++        cmd_lines.append(self.gen_deploy_target_script(args) + ' "$@"')
  
-+            # Verify /etc/meson-example.conf is still owned by the cmake-example user
-+            # after the install and deploy scripts updated the file
-+            self._verify_conf_file(qemu, conf_file, example_exe, example_exe)
-+
-+
-             # meson-example recipe
-             recipe_name = "meson-example"
-             example_exe = "mesonex"
-+            example_user_group = "meson-example"
-+            conf_file = "/etc/meson-example.conf"
-             build_file = "meson.build"
-+
-+            # Verify the meson-example service is running on the target
-+            self._verify_service_running(qemu, example_exe)
-+            # Verify /etc/meson-example.conf is owned by the meson-example user
-+            self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
-+
-+            # Setup the recipe with devtool ide-sdk meson-example ...
-             tempdir = self._devtool_ide_sdk_recipe(
-                 recipe_name, build_file, testimage)
-             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-@@ -2850,10 +2890,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-             self._gdb_cross()
-             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
-+
-             # Verify the oe-scripts sym-link is valid
-             self.assertEqual(self._workspace_scripts_dir(
-                 recipe_name), self._sources_scripts_dir(tempdir))
+         return self.write_script(cmd_lines, 'install_and_deploy')
  
-+            # Verify /etc/meson-example.conf is still owned by the meson-example user
-+            # after the install and deploy scripts updated the file
-+            self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
-+
-     def test_devtool_ide_sdk_code_cmake(self):
-         """Verify a cmake recipe works with ide=code mode"""
-         recipe_name = "cmake-example"
 -- 
 2.52.0
 
