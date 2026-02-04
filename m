@@ -1,382 +1,201 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <christian.lindeberg@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3477CE83EED
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 08:11:45 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15448.1770192697379880885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96125E83EFA
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 08:59:55 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.13])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16318.1770195592643221977
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 00:11:37 -0800
+ Wed, 04 Feb 2026 00:59:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3l4v8+vo;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so4142643f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 00:11:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770192696; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RpVhoZAL86tjYCT99JSBuXABCMVYdxsMzYsOmIcr0ugNrg8ZioPAQMAYz77iPPY+7u
-         Xc7MCOTm+/LCBxSyXn469/vhqm4O7/l4WbMiirDj5ny5XOK8BfMoQFihAOY2Zy3dw3Xt
-         ySwcRgojw0DZUIiMMPyKG8L0Y+bqbtHRwvVcWFh7mLk99UgKXajMJPBILZvhB9RcEE2h
-         a4WQP55jYb0jvtBbhz0ylBB+JdAr9KG/Oi12TtLzfqcraBV2TonY3HXWWq7idoYhvDjH
-         sN1+iy6VS5tKabWKzOvcw0myVCQUL5V/rg5OWEuN5irr7FwkWbdvO1PWYCSxPztzhNYQ
-         zpqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=CKe1GQ4gu5DEl/LVh6crqTSDj5ftkTIn/T6GrRGmbEQ=;
-        fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
-        b=OWshu1X3d0pz9UYVeK6u/E8m5A7USJWLzyMXWnCbvllg7Br/JEV7njb2LP4sTCfaj/
-         6DkkPrNUu56eHgxS22uJodc1TtCfgnsWIEiTLyDU31ewZ2e0xiOvbiM5o7GouYDnpjRC
-         dfvIioC63bah33UVn68IJumhDAQcvi194QNr0/d1W+4hdAdOLIIP2demwQygxeR+8PHP
-         tWm+WQHCvSdExXn6vzuqdBErZRNM9qp1nsyZMEbjkk8D5S7Gvg3MJWVP70rjh4U34ay3
-         UgyTgSopoI0SIKXnonPKQ0KoxiRzb35VU2g2YUZEDbZV7GRdrq/0jBR445o65YLHD9bk
-         Va+Q==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770192696; x=1770797496; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CKe1GQ4gu5DEl/LVh6crqTSDj5ftkTIn/T6GrRGmbEQ=;
-        b=3l4v8+vozHem7iKB4SgEGzr0U/tuZFaQ9m43HeSakG652NtWGH9edIo8Aw0B3CDg0P
-         N4i64Kp+lDvb5rrnt6yi0BO1APkaXuQUC+VP9cWZ0I+2X9Vo15d52p5MQQ6j+/6R17r2
-         YzfFjsX+T/JcbBYhSUA09aVkO5a/TonDVzpOk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770192696; x=1770797496;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CKe1GQ4gu5DEl/LVh6crqTSDj5ftkTIn/T6GrRGmbEQ=;
-        b=s5+4KQkGJbNXBVQxMNqeSiqwj7p+2Dt/0Rb0FmGnaYRkpou0yAzfaqHXqkejfL/EZ9
-         dho8FY0eq3rkXNDIG8ikvXmh+YqVV8S9vMb24oBpXY7y549FHl5ejaDg6+Dl83H1QSRI
-         uN5kNCFldZHPG833m0N3+yXqYJmjBDvkdY+UDfIwvzy4IPMhsoy+/HUxA0bFB++twS5N
-         bM6yf6HtsRnctocVefBTLScNZ1xyAOC9Cpf+HF4YX0+sVFLTV14RlyTm8WMq3/yxVM9Z
-         0IIbW45g7BvOoiw3uB7c4Jvs7XkdEHBBg9bJG5WboJ/iY9lNPf1A0KICngvXI/QdBJdz
-         /IYg==
-X-Gm-Message-State: AOJu0Yz+d/XpZ0dqiO7GvE6Fm2wSRcLnTvyXgW/XIvn3w2VFT/pwByKj
-	ZF+qfExadsJjDmQCsw+AF4Hj1cEI4ME1/54m9UlJ1J1Ksf0jpwlUu2TZplMWZzxg0TDcIGdq9u5
-	Govl/Iy6PcWBK0RrORjFLwZfDD2HM02HcMBsVjDW61w==
-X-Gm-Gg: AZuq6aJORmBhaT69WpnnukWI0IY1ZtDU1gpX3/6bGMP1mX/YjHwCTGo0lQ98DmOFpDK
-	553z76OX5FEpAWCJakfEfKWQU/eqBWv6lPHnmFj+vOd5vPbMLYmbuocTb5xxQu9fUzKXjzV/g8k
-	YpchDVFDS0ixnPkhdOV8hMZ8U0/2s6pYMW55RNnfXIS7qrJpNyohMt67T0HUFMHzd4yX4VsLoko
-	Xm8b0SbWTyTmsbfIWH9izi+qthnsXo2RpCqiTsCZ7oxa7XV4+7UkcRzjTjr3HNVQSz9ZYwzvX81
-	xV2++e4T0PFGp6h+AmaUi7q/crkgj2fZsIuQVr4=
-X-Received: by 2002:a05:6000:200e:b0:42b:3b55:8929 with SMTP id
- ffacd0b85a97d-43617e42a35mr3021657f8f.19.1770192695683; Wed, 04 Feb 2026
- 00:11:35 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=BMUw8wYb;
+ spf=pass (domain: axis.com, ip: 52.101.84.13, mailfrom: christian.lindeberg@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XatxTD8+AcnPgdajwfAb18hCW3QbZenzs2ksSwVOjQz9Lm7Pj0gSK5//Jj1517rELkg2iqtbItuCr9mNZSR+zvx1nAcT8ow5nCKEIzjmDwyXUIZ7kuYNhePR/UvfLhsSKxNe2dEPuXXROEoCLiDQV39vdCXEbQUlC187tK77nKpaRhv6+QRulE/psDVFHYmgmUknTZI8WIR3BC3zgNC8dIQ/3gQwsKHx6n+JBTD9Os5KLtr1hdmAKPO8b6IE8A+Gc/61Rd/vDFS0j25V1PGDzsYdN/5jEzeHHPvKel4bAK0cY+5WupPOzl+7zUDFJo9+dnGmfoxXSFWExs8MDAPSAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L6CkqXuDVW1ujFrdG1QoOtzS3HzsNaiCYcegCQxXNgo=;
+ b=xMqt44TKy2xKUjMKPoBA/X9wCF38R+Sa0TpoPAjs2uWVJZWLkE8qh+0gEhoNI2+uEiSCW3EDNHvILSJ193vEJPuImpjgV6kyeQWDcW/MtnpPYxYWbkpG2eOnh92gv4G9FkA7+1Lup5EeXmLtQZBu8jhTmRDbaiiexKACR2jjKvD6gLxo4V+FTMgg1B9puQdLbTWMFgW/fRuBGJmLZDTxwy/AD7oiYbf5D2312tHQehxpWQova1MCYtDKqcS4o/mqovbMXqsonEeZkMfBlU5q+6Xnp1uWb5qKi5u7StSINf8Y3vEIhTJxhVk67XsHfdbj/G6eczAq6nNZeDXXkJKSdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L6CkqXuDVW1ujFrdG1QoOtzS3HzsNaiCYcegCQxXNgo=;
+ b=BMUw8wYbtU1TEp2RiH9jokZcc1f3/7jIMFv7zCS2okTq3RSUC0ZdcCcK9EMaNkozXBrkDg6720t0ji6tkWCQB6Zb4C6JUBVq+JUQW8Ecjggpco58UA6WYPhtok2tSGfNkrmhaRvyay5a/hTjCtcMZLBKEhpC+jSKgQizjOVcEUw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Received: from GVXPR02MB10764.eurprd02.prod.outlook.com (2603:10a6:150:155::9)
+ by DB9PR02MB6875.eurprd02.prod.outlook.com (2603:10a6:10:218::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Wed, 4 Feb
+ 2026 08:59:49 +0000
+Received: from GVXPR02MB10764.eurprd02.prod.outlook.com
+ ([fe80::ac68:c214:2d57:8ace]) by GVXPR02MB10764.eurprd02.prod.outlook.com
+ ([fe80::ac68:c214:2d57:8ace%4]) with mapi id 15.20.9564.016; Wed, 4 Feb 2026
+ 08:59:48 +0000
+Message-ID: <81baa6b7-9be3-4bbd-a492-c831e839a1cd@axis.com>
+Date: Wed, 4 Feb 2026 09:59:47 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] go-mod.bbclass and gomod:// do not have all sources
+ codes available after do_unpack
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <264f0cef-de05-4515-bd33-71c136e01b46@windriver.com>
+Content-Language: en-US
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Randy Macleod <Randy.Macleod@windriver.com>, Khem Raj <raj.khem@gmail.com>
+From: Christian Lindeberg <christian.lindeberg@axis.com>
+In-Reply-To: <264f0cef-de05-4515-bd33-71c136e01b46@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: CPBP307CA0004.DNKP307.PROD.OUTLOOK.COM
+ (2603:10a6:380:1::13) To GVXPR02MB10764.eurprd02.prod.outlook.com
+ (2603:10a6:150:155::9)
 MIME-Version: 1.0
-References: <1889800F45802F27.2902090@lists.openembedded.org> <AS1PR10MB56976FD8DA8A295D941E55B3FD98A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB56976FD8DA8A295D941E55B3FD98A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 4 Feb 2026 09:11:09 +0100
-X-Gm-Features: AZwV_QgpoexKTfzV8wQy65yZQwV9yabvrA3TWUpUOAPvtH54ZdlY4zZzw4jTZRE
-Message-ID: <CAMSfU+4Kx5baoR2ZB2qrJihZbvA5anQRxMLSevTZXhzC9Sx8cg@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cf7f670649fb1a76"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR02MB10764:EE_|DB9PR02MB6875:EE_
+X-MS-Office365-Filtering-Correlation-Id: d953279c-f142-473d-952a-08de63cbbffb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?i9dV8ZpPn8FAsji+wEKsNWoPple1PecuO8I9xEvp05ylGZaykWMNnHJaeAQh?=
+ =?us-ascii?Q?7XaoEl6HlXL3IaUedEPRv52ad/RuPnLFB2jXLcYXhioi16bhcYONIRBp1Jj9?=
+ =?us-ascii?Q?6bAWQzXxsy4hbifO7bapQR9QwbYmO6H2F9DB81XqN9AquBBjFv06F6OupzWu?=
+ =?us-ascii?Q?wPU+oIipeMDjR6vJpLMQEgI9BKxTas5kh2Nxb6QAk8iZi8p4safe2Becvt2p?=
+ =?us-ascii?Q?4mZsMHnVrdRPP0gEDct09K2R5YmLn9d6M7dFtsg5EIRWRqVtCy7zzEzuM9/6?=
+ =?us-ascii?Q?kXaHwtg59xP11GfvrKdplWuQgjSw17zLdUi4nCCAVZDcrjVazYORr6HyAKr9?=
+ =?us-ascii?Q?T0WxuEU+S6a6hLpxgMYoIqM12aYDYIphhcI5LMOwROO7xaH/HqJ14O2Lfsx8?=
+ =?us-ascii?Q?CN+FdlldaO0U/4Qyn0vTdPkT/uoKeV5HMn2gvhGs/lOMT4QScSIoQgnjr3ST?=
+ =?us-ascii?Q?amuNYKJs6cGsT6NrW0kAwd4i1oSKsrO99CpsK6LCSWF7eP1k0wUFgpdqe96F?=
+ =?us-ascii?Q?ywP3uijtcUdBWZkNv77fXAX7Z5Vra/884k/TG4sb/0uEfYa1SVg71sVALPoD?=
+ =?us-ascii?Q?9KDC9XBSgDYgkH5poRuOXAn6xgCkrMWtSzgzcytSn3dYdd7cWaBoLJVIvbOG?=
+ =?us-ascii?Q?nBwINu2LHVYxYB+svwdB2BjBootOIqqJzJWZcjMBgIdxhAEqKTnONPFPSMhR?=
+ =?us-ascii?Q?40TTNA1j2k8iqUWqgQeNj9NogieUgrMND8lKQowAQzO6Rnxk6q0F5Scf1VdQ?=
+ =?us-ascii?Q?BGGJ594dsiRKNn97jWT1f75vVqeQ1BdCPUKTeKQwuY+MMirvAAS8VZgeJCjY?=
+ =?us-ascii?Q?qpwRSdxuFgHoSRckpsE+KhfyiCH9eLeOrn7LnTn+M7faFoPJvP4mUR2pPN2E?=
+ =?us-ascii?Q?+cOBTeaLuE4yvvxBrdrljRdC6qak+d+pu6QzwVaScTw2EwIrwFkHAQQXgeu0?=
+ =?us-ascii?Q?DFL7R4cYn4ikGtHgycN72d4XERZNJcOTYgkTe3605kKi/eGd+Wxo00cq45Ib?=
+ =?us-ascii?Q?xa0TQboB27WkzScDoLqAyMVdT5hY1Wmdpdl2YJcIkL2SqUX8Ui1sMO65wAk2?=
+ =?us-ascii?Q?8pCxF7M6HgQ1zBdObuvUK97QkwuA9wtjivRQwc9aiW2f3LN/q+Y9dTMf59rK?=
+ =?us-ascii?Q?kww0SXAo0AMyLwsR5vv/bTkdasVyAgdVubmWw/jRDj9AzAG/sNiX7yYLpIwH?=
+ =?us-ascii?Q?liZ6GLT47k4Pln7+YoHR44YWlQmeE2AfkradAbpr/DvmO4VQJar20mgLysHs?=
+ =?us-ascii?Q?VcPpS7/DR0ngNAu76BZ1faMKaumk0xPh4dqAMI4yJh5CLRGLSTasal0SKV/1?=
+ =?us-ascii?Q?MZVoJ0iT53Z+ix8kdImVy+iFpfDpvigLK7jL8FZMBqrrMMxmOuzqu9vRKTBD?=
+ =?us-ascii?Q?Fq1HYGGam6q1AFLGvaaRb4NMerUyzLt4A6lS6oDpqVxMHukUxg1DMpbtW+zn?=
+ =?us-ascii?Q?OO5GpPVGFqsVb5ZJsHzJi05x85k4caYiNl0KdqmYKeGtBZNYYxWylB1iKLcM?=
+ =?us-ascii?Q?xvb0YjpvOYUy7E1MWG4dlYFrpJHiLBbq0KQORbElcRjox/exmHK4n1lc9sec?=
+ =?us-ascii?Q?wzb4f8ZwTo0rJNX7WJk=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR02MB10764.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ztd2v3nwTu6yVuMl+kKaY1514FP6Fwk08fl8CcNWEOwJXq0cA9ZqGGwkVEyx?=
+ =?us-ascii?Q?W1x8mjVyWnRUQ8YWHuXHBtM9aZdM3K8waAq8yVGtyiOKUe/5ynicYV8N9cmM?=
+ =?us-ascii?Q?hLdar99Fy5S0TAWLv2r+oyafs+gCSN1IdVKwxhPoYnIWXi9lTDutkwUc2nUC?=
+ =?us-ascii?Q?CW67HJRXMSBa+sJ7jQdkPDrMyVs2y0qMimAvzKyF04PNGFKaODcX4eIHV6Kt?=
+ =?us-ascii?Q?3iSzpVTlKb7ZT4GolkO11K1LW4B7PnwO/PEvqclebxaereF31eHkE5AGyrqv?=
+ =?us-ascii?Q?dZjE4uz7DgUoD0erYEcdp43QCbejMivnaKkpz+xAKbAWFl+xfB1/Q86bW4zC?=
+ =?us-ascii?Q?fTvDzt23Kg3iRDp5uvONuyhvkjScvJtGdlOcXm/othJC27/w3orfYWBf8Kuv?=
+ =?us-ascii?Q?UWyArlOFCMxBsChUTLKX5v+azjeXgTzG3qaLPdDMfnmejevGAC3TmvZC4VxJ?=
+ =?us-ascii?Q?/CLZCIxX7/NJGQXlkjBRzPDP78YqMAbadv3hbrYwu8TBORr1cehGIrviXuCe?=
+ =?us-ascii?Q?Cct3g49dv5i3cbs2JFjt/6+brqkx16oet1eaLXT+uQhyfoqbcNpj7tOw8xTm?=
+ =?us-ascii?Q?QL9aQw9u7ffkA/EweqqoxgoagJ0l8NE3LF4TG6G13jim97a0s4gAO/hDB2/t?=
+ =?us-ascii?Q?2ptnAdbjfcrx1sMlsgKGKaGNtT6n8bvIbwEOfk7EV9dNf6Js5bd6PTQmpJaH?=
+ =?us-ascii?Q?HAunq653raWHUfEZdgFSKeX4DnozOzfvUnn8edcu1akbBYLrBSXzmbxns2ZV?=
+ =?us-ascii?Q?mMV55XnJO57wW1pljpmZUsKlEF34HdMEJdH6gZmzI1oeNpeJObGPRE0cKYuE?=
+ =?us-ascii?Q?HaJahiro/pEWra97cvI6YRm9TbMXjj5AgPRFbpL5l7u24EFM1NKi6oJHzEra?=
+ =?us-ascii?Q?EmBNNAlLk0YH1f+7INV/eCUHM4ZUj6YEXD06LMCWD1q66aD53r8V9Rxrdz0n?=
+ =?us-ascii?Q?ZIvnbHwEIZUqzDg5QAw4t+8/nCBbpOgGxWXn7FXopzHOaIHtLvMYeNTuUjI0?=
+ =?us-ascii?Q?+stOOAF0zLcvJA9+lPcONX+jqkGYoq7pLIK38jU7SKOLFeWEuvaJBPZliMwM?=
+ =?us-ascii?Q?fSL9ngqwv0mmWPVEmr/dbptqSkSAxqasgBiZxjTtdHWVD2JoWQFHrjKs5J8F?=
+ =?us-ascii?Q?FTRfSlhxbQQTv4pkv0VjMWu+S2l2mDKvEts+JoN/TCVt8YPSQTK6s1o6GO35?=
+ =?us-ascii?Q?fWzrfHUfRzrYpFdlAC0jNEgTIFGMCMJgUWG6PpuG93NLnhUSeRyVdIkCfs1t?=
+ =?us-ascii?Q?Pt3fX7ewCig/anArb3eXNheEzlL6yE5wTji1DsEpwsxxddD2mKC/puTd0RzS?=
+ =?us-ascii?Q?miyIjuQKP7eiqfPNnu2KGLPKfEolCMzML9MLTHYrpslRoUZt/oegigTbQj8k?=
+ =?us-ascii?Q?sgzeA94yUCn73VaeawEnD4cNmJtGiZe99RiI6Y8qwxy1s2djZhgxPLGcDw/5?=
+ =?us-ascii?Q?WzMWPg3422zjVbDFXIAJRJWPPUX7Ck9d3GHCckdrepbGMQMt1wFLDjB+gvIJ?=
+ =?us-ascii?Q?BqzB9qVQBdM6oFOpiWK8udZu227yN1EINCns5xO/b03n0L2UBUr0gxHy4Y0f?=
+ =?us-ascii?Q?8hhg86zOJOP82Y4k8WpasRfDthrPyG3Y3pjL5ieiMx/GZHrwSd+PYdBAzHec?=
+ =?us-ascii?Q?XTq8Kg8+Qn1dJTi1X6AXxw+kn4aq+rvqsSU0RIOt2aYYBb2sw6PBg/Lq7Vrj?=
+ =?us-ascii?Q?+68d4+/0sIBJ1WTK7pnoAzmNl1m+/rbhNq0/XVUG4zURwgW5?=
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d953279c-f142-473d-952a-08de63cbbffb
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR02MB10764.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 08:59:48.5723
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eYHvDVVsbpDcQc8CrQaH+VyxyZ+q2ago8l0uR4B4TlR8b4QFQiUR5j7Dfdix0xGQEIyqCd9fmWn7sKECWXM7Hw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB6875
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 08:11:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230502
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 08:59:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230503
 
---000000000000cf7f670649fb1a76
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Feb=C2=A0 2, 2026 at 10:36 AM, Chen Qi wrote:
 
-Le mer. 4 f=C3=A9vr. 2026 =C3=A0 08:20, Marko, Peter <Peter.Marko@siemens.c=
-om> a
-=C3=A9crit :
+ > Hi All,
+ >
+ > When I was checking recent nerdctl issue about rm_work failure, I found
+ > that our gomod handling has some problem.
+ >
+ > In short, source codes are not available after do_unpack. They are only
+ > put in place during do_compile.
+ >
+ > I think that's why go-mod.bbclass has:
+ > """
+ > addtask do_compile before do_populate_lic
+ > """
 
-> Gentle ping
->
+Yes, there was a suggestion in the early reviewing to keep it simple and
+delegate the unpacking of the dependencies to the go tool instead of
+duplicating the logic.
 
-Thanks, I had missed it,
-I've now added it to the series under test/review.
+ >
+ > But this is quite a workaround. do_populate_lic is not the only one that
+ > need to have full source codes.
+ >
+ > For example, meta/classes/archiver.bbclass needs sources codes. There
+ > must be other classes that assume sources are there after do_unpack and
+ > modified sources are there after do_patch.
+ >
+ > Another big problem is patching. When source codes are only there at
+ > do_compile, this means we cannot patch it. But Yocto should have full
+ > control of the sources, we need to be able to patch any file we want.
 
+I think the approach taken by Khem in for example the influxdb recipe by
+patching the go.mod file with a module replace to a fork fits most cases as
+you need the fork to do the PR anyway.
 
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Peter Marko via
-> > lists.openembedded.org
-> > Sent: Saturday, January 10, 2026 23:45
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Subject: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
-> >
-> > From: Peter Marko <peter.marko@siemens.com>
-> >
-> > Handles CVE-2025-68973.
-> >
-> > Refresh patches.
-> >
-> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > ---
-> >  meta/recipes-support/gnupg/gnupg/relocate.patch    | 14 +++++++-------
-> >  .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}       |  2 +-
-> >  2 files changed, 8 insertions(+), 8 deletions(-)
-> >  rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}
-> (97%)
-> >
-> > diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch
-> b/meta/recipes-
-> > support/gnupg/gnupg/relocate.patch
-> > index ea0252026aa..655dd3d0ce1 100644
-> > --- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-> > +++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-> > @@ -17,7 +17,7 @@ diff --git a/common/homedir.c b/common/homedir.c
-> >  index 6f99f3e..f22aa9e 100644
-> >  --- a/common/homedir.c
-> >  +++ b/common/homedir.c
-> > -@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)
-> > +@@ -1294,7 +1294,7 @@ gnupg_socketdir (void)
-> >     if (!name)
-> >       {
-> >         unsigned int dummy;
-> > @@ -26,7 +26,7 @@ index 6f99f3e..f22aa9e 100644
-> >         gpgrt_annotate_leaked_object (name);
-> >       }
-> >
-> > -@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)
-> > +@@ -1326,7 +1326,7 @@ gnupg_sysconfdir (void)
-> >     if (dir)
-> >       return dir;
-> >     else
-> > @@ -35,7 +35,7 @@ index 6f99f3e..f22aa9e 100644
-> >   #endif /*!HAVE_W32_SYSTEM*/
-> >   }
-> >
-> > -@@ -1352,7 +1352,7 @@ gnupg_bindir (void)
-> > +@@ -1362,7 +1362,7 @@ gnupg_bindir (void)
-> >         return name;
-> >       }
-> >     else
-> > @@ -44,7 +44,7 @@ index 6f99f3e..f22aa9e 100644
-> >   #endif /*!HAVE_W32_SYSTEM*/
-> >   }
-> >
-> > -@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)
-> > +@@ -1389,7 +1389,7 @@ gnupg_libexecdir (void)
-> >         return name;
-> >       }
-> >     else
-> > @@ -53,7 +53,7 @@ index 6f99f3e..f22aa9e 100644
-> >   #endif /*!HAVE_W32_SYSTEM*/
-> >   }
-> >
-> > -@@ -1409,7 +1409,7 @@ gnupg_libdir (void)
-> > +@@ -1419,7 +1419,7 @@ gnupg_libdir (void)
-> >         return name;
-> >       }
-> >     else
-> > @@ -62,7 +62,7 @@ index 6f99f3e..f22aa9e 100644
-> >   #endif /*!HAVE_W32_SYSTEM*/
-> >   }
-> >
-> > -@@ -1440,7 +1440,7 @@ gnupg_datadir (void)
-> > +@@ -1450,7 +1450,7 @@ gnupg_datadir (void)
-> >         return name;
-> >       }
-> >     else
-> > @@ -71,7 +71,7 @@ index 6f99f3e..f22aa9e 100644
-> >   #endif /*!HAVE_W32_SYSTEM*/
-> >   }
-> >
-> > -@@ -1472,7 +1472,7 @@ gnupg_localedir (void)
-> > +@@ -1482,7 +1482,7 @@ gnupg_localedir (void)
-> >         return name;
-> >       }
-> >     else
-> > diff --git a/meta/recipes-support/gnupg/gnupg_2.4.8.bb b/meta/recipes-
-> > support/gnupg/gnupg_2.4.9.bb
-> > similarity index 97%
-> > rename from meta/recipes-support/gnupg/gnupg_2.4.8.bb
-> > rename to meta/recipes-support/gnupg/gnupg_2.4.9.bb
-> > index a6e777abf89..4f60a4e7b28 100644
-> > --- a/meta/recipes-support/gnupg/gnupg_2.4.8.bb
-> > +++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-> > @@ -23,7 +23,7 @@ SRC_URI:append:class-native =3D "
-> file://0001-configure.ac-
-> > use-a-custom-value-for-
-> >                                  file://relocate.patch"
-> >  SRC_URI:append:class-nativesdk =3D " file://relocate.patch"
-> >
-> > -SRC_URI[sha256sum] =3D
-> > "b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616"
-> > +SRC_URI[sha256sum] =3D
-> > "dd17ab2e9a04fd79d39d853f599cbc852062ddb9ab52a4ddeb4176fd8b302964"
-> >
-> >  EXTRA_OECONF =3D "--disable-ldap \
-> >               --disable-ccid-driver \
->
+Then there is the alternative of doing the module replace with a local
+directory if you want to keep the module cache untainted.
 
+ >
+ > In summary, from what I see, the current gomod mechanism does not meet
+ > Yocto's requirement of fully controlling the sources.
+ >
+ > I'm bringing this problem up to have more discussion.
 
---=20
-Yoann Congal
-Smile ECS
+I see two main alternatives. Either to continue letting the go tool=20
+unpack the
+dependencies but triggered earlier in unpack task instead of compile=20
+task. Or
+let the gomod and gomodgit fetchers unpack fully.
 
---000000000000cf7f670649fb1a76
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ >
+ > Regards,
+ > Qi
+ >
+ >
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 4 =
-f=C3=A9vr. 2026 =C3=A0=C2=A008:20, Marko, Peter &lt;<a href=3D"mailto:Peter=
-.Marko@siemens.com">Peter.Marko@siemens.com</a>&gt; a =C3=A9crit=C2=A0:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">Gentle ping<br></bl=
-ockquote><div><br></div><div><div>Thanks, I had missed it,</div><div>I&#39;=
-ve now added it to the series under test/review.</div></div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Peter Marko via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a><br>
-&gt; Sent: Saturday, January 10, 2026 23:45<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko@s=
-iemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
-&gt; Subject: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -&gt; 2.4.9<=
-br>
-&gt; <br>
-&gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" targe=
-t=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; <br>
-&gt; Handles CVE-2025-68973.<br>
-&gt; <br>
-&gt; Refresh patches.<br>
-&gt; <br>
-&gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.c=
-om" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-support/gnupg/gnupg/relocate.patch=C2=A0 =C2=A0 | 1=
-4 +++++++-------<br>
-&gt;=C2=A0 .../gnupg/{<a href=3D"http://gnupg_2.4.8.bb" rel=3D"noreferrer" =
-target=3D"_blank">gnupg_2.4.8.bb</a> =3D&gt; <a href=3D"http://gnupg_2.4.9.=
-bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.9.bb</a>}=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt;=C2=A0 2 files changed, 8 insertions(+), 8 deletions(-)<br>
-&gt;=C2=A0 rename meta/recipes-support/gnupg/{<a href=3D"http://gnupg_2.4.8=
-.bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a> =3D&gt; <a hre=
-f=3D"http://gnupg_2.4.9.bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.=
-9.bb</a>} (97%)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/re=
-cipes-<br>
-&gt; support/gnupg/gnupg/relocate.patch<br>
-&gt; index ea0252026aa..655dd3d0ce1 100644<br>
-&gt; --- a/meta/recipes-support/gnupg/gnupg/relocate.patch<br>
-&gt; +++ b/meta/recipes-support/gnupg/gnupg/relocate.patch<br>
-&gt; @@ -17,7 +17,7 @@ diff --git a/common/homedir.c b/common/homedir.c<br>
-&gt;=C2=A0 index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 --- a/common/homedir.c<br>
-&gt;=C2=A0 +++ b/common/homedir.c<br>
-&gt; -@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)<br>
-&gt; +@@ -1294,7 +1294,7 @@ gnupg_socketdir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0if (!name)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int dummy;<br>
-&gt; @@ -26,7 +26,7 @@ index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gpgrt_annotate_leaked_object (name);<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; -@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)<br>
-&gt; +@@ -1326,7 +1326,7 @@ gnupg_sysconfdir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0if (dir)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return dir;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0else<br>
-&gt; @@ -35,7 +35,7 @@ index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; -@@ -1352,7 +1352,7 @@ gnupg_bindir (void)<br>
-&gt; +@@ -1362,7 +1362,7 @@ gnupg_bindir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0else<br>
-&gt; @@ -44,7 +44,7 @@ index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; -@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)<br>
-&gt; +@@ -1389,7 +1389,7 @@ gnupg_libexecdir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0else<br>
-&gt; @@ -53,7 +53,7 @@ index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; -@@ -1409,7 +1409,7 @@ gnupg_libdir (void)<br>
-&gt; +@@ -1419,7 +1419,7 @@ gnupg_libdir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0else<br>
-&gt; @@ -62,7 +62,7 @@ index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; -@@ -1440,7 +1440,7 @@ gnupg_datadir (void)<br>
-&gt; +@@ -1450,7 +1450,7 @@ gnupg_datadir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0else<br>
-&gt; @@ -71,7 +71,7 @@ index 6f99f3e..f22aa9e 100644<br>
-&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; -@@ -1472,7 +1472,7 @@ gnupg_localedir (void)<br>
-&gt; +@@ -1482,7 +1482,7 @@ gnupg_localedir (void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0else<br>
-&gt; diff --git a/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.8.=
-bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a> b/meta/recipes-=
-<br>
-&gt; support/gnupg/<a href=3D"http://gnupg_2.4.9.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">gnupg_2.4.9.bb</a><br>
-&gt; similarity index 97%<br>
-&gt; rename from meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.8.b=
-b" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a><br>
-&gt; rename to meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.9.bb"=
- rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.9.bb</a><br>
-&gt; index a6e777abf89..4f60a4e7b28 100644<br>
-&gt; --- a/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a><br>
-&gt; +++ b/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.9.bb" rel=
-=3D"noreferrer" target=3D"_blank">gnupg_2.4.9.bb</a><br>
-&gt; @@ -23,7 +23,7 @@ SRC_URI:append:class-native =3D &quot; file://0001-c=
-onfigure.ac-<br>
-&gt; use-a-custom-value-for-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://relocate.patch&quot=
-;<br>
-&gt;=C2=A0 SRC_URI:append:class-nativesdk =3D &quot; file://relocate.patch&=
-quot;<br>
-&gt; <br>
-&gt; -SRC_URI[sha256sum] =3D<br>
-&gt; &quot;b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616=
-&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D<br>
-&gt; &quot;dd17ab2e9a04fd79d39d853f599cbc852062ddb9ab52a4ddeb4176fd8b302964=
-&quot;<br>
-&gt; <br>
-&gt;=C2=A0 EXTRA_OECONF =3D &quot;--disable-ldap \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-ccid-d=
-river \<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+Regards,
+Christian
 
---000000000000cf7f670649fb1a76--
 
