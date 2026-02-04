@@ -2,48 +2,48 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4512CE95391
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:05:47 +0000 (UTC)
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18934.1770206741367569912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C504E95392
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:08:47 +0000 (UTC)
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18992.1770206917169241039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 04:05:41 -0800
+ Wed, 04 Feb 2026 04:08:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Dg9RH9Qw;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=b9xxEzaO;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id AB43BEC0090;
-	Wed,  4 Feb 2026 07:05:40 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 04 Feb 2026 07:05:40 -0500
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=MCw+pCgY;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=kAQ+wkIk;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.158, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 84F891400153;
+	Wed,  4 Feb 2026 07:08:36 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 04 Feb 2026 07:08:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1770206740; x=1770293140; bh=BZPizlvPxD
-	RoTt3XI312OEgTHKDOJ19/1SVponTp/JI=; b=Dg9RH9QwDAWJxsbgAd7tP/Khjy
-	uGsJwCTqWhwbIc4o+x59xPqzaCMNuMqP2AHUrcBrUz+5C1aVoYOouDfcIXOxT+Vo
-	L6E2SKUZAEwaXF/TY63MgMkEc297ATUWwSPUV8Pk6KCseS2wvF0O44UOivPKlYjg
-	8bNypkWtrEULYxwU5dFDdNtW6AkZwQtfgYzgjy2USayheIGZCaEBEEEVKmvNcUYC
-	L6I9tP/PWpxzvI+WUAiSkRIR12F5PIbvxOfhKOfVlPVje38njqdvJrdxNWKpVpt4
-	j4lZRjyf30XVs2rYJXdGKMB27gu/4/vMMKptmdOVrKjD695GYxYgwkjj3ytw==
+	:subject:to:to; s=fm1; t=1770206916; x=1770293316; bh=8R9F39LQb0
+	9OzBpnWXXZCAh2q3KdLbyVhlLxCjIX/xM=; b=MCw+pCgY+sy266oejn54M3ywvS
+	KRaf3LaziJpDqv8v0mhciv65DskJ3PAC7TLpBDIvDfKXdkcDn0f3G1uR7MRFN5Fg
+	OkTyKi92QZwKlane9klQFm6qocIxuW1ygtS8mNAfeJOUKuYz1NuDUcUJG+yn2cQj
+	sH3MnALXTAhRt02/tjShixGMT2psshkUqimy/cT8pzpWr6GFyjwmEduPGD73SY+Z
+	KB/DXmMr6S2f/0+VS10pedLL7/CGU9GDrSH4LtPJVvaA0I1LueCoHVwxiUh6yXM3
+	Zr5XENVTNq1srdj6m8FD77PW5bPVqnT+ZtJ07PdTnnLfsfUETslhn0BNQmYQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770206740; x=1770293140; bh=BZPizlvPxDRoTt3XI312OEgTHKDOJ19/1SV
-	ponTp/JI=; b=b9xxEzaOpOiYe2DPdySKqQYZT5g7+ettGJ90XnCHenVvznq/naY
-	gYiqQ82OFWwSLnYHD8y+Lcz5D+IMFLOFry/ut1pwRt6lRHj5l6tIz8DSAtROyvt/
-	jH4yqbBLgx5IO6lOFVCcurBkNSKjnAgRvRPIM/SV9S1B1cREzHmEtrssIsTXfi55
-	ILiAzqqzY27WHDoW4U0r3NuPRMMG+PiG89YvTJzEWRKIhVD3eyM7V2EfqgAhv81w
-	QTK4/VvstKOZCEp1lDvNruqD1WJjzRwYm0zJ7HXyXpZykYXIN9uLnzcVfmnCEO0D
-	LDZWoQq4G1OXBxlKCHkfl1juoLJBiizic+Q==
-X-ME-Sender: <xms:FDaDaSiZqigBAI6SS2bY5ly2yPdJvZKrGYNBc0lZT33slnGaMa5m8w>
-    <xme:FDaDaVkG0albqPzB0pMxgiZlREtWy5JJU1rfw8K5XxWl02vi3M8_MC7I_1YaI-uC4
-    wIsWHYiJZcv51njahiSlBmM1nLzz3sVMlXm4eAdS1evRD4wAffrdUQ>
-X-ME-Received: <xmr:FDaDadt-3aj8WkC2EJVGQ4QSPTuqls8buQ3wN3WBf9t7WUYZZJ8jbaNi1YrZYbGgt0xuS_8LFm6Bh-Ineme-x8ZDViHFK7nNIi7HDbO42VYS>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvfeelucetufdoteggodetrf
+	1770206916; x=1770293316; bh=8R9F39LQb09OzBpnWXXZCAh2q3KdLbyVhlL
+	xCjIX/xM=; b=kAQ+wkIk9jgvlLq86rgt2jmdtj0uAGmcUrgFEoLjCXQ9ziYjqA/
+	I3PmWBRZoaDDf0Iuib0rbefWZVzpWDjKd4gUuf1bDpIMn/h8QHnyZGpoJgG525rH
+	V6F1pLIoUHzIqUSCiJMxB1ntnF8WdFqjVbF10M/Q6ULhV7yaDm+Lc8IxCK9gWB9n
+	Gl44AzeDKykkH1rNOrtWaeLTaIgIrsnE0X++3MqoMjz/AYv8dJxr4tjQR+dg1Gmk
+	mw6wPu6CWmZx4ucN9qwiSDNBZGfGOg6yPYdkOQelx7EHZcoPwFdQ5GOoDEvYv4jI
+	BECtr521BqhjLX7dkhccBlqHWD7BJwnUScQ==
+X-ME-Sender: <xms:xDaDaQsRu0plYKzv5EReM-u9HixBMXTE4p2FFgFWAJXw2JZhszccoA>
+    <xme:xDaDaQAEzlXKxAH_cHVaILMcy7D7GOXjhmxPttut4yGpBkuFT4cS0Mu1CdLLc9D-I
+    mFUo5gKXyIHLuc2h6aTKtz1RYEqaB8pjmcU-ZMrZOl2zKriOwJTBqU>
+X-ME-Received: <xmr:xDaDafaIbdc2Zsis_O1R3exJNVD97EAYLBoFJXOqIAbqRd53WlyatkwYOJo66v9QcA9CP5fosh00LEKs8uSeUAt9Kr-rAueXdeUkYveEwy15>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvgedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
     dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
@@ -61,26 +61,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvfeelucetufdote
     hnghgrlhesshhmihhlvgdrfhhrpdhrtghpthhtohepvghlmhgvhhguihdrhihouhhnvghs
     sehsmhhilhgvrdhfrhdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslhhinh
     hugihfohhunhgurghtihhonhdrohhrgh
-X-ME-Proxy: <xmx:FDaDabZ6uM-Xdgzbk77hKsZYHm5ZTEqDHq96jn5uNtObE4rTg6k8WA>
-    <xmx:FDaDaVDzE6Vi-LkUhKswBytA6XMW-mHG3EXRfacKiAt0iJ8dJJabOg>
-    <xmx:FDaDaT8vevVKJ-o28IyaLmmtcuziH0hcDoZwLfjUQIsu_l51_Fc4sA>
-    <xmx:FDaDaRS0k0TJXsLaWxHQWpaVxk21U9S1XDxa50UXWfEfquUWDT6-yg>
-    <xmx:FDaDaZGFxV2CRtO2XjKscVU1dMsVhW1ebTsIPh3q6MUE9PcSNfdiAkjq>
+X-ME-Proxy: <xmx:xDaDaTUKBce2R76ZtuB7Bd3BlIzHKfQNhs8o2vRDxs5Jjsjip4DsVw>
+    <xmx:xDaDaWMmrSQ1G_tjQvC9hKn0eaYr90wO2iEN_WluujgbupG-78eYqA>
+    <xmx:xDaDaVYAHH38O3X-kqXLJQirDsJFjlu8HUNTk5HMCI9p15oCl25Eog>
+    <xmx:xDaDad9kiBl_yIsvGCR-ZvOGk2nI9wt0lKGaUU91R69l3XTxGeXVUw>
+    <xmx:xDaDaehf4tKofHSl9JrBHSdZKHreEVS81c2y__ajaY2aDJNZWmujdH0g>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Feb 2026 07:05:38 -0500 (EST)
-Message-ID: <8a9cf281b36ede03135fb042e260d22785ed4f38.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v5 07/15] kernel-yocto.bbclass: Disable ccache
- when rust-kernel is enabled
+ 4 Feb 2026 07:08:34 -0500 (EST)
+Message-ID: <7a5a57f6d7c89428fa5392d3c330aa77fdfdf113.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 14/15] make-mod-scripts: fix for buildpath
+ issues with rust-out-of-tree compilation
 From: Paul Barker <paul@pbarker.dev>
 To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com, 
 	alistair.francis@wdc.com, bruce.ashfield@gmail.com, yoann.congal@smile.fr, 
 	elmehdi.younes@smile.fr, richard.purdie@linuxfoundation.org
-Date: Wed, 04 Feb 2026 12:05:36 +0000
-In-Reply-To: <20260129163910.2612040-8-Harish.Sadineni@windriver.com>
+Date: Wed, 04 Feb 2026 12:08:31 +0000
+In-Reply-To: <20260129163910.2612040-15-Harish.Sadineni@windriver.com>
 References: <20260129163910.2612040-1-Harish.Sadineni@windriver.com>
-	 <20260129163910.2612040-8-Harish.Sadineni@windriver.com>
+	 <20260129163910.2612040-15-Harish.Sadineni@windriver.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -126,53 +126,68 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-6FN1hyngtOGFlGFoChzF"
+	protocol="application/pgp-signature"; boundary="=-qbLB1HPco9vNOF8JjCrZ"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:05:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230514
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230515
 
 
---=-6FN1hyngtOGFlGFoChzF
+--=-qbLB1HPco9vNOF8JjCrZ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-01-29 at 08:39 -0800, Sadineni, Harish via
 lists.openembedded.org wrote:
-> From: Yoann Congal <yoann.congal@smile.fr>
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >=20
-> Currently, a ccache enabled build fails with:
->   |   HOSTRUSTC scripts/generate_rust_target
->   |   HOSTCC  scripts/kallsyms
->   |   HOSTCC  scripts/sorttable
->   |   HOSTCC  scripts/asn1_compiler
->   |   TOUCH   include/generated/gcc-plugins.h
->   |   DESCEND objtool
->   | error: multiple input filenames provided (first two filenames are gcc=
- and
-> .../tmp/work-shared/qemux86-64/kernel-source/scripts/generate_rust_target=
-.rs)
+> Fixes buildpath issues when compiling rust-out-of-tree recipe.
 >=20
-> when using ccache, value of "HOSTCC=3Dcache gcc" when this value is passi=
-ng
-> to rustc, It is thinking gcc is a input file. when ccache is not used "HO=
-STCC=3Dgcc" is passed.
->=20
-> Disable ccache for kernel build if rust-kernel is enabled to workaround
-> this.
->=20
-> Signed-off-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  .../make-mod-scripts/make-mod-scripts_1.0.bb              | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=
+ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> index 874e16e642..d6b2178767 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -36,3 +36,11 @@ do_configure() {
+>  		-C ${STAGING_KERNEL_DIR} O=3D${STAGING_KERNEL_BUILDDIR} $t
+>  	done
+>  }
+> +
+> +RUST_DEBUG_REMAP ?=3D "--remap-path-prefix=3D${TMPDIR}/work-shared=3D${T=
+ARGET_DBGSRC_DIR} \
+> +                     --remap-path-prefix=3D${TMPDIR}/work=3D${TARGET_DBG=
+SRC_DIR} \
+> +"
+> +KRUSTFLAGS:append =3D " ${RUST_DEBUG_REMAP}"
+> +EXTRA_OEMAKE:append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'rust-=
+kernel', \
+> +                                             ' KRUSTFLAGS=3D"${KRUSTFLAG=
+S}"', '',d)}"
+> +
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230155): https://lists.openembedded.org/g/openembedde=
+d-core/message/230155
+> Mute This Topic: https://lists.openembedded.org/mt/117528985/1826184
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pa=
+ul@pbarker.dev]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-This patch is good, but we should try to get the issue resolved upstream
-if we can so that ccache can be used.
-
-Has this been reported upstream yet? Could you also open a bug in our
-bugzilla to track this?
+Looking at this, and the other uses of KRUSTFLAGS, could we just set
+KRUSTFLAGS and add it to EXTRA_OEMAKE unconditionally in each recipe
+where it is needed? There should be no harm in setting KRUSTFLAGS if no
+Rust code actually gets built. For modules, this can be done in
+module-rust.bbclass instead of in each Rust module recipe.
 
 Best regards,
 
@@ -180,17 +195,17 @@ Best regards,
 Paul Barker
 
 
---=-6FN1hyngtOGFlGFoChzF
+--=-qbLB1HPco9vNOF8JjCrZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM2EBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bq3eAPwLo6OyLPnJxmgBVJf5N8QCakryAsIwUTMF
-Xgfxv9u1xAEAglmXxvS49tqRG0eZ7d+cWIsniXADKJvZ1H+JTCY/hgk=
-=tJni
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM2vxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bttVAPwJQyebEIfStek47GAniHOSERP0fX/9GVAs
+zWpnvIu6fAEA6A3iFYsa8xogvGcPU+20t2UPIkZPhFNzefBMJ6KZ4Ak=
+=V0JP
 -----END PGP SIGNATURE-----
 
---=-6FN1hyngtOGFlGFoChzF--
+--=-qbLB1HPco9vNOF8JjCrZ--
 
