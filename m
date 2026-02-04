@@ -1,352 +1,315 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F929E9537E
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 11:09:47 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18111.1770203383254088699
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B5EE9538E
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:00:47 +0000 (UTC)
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18866.1770206443192883073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 03:09:43 -0800
+ Wed, 04 Feb 2026 04:00:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dabq6k0n;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-88a367a1dbbso103057186d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 03:09:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770203382; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cg4r+UVDDW7Kr5Rip3x3e5lewWuhtKQo14N6Bj9idSNHRHJgiULHVUNXJHEspWy/iC
-         znTaZyQ9gySjAc0pwMQZIoBBk+jnbWzYFb6/FUZgTv2uvTX8sLAL9XQXdXwtx75KBPXF
-         h652/DmWf3Zg1s9glVfLhmXIAbXf0dzLlHQxA/X1NcuNvYO2vUKO/ty0sCObn9UEQEi9
-         eeTyMC3P57SsFRMeZtYcEL6INYH0w56mxZGdsjzJQT9hT+9hSJxR4cO+ZloOfVNvGM53
-         amSvE8XAcVuGdbEURJrSsZXRG3Z92tGN1XIfAg/l3VPFSOj73gX939EhUctyzQ6QKdOk
-         F9eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YKPG3kU6FXeIinZ9IVtSzllTaa9aIxd7SBU1al1FiaQ=;
-        fh=ugXoY1YvOBKmxJ8VXHF/VGO5dYXmaHFE13PRGAb+ZdY=;
-        b=geF06irZD8N2An48CaEN6FsGENWqNd2HCgErKtbT4Stzg8Z9Uqvme1h1o2IJa304W5
-         X2wM09uNRICi7ieXK0e4PI2N5C1fumzo59RbBLS85DSkzmKyepZq8g9L1Q8R9rJFmPaf
-         3+rTXnQ8onZZswwkGyjH9LxQm7wjJ/UgBbYCfEsYkfLnnSdRaFdfbfm1gd3J/8FyryNS
-         BqEsFXrnmFJjNvErPqVPs1gV2Yem7iX2uIGw0hHxjlTRD+XlcftSEF0I5XpOtP4Dbz1V
-         PMB+GRi8s9m9oe9ENYpqzlaz0RgDnrzd6J1i0bYtzUS3aoC0XthzHIG7bzZBmGV8IC2t
-         46Yw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770203382; x=1770808182; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YKPG3kU6FXeIinZ9IVtSzllTaa9aIxd7SBU1al1FiaQ=;
-        b=Dabq6k0nxWJ6RDAuksSu6zO9wQVORAbHga/L7BvMlHOsvAcaPNL5wLtPyxfWLKrjLE
-         Umr/QUjQRFZzEKu2NO2VVRbp12Amacl9nlEcTXheBlkb+3Eym2ZA0hcFHhbjadhutfgk
-         ibNpvJGmFR3u5AnOsiNRVBymRj9ZYMfTi6xCXWgnsoX3POLEyZ6MQQMF1Fzv+STNNRPs
-         hwCwG/VPQ2y3gZav55MiDbs0PNOadyQGB1EXMs4k+Y2Acvqoa4l1vrFiq3etQ3nfnBd3
-         iofZ4GOoz8G6Kty5kN1uQ+0Yu7TRqwqaEVobXoL4IDgpjtj5RUx5ho4CDzGPCT/BXGku
-         7lhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770203382; x=1770808182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YKPG3kU6FXeIinZ9IVtSzllTaa9aIxd7SBU1al1FiaQ=;
-        b=Rr3C/DQWISKCmX64ydaPvIXvw452fCV8sUV5iLS5QBS0UgKRRh4jm9aT6Tnic43Qvf
-         MYr2Iuptd85QjNQ4AN4kt3VHy/yuv3dRDOPj9ztPBeGasfgwvub51A0LR6dpO5wOmKAl
-         kvsoYIrovFEztXYXZrBpDZW+DaJjMiAv23uuKD7nPRPEsge4GGGhT0+BY5mroP6axeR4
-         EUJgmSp2nUE/tLkCj0YLGWKdoZHacbyk8Rzz58psa6NAbDYvMARmN4RaY3QBxIe7lBcG
-         jPX4jIzzzD+yYLhcEPaTuX9oz03Va/OX+Vnwsu7pbkZLbmugOv8i9tP0UGCWUNDsLcN1
-         TgaA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+MVu+KJKMsXZAoBNHqsGXxTjCZgXpg3u2BJNhFz9CRnuFV0hEnu9O9IhXDfIsvTJyPzSbYu1N9zl8NK88C+LvSQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyrapc7J0lViBwPh3xL4RfV95LAJxdN6mhX2nXbiQ9kpuD5DZUx
-	o99zjMJ2wTe1fVtIdNWdRlIF5/GxHRU7vJXXkHEpiAbrmChFhZxb/g8SxuH5YmHeSLYN1EGd8Ji
-	A7X2frIENhQbWbQwVDlgbYa6AA9h4Cjo=
-X-Gm-Gg: AZuq6aI/DPRZ5WueWXdCbeL32afU8Phy0dH/5C0on1CGS3flC/n6he4h6bSabfeCOFB
-	T1XlVgLz+AqI3iQkrVtz7kh6XmXbYn6Ims1E9YBFtbPjjPstXH6mTjchnGkF67qiDV78X+FBd87
-	DCFu85TWvcP/0OtbYEIj0qrCpprRH8ao12Gz8JMUQCjYJBWOI9ahqORoyukahRvwCAMOFPfrME0
-	i8VY3+QT20WIHQT/HxrWMf6Qo88D/K6S088yHxs56jpv7k/sSnRH8yPVF5F5kjvD+VIJHk4ZP6N
-	DPEZdHG3LiW4xgSFIq5yaWCi0vGHmTcspubE04BW
-X-Received: by 2002:a05:6214:27ce:b0:894:7795:a56d with SMTP id
- 6a1803df08f44-89522164c0bmr32527316d6.29.1770203382072; Wed, 04 Feb 2026
- 03:09:42 -0800 (PST)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=eFvmdQdv;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=NfIrgPPu;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.158, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 50CEB14001DF;
+	Wed,  4 Feb 2026 07:00:42 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 04 Feb 2026 07:00:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1770206442; x=1770292842; bh=eELJBjlphi
+	rShO3a5+ZtxLCpQZVm0mJrgsrkDyJgORk=; b=eFvmdQdv2r2acBQwBBBCMEQtvK
+	pauN6h16vRyJkZRIp+OvvHqjg0VFS0DTr4bTRZ6+QsKVlEBKcvw+buT158iEWNyN
+	qwzlBB1BWYGeDzKjUcaZZpxHO3irTqfWpyoXt4+LWJXAZynXA8iCcyk7C7pZVBkI
+	jbo9RQelPU0MqdF158npAS1OlbhlYS+Qi7Hromrg1yES8kjFmpaaXbf8bY7SG3/q
+	OR2u5MjwOqURNPYd3dOykMvzd6AGRKBDaO3+8z8I4HXrOJZ7hOpgLKaPFSr1HvW3
+	fP5YtNbyfNVIEs9ZPGryNLXuvpS5RrX394RVzpEmfUK5Xdt++sujQtM/CPkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1770206442; x=1770292842; bh=eELJBjlphirShO3a5+ZtxLCpQZVm0mJrgsr
+	kDyJgORk=; b=NfIrgPPufPtnCO3rnuWUN6yX/gtma/GkhN0AI01oxb64tYmPPh2
+	ClMqJf5j/TraZ4qiwYwar8h+laXGWOSSmIvxMMewKEMC/R0gkOBMRFXrWbIvFfjZ
+	JL//vTSFSEX29h6Kd7i9kdgOEEqoaAAmHNQfhpIaIG2STlwW8DJW+4Na4d5p2uCG
+	A3KCenQRpEBGt4/7rPhbbq6FHwxl4BgLuizvBVDmbYVUcb3lwmgiu8RHJq3XbB//
+	+t7vcssfN36NyH8TVFrLo9gJI1NeH7LqXMlD+AKX8hnK7EUJ43EDyW1+izfivMJZ
+	JLyGpmSlrQB0Vs5k0xL8YFESQkAgKzBwzbw==
+X-ME-Sender: <xms:6TSDaTzF5fVuTvpTjhiNtVlBiTCoAZqPIEtWlyNWsFKELbq9rgyHdg>
+    <xme:6TSDad3CDDCzc3PMrI037VJmvIK_xxNwttys6EJp5_hUcwIeG2BfzbqhdOuI2iLJk
+    3AEuA3B_av7sikzqCiFHoVhF5bA2Y7JWsHm6ZVG_ZZZ-gS3emcuYUQ>
+X-ME-Received: <xmr:6TSDaQ9bW73vLYU2k1OWeTygCz0rwdVQA8lSuXJHU_Wbcvg2CyZvV7Sm437fEfSBs_OhD_5_cuErQueMv8zraeB-W2wdVuz7KQ86HQq_dlV2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvfeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
+    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
+    rdguvghvqeenucggtffrrghtthgvrhhnpefhkefhuefgleefleduleelhfektedvffeitd
+    dtueeukefhieduiedvfeeuhedutdenucffohhmrghinhepohhpvghnvghmsggvugguvggu
+    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeelpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehhrghrihhshhdrshgrughinhgvnhhiseifihhnug
+    hrihhvvghrrdgtohhmpdhrtghpthhtohepsghruhgtvgdrrghshhhfihgvlhgusehgmhgr
+    ihhlrdgtohhmpdhrtghpthhtoheprhgrnhguhidrmhgrtghlvghougesfihinhgurhhivh
+    gvrhdrtghomhdprhgtphhtthhopehsuhhnuggvvghprdhkohhkkhhonhgurgesfihinhgu
+    rhhivhgvrhdrtghomhdprhgtphhtthhopegrlhhishhtrghirhdrfhhrrghntghishesfi
+    gutgdrtghomhdprhgtphhtthhopeihohgrnhhnrdgtohhnghgrlhesshhmihhlvgdrfhhr
+    pdhrtghpthhtohepvghlmhgvhhguihdrhihouhhnvghssehsmhhilhgvrdhfrhdprhgtph
+    htthhopehrihgthhgrrhgurdhpuhhrughivgeslhhinhhugihfohhunhgurghtihhonhdr
+    ohhrghdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrd
+    hophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:6TSDadr0FbV0kzwSEDAJZSmn7u28Mgmhv1RyfkPSmyX38cOfzyC_5w>
+    <xmx:6TSDaaRMzRpYiu09FjwmHT5mkjXx2cCEtaYufJQyasNyctnRly0s6w>
+    <xmx:6TSDaQOwFs0lRnJmTb1ThQ58PQi3wJAuG1yGVJOiruAwvfVq5T0usQ>
+    <xmx:6TSDaYifllqcpIzkDwd1rlwwLM3YbSlan7hc_kQd4OoABP98W2UcOg>
+    <xmx:6jSDaXpNeDcH31VeZ1UUIBNCQZueT0Qu37j5p5h0U-GH451vmKPYrRwN>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Feb 2026 07:00:40 -0500 (EST)
+Message-ID: <443dd67d8398b30df2e6eb62ab06fc2433f62273.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 00/15] Enable rust support for linux kernel
+From: Paul Barker <paul@pbarker.dev>
+To: Harish.Sadineni@windriver.com, bruce.ashfield@gmail.com
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com, 
+ alistair.francis@wdc.com, yoann.congal@smile.fr, elmehdi.younes@smile.fr, 
+ richard.purdie@linuxfoundation.org,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Date: Wed, 04 Feb 2026 12:00:35 +0000
+In-Reply-To: <20260129163910.2612040-1-Harish.Sadineni@windriver.com>
+References: <20260129163910.2612040-1-Harish.Sadineni@windriver.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-6N0wn8zkE3COkPiVUYNV"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-References: <20260128140635.43214-1-pratik.farkase@est.tech>
- <5f426a3e-4220-4274-b38b-e2bae5188cee@windriver.com> <DU2PPFB77F8FB197407E3ABBE614C6C569DFE9EA@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: <DU2PPFB77F8FB197407E3ABBE614C6C569DFE9EA@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Feb 2026 12:09:30 +0100
-X-Gm-Features: AZwV_QjPej01LN6_G4ujgKmW1Nx-Kf9jT-9IJZpJnhlJosnxNOk8aIbA5K36Rf0
-Message-ID: <CANNYZj8YBnBb1dnU0jVUB1VGhSZxRWsLjq6qnwB1apHsVtL7_w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v1] libconfig: add ptest support
-To: pratik.farkase@est.tech
-Cc: Randy MacLeod <randy.macleod@windriver.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 11:09:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230510
-
-Unfortunately this was merged to master prematurely, and I just had to
-sent a revert:
-
-https://lists.openembedded.org/g/openembedded-core/message/230509
-
-Please address the issues and resend.
-
-Alex
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:00:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230511
 
 
-On Thu, 29 Jan 2026 at 09:33, Pratik Farkase via
-lists.openembedded.org
-<pratik.farkase=3Dest.tech@lists.openembedded.org> wrote:
->
-> Hi Randy,
->
-> Good catch! You're absolutely right - the bash dependency was unnecessary=
-.
->
-> I've removed the RDEPENDS on bash. Patch v2 is sent separately.
->
-> Thanks for the review!
->
-> Best Regards,
-> Pratik
->
-> ________________________________________
-> From: Randy MacLeod <randy.macleod@windriver.com>
-> Sent: Thursday, January 29, 2026 1:26 AM
-> To: Pratik Farkase; openembedded-core@lists.openembedded.org
-> Cc: pratik.farkase@ericsson.com
-> Subject: Re: [OE-core][PATCH v1] libconfig: add ptest support
->
-> Hi Pratik,
->
-> On 2026-01-28 9:06 a.m., Pratik Farkase via lists.openembedded.org wrote:
->
-> Add ptest support to enable automated testing of libconfig
-> using ptest-runner.
->
-> Nice, thanks.
->
->
->
-> The implementation uses libtool --mode=3Dinstall to properly
-> install test binaries, avoiding issues with libtool wrapper
-> scripts. Tests are built via 'make check TESTS=3D' to compile
-> without running during the build phase.
->
-> The test suite includes 16 tests covering parsing, formatting,
-> binary/hex values, escaped strings, and various edge cases.
-> All tests pass successfully on qemux86-64 :
-> START: ptest-runner
-> BEGIN: /usr/lib/libconfig/ptest
-> [TEST] ParsingAndFormatting
-> parsing testdata/input_0.cfg
-> parsing testdata/input_1.cfg
-> parsing testdata/input_2.cfg
-> parsing testdata/input_3.cfg
-> parsing testdata/input_4.cfg
-> parsing testdata/input_5.cfg
-> parsing testdata/input_6.cfg
-> parsing testdata/input_7.cfg
-> [ OK ] ParsingAndFormatting
->
-> [TEST] ParseInvalidFiles
-> [ OK ] ParseInvalidFiles
->
-> [TEST] ParseInvalidStrings
-> [ OK ] ParseInvalidStrings
->
-> [TEST] BigInt1
-> [ OK ] BigInt1
->
-> [TEST] BigInt2
-> [ OK ] BigInt2
->
-> [TEST] BigInt3
-> [ OK ] BigInt3
->
-> [TEST] BigInt4
-> [ OK ] BigInt4
->
-> [TEST] BigInt5
-> [ OK ] BigInt5
->
-> [TEST] BigInt6
-> [ OK ] BigInt6
->
-> [TEST] BigInt7
-> [ OK ] BigInt7
->
-> [TEST] RemoveSetting
-> [ OK ] RemoveSetting
->
-> [TEST] EscapedStrings
-> [ OK ] EscapedStrings
->
-> [TEST] OverrideSetting
-> [ OK ] OverrideSetting
->
-> [TEST] SettingLookups
-> [ OK ] SettingLookups
->
-> [TEST] ReadStream
-> [ OK ] ReadStream
->
-> [TEST] BinaryAndHex
-> some auto big hex: 4294967296
-> some auto big bin: 8589934591
-> negativehex: -1430532899
-> [ OK ] BinaryAndHex
->
-> 16 tests; 16 passed, 0 failed
-> PASS: libconfig_tests
-> DURATION: 0
-> END: /usr/lib/libconfig/ptest
-> STOP: ptest-runner
-> TOTAL: 1 FAIL: 0
->
-> Change-Id: Ibd69ccd63ce0168571d46a199c08be59ea748d69
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech><mailto:pratik.far=
-kase@est.tech>
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  .../libconfig/libconfig/run-ptest             | 16 ++++++++++++++
->  .../libconfig/libconfig_1.8.2.bb              | 21 ++++++++++++++++++-
->  3 files changed, 37 insertions(+), 1 deletion(-)
->  create mode 100755 meta/recipes-extended/libconfig/libconfig/run-ptest
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-> index 739995bcfe..7c5810f252 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -29,6 +29,7 @@ PTESTS_FAST =3D "\
->      json-c \
->      json-glib \
->      libcheck \
-> +    libconfig \
->      libconvert-asn1-perl \
->      libexif \
->      libgpg-error\
-> diff --git a/meta/recipes-extended/libconfig/libconfig/run-ptest b/meta/r=
-ecipes-extended/libconfig/libconfig/run-ptest
-> new file mode 100755
-> index 0000000000..d81fcf4def
-> --- /dev/null
-> +++ b/meta/recipes-extended/libconfig/libconfig/run-ptest
-> @@ -0,0 +1,16 @@
-> +#!/bin/sh
-> +
-> +cd tests
-> +
-> +for t in libconfig_tests; do
-> +    if [ -x ./$t ]; then
-> +        ./$t
-> +        if [ $? -eq 0 ]; then
-> +            echo "PASS: $t"
-> +        else
-> +            echo "FAIL: $t"
-> +        fi
-> +    else
-> +        echo "SKIP: $t"
-> +    fi
-> +done
-> diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/re=
-cipes-extended/libconfig/libconfig_1.8.2.bb
-> index 6e08a7b04b..9ae0ce2e6e 100644
-> --- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-> +++ b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D17c8e32f0f=
-72580cc2906b409d46b5ac"<file://COPYING.LIB;md5=3D17c8e32f0f72580cc2906b409d=
-46b5ac>
->
->  SRC_URI =3D " \
->      git://github.com/hyperrealm/libconfig.git;protocol=3Dhttps;branch=3D=
-master;tag=3Dv${PV} \
-> +    file://run-ptest \
->  "
->  SRCREV =3D "a42cb47c1526a4f2ed025fcbb2289863375bc898"
->
-> @@ -17,7 +18,7 @@ DEPENDS +=3D "bison-native flex-native"
->
->  UPSTREAM_CHECK_GITTAGREGEX =3D "^v(?P<pver>\d+(\.\d+)+)$"
->
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig ptest
->
->  PACKAGE_BEFORE_PN =3D "${PN}++"
->  FILES:${PN}++ =3D "${libdir}/${BPN}++*${SOLIBS}"
-> @@ -27,3 +28,21 @@ do_compile:prepend() {
->      rm -f ${S}/lib/grammar.[ch]
->      rm -f ${S}/lib/scanner.[ch]
->  }
-> +
-> +do_compile_ptest() {
-> +    oe_runmake -C tests check TESTS=3D
-> +}
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/tests
-> +
-> +    if [ -f ${B}/tests/libconfig_tests ]; then
-> +        libtool --mode=3Dinstall install -m 0755 ${B}/tests/libconfig_te=
-sts ${D}${PTEST_PATH}/tests/libconfig_tests
-> +    fi
-> +
-> +    if [ -d ${S}/tests/testdata ]; then
-> +        cp -r ${S}/tests/testdata ${D}${PTEST_PATH}/tests/
-> +    fi
-> +}
-> +
-> +RDEPENDS:${PN}-ptest +=3D "<mailto:@@-27,3+28,21@@do_compile:prepend(){r=
-m-f${S}/lib/grammar.[ch]rm-f${S}/lib/scanner.[ch]}++do_compile_ptest(){+oe_=
-runmake-CtestscheckTESTS=3D+}++do_install_ptest(){+install-d${D}${PTEST_PAT=
-H}/tests++if[-f${B}/tests/libconfig_tests];then+libtool--mode=3Dinstallinst=
-all-m0755${B}/tests/libconfig_tests${D}${PTEST_PATH}/tests/libconfig_tests+=
-fi++if[-d${S}/tests/testdata];then+cp-r${S}/tests/testdata${D}${PTEST_PATH}=
-/tests/+fi+}++RDEPENDS:${PN}-ptest+=3D>bash"
->
-> Why do you need bash rather than any posix shell?
-> We run the ptests in a minimal environment so if busybox shell works, ple=
-ase drop this.
->
-> If not, please either remove the bash dependency or explain it in the com=
-mit log.
->
-> Thanks,
->
-> ../Randy
->
->
->
->
->
->
->
->
->
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230125): https://lists.openembedded.org/g/openembedde=
-d-core/message/230125
-> Mute This Topic: https://lists.openembedded.org/mt/117507676/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+--=-6N0wn8zkE3COkPiVUYNV
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 2026-01-29 at 08:38 -0800, Sadineni, Harish via
+lists.openembedded.org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> v5:
+> - Regression in autobuilder with v4 series is due to applying v4 series t=
+ogether with following patch=20
+>   "llvm: enable LLVMgold.so build by adding binutils dependency"(https://=
+lists.openembedded.org/g/openembedded-core/message/229387)
+>   is fixed by droping Alistair Francis's patch(https://lists.openembedded=
+.org/g/openembedded-core/message/229091).
+> - Updated patch "rust: install Rust library sources for 'make rustavailab=
+le' support" to install=20
+>   rust standard library sources for rust-native.=20
+>=20
+> v4:
+> - Resolved patchtest failures.
+>=20
+> v3:
+> - Removed the DISTRO_FEATURES dependency for installing Rust library sour=
+ces in the Rust recipe,
+> - Extended support for on target rust kernel module developmet by install=
+ing Rust library sources and
+>   introduced packaging of the Rust standard library sources in a dedicate=
+d ${PN}-src-lib package.
+> - Integrated Alistair Francis's patch(https://lists.openembedded.org/g/op=
+enembedded-core/message/229091)
+>   that uses the Rust bootstrap tool to install Rust library sources for r=
+ust-native.
+> - Dropped the patch that added rust-kernel to native/nativesdk feature fi=
+lters in bitbake.conf.
+> - Updated flags in the make-mod-scripts recipe to fix build failures when=
+ building Rust out-of-tree
+>   module recipes.
+> - Dropped the bindgen-cli patch extending BBCLASSEXTEND to include
+>   nativesdk, as it has been merged into oe-core.
+>=20
+> v2:
+> - Combined [PATCH 05/16][0] & [PATCH 06/16][1] from v1.
+> - Updated commit message and added in code comments for patch "[PATCH 09/=
+15] kernel-devsrc: copying
+>   rust-kernel source to $kerneldir/build"
+>=20
+> [0] https://lists.openembedded.org/g/openembedded-core/message/228559
+> [1] https://lists.openembedded.org/g/openembedded-core/message/228560
+>=20
+> v1:
+> The previous series was RFC v4, "Enable Rust support for Linux kernel"
+> (https://lists.openembedded.org/g/openembedded-core/message/226623).
+>=20
+> In addition, Yoann Congal posted RFC v2, "Kernel Rust out-of-tree module =
+support"
+> (https://lists.openembedded.org/g/openembedded-core/message/227281), whic=
+h builds on top of RFC v4.
+>=20
+> The current patch series is a unified version that combines both efforts.
+> Compared to the earlier series, the main changes are:
+>=20
+> -Kernel configuration fragments have been moved to yocto-kernel-cache.
+> -The kernel fragments have been removed from SRC_URI and from the files
+>  directory previously stored underrecipes-kernel/linux/files.
+> -Updated the "[PATCH 11/16] selftest/cases/runtime_test: Add test for Lin=
+ux Rust sample"
+>  by appending KERNEL_EXTRA_FEATURES:append =3D 'features/kernel-sample/ke=
+rnel-rust-sample.scc'
+>  instead of adding this directly in the linux-yocto recipe.
+>=20
+>=20
+> This patch series introduces Rust support into the linux-yocto kernel rec=
+ipe and
+> related build infrastructure in the Yocto Project. The goal is to enable =
+building
+> the Linux kernel with Rust components and provide support for building ke=
+rnel module
+> which is written in rust and also provide support to build rust kernel mo=
+dules in sdk.
+>=20
+> And this series adds test for Linux Rust sample and also added support
+> for out-of-tree kernel module written in Rust as well as associated test.
+>=20
+> Summary of patches:
+>=20
+> - Patch 01: Add required dependencies ('clang-native', 'rust-native','bin=
+dgen-cli-native') to the kernel to support Rust binding generation.
+> - Patch 02: Install the Rust standard library source ('library/') for  na=
+tive,target and sdk.
+> - Patch 03: Updated `kernel-yocto.bbclass` to invoke `make rustavailable`=
+ during 'do_kernel_configme', ensuring Rust readiness.
+> - Patch 04: Add kernel configuration support for Rust (via 'kernel-rust.s=
+cc'), enabling the Rust build options in kernel config.
+> - Patch 05: Fixed buildpaths errors when rust is enabled for kernel by ap=
+pending --remap-path-prefix to RUST_DEBUG_REMAP
+> - Patch 06: split `HOSTCC` flag to align with to linux-yocto and fix buil=
+d issue with make-mod-scripts recipe.
+> - Patch 07: Disabling ccache when rust-kernel is enabled for linux-yocto.
+> - Patch 08: Copy Rust kernel sources into kernel-devsrc build directory w=
+hich will be required while running 'make prepare' in sdk.
+> - Patch 09: Added oe-selftest case for the Linux Rust sample.
+> - patch 10: Copying include/config/auto.conf in STAGING_KERNEL_BUILDDIR
+> - patch 11: Export artifacts needed for out-of-tree Rust compilation
+> - patch 12: Prepare out-of-tree rust module compilation
+> - patch 13: Added rust-out-of-tree-module recipe in meta-skeleton layer
+> - Patch 14: Fixed buildpaths errors for rust-out-of-tree-module recipe by=
+ appending --remap-path-prefix to RUST_DEBUG_REMAP
+> - patch 15: Added rust-out-of-tree selftest
+>=20
+> Patches have been build-tested successfully on:
+> - qemuarm64
+> - qemux86-64
+>=20
+> Benchmark test-result for x86-64:
+> +-------------------------------+------------+-----------+-----------+---=
+--------+
+> > DISTRO_FEATURES               |   real     |   user    |    sys    |  F=
+S usage |
+> +-------------------------------+------------+-----------+-----------+---=
+--------+
+> > rust-kernel (enabled)         | 46m1.720s  | 0m28.864s | 0m3.696s  |   =
+58 GB   |
+> > rust-kernel (disabled)        | 30m1.053s  | 0m20.091s | 0m2.748s  |   =
+33 GB   |
+> +-------------------------------+------------+-----------+-----------+---=
+--------+
+
+We discussed these patches on Monday and have some feedback on the
+design. Things are nearly correct, we do want to ensure that the user
+experience is good before merging this though as people will quickly
+start to depend on it.
+
+We think it would be better if Rust support was controlled by
+KERNEL_FEATURES instead of DISTRO_FEATURES. This option now only impacts
+the kernel and any kernel module recipes. It also may need to change
+depending on MACHINE which makes it not a good fit for DISTRO_FEATURES -
+e.g. one BSP may use an older LTS kernel with no required Rust code and
+a different BSP may use a newer kernel and need a driver written in Rust
+for the board to function.
+
+We should add a new module-rust.bbclass instead of extending
+module.bbclass with conditional logic. This can be included by any
+modules which use Rust and handle any common setup. It can also check
+for the presence of required files (scripts/target.json & rust/*) in the
+kernel's shared workdir, and perhaps the kernel config so that we can
+give a sensible error message if they are missing. This means that
+module-rust.bbclass doesn't need to check KERNEL_FEATURES for
+rust-kernel, it can just look at the shared workdir (probably in
+do_configure) to make sure that we're ready to build a Rust module.
+
+If we can't use KERNEL_FEATURES, then perhaps a new KERNEL_RUST_SUPPORT
+variable would work. In either case, this should only be checked in the
+kernel recipe itself.
+
+Bruce - what do you think about KERNEL_FEATURES being used in this way?
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-6N0wn8zkE3COkPiVUYNV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM04xEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bhnEAP4gQrxtVzoPPi+9fSf1srn6aqS7nbTtgK0x
+G/92Nr53oAD+JqHDXwTh4kjoG3X7bi/oEkmz3i1lkDb0ir2BTFFR+gQ=
+=nABp
+-----END PGP SIGNATURE-----
+
+--=-6N0wn8zkE3COkPiVUYNV--
 
