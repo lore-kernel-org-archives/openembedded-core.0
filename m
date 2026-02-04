@@ -1,133 +1,202 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48ACE83F1F
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 14:01:17 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20903.1770213674250513159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3054E87845
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 14:02:17 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21004.1770213735444632360
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 06:01:14 -0800
+ Wed, 04 Feb 2026 06:02:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=zw6DrJ5f;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4359108fd24so505544f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 06:01:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eOITNeFd;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a7b47a5460so4936675ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 06:02:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770213735; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ND27wSIBQ56hQR0T1PjfkQ2nD8e7UXgBx+E9KTFOTBZDx57w31s4m35PO/L1uHA1q6
+         4QDuU6y+A5TGNJqaq31Ubs7EGPefzX9pmX/gpo6eX1+LaMna5JHhSF+/QtgINAQN4cRZ
+         nLqCeMpLH5srPhZqc6IGpKr7JsKb6gOMMlFpTaJn+Y2Y2Iz8YDGFXwJakE0Rc1ziIxyV
+         GEv5iUAhaoK5Jvx/XEdCn95AQxVhE43gif/2ZDZj96UgiyBlOnQJKWTlVlNX1Ny8+HpW
+         zHDe8f0gRiT0YYOPjZKMssV43uf5pdWUXt/NSs1bE+217gFQz0ypnJgaEpPYK60KnIy7
+         3B3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HCFLU8ViftSgQwR/87KWMYL8JV0AsMeV4Yjto62Dg9s=;
+        fh=3Qzr5j4BQ7jLx9nnZdL+Vf1aDzNSw7tv4BGdRP0cC/4=;
+        b=Zg370hGayf4NqhF5RJM21miY0oRqEH8P0ynFsESXTRR6qi+OjMJsbwmm8w+CZiz3Dj
+         g9WRI7PvoPJ0I4hvhrPvfay6HIVf3yZ1M6yv6o9h1P2sMuBvfrQG2FhFdsVdcWCOJSWg
+         SSlPddgMIrDsPf/j156XmAA8jeMkaJP+Wimd3CuJZmmn02NuqxKS0aKrbHVUNuiAG964
+         O5FEiHYuL3iPYt2pFzTpits6jN4HGqR2CoSkV6qwlDf1mbuydhIiTfU7jGg6WhITicLl
+         O3EFAoG1mf/3FGqTVRaZ7/THw49xCUiA2xeTa0AMBtaN+UUgUN84P7wSacBD7WVQ38nH
+         LrWg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770213673; x=1770818473; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Znei5Ci/04aWnaxb4czIBMDoXKD65TB1Im4So6YmAzg=;
-        b=zw6DrJ5fTVfhGO2X367Z6xoXloZ9xRFQUKw/cnTiaOffCtSx3EneO/rrGTjQpNT8Iu
-         N+tp6ziw8/YdVXhlBgVe7qFjI14WM6ZUxFDTUUGD90LVVx5wzuC6CkIjZUVY4QfoIL6c
-         fExu8XDR6eOXtWthGl6MA57SFHRUPn88FzkQo=
+        d=gmail.com; s=20230601; t=1770213735; x=1770818535; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HCFLU8ViftSgQwR/87KWMYL8JV0AsMeV4Yjto62Dg9s=;
+        b=eOITNeFdJzI8Sd2wQzx9lA0V5KJT5yP38zF3I4sRjDI4Y8voVlHu7mBW/3zrRO8JnH
+         9owR0/FRO2iYA+dYysgUxDZOIJIST7U9jlzr86goSwu/nf3DnOz5oqZW539Xoh6NpZlD
+         2sC33jl4yP0hW+/D9Q0qeWgY/ngW/UJAtZaCzwdHn1Vvsi8JS8lMuWxwq/Uod+Hkhdta
+         8PChE9xyxQGzq9KjItZKTb2H0wyBVhLkfwkHIEeF0sbVxRrnhfdPAzGbPp/ErgmBrhoz
+         7skrgMHI7WL/maNL/aaJHBTmfnu7cpf7im5t6nCB6rlgIvCt2RF+xVimaZLwz/4oXoBO
+         VaTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770213673; x=1770818473;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Znei5Ci/04aWnaxb4czIBMDoXKD65TB1Im4So6YmAzg=;
-        b=rJXBq4TgLmrVx5yfi6XOK0BwKh4h8syeKoZ941AKDQIpT2pY0dmnnrdIhDBbbxruB1
-         lLzPitUdqw4IR0nfujXrkPArBC3J8kui3dXtSZ1aeMjged5CJI+9EThzhdryUackxVJq
-         m9JE7CpTGhpFvBEVf5muthHSpUF5lmbIJifQPM1Wohi0i4RYgBjDT26ZtpoLagLQL4U1
-         iuatzDPtT0tWD/2omrNOh0iOAZ8rYb5wYW3nksT/zzhwXeK1Mj3Nxs8NfZiSt1RndObh
-         Meq8Rk9uIXMdZdWxLRTT93ajBwsfI18ZSQZuSwKAIPHJ4yloRAbi5YWQzmXcsSxDQFFm
-         z6VA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRqR8PvyfPqAhU8FaFNmJwa7U/e0GnTmEkv5223SrlB4GyvVA2AM5i1Gkl3/syW0A8DBpagxELiDZWhxGtoeYbgg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxK+IdqpNywQAH+sl6hCggN5MNU4eHGMc1eCcqwtXAalR/bWRmG
-	BUnGCqHaduNHs8/9DuSuxXWoEzbaodgESG+QSo+fbYSYQmRrk3GxvxyfC9aD2Y+d7jw=
-X-Gm-Gg: AZuq6aLHwpsVLHrBNNPDLcJEiXCPOjlJ+y7MJyQ/LmJsrGqs6OzLTFY+poLpQJP0uO9
-	TmASGMIPUCh3KAKJ1pl3IxEZw/LBygbTz3A0ZGGWBpDyGrTMlS6aGPGtiKypnGYKJP+SLMlDgG9
-	wB0+GMrSvx0XcqFPsW9ho1pFdudP2Cr4qqClg7Px2fsIoPXrUf6cagcJGxWxh/NJ1XrHfmZoC2U
-	bLg6RQZS4/zZiWSWfK6UxVJNApOn8r/iYebAL5UNbtCCMx7NEyKDFHYULOZDYtGhkKSsBzUDe57
-	DFFgySz+XhS1hL+36SAj8Y0MpPeztd+Tj1GTIgVFAchwIhSN2mMJ9H+UJ3RQobb85Pbx2dQwJht
-	cGqCSZzTtuOMH3kCFwwTIUZH91WqL1knlSAve0pN3NNpHb1xs1AIX6b32BPbp+QMtDPHz5UcOSZ
-	em/Fn1SpclmR+nHZ+hhW6M9pGnH5kVkeJG/QcVpIvkNUJ53pOBVxfT9lRD2J3LIJERB5+XnAtfK
-	ny97EVCrpPmfA==
-X-Received: by 2002:a5d:64c7:0:b0:436:5b3:6992 with SMTP id ffacd0b85a97d-43617e3020amr4224032f8f.4.1770213672349;
-        Wed, 04 Feb 2026 06:01:12 -0800 (PST)
-Received: from localhost (2a01cb001331aa0002b8d20d4b496413.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:2b8:d20d:4b49:6413])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43617e25d0dsm6791613f8f.7.2026.02.04.06.01.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Feb 2026 06:01:11 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Feb 2026 15:01:11 +0100
-Message-Id: <DG68DI3DMUCL.11DNWKJV5TK6S@smile.fr>
-Subject: Re: [OE-core][PATCH] expat: upgrade 2.7.3 -> 2.7.4
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260131145306.3770983-1-peter.marko@siemens.com>
-In-Reply-To: <20260131145306.3770983-1-peter.marko@siemens.com>
+        d=1e100.net; s=20230601; t=1770213735; x=1770818535;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HCFLU8ViftSgQwR/87KWMYL8JV0AsMeV4Yjto62Dg9s=;
+        b=dp5eaTvVfgTWFsW0OhraAnKk6vTmsEm3vlbdlVBO2IDY2MOMdsjb9FtCTUxttrrnS9
+         at54fcopgm6RMDcZ5KtYnUuV3gs2kKoENu+GmQSUpLrTupYRFwEd6L74ZHgLidkOGPb6
+         t77t91gqoQEIfagLDkPywVVySxBRxEVStfXZ1Raw0C1dc4tJ+hJWoOXQ3acw+A/0Rqct
+         5oijxKPYC0PgPvmCyhlJL9E4lDlyXUYMuZok3pf/vOPbLSPJOqsxo8yPXC88Qr3pFp1b
+         MqBDs5j/MHGTbZ9yfbLR293DPV/OVusfDLLhFwdlsnNpWwf1FAmRRsWyB0vV3zIYnO0g
+         QMNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUeTu3U8IeBlTjqbbxXf3EOAUmOofycdXJESOsI1McynViYraQxUZ5ZgshHjCy+VdtctlbT10GXyg4GVy63T+e9CA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzjLXNMJrcaWKrDHd6sSw6kw0zibeeUlKY/tUkNM65lG4J0ybNT
+	Nd0/4GtWt8vC/UxKIJc0NA9/0bIaWvk12PD9NeDnfRxbbWwSnyBZDI4mjyykTdRuu91awcPTkvV
+	r2tFDohQPG4Em0YcGKkuugqd3ueCtGVo=
+X-Gm-Gg: AZuq6aKaFfZmKA1/+zPAOxiBx5BkSIKODkdDsIzHxi4y/yUnpwBjm0vH6dW9O/qOkpK
+	W5hdpxZphjzZN7SDKaryYSOzi/iWlBe3xsutl7W5XIpbPFjRCszlPN/c01JVtpo0BTB+H5d0CII
+	sBqaKA+alUnxFjM7hpFIPTBQViVl9FvKlSvdu/urkIhFr1RZI6lmOE96diE8Xn6TzXr31FgJsNi
+	QmuE1r8Tms5XOx8Oyj0k//RrDuEuTaiB+zj58KrCHdKAVpiMM90+recfGAD9sBQng58KqCIM9HU
+	f9+EAdNlQTPtXCSFWJdMGl0653qXHD5wrsODipM=
+X-Received: by 2002:a17:902:d584:b0:2a7:a3b3:3229 with SMTP id
+ d9443c01a7336-2a93388ffa2mr34184725ad.5.1770213734576; Wed, 04 Feb 2026
+ 06:02:14 -0800 (PST)
+MIME-Version: 1.0
+References: <20260204020908.864912-1-kai.kang@windriver.com>
+ <CADkTA4PZ9df8xCge6F+m4M02OTXbiOhYJ7S7hPvze95ah5BWDQ@mail.gmail.com> <71fa18fd1ae7612c9d3f8161c6aeb2575d22e280.camel@linuxfoundation.org>
+In-Reply-To: <71fa18fd1ae7612c9d3f8161c6aeb2575d22e280.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 4 Feb 2026 09:02:02 -0500
+X-Gm-Features: AZwV_QgQRFuN-BHNy0fay9u4PtOemGcPNBanWAs4RT5pGq01QX0eN8Ehh4zgnOo
+Message-ID: <CADkTA4N=XXArnsygSnAUptBby_BBX1qxsL2bjT+r1gDePWVmZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] module.bbclass: check whether CONFIG_MODULES set
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: kai.kang@windriver.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000d375e9064a0000b7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 14:01:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230530
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 14:02:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230531
 
-On Sat Jan 31, 2026 at 3:53 PM CET, Peter Marko via lists.openembedded.org =
-wrote:
-> From: Peter Marko <peter.marko@siemens.com>
->
-> Changelog [1]:
->         Security fixes:
->            #1131  CVE-2026-24515 -- Function XML_ExternalEntityParserCrea=
-te
->                     failed to copy the encoding handler data passed to
->                     XML_SetUnknownEncodingHandler from the parent to the =
-new
->                     subparser. This can cause a NULL dereference (CWE-476=
-) from
->                     external entities that declare use of an unknown enco=
-ding.
->                     The expected impact is denial of service. It takes us=
-e of
->                     both functions XML_ExternalEntityParserCreate and
->                     XML_SetUnknownEncodingHandler for an application to b=
-e
->                     vulnerable.
->            #1075  CVE-2026-25210 -- Add missing check for integer overflo=
-w
->                     related to buffer size determination in function doCo=
-ntent
->
->         Bug fixes:
->            #1073  lib: Fix missing undoing of group size expansion in doP=
-rolog
->                     failure cases
->            #1107  xmlwf: Fix a memory leak
->            #1104  WASI: Fix format specifiers for 32bit WASI SDK
->
->         Other changes:
->            #1105  lib: Fix strict aliasing
->            #1106  lib: Leverage feature "flexible array member" of C99
->            #1051  lib: Swap (size_t)(-1) for C99 equivalent SIZE_MAX
->            #1109  lib|xmlwf: Return NULL instead of 0 for pointers
->            #1068  lib|Windows: Clean up use of macro _MSC_EXTENSIONS with=
- MSVC
->            #1112  lib: Remove unused import
->            #1110  xmlwf: Warn about XXE in --help output (and man page)
->      #1102 #1103  WASI: Stop using getpid
->
-> ... and additional docs/autotools/cmake/infrastructure changes
->
-> [1] https://github.com/libexpat/libexpat/blob/R_2_7_4/expat/Changes
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-core/expat/{expat_2.7.3.bb =3D> expat_2.7.4.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/expat/{expat_2.7.3.bb =3D> expat_2.7.4.bb} (92%=
-)
+--000000000000d375e9064a0000b7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Note to the master review team: I have related CVE fixing patches queued
-for whinlatter and scarthgap.
-This patch is currently in contrib/mathieu/master-next-success.
+On Wed, Feb 4, 2026 at 8:58=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2026-02-04 at 08:46 -0500, Bruce Ashfield via
+> lists.openembedded.org wrote:
+> >
+> >
+> > On Tue, Feb 3, 2026 at 9:09=E2=80=AFPM Kai Kang via lists.openembedded.=
+org
+> <kai.kang=3Dwindriver.com@lists.openembedded.org> wrote:
+> > > From: Kai Kang <kai.kang@windriver.com>
+> > >
+> > > Check whether kernel config CONFIG_MODULES set or not before do_compi=
+le
+> > > and do_install in module.bbclass. If not set, it cannot build and
+> > > install external modules.
+> > >
+> >
+> >
+> > This isn't the place to do that check.
+> >
+> > If modules are disabled get modules_do_compile out of the tasks.
+>
+> Does it make sense to have something including module.bbclass which
+> doesn't have CONFIG_MODULES set?
+>
+
+Yes, that's what I'm trying to say.
+
+Don't even include it if you can't build modules. That puts
+the conditional in a single place, and keeps the code cleaner
+in the class.
+
+Bruce
+
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
+
 --=20
-Yoann Congal
-Smile ECS
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--000000000000d375e9064a0000b7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 4, 2026 at 8:58=
+=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
+tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Wed, 2026-02-04 at 08:46 -05=
+00, Bruce Ashfield via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
+eferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Tue, Feb 3, 2026 at 9:09=E2=80=AFPM Kai Kang via <a href=3D"http://=
+lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembe=
+dded.org</a> &lt;kai.kang=3D<a href=3D"mailto:windriver.com@lists.openembed=
+ded.org" target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wro=
+te:<br>
+&gt; &gt; From: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targ=
+et=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; Check whether kernel config CONFIG_MODULES set or not before do_c=
+ompile<br>
+&gt; &gt; and do_install in module.bbclass. If not set, it cannot build and=
+<br>
+&gt; &gt; install external modules.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; This isn&#39;t the place to do that check.<br>
+&gt; <br>
+&gt; If modules are disabled get modules_do_compile out of the tasks.<br>
+<br>
+Does it make sense to have something including module.bbclass which<br>
+doesn&#39;t have CONFIG_MODULES set?<br></blockquote><div><br></div><div><d=
+iv class=3D"gmail_default" style=3D"font-size:small">Yes, that&#39;s what I=
+&#39;m trying to say.</div><div class=3D"gmail_default" style=3D"font-size:=
+small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Don=
+&#39;t even include it if you can&#39;t build modules. That puts</div><div =
+class=3D"gmail_default" style=3D"font-size:small">the conditional in a sing=
+le place, and keeps the code cleaner</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">in the class.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--000000000000d375e9064a0000b7--
 
