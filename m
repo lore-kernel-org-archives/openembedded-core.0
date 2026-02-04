@@ -2,107 +2,152 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FDEE95374
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 10:10:36 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17122.1770199827314835233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0575DE95379
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 10:53:57 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17877.1770202435748925419
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 02:10:27 -0800
+ Wed, 04 Feb 2026 02:53:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dbhF8AMg;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-483100e97d8so3461735e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 02:10:27 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=WQBUQhIb;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so4274068f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 02:53:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770199826; x=1770804626; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770202434; x=1770807234; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wOLyWhcbC1qfk3vwbz4Pb+ln/X9CCtF3BZWrJRecwmw=;
-        b=dbhF8AMgswozavpTPAEKU19NGGNWo8l01o+e0tT6ZXv4vC8Q4bPSxrmruHeLRUoRcr
-         ciLfwqJJm4YGYVd2GbJUN+mO0Zd+8skk9bhdkiWUdjWOAwp57FoDOYufa84gY0IRjhSl
-         LniZvx6ZtRUYxK78Lh01zD2LUzr+I6Zb9Ti/c=
+        bh=Y+DRbWH7f+YQbQzOtSUeRIw79UsshSeOAJpjLQDD93E=;
+        b=WQBUQhIbll66+csi707VxWO6FDS37t26fiE4+XBaemWq6ig6fBbChE+ACtGw5ba/Pf
+         9TqJaD79raL7Rs4ohcmFpLOch2mYBr7wg6SSkHxd+Op4o9j1ovYspLXomwENhWUggk9Z
+         DJVdX9wA9+P+PyjTap1x8uTX5tluitZJRg5WY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770199826; x=1770804626;
+        d=1e100.net; s=20230601; t=1770202434; x=1770807234;
         h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wOLyWhcbC1qfk3vwbz4Pb+ln/X9CCtF3BZWrJRecwmw=;
-        b=sPrG30s0P8K5OIc2i0Q0yZk9bPA9tGx71+SbXt65xM2rjKUhgEWpkaIHxI1/vY0q4a
-         3T40B8bofXziX5Z6HHlNgVeqt5IIPPZDibclXqEtf2zirwg9kfsQG4VqMnZXCLQdP1/t
-         DSeAEDsYOcNyvBhUZlD7mWHnYicswOhP+NJ7ymOW7R7/W6+CaKZYXUyOvhaAK7tN/+0a
-         eVi8kBWg7NkVeVSWcfKepg8W8UTmj9EuELZmGgl+LcSCOGXsjoHh1unyzmOTYBg+Vg25
-         5YCoARyj0hZvk4El+y/1JB8qUCWq7H+DudH4RxvKg2Zbzx08ki3PVdgaekcdLI47px4F
-         ZFsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVN1Rb4M6doio1bZ9M6E0+ODPu5pARNaJxIza7xXYuw4y/u2y8AhgF2tH6Ya/HLvxGzJQtuVpvTCd15tWMHL3yEQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzId3SaxHi6sAgAstC161VWhy6k9nghxyixJCuXVEpoPpqaSuQt
-	At05KS7TaAAFCqEJYbOVSDlfBi6tvOJrDZlWEu5nZMaqnBGGup0CwvXHc3wW6DkmHO8=
-X-Gm-Gg: AZuq6aJ+LQcEMx45/n4Dc65j9G/9Z2FcqIrqZdD3sG9aaUtD58t5Dc7EWiAutYojUnX
-	EpUSo+9nX14yH3ti6QiX80KtlszBI35b1xOtqsQqZ6k2l7b9FDVHDo76BTYWQ22ip47CluT1xYv
-	V69OgXqUpZPq12PYWeIbpe4BGrQhO6R2RF4YhCjnbyz/F3qw4mVOtzhfSZ0PrPv0xM9kvH7AyLP
-	CW+5X2t1Ijw07qsHSWom+eHiUbarXQ44rF1uoCkSWYV2uCtFTLgAgxzQvNuNLlZNFFCcavbakUM
-	4qEuDnPmHUL0dNmSx72uH/3eCCC9BO9cl/G2akHLVEzf3OAFOpW3yr7xTroQjPTd7Y2URMNUeMr
-	1vuET0Z0GXB+yZDA8f1VoH30h/W5j0xQC7xjuhRgWRxxJjNWeFCBVlXS7BLvteHfl7pGuZvd4pv
-	hUPOm5CTZRM97PQDwGQs6DdRzMWruegFm+bPtVFy9Tk1xztEWxvKhCfYryLhRu4F40Zp+YxFwU7
-	Zh3rVGvFn41PQ==
-X-Received: by 2002:a05:600c:4e0f:b0:47a:814c:eea1 with SMTP id 5b1f17b1804b1-4830e98f6fbmr29950595e9.35.1770199825568;
-        Wed, 04 Feb 2026 02:10:25 -0800 (PST)
+        bh=Y+DRbWH7f+YQbQzOtSUeRIw79UsshSeOAJpjLQDD93E=;
+        b=cW1NLsYinHFO0SwqIFprjwiWKWhKnTryMh8EwXcptXtCc3TO++0za011n8BKtQ1ca3
+         IFx6cfOiHAvS+7XmRBkYx7RqX/6eZFhhxLrOgpgPTy4M5cMDIaiMRfFVUgyVjVEJo+UE
+         s7+KwPrLYfZdAl0En+aKcFvmM6Dt0dUYDZfyRyOQJPt09B6km8f5vHxd5ZQU6vQtyLCB
+         eV2h36vlb8zvL8ojD4lhnWccSutWDjBsRQD+1Q81F7LZ1IOCPs3KJuyRBEMMf4rG08ct
+         Ja1o6DvvTkrBDBjZtteaauUc5ryhzrMXnAXP5QAiYIS/iJLvKorOf4qstkUWkW/0NLPP
+         4qmw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGayzaMQpVH3Lx9h8ZDfGnG7oZUHVxAZHQbPV5VWcAKP9PlH70C/vg42fu4Quy/3nMlGkxzNbeUwJMTZeSg29AKA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyNutIwu5Pn7BIpHtXcDI/6YiPUULXMNfsa8pDq/lc9oBjizdgX
+	vS9SEtZdOfbffHazx5iV2tfRwrhC2UpdRQD6RA1ntH1c3j0PUSS6gQgizlTY43h4Yd8=
+X-Gm-Gg: AZuq6aKgh0kLuKefa7FT0Fj7BGvM0GTAl+VFyI2qRnvMJ//8Wi5S5zoRp3L5WwysCnM
+	h4zqQ+6lk3eikJl/pdrczaXOctmQ6W1nXwk8OZmqxCYHsq4+u8WnRcA2oyQFxGVD5odoQk34zxG
+	xg+Mx/9x+csfP5lWKG8Zrd/MSZoqpbGRcROC8vQGn59ZaEKduLVpxkuCQ4kgwaSPw8wE3ZNGsxE
+	pCk/N5TTYTMTzKTvZYdJ+b/elu1t3T/lRgsIbza/p/MS5X16utJRzKYHcv4yYScxQCPNkb4KnSG
+	MHZ3XAT2ksHTd2SPkx+avQPG7VMN6OqDLQunCM8jYasub+H9nIdP+fyHhVdSluIxf+PhR/sw/Xd
+	lcUbcZ90XmTZ3a1XakQNjb7psZtmUXKrt0MySLZOrnfYYgYaN8+ZJvHqgt7wBJudZISqHeI5Qgy
+	9pgIYCh71Br5y4v8Cy+j0ShehJ2D3yG1vheS+LBZaodexjTj6zLJsL7x6xr4LwzSbRuvrVXBZsj
+	vU=
+X-Received: by 2002:a05:6000:428a:b0:435:95ce:84cd with SMTP id ffacd0b85a97d-4361805db71mr3635971f8f.54.1770202434030;
+        Wed, 04 Feb 2026 02:53:54 -0800 (PST)
 Received: from localhost (2a01cb001331aa0002b8d20d4b496413.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:2b8:d20d:4b49:6413])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830ec4fe2fsm16272765e9.3.2026.02.04.02.10.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4361805faf7sm5439445f8f.30.2026.02.04.02.53.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Feb 2026 02:10:25 -0800 (PST)
+        Wed, 04 Feb 2026 02:53:53 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Feb 2026 11:10:24 +0100
-Message-Id: <DG63GSU9MVS3.304EAXA47JAF9@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
+Date: Wed, 04 Feb 2026 11:53:53 +0100
+Message-Id: <DG64E3A1Z773.2J4Y398TR4E3C@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-68468
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+To: <amaury.couderc@est.tech>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260110224453.395105-1-peter.marko@siemens.com>
-In-Reply-To: <20260110224453.395105-1-peter.marko@siemens.com>
+References: <20260123103715.32186-1-amaury.couderc@est.tech>
+In-Reply-To: <20260123103715.32186-1-amaury.couderc@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 10:10:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230507
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 10:53:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230508
 
-On Sat Jan 10, 2026 at 11:44 PM CET, Peter Marko via lists.openembedded.org=
- wrote:
-> From: Peter Marko <peter.marko@siemens.com>
+On Fri Jan 23, 2026 at 11:36 AM CET, Amaury Couderc via lists.openembedded.=
+org wrote:
+> From: Amaury Couderc <amaury.couderc@est.tech>
 >
-> Handles CVE-2025-68973.
+> avahi: fix DoS bug by removing incorrect assertion
 >
-> Refresh patches.
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
 > ---
->  meta/recipes-support/gnupg/gnupg/relocate.patch    | 14 +++++++-------
->  .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}       |  2 +-
->  2 files changed, 8 insertions(+), 8 deletions(-)
->  rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb} (=
-97%)
+>  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  2 +-
+>  .../avahi/files/CVE-2025-68468.patch          | 32 +++++++++++++++++++
+>  2 files changed, 33 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.=
+patch
 
 Hello,
 
-I've tested that on autobuilder but got an error in oe-selftest-debian:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3138
-  ERROR: autoconf-native-2.72e-r0 do_recipe_qa: GPG exited with code 2: gpg=
-: signing failed: Corrupted protection
-  gpg: signing failed: Corrupted protection
-  ERROR: patch-native-2.7.6-r0 do_recipe_qa: GPG exited with code 2: gpg: s=
-igning failed: Corrupted protection
-  gpg: signing failed: Corrupted protection
-
-I've started a build with this gnupg upgrade reverted to confirm that
-this is indeed the cause:=20
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3142
-
-Can you look at this?
-Thanks!
+If I'm not mistaken, this patch does not have a master equivalent.
+Please fix CVE-2025-68468 on master and whinlatter (by upgrade or patch)
+and, then, request a backport scarthgap.
 
 Regards,
+
+>
+> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-=
+connectivity/avahi/avahi_0.8.bb
+> index ffda85c0e7..8f8f4a0d88 100644
+> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> @@ -37,6 +37,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/avahi-$=
+{PV}.tar.gz \
+>             file://CVE-2023-38473.patch \
+>             file://CVE-2024-52616.patch \
+>             file://CVE-2024-52615.patch \
+> +           file://CVE-2025-68468.patch \
+>             "
+> =20
+>  GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
+> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch b=
+/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
+> new file mode 100644
+> index 0000000000..3635cc8d53
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
+> @@ -0,0 +1,32 @@
+> +From 483f83828cfda965fac914ff1b39c63c256372b2 Mon Sep 17 00:00:00 2001
+> +From: Hugo Muis <198191869+friendlyhugo@users.noreply.github.com>
+> +Date: Sun, 2 Mar 2025 18:06:24 +0100
+> +Subject: [PATCH] core: fix DoS bug by removing incorrect assertion
+> +
+> +Closes https://github.com/avahi/avahi/issues/683
+> +
+> +CVE: CVE-2025-68468
+> +
+> +Upstream-Status: Backport
+> +[https://github.com/avahi/avahi/commit/f66be13d7f31a3ef806d226bf8b672401=
+79d309a]
+> +
+> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+> +---
+> + avahi-core/browse.c | 1 -
+> + 1 file changed, 1 deletion(-)
+> +
+> +diff --git a/avahi-core/browse.c b/avahi-core/browse.c
+> +index 86e4432..79595fe 100644
+> +--- a/avahi-core/browse.c
+> ++++ b/avahi-core/browse.c
+> +@@ -295,7 +295,6 @@ static void lookup_multicast_callback(
+> +                 lookup_drop_cname(l, interface, protocol, 0, r);
+> +             else {
+> +                 /* It's a normal record, so let's call the user callbac=
+k */
+> +-                assert(avahi_key_equal(b->key, l->key));
+> +=20
+> +                 b->callback(b, interface, protocol, event, r, flags, b-=
+>userdata);
+> +             }
+> +--=20
+> +2.43.0
+> +
+
 
 --=20
 Yoann Congal
