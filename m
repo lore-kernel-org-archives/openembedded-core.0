@@ -2,85 +2,86 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C504E95392
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:08:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A4CE95394
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:24:37 +0000 (UTC)
 Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18992.1770206917169241039
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19242.1770207867288432699
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 04:08:37 -0800
+ Wed, 04 Feb 2026 04:24:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=MCw+pCgY;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=kAQ+wkIk;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=LsmJ+XQC;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=HbvtGg5r;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.158, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 84F891400153;
-	Wed,  4 Feb 2026 07:08:36 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 04 Feb 2026 07:08:36 -0500
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 5E822140012D;
+	Wed,  4 Feb 2026 07:24:26 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 04 Feb 2026 07:24:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1770206916; x=1770293316; bh=8R9F39LQb0
-	9OzBpnWXXZCAh2q3KdLbyVhlLxCjIX/xM=; b=MCw+pCgY+sy266oejn54M3ywvS
-	KRaf3LaziJpDqv8v0mhciv65DskJ3PAC7TLpBDIvDfKXdkcDn0f3G1uR7MRFN5Fg
-	OkTyKi92QZwKlane9klQFm6qocIxuW1ygtS8mNAfeJOUKuYz1NuDUcUJG+yn2cQj
-	sH3MnALXTAhRt02/tjShixGMT2psshkUqimy/cT8pzpWr6GFyjwmEduPGD73SY+Z
-	KB/DXmMr6S2f/0+VS10pedLL7/CGU9GDrSH4LtPJVvaA0I1LueCoHVwxiUh6yXM3
-	Zr5XENVTNq1srdj6m8FD77PW5bPVqnT+ZtJ07PdTnnLfsfUETslhn0BNQmYQ==
+	:subject:to:to; s=fm1; t=1770207866; x=1770294266; bh=CSPJDORa2T
+	PIDypuObHL8KfXMWftO9nFmzuOnuwUfa4=; b=LsmJ+XQCfl60u3FJd+n3K7gQx0
+	H8qJxAzeQS8ZItzI1JwwzzGuYKkQuJXGL01Sd0bzRMMpTQCUg/Yq7LjCp0KN4z7R
+	xtQYrTaZMO9e9WsFgY+WBgafiO12ZLYPeriTNj14rBeJJNx7lLEklSX9Q8oOJ8kO
+	uMxq59aqm3y50J50YDUzuGghZufHrXle8NSFDChwi9T9qPHNMs7vwbid6RGIublS
+	zmFO4HAd5PBx4d2KeXyH3pO9lThXOwxNueVgaRIseo01KMnTmdqMhXaUGk1KB+N8
+	cp5JcIINnX+uF5duvUKRmLfTHWv8+/o+p8QEDSdTp+p4XwAHaNV8c9OVJMLQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770206916; x=1770293316; bh=8R9F39LQb09OzBpnWXXZCAh2q3KdLbyVhlL
-	xCjIX/xM=; b=kAQ+wkIk9jgvlLq86rgt2jmdtj0uAGmcUrgFEoLjCXQ9ziYjqA/
-	I3PmWBRZoaDDf0Iuib0rbefWZVzpWDjKd4gUuf1bDpIMn/h8QHnyZGpoJgG525rH
-	V6F1pLIoUHzIqUSCiJMxB1ntnF8WdFqjVbF10M/Q6ULhV7yaDm+Lc8IxCK9gWB9n
-	Gl44AzeDKykkH1rNOrtWaeLTaIgIrsnE0X++3MqoMjz/AYv8dJxr4tjQR+dg1Gmk
-	mw6wPu6CWmZx4ucN9qwiSDNBZGfGOg6yPYdkOQelx7EHZcoPwFdQ5GOoDEvYv4jI
-	BECtr521BqhjLX7dkhccBlqHWD7BJwnUScQ==
-X-ME-Sender: <xms:xDaDaQsRu0plYKzv5EReM-u9HixBMXTE4p2FFgFWAJXw2JZhszccoA>
-    <xme:xDaDaQAEzlXKxAH_cHVaILMcy7D7GOXjhmxPttut4yGpBkuFT4cS0Mu1CdLLc9D-I
-    mFUo5gKXyIHLuc2h6aTKtz1RYEqaB8pjmcU-ZMrZOl2zKriOwJTBqU>
-X-ME-Received: <xmr:xDaDafaIbdc2Zsis_O1R3exJNVD97EAYLBoFJXOqIAbqRd53WlyatkwYOJo66v9QcA9CP5fosh00LEKs8uSeUAt9Kr-rAueXdeUkYveEwy15>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvgedtucetufdoteggodetrf
+	1770207866; x=1770294266; bh=CSPJDORa2TPIDypuObHL8KfXMWftO9nFmzu
+	OnuwUfa4=; b=HbvtGg5rhl3ys0/i1tohJ12cHbRBrBClmlVKC4PX8tTHDvy1T/1
+	rvB0AlOS0A7UGKaduQnF/Rt09r0bWHtfcas8cLtlc0MJXKdRdbv/oCLR+HCyAOF9
+	HhsGv/yJv4xlQ/SIUb7Iuf/q4i2Wgyg/nG0sB4qV5Ka1oyZrY+ggXRN+OyeBs0JH
+	YTMMjOIz5bPCH1p3nrqVF6BPnyzT5kMA0+MrgsCsPdI4pbK9hjuuZxThNke0RhdP
+	U8v7dg6sk7KdtEhvu6cV2SiZR4YlzEkiB4HOqFqVW2tPh1VIYP4d1xZlisYXbCQi
+	S35mhTqlI1+EfVQCkhEWKjRnbpoTFGlyK1A==
+X-ME-Sender: <xms:eTqDaULgxupO9UIWjeCWMU0XDSza7bi5uZqZhkABjgQwDwUU30RgGg>
+    <xme:eTqDaWuotM9A63EYnkyug2A0sayAmhiIGN_Wg2rSpzdAEPLL1OqFvrvK9yg177diW
+    DTdJVQpAMNll_h85FIohx-8DB7oX0g4mEKAz0V7rOUuRIukXARO1QEn>
+X-ME-Received: <xmr:eTqDaYWs_VJugQkgOXFb27Fcoo_25NP_ULTkH62hH8WagN5qG3fxTjpG0EdutXKT2j9DvBk1s1rP6SXtRXQx0SJ2AZVApXQR47LhWTa6ltEo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvgeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
     dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
-    rdguvghvqeenucggtffrrghtthgvrhhnpefhkefhuefgleefleduleelhfektedvffeitd
-    dtueeukefhieduiedvfeeuhedutdenucffohhmrghinhepohhpvghnvghmsggvugguvggu
-    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeelpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehhrghrihhshhdrshgrughinhgvnhhiseifihhnug
-    hrihhvvghrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvges
-    lhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprhgrnhguhi
-    drmhgrtghlvghougesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehsuhhnuggv
-    vghprdhkohhkkhhonhgurgesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopegrlh
-    hishhtrghirhdrfhhrrghntghishesfigutgdrtghomhdprhgtphhtthhopegsrhhutggv
-    rdgrshhhfhhivghlugesghhmrghilhdrtghomhdprhgtphhtthhopeihohgrnhhnrdgtoh
-    hnghgrlhesshhmihhlvgdrfhhrpdhrtghpthhtohepvghlmhgvhhguihdrhihouhhnvghs
-    sehsmhhilhgvrdhfrhdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslhhinh
-    hugihfohhunhgurghtihhonhdrohhrgh
-X-ME-Proxy: <xmx:xDaDaTUKBce2R76ZtuB7Bd3BlIzHKfQNhs8o2vRDxs5Jjsjip4DsVw>
-    <xmx:xDaDaWMmrSQ1G_tjQvC9hKn0eaYr90wO2iEN_WluujgbupG-78eYqA>
-    <xmx:xDaDaVYAHH38O3X-kqXLJQirDsJFjlu8HUNTk5HMCI9p15oCl25Eog>
-    <xmx:xDaDad9kiBl_yIsvGCR-ZvOGk2nI9wt0lKGaUU91R69l3XTxGeXVUw>
-    <xmx:xDaDaehf4tKofHSl9JrBHSdZKHreEVS81c2y__ajaY2aDJNZWmujdH0g>
+    rdguvghvqeenucggtffrrghtthgvrhhnpeetueehgfegteejtdeiiedvteffledtheektd
+    fgtdefffeiteekgeevgfehfeeggeenucffohhmrghinhepohhpvghnvghmsggvugguvggu
+    rdhorhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghp
+    thhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephhgrrhhishhhrdhsrg
+    guihhnvghnihesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopegsrhhutggvrdgr
+    shhhfhhivghlugesghhmrghilhdrtghomhdprhgtphhtthhopehrrghnugihrdhmrggtlh
+    gvohguseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtohepshhunhguvggvphdrkhho
+    khhkohhnuggrseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtoheprghlihhsthgrih
+    hrrdhfrhgrnhgtihhsseifuggtrdgtohhmpdhrtghpthhtohephihorghnnhdrtghonhhg
+    rghlsehsmhhilhgvrdhfrhdprhgtphhtthhopegvlhhmvghhughirdihohhunhgvshessh
+    hmihhlvgdrfhhrpdhrtghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhig
+    fhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqd
+    gtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-ME-Proxy: <xmx:eTqDaRioKq0Dh2dijEIIgpOF7tSGCX0Ti4RmQEW8QLJ215YXsS2uaw>
+    <xmx:eTqDaQpSz1W1G4PLqq1GxcudPwlj2FvRxMe7PyHOdHm5ZCl2IVTmzw>
+    <xmx:eTqDaXGg1CucTUxiqC5Jq3o_nkfZ8s_SmPDiblaGmSfiWD-nS5Vb1w>
+    <xmx:eTqDaV7S4GAKBk4wlgkWjs9J9gNRoj27r31ZitH8MZ7KwRzdT4jPEw>
+    <xmx:ejqDaUNsQ-5lPFwTNiKzQpOCFh2WQEWyRqMmcEwDSesT6ZGHI-lOobYJ>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Feb 2026 07:08:34 -0500 (EST)
-Message-ID: <7a5a57f6d7c89428fa5392d3c330aa77fdfdf113.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v5 14/15] make-mod-scripts: fix for buildpath
- issues with rust-out-of-tree compilation
+ 4 Feb 2026 07:24:24 -0500 (EST)
+Message-ID: <30102f29586e11b8f44d2af5c22a5cf89b95cf97.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 00/15] Enable rust support for linux kernel
 From: Paul Barker <paul@pbarker.dev>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+To: Harish.Sadineni@windriver.com, bruce.ashfield@gmail.com
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com, 
-	alistair.francis@wdc.com, bruce.ashfield@gmail.com, yoann.congal@smile.fr, 
-	elmehdi.younes@smile.fr, richard.purdie@linuxfoundation.org
-Date: Wed, 04 Feb 2026 12:08:31 +0000
-In-Reply-To: <20260129163910.2612040-15-Harish.Sadineni@windriver.com>
+ alistair.francis@wdc.com, yoann.congal@smile.fr, elmehdi.younes@smile.fr, 
+ richard.purdie@linuxfoundation.org,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Date: Wed, 04 Feb 2026 12:24:21 +0000
+In-Reply-To: <443dd67d8398b30df2e6eb62ab06fc2433f62273.camel@pbarker.dev>
 References: <20260129163910.2612040-1-Harish.Sadineni@windriver.com>
-	 <20260129163910.2612040-15-Harish.Sadineni@windriver.com>
+	 <443dd67d8398b30df2e6eb62ab06fc2433f62273.camel@pbarker.dev>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -126,86 +127,204 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-qbLB1HPco9vNOF8JjCrZ"
+	protocol="application/pgp-signature"; boundary="=-CG6mr7rv6ncHdyR1quWf"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:08:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230515
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:24:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230516
 
 
---=-qbLB1HPco9vNOF8JjCrZ
+--=-CG6mr7rv6ncHdyR1quWf
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-01-29 at 08:39 -0800, Sadineni, Harish via
-lists.openembedded.org wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+On Wed, 2026-02-04 at 12:00 +0000, Paul Barker wrote:
+> On Thu, 2026-01-29 at 08:38 -0800, Sadineni, Harish via
+> lists.openembedded.org wrote:
+> > From: Harish Sadineni <Harish.Sadineni@windriver.com>
+> >=20
+> > v5:
+> > - Regression in autobuilder with v4 series is due to applying v4 series=
+ together with following patch=20
+> >   "llvm: enable LLVMgold.so build by adding binutils dependency"(https:=
+//lists.openembedded.org/g/openembedded-core/message/229387)
+> >   is fixed by droping Alistair Francis's patch(https://lists.openembedd=
+ed.org/g/openembedded-core/message/229091).
+> > - Updated patch "rust: install Rust library sources for 'make rustavail=
+able' support" to install=20
+> >   rust standard library sources for rust-native.=20
+> >=20
+> > v4:
+> > - Resolved patchtest failures.
+> >=20
+> > v3:
+> > - Removed the DISTRO_FEATURES dependency for installing Rust library so=
+urces in the Rust recipe,
+> > - Extended support for on target rust kernel module developmet by insta=
+lling Rust library sources and
+> >   introduced packaging of the Rust standard library sources in a dedica=
+ted ${PN}-src-lib package.
+> > - Integrated Alistair Francis's patch(https://lists.openembedded.org/g/=
+openembedded-core/message/229091)
+> >   that uses the Rust bootstrap tool to install Rust library sources for=
+ rust-native.
+> > - Dropped the patch that added rust-kernel to native/nativesdk feature =
+filters in bitbake.conf.
+> > - Updated flags in the make-mod-scripts recipe to fix build failures wh=
+en building Rust out-of-tree
+> >   module recipes.
+> > - Dropped the bindgen-cli patch extending BBCLASSEXTEND to include
+> >   nativesdk, as it has been merged into oe-core.
+> >=20
+> > v2:
+> > - Combined [PATCH 05/16][0] & [PATCH 06/16][1] from v1.
+> > - Updated commit message and added in code comments for patch "[PATCH 0=
+9/15] kernel-devsrc: copying
+> >   rust-kernel source to $kerneldir/build"
+> >=20
+> > [0] https://lists.openembedded.org/g/openembedded-core/message/228559
+> > [1] https://lists.openembedded.org/g/openembedded-core/message/228560
+> >=20
+> > v1:
+> > The previous series was RFC v4, "Enable Rust support for Linux kernel"
+> > (https://lists.openembedded.org/g/openembedded-core/message/226623).
+> >=20
+> > In addition, Yoann Congal posted RFC v2, "Kernel Rust out-of-tree modul=
+e support"
+> > (https://lists.openembedded.org/g/openembedded-core/message/227281), wh=
+ich builds on top of RFC v4.
+> >=20
+> > The current patch series is a unified version that combines both effort=
+s.
+> > Compared to the earlier series, the main changes are:
+> >=20
+> > -Kernel configuration fragments have been moved to yocto-kernel-cache.
+> > -The kernel fragments have been removed from SRC_URI and from the files
+> >  directory previously stored underrecipes-kernel/linux/files.
+> > -Updated the "[PATCH 11/16] selftest/cases/runtime_test: Add test for L=
+inux Rust sample"
+> >  by appending KERNEL_EXTRA_FEATURES:append =3D 'features/kernel-sample/=
+kernel-rust-sample.scc'
+> >  instead of adding this directly in the linux-yocto recipe.
+> >=20
+> >=20
+> > This patch series introduces Rust support into the linux-yocto kernel r=
+ecipe and
+> > related build infrastructure in the Yocto Project. The goal is to enabl=
+e building
+> > the Linux kernel with Rust components and provide support for building =
+kernel module
+> > which is written in rust and also provide support to build rust kernel =
+modules in sdk.
+> >=20
+> > And this series adds test for Linux Rust sample and also added support
+> > for out-of-tree kernel module written in Rust as well as associated tes=
+t.
+> >=20
+> > Summary of patches:
+> >=20
+> > - Patch 01: Add required dependencies ('clang-native', 'rust-native','b=
+indgen-cli-native') to the kernel to support Rust binding generation.
+> > - Patch 02: Install the Rust standard library source ('library/') for  =
+native,target and sdk.
+> > - Patch 03: Updated `kernel-yocto.bbclass` to invoke `make rustavailabl=
+e` during 'do_kernel_configme', ensuring Rust readiness.
+> > - Patch 04: Add kernel configuration support for Rust (via 'kernel-rust=
+.scc'), enabling the Rust build options in kernel config.
+> > - Patch 05: Fixed buildpaths errors when rust is enabled for kernel by =
+appending --remap-path-prefix to RUST_DEBUG_REMAP
+> > - Patch 06: split `HOSTCC` flag to align with to linux-yocto and fix bu=
+ild issue with make-mod-scripts recipe.
+> > - Patch 07: Disabling ccache when rust-kernel is enabled for linux-yoct=
+o.
+> > - Patch 08: Copy Rust kernel sources into kernel-devsrc build directory=
+ which will be required while running 'make prepare' in sdk.
+> > - Patch 09: Added oe-selftest case for the Linux Rust sample.
+> > - patch 10: Copying include/config/auto.conf in STAGING_KERNEL_BUILDDIR
+> > - patch 11: Export artifacts needed for out-of-tree Rust compilation
+> > - patch 12: Prepare out-of-tree rust module compilation
+> > - patch 13: Added rust-out-of-tree-module recipe in meta-skeleton layer
+> > - Patch 14: Fixed buildpaths errors for rust-out-of-tree-module recipe =
+by appending --remap-path-prefix to RUST_DEBUG_REMAP
+> > - patch 15: Added rust-out-of-tree selftest
+> >=20
+> > Patches have been build-tested successfully on:
+> > - qemuarm64
+> > - qemux86-64
+> >=20
+> > Benchmark test-result for x86-64:
+> > +-------------------------------+------------+-----------+-----------+-=
+----------+
+> > > DISTRO_FEATURES               |   real     |   user    |    sys    | =
+ FS usage |
+> > +-------------------------------+------------+-----------+-----------+-=
+----------+
+> > > rust-kernel (enabled)         | 46m1.720s  | 0m28.864s | 0m3.696s  | =
+  58 GB   |
+> > > rust-kernel (disabled)        | 30m1.053s  | 0m20.091s | 0m2.748s  | =
+  33 GB   |
+> > +-------------------------------+------------+-----------+-----------+-=
+----------+
 >=20
-> Fixes buildpath issues when compiling rust-out-of-tree recipe.
+> We discussed these patches on Monday and have some feedback on the
+> design. Things are nearly correct, we do want to ensure that the user
+> experience is good before merging this though as people will quickly
+> start to depend on it.
 >=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
->  .../make-mod-scripts/make-mod-scripts_1.0.bb              | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> We think it would be better if Rust support was controlled by
+> KERNEL_FEATURES instead of DISTRO_FEATURES. This option now only impacts
+> the kernel and any kernel module recipes. It also may need to change
+> depending on MACHINE which makes it not a good fit for DISTRO_FEATURES -
+> e.g. one BSP may use an older LTS kernel with no required Rust code and
+> a different BSP may use a newer kernel and need a driver written in Rust
+> for the board to function.
 >=20
-> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=
- b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> index 874e16e642..d6b2178767 100644
-> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> @@ -36,3 +36,11 @@ do_configure() {
->  		-C ${STAGING_KERNEL_DIR} O=3D${STAGING_KERNEL_BUILDDIR} $t
->  	done
->  }
-> +
-> +RUST_DEBUG_REMAP ?=3D "--remap-path-prefix=3D${TMPDIR}/work-shared=3D${T=
-ARGET_DBGSRC_DIR} \
-> +                     --remap-path-prefix=3D${TMPDIR}/work=3D${TARGET_DBG=
-SRC_DIR} \
-> +"
-> +KRUSTFLAGS:append =3D " ${RUST_DEBUG_REMAP}"
-> +EXTRA_OEMAKE:append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'rust-=
-kernel', \
-> +                                             ' KRUSTFLAGS=3D"${KRUSTFLAG=
-S}"', '',d)}"
-> +
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#230155): https://lists.openembedded.org/g/openembedde=
-d-core/message/230155
-> Mute This Topic: https://lists.openembedded.org/mt/117528985/1826184
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pa=
-ul@pbarker.dev]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+> We should add a new module-rust.bbclass instead of extending
+> module.bbclass with conditional logic. This can be included by any
+> modules which use Rust and handle any common setup. It can also check
+> for the presence of required files (scripts/target.json & rust/*) in the
+> kernel's shared workdir, and perhaps the kernel config so that we can
+> give a sensible error message if they are missing. This means that
+> module-rust.bbclass doesn't need to check KERNEL_FEATURES for
+> rust-kernel, it can just look at the shared workdir (probably in
+> do_configure) to make sure that we're ready to build a Rust module.
 
-Looking at this, and the other uses of KRUSTFLAGS, could we just set
-KRUSTFLAGS and add it to EXTRA_OEMAKE unconditionally in each recipe
-where it is needed? There should be no harm in setting KRUSTFLAGS if no
-Rust code actually gets built. For modules, this can be done in
-module-rust.bbclass instead of in each Rust module recipe.
+After I sent this, I spotted a patch for module.bbclass to check that
+CONFIG_MODULES is enabled [1]. Doing the same thing in a new
+module-rust.bbclass to check for CONFIG_RUST may be exactly what we
+need.
 
-Best regards,
+[1]: https://lore.kernel.org/openembedded-core/20260204020908.864912-1-kai.=
+kang@windriver.com/T/#u
+
+>=20
+> If we can't use KERNEL_FEATURES, then perhaps a new KERNEL_RUST_SUPPORT
+> variable would work. In either case, this should only be checked in the
+> kernel recipe itself.
+>=20
+> Bruce - what do you think about KERNEL_FEATURES being used in this way?
+>=20
+> Best regards,
+>=20
 
 --=20
 Paul Barker
 
 
---=-qbLB1HPco9vNOF8JjCrZ
+--=-CG6mr7rv6ncHdyR1quWf
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM2vxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bttVAPwJQyebEIfStek47GAniHOSERP0fX/9GVAs
-zWpnvIu6fAEA6A3iFYsa8xogvGcPU+20t2UPIkZPhFNzefBMJ6KZ4Ak=
-=V0JP
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM6dREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0btBcAQD0j/tZE/biRhNGnIoTvbRBQBTXjgpnCAqo
+fFCn57Cx+wEA6hTh6uRTNS6ZAaUT6F4/AJlCnk2P/0jK/jerBAR7WAI=
+=UJ/3
 -----END PGP SIGNATURE-----
 
---=-qbLB1HPco9vNOF8JjCrZ--
+--=-CG6mr7rv6ncHdyR1quWf--
 
