@@ -1,97 +1,171 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29ADFE9D3FD
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 15:15:08 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22729.1770218105218966172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F17CE9D3FF
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 15:16:58 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.15])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22760.1770218217064642017
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 07:15:05 -0800
+ Wed, 04 Feb 2026 07:16:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hQJCkzjB;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8948273f5d0so8801906d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 07:15:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770218104; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fW2fosb1QPi839sGyq7uHAVRSm4aiXijSd5/LIPcZO3Kry864LRSCofoUd7kC/bCrS
-         L/RSWqOsrjkBlK3euIEHpFjXL4i7C5HQcDfw6LbjaumU+di4Qm8xChrpx3E3lhLCRRbO
-         X2JzI4vSdxkDDJHM2lxCOrv5pxQ4T3Kf+ElbTeQNa8w0Gucrwn9+0KMZYbGY1lRHOnAv
-         GRIUFLxt7jQsFvnRd/stx/I5Fr9KoFjPvdLmqNLLogCmdOavhYba3FbIX8RT4rKvFadw
-         4n+FfnqNNa70T2lcDdL1QWYqkTj8onM8HJ2JnNPc8jLnvXKxs94oJXO65w7uYwd9KvK9
-         nbog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2O/Ast4Dzs1QR4Yf7Dv9azdIAlH1IwiuiIBes2iwraU=;
-        fh=rDK7+x91CHcIiX01V7wPeYLtffnC7RIxro7bTdKIeWg=;
-        b=KrcAryBrDLSo08EtJnZROTWyZq9Rnn5iZTw0EYtxB40XGHuH+pK6YqurQY/asdPhas
-         YJMATrCKFA7PKhfDXM3GdgAV3KOWV9HXi5X/ZaMotfUND4XExvz/qLqhpkbZBGfx2v8o
-         YkihsKvoCFtZZEzJeKktFujzjs00dkNEy7L7RjZP68lQzwtgiTHB1T+86bVGPlLhGiu7
-         u0yODLSVQteuTPXUqlL3f7aV7pWPhYwzZNkACn2G2luNJ8jafX7gbFH5253dre2oDa4s
-         yD/vHQn2n5VSyqOze8VsmFGCi+xNsyh8pimuXgdz6Cor1aAjv6kh/YBHv1gHpObVNn5/
-         sPCw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770218104; x=1770822904; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2O/Ast4Dzs1QR4Yf7Dv9azdIAlH1IwiuiIBes2iwraU=;
-        b=hQJCkzjBt4wkzdXOhhpKm/Dmp8LG3L4DCQfdtRETtO2qwK1qrXCglybQxQNLj+4lXT
-         hzvn0kL0HyPimhdyKU86mGe76f7UMma0TUkVcYeH/qgA9ovTNrI1QufpmXt2Yq1irjjg
-         re5oCdYt3xZUfy1tdiZcFCQ+1jGfHiJNCYVeDCZ5UtgWw7Gg0P/R6xIL3/f84vgWFVgF
-         o1oxVvaumyNJveUmTnj7D/6cE5mYt3k3+hUvfflANl5NiCn+i87Yx0YtEI45Y1iJ5AVh
-         K1UgP8ETGTGjv2YbsgfiPX3/hM3BCGAProNFa/LzrFVgsCxD2yHQptZGNjcXBqwnL9NZ
-         AYcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770218104; x=1770822904;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2O/Ast4Dzs1QR4Yf7Dv9azdIAlH1IwiuiIBes2iwraU=;
-        b=awTgVAhSPCSJYiPDOhhaw/8yWHsLj1NVkyBvr7rOU5In/0l3+jRbBkMyEaMo8YDZGn
-         6pL3FgGQfTKhnN5zP68VL2FFr8B9Unx/pVdB0i8lU7WfGs4z0mCqbSDc2xPHJ4oUsIOw
-         +TzCjpwCJClsNRDTCrJLjYASPn2SEIpeNFZYjSjQW1tcfqGw+ZudF5RTNwztwgOqVwjf
-         EgRYg4qafVv5d+mo8t1YbTCyRzUCTgCcYQken3PTicZUvc59p8pFTaorreAZFv0W/lyu
-         Ne2zPf0SMBW5iwYqDLCRfGsh3rK0SGHWXAZUsPrF5VF14VOypOkbCLl7J98Cc1HmrZ/c
-         3NUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmm3Cly0L3cb0yYmGAvnFDPAsvLHWaHBupp7demkSZJPmJKAoCvmUk+z9Tn3vA0PHwKU248Ou8p7QHUhIs8YeCHQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxLbnyFNGVp+AqhPH4DyRmgOmKmAG4eyiuEz7AFgEqGgpcdeViW
-	P83kyyRq/XS1Ranh1TssOKOcgioDj0i6y/19fMF9RLf46hVpOGNj+s3/s4Ebexvz/+VHlTb49Lp
-	f4E7yYPAjnFOouj2JQEOJOQull9NlyoU=
-X-Gm-Gg: AZuq6aIfEU3TgStT+eZjQwb948pBjYqxkdr1nLJYDA57ohQNuHDK619wgIzLPkOD2xr
-	i2MUWkfG6q8ifhj9lMhzlAZ4fb1ombkkLtd9qDXT7uLF4L1yl0ZYCZN9PkThzVsWydJb631Xg2n
-	bP+fxqJCJC3/skTCGPYtjyBPX7GsHmFOVKKSFzrMQx8gMZQfe0DndtY0JQGIqtWlpGSdK0lH20F
-	C/gWLLNe7j/OwvgDm8zvOjfge+SrtxaSVPa/2G4mPkUogCEPMcerzji30Ft1RcaWGfEPPx465tz
-	bXPQYlRh4LTexqHryKKukHdc3HEHUw==
-X-Received: by 2002:ad4:5bc9:0:b0:892:6763:3819 with SMTP id
- 6a1803df08f44-89518381d2cmr95061506d6.24.1770218103970; Wed, 04 Feb 2026
- 07:15:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20260128140635.43214-1-pratik.farkase@est.tech>
- <5f426a3e-4220-4274-b38b-e2bae5188cee@windriver.com> <DU2PPFB77F8FB197407E3ABBE614C6C569DFE9EA@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
- <CANNYZj8YBnBb1dnU0jVUB1VGhSZxRWsLjq6qnwB1apHsVtL7_w@mail.gmail.com> <GV2P189MB3005D914A2CCB8FA282C3B44FE98A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: <GV2P189MB3005D914A2CCB8FA282C3B44FE98A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Feb 2026 16:14:52 +0100
-X-Gm-Features: AZwV_QhBvFMfZ3n_cGqiy5NNhvtm9vwKYgj56j_AvgmXjUSaW9FPjtwkKkE61ng
-Message-ID: <CANNYZj8E3-sucj4aqHh-OqzV0Z668aZ+YKUpLWccQboCEgNWHg@mail.gmail.com>
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=XJnKtAM0;
+ spf=pass (domain: est.tech, ip: 52.101.66.15, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z8cIdENTjONgYQyGts3A2ozNhMAVqhFM+0V0PFVyMiYzPzp8u6HSpjR6GAkr17tXBnZuKQyJDi12KblEofXftT4ATSp29/GFI8RkEvgsjnsLAxmPn8sv75ivP3vgr7PsOS5ZNPs9nq1tCmqdBu8VIBLB57vn/6lepVISrAEB5p1HHWfhLlE10NSdCQEpAM7bftrCZeRxNervy0gyKUtfI86uKJEdfvY9he+JfTUURjw+Wajlf0kBBbAf0u8derNVNxRl0wzWuELIhGYzWqCfcQhidjhKzGrOfQ9ni+8bO8p2zM5tZJIXjFNIrMVxflhHVSkBnEaaulMHCyKpL1z1Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JOm2BWHri9A9C7oe6FGiQRHA6GRN8lrgz1nCnc31Gy4=;
+ b=jQ8XWt61DSF1KqPcPGHIEeF6wRlHKmY5e0atQgmbEOR9KGvp7zhq3RT2s+kA0LRFjsZuAj0xoVBTDCowG+GTwoYQerhmeZ+NbFdmucvNwnrEiaAWdmKZA4VYzspDetEQobwGuyzh2fbqlc1LuJS1rynPcQNYp2JbcNqMLlHqDlfd+hN/ucP4Ae6uEnYpLnqQT1baEmMrQagkmzeU54zqCNDZBaRrAuhZmWeSfDzTvtkvRCq0JTRe61VV2Tq40VJLmGLU6gVZ6kp9lccnEHeQaKb+/zU3d5t/1h1jj7DLdOG04/5nehSawKVMdBUG03Q6coAFNFZjfYR7TwLwUb1ePA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JOm2BWHri9A9C7oe6FGiQRHA6GRN8lrgz1nCnc31Gy4=;
+ b=XJnKtAM0S0PdRjVbzcNkrUJpC4SHS0sDlzjAbIU9Wu+pH02ZTTZoNRqYbryBaMy/OXoU6kYkIMmSY7utpdSGxqK3hPPzaFIBmO7JvWqUItCdyaJ7M/l/f6YMZmqluvXTdrudy+b+QECP2/xdayx9j+o4+wePdPWVqjg/B7GLDz8GgSq+gRNzl9QamShR0nr/arqpRarCBMbWeCQyJEM42Ia2/WdZp1DIYBLqT9B64r/835jyGfxafSDkFoFQvlvAomvl6WBHQYUephbg7yyYkos2B9BoVmuOuquOX/5jrsxR/Q+dvfR7nUbP7JPmRkLPSlpkm1efC3TnFG7+0F61Rw==
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by DB8P189MB1110.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:16c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Wed, 4 Feb
+ 2026 15:16:53 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9564.016; Wed, 4 Feb 2026
+ 15:16:53 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Randy MacLeod <randy.macleod@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "pratik.farkase@ericsson.com"
+	<pratik.farkase@ericsson.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
 Subject: Re: [OE-core][PATCH v1] libconfig: add ptest support
-To: Pratik Farkase <pratik.farkase@est.tech>
-Cc: Randy MacLeod <randy.macleod@windriver.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [OE-core][PATCH v1] libconfig: add ptest support
+Thread-Index: 
+ AQHckF9WTpead0Uhr0+hKOkrljk1fLVoSx+AgACHnwWACZn6AIAAQ7bFgAAA2ACAAAAuGA==
+Date: Wed, 4 Feb 2026 15:16:53 +0000
+Message-ID: 
+ <GV2P189MB3005289A31D62A6EF5C551CAFE98A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+References: <20260128140635.43214-1-pratik.farkase@est.tech>
+ <5f426a3e-4220-4274-b38b-e2bae5188cee@windriver.com>
+ <DU2PPFB77F8FB197407E3ABBE614C6C569DFE9EA@DU2PPFB77F8FB19.EURP189.PROD.OUTLOOK.COM>
+ <CANNYZj8YBnBb1dnU0jVUB1VGhSZxRWsLjq6qnwB1apHsVtL7_w@mail.gmail.com>
+ <GV2P189MB3005D914A2CCB8FA282C3B44FE98A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+ <CANNYZj8E3-sucj4aqHh-OqzV0Z668aZ+YKUpLWccQboCEgNWHg@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8E3-sucj4aqHh-OqzV0Z668aZ+YKUpLWccQboCEgNWHg@mail.gmail.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2P189MB3005:EE_|DB8P189MB1110:EE_
+x-ms-office365-filtering-correlation-id: ea16b4a2-1a42-4c2d-2166-08de64006d62
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|4022899009|38070700021;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?MDYRh9fStl8n75GSbyKfmPasNxsNxTNOe6CqVOAcS8DRUHmLtI+8XA7pVyzD?=
+ =?us-ascii?Q?DlUSmxB0HGWDFMIrbL60n1ZiT7myFPkBuqdfdvaRx/ra2XAudXsU0M0GObKs?=
+ =?us-ascii?Q?vqtJaiblmu6LYqNX+nGbCv1sr5E9dSpka5rovyE+ugbYg9NzBTg/Zj4KsDpa?=
+ =?us-ascii?Q?ViRzcWVWM4Feq/k/SilWiQg8pNDnkrQ6YhH6H8vBOCKLRQDxF/OskbpNqTBE?=
+ =?us-ascii?Q?acQ0JNRSxk2+lFliPXnezRK3M5zUi91v8pu9k/uKB5OsEH7NniOYkAur9Y1D?=
+ =?us-ascii?Q?FWZTUBKdeABvtyS5+LY3g2lWpPqT6o3z03KgJhfwZpEb2a7pmL2fGFZ3wG0V?=
+ =?us-ascii?Q?+o0Rpr6gOSVp5Ijp8RTjcb2jf1k8N1usYTnMXXUMVYpR2m2IZCQmruWdsMSf?=
+ =?us-ascii?Q?iAwodmDNVnKQCuxng8jJOS97ZFkfp8a7K69hiS/nXSRfRFN/wJHRXgtentMf?=
+ =?us-ascii?Q?g9cY8XeZG6Z6z0W/v/KmV/dujM9Q2iT43069fMCPoAgy7rqUFo82BXHtVijL?=
+ =?us-ascii?Q?iNv2NbiAa7GahlH7o7LfKMOoMeeVBwwE4gCxQn/LK34lVC3nFXaVXksglPsg?=
+ =?us-ascii?Q?k4YLHdSLtmwlVOuyNmB1n175lAYdxirQN7jsILH3A3UYfE723bhRExCU/3YD?=
+ =?us-ascii?Q?9WyG+Y+mruYa9cUcktp13xXXWc77JUs5S/IIcOincQIvD1C+q9HRUf5H7iRt?=
+ =?us-ascii?Q?ebtztnqmwsVQF7p+YL+JT/x3HXoxJSVKCR6xMImFVhLrTsIPc0JEtVKNNSRO?=
+ =?us-ascii?Q?ATj0cw5Oaaps3JlNXsVBjOoVeRbZp3PjYRUtnYhaCmArzK0ZhGFXPlD83Bgl?=
+ =?us-ascii?Q?lR+8IlawkAcqsUSMK61XDOtttrSjpUIIetnn+O1tM7DZrue4FyPDpR3Oqa3I?=
+ =?us-ascii?Q?ebX5SX9nvRakcpDEajq2sVqbi6SOX/Q6PYDYJjSXrb0i2mS4f4y5OgzksHnF?=
+ =?us-ascii?Q?B/itAA03Mf5MJ9dhSinR2jbtJK7nmGviCCaAcdU+Sz7Vnq24XdmUhbDZyptb?=
+ =?us-ascii?Q?gEM3Vefuo17O4g7U7uFIix9pkeLlIXYLVGo3k5h83f86QxRdz/N+u4NpLck6?=
+ =?us-ascii?Q?J8bex8eEXVY5FvELWc35j65neu4FXpAecv7lLUGiRtCSousrYfiJBLK7hH4+?=
+ =?us-ascii?Q?Ssgku2HBchyHbLcJy6FQKV651HW2S0Mw71Km+cHj5tI5qPWia87qUy6N3gym?=
+ =?us-ascii?Q?pZuMcv3EGS1fu1PN0P/MdZt8voGiG1SkbHVsThNhHsYDiVoKG18/ef2yzxy5?=
+ =?us-ascii?Q?/Dcv6H5+ggsWMbMT/3lHw3g+8skLdhLkhyLa2PzobltkoGpiCSrv6HSXOkl+?=
+ =?us-ascii?Q?W0/VYTIrbVEq2+7BVpYcht21byq18BRsRVORZcF6W77wDxBw7epH4RbOefYF?=
+ =?us-ascii?Q?M+PgEwaYJ3JdQGMfgOKl06j2OewpCM5FH88k3paAuAtU+onXX2C+DFhZHri2?=
+ =?us-ascii?Q?G7b4+gEVKBEV/E0UurpW+iCYo0k3UtfyYP/+aSAVzn01wZXBifzVmlAdJv5h?=
+ =?us-ascii?Q?9iBufwN4xaEkasRRTcXgKsNxdOFJtcofzbyVXOyqVnWbbhUvXwW8Ag8pBfEs?=
+ =?us-ascii?Q?5tOMBzkL9d0R9jXyGH4=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(4022899009)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?N+Zofg/VgLdsdRC/G3kpTXI7u2k02a4XQEq5eOJ3BrS5xJDJhIRUJ/UHyuWR?=
+ =?us-ascii?Q?n/XatZ5uIPfTyv408JJZPQ2Lr6c4cDwpKJqSbKRZBAMsiXY8FMj/JhUWho1u?=
+ =?us-ascii?Q?kehqPOxKUvHVOhkCh4BKRHZ03WvD81L39mbRNq5c7LA4H8S7OCVTcWbWlsMA?=
+ =?us-ascii?Q?ixflKw4FxUyJymeJ+zM3kuu4wra9kryYJcEXoiOrseK8293GNuTBupPYEXcy?=
+ =?us-ascii?Q?o02tIfM2MgYyaffG9MWBqyVOVHtjybFw4nQGbISycy8Fy6tvtUlPt6t4GF/T?=
+ =?us-ascii?Q?WcETAL0YcjvDKy5oDC91oMp0EukW4iBVkYdwXOltz/0YM8wwY/gCYHmcU3al?=
+ =?us-ascii?Q?baJa9D0w3L4PjfoIoT2b8N/pbwUKueYXFtPpY8nAAgmyFDtr+1c+TpoFG0P/?=
+ =?us-ascii?Q?kMSDLs3Hs+lS0x7njVHGQ2GJnn8qFNF4jlIGm8HJBY+MArQgPE0RxKg6Ggcw?=
+ =?us-ascii?Q?yqRFX61bzZJFOTrovFJOt/Inmux062rqV29S2YRDIJnmVBJ8QRaFj9R/C9fC?=
+ =?us-ascii?Q?NzZFg3A77vai8jeNCbvGGwtmlc8dLDGzM3l8Jg4/ME16DLy9ENk10+wu/DFz?=
+ =?us-ascii?Q?mKSLvBql/VifczazSew+1PDQ6nUegvy6cn2z4UiNHFyjVXPkEF3sGIKJGUV7?=
+ =?us-ascii?Q?KlTFQxUqjGpHbbZIaqz4NqPjw7V2scvvOq6lngb3Pvj/LcJPFRhwcLyOqLp3?=
+ =?us-ascii?Q?LOAKl0lSEYTMztq5kBqNTRtf+DJ0nz1brGQXCHi2SlqWPALPLipdn1UhdSDh?=
+ =?us-ascii?Q?5EFepqlKD+mGiro85pBcFlwVE1KTKhz8xj2TCXUgmtqBYotuj5WzF30dsiEA?=
+ =?us-ascii?Q?tr/HQ5SKEXL4IaqmpMpVZKnn+0EwNXoLJMck4gfkW7GDSjYUb45V99f1ss3M?=
+ =?us-ascii?Q?dAggJnHl/2LZ7zB8ptsZjglBfjWxPf2OOZg9XTe0RB+Hcc4xQCkHZU8cLDtg?=
+ =?us-ascii?Q?o34RgCwFUMnu2dckr5PDmiCAcECah94Uj9GSZ+GLhjmaTaqqrwPIPTxObTK3?=
+ =?us-ascii?Q?/VihNAR8S6sf2iPYEt0u9GahY5sS2hPjJ5VA99v/oNsk/dtmJTRTki8nAMS9?=
+ =?us-ascii?Q?h5hMUlCh8enJowKkXO6ohPY+7iK6M0op382NGC/t/gz6JH2G1VD0JI9bDEpq?=
+ =?us-ascii?Q?Hp3AmXR84DMqIBlhIbE98rown+vEKnicq8EuaYScPslPXGLp65fRsg+kI6O4?=
+ =?us-ascii?Q?CHkaDsWpQ+rzWYD1K7QJ6orezb4ikr9JDhA9z8QiXl1mOn0SLKuG2xxu/jjf?=
+ =?us-ascii?Q?LKXy5BI6nNwmIhAV4le4dFEq21N8xnq6bcA35I7+kSXFgG/scy2dg0KgPABC?=
+ =?us-ascii?Q?THXJ1G+676uICTIBjkk92LP/kQ1CFhnjYKAve4DWYN/TuFe7A4UH2mU7JRUO?=
+ =?us-ascii?Q?xq4QLd3pea+kGLCcaI/zsaPJexg6e8YRoPfYJpWUBhDczmh2ZHOQ9ySsU4pY?=
+ =?us-ascii?Q?8nknZ2o04mvdxGMDCJpdJofPLQPc5XWalsX4ztdOxblY3S0rcJqd7sSxRDvH?=
+ =?us-ascii?Q?kb4KKRyFnuBmPDtJ4GytFl2hvIsiKSpIM5gLVsnS1FZ93qU4eOHOSnAmyNjO?=
+ =?us-ascii?Q?JhBXrY+BhNKtrRa50mX9Q5Ju5qGgtOUvdXYsBP5I3OHBiC3+HUJUC4l+Twbz?=
+ =?us-ascii?Q?Heil4u1U5ZS1tPslc58zqnmfLoo/4PwAvLAxHXiWfLlCyM46OG2YV+clfkhE?=
+ =?us-ascii?Q?5Wt+Rtkt4bM1Q9n/KAo62icAWg5mYt2yM9qe/nexEDJnvz0jjjKebjk2IEHw?=
+ =?us-ascii?Q?saxFwOyLtA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea16b4a2-1a42-4c2d-2166-08de64006d62
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2026 15:16:53.0503
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Rdc1b6vgqc6depg8XtIuBLVNQofa5SkA0VzuBiocSZnxtdOsZA5rOvC2LVQ4vuiaSmtLIHcQtrBrST+yoX7S6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB1110
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 15:15:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230543
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 15:16:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230544
+
+We use ${B}/libtool instead of libtool from PATH. The build was invoking th=
+e host/native libtool instead of the
+package-specific libtool generated during the configure step.
+
+Best Regards,
+Pratik
+
+________________________________________
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Sent: Wednesday, February 4, 2026 4:14 PM
+To: Pratik Farkase
+Cc: Randy MacLeod; openembedded-core@lists.openembedded.org; pratik.farkase=
+@ericsson.com; Richard Purdie
+Subject: Re: [OE-core][PATCH v1] libconfig: add ptest support
 
 I am struggling to see if there are any differences in v3 compared to
 v2 though. Can you point them out please?
