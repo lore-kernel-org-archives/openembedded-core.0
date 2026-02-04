@@ -2,95 +2,95 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBFCE83EEE
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 08:11:05 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15440.1770192662937180329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3477CE83EED
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 08:11:45 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15448.1770192697379880885
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 00:11:03 -0800
+ Wed, 04 Feb 2026 00:11:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=m+o/eXcZ;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-435f177a8f7so5221921f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 00:11:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770192661; cv=none;
+ dkim=pass header.i=@smile.fr header.s=google header.b=3l4v8+vo;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so4142643f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 00:11:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770192696; cv=none;
         d=google.com; s=arc-20240605;
-        b=gUOJCWOeFsazdaZfYXBFiTrxfRp+JKy2SU+EAwXoo0UdEK9CxIasNMF4L9Ow6uxVw+
-         z1BzgjXrtNM2iqQjzHR9kes9ZqIq9GNsG4HO79LEHKfnt93CYbWQZ7qlO56r19ApLBa6
-         7dKI45nsr0Gc3/afIqVTjxEvZcSKgPE/8JP+nVC1nDKmg8tZD7esXqDnWxrtjRZoPc0O
-         qj0dnTBcn8i6b9w688wuuP15UR+F/xSXqms9kN+fTb8Z9LZNsKmADR1I2ETSnpK6Y/Cq
-         g7f3r3dWus/2hlmOBtmu47BubxT/Rbz37fgK9++e8y9KQuor9kt30gy6XcBjFGU8mGgm
-         8EfQ==
+        b=RpVhoZAL86tjYCT99JSBuXABCMVYdxsMzYsOmIcr0ugNrg8ZioPAQMAYz77iPPY+7u
+         Xc7MCOTm+/LCBxSyXn469/vhqm4O7/l4WbMiirDj5ny5XOK8BfMoQFihAOY2Zy3dw3Xt
+         ySwcRgojw0DZUIiMMPyKG8L0Y+bqbtHRwvVcWFh7mLk99UgKXajMJPBILZvhB9RcEE2h
+         a4WQP55jYb0jvtBbhz0ylBB+JdAr9KG/Oi12TtLzfqcraBV2TonY3HXWWq7idoYhvDjH
+         sN1+iy6VS5tKabWKzOvcw0myVCQUL5V/rg5OWEuN5irr7FwkWbdvO1PWYCSxPztzhNYQ
+         zpqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=csHXAjHqUKknr7mWDB0lmCptBsUhnRdKBLfdEzC5lsc=;
+        bh=CKe1GQ4gu5DEl/LVh6crqTSDj5ftkTIn/T6GrRGmbEQ=;
         fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
-        b=FsqbceAmk61jGekhQ6c/lMPnm6Kue1Iwn9rOA4dGpa/Bd27e5ZShIW69aW59YyjjmR
-         YjnpUzonblZIPqukHoz4WqyBYSU+JYhjAUe7UOVt4yIaepKq1GDGhE7i43v1pLpiVlzg
-         07OGQqaS2+55L06mc/25kYcbsMZwjhvtTL/b+7/R0fy2d6qtiRrqOyOMMeIYF7RBXV3c
-         tdJz/19vlfO0LMMy9yoZce2gE9F/Kc1D+Y6d6Xav9LqQtUZHn1CameboMGVHyiuc/ngV
-         5oM/zLAg0s6z+bGkRvD5Bo6OmK+1VyM51/sAd5l4h7X+/TtHc8H0FQHpuLmP7bdW8Fr0
-         YLSQ==;
+        b=OWshu1X3d0pz9UYVeK6u/E8m5A7USJWLzyMXWnCbvllg7Br/JEV7njb2LP4sTCfaj/
+         6DkkPrNUu56eHgxS22uJodc1TtCfgnsWIEiTLyDU31ewZ2e0xiOvbiM5o7GouYDnpjRC
+         dfvIioC63bah33UVn68IJumhDAQcvi194QNr0/d1W+4hdAdOLIIP2demwQygxeR+8PHP
+         tWm+WQHCvSdExXn6vzuqdBErZRNM9qp1nsyZMEbjkk8D5S7Gvg3MJWVP70rjh4U34ay3
+         UgyTgSopoI0SIKXnonPKQ0KoxiRzb35VU2g2YUZEDbZV7GRdrq/0jBR445o65YLHD9bk
+         Va+Q==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770192661; x=1770797461; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770192696; x=1770797496; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=csHXAjHqUKknr7mWDB0lmCptBsUhnRdKBLfdEzC5lsc=;
-        b=m+o/eXcZd9Qb9i3r/78VqnMoF3ZB8UKsbQu4+XgRBpwzCCFoDCkjsZKygz76gNZNpI
-         q/qHq2pNHr4oClR/DChQHK7U9C/v6HdXGVyEODifnmqUzjVQgcYw6WHs3bHDInMCJtAU
-         YUdQ7fXiHz1CX4ecNjMfbfNeGpeXS2+g9nHBY=
+        bh=CKe1GQ4gu5DEl/LVh6crqTSDj5ftkTIn/T6GrRGmbEQ=;
+        b=3l4v8+vozHem7iKB4SgEGzr0U/tuZFaQ9m43HeSakG652NtWGH9edIo8Aw0B3CDg0P
+         N4i64Kp+lDvb5rrnt6yi0BO1APkaXuQUC+VP9cWZ0I+2X9Vo15d52p5MQQ6j+/6R17r2
+         YzfFjsX+T/JcbBYhSUA09aVkO5a/TonDVzpOk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770192661; x=1770797461;
+        d=1e100.net; s=20230601; t=1770192696; x=1770797496;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=csHXAjHqUKknr7mWDB0lmCptBsUhnRdKBLfdEzC5lsc=;
-        b=YfkFXJiHOTUDX3R1fa5HH3eYFlT14zwdjkBlysY8jCGonphUXcZxKMHhimxzjv43yT
-         0lxPF34wgv3b2HSHeuXeohxZ1dke+kXfDhi14SdgqZhqi0MzuJEyK5sETuJs3GDfFoz1
-         bZ0n5GE6+Bxlz4aY+gvRwekhNouDxmLQ5pm0nGhcp1ostdweRQehOGrU4umxcCJI05FY
-         SFyfyFQqIRpaDdFEo0iP3jqEF4vrEEv0lfZBbJ8f5KcjB6FrFvLRsNSNq/OwLZjJ4uxS
-         7lcyOiIOaEBGo5Z9nlYITFH1TR7d0+CgR/IxehwE/3NswIfvlh4fnoYlfmCQ7O9LY2/J
-         yfwg==
-X-Gm-Message-State: AOJu0YzTsC0ngGzD6H6LahhD79nlxQPtOfZZAdq04GoyERUvUx8yhEfD
-	bEsKcVfi8mKDbfRlWu9NjhyauUbJrnp8SEs0T0Ti+tBiZwgoiOZ6DJq/btyfg1PjO8K2Ri8fIeV
-	JCid37ffcsrk1Q5GsfNafL5CFL0b8vLw3LCp14UassA==
-X-Gm-Gg: AZuq6aKlSjFdAaM8HTYuxLahNJlwAg4QN0LkDtrfKeUwhuX0goKIfJXSSYa/MZwYBJ9
-	CBAJbcK7dVos6FOShlC7FVnH5MAUU6ljJmJhDD7/CL9uAu+T59AZf06YiDf0He3mxAe620tTli+
-	3/n46rbdZv2w7DPt9+qkZlFg0xJoAGN97lG2fOheQnTYl4sMJX1rZB7sAXQUnVA9Ftvqp+PYocq
-	RrnIV5dyW7IBsZcqPuPYDjOOmS9myBUr1pV7xKY79hKX5F7RO3B8xnpBbZXOG83kAvZlyKml0kO
-	Jl1vFCwCmxeq1UiRGo/LkDrkSL8K1iok6HxhSyI=
-X-Received: by 2002:a05:6000:2289:b0:435:a4a9:6f79 with SMTP id
- ffacd0b85a97d-43617e39046mr2580869f8f.8.1770192660966; Wed, 04 Feb 2026
- 00:11:00 -0800 (PST)
+        bh=CKe1GQ4gu5DEl/LVh6crqTSDj5ftkTIn/T6GrRGmbEQ=;
+        b=s5+4KQkGJbNXBVQxMNqeSiqwj7p+2Dt/0Rb0FmGnaYRkpou0yAzfaqHXqkejfL/EZ9
+         dho8FY0eq3rkXNDIG8ikvXmh+YqVV8S9vMb24oBpXY7y549FHl5ejaDg6+Dl83H1QSRI
+         uN5kNCFldZHPG833m0N3+yXqYJmjBDvkdY+UDfIwvzy4IPMhsoy+/HUxA0bFB++twS5N
+         bM6yf6HtsRnctocVefBTLScNZ1xyAOC9Cpf+HF4YX0+sVFLTV14RlyTm8WMq3/yxVM9Z
+         0IIbW45g7BvOoiw3uB7c4Jvs7XkdEHBBg9bJG5WboJ/iY9lNPf1A0KICngvXI/QdBJdz
+         /IYg==
+X-Gm-Message-State: AOJu0Yz+d/XpZ0dqiO7GvE6Fm2wSRcLnTvyXgW/XIvn3w2VFT/pwByKj
+	ZF+qfExadsJjDmQCsw+AF4Hj1cEI4ME1/54m9UlJ1J1Ksf0jpwlUu2TZplMWZzxg0TDcIGdq9u5
+	Govl/Iy6PcWBK0RrORjFLwZfDD2HM02HcMBsVjDW61w==
+X-Gm-Gg: AZuq6aJORmBhaT69WpnnukWI0IY1ZtDU1gpX3/6bGMP1mX/YjHwCTGo0lQ98DmOFpDK
+	553z76OX5FEpAWCJakfEfKWQU/eqBWv6lPHnmFj+vOd5vPbMLYmbuocTb5xxQu9fUzKXjzV/g8k
+	YpchDVFDS0ixnPkhdOV8hMZ8U0/2s6pYMW55RNnfXIS7qrJpNyohMt67T0HUFMHzd4yX4VsLoko
+	Xm8b0SbWTyTmsbfIWH9izi+qthnsXo2RpCqiTsCZ7oxa7XV4+7UkcRzjTjr3HNVQSz9ZYwzvX81
+	xV2++e4T0PFGp6h+AmaUi7q/crkgj2fZsIuQVr4=
+X-Received: by 2002:a05:6000:200e:b0:42b:3b55:8929 with SMTP id
+ ffacd0b85a97d-43617e42a35mr3021657f8f.19.1770192695683; Wed, 04 Feb 2026
+ 00:11:35 -0800 (PST)
 MIME-Version: 1.0
-References: <188ABFD65FF0FAD4.2595076@lists.openembedded.org> <AS1PR10MB5697871977535CBCA31A32FAFD98A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697871977535CBCA31A32FAFD98A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <1889800F45802F27.2902090@lists.openembedded.org> <AS1PR10MB56976FD8DA8A295D941E55B3FD98A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB56976FD8DA8A295D941E55B3FD98A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 4 Feb 2026 09:10:34 +0100
-X-Gm-Features: AZwV_QiaAnYPvKrbJRNOZCvqbkK7NYN1ERReLyiglfZQ3x9CoLQy73l-94pM-kc
-Message-ID: <CAMSfU+4Om1W6T5gURnPHra=RmcYhw=oGqjREWiP2eDV3US+_GQ@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH 1/2] libpng: patch CVE-2026-22695
+Date: Wed, 4 Feb 2026 09:11:09 +0100
+X-Gm-Features: AZwV_QgpoexKTfzV8wQy65yZQwV9yabvrA3TWUpUOAPvtH54ZdlY4zZzw4jTZRE
+Message-ID: <CAMSfU+4Kx5baoR2ZB2qrJihZbvA5anQRxMLSevTZXhzC9Sx8cg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
 To: "Marko, Peter" <Peter.Marko@siemens.com>
 Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000bdd12f0649fb187c"
+Content-Type: multipart/alternative; boundary="000000000000cf7f670649fb1a76"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 08:11:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230501
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 08:11:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230502
 
---000000000000bdd12f0649fb187c
+--000000000000cf7f670649fb1a76
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mer. 4 f=C3=A9vr. 2026 =C3=A0 08:23, Marko, Peter <Peter.Marko@siemens.c=
+Le mer. 4 f=C3=A9vr. 2026 =C3=A0 08:20, Marko, Peter <Peter.Marko@siemens.c=
 om> a
 =C3=A9crit :
 
-> Gentle ping for this series
+> Gentle ping
 >
 
 Thanks, I had missed it,
@@ -101,135 +101,115 @@ I've now added it to the series under test/review.
 > > From: openembedded-core@lists.openembedded.org <openembedded-
 > > core@lists.openembedded.org> On Behalf Of Peter Marko via
 > > lists.openembedded.org
-> > Sent: Thursday, January 15, 2026 1:25
+> > Sent: Saturday, January 10, 2026 23:45
 > > To: openembedded-core@lists.openembedded.org
 > > Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Subject: [OE-core][scarthgap][PATCH 1/2] libpng: patch CVE-2026-22695
+> > Subject: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
 > >
 > > From: Peter Marko <peter.marko@siemens.com>
 > >
-> > Pick commit per [1].
-> > This CVE is regression of fix for CVE-2025-65018.
+> > Handles CVE-2025-68973.
 > >
-> > [1] https://security-tracker.debian.org/tracker/CVE-2026-22695
+> > Refresh patches.
 > >
 > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
 > > ---
-> >  .../libpng/files/CVE-2026-22695.patch         | 77 +++++++++++++++++++
-> >  .../libpng/libpng_1.6.42.bb                   |  1 +
-> >  2 files changed, 78 insertions(+)
-> >  create mode 100644
-> meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+> >  meta/recipes-support/gnupg/gnupg/relocate.patch    | 14 +++++++-------
+> >  .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}       |  2 +-
+> >  2 files changed, 8 insertions(+), 8 deletions(-)
+> >  rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}
+> (97%)
 > >
-> > diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-> > b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-> > new file mode 100644
-> > index 00000000000..6456b6c4917
-> > --- /dev/null
-> > +++ b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-> > @@ -0,0 +1,77 @@
-> > +From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 2001
-> > +From: Cosmin Truta <ctruta@gmail.com>
-> > +Date: Fri, 9 Jan 2026 20:51:53 +0200
-> > +Subject: [PATCH] Fix a heap buffer over-read in
-> `png_image_read_direct_scaled`
-> > +
-> > +Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea.
-> > +
-> > +The function `png_image_read_direct_scaled`, introduced by the fix for
-> > +CVE-2025-65018, copies transformed row data from an intermediate buffe=
-r
-> > +(`local_row`) to the user's output buffer. The copy incorrectly used
-> > +`row_bytes` (the caller's stride) as the size parameter to memcpy, eve=
-n
-> > +though `local_row` is only `png_get_rowbytes()` bytes long.
-> > +
-> > +This causes a heap buffer over-read when:
-> > +
-> > +1. The caller provides a padded stride (e.g., for memory alignment):
-> > +   memcpy reads past the end of `local_row` by `stride - row_width`
-> > +   bytes.
-> > +
-> > +2. The caller provides a negative stride (for bottom-up layouts):
-> > +   casting ptrdiff_t to size_t produces ~2^64, causing memcpy to
-> > +   attempt reading exabytes, resulting in an immediate crash.
-> > +
-> > +The fix consists in using the size of the row buffer for the copy and
-> > +using the stride for pointer advancement only.
-> > +
-> > +Reported-by: Petr Simecek <simecek@users.noreply.github.com>
-> > +Analyzed-by: Stanislav Fort
-> > +Analyzed-by: Pavel Kohout
-> > +Co-authored-by: Petr Simecek <simecek@users.noreply.github.com>
-> > +Signed-off-by: Cosmin Truta <ctruta@gmail.com>
-> > +
-> > +CVE: CVE-2026-22695
-> > +Upstream-Status: Backport
-> > [
-> https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b769
-> > 1925d9786]
-> > +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > +---
-> > + AUTHORS   | 1 +
-> > + pngread.c | 4 +++-
-> > + 2 files changed, 4 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/AUTHORS b/AUTHORS
-> > +index 26b7bb50f..b9c0fffcf 100644
-> > +--- a/AUTHORS
-> > ++++ b/AUTHORS
-> > +@@ -23,6 +23,7 @@ Authors, for copyright and licensing purposes.
-> > +  * Mike Klein
-> > +  * Pascal Massimino
-> > +  * Paul Schmidt
-> > ++ * Petr Simecek
-> > +  * Philippe Antoine
-> > +  * Qiang Zhou
-> > +  * Sam Bushell
-> > +diff --git a/pngread.c b/pngread.c
-> > +index e3426292b..9d86b01dc 100644
-> > +--- a/pngread.c
-> > ++++ b/pngread.c
-> > +@@ -3270,9 +3270,11 @@ png_image_read_direct_scaled(png_voidp argument=
-)
-> > +        argument);
-> > +    png_imagep image =3D display->image;
-> > +    png_structrp png_ptr =3D image->opaque->png_ptr;
-> > ++   png_inforp info_ptr =3D image->opaque->info_ptr;
-> > +    png_bytep local_row =3D png_voidcast(png_bytep, display->local_row=
-);
-> > +    png_bytep first_row =3D png_voidcast(png_bytep, display->first_row=
-);
-> > +    ptrdiff_t row_bytes =3D display->row_bytes;
-> > ++   size_t copy_bytes =3D png_get_rowbytes(png_ptr, info_ptr);
-> > +    int passes;
-> > +
-> > +    /* Handle interlacing. */
-> > +@@ -3302,7 +3304,7 @@ png_image_read_direct_scaled(png_voidp argument)
-> > +          png_read_row(png_ptr, local_row, NULL);
-> > +
-> > +          /* Copy from local_row to user buffer. */
-> > +-         memcpy(output_row, local_row, (size_t)row_bytes);
-> > ++         memcpy(output_row, local_row, copy_bytes);
-> > +          output_row +=3D row_bytes;
-> > +       }
-> > +    }
-> > diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+> > diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch
 > b/meta/recipes-
-> > multimedia/libpng/libpng_1.6.42.bb
-> > index 6dc7ffe2722..fe99e5df092 100644
-> > --- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-> > +++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-> > @@ -21,6 +21,7 @@ SRC_URI =3D
-> > "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
-> >             file://CVE-2025-65018-02.patch \
-> >             file://CVE-2025-66293-01.patch \
-> >             file://CVE-2025-66293-02.patch \
-> > +           file://CVE-2026-22695.patch \
-> >  "
+> > support/gnupg/gnupg/relocate.patch
+> > index ea0252026aa..655dd3d0ce1 100644
+> > --- a/meta/recipes-support/gnupg/gnupg/relocate.patch
+> > +++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+> > @@ -17,7 +17,7 @@ diff --git a/common/homedir.c b/common/homedir.c
+> >  index 6f99f3e..f22aa9e 100644
+> >  --- a/common/homedir.c
+> >  +++ b/common/homedir.c
+> > -@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)
+> > +@@ -1294,7 +1294,7 @@ gnupg_socketdir (void)
+> >     if (!name)
+> >       {
+> >         unsigned int dummy;
+> > @@ -26,7 +26,7 @@ index 6f99f3e..f22aa9e 100644
+> >         gpgrt_annotate_leaked_object (name);
+> >       }
 > >
-> >  SRC_URI[sha256sum] =3D
-> > "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
+> > -@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)
+> > +@@ -1326,7 +1326,7 @@ gnupg_sysconfdir (void)
+> >     if (dir)
+> >       return dir;
+> >     else
+> > @@ -35,7 +35,7 @@ index 6f99f3e..f22aa9e 100644
+> >   #endif /*!HAVE_W32_SYSTEM*/
+> >   }
+> >
+> > -@@ -1352,7 +1352,7 @@ gnupg_bindir (void)
+> > +@@ -1362,7 +1362,7 @@ gnupg_bindir (void)
+> >         return name;
+> >       }
+> >     else
+> > @@ -44,7 +44,7 @@ index 6f99f3e..f22aa9e 100644
+> >   #endif /*!HAVE_W32_SYSTEM*/
+> >   }
+> >
+> > -@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)
+> > +@@ -1389,7 +1389,7 @@ gnupg_libexecdir (void)
+> >         return name;
+> >       }
+> >     else
+> > @@ -53,7 +53,7 @@ index 6f99f3e..f22aa9e 100644
+> >   #endif /*!HAVE_W32_SYSTEM*/
+> >   }
+> >
+> > -@@ -1409,7 +1409,7 @@ gnupg_libdir (void)
+> > +@@ -1419,7 +1419,7 @@ gnupg_libdir (void)
+> >         return name;
+> >       }
+> >     else
+> > @@ -62,7 +62,7 @@ index 6f99f3e..f22aa9e 100644
+> >   #endif /*!HAVE_W32_SYSTEM*/
+> >   }
+> >
+> > -@@ -1440,7 +1440,7 @@ gnupg_datadir (void)
+> > +@@ -1450,7 +1450,7 @@ gnupg_datadir (void)
+> >         return name;
+> >       }
+> >     else
+> > @@ -71,7 +71,7 @@ index 6f99f3e..f22aa9e 100644
+> >   #endif /*!HAVE_W32_SYSTEM*/
+> >   }
+> >
+> > -@@ -1472,7 +1472,7 @@ gnupg_localedir (void)
+> > +@@ -1482,7 +1482,7 @@ gnupg_localedir (void)
+> >         return name;
+> >       }
+> >     else
+> > diff --git a/meta/recipes-support/gnupg/gnupg_2.4.8.bb b/meta/recipes-
+> > support/gnupg/gnupg_2.4.9.bb
+> > similarity index 97%
+> > rename from meta/recipes-support/gnupg/gnupg_2.4.8.bb
+> > rename to meta/recipes-support/gnupg/gnupg_2.4.9.bb
+> > index a6e777abf89..4f60a4e7b28 100644
+> > --- a/meta/recipes-support/gnupg/gnupg_2.4.8.bb
+> > +++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
+> > @@ -23,7 +23,7 @@ SRC_URI:append:class-native =3D "
+> file://0001-configure.ac-
+> > use-a-custom-value-for-
+> >                                  file://relocate.patch"
+> >  SRC_URI:append:class-nativesdk =3D " file://relocate.patch"
+> >
+> > -SRC_URI[sha256sum] =3D
+> > "b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616"
+> > +SRC_URI[sha256sum] =3D
+> > "dd17ab2e9a04fd79d39d853f599cbc852062ddb9ab52a4ddeb4176fd8b302964"
+> >
+> >  EXTRA_OECONF =3D "--disable-ldap \
+> >               --disable-ccid-driver \
 >
 
 
@@ -237,20 +217,20 @@ n
 Yoann Congal
 Smile ECS
 
---000000000000bdd12f0649fb187c
+--000000000000cf7f670649fb1a76
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0mer. 4 f=C3=A9vr. 2026 =C3=A0=C2=
-=A008:23, Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@siemens.com">Peter=
-.Marko@siemens.com</a>&gt; a =C3=A9crit=C2=A0:</div><div class=3D"gmail_quo=
-te gmail_quote_container"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Gentle ping for this series<br></blockquote><div><br></div><div>Thanks, I =
-had missed it,</div><div>I&#39;ve now added it to the series under test/rev=
-iew.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 4 =
+f=C3=A9vr. 2026 =C3=A0=C2=A008:20, Marko, Peter &lt;<a href=3D"mailto:Peter=
+.Marko@siemens.com">Peter.Marko@siemens.com</a>&gt; a =C3=A9crit=C2=A0:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">Gentle ping<br></bl=
+ockquote><div><br></div><div><div>Thanks, I had missed it,</div><div>I&#39;=
+ve now added it to the series under test/review.</div></div><div>=C2=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
 &gt; -----Original Message-----<br>
 &gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
 et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
@@ -259,184 +239,144 @@ et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
 lists.openembedded.org</a>&gt; On Behalf Of Peter Marko via<br>
 &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
 "_blank">lists.openembedded.org</a><br>
-&gt; Sent: Thursday, January 15, 2026 1:25<br>
+&gt; Sent: Saturday, January 10, 2026 23:45<br>
 &gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
 =3D"_blank">openembedded-core@lists.openembedded.org</a><br>
 &gt; Cc: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko@s=
 iemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
-&gt; Subject: [OE-core][scarthgap][PATCH 1/2] libpng: patch CVE-2026-22695<=
+&gt; Subject: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -&gt; 2.4.9<=
 br>
 &gt; <br>
 &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" targe=
 t=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
 &gt; <br>
-&gt; Pick commit per [1].<br>
-&gt; This CVE is regression of fix for CVE-2025-65018.<br>
+&gt; Handles CVE-2025-68973.<br>
 &gt; <br>
-&gt; [1] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-22=
-695" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.o=
-rg/tracker/CVE-2026-22695</a><br>
+&gt; Refresh patches.<br>
 &gt; <br>
 &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.c=
 om" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 .../libpng/files/CVE-2026-22695.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 77 +++++++++++++++++++<br>
-&gt;=C2=A0 .../libpng/<a href=3D"http://libpng_1.6.42.bb" rel=3D"noreferrer=
-" target=3D"_blank">libpng_1.6.42.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 2 files changed, 78 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026=
--22695.patch<br>
+&gt;=C2=A0 meta/recipes-support/gnupg/gnupg/relocate.patch=C2=A0 =C2=A0 | 1=
+4 +++++++-------<br>
+&gt;=C2=A0 .../gnupg/{<a href=3D"http://gnupg_2.4.8.bb" rel=3D"noreferrer" =
+target=3D"_blank">gnupg_2.4.8.bb</a> =3D&gt; <a href=3D"http://gnupg_2.4.9.=
+bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.9.bb</a>}=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 2 +-<br>
+&gt;=C2=A0 2 files changed, 8 insertions(+), 8 deletions(-)<br>
+&gt;=C2=A0 rename meta/recipes-support/gnupg/{<a href=3D"http://gnupg_2.4.8=
+.bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a> =3D&gt; <a hre=
+f=3D"http://gnupg_2.4.9.bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.=
+9.bb</a>} (97%)<br>
 &gt; <br>
-&gt; diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch=
-<br>
-&gt; b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 00000000000..6456b6c4917<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch<br>
-&gt; @@ -0,0 +1,77 @@<br>
-&gt; +From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Cosmin Truta &lt;<a href=3D"mailto:ctruta@gmail.com" target=3D"=
-_blank">ctruta@gmail.com</a>&gt;<br>
-&gt; +Date: Fri, 9 Jan 2026 20:51:53 +0200<br>
-&gt; +Subject: [PATCH] Fix a heap buffer over-read in `png_image_read_direc=
-t_scaled`<br>
-&gt; +<br>
-&gt; +Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea=
-.<br>
-&gt; +<br>
-&gt; +The function `png_image_read_direct_scaled`, introduced by the fix fo=
-r<br>
-&gt; +CVE-2025-65018, copies transformed row data from an intermediate buff=
-er<br>
-&gt; +(`local_row`) to the user&#39;s output buffer. The copy incorrectly u=
-sed<br>
-&gt; +`row_bytes` (the caller&#39;s stride) as the size parameter to memcpy=
-, even<br>
-&gt; +though `local_row` is only `png_get_rowbytes()` bytes long.<br>
-&gt; +<br>
-&gt; +This causes a heap buffer over-read when:<br>
-&gt; +<br>
-&gt; +1. The caller provides a padded stride (e.g., for memory alignment):<=
+&gt; diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/re=
+cipes-<br>
+&gt; support/gnupg/gnupg/relocate.patch<br>
+&gt; index ea0252026aa..655dd3d0ce1 100644<br>
+&gt; --- a/meta/recipes-support/gnupg/gnupg/relocate.patch<br>
+&gt; +++ b/meta/recipes-support/gnupg/gnupg/relocate.patch<br>
+&gt; @@ -17,7 +17,7 @@ diff --git a/common/homedir.c b/common/homedir.c<br>
+&gt;=C2=A0 index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 --- a/common/homedir.c<br>
+&gt;=C2=A0 +++ b/common/homedir.c<br>
+&gt; -@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)<br>
+&gt; +@@ -1294,7 +1294,7 @@ gnupg_socketdir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0if (!name)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int dummy;<br>
+&gt; @@ -26,7 +26,7 @@ index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gpgrt_annotate_leaked_object (name);<=
 br>
-&gt; +=C2=A0 =C2=A0memcpy reads past the end of `local_row` by `stride - ro=
-w_width`<br>
-&gt; +=C2=A0 =C2=A0bytes.<br>
-&gt; +<br>
-&gt; +2. The caller provides a negative stride (for bottom-up layouts):<br>
-&gt; +=C2=A0 =C2=A0casting ptrdiff_t to size_t produces ~2^64, causing memc=
-py to<br>
-&gt; +=C2=A0 =C2=A0attempt reading exabytes, resulting in an immediate cras=
-h.<br>
-&gt; +<br>
-&gt; +The fix consists in using the size of the row buffer for the copy and=
-<br>
-&gt; +using the stride for pointer advancement only.<br>
-&gt; +<br>
-&gt; +Reported-by: Petr Simecek &lt;<a href=3D"mailto:simecek@users.noreply=
-.github.com" target=3D"_blank">simecek@users.noreply.github.com</a>&gt;<br>
-&gt; +Analyzed-by: Stanislav Fort<br>
-&gt; +Analyzed-by: Pavel Kohout<br>
-&gt; +Co-authored-by: Petr Simecek &lt;<a href=3D"mailto:simecek@users.nore=
-ply.github.com" target=3D"_blank">simecek@users.noreply.github.com</a>&gt;<=
-br>
-&gt; +Signed-off-by: Cosmin Truta &lt;<a href=3D"mailto:ctruta@gmail.com" t=
-arget=3D"_blank">ctruta@gmail.com</a>&gt;<br>
-&gt; +<br>
-&gt; +CVE: CVE-2026-22695<br>
-&gt; +Upstream-Status: Backport<br>
-&gt; [<a href=3D"https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a47177=
-6c81dda4846b769" rel=3D"noreferrer" target=3D"_blank">https://github.com/pn=
-ggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b769</a><br>
-&gt; 1925d9786]<br>
-&gt; +Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.=
-com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + AUTHORS=C2=A0 =C2=A0| 1 +<br>
-&gt; + pngread.c | 4 +++-<br>
-&gt; + 2 files changed, 4 insertions(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/AUTHORS b/AUTHORS<br>
-&gt; +index 26b7bb50f..b9c0fffcf 100644<br>
-&gt; +--- a/AUTHORS<br>
-&gt; ++++ b/AUTHORS<br>
-&gt; +@@ -23,6 +23,7 @@ Authors, for copyright and licensing purposes.<br>
-&gt; +=C2=A0 * Mike Klein<br>
-&gt; +=C2=A0 * Pascal Massimino<br>
-&gt; +=C2=A0 * Paul Schmidt<br>
-&gt; ++ * Petr Simecek<br>
-&gt; +=C2=A0 * Philippe Antoine<br>
-&gt; +=C2=A0 * Qiang Zhou<br>
-&gt; +=C2=A0 * Sam Bushell<br>
-&gt; +diff --git a/pngread.c b/pngread.c<br>
-&gt; +index e3426292b..9d86b01dc 100644<br>
-&gt; +--- a/pngread.c<br>
-&gt; ++++ b/pngread.c<br>
-&gt; +@@ -3270,9 +3270,11 @@ png_image_read_direct_scaled(png_voidp argumen=
-t)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 argument);<br>
-&gt; +=C2=A0 =C2=A0 png_imagep image =3D display-&gt;image;<br>
-&gt; +=C2=A0 =C2=A0 png_structrp png_ptr =3D image-&gt;opaque-&gt;png_ptr;<=
-br>
-&gt; ++=C2=A0 =C2=A0png_inforp info_ptr =3D image-&gt;opaque-&gt;info_ptr;<=
-br>
-&gt; +=C2=A0 =C2=A0 png_bytep local_row =3D png_voidcast(png_bytep, display=
--&gt;local_row);<br>
-&gt; +=C2=A0 =C2=A0 png_bytep first_row =3D png_voidcast(png_bytep, display=
--&gt;first_row);<br>
-&gt; +=C2=A0 =C2=A0 ptrdiff_t row_bytes =3D display-&gt;row_bytes;<br>
-&gt; ++=C2=A0 =C2=A0size_t copy_bytes =3D png_get_rowbytes(png_ptr, info_pt=
-r);<br>
-&gt; +=C2=A0 =C2=A0 int passes;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Handle interlacing. */<br>
-&gt; +@@ -3302,7 +3304,7 @@ png_image_read_direct_scaled(png_voidp argument=
-)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 png_read_row(png_ptr, local_row, N=
-ULL);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Copy from local_row to user buf=
-fer. */<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcpy(output_row, local_row, (siz=
-e_t)row_bytes);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcpy(output_row, local_row, copy=
-_bytes);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output_row +=3D row_bytes;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; diff --git a/meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1=
-.6.42.bb" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.42.bb</a> b/meta/=
-recipes-<br>
-&gt; multimedia/libpng/<a href=3D"http://libpng_1.6.42.bb" rel=3D"noreferre=
-r" target=3D"_blank">libpng_1.6.42.bb</a><br>
-&gt; index 6dc7ffe2722..fe99e5df092 100644<br>
-&gt; --- a/meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.42.b=
-b" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.42.bb</a><br>
-&gt; +++ b/meta/recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.42.b=
-b" rel=3D"noreferrer" target=3D"_blank">libpng_1.6.42.bb</a><br>
-&gt; @@ -21,6 +21,7 @@ SRC_URI =3D<br>
-&gt; &quot;${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.t=
-ar.xz<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-65018-0=
-2.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-66293-0=
-1.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2025-66293-0=
-2.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2026-22695.patch =
-\<br>
-&gt;=C2=A0 &quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 &gt; <br>
-&gt;=C2=A0 SRC_URI[sha256sum] =3D<br>
-&gt; &quot;c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450=
+&gt; -@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)<br>
+&gt; +@@ -1326,7 +1326,7 @@ gnupg_sysconfdir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0if (dir)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return dir;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; @@ -35,7 +35,7 @@ index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; <br>
+&gt; -@@ -1352,7 +1352,7 @@ gnupg_bindir (void)<br>
+&gt; +@@ -1362,7 +1362,7 @@ gnupg_bindir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; @@ -44,7 +44,7 @@ index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; <br>
+&gt; -@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)<br>
+&gt; +@@ -1389,7 +1389,7 @@ gnupg_libexecdir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; @@ -53,7 +53,7 @@ index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; <br>
+&gt; -@@ -1409,7 +1409,7 @@ gnupg_libdir (void)<br>
+&gt; +@@ -1419,7 +1419,7 @@ gnupg_libdir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; @@ -62,7 +62,7 @@ index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; <br>
+&gt; -@@ -1440,7 +1440,7 @@ gnupg_datadir (void)<br>
+&gt; +@@ -1450,7 +1450,7 @@ gnupg_datadir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; @@ -71,7 +71,7 @@ index 6f99f3e..f22aa9e 100644<br>
+&gt;=C2=A0 =C2=A0#endif /*!HAVE_W32_SYSTEM*/<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; <br>
+&gt; -@@ -1472,7 +1472,7 @@ gnupg_localedir (void)<br>
+&gt; +@@ -1482,7 +1482,7 @@ gnupg_localedir (void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; diff --git a/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.8.=
+bb" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a> b/meta/recipes-=
+<br>
+&gt; support/gnupg/<a href=3D"http://gnupg_2.4.9.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">gnupg_2.4.9.bb</a><br>
+&gt; similarity index 97%<br>
+&gt; rename from meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.8.b=
+b" rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a><br>
+&gt; rename to meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.9.bb"=
+ rel=3D"noreferrer" target=3D"_blank">gnupg_2.4.9.bb</a><br>
+&gt; index a6e777abf89..4f60a4e7b28 100644<br>
+&gt; --- a/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.8.bb" rel=
+=3D"noreferrer" target=3D"_blank">gnupg_2.4.8.bb</a><br>
+&gt; +++ b/meta/recipes-support/gnupg/<a href=3D"http://gnupg_2.4.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">gnupg_2.4.9.bb</a><br>
+&gt; @@ -23,7 +23,7 @@ SRC_URI:append:class-native =3D &quot; file://0001-c=
+onfigure.ac-<br>
+&gt; use-a-custom-value-for-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://relocate.patch&quot=
+;<br>
+&gt;=C2=A0 SRC_URI:append:class-nativesdk =3D &quot; file://relocate.patch&=
+quot;<br>
+&gt; <br>
+&gt; -SRC_URI[sha256sum] =3D<br>
+&gt; &quot;b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616=
 &quot;<br>
+&gt; +SRC_URI[sha256sum] =3D<br>
+&gt; &quot;dd17ab2e9a04fd79d39d853f599cbc852062ddb9ab52a4ddeb4176fd8b302964=
+&quot;<br>
+&gt; <br>
+&gt;=C2=A0 EXTRA_OECONF =3D &quot;--disable-ldap \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-ccid-d=
+river \<br>
 </blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
 gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
 iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
 t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---000000000000bdd12f0649fb187c--
+--000000000000cf7f670649fb1a76--
 
