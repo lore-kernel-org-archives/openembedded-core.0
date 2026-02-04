@@ -1,158 +1,455 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C61E83EF9
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 13:43:07 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20603.1770212579433521097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE9C6E83EF9
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 13:46:47 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20645.1770212802037008247
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 05:42:59 -0800
+ Wed, 04 Feb 2026 05:46:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=rMMBgkXP;
- spf=pass (domain: ericsson.com, ip: 52.101.65.4, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wehAXO25zkekGAapiKTKF2/gb0rlfDaVUsP5aMML1c/yfrlgvC0aebjJq7Du2SVDnY1e07CQTX7JqcZFKgCWMIk3kDN1JCC4DWvhaw6NeXfUnFNf39ia7ITBFrXZtrYLhz2EeVaxEBEg2sDfkuATRNDJGcwSiTkbcUyVXPsKXg1TVNMENi3CFbaD+aWCSDg9PLz++CACysR2sAv59Q3YeAos5OMpsNTjugArnyf+lz/LE+Zqq+lgCfqm0+WJwdXt4g5Uc8K7hCrn36sYomXFmVEkMJ0JZ3wvLUVEg3fwVdfD9nR0l8ymSUZbCPpZLieqqvzcuBGd/Tt2aVaC/phung==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KEhHHzzWtxwCC5H6PDHC5ZrRI3Liy9qHqoh52JK2+Lk=;
- b=RsDrnQLAYfyFx1ppHVDYAZFnS/ZwdwikzOmfWSHOymWdPg6ahEI4oLoIpsSP/RqYnXsxsFhDR1QW99nIvqC5CuFKTLCfbECHo8g2kPr9xYh75vLk+owx3d6FDvkXjgQwjO7gTs/83IgZIJh25XiScikKYfalptX48GIVxejE7S2GjAUBYg943qf3ubR6pCPEl/+qFD3GTFQMdWGg0sI21CwmjVIBnyD5dd4aKcw1BENfVVng2bR6xt8MrZXxfD7meyqVM8J/Zdfisr43GHa7L9SCDsNyzLkmrOVm4fiVM0k3nUBZW8Qn5G1yzrZG6sOaWYcpfETrPwrS6NqoS69qcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KEhHHzzWtxwCC5H6PDHC5ZrRI3Liy9qHqoh52JK2+Lk=;
- b=rMMBgkXPqy7Y6N09zknJ8QoJGgoRHJKBkZYCfvvf0v88357S2vkAMoNWyN6JDjMkUGQ9YxJIy4AIlHSJ/4y4LjTS2jxwvctCqUbGsukt3cbGW81VZ1Yy/oIU+/uVxDfPfClZ9ZfPvdNJEOaTOK0ju790ungPGYuOYXh6I15tWyIwuZLvhb8d47fPHqkMj21WUhTjtWa+sKdKq1lg2+athBFP/HpGPZSjFYhiMdFdxntEYWzWjNRTguDUSQVBtBqd19pCq09BgA5nLHcz8/d1P+HaKA0Rm+7ONd9twGT5ByJj/skBlzdyiA7ZoIo6aYY9ZKm/jmcvE7kCICtkDOlptQ==
-Received: from DUZP191CA0007.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4f9::11)
- by VI0PR07MB11258.eurprd07.prod.outlook.com (2603:10a6:800:2fe::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Wed, 4 Feb
- 2026 13:42:55 +0000
-Received: from DB5PEPF00014B90.eurprd02.prod.outlook.com (2603:10a6:10:4f9::4)
- by DUZP191CA0007.outlook.office365.com (2603:10a6:10:4f9::11) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.13
- via Frontend Transport; Wed, 4 Feb 2026 13:42:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB5PEPF00014B90.mail.protection.outlook.com (10.167.8.228) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Wed, 4 Feb 2026 13:42:54 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 4 Feb 2026 14:42:54 +0100
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 0B4574020B7B;
-	Wed,  4 Feb 2026 14:42:53 +0100 (CET)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id E4F237000699; Wed,  4 Feb 2026 14:42:53 +0100 (CET)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH 4/4] improve_kernel_cve_report: validate that cve details field exists
-Date: Wed, 4 Feb 2026 14:42:35 +0100
-Message-ID: <20260204134235.3274889-4-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260204134235.3274889-1-daniel.turull@ericsson.com>
-References: <20260204134235.3274889-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AAMU2Dcu;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-34c3259da34so507052a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 05:46:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770212801; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Lv58G2X2EbmjFFJbnrGjv8XNuX+hILcUzkX8aYpAHlGZcyrGMjs/lEti6UMfuruA3C
+         M+IeOc2dn8KM7t87iBMoia68yEBJQV/0EUv2FmOz65FoF4/A6srE5NSJYKilIFi2M0+4
+         QJqSU1mCKCxLr43yXiFb1ILM9CJtmKWbXLrr8IMgo3a6JIV1XuaoofrinCBCrQrJOOrO
+         8yx++J/k3O3H66c5YoZXXcL2+FhGWPaMg/VhxO9CYBwJioxVDBPlY1SCwS2XLVwGO8Jl
+         w18bIFUnde3OTP2coT0hQeUCKrRPap2Ol+q6Mje0idw2RXgnr4CGVftnrWx6hhlnSwDx
+         SR6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=01Rb3Kb7+s4c1mKDkByT6mAH9c1hMwKHt9xpI5DgvAY=;
+        fh=2+8oywTaBPCMfcedUVzQXl4q9CG9qAOJd7yN25igs6o=;
+        b=PX4f8VatTUhpf5f8DIpLZQ3uJXm2uWKBH+U3iXpWs7c/7sTOaj0d92nVsrSGP08dzd
+         6gS2lfI89cO34fr3GJw0Jqqr7gvdGf2M9cvYKCkPAYsoNJ8nrxSOBztCRdfYLBUgTgUJ
+         BEGYRyqbNriFqNUj8UH6HMps/8ExEmqSNhAYfksVIGi5ZgoCzTxO+LpNZZFIdV7qJ5eA
+         95jq/k2NMw5bQs7/V4y6YfEkC2Vg5pJm4NRka1J8opBF9irjGWLs0yW6tDUE5e0Dmn/p
+         Ib4NCuUukFxfs+fDxNXwjYAtvSNdvkWBqoAzYy4ElNCSETWMOeBSw3Qfxqr9yP1ZwXXN
+         ORRw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770212801; x=1770817601; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=01Rb3Kb7+s4c1mKDkByT6mAH9c1hMwKHt9xpI5DgvAY=;
+        b=AAMU2DcuOWJNwlTWIgyenareKfsIrt8gJlW53/fBD49KxKyqFPZwA/0XoSFSRQbvAW
+         dREPSF2zQODAcsdrP+gLfDYb26KNOHk2038/0ZA+d1ETc5ctSgWFmzGx9jEFg7E5PNdX
+         Vmd8z1NFBy8WuWsv9GaszkshOn72ngWu0DMg+oz2SZS7ie1tfifI679BB3ApWvCmGiCU
+         QP7WqA9zLqoboRfFR+rt84yDvpXmDT2ZVUm2xicn3XF3PdbHWwaNmJKzBw7VT7TVvuys
+         lmXJPtJNbzZeFXJMfae1xJ6RCYQeCtCZ9u3amQ52saq7YJhQ3ThwxSR2fWVOkuWerb4y
+         adlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770212801; x=1770817601;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=01Rb3Kb7+s4c1mKDkByT6mAH9c1hMwKHt9xpI5DgvAY=;
+        b=Ho4oUDn4yXm36CEu9v3K2HKJhrkHvUbnREc3TSe23N6yEHonRJHw0k8iTybo2ThG+q
+         z2mVwZ9KjwZvuhk+Z++Z34ZbldZbZ9+bIL7aJEIujuPBOAKoaRKGNH8Kw0IoZ0ZQE4xZ
+         qUehMWhFb4IQzEQhwL6gwoAE3ZpJIUJc2LUG5JnuXMt++g9Il7yL5T8aqz7iLkvc6htF
+         P6NG4yo4MRdkhlCUVtoMKjiNt0xNafUIGv15/8NbT3XijdY3Pl9m/dzxn8W+rZgsZXgV
+         Bt46pvazinF3ziVDn9+/xzF4MYvnKr+8Uz1wMl5+vB41W0f8G+a6D15M5ciLIbXmmOC1
+         bH8g==
+X-Gm-Message-State: AOJu0Yy3IzDMiyTTcFuPll2BOObyQzWgPrAA8i7xCYbGRMRDlrLwfBri
+	h825EimP3f3V/dbKSCP6xtipEw1VE/QLW7jVJhWHasVxHqD9xoZ6Ek75YqI4zpQCERRVDvajmmf
+	TrQoOYM/jMowIZCFwdHYCTznrfAjgakgBvABz
+X-Gm-Gg: AZuq6aLphXmCUdWbcqi54FvoU0BjQdgJ77OytC9uyJu9DvL72aPieTDEkvCR9kE1RAB
+	mE64KcC+nOmPi+s+RMQ5c8IUjBr34YKoWd/FtjkJRdXZIECGas8sv5XuOFVps7Po2W/YKTMKv/G
+	+nk4WsvT07WHdBT/UdfV+mRdHWsDJG+8PyElxgGNhJ7k1b3kJJqq5twxrhFAbbPasMdkB2py1tK
+	okUeN/PddoymMksHmaKOowDCz9oi0YbzzDqWQR89uiK8pAy6SuFMfD5bYuFazfc/bz1QQADf+kv
+	p75otGiOVxaF4knp1KHIn/uN9tKj6JnUfszFGNY=
+X-Received: by 2002:a17:90b:4c84:b0:34c:6d33:7d34 with SMTP id
+ 98e67ed59e1d1-35487123756mr2637121a91.16.1770212801134; Wed, 04 Feb 2026
+ 05:46:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B90:EE_|VI0PR07MB11258:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08d512a6-3d13-4229-62b6-08de63f34c9e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?VAj/Xw73ZvDBG/vS3YrWhDZbf2t4PA6XoYgGN8MZIYylERDBHyauz6U7Q3NF?=
- =?us-ascii?Q?7CmFTt531WB/J0aEj6IMsBNBfQUtj3RBjl3HWQo3+/8L9CIdjrwvNwDXb6WK?=
- =?us-ascii?Q?46013S7HyvTlGLCsGUtkWNHi3Nuwmf2EVdE2HVA6ketVVuKwhR43/ihLDW77?=
- =?us-ascii?Q?Ukqqf5E7LYC3F4zSLNubB5mwd1lafmCaXDABwieSQZ17jyijN2fDqGNX2XQm?=
- =?us-ascii?Q?LbTCmzZFNzVZWkhAlyzWdNKgu383VbGBGAil4P7tYceBaDNQQfFJMgCIBTgK?=
- =?us-ascii?Q?dNt2TptB0DmrvSG4imlOWNomxnqMuXaXUPQac3wXL/jVSjljhiVnyvbePLKA?=
- =?us-ascii?Q?HNwRiLM0ZWt7AiX1d/X7Jo2MNDfVfhXtbRkMbPvqoVK9xx7qwzAUfBPLfllv?=
- =?us-ascii?Q?MaEgHGrcEsdUZ7UVoJn+SB9ZT0Zx2fE/cCWN6F4j4uw3AD6Zuc4Bc/rBxoFb?=
- =?us-ascii?Q?/Jzbl8NuOgi3pFFWT5og/wvTfxidmZqfwUE3OcBO9JOjhN1sJfC/D+HLOijl?=
- =?us-ascii?Q?NpRkrYdG1OLS2uZrZM1+/N07RXazdPOedwgHXOAJYYu0yRqDzR1Ab7EF8lQ4?=
- =?us-ascii?Q?sLCp+/RI55ZCbk27X+ZtxPWJRIVihoiWJCbOYqoVTzKnfMSkm4u7FiRbkUjJ?=
- =?us-ascii?Q?eMc1oQdqtlYxnDToFSHYrKCoM8e9QJmaZWKM3K9BLIQun6owLwiK5eSQO0HN?=
- =?us-ascii?Q?o7RhbewuakntSrKpRoGCq6ZlczK5+JQ/1/XiD2uo6H7zViktt3wcleF/tlzZ?=
- =?us-ascii?Q?TIrhZBVgn7AnC1tHu+xHB1qaS48w0Hx4u60w+E9Omf1XtHRdAx1/GyIRG8Mg?=
- =?us-ascii?Q?qS5JJ2SrOLx/kLBe0oac4Q1mWQHlL3y1Nh9AxMDzd3nzUbVHmb4J7/Uivxwy?=
- =?us-ascii?Q?ebmy2zeSDQ783E5tHkVLJdM0kMC0N7wb6W3TgH5DDUnsvMXYNb7hBPYiJNx8?=
- =?us-ascii?Q?i9qlHH3F28J/FOLFKj+HycRbOdMCVHnxhI1zbqEWvP4CT1y0ewzaR22TgAuA?=
- =?us-ascii?Q?9j8Ml3pY366MGAeV2lwDA5Ys5XkEa66+4/w51JypqlIrZRQEYs4qtilLG/u7?=
- =?us-ascii?Q?2DW25sud/VPjgnWztZlyTVnxfkthJt/1DlbNmXPguAGtjLvmc5mAqrriDahM?=
- =?us-ascii?Q?H42MpoNZlxG23AlPBGA2f/j0PSnzrnoTvXNrJbEcKDJpBgvz7aooQD1lUVqY?=
- =?us-ascii?Q?FhPnAwao8Gdr5/uyziz5H0z/p6nU4ZMnB/lX/KrK95RUKyvi+3uCOKrzOkQo?=
- =?us-ascii?Q?2h/UVhdIDe4MLtKP4GWxIwaoqgJ4Lbgr1JqxBBmtR1h1eIo7rnbQGY2NqW9x?=
- =?us-ascii?Q?NEd6KKxBhJOBH7EzJpfvFTwkmJ9veOEsBpsjpQRi/CnNvnLeBLEDErVE1F5D?=
- =?us-ascii?Q?bFS0CAGX9rAs7j6vP6gUNt+D3NiQyes5ofS/1f8kfhvF7z+XrUYKp9Bk0WeV?=
- =?us-ascii?Q?QYYVvUDG0LNbtjy5yOQlx6k4I5GqMKeflErVLe08sF4jmTgjPSColBB5ofrr?=
- =?us-ascii?Q?t/mkHZM4CLl3gceMQjaggzXiF4ACI50B5XwbBebpr2HY8gFgzMzfajK2xV4F?=
- =?us-ascii?Q?slEAyAK6kM8tZG75FeSVB0mWVk2N+XjJ4zAglTtwWDC+PHO2dlWq6LhgyEq7?=
- =?us-ascii?Q?3Gkumn/N9gp32vnNgsIwJrY1xniZsy3ycgYLK2aTKBNfv4gE3bFNxb0m5m09?=
- =?us-ascii?Q?VMTnJA=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	lipqFUwT66IUp39p7BVT8ufSHSWmK4eZTR0rLMBpLo+pqbe/uUDjWNlhtvdmVZfA24cJ+2+pwYICgYWuaoentNV6BgKM+LRO4FCJTNuk0rcU6ri+J7H68wql0UgQrtRL9NT08uKWEmj+1aRkdVgJPnyNqeJmZ0twpDEQKttLP8bHwBFCmk7diYm3nqF92JLpI6NLqNEpU//3k896uDMC8aGNUMkzfeB1P+4YWR0Xayl8WqkUGPv7GowlkrUJbS0VSiZV7qZTs6HTYMJ0oIZdfAkW3hPBfA8Dw4kQ/3AQWA4/Aw1YPsuZHI/wrfsB05Hsy//yE4Dv92Dt/3rBzSfbAXLJFIJH3U2XDmwToJvtfYI+zJwHyI5XFQxG5l0aZzSvTV4Oxexh/keQPfT1nZ/PTMJYwCYWlnoz8n2p+riwIy2kycJ6LOmTqeVABGik8j4X
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 13:42:54.6098
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08d512a6-3d13-4229-62b6-08de63f34c9e
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B90.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR07MB11258
+References: <20260204020908.864912-1-kai.kang@windriver.com>
+In-Reply-To: <20260204020908.864912-1-kai.kang@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 4 Feb 2026 08:46:29 -0500
+X-Gm-Features: AZwV_QisQVVFcKqOpZUnBVP0Sr_TFrMJ3V43fXX8J2ZpneseAzeAjr_441yqZcQ
+Message-ID: <CADkTA4PZ9df8xCge6F+m4M02OTXbiOhYJ7S7hPvze95ah5BWDQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] module.bbclass: check whether CONFIG_MODULES set
+To: kai.kang@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000030441a0649ffc9d9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 13:43:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230524
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 13:46:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230526
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+--00000000000030441a0649ffc9d9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Check if the cve information has the details field to avoid crashing
+On Tue, Feb 3, 2026 at 9:09=E2=80=AFPM Kai Kang via lists.openembedded.org
+<kai.kang=3Dwindriver.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- scripts/contrib/improve_kernel_cve_report.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Check whether kernel config CONFIG_MODULES set or not before do_compile
+> and do_install in module.bbclass. If not set, it cannot build and
+> install external modules.
+>
 
-diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib=
-/improve_kernel_cve_report.py
-index 903de0000c..b386c9383a 100755
---- a/scripts/contrib/improve_kernel_cve_report.py
-+++ b/scripts/contrib/improve_kernel_cve_report.py
-@@ -363,7 +363,7 @@ def cve_update(cve_data, cve, entry):
-     if entry['status'] =3D=3D "Unpatched" and cve_data[cve]['status'] =3D=
-=3D "Patched":
-         # Backported-patch (e.g. vendor kernel repo with cherry-picked CVE=
- patch)
-         # has priority over unpatch from CNA
--        if cve_data[cve]['detail'] =3D=3D "backported-patch":
-+        if "detail" in cve_data and cve_data[cve]['detail'] =3D=3D "backpo=
-rted-patch":
-             return
-         logging.warning("CVE entry %s update from Patched to Unpatched fro=
-m the scan result", cve)
-         cve_data[cve] =3D copy_data(cve_data[cve], entry)
+This isn't the place to do that check.
+
+If modules are disabled get modules_do_compile out of the tasks.
+
+Bruce
+
+
+
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/classes-recipe/module.bbclass | 60 +++++++++++++++++-------------
+>  1 file changed, 34 insertions(+), 26 deletions(-)
+>
+> diff --git a/meta/classes-recipe/module.bbclass
+> b/meta/classes-recipe/module.bbclass
+> index 4948e995c5..d2b90e9c2c 100644
+> --- a/meta/classes-recipe/module.bbclass
+> +++ b/meta/classes-recipe/module.bbclass
+> @@ -47,37 +47,45 @@ python do_devshell:prepend () {
+>  }
+>
+>  module_do_compile() {
+> -       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> -       oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR}   \
+> -                  KERNEL_VERSION=3D${KERNEL_VERSION}    \
+> -                  CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> -                  AR=3D"${KERNEL_AR}" OBJCOPY=3D"${KERNEL_OBJCOPY}" \
+> -                  STRIP=3D"${KERNEL_STRIP}" \
+> -                  O=3D${STAGING_KERNEL_BUILDDIR} \
+> -                  KBUILD_EXTRA_SYMBOLS=3D"${KBUILD_EXTRA_SYMBOLS}" \
+> -                  ${MAKE_TARGETS}
+> +       if grep -q -i '^CONFIG_MODULES=3Dy$'
+> ${STAGING_KERNEL_BUILDDIR}/.config ; then
+> +               unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> +               oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR}   \
+> +                       KERNEL_VERSION=3D${KERNEL_VERSION}    \
+> +                       CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> +                       AR=3D"${KERNEL_AR}" OBJCOPY=3D"${KERNEL_OBJCOPY}"=
+ \
+> +                       STRIP=3D"${KERNEL_STRIP}" \
+> +                               O=3D${STAGING_KERNEL_BUILDDIR} \
+> +                       KBUILD_EXTRA_SYMBOLS=3D"${KBUILD_EXTRA_SYMBOLS}" =
+\
+> +                       ${MAKE_TARGETS}
+> +       else
+> +               bbnote "The present kernel disabled CONFIG_MODULES that
+> cannot build or install external modules."
+> +       fi
+>  }
+>
+>  module_do_install() {
+> -       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> -       oe_runmake DEPMOD=3Decho
+> MODLIB=3D"${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}" \
+> -                  INSTALL_FW_PATH=3D"${D}${nonarch_base_libdir}/firmware=
+" \
+> -                  CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"
+> OBJCOPY=3D"${KERNEL_OBJCOPY}" \
+> -                  STRIP=3D"${KERNEL_STRIP}" \
+> -                  O=3D${STAGING_KERNEL_BUILDDIR} \
+> -                  KBUILD_EXTRA_SYMBOLS=3D"${KBUILD_EXTRA_SYMBOLS}" \
+> -                  ${MODULES_INSTALL_TARGET}
+> +       if grep -q -i '^CONFIG_MODULES=3Dy$'
+> ${STAGING_KERNEL_BUILDDIR}/.config; then
+> +               unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> +               oe_runmake DEPMOD=3Decho
+> MODLIB=3D"${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}" \
+> +
+>  INSTALL_FW_PATH=3D"${D}${nonarch_base_libdir}/firmware" \
+> +                               CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"
+> OBJCOPY=3D"${KERNEL_OBJCOPY}" \
+> +                               STRIP=3D"${KERNEL_STRIP}" \
+> +                               O=3D${STAGING_KERNEL_BUILDDIR} \
+> +                       KBUILD_EXTRA_SYMBOLS=3D"${KBUILD_EXTRA_SYMBOLS}" =
+\
+> +                               ${MODULES_INSTALL_TARGET}
+>
+> -       if [ ! -e "${B}/${MODULES_MODULE_SYMVERS_LOCATION}/Module.symvers=
+"
+> ] ; then
+> -               bbwarn "Module.symvers not found in
+> ${B}/${MODULES_MODULE_SYMVERS_LOCATION}"
+> -               bbwarn "Please consider setting
+> MODULES_MODULE_SYMVERS_LOCATION to a"
+> -               bbwarn "directory below B to get correct inter-module
+> dependencies"
+> +               if [ ! -e
+> "${B}/${MODULES_MODULE_SYMVERS_LOCATION}/Module.symvers" ] ; then
+> +                       bbwarn "Module.symvers not found in
+> ${B}/${MODULES_MODULE_SYMVERS_LOCATION}"
+> +                       bbwarn "Please consider setting
+> MODULES_MODULE_SYMVERS_LOCATION to a"
+> +                       bbwarn "directory below B to get correct
+> inter-module dependencies"
+> +               else
+> +                       install -Dm0644
+> "${B}/${MODULES_MODULE_SYMVERS_LOCATION}"/Module.symvers
+> ${D}${includedir}/${BPN}/Module.symvers
+> +                       # Module.symvers contains absolute path to the
+> build directory.
+> +                       # While it doesn't actually seem to matter which
+> path is specified,
+> +                       # clear them out to avoid confusion
+> +                       sed -e 's:${B}/::g' -i
+> ${D}${includedir}/${BPN}/Module.symvers
+> +               fi
+>         else
+> -               install -Dm0644
+> "${B}/${MODULES_MODULE_SYMVERS_LOCATION}"/Module.symvers
+> ${D}${includedir}/${BPN}/Module.symvers
+> -               # Module.symvers contains absolute path to the build
+> directory.
+> -               # While it doesn't actually seem to matter which path is
+> specified,
+> -               # clear them out to avoid confusion
+> -               sed -e 's:${B}/::g' -i
+> ${D}${includedir}/${BPN}/Module.symvers
+> +               bbnote "The present kernel disabled CONFIG_MODULES that
+> cannot build or install external modules."
+>         fi
+>  }
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230492):
+> https://lists.openembedded.org/g/openembedded-core/message/230492
+> Mute This Topic: https://lists.openembedded.org/mt/117627823/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000030441a0649ffc9d9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 3, 2026 at 9:09=
+=E2=80=AFPM Kai Kang via <a href=3D"http://lists.openembedded.org">lists.op=
+enembedded.org</a> &lt;kai.kang=3D<a href=3D"mailto:windriver.com@lists.ope=
+nembedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">From: Kai Kang &lt;<a hr=
+ef=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.c=
+om</a>&gt;<br>
+<br>
+Check whether kernel config CONFIG_MODULES set or not before do_compile<br>
+and do_install in module.bbclass. If not set, it cannot build and<br>
+install external modules.<br></blockquote><div><br></div><div><div class=3D=
+"gmail_default" style=3D"font-size:small">This isn&#39;t the place to do th=
+at check.</div><div class=3D"gmail_default" style=3D"font-size:small"><br><=
+/div><div class=3D"gmail_default" style=3D"font-size:small">If modules are =
+disabled get modules_do_compile out of the tasks.</div><div class=3D"gmail_=
+default" style=3D"font-size:small"><br></div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
+t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/module.bbclass | 60 +++++++++++++++++------------=
+-<br>
+=C2=A01 file changed, 34 insertions(+), 26 deletions(-)<br>
+<br>
+diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/modul=
+e.bbclass<br>
+index 4948e995c5..d2b90e9c2c 100644<br>
+--- a/meta/classes-recipe/module.bbclass<br>
++++ b/meta/classes-recipe/module.bbclass<br>
+@@ -47,37 +47,45 @@ python do_devshell:prepend () {<br>
+=C2=A0}<br>
+<br>
+=C2=A0module_do_compile() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR}=
+=C2=A0 =C2=A0\<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 KERNEL_VERS=
+ION=3D${KERNEL_VERSION}=C2=A0 =C2=A0 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CC=3D&quot;=
+${KERNEL_CC}&quot; LD=3D&quot;${KERNEL_LD}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AR=3D&quot;=
+${KERNEL_AR}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 STRIP=3D&qu=
+ot;${KERNEL_STRIP}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O=3D${STAGI=
+NG_KERNEL_BUILDDIR} \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 KBUILD_EXTR=
+A_SYMBOLS=3D&quot;${KBUILD_EXTRA_SYMBOLS}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${MAKE_TARG=
+ETS}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if grep -q -i &#39;^CONFIG_MODULES=3Dy$&#39; ${=
+STAGING_KERNEL_BUILDDIR}/.config ; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLA=
+GS CXXFLAGS LDFLAGS<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake KERNEL_P=
+ATH=3D${STAGING_KERNEL_DIR}=C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0KERNEL_VERSION=3D${KERNEL_VERSION}=C2=A0 =C2=A0 \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0CC=3D&quot;${KERNEL_CC}&quot; LD=3D&quot;${KERNEL_LD}&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0AR=3D&quot;${KERNEL_AR}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&q=
+uot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0STRIP=3D&quot;${KERNEL_STRIP}&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O=3D${STAGING_KERNEL_BUILDDIR} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0KBUILD_EXTRA_SYMBOLS=3D&quot;${KBUILD_EXTRA_SYMBOLS}&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0${MAKE_TARGETS}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbnote &quot;The pr=
+esent kernel disabled CONFIG_MODULES that cannot build or install external =
+modules.&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0}<br>
+<br>
+=C2=A0module_do_install() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake DEPMOD=3Decho MODLIB=3D&quot;${D}${n=
+onarch_base_libdir}/modules/${KERNEL_VERSION}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 INSTALL_FW_=
+PATH=3D&quot;${D}${nonarch_base_libdir}/firmware&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CC=3D&quot;=
+${KERNEL_CC}&quot; LD=3D&quot;${KERNEL_LD}&quot; OBJCOPY=3D&quot;${KERNEL_O=
+BJCOPY}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 STRIP=3D&qu=
+ot;${KERNEL_STRIP}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O=3D${STAGI=
+NG_KERNEL_BUILDDIR} \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 KBUILD_EXTR=
+A_SYMBOLS=3D&quot;${KBUILD_EXTRA_SYMBOLS}&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${MODULES_I=
+NSTALL_TARGET}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if grep -q -i &#39;^CONFIG_MODULES=3Dy$&#39; ${=
+STAGING_KERNEL_BUILDDIR}/.config; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLA=
+GS CXXFLAGS LDFLAGS<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake DEPMOD=
+=3Decho MODLIB=3D&quot;${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}=
+&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0INSTALL_FW_PATH=3D&quot;${D}${nonarch=
+_base_libdir}/firmware&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CC=3D&quot;${KERNEL_CC}&quot; LD=3D&q=
+uot;${KERNEL_LD}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0STRIP=3D&quot;${KERNEL_STRIP}&quot; \=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O=3D${STAGING_KERNEL_BUILDDIR} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0KBUILD_EXTRA_SYMBOLS=3D&quot;${KBUILD_EXTRA_SYMBOLS}&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${MODULES_INSTALL_TARGET}<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -e &quot;${B}/${MODULES_MODULE_SYMVERS_L=
+OCATION}/Module.symvers&quot; ] ; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbwarn &quot;Module=
+.symvers not found in ${B}/${MODULES_MODULE_SYMVERS_LOCATION}&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbwarn &quot;Please=
+ consider setting MODULES_MODULE_SYMVERS_LOCATION to a&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbwarn &quot;direct=
+ory below B to get correct inter-module dependencies&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -e &quot;${B=
+}/${MODULES_MODULE_SYMVERS_LOCATION}/Module.symvers&quot; ] ; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bbwarn &quot;Module.symvers not found in ${B}/${MODULES_MODULE_SY=
+MVERS_LOCATION}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bbwarn &quot;Please consider setting MODULES_MODULE_SYMVERS_LOCAT=
+ION to a&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bbwarn &quot;directory below B to get correct inter-module depend=
+encies&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0install -Dm0644 &quot;${B}/${MODULES_MODULE_SYMVERS_LOCATION}&quo=
+t;/Module.symvers ${D}${includedir}/${BPN}/Module.symvers<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0# Module.symvers contains absolute path to the build directory.<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0# While it doesn&#39;t actually seem to matter which path is spec=
+ified,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0# clear them out to avoid confusion<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0sed -e &#39;s:${B}/::g&#39; -i ${D}${includedir}/${BPN}/Module.sy=
+mvers<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -Dm0644 &qu=
+ot;${B}/${MODULES_MODULE_SYMVERS_LOCATION}&quot;/Module.symvers ${D}${inclu=
+dedir}/${BPN}/Module.symvers<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Module.symvers co=
+ntains absolute path to the build directory.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# While it doesn&#3=
+9;t actually seem to matter which path is specified,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# clear them out to=
+ avoid confusion<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s:${B}/=
+::g&#39; -i ${D}${includedir}/${BPN}/Module.symvers<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbnote &quot;The pr=
+esent kernel disabled CONFIG_MODULES that cannot build or install external =
+modules.&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230492): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230492" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230492</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117627823/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117627823/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--00000000000030441a0649ffc9d9--
 
