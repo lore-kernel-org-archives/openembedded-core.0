@@ -2,47 +2,47 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E023E95390
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4512CE95391
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 12:05:47 +0000 (UTC)
 Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18904.1770206628302698641
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18934.1770206741367569912
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 04:03:48 -0800
+ Wed, 04 Feb 2026 04:05:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Vm5TD5Jd;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Xs5cy9RU;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Dg9RH9Qw;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=b9xxEzaO;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 79366EC0310;
-	Wed,  4 Feb 2026 07:03:47 -0500 (EST)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id AB43BEC0090;
+	Wed,  4 Feb 2026 07:05:40 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 04 Feb 2026 07:03:47 -0500
+  by phl-compute-06.internal (MEProxy); Wed, 04 Feb 2026 07:05:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1770206627; x=1770293027; bh=T0Ii8VH3dq
-	dVHBX8iEP0GuDY25paXZhBQkNdobIR+a8=; b=Vm5TD5JdcIWznvbQQqgKrX5soz
-	0JluhsDPF5mcLomTpsHWxcm4ZNgGzuorhkOSA8iPF73zSy0LiGcfnsRgMp78gjXF
-	Ei2FfHNGNGnZS2v3zYp5w9iI0edeqK3dli342uRqJQKEo+65g3JovRxVc3BGheqG
-	TRId7SklgtQnzyHUheZ8w44Lv7d9MWCdk5vISFBnDJeUa9oIVhzwPSF7CG3hdioH
-	fdIEnowIk39XMIolPT5g+Cc1ahPsshQw1HY28mL2ATORk4US5RepqwEPSaseQrbd
-	3l//OIAbCfSD2DHhdCE/8CRn9e/oi4sAH8y3hB9nHNOToG84bqGaX0WWXtag==
+	:subject:to:to; s=fm1; t=1770206740; x=1770293140; bh=BZPizlvPxD
+	RoTt3XI312OEgTHKDOJ19/1SVponTp/JI=; b=Dg9RH9QwDAWJxsbgAd7tP/Khjy
+	uGsJwCTqWhwbIc4o+x59xPqzaCMNuMqP2AHUrcBrUz+5C1aVoYOouDfcIXOxT+Vo
+	L6E2SKUZAEwaXF/TY63MgMkEc297ATUWwSPUV8Pk6KCseS2wvF0O44UOivPKlYjg
+	8bNypkWtrEULYxwU5dFDdNtW6AkZwQtfgYzgjy2USayheIGZCaEBEEEVKmvNcUYC
+	L6I9tP/PWpxzvI+WUAiSkRIR12F5PIbvxOfhKOfVlPVje38njqdvJrdxNWKpVpt4
+	j4lZRjyf30XVs2rYJXdGKMB27gu/4/vMMKptmdOVrKjD695GYxYgwkjj3ytw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770206627; x=1770293027; bh=T0Ii8VH3dqdVHBX8iEP0GuDY25paXZhBQkN
-	dobIR+a8=; b=Xs5cy9RUcIwwxZ+mctFM3wZ72FBIK34anW/1p22kGBb0MYQFZYJ
-	uLbaeo84xbmYwGuXqPvdxUjJ/Sn4WN6ZLOJc1/FB3vIxr0B4qoM/KH5U9dNvHmvK
-	8+2YVOOiJRELzK2kGqRq+jCGhm37GYLdeq74mXwciYBXZvwt4DaXYBLjhpkidwfp
-	FpPIvbU3Hs2OIBTqcdm+Q4NRqvfoPuUFyTmQmVixkKs9Vpol2gEdLwGLcRKHMXTC
-	64yclddqzClETBEPQ0BQEGEqPvlEBPp5fkjhpRfNsPKAcmi8DnUTN71V/5yAZG6l
-	/JdsWRlQeEyBlhGETf+h4RpWx2wM9NpkPPQ==
-X-ME-Sender: <xms:ozWDabUMOm-hEyL5LG4DywZRIDkA5s7OxgmknBQBtQkYw9uDy8VUvw>
-    <xme:ozWDaWLnsWLA93IsLS0YPLQfxF76cUX0UYsF_S2V4uxydKa3AfIm9XtQJyWYGINL_
-    0n1m6zSNPDBotsXbsvWNW2X_MC84FgzRsjKbZOp9uCZMxJmvieOmW0>
-X-ME-Received: <xmr:ozWDabBlF639Wtp7CzY7KHSuOKS-kbgjzgni1XSHapQeqg8sHy0Vvcpuh5CastRdXdERstZKGP3DL1Ht_4ib_Wf0Jm9dKgvZb67JbuPb-TXz>
+	1770206740; x=1770293140; bh=BZPizlvPxDRoTt3XI312OEgTHKDOJ19/1SV
+	ponTp/JI=; b=b9xxEzaOpOiYe2DPdySKqQYZT5g7+ettGJ90XnCHenVvznq/naY
+	gYiqQ82OFWwSLnYHD8y+Lcz5D+IMFLOFry/ut1pwRt6lRHj5l6tIz8DSAtROyvt/
+	jH4yqbBLgx5IO6lOFVCcurBkNSKjnAgRvRPIM/SV9S1B1cREzHmEtrssIsTXfi55
+	ILiAzqqzY27WHDoW4U0r3NuPRMMG+PiG89YvTJzEWRKIhVD3eyM7V2EfqgAhv81w
+	QTK4/VvstKOZCEp1lDvNruqD1WJjzRwYm0zJ7HXyXpZykYXIN9uLnzcVfmnCEO0D
+	LDZWoQq4G1OXBxlKCHkfl1juoLJBiizic+Q==
+X-ME-Sender: <xms:FDaDaSiZqigBAI6SS2bY5ly2yPdJvZKrGYNBc0lZT33slnGaMa5m8w>
+    <xme:FDaDaVkG0albqPzB0pMxgiZlREtWy5JJU1rfw8K5XxWl02vi3M8_MC7I_1YaI-uC4
+    wIsWHYiJZcv51njahiSlBmM1nLzz3sVMlXm4eAdS1evRD4wAffrdUQ>
+X-ME-Received: <xmr:FDaDadt-3aj8WkC2EJVGQ4QSPTuqls8buQ3wN3WBf9t7WUYZZJ8jbaNi1YrZYbGgt0xuS_8LFm6Bh-Ineme-x8ZDViHFK7nNIi7HDbO42VYS>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvfeelucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
@@ -61,26 +61,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvfeelucetufdote
     hnghgrlhesshhmihhlvgdrfhhrpdhrtghpthhtohepvghlmhgvhhguihdrhihouhhnvghs
     sehsmhhilhgvrdhfrhdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslhhinh
     hugihfohhunhgurghtihhonhdrohhrgh
-X-ME-Proxy: <xmx:ozWDaWchHyQdotMcklOuTIZM2A7iQgS-WZn9Zo2UTPJI0rVJ9yldAQ>
-    <xmx:ozWDaa3yt_dt_Zsll2H9myZTWec20rJxSvDZjXkuayJLdqyNo9iMYw>
-    <xmx:ozWDadh3d4wxehsJD0lKeDdCEtzYUD3SzJc3kbzFCIz0K7xNnK8oKg>
-    <xmx:ozWDaTkTsbg1Ht870ePi7i8l5kVIjjVpO9XiRRB8fC7YcEVf6-QRVQ>
-    <xmx:ozWDaeuNhSI5kJUNhTEneApv8beDzzyVnz4wE5bH4r38uB_HU2Z2qPqk>
+X-ME-Proxy: <xmx:FDaDabZ6uM-Xdgzbk77hKsZYHm5ZTEqDHq96jn5uNtObE4rTg6k8WA>
+    <xmx:FDaDaVDzE6Vi-LkUhKswBytA6XMW-mHG3EXRfacKiAt0iJ8dJJabOg>
+    <xmx:FDaDaT8vevVKJ-o28IyaLmmtcuziH0hcDoZwLfjUQIsu_l51_Fc4sA>
+    <xmx:FDaDaRS0k0TJXsLaWxHQWpaVxk21U9S1XDxa50UXWfEfquUWDT6-yg>
+    <xmx:FDaDaZGFxV2CRtO2XjKscVU1dMsVhW1ebTsIPh3q6MUE9PcSNfdiAkjq>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Feb 2026 07:03:45 -0500 (EST)
-Message-ID: <7d3c95f45c56ce0651c5dcfaea9b13fde9a28d65.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v5 05/15] kernel-yocto: Fix for buildpaths
- errors when rust is enabled for kernel
+ 4 Feb 2026 07:05:38 -0500 (EST)
+Message-ID: <8a9cf281b36ede03135fb042e260d22785ed4f38.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 07/15] kernel-yocto.bbclass: Disable ccache
+ when rust-kernel is enabled
 From: Paul Barker <paul@pbarker.dev>
 To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com, 
 	alistair.francis@wdc.com, bruce.ashfield@gmail.com, yoann.congal@smile.fr, 
 	elmehdi.younes@smile.fr, richard.purdie@linuxfoundation.org
-Date: Wed, 04 Feb 2026 12:03:42 +0000
-In-Reply-To: <20260129163910.2612040-6-Harish.Sadineni@windriver.com>
+Date: Wed, 04 Feb 2026 12:05:36 +0000
+In-Reply-To: <20260129163910.2612040-8-Harish.Sadineni@windriver.com>
 References: <20260129163910.2612040-1-Harish.Sadineni@windriver.com>
-	 <20260129163910.2612040-6-Harish.Sadineni@windriver.com>
+	 <20260129163910.2612040-8-Harish.Sadineni@windriver.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -126,74 +126,53 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-xGkG+GjxCADQ5H19La+v"
+	protocol="application/pgp-signature"; boundary="=-6FN1hyngtOGFlGFoChzF"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:03:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230513
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 12:05:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230514
 
 
---=-xGkG+GjxCADQ5H19La+v
+--=-6FN1hyngtOGFlGFoChzF
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-01-29 at 08:39 -0800, Sadineni, Harish via
 lists.openembedded.org wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+> From: Yoann Congal <yoann.congal@smile.fr>
 >=20
-> Fixes for buildpaths errors after enabling rust for linux-kernel
+> Currently, a ccache enabled build fails with:
+>   |   HOSTRUSTC scripts/generate_rust_target
+>   |   HOSTCC  scripts/kallsyms
+>   |   HOSTCC  scripts/sorttable
+>   |   HOSTCC  scripts/asn1_compiler
+>   |   TOUCH   include/generated/gcc-plugins.h
+>   |   DESCEND objtool
+>   | error: multiple input filenames provided (first two filenames are gcc=
+ and
+> .../tmp/work-shared/qemux86-64/kernel-source/scripts/generate_rust_target=
+.rs)
 >=20
-> Co-authored-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+> when using ccache, value of "HOSTCC=3Dcache gcc" when this value is passi=
+ng
+> to rustc, It is thinking gcc is a input file. when ccache is not used "HO=
+STCC=3Dgcc" is passed.
+>=20
+> Disable ccache for kernel build if rust-kernel is enabled to workaround
+> this.
+>=20
+> Signed-off-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-The commit message here should explain the introduction of KRUSTFLAGS.
+This patch is good, but we should try to get the issue resolved upstream
+if we can so that ccache can be used.
 
-> ---
->  meta/classes-recipe/kernel-yocto.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
-pe/kernel-yocto.bbclass
-> index 4323c4c80a..cd5daaf33b 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -4,6 +4,8 @@
->  # SPDX-License-Identifier: MIT
->  #
-> =20
-> +INHERIT:append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kerne=
-l', ' rust-common', '', d)}"
-> +
-
-We should be able to use inherit_defer here instead of modifying
-INHERIT.
-
->  # remove tasks that modify the source tree in case externalsrc is inheri=
-ted
->  SRCTREECOVEREDTASKS +=3D "do_validate_branches do_kernel_configcheck do_=
-kernel_checkout do_fetch do_unpack do_patch"
->  PATCH_GIT_USER_EMAIL ?=3D "kernel-yocto@oe"
-> @@ -27,6 +29,11 @@ KMETA_AUDIT ?=3D "yes"
->  KMETA_AUDIT_WERROR ?=3D ""
->  KMETA_CONFIG_FEATURES ?=3D ""
-> =20
-> +RUST_DEBUG_REMAP =3D "${@bb.utils.contains('DISTRO_FEATURES', 'rust-kern=
-el', '--remap-path-prefix=3D${WORKDIR}=3D${TARGET_DBGSRC_DIR} \
-> +                      --remap-path-prefix=3D${TMPDIR}/work-shared=3D${TA=
-RGET_DBGSRC_DIR}', '',d)}"
-> +KRUSTFLAGS:append =3D " ${RUST_DEBUG_REMAP}"
-
-Why do we use :append here?
-
-> +EXTRA_OEMAKE:append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'rust-=
-kernel', ' KRUSTFLAGS=3D"${KRUSTFLAGS}"', '',d)}"
-> +
->  # returns local (absolute) path names for all valid patches in the
->  # src_uri
->  def find_patches(d,subdir):
+Has this been reported upstream yet? Could you also open a bug in our
+bugzilla to track this?
 
 Best regards,
 
@@ -201,17 +180,17 @@ Best regards,
 Paul Barker
 
 
---=-xGkG+GjxCADQ5H19La+v
+--=-6FN1hyngtOGFlGFoChzF
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM1nhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bokRAP9gWrJdzh4PIoESHp8Zwy7tFCLrndMWYvRG
-hEZdNbr1hQEAtdoaatX3vQWFUAlLPcCI5Slaw9WRKuHsXjCWWCQ86Qo=
-=odcH
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYM2EBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bq3eAPwLo6OyLPnJxmgBVJf5N8QCakryAsIwUTMF
+Xgfxv9u1xAEAglmXxvS49tqRG0eZ7d+cWIsniXADKJvZ1H+JTCY/hgk=
+=tJni
 -----END PGP SIGNATURE-----
 
---=-xGkG+GjxCADQ5H19La+v--
+--=-6FN1hyngtOGFlGFoChzF--
 
