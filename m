@@ -1,215 +1,165 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A6F4E8B383
-	for <webhook@archiver.kernel.org>; Tue,  3 Feb 2026 23:12:02 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7305.1770160316792129495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F4A2E8B38A
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 02:09:23 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10169.1770170953917550791
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Feb 2026 15:11:57 -0800
+ Tue, 03 Feb 2026 18:09:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=skUyVHDP;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-482f2599980so33903125e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 15:11:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770160315; x=1770765115; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YJZmJNgyPpSOZ4jXI/UCKWybATAw35yfiOu8hl8ERDk=;
-        b=skUyVHDPLVFcs6kQrbX+1rE/e0dnTnLLG3mzxUzYmpxnRVdKI5Yqr/3ULNLeWMCxkO
-         8CD/oHB04jRMkwV7IjS4CN/+WzZz10GODpd87Eq7uCQ77OnxIBWVap0xtfoos9pmn5fb
-         EwBjoP9KYAAGS/173kSuyN/z1c/zCQPXsTWmc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770160315; x=1770765115;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YJZmJNgyPpSOZ4jXI/UCKWybATAw35yfiOu8hl8ERDk=;
-        b=g+X70jIRvQCMxiLm/oa9gByH3uO2wbZn7rUnMeT1PobwL+6CdY9UeUqax96yS+zamu
-         ungXCi0UkEhP3LCMcVdr3PvZoMBhYXQSsEvPoO8TiWqhgrYDMYmCDXDuAVlm/RN2lw8E
-         woDkHIXrnITQFdcAOt2dSD/4SLipNLpvji+IDuBTHHsUid4m7YXauqU6s90RuXV/X3Zd
-         1Em90wRwFH4atGxzv8zhXoRzibFnm96O9NrO3+9WPCXLGUrG2l3px3I9z5Ko79kDts10
-         Ey/vzJN3WAvLT9qSbqwNmNWBEbKNk9luNMy4O84gAGc9hrnlL118gWDWM11u0rG5zT6S
-         H3DA==
-X-Forwarded-Encrypted: i=1; AJvYcCUkaoDN6FL2ZzYa20fs0X7EszUK2TNA0f/5G5uLIOhcTCJ5LACGfxpIQ8wtp2wLdOy3vJvrwOtjVF+5/6FFT81n8Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzRpJ2l/sDEjj93jf+M7pN51CnLvusVmugJj42i3Gr8PryzU3xR
-	ETp2P03jD4pwL3Upe3OObnqAL6QAWMyUfuZFG30+lgsddw+zTxomB8OKffc5T+j1xo8=
-X-Gm-Gg: AZuq6aK5smAXYBfqHevoST+N1kGMS875BDUnwMa5k+5oczd58sbXycrkq4L0lqZOALW
-	OB6R+RCS7U3N7yGMW0aoZM1nB9TF9n9fQndiYKzajAL13jZaHgBS0aQ4bp/oMkPeHlBdLeQm8dw
-	MFr1C+Jc3o9jGX4Kwy7uj4POtsQ23urRgTmajyIdufl1914gE6zeyvtN4lnsWGmqHIxwkh8N49U
-	1e7jrA143HceHngCr1343oiOGOGzYkofa7cDxpjcmd43BTFEiJYJmYHdP0izKaTiUC6D6suW3M1
-	9KxwUFdM1KJKbiyPGRuyhU8YW+WK3Gw2kjlg41dnTw5NRP4DoM6+XsnDnsxJYApRYtYenp3DY6a
-	aliA1qlH1277LAzbrwsmgivCDurkuMlSWQuQlK77ym2oA3xuGsJcXXOR0Plxexhmy6BTbjWm1VQ
-	ytf8P1/4FmRoh9m/TmrhkIdR+1JhN3mltlkClkFaeqLht0+usvZ4GfAmpsjZiCR8el+/QV2SnqX
-	84YImHwAhkIFAc=
-X-Received: by 2002:a05:600c:4513:b0:480:3b26:82c3 with SMTP id 5b1f17b1804b1-4830e988d63mr14623075e9.20.1770160314935;
-        Tue, 03 Feb 2026 15:11:54 -0800 (PST)
-Received: from localhost (2a01cb001331aa00bbac16a227e685e0.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bbac:16a2:27e6:85e0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830ec4fe2fsm6147645e9.3.2026.02.03.15.11.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Feb 2026 15:11:54 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Feb 2026 00:11:54 +0100
-Message-Id: <DG5PGLYQCG6W.2Y675F7PAIJBL@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v2] avahi: Backport fix
- CVE-2025-68276
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <adarsh.jagadish.kamini@est.tech>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260127152944.95922-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20260127152944.95922-1-adarsh.jagadish.kamini@est.tech>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=YXmjPZaN;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=64953dfaa1=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6141KOFg611707
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Feb 2026 02:09:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=R8ztszm8AN9V5+/Ut9KD
+	f4L+Nkd9mvyAzrC7N3Tmhv4=; b=YXmjPZaNmy1R5Bdvsf3egv1lhNjR7T9aJrzk
+	H0BDBP6sGrGPwaHB5f29JYNlL2MNKoarK3LLdI9bpUfey0fUoRA8pG6D2zlNurKJ
+	E5JDyOA9ed6iTW4Vw36ltPcn/xVT+wy4rRiB7WBxa902DkLHTcoq6vfegdMGlhGU
+	MHDHZQd7hCNt2UQmPU/qR//fglIub5PlCdFQIMt+2BPWvnDWJPninCyVQomSJZ8L
+	tYQEY4d3OzCTWyh288TnhfKb5rZL5bV6rnaP81Bsth9hm4+uzc1yQJM+sH245bH1
+	nJxexyXYnHSKSIzIYRT3WbkD5ikhgHsT9zMTlDYmIfq9/kB+MA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c3vc2r184-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 02:09:12 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 3 Feb 2026 18:09:11 -0800
+Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 3 Feb 2026 18:09:10 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] module.bbclass: check whether CONFIG_MODULES set
+Date: Wed, 4 Feb 2026 10:09:08 +0800
+Message-ID: <20260204020908.864912-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA0MDAxMyBTYWx0ZWRfXxjW7d45/0i+3
+ SxXh67VZ342CkOS4T6JrQt66zaYPrXpR6HulVNfiv2NzGVWZVMoH2kwgZgn5mSJdCRnP0h0+7AP
+ GdayNQGCOH+Zbub8QIs2FIR5RPvzu5g5UiW2SZRy699wsZT6JQpO8jikoNFvsNMJR0kCpCqBk7d
+ B0UQ5jr4J/T/F0GfZkCVqh6ipAqkpWk2wvu+D1CCM5fzn6HReiJDQNhbWPDMFdjqKq+WjrMEonf
+ A6oo81Fjz2ayFMDMCAqjsMWvFL3bsu76gd2vp3fIZRIygR/MCe4D6VGntAeGsFZCPdqfINVHAYg
+ CGC9GuQLb9HPuktZ9pIVNOY86F87F2GzQWy1VYx2g5W6X0lh/Q61T+rCCXd3Wwm5KxZjWs/Lwas
+ dM0+Ti4J8oCnOGx2OdhdgzF3QSfumua5pgevtXmpVtl0nce1JilEzfSQMQHkPYBEI3Zy8Rk1p/9
+ 50hHsWQ5CKuX0PW8/fw==
+X-Proofpoint-ORIG-GUID: xqxAAzNz5dt5iVypOE7t1nus4-KSQ-pN
+X-Proofpoint-GUID: xqxAAzNz5dt5iVypOE7t1nus4-KSQ-pN
+X-Authority-Analysis: v=2.4 cv=F8Zat6hN c=1 sm=1 tr=0 ts=6982aa48 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=qG76zQwQG-vXQeid0bUA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-03_07,2026-02-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602040013
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Feb 2026 23:12:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230491
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 02:09:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230492
 
-On Tue Jan 27, 2026 at 4:29 PM CET, adarsh.jagadish.kamini via lists.openem=
-bedded.org wrote:
-> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
->
-> Include the patch linked in the NVD report: https://github.com/avahi/avah=
-i/pull/806/commits/0c013e2e819be3bda74cecf48b5f64956cf8a760
->
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Kai Kang <kai.kang@windriver.com>
 
-Hello,
+Check whether kernel config CONFIG_MODULES set or not before do_compile
+and do_install in module.bbclass. If not set, it cannot build and
+install external modules.
 
-As I answered in you v1:
-This fix was already sent a few days ealier that yours:
-[scarthgap][PATCH 1/2] avahi: patch CVE-2025-68276
-https://lists.openembedded.org/g/openembedded-core/message/229929
-Unless I missed something important (and in this cas, please signal that
-to me), I will proceed with Ankur's patch.
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/classes-recipe/module.bbclass | 60 +++++++++++++++++-------------
+ 1 file changed, 34 insertions(+), 26 deletions(-)
 
-Thanks!
-
-> ---
->  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
->  .../avahi/files/CVE-2025-68276.patch          | 68 +++++++++++++++++++
->  2 files changed, 69 insertions(+)
->  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.=
-patch
->
-> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-=
-connectivity/avahi/avahi_0.8.bb
-> index 7930bd3037..bb20fd17cc 100644
-> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> @@ -37,6 +37,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/avahi-$=
-{PV}.tar.gz \
->             file://CVE-2023-38473.patch \
->             file://CVE-2024-52616.patch \
->             file://CVE-2024-52615.patch \
-> +           file://CVE-2025-68276.patch \
->             "
-> =20
->  GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
-> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch b=
-/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> new file mode 100644
-> index 0000000000..b3e11f9597
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> @@ -0,0 +1,68 @@
-> +From d5d18ced67e969d6a5052cacdbd7d4b2c97a1a3f Mon Sep 17 00:00:00 2001
-> +From: Evgeny Vereshchagin <evvers@ya.ru>
-> +Date: Wed, 17 Dec 2025 08:11:23 +0000
-> +Subject: [PATCH] core: refuse to create wide-area record browsers when
-> + wide-area is off
-> +
-> +It fixes a bug where it was possible for unprivileged local users to
-> +crash avahi-daemon (with wide-area disabled) by creating record browsers
-> +with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by callin=
-g
-> +the RecordBrowserNew method directly or by creating hostname/address/ser=
-vice
-> +resolvers/browsers that create those browsers internally themselves).
-> +
-> +```
-> +$ gdbus call --system --dest org.freedesktop.Avahi --object-path / --met=
-hod org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -1 1
-> +Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipient=
- disconnected from message bus without replying
-> +```
-> +```
-> +dbus-protocol.c: interface=3Dorg.freedesktop.Avahi.Server, path=3D/, mem=
-ber=3DResolveHostName
-> +avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `e'=
- failed.
-> +=3D=3D307948=3D=3D
-> +=3D=3D307948=3D=3D Process terminating with default action of signal 6 (=
-SIGABRT)
-> +=3D=3D307948=3D=3D    at 0x4B3630C: __pthread_kill_implementation (pthre=
-ad_kill.c:44)
-> +=3D=3D307948=3D=3D    by 0x4ADF921: raise (raise.c:26)
-> +=3D=3D307948=3D=3D    by 0x4AC74AB: abort (abort.c:77)
-> +=3D=3D307948=3D=3D    by 0x4AC741F: __assert_fail_base.cold (assert.c:11=
-8)
-> +=3D=3D307948=3D=3D    by 0x48D8B85: avahi_wide_area_scan_cache (wide-are=
-a.c:725)
-> +=3D=3D307948=3D=3D    by 0x48C8953: lookup_scan_cache (browse.c:351)
-> +=3D=3D307948=3D=3D    by 0x48C8B1B: lookup_go (browse.c:386)
-> +=3D=3D307948=3D=3D    by 0x48C9148: defer_callback (browse.c:516)
-> +=3D=3D307948=3D=3D    by 0x48AEA0E: expiration_event (timeeventq.c:94)
-> +=3D=3D307948=3D=3D    by 0x489D3AE: timeout_callback (simple-watch.c:447=
-)
-> +=3D=3D307948=3D=3D    by 0x489D787: avahi_simple_poll_dispatch (simple-w=
-atch.c:563)
-> +=3D=3D307948=3D=3D    by 0x489D91E: avahi_simple_poll_iterate (simple-wa=
-tch.c:605)
-> +=3D=3D307948=3D=3D
-> +```
-> +
-> +wide-area has been disabled by default since
-> +9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).
-> +
-> +https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-865v-g5rc
-> +
-> +CVE: CVE-2025-68276
-> +Upstream-Status: Backport [https://github.com/avahi/avahi/pull/806/commi=
-ts/0c013e2e819be3bda74cecf48b5f64956cf8a760]
-> +
-> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> +---
-> + avahi-core/browse.c | 5 +++++
-> + 1 file changed, 5 insertions(+)
-> +
-> +diff --git a/avahi-core/browse.c b/avahi-core/browse.c
-> +index e8a915e..59d53cb 100644
-> +--- a/avahi-core/browse.c
-> ++++ b/avahi-core/browse.c
-> +@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepare=
-(
-> +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_VALID(flags, A=
-VAHI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FL=
-AGS);
-> +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags & AVAHI_LOOKUP_USE=
-_WIDE_AREA) || !(flags & AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FLA=
-GS);
-> +=20
-> ++    if ((flags & AVAHI_LOOKUP_USE_WIDE_AREA) && !server->wide_area_look=
-up_engine) {
-> ++        avahi_server_set_errno(server, AVAHI_ERR_NOT_SUPPORTED);
-> ++        return NULL;
-> ++    }
-> ++
-> +     if (!(b =3D avahi_new(AvahiSRecordBrowser, 1))) {
-> +         avahi_server_set_errno(server, AVAHI_ERR_NO_MEMORY);
-> +         return NULL;
-> +--=20
-> +2.34.1
-> +
-
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/module.bbclass
+index 4948e995c5..d2b90e9c2c 100644
+--- a/meta/classes-recipe/module.bbclass
++++ b/meta/classes-recipe/module.bbclass
+@@ -47,37 +47,45 @@ python do_devshell:prepend () {
+ }
+ 
+ module_do_compile() {
+-	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+-		   KERNEL_VERSION=${KERNEL_VERSION}    \
+-		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+-		   AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}" \
+-		   STRIP="${KERNEL_STRIP}" \
+-	           O=${STAGING_KERNEL_BUILDDIR} \
+-		   KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
+-		   ${MAKE_TARGETS}
++	if grep -q -i '^CONFIG_MODULES=y$' ${STAGING_KERNEL_BUILDDIR}/.config ; then
++		unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
++		oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
++			KERNEL_VERSION=${KERNEL_VERSION}    \
++			CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
++			AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}" \
++			STRIP="${KERNEL_STRIP}" \
++				O=${STAGING_KERNEL_BUILDDIR} \
++			KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
++			${MAKE_TARGETS}
++	else
++		bbnote "The present kernel disabled CONFIG_MODULES that cannot build or install external modules."
++	fi
+ }
+ 
+ module_do_install() {
+-	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	oe_runmake DEPMOD=echo MODLIB="${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}" \
+-	           INSTALL_FW_PATH="${D}${nonarch_base_libdir}/firmware" \
+-	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" \
+-	           STRIP="${KERNEL_STRIP}" \
+-	           O=${STAGING_KERNEL_BUILDDIR} \
+-		   KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
+-	           ${MODULES_INSTALL_TARGET}
++	if grep -q -i '^CONFIG_MODULES=y$' ${STAGING_KERNEL_BUILDDIR}/.config; then
++		unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
++		oe_runmake DEPMOD=echo MODLIB="${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}" \
++				INSTALL_FW_PATH="${D}${nonarch_base_libdir}/firmware" \
++				CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" \
++				STRIP="${KERNEL_STRIP}" \
++				O=${STAGING_KERNEL_BUILDDIR} \
++			KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
++				${MODULES_INSTALL_TARGET}
+ 
+-	if [ ! -e "${B}/${MODULES_MODULE_SYMVERS_LOCATION}/Module.symvers" ] ; then
+-		bbwarn "Module.symvers not found in ${B}/${MODULES_MODULE_SYMVERS_LOCATION}"
+-		bbwarn "Please consider setting MODULES_MODULE_SYMVERS_LOCATION to a"
+-		bbwarn "directory below B to get correct inter-module dependencies"
++		if [ ! -e "${B}/${MODULES_MODULE_SYMVERS_LOCATION}/Module.symvers" ] ; then
++			bbwarn "Module.symvers not found in ${B}/${MODULES_MODULE_SYMVERS_LOCATION}"
++			bbwarn "Please consider setting MODULES_MODULE_SYMVERS_LOCATION to a"
++			bbwarn "directory below B to get correct inter-module dependencies"
++		else
++			install -Dm0644 "${B}/${MODULES_MODULE_SYMVERS_LOCATION}"/Module.symvers ${D}${includedir}/${BPN}/Module.symvers
++			# Module.symvers contains absolute path to the build directory.
++			# While it doesn't actually seem to matter which path is specified,
++			# clear them out to avoid confusion
++			sed -e 's:${B}/::g' -i ${D}${includedir}/${BPN}/Module.symvers
++		fi
+ 	else
+-		install -Dm0644 "${B}/${MODULES_MODULE_SYMVERS_LOCATION}"/Module.symvers ${D}${includedir}/${BPN}/Module.symvers
+-		# Module.symvers contains absolute path to the build directory.
+-		# While it doesn't actually seem to matter which path is specified,
+-		# clear them out to avoid confusion
+-		sed -e 's:${B}/::g' -i ${D}${includedir}/${BPN}/Module.symvers
++		bbnote "The present kernel disabled CONFIG_MODULES that cannot build or install external modules."
+ 	fi
+ }
+ 
+-- 
+2.34.1
 
 
