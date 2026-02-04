@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 975F6E83F05
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A90E83F0E
 	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 13:43:07 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.3])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20569.1770212577153802870
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20605.1770212580659200593
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 05:42:57 -0800
+ Wed, 04 Feb 2026 05:43:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=kQVT+bOi;
- spf=pass (domain: ericsson.com, ip: 40.107.130.3, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=WIBZ5ag9;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.23, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=whpnUvX8o9KTElK/yobxnEbzdNC0WgoL6DD8R1vWY/AcYHV9TYliSHSafcCuKWu4dpoDB6gxlyXN1F/DWSRNZZwWSh19sNiAVnHE8dWBauiWolD/SEIoTVjm0+q0vlB0aMxegqDILAQap9KFevI5MERkOOxCz1+k7i79dOzzaSqct3S1XysFGZRi3oE9B+Hfsdl6zNT49NIht2atiiQfd55jrsqonHOCHLfpNRrFZbHEYN0jYMQXxn7+fZ5vGhzLtY9Slh1L4o9RB5jhDwqNTpz3NaKgQkx/Kod/+hPpvojdBL2wjzaBTY2jNIf8S5fOEAuTsb7baUzWaFi5Ci7CJg==
+ b=m9aSqu3kpbN74Dqm1xRorYxj9c2yIR8VWYCh1iyR80MndiBqEN9Ki1ewjQ6AeC3ZPDlZLmJ0POsMmdXX3s5V1d+MkKzsmmK+Wuv2XxgK2B/R5mmziQjG4RWdJhEnt0/ehJnBa4hxTwMSEllD//Ea+mLeZK397ssP6K5GojM6/NifeEpnyF3SthiPEnfvSFaVkaEpeUXuKt4QTdC8RAfdzdYDU7fPEXM5ESVjPl7qIAgjeRs1ZCcE1vjlyDYW4UFEqPvNroVQrwytVPgUj0pmKVY1ICUP/6eanMRNmQG/aLVjPkPi01NncTDIJkHdiG4fOjoOTMS0kDuOv9zmMmTkRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k1apkzBsGyx8ZgpqAQ83WqX+OWWg5jiIn0H0gfgzxo0=;
- b=BCOPGnKwj4tkkM84aGRTVy6q9tzS6uQK6eUpxjaUblEjewftnuam1908tvBaQYL1tamedkelSs4Yq9VuF2eIRf/PNFR8bWgYGvR+ZfBua4iEXE+T3+rrTewi22CRAE5fgpxgrETBaoLSLizDdqgWGVlFQHFyK0CiOOCGc3fDBOV9GnciUzgpVHm6N7IyZ4hpiQrcpLIzC81ynEJVb6dAYTHo9qrYq9yBoz9SQ721hgifj4vSwOv6vNlwt4jQRp79HRPl/96W0BAivX38BC6+eahq6B5Lp074/8BHpEUVNv0oZ/U/uZa5XYIHu1fYRG3Sdu6/FNpovrjyuu2Gnvhpmg==
+ bh=QFIzuFJXX99sFpFtkCWTU/FjZMsYfp2whGkHLAZ6yi4=;
+ b=kocIvlrjKwvdc4rfeLRrywYQ6TiP2UlsOyWVsLYvzDPBxMx+VC70A7JYyGLcdUmYMxyBLRkfPAcKLwv5+wK8BpjJ3lM2d4HA79sz2aeypwmF4uakB1zRz8d3h4z0VrkKVf3m6ju/0EnI+4HUqUmGJ+xKo5yKkQELvrdBf4ReuWDxuVUCSTlzBI1Q5xViQYkEDmEdCa8/3lBBnprinG61WdrQJcZKMeEyqhI2o838Ajhhv4ur91thYfYVEGZb1j6mgRbadX375ho4ooHvYPP7lulCAo0HKBD6OmMxulK7sEt4QcyQb86T8UDyeJaeWNvjtxn8znqNthw+cbXEcSpdQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k1apkzBsGyx8ZgpqAQ83WqX+OWWg5jiIn0H0gfgzxo0=;
- b=kQVT+bOibzBhNzSp8FdksqpL0nGK4A7f4TuKKCjBFnAWtQBGcu09rBwhnmKwHJIwgUcPSyMfCUPyAY5GaiLzWo69MhnsYupCMIl1fPKFMTGfGtIk/OQ1RJ5PbaCg6gpvAK+bx4VXcmfjvI9TOZ8WFPBhXiV46UUtmxkl/SAvL2DFMtZmQpAlIIXVEi0McZhNZO2HvOmn+hgnH0fk12gUEZmU/gfqaQSVyZFGq/MdicYycYrznxELeAO7KrInARs7sDV6npMRpf+KbIwOoqywtqlprb3bSHJYq26er5doZodjhUx83F1cG3/27LLW2VxGrWUKOMe/nANQHL/FYSbhjA==
-Received: from DU2PR04CA0260.eurprd04.prod.outlook.com (2603:10a6:10:28e::25)
- by AM7PR07MB6819.eurprd07.prod.outlook.com (2603:10a6:20b:1b7::10) with
+ bh=QFIzuFJXX99sFpFtkCWTU/FjZMsYfp2whGkHLAZ6yi4=;
+ b=WIBZ5ag9CEIRgkzIrV+BaNRfYxga9rP2JUF+lyoSVzqI2dpqtaC/XmNE2kAwdAOO4Q0Ll8XNjnlkF/+SxIt1z8g3BC7nXCIuqtXp3oKh++VuY/4JUtXqJve+dgmzLaFI9wyXMCHoB+jIUYFxCTVr6ZaWQUgosKIXJ0OocYZPB5ct992/PgNxg1a9TjqVb+ixVrvwmayyrM8CHwtjygwUcrp8g8W3BsbGJTIMwiKxsK3f0vraTNTUJ0drEf7o1N7YdNDT7W1+BDb1SIcZnLEFfIYxrIAFRslTxWcaBXwwhhxo5rPv3chOqaBk+i8k/Ej6n7zM7SjqQf5l5RIKzZFSYg==
+Received: from AM8P189CA0007.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::12)
+ by VI2PR07MB10154.eurprd07.prod.outlook.com (2603:10a6:800:27b::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Wed, 4 Feb
- 2026 13:42:52 +0000
-Received: from DB5PEPF00014B97.eurprd02.prod.outlook.com
- (2603:10a6:10:28e:cafe::f5) by DU2PR04CA0260.outlook.office365.com
- (2603:10a6:10:28e::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.12 via Frontend Transport; Wed,
- 4 Feb 2026 13:42:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Wed, 4 Feb
+ 2026 13:42:54 +0000
+Received: from AM1PEPF000252DA.eurprd07.prod.outlook.com
+ (2603:10a6:20b:218:cafe::2b) by AM8P189CA0007.outlook.office365.com
+ (2603:10a6:20b:218::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.13 via Frontend Transport; Wed,
+ 4 Feb 2026 13:42:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -45,24 +45,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB5PEPF00014B97.mail.protection.outlook.com (10.167.8.235) with Microsoft
+ AM1PEPF000252DA.mail.protection.outlook.com (10.167.16.52) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Wed, 4 Feb 2026 13:42:52 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
+ 15.20.9587.10 via Frontend Transport; Wed, 4 Feb 2026 13:42:53 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 4 Feb 2026 14:42:52 +0100
+ 15.2.2562.29; Wed, 4 Feb 2026 14:42:53 +0100
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id EB3C9402084F;
-	Wed,  4 Feb 2026 14:42:51 +0100 (CET)
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 0D8C39569E;
+	Wed,  4 Feb 2026 14:42:53 +0100 (CET)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id D54F07000699; Wed,  4 Feb 2026 14:42:51 +0100 (CET)
+	id EF6757000699; Wed,  4 Feb 2026 14:42:52 +0100 (CET)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH 2/4] improve_kernel_cve_report: correct description for fixed-version
-Date: Wed, 4 Feb 2026 14:42:33 +0100
-Message-ID: <20260204134235.3274889-2-daniel.turull@ericsson.com>
+Subject: [PATCH 3/4] improve_kernel_cve_report: update data if CVE exists
+Date: Wed, 4 Feb 2026 14:42:34 +0100
+Message-ID: <20260204134235.3274889-3-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260204134235.3274889-1-daniel.turull@ericsson.com>
 References: <20260204134235.3274889-1-daniel.turull@ericsson.com>
@@ -71,87 +71,110 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B97:EE_|AM7PR07MB6819:EE_
-X-MS-Office365-Filtering-Correlation-Id: f05281e0-157c-43a5-47f9-08de63f34b42
+X-MS-TrafficTypeDiagnostic: AM1PEPF000252DA:EE_|VI2PR07MB10154:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ba55b1a-b889-4a28-fbb9-08de63f34c16
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
+	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?KpiHLmYGvXOG2LUH/ANuFMcZWiCTUya/X/MSaqy9zYP34VZ7PaccCbc4MdCW?=
- =?us-ascii?Q?Ad/iXOw796vy7fXkyJ7v3aJouVX+fpOWyRrB7GOiBQ3agpZuetYGfH4lMoY9?=
- =?us-ascii?Q?dDti5DPxy6bqK60YGBK67/jrwRAL6SxSAUEdWSSzlGtoEM4u0jadpZn82wIN?=
- =?us-ascii?Q?GUgbl7e6ECGkIEUli+aj5GDSz3ljIsocnRyd6p/uf2s6iaeFBwFIlyeL++Lm?=
- =?us-ascii?Q?9NGg47JLv6ExcFb//ZGkGvBMJEcCIWV/E8SG818HR/7bojcMqJIAzOcZIwzY?=
- =?us-ascii?Q?3sJP/G1y26+fywSX1WuAW2bY5WgXz+0obLNmc1aGBEN6h18mRJGJJt2Ogp/b?=
- =?us-ascii?Q?P2gzzdTKqdL8UKT4YPpdsNyQR24H8GfLpmxSLwkg8dOWXC4pRcx4HeSK7xKK?=
- =?us-ascii?Q?zvWzgOdj86dVyh/qHd73hLvUjxFS3YomTUTzSbIUeqy1cScxsHbiVpYMFkwg?=
- =?us-ascii?Q?D2k+v5QcZh9g2aLOmZwU/8WAHtYjlXBMe2Fw8z3/hoJLiUPlM7bgKgykkXB/?=
- =?us-ascii?Q?YUcTd/itvGVfmR2c4y0LfcQNpptbCVqtLETQ1ZmwofIK62S9DXRsI9HZGdsT?=
- =?us-ascii?Q?DjqMFdSJLXe0n1VKxybW1CbmWGDaM+VP9gEnLBZXHWBmcXfEiPPfs7L8pRhC?=
- =?us-ascii?Q?niHCJenqfArA7TWOJYcfN3zhPt6azLZQi7fqJS/hY0gqaLgiw3CGMkYg0HMv?=
- =?us-ascii?Q?FtkaOCjP1HlixoGFQnlRKg4N/SYmo2smk67+XbEhqPWVclu3Sw+USEIuNjBV?=
- =?us-ascii?Q?jxn2tyzhMWz/NSiZaWuaMjgsqZ1h+wn6/G+enja8dzXCDQveuKb9OuTUr1id?=
- =?us-ascii?Q?u776VqQ0fim+c2bGv3+R21ywDbkYqCPYmCa7jaCwh+RzHG2Lzglsyn6rqEfz?=
- =?us-ascii?Q?r5sknkPzmALbwdBMezThzUjYqCC91jXnj4646XtY0vokeNSn9nS54aei24B1?=
- =?us-ascii?Q?E0tKU9HeO2Bact/mj4b463nwYmK5TkYwAG/LdMEnFuremxAdqvAV6Pa+sOFG?=
- =?us-ascii?Q?M6wAflCh5LhHqXUhpEu3q10JHTfJWrnetGGW+ym2EgZ/bjM0klbB4n87/gTb?=
- =?us-ascii?Q?IBJYMJwBbEsHm3uQ1m5X9zJOqK0c6Pp+UI/OGxMsj/Gfl677pPYdFqB+shu/?=
- =?us-ascii?Q?oHNucaRGJhAAd/aMdv/pIRpCudmutOZCkGwnC+8c0fvRFyVJCLx+zJnJ6v8Q?=
- =?us-ascii?Q?IT9tzoinL0/hi6adQniBY+CcYgYPYfn5IJcYzxIcy1jN5XUAh8h/sjWm3FRU?=
- =?us-ascii?Q?elJ/nvVyJSI57HeW+aq9s/YrnsfWN864QQu+0esJtaYJzkJ39TrekerijkNt?=
- =?us-ascii?Q?txgLZSH3JxLrqb1vXOaafv5q7Z7SRzW/4ouJmix/vUwlfbDhqt9zKNrjxL/2?=
- =?us-ascii?Q?He38iI0MAJAH4Nf24N+17nOvAYvPbow7BX10WuSMymGsLaq/8K8Nj6mHqejT?=
- =?us-ascii?Q?+YyoWpjOpFiTNsFUlhNvKb9QrA7ruj04LbwsicUBuYVyGEaFT8DVLtZHkb/G?=
- =?us-ascii?Q?Pa8cPW3iJxoSOL1W4KvNV57+tu5V1q/37meGzVLcuXBvZT59rjGJ9TVgZllo?=
- =?us-ascii?Q?SlZH3H2/NEEbcta4/o9fcbIgv+X2iguf79+vnQTOtb2GuFqZ1SHL1CMQHrD4?=
- =?us-ascii?Q?v741YFCA2YqqToLD7wmhfTbP34TMO5ni2rB0uP3m6QibMuuHyGvlkxfYKgQV?=
- =?us-ascii?Q?+m514A=3D=3D?=
+	=?us-ascii?Q?uN76LwoAoybP5520JFMP0Y3xNev6SyeUXkoypKnfmSDzk+EwlK+EBeT22MsJ?=
+ =?us-ascii?Q?YjpR9OrYE7kl4oV+PwUzB702QkNlUPY4bNaFMVdNp6cs7ipX7vhd0MnxAcRf?=
+ =?us-ascii?Q?tyzEsdJlgURfwd/2oExvGFkiX/HuTRwnJKxFTF/j2vBY6lDAF4xle8uDeceA?=
+ =?us-ascii?Q?4Cfcf4c/G7416o+uX13SXRS5IC31dAG4Wddm4kbGqB+CZq5Lwwimb95iae4O?=
+ =?us-ascii?Q?gdqJDYTGZA/dimF/oezaJPK/Y7vvbkFteQnxm7qA5DyKN+G2oykVSsIC0Lvf?=
+ =?us-ascii?Q?ZqhKhqVf8RPOYAeMA+BVx7TB+ceqJAQbYls0bZfglDw9ohRVHAGPlSHBlEQO?=
+ =?us-ascii?Q?1JFORHe1kEBSGvgc7ekeSeE0xYxw+DqOI56J1KXZuXzzAkfBWOcZczzm4j7d?=
+ =?us-ascii?Q?UroCoYlFS6ZAzgv+8Myn2p4t0haLS8jwi6ajrNDtQHEUQhJa8y5trFD7Gpf9?=
+ =?us-ascii?Q?/zDodCE6NCHwKC3uFLgNwjAwarDAv1EMxXVH7IePdL+UaZ2qURWraTX2bkB9?=
+ =?us-ascii?Q?BmrMKAFtOex25jUE6RPrk6swcqozcSXCS8I+j5TUvYsOzR/s6Gw0cl1uTabk?=
+ =?us-ascii?Q?X8BIVnL5RvBSJLODqtwIA5Tbk8eV+fovdXLeazvBmRwXc8XqKPpxm4dqujHb?=
+ =?us-ascii?Q?t1pqXI3ujgt7QapEK1ldzMUWRH20/41yvUjnPmBtqHBrPfQBzwr1NHgq8RZ4?=
+ =?us-ascii?Q?38rZMN7JOLNL4KUr2B3Kj5x8NiS4HWXQ3wJGB1M5ryxh//uBj6Vrc+sBC0de?=
+ =?us-ascii?Q?JaRF3QXsooKvL7dO7KThLS4sPq1RdfYTcJlLuvlQbF/Kf95EOncMc3FCoXBr?=
+ =?us-ascii?Q?wq6LZA30KBeew0aq1Oe56H00fw8x1Pr9ktB9CXIXJq2l1AMHZnGYGVACjRYK?=
+ =?us-ascii?Q?I2xvAMTe2/svPh+xkj8decoZaklHPFcTgMCxvxMl0YwXRt93eS+xs01+Y30t?=
+ =?us-ascii?Q?aoMSJa4MKqagnIxxHAgnv/TSEgYFsSTrDaqnhV8EHxsGeG1GozqZ9wbvqSDt?=
+ =?us-ascii?Q?r5yZYw3Ir1GDVNT7TbyNJLhkytLtXWwE/UM2eyHymxSqtt9sLD5jKfwBv7hV?=
+ =?us-ascii?Q?F3G597pncNUxFyXZcCdpJL1r0II+QKztVtLivecwQ0Ogh7Or1ALhHW/lUYKC?=
+ =?us-ascii?Q?3waw3BmZcQdmh96fJd/v7M6NSSVQW2mBxrGOEKfKKMpd3pPoNZHwP2VjuRWy?=
+ =?us-ascii?Q?17EjftWq1CQNrIy5D8ZLj7lQEIMqXoCHWPMJfrU7GpXAzTzedykLeWKBRYc8?=
+ =?us-ascii?Q?uLTHMNhIwfALSa0HzTSZG1vmzpmy9RdPc3PoqEHYHSD1PHqP98OTmIL0LJWx?=
+ =?us-ascii?Q?8e0h6t4igACSEMFBzY2vwtdMGV/l6/VwUqszb+X4SwOl22RwVz7cHJgkrBhw?=
+ =?us-ascii?Q?CM/mqbLgMBVpRm96j3yu2nYJQxWzlYx5ppHMxPfgN5H5MVZsn3k8boVRSwbs?=
+ =?us-ascii?Q?ltcCgQvFg4c1zYc46wxZIp5Fl65FE3mwRQMH7GfCrotr8E5GOo7n6sgryfGb?=
+ =?us-ascii?Q?CMH1B0oy0BHt3YozIUes4MxcokCmx3H0NgJYgM4UotXJdcwqHC0qqWWZenND?=
+ =?us-ascii?Q?1U4Jcu9Jx0UVHiM943S9/JREJXXIPWE+i9CJMfTKjQnQ1Hcvl2cjIK9BZAgk?=
+ =?us-ascii?Q?sYRhxuPscb8e/cjHNXde8qq0KZNGOUWWhVufwZDATneSM6erbh8n+7iuW6bR?=
+ =?us-ascii?Q?LAUOjQ=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	Zl2R8yNImwrfL/EmXzOJdQuUB2xZx8JvvD2tf7IYxOXyQWgJFH4Jiic+yvFx6zfxTAK6QkYunOIXuaHeXX2vKvvYmeMWWvMQsXf+IjWZ6M70+HHH/sifeg99GbxQNDN0ylguLhyvcTUoAk37lJrSNULlXriZIBd8CvphlH09Cw8ZiOzxzcRk2DD8NE+u/XRWx+KhDXNLepMRo5NYC07A7d+8E/gISSAmX1cR97vJh1nMq0grjnrOEGKejOTsoS2sihHzCqIWKM9k9DobAxG/fyUBZBD/2s2kR6VfOd0eXTS7MupC9a+TpTuG1r9deKyiy9Ovz9lsAfyUFBGQWWTX+xYYxk9i6FUCavyJmgqTn2s+JQY6oii1oh69D8d1efPJGLrlwtmtZXFluz2X125eLtL20ZPzZehOhaaGTu85r07xVlyxYidl2yTrE9+OjifD
+	AqtAXB8wgGcQ+MEItwh9wKfI9Zu7zfQQp1j0+lvAWmEPqNewHmRe7TMRSDOAJnN2WiT7YRj4UpPoAPB5I7KmAER8hglDejWpTEljrlOWZn7qG8JRJPsbS6uxTPodAlRXn63F9eOVGqCFi8QkxLgXREcjrCUUmdd3S99Gyk95ExFonaf7kgS3X7k8uWprKLi2yeYAlb9AB50Jm9Olqo4v2zI8+mApAvRFF1lJ42/Rn7tsHTqCK5FvH2vSpcHUryk2ysCvlI6FzYIFCUB0INqcfl2uJqAGqtJnBjxU6E/9kuI/SGSNFG9KQPcr7/p+r1jYO1Q6y2/0gGBBy6dOCRkypqAAeYM6pQ5zSHZhnfxlbsZEDsnBvBC0mgRW8bkaBy/Osug63/lGetaLyZ8j8cTk4/77e8GSYTCTqhzE1zYnX0uOWgevQwSiPGTU7mZSGEED
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 13:42:52.3295
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 13:42:53.7404
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f05281e0-157c-43a5-47f9-08de63f34b42
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ba55b1a-b889-4a28-fbb9-08de63f34c16
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B97.eurprd02.prod.outlook.com
+	AM1PEPF000252DA.eurprd07.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6819
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR07MB10154
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 13:43:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230523
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230525
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Remove duplication in the description when fixed-version, to be
-consistent with the other status description.
+This allow to include additional information if one of the
+sources is more complete. Updating description with more
+up to date information and including summary.
+
+For example:
+
+Before while using cve_check:
+
+       {
+          "id": "CVE-2025-68167",
+          "status": "Patched",
+          "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68167",
+          "detail": "fixed-version",
+          "description": "Fixed from version 6.18"
+        },
+
+After:
+        {
+          "id": "CVE-2025-68167",
+          "status": "Patched",
+          "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68167",
+          "detail": "fixed-version",
+          "description": "Fixed from version 6.18",
+          "summary": "In the Linux kernel, the following (...)"
+        },
 
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- scripts/contrib/improve_kernel_cve_report.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/contrib/improve_kernel_cve_report.py | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib=
 /improve_kernel_cve_report.py
-index 27ebed2cbd..50d25b2239 100755
+index 50d25b2239..903de0000c 100755
 --- a/scripts/contrib/improve_kernel_cve_report.py
 +++ b/scripts/contrib/improve_kernel_cve_report.py
-@@ -164,7 +164,7 @@ def get_kernel_cves(datadir, compiled_files, version):
-                     "status": "Patched",
-                     "detail": "fixed-version",
-                     "summary": description,
--                    "description": f"fixed-version: Fixed from version {la=
-st_affected}"
-+                    "description": f"Fixed from version {last_affected}"
-                 }
-                 not_vulnerable +=3D 1
-             elif backport_base =3D=3D base_version:
+@@ -358,6 +358,7 @@ def cve_update(cve_data, cve, entry):
+         cve_data[cve] =3D copy_data(cve_data[cve], entry)
+         return
+     if cve_data[cve]['status'] =3D=3D entry['status']:
++        cve_data[cve] =3D copy_data(cve_data[cve], entry)
+         return
+     if entry['status'] =3D=3D "Unpatched" and cve_data[cve]['status'] =3D=
+=3D "Patched":
+         # Backported-patch (e.g. vendor kernel repo with cherry-picked CVE=
+ patch)
 
