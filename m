@@ -1,237 +1,183 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A4AE9D40F
-	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 17:43:44 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.850.1770227017597136076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C1DE8B397
+	for <webhook@archiver.kernel.org>; Wed,  4 Feb 2026 18:18:34 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1725.1770229111567969719
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Feb 2026 09:43:37 -0800
+ Wed, 04 Feb 2026 10:18:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YpyNt+MU;
- spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-45f171cb842so81778b6e.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 09:43:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770227017; cv=none;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=SSLPn1QJ;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bu/53wr/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 614CIZbD111382
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Feb 2026 18:18:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	yECUPsQKCHt2QRob9vpgpNQH4wcf5iFU63PnTGHWSdY=; b=SSLPn1QJS3AuStVv
+	PwQ/AS5QFMd76Iai46ShEMtH9qgeaL55LfsB37/50k07mIXSnla7xWVAXzDO0zSC
+	2yCrANptN3iA1t5iOpT5x0zrikNJra1Qefhu9QplBNwrBJ8nmOmEj9oQe2gA+I+F
+	BAoeYn5i4irBuDco4Pr+e1uFdw+qEX/LSLbM9GXQAngEKKLQIrsQkQWuj3pF26wk
+	hymWSX+E68M2AyVUEpL5jnFp9tpsAOodgKc5e/THkZbiQ7+TutXf53x+deMdIP2s
+	vnYTn0vLHRVVL2iPCAfga+AFXOjLPtVeD0/oPYkmQdSMp98MjxPLiRjoj0H2igtN
+	arSWyQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c44xjhd4d-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 18:18:30 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c6b1b22b134so2603a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 10:18:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770229109; cv=none;
         d=google.com; s=arc-20240605;
-        b=BWM1rtcGV1gQZrYsmddjt7YABEZPyOvHms00ltQEOQvZ9iunSp4ufZncCd76+7dnqi
-         qxkTtUtBzHh+hirUcL4062q3uXseKGHMIvTGDoGqCgOUJ/bvykcNjcVDABXcVJZ/N8dp
-         /SFG7/JYGtIRE/wQ/3zC1/TaHRkYnxS7UWVxFHPiqZMilaAwCPmX5wUUqqygh58JgzEv
-         GRjPr9y9iRpt4ieYWlnEUHGTshqlxxyoqb9dIEChgUo03/bereHpsfs3jwXEkfX5qoin
-         gPYdXQJe4buI5BFFlHvmhJEKLtvqXHZEUxQfbeT94mwMgx+Lbj+xhj/jxsXoDW2JQQQI
-         KM1Q==
+        b=HEZ849JAZXPzn83MdY5ZnQAk2hu2lZuqt1NApaQVp9tVkIcE6Nq4FTGi/dtBjx9/MY
+         ES1kOUHdXldpXcHTpORVuz5LWr4VVa/ZgbHt3mkQqpXE60x/0YGBecLIMI1mWQg3h4+Q
+         BHKZeZzwCbPsNKhEVfO80T1SwwixYaBxMeV51yHE+NridXkDSWNERVwyO+QrxjDMnDwB
+         zfMVEWk2TY56sM13Seyi+IsLNcHlUwsYY3Y7QWYzdLq2iXkwDfay/h2MGSXAigqPGcsK
+         RFPJ3ZRHngkt5Nlw01Owt+zYKFiREqXiAHPAv+GJKB+G20qbKkm96vcS4eCpWCRfKpoF
+         J3xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=bneGvLjUMpXYjIDnMf39Vf7OUpgSGGlOG0VB8qlF220=;
-        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
-        b=hNNwXokT0q/Z4IWh90UlZCfbU7gODt4S24XO4js40ojWKSb8qD1s/raw+l3a8H3Zs+
-         JXEnvuOmhnw0yZQrfUIzljNQHPKYr4DXVPFFXS6GNGkxq7M0tm/RCys/YAlpXUVD7rVm
-         l1Mb/85GkU/k4MfR1mMrNyRH1ywpwdLivaGJZNDcj2xu3wwdE53OSdKFJilW2wlAiEDm
-         QaC0tFcR9KbSpvgwRgeF0vUuQ2nq9sxgEocO5rqUGaLn4VNCUCLt0jJCtptMe1po7S80
-         eKPZwQWC32ieJ51wKwJP6gN7LJ1QvTjYRIOtsqY2qBxW6nv3LzYuiGUaMyzhyQytwjhC
-         6sBw==;
+        bh=yECUPsQKCHt2QRob9vpgpNQH4wcf5iFU63PnTGHWSdY=;
+        fh=iaqNRezZkfPKh8n+cZ/7jFS0vEg6qpgQsGZN7mSnlfI=;
+        b=d6EUXgoGj5wvAngUNUrX/ofEHWozTBVh6FdvKIOF1nu3PmXsGr4CbTD9T2em2+uMdS
+         UXIJwvRo/CLT589N88yy3vFnMg1fxia7P9EdhFnxrgOEOV1q/DI7uU5AXGLMJmuVJ3U/
+         NaWB5hFzAyMhetBmIDZ7EBfTZm0r0ZeAXwiddhcuHSu1pdA0UaMKOksnZjgKf6ggu6cK
+         QMrHBPD+U9V7I/5AZr0NIeC1gpyT9aHtptp/bAG/bEHwlg4vl8W9bzCfsjR/92sOYbIf
+         ImtATbcYJnZXOk54dZEERXPi7bvt5teweGs9Kyc3QpLgK+2hfrrlno/y1jjmHQ65pYl/
+         FDYw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770227017; x=1770831817; darn=lists.openembedded.org;
+        d=oss.qualcomm.com; s=google; t=1770229109; x=1770833909; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bneGvLjUMpXYjIDnMf39Vf7OUpgSGGlOG0VB8qlF220=;
-        b=YpyNt+MUA2Q5Hg8Fh6EkbTO5R8Qyez+Cm3AongntAZ1XW0UbwyuLJKdnPxM3x0Jd7u
-         CwKoFGAA2eeq5yByjrlhPXEJiI5R/W8tHOavwbUCldaGaij2+uBdf+vYLY7alcuiUAxw
-         Zjm6uPv8vDnslB1t+M1YAdEArMNFQ70rfZw8Kohzl5gLHUPHRK9UROhIRy/Rrc3CAfdx
-         Bqq9vTYXsY6mA2L08aa/NExstTkKveXDN5KhQeXH071yA6+1+4tEkyFkxWZdTfkX9pdA
-         3OX2jDaVqDMab5AcD4b7Fj7CYvGvZssnbUmyCNTZE0gBpF2QUCTfbARvLtYYIHrlIwgq
-         83BA==
+        bh=yECUPsQKCHt2QRob9vpgpNQH4wcf5iFU63PnTGHWSdY=;
+        b=bu/53wr/cJNdJO1IX0ZWhiVUt7PU8btl//OqqSdkLc2RAqtn2Jl0GTMBKHYINwl0PD
+         +WPWvJRVgdS9hJHsSPFOnHelrODHZDVdtdFIsGdR4vsakPn3BmcxFCU5N1cF0WpqSghV
+         6+8Wm9Du3AfcbZgTvOBvuVPVkj512CkmuppCSaR+oaD3NfB5BsTxF3EhSKl8xPUCpUCP
+         7pU/UJKCTIVqN1YqzenNyiP10W1QhqsO4m5x4LXfRZZT6nmTQqe7YdwOM5c92mwy//ct
+         oBi50cc8FT7ndatKUYIjbcsR3O+3BpvGEAqs8a1oAamgfNE2FR5d+VeQuHktsYYexbYK
+         NlEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770227017; x=1770831817;
+        d=1e100.net; s=20230601; t=1770229109; x=1770833909;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bneGvLjUMpXYjIDnMf39Vf7OUpgSGGlOG0VB8qlF220=;
-        b=E4BfVCWbHlI83RTU5xNdlEVgWxv5osAXcdA1PLCLH9zAMaW1ZJPQiEjf3A2hg6yXE1
-         Rfz6IwdbQLFI9aWqL9jRmz4saOkHhUByPbfXQTe35ZrKDG+iNyOv5gzmiRnxu1GvJGYz
-         1PlvRfWtFQN+zNseAQBGxH/u4m+dIAKSaNIHEhQlyYJ8oYK1MJaTAuNsBBjvpe8QXgNJ
-         nGf53o6o6soaYq/hoQ7j8d+amkiBSLkQwSHJs8nuYAIWzNaA8hYg1LsFTeVDUCbR1W7h
-         RfBGqiEhRCTiuyzFLbiMLVTfUd6BX4mGx9b+FBCaiiyePmd1cxfqUojTqOPhmWh3RHI/
-         1usw==
-X-Gm-Message-State: AOJu0Yydf8Fx8l4L7e+z3JPfsFSp1CFHQ9bUydS5n2dDtY8UDkjWrsaR
-	feB/5MGgchHQ5gbfbFvwNrP7c4uT2EDQw3FYEp5nr5YP8z6gcBEgWU4PjWBSoDo5pFDPHY0Bxqy
-	vgdhrGLH0umWeEQnxMCGc6patyyCMQLs=
-X-Gm-Gg: AZuq6aLuGquLRT+hcPEliNX24ZqilF73jnavwkxijgUOvu3ppNH/JvVg6DP8nr4AZNr
-	ewVs5kAAa57CQh2eh2Del4P9hZn4LNz4J6XP2tLTzIPOa2kMFvcVuo2arVVEMJPNyZrbEJv332P
-	3Wbyj/shbvLLKL2FZHQ9T2mM/Babt60BTvfxAu6mIvgXlGp+J0Bx/eMa7w2NccrfQ6GW2Gm9iHx
-	5oFQWmeADofZ+KmHZ7q+XQDHupMqeWhkX3cKHhQQL0XikeEa5raT2gokiMdbOHJuoQ/0IT6
-X-Received: by 2002:a05:6808:1392:b0:462:de55:9d29 with SMTP id
- 5614622812f47-462ea00f30amr25084b6e.33.1770227016637; Wed, 04 Feb 2026
- 09:43:36 -0800 (PST)
+        bh=yECUPsQKCHt2QRob9vpgpNQH4wcf5iFU63PnTGHWSdY=;
+        b=Y6l5M+SKFlGYCLRrPcSes6MZbm925NZgEdyLcObNLLw+7nSlwrn4L/vjO6L4Ndqz9s
+         XZzyQAEabSvY7QesB6eujHbEuo004GbK5iCk/QEhFrmO6y2FS+CsHiRwDHIlV7oEDj/e
+         r8/XmK7sHuDvF+oaElBBK7AQuvpmotJsbEPTiEckqyjLlnYFhF1BLIjyvGp2VNx09rbv
+         XX9yb4snro/XU95/xR7na8MiBuMu8Vca1GvlNXzHqcGFYm1ElSrv8S3rRjsmNS4XiyO6
+         f8vju/JahcTJL0Pdlu1Vpsq6J5sdaGgzFoJ7vSfxvnTt9S2iahmxJOZnTNeC2EDxsOHP
+         ysTA==
+X-Gm-Message-State: AOJu0Yw0wjbNJnjK6emYP85dDl4BOvBykEdTr7FEyC6qCPZodIK9o5QR
+	y+MnIcgfE0H887iv4Rf7wS3naqgBnI/6pzm0a04y/NzSy+y4T8EqWWA8QBD1b0o057MP1F7C2Ra
+	B2xBsIpcH9z4JXoA7pa8lP57RghNY9CP8W8aZCmWC3utlaRVo9hBaK7pQozafnc04FvcrBpuidF
+	KNkPfNkI6B/udchXSWOcg35t9wfzKAQ+6FyK1uFE9C/p+uGb8MsVAIEHPlyg==
+X-Gm-Gg: AZuq6aIA4A54vYhL8aN7DxrgiRMtMciN20Frgp5hxzbVmHT53tr1wBJuMRpQNRObIZa
+	zGyJaPs5WV70YMrsli0j6A8qJAzZx6VYvhXrs5i3Hs6ozHknOlVKLDweZzlxPJSFrSQqFxiUkrP
+	Ro5F3Lwc0KO9/PnLS/2EF1hon1jlu3c+uQFxn4C18f0CBxh151qz2EXvdFIo/sXMPJjhRP
+X-Received: by 2002:a05:6a21:6e41:b0:32d:a91a:7713 with SMTP id adf61e73a8af0-3937243b857mr4222089637.40.1770229109152;
+        Wed, 04 Feb 2026 10:18:29 -0800 (PST)
+X-Received: by 2002:a05:6a21:6e41:b0:32d:a91a:7713 with SMTP id
+ adf61e73a8af0-3937243b857mr4222068637.40.1770229108677; Wed, 04 Feb 2026
+ 10:18:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20260125094020.1232242-1-ankur.tyagi85@gmail.com> <DG6D1CEDHPPZ.2393HBV6MK1OX@smile.fr>
-In-Reply-To: <DG6D1CEDHPPZ.2393HBV6MK1OX@smile.fr>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Thu, 5 Feb 2026 06:43:24 +1300
-X-Gm-Features: AZwV_Qh1fHsNIWUnzNwDfSRc15LM32nENvk7lKv7Bc4A_rcg6VPzfIkcC3e_vc8
-Message-ID: <CADySD0FtC+WrCMxTv=L5dUOBXg4B_Cdfn7+b87JPafVVy3PEgQ@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH 1/2] avahi: patch CVE-2025-68276
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
+References: <20260204052638.284617-1-changqing.li@windriver.com>
+In-Reply-To: <20260204052638.284617-1-changqing.li@windriver.com>
+From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
+Date: Wed, 4 Feb 2026 15:17:52 -0300
+X-Gm-Features: AZwV_QjVWgUQ-ZNiSMzwKHBYca4ZErENlA1jhcvhhTlANF5eK5s7OfNgVsAdxR0
+Message-ID: <CAA_5yotUG4nyeAZJ5nx76o+gzXz2xLWHabe1tCaq=DJDxD5otg@mail.gmail.com>
+Subject: Re: [PATCH] lto.inc: add DEBUG_PREFIX_MAP back to TARGET_LDFLAGS
+To: changqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org, rs@ti.com, raj.khem@gmail.com,
+        antonin.godard@bootlin.com, richard.purdie@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=DtpbOW/+ c=1 sm=1 tr=0 ts=69838d76 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=1Fw7GU1jXRJR5HgP4h4A:9 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: 1C5kcpCU8-bndN4mJjj2L6xgSuMp-A9j
+X-Proofpoint-ORIG-GUID: 1C5kcpCU8-bndN4mJjj2L6xgSuMp-A9j
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA0MDE0MCBTYWx0ZWRfX68KDNsWpjL4p
+ NDF6c2BwyPE48yy9zsks13oFAGNrP8bqv9v9HJWs/GBKRd3O1XgSfKun5d15VBt5Tf+O+93HV3c
+ ewlaxDTZN5cIIRRjTVUi3B+T58wZxFjlFv0YXlZq+C6IhbzjCCrZIzxu21WX98ah3wpG7DcSJ9k
+ VQItlNEsqxiF2w+fJOUL/vOTdEilRJ6IdkTQEiRp0CTgOKmzat0tfDoc+LxrfTd/5IS00jPY2e/
+ KwN3p4ekqHZqbBb6M6wmhCNn8o3ENzRllHjDcGsgTMufliRQSx6mIEsZMYZ+7u+hfD7mzFyWyvI
+ 71rQ6JhdfNAHbU8NrrkLd/mgG6PIpsfN5NLHAHUFFyfcWEme2x78ZOYslt46c4kSbLtMSeB/tQU
+ 2FoVXg144pOi05UsuVkcw3uVLayjjEOKR5liHVaVr0j/QCjja992I/wsHo1aHeeZhjTEbovh1Z6
+ vWUNXGdIdCWgo03Lkhg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-04_06,2026-02-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ phishscore=0 suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602040140
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 17:43:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230559
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Feb 2026 18:18:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230560
 
-On Thu, Feb 5, 2026 at 6:40=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
- wrote:
+On Wed, Feb 4, 2026 at 2:26=E2=80=AFAM <changqing.li@windriver.com> wrote:
 >
-> On Sun Jan 25, 2026 at 10:40 AM CET, Ankur Tyagi via lists.openembedded.o=
-rg wrote:
-> > From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> >
-> > Backport the patch[1] from the PR[2] mentioned in the nvd[3].
-> >
-> > [1] https://github.com/avahi/avahi/commit/2d48e42d44a183f26a4d12d1f5d41=
-abb9b7c6355
-> > [2] https://github.com/avahi/avahi/pull/806
-> > [3] https://nvd.nist.gov/vuln/detail/CVE-2025-68276
-> >
-> > Dropped CI changes from the original PR during backport.
-> >
-> > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> > ---
-> >  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
-> >  .../avahi/files/CVE-2025-68276.patch          | 65 +++++++++++++++++++
-> >  2 files changed, 66 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-6827=
-6.patch
+> From: Changqing Li <changqing.li@windriver.com>
 >
-> Hello,
+> DEBUG_PREFIX_MAP is appended to TARGET_LDFLAGS in commit [1] for fixing
+> reproducible issue when LTO is enabled. It is removed in comit [2] since
+> this commit causes cgo binary not reproducible. But actually, we still
+> need this DEBUG_PREFIX_MAP in LDFLAGS when LTO enabled. So, only appened
+> it when LTO is enabled. Refer [3] for the history, with this patch,
+> patch [4] is also needed for cgo + lto enabled.
 >
-> Thank you for the patch. As far as I can tell, a fix for CVE-2025-68276
-> is also needed for whinlatter. Can you send a fix there as well?
+> [1] https://git.openembedded.org/openembedded-core/commit/?id=3Dfddaecc88=
+979967d0e00e2fafdbaaabec030da9f
+> [2] https://git.openembedded.org/openembedded-core/commit/?id=3D1797741aa=
+d02b8bf429fac4b81e30cdda64b5448
+> [3] https://lists.openembedded.org/g/openembedded-core/topic/patch_bitbak=
+e_conf_remove/117408334
+> [4] https://lists.openembedded.org/g/openembedded-core/message/230059
 >
-> Thanks!
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  meta/conf/distro/include/lto.inc | 1 +
+>  1 file changed, 1 insertion(+)
 >
+> diff --git a/meta/conf/distro/include/lto.inc b/meta/conf/distro/include/=
+lto.inc
+> index 227f0c5c2a..cef92901e3 100644
+> --- a/meta/conf/distro/include/lto.inc
+> +++ b/meta/conf/distro/include/lto.inc
+> @@ -49,5 +49,6 @@ LTO:toolchain-clang =3D "${@bb.utils.contains('DISTRO_F=
+EATURES', 'thin-lto', '-flt
+>
+>  SELECTED_OPTIMIZATION:append =3D "${@bb.utils.contains('DISTRO_FEATURES'=
+, 'lto', ' ${LTO}', '', d)}"
+>  TARGET_LDFLAGS:append:class-target =3D "${@bb.utils.contains('DISTRO_FEA=
+TURES', 'lto', ' ${LTO}', '', d)}"
+> +TARGET_LDFLAGS:append:class-target =3D "${@bb.utils.contains('DISTRO_FEA=
+TURES', 'lto', ' ${DEBUG_PREFIX_MAP}', '', d)}"
+>
+>  SELECTED_OPTIMIZATION[vardeps] +=3D "LTO LTOEXTRA"
 
-Sure, I will.
+As raised by Randolph in the previous thread
+(https://lists.openembedded.org/g/openembedded-core/message/230469),
+this will only fix the build for users that are enabling LTO in OE,
+but we still have quite a few recipes enabling LTO as part of the
+project meson/make/etc files (e.g. lxc) even when lto.inc is not used.
 
-> >
-> > diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipe=
-s-connectivity/avahi/avahi_0.8.bb
-> > index 7930bd3037..bb20fd17cc 100644
-> > --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> > +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> > @@ -37,6 +37,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/avahi=
--${PV}.tar.gz \
-> >             file://CVE-2023-38473.patch \
-> >             file://CVE-2024-52616.patch \
-> >             file://CVE-2024-52615.patch \
-> > +           file://CVE-2025-68276.patch \
-> >             "
-> >
-> >  GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
-> > diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch=
- b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> > new file mode 100644
-> > index 0000000000..75169419f1
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
-> > @@ -0,0 +1,65 @@
-> > +From 8ec85459d8e6e59cc14457e16fb7ba171901f90e Mon Sep 17 00:00:00 2001
-> > +From: Evgeny Vereshchagin <evvers@ya.ru>
-> > +Date: Wed, 17 Dec 2025 08:11:23 +0000
-> > +Subject: [PATCH] core: refuse to create wide-area record browsers when
-> > + wide-area is off
-> > +
-> > +It fixes a bug where it was possible for unprivileged local users to
-> > +crash avahi-daemon (with wide-area disabled) by creating record browse=
-rs
-> > +with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by call=
-ing
-> > +the RecordBrowserNew method directly or by creating hostname/address/s=
-ervice
-> > +resolvers/browsers that create those browsers internally themselves).
-> > +
-> > +```
-> > +$ gdbus call --system --dest org.freedesktop.Avahi --object-path / --m=
-ethod org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -1 1
-> > +Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipie=
-nt disconnected from message bus without replying
-> > +```
-> > +```
-> > +dbus-protocol.c: interface=3Dorg.freedesktop.Avahi.Server, path=3D/, m=
-ember=3DResolveHostName
-> > +avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `=
-e' failed.
-> > +=3D=3D307948=3D=3D
-> > +=3D=3D307948=3D=3D Process terminating with default action of signal 6=
- (SIGABRT)
-> > +=3D=3D307948=3D=3D    at 0x4B3630C: __pthread_kill_implementation (pth=
-read_kill.c:44)
-> > +=3D=3D307948=3D=3D    by 0x4ADF921: raise (raise.c:26)
-> > +=3D=3D307948=3D=3D    by 0x4AC74AB: abort (abort.c:77)
-> > +=3D=3D307948=3D=3D    by 0x4AC741F: __assert_fail_base.cold (assert.c:=
-118)
-> > +=3D=3D307948=3D=3D    by 0x48D8B85: avahi_wide_area_scan_cache (wide-a=
-rea.c:725)
-> > +=3D=3D307948=3D=3D    by 0x48C8953: lookup_scan_cache (browse.c:351)
-> > +=3D=3D307948=3D=3D    by 0x48C8B1B: lookup_go (browse.c:386)
-> > +=3D=3D307948=3D=3D    by 0x48C9148: defer_callback (browse.c:516)
-> > +=3D=3D307948=3D=3D    by 0x48AEA0E: expiration_event (timeeventq.c:94)
-> > +=3D=3D307948=3D=3D    by 0x489D3AE: timeout_callback (simple-watch.c:4=
-47)
-> > +=3D=3D307948=3D=3D    by 0x489D787: avahi_simple_poll_dispatch (simple=
--watch.c:563)
-> > +=3D=3D307948=3D=3D    by 0x489D91E: avahi_simple_poll_iterate (simple-=
-watch.c:605)
-> > +=3D=3D307948=3D=3D
-> > +```
-> > +
-> > +wide-area has been disabled by default since
-> > +9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).
-> > +
-> > +https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-865v-g5rc
-> > +
-> > +CVE: CVE-2025-68276
-> > +Upstream-Status: Backport [https://github.com/avahi/avahi/commit/2d48e=
-42d44a183f26a4d12d1f5d41abb9b7c6355]
-> > +(cherry picked from commit 2d48e42d44a183f26a4d12d1f5d41abb9b7c6355)
-> > +Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> > +---
-> > + avahi-core/browse.c | 5 +++++
-> > + 1 file changed, 5 insertions(+)
-> > +
-> > +diff --git a/avahi-core/browse.c b/avahi-core/browse.c
-> > +index e8a915e..59d53cb 100644
-> > +--- a/avahi-core/browse.c
-> > ++++ b/avahi-core/browse.c
-> > +@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepa=
-re(
-> > +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_VALID(flags,=
- AVAHI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_=
-FLAGS);
-> > +     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags & AVAHI_LOOKUP_U=
-SE_WIDE_AREA) || !(flags & AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_F=
-LAGS);
-> > +
-> > ++    if ((flags & AVAHI_LOOKUP_USE_WIDE_AREA) && !server->wide_area_lo=
-okup_engine) {
-> > ++        avahi_server_set_errno(server, AVAHI_ERR_NOT_SUPPORTED);
-> > ++        return NULL;
-> > ++    }
-> > ++
-> > +     if (!(b =3D avahi_new(AvahiSRecordBrowser, 1))) {
-> > +         avahi_server_set_errno(server, AVAHI_ERR_NO_MEMORY);
-> > +         return NULL;
->
->
-> --
-> Yoann Congal
-> Smile ECS
->
+Thanks,
+
+Ricardo
 
