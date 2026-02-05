@@ -1,245 +1,213 @@
-Return-Path: <alperyasinak1@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 556B0EC1E89
-	for <webhook@archiver.kernel.org>; Thu,  5 Feb 2026 09:55:40 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17176.1770285337068780640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 590E8EC1E8E
+	for <webhook@archiver.kernel.org>; Thu,  5 Feb 2026 10:00:30 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17253.1770285624020125681
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Feb 2026 01:55:37 -0800
+ Thu, 05 Feb 2026 02:00:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WTXKEPjt;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alperyasinak1@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b77f2e43aso2107592e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 01:55:36 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=P4VSSt/C;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4359a316d89so619165f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 02:00:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770285622; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jk+nJo+l2RuQ8OPw6gTwVK80yYdBYlJMyrP7LUdrQOI6i08tqrC9zQmNT28d5OvcjM
+         mLln7AvoCnZfbeJHL4v5Gr6dXVXUHg8SApO0yBdQWtI4eyPbvg2k6ylQDRDEwErIjGGV
+         +apSp6Z64d4PdWK0WNf52l44XgJnHHOJwqBGwNfebRnl5f5EVQz3nR1XBOrKhytUbCfY
+         a2aCJ3UAtet8rzVkhU+UnV3Sn3JaEfdWRVIXqc8b4EnV16xcdcpVW07u5JRbr/nETbdU
+         wiKSkTcIHQMkMoiE51YaN9SsDRx+ZDcB4oMiOj7XFaNXMfShxBsh6DnELUyQY/2Xi5Dl
+         bf6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YFce7NU8PpMidmhTWBpRactz0eKep8F+qWVMydtBJl0=;
+        fh=Eip4Jn1XwWJma9SY+p290X7lO535Eq/j3krUlYr6gVY=;
+        b=QJ7Pdmjam8pK7ffVOnWyMY/6BoF0nKAXHilSohKVmwUbjk3L3WBVu9llhizgrzPBLO
+         4Dsi+1Fnx41czc1dgKowjdh0aS5SiNAo4TGQE8D0+K1rULUsH57Adwv9u6FEPkKW7l9W
+         PWbsQd1m/WCmZFp39PGrhxqdbeDxXlQYbBYD7qtdApatnbH2iefxEvn0etc3g+3b6Sgw
+         sxn4Zg4V0wEoRfUpsIliJl7G96fbIJGd7rBNJORHZrSnFfSiRbRs1YmvPtVXSCioR+yB
+         V0JMBk44U0K3WlPw3OCWeRqnNM9Y3qDoeckt8ekC26VYBrCyQQQwceFBG5NrOAfLz5Xd
+         aCjw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770285335; x=1770890135; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j+Y3zKs6ql+//PnLa/l+lo2jkAJBsS2cAyFGxZm26H0=;
-        b=WTXKEPjtczeaEimN+3ze736twoa0xUAGM4GNJEAnhZCIlNzUala5Yemgyd5IpTagWl
-         i3SxZUAaVf6OnSUq807GZRznfl7GEIoCTIRl6b/wIlqLQZdyVIVSceGcWsT3VnNRFWoV
-         ymZMXqwG8OmfyCsdDNChFLpDO98QQ2S1IGEEixqXwYSwwdb1zMUSnQk/zBrGkPGzUylt
-         qgo1UmBwcXjpit3h/u6lin7IFh2/EKPB/7bGTzerTudpapKNcCDR/F7yPCqH/DbC1WFx
-         4dfb91cphDGd39U61vFg7N/mvdunTavYShnmoaRMdnMJ4cBEHu/isvkSgtnPUdlgfW5z
-         PqrA==
+        d=smile.fr; s=google; t=1770285622; x=1770890422; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YFce7NU8PpMidmhTWBpRactz0eKep8F+qWVMydtBJl0=;
+        b=P4VSSt/CyGmdyFHw+LmpqhdofkctQAJXuA+ECoScoSSCyND8y6YSC0NmcFoZlVpgeW
+         PiFUBy0BoAmp5d/J+iIaUO6ixX2y7P0vKpC0prVkinS4Joh6TG3ppAeAU74p8UC2UzSl
+         YhyRT4yXChheBP8aqz2ULAOAikL3SlkEB/qpM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770285335; x=1770890135;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1770285622; x=1770890422;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j+Y3zKs6ql+//PnLa/l+lo2jkAJBsS2cAyFGxZm26H0=;
-        b=uU/TWx6bdDlayR+Sagmi1wxz75j/gYw/Zw49yeR3I9LtO3wW+87nkx/N1emGj4AtZw
-         Shsa6j6uQ1gJOxo4hY/8iHYsiU9CWOfrVkCgzINoQU2Cv+HP8Vm/o8V0GKrpoq8cnM2e
-         8QH1JlTF8VC11oWbadi9plySpsN+oKRkXtOMkUbSTNn5JK50FEt84U5aoqx4PWvmHwC0
-         JdEuCOyVVsxxkHGMDS3IpocsrWMb5A5weOelVtbHWU8cfwvd6CDVA/RFFaI17MjVxA7y
-         q2aXNfW00LVqExvlp/f3pOC9W+4V9w5qMbdk16vxb4Ih1R02qy2NbC6Hrd3eDsWw6IU0
-         fTKg==
-X-Gm-Message-State: AOJu0Yw5E/7fkkhdl06X+ca2OFTx39hBbURw1ckFMIeirqIjc0NOWmAp
-	Tps8W+VtIL290/+sWS2aryZFmeMYRUPBrX0aquEaQCDqoxgYe52wIBp899/pTQ==
-X-Gm-Gg: AZuq6aKj5souSveuZhuuKPkSFsklzjxH40efvz/aV2b4gQchxP9L40K3notKaQ3dt8L
-	pSyxPfz1LDEqxTZcslvLbvws/pdXXXPE+jO1+eP+xZbkNwVNxearMFuDzlg/9I/bQEAq8FnuUlL
-	8TOEgzC5V9aQYj0Anjg5X+kKsLNEaOWrGVYye9B5BoEOdrNTfjYs2bJPqvfWZjLqaLjrbF9Y5Yt
-	wLJqTuH0rk2TfL+dUNjDmyajFCoboCsOIo26XK4AtN88j/8KXtj4zKqtoIpUMoFxBfrsoIlA15T
-	XUWMUIVCLjP9QKXBTu3AgqKzKlBOBNrSuLyxsaVB1v2alygWSa4hTt9iPFchfkGKXSPkluhNWf9
-	LOpcFi+aVEO+Yjl1rX4TsMGCMqeiEnOFB/5JFTZcPdvqHlZB9WUwDPjeYKV0ItXtBCG6zXIpkOr
-	URrCYmAHCFdDvLk0deuPWPvpl2KJDvFwKfnEQ1XG9I7IvwhvsvMs8bB9+UTJNuv3sKZjlHUEbOf
-	xWmdE8KyWbKbBc=
-X-Received: by 2002:ac2:4f0c:0:b0:59d:f5a6:bea9 with SMTP id 2adb3069b0e04-59e3c7aebd6mr899749e87.1.1770285334175;
-        Thu, 05 Feb 2026 01:55:34 -0800 (PST)
-Received: from localhost.localdomain ([176.33.64.73])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e3882ece1sm1291120e87.93.2026.02.05.01.55.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 01:55:33 -0800 (PST)
-From: Alper Ak <alperyasinak1@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alper Ak <alperyasinak1@gmail.com>
-Subject: [PATCH] inetutils: fix CVE-2026-24061
-Date: Thu,  5 Feb 2026 12:55:25 +0300
-Message-ID: <20260205095525.1104867-1-alperyasinak1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=YFce7NU8PpMidmhTWBpRactz0eKep8F+qWVMydtBJl0=;
+        b=qO4kpvogv9fpGggN5vP7rES0ROZaL4F4eiItdqd9ZSmM7mobEJn2bnQvCZh2m6hvyN
+         d1cNGeww0cVIWyC0ZHpdPYrgQCMr+XJaEHo2Xcmd6TpObc0KdtfHq3Q0QVD+UYTZAQ7t
+         zi6SF76fEDFI/FEnMkgyqyoGIWt3DCBOmxgM2WGJlZ5U+z+XTHWwhk/PvgF6sv6eFuyi
+         CT01zX+HtwcVMsWuD4sbdc33obO4ylKWyTNI2pZxMXhvx6gqkAlhFoHGN/hxTA1NWJNB
+         m2SQxM6tw3/+hEgF3ZSK9tUiee6dtB8F2c01jDw4dstg0iyckei2dwhCjYOPIRUlyuDB
+         j3BA==
+X-Gm-Message-State: AOJu0YxNR/jV2vjDq1JcYu8wS4/icLnle34n86Nq3jD1Hsh/uAb6jzr9
+	LTrzdb4FUqI+xmc8/DfTSw4JVCbYVZL2AAdfqnZl+zPBveh+xCItZHtsy0vnYYZrRpGY+h7Wb8y
+	7fcMcE4UB3WD59ejU9D5TPgNa45Dsz6F9Nes8VW+sow==
+X-Gm-Gg: AZuq6aKNRJxWzomL16e52TdLFIDpg0S4MgCErQNh714eTleffktUX64Q4+rfoT9I608
+	oyCP9xzlCFRtxGpzuousvz4PUYhKOYwd1JVe/v7yvTuclWg0jwuZE+yKcZk57zHmqIoqds+gbHf
+	H1+tRm82h1RX1Dju+xcoQdzeXu0L9YCT2torFvweN23cRSen3Z1kZmfZjA/KsSR+InMTbMpiOWZ
+	vp0o+M2qNIGDCfVGFv970Ts8+H07f+Re5xVNmYrLxltjY12LyJ6UoVvEKSk0yy8U4+4sRzXKwH9
+	ZJQcPGqBJdsKO3ZA3nzsf30hJE3d
+X-Received: by 2002:a05:6000:61e:b0:435:a48a:123f with SMTP id
+ ffacd0b85a97d-4361805ba71mr9558804f8f.42.1770285620903; Thu, 05 Feb 2026
+ 02:00:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260202040805.596021-1-ankur.tyagi85@gmail.com> <20260202040805.596021-3-ankur.tyagi85@gmail.com>
+In-Reply-To: <20260202040805.596021-3-ankur.tyagi85@gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 5 Feb 2026 10:59:54 +0100
+X-Gm-Features: AZwV_Qh5Rp2DRHGL4BoMAf589osczeJlWVmIWxm1HxTY50M1er-eXEUaWDBxx5M
+Message-ID: <CAMSfU+6Bmh+wDLNK-tbJo1OdY2faqh4o+x4pEdAY7yQ0H7K9jg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH 3/3] vim: ignore CVE-2025-66476
+To: ankur.tyagi85@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000095eebb064a10bd3d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 09:55:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230570
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 10:00:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230571
 
-Details: https://nvd.nist.gov/vuln/detail/CVE-2026-24061
+--00000000000095eebb064a10bd3d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The vulnerability is about:
+Le lun. 2 f=C3=A9vr. 2026 =C3=A0 05:08, Ankur Tyagi via lists.openembedded.=
+org
+<ankur.tyagi85=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
 
-The telnetd server invokes /usr/bin/login (normally running as root)
-passing the value of the USER environment variable received from the
-client as the last parameter.
+> From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+>
+> Details https://nvd.nist.gov/vuln/detail/CVE-2025-66476
+>
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> ---
+>  meta/recipes-support/vim/vim_9.1.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
 
-If the client supply a carefully crafted USER environment value being
-the string "-f root", and passes the telnet(1) -a or --login parameter
-to send this USER environment to the server, the client will be
-automatically logged in as root bypassing normal authentication
-processes.
+As far as I can tell, this patch is also needed on whinlatter.
+Can you send it there please?
 
-This happens because the telnetd server do not sanitize the USER
-environment variable before passing it on to login(1), and login(1)
-uses the -f parameter to by-pass normal authentication.
+Thanks!
 
-Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
----
- .../inetutils/CVE-2026-24061-01.patch         | 38 +++++++++
- .../inetutils/CVE-2026-24061-02.patch         | 82 +++++++++++++++++++
- .../inetutils/inetutils_2.7.bb                |  2 +
- 3 files changed, 122 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
+diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim=
+/
+> vim_9.1.bb
+> index fee9f055e9..c492342ffb 100644
+> --- a/meta/recipes-support/vim/vim_9.1.bb
+> +++ b/meta/recipes-support/vim/vim_9.1.bb
+> @@ -21,3 +21,5 @@ ALTERNATIVE_LINK_NAME[xxd] =3D "${bindir}/xxd"
+>  # in many places for _FORTIFY_SOURCE=3D2.  Security flags become part of=
+ CC.
+>  #
+>  lcl_maybe_fortify =3D
+> "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=3D1',d)}=
+"
+> +
+> +CVE_STATUS[CVE-2025-66476] =3D "not-applicable-platform: Issue only appl=
+ies
+> on Windows"
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230344):
+> https://lists.openembedded.org/g/openembedded-core/message/230344
+> Mute This Topic: https://lists.openembedded.org/mt/117591467/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
-new file mode 100644
-index 0000000000..1de4f82d1c
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
-@@ -0,0 +1,38 @@
-+From fd702c02497b2f398e739e3119bed0b23dd7aa7b Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Tue, 20 Jan 2026 01:10:36 -0800
-+Subject: [PATCH] Fix injection bug with bogus user names
-+
-+Problem reported by Kyu Neushwaistein.
-+* telnetd/utility.c (_var_short_name):
-+Ignore user names that start with '-' or contain shell metacharacters.
-+
-+Signed-off-by: Simon Josefsson <simon@josefsson.org>
-+
-+CVE: CVE-2026-24061
-+Upstream-Status: Backport [https://codeberg.org/inetutils/inetutils/commit/fd702c02497b2f398e739e3119bed0b23dd7aa7b]
-+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
-+---
-+ telnetd/utility.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/telnetd/utility.c b/telnetd/utility.c
-+index b486226e..c02cd0e6 100644
-+--- a/telnetd/utility.c
-++++ b/telnetd/utility.c
-+@@ -1733,7 +1733,14 @@ _var_short_name (struct line_expander *exp)
-+       return user_name ? xstrdup (user_name) : NULL;
-+ 
-+     case 'U':
-+-      return getenv ("USER") ? xstrdup (getenv ("USER")) : xstrdup ("");
-++      {
-++	/* Ignore user names starting with '-' or containing shell
-++	   metachars, as they can cause trouble.  */
-++	char const *u = getenv ("USER");
-++	return xstrdup ((u && *u != '-'
-++			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
-++			? u : "");
-++      }
-+ 
-+     default:
-+       exp->state = EXP_STATE_ERROR;
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
-new file mode 100644
-index 0000000000..6e7496efb4
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
-@@ -0,0 +1,82 @@
-+From ccba9f748aa8d50a38d7748e2e60362edd6a32cc Mon Sep 17 00:00:00 2001
-+From: Simon Josefsson <simon@josefsson.org>
-+Date: Tue, 20 Jan 2026 14:02:39 +0100
-+Subject: [PATCH] telnetd: Sanitize all variable expansions
-+
-+* telnetd/utility.c (sanitize): New function.
-+(_var_short_name): Use it for all variables.
-+
-+CVE: CVE-2026-24061
-+Upstream-Status: Backport [https://codeberg.org/inetutils/inetutils/commit/ccba9f748aa8d50a38d7748e2e60362edd6a32cc]
-+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
-+---
-+ telnetd/utility.c | 32 ++++++++++++++++++--------------
-+ 1 file changed, 18 insertions(+), 14 deletions(-)
-+
-+diff --git a/telnetd/utility.c b/telnetd/utility.c
-+index c02cd0e6..b21ad961 100644
-+--- a/telnetd/utility.c
-++++ b/telnetd/utility.c
-+@@ -1684,6 +1684,17 @@ static void _expand_cond (struct line_expander *exp);
-+ static void _skip_block (struct line_expander *exp);
-+ static void _expand_block (struct line_expander *exp);
-+ 
-++static char *
-++sanitize (const char *u)
-++{
-++  /* Ignore values starting with '-' or containing shell metachars, as
-++     they can cause trouble.  */
-++  if (u && *u != '-' && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
-++    return u;
-++  else
-++    return "";
-++}
-++
-+ /* Expand a variable referenced by its short one-symbol name.
-+    Input: exp->cp points to the variable name.
-+    FIXME: not implemented */
-+@@ -1710,13 +1721,13 @@ _var_short_name (struct line_expander *exp)
-+       return xstrdup (timebuf);
-+ 
-+     case 'h':
-+-      return xstrdup (remote_hostname);
-++      return xstrdup (sanitize (remote_hostname));
-+ 
-+     case 'l':
-+-      return xstrdup (local_hostname);
-++      return xstrdup (sanitize (local_hostname));
-+ 
-+     case 'L':
-+-      return xstrdup (line);
-++      return xstrdup (sanitize (line));
-+ 
-+     case 't':
-+       q = strchr (line + 1, '/');
-+@@ -1724,23 +1735,16 @@ _var_short_name (struct line_expander *exp)
-+ 	q++;
-+       else
-+ 	q = line;
-+-      return xstrdup (q);
-++      return xstrdup (sanitize (q));
-+ 
-+     case 'T':
-+-      return terminaltype ? xstrdup (terminaltype) : NULL;
-++      return terminaltype ? xstrdup (sanitize (terminaltype)) : NULL;
-+ 
-+     case 'u':
-+-      return user_name ? xstrdup (user_name) : NULL;
-++      return user_name ? xstrdup (sanitize (user_name)) : NULL;
-+ 
-+     case 'U':
-+-      {
-+-	/* Ignore user names starting with '-' or containing shell
-+-	   metachars, as they can cause trouble.  */
-+-	char const *u = getenv ("USER");
-+-	return xstrdup ((u && *u != '-'
-+-			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
-+-			? u : "");
-+-      }
-++      return xstrdup (sanitize (getenv ("USER")));
-+ 
-+     default:
-+       exp->state = EXP_STATE_ERROR;
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb b/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-index 6cffade97f..a866ca5339 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-@@ -18,6 +18,8 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-            file://rsh.xinetd.inetutils \
-            file://telnet.xinetd.inetutils \
-            file://tftpd.xinetd.inetutils \
-+           file://CVE-2026-24061-01.patch \
-+           file://CVE-2026-24061-02.patch \
-            "
- 
- inherit autotools gettext update-alternatives texinfo
--- 
-2.43.0
+--=20
+Yoann Congal
+Smile ECS
 
+--00000000000095eebb064a10bd3d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0lun. 2 f=C3=A9vr. 2026 =C3=A0=C2=
+=A005:08, Ankur Tyagi via <a href=3D"http://lists.openembedded.org">lists.o=
+penembedded.org</a> &lt;ankur.tyagi85=3D<a href=3D"mailto:gmail.com@lists.o=
+penembedded.org">gmail.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=
+=A0:</div><div class=3D"gmail_quote gmail_quote_container"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">From: Ankur Tyagi &lt;<a href=3D"mailto:a=
+nkur.tyagi85@gmail.com" target=3D"_blank">ankur.tyagi85@gmail.com</a>&gt;<b=
+r>
+<br>
+Details <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2025-66476" rel=3D"=
+noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2025-664=
+76</a><br>
+<br>
+Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com" t=
+arget=3D"_blank">ankur.tyagi85@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/vim/<a href=3D"http://vim_9.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">vim_9.1.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br></blockquote><div><br></div><div>A=
+s far as I can tell, this patch is also needed on whinlatter.</div><div>Can=
+ you send it there please?</div><div><br></div><div>Thanks!</div><div><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+diff --git a/meta/recipes-support/vim/<a href=3D"http://vim_9.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">vim_9.1.bb</a> b/meta/recipes-support/vim/<a =
+href=3D"http://vim_9.1.bb" rel=3D"noreferrer" target=3D"_blank">vim_9.1.bb<=
+/a><br>
+index fee9f055e9..c492342ffb 100644<br>
+--- a/meta/recipes-support/vim/<a href=3D"http://vim_9.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">vim_9.1.bb</a><br>
++++ b/meta/recipes-support/vim/<a href=3D"http://vim_9.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">vim_9.1.bb</a><br>
+@@ -21,3 +21,5 @@ ALTERNATIVE_LINK_NAME[xxd] =3D &quot;${bindir}/xxd&quot;<=
+br>
+=C2=A0# in many places for _FORTIFY_SOURCE=3D2.=C2=A0 Security flags become=
+ part of CC.<br>
+=C2=A0#<br>
+=C2=A0lcl_maybe_fortify =3D &quot;${@oe.utils.conditional(&#39;DEBUG_BUILD&=
+#39;,&#39;1&#39;,&#39;&#39;,&#39;-D_FORTIFY_SOURCE=3D1&#39;,d)}&quot;<br>
++<br>
++CVE_STATUS[CVE-2025-66476] =3D &quot;not-applicable-platform: Issue only a=
+pplies on Windows&quot;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230344): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230344" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230344</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117591467/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117591467/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+
+--00000000000095eebb064a10bd3d--
 
