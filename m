@@ -1,232 +1,159 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D415ECD993
-	for <webhook@archiver.kernel.org>; Thu,  5 Feb 2026 17:29:52 +0000 (UTC)
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26439.1770312586685292662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAC8AECD9A9
+	for <webhook@archiver.kernel.org>; Thu,  5 Feb 2026 22:17:03 +0000 (UTC)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33066.1770329816544166177
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Feb 2026 09:29:46 -0800
+ Thu, 05 Feb 2026 14:16:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l4A+uZ9R;
- spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-649dbff9727so1268923d50.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 09:29:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770312586; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UVtzJR3Q;
+ spf=pass (domain: gmail.com, ip: 209.85.161.42, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-662cab9d4c2so453260eaf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 14:16:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770329816; cv=none;
         d=google.com; s=arc-20240605;
-        b=dLN3PnxrE6EuOm+pxJfx0qznEq+R9ZMlJZ0ehXmiJTSH8MY96sMifD/ejaDEFYlDjX
-         2Q4b8T/E4ql4WyaTFol856Vwp7InupyABtxDPQYrmi8MHUpfJs4OzxFY9l5GrxJE1ioO
-         M7RfawpeZQc+gsiEyP0zkW8dYPF34vBzAZuB2OKlZRXTjepXU52IfMz87PyDzxk8S6Ye
-         3ZSOCiEDf5BzRY2oBLkdB/KanDfpfc7qRbzDVeZ1IQuo5u+YclpR7nKZwsh4LT6GBOpT
-         hqn2Z08zDYEZj+wf9RmQOt/vPhmkNC4h2DO0BydaAGGTEIBUTdGiD72Er2jyMvWLHLCV
-         evfQ==
+        b=T8sbfi67V66olAetJ0ziGTMxyrJJLaXXKhBH7VfLce5FkaKK59+8JAIk34IKYN4S1Y
+         gmYNRqjK71D9w6x+YwJ2dhLPS6RDdc+GKXRX3z2RPJ/k7NMM7Bw5piPCEcnZB+2brWD/
+         GXLvqL33zROIKkC/SjlVxjmABhIMarX9l9v7Q9atbttlPHc+KRuK4TJAxUl9H14LkaKp
+         FbX/lnusqm99LC/q2qJAZeAnFAmV/rShjjpYzCBvH+IjqTkwY29bMvLuzR2Y3Czv+3uY
+         v8Cz5HUNOZrXTurwCTB02jPmT6oyLFmYakMmhFkjeLNaDZ0j06zaRoA9NfwbThQw1FUb
+         gVAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=JgfeY55Ru1IhDYMP0VT3umybAXNI4X9Hp3CscuXeHec=;
-        fh=KzNUjYu9v3eFx5jKEPi9XtRZBJo4/j+XtyaGnI+F+Fk=;
-        b=E6j8ZCoJOvX4QxO9sBXv18TxkbaQCcNcLc3r6sX9dlpVuElUq4SduGRLJBG5dmArHT
-         ALSx0wO6KddF7dde1hqgbqak50Z6WExjOMOMERjWAGRtMAlCTFTBj26mFzkbcJMq/eOd
-         eiiWBKs9c4aGmQXj9krb2/jIAH2UrdtBu9xi4Zuo3TEyOOSH8zxv2Hu7k2w8o+TOsoAr
-         k27sXv1niW8a+wV2dqnvuAQHrZ8arLxemf5JbXrb2AY+L2kIHWWbDfZM5PzM/7Y+2Ic1
-         SjUxqujlPGM/uHTVVg9+ax5JphURRfMf1v5Cgu31PjKDqmlEixP8npZ4XGjiURb9up7B
-         zcJw==;
+        bh=evbnE8bulzCOHa250nvMsJpPZ2GQXyUJq/sX4ysZlw8=;
+        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
+        b=g8A4NzV0ipMdkUjxaUiXZGEq/Rw+w12SYStLdc4enrAEDw5CwQNBHFwasTJdyT3vBJ
+         C2GrdocHj4jGURajxmwzoaRsYKGtC6NTSiqdw134pau+N0vuMEMqHwc+pgM0+uoDgO+3
+         o2UM7H/LDPjPTbXCbHJ0xdmqpthSpHqYJNb+nMfyEvHSMUDc3TmOq57/zinFqIFKSc9L
+         tqH6VZLbBoJUAQfPgMNCYo7jf/dS9jHkANd6UcO+fuVou77cq/L0odbFVwyYn4DMQgtx
+         wulEFjbrtGqqXVSQN01zMXnkZCDI0NXi735Rma2R+5AC5JVOftFmqX75jziWlGe1CSyv
+         70lA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770312586; x=1770917386; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770329816; x=1770934616; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JgfeY55Ru1IhDYMP0VT3umybAXNI4X9Hp3CscuXeHec=;
-        b=l4A+uZ9RNNi8GjouCneZL3jumNAoyEr6NA3h+RiMp+UZoyFR2xL2eUiTQI95IxugIq
-         NVDUkn/j1mkO9g7v8yZHWWgZKj9QupAqzW42y0yV7xXsDQ8Yw56o1sZGn8P5n+ELNwSJ
-         +wP4mEdJqvRlfKL14J6/fl5qsWNV4/KPtBQjselpTQV9O6emqQCCGDNYUVI1J4jvaWps
-         CzgUcfDalGo3JkF6fk1+31wMJ/I8EOAsm6kFvfsrAgN6phGSg7oeo2n/YfRfm0ziDDZU
-         GRi5p04fkDMEPvDl74FlEHc4a9uYbfkakbvb1hM3r9A/zCCd8t/+7J3WQQvnQBC2fWAw
-         Jeug==
+        bh=evbnE8bulzCOHa250nvMsJpPZ2GQXyUJq/sX4ysZlw8=;
+        b=UVtzJR3QDR3YPRK6gk3KH5Eg4eHvBdGn4beZtcTNON/tSIS18tqpyVP1T6JND+yl8G
+         3lpGzuSWCrdGSlw+t3I8gyVJgMBpLkh2G2+GrtjD6100mtpi240nPJGePmQbyMS5EZbu
+         eKTbhF1l57/ruYR+I/5El+O1uQRYhQGjRhh7FXPsusBHeewt4nVLeGMkx+WA7yWlXHGy
+         veUPfYA+eH6++OfXYECFDqs14KwCrMHBCtqdPneW5kNKExTjG+eMNEVHNl1230SJ2Sue
+         zPwUrM/x0nbXa6R+xHFtrd3aojrtb8M7/ydeWdzaKCwXDqyOAawOLBmhyjLOdAStElI7
+         2hxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770312586; x=1770917386;
+        d=1e100.net; s=20230601; t=1770329816; x=1770934616;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JgfeY55Ru1IhDYMP0VT3umybAXNI4X9Hp3CscuXeHec=;
-        b=YGktfaiA9esxc1qPlZbTQVa1zQKvQxEgKVEym0vGSk69wovlBZ1nsoXf5m60KJm73v
-         9BhWLM3Wjl9c6vN7od6lnMulHylO19wsRbCzRbPhISpZcD8QpbiWUkgeXb9yTUVLqgzH
-         EkvXYb5nrk477H8TLOVND1K+uZUjS7ApI+w7XpYmdCTjFvHlISarjnRyp7H2RNMLacHi
-         Y8yV7/vttbfGW1+fkrqK44K652BFk/YTI99KMcWCzi+2hDldpxBzwMWVBTFIfBDjqzID
-         DdE6oXl+wpS+T+ncvrEGOTss35SeVvaUagKFhXUyTGH4ZLI8OqDVUNHNsCuwkTwld8sR
-         B1pw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMD7ywBWevxwXw2M/BKI/lfQGTAcVr0gng2U5GGuWid/FEuTyu4eXpCvM3jsfDsX9PCnTUJmnSNIN28ItCu2RAFw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yya9SstvZ5N/tVdKXQRvKQpHa1ypdyNt1ZVKDwvN+zM/VwmngF/
-	jSaqkUgRX7KjPB33Pz2W4V91Ejrl3KXBlBU8IxbhSPoPi3Ec5cL79tVp4BztOdpS66h/LFCYT0x
-	twxym0NuTiZG5BIub2Wl9akqT3uUw8ec=
-X-Gm-Gg: AZuq6aKcdU1ZgdoocLHtQrjRXDPM01gEQ/gXNLRQkDcUZjJ4WztZcKcXEqohI7oTvPT
-	OvUrodor1jD2l/dDFf9d1/89E/xDlz15XOMHK9IhbA5cgFkp6zaVd1XsIqiC7ltOR9leSMmNDCv
-	r7RbA+WFZr7F2ZiXWQKI1WbVtjc/1RodViV8i2ubXvk7epYOXDH7Obrxl/YQzVswnEI/FwRsm8z
-	yQb1U2UYoY4X66fzcTQrhd/QYKyKtCX5WqbSJZl1HE7nquo/uFf9mhwcU3SNtiEx4T314tNlE9c
-	sS/hEenGaw==
-X-Received: by 2002:a53:ef88:0:b0:649:d604:fb66 with SMTP id
- 956f58d0204a3-649f207bb2bmr98027d50.79.1770312585593; Thu, 05 Feb 2026
- 09:29:45 -0800 (PST)
+        bh=evbnE8bulzCOHa250nvMsJpPZ2GQXyUJq/sX4ysZlw8=;
+        b=K42ugWTGDERHdekSC02HpA0cBpTaYySPpL16YImK+Ti9U+0kVZjmfECRllh26L/rcj
+         /SIWXzrv1vipbMnGEF6VTwCFZbiEwpMzd6vZ3hDmIfBN0iOQqTQOWinBHt2psNfgPJrv
+         NKMp8UbCrr5pweV+cnL7lMytMTcg9ZaARAfMsa6t/KkT+giIn2UjcgjRHUAfKFVweyWO
+         JfZh2/tPxGwxJPy3YmFGnPcGDMZaOx81MsbTVCT3+z5A0AOPnwMcFyGlEN7cDTElZA10
+         7I8he5nQVNG+grFMgbKM0ZKiXJqmGhXpdXnMxoQgEGBQUQqvvS9kDEVPb7UOdvz5ubC7
+         nR4Q==
+X-Gm-Message-State: AOJu0Yw9LIkN/46U7r/wNsKbPLJIcrZIZs3tFnOHD9iq0hFyZT7gg6C5
+	+IblXS2SL+oc9BpheM8zpqcNHAbXnSggtmTLEqFyXSQa/zlkGRlDfhIyKB7ZUaMTZWhS7DotjR/
+	a0BmjCvbtNpZl/fAz6IlVByDBbb4DyU0=
+X-Gm-Gg: AZuq6aJqAao2ZWxjtqN5FFpS9Z3FjV3gIo6FkjbyQhWD2sX4cz+YVEs4cwdrxG7DweO
+	Ej64bSp/xAL55/x2wnWcm0rzv0QxIAehmCHaiEDCcGACQCEImUhEke8pmy5GyqTZJ8SQgZenrdH
+	hi+3YGBrkSoO5AV3/n2cvlW/S90Kmw2fxzfNH6bPwRuX+sBhX7eGHIwK1z2G79Iqs8svPJXlMzC
+	sLGYOYmzS+hI6FnJHIJBC9Jzfo8TfTrYx+7z9/28BLiW1LketLq779nQ94rNjETPzsUr+UdKZ/p
+	cqnvlhM=
+X-Received: by 2002:a05:6820:3088:b0:663:888:6093 with SMTP id
+ 006d021491bc7-66d0ce25452mr443145eaf.70.1770329815754; Thu, 05 Feb 2026
+ 14:16:55 -0800 (PST)
 MIME-Version: 1.0
-References: <2CD10DD9-FB2A-4B10-B98A-85918EB6B4B7@arm.com> <CAJdd5GbqsCVjVDkLFFbpzihurQxHxTrAGjA_K1OGNPTHj=gakw@mail.gmail.com>
- <2051957.usQuhbGJ8B@brobin-bootlin>
-In-Reply-To: <2051957.usQuhbGJ8B@brobin-bootlin>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 5 Feb 2026 10:29:34 -0700
-X-Gm-Features: AZwV_QjDi4RuKC_uQA3VnRm8UDx6WP2k8otU_SxaRLIbdTWHymTLjmTXMkA7588
-Message-ID: <CAJdd5GZuXM06+x+OPnpi5jkv2Hc=rz-qVesPG+0YePeYFvaxCw@mail.gmail.com>
-Subject: Re: Comparing cve-check with sbom-cve-check
-To: Benjamin ROBIN <benjamin.robin@bootlin.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	openembedded-architecture <openembedded-architecture@lists.openembedded.org>
+References: <20260202040805.596021-1-ankur.tyagi85@gmail.com>
+ <20260202040805.596021-2-ankur.tyagi85@gmail.com> <DG74H88QW53S.32HY2RYC20ZF5@smile.fr>
+ <DG74M83PX9AC.3S1J2YE0AX38T@smile.fr>
+In-Reply-To: <DG74M83PX9AC.3S1J2YE0AX38T@smile.fr>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Fri, 6 Feb 2026 11:16:44 +1300
+X-Gm-Features: AZwV_QhpIjikXg2iL-mfSpRihXifwiroeB1h_Xi5gaeIuyry1SRKhUIf9Xeut8o
+Message-ID: <CADySD0HRRg=+imfsDk5uwMPeEuyHLpcsecNjYz649NbzXKyLNA@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH 2/3] ffmpeg: ignore CVE-2025-25469
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 17:29:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230587
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Feb 2026 22:17:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230588
 
-I think I have the SPDX changes that will be required _mostly_ ready
-for you to look at:
-https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djpew/recipe=
--sbom
-
-Run the command:
-```
-bitbake -c create_recipe_sbom meta-world-recipe-sbom
-```
-Which will make a complete recipe-level SBoM (names may change, since
-"recipe" is a little confusing in this context) in
-${DEPLOY_DIR_IMAGE}/meta-world-recipe-sbom-recipe-sbom.spdx.json
-
-This SBoM uses new "recipe" packages that _should_ be sufficient to do
-CVE analysis, but let me know if anything is missing; it also is
-pretty quick to generate since it doesn't require doing a build.
-
-On Thu, Feb 5, 2026 at 1:50=E2=80=AFAM Benjamin ROBIN
-<benjamin.robin@bootlin.com> wrote:
+On Fri, Feb 6, 2026 at 4:17=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
+ wrote:
 >
-> Hello,
->
-> On Thursday, February 5, 2026 at 12:54=E2=80=AFAM, Joshua Watt wrote:
-> > Yes, I agree this should be the strategy for handling CVEs. It would
-> > also be really good to get this in before the LTS
->
-> Targeting Wrynose (around April 2026) is ambitious, but it might be feasi=
-ble.
->
-> > I'm working on some changes to SPDX that I think will help with this.
-> > Specifically, I'm adding "Package" objects to describe recipes. This
-> > allows the recipes to be linked as build time dependencies
-> > independently of the build provenance (which does the same thing, but
-> > for builds). The data in the recipe package will contain only data
-> > that can be statically determined without actually building the
-> > recipe, so it will give us the avenue to do CVE analysis without
-> > actually building anything[1]. This should allow CVE analysis on the
-> > native and static libraries since they will be included as build time
-> > dependencies, even though they don't appear in the final image.
->
-> Thank you for working on this. I have a couple of requests:
->  - It would be helpful to distinguish between native and target packages.
->    The goal is to support a flag in `sbom-cve-check` that limits analysis=
- to
->    packages deployed in the target (including static dependencies) or ext=
-ends
->    it to all components.
-
-We actually already track this for the SPDXDocument class as an
-extension, since the native recipes need to handle a few things
-differently. We could pretty easily add a similar extension to the new
-recipe package that you could look at.
-
->  - If possible (though not a priority), including layer information
->    (URL, Git version, etc.) associated with a `build_Build` object would =
-be
->    valuable.
-
-We would like to do that and it's on the backlog. It's a little bit
-tricky to get right, especially when dealing with multiple remotes in
-the git repos, bbapends, etc. FWIW, our Yocto PURLs support this also,
-we just don't have it implemented.
-
-It also probably shouldn't be attached to the `build_Build`, but the
-new "recipe" package (See below). I'm hoping you can now completely
-ignore the build provenance information for CVE analysis now (unless
-you want it to filter on source files or something). In fact, with the
-new recipe packages, we could make the build provenance optional in
-the SBoM output.
-
->
-> > [1]: Sadly, it _can't_ include license information because
-> > NO_GENERIC_LICENSE means you can have license text that you don't know
-> > until after do_unpack; we should consider doing something about that.
+> On Thu Feb 5, 2026 at 4:10 PM CET, Yoann Congal wrote:
+> > On Mon Feb 2, 2026 at 5:08 AM CET, Ankur Tyagi via lists.openembedded.o=
+rg wrote:
+> >> From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> >>
+> >> Details https://nvd.nist.gov/vuln/detail/CVE-2025-25469
+> >>
+> >> This vulnerability exists in IAMF (Immersive Audio Model and Formats d=
+emuxer)
+> >> which was introduced in version 7.0 [1]
+> >>
+> >> $ git tag --contains 4ee05182b7cccfa6928dcb0a45c2b50b7d9ea39b
+> >> n7.0
+> >> n7.0.1
+> >> n7.0.2
+> >> n7.0.3
+> >> n7.1
+> >> n7.1-dev
+> >> n7.1.1
+> >> n7.1.2
+> >> n7.1.3
+> >> n7.2-dev
+> >> n8.0
+> >> n8.0.1
+> >> n8.1-dev
+> >>
+> >> [1] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/4ee05182b7cccfa692=
+8dcb0a45c2b50b7d9ea39b
+> >>
+> >> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> >> ---
+> >>  meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb | 2 ++
+> >>  1 file changed, 2 insertions(+)
 > >
-> > On Wed, Feb 4, 2026 at 10:31=E2=80=AFAM Ross Burton <Ross.Burton@arm.co=
-m> wrote:
+> > Hello,
+> >
+> > Thank you for the patch, I reviewed it and I'm OK with it.
 >
-> > > To summarise [5] the pros and cons:
-> > > + sbom-cve-check can run at any point after the build
-> > > + has better data sources which report more issues
+> A precision though, it matches master and whinlatter patches "ffmpeg: ign=
+ore 10 CVEs".
+> Your patch will have to wait that the master and whinlatter patches
+> merge. And that will be too late for 5.0.16.
 >
-> "Better" might be too strong, we support *more* data sources.
-> Sometimes, version ranges in the CVE List are incorrect, while the NVD
-> database may provide more accurate information. However, users can config=
-ure
-> their preferred data sources via a custom configuration file, so this isn=
-=E2=80=99t a
-> major concern from my perspective.
 
-I think there is also a lot of value in a separate tool that can be
-updated independently to deal with new sources using the same SPDX
-data. For example, if we ever figure out a sane thing to do with PURLs
-for vulnerability management, using e.g. OSV might be an option also
-(esp. since the PURLs are already in the SPDX data).
+Sure, as long as it doesn't slip through the cracks :-)
 
+> >
+> > Can I ask you to contact NVD to try to get the CPE fixed?
+> >
+
+Good idea, I will reach out to NVD.
+
+cheers
+Ankur
+
+> > Thanks in advance,
+> >
+> > Regards,
 >
-> > > - only scans the literal packages that are in a final image, so we do=
-n=E2=80=99t
-> > > get coverage of native packages or static linkage
-> > >
-> > > I wonder if the easiest fix for this gap is to enhance the SPDX gener=
-ation
-> > > to not only generate an =E2=80=9Cimage SPDX=E2=80=9D but also a =E2=
-=80=9Cbuild SPDX=E2=80=9D, which is
-> > > essentially an aggregation of every recipe=E2=80=99s SPDX that is pre=
-sent. A
-> > > recursive execution of the SPDX generation task will mean this covers
-> > > both any native tools and static libraries that are in the dependency
-> > > graph, for maximal coverage.
-> > >
-> > > This gives a solution without needing to be more clever in the image =
-SPDX
-> > > generation, for example including packages for all of the build
-> > > dependencies (be them native or target).
->
-> I agree with Joshua: improving the SPDX SBOM file is the right direction.
->
-> > > If this is done then I think sbom-cve-check is at least at parity wit=
-h
-> > > cve-check, and in many ways far superior. This will allow us to merge=
- the
-> > > few recipes and class from meta-sbom-cve-check into core, and delete
-> > > cve-check.
->
-> I concur, but we (Joshua?) need to tackle the SPDX generation improvement=
-s,
-> which is no small task. On my end, I=E2=80=99ll update `sbom-cve-check` t=
-o handle
-> these changes properly.
 >
 > --
-> Benjamin Robin, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
+> Yoann Congal
+> Smile ECS
 >
 
