@@ -1,95 +1,125 @@
-Return-Path: <aleksandar.nikolic010@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B56EE209A
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 12:29:32 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10452.1770380968638237962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7600EE20A3
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 13:28:22 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11130.1770384499872586593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 04:29:28 -0800
+ Fri, 06 Feb 2026 05:28:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VA/jiM2u;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: aleksandar.nikolic010@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43284ed32a0so1331964f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 04:29:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NuqiCglt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47ee76e8656so32012265e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 05:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770380967; x=1770985767; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770384498; x=1770989298; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=P3Y3MxAJFwTJpsOD80tx0UAfUAdZbLWSvnJEC5HaXmA=;
-        b=VA/jiM2u1NfOa+YPSe6zq6ofozy0BM2inRDwcBY4Ckxdnk5CDuox3R81AvLNF52mzc
-         XETUKkf7h/3u5UG30cIiuANOkZaaFQga3xaAijgX3x78UZgm6Bd1TZiDY6Nxp3thpjtm
-         GWPxyhE6qgoneIUo5QyVu3u+o+6dvp8J/Z68p4DtGeiuhAqa7vknLXEZn9RjSsho6nuo
-         Etd4HoTPsGPsMJfhhomoAfeLiDHKQNijb6OzKb/xBCaYSS/cU8axN/H9lECeBo/lxrCQ
-         VnJo/pXDKOm7gwWcgKCjvazHp/866vyZmulY3EnRp33DEhIeoyqqLrxI4b0IF0b5Q44b
-         oEGg==
+        bh=B8zGjzyihVPGjoaYF13le6PEXIIay56XeBB0LE1m++8=;
+        b=NuqiCgltPM381jTJ3gMRG3+vxK/6I7lOWQpSyNYVwa/H95N9yvSw0FW54yqbrTSSSq
+         92TfaLi7mmJewhDzjcKPHan44b0kYX/YgFGmf6Ng9acwhFummFtROI0xf+X93T8RvH33
+         0EvyY/Brv5574YWvMJXmuYZNT1MEqv8pCZl7TWTcERCjD816zCMxKCh7lLVXWMTVMuDm
+         7D5GckCWndx0egWAppJLP2u79G5IsZvBfryRqACV7+gBV3WdRB0RklMczfHMXZYKSnog
+         zx4DhuxtuWBJ97u0mRfmOU4OCiak1DMjlUPKtFs3ZDvhz89enPhVeI7spdSONxbKKuOZ
+         mU/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770380967; x=1770985767;
+        d=1e100.net; s=20230601; t=1770384498; x=1770989298;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P3Y3MxAJFwTJpsOD80tx0UAfUAdZbLWSvnJEC5HaXmA=;
-        b=V67mp72pZ5Idlyjgiatd0J6BIS5A3npOBh6H26yNMU8AJx9Kv6K+quBCCdh9ECiv0d
-         QAsWWJSkbGFr21U0m6BzzJHghE/dZ/BbAawGpL4t7pjgprcUGYa+j//KiB9Sx6fMK3qr
-         N+olxM89vy6q6mbHKB8eq/ufIO05m8kEq2TzWkParbjO4O1ogg/1AEr4xaOfmFDuwLsu
-         I9vfUxhIOYbp2aQA+hNDoLXt1Ub+q0Y6JfvoGrucKy3KJKEDOWFcUKFeRw6+H0X2OO8o
-         0rCGNnxkEkGicOm6SP5gjLmdD3VUcLjzoIG1BCUSEv7rSDb9FNIp78621EK2y3Xv2cNK
-         n25g==
-X-Gm-Message-State: AOJu0YwKMt8sKH8iRHgZzQNw/DwQm9saoRq3dpU3g/Aqyza/tlbmOMwb
-	Xo7Pcw5jk8P/yU57NUNHlboU/aoSRA5SVAvdSaCBA4lEJvyq8l/i+ta7YsX4LA==
-X-Gm-Gg: AZuq6aJlExGOKGfL+YE1LCQ3cZw6Co/ImD7KeLkaNtDoxlVE5K/g7+p17DOQAhQijWN
-	GeHlVThIy1sO65pbcuGFvtCqfqRqJwUmgMJX4xGNqm8GgPo0/0Z7lP9MVOee+tRrc+ZC+KQpA4l
-	w9RNturxWGggDU/05gqoow7EvdNGow5NAow5JmFrhRnfWHG69bk94b70H7D5BpWqOUKqJ2t9sok
-	Kb1vgkuKgQnCjkj55+yo9+tRVdj/OenmWOe8sb2zkJeHkEoOd/lVZKh4FNyiBfR08bpRhy6cKLe
-	dSw+7TbxaesH69hSKUECbN699GIxE2NMmCc+ZzY5bdeTvRWVUPWTtqLXRI4EbOpNkn7uUJJ7JTT
-	DAy9fKIeFlEt4DAlZnMRG3VThqfTH/pnOkzG4x0zSs9QOPkaIvEqQWRXzkH2bLAmKK2gZrKKO8/
-	Cm3K44bHjPhOROlmeRDOpGO+jc+O84q+aOvxegan8Unan6IqwuOK4kFoHUu3NCHhXNmQ==
-X-Received: by 2002:a05:6000:4381:b0:430:f7dc:7e8e with SMTP id ffacd0b85a97d-43629388a44mr4047296f8f.34.1770380966751;
-        Fri, 06 Feb 2026 04:29:26 -0800 (PST)
-Received: from acert-swift3.. (ip5f5ac382.dynamic.kabel-deutschland.de. [95.90.195.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296bd1c9sm5163723f8f.15.2026.02.06.04.29.25
+        bh=B8zGjzyihVPGjoaYF13le6PEXIIay56XeBB0LE1m++8=;
+        b=H/KljesSWD3BiI828elaiajUsq1fwvJAPsPyRUzVaoV2TDXgl23TtM3TfuKgVfkCdl
+         5w5v8+B03em45iWnRAofblFkrgsnj2Y9dOtf36M1ncUyD18SLNUY26o/xNf9+cqWq9+4
+         mNWNh0i43US099Axg/6HIcRRX5jeaAqILqIDMicy98rFT84fiBEwBeDDephmK8IrOYnT
+         vKTWidQ5/20t6sPyDMAvy+Z7I3+Fn+2Coo50nF4zo3kUq/RZFEKHZHqm6bfJCs3ev9yz
+         V6PYTufm8Xx2NztqgEEL2n3JwDkzeJVYgKiOErJWpnKyPlw4vMYDsY1AIpRCmBXj48KT
+         /ioA==
+X-Gm-Message-State: AOJu0YzIr6psnAX587a4D+bNaOcPo6u1zI3ySUh0/VpF4Ys/nSAPA1Ru
+	N0dAHz6gf6fbS4aNL1anAyPyEkRve4dDObFZTRY2VXCyiZ4kZuUgNBnlGhVGqQ==
+X-Gm-Gg: AZuq6aJoqUAGnVuv7OT5KebXbHQFHh4Vec/WcE8K0k7xFDRn6gbZQsd+GhrXAHoUH6Y
+	SPTX4Qra3U1WA8nsv/s7jdZdvARv1cGFitWkSvJvZCviiWDZ9bzMzB6S0LMDaq4p7u96fuhdux2
+	bPJWd3dowxgK5ET8RVM1uqaA/CLhtngRxc1/O7JTPN9r8j3aDxdjNOLRMrPnn58d2fFREsRYXHr
+	AbQUhptpeALcNQ3z9scTBm5zWdrM3OrYVmjPQ2JcQBOWQm4AneJkL+t08UxOrXcN+jdqz81s51o
+	ArAtV0DxZH+Al6tfKSQrZfqFyHQFYCRRQiqGwkMQVoRMLLlAeFpuoJps/ARjFfGb44Lln1KPuFE
+	GysxQRGJvYi1ZM5pLvuD4YFmADCWuVzGTRlwQSTUFA2tiMuec8Uc/u+amCyM15iGamZEMyLGUC/
+	w/UqgYPOa5kLhhwmrNDl0sDEk2hulQBHhxi7in+ejKKmXPvdA=
+X-Received: by 2002:a05:600c:8b56:b0:477:6374:6347 with SMTP id 5b1f17b1804b1-483202311acmr35134715e9.22.1770384497933;
+        Fri, 06 Feb 2026 05:28:17 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d7a99asm139627965e9.11.2026.02.06.05.28.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 04:29:26 -0800 (PST)
-From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
-X-Google-Original-From: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
+        Fri, 06 Feb 2026 05:28:17 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
-Subject: [PATCH] scripts/install-buildtools: Update to 5.3.1
-Date: Fri,  6 Feb 2026 13:27:27 +0100
-Message-ID: <20260206122727.1918018-1-aleksandar.nikolic22@pm.me>
-X-Mailer: git-send-email 2.43.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] hosttools: force a --no-rosegment option if host ld supports it
+Date: Fri,  6 Feb 2026 14:28:11 +0100
+Message-ID: <20260206132811.100628-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 12:29:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230619
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 13:28:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230620
 
-Update to the 5.3.1 release of the 5.3 series for buildtools
+From: Alexander Kanavin <alex@linutronix.de>
 
-Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
+Please see https://bugzilla.yoctoproject.org/show_bug.cgi?id=16087
+for the tricky, unpleasant details. This is addressing an issue with
+recent Fedora distributions where they can contaminate sstate with
+native executables that don't work when transferred onto alma/rocky 8/9.
+
+[YOCTO #16087]
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes-global/base.bbclass | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 93f3e2d678..c3f257ff93 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index cf303c237a..22b427a521 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -111,6 +111,22 @@ def get_lic_checksum_file_list(d):
+             bb.fatal(d.getVar('PN') + ": LIC_FILES_CHKSUM contains an invalid URL: " + url)
+     return " ".join(filelist)
  
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.2.3'
--DEFAULT_INSTALLER_VERSION = '5.2.3'
-+DEFAULT_RELEASE = 'yocto-5.3.1'
-+DEFAULT_INSTALLER_VERSION = '5.3.1'
- DEFAULT_BUILDDATE = '202110XX'
++# Please see https://bugzilla.yoctoproject.org/show_bug.cgi?id=16087 for details
++# This can be removed after host distributions with kernels < 5.18
++# (e.g. rhel 8/9 and derivatives) are taken out of testing and support.
++def write_ld_wrapper(srctool, desttool):
++    wrapper = "#!/bin/sh\n{} --no-rosegment $@".format(srctool)
++
++    stdout, _ = bb.process.run("{} --help".format(srctool))
++    if "--no-rosegment" in stdout:
++        with open(desttool, 'w') as f:
++            f.write(wrapper)
++        import stat
++        st = os.stat(desttool)
++        os.chmod(desttool, st.st_mode | stat.S_IEXEC)
++    else:
++        os.symlink(srctool, desttool)
++
+ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+     tools = d.getVar(toolsvar).split()
+     origbbenv = d.getVar("BB_ORIGENV", False)
+@@ -139,7 +155,10 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+             if os.path.islink(srctool) and os.path.basename(os.readlink(srctool)) == 'ccache':
+                 srctool = bb.utils.which(path, tool, executable=True, direction=1)
+             if srctool:
+-                os.symlink(srctool, desttool)
++                if tool == "ld" or tool.startswith("ld."):
++                    write_ld_wrapper(srctool, desttool)
++                else:
++                    os.symlink(srctool, desttool)
+             else:
+                 notfound.append(tool)
  
- # Python version sanity check
 -- 
-2.43.0
+2.47.3
 
 
