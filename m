@@ -2,358 +2,195 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB9AEE20B1
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 15:50:44 +0000 (UTC)
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.288.1770393039509258824
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD72EE20B3
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 15:59:04 +0000 (UTC)
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.484.1770393543742005522
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 07:50:39 -0800
+ Fri, 06 Feb 2026 07:59:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gMc5MZku;
- spf=pass (domain: gmail.com, ip: 74.125.224.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-649b22e5894so2832202d50.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 07:50:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770393038; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XeAyEwFi;
+ spf=pass (domain: gmail.com, ip: 74.125.224.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-649d200ac43so1926053d50.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 07:59:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770393543; cv=none;
         d=google.com; s=arc-20240605;
-        b=iZyKu9Q6kLHvSNnnK1lao6ayjZdMG1zLADfURXJDKt1ItfLpWZXWIJLG0Kjq7CU0Yx
-         bRr83FapucCGPXXTOWl4R34h/ONhABHYKV5QWoOlC6xRMCi0UfAeBSbXur1j/mHFu5n9
-         Yg9rPb5Ctd1AvB87kuiEUk4FxY4p0kosvHG6b8m5RLKAX3ehUbbEc9bf9PS82WQRZJ6k
-         a8WJTpC3XPMoiFOEoGxJdjyE5OMymkMuNCbenyQG/SRibsreAI7UqntbxlfXopL2UeSF
-         gQOss4zsbRkTQWmzyiPa4zFKaT3O+yRKqxZkaSXxVFaZjHo3jA6TU0i6wIU12jzoBwBC
-         tESg==
+        b=Yvpsfgh2MsFbvzB8AX8t/vPc2k+fbRtk60Z3QUxtL/6Tw+1CUHHliAbWFf73NUbpY3
+         PBK6uf+fL8PVtogX1MsUXNrDqPF0IK8LnqXAXDQp/U4We81MXrwianQ3baRlQJxXEJKF
+         41EdtK5BPENhNkMXua9tsuA+64WsJDrZdlQQH1TAhzlLjst6nVd6AkF9hlBmAWBC/ejG
+         CEGnGtbicuR0BkeoA5KEggVmsMjd/9aiqBR0ytjy49kDbEIYHBRhtm1EHGsZbSjIDWw0
+         U6q62r88s69hLc3u9lfFRylVXBVACkV6LSr0ORf/cWtAHl1xJXMksW8u+TsD+4Ytel5K
+         M+xQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=exX4Frqjgyef7uD4A5WTOQGMApmAGV8j83LMGrFVLMo=;
-        fh=yxwvfP2MBoxfKODQlk5mCw+BH/FpxH+twEsthCQCQWQ=;
-        b=k+XSglhQad9tprX57H9Tg0N5LYwou5nnU5s5KPPeuR4qNyzveZZlCVWMwk4KQtd+Cc
-         jTnHDLcrnKYvdKQlnLxtpmkYiWWdo+CYqRY8D4tj0tkt3reEU7SJcLWuEzng1Ovmx00A
-         2kkhNNBnCX1sTMpkAvv60UjBdrYPHFIZjiRpeMmbbaw0zDcjGQdElpg74A9DFR3MNkb6
-         cbKLQHPgIeHIBIxgr+inRRW6V+MMP9y332FqErNqC2Lv4CrrKr1MbNvTwHmknnEreLNK
-         zuWzxKGYQELvkRPIhm27NvO47N0DccdP8/OfJVuia1GFkGI04zPNNoxvDd0Hi1ma/6AI
-         HTTg==;
+        bh=G+rJbc3LOOSbVoqHzGCXMRL1eaMFjXaaWnY20UrUNXM=;
+        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
+        b=B6w4ErfM/lfxV0UzXLbwmBCptj6ayRKU94cSwqK460IC6pMfximE5zvK7YhgHLQ5ta
+         Fwkh99JiOM/tpJWlD3R67qvI68marPs9KkGE3pfoTgBBNawJ9RKAt+VAW/zLHt7immpv
+         UFzHGiy6ASVctImlEo/H0GRWwntRT+6WPbQkWHeXoMFcfv8C7zZ+UXdkWSfjLe4nLgpH
+         Vz5C+ffoZk+wxhpfeYgLFoC/O3qDdf3H33bNd3jMNrHT+slOao8CKD7SIq9SB4wpc6Wv
+         M7nQKRpw64TZs4TflBZmJ2Jf50BGSr3wKsYI4FIJCV7oNsF+9hHQTmFKqr1OkNaG6O6u
+         dbBw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770393038; x=1770997838; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770393543; x=1770998343; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=exX4Frqjgyef7uD4A5WTOQGMApmAGV8j83LMGrFVLMo=;
-        b=gMc5MZkujD4J5R10c3MmVMaql6+t25ImHcI4riiqYac3mwvHou98/Bua6wbF81jSzm
-         pW+bJbiUDjjoAl3epIZZhzu9ywWK3YxPvQfYkiqBgH0rTE3WgmOGESERflC/AVoRoCDR
-         qEFu9vultG/LHN1NFbm8tlo0l7a0F/I/FAUOI3bXkN+ujCJ5ameZcbjdR05HFE3YKVLH
-         Orvy8MRfOFtfSy0BWXnCmN0sScG2LJNrMV5Ppf8ZamffJyEwMENyp2UcBe8PdifWd38s
-         +lyABEwiSTstEgz6N3b6e+8opGT5A+xDhg0xc4891JUhk2VnhWdE4rhc01TNTaLm+LF8
-         dCWA==
+        bh=G+rJbc3LOOSbVoqHzGCXMRL1eaMFjXaaWnY20UrUNXM=;
+        b=XeAyEwFiBvuShlTGcPAdrxa7AORL1CwsN5+e1399R5R/Kp7wrPcHrRY4IbnmezYXZT
+         QfM6F/pQvCq5i68qRKzqp4kFSE+dM3ZQDhyb2MdJwFL3nCKKBWGXkCjZo+w2X+Mo7eFY
+         /5HkWoN2Ig8ZDwbFj6qKOz+DGdBUzHdbvHbzZiZ29ifCQ1p10mn5jk1v5aUGOMUNg1nO
+         /c1pT3c4a+bPAFQqnZYqbBo+AahMg/K8A97e9btLhH5/8q/DjLnea+Hf9Fie+cCaBIoe
+         0yYlAdv3t8HuQTFGzXXDHl9fBlHyKeaz32wGde/zHmI2hTslIHww5nfftWttGehUZUrp
+         xLFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770393038; x=1770997838;
+        d=1e100.net; s=20230601; t=1770393543; x=1770998343;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=exX4Frqjgyef7uD4A5WTOQGMApmAGV8j83LMGrFVLMo=;
-        b=BNYNDeUcYirvvqecoj90VFYismsGXAUXMfmv2kc+qPs8ao4HWQ2AINTXN0GUjzW1rC
-         hHvCO2uRSc2UsytZNoRgo797EV40JIKxsbN164lGfOT3Dd+DQ/UrfIjH09OaHn+DTC7K
-         ctuIQJ4wDCvPdcCQyD1TOiw94X4VHNC8YxDjm3eROWeSBoR9Da5ixXttmCJyUDzOe+k9
-         OB/2mIs1edx3P9u+bZIHpiILN14LhfcL5xewuKJ4cszv/o0qUs5Gy4zf8aeG9bUmkYGo
-         i4HgRSVhZbMilX15dj2CySodI5Tn2SfEFSvWK93Xqh0+305tc82fkrPB4QeFLh25hSZP
-         CKTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWmpKr4Bnt1BE6yS2C0smzrfIKXeX+ULmSiJfvcpoxmJYPhW7iLDlXvir+kyTb/otiFynjK2Xd2y0BxdesVIEeVdg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyEJCuVKRZUP6+ImSKZGSgKjf7ef19d5H9P5kJkX9Smp5IrGIeg
-	19lFO0LW5jfnv47q76wX/k12pR7pyUdFQHiTIc9lAoBl5vnS0NksJqPrNhLpBV1JfqQsK7pszdP
-	WRAAOcn+T5RjBIaoTeLdQYQgVKaljInc=
-X-Gm-Gg: AZuq6aKfpPrzs8spr/nIuoDt/ePyjfxLLQUYumdo7tIDQ8HHIVdxPbXjo7WNsxNkLzm
-	opMJpbxjcBFK0w8o/xiUPk4uQ9jVJi1ZFIEPJ57XS/oxTjwGNJznaSsdfGlZAqKaj3aAn5DtCi6
-	Qm35b5z2C6I0EytUREO8Xlw+Wf6mSRLWLdGjihBscWTQv3ynEzUJhZk7/F0aNINBDABX4tQvZx8
-	eE7Ps6z4YjU1iVFpHwxGyUijkUKJD0zpvDLrlY29qEjx3e+TaAPIUp4hINPs0tyy74mnkmeAyXy
-	etjm1wZp
-X-Received: by 2002:a05:690e:2554:b0:649:da7e:9950 with SMTP id
- 956f58d0204a3-649f1e68083mr2441973d50.6.1770393038426; Fri, 06 Feb 2026
- 07:50:38 -0800 (PST)
+        bh=G+rJbc3LOOSbVoqHzGCXMRL1eaMFjXaaWnY20UrUNXM=;
+        b=mN3qXnaHAv2jouihSOBXOAhhT2aEtR7rAMr3wDujlvO1jJ1ze1kpoMxLBQFAptsWKr
+         dIilqChnHVEil8BVNdOcsEns3Av6AZlkQ8ehySf1c8n9YQumA34kc01eXiQF7m3Bk8EO
+         l4AOXaVnjx3j8kHQqZnsfQ7HMaeNUjrYNSmF7rKKUKDktYMcqgdRLNs0JM1s3baKcoIU
+         gUo2KfnY9ZbUUXIKkvnWBXxN/wugY3ZgfPpdDRyWX40dtO0Wv2awVUXdfzXSwk4/E0VS
+         R1qjelTgKhvZ6FF4fcis1Mwk02s9qVM1v9pfHKwKmb/70bVtfGcaE7RE+ceeGPZDINkM
+         XUIw==
+X-Gm-Message-State: AOJu0YwQgLbXxyuIPKCwJwPTm5nE19/6773PAdL+DJ050TkQxwSeJIgW
+	9AMLfeBpIskOmaWjbIQDy8Jw+PdppPb9N7IxX1nl6b2Hi8csWDA5ZLJoISAuE4dzE94X3TZF1k8
+	QzFT0GRTRDiJCN74Gb9tCJnV6jYe8lN4=
+X-Gm-Gg: AZuq6aKGR7fkkVSR19DJl8zzh8zSAQhceDAeJjBeE1cL7skztsg/YRmqZwHq4nx+QQF
+	p86Ocdaen9X6k3C5czg1pYQ2eZiQZScPgEBSYzdZmvNLdfH1EyisD1ZKmtnlGWJGXR7evbjAo47
+	N5Yi1R1Yeqae5npDsKsL1gnn/kYpdnuaYkINyiYV09TW2wIFy334NvS+8vsM7JRvwNa11aLuGxv
+	E2JDl79LmKqKgIq5OtE8O0h5zJZDU4PAEFBgyxVxovbnMjK5ajTReXYyHKWl5M8/Tq0vTirMAtT
+	F2EXUSQy
+X-Received: by 2002:a05:690e:2504:20b0:649:cbe3:d2cd with SMTP id
+ 956f58d0204a3-649f1f54ccamr2512679d50.52.1770393542701; Fri, 06 Feb 2026
+ 07:59:02 -0800 (PST)
 MIME-Version: 1.0
-References: <2CD10DD9-FB2A-4B10-B98A-85918EB6B4B7@arm.com> <2051957.usQuhbGJ8B@brobin-bootlin>
- <CAJdd5GZuXM06+x+OPnpi5jkv2Hc=rz-qVesPG+0YePeYFvaxCw@mail.gmail.com> <1996818.6tgchFWduM@brobin-bootlin>
-In-Reply-To: <1996818.6tgchFWduM@brobin-bootlin>
+References: <20260206145716.1615377-1-ross.burton@arm.com> <20260206145716.1615377-3-ross.burton@arm.com>
+In-Reply-To: <20260206145716.1615377-3-ross.burton@arm.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 6 Feb 2026 08:50:26 -0700
-X-Gm-Features: AZwV_QhXbtGQJWtoB_90h5vy60QQQS6WBP9-H35Cm0R63lLITXczNgbIeaCT3Gg
-Message-ID: <CAJdd5GZOeL0ZfGuPtWj9VuY0jdpcGEi6v-mRDZWB1t7rFv8PnA@mail.gmail.com>
-Subject: Re: Comparing cve-check with sbom-cve-check
-To: Benjamin ROBIN <benjamin.robin@bootlin.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	openembedded-architecture <openembedded-architecture@lists.openembedded.org>
+Date: Fri, 6 Feb 2026 08:58:50 -0700
+X-Gm-Features: AZwV_QjMENBCBO1S2R7b6_2szl6FevZ1ZzwkCwuakq0TiVSdFSPPGRsvs1WBxuo
+Message-ID: <CAJdd5GYbS=spXisRtqasBuJpQp-b2rr81QrWfT7AXeYn+xAZ4g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] jquery: remove recipe
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 15:50:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230627
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 15:59:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230628
 
-On Fri, Feb 6, 2026 at 5:22=E2=80=AFAM Benjamin ROBIN
-<benjamin.robin@bootlin.com> wrote:
->
-> Hello Joshua,
->
-> On Thursday, February 5, 2026 at 6:29=E2=80=AFPM, Joshua Watt wrote:
-> > I think I have the SPDX changes that will be required _mostly_ ready
-> > for you to look at:
-> > git.openembedded.org/openembedded-core-contrib/log/?h=3Djpew/recipe-sbo=
-m
->
-> Thank you. I am currently evaluating your commits.
->
-> While being able to generate a SBOM for an entire layer is useful, the
-> urgency, in my opinion, is to have a SBOM (the one that can be found in t=
-he
-> deploy folder) with all the important information for a complete analysis=
-:
-> - Elements (packages) "installed" on the target.
-> - And also build elements (what you have created: software_Package with
->   software_SoftwarePurpose.specification).
->
-> Users are doing the build anyway; the generated SBOM associated with the =
-build
-> should contain "everything" for a proper CVE analysis. But I guess the co=
-mmits
-> that you have written are a first test, and it is not complete.
->
-> > Run the command:
-> > ```
-> > bitbake -c create_recipe_sbom meta-world-recipe-sbom
-> > ```
-> > Which will make a complete recipe-level SBoM (names may change, since
-> > "recipe" is a little confusing in this context) in
-> > ${DEPLOY_DIR_IMAGE}/meta-world-recipe-sbom-recipe-sbom.spdx.json
->
-> This is great; it will be very useful for a layer maintainer.
->
-> But on my side, I first tried a normal build with an empty build director=
-y.
-> The build failed around SPDX generation. For information I used the follo=
-wing
-> KAS configuration:
->
-> -------------------
-> header:
->   version: 18
->
-> build_system: openembedded
-> machine: qemuarm
-> distro: poky
-> target: core-image-minimal
->
-> repos:
->   bitbake:
->     url: https://git.openembedded.org/bitbake
->     commit: af9dd012e7f4d16dccd1d6118be5da94ede68f85
->     branch: master
->     path: layers/bitbake
->     layers:
->       .: disabled
->
->   openembedded-core:
->     url: https://git.openembedded.org/openembedded-core-contrib
->     #commit: 6ce19709f7835ee5cd7915e181f89397975236c8
->     commit: 43737d14ab039c507a1a71177da68c7b41e4622f
->     branch: jpew/recipe-sbom
->     path: layers/openembedded-core
->     layers:
->       meta:
->
->   meta-yocto:
->     url: https://git.yoctoproject.org/meta-yocto
->     commit: de4abc0a175af12eacc761a2e1e60ca7fdfeaa1b
->     branch: master
->     path: layers/meta-yocto
->     layers:
->       meta-poky:
->
->   meta-openembedded:
->     url: https://git.openembedded.org/meta-openembedded
->     commit: 3787ecadbb198f56ac43025a15b3339c810c3a66
->     branch: master-next
->     path: layers/meta-openembedded
->     layers:
->       meta-oe:
->       meta-python:
->       meta-networking:
->
->   meta-sbom-cve-check:
->     url: https://github.com/bootlin/meta-sbom-cve-check.git
->     commit: ea9fecee6073abab0f8d5d7ccb02077d1c6dc504
->     branch: main
->     path: layers/meta-sbom-cve-check
->
-> local_conf_header:
->   cleanup: |
->     INHERIT +=3D "rm_work"
->   spdx: |
->     INHERIT +=3D "vex"
-> -------------------
->
-> If I am using commit 6ce19709f7835ee5cd7915e181f89397975236c8 everything
-> works, but static libraries are not listed (no associated package). But t=
-his
-> is
-> expected, since none of your changes were included.
->
-> If I try to switch to your commit (43737d14ab039c507a1a71177da68c7b41e462=
-2f)
-> and run: bitbake -c create_recipe_sbom meta-world-recipe-sbom
-> I have the following errors (a lot of them) if I do not destroy the build
-> directory:
->
-> ERROR: zlib-native-1.3.1-r0 do_create_recipe_spdx_setscene: Recipe zlib-n=
-ative
-> is trying to install files into a shared area when those files already ex=
-ist.
-> The files and the manifests listing them are:
->   /work/build/tmp/deploy/spdx/3.0.1/x86_64/by-spdxid-hash/
-> 70/706d8ec1deffb40c8b72ba34c22aaf543671078abd1a000c5fa0ee6f35274d2b.spdx.=
-json
->     (matched in manifest-x86_64-zlib-native.create_spdx)
->   /work/build/tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-zlib-
-> native.spdx.json
->     (matched in manifest-x86_64-zlib-native.create_spdx)
-> Please adjust the recipes so only one recipe provides a given file.
->
->
-> However, if I destroy the build directory and run again the command, it
-> successfully generates meta-world-recipe-sbom-recipe-sbom.spdx.json
+LGTM
 
-Ya, this is because I tried to "reuse" the recipe deploy directory for
-do_create_recipe_spdx; I can fix this.
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-
+On Fri, Feb 6, 2026 at 7:57=E2=80=AFAM Ross Burton via lists.openembedded.o=
+rg
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 >
-> And in this case, the software_Package providing the static library is
-> created,
-> and the application "dependsOn" this static library.
-> It also "dependsOn" gcc-cross-arm (a software_Package), which is great.
-> *But* there is no way to know that gcc-cross-arm package is a native pack=
-age.
+> Now that the reproducible selftest doesn't use this recipe, it is no
+> longer used by any recipes that I can find.
 >
-> > This SBoM uses new "recipe" packages that _should_ be sufficient to do
-> > CVE analysis, but let me know if anything is missing; it also is
-> > pretty quick to generate since it doesn't require doing a build.
+> There is an alternative jquery recipe in meta-oe that is slightly
+> different and has packaging consistent with with javascript recipes in
+> the same layer.
 >
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc     |  1 -
+>  meta/recipes-devtools/jquery/jquery_3.7.1.bb | 38 --------------------
+>  2 files changed, 39 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/jquery/jquery_3.7.1.bb
 >
-> > We actually already track this for the SPDXDocument class as an
-> > extension, since the native recipes need to handle a few things
-> > differently. We could pretty easily add a similar extension to the new
-> > recipe package that you could look at.
->
-> Unless I'm mistaken, this information is not provided in the SBOM that ca=
-n be
-> found in the deploy directory.
->
-> The following command does not return anything:
->
-> python3 -m json.tool build/tmp/deploy/images/qemuarm/core-image-minimal-
-> qemuarm.rootfs.spdx.json | grep -E "is.native"
->
-> Same result with meta-world-recipe-sbom-recipe-sbom.spdx.json
-
-Yes, sorry. My statement was not clear; you won't find any native
-markers in the SBoM output today, but we have mechanisms in place to
-do that, so it should be pretty easy and I can work on it.
-
->
-> >
-> > >  - If possible (though not a priority), including layer information
-> > >
-> > >    (URL, Git version, etc.) associated with a `build_Build` object wo=
-uld
-> > >    be
-> > >    valuable.
-> >
-> > We would like to do that and it's on the backlog. It's a little bit
-> > tricky to get right, especially when dealing with multiple remotes in
-> > the git repos, bbapends, etc. FWIW, our Yocto PURLs support this also,
-> > we just don't have it implemented.
->
-> Yeah, I know finding all the layers that impact a recipe could be tricky.=
-..
->
-> > It also probably shouldn't be attached to the `build_Build`, but the
-> > new "recipe" package (See below). I'm hoping you can now completely
-> > ignore the build provenance information for CVE analysis now (unless
-> > you want it to filter on source files or something). In fact, with the
-> > new recipe packages, we could make the build provenance optional in
-> > the SBoM output.
->
-> I currently use the `build_Build` in sbom-cve-check. The goal is to speed=
- up
-> CVE analysis, since a recipe should only provide "one" CPE (there can be
-> multiple CPEs, but they all identify the same "component") and one versio=
-n.
->
-> From the `build_Build` object, the packages are grouped (if they share th=
-e
-> same
-> CPEs and version), and the analysis is done on this group. This is especi=
-ally
-> important for the kernel and associated modules. We could have hundreds o=
-f
-> kernel packages sharing the same CPE.
->
-> I noticed that the `build_Build` object is no longer used when generating
-> meta-world-recipe-sbom-recipe-sbom.spdx.json. sbom-cve-check currently ca=
-nnot
-> handle that, but I could change the way it works, will see. We really nee=
-d to
-> discuss that.
-
-Right, it kinda depends on your use case. There are basically two of
-them right now:
-1) Running CVE analysis on all recipes to determine if any _recipes_
-have new CVEs that need to be triaged. This should be doable without
-actually having to build the recipes, since that would take a long
-time. This is the more "proactive" CVE maintenance that upstream and
-many companies want to do.
-2) Running CVE analysis on a specific product SBoM to determine if
-there are any CVEs that affect that product. Your tool currently
-handles this really well.
-
-I've not looked too closely at the code for your tool, but I'm hoping
-that it wouldn't be too difficult to handle either use case. I'm kinda
-thinking the tool should be able to handle either, since the SBoM for
-#2 is just a superset of #1. If there is something that we need to do
-to the SBoM to clearly distinguish the difference between them so your
-tool can do the right thing, let me know.
-
->
-> > > "Better" might be too strong, we support *more* data sources.
-> > > Sometimes, version ranges in the CVE List are incorrect, while the NV=
-D
-> > > database may provide more accurate information. However, users can
-> > > configure their preferred data sources via a custom configuration fil=
-e,
-> > > so this isn=E2=80=99t a major concern from my perspective.
-> >
-> > I think there is also a lot of value in a separate tool that can be
-> > updated independently to deal with new sources using the same SPDX
-> > data. For example, if we ever figure out a sane thing to do with PURLs
-> > for vulnerability management, using e.g. OSV might be an option also
-> > (esp. since the PURLs are already in the SPDX data).
->
-> Indeed OSV might be added as an additional database. But I need to find t=
-he
-> "time" to do that. There is so much to do :)
-
-Waiting on this seems best. It's not clear what the best long-term
-solution is going to be right now, and I wouldn't want to spend time
-developing a solution that was a dead end.
-
-
->
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index b231daf485..28c3e987c9 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -301,7 +301,6 @@ RECIPE_MAINTAINER:pn-iw =3D "Unassigned <unassigned@y=
+octoproject.org>"
+>  RECIPE_MAINTAINER:pn-libjpeg-turbo =3D "Unassigned <unassigned@yoctoproj=
+ect.org>"
+>  RECIPE_MAINTAINER:pn-json-c =3D "Yi Zhao <yi.zhao@windriver.com>"
+>  RECIPE_MAINTAINER:pn-json-glib =3D "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-jquery =3D "Joshua Watt <JPEWhacker@gmail.com>"
+>  RECIPE_MAINTAINER:pn-kbd =3D "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-kea =3D "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-kern-tools-native =3D "Bruce Ashfield <bruce.ashfie=
+ld@gmail.com>"
+> diff --git a/meta/recipes-devtools/jquery/jquery_3.7.1.bb b/meta/recipes-=
+devtools/jquery/jquery_3.7.1.bb
+> deleted file mode 100644
+> index 33147b493c..0000000000
+> --- a/meta/recipes-devtools/jquery/jquery_3.7.1.bb
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -SUMMARY =3D "jQuery is a fast, small, and feature-rich JavaScript librar=
+y"
+> -HOMEPAGE =3D "https://jquery.com/"
+> -DESCRIPTION =3D "${SUMMARY}"
+> -LICENSE =3D "MIT"
+> -SECTION =3D "devel"
+> -LIC_FILES_CHKSUM =3D "file://${S}/${BP}.js;beginline=3D5;endline=3D7;md5=
+=3D9c7c6e9ab275fc1e0d99cb7180ecd14c"
+> -
+> -# unpack items to ${S} so the archiver can see them
+> -#
+> -SRC_URI =3D "\
+> -    https://code.jquery.com/${BP}.js;name=3Djs;subdir=3D${BP} \
+> -    https://code.jquery.com/${BP}.min.js;name=3Dmin;subdir=3D${BP} \
+> -    https://code.jquery.com/${BP}.min.map;name=3Dmap;subdir=3D${BP} \
+> -    "
+> -
+> -SRC_URI[js.sha256sum] =3D "78a85aca2f0b110c29e0d2b137e09f0a1fb7a8e554b49=
+9f740d6744dc8962cfe"
+> -SRC_URI[min.sha256sum] =3D "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb4=
+5166a8f17f95823f0b1a"
+> -SRC_URI[map.sha256sum] =3D "5e7d6d9c28b7f21006535e8875eb47e9667852a14c46=
+24eed301c6cea19ae62b"
+> -
+> -UPSTREAM_CHECK_REGEX =3D "jquery-(?P<pver>\d+(\.\d+)+)\.js"
+> -
+> -# https://github.com/jquery/jquery/issues/3927
+> -CVE_STATUS[CVE-2007-2379] =3D "upstream-wontfix: There are ways jquery c=
+an expose security issues but any issues \
+> -are in the apps exposing them and there is little we can directly do."
+> -
+> -inherit allarch
+> -
+> -do_install() {
+> -    install -d ${D}${datadir}/javascript/${BPN}/
+> -    install -m 644 ${S}/${BP}.js ${D}${datadir}/javascript/${BPN}/${BPN}=
+.js
+> -    install -m 644 ${S}/${BP}.min.js ${D}${datadir}/javascript/${BPN}/${=
+BPN}.min.js
+> -    install -m 644 ${S}/${BP}.min.map ${D}${datadir}/javascript/${BPN}/$=
+{BPN}.min.map
+> -}
+> -
+> -PACKAGES =3D "${PN}"
+> -FILES:${PN} =3D "${datadir}"
+> -
+> -BBCLASSEXTEND +=3D "native nativesdk"
 > --
-> Benjamin Robin, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> 2.43.0
 >
 >
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230625): https://lists.openembedded.org/g/openembedde=
+d-core/message/230625
+> Mute This Topic: https://lists.openembedded.org/mt/117672279/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
