@@ -2,62 +2,62 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8864EE208C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82C9EE2084
 	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 10:43:51 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8688.1770374627960281294
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8686.1770374625543441317
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 02:43:48 -0800
+ Fri, 06 Feb 2026 02:43:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=F+kfj4wj;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82307c6902eso1052629b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 02:43:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kDI59TWR;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8231061d234so2107759b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 02:43:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770374627; x=1770979427; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770374625; x=1770979425; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rd7JMcQswvaQkY20wOzL/75h+RTdIrOK4/vKd1E196g=;
-        b=F+kfj4wjhVtVSw3MeacrMTyOGQDyFGn51++pj8tznp14RK4q/EG25GYZm2Z5b+phq4
-         g57PwSkLs1bGhs07SUH6/YB7QkF9HvZFdA1dj+CS551S9ZPyHBOx/psGrRqcxAg6dDZT
-         bYi6KBP85qt6U8mNTiiiZ8Y2rHhERtFpJY61fyGWS1Dxf2M3UkSRgOd5Tgv6TN3ioRCF
-         lpK5OTUqS/buZcvN9u1xf8ECXWzBMWIioX4LsH2MV8+VRxP9ZyCD7ztXCf6iV9PP4yyV
-         WUTbrK9cfmIkWkQ0Vmrz2Z/0SpwKy5uwmo1biFvQvCxVeZcnz4xUEsivFMXWG3r7M8Ka
-         jnZQ==
+        bh=9AR2VjVVxR1QZ2VvhU3b8vtj+gP67QpJk/v18D4GoxE=;
+        b=kDI59TWRRdhh+T0mCIHpkKXt8wC0uoVdfraKrvTxFitHFyqYaloUddFkyomoVEABh1
+         Ix6cTW2n9mMbc39OAwYK+RoMbOgh8NBkZvM4A9Nbcq3XIvUMHXQdIrsT69gpo39LbQAi
+         dcoNRQQcDxpHKwCwWcYe9RiQusPJiasmCMEDC9h7hzElY9M8/qpo1mV83ITLlzdA0i9n
+         v/i/Sp96TikRlGo/XkM8nsk8TL8qI3F9dedpg5wN2LeHPEw24jR0RAd+SqZam5L1u5HO
+         AkRJIKi6MK9QmEZdM/MvX5vpx+gALI6lvu7ObSOHqn19ppX0qcH7Xa+UALF+AlV/i1F/
+         /fmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770374627; x=1770979427;
+        d=1e100.net; s=20230601; t=1770374625; x=1770979425;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rd7JMcQswvaQkY20wOzL/75h+RTdIrOK4/vKd1E196g=;
-        b=IAfG3HcU7Jfo8qDOiIofcmvJmHaoxQrUgFH0oeGMiJCbuzi+OrZAaHsCbJk9mMx3ih
-         pWe7UxPUIbaTveLFgGKLjxXBAxkX7LR3MOJeChr8J0bY0MANl0JO0CuppoUn8pUalrpe
-         ZfJFCj6p1IVT9eA1EUZOERhho+gEQKbY0P+jxGiOMxkT4Lv4q7r9wKGy4qZh+yPXl6TR
-         BL0YCRwbO4DIO2osNf2j6qRF8mw6dDmsk4J8iUVjfp3Ye6oEOGKGsf1pEpDl3Ym8UpbW
-         ySWc7fUn2Ore8yXAVF2qVVeDZKYR5fFKJ/UdkA5TsV0/vZfjUR6YUMmumrLGj3l0daKL
-         d2Nw==
-X-Gm-Message-State: AOJu0YwXAy8S1xam7PDy2K+2vgnlj0JAmoGqxu+dbQwnNipFE8mHUzu/
-	kYFDIyjg79bQRaoxzs1mhht7wTLPUiSmOcs+3PQx11ePTEO5ybHsrSsfZJUjxQ==
-X-Gm-Gg: AZuq6aIkU4zajwMYMIaKvBbQGw3af3DL8Ol+yZwzlZEZqtx9tZA2TAD2JxGDYy22Fcn
-	Xi8Dw2tIy2RFNpE4MthVArQpMqvQACapElN2QRC3LHzGx5jeZ4dHRSNGF82wO7Lx3UH+MVJ0QUU
-	WsQcFq3Y8NYw+Vcc/ncf4YtyBM/uEUKtanRIBs6aBT50Jrwo/ZvDiFdCScFJAOEO0ICoUNJI5kr
-	0N9ZgZzqIMymyuGTgzrZ1M0RyK/1IRjXbqNOkqXxfXtdxAg++gzc1I68RBRatzu46M0s6bmB/X/
-	dkIdmCUHccgmAsNeCc552hE4wk7zYi4y4KT4aVilNZ9f6aU6jC74YICbiLZWe0Tv0xQ7+Us0KzI
-	EGBq9ucA7KLp7iSVcxknim65jEBPTlY23Hu+AJstYuGqVgqbdVSrg9CnrXvGEVDy18Mal6E9Srk
-	nHOtQEK2lYjIFPUSzT0gk7g90=
-X-Received: by 2002:a05:6a00:2d09:b0:81f:cea1:f93f with SMTP id d2e1a72fcca58-8244176209dmr2337990b3a.53.1770374627003;
-        Fri, 06 Feb 2026 02:43:47 -0800 (PST)
+        bh=9AR2VjVVxR1QZ2VvhU3b8vtj+gP67QpJk/v18D4GoxE=;
+        b=xNn+05wOPlcFa0CugHUgvdvLx0JiW7SSGoZ/W4s3dQMFppmqEYMQ6q2Fb8UDJd8acq
+         nguuEVm6W0tzYJ0/ZjvmmwoP3ZDSuIPP8oIGSipD4FtYi69ShqiSBC2qpoZh/UzdFAt3
+         NNR9uBCpBix2GKHHuwp+kQTmlDzQT3Xhg6T3H52dV+0ng5SVnBkQGc9YbTs8XPV1AgOr
+         ACYlajdx9fuTh8fNDimnnNDlIl6Ac+P7i40o6Clq53TlbnEqeDmRXuL8EngFOZqsYK91
+         U92yhYHkSObKShPzd+gcSgMzQcmcaUIy65mEesFZXTSSITsA6DHyAoL9w2kQKjsB9LdS
+         1bdA==
+X-Gm-Message-State: AOJu0YwTGMQ302W9m7CYEsMdyMkvzY6M3pgNjboRgY7h3u00iY83tX4r
+	u5jqpGXOVFoJ+bbH8ez29/J0hds6Zhihv9quq+vJBfgy6iiNOUbmB0iUN7jg0A==
+X-Gm-Gg: AZuq6aLc0N+di5MbRNkIF3Ukmd4W/PO/lOsiWXLnfJBkT2RtznktiQSSGXYo+cRDK1z
+	OIOMj6dS81fgI9uXl+ED1cGuqwKYLqXJu17YKwFn+2CluF9Xs7w4gIflLDbUErIlcFi/dZRp//j
+	wfn2XQZcECT7RzltL3aEKNYFvyoUajciUY0M9oDhDyWCH+xcSHFnvR9RtvCOqQSWDlL+5bnZLV1
+	9DDi5HittJr6nzuYVW+Et6bPZ6GinWg4bz4eXO0i+4gl/PN8XDyuvyc6jpg8W54q2vvtOG4Gnbb
+	Imx8GJ+mZSlcm4iOBqAsSvRbbyYJ1r65HBmV7vzON1yYM8OoR5pgUUnaBVx9zAPZzzFcRFU2c77
+	9e2P9l56h9WAWqhV063ql338WZ/+hFCQ77KhmG5e15D5Cg/63g0gMy07T1n7v7I7pEtnPtadQW6
+	Z/sdCtRMVcMvuGXOfCznaqo8A=
+X-Received: by 2002:a05:6a00:3929:b0:7ab:5e68:e204 with SMTP id d2e1a72fcca58-8244166b430mr2053715b3a.29.1770374624746;
+        Fri, 06 Feb 2026 02:43:44 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([147.161.217.33])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824418ff231sm2374434b3a.69.2026.02.06.02.43.45
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824418ff231sm2374434b3a.69.2026.02.06.02.43.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 02:43:46 -0800 (PST)
+        Fri, 06 Feb 2026 02:43:44 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 5/5] harfbuzz: upgrade 12.3.1 -> 12.3.2
-Date: Fri,  6 Feb 2026 23:43:22 +1300
-Message-ID: <20260206104322.2604271-5-ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 4/5] utfcpp: upgrade 4.0.8 -> 4.0.9
+Date: Fri,  6 Feb 2026 23:43:21 +1300
+Message-ID: <20260206104322.2604271-4-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260206104322.2604271-1-ankur.tyagi85@gmail.com>
 References: <20260206104322.2604271-1-ankur.tyagi85@gmail.com>
@@ -67,33 +67,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 10:43:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230607
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230606
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Changelog:
-https://github.com/harfbuzz/harfbuzz/releases/tag/12.3.2
+A minor release: removing static asserts for C++98/03 builds
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../harfbuzz/{harfbuzz_12.3.1.bb => harfbuzz_12.3.2.bb}         | 2 +-
+ .../recipes-support/utfcpp/{utfcpp_4.0.8.bb => utfcpp_4.0.9.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_12.3.1.bb => harfbuzz_12.3.2.bb} (95%)
+ rename meta/recipes-support/utfcpp/{utfcpp_4.0.8.bb => utfcpp_4.0.9.bb} (94%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_12.3.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
-index c22d6bd4b1..12bebc4bee 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.2.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-support/utfcpp/utfcpp_4.0.8.bb b/meta/recipes-support/utfcpp/utfcpp_4.0.9.bb
+similarity index 94%
+rename from meta/recipes-support/utfcpp/utfcpp_4.0.8.bb
+rename to meta/recipes-support/utfcpp/utfcpp_4.0.9.bb
+index 628e8ee0ce..55780b1c7c 100644
+--- a/meta/recipes-support/utfcpp/utfcpp_4.0.8.bb
++++ b/meta/recipes-support/utfcpp/utfcpp_4.0.9.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c \
+ SRC_URI = "git://github.com/nemtrif/utfcpp;protocol=https;branch=master;tag=v${PV} \
+            file://run-ptest"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "3ee7133f7f160b27bc34c058e147a559bb781c2b8208bc760db9fa9fa69cea07"
-+SRC_URI[sha256sum] = "6f6db164359a2da5a84ef826615b448b33e6306067ad829d85d5b0bf936f1bb8"
+-SRCREV = "f9319195dfddf369f68f18e7c0039b3f351797fd"
++SRCREV = "63d64de49fd6b829f7c8694df5ab2ee625cb7134"
  
- DEPENDS += "glib-2.0-native"
+ inherit cmake ptest
  
 
