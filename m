@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF40EE20B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE38EE20AC
 	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 14:57:23 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13589.1770389840055922866
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13123.1770389839525531597
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 06:57:20 -0800
+ Fri, 06 Feb 2026 06:57:19 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58971339
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Feb 2026 06:57:13 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B16CB339
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Feb 2026 06:57:12 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5CC7A3F778
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Feb 2026 06:57:19 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B55C83F778
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Feb 2026 06:57:18 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] jquery: remove recipe
-Date: Fri,  6 Feb 2026 14:57:15 +0000
-Message-ID: <20260206145716.1615377-3-ross.burton@arm.com>
+Subject: [PATCH 2/3] oeqa/selftests/reproducible: use the jQuery CDN instead of jquery-native
+Date: Fri,  6 Feb 2026 14:57:14 +0000
+Message-ID: <20260206145716.1615377-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260206145716.1615377-1-ross.burton@arm.com>
 References: <20260206145716.1615377-1-ross.burton@arm.com>
@@ -30,92 +30,70 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 14:57:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230625
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230624
 
-Now that the reproducible selftest doesn't use this recipe, it is no
-longer used by any recipes that I can find.
+Instead of building jquery-native and then copying the file into the
+expected place in the build tree, simply tell diffoscope to load jQuery
+from their CDN.
 
-There is an alternative jquery recipe in meta-oe that is slightly
-different and has packaging consistent with with javascript recipes in
-the same layer.
+In the slim chance that the diffoscope report is viewed offline, the
+only regression is that sections cannot be collapsed.
+
+The advantage to this approach is that we no longer need to maintain a
+jquery-native recipe simply for the reproducible selftests.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/conf/distro/include/maintainers.inc     |  1 -
- meta/recipes-devtools/jquery/jquery_3.7.1.bb | 38 --------------------
- 2 files changed, 39 deletions(-)
- delete mode 100644 meta/recipes-devtools/jquery/jquery_3.7.1.bb
+ meta/lib/oeqa/selftest/cases/reproducible.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index b231daf485..28c3e987c9 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -301,7 +301,6 @@ RECIPE_MAINTAINER:pn-iw =3D "Unassigned <unassigned@y=
-octoproject.org>"
- RECIPE_MAINTAINER:pn-libjpeg-turbo =3D "Unassigned <unassigned@yoctoproj=
-ect.org>"
- RECIPE_MAINTAINER:pn-json-c =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-json-glib =3D "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER:pn-jquery =3D "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-kbd =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-kea =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-kern-tools-native =3D "Bruce Ashfield <bruce.ashfie=
-ld@gmail.com>"
-diff --git a/meta/recipes-devtools/jquery/jquery_3.7.1.bb b/meta/recipes-=
-devtools/jquery/jquery_3.7.1.bb
-deleted file mode 100644
-index 33147b493c..0000000000
---- a/meta/recipes-devtools/jquery/jquery_3.7.1.bb
-+++ /dev/null
-@@ -1,38 +0,0 @@
--SUMMARY =3D "jQuery is a fast, small, and feature-rich JavaScript librar=
-y"
--HOMEPAGE =3D "https://jquery.com/"
--DESCRIPTION =3D "${SUMMARY}"
--LICENSE =3D "MIT"
--SECTION =3D "devel"
--LIC_FILES_CHKSUM =3D "file://${S}/${BP}.js;beginline=3D5;endline=3D7;md5=
-=3D9c7c6e9ab275fc1e0d99cb7180ecd14c"
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa=
+/selftest/cases/reproducible.py
+index bad17cc40b..7adeaacd4f 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -105,6 +105,7 @@ def run_diffoscope(a_dir, b_dir, html_dir, max_report=
+_size=3D0, max_diff_block_lin
+            '--max-diff-block-lines', str(max_diff_block_lines),
+            '--exclude-directory-metadata', 'yes',
+            '--html-dir', html_dir,
++           '--jquery', 'https://code.jquery.com/jquery-3.7.1.min.js',
+            a_dir, b_dir]
+     return runCmd(cmd, **kwargs)
+=20
+@@ -319,10 +320,9 @@ class ReproducibleTests(OESelftestTestCase):
+=20
+         # Build native utilities
+         self.write_config('')
+-        bitbake("diffoscope-native diffutils-native jquery-native -c add=
+to_recipe_sysroot")
++        bitbake("diffoscope-native diffutils-native -c addto_recipe_sysr=
+oot")
+         diffutils_sysroot =3D get_bb_var("RECIPE_SYSROOT_NATIVE", "diffu=
+tils-native")
+         diffoscope_sysroot =3D get_bb_var("RECIPE_SYSROOT_NATIVE", "diff=
+oscope-native")
+-        jquery_sysroot =3D get_bb_var("RECIPE_SYSROOT_NATIVE", "jquery-n=
+ative")
+=20
+         if self.save_results:
+             os.makedirs(self.save_results, exist_ok=3DTrue)
+@@ -398,9 +398,6 @@ class ReproducibleTests(OESelftestTestCase):
+                 package_dir =3D os.path.join(save_dir, 'packages')
+                 package_html_dir =3D os.path.join(package_dir, 'diff-htm=
+l')
+=20
+-                # Copy jquery to improve the diffoscope output usability
+-                self.copy_file(os.path.join(jquery_sysroot, 'usr/share/j=
+avascript/jquery/jquery.min.js'), os.path.join(package_html_dir, 'jquery.=
+js'))
 -
--# unpack items to ${S} so the archiver can see them
--#
--SRC_URI =3D "\
--    https://code.jquery.com/${BP}.js;name=3Djs;subdir=3D${BP} \
--    https://code.jquery.com/${BP}.min.js;name=3Dmin;subdir=3D${BP} \
--    https://code.jquery.com/${BP}.min.map;name=3Dmap;subdir=3D${BP} \
--    "
--
--SRC_URI[js.sha256sum] =3D "78a85aca2f0b110c29e0d2b137e09f0a1fb7a8e554b49=
-9f740d6744dc8962cfe"
--SRC_URI[min.sha256sum] =3D "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb4=
-5166a8f17f95823f0b1a"
--SRC_URI[map.sha256sum] =3D "5e7d6d9c28b7f21006535e8875eb47e9667852a14c46=
-24eed301c6cea19ae62b"
--
--UPSTREAM_CHECK_REGEX =3D "jquery-(?P<pver>\d+(\.\d+)+)\.js"
--
--# https://github.com/jquery/jquery/issues/3927
--CVE_STATUS[CVE-2007-2379] =3D "upstream-wontfix: There are ways jquery c=
-an expose security issues but any issues \
--are in the apps exposing them and there is little we can directly do."
--
--inherit allarch
--
--do_install() {
--    install -d ${D}${datadir}/javascript/${BPN}/
--    install -m 644 ${S}/${BP}.js ${D}${datadir}/javascript/${BPN}/${BPN}=
-.js
--    install -m 644 ${S}/${BP}.min.js ${D}${datadir}/javascript/${BPN}/${=
-BPN}.min.js
--    install -m 644 ${S}/${BP}.min.map ${D}${datadir}/javascript/${BPN}/$=
-{BPN}.min.map
--}
--
--PACKAGES =3D "${PN}"
--FILES:${PN} =3D "${datadir}"
--
--BBCLASSEXTEND +=3D "native nativesdk"
+                 run_diffoscope('reproducibleA', 'reproducibleB-extended'=
+, package_html_dir, max_report_size=3Dself.max_report_size,
+                         max_diff_block_lines_saved=3Dself.max_diff_block=
+_lines_saved,
+                         max_diff_block_lines=3Dself.max_diff_block_lines=
+,
 --=20
 2.43.0
 
