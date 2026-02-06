@@ -1,223 +1,359 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 409FBEE20AF
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 15:08:43 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13899.1770390516401390318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB9AEE20B1
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 15:50:44 +0000 (UTC)
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.288.1770393039509258824
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 07:08:36 -0800
+ Fri, 06 Feb 2026 07:50:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Zx5GU823;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Zx5GU823;
- spf=pass (domain: arm.com, ip: 40.107.159.31, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=bRuBIeMmwXLKHZFz9aUj/TULuZmAWNJCtX34LsSx/W8LQDP0lN/sIoZQ1bFoZQn2nvv729954JZWr7uDraYfEFWq5Tlbjcuxy8aSUaVyXwtqztDSBGAn1peXz3U0PhN358fhaFchUnAJ9zJE3TQM+oYHeCfWPspUQ4P5qzgtBCR2OIuRg4sbqY6EGB1I3Fx9/ItBu5nVmLK1ZX7GJaqiDqnO5UaT6m6+KiqfQ2Zul7IbJ09u1XBDtp2HHqSdge4ESpoKrSijlyMEdC1exKpQmiDPGSdIGMWs+J2gz/qDSkDDUcQh8lx2f/FIqGpFIhfLNjfBebnfJbAHaFVnJ60T8Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oB8F+QlW0q9WqajEX/4LetnnL1P1P+jEwhxIEwlcKVg=;
- b=ghvxCY9LwXmsD6C19OBXfNUdUX69J6bVickQe4hUoepiMxnNKgnQGXQGuEdR7pZtcRThBKUpg71794FmWmenPs8JfIc0qWebPQoXKCVrGbMs4CrYmjhfb+qoxwYWkXV9hU44J3TstD5x/83ZbFf09ObH2kSZ6JosifW1zxmxunJttcsX0cUu3i8/K1Y3ldTCjLPeCXLpmEH7uoDzPWoyeMkCRE2/I37hscW3+KXxnNh0CeRh4GHXjv9rLTnwXNq8sVybnvIOxoV040xRYVVlb3axfWPb9x3H1cwQ/oGyuTO/CQoPh9jVs+zgGsQfkdrYB5URSlYDjB27dOZQYEM+0w==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oB8F+QlW0q9WqajEX/4LetnnL1P1P+jEwhxIEwlcKVg=;
- b=Zx5GU823/ZbnX58Xh7FXfXQ5sJXOBHsbRSt0BztLyhoWABy8eTz4DOLLsYVwzYnq2oxVPVrxNn1ryfGyV6b7oLellcSuZ8oqyWMeDNn32uVILxe/zus5nN55FZicjcdBhcX5tc1rE7Rv4YtFCPXoSkN6+st3i7SFxTOuJMwozFE=
-Received: from DB7PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:10:36::32)
- by PAXPR08MB7671.eurprd08.prod.outlook.com (2603:10a6:102:245::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
- 2026 15:08:29 +0000
-Received: from DU2PEPF00028D01.eurprd03.prod.outlook.com
- (2603:10a6:10:36:cafe::1a) by DB7PR05CA0019.outlook.office365.com
- (2603:10a6:10:36::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.14 via Frontend Transport; Fri,
- 6 Feb 2026 15:08:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D01.mail.protection.outlook.com (10.167.242.185) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.10
- via Frontend Transport; Fri, 6 Feb 2026 15:08:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NmKW+kGI89OZpEpCz3a2TUkZjj8k3qXUoYxKyM9BYAuf3jbEQowvojvgZ+Iz5R8Yh+C9Ca7OepEmd3LWyxRbf4Fs5Gp8+MBrh1OgU/LKzgS8z/zWAfdctRphNPxV1dBvqv2iPFH7nEmeLptcaMTxLZmS+57wlFzPbCPWoaUYF3cA82nlJeIVjTY1kMEZ/VEHBgl7tUrQjMJkmyjULJapFfQjdq4wITk5wTGnHvKCDlaCg0SiV5uVZCOTtH5guc73Cb/OpMzlwkKAGunQ2ElnI0W6zdaSXzAvOHo3AhNzG4EKva6iFbETtdw2jLSeUEA+UXf6U7OKHWZMAd6I1hnzmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oB8F+QlW0q9WqajEX/4LetnnL1P1P+jEwhxIEwlcKVg=;
- b=y6+SctoSNhHTlqNZ3RTkauWkX+oyEvx1oUpdAOVBvQm4sxqCgI2VjfswgPtkQ8PjGs15NgvnZ8S3JoYsMZ4Z7+9s571/03WM/s1MDiJm8HyRdYnNUpEucBO+IAX3nVeatKk9oxS2df4VDKy2f/J9J56ChiMh5vucZYvwr1pYVXAwOzVgf2VigKEKc9gEQArwTSBfOAsd/huyWhGPM7rMQg3GDx9ygxkwo1kOxu0frlLAZztxKcvtno2mbTO4MpS8Zt4b89Ba27HCG7jGCMtF+qP4pCtXxC4UWzGFialFD/8T8tyoI2IWuDOObjiLWosCZvgaqcbwFjFCnjW7A/FL0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oB8F+QlW0q9WqajEX/4LetnnL1P1P+jEwhxIEwlcKVg=;
- b=Zx5GU823/ZbnX58Xh7FXfXQ5sJXOBHsbRSt0BztLyhoWABy8eTz4DOLLsYVwzYnq2oxVPVrxNn1ryfGyV6b7oLellcSuZ8oqyWMeDNn32uVILxe/zus5nN55FZicjcdBhcX5tc1rE7Rv4YtFCPXoSkN6+st3i7SFxTOuJMwozFE=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by GV2PR08MB8389.eurprd08.prod.outlook.com (2603:10a6:150:c3::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Fri, 6 Feb
- 2026 15:07:25 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9587.013; Fri, 6 Feb 2026
- 15:07:25 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "hongxu.jia@windriver.com" <hongxu.jia@windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
-	<alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH v2] vte: fix build failed for ppc64
-Thread-Topic: [OE-core] [PATCH v2] vte: fix build failed for ppc64
-Thread-Index: AQHcdIPH/Z3PoTOS9U+pmcDpFXLNdbV2C4UA
-Date: Fri, 6 Feb 2026 15:07:25 +0000
-Message-ID: <A1C75F2E-EB7E-431D-B4D0-9570DC3A4B19@arm.com>
-References: <20251224031644.535650-1-hongxu.jia@windriver.com>
-In-Reply-To: <20251224031644.535650-1-hongxu.jia@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|GV2PR08MB8389:EE_|DU2PEPF00028D01:EE_|PAXPR08MB7671:EE_
-X-MS-Office365-Filtering-Correlation-Id: 045cadc0-3248-47a9-a72d-08de659195b5
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?LyHCXmZF2wJbHBVw9k0g7tGnO9GLil64bsFxH8N49NMumTglCuWWpP1TDtnB?=
- =?us-ascii?Q?ZouMMGLLFPXQpWFMD7/cUy2sZEHpukIh9PoJkfJDIi8Ap5u6OMFd3L7hBwZo?=
- =?us-ascii?Q?xGVFoDiwiZqzbUj5i7SiTK1tEVb1+Puj/3ZufdJRwnud2fhYUbrZh3AGtxQs?=
- =?us-ascii?Q?dnoDvUODEpGtDtnwDY2kqApDlhc2mEr1jdrH5BTJlbrU+OEeSoKcKGvfVWHR?=
- =?us-ascii?Q?X3eCxSjrvRYLhO3IZlt6goO7W8rsXnLSNA2sq55GYVp/IN6HS84y84d7pbWl?=
- =?us-ascii?Q?ykZdUCuIdKZayxm1jQIhg9nReTAOs2img92xipMNWb7pNd08wt1FmArt1YNP?=
- =?us-ascii?Q?S1P41vJv/uKES2woiY1kkpyRz0xHFSscMp521aa6FjLo6joPuMG856hhJNVc?=
- =?us-ascii?Q?DcUnM/1tlPqNrX0miwXKmlHD7vxeRuPOXcifZ/80Ue1l81ZW1qyd/ZLyGjd6?=
- =?us-ascii?Q?q0vNqvd7hPgy6sBOPOmkoyLOpko4VKQ0zQjNkTRj+ZWElpWlGPNbPx73Nz1m?=
- =?us-ascii?Q?/TBHufRIoAQG9Wdp9ajO0ru1KCMXBTrZQ084rHXwDTwoqWNf/xfy6be1GWjw?=
- =?us-ascii?Q?DzNsAZVHp9PBVdInfSy4TvCpH+OAsAMx2lDvutMWagJjgoxhze/gYiTZmsSU?=
- =?us-ascii?Q?OHOcLTr8IulvSdt8PANq6o8W8/oa1r0S6ZYJL+ZAnWqQwA2hfOjTrXkTpjsw?=
- =?us-ascii?Q?VE5Se7bX2ufasjHlSb5x1PjH29OxFurGfN8S2/ym/8y5tFAWCpignidg9keL?=
- =?us-ascii?Q?zD1XfOUwUm/q0JmltJ8NjWTCA3Kncs+tx7uLTW2eHZTE7KrqYI/yA6PRM9MJ?=
- =?us-ascii?Q?qbd4ImTtUt59Y2tO21xijg1sSZP/q3m17vjx7IEBgW9PPsHYXL/QwfHy8Nhf?=
- =?us-ascii?Q?gMmEN6EEhObjX2/WklLQMYH1ba2/1IA53iC0Q7oDA86kc0hQk4ekhK9jc1P8?=
- =?us-ascii?Q?4qMBFdOWnUt10aAQBLY0Yvqg8I4EWaSVuVVDdX9hQL/92J4zZO+3mQZ+csSW?=
- =?us-ascii?Q?Eu8brbIwQau92tz0NHYJnNonywH5cIZwt6Yyns0pE3dVo7O1uSOwj2rShWYt?=
- =?us-ascii?Q?CgMD1/FlxuIXMAFviZkkZ0WhYhn2lQTQF1+DdO3Ceb8eTtOn4Fzf7f+dW9jA?=
- =?us-ascii?Q?RoGPsCUjeUyjleccYAkvJDXRZeyw1zCTekBYUUixg33c6ozeHREDXCMvNhju?=
- =?us-ascii?Q?lf/qMsGE0pAZmI/TyTPEimtnHCcvyx6IIi5aGO2sZ3N13Hxn834q2Vf5M9Bl?=
- =?us-ascii?Q?uZwq6QpGVTiARB+IOptNWGwrAbnVu7na7AIg5kr+5+KM0wYBGM7/68idHSCW?=
- =?us-ascii?Q?Sshf8LGCLNRxw5L+bPA5biV/9dLeVAm9NgBKphUnaxi3LPaeewCXX7jURanz?=
- =?us-ascii?Q?ru5IVnpoF3OUoC//wtG6xMKETEqEiwXiLSLpvcqW3aamsdWAt/rpovrVtJyL?=
- =?us-ascii?Q?SAh735/FoF9LExuVxNpuWpTDm2l3SU+CgRvUqGZg4IBAfS8QkFhp+x/H1BXK?=
- =?us-ascii?Q?+yqeIhCbMKrgbfxq4z6AH+StLgQdlJB82vllshWjuvXM346UhBpHzqDD22fB?=
- =?us-ascii?Q?jUm2eqQYbLxiqE0psovOt3S+jv4jvo7oJOvl+pSpVHBu/HVHBV3MhJhZENbf?=
- =?us-ascii?Q?ihc0w4JnEw/fq5F3d6WkRvI=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <679E398FEBE4BF4CA9D739BAE1EEE3B7@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gMc5MZku;
+ spf=pass (domain: gmail.com, ip: 74.125.224.54, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-649b22e5894so2832202d50.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 07:50:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770393038; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iZyKu9Q6kLHvSNnnK1lao6ayjZdMG1zLADfURXJDKt1ItfLpWZXWIJLG0Kjq7CU0Yx
+         bRr83FapucCGPXXTOWl4R34h/ONhABHYKV5QWoOlC6xRMCi0UfAeBSbXur1j/mHFu5n9
+         Yg9rPb5Ctd1AvB87kuiEUk4FxY4p0kosvHG6b8m5RLKAX3ehUbbEc9bf9PS82WQRZJ6k
+         a8WJTpC3XPMoiFOEoGxJdjyE5OMymkMuNCbenyQG/SRibsreAI7UqntbxlfXopL2UeSF
+         gQOss4zsbRkTQWmzyiPa4zFKaT3O+yRKqxZkaSXxVFaZjHo3jA6TU0i6wIU12jzoBwBC
+         tESg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=exX4Frqjgyef7uD4A5WTOQGMApmAGV8j83LMGrFVLMo=;
+        fh=yxwvfP2MBoxfKODQlk5mCw+BH/FpxH+twEsthCQCQWQ=;
+        b=k+XSglhQad9tprX57H9Tg0N5LYwou5nnU5s5KPPeuR4qNyzveZZlCVWMwk4KQtd+Cc
+         jTnHDLcrnKYvdKQlnLxtpmkYiWWdo+CYqRY8D4tj0tkt3reEU7SJcLWuEzng1Ovmx00A
+         2kkhNNBnCX1sTMpkAvv60UjBdrYPHFIZjiRpeMmbbaw0zDcjGQdElpg74A9DFR3MNkb6
+         cbKLQHPgIeHIBIxgr+inRRW6V+MMP9y332FqErNqC2Lv4CrrKr1MbNvTwHmknnEreLNK
+         zuWzxKGYQELvkRPIhm27NvO47N0DccdP8/OfJVuia1GFkGI04zPNNoxvDd0Hi1ma/6AI
+         HTTg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770393038; x=1770997838; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=exX4Frqjgyef7uD4A5WTOQGMApmAGV8j83LMGrFVLMo=;
+        b=gMc5MZkujD4J5R10c3MmVMaql6+t25ImHcI4riiqYac3mwvHou98/Bua6wbF81jSzm
+         pW+bJbiUDjjoAl3epIZZhzu9ywWK3YxPvQfYkiqBgH0rTE3WgmOGESERflC/AVoRoCDR
+         qEFu9vultG/LHN1NFbm8tlo0l7a0F/I/FAUOI3bXkN+ujCJ5ameZcbjdR05HFE3YKVLH
+         Orvy8MRfOFtfSy0BWXnCmN0sScG2LJNrMV5Ppf8ZamffJyEwMENyp2UcBe8PdifWd38s
+         +lyABEwiSTstEgz6N3b6e+8opGT5A+xDhg0xc4891JUhk2VnhWdE4rhc01TNTaLm+LF8
+         dCWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770393038; x=1770997838;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=exX4Frqjgyef7uD4A5WTOQGMApmAGV8j83LMGrFVLMo=;
+        b=BNYNDeUcYirvvqecoj90VFYismsGXAUXMfmv2kc+qPs8ao4HWQ2AINTXN0GUjzW1rC
+         hHvCO2uRSc2UsytZNoRgo797EV40JIKxsbN164lGfOT3Dd+DQ/UrfIjH09OaHn+DTC7K
+         ctuIQJ4wDCvPdcCQyD1TOiw94X4VHNC8YxDjm3eROWeSBoR9Da5ixXttmCJyUDzOe+k9
+         OB/2mIs1edx3P9u+bZIHpiILN14LhfcL5xewuKJ4cszv/o0qUs5Gy4zf8aeG9bUmkYGo
+         i4HgRSVhZbMilX15dj2CySodI5Tn2SfEFSvWK93Xqh0+305tc82fkrPB4QeFLh25hSZP
+         CKTA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmpKr4Bnt1BE6yS2C0smzrfIKXeX+ULmSiJfvcpoxmJYPhW7iLDlXvir+kyTb/otiFynjK2Xd2y0BxdesVIEeVdg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyEJCuVKRZUP6+ImSKZGSgKjf7ef19d5H9P5kJkX9Smp5IrGIeg
+	19lFO0LW5jfnv47q76wX/k12pR7pyUdFQHiTIc9lAoBl5vnS0NksJqPrNhLpBV1JfqQsK7pszdP
+	WRAAOcn+T5RjBIaoTeLdQYQgVKaljInc=
+X-Gm-Gg: AZuq6aKfpPrzs8spr/nIuoDt/ePyjfxLLQUYumdo7tIDQ8HHIVdxPbXjo7WNsxNkLzm
+	opMJpbxjcBFK0w8o/xiUPk4uQ9jVJi1ZFIEPJ57XS/oxTjwGNJznaSsdfGlZAqKaj3aAn5DtCi6
+	Qm35b5z2C6I0EytUREO8Xlw+Wf6mSRLWLdGjihBscWTQv3ynEzUJhZk7/F0aNINBDABX4tQvZx8
+	eE7Ps6z4YjU1iVFpHwxGyUijkUKJD0zpvDLrlY29qEjx3e+TaAPIUp4hINPs0tyy74mnkmeAyXy
+	etjm1wZp
+X-Received: by 2002:a05:690e:2554:b0:649:da7e:9950 with SMTP id
+ 956f58d0204a3-649f1e68083mr2441973d50.6.1770393038426; Fri, 06 Feb 2026
+ 07:50:38 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8389
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU2PEPF00028D01.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	d6efbfba-7521-44fc-6299-08de65916fef
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|14060799003|1800799024|36860700013|82310400026|35042699022|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?960to7mOzVXgkFovwM41aTtj7T/MwiJktHeMEivbmaaqi+9iHn6O8J6xhnhh?=
- =?us-ascii?Q?ZrOUUcEfSk4mm3rSflHA6fJxVnBMYFaZaVt/1YfdcdNEvA2mjOu5fLq+suVP?=
- =?us-ascii?Q?EgMSv5x1aNXKJ9YBBqN3JcdPKRJ72Hhjjt8Ez6qf8NICOIf+mftE3GI15bMD?=
- =?us-ascii?Q?vg9Ezxu86onz+qXzIgAPKoB1FVU4j6+XRBLmC5sy0Zfouw14Go+K+vAT3hsR?=
- =?us-ascii?Q?KX3zARu06BhBRW0O8c7dd5BVj0XnGDeZyRes+6IAjCWkWVzDWOUP4EniBSqY?=
- =?us-ascii?Q?+VOMinNAgHLH62sGI3PCOGFe2v0IxiOlYpx6ayCb/sAahEkRVQqOq2dQsxNU?=
- =?us-ascii?Q?OQt1QhnQDMCfXIQucpBLi6RSCXsuoDVsN+AHJzxsKoAlhFYSIG8iXFY0jNwD?=
- =?us-ascii?Q?fpNfWN5d6wdfemyv5wFdRRuOSbweMR4E+k1L7pObmhXtLhxeuZGUzkEddh25?=
- =?us-ascii?Q?Owy9jMOpUtyGTUItFd9XzYG7d1vqw2Xc6L6yr6RIbkMu9zL6IZhoByyh0mw9?=
- =?us-ascii?Q?FiP3UIzfd22k/nTMUd5y+EdZ4S9UsQ+ePy46bDkO7pziOjQn793BhgQuUJx+?=
- =?us-ascii?Q?r3IPFw+JPbjvw2WJ0KJmBBIJcC9GYUoFRl7yQcdaB0kIft13UT3degR6+ISM?=
- =?us-ascii?Q?53UIPBB1YhNp5QGXGZb1QW0bm9dRX2ilEzk0eDzvGanB0G/KH4QQiGQbxmga?=
- =?us-ascii?Q?Q+jni9YVpLY6Mtv1XF/FNjLNsq4QgHk+ntXNzXMAyyljx7OAK0F62zAB/v/S?=
- =?us-ascii?Q?g+EThL0RSaDp+FPSeukGXKfy4cyG6hggJvnAHdkCVXHnEFeUeNszkA3KVj7S?=
- =?us-ascii?Q?fQB7+1NSa/DYZbWTbaPJq1EnakrWtkElOHdmp4CrB6mH32QMf7nxOa7vSCdt?=
- =?us-ascii?Q?xXTlQ+x/zn/6ACvpnYyuq7TFd2V9mVRLFPWhjjKAWWyyozXPKPhFI1POWwPO?=
- =?us-ascii?Q?rhc4qOc52vxK18L+byLWjGM7qrQ1AUs+09HFVKHLv3FWUXmoN90jwHcW5bt9?=
- =?us-ascii?Q?JB54R8Yxzwr0AURokV/U5KkPcbbOnrbHpXqX0WyLKSAKo01p62Geeo2y/srP?=
- =?us-ascii?Q?tHTeih+llT+MMfp6ExZPmC+6Xrq5hK05J0DOvG7HaSNRWlC9WM1RAvIhC6HF?=
- =?us-ascii?Q?LVFX18niCDnE6MUXV3nvzrltPQ6lkp7AobsAMcu4Ch5UgiDJ7h0JOD/QXLKE?=
- =?us-ascii?Q?zyLayIY2zTDWGmaj+sud8+XPyXdqz5tW/kfgzFkYhF9b0k07fRC99mpf1V/L?=
- =?us-ascii?Q?DbmnR5t4r2P1dQ8A7U86SjEWKdgEbJlOG7zjKiJIJMtVQp4nhdXgR3ndMXOY?=
- =?us-ascii?Q?TZqRBQGIneiLIqeGAjYXM3YNFnF2WhMTkBBU7w+HWw2V2t4e4QyCJIiqz/DM?=
- =?us-ascii?Q?5e5/DHGWoRI0zyMsocCvg6/bisILSP4r5wtka2mygKkn6MxaYQvfMI8aIJWJ?=
- =?us-ascii?Q?Gs48bL77ea3GXlmF5Nsat91NHmTC5M8PV7S8kvcViUSR0OI4dN97MyiOVCq+?=
- =?us-ascii?Q?73tQVfbhY8biVpieBUreQf+DR3g2+7jIIVXkWi/7sB/h7F2Unq250bFUt6Pw?=
- =?us-ascii?Q?UZDVbqiZef1R9E+tmxNbkT3sViPgRBwFPHHq8v+Ju0mk87TLMHvPyZwPu7ZN?=
- =?us-ascii?Q?nmK7eiy5lsGfRzDBnEytdCrO9lntzi77Eazce6wk2j3n5FlHnf3gvC0upFT+?=
- =?us-ascii?Q?+F2nLA=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(14060799003)(1800799024)(36860700013)(82310400026)(35042699022)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	F8dxyLNXhuWiXWAJy9K5JS2A6fb0uNBZKFGTkilY5GgFSFXBAZVWY+Szf6Fvd8nBNgJVQ+kkyWu+EftS8ly+kblmTloLlqVw8hTLVkAp0NAXDzmzz9WDNSxC49loaVeq3OSPjb2msS9BhZiVFlHubpFRd1zk3SLR5jRRkdzOdO+MwMp9IzXBpL5zmGGzn1anPiaoQuxnvJI0F3cfUnHtjDP0fUIYqMcUIAG6h8Pf2XfkCyJe4xEydIAP4c1Emmty7LamGtrEyve7hyplgfKMnp7uGklZM7+zUCg2mbWpIZSsahHn26VenAYWAL60OEhe+kiUJS/3ZSo9iHbfYpRYG5HJWVa4RoB3dyEPMHayLIi8SEOrsvJh6nHtNiC59kESlZl0s/xJPyzNCMuZiQSdME6/ps+hqPqOZxa8iNX2AJYBKW36agu0DDPBgmxTSYxU
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 15:08:28.8572
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 045cadc0-3248-47a9-a72d-08de659195b5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D01.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7671
+References: <2CD10DD9-FB2A-4B10-B98A-85918EB6B4B7@arm.com> <2051957.usQuhbGJ8B@brobin-bootlin>
+ <CAJdd5GZuXM06+x+OPnpi5jkv2Hc=rz-qVesPG+0YePeYFvaxCw@mail.gmail.com> <1996818.6tgchFWduM@brobin-bootlin>
+In-Reply-To: <1996818.6tgchFWduM@brobin-bootlin>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 6 Feb 2026 08:50:26 -0700
+X-Gm-Features: AZwV_QhXbtGQJWtoB_90h5vy60QQQS6WBP9-H35Cm0R63lLITXczNgbIeaCT3Gg
+Message-ID: <CAJdd5GZOeL0ZfGuPtWj9VuY0jdpcGEi6v-mRDZWB1t7rFv8PnA@mail.gmail.com>
+Subject: Re: Comparing cve-check with sbom-cve-check
+To: Benjamin ROBIN <benjamin.robin@bootlin.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 15:08:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230626
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 15:50:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230627
+
+On Fri, Feb 6, 2026 at 5:22=E2=80=AFAM Benjamin ROBIN
+<benjamin.robin@bootlin.com> wrote:
+>
+> Hello Joshua,
+>
+> On Thursday, February 5, 2026 at 6:29=E2=80=AFPM, Joshua Watt wrote:
+> > I think I have the SPDX changes that will be required _mostly_ ready
+> > for you to look at:
+> > git.openembedded.org/openembedded-core-contrib/log/?h=3Djpew/recipe-sbo=
+m
+>
+> Thank you. I am currently evaluating your commits.
+>
+> While being able to generate a SBOM for an entire layer is useful, the
+> urgency, in my opinion, is to have a SBOM (the one that can be found in t=
+he
+> deploy folder) with all the important information for a complete analysis=
+:
+> - Elements (packages) "installed" on the target.
+> - And also build elements (what you have created: software_Package with
+>   software_SoftwarePurpose.specification).
+>
+> Users are doing the build anyway; the generated SBOM associated with the =
+build
+> should contain "everything" for a proper CVE analysis. But I guess the co=
+mmits
+> that you have written are a first test, and it is not complete.
+>
+> > Run the command:
+> > ```
+> > bitbake -c create_recipe_sbom meta-world-recipe-sbom
+> > ```
+> > Which will make a complete recipe-level SBoM (names may change, since
+> > "recipe" is a little confusing in this context) in
+> > ${DEPLOY_DIR_IMAGE}/meta-world-recipe-sbom-recipe-sbom.spdx.json
+>
+> This is great; it will be very useful for a layer maintainer.
+>
+> But on my side, I first tried a normal build with an empty build director=
+y.
+> The build failed around SPDX generation. For information I used the follo=
+wing
+> KAS configuration:
+>
+> -------------------
+> header:
+>   version: 18
+>
+> build_system: openembedded
+> machine: qemuarm
+> distro: poky
+> target: core-image-minimal
+>
+> repos:
+>   bitbake:
+>     url: https://git.openembedded.org/bitbake
+>     commit: af9dd012e7f4d16dccd1d6118be5da94ede68f85
+>     branch: master
+>     path: layers/bitbake
+>     layers:
+>       .: disabled
+>
+>   openembedded-core:
+>     url: https://git.openembedded.org/openembedded-core-contrib
+>     #commit: 6ce19709f7835ee5cd7915e181f89397975236c8
+>     commit: 43737d14ab039c507a1a71177da68c7b41e4622f
+>     branch: jpew/recipe-sbom
+>     path: layers/openembedded-core
+>     layers:
+>       meta:
+>
+>   meta-yocto:
+>     url: https://git.yoctoproject.org/meta-yocto
+>     commit: de4abc0a175af12eacc761a2e1e60ca7fdfeaa1b
+>     branch: master
+>     path: layers/meta-yocto
+>     layers:
+>       meta-poky:
+>
+>   meta-openembedded:
+>     url: https://git.openembedded.org/meta-openembedded
+>     commit: 3787ecadbb198f56ac43025a15b3339c810c3a66
+>     branch: master-next
+>     path: layers/meta-openembedded
+>     layers:
+>       meta-oe:
+>       meta-python:
+>       meta-networking:
+>
+>   meta-sbom-cve-check:
+>     url: https://github.com/bootlin/meta-sbom-cve-check.git
+>     commit: ea9fecee6073abab0f8d5d7ccb02077d1c6dc504
+>     branch: main
+>     path: layers/meta-sbom-cve-check
+>
+> local_conf_header:
+>   cleanup: |
+>     INHERIT +=3D "rm_work"
+>   spdx: |
+>     INHERIT +=3D "vex"
+> -------------------
+>
+> If I am using commit 6ce19709f7835ee5cd7915e181f89397975236c8 everything
+> works, but static libraries are not listed (no associated package). But t=
+his
+> is
+> expected, since none of your changes were included.
+>
+> If I try to switch to your commit (43737d14ab039c507a1a71177da68c7b41e462=
+2f)
+> and run: bitbake -c create_recipe_sbom meta-world-recipe-sbom
+> I have the following errors (a lot of them) if I do not destroy the build
+> directory:
+>
+> ERROR: zlib-native-1.3.1-r0 do_create_recipe_spdx_setscene: Recipe zlib-n=
+ative
+> is trying to install files into a shared area when those files already ex=
+ist.
+> The files and the manifests listing them are:
+>   /work/build/tmp/deploy/spdx/3.0.1/x86_64/by-spdxid-hash/
+> 70/706d8ec1deffb40c8b72ba34c22aaf543671078abd1a000c5fa0ee6f35274d2b.spdx.=
+json
+>     (matched in manifest-x86_64-zlib-native.create_spdx)
+>   /work/build/tmp/deploy/spdx/3.0.1/x86_64/recipes/recipe-zlib-
+> native.spdx.json
+>     (matched in manifest-x86_64-zlib-native.create_spdx)
+> Please adjust the recipes so only one recipe provides a given file.
+>
+>
+> However, if I destroy the build directory and run again the command, it
+> successfully generates meta-world-recipe-sbom-recipe-sbom.spdx.json
+
+Ya, this is because I tried to "reuse" the recipe deploy directory for
+do_create_recipe_spdx; I can fix this.
 
 
+>
+> And in this case, the software_Package providing the static library is
+> created,
+> and the application "dependsOn" this static library.
+> It also "dependsOn" gcc-cross-arm (a software_Package), which is great.
+> *But* there is no way to know that gcc-cross-arm package is a native pack=
+age.
+>
+> > This SBoM uses new "recipe" packages that _should_ be sufficient to do
+> > CVE analysis, but let me know if anything is missing; it also is
+> > pretty quick to generate since it doesn't require doing a build.
+>
+>
+> > We actually already track this for the SPDXDocument class as an
+> > extension, since the native recipes need to handle a few things
+> > differently. We could pretty easily add a similar extension to the new
+> > recipe package that you could look at.
+>
+> Unless I'm mistaken, this information is not provided in the SBOM that ca=
+n be
+> found in the deploy directory.
+>
+> The following command does not return anything:
+>
+> python3 -m json.tool build/tmp/deploy/images/qemuarm/core-image-minimal-
+> qemuarm.rootfs.spdx.json | grep -E "is.native"
+>
+> Same result with meta-world-recipe-sbom-recipe-sbom.spdx.json
 
-> On 24 Dec 2025, at 03:16, hongxu via lists.openembedded.org <hongxu.jia=
-=3Dwindriver.com@lists.openembedded.org> wrote:
-> +The source file subprojects/simdutf/simdutf.cpp is generated by python3
-> +script singleheader/amalgamate.py and the definition of write_v_u16_11bi=
-ts_to_utf8
-> +and ppc64_convert_utf16_to_1_2_3_bytes_of_utf8 for ppc64 [1] requires op=
-tion
-> +--with-utf16 and --with-latin1
-> +
-> +Add option --with-utf16 and --with-latin1 by default.
-> +
-> +[1] https://github.com/simdutf/simdutf/commit/497f4f29fe25a79af00ce25693=
-a14682a5f669a5
-> +
-> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/vte/-/issues/=
-2926]
+Yes, sorry. My statement was not clear; you won't find any native
+markers in the SBoM output today, but we have mechanisms in place to
+do that, so it should be pretty easy and I can work on it.
 
-Upstream have closed this ticket, pointing at a fix in the simdutf reposito=
-ry instead. Is that possible to backport instead?
+>
+> >
+> > >  - If possible (though not a priority), including layer information
+> > >
+> > >    (URL, Git version, etc.) associated with a `build_Build` object wo=
+uld
+> > >    be
+> > >    valuable.
+> >
+> > We would like to do that and it's on the backlog. It's a little bit
+> > tricky to get right, especially when dealing with multiple remotes in
+> > the git repos, bbapends, etc. FWIW, our Yocto PURLs support this also,
+> > we just don't have it implemented.
+>
+> Yeah, I know finding all the layers that impact a recipe could be tricky.=
+..
+>
+> > It also probably shouldn't be attached to the `build_Build`, but the
+> > new "recipe" package (See below). I'm hoping you can now completely
+> > ignore the build provenance information for CVE analysis now (unless
+> > you want it to filter on source files or something). In fact, with the
+> > new recipe packages, we could make the build provenance optional in
+> > the SBoM output.
+>
+> I currently use the `build_Build` in sbom-cve-check. The goal is to speed=
+ up
+> CVE analysis, since a recipe should only provide "one" CPE (there can be
+> multiple CPEs, but they all identify the same "component") and one versio=
+n.
+>
+> From the `build_Build` object, the packages are grouped (if they share th=
+e
+> same
+> CPEs and version), and the analysis is done on this group. This is especi=
+ally
+> important for the kernel and associated modules. We could have hundreds o=
+f
+> kernel packages sharing the same CPE.
+>
+> I noticed that the `build_Build` object is no longer used when generating
+> meta-world-recipe-sbom-recipe-sbom.spdx.json. sbom-cve-check currently ca=
+nnot
+> handle that, but I could change the way it works, will see. We really nee=
+d to
+> discuss that.
 
-Ross
+Right, it kinda depends on your use case. There are basically two of
+them right now:
+1) Running CVE analysis on all recipes to determine if any _recipes_
+have new CVEs that need to be triaged. This should be doable without
+actually having to build the recipes, since that would take a long
+time. This is the more "proactive" CVE maintenance that upstream and
+many companies want to do.
+2) Running CVE analysis on a specific product SBoM to determine if
+there are any CVEs that affect that product. Your tool currently
+handles this really well.
 
+I've not looked too closely at the code for your tool, but I'm hoping
+that it wouldn't be too difficult to handle either use case. I'm kinda
+thinking the tool should be able to handle either, since the SBoM for
+#2 is just a superset of #1. If there is something that we need to do
+to the SBoM to clearly distinguish the difference between them so your
+tool can do the right thing, let me know.
+
+>
+> > > "Better" might be too strong, we support *more* data sources.
+> > > Sometimes, version ranges in the CVE List are incorrect, while the NV=
+D
+> > > database may provide more accurate information. However, users can
+> > > configure their preferred data sources via a custom configuration fil=
+e,
+> > > so this isn=E2=80=99t a major concern from my perspective.
+> >
+> > I think there is also a lot of value in a separate tool that can be
+> > updated independently to deal with new sources using the same SPDX
+> > data. For example, if we ever figure out a sane thing to do with PURLs
+> > for vulnerability management, using e.g. OSV might be an option also
+> > (esp. since the PURLs are already in the SPDX data).
+>
+> Indeed OSV might be added as an additional database. But I need to find t=
+he
+> "time" to do that. There is so much to do :)
+
+Waiting on this seems best. It's not clear what the best long-term
+solution is going to be right now, and I wouldn't want to spend time
+developing a solution that was a dead end.
+
+
+>
+> --
+> Benjamin Robin, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+>
 
