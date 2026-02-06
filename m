@@ -1,140 +1,92 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03A2CEE6B44
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 17:24:25 +0000 (UTC)
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [45.157.188.9])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2791.1770398660425542868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 320CCEE6B44
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 17:31:05 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2995.1770399064327906599
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 09:24:20 -0800
+ Fri, 06 Feb 2026 09:31:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 45.157.188.9, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4f71D25h92zLk5;
-	Fri,  6 Feb 2026 18:24:18 +0100 (CET)
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4f71D22tZ6z97d;
-	Fri,  6 Feb 2026 18:24:18 +0100 (CET)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 06 Feb 2026 18:23:59 +0100
-Subject: [PATCH 7/7] mesa: depend on mesa-tools-native for less expensive
- libclc dependency
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260206-mesa-tools-native-v1-7-166935b0e379@cherry.de>
-References: <20260206-mesa-tools-native-v1-0-166935b0e379@cherry.de>
-In-Reply-To: <20260206-mesa-tools-native-v1-0-166935b0e379@cherry.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Quentin Schulz <quentin.schulz@cherry.de>, 
- Ross Burton <ross.burton@arm.com>
-X-Mailer: b4 0.15-dev-bab12
-X-Infomaniak-Routing: alpha
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gZt4Tyn+;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WAPEs+bI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c3401ddc1-fce5ad19-d9f9-42f0-b62a-d81109123b16-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1770399063; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=NwV38OU8KiVSk85GY3znasZgPX+ECLDtWzToKgCcMFc=;
+	b=gZt4Tyn+0C4GqoeOaQ83ZoAdwgnbtF7wXnUX64qOGqdnspjOFWA4I7IZ1Gj7ImgS
+	eqVv+3aXfn+9/seKzRqXeo3B34L/v4H5BnuA4YlzOkxwWokTbddyMM63Ut1Vmvw+gEj
+	urP8FZ2xBLsTXLUQHblrXFNUivQuvtlUPs8/t2lY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770399063;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=NwV38OU8KiVSk85GY3znasZgPX+ECLDtWzToKgCcMFc=;
+	b=WAPEs+bIBm0eWbWpzQYrmmsD420+FmNwxh2tSVGzv3uz1xYGyvzcd7wiuHkOaw5m
+	rvHVrsNIoO5s7jgLxyMTHUQkj0qDkfvDSlteDU1n18hhPJ2QTPQGlbSmE8ITWba7fia
+	WvOOzr+cG9Qg8c0y2t9Tv4o2iTqgfnvNmuNc7Z/A=
+From: patchtest@automation.yoctoproject.org
+To: Quentin Schulz <foss+yocto@0leil.net>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 6/7] add mesa-tools native-only recipe
+In-Reply-To: <20260206-mesa-tools-native-v1-6-166935b0e379@cherry.de>
+References: <20260206-mesa-tools-native-v1-6-166935b0e379@cherry.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019c3401ddc1-fce5ad19-d9f9-42f0-b62a-d81109123b16-000000@us-west-2.amazonses.com>
+Date: Fri, 6 Feb 2026 17:31:03 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.02.06-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 17:24:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230638
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 17:31:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230639
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+--NextPart
+Content-Type: text/plain
 
-libclc is required for some drivers (asahi, panfrost and intel at the
-very least).
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-libclc brings very expensive per-target dependencies such as llvm and
-clang.
-
-However, we can make libclc depend on native tools (mesa-clc and
-precomp-compiler via mesa-tools-native) such that this cost exists only
-once (for the native build machine) and not for each machine to build.
-
-So this migrates the libclc dependency to make use of the newly
-introduced mesa-tools-native to make use of mesa-clc=system and
-precomp-compiler=system.
-
-We told the user to have libclc PACKAGECONFIG when selecting opencl
-PACKAGECONFIG but its dependencies are now gone since we're using
-mesa-tools-native for libclc. Therefore, this also moves the previous
-dependencies of libclc PACKAGECONFIG to opencl such that we can still
-build rusticl which still requires all dependencies from previous
-implementation of libclc (as specified in meson.build[1][2][3][4]).
-
-For some reason, libclc PACKAGECONFIG is still required otherwise
-rusticl fails to build with the following (stripped) message:
-
-"""
-FAILED: [code=101] src/gallium/frontends/rusticl/rusticl_libc_bindings.rs
-/build/tmp/work/cortexa35-poky-linux/mesa/25.3.3/recipe-sysroot-native/usr/bin/bindgen
-../sources/mesa-25.3.3/src/gallium/frontends/rusticl/rusticl_libc_bindings.h
---output /build/tmp/work/cortexa35-poky-linux/mesa/25.3.3/build/src/gallium/frontends/rusticl/rusticl_libc_bindings.rs
-[...]
--MD -MQ ../sources/mesa-25.3.3/src/gallium/frontends/rusticl/rusticl_libc_bindings.h
--MF src/gallium/frontends/rusticl/rusticl_libc_bindings.h.d
-
-thread 'main' (3601157) panicked at bindgen/lib.rs:616:27:
-Unable to find libclang: "couldn't find any valid shared libraries
-matching: ['libclang.so', 'libclang-*.so', 'libclang.so.*',
-'libclang-*.so.*'], set the `LIBCLANG_PATH` environment variable to a
-path where one of these files can be found (invalid: [])"
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-"""
-
-libclang.so is available in the sysroot. Exporting LIBCLANG_PATH with
-"${STAGING_LIB_DIR}" in the recipe doesn't do anything.
-
-So for now, we keep telling the user to add libclc PACKAGECONFIG when
-opencl is selected (and keep it in mesa.bb when DISTRO_FEATURES has
-opencl) and maybe can figure out why we cannot build rusticl without
-libclc PACKAGECONFIG later on. I'm also not sure if the
-
-Note that does mean that when selecting opencl, mesa will bring the
-expensive dependencies again, but I'm not sure there's anything we can
-do about that at the moment.
-
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/blob/mesa-25.3.4/meson.build?ref_type=tags#L838-L839
-[2] https://gitlab.freedesktop.org/mesa/mesa/-/blob/mesa-25.3.4/meson.build?ref_type=tags#L850-L852
-[3] https://gitlab.freedesktop.org/mesa/mesa/-/blob/mesa-25.3.4/meson.build?ref_type=tags#L1849-L1850
-[4] https://gitlab.freedesktop.org/mesa/mesa/-/blob/mesa-25.3.4/meson.build?ref_type=tags#L1855-L1856
-Suggested-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+Testing patch /home/patchtest/share/mboxes/6-7-add-mesa-tools-native-only-recipe.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 8e5f9657fd..48cd9981c2 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -90,9 +90,9 @@ PACKAGECONFIG[glvnd] = "-Dglvnd=enabled, -Dglvnd=disabled, libglvnd"
- 
- PACKAGECONFIG[opengl] = "-Dopengl=true, -Dopengl=false"
- 
--# "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
-+# "opencl" also requires libclc and gallium-llvm to be present in PACKAGECONFIG!
- # Be sure to enable them both for the target and for the native build.
--PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native clang"
-+PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native clang libclc spirv-tools spirv-llvm-translator"
- 
- X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr xorgproto libxshmfence"
- # "x11" requires "opengl"
-@@ -203,14 +203,7 @@ GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'zink', ',zink', '', d)
- PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
- PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
- 
--MESA_CLC = "system"
--MESA_CLC:class-native = "enabled"
--INSTALL_MESA_CLC = "false"
--INSTALL_MESA_CLC:class-native = "true"
--MESA_NATIVE = "mesa-native"
--MESA_NATIVE:class-native = ""
--
--PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
-+PACKAGECONFIG[libclc] = "-Dmesa-clc=system -Dprecomp-compiler=system,,mesa-tools-native"
- PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
- 
- PACKAGECONFIG[perfetto] = "-Dperfetto=true,-Dperfetto=false,libperfetto"
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
--- 
-2.53.0
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
