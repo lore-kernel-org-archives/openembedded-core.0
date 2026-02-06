@@ -1,294 +1,321 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E818EE6B4D
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 19:34:22 +0000 (UTC)
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1709.1770406456314989543
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C442EE6B4D
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 20:00:12 +0000 (UTC)
+Received: from CO1PR03CU002.outbound.protection.outlook.com (CO1PR03CU002.outbound.protection.outlook.com [52.101.46.12])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2301.1770408011476519274
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 11:34:16 -0800
+ Fri, 06 Feb 2026 12:00:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Inxm6Uvy;
- spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64ad019bbd4so791385d50.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 11:34:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770406455; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eNV6GlyqVxgisSXAJgHH96a9+axCE7rM3KR/b/PQIbs7eYQrxu6LY5GIp07YZtG2XV
-         JtWkL8UPsuWYO5ncw9UF+QtXa9iEziViNOTHc0ak92kaTio6FUU7ozsXZ7KgLhB+pTC5
-         dahrZVaG6kP1TV9i1VX/cjE2zexXUc1st4sq+K39Yua2OSc1SkH4dhBxhNA8o6RdHCvw
-         p/dXRlnP90IHxyNdt13zjHhGO5upJSDLKTryWOEevoKP5AoTAWASotyGUtYvwN9zZoCN
-         L2+JPfYhnIDtxLDrB/iYkfLbfG0zIkOf5feiLgYH+ZxnVnlFm/uZjfoeIsfPSwG36p6T
-         P59A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=P9pLBAV9Qwc9q7X6K1MDslqUBgB87dfJrihHvvjBJ0c=;
-        fh=0SlXyuukFXlM5AdYW1UeufIG+J3zaRD24WXXeDiUUOs=;
-        b=iD+OQzQbYSDWSdB7YaxH+F/tTOMQOYyJdyIcj9xDa1WQLY/xaKbgicfIKx3lhI3YPY
-         Ikx2R4t3yOuHAN2DphXicESmNwOfRfwLg5xFd/CtV65CbSUuGqn4AsmE/U/tpQ41Ca7E
-         45Xv4aYNYfkXAhKPaUQRjpni5aIZ2HZrSBsAsa8+PPKBN1xHhJRPGrOXp2y9CdXhvW58
-         LIslfJf98cWxwaTB2RmvWkNzCtGp0TsoDQB+WLDUCLJQnsF9CM0F4WM+gEH9/IS4eVZg
-         CSP4kFIG3J00ssJPe9bT34XSuMQJBxTGhb1b0xHOT4Q1/SiB+dG4JfIHrwMhZ7WtJBiW
-         K6Gg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770406455; x=1771011255; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P9pLBAV9Qwc9q7X6K1MDslqUBgB87dfJrihHvvjBJ0c=;
-        b=Inxm6UvyszPe6xdLlohRjFbCOlT7fgSTMqbaHvNGs9uGvM7skpMZ31qrzI67ncLFN5
-         dGrrlOENnZE387JU2UwHhVkMa6D001DVlwnHHe/iUDLL4oH88NEOIkJIsp12XY25jN4d
-         ncj7iOaLc1pRVlj+bRDIDbLskGav1ye4OQ5ra3+u/cXSMBV2+KEUqtksRtohXBTfXMeO
-         eGCdu+vwaohg92pDfEY97sIm9ewoMGc/05dXy6bdAlvkyYv4CvdtBSO4lE5SlABAxYOB
-         E5+uu3P6F1c5hHm8VJ3gVrx3QPA8G+uKUHF1SpS4H9tKjrfA1tUXihpTYmiJI4Xxrnot
-         xWvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770406455; x=1771011255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P9pLBAV9Qwc9q7X6K1MDslqUBgB87dfJrihHvvjBJ0c=;
-        b=BLl25tT69rrgo2lxK1WhhbiTjde1fNLpZiSrryvzIlVedueLoveiX1gYqL+OWTdsXL
-         dCveBbs9n5Oe4swmFql/QcsUPp95g26EQrk8WpAPMW60LWFV5mCTEs40SB0u6SqkRPPO
-         iQ78uvEfs/Gyb9BnDcKAIZRYxEFqaa9427kzXgX1kG69Ol11eDfGNkRmT7UdHv8YA+fc
-         xFiT7ZqpDT0edmUcVvP5YjfS+AtIbc6I/zIbx+3NNSALpRV5Y86HtthsPeT7YXHXfJkJ
-         KyjiINIh1c/PyYymRdQkSPRzKBgqTJdBnxUGWd7et5+Osbrr5zN7auIMh2hzhvOfjxoV
-         2xsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLDPHQ0devLROTIkUCf1GS6dPxwzWcOpZnoQCYY1WPBN89C7grwjmAqHsTaG5Mv4i711GGGHZRSc+L8NmIarSQsQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw7ZeA4VcnGopA/1mZys7PtZG60yWBRaeW1VCjemIg3zKkNgXGP
-	ZHvvQW8RgHsnyaRG/sfnamzTSXe99XgYfamZt3HGEIEMgffqavRDCHa13WcYmhu+D0pti8YueL9
-	amwjZa4ibcR/bku+RLGmr1RWc2txnBYU=
-X-Gm-Gg: AZuq6aI3Hp5z0HfsHI9QvzubqVawUJQksfBwJef7SlCCbvsXBkwTWSqvdFA5cdBPA3L
-	Q9Ub0M735kz8KSQR0nif+DQjfxsF81SgCzLJGLq6VE3BKxYe0UD5+HKoHFfqEwgIRQ2Uy+klg9i
-	phwMZVc1IRcNXQ5YPtd8zCNxJMa57QkCO+dwjHedk9XSVejI8IO4P20GJcAC/CM0RMJJlpJ7QbT
-	no3S5GLW8v558ON5Z72POtRPG2a7/MPffquwfklxgSxtdKjZrNejdRai5e0ASogc4VaO8v1quNl
-	qXkecsiX
-X-Received: by 2002:a53:acd7:0:20b0:649:d59f:dccc with SMTP id
- 956f58d0204a3-649f1e768ebmr3161504d50.25.1770406455296; Fri, 06 Feb 2026
- 11:34:15 -0800 (PST)
+ dkim=pass header.i=@ti.com header.s=selector1 header.b=cWe6Hv97;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.46.12, mailfrom: rs@ti.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qeRkB4F/8G25lDo/UkgwgW7NZPXaubzPOGMMCY+MPB7XAmlGoTkTxpqXJfOaBmp55Nb+h0NCmJZlDnlVoGDE8XQ01YNzaV+bU/d4watTwiQlmS3UV3uxCqIdURqSR8nVdVcZMOjnzBeM55brkcSasexqrx36/V19GqhfJyQtYv3jxCCVLDx1SY07NxPGNEfmeLnEp5+qQqF5XViwLO0HiCwyqGlA6oVjAubot3B1vWQ5YzogDWW3r7PKd/6N0p+rSyb3RWZEIEZgsIJ31vhCJR9R9792lM19AC9i0nf3HrV+/Bah345ae16LIkNYhVAOTyJ3/yjS6Eq9zYT6a8qk0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PI6eNuzT9WjVYnQvQBAEVWqu9nRZ/+TyCabS81+b5Pk=;
+ b=COIeUShzmJOeAkBJUGaiL3uGnE99lvZQF8k2qBSXALYUyBz3zsBq0ktbKk/0M4p0EJtO4WGXqEPfEyPhTHjNkRSuXUy8ZXZssbTKCfHdU0snieztz4VMbEQUxp6sZbEIJBvRO55RKylGEy4UkULnWdEd8AkJ6bixWYn3vqrQr1JJoR+Wo6NzCHdHpAiFGIoAGlYpWCiZQEHSShVveQ22v9RndMo9AkWGeijgcMrXMIj8Jm9U63DsmadyTc8tJQArKHdooGZBDEoS1PLIt9MHKhBdxNJ7GaSd4ZJZ+BmMZvs0a9vNTGkd2U5ZLfpyfVnsL6qizawPd9IiFbgFdtgDsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PI6eNuzT9WjVYnQvQBAEVWqu9nRZ/+TyCabS81+b5Pk=;
+ b=cWe6Hv97NXEragsM1ay0j8+WhJFQypyS45UHVWfUYpBeDIEv75JSX8eWoQuufiKQQ9DlLnf4pcJHy2uAHNAUddMUjI8zOvfnLqYxYgHnYOz2XclENaZ+tI0fPXgWP+LaR+4xje3Jtps93DQxrZyYdIl48K9e1jLJYZfAenxepEs=
+Received: from BYAPR11CA0044.namprd11.prod.outlook.com (2603:10b6:a03:80::21)
+ by BLAPR10MB4996.namprd10.prod.outlook.com (2603:10b6:208:30c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.16; Fri, 6 Feb
+ 2026 20:00:08 +0000
+Received: from SJ1PEPF00001CE5.namprd03.prod.outlook.com
+ (2603:10b6:a03:80:cafe::28) by BYAPR11CA0044.outlook.office365.com
+ (2603:10b6:a03:80::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.15 via Frontend Transport; Fri,
+ 6 Feb 2026 20:00:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ SJ1PEPF00001CE5.mail.protection.outlook.com (10.167.242.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.10 via Frontend Transport; Fri, 6 Feb 2026 20:00:07 +0000
+Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Feb
+ 2026 14:00:04 -0600
+Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Feb
+ 2026 14:00:03 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 6 Feb 2026 14:00:03 -0600
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 616K03iM1877116;
+	Fri, 6 Feb 2026 14:00:03 -0600
 MIME-Version: 1.0
-References: <2CD10DD9-FB2A-4B10-B98A-85918EB6B4B7@arm.com> <5d54066e-2a1f-42cc-b4f3-bf7ad49da5dc@kernel.crashing.org>
-In-Reply-To: <5d54066e-2a1f-42cc-b4f3-bf7ad49da5dc@kernel.crashing.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 6 Feb 2026 12:34:04 -0700
-X-Gm-Features: AZwV_Qh7aqssjJEvhFo2U6nZ-2kMedIHR2hw0uge8db8WSEk1mVmVJnrhByuJ0s
-Message-ID: <CAJdd5GY8a7LVSV0TecZSttnH5PCEHKY4iJB2kk_5vpARnqgh=w@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] Comparing cve-check with sbom-cve-check
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: ross.burton@arm.com, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	"benjamin.robin@bootlin.com" <benjamin.robin@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 6 Feb 2026 14:00:03 -0600
+Message-ID: <DG859CXX3LWP.2BXUQMRVSRAV@ti.com>
+CC: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
+	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>,
+	<afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][PATCHv15 5/6] xuser-account: merge with
+ xserver-nodm-init
+From: Randolph Sapp <rs@ti.com>
+To: <raj.khem@gmail.com>, <rs@ti.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260203012028.4008229-1-rs@ti.com>
+ <20260203012028.4008229-6-rs@ti.com>
+ <CAMKF1sqEMoKd2U7sDVQNyPZH9Xd=MKx62c=o-iussWnVDk+zUg@mail.gmail.com>
+In-Reply-To: <CAMKF1sqEMoKd2U7sDVQNyPZH9Xd=MKx62c=o-iussWnVDk+zUg@mail.gmail.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE5:EE_|BLAPR10MB4996:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebddf647-ea00-404d-2185-08de65ba53d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?blVhN0lINDB1eWFKRHJ0THVFdkVvbHZwWG90WVlod1Jmb2c5eW1xaUh4cXZ6?=
+ =?utf-8?B?MURjU01Fb3BkRHk2RFRvNU9GMExKTWpJdHhLODFRT1ZPOWgrenVKRkxuWHNy?=
+ =?utf-8?B?RXJJWmpTdDRWc2NFQ2s5N3NEWU9Venh1WkNKZ1NYN2U2bkxmYjVMK3lHWVJY?=
+ =?utf-8?B?WWZ1WlJ0RkNhUTMvc1JYak9tNVRwZktVYjIycUZiQmdrcDNNRUJiU00rYThF?=
+ =?utf-8?B?MjR0dUxtUlE2L0MxeTFXVHdwNFVhRU5oVXZjU1FPMkRudUEzemRBQkJ0bUFa?=
+ =?utf-8?B?UHlSaU1UTjRYd1o3bmhsYk1Jd0trdVhJaE9wYWJLOTBmS2VMTmM3TVpPSmly?=
+ =?utf-8?B?RDdxUDRzZzNsanNtQnFJdHpoR3p3WktSWGtTMSttSTBWYjVlUDgyWk43Qy9v?=
+ =?utf-8?B?dm5pSGt6WjFKYXVybFRlSWRzU1owNHhhUEhwcFFDR0JBNEE0bjFkZzI2Y2k3?=
+ =?utf-8?B?NU5JRFlpSEVBdlVxdFNQWEFVZEJ5OWVKR0xQbDgxRFc4OEpWNFJMaFd1MXFE?=
+ =?utf-8?B?MlpCblRXT2hXTElyMHI5Yk1XODJMM0ZHblYvVWYyU1JEZWwydjd4T25YdDBM?=
+ =?utf-8?B?REtZNE5lK3FxZWYzN1VQeWhpZTFaaEtZKzF1Y2ZqM0hVYjU5N2tKbEJPRmgr?=
+ =?utf-8?B?WWdiTWZ3anpXRE50Wm5nWlA5R2wwVjVpWnd1bm9TbWR6a0wxVy9JU2NqbGkr?=
+ =?utf-8?B?ZlN0ZGtzTU4rMVZsNTA4OE9Ic0hXaUMrdi9oZ1BRSkZTdjZuTFIvVThLL2Mw?=
+ =?utf-8?B?YTlYUGVSQUkwUjNZbkRHbW1Mclh3b0VMMlJnWnB3UXh0SWRFR3c4NXNmVVNC?=
+ =?utf-8?B?THBEU1JmejlCb0lVbVpPUXVBU0pJeXJtTnZpRUcwM3pJQTZOMHJZTnBKNGlS?=
+ =?utf-8?B?bUFPTVNPOVJaU3p3bTZmRDVzWVhqUXZvQ290aVRzcW1vZEFzb0dLWVlyY1Vw?=
+ =?utf-8?B?R3l3SmtIdHVSTUtPa2s0Zkl1OGFqNU5LdVJXdUFMTUU4ZzZDQ1UvWWVJQjNv?=
+ =?utf-8?B?Mjc1TE5Fam9UaWQ0Q2xZdTdLRTlNM2ZBMXAwYXhUK0pPUERGSU0vY2lRUEZQ?=
+ =?utf-8?B?R09zM1FEcTl4VjR6RnR2ZHV4QTlMTmJ2ZjlVbkdhTjNoMUN3OWgrOWNNSW0y?=
+ =?utf-8?B?UVlTSS8xM2RDRVFuR0VEVjc2ZUtMcGcxWDJJSlg4WnpSQWJxeU16QmhtcVZH?=
+ =?utf-8?B?R0tuTSt2T01qVXVocDFRT0JzVlRWRkFkWFhieWhIblQ0T2V0U2xocW1FalZJ?=
+ =?utf-8?B?NlpDVWpGVU43VCtjQ0kzZDl2VW1EZTFSazQzMkdqQkpCbW1MQURTdXI4dXVp?=
+ =?utf-8?B?Q1BEcDIvMFU4dWZhVzA1QU9mU2RTdWZ2N3Zna3dPNXFCWG4zcDNEWk1PeTU2?=
+ =?utf-8?B?bUlDTm1mN2hsMVpaTHlzQlNiWkQxYktVcFJiSnkyV1FZMSt6QjIwY2E2RW9J?=
+ =?utf-8?B?NmxucVo1bXVDNjVXYkVJeTg0KzFzREZzUlFCbFNDZHQvenIxOG1uSURQVzFF?=
+ =?utf-8?B?SFIrSGJxTnNDUFJPV2xwMURIbVM2OGVJclBqbGpTRFI0Z3pDdnpmZUs5TFcy?=
+ =?utf-8?B?N0ZpRXY2ZlZvQmdCVFJ3dlQya2oxV0FqRWV5MEJFMG5BZkRLRDFGSmlWcHRt?=
+ =?utf-8?B?MlVaK1FKUXR4QllwMjNpQTY5T2lmVTBDY21COC9YOTF1cXgzRWpiY2pnT0kx?=
+ =?utf-8?B?UVhSV3RBdVErZHJkN1YyZDNPUEhJcWN2SHo5Tm5ETVBOWUt1d3J1NE5Ebmox?=
+ =?utf-8?B?L3oyTU9FdVNvbm5nUEdwMVg1dHBSOFFtUDg2VFdLeU9WTUxiRkQrby9SczQv?=
+ =?utf-8?B?Z0MyTTkrQk5RNVR3OHpTZm9renZubk0zZy9MRkJ0VlJZMThwODJOTUJvejkv?=
+ =?utf-8?B?cjdCbFFtUURPcDVZUk13Nk5VZ3dPaTFrY3AzRXRRSGY0aUptSzVYc0MzaTlW?=
+ =?utf-8?B?ZWFiQTM4ZlgzeStSS29qMnRXSzVHd3FkMXp2T0U0QVBKcnI2bjlSV0x4M0xy?=
+ =?utf-8?B?dWlWVkRxcG1XWjhGNnFjYXFTTmo1dy96UVdFemp1cHJaQXJTdndlS0g3T2FI?=
+ =?utf-8?B?cmg3ZTB2b3ZCYWs5bWJBTFlBTktUYmNEVG1LdGsyTTB0dmdnNlBQdGw4eUls?=
+ =?utf-8?B?aHA5S2Y3cG9WU2lrYmxPOVVycTcwVjhLWEVLQ2VwMEpwZWRJYlRBdUs0dkJM?=
+ =?utf-8?B?RFpaRytyaGhlRmVyUW5Ld3FvL0k4ZEhIdml5STlKMDhFb1c4N0djcnJFODN6?=
+ =?utf-8?B?MlNSbWU2aVlUS1RtdGRXWHhCemdRPT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	71u9k6LZ909o71tnEdIqZspiAQeiZLLch3NdbHLSV54pNy54pheI9W1tyVWyeBVi+HWrbvJPDA5IWq18oRzcY0KRXA6+98JaVZjkmCAOlpVffw2f6lMgzdiEaIQVyN/shk9d/zxmFvuj6ba/l2m+1iA4uIOe2oLkb6jvEW58+yc7jUhcZ2lGdO3jdHgH45VDJfJ2nRH7LbaSW+kX8Q+KpdkoWhH195I2A8UAUHvhZxcJG3xhpMdpJ+MGGbsd92vWJZ7FCwOZbXaZKB9Rkxv6ahym5SeVN+VfnnJrmdaO4JPdFW14HrBaQZQBCPwLPapW2921E714pPTuwUxWtfHj6Or2Ll1dbyv/iUWMMhw56NB0AM2Ax1khuGIXE4fy3CeI2GvQN/kMIorI785EP6EWInWrj4kJWfLtF1l2mo2D3b0TIViPPVMqaXFJQcYY3j91
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 20:00:07.6503
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebddf647-ea00-404d-2185-08de65ba53d2
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	SJ1PEPF00001CE5.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4996
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 19:34:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230642
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 20:00:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230643
 
-On Fri, Feb 6, 2026 at 10:22=E2=80=AFAM Mark Hatle
-<mark.hatle@kernel.crashing.org> wrote:
+On Fri Feb 6, 2026 at 12:15 PM CST, Khem Raj via lists.openembedded.org wro=
+te:
+> this also needs adjustments for fvwm and xscreensaver recipes in meta-oe
 >
-> All of these improvements sound like a really good idea to me.
->
-> I'm definitely on board with an image and build SPDX.  They both have val=
-ue, and
-> I know for my own purposes I often compare what is in an image to a build
-> looking for things that could have been missed (such as static linking).
+> On Mon, Feb 2, 2026 at 5:20=E2=80=AFPM Randolph Sapp via lists.openembedd=
+ed.org <rs=3D
+> ti.com@lists.openembedded.org> wrote:
 
-Just to be clear: There is now difference today between an "build"
-SBoM and and "image" SBoM. All SBoMs we produce include both. I don't
-want to produce multiple different types of (final) SBoM documents;
-it's just much easier for use to produce a single SBoM file and let
-users slice it up later then have to work about inter-document
-linkages (see our SPDX 2.2 output for why :). I'm more than happy to
-guide people on how to write tools to do that.
+If everyone's alright with this version of the series I'd be more than happ=
+y to
+submit the necessary patches.
 
->
-> (There are ways we can identify static linking with dwarf debug symbols. =
- Some
-> work has been done on this in the past, but I also know we do our best to=
- avoid
-> static linking so it's not really progressed very far.   If we do know of=
- places
-> where there is static linking that is NOT be identified in another way, i=
-t might
-> be reason to finally spend some effort on that work again.)
+- Randolph
 
-We can actually do this, but it is maybe not as direct as you might
-expect. If you set SPDX_INCLUDE_SOURCES =3D "1" the SPDX code will
-include all source files in the output SPDX. If you do this, the code
-will check output binary debug symbols, and cross reference the files
-listed from all build time dependency source files (which is why
-SPDX_INCLUDE_SOURCES must be set). Normally, the build_Build only does
-`hasInputs` on source files from the recipe itself, but when it does
-this it can end up referencing input files from other recipes as well.
-The practical output of this is that if a package uses a static
-library, the build that produces that package will `hasInput` on the
-sources of that static library (of note, this conveniently should also
-works for source libraries). It would be nice to also make another
-link (maybe `contains`?) that directly links the binary to the static
-library binary, but this takes extra steps since you need to cross
-reference source files to the correct static library binary, which is
-non trivial.
+>> From: Randolph Sapp <rs@ti.com>
+>>
+>> Merge the xuser-account recipe with xserver-nodm-init, since:
+>>
+>>  - This is the only recipe dependent on it
+>>  - This matches the current behavior in weston-init
+>>  - Running x11 as root is no longer a supported path in
+>>    xserver-nodm-init
+>>  - The display manager configuration and user account name are heavily
+>>    connected
+>>  - The existing method of integration ignored this connection
+>>
+>> Signed-off-by: Randolph Sapp <rs@ti.com>
+>> ---
+>>  meta/conf/distro/include/maintainers.inc      |  1 -
+>>  .../xserver-nodm-init}/system-xuser.conf      |  0
+>>  .../x11-common/xserver-nodm-init_3.0.bb       | 20 +++++++++---
+>>  .../user-creation/xuser-account_0.1.bb        | 31 -------------------
+>>  4 files changed, 15 insertions(+), 37 deletions(-)
+>>  rename meta/{recipes-support/user-creation/files =3D>
+>> recipes-graphics/x11-common/xserver-nodm-init}/system-xuser.conf (100%)
+>>  delete mode 100644 meta/recipes-support/user-creation/
+>> xuser-account_0.1.bb
+>>
+>> diff --git a/meta/conf/distro/include/maintainers.inc
+>> b/meta/conf/distro/include/maintainers.inc
+>> index a7425f7020..ec0a128901 100644
+>> --- a/meta/conf/distro/include/maintainers.inc
+>> +++ b/meta/conf/distro/include/maintainers.inc
+>> @@ -935,7 +935,6 @@ RECIPE_MAINTAINER:pn-xserver-xf86-config =3D "Unassi=
+gned
+>> <unassigned@yoctoproject.
+>>  RECIPE_MAINTAINER:pn-xserver-xorg =3D "Unassigned <
+>> unassigned@yoctoproject.org>"
+>>  RECIPE_MAINTAINER:pn-xset =3D "Unassigned <unassigned@yoctoproject.org>=
+"
+>>  RECIPE_MAINTAINER:pn-xtrans =3D "Unassigned <unassigned@yoctoproject.or=
+g>"
+>> -RECIPE_MAINTAINER:pn-xuser-account =3D "Randolph Sapp <rs@ti.com>"
+>>  RECIPE_MAINTAINER:pn-xvinfo =3D "Unassigned <unassigned@yoctoproject.or=
+g>"
+>>  RECIPE_MAINTAINER:pn-xwayland =3D "Unassigned <unassigned@yoctoproject.=
+org
+>> >"
+>>  RECIPE_MAINTAINER:pn-xwininfo =3D "Unassigned <unassigned@yoctoproject.=
+org
+>> >"
+>> diff --git a/meta/recipes-support/user-creation/files/system-xuser.conf
+>> b/meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
+>> similarity index 100%
+>> rename from meta/recipes-support/user-creation/files/system-xuser.conf
+>> rename to
+>> meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
+>> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+>> b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+>> index ed056df72f..0e9fe1e65a 100644
+>> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+>> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+>> @@ -1,14 +1,15 @@
+>> -SUMMARY =3D "Simple Xserver Init Script (no dm)"
+>> +SUMMARY =3D "Simple Xserver Init Script and user account"
+>>  LICENSE =3D "MIT"
+>>  LIC_FILES_CHKSUM =3D
+>> "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de20=
+420"
+>>  SECTION =3D "x11"
+>>
+>>  SRC_URI =3D "file://emptty.conf.in \
+>> -           file://default.desktop"
+>> +           file://default.desktop \
+>> +           file://system-xuser.conf"
+>>
+>>  S =3D "${UNPACKDIR}"
+>>
+>> -inherit features_check
+>> +inherit features_check useradd
+>>
+>>  REQUIRED_DISTRO_FEATURES =3D "x11"
+>>
+>> @@ -26,10 +27,19 @@ do_install() {
+>>
+>>      sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:"
+>> ${D}${sysconfdir}/emptty/conf
+>>      sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/con=
+f
+>> +
+>> +    install -D -m 0644 ${S}/system-xuser.conf
+>> ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
+>>  }
+>>
+>>  FILES:${PN} =3D "${sysconfdir}/emptty/conf \
+>> -               ${datadir}/xsessions/default.desktop"
+>> +               ${datadir}/xsessions/default.desktop \
+>> +               ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
+>> +
+>> +USERADD_PACKAGES =3D "${PN}"
+>> +USERADD_PARAM:${PN} =3D "--create-home \
+>> +                       --groups
+>> video,tty,audio,input,shutdown,disk,nopasswdlogin \
+>> +                       --user-group xuser"
+>> +GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
+>>
+>> -RDEPENDS:${PN} =3D "emptty xuser-account"
+>> +RDEPENDS:${PN} =3D "emptty"
+>>  RPROVIDES:${PN} +=3D "virtual-emptty-conf"
+>> diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb
+>> b/meta/recipes-support/user-creation/xuser-account_0.1.bb
+>> deleted file mode 100644
+>> index f1e4cb674f..0000000000
+>> --- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
+>> +++ /dev/null
+>> @@ -1,31 +0,0 @@
+>> -SUMMARY =3D "Creates an 'xuser' account used for running X11"
+>> -LICENSE =3D "MIT"
+>> -LIC_FILES_CHKSUM =3D
+>> "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de20=
+420"
+>> -
+>> -SRC_URI =3D "file://system-xuser.conf"
+>> -
+>> -inherit allarch useradd
+>> -
+>> -S =3D "${UNPACKDIR}"
+>> -
+>> -do_configure() {
+>> -    :
+>> -}
+>> -
+>> -do_compile() {
+>> -    :
+>> -}
+>> -
+>> -do_install() {
+>> -    install -D -m 0644 ${UNPACKDIR}/system-xuser.conf
+>> ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
+>> -}
+>> -
+>> -FILES:${PN} =3D "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
+>> -
+>> -USERADD_PACKAGES =3D "${PN}"
+>> -USERADD_PARAM:${PN} =3D "--create-home \
+>> -                       --groups
+>> video,tty,audio,input,shutdown,disk,nopasswdlogin \
+>> -                       --user-group xuser"
+>> -GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
+>> -
+>> -ALLOW_EMPTY:${PN} =3D "1"
+>> --
+>> 2.52.0
+>>
+>>
+>>=20
+>>
+>>
 
->
-> --Mark
->
-> On 2/4/26 11:29 AM, Ross Burton via lists.openembedded.org wrote:
-> > Hi,
-> >
-> > I spent a little time this week comparing our cve-check with Bootlin=E2=
-=80=99s sbom-cve-check[1].
-> >
-> > tl;dr: has promise, needs a little further work. I think we can swap cv=
-e-check for sbom-cve-check in the LTS if we hurry.
-> >
-> > The background to this is that the existing cve-check class has some kn=
-own limitations:
-> > - Uses the FKIE fork of the NVD database as a source of CVE data, which=
- does not have the level of metadata it used to have
-> > - Only can be ran as part of a bitbake run, no way to do repeat scans a=
- month later without involving bitbake
-> >
-> > Whereas sbom-cve-check is:
-> > (1) an independent tool,
-> > (2) scanning a SPDX manifest,
-> > (2) using both the FKIE/NVD database and the CVE Project cvelist.
-> >
-> > To elaborate on those points:
-> >
-> > 1) As an independent tool it can be ran at build time (potentially usin=
-g meta-sbom-cve-check[2], or by calling the tool directly), or at any point=
- in time after the build using just archived metadata to check for new issu=
-es. This is very useful for manufacturers who want to scan for issues routi=
-nely without having to do builds.
-> >
-> > 2) Whereas cve-check scans for CVEs at build-time in a recipe task and =
-will (badly) generate aggregate reports for images, sbom-cve-check uses the=
- image SPDX to know what products to look for issues in. This means it _onl=
-y_ supports the =E2=80=9Cwhat issues does my image have=E2=80=9D use-case a=
-nd not =E2=80=9Cwhat issues are on my build machine=E2=80=9D (eg issues in =
-native tools).
-> >
-> > 3) The use of two different databases means it has more scope for impro=
-ved metadata.  It currently supports the FKIE mirror of the NVD data, the C=
-VE List by the CVE Project (which is gaining improved metadata via their En=
-richment Program), and further sources would be simple to add.
-> >
-> > As a test I did a build of core-image-sato and generated a report using=
- both cve-check and sbom-cve-check.  The differences were interesting.
-> >
-> > cve-check produced this report for the whole build:
-> >
-> > WARNING: avahi-0.8-r0 do_cve_check: Found unpatched CVE (CVE-2025-59529=
- CVE-2025-68468 CVE-2025-68471)
-> > WARNING: busybox-1.37.0-r0 do_cve_check: Found unpatched CVE (CVE-2025-=
-60876)
-> > WARNING: expat-2.7.3-r0 do_cve_check: Found unpatched CVE (CVE-2025-663=
-82 CVE-2026-24515)
-> > WARNING: expat-native-2.7.3-r0 do_cve_check: Found unpatched CVE (CVE-2=
-025-66382 CVE-2026-24515)
-> > WARNING: ffmpeg-8.0.1-r0 do_cve_check: Found unpatched CVE (CVE-2023-51=
-791 CVE-2023-51793 CVE-2023-51794 CVE-2023-51795 CVE-2023-51796 CVE-2023-51=
-797 CVE-2023-51798 CVE-2025-22921 CVE-2025-25468 CVE-2025-25469)
-> > WARNING: glibc-2.42+git-r1 do_cve_check: Found unpatched CVE (CVE-2010-=
-4756)
-> > WARNING: libpam-1.7.1-r0 do_cve_check: Found unpatched CVE (CVE-2024-10=
-041)
-> > WARNING: libsndfile1-1.2.2-r0 do_cve_check: Found unpatched CVE (CVE-20=
-24-50613 CVE-2025-52194 CVE-2025-56226)
-> > WARNING: linux-yocto-6.18.6+git-r0 do_cve_check: Found unpatched CVE (C=
-VE-2008-4609 CVE-2010-4563 CVE-2019-14899 CVE-2021-3714 CVE-2021-3864 CVE-2=
-022-0400 CVE-2022-1247 CVE-2022-38096 CVE-2022-4543 CVE-2023-3397 CVE-2023-=
-3640 CVE-2023-39176 CVE-2023-39179 CVE-2023-39180 CVE-2023-4010 CVE-2023-62=
-38 CVE-2023-6240 CVE-2023-6535)
-> > WARNING: polkit-127-r0 do_cve_check: Found unpatched CVE (CVE-2016-2568=
-)
-> > WARNING: qemu-native-10.2.0-r0 do_cve_check: Found unpatched CVE (CVE-2=
-019-12067 CVE-2021-20255 CVE-2024-6519)
-> > WARNING: qemu-system-native-10.2.0-r0 do_cve_check: Found unpatched CVE=
- (CVE-2019-12067 CVE-2021-20255 CVE-2024-6519)
-> > WARNING: vim-9.1.1683-r0 do_cve_check: Found unpatched CVE (CVE-2025-66=
-476)
-> >
-> > Aside: cve-check=E2=80=99s per-image reporting appears to be slightly b=
-roken and claimed that my sato image included images from meta-oe, which it=
- did not. The report above is the reporting that is logged during the build=
-.
-> >
-> > After writing some tooling for textual summaries, sbom-cve-check produc=
-ed a report that is similar. The recipe list has differences: vim and a han=
-dful of other are  not listed; but previously unreported CVEs in busybox, c=
-airo, expat, glib-networking, gnupg, libgcrypt, libsoup, libxml2, mpg123, p=
-erl, tar, and the kernel are added.
-> >
-> > The recipes that are not listed are either native tools (which, by defi=
-nition, are not in the image) or recipes that are built for dependencies bu=
-t do not end up in the this specific image. In this case, dosfstools-ptest =
-RDEPENDS on xxd which is built by vim, but as dosfstools-ptest is not insta=
-lled there is no need for xxd.
-> >
-> > A number of CVEs are added, for example CVE-2024-58251 is a CVE in busy=
-box which is missing the machine-readable CPE in the NVD data[3] but the CV=
-E List has been =E2=80=9Cenriched=E2=80=9D and has machine-readable data[4]=
-.  I=E2=80=99ve not yet triaged every one to identify the reason for the ad=
-dition, but I expect this is the main reason.
-> >
-> > A more interesting feature gap is where a recipe statically links to an=
-other recipe: in this case there is no SPDX package entry for the library, =
-so issues in the library will not be reported. With cve-check, the build-re=
-port will cover this, but the image-report will not.
-> >
-> > To summarise [5] the pros and cons:
-> > + sbom-cve-check can run at any point after the build
-> > + has better data sources which report more issues
-> > - only scans the literal packages that are in a final image, so we don=
-=E2=80=99t get coverage of native packages or static linkage
-> >
-> > I wonder if the easiest fix for this gap is to enhance the SPDX generat=
-ion to not only generate an =E2=80=9Cimage SPDX=E2=80=9D but also a =E2=80=
-=9Cbuild SPDX=E2=80=9D, which is essentially an aggregation of every recipe=
-=E2=80=99s SPDX that is present. A recursive execution of the SPDX generati=
-on task will mean this covers both any native tools and static libraries th=
-at are in the dependency graph, for maximal coverage.
-> >
-> > This gives a solution without needing to be more clever in the image SP=
-DX generation, for example including packages for all of the build dependen=
-cies (be them native or target).
-> >
-> > If this is done then I think sbom-cve-check is at least at parity with =
-cve-check, and in many ways far superior. This will allow us to merge the f=
-ew recipes and class from meta-sbom-cve-check into core, and delete cve-che=
-ck.
-> >
-> > Any thoughts? (looking at Josh and Benjamin primarily)
-> >
-> > Thanks,
-> > Ross
-> >
-> > [1] https://github.com/bootlin/sbom-cve-check
-> > [2] https://github.com/bootlin/meta-sbom-cve-check
-> > [3] https://nvd.nist.gov/vuln/detail/CVE-2024-58251
-> > [4] https://www.cve.org/CVERecord?id=3DCVE-2024-58251
-> > [5] At this point I=E2=80=99m realising I need to read The Art of Expla=
-nation by Ros Atkins...
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#2232): https://lists.openembedded.org/g/openembedde=
-d-architecture/message/2232
-> > Mute This Topic: https://lists.openembedded.org/mt/117638559/3616948
-> > Group Owner: openembedded-architecture+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-architecture=
-/unsub [mark.hatle@kernel.crashing.org]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
 
