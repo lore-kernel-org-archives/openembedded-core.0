@@ -2,63 +2,63 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B03DEE6B59
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E410EE6B58
 	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 20:28:01 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26.1770409675843302944
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23.1770409672690284749
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 12:27:56 -0800
+ Fri, 06 Feb 2026 12:27:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HiuVhQ1V;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5062fc5d86aso19302421cf.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 12:27:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FlJyXjao;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5029901389dso18827671cf.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 12:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770409675; x=1771014475; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770409672; x=1771014472; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LccsjxfFZreWpW/Ap3lajXw9UUfekxi2pivheabKs9c=;
-        b=HiuVhQ1VX6zdQoNZ7lyrvXCQMDflLs5l/MMuPs4WujyohIRXzf26hwM0y0kigB9B8m
-         qWnzMxkdr/EfYMPn/tzXxWB3P9iBu0jQlOljZ5MoW2QCLoRRW40sxmzHnkgrSqRCgtCy
-         GRMwVn77uynvDrWWKPEEY2FKa0yokjk6ug2YootwHSBnE2zb/0P4QDPaqNvwqsrIJer2
-         33ChdBS+CUOlk+Qmqu2H682MmiTd+MBsYS8qJpePLwEAxzoTok52NxFhedMffeWNKcOC
-         /9J30QFuoEbcgbfeYtedM2KlyFXHTs9VGW+OT4k8Iyvk5/w2ysPJJzQSpE8/uL1taXzD
-         VZ1g==
+        bh=HAVDiZ6ka5i/y7TcDCeW1iJnwd8nUGxP2nBLn8qVAVA=;
+        b=FlJyXjaoNfa2X8AmEOh0j4KOczrzmzDLkkxjjis9uwllE2aApPOVNdYi+QLnA2CRqd
+         s+0oANQd8Kw8NZfmN+3ogKOTgMJW5Bc+ZYQ6FnOdYAHCkhpU+8KhqeCXygf0RpFxtl1s
+         w/QvDCFdmQR0pL4tutNtQFiG2cp/huJLWN8XWn2KPE9fj+pNJOgwEDV4uAM3ewMzHsEW
+         fmG/Zu8p3RlHnngdXtvqRgNejqhXdci67+VJ2FwdywcElaudacJqZBqO04bieNl4mfYB
+         4yNkczqm96q/F57K6HiQnmyPk/ceG/BcHhCASf7AdGVwWmTZfbnK4/FItSSUGMw2vbvh
+         Zb2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770409675; x=1771014475;
+        d=1e100.net; s=20230601; t=1770409672; x=1771014472;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LccsjxfFZreWpW/Ap3lajXw9UUfekxi2pivheabKs9c=;
-        b=NxEOwRXGDGTbZ3uuHkgGzqWI+6gis6Z+V6wdl6uYCFweNzkG176DHy1S9nDrqhFszM
-         hPP8X21Q7gPhVPXOcOZGuK9Ttf4Ac/hdqEoVMQuOddkhicY7zXWFcIBfnkSiTVvbfGMD
-         Dkh4y+mDFdDt3QMUhbfib3q1aRFvRg8zL3PnskmA2xQGpcFOtwRU9WK2HP1nosGIJqai
-         mn9R+/D1CQOT/LvITBfH0V6aNbFDsBkp5Cqrqz6KlGKeWJPwc1V61CQhTUbwnb9c9hUF
-         5VXK//Qv4YdR/Rtsmw0lWEuYuNfr9ku6qtDZqFtDTYbS6glMO7rWBDD5cQIlsFqBnXM7
-         1qCg==
-X-Gm-Message-State: AOJu0YwoMMFGuS/UdV2G9fNsnEV1IE70QML6BoGx4LoRjZ3gAtjpw44I
-	ECW8YiZwXj8EAY4/XMxvY9cOmb5pHnWuP4u5NGZtUUHDegNw7oLCOHxbBmeofsTx
-X-Gm-Gg: AZuq6aI9cihfRZOifkA4S7Do3aWvM5XnGRlT/jwlpMxHPGNIN/YLRYTIik5pbk7l7GR
-	g8IJ53h9h400lax7fYHxf+8+8JteXGey0IsL0JjBmtJgHpZ2RpCfzL4CZQYIUAf51byfr9fUYCQ
-	dUfx7cUCGWARS91Ux5A4uKfHy3g2/BdKH88tWbVHCFGhUw+twleCcgSuJIZHtZ0bsgB4pi+iSKy
-	s3vKYq6umMya7GRO5luwEJwfkI2YNxNOCoe/gNgayrV0ZP3QQKLJ4amMLh7P7tgt1h3un2agRZ5
-	0bueA7pbckbIeP3kWYi+reJc/I8GKWJKS97nsBEHoGrvxDQrVbJ6t13ViAVMGXPkHzNdT0es05C
-	Tm+uDcqNltkKZV33cuOOci2rKYH5woPlvQAf9ZFoLIZwX+lYIpgy5SjpW0F6ZixbAYIAXS3xVqt
-	xUO4HywrL4kc3IQkQG07WRXCHudXUZaiSk+aQTqKOorN1T3xEtdlXj60SiOfFP9Cc6ybGAwYawp
-	UezCkGHOfXiacrWLYBHWN8reoZMQId8oy6yh0jT1c3NIGk=
-X-Received: by 2002:ac8:5f4c:0:b0:4f4:c7c0:bd15 with SMTP id d75a77b69052e-506398af417mr55832731cf.12.1770409674845;
-        Fri, 06 Feb 2026 12:27:54 -0800 (PST)
+        bh=HAVDiZ6ka5i/y7TcDCeW1iJnwd8nUGxP2nBLn8qVAVA=;
+        b=AiOUYzKNEnL1B52xJ3O4XPIu/APqbu6+5zAdVVOo/yKdWH025D4C7KPiclb3tFhGkD
+         W9UMmOsDQXKKLxw3+b+PIb3/8FNWjws6qFR0d9HWTOxNMXY7FbWyZf0UiZMddalzqqz5
+         A0k9mSv+vY09m6guRTcZu6Ec3sLWlNv5WUsjnVAvgKbHRzAhYGr0yrQZ3U39K/1hcfl1
+         206GIlS53rufh5/iotU4qDH0AB562ukuScBgefZ7WNr3cLEdybeTTT+a5AWB2Yt5AQBN
+         Lx0Kst+PjzBq3QqjQrDRqlYMKgZSIQT7Av0jF/LpPvSaBh02kbe4Cf7NvhhLvZXo+nEQ
+         nX8w==
+X-Gm-Message-State: AOJu0Yz2WQjD2xKCWeNsZFmQDSitatS2cbwQ7C2LTGUVaJv65xt4X/6N
+	vbbj+x76eqGvxQexBEt3Fko4Z1nP43nn2epBY+PPapCI+2nxkh2hvMmrKBxfhdpH
+X-Gm-Gg: AZuq6aKLPA6HpDO5on+zayU1UPmnliqTAPUx0huOwVkGz90g3WShi2oFVLBM/zYsGMk
+	y8PlVsHw12aZwdznp+7YIvSydDw6ULtfB3IIpX7jy797Q7PVthn3imjCDHpIXYm3DejLm2RPVbu
+	EQLiXYXuEgCoHryrb7Nq///3P7laUCyzxLMfA/zG6adKvnMN59Jzls0QtsqsW4nd5Uk5hSzfB8v
+	/20kkxfEqi/5V4EjoyJDf5Z4YZOLEiG68+lW+EgUMThK6cMHSr1A5/QtZxk3ne9Y2GwKOJ3SyMw
+	4sMzExas+tgOLmV/TOXjg9rlchSdMtS+3moV4yxVX/nAissWT1L2vOm0Nzh/P1YrxaFK3gS3uqY
+	pXxfIz0BUvYFYdy2uy13ezlnCpGJuIuPeZkfg8FzdxDtI5ve8lfUibNd1Njg4A+gCsL+wf1gwUY
+	XCKELnSeqVLxq2swSzdit2yIldoLTIubaveqJjBP22Ma743hDQQg5gOCTlTnEog1BGDzoVrHlFV
+	+sKDOZo/5+kmWWxjCbuX0X2UcWBUinb3qPeLHu6U3VYOIo1nixYeoH7NCo=
+X-Received: by 2002:ac8:5754:0:b0:503:2f41:aba5 with SMTP id d75a77b69052e-5063991400dmr49454921cf.24.1770409671664;
+        Fri, 06 Feb 2026 12:27:51 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-506392bf955sm22651541cf.25.2026.02.06.12.27.53
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-506392bf955sm22651541cf.25.2026.02.06.12.27.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 12:27:53 -0800 (PST)
+        Fri, 06 Feb 2026 12:27:49 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta-yocto-bsp][PATCH 03/04] meta-yocto-bsp: drop 6.16 bbappend
-Date: Fri,  6 Feb 2026 15:27:30 -0500
-Message-ID: <20260206202732.1080699-13-bruce.ashfield@gmail.com>
+Subject: [meta-yocto-bsp][PATCH 01/04] yocto-bsp: Bump the default kernel to v6.18 for beaglebone
+Date: Fri,  6 Feb 2026 15:27:28 -0500
+Message-ID: <20260206202732.1080699-11-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260206202732.1080699-1-bruce.ashfield@gmail.com>
 References: <20260206202732.1080699-1-bruce.ashfield@gmail.com>
@@ -68,33 +68,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 20:28:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230656
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230654
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
+Kevin Hao has the beaglebone working on the 6.18 standard
+branches. So we bump the default version to 6.18 for the
+upcoming LTS release.
+
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../recipes-kernel/linux/linux-yocto_6.16.bbappend    | 11 -----------
- 1 file changed, 11 deletions(-)
- delete mode 100644 meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.16.bbappend
+ meta-yocto-bsp/conf/machine/beaglebone-yocto.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.16.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.16.bbappend
-deleted file mode 100644
-index f1d2fed..0000000
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.16.bbappend
-+++ /dev/null
-@@ -1,11 +0,0 @@
--COMPATIBLE_MACHINE:genericarm64 = "genericarm64"
--COMPATIBLE_MACHINE:beaglebone-yocto = "beaglebone-yocto"
--COMPATIBLE_MACHINE:genericx86 = "genericx86"
--COMPATIBLE_MACHINE:genericx86-64 = "genericx86-64"
--
--KMACHINE:beaglebone-yocto ?= "beaglebone"
--KMACHINE:genericx86 ?= "common-pc"
--KMACHINE:genericx86-64 ?= "common-pc-64"
--
--KBRANCH:genericarm64 ?= "v6.16/standard/genericarm64"
--SRCREV_machine:genericarm64 ?= "7bd612290b2fef381423e17481e755319cf49993"
+diff --git a/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf b/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
+index 63d7f94..b76edff 100644
+--- a/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
++++ b/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
+@@ -20,7 +20,7 @@ do_image_wic[depends] += "mtools-native:do_populate_sysroot dosfstools-native:do
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyO0 115200;ttyAMA0"
+ 
+ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+-PREFERRED_VERSION_linux-yocto ?= "6.12%"
++PREFERRED_VERSION_linux-yocto ?= "6.18%"
+ 
+ KERNEL_IMAGETYPE = "zImage"
+ DTB_FILES = "am335x-bone.dtb am335x-boneblack.dtb am335x-bonegreen.dtb"
 -- 
 2.43.0
 
