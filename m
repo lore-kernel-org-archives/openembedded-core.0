@@ -1,270 +1,160 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D38EA795C
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 09:44:01 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8060.1770371040749228819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D32EE2084
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 10:19:51 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8153.1770373185914340102
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 01:44:01 -0800
+ Fri, 06 Feb 2026 02:19:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=o9u5VNYs;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-432da746749so1243050f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 01:44:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770371039; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WNiSdb57DhbeTL6pRLX/+L+zLgnNlRyeDGJfspo1zZn++rrTvZoO5dHY6hFbv4p9gM
-         PXK5lnvibRnm1jWoWNfNgp9h48TZ/EE4RcK3VViewYu6OKFtYKJQ6w5MEXj3RSHhk7F3
-         TeoudcUWvKPcCjkJcozuFma/NVpCzU3W6A0Hfy7uTrHuHL1eEs9trJNa3qZCcf+JAX/h
-         yQ2n+fdmDHixAvHpuioql5YsatdyOhTDq0XuOeij5pLrruBFQQMJ/4XMMKMNS6I+QMds
-         kDIJpZ+BOIzdSm8bhYE5TTkFc5oP9/ZCslgdRXGaakLuQbhjBWbPPTaAdZ1nfoj8Phyv
-         U8+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZsnTs6x/prM6gQN5sa/QpyYR15+B/acHgMHC45QLHTY=;
-        fh=fqdoH1r71Po/Hewy0YefLkVWNBkPmebTgwLtsZJ5cvM=;
-        b=XZ7jVEviG4WhLBBU+pGAytrOmEHaLtTNqiQZz5uzb9edbcsDoPPVFaebiVZZc20e+T
-         lkOQg/AT0ZZllg/ncJWUeAoIrp82DooXnPCURauZquy7Q9T/mfMv/kDJ3VfNYCwUXdCX
-         SyYgLikHfyShL2sPXIJ0VVGgfQE3MPRr+sxJhzQhN0Voy53/AbNHOHqQUy0KECYoFUtF
-         L2VIzEEPzjRmUiQosyvc5tapiURq87aXFg2zHHQpXy1YmN6CV1VTbul6NLzNH0nKOTlB
-         OsPw2KaZ10JSiQbDxM2yfxQnpUbzf0dY8Yrnu8CJufNoc/hh5s05q/6vTPbqPacRyPDt
-         +YVQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U8cnQCax;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48068127f00so18270635e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 02:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770371039; x=1770975839; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsnTs6x/prM6gQN5sa/QpyYR15+B/acHgMHC45QLHTY=;
-        b=o9u5VNYsj6sRbBqhShLI9LhQXtFwYsJwWtEtqwjMTE3EW+HJF3EJb6Jr6GHj14gNS4
-         Aswl8rhC0Xf7PMNikpeTo4Y5jdgLl/IOOLTnMgu+SafV0VCc6tPUs8ou4cmn2JqmbA4v
-         9oNx6iMULB+i2pE0b/UjU/yui3XhMXkRfqHGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770371039; x=1770975839;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1770373184; x=1770977984; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZsnTs6x/prM6gQN5sa/QpyYR15+B/acHgMHC45QLHTY=;
-        b=jfYlqIjh7NfEzMX5PCRk/qm7F7uv4WrgGjI5rypQ/5aPKsWW1cchpRTF046VY517AL
-         fVRhTdSR+KE9VKA0/7lVbJ4bJ1C0vYM5TaFKg45rl3vHvPK3Nj51BAUpI+5vqwXxAEFn
-         i9a+pKRHyHKjr7ZkzP982Xq+8XZ49pYyRbmBfWZsH2MLVQJhNmZFzxZ8cemQ71FQ2dJy
-         z8rN7/CPxq3slgY2Got4vgd8Zf5OZ1Rlj+A672glL8EgoQw80vaym91cgPf61QrS37ZR
-         OwwhjLmg+F7vN9CIdp7NzKBEldUEIBZ/ZAP/w+h/BMg1h4YswGp/tTDSstK0vxdzh+Oy
-         fWnw==
-X-Gm-Message-State: AOJu0YzwodQxIQVWtzHskQU3clcopt299ecCYIAdvg0HD4L7oNkOlaUj
-	juHYnbcwufQEAXYIzTIfLqzzMsPstsdMROW8wiBJBY1nKvKRexy1eE4iyBmKaHrnFHcBhKxsxXj
-	pXFimy4QO+ksGltLIAaFHCj3PQ742E+sSaP4+ZPjA5w==
-X-Gm-Gg: AZuq6aLvCPb4eW5wilJdwBRx4SZhlH28p4moB2wSChwZuxw2sWYDmsOwMBar6urRKyQ
-	NUh1bq2VlPhcVlqkQC/KLXslX/QHbpL87ixcdwxJ7WgtQ3Cbkrmodh5WQmEc5xUaDfXJnx9FWOZ
-	En9+NtkX11qzwPLHPtENfKdOMf2kk6ZvMn/7Dl9e2+1Vet7fOq/1yTcOznZHVLbWQSGTutk7sGo
-	FzWJr14eJ191SoxVkhF3MrFaeXfCeYJR2zPiuW5ioImozVt9Y4z+JWN47gAbMN8VQAXBiqjPhdQ
-	y9WPQApi4k5rTKCZ3UAT+Tj1ep145gP9LNSxwio=
-X-Received: by 2002:a05:6000:1445:b0:432:5c43:76 with SMTP id
- ffacd0b85a97d-4362967e34bmr2873466f8f.39.1770371038990; Fri, 06 Feb 2026
- 01:43:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20260125161623.729884-1-peter.marko@siemens.com>
- <554632.1770355472810056681@lists.openembedded.org> <DG7OEQVVA24V.11T3BEC402DYS@smile.fr>
- <b467cdbc-75d3-4da9-abd6-f5ccdaae4191@windriver.com>
-In-Reply-To: <b467cdbc-75d3-4da9-abd6-f5ccdaae4191@windriver.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 6 Feb 2026 10:43:33 +0100
-X-Gm-Features: AZwV_Qio0owXh8GEVze6r_n4p-CBjpcvGAWH0jtTQHwLfDJ8yPSf7nAjKMHWDOU
-Message-ID: <CAMSfU+7pjriLZuA2+Bp6g-SsJ+xixP-_tW5g3ahmWF0_brj3zA@mail.gmail.com>
+        bh=sSi3chLIgmFT9Oh35G72FDBR+E3H1v/9rhoPFXAwJxU=;
+        b=U8cnQCax/YWF6CVc3DD5W91uYu6tG9e9fzS6hKdDcU6WaE2zVPhkayOkY9dbMRhDD1
+         mCX61pq6PqCmGA8AnM0g7E+o1yyRVY+PaMz8Gre+8INMkIU2BevCwO9lxCzVza4gAygo
+         WxSyZwxjbwb1cFpt4M+Fz/MdDaeiMVyGwDOuI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770373184; x=1770977984;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sSi3chLIgmFT9Oh35G72FDBR+E3H1v/9rhoPFXAwJxU=;
+        b=WqvBEv98tz/AgmIaiAcx0yDzKh5FAk5aUt7DrqQqYx8AChG3xABpx0hpsNrEmXZ13D
+         bN3iDfMviDqDZUOaR/87J1R/YGd06/i4uiw0xPSCk1FcfTFCLZ/1++jtS1Kz2YHAYL5n
+         +PPZsyvkmdX9oBwibjUWmz+el1KoJga/YD+Wcdy6JuN6XcbENCbTSoE+nJMMggdufaE6
+         q4Wedt9J0AyLFB7qZyiav54Qn9Ss6TUq0/gnZFUz99rye6/wcQypHFkuFkYEd/mnIvmb
+         BnM8vZ3TeJNgTb2wRovJFfNES1qcMx2G5+ZQnbI98EzRM1CwaDP6ir282eaKYbTgLkb9
+         OBXg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+lR/MAVx2KrvwZYmsLqx2RHuNfvdLWPvCsjLc5b4pdDk58L10pzOeXWD5o7twQBx636Q2IrgY2U2q6OmgmoSkfw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwACLadZl2fjeBlF7LAlTdZ3vgkQK34sdbfkET6/M2qsz9xjXl0
+	Ia3LbuqmuODykJfDZ9DRQz7OTxG5XGEWP7XHzoJnCh5AWaihdpl34sCDXJSLolf+L2s=
+X-Gm-Gg: AZuq6aLEzpIlrG8UAJOw9F+bqvp0LmapfIEfDV1S+YzFZr3sEoBk1ewasnol+AjI6gp
+	GEa6WejQB0HcDrWpFUNdh/gHNXFEg+u1kCdgdDu2VjvjX1FTG6bVSc7OfCx4k5yWt3oXCAIU/xW
+	4ro2toUa/N+zLIvslFwNeDefLebmHVBjnCY8M2k5B4FNOsUH5R8AxEajAUN/KFaLiW9Reiel0wJ
+	Qswy4TipDJOqnXA3u/EzB3nj1tMmbJCBa274nISG0E/I3KXc6mJsAxgznHJzddCxgHOe5S69rBs
+	nDNmPmL6Q1zSjGa4PrZKowNY09IWUb8LrEXI5aLDv6/rzlZ+UOHRjSx64nh9T4DbDS/ZGM885Yn
+	NLe0ZZCRXaBZ1uRgOwK6msd52CBIjk0Sw1qPUIicnNl6rGI0EZdS7eB22Wr62vhzlVT7vCCuPJq
+	AH9Ksr3Vxv+RBTn/nLQkB0U+WiLDT9/P7pI9ajg3NbFSgYhXgvPAQTkCyeGKPziPQCN5sbSazv5
+	mbMWF10LIGW+/MSoGaXMJULFA==
+X-Received: by 2002:a05:600c:3b19:b0:477:7bca:8b34 with SMTP id 5b1f17b1804b1-48320200068mr30084905e9.6.1770373184122;
+        Fri, 06 Feb 2026 02:19:44 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c3ca:e743:b37a:d8b5? ([2001:8b0:aba:5f3c:c3ca:e743:b37a:d8b5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48320638ff7sm46874545e9.0.2026.02.06.02.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 02:19:43 -0800 (PST)
+Message-ID: <b885c311ab2d6e31289f5bc857340e96ffc530bc.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [scarthgap][PATCH] glibc: stable 2.39 branch updates
-To: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>, "Marko, Peter" <peter.marko@siemens.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e66b13064a24a009"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: peter.marko@siemens.com, "yoann.congal@smile.fr"
+ <yoann.congal@smile.fr>,  "Hemanth.KumarMD@windriver.com"	
+ <Hemanth.KumarMD@windriver.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 06 Feb 2026 10:19:41 +0000
+In-Reply-To: <AS1PR10MB5697B71BC0C1DDAF032FEC46FD66A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260125161623.729884-1-peter.marko@siemens.com>
+	 <554632.1770355472810056681@lists.openembedded.org>
+	 <DG7OEQVVA24V.11T3BEC402DYS@smile.fr>
+	 <AS1PR10MB5697B71BC0C1DDAF032FEC46FD66A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 09:44:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230600
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 10:19:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230601
 
---000000000000e66b13064a24a009
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2026-02-06 at 07:42 +0000, Peter Marko via lists.openembedded.org w=
+rote:
+> > On Fri Feb 6, 2026 at 6:24 AM CET, Hemanth.KumarMD via
+> > lists.openembedded.org wrote:
+> > > Hello Peter,
+> >=20
+> > (Yoann here)
+> >=20
+> > > We sometimes see regressions in glibc test runs depending on the loca=
+l
+> > > environment. In such cases, it can help to re-trigger the tests to
+> > > check whether the failures are consistently reproducible. It may also
+> > > be useful to cross-check the results with autobuilder runs, which
+> > > generally provide a more stable baseline before concluding on
+> > > regressions.
+>=20
+> I am planning to run the testsuites again during weekend.
+> I also find it weird that every update shows different "before" results t=
+han previous one showin in "after" result.
+> Not sure if it's flakiness or local conditions like CPU overload at time =
+of running tests.
+>=20
 
-Le ven. 6 f=C3=A9vr. 2026 =C3=A0 09:19, Hemanth Kumar M D <
-Hemanth.KumarMD@windriver.com> a =C3=A9crit :
+For context, many of the 'toolchain' testsuites have some flaky tests
+in them and we don't always see consistent output.
 
->
-> On 06-02-2026 12:17 pm, Yoann Congal wrote:
->
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the content is safe.
->
-> Hello,
->
-> On Fri Feb 6, 2026 at 6:24 AM CET, Hemanth.KumarMD via lists.openembedded=
-.org wrote:
->
-> Hello Peter,
->
-> (Yoann here)
->
->
-> We sometimes see regressions in glibc test runs depending on the local
-> environment. In such cases, it can help to re-trigger the tests to
-> check whether the failures are consistently reproducible. It may also
-> be useful to cross-check the results with autobuilder runs, which
-> generally provide a more stable baseline before concluding on
-> regressions.
->
-> I'm willing to test this on the autobuilder. But I never done that...
-> Any pointer? Where do I get the nice test report with the comparison to
-> the previous version?
->
->
-> Hello Yoann,
->
-> You can trigger a *qemux86-64-tc* build with this patch applied. Once the=
- build completes,
-> the corresponding results link will be available in the published artifac=
-ts.
->
-> example: https://valkyrie.yocto.io/pub/non-release/20260206-8/testresults=
-/qemux86-64-tc/
->
-> The *qemux86-64-tc* build artifacts include the test-results.json file. Y=
-ou can compare this
-> against any recent successful *qemux86-64-tc* autobuilder run as the base=
-line.
->
-> Hope this helps.
->
->
-That does! Thanks!
+For example, the 5.0.14 regression report mentions:
 
-The result from my first run of this branch (with this patch) shows no
-malloc failure:
-https://valkyrie.yocto.io/pub/non-release/20260203-124/testresults/qemux86-=
-64-tc/testresults.json
+https://downloads.yoctoproject.org/releases/yocto/yocto-5.0.14/testresults/=
+testresult-regressions-report.txt
 
-So, what I plan to do:
-Take this patch into my branch, test it when the branch is ready and add
-this info to the commit message.
+Regression:  oeselftest_almalinux-8.10_qemuarm_20251014024649
+             oeselftest_almalinux-9.7_qemuarm_20251118011611
+    Total: 3 new regression(s):
+    1 regression(s) for ptestresult.gcc-libstdc++-v3-user
+        ptestresult.gcc-libstdc++-v3-user.30_threads/async/async.cc executi=
+on test: PASS -> FAIL
+    2 regression(s) for ptestresult.glibc-user
+        ptestresult.glibc-user.misc/tst-linux-mremap1: UNSUPPORTED -> FAIL
+        ptestresult.glibc-user.misc/tst-pidfd: UNSUPPORTED -> FAIL
 
-Thanks,
-> Hemanth
->
-> Thanks!
-> --
-> Yoann Congal
-> Smile ECS
->
->
-> --
-> Regards,
-> Hemanth Kumar M D
->
->
+or:
 
---=20
-Yoann Congal
-Smile ECS
+    5 regression(s) for ptestresult.glibc
+        ptestresult.glibc.elf/ifuncmain8: PASS -> No matching test result
+        ptestresult.glibc.elf/tst-tls20: PASS -> FAIL
+        ptestresult.glibc.iconvdata/mtrace-tst-loading: PASS -> FAIL
+        ptestresult.glibc.iconvdata/tst-loading: PASS -> FAIL
+        ptestresult.glibc.nptl/tst-thread-affinity-pthread: PASS -> FAIL
 
---000000000000e66b13064a24a009
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+over time we've been trying to investigate and resolve these kinds of
+issues but we're obviously not there yet.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 6 f=C3=
-=A9vr. 2026 =C3=A0=C2=A009:19, Hemanth Kumar M D &lt;<a href=3D"mailto:Hema=
-nth.KumarMD@windriver.com" target=3D"_blank">Hemanth.KumarMD@windriver.com<=
-/a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex"><u></u>
 
- =20
-  <div>
-    <p><br>
-    </p>
-    <div>On 06-02-2026 12:17 pm, Yoann Congal
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <pre>CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
+I can say we've made big improvements, you can see it in the numbers,
+e.g. comparing:
 
-Hello,
+https://downloads.yoctoproject.org/releases/yocto/yocto-4.0/testreport.txt =
+- 142,413 failures
+https://downloads.yoctoproject.org/releases/yocto/milestones/yocto-5.3_M3/t=
+estreport.txt 1,636 failures
 
-On Fri Feb 6, 2026 at 6:24 AM CET, Hemanth.KumarMD via <a href=3D"http://li=
-sts.openembedded.org" target=3D"_blank">lists.openembedded.org</a> wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre>Hello Peter,
-</pre>
-      </blockquote>
-      <pre>(Yoann here)
+which shows a definite improvement! The number of flaky test results
+has also decreased but is obviously not as easy to measure.
 
-</pre>
-      <blockquote type=3D"cite">
-        <pre>We sometimes see regressions in glibc test runs depending on t=
-he local
-environment. In such cases, it can help to re-trigger the tests to
-check whether the failures are consistently reproducible. It may also
-be useful to cross-check the results with autobuilder runs, which
-generally provide a more stable baseline before concluding on
-regressions.
-</pre>
-      </blockquote>
-      <pre>I&#39;m willing to test this on the autobuilder. But I never don=
-e that...
-Any pointer? Where do I get the nice test report with the comparison to
-the previous version?</pre>
-    </blockquote>
-    <br>
-    <pre><span><p>Hello Yoann,</p><p>You can trigger a <b>qemux86-64-tc</b>=
- build with this patch applied. Once the build completes,=20
-the corresponding results link will be available in the published artifacts=
-.</p><p>example: <a href=3D"https://valkyrie.yocto.io/pub/non-release/20260=
-206-8/testresults/qemux86-64-tc/" rel=3D"noreferrer noopener" title=3D"http=
-s://valkyrie.yocto.io/pub/non-release/20260206-8/testresults/qemux86-64-tc/=
-" target=3D"_blank">https://valkyrie.yocto.io/pub/non-release/20260206-8/te=
-stresults/qemux86-64-tc/</a></p><p><span><span><span style=3D"font-family:-=
-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,system-ui,&quot;Apple =
-Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Web&quot;,sans-=
-serif;font-size:14px;white-space:pre-wrap"></span></span></span>The <b>qemu=
-x86-64-tc</b> build artifacts include the <code>test-results.json</code> fi=
-le. You can compare this
-against any recent successful <b>qemux86-64-tc</b> autobuilder run as the b=
-aseline.</p><p>Hope this helps.</p></span></pre></div></blockquote><div><br=
-></div><div>That does! Thanks!</div><div><br></div><div>The result from my =
-first run of this branch (with this patch) shows no malloc failure:</div><d=
-iv><a href=3D"https://valkyrie.yocto.io/pub/non-release/20260203-124/testre=
-sults/qemux86-64-tc/testresults.json" target=3D"_blank">https://valkyrie.yo=
-cto.io/pub/non-release/20260203-124/testresults/qemux86-64-tc/testresults.j=
-son</a></div><div><br></div><div>So, what I plan to do:</div><div>Take this=
- patch into my branch, test it when the branch is ready and add this info t=
-o the commit message.</div><div><br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><div>
-    <pre><span><p>Thanks,
-Hemanth</p></span></pre>
-    <blockquote type=3D"cite">
-      <pre>Thanks!
---
-Yoann Congal
-Smile ECS
+We have a policy with ptests and rust of no failures. We're trying to
+get there with gcc/binutils/glibc/ltp.
 
-</pre>
-    </blockquote>
-    <pre cols=3D"72">--=20
-Regards,
-Hemanth Kumar M D</pre>
-  </div>
+The test results are stored in the testresults.json files and
+resulttool knows how to generate reports and compare files for
+regression reports.
 
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-</div>
+The plus side of the autobuilder results is that we have a long
+baseline for comparison and a relatively stbale testing environment
+which should be consistent.
 
---000000000000e66b13064a24a009--
+Cheers,
+
+Richard
+
+
+
+
 
