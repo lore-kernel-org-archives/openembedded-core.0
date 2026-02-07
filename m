@@ -1,171 +1,194 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F1DEE6B6F
-	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 00:29:12 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.61])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5127.1770424143314261178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DBC2EE6B76
+	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 05:13:11 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3790.1770441188902097441
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 16:29:03 -0800
+ Fri, 06 Feb 2026 21:13:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=ldIrsXku;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.159.61, mailfrom: johannes.schneider@leica-geosystems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vNxLmiFVTItGNtTMfQBt5eQn1MW5JPjMNaHRjBLszB8cwLPvxTIOLhVtxt4BBeYY52jwBsM6dSzCwCI1OmSSau+9QKP5Pp7Va51V1zVP2UPpyL9XR/bJe+Jy20ZEuBEIwRVtNoHZ5HoxWalIn96JEOZBw9OIHv+m8w5gmnWNkl7oAaAF7JUAbqjRaq353eoCj90VvH1SeQZYr4IHQwPTpZNFIQ2WDOtYbMrBZxydg55pUlJ0qPHH82iPRH6uWN4WcIcp/j/R6Ta5q1YaQlD7v81KcMa/KFwsjMnLgbSAaTTD197fptLEze66/NGT05euOUe2iYQEqDRZGKM4+JlD7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pPi0308F8sLiRyCN173g9NclUjn4lOzWSlCgV3tjGzE=;
- b=c7596RVEa2ih/ybj54XgpJbH9ZwkJs/T51dzIbItgsoAI+9f7mLhCAmxIQrCpwtFwD7Ta1oteqONpgATY2jbq9DvLzVxFRo107MnCRYI46eNJtQJuPbRpm52ArcDxFu7oWf1PAV1H23tfnqEK6wFLpobRImq5KR9IqKprRBRsKgCDNPu3UUoKeIMcdphpP9MVWAUgL9egB3+ZgDEkGaCerz0LEX6hpKnoMTPdojfIergFX4+2GxoYTqoiQnbZrHGbq1JMSkj+Rz+4VzGOe93eLHrZ+qW6Mu5lgGEwrcAhSUAMT0UmAC5EMdTe3TTenbizScyAMHlL7DU82Se0ZOz0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=leica-geosystems.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pPi0308F8sLiRyCN173g9NclUjn4lOzWSlCgV3tjGzE=;
- b=ldIrsXkulDctpwRACYvm6vCMfTCA9jFePhmxTZbfiiK0+wrNOuZvqdzT6/hRCQAQdf8Ab+MhnT04pH2sySsPvq60i1vJRop8y3AWOrVAXQndhcSGL7XOeu+15T6kRWlc8mjHNEVM80SKUQb01eJG65E4PevmTvO5AWMnplUA8Es=
-Received: from AS8P251CA0011.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:2f2::31)
- by PAXPR06MB8532.eurprd06.prod.outlook.com (2603:10a6:102:2b5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Sat, 7 Feb
- 2026 00:28:58 +0000
-Received: from AM2PEPF0001C70E.eurprd05.prod.outlook.com
- (2603:10a6:20b:2f2:cafe::49) by AS8P251CA0011.outlook.office365.com
- (2603:10a6:20b:2f2::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.15 via Frontend Transport; Sat,
- 7 Feb 2026 00:28:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.99; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.99) by
- AM2PEPF0001C70E.mail.protection.outlook.com (10.167.16.202) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Sat, 7 Feb 2026 00:28:58 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Sat, 7 Feb 2026 01:28:57 +0100
-From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [PATCH v1] license.bbclass: directly expand LIC_FILES_CHKSUMS to apply inline python
-Date: Sat,  7 Feb 2026 00:28:56 +0000
-Message-ID: <20260207002856.2847527-1-johannes.schneider@leica-geosystems.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=In+tsKwL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=64987582b7=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6174o1xd419103;
+	Sat, 7 Feb 2026 05:13:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=xKsEy3QyW
+	2p/2vJKk0WSRLT26E4JG7KY+DxS2n2A9LI=; b=In+tsKwLGRu3MCLsWjSOH7jF9
+	rPa1NDMVeOxMigLAQfMhTCyJeiVtXjJE4zVhk8uNahXK231wiUmeHJq9BRKXr11G
+	r31hdniYKSCIWPbztAjTefNDcDzlcPKtGB/NBM+NlER5+HjwoCzKOO78hcXdisRj
+	bCwTITjGBdy2809wmQTRPOWeyUCapKfXEUAfN+pEFkIphX5tFYUOOBSZ+kwWYyTW
+	TdswndzS6FqpJIBG90eZU4jByHhlBQjhlQL3TGlirezRs2E79t7yz17/cudzDVCJ
+	Cx103CI6RynaXAUuK0/2hYNpKu37BWgEeb/rfzDDxYE2ThRAI2+9S7s/D7Q1w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c5vc582sa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 07 Feb 2026 05:13:07 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 6 Feb 2026 21:13:06 -0800
+Received: from oak-lpgbuild14.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 6 Feb 2026 21:13:06 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <alex.kanavin@gmail.com>
+Subject: [OE-core][RFC][PATCH] oeqa/selftest/sdk: add test_sdk_runqemu
+Date: Sat, 7 Feb 2026 05:13:05 +0000
+Message-ID: <20260207051305.2363194-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 07 Feb 2026 00:28:57.0914 (UTC) FILETIME=[BFAA61A0:01DC97C8]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C70E:EE_|PAXPR06MB8532:EE_
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 1cb2c57c-0f95-4af5-b5c9-08de65dfe241
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ha9SfmxfRkI5nbJg/I9Fjn9d/Hx4XUsBzwO4IarjxeydxIxrlQEr+resEfqC?=
- =?us-ascii?Q?6WWCwIEEAI09Cd8IY+j1a7twRya2NPVjRJ7uMxCCNGvwACnuThrhOncEfX4U?=
- =?us-ascii?Q?L8x8bfkKV+rcMHtlPU06fOQ0erBkUtwiDlSj3sU1d5Mnex6VDlG5qXM7ZiYM?=
- =?us-ascii?Q?pUhIUpQSTqxbNig8jEzFqndk7mHScpaju5FEk2Ocrj+FPIazrC5nIoYpGtsv?=
- =?us-ascii?Q?m0c1n9b/s6Tnfp+SLJk3yTykTHiCiSA43LEaCVPXt8mtsQmaG+7UUm40M/Ao?=
- =?us-ascii?Q?upIbQN6ozxMiWyZYFogSUmS1k7w91u3wyJHITuftGqJF0gtc56vtZ7Rsf05w?=
- =?us-ascii?Q?mh6LyOcxusA6HwJNo2iwFwj9mvIbpXhUx3zf6G/8O5Te1WH0UAsdUrADCLYv?=
- =?us-ascii?Q?UGhyRuyjIc9W3sjjdf00sdSGRD/6ykcdGd+iDFl8UBH1ydHStkzuetbvQCSq?=
- =?us-ascii?Q?P1D7vDaNcc0HZYwKD9xJxLp1Tq7bhzAyOcZVf9meS/BvnoY2qm0V5JRVkDiP?=
- =?us-ascii?Q?YIKcF2Cx3Ez0bdTeUqUQRrgwnh1MmUOehxUIIvQmzy8Udh0JgdQkHl6hiscn?=
- =?us-ascii?Q?lOvVy3I6HlDbBO9FexRahVnq5ayX2glh5PSxEY6Xe5vL7+r2uLvbgRDyljCR?=
- =?us-ascii?Q?85kRAOzoMSyZjgf5AyiFc87DdlYY9msUk9npjVYfqg436ofuPrGcI+siTCHY?=
- =?us-ascii?Q?5hxf6knHxgA5wTO3uGj8jkYsD0355UPcK3vExJuclgBr2Nis9Q8mxmlTV5my?=
- =?us-ascii?Q?kZo0Y0QLBv8j60ShQi7Ke/3AxwHia6pCKzpjp5P5PBPo2J+4TTv/gmfw35an?=
- =?us-ascii?Q?XPeKGrjt6yfI2F2A5ftN/UGaC84lURtFY2+Wm+y4C44UpmvvhhE1rW/V8Fdd?=
- =?us-ascii?Q?eJ+581aCa3OoTN7mD7dD/KeOnrRIbPVecM3fBPDr2RcxDxcmXNCrAWA9eGx4?=
- =?us-ascii?Q?GnO15R6Ntjw6Jhhx3glXO6C30auLGMYdHYXqrZJVx4Ow/SlpV0sEZUkTVp43?=
- =?us-ascii?Q?jiH4er/CsTMwoP/Owj3uwih1hd1uoDpTAnlzP3boLHvPo2gOWAiX1mPawN1l?=
- =?us-ascii?Q?V6Qk920MkU3c80EDG4ILxsT+wD/CmfUes+CAJnxwKg4XGAQrW+AXZrenoFnm?=
- =?us-ascii?Q?HgwrBgNbO019nr3h04UiaatnQBoVKSnfh1V+odf91zdWWMpEUZczh8pCfQwz?=
- =?us-ascii?Q?Lv9xw315y6b/SVq+9uiPwhxodRRgUPJSfu4RCs63j1OM8QRJl/i8QSPzmJQc?=
- =?us-ascii?Q?QGjnsnoYnsHGFfEXenANvOSIJYZr672T7VMNt1x5afx+AsId09fHdr6iVu3H?=
- =?us-ascii?Q?Nsg9nngepWNjTUiOMX9tKasKgdknhG92G73esaZ6/WxDRziPufFJs4eq0fx0?=
- =?us-ascii?Q?ppAuHEzSZUjD4Qqzuc9PgLpl9NT2scxKG9xCSmuObSb6PMWjk9ZbXf3Zwij7?=
- =?us-ascii?Q?5j7UozxpzAzUsXPDSPVWzcjtCUHTpKCtLaS/R6O5h/MaMNjl6vDrWbMj+UaM?=
- =?us-ascii?Q?2IHyQhKWn3zXU590dBs+Tkksb4qfqvIQ5KkEIyVVsIFDCQgOdyRnh1cwA85v?=
- =?us-ascii?Q?iADOJfx9bDH7k0LiS9lLgJY9ods/KK7TIyUUztvHUDXm87B1S+KoiqhUrXqD?=
- =?us-ascii?Q?8CNLgD1HtWaGx8ZXBoe9C7iPx4gxkZh9iUSDmIHArVjU2N8ynnslFjQTrpMC?=
- =?us-ascii?Q?CcR0qw=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	ExFoZyqPYZhEMFcuXYnqILsBS0xiuBkEyjFRSjR2RE6WlO+7Lo+ebloy9mP866BBUDQtDO9JC25KUjrTJztrXABrHj07ZyKTVpuQhqFy87uFhiWyfhqSN5/HPY39pqlBXmcaege9Uo0EF3lL+2YidvujcVx9aZifhJgkzmB1g9a5LoLHajX5zErY4c0KZ4/IpTKaQv1duGUTCyiuviZb2M2NAdYD9+2DQR5LKy3Aw3yccvC0/1JJZcqkpkE7y/2lO8+KQaKCh5qoJFfTymiBvoK+9F/naPVqZzpwAk5kMxO4kDAWccvG1rnpgjfoCoMRjgcTomRhESSsbG6ZyP++N1EwkekDsogq/5ZbLVjtbk08lJDJooJCBQWbElk6mTQ4ZFsTACN6Y94l36Kib+04hmkqMfMqI6yHoYUF97+JIVGg7s7G0DzMyQ1mcEg34n08
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2026 00:28:58.0903
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cb2c57c-0f95-4af5-b5c9-08de65dfe241
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM2PEPF0001C70E.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB8532
+X-Authority-Analysis: v=2.4 cv=dPyrWeZb c=1 sm=1 tr=0 ts=6986c9e3 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
+ a=GgsMoib0sEa3-_RKJdDe:22 a=t7CeM3EgAAAA:8 a=2V6DY6BgAAAA:8
+ a=QklhIAnghPIZTLOfvdoA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=ldqKKs2zR4t-S6fqr-1n:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA3MDAzOCBTYWx0ZWRfXwJVQUg3ndHYW
+ UPh6cJEpHCoFAximtAs3cIlAA6eYWVUTS1P4M94S+cQGeHHmzdW1PO2Y2Gpim8NoGl+n+5jf/be
+ KHlE52rb9KCCxyWEpzebIVmOYvol0NUzkoB2ME7xD3adyYvSqiBHySRF5VGD6THWYJiCmZdP0zT
+ aBnCdx8jjnmNStZ3yzII5WF10u1QKHDm2fQQ8cXs94zJEnStDRI9ABPjecYFUDxJrFO+PTxJeew
+ B5auAyCzmJidxV7MeVNv+BhDOZvn4yyxg+0hnV1xeSIWbrmBP5vmTnTr0fNgKNIJCEwNiSWOWvX
+ R1cE6c4bL5KJz//S1cfunsbnfmlLdTw+q0FKFeOWUa6/KTpVVSbF+03NjH5ktdbFkfQwBSlvT5U
+ bsz2gbsJjcPWHh+46yvQ6pFCLHBcYpp9+DUON+/KCCBg9rFhUL28h7EJ458WUvXdBG9qKAAJmhH
+ ar091dC5k7xJNaWowIw==
+X-Proofpoint-GUID: YrlZE-wwDL-zMIL5v0-gmmlFe5XmgqKU
+X-Proofpoint-ORIG-GUID: YrlZE-wwDL-zMIL5v0-gmmlFe5XmgqKU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602070038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 00:29:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230666
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 05:13:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230667
 
-Add 'expand=3DTrue' to directly resolve file checksums that are added
-conditionally with inline python code.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Otherwise it can happend that the license.bbclass still sees the
-un-expanded values and either misses or even skipps adjacent licenses.
+Add test case to ensure runqemu works in SDK.
 
-E.g. an unvaforable combination of
-LIC_FILES_CHKSUM +=3D "file://docs/license.rst;md5=3D83b7626b8c7a37263c6a58=
-af8d19bee1"
-LIC_FILES_CHKSUM:append =3D "${@bb.utils.contains('TFA_MBEDTLS', '1', ' ${L=
-IC_FILES_CHKSUM_MBEDTLS}', '', d)}"
+Using runqemu from SDK has been supported for many years. Add a
+test case to ensure we have no regression.
 
-would lead to a
- # pre-expansion value:
- #   " file://docs/license.rst;md5=3D83b7626b8c7a37263c6a58af8d19bee1${@bb.=
-utils.contains('TFA_MBEDTLS', '1', ' ${LIC_FILES_CHKSUM_MBEDTLS}', '', d)}"
- LIC_FILES_CHKSUM=3D" file://docs/license.rst;md5=3D83b7626b8c7a37263c6a58a=
-f8d19bee1"
-and the license checksum verification on 'license.rst' being sometimes skip=
-ped.
-
-Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes-global/license.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/sdk.py | 88 ++++++++++++++++++++++++++++-
+ 1 file changed, 87 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/lice=
-nse.bbclass
-index af5f1ed41d..62116ba31d 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -125,7 +125,7 @@ def find_license_files(d):
-     from collections import defaultdict, OrderedDict
-=20
-     # All the license files for the package
--    lic_files =3D d.getVar('LIC_FILES_CHKSUM') or ""
-+    lic_files =3D d.getVar('LIC_FILES_CHKSUM', expand=3DTrue) or ""
-     pn =3D d.getVar('PN')
-     # The license files are located in S/LIC_FILE_CHECKSUM.
-     srcdir =3D d.getVar('S')
-
-base-commit: 6ce19709f7835ee5cd7915e181f89397975236c8
---=20
+diff --git a/meta/lib/oeqa/selftest/cases/sdk.py b/meta/lib/oeqa/selftest/cases/sdk.py
+index 3971365029..ee1e4ca420 100644
+--- a/meta/lib/oeqa/selftest/cases/sdk.py
++++ b/meta/lib/oeqa/selftest/cases/sdk.py
+@@ -4,7 +4,13 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
+-import os.path
++import os
++import shutil
++import subprocess
++import glob
++import time
++import select
++from tempfile import TemporaryDirectory
+ 
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_vars
+@@ -37,3 +43,83 @@ IMAGE_INSTALL:append = " selftest-hello"
+         path = os.path.join(vars["SDK_DEPLOY"], vars["TOOLCHAIN_OUTPUTNAME"] + ".target.manifest")
+         self.assertNotEqual(os.path.getsize(path), 0, msg="Target manifest is empty")
+         self.assertIn("selftest-hello", self.load_manifest(path))
++
++    def test_sdk_runqemu(self):
++        """Test using runqemu from SDK which has no bitbake available"""
++
++        def path_with_no_bitbake():
++            orig_paths = os.environ["PATH"].split(":")
++            new_paths = []
++            for orig_path in orig_paths:
++                if not os.access(os.path.join(orig_path, "bitbake"), os.X_OK):
++                    new_paths.append(orig_path)
++            return ":".join(new_paths)
++
++        def runqemu_works_from_sdk(sdk_dir, sdk_env, machine, path, timeout=360):
++            env = os.environ.copy()
++            env["PATH"] = path
++
++            cmd = f'cd {sdk_dir}; . {sdk_env}; runqemu {machine} snapshot slirp nographic'
++            self.logger.info(f"Running {cmd}")
++            proc = subprocess.Popen(
++                ['bash', '-c', cmd],
++                stdout=subprocess.PIPE,
++                stderr=subprocess.STDOUT,
++                text=True,
++                bufsize=1,
++                env=env
++            )
++            buffer = ""
++            start = time.time()
++            while time.time() - start < timeout:
++                if proc.poll() is not None:
++                    chunk = proc.stdout.read()
++                    if chunk:
++                        buffer += chunk
++                    return ('Linux version' in buffer, "\n".join(buffer.split('\n')[-10:]))
++                ready, _, _ = select.select([proc.stdout], [], [], 0.1)
++                if ready:
++                    chunk = proc.stdout.read(4096)
++                    if chunk:
++                        buffer += chunk
++                        if "Linux version" in buffer:
++                            proc.terminate()
++                            return (True, "\n".join(buffer.split('\n')[-10:]))
++                time.sleep(0.1)
++            proc.terminate()
++            time.sleep(5)
++            if proc.poll() is None:
++                proc.kill()
++            return (False, "\n".join(buffer.split('\n')[-10:]))
++
++        image = "core-image-minimal"
++
++        self.write_config('QEMU_USE_KVM = "1"')
++
++        # generate image and SDK
++        bitbake(f"{image}")
++        bitbake(f"{image} -c populate_sdk")
++
++        # create a temporary destdir to test runqemu from SDK
++        with TemporaryDirectory() as tmpdir:
++            self.logger.debug(f"Created tempdir: {tmpdir}")
++            vars = get_bb_vars(["DEPLOY_DIR_IMAGE", "SDK_DEPLOY", "TOOLCHAIN_OUTPUTNAME", "MACHINE"], image)
++            machine = vars["MACHINE"]
++            image_dir = vars["DEPLOY_DIR_IMAGE"]
++            sdk_path = os.path.join(vars["SDK_DEPLOY"], vars["TOOLCHAIN_OUTPUTNAME"] + ".sh")
++            self.logger.debug(f"machine: {machine}")
++            self.logger.debug(f"image_dir: {image_dir}")
++            self.logger.debug(f"sdk_path: {sdk_path}")
++            dst_image_dir = os.path.join(tmpdir, os.path.basename(image_dir))
++            shutil.copytree(image_dir, dst_image_dir)
++            subprocess.check_call(f"{sdk_path} -d {tmpdir} -y", shell=True)
++            sdk_env = glob.glob(tmpdir + '/environment-setup-*')[0]
++            self.logger.debug(f"sdk_env: {sdk_env}")
++
++            path = path_with_no_bitbake()
++            self.logger.debug(f"path: {path}")
++
++            runqemu_works, output = runqemu_works_from_sdk(tmpdir, sdk_env, machine, path)
++            self.logger.debug(f"runqemu works in SDK: {runqemu_works}\n{output}")
++
++            self.assertTrue(runqemu_works, f"runqemu does not work in SDK\n{output}")
+-- 
 2.43.0
 
 
