@@ -1,194 +1,129 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DBC2EE6B76
-	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 05:13:11 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3790.1770441188902097441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EE5EE6B7C
+	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 08:53:50 +0000 (UTC)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1782.1770454425144666718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 21:13:09 -0800
+ Sat, 07 Feb 2026 00:53:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=In+tsKwL;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=64987582b7=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6174o1xd419103;
-	Sat, 7 Feb 2026 05:13:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=xKsEy3QyW
-	2p/2vJKk0WSRLT26E4JG7KY+DxS2n2A9LI=; b=In+tsKwLGRu3MCLsWjSOH7jF9
-	rPa1NDMVeOxMigLAQfMhTCyJeiVtXjJE4zVhk8uNahXK231wiUmeHJq9BRKXr11G
-	r31hdniYKSCIWPbztAjTefNDcDzlcPKtGB/NBM+NlER5+HjwoCzKOO78hcXdisRj
-	bCwTITjGBdy2809wmQTRPOWeyUCapKfXEUAfN+pEFkIphX5tFYUOOBSZ+kwWYyTW
-	TdswndzS6FqpJIBG90eZU4jByHhlBQjhlQL3TGlirezRs2E79t7yz17/cudzDVCJ
-	Cx103CI6RynaXAUuK0/2hYNpKu37BWgEeb/rfzDDxYE2ThRAI2+9S7s/D7Q1w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c5vc582sa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 07 Feb 2026 05:13:07 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Fri, 6 Feb 2026 21:13:06 -0800
-Received: from oak-lpgbuild14.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Fri, 6 Feb 2026 21:13:06 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>
-Subject: [OE-core][RFC][PATCH] oeqa/selftest/sdk: add test_sdk_runqemu
-Date: Sat, 7 Feb 2026 05:13:05 +0000
-Message-ID: <20260207051305.2363194-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dBOP/Ipz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-436e87589e8so13940f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 00:53:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1770454423; x=1771059223; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GxuErRmwNirF1rdcZ/88e4JvWVeuawnb0LoTzclwdZc=;
+        b=dBOP/Ipzpc9rRVMWiJfHgssZvKX6uHqQ43idSZjIyTs9vTs2puuDx5TfXqHDdPhsZY
+         u8PTfISqvx3j6PPk3Lvhh3zqj7cKQ1H/9ewA0LyU9y44fA+mk/s0sBucoJKniCIzBY3J
+         J16L9H2shxR+Fam/ZI3C/oRsYdqyw/eXu20rM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770454423; x=1771059223;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GxuErRmwNirF1rdcZ/88e4JvWVeuawnb0LoTzclwdZc=;
+        b=Pcso+ScpCSlC4LyzDn5K+60qQWbWs+NHZBJzryJSJab0IurNE6mewXpJ0LPd+EUZtg
+         PfmndskiGNMOf6C7lkxaAfiNMSzgLfKLARE9jgc09Xa5g+Gug4j9r2TNCLTKDGX77wXD
+         TAAae8Qg3JKtvTT5dYaiTIKxHnNuURaKII4E4jX2xlVrhVqxCiyFJc5yblJ+ur9bgnuE
+         UUIC8i0ugVg+C1/nugLF8XOdK4I754+s7z5WNS13l3oGi+B0kCIYZWGMn9Ur7h1dbPuI
+         cIMyHhIf+q1WxTdJkeDnOUyO9CTCjdK7eUj13mtjlxIzIT6h82xKkIudIkmM8iLz3Oxs
+         1Hlg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxC0cEN1V64zacx1MnXkTBQTMzevtzZ7USGIDa0kVtspXyt79J9Zl6gLh0Nu9I3EbHZ/h831gulQS4AI7SHEBExQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywi6jnHvFTu/RNujtQwZnhcqdwyln9a08Z2qgTh9d4TVHQ9REyJ
+	vTsBte//92nLhFq9c+CMA/SvQQKI47V+nF3chR5rVjNbkCNQv9Wdu8JJwk81P5KeOFI=
+X-Gm-Gg: AZuq6aI39T0wJ4I7UAoFFbI21ARINkRheUSrjx8M16zENpAbZkn+9taSlR7EfCt+8aO
+	lLf91OepkbC8JjanEnMf/Sa8qQ+qKvfZBZVD1sWPCEmtzGSPpnjXiWUAyByPBYXEJgIuqHkKLEp
+	6IpQtc+aiw60XMpvZjh+HcDR2Jxfn4p6jEUKKIEg65X7Qjsy0Rf0vwACiKmQFPIYT1CqBiC1OG8
+	H2gQNaXVWgu95nRGGpiLQenJkSalFpV1jMULkVuCJpsGWtOkQjdRgoY8GRjAdNOlQiL4BnJyRnM
+	BC10Fz7vky5ChaqwpjifoBzwMm5dlwtVAzk5YmiRW/4x5BAsz4Eu9noRCOXvNPqV/goZxx5RcM9
+	ARKnE5ov0jLgS3NMHDtpEXMUDkRUP7/aNu7u9mmfoeQ5Kr1avIcGvQLY799Fbyv8xXsMXUb3lam
+	zhOG0/rjDGrF/657L1BGoUaOdr3k0kiGhmvDtg8gzAqEJ3eSQDyf76gZyi4BZcxIgWh5hFBVVyI
+	cM=
+X-Received: by 2002:a05:6000:184f:b0:430:f241:a11f with SMTP id ffacd0b85a97d-4362938b258mr7446833f8f.30.1770454423460;
+        Sat, 07 Feb 2026 00:53:43 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d710:b0b1:4482:6d4f? ([2001:8b0:aba:5f3c:d710:b0b1:4482:6d4f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362972fc1bsm12337188f8f.28.2026.02.07.00.53.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Feb 2026 00:53:42 -0800 (PST)
+Message-ID: <3d9da9404610ce4c80ff8b086a041ca242422e8d.camel@linuxfoundation.org>
+Subject: Re: [PATCH v1] license.bbclass: directly expand LIC_FILES_CHKSUMS
+ to apply inline python
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Johannes Schneider <johannes.schneider@leica-geosystems.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 07 Feb 2026 08:53:41 +0000
+In-Reply-To: <20260207002856.2847527-1-johannes.schneider@leica-geosystems.com>
+References: 
+	<20260207002856.2847527-1-johannes.schneider@leica-geosystems.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=dPyrWeZb c=1 sm=1 tr=0 ts=6986c9e3 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=t7CeM3EgAAAA:8 a=2V6DY6BgAAAA:8
- a=QklhIAnghPIZTLOfvdoA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=ldqKKs2zR4t-S6fqr-1n:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA3MDAzOCBTYWx0ZWRfXwJVQUg3ndHYW
- UPh6cJEpHCoFAximtAs3cIlAA6eYWVUTS1P4M94S+cQGeHHmzdW1PO2Y2Gpim8NoGl+n+5jf/be
- KHlE52rb9KCCxyWEpzebIVmOYvol0NUzkoB2ME7xD3adyYvSqiBHySRF5VGD6THWYJiCmZdP0zT
- aBnCdx8jjnmNStZ3yzII5WF10u1QKHDm2fQQ8cXs94zJEnStDRI9ABPjecYFUDxJrFO+PTxJeew
- B5auAyCzmJidxV7MeVNv+BhDOZvn4yyxg+0hnV1xeSIWbrmBP5vmTnTr0fNgKNIJCEwNiSWOWvX
- R1cE6c4bL5KJz//S1cfunsbnfmlLdTw+q0FKFeOWUa6/KTpVVSbF+03NjH5ktdbFkfQwBSlvT5U
- bsz2gbsJjcPWHh+46yvQ6pFCLHBcYpp9+DUON+/KCCBg9rFhUL28h7EJ458WUvXdBG9qKAAJmhH
- ar091dC5k7xJNaWowIw==
-X-Proofpoint-GUID: YrlZE-wwDL-zMIL5v0-gmmlFe5XmgqKU
-X-Proofpoint-ORIG-GUID: YrlZE-wwDL-zMIL5v0-gmmlFe5XmgqKU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602070038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 05:13:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230667
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 08:53:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230668
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Sat, 2026-02-07 at 00:28 +0000, Johannes Schneider wrote:
+> Add 'expand=3DTrue' to directly resolve file checksums that are added
+> conditionally with inline python code.
+>=20
+> Otherwise it can happend that the license.bbclass still sees the
+> un-expanded values and either misses or even skipps adjacent licenses.
+>=20
+> E.g. an unvaforable combination of
+> LIC_FILES_CHKSUM +=3D "file://docs/license.rst;md5=3D83b7626b8c7a37263c6a=
+58af8d19bee1"
+> LIC_FILES_CHKSUM:append =3D "${@bb.utils.contains('TFA_MBEDTLS', '1', ' $=
+{LIC_FILES_CHKSUM_MBEDTLS}', '', d)}"
+>=20
+> would lead to a
+> =C2=A0# pre-expansion value:
+> =C2=A0#=C2=A0=C2=A0 " file://docs/license.rst;md5=3D83b7626b8c7a37263c6a5=
+8af8d19bee1${@bb.utils.contains('TFA_MBEDTLS',=C2=A0'1', ' ${LIC_FILES_CHKS=
+UM_MBEDTLS}', '', d)}"
+> =C2=A0LIC_FILES_CHKSUM=3D" file://docs/license.rst;md5=3D83b7626b8c7a3726=
+3c6a58af8d19bee1"
+> and the license checksum verification on 'license.rst' being sometimes sk=
+ipped.
+>=20
+> Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.co=
+m>
+> ---
+> =C2=A0meta/classes-global/license.bbclass | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/li=
+cense.bbclass
+> index af5f1ed41d..62116ba31d 100644
+> --- a/meta/classes-global/license.bbclass
+> +++ b/meta/classes-global/license.bbclass
+> @@ -125,7 +125,7 @@ def find_license_files(d):
+> =C2=A0=C2=A0=C2=A0=C2=A0 from collections import defaultdict, OrderedDict
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 # All the license files for the package
+> -=C2=A0=C2=A0=C2=A0 lic_files =3D d.getVar('LIC_FILES_CHKSUM') or ""
+> +=C2=A0=C2=A0=C2=A0 lic_files =3D d.getVar('LIC_FILES_CHKSUM', expand=3DT=
+rue) or ""
+> =C2=A0=C2=A0=C2=A0=C2=A0 pn =3D d.getVar('PN')
+> =C2=A0=C2=A0=C2=A0=C2=A0 # The license files are located in S/LIC_FILE_CH=
+ECKSUM.
+> =C2=A0=C2=A0=C2=A0=C2=A0 srcdir =3D d.getVar('S')
 
-Add test case to ensure runqemu works in SDK.
+This is a little strange as expand has been the default value for a
+long time. On a modern code base, this should therefore be the default
+and the change would make no difference.=C2=A0
 
-Using runqemu from SDK has been supported for many years. Add a
-test case to ensure we have no regression.
+Was this an issue you were seeing on an older release?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/selftest/cases/sdk.py | 88 ++++++++++++++++++++++++++++-
- 1 file changed, 87 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/lib/oeqa/selftest/cases/sdk.py b/meta/lib/oeqa/selftest/cases/sdk.py
-index 3971365029..ee1e4ca420 100644
---- a/meta/lib/oeqa/selftest/cases/sdk.py
-+++ b/meta/lib/oeqa/selftest/cases/sdk.py
-@@ -4,7 +4,13 @@
- # SPDX-License-Identifier: MIT
- #
- 
--import os.path
-+import os
-+import shutil
-+import subprocess
-+import glob
-+import time
-+import select
-+from tempfile import TemporaryDirectory
- 
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_vars
-@@ -37,3 +43,83 @@ IMAGE_INSTALL:append = " selftest-hello"
-         path = os.path.join(vars["SDK_DEPLOY"], vars["TOOLCHAIN_OUTPUTNAME"] + ".target.manifest")
-         self.assertNotEqual(os.path.getsize(path), 0, msg="Target manifest is empty")
-         self.assertIn("selftest-hello", self.load_manifest(path))
-+
-+    def test_sdk_runqemu(self):
-+        """Test using runqemu from SDK which has no bitbake available"""
-+
-+        def path_with_no_bitbake():
-+            orig_paths = os.environ["PATH"].split(":")
-+            new_paths = []
-+            for orig_path in orig_paths:
-+                if not os.access(os.path.join(orig_path, "bitbake"), os.X_OK):
-+                    new_paths.append(orig_path)
-+            return ":".join(new_paths)
-+
-+        def runqemu_works_from_sdk(sdk_dir, sdk_env, machine, path, timeout=360):
-+            env = os.environ.copy()
-+            env["PATH"] = path
-+
-+            cmd = f'cd {sdk_dir}; . {sdk_env}; runqemu {machine} snapshot slirp nographic'
-+            self.logger.info(f"Running {cmd}")
-+            proc = subprocess.Popen(
-+                ['bash', '-c', cmd],
-+                stdout=subprocess.PIPE,
-+                stderr=subprocess.STDOUT,
-+                text=True,
-+                bufsize=1,
-+                env=env
-+            )
-+            buffer = ""
-+            start = time.time()
-+            while time.time() - start < timeout:
-+                if proc.poll() is not None:
-+                    chunk = proc.stdout.read()
-+                    if chunk:
-+                        buffer += chunk
-+                    return ('Linux version' in buffer, "\n".join(buffer.split('\n')[-10:]))
-+                ready, _, _ = select.select([proc.stdout], [], [], 0.1)
-+                if ready:
-+                    chunk = proc.stdout.read(4096)
-+                    if chunk:
-+                        buffer += chunk
-+                        if "Linux version" in buffer:
-+                            proc.terminate()
-+                            return (True, "\n".join(buffer.split('\n')[-10:]))
-+                time.sleep(0.1)
-+            proc.terminate()
-+            time.sleep(5)
-+            if proc.poll() is None:
-+                proc.kill()
-+            return (False, "\n".join(buffer.split('\n')[-10:]))
-+
-+        image = "core-image-minimal"
-+
-+        self.write_config('QEMU_USE_KVM = "1"')
-+
-+        # generate image and SDK
-+        bitbake(f"{image}")
-+        bitbake(f"{image} -c populate_sdk")
-+
-+        # create a temporary destdir to test runqemu from SDK
-+        with TemporaryDirectory() as tmpdir:
-+            self.logger.debug(f"Created tempdir: {tmpdir}")
-+            vars = get_bb_vars(["DEPLOY_DIR_IMAGE", "SDK_DEPLOY", "TOOLCHAIN_OUTPUTNAME", "MACHINE"], image)
-+            machine = vars["MACHINE"]
-+            image_dir = vars["DEPLOY_DIR_IMAGE"]
-+            sdk_path = os.path.join(vars["SDK_DEPLOY"], vars["TOOLCHAIN_OUTPUTNAME"] + ".sh")
-+            self.logger.debug(f"machine: {machine}")
-+            self.logger.debug(f"image_dir: {image_dir}")
-+            self.logger.debug(f"sdk_path: {sdk_path}")
-+            dst_image_dir = os.path.join(tmpdir, os.path.basename(image_dir))
-+            shutil.copytree(image_dir, dst_image_dir)
-+            subprocess.check_call(f"{sdk_path} -d {tmpdir} -y", shell=True)
-+            sdk_env = glob.glob(tmpdir + '/environment-setup-*')[0]
-+            self.logger.debug(f"sdk_env: {sdk_env}")
-+
-+            path = path_with_no_bitbake()
-+            self.logger.debug(f"path: {path}")
-+
-+            runqemu_works, output = runqemu_works_from_sdk(tmpdir, sdk_env, machine, path)
-+            self.logger.debug(f"runqemu works in SDK: {runqemu_works}\n{output}")
-+
-+            self.assertTrue(runqemu_works, f"runqemu does not work in SDK\n{output}")
--- 
-2.43.0
-
+Richard
 
