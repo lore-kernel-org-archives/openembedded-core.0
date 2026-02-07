@@ -1,111 +1,135 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B3DEE0AEF
-	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 17:31:14 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9298.1770485471441802753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C27BEE0AF5
+	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 21:12:55 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13650.1770498767765880854
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Feb 2026 09:31:11 -0800
+ Sat, 07 Feb 2026 13:12:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=nQiG5+yp;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so33724995e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 09:31:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770485470; x=1771090270; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bom0ftUaimPFkSDL1t2Q67yi1ZIy0oMGdJYV5P+e1Fc=;
-        b=nQiG5+yp2kO5pXDG7bvdwwOkTLpS5qKWhYxoxzGsfYu7p0Xxe84/nAG0OgDcPItAZy
-         UOPDAKCUj3R1sVKJJQ6bJWICUFd7Wvo0ZQaoWfaRrgUJXaQK3LzxryTObJEs0m/tXX0s
-         SWS/pniLlevhf6uWMaL11ALlubvp5vrv5dIl0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770485470; x=1771090270;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bom0ftUaimPFkSDL1t2Q67yi1ZIy0oMGdJYV5P+e1Fc=;
-        b=rtop1YeDpTOBBQzfSlRf4qXnubEDdoxJC67Jc4+oa6OB9OTsxHBNKhCgfX6p4wWWUm
-         LX+ijvoprvPWoK7rpi+PT/Gw6zx8mJET++CxeaKDFjS4MwQ7L0bZDZvLSdoapClB01L+
-         4MG2Jjark6txOKRRybJE4M+NrMf5hoOYdnWZvuETAwdPN5Zo+XTuZa/fRzsZQRH4buIL
-         /bDDqzgDCEgY9CwtNhriYZlbxqe+Qjb3GGr00tDV0/p1rjtvryl8aSw+OOQjH//u7YNY
-         MsECCrKXiFjFsya+VPNYxQFCGvqsxN0ZrE+yCnNihqQQmDDbOosmftinqBFJhOgu3sm5
-         bYgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUjjG5m9BPI4tiwaBg5fTrDHQn0xFvvgqsCo1d1Zsa2uf+wWR4W6+ofLPTtgctebFg9vhwJLnM+067yJB/g5ZYWcg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzXApHmGPZLcgRk3yMxSFrYb1fGd9Tie7trru8lOesgSFa2az8n
-	Uf2KheAogt1bJrz7FlBB4rqjUvospnmX4eNQ7nGp9JWwlZRVCNUvzcus3jNPeVuwANo=
-X-Gm-Gg: AZuq6aIS+yMZ9jMvbwTEyDbnZbsa2ABxnwWga9nRILPeesgHbdJNK+Dp565hjXPhlqt
-	c4GSWPsAtQkau9y5ZqsbB9XUqN8ciIqff+AwGFvn2G26reuWksZbJGF1kE/5sletFgX0xlpdHpo
-	54ontdp2mcvkHzU43Q2W60wMPmzd88c1rfumd1JjQJPitI4mG/IDFlKxpx4v6zf4AusAtvSEzAe
-	TPYuzt7Vndnm2XnF87JfMPdV+jWB6NlYekejHbjZ9WaVxzO8CcAKqppJmznUN5a2f6qH9SN2Qkk
-	YPr/rZC2ZOILs1Beuwdbg2rNAnU+fu9hc7FCJwkQ9YbtV/VaAREPrz2E1ri1IrcRSQ9jHjX+YbP
-	0F77Caz07zsCfD75Cv9FQ1EEH8cEp/SmGe+XtQlZjoXgfTFM2fG/1hfJjsAhFpChKRSP5h7PBvx
-	52MD/9VALCvcACHz9Vvfa0vtgBl9WK91A2eKG/gOd9FruO6qLIB5YIDahTFv3yHEFazFnOiyAJk
-	hI=
-X-Received: by 2002:a05:600c:8b56:b0:480:3bba:1ca9 with SMTP id 5b1f17b1804b1-483201fff35mr84469455e9.4.1770485469748;
-        Sat, 07 Feb 2026 09:31:09 -0800 (PST)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d2ba61sm318717885e9.1.2026.02.07.09.31.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Feb 2026 09:31:09 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 07 Feb 2026 18:31:08 +0100
-Message-Id: <DG8WPVV5Z90Q.3BZG4R1Y7ILZX@smile.fr>
-To: <benjamin.robin@bootlin.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH v2] meta/classes: fix missing
- vardeps for CVE status variables
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <thomas.petazzoni@bootlin.com>, <mathieu.dubois-briand@bootlin.com>,
- <antonin.godard@bootlin.com>, <kamel.bouhara@bootlin.com>,
- <jeremie.dautheribes@bootlin.com>, <jpewhacker@gmail.com>
-X-Mailer: aerc 0.20.0
-References: <20260119084451.8559-1-benjamin.robin@bootlin.com>
-In-Reply-To: <20260119084451.8559-1-benjamin.robin@bootlin.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=NVSYOhH2;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202602072112449d44ef854c000207d7-_ivol8@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202602072112449d44ef854c000207d7
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 07 Feb 2026 22:12:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=06rPjcSINAQrX5XCF8nWNcVrsrgE43rmOLi2wIrwncw=;
+ b=NVSYOhH2DgD4x+UcGuVKkY5AsS6tr0h9PLlebG4KdK7MOQK6xAMVJMAY2TGCXBTwgsXi8G
+ wxsrEstBXeWPoRAT2m/+GWU+OmgHZrNDicVTR+vXYCu4qQpAZrPHrZnhxB5VYomVdwPD9idq
+ fFimtRxfmiWEJAyu5kY6GZfcs1uGzUJvGWa35itbRiK4OzBkRVqKEzYRUbm38KcEGYTn544F
+ Vf1v/gfpuquytXdp6xJJrbzo4WfzLmoRqYwBJzm/yEPULL4x29jtrFdX+bZ4+Qj7wVSW8xsJ
+ hNAOJVMrzPV7/wSLX1S5PrMK9bUqT6dVzuo6JnEpxVpNzpXO9F/TbiEQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] go: upgrade 1.25.6 -> 1.25.7
+Date: Sat,  7 Feb 2026 22:12:30 +0100
+Message-Id: <20260207211230.2532510-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 17:31:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230673
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 21:12:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230674
 
-On Mon Jan 19, 2026 at 9:44 AM CET, Benjamin Robin via lists.openembedded.o=
-rg wrote:
-> Several CVE helper functions (get_patched_cves() and decode_cve_status())
-> implicitly depend on the CVE_STATUS and CVE_CHECK_STATUSMAP variables, bu=
-t
-> these were not declared in the vardeps of their callers.
->
-> On Scarthgap, the upstream fix (2cc43c72ff28aa39a417dd8d57cd7c8741c0e541)
-> cannot be cherry-picked cleanly, as it also requires BitBake changes.
->
-> As a workaround, explicitly add CVE_STATUS and CVE_CHECK_STATUSMAP to the
-> vardeps of all tasks invoking these helpers, ensuring correct task
-> re-execution when CVE status changes.
->
-> This keeps CVE-related metadata generation consistent without requiring
-> BitBake modifications.
->
-> Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
-n.com>
-> ---
-> changes in v2:
->  - provide a clearer commit message
->
->  meta/classes/create-spdx-2.2.bbclass | 1 +
->  meta/classes/create-spdx-3.0.bbclass | 2 ++
->  meta/classes/cve-check.bbclass       | 1 +
->  meta/classes/vex.bbclass             | 1 +
->  4 files changed, 5 insertions(+)
+From: Peter Marko <peter.marko@siemens.com>
 
-Thanks for this v2.  I appreciate it.
+Upgrade to latest 1.25.x release [1]:
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+$ git --no-pager log --oneline go1.25.6..go1.25.7
+eaf3bc799a (tag: go1.25.7) [release-branch.go1.25] go1.25.7
+c7d189e65c [release-branch.go1.25] crypto/tls: document resumption behavior across Configs
+4512014530 [release-branch.go1.25] crypto/tls: revalidate whole chain on resumption on Windows and macOS
+d5987bff8a [release-branch.go1.25] crypto/tls: check verifiedChains roots when resuming sessions
+c2d04c0994 [release-branch.go1.25] crypto/tls: add verifiedChains expiration checking during resumption
+6b1110a40f [release-branch.go1.25] Revert "crypto/tls: don't copy auto-rotated session ticket keys in Config.Clone"
+0765a9d624 [release-branch.go1.25] crypto/x509: fix single label excluded name constraints handling
+b19100991a [release-branch.go1.25] cmd/go: remove user-content from doc strings in cgo ASTs.
+738bc3a33c [release-branch.go1.25] cmd/compile: during regalloc, fixedreg values are always available
 
+Fixes CVE-2025-61732 and CVE-2025-68121.
+
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.25.6...go1.25.7
+[2] https://groups.google.com/g/golang-announce/c/K09ubi9FQFk
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/go/{go-1.25.6.inc => go-1.25.7.inc}   | 2 +-
+ ...o-binary-native_1.25.6.bb => go-binary-native_1.25.7.bb} | 6 +++---
+ ...cross-canadian_1.25.6.bb => go-cross-canadian_1.25.7.bb} | 0
+ .../go/{go-cross_1.25.6.bb => go-cross_1.25.7.bb}           | 0
+ .../go/{go-crosssdk_1.25.6.bb => go-crosssdk_1.25.7.bb}     | 0
+ .../go/{go-runtime_1.25.6.bb => go-runtime_1.25.7.bb}       | 0
+ meta/recipes-devtools/go/{go_1.25.6.bb => go_1.25.7.bb}     | 0
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.25.6.inc => go-1.25.7.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.25.6.bb => go-binary-native_1.25.7.bb} (79%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.25.6.bb => go-cross-canadian_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.25.6.bb => go-cross_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.25.6.bb => go-crosssdk_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.25.6.bb => go-runtime_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.25.6.bb => go_1.25.7.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.25.6.inc b/meta/recipes-devtools/go/go-1.25.7.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.25.6.inc
+rename to meta/recipes-devtools/go/go-1.25.7.inc
+index 2c31c4a235..ab58f712ef 100644
+--- a/meta/recipes-devtools/go/go-1.25.6.inc
++++ b/meta/recipes-devtools/go/go-1.25.7.inc
+@@ -18,4 +18,4 @@ SRC_URI += "\
+     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
+     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
+ "
+-SRC_URI[main.sha256sum] = "58cbf771e44d76de6f56d19e33b77d745a1e489340922875e46585b975c2b059"
++SRC_URI[main.sha256sum] = "178f2832820274b43e177d32f06a3ebb0129e427dd20a5e4c88df2c1763cf10a"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.6.bb b/meta/recipes-devtools/go/go-binary-native_1.25.7.bb
+similarity index 79%
+rename from meta/recipes-devtools/go/go-binary-native_1.25.6.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.25.7.bb
+index 6429bb385b..1995134481 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.25.6.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.25.7.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "f022b6aad78e362bcba9b0b94d09ad58c5a70c6ba3b7582905fababf5fe0181a"
+-SRC_URI[go_linux_arm64.sha256sum] = "738ef87d79c34272424ccdf83302b7b0300b8b096ed443896089306117943dd5"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "bee02dbe034b12b839ae7807a85a61c13bee09ee38f2eeba2074bd26c0c0ab73"
++SRC_URI[go_linux_amd64.sha256sum] = "12e6d6a191091ae27dc31f6efc630e3a3b8ba409baf3573d955b196fdf086005"
++SRC_URI[go_linux_arm64.sha256sum] = "ba611a53534135a81067240eff9508cd7e256c560edd5d8c2fef54f083c07129"
++SRC_URI[go_linux_ppc64le.sha256sum] = "42124c0edc92464e2b37b2d7fcd3658f0c47ebd6a098732415a522be8cb88e3f"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.6.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.25.6.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.25.7.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.25.6.bb b/meta/recipes-devtools/go/go-cross_1.25.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.25.6.bb
+rename to meta/recipes-devtools/go/go-cross_1.25.7.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.6.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.25.6.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.25.7.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.25.6.bb b/meta/recipes-devtools/go/go-runtime_1.25.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.25.6.bb
+rename to meta/recipes-devtools/go/go-runtime_1.25.7.bb
+diff --git a/meta/recipes-devtools/go/go_1.25.6.bb b/meta/recipes-devtools/go/go_1.25.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.25.6.bb
+rename to meta/recipes-devtools/go/go_1.25.7.bb
 
