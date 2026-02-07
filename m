@@ -1,128 +1,104 @@
-Return-Path: <colinmca242@gmail.com>
+Return-Path: <majortomtosourcecontrol@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC47EEE0ADC
-	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 11:51:41 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3533.1770465101237080463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6428FEE0AE9
+	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 15:13:13 +0000 (UTC)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6487.1770477184861947471
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Feb 2026 03:51:41 -0800
+ Sat, 07 Feb 2026 07:13:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z5rv2SNE;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: colinmca242@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-40970f97638so2002467fac.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 03:51:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eHfsgoBI;
+ spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: majortomtosourcecontrol@gmail.com)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-45f126d4794so2067498b6e.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 07:13:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770465100; x=1771069900; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Il+s86g8lFaEwcX6Lls4Vn3wIOzHTBRqsxwbPL9/6Kg=;
-        b=Z5rv2SNEaCG8GUJ+yIRvlD2ARid5TuUbioY1ZwyktQdBTPgydA9jT3RJ6aEqestcjo
-         sho0wELbDfmd6qUYuujQsRQyu2t6b553o1wBQ8zmADvSS1eMG0wtCIUDcTOUPiejNGX7
-         u3iLeOHrpG7r5Cu403JtxlkhgSCBburOkIUOMJbypsNHgVWtEe5UItytpRFGg5To1+qd
-         H/VhLuDJwnOsJnz6GOn8D1lvWoJ1C58XQS0RvZusOZyWBx8jI4Ie7D20WVbb3LdX6Ucu
-         om9M8frFaHU2bl6XvYKrVIZ+kZDmkunHcLbsLbjUieD1GdxSfyvA8n7bi0wiQQ/qzBOs
-         VnCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770465100; x=1771069900;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=gmail.com; s=20230601; t=1770477184; x=1771081984; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Il+s86g8lFaEwcX6Lls4Vn3wIOzHTBRqsxwbPL9/6Kg=;
-        b=Qm081SKyBh0MJh6QXjsqE4gBo1Lpm6NEoT6kRHHkMQKKWU0A3myr/ku8RXu5H5x+KK
-         LkPbx9b/S6yKCC5c/HlnGKPe+ClkQFfnNKQGMZef8cC1MoSOMREOgVYXm7lz5EywVbaY
-         Bgfoy4t5N0vgh/juzg08wOP4m0jp3AZWhKoOEaVy6QO88QCoK1wqL+kEXfso9Kl2bxr4
-         Z/Vnh/yhWaMMrAQ4th9ETnhXOefsMxl60uwdMVX7i1M+F7qRWUpRDajkX26sd2U61YoJ
-         2gmcrd0CAKN6rGdEN/B0K+xevldNIXufega+8H8lzx6ah+ReKdVqbPVVRNxOHXHJ0+RH
-         qHFQ==
-X-Gm-Message-State: AOJu0YxoAhIkGDvCQvb+9uhw/U0I6XJP0Gl4oWWPj1xNxnRiKutt8z5I
-	Hl02n4sWo7qZFEAIuMvSazzbVY2/7iEusLKlENnWv+axaOBjRGjYGUKmCwigBmYe
-X-Gm-Gg: AZuq6aJ+SRcAu49NvqkP2rkSCa2Ys/0vQpoWVpOX27jHt+aBisX7eOUnID5QirFld5i
-	bd6F8YY4QktWy611bMB1KRRo9hJ0O1amXPeM1RoDE0VmYj6SksAvIcz4iLBrUK7EHYfAJ30bKRv
-	LGYLdmFB4oJkNDl3Uh6GmqBEhkFWRkXoe0NzBNmSyC+mjMUV6TKOdEK5KyvUI5SStG0+z+flpBc
-	Oyk1k3+Hnl5xia+w8f61XURuz+SqzLOHHj3huI2IuXX24XsD1dAXjjxXt8mGjyVKzLivQy8YNW6
-	FP8tC3bPwg7+FO+LBIHxffQJObayeAxV3PwE/uuyiWnBUSy1yweJSDKhm6ys68fCdRpe2tByDJl
-	e1XB2iPffP73e2B9U//ZMJFkVRPKTvyjbGH/VUM8sI5LRADSaXs44+9J2XL1WT0tBbI4BF4U2/n
-	j0IM4Hv1k=
-X-Received: by 2002:a05:6820:198e:b0:661:1d0c:a5c0 with SMTP id 006d021491bc7-66d0c667216mr3072164eaf.69.1770465099801;
-        Sat, 07 Feb 2026 03:51:39 -0800 (PST)
-Received: from fedora ([136.37.200.217])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-40a992eed6bsm3461034fac.1.2026.02.07.03.51.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 03:51:38 -0800 (PST)
-From: Colin Pinnell McAllister <colinmca242@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Colin Pinnell McAllister <colinmca242@gmail.com>
-Subject: [PATCH v2] python3-cryptography: Add legacy-openssl packageconfig
-Date: Sat,  7 Feb 2026 05:51:32 -0600
-Message-ID: <20260207115132.36854-1-colinmca242@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260122025736.187410-1-colinmca242@gmail.com>
-References: <20260122025736.187410-1-colinmca242@gmail.com>
+        bh=02H+KDcw+36lChFhXaWvQyduGE+Lh8j/NL971r4FK0k=;
+        b=eHfsgoBIE3iKtO4veiHAsYuKnT5fhOmetLKJHDzYI26YNqItAFzimu7wZcYM9/2WXM
+         +d0kT3vW8tyVNCXCNNOeeZZFYRhVhU/cqj3zHp2rSfgHBjLAo/eRVQA6oLsb4P2xKjBv
+         Z6YZQ2r/jBF/cQPZ5e5mG5x7mNcTUqi7Dr+MJobejDP13VF8WrKG1hHAEAUYyoj7i4II
+         oVxkyth5y1KcZXZ9VkdoI3nOzf4tAmxQ+MaVIiSDuie8iuAJ7REzShtpHTGw5mRotEkV
+         oaE0IDcy4FDAHsSJ8mjoVEkw/n045CtFbcmlzm6ZufMp/O4pjNGB940DYxyp4uRtrGwJ
+         qBgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770477184; x=1771081984;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=02H+KDcw+36lChFhXaWvQyduGE+Lh8j/NL971r4FK0k=;
+        b=FWtT5+YaxHWFLh8pg+HIPclsxNWyF40LpkmLjJOUbux9L7OLhCzosWtJxX9Pjhesgq
+         7Ik8nDCzu/3bDWQ+/8ifXxq1Y23Fxf0YAEzo1Ec9DZ/hKDYfW7cRZAvp5x74Z1cXE/K/
+         er+L3Cn2RInP49h3U6ZAYla+MFheFlesPd6NFf0MtsSmgGNWedrEYVSbn9kT76Ud8dnX
+         DxBQ1m0oxeCgkHvtAHzbJkJ1209DLIIZegdRiRr3ZJt57Hfav5t2ysSXXT8C8SmZqtAi
+         jPj3AZinayRre2+sgFxSpVXbopooqnzQXpdK+X6Ov9T+9Ga89LD9d7zSN8DE7axRBYMQ
+         7Y+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUPw8/KHn/e8T9hat1QStXpGDgP905JgtrOh7d7D3+i6yrra3nr6ol2QQ3nAftT2RnYykev8xeTR13xXAkHJZ8d/g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwgpzZ6VT3+RpUdpo4W4N+hd2VsqSwRCJCYi3V44FMXx5XguKyy
+	2KiUT6s1dkimZY3A9/MLG0b1UHi0dFvH1D07fYXex4/7cdRUxPj5Jmhg
+X-Gm-Gg: AZuq6aIAoHPDbna/J/lVwKeWJvkOSB9EVRTVQvo6EUxDy2aKcc+iheqSrrlyVh5o4in
+	O7m1rBNi4NoiddPJ0buA7O5s+oDWmUj2BF2czk+Kdt3nnts6XoDLwUSdBjZBiJrXecmYl5C64hu
+	SZdf4mA6cLZJ1cdg4rM64HiFxkTVoi/dTEsTTkx+VPIBv5dZvSuQh62kCFqkJfCDg12BYG6lcu8
+	TZu6i+u60HjxngJ8X0n/8yemNl6Za7QfwNEkJYH1fANwzRka9kWbu1Brlj9HcOT5/AGk+L5z9Yy
+	ZJhJ2O1KTeKPuJr1xZo8DjDvK2IfVe6Cgk8ck2DUyaQhbXGBGpzFkswAlcz7C+0SsjY1mHSFLfH
+	8dJYk7UMFxt0tNVYiJXtXP05zxyXVzscwCYjqbKi+HgUUssSryfDnXZrxUNE4jGE1KDeutg/Tx7
+	TB7WPQQOL4JUS+VUXGQzCrJzchrQ00TsucFLz0VAspmx5wMdGayjAe7WAjVkfSXPKd
+X-Received: by 2002:a05:6808:22a8:b0:45e:f411:242 with SMTP id 5614622812f47-462fcace900mr3383452b6e.44.1770477184007;
+        Sat, 07 Feb 2026 07:13:04 -0800 (PST)
+Received: from [172.26.252.3] (97-118-253-141.hlrn.qwest.net. [97.118.253.141])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-462feb0d786sm3400302b6e.11.2026.02.07.07.13.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Feb 2026 07:13:03 -0800 (PST)
+Message-ID: <c5abc604-1758-484e-ac1f-e6c956bf37f3@gmail.com>
+Date: Sat, 7 Feb 2026 08:13:03 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] probably a simple question regarding running
+ "fw_printenv" on SD card partition
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <0b4b896b-3101-ab92-1911-21c3622f9a7a@crashcourse.ca>
+Content-Language: en-US
+From: Clayton Casciato <majortomtosourcecontrol@gmail.com>
+In-Reply-To: <0b4b896b-3101-ab92-1911-21c3622f9a7a@crashcourse.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 11:51:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230670
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 15:13:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230671
 
-Fixes [YOCTO #15416]
+>   i've tried various combinations in that config file, including stuff
+> like:
+>@
+>   # MTD device name   Device offset   Env. size   Flash sector size
+>   /dev/mmcblk0p7      0x7e000         0x2000      0x200
+>@
+Hi, Robert
 
-The OpenSSL legacy provider supplies algorithms that are either used
-infrequently or have been deemed insecure by modern standards. The
-Python3 cryptography module can optionally support this provider via the
-openssl-ossl-module-legacy package.
+You specify the device offset, so the block device [1] should not also
+specify a partition.
 
-Currently, the cryptography module builds with legacy provider support
-enabled by default, regardless of whether the legacy modules are
-actually included in the system. This patch makes that dependency
-explicit by introducing a legacy-openssl packageconfig option that:
+The flash sector size should not be specified.
 
-* Ensures runtime dependency on openssl-ossl-module-legacy when enabled
-* Allows users to disable legacy algorithm support via build configuration
-* Aligns python3-cryptography's defaults with OpenSSL's current defaults
+Double check CONFIG_ENV_IS_IN_MMC [2], CONFIG_ENV_OFFSET [3], and 
+CONFIG_ENV_SIZE [4].
 
-The packageconfig option defaults to enabled for consistency with
-OpenSSL's current configuration and to avoid breaking existing
-deployments. A future security improvement will disable legacy modules
-by default in OpenSSL, at which point this packageconfig can also
-default to disabled.
+With CONFIG_ENV_IS_IN_MMC [5]:
+"[ENV_OFFSET and ENV_SIZE] are in units of bytes, but must be aligned to
+an MMC sector boundary."
 
-Signed-off-by: Colin Pinnell McAllister <colinmca242@gmail.com>
----
-v2 changes:
-* Updated commit message to clarify intent and rationale for the change
+[1] https://github.com/u-boot/u-boot/blob/v2025.01/tools/env/fw_env.config#L25
+[2] https://github.com/u-boot/u-boot/blob/v2025.01/env/Kconfig#L193
+[3] https://github.com/u-boot/u-boot/blob/v2025.01/env/Kconfig#L564
+[4] https://github.com/u-boot/u-boot/blob/v2025.01/env/Kconfig#L601
+[5] https://github.com/u-boot/u-boot/blob/v2025.01/env/Kconfig#L229-L230
 
-This patch stands on its own and can be merged without the related
-OpenSSL patch. I will work on the OpenSSL patch separately, since
-there's some work required to ensure ptests can run without the legacy
-provider. Additionally, the libcrypto dependency needs to be
-investigated. I do not want this change to be blocked by the OpenSSL
-patch, since this is a bugfix that can be merged independently.
-
- meta/recipes-devtools/python/python3-cryptography.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
-index b3b45cd172..366fda5e87 100644
---- a/meta/recipes-devtools/python/python3-cryptography.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb
-@@ -22,6 +22,11 @@ require ${BPN}-crates.inc
- 
- inherit pypi python_maturin cargo-update-recipe-crates pkgconfig
- 
-+PACKAGECONFIG ??= "legacy-openssl"
-+PACKAGECONFIG[legacy-openssl] = ",,,openssl-ossl-module-legacy"
-+
-+export CRYPTOGRAPHY_BUILD_OPENSSL_NO_LEGACY = "${@bb.utils.contains('PACKAGECONFIG', 'legacy-openssl', '0', '1', d)}"
-+
- DEPENDS += " \
-     python3-cffi-native \
-     openssl \
--- 
-2.52.0
-
+Clayton Casciato
 
