@@ -1,384 +1,171 @@
-Return-Path: <rs@ti.com>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA6BEE6B6C
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 23:43:02 +0000 (UTC)
-Received: from CY3PR05CU001.outbound.protection.outlook.com (CY3PR05CU001.outbound.protection.outlook.com [40.93.201.59])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4252.1770421373237385620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F1DEE6B6F
+	for <webhook@archiver.kernel.org>; Sat,  7 Feb 2026 00:29:12 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.61])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5127.1770424143314261178
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Feb 2026 15:42:53 -0800
+ Fri, 06 Feb 2026 16:29:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=bwFVriGd;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.201.59, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=ldIrsXku;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.159.61, mailfrom: johannes.schneider@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gAlYdsDEnSLnE8AIZ/FkKlIA8nA8/dn5NAsTA6VEQ5YlimCdJT8ZUjRtWRGUF6DvWQxi3pK4YEaRszhM09bvngvhLMorjUKJcIpMDV/c4O6We+xwq+n8dpUfiH1BTOkmJxMUVweUcxBZQr7QVRDe854yV8a1GERlMCC5asOrxdstxH3I9cdGkykbCzb7sdHnOqBT6orU8/ZqhGSZZNrTrgK9PnCPa+LkWR8N7s8+xss+wIVphGMS7Wd/ux4NHAAozlRexQD6qN6HclsqsDSXz0HGQd+yet7TvzyGEFT+UuB6px2pU44vugNzl0ieKk324VYQ2ixregaJ80QvlSEmdw==
+ b=vNxLmiFVTItGNtTMfQBt5eQn1MW5JPjMNaHRjBLszB8cwLPvxTIOLhVtxt4BBeYY52jwBsM6dSzCwCI1OmSSau+9QKP5Pp7Va51V1zVP2UPpyL9XR/bJe+Jy20ZEuBEIwRVtNoHZ5HoxWalIn96JEOZBw9OIHv+m8w5gmnWNkl7oAaAF7JUAbqjRaq353eoCj90VvH1SeQZYr4IHQwPTpZNFIQ2WDOtYbMrBZxydg55pUlJ0qPHH82iPRH6uWN4WcIcp/j/R6Ta5q1YaQlD7v81KcMa/KFwsjMnLgbSAaTTD197fptLEze66/NGT05euOUe2iYQEqDRZGKM4+JlD7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rgRb6rSWdbF+kCZ2wMlTDlkNrnONmR5K5mN3qOwgllg=;
- b=QsA8AkvaZuEZmAPaAkQnPCkqpgD5ghluUkJjM9ZLtUTsFTULWa8YCl7jWkXbPc9ZPYzRsCyTd4u/vFqH9vjqMo+W0Zkwi8pT+0YvCNmEqJR2wA0T5YYmElcQSF/pJtfpU5Zqu1AqvQD/Nh6kh14RxlmtDaO6wXIIVjqX36JmOCMXETup3JoPtF0+yI64C2u7/IX2SsGbWXtuIMka2Ote8l3yjzuqBLsQ2Y068+WOs7eX0YPXpju7fM73mrF3oO1RzdY6HgpIGWc+S91DKpQIJKzvZ9kQjSxtaodqjrPp/8D19a/+iaiag/3+QZNfcj3DuuJyr/o5FBT/J1rqGjIG4Q==
+ bh=pPi0308F8sLiRyCN173g9NclUjn4lOzWSlCgV3tjGzE=;
+ b=c7596RVEa2ih/ybj54XgpJbH9ZwkJs/T51dzIbItgsoAI+9f7mLhCAmxIQrCpwtFwD7Ta1oteqONpgATY2jbq9DvLzVxFRo107MnCRYI46eNJtQJuPbRpm52ArcDxFu7oWf1PAV1H23tfnqEK6wFLpobRImq5KR9IqKprRBRsKgCDNPu3UUoKeIMcdphpP9MVWAUgL9egB3+ZgDEkGaCerz0LEX6hpKnoMTPdojfIergFX4+2GxoYTqoiQnbZrHGbq1JMSkj+Rz+4VzGOe93eLHrZ+qW6Mu5lgGEwrcAhSUAMT0UmAC5EMdTe3TTenbizScyAMHlL7DU82Se0ZOz0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rgRb6rSWdbF+kCZ2wMlTDlkNrnONmR5K5mN3qOwgllg=;
- b=bwFVriGdLgbaQgQx6TPWorzsdvvBsqGIWCoqWicNeWE8JGPrWz/jomGCFmIHMV0FDAB3KR5o/dZD1+Jm2mBnEeQCwSXH1boQN28fJ0HLAYC0AHH+PiM582/KFJ/eVCfSBMYNf9IyOnyQg+zWoeNES+FQdMAgKnicmjAy4biSQJU=
-Received: from PH8P223CA0008.NAMP223.PROD.OUTLOOK.COM (2603:10b6:510:2db::7)
- by IA1PR10MB6122.namprd10.prod.outlook.com (2603:10b6:208:3aa::16) with
+ bh=pPi0308F8sLiRyCN173g9NclUjn4lOzWSlCgV3tjGzE=;
+ b=ldIrsXkulDctpwRACYvm6vCMfTCA9jFePhmxTZbfiiK0+wrNOuZvqdzT6/hRCQAQdf8Ab+MhnT04pH2sySsPvq60i1vJRop8y3AWOrVAXQndhcSGL7XOeu+15T6kRWlc8mjHNEVM80SKUQb01eJG65E4PevmTvO5AWMnplUA8Es=
+Received: from AS8P251CA0011.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:2f2::31)
+ by PAXPR06MB8532.eurprd06.prod.outlook.com (2603:10a6:102:2b5::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Fri, 6 Feb
- 2026 23:42:50 +0000
-Received: from CY4PEPF0000EE3B.namprd03.prod.outlook.com
- (2603:10b6:510:2db:cafe::82) by PH8P223CA0008.outlook.office365.com
- (2603:10b6:510:2db::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.16 via Frontend Transport; Fri,
- 6 Feb 2026 23:42:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CY4PEPF0000EE3B.mail.protection.outlook.com (10.167.242.14) with Microsoft
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Sat, 7 Feb
+ 2026 00:28:58 +0000
+Received: from AM2PEPF0001C70E.eurprd05.prod.outlook.com
+ (2603:10a6:20b:2f2:cafe::49) by AS8P251CA0011.outlook.office365.com
+ (2603:10a6:20b:2f2::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.15 via Frontend Transport; Sat,
+ 7 Feb 2026 00:28:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.99; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.99) by
+ AM2PEPF0001C70E.mail.protection.outlook.com (10.167.16.202) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Fri, 6 Feb 2026 23:42:50 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Feb
- 2026 17:42:49 -0600
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Feb
- 2026 17:42:49 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 6 Feb 2026 17:42:49 -0600
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 616NgnqT1708070;
-	Fri, 6 Feb 2026 17:42:49 -0600
+ 15.20.9587.10 via Frontend Transport; Sat, 7 Feb 2026 00:28:58 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Sat, 7 Feb 2026 01:28:57 +0100
+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Subject: [PATCH v1] license.bbclass: directly expand LIC_FILES_CHKSUMS to apply inline python
+Date: Sat,  7 Feb 2026 00:28:56 +0000
+Message-ID: <20260207002856.2847527-1-johannes.schneider@leica-geosystems.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Fri, 6 Feb 2026 17:42:49 -0600
-Message-ID: <DG89ZX5618M2.2YDQWAWH0CRL2@ti.com>
-To: <rs@ti.com>, <raj.khem@gmail.com>
-CC: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
-	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>,
-	<afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: Re: [oe-core][PATCHv15 5/6] xuser-account: merge with
- xserver-nodm-init
-From: Randolph Sapp <rs@ti.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260203012028.4008229-1-rs@ti.com>
- <20260203012028.4008229-6-rs@ti.com>
- <CAMKF1sqEMoKd2U7sDVQNyPZH9Xd=MKx62c=o-iussWnVDk+zUg@mail.gmail.com>
- <1891C0B4F3A2B8B7.419336@lists.openembedded.org>
- <1891CC14A53C0CE5.426509@lists.openembedded.org>
-In-Reply-To: <1891CC14A53C0CE5.426509@lists.openembedded.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-OriginalArrivalTime: 07 Feb 2026 00:28:57.0914 (UTC) FILETIME=[BFAA61A0:01DC97C8]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3B:EE_|IA1PR10MB6122:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9357e5a-1084-4da6-8bc6-08de65d9707f
+X-MS-TrafficTypeDiagnostic: AM2PEPF0001C70E:EE_|PAXPR06MB8532:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 1cb2c57c-0f95-4af5-b5c9-08de65dfe241
+X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
+	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?Q2RaNjFLd3AyQmJaSEwxcmdaOUxPRGNkampGRlJVSmYxdk51Q0RxbkpCRFQ0?=
- =?utf-8?B?RDFhbGxvaGRldkpHeXZ0Mk1JejE4YXNlOER2aEQwZ2V0elFhKzZxSUoxMENS?=
- =?utf-8?B?eEF3TWRtMlNQak9NY00remFtVW1YcHZFZTlrRSsxVndpQTZtemNSY1JzNVRM?=
- =?utf-8?B?T1pNUWplclFBbFNIR2NoTldMM1FuMks3N2FZSjRRajQ2VkJic1dXdHY4SGdQ?=
- =?utf-8?B?MktWWTdjVTd5a2ZaMWZLM1l5bnBrTFBobTg0K1JTMWxOWEk2eHJsRjgxUndB?=
- =?utf-8?B?YUt1bXhFY0w4MFV1TmNUZ1FJYVJiVjQzUWpuODRTc3U5dWJpbUtyR0R1aWhR?=
- =?utf-8?B?V0dHNDAvaXVpTmxIWDZwVlNBNHVnTzllM09pMnVOZnhxbWFhSHlNME9BZUdE?=
- =?utf-8?B?dkZQSVV3SkM0aDFWdnVBWDFHbE9YbnluRS9vTDhYNkV5RTc1MjhDcjJrZml2?=
- =?utf-8?B?YnNtU1RlWlRHSThOU2pGR1JNc0ZROE9ONEYvZmhzeW02TTZnU01XWitTZ3J1?=
- =?utf-8?B?dmdSSUIwcXcwdlQ0eHpEL1dlRkF0TUNOMkNBcmxKQTBVTUdQL1Nkb3ZHNmlm?=
- =?utf-8?B?bmh5YkZ0WEk3L2l0a3Y1UDNFbmJFalh3d09ZelFDSjRnMk14Y2hIMm1MUWg5?=
- =?utf-8?B?K09uSjYwWSsrY1lqNzZsc250V29xR2Q5dnBTd3lTc2htSmlseC8zTG1pakdE?=
- =?utf-8?B?WnJrbmYrSm01VWF3Ui84aFdJTnlXc0VoblZZTmFMRW1EcGtVcGp6SjU1Q1hE?=
- =?utf-8?B?Y2t5N09mZWZsOHFEZHloTmxXdUlXWDNVV2F5VklwTDhFbVJSbzF6Ti8rUnJk?=
- =?utf-8?B?K0NQYnBrNVNmTlFlbE5oWGNIeEh4blBZaHNqYWNTWXUvNjVTZ2hncmI1L29E?=
- =?utf-8?B?bDNNQkZCbGkxSlZEb1hLMHFvUGNKejBtRTVKVkRBbmdGUnBTeXF5aThZOFh1?=
- =?utf-8?B?Rm5FWmJieVNRUFNTeFBSV2ZwY1E4K0xkdkM1Z3hOd1QvdVE0MGsvUGFQWkh3?=
- =?utf-8?B?NHZsNWlYWGtQN1luUzhpMmxnL3dpY2YyWXpJTnZNNStVQUtVRUdpRnFuSFRh?=
- =?utf-8?B?Umc3WUU1K1IwRDNBRXNkSVVDbkNFRnVLZVpzbGtKWjdqWWZqL1g2Z3lLb0U0?=
- =?utf-8?B?bWxSeVJpc05tdlptUWdSNHVIazQvcUFHWG82S1BZZk16T3lnY2xYOHVJaGZP?=
- =?utf-8?B?dElaUmxBT2ZpdWY5dDJzSWltZjlZZmxYZ054Q3B4NXJCTG1obTRBRkVKWlMz?=
- =?utf-8?B?MVJPV3lwdGg5bVdXRVo3bkdXYW1VZi9ITTY0UzdIVlZTUlhCMG9PL3pkNXVa?=
- =?utf-8?B?YllzaFVyeVBrNTgvckZkVUNXZ2QzQTlrRDlqKzc1dVNnUXdjQmpVd1pWY3dn?=
- =?utf-8?B?YVZjRmxsdmpLb1RENU1KbzdmSktURURLQktRWi9jM0lEdXFqakdUN2c1OEhn?=
- =?utf-8?B?cTlXNThYY05ESmJsOVZ4TWFiQ3kwY1JjRU5XRGZBeHRBcGdIWTlUWUR0cnJ2?=
- =?utf-8?B?WDZIR0Y2K210ejllNXlzN050YnRsaEM2SGx1b3FRRXQ4ZnBxeTkvNW5sWFNw?=
- =?utf-8?B?bG9IT0lpelpEcmJnU2JoQTdzcnNudjlVT0dKcFc3SmJmdWR4aVhER1BxQVFJ?=
- =?utf-8?B?emw3WDlra2Rrc05HSnBkSForRlZsRkJ3SnlVcm05R0tWRHVDZkM1OVBXTUFP?=
- =?utf-8?B?REtVR1I4bzEzUnRUNzhJOTJZdkloVkp4NTQwL3ViWituckhaZG5hZVhNclBi?=
- =?utf-8?B?bjcvLzlrWWRuNmhqSjRlZ2cxblI2Q1lxRlRQZ3BLbnZMdEc2YUhIOHJzdkIx?=
- =?utf-8?B?SVhxdWRxTFNEbFdSTkV2dU5VN1hxMG9HSEhCa2hmUVhGTWRUb3ZrZ3pabHZL?=
- =?utf-8?B?UU1GUnRJVDRrQzYvTm10bHd4aHZBaDg4T2txdXVUQkFPNTdFdktBWnhsVm5y?=
- =?utf-8?B?TXcrRTJCellwNmhFUXJ2d3cyc2VFdjVlYnowOGNNVjRQUHQwbzRmcEo4TFRw?=
- =?utf-8?B?R3AxdUQrekpKZmJvUUtsY2QycnVjMm9nbVJCY2srZlRxUEk1Y1NWMms2WHV1?=
- =?utf-8?B?dVNNZEJrNCtSa1JpTlZNMEZ0RTRIc0tacXJvTzBhbmFBRXhhOGZ3a1l6ejVP?=
- =?utf-8?B?RkZ2MDdFenhFR3Evd2FSVVZqMVBWWjR6OUV6a2RHa3VLY0VNUE5rYTBCWXhI?=
- =?utf-8?B?dms3a2tGRVoraVorWDc2UjE2TVAzS05VL2FXZlI5VnpDVVlIRC9yOW45MnhQ?=
- =?utf-8?B?aDIzMnFWaXdtcThSQ0tFMnRSbUJRPT0=?=
+	=?us-ascii?Q?ha9SfmxfRkI5nbJg/I9Fjn9d/Hx4XUsBzwO4IarjxeydxIxrlQEr+resEfqC?=
+ =?us-ascii?Q?6WWCwIEEAI09Cd8IY+j1a7twRya2NPVjRJ7uMxCCNGvwACnuThrhOncEfX4U?=
+ =?us-ascii?Q?L8x8bfkKV+rcMHtlPU06fOQ0erBkUtwiDlSj3sU1d5Mnex6VDlG5qXM7ZiYM?=
+ =?us-ascii?Q?pUhIUpQSTqxbNig8jEzFqndk7mHScpaju5FEk2Ocrj+FPIazrC5nIoYpGtsv?=
+ =?us-ascii?Q?m0c1n9b/s6Tnfp+SLJk3yTykTHiCiSA43LEaCVPXt8mtsQmaG+7UUm40M/Ao?=
+ =?us-ascii?Q?upIbQN6ozxMiWyZYFogSUmS1k7w91u3wyJHITuftGqJF0gtc56vtZ7Rsf05w?=
+ =?us-ascii?Q?mh6LyOcxusA6HwJNo2iwFwj9mvIbpXhUx3zf6G/8O5Te1WH0UAsdUrADCLYv?=
+ =?us-ascii?Q?UGhyRuyjIc9W3sjjdf00sdSGRD/6ykcdGd+iDFl8UBH1ydHStkzuetbvQCSq?=
+ =?us-ascii?Q?P1D7vDaNcc0HZYwKD9xJxLp1Tq7bhzAyOcZVf9meS/BvnoY2qm0V5JRVkDiP?=
+ =?us-ascii?Q?YIKcF2Cx3Ez0bdTeUqUQRrgwnh1MmUOehxUIIvQmzy8Udh0JgdQkHl6hiscn?=
+ =?us-ascii?Q?lOvVy3I6HlDbBO9FexRahVnq5ayX2glh5PSxEY6Xe5vL7+r2uLvbgRDyljCR?=
+ =?us-ascii?Q?85kRAOzoMSyZjgf5AyiFc87DdlYY9msUk9npjVYfqg436ofuPrGcI+siTCHY?=
+ =?us-ascii?Q?5hxf6knHxgA5wTO3uGj8jkYsD0355UPcK3vExJuclgBr2Nis9Q8mxmlTV5my?=
+ =?us-ascii?Q?kZo0Y0QLBv8j60ShQi7Ke/3AxwHia6pCKzpjp5P5PBPo2J+4TTv/gmfw35an?=
+ =?us-ascii?Q?XPeKGrjt6yfI2F2A5ftN/UGaC84lURtFY2+Wm+y4C44UpmvvhhE1rW/V8Fdd?=
+ =?us-ascii?Q?eJ+581aCa3OoTN7mD7dD/KeOnrRIbPVecM3fBPDr2RcxDxcmXNCrAWA9eGx4?=
+ =?us-ascii?Q?GnO15R6Ntjw6Jhhx3glXO6C30auLGMYdHYXqrZJVx4Ow/SlpV0sEZUkTVp43?=
+ =?us-ascii?Q?jiH4er/CsTMwoP/Owj3uwih1hd1uoDpTAnlzP3boLHvPo2gOWAiX1mPawN1l?=
+ =?us-ascii?Q?V6Qk920MkU3c80EDG4ILxsT+wD/CmfUes+CAJnxwKg4XGAQrW+AXZrenoFnm?=
+ =?us-ascii?Q?HgwrBgNbO019nr3h04UiaatnQBoVKSnfh1V+odf91zdWWMpEUZczh8pCfQwz?=
+ =?us-ascii?Q?Lv9xw315y6b/SVq+9uiPwhxodRRgUPJSfu4RCs63j1OM8QRJl/i8QSPzmJQc?=
+ =?us-ascii?Q?QGjnsnoYnsHGFfEXenANvOSIJYZr672T7VMNt1x5afx+AsId09fHdr6iVu3H?=
+ =?us-ascii?Q?Nsg9nngepWNjTUiOMX9tKasKgdknhG92G73esaZ6/WxDRziPufFJs4eq0fx0?=
+ =?us-ascii?Q?ppAuHEzSZUjD4Qqzuc9PgLpl9NT2scxKG9xCSmuObSb6PMWjk9ZbXf3Zwij7?=
+ =?us-ascii?Q?5j7UozxpzAzUsXPDSPVWzcjtCUHTpKCtLaS/R6O5h/MaMNjl6vDrWbMj+UaM?=
+ =?us-ascii?Q?2IHyQhKWn3zXU590dBs+Tkksb4qfqvIQ5KkEIyVVsIFDCQgOdyRnh1cwA85v?=
+ =?us-ascii?Q?iADOJfx9bDH7k0LiS9lLgJY9ods/KK7TIyUUztvHUDXm87B1S+KoiqhUrXqD?=
+ =?us-ascii?Q?8CNLgD1HtWaGx8ZXBoe9C7iPx4gxkZh9iUSDmIHArVjU2N8ynnslFjQTrpMC?=
+ =?us-ascii?Q?CcR0qw=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
+	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	qa+Vx2oWhXsacnI9Ye6/un9iEAvhM1u5Syjd1OT1mxtImQYQtUNHElaBwpRitqYYo4INYNtwzjO0HIU5mcGXpJDPoD7HnPDEqL8Tq4hoAX7SBMgNL5ojKuphsaAso0wxyVZ0OQ/Skw90gLaYIowAkYRQeI4C6zpJlH54FDetFc7fIIFBJUft3IYRJJqAwnl4uDecV+WMqFRjjJvJQvVAQKupinzEzEeU0s8qrHVgT7pFAuUXvSXLwrMG4VHviGEdmhZinzTBTaL6A1tn8BfS9QjM2gkOpaJxgtdETxhOHNbtTfXZVFz3fOTJ/nF0SQkNRSlO4A+yJiQFwdtGeYUCXrsZx5jIzyvl1QTfkXQk7yYBw+NEkA6/Zx6NQIUdfNBuvxecZKRN3fSbk0b+GxR9UZiSYl78W2api8VcXi4lNtqkn2S5+wZCz0h1nLocGJNt
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 23:42:50.2000
+	ExFoZyqPYZhEMFcuXYnqILsBS0xiuBkEyjFRSjR2RE6WlO+7Lo+ebloy9mP866BBUDQtDO9JC25KUjrTJztrXABrHj07ZyKTVpuQhqFy87uFhiWyfhqSN5/HPY39pqlBXmcaege9Uo0EF3lL+2YidvujcVx9aZifhJgkzmB1g9a5LoLHajX5zErY4c0KZ4/IpTKaQv1duGUTCyiuviZb2M2NAdYD9+2DQR5LKy3Aw3yccvC0/1JJZcqkpkE7y/2lO8+KQaKCh5qoJFfTymiBvoK+9F/naPVqZzpwAk5kMxO4kDAWccvG1rnpgjfoCoMRjgcTomRhESSsbG6ZyP++N1EwkekDsogq/5ZbLVjtbk08lJDJooJCBQWbElk6mTQ4ZFsTACN6Y94l36Kib+04hmkqMfMqI6yHoYUF97+JIVGg7s7G0DzMyQ1mcEg34n08
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2026 00:28:58.0903
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9357e5a-1084-4da6-8bc6-08de65d9707f
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cb2c57c-0f95-4af5-b5c9-08de65dfe241
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	CY4PEPF0000EE3B.namprd03.prod.outlook.com
+	AM2PEPF0001C70E.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6122
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB8532
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Feb 2026 23:43:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230665
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Feb 2026 00:29:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230666
 
-On Fri Feb 6, 2026 at 5:28 PM CST, Randolph Sapp via lists.openembedded.org=
- wrote:
-> On Fri Feb 6, 2026 at 2:00 PM CST, Randolph Sapp via lists.openembedded.o=
-rg wrote:
->> On Fri Feb 6, 2026 at 12:15 PM CST, Khem Raj via lists.openembedded.org =
-wrote:
->>> this also needs adjustments for fvwm and xscreensaver recipes in meta-o=
-e
->>>
->>> On Mon, Feb 2, 2026 at 5:20=E2=80=AFPM Randolph Sapp via lists.openembe=
-dded.org <rs=3D
->>> ti.com@lists.openembedded.org> wrote:
->>
->> If everyone's alright with this version of the series I'd be more than h=
-appy to
->> submit the necessary patches.
->>
->> - Randolph
->
-> Actually, this brings up a good point. The other window managers shipped =
-in
-> meta-oe were expecting xserver-nodm-init to be present, but weren't calli=
-ng it
-> out explicitly as a runtime dependency.
->
-> They were also implicitly expecting the user account to be xuser, despite
-> nothing stopping any layers from changing that username. Previous emails
-> actually highlighted this as a reason for making a separate package, desp=
-ite
-> nothing being equipped to handle such a change.
->
-> Should we define some global distro variable to manage the default
-> GUI/underprivileged user? That would unify all Xorg and Wayland default p=
-ackage
-> configurations and allow for seamless arbitrary user names. Maybe somethi=
-ng like
-> "STANDARD_USER", which defaults to the value of "DISTRO"?
->
-> Take xscreensaver for example. The systemd service hardcodes xuser. Pract=
-ically,
-> this would be better suited as a service template with a default instance
-> enabled for "$STANDARD_USER".
->
-> I don't know if this should be part of this series or if it would be bett=
-er
-> suited as a follow-up.
->
-> - Randolph
+Add 'expand=3DTrue' to directly resolve file checksums that are added
+conditionally with inline python code.
 
-So far, I've been trying to preserve old behavior as best as I can, but I r=
-eally
-just want to sit down and break things up into their logical pieces so
-components can be replaced piecemeal later if necessary.
+Otherwise it can happend that the license.bbclass still sees the
+un-expanded values and either misses or even skipps adjacent licenses.
 
-Define a global standard user account. Define a display manager package tha=
-t
-ensures the global standard user is in the proper groups and sets up a skel=
-eton
-config. Then we can provide the separate config overrides to do this whole
-out-of-box setup that the tests and end users are currently expecting.
-Unfortunately, I don't think I can do that properly in a backwards compatib=
-le
-way.
+E.g. an unvaforable combination of
+LIC_FILES_CHKSUM +=3D "file://docs/license.rst;md5=3D83b7626b8c7a37263c6a58=
+af8d19bee1"
+LIC_FILES_CHKSUM:append =3D "${@bb.utils.contains('TFA_MBEDTLS', '1', ' ${L=
+IC_FILES_CHKSUM_MBEDTLS}', '', d)}"
 
-If people think this is a good idea I can submit another version with all o=
-f
-this in place for oe-core and we can see what breaks, but otherwise this is=
- the
-best I got.
+would lead to a
+ # pre-expansion value:
+ #   " file://docs/license.rst;md5=3D83b7626b8c7a37263c6a58af8d19bee1${@bb.=
+utils.contains('TFA_MBEDTLS', '1', ' ${LIC_FILES_CHKSUM_MBEDTLS}', '', d)}"
+ LIC_FILES_CHKSUM=3D" file://docs/license.rst;md5=3D83b7626b8c7a37263c6a58a=
+f8d19bee1"
+and the license checksum verification on 'license.rst' being sometimes skip=
+ped.
 
-- Randolph
+Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+---
+ meta/classes-global/license.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->>>> From: Randolph Sapp <rs@ti.com>
->>>>
->>>> Merge the xuser-account recipe with xserver-nodm-init, since:
->>>>
->>>>  - This is the only recipe dependent on it
->>>>  - This matches the current behavior in weston-init
->>>>  - Running x11 as root is no longer a supported path in
->>>>    xserver-nodm-init
->>>>  - The display manager configuration and user account name are heavily
->>>>    connected
->>>>  - The existing method of integration ignored this connection
->>>>
->>>> Signed-off-by: Randolph Sapp <rs@ti.com>
->>>> ---
->>>>  meta/conf/distro/include/maintainers.inc      |  1 -
->>>>  .../xserver-nodm-init}/system-xuser.conf      |  0
->>>>  .../x11-common/xserver-nodm-init_3.0.bb       | 20 +++++++++---
->>>>  .../user-creation/xuser-account_0.1.bb        | 31 ------------------=
--
->>>>  4 files changed, 15 insertions(+), 37 deletions(-)
->>>>  rename meta/{recipes-support/user-creation/files =3D>
->>>> recipes-graphics/x11-common/xserver-nodm-init}/system-xuser.conf (100%=
-)
->>>>  delete mode 100644 meta/recipes-support/user-creation/
->>>> xuser-account_0.1.bb
->>>>
->>>> diff --git a/meta/conf/distro/include/maintainers.inc
->>>> b/meta/conf/distro/include/maintainers.inc
->>>> index a7425f7020..ec0a128901 100644
->>>> --- a/meta/conf/distro/include/maintainers.inc
->>>> +++ b/meta/conf/distro/include/maintainers.inc
->>>> @@ -935,7 +935,6 @@ RECIPE_MAINTAINER:pn-xserver-xf86-config =3D "Unas=
-signed
->>>> <unassigned@yoctoproject.
->>>>  RECIPE_MAINTAINER:pn-xserver-xorg =3D "Unassigned <
->>>> unassigned@yoctoproject.org>"
->>>>  RECIPE_MAINTAINER:pn-xset =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
->>>>  RECIPE_MAINTAINER:pn-xtrans =3D "Unassigned <unassigned@yoctoproject.=
-org>"
->>>> -RECIPE_MAINTAINER:pn-xuser-account =3D "Randolph Sapp <rs@ti.com>"
->>>>  RECIPE_MAINTAINER:pn-xvinfo =3D "Unassigned <unassigned@yoctoproject.=
-org>"
->>>>  RECIPE_MAINTAINER:pn-xwayland =3D "Unassigned <unassigned@yoctoprojec=
-t.org
->>>> >"
->>>>  RECIPE_MAINTAINER:pn-xwininfo =3D "Unassigned <unassigned@yoctoprojec=
-t.org
->>>> >"
->>>> diff --git a/meta/recipes-support/user-creation/files/system-xuser.con=
-f
->>>> b/meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
->>>> similarity index 100%
->>>> rename from meta/recipes-support/user-creation/files/system-xuser.conf
->>>> rename to
->>>> meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
->>>> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
->>>> b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
->>>> index ed056df72f..0e9fe1e65a 100644
->>>> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
->>>> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
->>>> @@ -1,14 +1,15 @@
->>>> -SUMMARY =3D "Simple Xserver Init Script (no dm)"
->>>> +SUMMARY =3D "Simple Xserver Init Script and user account"
->>>>  LICENSE =3D "MIT"
->>>>  LIC_FILES_CHKSUM =3D
->>>> "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de=
-20420"
->>>>  SECTION =3D "x11"
->>>>
->>>>  SRC_URI =3D "file://emptty.conf.in \
->>>> -           file://default.desktop"
->>>> +           file://default.desktop \
->>>> +           file://system-xuser.conf"
->>>>
->>>>  S =3D "${UNPACKDIR}"
->>>>
->>>> -inherit features_check
->>>> +inherit features_check useradd
->>>>
->>>>  REQUIRED_DISTRO_FEATURES =3D "x11"
->>>>
->>>> @@ -26,10 +27,19 @@ do_install() {
->>>>
->>>>      sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:"
->>>> ${D}${sysconfdir}/emptty/conf
->>>>      sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/c=
-onf
->>>> +
->>>> +    install -D -m 0644 ${S}/system-xuser.conf
->>>> ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
->>>>  }
->>>>
->>>>  FILES:${PN} =3D "${sysconfdir}/emptty/conf \
->>>> -               ${datadir}/xsessions/default.desktop"
->>>> +               ${datadir}/xsessions/default.desktop \
->>>> +               ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
->>>> +
->>>> +USERADD_PACKAGES =3D "${PN}"
->>>> +USERADD_PARAM:${PN} =3D "--create-home \
->>>> +                       --groups
->>>> video,tty,audio,input,shutdown,disk,nopasswdlogin \
->>>> +                       --user-group xuser"
->>>> +GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
->>>>
->>>> -RDEPENDS:${PN} =3D "emptty xuser-account"
->>>> +RDEPENDS:${PN} =3D "emptty"
->>>>  RPROVIDES:${PN} +=3D "virtual-emptty-conf"
->>>> diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb
->>>> b/meta/recipes-support/user-creation/xuser-account_0.1.bb
->>>> deleted file mode 100644
->>>> index f1e4cb674f..0000000000
->>>> --- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
->>>> +++ /dev/null
->>>> @@ -1,31 +0,0 @@
->>>> -SUMMARY =3D "Creates an 'xuser' account used for running X11"
->>>> -LICENSE =3D "MIT"
->>>> -LIC_FILES_CHKSUM =3D
->>>> "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de=
-20420"
->>>> -
->>>> -SRC_URI =3D "file://system-xuser.conf"
->>>> -
->>>> -inherit allarch useradd
->>>> -
->>>> -S =3D "${UNPACKDIR}"
->>>> -
->>>> -do_configure() {
->>>> -    :
->>>> -}
->>>> -
->>>> -do_compile() {
->>>> -    :
->>>> -}
->>>> -
->>>> -do_install() {
->>>> -    install -D -m 0644 ${UNPACKDIR}/system-xuser.conf
->>>> ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
->>>> -}
->>>> -
->>>> -FILES:${PN} =3D "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
->>>> -
->>>> -USERADD_PACKAGES =3D "${PN}"
->>>> -USERADD_PARAM:${PN} =3D "--create-home \
->>>> -                       --groups
->>>> video,tty,audio,input,shutdown,disk,nopasswdlogin \
->>>> -                       --user-group xuser"
->>>> -GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
->>>> -
->>>> -ALLOW_EMPTY:${PN} =3D "1"
->>>> --
->>>> 2.52.0
->>>>
->>>>
->>>>=20
->>>>
->>>>
+diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/lice=
+nse.bbclass
+index af5f1ed41d..62116ba31d 100644
+--- a/meta/classes-global/license.bbclass
++++ b/meta/classes-global/license.bbclass
+@@ -125,7 +125,7 @@ def find_license_files(d):
+     from collections import defaultdict, OrderedDict
+=20
+     # All the license files for the package
+-    lic_files =3D d.getVar('LIC_FILES_CHKSUM') or ""
++    lic_files =3D d.getVar('LIC_FILES_CHKSUM', expand=3DTrue) or ""
+     pn =3D d.getVar('PN')
+     # The license files are located in S/LIC_FILE_CHECKSUM.
+     srcdir =3D d.getVar('S')
+
+base-commit: 6ce19709f7835ee5cd7915e181f89397975236c8
+--=20
+2.43.0
 
 
