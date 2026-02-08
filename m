@@ -2,192 +2,101 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D914EF06F8
-	for <webhook@archiver.kernel.org>; Sun,  8 Feb 2026 22:52:12 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35981.1770591129044617842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD424EF06FA
+	for <webhook@archiver.kernel.org>; Sun,  8 Feb 2026 23:30:52 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36706.1770593451358634658
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Feb 2026 14:52:09 -0800
+ Sun, 08 Feb 2026 15:30:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=oe/hlFXG;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-436e87589e8so741976f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 14:52:08 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ma5tJagX;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee76e8656so59510075e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 15:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770591127; x=1771195927; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=smile.fr; s=google; t=1770593450; x=1771198250; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uJtYYYmpND4WB27F0P2XP+97Dlnh85lvA6lhS4SjvjM=;
-        b=oe/hlFXGjBySnLw07Tcw3eiDP4EQbWYzcpQ+R4mB8jzGYWitiME/di9BBz9alBAdtH
-         e6aWEeyMGyJVr0w9BRLZ+M0NRrcBO0iJAX1+PF0h4Ik9uyEQVXwymtZyhLoxqTSPe+65
-         PJp3rhg9U+fCT9GHC+oE/Owi88LeQ1xsLcVU4=
+        bh=9oU8EmvEI4KEY4PqgpWJsYc27tk2dV9EWUgNH71LRog=;
+        b=ma5tJagX/1v8DHLTscK3ZFAlhofR8+CB7m6ZbrViOAaY33qKLlt48kP7ftFPhWdlMv
+         iScdusEMMinwTWr85oONJ94JpmeYw76U0JujcAIenIxj5jpfxxcElopPrEfKe0su6Z36
+         iCrmnFHM4KcKnjXgP7mwRNrPR7R4oogx9TNII=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770591127; x=1771195927;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1770593450; x=1771198250;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uJtYYYmpND4WB27F0P2XP+97Dlnh85lvA6lhS4SjvjM=;
-        b=eF5BdPDYo4WVujMSl9eRaBx6Uougy7k4WOjg8DvEO5roACO5fM19zbHun0XERwfH+J
-         SjCdCHx2D6wQx29s+dopHW/ry737WaqjwPgGWMbRpRST9HaSdYadvRp7v2Ig1lEUU9G4
-         Z9FwmkFbkjYRtODVa4h9GaFP1TjG+QlNaQgsDOSDVO/TBp08egK5iJ52fBoqJq2nOgvx
-         iiHIvcT3WdO70QnNr0a6qQ0C96vZhQPQO432hlhocdArXqYq9SGYJaaQALEorsradVCI
-         WPI+yNqoovEHQZl8ecOMrgW8OBEAUnaRuhUO0BoUUnbtcNUvaI/dXBTGQjqvrnvLvM9r
-         hXHA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3hI5FeHcJJfCu/Jtd+PbmHQI3HONM4Bi71LbV32wNXw0gXtjndZjxXFzAw63FicHM8WEoGw0FG8VsgpOZ9q/trw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwMyn2CvQc8S8VGrZGI3nsPwIw9cC8n7CzvXJVIyPIJEAQFGDor
-	7lvOKwGpv482H2ad+d9a1SvuBtlRCzRpjdrZhLPxiUDfNMxgDDvWXasAm8YHGLde1+E=
-X-Gm-Gg: AZuq6aJ3sc370UpjQLePHxLI8unYqkbYcg7YiJqYyIGlZdKYeaDPLIaSHpm8Sb/Hmh3
-	dS3sFkT3oMTAk0kIUP/qrVWc764mIXJz6VkR3d/BIlgSPA+xBinJgzWD0rD7p4sY5ED+v3Ns5PT
-	b86HLBi2AiMGejBZfnsTKtfkVB1PNIG6/HXa/LXkIOltSOVKo2rG8oNPeiLAz0FCMExcE7FlBn7
-	n2BN900tTVFtsswofEHKX0CNOCU8vWyNkobzFcdEEAj5uQLS9wHQnTMPAgIUZIrhL+Qy9b+1xje
-	CR3BDjb86ORO0zwukOWuTXWr96UnsK+jB7clmcCRgsp8OLCVw9pVoShiPp5myvNQZfRVbOXPOv0
-	m+7FcoVb28XsQCpeQiseiGV8uzw6qXoUCziVuzLZORTxYVIxaekDcxYC59eDpVL4knrRktNFgOI
-	EJXGCPcT4eA5AFbL6/k4lsyZiwVIatxMy+DUcwM17CorHSPXbe/u+y299wYWpFCDqFAF1y0vF6j
-	+g=
-X-Received: by 2002:a5d:5c8a:0:b0:436:18d3:25 with SMTP id ffacd0b85a97d-4362933b989mr13299340f8f.10.1770591127258;
-        Sun, 08 Feb 2026 14:52:07 -0800 (PST)
+        bh=9oU8EmvEI4KEY4PqgpWJsYc27tk2dV9EWUgNH71LRog=;
+        b=pMcN1BtjSoW0EqtE9I4bxgT7VaDhls2WlSMQxogc/n6/MD4/VO3eoysxh4hDQtMZY/
+         5VYpgzQhWddn5bBNU6bOK7qiIrk9n9ioRzweJY5g6kseI60de1znesCIEZuXxLf6r5Dv
+         /yQUWY1pj7DGLKtRVq56SBZ5i9Av+OmRwy7KXJ2KlCQF6aDEnyLzS5J+l4bvLfJhSL+b
+         /rok6M8/j1raagteOU3aCbeZbwV4hfrAuCVEqgO3wRahbc5aTMbe4S3PIIdpFeLPNAp0
+         kmDEJsYZzvIVd3irh5PGxQUbBCZJYpuoI3tQrkHCKVLDyoXYjgZ9XN7wxWnsDot8rN0s
+         aVkg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTOg1C1sCB63NUHC2TqWprt50JOuqv3QZ1HnYUrq1a6jFj85HnCrsFm/Jelb/NUK30q5nM7Si/qPDXEcDnlCZdtA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxWAoyhiT2DgbUXl1Jt034C7c4DfOlDgwhFO5Emx2xwAmd+M5mt
+	4aq82NNHdFe89dhGN7109ErttxEBEQ7W7RY5Ljox9XCSSPdO9PSMY29PFhv3rtwLekM=
+X-Gm-Gg: AZuq6aJsqE2UTx62GNHiiUZfKe+lTot79SkvmAc4ss6bTw3bHAgXSf3GyOsNqy22hu9
+	/Cm4DJxC3KkzKSl6HV7xaW1+lT54zfm33l8sqekO5KRoT0Iyl7aEqk4+1YLe19XW7e7cCdfTB1n
+	wTxrJtuo61/DQxFIamvy+LXwiu/MRTX6RtTdzQ3qC3b8hg7+YQ8g5LRziKTnzvzYXzTBO0c6Kdk
+	DFRJSl9HTVhYg5FQZE14kem+itp5M/hCExbMleBo9THb/NAupO8UAalARF26Tk4bvbv80znYByM
+	rfd2x3uV+ClmbUlx3O4EVr1EqSlvcwV9pr8v8ws19Hf/lP34Is/G7OW81NB+uy7BHVEeY0mgkGT
+	ATOUbpCKyiGEr/at9MIxM6bhMLKh5OmA6MqIkq7MX8Su16FqibqvLbySOgi+7ajVe7cQGHPX3wi
+	Af6I9XZt/Zh5jr21iLY8D4Q0EqC9Ti7khjDMGYTccAmyzwGfjwBqtsBuBdmEoBeoR+ngUEvlRD7
+	pU=
+X-Received: by 2002:a05:600c:64c6:b0:477:a36f:1a57 with SMTP id 5b1f17b1804b1-483201fffeamr130845085e9.3.1770593449718;
+        Sun, 08 Feb 2026 15:30:49 -0800 (PST)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376accfc58sm6982625f8f.16.2026.02.08.14.52.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48333bad79bsm141581195e9.8.2026.02.08.15.30.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Feb 2026 14:52:06 -0800 (PST)
+        Sun, 08 Feb 2026 15:30:49 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 08 Feb 2026 23:52:07 +0100
-Message-Id: <DG9Y66TJR6U3.290J0DTI0OT6Z@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH 1/1] lighttpd: Fix trailing slash
- on files in mod_dirlisting
+Date: Mon, 09 Feb 2026 00:30:48 +0100
+Message-Id: <DG9YZT9XHLW3.1OYVF5QZPT565@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/2] libpcre2: Enable Ptest Support
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Fred Bacon" <bacon@aerodyne.com>
-To: <fred.w.bacon@gmail.com>, <openembedded-core@lists.openembedded.org>
+To: <careers.myinfo@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260120155748.32482-1-fred.w.bacon@gmail.com>
- <20260120155748.32482-2-fred.w.bacon@gmail.com>
-In-Reply-To: <20260120155748.32482-2-fred.w.bacon@gmail.com>
+References: <20260120073632.508451-1-moins@kpit.com>
+In-Reply-To: <20260120073632.508451-1-moins@kpit.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 22:52:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230700
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 23:30:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230701
+
+On Tue Jan 20, 2026 at 8:36 AM CET, Shaik Moin via lists.openembedded.org w=
+rote:
+> Install libpcre2 test suite and run it as ptest.
+>
+> Add tests for POSIX wrapper (pcre2posix_test), core PCRE2 engine (RunTest=
+), and grep utility (RunGrepTest).
+>
+> pcre2posix_test: Verifies the POSIX wrapper API
+> RunTest: Executes the core PCRE2 test suite through pcre2test
+> RunGrepTest: Checks pcre2grep to ensure its grep=C3=A2=E2=82=AC=E2=80=98s=
+tyle matching works as expected with various patterns and input files.
+>
+> Signed-off-by: Shaik Moin <moins@kpit.com>
+> ---
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  .../libpcre/libpcre2/run-ptest                | 45 +++++++++++++++++++
+>  .../recipes-support/libpcre/libpcre2_10.43.bb | 21 ++++++++-
+>  3 files changed, 65 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-support/libpcre/libpcre2/run-ptest
 
 Hello,
 
-Thanks for the patch, it looks good!
-Just 2 notes that I fixed:
+Thanks for the patches but adding ptest is not usually acceptable under
+the stable policy[0]. That also applies to your kirkstone patch.
 
-On Tue Jan 20, 2026 at 4:57 PM CET, Fred Bacon via lists.openembedded.org w=
-rote:
-> From: Fred Bacon <fred.w.bacon@gmail.com>
->
-> Fixes [YOCTO #16128]
->
-> Backport of upstream bug fix from lighttpd-1.4.75. Version 1.4.74 introdu=
-ced a bug that
-> would append a trailing slash to files in a directory listing. When the u=
-ser attempts to
-> download one of these files, the web browser could not save the file with=
- a trailing
-> slash. As a consequence, every web browser tested would generate a random=
- character string
-> for the saved file name.
->
-> Upstream-Status: Backport [1.4.75]
+[0]: https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable/LTS_P=
+atch_Acceptance_Policies
 
-That line in the commit message is useless, I removed it.
-
-> Signed-off-by: Fred Bacon <bacon@aerodyne.com>
-> ---
->  .../lighttpd/0001-mod_dirlisting.patch        | 48 +++++++++++++++++++
->  .../lighttpd/lighttpd_1.4.74.bb               |  1 +
->  2 files changed, 49 insertions(+)
->  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_dirl=
-isting.patch
->
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-mod_dirlisting.=
-patch b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_dirlisting.patch
-> new file mode 100644
-> index 0000000000..8afdc1ecd0
-> --- /dev/null
-> +++ b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_dirlisting.patch
-> @@ -0,0 +1,48 @@
-> +From 3d400ce06dcb950a61363f87330324db244f4bac Mon Sep 17 00:00:00 2001
-> +From: Glenn Strauss <gstrauss@gluelogic.com>
-> +Date: Thu, 29 Feb 2024 20:59:57 -0500
-> +Subject: [PATCH] [mod_dirlisting] fix suffix display of '/' on file (fix=
-es
-> + #3242)
-> +
-> +fix incorrect suffix display of '/' on files
-> +
-> +(regression in lighttpd 1.4.74)
-> +
-> +(thx guy)
-> +
-> +Upstream-Status: Backport [1.4.75]
-
-We usually use the specific commit URL in patch. I replaced by:
-Upstream-Status: Backport [https://github.com/lighttpd/lighttpd1.4/commit/3=
-d400ce06dcb950a61363f87330324db244f4bac]
-> +
-> +References:
-> +[1] https://redmine.lighttpd.net/issues/3242
-> +
-> +Signed-off-by: Glenn Strauss <gstrauss@gluelogic.com>
-> +---
-> + src/mod_dirlisting.c | 11 ++++++++++-
-> + 1 file changed, 10 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/mod_dirlisting.c b/src/mod_dirlisting.c
-> +index a3432211..2686cd3e 100644
-> +--- a/src/mod_dirlisting.c
-> ++++ b/src/mod_dirlisting.c
-> +@@ -1022,10 +1022,19 @@ static void http_list_directory_dirname(buffer *=
- const out, const dirls_entry_t
-> + 	buffer_append_string_len(out, CONST_STR_LEN("</td><td class=3D\"s\">- =
-&nbsp;</td><td class=3D\"t\">Directory</td></tr>\n"));
-> + }
-> +=20
-> ++static void http_list_file_ent(buffer * const out, const dirls_entry_t =
-* const ent, const char * const name) {
-> ++	buffer_append_string_encoded(out, name, ent->namelen, ENCODING_REL_URI=
-_PART);
-> ++	buffer_append_string_len(out, CONST_STR_LEN("\">"));
-> ++	buffer_append_string_encoded(out, name, ent->namelen, ENCODING_MINIMAL=
-_XML);
-> ++	buffer_append_string_len(out, CONST_STR_LEN("</a></td><td class=3D\"m\=
-">"));
-> ++
-> ++	http_list_directory_mtime(out, ent);
-> ++}
-> ++
-> + static void http_list_directory_filename(buffer * const out, const dirl=
-s_entry_t * const ent, const char * const name, handler_ctx * const hctx) {
-> + 	buffer_append_string_len(out, CONST_STR_LEN("<tr><td class=3D\"n\"><a =
-href=3D\""));
-> +=20
-> +-	http_list_directory_ent(out, ent, name);
-> ++	http_list_file_ent(out, ent, name);
-> +=20
-> + 	const buffer *content_type;
-> +   #if defined(HAVE_XATTR) || defined(HAVE_EXTATTR) /*(pass full path)*/
-> +
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.74.bb b/meta/rec=
-ipes-extended/lighttpd/lighttpd_1.4.74.bb
-> index 7460d3d716..e48fd16514 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.74.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.74.bb
-> @@ -14,6 +14,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/rele=
-ases-1.4.x/lighttpd-${PV}.t
->             file://index.html.lighttpd \
->             file://lighttpd.conf \
->             file://lighttpd \
-> +           file://0001-mod_dirlisting.patch \
->             "
-> =20
->  SRC_URI[sha256sum] =3D "5c08736e83088f7e019797159f306e88ec729abe976dc98f=
-b3bed71b9d3e53b5"
-
+Regards,
 --=20
 Yoann Congal
 Smile ECS
