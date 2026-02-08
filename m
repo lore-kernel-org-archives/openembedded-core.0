@@ -1,257 +1,102 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2917EEF06E1
-	for <webhook@archiver.kernel.org>; Sun,  8 Feb 2026 18:47:01 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.63])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31313.1770576418397299349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49CC1EF06E3
+	for <webhook@archiver.kernel.org>; Sun,  8 Feb 2026 19:12:31 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27206.1770564017320377699
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Feb 2026 10:46:58 -0800
+ Sun, 08 Feb 2026 07:20:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=vYpGWcF9;
- spf=pass (domain: est.tech, ip: 52.101.84.63, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dS4IoO360SvBvJSD6WmX62LrKrfDHWg0fanQ7+L3SRrqNNJvDCqPpJREAhfEqkaZuTNT6KU2lIxfC9o1+7tAw5hYh/9ZBedS3z18sgout5ngqGF/XpfL7HafMA4/lCaaHZeoahtdsi5vhvU7W5XjYGQ468bwe89YZPduAQd6be/d59n6NodpIre2B0/IN/MgPG/0LaJsb3lvfpail+IgBXXdW9+O2wwp6XsUCH2Bw/wBal29Pj3KQ44uF8hgeL4V8rLnoxc7nTucQu2OY7D/LntfxccKfK9PAPh6CW3w2F9kDpwPkQ4G/jrre/0BpWAsCWMIUfytzR22F84Azb52Eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5nidkMI5QODe6K8PDT7nZn84TaPoTECP43hY9nCVTYg=;
- b=rETciEUyUfFZeD3ThpsjwqKBpBc1lgMnb0n1ECBanf5l2x5Kum6EBjPb2US78KfNO2CZxx6wdcps7QrxIFdlKzd9jpHSPxX9f0tgoT4L/Wds0/xomK1dTNvcmI3P+17MQBey7Y1yQKXC/hzOq83H9DZAOshr0M95Yqln5mBLpZlRtkpRedZ0SEI+eWZ2zJ8rYksrMr6qUSHIYwhN2Q+g1bhopQoaappTvpRjyJ4gj0zEEImg0wI0FyfE/hHcTBcKjH/UaUe6iJJt01Fgu5S95dOpdb9q/V262gzLaEZthRHO6VxbtqqbmiRthxnE5vTOWJDKB8IRuYH0p04WXn47Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5nidkMI5QODe6K8PDT7nZn84TaPoTECP43hY9nCVTYg=;
- b=vYpGWcF9U+o5t37xaeJlVz//KlSH4ZFcPVSRCKn3sETvhBVI9Ma5U/cza8ZQE8UmtJ8GcK6wi4rIzUJl9YjNsUc2HpMG708hWAcIRaD56gkvfkt6vPBI6dBVCq65LVfEAIQeJGAAKPAuMP3IWPZ0i+3YZv+IYSwKrJe57rWLrrn4Yk4bJQ07kWd0AArXSyZmopW6eIzIAHMmWTA4SfRM2QN7Muv7WK6bcH2tXfIuSt6bWBIuavL8Bq0IT0SvpG4eFgXFxZN44JK6vjSp72lLO3pjK0iEBsYo0jsRec+c9mRutIMyDuxIG8ZOoEdQfqknkSURSmLjsL7coPGF9KYprw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by VI0P189MB3176.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2c6::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Sun, 8 Feb
- 2026 18:46:53 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9587.017; Sun, 8 Feb 2026
- 18:46:53 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NOHQY2ZD;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: logan.gallois@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-436e8758b91so358737f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 07:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770564015; x=1771168815; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O38CQV6Rqd17a+yTuum9KwCqXqqTlP3CWYNRQWJOIds=;
+        b=NOHQY2ZDkCziCKV+ZA4OvwzsXYbix6LtnEZyGqYRtwApdxgfm7sk1ceHpfAWDuf0Az
+         vV8egXu+1JJp/ReWhnXR250D3QM7+HmK+pGI4724D0u+OnZgsrmaFlMkes76+HVLvJcK
+         EgwIoETlo32lXVAKPt63Ctg9rt/mTHAeulJdaO4qVjjb2RitXZUArny9tBDY2ILoUJSD
+         GZ9aRMXr+gcofrwiJbF521XNwVLnnODj6iPAPGUqAjW3sesVT3okqtgKLSmRO61hvjrg
+         t8grfDDWX318KfJtFfwto/bOHq0M3FaG5YOPzwvIHgZtc1HuAcfGeTpLZIE2MkbPA4Qh
+         gaLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770564015; x=1771168815;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=O38CQV6Rqd17a+yTuum9KwCqXqqTlP3CWYNRQWJOIds=;
+        b=Z+Jkl0AaCT5tC8dh+WchZ7OGj4GjKI+avxHx1k6uPLoiMCbCv4kceEfWb4UmShkwEs
+         iCYEztx/HimpIZpE21FOdsUcYEoZofkP5vIF+SDn2MB1hzB7Q7gehqiSpGBmG+XKy0Ag
+         qTK/ASIK9DSRmjD5CvvFhNk7GtYfCYJYB0n7BC8E0FT73Rjx2hDhm/7Ufo6GcG9mrWQH
+         iOVIptmC5jSgtVPBCJi13hrsBArthX4XGEJDFRqBErBMagszzsZdYt1mEWUL0OL8TtB6
+         LB8b4xjTA4IAzgBtLsGJSWBg65g2QgWawQ8LrM0fLMu3Q80nknwJnhb6nDHodCBb0C4m
+         bWCg==
+X-Gm-Message-State: AOJu0YylhQHRwAZRvmAsLfXJ6UEuu1sUzfAkHLP191phyQpxrMcoprSm
+	kkWBKs6jwAikWsW9q8M7TNf7JUnbZppBjUukTgIlCsIyqHm5eh5Cw1O3bp7ajw==
+X-Gm-Gg: AZuq6aJX0kJauFVYp4PD4aEyQckYgpj0lgy3AExg7fw70RK9h9sk7qpP/nChKkm5yp7
+	DKuS38ecrLjSCIAxBTeJAP8fpfzRXxc8Vmv2F1qUNEMJo1Ze1DlSQU8CLl7mejUINMRDlL5Mk7u
+	uiUu2pQhtaoTJciCeBHTZMpZGBcKFAaOMN2Dm1vU/AlwIvSvQVv5ty1FpzTW3WnYLBR70E2g05W
+	XMmQjR0OuG5Z9PoKvGS73cky4SXx+i0OWRVkU8zInfuB59Rk8XoRewmL5Tjny2Sg9tQff23I8tF
+	1Y65ubwb/uBcrRybNzjf/TI89BZ8U2kprtSHhfS6flbwCO5+DeM+jEiyB5Wsa+SEeBCYJtk+E8u
+	R+RomJrPG8+KFqkqYGJYNeVasziuNnP0LgMWgWkaHyFkSD0N0UYg9V3frXPQ1zPDekFJP4/vyIN
+	ZkjgAia7LyCWiJbc5MPzMJ/VLcjPI4aUmHSNPlxm1DaORpzsNtPY9mL/ICDMABW1kADg==
+X-Received: by 2002:a05:6000:2386:b0:436:14fa:a3f3 with SMTP id ffacd0b85a97d-436293782e5mr12105602f8f.21.1770564014989;
+        Sun, 08 Feb 2026 07:20:14 -0800 (PST)
+Received: from Minicarpet.home (lfbn-orl-1-620-177.w86-196.abo.wanadoo.fr. [86.196.80.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376806626fsm6796273f8f.37.2026.02.08.07.20.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 07:20:14 -0800 (PST)
+From: logan.gallois@gmail.com
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v1] libarchive: add ptest support
-Date: Sun,  8 Feb 2026 19:46:37 +0100
-Message-ID: <20260208184637.14046-1-pratik.farkase@est.tech>
+Subject: [PATCH v2] oe-setup-build: fix TEMPLATECONF not being applied
+Date: Sun,  8 Feb 2026 16:20:13 +0100
+Message-ID: <20260208152013.11582-1-logan.gallois@gmail.com>
 X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0690.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:37b::7) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
+In-Reply-To: <20260208000829.343627-1-logan.gallois@gmail.com>
+References: <20260208000829.343627-1-logan.gallois@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|VI0P189MB3176:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9cb6297-146f-43f8-e319-08de67426cf9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Vjp3IrqMKOWNafeK/uhPglmMVr4zEiSjMCcXw0ElxCfXzVICOKK/62B/1zpR?=
- =?us-ascii?Q?pQe86JKQSAO2PztTcZ1Wg2/608DbxhiAvc55WBgOTw5QMgINVKOIyPiCGdn2?=
- =?us-ascii?Q?SOIhl9tmPJcqNmYDxcp7QIIO6CjXXO+nGqjjZjEq/6HqO1r3/tJgHEoyzhA2?=
- =?us-ascii?Q?kxaQxGV7WW0bS1tuuLUkNOJiEGR9pCM8HKF5gFFwnlAH+maU8DJf6IlQenV/?=
- =?us-ascii?Q?1Cz9gcflPwcsPzWZgHmUBAls4SpUs9GboRQa4vGoiZMzwcf1rktllSANkKZE?=
- =?us-ascii?Q?K+Cf4qTkI0TGM78e3HvI6oNIqynpuS67LT9n7173FVBNtG51StNq6scRwu1Z?=
- =?us-ascii?Q?ttTvRs4TQoVpJQoMEyiyjG4FDcnezshd0I0x2679hYe4f5m8G0DywK6FDiya?=
- =?us-ascii?Q?6qvO8KSEfIA/hbR6mjQ0Uhm+SVHfpaf8NgyAjWRmi6Hpw7Uy/60Tiv9i84f9?=
- =?us-ascii?Q?0+aO1P76hodzcvzVNnSOrZg9/r0kaowt++FxlJh1ejAaorgeZVsW2tUIPLvh?=
- =?us-ascii?Q?fv1cQb6njsegsg6ng9/ABWWWiNmLeB4VVaObjk9GAUfhnFl6c4Lsl5O6+lV5?=
- =?us-ascii?Q?wo3Jh1lk8DfpIJoop9srQ8AU1azbWWIpJrYwbe5HX1YM6rj4xtwKOpmxRVSC?=
- =?us-ascii?Q?HQHqk3mKkSH8CaaQXCUJ/AW9Bw2Fpy5Nric8YJOiQkj4m7Oa7Yu1xGh4pNnW?=
- =?us-ascii?Q?FUYbpXSbEYswoaL8PrK1cJVvMWdkfDme1lJzIqpPxM28cnCJaNBsdOQkZ9/i?=
- =?us-ascii?Q?sK5XCZx9nJUu2nIZ8lXJwrGa7psys8Z3O+/1CzGzxnwDhBilpYUbPCH2jpFN?=
- =?us-ascii?Q?vx1qCe/b5t3+Bn8/9jV1caMsFNhVVsBjg/af/UKQDQ1/22hUdzIdrefhit+I?=
- =?us-ascii?Q?n2ZrQt73GF1d9qhI35W2cUjAsPMKwm0+Nubic/i47xRjRJ2/R1WjS+ziUegU?=
- =?us-ascii?Q?dy1gCgAIlNcfA3UJpuze8KPIIxlSHm4XCj1J1hz7TIKUt0vhyZjhH4YAYUtG?=
- =?us-ascii?Q?HYMVn4WAYm7Yvd+hU4aBC2m9zvbEI7q/c1dxmuJ6JKuZvymbD01OFSVQvz9C?=
- =?us-ascii?Q?uWRGQcAV7wrLG9cRNbZFSC2Ai0z+RoxcUslfVQXZbuyYxTEJOT7+rxrLhXFp?=
- =?us-ascii?Q?oklgQZFw2VaRGx9bIXV40cOnjAiMtoglWuoO91SlA65l9ie7J2saQUSkZLT6?=
- =?us-ascii?Q?1DBu5EQAh7Thm/lSBY0fUZeC/yqb1wLsoX3El34aTgaqftfiWXoM78jHg+Rg?=
- =?us-ascii?Q?YaFm0D0rkjNujFdHEKQkqY6XCpNnyhQxccaXQ+YaHFBwR1414kkCzDbZPtcQ?=
- =?us-ascii?Q?j/oqHmbJ9zXReJjfFgAmsWbXX4VqPi50vUIKE6FXy0Vm/uhtX3fBasrlhqpw?=
- =?us-ascii?Q?HINy+TxSF/quowMU4e3xzN82Wh+tdmdVPsX1rqkUfUDHua2pu+Yc/1W6qCk8?=
- =?us-ascii?Q?6EHemXIDhh/tCJe+KmQVsciV/e+0P1g1azmbR8oxAsNu/YpkYhuDEDfjA2BA?=
- =?us-ascii?Q?TwKJrA+82ecshh4=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?rkdM2C6+47iwgkidQOPJlHULyId3PsbhsBzq671GTMPoXCvTi5EoowxvhkQf?=
- =?us-ascii?Q?nlcFNaZXzAfUIO1WqBOQeO0Sfa1gWOHyThzhpfQI3bvs1IikjFmLpapj88m9?=
- =?us-ascii?Q?KRUyKEgPAmgpWa4xind+/lEdOUBPi0ON2RHnrF4PQIxyoBCNN5nJUIc4+72H?=
- =?us-ascii?Q?p8GveMCWVYR0egxYSBTsOj5ze6ISORZaSqCV7weZ1LfvEO72le/3N2nhXiJP?=
- =?us-ascii?Q?V6HpfLPkDwZuWT+Oz2EvTGo+xopRCGbFGwXSmxCLsRDWqzjGDIWR8tiyiafy?=
- =?us-ascii?Q?Q2awIeNSAulT5d+ITp15wj8yzY/w9es50tMyq0PeJtUHuXz/AxLH7k0yvpdH?=
- =?us-ascii?Q?MLJCH3nN0kEFWwM9zJPI2H58xAqmac/lTF/IppGpqgVWTxXB4FhD2hbEYUNH?=
- =?us-ascii?Q?/4hsmCAFJzkBm8QAf9S9SEpGMTaZkxxA5blyxCybmru3VzRSIlo42Bhns+ZM?=
- =?us-ascii?Q?jFaExlrmHsd6D5O1OjJRxB1w2FZQWUXIDIc3pmSQNaQ0e/X3nr0IkHXKHcIX?=
- =?us-ascii?Q?bXdsNj1RuWCRn/evOVG3XTAiNhXGgBmOF9EuD49QPcQUSez8MNqdwaXQm1BI?=
- =?us-ascii?Q?K03rkVn2VERE+eOwy7MTDl1cqrlWftYlbLtdzCu98T/aSvZfAY5g0zlO01X0?=
- =?us-ascii?Q?ldN8B7Gau6E6yn6+CCoQEc/IRrlAadP9WsMq+swo/uFZl6s6h80ay9b0HHYr?=
- =?us-ascii?Q?Y6B2VYRpLNsyFW4Q4lI1RwTpXVSXQ8e/FyLl/LPLYM7I09ho2mpnoijbsOxq?=
- =?us-ascii?Q?mgYnEIqZeC1UAxKlqcAhM0pFUdMQsEqzI/qAtX+FOzg4rnXpfwqL9vdX6jAI?=
- =?us-ascii?Q?b8g7253Oo+JqOgWQvUz9RdExhnaE2yxwTvy6ZZdZPgK4CLf0Qd/PAUvvl2ae?=
- =?us-ascii?Q?izb27KeBjR8x6VqtB1hJFW3T0tfze6H1H92G0WXKj9huKlA3DMfoedmdFPAv?=
- =?us-ascii?Q?yP1kYkTyCAkUbUpYfhUNdUk3hum3CTA+TBc+0bgZ6d3+jJRRprfH9ZMi6LLE?=
- =?us-ascii?Q?Isy41ghQUMZNhjbYs8dI90vzBF0wixgSKIMQFojuSxfRPYs6a+UMggKb7mWb?=
- =?us-ascii?Q?wTb1R/S83MAElcUKHt0iNPFcXTbq23AEwiGp2D+1pkpUVWeqXS6Xa33gYXz6?=
- =?us-ascii?Q?ckhG5li88kzSAcCzLLiRAW4nvumNnxD7vesrDzzxMw0pbF9v2YY4TJI6q7wy?=
- =?us-ascii?Q?2ZcAvjuGUbyAEwG0PW/7/7PjlLeTIyrwRWfYuY7qWZahZNe80F4OZIC96gO8?=
- =?us-ascii?Q?JRQL758Ey4mUQthN2uI4geN1NWtxPpJkh8o65rw1kvBxQSx0GbOIEaoe5vB5?=
- =?us-ascii?Q?z9DePZi7IDb04IOjJ7eBQ/zxQqefF5WoMWa9KtQqB7+DVZdtyo5SuBwL4+L+?=
- =?us-ascii?Q?BvVuLt3Ljh7vmdi4ZFqiWqx9xuSiiuBYNAYvvMCyJgNC/nSgQ0LUnzo1nd0i?=
- =?us-ascii?Q?H7M2wc119iJtQxaLYC5c+W8UcELjbN7dv3b1o4HU2a1YaJA8pFnlrtP4kWyU?=
- =?us-ascii?Q?NiC1T1XQpUEPq3P9gFfJW2CfJHhG3ERAMzKvgniX8GRrpmVbJmOrtNBoJmJl?=
- =?us-ascii?Q?WYsSDVSC1GI8rDDAaJH3ClKVRmzFpJfFbfir6tiUzSn0NOJ57z96AvOIBFUd?=
- =?us-ascii?Q?ks4wS/6BwRtjGpV6eexciabAdgO6XtnbYVaRotfQAbixIGdA8KTiJoCDBor5?=
- =?us-ascii?Q?3Y00zYd4vBrGKZsRmvUF2mSTzgIHHnsSmBZ2lwihZi/xGgp+dGYzisRbaqyn?=
- =?us-ascii?Q?JTsNCHR5mQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9cb6297-146f-43f8-e319-08de67426cf9
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2026 18:46:52.9691
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jTC5PBUb5V+uTBXKjUAFI3weEciYSHvp81IfE2PftFapPOiUeDg7wFWeUMMhs6bOBGFYA19gXW/gzJV+MlRrUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3176
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 18:47:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230680
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Feb 2026 19:12:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230681
 
-Add ptest support to enable automated testing of libarchive
-using ptest-runner.
+From: Logan Gallois <logan.gallois@hexagon.com>
 
-The implementation builds and installs five test suites:
-libarchive_test, bsdtar_test, bsdcpio_test, bsdcat_test, and
-bsdunzip_test, along with their test data files.
+When using the new bitbake-setup tool, an oe-template created in a
+custom layer was ignored because the TEMPLATECONF variable was not
+exported to the environment.
 
-Test executables for bsdtar, bsdcpio, bsdcat, and bsdunzip are
-provided via symlinks to the installed binaries.
+Export TEMPLATECONF so that bitbake-setup correctly picks up templates
+provided by external layers.
 
-All tests on qemux86-64 pass:
-  libarchive_test: 689 tests
-  bsdtar_test: 76 tests
-  bsdcpio_test: 49 tests
-  bsdcat_test: 18 tests
-  bsdunzip_test: 8 tests
-
-Change-Id: Icad1ad50cfd1933b0286c7c333abad9a91aa30ee
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+Signed-off-by: Logan Gallois <logan.gallois@hexagon.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libarchive/libarchive/run-ptest           | 12 +++++++
- .../libarchive/libarchive_3.8.5.bb            | 34 +++++++++++++++++--
- 3 files changed, 45 insertions(+), 2 deletions(-)
- create mode 100755 meta/recipes-extended/libarchive/libarchive/run-ptest
+ scripts/oe-setup-build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index b9616e9bf4..648b53a5f6 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -28,6 +28,7 @@ PTESTS_FAST =3D "\
-     icu \
-     json-c \
-     json-glib \
-+    libarchive \
-     libcheck \
-     libconvert-asn1-perl \
-     libexif \
-diff --git a/meta/recipes-extended/libarchive/libarchive/run-ptest b/meta/r=
-ecipes-extended/libarchive/libarchive/run-ptest
-new file mode 100755
-index 0000000000..49396b2c80
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/run-ptest
-@@ -0,0 +1,12 @@
-+#!/bin/sh
-+
-+for t in libarchive_test bsdtar_test bsdcpio_test bsdcat_test bsdunzip_tes=
-t; do
-+    if [ -x ./$t ]; then
-+        ./$t
-+        if [ $? -eq 0 ]; then
-+            echo "PASS: $t"
-+        else
-+            echo "FAIL: $t"
-+        fi
-+    fi
-+done
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.5.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.8.5.bb
-index fcfaf5d231..4bd25d6364 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
-@@ -29,12 +29,14 @@ PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,zst=
-d,"
-=20
- EXTRA_OECONF +=3D "--enable-largefile --without-iconv"
-=20
--SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
-+SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-+           file://run-ptest \
-+          "
- UPSTREAM_CHECK_URI =3D "https://www.libarchive.org/"
-=20
- SRC_URI[sha256sum] =3D "8a60f3a7bfd59c54ce82ae805a93dba65defd04148c3333b7e=
-aa2102f03b7ffd"
-=20
--inherit autotools update-alternatives pkgconfig
-+inherit autotools update-alternatives pkgconfig ptest
-=20
- CPPFLAGS +=3D "-I${WORKDIR}/extra-includes"
-=20
-@@ -62,3 +64,31 @@ ALTERNATIVE_LINK_NAME[cpio] =3D "${base_bindir}/cpio"
- ALTERNATIVE_TARGET[cpio] =3D "${bindir}/bsdcpio"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+do_compile_ptest() {
-+    oe_runmake check TESTS=3D
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}
-+
-+    for test in libarchive_test bsdtar_test bsdcpio_test bsdcat_test bsdun=
-zip_test; do
-+        if [ -f ${B}/$test ]; then
-+            ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/$test ${D}$=
-{PTEST_PATH}/$test
-+        fi
-+    done
-+
-+    for dir in libarchive tar cpio cat unzip; do
-+        if [ -d ${S}/$dir/test ]; then
-+            install -d ${D}${PTEST_PATH}/$dir/test
-+            cp -r ${S}/$dir/test/* ${D}${PTEST_PATH}/$dir/test/
-+        fi
-+    done
-+
-+    ln -sf ${bindir}/bsdtar ${D}${PTEST_PATH}/bsdtar
-+    ln -sf ${bindir}/bsdcpio ${D}${PTEST_PATH}/bsdcpio
-+    ln -sf ${bindir}/bsdcat ${D}${PTEST_PATH}/bsdcat
-+    ln -sf ${bindir}/bsdunzip ${D}${PTEST_PATH}/bsdunzip
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "bsdtar bsdcpio"
---=20
+diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
+index b391f3b9254..0a3146fd503 100755
+--- a/scripts/oe-setup-build
++++ b/scripts/oe-setup-build
+@@ -101,7 +101,7 @@ def setup_build_env(args):
+             f.write(cmd_base)
+     print("\nRun '. {}' to initialize the build in a current shell session.\n".format(initbuild))
+ 
+-    cmd = "TEMPLATECONF={} {}".format(template["templatepath"], cmd_base)
++    cmd = "export TEMPLATECONF={}\n{}".format(template["templatepath"], cmd_base)
+     if not no_shell:
+         cmd = cmd + " && {}".format(os.environ.get('SHELL','bash'))
+     print("Running:", cmd)
+-- 
 2.43.0
 
 
