@@ -2,161 +2,208 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1279E78D78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD98E78D74
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:26 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43985.1770629364105654069
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43981.1770629359729862177
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:29:24 -0800
+ Mon, 09 Feb 2026 01:29:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2OdzVDo5;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43638a3330dso1182395f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:23 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=aBsOoI50;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43767807cf3so763226f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770629362; x=1771234162; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kC0f1o6y5qYzMJoQmiV4crFawuF7AW4/wgODRj8Rfv4=;
-        b=2OdzVDo5cSR/PAFOiZA0RAKBC0687g17bUQjF69AL2WeMk4HkylVePIlfapk4tyGcs
-         zWCLXkIrOiuovgPnKm7LsANDdSRQE/ELcQfC6c3APYyYNCrQhhDwQdXiHUvdj8vxgMV2
-         C/fTA2yErnK782cTtT2zKpbJNp1PZMqLNb7t0=
+        d=smile.fr; s=google; t=1770629358; x=1771234158; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+/cpNZIMCGhLvX4uPAjuS/0YAYDdbp4eKMA70pxr7xQ=;
+        b=aBsOoI50PcJhF1eiM/teFe7JEw0ZmbV6oVIl8Qz5+e4l0ogQ3mPInV+kBqeNOIuYd1
+         QyRC+3XgazolfxjoPMOP7xc5weAs/3i08deNRsnhFbTTtRotyEXkn5InEX4/f/t8sXTw
+         k9ngqhdrSbM4BSegz3D83SuPjly5XnxlCC3bE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770629362; x=1771234162;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kC0f1o6y5qYzMJoQmiV4crFawuF7AW4/wgODRj8Rfv4=;
-        b=qfyfn6cQE5uEy1R73U5sewqG+cUjI4ufRkSZytaLQbS8K24e5dNuU/uJ7HKvQ7/Dp5
-         DepAGvoR+kAKX4JID/NzXWmlEx8ev4SkE37/ju+lOC5oT367YONnIFSyyRaY+39pnlq2
-         QxVTWMcULsqvt7gqfkkn8n27PjO2EpA4XI+CVLQLMM+f12PyQzqskSLxozpMS4svi0+g
-         Cuehcu9DoEbQRNRjnRKyrTN6jSdaqloqpzhZhc4clodb3+YdKZCRtZVRJ4F2tAHBMoqN
-         FvMzrHWCQ4tQmKtsRPKU4kJS0vVxNYOtorg/Vox6cfyP4CLZulod6WsRg8ttRefs4O6p
-         7OoA==
-X-Gm-Message-State: AOJu0Yzyefy5AYkM54alkbxb8+odyvjSCjBicqGA9/w8daMCA01aeTXD
-	REY9S1rfIdIH+Et8u1rPEJbLUrrdIVpTKaYLr8CpYNojnROjnKC+zd7ZmGa5cONdnsznRmQDUtI
-	lCVaQMA8=
-X-Gm-Gg: AZuq6aLidqL4bI6MwgG2ahquDxaQVtIMcFmhGPe3hIaTztnz01yheAiwvre/BJSLPhC
-	ytB5lL7AVkK0jTfxj5QM2vvopCyYQRr19GqYyTX5x7HY1Kdlp0Pbv4Qzrn1kQzGKZlo5SmpojUe
-	mCpK0gt29HjeJ6XY5N8nUqDnVhJqdIH+3mSNC/YVlEEtMBpGTqCxyOROWTlu74oMXzXizTbp56h
-	X0xazo2H4A8Hfybq/dOIo3f/n+Gb2qoLO4y3xDquByMvS+JawYp+MvUVfqOcVCZY7eSmMqV2Ge0
-	VQnLIDdAiSBKAZoo6DpYvV/KNdonNTKB7ffpqEGzvTIi2uq2JAuPr5Uu+taOwQiJgSqWRsEK263
-	JfC3iEN5hT02uxqzQh5Lv1Psc0sDeWjQkQx8hXLzA8YWsMFa+nH9sxlzJagRWe/K7G2sk7AJ7v1
-	K1w1a5K1zthGwVrutOyCClO+nAcKl5sHYTVxc1rlNc1z6Q9PvIxQIbCJBkWvyGP1bEAppGFcn3Q
-	YKMCLIZyMc06ZoTkVuQXlEo+g==
-X-Received: by 2002:a05:6000:2411:b0:435:a4a9:6f79 with SMTP id ffacd0b85a97d-4362933bef4mr14301341f8f.8.1770629362181;
-        Mon, 09 Feb 2026 01:29:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770629358; x=1771234158;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+/cpNZIMCGhLvX4uPAjuS/0YAYDdbp4eKMA70pxr7xQ=;
+        b=sul1A3iOI8zpOTb+YeAC3YclKWIrH/af59yX33KwM5AWkSecpDWYS1A2qhwhJeSy7V
+         cjWEKG4/JEeO52Qd0kNJiR772c1CDsgquji4u+gntK+MgaRMdZahW9NBnsLf8VAPTdZx
+         TcraJuv5oopIJO9pHQiKRYLC5TP3Bb8jldhEA1wUTsPid3AX1/YICu6DMsZRo9PQ57m7
+         aMv+TneKLUe6KNj68p7H8gZ+Mm6IP+9lj0FRFgWJvyilUiI2ZE9UXV1bn2hf7zGEb4IB
+         jdjmHL1ykVSDQby0CBGDDXuzNeEmDhYAKzUvCND9jEEaNTEwlw8lbV7595CjE9Qa6i7z
+         4RMQ==
+X-Gm-Message-State: AOJu0YxO1HEha/M9tzzePi7zbhO7Pb/WSdZBRqxhQwxRIuUUA1F9WoF9
+	HuQzAwKbd+Ld5yYsDR5S7TRQjCtZDd+PdFIaTfAohtGKfFUjXLO5RESp1dO5tFH/yE+AwiA8sJ4
+	K4DHlztM=
+X-Gm-Gg: AZuq6aK5qKemM/Ke1IUfhb4aNovSw3BozrxUuBtvLdebd4g3wgTNn/IN0BhhRqC5U/z
+	E8BmNRplJ2AJH46HmWpX9wH2lWxPG7WmSVywQhZB0cG2pXc+DoGZ2LBB26YMU71RxzvA6WoZuHg
+	EwoWgiz2djZJ66O9TjKSxlhEjMXEYxgN5KIG+USDfQhnlG4fbOTZvrD8SqPOFWu324u3z8JeGFN
+	ZkMTN9+nE5apQDqSL3mt78wxwlxXFCed5eNUgrz1FDq+UFEAO09ceXY6HjEIhHgGyp3OTCsF6+g
+	sdoMKMnfxjiITrwrgLGBt4uYUHGd3NwFEAjYNJmzaMOfqoSAmumvycQnGbzypjDzukAQJJKo8t4
+	ZPWOJ59P5TPiQc/LkqSRQeoEM5ZIJA1UlXpMOmOWpm/tE2cDEOkfCzrt6JJ3dQR5FAUjl3YqIT4
+	QfL2lxfcv4ceJFG2rK7tdOeom9M+vuK6FjJtNqGWfzbVOJJhE91tH9wCx85t3IxOXSel5hAvbjo
+	nRQe627laL/7T0=
+X-Received: by 2002:a05:6000:4211:b0:435:92d3:d9b4 with SMTP id ffacd0b85a97d-43629378f8cmr17091369f8f.26.1770629357529;
+        Mon, 09 Feb 2026 01:29:17 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 01:29:21 -0800 (PST)
+        Mon, 09 Feb 2026 01:29:17 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/25] glib-2.0: patch CVE-2026-0988
-Date: Mon,  9 Feb 2026 10:28:48 +0100
-Message-ID: <266cd9b505f0da7655a0270adfea1e1f276dbce7.1770626074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 00/25] Patch review
+Date: Mon,  9 Feb 2026 10:28:43 +0100
+Message-ID: <cover.1770626074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
-References: <cover.1770626074.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230756
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230751
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Wednesday, February 11.
 
-Pick relevant commit from [2] linked from [1].
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3183
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3851
-[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4944
+The following changes since commit d50e4680ed6f930582d907b37c9ed545a89f5c27:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
- 2 files changed, 59 insertions(+)
+  build-appliance-image: Update to scarthgap head revision (2026-01-26 09:50:47 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Adarsh Jagadish Kamini (1):
+  python-urllib3: Backport fix for CVE-2026-21441
+
+Amaury Couderc (1):
+  curl: patch CVE-2025-14524
+
+Ankur Tyagi (2):
+  ffmpeg: upgrade 6.1.3 -> 6.1.4
+  ffmpeg: ignore CVE-2025-25469
+
+Benjamin Robin (Schneider Electric) (1):
+  meta/classes: fix missing vardeps for CVE status variables
+
+Daniel Turull (1):
+  improve_kernel_cve_report: add script for postprocesing of kernel CVE
+    data
+
+Fred Bacon (1):
+  lighttpd: Fix trailing slash on files in mod_dirlisting
+
+Hitendra Prajapati (1):
+  curl: fix CVE-2025-10148
+
+Hugo SIMELIERE (1):
+  libtasn1: Fix CVE-2025-13151
+
+Ken Kurematsu (1):
+  libtheora: set CVE_PRODUCT
+
+Khai Dang (1):
+  docbook-xml-dtd4: fix the fetching failure
+
+Peter Marko (12):
+  expat: patch CVE-2026-24515
+  expat: patch CVE-2026-25210
+  glib-2.0: patch CVE-2026-0988
+  libpng: patch CVE-2026-22695
+  libpng: patch CVE-2026-22801
+  libxml2: patch CVE-2026-0989
+  libxml2: patch CVE-2026-0990
+  libxml2: patch CVE-2026-0992
+  libxml2: add follow-up patch for CVE-2026-0992
+  python3: patch CVE-2025-13837
+  zlib: ignore CVE-2026-22184
+  glibc: stable 2.39 branch updates
+
+Richard Purdie (1):
+  pseudo: Update to 1.9.3 release
+
+Vijay Anusuri (1):
+  inetutils: Fix CVE-2026-24061
+
+ meta/classes/create-spdx-2.2.bbclass          |   1 +
+ meta/classes/create-spdx-3.0.bbclass          |   2 +
+ meta/classes/cve-check.bbclass                |   1 +
+ meta/classes/vex.bbclass                      |   1 +
+ .../inetutils/CVE-2026-24061-1.patch          |  41 ++
+ .../inetutils/CVE-2026-24061-2.patch          |  85 ++++
+ .../inetutils/inetutils_2.5.bb                |   2 +
+ .../expat/expat/CVE-2026-24515-01.patch       |  43 ++
+ .../expat/expat/CVE-2026-24515-02.patch       | 117 +++++
+ .../expat/expat/CVE-2026-25210-01.patch       |  27 +
+ .../expat/expat/CVE-2026-25210-02.patch       |  38 ++
+ .../expat/expat/CVE-2026-25210-03.patch       |  28 ++
+ meta/recipes-core/expat/expat_2.6.4.bb        |   5 +
+ .../glib-2.0/glib-2.0/CVE-2026-0988.patch     |  58 +++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   1 +
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/glibc/glibc_2.39.bb         |   2 +-
+ .../libxml/libxml2/CVE-2026-0989.patch        | 309 ++++++++++++
+ .../libxml/libxml2/CVE-2026-0990.patch        |  76 +++
+ .../libxml/libxml2/CVE-2026-0992-01.patch     |  49 ++
+ .../libxml/libxml2/CVE-2026-0992-02.patch     | 323 ++++++++++++
+ .../libxml/libxml2/CVE-2026-0992-03.patch     |  33 ++
+ meta/recipes-core/libxml/libxml2_2.12.10.bb   |   5 +
+ meta/recipes-core/zlib/zlib_1.3.1.bb          |   1 +
+ .../docbook-xml/docbook-xml-dtd4_4.5.bb       |  10 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
+ .../python3-urllib3/CVE-2026-21441.patch      | 105 ++++
+ .../python/python3-urllib3_2.2.2.bb           |   1 +
+ .../python/python3/CVE-2025-13837.patch       | 162 ++++++
+ .../python/python3_3.12.12.bb                 |   1 +
+ .../lighttpd/0001-mod_dirlisting.patch        |  48 ++
+ .../lighttpd/lighttpd_1.4.74.bb               |   1 +
+ .../ffmpeg/ffmpeg/CVE-2024-35365.patch        |  62 ---
+ .../ffmpeg/ffmpeg/CVE-2024-36618.patch        |  36 --
+ .../ffmpeg/ffmpeg/CVE-2025-1594.patch         | 105 ----
+ .../{ffmpeg_6.1.3.bb => ffmpeg_6.1.4.bb}      |   7 +-
+ .../libpng/files/CVE-2026-22695.patch         |  77 +++
+ .../libpng/files/CVE-2026-22801.patch         | 173 +++++++
+ .../libpng/libpng_1.6.42.bb                   |   2 +
+ .../libtheora/libtheora_1.1.1.bb              |   2 +
+ .../curl/curl/CVE-2025-10148.patch            |  57 +++
+ .../curl/curl/CVE-2025-14524.patch            |  44 ++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   2 +
+ .../gnutls/libtasn1/CVE-2025-13151.patch      |  30 ++
+ .../recipes-support/gnutls/libtasn1_4.20.0.bb |   1 +
+ scripts/contrib/improve_kernel_cve_report.py  | 467 ++++++++++++++++++
+ 46 files changed, 2431 insertions(+), 216 deletions(-)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-1.patch
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-03.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13837.patch
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_dirlisting.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35365.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36618.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.3.bb => ffmpeg_6.1.4.bb} (98%)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-10148.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-14524.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
+ create mode 100755 scripts/contrib/improve_kernel_cve_report.py
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
-new file mode 100644
-index 00000000000..daf86224d5d
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
-@@ -0,0 +1,58 @@
-+From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 18 Dec 2025 23:12:18 +0000
-+Subject: [PATCH] gbufferedinputstream: Fix a potential integer overflow in
-+ peek()
-+
-+If the caller provides `offset` and `count` arguments which overflow,
-+their sum will overflow and could lead to `memcpy()` reading out more
-+memory than expected.
-+
-+Spotted by Codean Labs.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Fixes: #3851
-+
-+CVE: CVE-2026-0988
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c5766cff61ffce0b8e787eae09908ac348338e5f]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ gio/gbufferedinputstream.c        |  2 +-
-+ gio/tests/buffered-input-stream.c | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/gio/gbufferedinputstream.c b/gio/gbufferedinputstream.c
-+index 9e6bacc62..56d656be0 100644
-+--- a/gio/gbufferedinputstream.c
-++++ b/gio/gbufferedinputstream.c
-+@@ -590,7 +590,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
-+ 
-+   available = g_buffered_input_stream_get_available (stream);
-+ 
-+-  if (offset > available)
-++  if (offset > available || offset > G_MAXSIZE - count)
-+     return 0;
-+ 
-+   end = MIN (offset + count, available);
-+diff --git a/gio/tests/buffered-input-stream.c b/gio/tests/buffered-input-stream.c
-+index a1af4eeff..2b2a0d9aa 100644
-+--- a/gio/tests/buffered-input-stream.c
-++++ b/gio/tests/buffered-input-stream.c
-+@@ -60,6 +60,16 @@ test_peek (void)
-+   g_assert_cmpint (npeek, ==, 0);
-+   g_free (buffer);
-+ 
-++  buffer = g_new0 (char, 64);
-++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 8, 0);
-++  g_assert_cmpint (npeek, ==, 0);
-++  g_free (buffer);
-++
-++  buffer = g_new0 (char, 64);
-++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 5, G_MAXSIZE);
-++  g_assert_cmpint (npeek, ==, 0);
-++  g_free (buffer);
-++
-+   g_object_unref (in);
-+   g_object_unref (base);
-+ }
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index c7e18c7bc41..97618d1d40b 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -39,6 +39,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-14087-02.patch \
-            file://CVE-2025-14087-03.patch \
-            file://CVE-2025-14512.patch \
-+           file://CVE-2026-0988.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
 
