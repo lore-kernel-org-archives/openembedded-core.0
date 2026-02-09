@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8691E78D74
-	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:36 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44206.1770629374444558371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15230E7E0A3
+	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:37 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44204.1770629371128998371
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:29:34 -0800
+ Mon, 09 Feb 2026 01:29:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2OO2AnrV;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4806bf39419so32109305e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:34 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=EwT64iKx;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-435f177a8f7so2807561f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770629372; x=1771234172; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770629369; x=1771234169; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m1XlL+e33BYB1zaaSHh1xUBcHYopPJfWBCRJ9+pZksU=;
-        b=2OO2AnrVAWHicPWrlvRY/VUyuKfSxizcfVh6sXcLSw/46dN5wFm6o8V/dgMkdIzFQi
-         xBH0Y4Fz8Ucs/iiU89BQNlFNZ0wqsIJjFD6AGTkAm5DXoddP+JbO0HVrRT3grRJPNQ3U
-         bMdm9VUAO01Wbp6izZ4p4TSOwg68epVKr/69A=
+        bh=y3lovjTVcvH7bRG8Yxoh93/2wj5Ut7q0ZKMA3J5resk=;
+        b=EwT64iKxfz79JOUYTWYVUsLMCVMbtVB8YxCG61xu9vlZ39sdPFzaF0ZsLKsh3SrQRb
+         SAZAC8gX/AM/R2XOmX89c+ufSc6VhfPUlWgO2ZJmj0pAapR6FylRUZhOVpBSZP958OI2
+         lITu1AL+Fh1kWpLmRDOYm00IEJMJghxB5ya+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770629373; x=1771234173;
+        d=1e100.net; s=20230601; t=1770629369; x=1771234169;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=m1XlL+e33BYB1zaaSHh1xUBcHYopPJfWBCRJ9+pZksU=;
-        b=Q4HGVJGE859/VR92hi+qiyllfc2bImZ/DNexr717Xu7phQF8o8plnufNA6OFgWAqfU
-         gPaw35wyZZoSJF701Axn1SGrEw0W7v9765szy9UQxGPkCYfRXY65I51ctzuZPNUSW84K
-         vmVb245JzPVOD21Rf/GSELHVLlSvlvLhLe8/HR5wCYC8zY7mKJaGieM6DRpd6UuhA/pb
-         fpyTc5TB8UrNPvSq8CA7tvf9HaFIHL4UT/j5kHQmltIZV+M9Lt0Urs4PxShKr1wLXPBy
-         neInTUoE0+kvSurfdJn/z7ZgPhwpJvKHCJSLFbJYUsKvAnAr4JXq1pAHltIvZsiFPt3j
-         XT2Q==
-X-Gm-Message-State: AOJu0YwXwCNtthCr98aDwvSlIUEaE6Y4/jf5ygJNoqP5DfwfVfqy9KQB
-	M/9CFvMGFwLW3rMInQy8s9Lqpn1r+qxVdQrh9jWQw4BW632pHRB4kGEL+zkiPK5BFILct+ZleE9
-	nQe9ZAPI=
-X-Gm-Gg: AZuq6aIdwRbxEH2k2GYbN9vuSue7X2FyboZRnpmMHBjj0+Rx5LlEGindjVVngHNO1qm
-	NM9ucknYDruVDkrYMoYHTSC9ZK0dnQId3ujRKhK4disfOq0SC9FwysF7GlHWVuSEG39IT61l+E6
-	IezjCu+9Ghg7ymLbQvulK2RgHIHIjMoEbzE4VnizpVhMrVCFj9k3jhFQaS+TThNoWVzeqlGLao7
-	AqprMU2v0zySsn09mPsy4qsBHU3l4BuHFqvWDk8GBfie7Y986rl4dNj36NyGG9j2OUtVSPqsdvv
-	MFQrsOBru+ZfJpYE8Krm36WL/A6FLRUQzpg76nGU1I9AhKia4TJK590aqwpLuj291FGPDe9Yk2+
-	8b/vshLVUYdB18xl06+k53nwvswruohVj4IJutMyV6m/66MOprQ9Qbaen4WInTnqbB6q2IVUDlj
-	M2YR/gtqxuN5FzABvegYtKAHEA1GIIzFB+br1MrYUTFZhcud5tuyNs2EyXtSVHO4eotlmcEcRaW
-	xB3vbDtaCqXw5w=
-X-Received: by 2002:a05:600c:8505:b0:47e:e2b8:66e6 with SMTP id 5b1f17b1804b1-483203d5affmr154835785e9.14.1770629372400;
-        Mon, 09 Feb 2026 01:29:32 -0800 (PST)
+        bh=y3lovjTVcvH7bRG8Yxoh93/2wj5Ut7q0ZKMA3J5resk=;
+        b=HK7Xwo6XmZ1JzQuMSsGM1LPWwChLR6U0GOz9OJn005+Qp8S0MgBACIXr/06u+nFq/G
+         BoEd6br4erMMBM6h0/P5aGHEw/OWv/Q+laRswByAR+W2uQRlxYy0xBpxwr5RhiXrfJ83
+         68TzxGWVTgvFEvqGzXw4PkN5nqGS24TRCegm+9qK2sAptH7Gl0QYnoY8qyvgqj3jZxu/
+         ePr1e0SZ96iwDsF+ioZYDOQ9m8xWSVluOsVAseYqhQhXOP5x/fZ94ONv7PkJtV8LgDdL
+         RMoK36pmOZdmXaPWvjaTxzz6ufD4Kd5HEiHMD1Zk11f1qYxrNqI1JKrWSwJRLKk/F3of
+         DZiQ==
+X-Gm-Message-State: AOJu0YzagdkapIMHWr1WFxfF01ZwOL0YHCgZuNNhkyFMbPZT1+oklwAC
+	sPEvK1ykF9n6Oo/wwzNgnNbP6EEBc+lI2I038aVXzRersSjGlJK24Akfqec7r0yy1p7P0X/xUN4
+	UmdHKklo=
+X-Gm-Gg: AZuq6aIVuqLF1rR4DhwtSWunhpWQJqF98wyEHdRjW4beWxH3vzY6CjfMwp70Kyrdn/0
+	XotrDTnbzNyBLx8NP2/PwkjJ/wzVnjXp/p0WX8uHe3Af6pO33E97TEkNw7G5Yd4leLdYcdybhCh
+	Y0QPJ6961d5ToKYhiWHcBBn3XGjO1ZFQ47GlwKOJay2PeHIkrrsCj3B9xWcV/JSoWckFUqDcn0+
+	RyDfVdTMB2M/h5zJlIZqxmrKJMIoRxvD7ttD5UFlvk1BnTMmT+hO22XOHsXwlVUYfZXuTjEidek
+	82KCxFnvfIpJNRrhRo4TXPF2sdnqNLSgdMzQBxxlIgJsq86Oi5HazyjuvO2g4S38/OGwisj8TFj
+	05vGDqCGFcWJRA35uWzceLk4u38Qnu3DW2bmR6tr/xHR1hCaSTVNFZ56sGuzzEIUIvbcQ/m+ss3
+	TRS/oAOpeTavWyGirQFwhavJsXguE5uX14ItHjrsHYmfEh9ldBu87UAaxpcw/kgQTaQku6naNU2
+	PaTLvM8bhB/1lU=
+X-Received: by 2002:a5d:52cf:0:b0:436:173c:b8e3 with SMTP id ffacd0b85a97d-436293865d9mr12866056f8f.29.1770629369141;
+        Mon, 09 Feb 2026 01:29:29 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 01:29:31 -0800 (PST)
+        Mon, 09 Feb 2026 01:29:28 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/25] ffmpeg: upgrade 6.1.3 -> 6.1.4
-Date: Mon,  9 Feb 2026 10:29:00 +0100
-Message-ID: <ad383df94f1aec091af8f6c969d54c354f2c5a32.1770626074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 14/25] python3: patch CVE-2025-13837
+Date: Mon,  9 Feb 2026 10:28:57 +0100
+Message-ID: <cf51cc986fc5f4aba34f31d045e54a96b287ed5f.1770626074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
 References: <cover.1770626074.git.yoann.congal@smile.fr>
@@ -65,272 +65,199 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230768
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230765
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Dropped patches that are part of the upstream version.
+Pick patch from 3.12 branch per NVD report.
 
-Changelog:
-https://git.ffmpeg.org/gitweb/ffmpeg.git/blob/34277e12e80031c7f89494ba543684bc1dd0be8f:/Changelog
-
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../ffmpeg/ffmpeg/CVE-2024-35365.patch        |  62 -----------
- .../ffmpeg/ffmpeg/CVE-2024-36618.patch        |  36 ------
- .../ffmpeg/ffmpeg/CVE-2025-1594.patch         | 105 ------------------
- .../{ffmpeg_6.1.3.bb => ffmpeg_6.1.4.bb}      |   5 +-
- 4 files changed, 1 insertion(+), 207 deletions(-)
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35365.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36618.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.3.bb => ffmpeg_6.1.4.bb} (98%)
+ .../python/python3/CVE-2025-13837.patch       | 162 ++++++++++++++++++
+ .../python/python3_3.12.12.bb                 |   1 +
+ 2 files changed, 163 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13837.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35365.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35365.patch
-deleted file mode 100644
-index 2b5646e07ca..00000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35365.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From ced5c5fdb8634d39ca9472a2026b2d2fea16c4e5 Mon Sep 17 00:00:00 2001
--From: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--Date: Mon, 25 Mar 2024 16:54:25 +0100
--Subject: [PATCH] fftools/ffmpeg_mux_init: Fix double-free on error
--
--MATCH_PER_STREAM_OPT iterates over all options of a given
--OptionDef and tests whether they apply to the current stream;
--if so, they are set to ost->apad, otherwise, the code errors
--out. If no error happens, ost->apad is av_strdup'ed in order
--to take ownership of this pointer.
--
--But this means that setting it originally was premature,
--as it leads to double-frees when an error happens lateron.
--This can simply be reproduced with
--ffmpeg -filter_complex anullsrc  -apad bar -apad:n baz -f null -
--This is a regression since 83ace80bfd80fcdba2c65fa1d554923ea931d5bd.
--
--Fix this by using a temporary variable instead of directly
--setting ost->apad. Also only strdup the string if it actually
--is != NULL.
--
--Reviewed-by: Marth64 <marth64@proxyid.net>
--Signed-off-by: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--
--CVE: CVE-2024-35365
--
--Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/ced5c5fdb8634d39ca9472a2026b2d2fea16c4e5]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- fftools/ffmpeg_mux_init.c | 9 +++++++--
-- 1 file changed, 7 insertions(+), 2 deletions(-)
--
--diff --git a/fftools/ffmpeg_mux_init.c b/fftools/ffmpeg_mux_init.c
--index 63a25a3..685c064 100644
----- a/fftools/ffmpeg_mux_init.c
--+++ b/fftools/ffmpeg_mux_init.c
--@@ -845,6 +845,7 @@ static int new_stream_audio(Muxer *mux, const OptionsContext *o,
--         int channels = 0;
--         char *layout = NULL;
--         char *sample_fmt = NULL;
--+        const char *apad = NULL;
--
--         MATCH_PER_STREAM_OPT(audio_channels, i, channels, oc, st);
--         if (channels) {
--@@ -882,8 +883,12 @@ static int new_stream_audio(Muxer *mux, const OptionsContext *o,
--
--         MATCH_PER_STREAM_OPT(audio_sample_rate, i, audio_enc->sample_rate, oc, st);
--
---        MATCH_PER_STREAM_OPT(apad, str, ost->apad, oc, st);
---        ost->apad = av_strdup(ost->apad);
--+        MATCH_PER_STREAM_OPT(apad, str, apad, oc, st);
--+        if (apad) {
--+            ost->apad = av_strdup(apad);
--+            if (!ost->apad)
--+                return AVERROR(ENOMEM);
--+        }
--
-- #if FFMPEG_OPT_MAP_CHANNEL
--         /* check for channel mapping for this audio stream */
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36618.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36618.patch
-deleted file mode 100644
-index 5caca2da7c6..00000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36618.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 7a089ed8e049e3bfcb22de1250b86f2106060857 Mon Sep 17 00:00:00 2001
--From: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--Date: Tue, 12 Mar 2024 23:23:17 +0100
--Subject: [PATCH] avformat/avidec: Fix integer overflow iff ULONG_MAX <
-- INT64_MAX
--
--Affects many FATE-tests, see
--https://fate.ffmpeg.org/report.cgi?time=20240312011016&slot=ppc-linux-gcc-13.2-ubsan-altivec-qemu
--
--Reviewed-by: James Almer <jamrial@gmail.com>
--Signed-off-by: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--
--CVE: CVE-2024-36618
--
--Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/7a089ed8e049e3bfcb22de1250b86f2106060857]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavformat/avidec.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libavformat/avidec.c b/libavformat/avidec.c
--index 00bd7a9..bc95466 100644
----- a/libavformat/avidec.c
--+++ b/libavformat/avidec.c
--@@ -1696,7 +1696,7 @@ static int check_stream_max_drift(AVFormatContext *s)
--     int *idx = av_calloc(s->nb_streams, sizeof(*idx));
--     if (!idx)
--         return AVERROR(ENOMEM);
---    for (min_pos = pos = 0; min_pos != INT64_MAX; pos = min_pos + 1LU) {
--+    for (min_pos = pos = 0; min_pos != INT64_MAX; pos = min_pos + 1ULL) {
--         int64_t max_dts = INT64_MIN / 2;
--         int64_t min_dts = INT64_MAX / 2;
--         int64_t max_buffer = 0;
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
-deleted file mode 100644
-index af71055c02b..00000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
-+++ /dev/null
-@@ -1,105 +0,0 @@
--From bedfb6eca402037f5cbb115fa767d106b8c14f1c Mon Sep 17 00:00:00 2001
--From: Lynne <dev@lynne.ee>
--Date: Sat, 8 Feb 2025 04:35:31 +0100
--Subject: [PATCH] aacenc_tns: clamp filter direction energy measurement
--
--The issue is that:
--
--float en[2];
--...
--tns->n_filt[w] = is8 ? 1 : order != TNS_MAX_ORDER ? 2 : 3;
--for (g = 0; g < tns->n_filt[w]; g++) {
--    tns->direction[w][g] = slant != 2 ? slant : en[g] < en[!g];
--
--When using the AAC Main profile, n_filt = 3, and slant is by
--default 2 (normal long frames), g can go above 1.
--
--en is the evolution of energy in the frequency domain for every
--band at the given window. E.g. whether the energy is concentrated
--at the top of each band, or the bottom.
--
--For 2-pole filters, its straightforward.
--For 3-pole filters, we need more than 2 measurements.
--
--This commit properly implements support for 3-pole filters, by measuring
--the band energy across three areas.
--
--Do note that even xHE-AAC caps n_filt to 2, and only AAC Main allows
--n_filt == 3.
--
--Fixes https://trac.ffmpeg.org/ticket/11418
--
--CVE: CVE-2025-1594
--
--Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/bedfb6eca402037f5cbb115fa767d106b8c14f1c]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavcodec/aacenc_tns.c | 33 ++++++++++++++++++++++++---------
-- 1 file changed, 24 insertions(+), 9 deletions(-)
--
--diff --git a/libavcodec/aacenc_tns.c b/libavcodec/aacenc_tns.c
--index 8dc6dfc..9ea3506 100644
----- a/libavcodec/aacenc_tns.c
--+++ b/libavcodec/aacenc_tns.c
--@@ -172,6 +172,7 @@ void ff_aac_search_for_tns(AACEncContext *s, SingleChannelElement *sce)
--                       sce->ics.window_sequence[0] == LONG_START_SEQUENCE ? 0 : 2;
--     const int sfb_len = sfb_end - sfb_start;
--     const int coef_len = sce->ics.swb_offset[sfb_end] - sce->ics.swb_offset[sfb_start];
--+    const int n_filt = is8 ? 1 : order != TNS_MAX_ORDER ? 2 : 3;
-- 
--     if (coef_len <= 0 || sfb_len <= 0) {
--         sce->tns.present = 0;
--@@ -179,16 +180,30 @@ void ff_aac_search_for_tns(AACEncContext *s, SingleChannelElement *sce)
--     }
-- 
--     for (w = 0; w < sce->ics.num_windows; w++) {
---        float en[2] = {0.0f, 0.0f};
--+	float en[4] = {0.0f, 0.0f, 0.0f, 0.0f};
--         int oc_start = 0, os_start = 0;
--         int coef_start = sce->ics.swb_offset[sfb_start];
-- 
---        for (g = sfb_start; g < sce->ics.num_swb && g <= sfb_end; g++) {
---            FFPsyBand *band = &s->psy.ch[s->cur_channel].psy_bands[w*16+g];
---            if (g > sfb_start + (sfb_len/2))
---                en[1] += band->energy;
---            else
---                en[0] += band->energy;
--+	if (n_filt == 2) {
--+            for (g = sfb_start; g < sce->ics.num_swb && g <= sfb_end; g++) {
--+                FFPsyBand *band = &s->psy.ch[s->cur_channel].psy_bands[w*16+g];
--+                    if (g > sfb_start + (sfb_len/2))
--+                        en[1] += band->energy; /* End */
--+                    else
--+                        en[0] += band->energy; /* Start */
--+            }
--+            en[2] = en[0];
--+        } else {
--+            for (g = sfb_start; g < sce->ics.num_swb && g <= sfb_end; g++) {
--+                FFPsyBand *band = &s->psy.ch[s->cur_channel].psy_bands[w*16+g];
--+                    if (g > sfb_start + (sfb_len/2) + (sfb_len/4))
--+                        en[2] += band->energy; /* End */
--+                    else if (g > sfb_start + (sfb_len/2) - (sfb_len/4))
--+                        en[1] += band->energy; /* Middle */
--+                    else
--+                        en[0] += band->energy; /* Start */
--+            }
--+            en[3] = en[0];
--         }
-- 
--         /* LPC */
--@@ -198,9 +213,9 @@ void ff_aac_search_for_tns(AACEncContext *s, SingleChannelElement *sce)
--         if (!order || !isfinite(gain) || gain < TNS_GAIN_THRESHOLD_LOW || gain > TNS_GAIN_THRESHOLD_HIGH)
--             continue;
-- 
---        tns->n_filt[w] = is8 ? 1 : order != TNS_MAX_ORDER ? 2 : 3;
--+	tns->n_filt[w] = n_filt;
--         for (g = 0; g < tns->n_filt[w]; g++) {
---            tns->direction[w][g] = slant != 2 ? slant : en[g] < en[!g];
--+	    tns->direction[w][g] = slant != 2 ? slant : en[g] < en[g + 1];
--             tns->order[w][g] = g < tns->n_filt[w] ? order/tns->n_filt[w] : order - oc_start;
--             tns->length[w][g] = g < tns->n_filt[w] ? sfb_len/tns->n_filt[w] : sfb_len - os_start;
--             quantize_coefs(&coefs[oc_start], tns->coef_idx[w][g], tns->coef[w][g],
---- 
--2.40.0
--
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-similarity index 98%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-index 38c6d1f2b7d..8b0b7cfd6e9 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-@@ -29,15 +29,12 @@ SRC_URI = " \
-     file://vulkan_fix_gcc14.patch \
-     file://CVE-2024-28661.patch \
-     file://CVE-2023-49528.patch \
--    file://CVE-2024-35365.patch \
--    file://CVE-2024-36618.patch \
-     file://CVE-2024-35369.patch \
-     file://CVE-2025-25473.patch \
-     file://CVE-2025-22921.patch \
--    file://CVE-2025-1594.patch \
- "
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13837.patch b/meta/recipes-devtools/python/python3/CVE-2025-13837.patch
+new file mode 100644
+index 00000000000..0f2e06a4912
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2025-13837.patch
+@@ -0,0 +1,162 @@
++From 5a8b19677d818fb41ee55f310233772e15aa1a2b Mon Sep 17 00:00:00 2001
++From: Serhiy Storchaka <storchaka@gmail.com>
++Date: Mon, 22 Dec 2025 15:49:44 +0200
++Subject: [PATCH] [3.12] gh-119342: Fix a potential denial of service in
++ plistlib (GH-119343) (#142149)
++
++Reading a specially prepared small Plist file could cause OOM because file's
++read(n) preallocates a bytes object for reading the specified amount of
++data. Now plistlib reads large data by chunks, therefore the upper limit of
++consumed memory is proportional to the size of the input file.
++(cherry picked from commit 694922cf40aa3a28f898b5f5ee08b71b4922df70)
++
++CVE: CVE-2025-13837
++Upstream-Status: Backport [https://github.com/python/cpython/commit/5a8b19677d818fb41ee55f310233772e15aa1a2b]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ Lib/plistlib.py                               | 31 ++++++++++------
++ Lib/test/test_plistlib.py                     | 37 +++++++++++++++++--
++ ...-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst |  5 +++
++ 3 files changed, 59 insertions(+), 14 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst
++
++diff --git a/Lib/plistlib.py b/Lib/plistlib.py
++index 3292c30d5f..c5554ea1f7 100644
++--- a/Lib/plistlib.py
+++++ b/Lib/plistlib.py
++@@ -73,6 +73,9 @@ from xml.parsers.expat import ParserCreate
++ PlistFormat = enum.Enum('PlistFormat', 'FMT_XML FMT_BINARY', module=__name__)
++ globals().update(PlistFormat.__members__)
++ 
+++# Data larger than this will be read in chunks, to prevent extreme
+++# overallocation.
+++_MIN_READ_BUF_SIZE = 1 << 20
++ 
++ class UID:
++     def __init__(self, data):
++@@ -499,12 +502,24 @@ class _BinaryPlistParser:
++ 
++         return tokenL
++ 
+++    def _read(self, size):
+++        cursize = min(size, _MIN_READ_BUF_SIZE)
+++        data = self._fp.read(cursize)
+++        while True:
+++            if len(data) != cursize:
+++                raise InvalidFileException
+++            if cursize == size:
+++                return data
+++            delta = min(cursize, size - cursize)
+++            data += self._fp.read(delta)
+++            cursize += delta
+++
++     def _read_ints(self, n, size):
++-        data = self._fp.read(size * n)
+++        data = self._read(size * n)
++         if size in _BINARY_FORMAT:
++             return struct.unpack(f'>{n}{_BINARY_FORMAT[size]}', data)
++         else:
++-            if not size or len(data) != size * n:
+++            if not size:
++                 raise InvalidFileException()
++             return tuple(int.from_bytes(data[i: i + size], 'big')
++                          for i in range(0, size * n, size))
++@@ -561,22 +576,16 @@ class _BinaryPlistParser:
++ 
++         elif tokenH == 0x40:  # data
++             s = self._get_size(tokenL)
++-            result = self._fp.read(s)
++-            if len(result) != s:
++-                raise InvalidFileException()
+++            result = self._read(s)
++ 
++         elif tokenH == 0x50:  # ascii string
++             s = self._get_size(tokenL)
++-            data = self._fp.read(s)
++-            if len(data) != s:
++-                raise InvalidFileException()
+++            data = self._read(s)
++             result = data.decode('ascii')
++ 
++         elif tokenH == 0x60:  # unicode string
++             s = self._get_size(tokenL) * 2
++-            data = self._fp.read(s)
++-            if len(data) != s:
++-                raise InvalidFileException()
+++            data = self._read(s)
++             result = data.decode('utf-16be')
++ 
++         elif tokenH == 0x80:  # UID
++diff --git a/Lib/test/test_plistlib.py b/Lib/test/test_plistlib.py
++index fa46050658..229a5a242e 100644
++--- a/Lib/test/test_plistlib.py
+++++ b/Lib/test/test_plistlib.py
++@@ -841,8 +841,7 @@ class TestPlistlib(unittest.TestCase):
++ 
++ class TestBinaryPlistlib(unittest.TestCase):
++ 
++-    @staticmethod
++-    def decode(*objects, offset_size=1, ref_size=1):
+++    def build(self, *objects, offset_size=1, ref_size=1):
++         data = [b'bplist00']
++         offset = 8
++         offsets = []
++@@ -854,7 +853,11 @@ class TestBinaryPlistlib(unittest.TestCase):
++                            len(objects), 0, offset)
++         data.extend(offsets)
++         data.append(tail)
++-        return plistlib.loads(b''.join(data), fmt=plistlib.FMT_BINARY)
+++        return b''.join(data)
+++
+++    def decode(self, *objects, offset_size=1, ref_size=1):
+++        data = self.build(*objects, offset_size=offset_size, ref_size=ref_size)
+++        return plistlib.loads(data, fmt=plistlib.FMT_BINARY)
++ 
++     def test_nonstandard_refs_size(self):
++         # Issue #21538: Refs and offsets are 24-bit integers
++@@ -963,6 +966,34 @@ class TestBinaryPlistlib(unittest.TestCase):
++                 with self.assertRaises(plistlib.InvalidFileException):
++                     plistlib.loads(b'bplist00' + data, fmt=plistlib.FMT_BINARY)
++ 
+++    def test_truncated_large_data(self):
+++        self.addCleanup(os_helper.unlink, os_helper.TESTFN)
+++        def check(data):
+++            with open(os_helper.TESTFN, 'wb') as f:
+++                f.write(data)
+++            # buffered file
+++            with open(os_helper.TESTFN, 'rb') as f:
+++                with self.assertRaises(plistlib.InvalidFileException):
+++                    plistlib.load(f, fmt=plistlib.FMT_BINARY)
+++            # unbuffered file
+++            with open(os_helper.TESTFN, 'rb', buffering=0) as f:
+++                with self.assertRaises(plistlib.InvalidFileException):
+++                    plistlib.load(f, fmt=plistlib.FMT_BINARY)
+++        for w in range(20, 64):
+++            s = 1 << w
+++            # data
+++            check(self.build(b'\x4f\x13' + s.to_bytes(8, 'big')))
+++            # ascii string
+++            check(self.build(b'\x5f\x13' + s.to_bytes(8, 'big')))
+++            # unicode string
+++            check(self.build(b'\x6f\x13' + s.to_bytes(8, 'big')))
+++            # array
+++            check(self.build(b'\xaf\x13' + s.to_bytes(8, 'big')))
+++            # dict
+++            check(self.build(b'\xdf\x13' + s.to_bytes(8, 'big')))
+++            # number of objects
+++            check(b'bplist00' + struct.pack('>6xBBQQQ', 1, 1, s, 0, 8))
+++
++ 
++ class TestKeyedArchive(unittest.TestCase):
++     def test_keyed_archive_data(self):
++diff --git a/Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst b/Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst
++new file mode 100644
++index 0000000000..04fd8faca4
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2024-05-21-22-11-31.gh-issue-119342.BTFj4Z.rst
++@@ -0,0 +1,5 @@
+++Fix a potential memory denial of service in the :mod:`plistlib` module.
+++When reading a Plist file received from untrusted source, it could cause
+++an arbitrary amount of memory to be allocated.
+++This could have led to symptoms including a :exc:`MemoryError`, swapping, out
+++of memory (OOM) killed processes or containers, or even system crashes.
+diff --git a/meta/recipes-devtools/python/python3_3.12.12.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
+index 280d98424a5..ce2c830655d 100644
+--- a/meta/recipes-devtools/python/python3_3.12.12.bb
++++ b/meta/recipes-devtools/python/python3_3.12.12.bb
+@@ -37,6 +37,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://CVE-2025-6075.patch \
+            file://CVE-2025-12084.patch \
+            file://CVE-2025-13836.patch \
++           file://CVE-2025-13837.patch \
+            "
  
--SRC_URI[sha256sum] = "bc5f1e4a4d283a6492354684ee1124129c52293bcfc6a9169193539fbece3487"
-+SRC_URI[sha256sum] = "a231e3d5742c44b1cdaebfb98ad7b6200d12763e0b6db9e1e2c5891f2c083a18"
- 
- # https://nvd.nist.gov/vuln/detail/CVE-2023-39018
- # https://github.com/bramp/ffmpeg-cli-wrapper/issues/291
+ SRC_URI:append:class-native = " \
 
