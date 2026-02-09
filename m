@@ -1,100 +1,162 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F745E78D74
-	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:04:36 +0000 (UTC)
-Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43647.1770627871043544978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1279E78D78
+	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:26 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43985.1770629364105654069
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:04:35 -0800
+ Mon, 09 Feb 2026 01:29:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=eW8pNNB9;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1770627875; x=1802163875;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Vx6QHGOvGM5xo5i9Zc6K2o6A8it6nvre8cKezQiGOLM=;
-  b=eW8pNNB9MtDlJca8Gq38PpMqA3kzI/ZrDTf0HrI/0ql3t69+H0gg3tHA
-   syzJrVQIfp79LU0Lk9ECXpayzsXZMeqyySClfuP6z1xHyKuIm3eV0+EE2
-   8sc86WqvPHG9/bF++hvIAFHYZuYk0APdgS7fveEcBq1SlX1A+CEblmgIa
-   td20qWd0lc8BoVYTrNYLkPfCP10NdbrWestbkxm0JSiQL6fGIFa1LtdbQ
-   cksaTWbE4lSUuPfi38e2JGgp9OoFD7Zp3Xb68d0IjBPPh9hylPhb+C2Bl
-   Qcomw4uew7UGbndhfOE3dR1jqIs3sSiLUkseTLGpPT/mjAmWSvH6tjfDi
-   w==;
-X-CSE-ConnectionGUID: oYXrDmgATaWDLO4rfPUduA==
-X-CSE-MsgGUID: CJlhnVfvR3KRBTDrAkpeaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="216449943"
-X-IronPort-AV: E=Sophos;i="6.21,281,1763391600"; 
-   d="scan'208";a="216449943"
-Received: from unknown (HELO mail.fujitsu.com) ([51.138.80.169])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 18:04:35 +0900
-Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgr3.fujitsu.com (Postfix) with ESMTPS id C0A6D1000351
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Feb 2026 09:04:34 +0000 (UTC)
-Received: from az2nlsmom3.fujitsu.com (az2nlsmom3.o.css.fujitsu.com [10.150.26.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 6041C8D29D2
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Feb 2026 09:04:34 +0000 (UTC)
-Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.34])
-	by az2nlsmom3.fujitsu.com (Postfix) with ESMTP id BC417101A41A;
-	Mon,  9 Feb 2026 09:04:31 +0000 (UTC)
-From: Wang Mingyu < wangmy@fujitsu.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=2OdzVDo5;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43638a3330dso1182395f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1770629362; x=1771234162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kC0f1o6y5qYzMJoQmiV4crFawuF7AW4/wgODRj8Rfv4=;
+        b=2OdzVDo5cSR/PAFOiZA0RAKBC0687g17bUQjF69AL2WeMk4HkylVePIlfapk4tyGcs
+         zWCLXkIrOiuovgPnKm7LsANDdSRQE/ELcQfC6c3APYyYNCrQhhDwQdXiHUvdj8vxgMV2
+         C/fTA2yErnK782cTtT2zKpbJNp1PZMqLNb7t0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770629362; x=1771234162;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kC0f1o6y5qYzMJoQmiV4crFawuF7AW4/wgODRj8Rfv4=;
+        b=qfyfn6cQE5uEy1R73U5sewqG+cUjI4ufRkSZytaLQbS8K24e5dNuU/uJ7HKvQ7/Dp5
+         DepAGvoR+kAKX4JID/NzXWmlEx8ev4SkE37/ju+lOC5oT367YONnIFSyyRaY+39pnlq2
+         QxVTWMcULsqvt7gqfkkn8n27PjO2EpA4XI+CVLQLMM+f12PyQzqskSLxozpMS4svi0+g
+         Cuehcu9DoEbQRNRjnRKyrTN6jSdaqloqpzhZhc4clodb3+YdKZCRtZVRJ4F2tAHBMoqN
+         FvMzrHWCQ4tQmKtsRPKU4kJS0vVxNYOtorg/Vox6cfyP4CLZulod6WsRg8ttRefs4O6p
+         7OoA==
+X-Gm-Message-State: AOJu0Yzyefy5AYkM54alkbxb8+odyvjSCjBicqGA9/w8daMCA01aeTXD
+	REY9S1rfIdIH+Et8u1rPEJbLUrrdIVpTKaYLr8CpYNojnROjnKC+zd7ZmGa5cONdnsznRmQDUtI
+	lCVaQMA8=
+X-Gm-Gg: AZuq6aLidqL4bI6MwgG2ahquDxaQVtIMcFmhGPe3hIaTztnz01yheAiwvre/BJSLPhC
+	ytB5lL7AVkK0jTfxj5QM2vvopCyYQRr19GqYyTX5x7HY1Kdlp0Pbv4Qzrn1kQzGKZlo5SmpojUe
+	mCpK0gt29HjeJ6XY5N8nUqDnVhJqdIH+3mSNC/YVlEEtMBpGTqCxyOROWTlu74oMXzXizTbp56h
+	X0xazo2H4A8Hfybq/dOIo3f/n+Gb2qoLO4y3xDquByMvS+JawYp+MvUVfqOcVCZY7eSmMqV2Ge0
+	VQnLIDdAiSBKAZoo6DpYvV/KNdonNTKB7ffpqEGzvTIi2uq2JAuPr5Uu+taOwQiJgSqWRsEK263
+	JfC3iEN5hT02uxqzQh5Lv1Psc0sDeWjQkQx8hXLzA8YWsMFa+nH9sxlzJagRWe/K7G2sk7AJ7v1
+	K1w1a5K1zthGwVrutOyCClO+nAcKl5sHYTVxc1rlNc1z6Q9PvIxQIbCJBkWvyGP1bEAppGFcn3Q
+	YKMCLIZyMc06ZoTkVuQXlEo+g==
+X-Received: by 2002:a05:6000:2411:b0:435:a4a9:6f79 with SMTP id ffacd0b85a97d-4362933bef4mr14301341f8f.8.1770629362181;
+        Mon, 09 Feb 2026 01:29:22 -0800 (PST)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Feb 2026 01:29:21 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 39/39] vulkan-volk: upgrade 1.4.335.0 -> 1.4.341.0
-Date: Mon,  9 Feb 2026 17:03:17 +0800
-Message-ID: <20260209090317.1468-39-wangmy@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
-In-Reply-To: <20260209090317.1468-1-wangmy@fujitsu.com>
-References: <20260209090317.1468-1-wangmy@fujitsu.com>
+Subject: [OE-core][scarthgap 05/25] glib-2.0: patch CVE-2026-0988
+Date: Mon,  9 Feb 2026 10:28:48 +0100
+Message-ID: <266cd9b505f0da7655a0270adfea1e1f276dbce7.1770626074.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
+References: <cover.1770626074.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:04:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230750
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230756
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-License-Update: copyright year upted to 2026
+Pick relevant commit from [2] linked from [1].
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3851
+[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4944
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../{vulkan-volk_1.4.335.0.bb => vulkan-volk_1.4.341.0.bb}  | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/vulkan/{vulkan-volk_1.4.335.0.bb => vulkan-volk_1.4.341.0.bb} (86%)
+ .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-volk_1.4.335.0.bb b/meta/recipes-graphics/vulkan/vulkan-volk_1.4.341.0.bb
-similarity index 86%
-rename from meta/recipes-graphics/vulkan/vulkan-volk_1.4.335.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-volk_1.4.341.0.bb
-index b60a29b3d2..144e44969a 100644
---- a/meta/recipes-graphics/vulkan/vulkan-volk_1.4.335.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-volk_1.4.341.0.bb
-@@ -7,10 +7,10 @@ BUGTRACKER = "https://github.com/zeux/volk"
- SECTION = "libs"
- 
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=fb3d6e8051a71edca1e54bc38d35e5af"
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=cfcbdd69e15396e371f639c69acf40bf"
- 
--SRC_URI = "git://github.com/zeux/volk.git;branch=master;protocol=https"
--SRCREV = "4f3bcee79618a9abe79f4c717c50379197c77512"
-+SRC_URI = "git://github.com/zeux/volk.git;branch=master;protocol=https;tag=vulkan-sdk-${PV}"
-+SRCREV = "d979819fd03de3a7606d6e23d6ff4968942599da"
- 
- REQUIRED_DISTRO_FEATURES = "vulkan"
- 
--- 
-2.43.0
-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
+new file mode 100644
+index 00000000000..daf86224d5d
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
+@@ -0,0 +1,58 @@
++From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
++From: Philip Withnall <pwithnall@gnome.org>
++Date: Thu, 18 Dec 2025 23:12:18 +0000
++Subject: [PATCH] gbufferedinputstream: Fix a potential integer overflow in
++ peek()
++
++If the caller provides `offset` and `count` arguments which overflow,
++their sum will overflow and could lead to `memcpy()` reading out more
++memory than expected.
++
++Spotted by Codean Labs.
++
++Signed-off-by: Philip Withnall <pwithnall@gnome.org>
++
++Fixes: #3851
++
++CVE: CVE-2026-0988
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c5766cff61ffce0b8e787eae09908ac348338e5f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ gio/gbufferedinputstream.c        |  2 +-
++ gio/tests/buffered-input-stream.c | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/gio/gbufferedinputstream.c b/gio/gbufferedinputstream.c
++index 9e6bacc62..56d656be0 100644
++--- a/gio/gbufferedinputstream.c
+++++ b/gio/gbufferedinputstream.c
++@@ -590,7 +590,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
++ 
++   available = g_buffered_input_stream_get_available (stream);
++ 
++-  if (offset > available)
+++  if (offset > available || offset > G_MAXSIZE - count)
++     return 0;
++ 
++   end = MIN (offset + count, available);
++diff --git a/gio/tests/buffered-input-stream.c b/gio/tests/buffered-input-stream.c
++index a1af4eeff..2b2a0d9aa 100644
++--- a/gio/tests/buffered-input-stream.c
+++++ b/gio/tests/buffered-input-stream.c
++@@ -60,6 +60,16 @@ test_peek (void)
++   g_assert_cmpint (npeek, ==, 0);
++   g_free (buffer);
++ 
+++  buffer = g_new0 (char, 64);
+++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 8, 0);
+++  g_assert_cmpint (npeek, ==, 0);
+++  g_free (buffer);
+++
+++  buffer = g_new0 (char, 64);
+++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 5, G_MAXSIZE);
+++  g_assert_cmpint (npeek, ==, 0);
+++  g_free (buffer);
+++
++   g_object_unref (in);
++   g_object_unref (base);
++ }
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index c7e18c7bc41..97618d1d40b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -39,6 +39,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-14087-02.patch \
+            file://CVE-2025-14087-03.patch \
+            file://CVE-2025-14512.patch \
++           file://CVE-2026-0988.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
 
