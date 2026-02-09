@@ -1,93 +1,100 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <logan.gallois@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AAA6E94625
-	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 23:16:00 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8089.1770678953828737987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DDCCE94624
+	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 23:30:30 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8354.1770679824885010497
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 15:15:53 -0800
+ Mon, 09 Feb 2026 15:30:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hDzfPg/P;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pPh8x+fg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c44b0a444-60a801b4-857b-455a-921f-faeeb6b62eb3-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1770678953; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=/QfQrW2B1/nLIKg/3JF3Cq5QiXM94VVt3P0aKs+SRGQ=;
-	b=hDzfPg/PM7Bs8S6OZ8SOLQ4OXngD5GQ6ykEdw0VGQXssHC+q85B8AUdeE3aPReOm
-	KVcIA5V92uDifxxh1hyZx6/BdhbK7K6dpfkhK1KWgq+SBZsQwtouQdyOTB0wMpgkKrn
-	ceCS3MgScK5/+FqUXRCcs1xN0cnR5RY5vCVxo2qA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770678953;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=/QfQrW2B1/nLIKg/3JF3Cq5QiXM94VVt3P0aKs+SRGQ=;
-	b=pPh8x+fgxDH/y25sHCPK7nKd1ncGUrNhoBe7Rsuigg5MUq5AgqMbJu377ewmgbK8
-	v7+E8BuGWMEMCCPACb3VyDJ/97VkUQdKrJY5jKiRdXFm+joRT7Ph0EQfjG09Dd6smQw
-	VyfTmY69Hl6xRqdkBNmqarEXrxbUiZoI7FMJhBPc=
-From: patchtest@automation.yoctoproject.org
-To: Logan Gallois <logan.gallois@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-Core][whinlatter][PATCH v2] oe-setup-build: TEMPLATECONF were not
- applied correctly
-In-Reply-To: <20260209230359.2050-1-logan.gallois@gmail.com>
-References: <20260209230359.2050-1-logan.gallois@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019c44b0a444-60a801b4-857b-455a-921f-faeeb6b62eb3-000000@us-west-2.amazonses.com>
-Date: Mon, 9 Feb 2026 23:15:53 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.09-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MEkaV3KN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: logan.gallois@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so2560115e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 15:30:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770679823; x=1771284623; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8C9o8SBZpIzhdGN+vzJOedWfnVZbg5AhiJK5DENOcmc=;
+        b=MEkaV3KNH1frLOVkvnt6v3dClyU0c3Kjcvo3oYZpRNuS6IRYeuThfDFspVYVSbUVQp
+         2zBo3yTLOnxdhk84+KKWwuhAa1kh+3unxX2zVYnNPC8Tdxfthtbya+I/Gkwy3GITeY7B
+         abmcuJM9ZFy4zUV+rWifki7ovwwMUR40bd8+aMZbZ+PspRjyWUIOjq1Iy+ivcz2WNj5g
+         aM9SeSDDs5qDnCijpNAoLC/O/1uHfwuHHZUgeBvFuO/UYf0dgqBuhvUIY79T32UWNDXJ
+         nTIvoHXJ+iwBfUHlcLgn7jyNFAyDcjZSk9vCBl44EkCTkkZroqVeWFoixQT5njjZHVbg
+         j0mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770679823; x=1771284623;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8C9o8SBZpIzhdGN+vzJOedWfnVZbg5AhiJK5DENOcmc=;
+        b=jsyGwbVneFy8CCEetutS8nMQ15FYrA+8VnsUG8EtN8ccYykg2O+EV1LXFQ+ySQhTY0
+         XE2PDUQUwLG1oOHSx5vjnjxAWR0WBz8UzVyvFQlfvs9U0LJXQjBz7rrieRzArKUVt7p9
+         yvrK6q09ZAwYi5IU3t7RFxnmCdkSM/uhNZUKAMPJQCi9Gs55uOV3VYRDj9ChHYFHb1x1
+         O35aBTSjHA28ko7NvpI1osl6+ZHHDgSFSaA44hKCfodgPmTLBONySnmqDAFmEC+1I/0Q
+         gUHbSMf6JMNMrfGc58xdbIRDjOEQLCuhnwKoOrcKDdG9TNgjyHxPVSZ4iLnDXIOvlhto
+         LCaA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWyhRmC+kOrE+P36Ybsxi1RUnb5P9YS92jPs61g0PiF4+nPUkvxonmuQCuSD71rsyJW+YoTfExrA9OzNUmVwzNbg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwYVgWZVAAeEvvt+o0bfGRFumlwMl9jUmcwdxy7GnaORjFVxiYu
+	Uely4Jkv2KdmZ0r1Uud1CcDWm41bcfoDvGdWBBHoi2LutjApRna/FUFy
+X-Gm-Gg: AZuq6aLqhW/HeS2kF/M/QmJ+G4Qn9xv8T1kyPFO/1nyFbcpSUBxPg2IaCDgKcFx8miE
+	AxV5yz0bAkkJhi3bgZBxQXOUTBiJX7bLnckTfsyM1v5SovdL5D7OLkEP2rC+aqglltdCnq80o4Z
+	kwpsQEFiTwK00ysAzVVoKa98tDsiD4LwiFDfszCKYou2DB3bwLTzsIzZ1DVIzAq8bh9E3y+jrOn
+	Taag9Ej8jnHds0RM/6kS2MmZfACFLF0tP7d645/Gy6Xb4K2nud6zFVIWcu2ot6RajAsbRcRUEg2
+	1dcAyZaHbh29D+x+L0kDoT9fCLn5SyzBOOipcALg11al5x7XAyeoXXFk5kKEsza56ktLTPzV4Gm
+	FxeBu82/Ue2MvgemlPsxkhTKkc81WPZtJH0fG+e+ZnU0cGgLIgqInJ8bEH4FmsKefWJzwP3izy7
+	ZqEPi6NIyLOsuAVu8zO4NptNON+EiGIPfDSqv7lD5bzSfCKFleeF4oiEzX4ll8H9e3yY/ZgIFPd
+	pLbLw==
+X-Received: by 2002:a05:600c:548d:b0:480:7162:fa48 with SMTP id 5b1f17b1804b1-483201ecd90mr205139305e9.13.1770679823176;
+        Mon, 09 Feb 2026 15:30:23 -0800 (PST)
+Received: from Minicarpet.home (lfbn-orl-1-620-177.w86-196.abo.wanadoo.fr. [86.196.80.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436297450b4sm30890320f8f.34.2026.02.09.15.30.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Feb 2026 15:30:21 -0800 (PST)
+From: Logan Gallois <logan.gallois@gmail.com>
+To: logan.gallois@gmail.com
+Cc: alex.kanavin@gmail.com,
+	openembedded-core@lists.openembedded.org,
+	Logan Gallois <logan.gallois@hexagon.com>
+Subject: [PATCH v5] oe-setup-build: TEMPLATECONF were not applied correctly
+Date: Tue, 10 Feb 2026 00:30:19 +0100
+Message-ID: <20260209233019.1981-1-logan.gallois@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260209224444.17275-1-logan.gallois@gmail.com>
+References: <20260209224444.17275-1-logan.gallois@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 23:16:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230824
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 23:30:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230826
 
---NextPart
-Content-Type: text/plain
+When using the new bitbake-setup tool, an oe-template created in a
+custom layer was ignored because the TEMPLATECONF variable was not passed to the source file.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Logan Gallois <logan.gallois@hexagon.com>
 ---
-Testing patch /home/patchtest/share/mboxes/whinlatter-v2-oe-setup-build-TEMPLATECONF-were-not-applied-correctly.patch
+ scripts/oe-setup-build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
+index b391f3b9254..ab543506451 100755
+--- a/scripts/oe-setup-build
++++ b/scripts/oe-setup-build
+@@ -101,7 +101,7 @@ def setup_build_env(args):
+             f.write(cmd_base)
+     print("\nRun '. {}' to initialize the build in a current shell session.\n".format(initbuild))
+ 
+-    cmd = "TEMPLATECONF={} {}".format(template["templatepath"], cmd_base)
++    cmd = "TEMPLATECONF={}\n{}".format(template["templatepath"], cmd_base)
+     if not no_shell:
+         cmd = cmd + " && {}".format(os.environ.get('SHELL','bash'))
+     print("Running:", cmd)
+-- 
+2.43.0
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
