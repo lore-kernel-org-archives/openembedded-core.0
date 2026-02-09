@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC24E7E0AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9BAE7E0AD
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:37 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43988.1770629368678517717
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44205.1770629372285157870
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:29:29 -0800
+ Mon, 09 Feb 2026 01:29:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=zQCeiEWl;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-436356740e6so1740701f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:28 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=P9RXIigB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4806e0f6b69so31682795e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770629367; x=1771234167; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770629370; x=1771234170; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BoUKEbQSi25NZuadOIQjFDduL9MOA4I7UNqk9RxYquo=;
-        b=zQCeiEWl7zr1AKZApceFI5ff8Lia7QpXGtZfEl/HcBWFwZH8idSsFTgKtjmJ32RCw1
-         aePnEPwx7GFADE6gHu9V0Su5pYtyd99uNAlojx1Q0q5VGm0qM5srfjzn2mWVQx0I0u5D
-         d5FBeOd9F+3xC7BcgyCQ5mpmYx10hKtLOMX70=
+        bh=/5HRrLlPXRT9uVnFrlc7CErbMFLqWAyUpSxaEJByP3E=;
+        b=P9RXIigBgcoWukJgCxzxS85YwUlG9iHvhy/zfOss+641G7IUaXGmRkjqvAyY83xbCG
+         YpondSMxUcgiKn2/p/H3rCq9aS1fvuxhpC0Y7LoQxRbI+MFE4487I5S0ZbbRquPmjAx/
+         Q2A7JgPVZ9NGWLqXArEO7WbUIdUS6niCo+aSE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770629367; x=1771234167;
+        d=1e100.net; s=20230601; t=1770629370; x=1771234170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=BoUKEbQSi25NZuadOIQjFDduL9MOA4I7UNqk9RxYquo=;
-        b=UAoyd+yK23jj2iYxoSHbbxGXIBqRMbH0AaR88RQnzf9yWJf+acooLDDW83itD2AHtO
-         dR0XRX6IKbPaV6DeL3WEPhu/ol1afneOgTYHS0ZI0aQ3xV3g9s5RBNcpj/k/fYNaZUg4
-         pekT7PVHJygrLPDv8a4aIhNJ2Nn6zTwrh59dnFy3p7761cCeIlWdHr5NZEjPunV6EVFB
-         CTgCBomQiG/uAM29Bh0k1MK/zGYqXR9Vpy3G1V6MkD54yAPPYMls0Rv4tJKrCGHY4Xuv
-         LjRKE5fKHuIHtVe/SyJ9arqvrlHgM8pCqzckn5iq+o+o3U+51wUuPW4HecirnJBZ7tNo
-         cVUQ==
-X-Gm-Message-State: AOJu0YwIJyCSvrVRqWZFFDqZL7XR/w5xQovhiW2J8O90MQtz8x/lkCyS
-	i6Oqw1oLwcdo6BOdYH9dNjAlwbOYfvxImC1+C+D4YLEVl1vYXrEmV5PT56UXR2VQmEPQC/cmmiX
-	WRqoKUNc=
-X-Gm-Gg: AZuq6aL6l4uaz+e7w0zIy0ETQMcemouXDFIzbhFXh5kyWY+FQ2DMnEEzJ+EvWFNjhSB
-	Aszy3NuOFKmkSO3bHn/teBjIj2sC6f10eRit/tFZmf48Hr/n3D+6g+e0zmFUPcDkwidIhNfPS4Y
-	ZVkFeoN/CFWglKmNumKnJu5GUyzdO+JQIVYMRO9tNwOIDMPASvpAH8vzoRQS7v3FrvBScVjoMbS
-	5jcZDWtYMeOFxXwWP9G6bN7ig7EfHB8CjO4jQ0kwoYjbxenRJUBfC/ukl7boGE+E7FBZcbUK6ET
-	13kXIpBeQ3F7Qu7sZkO5RhU4Af5TqvGFE/48AxTNxha2jYnhBlyncaGhMc+qE3ezA11Rt3bobPR
-	Jv2sEG96K3S5MOsXjUTaLieJOUPoKhegDQ22nePPCUqJz+xoBYkj4T4qXRRbBS9vqebCvQ0I+Aj
-	jRS1/Lwz1wxiHocWMOLMfIvywyDIyzZjNdDElW+qqBjRoPpvxcHoheFej8nY0jDtqI1ulnkjzo2
-	nYR5NdrBtx/VAM=
-X-Received: by 2002:a05:6000:2885:b0:437:67c0:78f2 with SMTP id ffacd0b85a97d-43767c07be7mr5527903f8f.2.1770629366722;
-        Mon, 09 Feb 2026 01:29:26 -0800 (PST)
+        bh=/5HRrLlPXRT9uVnFrlc7CErbMFLqWAyUpSxaEJByP3E=;
+        b=bbiHjdkQ2bF1gztFs6HZqNyc2bQvl/qodNMnnNTH73g6ySJW46RjJDN8U1w0oiWFzc
+         DjTVysxZdu7Djtr86+Nd4MZiE9jRVY77VYeMnShqIhlG52T4AuQUlrqv/JbWhiJQuS+v
+         0CfT17mN2JkCwPq5r7ju2xru8nE3vOxiebjT0hwcuHEipfNvL4qmg3axAjImm3rbI4JJ
+         xlxZUKeDiQL4omcC2K+E8wpQ0AajMhbiSvG7cyr7pFhuEgtmgCQHaC/0G3O52vIHTvg6
+         jmj2CvRn9GXEx0Al+TWrhEgM8Rah/hD+Kod8Xf5apgp8wrTpTMJhI+uyUyA2Ax0PB+LI
+         P66Q==
+X-Gm-Message-State: AOJu0YxXCnQT47FYZ4rNw1gd06CajJ0v6riLprgUvnHU3NHFhobrQDnu
+	XhjCdL4q8aObIT29QkJG2KJWh1f2m9in/DkOjbDPEn19LMMYVmYFE+cDMZqrO+YpIZegLbF7AhI
+	djFf1qgE=
+X-Gm-Gg: AZuq6aK6kDd149fUKtbIouD8KgfsxQ+YHRgONiNjF+Y7atGv6q8FR46zjDW22R+7Wdu
+	cWchcz6uaqz685HwqZ3EPqQAhEBqYPFQFkNUqBLImnIsAB27jz78+L+TDAPyo6nBym+dQw5UEA/
+	S/b5EFbTWeNGxvdAGMhrfSsXR2LgkV7btjqlXJCV8lSm8T6+ILWnihr/Cp3S1ntE0HXQ8VNULAi
+	HspVRjUylIjP7laIGHixsjZ5WBQ1CH+BwPZMWD6DuefvhfgnayYV9xLtFejojeKiwb15K27813m
+	HfUlDDkhx4cCUpu/jDl5HvRXQ6PgIHEzY3pyA9Hm3URd3VxYOtU8KE6N9lYDAROeZMXFKB/yGxz
+	rajWBdcuuxy8jHdoB2lYb4WqNjNY4+Qb1TMI0kExB4oErJIveM9VyAC5w7DOq3pL4ytMhlE9ueH
+	bsOTu7pbos8szqXIyULBpxOayZMMNbdo+KA3JjYG9Kdx8It1ewbkzb++qg4hCU6MuC1ewDQlB3z
+	q3dZkIuJZ30ehg=
+X-Received: by 2002:a05:600c:c16d:b0:477:9dc1:b706 with SMTP id 5b1f17b1804b1-483202146dfmr139479735e9.19.1770629370318;
+        Mon, 09 Feb 2026 01:29:30 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 01:29:26 -0800 (PST)
+        Mon, 09 Feb 2026 01:29:29 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/25] libxml2: patch CVE-2026-0989
-Date: Mon,  9 Feb 2026 10:28:53 +0100
-Message-ID: <e27e0a68793338ea9987ee5752134e1ee372b937.1770626074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 15/25] python-urllib3: Backport fix for CVE-2026-21441
+Date: Mon,  9 Feb 2026 10:28:58 +0100
+Message-ID: <bd84db43d5f203725690a724c532678083631c2b.1770626074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
 References: <cover.1770626074.git.yoann.congal@smile.fr>
@@ -66,348 +66,140 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230761
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230766
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Pick patch from [1] linked from [2].
-
-[1] https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/374
-[2] https://gitlab.gnome.org/GNOME/libxml2/-/issues/998
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Include the patch linked in the NVD report : https://nvd.nist.gov/vuln/detail/CVE-2026-21441
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libxml/libxml2/CVE-2026-0989.patch        | 309 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.12.10.bb   |   1 +
- 2 files changed, 310 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
+ .../python3-urllib3/CVE-2026-21441.patch      | 105 ++++++++++++++++++
+ .../python/python3-urllib3_2.2.2.bb           |   1 +
+ 2 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
 new file mode 100644
-index 00000000000..66ff1219ded
+index 00000000000..16af67af312
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
-@@ -0,0 +1,309 @@
-+From 19549c61590c1873468c53e0026a2fbffae428ef Mon Sep 17 00:00:00 2001
-+From: Daniel Garcia Moreno <daniel.garcia@suse.com>
-+Date: Fri, 10 Oct 2025 09:38:31 +0200
-+Subject: [PATCH] Add RelaxNG include limit
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-21441.patch
+@@ -0,0 +1,105 @@
++From 686d2bdd4affd3c86e605f54a72afe53c920f72f Mon Sep 17 00:00:00 2001
++From: Illia Volochii <illia.volochii@gmail.com>
++Date: Wed, 7 Jan 2026 18:07:30 +0200
++Subject: [PATCH] Backport fix CVE-2026-21441 python urllib3
 +
-+This patch adds a default xmlRelaxNGIncludeLimit of 1.000, and that
-+limit can be modified at runtime with the env variable
-+RNG_INCLUDE_LIMIT.
++Original commit: 8864ac407bba8607950025e0979c4c69bc7abc7b
++Original-author: Illia Volochii <illia.volochii@gmail.com>
 +
-+Fix https://gitlab.gnome.org/GNOME/libxml2/-/issues/998
++Bugfixes
++--------
 +
-+CVE: CVE-2026-0989
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/19549c61590c1873468c53e0026a2fbffae428ef]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++- Fixed a high-severity security issue where decompression-bomb safeguards of
++  the streaming API were bypassed when HTTP redirects were followed.
++  (`GHSA-38jv-5279-wg99 <https://github.com/urllib3/urllib3/security/advisories/GHSA-38jv-5279-wg99>`__)
++
++* Stop decoding response content during redirects needlessly
++
++* Rename the new query parameter
++
++* Add a changelog entry
++
++Fixes CVE-2026-21441
++CVE: CVE-2026-21441
++
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/8864ac407bba8607950025e0979c4c69bc7abc7b]
++
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 +---
-+ include/libxml/relaxng.h                 |  4 ++
-+ relaxng.c                                | 63 ++++++++++++++++++++--
-+ runtest.c                                | 67 ++++++++++++++++++++++++
-+ test/relaxng/include/include-limit.rng   |  4 ++
-+ test/relaxng/include/include-limit_1.rng |  4 ++
-+ test/relaxng/include/include-limit_2.rng |  4 ++
-+ test/relaxng/include/include-limit_3.rng |  8 +++
-+ 7 files changed, 150 insertions(+), 4 deletions(-)
-+ create mode 100644 test/relaxng/include/include-limit.rng
-+ create mode 100644 test/relaxng/include/include-limit_1.rng
-+ create mode 100644 test/relaxng/include/include-limit_2.rng
-+ create mode 100644 test/relaxng/include/include-limit_3.rng
++ dummyserver/app.py                           |  8 +++++++-
++ src/urllib3/response.py                      |  6 +++++-
++ test/with_dummyserver/test_connectionpool.py | 19 +++++++++++++++++++
++ 3 files changed, 31 insertions(+), 2 deletions(-)
 +
-+diff --git a/include/libxml/relaxng.h b/include/libxml/relaxng.h
-+index eafc6604..099dacd8 100644
-+--- a/include/libxml/relaxng.h
-++++ b/include/libxml/relaxng.h
-+@@ -138,6 +138,10 @@ XMLPUBFUN int
-+ 		    xmlRelaxParserSetFlag	(xmlRelaxNGParserCtxtPtr ctxt,
-+ 						 int flag);
++diff --git a/dummyserver/app.py b/dummyserver/app.py
++index 9fc9d1b7..c4978152 100644
++--- a/dummyserver/app.py
+++++ b/dummyserver/app.py
++@@ -233,10 +233,16 @@ async def redirect() -> ResponseReturnValue:
++     values = await request.values
++     target = values.get("target", "/")
++     status = values.get("status", "303 See Other")
+++    compressed = values.get("compressed") == "true"
++     status_code = status.split(" ")[0]
 + 
-++XMLPUBFUN int
-++		    xmlRelaxParserSetIncLImit	(xmlRelaxNGParserCtxt *ctxt,
-++						 int limit);
-++
-+ XMLPUBFUN void
-+ 		    xmlRelaxNGFreeParserCtxt	(xmlRelaxNGParserCtxtPtr ctxt);
-+ XMLPUBFUN void
-+diff --git a/relaxng.c b/relaxng.c
-+index 1d74ba9f..c0e94a3c 100644
-+--- a/relaxng.c
-++++ b/relaxng.c
-+@@ -18,6 +18,8 @@
++     headers = [("Location", target)]
++-    return await make_response("", status_code, headers)
+++    if compressed:
+++        headers.append(("Content-Encoding", "gzip"))
+++        data = gzip.compress(b"foo")
+++    else:
+++        data = b""
+++    return await make_response(data, status_code, headers)
 + 
-+ #ifdef LIBXML_SCHEMAS_ENABLED
 + 
-++#include <errno.h>
-++#include <stdlib.h>
-+ #include <string.h>
-+ #include <stdio.h>
-+ #include <stddef.h>
-+@@ -44,6 +46,12 @@
-+ static const xmlChar *xmlRelaxNGNs = (const xmlChar *)
-+     "http://relaxng.org/ns/structure/1.0";
++ @hypercorn_app.route("/redirect_after")
++diff --git a/src/urllib3/response.py b/src/urllib3/response.py
++index a0273d65..909da62b 100644
++--- a/src/urllib3/response.py
+++++ b/src/urllib3/response.py
++@@ -646,7 +646,11 @@ class HTTPResponse(BaseHTTPResponse):
++         Unread data in the HTTPResponse connection blocks the connection from being released back to the pool.
++         """
++         try:
++-            self.read()
+++            self.read(
+++                # Do not spend resources decoding the content unless
+++                # decoding has already been initiated.
+++                decode_content=self._has_decoded_content,
+++            )
++         except (HTTPError, OSError, BaseSSLError, HTTPException):
++             pass
 + 
-++/*
-++ * Default include limit, this can be override with RNG_INCLUDE_LIMIT
-++ * env variable
-++ */
-++static const int _xmlRelaxNGIncludeLimit = 1000;
-++
-+ #define IS_RELAXNG(node, typ)						\
-+    ((node != NULL) && (node->ns != NULL) &&				\
-+     (node->type == XML_ELEMENT_NODE) &&					\
-+@@ -225,6 +233,7 @@ struct _xmlRelaxNGParserCtxt {
-+     int incNr;                  /* Depth of the include parsing stack */
-+     int incMax;                 /* Max depth of the parsing stack */
-+     xmlRelaxNGIncludePtr *incTab;       /* array of incs */
-++    int incLimit;               /* Include limit, to avoid stack-overflow on parse */
++diff --git a/test/with_dummyserver/test_connectionpool.py b/test/with_dummyserver/test_connectionpool.py
++index 4fbe6a4f..ebcdf9bf 100644
++--- a/test/with_dummyserver/test_connectionpool.py
+++++ b/test/with_dummyserver/test_connectionpool.py
++@@ -480,6 +480,25 @@ class TestConnectionPool(HypercornDummyServerTestCase):
++             assert r.status == 200
++             assert r.data == b"Dummy server!"
 + 
-+     int idref;                  /* requires idref checking */
-+ 
-+@@ -1410,6 +1419,23 @@ xmlRelaxParserSetFlag(xmlRelaxNGParserCtxtPtr ctxt, int flags)
-+     return(0);
-+ }
-+ 
-++/**
-++ * Semi private function used to set the include recursion limit to a
-++ * parser context. Set to 0 to use the default value.
-++ *
-++ * @param ctxt  a RelaxNG parser context
-++ * @param limit the new include depth limit
-++ * @returns 0 if success and -1 in case of error
-++ */
-++int
-++xmlRelaxParserSetIncLImit(xmlRelaxNGParserCtxt *ctxt, int limit)
-++{
-++    if (ctxt == NULL) return(-1);
-++    if (limit < 0) return(-1);
-++    ctxt->incLimit = limit;
-++    return(0);
-++}
+++    @mock.patch("urllib3.response.GzipDecoder.decompress")
+++    def test_no_decoding_with_redirect_when_preload_disabled(
+++        self, gzip_decompress: mock.MagicMock
+++    ) -> None:
+++        """
+++        Test that urllib3 does not attempt to decode a gzipped redirect
+++        response when `preload_content` is set to `False`.
+++        """
+++        with HTTPConnectionPool(self.host, self.port) as pool:
+++            # Three requests are expected: two redirects and one final / 200 OK.
+++            response = pool.request(
+++                "GET",
+++                "/redirect",
+++                fields={"target": "/redirect?compressed=true", "compressed": "true"},
+++                preload_content=False,
+++            )
+++        assert response.status == 200
+++        gzip_decompress.assert_not_called()
 ++
-+ /************************************************************************
-+  *									*
-+  *			Document functions				*
-+@@ -1425,7 +1451,7 @@ static xmlDocPtr xmlRelaxNGCleanupDoc(xmlRelaxNGParserCtxtPtr ctxt,
-+  *
-+  * Pushes a new include on top of the include stack
-+  *
-+- * Returns 0 in case of error, the index in the stack otherwise
-++ * Returns -1 in case of error, the index in the stack otherwise
-+  */
-+ static int
-+ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr ctxt,
-+@@ -1439,9 +1465,15 @@ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr ctxt,
-+                                                sizeof(ctxt->incTab[0]));
-+         if (ctxt->incTab == NULL) {
-+             xmlRngPErrMemory(ctxt, "allocating include\n");
-+-            return (0);
-++            return (-1);
-+         }
-+     }
-++    if (ctxt->incNr >= ctxt->incLimit) {
-++        xmlRngPErr(ctxt, (xmlNodePtr)value->doc, XML_RNGP_PARSE_ERROR,
-++                   "xmlRelaxNG: inclusion recursion limit reached\n", NULL, NULL);
-++        return(-1);
-++    }
-++
-+     if (ctxt->incNr >= ctxt->incMax) {
-+         ctxt->incMax *= 2;
-+         ctxt->incTab =
-+@@ -1450,7 +1482,7 @@ xmlRelaxNGIncludePush(xmlRelaxNGParserCtxtPtr ctxt,
-+                                                 sizeof(ctxt->incTab[0]));
-+         if (ctxt->incTab == NULL) {
-+             xmlRngPErrMemory(ctxt, "allocating include\n");
-+-            return (0);
-++            return (-1);
-+         }
-+     }
-+     ctxt->incTab[ctxt->incNr] = value;
-+@@ -1620,7 +1652,9 @@ xmlRelaxNGLoadInclude(xmlRelaxNGParserCtxtPtr ctxt, const xmlChar * URL,
-+     /*
-+      * push it on the stack
-+      */
-+-    xmlRelaxNGIncludePush(ctxt, ret);
-++    if (xmlRelaxNGIncludePush(ctxt, ret) < 0) {
-++        return (NULL);
-++    }
-+ 
-+     /*
-+      * Some preprocessing of the document content, this include recursing
-+@@ -7357,11 +7391,32 @@ xmlRelaxNGParse(xmlRelaxNGParserCtxtPtr ctxt)
-+     xmlDocPtr doc;
-+     xmlNodePtr root;
-+ 
-++    const char *include_limit_env = getenv("RNG_INCLUDE_LIMIT");
-++
-+     xmlRelaxNGInitTypes();
-+ 
-+     if (ctxt == NULL)
-+         return (NULL);
-+ 
-++    if (ctxt->incLimit == 0) {
-++        ctxt->incLimit = _xmlRelaxNGIncludeLimit;
-++        if (include_limit_env != NULL) {
-++            char *strEnd;
-++            unsigned long val = 0;
-++            errno = 0;
-++            val = strtoul(include_limit_env, &strEnd, 10);
-++            if (errno != 0 || *strEnd != 0 || val > INT_MAX) {
-++                xmlRngPErr(ctxt, NULL, XML_RNGP_PARSE_ERROR,
-++                           "xmlRelaxNGParse: invalid RNG_INCLUDE_LIMIT %s\n",
-++                           (const xmlChar*)include_limit_env,
-++                           NULL);
-++                return(NULL);
-++            }
-++            if (val)
-++                ctxt->incLimit = val;
-++        }
-++    }
-++
-+     /*
-+      * First step is to parse the input document into an DOM/Infoset
-+      */
-+diff --git a/runtest.c b/runtest.c
-+index 49519aef..45109f0a 100644
-+--- a/runtest.c
-++++ b/runtest.c
-+@@ -3781,6 +3781,70 @@ rngTest(const char *filename,
-+     return(ret);
-+ }
-+ 
-++/**
-++ * Parse an RNG schemas with a custom RNG_INCLUDE_LIMIT
-++ *
-++ * @param filename  the schemas file
-++ * @param result  the file with expected result
-++ * @param err  the file with error messages
-++ * @returns 0 in case of success, an error code otherwise
-++ */
-++static int
-++rngIncludeTest(const char *filename,
-++               const char *resul ATTRIBUTE_UNUSED,
-++               const char *errr ATTRIBUTE_UNUSED,
-++               int options ATTRIBUTE_UNUSED) {
-++    xmlRelaxNGParserCtxtPtr ctxt;
-++    xmlRelaxNGPtr schemas;
-++    int ret = 0;
-++
-++    /* first compile the schemas if possible */
-++    ctxt = xmlRelaxNGNewParserCtxt(filename);
-++    xmlRelaxNGSetParserStructuredErrors(ctxt, testStructuredErrorHandler,
-++                                        NULL);
-++
-++    /* Should work */
-++    schemas = xmlRelaxNGParse(ctxt);
-++    if (schemas == NULL) {
-++        testErrorHandler(NULL, "Relax-NG schema %s failed to compile\n",
-++                         filename);
-++        ret = -1;
-++        goto done;
-++    }
-++    xmlRelaxNGFree(schemas);
-++    xmlRelaxNGFreeParserCtxt(ctxt);
-++
-++    ctxt = xmlRelaxNGNewParserCtxt(filename);
-++    /* Should fail */
-++    xmlRelaxParserSetIncLImit(ctxt, 2);
-++    xmlRelaxNGSetParserStructuredErrors(ctxt, testStructuredErrorHandler,
-++                                        NULL);
-++    schemas = xmlRelaxNGParse(ctxt);
-++    if (schemas != NULL) {
-++        ret = -1;
-++        xmlRelaxNGFree(schemas);
-++    }
-++    xmlRelaxNGFreeParserCtxt(ctxt);
-++
-++    ctxt = xmlRelaxNGNewParserCtxt(filename);
-++    /* Should work */
-++    xmlRelaxParserSetIncLImit(ctxt, 3);
-++    xmlRelaxNGSetParserStructuredErrors(ctxt, testStructuredErrorHandler,
-++                                        NULL);
-++    schemas = xmlRelaxNGParse(ctxt);
-++    if (schemas == NULL) {
-++        testErrorHandler(NULL, "Relax-NG schema %s failed to compile\n",
-++                         filename);
-++        ret = -1;
-++        goto done;
-++    }
-++    xmlRelaxNGFree(schemas);
-++
-++done:
-++    xmlRelaxNGFreeParserCtxt(ctxt);
-++    return(ret);
-++}
-++
-+ #ifdef LIBXML_READER_ENABLED
-+ /**
-+  * rngStreamTest:
-+@@ -5112,6 +5176,9 @@ testDesc testDescriptions[] = {
-+     { "Relax-NG regression tests" ,
-+       rngTest, "./test/relaxng/*.rng", NULL, NULL, NULL,
-+       XML_PARSE_DTDATTR | XML_PARSE_NOENT },
-++    { "Relax-NG include limit tests" ,
-++      rngIncludeTest, "./test/relaxng/include/include-limit.rng", NULL, NULL, NULL,
-++      0 },
-+ #ifdef LIBXML_READER_ENABLED
-+     { "Relax-NG streaming regression tests" ,
-+       rngStreamTest, "./test/relaxng/*.rng", NULL, NULL, NULL,
-+diff --git a/test/relaxng/include/include-limit.rng b/test/relaxng/include/include-limit.rng
-+new file mode 100644
-+index 00000000..51f03942
-+--- /dev/null
-++++ b/test/relaxng/include/include-limit.rng
-+@@ -0,0 +1,4 @@
-++<?xml version="1.0" encoding="UTF-8"?>
-++<grammar xmlns="http://relaxng.org/ns/structure/1.0">
-++    <include href="include-limit_1.rng"/>
-++</grammar>
-+diff --git a/test/relaxng/include/include-limit_1.rng b/test/relaxng/include/include-limit_1.rng
-+new file mode 100644
-+index 00000000..4672da38
-+--- /dev/null
-++++ b/test/relaxng/include/include-limit_1.rng
-+@@ -0,0 +1,4 @@
-++<?xml version="1.0" encoding="UTF-8"?>
-++<grammar xmlns="http://relaxng.org/ns/structure/1.0">
-++    <include href="include-limit_2.rng"/>
-++</grammar>
-+diff --git a/test/relaxng/include/include-limit_2.rng b/test/relaxng/include/include-limit_2.rng
-+new file mode 100644
-+index 00000000..b35ecaa8
-+--- /dev/null
-++++ b/test/relaxng/include/include-limit_2.rng
-+@@ -0,0 +1,4 @@
-++<?xml version="1.0" encoding="UTF-8"?>
-++<grammar xmlns="http://relaxng.org/ns/structure/1.0">
-++    <include href="include-limit_3.rng"/>
-++</grammar>
-+diff --git a/test/relaxng/include/include-limit_3.rng b/test/relaxng/include/include-limit_3.rng
-+new file mode 100644
-+index 00000000..86213c62
-+--- /dev/null
-++++ b/test/relaxng/include/include-limit_3.rng
-+@@ -0,0 +1,8 @@
-++<?xml version="1.0" encoding="UTF-8"?>
-++<grammar xmlns="http://relaxng.org/ns/structure/1.0">
-++    <start>
-++        <element name="root">
-++            <empty/>
-++        </element>
-++    </start>
-++</grammar>
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-index 101be545c0d..396be51d994 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-@@ -25,6 +25,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://CVE-2025-49795.patch \
-            file://CVE-2025-6170.patch \
-            file://CVE-2025-7425.patch \
-+           file://CVE-2026-0989.patch \
-            "
++     def test_303_redirect_makes_request_lose_body(self) -> None:
++         with HTTPConnectionPool(self.host, self.port) as pool:
++             response = pool.request(
++-- 
++2.44.0
++
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+index 620927322a0..f6ac8f89cad 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+@@ -11,6 +11,7 @@ SRC_URI += " \
+     file://CVE-2025-50181.patch \
+     file://CVE-2025-66418.patch \
+     file://CVE-2025-66471.patch \
++    file://CVE-2026-21441.patch \
+ "
  
- SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
+ RDEPENDS:${PN} += "\
 
