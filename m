@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBAAFEE6B75
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2204E78D79
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:26 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44197.1770629366242271168
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43986.1770629365198095165
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:29:26 -0800
+ Mon, 09 Feb 2026 01:29:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=vxL81/O5;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4376c0bffc1so680420f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:26 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=LeAkmyx+;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47ee937ecf2so39441635e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770629364; x=1771234164; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770629363; x=1771234163; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UXbSrxVnwzgplsnL6FetcT1CSp/zsFFTgxF/GuwkoiE=;
-        b=vxL81/O5B/xMiaGiApCMWXC+kg0eMJS45vkGAneoMnIeMuCr0t1l2pf8LRl/sJN3RD
-         ZpiCPPhy2PGsBSToCOowfLCvaGmQemj1qkqolF434Zdqz053HUCasUPK2ulNSrthS3V7
-         geod0SaLCP5UvqIOD8q/kCZc4Rhgo5Xc8bMMk=
+        bh=UmrbNyQAAABIUZ6LQSf2oSmPyzUW0VF22dAs105bKIk=;
+        b=LeAkmyx+TY6tkfdhg1dgyDH03T3NHkwwyfU3F5hgCg5lY3/tmuAn7/FSXXCsN0mcv7
+         JqPil1V6Fv/sMugX0ikOr6bX2Ei9vQx9x5g2lqHJJoJajL7rgRfTOlrQCoEf4SmLWLld
+         zhcYJoWkZG2gktYlJsPq9CmLyqnyvHHIYhMIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770629364; x=1771234164;
+        d=1e100.net; s=20230601; t=1770629363; x=1771234163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=UXbSrxVnwzgplsnL6FetcT1CSp/zsFFTgxF/GuwkoiE=;
-        b=JXrC8QzAq2jCFBvE7B5VVWwKBQ43Rj/mgUbfCzZzQjZ+qPuDkWvLyBkrwgFUmgMnLg
-         93pifiF3O+F+DFJkgCdKQZDsSk41ysV5KCflznhzQxAPXLHc08arj+/M6gYax3MncyZZ
-         kwBE6G5rSInh5mnhF+YAfSa1QlH1bNrF8ofhYo41v683/+x7JCr+DlFWM9IuqVx6vyTS
-         csI7y0Nu2z+7shDTRH+UDEQLbC5UmEj3NEsjMjuD3yPlVO1hx7EAa5PHjdTUlJSEgjX7
-         5QWtNxzUeSV/4abjUpqsY8DgkrXmaJR9R4JFHFupJQlUf2+bR+MNr0nBKW5I0VVNQEGh
-         4Z0A==
-X-Gm-Message-State: AOJu0YyVLl35cJtIcKAwzU9Zrm6CEiY+ZPQXB07vfqQZGm7USkEoUekD
-	BpqfjITOcWF+0mgcH4Y6cFA9lJ7eAXrJaCWjCH36Lskc34vMmtuCuIj4RcjRLbBM4D/Dy5K0VOZ
-	OT73xUAI=
-X-Gm-Gg: AZuq6aJv2eXvrg2Q3lDLkraMsIMp9oZ+UjEy3mCjLP395phRnAM58s2bzjcXhdDHQIw
-	+XlHeZAJqQOIAv4GicuAQt+VxwU5q1IpAeVwLqXXqtvLCj31qxCN2tyiCtW2ElUFPCuFwGMemvv
-	rYbwwCxYnS0U1aULKg/lGMCMVFrV5uQr0WdGHY8PasFoNa6pgo5/XZjkBsiJpUGmB3a6cIgfRiD
-	4mz67vWt0mAEWB8VVfx0ABgNPmobupozWMtjiDo6+JFrsj4yIDtJGVVCDbgaoMFSQHeqaD4OOsn
-	QCdOVmxvG9xPBFNuIvCAVYs7YNSocjfQJY1yhTuBc5kKPQL+LPgO6RPrM0GNKA+wtvxbGqupDAF
-	Hxl8PodkhR4vt6XqVsyR0vHeqBmRyVm55z258+e+f9J3dhWUsknkfZPQ7CnhjK3BooPuVVBCxKZ
-	OUkd0e+bebzD+jr7dfBEoBWVbb+v+BFPDgjbbpJpsFxhmYUTGGALk8MEL0gNSb12cXDv3xrE143
-	VQsH5yopQxtGk4=
-X-Received: by 2002:a05:6000:1889:b0:430:f790:99d7 with SMTP id ffacd0b85a97d-4362965faffmr17079757f8f.27.1770629364327;
-        Mon, 09 Feb 2026 01:29:24 -0800 (PST)
+        bh=UmrbNyQAAABIUZ6LQSf2oSmPyzUW0VF22dAs105bKIk=;
+        b=rTDAdfYGAdesJvSZjOJ1TGIHe5NuibZLwFKLoVZ7y3lYQp9NP0R2GrIeO2w/ub+LlH
+         sXh4eFogGveO1IldhtPUlVMsqJs9apyumWGrCgzEsaz1gpfKNTK/R4iAaO6gOiFQGB2/
+         pa20MhjAq76Nt4rM6Ii2xIxkiD62J7nZzVtDPVj3QtGblI6ZI4iaWz5Q7WA9VBQgcsZi
+         ZsAenHzEPz5fcQbsgy4s64NkIQYQauY9imB3m9T6ht+xszxHJr4zul7dhDATtnOobB3u
+         yeTDR1acJJHkMpiW3n4Zinx8Bq6UJPVR/J8qxhdp6Qbi38n6+LpVkVTAkxjFbaHIz8d5
+         zrpw==
+X-Gm-Message-State: AOJu0Yzet+hPOFCa6dMCA/uwWgjF2X/JSethF3ckqt13kvnQEq5ErOZi
+	noxGgcBxKfWUpbqob48YaqdPBeq0SPjppUbjH09oeLBOgbVxs6YeMs7KWBDT6UMFn/x0uhY4Ic4
+	yWY3ybNA=
+X-Gm-Gg: AZuq6aLgn6APCJiBRA/04ABHb9oEee3VQIhMROPYGWspJE86E7RXqXmY/Ea/UyV8PIN
+	SZTIwfFDqtxCdvRIcsc+o9BbEIuObWZEpuV6zPnj/NP4f/a0LxyA8FmVh4SEXGj9j6diJ7mu59+
+	eda1XU2Mej73HGwYx2RQMG8Oe5+GiEADlfX7XBNl9YsULAK7kIiNNgNP55cCJx2Vp9zHfIZpdK/
+	/1PNm9I5wSqOi1Nf/deouFS8RLY3+qHsjFhNZGpkbbx9UQV1yx/idgQ3uTRHx7Ef4/7dfsN28tm
+	74jSZ9YQnV3UYfqtygKHTIQXVPUM0k1E15C+h4+SCPKANeILGokrBoBj4zO5pHoz9p4C1oUHVtw
+	HYLCrc241xxc2H9c0daMJ0APHPTK29R81qqGv/q2uuw4+wyURpTW0ufZyy9UbaT9ck5aJlSY7t7
+	W+Sv7AHfWV24/p9dySa1vmtlvzGOfP4pR01sK7DCNkD8Cehrbx6nglulzZvR0rzZkqu4J/R83B6
+	NIz+ELVia0na1M=
+X-Received: by 2002:a7b:ce17:0:b0:480:63c1:3ac7 with SMTP id 5b1f17b1804b1-483178e3012mr144760605e9.2.1770629363207;
+        Mon, 09 Feb 2026 01:29:23 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 01:29:23 -0800 (PST)
+        Mon, 09 Feb 2026 01:29:22 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/25] libpng: patch CVE-2026-22695
-Date: Mon,  9 Feb 2026 10:28:50 +0100
-Message-ID: <72567b765dd4818da56d470ae718d714ee0485dd.1770626074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 06/25] inetutils: Fix CVE-2026-24061
+Date: Mon,  9 Feb 2026 10:28:49 +0100
+Message-ID: <66c0a08c1e1df861aadf673c4148a138ed7b00ce.1770626074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
 References: <cover.1770626074.git.yoann.congal@smile.fr>
@@ -66,116 +66,175 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230758
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230757
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick commit per [1].
-This CVE is regression of fix for CVE-2025-65018.
+Upstream-Status: Backport from
+https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=ccba9f748aa8d50a38d7748e2e60362edd6a32cc
+& https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=fd702c02497b2f398e739e3119bed0b23dd7aa7b
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-22695
+Ref: https://lists.gnu.org/archive/html/bug-inetutils/2026-01/msg00004.html
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpng/files/CVE-2026-22695.patch         | 77 +++++++++++++++++++
- .../libpng/libpng_1.6.42.bb                   |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+ .../inetutils/CVE-2026-24061-1.patch          | 41 +++++++++
+ .../inetutils/CVE-2026-24061-2.patch          | 85 +++++++++++++++++++
+ .../inetutils/inetutils_2.5.bb                |  2 +
+ 3 files changed, 128 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-1.patch
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-2.patch
 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-1.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-1.patch
 new file mode 100644
-index 00000000000..6456b6c4917
+index 00000000000..f19cb5d18b8
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-@@ -0,0 +1,77 @@
-+From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 2001
-+From: Cosmin Truta <ctruta@gmail.com>
-+Date: Fri, 9 Jan 2026 20:51:53 +0200
-+Subject: [PATCH] Fix a heap buffer over-read in `png_image_read_direct_scaled`
++++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-1.patch
+@@ -0,0 +1,41 @@
++From fd702c02497b2f398e739e3119bed0b23dd7aa7b Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Tue, 20 Jan 2026 01:10:36 -0800
++Subject: Fix injection bug with bogus user names
 +
-+Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea.
++Problem reported by Kyu Neushwaistein.
++* telnetd/utility.c (_var_short_name):
++Ignore user names that start with '-' or contain shell metacharacters.
 +
-+The function `png_image_read_direct_scaled`, introduced by the fix for
-+CVE-2025-65018, copies transformed row data from an intermediate buffer
-+(`local_row`) to the user's output buffer. The copy incorrectly used
-+`row_bytes` (the caller's stride) as the size parameter to memcpy, even
-+though `local_row` is only `png_get_rowbytes()` bytes long.
++Signed-off-by: Simon Josefsson <simon@josefsson.org>
 +
-+This causes a heap buffer over-read when:
-+
-+1. The caller provides a padded stride (e.g., for memory alignment):
-+   memcpy reads past the end of `local_row` by `stride - row_width`
-+   bytes.
-+
-+2. The caller provides a negative stride (for bottom-up layouts):
-+   casting ptrdiff_t to size_t produces ~2^64, causing memcpy to
-+   attempt reading exabytes, resulting in an immediate crash.
-+
-+The fix consists in using the size of the row buffer for the copy and
-+using the stride for pointer advancement only.
-+
-+Reported-by: Petr Simecek <simecek@users.noreply.github.com>
-+Analyzed-by: Stanislav Fort
-+Analyzed-by: Pavel Kohout
-+Co-authored-by: Petr Simecek <simecek@users.noreply.github.com>
-+Signed-off-by: Cosmin Truta <ctruta@gmail.com>
-+
-+CVE: CVE-2026-22695
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b7691925d9786]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=fd702c02497b2f398e739e3119bed0b23dd7aa7b]
++CVE: CVE-2026-24061
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ AUTHORS   | 1 +
-+ pngread.c | 4 +++-
-+ 2 files changed, 4 insertions(+), 1 deletion(-)
++ telnetd/utility.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
 +
-+diff --git a/AUTHORS b/AUTHORS
-+index 26b7bb50f..b9c0fffcf 100644
-+--- a/AUTHORS
-++++ b/AUTHORS
-+@@ -23,6 +23,7 @@ Authors, for copyright and licensing purposes.
-+  * Mike Klein
-+  * Pascal Massimino
-+  * Paul Schmidt
-++ * Petr Simecek
-+  * Philippe Antoine
-+  * Qiang Zhou
-+  * Sam Bushell
-+diff --git a/pngread.c b/pngread.c
-+index e3426292b..9d86b01dc 100644
-+--- a/pngread.c
-++++ b/pngread.c
-+@@ -3270,9 +3270,11 @@ png_image_read_direct_scaled(png_voidp argument)
-+        argument);
-+    png_imagep image = display->image;
-+    png_structrp png_ptr = image->opaque->png_ptr;
-++   png_inforp info_ptr = image->opaque->info_ptr;
-+    png_bytep local_row = png_voidcast(png_bytep, display->local_row);
-+    png_bytep first_row = png_voidcast(png_bytep, display->first_row);
-+    ptrdiff_t row_bytes = display->row_bytes;
-++   size_t copy_bytes = png_get_rowbytes(png_ptr, info_ptr);
-+    int passes;
++diff --git a/telnetd/utility.c b/telnetd/utility.c
++index b486226e..c02cd0e6 100644
++--- a/telnetd/utility.c
+++++ b/telnetd/utility.c
++@@ -1733,7 +1733,14 @@ _var_short_name (struct line_expander *exp)
++       return user_name ? xstrdup (user_name) : NULL;
 + 
-+    /* Handle interlacing. */
-+@@ -3302,7 +3304,7 @@ png_image_read_direct_scaled(png_voidp argument)
-+          png_read_row(png_ptr, local_row, NULL);
++     case 'U':
++-      return getenv ("USER") ? xstrdup (getenv ("USER")) : xstrdup ("");
+++      {
+++	/* Ignore user names starting with '-' or containing shell
+++	   metachars, as they can cause trouble.  */
+++	char const *u = getenv ("USER");
+++	return xstrdup ((u && *u != '-'
+++			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+++			? u : "");
+++      }
 + 
-+          /* Copy from local_row to user buffer. */
-+-         memcpy(output_row, local_row, (size_t)row_bytes);
-++         memcpy(output_row, local_row, copy_bytes);
-+          output_row += row_bytes;
-+       }
-+    }
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-index 6dc7ffe2722..fe99e5df092 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
-            file://CVE-2025-65018-02.patch \
-            file://CVE-2025-66293-01.patch \
-            file://CVE-2025-66293-02.patch \
-+           file://CVE-2026-22695.patch \
- "
++     default:
++       exp->state = EXP_STATE_ERROR;
++-- 
++cgit v1.2.3
++
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-2.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-2.patch
+new file mode 100644
+index 00000000000..2a572941904
+--- /dev/null
++++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-2.patch
+@@ -0,0 +1,85 @@
++From ccba9f748aa8d50a38d7748e2e60362edd6a32cc Mon Sep 17 00:00:00 2001
++From: Simon Josefsson <simon@josefsson.org>
++Date: Tue, 20 Jan 2026 14:02:39 +0100
++Subject: telnetd: Sanitize all variable expansions
++
++* telnetd/utility.c (sanitize): New function.
++(_var_short_name): Use it for all variables.
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=ccba9f748aa8d50a38d7748e2e60362edd6a32cc]
++CVE: CVE-2026-24061
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ telnetd/utility.c | 32 ++++++++++++++++++--------------
++ 1 file changed, 18 insertions(+), 14 deletions(-)
++
++diff --git a/telnetd/utility.c b/telnetd/utility.c
++index c02cd0e6..b21ad961 100644
++--- a/telnetd/utility.c
+++++ b/telnetd/utility.c
++@@ -1684,6 +1684,17 @@ static void _expand_cond (struct line_expander *exp);
++ static void _skip_block (struct line_expander *exp);
++ static void _expand_block (struct line_expander *exp);
++ 
+++static char *
+++sanitize (const char *u)
+++{
+++  /* Ignore values starting with '-' or containing shell metachars, as
+++     they can cause trouble.  */
+++  if (u && *u != '-' && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+++    return u;
+++  else
+++    return "";
+++}
+++
++ /* Expand a variable referenced by its short one-symbol name.
++    Input: exp->cp points to the variable name.
++    FIXME: not implemented */
++@@ -1710,13 +1721,13 @@ _var_short_name (struct line_expander *exp)
++       return xstrdup (timebuf);
++ 
++     case 'h':
++-      return xstrdup (remote_hostname);
+++      return xstrdup (sanitize (remote_hostname));
++ 
++     case 'l':
++-      return xstrdup (local_hostname);
+++      return xstrdup (sanitize (local_hostname));
++ 
++     case 'L':
++-      return xstrdup (line);
+++      return xstrdup (sanitize (line));
++ 
++     case 't':
++       q = strchr (line + 1, '/');
++@@ -1724,23 +1735,16 @@ _var_short_name (struct line_expander *exp)
++ 	q++;
++       else
++ 	q = line;
++-      return xstrdup (q);
+++      return xstrdup (sanitize (q));
++ 
++     case 'T':
++-      return terminaltype ? xstrdup (terminaltype) : NULL;
+++      return terminaltype ? xstrdup (sanitize (terminaltype)) : NULL;
++ 
++     case 'u':
++-      return user_name ? xstrdup (user_name) : NULL;
+++      return user_name ? xstrdup (sanitize (user_name)) : NULL;
++ 
++     case 'U':
++-      {
++-	/* Ignore user names starting with '-' or containing shell
++-	   metachars, as they can cause trouble.  */
++-	char const *u = getenv ("USER");
++-	return xstrdup ((u && *u != '-'
++-			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
++-			? u : "");
++-      }
+++      return xstrdup (sanitize (getenv ("USER")));
++ 
++     default:
++       exp->state = EXP_STATE_ERROR;
++-- 
++cgit v1.2.3
++
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb b/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
+index 0f1a0736bd4..486878022f0 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_2.5.bb
+@@ -18,6 +18,8 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
+            file://rsh.xinetd.inetutils \
+            file://telnet.xinetd.inetutils \
+            file://tftpd.xinetd.inetutils \
++           file://CVE-2026-24061-1.patch \
++           file://CVE-2026-24061-2.patch \
+            "
  
- SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
+ inherit autotools gettext update-alternatives texinfo
 
