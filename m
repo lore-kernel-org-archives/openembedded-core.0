@@ -2,48 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B96E94624
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AAA6E94625
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 23:16:00 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8088.1770678952779128459
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8089.1770678953828737987
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 15:15:52 -0800
+ Mon, 09 Feb 2026 15:15:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=awAn0lNk;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ggEQKvLY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019c44b09fec-82478d28-5b45-4037-a308-9292d2e06cc1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hDzfPg/P;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pPh8x+fg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c44b0a444-60a801b4-857b-455a-921f-faeeb6b62eb3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1770678952; i=@automation.yoctoproject.org;
+	t=1770678953; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=o0AsrCGVlHZhaMi6hlrUjlabALnqEmFlzIx4pMBggwQ=;
-	b=awAn0lNkhhQlK5/W5uKchLOM8WqPAEDNKr6I/Mx+nZSJRjDwDjbWVM0KKAAnwGrJ
-	So0mo6XFeuFR/LPdNvKS0t9TCmIiA8+0DIUuEcvRf8/46oJmViqP0KbKTFVOMYpsrhG
-	OEFWFUlSCT9tQ0MWT0TWh5F1SxmwNfTyq+dmI3Jc=
+	bh=/QfQrW2B1/nLIKg/3JF3Cq5QiXM94VVt3P0aKs+SRGQ=;
+	b=hDzfPg/PM7Bs8S6OZ8SOLQ4OXngD5GQ6ykEdw0VGQXssHC+q85B8AUdeE3aPReOm
+	KVcIA5V92uDifxxh1hyZx6/BdhbK7K6dpfkhK1KWgq+SBZsQwtouQdyOTB0wMpgkKrn
+	ceCS3MgScK5/+FqUXRCcs1xN0cnR5RY5vCVxo2qA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770678952;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1770678953;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=o0AsrCGVlHZhaMi6hlrUjlabALnqEmFlzIx4pMBggwQ=;
-	b=ggEQKvLY1uUkxZ9OdESihiZDGFc/r5TOCZZAdMXKdaduflAoDsx2wcg8gduWRRmc
-	uO9zQsOxqDbhxdOq5d3ProjGjIskh0j04dIZbHQgN12+uAsKIR8drNZFMFlDyDAEceJ
-	J6uIEriU4+jdTt0RVyyN1HU/NuqzVSyvdUV1Ky9s=
+	bh=/QfQrW2B1/nLIKg/3JF3Cq5QiXM94VVt3P0aKs+SRGQ=;
+	b=pPh8x+fgxDH/y25sHCPK7nKd1ncGUrNhoBe7Rsuigg5MUq5AgqMbJu377ewmgbK8
+	v7+E8BuGWMEMCCPACb3VyDJ/97VkUQdKrJY5jKiRdXFm+joRT7Ph0EQfjG09Dd6smQw
+	VyfTmY69Hl6xRqdkBNmqarEXrxbUiZoI7FMJhBPc=
 From: patchtest@automation.yoctoproject.org
 To: Logan Gallois <logan.gallois@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v4] oe-setup-build: TEMPLATECONF were not applied correctly
-In-Reply-To: <20260209230856.3790-1-logan.gallois@gmail.com>
-References: <20260209230856.3790-1-logan.gallois@gmail.com>
+Subject: Patchtest results for [OE-Core][whinlatter][PATCH v2] oe-setup-build: TEMPLATECONF were not
+ applied correctly
+In-Reply-To: <20260209230359.2050-1-logan.gallois@gmail.com>
+References: <20260209230359.2050-1-logan.gallois@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019c44b09fec-82478d28-5b45-4037-a308-9292d2e06cc1-000000@us-west-2.amazonses.com>
-Date: Mon, 9 Feb 2026 23:15:51 +0000
+Message-ID: <0101019c44b0a444-60a801b4-857b-455a-921f-faeeb6b62eb3-000000@us-west-2.amazonses.com>
+Date: Mon, 9 Feb 2026 23:15:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.09-54.240.27.33
+X-SES-Outgoing: 2026.02.09-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 23:15:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230823
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 23:16:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230824
 
 --NextPart
 Content-Type: text/plain
@@ -53,11 +54,11 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/v4-oe-setup-build-TEMPLATECONF-were-not-applied-correctly.patch
+Testing patch /home/patchtest/share/mboxes/whinlatter-v2-oe-setup-build-TEMPLATECONF-were-not-applied-correctly.patch
 
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
