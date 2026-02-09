@@ -1,255 +1,185 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D70E7E0C4
-	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 10:45:47 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.45097.1770633936956622065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00514E7E0C5
+	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 10:50:07 +0000 (UTC)
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45144.1770634201964687273
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 02:45:37 -0800
+ Mon, 09 Feb 2026 02:50:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=A1qjvU9N;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43621bf67ceso1691498f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 02:45:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770633935; x=1771238735; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XxkheqsbUzgYPD0IPAbnkIWST8S8ijyhByxUxkJ9UvI=;
-        b=A1qjvU9NfBWtx8EHSn3k8TTtXflDYKfwGzRYIY3BT8TJD/PlEwSz4XsbdOKUsQHzpK
-         ZmQ9ZJKH+Qtwzy3GrZnTl5otb7xXEq7Qd64RpFMmu5CXB5LutzrsbRGzVKoItxROu8XH
-         2ADkJriMRvlmLq9AUnPHfgBUvq8TKUsE+IG80=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770633935; x=1771238735;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XxkheqsbUzgYPD0IPAbnkIWST8S8ijyhByxUxkJ9UvI=;
-        b=N092nc7VE8CoDLUe3KVOkEA9gXqYfYrBNjKxgxZgiwQBxThcE/ABXmZ9wYrTQiiIgU
-         lsT5fuv5h2TRcWpjakS32VmWF3bUdWCVugIzoRqwUc1pgZj3lP1yz6TqxCoDjCjT02jV
-         sEydU+dEhGMLWHPS3tc50RLB0MZJYROE3UKw8nrhbKGJYuVmtuQTp/q8ku3aF6regCVA
-         feJTfeSI01CLEAlIv/u1t9/1Eo1TPO4Rnl+PlCdhceWO5qK9NAGU9YBAay1zBQLSj1Oz
-         4s0CuKM3WLP5f27Tp2LQ8cnP3v8WjuOZhKTVW2neQZVLsc7LPs1UAFhJ0x9cYEoSUYmQ
-         qWdA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdQTd+c89gFK9mhCz7bYmw+oLVo2c1wz1WARkfkrZhzfdNV93mhhvY9FeJvYu8D5+5FDLPMzxllePa7NM5kviI3Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwuXwCGevWUZIscM6ZiyCBzxyMLqL287ZF+FgNDAmvv3pbiVC3o
-	uQS3Gw1vd/5TxXESoWJbb3+Odqbw1juY5EFES0vKRcV38WGXc2nvIjDgtE9zBaK891k=
-X-Gm-Gg: AZuq6aJ7MjvUCfQ+1tef7zwId18UOBidDAhUegYIqb5g8cAAmtX1ujjSVd9I+IgHQ5X
-	NzsH0CJqvQ49cahBz0akSKBBZuklHECqBuvBAiL0Tbv36/ne12mBW6w7uaCrgGUUcgT41LBNEen
-	T20WriBDdtn2DOx3iXccwIfWzaJTLd+louluFpA29/wup1OrB+uvtucKdxFz2ryhGJecPgne9iT
-	U1EKalVUe7n1go5kN3m6jh0PSi7WvOs3TrI/l2vDMkGEwxcHOEKBSU1rri876/8WSpsO0Pue5Ua
-	v6o1DA+Nawpy1Rslhv5Q0jJXObGEnR88qaiykAK6eqsb6ysxoR8kb2ofL6R5QyzFIBUNH8qB9/G
-	rH4Tn/1S985HMjXYqlj7SkWeBapmCGZKonC1+Y/mkHL6EXRw9PJ66409SV438Hso4wQpnsUN/LX
-	9yhGTueJojQEtMQzaQ9EWhoNkFHeP7axxWyp8RwN3zqo/+Z8k5SScyav5fKfBjr7DG5Bq1OLPRP
-	dQ=
-X-Received: by 2002:adf:f452:0:b0:436:42fb:154c with SMTP id ffacd0b85a97d-43642fb16eamr7196801f8f.61.1770633935079;
-        Mon, 09 Feb 2026 02:45:35 -0800 (PST)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b25d5sm26711501f8f.2.2026.02.09.02.45.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Feb 2026 02:45:34 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Feb 2026 11:45:34 +0100
-Message-Id: <DGADCG1T404K.22590D22LM044@smile.fr>
-Subject: Re: [OE-core][whinlatter 00/22] Pull request (cover letter only)
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Paul Barker" <paul@pbarker.dev>, "Yogesh Tyagi"
- <yogesh.tyagi@intel.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <cover.1770630733.git.yoann.congal@smile.fr>
-In-Reply-To: <cover.1770630733.git.yoann.congal@smile.fr>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=e2LQ6jrN;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=WWNYmuEN;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 37A317A00D4;
+	Mon,  9 Feb 2026 05:50:01 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 09 Feb 2026 05:50:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1770634200; x=1770720600; bh=dI7903qMe7
+	fVWx2qOQm9Z4T+JK4KTCL0N/X3FzEw/0M=; b=e2LQ6jrNcXhaSseTpa9+0vAde1
+	XAZSfEP26Hh/UBfpk7Vo4dGrt4X7MpHHbhKunGhwJG6OT+Fz26uE36yzNcWVmsxX
+	fzH/1j8aXuH0X1QNeok6LjjlQu6OuJGRQ+ZVP6oLuJpeRljn+s1Uu04yeAgOHk2w
+	u/197IoYiF4Glq9aQQ7TTG12LtN8vvhC0MGip3Y++4GR7V+I2WdLe6Rf2TaB71AK
+	MkCqTElyWdJbh06qOiD5aIdioEVDHkOkUoMwDMUd0/AhGmFPMKEBs6ghdWG6WL2K
+	AG/fOGOyViTBmxGBMArsgT5KZRWWjEh0O2R3kP8UjHB2RleFQyDm3jWFra+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1770634200; x=1770720600; bh=dI7903qMe7fVWx2qOQm9Z4T+JK4KTCL0N/X
+	3FzEw/0M=; b=WWNYmuEN+foc8+skWc65DAe8JE7MCssCScfqkpUVGJB9xk9WZ7D
+	wixpkbzlwJOt/xru4xD+rBA0mHBS5bVOVTa8cwpAwNrnu3Lutj27tLKnkkPp9TaF
+	A/mWSJxrlLsq5nEDzL8lgwZNfHJTaKfuju+k8g1gnRWq57OKaO6z5iDU+izYNENc
+	2A1UE8AmBRYjOglLc0NpEMtKb/dOT4BMGi0iZPpJFbE5oko5zZ6bgqlG4UCG7FUi
+	bCEn4zthxiWBiprhCzHjLKN8ucwLAcNQ2OKRK0imT33IZ4i+1i6rBoPwEcFluu63
+	XN1/gekYwvL5puZcXv2oCXhJVeHHK0U6yMw==
+X-ME-Sender: <xms:2LuJaZxDl63Qnpfa08z_m-nhtX_kAUfFKY0P0FRezqjqp2voVLCgYg>
+    <xme:2LuJafSQiUTzwmVPawUnAJ2eUPidNG-XzUE4OBzT_ReUx0CZaq9hd_xL0uSygpBMR
+    AtYoeQD3nmKNUdEMHBjMhpoNPxaIYhq3Hz9Q6VDoanT-d6DM_93ZQ>
+X-ME-Received: <xmr:2LuJaQ_mBjTkQDs-FV2tLcg7g44LdVLDU2APlx68JlCIDj4jtS9eShFAEbGCVkIn84EsaHT6nkeQrAE-HKLitWFQ3ZJae_6PYmcXKFakB6Qb>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduleeiieduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
+    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepgeefhfdutefhffevheevkeejhfegffegieektd
+    efkedttefhuddvffeuieeiteffnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehsmhhilhgvrdhfrh
+    dprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgv
+    nhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:2LuJaWq3T5kVxK30fD4DVHfzESv3HsVbp_jZIfUYYtojAVwMv3Ia1Q>
+    <xmx:2LuJadnRONFIG7vxw3nPGQ57ZncHeuYNBl8ZiDe1r1EWTNBsrBx1uA>
+    <xmx:2LuJadI6XmFSG0pHLla6-cIw26t8_4cb2THv5hsod5KK9rVQtSI3jQ>
+    <xmx:2LuJaSxqJE_paXqBqbWSDHXw2Mk-vcm1KZ2CxW2RxOl3m1D5Uhju4Q>
+    <xmx:2LuJaWVZY0HMR-1-7rU-rBuLuhe7njX_60C_0P9T1IIPuIlksoJ1yZjT>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Feb 2026 05:50:00 -0500 (EST)
+Message-ID: <296efb168208e46298830f4af5f37b7cfb3ecfa3.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap 16/25] zlib: ignore CVE-2026-22184
+From: Paul Barker <paul@pbarker.dev>
+To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
+Date: Mon, 09 Feb 2026 10:49:53 +0000
+In-Reply-To: <52cbace519c5d490a83550d7baa1c0fa200eafcb.1770626074.git.yoann.congal@smile.fr>
+References: <cover.1770626074.git.yoann.congal@smile.fr>
+	 <52cbace519c5d490a83550d7baa1c0fa200eafcb.1770626074.git.yoann.congal@smile.fr>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
+ DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
+ NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
+ YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
+ auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
+ C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
+ UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
+ F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
+ pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
+ bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
+ EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
+ JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
+ pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
+ Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
+ tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
+ m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
+ 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
+ H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
+ AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
+ 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
+ UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
+ D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
+ UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
+ 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
+ bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
+ tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
+ HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
+ OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
+ YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
+ juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
+ yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
+ t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
+ wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
+ HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
+ ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
+ aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
+ dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
+ X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
+ A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
+ q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
+ JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
+ ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-j2lOwBTBBL37XLJo65D4"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 10:45:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230779
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 10:50:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230780
 
-On Mon Feb 9, 2026 at 10:58 AM CET, Yoann Congal wrote:
-> Those are the patches from the last patch review:
-> https://lore.kernel.org/openembedded-core/cover.1770109549.git.yoann.cong=
-al@smile.fr/T/#t
-> (with added cherry-pick info, where appropriate)
->
-> Passed a-full on autobuilder:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3181
-As Paul wrote on IRC, I forgot to mention that the meta-intel build
-failed. But, IMHO it should not prevent the merge:
-* meta-intel build also fail on master currently: See the latest nightly:
-  https://autobuilder.yoctoproject.org/valkyrie/#/builders/41/builds/2992
-  =3D> This new failure is not related to this series
-* I notified the maintainer (Yogesh Tyagi, CC'd) last week, he is
-  working on reproducing & fixing it.
 
-> The following changes since commit fa31089d48cac2aa11279e932a77f4dbdc02c0=
-2d:
->
->   libarchive: upgrade 3.8.4 -> 3.8.5 (2026-01-26 08:44:38 +0000)
->
-> are available in the Git repository at:
->
->   https://git.openembedded.org/openembedded-core-contrib stable/whinlatte=
-r-next
->   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
-whinlatter-next
->
-> for you to fetch changes up to 7ffbe7bb6e262a410afac64c5211df0d52c202c7:
->
->   inetutils: patch CVE-2026-24061 (2026-02-09 01:51:46 +0100)
->
-> ----------------------------------------------------------------
->
-> Hugo SIMELIERE (1):
->   libtasn1: Fix CVE-2025-13151
->
-> Jiaying Song (1):
->   grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663
->     CVE-2025-61664
->
-> Ken Kurematsu (1):
->   libtheora: set CVE_PRODUCT
->
-> Khai Dang (1):
->   docbook-xml-dtd4: fix the fetching failure
->
-> Mark Hatle (1):
->   dpkg: Fix ADMINDIR
->
-> Mathieu Dubois-Briand (2):
->   oeqa/gitarchive: Fix git push URL parameter
->   oeqa/gitarchive: Push tag before copying log files
->
-> Peter Marko (13):
->   go: upgrade 1.25.5 -> 1.25.6
->   zlib: ignore CVE-2026-22184
->   python3-urllib3: patch CVE-2026-21441
->   glibc: stable 2.42 branch updates
->   dropbear: patch CVE-2025-14282
->   libpng: upgrade 1.6.53 -> 1.6.54
->   glib-2.0: patch CVE-2026-0988
->   libxml2: patch CVE-2026-0989
->   libxml2: patch CVE-2026-0990
->   libxml2: patch CVE-2026-0992
->   libxml2: add follow-up patch for CVE-2026-0992
->   expat: upgrade 2.7.3 -> 2.7.4
->   inetutils: patch CVE-2026-24061
->
-> Richard Purdie (2):
->   scripts/oe-git-archive: Ensure new push parameter is specified
->   pseudo: Update to 1.9.3 release
->
->  meta/lib/oe/package_manager/deb/__init__.py   |   4 +
->  .../oeqa/selftest/cases/gitarchivetests.py    |   4 +-
->  meta/lib/oeqa/utils/gitarchive.py             |   8 +-
->  .../grub/files/CVE-2025-54770.patch           |  41 +++
->  .../grub/files/CVE-2025-61661.patch           |  40 +++
->  .../grub/files/CVE-2025-61662.patch           |  72 ++++
->  .../grub/files/CVE-2025-61663_61664.patch     |  64 ++++
->  meta/recipes-bsp/grub/grub2.inc               |   4 +
->  .../inetutils/CVE-2026-24061-01.patch         |  38 ++
->  .../inetutils/CVE-2026-24061-02.patch         |  82 +++++
->  .../inetutils/inetutils_2.6.bb                |   2 +
->  .../dropbear/dropbear/CVE-2025-14282-01.patch | 280 +++++++++++++++
->  .../dropbear/dropbear/CVE-2025-14282-02.patch |  97 +++++
->  .../dropbear/dropbear/CVE-2025-14282-03.patch | 282 +++++++++++++++
->  .../dropbear/dropbear/CVE-2025-14282-04.patch |  72 ++++
->  .../dropbear/dropbear/CVE-2025-14282-05.patch |  46 +++
->  .../recipes-core/dropbear/dropbear_2025.88.bb |   5 +
->  .../expat/{expat_2.7.3.bb =3D> expat_2.7.4.bb}  |   2 +-
->  .../glib-2.0/files/CVE-2026-0988.patch        |  58 +++
->  meta/recipes-core/glib-2.0/glib.inc           |   1 +
->  meta/recipes-core/glibc/glibc-version.inc     |   2 +-
->  meta/recipes-core/glibc/glibc_2.42.bb         |   2 +-
->  .../libxml/libxml2/CVE-2026-0989.patch        | 309 ++++++++++++++++
->  .../libxml/libxml2/CVE-2026-0990.patch        |  76 ++++
->  .../libxml/libxml2/CVE-2026-0992-01.patch     |  49 +++
->  .../libxml/libxml2/CVE-2026-0992-02.patch     | 336 ++++++++++++++++++
->  .../libxml/libxml2/CVE-2026-0992-03.patch     |  33 ++
->  meta/recipes-core/libxml/libxml2_2.14.6.bb    |   5 +
->  meta/recipes-core/zlib/zlib_1.3.1.bb          |   2 +
->  .../docbook-xml/docbook-xml-dtd4_4.5.bb       |  10 +-
->  ...-dirs.c-set_rootfs-was-not-checking-.patch |  46 +++
->  meta/recipes-devtools/dpkg/dpkg_1.22.21.bb    |   1 +
->  .../go/{go-1.25.5.inc =3D> go-1.25.6.inc}       |   2 +-
->  ...e_1.25.5.bb =3D> go-binary-native_1.25.6.bb} |   6 +-
->  ..._1.25.5.bb =3D> go-cross-canadian_1.25.6.bb} |   0
->  ...{go-cross_1.25.5.bb =3D> go-cross_1.25.6.bb} |   0
->  ...osssdk_1.25.5.bb =3D> go-crosssdk_1.25.6.bb} |   0
->  ...runtime_1.25.5.bb =3D> go-runtime_1.25.6.bb} |   0
->  ...ent-based-hash-generation-less-pedan.patch |   8 +-
->  ...ng-cgo-on-386-call-C-sigaction-funct.patch |   4 +-
->  ...d-go-make-GOROOT-precious-by-default.patch |   2 +-
->  .../go/{go_1.25.5.bb =3D> go_1.25.6.bb}         |   0
->  meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
->  .../python3-urllib3/CVE-2026-21441.patch      | 111 ++++++
->  .../python/python3-urllib3_2.5.0.bb           |   1 +
->  .../{libpng_1.6.53.bb =3D> libpng_1.6.54.bb}    |   4 +-
->  .../libtheora/libtheora_1.2.0.bb              |   2 +
->  .../gnutls/libtasn1/CVE-2025-13151.patch      |  30 ++
->  .../recipes-support/gnutls/libtasn1_4.20.0.bb |   1 +
->  scripts/lib/resulttool/store.py               |   9 +-
->  scripts/oe-git-archive                        |   2 +-
->  51 files changed, 2228 insertions(+), 31 deletions(-)
->  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770.patch
->  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
->  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
->  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patc=
-h
->  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-202=
-6-24061-01.patch
->  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-202=
-6-24061-02.patch
->  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-01=
-.patch
->  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-02=
-.patch
->  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-03=
-.patch
->  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-04=
-.patch
->  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-14282-05=
-.patch
->  rename meta/recipes-core/expat/{expat_2.7.3.bb =3D> expat_2.7.4.bb} (92%=
-)
->  create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-0988.patch
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0989.patch
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.pat=
-ch
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.pat=
-ch
->  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.pat=
-ch
->  create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-lib-dpkg-options=
--dirs.c-set_rootfs-was-not-checking-.patch
->  rename meta/recipes-devtools/go/{go-1.25.5.inc =3D> go-1.25.6.inc} (91%)
->  rename meta/recipes-devtools/go/{go-binary-native_1.25.5.bb =3D> go-bina=
-ry-native_1.25.6.bb} (79%)
->  rename meta/recipes-devtools/go/{go-cross-canadian_1.25.5.bb =3D> go-cro=
-ss-canadian_1.25.6.bb} (100%)
->  rename meta/recipes-devtools/go/{go-cross_1.25.5.bb =3D> go-cross_1.25.6=
-.bb} (100%)
->  rename meta/recipes-devtools/go/{go-crosssdk_1.25.5.bb =3D> go-crosssdk_=
-1.25.6.bb} (100%)
->  rename meta/recipes-devtools/go/{go-runtime_1.25.5.bb =3D> go-runtime_1.=
-25.6.bb} (100%)
->  rename meta/recipes-devtools/go/{go_1.25.5.bb =3D> go_1.25.6.bb} (100%)
->  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026=
--21441.patch
->  rename meta/recipes-multimedia/libpng/{libpng_1.6.53.bb =3D> libpng_1.6.=
-54.bb} (94%)
->  create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.p=
-atch
+--=-j2lOwBTBBL37XLJo65D4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, 2026-02-09 at 10:28 +0100, Yoann Congal via
+lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> This is CVE for example tool contrib/untgz.
+> This is not compiled in Yocto zlib recipe.
+>=20
+> This CVE has controversial CVSS3 score of 9.8.
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  meta/recipes-core/zlib/zlib_1.3.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zli=
+b/zlib_1.3.1.bb
+> index e6a81ef7898..8ebc6befc2b 100644
+> --- a/meta/recipes-core/zlib/zlib_1.3.1.bb
+> +++ b/meta/recipes-core/zlib/zlib_1.3.1.bb
+> @@ -48,3 +48,4 @@ BBCLASSEXTEND =3D "native nativesdk"
+> =20
+>  CVE_STATUS[CVE-2023-45853] =3D "not-applicable-config: we don't build mi=
+nizip"
+>  CVE_STATUS[CVE-2023-6992] =3D "cpe-incorrect: this CVE is for cloudflare=
+ zlib"
+> +CVE_STATUS[CVE-2026-22184] =3D "not-applicable-config: vulnerable file i=
+s not compiled"
+
+I think we should consider backporting 119b775b36df ("zlib: Add
+CVE_PRODUCT to exclude false positives") and the relevant bits of
+73ee9789183a ("recipes: cleanup CVE_STATUS which are resolved now"),
+then we can cherry-pick b0592c51b6ad from master.
+
+Best regards,
 
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
+
+--=-j2lOwBTBBL37XLJo65D4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYm70REccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bgjuAP94LPHqGWEIjX+eD/ElGbTflL3KJkwJ2gLX
+dk7F0e71rAD+MZOIxYVFYVa3Gt7AUTJm0SwtoVbyGOvGfKJkC/ZNywg=
+=2cFH
+-----END PGP SIGNATURE-----
+
+--=-j2lOwBTBBL37XLJo65D4--
 
