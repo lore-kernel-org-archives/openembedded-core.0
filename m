@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D46FE7E0AF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 517F8E7E0AD
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:47 +0000 (UTC)
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43996.1770629377830000150
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43999.1770629380173288398
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:29:38 -0800
+ Mon, 09 Feb 2026 01:29:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SlJPsYGf;
- spf=pass (domain: smile.fr, ip: 209.85.221.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43770c94dfaso662088f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:37 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=E74jzQzz;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4362d4050c1so2648725f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770629376; x=1771234176; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770629378; x=1771234178; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C4KrseN+Jk69L6Yih8CoN0UKLC2V7CLZQh5+MGWFhQk=;
-        b=SlJPsYGflitmpyni4VIBWRo/+H4PAimQ3n8jH6NF1Gl5pi1EJk7Xm2RjxsXWu5ESAv
-         xqcDgDrouj5ukhz234pJMPtjiRf/pQoSNzdoGf7/2usVNFpgvvJGxOgqqywnox9vMni6
-         29OHWKTeaO1gqhg6NvDP9RFGxI18aeIfyaKBs=
+        bh=0VxcCPr172Jc5KFxnIQvVwFdYIQgt22u5fD4HL8+yaI=;
+        b=E74jzQzzfDGEgrUUhMN+vhroD9ILvPY0yn0VFrbqySFD0mukiWb5yksRtJXqxL7Lle
+         0gppg4DcDdc0qsnoUrjk9Bkz0DfZ6HqsVR3mHuTiGKYAfCb7Nx8mMqiwoVIr1VoDF+SJ
+         gqYMLjmR5VvCiZ7aEByo+sUy09QVKKJLanmVc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770629376; x=1771234176;
+        d=1e100.net; s=20230601; t=1770629378; x=1771234178;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=C4KrseN+Jk69L6Yih8CoN0UKLC2V7CLZQh5+MGWFhQk=;
-        b=Mi7t2kOBkQRax3bizIkBY053Gd9CwVcvkRzfvl7bcemxEqAVt0THpoHjBzeIg+kMmh
-         6HylhILA3SHyWcp2FNjc2tUDT47UB1ccwQma4MrtINNtN5le5W4KfI77wwxKKTWMtKCN
-         JcyP6g63h1AVRS5a1sVZmSJ4TH075nj0CTwTy3GG0CMnVYPHvhajE99S1jt9t5bXGCXc
-         XypxbwBoaLkL/VT+Wsq6kOmcVPBXGLqy+9+ZzOBgZdq2XQ/dlowzxFVEFV08qthetiWL
-         h1pXtvCxE9k5oqGUSuslzsIlkfF9hB4py0Kok+OrjElxPP4z3uLVeshk7XDHN6FmnJSf
-         MHaQ==
-X-Gm-Message-State: AOJu0YztQcWm9Addjsp2PSjc7F+swpV0GSVh259ya0HH/pqqYhR6Vyxq
-	XXspb0x5x96OLaV0mfD3jr/W4kWtJ78XM1gsw6nl9xFoVxkhWUnzy8MfL+ZIRVf/LdrW+8GPq95
-	SJ9PH4Pzy4Q==
-X-Gm-Gg: AZuq6aJjs/tGGUOrkWO5l4zez8I/9mFwfta7LgGIHL0yG7IvQWiBeH1zEv/Y3UKDNEP
-	CmWLEyB0d/iQRSEIs8laTd/zoZ6EWvALh6dh5BuBNTjlei5YBoD3FXt6XZSryfiHJjg6WJR9XaB
-	XMWW8MedRRNfdYG6sMlOT6H3wt4JUlZEI6GCQvcPNv3CQCE4gqIl322ZkFaEcMgfGl4HlXm0SK6
-	h6l9CGBtvUzwDM0GmpFrRaycYcelabqMjE+FWh5cxsQFM1mC7aSneGdNnjBaz32M3KJhP0JSdk9
-	OGsX1c7DMpzxAry2RFQcLbZsWn7osT858o7as+vujjq9331MRgAGYoJ8WY1u3RC2x182JLbEWbg
-	C44dcqgbvtRr8VwzlwSjP1S/eGewzlxS1+jPwniGHHqB9BfmD8nzsMVO3+cqxTscv0////lJIZE
-	CDi60J0qqiNBmMtgv+6xjs/EqE5CLS2pFlvKuYKtre5ndaNIY0N4pBIEYEo86QJeUTiboss71Tf
-	IUY2govZGmfTIQ=
-X-Received: by 2002:a05:6000:402c:b0:435:db6e:e3b3 with SMTP id ffacd0b85a97d-43629381a45mr15529907f8f.36.1770629375854;
-        Mon, 09 Feb 2026 01:29:35 -0800 (PST)
+        bh=0VxcCPr172Jc5KFxnIQvVwFdYIQgt22u5fD4HL8+yaI=;
+        b=GIUDdwNgvAWYq2+KUkieTzl2h/5NT2YUNq/YAmXozqC+k0ubeI4E2zDgw9SbvwOXWC
+         Bgf7sgVBTe8GDjUKhxQdLuE5LGAHMFyTiGV7uR+e0mpPg1VjNRn1rqMWbT17TeXeo0cX
+         1lZh5k3Ypd7e4ZDvnZnC0FCrqCS5m1YEfBh4XgMn26JwRu9DUWE+JNp/MqsxqHUINYK3
+         r8n9rK96VeTzMND5zFLHDOvR0qx0/LNvE6EjULTEpPx0BvW8z/DoXZ9LRzjz9YNoimJT
+         /0a7yimknHFerNh/GY5elDmXE446WDf30J1dFCizxvPSDxf8ADm/8GqiQfe6bLiMnMfT
+         y2FA==
+X-Gm-Message-State: AOJu0YxxjqayVBryEjEHsv44Cfe09cc085wuJpicsoIqW5acm4wgylmR
+	fGdiTywI61uoEaUEGuIDzN39huDDrr7pb+O7knTX3Oaj7TCNnGbPgCRg6CLITWyy+gvGF69+KTA
+	pWOGI1kg=
+X-Gm-Gg: AZuq6aJKHjcvViCXKuQ02yZ8sk3Vp4H2z4FDXq3xF5EAWD41o8kbEXDQ53esG6gnVNL
+	jI+Nn3uDLVwBqQdy53qubvTUgeXEPA1Fsr7cdX0pSGquggKKCeRI5utjSo9h2twMS1q+mosQKpo
+	6Ej0do2JCtlVLYC3iaGz5Fpl3mroznFQTQFuXBHlRWpUmvCnXcfY+dHvKUtSFo2UhG2dnguP5gL
+	bOqd61WhDTsAuC+Lnb6uyrIdHvgggEHvV5P1p91RjIZzLx2jULtJvFQhyieRV2eQJFY935pXxIT
+	4n/jmYZggKgiPa7RyQT5fdLxURQWWgR8ND76NjcNcnkio9CQmS2tox8/DI396KiKO7RSWjyYbEY
+	nJACoc3LqeOw9gfWMSN/c6Htpv232WKarc06wrIvCY65aeM0SVcbhZ1CPeLn5g8dvxE6K0Hh7xy
+	euRJ4OymlzitBT9WVcCk6/jwv+mPg3pDc4UEQiwLD0nAjH8CpKnuVJ6lvEuPhqnr1D4ibPyOb/g
+	8BaH8VdM+kFPYw=
+X-Received: by 2002:a5d:64c7:0:b0:436:2356:47cb with SMTP id ffacd0b85a97d-4362938b18fmr15505563f8f.36.1770629378327;
+        Mon, 09 Feb 2026 01:29:38 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 01:29:35 -0800 (PST)
+        Mon, 09 Feb 2026 01:29:37 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 20/25] meta/classes: fix missing vardeps for CVE status variables
-Date: Mon,  9 Feb 2026 10:29:03 +0100
-Message-ID: <7c522722b89e5882bf46e472cf98cacb5fb586b5.1770626074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 23/25] docbook-xml-dtd4: fix the fetching failure
+Date: Mon,  9 Feb 2026 10:29:06 +0100
+Message-ID: <7c9acdff1e69a82c89fd447c25b7d6186acdef87.1770626074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
 References: <cover.1770626074.git.yoann.congal@smile.fr>
@@ -66,80 +66,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230771
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230774
 
-From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+From: Khai Dang <khaidangbk1998@gmail.com>
 
-Several CVE helper functions (get_patched_cves() and decode_cve_status())
-implicitly depend on the CVE_STATUS and CVE_CHECK_STATUSMAP variables, but
-these were not declared in the vardeps of their callers.
+Updating SRC_URI, the old archive url is deprecated.
 
-On Scarthgap, the upstream fix (2cc43c72ff28aa39a417dd8d57cd7c8741c0e541)
-cannot be cherry-picked cleanly, as it also requires BitBake changes.
-
-As a workaround, explicitly add CVE_STATUS and CVE_CHECK_STATUSMAP to the
-vardeps of all tasks invoking these helpers, ensuring correct task
-re-execution when CVE status changes.
-
-This keeps CVE-related metadata generation consistent without requiring
-BitBake modifications.
-
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+Signed-off-by: Khai Dang <khai.dang@lge.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c137d3637b6171fbd3bfd671a56096e7f2b3c318)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes/create-spdx-2.2.bbclass | 1 +
- meta/classes/create-spdx-3.0.bbclass | 2 ++
- meta/classes/cve-check.bbclass       | 1 +
- meta/classes/vex.bbclass             | 1 +
- 4 files changed, 5 insertions(+)
+ .../docbook-xml/docbook-xml-dtd4_4.5.bb                | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index aaa2e78fe21..037193bb4b9 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -710,6 +710,7 @@ python do_create_spdx() {
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+index e4b4201b1f9..43c3ba17ad8 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+@@ -25,11 +25,11 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e763
+ # bitbake build system.
+ #
  
-             oe.sbom.write_doc(d, package_doc, pkg_arch, "packages", indent=get_json_indent(d))
- }
-+do_create_spdx[vardeps] += "CVE_STATUS"
- do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
- # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
- addtask do_create_spdx after do_package do_packagedata do_unpack do_collect_spdx_deps before do_populate_sdk do_build do_rm_work
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 6125e8b5479..388497054b0 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -159,6 +159,8 @@ do_create_spdx[vardeps] += "\
-     SPDX_PROFILES \
-     SPDX_NAMESPACE_PREFIX \
-     SPDX_UUID_NAMESPACE \
-+    CVE_STATUS \
-+    CVE_CHECK_STATUSMAP \
-     "
- 
- addtask do_create_spdx after \
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index f5bbaa5d159..3f4704fb4ec 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -187,6 +187,7 @@ python do_cve_check () {
- }
- 
- addtask cve_check before do_build
-+do_cve_check[vardeps] += "CVE_STATUS CVE_CHECK_STATUSMAP"
- do_cve_check[depends] = "cve-update-nvd2-native:do_unpack"
- do_cve_check[nostamp] = "1"
- 
-diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
-index 707e6f45a19..45a15348724 100644
---- a/meta/classes/vex.bbclass
-+++ b/meta/classes/vex.bbclass
-@@ -160,6 +160,7 @@ python do_generate_vex () {
- 
-     cve_write_data_json(d, cve_data, cves_status)
- }
-+do_generate_vex[vardeps] += "CVE_STATUS CVE_CHECK_STATUSMAP"
- 
- addtask generate_vex before do_build
+-SRC_URI = "https://docbook.org/xml/4.1.2/docbkx412.zip;name=payload412;subdir=docbook-4.1.2 \
+-           https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=payload42;subdir=docbook-4.2 \
+-           https://docbook.org/xml/4.3/docbook-xml-4.3.zip;name=payload43;subdir=docbook-4.3 \
+-           https://docbook.org/xml/4.4/docbook-xml-4.4.zip;name=payload44;subdir=docbook-4.4 \
+-           https://docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=payloadPV;subdir=docbook-${PV} \
++SRC_URI = "https://archive.docbook.org/xml/4.1.2/docbkx412.zip;name=payload412;subdir=docbook-4.1.2 \
++           https://archive.docbook.org/xml/4.2/docbook-xml-4.2.zip;name=payload42;subdir=docbook-4.2 \
++           https://archive.docbook.org/xml/4.3/docbook-xml-4.3.zip;name=payload43;subdir=docbook-4.3 \
++           https://archive.docbook.org/xml/4.4/docbook-xml-4.4.zip;name=payload44;subdir=docbook-4.4 \
++           https://archive.docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=payloadPV;subdir=docbook-${PV} \
+            file://docbook-xml-update-catalog.xml.patch \
+            file://LICENSE-OASIS"
  
 
