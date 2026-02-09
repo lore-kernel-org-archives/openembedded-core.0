@@ -2,56 +2,56 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C870FE78D56
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF62E78D53
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:04:05 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43850.1770627843825718856
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43848.1770627836576923447
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:04:04 -0800
+ Mon, 09 Feb 2026 01:03:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AQJXzD6u;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=La3L9Q2r;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1770627842; x=1802163842;
+  t=1770627836; x=1802163836;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ohfUuJHy1NyJQpIToYqpRZ+Xn9H5ytT1NAP3cXIm6Q8=;
-  b=AQJXzD6uiocU0bGYAAe3LpvZxRn1Y6Ur+F9YQediKyJc5zsMk+aqN7M5
-   RDzIMIO1juzfBiuoF++i8kpUpaMvaTsssYq84YYXu6YITY7vekyzjOmUH
-   vQBCww0dgFey7u1QWaKtFlKPgMeST+WWorLVlbKaMXRfdxSrStBFgJyBa
-   Enlt+7yhnWOpUuuMGd8ZmF9pkgoL9cFZaUbRo9d5JcDH6PBDQn9U5CpII
-   23N4YA5GvBzkFiwYnIRyBj0ahXHbcDa7+7zMn0gqsGItGWIZTHlVtzX0X
-   XY8XB5wFbCMljvAFym8otiDsdaSUCCnVAQsCHNXpVIPvAPtR9bdFLcon/
+  bh=h2cTxa2EK0hdxCq2KsGQ5Ofyssd9YZV3ax1aECIL9z0=;
+  b=La3L9Q2r65s8ocBWrdAupeVPz4Kv3ciekFuLme44aN/daTwX8MTXsdil
+   RO7XjMR3db02xFFrZf58neWJe/eqL+yLX957t6wN0L62r3wPawkGBFpL2
+   bqHDxRWwxyJiuPPsjWkYWzLRBs8ECh+MVhkpTfQUFF7f5PetWzGMA0A/A
+   rg3yWoCf35CIwkc7DAN7dzA1QSnHC7VJRaK6FvnXavQP+nxWdINosaQZq
+   mf6KHND8sZDXgnNfQ20ZyCg7o3XC062LTzG34G939gtDjMwtEadSbgBQQ
+   Z2sraZACApVLsD5LqVL4aTPllWH0ViPIxTzhRwrNto7qQJsABwvpe90SW
    w==;
-X-CSE-ConnectionGUID: pKl/ijhmSY2VORZ+uE0ZSQ==
-X-CSE-MsgGUID: d04JxRLLT6mrFC9ys5gFGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="228980468"
+X-CSE-ConnectionGUID: tz9rPvhQTWufxur7O9mjtg==
+X-CSE-MsgGUID: +cxIFskqTv2xzpD96Yy9oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="207843967"
 X-IronPort-AV: E=Sophos;i="6.21,281,1763391600"; 
-   d="scan'208";a="228980468"
-Received: from unknown (HELO mail.fujitsu.com) ([20.61.8.234])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 18:04:01 +0900
-Received: from az2uksmgm3.o.css.fujitsu.com (unknown [10.151.22.200])
+   d="scan'208";a="207843967"
+Received: from unknown (HELO mail.fujitsu.com) ([51.138.80.169])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 18:03:55 +0900
+Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgr3.fujitsu.com (Postfix) with ESMTPS id 52494100034F
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Feb 2026 09:04:02 +0000 (UTC)
+	by az2nlsmgr2.fujitsu.com (Postfix) with ESMTPS id 0963A674C
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Feb 2026 09:03:55 +0000 (UTC)
 Received: from az2nlsmom3.fujitsu.com (az2nlsmom3.o.css.fujitsu.com [10.150.26.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgm3.o.css.fujitsu.com (Postfix) with ESMTPS id E6643C00881
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Feb 2026 09:04:01 +0000 (UTC)
+	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id B2E171C002C0
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Feb 2026 09:03:54 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.34])
-	by az2nlsmom3.fujitsu.com (Postfix) with ESMTP id 4CAD0101BB75;
-	Mon,  9 Feb 2026 09:03:59 +0000 (UTC)
+	by az2nlsmom3.fujitsu.com (Postfix) with ESMTP id 20EB6101A41B;
+	Mon,  9 Feb 2026 09:03:51 +0000 (UTC)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 21/39] python3-dbusmock: upgrade 0.37.2 -> 0.38.1
-Date: Mon,  9 Feb 2026 17:02:59 +0800
-Message-ID: <20260209090317.1468-21-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 17/39] libxxf86vm: upgrade 1.1.6 -> 1.1.7
+Date: Mon,  9 Feb 2026 17:02:55 +0800
+Message-ID: <20260209090317.1468-17-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20260209090317.1468-1-wangmy@fujitsu.com>
 References: <20260209090317.1468-1-wangmy@fujitsu.com>
@@ -61,40 +61,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:04:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230732
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230728
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-=============
-- polkitd: Add RegisterAuthenticationAgentWithOptions
-- logind: Add SetWallMessage
-- README: Update outdated and broken examples, move to addCleanup()
-- Move all license comments to SPDX-License-Identifier
-- tests: Skip test_readme_examples if README.md is not present
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{python3-dbusmock_0.37.2.bb => python3-dbusmock_0.38.1.bb}  | 2 +-
+ .../xorg-lib/{libxxf86vm_1.1.6.bb => libxxf86vm_1.1.7.bb}       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.37.2.bb => python3-dbusmock_0.38.1.bb} (88%)
+ rename meta/recipes-graphics/xorg-lib/{libxxf86vm_1.1.6.bb => libxxf86vm_1.1.7.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb b/meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb
-index afbf0f0c57..bc81b362ee 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.37.2.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb
+similarity index 85%
+rename from meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb
+rename to meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb
+index bde3ad3ad3..9afc3ef809 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.6.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb
+@@ -15,6 +15,6 @@ DEPENDS += "libxext xorgproto"
+ PE = "1"
  
--SRC_URI[sha256sum] = "e0c7354f6887036ee519f2fbba55ce14bb21c3ffceab06c085d15bbbda2b1d03"
-+SRC_URI[sha256sum] = "221b65e1c2e48de9fd11bf7e8c165adaf91648f49a11f390d086a498386f2984"
+ XORG_PN = "libXxf86vm"
+-SRC_URI[sha256sum] = "96af414c73ce1d5449ad04be7f9f27fa8330f844b6dda843ef22e3e1befb3ee3"
++SRC_URI[sha256sum] = "ae50c0f669e0af5a67cc4cd0f54f21d64a64d2660af883e80e95d3fe51b945d8"
  
- PYPI_PACKAGE = "python_dbusmock"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.43.0
 
