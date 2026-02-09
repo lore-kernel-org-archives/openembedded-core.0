@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD4FE7E0A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8C3E7E0A0
 	for <webhook@archiver.kernel.org>; Mon,  9 Feb 2026 09:29:37 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43991.1770629370534478213
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44200.1770629368060850834
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Feb 2026 01:29:30 -0800
+ Mon, 09 Feb 2026 01:29:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ad453Trl;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43638a33157so1025158f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:30 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Nur/DD0v;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47edd6111b4so59894015e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 01:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770629369; x=1771234169; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770629366; x=1771234166; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=26QFH8vD7/zqx3ft2yCccMMB3acy6we6zwjfRwKMbI8=;
-        b=ad453Trlx2BHB1YbLgmPrUWhFJVN9TD1qsYNdYYwXUxRJ0P67krmKCfnKVzGXctSla
-         jmYu4/axEtOpVygP6OBnNoslRBF1zQUtEw3/Jix3Up92bjvbX2sU9dC15IWf/Lb5xRls
-         h8Dg5pz5Kr2sayMHazsv9O5tijT4yFNiaR+VU=
+        bh=Cci+XdPd5TXzBJ7WTfZGi6s8ulHOjrzOjlw31HCfIJo=;
+        b=Nur/DD0v3RV1fLBZi2h5scL+YiLoZ9MF1uLXPtOwaIrzDPjOuJ4AC0f/Ppxj2Pi50+
+         zM5iBl6AB9+Q7FPMQVclXAifrK7q9YAd6e/sAJ9+q9o8k0sXaT9GkyuxMsl2n+XcSVY4
+         MT7jSJWPbVHYFwcRafxRP1NEhyNOiD4VC7lNg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770629369; x=1771234169;
+        d=1e100.net; s=20230601; t=1770629366; x=1771234166;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=26QFH8vD7/zqx3ft2yCccMMB3acy6we6zwjfRwKMbI8=;
-        b=mUMskTGlRYamzIq0hIJLjLxHUtXTAph8BPfqti/j7n250j8XqB4LNfXuK/N53Is2fj
-         z7X3iGLNwLjbyGnljIaJ/WLm0/bvlt/NFdt4DcDf3F25Rp/Ds0y+xmrZKoab2kmiL5wv
-         7z+uxap14F+KNY2gvjkxoI6y300DFIOkIQTR//+qt3RGgEApedCnhZ3nAifhRh0vTV13
-         ydACPZOYG0KHJjKphqPqyCpKzCEP4yHSy+AWjZLUJd9FvOSu+VWF9fcdBPKEOkYy3/qw
-         +t49b6Gu9P/zy5yneExfpBF2FzWsr8h7fROQU/CCxyIcofn3E3QDYSXMaHfRE4mtmTmY
-         Qehw==
-X-Gm-Message-State: AOJu0YwpkNdBx7Hu/7VAD8/tWV2ffNUa3GfDbXTUJwdqbnVduZhmGgLy
-	kSRG7UsBfQysr303zd84j8B1sPCyZ+d7I2b/l8SoO+EFn5vV4zjWS809F0YYrAwN/zOVH0qopes
-	ztMPLM8Q=
-X-Gm-Gg: AZuq6aIUDUabE2JC1qUzSYplFQr5FSHOX5c7MToaFYsTf4iOR1eNxJQL0kG5Pm0kUYI
-	hFFbMeVn5rBK4Fjz2K+kal13ZBGSxYk/k6bHgO8hZxLeSHKX1TA8//Ky/IYM4ktGTxCgiznOqNC
-	yRZGFyuiVipZmkkSYiZBel1rK99NVtk1jWi6TH5l5rgkJdflxyXbVFbAEkEj5Lvw9uGHtpBMcSC
-	6LYDT63K8MeRsvqwUbjNFmC9sajvUorWNlE3KG6GWI/eZPWm+QMy+gVjDvcP0i4QXyF25joQnvs
-	T3LHVER4tDV0GdxakcBXPSwk8HCVejw3qWfYiZQNn9ckE1BBVu7ujMProYOxPoUdumFKrEwUr0d
-	VtshnUoCDG5fh+eL3fqIVf2isIEh5tQTeYkcTvr3GFoYYshzM2IBefaQxydqxTdROLj5vTXSZf3
-	j2Zdt9VHagD8p48TIIiIFskRMfMj0czY3kR9TfaTuz7hbpDi37LafjDeqby2p3etaCW5bVWqJhC
-	m5GjNsLwz/N/zI=
-X-Received: by 2002:a05:6000:2585:b0:435:e451:39d4 with SMTP id ffacd0b85a97d-4362937ba48mr16416072f8f.44.1770629368487;
-        Mon, 09 Feb 2026 01:29:28 -0800 (PST)
+        bh=Cci+XdPd5TXzBJ7WTfZGi6s8ulHOjrzOjlw31HCfIJo=;
+        b=lPR88NjrWYCRnAe6rHHelQFe3pSBvccIVDvlcg61jYdTEa170PwHWaI2xPbNXkkaq7
+         9C4/wQOUeOU7O4vzZPu1QQFXWDlKwoxwgZosuAKJEZ9vLdM2TeP0v1Ntm7QJrQTnbPqD
+         MX0W3XV4VmydtJnz5cD65S2rDLLncTp9loCoUvD8u1eET0aKX3CvJbnz9CTlmhJv7bKd
+         VjBuYrAUU3GxK2X22hNrfR4Q9UkJb5vwQIBK8on51zFlKZFkx5tbXgoP8o4bS//Oi0LO
+         4lvDNliEy9g63uKxh9wMSFSyH8JUh+l5MG+5N7KL7jCBasBsTdzYUeKZrMmpP1voTKhq
+         LxWQ==
+X-Gm-Message-State: AOJu0YySoIX0XNWSXC6AmzRw8bt9IVZ4NaskMMZeKX347di5YwGQxdcj
+	NqP/JPfWPrFTqE6doVBMWkI8NxpKWEWecl3ZmakuCVL2CAvLeEvULA7BV09Vmhys5oQ+uSkZzuq
+	E06RZSis=
+X-Gm-Gg: AZuq6aJAiSP4IxByBs0bjFxDhUMqoswQaeVvVQdDW5QvvEvtc4Ip9UNnvV5v9x3oVEK
+	w1SLQFUp5F6dxqzzU7nLkhDZ99C+8EahNaQ9Aq+S/9Q3m56s9sSUgSk+KfjLIb88r/auZA1eAzz
+	7RhRXpiTA42/SGICebYsEkjHLkpvjev4Pug50fcH7JvjEKNQ3FA639fa/xBTyy57o10OZi8rruz
+	10sso2YFI870QV188BazaIaGhLZYdWlFrZKF94GWSXpwLTwuSQM9iDhJ903j7LaWLKEG+Z6qIl9
+	IJREpvtPRTLaGqTaEA0geWcU4idSkhhhI903gweODVVxCrATipWZbwVy19pkPQS/LaDz+e8KuUL
+	cm+d/V1TZz57OPAerTjsxcj65saeAdniHkCBF8WMm6Q8tWCD5j0ulI9UdyRQ/+D6c9FW1PkPHy3
+	OgvRZJE5oTg1Pzu93SqHRvAW5pY+KBbOVK5Jxe4cuuWlvX9ZQO2jeE1llsHopn5Vi0fnqU4Cl1e
+	nJwNk9qvgq8JFA=
+X-Received: by 2002:a05:600c:19c7:b0:479:1ac2:f9b8 with SMTP id 5b1f17b1804b1-483202161femr156186305e9.21.1770629366059;
+        Mon, 09 Feb 2026 01:29:26 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9575656f8f.20.2026.02.09.01.29.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 01:29:28 -0800 (PST)
+        Mon, 09 Feb 2026 01:29:25 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/25] libxml2: add follow-up patch for CVE-2026-0992
-Date: Mon,  9 Feb 2026 10:28:56 +0100
-Message-ID: <8b7d2e4979f567f38d2072b1f65e1cbddb3169c0.1770626074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 09/25] libtasn1: Fix CVE-2025-13151
+Date: Mon,  9 Feb 2026 10:28:52 +0100
+Message-ID: <8cb69ea01147671fc403a91dfa91bcee563e1269.1770626074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770626074.git.yoann.congal@smile.fr>
 References: <cover.1770626074.git.yoann.congal@smile.fr>
@@ -66,411 +66,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 09:29:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230764
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230760
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 
-References:
-* https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019
-* https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/377
+Upstream-Status: Backport from https://gitlab.com/gnutls/libtasn1/-/commit/d276cc495a2a32b182c3c39851f1ba58f2d9f9b8
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...2026-0992.patch => CVE-2026-0992-01.patch} |   0
- .../libxml/libxml2/CVE-2026-0992-02.patch     | 323 ++++++++++++++++++
- .../libxml/libxml2/CVE-2026-0992-03.patch     |  33 ++
- meta/recipes-core/libxml/libxml2_2.12.10.bb   |   4 +-
- 4 files changed, 359 insertions(+), 1 deletion(-)
- rename meta/recipes-core/libxml/libxml2/{CVE-2026-0992.patch => CVE-2026-0992-01.patch} (100%)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
+ .../gnutls/libtasn1/CVE-2025-13151.patch      | 30 +++++++++++++++++++
+ .../recipes-support/gnutls/libtasn1_4.20.0.bb |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.patch
-similarity index 100%
-rename from meta/recipes-core/libxml/libxml2/CVE-2026-0992.patch
-rename to meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.patch
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
+diff --git a/meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch b/meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
 new file mode 100644
-index 00000000000..bab0c4e1f0c
+index 00000000000..5047d679840
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
-@@ -0,0 +1,323 @@
-+From f8399e62a31095bf1ced01827c33f9b29494046f Mon Sep 17 00:00:00 2001
-+From: Daniel Garcia Moreno <daniel.garcia@suse.com>
-+Date: Fri, 19 Dec 2025 12:27:54 +0100
-+Subject: [PATCH] testcatalog: Add new tests for catalog.c
++++ b/meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
+@@ -0,0 +1,30 @@
++From ff7aa7ef2b9ba41df8f2d1e71b05bf2c2ad868dd Mon Sep 17 00:00:00 2001
++From: Vijay Sarvepalli <vssarvepalli@cert.org>
++Date: Mon, 22 Dec 2025 12:24:27 -0500
++Subject: [PATCH] Fix for CVE-2025-13151 Buffer overflow
 +
-+Adds a new test program to run specific tests related to catalog
-+parsing.
++Upstream-Status: Backport [https://gitlab.com/gnutls/libtasn1/-/commit/d276cc495a2a32b182c3c39851f1ba58f2d9f9b8]
++CVE: CVE-2025-13151
 +
-+This initial version includes a couple of tests, the first one to check
-+the infinite recursion detection related to:
-+https://gitlab.gnome.org/GNOME/libxml2/-/issues/1018.
-+
-+The second one tests the nextCatalog element repeated parsing, related
-+to:
-+https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019
-+https://gitlab.gnome.org/GNOME/libxml2/-/issues/1040
-+
-+CVE: CVE-2026-0992
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/f8399e62a31095bf1ced01827c33f9b29494046f]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Signed-off-by: Simon Josefsson <simon@josefsson.org>
++Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 +---
-+ CMakeLists.txt                          |  2 +
-+ Makefile.am                             |  6 ++
-+ catalog.c                               | 63 +++++++++++-----
-+ include/libxml/catalog.h                |  2 +
-+ test/catalogs/catalog-recursive.xml     |  3 +
-+ test/catalogs/repeated-next-catalog.xml | 10 +++
-+ testcatalog.c                           | 96 +++++++++++++++++++++++++
-+ 7 files changed, 163 insertions(+), 19 deletions(-)
-+ create mode 100644 test/catalogs/catalog-recursive.xml
-+ create mode 100644 test/catalogs/repeated-next-catalog.xml
-+ create mode 100644 testcatalog.c
++ lib/decoding.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 163661f8..7d5702df 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -517,6 +517,7 @@ if(LIBXML2_WITH_TESTS)
-+ 		runxmlconf
-+ 		runsuite
-+ 		testapi
-++		testcatalog
-+ 		testchar
-+ 		testdict
-+ 		testModule
-+@@ -543,6 +544,7 @@ if(LIBXML2_WITH_TESTS)
-+ 	if(NOT WIN32)
-+ 		add_test(NAME testapi COMMAND testapi)
-+ 	endif()
-++	add_test(NAME testcatalog COMMAND testcatalog)
-+ 	add_test(NAME testchar COMMAND testchar)
-+ 	add_test(NAME testdict COMMAND testdict)
-+ 	add_test(NAME testparser COMMAND testparser)
-+diff --git a/Makefile.am b/Makefile.am
-+index c51dfd8e..c794eac8 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -21,6 +21,7 @@ check_PROGRAMS = \
-+ 	testModule \
-+ 	testThreads \
-+ 	testapi \
-++	testcatalog \
-+ 	testchar \
-+ 	testdict \
-+ 	testlimits \
-+@@ -143,6 +144,10 @@ testlimits_SOURCES=testlimits.c
-+ testlimits_DEPENDENCIES = $(DEPS)
-+ testlimits_LDADD= $(LDADDS)
-+ 
-++testcatalog_SOURCES=testcatalog.c
-++testcatalog_DEPENDENCIES = $(DEPS)
-++testcatalog_LDADD= $(LDADDS)
-++
-+ testchar_SOURCES=testchar.c
-+ testchar_DEPENDENCIES = $(DEPS)
-+ testchar_LDADD= $(LDADDS)
-+@@ -206,6 +211,7 @@ check-local:
-+ 	$(CHECKER) ./runtest$(EXEEXT)
-+ 	$(CHECKER) ./testrecurse$(EXEEXT)
-+ 	$(CHECKER) ./testapi$(EXEEXT)
-++	$(CHECKER) ./testcatalog$(EXEEXT)
-+ 	$(CHECKER) ./testchar$(EXEEXT)
-+ 	$(CHECKER) ./testdict$(EXEEXT)
-+ 	$(CHECKER) ./testparser$(EXEEXT)
-+diff --git a/catalog.c b/catalog.c
-+index 401dbc14..eb889162 100644
-+--- a/catalog.c
-++++ b/catalog.c
-+@@ -649,43 +649,54 @@ static void xmlDumpXMLCatalogNode(xmlCatalogEntryPtr catal, xmlNodePtr catalog,
-+     }
-+ }
-+ 
-+-static int
-+-xmlDumpXMLCatalog(FILE *out, xmlCatalogEntryPtr catal) {
-+-    int ret;
-+-    xmlDocPtr doc;
-++static xmlDocPtr
-++xmlDumpXMLCatalogToDoc(xmlCatalogEntryPtr catal) {
-+     xmlNsPtr ns;
-+     xmlDtdPtr dtd;
-+     xmlNodePtr catalog;
-+-    xmlOutputBufferPtr buf;
-++    xmlDocPtr doc = xmlNewDoc(NULL);
-++    if (doc == NULL) {
-++        return(NULL);
-++    }
-+ 
-+-    /*
-+-     * Rebuild a catalog
-+-     */
-+-    doc = xmlNewDoc(NULL);
-+-    if (doc == NULL)
-+-	return(-1);
-+     dtd = xmlNewDtd(doc, BAD_CAST "catalog",
-+-	       BAD_CAST "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN",
-+-BAD_CAST "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd");
-++                    BAD_CAST "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN",
-++                    BAD_CAST "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd");
-+ 
-+     xmlAddChild((xmlNodePtr) doc, (xmlNodePtr) dtd);
-+ 
-+     ns = xmlNewNs(NULL, XML_CATALOGS_NAMESPACE, NULL);
-+     if (ns == NULL) {
-+-	xmlFreeDoc(doc);
-+-	return(-1);
-++        xmlFreeDoc(doc);
-++        return(NULL);
-+     }
-+     catalog = xmlNewDocNode(doc, ns, BAD_CAST "catalog", NULL);
-+     if (catalog == NULL) {
-+-	xmlFreeNs(ns);
-+-	xmlFreeDoc(doc);
-+-	return(-1);
-++        xmlFreeDoc(doc);
-++        xmlFreeNs(ns);
-++        return(NULL);
-+     }
-+     catalog->nsDef = ns;
-+     xmlAddChild((xmlNodePtr) doc, catalog);
-+-
-+     xmlDumpXMLCatalogNode(catal, catalog, doc, ns, NULL);
-+ 
-++    return(doc);
-++}
-++
-++static int
-++xmlDumpXMLCatalog(FILE *out, xmlCatalogEntryPtr catal) {
-++    int ret;
-++    xmlDocPtr doc;
-++    xmlOutputBufferPtr buf;
-++
-++    /*
-++     * Rebuild a catalog
-++     */
-++    doc = xmlDumpXMLCatalogToDoc(catal);
-++    if (doc == NULL) {
-++        return(-1);
-++    }
-++
-+     /*
-+      * reserialize it
-+      */
-+@@ -3417,6 +3428,20 @@ xmlCatalogDump(FILE *out) {
-+ 
-+     xmlACatalogDump(xmlDefaultCatalog, out);
-+ }
-++
-++/**
-++ * Dump all the global catalog content as a xmlDoc
-++ * This function is just for testing/debugging purposes
-++ *
-++ * @returns  The catalog as xmlDoc or NULL if failed, it must be freed by the caller.
-++ */
-++xmlDocPtr
-++xmlCatalogDumpDoc(void) {
-++    if (!xmlCatalogInitialized)
-++        xmlInitializeCatalog();
-++
-++    return xmlDumpXMLCatalogToDoc(xmlDefaultCatalog->xml);
-++}
-+ #endif /* LIBXML_OUTPUT_ENABLED */
-+ 
-+ /**
-+diff --git a/include/libxml/catalog.h b/include/libxml/catalog.h
-+index 88a7483c..e1bc5feb 100644
-+--- a/include/libxml/catalog.h
-++++ b/include/libxml/catalog.h
-+@@ -119,6 +119,8 @@ XMLPUBFUN void
-+ #ifdef LIBXML_OUTPUT_ENABLED
-+ XMLPUBFUN void
-+ 		xmlCatalogDump		(FILE *out);
-++XMLPUBFUN xmlDocPtr
-++		xmlCatalogDumpDoc	(void);
-+ #endif /* LIBXML_OUTPUT_ENABLED */
-+ XMLPUBFUN xmlChar *
-+ 		xmlCatalogResolve	(const xmlChar *pubID,
-+diff --git a/test/catalogs/catalog-recursive.xml b/test/catalogs/catalog-recursive.xml
-+new file mode 100644
-+index 00000000..3b3d03f9
-+--- /dev/null
-++++ b/test/catalogs/catalog-recursive.xml
-+@@ -0,0 +1,3 @@
-++<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-++    <delegateURI uriStartString="/foo" catalog="catalog-recursive.xml"/>
-++</catalog>
-+diff --git a/test/catalogs/repeated-next-catalog.xml b/test/catalogs/repeated-next-catalog.xml
-+new file mode 100644
-+index 00000000..76d34c3c
-+--- /dev/null
-++++ b/test/catalogs/repeated-next-catalog.xml
-+@@ -0,0 +1,10 @@
-++<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-++  <nextCatalog catalog="registry.xml"/>
-++  <nextCatalog catalog="registry.xml"/>
-++  <nextCatalog catalog="./registry.xml"/>
-++  <nextCatalog catalog="././registry.xml"/>
-++  <nextCatalog catalog="./././registry.xml"/>
-++  <nextCatalog catalog="./../catalogs/registry.xml"/>
-++  <nextCatalog catalog="./../catalogs/./registry.xml"/>
-++</catalog>
-++
-+diff --git a/testcatalog.c b/testcatalog.c
-+new file mode 100644
-+index 00000000..86d33bd0
-+--- /dev/null
-++++ b/testcatalog.c
-+@@ -0,0 +1,96 @@
-++/*
-++ * testcatalog.c: C program to run libxml2 catalog.c unit tests
-++ *
-++ * To compile on Unixes:
-++ * cc -o testcatalog `xml2-config --cflags` testcatalog.c `xml2-config --libs` -lpthread
-++ *
-++ * See Copyright for the status of this software.
-++ *
-++ * Author: Daniel Garcia <dani@danigm.net>
-++ */
-++
-++
-++#include "libxml.h"
-++#include <stdio.h>
-++
-++#ifdef LIBXML_CATALOG_ENABLED
-++#include <libxml/catalog.h>
-++
-++/* Test catalog resolve uri with recursive catalog */
-++static int
-++testRecursiveDelegateUri(void) {
-++    int ret = 0;
-++    const char *cat = "test/catalogs/catalog-recursive.xml";
-++    const char *entity = "/foo.ent";
-++    xmlChar *resolved = NULL;
-++
-++    xmlInitParser();
-++    xmlLoadCatalog(cat);
-++
-++    /* This should trigger recursive error */
-++    resolved = xmlCatalogResolveURI(BAD_CAST entity);
-++    if (resolved != NULL) {
-++        fprintf(stderr, "CATALOG-FAILURE: Catalog %s entity should fail to resolve\n", entity);
-++        ret = 1;
-++    }
-++    xmlCatalogCleanup();
-++
-++    return ret;
-++}
-++
-++/* Test parsing repeated NextCatalog */
-++static int
-++testRepeatedNextCatalog(void) {
-++    int ret = 0;
-++    int i = 0;
-++    const char *cat = "test/catalogs/repeated-next-catalog.xml";
-++    const char *entity = "/foo.ent";
-++    xmlDocPtr doc = NULL;
-++    xmlNodePtr node = NULL;
-++
-++    xmlInitParser();
-++
-++    xmlLoadCatalog(cat);
-++    /* To force the complete recursive load */
-++    xmlCatalogResolveURI(BAD_CAST entity);
-++    /**
-++     * Ensure that the doc doesn't contain the same nextCatalog
-++     */
-++    doc = xmlCatalogDumpDoc();
-++    xmlCatalogCleanup();
-++
-++    if (doc == NULL) {
-++        fprintf(stderr, "CATALOG-FAILURE: Failed to dump the catalog\n");
-++        return 1;
-++    }
-++
-++    /* Just the root "catalog" node with a series of nextCatalog */
-++    node = xmlDocGetRootElement(doc);
-++    node = node->children;
-++    for (i=0; node != NULL; node=node->next, i++) {}
-++    if (i > 1) {
-++        fprintf(stderr, "CATALOG-FAILURE: Found %d nextCatalog entries and should be 1\n", i);
-++        ret = 1;
-++    }
-++
-++    xmlFreeDoc(doc);
-++
-++    return ret;
-++}
-++
-++int
-++main(void) {
-++    int err = 0;
-++
-++    err |= testRecursiveDelegateUri();
-++    err |= testRepeatedNextCatalog();
-++
-++    return err;
-++}
-++#else
-++/* No catalog, so everything okay */
-++int
-++main(void) {
-++    return 0;
-++}
-++#endif
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
-new file mode 100644
-index 00000000000..5964fd16b51
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
-@@ -0,0 +1,33 @@
-+From deed3b7873dff30b7f87f7f33154c9932a772522 Mon Sep 17 00:00:00 2001
-+From: Daniel Garcia Moreno <dani@danigm.net>
-+Date: Sun, 18 Jan 2026 19:47:11 +0100
-+Subject: [PATCH] catalog: Do not check value for duplication nextCatalog
++diff --git a/lib/decoding.c b/lib/decoding.c
++index 1e0fcb3..abcb49f 100644
++--- a/lib/decoding.c
+++++ b/lib/decoding.c
++@@ -1983,7 +1983,7 @@ int
++ asn1_expand_octet_string (asn1_node_const definitions, asn1_node *element,
++ 			  const char *octetName, const char *objectName)
++ {
++-  char name[2 * ASN1_MAX_NAME_SIZE + 1], value[ASN1_MAX_NAME_SIZE];
+++  char name[2 * ASN1_MAX_NAME_SIZE + 2], value[ASN1_MAX_NAME_SIZE];
++   int retCode = ASN1_SUCCESS, result;
++   int len, len2, len3;
++   asn1_node_const p2;
++-- 
++2.47.1
 +
-+The value field stores the path as it appears in the catalog definition,
-+the URL is built using xmlBuildURI that changes the relative paths to
-+absolute.
-+
-+This change fixes the issue of using relative path to the same catalog
-+in the same file.
-+
-+Fix https://gitlab.gnome.org/GNOME/libxml2/-/issues/1040
-+
-+CVE: CVE-2026-0992
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/deed3b7873dff30b7f87f7f33154c9932a772522]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ catalog.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/catalog.c b/catalog.c
-+index eb889162..ba9ee7ae 100644
-+--- a/catalog.c
-++++ b/catalog.c
-+@@ -1286,7 +1286,6 @@ xmlParseXMLCatalogNode(xmlNodePtr cur, xmlCatalogPrefer prefer,
-+ 	while (prev != NULL) {
-+ 	    if ((prev->type == XML_CATA_NEXT_CATALOG) &&
-+ 		(xmlStrEqual (prev->URL, entry->URL)) &&
-+-		(xmlStrEqual (prev->value, entry->value)) &&
-+ 		(prev->prefer == entry->prefer) &&
-+ 		(prev->group == entry->group)) {
-+ 		    if (xmlDebugCatalogs)
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-index fa081c2382f..25da11bd2d3 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-@@ -27,7 +27,9 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://CVE-2025-7425.patch \
-            file://CVE-2026-0989.patch \
-            file://CVE-2026-0990.patch \
--           file://CVE-2026-0992.patch \
-+           file://CVE-2026-0992-01.patch \
-+           file://CVE-2026-0992-02.patch \
-+           file://CVE-2026-0992-03.patch \
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.20.0.bb b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+index 8127ba5b1db..bfc011a2f17 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.20.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+ 
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://dont-depend-on-help2man.patch \
++           file://CVE-2025-13151.patch \
             "
  
- SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
+ DEPENDS = "bison-native"
 
