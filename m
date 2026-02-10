@@ -2,387 +2,203 @@ Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA01EB26FC
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 18:49:51 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.34])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.631.1770749388136803214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8694EB26FE
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 18:54:21 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.704.1770749657176663403
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 10:49:48 -0800
+ Tue, 10 Feb 2026 10:54:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=NZ7CPf8T;
- spf=pass (domain: est.tech, ip: 52.101.84.34, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=E6aaw1Xp;
+ spf=pass (domain: est.tech, ip: 52.101.84.44, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ner5pEyq7iADC2BE7gU5j9OdBFC6sfaEpal0rRmVOn8jOrJPT/9XuLByykdRoS9xM7QM8A2rRjfP5xqH2Fppp5YhozFIIR2pwu/R8H7Hju3usEOtGE2HdEt39D80rSG84Mjzzs/xVtIt/IYn2eTub4jtOVugoXPoG1jNDWyg2GmiPstG7vWt0syzTcKx5sQ5YCcRiuJ0K0+Ux+sMMSe2reHDRylARQgUSZpwhb2OJBHzPQlodrN+T1GAASv9obfSt1gl9aUqJBsojuJqEhSzZ8E0Pw/aRV6cbqUtNBUreUxwGaOMY6wkee5RqapAGYw+un51jrACwdp+bY/AF19LwA==
+ b=nyZf1xjPjjV9I0RjlqqbZAGqJRGZQM4h3xm1gXtOCUadFuFHGy9StwOFecLDMAGBnOs4rIoFX4B7uFJ5Pq1HFAt9a3AiDtqg2gSuWH545pJ+sr5AZ7XKco+9/jAtYHrvQoW8Llqo5SA1hU6CLM2atlIhWNBVKFfyWNSDYn6JJBU9pb10+cmOIcBsh/3R+215VEV0hyD6CMm2KGN3s/ooB8GtSpPdY4nGD5+FKQnKwnGUgfcW1U7mqxUxNY4JWEs5kM5vUCkDFEhyd2GKMaDRdzQIYW55JDFyt4geXB0YMnNbQ4k1RwAztSc740cAap93cpfnN9CuZ6GgucHK6KWqdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fdSQ6e/ndnY19/FHc6Qcw/x71tIcghtGB3XiHHunMzQ=;
- b=qczLBQICvy5NabhnC4qLRVWyZy03bjin5ECrbHTi06x77e6qQSpuYHPFTBORXYUVQPLZvbWN/qr0k8TcDtBhv0Z9a3Fr6TE0saNYdvw0xlpvOLj6vPKwA4p6HRuGfYEWctfo1AsnJ2Pk+Ej4PDdrC9CTjMPlTBD82lYlfLnuPDL1IJQDaP+w7aKlsMW+pucXJpqmTCQY/pg1o6LO3T3iz9vTHffdyrjboVRBiLRIZPuUP5BqImuqmCNaaMfqxCUXQI1TwETwh//yQ83s0Lh7P+QoFgq2Gb50oq/m6oRpCMnsBcpj7rN8ieT9TQAYVF6TfKTvwQQHZMSUL928EqzECA==
+ bh=UgQraoaVRPwWocJy8LQ0Oc8akRY05av5YDimgipCu8c=;
+ b=vSs2LYaXQd27PdwWdkWqZ9+ZEsvcSsKyJfPhh1wi/pjrj/5h6fsp01gGAemBvTXuAdwBUFfXQWbI4ftQoDzWEO613rVPe+aIcgRZMwkMwlfd20r8uEZNNn58oBuWI5QbaI8MpgNRjIK18t8jXAOr8mkMN0bIT/KH5RtSK2xpL5fFwOjkQy3lxDWpmgpWiUiL6mTR6KZ2PLLwnq/fYrTkW7Vstd3tcRuO1iJCx4t2s7qjH9jXB9zTW/Mp0hu5K08aGCeQJOdQ3dT1s/2JrYFEQ4xYJ451/U+Nfreo3K40jUinpWjwfgqpJV1mMFy9K/pI9wddZ6m66rFbHMlZPCb5VQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fdSQ6e/ndnY19/FHc6Qcw/x71tIcghtGB3XiHHunMzQ=;
- b=NZ7CPf8TpgjQfcMNTBuhLMJqcO3xIw2CO9ddkN6QZx+0OJoFxT+3CiSCuToSdL/Xv9327DqPMVmPAN9+8TNloi7HG20r7sb8QRHgO20mEjU1E65NoCOJahNlQUW+7te6ek0W5cqufqhT+OcYnyLfdJVaCfqXjenGEdjsxfz31C5rXgcRyl+KAk2KjTuOTshrIQeBT3H2mmBDyMPhsIi4GNbCLIV9P4A30IdNY3j3uM33mmel9qdsTq+gJh8JEPKLAZRpGwC3hHHDxn1arZju8cAmHKTucdHVEuauTs8tt5eho1eUF/y4YyY4UAWyy1xo8n2rpaOU2ltg+6sOBca1vg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
+ bh=UgQraoaVRPwWocJy8LQ0Oc8akRY05av5YDimgipCu8c=;
+ b=E6aaw1XpS5S4uw7N8U0Yug6NJK+oufIRqOKquv/fcxjv7MXoSyr/u1U0W6ObOmNt+eDrQLPKlFMhehHwEDKgSSxuyIBnhxhrEsjyg3lW0jHOd09rnsLub2ZFgvwqT4Ciotm39GjGdDdlK5HATRcFcuW7U1CvzoGyiwJ07NqV03rDn9vU0cepdM5vOuCnbrxJ+yMTdlcRhVYVhJKCQWLpfa+HQ3o3yu3CCitGTJcwDyqIwUezGdU1OZPniW1Gf4qhxJuUH8pFKd1Pl7u268AigpxamCy/wGePhCPW3N5RHyutEFPVbBzMUodjK2VB56x/0hs2yTF43ReKylN5HmKjzg==
 Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by AS8P189MB1303.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2a7::17) with
+ by FRWP189MB3207.EURP189.PROD.OUTLOOK.COM (2603:10a6:d10:17d::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
- 2026 18:49:13 +0000
+ 2026 18:54:06 +0000
 Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
  ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
  ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
- 18:49:13 +0000
+ 18:54:06 +0000
 From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] libsolv: add ptest support
-Date: Tue, 10 Feb 2026 19:49:08 +0100
-Message-ID: <20260210184908.7373-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260202223606.19978-1-pratik.farkase@est.tech>
-References: <20260202223606.19978-1-pratik.farkase@est.tech>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "pratik.farkase@ericsson.com"
+	<pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH v3] libconfig: add ptest support
+Thread-Topic: [OE-core][PATCH v3] libconfig: add ptest support
+Thread-Index: AQHcleaxPbMZ1IPe0kmxOtOn4835IbV74ZIAgABusxw=
+Date: Tue, 10 Feb 2026 18:54:06 +0000
+Message-ID: 
+ <GV2P189MB3005FAFCA7404323AFA97B89FE62A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+References: <20260128140635.43214-1-pratik.farkase@est.tech>
+ <20260204145811.19113-1-pratik.farkase@est.tech>
+ <56068E4F-CD6A-4E3D-A685-52994C77FFDF@arm.com>
+In-Reply-To: <56068E4F-CD6A-4E3D-A685-52994C77FFDF@arm.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2P189MB3005:EE_|FRWP189MB3207:EE_
+x-ms-office365-filtering-correlation-id: e592cde5-0e74-40a6-d626-08de68d5c434
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700021;
+x-microsoft-antispam-message-info: 
+ =?Windows-1252?Q?t6TCZKnfuQbpmZ6VQRGMcpPP4q3Ly1IJre1+bwoGSiUEyIJHvEphlYwE?=
+ =?Windows-1252?Q?iDGfhZGqm2SGRs8P/f6OlW7F3i8sGTaOVLGQo0dDsTEgQk6zO8aThJrs?=
+ =?Windows-1252?Q?5DV+Pimgn8YuUbTaI5lpgH5BYqNfXFF5xDld/G7AJq3iOwTUEKAMx492?=
+ =?Windows-1252?Q?WzWQ7RLPA2kFWrOZX6dnUJr5LY3WZVJb3Rsvdu0y9nEFgl41DVFpigrW?=
+ =?Windows-1252?Q?qUZesi5jIvaO8uOpxlPbhkYFVbiO27FjM3aI7Cp8f031+HiIdPHIJT+i?=
+ =?Windows-1252?Q?DKCjjRNJYkOCi3p/+rhns4I6EERa632znlXLQghMYNFAGQWhK37k2LlL?=
+ =?Windows-1252?Q?YbP4CVBFDl5xF5iR0m1yF6vvSmSr9OU+7PvHUnDNSBPdbZVRZySwR/6v?=
+ =?Windows-1252?Q?daMxMongnupnTnEHmfWh9aCWAoU8rB20QsFhyxuEAtnNf02U0xHvyjhR?=
+ =?Windows-1252?Q?d9fxkqw4lUoJL23CopVZBSguvVYKkspD0qGpq1M79oqlJmd+E5cRGVH6?=
+ =?Windows-1252?Q?MX4zzNt60hB59zjnmyW+AG02/emHqqTEw80IyhTFU3L6q/8vp1zzh7UE?=
+ =?Windows-1252?Q?0IZG5gn3XKeG2QRyxmP/T6zl9/VkDw+s0wFGx8uILidQ103ZGFohtIhN?=
+ =?Windows-1252?Q?/Qo7Vd4kHwIddEqBMXCL77QHtS1FNLMZ+KSzrJkYGljylC+Wt4JM6wgg?=
+ =?Windows-1252?Q?8M6hxRpN77b38yyIvrcqTq8OGiXlO7xbJFFqrMin8Y5lGLI2TQwNOtrP?=
+ =?Windows-1252?Q?bekU1sgNv43kpaAOT8ZPJoEt4qH0Vp09fPRBEVSupU7YFO5QExeCWueA?=
+ =?Windows-1252?Q?mFyGt6j/1Gzt5FApJkoLiJesX+NZXTr8zWHGhLuyh4HOStft+7pxfsna?=
+ =?Windows-1252?Q?LxN2LWFBOmiqL972RfQvA0nbw1dH9IpGqJIZWtPox0jMPPnnBoYA66/S?=
+ =?Windows-1252?Q?TD+L0619w7HGQ6cWdB7Z8vkhObPclv/ZoBbHTsJNgL+b/5cDeiYrlxaQ?=
+ =?Windows-1252?Q?X1i6j1vMpy/uhHvmNfALvr/5m+lOWFMUKYsESAMf1kNdU1HWmDy5s0vq?=
+ =?Windows-1252?Q?rCIGy8nZLbRQvpklZdhX2I2E67+s+XJiwWVKKxrLCBEaYmLg6cufA6NG?=
+ =?Windows-1252?Q?cjJAWPwdfv7nluk2n2VfDhgGSmfbatowNjfkynFxTAmtrS4AXFwvsfeT?=
+ =?Windows-1252?Q?QrfL8NzSXdmul62Gw8GUYgUXOb/e7GW86k9Q7BGml4+A/YZcpXJL2rqw?=
+ =?Windows-1252?Q?D1CMxd+HEgK6xvUV+Kaiuh902DlSKMcq54cvtApe0CoDlzVnkVe5ApnV?=
+ =?Windows-1252?Q?bMJRvjSvpnI7xWogQeVWCTXWilLSoCccc2RquMhMWpiqE14cURkxz9wU?=
+ =?Windows-1252?Q?26o6tWrXwryG60FZNiUYn2FDR7wV9wvSOsnPoLCYV2PHDadmezLtJy0j?=
+ =?Windows-1252?Q?QzdDERwqM2Ruu4ds8M2y7MeRDP0v1Rf0V6JB8/hRetB/vxevKdZtjMSs?=
+ =?Windows-1252?Q?I2gS6ibV3uRlJMC6APpemvmvtYtUt1xvOzMBm9TegudRuJVSdrw9wQQ4?=
+ =?Windows-1252?Q?EZumZcxLJ+GqcIDSf13h9TTLDMWx9XB6mcO/WQ2SP+RRVDnXdOURgQgb?=
+ =?Windows-1252?Q?EsIdIJMwit8TmFnF3zzDkuA9Exkh3pV9VnfNZ2MiX4Z3DXXRDCAZqI9J?=
+ =?Windows-1252?Q?sanY6Hzt9+ooshTsMpbeScg7kfiXmOOPV2EGvVWHPpElb5duymks6VXY?=
+ =?Windows-1252?Q?FJ9tdH2DqLEm4XOcOcQ=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?Windows-1252?Q?XccPTwCrSySiPG6Athb8obNturyRPejUZ5yUtjo+m/etGXNOV+Pw4jU/?=
+ =?Windows-1252?Q?l6OI0WAcUGSjYW8cM2keYLl85b7iPHJPMccv0kjW1fNQscX/3eNXK5D0?=
+ =?Windows-1252?Q?Ud7hn3/rf6Nw79zbr9mMU21ofvsJAB0Ep3FqEs775yjGdVMRC72HdjdM?=
+ =?Windows-1252?Q?HDj+sz/7ueWTrwCfZSU9n9/lFlbIuR1BjCHbVtr3a+tAwTGT+DOwftTg?=
+ =?Windows-1252?Q?kqylcjnkqW7od1Io2X0DnNQlk+ld32lUxWDy1xtGfVAE/Jmhy5WgPES4?=
+ =?Windows-1252?Q?RMNU+cNtw//QrzVP5pTTpxhrtu0c832ZZT96VZ74tqcEVNvAvPOlJCNg?=
+ =?Windows-1252?Q?LWWdNTkn5Brg6+vb8pBpWO7xbF3zJMwM1YPxT6GTMBCFxN5gCgZK++Pg?=
+ =?Windows-1252?Q?hBaWCFEsTUOpiIMNHzfy8dBMn8SAMEmAjRJVRRc5sPLY/4Oemdmc2pOB?=
+ =?Windows-1252?Q?75VgTuYaTbXIHgAQRw94UmMV9OqdWubzuUAL7xprWs4pB46pIr34wbuk?=
+ =?Windows-1252?Q?ttC+RgmOgblsuuMzpeoNSSiKxvcIV2sMD0eDBMLUWbCFsI43co92KRPC?=
+ =?Windows-1252?Q?W8xnZUt5PhmRiBEcx7xyaeOoSTqs55VKvP7AUI1wFdE9E8LPau44pZi/?=
+ =?Windows-1252?Q?tXeWz4rR//Ipu3GbQArrhxN5CCLUIkwexVOuni87dgkWrIiryvOFq9ZL?=
+ =?Windows-1252?Q?faxcOLUrW+saUtd8y1mLMETba7XdwBYvFV8dr6JSIQaeHFDdEw5TUQna?=
+ =?Windows-1252?Q?E+ZR7GfT47Mu3pPR6ApclaTXTvbufC5nUbrKVLqH8MsD6ixFcdd6gdHe?=
+ =?Windows-1252?Q?CwFriumaI1ApeF+8wc7p1tw0dWp+TP7OwH4i//2ruURaSAIpNzypmbe7?=
+ =?Windows-1252?Q?qaQ6bW6o1r8mx+xhgQuvWWESBYVqgQFcbZN87T3OQCx4GIws4BZTDxyP?=
+ =?Windows-1252?Q?i22jLJ86NWGTn5+HPH33RdEXAWVXkOl+OpeXkpFkQo3SO3uAIvfI/VcE?=
+ =?Windows-1252?Q?mPb8xtEKdCzep8DwsVhayVQS/lEq8y5N6DF9fS2B/PC/4NjExKWTBFHp?=
+ =?Windows-1252?Q?l6HJeUDwqtKoq8lfZsqMhSoMY94tvkdNTx9MEd0PZ3fjGPxf1G/g2VBk?=
+ =?Windows-1252?Q?TpyuFNJ1S1vsVLdl0/ZakZfqUvXX/RkDTdrhnI8KIx4WVUkPXVEkvUOC?=
+ =?Windows-1252?Q?7sjNEJXkQqr2wIwnJ+BA3PGXE4hF2UsyOF8l9WCAtteTtY2b5ADzKg3i?=
+ =?Windows-1252?Q?Mi+pyO3yn1NfllSEMsymF1zBMcsF03DZ3DV5sCVjsfHNYmmgcHQJ6Z01?=
+ =?Windows-1252?Q?4Dmeh9IqDH7UsT/YkG2HzZj2E9uQI4aitKFdm5HRZMuAXLvUjS1+Gn69?=
+ =?Windows-1252?Q?x3mNRf47Mp19L9NFXPYqeDvHQap6BKiotHBsj2W/lYvnpatQp67sblNM?=
+ =?Windows-1252?Q?ITs4LZP81iUAvm1CHKhOMi0Wu+szWz8/MSblxbkMwNZsyw4Is/cyQKN7?=
+ =?Windows-1252?Q?k31ORdtsdN6StrDmIoWB2fGYtVJUVlVOszTf6Thk9XootW23Z6LS5kGD?=
+ =?Windows-1252?Q?Hr+0ok5SGfgDDg5WdftQgkk07EGZJt30lYvaHRkZCQo1yOlD7E4h2xPO?=
+ =?Windows-1252?Q?fZHpQx5/ad7DLGtzde5vgEvIX1A4pTqI81YoIR/z8fEOQ5oJ9KVFMoK/?=
+ =?Windows-1252?Q?72iC5bYIzBJ2QmZNa8mZxuJDUz2OQrFxM+E7FnZTLZM0cu5BCjg9eBy+?=
+ =?Windows-1252?Q?ALkKHI2Fzi2rxeZEBxYFfz6JjP4ihET4jOCE0dSSzLiMu+guYFZiBPjU?=
+ =?Windows-1252?Q?kS5CWqo4lYMKoXbIomxwFIe6ywPnFhDNfUBoNtcHKRZBotsL6U3/d6AA?=
+ =?Windows-1252?Q?1sxEUCvBLODQ6g=3D=3D?=
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P123CA0015.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:a6::27) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|AS8P189MB1303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91d026ca-a4eb-4a56-eb62-08de68d51590
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?hRLpr1Rj2DNXQx0r4nz/yFlLI7v7S37NksIkX76kkobUa5OtlB3MZEitb4OG?=
- =?us-ascii?Q?iL1qrk7aZn5+DOtabva8NObh6Q71D+gdRW0IHvblQ4lUKNgK1Le7XffSK3ww?=
- =?us-ascii?Q?U5hsUtLuz7GvEkSNIhK1oIGuokDVg060ucTrzrgZ6O/zeWLC4wLyM3wiEcl7?=
- =?us-ascii?Q?/iNVKpxigKdHgNw1MIhJuvbnUTtwZDmPu1Fmcx4uTX2+siNZBWAqGh2vAePn?=
- =?us-ascii?Q?lVD4WLTg5ZnS09dDtXWuiWMuEhaH2ZaA4kpF0tmAKPGzTJdJ1kz3e3RZlcgl?=
- =?us-ascii?Q?TRd6O2mzsYIXE2nmJQJpa2y1ApZ49LtOjbGwPnlKfNZPAbhq2SzHvMbBxddB?=
- =?us-ascii?Q?MuALmS/eSELcJvHqHw18w9qpBXb7EqA/T4MbDVg4yOoCLr3pLs9tSQzPvDtW?=
- =?us-ascii?Q?4FwQsTQQKrkoJ6Z2iSDlrRi737QKMP3jFemde8/A113pWBryU0EhDbZIBEXT?=
- =?us-ascii?Q?d7XJNu6i4Z1lBzZzcffIq6XBuUZr6/8iHoZHNyRaxniKaPnw4e7WP7M0FWge?=
- =?us-ascii?Q?ZiQI+V5I8ux1D9UZ4cZrD1pRLqhrC22qCd5qerIUEXk7RHkA2LJR+BXaWcBq?=
- =?us-ascii?Q?mD3vCMTWFeTbvrUNi48mKvjzKcngQel2SIwaTagqdG4rOXt3iypSx1tM1KdY?=
- =?us-ascii?Q?Z+WdnsIOTFRK0DoCSIQUyZMYeFzjX23/K+ToIRdb0PdwNtCeUF6DDdP1APkF?=
- =?us-ascii?Q?cqv0mC5M+1bBBQh4GGz9mGhC11IRX2OWn7Bmoqolan+XdiqUxZd6fSbA/tYw?=
- =?us-ascii?Q?Z2zEXmgF0TMXnfNtfBgWSLjxoGHsGry3bS8hqHqMAjRgLMpSqwMc+5+BOFvi?=
- =?us-ascii?Q?leT6vN26y23ydxIpZgOFL98b7z4ZGYW+qh/Qjt4uP7sowmt0cNzeURlgZZhY?=
- =?us-ascii?Q?+gkjdCrnSZbzdRgVb2Pif2fMcv5GuZpzdmFSrqV9fsa2fT57tJKTUbvlFOf0?=
- =?us-ascii?Q?qjYSuQDDTPtLQOSIFh0ft5oN81wfB5dVaLL5RQNYmksCckeSkT+r4sd5gYwR?=
- =?us-ascii?Q?n4OFqZtxdQ/Rr+Th/2OqkSNqHvu4mKm4E2Da4HamhoM3aTu3saaai3WA3tAm?=
- =?us-ascii?Q?Kwx2UBuUcaXHRK1+ixwqabNYGaSrlAG2BhxKqJo8bvxQ7W2QzALPTvHte1u3?=
- =?us-ascii?Q?Af5cvovFxPzOQxfTe9xdu9tlVpMGpVkxTj/gwye41cIKfCb6Mi0k1cuY7ke0?=
- =?us-ascii?Q?Zcg6poFKYd5zA4dt25HfFjUhNPnNQxUbCyKzIbNMD4gUCffaEUfYiDdg7SHq?=
- =?us-ascii?Q?xOiT1ROYZTaEx8YaIaqyJ0f5pr9gz6cj+8QPjuC1CuytLXsWf7TCYrfpkqol?=
- =?us-ascii?Q?ESpLEKADNBlkmEhDTKmjd7ChL9zGkLPnn4bystjGGZkstjIl1e36Xeo7AIL8?=
- =?us-ascii?Q?7myQp+WEQL1PomamfvBrHT9OcEE3UBHK+qcwFYkpr7ApadMAhdJZbcU/bkiz?=
- =?us-ascii?Q?41bcNVl9OoKq2/U+MpuUNERIPd4pqNZ/KKxaJ5TzCwY39E0l2B2ovlbuAOU7?=
- =?us-ascii?Q?+BZXv8dxkF6T/Pzq7gqpOq8dSSXaAzCl4+pOhQD/a4AJds5NYW/tnJ5b5sPk?=
- =?us-ascii?Q?qzMw6vdD/Pm/f5SB3nI=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?LhcvAFtBQaCnKolqqh34RqNaIUc9Cl6djZbU2G//1AFAPv7kn+42jf1HnAh9?=
- =?us-ascii?Q?haXbFNH/Cu65cv1qNjktwq4rfM88bQWywyLgQFwS/+J6FxmRCoGaqdq75QDQ?=
- =?us-ascii?Q?oMU3oCLbm/K/YLyP/GSxDQ4z6tSmU+oCD5apZEv3+47aNKAaucIypOCWt457?=
- =?us-ascii?Q?86A7EtIOpK/49qrop6+khTJ8r+TWQSrfwp4R7fw9SW3OThq/nWRAjnp8MiPi?=
- =?us-ascii?Q?j/zrvzgS8EvlAvbr35lo3NcjmhWMj4y1zqP8Zx1uu/R0jtmPY/22UTpzJTi1?=
- =?us-ascii?Q?QwTrm95u/3NTNxOjFkSh57isLAnSTtFzkehet5ZS/zOazdqEcAzI4b2T7Bzu?=
- =?us-ascii?Q?+aeJMQYlh6jhw4gkj5hJqeJ1qlYh7fBsiaouLp9v5EB1x1cvrXtIQkfQhrkK?=
- =?us-ascii?Q?xvUiXyHEI8ALHV/oJJRtbl/EvIHIon42/CXzzTn2CIirOVz16EzsuRPKLKPb?=
- =?us-ascii?Q?DObvVcKABlBw68oldpDgYuAhGgzCZEflilr7yio+V/aLmj5dsWvJvzkLkMcA?=
- =?us-ascii?Q?7fLbu/gbR0d+m9zqHfnYDT7x24woUEJqfFx0lwMbxlEKiIzYDF+jm4XIxSU2?=
- =?us-ascii?Q?tjRygbaEl0oUSIjdLrPxS1jNbsQ+Wzg69H35qOA0VMm3XtftuCCIqjMU8lLI?=
- =?us-ascii?Q?+vnJJHhSgL2iYrNBSs8K22m7ALlm9Ch/dECtipTYg64WyYT6OPY+ue8iIo3D?=
- =?us-ascii?Q?IWeVXiFzA3Yljcw6ng+SXT48tmvfRKq7HmJy2e8k1VJgv/u75BBCQMcNUO8r?=
- =?us-ascii?Q?ZfTUDhhMVUvS2Za6eOjIWoCskAbGOCp7YHIX+grhABqAIDEgtOGROVgs4qJS?=
- =?us-ascii?Q?WMk+td6Pr5kiAkUbbm89EUJyoL5nR5Qa4nXzIkmBnRzUkv3IXplu4/lF9zvv?=
- =?us-ascii?Q?2IfZbIsU4D5p/zajxGbcGksjJ1SbrhvsgM3KVHZSznNpgh7fUsRqC2VsSQV+?=
- =?us-ascii?Q?rqBqSFWVgOP4wzryLcwpf4Fs2KGT9FznFKz3YM9tTCywpSQzk1AUKH76qYMZ?=
- =?us-ascii?Q?2AXNdURWpFpYfdyeYGejlGje5+LhRP+AGWlY/g2yYa6XKkGkV4mOWOTA4bVk?=
- =?us-ascii?Q?unl9In9nyC6OXY+KpQJgKbflr9OjwAfnFiJDPCpIcMFMwetTyJKQwTYsgItW?=
- =?us-ascii?Q?i0/wbawfNvaPA9Nw6JyCHdFql2OWXolPTlcWLSo035B/mn2WDjg/kA4ifa6G?=
- =?us-ascii?Q?ePGS4QLeEUAI+uCbOHKyOyiyuLyAQVEAhjgXKEn9WNeGQfeTc+/XePANcwLD?=
- =?us-ascii?Q?yxKENZ7XnaSG2A9PjbP14eJ3bUfrwJ2FnSr8ELnGKwSrOFZuGyxuyrhzKoI7?=
- =?us-ascii?Q?unsKM29mwR40SPqe1q4xzZC9qbStM6HL/ntjfkqAHdHFizLd5163X/1153k0?=
- =?us-ascii?Q?1e/udpzdaPq3KtZMtUeiTGkd5V9sisfm4DEhVeHa/w5wSKz2lKh7ju0aL/Gb?=
- =?us-ascii?Q?g1CejiXMbJB1fUMNFOyUGhHdgCe/zo4Sn3Z7Lt13wRhaqGxn2AKAcCq0DVnB?=
- =?us-ascii?Q?uhPFVVuraA8zlsb9qEB1WopFCcgQQVLEW9mtf8ICLsaM3BMLswlQ6jw44o32?=
- =?us-ascii?Q?MMwqYZ6wE3pRXe4SsmbTIm9pn47ry1VD9sv55OElOEBzfXPeCvZtSaWZI1gN?=
- =?us-ascii?Q?v0bfiW4xFLNloFP7XzBxKW5u8yJzzq4cb9EiHYw+JdbSAcsjoWzOGBSQADGI?=
- =?us-ascii?Q?6e7BH6smPLArelKPk7mA1eZQbz2CCT9A+JM81Ba/leQLyyGXW1d+OAgdLHSd?=
- =?us-ascii?Q?7heTO1AQcQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91d026ca-a4eb-4a56-eb62-08de68d51590
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 18:49:13.3397
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: e592cde5-0e74-40a6-d626-08de68d5c434
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2026 18:54:06.1799
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JKc8Wj+I5/DaOPpm9KRq5A0nlhPo+rIc1P2ve2JlvuS5U1OeLC8Vowmu5QSJx/NCuZyXkiekqGd9SyDcVaKjLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1303
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bdeck1uBQolCKLlEe/WEDxEGRFUF4W2VPkk+cH/WLmemA/NWFxYawwHJnTDG+65fGLy3z+zEH8eYEy31M28bbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWP189MB3207
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 18:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230927
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 18:54:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230928
 
-Add ptest support to enable automated testing of libsolv
-using ptest-runner.
-
-The implementation uses upstream's test infrastructure:
-testsolv binary, runtestcases.sh script, and testcase data.
-The test suite runs 28 test categories covering solver
-functionality, package dependencies, and repository handling.
-
-All 28 upstream tests pass successfully on qemux86-64:
-START: ptest-runner
-BEGIN: /usr/lib/libsolv/ptest
-conflict.t .......................................   Passed
-forcebest.t ......................................   Passed
-PASS: testcases/allowuninstall
-job.t ............................................   Passed
-learnt.t .........................................   Passed
-recommends.t .....................................   Passed
-requires.t .......................................   Passed
-strongrecommends.t ...............................   Passed
-update.t .........................................   Passed
-yumobs.t .........................................   Passed
-PASS: testcases/alternative
-ptf.t ............................................   Passed
-retracted.t ......................................   Passed
-PASS: testcases/blacklist
-choice1.t ........................................   Passed
-choice1b.t .......................................   Passed
-choice2.t ........................................   Passed
-choice2b.t .......................................   Passed
-choice3.t ........................................   Passed
-choice3b.t .......................................   Passed
-choice4.t ........................................   Passed
-choice5.t ........................................   Passed
-choice6.t ........................................   Passed
-choice7.t ........................................   Passed
-PASS: testcases/choicerules
-default.t ........................................   Passed
-enhanced.t .......................................   Passed
-oldversion.t .....................................   Passed
-suggested.t ......................................   Passed
-versioned.t ......................................   Passed
-versioned2.t .....................................   Passed
-PASS: testcases/choose
-cleandeps_dup.t ..................................   Passed
-cleandeps_in.t ...................................   Passed
-cleandeps_up.t ...................................   Passed
-cleandeps_up3.t ..................................   Passed
-mistake.t ........................................   Passed
-PASS: testcases/cleandeps
-and.t ............................................   Passed
-andor.t ..........................................   Passed
-if.t .............................................   Passed
-ifelse.t .........................................   Passed
-ifelse_rec.t .....................................   Passed
-or.t .............................................   Passed
-orand.t ..........................................   Passed
-PASS: testcases/cplxdeps
-dup_allowuninstall.t .............................   Passed
-dup_multiversion1.t ..............................   Passed
-dup_multiversion2.t ..............................   Passed
-dup_multiversion3.t ..............................   Passed
-dup_noarchchange.t ...............................   Passed
-dup_orphan1.t ....................................   Passed
-dup_orphan2.t ....................................   Passed
-dup_orphan3.t ....................................   Passed
-PASS: testcases/distupgrade
-caret.t ..........................................   Passed
-testevr.t ........................................   Passed
-PASS: testcases/evrcmp
-excludefromweak-obsoletes.t ......................   Passed
-excludefromweak.t ................................   Passed
-PASS: testcases/excludefromweak
-recommends.t .....................................   Passed
-recommends2.t ....................................   Passed
-requires.t .......................................   Passed
-single.t .........................................   Passed
-supplements.t ....................................   Passed
-PASS: testcases/favor
-best.t ...........................................   Passed
-installed.t ......................................   Passed
-new1.t ...........................................   Passed
-new2.t ...........................................   Passed
-normal.t .........................................   Passed
-PASS: testcases/focus
-forcebest_dup.t ..................................   Passed
-forcebest_in.t ...................................   Passed
-forcebest_up.t ...................................   Passed
-PASS: testcases/forcebest
-best.t ...........................................   Passed
-dup.t ............................................   Passed
-PASS: testcases/lock
-infarch_install_best.t ...........................   Passed
-lockstep_install.t ...............................   Passed
-lockstep_update.t ................................   Passed
-PASS: testcases/lockstep
-multiversion.t ...................................   Passed
-update.t .........................................   Passed
-update2.t ........................................   Passed
-PASS: testcases/multiversion
-namespaceprovides.t ..............................   Passed
-PASS: testcases/namespace
-pubg1.t ..........................................   Passed
-pubg2.t ..........................................   Passed
-PASS: testcases/proof
-recommended_conflicts.t ..........................   Passed
-recommended_multirepo.t ..........................   Passed
-recommended_oldversion.t .........................   Passed
-recommended_targeted.t ...........................   Passed
-recommended_version.t ............................   Passed
-suggested_conflicts.t ............................   Passed
-suggested_multirepo.t ............................   Passed
-suggested_oldversion.t ...........................   Passed
-suggested_targeted.t .............................   Passed
-suggested_version.t ..............................   Passed
-PASS: testcases/recommendations
-assert.t .........................................   Passed
-mm-test.t ........................................   Passed
-reuse.t ..........................................   Passed
-PASS: testcases/sat
-disable: unknown package 'E-1-1.src@available'
-disable: unknown package 'F-1-1.src@available'
-selection_canon_rpm.t ............................   Passed
-selection_filelist.t .............................   Passed
-selection_matchdeps.t ............................   Passed
-selection_matchsolvable.t ........................   Passed
-selection_name.t .................................   Passed
-selection_provides.t .............................   Passed
-PASS: testcases/selection
-strictrepoprio.t .................................   Passed
-PASS: testcases/strictrepoprio
-break.t ..........................................   Passed
-disfavored.t .....................................   Passed
-strongr.t ........................................   Passed
-PASS: testcases/strongrecommends
-targeted_color.t .................................   Passed
-targeted_dup.t ...................................   Passed
-targeted_up.t ....................................   Passed
-PASS: testcases/targeted
-nested.t .........................................   Passed
-str2dep.t ........................................   Passed
-PASS: testcases/testcase
-supplements_implicitobsoleteusescolors.t .........   Passed
-PASS: testcases/weakdeps
-dup.t ............................................   Passed
-dup2.t ...........................................   Passed
-forcebest_in.t ...................................   Passed
-forcebest_up.t ...................................   Passed
-PASS: testcases/whatprovideswithdisabled
-split.t ..........................................   Passed
-split2.t .........................................   Passed
-PASS: testcases/yumobs
-DURATION: 7
-END: /usr/lib/libsolv/ptest
-STOP: ptest-runner
-
-Note: runtestcases.sh requires bash as it uses bash-specific features.
-
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-
----
-Changes in v2:
-- Use testcases/* glob instead of explicit test list
-- Remove existence checks from run-ptest
-- Remove existence checks from do_install_ptest
----
- .../conf/distro/include/ptest-packagelists.inc |  1 +
- .../recipes-extended/libsolv/libsolv/run-ptest | 12 ++++++++++++
- .../recipes-extended/libsolv/libsolv_0.7.35.bb | 18 +++++++++++++++++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-extended/libsolv/libsolv/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index b9616e9bf4..fbbd118255 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -36,6 +36,7 @@ PTESTS_FAST =3D "\
-     libnl \
-     libpcre \
-     librsvg \
-+    libsolv \
-     libssh2 \
-     libtest-fatal-perl \
-     libtest-needs-perl \
-diff --git a/meta/recipes-extended/libsolv/libsolv/run-ptest b/meta/recipes=
--extended/libsolv/libsolv/run-ptest
-new file mode 100755
-index 0000000000..857b719ae5
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/run-ptest
-@@ -0,0 +1,12 @@
-+#!/bin/sh
-+
-+cd test
-+
-+for t in testcases/*; do
-+    ./runtestcases.sh ../tools/testsolv $t
-+    if [ $? -eq 0 ]; then
-+        echo "PASS: $t"
-+    else
-+        echo "FAIL: $t"
-+    fi
-+done
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb b/meta/recipes=
--extended/libsolv/libsolv_0.7.35.bb
-index ec74308bb5..d42623b413 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
-@@ -10,13 +10,14 @@ DEPENDS =3D "expat zlib zstd"
-=20
- SRC_URI =3D "git://github.com/openSUSE/libsolv.git;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV} \
-            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
-+           file://run-ptest \
- "
-=20
- SRCREV =3D "fb4b4340d46108cb365113e432642d6024886c7a"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
-=20
--inherit cmake
-+inherit cmake ptest
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('PACKAGE_CLASSES','package_rpm',=
-'rpm','',d)}"
- PACKAGECONFIG[rpm] =3D "-DENABLE_RPMMD=3DON -DENABLE_RPMDB=3DON,,rpm"
-@@ -29,3 +30,18 @@ FILES:${PN}-tools =3D "${bindir}/*"
- FILES:${PN}ext =3D "${libdir}/${PN}ext.so.*"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+do_compile_ptest() {
-+    cmake_runcmake_build --target testsolv
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tools
-+    install -d ${D}${PTEST_PATH}/test
-+
-+    install -m 0755 ${B}/tools/testsolv ${D}${PTEST_PATH}/tools/
-+    install -m 0755 ${S}/test/runtestcases.sh ${D}${PTEST_PATH}/test/
-+    cp -r ${S}/test/testcases ${D}${PTEST_PATH}/test/
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "bash"
---=20
-2.43.0
-
+Hi Ross,=0A=
+=0A=
+Thanks for the review.=0A=
+=0A=
+I have removed the conditional checks in do_install_ptest() so the build wi=
+ll fail if the test artifacts are missing, as suggested. Patch v4 is sent h=
+ere:=0A=
+=0A=
+https://lore.kernel.org/all/20260210184719.7219-1-pratik.farkase@est.tech/=
+=0A=
+=0A=
+Thanks for your feedback. I will keep this in mind for future implementatio=
+ns. =0A=
+=0A=
+Best Regards,=0A=
+Pratik=0A=
+=0A=
+=0A=
+________________________________________=0A=
+From: Ross Burton <Ross.Burton@arm.com>=0A=
+Sent: Tuesday, February 10, 2026 1:13 PM=0A=
+To: Pratik Farkase=0A=
+Cc: openembedded-core@lists.openembedded.org; pratik.farkase@ericsson.com=
+=0A=
+Subject: Re: [OE-core][PATCH v3] libconfig: add ptest support=0A=
+=0A=
+Hi Patrik,=0A=
+=0A=
+> On 4 Feb 2026, at 14:58, Pratik Farkase via lists.openembedded.org <prati=
+k.farkase=3Dest.tech@lists.openembedded.org> wrote:=0A=
+> +do_install_ptest() {=0A=
+> +    install -d ${D}${PTEST_PATH}/tests=0A=
+> +=0A=
+> +    if [ -f ${B}/tests/libconfig_tests ]; then=0A=
+> +        ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/tests/libconf=
+ig_tests ${D}${PTEST_PATH}/tests/libconfig_tests=0A=
+> +    fi=0A=
+> +=0A=
+> +    if [ -d ${S}/tests/testdata ]; then=0A=
+> +        cp -r ${S}/tests/testdata ${D}${PTEST_PATH}/tests/=0A=
+> +    fi=0A=
+> +}=0A=
+=0A=
+Same comments are before: don=92t use conditions when installing or running=
+ the tests unless there=92s a very good reason: we _want_ the build or test=
+s to fail if things change.=0A=
+=0A=
+(this one hasn=92t merged, so please send a v4)=0A=
+=0A=
+Thanks,=0A=
+Ross=0A=
+=0A=
 
