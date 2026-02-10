@@ -2,128 +2,141 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B57F7EB26EA
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 16:52:45 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24443.1770742356417660397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2415EB26ED
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 17:04:55 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24729.1770743090601374109
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 08:52:36 -0800
+ Tue, 10 Feb 2026 09:04:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Fu6ZbRG0;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48069a48629so53584165e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 08:52:36 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=rZ2FMIwL;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48068127f00so10596405e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:04:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770742355; x=1771347155; darn=lists.openembedded.org;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to:cc
-         :from:subject:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ey7vgRSKsVfH6h8ChZI7OMENXUi5dPgROurorEMr6F0=;
-        b=Fu6ZbRG0Zv1WntBFH6Pe65mkCJP5kmfXI3rzdI7dqp6pZsqtP+3V/VuppsbevHAZ7r
-         8t/sgpBWaM0iKrTnFwCBzpuzOglWDTKgT6W1iYBpj46LNWML7/hqC5R4LGgDW0P3v1hd
-         BmnRLsQ7Xqvgr490ppDKxOy/CL5IZCwaY+hWU=
+        d=smile.fr; s=google; t=1770743085; x=1771347885; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=afHydWvN8a4MXojH4EJ2TAoLBKTC1Z3kDvH9Cygf1yg=;
+        b=rZ2FMIwLJSAVdg1RF0qoCTbKowQkoYQDGHOz5vLE7c4NPO78L9AioRrtAcWU5hAYdp
+         2BG5/7dEwSrZDt894XWLfQPM8ShoDaodGIZCLQBo9qn3Rg29NMeHh+uX2XUTG7/WIpOO
+         xIzRBCfPEx6/JgHNjmIsR8X/HcnoEGpZC29IA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770742355; x=1771347155;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to:cc
-         :from:subject:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ey7vgRSKsVfH6h8ChZI7OMENXUi5dPgROurorEMr6F0=;
-        b=nx4im2DIrJiciSOac2klL9uqg0VfFe9N6GMNg2HGxyTJ9OJ6NZTxNW5YScm9b95px9
-         8Ms+xOTu+TBldFiHA/1GstEUC45tpxJaFHRIVbkRFEhEgm8fM/jLIwz5hnFEu9wOMakT
-         ApOAg+r1djKXeXcSEgw0j8NfMpXiNUwErwoGxnPX3BER9GrRroCtxwkZbkpme7dctEVU
-         DVsP8tNLPjSToJqGV1LOxfGY2oZbZ/Wu7ere9VgciHXHdtYHNj76J+o+2GO98Ogt0xjz
-         UzQngw+NNkSw1mpUdDNSdtS05GCxyNysTWiP50ykKXFZjBUiPEEla0xyme0SxLVpm8Ks
-         eUnw==
-X-Gm-Message-State: AOJu0Yx2yAgnC7jj4WYfY88r/NaZQyx2voX/SXX6TCCizUdR3d+pXGIG
-	d9E9oVvoginqvPc7jG8YK+aQ4BDDJFRgz24gowFPTwmgSUsNKUnRrcK6SfGzntwy1m4=
-X-Gm-Gg: AZuq6aIgnXlJcsKSKd9AFaQAEDcrOOlc4/BuMXkGQxmebotJ81udAFb1OLRsnIygP/e
-	tGX3qRWH+Btp4Q3U8ELXk3z6Y4wokGk1FU0kwrkKz0XB2va6v5y6WksK8X1FSgUqOJYToB9upyT
-	6486D7cSPsxAv5GvuOmyRnWpRnHhgewGX1cW2OzNcdePkDU0tlY6n6qVKGN35Gr0Hy1AEQFJZCh
-	Dyflanxtf60+5dPuV5dqY7ufwbVfUU/6h5dKZ+uq+MHoH2KdSO7F4VFNNWp54WAcplGujKYoJme
-	75GTKjFKyeFIgSf4ETfWPUi6+1GUeNN+fAVNS4nJntqxlh+IGO8RIcaqUt6WZA0c6ZwkJIkplOw
-	GiWW8f+Vx7IQel8lx7StiaQOGYDGe9Hgk/im6XXubXFDzCwvWps/3BMISjH5Id/vVXOIY02MiHt
-	ZP2EcFgptotGPnBP1QAeMk0Sdofab+JNURes2n7u/L82GYFSRzn1vpRxG1YI/4hHLGAQ/8Lf4Zr
-	1+xXM0bwpJPJUHv
-X-Received: by 2002:a05:600c:83c6:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-483507d0163mr43031705e9.4.1770742354745;
-        Tue, 10 Feb 2026 08:52:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770743085; x=1771347885;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=afHydWvN8a4MXojH4EJ2TAoLBKTC1Z3kDvH9Cygf1yg=;
+        b=oxnQm1DUX3sCFUX8pDpEVnoE0wwvlset/vMaA8FlGBBCEunhFjhinz1Iu2NGOZttAD
+         eqkydM1jtGLG23BIyCaBERgvXSi/IcFEt/P1glEqrVUHQwoyA/oNivO2A8Hw0VOWRqmm
+         aufQ6jgcBSPRwgx1RnVADbQJON0sKmGwsWgYlGcHc+aR6AQEfSF9IBLyv/q0aWnUWiIj
+         DHRTf0PwEFesJZ3uHIOSCZ43pDBMZDSLbULK05mMYMz06DfHH6qP1dABu5q25+pEdblH
+         Eaq9TG99edqq4Nfhidua1pDkdiOgJ4QxNL2aKZXxDfpBvFLbAeIcfeS7+JuMJs4Ogevt
+         n63Q==
+X-Gm-Message-State: AOJu0YwmtL5svvBV1yhKKiSsddqBA9HlG7dvlKq7STDCsYutwQoP7WEw
+	JgSf/IkxS1QMQudorkROlBQXEiA2D5hkGO6xUkxOiJePNEATSjAPyfDvAbDiF3RogaE=
+X-Gm-Gg: AZuq6aLhqVLyJqCfksyuwAc+sNPezPmUqlOTe1nTWF9BuHF6p+xhtz24eWFBalU7GVn
+	obsLhvxx3NBuDMZ3I1xAToYkQVBJFFrygpmjFY+C4/E6RX4xSEV9uwUgECG2mDuX5Pd51wgeV+W
+	YnoS36jqOtC+mVJ0xk63QLjX4EkE2rRjdjvYzYlt4ymXCyQOPNInLahPNqBnWTZiot27LnsMkkk
+	ABiGGlu4OnTENi++MsB7VfmTxxciLocu2GGld4HhTEMyWmb8ij7AJCTsyoIyVup1s4vW2+z9Z6y
+	MC1ZOBmlD1yw1CscX5Nb/2QAXeDj6UDCxVbhOyl2n71cwvpVr82El5M3ovxw97FemlSlF0qSbcl
+	s3+9KqqCdMdyI2zoBSKH1Xo1EHg6Jk7qbyKPGlgaj0gqZYonC5kKdGyVWo7dKoBXFUX4hlkVPND
+	eVEh2ffFFMkKYy5dOHjbkg18zzFMdChTd3bUVRfExmvfeXMRXLy5f0VClEDZYKhek3HYJAgmeB8
+	Zzf0dgd4zFVaXEy
+X-Received: by 2002:a05:6000:24c6:b0:437:6efe:94cf with SMTP id ffacd0b85a97d-4376efe9a35mr9881345f8f.1.1770743080041;
+        Tue, 10 Feb 2026 09:04:40 -0800 (PST)
 Received: from localhost (2a01cb001331aa00c483744cb4924df7.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:c483:744c:b492:4df7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5d8df8sm77857065e9.3.2026.02.10.08.52.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362974b230sm39014414f8f.36.2026.02.10.09.04.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Feb 2026 08:52:34 -0800 (PST)
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Feb 2026 17:52:34 +0100
-Message-Id: <DGBFRZG5PPVJ.233ED51AR1IXD@smile.fr>
-Subject: Re: [OE-core] [meta][whinlatter][PATCH 02/02] linux-yocto/6.12:
- update CVE exclusions (6.12.69)
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+        Tue, 10 Feb 2026 09:04:39 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 10 Feb 2026 18:04:39 +0100
+Message-Id: <DGBG18MCXMLV.11SNSFR77NI2Y@smile.fr>
+Subject: Re: [OE-core] Patchtest results for [meta][whinlatter][PATCH 01/02]
+ linux-yocto/6.12: update to v6.12.69
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <openembedded-core@lists.openembedded.org>
+To: <patchtest@automation.yoctoproject.org>, <bruce.ashfield@gmail.com>
 X-Mailer: aerc 0.20.0
 References: <20260210031722.1347242-1-bruce.ashfield@gmail.com>
- <20260210031722.1347242-2-bruce.ashfield@gmail.com>
- <DGBF2GNFHVXG.3KR6P4IC62SJI@smile.fr>
- <CADkTA4NHCS2jw=b-2LjNvdipC_O7eDX_hOA6DGcjwhx09DkOGQ@mail.gmail.com>
-In-Reply-To: <CADkTA4NHCS2jw=b-2LjNvdipC_O7eDX_hOA6DGcjwhx09DkOGQ@mail.gmail.com>
+ <0101019c459a67ac-7a7642b7-51cc-4f2e-9261-7dc8d609e403-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101019c459a67ac-7a7642b7-51cc-4f2e-9261-7dc8d609e403-000000@us-west-2.amazonses.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 16:52:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230920
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 17:04:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230921
 
-On Tue Feb 10, 2026 at 5:44 PM CET, Bruce Ashfield wrote:
-> On Tue, Feb 10, 2026 at 11:19=E2=80=AFAM Yoann Congal <yoann.congal@smile=
-.fr> wrote:
+On Tue Feb 10, 2026 at 4:31 AM CET, Patchtest via lists.openembedded.org wr=
+ote:
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
 >
->> On Tue Feb 10, 2026 at 4:17 AM CET, Bruce Ashfield via
->> lists.openembedded.org wrote:
->> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >
->> > Data pulled from: https://github.com/CVEProject/cvelistV5
->> >
->> >     1/1 [
->> >         Author: cvelistV5 Github Action
->> >         Email: github_action@example.com
->> >         Subject: 5 changes (0 new | 5 updated): - 0 new CVEs: - 5
->> updated CVEs: CVE-2025-13881, CVE-2025-14559, CVE-2025-14778,
->> CVE-2026-1486, CVE-2026-1529
->> >         Date: Tue, 10 Feb 2026 01:34:41 +0000
->> >
->> >     ]
->> >
->> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> > ---
->> >  .../linux/cve-exclusion_6.12.inc              | 13004 ++++++++++-----=
--
->> >  1 file changed, 7873 insertions(+), 5131 deletions(-)
->>
->> Hello,
->>
->> Interestingly, this patch does not show up in patchwork:
->> https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D43181
->> (this link should display the 2 patches of this series by only display
->> 01/02)
->>
->> I'll note to manually import the patch.
->>
+> ---
+> Testing patch /home/patchtest/share/mboxes/meta-whinlatter-01-02-linux-yo=
+cto-6.12-update-to-v6.12.69.patch
 >
->
-> I stripped the cover letter from the -stable sends that I did, as it didn=
-'t
-> add any value.
->
-> Would including the 0/N cover letter help it be picked up ?
+> FAIL: test commit message user tags: Mbox includes one or more GitHub-sty=
+le username tags. Ensure that any "@" symbols are stripped out of usernames=
+ (test_mbox.TestMbox.test_commit_message_user_tags)
 
-My gut feeling is that this 02/02 triggers some length/size limit. The
-mail is >18k lines and >800kB.
+Bruce, this error is caused by those lines:
+>     a1bf8ea50cbc4 mm, kfence: describe @slab parameter in __kfence_obj_in=
+fo()
+>     d11475ea5c2a5 textsearch: describe @list member in ts_ops search
+>     7a01b91ad6327 mm: describe @flags parameter in memalloc_flags_save()
+>     18b6574d4c647 net: bridge: Describe @tunnel_hash member in net_bridge=
+_vlan_group struct
+Do you plan to send a v2 with a fix?
 
-I don't think a 0/N would change that.
-
-I opened https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16167 to
-track that.
+Alternatively, If you are OK with it, I can simply remove the '@' when
+importing the patch in my branch.
 
 Thanks!
+
+> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_=
+presence)
+> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> PASS: test commit message presence (test_mbox.TestMbox.test_commit_messag=
+e_presence)
+> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_li=
+st)
+>
+> SKIP: pretest pylint: No python related patches, skipping test (test_pyth=
+on_pylint.PyLint.pretest_pylint)
+> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.Test=
+Patch.test_cve_tag_format)
+> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_pa=
+tch.TestPatch.test_signed_off_by_presence)
+> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_=
+patch.TestPatch.test_upstream_status_presence_format)
+> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.tes=
+t_bugzilla_entry_format)
+> SKIP: test pylint: No python related patches, skipping test (test_python_=
+pylint.PyLint.test_pylint)
+> SKIP: test series merge on head: Merge test is disabled for now (test_mbo=
+x.TestMbox.test_series_merge_on_head)
+>
+> ---
+>
+> Please address the issues identified and
+> submit a new revision of the patch, or alternatively, reply to this
+> email with an explanation of why the patch should be accepted. If you
+> believe these results are due to an error in patchtest, please submit a
+> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> under 'Yocto Project Subprojects'). For more information on specific
+> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> you!
+
+
 --=20
 Yoann Congal
 Smile ECS
