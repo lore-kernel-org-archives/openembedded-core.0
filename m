@@ -2,122 +2,121 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F35EA3F2F
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 09:37:03 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16191.1770716214220833742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F183EA3F2F
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 09:41:23 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16216.1770716482718662591
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 01:36:54 -0800
+ Tue, 10 Feb 2026 01:41:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iFtnz3aG;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c5320536bfso59952285a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 01:36:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770716213; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=egDVtRN7;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8947ddce09fso6800826d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 01:41:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770716482; cv=none;
         d=google.com; s=arc-20240605;
-        b=i6hK6JM0n6xcKCRJY6uCeQKvAVNPTIVR7/8adEEBNrloOH1N6Xdn1AdKPCtQ+b8O6H
-         VTe52/A6rKb3P/XGnovQri8o+CBn8tsG11YPR/ou6tWBRxhmiOtEDPGW56ele6ZFE1Ap
-         PlE7r1MBIme4D5VVU5r5xCaYa4hwHwziTmmf2kvIjz/KKcxeLPGZKPOWFBEPR+Xsf7b5
-         in2KENMmns/ob7usrWIqYJzmm0Rmp5Zdjf5t0L36mx72fuPUS3p7oXROcPXTlN09pJZw
-         j6m9r1ZQwJ6LeJbJnWDbodRNI+T+As8Dm5Ago3xvUS0yZd80glLjhSxC0aOMKhZgVBeP
-         4KhA==
+        b=ZHatTK4ySndN/OGMV3FEr/u3qMqn5nrSG2WRZZ+7fttX4wt/0TgaAB5AWT2nbtb0YG
+         xH9rIEWQfHBqSpsUz6FrpXHItk1hcFOWEhGa1TgpZBSLFZEuTytXSl4rMnuLPmnJur9n
+         BU1TZrkQC6CLwNcHc7FLrVfORRGK7hMhJbn3VZN6P+98wWxAEEFZmsRpRgxlj71hdbu1
+         n8kItRyNNMSjyyBkbnGsCVndZncw5DuM1zzt45geLaSEyinrgm1Gzq/VOpnQoC53uM2l
+         a/MxAGkL8cLtVRhjXKsCnpmHtGgc61l1eQF9HGuZChazPS+tVW/foPwWEF3oQpiPCWpE
+         9hvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=3hxtzSEmo+l7+Br8M/WJzpUNavSn9estTdXG/dYY2fs=;
-        fh=ROldQr07KtNEAZsrthGgsKDT5quXOnRMI+GNO1CijWo=;
-        b=GmIY8CJZwUZNpIVeSykAEMAGafb5CgYybF/TOxzAHrI86dauR5oaQ+OS3jQKACKPel
-         QNbuCoOjQWzMkZs9k5jHS3vs5FEwV0isFWNeA3Isnv74eAZCvZ/nMF0r6qldDCtjqzsX
-         gpgy1p1Vn/XIb3Z3mresyrVga4ocKUq8zvuUStniLTtEb2oKnpsP+dH3pufD/f+CaZsX
-         MsjgSsjWhRPWrGfYYhrCt/bBLGenmTb1rXUti1M9XnQMEVkibfDEvDASLDfLlDVG5c/J
-         uyF69JuLkNEuGfa0NNp2pK4QuSiifgGKL40Fl8VzqeBf8Rz62ClmRZpS4Fa02H1LLb/h
-         YbUQ==;
+        bh=It/LB/XCs9Rr8G6sc33vKOGmAFAjBV8Cmbgm4tD+uuw=;
+        fh=GUvEGEcNGOV3jMOSaxLlPgkLl8zb/XGrvGx7aKAQ9fA=;
+        b=bFwiVJegmiUphpNpETQ/+6HJ+kpzz7svSZTf33hxYpkR3pxZasy+Qw28OO7JmGPsS8
+         9NfQQZtO5u/rjMV6etRZLN2zZi/x2G6vNxJE2UE6ART9O/uDKL1QFAxz1I371B0lID0O
+         SOEoDQCK5WfeiNlGRQwbWAfoHM0bmqEWwk/gOxfcDTYKhRljKUxFkK0o9m3syIH5b++f
+         cl/uf0V0/Z1rCWtAu6f5wodyj2PkQVqfE+IGs+DUlifREACtj4ao3qo/FNLbOFGRQQpf
+         HPoPXp3MzSHsRDXYwZN2cfYM65RHin5Po7OZ4oSvleRubQWBoIOGMtSiozO3cfrX1Ilt
+         KZSg==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770716213; x=1771321013; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770716482; x=1771321282; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3hxtzSEmo+l7+Br8M/WJzpUNavSn9estTdXG/dYY2fs=;
-        b=iFtnz3aGGd5tFt3du6KJxSSa+tnGlD5SJkQjKYsr71WFqH9JnthnzxsYDZpa0IOTbB
-         jmX6XNUy/kq1JSVt7s7RvZQ9FfU6Spmhblb/TwtbPyq2ppgN+CgvMJIRw3nKWujhllRc
-         +Q5BNxFuzoVwUmcyeGQZbAqo9G2evJyuNubyDRyKKlVpfjGJ5k4xFE7ZfaqDP5/KjJeH
-         xb+IOrCSwPu1m3nGehLZNC+OcKvqTkpacFxDW1KaGJKh2kFCUqnyFGkkMdr7l+ZrtHRz
-         7SsMzpB4OG/7JpVjl/4bOA2NNr0rkMODYPQ72qqVfmtyQ0QGcyITnUrXNeMxOYw/nug7
-         hJVw==
+        bh=It/LB/XCs9Rr8G6sc33vKOGmAFAjBV8Cmbgm4tD+uuw=;
+        b=egDVtRN7N1nt8wX9aztwslhtM2Iauax382q6+esjI2KZ1ekbiuUv8QBeron9S/IFo4
+         2HfiEehu9UdaDdKU6lQj6V8RKYZCDnH56hEZd6G4IMgIj4wpIWJQgIDhkv+4Cz3/03k6
+         CWNRkyFKKYYd/SDS/TZpCdW3kpjptP233/WqcQngSE1O+26rTKQZystZDG9j9STF00Pd
+         lHuRfwPO1z0627J49qmrrasK0IylfVqCOdfmz6dtHq/MD0bnhDxSdYIx62cNrZX9arbi
+         +WTQE07HOqGWU/LvU8uPyUk6HEOvjJ9PMhlQlypcIiysDxj2hD5DTZPHefa2cnB41oXG
+         oQaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770716213; x=1771321013;
+        d=1e100.net; s=20230601; t=1770716482; x=1771321282;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3hxtzSEmo+l7+Br8M/WJzpUNavSn9estTdXG/dYY2fs=;
-        b=CLbp3qERtWSNf7ABnj/O/GTUVXY35k/sRFLPKga45umZ+lWWap66IBNI4f0aDvsK2j
-         H9Liyd4GWClO2GBAGBBY9hdfG/GTkEr8HeBXNgn5qdcCYlklheCcYQME0IrHn0ltCzeS
-         xDP5C3dT1RBOeqU1FQBhGkDxksskZ4oUB/yWMhDQrfY3ViPGEFprjqjY577/na2ZCuj3
-         wKTOtna1f4R2YUKUjTPKQfG1UhLsN8ThlAwfwtAPfJOD5a8NixA44yg4EcSy9TZNyAsd
-         8jWLrJvkSz88xLm0aUTBg4IfaCeX5sqjr/nJCKGkdFUmjyk8/DOlBIrzVwRjFo4cU7X6
-         rKFg==
-X-Gm-Message-State: AOJu0Yz69MR7tjJljcgONo48og080Bxl+mlR50gk9RxEq9Htbo4T642P
-	kWIH/QhTwNDKEUX6uN79g3GyUarc7E+FXuJZaknsiZ5/bfXO+untpaIiYP6KSoV7Ov9LLr4w1Sf
-	kGHPq14muCmnMb22lm+0o77oKka08dxY=
-X-Gm-Gg: AZuq6aK4OKfWAq0WW9PjQcr6Ur8jcCM5uzaCzVnRj91XwCsmHIKKVzR3KKFFOy9v9Gq
-	LmlVF6Jarh6j4FHqPzqEkIKJ+D7/kiYhhcc1foK86dw6wE5FNrdRZycD2o/WiiJu0AN5DhcOb+2
-	HVDFaN3IOreXaYGMgmQp1//GLDEOmZqnllZUvJhXqfZscAC82boQZK7IqnvTs6h10unQJYxL/8p
-	ov/x14mZ22KBDV+VFt8C9HwXaNXg33DGEYtFnumOGtiTdskByr4P4muh8pLLDMU4R+NLkVVsfkt
-	hh1ktsqbR4Tj+K9P5ETtLxzZbWRUMqL/0rkYHsqDq6cqXc0xMPtC
-X-Received: by 2002:a05:620a:462c:b0:8c7:7a3:501b with SMTP id
- af79cd13be357-8caef7e7735mr1854933385a.26.1770716213236; Tue, 10 Feb 2026
- 01:36:53 -0800 (PST)
+        bh=It/LB/XCs9Rr8G6sc33vKOGmAFAjBV8Cmbgm4tD+uuw=;
+        b=kpjxmvT6BbX6k5b4olpoDGbiuOWZZh+Bf4Sa/+BZpP92kO1jVwzojcSdYarhaLOmz+
+         B8oB1AEzVWUi/NOJFuf3e4Seerv8O9/kuNU1EC8m9PzONuOXMJoUV7pcaOT+fdVyrr1L
+         KlpQXlxLIYkLXlWJ4myIJxY3AmWuHvlcwYxxB/lQRklABQpj1DjMX8SunMahrkfVxHMg
+         eksDnGTDNohplShC3jkIzejdJeyOVAE/a4r3UyyhWXTBOE3lvEJ08s13Wimsm4KK5WWV
+         cPGRHogAL8K8W0wP6/Nfx+wFdOUjp0lnmIw7b1QDiDBel87nf22bC7ZSI58CV7LLBTSS
+         zp2A==
+X-Gm-Message-State: AOJu0YzC8KRAXo6t7O9N88yUVLB9YeB5+sGJJC/XuwQIxath6sDjA9DI
+	d0ShpNdOn24T86B5gXTtejxVo2aSKaMWJTHZZb2eJCSiY/MhX7DgLVqO7hv6YdrKSJ71y7+3Jju
+	bYlKSCwDjmFwgr3FEiykn5QY+eH2Vj4A=
+X-Gm-Gg: AZuq6aI1AyWUaPsg5ZnoumzgQpi5jFRV8GzZ8wJvoHlkf1kuZ8A6I/2uxnKjhbklT2u
+	/9smlKnSAue1TzK0xRjIkiO1dxuTctw2AIUJ9Rarw07fd4GHLXu/CkyMRiHphVkOM6RiqRm5MsE
+	HWB/J2Ke4VU1Czkmc57MpvFQWjV+w5/F9gsgcxffGv2/UOhQkHAD1DJxGwNFqKwDK5YM7yEGMiC
+	1nEEWLaL8F8YDhNV46VELbRpYpU7QHkyVc0ysCU3PqANHSDuQzngPW3GudDWwqaqGi8U0os9sEE
+	YuzaE1u4D4b0b9Rj3l1vB6M8tVW84vUvchfoY0kpP4squbNc8z1N
+X-Received: by 2002:a05:6214:484:b0:880:88fa:d742 with SMTP id
+ 6a1803df08f44-8953d0dd9c5mr215532176d6.65.1770716481543; Tue, 10 Feb 2026
+ 01:41:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20260209224444.17275-1-logan.gallois@gmail.com> <20260209233019.1981-1-logan.gallois@gmail.com>
-In-Reply-To: <20260209233019.1981-1-logan.gallois@gmail.com>
+References: <20260129035353.8982-1-liuyd.fnst@fujitsu.com> <20260129035353.8982-7-liuyd.fnst@fujitsu.com>
+ <CANNYZj9TRt0GqyafY0eD+bwuTBUb3iEeBFD16po7kxPHwQJ-Kg@mail.gmail.com>
+ <TY3PR01MB1011061788269D6E4EAC2C8999B9FA@TY3PR01MB10110.jpnprd01.prod.outlook.com>
+ <OS3PR01MB101063210892B4305F30BCF669B99A@OS3PR01MB10106.jpnprd01.prod.outlook.com>
+ <CANNYZj8-gEgL9Vu5XhWAttKdpKO+Py7XkwRM2b-Es7OfjH7HmA@mail.gmail.com> <TY3PR01MB10110F8354668695ABA48A8879B65A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB10110F8354668695ABA48A8879B65A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 10 Feb 2026 10:36:42 +0100
-X-Gm-Features: AZwV_QgTfhGa0mB6oNhLfmvXq8fibydUoZkGZRinW1hFbtB9VgzQZXAJ8-XU15M
-Message-ID: <CANNYZj9t+bSCwxvs05FxU8mNbD1t6RLsbov1ALt61iPFQcWPMQ@mail.gmail.com>
-Subject: Re: [PATCH v5] oe-setup-build: TEMPLATECONF were not applied correctly
-To: Logan Gallois <logan.gallois@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Logan Gallois <logan.gallois@hexagon.com>
+Date: Tue, 10 Feb 2026 10:41:10 +0100
+X-Gm-Features: AZwV_QiD1QerBByviBIdrPuN7UXLbBhOcbpecN97q2z-T6tsyFAqE_803RZ53GM
+Message-ID: <CANNYZj-n=j-Z4eOYhPfEp77zjHg7NfT0WpOn8ZNVQjnM3DZOTw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 6/6] orc: Enable hotdoc to produce doc
+To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:37:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230870
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:41:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230871
 
-On Tue, 10 Feb 2026 at 00:30, Logan Gallois <logan.gallois@gmail.com> wrote:
+On Tue, 10 Feb 2026 at 03:42, Yiding Liu (Fujitsu)
+<liuyd.fnst@fujitsu.com> wrote:
+>        I try to enable doc in gstreamer1.0-vaapi,  gstreamer1.0-plugins-base and gstreamer1.0 but found a problem
 >
-> When using the new bitbake-setup tool, an oe-template created in a
-> custom layer was ignored because the TEMPLATECONF variable was not passed to the source file.
+>        There is a definition in docs/meson.build which prevent building doc in  cross building.
 >
-> Signed-off-by: Logan Gallois <logan.gallois@hexagon.com>
-> ---
->  scripts/oe-setup-build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> if meson.is_cross_build()
+>     if get_option('doc').enabled()
+>         error('Documentation enabled but building the doc while cross building is not supported yet.')
+>     endif
 >
-> diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
-> index b391f3b9254..ab543506451 100755
-> --- a/scripts/oe-setup-build
-> +++ b/scripts/oe-setup-build
-> @@ -101,7 +101,7 @@ def setup_build_env(args):
->              f.write(cmd_base)
->      print("\nRun '. {}' to initialize the build in a current shell session.\n".format(initbuild))
+>     message('Documentation not built as building it while cross building is not supported yet.')
+>     subdir_done()
+> endif
 >
-> -    cmd = "TEMPLATECONF={} {}".format(template["templatepath"], cmd_base)
-> +    cmd = "TEMPLATECONF={}\n{}".format(template["templatepath"], cmd_base)
+>          So what should I do next? Maybe I should send thest patchsets to meta-oe?
 
-Thanks, I took a proper look, and yes the issue is real and the patch
-is correct. Can you adjust the commit message?
+If you have time to look into gstreamer issues, then you could add a
+local patch to gstreamer recipes to remove the above code block, then
+set 'doc' to enabled and see what happens (upstream-status doesn't
+matter at this point yet). Presumably gstreamer upstream has that
+because 'doc' needs running target binaries, but in yocto we have ways
+to do it (via qemu). So please try and report, then we'll decide what
+to do next.
 
-Something like:
-
-Since a recent change to support dash, cmd_base is a set of several
-commands, separated by newlines.
-TEMPLATECONF was only effective for the first command in that set,
-which is not where it's needed.
-Putting it on its own line will ensure that it's present for
-everything in cmd_base.
+If you do not have time to do this (which is totally fine), then yes,
+hotdoc should be sent to meta-oe in my opinion, because enabling it to
+support docs in a single, minor recipe in oe-core does not make sense.
 
 Alex
 
