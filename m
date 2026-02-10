@@ -2,32 +2,32 @@ Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8193EA3F18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA00EA3F16
 	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 07:10:52 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15029.1770707445624027233
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15028.1770707445362211496
  for <openembedded-core@lists.openembedded.org>;
  Mon, 09 Feb 2026 23:10:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=c0XwVbh7;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ay0IH75F;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6501c5c083=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61A6dUMd1796014
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61A6dUMc1796014
 	for <openembedded-core@lists.openembedded.org>; Mon, 9 Feb 2026 23:10:45 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=69y5Bc95gn9XoZ+6/acmI+aMKnPRiVYPNRXIjGr0UIY=; b=c0XwVbh7Q5YK
-	yIoVBQjWpb3JhPz4D0lS0zqD2yhNeAwsR3ITNMdV+2mITXNmit2lbh0uBvEIB9LI
-	LWpFn85kVhmJmB9YW51mUp18npkjAFtyC3XIr9rwaOd8MACPGe6cg7l7YLeWvUGn
-	tGVfuDCI/v32ZXmoxP8pwNL3Mwha1jUUiXopBAnY9VGVZTXtZo0tbLPoHRE/iXwf
-	l8DsQWhOrOwFDcnfgVY6ReKFiDrOujclLZektoL+uFJh5MLQM38M5T2RntZnmBLz
-	SdhVPMCZ3Fq8joyQkUAiAAR+Ba9mV7AaWDizWPTlA13SGFPv7rhWq22nYWEanN83
-	JwvPDrR4YQ==
+	 bh=ypJ90v9yeRPvUkxxRpK6rHLB1h1FJEK8l4mpXWDFfN0=; b=ay0IH75FlZTr
+	aGpVMkOG2AyNNpsDk4gOyTGN7M2WYn9mKwWq4RgZp6fejVBRvb4PA5g9wmV0Pp/x
+	aYDmb1bNd0oZeFZPgu0Pfpn2VxMtR24l0wXnsJOW9oQVyU1UQFC3M0LXOodSSW9O
+	fNBhbRs74+yMAxF/rZyeG9vYMKcefNwDTM+YeFVFkj8D5HKT998VLa5xmXstuDQC
+	fWGtCo2q0XQcrDeQY2UO4b+rez1ywmlgGkp9pa2EWDJAvTC8kCT9wURp2Nk2fq3T
+	xPVrCMEyuBj66h7tEaXizbnSCpziNBf5B6zB3ucMbbUfzGBdmOO4vNPS5Plbs+ea
+	xrzTyLk3Zg==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c65sj2m0n-5
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c65sj2m0n-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 23:10:45 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Mon, 09 Feb 2026 23:10:44 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -37,29 +37,29 @@ Received: from ala-lpggp3.wrs.com (10.11.232.110) by
  15.1.2507.61 via Frontend Transport; Mon, 9 Feb 2026 23:10:43 -0800
 From: <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v4 4/7] glib/python3/acl: Add pkgconfig to RDEPENDS
-Date: Mon, 9 Feb 2026 23:10:39 -0800
-Message-ID: <bee6177a943034e9e2093cdf8294eca003b709d1.1770707181.git.liezhi.yang@windriver.com>
+Subject: [PATCH v4 3/7] classes-global/package_rpm.bbclass: Remove %pre and %postin for libc6
+Date: Mon, 9 Feb 2026 23:10:38 -0800
+Message-ID: <59ba081c8c874065b6cdc050a2897422be4a7a59.1770707181.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <cover.1770707181.git.liezhi.yang@windriver.com>
 References: <cover.1770707181.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: mE4U0cHmjNl7WAaX_nUzLNG_DEYK1XBb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDA1OSBTYWx0ZWRfX1cMN3ILZ45q+
- W0huWeSHxqvO0uyBFzbnE4CZU2nJEJahBZhTSLlCJxM5/1b9569uAwz6H0tB+3W8xuo61VIywE6
- /wAS1izsiBnWXN8ZWuNvPkcIRHrZs9Oog16tSfbjyTbt4thguGXc16Ib8hCnbnvLLiSCdSVYIB8
- bhioXJmIWEPlud8jl+DoRyYFlDln7S9YbMFyNWdhZUsrtZrgRdUyTMGJL0Hr6T9/+GZfsC1QfTs
- hO7EAu8Hp6mHV1uY1GRVQzSND6mU+2dGxQR0ZJ3GXKF3Jmdzk+iMGNpKaOBheB6xFGw0O+95QN6
- S6IGDl/hHqBsERE3yKEuPhMZCa2oAVHNVoLhD0QWlXzAZcf6wS8rF0wn5pK2/HsRk8nTjBOlup1
- 6lvXCQoq9BI65ocmrTybwbf7LjRedK/2DGvZiav73Jl0pk4ozmntqJrTV9Asda1Hhx1ntPUc7ID
- qYIZ7MvXqVFucioySdQ==
-X-Proofpoint-GUID: mE4U0cHmjNl7WAaX_nUzLNG_DEYK1XBb
-X-Authority-Analysis: v=2.4 cv=Cpyys34D c=1 sm=1 tr=0 ts=698ad9f5 cx=c_pps
+X-Proofpoint-ORIG-GUID: JTFf5j89VLtZBdZnwJJZBQmfceaSLiTq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDA1OSBTYWx0ZWRfX+kIPJOWCOjy+
+ PQWDxDjfVMYUu30mU8Rejfjet2tyPdOo3nxXJvEzw9Etrz9bJnp+ZBy5g4cKSRKRrkceKS0g7nP
+ dlgwYClwoGDQ20W8pPzHgBLSUy9FKVprOksV8TGRnDKStZNkGe4tJ3/PJcvAHolznBhxf6zd1SN
+ nf1N+p1ll/sCAcZHOrwh3yM0fv82KyVWdRajmkCdPjDq4aeiXuOmOrQq6zdV/cNMvMRhB91+0ew
+ b9viSHyfP2aRslx4flWqDU82PRLGEw3MxMcbFhYa41FNGvWArYKId4xQjcZ3E6LQ9E/lJjrWATy
+ heB0tOxSUSkqYxI87YK9sYkiPprcaSy6DQbth1K0mu6n7XrgREF8VxptH6CIOcLQMWXdbPeg/Br
+ qqbyBE1kw8t3t8v48742JUnNFCdhF61HRRczOUxuR6zPMU43WWbwDBrQ4lVWOSK22GMYNwpSo9s
+ IUobJ9AsNZ6+ArSa/Yg==
+X-Proofpoint-GUID: JTFf5j89VLtZBdZnwJJZBQmfceaSLiTq
+X-Authority-Analysis: v=2.4 cv=Cpyys34D c=1 sm=1 tr=0 ts=698ad9f4 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
  a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=t7CeM3EgAAAA:8 a=npddxdQffQXCx6DdGT8A:9
+ a=GgsMoib0sEa3-_RKJdDe:22 a=t7CeM3EgAAAA:8 a=mMdV-Zv2kfK-Y5NqG1sA:9
  a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
@@ -73,65 +73,98 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 07:10:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230856
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230855
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-Fixed issues like::
-Error:
- Problem 1: package python3-ptest-3.14.2-r0.cortexa15t2hf_neon from oe-repo requires python3-dev, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by python3-dev-3.14.2-r0.cortexa15t2hf_neon from oe-repo
- Problem 2: package libglib-2.0-ptest-1:2.86.3-r0.cortexa15t2hf_neon from oe-repo requires glib-2.0-dev, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by libglib-2.0-dev-1:2.86.3-r0.cortexa15t2hf_neon from oe-repo
-(try to add '--skip-broken' to skip uninstallable packages or '--setopt=optional_metadata_types=filelists' to load additional filelists metadata)
+Fixed:
+$ bitbake core-image-full-cmdline:do_testimage
+%post(busybox-1.37.0-r0.x86_64_x32): execv(/bin/sh) pid 624
+error: failed to exec scriptlet interpreter /bin/sh: No such file or directory
 
-This is because the rpm 6.0.1 can find the pkg-config files (.pc)
-provides/requires correctly now, the rpm 4.20.1 couldn't find that.
+It is because busybox and libc6 depends on each other, busybox' elf files
+depends on libc6, and libc6's postin depends on busybox' /bin/sh, the do_rootfs
+works well is because dnf-native has set RPM_NO_CHROOT_FOR_SCRIPTS=1, but it
+would be failed for a fresh rootfs.
+
+In rpm 4.20.1, it let the installed files' Requires win, so it installed
+busybox firstly, but in rpm 6.0.1, it let the postin's Requires win since
+postin would run immediately after the files are installed, this does make
+sense, so it installed busybox (which provides /bin/sh required by libc6'
+postin) firstly, then we got the errors. I couldn't find which commit made this
+change because a lot of files and functions are refactored during 4.20.1 and
+6.0.0 (not .1), I also tried bisect, but failed because a lot of do_patch or
+do_configure/do_compile failures for each build.
+
+For libc6's the postin is:
+
+  #!/bin/sh
+  if [ x"$D" = "x" ]; then
+      if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+  fi
+
+This doesn't make sense for lib6 since there is no /bin/sh or ldconfig when
+libc6 is not ready yet, so we can just remove libc6's postin to fix the
+problem.
+
+And also remove the workarounds in oeqa/runtime/cases/dnf.py, they are not
+needed any more since the circular dependency is fixed.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc            | 2 +-
- meta/recipes-devtools/python/python3_3.14.2.bb | 2 ++
- meta/recipes-support/attr/acl_2.3.2.bb         | 2 ++
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ meta/classes-global/package_rpm.bbclass | 6 ++++--
+ meta/lib/oeqa/runtime/cases/dnf.py      | 8 --------
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 2e15cc7675..3d733e21ae 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -159,7 +159,7 @@ CODEGEN_PYTHON_RDEPENDS:mingw32 = ""
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index f4dd779a52..526ac57982 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -421,12 +421,14 @@ python write_specfile () {
+         spec_preamble_bottom.append('')
  
- RDEPENDS:${PN}-codegen += "${CODEGEN_PYTHON_RDEPENDS}"
- 
--RDEPENDS:${PN}-dev += "${PN}-utils"
-+RDEPENDS:${PN}-dev += "${PN}-utils pkgconfig"
- 
- RDEPENDS:${PN}-ptest += "\
-             coreutils \
-diff --git a/meta/recipes-devtools/python/python3_3.14.2.bb b/meta/recipes-devtools/python/python3_3.14.2.bb
-index 7481e70e13..7af828684e 100644
---- a/meta/recipes-devtools/python/python3_3.14.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.2.bb
-@@ -493,6 +493,8 @@ RDEPENDS:${PN}-pydoc += "${PN}-io"
- RDEPENDS:${PN}-tests:append:class-target = " ${MLPREFIX}bash"
- RDEPENDS:${PN}-tests:append:class-nativesdk = " ${MLPREFIX}bash"
- 
-+RDEPENDS:{PN}-dev += "pkgconfig"
-+
- # Python's tests contain large numbers of files we don't need in the recipe sysroots
- SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
- py3_sysroot_cleanup () {
-diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-support/attr/acl_2.3.2.bb
-index a405cc2692..1a6c9136e9 100644
---- a/meta/recipes-support/attr/acl_2.3.2.bb
-+++ b/meta/recipes-support/attr/acl_2.3.2.bb
-@@ -67,4 +67,6 @@ RDEPENDS:${PN}-ptest = "acl \
-                         perl-module-posix \
-                        "
- 
-+RDEPENDS:${PN}-dev = "pkgconfig"
-+
- BBCLASSEXTEND = "native nativesdk"
+         # Now process scriptlets
+-        if splitrpreinst:
++        # The libc6 shouldn't have %pre or %post to avoid circular dependency
++        libc6 = '%slibc6' % (d.getVar('MLPREFIX') or '')
++        if splitrpreinst and splitname != libc6:
+             spec_scriptlets_bottom.append('%%pre -n %s' % splitname)
+             spec_scriptlets_bottom.append('# %s - preinst' % splitname)
+             spec_scriptlets_bottom.append(splitrpreinst)
+             spec_scriptlets_bottom.append('')
+-        if splitrpostinst:
++        if splitrpostinst and splitname != libc6:
+             spec_scriptlets_bottom.append('%%post -n %s' % splitname)
+             spec_scriptlets_bottom.append('# %s - postinst' % splitname)
+             spec_scriptlets_bottom.append(splitrpostinst)
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index 3ccb18ce83..029651c571 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -124,15 +124,8 @@ class DnfRepoTest(DnfTest):
+         self.target.run('mkdir -p %s/bin %s/sbin %s/usr/bin %s/usr/sbin' % (rootpath, rootpath, rootpath, rootpath), 1500)
+         self.target.run('mkdir -p %s/dev' % rootpath, 1500)
+         #Handle different architectures lib dirs
+-        self.target.run('mkdir -p %s/lib' % rootpath, 1500)
+-        self.target.run('mkdir -p %s/libx32' % rootpath, 1500)
+-        self.target.run('mkdir -p %s/lib64' % rootpath, 1500)
+-        self.target.run('cp /lib/libtinfo.so.5 %s/lib' % rootpath, 1500)
+-        self.target.run('cp /libx32/libtinfo.so.5 %s/libx32' % rootpath, 1500)
+-        self.target.run('cp /lib64/libtinfo.so.5 %s/lib64' % rootpath, 1500)
+         self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
+         self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
+-        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
+         self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
+         self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox' % rootpath)
+         status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
+@@ -156,7 +149,6 @@ class DnfRepoTest(DnfTest):
+         self.target.run("for l in /lib*; do mkdir -p %s/usr/$l; ln -s usr/$l %s/$l; done" % (rootpath, rootpath))
+         self.target.run('cp -r /etc/rpm %s/etc' % rootpath)
+         self.target.run('cp -r /etc/dnf %s/etc' % rootpath)
+-        self.target.run('cp /bin/busybox %s/bin/sh' % rootpath)
+         self.target.run('mount -o bind /dev %s/dev/' % rootpath)
+         self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox' % rootpath)
+         status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath)
 -- 
 2.49.1
 
