@@ -2,110 +2,258 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B44EA3F25
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 08:33:23 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15582.1770712393727010413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 641A0EA3F26
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 08:40:03 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15624.1770712801920503564
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 00:33:14 -0800
+ Tue, 10 Feb 2026 00:40:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VTj1/NU2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-437711e9195so1184628f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 00:33:13 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RBXpWvxC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso4582635e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 00:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1770712392; x=1771317192; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rj/nxx+rGg3HxtFah9mC6/uppglB40XtmxeyR30Io4g=;
-        b=VTj1/NU27ZmdTuLTrr4YoWn/mlYImaiFYk/Y8dTPtgwTEcv9+VQstQnKaFX7xVu+3r
-         +6l9z63pM2AgwcIQkv8E440zNh4c4JcNkhdcXcUXP9ttNCJl3fLGp9dcPKYDq3qM+YGF
-         XG4FwnCTVHLKz6Ko6CisJKsb7IymiEGOFR1wI=
+        d=linuxfoundation.org; s=google; t=1770712800; x=1771317600; darn=lists.openembedded.org;
+        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=4tK5YiVESunkqVCiz4yf7DgT4xBX6rk1WRyzd6miDf4=;
+        b=RBXpWvxC9vyDvOp19gn5UKxhvXDXrU+m8Gm+f+LNoQoMTfX30DBMFwIjGCftVjY6tX
+         1u4IEm7/G2OzZR0xzjhwY6XJdkQCaK0mWbJ1oFKMARQ786/aWbe4ltekSEz9RHlAPx09
+         99dyLHUuob0wrXAWMJKAEeFN9f4zfaawiBwxc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770712392; x=1771317192;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rj/nxx+rGg3HxtFah9mC6/uppglB40XtmxeyR30Io4g=;
-        b=EL1IFFpezSvVUVzbFP1ezObU16TV3v5kxetch9Q022B94Z1kk/jpfviVceCa8KNati
-         A0kLWbCNL8n/ng8xf1cnG6TBTO9DYdR5OLg/edWVIYfblMVJATrOXCdzdZ1J8U5Cqp3K
-         ObpzjZjp2Mn1NZHUX5NwhF2dBIVvT7WSx8ZXPWLqORcfSM89C3GSpM+aJi3WX7tbrElb
-         CgKFU0dcYUS4mjf3HmLW6C6DbVA8LuQzgQqtbIk8PJbzCpND5hrEJN+yFya7R6S3h8We
-         qThOAwpEhCZA7W9FvE64MumrPizmOIRqXjfAiomtQ5WhG9kHBntLMijaR8puA4+Qjp7Q
-         aJVA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLlH7KKuiobZhGbEYaY7SoWeKcmHmz1FTw8xn0iEulzKHOMFK2E/JskgIEFcsQrOqAim1ubbojY97jbcRQOno/jg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxt+lDHy4wM/uGIGH2Gy9zhRJ8TdaPv8XMq9Iuhwfqd7L2+jwNF
-	W6kzB4KExJ6zA6gcnW0bvaGB1hd8K2KY1zXghgBD7fnINUjmydHlQB60NOsM/6+kkWg=
-X-Gm-Gg: AZuq6aLk7dgyanq9rpn4OtWq2yiFNjXtla5zEwmywuXxRmFDzYLEOsGHCg0vSJ/Znmu
-	H9/za+OE7DJwREh/Nc2YvbkYxE0cE1tnP7rxn8zp61zezowL87F2xvr1lKxLdJ4H9ssq7cVHlqY
-	yfXPEPFYVKQLuMU9+d+Ld2HoRb11RHTOCgVY7ptCvYjZsFqbSPExRiRBjrn3ko07sI5WgzLLGPm
-	HRXRQkGRxuH7HQYbBWKpROw2o3B1ODcrTB2UKHBA1LaIktyxwBHJA8Od1KGTZWA5Kha1tgo4gk4
-	T8kwuR6pCjOIg5ImQQoIzSqOvxauNtJmA2xmuB63n11w6h6q3vHbK2qzpoK5WlDuxFDEo97huPQ
-	NtKRrX9UHBk+VbJF2WRpg5fF7SXft2wJzDlygaFzaL990OkBNZBvPPjEcetaF1paK0nbRV0vuDo
-	6NxaMHzWIeyLRlspG5hZNI0eeB8qRFTy/aPCv4sKMs+BgAH+KxKvqK0jDW6Q/uqqne+InwZV27e
-	Ppm+9Xd6Q==
-X-Received: by 2002:a05:6000:25c4:b0:436:32ea:6ac7 with SMTP id ffacd0b85a97d-4377a57d899mr1594614f8f.40.1770712392005;
-        Tue, 10 Feb 2026 00:33:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770712800; x=1771317600;
+        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4tK5YiVESunkqVCiz4yf7DgT4xBX6rk1WRyzd6miDf4=;
+        b=VdwrwVNlWh6wHmDjyY9wd5iB7zip4f9fkopC2dPlFqH13lvFxha/p0vOMMgMUefG8P
+         SvsDCdcuLAFDk2BaotOwheb0HfmtvBWbkRRymCuKo9ZelSLwLArnFLqT0/zchsaZ8AUZ
+         z7yztOswGaVhrzB7KG/FbX9Bg9RUg7t+MmDiXCXRtP/ifbhkJKfZPFDEjUFgZzeRo4zZ
+         ZqMLPiRE0ogFaFJ2FPbJj8Kj9D6IIlqzwJnNdWPjLQ3xm0gmFx8kKQvVp9ektD5SaEcY
+         4IAanmPJvRnuKhJ5VFLOtiwSVUuoFM2Jc7UUVKpkNVnzFq+FMWEwvUi9EhIHhETwzk/1
+         9C+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXYWCbnapz51a8sAOF2Nju3Py0w2eTRHSpoiPfOAq0hVMJFCNhjFJpikU45QkniEyfELs6Zk+VHN4tmsQx25EugPQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyt6jF9A9ieOC05cZFjzWtNi/I8EtHEXqbTC/OJ0axRV7ZrAHsO
+	GisvhhGMoCvZ/yJoKfyBufvy5OnapTpIWnW+iecJZ0XP05oMswskRpR5aOWBuRtqb8LoWM2OZWB
+	MwsADItM=
+X-Gm-Gg: AZuq6aKtVLu60wCl6iBiOTYQTPBOXEf9eNlSCDhmeqXI1P9Jo2tInBpDlN+9vwSXnba
+	LVscYNufnPUKwZ8/3KPkjTFsD1QC2cdrmnBdqdIy8Mchky4Q3xdzksBkRx587a9iMx+q9d7774M
+	mjr2P/NhmWWSfAUWVxXkRRgsHoctfza7DZR8AWyFf3yWN1CbInkm3yeJAyEw40vRtO9cP2TQ9rt
+	dcIgqtO9d3Rl/mB4XLQJ7F8k/J9qLoXnpKA3Q6tk41D7k1Zn5R0bWIpOZiKjUpaYTVJxbtLkjyE
+	jsew1xqVcg8PDwhdbPvz8rkhroAJ61jIg5DbfesVteAc3F6VDfXYP8wotTfYMrWwT/EimMR+r98
+	06wgd+ptoRz3aHvY/VI/TLQXaZCFRybTvyTSxDbK9XqVRBvFu1fp7wB7ysmzYM+GwC+UheDfi9g
+	k9PyGVMvzlmDNYTaFkgD88BR/BIR4RSXJIIYRFNYlTCKt7cWtrSIXVd0sLKCSnMvt92V7vpPkbV
+	k9Ta7OZkg==
+X-Received: by 2002:a05:600c:5253:b0:46e:4e6d:79f4 with SMTP id 5b1f17b1804b1-483201ee7f4mr196502175e9.15.1770712800261;
+        Tue, 10 Feb 2026 00:40:00 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:847e:ef7e:e5c4:fa? ([2001:8b0:aba:5f3c:847e:ef7e:e5c4:fa])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376b62b835sm19541127f8f.12.2026.02.10.00.33.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d82a4c4sm73440795e9.10.2026.02.10.00.39.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 00:33:11 -0800 (PST)
-Message-ID: <9f46cb53a43c6f01135b8a8e18269e92cceb1725.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: fix libsystemd LICENSE for multilib
+        Tue, 10 Feb 2026 00:39:59 -0800 (PST)
+Message-ID: <9c9458ef6c32d63781cdfa8039caae30f63e1437.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC] Improving ext* sparse image generation:
+ migrating from img2simg to ext4sparse for ext* filesystem
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jaeyoon.jung@lge.com, openembedded-core@lists.openembedded.org
-Date: Tue, 10 Feb 2026 08:33:10 +0000
-In-Reply-To: <20260210054147.838158-1-jaeyoon.jung@lge.com>
-References: <20260210054147.838158-1-jaeyoon.jung@lge.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: ashishkumar.mishra@bmwtechworks.in, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 10 Feb 2026 08:39:58 +0000
+In-Reply-To: <Tn1R.1770617538678222907.ff9l@lists.openembedded.org>
+References: <Tn1R.1770617538678222907.ff9l@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="=-G/9Dqnfk6aXqnCfXSESL"
 User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 08:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230863
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 08:40:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230864
 
-On Tue, 2026-02-10 at 14:41 +0900, Jaeyoon Jung (LGE) via lists.openembedde=
-d.org wrote:
-> From: Jaeyoon Jung <jaeyoon.jung@lge.com>
->=20
-> Prepend ${MLPREFIX} to LICENSE for libsystemd.
->=20
-> Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
-> ---
-> =C2=A0meta/recipes-core/systemd/systemd.inc | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/sy=
-stemd/systemd.inc
-> index daf37060d7..80a527dd25 100644
-> --- a/meta/recipes-core/systemd/systemd.inc
-> +++ b/meta/recipes-core/systemd/systemd.inc
-> @@ -11,7 +11,7 @@ elaborate transactional dependency-based service contro=
-l logic. It can \
-> =C2=A0work as a drop-in replacement for sysvinit."
+--=-G/9Dqnfk6aXqnCfXSESL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sun, 2026-02-08 at 22:12 -0800, AshishKumar Mishra via
+lists.openembedded.org wrote:
+> Hello Community Members=C2=A0 ,=C2=A0
 > =C2=A0
-> =C2=A0LICENSE =3D "GPL-2.0-only & LGPL-2.1-or-later"
-> -LICENSE:libsystemd =3D "LGPL-2.1-or-later"
-> +LICENSE:${MLPREFIX}libsystemd =3D "LGPL-2.1-or-later"
-> =C2=A0LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3Dc09786363500a9acc29=
-b147e6e72d2c6=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://LICENSE.LGPL2.1;md5=
-=3Dbe0aaf4a380f73f7e00b420a007368f2"
+> I would like to propose a change to how we handle sparse image
+> generation for ext* file-systems in OpenEmbedded,=C2=A0
+> specifically moving away from the generic img2simg tool toward the
+> specialised ext2simg in the e2fsprogs [contrib/android]
+
+Firstly, you should probably mention that image_types_sparse is in
+meta-oe, not oe-core. You should therefore probably mention this on the
+list where meta-oe is maintained too.
+
+> 1) Problem
+> Currently, image_types_sparse.bbclass uses img2simg for all file-
+> system types.=C2=A0
+> img2simg is a=C2=A0 tool that reads the raw image to find zero-filled
+> blocks.=C2=A0
+> For ext* file-systems, this is inefficient compared to=C2=A0 ext2simg fro=
+m
+> e2fsprogs [contrib/android]
+> which understands the file-system structure and uses the block bitmap
+> to determine sparse areas.
+
+That seems reasonable.
+
+> 2) History
+> Previously, 'ext2simg' was bundled within android-tools (v5.1 and
+> older).
+> The utility has since migrated to the e2fsprogs project
+> (contrib/android).
+> However, upstream e2fsprogs does not provide a build system for this
+> tool,
+> and it requires libsparse from android-tools to compile.
 > =C2=A0
+> =C2=A0
+> 3) Proposed Changes
+> To implement this, I am looking at a cross-layer approach:
+> =C2=A0
+> a. meta-oe (android-tools):
+> Export libsparse, libbase, and liblog headers and libraries to the
+> sysroot. Currently, these are often internal to the build.
+> Reorganise header installation to ${includedir}/sparse to match the
+> expected include paths for e2fsprogs contrib tools.
+> =C2=A0
+> b. oe-core (e2fsprogs):
+> Add a conditional compilation step in e2fsprogs-native to build the
+> ext4sparse utility located in contrib/android/.
+> This would link against the exported libsparse from android-tools-
+> native.
+> =C2=A0
+> c. meta-oe (image_types_sparse.bbclass):
+> Update CONVERSION_CMD:sparse to detect ext* types.
+> Use=C2=A0 ext2simg from the e2fsprogs [contrib/android] for these types
+> while falling back to img2simg for others (like f2fs).
+> =C2=A0
+> =C2=A0
+> 4) Points for Discussion / Feasibility
+> =C2=A0 =C2=A0 =C2=A0I am seeking feedback on the following:
+> =C2=A0
+> a. Layer Dependency:=C2=A0
+> This introduces a tighter coupling between oe-core and meta-oe.=C2=A0
+> Is it acceptable for e2fsprogs-native (core) to optionally depend on
+> android-tools-native (meta-oe),=C2=A0
+> or i can create an bbapend file in meta-oe called
+> e2fsprogs_%.bbappend.=C2=A0
 
-The commit message doesn't explain why.
+oe-core cannot depend on meta-oe.
 
-In most cases the code should automatically handle MLPREFIX. Are there
-other similar issues elsewhere and should we be fixing something in the
-multilib class extension code instead?
+The bbappend is one approach but it means e2fsprogs would rebuild
+whenever a layer is added/removed and it would likely fail the yocto-
+check-layer tests. It would also mean anything depending on e2fsprogs
+would also rebuild and sstate would not be reused. None of this is
+particularly good.
+
+Instead, how about a separate recipe, e2fsprogs-ext4sparse which just
+builds this utility?
 
 Cheers,
 
 Richard
 
+--=-G/9Dqnfk6aXqnCfXSESL
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>Hi,</div><div><br></div><div>On Sun, 2026-02-08 a=
+t 22:12 -0800, AshishKumar Mishra via lists.openembedded.org wrote:</div><b=
+lockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf=
+ solid;padding-left:1ex"><div>Hello Community Members&nbsp; ,&nbsp;</div><d=
+iv>&nbsp;</div><div>I would like to propose a change to how we handle spars=
+e image generation for ext* file-systems in OpenEmbedded,&nbsp;</div><div>s=
+pecifically moving away from the generic img2simg tool toward the specialis=
+ed ext2simg in the e2fsprogs [contrib/android]</div></blockquote><div><br><=
+/div><div>Firstly, you should probably mention that image_types_sparse is i=
+n meta-oe, not oe-core. You should therefore probably mention this on the l=
+ist where meta-oe is maintained too.</div><div><br></div><blockquote type=
+=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
+-left:1ex"><div><strong>1) Problem</strong></div><div><span style=3D"white-=
+space: normal;"><span style=3D"white-space: pre;"> </span>Currently, image_=
+types_sparse.bbclass uses img2simg for all file-system types.&nbsp;</span><=
+/div><div><span style=3D"white-space: normal;"><span style=3D"white-space: =
+pre;"> </span>img2simg is a&nbsp; tool that reads the raw image to find zer=
+o-filled blocks.&nbsp;</span></div><div><span style=3D"white-space: normal;=
+"><span style=3D"white-space: pre;"> </span>For ext* file-systems, this is =
+inefficient compared to&nbsp; ext2simg from e2fsprogs [contrib/android]</sp=
+an></div><div><span style=3D"white-space: normal;"><span style=3D"white-spa=
+ce: pre;"> </span>which understands the file-system structure and uses the =
+block bitmap to determine sparse areas.</span></div></blockquote><div><br><=
+/div><div>That seems reasonable.</div><div><br></div><blockquote type=3D"ci=
+te" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:=
+1ex"><div><strong>2) History</strong></div><div><span style=3D"white-space:=
+ normal;"><span style=3D"white-space: pre;"> </span>Previously, 'ext2simg' =
+was bundled within android-tools (v5.1 and older).</span></div><div><span s=
+tyle=3D"white-space: normal;"><span style=3D"white-space: pre;"> </span>The=
+ utility has since migrated to the e2fsprogs project (contrib/android).</sp=
+an></div><div><span style=3D"white-space: normal;"><span style=3D"white-spa=
+ce: pre;"> </span>However, upstream e2fsprogs does not provide a build syst=
+em for this tool,</span></div><div><span style=3D"white-space: normal;"><sp=
+an style=3D"white-space: pre;"> </span>and it requires libsparse from andro=
+id-tools to compile.</span></div><div>&nbsp;</div><div>&nbsp;</div><div><st=
+rong>3) Proposed Changes</strong></div><div>To implement this, I am looking=
+ at a cross-layer approach:</div><div>&nbsp;</div><div><span style=3D"white=
+-space: normal;"><span style=3D"white-space: pre;"> </span>a. meta-oe (andr=
+oid-tools):</span></div><div><span style=3D"white-space: normal;"><span sty=
+le=3D"white-space: pre;"> </span>Export libsparse, libbase, and liblog head=
+ers and libraries to the sysroot. Currently, these are often internal to th=
+e build.</span></div><div><span style=3D"white-space: normal;"><span style=
+=3D"white-space: pre;"> </span>Reorganise header installation to ${included=
+ir}/sparse to match the expected include paths for e2fsprogs contrib tools.=
+</span></div><div>&nbsp;</div><div><span style=3D"white-space: normal;"><sp=
+an style=3D"white-space: pre;"> </span>b. oe-core (e2fsprogs):</span></div>=
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>Add a conditional compilation step in e2fsprogs-native to build th=
+e ext4sparse utility located in contrib/android/.</span></div><div><span st=
+yle=3D"white-space: normal;"><span style=3D"white-space: pre;"> </span>This=
+ would link against the exported libsparse from android-tools-native.</span=
+></div><div>&nbsp;</div><div><span style=3D"white-space: normal;"><span sty=
+le=3D"white-space: pre;"> </span>c. meta-oe (image_types_sparse.bbclass):</=
+span></div><div><span style=3D"white-space: normal;"><span style=3D"white-s=
+pace: pre;"> </span>Update CONVERSION_CMD:sparse to detect ext* types.</spa=
+n></div><div><span style=3D"white-space: normal;"><span style=3D"white-spac=
+e: pre;"> </span>Use&nbsp; ext2simg from the e2fsprogs [contrib/android] fo=
+r these types while falling back to img2simg for others (like f2fs).</span>=
+</div><div>&nbsp;</div><div>&nbsp;</div><div><strong>4) Points for Discussi=
+on / Feasibility</strong></div><div>&nbsp; &nbsp; &nbsp;I am seeking feedba=
+ck on the following:</div><div>&nbsp;</div><div><strong><span style=3D"whit=
+e-space: normal;"><span style=3D"white-space: pre;"> </span>a. Layer Depend=
+ency:&nbsp;</span></strong></div><div><span style=3D"white-space: normal;">=
+<span style=3D"white-space: pre;"> </span>This introduces a tighter couplin=
+g between oe-core and meta-oe.&nbsp;</span></div><div><span style=3D"white-=
+space: normal;"><span style=3D"white-space: pre;"> </span>Is it acceptable =
+for e2fsprogs-native (core) to optionally depend on android-tools-native (m=
+eta-oe),&nbsp;</span></div><div><span style=3D"white-space: normal;"><span =
+style=3D"white-space: pre;"> </span>or i can create an bbapend file in meta=
+-oe called e2fsprogs_%.bbappend.&nbsp;</span></div></blockquote><div><br></=
+div><div>oe-core cannot depend on meta-oe.</div><div><br></div><div>The bba=
+ppend is one approach but it means e2fsprogs would rebuild whenever a layer=
+ is added/removed and it would likely fail the yocto-check-layer tests. It =
+would also mean anything depending on e2fsprogs would also rebuild and ssta=
+te would not be reused. None of this is particularly good.</div><div><br></=
+div><div>Instead, how about a separate recipe, e2fsprogs-ext4sparse which j=
+ust builds this utility?</div><div><br></div><div>Cheers,</div><div><br></d=
+iv><div>Richard</div><div><br></div><div><span></span></div></body></html>
+
+--=-G/9Dqnfk6aXqnCfXSESL--
 
