@@ -2,76 +2,76 @@ Return-Path: <logan.gallois@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE866EB26F5
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 17:44:55 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25535.1770745482936514002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066FEEB26F6
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 17:47:16 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25612.1770745632577415483
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 09:44:43 -0800
+ Tue, 10 Feb 2026 09:47:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TfWeaq/F;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: logan.gallois@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso50855885e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:44:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cFVCyKsj;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: logan.gallois@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8845cb580bso725982866b.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:47:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770745481; x=1771350281; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770745627; x=1771350427; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EzTv/QMkVxouIVH1pE88T6AnfJV8fZh9YzokBuKxJZ0=;
-        b=TfWeaq/Fr3S2C3PbieNukMf7x6MAsJrceuhxUJ9dr69fp0In+zegdTS5i5hcgfnPjf
-         pWIaCl2srEnwbmxL/BNh4l+cJqncjklG3E6qr+qdoFLWeuThJ4MreOs8Q3ykzADJughR
-         Bt4qe9TiR2dYTh6P5XqS7Oiw1BS7oOqyjtpjsNEGEAJGHbFZh5dShw3ccfYBQ/zReQrH
-         x6yY3ZxIQ4x+HatRvsskHszuizzIoGPyiJ6eGaVzRQPB8lsciSgtnuj46RD3Vuyj0bqX
-         ccUtan+zGqC4ZcMi6FkEmL6pHm+611f9YjRkqsk6ltg1LwgpD76KHCtELPVq4ihyQB/x
-         Vb0Q==
+        bh=/7mJuS1GVVrAjL37fCDGMtpE92RruPvoLq12j7Jw0Ik=;
+        b=cFVCyKsjFNg8G8fnQmb5hIAcYfx9pqIJztBoPsqDXJCIUxwHH9DVvPzOj8t1gMDd/U
+         6wAbaLTsiHmSGL+s0eypiUI0dkG6L+tcfVgR2RlstuioQe5AK3bWuzOKruxnhGiPrq86
+         utcoclpOXOJm+kbEqyS4IW/5BR6wlwT81rKSEtXhDUU2cM4atcP7Xl2XlJcRgDr4wd6A
+         X5AkFxE78ddiexJy5BTvctaBf1ASYYIjIJs33hKwXOnc78GQHkhbiQAaqPRHjhn9IPrw
+         /xv84eafTQxOCh1MhCNka8Gl93aS6XQUQ29QJdKe7F19fTh6tad0hrhFQ3yMgfHP6D6n
+         hABA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770745481; x=1771350281;
+        d=1e100.net; s=20230601; t=1770745627; x=1771350427;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EzTv/QMkVxouIVH1pE88T6AnfJV8fZh9YzokBuKxJZ0=;
-        b=LuqRylnEn65vmKohvAS+BweuSrWLMzmpSxOIL/zage3gbTeXQLA4W4+PYCic1pqPse
-         LBjJ6qY8ucxU0F82etZStAm4kxI7dYjKhx+Mke+bFmVYOLiu/0RoMxbRWgozIWH5BD3u
-         ZxhTVPuNIFkyHwmBtJTa1/7XeUo2Jex89jIBxvO/lmxZY8RjzG7czgyGWbqvrUL25fgO
-         5EaBloWlGJKf0gGiOycHBY/ink34N1tZClDgC55Gbbei/KcPnX+gyUpOiGua4GBPDn2D
-         bO8k82uFMY3Ph2FoYnBa1KY6qDTpzxS9qytOh92Cxfoh729aOPMl+RSMvFrQCCD4WUDL
-         EJ6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW8kFPMesUArf5DR+zCn9xSyJTNUSClNFiwWpakV+lhBfUaoXB2J51rKu7/81OcrCAyk+MYgqJlAd6wVaAXYwSTJg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyxdA0mzD5ePAIGZVJ4uehhWucdPeZmY6luC2+JKy/z+mc83JRk
-	z2HUtJPGcYNEEJlTACJc0laG0ftBdSxlHs/ZrlzvShwjqbhneOYxCbRm
-X-Gm-Gg: AZuq6aJ7kzCXomGtfUrNbxecLAUBOvlAVWO5z1TWOrzxJ95SDth8XkDVXQ8oqMPCmtR
-	V9ZMa8ZkLOjl5ibMZkFgyky5k/qpvBTRze+eAKWv10ECH5PIGLoKwO1T0Fx4TDSA/XauiN8YYKL
-	Sci41T6i5jV4zsZWkgUSAoadDMDoKYnIjffiN5YolCWph03cddPdyhMfZa6C1J4NV2zTjiz3nTV
-	ghzMV9pKaqSg1wEz5VIsHz7j+uRq2GDDaU9atZxK4lUdri6Pj+FSWCED89eJ00CYKmyay6s/X7A
-	0de+lAzpqiEmrsJwp1lPznQJqQTb4rf5RAfaIbCAlc8PpA821XFtgQdnnekrjj+redAq5eZDFSn
-	gm00hssy9i5Y17VCd62jRB6kl8/FZbSwxy0Jp0b8elKMV6BJfzLrbwLYXsTAwQ2XG0ShOuk6RtO
-	mcMzSSJibxBXqsdLhhwrqkxUydH20cYUejodLWhsb1W9yNlVpZ4zrToP7inxqh4R7LFwjT1F1Fz
-	outKQ==
-X-Received: by 2002:a05:600c:444f:b0:477:a219:cdb7 with SMTP id 5b1f17b1804b1-48320181c15mr219957625e9.0.1770745476368;
-        Tue, 10 Feb 2026 09:44:36 -0800 (PST)
+        bh=/7mJuS1GVVrAjL37fCDGMtpE92RruPvoLq12j7Jw0Ik=;
+        b=tarBIy/lD/RO7PqB5kr241fZq9UB+1NhhpzuEwsTp/158q/5xWy7Dbbyi/u4QUk9ua
+         gvGyGW2XCJMp2QELWpbuZHmH+xzh8wchzY5oO5lqHZtXo+wxexN5DP+vm+fCIIbiFXv2
+         7owgqNs5WG5tIq3KhHVBiky8DRckTmfZNszQyy/G4iyppsR5FiffvyJrPN7uPMJ5hYtT
+         W8n6gN6wa7nGLXpTB7u+cb3rGLM9vIFQRJ5O58JylcuIJItvovzqncVMWm/7fJ69Azcw
+         Efd2a9Bl09/pK+/PlubqsF3sU7yO0usY4Kiy/y2Fn0kjGKf0naHmuIvEv5/6O7YTLSMX
+         VOHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZYPEfBtR8vvT6wxjNzPugKRUW8hBNlsUdYT8GQ2cnQt7dq6JKwg8Crx0MGVID2UnPhPvgb37Zay4ygeZbNPSFtQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx9rlyfscTfGL1NUrHkhjrsA06pmeaFg5YyqsIClh2mYj2k4uXv
+	PkFPQ4XOy/UAMUj8ZXksgZeg9i7MzbtMotZOc9ZvHi9FFerVLrDFOwNXrfPsnQ==
+X-Gm-Gg: AZuq6aI9bJh8XJzHeeyRZbQs5Fp61NjoI+SKZfvDTEI+pedBCzT1Ls+aachYQ+0XiMh
+	bdxvlKmCCQ4ru/ldTfWxp//2SNTBZXdwxz/c6H9lyoiq2aHjFkco2T9xAqaaXEH2H70ANaPtibP
+	/jLNEiSUJaswf1GRKKaFELHXiw1sgWUzGZn5MGLCH8Iv9V+zh2B1nWgnbuKVsK37mxftRXUoI/h
+	IAMiSwSOQFEiYUQhNqVSmo+3NpdgnmYjtA0sz5vi47eyQlJrErLcvgZxhMqKaVBzawBTSJcWIDD
+	mvkn2nUjnUunEgJkkwK+WGtooPXq91HrSGSxxblFnx6XLw/H9pXTbtZfn7CdbleBpjyDMDuSB6w
+	MvBR7i4x6A5I3CZf+TGxPoIqxgKaL6yINirB53+Pf8SrEWHTByOON6SR6roowDMk9LKzB0AC9t7
+	m5nhhrHBnDNqw6TPOpGw7pB9ccz5eoCn78Q3I41RfiFzR+H2yohOrANhQj2TX4LBoFvJwbeGYlS
+	ZDNZQ==
+X-Received: by 2002:a05:600c:4f88:b0:47e:e946:3a57 with SMTP id 5b1f17b1804b1-483202272e0mr225284465e9.36.1770745192895;
+        Tue, 10 Feb 2026 09:39:52 -0800 (PST)
 Received: from Minicarpet.home (lfbn-orl-1-620-177.w86-196.abo.wanadoo.fr. [86.196.80.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835a64674esm395125e9.3.2026.02.10.09.44.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5d78cfsm99743355e9.1.2026.02.10.09.39.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 09:44:36 -0800 (PST)
+        Tue, 10 Feb 2026 09:39:51 -0800 (PST)
 From: Logan Gallois <logan.gallois@gmail.com>
 To: logan.gallois@gmail.com
-Cc: logan.gallois@hexagon.com,
+Cc: alex.kanavin@gmail.com,
 	openembedded-core@lists.openembedded.org,
-	patchtest@automation.yoctoproject.org
-Subject: [OE-Core][whinlatter][PATCH v5] oe-setup-build: TEMPLATECONF were not applied correctly
-Date: Tue, 10 Feb 2026 18:44:34 +0100
-Message-ID: <20260210174434.4992-1-logan.gallois@gmail.com>
+	Logan Gallois <logan.gallois@hexagon.com>
+Subject: [PATCH v6] oe-setup-build: TEMPLATECONF were not applied correctly
+Date: Tue, 10 Feb 2026 18:39:49 +0100
+Message-ID: <20260210173949.2589-1-logan.gallois@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260209233345.3742-1-logan.gallois@gmail.com>
-References: <20260209233345.3742-1-logan.gallois@gmail.com>
+In-Reply-To: <20260209224444.17275-1-logan.gallois@gmail.com>
+References: <20260209224444.17275-1-logan.gallois@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 17:44:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230923
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 17:47:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230924
 
 Since a recent change to support dash, cmd_base is a set of several
 commands, separated by newlines.
@@ -86,10 +86,10 @@ Signed-off-by: Logan Gallois <logan.gallois@hexagon.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
-index edbcd48355a..7bcdeee4c32 100755
+index b391f3b9254..ab543506451 100755
 --- a/scripts/oe-setup-build
 +++ b/scripts/oe-setup-build
-@@ -98,7 +98,7 @@ def setup_build_env(args):
+@@ -101,7 +101,7 @@ def setup_build_env(args):
              f.write(cmd_base)
      print("\nRun '. {}' to initialize the build in a current shell session.\n".format(initbuild))
  
