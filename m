@@ -1,237 +1,316 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEC4EB2710
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 20:05:21 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.40])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24041.1770741331140388300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E89EB2713
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 20:39:22 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.18])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3168.1770755953495520897
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 08:35:31 -0800
+ Tue, 10 Feb 2026 12:39:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=oiL8tqlC;
- spf=pass (domain: est.tech, ip: 40.107.159.40, mailfrom: adarsh.jagadish.kamini@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ZSh20QMm;
+ spf=pass (domain: est.tech, ip: 52.101.70.18, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xtl+xI08255VJPuc58T/VtEXDgwn8iCLfdy8WW6yLKRpjuCZUF7xLbMZlf+CPoMk4M9DW/hNbyaz14yoWj/9ue52yPDY2b40VBivMfT79V8EY0gFJ8xmGPOKCny5GT4dZn5a8uVqllYTNEukB8LAM3DkfH/VYVUvgwekNzucX6c/2Njp5j7pwhy9EP/5t68IBGT0iwN3cXwoKfpmawN3q3xZx4+1dFpnC5W1Jekrpirq5CY2tETl8DhO7TbqaL7AopdgS0X6A208spKyG0YWNHsaJMwtPYBtNtTUrdX6k5v65HGoKqNNCR/oij+V6pyPGsKV4MOAL60YiGXCTFXuxQ==
+ b=DNGONxbam9UNEP/Pf6u+uv+ZIr/U0Jv0vSCHk/EsKOWobW+iO/C3/BeuTLCWG6/Wx3T3bdEghDiNE2nA91XEcGIQimUffDDEegAWMnaZHZbR6ZldIvJMEEHiotKd+9OKOfYXDu+6o4Hevg56zfjw1zI3apq0xtF7gthHmeRqACgn/xiuqSHlcFPagbWZQc1aWfeMDqLpaNGRtwyezy7C+k6Mbux8axMFVr59pDANUtvX/zy/po5cVhoAnHP5yGhBR3lArzmZs7H7Uo0iO8JifsQFOp5UJre4jum+irVjL96dw1Xf5472iWXk+Bv5Ej9Rv5wvw1r8R0sgbD97aSE4sA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4da5lcTU+smsom2NaQMKvKpZ2gQsTfRup+QeTWrc7Nc=;
- b=S+QqXOAovVKCul7VnGs/wFjkzeeRT2gjS8thhRlCj/ZYMKC66K1assnmcdfOyqbAfmVV0TEzF8zbQxGc+z0O/ELqMRE2PlkOrXfHMLJweEA7o8g75fwFFNnLsf52oBf6gmJwKbludAcZ/sJUz0dfT3qNKl85n6Rcfpx42LqCKCqrUodrxQMAa5IIgttk3lDaIzRUuuUF5yCX8tcT2D7p1zZy5OlrMjAwKluiM+PizwY/ie+uY6DQX6mRSFuifh93lVvrWbq2BnDMICDBCWsP3J8Rsydmib2hWvZbFMO4pnPNx2aXjBFjtz5ZzztjtpZE9xILiPEam74m6G0qM1oNfg==
+ bh=4eXQDOopxDLX8M0Wp8GTBOkvsWK0RUo79LOU65/htX4=;
+ b=CwPnW2AXTsIOYYjSUpzscFmN+G7YL6H1pNfoj7Vrs4KVnSZv/dOdTzQN3Kd0vzd5WsKZ0TKMUiCEv+z8d27bRd7oVkKshYKKShKn8TRR/FtGtjrxNeUpJxsJFpN1QxrsPA4FbjOmKc/frPoes5DdclclM+9M9ULkI3at6ZWpUqfC++6yROkFwyHNtv0HFPbbXfISt5LIvG3cXxsaerDXP3mBw27ZwK3lqD7TmHm6kjYKZlzGu2Jc3qROhMGfMlL452jZHry0kUayeuaKPIj+p4HkwB9BVWNn9ElOCu3KVPKZkOCrnvPxNyuIxCx9t3YR7z8xu5NVOx7+KyYgcM75iA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4da5lcTU+smsom2NaQMKvKpZ2gQsTfRup+QeTWrc7Nc=;
- b=oiL8tqlChH/Fsp322cDF1EIyoi5g8qFlk/4cWXThRKtsYrfzwNLzCe6NhnrDmlJwsIWZiVK5sB/ZIPq0HY3Uh9DvkNJbzzycprqYtSmgZD098FHsvxBe21qsVDbXBLN0ET1v8rgtG7M6Pp+KPij1PI0LXC/k9vBx6DD170bwnsvuVlzQ9L96Qwy5uYmS5E04oHfGvydwh5hxzlYuc1/x3f6UM1Db7jh4CnAMLOVPgjGmOgsp2m3Pg6YfvMfIakXMJJ6a+FNynX0BcUhPq7AByIqgn8t+iY1zAwSmyYYzhOPHkmqvV8vMeoeK746lm8+OGqnOvLUEShY9agTgR1Pc+Q==
+ bh=4eXQDOopxDLX8M0Wp8GTBOkvsWK0RUo79LOU65/htX4=;
+ b=ZSh20QMmd01kamwPw4TbCpPZvp6DI0Ok8EV72LNTGMYEVNVzY2V4B00Ym/r0D77pVUygKaNhIbf9X5znyknmbZOaMYULGRFBFiJRsXVSgAZ1DRdc7mDsqZuxZIhjNKmOqvx+Rg7qlu9eyavE2ZK88CfaayaK2LyANmC5GwVNoM9C4rZkGSmzm8hTSpGbpqZBhfHmWg9Pppxnk74YLm7NhvKnNdVPa0cKw2v/BEfLyQVXLxCf9NIr6xmIheCGk3v7R14hf4LByjYrUdT23caGrOdotzqr2isXkzizwk0InRgi6LTxvNnqWBnfXq/meTNOK6wUglB70RFiKdrqIDh5pg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by AS8P189MB1240.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2a5::20) with
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by FRWP189MB3226.EURP189.PROD.OUTLOOK.COM (2603:10a6:d10:178::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
- 2026 16:35:26 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%5]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
- 16:35:26 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Tue, 10 Feb
+ 2026 20:39:09 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
+ 20:39:09 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
 To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][scarthgap][PATCH v2] python3-pip: Backport fix CVE-2026-1703
-Date: Tue, 10 Feb 2026 17:35:20 +0100
-Message-ID: <20260210163523.92013-1-adarsh.jagadish.kamini@est.tech>
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v5] libconfig: add ptest support
+Date: Tue, 10 Feb 2026 21:39:05 +0100
+Message-ID: <20260210203905.6407-1-pratik.farkase@est.tech>
 X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: LO4P265CA0151.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c7::6) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+In-Reply-To: <20260128140635.43214-1-pratik.farkase@est.tech>
+References: <20260128140635.43214-1-pratik.farkase@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LNXP265CA0006.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:5e::18) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:26e::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|AS8P189MB1240:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b4dffac-1746-4876-2a14-08de68c26532
+X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|FRWP189MB3226:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b9be779-36c9-4b6b-1b48-08de68e47130
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0n9TFvkOrKFaJCTXe6Y7cv1EQjjCCNdww369oZw9M90q2XdL9NMPxYSBg9Mu?=
- =?us-ascii?Q?CzfZbpqKlPZda9L9tERK30Q9TJiQFco27WjjOjlMz4T7bZvfUuGIv+frbR1j?=
- =?us-ascii?Q?yRD34IP43eHgS9ckARLgK/Du/wVCu464AzahYSG06S/2MYdxhzu3PPbJj47g?=
- =?us-ascii?Q?AQe/6uVsFlGPGi0xdbJGf9iRyW2VzGcHAJzz3bx8HdcXBVClq6UC7B7hSk0N?=
- =?us-ascii?Q?JQZ6PJhiFHgcKHvwym7dwle8y0jSDKM3CRUBWH6qnUoiKuWvKr6OB3dvZYqk?=
- =?us-ascii?Q?3APGtiQQNvgzxNKtTAuBlF8V+VxllmplZ03wYc9QoHpO8ExNSwMdB/YssmWs?=
- =?us-ascii?Q?xYeWXDnblXJu0av6cgfPrcYw3mtYzRT3RwID0Pcv1MwgGclPk0ARsZmz4TR8?=
- =?us-ascii?Q?r5F89A5Gi3u9tpo3+vHHDN74WhMFlt8MIDzzLX6oBcHDIGrv4/NL9xJo/cBi?=
- =?us-ascii?Q?Km6668T6NmwWR6/VZEWDDdVvIUW4PrJkdr2AMe/b0QlrcTiw8tuGRbIe4IZR?=
- =?us-ascii?Q?ZlGtPAppEuxKWiWCJ778PBGWw0Ezi+mbylJcFD7joXDG1IqC0Ek1r/ak0B9G?=
- =?us-ascii?Q?9KYXTg/gKL6x7UTX+4RmckR18wNtqnb9XyZP1PhLHShaUUq6Mm9YW7OzGQq6?=
- =?us-ascii?Q?7f83u4LJo8ehzyJqgfyBEiUXWX1vOZzTmA7eJhFW3oY+2ZVXgWQKH59tXKLf?=
- =?us-ascii?Q?BgHIEJDi/gPR+oZj+EfiG3+ihx+K0rM4f+Bcd3Nuznmg5aQpqR7/+QtvIRsK?=
- =?us-ascii?Q?WiiohZD08y0SyxfFxRpcMzvRaoIvgMWVn30W6lYDWZ3YU95nA3TrhMDa8XB0?=
- =?us-ascii?Q?oa2Y5G6hAwTDV3o489QgKYrKWNyE5CBkl4L25c0RANRwAjp2lfVeOL08huD3?=
- =?us-ascii?Q?fyPsHlwhJkNGQjCCqp1M9JESsHYlbg1xZnOSKjzAIpJJ8Ur1We4+MfYXMG5j?=
- =?us-ascii?Q?b38tB0OuoCUD8K4kide1ynlwVXXbOPISqFFyZZxVTPQjO9/3KfYurZ9ON6dc?=
- =?us-ascii?Q?V0PVpNaYxmW1rPYONs15El9B0WuVfWsK0YWvtlwURrKpdtMd6Z5mGUvncr9u?=
- =?us-ascii?Q?B5OEIHcEod717VBxQjXGjpFQEbt4ewCVQQmDZHB741p02oyEnV0hG+plFCvO?=
- =?us-ascii?Q?6LU4pv2wNqUcSBba2X6cf6QY7kmqQ2ck+qdpHto5MN56UHSxbNQYAwGWYAsX?=
- =?us-ascii?Q?vCELWDJ1gudhj9gkLZzxBjdeNqUCDzmviGmOmjPtrFkLEaeZYy3pK9Bb0iKb?=
- =?us-ascii?Q?WvDq09gJq8h9FiBhMuuTooIbJsaDefTG2s685k9TDKdJVHq808yKHcX38bYE?=
- =?us-ascii?Q?9Wxgo444shrlSWz1QJWYh1Mfzh+HXARjazlUVX4I9Q8XYxhenNpxH/bjzYlW?=
- =?us-ascii?Q?pB0MKcDADd9PPWfghbgJp1CCac5ynB5x4BlVhRoOn5qyMaABGfblbkHPXwi2?=
- =?us-ascii?Q?J0U02DbP+YLiNamV3Uknm8sq//tmU0cHOHRrlGTLVX8qEQs81QdvNtcrIkgH?=
- =?us-ascii?Q?zIBnLvOS9+NFk3Kc0b1AkaYueAOh6bQWsPEo?=
+	=?us-ascii?Q?Ttk+3py7hRwa5p2IE3YNEsCFPfQgZ/P7jkcxsO+tdUGCY6em6M7fUiXVyU3U?=
+ =?us-ascii?Q?/ajxryy/VUZ1W0VcQVlH01Bw+prXHUnQv0yyQGGBAvGK/ffLfZyfEdvbVt7B?=
+ =?us-ascii?Q?Dz0UmT0pcls5Y7zFyJsdE+qSvQf966RzAlkG0H73lDft6XzhwbB2aAWBsTeu?=
+ =?us-ascii?Q?HD45WUBaOgONzlAyHV2FDeDmZvpcOWntBAtwHIVol3E2oH35LTEAbYx77C4v?=
+ =?us-ascii?Q?bbfeuhZ+gl2UhFDFDu+K+ptXP1qOR0hSvkdcl4WcCk+tN/K0JnxJU1/Nd4KO?=
+ =?us-ascii?Q?EOHE94m7bI1GlP0vBE4DInS0WKWM84SNLV1vKXFyFgumSJkk4RRk9oF3fqKh?=
+ =?us-ascii?Q?+Tcxdlyh9yvh7UC9/Bu4Kla6JiGgnF/aW/g+wi+vGs+c05an1H4VMyRT5eD8?=
+ =?us-ascii?Q?FcoUaL38N5gptru713SjWGKRd+vB5HVYKuyqqUqGKk0q30WOIPKS4ureDP4a?=
+ =?us-ascii?Q?6lQYVg/uZWfGCFaOid1f/Qx5N4cO7mInJ/yJ8GwcZxmCmrPEBCgtvHrLkHBx?=
+ =?us-ascii?Q?99IlYo8DzVjuqhOZaTZ8cpy5EKQl75djB5BspmYLuxGfEIk/F4lUOtmEPTW9?=
+ =?us-ascii?Q?vbtOP1oIhAZXImo/dc2RLMw2D7NC7X1xytcTLRBWqgNlnVYMcoJgscoUjHHO?=
+ =?us-ascii?Q?16gfkLuE2O1hrDNl3eJagDBUT7k5xuaAQOyq58JjZsqT7CpAoQcI2ib3k75E?=
+ =?us-ascii?Q?PD9T/Ghdr1GvGQveUMHhmGzIodLEAL5u26IK/xwo4Z0nb2ROZLhY+prH9aXQ?=
+ =?us-ascii?Q?19flDgjihebOf4ytjq7j0xu//O2sXFwYsNH4JxSzDsmicyIdWY7pAXe8VRcR?=
+ =?us-ascii?Q?CP71C1GbJR+nYNYkXlw2ZLlpuFEvQb25Nynp57ruFeSWsgdAh00wA4A7e1RM?=
+ =?us-ascii?Q?flJc5PwQw4qPH9Lzb1vXkWHd2D63IJAPju4FNzczUphcAfFuHAHUDxxoy8wq?=
+ =?us-ascii?Q?7b1mOw12ujnG2trvIGr1579rWDx/3Vtam3sRYGcSAorHckuPKyx6SkCVxtRu?=
+ =?us-ascii?Q?ZUQU2MN63CZ2VF/S6YSPbmKoifyJMFRmPmyhZd/mJXmnl7HMGCO1JgZ8CzXT?=
+ =?us-ascii?Q?XIuuyKduNqgl6yUwU4MN3Zyh3VJDvm4PepRAKeOLhWgdxvr64MRj99IiUe41?=
+ =?us-ascii?Q?riD8wL/6zyCLcbskxXppNvwE81bDfJ4seVHdk2YjuWTUn4GsUHVjVKToPDFv?=
+ =?us-ascii?Q?GeMQVDYPwqZW3b9Pzap/x4fjGpNFP2bqQWKNzosxq7y+jPDO+7eLfztGWDj3?=
+ =?us-ascii?Q?iyNEsXl4nRFNTlUaBCRh2wnePEXzFtJtOS/OPwrLVhuV+n85VKSLuISBnJr5?=
+ =?us-ascii?Q?XfjFVjSbNC7muD+SDFOUnUnsjSuoUpE4b8b6Gx9LSqxyMxoAdogUxMRdZMct?=
+ =?us-ascii?Q?Tp7bcgtfamomjYHqHE0KkJx1Z1jRglhc2iaj+Iss6u4PNEwDiD+/TD1Ze3W6?=
+ =?us-ascii?Q?CsVQTiW7aM9y3Ehtx+g27DZP2ZA2Rf2yjZJcDcVDQGi1BhCLcTT8NED9kNIl?=
+ =?us-ascii?Q?O5qxbr3ftbzyXvs0mss7l8aZoUu6GEPiXm8jv2LMHc43yGd+8TySRPGaRLWo?=
+ =?us-ascii?Q?350Xxx/XgDwgBzwamCk=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?29sU6+TqHd0qTApxLYwzLVBBATDDRDWNcjesPxehS8oq3fbvmk17k3tcRW1q?=
- =?us-ascii?Q?tVzklhIGhv8F2mCInb82uK/u1D1vLtkb/UKZuj7+jTvg7d5RRlVJ7iqmaa+t?=
- =?us-ascii?Q?LbMKX47Ydxrvap4hbFgmT21K+pH3y6zQrivGnl+0xD+czz9om5x4l8+fvp00?=
- =?us-ascii?Q?zPkhGfkaV+fP2i5Kabn6nmBmFTVznrQMatTr6hoDjQFYJt4wJLrLmWwqy2CQ?=
- =?us-ascii?Q?eqy808jB5/BTLEme7RgFM1SCcVHaGihR67f93qf7fy7jXMvfapvz/xioDqTx?=
- =?us-ascii?Q?UuNM1Bgcg5gIxGUMdbIPfkmMTMCwUEnCUdSHvcLYXUArGSi2baPTAHJnLNA+?=
- =?us-ascii?Q?FoHwbTr5esQYicgkbbKQ2FVDVoQevw3S9cHb4kX3V9OXfs+N/Vu6mDK1UNNL?=
- =?us-ascii?Q?D7T+R18SLIfgMadJYF5GKp4LFJhwjHrCpyK1NytsPdDrq8RRb2BvAjjC5jZn?=
- =?us-ascii?Q?kx0fvki4yNq6d3QvYD4S64NoA59KmUh5vrKLVo7B13Ub7acezsiEm+mIYWvZ?=
- =?us-ascii?Q?A9f+GzsqOgJmTMFsLXuIDSNam/je4DRcFDqdRoAw33MG2kPBoEMZn8JWE7Z7?=
- =?us-ascii?Q?EHzjVA/ZUIra95xEEV8Od1Cp5FI4OCqjs1gJrRr8UHU3aCHvVDxdOM/f4vOU?=
- =?us-ascii?Q?UTaEhA5Bs6YMS9bHcEJ/rxTAFYmQ8MJ7i9yF38uCqaz7XieOZeNbXUONvJf3?=
- =?us-ascii?Q?BSjgV4Gm1tTVGMig6lmOK4n3xE0oq+nHNf/aY1+XHkUzHC1dK8d9YYZR1Iew?=
- =?us-ascii?Q?bYDOo94+Ap2V03z8GwbJ+R8+DufHXuW50YBP6iXDY4FpKnxfZicGAZkbfQa3?=
- =?us-ascii?Q?DgyAKV6lpOhW7qS0n9azCYnBs6pGmZ2esxozlbkQ6nSs6E7tmS9NeekXVAmk?=
- =?us-ascii?Q?Qnrvtp1JTl0XPQTts2SAqglKgNQ7KoLrepCZgpIW0Fy9hMid1XQe7GySWOtS?=
- =?us-ascii?Q?AKIb4jHt/1AL2jZSWGKyX1J7flvGukH0gV4Prka41d0PvW/vvjIpqN82gpqD?=
- =?us-ascii?Q?8+mcOVEXwHiWTaN1sK+j/1UrPjNZi/E+gZ9pUV2G94fxg6Mnb4Zk29UzXPgz?=
- =?us-ascii?Q?5PVZihsQ8EwzbA1e8/Qd0probXZagWU9t5XxHD6xWTo1emGa8VvHxh+tgoqU?=
- =?us-ascii?Q?eOs/M6+bGdvPmIowI2+LCnO6s+PMkayu+ePnhLhhCYAFgP8Q6GyX+OW7QfcL?=
- =?us-ascii?Q?8cJXYgZnFLsk1jYAaLkIqADuRNcFpu2tGQVC04GI0iN5n6iKK5gS90hMi2be?=
- =?us-ascii?Q?c9KwhEUcKa0bYl+tZF7c7fZgEKr0KSYfjC2HyAixNsQGol6fCEOAUllLNqw/?=
- =?us-ascii?Q?2DBokU6KUjqLRjNtCJvgyiqom5lE17hPwBYSYb7moyZG9ruB53xf/fYL/EJJ?=
- =?us-ascii?Q?YSqtXRed6ruYo4PRDJGoXrGMqbq22/D+T9YwcTNXZXtMksQpDjaj0WIezhfQ?=
- =?us-ascii?Q?RawjeSZ/aJwQqxZN4cC/+9RhP0aA11HpSWtcXaQAtbWiG+s2oYPK5byzBCGL?=
- =?us-ascii?Q?PzhCiiaPeJPBM2XmF1ypFpYpxF7jcry3TLwaM4EnnKH1KYsLcs/kUG0AgP6u?=
- =?us-ascii?Q?Qo5DOMMDuZhrcp/dsItPasnSDAjKTNzKg9KeHO5HW0I9Y4FRGXGAwg4KnW/4?=
- =?us-ascii?Q?1N2Tk6snHwdOrLGQHKmxVW0/3jNUiiG+zJSjrNXVqYWXaAipXmnkTxhlD5Ym?=
- =?us-ascii?Q?GpWtG1ckyO4I4wF93rReVDBpUoDHWULwE4r76jWTOGqABPRuKpdYYBIo0J/+?=
- =?us-ascii?Q?p3lY7jJ+EQrRXXjgqsT4OAoi3AJeOYc=3D?=
+	=?us-ascii?Q?9Lir58F1qjL4DxFTxFbknanusr/RTblp8nuFzFQEdYkdX36OwlA1jnSUiJtM?=
+ =?us-ascii?Q?zGjLVegbahElpgBlpwxAeokkTIY+KYidNG/Zlsfra7Tjx2kMheMwgXrUmwNq?=
+ =?us-ascii?Q?1y2jJSYUYQUBH2y4sJ8S3gtxIyzOu+Q1Hkx6834EZqlXfG+s3CkunuHYgXLx?=
+ =?us-ascii?Q?XJPBRsABTOcUGFfZJQ4dcL19gjt5a8PtgQynaYzmzkrTLazM8AxV6AhrB41S?=
+ =?us-ascii?Q?C7/5tVXprUtLI3mvw5uK7MwDtzB7buXQ8c60no5LsGfrptr3m7LCa6lFLSzk?=
+ =?us-ascii?Q?kRv8n3D2xTlWuGnVupC3MXwgmSXYf+jCgIGLpPxhYRTBJGbnJ4wrtAc/18if?=
+ =?us-ascii?Q?dq1SyD4VsgAd5xzBgtatTBku4/CEVYHnqHY6BoUG97ST/gUM1p7KYOF23mCD?=
+ =?us-ascii?Q?da+RqpwVKsIQ0WF6AFOCq0V5PyOEZdZn3wfVuPV1KQFEdEw0IHnlXD42ZU9C?=
+ =?us-ascii?Q?rn80T3becNgO7Y+zU7hb95qhc0dVZWev3MwswVLKDqLCJiio8NjB/tuk6nmO?=
+ =?us-ascii?Q?IiZMSU0HolQ7kDztToRJwu0OJG1IOQePldRCWEmLgR90NbI9fpeNCRqCf85r?=
+ =?us-ascii?Q?W1wAVJ3oBLTcKKKHvViZreOqBs1HdOp0jA+b6cBEANin+v959X8mlUzrK1/c?=
+ =?us-ascii?Q?6Nn1dec9jNt6imyXnUFG3eLIkIprNVEojJQfVhgbPNMGkoqgM01C9D364+IX?=
+ =?us-ascii?Q?alwHDKJ+CTnnRJBpYVGmgzoy6jsHYQiSWakT9gfY9BQmydBf/bJNeMCeAi6t?=
+ =?us-ascii?Q?DDbPfOL9KPriJWfnxT9qYol6ZR0OFoof1K4raguyNE0a/rJE30vRcol7WoA5?=
+ =?us-ascii?Q?gCDPoOQVRtBLsDUzTFiGy/PUdLpQA0vbDP8oYSIfhRt6aHVYgIgdOqbNUdLi?=
+ =?us-ascii?Q?RA2s9fxbfcXv1rjwQn4V1KARweb9KBGicyFR6KROiQywAnjbDJrjiqNPxlW5?=
+ =?us-ascii?Q?/dXVPMK5quIdq+BRHtHSiCQZ6i0qgZtKb6uFGGjVFGWe7YGBH9u1/qbcZ/0v?=
+ =?us-ascii?Q?xu+WX5+w8VcewT8tvU7OKeY0bb2KqCoihW1cRKgSujtk70bIHrCoj/MMtGjI?=
+ =?us-ascii?Q?dHAy9yaRivd0p35tS89eB93jBghwY9zGHgKi+fadYhNgG3M3AinCYrSSodzA?=
+ =?us-ascii?Q?ip0A9HBTJZP1FBr6VD1ZHBVSJ5nwaGR/6Ys4Te0Oqd8qFDf5xGC6xU0BmTAD?=
+ =?us-ascii?Q?cHj6shsB1oC0ogEG6I5z8NrPDcIYQH+RH9ZLWQc+t4Ri+aHEoLfXbblBfaHz?=
+ =?us-ascii?Q?nSHLBCK2sokBdYx93nLbf6/PFI4vqljgO5aKNgXPKLorP03xaHA+l8vEq4bV?=
+ =?us-ascii?Q?v9os07MPdC8XhMocx3y8WZQDO3CAFqPv1Rni7gBNAZIGWFT45mPgc/XKhvI4?=
+ =?us-ascii?Q?RKtuuPsgzvF6rkZRZ+D8Q49y5w2BeXKetnRGfXVaUg3SrWnL4HhfsYCSDO4X?=
+ =?us-ascii?Q?wmEKfi57b1oh9hfGH0uKQFliZfUv9EYMku97x9VFIbkgN9dS99pfThkXDiZz?=
+ =?us-ascii?Q?NixhzuMPB2ZQ4140UV59lYGB8rMabU0sRsv58dnoX8jpNwL4KChPqJaH0T8g?=
+ =?us-ascii?Q?kYSLyhkQDBZDt/ksGpz/c9XYfflq0TT35lpsiRr2BR6EYEBxlwapmASaXX2w?=
+ =?us-ascii?Q?edVCGWTpslSM7R5EzxklqGD95Pq2ymiGzF8diW+6H05Qssv7n2ZJrOZpMMsj?=
+ =?us-ascii?Q?wmTI2TQzeJaEljnK6DPkx0cZDidg91ujFNnymiWOA4qBQN83SOt8TCadhq/E?=
+ =?us-ascii?Q?6VgF+C1VUg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b4dffac-1746-4876-2a14-08de68c26532
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b9be779-36c9-4b6b-1b48-08de68e47130
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 16:35:26.4918
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 20:39:09.5274
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eRgXbU2UwJLrgefk7QzQm/M1noxQ8HQcbk19fMDhG3hpdPUvCbXcwJkyeB9HTLZUBZirHopp1kHa6uigGi3OdfF0bERMENDCGIZlyfp32pA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1240
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vf0dkTCoUFRvvtz9p+K/3TGqcrgJxa2llNAMPlchtCWoaKcEtK9/OXmo2jcivWq+O+xcJuz4gPFxqpVe9ug7Uw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWP189MB3226
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 20:05:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230935
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 20:39:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230936
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Add ptest support to enable automated testing of libconfig
+using ptest-runner.
 
-Include the patch linked in the NVD report: https://github.com/pypa/pip/com=
-mit/8e227a9be4faa9594e05d02ca05a413a2a4e7735
+The implementation uses libtool --mode=3Dinstall to properly
+install test binaries, avoiding issues with libtool wrapper
+scripts. Tests are built via 'make check TESTS=3D' to compile
+without running during the build phase.
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+The test suite includes 16 tests covering parsing, formatting,
+binary/hex values, escaped strings, and various edge cases.
+All tests pass successfully on qemux86-64 :
+START: ptest-runner
+BEGIN: /usr/lib/libconfig/ptest
+[TEST] ParsingAndFormatting
+parsing testdata/input_0.cfg
+parsing testdata/input_1.cfg
+parsing testdata/input_2.cfg
+parsing testdata/input_3.cfg
+parsing testdata/input_4.cfg
+parsing testdata/input_5.cfg
+parsing testdata/input_6.cfg
+parsing testdata/input_7.cfg
+[ OK ] ParsingAndFormatting
+
+[TEST] ParseInvalidFiles
+[ OK ] ParseInvalidFiles
+
+[TEST] ParseInvalidStrings
+[ OK ] ParseInvalidStrings
+
+[TEST] BigInt1
+[ OK ] BigInt1
+
+[TEST] BigInt2
+[ OK ] BigInt2
+
+[TEST] BigInt3
+[ OK ] BigInt3
+
+[TEST] BigInt4
+[ OK ] BigInt4
+
+[TEST] BigInt5
+[ OK ] BigInt5
+
+[TEST] BigInt6
+[ OK ] BigInt6
+
+[TEST] BigInt7
+[ OK ] BigInt7
+
+[TEST] RemoveSetting
+[ OK ] RemoveSetting
+
+[TEST] EscapedStrings
+[ OK ] EscapedStrings
+
+[TEST] OverrideSetting
+[ OK ] OverrideSetting
+
+[TEST] SettingLookups
+[ OK ] SettingLookups
+
+[TEST] ReadStream
+[ OK ] ReadStream
+
+[TEST] BinaryAndHex
+some auto big hex: 4294967296
+some auto big bin: 8589934591
+negativehex: -1430532899
+[ OK ] BinaryAndHex
+
+16 tests; 16 passed, 0 failed
+PASS: libconfig_tests
+DURATION: 0
+END: /usr/lib/libconfig/ptest
+STOP: ptest-runner
+TOTAL: 1 FAIL: 0
+
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+
 ---
- .../python/python3-pip/CVE-2026-1703.patch    | 55 +++++++++++++++++++
- .../python/python3-pip_24.0.bb                |  4 +-
- 2 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-1703.=
-patch
+Changes in v5:
+- Remove existence checks from run-ptest
 
-diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch b=
-/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
-new file mode 100644
-index 0000000000..8d34d2acb4
+Changes in v4:
+- Remove conditional installation guards in do_install_ptest()
+
+Changes in v3:
+- Use ${B}/libtool instead of libtool from PATH
+- Fixes TMPDIR build path leakage
+- Resolves ptest runtime dependency QA warnings
+
+Changes in v2:
+- Removed RDEPENDS on bash
+---
+ meta/conf/distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-extended/libconfig/libconfig/run-ptest | 12 ++++++++++++
+ meta/recipes-extended/libconfig/libconfig_1.8.2.bb  | 13 ++++++++++++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-extended/libconfig/libconfig/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 739995bcfe..7c5810f252 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -29,6 +29,7 @@ PTESTS_FAST =3D "\
+     json-c \
+     json-glib \
+     libcheck \
++    libconfig \
+     libconvert-asn1-perl \
+     libexif \
+     libgpg-error\
+diff --git a/meta/recipes-extended/libconfig/libconfig/run-ptest b/meta/rec=
+ipes-extended/libconfig/libconfig/run-ptest
+new file mode 100755
+index 0000000000..047d9554be
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
-@@ -0,0 +1,55 @@
-+From ed41e052ebe78fcf043c43ea05bf16f73dfbb581 Mon Sep 17 00:00:00 2001
-+From: Damian Shaw <damian.peter.shaw@gmail.com>
-+Date: Fri, 30 Jan 2026 16:27:57 -0500
-+Subject: [PATCH] Merge pull request #13777 from sethmlarson/commonpath
++++ b/meta/recipes-extended/libconfig/libconfig/run-ptest
+@@ -0,0 +1,12 @@
++#!/bin/sh
 +
-+Use os.path.commonpath() instead of commonprefix()
++cd tests
 +
-+CVE: CVE-2026-1703
-+
-+Upstream-Status: Backport [https://github.com/pypa/pip/commit/8e227a9be4fa=
-a9594e05d02ca05a413a2a4e7735]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ news/+1ee322a1.bugfix.rst            | 1 +
-+ src/pip/_internal/utils/unpacking.py | 2 +-
-+ tests/unit/test_utils_unpacking.py   | 2 ++
-+ 3 files changed, 4 insertions(+), 1 deletion(-)
-+ create mode 100644 news/+1ee322a1.bugfix.rst
-+
-+diff --git a/news/+1ee322a1.bugfix.rst b/news/+1ee322a1.bugfix.rst
-+new file mode 100644
-+index 000000000..edb1b320c
-+--- /dev/null
-++++ b/news/+1ee322a1.bugfix.rst
-+@@ -0,0 +1 @@
-++Use a path-segment prefix comparison, not char-by-char.
-+diff --git a/src/pip/_internal/utils/unpacking.py b/src/pip/_internal/util=
-s/unpacking.py
-+index 78b5c13ce..0b26525fb 100644
-+--- a/src/pip/_internal/utils/unpacking.py
-++++ b/src/pip/_internal/utils/unpacking.py
-+@@ -81,7 +81,7 @@ def is_within_directory(directory: str, target: str) -> =
-bool:
-+     abs_directory =3D os.path.abspath(directory)
-+     abs_target =3D os.path.abspath(target)
-+=20
-+-    prefix =3D os.path.commonprefix([abs_directory, abs_target])
-++    prefix =3D os.path.commonpath([abs_directory, abs_target])
-+     return prefix =3D=3D abs_directory
-+=20
-+=20
-+diff --git a/tests/unit/test_utils_unpacking.py b/tests/unit/test_utils_un=
-packing.py
-+index 1f0b59dbd..724ca0be8 100644
-+--- a/tests/unit/test_utils_unpacking.py
-++++ b/tests/unit/test_utils_unpacking.py
-+@@ -202,6 +202,8 @@ def test_unpack_tar_unicode(tmpdir: Path) -> None:
-+         (("parent/", "parent/sub"), True),
-+         # Test target outside parent
-+         (("parent/", "parent/../sub"), False),
-++        # Test target sub-string of parent
-++        (("parent/child", "parent/childfoo"), False),
-+     ],
-+ )
-+ def test_is_within_directory(args: Tuple[str, str], expected: bool) -> No=
-ne:
-+--=20
-+2.44.0
-+
-diff --git a/meta/recipes-devtools/python/python3-pip_24.0.bb b/meta/recipe=
-s-devtools/python/python3-pip_24.0.bb
-index be4a29500a..35428260c3 100644
---- a/meta/recipes-devtools/python/python3-pip_24.0.bb
-+++ b/meta/recipes-devtools/python/python3-pip_24.0.bb
-@@ -31,7 +31,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D63ec52baf9=
-5163b597008bb46db68030 \
++for t in libconfig_tests; do
++    ./$t
++    if [ $? -eq 0 ]; then
++        echo "PASS: $t"
++    else
++        echo "FAIL: $t"
++    fi
++done
+diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/reci=
+pes-extended/libconfig/libconfig_1.8.2.bb
+index 6e08a7b04b..c3582828f7 100644
+--- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
++++ b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D17c8e32f0f72=
+580cc2906b409d46b5ac"
 =20
- inherit pypi python_setuptools_build_meta
+ SRC_URI =3D " \
+     git://github.com/hyperrealm/libconfig.git;protocol=3Dhttps;branch=3Dma=
+ster;tag=3Dv${PV} \
++    file://run-ptest \
+ "
+ SRCREV =3D "a42cb47c1526a4f2ed025fcbb2289863375bc898"
 =20
--SRC_URI +=3D "file://no_shebang_mangling.patch"
-+SRC_URI +=3D "file://no_shebang_mangling.patch \
-+            file://CVE-2026-1703.patch \
-+            "
+@@ -17,7 +18,7 @@ DEPENDS +=3D "bison-native flex-native"
 =20
- SRC_URI[sha256sum] =3D "ea9bd1a847e8c5774a5777bb398c19e80bcd4e2aa16a4b301b=
-718fe6f593aba2"
+ UPSTREAM_CHECK_GITTAGREGEX =3D "^v(?P<pver>\d+(\.\d+)+)$"
 =20
+-inherit autotools pkgconfig
++inherit autotools pkgconfig ptest
+=20
+ PACKAGE_BEFORE_PN =3D "${PN}++"
+ FILES:${PN}++ =3D "${libdir}/${BPN}++*${SOLIBS}"
+@@ -27,3 +28,13 @@ do_compile:prepend() {
+     rm -f ${S}/lib/grammar.[ch]
+     rm -f ${S}/lib/scanner.[ch]
+ }
++
++do_compile_ptest() {
++    oe_runmake -C tests check TESTS=3D
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests
++    ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/tests/libconfig_tes=
+ts ${D}${PTEST_PATH}/tests/libconfig_tests
++    cp -r ${S}/tests/testdata ${D}${PTEST_PATH}/tests/
++}
 --=20
-2.34.1
+2.43.0
 
 
