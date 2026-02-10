@@ -1,125 +1,214 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EBF8EB5942
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 23:41:43 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7217.1770766895172448465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B7EEEB5943
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 23:45:13 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7188.1770767108129174777
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 15:41:36 -0800
+ Tue, 10 Feb 2026 15:45:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QnPJpslB;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6501cfa702=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61ABU2uS2299018
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 15:41:34 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=o5hX8yfl7uQzYCXN+62E
-	OYbnU4HF5iQ3CVx01B8mNLA=; b=QnPJpslBp+1Tyk5YmP2cxvRqwJPg8RSA8aOo
-	8/tCq+iVep6+QxJo1go7Rhkfhz8qepOShNpFmFTt96/wz1KF227TNkRx/8UnWebv
-	p/heLcAK5xkfhl5kergRWFcYY0209xDw+aDlutwaKaRSgDggjUrlhUNpxQeQCjom
-	85bghrpXyG23p+6/dPzVm74NLcCaHe1AoS4fzq0Ma9Qe9zOq3ASsxDoYkbz6NJc6
-	8j1UFX5CtKSAn9vHTFvF55kSOnI+FKLD6P30C7JPZkgpqqtRma/q4zdMewZxftHb
-	FCwkqel5Z/jUOBkUAr8NFO2899RGYVFLe5RQlkqN/9Ya00gozg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c65sj3p5u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 15:41:34 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 10 Feb 2026 15:41:34 -0800
-Received: from pop-os.wrs.com (10.11.232.110) by ala-exchng01.corp.ad.wrs.com
- (10.11.224.121) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
- Transport; Tue, 10 Feb 2026 15:41:33 -0800
-From: <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] strace: upgrade from 6.18-> 6.19
-Date: Tue, 10 Feb 2026 18:41:33 -0500
-Message-ID: <20260210234133.3109412-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 61ANisoJ007232;
+	Tue, 10 Feb 2026 17:44:55 -0600
+Received: from [192.168.2.236] ([192.168.2.236])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 61ANis1X004637;
+	Tue, 10 Feb 2026 17:44:54 -0600
+Message-ID: <e8021b4e-fbae-4f19-8fe5-832b72f88e80@kernel.crashing.org>
+Date: Tue, 10 Feb 2026 17:44:54 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 2rMmAACii2yiYtKx7vrLj1XQklxKvFsX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDE5NiBTYWx0ZWRfX2eH/VdGMrf1H
- 2az/UU1UV40VcALnnb5sjhk0YE23xLUbjr/7Z8/uLZwn1F4tXHfnTIzOLvMdI8ocN2OgVKjSKm+
- DA6pq1HvmPs5jL0PBFkRw6AImbMybJ2wihMktJNurlgatIKW0n6LLJ3OZA4jjo1nu3WmSeo4smL
- S3bwYMCSYRw7HHlOt1EiE0u2AbKU4AQ2v8Owl+jheZvmhOo8Mu6rd11sH6BfY/i2mRCqQgOpDs4
- tKQIz3KyLX1MbnvdsvnIKg+HSI4Ea2pqbBojp4SUd7igbAJAz455vsJUQHSNWcGHeRlG3u7TFgQ
- fSFQ7qQpgA2qjH+czE1FBc55uBqk2j1Jz22bP6xJ7TXCQ+e0BiJFQZOGmNcleaObckcMDeI1Es+
- FH+IJDMCn2FPQT34+8j21Ynf08q5K63uS1sc4OYUH2noSwjSGuMhALgkFxLL9mxRLfVFzNKmsB2
- 1YWLoe0ZoUvaXARYmZw==
-X-Proofpoint-GUID: 2rMmAACii2yiYtKx7vrLj1XQklxKvFsX
-X-Authority-Analysis: v=2.4 cv=Cpyys34D c=1 sm=1 tr=0 ts=698bc22e cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=fzO0DoyAAAAA:20 a=_pA1qYqWAAAA:8 a=t7CeM3EgAAAA:8
- a=7Lqjq_4UkUZYMGYIYOEA:9 a=TbLkyeXSistb_kka44-k:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-10_03,2026-02-10_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602100196
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Openembedded-architecture] Comparing cve-check with
+ sbom-cve-check
+Content-Language: en-US
+To: ross.burton@arm.com,
+        Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+        openembedded-architecture <openembedded-architecture@lists.openembedded.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+        "benjamin.robin@bootlin.com" <benjamin.robin@bootlin.com>
+References: <2CD10DD9-FB2A-4B10-B98A-85918EB6B4B7@arm.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <2CD10DD9-FB2A-4B10-B98A-85918EB6B4B7@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 61ANisoJ007232
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 23:41:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230938
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 23:45:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230939
 
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+After doing some unrelated work, I think I need to point out something I =
+think=20
+has been missed in this discussion.
 
-Release notes:
-   https://github.com/strace/strace/releases/tag/v6.19
-License-Update: copyright years refreshed
+Not all DEPLOYED content is in an image.  deployed content can include fi=
+rmware=20
+components built by the system as well.  These ARE target packages, but t=
+hey may=20
+involve raw data flashed directly to a QSPI/OSPI, copied into a magic mem=
+ory=20
+location, etc.
 
-Ptest results for qemux86-64/kvm:
-+------------+--------+---------+-------+
-| Version    | Passed | Ignored | Total |
-+------------+--------+---------+-------+
-| 6.18 glibc |  1,127 |    332  | 1,459 |
-| 6.19 glibc |  1,129 |    332  | 1,461 |
-| 6.19 musl  |  1,123 |    338  | 1,461 |
-+------------+--------+---------+-------+
+So there MUST be a way to handle these situations as part of the SPDX, SB=
+OM and=20
+CVE processing.  (This appears to be a gap in the current implementation =
+today.)
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- .../strace/{strace_6.18.bb => strace_6.19.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/strace/{strace_6.18.bb => strace_6.19.bb} (93%)
+--Mark
 
-diff --git a/meta/recipes-devtools/strace/strace_6.18.bb b/meta/recipes-devtools/strace/strace_6.19.bb
-similarity index 93%
-rename from meta/recipes-devtools/strace/strace_6.18.bb
-rename to meta/recipes-devtools/strace/strace_6.19.bb
-index a2eba0797f..dfe14e2a39 100644
---- a/meta/recipes-devtools/strace/strace_6.18.bb
-+++ b/meta/recipes-devtools/strace/strace_6.19.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://strace.io"
- DESCRIPTION = "strace is a diagnostic, debugging and instructional userspace utility for Linux. It is used to monitor and tamper with interactions between processes and the Linux kernel, which include system calls, signal deliveries, and changes of process state."
- SECTION = "console/utils"
- LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=1efaf30bb0084b4a17a6f55f9cbcd25b"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9259131ce5420f9790214be1c20a83a9"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
-            file://update-gawk-paths.patch \
-@@ -19,7 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
- SRC_URI:append:libc-musl = "\
-            file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
-            "
--SRC_URI[sha256sum] = "0ad5dcba973a69e779650ef1cb335b12ee60716fc7326609895bd33e6d2a7325"
-+SRC_URI[sha256sum] = "e076c851eec0972486ec842164fdc54547f9d17abd3d1449de8b120f5d299143"
- 
- inherit autotools github-releases ptest
- 
--- 
-2.34.1
-
+On 2/4/26 11:29 AM, Ross Burton via lists.openembedded.org wrote:
+> Hi,
+>=20
+> I spent a little time this week comparing our cve-check with Bootlin=E2=
+=80=99s sbom-cve-check[1].
+>=20
+> tl;dr: has promise, needs a little further work. I think we can swap cv=
+e-check for sbom-cve-check in the LTS if we hurry.
+>=20
+> The background to this is that the existing cve-check class has some kn=
+own limitations:
+> - Uses the FKIE fork of the NVD database as a source of CVE data, which=
+ does not have the level of metadata it used to have
+> - Only can be ran as part of a bitbake run, no way to do repeat scans a=
+ month later without involving bitbake
+>=20
+> Whereas sbom-cve-check is:
+> (1) an independent tool,
+> (2) scanning a SPDX manifest,
+> (2) using both the FKIE/NVD database and the CVE Project cvelist.
+>=20
+> To elaborate on those points:
+>=20
+> 1) As an independent tool it can be ran at build time (potentially usin=
+g meta-sbom-cve-check[2], or by calling the tool directly), or at any poi=
+nt in time after the build using just archived metadata to check for new =
+issues. This is very useful for manufacturers who want to scan for issues=
+ routinely without having to do builds.
+>=20
+> 2) Whereas cve-check scans for CVEs at build-time in a recipe task and =
+will (badly) generate aggregate reports for images, sbom-cve-check uses t=
+he image SPDX to know what products to look for issues in. This means it =
+_only_ supports the =E2=80=9Cwhat issues does my image have=E2=80=9D use-=
+case and not =E2=80=9Cwhat issues are on my build machine=E2=80=9D (eg is=
+sues in native tools).
+>=20
+> 3) The use of two different databases means it has more scope for impro=
+ved metadata.  It currently supports the FKIE mirror of the NVD data, the=
+ CVE List by the CVE Project (which is gaining improved metadata via thei=
+r Enrichment Program), and further sources would be simple to add.
+>=20
+> As a test I did a build of core-image-sato and generated a report using=
+ both cve-check and sbom-cve-check.  The differences were interesting.
+>=20
+> cve-check produced this report for the whole build:
+>=20
+> WARNING: avahi-0.8-r0 do_cve_check: Found unpatched CVE (CVE-2025-59529=
+ CVE-2025-68468 CVE-2025-68471)
+> WARNING: busybox-1.37.0-r0 do_cve_check: Found unpatched CVE (CVE-2025-=
+60876)
+> WARNING: expat-2.7.3-r0 do_cve_check: Found unpatched CVE (CVE-2025-663=
+82 CVE-2026-24515)
+> WARNING: expat-native-2.7.3-r0 do_cve_check: Found unpatched CVE (CVE-2=
+025-66382 CVE-2026-24515)
+> WARNING: ffmpeg-8.0.1-r0 do_cve_check: Found unpatched CVE (CVE-2023-51=
+791 CVE-2023-51793 CVE-2023-51794 CVE-2023-51795 CVE-2023-51796 CVE-2023-=
+51797 CVE-2023-51798 CVE-2025-22921 CVE-2025-25468 CVE-2025-25469)
+> WARNING: glibc-2.42+git-r1 do_cve_check: Found unpatched CVE (CVE-2010-=
+4756)
+> WARNING: libpam-1.7.1-r0 do_cve_check: Found unpatched CVE (CVE-2024-10=
+041)
+> WARNING: libsndfile1-1.2.2-r0 do_cve_check: Found unpatched CVE (CVE-20=
+24-50613 CVE-2025-52194 CVE-2025-56226)
+> WARNING: linux-yocto-6.18.6+git-r0 do_cve_check: Found unpatched CVE (C=
+VE-2008-4609 CVE-2010-4563 CVE-2019-14899 CVE-2021-3714 CVE-2021-3864 CVE=
+-2022-0400 CVE-2022-1247 CVE-2022-38096 CVE-2022-4543 CVE-2023-3397 CVE-2=
+023-3640 CVE-2023-39176 CVE-2023-39179 CVE-2023-39180 CVE-2023-4010 CVE-2=
+023-6238 CVE-2023-6240 CVE-2023-6535)
+> WARNING: polkit-127-r0 do_cve_check: Found unpatched CVE (CVE-2016-2568=
+)
+> WARNING: qemu-native-10.2.0-r0 do_cve_check: Found unpatched CVE (CVE-2=
+019-12067 CVE-2021-20255 CVE-2024-6519)
+> WARNING: qemu-system-native-10.2.0-r0 do_cve_check: Found unpatched CVE=
+ (CVE-2019-12067 CVE-2021-20255 CVE-2024-6519)
+> WARNING: vim-9.1.1683-r0 do_cve_check: Found unpatched CVE (CVE-2025-66=
+476)
+>=20
+> Aside: cve-check=E2=80=99s per-image reporting appears to be slightly b=
+roken and claimed that my sato image included images from meta-oe, which =
+it did not. The report above is the reporting that is logged during the b=
+uild.
+>=20
+> After writing some tooling for textual summaries, sbom-cve-check produc=
+ed a report that is similar. The recipe list has differences: vim and a h=
+andful of other are  not listed; but previously unreported CVEs in busybo=
+x, cairo, expat, glib-networking, gnupg, libgcrypt, libsoup, libxml2, mpg=
+123, perl, tar, and the kernel are added.
+>=20
+> The recipes that are not listed are either native tools (which, by defi=
+nition, are not in the image) or recipes that are built for dependencies =
+but do not end up in the this specific image. In this case, dosfstools-pt=
+est RDEPENDS on xxd which is built by vim, but as dosfstools-ptest is not=
+ installed there is no need for xxd.
+>=20
+> A number of CVEs are added, for example CVE-2024-58251 is a CVE in busy=
+box which is missing the machine-readable CPE in the NVD data[3] but the =
+CVE List has been =E2=80=9Cenriched=E2=80=9D and has machine-readable dat=
+a[4].  I=E2=80=99ve not yet triaged every one to identify the reason for =
+the addition, but I expect this is the main reason.
+>=20
+> A more interesting feature gap is where a recipe statically links to an=
+other recipe: in this case there is no SPDX package entry for the library=
+, so issues in the library will not be reported. With cve-check, the buil=
+d-report will cover this, but the image-report will not.
+>=20
+> To summarise [5] the pros and cons:
+> + sbom-cve-check can run at any point after the build
+> + has better data sources which report more issues
+> - only scans the literal packages that are in a final image, so we don=E2=
+=80=99t get coverage of native packages or static linkage
+>=20
+> I wonder if the easiest fix for this gap is to enhance the SPDX generat=
+ion to not only generate an =E2=80=9Cimage SPDX=E2=80=9D but also a =E2=80=
+=9Cbuild SPDX=E2=80=9D, which is essentially an aggregation of every reci=
+pe=E2=80=99s SPDX that is present. A recursive execution of the SPDX gene=
+ration task will mean this covers both any native tools and static librar=
+ies that are in the dependency graph, for maximal coverage.
+>=20
+> This gives a solution without needing to be more clever in the image SP=
+DX generation, for example including packages for all of the build depend=
+encies (be them native or target).
+>=20
+> If this is done then I think sbom-cve-check is at least at parity with =
+cve-check, and in many ways far superior. This will allow us to merge the=
+ few recipes and class from meta-sbom-cve-check into core, and delete cve=
+-check.
+>=20
+> Any thoughts? (looking at Josh and Benjamin primarily)
+>=20
+> Thanks,
+> Ross
+>=20
+> [1] https://github.com/bootlin/sbom-cve-check
+> [2] https://github.com/bootlin/meta-sbom-cve-check
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2024-58251
+> [4] https://www.cve.org/CVERecord?id=3DCVE-2024-58251
+> [5] At this point I=E2=80=99m realising I need to read The Art of Expla=
+nation by Ros Atkins...
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#2232): https://lists.openembedded.org/g/openembedde=
+d-architecture/message/2232
+> Mute This Topic: https://lists.openembedded.org/mt/117638559/3616948
+> Group Owner: openembedded-architecture+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-architecture=
+/unsub [mark.hatle@kernel.crashing.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
