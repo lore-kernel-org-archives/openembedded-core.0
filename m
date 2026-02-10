@@ -1,162 +1,123 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9422AEA3F2E
-	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 09:35:53 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16174.1770716146571643772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F35EA3F2F
+	for <webhook@archiver.kernel.org>; Tue, 10 Feb 2026 09:37:03 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16191.1770716214220833742
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 01:35:46 -0800
+ Tue, 10 Feb 2026 01:36:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wDpd3RfE;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso44823805e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 01:35:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iFtnz3aG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c5320536bfso59952285a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 01:36:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770716213; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i6hK6JM0n6xcKCRJY6uCeQKvAVNPTIVR7/8adEEBNrloOH1N6Xdn1AdKPCtQ+b8O6H
+         VTe52/A6rKb3P/XGnovQri8o+CBn8tsG11YPR/ou6tWBRxhmiOtEDPGW56ele6ZFE1Ap
+         PlE7r1MBIme4D5VVU5r5xCaYa4hwHwziTmmf2kvIjz/KKcxeLPGZKPOWFBEPR+Xsf7b5
+         in2KENMmns/ob7usrWIqYJzmm0Rmp5Zdjf5t0L36mx72fuPUS3p7oXROcPXTlN09pJZw
+         j6m9r1ZQwJ6LeJbJnWDbodRNI+T+As8Dm5Ago3xvUS0yZd80glLjhSxC0aOMKhZgVBeP
+         4KhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=3hxtzSEmo+l7+Br8M/WJzpUNavSn9estTdXG/dYY2fs=;
+        fh=ROldQr07KtNEAZsrthGgsKDT5quXOnRMI+GNO1CijWo=;
+        b=GmIY8CJZwUZNpIVeSykAEMAGafb5CgYybF/TOxzAHrI86dauR5oaQ+OS3jQKACKPel
+         QNbuCoOjQWzMkZs9k5jHS3vs5FEwV0isFWNeA3Isnv74eAZCvZ/nMF0r6qldDCtjqzsX
+         gpgy1p1Vn/XIb3Z3mresyrVga4ocKUq8zvuUStniLTtEb2oKnpsP+dH3pufD/f+CaZsX
+         MsjgSsjWhRPWrGfYYhrCt/bBLGenmTb1rXUti1M9XnQMEVkibfDEvDASLDfLlDVG5c/J
+         uyF69JuLkNEuGfa0NNp2pK4QuSiifgGKL40Fl8VzqeBf8Rz62ClmRZpS4Fa02H1LLb/h
+         YbUQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770716145; x=1771320945; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cfs/akhYwlrDgz/XFGrj8WcZim4AkdDaIp96psljMm4=;
-        b=wDpd3RfEW+ZvG821piv9QqYxiy+nk1OFvIhgKbmteBeafpya/qckSjwI+IpiV15kIQ
-         FIFIWWZ9bWYOOjEEWnk7h7UVGwP0zvOyDAwgxMsWZaLnlreFBXJFKvH4D/QW7wWvpxza
-         yMFAVtlFPA84DMiohj9+JuLavEGtPqRzsoN0U=
+        d=gmail.com; s=20230601; t=1770716213; x=1771321013; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3hxtzSEmo+l7+Br8M/WJzpUNavSn9estTdXG/dYY2fs=;
+        b=iFtnz3aGGd5tFt3du6KJxSSa+tnGlD5SJkQjKYsr71WFqH9JnthnzxsYDZpa0IOTbB
+         jmX6XNUy/kq1JSVt7s7RvZQ9FfU6Spmhblb/TwtbPyq2ppgN+CgvMJIRw3nKWujhllRc
+         +Q5BNxFuzoVwUmcyeGQZbAqo9G2evJyuNubyDRyKKlVpfjGJ5k4xFE7ZfaqDP5/KjJeH
+         xb+IOrCSwPu1m3nGehLZNC+OcKvqTkpacFxDW1KaGJKh2kFCUqnyFGkkMdr7l+ZrtHRz
+         7SsMzpB4OG/7JpVjl/4bOA2NNr0rkMODYPQ72qqVfmtyQ0QGcyITnUrXNeMxOYw/nug7
+         hJVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770716145; x=1771320945;
-        h=in-reply-to:references:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cfs/akhYwlrDgz/XFGrj8WcZim4AkdDaIp96psljMm4=;
-        b=gjCz9xqyJut4H2ujH4JbTMKEN16iuvxPvdae/jSE3/a8XOhTcVwnP5v5vinfqPCMpO
-         3xyCZKeCTd6ZUxM2j5PhjYsj9dqwSu3BUQgW1seOimzDVx4T0m47W5JQsVhBUkJT26NP
-         gNeGg3+jVEUW/IaJxaX0R8Q9/yOVF5v23G2EMCcvjDgxKrdbBJ6wW/9cD4SL/UIkXZyC
-         dC/OLFjYTQyGwKNt8chgfgZ5z5EX/xhfOXQrKnk17NpW7hOjMhy5e6BgKhY70gkUkDJ1
-         PzlOY5jEVcRGMhWUZDznziPyUKWmCdp9I/+YWkl3HbbxsCsoaRrIqt+AjrnHfKJ10xFb
-         wU2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUG4h8ZV+E/4uxN4zu0En5MX8wxjkKNjM+nPUpRzyDVqkZ7OmL9oJxg7wqMI4SbgLrzFp2k4MAvoaZgEvoVPk13sA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxvS4bW+jeruBQrHSWSik8zsAkoOmU6Qf2T1LNeddh0IGPln2Yx
-	tx0+E8lZb8uPF9eDicWgRnCsstS5NiqEqCnw+fX59ptoZQS1JQLVSAD+9AgqFGE42Sc=
-X-Gm-Gg: AZuq6aKtV0PT/V85ErvUH2EiWbgvyZTJmdVvQRkKIscwNGYbXXCjO5kM5xXlxCpPvI0
-	a6/mTYtW7KvpZNPJVSa2DG7HvTUmwKN1eqgP5VIXaSKyPd3Uf4747UUxlwNzQYbviwr0Z9js9Xa
-	RmK1o7e6AVKiEKyH4GZuRbwXQJ7fjXsAzk5yj7U5bZoHJol8XluB++j4Dhcba+ySss2MtFU6Hlo
-	yWkq5w3Cfcm++Ut/oeItQ5vx3R6LD8ky9Ofm1y+vrhrLykQjydaOq3c/8Sq2dup1yCo37+hZPTn
-	TAuy75ms92bUdTHECWULxVxYv9EJKDj15dukGdGzRsnfW5f2iWKEi+ymj7i0Nb0i7ghxs22k2HZ
-	tS0zfDHhXndEEV7Rz8osT9fuj3OG3qZW0l+VDDiu+TCtaWqSrqmmgfTN2jvNM6/S7e4Do9vkfDQ
-	Ar/21svXeyTkDnK6ubrsdPnSFaP7CE5+8BOT/vJnTaxMhMP7bH1lkc5oyiGCYAEDqid5XoEP3Ub
-	9MWPC3I63xUlB/nt1vkrQrWzyc=
-X-Received: by 2002:a05:600c:1390:b0:477:5ad9:6df1 with SMTP id 5b1f17b1804b1-483201dc4bamr193578465e9.3.1770716144755;
-        Tue, 10 Feb 2026 01:35:44 -0800 (PST)
-Received: from localhost (2a01cb001331aa00c483744cb4924df7.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:c483:744c:b492:4df7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d82a4c4sm79862615e9.10.2026.02.10.01.35.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Feb 2026 01:35:44 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Feb 2026 10:35:43 +0100
-Message-Id: <DGB6HIM1ZK8A.2S3O9NW59L2DC@smile.fr>
-To: "Paul Barker" <paul@pbarker.dev>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap 21/25] improve_kernel_cve_report: add
- script for postprocesing of kernel CVE data
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <cover.1770626074.git.yoann.congal@smile.fr>
- <1adc13b185d18abd926ceab4fc893374b35f9adf.1770626074.git.yoann.congal@smile.fr> <18f85f4429057b6d39eb7f9d80d41e63d69e40e7.camel@pbarker.dev>
-In-Reply-To: <18f85f4429057b6d39eb7f9d80d41e63d69e40e7.camel@pbarker.dev>
+        d=1e100.net; s=20230601; t=1770716213; x=1771321013;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3hxtzSEmo+l7+Br8M/WJzpUNavSn9estTdXG/dYY2fs=;
+        b=CLbp3qERtWSNf7ABnj/O/GTUVXY35k/sRFLPKga45umZ+lWWap66IBNI4f0aDvsK2j
+         H9Liyd4GWClO2GBAGBBY9hdfG/GTkEr8HeBXNgn5qdcCYlklheCcYQME0IrHn0ltCzeS
+         xDP5C3dT1RBOeqU1FQBhGkDxksskZ4oUB/yWMhDQrfY3ViPGEFprjqjY577/na2ZCuj3
+         wKTOtna1f4R2YUKUjTPKQfG1UhLsN8ThlAwfwtAPfJOD5a8NixA44yg4EcSy9TZNyAsd
+         8jWLrJvkSz88xLm0aUTBg4IfaCeX5sqjr/nJCKGkdFUmjyk8/DOlBIrzVwRjFo4cU7X6
+         rKFg==
+X-Gm-Message-State: AOJu0Yz69MR7tjJljcgONo48og080Bxl+mlR50gk9RxEq9Htbo4T642P
+	kWIH/QhTwNDKEUX6uN79g3GyUarc7E+FXuJZaknsiZ5/bfXO+untpaIiYP6KSoV7Ov9LLr4w1Sf
+	kGHPq14muCmnMb22lm+0o77oKka08dxY=
+X-Gm-Gg: AZuq6aK4OKfWAq0WW9PjQcr6Ur8jcCM5uzaCzVnRj91XwCsmHIKKVzR3KKFFOy9v9Gq
+	LmlVF6Jarh6j4FHqPzqEkIKJ+D7/kiYhhcc1foK86dw6wE5FNrdRZycD2o/WiiJu0AN5DhcOb+2
+	HVDFaN3IOreXaYGMgmQp1//GLDEOmZqnllZUvJhXqfZscAC82boQZK7IqnvTs6h10unQJYxL/8p
+	ov/x14mZ22KBDV+VFt8C9HwXaNXg33DGEYtFnumOGtiTdskByr4P4muh8pLLDMU4R+NLkVVsfkt
+	hh1ktsqbR4Tj+K9P5ETtLxzZbWRUMqL/0rkYHsqDq6cqXc0xMPtC
+X-Received: by 2002:a05:620a:462c:b0:8c7:7a3:501b with SMTP id
+ af79cd13be357-8caef7e7735mr1854933385a.26.1770716213236; Tue, 10 Feb 2026
+ 01:36:53 -0800 (PST)
+MIME-Version: 1.0
+References: <20260209224444.17275-1-logan.gallois@gmail.com> <20260209233019.1981-1-logan.gallois@gmail.com>
+In-Reply-To: <20260209233019.1981-1-logan.gallois@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Feb 2026 10:36:42 +0100
+X-Gm-Features: AZwV_QgTfhGa0mB6oNhLfmvXq8fibydUoZkGZRinW1hFbtB9VgzQZXAJ8-XU15M
+Message-ID: <CANNYZj9t+bSCwxvs05FxU8mNbD1t6RLsbov1ALt61iPFQcWPMQ@mail.gmail.com>
+Subject: Re: [PATCH v5] oe-setup-build: TEMPLATECONF were not applied correctly
+To: Logan Gallois <logan.gallois@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Logan Gallois <logan.gallois@hexagon.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:35:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230869
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 09:37:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230870
 
-On Mon Feb 9, 2026 at 11:58 AM CET, Paul Barker wrote:
-> On Mon, 2026-02-09 at 10:29 +0100, Yoann Congal via
-> lists.openembedded.org wrote:
->> From: Daniel Turull <daniel.turull@ericsson.com>
->>=20
->> Adding postprocessing script to process data from linux CNA that include=
-s more accurate metadata and it is updated directly by the source.
->>=20
->> Example of enhanced CVE from a report from cve-check:
->>=20
->> {
->>   "id": "CVE-2024-26710",
->>   "status": "Ignored",
->>   "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-26710",
->>   "summary": "In the Linux kernel, the following vulnerability [...]",
->>   "scorev2": "0.0",
->>   "scorev3": "5.5",
->>   "scorev4": "0.0",
->>   "modified": "2025-03-17T15:36:11.620",
->>   "vector": "LOCAL",
->>   "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
->>   "detail": "not-applicable-config",
->>   "description": "Source code not compiled by config. ['arch/powerpc/inc=
-lude/asm/thread_info.h']"
->> },
->>=20
->> And same from a report generated with vex:
->> {
->>   "id": "CVE-2024-26710",
->>   "status": "Ignored",
->>   "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-26710",
->>   "detail": "not-applicable-config",
->>   "description": "Source code not compiled by config. ['arch/powerpc/inc=
-lude/asm/thread_info.h']"
->> },
->>=20
->> For unpatched CVEs, provide more context in the description:
->> Tested with 6.12.22 kernel
->> {
->>   "id": "CVE-2025-39728",
->>   "status": "Unpatched",
->>   "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-39728",
->>   "summary": "In the Linux kernel, the following vulnerability has been =
-[...],
->>   "scorev2": "0.0",
->>   "scorev3": "0.0",
->>   "scorev4": "0.0",
->>   "modified": "2025-04-21T14:23:45.950",
->>   "vector": "UNKNOWN",
->>   "vectorString": "UNKNOWN",
->>   "detail": "version-in-range",
->>   "description": "Needs backporting (fixed from 6.12.23)"
->> },
->>=20
->> CC: Peter Marko <peter.marko@siemens.com>
->> CC: Marta Rybczynska <rybczynska@gmail.com>
->> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
->> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> (cherry picked from commit e60b1759c1aea5b8f5317e46608f0a3e782ecf57)
->> Signed-off-by: Suresh H A <suresh.ha@bmwtechworks.in>
->> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+On Tue, 10 Feb 2026 at 00:30, Logan Gallois <logan.gallois@gmail.com> wrote:
 >
-> This looks like a backport of a new feature, if we're making an
-> exception to allow this to be backported then we should document the
-> reason why (apologies if this is somewhere on the list and I've missed
-> it).
+> When using the new bitbake-setup tool, an oe-template created in a
+> custom layer was ignored because the TEMPLATECONF variable was not passed to the source file.
+>
+> Signed-off-by: Logan Gallois <logan.gallois@hexagon.com>
+> ---
+>  scripts/oe-setup-build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
+> index b391f3b9254..ab543506451 100755
+> --- a/scripts/oe-setup-build
+> +++ b/scripts/oe-setup-build
+> @@ -101,7 +101,7 @@ def setup_build_env(args):
+>              f.write(cmd_base)
+>      print("\nRun '. {}' to initialize the build in a current shell session.\n".format(initbuild))
+>
+> -    cmd = "TEMPLATECONF={} {}".format(template["templatepath"], cmd_base)
+> +    cmd = "TEMPLATECONF={}\n{}".format(template["templatepath"], cmd_base)
 
-I've talked about it briefly there:
-https://lore.kernel.org/openembedded-core/CAMSfU+6DXfuaG0uyPtEg5hE7oHqP=3D8=
-pRhSttciF+NHcwr0Hpjg@mail.gmail.com/t/#u
-Mainly, since this is "contrib/", I don't mind relaxing rules a bit.
-@Paul, do you think this is reasonable?
+Thanks, I took a proper look, and yes the issue is real and the patch
+is correct. Can you adjust the commit message?
 
-I agree that this exception should be documented (I will add a note in the
-commit message)
+Something like:
 
-> If we do take this, we should also consider the other changes made to
-> this script since it was added to master.
+Since a recent change to support dash, cmd_base is a set of several
+commands, separated by newlines.
+TEMPLATECONF was only effective for the first command in that set,
+which is not where it's needed.
+Putting it on its own line will ensure that it's present for
+everything in cmd_base.
 
-Yes, if I accept this one, I would also accept further updates on this
-script.
-
-Cheers,
---=20
-Yoann Congal
-Smile ECS
-
+Alex
 
