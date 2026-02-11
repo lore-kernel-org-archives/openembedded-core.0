@@ -1,271 +1,266 @@
-Return-Path: <jaeyoon.jung@lge.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2891BE9E305
-	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 13:08:47 +0000 (UTC)
-Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18455.1770815324692252085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CD5E9E306
+	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 13:09:27 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18473.1770815360998476351
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Feb 2026 05:08:45 -0800
+ Wed, 11 Feb 2026 05:09:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: jaeyoon.jung@lge.com)
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.53 with ESMTP; 11 Feb 2026 22:08:41 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-Received: from unknown (HELO sniperexo4.lge.com) (165.244.147.14)
-	by 156.147.1.127 with ESMTP; 11 Feb 2026 22:08:41 +0900
-X-Original-SENDERIP: 165.244.147.14
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-Received: from unknown (HELO PUWP216CU001.outbound.protection.outlook.com) (40.93.139.6)
-	by 165.244.147.14 with ESMTP; 11 Feb 2026 22:08:41 +0900
-X-Original-SENDERIP: 40.93.139.6
-X-Original-SENDERCOUNTRY: unknown
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-X-Original-RCPTTO: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org,
-	Qi.Chen@windriver.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wgqTL4S1QtbZapipEhzQYt44sWtVZvLiwJvSk3aVALngLbWbtYUCNU9kPTdiwWGQcnB4DejjKKuvONQfgT2oLOrHJTmJZQfiSVz29bWHA0GezMevV6lNvIc/JQ+lA5Is72zVmeqvl4kr6V79ukQKPNSeMhSmAclpIwd/jIs7cctOqc5Pl8co2M/Q/YinBkKVw0rSX94QG/N50LPq7okUxrHi4p3YBu+96h4MH0iLoMBON1Hv6Q1a04kzCnv8bJPzR40hR5crAuyF2j0OTFvTBFLkTsHjyYAg4yrdMYiVkPDs/AZkzvOqxzTi78EMQiEd8tkKwXSTA+rLraFY+I1lzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dWFmGQxOQJgydqdAwRUBFdh7QkiYc+WA3uLkgN5ntnQ=;
- b=ZnMZ5Bqhop1rFUZvKUslTNjSH31YFfFvkhZPYK8LoEV+kqjpO4LjMIIv1TCAxgSmcBqlZJtc05ZR7ZtU4iC3k6oRO+CoTcBiXx1pwnmeZkWksTUNYgSeE1UGmHWqZZjQ4tvY+td53uQGmjywtn64d7+NS5w/ujhsRcrIpzK7yB33FKOowxfF8Pu80INDuXUIx0aikJUa2mgLyV1q9Dj9VLhLZUfcL94AGBYrNZO7JwrIbYQbj8CK/yZYmxFY9q+9+BYKDQ0hU+Ct+yEV9jpeeD/BZXRbGma8CivgBrm6q0Cx0EFhDWi9xtLC20V3XQGMfYmqT+rPH8gRSg6DAD3rWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
- header.d=lge.com; arc=none
-Received: from PU4P216MB1133.KORP216.PROD.OUTLOOK.COM (2603:1096:301:72::13)
- by SE1P216MB2261.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Wed, 11 Feb
- 2026 13:08:40 +0000
-Received: from PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
- ([fe80::b838:75f7:a447:d66e]) by PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
- ([fe80::b838:75f7:a447:d66e%4]) with mapi id 15.20.9611.008; Wed, 11 Feb 2026
- 13:08:40 +0000
-From: =?utf-8?B?7KCV7J6s7JykL1Rhc2sgTGVhZGVyL1NXIFBsYXRmb3JtKOyXsCnshKDtlolQ?=
- =?utf-8?B?bGF0Zm9ybeqwnOuwnOyLpCBMaWdodHdlaWdodCBTeXN0ZW0gVGFzaw==?=
-	<jaeyoon.jung@lge.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Qi.Chen@windriver.com"
-	<Qi.Chen@windriver.com>
-Subject: Re: [OE-core] [PATCH] systemd: fix libsystemd LICENSE for multilib
-Thread-Topic: [OE-core] [PATCH] systemd: fix libsystemd LICENSE for multilib
-Thread-Index: AQHcmlADBFFxn9txHUSRJnN9zE6LqrV7myYAgAAFi4+AABD7gIABGLMt
-Date: Wed, 11 Feb 2026 13:08:40 +0000
-Message-ID: 
- <PU4P216MB11339355245F5197F93D47F79A63A@PU4P216MB1133.KORP216.PROD.OUTLOOK.COM>
-References: <20260210054147.838158-1-jaeyoon.jung@lge.com>
- <9f46cb53a43c6f01135b8a8e18269e92cceb1725.camel@linuxfoundation.org>
- <PU4P216MB11330708E3BBE2CC8996C2859A62A@PU4P216MB1133.KORP216.PROD.OUTLOOK.COM>
- <CO6PR11MB56022C6DD92B00B1FDA3E329ED62A@CO6PR11MB5602.namprd11.prod.outlook.com>
-In-Reply-To: 
- <CO6PR11MB56022C6DD92B00B1FDA3E329ED62A@CO6PR11MB5602.namprd11.prod.outlook.com>
-Accept-Language: en-US, ko-KR
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ActionId=236d897a-e22f-4a38-b3ee-6b26a7e7f387;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=0;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=true;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-02-10T09:43:53Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lge.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PU4P216MB1133:EE_|SE1P216MB2261:EE_
-x-ms-office365-filtering-correlation-id: 6712e992-c940-4350-f0f3-08de696eacf0
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?VS9EQ2Z4QUo0M3ZnSHdoakJXZHRHdFJVZHFid2ZwQUl2Y29kQ0JDWW5Jdmhp?=
- =?utf-8?B?dWpJRC9QN3Bha2MzVG9JZzVybHV3bUFhS1RIQlg2REdaWjgrR3NqN2lZdTBW?=
- =?utf-8?B?blpVQitsMnhpcU92SlZSdktybWh4N1R3YnF0Q2Npb2QxSWNWMXh3R1hlb0Q5?=
- =?utf-8?B?cHFoNTVCMXI1MnFvSzRwNjA5S2g3VUdGOUVPTGdyQWhWRjRrdURsaVZLMCs0?=
- =?utf-8?B?Ni9xTXBIL3hIc2J0TkpVSVJPL1g0RE5HSDJ1UXNUaTZZS1VLNDR0OTd3VmNN?=
- =?utf-8?B?VHBoSnhJSDk0VmZIV3N6L2M1SEltWjFlT2dYU2N2SFVLQitwM0YyTk9UNE9X?=
- =?utf-8?B?NTV6R3F1U2hnaVRiS0RCSmJnQVdGZ2w5eWpZdldselRFeWp0VDNpZFRrbENt?=
- =?utf-8?B?T2w1OXBpeEFnZjNwSllRZEpZWE5YY1lwQUF3VkE1THZYUjBzMnhUZnpCTkRn?=
- =?utf-8?B?VmVBZ1djZWx4T1hIS1BZRGtkQTIwMlN0MlJIR3hUTzVnVVFJZ2V4MitvUmpw?=
- =?utf-8?B?TTU2OHZGR3Q2ZjM4NzJpZ2JRTnlKc01tMlJ5d1ZkVkNuRjZiVWZPSVpVMXJv?=
- =?utf-8?B?SFI2Ukc3MkpLY1l1bnhwV3RSUUROZ2tPa29TQ2JMdlhqSUJUc2FiNm9LTEFt?=
- =?utf-8?B?QkhielhseUpkNzJmOXNiaXE3OE9uTHBMbEp0YzlseldKZU1sVkxHUXFqdDlP?=
- =?utf-8?B?Vk9LelV3MW9PT1llb3o1MElaR3g5MWJDUTNCQmh6TWhabE9JazFhL3QvWDd0?=
- =?utf-8?B?TXk4Y3VSYmVMTlZJc2NveFd5ZVZaaEVLbVZHZ2tFcDQzd0l3ZjY3RE9LLzRG?=
- =?utf-8?B?d2pPQ2hqQ3Z6Yk9rcmtsSmpWMUV4QlhERUtOZngxVzNxdlNwMFJhd0RrUTBv?=
- =?utf-8?B?MVNEdnRwb2Y2QTM3VkFjSitkTnZwWHArblJ0dyt4TzlSTk12emNXa3RmcnBk?=
- =?utf-8?B?ZGdQNlFWUHZlY1Y5dExRRHpLNHloOSt0MXFvRXU3YWc2ZCtYbXBVMjNHU1o5?=
- =?utf-8?B?QytXSFk2bzlFeUMzNzBsbWFMa0hFQkxVb2h5eUV0elRDdlV5N3JzeDgyc3dr?=
- =?utf-8?B?VW1YYVBmYWpxampCQXpVZ2ozc3ZGcFRwV3JKbElCNElONHAxOGpzdlVtY1da?=
- =?utf-8?B?QXpKaE9QTW1GREVKckR0S0J1ak5sNFZtcktWejBEYmNzSjdqM29hNVlydisr?=
- =?utf-8?B?N0RiZjd5R1M3WkpNS2VDYkV4dGJFQW4vT2hObFAvYnNhY0ZxQmh0dVdsYXdY?=
- =?utf-8?B?RmJaenBBRUtwOEw1Uzh5OC9QUVk5aTVPbkFzZkk3MlE1Rlh6SVdVOHNsS09X?=
- =?utf-8?B?MStGeXBxQ2FCUGFURWlIWXA4aThMQWxObk9LZkN6Q0xHR1NuM3hzQVpuZjlq?=
- =?utf-8?B?azdtbk9ZOHFVKzhMdEFUbU9iV2w4ajZCK0laTy8yRWNIaFZGQUt5eTErcW1Y?=
- =?utf-8?B?dk5Gb3BJZndLbGFmWFg1RHlCbStRYlZEb3Awak5XelNVdzBLYk9aWUV2ajA5?=
- =?utf-8?B?L2hveFY5Nno5NE9XNTQyNzV2bGJzMG5sbTZuWGdhRnZTV3R5eEMvYmVIYWZ2?=
- =?utf-8?B?Vkh5YmxJOUlNajJQRmRDblVRb3QybjE0c3AvZ01Sa0UvdTZxRHVaZ0cyTGVX?=
- =?utf-8?B?SkxMWm5oMFZFcDFEdzZSejBvcHk5eVlEY1N1cFdLUFhHK3hqYkxxZHJPUVgx?=
- =?utf-8?B?aHo5d1FLZGU3YStwZHFLWnVYTzhCZjM1ek9EVGl4czB2a3FGQ285dkN1UTNV?=
- =?utf-8?B?VG5mUHVmNlpLQjR4UUNqYkhBZG9JVjViVXhhVzRPSGpaazI0b2lDOVlaWld1?=
- =?utf-8?B?dmlueWZ1T0lVVnBLTFZ3b1dpdkl5ZHNDUGdMRHltaXNLTFJxcFFad0Jvc0ZZ?=
- =?utf-8?B?TGpTZFIvd3o1UTlrQnovb1B2cW9xS1h3N0ozdnRVL3FTckpHNm56NXlHRTYv?=
- =?utf-8?B?SmhoK1EwTHdmY3hKVCtBdWRvaHFQZDJtcW04dXNFV2hUcEV4NXd1cElpOGZl?=
- =?utf-8?B?NGhlM2dtS2lRdHZIOVZnN2l1Rmd6cmNiZEJBZ0tYeTZkM2JQcVliYTJWTDZa?=
- =?utf-8?B?Q2NPaktLc3JJWW55alpXUk5kcTFoMXdVQ3dwVFFRSkVhNkRYZ0dhSmRiaUI3?=
- =?utf-8?B?VEdmQVhOT2ZQY3NwcUlBSjJ1bnh5bmdObzUxRUl6MWlacFZxQ2hDRFlYRVVq?=
- =?utf-8?Q?d9BLt7i54rjh1tjibx60kko=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB1133.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?UkJJYm9VakxmbkJnUUY2dmJDUGxwUXlyTHRSMVUyY29lc2tjdXlJSjE0MnJw?=
- =?utf-8?B?cnN4bFQvcUFoUjRlbHNMM1RURFVtT3orMWRpTHRHeGlSRTdvb1U1WmxmK3ZU?=
- =?utf-8?B?c2lpWHJPbVp0M0MrZjd3Y0tPMmxyVWdubWxTV0xKdC9UcmpjYW1zZ2tzOHRL?=
- =?utf-8?B?NTBEYVk1TFV5WGJwaUdBWHd3a2Vqd3ZCcWsvZDJuRElSYlJpcFFWR2hmck15?=
- =?utf-8?B?dHVCM1VLWG9qQmsvT2M1akoxMlpkVk9sYzZ6dldkZGtFVHFkOXFscy9UckxU?=
- =?utf-8?B?Q2lnNWMzRlFqVjFJRitqL0MxZ3A5U05LbktMeVBURnF2ZE9IK0IxSU9Qeklj?=
- =?utf-8?B?TDB4cE9SRll2UE5kSlZlbW1Td20zYnVoREFKOHdJTzJQUWxpMG96bVlzWlda?=
- =?utf-8?B?a3JEbnFTVGY3M2tjMFJJc3Q1YXhDK3M1aVhkTWNreEpVc0laTENSQTZTNEpE?=
- =?utf-8?B?eTMrQXBBTXM5aWhscUk5NFNYMGZzUTNVejg1eDB3R0xRZ3V1bU9BV01BQk5V?=
- =?utf-8?B?a3ZLM0FaTk1hWXJEd3F4aFk0WmxYM1RuUTlpclJZNlpJVGdtaS95TkVDWUp0?=
- =?utf-8?B?QkhnaVVwVG9TZkxkaFF4ekE3bmtycnBNOHVaaGJkdDlFS1pQWmZNUXRORzh6?=
- =?utf-8?B?eE1ITFhlSDNuN3h2bERRd29DaWxRcUlwOHh6bGpMYXZpK0tpd0FZd1Q1alZV?=
- =?utf-8?B?V3ZURVJLRWp2cWdFTTJzRmFzc3kwRHBRT0tQZ2FnV09mRFJNK0hoeXlOQUhN?=
- =?utf-8?B?QTNIT3EzbEs2cml6V3A3MVdUV0VIOVBuWmw4aVRiYTBRTWtVeW1qTGMwb1R6?=
- =?utf-8?B?b05uTUdUTlNkQ0o1Y3g0dlIwSWpBUFpCc1BpTzNWTXZSdzhicHpMZ1owcGxh?=
- =?utf-8?B?SFVkMEJxTjFSS2NhRU5xL0Z5NEFTSVV4WFdOVGtydEdNYmc1SllGOCtxclV5?=
- =?utf-8?B?cDgwZXhsUE9DK1krZkJ1SW5hVnVPY1MxVm8vQ095bkFoOTJmc0xVSjhUenFq?=
- =?utf-8?B?YkVZUGpDUy9CUURyWEZJUVM2Qmh5UzFQTHcxYk9uMG9udGtFZ013b2VPNk5F?=
- =?utf-8?B?c1hQUFJOWUw1Tzd5VkdnSFJXYTdhbHZUNDdTeWRLT1I1UTFZc3Z6TnhvekdG?=
- =?utf-8?B?aG10N2ZMVGNEVlVTWWZ2a2g2VnNTWktFbmtIaUF4YzRNZ2pTbGpqbDU5WDkr?=
- =?utf-8?B?eldEMVZLd0VmZHd2aE5rSm9WcExPTisvZTFuc2N4VG9VeFNzRC9xenpNclpO?=
- =?utf-8?B?UHQ0eEtUVFk5OU9ESDRIanE5NEdGcTJoWnJFTGd4cHhWaC9nNW56bGpBdG9L?=
- =?utf-8?B?ZTl2UktPMkJ0Z3BpZURNNnNUQzZ4SDdnUGNwM3liS0gzblhKbWpuN1FJbjdj?=
- =?utf-8?B?UW05OFZHVHZ2a08xMUVSbjZMNG9sUE4wdE41ZGxlRlhJKzRwM2p4cUNwWlVC?=
- =?utf-8?B?OFFFd1lKd283Q05YQytXek95RGpmcU5CS2ZWVEkvOW5uY0wzYWYxZmxwMnZw?=
- =?utf-8?B?VEw5WmxBNDcvZGRzSWQ1ZWhoZ1BFc1N2NHZBY21CaFEvb1RzVGtLT0tuZTg2?=
- =?utf-8?B?SHFRdHc1RTBxbHJSWmZqcE5VMXlQeVRnVG94QUNzRm0wWEVEd3lJUkNNMGYv?=
- =?utf-8?B?eGdpSFBLVjdWaWZyV0F4Y0FXMThER2I2eGtjYlpXcE4yU0w0YjZHZnJMeUkv?=
- =?utf-8?B?LzZGUGJQNStCSFBBZmpqcVg5aStkVzVDYS93c01Ob09tbWIzOXF0NjdNdVpL?=
- =?utf-8?B?VjRtZE0xY0dxamN1WWZ2elBtZ0hqalZoY3EwT2JNSkg0REJ4TXJhelpPb2E2?=
- =?utf-8?B?eWIveXZ6SllITXl4Y1RQdVRxck1wbWNnYTltc1pIWVJUaXdsS0RFQTNNZkxK?=
- =?utf-8?B?eXAxWWwrT2VubzQ1Wm9CQ1ZyWFpJOStqR0dqQ1RZbXhUWVROOExtc25td2c4?=
- =?utf-8?B?TkxmODF1WmpPanZIK3BaaytHVFJuU05JU2hWRUFHMmdWY01DUTBCem9wcndz?=
- =?utf-8?B?SkpXdHBYMStrMUwrY3doU09BK29yeWw5TTBWNVNJdkg4aXpRSFRDNlMrSlNw?=
- =?utf-8?B?UjBYdStQcjVYeTRmZ01OUWh5TDF6eXdFcms0MkQrNjg3eTNldmVrbWs3cHJN?=
- =?utf-8?B?M2RqYWJNRVA5TVpuUU5NL0oybERXbWJqaWozazllOG1vUGZnLzByODFYODdU?=
- =?utf-8?B?MmNYb0s1MCtOWU5SeEczRWw4aW0yVGw1c09EMGxtd2tmZFpldU1ZSjBPQVR0?=
- =?utf-8?B?N01lakRzdVBVVSs0K0lvY3NDcHEzREYvd1g3UDdRQ3N2VEtDRllYUFBucXEr?=
- =?utf-8?B?a3phR2JEYWVoSEdQdUtjL3AwZllhVWVtRnVUR2NlcHZhOEtLaFJ0dz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jyd/FuSp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-896f8feee14so37415146d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 05:09:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770815360; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CoRNeLhcaoS2n4aEuJhi4F3Kcuc+fTxpv52DZq4n6TvtbyfiDOpGoQ0V79AABkdC7U
+         KIAlHRXeFgfw03KyPROmSDxg6My/Bqr98O4W0/fpoPuvg0s1bMtQkcCZF052W3r2keRa
+         gxmduNNQUHPGNrdkqD2xP/IJCtyBSP9dLtiuV/HHx5bVbRB1lG6RR4p96gcLhT/R4vLd
+         M7SgQ9v3CD8MdMMhvOEnXGHPi3h1XYokhYmFSqq15kS0A61bV9MsK/jOSzwLLdPprJQI
+         vqw/Gk7DnRiB51xEsTdPoDCPEOeGN/6sRX013G2ABEDiqV56dfl7KIIJwXAVpkfb2pRx
+         B19Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Kv9YfuQOAlPYuWy6pXJV9fM3al0HX0ofHUDMUrX7OZE=;
+        fh=2t7TTomAO0aWxLEOylKBIMbQkH5Hjsgu14o9jMM4LAE=;
+        b=icHQTu3xBm0yPNCKIoGzgJVR2lKUh/cPIFzmB1LBJjsPZgQ5CiVZjiszJQP88/M8zb
+         fZGM4STOjUC/qsoc1icV6+VSWwrQT+IhFwhTw2NcsJH7qizqR+OA4rqwpBPkSVwLT8W+
+         3kJEzsnn7rqWoHfGdT5G7P4YdaGFUTb39i2x5vgqTBaQRzrMWY9BLslZyAJPgdP9Nyqk
+         LCjAXC6snyaVgINs4+HPI331zXtb2V8nWIEDPe/nAX3kw5FZAvHFvrzskcjmnk95a3Yz
+         86zm7b3X8Plhw79VsUS9zHQOjuihBt8EefvlznywQcy4K50cSphJPwv0QUloFTLdlrjL
+         jvCQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770815360; x=1771420160; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kv9YfuQOAlPYuWy6pXJV9fM3al0HX0ofHUDMUrX7OZE=;
+        b=jyd/FuSp6Jgjgu7pYf1zNL+ZJM5UtkU2hxSGNVOo/SLgUk5dk+lQcB8M7hMEZiKsBg
+         NFpOQt1cx8CUGaltav2+GebAqMD6r6/i4m5Heirm1nLxDQ7+yDCcu43gtcBe7mDE5lP0
+         4rG2zDTAwfKzfdjHvepjAoL+/8RKBotO50/5mNQmhAoUx3DB/Oasj9eiOSAXmskel6Qm
+         0ozkqw4qRtOtnBQZhf84rmpzbl/c+OB2fq1/aarqWiUkC2ZLvtaLaA6j3+sqN9PFTpHB
+         oUFkL/S9ZA0k1RAt2z/L1sSqp2Po7w3a83fubazQZCGI96ZrFpHAbvpuOTxVHi7Czaf4
+         vfGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770815360; x=1771420160;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kv9YfuQOAlPYuWy6pXJV9fM3al0HX0ofHUDMUrX7OZE=;
+        b=F3ryYqSEve0UKxZ8NT/fKZ6cdx0/1393fpcQgSU7UBZ2nbbWKVueX6L3Jb4N3teLYg
+         Ui3njePY5MleXkxo2yR4ktMEvVGccH/lXHke9yObar7BBba0VJnpwPhSkBySIZGdtNF6
+         jVjvyId+feiTiDeKRYVP87MaJ4DCjkEOp9jnXjVsinsRJ1pXwd04G+XUs+AZO+6rjobM
+         t73G9L1ykYfeCGRc61onDUmlpsodjH3g9kQ3F/xp5fO5uKqtMHgMNWrtpSmtvrJjtrLJ
+         Er2RkPeGNOuCpu+RJG3Bbqok6cvKrCEsq3D0ijk/up+j6vGNn9mBCpZwePassKAhGT+X
+         AWnQ==
+X-Gm-Message-State: AOJu0Yz3dd3MhzbgxwY73TCoVxyHpsUclBYT8xUCqj0sktSIIsFffT/d
+	wTcGEskxH4SeXAt68JweLv1ufn6kLyEx01CFBNYaDyCQzbKBxmksJHQZbvKDbuPs0yCE+2WWuCR
+	tQN78O4XfFE6TQbmbgX4LC6FMp5mEEks=
+X-Gm-Gg: AZuq6aJ9YvwaXZuOxacrdMycOOgUf/rio6t+xi1lHsARtMBG+g5yMw1gN2kGadTI1Fk
+	gfvrZg3kL/2IqrY6BFxhUv6l06eYaDk56LQwbPHk5PIcvHT3LVPRhYMHpcSgvui1Y6jTp4zTo1m
+	PfatgvelkD62N2TiBmLim6xKm0tZkqyDRRM2rQuJNCbLKhUR6WtQc9GZCmRsghki8WeirJSuBP1
+	79klPOMHzloY6dfulgdbS/aEU9RfCRZRYJCc8f6ixHszHzwwt8OwkdGLvd8rqHs4uo1mky4v40r
+	7pTNp574FdpoAbWXfU3UT9Bijpyg22KaVeVKE7izl6BN1i59l65O
+X-Received: by 2002:ad4:5aa7:0:b0:896:f42f:bf27 with SMTP id
+ 6a1803df08f44-8970e58c60emr87408266d6.58.1770815359615; Wed, 11 Feb 2026
+ 05:09:19 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: lge.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6712e992-c940-4350-f0f3-08de696eacf0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2026 13:08:40.1868
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GavyF5oqYHQYDmhdVC6y1Fq/p3vrPQjUktkurSXdRx7ovNmlHbLDv+UjL+EzCvvH7YHs0TL2gLo2T8hylf4hFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB2261
+References: <20260207051305.2363194-1-Qi.Chen@windriver.com>
+ <CANNYZj-0=nQQOLY1h1w2SH9PFOa8K63+wELwNB9KKHuEPu6S9w@mail.gmail.com> <91e636fb-455c-47db-88dc-5fb634a4485c@windriver.com>
+In-Reply-To: <91e636fb-455c-47db-88dc-5fb634a4485c@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 11 Feb 2026 14:09:07 +0100
+X-Gm-Features: AZwV_QiaE72Z-ab9BxFx9lvIMV9_oU_2OmKQ1yQgv6IfY_PCn9Nzh6j_ItsWQN8
+Message-ID: <CANNYZj9ATceukEZynuEDfUc-GNcD8hLgdy-8dPx0GrY4qq0HHQ@mail.gmail.com>
+Subject: Re: [OE-core][RFC][PATCH] oeqa/selftest/sdk: add test_sdk_runqemu
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 13:08:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230988
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 13:09:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230989
 
-PiBGcm9tOsKgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gb24gYmVoYWxmIG9mIENoZW4gUWkg
-dmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPFFpLkNoZW49d2luZHJpdmVyLmNvbUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnPgo+IFNlbnQ6wqBUdWVzZGF5LCBGZWJydWFyeSAxMCwgMjAyNiAxODo1
-Mwo+IFRvOsKg7KCV7J6s7JykL1Rhc2sgTGVhZGVyL1NXIFBsYXRmb3JtKOyXsCnshKDtlolQbGF0
-Zm9ybeqwnOuwnOyLpCBMaWdodHdlaWdodCBTeXN0ZW0gVGFzayA8amFleW9vbi5qdW5nQGxnZS5j
-b20+OyBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz47
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+Cj4gU3ViamVjdDrCoFJlOiBbT0UtY29yZV0gW1BB
-VENIXSBzeXN0ZW1kOiBmaXggbGlic3lzdGVtZCBMSUNFTlNFIGZvciBtdWx0aWxpYgo+IMKgCj4g
-SGkgSmFleW9vbiwKPiAKPiBJIGNoZWNrZWQgdGhlIHJlbGF0ZWQgY29kZXMgd2l0aCBQQUNLQUdF
-U19EWU5BTUlDIGluIG11bHRpbGliLmJiY2xhc3MgYW5kIHBhY2thZ2UuYmJjbGFzcy4KPiBJIHN1
-c3BlY3QgdGhhdCBpdCdzIHRoZSBkb19zcGxpdF9wYWNrYWdlcyBmdW5jdGlvbiBpbiBwYWNrYWdl
-LmJiY2xhc3MgdGhhdCBuZWVkcyB0byBiZSBmaXhlZC4KPiBUaGlzIGZ1bmN0aW9uIG1heSBhbHNv
-IG5lZWQgdG8gdXNlIHJlbmFtZV9wYWNrYWdlX3ZhcmlhYmxlcyBvbiB0aGUgZHluYW1pY2FsbHkg
-Z2VuZXJhdGVkIHBhY2thZ2VzLgo+IFlvdSBjYW4gcmVmZXIgdG8gdGhlIG11bHRpbGliX3ZpcnRj
-bGFzc19oYW5kbGVyX3Bvc3RrZXlleHAgZnVuY3Rpb24gaW4gbXVsdGlsaWIuYmJjbGFzcy4gTm90
-ZSB0aGF0IExJQ0VOU0UgaXMgYWxyZWFkeSBpbiAiUEFDS0FHRVZBUlMiLgo+IENvdWxkIHlvdSBw
-bGVhc2UgY2hlY2sgaWYgdGhlIGFib3ZlIG1ldGhvZCB3b3Jrcz8KPiAKPiBSZWdhcmRzLAo+IFFp
-Cj4gCgpIaSBRaSwKClRoYW5rIHlvdSBmb3IgeW91ciByZXZpZXcsIGFuZCB5ZXMsIGl0IHdvcmtz
-IQpBcyB5b3UgZ3Vlc3NlZCwgdGhlIHBhY2thZ2UgaW4gdHJvdWJsZSAnbGlic3lzdGVtZCcgaXMg
-YmVpbmcgYWRkZWQgdG8KJ1BBQ0tBR0VTJyBsYXRlciBpbiBkb19zcGxpdF9wYWNrYWdlcy4gQ2Fs
-bGluZyByZW5hbWVfcGFja2FnZV92YXJpYWJsZXMKYWZ0ZXIgdGhhdCBmaXhlcyB0aGUgaXNzdWUu
-CkJ5IHRoZSB3YXkgSSBmb3VuZCBhIHNpZGUgZWZmZWN0IG9uIGxpYnBhbSBsaWtlbHkgZHVlIHRv
-IHRoaXMgZml4Ogp8IEVSUk9SOiBsaWIzMi1saWJwYW0tMS41LjMtcjAgZG9fcGFja2FnZTogUUEg
-SXNzdWU6IGxpYjMyLWxpYnBhbTogRmlsZXMvZGlyZWN0b3JpZXMgd2VyZSBpbnN0YWxsZWQgYnV0
-IG5vdCBzaGlwcGVkIGluIGFueSBwYWNrYWdlOgp8ICAgL3Vzci9saWIvc2VjdXJpdHkvcGFtX2Vu
-di5zbwp8IFBsZWFzZSBzZXQgRklMRVMgc3VjaCB0aGF0IHRoZXNlIGl0ZW1zIGFyZSBwYWNrYWdl
-ZC4gQWx0ZXJuYXRpdmVseSBpZiB0aGV5IGFyZSB1bm5lZWRlZCwgYXZvaWQgaW5zdGFsbGluZyB0
-aGVtIG9yIGRlbGV0ZSB0aGVtIHdpdGhpbiBkb19pbnN0YWxsLgp8IGxpYjMyLWxpYnBhbTogMSBp
-bnN0YWxsZWQgYW5kIG5vdCBzaGlwcGVkIGZpbGVzLiBbaW5zdGFsbGVkLXZzLXNoaXBwZWRdCkkg
-ZG9uJ3QgZ2V0IHdoeSBpdCBmYWlscyBmb3Igbm93LiBXaWxsIHRha2UgYSBsb29rIGEgYml0IG1v
-cmUgYW5kIGFsc28KY2hlY2sgaWYgaXQncyBmaW5lIGluIG90aGVyIGRvX3NwbGl0X3BhY2thZ2Vz
-IHVzZSBjYXNlcy4KCgpCZXN0IHJlZ2FyZHMsCi0tLQpKYWV5b29uIEp1bmcKU29mdHdhcmUgUGxh
-dGZvcm0gTGFiLiAvIENvcnBvcmF0ZSBSJkQgLyBMRyBFbGVjdHJvbmljcyBJbmMuCgo+IAo+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiAKPiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQo+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFs
-ZiBPZiBKYWV5b29uIEp1bmcgKExHRSkgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKPiBTZW50
-OiBUdWVzZGF5LCBGZWJydWFyeSAxMCwgMjAyNiA1OjA0IFBNCj4gVG86IFJpY2hhcmQgUHVyZGll
-IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPjsgb3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZwo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBz
-eXN0ZW1kOiBmaXggbGlic3lzdGVtZCBMSUNFTlNFIGZvciBtdWx0aWxpYgo+IAo+ID4gRnJvbTrC
-oFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4g
-U2VudDrCoFR1ZXNkYXksIEZlYnJ1YXJ5IDEwLCAyMDI2IDE3OjMzCj4gPiBUbzrCoOygleyerOyc
-pC9UYXNrIExlYWRlci9TVyBQbGF0Zm9ybSjsl7Ap7ISg7ZaJUGxhdGZvcm3qsJzrsJzsi6QgTGln
-aHR3ZWlnaHQgU3lzdGVtCj4gPiBUYXNrIDxqYWV5b29uLmp1bmdAbGdlLmNvbT47IG9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKPiA+IDxvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPgo+ID4gU3ViamVjdDrCoFJlOiBbT0UtY29yZV0gW1BBVENI
-XSBzeXN0ZW1kOiBmaXggbGlic3lzdGVtZCBMSUNFTlNFIGZvcgo+ID4gbXVsdGlsaWIKPiA+IMKg
-Cj4gPiBPbiBUdWUsIDIwMjYtMDItMTAgYXQgMTQ6NDEgKzA5MDAsIEphZXlvb24gSnVuZyAoTEdF
-KSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToKPiA+ID4gRnJvbTogSmFleW9vbiBK
-dW5nIDxqYWV5b29uLmp1bmdAbGdlLmNvbT4KPiA+ID4KPiA+ID4gUHJlcGVuZCAke01MUFJFRklY
-fSB0byBMSUNFTlNFIGZvciBsaWJzeXN0ZW1kLgo+ID4gPgo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBK
-YWV5b29uIEp1bmcgPGphZXlvb24uanVuZ0BsZ2UuY29tPgo+ID4gPiAtLS0KPiA+ID4gwqBtZXRh
-L3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQuaW5jIHwgMiArLQo+ID4gPiDCoDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4gPgo+ID4gPiBkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmluYwo+ID4gPiBiL21ldGEv
-cmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC5pbmMKPiA+ID4gaW5kZXggZGFmMzcwNjBkNy4u
-ODBhNTI3ZGQyNSAxMDA2NDQKPiA+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9z
-eXN0ZW1kLmluYwo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQu
-aW5jCj4gPiA+IEBAIC0xMSw3ICsxMSw3IEBAIGVsYWJvcmF0ZSB0cmFuc2FjdGlvbmFsIGRlcGVu
-ZGVuY3ktYmFzZWQgc2VydmljZQo+ID4gPiBjb250cm9sIGxvZ2ljLiBJdCBjYW4gXAo+ID4gPiDC
-oHdvcmsgYXMgYSBkcm9wLWluIHJlcGxhY2VtZW50IGZvciBzeXN2aW5pdC4iCj4gPiA+IMKgCj4g
-PiA+IMKgTElDRU5TRSA9ICJHUEwtMi4wLW9ubHkgJiBMR1BMLTIuMS1vci1sYXRlciIKPiA+ID4g
-LUxJQ0VOU0U6bGlic3lzdGVtZCA9ICJMR1BMLTIuMS1vci1sYXRlciIKPiA+ID4gK0xJQ0VOU0U6
-JHtNTFBSRUZJWH1saWJzeXN0ZW1kID0gIkxHUEwtMi4xLW9yLWxhdGVyIgo+ID4gPiDCoExJQ19G
-SUxFU19DSEtTVU0gPQo+ID4gPiAiZmlsZTovL0xJQ0VOU0UuR1BMMjttZDU9YzA5Nzg2MzYzNTAw
-YTlhY2MyOWIxNDdlNmU3MmQyYzbCoFwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBbW2ZpbGU6Ly9MSUNFTlNFLkxHUEwyLjE7bWQ1PWJlMGFhZjRhMzgwZjcz
-ZjdlMDBiNDIwYTAwNzM2OGYyIl1maWxlOi8vTElDRU5TRS5MR1BMMi4xO21kNT1iZTBhYWY0YTM4
-MGY3M2Y3ZTAwYjQyMGEwMDczNjhmMl1maWxlOi8vTElDRU5TRS5MR1BMMi4xO21kNT1iZTBhYWY0
-YTM4MGY3M2Y3ZTAwYjQyMGEwMDczNjhmMiJdZmlsZTovL0xJQ0VOU0UuTEdQTDIuMTttZDU9YmUw
-YWFmNGEzODBmNzNmN2UwMGI0MjBhMDA3MzY4ZjIiCj4gPiA+IMKgCj4gPgo+ID4gVGhlIGNvbW1p
-dCBtZXNzYWdlIGRvZXNuJ3QgZXhwbGFpbiB3aHkuCj4gPgo+ID4gSW4gbW9zdCBjYXNlcyB0aGUg
-Y29kZSBzaG91bGQgYXV0b21hdGljYWxseSBoYW5kbGUgTUxQUkVGSVguIEFyZSB0aGVyZQo+ID4g
-b3RoZXIgc2ltaWxhciBpc3N1ZXMgZWxzZXdoZXJlIGFuZCBzaG91bGQgd2UgYmUgZml4aW5nIHNv
-bWV0aGluZyBpbgo+ID4gdGhlIG11bHRpbGliIGNsYXNzIGV4dGVuc2lvbiBjb2RlIGluc3RlYWQ/
-Cj4gPgo+ID4gQ2hlZXJzLAo+ID4KPiA+IFJpY2hhcmQKPiAKPiBZZXMsIHdlIGhhdmUgb25lIGlu
-IG91ciBtZXRhIGxheWVyIHRoYXQgcGVyZm9ybXMgYSBjaGVjayBhIGJpdCBkZWVwZXIgb24gTElD
-RU5TRSBmb3IgZWFjaCBwYWNrYWdlIGFuZCBpdCBlbmRzIHVwIHdpdGggZmFsbGluZyBiYWNrIHRv
-IExJQ0VOU0Ugd2l0aCBubyBwZXItcGFja2FnZSBvdmVycmlkZS4KPiBJdCdzIGFsc28gYW4gb3B0
-aW9uIGZvciB1cyB0byBmaXggb3VycyBidXQgSSB0aG91Z2h0IHRoYXQgYSBoYXJkY29kZWQgcGVy
-LXBhY2thZ2Ugb3ZlcnJpZGUgbGlrZSB0aGlzIHNob3VsZCBhbHNvIHRha2UgYWNjb3VudCBpbnRv
-IG11bHRpbGliLCBsaWtlIG90aGVyIExJQ0VOU0U6JHtQTn0gY2FzZXMuCj4gCj4gCj4gQmVzdCBy
-ZWdhcmRzLAo+IC0tLQo+IEphZXlvb24gSnVuZwo+IFNvZnR3YXJlIFBsYXRmb3JtIExhYi4gLyBD
-b3Jwb3JhdGUgUiZEIC8gTEcgRWxlY3Ryb25pY3MgSW5jLgo+IAo=
+On Wed, 11 Feb 2026 at 07:11, ChenQi <Qi.Chen@windriver.com> wrote:
+> I guess you were still in a bitbake build environment when testing
+> runqemu in SDK manually.
+> That's why your command 'runqemu kvm slirp snapshot
+> /path/to/images/qemux86-64' worked.
+
+Not quite. I provided the path to the original yocto build's deploy
+directory, which does work. It stops working if you copy the image
+directory to somewhere else.
+
+The issue is that runqemu reads qemuboot.conf in that directory which
+hardcodes build-specific paths:
+
+staging_bindir_native =
+../../../work/x86_64-linux/qemu-helper-native/1.0/recipe-sysroot-native/usr/bin
+staging_dir_host =
+../../../work/qemux86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot
+staging_dir_native =
+../../../work/qemux86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native
+tune_arch = x86_64
+uninative_loader =
+../../../sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+
+Then the code checks them for existence, and tries to obtain them from
+bitbake if they don't exist:
+
+        # If the STAGING_*_NATIVE directories from the config file don't exist
+        # and we're in a sourced OE build directory try to extract the paths
+        # from `bitbake -e`
+        havenative = os.path.exists(self.get('STAGING_DIR_NATIVE')) and \
+            os.path.exists(self.get('STAGING_BINDIR_NATIVE'))
+
+        if not havenative:
+            if not self.bitbake_e:
+                self.load_bitbake_env()
+
+            native_vars = ['STAGING_DIR_NATIVE']
+            for nv in native_vars:
+                s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
+                if s and s.group(1) != self.get(nv):
+                    logger.info('Overriding conf file setting of %s to
+%s from Bitbake environment' % (nv, s.group(1)))
+                    self.set(nv, s.group(1))
+
+The above code indeed doesn't make sense: it gets STAGING_DIR_NATIVE
+from bitbake (if bitbake is present), but then STAGING_DIR_NATIVE is
+not used anywhere!
+
+So going back to your proposed fix, is it possible to replace the
+above sequence with something like this?
+
+if not os.path.exists(self.get('STAGING_BINDIR_NATIVE')):
+    logger.info('tell what is happening')
+    if OECORE_NATIVE_SYSROOT is set:
+      set STAGING_BINDIR_NATIVE from OECORE_NATIVE_SYSROOT + '/usr/bin'
+      logger.info('tell what is happening')
+    else:
+      set STAGING_BINDIR_NATIVE from bitbake -e
+
+This should cover all use cases:
+- yocto or sdk environment or no environment at all, with image in
+deploy directory (qemuboot.conf paths are valid)
+- sdk environment with image in any directory (will set paths from
+OECORE_NATIVE_SYSROOT)
+- yocto environment with image in any directory (will ask bitbake -e for paths)
+
+That way we can avoid reverting changes to run_bitbake_env: it should
+either succeed or raise an error, and not just return nothing, as that
+hides actual issues.
+
+Alex
+
+
+
+
+> See commands and output below (Pure SDK, no bitbake environment):
+> """
+> chenqi@HOST:/buildarea3/chenqi/SDK/Yocto [3][0] $ runqemu kvm snapshot
+> slirp /buildarea3/chenqi/SDK/Yocto/qemux86-64/
+> runqemu - ERROR - In order for this script to dynamically infer paths
+>   kernels or filesystem images, you either need bitbake in your PATH
+>   or to source oe-init-build-env before running this script.
+>
+>   Dynamic path inference can be avoided by passing a *.qemuboot.conf to
+>   runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`
+>
+>   Bitbake is needed to run 'MACHINE=qemux86-64 bitbake -e  None', but it
+> is not found in PATH. Please source the bitbake build environment.
+> runqemu - INFO - Cleaning up
+> runqemu - INFO - Host uptime: 16354810.08
+>
+> chenqi@HOST:/buildarea3/chenqi/SDK/Yocto [3][0] $ runqemu kvm snapshot
+> slirp
+> /buildarea3/chenqi/SDK/Yocto/qemux86-64/core-image-minimal-qemux86-64.rootfs.qemuboot.conf
+>
+> runqemu - ERROR - In order for this script to dynamically infer paths
+>   kernels or filesystem images, you either need bitbake in your PATH
+>   or to source oe-init-build-env before running this script.
+>
+>   Dynamic path inference can be avoided by passing a *.qemuboot.conf to
+>   runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`
+>
+>   Bitbake is needed to run 'MACHINE=qemux86-64 bitbake -e  None', but it
+> is not found in PATH. Please source the bitbake build environment.
+> runqemu - INFO - Cleaning up
+> runqemu - INFO - Host uptime: 16354858.44
+>
+> chenqi@HOST:/buildarea3/chenqi/SDK/Yocto [3][0] $ which bitbake
+> chenqi@HOST:/buildarea3/chenqi/SDK/Yocto [3][0] $ echo $?
+> 1
+> chenqi@HOST:/buildarea3/chenqi/SDK/Yocto [3][0] $ which runqemu
+> /buildarea3/chenqi/SDK/Yocto/sysroots/x86_64-pokysdk-linux/usr/bin/runqemu
+> """
+>
+> Regards,
+> Qi
+>
+> On 2/10/26 19:37, Alexander Kanavin wrote:
+> > On Sat, 7 Feb 2026 at 06:13, <Qi.Chen@windriver.com> wrote:
+> >> Add test case to ensure runqemu works in SDK.
+> >>
+> >> Using runqemu from SDK has been supported for many years. Add a
+> >> test case to ensure we have no regression.
+> > I set and ran this test. This indeed does not work:
+> >
+> > ====
+> > alex@Zen2:~$ runqemu qemux86-64 kvm snapshot nographic
+> > runqemu - ERROR - In order for this script to dynamically infer paths
+> >   kernels or filesystem images, you either need bitbake in your PATH
+> >   or to source oe-init-build-env before running this script.
+> >
+> >   Dynamic path inference can be avoided by passing a *.qemuboot.conf to
+> >   runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`
+> >
+> >   Bitbake is needed to run 'MACHINE=qemux86-64 bitbake -e', but it is
+> > not found in PATH. Please source the bitbake build environment.
+> > ====
+> >
+> > The error makes sense, doesn't it? How would runqemu be able to figure
+> > out where the image it needs to run is on the filesystem if all it has
+> > is MACHINE value? We can try to hardcode something relative to SDK
+> > installation, from some environment variable that SDK sets, but that
+> > would be limiting: in the context of an SDK, images can be downloaded
+> > and located anywhere.
+> >
+> > On the other hand, if you pass the path to the image directory to
+> > runqemu, it works perfectly:
+> >
+> > ====
+> > alex@Zen2:~$ runqemu kvm slirp snapshot
+> > /srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/
+> > runqemu - INFO - Decompressing
+> > /srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-20260210110409.ext4.zst
+> > to /srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-20260210110409.ext4
+> > /srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-20260210110409.ext4.zst:
+> > 43323392 bytes
+> > runqemu - INFO - Continuing with the following parameters:
+> > KERNEL: [/srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/bzImage]
+> > MACHINE: [qemux86-64]
+> > FSTYPE: [ext4]
+> > ROOTFS: [/srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-20260210110409.ext4]
+> > SNAPSHOT: [Enabled. Changes on rootfs won't be kept after QEMU shutdown.]
+> > CONFFILE: [/srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-20260210110409.qemuboot.conf]
+> > ....
+> > ====
+> >
+> > So would it be okay to set the path to the image directory explicitly?
+> > If you have several images in that directory, then you need to pass
+> > the path to a particular some-image.qemuboot.conf file, and it will
+> > still work:
+> >
+> > alex@Zen2:~$ runqemu kvm slirp snapshot
+> > /srv/storage/alex/yocto/build-64/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-20260210110409.qemuboot.conf
+> >
+> > Alex
+>
+>
 
