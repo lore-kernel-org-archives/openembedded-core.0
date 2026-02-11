@@ -2,62 +2,62 @@ Return-Path: <colinmca242@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB04ECD6E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3D6ECD6E0
 	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 18:51:59 +0000 (UTC)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26833.1770835915870776562
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26832.1770835914796645531
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Feb 2026 10:51:55 -0800
+ Wed, 11 Feb 2026 10:51:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bwr7ag2m;
- spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: colinmca242@gmail.com)
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6728d280c46so1304175eaf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 10:51:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d73CLO6M;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: colinmca242@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-67242e24be4so1506485eaf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 10:51:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770835915; x=1771440715; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1770835913; x=1771440713; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dZ5z2U+F4Ift3x0Fykk79oXtk/pF0EoKM56SG24NT58=;
-        b=bwr7ag2mBDwVLi5CH3tWmP2ujz75o0V2JeJ3jNTa2boImbp5ki7IE2m18kJTwCD2Qx
-         XjalTQyJLPPc54X23jBzbc/5XipXtQKWM4Gr65Oq4fbO1oiv40HXGAysQG6S1jO4aNK8
-         QlrDfWaHoJeQ/tPGTBcY95y3gCD8AIXkXbLYifgopbE1Wx6BDqsQqKY2cO7iPA4PxVBk
-         S4SFI7bgTiTnll9xmfx6599r5CqRiaBilfxU4QTk6Oyoia8xh30BfNyfXIGnG2ET/v19
-         /Fn/JsabMsZePalzPgqicvNnHILbY87DsAyOYRI5nQEqpx39CdCbbV+ygTSz/8h2F5w7
-         r6Ag==
+        bh=QU2s+mIlGp9TnrvzHtAEluqnwUBDPX2/KJiiCy8vEnE=;
+        b=d73CLO6M3KGqbNS/ev5CuFIsz69hBnd/LgPpqDWHaI/M9tWbMWUu7RcmwJMmHOJQHF
+         kL8/+BLpgV8N+M9Tm6mZiLt4ni8Nys82ZWIWU/bZUMtrcx83UvaegUUyywy4WXUvzBGa
+         fI5E1LSP9dbZlhLQ9wK+oJvkpCly6V2cEZtC8tea2892KnClPU+/rE6/4g6czTBvMTjv
+         2o46QMOgzs0fvChGu+W6kDrsZLc2hfelLT8sW1UPju0+K9KkWuxVIWIe/hnXPbKiHVJy
+         NISmThpQYlJzvtpaNmLI3eCIT09n4Qf8czzDqxygWzhpGv/sYGtO5m13Ivmxpfqh2hWz
+         MQsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770835915; x=1771440715;
+        d=1e100.net; s=20230601; t=1770835913; x=1771440713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dZ5z2U+F4Ift3x0Fykk79oXtk/pF0EoKM56SG24NT58=;
-        b=fLkL/SZT4T/p3k9oBvIbtJlYZXgRPl4QEKULLxsCZfpAdHqg6fZi14iSu3QSJv/G4G
-         uE/I6BgtWF694ZEmtasLx6VtCL+vYAOTuf3KvhEswWdSo2NaOIBympWg4Zkwxm1ajNZS
-         rZTsNTgM+Ci2rsytaZzBtj2DOFcQAhAjXhoa5RL6yPDQpAf3N565ke0OSvTeb8C5OGIK
-         nahRVa6uggbsE0Z8eb2GOMBbfjTvETaluJVnhVA1puJ7J9nX9BclUBLRkzIU4pZzm1y6
-         nSag+Z2fMJagl2S0l35nDAKwSWebnZHJHKLTYfH629b5WX023dmIGrFccekdwFzsSP/V
-         uXmQ==
-X-Gm-Message-State: AOJu0Ywyg2g4oExph4yYj+DX4s2HHPIxBy5DpjHzgWMOZ/IvqJ3PPiUg
-	IQAbbvrlptdGmMv2dwYL2uGXghXGLOB82nB5CbYQy6lNEE63uezqM8QrOKKy2Q==
-X-Gm-Gg: AZuq6aLQco1lUpzZzotHvR2dgQAFPzV3KjkvP6Q3E442wrz9W52Q7twD2j70QYWknSM
-	RLaBZAZBQ/GqOdXov0dMoCTLL58jl7fEj4UIu4nFAK19xHuqCZXaOAWHlfOn921/aaVRCkpIUuY
-	la9zBUIanhOcvvdUjBzgce/rzvs4uPKW+V5b5d6k7ejAGO9xEwi2YkUtVLtwgk8yNTXI7Jy7T+i
-	uWN+aNAA2WkQhYi/TJiNYfz9oyQllcF8lVnC9tPW2kbmeoVT8EfnstBFnizKGZmUmhXJV+Lu9i1
-	svnncG4JTE01jdQoPf57RyYnqQ0G1ypztY70DT0aGGpAc3UunbzOxltf0dE8aQ2BiPg/TsoPZ1k
-	NKofUWCoGAhVWgoiMYsJBZr0D5B9RiLnVlDMftexa0JXqybvuHiIbDCSJ5DB+TxKFF6YNzZ2YQp
-	wJFh7+eopkZCXrBUIRmS4=
-X-Received: by 2002:a05:6820:198f:b0:663:39:173c with SMTP id 006d021491bc7-6759b7c5f6amr92518eaf.65.1770835914580;
-        Wed, 11 Feb 2026 10:51:54 -0800 (PST)
-Received: from fedora ([136.37.200.217])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67475fbc91bsm1356092eaf.15.2026.02.11.10.51.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=QU2s+mIlGp9TnrvzHtAEluqnwUBDPX2/KJiiCy8vEnE=;
+        b=YQjtCkEQE8sO/iXrSyHDAagmGD1fzF215CSOozyTNXYIp7SEMLLOkwl7MQtQqyi4TK
+         ZhDu3ZBR8zm9Dk+AqV5OW+IgOoIawqGS6oudR0wmvqDw3WHaNB1ARxc2Yt3TxYGdnncZ
+         JHj8AJAGCBWUTqDaWAtsywaOZmmUMcH8Tk3lHC+DQ9B7tF5fK0VxKCgkonIDm6VVchRp
+         LSEOpv9TcYELxdeStmchUX1C7DKYhOADbHpghWnZREVLmz9ZFalnmdyS4bqIwW98cHCK
+         xVrfPlw6tFn94jxoIDn5KYQYpnaU1NbwMEiQI2hFIRJw8zCdHaWFI7lM3EjXF7TFOwf4
+         qz1g==
+X-Gm-Message-State: AOJu0Ywsi9ejBBO1zlaIaexVP1Sc9U9NTgEhcxHj7k4Vt/+8As4mltQZ
+	xkHeCw/ZduYs45BfRXBrgCQhvLjOl1tBtU/QboSThXKsAY2mAVqOTPNQ9TnJvw==
+X-Gm-Gg: AZuq6aKR4aD+ydOrWbB3VVvqPQWMDOKySy+zFDEik6mqQwBIk2pkgSbF5DOLgmW8kgn
+	hFu700asZ5gjkW90cIVpLyT/A9r0LHC+7Z53gREW+m7KnnAf/L6CARhsRyGM7LS3N2Re0gCZ/JL
+	YX/pfP4OpUBQoSLxNpeDyNSnIxNPFEpVFbEKl4Z2cPEwLzCG/pB349LBCbOtimCU5KVSnXbMP9D
+	sGttAzR/tqXVKG2ZcB4+m7CHGV7ZNSKT+pVKIqRFJ3IgGplgpbaChBBufjXfWmNkya2bcyI8CGZ
+	HaJSGQ/76GOL2/QS0ZRvBsS3rM6ru2wRji9VRX7EGrVFD+QKZsuH65pussACuEZ/vQQWFaQBEOy
+	03bmg9sXz8oLvzeNLtUHU4+svDFT6L+hrMGz9zzYlKS4Zb27FYiZcJ7T8yk6NfAjFVm/SY86GdM
+	ZWUtccYStkFleRlMWXkQInQjWgZZpxfA==
+X-Received: by 2002:a05:6820:198b:b0:672:d632:b1a with SMTP id 006d021491bc7-6759817fe65mr109515eaf.12.1770835913528;
         Wed, 11 Feb 2026 10:51:53 -0800 (PST)
+Received: from fedora ([136.37.200.217])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67475fbc91bsm1356092eaf.15.2026.02.11.10.51.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Feb 2026 10:51:52 -0800 (PST)
 From: Colin Pinnell McAllister <colinmca242@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Colin Pinnell McAllister <colinmca242@gmail.com>
-Subject: [PATCH 3/3] python3-cryptography: Disable legacy-openssl by default
-Date: Wed, 11 Feb 2026 12:49:17 -0600
-Message-ID: <20260211184917.1045939-4-colinmca242@gmail.com>
+Subject: [PATCH 2/3] openssl: Add legacy packageconfig option
+Date: Wed, 11 Feb 2026 12:49:16 -0600
+Message-ID: <20260211184917.1045939-3-colinmca242@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260211184917.1045939-1-colinmca242@gmail.com>
 References: <20260211184917.1045939-1-colinmca242@gmail.com>
@@ -67,28 +67,56 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 18:51:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230999
 
-Disable legacy-openssl support by default to match the openssl recipe.
+Add packageconfig option to enable legacy support (disabled by default).
+The legacy module includes deprecated and unmaintained OpenSSL
+components. The openssl-ossl-module-legacy package that includes the
+module is now conditional on the packageconfig option being enabled.
+Packages that depend on this package are also now conditional on the
+packageconfig option.
 
 Signed-off-by: Colin Pinnell McAllister <colinmca242@gmail.com>
 ---
- meta/recipes-devtools/python/python3-cryptography.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_3.5.5.bb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
-index 366fda5e87..062b41807b 100644
---- a/meta/recipes-devtools/python/python3-cryptography.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb
-@@ -22,7 +22,7 @@ require ${BPN}-crates.inc
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+index 6b9ccef0b5..c9d74002a7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+@@ -29,6 +29,7 @@ PACKAGECONFIG:class-native = ""
+ PACKAGECONFIG:class-nativesdk = ""
  
- inherit pypi python_maturin cargo-update-recipe-crates pkgconfig
+ PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux,,cryptodev-module"
++PACKAGECONFIG[legacy] = ",no-legacy"
+ PACKAGECONFIG[tls1] = ",no-tls1"
+ PACKAGECONFIG[tls1_1] = ",no-tls1_1"
+ PACKAGECONFIG[manpages] = ""
+@@ -257,7 +258,8 @@ pkg_postinst_ontarget:${PN}-ossl-module-fips () {
+ # file to be installed for both the openssl-bin package and the libcrypto
+ # package since the openssl-bin package depends on the libcrypto package.
  
--PACKAGECONFIG ??= "legacy-openssl"
-+PACKAGECONFIG ??= ""
- PACKAGECONFIG[legacy-openssl] = ",,,openssl-ossl-module-legacy"
+-PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-module-legacy ${PN}-ossl-module-fips"
++PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-module-fips"
++PACKAGES =+ "${@bb.utils.contains("PAKCAGECONFIG", "legacy", "${PN}-ossl-module-legacy", "", d)}"
  
- export CRYPTOGRAPHY_BUILD_OPENSSL_NO_LEGACY = "${@bb.utils.contains('PACKAGECONFIG', 'legacy-openssl', '0', '1', d)}"
+ FILES:libcrypto = "${libdir}/libcrypto${SOLIBS}"
+ FILES:libssl = "${libdir}/libssl${SOLIBS}"
+@@ -275,9 +277,11 @@ FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/open
+ 
+ CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ 
+-RRECOMMENDS:libcrypto += "openssl-conf ${PN}-ossl-module-legacy"
++RRECOMMENDS:libcrypto += "openssl-conf"
++RRECOMMENDS:libcrypto += "${@bb.utils.contains("PAKCAGECONFIG", "legacy", "${PN}-ossl-module-legacy", "", d)}"
+ RDEPENDS:${PN}-misc = "perl"
+-RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed openssl-engines openssl-ossl-module-legacy"
++RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed openssl-engines"
++RDEPENDS:${PN}-ptest += "${@bb.utils.contains("PAKCAGECONFIG", "legacy", "${PN}-ossl-module-legacy", "", d)}"
+ 
+ RDEPENDS:${PN}-bin += "openssl-conf"
+ 
 -- 
 2.53.0
 
