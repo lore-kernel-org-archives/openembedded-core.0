@@ -1,380 +1,293 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF31E9E2FD
-	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 12:29:16 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.60])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17839.1770812946746889208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F78E9E300
+	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 12:33:17 +0000 (UTC)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17752.1770812514089655687
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Feb 2026 04:29:07 -0800
+ Wed, 11 Feb 2026 04:21:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=SPWBQzbN;
- spf=pass (domain: est.tech, ip: 52.101.83.60, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M28TDNFtYY5V70Go96XtllGxIBgnETi+NINEhu6gca4K35om04KLpiFJ8z8jk7F21OadQwcpx6Qei7SfrKffytvW0Q75j22Kd/T6rFWiLYJFAWwsAI9qao23UuxbneEMkYNk2bYzXFTIPFig0ECrwccOlrBQ0JwG1hNtIjIpVubCRkXWqFsM+/c4K34Mu8T+3ypy34lOzh4Tryk/DZbcDoZd5Uv1gkMwO7WSGGGsDv/Du5+A19AMlEANO9dIk3ZMajTdpamedqdMSKfvlkqNt8b5E46zqQ6rTYGoWueU00CQX/E6skgZ0NuoAoTrkbrvSjt3zo+jvl5+fFlIaY723w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mSooP4tp7cylfq9HApB591pbYEhU4PX/s5kvxkPQTBQ=;
- b=PWnTHqrDlKm/agAnatrNJrv26k4ojqx2U8jxxqu0A9BnZHAcZ9s+bXjz4I+84yfs7bSFFMotnPsorYN2aYldLLY/rLTH4ItdTQfbmqKowXvGpzuL2AheDYlFCq+TboRf9BLnfn98izqOTbnPFhNrnIOCtr/BaAhYiWcu65E3pCD3txS6eyqxWllu8V4LbJvVAodOKCqXeV7/iJTkEV8uVhs1kT4JuG86sb9zcqjrW0v/hh4mZiUCHDBZgOdv7pnRJsoavdaiqpjLizVemNmOqoa5Fcdt25IZWEDrzXAw/lLHvqmcatjtD1jwSdFSDMEpIolOBfeD4ds9YOZAsR8bPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mSooP4tp7cylfq9HApB591pbYEhU4PX/s5kvxkPQTBQ=;
- b=SPWBQzbNTMLHbu3xvUk3Vr3VyaZPhAsMm1+wpI3MMuStcHIj3MYW07yK55JgWq5ZpFYAJQguj3hXtspboG4w2c6vnEKTL6MU1Rpr3eWZwThOQQItqVca90O/Q/NoZgoCxmlpJrosbn24TGxj2YA73jo+t0jztNF8FaidntVpZhmsNcV13U3jcB+ZsjZyNreRaEDYl5PL3F/ExYF03u7JEaFPEqjXLxfIHbKCQwczNFWKQnN/F/qhVjx+IC5Ox2NcnrZm03iapO1PdeGaWRlHCuEDy/Q8MZUP8FL7ccH9Q1U5cJjL6tbZyxL/j61jbfpfXeMQjTC7oNhJQ3TxLQDLhw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by DBBP189MB1257.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1f3::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Wed, 11 Feb
- 2026 12:29:01 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9587.017; Wed, 11 Feb 2026
- 12:29:01 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v1] libsolv: add ptest support
-Date: Wed, 11 Feb 2026 13:28:52 +0100
-Message-ID: <20260211122852.6057-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0317.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:197::16) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AJEB7Ve/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.210.48, mailfrom: jsmoeller@linuxfoundation.org)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7d18aac01b6so974687a34.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 04:21:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770812513; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JO/h00vej76vYcYGDoPTfckwgz2p31+4YoZW2SDZeYK8ycM3tzaPENwYAY8YoWC4lC
+         d6sKC1hnMSROQexkfZVziznG4QS5GcbBXrUbwkJJu3moFWWV89dV4ZWKQMtYf4fqoFhP
+         gjU+gCa7iTWt17rCnp4cQRLbIswngvUN1wx3qJrJTAHpnIw0Vkg6Dw12DFnbnNBK/UjR
+         8RRGNKCee70ZGJeStmcBneUNWOyFmvIpSgyioo2wvVo5eQSQRDF3IyKXLz6ZBYipKE/h
+         SJptifbNCZO0rQI36/rxQNFGd245T2t78R8JgviB2XsYOsWzTNAzkGteLyBAAUl2t6jJ
+         u2xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sX9BDJe729BaX04ZiknensPdxEeU6hU9zi/pNntGpYQ=;
+        fh=EKbZkiCSVdE3pwnER27qa5vavC3AtraVAApvtSLug8c=;
+        b=RIsUMnpUX4t11pYHWz5em1G7VI7asR4l5AXD4WSzWvYg4q04CR6SoB1MAaTWxWpK5/
+         3RArwLIznuN44d/xJTztMMIS0eBmLDeH/qcYn9xR524dyFh2FOGOXvWSUJtEgXPLoHw+
+         TQrK5ISp3mjhYqPpxLa8i2V0eVEWqUKzKMNIg+e6aP9N2ZDFcicKcDym7RIJyVjKtnmg
+         yabF/+10vIgwGuRy4SRKMvPF2cNAGV3Qx5oI6oEDE0DSwlXrtouZ/QLwUf9uIvLHXwDb
+         aEGrPVZjgcTBPFmlR5/v7qGa1zqvvWP5ZysiZRsoMk8fCLOMzI6xXrHXzw/8n+LZ0L4M
+         HHBw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1770812513; x=1771417313; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sX9BDJe729BaX04ZiknensPdxEeU6hU9zi/pNntGpYQ=;
+        b=AJEB7Ve//0UarzmWGOG0YuOj5QfnsTYLwTNXFLPUSoLkxwbF9sGqaU0uK2QfehGHwN
+         oIbJ92XZZF4hA8UPLqBsAJSlJzfQGMLbSPf7ikcMd01PVq4PkeESVraWkGJzMLBbb3wZ
+         9P0sApLb9gaGq6jH4PQHHCzNzC98Yq2b8PJPc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770812513; x=1771417313;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sX9BDJe729BaX04ZiknensPdxEeU6hU9zi/pNntGpYQ=;
+        b=CTWxtkq3PWOmETVTyln7PCda6GMuRPsrj7704dQvVQIMzhikaOFvLgz98zDqeKYrsu
+         kjDiLzli9/xtRA+KSITXUAgWoxgFbUIcfnHCzP9V/8ef6WlMr4yJ3tZSiTRVI2ZQ8com
+         cHVAk2i8VUbTDL0mslffNA+4BuPI/Gm4CSvQcfoj7RHC568JKnvYsXojUAiwKjpstu/Y
+         oQfOiEJKmxoV7b6p+EWVj1JhqHn7awrZz3tmeCyXcRYkQDOHuqeDivg8+BsGTXYvOprD
+         tWQMdgGuya1rigl9n1D1Vvx3qXTANUOeF6IwEJLgmN5ELIAyrlvlbgOxVs4rphnrRnFJ
+         Yo1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVYeJ1mSrWHlPtLuiA3CghPsI1Fyv3bg9FqrlTBjpLvmm+mXDeQMR/OIA+sBFkV7zmFM7W2bzmJDiaLyHI0JYqrqg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyQkthL4CqnSfVbfmzVPdatIEAWoOBBgHZW84xhFXpzcjl8MSrC
+	MpUbO9it2VZ+ig7pVVleb0vFt/lenleXBufvHFDwBYfsRPRjM6f9M6w+oG13YtD101NHYIgRyI1
+	H4/dKi0WQj2i03VXPAiMLOXjT8cqhakzij08AuRaRsrQp4MwjmqTA
+X-Gm-Gg: AZuq6aIfkNGVN4wWbyRuzr0RfQbgCO8xa+0BJuMTkd+Hz0dQ9eUYHJk2cFCfA2UFJiK
+	62YId5dDU0IceH3qKwgiZICG+va9yE6h7tvx1D5POpXxkuUgSNHnlOqLksDyYsa3qX7HPd1kcRQ
+	xT4Vlmwv7L29SyO4uo23Mr0iCzh/3Zs8Ys1MPUiZhEKD68zO92TVkOo8vAxMW4Jn9D/5rrxd/sz
+	MS1qB4ZgUNlaVBAY7Ona2IiM3PZF+ruuFLJNICNv2Wz8N9z3RjF5wnv7D8lMXgH5r6NKne8HvB9
+	S66xw3EYOneIqvynftpK2Jedc3nlb6PGzZnJ1Eg=
+X-Received: by 2002:a05:622a:5:b0:506:1c3c:9dfc with SMTP id
+ d75a77b69052e-506838e6d14mr17202591cf.3.1770812157238; Wed, 11 Feb 2026
+ 04:15:57 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|DBBP189MB1257:EE_
-X-MS-Office365-Filtering-Correlation-Id: eaa3baef-7876-4180-5614-08de696922aa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?NIC3lZ5EoaNPLZZZajfULxYNctvd0rn7iAAUt84SkobOHXqI/3gTtKT+UcHe?=
- =?us-ascii?Q?r3JlDbur1hPL2IMjrDGsZ1BPfoi6IhSrovK88Sc0GWBzPssKuHJVlKn7ZekV?=
- =?us-ascii?Q?gJLrPl8Oa5na0hBI6bgvArgka/xeP//s+12tBcc/rmrcwLc8eOaNbEOfeiBu?=
- =?us-ascii?Q?AE55cF2OgJV/d+qDspXEGTzZWcHP3mouSN7NmM1yNaboeWMtc4g+s+Kgy1ML?=
- =?us-ascii?Q?asELZRHm/oVdrCklLHQg/3+SfoJT/LTA9SaZqVppYp3HyAFEDpb1Y07pmYFQ?=
- =?us-ascii?Q?VP9Xle0+OjZkThlHAJvjosD0NXI3NUd5KZUKiCIhs7DBtuRPkSwhq6owRHoa?=
- =?us-ascii?Q?VX7FDtiV/3zLpI4Dz9w3AbC1ZU0vd7FaaTMbHH+zHUQGjfc/bgit/svM/y/v?=
- =?us-ascii?Q?O7CrFbuRlhol555+oIzWqnhND9P2eNXBsxLGdtF3Fp2A9cM+Yb+C0OuBvyg3?=
- =?us-ascii?Q?vZp5JShdjiZEFHoOJpoZeOrmxY0TC/aSgS9U4bizbg9DkC6D/s4Ens39YVnN?=
- =?us-ascii?Q?8npgXRnaNvXPn321NMrQjRWlcR2GXOFLiFAzRLium0nM63RI+Dhq423u26AP?=
- =?us-ascii?Q?kTy2eViRCUWY/vpEPtS8T2TVydkhjBvbQKMhYAhpSCkIgpKQKqb1TIaj8jmt?=
- =?us-ascii?Q?8XzjVICL1QnPuudbU4c4Et0AFQVAp4H5w3N7cwUzbq+iM/r0sGNNwZ/ZPE5H?=
- =?us-ascii?Q?ABA729KIO6DlJp3DSRxBoEFUs2EhRYcqkBO5PhRm9WqTgVav59cIHP6q7Mjm?=
- =?us-ascii?Q?VBgWlG20eCFVF3iUDGy0/qgwJsLAgdAxmEjzk5DnknX/mk+E80pDdmS2lHto?=
- =?us-ascii?Q?mylndYgHE0fNngAA9JGXieC6QLuL9N9GdZ5kFuNJvE4U1h1W5k8+hkWN+sXt?=
- =?us-ascii?Q?4rVHGAFrdHuxSOfgPEeDqTw6p3hIgKT/kX0U4bw1s4DOr+a1IxzsF5+jJWH/?=
- =?us-ascii?Q?De3NFVWcQpxiGOd6Dz+LlbQFVi3B/ZSlquuKkDYV1cxQIDqXrtZKczsIYYXz?=
- =?us-ascii?Q?BlAYgg4zZvVEJQ8hlM+xWyajTlaDqYlcAMmLJPJcwZ98sJz5rZjs335uMITp?=
- =?us-ascii?Q?Caw9EKTfyQGtYqY4mO94xrvTsDSwnZcKXvjMdMUouEdpQ3PPWOqg2MAanvKZ?=
- =?us-ascii?Q?GwpQbCMDRagmG8Pmw19PLTcNuLntXwZCMCvIrPiD+R9uU6wCcdZ/u9zMbCk9?=
- =?us-ascii?Q?Cgab6x40RuCMQl6uZSMb5+6qeUtWKkno+1pVzaNHVw4Yiq2Mqlcz+qyyWoHT?=
- =?us-ascii?Q?nIqTJYgwrmpyGis2iI44UiUX4IUjHqPZHjnz3Er1iVc4hgmwCNjOIi+GFbSJ?=
- =?us-ascii?Q?OFlHdNX/vkfd/dieMil6GyDNnRxCBMz0sHo3TUwXFKr3br3fmoT7isEGBjOJ?=
- =?us-ascii?Q?331FB6rJ1AnIezPwcm246KKBcxbR7lJv0lcxcV0GOrTROnSChEmO3+AXBPPF?=
- =?us-ascii?Q?mNDQg7WC8mPl99iKU4HegBmXDd47CLlitF1lAMBiL4eCo5ZY+A+QFq3zk9qT?=
- =?us-ascii?Q?B4jv4Y4KdLhUz3FIxBXaqH4lLaVDjwOZMQ73bzKLQdHH8sSlHOlyNHZZ8UKJ?=
- =?us-ascii?Q?enXqHOhaS0sv66wxHCI=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?p1QBloQ8PtYjRLcNjhJ14Jwtg9wGmUmGn2Pm0r8/MabFZ8NiV3MweeyDLxVU?=
- =?us-ascii?Q?WrofObXVZPJL5NdkhwaWfv1hq8k03T3h1uiZrbH+NhnuQEHzFNwsXINBXu0p?=
- =?us-ascii?Q?MzhOvHHAHk4RTj0Sg02AKsnEuBrJhK+KMuyYKOgrSpDUQCF/VEAYs5qZG9m2?=
- =?us-ascii?Q?N2XNShg69Mp8MxVlLHJ4zeWwnpOMFOyb/VmM2IBqEMJ+PEZCbp7cvwUP9Xqo?=
- =?us-ascii?Q?hh8BHhBUYAoxwbP17GyvnNiDuz6W3owKUqpSDCsq8TTKXwS1avFBo7hlxjTe?=
- =?us-ascii?Q?0DGeUvRhYMwvYC1+vXoQ9+mrP/7TA/aEnvPuKWqKsESqcrqmnlbyDatGtURl?=
- =?us-ascii?Q?NzWf738oUEMGXXlchTh1Rkwfa33CO/Q1bWuul4Bc0MUTztqqR2nr81T5Jb40?=
- =?us-ascii?Q?K1dTIhpRXiadgbhC/hi/hRGz4eoCP2g39RVMK0FAEXziqvTsHAPj/fPzhpg4?=
- =?us-ascii?Q?SqbDhig/cN6os8/GhU1A0+aAdtNWbozkBbmN0jWs/ZJUtll4xYdN5Mui+5nY?=
- =?us-ascii?Q?XLH8d7f/A0nReQ4gtQZClLzZsTVI6i0fjqPk8vI/K7fgJCv0h8Bt01SeZgQb?=
- =?us-ascii?Q?+dJ6UXz/GQjEvzrpP5sx9sUFLOFz9mSoeP+RIcD2ZbZ0Ue56dyNJhvUH4Fio?=
- =?us-ascii?Q?tY66ixD8cJuwG32fMbjYCnoObTHUetUKFEKXnNT59BNAtB/tNkLs37oZh/e2?=
- =?us-ascii?Q?aogGrR1hiIxvTixKqkvbtT1ZUD4L4Nu7NKCaqDdzNTiDYd226EkLuLxaxGz8?=
- =?us-ascii?Q?eXFOd0L1C1x9K9eR5Gq6ku+i7BWSWcD2WMojOQz9e/eX9P8hiXPmdDajCPP1?=
- =?us-ascii?Q?OI2CCwQ1wsxLhZo7rBf/0Cenv4vhn2HYK7gbbEkibxjxqSx2w23MxbFoavNN?=
- =?us-ascii?Q?YJTy3l6lQeKYd0wnQXFSCuAQwGAAu1TT1Fat/1CA8S3EGl/n77iTggep2KA7?=
- =?us-ascii?Q?TtpqqItgVB78KFHCfFJCvlhSeQAcD6gllHuIgDEEIvCMHSAQMx3y1Z14udtw?=
- =?us-ascii?Q?yodS3IQSXm0Z34mt8S1zWldwvxHqiqtvaW23KHd7cLcksYU7GeIg0u7x3UdP?=
- =?us-ascii?Q?7ki4BhO9gLLneX2Bx9PrGC3XeKEb2R91lqq3doSdO8KwqsBKWpXt+ALtswdp?=
- =?us-ascii?Q?rlOqBGXxikUIXjY0fCju7G8sIfsH5A4u2Cm0gFetzy4MHIZ8qG01ycQ3wXbp?=
- =?us-ascii?Q?6h2gpryJFGFpXXvqb7P+dsO/WuXswv7mEZGBruto1M128p+LIj7LnzVF7SCt?=
- =?us-ascii?Q?GIdp4R527+mdlJHcRUBUnU+aUVI50MaxEDjNPI2crdFZaw+VE+Ox7eO3QNOm?=
- =?us-ascii?Q?x82x1XmyCfjFSx/G6AJiis+B2KJdlORxe0zWfDrFajxYa3wQFddNUmHK9TsC?=
- =?us-ascii?Q?sN0V1Xfbv3tMjtMTLkWJ0+dTn5eC7J8Bd88dLyO6mhPSpwf3WQH2FNJWHC36?=
- =?us-ascii?Q?MNZAZZ9v0ixbb1/6WIt/2CAPCFf73lEbP0T0b3lX+O+KNAXyrNNwcbpumOyW?=
- =?us-ascii?Q?OxgYwUFGIwx1b5IVPxfJ5Djq2EWKO4r+PqmRSwVZCjaC9qQl9Uem+1SuGtMm?=
- =?us-ascii?Q?Ft3HH5o3PmgDT2Rj/29833nDhCJYRK/JWBShOC2109aggd7v6rV77ynwQRoq?=
- =?us-ascii?Q?PbHDIiMXhiJD6Atc8nCrwtFtUa7+JHc37QUm9f6PYi5t9Jb61lplbWqcmB6q?=
- =?us-ascii?Q?bLI3x25jLShjUDdbeB5lGt/mVmWwoV3KU60R2zi8Gt5xSLMtNDi+ip7jBsMr?=
- =?us-ascii?Q?PP5lhDYnjA=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: eaa3baef-7876-4180-5614-08de696922aa
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2026 12:29:00.8878
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uOzlJqyXHDEzyLSm7ALDr1q2n1/kQNIa4y2+7nL2Vj+3+HovPqg/NWhBJFJcv5dtTbSeSZm6q6exablJ40dicw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBP189MB1257
+References: <20260209080214.1738300-1-Qi.Chen@windriver.com> <DGC433PUWA1C.2BFX9T2ECNBRH@bootlin.com>
+In-Reply-To: <DGC433PUWA1C.2BFX9T2ECNBRH@bootlin.com>
+From: Jan-Simon Moeller <jsmoeller@linuxfoundation.org>
+Date: Wed, 11 Feb 2026 13:15:44 +0100
+X-Gm-Features: AZwV_Qg-2vBcb3F1TtGN-UM6jyx1H0CzE9SoXdeKRDdcGYVweUnoGC3p9Og2PGc
+Message-ID: <CADja47M4gJNqpvD3sr+6C0gBNVj7jpF7hDchnPker2Joeo3rZQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] systemd: upgrade from 258.1 to 259.1
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000098b201064a8b55fc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 12:29:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230983
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 12:33:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230985
 
-Add ptest support to enable automated testing of libsolv
-using ptest-runner.
+--00000000000098b201064a8b55fc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The implementation uses upstream's test infrastructure:
-testsolv binary, runtestcases.sh script, and testcase data.
-The test suite runs 28 test categories covering solver
-functionality, package dependencies, and repository handling.
+No blocker. We can/will adapt.
 
-All 28 upstream tests pass successfully on qemux86-64:
-START: ptest-runner
-BEGIN: /usr/lib/libsolv/ptest
-conflict.t .......................................   Passed
-forcebest.t ......................................   Passed
-PASS: testcases/allowuninstall
-job.t ............................................   Passed
-learnt.t .........................................   Passed
-recommends.t .....................................   Passed
-requires.t .......................................   Passed
-strongrecommends.t ...............................   Passed
-update.t .........................................   Passed
-yumobs.t .........................................   Passed
-PASS: testcases/alternative
-ptf.t ............................................   Passed
-retracted.t ......................................   Passed
-PASS: testcases/blacklist
-choice1.t ........................................   Passed
-choice1b.t .......................................   Passed
-choice2.t ........................................   Passed
-choice2b.t .......................................   Passed
-choice3.t ........................................   Passed
-choice3b.t .......................................   Passed
-choice4.t ........................................   Passed
-choice5.t ........................................   Passed
-choice6.t ........................................   Passed
-choice7.t ........................................   Passed
-PASS: testcases/choicerules
-default.t ........................................   Passed
-enhanced.t .......................................   Passed
-oldversion.t .....................................   Passed
-suggested.t ......................................   Passed
-versioned.t ......................................   Passed
-versioned2.t .....................................   Passed
-PASS: testcases/choose
-cleandeps_dup.t ..................................   Passed
-cleandeps_in.t ...................................   Passed
-cleandeps_up.t ...................................   Passed
-cleandeps_up3.t ..................................   Passed
-mistake.t ........................................   Passed
-PASS: testcases/cleandeps
-and.t ............................................   Passed
-andor.t ..........................................   Passed
-if.t .............................................   Passed
-ifelse.t .........................................   Passed
-ifelse_rec.t .....................................   Passed
-or.t .............................................   Passed
-orand.t ..........................................   Passed
-PASS: testcases/cplxdeps
-dup_allowuninstall.t .............................   Passed
-dup_multiversion1.t ..............................   Passed
-dup_multiversion2.t ..............................   Passed
-dup_multiversion3.t ..............................   Passed
-dup_noarchchange.t ...............................   Passed
-dup_orphan1.t ....................................   Passed
-dup_orphan2.t ....................................   Passed
-dup_orphan3.t ....................................   Passed
-PASS: testcases/distupgrade
-caret.t ..........................................   Passed
-testevr.t ........................................   Passed
-PASS: testcases/evrcmp
-excludefromweak-obsoletes.t ......................   Passed
-excludefromweak.t ................................   Passed
-PASS: testcases/excludefromweak
-recommends.t .....................................   Passed
-recommends2.t ....................................   Passed
-requires.t .......................................   Passed
-single.t .........................................   Passed
-supplements.t ....................................   Passed
-PASS: testcases/favor
-best.t ...........................................   Passed
-installed.t ......................................   Passed
-new1.t ...........................................   Passed
-new2.t ...........................................   Passed
-normal.t .........................................   Passed
-PASS: testcases/focus
-forcebest_dup.t ..................................   Passed
-forcebest_in.t ...................................   Passed
-forcebest_up.t ...................................   Passed
-PASS: testcases/forcebest
-best.t ...........................................   Passed
-dup.t ............................................   Passed
-PASS: testcases/lock
-infarch_install_best.t ...........................   Passed
-lockstep_install.t ...............................   Passed
-lockstep_update.t ................................   Passed
-PASS: testcases/lockstep
-multiversion.t ...................................   Passed
-update.t .........................................   Passed
-update2.t ........................................   Passed
-PASS: testcases/multiversion
-namespaceprovides.t ..............................   Passed
-PASS: testcases/namespace
-pubg1.t ..........................................   Passed
-pubg2.t ..........................................   Passed
-PASS: testcases/proof
-recommended_conflicts.t ..........................   Passed
-recommended_multirepo.t ..........................   Passed
-recommended_oldversion.t .........................   Passed
-recommended_targeted.t ...........................   Passed
-recommended_version.t ............................   Passed
-suggested_conflicts.t ............................   Passed
-suggested_multirepo.t ............................   Passed
-suggested_oldversion.t ...........................   Passed
-suggested_targeted.t .............................   Passed
-suggested_version.t ..............................   Passed
-PASS: testcases/recommendations
-assert.t .........................................   Passed
-mm-test.t ........................................   Passed
-reuse.t ..........................................   Passed
-PASS: testcases/sat
-disable: unknown package 'E-1-1.src@available'
-disable: unknown package 'F-1-1.src@available'
-selection_canon_rpm.t ............................   Passed
-selection_filelist.t .............................   Passed
-selection_matchdeps.t ............................   Passed
-selection_matchsolvable.t ........................   Passed
-selection_name.t .................................   Passed
-selection_provides.t .............................   Passed
-PASS: testcases/selection
-strictrepoprio.t .................................   Passed
-PASS: testcases/strictrepoprio
-break.t ..........................................   Passed
-disfavored.t .....................................   Passed
-strongr.t ........................................   Passed
-PASS: testcases/strongrecommends
-targeted_color.t .................................   Passed
-targeted_dup.t ...................................   Passed
-targeted_up.t ....................................   Passed
-PASS: testcases/targeted
-nested.t .........................................   Passed
-str2dep.t ........................................   Passed
-PASS: testcases/testcase
-supplements_implicitobsoleteusescolors.t .........   Passed
-PASS: testcases/weakdeps
-dup.t ............................................   Passed
-dup2.t ...........................................   Passed
-forcebest_in.t ...................................   Passed
-forcebest_up.t ...................................   Passed
-PASS: testcases/whatprovideswithdisabled
-split.t ..........................................   Passed
-split2.t .........................................   Passed
-PASS: testcases/yumobs
-DURATION: 7
-END: /usr/lib/libsolv/ptest
-STOP: ptest-runner
 
-Note: runtestcases.sh requires bash as it uses bash-specific features.
+Best regards,
+Jan-Simon
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
- .../conf/distro/include/ptest-packagelists.inc |  1 +
- .../recipes-extended/libsolv/libsolv/run-ptest | 12 ++++++++++++
- .../recipes-extended/libsolv/libsolv_0.7.35.bb | 18 +++++++++++++++++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-extended/libsolv/libsolv/run-ptest
+------
+Jan-Simon M=C3=B6ller
+AGL Release Manager
+The Linux Foundation
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index b9616e9bf4..fbbd118255 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -36,6 +36,7 @@ PTESTS_FAST =3D "\
-     libnl \
-     libpcre \
-     librsvg \
-+    libsolv \
-     libssh2 \
-     libtest-fatal-perl \
-     libtest-needs-perl \
-diff --git a/meta/recipes-extended/libsolv/libsolv/run-ptest b/meta/recipes=
--extended/libsolv/libsolv/run-ptest
-new file mode 100755
-index 0000000000..857b719ae5
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/run-ptest
-@@ -0,0 +1,12 @@
-+#!/bin/sh
-+
-+cd test
-+
-+for t in testcases/*; do
-+    ./runtestcases.sh ../tools/testsolv $t
-+    if [ $? -eq 0 ]; then
-+        echo "PASS: $t"
-+    else
-+        echo "FAIL: $t"
-+    fi
-+done
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb b/meta/recipes=
--extended/libsolv/libsolv_0.7.35.bb
-index ec74308bb5..d42623b413 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
-@@ -10,13 +10,14 @@ DEPENDS =3D "expat zlib zstd"
-=20
- SRC_URI =3D "git://github.com/openSUSE/libsolv.git;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV} \
-            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
-+           file://run-ptest \
- "
-=20
- SRCREV =3D "fb4b4340d46108cb365113e432642d6024886c7a"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
-=20
--inherit cmake
-+inherit cmake ptest
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('PACKAGE_CLASSES','package_rpm',=
-'rpm','',d)}"
- PACKAGECONFIG[rpm] =3D "-DENABLE_RPMMD=3DON -DENABLE_RPMDB=3DON,,rpm"
-@@ -29,3 +30,18 @@ FILES:${PN}-tools =3D "${bindir}/*"
- FILES:${PN}ext =3D "${libdir}/${PN}ext.so.*"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+do_compile_ptest() {
-+    cmake_runcmake_build --target testsolv
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tools
-+    install -d ${D}${PTEST_PATH}/test
-+
-+    install -m 0755 ${B}/tools/testsolv ${D}${PTEST_PATH}/tools/
-+    install -m 0755 ${S}/test/runtestcases.sh ${D}${PTEST_PATH}/test/
-+    cp -r ${S}/test/testcases ${D}${PTEST_PATH}/test/
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "bash"
---=20
-2.43.0
+Visit us at:
+www.automotivegradelinux.org
+lists.automotivelinux.org
+www.linuxfoundation.org
 
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> schrieb am Mi.,
+11. Feb. 2026, 12:55:
+
+> On Mon Feb 9, 2026 at 9:02 AM CET, Chen Qi via lists.openembedded.org
+> wrote:
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> >
+> > Changes with v259:
+> > https://github.com/systemd/systemd/releases/tag/v259
+> >
+> > The 'iptc' PACKAGECONFIG is dropped, because:
+> > """
+> > systemd-networkd and systemd-nspawn no longer support creating NAT
+> > rules via iptables/libiptc APIs; only nftables is now supported.
+> > """
+> >
+> > Add 'empower' group for systemd. See commit below:
+> >
+> https://github.com/systemd/systemd/commit/3150c342705f4ac27f2b3299ac0961e=
+7a70e4451
+> >
+> > This new version has big change on musl support.
+> > """
+> > Incomplete support for musl libc is now available by setting the
+> > "libc" meson option to "musl".
+> > ...
+> > This support for musl is provided without a promise of continued
+> > support in future releases.
+> > """
+> > See https://github.com/systemd/systemd/blob/main/NEWS#L562 for more
+> details.
+> >
+> > Here are some examples:
+> > - The musl specific '-D_LARGEFILE64_SOURCE' could be dropped because:
+> >
+> https://github.com/systemd/systemd/commit/fb33d20c072f2e7c3d500f00f8c04c9=
+9271f34c1
+> > - The 0017-Always-include-netinet-if_ether.h-first.patch and
+> '-D__UAPI_DEF_ETHHDR=3D0
+> >   could be dropped because:
+> >
+> https://github.com/systemd/systemd/commit/8324ef421373c84b5034bf47b84fe42=
+d84b1032f
+> > - The 0015-Avoid-sequence-point-error.patch could be dropped because:
+> >
+> https://github.com/systemd/systemd/commit/ebbc0ea7fd764c870bb8689111138b4=
+f73854d42
+> >
+> > With the above musl support, here are the changes for this 259.1 recipe=
+:
+> > - Add '-Dlibc=3D${TCLIBC}' configure option.
+> > - The musl warning, do_warn_musl, is removed.
+> > - *ALL* musl specific patches are dropped.
+> >   Any further fix for musl should be sent to systemd upstream.
+> >
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+>
+> Hi Jan-Simon,
+>
+> Please note this commit will break meta-agl, as iptc PACKAGECONFIG is
+> being dropped:
+>
+> ERROR: systemd-1_259.1-r0 do_recipe_qa: QA Issue: systemd: invalid
+> PACKAGECONFIG(s): iptc [invalid-packageconfig]
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/2997
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+
+--00000000000098b201064a8b55fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div>No blocker. We can/will adapt.</div><div dir=3D=
+"auto"><br></div><div><br></div><div data-smartmail=3D"gmail_signature">Bes=
+t regards,<br>Jan-Simon<br><br>------<br>Jan-Simon M=C3=B6ller<br>AGL Relea=
+se Manager<br>The Linux Foundation<br><br>Visit us at:<br><a href=3D"http:/=
+/www.automotivegradelinux.org" target=3D"_blank">www.automotivegradelinux.o=
+rg</a><br><a href=3D"http://lists.automotivelinux.org" target=3D"_blank">li=
+sts.automotivelinux.org</a><br><a href=3D"http://www.linuxfoundation.org" t=
+arget=3D"_blank">www.linuxfoundation.org</a></div><br><div class=3D"gmail_q=
+uote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Mathieu D=
+ubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin.com">mathi=
+eu.dubois-briand@bootlin.com</a>&gt; schrieb am Mi., 11. Feb. 2026, 12:55:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon Feb 9, 20=
+26 at 9:02 AM CET, Chen Qi via <a href=3D"http://lists.openembedded.org" re=
+l=3D"noreferrer noreferrer" target=3D"_blank">lists.openembedded.org</a> wr=
+ote:<br>
+&gt; From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_=
+blank" rel=3D"noreferrer">Qi.Chen@windriver.com</a>&gt;<br>
+&gt;<br>
+&gt; Changes with v259:<br>
+&gt; <a href=3D"https://github.com/systemd/systemd/releases/tag/v259" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/systemd/sys=
+temd/releases/tag/v259</a><br>
+&gt;<br>
+&gt; The &#39;iptc&#39; PACKAGECONFIG is dropped, because:<br>
+&gt; &quot;&quot;&quot;<br>
+&gt; systemd-networkd and systemd-nspawn no longer support creating NAT<br>
+&gt; rules via iptables/libiptc APIs; only nftables is now supported.<br>
+&gt; &quot;&quot;&quot;<br>
+&gt;<br>
+&gt; Add &#39;empower&#39; group for systemd. See commit below:<br>
+&gt; <a href=3D"https://github.com/systemd/systemd/commit/3150c342705f4ac27=
+f2b3299ac0961e7a70e4451" rel=3D"noreferrer noreferrer" target=3D"_blank">ht=
+tps://github.com/systemd/systemd/commit/3150c342705f4ac27f2b3299ac0961e7a70=
+e4451</a><br>
+&gt;<br>
+&gt; This new version has big change on musl support.<br>
+&gt; &quot;&quot;&quot;<br>
+&gt; Incomplete support for musl libc is now available by setting the<br>
+&gt; &quot;libc&quot; meson option to &quot;musl&quot;.<br>
+&gt; ...<br>
+&gt; This support for musl is provided without a promise of continued<br>
+&gt; support in future releases.<br>
+&gt; &quot;&quot;&quot;<br>
+&gt; See <a href=3D"https://github.com/systemd/systemd/blob/main/NEWS#L562"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/systemd=
+/systemd/blob/main/NEWS#L562</a> for more details.<br>
+&gt;<br>
+&gt; Here are some examples:<br>
+&gt; - The musl specific &#39;-D_LARGEFILE64_SOURCE&#39; could be dropped b=
+ecause:<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/systemd/systemd/commit/fb33d=
+20c072f2e7c3d500f00f8c04c99271f34c1" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://github.com/systemd/systemd/commit/fb33d20c072f2e7c3d500=
+f00f8c04c99271f34c1</a><br>
+&gt; - The 0017-Always-include-netinet-if_ether.h-first.patch and &#39;-D__=
+UAPI_DEF_ETHHDR=3D0<br>
+&gt;=C2=A0 =C2=A0could be dropped because:<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/systemd/systemd/commit/8324e=
+f421373c84b5034bf47b84fe42d84b1032f" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://github.com/systemd/systemd/commit/8324ef421373c84b5034b=
+f47b84fe42d84b1032f</a><br>
+&gt; - The 0015-Avoid-sequence-point-error.patch could be dropped because:<=
+br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/systemd/systemd/commit/ebbc0=
+ea7fd764c870bb8689111138b4f73854d42" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://github.com/systemd/systemd/commit/ebbc0ea7fd764c870bb86=
+89111138b4f73854d42</a><br>
+&gt;<br>
+&gt; With the above musl support, here are the changes for this 259.1 recip=
+e:<br>
+&gt; - Add &#39;-Dlibc=3D${TCLIBC}&#39; configure option.<br>
+&gt; - The musl warning, do_warn_musl, is removed.<br>
+&gt; - *ALL* musl specific patches are dropped.<br>
+&gt;=C2=A0 =C2=A0Any further fix for musl should be sent to systemd upstrea=
+m.<br>
+&gt;<br>
+&gt; Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" ta=
+rget=3D"_blank" rel=3D"noreferrer">Qi.Chen@windriver.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Jan-Simon,<br>
+<br>
+Please note this commit will break meta-agl, as iptc PACKAGECONFIG is<br>
+being dropped:<br>
+<br>
+ERROR: systemd-1_259.1-r0 do_recipe_qa: QA Issue: systemd: invalid PACKAGEC=
+ONFIG(s): iptc [invalid-packageconfig]<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/buil=
+ds/2997" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilde=
+r.yoctoproject.org/valkyrie/#/builders/55/builds/2997</a><br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://bootlin.com</a><br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000098b201064a8b55fc--
 
