@@ -1,300 +1,188 @@
-Return-Path: <philip@balister.org>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F14E9E2FF
-	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 12:33:17 +0000 (UTC)
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16719.1770807130295699675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AA7E9E300
+	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 12:33:56 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18057.1770813231051446464
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Feb 2026 02:52:10 -0800
+ Wed, 11 Feb 2026 04:33:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@paulbarker.me.uk header.s=fm2 header.b=kbrJ5syI;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=QIkjC2ST;
- spf=pass (domain: paulbarker.me.uk, ip: 202.12.124.153, mailfrom: paul@paulbarker.me.uk)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DBC677A014A;
-	Wed, 11 Feb 2026 05:47:36 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Wed, 11 Feb 2026 05:47:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	paulbarker.me.uk; h=cc:content-type:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1770806856; x=
-	1770893256; bh=VdXFhOUFqGOLPAQGCChgYPfYZnFwuCS1TXzFyLsqyo0=; b=k
-	brJ5syIQtjKXrIqzm2uRRB/drYQROQJ1jd6eRvmdBLqIbT/RJn7f0KrFNDe2U9Da
-	SD5QRu+z4Zge0alpScixzScwoYm1uSRdfzGaY+lthuTZ/2qIO/wIMt0Fd6cZtIUG
-	pwWEIPoJiIpeXY2Fwnlr0JYvXSGbtx3UGOdCATEkLCBEbav7DGC1+FpDgkNsUcF5
-	E65ivethn7KT06XKleghB7W9A4ghGBah6Qda8dA9YZ4mszDk4Fe5FsEHQiOWIReZ
-	9GEaBbErtm5miUsuXpda0RS3s3lxECUEVQ33UiH7vVJGSSfbj0vdPLNE2Q0RBV5W
-	1r7s3YbWalBAJGEVSGezQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770806856; x=1770893256; bh=VdXFhOUFqGOLPAQGCChgYPfYZnFwuCS1TXz
-	FyLsqyo0=; b=QIkjC2STxCTISfkwW31kKV7o+aXvKOvHg1a48ArIXx23jQ/jgfN
-	Y+e4XOUUu5I4lQ+QdYQoYZ/mTLrphMJuCNjgQtX3VIr7yybcK1XpIm3aZrzSV5Km
-	Nn4GGfgXrNHmc/MBh5jAflFA1WxCVkucIuicYXV6H5Jn/any+uSLOagnFvIBvXWQ
-	1kbVUeNVdi0ZFgT0UrAcXdB4xrapljG+cEQ8FipC7oi/IvgPBjupeX2ZFJkbCfFI
-	NokZOlkJEd5tF23udCR6D/Y/2JOHMDcOTZnyxebCt7lJzCXXHshAv/eYD97eMpMB
-	d1hzuxwYSGMyZdoIsZ5HQfIg4kzUwBgSwHQ==
-X-ME-Sender: <xms:SF6MaamVJl1Zl3XSEPrcPaze6Cw1Wy5UVRw442KyA9w3vnDvr1Qg9w>
-    <xme:SF6MaX0uQ7IaOnt2_CtZKGF4WNiVvlIttk-5pGJee_Da2aBwJfrO21qpsknsJgVsB
-    B54L_sJEhn-LWOgScxqsVACI1Hl8YllCy4c7RHbKB25DparbBen8MKD>
-X-ME-Received: <xmr:SF6MaWQP5Lf3a5T8HIQxClnQgXDd5NIi7tfziMr2EIrYN7DAszazfM5B-SNEm_lU_qp28yOPVaEWu-mxe0f-aPRobixG6PB0Uqi6KY2EwoAa>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvtddvfeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
-    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgruhhlsggrrhhk
-    vghrrdhmvgdruhhkqeenucggtffrrghtthgvrhhnpefhteeiuedvveffueetgfeiuddvff
-    ekgfehueefueetvdevtdejfedvveduffejjeenucffohhmrghinhepohhpvghnvghmsggv
-    ugguvggurdhorhhgpdhgihhthhhusgdrtghomhdptghhrghnghgvlhhoghdrmhgunecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehp
-    rghulhgsrghrkhgvrhdrmhgvrdhukhdpnhgspghrtghpthhtohepvddpmhhouggvpehsmh
-    htphhouhhtpdhrtghpthhtohepfigrnhhgmhihsehfuhhjihhtshhurdgtohhmpdhrtghp
-    thhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsg
-    gvugguvggurdhorhhg
-X-ME-Proxy: <xmx:SF6MaZuu-EHnjEU5SUzGKpkRIBpQDeMgYplqXWU8V-vchKGNYAu8JA>
-    <xmx:SF6MabYXbM4ZYWj_yZznakosWzxxIVIYuu5YU7xSbc9csTgiMBGeRw>
-    <xmx:SF6MaeuHs06lDN_paU69ps1DcQPi-YFAoU2szZ2Z7S2joMzMyXA97A>
-    <xmx:SF6MadGzxsC4qJfRmbDtuGiFkku3zXDbviFTXKya0pwYcV_Jfh7J4Q>
-    <xmx:SF6MaRP72m6Jt8GkBo1AEQtft5OqeafZvnjDKy2SPrmW8RdpAQHBInN2>
-Feedback-ID: i9eb1465b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Feb 2026 05:47:35 -0500 (EST)
-Message-ID: <00926e57ad08803e172e4f5706505e403041cb3b.camel@paulbarker.me.uk>
-Subject: Re: [OE-core] [PATCH v2] python3-poetry-core: upgrade 2.2.1 -> 2.3.0
-From: Paul Barker <paul@paulbarker.me.uk>
-To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
-Date: Wed, 11 Feb 2026 10:47:32 +0000
-In-Reply-To: <20260201234916.1208-1-wangmy@fujitsu.com>
-References: <20260201234916.1208-1-wangmy@fujitsu.com>
-Autocrypt: addr=paul@paulbarker.me.uk; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=He46C1F1;
+ spf=pass (domain: est.tech, ip: 52.101.83.30, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D4rYMuIGW2XQKs5Kby3GgfhMDe1u+e9zYTVzEZO7y5eZcidPLXS5tjzrz4dS3yT6i/jvm+s5DozVYuirzHF9R92yOKgFakuT8HZmlvuCknWmejVp7qISNTyLgusiNSBK1+LNm2coJ3fyt6KGFJvAD1m5WNiiNVoQW6Sl4F3M9e0RI78m1cpbeItFwbiGXRG2pkkTUqamuGo2jFUNSPtrCgWqJTTAwDdJISZUA6xXojVZm0hxTKd1sOEd2W9KtHMKZjIqIVb76pssu3Wnhy9XxVhDdNMRdqrgGf21uKBG7ULJnqERu1euauRrsqFAFuQ7R6kNKyWGcUZuv3UZbScQxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vds51jnLRo6lbM+udKob3FTzdldHrS9tX3yfMqjVsGA=;
+ b=hHh+sIkC/p9fuO1+rcXA6RxU5JbxirMX+3F9JqavZy+0SXtxjmk4X82ejN2YEwn1iyv49iJfg4HmqZBiWhx31No3TvTJFapQ4RbkHtfmLTKkDvGRNMwM3Pule6hV7OdW9nhuO7LsvApBs3eZczGbcLoc8OUH1wiNb0aYEpFDVLq1IemQvXE3vE2Vmh6Hc3fZ6Mz7MRSOzcXc7KAyAFDzfd4Pzjdj/2EugixgrhcDRmbYk7l5KXkP8hUKi5qiZFikbxU5wdNAL5nFE2UR78xydxpOdx57kYenrdgrpqRn2cDdUawUu3SPuM9FLWqPamwQ4ppus1W+FtjHOUDMb6qmAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vds51jnLRo6lbM+udKob3FTzdldHrS9tX3yfMqjVsGA=;
+ b=He46C1F1EZF1djiZKeiCPLNyIehq7notW1tVcHZtby+VHbuzF7BkZp1Qaot/o1tJngj8THU7VG9aa+mMAtcmUIyuuC/DVPKAVbLn+ZqZtLQH94ZqDJWFt/QHRmD4LP542BiLzJOm3pEsbjqavIJ2etnhlEgtkz8mPpT6vZcr3pq3TN7YPz6ucYjBNsly85kxJ/uomcaf4Dhj3OfPisjZntb6g13mMPvm80tyFuqU4Fl9XWeZhBRlAWTLS68B/86Qzez1BHAX56Ad3qlSXWiWKzH96au3meJx2MMkWuaRVu7QbICO9aqb2Xra/8t2H7IG5xUHF4SLVSYYAyNhmuUu4Q==
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
+ by DB4P189MB2216.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:37b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Wed, 11 Feb
+ 2026 12:33:46 +0000
+Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+ ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9587.017; Wed, 11 Feb 2026
+ 12:33:46 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH v2] libsolv: add ptest support
+Thread-Topic: [OE-core][PATCH v2] libsolv: add ptest support
+Thread-Index: AQHcmr3zVywSuy+C/kSWvcKXb8pZ7rV9aUUAgAAGb4Y=
+Date: Wed, 11 Feb 2026 12:33:46 +0000
+Message-ID: 
+ <GV2P189MB30051458CAAEAB3070FB16D8FE63A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+References: <20260202223606.19978-1-pratik.farkase@est.tech>
+ <20260210184908.7373-1-pratik.farkase@est.tech>
+ <DGC4ED9DGD9G.2PAQXZDB5E8VY@bootlin.com>
+In-Reply-To: <DGC4ED9DGD9G.2PAQXZDB5E8VY@bootlin.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2P189MB3005:EE_|DB4P189MB2216:EE_
+x-ms-office365-filtering-correlation-id: 864bdfb1-a084-4c8d-f5d8-08de6969ccfb
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|7053199007;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?HY7ZKBZjnZxxx2N9k5rN6ZlO+603W6lm0YKDvvdwV+x2nHpGE+ygNdo0LBv7?=
+ =?us-ascii?Q?elBdt1/uAb5PecEjjCa1GTa2BDnx0R/iKlSb6uX5tzozJ35e339USyomCvYf?=
+ =?us-ascii?Q?s89IeEwILD2srsnXtFwOYBl+hIiPD5CEEVZa5PSFH+GP4EBU214XZIqfa+Hl?=
+ =?us-ascii?Q?EVNKAn2ss17EjXuuh1Jfz8yzT7lIHN0lr0sqLw/3+wbqCvgM1OakT+vr6EtA?=
+ =?us-ascii?Q?D711SmL4AhDWUpeHGXZ14jAxQADfJhmFXx2V9OY9BEzJu2g4Dh4ZEzXCF0vP?=
+ =?us-ascii?Q?YVbNKjYYX4Px1ca0E0eakDp8mYz5B34auGec5tgRBM6dYQl636zlGdwiNNDq?=
+ =?us-ascii?Q?3F25+CdGg6Rs3Hi1FPtU6KARsYjIwSyyd5CVLN5FZQlXy0SPsmAwyKXgkVXK?=
+ =?us-ascii?Q?IvoSp7fxWM2K+T4s5UiooDf9Tv1a2sSsJ/hQKRQD/LYLCpCHJ//3oXJjcaz+?=
+ =?us-ascii?Q?UJhVD1qEDrlg83O8jj7olOj+L5358rG0JG3FJEymyI+lRmXw1lM/JvaJFPv2?=
+ =?us-ascii?Q?qwiemTJY3ZLxLMrKaHHcg5xYOlNO3a/K7+1ga1XxhHuDBARpyLSteEtUAVVt?=
+ =?us-ascii?Q?YBz+f9lSTvLrXMGGOHUXtwuOyDVv1AeoeW/fI2QabgZXrLR+MAPDJ8PFQrXR?=
+ =?us-ascii?Q?bxGujFRsPzg28ul/LwWrlfcU04U20rEqrj4vWdyxCPhbPHP+RqangvdLwBk+?=
+ =?us-ascii?Q?sXm/JzYCIa8eFzU65cN5gCRYUlvzuiH7N3S0eUYBiftmYoXM2W8pt/3h41Gw?=
+ =?us-ascii?Q?VqHUE8OZHbO6cwPxoL9XXQp7PHH0AvQMCPkweqafuB6WN34lymz5xyi4dOBK?=
+ =?us-ascii?Q?ig9XQWS6WRaHsM4/eD0eQdEhp2ZbIw2EKQvl6+u6RBPpiWQU7gxeUoJ2m9Cs?=
+ =?us-ascii?Q?WYPQIDT/pckvy4CxhEo7h+WweQnio1uJCKajCtfAhKYy9gRabEoNoYxX2omD?=
+ =?us-ascii?Q?qCfGA9cofVqFTBkYClFpwafmqAarErUelnpc+iuV+cOY/CkGFf/PimdNgPym?=
+ =?us-ascii?Q?RONoVAnx/wuDffg0zzIZHR2KtlgeGoJqEKkGZIHv2KtzLotjf+obOvxD57C8?=
+ =?us-ascii?Q?b3/2FpBHe3DX0pk+OYhkc+FDY/XIalyccBsQv8X+ckbJ6eOwqRVs/hoK4aqf?=
+ =?us-ascii?Q?Iw8SWBnJOqWyps3gfq5UiE/R3yZKSk1oonkSWjATX6JQVLX46oIjR0LgleGI?=
+ =?us-ascii?Q?neCpIzQ8uKIp7sW9xGYfmLHAGwwDtjLv4s6f3k5EkbbJ8NHSJZrRWMQ44sZ8?=
+ =?us-ascii?Q?t6MhVCJ53lE9VTk7gGhLwS67+SFeBvk2JFAikiib7VP7EneLLhcnlABfu9NQ?=
+ =?us-ascii?Q?s25YksMDfqNTxA5jLuAkEViC2QuwS3gDJuK+7WrM0THgKNx9itNqxqfo/2jY?=
+ =?us-ascii?Q?kQOgKtS5owbuxp75VCwDGEpAQUQqVdatWBppQYxrfy24f6gvUrUWG8ZYK8Vc?=
+ =?us-ascii?Q?04j+Xv0f5UggIv7zj+hAZXx0MHrxPkQ3D/V4QXaCUPoSHHLq0hTuyLPRN29h?=
+ =?us-ascii?Q?2Qb2bMJTylgXKYcsKbsG9Fy+SPBmQ6ZvzqpmpnRBti8NE5it6ScL2h0JXkiB?=
+ =?us-ascii?Q?6it5IwKj6R0I8b9+n3M=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?KdFyfFU6+h8mM6c6JLrda+77jsnVbdxiSwKRqs06cCCiqkvA2M26rCjqIJu5?=
+ =?us-ascii?Q?QUT5Cy+P9/9jJGe6iTXIy5K1sO0lqR8l03fv/GQIs+tQc8b7z3kW49cUPyGA?=
+ =?us-ascii?Q?dBZYt9UEtVwfKTuXqqetpcRpTJj2WL3REdCIgr2PGXJCUwcNEZ/k5obEThfv?=
+ =?us-ascii?Q?KvTGZG4R81O7EQi7Kpy/VPFPnLqO+DZfADldK9gYYnUWMsgqzlVbjDHoTidX?=
+ =?us-ascii?Q?5tpL4iE/4IJyAaI3TEiO4viaiSOmfOYVN/HE9O1z0d50papUb/coEvqLLP8U?=
+ =?us-ascii?Q?MmBbvzHGM/9RUMtvdDBvU49uM+r3wXKQer5/Feq6ID/+tbgHd/uujSFP3M9q?=
+ =?us-ascii?Q?RiR2jd8I+LF2H97nBrH88CKxjHLJ9MtqbuSzKwTwygIsBtfqFT71W2zNkmqw?=
+ =?us-ascii?Q?r2up6uaJrNY2yG7u1r/sSVHofbMXoWsXLHo9+mgoFVT4xGfqmgRVtofgjb0a?=
+ =?us-ascii?Q?BZNrS2WOhCacTrV8ZWVRYzjsIrielh4QQyTh2ckWSiNETYbCuqzUt9O3QvsY?=
+ =?us-ascii?Q?v1k16NQrmQyaSTL9XnmAaJNVvgF1YnjVp3dNclA07YMjb8S8uBz/bmfS9nZe?=
+ =?us-ascii?Q?NmMejlbXe33YsIGwP9gncRjzVame7JfXrea5lWPnVQo6WpFSTsugW2P+JnaP?=
+ =?us-ascii?Q?Uu73qmzLJNn8GfQh5qmKSDFwxVg4nsvjxzVbkybbGkirjQHk0Ba5EL9KL8aZ?=
+ =?us-ascii?Q?fLTZYdtnA2ID4ooXjUwTrr/pez8KVSj4plwsWPM2xFzKYIUEjInstGNxrc/2?=
+ =?us-ascii?Q?kHiJseQjpkPeF7Ed1DfKVpPnV5821bODnbGztE5csRvwj4v3//z/xV3KMfHE?=
+ =?us-ascii?Q?mBxX3vPpenCBT9L/wAxarOGm0uVohvOHSut5OQ4W/oyPhqqP0EC1GWYTykB3?=
+ =?us-ascii?Q?oia9IIkH6KzPMI/JYgZkLBb2Xx9/MS14j/0URPkaN7BIiybMgzcFapH8xoS9?=
+ =?us-ascii?Q?eAEO8wfG0hDYSIWJRSGjXF2+oCKBQN10AqkNk6ud1S4d3zVawH71iKk3EPC7?=
+ =?us-ascii?Q?+lxVmfprpNXkcJG90vePhvc+9dYD1Jyvkx28jEj9y52ZUd430jnNm/0KBNlg?=
+ =?us-ascii?Q?q2kff/fWS/yRwMAa6474+b6sRa0GEt4svNhWQ1Q/52WhxUp/zkDZt8FS0fF3?=
+ =?us-ascii?Q?13X8SLJA6LjntgOv+cKrcXcKcruL/aEL4iJu0jKuOhVDEL0PdKQNd2OtRa+W?=
+ =?us-ascii?Q?l9nECDcWv8+S7kqxVoRVxSe4EuQU9sXOfr7rjJzW+dJb4WMOf5tCvZ4U8y/J?=
+ =?us-ascii?Q?WB7IXxF3JZ4OJkEsAUEhPfBIhlHMTe/7Mn22EYuZQg78i7sYcCiYUR1TukEF?=
+ =?us-ascii?Q?Tg5QTgUJ0nBzHt2zqfeByQ4vgnRIsTeTkz6skqqZ7bL/QFRcHZnLHxyLvwpm?=
+ =?us-ascii?Q?XUkAURQmJ9Kv+Tjl8skEYa0d6mw8VKHA7V4jmw9H+xYHJckJbu5REap+ae38?=
+ =?us-ascii?Q?0CTGK1YvJlR6tqBPreA06+h43t/epAU3To955tBY+6/ssVllQN/T9rPKL6ng?=
+ =?us-ascii?Q?zDd7sY4CggHqenBZMMK6POdBFIqKDKZXuhHgmU6KHEnlb2a6MYZa0hngsqoh?=
+ =?us-ascii?Q?YAnQqJe2jdrgGh6R/7KT+dLyge/mf09By8L8OxzvDSYNKJH95G/AwTeO/vZD?=
+ =?us-ascii?Q?eYlqDP+Iy6MQss0BJ2lDG/Ze/bRl/wAg3kizptHIUwANjWIOMAyNujPvCTIh?=
+ =?us-ascii?Q?xvyLmXLB5zmnGsyOj57Uus6FV6s1TiLFOsDFGKHryYECzhvkZGDDaFsrsDf8?=
+ =?us-ascii?Q?0XlTNaNTag=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-mqo1K8Id7LgyLPwmDHa5"
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 864bdfb1-a084-4c8d-f5d8-08de6969ccfb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2026 12:33:46.4197
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cBodiwZbzjBKtA1iz7b+Rjxl7DxpOp0RIf0hnisXq49uquR+ck6gGQmqm0DpS2+ztvUnY5YzFIrhxQJXIsrEgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4P189MB2216
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 12:33:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230984
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 12:33:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230986
 
---=-mqo1K8Id7LgyLPwmDHa5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Mathieu,
 
-On Mon, 2026-02-02 at 07:49 +0800, wangmy via lists.openembedded.org
-wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
->=20
-> License-Update: file format changed from "ASCII text" to
->                 "ASCII text, with CRLF line terminators"
+Sent a new commit here : https://lists.openembedded.org/g/openembedded-core=
+/message/230983
 
-Hi,
+Best Regards,
+Pratik
 
-Thanks for respinning the patch.
+________________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: Wednesday, February 11, 2026 1:10 PM
+To: Pratik Farkase; openembedded-core@lists.openembedded.org
+Cc: pratik.farkase@ericsson.com
+Subject: Re: [OE-core][PATCH v2] libsolv: add ptest support
 
-The license file format change was actually the other way round, and we
-should say which license was changed. So, perhaps this should be:
+On Tue Feb 10, 2026 at 7:49 PM CET, Pratik Farkase wrote:
+> Add ptest support to enable automated testing of libsolv
+> using ptest-runner.
+>
+> The implementation uses upstream's test infrastructure:
+> testsolv binary, runtestcases.sh script, and testcase data.
+> The test suite runs 28 test categories covering solver
+> functionality, package dependencies, and repository handling.
+>
 
-    License-Update: In vendored lark library, line endings in the
-        license file were changed from CRLF to LF.
+Hi Pratik,
 
->=20
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../python/python3-poetry-core_2.2.1.bb       | 41 -------------------
->  .../python/python3-poetry-core_2.3.0.bb       | 40 ++++++++++++++++++
->  2 files changed, 40 insertions(+), 41 deletions(-)
->  delete mode 100644 meta/recipes-devtools/python/python3-poetry-core_2.2.=
-1.bb
->  create mode 100644 meta/recipes-devtools/python/python3-poetry-core_2.3.=
-0.bb
->=20
-> diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.2.1.bb b/=
-meta/recipes-devtools/python/python3-poetry-core_2.2.1.bb
-> deleted file mode 100644
-> index 45af8768e9..0000000000
-> --- a/meta/recipes-devtools/python/python3-poetry-core_2.2.1.bb
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -SUMMARY =3D "Poetry PEP 517 Build Backend"
-> -DESCRIPTION =3D "Poetry PEP 517 Build Backend"
-> -HOMEPAGE =3D "https://github.com/python-poetry/poetry-core"
-> -BUGTRACKER =3D "https://github.com/python-poetry/poetry-core"
-> -CHANGELOG =3D "https://github.com/python-poetry/poetry-core/blob/master/=
-CHANGELOG.md"
-> -
-> -LICENSE =3D "Apache-2.0 & BSD-2-Clause & BSD-3-Clause & MIT"
-> -LIC_FILES_CHKSUM =3D "\
-> -    file://LICENSE;md5=3D78c39cfd009863ae44237a7ab1f9cedc \
-> -    file://src/poetry/core/_vendor/fastjsonschema/LICENSE;md5=3D18950e83=
-62b69c0c617b42b8bd8e7532 \
-> -    file://src/poetry/core/_vendor/lark/LICENSE;md5=3Dfcfbf1e2ecc0f37acb=
-b5871aa0267500 \
-> -    file://src/poetry/core/_vendor/packaging/LICENSE;md5=3Dfaadaedca9251=
-a90b205c9167578ce91 \
-> -    file://src/poetry/core/_vendor/packaging/LICENSE.APACHE;md5=3D2ee411=
-12a44fe7014dce33e26468ba93 \
-> -    file://src/poetry/core/_vendor/packaging/LICENSE.BSD;md5=3D7bef9bf4a=
-8e4263634d0597e7ba100b8 \
-> -    file://src/poetry/core/_vendor/tomli/LICENSE;md5=3Daaaaf0879d17df011=
-0d1aa8c8c9f46f5 \
-> -"
-> -
-> -SRC_URI[sha256sum] =3D "97e50d8593c8729d3f49364b428583e044087ee3def1e010=
-c6496db76bd65ac5"
-> -
-> -inherit python_poetry_core pypi
-> -
-> -PYPI_PACKAGE =3D "poetry_core"
-> -UPSTREAM_CHECK_PYPI_PACKAGE =3D "${PYPI_PACKAGE}"
-> -
-> -RDEPENDS:${PN}:append:class-target =3D "\
-> -    python3-compression \
-> -    python3-core \
-> -    python3-crypt \
-> -    python3-io \
-> -    python3-json \
-> -    python3-logging \
-> -    python3-netclient \
-> -    python3-pprint \
-> -    python3-shell \
-> -"
-> -
-> -RDEPENDS:${PN} +=3D "\
-> -    python3-pip \
-> -"
-> -
-> -BBCLASSEXTEND =3D "native nativesdk"
-> diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.3.0.bb b/=
-meta/recipes-devtools/python/python3-poetry-core_2.3.0.bb
-> new file mode 100644
-> index 0000000000..ce783d49df
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-poetry-core_2.3.0.bb
-> @@ -0,0 +1,40 @@
-> +SUMMARY =3D "Poetry PEP 517 Build Backend"
-> +DESCRIPTION =3D "Poetry PEP 517 Build Backend"
-> +HOMEPAGE =3D "https://github.com/python-poetry/poetry-core"
-> +BUGTRACKER =3D "https://github.com/python-poetry/poetry-core"
-> +CHANGELOG =3D "https://github.com/python-poetry/poetry-core/blob/master/=
-CHANGELOG.md"
-> +
-> +LICENSE =3D "Apache-2.0 & BSD-2-Clause & BSD-3-Clause & MIT"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D78c39cfd009863ae44237a7ab1f9c=
-edc \
-> +                    file://src/poetry/core/_vendor/fastjsonschema/LICENS=
-E;md5=3D18950e8362b69c0c617b42b8bd8e7532 \
-> +                    file://src/poetry/core/_vendor/lark/LICENSE;md5=3Dba=
-5edf8d60cf416b5588b1e6f152fcef \
-> +                    file://src/poetry/core/_vendor/packaging/LICENSE;md5=
-=3Dfaadaedca9251a90b205c9167578ce91 \
-> +                    file://src/poetry/core/_vendor/packaging/LICENSE.APA=
-CHE;md5=3D2ee41112a44fe7014dce33e26468ba93 \
-> +                    file://src/poetry/core/_vendor/packaging/LICENSE.BSD=
-;md5=3D7bef9bf4a8e4263634d0597e7ba100b8 \
-> +                    file://src/poetry/core/_vendor/tomli/LICENSE;md5=3Da=
-aaaf0879d17df0110d1aa8c8c9f46f5 \
-> +                    "
+Thanks for the new version, as Ross said, the previous one got merged.
 
-Please undo the formatting change here to reduce the size of the diff.
-The only line that should change in LIC_FILES_CHKSUM is the lark license
-checksum.
+Still your changes are valuable.Can you send them as another commit on
+top on the current master branch?
 
-> +
-> +SRC_URI[sha256sum] =3D "f6da8f021fe380d8c9716085f4dcc5d26a5120a2452e0771=
-96333892af5de307"
-> +
-> +inherit python_poetry_core pypi
-> +
-> +PYPI_PACKAGE =3D "poetry_core"
-> +UPSTREAM_CHECK_PYPI_PACKAGE =3D "${PYPI_PACKAGE}"
-> +
-> +RDEPENDS:${PN}:append:class-target =3D "\
-> +    python3-compression \
-> +    python3-core \
-> +    python3-crypt \
-> +    python3-io \
-> +    python3-json \
-> +    python3-logging \
-> +    python3-netclient \
-> +    python3-pprint \
-> +    python3-shell \
-> +"
-> +
-> +RDEPENDS:${PN} +=3D "\
-> +    python3-pip \
-> +"
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
+Thanks,
+Mathieu
 
-I see that you've also sent a follow-up patch to update to poetry-core
-v2.3.1, feel free to merge that in to this patch when you send v3.
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Best regards,
-
---=20
-Paul Barker
-
-
---=-mqo1K8Id7LgyLPwmDHa5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIwEABYKADQWIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaYxeRRYccGF1bEBwYXVs
-YmFya2VyLm1lLnVrAAoJEKtjVOyduvRuDIQBAPqTy4Ji6ExbSgeWCVtHdGRB02tP
-RDoAc+Cs5yeaktZxAQD8MhQzFGOQZghMQuL7r6iULYmVnrEP0IuahHWlriwKDA==
-=OBZE
------END PGP SIGNATURE-----
-
---=-mqo1K8Id7LgyLPwmDHa5--
 
