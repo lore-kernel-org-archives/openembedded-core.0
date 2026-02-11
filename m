@@ -1,114 +1,145 @@
-Return-Path: <hongxu.jia@windriver.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC7FEB596D
-	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 07:00:35 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13715.1770793228493954899
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A15F4EB5978
+	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 07:36:35 +0000 (UTC)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14167.1770794496587025013
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Feb 2026 23:00:28 -0800
+ Tue, 10 Feb 2026 23:21:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=CDTll1p+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6502e09c5b=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61B57P2E4111902
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 23:00:28 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=4jbsWmVjiOhxkZUgkT/Tv4cSrPkTgQ10tKo8telfds0=; b=CDTll1p+T7pj
-	N75heztnjk63RxHkMIT31D3FiV+UDDEkL5dpQ3BrpS0dd67RCGRyl/c2FuE+Reij
-	sOeolMw1hd8EhDEEVnDo6Ojk9u/s4OOAdZRkz6+yUn/I02h/fOOhgdY8fqV437y4
-	TUy4sazQltb3trTsyYFi2xhACLP3LgpJf3EWn2FFvzJP3Pdljxp6Ltta7vX7hXvj
-	jfZecxvW7Kue2alA9sR+33fsowtC/UbKIztOVKGuc2vsy7QNgwAq8wehhdHPOi0I
-	3Bf5s/sxoZhDoifoHlMZRZ6GUYwKI01EnK2P3J9ipO4uJdvcWZWsmiFC08lwuNLd
-	0TEJAs4KSw==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c65sj40je-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 23:00:27 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 10 Feb 2026 23:00:27 -0800
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 10 Feb 2026 23:00:26 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] libcxx: remove no-atomics from PACKAGECONFIG
-Date: Wed, 11 Feb 2026 15:00:26 +0800
-Message-ID: <20260211070026.3805544-1-hongxu.jia@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jzqTBePp;
+ spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: careers.myinfo@gmail.com)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5fadd5d4319so1355972137.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Feb 2026 23:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770794495; x=1771399295; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Fo0644taKZShK/Sidd8QPaJNjBHik2K7QD7b2lAemg=;
+        b=jzqTBePpd1n2HSLWPE6pkBIFbvcjVzK12naQDtmKnMKyVufByfiAA9YXu1Y0gxEtwt
+         lwrYMxu6FkoQU6fb7TvbHh+6MV1tQxTjHrLtmg/t1NcpK3U7i6ZzbcHJeym9IQPxHfvX
+         RB2eEMiU588SmvexUHsppSmyiEKGOkGTwZy2OAbjMJNBuwBLVtpReB7mYP3Z3RbrPAtI
+         QYA/7JpO//9K6n/LRATTIthe78ujaeYS0lYbDQBeJ/ujMId45Ou4lZIWOf/0jveV3Bqx
+         4FGvp8hEGX/GMonDQptCPQ9bCvqbaFMXzNNpFoUrUuusfsFYwKuE9fShMVquCTGZ1k0p
+         fldQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770794495; x=1771399295;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3Fo0644taKZShK/Sidd8QPaJNjBHik2K7QD7b2lAemg=;
+        b=i6zhIS5jEpIg2cCnVZ1LXHAt7wuaN+8tXvl/WAbHtB/8vRltG5L9dhmEtvJJ3e1hSr
+         zkpHZQ7ACAVsBW1BxA94q4aMmvrueAWcF/78F8PxrzsrYpDs7qNpQ3EnDcgiOjtAcSFP
+         WZKhA6i00HUixgk3SCYHUFretL4j3YfVtnJ9Tx9+/7GKAAUtSq3a6cZjswrsOi/aUE+s
+         0q/sEstWIN2roVFGRvmHcCPkycAOts5ZlHAw4QC/S11Lnf9VtLgoup07HyssRk3n410Y
+         zAh+lUnsPW8kzveeI74TqcD4QeXpwytjzy1+HKMIQy7nfEiy+vuNPQASqrOMQcN0lueq
+         opWg==
+X-Gm-Message-State: AOJu0YzjUpDun7nJ18SIoqp/mTQflxcCMQXbmnYBI+dU7eNcYQqUTxCv
+	zev7zKSsHO+wV7WPaKqxBRO4FZOsygNPflg6FQvmehvrHDwa/bxGZgGDM7IKzUnN
+X-Gm-Gg: AZuq6aIrJebVxMZtpDs1S+uTPzOG/Uu4s7pRQgLNSPmBQ9NUtmf8CfxvlFQNbTJVwOV
+	bzIpyhvq+gTGQ9EZTbzbEho2rDFuIKrE0K6Uo4IR41QXmrX1ueZcZ/XKO8L0OYu94gMUQiN65nR
+	I+VZH7VXw89amTjh9/S2lH2twHPsqxXGyaCqRqn5Q3YHaYu/BUAy/sDy1VAFmscuCLSAQLjlNpq
+	9aX0Tj1+zK1oWikAiUDV5cOgGrMQbyAZVR6AXg9++Qz9rcQFePXwOAi5tCYEXkpK67ZNp3O4gFE
+	lNDckWegl9ES4MylIDPuciz/m3Gk2z8cZmF4kbO99LJKWsCio/gFarVxCY2af4OVfoXqKloxRDa
+	KWBF9om/cjndHBGQxCOHOwydUItf1RPi4DHGleVHNY7QfdxZpSjL69X3TcBG3aeBZ5rSAyk5gT4
+	fCUTnpTB6G5qK/nnMp7v2gaQWOFi6FKehOyfY=
+X-Received: by 2002:a17:903:1b28:b0:295:99f0:6c66 with SMTP id d9443c01a7336-2a9516d5a18mr184743405ad.36.1770794116896;
+        Tue, 10 Feb 2026 23:15:16 -0800 (PST)
+Received: from L-15597L.kpit.com ([152.57.35.36])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab29966d91sm12861085ad.45.2026.02.10.23.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 23:15:16 -0800 (PST)
+From: Shaik Moin <careers.myinfo@gmail.com>
+X-Google-Original-From: Shaik Moin <moins@kpit.com>
+To: openembedded-core@lists.openembedded.org
+Cc: careers.myinfo@gmail.com
+Subject: [OE-core][kirkstone][PATCH v2 2/2] libpcre2: fix RunGrepTest Failure on Busybox systems
+Date: Wed, 11 Feb 2026 12:44:31 +0530
+Message-Id: <20260211071431.76890-2-moins@kpit.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <18931EDCB5AFC3EA.653184@lists.openembedded.org>
-References: <18931EDCB5AFC3EA.653184@lists.openembedded.org>
+In-Reply-To: <20260211071431.76890-1-moins@kpit.com>
+References: <20260211071431.76890-1-moins@kpit.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: oq5DAdR5RD1h3t3_aD1g8MeMXvaFo24n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjExMDA1NSBTYWx0ZWRfX3FTNJdlOlJ+s
- 4PAUu+sK2656JB17K3m3Qc2I6UeymxG6SH0Mry6PGm0oUWOqrjKEqrH6FkWgv2JWRBAYd85NRVF
- haEX3LyN/Ar4oz243wvohQ3Sr/Dpz2BUm1dn8yKEdo/NB/EsYVmxJpA41R7gUBUbgSrHSO+eldl
- sG0WBGCPZ9Sdr+thYpVjT2ZRkERjfLfVd7t+FOmNn2wF84iHRUVr921TW/HdLofGsKqF3Gr5cRT
- nJoDkrXrVWBRQKBiljzX22n5L2btf5IG9wudX20pacf8WdKJVQF/f2O6YWQ8QVyZ8MJGNKM10SI
- MT4QrFrYDljushK1aXZUlBNfuEi2h1S0re58s63Px27/huvLHMaH36TyB0xp+hL2fawHEzntTgB
- 8JwfXlMtkDBAdGnAztPyy6H9lrb1WZbogrBs9/wURz5p7bJVBf8MJ3ohDgR9IM6tXsSTKuDK3Ko
- xFXWCtFBhSqXNGqn94w==
-X-Proofpoint-GUID: oq5DAdR5RD1h3t3_aD1g8MeMXvaFo24n
-X-Authority-Analysis: v=2.4 cv=Cpyys34D c=1 sm=1 tr=0 ts=698c290b cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=1iA87dXzgTxTssnFzAwA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-10_03,2026-02-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602110055
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 07:00:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230966
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Feb 2026 07:36:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/230968
 
-In commit [1], upstream has dropped _LIBCXXABI_HAS_ATOMIC_BUILTINS,
-clean up no-atomics from PACKAGECONFIG otherwise build for qemuarmv5
-failed
+The PCRE2 RunGrepTest script uses the Gnu Coreutils form:
+head -1
 
-$ echo "MACHINE = 'qemuarmv5'" >> conf/local.conf
-$ bitbake libcxx
-...
-| tmp/work/armv5e-oe-linux-gnueabi/libcxx/21.1.8/recipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/
-arm-oe-linux-gnueabi-ld: cannot find -latomic: No such file or directory
-| arm-oe-linux-gnueabi-clang++: error: linker command failed with exit code 1 (use -v to see invocation)
-...
+Busybox does not support this shorthand option and reports:
+head: invalid option --'1'
 
-[1] https://github.com/llvm/llvm-project/commit/f8b1cc36578608f2f840d7ea8b0aa9b28fdaa492
+which cause the grep tests fail when running ptest on yocto.
+Replace head -1 with head -n 1 . This makes RunGrepTest work
+correctly.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Shaik Moin <moins@kpit.com>
 ---
- meta/recipes-devtools/clang/libcxx_git.bb | 2 --
- 1 file changed, 2 deletions(-)
+ .../libpcre2/0001-test-Fix-head-1-Busybox.patch | 17 ++++++++---------
+ meta/recipes-support/libpcre/libpcre2_10.40.bb  |  1 +
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
-index fee7cfc9ea..42b2c91e43 100644
---- a/meta/recipes-devtools/clang/libcxx_git.bb
-+++ b/meta/recipes-devtools/clang/libcxx_git.bb
-@@ -13,10 +13,8 @@ inherit cmake
- BPN = "libcxx"
+diff --git a/meta/recipes-support/libpcre/libpcre2/0001-test-Fix-head-1-Busybox.patch b/meta/recipes-support/libpcre/libpcre2/0001-test-Fix-head-1-Busybox.patch
+index de37888854..d17ec6a731 100644
+--- a/meta/recipes-support/libpcre/libpcre2/0001-test-Fix-head-1-Busybox.patch
++++ b/meta/recipes-support/libpcre/libpcre2/0001-test-Fix-head-1-Busybox.patch
+@@ -5,22 +5,22 @@ Subject: [PATCH] tests: Fix head options for BusyBox compatibility
  
- PACKAGECONFIG ??= "exceptions ${@bb.utils.contains("TC_CXX_RUNTIME", "llvm", "llvm-unwind", "", d)}"
--PACKAGECONFIG:append:armv5 = " no-atomics"
+ BusyBox does not accept the GNU coreutils shorthand forms:
+   head -1
+- 
++
+ It requires:
+   head -n 1
+- 
++
+ This causes RunGrepTest and the grepoutput test data to fail on
+ Yocto-based systems that use BusyBox.
+- 
+-Replace all occurrences of `head -1` Ã¢â€ â€™ `head -n 1`
+- 
++
++Replace all occurrences of `head -1` to `head -n 1`
++
+ This aligns the scripts with POSIX syntax and fixes failing
+ grep tests in RunGrepTest (including testtrygrep).
+- 
++
+ Upstream-Status: Inappropriate [oe-specific]
+ Signed-off-by: Shaik Moin <moins@kpit.com>
+ ---
+- 
++
+ diff --git a/RunGrepTest b/RunGrepTest
+ index 1c7bbd2..ab4f310 100755
+ --- a/RunGrepTest
+@@ -34,5 +34,4 @@ index 1c7bbd2..ab4f310 100755
+  echo "RC=$?" >>testtrygrep
  
- PACKAGECONFIG[exceptions] = "-DLIBCXXABI_ENABLE_EXCEPTIONS=ON -DLIBCXX_ENABLE_EXCEPTIONS=ON,-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF -DLIBCXX_ENABLE_EXCEPTIONS=OFF -DCMAKE_REQUIRED_FLAGS='-fno-exceptions',"
--PACKAGECONFIG[no-atomics] = "-D_LIBCXXABI_HAS_ATOMIC_BUILTINS=OFF -DCMAKE_SHARED_LINKER_FLAGS='-latomic',,"
- PACKAGECONFIG[llvm-unwind] = "-DLIBCXXABI_USE_LLVM_UNWINDER=ON,-DLIBCXXABI_USE_LLVM_UNWINDER=OFF"
+  echo "---------------------------- Test 133 -----------------------------" >>testtrygrep
+--- 
+-2.34.1
++--
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.40.bb b/meta/recipes-support/libpcre/libpcre2_10.40.bb
+index cd9ae7563c..1d10c2e9b8 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.40.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.40.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=41bfb977e4933c506588724ce69bf5d2"
+ SRC_URI = "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
+     file://CVE-2022-41409.patch \
+     file://run-ptest \
++    file://0001-test-Fix-head-1-Busybox.patch \
+ "
+ UPSTREAM_CHECK_URI = "https://github.com/PhilipHazel/pcre2/releases"
  
- DEPENDS:append:class-target = " virtual/cross-c++ ${MLPREFIX}clang-cross-${TARGET_ARCH} virtual/${MLPREFIX}libc compiler-rt libgcc"
 -- 
 2.34.1
 
