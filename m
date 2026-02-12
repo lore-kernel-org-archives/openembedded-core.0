@@ -1,115 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A4FEB4912
-	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 11:43:03 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43200.1770896576823300874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54624EB491A
+	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 12:31:04 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43978.1770899461302711173
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Feb 2026 03:42:56 -0800
+ Thu, 12 Feb 2026 04:31:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CCIoX8KA;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8c7120353f1so645001085a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 03:42:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770896576; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GwinPzD031BxW7uK9zEiusX9VQGPKIItlKLNXQXsrq+DMX8vYSdWlaDXG65AXQX+em
-         vklNQDlW7IAa2BITyirKotqK15O5UFkgbZuHV1WZjVQGpLiOgb57F+Xp74rzdY7ZXbei
-         qUnJSp883zzN4A1p+JeWMnBeiLX1/4LBka3VixYIXqkzlAobIMT13jfBkdJf8N1Lit8M
-         zCxnDWxORz47sia0b+a1lho+CakVpwbkQ1FsHEqo0K5+oAPZvR81esIwvGmPE/poJRI8
-         0pPCHb4+tq2rsK1BiMVHz4FUGjPEDtC1ApdJogb+qHT5lMEmkzabEiaK5JGWr7C5PcvR
-         b5Nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Wvs9yUjnvct/HMO20C+6PpYdrK44GpewOkODV4f+TW8=;
-        fh=GUvEGEcNGOV3jMOSaxLlPgkLl8zb/XGrvGx7aKAQ9fA=;
-        b=Ga099czobI6lDM8WrC/jQ7nOpgcXcsE3SJLp64MYfIIdO4kMjpntUgjMaXo3BslxY5
-         /QYZBmUoC2Dd0QOOrq3YGbcDwUwRooM+eSip3XoMgpEcvV3qhHie7hv64zdGkiizryl0
-         OPkdnx3a2KqeXx/667w2Sv7NbZZCoamXImN8gBuPpmLmPA1qBk+bCQs6xBJmVAfOeYls
-         xKXrOePSeMRTdA94Nt3K5aOuLU9yt8NiaabOrzFg51cHUF2bwGr2/yKkJYGXCVKORdlC
-         8Z9FPTrXEN6ktsZKVtEKllAbJKrCwbfhA9/bjlTbDRacqonDZtVZ6jIRetmRTCEGUwUf
-         zeAQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@mvista.com header.s=google header.b=BfKn8lYC;
+ spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2aaecf9c325so13682845ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 04:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770896576; x=1771501376; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wvs9yUjnvct/HMO20C+6PpYdrK44GpewOkODV4f+TW8=;
-        b=CCIoX8KAbSoRb4WRGx0JKJIV17+k0UV5hn3sqBqXNFQBCYjwLNSf5DDbZZXRSIuAjB
-         dVngwHysxrlbaqNZyZvw+tiRwG/JrXEMq82FzWnBk+TxceI7oONbX8j8zD80+SW3mAQ3
-         A1f+4nEXb6vQugiGAmUXedLkxoZ9euBnQIjSzQawooj/k8ybclUMYKyRwUXoHrgwnqZS
-         nkBBv2s/pD97TFScXjmS4NJp5ON2otFP9IewXshEJXNFtz/eO6qYj4bx7F6WilxIrt71
-         NUUBgWWb9PCz+PB1zR9VYh6ZZKM4WOcL1Fi2eu1BexyPVqJQIJ+wpi/JmcGBP8hcHBz1
-         dLDg==
+        d=mvista.com; s=google; t=1770899460; x=1771504260; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CK5EnkekGzG67XcbbFu3DBFEVcAm2m6yVBhhkXe2PL4=;
+        b=BfKn8lYCoDf9dycsJAdWj6ORt1iBfOzSyRcNS+6I4yWGXQePVHxU1Nymep9A9+cPAZ
+         5edshiBVoAu2cHilBnEeSPLR0qQjw6XE19XD6+mWiMmyqfBe51Xk/qAk65r8k+0rGxsV
+         h/W8hLGY6gUigAAxD3S6ewhWRbGBnsVIcfxCs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770896576; x=1771501376;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1770899460; x=1771504260;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wvs9yUjnvct/HMO20C+6PpYdrK44GpewOkODV4f+TW8=;
-        b=LJJakj9H6qXuqN2CF8grMUsNXf0PSZ2Bw4pQpZWrTni2s6flZAOt/kxjT2c9yLg8GM
-         MjBVzM9pHZUu87jMwHQLgS5h8aIfRh8/OtROlnF9fAPHTjmyA2u98l55nsOZDGllCS6T
-         l3YfZMC7U32iM/4w0Ua9TYexz/9mHIfqlKSkgOxLG+1d5yEUhjOHyt6Vc75Zx7TghqkS
-         xpRbeeqpWUr9CvIZpaCdrhmB1MEYxnM7vhH2942GirPjBTmkVp2OFWzJMFSXhRXu69t7
-         qnXClErlsvhYR4Aav+4ZKsuqKLkU9QfL/St28bjrrZIP0j4d6s5+ZIHW+j7PFceMYJ0s
-         4Tlg==
-X-Gm-Message-State: AOJu0Yyf3aWEYdA/ln+Wj3VLnLDlLZj3ZOBnCZM/On+sbMf27zJvCGXR
-	gyhS94GJHMprvVjmwH/yj/XWf1xs7QgOXstAQAZJRgOjQB39tfk0MOmefdcNaRTN6avFZ6ruuIu
-	mArMqAJmpf18hxThNOulpClNh6qlSe/qINw==
-X-Gm-Gg: AZuq6aL4ra1VDwNaYtDmo1Zz0MihZr/DHTmZKAXcwWekFvcTjkBhEApneRKgbJ7To54
-	wZ7boPPP8bc/gLmb9Ihd/0XAt3NxwrN6tjMBmY2xygffLmZ+rxic+YJkZlxGUzYUq6WjH/qo6YT
-	1ok9SEJ6OuO5EaCUTTZKWaPwDwTM0hgbEpJwSyr8Cci7o+ZoD8RTJGreFsPd1dilLdmxy4Cm4JV
-	LLKcFqzlPRFm4jIxHf/pgO0aKvpkiNlK656wsLGnxkIPmBvzdARdbj6pv06AKV+gIXO8o0eD7ro
-	9G2U59VZFzUrj4IXb4bsKUVJLw14vQTgGMJLFzZ6tXFPXeyzkYVP
-X-Received: by 2002:a05:620a:4491:b0:8b2:eb66:c64 with SMTP id
- af79cd13be357-8cb330a4bcdmr296474085a.29.1770896575800; Thu, 12 Feb 2026
- 03:42:55 -0800 (PST)
+        bh=CK5EnkekGzG67XcbbFu3DBFEVcAm2m6yVBhhkXe2PL4=;
+        b=pSi5jOnZcDq9x2X3RVwzIPpn/0NL850IvyGY4an9friJZTn6egOiANw/VnImfKXMJ2
+         ErdIM7WXY1YzrdgsaQ6qwCRv/bUyoAgaQHJgPPWGMHc7TMKojdmBVW83koZ/UbxMptFm
+         ZRl3IbTjlj8sd1QPpAycYE6KF5C/PvWPvAaJkOioEPBN/FX0JbkQGbDzhyPQnnGvVh55
+         DI5DUMjswIEyp0uplM2fwnoaB86uIQKu6INvUMhmQn323f00PjYleMlgbN4o/QZN4TKL
+         HDzrmwKi/pO5gocygJBB6JlyzU34sSW24MXqJDvxrxAiMmyM5J3YTpep7UKIIAJs9uHO
+         ca3g==
+X-Gm-Message-State: AOJu0YxNJSEOgSky76CV4ga7fz/hoievDlA4+6y4fX9ZXlVlmFwOORhE
+	Ax1ZhYKioWULdKr1X797IytgDHE5CEgQQRhL9expHq0teLSDKcOyehSY94QMGZVLelvlVoNcWUc
+	9e5gRd9I=
+X-Gm-Gg: AZuq6aKII3xXGF7DNW8n0DV6azorbwmuSyWRddpFoNxbciEb0h49kDQJ8LDBhjBk0n9
+	otrlGiVr1qYS6KKf/iAOxrQL1Rx3QfG7R9mDu5r7PiC9CrOvFcaM8yXEczT6coc1zvGLkGmYstI
+	LkthW04k1beqLzonpTNSTMkWyWdYCDLApyw19M9nAR3O3hTe9f5dMDE2LqmmhN6evAOwZap3WWp
+	I2yizJ0F2ryTcOkzu/C+DXOqNMV8nmmr7EWKriyrlCm8NmnuIxITSYCIPg+X9Wy2y2vi/fBE35d
+	0vLmRgLs9PkQ35NhJ6DDISzp3W7spaMLs/VgRHSh2yWdz2gA26spJU8Yxd0oTj/HmBuue9diNlw
+	J+157zAP3/Pt/9Fn4+kqxitlNwWWyx7DhONzpqhDGPjQfu7mVyfGgH5ngBB04u8wW1jnMQh9fLE
+	1eLmEl7KJMnjEt6M7Rj3RwW55K6pci98j5ZrdetNE+OhZB1g==
+X-Received: by 2002:a17:902:da89:b0:2aa:d320:e965 with SMTP id d9443c01a7336-2ab3abe40d7mr23208875ad.21.1770899460074;
+        Thu, 12 Feb 2026 04:31:00 -0800 (PST)
+Received: from localhost.localdomain ([2406:7400:54:f9ef:c02c:80a8:c3a:3ad2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab2984ad4asm52150725ad.6.2026.02.12.04.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 04:30:59 -0800 (PST)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] bind: Upgrade 9.18.41 -> 9.18.44
+Date: Thu, 12 Feb 2026 18:00:50 +0530
+Message-Id: <20260212123050.59590-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20260129035353.8982-1-liuyd.fnst@fujitsu.com> <20260129035353.8982-7-liuyd.fnst@fujitsu.com>
- <CANNYZj9TRt0GqyafY0eD+bwuTBUb3iEeBFD16po7kxPHwQJ-Kg@mail.gmail.com>
- <TY3PR01MB1011061788269D6E4EAC2C8999B9FA@TY3PR01MB10110.jpnprd01.prod.outlook.com>
- <OS3PR01MB101063210892B4305F30BCF669B99A@OS3PR01MB10106.jpnprd01.prod.outlook.com>
- <CANNYZj8-gEgL9Vu5XhWAttKdpKO+Py7XkwRM2b-Es7OfjH7HmA@mail.gmail.com>
- <TY3PR01MB10110F8354668695ABA48A8879B65A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
- <CANNYZj-n=j-Z4eOYhPfEp77zjHg7NfT0WpOn8ZNVQjnM3DZOTw@mail.gmail.com>
- <TY3PR01MB10110B64798FF535BF65516019B63A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
- <CANNYZj8RYWPvi+stELUXo0Bvt6-pW-kVNBdQppfaXze-decngA@mail.gmail.com> <TY3PR01MB10110E9B9E9D485578765BEDE9B60A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB10110E9B9E9D485578765BEDE9B60A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Feb 2026 12:42:44 +0100
-X-Gm-Features: AZwV_QgBPioGwZv1_S-B-XCKbpBP3NT6BexMWS_LpqvZ_hyJxfMTut4n7vOnilM
-Message-ID: <CANNYZj8VuJ4MMkooa6xfPr1kJ2ajhg7ejB2K-0aFWOO850qaNg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 6/6] orc: Enable hotdoc to produce doc
-To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 11:43:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231026
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 12:31:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231027
 
-On Thu, 12 Feb 2026 at 03:16, Yiding Liu (Fujitsu)
-<liuyd.fnst@fujitsu.com> wrote:
-> > I am starting to lean towards just adding all of the needed recipes to
-> meta-oe to be honest
->
-> Yes, I am also prefer to add new recipes to meta-oe as meta-oe already have half of the RDEPENDS.
->
-> Then I will send following patchset
-> a. Send hotdoc and its depend recipes to meta-oe.
-> b. Send orc/gstreamer docs enable patches to oe-core.
->
-> Is that ok?
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Yes please. The oe-core patches should make all the changes that are
-needed to enable docs (e.g. add PACKAGECONFIG[doc], adjust
-dependencies, etc.), but not actually enable them by default, as
-default oe-core must work without meta-oe :)
+This upgrade fixes CVE-2025-13878
 
-Alex
+Changelog
+==========
+https://downloads.isc.org/isc/bind9/9.18.44/doc/arm/html/notes.html
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../bind/{bind_9.18.41.bb => bind_9.18.44.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind_9.18.41.bb => bind_9.18.44.bb} (97%)
+
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.41.bb b/meta/recipes-connectivity/bind/bind_9.18.44.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.41.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.44.bb
+index 0e557163d5..64dbdf890a 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.41.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.44.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "6ddc1d981511c4da0b203b0513af131e5d15e5f1c261145736fe1f35dd1fe79d"
++SRC_URI[sha256sum] = "81f5035a25c576af1a93f0061cf70bde6d00a0c7bd1274abf73f5b5389a6f82d"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
+-- 
+2.25.1
+
 
