@@ -1,180 +1,97 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E4DEE36A7
-	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 16:43:05 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.49972.1770914582865873415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16813EE36A7
+	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 16:45:26 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.49635.1770914720539632970
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Feb 2026 08:43:02 -0800
+ Thu, 12 Feb 2026 08:45:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E751339
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 08:42:56 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2CE2C3F63F
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 08:43:02 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] cmake: remove obsolete patches
-Date: Thu, 12 Feb 2026 16:42:53 +0000
-Message-ID: <20260212164254.1110652-6-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260212164254.1110652-1-ross.burton@arm.com>
-References: <20260212164254.1110652-1-ross.burton@arm.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=lzOZ+fEN;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 3B900C23DA6;
+	Thu, 12 Feb 2026 16:45:27 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B05FC606B8;
+	Thu, 12 Feb 2026 16:45:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 38B3F1036888C;
+	Thu, 12 Feb 2026 17:45:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1770914716; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=cFjMpaxSRkI4Zl6ER6cyzAnpQf9pLoOLoh+exv6vyM8=;
+	b=lzOZ+fENVah4csmcm5XKWpaAmruLivsO4lK0NSFSyQ38E5JaTY1sNqw+oupQZLJBjAWG3e
+	0HPLzRMAKMjNTmSM2vAimzBk/o+ZFuzw5mn8Ss8xS868mlDihByKY/fqyYNZz6rQh8top9
+	Z/VvHpZ8sYIak5WYAtZ0krJomrLGxxXVrkROSC5Fbg4wOK7Vvnr1SM1mrWmlAxxhOp1lUR
+	h1Jm8Mr+9OJRGmWWDWyn7eZ1xMwSWC4f6upMDcRIz4gggGg2h0CpKUM7Hbt2qXbKPt6dha
+	tHdYAsFgBNcPnBzL4p5ozqR6BcP6DjwF5+MrRPi3ZGK+uBA1HpoQUNkjfOHVtA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Feb 2026 17:45:10 +0100
+Message-Id: <DGD4VEZTM65I.2V08DA6RR8L95@bootlin.com>
+Subject: Re: [oe-core][PATCHv15 1/6] emptty: add version 0.15.0
+Cc: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+ <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <rs@ti.com>, <richard.purdie@linuxfoundation.org>, <alex@linutronix.de>,
+ <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260203012028.4008229-1-rs@ti.com>
+ <20260203012028.4008229-2-rs@ti.com>
+In-Reply-To: <20260203012028.4008229-2-rs@ti.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 16:43:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231046
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 16:45:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231047
 
-0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch can be
-replaced with two variable assignments to seed the results we want.
+On Tue Feb 3, 2026 at 2:20 AM CET, Randolph Sapp via lists.openembedded.org=
+ wrote:
+> From: Randolph Sapp <rs@ti.com>
+>
+> Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
+> relatively lightweight display manager that supports x11 as well as
+> wayland through both a CLI and an automatic login mechanism.
+>
+> This can effectively replace the custom init scripts for both x11
+> (xserver-nodm-init) and wayland (weston-init) with a single tool with
+> more verbose logging capabilities.
+>
+> This is split into two recipes. The emptty package provides the binary
+> and various agnostic configs while the emptty-conf package provides the
+> default configuration for the application itself. This RPROVIDES
+> virtual-emptty-conf, allowing other recipes to provide their own
+> configurations to override the default behavior.
+>
+> Signed-off-by: Randolph Sapp <rs@ti.com>
+> ---
 
-0002-CMakeLists.txt-disable-USE_NGHTTP2.patch is not needed anymore as
-the vendored curl will disable the use of nghttp2 automatically if it
-isn't found.
+Hi Randolph,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../cmake/cmake-native_4.2.3.bb               |  5 ++-
- ...ext2fs-ext2_fs.h-by-cmake-s-internal.patch | 38 -------------------
- ...2-CMakeLists.txt-disable-USE_NGHTTP2.patch | 36 ------------------
- 3 files changed, 3 insertions(+), 76 deletions(-)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-Disable-use-of=
--ext2fs-ext2_fs.h-by-cmake-s-internal.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0002-CMakeLists.txt=
--disable-USE_NGHTTP2.patch
+This patch has been in my branch for a week now, but we are seeing some
+intermittent reproducibility issues.
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_4.2.3.bb b/meta/rec=
-ipes-devtools/cmake/cmake-native_4.2.3.bb
-index a4d5327438..cf800d4854 100644
---- a/meta/recipes-devtools/cmake/cmake-native_4.2.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_4.2.3.bb
-@@ -5,8 +5,6 @@ DEPENDS +=3D "bzip2-replacement-native xz-native zlib-nat=
-ive ncurses-native zstd-n
-=20
- SRC_URI +=3D "file://OEToolchainConfig.cmake \
-             file://environment.d-cmake.sh \
--            file://0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-inter=
-nal.patch \
--            file://0002-CMakeLists.txt-disable-USE_NGHTTP2.patch \
-             "
-=20
- LICENSE:append =3D " & BSD-1-Clause & MIT & BSD-2-Clause & curl & Apache=
--2.0"
-@@ -37,6 +35,9 @@ EXTRA_OECMAKE +=3D "\
-     -DHAVE_SYS_ACL_H=3D0 \
- "
-=20
-+# Ensure e2fsprogs isn't found on the host to remove a build dependency =
-and reproducible builds.
-+EXTRA_OECMAKE +=3D "-DHAVE_EXT2FS_EXT2_FS_H=3D0 -DHAVE_WORKING_EXT2_IOC_=
-GETFLAGS=3D0"
-+
- do_configure () {
- 	${S}/bootstrap --verbose --prefix=3D${prefix} \
- 		${@oe.utils.parallel_make_argument(d, '--parallel=3D%d')} \
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-Disable-use-of-ext2fs=
--ext2_fs.h-by-cmake-s-internal.patch b/meta/recipes-devtools/cmake/cmake/=
-0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch
-deleted file mode 100644
-index 7a717f72d8..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0001-Disable-use-of-ext2fs-ext2_f=
-s.h-by-cmake-s-internal.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From d3859840c134012b18e3bca7e4bab60c9bc8efd5 Mon Sep 17 00:00:00 2001
--From: Otavio Salvador <otavio@ossystems.com.br>
--Date: Thu, 5 Jul 2018 10:28:04 -0300
--Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
--
-- libarchive copy
--Organization: O.S. Systems Software LTDA.
--
--We don't want to add a dependency on e2fsprogs-native for cmake-native,
--and we don't use CPack so just disable this functionality.
--
--Upstream-Status: Inappropriate [config]
--
--Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-----
-- Utilities/cmlibarchive/CMakeLists.txt | 8 ++------
-- 1 file changed, 2 insertions(+), 6 deletions(-)
--
--diff --git a/Utilities/cmlibarchive/CMakeLists.txt b/Utilities/cmlibarch=
-ive/CMakeLists.txt
--index 9957052d..71a7aeb5 100644
----- a/Utilities/cmlibarchive/CMakeLists.txt
--+++ b/Utilities/cmlibarchive/CMakeLists.txt
--@@ -734,12 +734,8 @@ LA_CHECK_INCLUDE_FILE("copyfile.h" HAVE_COPYFILE_H)
-- LA_CHECK_INCLUDE_FILE("direct.h" HAVE_DIRECT_H)
-- LA_CHECK_INCLUDE_FILE("dlfcn.h" HAVE_DLFCN_H)
-- LA_CHECK_INCLUDE_FILE("errno.h" HAVE_ERRNO_H)
---LA_CHECK_INCLUDE_FILE("ext2fs/ext2_fs.h" HAVE_EXT2FS_EXT2_FS_H)
---
---CHECK_C_SOURCE_COMPILES("#include <sys/ioctl.h>
---#include <ext2fs/ext2_fs.h>
---int main(void) { return EXT2_IOC_GETFLAGS; }" HAVE_WORKING_EXT2_IOC_GET=
-FLAGS)
---
--+SET(HAVE_EXT2FS_EXT2_FS_H 0)
--+SET(HAVE_WORKING_EXT2_IOC_GETFLAGS 0)
-- LA_CHECK_INCLUDE_FILE("fcntl.h" HAVE_FCNTL_H)
-- LA_CHECK_INCLUDE_FILE("fnmatch.h" HAVE_FNMATCH_H)
-- LA_CHECK_INCLUDE_FILE("grp.h" HAVE_GRP_H)
-diff --git a/meta/recipes-devtools/cmake/cmake/0002-CMakeLists.txt-disabl=
-e-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0002-CMakeLists.t=
-xt-disable-USE_NGHTTP2.patch
-deleted file mode 100644
-index c03e5e2364..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0002-CMakeLists.txt-disable-USE_N=
-GHTTP2.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 811ad63aeff08fb6308203989f6cc664d00a2fa9 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Wed, 28 Dec 2022 17:51:27 +0800
--Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
--
--nghttp2 depends on cmake-native to build, to break circular
--dependency, disable nghttp2.
--
--Upstream-Status: Inappropriate [oe specific]
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
--
--Adjust the patch to apply on top of v3.28.3.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--
--Adjust the patch to apply on top of v3.30.1.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Utilities/cmcurl/CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Utilities/cmcurl/CMakeLists.txt b/Utilities/cmcurl/CMakeLis=
-ts.txt
--index 63d3a4f5..ab5f1c50 100644
----- a/Utilities/cmcurl/CMakeLists.txt
--+++ b/Utilities/cmcurl/CMakeLists.txt
--@@ -109,7 +109,7 @@ set(USE_ECH OFF)
-- set(USE_HTTPSRR OFF)
-- set(USE_LIBIDN2 ON)
-- set(USE_LIBRTMP OFF)
---set(USE_NGHTTP2 ON)
--+set(USE_NGHTTP2 OFF)
-- set(USE_NGTCP2 OFF)
-- set(USE_OPENSSL_QUIC OFF)
-- set(USE_QUICHE OFF)
+I opened a bugzilla entry by error, as for a second I thought this patch
+was merged, so details can be found here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16171
+
+Diffoscope output is here:
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260212-ssslvz6_/=
+packages/diff-html/
+
+Can you have a look at what is going wrong please?
+
+Thanks,
+Mathieu
+
 --=20
-2.43.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
