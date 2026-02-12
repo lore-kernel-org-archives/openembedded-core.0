@@ -1,114 +1,100 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0463EE369F
-	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 16:39:05 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.49836.1770914342107153138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CDAEE3695
+	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 16:42:05 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.49938.1770914523419476250
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Feb 2026 08:39:02 -0800
+ Thu, 12 Feb 2026 08:42:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=PawGH9mU;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7C1A01A0E4B
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 16:39:00 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 44E58606B8;
-	Thu, 12 Feb 2026 16:39:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 49B4F103682C4;
-	Thu, 12 Feb 2026 17:38:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1770914339; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=q5r+hEPINYYOwmf00cmZjxDwdZ4GLOXsRS8nmn9bo/s=;
-	b=PawGH9mUPopPFqqWBY472juqsCAdwBeSYHxeU5V24NM92QS3KUXjV+E/Fh3k90a8Mbyf0M
-	dm691lBFSzrvfexXRP5Mj89pXWfbEB43SaYUXzPw7neLZt7sPy4qYl/q0nwDJjgd9K1iWi
-	RruOU7DiuK79H/HbwH24lHIvrTe9c3lPzIKIMH54+6tBrdkcxdEwjsqcj20s/4sYLzhIyi
-	wsqnsJ3BN97xLm+NeOV+Di92RKYYw3GjHLVoPssORLofw4GmJFaTEn0vCjg0nA0INyiw5m
-	SlumFWotb9/ywKyd9oD4KPPk6jdpV49zaOi2t5S9SR1RQ07d9uxqr+/nCaBFug==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Feb 2026 17:38:58 +0100
-Message-Id: <DGD4QO4N38MH.11MGPG2TIVUHJ@bootlin.com>
-Subject: Re: [OE-core] [PATCH 0/3] Disable OpenSSL and Python3-cryptography
- legacy features by default
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <colinmca242@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260211184917.1045939-1-colinmca242@gmail.com>
-In-Reply-To: <20260211184917.1045939-1-colinmca242@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=yZYAJFcq;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=cIsKNReNsM7PJeyyCc7RmvYARD24EV8M4gSHREc+rlo=; b=yZYAJFcqUfmwoq9P50O9ebmTSE
+	rHEtrql9JCCUTUpS2/OdQsQOl8o1QvLwPO+TCSMLNgHLeG85VYBBVEvor5ZkgzB9EzxZ/rVfNF82x
+	vMu4Dvli5WoVFEI/1AhW7v1Oy7fhHTGSnN1M1CuKiZZba+JROWLggV6kPo7c7cbu9xHvIiFwinrrt
+	6SZuuxha9QN21LBbMZT6XRVQtd2ZHc+NjuHyqdngi655zNgWlvvVgcspymoHzdzIodYjqUFQXy1Uh
+	DhKSSh8tlGfDwsvY+cnM0YvmX2R+Z65yaaFSHtrYj50RmDbQbWIZB2gpKlv8c8hYFc//9yIDyF+Bn
+	dj7VWTOw==;
+Received: from pool-174-115-41-146.cpe.net.cable.rogers.com ([174.115.41.146]:51888 helo=rday)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.1)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1vqZlR-00000003yWW-3Thr
+	for openembedded-core@lists.openembedded.org;
+	Thu, 12 Feb 2026 11:42:02 -0500
+Date: Thu, 12 Feb 2026 11:43:44 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: error about "allarch packagegroup" for a NOT allarch packagegroup
+Message-ID: <39c95a51-e40c-6d9c-a111-67fe556b11cd@crashcourse.ca>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 16:39:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231039
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 16:42:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231040
 
-On Wed Feb 11, 2026 at 7:49 PM CET, Colin McAllister via lists.openembedded=
-.org wrote:
-> TLS 1.0 and 1.1 have been deprecated by the IETF since 2021, and
-> OpenSSL's legacy module contains deprecated and unmaintained components.
-> This series disables legacy support by default in both OpenSSL and
-> python3-cryptography, requiring users to explicitly opt-in if needed.
->
-> The first two patches add packageconfig options to control legacy TLS
-> protocol support and the legacy OpenSSL module. The final patch aligns
-> python3-cryptography with the new OpenSSL defaults.
->
-> Note that the TLS 1.0/1.1 changes replace the existing "no-tls1" and
-> "no-tls1_1" packageconfig options with affirmative "tls1" and "tls1_1"
-> options that are disabled by default. While less disruptive to enable
-> the "no-*" options by default, using affirmative options provides
-> consistency with the new "legacy" option and is clearer than having
-> default-enabled "no-*" options.
->
-> Testing performed:
-> * Verified both recipes build successfully with and without the new
->   options
-> * Ran OpenSSL ptests with legacy enabled/disabled and TLS 1.0/1.1
->   disabled
-> * Ran python3-cryptography ptests with legacy-openssl disabled
-> * Confirmed ptests correctly skip tests for disabled legacy features
->
-> Colin Pinnell McAllister (3):
->   openssl: Disable TLS 1.x by default
->   openssl: Add legacy packageconfig option
->   python3-cryptography: Disable legacy-openssl by default
->
->  meta/recipes-connectivity/openssl/openssl_3.5.5.bb | 14 +++++++++-----
->  .../python/python3-cryptography.bb                 |  2 +-
->  2 files changed, 10 insertions(+), 6 deletions(-)
 
-Hi Colin,
+  re-organizing an existing build into using packagegroups (walnascar
+OE/YP release), and i defined the following packagegroup to collect
+all the TPM/TSS stuff:
 
-Thanks for your patch.
+  SUMMARY = "TPM, TSS stuff"
 
-It looks like we are having some ptest failing on the autobuilder:
+  inherit packagegroup
 
-Failed ptests:
-{'python3': ['test_min_max_version', 'python3']}
+  PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3075
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3030
+  RDEPENDS:${PN} = " \
+    tpm2-tools \
+    tpm2-openssl \
+    libtss2 \
+    libtss2-tcti-device \
+    libtss2-tcti-mssim \
+    tpm2-abrmd \
+    tpm2-totp \
+    tpm2-tss \
+    tpm2-tss-engine \
+  "
 
-Test logs can be found here:
+during the build:
 
-https://valkyrie.yocto.io/pub/non-release/20260212-56/testresults/qemux86-6=
-4-ptest/core-image-ptest-python3/
-https://valkyrie.yocto.io/pub/non-release/20260212-56/testresults/qemuarm64=
--ptest/core-image-ptest-python3/
+  ERROR: packagegroup-tpm-1.0-r0 do_package_write_deb: An allarch
+  packagegroup shouldn't depend on packages which are dynamically
+  renamed (libtss2-tcti-device to libtss2-tcti-device0)
 
-Can you have a look at this error?
+  ERROR: packagegroup-tpm-1.0-r0 do_package_write_deb: An allarch
+  packagegroup shouldn't depend on packages which are dynamically
+  renamed (libtss2-tcti-mssim to libtss2-tcti-mssim0)
 
-Thanks,
-Mathieu
+but as you can see, i don't define an "allarch" packagegroup and
+explicitly set:
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+  PACKAGE_ARCH = "${MACHINE_ARCH}"
 
+and yet, i get that error. nevertheless, the build finishes and
+creates an image.
+
+  i'm confused.
+
+rday
 
