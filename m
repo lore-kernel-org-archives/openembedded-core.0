@@ -1,410 +1,210 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF8DEE36BD
-	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 18:06:06 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51957.1770919564938888466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A65E1EE36BE
+	for <webhook@archiver.kernel.org>; Thu, 12 Feb 2026 18:11:06 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.51743.1770919862968216202
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Feb 2026 10:06:05 -0800
+ Thu, 12 Feb 2026 10:11:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T7S6OypZ;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b8f992167dcso4915166b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 10:06:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770919563; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NbKv7KqROUptMjz+/UM+VY7l9KM1ArLUjPJXodmAge0N7lbM1X+wbyW/RR0cEr7eH9
-         oIpVbaErG4L3c16twN+uRz4leXz3PKeNYuNv/wDlk6+fdwJdtUj+pGrh+f8rM635alZK
-         WKCdhp6ZLmZ2hgNot2MLNKMGjEGjWCBCEHTxIO3u7BO3BjETEZOt6LDearpBfUKW23OY
-         6A+4T3p4bA031ousbd4+eqrySalNxcddlg7TM5VhdMY7F/anuRTZGbsioPA35dguw+Ay
-         G/8aUoD40oYNnnWGjLG8gp0U/1lRdjnAqEgZde1vghZtQGpRM18JW0mt+zT8s5KRrpNS
-         7AcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=chCErQ00Sr9113lDTVhN8Ad/wrz4WO+6FWIXa0k/1Nk=;
-        fh=3dgrv7p2BhCezp8MNN+0x0yDLz6nNB6QdcmuvE5XUQk=;
-        b=U7+R+SBFplSvR80WhtE42auymAnmTF9znDaT83f0wBsoNy9JPewSCIBqBeqOy2favE
-         /hBAsmeoDqqusYitGB2vdw6HInsoAoAmc0+Kruh7lmb3thWMWYgXZx3rTNcioWE/+L2f
-         IpxQvFmbHzCjVuyRwiUCKL8oDLfkkG7Y1P+IiwlSNF8GRKwP5P62X05RSDOv+O9OuWgV
-         Z5aygqMDFa65Hi51lnqi6P6MM5rCInYG+/xAf7BiXSBkriM4VncKQqA/iB0HxPNEtydj
-         oYc5BD80b2KUMDEUtenD6kUj8nXTMDYfKYCvJNx5EBa44pGnDUR2KOXpo107r8MlPzPn
-         KZhw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770919563; x=1771524363; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=chCErQ00Sr9113lDTVhN8Ad/wrz4WO+6FWIXa0k/1Nk=;
-        b=T7S6OypZC8msWnlJXgUVDocjtxLZ0jBnT0fWii1t+ENi1J6CYGzhnqIZZU+tyzk7gs
-         CivpEKq6yRS5jtWROIFPpSAu4mbBI4RaRT18rXTGHoyCxxo2TaAMYV976CVczVAaG480
-         UxoPTuRCmfJbJhVBV16lFYkcAMCo1U3O8hX9AYVow31fcsQRI4CMj1cDY5cVRSUMolw9
-         lZj2+GZgdXgmAufv9KhQzbL+NjUqpeaiaptG/l9c912eFIu8gVkR9Btjkk6UYaOoNuaR
-         o46jEYv5sf1AN7Sge1kP/VP4ugyqPBcv0ycTN/rNabR0Bll3kbFzUd+bcjrlKGAQ5eq8
-         FEXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770919563; x=1771524363;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=chCErQ00Sr9113lDTVhN8Ad/wrz4WO+6FWIXa0k/1Nk=;
-        b=es+V4pQP97EySCNnCxprr7DmWQKqrZZ3WRX4w0ML2WIdfGf8aDTna/QVsbXUslGHQO
-         pSx450wOqyZpj67MqDcbid2EOgS3G8ZInBegNaGOVscdOBwa2gZCeSphCG2elzrO6TRd
-         CTwXRbdS01BQ6reFrdWHuwnkPzABUO8GSO7iplSCwTalzOllOu2gDbE/ka9aAt9d1i+1
-         DIGPpkkVeR3YKWFA2zn0fC4SVJObECeBIUm/6VlMOPFBiLvKn9YbJkktkhWMl9Du7jWl
-         gbZ6BnIgsvRa+xvM/A1bl3YpDoEYIy6hVLLhfJdVyzjqG1xA4HhWIno87DRUifGUhtwb
-         HXJA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEGMKsYXgGxis8VnvlZTXa9IYjqDtXLGFQwMaImz5IH0I3A51zCX6ejj6fQkq4/iJEg/kpQZvf2cEW/7Colno2/w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx8v5Wat1tLJRLlaH7FFviDCyk2Mt+1QOdRu4pD3Dox8sePB6Qy
-	eKfm43T+faRJtwKSRQuxaQeRHTNsH0eH8hABEHt0qAuHd80irbIthUAEWCbUno13wmTyZTIlEm9
-	Wh6HZsjVBDk4ykql3oaVNIUbL1nxr8Nc=
-X-Gm-Gg: AZuq6aL3nXPusgU+Trz5Ne54BKZ+hnV7Xt5lowTbx9MB3QEKIes6/SHc87vFGu1F+Up
-	j/55IXe0QtuQeJP33xhRmJtX1iSBa7P9DveuwZDY8Z8ikSVJkbL2I4dD8KuB8i262f6CsH9WroR
-	cIHPVYvQ4ctUKtZoimMGNhdo9RDJ28SnEHgi/TNTHbLN7RvoG1bywaWibHxTw9ti2rSDcPJUWgk
-	6Tx0xTwF560EI3eB2Rc1iLfGEqu5TfUZYKoY2d+PfFKc4xsauvALrbnzqLDoh+KUis0GM4V5nOg
-	1oKOEe5JJw==
-X-Received: by 2002:a17:907:96a3:b0:b83:1327:920d with SMTP id
- a640c23a62f3a-b8f9268fb15mr186846966b.0.1770919562894; Thu, 12 Feb 2026
- 10:06:02 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Hzn7fk6Z;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6503562417=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61C7LA162401724
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 18:11:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=siQyC0Uwk
+	aQjRSw4a786w80d5C5GzzdzVmulZ1gM61Q=; b=Hzn7fk6ZomC1BseCzhDMswCu2
+	N/0uTkNhjPWtIlMrVOVvMxQ2+XG4UkLQdZ7jiSMYvLjG8NRm/ViFNnWwj1ZBipsi
+	boNedYNSzhwhwgu+ze6m1N1ApDRMhZIpy3PI9yucfFvWEABlfYZcKTH017pmJlPU
+	KflPyuvvwZ0JierOjnaII52tNV7GNMnx/buuMUrtblufMuwpUWcy+3qd2Ere/QoL
+	+f9xL4lzl/bAhsBhtlc6H/TD2g0dheTG/jzey/8IVVRsVaNHTUYG3abLQVzH8j7b
+	MJNLufaVKMytIaGSsLDu5HzVRQFJ/ZaK9ZVXc3lCvSLZN6DSRKpxmsn3nzh0w==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012021.outbound.protection.outlook.com [40.107.209.21])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c5tkwphfu-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 12 Feb 2026 18:11:00 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qosxT/Ae/dxvDfQpKPWrtP4RahW69nlHvyjDuyVdowmdx7tZ1JvRmjsMUMOwvrXuz18U2IUFRB90PZibSmGXgPSJg14qUmwpoV7qysvqQUkBmX9YyTmMStzfSEZ2h0pe/ZLf6VDVrn8gVFwXDw176g4/a3pPCWbySeDyzVfIwn8+SHS8UPiyzL2rsK8y/zmXlQaBGdEx8f+JhuN24vGkCpdN6bPwFhnfGgrkEO5OPTYg4pPTSzijK+rGxV3BWnjcwbeFxa018J5n/dYko9Pv+KJFNgXc+gNRqzV8MJLbMpGPdAn4meYnH1oZYBvITs9f9S3FmTVOSQCEg2WPBJmUDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=siQyC0UwkaQjRSw4a786w80d5C5GzzdzVmulZ1gM61Q=;
+ b=A4j7qVHkGC2dPJhaSD8lsycna4aGHgWDEIV6yAckrEHUnM1tF3YCzzVDR7YWCwoeVclJ4d4KYy3cMPuOZVDDjof38jG/c3lJvD8R8rQJb297ijFylKeHUh/Rs7AP3wSOI/6WRtHirj7ycO6d2K6cBKBnohETfUsDqiirxnVr5NLd03uaDmcJ7RwpLivvZ8u2ze1v4SBqc+WJTrXN24traRuoHyHL1cDstDjd1Zwp5Gyceo1k+par3aGy9MS0UlP5HwzarlUuTqT9IXnCH+l5eM3x3xAhUh4ZLT+balBErqEwUcu3daRorm+zUcTaRIoPNp0pUk05C5kLVxQPEB0A6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by PH8PR11MB6928.namprd11.prod.outlook.com (2603:10b6:510:224::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Thu, 12 Feb
+ 2026 18:10:58 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%4]) with mapi id 15.20.9587.013; Thu, 12 Feb 2026
+ 18:10:58 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
+        bruce.ashfield@gmail.com, paul@pbarker.dev, yoann.congal@smile.fr,
+        elmehdi.younes@smile.fr
+Subject: [PATCH v6 05/14] kernel-yocto-rust: Fix for buildpaths errors when rust is enabled for kernel
+Date: Thu, 12 Feb 2026 10:10:30 -0800
+Message-ID: <20260212181039.1826154-1-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR21CA0017.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::27) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
-References: <DM4PR11MB6189CC7075F52DA63D8CF527C463A@DM4PR11MB6189.namprd11.prod.outlook.com>
-In-Reply-To: <DM4PR11MB6189CC7075F52DA63D8CF527C463A@DM4PR11MB6189.namprd11.prod.outlook.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 12 Feb 2026 18:05:51 +0000
-X-Gm-Features: AZwV_QhoAX1VcHSEZsmYusVpLY7Rjw8glW2soZYnoDNCFdgWGqJaJcLCXgM876c
-Message-ID: <CANPvuR=7aa2kJM1VJLc-tx-VUfcss1DQ2zdDqXifFSeK-_mnVg@mail.gmail.com>
-Subject: Re: [OE-core] Clarification on handling recent CVEs for
- go-binary-native package
-To: deeratho@cisco.com
-Cc: Khem Raj <raj.khem@gmail.com>, "Viral Chavda (vchavda)" <vchavda@cisco.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Peter Marko <peter.marko@siemens.com>
-Content-Type: multipart/alternative; boundary="00000000000078e477064aa45706"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|PH8PR11MB6928:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c54e1fc-dd37-4a73-9617-08de6a621258
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?i17U5EB9zy9g7rqD4HSYLHJeHHZVDiBrthbDhxBLDtg9kQvNEdV0qB8jnGNo?=
+ =?us-ascii?Q?txVYGSksPDe2KD5iY+UfAoSANTfmQT2hzQpeSx2xkKtHIr2Vodw3kQTIH+jw?=
+ =?us-ascii?Q?BeqhCVVi3hfrGX/y/j015C8ESQkFhN6ENfW5I2+c2mmFjWhBjKAOm0qBk7y8?=
+ =?us-ascii?Q?pWJM6hTayzQuy/RZz7bhuo6IH21IEJkUX5o3nz26u2se/9vqJEv8G6blFeUw?=
+ =?us-ascii?Q?cZiUuR/AGk9HMbsfflpn9MWC6TGoBsUTVogSJ234RGOZRkQjcwHAfFOGt+oV?=
+ =?us-ascii?Q?mturMIq7HBXOASsmOXOkgVjrblA/zZVgHlTKzJUxfxshs7oUK4a5SYDKvQuY?=
+ =?us-ascii?Q?gyA2WfsNQIRp/nG4qGrjYnIieZb5KC4xO13XQ4+lMW9yP/dk+woKh53cfnvj?=
+ =?us-ascii?Q?nd02fZ72FjNZ5gafN4/mb309nQDxddcQyifH2xe2SdCbLa3hZtWmnplL/Vgo?=
+ =?us-ascii?Q?F7q/bmpcKEuF47tI0IZZvL2PZSPQGKi1TAKwbCQNdukaNLOrJeb4EHtbKOM2?=
+ =?us-ascii?Q?4YlAVEyfYBBRq8yWFkU4z2gLig1uxbDvpnOyTXV4N/EYzUmzycdcINqJHIkA?=
+ =?us-ascii?Q?5gkoMkLRWTaKKczJjMqKPebLOaBGBX9hw6TCw44WKbJSAI0dfxi45drK5T3d?=
+ =?us-ascii?Q?c8vwZVNBiC87S2QrI/jxzCEnxeS7BAXNxuccOAbb0EmjO9hzwx6efqn6KnmQ?=
+ =?us-ascii?Q?zIqw7V8wiq3L+OeGeOKX5w2vDRuxaOeDvYafcDCyXmouXw2so9wlV0D+qUx+?=
+ =?us-ascii?Q?KNgvimRhX28sumtIC0OaDXiEOpzNDQ94z7hwN78sGzes8IRz3T8bINbIC6fi?=
+ =?us-ascii?Q?7x+Q7bprC+SUndMnedTWC+SMCrtDwZYBJzQiL+3WwyxsN0G5CgIMcoykgvjT?=
+ =?us-ascii?Q?sg3orX7yiBFNjd0EXMOjDAIoVHMIR79bUnBjPGKcK+7XoZaXI6k4LlfWNAtZ?=
+ =?us-ascii?Q?QBIu0Ii+4amGgl1QQD9wU2NHdF2XpHRVo/ceBgIPahqaegjah9jEBAnkhyfX?=
+ =?us-ascii?Q?/X+1eMqPvDRfL9tJno3+MzDPCtxQT5yv+R45g5ZvVihT24d9GBcls5kYrPpk?=
+ =?us-ascii?Q?E/3fjdTf3SmqLmwZkt33nBP7bVmnLQ1qyroKgBFNjgjRR/SHllslj9fB7+ZP?=
+ =?us-ascii?Q?fNcnyUCUzyYpLoZd4FiijuGKaeYWZWHnC+hJ/ozZrv32YCL5STi+Vwjj2p41?=
+ =?us-ascii?Q?685UyHgvKzM/3qMPBBmpAWW9t5U1QkhyAvlZGX9wf3bXEsq2YLpRCJpoLBSC?=
+ =?us-ascii?Q?8RhYvZSsoVBclg6bingVXq4Rbkl+mHFwXSrttccWCIsJd1LDK3upZ/PzkEXL?=
+ =?us-ascii?Q?EhPHooEpnw0jBuFNsn1+42Ja64jza6lPI9tbR78y/NjY5Apr4/hkyJJtxvYh?=
+ =?us-ascii?Q?Yi84iR0Mrmlr0DpwU+KqoXj0FxCH7FOuxJRSLJCm/tMa5mSObt9EvcEnzGER?=
+ =?us-ascii?Q?OWmI56ZX2UcspHlR0GFrR7OxDpJp3wBlSp2hhzKkGC1HBt6K3FDoPbAaFMcN?=
+ =?us-ascii?Q?lJ/4P45ZVrKNh2qdp/JnHeuqLM8D6tEs4tvu0x/tZfayP/68qc09gxFI783/?=
+ =?us-ascii?Q?LkEoy1L+cLaoS1Ovm/U+tjAXawZCal6i/DWeHwswu52uwBwXpCjZwa/htRDQ?=
+ =?us-ascii?Q?OJVkPuR2DqinTyYSBRGnI2A=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?2H/sp2DQBuQk4nLxonU64kldoWz4SqLRuMNZkMDWHfv33sFzrv0qlLZBz9hQ?=
+ =?us-ascii?Q?9OTpA+1NAypUfV3yhb+q8/83X90ZrPGY64rua5kO0z4dusn/0bZE8ImpRspt?=
+ =?us-ascii?Q?wxoQCSuV/fvN9lJfrnij1YUxulO4L2u/lHqzXouWODAiP1u3Hc1Mr3VCM/6E?=
+ =?us-ascii?Q?tub/vjNp7L0pimROj7+KauCHqFFu80NdHsuBDxt7HME/25cAOl/3t+ISqtmG?=
+ =?us-ascii?Q?exaidNDdFZRLPvevv7f7+WRjo6tU46yBFpUCTIvk0Smi3JM17XIpuS0T4xCv?=
+ =?us-ascii?Q?mCuxHC6js0SsvF5F9+ooUm5mKEkwyv6WYlFiqokUYcotb0OqiXm1YvP5ot0S?=
+ =?us-ascii?Q?BX6Smscc/Xh443EQYe3tX6kSu7mPZcKgvMeoinZIZGVi+0umc3GqBSqBjfv7?=
+ =?us-ascii?Q?nT0o/A1kh8mcSAJNDynTAfs2Ce5iGs7RiQjmWA0ClECFhqV5AYT3DFSjvIqT?=
+ =?us-ascii?Q?b2sHTJcXyjI6GDlMU/iqx9naSXd4lzi0jCoYeRuaM3uo4Mcr3QIWrZNfKRH2?=
+ =?us-ascii?Q?jqvI851JSWc+5ycUv10MIuBIzvik2vEk/waZd0w0G+nj/qPQY33CLzFgEqH5?=
+ =?us-ascii?Q?JrJluHKpROzLUNdwbljvgYoEYen/tsyijfFagQTztF+zXrEoTZ74sHW1/j/k?=
+ =?us-ascii?Q?TwNz62OEI7Cz9VJGLUgQayWjUvQvNU71DL+arEIjg8qFOA2k4Vl+HNUYspjz?=
+ =?us-ascii?Q?EdEbgQ3XFkoVj7sVNlPNUpVWOQHdnvR3hxovYhX49Bgeq8fnp9hde2GRMu0S?=
+ =?us-ascii?Q?LTDClrD68mKJZLd7dHEIlpHJ1PwMsh9PE2p60HoEydEs/+dxZZqMgvKxRgEt?=
+ =?us-ascii?Q?oYlA776DPSxtbml23y7YZNLOM02sdNwb51Kx5Mcfy4la5Lb7ivt1+FjQ7yuj?=
+ =?us-ascii?Q?cKJS3XPSFkKy4+JSk2x4/9zbydrBJxgfsmo4DJD8ZBIhZHlp2Rq2kQWDPkxk?=
+ =?us-ascii?Q?h68baenr+VJpFqZGTzF40LwrNl7s3fz/0PYJPMTy0lD/cWCWgGdvwqBChUZZ?=
+ =?us-ascii?Q?bnHYHnnr/348SBILvb50mJLAg9ycHg0JlJme9hsRCf6j1GG1fYr56ymjghy0?=
+ =?us-ascii?Q?L5RtkI18hMQhOpjako2FPLNfD5KRAqnrFK8puPShIhYAb4OoBO0kBMH7D84e?=
+ =?us-ascii?Q?FSquED8ZutEfdHTeifn0TpZ0ExqMmeAZEmf2SiLEYlgwcpVlBtE/MWLba82M?=
+ =?us-ascii?Q?mUZYAnkSCRsz8DIKp07KiTzCKzGd6Tg0eRt5oHGaIklEooUjaN+ThW/qpQfR?=
+ =?us-ascii?Q?+m8tTEb2G02RzDjoi94DAkfVJ+O6Mcc34q4kzanxHJ301hRx64IS+5j1RpLg?=
+ =?us-ascii?Q?+to538bdu7yh2vh2qJu57lLFj8Wwb3Gl3H4cEBO5HT+i836+Us5KSgRc2X54?=
+ =?us-ascii?Q?cTvuuFodRmwwQ8G4FGk9+c5uA78daq/du0UFL9GW1cxhnhcqqkA+Hw6j2mBs?=
+ =?us-ascii?Q?UraLYe16u2yFsnQ/SYbXvjdbtpoMjDSXdqFW/ZsYPiMxAoqjSINZwmlOX6gw?=
+ =?us-ascii?Q?VrceJ5hrRfKG4vyMHOKeU/rLj2O6GXm+Be6jPQsD20TDhUZfvcH4DvKiplRy?=
+ =?us-ascii?Q?aAtQUppdTwrfMmnhBTfhM+ih8TAojWRp9NMmDDdp6DWRgKDAFzpQD6sksIJk?=
+ =?us-ascii?Q?IWjLcRoahcZ0vgy3XyDEOt5PgwOf6Cwdlg3NH9VzPvcuseCAiPie9vZaCmKA?=
+ =?us-ascii?Q?2jClRDLFKP0snz0abW0KruTYoK+4jpGnNSTJpCBIN8wRdF1jEzXJYQ4PHJ0P?=
+ =?us-ascii?Q?wJWWYzGdFOt4riXi4WXNSdO/XWfYKKg=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c54e1fc-dd37-4a73-9617-08de6a621258
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2026 18:10:58.1970
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jh07LYtXC3WGv1+rQzMfnGxmyNF4P0VEoNZwrPDhdLz7+U+DYjZmUj3S2e15wGgmo3jADFrw746tDe5EBD+6/Z2JwlG/z6awPwV9h/0qEdw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6928
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=bvBBxUai c=1 sm=1 tr=0 ts=698e17b5 cx=c_pps
+ a=oJa8ZcSO0M6ZbQlUw3N+2w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=t7CeM3EgAAAA:8
+ a=JTVBbxAFR3XZCbc8QrEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: Us_EFjoIaEcB8C8MHE-x2S0nZwpbzmnc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDE0MCBTYWx0ZWRfXzPaQvbZpyrWM
+ M6Z7leG4c8C1j1bvv7RgzOY0G+Qj2+JA7njFp3EbL3vFRT4q7mMxBEiXAwK67iVe0Pldo0isD6m
+ Et1mcPULC5BhImWlpEiVhmly1cJls8KBokOGzhEGIsnJI0rlXCXTFY8JwlZzLDSlhsW4Y5h3GdZ
+ UEOmb2YmW9arRVlorFPRJ/FOeoPZ5Z0rlIEWAbdm30qdess7rzRUC9WumvC/eeV5PAk5+k1qxBG
+ n1Le9shEInOHxB2gj3DGTeGjErHUDmW0a+YrHeBNbE4LbkVj3dHay55Wk5Q4UGC3EkI9MZmhhi8
+ E7neM9SirGEkGFHtkNZgFioCoiZFVcFJqfxQMNdMEWcBYI1z65qJJqG23cpLcQaGpnXSFIDo7P/
+ aNjdgJ8FokUj8iwA6sz9EDHffHzQ+iAtzun1ONLIr9CKbo8WN9aC6OvJdthyFSyJRlflspWfNmh
+ gXNjOV3Z0Qpv3Yg3zRQ==
+X-Proofpoint-ORIG-GUID: jQBAZRj3rQh9VWrZEneZvTbIshULt13v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-12_05,2026-02-12_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602120140
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 18:06:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231060
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 18:11:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231061
 
---00000000000078e477064aa45706
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Hi Deepak,
+Fixes for buildpaths errors after enabling rust for linux-kernel
 
-The go-binary-native was used to bootstrap the go toolchain, we take it
-from the official go upstream https://go.dev/dl.
-Perhaps this is the ideal place to report such problems, so that they can
-create new binary packages with the referred CVE fixed.
+-Introduced KRUSTFLAGS to pass `--remap-path-prefix` to rustc while
+ building kernel with rust support.
 
-Jose
+Co-authored-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+---
+ meta/classes-recipe/kernel-yocto-rust.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Deepak Rathore via lists.openembedded.org <deeratho=3D
-cisco.com@lists.openembedded.org> escreveu (quinta, 12/02/2026 =C3=A0(s) 11=
-:15):
+diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
+index 7acc81764f..fd9ee91c79 100644
+--- a/meta/classes-recipe/kernel-yocto-rust.bbclass
++++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+@@ -4,6 +4,12 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
++RUST_DEBUG_REMAP = "--remap-path-prefix=${WORKDIR}=${TARGET_DBGSRC_DIR} \
++                    --remap-path-prefix=${TMPDIR}/work-shared=${TARGET_DBGSRC_DIR} \
++"
++KRUSTFLAGS = " ${RUST_DEBUG_REMAP}"
++EXTRA_OEMAKE:append = " KRUSTFLAGS='${KRUSTFLAGS}'"
++
+ RUST_KERNEL_TASK_DEPENDS ?=  "rust-native:do_populate_sysroot clang-native:do_populate_sysroot bindgen-cli-native:do_populate_sysroot"
+ do_kernel_configme[depends] += "${RUST_KERNEL_TASK_DEPENDS}"
+ 
+-- 
+2.49.0
 
-> Hello Khem Raj,
->
-> Several new CVEs have been assigned to go-binary-native package (as liste=
-d
-> below). Based on the recipe, it=E2=80=99s been observed that it uses preb=
-uilt
-> instead of being built from source code. Can you please help to understan=
-d
-> the procedures and how we can address applicable CVEs for these packages?
-> Do we have any identified plan to address it?
-> CVEs affecting go-binary-native:
->
->    1. CVE-2025-4674 (CVSS 8.6) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-4674
->    2. CVE-2025-47906 (CVSS 6.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47906
->    3. CVE-2025-47907 (CVSS 7.0) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47907
->    4. CVE-2025-47912 (CVSS 5.3) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47912
->    5. CVE-2025-58185 (CVSS 5.3) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58185
->    6. CVE-2025-58187 (CVSS 7.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58187
->    7. CVE-2025-58188 (CVSS 7.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58188
->    8. CVE-2025-58189 (CVSS 5.3) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58189
->    9. CVE-2025-61723 (CVSS 7.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61723
->    10. CVE-2025-61724 (CVSS 5.3) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61724
->    11. CVE-2025-61726 (CVSS 7.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61726
->    12. CVE-2025-61727 (CVSS 6.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61727
->    13. CVE-2025-61728 (CVSS 6.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61728
->    14. CVE-2025-61729 (CVSS 7.5) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61729
->    15. CVE-2025-61730 (CVSS 5.3) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61730
->    16. CVE-2025-61731 (CVSS 7.8) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61731
->    17. CVE-2025-68119 (CVSS 7.0) =E2=80=93
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-68119
->    18. CVE-2025-22873 (CVSS3: 3.8) -
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-22873
->    19. CVE-2025-61732 (CVSS3: 8.6) -
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61732
->    20. CVE-2025-68121 (CVSS3: 10.0) -
->    https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-68121
->
-> Thanks for the guidance.
-> Regards,
-> Deepak Rathore
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#231022):
-> https://lists.openembedded.org/g/openembedded-core/message/231022
-> Mute This Topic: https://lists.openembedded.org/mt/117772424/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000078e477064aa45706
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Deepak,</div><div><span style=3D"color:rgb(0,0,0);=
-font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,=
-sans-serif;font-size:14.6667px"><br></span></div><div>The go-binary-native =
-was used to bootstrap the go toolchain, we take it from the official go ups=
-tream <a href=3D"https://go.dev/dl">https://go.dev/dl</a>.<br>Perhaps this =
-is the ideal place to report such problems, so that they can create new bin=
-ary packages with the referred CVE fixed.</div><div><br></div><div>Jose<br>=
-<br></div><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr"=
- class=3D"gmail_attr">Deepak Rathore via <a href=3D"http://lists.openembedd=
-ed.org">lists.openembedded.org</a> &lt;deeratho=3D<a href=3D"mailto:cisco.c=
-om@lists.openembedded.org">cisco.com@lists.openembedded.org</a>&gt; escreve=
-u (quinta, 12/02/2026 =C3=A0(s) 11:15):<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div class=3D"msg5349306685256782562">
-
-
-
-
-<div dir=3D"ltr">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-Hello Khem Raj,</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"text-align:left;text-indent:0px;margin:0px 0px 16px;font-fami=
-ly:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-seri=
-f;font-size:11pt;color:rgb(0,0,0)">
-Several new CVEs have been assigned to go-binary-native package (as listed =
-below). Based on the recipe, it=E2=80=99s been observed that it uses prebui=
-lt instead of being built from source code. Can you please help to understa=
-nd the procedures and how we can address
- applicable CVEs for these packages? Do we have any identified plan to addr=
-ess it?</div>
-<div style=3D"text-align:left;text-indent:0px;margin:0px 0px 16px;font-fami=
-ly:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-seri=
-f;font-size:11pt;color:rgb(0,0,0)">
-CVEs affecting go-binary-native:</div>
-<ol style=3D"text-align:left;list-style-type:decimal;display:flex" start=3D=
-"1">
-<li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calib=
-ri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0);text-indent:0px;lin=
-e-height:1.5em">
-<div role=3D"presentation">CVE-2025-4674 (CVSS 8.6) =E2=80=93 <a id=3D"m_-8=
-18348975960448073OWA1ca65b70-2398-03b0-72aa-f6b65488c9c6" href=3D"https://w=
-eb.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-4674" target=3D"_blank">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-4674</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0);line-height:1.=
-5em">
-<div role=3D"presentation">CVE-2025-47906 (CVSS 6.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA03eb7f5f-f911-91b1-39a2-4ec6d8a647c3" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47906" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47906</a>=C2=A0=
-</div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0);line-height:1.=
-5em">
-<div role=3D"presentation">CVE-2025-47907 (CVSS 7.0) =E2=80=93=C2=A0 <a id=
-=3D"m_-818348975960448073OWAd648b0f1-8296-0aca-a4f3-a32276fcd43c" href=3D"h=
-ttps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47907" target=3D=
-"_blank">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47907</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0);line-height:1.=
-5em">
-<div role=3D"presentation">CVE-2025-47912 (CVSS 5.3) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWAdd1864ae-ee5d-c2d3-c187-ffa55eed96ac" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47912" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-47912</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-58185 (CVSS 5.3) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA52e020ea-8789-fa5f-a93e-4de70d33d2f9" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58185" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58185</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-58187 (CVSS 7.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA3b049d8b-dfbc-c545-b452-0db3658eed8f" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58187" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58187</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-58188 (CVSS 7.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA1f4c4514-a4d2-872d-0423-97f2679ffad0" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58188" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58188</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-58189 (CVSS 5.3) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWAb1e0ec13-4e18-11a9-de6d-9f00af3ae02b" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58189" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-58189</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61723 (CVSS 7.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWAa19e3313-c643-b167-b907-28bfef219c30" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61723" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61723</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61724 (CVSS 5.3) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWAedb52fb5-fd50-88a8-ab42-7c239a83375f" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61724" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61724</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61726 (CVSS 7.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA35b8ed61-7426-8373-2906-abce07c55d53" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61726" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61726</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61727 (CVSS 6.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA4954b624-f264-158b-b67a-5a225347140b" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61727" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61727</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61728 (CVSS 6.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWAcf766b56-f631-f45a-12bd-9ce27067e6e1" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61728" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61728</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61729 (CVSS 7.5) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA21d344e7-b9f0-122a-6999-449a0e1536a0" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61729" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61729</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61730 (CVSS 5.3) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA401e0b88-fc2c-149e-852f-5f6d32f4d363" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61730" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61730</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61731 (CVSS 7.8) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWAe34bb81d-6c1c-b9fb-45f2-c61688a285eb" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61731" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61731</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-68119 (CVSS 7.0) =E2=80=93 <a id=3D"m_-=
-818348975960448073OWA952d0b72-9f9c-bd94-dce5-abacb4ad9cd3" href=3D"https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-68119" target=3D"_blank=
-">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-68119</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-22873 (CVSS3: 3.8) - <a href=3D"https:/=
-/web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-22873" target=3D"_blan=
-k">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-22873</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-61732 (CVSS3: 8.6) - <a href=3D"https:/=
-/web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61732" target=3D"_blan=
-k">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-61732</a></div>
-</li><li style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
-Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<div role=3D"presentation">CVE-2025-68121 (CVSS3: 10.0) - <a href=3D"https:=
-//web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-68121" target=3D"_bla=
-nk">
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2025-68121</a></div>
-</li></ol>
-<div style=3D"text-align:left;text-indent:0px;line-height:1.5em;margin:0px =
-0px 16px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,H=
-elvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-Thanks for the guidance.</div>
-<div style=3D"text-align:left;text-indent:0px;line-height:1.5em;margin:0px;=
-font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,=
-sans-serif;font-size:11pt;color:rgb(0,0,0)">
-Regards,<br>
-Deepak Rathore</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<br>
-</div>
-</div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#231022): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/231022" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/231022</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117772424/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117772424/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</div></blockquote></div><div><br clear=3D"all"></div><div><br></div><span =
-class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
-ail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</d=
-iv></div></div></div>
-
---00000000000078e477064aa45706--
 
