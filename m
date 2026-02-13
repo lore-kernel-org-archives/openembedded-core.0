@@ -1,281 +1,480 @@
-Return-Path: <rs@ti.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D923EEA853
-	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 01:37:08 +0000 (UTC)
-Received: from CY7PR03CU001.outbound.protection.outlook.com (CY7PR03CU001.outbound.protection.outlook.com [40.93.198.59])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.61596.1770946622768676613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CA9EEA874
+	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 01:41:38 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.61668.1770946895308198358
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Feb 2026 17:37:03 -0800
+ Thu, 12 Feb 2026 17:41:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=opyh7wBM;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.198.59, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dlIwCcFlnJA06FtBgAVdVSh6Ua8/vMxvFIg0zKmGAXhDZrvqn4wB1iteAsS5Fgzabh7hHoHIAoe/xLKRgDpCi9kCG5/MGnAWQwZXE8MRKSmc1K230mWhS2BPA91DWbhM5TLNNrk401AoIP/SZrCVh9QF0iwtDpFTpR6zXzvWYH7lOfiLPv8kPmBcAixkIf2SpMOAAccyVMTODMfvE2xDrD8JNgzxpZEvThXDC14q5m5BJNFJYLGB1xXIpybiCP6TgEYgwairQ8YuLf/ILtpTyzOpgK0X+/TY8Re6bhKX2x2PsDOdFCwi1/ngwVLWhtcbVWhf/457hReN2BnEHuwbcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k9r2hA6lvqXwU7l5nfhS21YdHAN2YoXpyS0u7u5hCg8=;
- b=i1GEHrjmf66z3pihrjMqQYYnhLHbxnRedD72Nz/VEscUhq8V9KazAWXwIO8nU+7rt7/pPaILW4VJkVcXOgHmRjwG/Yqm7akUpN/ABtXV2iNeJWic0C4J/XPMegomJS3D37hG3lvxfCqzezLeS+Ouo07LjtmhXE8hVbZxbpat+uMu4Y5vKeTyj/HkMDH/QMLF/g928hrqs8zhNVCWejy4VeustMlGepqvt0zyNLFxMSUaeNCiwlmkLKWilNFJBZRX6GwrAMh+dHLg5mANweou7qvqXEkmpHed11mHDsM+s7kzA88DNVrB9l3iVZaex65u08c++zeXpRADpwOBEf7JHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k9r2hA6lvqXwU7l5nfhS21YdHAN2YoXpyS0u7u5hCg8=;
- b=opyh7wBMRxBjPQnwyra2uGCovabr6hA4YA7AYmd+cgyTR6t2o/fi6FmDZL5J3RwlUmKiGSBuujd6zGUPsXg1R+fkJh5cThAerqwGzVBkDPkrlcEoIGAfdYuIKu2yxYO8x3tBHdS/krMGveQLAX1unh/fs8r4FoHyHNG6+xNUeAw=
-Received: from BY5PR16CA0024.namprd16.prod.outlook.com (2603:10b6:a03:1a0::37)
- by PH7PR10MB6532.namprd10.prod.outlook.com (2603:10b6:510:203::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Fri, 13 Feb
- 2026 01:37:00 +0000
-Received: from BY1PEPF0001AE1B.namprd04.prod.outlook.com
- (2603:10b6:a03:1a0:cafe::91) by BY5PR16CA0024.outlook.office365.com
- (2603:10b6:a03:1a0::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9611.10 via Frontend Transport; Fri,
- 13 Feb 2026 01:37:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BY1PEPF0001AE1B.mail.protection.outlook.com (10.167.242.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9611.8 via Frontend Transport; Fri, 13 Feb 2026 01:36:59 +0000
-Received: from DLEE209.ent.ti.com (157.170.170.98) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 12 Feb
- 2026 19:36:59 -0600
-Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 12 Feb
- 2026 19:36:59 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 12 Feb 2026 19:36:59 -0600
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61D1axRe311722;
-	Thu, 12 Feb 2026 19:36:59 -0600
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jM8xag/t;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8230d228372so268591b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 17:41:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770946894; x=1771551694; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=211wQ63uP/WAu86jywV6E2YekAzB6zoYvGP5f1hYp2Y=;
+        b=jM8xag/tw/JsAcXtFK8Cr0GAlrzLY1kEk+0HqQTk9QAGaBrR+QxC7Qn42gTKFzT+FX
+         +pgebFYFeBeCfsh9TFItG2AEZFNe3IN57Bdv6G8gWXwAu6v83f9wZH8GgiEAFsUxm7A2
+         ny8xk8nBvmdN7l6ZP5rQMmCtt+KpjR6ca3pLvectDrdPaPdwQrXWKAAdyNzZBm4o59Ch
+         CA+i+QkIoVhGkFt6pjMpxz2PvpM3+EPINWU5lFA6Y2UNpVAvoU9CvwDe0VjqaltwIpEh
+         i8aDtAeA3pqAwuqCSjYASDMEOU+RsLnJOt7lAV0tOQid0IGHOSt5tpmmX2owRxoXCqUa
+         SC4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770946894; x=1771551694;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=211wQ63uP/WAu86jywV6E2YekAzB6zoYvGP5f1hYp2Y=;
+        b=YbfpLeDj5b9UlN89Wcn3Qao7Gj8Vxmq2i+n/+uLIPrmoh6km0hUKY83Uh4jMN3UWXT
+         GRpc6Msg3MGg6LzkSksjt7NN6jFbVuyB1WQoEIbJfoZxHKzlIgUmaXaS4ZQc9Qcd5bYH
+         mM0v67lhAGrAH0qbaWeRoTR3YkIS4TdS47M9oQ24SAR9b9Ys/7RtZk69SlSdDjBT3/Vl
+         tKBuvO405w1QlKMZxByb2hjLvYLd06HQgqK5qgOPuzKaYWDznkPxRasv/26X97Yqj5og
+         bO6YVOAdFzl0ByKIlP2HQMu8M+FepfKAGDS5+sy1tR3UxqUQX1j2+EjPpVn5CUSbgohJ
+         Wjiw==
+X-Gm-Message-State: AOJu0Ywk8jb4Ss2Im0Sx6wyRRz7GCHepr6ON/9YUrCESyx8N7l9pE7yu
+	2+c+PIwvb6zBsvvWzqShu/OTpHibCQOGMjtbDNWQO8vZAk1gUbzQ1ywSXdICaQ==
+X-Gm-Gg: AZuq6aKJSBkb8ip4S1IO3D+024PG7xs7zM2mf6zVFnz5A0u9DITsOCNCAXPJ0LakvFc
+	ByXefWJylFKb8sWqGFtMbCxfcmvYYPF4zJAy71XNVxO+u6VUG5bx81wHHhnEX5IW5xMczphfFXi
+	l8TOoXnPY7H3N+wYbVQlFFl4xIQad4DMUnDjY8Vk2n1UneCbUfqnYHUtxI57GqtohIX8cIZ3bts
+	/EVkK+GEhdwKxDV1Tkj9SYc0cmPGzcPqzWMOsNQ50Vk1uesQbzbv8bwNSLiiEMRoUGkyagzEJrd
+	n4LXBDyfQspTCStD+jMcJm5JNvlDlTMR4mIxBuxgYncYL7CgfKTIiMx99PClq/ZlUssum241Osj
+	SfeGWxL1MI3YUEbcEgeI08676+LAEjhRt0nSIv3LhzwyONjFmB/4ApgBtXuY2Y9txEC81OahKnk
+	fHxoTEslBTc3pkqG8fcYAlV903qWjdsPFC5N0=
+X-Received: by 2002:a05:6a21:596:b0:341:5935:e212 with SMTP id adf61e73a8af0-3946c77a7b8mr132977637.18.1770946894226;
+        Thu, 12 Feb 2026 17:41:34 -0800 (PST)
+Received: from NVAPF55DW0D-IPD.. ([147.161.217.33])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6e197d61a0sm5979933a12.19.2026.02.12.17.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 17:41:33 -0800 (PST)
+From: ankur.tyagi85@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][PATCH 1/2] mdadm: upgrade 4.4 -> 4.5
+Date: Fri, 13 Feb 2026 14:41:18 +1300
+Message-ID: <20260213014119.3451355-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Thu, 12 Feb 2026 19:36:59 -0600
-Message-ID: <DGDG6LFLTR7X.2TCK86RQ93ME@ti.com>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: Re: [oe-core][PATCH] reproducible: fix git SOURCE_DATE_EPOCH
- randomness
-From: Randolph Sapp <rs@ti.com>
-To: <rs@ti.com>, <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
-	<mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
-	<otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <1893A7AF46371281.653184@lists.openembedded.org>
-In-Reply-To: <1893A7AF46371281.653184@lists.openembedded.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1B:EE_|PH7PR10MB6532:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0cbe3bcd-0ea8-48c4-fa4d-08de6aa061c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?elpKSHhjcGFIT3BKamtrTWdZdEgrUzZuOWZTcXhGdmtqc3BjdXJkQk5SVUFB?=
- =?utf-8?B?VEpwOEFjSVhQMVd5MlgyMndGdnVaMzY4cFk5ayt1dnRLVUhxak9EMzVwZVFO?=
- =?utf-8?B?SGNHU2gyVTRtVk4zYjF5M3V3d2JiZFRXVEVtckIwZVJ3RlRDMGs3ajFxTnY5?=
- =?utf-8?B?QkFYNjc0QUNWbjI5L0pxcDNNQ20vS1phSTMvdGxCSHBZTjZaLzZTaTlEaTlQ?=
- =?utf-8?B?Q2ZFMXhXUjk0UVVlck5qemM2UDBJTDZkMmdpQW1GOHN6elUvUDk5cVV1Z25j?=
- =?utf-8?B?RlZCYVdjaWN1ZmlCcWVUV0Y4dVFaaS9QWWNqS0Y5Q3UrZlBjUUxSaEQrQXIy?=
- =?utf-8?B?NjRnZ09kdU5zMXluUy9Nck5YblFUVlAzSzhaK2N4YlFRcnlMUndTaktLc1Bq?=
- =?utf-8?B?c1hhV2ZZclRCTzBrRGdvNlh0QW16cC8rSlZCQm1YOWVrNVVSeVU2UlY1eHky?=
- =?utf-8?B?V1pWL0ppSGh0QjQwaE4yZk1uNkVuTlhUbFZQZzVoNnRMcHNXaTA4UGlxZ0ND?=
- =?utf-8?B?ZFM1Z3ZKUmtHeVFWUjZkc0NBQmVvYURyN01vZ2hnc2VkbW4xRi9pcGFRTjBI?=
- =?utf-8?B?d3ZXVWNlZzl3VXFPQStIdm1iUDFoM081ZEJQa0RkRkZLSmtwcFFHcmdDQWtL?=
- =?utf-8?B?emNidytlVEVpZERlcTFOQitmT0VPOEQyZTh0c0hUVlVFTmlISGpkN1VLSjJT?=
- =?utf-8?B?NFV0dnNLSWZ0V2JvMmQvUHowaU5VQ2NLcnZ3Q2VLVnc5Q2FRMUd4SDFGK0tp?=
- =?utf-8?B?VEZ0U1NQQk11eXRtaHNXc0tpU1NJdXViMHk4U1pHVHd5NHNCYjFySEYrdnJF?=
- =?utf-8?B?ZGJ3VFFYRlQvNXE5WUlNbS9LcFhyaitaV2tnTDY4NDFWdTNHUXRPdGJwT0Jm?=
- =?utf-8?B?eERHQUVXeXB6b0Mwa25pQ3hua1ZlaEJLMnBwT0FDZ3BNeDZtUVhDQ0FhOTVS?=
- =?utf-8?B?Tmo3UEFuOTdTZkZaV0IxQmJLMTdrdlhtbmlONUw5WlJ6cFh4R1lEUDd1dktW?=
- =?utf-8?B?Yk8zeG1TdkVZM0MxQkhDK3NDM2lLSWFJeGhxUGovZ2k1MW85OExJTDdXY0pB?=
- =?utf-8?B?YmZGWEh4Z0ZSSVNpazRzN3RkTXBUNkJsUDBud2dGZW5zOUFSUXErdEUzMlFi?=
- =?utf-8?B?WDlRQ2pKYmRwTGVwRmJqdXFWVkE2Sk52NnJOY29kNUUyaFgyMTEzVUdBajEw?=
- =?utf-8?B?WGZsQmU0OURpdHBwQllneVFnalowV0dTUjBJblBKQ0hmOTFZNDIyZ2kwMWIv?=
- =?utf-8?B?NitQMjVqUWJNUm16SlNOaHFZaWoxMHF1UVJJNk9MTk5FcmtEQTdMUEFla25p?=
- =?utf-8?B?NW91SldmZ0xQbzZFS0dva0duaW5pamJSQjRhYmFxSmhWT0doVGtRbmFqaGhD?=
- =?utf-8?B?M01SSU9yZUluS3doVnA1S3BORmJIY1RDS3dHWlNCbnZpbyszdDkzUzV4OWY5?=
- =?utf-8?B?aXowZXBNOER5aGMzRUhBNHFLZ2RTYUdRMEtRbEJidzFHMmhUV2UrVVcrYm5r?=
- =?utf-8?B?QVl6cEl2ZEkxdjBEWG1oakV1SjJMSHdUTHlOVWZ3S0ZidGl2dFR4VXBkN2VX?=
- =?utf-8?B?ZGVxbGl2UmRXM1VWMTk0emZoWXAveHVDMmJmbUdCVS9Ibm1NVDB1OWFEL2t6?=
- =?utf-8?B?cEJTcWRzcCtMMC9EOGY1VXN6L1I5TkY2VTYxQWZiV1ptWTFvUWx1WndWNEx0?=
- =?utf-8?B?T1dweGFiNFFmS2F3S2JGTVFBSGpYL2w4VGhnZ2kyMDhVLzEwajFKcVYwRnF5?=
- =?utf-8?B?VUlzaTVTYWVacC9jbnpqeEloVmZtYTZRd3M0RCtxSmdyV1pXT3Y2WDNOdDIx?=
- =?utf-8?B?Zm5QZnprWWw3VXE5dHFCUUkya3JIMDA5eDc2Z0FqajVzdmFlOTU5K1o5QkRD?=
- =?utf-8?B?QzQ0OFo2TjZMU2g0MUQvMEJuSkU4K2t4RkVOc0NaSjB2Uk10WWZVekkwVEw2?=
- =?utf-8?B?Umc5K2dqR0o3Z1lkcnc0SmJPTjJMZldGbzdPUDBrdXhkVXdRUnlmb0hoN0Zp?=
- =?utf-8?B?SE5TQWhwV01hRGIrdlEzNHdzMWdtRWkzQVdUSC9GNjlwcGhqVXRqUjJPQWRQ?=
- =?utf-8?B?U3hKNGJYMFcrQ25OWXhzWTMyZUh6UzlHNTg3OXdBVE80Y3J6UzNZRWxNSnBR?=
- =?utf-8?B?SjdJZjQxUFdOTStVSnNuQ3BleTFzblNZb2JwMTZTT0ExaGNyd3VXZWNOc1NY?=
- =?utf-8?B?enJQdXlyaFFQdFZEVmhHY2M5WTVJU3gybW5SMEFQUHo0aVZuazRyUE8xNnAw?=
- =?utf-8?B?Z2lqQk95SU0xaEdtT1hmc0o4K2pRPT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	EeVndjESC67mYej6piux69qitH+p1rUlXBJXxXwMS8TSt6JflHsgD91wGcMxkims4XcxYXZt/hcxXgDZsTuPbWsLW51ahfDvu2g4AlWyucAWA9xm+Fo9O6+8UB+xywmD+pvBWDh003qR01WoyIYVnIMgekTDjJAQ5z3a3GJmvBYFfPyH2PSrcTy/sS5fgA10w8qYHtpT9kMTuXJYlupndY3VN2CDZxhxc89tBRtMP5avYQ1x35lnuJx5nGlqv4I8oJ1ba21v51cyumz9LQbOuFt+AbDl5PVgI0RLvjSFZBWNoz/tefqusf8VQs9sBd2vgHzMGYFprk5F3RdpIGLefJvs72NRly+c4OWYCtGdHEPv66qWmEtzTSFHharITFRpzH0x0HGIZYWtd4z2hWhM56oaQ05XfdHml20dpF6BoaWyDATm86SuyaZZoRoSp1Tb
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 01:36:59.9518
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cbe3bcd-0ea8-48c4-fa4d-08de6aa061c4
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BY1PEPF0001AE1B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6532
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 01:37:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231078
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 01:41:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231079
 
-On Thu Feb 12, 2026 at 6:42 PM CST, Randolph Sapp via lists.openembedded.or=
-g wrote:
-> From: Randolph Sapp <rs@ti.com>
->
-> Anything that defines multiple git sources should have the largest value
-> taken when calculating the SOURCE_DATE_EPOCH for a package.
->
-> The previous iteration actually introduced some degree of randomness, as
-> it would stop on the first git repository reported by os.walk, which
-> does not assure any specific ordering by default.
->
-> Signed-off-by: Randolph Sapp <rs@ti.com>
-> ---
->
-> To address issue reported here:
-> https://lists.openembedded.org/g/openembedded-core/message/231076
->
->  meta/lib/oe/reproducible.py | 64 ++++++++++++++++---------------------
->  1 file changed, 28 insertions(+), 36 deletions(-)
->
-> diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
-> index 0270024a83..06ceda8d7f 100644
-> --- a/meta/lib/oe/reproducible.py
-> +++ b/meta/lib/oe/reproducible.py
-> @@ -3,6 +3,7 @@
->  #
->  # SPDX-License-Identifier: GPL-2.0-only
->  #
-> +import glob
->  import os
->  import subprocess
->  import bb
-> @@ -74,52 +75,43 @@ def get_source_date_epoch_from_known_files(d, sourced=
-ir):
->          bb.debug(1, "SOURCE_DATE_EPOCH taken from: %s" % newest_file)
->      return source_date_epoch
->
-> -def find_git_folder(d, sourcedir):
-> -    # First guess: UNPACKDIR/BB_GIT_DEFAULT_DESTSUFFIX
-> -    # This is the default git fetcher unpack path
-> +def find_git_folders(d, sourcedir):
->      unpackdir =3D d.getVar('UNPACKDIR')
-> -    default_destsuffix =3D d.getVar('BB_GIT_DEFAULT_DESTSUFFIX')
-> -    gitpath =3D os.path.join(unpackdir, default_destsuffix, ".git")
-> -    if os.path.isdir(gitpath):
-> -        return gitpath
-> -
-> -    # Second guess: ${S}
-> -    gitpath =3D os.path.join(sourcedir, ".git")
-> -    if os.path.isdir(gitpath):
-> -        return gitpath
-> -
-> -    # Perhaps there was a subpath or destsuffix specified.
-> -    # Go looking in the UNPACKDIR
-> -    for root, dirs, files in os.walk(unpackdir, topdown=3DTrue):
-> -        if '.git' in dirs:
-> -            return os.path.join(root, ".git")
-> +    git_folders =3D []
->
-> -    for root, dirs, files in os.walk(sourcedir, topdown=3DTrue):
-> -        if '.git' in dirs:
-> -            return os.path.join(root, ".git")
-> +    for mainpath in (sourcedir, unpackdir):
-> +        gitpath_glob =3D os.path.join(mainpath, "**/.git/")
-> +        for gitpath in glob.glob(gitpath_glob, recursive=3DTrue):
-> +            git_folders.append(gitpath)
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-I honestly don't know if recursively searching the deploy directory is any =
-worse
-than instantiating a new fetcher and walking the SRC_URI and destsuffix val=
-ues
-directly. They both feel a little heavy-handed.
+Changelog:
+https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/tree/CHANGELOG.md?h=mdadm-4.5
 
-> -    bb.warn("Failed to find a git repository in UNPACKDIR: %s" % unpackd=
-ir)
-> -    return None
-> +    if not git_folders:
-> +        bb.warn("Failed to find any git repository in UNPACKDIR or S")
-> +
-> +    return git_folders
->
->  def get_source_date_epoch_from_git(d, sourcedir):
->      if not "git://" in d.getVar('SRC_URI') and not "gitsm://" in d.getVa=
-r('SRC_URI'):
->          return None
->
-> -    gitpath =3D find_git_folder(d, sourcedir)
-> -    if not gitpath:
-> -        return None
-> +    # Get an epoch from all valid git repositoies
-> +    sources_dates =3D []
-> +    for gitpath in find_git_folders(d, sourcedir):
-> +        # Check that the repository has a valid HEAD; it may not if subd=
-ir is used
-> +        # in SRC_URI
-> +        p =3D subprocess.run(['git', '--git-dir', gitpath, 'rev-parse', =
-'HEAD'], stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.STDOUT)
-> +        if p.returncode !=3D 0:
-> +            bb.debug(1, "%s does not have a valid HEAD: %s" % (gitpath, =
-p.stdout.decode('utf-8')))
-> +            continue
->
-> -    # Check that the repository has a valid HEAD; it may not if subdir i=
-s used
-> -    # in SRC_URI
-> -    p =3D subprocess.run(['git', '--git-dir', gitpath, 'rev-parse', 'HEA=
-D'], stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.STDOUT)
-> -    if p.returncode !=3D 0:
-> -        bb.debug(1, "%s does not have a valid HEAD: %s" % (gitpath, p.st=
-dout.decode('utf-8')))
-> -        return None
-> +        bb.debug(1, "git repository: %s" % gitpath)
-> +        p =3D subprocess.run(['git', '-c', 'log.showSignature=3Dfalse', =
-'--git-dir', gitpath, 'log', '-1', '--pretty=3D%ct'],
-> +                           check=3DTrue, stdout=3Dsubprocess.PIPE)
-> +        sources_dates.append(int(p.stdout.decode('utf-8')))
-> +
-> +    if sources_dates:
-> +        return sorted(sources_dates, reverse=3DTrue)[0]
->
-> -    bb.debug(1, "git repository: %s" % gitpath)
-> -    p =3D subprocess.run(['git', '-c', 'log.showSignature=3Dfalse', '--g=
-it-dir', gitpath, 'log', '-1', '--pretty=3D%ct'],
-> -                       check=3DTrue, stdout=3Dsubprocess.PIPE)
-> -    return int(p.stdout.decode('utf-8'))
-> +    return None
->
->  def get_source_date_epoch_from_youngest_file(d, sourcedir):
->      if sourcedir =3D=3D d.getVar('UNPACKDIR'):
-> --
-> 2.52.0
+Replaced 0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+with 0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch as
+partial changes from first patch are part of the upstream version[1].
+
+Dropped patches that are part of upstream version
+- xmalloc.patch [2]
+- 0001-Makefile-install-mdcheck.patch [3]
+
+Also refreshed other patches.
+
+[1] https://github.com/md-raid-utilities/mdadm/commit/787cc1b60130b8031be59e49d54463c58cd8cf74
+[2] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/raid6check.c?h=mdadm-4.5&id=e0df6c4c984d564e9e40913727e916a6cd8f466e
+[3] https://github.com/md-raid-utilities/mdadm/commit/934d81184880d2231b0d7b3836b12358516ea35c
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 15de700d5f3d42a3b897301a92c3ffb86c5b42a7)
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ ...-corosync-and-dlm-header-files-check.patch |   6 +-
+ .../files/0001-Makefile-install-mdcheck.patch |  27 ---
+ ...tripe.c-Use-64-bit-off_t-across-both.patch |  54 ++++++
+ ...FILE_OFFSET_BITS-to-enable-largefile.patch | 155 ------------------
+ ...-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch |   6 +-
+ .../mdadm/files/xmalloc.patch                 |  32 ----
+ .../mdadm/{mdadm_4.4.bb => mdadm_4.5.bb}      |   8 +-
+ 7 files changed, 63 insertions(+), 225 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/xmalloc.patch
+ rename meta/recipes-extended/mdadm/{mdadm_4.4.bb => mdadm_4.5.bb} (93%)
+
+diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
+index 8598aea1f1..9572c2e8c7 100644
+--- a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
++++ b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
+@@ -1,4 +1,4 @@
+-From 232101e2fcc6359fb6db2bc232570e373e368c75 Mon Sep 17 00:00:00 2001
++From 77e9527a0ea995ed377e00813eeeb17175dbce72 Mon Sep 17 00:00:00 2001
+ From: "Maxin B. John" <maxin.john@intel.com>
+ Date: Tue, 9 Feb 2016 11:44:01 +0200
+ Subject: [PATCH] Fix the path of corosync and dlm header files check
+@@ -14,10 +14,10 @@ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index bcd092de..0a78cd22 100644
++index 8031ce24..788ff5d9 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -130,8 +130,8 @@ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
++@@ -120,8 +120,8 @@ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
+  SYSTEMD_DIR=/lib/systemd/system
+  LIB_DIR=/usr/libexec/mdadm
+  
+diff --git a/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch b/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
+deleted file mode 100644
+index bb4e8d0604..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 407691e11037709af888ce2cf6bd5eac6971ac61 Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Tue, 25 Jan 2022 16:25:01 +0800
+-Subject: [PATCH] Makefile: install mdcheck
+-
+-The mdcheck_xxx.service files use mdcheck, but it's not installed.
+-We need to install this script.
+-
+-Upstream-Status: Submitted [Sent patch to maintainer]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Makefile | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/Makefile b/Makefile
+-index 981e16fa..b28e7855 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -345,6 +345,7 @@ install-systemd: systemd/mdmon@.service
+- install-bin: mdadm mdmon
+- 	$(INSTALL) -D $(STRIP) -m 755 mdadm $(DESTDIR)$(BINDIR)/mdadm
+- 	$(INSTALL) -D $(STRIP) -m 755 mdmon $(DESTDIR)$(BINDIR)/mdmon
+-+	$(INSTALL) -D -m 755 misc/mdcheck $(DESTDIR)/usr/share/mdadm/mdcheck
+- 
+- uninstall:
+- 	rm -f $(DESTDIR)$(MAN8DIR)/mdadm.8 $(DESTDIR)$(MAN8DIR)/mdmon.8 $(DESTDIR)$(MAN4DIR)/md.4 $(DESTDIR)$(MAN5DIR)/mdadm.conf.5 $(DESTDIR)$(BINDIR)/mdadm
+diff --git a/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch b/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
+new file mode 100644
+index 0000000000..ca4cec5ab8
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
+@@ -0,0 +1,54 @@
++From 0d685f4ec8b54860a031fe3e04a2fff535288f80 Mon Sep 17 00:00:00 2001
++From: Ankur Tyagi <ankur.tyagi85@gmail.com>
++Date: Mon, 26 Jan 2026 22:46:51 +1300
++Subject: [PATCH] raid6check.c, restripe.c: Use 64-bit off_t across both musl
++ and glibc
++
++This commit is adaptation of original patch[1] after commit[2] addressed
++lseek issues.
++
++[1] https://lore.kernel.org/linux-raid/20221110225546.337164-1-raj.khem@gmail.com/
++[2] https://github.com/md-raid-utilities/mdadm/commit/787cc1b60130b8031be59e49d54463c58cd8cf74
++
++Upstream-Status: Submitted [https://github.com/md-raid-utilities/mdadm/pull/235]
++Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
++---
++ raid6check.c | 4 ++--
++ restripe.c   | 2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/raid6check.c b/raid6check.c
++index 4469dc8f..fa50d44e 100644
++--- a/raid6check.c
+++++ b/raid6check.c
++@@ -288,7 +288,7 @@ int manual_repair(int chunk_size, int syndrome_disks,
++ 	}
++ 
++ 	int write_res1, write_res2;
++-	off64_t seek_res;
+++	off_t seek_res;
++ 
++ 	seek_res = lseek(source[fd1], offsets[fd1] + start * chunk_size, SEEK_SET);
++ 	if (seek_res < 0) {
++@@ -381,7 +381,7 @@ int check_stripes(struct mdinfo *info, int *source, unsigned long long *offsets,
++ 			goto exitCheck;
++ 		}
++ 		for (i = 0 ; i < raid_disks ; i++) {
++-			off64_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
+++			off_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
++ 						   SEEK_SET);
++ 			if (seek_res < 0) {
++ 				fprintf(stderr, "lseek to source %d failed\n", i);
++diff --git a/restripe.c b/restripe.c
++index ec8d6275..58c0f5f5 100644
++--- a/restripe.c
+++++ b/restripe.c
++@@ -756,7 +756,7 @@ int restore_stripes(int *dest, unsigned long long *offsets,
++ 			if (src_buf == NULL) {
++ 				/* read from file */
++ 				if (lseek(source, read_offset, 0) !=
++-					 (off64_t)read_offset) {
+++					 (off_t)read_offset) {
++ 					rv = -1;
++ 					goto abort;
++ 				}
+diff --git a/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch b/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+deleted file mode 100644
+index aa874dbec3..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
++++ /dev/null
+@@ -1,155 +0,0 @@
+-From 9e3b15adf86147fe581cd2159cb99708abe26158 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 10 Nov 2022 12:31:22 -0800
+-Subject: [PATCH] restripe.c: Use _FILE_OFFSET_BITS to enable largefile support
+-
+-Instead of using the lseek64 and friends, its better to enable it via
+-the feature macro _FILE_OFFSET_BITS = 64 and let the C library deal with
+-the width of types
+-
+-Upstream-Status: Submitted [https://lore.kernel.org/linux-raid/20221110225546.337164-1-raj.khem@gmail.com/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- raid6check.c | 11 +++++++----
+- restripe.c   | 13 ++++++++-----
+- swap_super.c | 13 +++++++------
+- 3 files changed, 22 insertions(+), 15 deletions(-)
+-
+-diff --git a/raid6check.c b/raid6check.c
+-index 99477761..8e7f1421 100644
+---- a/raid6check.c
+-+++ b/raid6check.c
+-@@ -22,6 +22,9 @@
+-  *    Based on "restripe.c" from "mdadm" codebase
+-  */
+- 
+-+/* Enable largefile support */
+-+#define _FILE_OFFSET_BITS 64
+-+
+- #include "mdadm.h"
+- #include <stdint.h>
+- #include <sys/mman.h>
+-@@ -284,9 +287,9 @@ int manual_repair(int chunk_size, int syndrome_disks,
+- 	}
+- 
+- 	int write_res1, write_res2;
+--	off64_t seek_res;
+-+	off_t seek_res;
+- 
+--	seek_res = lseek64(source[fd1],
+-+	seek_res = lseek(source[fd1],
+- 			   offsets[fd1] + start * chunk_size, SEEK_SET);
+- 	if (seek_res < 0) {
+- 		fprintf(stderr, "lseek failed for failed_disk1\n");
+-@@ -294,7 +297,7 @@ int manual_repair(int chunk_size, int syndrome_disks,
+- 	}
+- 	write_res1 = write(source[fd1], blocks[failed_slot1], chunk_size);
+- 
+--	seek_res = lseek64(source[fd2],
+-+	seek_res = lseek(source[fd2],
+- 			   offsets[fd2] + start * chunk_size, SEEK_SET);
+- 	if (seek_res < 0) {
+- 		fprintf(stderr, "lseek failed for failed_disk2\n");
+-@@ -379,7 +382,7 @@ int check_stripes(struct mdinfo *info, int *source, unsigned long long *offsets,
+- 			goto exitCheck;
+- 		}
+- 		for (i = 0 ; i < raid_disks ; i++) {
+--			off64_t seek_res = lseek64(source[i], offsets[i] + start * chunk_size,
+-+			off_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
+- 						   SEEK_SET);
+- 			if (seek_res < 0) {
+- 				fprintf(stderr, "lseek to source %d failed\n", i);
+-diff --git a/restripe.c b/restripe.c
+-index 5e126eb7..af76c634 100644
+---- a/restripe.c
+-+++ b/restripe.c
+-@@ -22,6 +22,9 @@
+-  *    Email: <neilb@suse.de>
+-  */
+- 
+-+/* Enable largefile support */
+-+#define _FILE_OFFSET_BITS 64
+-+
+- #include "mdadm.h"
+- #include "xmalloc.h"
+- 
+-@@ -583,7 +586,7 @@ int save_stripes(int *source, unsigned long long *offsets,
+- 				       raid_disks, level, layout);
+- 			if (dnum < 0) abort();
+- 			if (source[dnum] < 0 ||
+--			    lseek64(source[dnum],
+-+			    lseek(source[dnum],
+- 				    offsets[dnum] + offset, 0) < 0 ||
+- 			    read(source[dnum], buf+disk * chunk_size,
+- 				 chunk_size) != chunk_size) {
+-@@ -756,8 +759,8 @@ int restore_stripes(int *dest, unsigned long long *offsets,
+- 					   raid_disks, level, layout);
+- 			if (src_buf == NULL) {
+- 				/* read from file */
+--				if (lseek64(source, read_offset, 0) !=
+--					 (off64_t)read_offset) {
+-+				if (lseek(source, read_offset, 0) !=
+-+					 (off_t)read_offset) {
+- 					rv = -1;
+- 					goto abort;
+- 				}
+-@@ -818,7 +821,7 @@ int restore_stripes(int *dest, unsigned long long *offsets,
+- 		}
+- 		for (i=0; i < raid_disks ; i++)
+- 			if (dest[i] >= 0) {
+--				if (lseek64(dest[i],
+-+				if (lseek(dest[i],
+- 					 offsets[i]+offset, 0) < 0) {
+- 					rv = -1;
+- 					goto abort;
+-@@ -868,7 +871,7 @@ int test_stripes(int *source, unsigned long long *offsets,
+- 		int disk;
+- 
+- 		for (i = 0 ; i < raid_disks ; i++) {
+--			if ((lseek64(source[i], offsets[i]+start, 0) < 0) ||
+-+			if ((lseek(source[i], offsets[i]+start, 0) < 0) ||
+- 			    (read(source[i], stripes[i], chunk_size) !=
+- 			     chunk_size)) {
+- 				free(q);
+-diff --git a/swap_super.c b/swap_super.c
+-index b6db5743..18c89e2b 100644
+---- a/swap_super.c
+-+++ b/swap_super.c
+-@@ -1,3 +1,6 @@
+-+/* Enable largefile support */
+-+#define _FILE_OFFSET_BITS 64
+-+
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <fcntl.h>
+-@@ -16,8 +19,6 @@
+- 
+- #define MD_NEW_SIZE_SECTORS(x)		((x & ~(MD_RESERVED_SECTORS - 1)) - MD_RESERVED_SECTORS)
+- 
+--extern long long lseek64(int, long long, int);
+--
+- int main(int argc, char *argv[])
+- {
+- 	int fd, i;
+-@@ -38,8 +39,8 @@ int main(int argc, char *argv[])
+- 		exit(1);
+- 	}
+- 	offset = MD_NEW_SIZE_SECTORS(size) * 512LL;
+--	if (lseek64(fd, offset, 0) < 0LL) {
+--		perror("lseek64");
+-+	if (lseek(fd, offset, 0) < 0LL) {
+-+		perror("lseek");
+- 		exit(1);
+- 	}
+- 	if (read(fd, super, 4096) != 4096) {
+-@@ -68,8 +69,8 @@ int main(int argc, char *argv[])
+- 		super[32*4+10*4 +i] = t;
+- 	}
+- 
+--	if (lseek64(fd, offset, 0) < 0LL) {
+--		perror("lseek64");
+-+	if (lseek(fd, offset, 0) < 0LL) {
+-+		perror("lseek");
+- 		exit(1);
+- 	}
+- 	if (write(fd, super, 4096) != 4096) {
+diff --git a/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch b/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
+index e425fc446e..2ef92418ed 100644
+--- a/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
++++ b/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
+@@ -1,4 +1,4 @@
+-From 8de073c637a1ea968b7304f373a20b13a4a47bbc Mon Sep 17 00:00:00 2001
++From b7e51fbedc1fbc44af00398a4a7aef51cdf191ee Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 12 Mar 2024 10:54:08 +0100
+ Subject: [PATCH] Create.c: include linux/falloc.h for FALLOC_FL_ZERO_RANGE
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/Create.c b/Create.c
+-index fd6c9215..3210a03e 100644
++index 4aa75b7e..5d5fc806 100644
+ --- a/Create.c
+ +++ b/Create.c
+-@@ -33,6 +33,7 @@
++@@ -31,6 +31,7 @@
+  #include	<signal.h>
+  #include	<sys/signalfd.h>
+  #include	<sys/wait.h>
+diff --git a/meta/recipes-extended/mdadm/files/xmalloc.patch b/meta/recipes-extended/mdadm/files/xmalloc.patch
+deleted file mode 100644
+index 61774721d0..0000000000
+--- a/meta/recipes-extended/mdadm/files/xmalloc.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From c5cf5a83be4e3ce04ebf3250f77aeb465eeb53a1 Mon Sep 17 00:00:00 2001
+-From: Xiao Ni <xni@redhat.com>
+-Date: Fri, 17 Jan 2025 15:15:40 +0800
+-Subject: [PATCH] mdadm/raid6check: add xmalloc.h to raid6check.c
+-
+-It reports building error:
+-raid6check.c:324:26: error: implicit declaration of function xmalloc
+-
+-Add xmalloc.h to raid6check.c file to fix this.
+-
+-Signed-off-by: Xiao Ni <xni@redhat.com>
+-Link: https://lore.kernel.org/r/20250117071540.4094-1-xni@redhat.com
+-Signed-off-by: Song Liu <song@kernel.org>
+-
+-Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?h=main&id=e0df6c4c984d564e9e40913727e916a6cd8f466e]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- raid6check.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/raid6check.c b/raid6check.c
+-index 8e7f1421..486b10c6 100644
+---- a/raid6check.c
+-+++ b/raid6check.c
+-@@ -26,6 +26,7 @@
+- #define _FILE_OFFSET_BITS 64
+- 
+- #include "mdadm.h"
+-+#include "xmalloc.h"
+- #include <stdint.h>
+- #include <sys/mman.h>
+- 
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.4.bb b/meta/recipes-extended/mdadm/mdadm_4.5.bb
+similarity index 93%
+rename from meta/recipes-extended/mdadm/mdadm_4.4.bb
+rename to meta/recipes-extended/mdadm/mdadm_4.5.bb
+index 26a60e4c1a..b30d3d776e 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.4.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.5.bb
+@@ -12,13 +12,11 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/mdadm/mdadm.git;protocol=https;bra
+            file://run-ptest \
+            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+            file://mdadm.init \
+-           file://0001-Makefile-install-mdcheck.patch \
+-           file://0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch \
+            file://0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch \
+-           file://xmalloc.patch \
++           file://0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch \
+            "
+ 
+-SRCREV = "8e56efac9afd7080bb42bae4b77cdad5f345633a"
++SRCREV = "8f0c7692d48414ff7b3fe927ce75799c65ef24b1"
+ 
+ inherit ptest systemd
+ 
+@@ -37,7 +35,7 @@ CFLAGS:append:mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
+ 
+ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CWFLAGS="" CXFLAGS="${CFLAGS}" SYSTEMD_DIR=${systemd_system_unitdir} \
+                 BINDIR="${base_sbindir}" UDEVDIR="${nonarch_base_libdir}/udev" LDFLAGS="${LDFLAGS}" \
+-                SYSROOT="${STAGING_DIR_TARGET}" STRIP='
++                SYSROOT="${STAGING_DIR_TARGET}" MISCDIR="${datadir}/${BPN}" STRIP='
+ 
+ DEBUG_OPTIMIZATION:append = " -Wno-error"
+ 
 
