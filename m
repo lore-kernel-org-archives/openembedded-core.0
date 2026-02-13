@@ -2,221 +2,548 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87943EF48DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B9CEF48EB
 	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 08:10:30 +0000 (UTC)
 Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.67219.1770970222762518429
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.67225.1770970227158869139
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Feb 2026 00:10:23 -0800
+ Fri, 13 Feb 2026 00:10:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3qA33Qx/;
+ dkim=pass header.i=@smile.fr header.s=google header.b=eU5OTDL6;
  spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43591b55727so670808f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 00:10:22 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-435f177a8f7so671606f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 00:10:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1770970221; x=1771575021; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1770970225; x=1771575025; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+mxI7LVnLd153UWdXzcPexHSUkanORI0w7NgzpHCCwI=;
-        b=3qA33Qx/NBfZjZ/fmNLByg+COct7NWjhQY/DoFy6gHYO928ctMFG0T+ZziXKpPyHFz
-         Sy83rWcjiJ/rSC1byf1phRSZZK7ir+NzHhBKziD41d1m+ijn1dKG9XhQN82bMM3LdgbC
-         /LemyrK0sXt8DEJpREBY1kxqaMIEerCeN8fqU=
+        bh=vHK4wC5vwelRsQYALDeM25jbhOFdnVNx6jg7nR2N5uw=;
+        b=eU5OTDL6doaVb0Srav+BXDnqLnngc3wPZQVzlIt71slHbR9uG2IuEu9RgbY0wLXzks
+         m0FsvjNn68gQE9KtvXD1cHUWRbsv2i8tBZwuRffggbfwt3TuTSURC17JZsuRj/q7DZAQ
+         90L5sT36HCyi6DKUZetdBaAXyCliugujzJbdM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770970221; x=1771575021;
+        d=1e100.net; s=20230601; t=1770970225; x=1771575025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+mxI7LVnLd153UWdXzcPexHSUkanORI0w7NgzpHCCwI=;
-        b=hRYJAZn8bucnHuaO08+bGXq6E5gopnFi/V5zCkE6qCkTOzsOV02OBg795DnP1jgoiZ
-         6O4nDqFU7PL6ZxKNWtdPNMAMDkxElt+Rbg84vtUJKHnlHTFfZOtD27VZyCygk54pzHdc
-         0gKgB2/X+WcSH/73d/0gJasXeLG1z2XUfh/xtc+m1Q4IL5DmCwpAOZyB7wfJUD0WMdBp
-         0D25muAWViDx/2ZNW8281ISU0oyQOlHYqZ27knDXFqLQ5psw45tFl8iwm407TcBgsjvP
-         gcfRFNlzMajhQTay2JMWUQzdaEw/ETryt3EGZSg6Mkrc9fgSG2fqpQvjAKaOHCwgBuIj
-         9pIQ==
-X-Gm-Message-State: AOJu0YyCkAn41cTKQmYgppzB1agwE8PunieXy0YSzsZCOUDG1XwZzTLS
-	Vg2b6OjMMdV7zzxtmLLU/X+Qm5TLWBBr5DF45qp/5RnN0ifqZSZdNZGuCm0rcSimr7NOyPUgyjZ
-	LwieZ
-X-Gm-Gg: AZuq6aIPjJrXs+WtpJELs8/jPfKISrDHupZDkozv4M1wwXwn4aDLL0bVMYv2/dXi8tY
-	VcIVY4C/3lrvZCnY2KSd1OtgXoBtpuPa9xi4hqvUGUV4eHBAcHuvv7gcbInlr2hHieRCopyCVX1
-	bC/TTMP8lvnJrOE2TH9Mm8qE+cDc8rpiNf2lFRVZtZNzTpMhrunC0K2jI6qa7aEJ6yywvQIZ19j
-	rXXv3dYPcEqclwf1Qb+ZC0GJoC3H0ZPnuEXCJnDWsKtybXm9B7GSV4NxzwUTPQcG4V++ofZ1PLk
-	eF/nz4jQgTMG2iNdwKqfzJcaz5WdNYOMb0pEfaRtHzuN5i6EMuP9uggYQoRjcYz0ul79h00Xdjx
-	H0uv1VKWThanaNeuUrDSGnVcHQbVjzgCI2n06HkXsD9Qi9c98uHpQJjhvHoGa4b1N8GS2zC1K1r
-	1zOUIyvPzkA+scgh53VrFyfUdPfQo192IWxo5/fqfvDlPlJ2nIsfNr1zq6n/JmaPiVNHXipX8jz
-	Elr2S8HX2Cp7qbhbH/y3Mp5dY8=
-X-Received: by 2002:a05:6000:603:b0:436:1e6:e1d6 with SMTP id ffacd0b85a97d-4379791c825mr1997814f8f.46.1770970220686;
-        Fri, 13 Feb 2026 00:10:20 -0800 (PST)
+        bh=vHK4wC5vwelRsQYALDeM25jbhOFdnVNx6jg7nR2N5uw=;
+        b=D0r45ufrulMpGFYsWse4PE1pxXNp4hoaGgN0wla8wN/3jzCCoq1Iw91hJrwYsw+Aft
+         5K71zd0ZyKaPKCoeN//b4iz9yVKGVbETI107NMO8jUSQUEG86Tfvv/zIdqm0oKl32Gb5
+         GR15pmfpjAYbW+EdLl5Td0FcRc7fCvygzmBYH6zCOok5tkupvC5g0vG19jUXz4xA3kfh
+         aSqZnmJwKjctk6PU1Lma1K8qEnEcIIg3zLnLz6sJXXrxqSd8fosR9tcJrZmB+jWE2zTG
+         k/cGM1Jb42jpQ0BXz8ixlTUIueSSnaflFMVr0L4HjNsHdG3gFuP5kInTBOcN5NhWw8Xr
+         DrQQ==
+X-Gm-Message-State: AOJu0YyngofcY/sO8fHNN2dOd5gwTCg3qeKM3zYnw/+lIUCl97qy8kRx
+	U4/vSHeISSycm1zQPNlXP2+OXNOYsIoN+zT9++tcjG+xQZeW7MMHbw1WFBpieX9i2KWSt743kdo
+	bvmRm
+X-Gm-Gg: AZuq6aIaR0wnHT3PhH4NhggPnCTDV+YOdOdVyL1pUgNKlu5TjLOF7KJLuoqewVPXJPh
+	jPwarslVkJA9CivKoQH7h7CUJYPl75+wiGPg8j3MXo3lFLkYiJb60oXmRxYbXuvxqCm2ApaoQfi
+	o9Kjq6secNn3nDOb4J6jxstht2ZnNO06hXfKfK5BbnkCtDlJdK1MV/9pXDaZg35n3ooi4Wo5Byl
+	TXqVtwYA3Aun72HlVYy9tz7MOIuCcQLoNiOHdVbijd3RcUYxWz7fkSuO8Bb5mBPV3EkGxkmXUBZ
+	ZlZoogProbaaTLXXjEoenTxM+JjGLLgP78W5bbDekiDdxIkMXMzg5KIFMKUIMKkQSN2O1gXVaEL
+	4fuy7cnl1CSoZpODYj/vGji5cMymOcRIRU93aEojGOUNNB7C+RlVaRZ7MctXLvi4vWIOQ8+U1cM
+	45QglQ5gv95j2P9zSBICRjsBik2RduDssBKvelFiXhfKryaVGpTGrNVyqiNDTmXaIdidJ4nk5Mg
+	XwHejQnOQQCffm8X8XmeLC6lmE=
+X-Received: by 2002:a05:6000:24c9:b0:437:6d8c:c07f with SMTP id ffacd0b85a97d-4379791e42amr1846704f8f.52.1770970225050;
+        Fri, 13 Feb 2026 00:10:25 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00d6f202ec534aee64.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:d6f2:2ec:534a:ee64])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-437969fd36dsm3590815f8f.0.2026.02.13.00.10.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-437969fd36dsm3590815f8f.0.2026.02.13.00.10.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 00:10:20 -0800 (PST)
+        Fri, 13 Feb 2026 00:10:24 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 03/19] openssl: upgrade 3.5.4 -> 3.5.5
-Date: Fri, 13 Feb 2026 09:08:21 +0100
-Message-ID: <a4b722dc0e5c07c393f5d44cc6f62b7560de25f2.1770968514.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 10/19] webkitgtk: upgrade 2.50.0 -> 2.50.4
+Date: Fri, 13 Feb 2026 09:08:28 +0100
+Message-ID: <7b661b9105873a7b1cbe8e546fea1ee79be10145.1770968514.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770968514.git.yoann.congal@smile.fr>
 References: <cover.1770968514.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 08:10:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231085
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231093
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Resolved patch conflicts.
+Refresh patches
+- 0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+- 0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+- 0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch
+- fix-ftbfs-riscv64.patch
+- reproducibility.patch
+- sys_futex.patch
+- t6-not-declared.patch
 
-Release information [1]:
+Drop backport fix-musl-compilation.patch which already exists
+in 2.50.4
 
-OpenSSL 3.5.5 is a security patch release. The most severe CVE fixed in this release is High.
-This release incorporates the following bug fixes and mitigations:
-* Fixed Improper validation of PBMAC1 parameters in PKCS#12 MAC verification. (CVE-2025-11187)
-* Fixed Stack buffer overflow in CMS AuthEnvelopedData parsing. (CVE-2025-15467)
-* Fixed NULL dereference in SSL_CIPHER_find() function on unknown cipher ID. (CVE-2025-15468)
-* Fixed openssl dgst one-shot codepath silently truncates inputs >16 MiB. (CVE-2025-15469)
-* Fixed TLS 1.3 CompressedCertificate excessive memory allocation. (CVE-2025-66199)
-* Fixed Heap out-of-bounds write in BIO_f_linebuffer on short writes. (CVE-2025-68160)
-* Fixed Unauthenticated/unencrypted trailing bytes with low-level OCB function calls. (CVE-2025-69418)
-* Fixed Out of bounds write in PKCS12_get_friendlyname() UTF-8 conversion. (CVE-2025-69419)
-* Fixed Missing ASN1_TYPE validation in TS_RESP_verify_response() function. (CVE-2025-69420)
-* Fixed NULL Pointer Dereference in PKCS12_item_decrypt_d2i_ex() function. (CVE-2025-69421)
-* Fixed Missing ASN1_TYPE validation in PKCS#12 parsing. (CVE-2026-22795)
-* Fixed ASN1_TYPE Type Confusion in the PKCS7_digest_from_attributes() function. (CVE-2026-22796)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 
-[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-354-and-openssl-355-27-jan-2026
+- Fix compile failure on qemux86 [1] to
+drop fix_op_instanceof_handler_for_32-bit_C-loop_build.patch,
+which conflicts with upstream solution [2]
+
+- Fix compile failure on qemuriscv64
+...
+Source/ThirdParty/skia/modules/skcms/src/Transform_inl.h:810:71: error: cannot tail-call: tail call production failed
+  810 |         DECLARE_STAGE(name, arg, [[clang::musttail]] return (*list.fn)(list, ctx, src, dst, \
+      |                                                             ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+  811 |                                                                        r, g, b, a, i))
+      |                                                                        ~~~~~~~~~~~~~~
+...
+
+[1] https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2907
+[2] https://github.com/WebKit/WebKit/commit/fcaa289f6015595a638eb96b9f728eaaa7b13ab8
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 80d567b5600a44f2782bc4f21e0817d0d70a501b)
+
+Solves CVE-2025-43343 from CVE metrics.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 66ee1660399859e02b374fc6b36745915f328e4f)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...ke-history-reporting-when-test-fails.patch | 23 +++++++++----------
- .../0001-extend-check_cwm-test-timeout.patch  |  2 +-
- .../{openssl_3.5.4.bb => openssl_3.5.5.bb}    |  2 +-
- 3 files changed, 13 insertions(+), 14 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.5.5.bb} (99%)
+ ...able-to-control-macro-__PAS_ALWAYS_I.patch |   8 +-
+ ...spection.cmake-prefix-variables-obta.patch |   2 +-
+ ...-on-RISCV-https-bugs.webkit.org-show.patch |   4 +-
+ .../webkit/webkitgtk/fix-ftbfs-riscv64.patch  |  24 +++-
+ .../webkitgtk/fix-musl-compilation.patch      |  94 --------------
+ ...ceof_handler_for_32-bit_C-loop_build.patch | 122 ------------------
+ .../webkit/webkitgtk/reproducibility.patch    |   2 +-
+ .../webkit/webkitgtk/sys_futex.patch          |  11 +-
+ .../webkit/webkitgtk/t6-not-declared.patch    |   6 +-
+ ...ebkitgtk_2.50.0.bb => webkitgtk_2.50.4.bb} |   8 +-
+ 10 files changed, 44 insertions(+), 237 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.50.0.bb => webkitgtk_2.50.4.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
-index 5b7365a3531..a74c79303f6 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
-@@ -7,10 +7,10 @@ Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/22481]
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+index f990384511b..a2c315a7cce 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+@@ -1,4 +1,4 @@
+-From bbf661310448d430350eb2ad8c5869ace648dcf8 Mon Sep 17 00:00:00 2001
++From ec0a881bb05e5a4eed9a71b4494e64373cdd4d25 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Fri, 11 Aug 2023 14:20:48 +0800
+ Subject: [PATCH] Add a variable to control macro
+@@ -44,7 +44,7 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  2 files changed, 8 insertions(+), 1 deletion(-)
  
- Signed-off-by: William Lyu <William.Lyu@windriver.com>
- ---
-- test/helpers/handshake.c | 137 +++++++++++++++++++++++++++++----------
-+ test/helpers/handshake.c | 136 ++++++++++++++++++++++++++++++---------
-  test/helpers/handshake.h |  70 +++++++++++++++++++-
-  test/ssl_test.c          |  44 +++++++++++++
-- 3 files changed, 217 insertions(+), 34 deletions(-)
-+ 3 files changed, 217 insertions(+), 33 deletions(-)
+ diff --git a/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h b/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h
+-index 5d5fb38c..a554f700 100644
++index ea511e5b..2e8df1e5 100644
+ --- a/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h
+ +++ b/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h
+ @@ -44,7 +44,7 @@ __PAS_BEGIN_EXTERN_C;
+@@ -57,10 +57,10 @@ index 5d5fb38c..a554f700 100644
+  #else
+  #define __PAS_ALWAYS_INLINE_BUT_NOT_INLINE
+ diff --git a/Source/cmake/WebKitCompilerFlags.cmake b/Source/cmake/WebKitCompilerFlags.cmake
+-index f5ec0a55..dfd741e7 100644
++index 77a292fb..bf53d809 100644
+ --- a/Source/cmake/WebKitCompilerFlags.cmake
+ +++ b/Source/cmake/WebKitCompilerFlags.cmake
+-@@ -503,3 +503,10 @@ endif ()
++@@ -512,3 +512,10 @@ endif ()
+  
+  # FIXME: Enable pre-compiled headers for all ports <https://webkit.org/b/139438>
+  set(CMAKE_DISABLE_PRECOMPILE_HEADERS ON)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+index b11a18ba22a..56d532749aa 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+@@ -1,4 +1,4 @@
+-From e0dfc113b016227da8a654d625e8f568b56761d0 Mon Sep 17 00:00:00 2001
++From 14b50f50e1c8198f3a14767b8d62e25093babe51 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 27 Oct 2015 16:02:19 +0200
+ Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch
+index 40a71330522..66ffd1266be 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch
+@@ -1,4 +1,4 @@
+-From 984538dcce7b184269efc1e1b0fb78e1cb932b5d Mon Sep 17 00:00:00 2001
++From 7fe5b5ef35441a2e40cac13a51c6af10afa1dbe2 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 21 Mar 2025 01:21:22 -0700
+ Subject: [PATCH] Fix build errors on RISCV
+@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+)
  
- diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
- index f611b3a..5703b48 100644
-@@ -119,7 +119,7 @@ index f611b3a..5703b48 100644
-  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
-  {
-      HANDSHAKE_RESULT *ret;
--@@ -726,15 +822,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
-+@@ -724,15 +820,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
-          SSL_set_post_handshake_auth(client, 1);
-  }
-  
-@@ -135,7 +135,7 @@ index f611b3a..5703b48 100644
-  /* An SSL object and associated read-write buffers. */
-  typedef struct peer_st {
-      SSL *ssl;
--@@ -1081,17 +1168,6 @@ static void do_shutdown_step(PEER *peer)
-+@@ -1077,16 +1164,6 @@ static void do_shutdown_step(PEER *peer)
-      }
-  }
-  
-@@ -148,12 +148,11 @@ index f611b3a..5703b48 100644
- -    SHUTDOWN,
- -    CONNECTION_DONE
- -} connect_phase_t;
---
- -
-  static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
-  {
-      switch (test_ctx->handshake_mode) {
--@@ -1169,19 +1245,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
-+@@ -1164,19 +1241,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
-      }
-  }
-  
-@@ -173,7 +172,7 @@ index f611b3a..5703b48 100644
-  /*
-   * Determine the handshake outcome.
-   * last_status: the status of the peer to have acted last.
--@@ -1546,6 +1609,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
-+@@ -1541,6 +1605,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
-  
-      start = time(NULL);
-  
-@@ -184,8 +183,8 @@ index f611b3a..5703b48 100644
-      /*
-       * Half-duplex handshake loop.
-       * Client and server speak to each other synchronously in the same process.
--@@ -1567,6 +1634,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
--                                       0 /* server went last */);
-+@@ -1562,6 +1630,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
-+                 0 /* server went last */);
-          }
-  
- +        save_loop_history(&(ret->history),
-@@ -292,14 +291,14 @@ index 78b03f9..b9967c2 100644
-  
-  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
- @@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX *server_ctx, SSL_CTX *server2_ctx,
--                                     CTX_DATA *server2_ctx_data,
--                                     CTX_DATA *client_ctx_data);
-+     CTX_DATA *server2_ctx_data,
-+     CTX_DATA *client_ctx_data);
-  
- +const char *handshake_connect_phase_name(connect_phase_t phase);
- +const char *handshake_status_name(handshake_status_t handshake_status);
- +const char *handshake_peer_status_name(peer_status_t peer_status);
- +
-- #endif  /* OSSL_TEST_HANDSHAKE_HELPER_H */
-+ #endif /* OSSL_TEST_HANDSHAKE_HELPER_H */
- diff --git a/test/ssl_test.c b/test/ssl_test.c
- index ea60851..9d6b093 100644
- --- a/test/ssl_test.c
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
-index d02d42f1b51..f6eb28069ac 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
-@@ -20,7 +20,7 @@ index 4a1e886a71..39f8c61ef9 100644
- +++ b/test/radix/main.c
- @@ -25,6 +25,11 @@ static int test_script(int idx)
-      int testresult;
--     TERP_CONFIG cfg = {0};
-+     TERP_CONFIG cfg = { 0 };
-  
- +    // check_cwm test sometimes times out, the default 3000ms is
- +    // not enough if the test execution starves for CPU
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_3.5.4.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.5.5.bb
-index e760baf3a02..c0d02b617ba 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
-@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
+ diff --git a/Source/WebCore/contentextensions/ContentExtensionActions.h b/Source/WebCore/contentextensions/ContentExtensionActions.h
+-index 0b75d2e1df78..61cb33c94ce8 100644
++index a600f410..80512454 100644
+ --- a/Source/WebCore/contentextensions/ContentExtensionActions.h
+ +++ b/Source/WebCore/contentextensions/ContentExtensionActions.h
+ @@ -28,6 +28,7 @@
+diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
+index e4368960988..82eb56a0f65 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
+@@ -1,13 +1,23 @@
++From 9d09d47c01b8ee92a02662d58d2570160064fa5d Mon Sep 17 00:00:00 2001
+ From: Alberto Garcia <berto@igalia.com>
+-Description: Use WTF_CPU_UNKNOWN when building for riscv64
+- WebKitGTK doesn't build on riscv64 even with the JIT disabled.
+- Treating the CPU as unknown is perhaps a bit severe, but it allows us
+- to get the build done until someone steps up to maintain this
+- properly.
++Date: Fri, 19 Dec 2025 10:10:41 +0000
++Subject: Use WTF_CPU_UNKNOWN when building for riscv64
++
++WebKitGTK doesn't build on riscv64 even with the JIT disabled.
++Treating the CPU as unknown is perhaps a bit severe, but it allows us
++to get the build done until someone steps up to maintain this
++properly.
+ Bug: https://bugs.webkit.org/show_bug.cgi?id=271371
+ 
+ Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=271371#c1]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Source/WTF/wtf/PlatformCPU.h    | 8 --------
++ Source/cmake/WebKitCommon.cmake | 2 --
++ 2 files changed, 10 deletions(-)
++
++diff --git a/Source/WTF/wtf/PlatformCPU.h b/Source/WTF/wtf/PlatformCPU.h
++index 8aac1024..d9d69a40 100644
+ --- a/Source/WTF/wtf/PlatformCPU.h
+ +++ b/Source/WTF/wtf/PlatformCPU.h
+ @@ -286,14 +286,6 @@
+@@ -25,9 +35,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  #if !CPU(KNOWN)
+  #define WTF_CPU_UNKNOWN 1
+  #endif
++diff --git a/Source/cmake/WebKitCommon.cmake b/Source/cmake/WebKitCommon.cmake
++index 98ee788a..3861c0a4 100644
+ --- a/Source/cmake/WebKitCommon.cmake
+ +++ b/Source/cmake/WebKitCommon.cmake
+-@@ -125,8 +125,6 @@ if (NOT HAS_RUN_WEBKIT_COMMON)
++@@ -129,8 +129,6 @@ if (NOT HAS_RUN_WEBKIT_COMMON)
+          set(WTF_CPU_PPC64 1)
+      elseif (LOWERCASE_CMAKE_SYSTEM_PROCESSOR MATCHES "ppc64le")
+          set(WTF_CPU_PPC64LE 1)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch b/meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
+deleted file mode 100644
+index c0112cad18e..00000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
++++ /dev/null
+@@ -1,94 +0,0 @@
+-From 820e4bb46d7e72ba2b14b15819166919c2e81205 Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Wed, 15 Oct 2025 00:58:59 +0300
+-Subject: [PATCH] [libpas] Build fails with libc implementations that lack
+- execinfo.h https://bugs.webkit.org/show_bug.cgi?id=300701
+-
+-Reviewed by NOBODY (OOPS!).
+-
+-Change guards to use backtrace() and execinfo.h on Linux only when using
+-glibc as the C library. The PlayStation and Windows cases no longer need
+-to be matched, as they are neither Linux nor Darwin, both of which are now
+-explicitly listed. The Android check is kept as it was.
+-
+-* Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c:
+-* Source/bmalloc/libpas/src/test/PGMTests.cpp:
+-(addPGMTests):
+-
+-
+-Fixes the following error in OE, when compiled with musl:
+-
+-| ${UNPACKDIR}/webkitgtk-2.50.0/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c:52:10: fatal error: execinfo.h: No such file or directory
+-|    52 | #include <execinfo.h>
+-
+-
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/pull/52300]
+-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+-
+----
+- .../pas_probabilistic_guard_malloc_allocator.c      |  4 ++--
+- Source/bmalloc/libpas/src/test/PGMTests.cpp         | 13 ++++++-------
+- 2 files changed, 8 insertions(+), 9 deletions(-)
+-
+-diff --git a/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c b/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c
+-index ff3adefa7dcc..58ec32eb4fed 100644
+---- a/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c
+-+++ b/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c
+-@@ -43,8 +43,8 @@
+- #include <unistd.h>
+- #endif
+- 
+--/* PlayStation does not currently support the backtrace API. Android API versions < 33 don't, either. Windows does not either. */
+--#if !PAS_PLATFORM(PLAYSTATION) && (!PAS_OS(ANDROID) || __ANDROID_API__ >= 33) && !PAS_OS(WINDOWS)
+-+/* PlayStation does not currently support the backtrace API. Android API versions < 33 don't, either. Windows does not either. Linux only with GLibc and not uCLibc/Musl. */
+-+#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
+- #include <execinfo.h>
+- #else
+- size_t backtrace(void** buffer, size_t size)
+-diff --git a/Source/bmalloc/libpas/src/test/PGMTests.cpp b/Source/bmalloc/libpas/src/test/PGMTests.cpp
+-index 0432f46ba3b0..dfbf957a3421 100644
+---- a/Source/bmalloc/libpas/src/test/PGMTests.cpp
+-+++ b/Source/bmalloc/libpas/src/test/PGMTests.cpp
+-@@ -43,9 +43,9 @@
+- #include "pas_report_crash.h"
+- #include "pas_root.h"
+- 
+--#if !PAS_PLATFORM(PLAYSTATION)
+-+#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
+- #include <execinfo.h>
+--#endif // !PAS_PLATFORM(PLAYSTATION)
+-+#endif
+- 
+- using namespace std;
+- 
+-@@ -383,8 +383,7 @@ void testPGMMetadataVectorManagementFewDeallocations()
+-     pas_heap_lock_unlock();
+- }
+- 
+--/* Backtrace API is currently not supported on PlayStation. */
+--#if !PAS_PLATFORM(PLAYSTATION)
+-+#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
+- void testPGMMetadataDoubleFreeBehavior()
+- {
+-     pas_probabilistic_guard_malloc_initialize_pgm_as_enabled(1);
+-@@ -583,7 +582,7 @@ void testPGMAllocMetadataOnly()
+-         CHECK(!dealloc_metadata);
+-     }
+- }
+--#endif // !PAS_PLATFORM(PLAYSTATION)
+-+#endif
+- 
+- } // anonymous namespace
+- 
+-@@ -598,9 +597,9 @@ void addPGMTests()
+-     ADD_TEST(testPGMMetadataVectorManagement());
+-     ADD_TEST(testPGMMetadataVectorManagementFewDeallocations());
+-     ADD_TEST(testPGMMetadataVectorManagementRehash());
+--#if !PAS_PLATFORM(PLAYSTATION)
+-+#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
+-     ADD_TEST(testPGMMetadataDoubleFreeBehavior());
+-     ADD_TEST(testPGMBmallocAllocationBacktrace());
+-     ADD_TEST(testPGMAllocMetadataOnly());
+--#endif // !PAS_PLATFORM(PLAYSTATION)
+-+#endif
+- }
+diff --git a/meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch b/meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
+deleted file mode 100644
+index aa3b53e1bbb..00000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
++++ /dev/null
+@@ -1,122 +0,0 @@
+-From 0000000000000000000000000000000000000000 Fri Sep 19 11:55:30 2025 
+-From: amaxcz <amaxcz@gmail.com>
+-Date: Fri, 19 Sep 2025 11:55:30 +0000
+-Subject: [PATCH] JSC: fix op_instanceof handler for 32-bit C-loop build
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-JSC: fix op_instanceof handler for 32-bit C-loop build
+-
+-Fixes missing 'op_instanceof' handler in LowLevelInterpreter32_64.asm
+-which breaks 32‑bit builds.
+-
+-* No ChangeLog (raw external patch).
+-
+-Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=299166]
+-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+-
+---- ./Source/JavaScriptCore/llint/LowLevelInterpreter32_64.asm	2025-08-08 11:17:51.552549400 +0200
+-+++ ./Source/JavaScriptCore/llint/LowLevelInterpreter32_64.asm	2025-09-19 12:34:26.253563496 +0200
+-@@ -3445,4 +3445,97 @@
+- slowPathOp(mod)
+- 
+- llintSlowPathOp(has_structure_with_flags)
+--llintSlowPathOp(instanceof)
+-+
+-+llintOpWithMetadata(op_instanceof, OpInstanceof, macro (size, get, dispatch, metadata, return)
+-+
+-+    macro getAndLoadConstantOrVariable(fieldName, tagReg, payloadReg)
+-+        get(fieldName, t5)
+-+        loadConstantOrVariable(size, t5, tagReg, payloadReg)
+-+    end
+-+
+-+    macro isObject(field, falseLabel)
+-+        getAndLoadConstantOrVariable(field, t0, t1)
+-+        bineq t0, CellTag, falseLabel
+-+        bbneq JSCell::m_type[t1], ObjectType, falseLabel
+-+    end
+-+
+-+    macro overridesHasInstance(hasInstanceField, constructorField, trueLabel)
+-+        getAndLoadConstantOrVariable(hasInstanceField, t0, t1)
+-+        bineq t0, CellTag, trueLabel
+-+        loadp CodeBlock[cfr], t2
+-+        loadp CodeBlock::m_globalObject[t2], t2
+-+        loadp JSGlobalObject::m_functionProtoHasInstanceSymbolFunction[t2], t2
+-+        bpneq t1, t2, trueLabel
+-+
+-+        get(constructorField, t5)
+-+        loadConstantOrVariablePayload(size, t5, CellTag, t1, trueLabel)
+-+        btbz JSCell::m_flags[t1], ImplementsDefaultHasInstance, trueLabel
+-+    end
+-+
+-+    macro storeValue(tagReg, payloadReg, fieldName)
+-+        move tagReg, t0
+-+        move payloadReg, t1
+-+        get(fieldName, t5)
+-+        storei t0, TagOffset[cfr, t5, 8]
+-+        storei t1, PayloadOffset[cfr, t5, 8]
+-+    end
+-+
+-+.getHasInstance:
+-+    isObject(m_constructor, .throwStaticError)
+-+    get(m_constructor, t5)
+-+    metadata(t2, t6)
+-+    loadConstantOrVariablePayload(size, t5, CellTag, t3, .getHasInstanceSlow)
+-+    performGetByIDHelper(OpInstanceof, m_hasInstanceModeMetadata, m_hasInstanceValueProfile, .getHasInstanceSlow, size,
+-+        macro (resultTag, resultPayload)
+-+            storeValue(resultTag, resultPayload, m_hasInstanceOrPrototype)
+-+            jmp .getPrototype
+-+        end)
+-+    jmp .getPrototype
+-+
+-+.getHasInstanceSlow:
+-+    callSlowPath(_llint_slow_path_get_hasInstance_from_instanceof)
+-+    branchIfException(_llint_throw_from_slow_path_trampoline)
+-+    jmp .getPrototype
+-+
+-+.getHasInstanceInlinedGetterOSRReturnPoint:
+-+    # This path is taken when exiting to the LLInt from an inlined getter for Symbol.hasInstance.
+-+    getterSetterOSRExitReturnPoint(op_instanceof, size)
+-+    valueProfile(size, OpInstanceof, m_hasInstanceValueProfile, r1, r0, t2)
+-+    storeValue(r1, r0, m_hasInstanceOrPrototype)
+-+
+-+.getPrototype:
+-+    overridesHasInstance(m_hasInstanceOrPrototype, m_constructor, .instanceofCustom)
+-+    isObject(m_value, .false)
+-+    get(m_constructor, t5)
+-+    metadata(t2, t6)
+-+    loadConstantOrVariablePayload(size, t5, CellTag, t3, .getPrototypeSlow)
+-+    performGetByIDHelper(OpInstanceof, m_prototypeModeMetadata, m_prototypeValueProfile, .getPrototypeSlow, size,
+-+        macro (resultTag, resultPayload)
+-+            storeValue(resultTag, resultPayload, m_hasInstanceOrPrototype)
+-+            jmp .instanceof
+-+        end)
+-+    jmp .instanceof
+-+
+-+.getPrototypeSlow:
+-+    callSlowPath(_llint_slow_path_get_prototype_from_instanceof)
+-+    branchIfException(_llint_throw_from_slow_path_trampoline)
+-+    jmp .instanceof
+-+
+-+.instanceof:
+-+    callSlowPath(_llint_slow_path_instanceof_from_instanceof)
+-+    dispatch()
+-+
+-+.throwStaticError:
+-+    callSlowPath(_slow_path_throw_static_error_from_instanceof)
+-+    dispatch()
+-+
+-+.instanceofCustom:
+-+    callSlowPath(_slow_path_instanceof_custom_from_instanceof)
+-+    dispatch()
+-+
+-+.false:
+-+    get(m_dst, t5)
+-+    storei BooleanTag, TagOffset[cfr, t5, 8]
+-+    storei 0, PayloadOffset[cfr, t5, 8]
+-+    dispatch()
+-+end)
+-
+--- 
+-2.45.0
+diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+index 436ad2f02c7..14784a38a02 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+@@ -1,4 +1,4 @@
+-From 65e9a68c9d05f4902c2fc34303b7f8233ffa98d5 Mon Sep 17 00:00:00 2001
++From d8a41103d268c7d7de12326a15642508c3541d85 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Mon, 3 Jan 2022 14:18:34 +0000
+ Subject: [PATCH] webkitgtk: Add reproducibility fix
+diff --git a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
+index 19d18dea881..c473e817050 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
+@@ -1,7 +1,16 @@
+-Fix build on newer 32bit architectures with only 64bit time_t
++From 5a82a729903fcd6943334c160838a143dc9a3b3c Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 18 Dec 2024 20:24:22 -0800
++Subject: [PATCH] Fix build on newer 32bit architectures with only 64bit time_t
+ 
+ Upstream-Status: Submitted [https://chromium-review.googlesource.com/c/angle/angle/+/6108397]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp b/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
++index 4ed0af51..11feda6c 100644
+ --- a/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
+ +++ b/Source/ThirdParty/ANGLE/src/common/SimpleMutex.cpp
+ @@ -17,6 +17,9 @@
+diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+index 4b0cf364d83..97af0bce8f6 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+@@ -1,4 +1,4 @@
+-From 29431aec88764072a032aa4411e26e566a3a6c0b Mon Sep 17 00:00:00 2001
++From 367cc1e4bdb122a72666314abdb09dad266fd8a6 Mon Sep 17 00:00:00 2001
+ From: Michael Catanzaro <mcatanzaro@redhat.com>
+ Date: Mon, 5 Feb 2024 11:00:49 -0600
+ Subject: [PATCH] =?UTF-8?q?LowLevelInterpreter.cpp:339:21:=20error:=20?=
+@@ -21,10 +21,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+-index 76c46889..500be433 100644
++index d80e882a..84448df2 100644
+ --- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+ +++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+-@@ -336,8 +336,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
++@@ -340,8 +340,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
+      UNUSED_VARIABLE(t2);
+      UNUSED_VARIABLE(t3);
+      UNUSED_VARIABLE(t5);
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.50.4.bb
+similarity index 96%
+rename from meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.50.4.bb
+index a8d0a094b31..a1b0a726128 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.50.4.bb
+@@ -17,10 +17,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://sys_futex.patch \
+            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
+            file://fix-ftbfs-riscv64.patch \
+-           file://fix-musl-compilation.patch \
+-           file://fix_op_instanceof_handler_for_32-bit_C-loop_build.patch \
             "
+-SRC_URI[sha256sum] = "e564b8099f9a3ae32409539b290bbd2ad084e99b6d22d4aac5e51e4554df8bc2"
++SRC_URI[sha256sum] = "d3bfa473845acfab72635bada5e0d134fda6792c5b95c5c5cd141b46125bd8e4"
  
--SRC_URI[sha256sum] = "967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"
-+SRC_URI[sha256sum] = "b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69bd789f28bc2a89"
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
  
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+@@ -108,6 +106,10 @@ CXXFLAGS:append:arc = " -mlong-calls"
+ # Needed for non-mesa graphics stacks when x11 is disabled
+ CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
+ 
++# Fix Source/ThirdParty/skia/modules/skcms/src/Transform_inl.h:810:71:
++# error: cannot tail-call: tail call production failed
++CXXFLAGS:append:riscv64 = " -DSKCMS_HAS_MUSTTAIL=0"
++
+ # Javascript JIT is not supported on powerpc
+ EXTRA_OECMAKE:append:powerpc = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE:append:powerpc64 = " -DENABLE_JIT=OFF "
 
