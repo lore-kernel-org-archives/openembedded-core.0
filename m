@@ -1,142 +1,192 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2E5EEA876
-	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 01:45:08 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.61717.1770947099588101772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8040EF48DE
+	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 08:10:20 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.67359.1770970219599996692
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Feb 2026 17:44:59 -0800
+ Fri, 13 Feb 2026 00:10:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Lwc7bypz;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-463a0e14abfso26358b6e.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Feb 2026 17:44:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770947099; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eViIX5bAwa5DQU7SiW8F4okDE4DYckQNR1mZpt49Uo/hBzuafaHJAH4qxylpOyFqiw
-         oSD0kQ3kTrpW+5LR2KiWhz/iSfriI0Arn4RiwkozEF63R1YeY8tNZp6FR9G6SvACQuD+
-         M/GF3LW8hmfswx2ih+P2BWP0ybaOj8TSDnKwE2C8meMGL3Q5aRr/kvtk91UbHB7AqKB5
-         cF1K6Ezvsd/KhTp//Auw3GmuSIfrQeivV2+ov0Pa6rLrSHCE5z/AQD+18x5/+XMkhaQm
-         8t/RHTdklYb0u1wyKwX0vtjQZYxoShdTvCW9mdG67tFh4HLMAFTa/eR9qGwP/h9bLKjV
-         subA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LRq/7BTVo8uiMiKyNKG+I+wTqWJ5uYrJBEHlm9/v8r0=;
-        fh=UxP1HceJM0T1LJz3AZ4pRYR3KesS3Uwc4ek1/I2Z9pE=;
-        b=XzIdnpJrGgLeOh7LqUXCHAuckt13EfOG0EmMHL3yLpZhVgAKeYHrizrOi6w/BWb4G+
-         xUsrWOGS5mPiXe8e7ZGCAySqO3eIrng6r1Xc4zcJNV/vcIxCEW6YwTaH6WXZoFD10CEC
-         FZRuyNebPPszaSup2y6F8GI5xuhClL/jyfZJYlSxSl5Sc9RJKuBBb6kVBYUHnkyiqSNc
-         31EkeAZoAdbc2eNv37hoCjkRgvBhnSJZl90jYfii546pAsS8x2PFlrCVswkIBa35vLyO
-         jOvZfO6/Ni5VR87Zfu7zdfXfP/i2RuKbFx9ucCL/MDznsBLWhGAwCM5rEYpXCH8mE7Uo
-         meqA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=aWOfNo1c;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4837584120eso841155e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 00:10:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770947099; x=1771551899; darn=lists.openembedded.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LRq/7BTVo8uiMiKyNKG+I+wTqWJ5uYrJBEHlm9/v8r0=;
-        b=Lwc7bypzvtqkAS5w4Iedtb2/OleNZ1Ar42s3gRo4jG13LAxOJ6Cz7wuhLW3kY3+uMB
-         fItxVTK5ObWATyUheLAWDvSns3XP5VzqrtFs0lPKaY93/+bptqSbmJa0YC21V4G/JopL
-         b/qb4oZDI8gzEFcTsyyzqYPBs6btZRo+tXPF/Lx5/aD1PA7Uh0GY2m+5rgGgzZDx7raM
-         UxJIujfpgQzVBDtByBwhX2a+QGB0ckCUZNwOtNYCIy9Z9jypmafPY/bow7aKCJXQXqyR
-         B/WTOF9qgxdNlOznwi8nP/pYtK4BwEFSvSj8j/zpO5GvB/yq+Nu2+8uGCcckO/p30Kma
-         25RA==
+        d=smile.fr; s=google; t=1770970217; x=1771575017; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/E8A1PAM6yE9E5lIaqVPc41Z/7gH8fLOnoDcV8d+BYk=;
+        b=aWOfNo1cS6vzGILSI8ACX5ajAfhflS3clOSMiC9/agTCiFJ/erq0oI/xB6nqGNl1il
+         yHJJJfv8WQ9APmTc1cccoF2L467A3dZLRKQIdyolAJNavyZXkwA2bvKPDWcP6eu0tGba
+         7yghxXCG1yKRLEFUsHU3ELvEZCW1kfsWxs8FI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770947099; x=1771551899;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LRq/7BTVo8uiMiKyNKG+I+wTqWJ5uYrJBEHlm9/v8r0=;
-        b=VKmvB5FJvhO15zXhyOtcgZdomlfBjA7FdscexQIBnepXPE9r/JrkxfjKydUbhkBrH0
-         BqkJtF507EKLgpX7cjRG0Cs7/ftY84P1Ewp15CN3fG3hhwiLnOAHFLYE+wITpD4Kvwnm
-         X6bKAP6wCrhDP+ZOfGOfHGoDYJ98eCLHcBbh7/HDBRmVpCywwbwf5p1aiP/XQ01YyZct
-         YrAoO3CWdjMpRnULyPiulMuuQtDCUeLe2P/qRjFkwoJ2ikhEcjKWwdPUFtV/rIfbmMaO
-         OGdcKnBgl3PfAioFt7G2Xwryy8H20TXi7b0sJgtsaH478ahEYsg1HZRgzr3yrvg4SrB5
-         nhew==
-X-Gm-Message-State: AOJu0YzjT2ec230IFoJnkwL1zJHWUfJ2VIjvndk/kJEG1/S2nkzd6bRZ
-	05AFX64HJThU7/uv0qd9S2JFvmSrNkuSPfXLXXZF7LHyuUPBB+spAzFLclja0ho8KfmbepGz9/v
-	wMeQr1LZAOgc1g8d8BDDtkqDuPlw5m8kxNg==
-X-Gm-Gg: AZuq6aJf3LO26JdpifhPAnhswVdycgMs05yokxjN+9BbqRN5nfb9l/DKdtoMdn5FzcT
-	LPEiwMHI5tyBrYe0KwQmbEDkIwdbHnD8jCNRP1ANQsWrQ8xxIQa9/+ikpk17RdSzS53bUgjQH8o
-	ZjiJDONE1vIxFRv+uio1v2e3mkPSPxxoPXogZ/R78y7UqGEODEdOpo8cJr3pFp8pqcCUXoCuqfA
-	QVwNMbKW8Omcm+qQs2/t0GDUh6hEihTHisFRbJqCUvxQj0RdMIwkAOnKOisE3ngGq2PjnAlAENj
-	/eTkRsjx
-X-Received: by 2002:a05:6820:498b:b0:672:d632:b1a with SMTP id
- 006d021491bc7-6771ff7c080mr371465eaf.12.1770947098340; Thu, 12 Feb 2026
- 17:44:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20260213014119.3451355-1-ankur.tyagi85@gmail.com> <20260213014119.3451355-2-ankur.tyagi85@gmail.com>
-In-Reply-To: <20260213014119.3451355-2-ankur.tyagi85@gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Fri, 13 Feb 2026 14:44:47 +1300
-X-Gm-Features: AZwV_QiiHRXjrkMNqD7Eu9smou7hCQPwhF7iqIMQM5sVySK5fyEDtu56FQoyYH4
-Message-ID: <CADySD0H+H-w5iUUFJcGLjp=q2oEbmBWPY+3usEjDz82RHyWD-A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 2/2] mdadm: catch sed substitution failure during install
+        d=1e100.net; s=20230601; t=1770970217; x=1771575017;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/E8A1PAM6yE9E5lIaqVPc41Z/7gH8fLOnoDcV8d+BYk=;
+        b=laM577tF9xgzginancvuduZMSy2BBdA8krxv/4kC1PeRhuwKA9iIjtTexMsYf9dPlE
+         eblzR61Cqbvq2Ec0eQG4EJtH2gTNC5BxKQd78X0G0TstJC6GXvGog8VXvtRZzGCeFUu9
+         RDROCGFTntBNVz5oN0BKvR6+fCfz9BnKyJZYPXMVPaxbEL2qg+lkws44x52DZ6mkwGMS
+         bbhuD0zpIW7u0w0C6KsGqIjJoI9n4wIJPkO3WzFnkHHSJlT4BVlaC6M25e7AGvK6LScN
+         kmv4NRwvFox7QIAmgHqZ/rjksKxT4qj4IOhfDhiR8bukBpxUrmtbiIgrrUGvHDPXBRp6
+         mY0g==
+X-Gm-Message-State: AOJu0YzueGhKtygubtVveu1xIdalPWRGTCUeakziSjNyLB3pobtFrk+7
+	eLV63iKJzi+J16B949Q4QOrXBh7BdOtSlJw2uct4beP7dqfoDRDgwIjhEnmn7uhEHJalTTM7zUo
+	cT5A6
+X-Gm-Gg: AZuq6aKsOdnHGBZlxEFj9Kv6Xahtg1AU/YJm/jutcwjj24ea+hbE9hwmcgM7RvFHyoL
+	AZwSAJ8FXfeVEAxz6xekiL74RywACVFX077rgOSDmvwwu4pYLfBNT7mJCoFI/CuzkjcBlXXkiQk
+	zRSvMKi2i6J8jVwPZVzointRtm7nIGleZsWwhFxJsJKHnp/oqTAhZg/fIojAyRD0mV3SDiTCr2K
+	9oU1APkQUrBbLP6F6VztMkUwqX+YJfu0Vu5iRoalIeygNyJ0AREipR9YVeCQ0ugRUkbn9OtdbTf
+	F0toDMH2WWQGpAv4a0EpcXJF/J3llAxDNzA8Qy7FF62p6I8CQOqEsV6Dql9LP56drh0fmO+vGg6
+	LTiKbdCu8EPMFj+VpdP/glF6M8izn/EYQQXzzzSrMap3EZwLKHDSWwQsYDJIRCZLWrMLAQchfSL
+	+NGP9AKDQfSsLxwupo4KiBYZOOXhONkeOap9GUoAXlvMTt3yhcwjllu8P+gFcmQr774ncOUGORq
+	wbMqlIJKO2rgCh4rMkgL5exusg=
+X-Received: by 2002:a05:600c:4746:b0:471:114e:5894 with SMTP id 5b1f17b1804b1-48373a565d0mr13672065e9.25.1770970216807;
+        Fri, 13 Feb 2026 00:10:16 -0800 (PST)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00d6f202ec534aee64.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:d6f2:2ec:534a:ee64])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-437969fd36dsm3590815f8f.0.2026.02.13.00.10.16
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Feb 2026 00:10:16 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [OE-core][whinlatter 00/19] Patch review
+Date: Fri, 13 Feb 2026 09:08:18 +0100
+Message-ID: <cover.1770968514.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 01:45:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231081
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 08:10:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231082
 
-Hello,
+Please review this set of changes for whinlatter and have comments back by
+end of day Monday, February 16.
 
-Since I am unable to reproduce this error locally, I have sent this
-series only to be tested on AB to investigate further.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3205
+Note: The only difference between 198bfb003b5 (this build) and ea633ee08
+(this review) is that I added cherry-pick info in some commits (IMHO, it
+is not worth restarting an a-full for this. But you can ask for it if
+you want)
 
-cheers
-Ankur
+The following changes since commit 000a044d285d93ded3280f27360165c943bb5d7e:
 
-On Fri, Feb 13, 2026 at 2:41=E2=80=AFPM <ankur.tyagi85@gmail.com> wrote:
->
-> From: Ankur Tyagi <ankur.tyagi85@gmail.com>
->
-> This patch is to validate a possible race condition theory during install=
-.
-> Also fail the build if sed substitution still fails for further investiga=
-tion.
->
-> Details: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16166
->
-> [YOCTO #16166]
->
-> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> ---
->  meta/recipes-extended/mdadm/mdadm_4.5.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/mdadm/mdadm_4.5.bb b/meta/recipes-exte=
-nded/mdadm/mdadm_4.5.bb
-> index b30d3d776e..7dda5b064a 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_4.5.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_4.5.bb
-> @@ -40,11 +40,15 @@ EXTRA_OEMAKE =3D 'CHECK_RUN_DIR=3D0 CWFLAGS=3D"" CXFL=
-AGS=3D"${CFLAGS}" SYSTEMD_DIR=3D${sys
->  DEBUG_OPTIMIZATION:append =3D " -Wno-error"
->
->  do_install() {
-> -        oe_runmake 'DESTDIR=3D${D}' install install-systemd
-> +        oe_runmake -j 1 'DESTDIR=3D${D}' install install-systemd
->          install -d ${D}/${sysconfdir}/
->          install -m 644 ${S}/documentation/mdadm.conf-example ${D}${sysco=
-nfdir}/mdadm.conf
->          install -d ${D}/${sysconfdir}/init.d
->          install -m 755 ${UNPACKDIR}/mdadm.init ${D}${sysconfdir}/init.d/=
-mdmonitor
-> +        if grep -q "BINDIR" ${D}${datadir}/${BPN}/mdcheck; then
-> +            bberror "Build failed: 'BINDIR' placeholder found in mdcheck=
-."
-> +            bbfatal_log "sed command in Makefile failed to execute corre=
-ctly."
-> +        fi
->  }
->
->  do_compile_ptest() {
+  inetutils: patch CVE-2026-24061 (2026-02-10 21:15:17 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-nut
+
+for you to fetch changes up to ea633ee08638624e18ec14ca69ace3a72b498a31:
+
+  devtool: deploy: Reset PATH after strip_execs (2026-02-12 23:17:04 +0000)
+
+----------------------------------------------------------------
+
+Adarsh Jagadish Kamini (1):
+  avahi: Backport fix CVE-2025-68276
+
+Aleksandar Nikolic (1):
+  scripts/install-buildtools: Update to 5.3.1
+
+Amaury Couderc (2):
+  avahi: patch CVE-2025-68468
+  avahi: patch CVE-2025-68471
+
+Ankur Tyagi (3):
+  mobile-broadband-provider-info: upgrade 20250613 -> 20251101
+  avahi: patch CVE-2026-24401
+  vim: ignore CVE-2025-66476
+
+Bruce Ashfield (2):
+  linux-yocto/6.12: update to v6.12.69
+  linux-yocto/6.12: update CVE exclusions (6.12.69)
+
+Dragomir, Daniel (2):
+  wic/engine: fix copying directories into wic image with ext* partition
+  oeqa/selftest/wic: test recursive dir copy on ext partitions
+
+Hongxu Jia (2):
+  webkitgtk: workaround compile failure for large debug symbols
+  webkitgtk: upgrade 2.50.0 -> 2.50.4
+
+Paul Barker (2):
+  devtool: deploy: Run pseudo with correct PATH
+  devtool: deploy: Reset PATH after strip_execs
+
+Peter Marko (4):
+  openssl: upgrade 3.5.4 -> 3.5.5
+  ffmpeg: ignore 10 CVEs
+  libsndfile1: patch CVE-2025-56226
+  go: upgrade 1.25.6 -> 1.25.7
+
+ .../distro/include/yocto-space-optimize.inc   |     3 -
+ meta/lib/oeqa/selftest/cases/wic.py           |    65 +
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |     4 +
+ .../avahi/files/CVE-2025-68276.patch          |    68 +
+ .../avahi/files/CVE-2025-68468.patch          |    32 +
+ .../avahi/files/CVE-2025-68471.patch          |    36 +
+ .../avahi/files/CVE-2026-24401.patch          |    74 +
+ ...obile-broadband-provider-info_20251101.bb} |     2 +-
+ ...ke-history-reporting-when-test-fails.patch |    23 +-
+ .../0001-extend-check_cwm-test-timeout.patch  |     2 +-
+ .../{openssl_3.5.4.bb => openssl_3.5.5.bb}    |     2 +-
+ .../go/{go-1.25.6.inc => go-1.25.7.inc}       |     2 +-
+ ...e_1.25.6.bb => go-binary-native_1.25.7.bb} |     6 +-
+ ..._1.25.6.bb => go-cross-canadian_1.25.7.bb} |     0
+ ...{go-cross_1.25.6.bb => go-cross_1.25.7.bb} |     0
+ ...osssdk_1.25.6.bb => go-crosssdk_1.25.7.bb} |     0
+ ...runtime_1.25.6.bb => go-runtime_1.25.7.bb} |     0
+ .../go/{go_1.25.6.bb => go_1.25.7.bb}         |     0
+ .../linux/cve-exclusion_6.12.inc              | 13004 ++++++++++------
+ .../linux/linux-yocto-rt_6.12.bb              |     6 +-
+ .../linux/linux-yocto-tiny_6.12.bb            |     6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb |    28 +-
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb  |     7 +
+ .../libsndfile1/CVE-2025-56226-01.patch       |    36 +
+ .../libsndfile1/CVE-2025-56226-02.patch       |    43 +
+ .../libsndfile/libsndfile1_1.2.2.bb           |     2 +
+ ...able-to-control-macro-__PAS_ALWAYS_I.patch |     8 +-
+ ...spection.cmake-prefix-variables-obta.patch |     2 +-
+ ...-on-RISCV-https-bugs.webkit.org-show.patch |     4 +-
+ .../webkit/webkitgtk/fix-ftbfs-riscv64.patch  |    24 +-
+ .../webkitgtk/fix-musl-compilation.patch      |    94 -
+ ...ceof_handler_for_32-bit_C-loop_build.patch |   122 -
+ .../webkit/webkitgtk/reproducibility.patch    |     2 +-
+ .../webkit/webkitgtk/sys_futex.patch          |    11 +-
+ .../webkit/webkitgtk/t6-not-declared.patch    |     6 +-
+ ...ebkitgtk_2.50.0.bb => webkitgtk_2.50.4.bb} |    15 +-
+ meta/recipes-support/vim/vim_9.1.bb           |     2 +
+ scripts/install-buildtools                    |     4 +-
+ scripts/lib/devtool/__init__.py               |     3 +-
+ scripts/lib/devtool/deploy.py                 |     9 +-
+ scripts/lib/wic/engine.py                     |    63 +-
+ 41 files changed, 8390 insertions(+), 5430 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68471.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-24401.patch
+ rename meta/recipes-connectivity/mobile-broadband-provider-info/{mobile-broadband-provider-info_20250613.bb => mobile-broadband-provider-info_20251101.bb} (91%)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.5.5.bb} (99%)
+ rename meta/recipes-devtools/go/{go-1.25.6.inc => go-1.25.7.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.25.6.bb => go-binary-native_1.25.7.bb} (79%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.25.6.bb => go-cross-canadian_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.25.6.bb => go-cross_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.25.6.bb => go-crosssdk_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.25.6.bb => go-runtime_1.25.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.25.6.bb => go_1.25.7.bb} (100%)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-01.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-02.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.50.0.bb => webkitgtk_2.50.4.bb} (93%)
+
 
