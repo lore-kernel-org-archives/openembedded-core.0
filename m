@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C78EF48DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB13EF48EB
 	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 08:10:41 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.67365.1770970230885236680
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.67232.1770970231408217099
  for <openembedded-core@lists.openembedded.org>;
  Fri, 13 Feb 2026 00:10:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dQO6mj/W;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso4728295e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 00:10:30 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=aYBBcZd0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-480706554beso6444865e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 00:10:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1770970229; x=1771575029; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Liwcje/Z9Lx3AK5pmnlgytbBGwQshpvm0q8FNBZl+uE=;
-        b=dQO6mj/WPqff7DEjCC6fTUnLSVRGkmNTx9fSdAAsz1yc3ZM38S6PB+H/Xa4ysKv8DZ
-         Qg4HhQ0QPFVpsnjLgaM0eNN8tImVm9WyryuFhY4o5WJTAqlqXx9zT0oyOJMUAamO1mqe
-         YZsbUEnNAaiY+e5a+NPTmtQbNvca2Ks9Unq8I=
+        bh=nmYcnguMb/RUhOnwZB2HRqnVJ6RhJKdL4LMnnFj6t8o=;
+        b=aYBBcZd0GTh3wIEooCAm2g2TqoO9glp8qqdsgeZcy3XXVhbF43PHwi3NUMaSuUTDns
+         uliGi+gEUrHfh8huFGso0f8fhudVVKZXU4lZ0ciS2GaBzEU+JfsZ4XfZXQU3L6haIuby
+         TbSB4IQmhDUnYM9f7PhGQ0Ht5oSLQJeCjWnZE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1770970229; x=1771575029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Liwcje/Z9Lx3AK5pmnlgytbBGwQshpvm0q8FNBZl+uE=;
-        b=PuEKPD2Xl1KK9KytYwxTG71LGc6RJZ4KacGdQyhRmVjDk/sQ1rbquIqKCKso5cn0FS
-         oMisUCYSaNWAIAEwo2elcX/BH8K7lLcFdJgtB/h6xg9Vwwv/8ZyBv7qkHpvQMn4jxzHQ
-         wneGlj3VRq5XAZ8siDBCHRM/dItPrI/R2HnJeWBk/O4beaT0vofVZuCxTSpS++MtMxQ4
-         OYGr7dOzkwXw8irdYmnzI5FbEViVGybSOiR5R/KBEiA6938aHpGgOXdOAiMjWzOWHJcY
-         k5o0VDR9EHPkhba8EVnELTF9usd8+ro49rZF1HpMT6BvW4wOwAAfrgQeS+IypQ15bz1M
-         Femg==
-X-Gm-Message-State: AOJu0YzU3n3kTTO2nb/DpeuC3j0vMjT4MgPsLlutUdhHeAyqWT+dnwN6
-	EV917rmzsEecg5Gsk9Jxuaao4UWfkx1O1RcK5VRBFEebfWa/NMc6OpwdDqyd7rL5yaptTSpiZEr
-	cgwVA
-X-Gm-Gg: AZuq6aKN3JUkv59LEKxZXF/MArEGrOLxdTVnGuk1rUeAoUJyqi3OGMdi2Fp8HGiskhl
-	6HYkgRXB6hO8YQ5RDRrFcNz7NHbs3tY3tS6QOqvrTkXJbu4zUc6xCvtSkoF/NTczjRoCQH1NK8E
-	W71NX14EJNx+i9FtJD7aDCZpyLtcKnkMM0cTLdi+woDKkKfXckirCMKUfczupUxLqGYK/sCbW+X
-	LAgAqyM/XLvUMyx6BAIfrzRPDOxKQHk9qWok2Pua+Z0xkScidjYuNKyt7YucPLH+R+2yAk28j/V
-	DHV8PFaaKskSI+JdxacoZSer2ojKS52LSjOGYcboyvQQ8auS6uQEFEUq8JtDtfGrQlrNIq0C3Mm
-	9XVSMQWwuKH5XAbhuaDAOHw7/0QMzTaHEPYZHqNH54bmCCFptqJGtlcjtUmgQSSN7XNGFxoGOsc
-	TzxqYR28OXa3wYCDr0mar9uHe0ZSuyj22Y3wv+qAkYE+aTNLdsSpi+raNEWV7OVttkmU/GHMLBh
-	8Qz3zhgH5ylUr4R/EIzcyZ/VFQ=
-X-Received: by 2002:a05:600c:3d87:b0:480:3ad0:93c0 with SMTP id 5b1f17b1804b1-48373a5d6d5mr12263485e9.23.1770970228891;
-        Fri, 13 Feb 2026 00:10:28 -0800 (PST)
+        bh=nmYcnguMb/RUhOnwZB2HRqnVJ6RhJKdL4LMnnFj6t8o=;
+        b=wsChdBfQJpBvPYNL4y71zf+jYCRaTyl9uHIKCbDAWU67WAYqIaIlYh8NcCF6/0t073
+         m2vB96N/q5wmadg+rS8xDzxU+M04ddIGucQGJOcVf6g72YosP78iOtninCbBKcve79QU
+         ecHVXqGtw+ik4JOlctjYPcHT6JjDBI3eDTO2IX6FOdevcFxU0UZ+jR/pAmYOB6gG3FaO
+         nNyUk9wKVy0VfW7mgHIzH95frQGGmWgVnbsW/jXaNoaeQhoAhucJku+MB6zami2Cp95b
+         l1xMOQE33H6NinLq4sr2tKAz+zUZxTxuVduEQZ9TS9bxON4rXVunaQOlgxwfdZUdQ8qT
+         qSbQ==
+X-Gm-Message-State: AOJu0YxQ3RZ6FyKq/Kt9QVW2cxQmY5m0GB0RVt/OBviy0TotF74klDZh
+	VRHov05N5N7VZg8nihq7HribRg5CVTpL5TOQ+WwNke6Q8hDjdbzS/NwNZrH8sPw9PjkgKc1OtjM
+	wkD77
+X-Gm-Gg: AZuq6aLwnT3Y/6fKjptTd32qvetQaA6+uKcvUwgIzlkPQQFWbb9dHlDfDclt2Fa2t6t
+	3dlf4G7nfux3kEdB9o8JGMWaphaouNOWHfMuZbiX6eDBYfJ529O2PKdBQLSqUMaSf3SYK4Ezktm
+	yfmXSwaJMdQ0mOR5a1evbP2ZqkpWUfXuF11NGX8n5rhmOGRsJItbzxHVn4lBQ7+pueYrKSnzwXD
+	jKDer6jTqXWnGHQyJ9gD64J4VcqreiC/1eplfeFAW1lQGlVDA2KTXxN3rnid8Fr6mPV0bX1Dy9W
+	uzXbVdhnO/k5D1u5c4CPOaHx979DsP8UqngevDuotSG26VPtdfEgAq9X5hvglR0cIJWkokNgSHC
+	lykGRvo6aCmbqYdXVH/HLcAKER48rplK4w4cuL1Mk6vW5E8HDYJAIncrNlHVwQQjB85XS6cyejw
+	ceKb3h0bB/bIV+prY6TADWxuoDH6iTeHzBuSVnO08FUbyI2hNX6zKLFZg+jveDkf7RHFcdkA6qN
+	LFZV477gGkxv/HNnh+WGlVTNv0=
+X-Received: by 2002:a05:600c:528c:b0:483:703e:4ad9 with SMTP id 5b1f17b1804b1-48373a628damr13048815e9.19.1770970229479;
+        Fri, 13 Feb 2026 00:10:29 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00d6f202ec534aee64.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:d6f2:2ec:534a:ee64])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-437969fd36dsm3590815f8f.0.2026.02.13.00.10.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 00:10:28 -0800 (PST)
+        Fri, 13 Feb 2026 00:10:29 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 17/19] go: upgrade 1.25.6 -> 1.25.7
-Date: Fri, 13 Feb 2026 09:08:35 +0100
-Message-ID: <5d4e9c0ef45a6ebfe2b9eb57ed654829068b520d.1770968514.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 18/19] devtool: deploy: Run pseudo with correct PATH
+Date: Fri, 13 Feb 2026 09:08:36 +0100
+Message-ID: <2e0afe1da33fbe353182ba63760d7d3e5420dbff.1770968514.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1770968514.git.yoann.congal@smile.fr>
 References: <cover.1770968514.git.yoann.congal@smile.fr>
@@ -66,104 +66,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 08:10:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231100
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231101
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Paul Barker <paul@pbarker.dev>
 
-Upgrade to latest 1.25.x release [1]:
+When running FAKEROOTCMD (i.e. pseudo), we need to use the same PATH as
+we would use if we were running inside bitbake instead of the host
+environment's PATH. This ensures that we don't pick up any host
+executables that may have problems with pseudo (such as the uutils
+implementations of common system utilities used in Ubuntu 25.10).
 
-$ git --no-pager log --oneline go1.25.6..go1.25.7
-eaf3bc799a (tag: go1.25.7) [release-branch.go1.25] go1.25.7
-c7d189e65c [release-branch.go1.25] crypto/tls: document resumption behavior across Configs
-4512014530 [release-branch.go1.25] crypto/tls: revalidate whole chain on resumption on Windows and macOS
-d5987bff8a [release-branch.go1.25] crypto/tls: check verifiedChains roots when resuming sessions
-c2d04c0994 [release-branch.go1.25] crypto/tls: add verifiedChains expiration checking during resumption
-6b1110a40f [release-branch.go1.25] Revert "crypto/tls: don't copy auto-rotated session ticket keys in Config.Clone"
-0765a9d624 [release-branch.go1.25] crypto/x509: fix single label excluded name constraints handling
-b19100991a [release-branch.go1.25] cmd/go: remove user-content from doc strings in cgo ASTs.
-738bc3a33c [release-branch.go1.25] cmd/compile: during regalloc, fixedreg values are always available
-
-Fixes CVE-2025-61732 and CVE-2025-68121.
-
-Release information: [2]
-
-[1] https://github.com/golang/go/compare/go1.25.6...go1.25.7
-[2] https://groups.google.com/g/golang-announce/c/K09ubi9FQFk
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Paul Barker <paul@pbarker.dev>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7a5237b7ae557136eee9ff3f98e2b0a74f39ebb7)
+(cherry picked from commit 1551136333876ab8a63e96430a498dcfa580265c)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/go/{go-1.25.6.inc => go-1.25.7.inc}   | 2 +-
- ...o-binary-native_1.25.6.bb => go-binary-native_1.25.7.bb} | 6 +++---
- ...cross-canadian_1.25.6.bb => go-cross-canadian_1.25.7.bb} | 0
- .../go/{go-cross_1.25.6.bb => go-cross_1.25.7.bb}           | 0
- .../go/{go-crosssdk_1.25.6.bb => go-crosssdk_1.25.7.bb}     | 0
- .../go/{go-runtime_1.25.6.bb => go-runtime_1.25.7.bb}       | 0
- meta/recipes-devtools/go/{go_1.25.6.bb => go_1.25.7.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.25.6.inc => go-1.25.7.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.6.bb => go-binary-native_1.25.7.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.6.bb => go-cross-canadian_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.6.bb => go-cross_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.6.bb => go-crosssdk_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.6.bb => go-runtime_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.6.bb => go_1.25.7.bb} (100%)
+ scripts/lib/devtool/__init__.py | 3 ++-
+ scripts/lib/devtool/deploy.py   | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.25.6.inc b/meta/recipes-devtools/go/go-1.25.7.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.25.6.inc
-rename to meta/recipes-devtools/go/go-1.25.7.inc
-index 2c31c4a235d..ab58f712ef1 100644
---- a/meta/recipes-devtools/go/go-1.25.6.inc
-+++ b/meta/recipes-devtools/go/go-1.25.7.inc
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
- "
--SRC_URI[main.sha256sum] = "58cbf771e44d76de6f56d19e33b77d745a1e489340922875e46585b975c2b059"
-+SRC_URI[main.sha256sum] = "178f2832820274b43e177d32f06a3ebb0129e427dd20a5e4c88df2c1763cf10a"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.6.bb b/meta/recipes-devtools/go/go-binary-native_1.25.7.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.6.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.7.bb
-index 6429bb385b5..19951344810 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.6.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.7.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 969d6dc13ab..7c8de5540c1 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -74,12 +74,13 @@ def exec_watch(cmd, **options):
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "f022b6aad78e362bcba9b0b94d09ad58c5a70c6ba3b7582905fababf5fe0181a"
--SRC_URI[go_linux_arm64.sha256sum] = "738ef87d79c34272424ccdf83302b7b0300b8b096ed443896089306117943dd5"
--SRC_URI[go_linux_ppc64le.sha256sum] = "bee02dbe034b12b839ae7807a85a61c13bee09ee38f2eeba2074bd26c0c0ab73"
-+SRC_URI[go_linux_amd64.sha256sum] = "12e6d6a191091ae27dc31f6efc630e3a3b8ba409baf3573d955b196fdf086005"
-+SRC_URI[go_linux_arm64.sha256sum] = "ba611a53534135a81067240eff9508cd7e256c560edd5d8c2fef54f083c07129"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "42124c0edc92464e2b37b2d7fcd3658f0c47ebd6a098732415a522be8cb88e3f"
+     return buf, None
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.6.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.25.6.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.25.7.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.25.6.bb b/meta/recipes-devtools/go/go-cross_1.25.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.25.6.bb
-rename to meta/recipes-devtools/go/go-cross_1.25.7.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.6.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.25.6.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.25.7.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.25.6.bb b/meta/recipes-devtools/go/go-runtime_1.25.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.25.6.bb
-rename to meta/recipes-devtools/go/go-runtime_1.25.7.bb
-diff --git a/meta/recipes-devtools/go/go_1.25.6.bb b/meta/recipes-devtools/go/go_1.25.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.25.6.bb
-rename to meta/recipes-devtools/go/go_1.25.7.bb
+-def exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, **kwargs):
++def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, **kwargs):
+     if not os.path.exists(fakerootcmd):
+         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
+         return 2
+     # Set up the appropriate environment
+     newenv = dict(os.environ)
++    newenv['PATH'] = path
+     for varvalue in fakerootenv.split():
+         if '=' in varvalue:
+             splitval = varvalue.split('=', 1)
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index a98b33c5718..2bf693d165a 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -186,8 +186,8 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+         srcdir = recipe_outdir
+         recipe_outdir = os.path.join(workdir, 'devtool-deploy-target-stripped')
+         if os.path.isdir(recipe_outdir):
+-            exec_fakeroot_no_d(fakerootcmd, fakerootenv, "rm -rf %s" % recipe_outdir, shell=True)
+-        exec_fakeroot_no_d(fakerootcmd, fakerootenv, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
++            exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "rm -rf %s" % recipe_outdir, shell=True)
++        exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
+         os.environ['PATH'] = ':'.join([os.environ['PATH'], path or ''])
+         oe.package.strip_execs(args.recipename, recipe_outdir, strip_cmd, libdir, base_libdir, max_process)
+ 
+@@ -266,7 +266,7 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+         shutil.rmtree(tmpdir)
+ 
+     # Now run the script
+-    ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
++    ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
+     if ret != 0:
+         raise DevtoolError('Deploy failed - rerun with -s to get a complete '
+                         'error message')
 
