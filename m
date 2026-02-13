@@ -1,143 +1,181 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A15EDF174
-	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 15:26:04 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.74204.1770996362449190925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD87EDF175
+	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 15:34:04 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.74433.1770996836124809751
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Feb 2026 07:26:02 -0800
+ Fri, 13 Feb 2026 07:33:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EcSDqtDS;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59e614b3dbcso1221692e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 07:26:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770996360; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KCoWUd+TDO+/zPHkOfc6Oonx0RrEHE2z3LnEeH141zOu08qJSWoKDQ1XlzzATIQhL6
-         VBkPiIB//wijyN9t/59YDBGbcRQIlQcdFONFQFe7wmwLDgzKTkbZNSrgNb2CidiVX4c6
-         vDym3+edCt1SPc3mZAdG0WRHBAw7ubSz9UqUcbfdSByE21JITD3BuTzGOOYX6FX3GuIY
-         Hz4BSoW4luCaOMYQDReLggdu/AZlygYbOF0xgjQODZhrPzvvZcErVC3CsXTlMj0yBBIo
-         FqgVd3QKzth6olJK2QkojsfEBVDaxZb3BG5RQ3dMTjm58CpCwlMX/mPb6z8dxXvdV1q3
-         VOUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Uv7+wGjYdZrWiwxPruuCmW0WkztDJFSZ9NcJcq3kOJY=;
-        fh=4JuWOqMLFFgcMhrcHnvkwh2LOV5RHiYp1aWPfcWbkAA=;
-        b=Jz5nFaJRhVaOIjM4hVnqwXnpSz4kmnzlSpSBmG2GVwR0TrQQVNaJRWQ2lFeOW5E/y1
-         98KmnzrJtiuqklMAYEYvYYaHAfffzmgV+0H4PnWVkFPBdXxiKhVG9cSR8j6ZvrF8kZIG
-         hOF1wvdIBUKPbTPSQZAmIAbxXHxX9aVceiLnGz8vIMCkvOJPfm8iBr5oVRbwRftKQjhP
-         OSIwIfKCKgtaI7XfhJId+wrqhbZVrgScoygO4w1sOoBDjDYHfloxBDwLDVlCsfEyhHrK
-         YXuDL1vSmR9Tp4KdgIVzg2Pd7HhxYFYQ90mw17rG58X10HEtxRhiY8iqXbMPtIq2iZg8
-         V1Yg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770996360; x=1771601160; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uv7+wGjYdZrWiwxPruuCmW0WkztDJFSZ9NcJcq3kOJY=;
-        b=EcSDqtDShZJXCbX9vA3f4oNVGzw58KgtfIeEN6+hbI3KfJr0l06CNTvCJ84uiob71p
-         mKYHRTarA5vdEShcflGNH3Y8r0hn95R4ye4NHrEqTHEYHu+CcbFdJkFtA1NGc0rTKGui
-         QmJOddIoRt+MVHQ/M/lmMfJVx9K/CIG9orXJx17QkzLqIWYPZumiKeivST8/eTVBKs2n
-         coLEWzpxIr8gAkDE7Zu+DJAyiPnSWZ9Gq1llO+e7l//vuPXKpbk3FYZbe6FZPvWwXrj3
-         WpEXI99ea+jSaPO3JnkmreuaYp1Cp9PklA6+bRL7cxLfJay9ls5j+2ocCTjuJ52RqEgZ
-         uNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770996360; x=1771601160;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Uv7+wGjYdZrWiwxPruuCmW0WkztDJFSZ9NcJcq3kOJY=;
-        b=lG3A409Z5QpADSjyv2PFr0AnMRbTEozYZNZmhEWklGhK5DxuWcfTJGVZLEpexXWeZr
-         qK5OHaw3X53ylLGTenfqew0SHYvyrUfqeFquFhkSb26JIfHWCRK+8VwjEfY3ODNd3CPg
-         2UIDNLyBSi0WIFpoJ8fdXfcStISPYb8bhH9X7d6urZ/wMjE+1HGpDC0+CQSRG3F6chpC
-         KRrAr1+lnzys3Fk9sqVtI28b9aBysMNjuvXQ3xf34Cwo3HTcewTbFzVV30zgYRmgs50w
-         BG74J+GUR/uTBV7QkygsHaRlUSTu0wZQRPB6rKOIiEWDNcudPglO45fpygXRiLM0OJLg
-         j2hg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQpeR7bKj8JL438c+Tn8TKV5Y+dfd72dA5+WkyOivWGJjy8Xu/gt6K+RjUDfhhX5vKVQOqjsojkFKD3KDuZYCSPg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxZxuHqUpcjRszOPG2dLqHKFdBhpTKGNfPlMaQX3CFkQWhRy4dl
-	o9bqjkhrDXMtehHEk8KVdq9jU+NoNya21B7Nyj53Y8TwSmTUjPdTpP0Y8PutmA8Y8GS3eIaMXlb
-	4DKT/urtzGvz7D3i75Z8e3ecO1uM5jHs=
-X-Gm-Gg: AZuq6aKvnQjaLly52wklew4AF61iNOjILqb9i1Lhbbk7+VOdA7h/jwTBcRnlm6PyBMe
-	DjpO2zLuXMcmj2seU4K6Hy1sfTCNcFwWO7BDEJFVxiAyY7STlHrPPnLvMrlzoGAon4ifA790uid
-	pvyhHZmNe3Ed4sS1PPhbwQ2hQASrgJJVKvi8oaMvXjXX+eUnNHlBnUK+jOZPO02uZUOFsylbrUo
-	ZX0goeW0SQaxc2GyAUqHJOoKby1Ox+tgpmG9FzInh7maY0q+n9hqBW305FiHHa7IbqM9O+kZv7l
-	rqYck+OgBA==
-X-Received: by 2002:a05:6512:3195:b0:59e:65ff:1f0b with SMTP id
- 2adb3069b0e04-59f69c267c8mr839188e87.6.1770996360222; Fri, 13 Feb 2026
- 07:26:00 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=k7PW4la8;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (unknown [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 1018AC1EC8E;
+	Fri, 13 Feb 2026 15:33:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4ECC5606BE;
+	Fri, 13 Feb 2026 15:33:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A750510368E8E;
+	Fri, 13 Feb 2026 16:33:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1770996816; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=EMjRQalDR7EcK/ZM3E3FRGGfotYiEDkrHnDVRuDqlFY=;
+	b=k7PW4la8huR5RXpBZhzFFfVM2UYctNjE+PlAxuMcA4317l498eR8QrfD6DjSy2XwNSN5Rp
+	sa0vgtouTOcZ0NHbQNgr9SvTls8dMBGtxcF3gMiUEoncwoXhTl6hKDudn5DJ/i2UaLyNTf
+	ZHN8SQGNrE8dVsMPAdmNfKQemPcVFsDSnyFbL6F8V7aPtIfU0Ku2+NZUycBc0stYkMYA22
+	e+NFTP2QoHLvnEH54evL0xqRrkmGNtXuCrrdwZie9t1Ncj/cVyIHZnVRqWpA8HZX0XU2nW
+	tBfk/jSMFXlKyNW0tX1XrAI8i0Ez2eMDDRlDb+AKZVMTM/ucKReNqyINKR0xnA==
+Message-ID: <5cfda679-374f-4bc7-a33e-53f75833b090@bootlin.com>
+Date: Fri, 13 Feb 2026 16:33:34 +0100
 MIME-Version: 1.0
-References: <20260213-mesa-26-v1-0-9e925e474091@cherry.de> <CA+chaQdEyxgZE8Vqj2RbxzWq1Us949dNziW867TfrcnUKfSu2w@mail.gmail.com>
- <a2d20a69-b343-4170-acdb-32ee8f84a615@cherry.de>
-In-Reply-To: <a2d20a69-b343-4170-acdb-32ee8f84a615@cherry.de>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 13 Feb 2026 16:25:47 +0100
-X-Gm-Features: AaiRm510uMmJ287FqwZ5rGvgJZgil9XjFD7Uc_0gN0VdXU2lJbLKiG3aWNSCaH4
-Message-ID: <CA+chaQeAo+CVSOXVkka3BryXY0eJdqPenUJpBcenKmxS5hMUyw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/2] mesa: bump to 26.0.0
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: foss@0leil.net, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] binutils: Upgrade to 2.46 release
+To: mathieu.dubois-briand@bootlin.com, deepesh.varatharajan@windriver.com,
+ openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+References: <20260212142933.3543788-1-Deepesh.Varatharajan@windriver.com>
+ <DGDWTI56DB4D.1I1SUNULX6S5R@bootlin.com>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <DGDWTI56DB4D.1I1SUNULX6S5R@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 15:26:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231124
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 15:34:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231125
 
-On Fri, Feb 13, 2026 at 3:57=E2=80=AFPM Quentin Schulz <quentin.schulz@cher=
-ry.de> wrote:
->
-> Hi Martin,
->
-> On 2/13/26 3:26 PM, Martin Jansa wrote:
-> > On Fri, Feb 13, 2026 at 2:23=E2=80=AFPM Quentin Schulz via
-> > lists.openembedded.org <foss=3D0leil.net@lists.openembedded.org> wrote:
-> >>
-> >> This fixes a small oversight of llvm missing for compiling i915 galliu=
-m
-> >> driver.
-> >>
-> >> This bumps mesa to 26.0.0, the latest stable release.
-> >
-> > I am not against this upgrade, but mesa has this strange versioning
-> > that 26.0.0 is considered new development release not stable release.
-> >
-> > As in:
-> > https://docs.mesa3d.org/relnotes/26.0.0.html
-> > Mesa 26.0.0 is a new development release. People who are concerned
-> > with stability and reliability should stick with a previous release or
-> > wait for Mesa 26.0.1.
->
-> Yes. Ross said[1] to send this as RFC so (I assume) we can review and/or
-> make it do rounds on the autobuilder before 26.0.1. Then Alex said[2] he
-> doesn't think it carries any meaning anymore considering they now have
-> multiple rounds of release candidates. So... /me shrugs
->
-> [1] https://libera.catirclogs.org/yocto/2026-02-12#39496615;
->      https://libera.catirclogs.org/yocto/2026-02-12#39496624;
-> [2] https://libera.catirclogs.org/yocto/2026-02-12#39498266;
->
-> So I followed whatever Alex said, but we can also have this as an RFC as
-> preparation for 26.0.1 which would come in a few weeks.
->
-> I think my interest is to make 6.0 use 26.0.x such that we don't have to
-> go through TSC to bump the mesa version in the next LTS.
->
-> I don't care much either way, at least there's something we can review
-> and comment on and people don't do the work twice (or more) :)
+Hello,
 
-I agree with all above and I am not against this upgrade.
+On 2/13/26 15:39, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+> On Thu Feb 12, 2026 at 3:29 PM CET, Deepesh via lists.openembedded.org =
+Varatharajan wrote:
+>> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>>
+>> New Features:
+>> Support for new instructions added to AMD, ARM and RISC-V architecture=
+s.
+>> Support for version 3 of the SFrame standard.
+>> The readelf program can now display the contents of Global Offset Tabl=
+es.
+>> Improved linker tagging support.
+>>
+>> Detailed release notes are here [1]
+>>
+>> [1] https://lists.gnu.org/archive/html/info-gnu/2026-02/msg00006.html
+>>
+>> Dropped patches:
+>> 0001-aarch64-constify-BTI-and-GCS-report-functions.patch
+>> Since the fix is already included in binutils 2.46.
+>>
+>> CVE patches: CVE-2025-11081,CVE-2025-11082,CVE-2025-11083,
+>> CVE-2025-11839,CVE-2025-11840,CVE-2025-11412,CVE-2025-11413,
+>> CVE-2025-11414,CVE-2025-11494,CVE-2025-11495.
+>> These were dropped because they are already addressed in binutils 2.46=
+.
+>>
+>> Drop CVE_STATUS:
+>> binutils 2.46 has needed fixes for CVE-2025-7545 and CVE-2025-7546.
+>>
+>> Rebase existing patches with binutils 2.46.
+>>
+>> Testing Results:
+>> +----------------------+--------+--------+------+
+>> | Result               | 2.45.1 |  2.46  | Diff |
+>> +----------------------+--------+--------+------+
+>> | Expected Passes      | 318    |  331   | +13  |
+>> | Untested Testcases   | 5      |  5     |  0   |
+>> | Unsupported Tests    | 8      |  6     | -2   |
+>> +----------------------+--------+--------+------+
+>>
+>> Testcases changes:
+>> ----------------------------------------------------------------------=
+---------
+>> Testcase-name                                             2.45.1      =
+  2.46
+>> ----------------------------------------------------------------------=
+---------
+>> nm --ifunc-chars=3D-- (global ifunc)                          -       =
+    PASS
+>> nm --ifunc-chars=3D-- (local ifunc)                           -       =
+    PASS
+>> copy with unknown section flag                              -         =
+  PASS
+>> objcopy tek2bin                                             -         =
+  PASS
+>> binary symbol (implicit)                                    -         =
+  PASS
+>> binary symbol (explicit)                                    -         =
+  PASS
+>> readelf SFrame V2 (x86-64/test-v2-ET_EXEC.sframe)           -         =
+  PASS
+>> objdump SFrame V2 (x86-64/test-v2-ET_EXEC.sframe)           -         =
+  PASS
+>> readelf SFrame V2 (x86-64/test-v2-ET_REL.sframe)            -         =
+  PASS
+>> objdump SFrame V2 (x86-64/test-v2-ET_REL.sframe)            -         =
+  PASS
+>> run objcopy of executable                                UNSUPPORTED  =
+  PASS
+>> run stripped executable                                  UNSUPPORTED  =
+  PASS
+>> run stripped executable with saving a symbol             UNSUPPORTED  =
+  PASS
+>> Copy object attributes v2 data from an object to another    -        U=
+NSUPPORTED
+>>
+>> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.co=
+m>
+>> ---
+>=20
+> Hi Deepesh,
+>=20
+> Thanks for the upgrade.
+>=20
+> It looks like some patch needs to be refreshed or dropped. It's only
+> applied for class-nativesdk, so that's probably why it does not show in
+> most builds.
+>=20
+> ERROR: Task (virtual:nativesdk:/srv/pokybuild/yocto-worker/genericx86-6=
+4/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_=
+2.46.bb:do_patch) failed with exit code '1'
+> ...
+> ERROR: nativesdk-binutils-2.46-r0 do_patch: Applying patch '/srv/pokybu=
+ild/yocto-worker/genericx86-64/build/layers/openembedded-core/meta/recipe=
+s-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternati=
+ve-ld.so.conf.patch' on target directory '/srv/pokybuild/yocto-worker/gen=
+ericx86-64/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-=
+binutils/2.46/sources/binutils-2.46'
+>=20
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3189
+>=20
+> Can you have a look at it?
+>=20
+> Thanks,
+> Mathieu
+>=20
 
-I'm just pointing that you shouldn't call it "latest stable release"
-in the cover letter (which is what triggered me to check the release
-notes if mesa changed their versioning). I don't think you need to
-re-send, it's not even in the commit messages and nobody will read
-cover letter after it's merged :).
 
-Cheers,
+Just in case, there's also a ptest failure that could be related to this=20
+update:
+
+Failed ptests:
+{'elfutils':
+['run-strip-strmerge.sh',
+'run-elflint-self.sh',
+'run-reverse-sections-self.sh']}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3036/s=
+teps/13/logs/stdio
+
+
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
