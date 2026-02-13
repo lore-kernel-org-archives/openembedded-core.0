@@ -1,333 +1,98 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1873EDF156
-	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 11:54:52 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.69972.1770983682859158237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 077FFEDF159
+	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 12:26:13 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.70320.1770985560715481067
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Feb 2026 03:54:42 -0800
+ Fri, 13 Feb 2026 04:26:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jQsfmhfE;
- spf=pass (domain: mvista.com, ip: 209.85.215.179, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso281845a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 03:54:42 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VhdTrAoX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso6468115e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 04:26:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1770983682; x=1771588482; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oh5avY9rWgQXqnteYqCxXWVjiZtEAdThpm28Vr3lRBM=;
-        b=jQsfmhfECMgE5CiGiBXU1bzHYQyfWYwKkzUnFBufQB5WmpgTZf52dxZCbW5MKKOhMG
-         nJ1jy9PYU8Ujk2ZtXgY+uFLmtMrkXl5DJS+ydnt9mZFUV/A5z8pbpeMVkE+F6ixNCvfr
-         /uY9Fun50/Oq7+mP8B5mF/9+Lm507btK+0q5o=
+        d=linuxfoundation.org; s=google; t=1770985559; x=1771590359; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uepOhfV3D96P+MLD9RV5LpulLfzHaZQczVbk2xWVxq8=;
+        b=VhdTrAoXQJn1tL0FTOrKCwMyIGazI0mW7T92e2gouKIhxlPu0ABvK1jTj/5RbcOZYs
+         7/Ap9LFuf5lMG8JxZ/L86jMb5vcjcMhd8RF0JoN6U318MJcweh+hHD0vwf27X0O2H2jl
+         +WpcmHJ7cxBnstWa+vs2mGpvUl03o53W/N9n8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770983682; x=1771588482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oh5avY9rWgQXqnteYqCxXWVjiZtEAdThpm28Vr3lRBM=;
-        b=oijhkE1ElGvOek/G82NSQiHjJHWwhoLSB+J+N895sDp2ZjPwaNWYMTEsAVYOYPEB5q
-         WjGn+3vlRBd+oiGlHOXSkxFc0ei29WZbSXSk73Nhm6YnhGCKA26OGkT5dzeK3+583ddn
-         JNwpOxMak43XZrf3iAM/4rro92Yh5RDswUcQp3aKwhaIvOMn3SvsZWW68S7NmSWcVbs+
-         wQmBmzqkhOjJTviUjCondcy0mrVorhMq5Kzu0+GZXKTVunwgCYztzhC8WvBD+uoQ7Sco
-         vm0c6G1O86eUSKTWQloj30kgvITUjFtslsmoECkOLslbpKaLUlHe5IODQNjG13vwKyDv
-         OsQA==
-X-Gm-Message-State: AOJu0Yxlo+DMspr/AR6l6gvGplwWyP/zEhUfeoLhDLgn7sISwWB23oxf
-	qWiD3NnrG7W4HQpPA/zf19Nz3WD4qtaJQlTACT8i/HJU6nqYHGq9ZA727zV7vxkYZO39JjHJbtg
-	biVeksOU=
-X-Gm-Gg: AZuq6aIVZN9tmE43w+p8NpPqmqoUA3yWkos1XvH5cWcDfkrcSQ5xlEXlKKvxSzZcrst
-	J1mSFQbFsDngmIgj0vCjOmKsZzWnGLEbmg1VtRcMMr10nw8ua/jtn+2OvYoEFNxKg/jwOU2yFU2
-	VQwNsAMCANnSvtLVJvoiV6XWgalwLcWNKsBGB6WE8hwoZFSvcBAJGawTWATT5ysK28uvIaaYeZm
-	1QeDfQm/5PiCxrjG7MOVyvm9SapIniOW+TRto49fpv7Zwrf11jbC+977yAo+PlJHc6vWe5x/ALI
-	YHxPoznh1NpKcKZZ7fKFgV65zk+Pw2WKib0OfeJvMiEm7V5nSm+J99K8Uol/vP3i6xGU3fN1Sw7
-	hjug9YV4/j4gn1gGQTyK5cHaWzCL10ZSGdbz5oim+eWLfK6P3M5yFoXBp/sSIxs8KFC+oYdSzy4
-	mYCVVlJOEIJusd2xUeKwJpF2eULn8dEyGXw7kl
-X-Received: by 2002:a17:90b:388e:b0:343:eb40:8dca with SMTP id 98e67ed59e1d1-356aad5f533mr1610247a91.19.1770983681812;
-        Fri, 13 Feb 2026 03:54:41 -0800 (PST)
-Received: from MVIN00013.mvista.com ([150.129.170.212])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-356a69b38ddsm1680761a91.0.2026.02.13.03.54.38
+        d=1e100.net; s=20230601; t=1770985559; x=1771590359;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uepOhfV3D96P+MLD9RV5LpulLfzHaZQczVbk2xWVxq8=;
+        b=xVRS2/Trw9sOWK6b+/Rnd00TfiiCg2mzuMexicA7HhoPKTtsTVdRyBEgFmLj3d31Se
+         y7oSlY0k+zT0vuAeLoZleJXWVzAu5nY+OcLJnGMCx//jMFQ7iDSctw4F0IU6vBRmIRWL
+         3/pIyJFmwY/VvaPFdCme+fhh5FailaQhFgnBGmdhHS1wnglSrITvUMK8vVg1P2akp7tp
+         Q2Vc3B92AXpAkr7+UxTzXrNll0xY1yCtfMhr5QoRm61JkC16TTX0vr8lDe9BeCNG+pun
+         zeeadXFXMhRn0ofEUW4i2euq0zN+jnPAkoEW8WEVC5RqC9Gl5HXf+l2UaG0HLjkJ5AZD
+         SntQ==
+X-Gm-Message-State: AOJu0Yxwq90tTSO73e47CXh983hFyEsnBqkRDOQ9YgtIumqoVyVa4UQ1
+	KnNx4dVr2UlpBW1uFp0A4aUnlyEFWLebwo9jMavMDDvq/OFRLKR0Jmnf8xKqVGgKLivc6m6V5J6
+	OO/5ItN0=
+X-Gm-Gg: AZuq6aL7ZFhUlvjDeLZCHUPxWulWq1u5BIGPdAV2mZ5eXYmGqWoYZX0HfNs68Z/yELS
+	V+KFY64x9sgI1JOpOmkV0KQzwKSj0lk43OGp053wkU/I6kyxRvS2UqMvKQWm6sT5fhbgNT5rIdW
+	xLVvaHyX+sI3x+ymUByQLCEQwS9/zG275/bDW4yoE7PrJpw5P0TSt7DPp5+7La9bfRy4Nx7X6nf
+	fge4Mz3qTLKF6aXs5P3E4gtbhgH+K0+TPt6Z0LQf0D48rBNa2TZVY7dqJgHtPW0wYgZOCieKwJq
+	RaGtq+C346ryJoev6cNeUoIpanzpYcMRHA7BqFKfnhPpYOy/Tf1ZMlGzFRbsooRCN88LYKa0YFL
+	KovOK2GyKQUEObTgqWZtmh0IBbeAxgtz2qXi7qKPl0PHKI/QnNd+tGX4+dMJYTfu00OL0mdxjAp
+	tpZVoMddhmHraX52MQaUoEXHvcaFK8naHj1tdH7uhqpdWyi89wap0=
+X-Received: by 2002:a05:600c:4fd1:b0:483:6a8d:b2f9 with SMTP id 5b1f17b1804b1-48373a16361mr29613455e9.5.1770985558438;
+        Fri, 13 Feb 2026 04:25:58 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e20e:afdc:37ec:38d1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48370ac3564sm47915975e9.5.2026.02.13.04.25.57
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 03:54:41 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Fri, 13 Feb 2026 04:25:57 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCHv2] libpam: fix CVE-2024-10963
-Date: Fri, 13 Feb 2026 17:24:07 +0530
-Message-ID: <20260213115407.146405-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+Subject: [PATCH] pseudo: Update to include an openat2 fix
+Date: Fri, 13 Feb 2026 12:25:56 +0000
+Message-ID: <20260213122557.1697239-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 11:54:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231114
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 12:26:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231115
 
-Add "nodns" option to disallow resolving of tokens as hostname.
+We're seeing occasional autobuilder failures with tar issues related to openat2.
+It appears there are definitions missing on debian 11 and opensuse 15.5 systems
+which mean the openat2 syscall intercept isn't compiled in. This then triggers
+on systems using the openat2 syscall, such as alma9 where it is used in a tar
+CVE fix.
 
-Pick up "Mitigated by" patch from Debian security tracker.
-[0]: https://security-tracker.debian.org/tracker/CVE-2024-10963
-Note that the commit that introduced the vulnerability is in upstream
-v1.5.3 but was backported as CVE-2022-28321-0002.patch.
+This updates to include the fix from upstream pseudo (along with a compile warning
+fix).
 
-Upstream-Status: Backport from https://github.com/linux-pam/linux-pam/commit/940747f88c16e029b69a74e80a2e94f65cb3e628
+This was tested by taking sstate for pseudo-native from a debian 11 system and using
+it in a build of "bitbake nativesdk-git -c install" on a alma9 system where that task
+failed. After this fix, it completes.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../pam/libpam/CVE-2024-10963.patch           | 229 ++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.2.bb     |   1 +
- 2 files changed, 230 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2024-10963.patch b/meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
-new file mode 100644
-index 0000000000..8f8e13f5e8
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
-@@ -0,0 +1,229 @@
-+From f9ccee5c4c6cb0d4197b08ebeb36c1dceffe82e8 Mon Sep 17 00:00:00 2001
-+From: Thorsten Kukuk <kukuk@suse.com>
-+Date: Thu, 14 Nov 2024 10:27:28 +0100
-+Subject: [PATCH] pam_access: rework resolving of tokens as hostname
-+
-+* modules/pam_access/pam_access.c: separate resolving of IP addresses
-+  from hostnames. Don't resolve TTYs or display variables as hostname
-+  (#834).
-+  Add "nodns" option to disallow resolving of tokens as hostname.
-+* modules/pam_access/pam_access.8.xml: document nodns option
-+* modules/pam_access/access.conf.5.xml: document that hostnames should
-+  be written as FQHN.
-+
-+CVE: CVE-2024-10963
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/940747f88c16e029b69a74e80a2e94f65cb3e628]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ modules/pam_access/access.conf.5.xml |  4 ++
-+ modules/pam_access/pam_access.8.xml  | 46 ++++++++++++------
-+ modules/pam_access/pam_access.c      | 72 +++++++++++++++++++++++++++-
-+ 3 files changed, 105 insertions(+), 17 deletions(-)
-+
-+diff --git a/modules/pam_access/access.conf.5.xml b/modules/pam_access/access.conf.5.xml
-+index 8fdbc31..dc505a6 100644
-+--- a/modules/pam_access/access.conf.5.xml
-++++ b/modules/pam_access/access.conf.5.xml
-+@@ -226,6 +226,10 @@
-+       item and the line will be most probably ignored. For this reason, it is not
-+       recommended to put spaces around the ':' characters.
-+     </para>
-++    <para>
-++      Hostnames should be written as Fully-Qualified Host Name (FQHN) to avoid
-++      confusion with device names or PAM service names.
-++    </para>
-+   </refsect1>
-+ 
-+   <refsect1 id="access.conf-see_also">
-+diff --git a/modules/pam_access/pam_access.8.xml b/modules/pam_access/pam_access.8.xml
-+index 9a6556c..eab9d9f 100644
-+--- a/modules/pam_access/pam_access.8.xml
-++++ b/modules/pam_access/pam_access.8.xml
-+@@ -25,11 +25,14 @@
-+       <arg choice="opt">
-+         debug
-+       </arg>
-++      <arg choice="opt" rep="norepeat">
-++        noaudit
-++      </arg>
-+       <arg choice="opt">
-+         nodefgroup
-+       </arg>
-+       <arg choice="opt">
-+-        noaudit
-++        nodns
-+       </arg>
-+       <arg choice="opt">
-+         accessfile=<replaceable>file</replaceable>
-+@@ -112,6 +115,33 @@
-+         </listitem>
-+       </varlistentry>
-+ 
-++      <varlistentry>
-++        <term>
-++          nodefgroup
-++        </term>
-++        <listitem>
-++          <para>
-++            User tokens which are not enclosed in parentheses will not be
-++	    matched against the group database. The backwards compatible default is
-++            to try the group database match even for tokens not enclosed
-++            in parentheses.
-++          </para>
-++        </listitem>
-++      </varlistentry>
-++
-++      <varlistentry>
-++        <term>
-++          nodns
-++        </term>
-++        <listitem>
-++          <para>
-++	    Do not try to resolve tokens as hostnames, only IPv4 and IPv6
-++	    addresses will be resolved. Which means to allow login from a
-++	    remote host, the IP addresses need to be specified in <filename>access.conf</filename>.
-++          </para>
-++        </listitem>
-++      </varlistentry>
-++
-+       <varlistentry>
-+         <term>
-+           <option>fieldsep=<replaceable>separators</replaceable></option>
-+@@ -153,20 +183,6 @@
-+         </listitem>
-+       </varlistentry>
-+ 
-+-      <varlistentry>
-+-        <term>
-+-          <option>nodefgroup</option>
-+-        </term>
-+-        <listitem>
-+-          <para>
-+-            User tokens which are not enclosed in parentheses will not be
-+-	    matched against the group database. The backwards compatible default is
-+-            to try the group database match even for tokens not enclosed
-+-            in parentheses.
-+-          </para>
-+-        </listitem>
-+-      </varlistentry>
-+-
-+     </variablelist>
-+   </refsect1>
-+ 
-+diff --git a/modules/pam_access/pam_access.c b/modules/pam_access/pam_access.c
-+index bca424f..00a0a77 100644
-+--- a/modules/pam_access/pam_access.c
-++++ b/modules/pam_access/pam_access.c
-+@@ -92,6 +92,7 @@ struct login_info {
-+     int debug;				/* Print debugging messages. */
-+     int only_new_group_syntax;		/* Only allow group entries of the form "(xyz)" */
-+     int noaudit;			/* Do not audit denials */
-++    int nodns;                          /* Do not try to resolve tokens as hostnames */
-+     const char *fs;			/* field separator */
-+     const char *sep;			/* list-element separator */
-+     int from_remote_host;               /* If PAM_RHOST was used for from */
-+@@ -143,6 +144,8 @@ parse_args(pam_handle_t *pamh, struct login_info *loginfo,
-+ 	    loginfo->only_new_group_syntax = YES;
-+ 	} else if (strcmp (argv[i], "noaudit") == 0) {
-+ 	    loginfo->noaudit = YES;
-++	} else if (strcmp (argv[i], "nodns") == 0) {
-++	    loginfo->nodns = YES;
-+ 	} else {
-+ 	    pam_syslog(pamh, LOG_ERR, "unrecognized option [%s]", argv[i]);
-+ 	}
-+@@ -637,7 +640,7 @@ remote_match (pam_handle_t *pamh, char *tok, struct login_info *item)
-+       if ((str_len = strlen(string)) > tok_len
-+ 	  && strcasecmp(tok, string + str_len - tok_len) == 0)
-+ 	return YES;
-+-    } else if (tok[tok_len - 1] == '.') {       /* internet network numbers (end with ".") */
-++    } else if (tok[tok_len - 1] == '.') {       /* internet network numbers/subnet (end with ".") */
-+       struct addrinfo hint;
-+ 
-+       memset (&hint, '\0', sizeof (hint));
-+@@ -712,6 +715,39 @@ string_match (pam_handle_t *pamh, const char *tok, const char *string,
-+ }
-+ 
-+ 
-++static int
-++is_device (pam_handle_t *pamh, const char *tok)
-++{
-++  struct stat st;
-++  const char *dev = "/dev/";
-++  char *devname;
-++
-++  devname = malloc (strlen(dev) + strlen (tok) + 1);
-++  if (devname == NULL) {
-++      pam_syslog(pamh, LOG_ERR, "Cannot allocate memory for device name: %m");
-++      /*
-++       * We should return an error and abort, but pam_access has no good
-++       * error handling.
-++       */
-++      return NO;
-++  }
-++
-++  char *cp = stpcpy (devname, dev);
-++  strcpy (cp, tok);
-++
-++  if (lstat(devname, &st) != 0)
-++    {
-++      free (devname);
-++      return NO;
-++    }
-++  free (devname);
-++
-++  if (S_ISCHR(st.st_mode))
-++    return YES;
-++
-++  return NO;
-++}
-++
-+ /* network_netmask_match - match a string against one token
-+  * where string is a hostname or ip (v4,v6) address and tok
-+  * represents either a hostname, a single ip (v4,v6) address
-+@@ -773,10 +809,42 @@ network_netmask_match (pam_handle_t *pamh,
-+ 	    return NO;
-+ 	  }
-+       }
-++    else if (isipaddr(tok, NULL, NULL) == YES)
-++      {
-++	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-++	  {
-++	    if (item->debug)
-++	      pam_syslog(pamh, LOG_DEBUG, "cannot resolve IP address \"%s\"", tok);
-++
-++	    return NO;
-++	  }
-++	netmask_ptr = NULL;
-++      }
-++    else if (item->nodns)
-++      {
-++	/* Only hostnames are left, which we would need to resolve via DNS */
-++	return NO;
-++      }
-+     else
-+       {
-++	/* Bail out on X11 Display entries and ttys. */
-++	if (tok[0] == ':')
-++	  {
-++	    if (item->debug)
-++	      pam_syslog (pamh, LOG_DEBUG,
-++			  "network_netmask_match: tok=%s is X11 display", tok);
-++	    return NO;
-++	  }
-++	if (is_device (pamh, tok))
-++	  {
-++	    if (item->debug)
-++	      pam_syslog (pamh, LOG_DEBUG,
-++			  "network_netmask_match: tok=%s is a TTY", tok);
-++	    return NO;
-++	  }
-++
-+         /*
-+-	 * It is either an IP address or a hostname.
-++	 * It is most likely a hostname.
-+ 	 * Let getaddrinfo sort everything out
-+ 	 */
-+ 	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
-index 658212dd82..7d6546be53 100644
---- a/meta/recipes-extended/pam/libpam_1.5.2.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-@@ -34,6 +34,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
-            file://CVE-2025-6020-01.patch \
-            file://CVE-2025-6020-02.patch \
-            file://CVE-2025-6020-03.patch \
-+           file://CVE-2024-10963.patch \
-            "
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index ed1e8fb3e01..2dc5eabf2cb 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
- SRC_URI[sha256sum] = "e4ec7131a91da44512574268f493c6d8ca105c87091691b8e9b56ca685d4f94d"
--- 
-2.50.1
-
+-SRCREV = "750362cc7b9fa58dffccd95d919b435c6d8ac614"
++SRCREV = "9ab513512d8b5180a430ae4fa738cb531154cdef"
+ PV = "1.9.3+git"
+ 
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
 
