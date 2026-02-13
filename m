@@ -2,104 +2,96 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D78EEA87C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B92EEA877
 	for <webhook@archiver.kernel.org>; Fri, 13 Feb 2026 17:46:04 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.77634.1771004762065618120
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.77802.1771004762589982737
  for <openembedded-core@lists.openembedded.org>;
  Fri, 13 Feb 2026 09:46:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Leu3RrPB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-483770e0b25so6348825e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 09:46:01 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y123673e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48375f10628so5013775e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 09:46:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google; t=1771004760; x=1771609560; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NSVLdKyI50XPWA2fOG55omxQFCO/rXcG82FDDlaSvDQ=;
-        b=Leu3RrPBLxuwa6AovsMPgxrbYoYhRCiuTXA/zDn6XELNRF4yLTs0ITh5RFrZ7+r8aN
-         t/EntwpQwoXNGDoslJco83vSxQTIHnnuoMvy+AKCgt023kayQVcTEiAyeX/6VIyrhkNX
-         eyVhUoHQNvsV74Xd8b8LU5sQx7/lRcW4tdzG0=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aZ+Z37SR8cJwzUYiZOhnFeiqtgmqTuMFSkkUJmHpZr0=;
+        b=Y123673e1yegF/F/PRcAg+NG1Sz1h8xT39FsMt5wDs4o6+jzmNUc6XfoeFl7sVVvhS
+         DWfJFOInQiFMzlDd/nB8VI89ndH3QuJFZmCvF3vV4BTVxFwYzybkJ4/u12wacBxwKwc0
+         IDQH4vut9fht/+kUoCBI6/C1g18D2MnBds1Q8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1771004760; x=1771609560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NSVLdKyI50XPWA2fOG55omxQFCO/rXcG82FDDlaSvDQ=;
-        b=YqhgkeD0+L7alg1RlS6l6cbVPsduogrfcEcGG06NM5aziNjevNWeI29R5AOKvppMDZ
-         76BX7f5i9ZGfwOiYwp12TgmWLhtzPIvhjgcegtR6OkXWaJ33GPZnq2jy/+6qcDJFkA+m
-         s6iY4V8zNtWd5zLMXoQKkv+D6OyoX7fMIomHGgQla5n/1sET4pznAEw029XOACYBJtAM
-         LW+fRS5LAD8VE3lXZJdLfvzmyoKlO5DSPL1Q0hdED8nr5v+RgTst0290UXwcqSHU2NyB
-         XYDTY3cMvN1FYfD7rKWA3pB7AC2VoPFf4Dw1PV5ydW+S+gtHcFN6udJxbfa5k3PRCZSi
-         +EDg==
-X-Gm-Message-State: AOJu0YwzkgQ2qNmj5dApXO9+Pm59oLN1r1tbE0OYAR/jINN0d7bMVidI
-	ePpxXggl6WWQJiBjj94V7n8Y0QtYkAgmZnfsbmtrzaVNpzkDO3fVDy5+pIX18nZKtnu3uJIqlix
-	rU4fn0pw=
-X-Gm-Gg: AZuq6aJA3JUFOcmjN6RKS6nC77lTp9pK/K/UDuNi313bdRTXcVoPhUm1fN/3BSjheet
-	w4f7gTIjR6ptee6uBsIc+zEz8qaC0CKfQwOGJgWBPD3SXRm9csCel8kd5oQ5D118WE6uXiz8tsW
-	yn7yxALJ7lFJ2qRP7i1GPguKHatmHcqDAXqbw1xSQZUiVorkTK4L3xLCmIkBBQgRnLlvAEZHOaw
-	wtCZcyFNqrPxpV+JtZewjruG/uWYewYh7ztDodjl5EkQ86YmRwi/Hto77hmfr8jupZvzavNNvs9
-	4d1THKw3fAZMUguVpDVSrucJLNO4EVNP8sOQ+mLgsdpdbPAbSYpc74emfyDa/kRVMF1h7+GHgxX
-	OPArMyDXyu5CT0SUe7DFCyjOHxscfs+wcyU/kaEOInOw3bSXMnx6+aNHBgPb3eSvGa7oytbNIJd
-	cLoFiMhYn0QC91PgRL/X20AWZEfp+9A7/jitov0eAbTx7Z9V9cFa8=
-X-Received: by 2002:a05:600c:8b4c:b0:480:39ad:3b7c with SMTP id 5b1f17b1804b1-4837106152cmr59515455e9.16.1771004759488;
-        Fri, 13 Feb 2026 09:45:59 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aZ+Z37SR8cJwzUYiZOhnFeiqtgmqTuMFSkkUJmHpZr0=;
+        b=eo4EcbZ0rjIMhAlb32w1iek0rnawUgy08J89WIiP4sR5o6N67eXC368xKcIG6rv4lG
+         6Wsu5vCyHnx3fxiJPcMAElh8zeeDIg0UyoGvazUeqlcvJmMn9CuRxyf51uA2s3LHz0eg
+         5GHej4fQoyE3vS78ijUTopVSRmhR5Ji+9JooAdJb7A7+btICkZ5NmXQ4m6IOWRmJF17T
+         dMSLdGFJ5bzj1Xez2vzFG3elyJ6XgKk4FBtqJ29KACVXixyKLeadO51jOMJXYW37CXyS
+         +7eT9q+KolIM11IUEl3pmQf6E9qyDbl5bBpiOTrVYQxYP/fw1BAy2u7ogzkzaNZIBl2S
+         V7kw==
+X-Gm-Message-State: AOJu0YzxpXTvteg6h5bJ1EKEoyX0jJle1qfX6BM7rPg3TQt2izaD9hMr
+	Yy+nA1XpsDa0JU/4fnRcQRPBlpiBEti2cqA5uPJVygNT+rak+JKPLHk2gMeqqz2ADwYXHMi9E0H
+	mD89Am6M=
+X-Gm-Gg: AZuq6aLpG2GyhXX3dysfSN/Q8XHZ45ihduIxVW6gJUjiukdxeh5CWSsXIT1nWVkCjxZ
+	0B/CrGhw4zBr759vc9D77z3uA2+AIcCUXzFzhvGlx84g6hYzuv+ckz98ZLT9+Pkhv0BB/ttvQkj
+	H6m9696a939ixfgPJ3MLGI1MP/U/z95IhIDTTp3D1IhKGEilNNImBuwYZTn4vHgkDTBEXCL6oXj
+	CTwXYHlNSZLBU6bFxpBOOenqKEi1a+3o81uif3HbglIIXTc6RGICd4COhj2I0pJj5Dqh9nDZCaO
+	suMNPnQ4SpWvYfVwoo1pnMTwHNdAIcWd1Zz9JZtCzhBWXVbAht7yug/B4uY941lLd3BWPaVpw07
+	NKw3o6op/jKLn2QoUuQYmZDwPfBLW7u6NHz7b08f0BD+hGnYJioadM5cHvF2jlyZiXjApFChveo
+	KwFVFiboqMLiK5C8JNa+ztttWCavoWXLETmZ+ixCHln/p3VxVw+9c=
+X-Received: by 2002:a05:600c:450d:b0:483:a21:774c with SMTP id 5b1f17b1804b1-48373a44430mr43485425e9.25.1771004760364;
+        Fri, 13 Feb 2026 09:46:00 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e20e:afdc:37ec:38d1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483709f6935sm36502655e9.0.2026.02.13.09.45.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483709f6935sm36502655e9.0.2026.02.13.09.45.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 09:45:58 -0800 (PST)
+        Fri, 13 Feb 2026 09:45:59 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] mirrors: Drop obsolete/inappropriate OE/YP mirror entries
-Date: Fri, 13 Feb 2026 17:45:55 +0000
-Message-ID: <20260213174558.1799136-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/4] oeqa/selftest/buildoptions: Drop pointless/obsolete mirror entries
+Date: Fri, 13 Feb 2026 17:45:56 +0000
+Message-ID: <20260213174558.1799136-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260213174558.1799136-1-richard.purdie@linuxfoundation.org>
+References: <20260213174558.1799136-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 13 Feb 2026 17:46:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231129
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231130
 
-These fetchers aren't used by code that would end up on these mirrors and are about
-to be removed anyway in some cases. Drop the pointless/obsolete entries.
+We've never had any of these sources on this mirror and support for
+several is about to be removed in the fetchers anyway. Drop the
+obsolete entries.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/mirrors.bbclass | 8 --------
- 1 file changed, 8 deletions(-)
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mirrors.bbclass
-index 75a0003ce55..c8ceb9f5c4f 100644
---- a/meta/classes-global/mirrors.bbclass
-+++ b/meta/classes-global/mirrors.bbclass
-@@ -29,25 +29,17 @@ ${SAVANNAH_NONGNU_MIRROR} http://download-mirror.savannah.nongnu.org/releases \
- ftp://sourceware.org/pub http://mirrors.edge.kernel.org/sourceware \
- ftp://sourceware.org/pub http://gd.tuwien.ac.at/gnu/sourceware \
- ftp://sourceware.org/pub http://ftp.gwdg.de/pub/linux/sources.redhat.com/sourceware \
--cvs://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
- svn://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
- git://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
- gitsm://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \
- hg://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \
--bzr://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
--p4://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \
--osc://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
- https?://.*/.*  http://downloads.yoctoproject.org/mirror/sources/ \
- ftp://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
- npm://.*/?.*    http://downloads.yoctoproject.org/mirror/sources/ \
--cvs://.*/.*     http://sources.openembedded.org/ \
- svn://.*/.*     http://sources.openembedded.org/ \
- git://.*/.*     http://sources.openembedded.org/ \
- gitsm://.*/.*   http://sources.openembedded.org/ \
- hg://.*/.*      http://sources.openembedded.org/ \
--bzr://.*/.*     http://sources.openembedded.org/ \
--p4://.*/.*      http://sources.openembedded.org/ \
--osc://.*/.*     http://sources.openembedded.org/ \
- https?://.*/.*  http://sources.openembedded.org/ \
- ftp://.*/.*     http://sources.openembedded.org/ \
- npm://.*/?.*    http://sources.openembedded.org/ \
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index b46f55e256b..d9d37ebc7fb 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -178,13 +178,9 @@ DL_DIR = "${TMPDIR}/test_downloads"
+ STAMPS_DIR = "${TMPDIR}/test_stamps"
+ SSTATE_DIR = "${TMPDIR}/test_sstate-cache"
+ PREMIRRORS:forcevariable = "\\
+-    bzr://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+-    cvs://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+     git://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+     gitsm://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+     hg://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+-    osc://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+-    p4://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+     svn://.*/.*   http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+     ftp://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \\n \\
+     http://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \\n \\
 
