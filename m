@@ -1,154 +1,157 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E46EF48C5
-	for <webhook@archiver.kernel.org>; Sat, 14 Feb 2026 09:53:23 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3528.1771062800190352176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B34FEF48D4
+	for <webhook@archiver.kernel.org>; Sat, 14 Feb 2026 15:30:54 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7834.1771083053351474704
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Feb 2026 01:53:21 -0800
+ Sat, 14 Feb 2026 07:30:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=XYOOi/eN;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 45B4BC23DB9;
-	Sat, 14 Feb 2026 09:53:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2690E606CB;
-	Sat, 14 Feb 2026 09:53:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4C30610368FF3;
-	Sat, 14 Feb 2026 10:53:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771062796; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=1ZduhzpisT/hFX/k8cXLkAqo8mi7kWTWYcCsFqnBPok=;
-	b=XYOOi/eN5pC+A9JolAGPanWLLSzA1Eh/7dY8VkIeC70UNtcxYCBEsDWeP2rozA2UdWaAyF
-	GluJxHo8wO5ySxppJGv1C3bVbnwrFoybUFQGkgxB+rfN6uK4qwBw8FA/lsFw7s1yiLIw5p
-	jcnfmp3GRsQMp9Q6ZiPyUhbQu/lqA78gHRMCoOf4hb4XvRSWVqzQ6w0I1Otow7z7DuCpWO
-	PSI3jRyemtQe9i4ga8UhHGAlPbcIpFBUAkOHmKzwPaT4JBExZOsg+Eq5tkR0O1CTwzRk3G
-	gP3faSd6/rYFPXcKPVx+LKa1BlsUrJKHpXyoSH/uKq61iyoQMMK39T1EtyQzNQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a8kEx6be;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-481188b7760so15571175e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Feb 2026 07:30:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771083051; x=1771687851; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sVO5y/BYN65wfgXTY/o6CCaz5STUlRewCV/8+iATttM=;
+        b=a8kEx6beNSdij6dTyjZIvgNvQfvxb9xaCpvNK8AgGGO+0C4nJ0315w2EUliwDgP2e/
+         3FeDFhNmWw5M3KWIKS3Izo8ZmScyK1h1lq8NKjr1jicVKenPJMYeQKGxQiZwhPrBzzhu
+         wIQX1+vrNf7m1Mpi39F50b6Adx7PrwhjGQe+eCso6DyoyD9/prjrGzFiVfq2c47uoMsw
+         Ow8U8vwblQUnKqPh/kEoPcWudOkbPTAMoo8hCB6++cpDfK/x0TZiuerQE15C5OxEkQir
+         yMwj86m37DOcs2wArUeteUzJVYTVlprBPbH6U3bfxw/TvinvcrWAAM0aAaAGhC11IhfA
+         wU+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771083051; x=1771687851;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sVO5y/BYN65wfgXTY/o6CCaz5STUlRewCV/8+iATttM=;
+        b=J9vn0Da0qO/kglGzgHJtDWV0mBVBMMRI3bHIlPB9m+odRpl1inaX0NEQAh/RNG758T
+         MeUSkeEEuxf3rkkUZJLO7k45FtNJQvJdvvEAGAfjQ2Y5R6g//xYx+pqf0u5KhcufFDVy
+         wyqkLbsEteLXIrsy/dfdBkAkszkCzq8JNtX2Hu/sL0TCgjELwxaaRU1iRsJ2JvB8/fJ4
+         6JUvdC461MYNJF51yt5L5m3/PMEkOzUk6F8pe7beRh42wtSug6fuEyfsn77zCeWDWsyI
+         PwrIuzuiKmWs4jUJMifPR5xocbQZD8/z4Iu78nimOQ1zBSEv0wuO7WEsNUlQRv+2REM7
+         Bkmg==
+X-Gm-Message-State: AOJu0YwhggzuAOvypfA6g1cehgIarBGhy2cGFAxc1LWTU/6yFAudScG3
+	q61uIgwfTMDX3hVzDWa4UnZwQitsHVe2R0Sug8/WQDfNA0MAAhw3dsiY/pHa+A==
+X-Gm-Gg: AZuq6aILuOBK0rXF2RG/xB+xA3D4gP9npn9Hs7y+2h7/NKV/twodr4gBZvmj1UlofKc
+	X1pMxpeHF4GoX/mDNFJhU+BhIIJlS+9oK9VrWNP6036ciWsXayIeAhWQ+wpC7x6MsrWzBLSSTiy
+	kNToPR/Y6vq9pqAxrf71Og855VB8cMyydovdUvdL7zTczlb2oZB3P78INNKp39z6C0jCvdaToHt
+	EkORl1h7+8EymxHvkO9clTqfmOy71dJaTib0oi77d3j8id0tDvpfVvFtf7xk7Rw/NPhxOxMQaFw
+	lLHVLbQKpCHYYSs9UJxLtb6GnRSHpDh7KXIB8I/nyorqF+mdWMVXNPBMYAGPR9dHUvgH2M5BiRX
+	OHkAf9bnh5mmfxgrS0WzxRtzBpGQmwJ73GnswJ99iK3fTIOq/ybR9+E+ppbrfRG2kRTuZ8OFIf0
+	5d5QJQzFvkMcqq0B7P5AtzgQ8biFAq+jHYHuwVy/GS8/7Ik8s=
+X-Received: by 2002:a05:600c:4e4d:b0:482:df17:bbbc with SMTP id 5b1f17b1804b1-48373a37b73mr87389715e9.20.1771083051175;
+        Sat, 14 Feb 2026 07:30:51 -0800 (PST)
+Received: from localhost.localdomain ([81.15.100.92])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48371a29982sm40196515e9.15.2026.02.14.07.30.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Feb 2026 07:30:50 -0800 (PST)
+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [PATCH] bluez5: upgrade 5.85 -> 5.86
+Date: Sat, 14 Feb 2026 15:30:39 +0000
+Message-ID: <20260214153039.2022198-1-gudni.m.g@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 14 Feb 2026 10:53:10 +0100
-Message-Id: <DGELD1TRQ45N.3TZRX9CWB25E1@bootlin.com>
-Subject: Re: [oe-core][PATCH] reproducible: fix git SOURCE_DATE_EPOCH
- randomness
-Cc: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
- <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <rs@ti.com>, <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
- <alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260213004252.3371379-2-rs@ti.com>
-In-Reply-To: <20260213004252.3371379-2-rs@ti.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Feb 2026 09:53:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231146
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Feb 2026 15:30:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231147
 
-On Fri Feb 13, 2026 at 1:42 AM CET, Randolph Sapp via lists.openembedded.or=
-g wrote:
-> From: Randolph Sapp <rs@ti.com>
->
-> Anything that defines multiple git sources should have the largest value
-> taken when calculating the SOURCE_DATE_EPOCH for a package.
->
-> The previous iteration actually introduced some degree of randomness, as
-> it would stop on the first git repository reported by os.walk, which
-> does not assure any specific ordering by default.
->
-> Signed-off-by: Randolph Sapp <rs@ti.com>
-> ---
+Changelog:
 
-Hi Randolph,
+- Fix issue with number of retries on authentication failures.
+- Fix issue with G.722 @ 16 kHz codec ID value reported by transport.
+- Add support for Telephony interface.
+- Add support for Ranging profile.
+- Add support for GMAP service.
+- Add support for TMAP service.
 
-Thanks for trying to fix this. However, it looks like this is causing
-another intermittent issue.
+Full changelog:
+https://github.com/bluez/bluez/compare/5.85...5.86
 
-We got the following error on the autobuilder:
+Changes relevant for the build:
+- mcaptest tool has been removed
+- sap and health profiles have been removed from the code base
 
-ERROR: libjitterentropy-3.6.3-r0 do_unpack: Error executing a python functi=
-on in exec_func_python() autogenerated:
-...
-File: '/srv/pokybuild/yocto-worker/qemux86-world/build/layers/openembedded-=
-core/meta/lib/oe/reproducible.py', lineno: 107, function: get_source_date_e=
-poch_from_git
-     0103:            bb.debug(1, "%s does not have a valid HEAD: %s" % (gi=
-tpath, p.stdout.decode('utf-8')))
-     0104:            continue
-     0105:
-     0106:        bb.debug(1, "git repository: %s" % gitpath)
- *** 0107:        p =3D subprocess.run(['git', '-c', 'log.showSignature=3Df=
-alse', '--git-dir', gitpath, 'log', '-1', '--pretty=3D%ct'],
-     0108:                           check=3DTrue, stdout=3Dsubprocess.PIPE=
-)
-     0109:        sources_dates.append(int(p.stdout.decode('utf-8')))
-     0110:
-     0111:    if sources_dates:
-File: '/usr/lib64/python3.13/subprocess.py', lineno: 577, function: run
-     0573:            # We don't call process.wait() as .__exit__ does that=
- for us.
-     0574:            raise
-     0575:        retcode =3D process.poll()
-     0576:        if check and retcode:
- *** 0577:            raise CalledProcessError(retcode, process.args,
-     0578:                                     output=3Dstdout, stderr=3Dst=
-derr)
-     0579:    return CompletedProcess(process.args, retcode, stdout, stderr=
-)
-     0580:
-     0581:
-Exception: subprocess.CalledProcessError: Command '['git', '-c', 'log.showS=
-ignature=3Dfalse', '--git-dir', '/srv/pokybuild/yocto-worker/qemux86-world/=
-build/build/tmp/work/x86-64-v3-poky-linux/libjitterentropy/3.6.3/sources/li=
-bjitterentropy-3.6.3/tests/raw-entropy/recording_userspace/jitterentropy/te=
-sts/raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/recordi=
-ng_userspace/jitterentropy/tests/raw-entropy/recording_userspace/jitterentr=
-opy/tests/raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/r=
-ecording_userspace/jitterentropy/tests/raw-entropy/recording_userspace/jitt=
-erentropy/tests/raw-entropy/recording_userspace/jitterentropy/tests/raw-ent=
-ropy/recording_userspace/jitterentropy/tests/raw-entropy/recording_userspac=
-e/jitterentropy/tests/raw-entropy/recording_userspace/jitterentropy/tests/r=
-aw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/recording_us=
-erspace/jitterentropy/tests/raw-entropy/recording_userspace/jitterentropy/t=
-ests/raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/record=
-ing_userspace/jitterentropy/tests/raw-entropy/recording_userspace/jitterent=
-ropy/tests/raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/=
-recording_userspace/jitterentropy/tests/raw-entropy/recording_userspace/jit=
-terentropy/tests/raw-entropy/recording_userspace/jitterentropy/tests/raw-en=
-tropy/recording_userspace/jitterentropy/tests/raw-entropy/recording_userspa=
-ce/jitterentropy/tests/raw-entropy/recording_userspace/jitterentropy/tests/=
-raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/recording_u=
-serspace/jitterentropy/tests/raw-entropy/recording_userspace/jitterentropy/=
-tests/raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy/recor=
-ding_userspace/jitterentropy/tests/raw-entropy/recording_userspace/jitteren=
-tropy/tests/raw-entropy/recording_userspace/jitterentropy/tests/raw-entropy=
-/recording_userspace/jitterentropy/tests/raw-entropy/recording_userspace/ji=
-tterentropy/tests/raw-entropy/recording_userspace/jitterentropy/.git/', 'lo=
-g', '-1', '--pretty=3D%ct']' returned non-zero exit status 128.
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc               | 8 ++++++--
+ .../bluez5/{bluez5_5.85.bb => bluez5_5.86.bb}             | 3 +--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.85.bb => bluez5_5.86.bb} (94%)
 
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3177
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/3231
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3194
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3345
-
-I only saw it on libjitterentropy so far. I quickly tried to reproduce
-locally, without any success. Yet I confirm dropping this patch solve
-the issue.
-
-Can you have a look?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 24a41f92df..dd20583015 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -22,6 +22,9 @@ PACKAGECONFIG ??= "obex-profiles \
+     vcp-profiles \
+     micp-profiles \
+     csip-profiles \
++    tmap-profiles \
++    gmap-profiles \
++    hfp-profiles \
+     asha-profiles \
+     network-profiles \
+     hid-profiles \
+@@ -37,13 +40,11 @@ PACKAGECONFIG[midi] = "--enable-midi,--disable-midi,alsa-lib"
+ PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd"
+ PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,,cups"
+ PACKAGECONFIG[nfc] = "--enable-nfc,--disable-nfc"
+-PACKAGECONFIG[sap-profiles] = "--enable-sap,--disable-sap"
+ PACKAGECONFIG[a2dp-profiles] = "--enable-a2dp,--disable-a2dp"
+ PACKAGECONFIG[avrcp-profiles] = "--enable-avrcp,--disable-avrcp"
+ PACKAGECONFIG[network-profiles] = "--enable-network,--disable-network"
+ PACKAGECONFIG[hid-profiles] = "--enable-hid,--disable-hid"
+ PACKAGECONFIG[hog-profiles] = "--enable-hog,--disable-hog"
+-PACKAGECONFIG[health-profiles] = "--enable-health,--disable-health"
+ PACKAGECONFIG[bap-profiles] = "--enable-bap,--disable-bap"
+ PACKAGECONFIG[bass-profiles] = "--enable-bass,--disable-bass"
+ PACKAGECONFIG[mcp-profiles] = "--enable-mcp,--disable-mcp"
+@@ -51,6 +52,9 @@ PACKAGECONFIG[ccp-profiles] = "--enable-ccp,--disable-ccp"
+ PACKAGECONFIG[vcp-profiles] = "--enable-vcp,--disable-vcp"
+ PACKAGECONFIG[micp-profiles] = "--enable-micp,--disable-micp"
+ PACKAGECONFIG[csip-profiles] = "--enable-csip,--disable-csip"
++PACKAGECONFIG[tmap-profiles] = "--enable-tmap,--disable-tmap"
++PACKAGECONFIG[gmap-profiles] = "--enable-gmap,--disable-gmap"
++PACKAGECONFIG[hfp-profiles] = "--enable-hfp,--disable-hfp"
+ PACKAGECONFIG[asha-profiles] = "--enable-asha,--disable-asha"
+ PACKAGECONFIG[sixaxis] = "--enable-sixaxis,--disable-sixaxis"
+ PACKAGECONFIG[tools] = "--enable-tools,--disable-tools"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.85.bb b/meta/recipes-connectivity/bluez5/bluez5_5.86.bb
+similarity index 94%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.85.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.86.bb
+index d8965fef4b..7f9972f59e 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.85.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.86.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+ 
+-SRC_URI[sha256sum] = "ad028e49254bc4551a13f08fe7904c63d02ba650d77be8ae15bb3b0a0ad94a6f"
++SRC_URI[sha256sum] = "99f144540c6070591e4c53bcb977eb42664c62b7b36cb35a29cf72ded339621d"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
+@@ -54,7 +54,6 @@ NOINST_TOOLS_BT ?= " \
+     tools/btproxy \
+     tools/btiotest \
+     tools/bneptest \
+-    tools/mcaptest \
+     tools/cltest \
+     tools/oobtest \
+     tools/advtest \
+-- 
+2.43.0
 
 
