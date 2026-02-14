@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 579EBEF5850
-	for <webhook@archiver.kernel.org>; Sat, 14 Feb 2026 18:44:45 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11506.1771094681001471210
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74019EF5851
+	for <webhook@archiver.kernel.org>; Sat, 14 Feb 2026 18:46:45 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11708.1771094799606737614
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Feb 2026 10:44:42 -0800
+ Sat, 14 Feb 2026 10:46:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=JvId+4YQ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026021418443726f0dbc7ca00020723-0ak_pu@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026021418443726f0dbc7ca00020723
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=O2scgyRT;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026021418463754a842a72700020701-pfmk05@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026021418463754a842a72700020701
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 14 Feb 2026 19:44:38 +0100
+        Sat, 14 Feb 2026 19:46:37 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=JZ8/hkkzz0RepkDSuAfFb4naIcbSUJgslFR9bNKUC6I=;
- b=JvId+4YQ7bQrkqUMCkutoCjuUlEouCWSWIhxOJ8386b4xEmch7soNew0IuP8rf2oBcpd/j
- 7IVTlqjHTruBKKCSIMLQdMoziYuFnq33ud9104FUsIr+FvHNHWpFhp8f2ORMDfbRLmfsKH8I
- jDd++QkZqYb159l3YVrAO0JtOidrVBkhhqA0zPj8N+NA9EOELJrUqRP+FtefrdppUAWy/Xv9
- xMu8PlHCgWaRx6f3JAMJL/m9v8KcqYIbtVnkyMJYxKqNFt1WtRFOJjoLYce/kHc4uxh815gK
- bMsI36CDKySdM6wjraRfJxLwYSZogC7lyliqBBalbKz5qKtSXsQb82ag==;
+ bh=/Xdr9v+9OBQxfXJFvh7k6yTSltOyHx2LfFw6MAjo4/8=;
+ b=O2scgyRTIjP7ixvFuOqpzhug8rQbpoRXrwJrBnG/HAtEpTZ9GcvB26Ra3F4NGYzjC7bcyC
+ wiMLmqPo8J+I2ZOTCyUOAEQILdYGOAfy09huORCdIjruSP09VEoZPtin1rOgOGP8DtNVkv6O
+ +FkKZAncBCO+dg32/+JNjtYtUtul237xG30emrbeC9lAtpPoDcybqvYSWKqXZtchluqRfWyP
+ wwVxtwad+yaj9M63aeZyouYvoBJ+M3u+2f9TTgfWd+TR/UPhztjdoTtaRp3eTdyyS0KlXwsS
+ mPqyuQMY5KPD+FougM8Ejv+2I0OQRqTxYL8Ymraiok5J04ElUacHXmSw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] gnutls: upgrade 3.8.11 -> 3.8.12
-Date: Sat, 14 Feb 2026 19:44:35 +0100
-Message-Id: <20260214184435.1042437-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2] gnutls: upgrade 3.8.11 -> 3.8.12
+Date: Sat, 14 Feb 2026 19:46:35 +0100
+Message-Id: <20260214184635.1042625-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Feb 2026 18:44:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231153
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Feb 2026 18:46:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231154
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -56,7 +56,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
  .../{gnutls_3.8.11.bb => gnutls_3.8.12.bb}    |  7 +-
  3 files changed, 7 insertions(+), 70 deletions(-)
  delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch
- rename meta/recipes-support/gnutls/{gnutls_3.8.11.bb => gnutls_3.8.12.bb} (93%)
+ rename meta/recipes-support/gnutls/{gnutls_3.8.11.bb => gnutls_3.8.12.bb} (94%)
 
 diff --git a/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch b/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch
 deleted file mode 100644
@@ -153,10 +153,10 @@ index d8b5035b38..398c0464e0 100644
   LOG_COMPILER = $(LOG_VALGRIND)
   
 diff --git a/meta/recipes-support/gnutls/gnutls_3.8.11.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-similarity index 93%
+similarity index 94%
 rename from meta/recipes-support/gnutls/gnutls_3.8.11.bb
 rename to meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index 5b44c66dfc..dc61971d45 100644
+index 5b44c66dfc..d13a1365dc 100644
 --- a/meta/recipes-support/gnutls/gnutls_3.8.11.bb
 +++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
 @@ -21,12 +21,11 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
@@ -179,7 +179,7 @@ index 5b44c66dfc..dc61971d45 100644
  	done
 +
 +	# remove on next upgrade when release tarball gets fixed
-+	# https://gitlab.com/gnutls/gnutls/-/issues/1797 is fixed
++	# https://gitlab.com/gnutls/gnutls/-/issues/1797
 +	cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error_codes
  }
  
