@@ -2,178 +2,124 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE59EF586D
-	for <webhook@archiver.kernel.org>; Sun, 15 Feb 2026 08:54:29 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22179.1771145663962623925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 585F7EF586F
+	for <webhook@archiver.kernel.org>; Sun, 15 Feb 2026 09:03:19 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22241.1771146197118503023
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Feb 2026 00:54:24 -0800
+ Sun, 15 Feb 2026 01:03:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=IM5fvLJV;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=BMJvdVzX;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id BB848C19D14;
-	Sun, 15 Feb 2026 08:54:31 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D41D71A0F34;
+	Sun, 15 Feb 2026 09:03:14 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0E81D606CE;
-	Sun, 15 Feb 2026 08:54:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9A86010369044;
-	Sun, 15 Feb 2026 09:54:06 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9EF08606CE;
+	Sun, 15 Feb 2026 09:03:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0D87A10368FED;
+	Sun, 15 Feb 2026 10:03:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771145650; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1771146193; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=/bedOOlV8Q1PBhnA1wjEG6phg7nF62LAkYIWwdb39gI=;
-	b=IM5fvLJV4F9WdOwfpwKXd0bCiWTqEIRx+oyRSfnKlVqH6WFtc6iN+HWGCydCyIBR8dNuMm
-	phacRzvtysMWnlgajZCw9aTmdZiKDmMq14wNmxjbOAdGdBh7UxeRILvSQ+S8kw78S4oUuU
-	GIx+z5yBEiDejjKRpG2y0Snt5xP+L0JQJOG2IrdUu9eSdIcrdRF1jHaGnRMIpPKJ8I3KHs
-	EpuqyLnRYeQwZ5SqyWQO9JZVf9TnO6hhMWs1hxOnWV10YEQYVKmZDsfb0vwP77+DtGM6ok
-	4sAckpw6jbLwNxWrWuppUPvP2cQnN2AusspsxASJplEWlGpblgUM1tmYHyh8GA==
+	bh=bOT5BRD4L+GU2cIfRoEi3C26fY1oa/AQTsfdzWyqcdQ=;
+	b=BMJvdVzXAGAT0HIbyO7QFimwJrTUKykpueGnwUQObFAYw6cjTHNUkBfiPcV5vbM+YmFDvT
+	pcB4EbNh7vpjXH0MjPxqXRXuRjRNYavgV++F8oLLvl5ulf+dPJmGWOWmN3dU44RRlyfcVh
+	WY59dbkMDaeEy113qqFI2Wl7Ve90cMcUsSJ8zkmr34IFLV5U7KqgnjK40r0z5SKbpbL+Lz
+	1sKTaTlAPSFOxDQgHSwrRr2MkQTCa+GNDpzaYPT+bKzsfQIT3tbB3ginQb7kNAAJ4nzGex
+	BeJ+lVx9g1U0J8nHqePc6XLtcqdlRZb/RuQGf+4m5gOxJvcj8UDWe2cJ+UzJlw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Feb 2026 09:54:05 +0100
-Message-Id: <DGFEQCUUIEW0.2TQTA9GWZH8SK@bootlin.com>
+Date: Sun, 15 Feb 2026 10:03:08 +0100
+Message-Id: <DGFEXAE48FOM.2H2FQ3F1P9HSX@bootlin.com>
+Cc: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+ <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <deepesh.varatharajan@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [RFC 0/4] Oe-selftest for Clang, LLVM, LLD
-Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>,
- <Deepesh.Varatharajan@windriver.com>
+To: <rs@ti.com>, <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
+ <alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
+Subject: Re: [oe-core][RFC] xuser-account: convert to standard-user-account
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260203140337.1971735-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20260203140337.1971735-1-Deepesh.Varatharajan@windriver.com>
+References: <20260210002506.95298-2-rs@ti.com>
+In-Reply-To: <20260210002506.95298-2-rs@ti.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 08:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231155
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 09:03:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231156
 
-On Tue Feb 3, 2026 at 3:03 PM CET, Deepesh via lists.openembedded.org Varat=
-harajan wrote:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+On Tue Feb 10, 2026 at 1:25 AM CET, Randolph Sapp via lists.openembedded.or=
+g wrote:
+> From: Randolph Sapp <rs@ti.com>
 >
-> This patch series introduces a test framework to run selftests for both
-> native and target builds of Clang, LLVM, and LLD.
+> Change this single xuser account template into a generic
+> standard-user-account that uses distro level variables for
+> configuration.
 >
-> Summary of changes:=20
-> -Patch 1: Disable clang-tools-extra tests because Clang's CMake cannot=20
->           see the llvm-bcanalyzer target.
-> -Patch 2: Enabled the required CMake flags for clang, llvm & lld tests
-> -Patch 3: Selftest script for Clang, LLVM, and LLD including exclude list
-> -Patch 4: Fix rust build failure by replacing target llvm-config with nat=
-ive
+> This allows for seamless configuration of multiple out-of-box scripts
+> and tests across layers without having to implicitly hope that the
+> username or groups haven't been changed by a bbappend or recipe
+> override.
 >
-> Testing:
-> 1. The test suite has been successfully validated on x86-64, arm64, riscv=
-64,
-> and arm32 for all three components.
-> 2. Clang, LLVM & LLD all together ~80K tests are there and we currently=
-=20
-> ~200 tests to exclude list which are failing (0.25%).
+> This was proposed specifically to remove some issues highlighted in:
+> https://lists.openembedded.org/g/openembedded-core/message/230665
 >
-> WIP:
-> LLVM target tests are currently failing on x86. This is under investigati=
-on
-> and will be addressed
->
-> Deepesh Varatharajan (4):
->   clang-tools-extra: disable tests
->   clang: Enable tests for llvm, clang, lld
->   oeqa/selftest/clang: Add selftest for Clang/LLVM/LLD
->   rust: Fix rust build failure
->
->  meta/lib/oeqa/selftest/cases/clang.py         | 301 ++++++++++++++++++
->  .../0042-guard-clang-tools-extra-test.patch   |  74 +++++
->  meta/recipes-devtools/clang/clang_git.bb      |   3 +-
->  meta/recipes-devtools/clang/common.inc        |   1 +
->  meta/recipes-devtools/clang/lld_git.bb        |   2 +-
->  meta/recipes-devtools/clang/llvm_git.bb       |  11 +-
->  meta/recipes-devtools/rust/rust_1.92.0.bb     |   5 +-
->  7 files changed, 389 insertions(+), 8 deletions(-)
->  create mode 100644 meta/lib/oeqa/selftest/cases/clang.py
->  create mode 100644 meta/recipes-devtools/clang/clang/0042-guard-clang-to=
-ols-extra-test.patch
+> Signed-off-by: Randolph Sapp <rs@ti.com>
+> ---
 
-Hi Deepesh,
+Hi Randolph,
 
-Thanks for this series. I know it's still RFC, but it went in my
-week-end batch of RFC patches tested on the autobuilder.
+I know this is still an RFC, but it went into by weekend batch of RFC
+patches tested on the autobuilder.
 
-So far, we had the following issues:
+A note first: this was tested without your other display manager series.
+I hope there is no dependency.
 
-2026-02-14 17:23:02,046 - oe-selftest - INFO - clang.ClangFamilyNativeSelfT=
-est.test_clang_family_native (subunit.RemotedTestCase)
-2026-02-14 17:23:02,049 - oe-selftest - INFO -  ... FAIL
+So far we had the following issues:
+
+AssertionError: ssh exited with status '255' for command '['ssh', '-l', 'ro=
+ot', '-o', 'ServerAliveCountMax=3D2', '-o', 'ServerAliveInterval=3D30', '-o=
+', 'UserKnownHostsFile=3D/dev/null', '-o', 'StrictHostKeyChecking=3Dno', '-=
+o', 'LogLevel=3DERROR', '192.168.7.8', 'export PATH=3D/usr/sbin:/sbin:/usr/=
+bin:/bin; export XDG_RUNTIME_DIR=3D/run/user/`id -u weston`; export WAYLAND=
+_DISPLAY=3Dwayland-1; wayland-info']': this is likely an SSH failure
+id: unknown user weston
+failed to create display: No such file or directory
 ...
-subprocess.CalledProcessError: Command '/srv/pokybuild/yocto-worker/oe-self=
-test-armhost/build/build-st-1314344/tmp/work/aarch64-linux/clang-native/21.=
-1.8/build/bin/llvm-lit --filter-out 'arm|i386|x86_64|x86|mips|riscv|riscv64=
-|ppc|ppc64|hexagon|sparc|sparcv9|msp430|loongarch|Mac|macho|Darwin|OSX|wasm=
-|Windows|Win|MinGW|COFF|zos|FreeBSD|aix|fuchsia|ve' '/srv/pokybuild/yocto-w=
-orker/oe-selftest-armhost/build/build-st-1314344/tmp/work/aarch64-linux/cla=
-ng-native/21.1.8/build/test' -o '/srv/pokybuild/yocto-worker/oe-selftest-ar=
-mhost/build/build-st-1314344/tmp/work/aarch64-linux/clang-native/21.1.8/tem=
-p/clang-native-results.log'' returned non-zero exit status 127.
-...
+RESULTS - weston.WestonTest.test_weston_running: FAILED (0.80s)
 
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/3189
 https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3316
 https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3214
 https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3090
 
-A second one:
+And a second one:
 
-2026-02-14 18:07:00,151 - oe-selftest - INFO - 2: 1/1 8/21 (222.35s) (0 fai=
-led) (clang.LLDSelfTestSystemEmulated.test_lld)
-2026-02-14 18:07:00,152 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qemux86-tc/build/layers/openembedded-co=
-re/meta/lib/oeqa/selftest/cases/clang.py", line 298, in test_lld
-    raise AssertionError(f"llvm-lit failed for LLD: {output}")
-AssertionError: llvm-lit failed for LLD: sh: line 1: cd: /srv/pokybuild/yoc=
-to-worker/qemux86-tc/build/build-st-2874234/tmp/work/core2-32-poky-linux/ll=
-d/21.1.8/build/bin: No such file or directory
+2026-02-14 17:59:08,803 - oe-selftest - INFO -       ERROR: Nothing PROVIDE=
+S 'standard-user-account' (but /srv/pokybuild/yocto-worker/reproducible/bui=
+ld/layers/openembedded-core/meta/recipes-graphics/wayland/weston-init.bb DE=
+PENDS on or otherwise requires it)
+2026-02-14 17:59:08,803 - oe-selftest - INFO -       standard-user-account =
+was skipped: Recipe standard-user-account, package standard-user-account: s=
+ystem groupname "disk" does not have a static ID defined. Add disk to one o=
+f these files: /srv/pokybuild/yocto-worker/reproducible/build/build-st/meta=
+-selftest/files/static-group
+2026-02-14 17:59:08,803 - oe-selftest - INFO -       ERROR: Nothing RPROVID=
+ES 'weston-init' (but /srv/pokybuild/yocto-worker/reproducible/build/layers=
+/openembedded-core/meta/recipes-graphics/packagegroups/packagegroup-core-we=
+ston.bb, /srv/pokybuild/yocto-worker/reproducible/build/layers/openembedded=
+-core/meta/recipes-graphics/wayland/weston-init.bb, /srv/pokybuild/yocto-wo=
+rker/reproducible/build/layers/openembedded-core/meta/recipes-graphics/wayl=
+and/weston_14.0.2.bb RDEPENDS on or otherwise requires it)
+2026-02-14 17:59:08,803 - oe-selftest - INFO -       No eligible RPROVIDERs=
+ exist for 'weston-init'
+2026-02-14 17:59:08,803 - oe-selftest - INFO -       NOTE: Runtime target '=
+weston-init' is unbuildable, removing...
+2026-02-14 17:59:08,803 - oe-selftest - INFO -       Missing or unbuildable=
+ dependency chain was: ['weston-init']
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/3136
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3113
-
-And a third one:
-
-2026-02-14 21:12:51,873 - oe-selftest - INFO - 3: 1/1 21/21 (18519.15s) (0 =
-failed) (clang.LLVMSelfTestSystemEmulated.test_llvm)
-2026-02-14 21:12:51,873 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qemuriscv64-tc/build/layers/openembedde=
-d-core/meta/lib/oeqa/selftest/cases/clang.py", line 217, in test_llvm
-    raise AssertionError(f"llvm-lit failed for LLVM: {output}")
-AssertionError: llvm-lit failed for LLVM: /srv/pokybuild/yocto-worker/qemur=
-iscv64-tc/build/build-st-2197806/tmp/hosttools/ld.gold: line 2: /usr/bin/ld=
-.gold: No such file or directory
--- Testing: 22642 of 57881 tests, 4 workers --
-...
-Process ForkServerPoolWorker-2:
-Traceback (most recent call last):
-  File "/usr/lib/python3.14/multiprocessing/pool.py", line 131, in worker
-    put((job, i, result))
-    ~~~^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.14/multiprocessing/queues.py", line 397, in put
-    self._writer.send_bytes(obj)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "/usr/lib/python3.14/multiprocessing/connection.py", line 206, in se=
-nd_bytes
-    self._send_bytes(m[offset:offset + size])
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.14/multiprocessing/connection.py", line 444, in _s=
-end_bytes
-    self._send(header + buf)
-    ~~~~~~~~~~^^^^^^^^^^^^^^
-  File "/usr/lib/python3.14/multiprocessing/connection.py", line 400, in _s=
-end
-    n =3D write(self._handle, buf)
-BrokenPipeError: [Errno 32] Broken pipe
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/1041
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/66/builds/3210
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3355
 
 Thanks,
 Mathieu
