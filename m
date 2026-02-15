@@ -1,128 +1,111 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 325B7E63F04
-	for <webhook@archiver.kernel.org>; Sun, 15 Feb 2026 17:01:16 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1967.1771174872255680874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C557E63F07
+	for <webhook@archiver.kernel.org>; Sun, 15 Feb 2026 17:03:46 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2022.1771175015663130445
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Feb 2026 09:01:12 -0800
+ Sun, 15 Feb 2026 09:03:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fktbrCht;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48329eb96a7so13111655e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 09:01:11 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NlsXQEim;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43591b55727so2792035f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 09:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771174870; x=1771779670; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1771175014; x=1771779814; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jsDCCfsxJM3VbbsS0nmE9sV3QG6g09IwLaZPhJNXt9c=;
-        b=fktbrChtsxlCrVFa6fsXSqNYAFFtP2BLsXO9IjSPDnFRlrbB3KVFLoH4KWpbF22kmG
-         ImotMNsNp6BxQ8cYiXTIFit8VFKeac8MiVEwLQgK1qunSQZ8tSOP7AcRvo2GWaCVYUyW
-         T1b1OBOQLGvAYClblROEbtL5MEQ6RcP09EvjQ=
+        bh=z5a/XwUQAATj75mYX1uasRlEo8pkfjAAIRrWhD2csYg=;
+        b=NlsXQEimWZ4rjVx4qahb62tmeWHw/0FLys7o+YBV56UA7by7XWpSzxEcn43RBh+YIO
+         rU7MG5ummchd7LzMINDfzSp7vcPuI6CySdpLGvjVpABA6/YB0seuvP7yWc+K/ikqQnnO
+         hJNg5CcAnh+SQ454bE/SxWtMhHZOOx4xixFdE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771174870; x=1771779670;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jsDCCfsxJM3VbbsS0nmE9sV3QG6g09IwLaZPhJNXt9c=;
-        b=FWWLNnm7v3SJIDcavh/4bDC0i2Feeq45kzZuxEW+ZxFxESqu8B+8YAw109fwLIFKxi
-         auvYfc2eAnuE7ZorMGMKnmE7spUPsajNQ6Mk4nULEf1zdtnxvgnwWy3bZfEYIOwqFlWN
-         rENCseS64Gz4Ds/Y5UEt3wN4M4KKdsn5/BLrYyBY4gGCYgPTKYMcBtFg4oLe2MVVMY3q
-         3oajdWoUPmM38KTlaa8uRd0PLOB7BIwQ9yyq7RGJcMVf5L01gfLlyKXYbpmmb82dd1mW
-         1/h5GVLnznY7FjAl5rd/7omyV8HibpCCMVzp8iBpRNQ1R6W0Cgu3HMMEuAYKe3Dl6zCo
-         lu3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVXjlwPAgfdAcj0RoOgBGzi+vGlHxD2qmEKXu2dj8UDv69W0cVMjAUoAyxnMeG4McRQZ3CETYV1aK/7zErfz6a5Rw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwulSIbniFChj9kAdrjBjuTaWADNUAxoXN0SH8Mwa7S4XBcW1Xu
-	MMRTzABaZUb9UmCBbPIgKVFlQ2ss1IMhmTparCmBNPJm9B/Gijzg9rw4HPkrWpw6suU=
-X-Gm-Gg: AZuq6aKWqM2BxtBQkPy/ozgfIHabul9E6DmgPMMNqJD9FDKlX/lEzmHWlC5kgKZ8KXH
-	m/9gTAYs80axKH5VeaaI6qhuBtnaEr6XC5M2fqPncUNC3dEx23QV8BKyqF3C87ABSGOaz2MSDlj
-	b+Vl3r4YNr4uBKAIW2wQdStgTcpzPPq5B8KlQkmInZbEtjF4RWW6POggJO6a2wn4j04BgM1iIFc
-	hdDifcNf4keu3b8INiKsBAATWwFUZosSQe2thLJsk6z4klMGbrSJG9N1zMTOM6H4/AIXNEwRd5o
-	p2tz/rKZWMDgRGH16JjCz2h+d56yzPCAol7tIvvqW5xlag+9/HjYoS7uTBnNJ0EexHQqEWlC+HL
-	Qv6dkTFyipSXZ93xoAqSrFts7hDzC3M2up2oF+zDv/LnklLCY1QeLabIaMlveTJpUkethHUvr9a
-	fK2IBdf7QMpIGtrrK8HkG/Xj7+H8+UOO1w9THhcQ7GRkfxhlr7jEK2UHNtlgycdTvHaSw21vCnY
-	1vdQOzmCyQEMNlC
-X-Received: by 2002:a05:600c:3b93:b0:480:1e9e:f9c with SMTP id 5b1f17b1804b1-48373a02c73mr162855615e9.10.1771174870412;
-        Sun, 15 Feb 2026 09:01:10 -0800 (PST)
-Received: from localhost (2a01cb001331aa004f0e69d34802d536.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:4f0e:69d3:4802:d536])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483740be167sm180504665e9.15.2026.02.15.09.01.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Feb 2026 09:01:10 -0800 (PST)
-Mime-Version: 1.0
+        d=1e100.net; s=20230601; t=1771175014; x=1771779814;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z5a/XwUQAATj75mYX1uasRlEo8pkfjAAIRrWhD2csYg=;
+        b=HKz5MeuJW0i3kWJ1CnT+5v40Ifh16tBAAQQNl9tSiYJTmgTouSI9xNgqZlGaKvkRMw
+         iOUY+f8fME/yQULAWSTH/eF/b/s9SxaDnLrj1n4cj5ihE4bmvLUY9jl7oizZGFNBedV0
+         e9npXJLj38uhtW4d/XLca8xa85Xcar9cbNrlLoNddkt5XCBh2C2enPGIEc2IGtplX6QD
+         Z9WI93wkVBZfDxtQMJanBwuEQ5Vg0fWay74g2KxVYmBnUr0P+2hhsyyZTdyPWf6mU8OL
+         mF13phFAKrsh87j2DhhTgdpp7umHq/9KhbiHQyIfrabwYYAJLWU2LJp1fZnswSfD4W+H
+         AF5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWYnqnEb4JlkTaNj1V7VWpm9mZfG3S7TLKvLcKWCtJg9POARd4Sw/ntahxJZ8h+BnUYCPu8ccrLwDviAy1TxpDcaw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YznloLEc1huDM5hJvyEelUPc1G03oXI+jSDyvIc7+9LOViC+Kc8
+	hjFz9pej0ZZNOo2+bVn19b2HFuKj7m+qb/krMhd8+OLt5lQObcnEoJW8otJI/Lm+0Ik=
+X-Gm-Gg: AZuq6aJFTU/Do8O0vdduZPBZEjxSMP0me810nkVygv7w6BcJ+IaOCcQPpAyCt1IuCVS
+	OnBoJAmpIFWZu0FgaN3lUFq04ob6vZ4A/HiMSLXIX9iHw9Z/r01xWQ+s6TTAVp6bCWfuWOAr0xC
+	pZXAyV5efms++XBN2hZgGFPCewVQfLtQ/Ha/StfWNJQGn8Y3tU8iJIdCkns7lf3M5FVyHCHMbVQ
+	HvzZXTnNjdHEBryUfmHluvR631jTDAIwYD+gHmdAf7Cc82Zduqnxqo+vGLHtJNvAusEloIflB6Z
+	Kz/Jx3Pvq8uvVWV1pgSIWKpnYQ7Rdy3rVYrSch5/v+eO4I7mQ05LMg37Q4PuksDdf3fQd7ZCfEA
+	C+q6paPJWoUjcY9k4nlY2QAEeHU3wm8Iv7FSS+CcDXY5LKeBbMZs3PPi53nnjKTzTzUwnEUJdbz
+	+wVceIXT8mDXnyZkRvZg8U0CovdtYm4rr4oO0U8/7NpqB0MZdlGT5yzCegaUnkLFg0bkdyq8hjx
+	hiZOClM9A==
+X-Received: by 2002:a05:6000:2906:b0:431:369:e7b with SMTP id ffacd0b85a97d-4379db61b66mr9609014f8f.18.1771175013788;
+        Sun, 15 Feb 2026 09:03:33 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:849f:9b12:ed62:bc? ([2001:8b0:aba:5f3c:849f:9b12:ed62:bc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796abe3b3sm24674756f8f.18.2026.02.15.09.03.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Feb 2026 09:03:33 -0800 (PST)
+Message-ID: <1671a6263c305f54398e74a0a826387f343bbe34.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] systemd: Stop supporting sysvinit
+ compatibility
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 15 Feb 2026 17:03:32 +0000
+In-Reply-To: <DGFOGZFG9RCO.2210182JJUNRG@bootlin.com>
+References: <20260213175618.1801591-1-richard.purdie@linuxfoundation.org>
+	 <DGFOGZFG9RCO.2210182JJUNRG@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Feb 2026 18:01:09 +0100
-Message-Id: <DGFP3A56EZTR.1TWUE93WL575C@smile.fr>
-Subject: Re: [OE-core] [PATCH v6 09/14] selftest/cases/runtime_test: Add
- test for Linux Rust sample
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>,
- <bruce.ashfield@gmail.com>, <paul@pbarker.dev>, <elmehdi.younes@smile.fr>
-To: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>,
- <Harish.Sadineni@windriver.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260212181039.1826154-1-Harish.Sadineni@windriver.com>
- <20260212181039.1826154-5-Harish.Sadineni@windriver.com>
- <DGFKTMA2S0AH.2FYRLKHRWQT5I@bootlin.com>
-In-Reply-To: <DGFKTMA2S0AH.2FYRLKHRWQT5I@bootlin.com>
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 17:01:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231166
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 17:03:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231167
 
-On Sun Feb 15, 2026 at 2:40 PM CET, Mathieu Dubois-Briand wrote:
-> On Thu Feb 12, 2026 at 7:10 PM CET, Harish via lists.openembedded.org Sad=
-ineni wrote:
->> From: Yoann Congal <yoann.congal@smile.fr>
->>
->> This new case tests that the rust_mininal sample inside the kernel sourc=
-e
->> tree is buildable and works properly: check that the module can be
->> loaded and that it prints correctly.
->>
->> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
->> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
->> ---
->
-> Hi Harish, Yoann,
->
-> It looks like this test is still a bit intermittent:
->
-> 2026-02-15 09:27:44,140 - oe-selftest - INFO - runtime_test.RustKernel.te=
-st_kernel_rust_sample (subunit.RemotedTestCase)
-> 2026-02-15 09:27:44,142 - oe-selftest - INFO -  ... FAIL
-> ...
-> 2026-02-15 09:27:44,142 - oe-selftest - INFO - 11: 13/57 404/671 (87.99s)=
- (0 failed) (runtime_test.RustKernel.test_kernel_rust_sample)
-> 2026-02-15 09:27:44,142 - oe-selftest - INFO - testtools.testresult.real.=
-_StringException: Traceback (most recent call last):
->   File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/open=
-embedded-core/meta/lib/oeqa/selftest/cases/runtime_test.py", line 506, in t=
-est_kernel_rust_sample
->     self.assertEqual(status, 1, "Loading rust_minimal module failed!")
->     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   File "/usr/lib/python3.13/unittest/case.py", line 907, in assertEqual
->     assertion_func(first, second, msg=3Dmsg)
->     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
->   File "/usr/lib/python3.13/unittest/case.py", line 900, in _baseAssertEq=
-ual
->     raise self.failureException(msg)
-> AssertionError: 0 !=3D 1 : Loading rust_minimal module failed!
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3319
+Hi Mattieu,
 
-This is oe-selftest-armhost on ubuntu2504-vk-arm1.
+On Sun, 2026-02-15 at 17:32 +0100, Mathieu Dubois-Briand wrote:
+> On Fri Feb 13, 2026 at 6:56 PM CET, Richard Purdie via lists.openembedded=
+.org wrote:
+> > Systemd has worked with sysvinit compatibility but upstream plans to re=
+move
+> > this and hence we will no longer be able to support it. We need to remo=
+ve this
+> > before the LTS since the support will certainly not be there for the li=
+fetime
+> > of the LTS.
+> >=20
+> > This patch disables that usage mode and removes some of the compatibili=
+ty logic.
+> > There is more that can be removed, this is meant just to signal to peop=
+le it is
+> > no longer supported and start that process. Further cleanup can be made=
+ over time
+> > in later commits.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> I suspect we also want to remove the "Systemd with sysvinit compat" and
+> "Sysvinit with systemd" steps from qa-extras2:
+>=20
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/3165
+> https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n1=
+562
 
-Harish, do you have access to an ARM host to reproduce/debug this?
-(I have looked but the builddir for this particular run was already deleted=
-)
+Yes, that is on my todo list! I knew we had a few tests to remove, I
+think that is the only one I haven't patched yet. Thankfully an easy
+tweak for a change.
 
---=20
-Yoann Congal
-Smile ECS
+Cheers,
 
+Richard
 
