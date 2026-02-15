@@ -1,111 +1,118 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C557E63F07
-	for <webhook@archiver.kernel.org>; Sun, 15 Feb 2026 17:03:46 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2022.1771175015663130445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83499E63F09
+	for <webhook@archiver.kernel.org>; Sun, 15 Feb 2026 18:03:16 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3231.1771178594527427099
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Feb 2026 09:03:36 -0800
+ Sun, 15 Feb 2026 10:03:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NlsXQEim;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43591b55727so2792035f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 09:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1771175014; x=1771779814; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z5a/XwUQAATj75mYX1uasRlEo8pkfjAAIRrWhD2csYg=;
-        b=NlsXQEimWZ4rjVx4qahb62tmeWHw/0FLys7o+YBV56UA7by7XWpSzxEcn43RBh+YIO
-         rU7MG5ummchd7LzMINDfzSp7vcPuI6CySdpLGvjVpABA6/YB0seuvP7yWc+K/ikqQnnO
-         hJNg5CcAnh+SQ454bE/SxWtMhHZOOx4xixFdE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771175014; x=1771779814;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z5a/XwUQAATj75mYX1uasRlEo8pkfjAAIRrWhD2csYg=;
-        b=HKz5MeuJW0i3kWJ1CnT+5v40Ifh16tBAAQQNl9tSiYJTmgTouSI9xNgqZlGaKvkRMw
-         iOUY+f8fME/yQULAWSTH/eF/b/s9SxaDnLrj1n4cj5ihE4bmvLUY9jl7oizZGFNBedV0
-         e9npXJLj38uhtW4d/XLca8xa85Xcar9cbNrlLoNddkt5XCBh2C2enPGIEc2IGtplX6QD
-         Z9WI93wkVBZfDxtQMJanBwuEQ5Vg0fWay74g2KxVYmBnUr0P+2hhsyyZTdyPWf6mU8OL
-         mF13phFAKrsh87j2DhhTgdpp7umHq/9KhbiHQyIfrabwYYAJLWU2LJp1fZnswSfD4W+H
-         AF5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWYnqnEb4JlkTaNj1V7VWpm9mZfG3S7TLKvLcKWCtJg9POARd4Sw/ntahxJZ8h+BnUYCPu8ccrLwDviAy1TxpDcaw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YznloLEc1huDM5hJvyEelUPc1G03oXI+jSDyvIc7+9LOViC+Kc8
-	hjFz9pej0ZZNOo2+bVn19b2HFuKj7m+qb/krMhd8+OLt5lQObcnEoJW8otJI/Lm+0Ik=
-X-Gm-Gg: AZuq6aJFTU/Do8O0vdduZPBZEjxSMP0me810nkVygv7w6BcJ+IaOCcQPpAyCt1IuCVS
-	OnBoJAmpIFWZu0FgaN3lUFq04ob6vZ4A/HiMSLXIX9iHw9Z/r01xWQ+s6TTAVp6bCWfuWOAr0xC
-	pZXAyV5efms++XBN2hZgGFPCewVQfLtQ/Ha/StfWNJQGn8Y3tU8iJIdCkns7lf3M5FVyHCHMbVQ
-	HvzZXTnNjdHEBryUfmHluvR631jTDAIwYD+gHmdAf7Cc82Zduqnxqo+vGLHtJNvAusEloIflB6Z
-	Kz/Jx3Pvq8uvVWV1pgSIWKpnYQ7Rdy3rVYrSch5/v+eO4I7mQ05LMg37Q4PuksDdf3fQd7ZCfEA
-	C+q6paPJWoUjcY9k4nlY2QAEeHU3wm8Iv7FSS+CcDXY5LKeBbMZs3PPi53nnjKTzTzUwnEUJdbz
-	+wVceIXT8mDXnyZkRvZg8U0CovdtYm4rr4oO0U8/7NpqB0MZdlGT5yzCegaUnkLFg0bkdyq8hjx
-	hiZOClM9A==
-X-Received: by 2002:a05:6000:2906:b0:431:369:e7b with SMTP id ffacd0b85a97d-4379db61b66mr9609014f8f.18.1771175013788;
-        Sun, 15 Feb 2026 09:03:33 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:849f:9b12:ed62:bc? ([2001:8b0:aba:5f3c:849f:9b12:ed62:bc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796abe3b3sm24674756f8f.18.2026.02.15.09.03.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Feb 2026 09:03:33 -0800 (PST)
-Message-ID: <1671a6263c305f54398e74a0a826387f343bbe34.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: Stop supporting sysvinit
- compatibility
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 15 Feb 2026 17:03:32 +0000
-In-Reply-To: <DGFOGZFG9RCO.2210182JJUNRG@bootlin.com>
-References: <20260213175618.1801591-1-richard.purdie@linuxfoundation.org>
-	 <DGFOGZFG9RCO.2210182JJUNRG@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=XvYR+NGL;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id F15A34E40E04
+	for <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 18:03:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B019B606CD;
+	Sun, 15 Feb 2026 18:03:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 56B58102F1D19;
+	Sun, 15 Feb 2026 19:03:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1771178591; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=HJ9rri54V/p2LCHaBfzEcutSux/QQxwpplxH/QWLWs8=;
+	b=XvYR+NGLdnSwUJLThcHETEdm5cTpOIGV0WnrbbXEFsWHRR+mVLLCuNw10NQCmA+NNKNhqw
+	masNTED/LZrKlGvZANXkG+D9zfF2ApjRGgAJo+K2CS3ulYw9D6wzF/1nI1Ji4WIFv/6iev
+	tSC4WxyYczx2YEyD5hbB377642aJ435A1dpXJHq9N/Ogw0htEvM0gPLD/Rn0mWftuw42q4
+	WBVbq095PaXZ00ONvuX0qfPshZkxKc2/l6k+Tvhwoa6ybuxD2fhGTSLC1cXABCeQdPEspp
+	XdaA0o6Zd25uuibULqomn2qIpmTxjTPE7QRg2n/CVyzsmXBGBO5TG088VEzmSg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 15 Feb 2026 19:03:09 +0100
+Message-Id: <DGFQER9GYWDA.3RGOGX1RCZDP8@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <colinmca242@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2 0/4] Disable OpenSSL and
+ Python3-cryptography legacy features by default
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260211184917.1045939-1-colinmca242@gmail.com>
+ <20260213230130.757732-1-colinmca242@gmail.com>
+ <DGFOPZGGFAZ6.ARG5LGAT1PG1@bootlin.com>
+In-Reply-To: <DGFOPZGGFAZ6.ARG5LGAT1PG1@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 17:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231167
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Feb 2026 18:03:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231168
 
-Hi Mattieu,
+On Sun Feb 15, 2026 at 5:43 PM CET, Mathieu Dubois-Briand wrote:
+> On Sat Feb 14, 2026 at 12:01 AM CET, Colin McAllister via lists.openembed=
+ded.org wrote:
+>> TLS 1.0 and 1.1 have been deprecated by the IETF since 2021, and
+>> OpenSSL's legacy module contains deprecated and unmaintained components.
+>> This series disables legacy support by default in both OpenSSL and
+>> python3-cryptography, requiring users to explicitly opt-in if needed.
+>>
+>> The first two patches add packageconfig options to control legacy TLS
+>> protocol support and the legacy OpenSSL module. The final patch aligns
+>> python3-cryptography with the new OpenSSL defaults.
+>>
+>> Note that the TLS 1.0/1.1 changes replace the existing "no-tls1" and
+>> "no-tls1_1" packageconfig options with affirmative "tls1" and "tls1_1"
+>> options that are disabled by default. While less disruptive to enable
+>> the "no-*" options by default, using affirmative options provides
+>> consistency with the new "legacy" option and is clearer than having
+>> default-enabled "no-*" options.
+>>
+>
+> Hi Colin,
+>
+> Thanks for the new version.
+>
+> I believe we have a new error:
+>
+> ERROR: core-image-sato-1.0-r0 do_rootfs: Could not invoke dnf. Command '/=
+srv/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86_64-poky-li=
+nux/core-image-sato/1.0/recipe-sysroot-native/usr/bin/dnf -v --rpmverbosity=
+=3Dinfo -y -c /srv/pokybuild/yocto-worker/multilib/build/build/tmp/work/qem=
+ux86_64-poky-linux/core-image-sato/1.0/rootfs/etc/dnf/dnf.conf --setopt=3Dr=
+eposdir=3D/srv/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86=
+_64-poky-linux/core-image-sato/1.0/rootfs/etc/yum.repos.d --installroot=3D/=
+srv/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86_64-poky-li=
+nux/core-image-sato/1.0/rootfs --setopt=3Dlogdir=3D/srv/pokybuild/yocto-wor=
+ker/multilib/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0=
+/temp --repofrompath=3Doe-repo,/srv/pokybuild/yocto-worker/multilib/build/b=
+uild/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/oe-rootfs-repo --no=
+gpgcheck install dnf packagegroup-base-extended packagegroup-core-boot pack=
+agegroup-core-ssh-dropbear packagegroup-core-x11-base packagegroup-core-x11=
+-sato pango-module-basic-fc psplash rpm run-postinsts lib32-connman-gnome l=
+ib32-pango-module-basic-fc locale-base-c locale-base-en-us locale-base-en-g=
+b' returned 1:
+> ...
+> Error: Transaction test error:
+>   file /etc/ssl/openssl.cnf conflicts between attempted installs of lib32=
+-openssl-conf-3.5.5-r0.x86 and openssl-conf-3.5.5-r0.x86_64_v3
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/3170
+>
+> Can you have a look at the issue?
+>
+> Thanks,
+> Mathieu
 
-On Sun, 2026-02-15 at 17:32 +0100, Mathieu Dubois-Briand wrote:
-> On Fri Feb 13, 2026 at 6:56 PM CET, Richard Purdie via lists.openembedded=
-.org wrote:
-> > Systemd has worked with sysvinit compatibility but upstream plans to re=
-move
-> > this and hence we will no longer be able to support it. We need to remo=
-ve this
-> > before the LTS since the support will certainly not be there for the li=
-fetime
-> > of the LTS.
-> >=20
-> > This patch disables that usage mode and removes some of the compatibili=
-ty logic.
-> > There is more that can be removed, this is meant just to signal to peop=
-le it is
-> > no longer supported and start that process. Further cleanup can be made=
- over time
-> > in later commits.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> I suspect we also want to remove the "Systemd with sysvinit compat" and
-> "Sysvinit with systemd" steps from qa-extras2:
->=20
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/3165
-> https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n1=
-562
+My bad, the issue probably comes from another patch. This series is
+probably good.
 
-Yes, that is on my todo list! I knew we had a few tests to remove, I
-think that is the only one I haven't patched yet. Thankfully an easy
-tweak for a change.
+Thanks,
+Mathieu
 
-Cheers,
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Richard
 
