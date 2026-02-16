@@ -1,98 +1,134 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAACE7BD8C
-	for <webhook@archiver.kernel.org>; Mon, 16 Feb 2026 10:46:41 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17141.1771238794916045612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2A4E7BDA9
+	for <webhook@archiver.kernel.org>; Mon, 16 Feb 2026 12:04:22 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18199.1771243455817175913
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Feb 2026 02:46:35 -0800
+ Mon, 16 Feb 2026 04:04:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=EdkOeFDr;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48378136adcso14547995e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 02:46:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771238793; x=1771843593; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rG3mqAeqxdsYLrwdy5WOpR6UQbb/JeKeDYF87r12CRA=;
-        b=EdkOeFDrbR/teOcSCJcKJayWGkO+D+vTKqtmiRTBMqZ63y5HdyO20011Jejmq7VPFh
-         FAgAb9IEhulQy2l6ZgUvniM5GlXKOwpOYl1PyBRFl8JUC42xpgZ/pJ26KswwYh16/+ck
-         8z8hJLCpm1SSe4iY5rGSgMfBHH6TKGkAAM+JU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771238793; x=1771843593;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rG3mqAeqxdsYLrwdy5WOpR6UQbb/JeKeDYF87r12CRA=;
-        b=pCZhPsiBUOlbHEk5QSlufPxUasD7aMx+oQVwX7sY0Nx4gKD2iklLRQHuwU0hvpRaQH
-         o08JM8dk3EqXMdU5gbKBDd6s6j/JqnkPFVzC9qxzISys/ub/6a8TF8g3ev1RQtaSXRE3
-         7i0SACWIoScYCIaTQ/zXXzMI3X0TyzwwxHVEzEEDqWyLqV483aognzIcUXp0W0Xm9x3Q
-         H7qiUcvYLq83tqgH72FYniUhRCzEs8UXeX/KsZRHBO2gMAm7KhG5f7Ua0BWSbCeYFOpO
-         RC30Vbu9RoSlzy6yhOktZlpOlSm5G4cMtDrWWXAH2Ah42PuYnfwqGPlFQN6f7LfK19Sm
-         eUyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUd+fHrbSAq8zGk6O1+TY0GZq4UJulRY5qQztFDUGPR4tDCxiFH2sZzlPsASB9vXpqqt6qeU/C6F19SoseP+TfcIw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxuQdyTVWAIeGeMmixkb1VnlqYI2iz7GQpowilHx98GkTs113MX
-	UfktYcC9FdX9OAfw73IaRzmIZeYffYG/B6u30rcHUBs6PWRUyw+PlRJhFYs6EYy/v6Y=
-X-Gm-Gg: AZuq6aK0kCADFk5GDZD9fCy/K+TRbY8wOCokOFO82VrnWhWai76dW8WQ5vbq09NwAdd
-	uNvZ87YVWw5Bsn9m40zrsQ5dQHX6bCXnamKzjg/a2SPFRww7SFd5t4IXjbm2t2Xs0Ps60Qso65n
-	5lU6V9jp9rJs8w1z5mooiThvQRnfCWcyQvcQsAZ/fGpddYNh3vsmdU2dzb0e3Zr7AkIJu7czD+u
-	MbiGxJQf6xiRiPhS/FAXZ9ONxasr26QK3a/e8mT+IF+9EqOcH4VHPZRG4VdolR4y50kjRtdMdsI
-	prGed57XT4mMAtWJnxKttcSoe+bzZMKDIlhRrnPM6l/dlaWSJ0Se3NiBkrEkPnCRQ5xFtcvK4WL
-	jrFWfhLNq7MPpghrmFVGSoOyBSE9xY6egWjc7wyIM0yQVUKTTblqIuvryP0BGwlhiAP+BWVK0lI
-	s5zZYZ7iU8z8CnBQPNkHDI77n/rcuzKFxYJRjpfLhdwt+9Zm2n6gnoM1d5jVJ4ddwfg72RhnBzL
-	5GY3GW4t4w=
-X-Received: by 2002:a05:600c:8608:b0:483:7783:537b with SMTP id 5b1f17b1804b1-48379bfd7b7mr101211665e9.24.1771238793119;
-        Mon, 16 Feb 2026 02:46:33 -0800 (PST)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835dd0deeasm385666815e9.12.2026.02.16.02.46.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Feb 2026 02:46:32 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Bqk9WBK2;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 71E441A0FBD;
+	Mon, 16 Feb 2026 12:04:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 40293606CF;
+	Mon, 16 Feb 2026 12:04:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6F6310369109;
+	Mon, 16 Feb 2026 13:04:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1771243452; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ogGd7bfDVfctdCBoFLgzPy8qQp+lY2TRqlyve0wQxCc=;
+	b=Bqk9WBK2pOu9z3s1wzcAXuJFwzn1QFnh9Ql+jsTv9op546vDAruIYwAv14LouQvyKA+j9I
+	WcNFaq0DphFDJCh6Ur1i5Y+Ow6v5JqtZ4sUqIBgB8BiW0kR6fw0lUSYehzci/WN046PnWx
+	d0up/S3ZvN/Wi9e/muYMJFi9o0mewTPNE77yrBDXmyOT9bme2QXjxFm4p5aC1Qrs6lv0C8
+	kaI56pOMkwC6LSSV9nTol1vi9SneqMN+HElEkxe/kcfTtOqJ5kclJdhJq5T0a6Vf7e9XTL
+	rXGFuh9ppDmYrT4pxPe5sx/Ksp69hKm5qPO6zyDmNJ6iUkcx/lW4iDkdZqFKcw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Feb 2026 11:46:32 +0100
-Message-Id: <DGGBR03F1CHM.2SB3BHQTX46JH@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH 3/3] vim: ignore CVE-2025-66476
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <adongare@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260202040805.596021-1-ankur.tyagi85@gmail.com>
- <20260202040805.596021-3-ankur.tyagi85@gmail.com>
- <CAMSfU+6Bmh+wDLNK-tbJo1OdY2faqh4o+x4pEdAY7yQ0H7K9jg@mail.gmail.com>
- <920657.1771236647380325202@lists.openembedded.org>
-In-Reply-To: <920657.1771236647380325202@lists.openembedded.org>
+Date: Mon, 16 Feb 2026 13:04:06 +0100
+Message-Id: <DGGDEE91I28T.1ZWXHUSCP3GAP@bootlin.com>
+To: <yi.zhao@eng.windriver.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] grub: upgrade 2.12 -> 2.14
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260214075816.1935265-1-yi.zhao@windriver.com>
+In-Reply-To: <20260214075816.1935265-1-yi.zhao@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 10:46:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231194
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 12:04:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231195
 
-On Mon Feb 16, 2026 at 11:10 AM CET, Anil Dongare -X (adongare - E INFOCHIP=
-S PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> Hello,
-> I hope this message finds you well. I am reaching out to follow up on
-> the patch that was submitted by Ankur concerning the update for
-> ***CVE-2025-66476*** in the *_scarthgap_* branch.
-> Could you please provide us with any updates regarding when this patch
-> is anticipated to be merged?
-
-I got the patch for whinlatter.
-
-I'll review this patch for the next whinlatter and scarthgap batches
-(planed this week)
-
-> Thank you very much in advance for your assistance.
+On Sat Feb 14, 2026 at 8:58 AM CET, Yi Zhao via lists.openembedded.org wrot=
+e:
+> ChangeLog:
+> * libgcrypt 1.11.
+> * LVM LV integrity and cachevol support.
+> * EROFS support.
+> * GRUB environment block inside the Btrfs header support.
+> * NX support for EFI platforms.
+> * shim loader protocol support.
+> * BLS and UKI support.
+> * Argon2 KDF support.
+> * TPM2 key protector support.
+> * Appended Signature Secure Boot Support for PowerPC.
+> * New option to block command line interface.
+> * Support dates outside of 1901..2038 range.
+> * zstdio decompression support.
+> * EFI code improvements and fixes.
+> * TPM driver fixes.
+> * Filesystems fixes.
+> * CVE and Coverity fixes.
+> * Tests improvements.
+> * Documentation improvements.
 >
-> Best regards,
-> Anil Dongare
+> Drop backport patches.
+> Refresh local patches.
+> Split grub-bash-completion package by inheriting bash-completion.
+>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
 
+Hi Yi,
+
+Thanks for the upgrade.
+
+It looks like this is breaking the wic.Wic.test_grub_install_pcbios
+selftest:
+
+2026-02-16 08:00:28,031 - oe-selftest - INFO - wic.Wic.test_grub_install_pc=
+bios (subunit.RemotedTestCase)
+2026-02-16 08:00:28,031 - oe-selftest - INFO -  ... FAIL
+...
+AssertionError: Command 'wic create /tmp/tmprjgt61lz.wks -e core-image-mini=
+mal -o /srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-284508=
+2/wic-tmp' returned non-zero exit status 1:
+...
+
+ERROR: _exec_cmd: export PATH=3D/srv/pokybuild/yocto-worker/oe-selftest-fed=
+ora/build/build-st-2845082/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/reci=
+pe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/oe-selftest-fedora/build=
+/build-st-2845082/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysroo=
+t-native/usr/sbin:/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/buil=
+d-st-2845082/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysroot-nat=
+ive/usr/bin:/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-2=
+845082/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysroot-native/us=
+r/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/oe-selftest-fedora/buil=
+d/build-st-2845082/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysro=
+ot-native/bin:/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st=
+-2845082/tmp/hosttools:$PATH;grub-mkimage         --prefix=3D/boot/grub    =
+     --format=3Di386-pc         --config=3D/srv/pokybuild/yocto-worker/oe-s=
+elftest-fedora/build/build-st-2845082/tmp/deploy/images/qemux86-64/embed.cf=
+g         --directory=3D/srv/pokybuild/yocto-worker/oe-selftest-fedora/buil=
+d/build-st-2845082/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/re=
+cipe-sysroot/usr/lib/grub/i386-pc         --output=3D/srv/pokybuild/yocto-w=
+orker/oe-selftest-fedora/build/build-st-2845082/tmp/deploy/images/qemux86-6=
+4/grub-bios-core.img boot linux ext2 fat serial part_msdos part_gpt        =
+ normal multiboot probe biosdisk msdospart configfile search loadenv test r=
+eturned '1' instead of 0
+output: grub-mkimage: error: `/srv/pokybuild/yocto-worker/oe-selftest-fedor=
+a/build/build-st-2845082/tmp/work/qemux86_64-poky-linux/core-image-minimal/=
+1.0/recipe-sysroot/usr/lib/grub/i386-pc/kernel.img' is miscompiled: its sta=
+rt address is 0x9074 instead of 0x9000: ld.gold bug?.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3098
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3332
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
 
 --=20
-Yoann Congal
-Smile ECS
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
