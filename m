@@ -2,102 +2,96 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF3DE7BDBC
-	for <webhook@archiver.kernel.org>; Mon, 16 Feb 2026 13:34:12 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19551.1771248852064114528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA22E7BDBD
+	for <webhook@archiver.kernel.org>; Mon, 16 Feb 2026 13:34:22 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19552.1771248852220152740
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Feb 2026 05:34:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V69NHCW0;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4806bf39419so37317175e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 05:34:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gCO1bqiH;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48373a4bca3so15673195e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 05:34:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771248850; x=1771853650; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5vQdQmXk0hhFa4dJZ+RlXWxkDcXk3dDB3il4aeQ7H00=;
-        b=V69NHCW00rah5TthUEnLZBxK7fs7Nb3sRqgWaqicKTePQU2UMgA1BDOfG3vDAlXWeA
-         BL3j3V7rLj4GHu9O91GmOGOF7zROz7813TuaOJ4VlD8LZWwN1iOcdnCC9+Kkfek+s3rO
-         7TZ1glQEsu0aQRu/q7OxVSgfpExTSPgvHCo9ReOK8X8kQw+KzZmWFJ4CSrUDRk5S1yMQ
-         Es8Y8HesOkkB901HPV40Cle1XqTupczkbFxU/J6sxw9pa9sbY8dqNtdlSfMcIeOWPtJt
-         RQ6xcYGbnzrGm47YMG4ECSQiKKXRzfBErFFzUknowZX+EX2VquP6jm7cDsnZ2KazZIhq
-         Nsog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771248850; x=1771853650;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771248851; x=1771853651; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5vQdQmXk0hhFa4dJZ+RlXWxkDcXk3dDB3il4aeQ7H00=;
-        b=dOay+fEMeeA3hmWevP6RUihDqwsxl+sQ9VSjLfzDp8KXfLKoOQiaKqQtKC3ucnGjtw
-         pKWFlGG+Du9ZwCCUUjaf8TcY8SOdCYur/wo58DO04gYd0OEvpfFI7vpRDSHooYUVh+Eq
-         YjSoE5DVRq/h6FtpRqD0hsMJOw0jyDbWHVAT/YkQVG5UWxulhSd5dcUPoBFLowIqbzmM
-         aCC/GIAP8Z+cYySz9ZWhPgZW8fxuDYUP6yI7J4n0jX2CUtUxhBOzm51gUsDwtncC7jOc
-         qwoFGq0UTO8W5Vdbk35z1nxa11zeOn4BSb/Q4T8yiiDm3TQ2tULmG3V1roGD5cVutFLH
-         a1yA==
-X-Gm-Message-State: AOJu0YzCzOoCuLqdTaDheWXizRjn80NLu/Q3IKVPIZGpc9TAyS3bwaT5
-	lBQ1ezhIon/6y/QO4YASw3HGIDq5g/2W8EHq0+G4e0UowXli1BuHLly6PmFRdA==
-X-Gm-Gg: AZuq6aI6nQ8ibvrCvY4lngUTBL8MvZS3cbE9wI42KI194CE+PR1dJAfwv+kifonBT/N
-	RzJ7YtCCPIav0goD7Ij7hlKybrgAS5hPUV3KUuJSZbYPsVGFSlXUGJftrU/XKjJ+CeFS3vTsctK
-	u54h8N3Ull/d/PKHbvYkUO5z/k694Yyfhj5GP9HhnN81GM5HiOmjRQgl1/YRulX+kvZJpzAqqdY
-	80e2niQNX0AsqGrPf2aDU+/4+jiQXCYz+CEg01OSuZaAacJHP6r13xf5qzARyT9qX7dRD8h3GKm
-	k637pMGQPFmFIecTMrseidOPKjG02pm8Ep7kwiTlr6unuHVriTp+iZYNFIoy8UQeh3uj2nxFuHl
-	QWgRpAur2CCvbmELk9itmcm0dUeH7cs25LCduFmdaW/RFMwVB31/V3FNftDKe19YzbeY/7A3Tql
-	BxNlixJhmMVjy51H/D9rHBfcTXMRiy3xD1T9+9yhLpuPzS+VOnxPxF28+ItH0=
-X-Received: by 2002:a05:600c:19d3:b0:481:a662:b3f3 with SMTP id 5b1f17b1804b1-48378d6bc48mr139399935e9.7.1771248849830;
-        Mon, 16 Feb 2026 05:34:09 -0800 (PST)
+        bh=Uol68aocnnJxbIheNlkkRqEX9JZzmMtP1o9h8dXl8y4=;
+        b=gCO1bqiHiSFgmcMitH73t8Aegrzkos/Agmzn6Z8n3nKwcQGV6NNKjgC6GaRnQPmEsL
+         cPBF03F/2o6WEP/dMztcKiHj8Nos9f00QJKGadimEgKmWJBOa0k7ely35Q4N9ic2CnV/
+         3f3XBbX9xO/6jGjAMCki4wUNUlIzKrro/ZUzYjb5M6Zq1TC1A/TRDS0PAZTGOJjZybwC
+         LBO/Vg1qWh/Np/FD/bDelKMkdVN3sMg8YB6qksWgnQY7xZa4+2+GXU77R7QU5BOH6lOK
+         VPttsosXhHa3DGaDFp/JNtnardVhIp1/1e8nH4gOSMoS5savJDmFTLqjtxfu6LxY0xFQ
+         4iew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771248851; x=1771853651;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Uol68aocnnJxbIheNlkkRqEX9JZzmMtP1o9h8dXl8y4=;
+        b=Fa8erFmqFU2fe6KOyeCT7LZ4kBR1uyC46EYgwnbOkS2LQzVATCTdZeOZhdcSsd8r2y
+         Pc2rnGrvcDlxhqIJrlOL3Bqo4molLnE+9j2JiOuEDOFan974cG/AK6W0eRnbZ4Qyprb+
+         0xSwHJkSNiKW5bOO/lkRNGTCkMmBse1uJ0MlGMlV3F9nX2f9EN+CzuRuamv73UAukmIx
+         TFENkF/SACG5c/GBHdMXkLp3eAF4zQ8wfA/OktdDdVymJhlzz93IyXkdWseamjokPL6W
+         3gyCtoPqCsu61/wC015bEHpxgo5+2IF+A7yqwAB5npvpu+SQrKq1tp+L0pfAE9Vt+z46
+         Jo5g==
+X-Gm-Message-State: AOJu0YzAVRw5m5NqztnkyUSWfUuFNkn51O1v7sGUOMINcl7HrwFq507b
+	mNy7BdfpEhOc6lti03ehCrorLs5IMsl4nQo5oV6JsQGdVE/5v+VoVK6LZvx4LQ==
+X-Gm-Gg: AZuq6aJGIHIS+5hLr5mJ4Vb3HI++PXHUZDm7HzZKqOdCrHGq54aTcrnJsYJAAXgF8dh
+	+UPpO/EUMoEn57z6HABmwSrXFURg9352KPWknvhP2NZfcRduHBU7kxGUFUJkS5dhR4ZhCyNw6Qb
+	d8vtfgFClsCQTq4i0oE2HbG8KUaFgaoVzo9wGq78yApzJXEQgkQwdGUdMYrCvepYMRf1Wodv86W
+	pRhYdCbpringbQICtHPWdRcHpm+4juif5Vv8WHHZHi8sUJzCp1z7zMevNNr5NFd6XiO7SnIKCTd
+	UgdOWNHAs5c1VZ0bWWN4nQEUlkZPX6+JoR35zZpNCJPjU7hJNm4en02CCxKitMvg5eNmvuHc6Pt
+	mq7fr3COgK/M2rhzFs4MWceFOSbasARdZHa6qxfvVrHbPPyF/OJj6Npry9YY5hpj4zsmfud45f3
+	KkO0TTzck81YHZ7OxgUMmiHfG2EHEiOSeewiAjGGaQhjh4dLmfUGiYWJHbZNo=
+X-Received: by 2002:a05:600c:37cc:b0:483:702f:4633 with SMTP id 5b1f17b1804b1-48379b8c016mr132114945e9.4.1771248850538;
+        Mon, 16 Feb 2026 05:34:10 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835d994670sm340037485e9.4.2026.02.16.05.34.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 05:34:09 -0800 (PST)
+        Mon, 16 Feb 2026 05:34:10 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/5] lttng-tools: ensure that ptest errors are not suppressed
-Date: Mon, 16 Feb 2026 14:33:47 +0100
-Message-ID: <20260216133351.1034740-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/5] lttng-tools: add missing python3-multiprocessing dependency to ptests
+Date: Mon, 16 Feb 2026 14:33:48 +0100
+Message-ID: <20260216133351.1034740-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260216133351.1034740-1-alex.kanavin@gmail.com>
+References: <20260216133351.1034740-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 13:34:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231198
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Feb 2026 13:34:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231199
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-At some recent point lttng-tools ptests have quietly regressed,
-and most of them aren't executed anymore. Errors are printed
-on the console, but aren't reported as exit code from run-ptest.
-
-The reason is that exitcode was set to what sed returned, not make.
-The original reason for piping through sed was to unify /tmp/tmp.xxxx outputs
-for easier results comparison, but (after fixing the tests) I don't
-see such lines anymore, and in any case ensuring such regressions
-are caught is more important.
-
-With this fix, run-ptest and testimage starts to fail as it should.
+This restores the not-running tests, and everything is again able
+to run (and pass).
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-kernel/lttng/lttng-tools/run-ptest | 2 +-
+ meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-index f4f7a3baea..e7edc03e96 100755
---- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-+++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-@@ -31,7 +31,7 @@ validate_lttng_modules_present || {
- make -k -t all >error.log 2>&1
- # Can specify a test e.g.:
- # -C tests/regression/ check TESTS='kernel/test_callstack'
--make -k -s $makeargs check 2>error.log | sed -e 's#/tmp/tmp\...........#/tmp/tmp.XXXXXXXXXX#g'
-+make -k -s $makeargs check 2>error.log
- exitcode=$?
- if [ -e error.log ]; then
-     cat error.log
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
+index 46bf59c271..1106867aeb 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
+@@ -15,7 +15,7 @@ include lttng-platforms.inc
+ DEPENDS = "liburcu popt libxml2 util-linux bison-native babeltrace2"
+ RDEPENDS:${PN} = "libgcc"
+ RRECOMMENDS:${PN} += "${LTTNGMODULES}"
+-RDEPENDS:${PN}-ptest += "make perl bash gawk procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core grep binutils"
++RDEPENDS:${PN}-ptest += "make perl bash gawk procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core grep binutils python3-multiprocessing"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-utils"
+ RDEPENDS:${PN}-ptest:append:libc-musl = " musl-utils"
+ # babelstats.pl wants getopt-long
 -- 
 2.47.3
 
