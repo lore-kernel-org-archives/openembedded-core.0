@@ -1,229 +1,197 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBFCE7BDA2
-	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 12:59:16 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11346.1771333146275908680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B73E6817F
+	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 12:59:36 +0000 (UTC)
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11269.1771333175373337906
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Feb 2026 04:59:06 -0800
+ Tue, 17 Feb 2026 04:59:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HsX/Uznx;
- spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8220bd582ddso2126229b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 04:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1771333145; x=1771937945; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bXG2BNjpl4sSB5O6miqgcENu+LwQMGhzY6fKR3nCgy8=;
-        b=HsX/Uznx1gT/8YpLXzXhx2+1VIK959KBOBHJ0kgxG7lMCvSyl4sCCsuzZtdzOMw+N/
-         oTvvMXJ5Nm6sLa0OY/Zq04pr/OToIi9GPyhp9DS5AcUGQN5z6JNVpzJk+YNCVZESdjmh
-         CSIcNXuV1qyrJ3kKEYZEfOUS22fU91C9QQ848=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771333145; x=1771937945;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bXG2BNjpl4sSB5O6miqgcENu+LwQMGhzY6fKR3nCgy8=;
-        b=jcHOPFMkl8aSIgGggqJo60+zFcdPnAjc/Smy7LJg8KrXE3/78MG+wTpdpDxiPT1XCm
-         CzFUG3kiUd/anF/OtPoLpp4ctEJmcfeYEv/G31UtLRBZZLLOLMIYrguy6gi3v9S4Gj4n
-         cKDzjg8OackrmMuGePEq5J95VjWxO3F0YCopSSsQB44qmNMTJEBlYo2PWvJ4OxjA7xr/
-         9sVHLRDSF6+RqAJzN1mqmUXGZ2jzR5ChF2oN/C1rxYEO8OJtJUEK78QALFMtZbn9C5tv
-         3Fkte4J7pOkom4bboo1yqoQm8ldVRw7vS4bOsm/QlFMu54pjWnKEepF3xWWndGPM+IC4
-         PGxw==
-X-Gm-Message-State: AOJu0Yxg2OByTVt7k2g/LuNA940W4k/jeK8k3MBJkW4lkfLT4y4iD8y/
-	GWqWuqNaf3RXJzhQO8XVff8X+A+tKTl4de2fjwIlutwHNaB7jZGUrq657oalEcydlYlYg7N5IgC
-	OUZ0IhU0=
-X-Gm-Gg: AZuq6aIfSnqWPuT2Cm0yJjmxpmgWNe1qd/KdtOu9oYEQmFJMIYJ7xMnMjN49RFhHbD6
-	O1lBTBBp0LjjVnd4PMujQLWYWBFZfvURX/K1ATIoGagvSJNT9L0rE9vAY/kihYaiFMujtutqO6C
-	pwmuhNUdK1DeXmjVkXOL5TCQ8ndG/PH7+NKyBzm5FlUiuzNKtxIpiIj8YleAXY/OSz5jhrKiODD
-	iiLw9EjDm+GLn2jtwZ4opLHCV6Osb0nmoSu0nBurD7IrDQ6cCTzGQ2ILO2Nt1/pRpuU3VYquGKf
-	hSnmf/6tJuUbuhqgLoRlI+JTCApC/ZB8CcGcwUWfS5wl28P6ZbPWnCHx/cigVOcRJQse2F+dh8w
-	zUHzwVR/Q3PJjMkcril2x7GXC04jlYD38kKcq9HWaqpjOrGEQAWbF+zyZUVxyz3Krch8mCFl081
-	7+N7EEHcmYzqfckW0PGEeB9TgBhZSTRxZSy14=
-X-Received: by 2002:a05:6a00:139d:b0:824:ae74:571f with SMTP id d2e1a72fcca58-824c963ecb8mr14714938b3a.40.1771333145231;
-        Tue, 17 Feb 2026 04:59:05 -0800 (PST)
-Received: from MVIN00352.mvista.com ([2406:7400:54:795d:cdd7:ddcd:102d:80c5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824cc22f4d9sm12641588b3a.39.2026.02.17.04.59.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 04:59:04 -0800 (PST)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][whinlatter][patch 4/4] gnutls: upgrade 3.8.11 -> 3.8.12
-Date: Tue, 17 Feb 2026 18:28:30 +0530
-Message-ID: <20260217125830.2907750-4-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260217125830.2907750-1-vanusuri@mvista.com>
-References: <20260217125830.2907750-1-vanusuri@mvista.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=RnOQIUX9;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=aoakbsme;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.155, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4DE7114001F4;
+	Tue, 17 Feb 2026 07:59:34 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 17 Feb 2026 07:59:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1771333174; x=1771419574; bh=dLIdRXSLv+
+	plrPuhJP8TTjG8NmYYw4nJqVBao3DWlC4=; b=RnOQIUX9Edte/NT/7Z0+feK/Nv
+	i25jSwFTcfKwSqVTGnrW9n32IExYqQPgc0ZzE2KfsJXmbJe8WEss4PoU8mn+81kg
+	39o6BNV6/5JWNSy8/GzT3R6rudfbRKKrzWoXciFNUm+24aMrdcsrtZRfqdyrhQJ0
+	im8aakhgGvDMWWrMfIWqL9UYQFS2ZHA/n1trBlZePeWGaWM/Z89AuPvARj0DwKnM
+	a0jPKns4orbvisE9draqw+RhzP8vjOXYMG/IqBG3/t06fP0/A3Fjg5SzpW0UZpoq
+	odaT7G/Q+Dol5g3Uou1OgFW0FxDx9gKKsXyjfF/rBZ7UuzpXxGSJAvpciZoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1771333174; x=1771419574; bh=dLIdRXSLv+plrPuhJP8TTjG8NmYYw4nJqVB
+	ao3DWlC4=; b=aoakbsmeYyFdoT/dH1AhcbUAjcCov6N20MjW9Qn3XAJpZnSSGcK
+	nQ0DjuRebvt+8/VkPX2uFWoCVfl8TFVVeHrRTpokBrEZ49AZyRwg5ltLVYImBBne
+	Gl5DxNYYEF8uIk2hoJL09LD9NGctTjecxigzcSNWF9n0VtXpPtyRNnk+p4DPXAms
+	nb80hc5xpvKLDMSrVXNVj3jPO1FK+i5h9dJytL8Um24FyfUnm4tvocT14cENqAaX
+	TqgDn1s1PhCQ6FKvdL2+shU2O29ni9xlVdz641MjBr+00q6X2Jhien1X9a7UTmTb
+	WZHHaICSH+2mAeou2sX9T/JNQiZvnfBEPRA==
+X-ME-Sender: <xms:NWaUaXl45BRGBznElBjKPwxURWH2WHXNyYK8mia5fsDyAvTM6jA5jw>
+    <xme:NWaUaR3CPorOy_q2zfXp_Bn_8DkiZ9JNyxCkz_2SMcIpMSqgSfm7ZAAZAGZU2PJGU
+    f0oKxYpb3DQiIxzZSx0tcgkxIxmejvOLoWMkRR6qnjVukSWFodP96E>
+X-ME-Received: <xmr:NWaUaSrCxMXjpSVjSyj04RtzGa1Jw1Q2PfT7Bh89PW6Wb8T2fJ1Pv0tJ1_bCooTIQBR-41tABRdhKps6crwJLwmXHiKmXaknAu2Au6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvudelkedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    ephfekhfeugfelfeeludellefhkeetvdffiedttdeuueekhfeiudeivdefueehuddtnecu
+    ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggv
+    vhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephi
+    horghnnhdrtghonhhgrghlsehsmhhilhgvrdhfrhdprhgtphhtthhopehjrghvihgvrhdr
+    vhhighhuvghrrgesughighhirdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvg
+    guqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthht
+    oheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhorh
+    hg
+X-ME-Proxy: <xmx:NWaUaed1ED8wu7C1zsMTO3BjQTqVKR1RB47GxVGTjXBYK7fj1KbPZw>
+    <xmx:NWaUaRrzJFRQq7DniXmkHZ1MSd2xVnScNbfVLbAwhX6DHjnWQLoarw>
+    <xmx:NWaUafErs_yslc-1Ln76wpWsK_bK2KlngyN4ftmHbu225Pkl3XSP1g>
+    <xmx:NWaUaRtP25ky4soUjFTFJEMGRtZc5vOTaFtyynMMUX1paGNFD_sDbA>
+    <xmx:NmaUaRQ83vIRSAVdhGC-UYWgTLj51epofw_jcl3kqBn_hZc-oAKarzuE>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Feb 2026 07:59:32 -0500 (EST)
+Message-ID: <b374f672f29106dd0c0d02c314f81e9d4ad8bf8d.camel@pbarker.dev>
+Subject: Re: [OE-core] [scarthgap 00/28] Pull request (cover letter only)
+From: Paul Barker <paul@pbarker.dev>
+To: yoann.congal@smile.fr, Javier Viguera <javier.viguera@digi.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org
+Date: Tue, 17 Feb 2026 12:59:26 +0000
+In-Reply-To: <DGH6UWVR18RO.2LU166X88G2RC@smile.fr>
+References: <cover.1771008295.git.yoann.congal@smile.fr>
+	 <b18d950d-4a43-4797-8c9d-0a7b350d04fc@digi.com>
+	 <DGH6UWVR18RO.2LU166X88G2RC@smile.fr>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-rEaEJio95qbWTxXuTU13"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 12:59:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231250
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 12:59:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231251
 
-From: Peter Marko <peter.marko@siemens.com>
 
-Release information: [1]
+--=-rEaEJio95qbWTxXuTU13
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Solves CVE-2025-14831 and CVE-2026-1584.
-Remove patch included in this release.
-Add workaround for cross-compilation bug in release tarball.
+On Tue, 2026-02-17 at 12:09 +0100, Yoann Congal via
+lists.openembedded.org wrote:
+> On Tue Feb 17, 2026 at 11:18 AM CET, Javier Viguera wrote:
+> > Hi Yoann,
+> >=20
+> > On 2/13/26 19:47, Yoann Congal via lists.openembedded.org wrote:
+> > >=20
+> > > Richard Purdie (2):
+> > >    pseudo: Update to 1.9.3 release
+> > >    pseudo: Update to include an openat2 fix
+> > >=20
+> >=20
+> > The backport of the pseudo patches to Scarthgap broke the build on=20
+> > Ubuntu 20, as it still uses glibc 2.31, so the pseudo-native build fail=
+s=20
+> > with:
+> >=20
+> > > In file included from pseudo_ports.h:5,
+> > >                  from pseudo.h:164,
+> > >                  from pseudo_wrappers.c:30:
+> > > ports/linux/pseudo_wrappers.c: In function =E2=80=98syscall=E2=80=99:
+> > > ports/linux/portdefs.h:59:21: error: =E2=80=98__NR_openat2=E2=80=99 u=
+ndeclared (first=20
+> > use in this function); did you mean =E2=80=98real_openat2=E2=80=99?
+> > >    59 | #define SYS_openat2 __NR_openat2
+> > >       |                     ^~~~~~~~~~~~
+> >=20
+> > According to poky.conf, ubuntu-20 is still a supported distro to build=
+=20
+> > Scarthgap, so I guess this needs to be somehow fixed.
+>=20
+> Thanks for the report, I'm working on a fix.
+> In this case, __NR_openat2 is not present in the kernel headers.
+> (Ubuntu 20.04 is on Linux 5.4, the openat2 syscall was added in 5.6)
 
-[1] https://lists.gnutls.org/pipermail/gnutls-help/2026-February/004914.html
+Can we just define __NR_openat2 if it is not already defined?
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+It's defined in include/uapi/asm-generic/unistd.h as:
+    #define __NR_openat2 437
 
-(From OE-Core rev: 49f8a79a705f4ff3d0ba755c637ef8f6ac09d5b6)
+Best regards,
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- ...dit-crau-fix-compilation-with-gcc-11.patch | 66 -------------------
- .../gnutls/gnutls/Add-ptest-support.patch     |  4 +-
- .../{gnutls_3.8.11.bb => gnutls_3.8.12.bb}    |  7 +-
- 3 files changed, 7 insertions(+), 70 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch
- rename meta/recipes-support/gnutls/{gnutls_3.8.11.bb => gnutls_3.8.12.bb} (94%)
+--=20
+Paul Barker
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch b/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch
-deleted file mode 100644
-index 60960dad6f..0000000000
---- a/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-with-gcc-11.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--From 2bbae7644a2292410b53f98fd0035c40bf8750a5 Mon Sep 17 00:00:00 2001
--From: Julien Olivain <ju.o@free.fr>
--Date: Sun, 23 Nov 2025 18:17:19 +0100
--Subject: [PATCH] audit: crau: fix compilation with gcc < 11
--
--If the CRAU_MAYBE_UNUSED macro is unset, the crau.h file tries to
--automatically detect an appropriate value for it.
--
--This autodetection is using the cpp special operator
--`__has_c_attribute` [1], introduced in gcc 11 [2].
--
--When compiling with a gcc older than version 11, the compilation fails
--with the error:
--
--    In file included from audit.h:22,
--                     from audit.c:26:
--    crau/crau.h:255:23: error: missing binary operator before token "("
--         __has_c_attribute (__maybe_unused__)
--                           ^
--
--This has been observed, for example, in Rocky Linux 8.10, which
--contains a gcc v8.5.0.
--
--The issue happens because the test for the `__has_c_attribute`
--availability and the test for the `__maybe_unused__` attribute
--are in the same directive. Those tests should be separated in
--two different directives, following the same logic described in
--the `__has_builtin` documentation [3].
--
--This issue was found in Buildroot, after updating gnutls to
--version 3.8.11 in [4].
--
--This commit fixes the issue by splitting the test in two.
--
--[1] https://gcc.gnu.org/onlinedocs/cpp/_005f_005fhas_005fc_005fattribute.html
--[2] https://gcc.gnu.org/gcc-11/changes.html#c
--[3] https://gcc.gnu.org/onlinedocs/cpp/_005f_005fhas_005fbuiltin.html
--[4] https://gitlab.com/buildroot.org/buildroot/-/commit/81dbfe1c2ae848b4eb1f896198d13455df50e548
--
--Reported-by: Neal Frager <neal.frager@amd.com>
--Signed-off-by: Julien Olivain <ju.o@free.fr>
--
--Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/2bbae7644a2292410b53f98fd0035c40bf8750a5]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- lib/crau/crau.h | 7 ++++---
-- 1 file changed, 4 insertions(+), 3 deletions(-)
--
--diff --git a/lib/crau/crau.h b/lib/crau/crau.h
--index 0d4f9f13e..53d33555b 100644
----- a/lib/crau/crau.h
--+++ b/lib/crau/crau.h
--@@ -251,9 +251,10 @@ void crau_data(struct crau_context_stack_st *stack, ...)
-- # else
-- 
-- #  ifndef CRAU_MAYBE_UNUSED
---#   if defined(__has_c_attribute) && \
---    __has_c_attribute (__maybe_unused__)
---#    define CRAU_MAYBE_UNUSED [[__maybe_unused__]]
--+#   if defined(__has_c_attribute)
--+#    if __has_c_attribute (__maybe_unused__)
--+#     define CRAU_MAYBE_UNUSED [[__maybe_unused__]]
--+#    endif
-- #   elif defined(__GNUC__)
-- #    define CRAU_MAYBE_UNUSED __attribute__((__unused__))
-- #   endif
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-index d8b5035b38..398c0464e0 100644
---- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-@@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
- index 1744813..efb9e34 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1447,6 +1447,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-+@@ -1448,6 +1448,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-  
-  AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" = "yes")
-  
-@@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
- index 189d068..8430b05 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -719,6 +719,12 @@ SH_LOG_COMPILER = $(SHELL)
-+@@ -721,6 +721,12 @@ SH_LOG_COMPILER = $(SHELL)
-  AM_VALGRINDFLAGS = --suppressions=$(srcdir)/suppressions.valgrind
-  LOG_COMPILER = $(LOG_VALGRIND)
-  
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.11.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-similarity index 94%
-rename from meta/recipes-support/gnutls/gnutls_3.8.11.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index 5b44c66dfc..d13a1365dc 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.11.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -21,12 +21,11 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
-            file://arm_eabi.patch \
-            file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
--           file://0001-audit-crau-fix-compilation-with-gcc-11.patch \
-            file://run-ptest \
-            file://Add-ptest-support.patch \
-            "
- 
--SRC_URI[sha256sum] = "91bd23c4a86ebc6152e81303d20cf6ceaeb97bc8f84266d0faec6e29f17baa20"
-+SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
- 
-@@ -62,6 +61,10 @@ do_configure:prepend() {
- 	for dir in . lib; do
- 		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
- 	done
-+
-+	# remove on next upgrade when release tarball gets fixed
-+	# https://gitlab.com/gnutls/gnutls/-/issues/1797
-+	cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error_codes
- }
- 
- do_compile_ptest() {
--- 
-2.43.0
 
+--=-rEaEJio95qbWTxXuTU13
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZRmLxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bsDyAQCamBWTkAnv2Au5ZIkuiQi4FkPZcgD6P7n1
+MH15kYOj3gD+M5gZwWMugzRe6QC82Tp/6C5RlRi0hZkibdZkp9Lfygc=
+=Zn19
+-----END PGP SIGNATURE-----
+
+--=-rEaEJio95qbWTxXuTU13--
 
