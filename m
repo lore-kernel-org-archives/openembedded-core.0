@@ -1,199 +1,351 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA17E68168
-	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 10:25:15 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9196.1771323904614418724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC4AE6816A
+	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 10:27:25 +0000 (UTC)
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9087.1771324038434125130
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Feb 2026 02:25:05 -0800
+ Tue, 17 Feb 2026 02:27:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=t+KVPo+/;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43638a33157so3913316f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 02:25:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hi02BeMs;
+ spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-895071c5527so54945536d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 02:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771323903; x=1771928703; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=feykQcPnwDBXZIzg5/UtzprMjEbGFlxFhimrBcjq4Ok=;
-        b=t+KVPo+/AE89qvTJ8unJ2fkkABffatS8e5hF4DwBj6F4Z1ZCJL4LjfYdJu76wP6BNN
-         r8+9N1HBO5Hn9muZbZZjXv2Rn0DOyHrnR/lB04E4vH5kldrs21PWN1yy5Kq3VxrHcun3
-         5NRHNOTuqEuIdlv7iSS3Fi441Q6irGjM0zwis=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771323903; x=1771928703;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771324037; x=1771928837; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=feykQcPnwDBXZIzg5/UtzprMjEbGFlxFhimrBcjq4Ok=;
-        b=ti3xmfPJ+xh9H5IsKumg9+0IAJSdCqMdF5qokERcnPJsGZNTI0jnhodk/WS+XgSEtS
-         NQ6isBznCrjmXyLftxPaiHKkzA3tPzNMWTwWUIVHPFxtXNchdDsh0EklnI6+DXqQ6oMj
-         ZvkqTfGPzXBFJBmvljMO1Tsj2xJszjnMETOgG1Sr2wrUrrWAz6nTJouk8be+iPpw+m9u
-         eWLGCf3n0RLceoBKLuUK41W50GFQ8b1kxUJnwOQmZ3ceiCRczcX89m18u0vEix6E0S3F
-         olrrte+3rOOFw1F4xcVb5MZdw8TwF/pXYaJAJwwFxZQ23C5hdrRR/dOoPUeQnVIIw8Ue
-         osEQ==
-X-Gm-Message-State: AOJu0YyOmnUqYAkQJD06UAGfHJ5AHnvo+rIvRJQ7ZEmprXqTA4CBR58b
-	RkZZThLIr7X1Hjr5ycCt9XbD5E5bRFA1EMxd1rfJYeU6MGsAko/R2wSGLrdHQAruyF532xFCxUs
-	U4FJw
-X-Gm-Gg: AZuq6aK0Tng0fdb/CQffwIJ8tU0gQswk0ilFG9ghYmcQTZ0/mUvq9QCH0i9f2x4eCyn
-	AplG7hNMUm2HsSgZuV8zaghzXgzDMCl0winq86+Wq92aH+886lmnQEfk1W5060BR973HJqc9yvi
-	41Gzzovvj3dZWX8YTY+WJ/McUwaXlurOZt5i14DRKRc2oqUy1iXrVBiLFt+mC4B/XnRmExtsG62
-	nA9ldPlVmmcZmjd5F96sJrBmu4aBLZ4uO2DWMQj2i9/KcMZYMa3HLwWhpFcYd6/tMZa0fZp/NAz
-	inQxC7pajX0pmA0PiPMeIHUS1RUJdMNd63LsRp3d5r3qpXAw65aXt7ayqz+luq00zl2V9beyhGB
-	RwX2psvtDOmJ8HbJ7BTyjt5wIu4QyJx40IEnNfFVtZ/75cXILSkiCcu2Gz8QgOSYOf8pkisE8+v
-	3r3q2vK5cpLrdzQNuHCLj7OnVG0kZGouy09CJx+pw5KGhS8VlqV5Rgvnf7Pll9eVi29uWolkK8u
-	TPiEixmmH6MmMDdQijZYYy5+zS4Wy1nNlQW0Dd1r2cH
-X-Received: by 2002:a05:6000:4285:b0:435:bbd7:18e4 with SMTP id ffacd0b85a97d-4379795efa9mr26870439f8f.63.1771323902572;
-        Tue, 17 Feb 2026 02:25:02 -0800 (PST)
-Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac8d46sm34399662f8f.32.2026.02.17.02.25.01
+        bh=9NAegeWmi7+NF3HNfurdCS+9mvyiHZfs6WiTSPda3Bo=;
+        b=Hi02BeMsnO9l/EoC9dHNtZt5YlFCXuxcuq1Zuhq3Sw1sfBNBK871L16zkLQ+zuR3mM
+         ySh0JKC0S7LBplfciwH5OnHhhTFPKCL0FRau+jXgh+x0vseqWgeuNRaaCYf/bS9x4LZh
+         YHisyAkvI6O70fSYRndGUk0yEjOqihBKoJ8cGvlHdcijFG0bTaBsFC3uZLM9sm0d+/2k
+         vAhGH1//CNTGoeAwrwnTR2lAfgwWXESNBZfD5WNYVOd2/t84hz40ctaTe+bN2MGlF3vA
+         tKxFhJcanuGx/zduIZP93PsZu4dd5ZsY7BXY0/ODM1asQXzBmysE79LzBs1mQamjaiTx
+         3y3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771324037; x=1771928837;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9NAegeWmi7+NF3HNfurdCS+9mvyiHZfs6WiTSPda3Bo=;
+        b=LNLQxWcPydFFMG4EAWWziBuERpOhQQ72zT3P3JljEElNsqNIY26j9SXZ95RtbQWaMv
+         ZJZlI48I967Hk/znagfpAmxw+jlNwXZlgpZlFzleZmI/h4hN+0RUcVo+8t6OJjqYPxlM
+         B/6OS/NGqGZLQ6XqUNaYwsimuUJeja+e13meACZQKC6qQ9aOjcxxgAHFFQTVb8iiEAIP
+         93QexxaSt5NNex9qkV2PZzXKEyWVu2wWbZ43ApVm6WRL/n0FWaH0UqDYIz9dBMvO6K/I
+         qSU8Colf0l5ZkYFGIh2DOnrdw5ZonMw1YGELaLPUsLmc0IFKmcCr+lNHrqzTaujFWQH3
+         dCzw==
+X-Gm-Message-State: AOJu0YwZYSs7dNRzjWpSY+3lVSt5Cbb4J+fjM9TW0Cka8Cys9tAdXXE+
+	/h6vT+OD/dLY1Da2TstlwVsCN6Y5IpIGh1PzAuwK93kc4pJJ7ozWhsx2TtrJb0bqYFM=
+X-Gm-Gg: AZuq6aJN/LmHEAZ5oGCDPifxovj0zHAvIiAxz3Kcth2lDbteVl6csrZ7qKrZfkXjy4+
+	ZTZBuB8IQ9rss7SW6Pk5GfMrXP5wqgBz44LndAwJ33hdPD+j3sai2GTosCw5H45kJxMCOMz8Cyn
+	4un0ddCB2ddh1quc/ppOoJ+MSLcZ1GJmiaSh5cNUikjmuymLajX1Q1hZclw+qJUTOruarreOJcC
+	uEaM1P0Vg8TwpiPw0fDseEI9x1jAJ1/ykMdh00dscqlhKe3cTe0iPZadDMLWi0Pl3RDu5VIcK36
+	To+yIuDxoSJTfmPxxP1B0hQ8c67rla8W2Bv7LUc8Ttm0Jj+8G1mUI0b0uov5RVZou52MY4f4mba
+	jvrMY+cd1Up0QvUlMe+RYf+DZ90w6NIwjxVQDJIbxoGHz6hOXtJP2kVm4YuJdUcGXuQ2nI8JUVv
+	d7c9Ia0AN1xCS83PEUUjP8WtYcND4dReAooYzpDmfa8Asz0OsQXwTW/YjCWB4tdXH5XQ==
+X-Received: by 2002:a05:6214:1303:b0:894:6ff2:191c with SMTP id 6a1803df08f44-89740466e1bmr146412046d6.33.1771324036649;
+        Tue, 17 Feb 2026 02:27:16 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8971cc7bbcdsm159026506d6.9.2026.02.17.02.27.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 02:25:02 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+        Tue, 17 Feb 2026 02:27:15 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][whinlatter 00/20] Pull request (cover letter only)
-Date: Tue, 17 Feb 2026 11:24:18 +0100
-Message-ID: <cover.1771322143.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
+Cc: Mark Hatle <mark.hatle@kernel.crashing.org>
+Subject: [PATCH v4 2/2] ufs image class: add
+Date: Tue, 17 Feb 2026 05:27:07 -0500
+Message-ID: <20260217102707.2542807-2-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260217102707.2542807-1-twoerner@gmail.com>
+References: <20260217102707.2542807-1-twoerner@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 10:25:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231238
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 10:27:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231240
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/openembedded-core/cover.1770968514.git.yoann.congal@smile.fr/T/#t
-with backported "pseudo: Update to include an openat2 fix" to fix #16143
-(AB-INT: do_image_wic: tar command return exit status 2)
+Add an image class and wks file that demonstrates generating a wic image
+with a 4096-byte sector size.
 
-Passed a-full on autobuilder (with errors):
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3229
-* meta-intel failed with #16172 – intel-media-driver: ninja: posix_spawn: Argument list too long
-  * This failure is independent of this patch series.
-* oe-selftest-fedora failed on a temporary github glitch (502 Bad Gateway or Proxy Error)
-  * https://autobuilder.yoctoproject.org/valkyrie/?#/builders/48/builds/3104
-  * Successfully retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/48/builds/3106
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes from v3:
+- update the partition table format from mbr (msdos) to gpt
 
-The following changes since commit 000a044d285d93ded3280f27360165c943bb5d7e:
+changes from v2:
+- tested more scenarios and made sure to fix the warning from v1 in
+  every case
 
-  inetutils: patch CVE-2026-24061 (2026-02-10 21:15:17 +0000)
+changes from v1:
+- add Mark as a co-creator (sorry for missing this the first time!)
+- provide a fix for the following warning:
+	WARNING: core-image-minimal-1.0-r0 do_image_wic_ufs: Function do_image_wic_ufs doesn't exist
+---
+ meta/classes-recipe/image.bbclass           |   2 +-
+ meta/classes-recipe/image_types_ufs.bbclass | 221 ++++++++++++++++++++
+ scripts/lib/wic/canned-wks/mkdisk-ufs.wks   |   5 +
+ 3 files changed, 227 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes-recipe/image_types_ufs.bbclass
+ create mode 100644 scripts/lib/wic/canned-wks/mkdisk-ufs.wks
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-next
-
-for you to fetch changes up to 53c91e6104364029be1b87a0228382a354238f94:
-
-  pseudo: Update to include an openat2 fix (2026-02-16 11:49:42 +0100)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (1):
-  avahi: Backport fix CVE-2025-68276
-
-Aleksandar Nikolic (1):
-  scripts/install-buildtools: Update to 5.3.1
-
-Amaury Couderc (2):
-  avahi: patch CVE-2025-68468
-  avahi: patch CVE-2025-68471
-
-Ankur Tyagi (3):
-  mobile-broadband-provider-info: upgrade 20250613 -> 20251101
-  avahi: patch CVE-2026-24401
-  vim: ignore CVE-2025-66476
-
-Bruce Ashfield (2):
-  linux-yocto/6.12: update to v6.12.69
-  linux-yocto/6.12: update CVE exclusions (6.12.69)
-
-Dragomir, Daniel (2):
-  wic/engine: fix copying directories into wic image with ext* partition
-  oeqa/selftest/wic: test recursive dir copy on ext partitions
-
-Hongxu Jia (2):
-  webkitgtk: workaround compile failure for large debug symbols
-  webkitgtk: upgrade 2.50.0 -> 2.50.4
-
-Paul Barker (2):
-  devtool: deploy: Run pseudo with correct PATH
-  devtool: deploy: Reset PATH after strip_execs
-
-Peter Marko (4):
-  openssl: upgrade 3.5.4 -> 3.5.5
-  ffmpeg: ignore 10 CVEs
-  libsndfile1: patch CVE-2025-56226
-  go: upgrade 1.25.6 -> 1.25.7
-
-Richard Purdie (1):
-  pseudo: Update to include an openat2 fix
-
- .../distro/include/yocto-space-optimize.inc   |     3 -
- meta/lib/oeqa/selftest/cases/wic.py           |    65 +
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |     4 +
- .../avahi/files/CVE-2025-68276.patch          |    68 +
- .../avahi/files/CVE-2025-68468.patch          |    32 +
- .../avahi/files/CVE-2025-68471.patch          |    36 +
- .../avahi/files/CVE-2026-24401.patch          |    74 +
- ...obile-broadband-provider-info_20251101.bb} |     2 +-
- ...ke-history-reporting-when-test-fails.patch |    23 +-
- .../0001-extend-check_cwm-test-timeout.patch  |     2 +-
- .../{openssl_3.5.4.bb => openssl_3.5.5.bb}    |     2 +-
- .../go/{go-1.25.6.inc => go-1.25.7.inc}       |     2 +-
- ...e_1.25.6.bb => go-binary-native_1.25.7.bb} |     6 +-
- ..._1.25.6.bb => go-cross-canadian_1.25.7.bb} |     0
- ...{go-cross_1.25.6.bb => go-cross_1.25.7.bb} |     0
- ...osssdk_1.25.6.bb => go-crosssdk_1.25.7.bb} |     0
- ...runtime_1.25.6.bb => go-runtime_1.25.7.bb} |     0
- .../go/{go_1.25.6.bb => go_1.25.7.bb}         |     0
- meta/recipes-devtools/pseudo/pseudo_git.bb    |     2 +-
- .../linux/cve-exclusion_6.12.inc              | 13004 ++++++++++------
- .../linux/linux-yocto-rt_6.12.bb              |     6 +-
- .../linux/linux-yocto-tiny_6.12.bb            |     6 +-
- meta/recipes-kernel/linux/linux-yocto_6.12.bb |    28 +-
- meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb  |     7 +
- .../libsndfile1/CVE-2025-56226-01.patch       |    36 +
- .../libsndfile1/CVE-2025-56226-02.patch       |    43 +
- .../libsndfile/libsndfile1_1.2.2.bb           |     2 +
- ...able-to-control-macro-__PAS_ALWAYS_I.patch |     8 +-
- ...spection.cmake-prefix-variables-obta.patch |     2 +-
- ...-on-RISCV-https-bugs.webkit.org-show.patch |     4 +-
- .../webkit/webkitgtk/fix-ftbfs-riscv64.patch  |    24 +-
- .../webkitgtk/fix-musl-compilation.patch      |    94 -
- ...ceof_handler_for_32-bit_C-loop_build.patch |   122 -
- .../webkit/webkitgtk/reproducibility.patch    |     2 +-
- .../webkit/webkitgtk/sys_futex.patch          |    11 +-
- .../webkit/webkitgtk/t6-not-declared.patch    |     6 +-
- ...ebkitgtk_2.50.0.bb => webkitgtk_2.50.4.bb} |    15 +-
- meta/recipes-support/vim/vim_9.1.bb           |     2 +
- scripts/install-buildtools                    |     4 +-
- scripts/lib/devtool/__init__.py               |     3 +-
- scripts/lib/devtool/deploy.py                 |     9 +-
- scripts/lib/wic/engine.py                     |    63 +-
- 42 files changed, 8391 insertions(+), 5431 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68471.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-24401.patch
- rename meta/recipes-connectivity/mobile-broadband-provider-info/{mobile-broadband-provider-info_20250613.bb => mobile-broadband-provider-info_20251101.bb} (91%)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.5.5.bb} (99%)
- rename meta/recipes-devtools/go/{go-1.25.6.inc => go-1.25.7.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.6.bb => go-binary-native_1.25.7.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.6.bb => go-cross-canadian_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.6.bb => go-cross_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.6.bb => go-crosssdk_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.6.bb => go-runtime_1.25.7.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.6.bb => go_1.25.7.bb} (100%)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-01.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-02.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.50.0.bb => webkitgtk_2.50.4.bb} (93%)
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 53f1a9dc45b0..97465836c14a 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -18,7 +18,7 @@ inherit populate_sdk_base
+ IMGCLASSES += "${@['', 'populate_sdk_ext']['linux' in d.getVar("SDK_OS")]}"
+ IMGCLASSES += "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso hddimg', 'image-live', '', d)}"
+ IMGCLASSES += "${@bb.utils.contains('IMAGE_FSTYPES', 'container', 'image-container', '', d)}"
+-IMGCLASSES += "image_types_wic"
++IMGCLASSES += "image_types_wic image_types_ufs"
+ IMGCLASSES += "rootfs-postcommands"
+ IMGCLASSES += "image-postinst-intercepts"
+ IMGCLASSES += "overlayfs-etc"
+diff --git a/meta/classes-recipe/image_types_ufs.bbclass b/meta/classes-recipe/image_types_ufs.bbclass
+new file mode 100644
+index 000000000000..9a984f084289
+--- /dev/null
++++ b/meta/classes-recipe/image_types_ufs.bbclass
+@@ -0,0 +1,221 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++# The WICUFSVARS variable is used to define the base list of bitbake variables used in wic code
++# variables from this list are written to <image>.env file
++WICUFSVARS ?= "\
++	APPEND \
++	ASSUME_PROVIDED \
++	BBLAYERS \
++	DEPLOY_DIR_IMAGE \
++	FAKEROOTCMD \
++	HOSTTOOLS_DIR \
++	IMAGE_BASENAME \
++	IMAGE_BOOT_FILES \
++	IMAGE_CLASSES \
++	IMAGE_EFI_BOOT_FILES \
++	IMAGE_EXTRA_PARTITION_FILES \
++	IMAGE_LINK_NAME \
++	IMAGE_ROOTFS \
++	IMGDEPLOYDIR \
++	INITRAMFS_FSTYPES \
++	INITRAMFS_IMAGE \
++	INITRAMFS_IMAGE_BUNDLE \
++	INITRAMFS_LINK_NAME \
++	INITRD \
++	INITRD_LIVE \
++	ISODIR \
++	KERNEL_CONSOLE \
++	KERNEL_IMAGETYPE \
++	MACHINE \
++	PSEUDO_INCLUDE_PATHS \
++	RECIPE_SYSROOT_NATIVE \
++	ROOTFS_SIZE \
++	STAGING_DATADIR \
++	STAGING_DIR \
++	STAGING_DIR_HOST \
++	STAGING_LIBDIR \
++	TARGET_SYS \
++"
++
++inherit_defer ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
++
++WKSUFS_FILE ??= "${WKS_FILE}"
++WKSUFS_FILES ?= "${WKSUFS_FILE} ${IMAGE_BASENAME}.wks"
++WKSUFS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
++WKSUFS_FULL_PATH = "${@wks_search(d.getVar('WKSUFS_FILES').split(), d.getVar('WKSUFS_SEARCH_PATH')) or ''}"
++
++def wks_search(files, search_path):
++    for f in files:
++        if os.path.isabs(f):
++            if os.path.exists(f):
++                return f
++        else:
++            searched = bb.utils.which(search_path, f)
++            if searched:
++                return searched
++
++def wks_checksums(files, search_path):
++    ret = ""
++    for f in files:
++        found, hist = bb.utils.which(search_path, f, history=True)
++        ret = ret + " " + " ".join(h + ":False" for h in hist[:-1])
++        if found:
++            ret = ret + " " + found + ":True"
++    return ret
++
++
++WICUFS_CREATE_EXTRA_ARGS ?= "${WIC_CREATE_EXTRA_ARGS}"
++
++IMAGE_CMD:wic.ufs () {
++	out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
++	build_wic_ufs="${WORKDIR}/build-wic-ufs"
++	tmp_wic_ufs="${WORKDIR}/tmp-wic-ufs"
++	wks="${WKSUFS_FULL_PATH}"
++	if [ -e "$tmp_wic_ufs" ]; then
++		# Ensure we don't have any junk leftover from a previously interrupted
++		# do_image_wic_ufs execution
++		rm -rf "$tmp_wic_ufs"
++	fi
++	if [ -z "$wks" ]; then
++		bbfatal "No kickstart files from WKSUFS_FILES were found: ${WKSUFS_FILES}. Please set WKSUFS_FILE or WKSUFS_FILES appropriately."
++	fi
++	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create --debug "$wks" --sector-size 4096 --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}-ufs" -o "$build_wic_ufs/" -w "$tmp_wic_ufs" ${WICUFS_CREATE_EXTRA_ARGS}
++
++	# look to see if the user specifies a custom imager
++	IMAGER=direct
++	eval set -- "${WICUFS_CREATE_EXTRA_ARGS} --"
++	while [ 1 ]; do
++		case "$1" in
++			--imager|-i)
++				shift
++				IMAGER=$1
++				;;
++			--)
++				shift
++				break
++				;;
++		esac
++		shift
++	done
++	mv "$build_wic_ufs/$(basename "${wks%.wks}")"*.${IMAGER} "$out.wic.ufs"
++}
++IMAGE_CMD:wic.ufs[vardepsexclude] = "WKSUFS_FULL_PATH WKSUFS_FILES TOPDIR"
++SPDX_IMAGE_PURPOSE:wic.ufs = "diskImage"
++do_image_wic_ufs[cleandirs] = "${WORKDIR}/build-wic-ufs"
++
++# Rebuild when the wks file or vars in WICUFSVARS change
++USING_WIC_UFS = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic.ufs ' + ' '.join('wic.ufs.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
++WKSUFS_FILE_CHECKSUM = "${@wks_checksums(d.getVar('WKSUFS_FILES').split(), d.getVar('WKSUFS_SEARCH_PATH')) if '${USING_WIC_UFS}' else ''}"
++do_image_wic_ufs[file-checksums] += "${WKSUFS_FILE_CHECKSUM}"
++do_image_wic_ufs[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
++
++# We ensure all artfacts are deployed (e.g virtual/bootloader)
++do_image_wic_ufs[recrdeptask] += "do_deploy"
++do_image_wic_ufs[deptask] += "do_image_complete"
++
++WKSUFS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
++WKSUFS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
++# Unified kernel images need objcopy
++WKSUFS_FILE_DEPENDS_DEFAULT += "virtual/cross-binutils"
++WKSUFS_FILE_DEPENDS_BOOTLOADERS = ""
++WKSUFS_FILE_DEPENDS_BOOTLOADERS:aarch64 = "grub-efi systemd-boot"
++WKSUFS_FILE_DEPENDS_BOOTLOADERS:arm = "systemd-boot"
++WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot"
++WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot"
++WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86-x32 = "syslinux grub-efi"
++
++WKSUFS_FILE_DEPENDS ??= "${WKSUFS_FILE_DEPENDS_DEFAULT} ${WKSUFS_FILE_DEPENDS_BOOTLOADERS}"
++
++DEPENDS += "${@ '${WKSUFS_FILE_DEPENDS}' if d.getVar('USING_WIC_UFS') else '' }"
++
++python do_write_wksufs_template () {
++    """Write out expanded template contents to WKSUFS_FULL_PATH."""
++    import re
++
++    template_body = d.getVar('_WKSUFS_TEMPLATE')
++
++    # Remove any remnant variable references left behind by the expansion
++    # due to undefined variables
++    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
++    while True:
++        new_body = re.sub(expand_var_regexp, '', template_body)
++        if new_body == template_body:
++            break
++        else:
++            template_body = new_body
++
++    wks_file = d.getVar('WKSUFS_FULL_PATH')
++    with open(wks_file, 'w') as f:
++        f.write(template_body)
++    f.close()
++    # Copy the finalized wks file to the deploy directory for later use
++    depdir = d.getVar('IMGDEPLOYDIR')
++    basename = d.getVar('IMAGE_BASENAME') + '-ufs'
++    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
++}
++
++do_flush_pseudodb() {
++	${FAKEROOTENV} ${FAKEROOTCMD} -S
++}
++
++python () {
++    if d.getVar('USING_WIC_UFS'):
++        wksufs_file_u = d.getVar('WKSUFS_FULL_PATH', False)
++        wksufs_file = d.expand(wksufs_file_u)
++        base, ext = os.path.splitext(wksufs_file)
++        if ext == '.in' and os.path.exists(wksufs_file):
++            wksufs_out_file = os.path.join(d.getVar('WORKDIR'), os.path.basename(base))
++            d.setVar('WKSUFS_FULL_PATH', wksufs_out_file)
++            d.setVar('WKSUFS_TEMPLATE_PATH', wksufs_file_u)
++            d.setVar('WKSUFS_FILE_CHECKSUM', '${WKSUFS_TEMPLATE_PATH}:True')
++
++            # We need to re-parse each time the file changes, and bitbake
++            # needs to be told about that explicitly.
++            bb.parse.mark_dependency(d, wksufs_file)
++
++            try:
++                with open(wksufs_file, 'r') as f:
++                    body = f.read()
++            except (IOError, OSError) as exc:
++                pass
++            else:
++                # Previously, I used expandWithRefs to get the dependency list
++                # and add it to WICUFSVARS, but there's no point re-parsing the
++                # file in process_wks_template as well, so just put it in
++                # a variable and let the metadata deal with the deps.
++                d.setVar('_WKSUFS_TEMPLATE', body)
++                bb.build.addtask('do_write_wksufs_template', 'do_image_wic_ufs', 'do_image', d)
++        bb.build.addtask('do_image_wic_ufs', 'do_image_complete', 'do_image_wic', d)
++}
++
++#
++# Write environment variables used by wic
++# to tmp/sysroots/<machine>/imgdata/<image>-ufs.env
++#
++python do_rootfs_wicufsenv () {
++    wicufsvars = d.getVar('WICUFSVARS')
++    if not wicufsvars:
++        return
++
++    stdir = d.getVar('STAGING_DIR')
++    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
++    bb.utils.mkdirhier(outdir)
++    basename = d.getVar('IMAGE_BASENAME') + '-ufs'
++    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
++        for var in wicufsvars.split():
++            value = d.getVar(var)
++            if value:
++                envf.write('%s="%s"\n' % (var, value.strip()))
++    envf.close()
++    # Copy .env file to deploy directory for later use with stand alone wic
++    depdir = d.getVar('IMGDEPLOYDIR')
++    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
++}
++addtask do_flush_pseudodb after do_rootfs before do_image do_image_qa
++addtask do_rootfs_wicufsenv after do_image before do_image_wic_ufs
++do_rootfs_wicufsenv[vardeps] += "${WICUFSVARS}"
++do_rootfs_wicufsenv[prefuncs] = 'set_image_size'
+diff --git a/scripts/lib/wic/canned-wks/mkdisk-ufs.wks b/scripts/lib/wic/canned-wks/mkdisk-ufs.wks
+new file mode 100644
+index 000000000000..dfd2f3854890
+--- /dev/null
++++ b/scripts/lib/wic/canned-wks/mkdisk-ufs.wks
+@@ -0,0 +1,5 @@
++bootloader --ptable gpt
++
++part /boot --source rootfs --fstype=vfat --label boot --change-directory boot/
++part /     --source rootfs --fstype=ext4 --label root --exclude-path boot/
++part swap                  --fstype=swap --label swap --size 1M
+-- 
+2.51.0
 
 
