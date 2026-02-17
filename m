@@ -1,196 +1,119 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8375FE9A026
-	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 17:41:58 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18048.1771350110914506867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 769AAE9A026
+	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 17:53:48 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15979.1771345503719519923
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Feb 2026 09:41:52 -0800
+ Tue, 17 Feb 2026 08:25:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=GfwTeB/9;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202602171741490e6f5f769300020706-cvk_cw@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202602171741490e6f5f769300020706
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 17 Feb 2026 18:41:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=fOGPWL29JaEZpGaimv/PSaCVESpXhAuSGYE/Wp5NHrk=;
- b=GfwTeB/9OHZG9FUUTmREheENu6Z+AjxD6S79X2QLHUHx/66+m4FAalx8gIgpdqdVqDNb9z
- W9sA/xM6gBvrPYTCBYpF9eSR5WZNbfd9BwdmD8ctbogOaxk8N7cbWXbxoXUA0ZG67FSuFO8Q
- JuR02mXiHANbn4UIPJdMqD3jRUcJYg6sb0/+tunpLza3qbO+OUiiAnubJvQRMJlYQJqfl4PG
- JniglYJjTuvzuFAQF6xEDS4kWkP9WCuH4dO6gFpOqT4rpqFxw11H5gawrF/xSNVMcYHLHZjJ
- 3UOBNriNGoQbZ9H6bXpmXVRhZg7lsAvcBRLsq7TZe4oHZQBOD1mzqF2Q==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] zlib: upgrade 1.3.1 -> 1.3.2
-Date: Tue, 17 Feb 2026 18:41:44 +0100
-Message-Id: <20260217174144.2734399-1-peter.marko@siemens.com>
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=BHXtG+7/;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.53, mailfrom: ukleinek@baylibre.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4376c0bffc1so3360314f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 08:25:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771345502; x=1771950302; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bC8FfHr98IMtz84ld4A3NzB3AepCVYFQr71JpqFHyyE=;
+        b=BHXtG+7/sc/p3kT3pz8+CyDY4krO1YP5QBZMWKVsrDmyfJorkK6Ul3fiqcC/TatDKW
+         hx9hMEfOL5C6IGjxNemVCL6MFuR2Pb3cfFQcY9hmMdhhTXfT0sYyYrZ4DiVUAnPOqLU2
+         YXOHnFiLvfwe4Lhnm6x1xCihbb3Nyiov8jZHh9JbU9Pe9slyG3jUlJ6xkXci46W+t2Gz
+         lF3z50a1AbAlVX1M48FQA+mK+mkJMxIVJuDjrYc6folLukaGPW3zgpJcLteKmNa0sXN3
+         iSN2uJhuE6Jye9mzgqaaIifsOaCXcmyJPGzqSynJ9OWj5jD5xZS5nbRnTO9c81ZnQX8J
+         6LVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771345502; x=1771950302;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bC8FfHr98IMtz84ld4A3NzB3AepCVYFQr71JpqFHyyE=;
+        b=KEcgs5Ov69dswriG40MOhsqodaDKtktLfsl4PujmrdNQWJPRuZxQGmKvIwJOv88nkC
+         /QsS/0BiXinLkTTesreo6HIUzsD2KppO0PZyHTWuH1FEQpn31nS/2t7cvbyAXWytciO7
+         XZT/ddsubB800jIVGwPr176luyuD8CnlP8wQuIGqDl62E7PWDMSWmX/+lC4FDuCUcj2B
+         9As8zFhheNwBElZ6zLQ/ALWFh6PHjvl8lYQQLbRed/tqtjHT/+XhLOvBVd7VZQBOMFw8
+         ZzE96rrEfp5RVTQ5/1S4m2hxsss5CFnuqtsdsjEFexLD9dbgH3fK51DhbvN693xo6J6U
+         o8bQ==
+X-Gm-Message-State: AOJu0Yxh0Rul1FOTs0R+isecWaRLwxnNmZcnBNc7OMcjpdxE87jTG4Ly
+	uOPC+FuxMRcF01H2r7g1vvD4VuGW888FH6AgvvpT6Ec9duakioMf2Xzbf/yIqNbYr50=
+X-Gm-Gg: AZuq6aJQF96K+Pn86zZU+I06xe7ryAJq5mF0Eh1bNJPJCCNLz96mlz2vQL8Odsees9b
+	cYLoW84ITQTU7azcUFpkRU3SsRP1dj+oglfP+JhB0ZdUHY8+7caYMpuH6FsITEY/QuCEq42o7Xl
+	qmrXivb6vOO3pgJ1+UAiYwoqL+USAHxU/yaWIEeesi/6WP0KF5q18x+/w+oizYGizVWxzTNELE+
+	5eSk+4LWqeCtbRabBuhDRO2fl4XhqYX1TkAMxSsAps1GBgzeVji+6WQHoXnU91StKS7kqphh/lU
+	iu4pbK2me82wQTmsnt7sak5/7wjhaJZZF/R/RHfB/D1jt7+Hym4Fm4zuGJDf8Zc9Slw+X52Glxh
+	8z2bZk9MWybjsIsGC+x4xXTJ03qmJSkdxx7xz2NN8JKiS7J5sQ/uPACnMmYo5QENfJxQkB6cq9l
+	t7o14jv6uAWPZ9+a+LhEUzJWAFMmeQzmbeLwnmCO4xl3huxEMmkQfgd6TrHgH9X04+DSUZhGLaR
+	zcSGb1hvz/5pHI=
+X-Received: by 2002:a5d:5f54:0:b0:437:70d3:44e7 with SMTP id ffacd0b85a97d-4379790e686mr23886126f8f.30.1771345501842;
+        Tue, 17 Feb 2026 08:25:01 -0800 (PST)
+Received: from localhost (p200300f65f20eb045c5036ebbb5a6d08.dip0.t-ipconnect.de. [2003:f6:5f20:eb04:5c50:36eb:bb5a:6d08])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43796a6ba57sm28820164f8f.15.2026.02.17.08.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 08:25:01 -0800 (PST)
+Date: Tue, 17 Feb 2026 17:25:00 +0100
+From: =?UTF-8?B?IlV3ZSBLbGVpbmUtS8O2bmln?= <ukleinek@baylibre.com>
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org, 
+	Joe MacDonald <joe.macdonald@siemens.com>, Yi Zhao <yi.zhao@windriver.com>
+Subject: Re: [OE-core] [PATCH] busybox: Enable SELinux support if DISTRO_FEATURES contains 'selinux'
+Message-ID: <aZSVSu358ldYjmlb@monoceros>
+References: <20260216164527.864396-1-u.kleine-koenig@baylibre.com>
+ <DGH4E8RFJGEA.R2SUJPB21TR0@smile.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+In-Reply-To: <DGH4E8RFJGEA.R2SUJPB21TR0@smile.fr>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="u2vv6dn65d24jymd"
+Content-Disposition: inline
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 17:41:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231266
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 17:53:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231267
 
-From: Peter Marko <peter.marko@siemens.com>
+--u2vv6dn65d24jymd
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH] busybox: Enable SELinux support if
+ DISTRO_FEATURES contains 'selinux'
+MIME-Version: 1.0
 
-Delete patch included in this version.
-Remove CVE_STATUS for CVE resolved in this release.
+Hello Yoann,
 
-Release information: [1]
-More details on homepage: [2]
-Audit details: [3]
+On Tue, Feb 17, 2026 at 10:13:24AM +0100, Yoann Congal wrote:
+> On Mon Feb 16, 2026 at 5:45 PM CET, "Uwe Kleine-K=F6nig via lists.openemb=
+edded.org wrote:
+> > this targets oe-core master, but it would be great if it could be
+> > backported to scarthgap which is what I'm currently using.
+>=20
+> Thank you for the patch. However, this is a new feature and would change
+> behavior for users of BusyBox and SELinux. Therefore, I cannot take this
+> patch for Scarthgap.
 
-Version 1.3.2 has these key updates from 1.3.1:
-* Address findings of the 7ASecurity audit of zlib.
-  * Check for negative lengths in crc32_combine functions.
-  * Copy only the initialized window contents in inflateCopy.
-  * Prevent the use of insecure functions without an explicit request.
-  * Add compressBound_z and deflateBound_z functions for large values.
-  * Use atomics to build inflate fixed tables once.
-  * Add --undefined option to ./configure for UBSan checker.
-  * Copy only the initialized deflate state in deflateCopy.
-  * Zero inflate state on allocation.
-  * Add compress_z and uncompress_z functions.
-* Complete rewrite of cmake support.
-* Remove untgz from contrib.
-* Vectorize the CRC-32 calculation on the s390x.
-* Remove vstudio projects in lieu of cmake-generated projects.
-* Add zipAlreadyThere() to minizip zip.c to help avoid duplicates.
-* Add deflateUsed() function to get the used bits in the last byte.
-* Fix bug in inflatePrime() for 16-bit ints.
-* Add a "G" option to force gzip, disabling transparency in gzread().
-* Return all available uncompressed data on error in gzread.c.
-* Support non-blocking devices in the gz* routines.
+That's what I expected, thanks for the confirmation.
 
-[1] https://github.com/madler/zlib/releases/tag/v1.3.2
-[2] https://zlib.net/
-[3] https://7asecurity.com/blog/2026/02/zlib-7asecurity-audit/
+In my current usecase this mostly for debugging, so I can cope and I'm
+happy if this change makes it into the development branch.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...configure-Pass-LDFLAGS-to-link-tests.patch | 78 -------------------
- .../zlib/{zlib_1.3.1.bb => zlib_1.3.2.bb}     |  5 +-
- 2 files changed, 1 insertion(+), 82 deletions(-)
- delete mode 100644 meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
- rename meta/recipes-core/zlib/{zlib_1.3.1.bb => zlib_1.3.2.bb} (85%)
+Best regards
+Uwe
 
-diff --git a/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch b/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
-deleted file mode 100644
-index 07b2cd3879..0000000000
---- a/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
-+++ /dev/null
-@@ -1,78 +0,0 @@
--Upstream-Status: Submitted [https://github.com/madler/zlib/pull/599]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From ea77f1f003a4d18b23cca703f3c824942863a1b4 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 8 Mar 2022 22:38:47 -0800
--Subject: [PATCH] configure: Pass LDFLAGS to link tests
--
--LDFLAGS can contain critical flags without which linking wont succeed
--therefore ensure that all configure tests involving link time checks are
--using LDFLAGS on compiler commandline along with CFLAGS to ensure the
--tests perform correctly. Without this some tests may fail resulting in
--wrong confgure result, ending in miscompiling the package
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- configure | 12 ++++++------
-- 1 file changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/configure b/configure
--index c55098a..a7c6d72 100755
----- a/configure
--+++ b/configure
--@@ -443,7 +443,7 @@ if test $shared -eq 1; then
--   echo Checking for shared library support... | tee -a configure.log
--   # we must test in two steps (cc then ld), required at least on SunOS 4.x
--   if try $CC -c $SFLAGS $test.c &&
---     try $LDSHARED $SFLAGS -o $test$shared_ext $test.o; then
--+     try $LDSHARED $SFLAGS $LDFLAGS -o $test$shared_ext $test.o; then
--     echo Building shared library $SHAREDLIBV with $CC. | tee -a configure.log
--   elif test -z "$old_cc" -a -z "$old_cflags"; then
--     echo No shared library support. | tee -a configure.log
--@@ -505,7 +505,7 @@ int main(void) {
-- }
-- EOF
--   fi
---  if try $CC $CFLAGS -o $test $test.c; then
--+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
--     sizet=`./$test`
--     echo "Checking for a pointer-size integer type..." $sizet"." | tee -a configure.log
--     CFLAGS="${CFLAGS} -DNO_SIZE_T=${sizet}"
--@@ -539,7 +539,7 @@ int main(void) {
--   return 0;
-- }
-- EOF
---  if try $CC $CFLAGS -o $test $test.c; then
--+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
--     echo "Checking for fseeko... Yes." | tee -a configure.log
--   else
--     CFLAGS="${CFLAGS} -DNO_FSEEKO"
--@@ -556,7 +556,7 @@ cat > $test.c <<EOF
-- #include <errno.h>
-- int main() { return strlen(strerror(errno)); }
-- EOF
---if try $CC $CFLAGS -o $test $test.c; then
--+if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
--   echo "Checking for strerror... Yes." | tee -a configure.log
-- else
--   CFLAGS="${CFLAGS} -DNO_STRERROR"
--@@ -663,7 +663,7 @@ int main()
--   return (mytest("Hello%d\n", 1));
-- }
-- EOF
---  if try $CC $CFLAGS -o $test $test.c; then
--+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
--     echo "Checking for vsnprintf() in stdio.h... Yes." | tee -a configure.log
-- 
--     echo >> configure.log
--@@ -753,7 +753,7 @@ int main()
-- }
-- EOF
-- 
---  if try $CC $CFLAGS -o $test $test.c; then
--+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
--     echo "Checking for snprintf() in stdio.h... Yes." | tee -a configure.log
-- 
--     echo >> configure.log
-diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zlib/zlib_1.3.2.bb
-similarity index 85%
-rename from meta/recipes-core/zlib/zlib_1.3.1.bb
-rename to meta/recipes-core/zlib/zlib_1.3.2.bb
-index ef83142121..8a23d98cd3 100644
---- a/meta/recipes-core/zlib/zlib_1.3.1.bb
-+++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
-@@ -8,12 +8,11 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
- 
- # The source tarball needs to be .gz as only the .gz ends up in fossils/
- SRC_URI = "https://zlib.net/${BP}.tar.gz \
--           file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
-            file://run-ptest \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
--SRC_URI[sha256sum] = "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23"
-+SRC_URI[sha256sum] = "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16"
- 
- # When a new release is made the previous release is moved to fossils/, so add this
- # to PREMIRRORS so it is also searched automatically.
-@@ -51,5 +50,3 @@ BBCLASSEXTEND = "native nativesdk"
- 
- # Adding 'CVE_PRODUCT' to avoid false detection of CVEs
- CVE_PRODUCT = "zlib:zlib gnu:zlib"
--
--CVE_STATUS[CVE-2026-22184] = "not-applicable-config: vulnerable file is not compiled"
+--u2vv6dn65d24jymd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmUllkACgkQj4D7WH0S
+/k5KAgf+Igqi1umbMJcGqqtvG7bWGHMS79hHaPyB0PfGbYkS/ufbb6nUWE82Ppkn
+Ehkdq1ZqVbn0jb0ObkP04D0c19MOoPOXn1N1+vXajuHNFTEQPqFi+Q2s4ouIwCHh
+kcYTe4Gkd5xE4kWEWeLSsSu8cRGqJp5h0HbLSP+74nsDPfDYkLCFxxr03uoG0m/l
+CytTAJPwU5lNMg5epya9k8BgNczxgZoAB/DgU6YwYWARh8MZc73SBQIHl30YfdJT
+luWOyef5V71vIxToJ93zUBLjgPJ16G1gUMr1YaBvIO3wXJ1Ly0N39Eb+XWm75B/O
+yUV1yT3AI+xv94LG9wMbVtX3AONTqQ==
+=ab8O
+-----END PGP SIGNATURE-----
+
+--u2vv6dn65d24jymd--
 
