@@ -1,499 +1,446 @@
-Return-Path: <amaury.couderc@est.tech>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E958E909AC
-	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 14:23:07 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13130.1771338178008346571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D055E909AF
+	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 14:24:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13051.1771338282891542665
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Feb 2026 06:22:58 -0800
+ Tue, 17 Feb 2026 06:24:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=EdDSL4xb;
- spf=pass (domain: est.tech, ip: 40.107.159.50, mailfrom: amaury.couderc@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=UMaz8H+s;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6508241ff4=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61HBowAD3358400
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 06:24:42 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=UJZ27WCd0MMA1EQPP/Hebz
+	w3Z6eglNUI7OX9Pj/pdC0=; b=UMaz8H+sMw1krQSxtvzw5ulV7DJhw/PQrg/z1g
+	M4KyjZc8K/4lNgxqFNIxEtf7J09q6UDefIOgGwu51c2WTITg3fm+6/2UgsI78MnT
+	sMd2Hpx5PyobprLkcFUbxwjrZyPgM9dQsXqPbMFX8rxuhutITwxbUtf4esdq+dGn
+	BW9OT9PoxyJdTcDtR4L9cibZRnCqjyCsCroM8JRmJEXZWmMbGYdScgigyUmI7orE
+	Hw1+DBV7XEW22jOwfevunYK2lnvKOzGJcurjO278qT4esNxu1/HKWXyuTdk7Tbec
+	5KzJh/UM9FcWjSN3UThGMLoUhETT0y/Q3O91UTkgHMGvqjJg==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013040.outbound.protection.outlook.com [40.93.201.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ccbam0kxt-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 06:24:41 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=knVnwVCBt+K+8ntb4AHJ+/tMWOg+tSph66qUbn8UaY2sUIxOoP5MOPWHx8vjNGS4024+XfsjpkgJM6Phy2LEXCNwsQNI8DD6SpGROp/8GZwK5GSHkvhiB7rPHsGiO1CZI3cMyYnyjtpUP/TP8rsLPCIc/Lc0BhaoTKuc0luP16yd3eSVxGVm+F3XFfrXw+FsAGYng8eqqjuWZ1KD/cmti+NeXa9oFvj4yPJK17HBbDPKO1z10Yq/cwbk06Lr7tE5uug9eddEMrYzuud9C5El6Y97QwiKfejz26IsgXIQDcwGtAxDbEFgn9F6EtW0CwVBGwUwC1CxBy5tnStlh9qVtw==
+ b=c5f0MSKLO3EeJIiV9T9p/g/YoEezEwanUQ+12ZBjevon3Bi938+gBussnrJ5T7VqtP66j+UWvzuN774P0N2MXRvC6BuCGgMNRqA8fNufe5A11KhCzlSUnBQDeHnAHMzymr5snqWhv3vhmYuXo9ZrxQrQGfVI2PAz4atQWxbHz/58SG0tG7aOPkqhj4m1rPJx2fGujRkQpearAFzAViqRgSEbA0zO5hAGOa4lP3fn8Cl+fwDPzEBGDPQTDCL3i4fGRZ5XLm2zW1O0k6OWxiT2sKlovMjDv/3WXEvEvDuozTfkzyZOrVyLKINfxO6PCcU6fEXgwxQ3Ym/8k9fWoqeuGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ApoIGAYjU+MSs21RgmslKYpzXUj6XRR1ewJ2H9c5z0Y=;
- b=A8RIcfeL1kJMe6d4d/TNXGb9vp8RfWyvuyYSvhODd9HTdExJrpBGkCcRAwk2HasgQRKj7mjjkRuSuDSDdxXUIjhrf2W/3XDZF+0We4Bmf2m/39Rfug+h01jbL1C6w8u7LDhxDpwmQ/LDM5MwwwKhoC//hM7h/OCEV57tOlvlMRr0c49gwQJyqp1H6POusNY6jC+8hrqZLn10DHXBmrq9VRzoAG47TAKTyYSGkMePP39rvNj0/qiHSj0LxXSuXMAlRXjj+kvwoXyBTlA+/iX+rgm6uzW9X6AVI6A8VzuSSD+y+PobCPk35K2Fv2TFNNLon2Qk8sS66HacPw18kz7YUg==
+ bh=UJZ27WCd0MMA1EQPP/Hebzw3Z6eglNUI7OX9Pj/pdC0=;
+ b=QFlsM3ibGgitwY3iOCXQoBuYgSF2M/UozqD5fIkb0ntrnMOAX1Odh98wreX06IOkPoLR/DaIT53VP1C1TOUK6DaAb0WoryTmS19a2IQ030pmmTyxr7r8WRVnx8XI50G6AEdti5rzXUhtEUhXvn68NifffIzxGB5rBVP2OSU0SNkeQTR7ZexNGduwHRNgaeXB+vOLQP/RvZ7plju6/6mudTECLX/NY2F3O5dGUffiiS4NqW/oC/vGELpgJsno4MmKfJeaCSoB4IywQ83Xvxh79QL90y2UZP5JP/iaFolYmWOBhuGmg5ea0eBLiXmqlyHPnJSVIRRSos2c1uJ8lsfNmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ApoIGAYjU+MSs21RgmslKYpzXUj6XRR1ewJ2H9c5z0Y=;
- b=EdDSL4xbjMxgczvgGWZD+kxlBYccyF12F9yolXnOvS5vgN1zNgdFNUuC11+SBZHDrvSz2gsaW0ldOAUaKeAEvJTxP81ojlK9QQGgDN/X6kNv9BdY6OrLKC9NHVyqWS4lgH4YvuItPCTxjq2Qv/Y++0Kn2w1vV7wHhst0jRaxAhV7lUksZ9ahYH40HqiIanQ8n4+9v+b+3/Lp7nFyOlqIGopeQF6u6sikboBudy5QMRRcJuLcav45svVZpRI0aPuxHprKI79uaPlfVHmQeSBCEm4AlnRWE7Z75UHQ7XZ8DdY3tGHqnwCPVQyChSErN9ahu39ZLscjPO/9OECTqZiduA==
-Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
- by AS8P189MB2069.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:50a::11) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by LV8PR11MB8559.namprd11.prod.outlook.com (2603:10b6:408:1e6::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.15; Tue, 17 Feb
- 2026 14:22:53 +0000
-Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
- ([fe80::1afd:f059:542:3d95]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
- ([fe80::1afd:f059:542:3d95%3]) with mapi id 15.20.9611.013; Tue, 17 Feb 2026
- 14:22:53 +0000
-From: Amaury Couderc <amaury.couderc@est.tech>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-68468
-Thread-Topic: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-68468
-Thread-Index: AQHcjFRBG94s009+zkiaVFzeFtlDnrVycHGAgAgXm3aADI/HRg==
-Date: Tue, 17 Feb 2026 14:22:53 +0000
-Message-ID: 
- <AMBP189MB319653240811F4F1E57EC999F86DA@AMBP189MB3196.EURP189.PROD.OUTLOOK.COM>
-References: <20260123103715.32186-1-amaury.couderc@est.tech>
- <DG64E3A1Z773.2J4Y398TR4E3C@smile.fr>
- <AMBP189MB319623FF519A834A108CF3DDF865A@AMBP189MB3196.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: 
- <AMBP189MB319623FF519A834A108CF3DDF865A@AMBP189MB3196.EURP189.PROD.OUTLOOK.COM>
-Accept-Language: en-SE, en-US
-Content-Language: aa
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AMBP189MB3196:EE_|AS8P189MB2069:EE_
-x-ms-office365-filtering-correlation-id: 85a962d9-d7c7-4a61-d0d7-08de6e3009c6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|13003099007|8096899003|7053199007;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?z0K8AJXx4Gbj5w6dbV/9AoHqkkKR4mlvGM31rqd2Vtf1yciBgeAiHT0/JXoq?=
- =?us-ascii?Q?szdxSa7U7Iq5/3cCia+ezzQaa9sxPuWytkUQKTs2aVhiZAtWXoAqC6btmx3C?=
- =?us-ascii?Q?Q5XE6JEV+Z2bxubjlUoes435VigVicRwICYmWNLZV6fO3Cr/5LGBh9b3mQVo?=
- =?us-ascii?Q?FvuT7N5ZFC+gEG0BFxWeJ07AuM3UWHz3ZUykRJ2b2qRbE0mzXYldfoBefC9o?=
- =?us-ascii?Q?Duqzw9RzThm+BaXEojwIXQ/HDyruG9XZXsBcOHkyFLpqWz02Urwcf2A5H2M6?=
- =?us-ascii?Q?85fN+oGs6AcNA5t7wDD4QhhvgA8QGXHC4xU2vepWL6gzBmiYDdMhcSFFKi3U?=
- =?us-ascii?Q?oztH+EIbWZgaPWyEMDBO8SOnH9vwlHu17qiBZJJ4NJugHFz7l2wnQNqpd/7q?=
- =?us-ascii?Q?2QJi2vJsyOrFIJT9NbK3DBIu6xJItCm5SIGPe+/8QVDjQjtByWA+P543gc1B?=
- =?us-ascii?Q?pYi7eM8wxtIGoHZWyAybOfhrS40xTCQRiOAjDaZIpSBmh5msfNiT+JWeIejY?=
- =?us-ascii?Q?UIPf3eBgpOV9iNMfS/HvOIfGH+sTcB5FGBtf4F+Mj1A6vMVmi5OMydDwMLGc?=
- =?us-ascii?Q?Ht18P/TXJR0xUhZxhG0odZHfkeiWRqSBpg82NPpmgMVw4mrlTQaWJ1mu09Hw?=
- =?us-ascii?Q?9i6fOK4BwxnyLVWXyptFNAMrmbiNG3GUfTy0H+5tVm/jny3BOlWFqVZ62AxL?=
- =?us-ascii?Q?1rUxmJgyvj8pmku8gtqdKJVc58egCYQFpHjpGl1vQ0mmZaVu2bJPyZycIKzK?=
- =?us-ascii?Q?/QKlWAnyETmoe+RhLOyVy1b3ciDRU46robjGK1jF4RY3WIj/KgifOcPCJZR2?=
- =?us-ascii?Q?v9S7x1ekrvzj5mw8VPbQd5tREPkLBpB0/iCJpNzN6S4kGDA8fD0A2kjY0TDx?=
- =?us-ascii?Q?B96XbxxBF4l5ES8lKzDmbHBFZOnQjKAAHuOMxe3vwXBxuiKwV5tk6TAu6fo/?=
- =?us-ascii?Q?Oyg4pKfgxPWs5XrcBIsE6UA26NDXfWLnfEt1KpCL0x/+hUo58byD41H5Wj7F?=
- =?us-ascii?Q?XYsxrCwnsUBB/d66sRvTbDMmb+mScAF0KtvmtHbDGh2P1RkadKoIfndogzo3?=
- =?us-ascii?Q?ZHApoRYHsOcN/ft3C6RaS3wtkgG5lgwGafpXVehxiS5AmRKOXUBlWhVAfnro?=
- =?us-ascii?Q?y2Xo+2X9o4PlJU7K1ygvZRXUuo6jScGRk7FQ9DXOVUy9fBliCvB3tSZbuT59?=
- =?us-ascii?Q?aSgk86xO3bwsNMp691UCv+rfLwXanPTNOHG4A3HIVOH/J5v0a46YH1irSBLk?=
- =?us-ascii?Q?mKGhLt1nnHqpSaOtN2R0D6j7HlICqJs9xE2ZGt48oyxT8pFzbU3qrWUYvR3n?=
- =?us-ascii?Q?tUQVgeUbsd+Yq9StxLqSX35OzPZOc++N0SmdadLwUPDYef+LIE5JPddHPVxu?=
- =?us-ascii?Q?YsHqiKwyWFATkJluZ77zOzPqf5TMwO/YKG6B0SjFUES2OrJCf9tyzaS+E1AD?=
- =?us-ascii?Q?S10ubcukoqrmn+kFDmV+ElPKhQr5jpk6atQJbRwHZZZiPM8uPID0nyTEjImQ?=
- =?us-ascii?Q?EIpp258AfYi3A9S+bkCnnnSakhfO3KBcI4F1/pADuEhcP2xdK+hMlW6Dvp3p?=
- =?us-ascii?Q?eACSTzbHmd3wO1vlRlGf6sgni2R2pDDywYohjeP+?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(13003099007)(8096899003)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?reGX96tEbzrTasq5ZFEVhDuRBtIacDQOK08XRkXBydPu1PNacbh6D3vHlFCn?=
- =?us-ascii?Q?0oR3m4hl2krW3LkkqEagSkQlQ63twzknDgBbpEI2jPaz5jnE8getDLMCFlnx?=
- =?us-ascii?Q?/hr262kXoN6TEGx3YMgRrDj05P3dRnPYaePobs5nJCV0ctxiIgbvA0BCpoWx?=
- =?us-ascii?Q?BfRgyPDkrmft0pbSJ9OeBMQwsCEpQk/1iot5reGRPdU5nhfiVLPsVjYvFIw7?=
- =?us-ascii?Q?5rKoGXUov95zTf6Qx+ZkuSG6IUyRDHAgp5SDd/AtPd5yTyUJ5ulCRVwsz6XS?=
- =?us-ascii?Q?LwJgdkD+WOvB3NHn0TwUu42Q1E9JmOfcnSg5COr86F4EgFxZ93P5DbYH24be?=
- =?us-ascii?Q?X7Dsa83fKEgjeNOOKV8sexrjSHIbxJjNf03FcEyMUAXGYYgLGp2L/fn1R9lb?=
- =?us-ascii?Q?KQCjMk+mfapd4mUgxLAmv9+mfNHRphNHw30CR4K9TZm7zZiS86FxWDSMo3+f?=
- =?us-ascii?Q?+03h2tq0B3+KCUcz1mmgSHbrF753JmSmQ8Xr3aArCY4aWbe7njJSofGu7ZVd?=
- =?us-ascii?Q?NcLxCA7TqteA30vnZryrhlwXYbSO9cycuy/Beh4Siv6glTImp5RfDHHEs3We?=
- =?us-ascii?Q?yUKCCE9sTbAnejzKaY8dwmAANn/OBMBCEpaHBiSs+PMJ16BxloQdH/COA9nX?=
- =?us-ascii?Q?OaJ7tnpygs9s/4h6A8kgNJmXcsp2x3GbyP14SWqvz3T9mU/yJjkRgCefrxRR?=
- =?us-ascii?Q?q7LHYWwkujRtfaVj19ZNGi5YlZEfsbHXHEyABB1tRA30jUSiZVhYQ5PS0y61?=
- =?us-ascii?Q?AUu2BaFrOx05pksLs8OPN4Hvkm5AzUBjlZizqSb5qZgwxY3GDPj1qt4zvfKx?=
- =?us-ascii?Q?bcWnuv6Z+67Kh6n0kySf+3Egq3wQI6PIgt+n2A4OT7hmVC+zqxvtaPp8F5f4?=
- =?us-ascii?Q?I6Iu56dpNHXf0ix7ceLrVfSrGDpZcODAOAXZbOgxWZhRr8y0e8pVG2Raomi+?=
- =?us-ascii?Q?sIywJjXkCjP+pYUUfP3341aIxJ9VF4QkxArG+yXmik1IOEbqE7g2slTVu+Xb?=
- =?us-ascii?Q?B7OsXh7+sMy7DSfz86MUuATKJ9CsHBafFmCzgX6DBo23mAMMfoGvfivnhzAa?=
- =?us-ascii?Q?uWFmLFlUkAlYZrNIMUAXRc0Gl+LbIAteEKRqEzWEZDB3aRrYRII0KRDbBm6h?=
- =?us-ascii?Q?gWZYgq53CfjiH0DyJJ4bG5EcbhK8LRG03HE0mgo1w0k1jcnJmY816YuvWeYQ?=
- =?us-ascii?Q?QW//YgjnheT5LB8+tNcF5Zqk5Io3KE4KgfOln6hKM9UehgY6Zte9wwLJSIju?=
- =?us-ascii?Q?IT0tU9XrZ82wIYGYA6DJOhgKtBqP/ywptnY27s8gJ+0NNHxo0dI2wH+RJ1Ha?=
- =?us-ascii?Q?SRtPtx1L7PNETidNZozcRTMIbHaM6MyO2pHnx8ZjKry7xk4Ffc14SZXUFOZ8?=
- =?us-ascii?Q?p6nkcxMQ5iIV/sn6Gw8AOrIa9cBz7Oi9hMtXghUgsEr6UwdzxdVOpAhC02NR?=
- =?us-ascii?Q?PgEH4czShA0x1Z+48xuaCTdneoJOr0FwPkQRnNKDXdE6FNVPclyxbQ6Ur9Y4?=
- =?us-ascii?Q?HXWj8Z3UmApSRKfZfcA/szobJvjr7YWY6wdzYvXSrsPbdX3RW1oYZ8qhn+cx?=
- =?us-ascii?Q?i96cUjio8GabIDHWu/GlJk5FXurPsMqa8OogA/xl9b+YWp2y/NlDIdcifmQ9?=
- =?us-ascii?Q?qZxljBn03shQSb/wrIofitDMzo3qRChm8txsaCbKv3K+8yT23/+HUu/r7kDv?=
- =?us-ascii?Q?3Dy4iOCUtxTndla/9HCACj9io9RKaMLwjM730Z/m/NtyuCJa?=
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Tue, 17 Feb
+ 2026 14:24:39 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9611.013; Tue, 17 Feb 2026
+ 14:24:38 +0000
 Content-Type: multipart/alternative;
-	boundary="_000_AMBP189MB319653240811F4F1E57EC999F86DAAMBP189MB3196EURP_"
+ boundary="------------Fk0v10H8qQJjP3zmOoNEckDu"
+Message-ID: <5f3097df-5e24-41f8-9293-db01248e383c@windriver.com>
+Date: Tue, 17 Feb 2026 09:24:36 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] rust: Enable dynamic linking with llvm
+To: SunilKumar.Dora@windriver.com, openembedded-core@lists.openembedded.org
+References: <20260212165035.1806068-1-sunilkumar.dora@windriver.com>
+ <D0F37E52-3E1F-4477-932A-02BEDB07AE2A@arm.com>
+ <675892.1771012298240808740@lists.openembedded.org>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <675892.1771012298240808740@lists.openembedded.org>
+X-ClientProxiedBy: BY5PR16CA0036.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::49) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|LV8PR11MB8559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88683146-676a-4f18-e079-08de6e304872
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|4022899009|1800799024|376014|366016|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?YmNYeFVxemoyMXNXa3REQlhlMElaaTJiYk1odjgzRUJUdnUzYWVLRDRFNFZN?=
+ =?utf-8?B?UGdoWWFza0VtT2JZU3B0M0M0dE9TQnZVdUttc3pFVzNaem1CTHU1cllIUDdj?=
+ =?utf-8?B?YkF5OXpNVzdTV3pER09LMW8zQmVYUzQrVUZFWWxiRnd3Z0RzSE40MFNyRkNi?=
+ =?utf-8?B?TE5idElScFBCdDZJZjFYSlozNkpTcFBXdytnYmZ6aVVlZGpDWEMrVldZNTVC?=
+ =?utf-8?B?a0FzTm5jVjg1NHovYURWcWdxeDRBaFRPRXZvTHBXTmtLZDViZEZWeVpuZzlu?=
+ =?utf-8?B?N1NSTEI5TnBvMVhrYzg3NXdhQy9GRTBHMDVaL1RPWkt2VHJKY3ZmRmE3V1ZO?=
+ =?utf-8?B?Q0Y5U3BycmlsbmRJYUtXT1BWNTNQemxpTy9zV3k2TGN5ZW5CQTI0WTNRbG5G?=
+ =?utf-8?B?NkIvMUluSnJ5UGZTZ0VYeDFQb1NlcGJPMjVXWDN6UUlZYlhrTm80SW13OVVO?=
+ =?utf-8?B?Q1NsUFRrQm4vYzdiSk9FTjR6aCtFRjJlTllpazhoWHhEdjIzSmRaM00zRUFw?=
+ =?utf-8?B?TVROVjNZK1V6TTBxZFZCeFh0dzE2RVU1R3JobUppRnRVd2VyUFE0ZGZ1Lzdr?=
+ =?utf-8?B?N2NrS3RhQXVlVFh2RTZHVFc2N2dFS1FTRHZJNnBSVGgvWEZYTUE5NG1sVzhZ?=
+ =?utf-8?B?RVNpWTdRbXljaWZ5MDVMRU9YVzFoZWFBSkkwMmsybUswSXdjR1FVd3hwaXFi?=
+ =?utf-8?B?VVI5NWhla0IzVGZnSGdnS1JDWjlHeFJRNzdjUkRrZXp3NVBPT3g1ZkNibWxh?=
+ =?utf-8?B?MUlMK2ZTZ2dmcEJncmtMWk0ybW8xNmdIUWtpRFFHcTFkT0kwTGhUVUZjWEZO?=
+ =?utf-8?B?ZW1NUnhyNytFRDdmK0VkbFh6Wi80Q25WOTY0UjdPY3BjSUp3YjE4TW1ucTFF?=
+ =?utf-8?B?NmovTEdPMHNQTVlmTW9EcWFVeTFvUzB0QUttWFpqek1HS2FlYkl1VCsrVm5O?=
+ =?utf-8?B?MDkrV3RGOXMvaS9SOE9VVlFrSmsrTnVQNnFVM1RyYzJtdU9sWkpzY2xMdWxC?=
+ =?utf-8?B?eWIvM2N3TlhDTXlQR0hNSTNlUmgwU2MrSFF3YXlLb1VHSDBXY3RoTFhtc0dt?=
+ =?utf-8?B?OXFWWFRzaDN2VTROenBpSCtyZUhYc05kTWRHRVc3VXFNdGhnbms3aXJpVG9i?=
+ =?utf-8?B?RFY3U3lvU2NjYkI1V1dSdHRNSEIrdXRmYVlkRVFFVHRwREkwNWozejVlakFs?=
+ =?utf-8?B?ZGh0a3JQbWNEUnhNOWwrT0pWTUJoaWFlZ2phMHdsRG1KU2Y0enBockdWM0pZ?=
+ =?utf-8?B?VlUwUkIrOVczZjNzQzhXMFlzRXdnUmowV09wM0Q4UHJYS2hoVk1WTmQzbGtu?=
+ =?utf-8?B?cmcra3RHMmYrRmdNTDFOcU1IVXlTaVhoMWFjc09JQjMyWXJlVWpGTjU2cXNG?=
+ =?utf-8?B?enpDbENSMmJzaHhkL25XODYyd2plM3lkRThuSmlzT1Z0UzdlRjUzZ1hGbmVv?=
+ =?utf-8?B?NVZDVXZ6ZXN0ck1heC9BWU1YeUJkMkpYTU1KaTJ4SVF3SzZvdDJYc1hOSVFK?=
+ =?utf-8?B?Q0d1VTh0Tm1rV2FGQ0hRdTJTcG1wbXF6aHRHTmRJQ0J2NGFVVnVVekZjK0th?=
+ =?utf-8?B?RDBRaVk2N1kweDM5aUpOaVA2cXRXMjZwTi9kU0x2TXZuZm5ORzhvLzkrTUdx?=
+ =?utf-8?B?L3IxbkZvZ0IxdTFrR1J1N1JBZnZuU3RSRSsyUlV4V1hHM0JwamRucWFMTk1t?=
+ =?utf-8?B?a2s0cmN0bXYzRml0MXhzaTVqZmNxM1VkQmlka3VWSTVuMCtLMjR5eU9WWUpJ?=
+ =?utf-8?B?ZmhxOGluV1hvWVlZSzVrTmZwR0ZOZFFFMkZEQlFQZldXcWNIbGpwVmQ3dllx?=
+ =?utf-8?B?dXBsUkFaT1RXM2s1aHNST1NEdU9sVDlZa3BUTGg1MGxqTGpyYlozUFoxRlNr?=
+ =?utf-8?B?aXRkN3RmVXFBcjV1ay9XTlV0ZDduMTFzY0I0OHZsR2FKM0VMQmJjdHViS1BK?=
+ =?utf-8?B?aUp4MCtMN1J5YWRZdC9HOXhySU1WQXl1RjNGaHd2dldnSXlJSFRiVkxlM3FX?=
+ =?utf-8?B?Y3lDamJLb2MrcW9FcGcvcGZ1S2JVM1dBMHpRL2JKU3lxNzU1aGg0TGViVnNy?=
+ =?utf-8?Q?qqmH6r?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(376014)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?MDY2WUhTbTlWZm90YkIwUEM5ajMwbG10dk05WFRzaGF4bXFMOXB2TC9vM3My?=
+ =?utf-8?B?dEdrMXZzSEJTZkNETG5TZHIyWnNrbmVNSEhrNFJXRy9wcmNtK0pkT0xMZG04?=
+ =?utf-8?B?d1g2dGZzOU56WXh3R2gwRVk2ai9GOVhMMWYzek94eER1OEQ0RnkwL1dTcVdt?=
+ =?utf-8?B?cGtJWmlxa3oyS21mTFpjemNVVW5ZTVlOcjN2ekNyemkweUVGemJrSUxUZ1I1?=
+ =?utf-8?B?TWZ5REhsc3hhaGw0RFhpYUNDbXZ1RFl2Z3hLZDFQTmlSdkhJOVpLNXlFWk9L?=
+ =?utf-8?B?ZXE2azdKMzlrTFFzM0NnamJJeWFESDNneHREbzRGVnVKYXd6dTRmemxiSk4x?=
+ =?utf-8?B?U0RZNDhMdy80UUNNUCtIZEVYTWltTDk5bDFzQWFOck1uLzhHbGFYSUI1VWdn?=
+ =?utf-8?B?UVpsRG5sR1ptU01WQUxKVjQzdzBSUStvOWdxQS9pS0g4VVpUekMvVU5aV2hh?=
+ =?utf-8?B?elJod3NIdmtMenRoOTQrU2RKNmdvRXQxbk5YV0JMaTY2UXVhTkpMMCtHa3Rk?=
+ =?utf-8?B?Z00rYjVKUUJsV3gwT3BRa2lobE1iVDV0SHlvSWk4dGNhRnIzSVM2N2d0QUZ6?=
+ =?utf-8?B?UGlTdTFaVzdjRWU1bWRobzFDdkMzbnNyazVJRXI4eDBsczhDaE1WUW1sVGxn?=
+ =?utf-8?B?eGthQW1ZcGlSbXRTNU9BOFoyQ2lPbTNiRXBUZDFlMUtRVllSVkNzN3dBajhO?=
+ =?utf-8?B?ZVAwMlhMRXdqZTJOSHFYbDhCSXhnQ0Z6Z1Qzbk1hTnpzcGo0TkdVQzhRT3NO?=
+ =?utf-8?B?WnlHcXRBVVRSSHE1bHMxM0xtUUEraGdGR2JVbFV3VWIrNThXZGQrWGVNaGhm?=
+ =?utf-8?B?OHAvaU5RME9JNEhVWGRlSWpiZXZUZ1hPZFpzL0Z3VGs0d0xxN1pJRytJazJL?=
+ =?utf-8?B?S2tYVnlNTmh4WTFZeHBKWFg2UEVjMWNtcCtZNnFsOHh3UWU5Vis1T01najJ0?=
+ =?utf-8?B?VUEvREpaZkQ2RDh5WkpTWG5Lc3lVK2lkeDdMVVgyUXowdlQ0d2U0SGx6ZDVl?=
+ =?utf-8?B?VXhoeUJ2cnoxdEg5d2ZPbmY3S3BiNzNCNDdvMThKakp6MnFvZG13NzRtSlhM?=
+ =?utf-8?B?bnRhc0VwVHN3U2tKVG5QTDdCbW1WUmx6OU5jdWVJMFliM2p6RllCYXdpQk5I?=
+ =?utf-8?B?aTJaM2VKZ1g0T05PdWZNQytVMGN6d2dUN3h5Ullkc3k2VUt1MzFKZEQwTFFJ?=
+ =?utf-8?B?NEw5NXdkOG1neTd2Vk1JMGs4UTEvOUI5Y3A0bmdlVXo4VEl4eDVyc2ZHOUk4?=
+ =?utf-8?B?cXlNMlEwRkN3TURzaGNNZU8vY0xJeTRSczhteGVWU241aENRMUtHZ1pTTFdh?=
+ =?utf-8?B?QVlBK3B4Tm41bVVaWU02MHZBcVFEV2Jvdi9GeXBqRXhZVE1lcnlVZFF3Qmpj?=
+ =?utf-8?B?ZU1IS0MyTDlmZkxFcFgzTFY4L2FKY1EwU2FPNmt6RUQ0aSt2TXI4d3dtV01r?=
+ =?utf-8?B?ZmVWd3JLOTZiTCtidXc0R3dGKzFJN0tNRDhpK2RLdDYyWFFYNUJFTzF6N0FJ?=
+ =?utf-8?B?Z3R6ZW5pVUZ0SkdGUHJvMVMzVDZ6WG5ORVJpN1hzRjU3dm5xbHpZM3lPdDM1?=
+ =?utf-8?B?cnlNazNvK1ZNNW0rVjNxZVRqQUUxdVpYNHV3VmdGMlB2bHpwNnpCN0F6dHZ2?=
+ =?utf-8?B?cUpTMnhGYTFveXZoVXIzeStWeFFGRjNPbUErQm1DNDE4WDdTdlMvZDV2dTRF?=
+ =?utf-8?B?TDB5ZkRzc2pKWmd2dXlvRWFWclRaSExOS1NNZnlib2dLUWlXd3BzQ09DRkFk?=
+ =?utf-8?B?ZFY3bGFzRDB3cXNEeDlJdCtFbXkxM2lZaFRYR1k3K2ZLZThMTGxmODBsL28w?=
+ =?utf-8?B?b29mdlVDOGJyaUFiZUUxbjRMWjZoZjN5NU8veVA2T3BPOEhDdXRIQk1sUzg2?=
+ =?utf-8?B?bVF6Z2RCWElJckRRN2Rwb1I4T3pWc05Tdnl0azJHMzN4byswb2tzUEk3MFRt?=
+ =?utf-8?B?cE5KeTdzUTFTM2hXV09ON3lLZ2c1b1lDc3pDWmVrUDdrb3BHQTU5V1FTY1cz?=
+ =?utf-8?B?V1I5em52cWNKN2xkYkFkZWxCckVBdmErenpHRENnQlRrM2lPOWIrY3V6OS8r?=
+ =?utf-8?B?RE95WVpqTnlCTGc0ejlWVFZ0YzlybnVHTzM0T0JzOHo0dkFQUGtxb2cxVVp0?=
+ =?utf-8?B?dUEvY1ZOZWNQZVY0MW9FTXpTYXV0azBJNEJpTHZRai9FMVRXQTljM3ZCT0NO?=
+ =?utf-8?B?NGlSb2lhZmN6UkgyVEJEK3pwYzB6UHlkckVYajgvSjBzNEJueGoyZmlxeDMv?=
+ =?utf-8?B?UnJVMUdJUjhYWXFMV09aYU5XRWdzcDlJZ0dlUm5oK21aYmxJM21EQ0dianRD?=
+ =?utf-8?B?SFNRWWVaSnV3NTV5Z25BRzV3WFFWNkJhQWQ2UExqSTM1Mm5IaVVnQS9BMG8w?=
+ =?utf-8?Q?Ia/neuFfi7cDqDVE=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88683146-676a-4f18-e079-08de6e304872
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85a962d9-d7c7-4a61-d0d7-08de6e3009c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2026 14:22:53.4491
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 14:24:38.7769
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gKGJTcfXWhq96Jh9gBDqFy51VhxkZGazMa74P+WQLWqLYwscvkoiJjEcmoPNdzOHvyqgk7nMUnD9UZxnACUvNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2069
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ftw29cmvrTUt1JVDrNsICZ4RP7eStW9B2znjCQ992VPC9RITGS8Cz9jzlvk9EusRZ2qTlZs/Y/aaxAjB/utLKW4VPiSeHQy1WwzeJr1O0jI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8559
+X-Authority-Analysis: v=2.4 cv=JauxbEKV c=1 sm=1 tr=0 ts=69947a2a cx=c_pps
+ a=5XLVA79qUcMA6Bnn+7FYtQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=GRp3fRZRe9pCZssmsxwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=UUBQlyFAtrJFM-R4rckA:9 a=c6c-H2mvf8u_e68X:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE3MDExNSBTYWx0ZWRfX2fqNnJYx6PK6
+ f0LHrDfO94+ZdBNZYKRTZkZ2EkQEvKKLjmWpcE6XSSo86el/a3dYI2zWBrL9SMNH1mQuvPSg+Gj
+ 9SM34PMphj3pLSPNYHGOKbM+WlOal1pobHNBHw2K1zMyI5/5eMBg8kPFaW89KOj6CjoYIIKN7U6
+ Bxuf4z8RvEls1x1HoNUSjFcOa09YMgEuZk7rufknxxfjLoGu13A9UDXn4bzsh2BBsFzSNJNL5aK
+ WNr4y2fv/29xRJQrwajdVSxcyGBf+15SEyG+EQ535c0iw5KyH9HIbiQ8gPxA3ESuANQ9r1cnzLK
+ yOnOMDE6CmWN10t+mB++Ljj1VBhxUgLN1uaQOPL30YwPpT0o2Xwvf0J35/ds9W6v81/Lvxq35oE
+ bCFinH9tImShomn0zIZ9VLJd9mV5cG0ka0K4eeeQWFk8jPszUcrr8fAvEktK+T2+B/pTY9zmD8J
+ RFfM8TjDbtqSbPodYrQ==
+X-Proofpoint-GUID: M8D41RGz_MpNytDnls0Zqna3YFjS5BjX
+X-Proofpoint-ORIG-GUID: M8D41RGz_MpNytDnls0Zqna3YFjS5BjX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-17_01,2026-02-16_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 adultscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602170115
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 14:23:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231257
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 14:24:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231258
 
---_000_AMBP189MB319653240811F4F1E57EC999F86DAAMBP189MB3196EURP_
-Content-Type: text/plain; charset="us-ascii"
+--------------Fk0v10H8qQJjP3zmOoNEckDu
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 61HBowAD3358400
 
-Hello,
-
-Just a way-of-working question, I have sent the patches to the master and w=
-hinlatter branches. Once these ones are accepted and implemented should I r=
-esend the scarthgap patches?
-
-Kind Regards,
-
-Amaury
-________________________________
-From: Amaury Couderc <amaury.couderc@est.tech>
-Sent: Monday, 9 February 2026 15:29
-To: Yoann Congal <yoann.congal@smile.fr>; openembedded-core@lists.openembed=
-ded.org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-68468
-
-Hello,
-
-Thanks for the heads-up, just sent the patches to master and whinlatter.
-
-Kind Regards,
-
-Amaury
-________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Wednesday, February 4, 2026 11:53 AM
-To: Amaury Couderc <amaury.couderc@est.tech>; openembedded-core@lists.opene=
-mbedded.org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-68468
-
-On Fri Jan 23, 2026 at 11:36 AM CET, Amaury Couderc via lists.openembedded.=
-org wrote:
-> From: Amaury Couderc <amaury.couderc@est.tech>
+On 2026-02-13 2:51 p.m., Dora, Sunil Kumar via lists.openembedded.org wro=
+te:
+> On Thu, Feb 12, 2026 at 10:36 PM, Ross Burton wrote:
 >
-> avahi: fix DoS bug by removing incorrect assertion
+>     What=E2=80=99s the impact on the native sysroot and target packages=
+ when
+>     we link rust against all of libLLVM.so dynamically vs statically
+>     linking the pieces that are used?
 >
-> Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> ---
->  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  2 +-
->  .../avahi/files/CVE-2025-68468.patch          | 32 +++++++++++++++++++
->  2 files changed, 33 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.=
-patch
+> Hi Ross,
+>
+> Below are the observed impacts when linking Rust against shared=20
+> libLLVM.so versus
+> statically linking LLVM components.
+>
+> On Native:
+> **********
+> All required LLVM-related libraries were already present in=20
+> recipe-sysroot-native before switching
+> Rust to dynamic LLVM. Dynamic linking does not introduce any new=20
+> native dependencies.
+> Existing llvm-native artifacts are reused.
+>
+> Static:
+> -rw-r--r-- 1 xxx users 213M Feb 13 00:29=20
+> librustc_driver-4b6f2c2478f9ef2c.so
+> Dynamic:
+> -rw-r--r-- 1 xxx users 132M Feb 13 00:52=20
+> librustc_driver-4b6f2c2478f9ef2c.so
+>
+> So on native we see ~81 MB reduction in librustc_driver, with no=20
+> additional sysroot growth.
+>
+> On Target:
+> **********
+> librustc_driver shrinks from 144.8 MB to 84.2 MB (~60 MB reduction).
+> However, dynamic linking introduces shared libLLVM.so plus a few=20
+> runtime dependencies.
+>
+> Static:
+> root@qemux86-64:~# ls -lh /usr/lib/librustc_driver-*.so
+> -rw-r--r-- =C2=A0 =C2=A01 root =C2=A0 =C2=A0 root =C2=A0 =C2=A0 =C2=A01=
+44.8M Apr =C2=A05 =C2=A02011=20
+> /usr/lib/librustc_driver-151eed90355bbdac.so
+>
+> Dynamic:
+> root@qemux86-64:~# ls -lh /usr/lib/librustc_driver-*.so
+> -rw-r--r-- =C2=A0 =C2=A01 root =C2=A0 =C2=A0 root =C2=A0 =C2=A0 =C2=A0 =
+84.2M Apr =C2=A05 =C2=A02011=20
+> /usr/lib/librustc_driver-151eed90355bbdac.so
+>
+> New dynamic dependencies:
+> root@qemux86-64:~# ldd /usr/lib/librustc_driver-*.so
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 libLLVM.so.21.1 libffi.so.8 libxml2.so.16
+>
+> Size contribution on target:
+> =C2=A0- libLLVM.so.21.1 =E2=89=88 75.5 MB
+> =C2=A0- libxml2.so.16 =E2=89=88 1.2 MB
+> =C2=A0- libffi.so.8 =E2=89=88 42.5 KB
+>
+> When LLVM is only used by Rust, this results in a net image increase=20
+> of approximately 15=E2=80=9316 MB.
 
-Hello,
 
-If I'm not mistaken, this patch does not have a master equivalent.
-Please fix CVE-2025-68468 on master and whinlatter (by upgrade or patch)
-and, then, request a backport scarthgap.
+Good, that's annoying but acceptable increase: ~7% to work-around this bu=
+g.
 
-Regards,
+I'm still a bit uncomfortable with changing the way that target Rust is=20
+built to deal with
+a Rust-native problem. Also there's the question about dynamic linking=20
+increasing runtime
+by a small amount. Finally, I worry that few people/distros change the=20
+default linking to by dynamic.
+
+So I won't object to this work-around especially if we can easily limit=20
+it to -native. Have you tried that?
+In a few years, we won't have this mix of toolchain versions and can=20
+drop this change
+
+so if this gets merged please open a tracking bug so that we don't forget.
+
+../Randy
+
+
 
 >
-> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-=
-connectivity/avahi/avahi_0.8.bb
-> index ffda85c0e7..8f8f4a0d88 100644
-> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> @@ -37,6 +37,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/avahi-$=
-{PV}.tar.gz \
->             file://CVE-2023-38473.patch \
->             file://CVE-2024-52616.patch \
->             file://CVE-2024-52615.patch \
-> +           file://CVE-2025-68468.patch \
->             "
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#231138):https://lists.openembedded.org/g/openembedd=
+ed-core/message/231138
+> Mute This Topic:https://lists.openembedded.org/mt/117777483/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
+andy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->  GITHUB_BASE_URI =3D "https://github.com/avahi/avahi/releases/"
-> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch b=
-/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
-> new file mode 100644
-> index 0000000000..3635cc8d53
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
-> @@ -0,0 +1,32 @@
-> +From 483f83828cfda965fac914ff1b39c63c256372b2 Mon Sep 17 00:00:00 2001
-> +From: Hugo Muis <198191869+friendlyhugo@users.noreply.github.com>
-> +Date: Sun, 2 Mar 2025 18:06:24 +0100
-> +Subject: [PATCH] core: fix DoS bug by removing incorrect assertion
-> +
-> +Closes https://github.com/avahi/avahi/issues/683
-> +
-> +CVE: CVE-2025-68468
-> +
-> +Upstream-Status: Backport
-> +[https://github.com/avahi/avahi/commit/f66be13d7f31a3ef806d226bf8b672401=
-79d309a]
-> +
-> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> +---
-> + avahi-core/browse.c | 1 -
-> + 1 file changed, 1 deletion(-)
-> +
-> +diff --git a/avahi-core/browse.c b/avahi-core/browse.c
-> +index 86e4432..79595fe 100644
-> +--- a/avahi-core/browse.c
-> ++++ b/avahi-core/browse.c
-> +@@ -295,7 +295,6 @@ static void lookup_multicast_callback(
-> +                 lookup_drop_cname(l, interface, protocol, 0, r);
-> +             else {
-> +                 /* It's a normal record, so let's call the user callbac=
-k */
-> +-                assert(avahi_key_equal(b->key, l->key));
-> +
-> +                 b->callback(b, interface, protocol, event, r, flags, b-=
->userdata);
-> +             }
-> +--
-> +2.43.0
-> +
 
+--=20
+# Randy MacLeod
+# Wind River Linux
 
---
-Yoann Congal
-Smile ECS
-
-
---_000_AMBP189MB319653240811F4F1E57EC999F86DAAMBP189MB3196EURP_
-Content-Type: text/html; charset="us-ascii"
+--------------Fk0v10H8qQJjP3zmOoNEckDu
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 61HBowAD3358400
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Hello,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Just a way-of-working question, I have sent the patches to the master and w=
-hinlatter branches. Once these ones are accepted and implemented should I r=
-esend the scarthgap patches?</div>
-<div class=3D"elementToProof" id=3D"Signature">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, &quot;Aptos_EmbeddedFont&quot;, &quot;Apt=
-os_MSFontService&quot;, Calibri, Helvetica, sans-serif; font-size: 12pt; co=
-lor: rgb(0, 0, 0);" class=3D"elementToProof">
-Kind Regards,</div>
-<div style=3D"font-family: Aptos, &quot;Aptos_EmbeddedFont&quot;, &quot;Apt=
-os_MSFontService&quot;, Calibri, Helvetica, sans-serif; font-size: 12pt; co=
-lor: rgb(0, 0, 0);" class=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, &quot;Aptos_EmbeddedFont&quot;, &quot;Apt=
-os_MSFontService&quot;, Calibri, Helvetica, sans-serif; font-size: 12pt; co=
-lor: rgb(0, 0, 0);" class=3D"elementToProof">
-Amaury</div>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Amaury Couderc &lt;am=
-aury.couderc@est.tech&gt;<br>
-<b>Sent:</b> Monday, 9 February 2026 15:29<br>
-<b>To:</b> Yoann Congal &lt;yoann.congal@smile.fr&gt;; openembedded-core@li=
-sts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-6846=
-8</font>
-<div>&nbsp;</div>
-</div>
-<style type=3D"text/css" style=3D"display:none">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div dir=3D"ltr">
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-Hello,</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-Thanks for the heads-up, just sent the patches to master and whinlatter.</d=
-iv>
-<div class=3D"x_elementToProof" id=3D"x_Signature">
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,&quot;Aptos_Embe=
-ddedFont&quot;,&quot;Aptos_MSFontService&quot;,Calibri,Helvetica,sans-serif=
-; font-size:12pt; color:rgb(0,0,0)">
-Kind Regards,</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,&quot;Aptos_Embe=
-ddedFont&quot;,&quot;Aptos_MSFontService&quot;,Calibri,Helvetica,sans-serif=
-; font-size:12pt; color:rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,&quot;Aptos_Embe=
-ddedFont&quot;,&quot;Aptos_MSFontService&quot;,Calibri,Helvetica,sans-serif=
-; font-size:12pt; color:rgb(0,0,0)">
-Amaury</div>
-</div>
-<div id=3D"x_appendonsend"></div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Yoann Congal &lt;yo=
-ann.congal@smile.fr&gt;<br>
-<b>Sent:</b> Wednesday, February 4, 2026 11:53 AM<br>
-<b>To:</b> Amaury Couderc &lt;amaury.couderc@est.tech&gt;; openembedded-cor=
-e@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<b=
-r>
-<b>Subject:</b> Re: [OE-core] [scarthgap][PATCH] avahi: fixes CVE-2025-6846=
-8</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
-t">
-<div class=3D"x_PlainText">On Fri Jan 23, 2026 at 11:36 AM CET, Amaury Coud=
-erc via lists.openembedded.org wrote:<br>
-&gt; From: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
-&gt;<br>
-&gt; avahi: fix DoS bug by removing incorrect assertion<br>
-&gt;<br>
-&gt; Signed-off-by: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; meta/recipes-connectivity/avahi/avahi_0.8.bb&nbsp; |&nbsp; 2 +-<=
-br>
-&gt;&nbsp; .../avahi/files/CVE-2025-68468.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp; | 32 +++++++++++++++++++<br>
-&gt;&nbsp; 2 files changed, 33 insertions(+), 1 deletion(-)<br>
-&gt;&nbsp; create mode 100644 meta/recipes-connectivity/avahi/files/CVE-202=
-5-68468.patch<br>
-<br>
-Hello,<br>
-<br>
-If I'm not mistaken, this patch does not have a master equivalent.<br>
-Please fix CVE-2025-68468 on master and whinlatter (by upgrade or patch)<br=
->
-and, then, request a backport scarthgap.<br>
-<br>
-Regards,<br>
-<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recip=
-es-connectivity/avahi/avahi_0.8.bb<br>
-&gt; index ffda85c0e7..8f8f4a0d88 100644<br>
-&gt; --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb<br>
-&gt; +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb<br>
-&gt; @@ -37,6 +37,7 @@ SRC_URI =3D &quot;${GITHUB_BASE_URI}/download/v${PV}=
-/avahi-${PV}.tar.gz \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://CVE-2023-38473.patch">file://CVE-2023-38473.patch</a> \=
-<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://CVE-2024-52616.patch">file://CVE-2024-52616.patch</a> \=
-<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://CVE-2024-52615.patch">file://CVE-2024-52615.patch</a> \=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2025-68468.patch">file://CVE-2025-68468.patch</a> \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; &quot;<br>
-&gt;&nbsp; <br>
-&gt;&nbsp; GITHUB_BASE_URI =3D &quot;<a href=3D"https://github.com/avahi/av=
-ahi/releases/">https://github.com/avahi/avahi/releases/</a>&quot;<br>
-&gt; diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patc=
-h b/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..3635cc8d53<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch<br>
-&gt; @@ -0,0 +1,32 @@<br>
-&gt; +From 483f83828cfda965fac914ff1b39c63c256372b2 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Hugo Muis &lt;198191869+friendlyhugo@users.noreply.github.com&g=
-t;<br>
-&gt; +Date: Sun, 2 Mar 2025 18:06:24 +0100<br>
-&gt; +Subject: [PATCH] core: fix DoS bug by removing incorrect assertion<br=
->
-&gt; +<br>
-&gt; +Closes <a href=3D"https://github.com/avahi/avahi/issues/683">https://=
-github.com/avahi/avahi/issues/683</a><br>
-&gt; +<br>
-&gt; +CVE: CVE-2025-68468<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport<br>
-&gt; +[<a href=3D"https://github.com/avahi/avahi/commit/f66be13d7f31a3ef806=
-d226bf8b67240179d309a">https://github.com/avahi/avahi/commit/f66be13d7f31a3=
-ef806d226bf8b67240179d309a</a>]<br>
-&gt; +<br>
-&gt; +Signed-off-by: Amaury Couderc &lt;amaury.couderc@est.tech&gt;<br>
-&gt; +---<br>
-&gt; + avahi-core/browse.c | 1 -<br>
-&gt; + 1 file changed, 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/avahi-core/browse.c b/avahi-core/browse.c<br>
-&gt; +index 86e4432..79595fe 100644<br>
-&gt; +--- a/avahi-core/browse.c<br>
-&gt; ++++ b/avahi-core/browse.c<br>
-&gt; +@@ -295,7 +295,6 @@ static void lookup_multicast_callback(<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; lookup_drop_cname(l, interface, protocol, 0, r)=
-;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; else {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; /* It's a normal record, so let's call the user=
- callback */<br>
-&gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; assert(avahi_key_equal(b-&gt;key, l-&gt;key));<br>
-&gt; + <br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; b-&gt;callback(b, interface, protocol, event, r=
-, flags, b-&gt;userdata);<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; }<br>
-&gt; +-- <br>
-&gt; +2.43.0<br>
-&gt; +<br>
-<br>
-<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</div>
-</body>
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 2026-02-13 2:51 p.m., Dora, Sunil
+      Kumar via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:675892.1771012298240808740@list=
+s.openembedded.org">
+     =20
+      <div>On Thu, Feb 12, 2026 at 10:36 PM, Ross Burton wrote:</div>
+      <div>
+        <blockquote>What=E2=80=99s the impact on the native sysroot and t=
+arget
+          packages when we link rust against all of libLLVM.so
+          dynamically vs statically linking the pieces that are used?</bl=
+ockquote>
+        Hi Ross,<br>
+        <br>
+        <div>Below are the observed impacts when linking Rust against
+          shared libLLVM.so versus&nbsp;<br>
+          statically linking LLVM components.</div>
+        <div><br>
+          On Native:<br>
+          **********<br>
+          All required LLVM-related libraries were already present in
+          recipe-sysroot-native before switching&nbsp;<br>
+          Rust to dynamic LLVM. Dynamic linking does not introduce any
+          new native dependencies.&nbsp;<br>
+          Existing llvm-native artifacts are reused.<br>
+          <br>
+        </div>
+        <div>Static:<br>
+          -rw-r--r-- 1 xxx users 213M Feb 13 00:29
+          librustc_driver-4b6f2c2478f9ef2c.so</div>
+        <div>Dynamic:<br>
+          -rw-r--r-- 1 xxx users 132M Feb 13 00:52
+          librustc_driver-4b6f2c2478f9ef2c.so<br>
+          <br>
+        </div>
+        <div>So on native we see ~81 MB reduction in librustc_driver,
+          with no additional sysroot growth.</div>
+        <br>
+        <div>On Target:<br>
+          **********<br>
+          librustc_driver shrinks from 144.8 MB to 84.2 MB (~60 MB
+          reduction).<br>
+          However, dynamic linking introduces shared libLLVM.so plus a
+          few runtime dependencies.<br>
+          <br>
+        </div>
+        <div>Static:<br>
+          root@qemux86-64:~# ls -lh /usr/lib/librustc_driver-*.so<br>
+          -rw-r--r-- &nbsp; &nbsp;1 root &nbsp; &nbsp; root &nbsp; &nbsp;=
+ &nbsp;144.8M Apr &nbsp;5 &nbsp;2011
+          /usr/lib/librustc_driver-151eed90355bbdac.so<br>
+          <br>
+        </div>
+        <div>Dynamic:<br>
+          root@qemux86-64:~# ls -lh /usr/lib/librustc_driver-*.so<br>
+          -rw-r--r-- &nbsp; &nbsp;1 root &nbsp; &nbsp; root &nbsp; &nbsp;=
+ &nbsp; 84.2M Apr &nbsp;5 &nbsp;2011
+          /usr/lib/librustc_driver-151eed90355bbdac.so<br>
+          <br>
+        </div>
+        <div>New dynamic dependencies:<br>
+          root@qemux86-64:~# ldd /usr/lib/librustc_driver-*.so<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; libLLVM.so.21.1 libffi.so.8 libxml2=
+.so.16<br>
+          <br>
+        </div>
+        <div>Size contribution on target:<br>
+          &nbsp;- libLLVM.so.21.1 =E2=89=88 75.5 MB<br>
+          &nbsp;- libxml2.so.16 =E2=89=88 1.2 MB<br>
+          &nbsp;- libffi.so.8 =E2=89=88 42.5 KB<br>
+          <br>
+        </div>
+        <div>When LLVM is only used by Rust, this results in a net image
+          increase of approximately 15=E2=80=9316 MB.</div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Good, that's annoying but acceptable increase: ~7% to work-around
+      this bug.</p>
+    I'm still a bit uncomfortable with changing the way that target Rust
+    is built to deal with<br>
+    a Rust-native problem. Also there's the question about dynamic
+    linking increasing runtime<br>
+    by a small amount. Finally, I worry that few people/distros change
+    the default linking to by dynamic.<br>
+    <br>
+    So I won't object to this work-around especially if we can easily
+    limit it to -native. Have you tried that?<br>
+    In a few years, we won't have this mix of toolchain versions and can
+    drop this change<br>
+    <p>so if this gets merged please open a tracking bug so that we
+      don't forget.</p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:675892.1771012298240808740@list=
+s.openembedded.org">
+      <div>
+      </div>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre wrap=3D"" class=3D"moz-quote-pre">-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
+-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#231138): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/231138">https:/=
+/lists.openembedded.org/g/openembedded-core/message/231138</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/117777483/3616765">https://lists.openembedded.org/mt=
+/117777483/3616765</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
 </html>
 
---_000_AMBP189MB319653240811F4F1E57EC999F86DAAMBP189MB3196EURP_--
+--------------Fk0v10H8qQJjP3zmOoNEckDu--
 
