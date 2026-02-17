@@ -1,184 +1,196 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72317E9A025
-	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 17:33:08 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17837.1771349581698630793
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8375FE9A026
+	for <webhook@archiver.kernel.org>; Tue, 17 Feb 2026 17:41:58 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18048.1771350110914506867
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Feb 2026 09:33:03 -0800
+ Tue, 17 Feb 2026 09:41:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=E6DoV4kw;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-202602171732585dcb3733c0000207d7-wqhqsz@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202602171732585dcb3733c0000207d7
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=GfwTeB/9;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202602171741490e6f5f769300020706-cvk_cw@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202602171741490e6f5f769300020706
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 17 Feb 2026 18:32:59 +0100
+        Tue, 17 Feb 2026 18:41:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
+ d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=i/6lElXTq9p7Yyg+Hm7fVCk3QHcDUkaLjmD0eEhxoes=;
- b=E6DoV4kwTyxTDXfmol/lpj5EF58bZOZiPYZX6T7UoPSg/n/zjU2fNj/h2G8sAeJZAAwhf/
- sg7MabxvnHmzCKuKy3OWnK83uJ6loFaZ69bwUo/h08i8lKVMc8bGsGX53uY/slClBqqrB1qf
- f01HToBIUc4qlR7Jb7OIy8hBYG2/sq4z/d77s//jM80o0B2i2SUNv3CQUURcd/MOsBfmaiZJ
- aTb5HYLB/c62WnaUSl9GJfUmszGx9Z0VnK/lRJnmpaZ5ilziV6vclJ6Sup2E5x5O4kz8hg2J
- igN0OOCPVgO0XOOblhY3Y1hcUAkx+B4ANVHCw9eLiKYo4LMyRvmjVkxw==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ bh=fOGPWL29JaEZpGaimv/PSaCVESpXhAuSGYE/Wp5NHrk=;
+ b=GfwTeB/9OHZG9FUUTmREheENu6Z+AjxD6S79X2QLHUHx/66+m4FAalx8gIgpdqdVqDNb9z
+ W9sA/xM6gBvrPYTCBYpF9eSR5WZNbfd9BwdmD8ctbogOaxk8N7cbWXbxoXUA0ZG67FSuFO8Q
+ JuR02mXiHANbn4UIPJdMqD3jRUcJYg6sb0/+tunpLza3qbO+OUiiAnubJvQRMJlYQJqfl4PG
+ JniglYJjTuvzuFAQF6xEDS4kWkP9WCuH4dO6gFpOqT4rpqFxw11H5gawrF/xSNVMcYHLHZjJ
+ 3UOBNriNGoQbZ9H6bXpmXVRhZg7lsAvcBRLsq7TZe4oHZQBOD1mzqF2Q==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH] kernel.bbclass: remove dependency on initramfs when not bundled
-Date: Tue, 17 Feb 2026 18:32:25 +0100
-Message-ID: <20260217173225.101935-1-adrian.freihofer@siemens.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] zlib: upgrade 1.3.1 -> 1.3.2
+Date: Tue, 17 Feb 2026 18:41:44 +0100
+Message-Id: <20260217174144.2734399-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 17:33:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231265
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 17:41:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231266
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Previously, the kernel recipe depended on the initramfs image even when
-INITRAMFS_IMAGE_BUNDLE was not enabled. This caused the kernel to be
-rebuilt whenever the initramfs image changed, regardless of whether the
-kernel actually included the initramfs.
+Delete patch included in this version.
+Remove CVE_STATUS for CVE resolved in this release.
 
-The problematic chain was:
-  linux:do_deploy ->
-  linux:do_bundle_initramfs ->
-  image-initramfs:do_image_complete
+Release information: [1]
+More details on homepage: [2]
+Audit details: [3]
 
-The original intent (acc. to the comment) was to ensure the initramfs
-image was available for tools like wic. However, apart from bundling the
-initramfs in the kernel, there is probably no reason why the kernel
-should depend on the initramfs. And it is therefore simply wrong if it
-does so anyway. Thus, use cases that may be broken by these change are
-based on a bug, not a feature. This needs to be fixed by adding a
-dependency on the initramfs in the right place, not in the kernel where
-this destroys the kernel's sstate-caching.
+Version 1.3.2 has these key updates from 1.3.1:
+* Address findings of the 7ASecurity audit of zlib.
+  * Check for negative lengths in crc32_combine functions.
+  * Copy only the initialized window contents in inflateCopy.
+  * Prevent the use of insecure functions without an explicit request.
+  * Add compressBound_z and deflateBound_z functions for large values.
+  * Use atomics to build inflate fixed tables once.
+  * Add --undefined option to ./configure for UBSan checker.
+  * Copy only the initialized deflate state in deflateCopy.
+  * Zero inflate state on allocation.
+  * Add compress_z and uncompress_z functions.
+* Complete rewrite of cmake support.
+* Remove untgz from contrib.
+* Vectorize the CRC-32 calculation on the s390x.
+* Remove vstudio projects in lieu of cmake-generated projects.
+* Add zipAlreadyThere() to minizip zip.c to help avoid duplicates.
+* Add deflateUsed() function to get the used bits in the last byte.
+* Fix bug in inflatePrime() for 16-bit ints.
+* Add a "G" option to force gzip, disabling transparency in gzread().
+* Return all available uncompressed data on error in gzread.c.
+* Support non-blocking devices in the gz* routines.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+[1] https://github.com/madler/zlib/releases/tag/v1.3.2
+[2] https://zlib.net/
+[3] https://7asecurity.com/blog/2026/02/zlib-7asecurity-audit/
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes-recipe/kernel.bbclass | 77 ++++++++++++++----------------
- 1 file changed, 35 insertions(+), 42 deletions(-)
+ ...configure-Pass-LDFLAGS-to-link-tests.patch | 78 -------------------
+ .../zlib/{zlib_1.3.1.bb => zlib_1.3.2.bb}     |  5 +-
+ 2 files changed, 1 insertion(+), 82 deletions(-)
+ delete mode 100644 meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
+ rename meta/recipes-core/zlib/{zlib_1.3.1.bb => zlib_1.3.2.bb} (85%)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index f989b31c47..7a5ccb585a 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -149,16 +149,13 @@ set -e
- """ % (type, type, type))
- 
- 
--    image = d.getVar('INITRAMFS_IMAGE')
--    # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
--    # the do_bundle_initramfs does nothing, but the INITRAMFS_IMAGE is built
--    # standalone for use by wic and other tools.
--    if image:
-+    if d.getVar('INITRAMFS_IMAGE') and bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
-         if d.getVar('INITRAMFS_MULTICONFIG'):
-             d.appendVarFlag('do_bundle_initramfs', 'mcdepends', ' mc:${BB_CURRENT_MC}:${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
-         else:
-             d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
--    if image and bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
-+
-+        bb.build.addtask('do_bundle_initramfs', 'do_deploy', 'do_install', d)
-         bb.build.addtask('do_transform_bundled_initramfs', 'do_deploy', 'do_bundle_initramfs', d)
- 
-     # NOTE: setting INITRAMFS_TASK is for backward compatibility
-@@ -305,39 +302,37 @@ copy_initramfs() {
- }
- 
- do_bundle_initramfs () {
--	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
--		echo "Creating a kernel image with a bundled initramfs..."
--		copy_initramfs
--		# Backing up kernel image relies on its type(regular file or symbolic link)
--		tmp_path=""
--		for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
--			if [ -h ${KERNEL_OUTPUT_DIR}/$imageType ] ; then
--				linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$imageType`
--				realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$imageType`
--				mv -f $realpath $realpath.bak
--				tmp_path=$tmp_path" "$imageType"#"$linkpath"#"$realpath
--			elif [ -f ${KERNEL_OUTPUT_DIR}/$imageType ]; then
--				mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.bak
--				tmp_path=$tmp_path" "$imageType"##"
--			fi
--		done
--		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
--		kernel_do_compile
--		# Restoring kernel image
--		for tp in $tmp_path ; do
--			imageType=`echo $tp|cut -d "#" -f 1`
--			linkpath=`echo $tp|cut -d "#" -f 2`
--			realpath=`echo $tp|cut -d "#" -f 3`
--			if [ -n "$realpath" ]; then
--				mv -f $realpath $realpath.initramfs
--				mv -f $realpath.bak $realpath
--				ln -sf $linkpath.initramfs ${B}/${KERNEL_OUTPUT_DIR}/$imageType.initramfs
--			else
--				mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.initramfs
--				mv -f ${KERNEL_OUTPUT_DIR}/$imageType.bak ${KERNEL_OUTPUT_DIR}/$imageType
--			fi
--		done
--	fi
-+	echo "Creating a kernel image with a bundled initramfs..."
-+	copy_initramfs
-+	# Backing up kernel image relies on its type(regular file or symbolic link)
-+	tmp_path=""
-+	for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-+		if [ -h ${KERNEL_OUTPUT_DIR}/$imageType ] ; then
-+			linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$imageType`
-+			realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$imageType`
-+			mv -f $realpath $realpath.bak
-+			tmp_path=$tmp_path" "$imageType"#"$linkpath"#"$realpath
-+		elif [ -f ${KERNEL_OUTPUT_DIR}/$imageType ]; then
-+			mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.bak
-+			tmp_path=$tmp_path" "$imageType"##"
-+		fi
-+	done
-+	use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-+	kernel_do_compile
-+	# Restoring kernel image
-+	for tp in $tmp_path ; do
-+		imageType=`echo $tp|cut -d "#" -f 1`
-+		linkpath=`echo $tp|cut -d "#" -f 2`
-+		realpath=`echo $tp|cut -d "#" -f 3`
-+		if [ -n "$realpath" ]; then
-+			mv -f $realpath $realpath.initramfs
-+			mv -f $realpath.bak $realpath
-+			ln -sf $linkpath.initramfs ${B}/${KERNEL_OUTPUT_DIR}/$imageType.initramfs
-+		else
-+			mv -f ${KERNEL_OUTPUT_DIR}/$imageType ${KERNEL_OUTPUT_DIR}/$imageType.initramfs
-+			mv -f ${KERNEL_OUTPUT_DIR}/$imageType.bak ${KERNEL_OUTPUT_DIR}/$imageType
-+		fi
-+	done
- }
- do_bundle_initramfs[dirs] = "${B}"
- 
-@@ -357,8 +352,6 @@ python do_devshell:prepend () {
-     os.environ["LDFLAGS"] = ''
- }
- 
--addtask bundle_initramfs after do_install before do_deploy
+diff --git a/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch b/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
+deleted file mode 100644
+index 07b2cd3879..0000000000
+--- a/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
++++ /dev/null
+@@ -1,78 +0,0 @@
+-Upstream-Status: Submitted [https://github.com/madler/zlib/pull/599]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
 -
- KERNEL_DEBUG_TIMESTAMPS ??= "0"
+-From ea77f1f003a4d18b23cca703f3c824942863a1b4 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 8 Mar 2022 22:38:47 -0800
+-Subject: [PATCH] configure: Pass LDFLAGS to link tests
+-
+-LDFLAGS can contain critical flags without which linking wont succeed
+-therefore ensure that all configure tests involving link time checks are
+-using LDFLAGS on compiler commandline along with CFLAGS to ensure the
+-tests perform correctly. Without this some tests may fail resulting in
+-wrong confgure result, ending in miscompiling the package
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+- configure | 12 ++++++------
+- 1 file changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/configure b/configure
+-index c55098a..a7c6d72 100755
+---- a/configure
+-+++ b/configure
+-@@ -443,7 +443,7 @@ if test $shared -eq 1; then
+-   echo Checking for shared library support... | tee -a configure.log
+-   # we must test in two steps (cc then ld), required at least on SunOS 4.x
+-   if try $CC -c $SFLAGS $test.c &&
+--     try $LDSHARED $SFLAGS -o $test$shared_ext $test.o; then
+-+     try $LDSHARED $SFLAGS $LDFLAGS -o $test$shared_ext $test.o; then
+-     echo Building shared library $SHAREDLIBV with $CC. | tee -a configure.log
+-   elif test -z "$old_cc" -a -z "$old_cflags"; then
+-     echo No shared library support. | tee -a configure.log
+-@@ -505,7 +505,7 @@ int main(void) {
+- }
+- EOF
+-   fi
+--  if try $CC $CFLAGS -o $test $test.c; then
+-+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+-     sizet=`./$test`
+-     echo "Checking for a pointer-size integer type..." $sizet"." | tee -a configure.log
+-     CFLAGS="${CFLAGS} -DNO_SIZE_T=${sizet}"
+-@@ -539,7 +539,7 @@ int main(void) {
+-   return 0;
+- }
+- EOF
+--  if try $CC $CFLAGS -o $test $test.c; then
+-+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+-     echo "Checking for fseeko... Yes." | tee -a configure.log
+-   else
+-     CFLAGS="${CFLAGS} -DNO_FSEEKO"
+-@@ -556,7 +556,7 @@ cat > $test.c <<EOF
+- #include <errno.h>
+- int main() { return strlen(strerror(errno)); }
+- EOF
+--if try $CC $CFLAGS -o $test $test.c; then
+-+if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+-   echo "Checking for strerror... Yes." | tee -a configure.log
+- else
+-   CFLAGS="${CFLAGS} -DNO_STRERROR"
+-@@ -663,7 +663,7 @@ int main()
+-   return (mytest("Hello%d\n", 1));
+- }
+- EOF
+--  if try $CC $CFLAGS -o $test $test.c; then
+-+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+-     echo "Checking for vsnprintf() in stdio.h... Yes." | tee -a configure.log
+- 
+-     echo >> configure.log
+-@@ -753,7 +753,7 @@ int main()
+- }
+- EOF
+- 
+--  if try $CC $CFLAGS -o $test $test.c; then
+-+  if try $CC $CFLAGS $LDFLAGS -o $test $test.c; then
+-     echo "Checking for snprintf() in stdio.h... Yes." | tee -a configure.log
+- 
+-     echo >> configure.log
+diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zlib/zlib_1.3.2.bb
+similarity index 85%
+rename from meta/recipes-core/zlib/zlib_1.3.1.bb
+rename to meta/recipes-core/zlib/zlib_1.3.2.bb
+index ef83142121..8a23d98cd3 100644
+--- a/meta/recipes-core/zlib/zlib_1.3.1.bb
++++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
+@@ -8,12 +8,11 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
  
- kernel_do_compile() {
-@@ -860,7 +853,7 @@ kernel_do_deploy() {
- # ensure we get the right values for both
- do_deploy[prefuncs] += "read_subpackage_metadata"
+ # The source tarball needs to be .gz as only the .gz ends up in fossils/
+ SRC_URI = "https://zlib.net/${BP}.tar.gz \
+-           file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+            file://run-ptest \
+            "
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
  
--addtask deploy after do_populate_sysroot do_packagedata
-+addtask deploy after do_install do_populate_sysroot do_packagedata
+-SRC_URI[sha256sum] = "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23"
++SRC_URI[sha256sum] = "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16"
  
- EXPORT_FUNCTIONS do_deploy
+ # When a new release is made the previous release is moved to fossils/, so add this
+ # to PREMIRRORS so it is also searched automatically.
+@@ -51,5 +50,3 @@ BBCLASSEXTEND = "native nativesdk"
  
--- 
-2.52.0
-
+ # Adding 'CVE_PRODUCT' to avoid false detection of CVEs
+ CVE_PRODUCT = "zlib:zlib gnu:zlib"
+-
+-CVE_STATUS[CVE-2026-22184] = "not-applicable-config: vulnerable file is not compiled"
 
