@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23389E9A05F
-	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:41:47 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1402.1771440091416486362
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E091BE9A05A
+	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:41:46 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1416.1771440097377364361
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 10:41:41 -0800
+ Wed, 18 Feb 2026 10:41:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dkkrRPrQ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PgT+B+BI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c720ed760-810dfe91-0557-4084-a56c-85eae3d063ed-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Jy8oQ9rk;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rFjlLtTE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019c720edbdf-8b775dee-95ce-4959-b25d-0036f159e806-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1771440101;
+	t=1771440102;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DNw3hle6vW0Ifz4HH1pBZlza96mMPDQSzzQy+Kgp6+A=;
-	b=dkkrRPrQHYPHPNTvkAQleMEDfr0fWh7Qudj9qNImo/+YvS7p6qXppq/3YxOqp2w7
-	ZjAwPN5rPPTPff4baDuugEQZX/XYU5vlet00960P4kJPQvU0PQIPJbZqxAp9nzqABrG
-	ti0gqwuN8c5M4x63mIv1N+kHGI2L4dCNRXuCq4DI=
+	bh=tX6IoAUQq4NRR0OEOtbxGdIIFDcI/gNiPBhuU/Bn0AI=;
+	b=Jy8oQ9rkj7dqx5bU0vu4ZkoYnLtaZNw+TMUM2PrLOUHyZ1MaYuqTj8fR34NIdvrD
+	1IL2gNWBzloKH4wvIvCWA0QXnnVToLmmMfIk33lBE0n2c4Kxb7etDQkWjh44/7nkH06
+	KZeZ5asAe9e9NG/YWeL+vzVjL6+KVpnp4LmvZmHc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440101;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440102;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DNw3hle6vW0Ifz4HH1pBZlza96mMPDQSzzQy+Kgp6+A=;
-	b=PgT+B+BIc0D0vLe0fUQACZlwJHRkjT1obQ13FO1z4Kotvy0nsK7hJYb8jgvt8hZP
-	i8zq+hnNeUvMhitm4wphYg99IrG811keKq3yRLD3dkDJu0VWOiKWbB8NQSBjDac3PZI
-	xLSqE5XZcQn8fbAFBUULcseN6w+r4pr1byXUViu4=
-Content-Type: multipart/mixed; boundary="===============0300642493784463056=="
+	bh=tX6IoAUQq4NRR0OEOtbxGdIIFDcI/gNiPBhuU/Bn0AI=;
+	b=rFjlLtTEUQMDmwHdDADvQWaV0osW0j5rrh27xE41pwjIlfiG7jbEIqzYjYHuRTBx
+	BP/ELzMqG4v28DJ07/zg5B6NOoyhIKgIJctkIiobCSbe7vlo8LGFADUgwl9ql/d60jq
+	GDpQ1SyjboisXTZMZRGhts5oykaoIqXYtLLFFHpg=
+Content-Type: multipart/mixed; boundary="===============7872103682707823446=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gn: upgrading to 9d19a7870add65151ff91bcc26252bb7521065cf
- SUCCEEDED
-Message-ID: <0101019c720ed760-810dfe91-0557-4084-a56c-85eae3d063ed-000000@us-west-2.amazonses.com>
-Date: Wed, 18 Feb 2026 18:41:41 +0000
+Subject: [AUH] python3-pip: upgrading to 26.0.1 SUCCEEDED
+Message-ID: <0101019c720edbdf-8b775dee-95ce-4959-b25d-0036f159e806-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Feb 2026 18:41:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.192
+X-SES-Outgoing: 2026.02.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:41:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231348
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:41:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231354
 
---===============0300642493784463056==
+--===============7872103682707823446==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gn* to *9d19a7870add65151ff91bcc26252bb7521065cf* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pip* to *26.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gn-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-python3-pip-upgrade-26.0-26.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,188 +72,332 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 40bcbef143dea832d97d3ace0a72214f58f8b6b7 Mon Sep 17 00:00:00 2001
+From 1c3a56c59012f1ecbef4d065c43985f52edae977 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 12:55:35 +0000
-Subject: [PATCH] gn: upgrade to latest revision
+Date: Wed, 18 Feb 2026 13:34:25 +0000
+Subject: [PATCH] python3-pip: upgrade 26.0 -> 26.0.1
 
 ---
- meta/recipes-devtools/gn/gn_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/python3-pip/no_shebang_mangling.patch                | 2 +-
+ .../python/{python3-pip_26.0.bb => python3-pip_26.0.1.bb}       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pip_26.0.bb => python3-pip_26.0.1.bb} (96%)
 
-diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
-index 81d1814191..0b139ac5f0 100644
---- a/meta/recipes-devtools/gn/gn_git.bb
-+++ b/meta/recipes-devtools/gn/gn_git.bb
-@@ -7,7 +7,7 @@ DEPENDS += "ninja-native"
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
+index c71b46bca4..b057852b7e 100644
+--- a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
++++ b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
+@@ -1,4 +1,4 @@
+-From 48fa8ab5e68b0e349d988ea45bb6a8e2f9bf8fd3 Mon Sep 17 00:00:00 2001
++From 60093e823780d9a3483844cc3faaed18dc1c351b Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 23 Feb 2022 12:27:06 +0000
+ Subject: [PATCH] python3-pip: Don't change shebang
+diff --git a/meta/recipes-devtools/python/python3-pip_26.0.bb b/meta/recipes-devtools/python/python3-pip_26.0.1.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-pip_26.0.bb
+rename to meta/recipes-devtools/python/python3-pip_26.0.1.bb
+index 0a284a1f6b..af0084c43a 100644
+--- a/meta/recipes-devtools/python/python3-pip_26.0.bb
++++ b/meta/recipes-devtools/python/python3-pip_26.0.1.bb
+@@ -26,7 +26,7 @@ inherit pypi python_setuptools_build_meta
  
- SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main"
--SRCREV = "103f8b437f5e791e0aef9d5c372521a5d675fabb"
-+SRCREV = "9d19a7870add65151ff91bcc26252bb7521065cf"
- PV = "0+git"
+ SRC_URI += "file://no_shebang_mangling.patch"
  
- BB_GIT_SHALLOW = ""
+-SRC_URI[sha256sum] = "3ce220a0a17915972fbf1ab451baae1521c4539e778b28127efa79b974aff0fa"
++SRC_URI[sha256sum] = "c4037d8a277c89b320abe636d59f91e6d0922d08a05b60e85e53b296613346d8"
+ 
+ RDEPENDS:${PN} = "\
+   python3-compile \
 -- 
 2.47.1
 
 
---===============0300642493784463056==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (0 cached, 944 parsed). 1952 targets, 42 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-8c9800e0aef2e1451e8bfb6cf6b6ef38997a4570"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:8c9800e0aef2e1451e8bfb6cf6b6ef38997a4570"
-meta-yocto-bsp       
-meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 89 Local 78 Mirrors 0 Missed 11 Current 267 (87% match, 96% complete)
-done.
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 8 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 933 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_fetch)
-NOTE: recipe gn-0+git-r0: task do_fetch: Started
-NOTE: recipe gn-0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 1043 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_unpack)
-NOTE: Running task 1044 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gn-0+git-r0: task do_unpack: Started
-NOTE: recipe gn-0+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gn-0+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gn-0+git-r0: task do_unpack: Succeeded
-NOTE: Running task 1045 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_patch)
-NOTE: Running task 1046 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_collect_spdx_deps)
-NOTE: recipe gn-0+git-r0: task do_patch: Started
-NOTE: recipe gn-0+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gn-0+git-r0: task do_patch: Succeeded
-NOTE: Running task 1047 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1048 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_lic)
-NOTE: recipe gn-0+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gn-0+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gn-0+git-r0: task do_populate_lic: Started
-NOTE: recipe gn-0+git-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_lic unihash changed to 1ee3cf3b79fad961c8a79e8eedc3ac4466b9de812f90bbe7bf94d504fe123a22
-NOTE: recipe gn-0+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1049 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_configure)
-NOTE: recipe gn-0+git-r0: task do_configure: Started
-NOTE: recipe gn-0+git-r0: task do_configure: Succeeded
-NOTE: Running task 1050 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_compile)
-NOTE: recipe gn-0+git-r0: task do_compile: Started
-NOTE: recipe gn-0+git-r0: task do_compile: Succeeded
-NOTE: Running task 1051 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_install)
-NOTE: recipe gn-0+git-r0: task do_install: Started
-NOTE: recipe gn-0+git-r0: task do_install: Succeeded
-NOTE: Running task 1052 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_package)
-NOTE: Running task 1053 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_sysroot)
-NOTE: recipe gn-0+git-r0: task do_populate_sysroot: Started
-NOTE: recipe gn-0+git-r0: task do_package: Started
-NOTE: recipe gn-0+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_sysroot unihash changed to 83a3e3d2a0619ea008eb3aac5b3c1dda9ba9c131d1f1e111b87cc1280608505f
-NOTE: Setscene tasks completed
-NOTE: recipe gn-0+git-r0: task do_package: Succeeded
-NOTE: Running task 1054 of 1061 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata)
-NOTE: recipe gn-0+git-r0: task do_packagedata: Started
-NOTE: recipe gn-0+git-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1054 tasks of which 1041 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218125409.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218125409.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gn/0+git/temp/log.do_packagedata.236113
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-src went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-dbg went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-staticdev went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-dev went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-doc went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-locale went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn went backwards which would break package feeds (from 0:0+git0+103f8b437f-r0 to 0:0+git0+9d19a7870a-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gn/0+git/temp/log.do_packagedata.236113
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata) failed with exit code '1'
-
---===============0300642493784463056==
+--===============7872103682707823446==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-dev: RRECOMMENDS: removed "gn (['= 0+git0+103f8b437f-r0'])", added "gn (['= 0+git0+9d19a7870a-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: RDEPENDS: removed "gn-dev (['= 0+git0+103f8b437f-r0'])", added "gn-dev (['= 0+git0+9d19a7870a-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/truststore -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/idna -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pyproject_hooks -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/dependency_groups -> /usr/lib/python3.
+ 14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/cachecontrol, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli_w -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/platformdirs, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/rich -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli_w, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/certifi -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/resolvelib, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/platformdirs -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/requests, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pip-26.0
+ .1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/resolvelib -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/rich, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/msgpack -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/msgpack, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pygments, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/requests -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pkg_resources, directory renamed /usr/lib/python3.14/site-packages/pi
+ p-26.0.dist-info/licenses/src/pip/_vendor/cachecontrol -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/urllib3, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distro -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/truststore, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/urllib3 -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/dependency_groups, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pkg_resources -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/certifi, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distlib -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distlib, directory renamed /usr/lib/python3.14/site-packa
+ ges/pip-26.0.dist-info/licenses/src/pip/_vendor/pygments -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distro
+Changes to packages/x86-64-v3-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/AUTHORS.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/cachecontrol was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/cachecontrol/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/certifi was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/certifi/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/dependency_groups was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/dependency_groups/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distlib was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distlib/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distro was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distro/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/msgpack was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/msgpack/COPYING was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.APACHE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.BSD was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pkg_resources was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pkg_resources/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/platformdirs was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pygments was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pygments/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/requests was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/requests/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/resolvelib was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/resolvelib/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/rich was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/rich/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli_w was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli_w/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/truststore was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/truststore/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/urllib3 was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/urllib3/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/AUTHORS.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/cachecontrol was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/cachecontrol/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/certifi was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/certifi/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/dependency_groups was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/dependency_groups/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distlib was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distlib/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distro was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distro/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/idna was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/msgpack was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/msgpack/COPYING was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pkg_resources was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pkg_resources/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/platformdirs was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pygments was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pygments/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pyproject_hooks was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pyproject_hooks/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/requests was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/requests/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/resolvelib was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/resolvelib/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/rich was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/rich/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli_w was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli_w/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/truststore was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/truststore/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/urllib3 was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/urllib3/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/WHEEL was removed
 
---===============0300642493784463056==
+--===============7872103682707823446==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGSIZE changed from 100552288 to 100806536 (+0%)
-packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-dev: RRECOMMENDS: removed "gn (['= 0+git0+103f8b437f-r0'])", added "gn (['= 0+git0+9d19a7870a-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGSIZE changed from 3124483 to 3139692 (+0%)
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: RDEPENDS: removed "gn-dev (['= 0+git0+103f8b437f-r0'])", added "gn-dev (['= 0+git0+9d19a7870a-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+103f8b437f to 0+git0+9d19a7870a
-packages/x86-64-v3-poky-linux/gn/gn: PKGSIZE changed from 3682488 to 3698872 (+0%)
+packages/x86-64-v3-poky-linux/python3-pip: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-26.0.tar.gz;downloadfilename=pip-26.0.tar.gz file://no_shebang_mangling.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-26.0.1.tar.gz;downloadfilename=pip-26.0.1.tar.gz file://no_shebang_mangling.patch"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dbg: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dev: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-doc: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-locale: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-src: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-src: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip: PV changed from "26.0" to "26.0.1"
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli_w -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli_w, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distlib -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/dependency_groups, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/urllib3 -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/cachecontrol, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/resolvelib -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/
+ _vendor/certifi, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/rich, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pkg_resources -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/platformdirs, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/idna -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pygments -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/requests, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/certifi -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pygment
+ s, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pyproject_hooks -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distro -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/truststore, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/truststore -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/resolvelib, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/platformdirs -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/requests -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_ve
+ ndor/pkg_resources, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/msgpack -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/msgpack, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/dependency_groups -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/urllib3, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/cachecontrol -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distlib, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging, directory renamed /usr/lib/python3.14/site-packages/pip-26.0.dist-info -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info, directory renamed /usr/lib/python3.14/site-p
+ ackages/pip-26.0.dist-info/licenses/src/pip/_vendor/rich -> /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distro
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip: PKGV changed from 26.0 [default] to 26.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 11080603 to 11080889 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/AUTHORS.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/cachecontrol was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/cachecontrol/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/certifi was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/certifi/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/dependency_groups was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/dependency_groups/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distlib was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distlib/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distro was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/distro/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/msgpack was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/msgpack/COPYING was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.APACHE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.BSD was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pkg_resources was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pkg_resources/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/platformdirs was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pygments was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pygments/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/pyproject_hooks/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/requests was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/requests/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/resolvelib was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/resolvelib/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/rich was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/rich/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli_w was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/tomli_w/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/truststore was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/truststore/LICENSE was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/urllib3 was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/urllib3/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/pip-26.0.1.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/AUTHORS.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/cachecontrol was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/cachecontrol/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/certifi was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/certifi/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/dependency_groups was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/dependency_groups/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distlib was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distlib/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distro was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/distro/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/idna was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/msgpack was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/msgpack/COPYING was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.APACHE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/packaging/LICENSE.BSD was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pkg_resources was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pkg_resources/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/platformdirs was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pygments was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pygments/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pyproject_hooks was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/pyproject_hooks/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/requests was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/requests/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/resolvelib was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/resolvelib/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/rich was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/rich/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli_w was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/tomli_w/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/truststore was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/truststore/LICENSE was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/urllib3 was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/licenses/src/pip/_vendor/urllib3/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/pip-26.0.dist-info/WHEEL was removed
 
---===============0300642493784463056==
+--===============7872103682707823446==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gn-upgrade-to-latest-revision.patch"
+ filename="0001-python3-pip-upgrade-26.0-26.0.1.patch"
 
-RnJvbSA0MGJjYmVmMTQzZGVhODMyZDk3ZDNhY2UwYTcyMjE0ZjU4ZjhiNmI3IE1vbiBTZXAgMTcg
+RnJvbSAxYzNhNTZjNTkwMTJmMWVjYmVmNGQwNjVjNDM5ODVmNTJlZGFlOTc3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTI6NTU6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bjogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2duL2duX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ24vZ25fZ2l0LmJiCmluZGV4IDgxZDE4MTQxOTEu
-LjBiMTM5YWM1ZjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2duL2duX2dpdC5iYgpAQCAtNyw3ICs3LDcg
-QEAgREVQRU5EUyArPSAibmluamEtbmF0aXZlIgogVVBTVFJFQU1fQ0hFQ0tfQ09NTUlUUyA9ICIx
-IgogCiBTUkNfVVJJID0gImdpdDovL2duLmdvb2dsZXNvdXJjZS5jb20vZ247cHJvdG9jb2w9aHR0
-cHM7YnJhbmNoPW1haW4iCi1TUkNSRVYgPSAiMTAzZjhiNDM3ZjVlNzkxZTBhZWY5ZDVjMzcyNTIx
-YTVkNjc1ZmFiYiIKK1NSQ1JFViA9ICI5ZDE5YTc4NzBhZGQ2NTE1MWZmOTFiY2MyNjI1MmJiNzUy
-MTA2NWNmIgogUFYgPSAiMCtnaXQiCiAKIEJCX0dJVF9TSEFMTE9XID0gIiIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTM6MzQ6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBpcDogdXBncmFkZSAyNi4wIC0+IDI2LjAuMQoKLS0tCiAuLi4vcHl0aG9uL3B5dGhv
+bjMtcGlwL25vX3NoZWJhbmdfbWFuZ2xpbmcucGF0Y2ggICAgICAgICAgICAgICAgfCAyICstCiAu
+Li4vcHl0aG9uL3tweXRob24zLXBpcF8yNi4wLmJiID0+IHB5dGhvbjMtcGlwXzI2LjAuMS5iYn0g
+ICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBpcF8y
+Ni4wLmJiID0+IHB5dGhvbjMtcGlwXzI2LjAuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwL25vX3NoZWJhbmdfbWFuZ2xpbmcu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwL25vX3NoZWJh
+bmdfbWFuZ2xpbmcucGF0Y2gKaW5kZXggYzcxYjQ2YmNhNC4uYjA1Nzg1MmI3ZSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcC9ub19zaGViYW5nX21h
+bmdsaW5nLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
+aXAvbm9fc2hlYmFuZ19tYW5nbGluZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDhmYThh
+YjVlNjhiMGUzNDlkOTg4ZWE0NWJiNmE4ZTJmOWJmOGZkMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gNjAwOTNlODIzNzgwZDlhMzQ4Mzg0NGNjM2ZhYWVkMThkYzFjMzUxYiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnPgogRGF0ZTogV2VkLCAyMyBGZWIgMjAyMiAxMjoyNzowNiArMDAw
+MAogU3ViamVjdDogW1BBVENIXSBweXRob24zLXBpcDogRG9uJ3QgY2hhbmdlIHNoZWJhbmcKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjYuMC5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjYuMC4xLmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1waXBfMjYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXBpcF8yNi4wLjEuYmIKaW5kZXggMGEyODRhMWY2Yi4uYWYwMDg0YzQzYSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcF8yNi4w
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjYuMC4x
+LmJiCkBAIC0yNiw3ICsyNiw3IEBAIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWls
+ZF9tZXRhCiAKIFNSQ19VUkkgKz0gImZpbGU6Ly9ub19zaGViYW5nX21hbmdsaW5nLnBhdGNoIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2NlMjIwYTBhMTc5MTU5NzJmYmYxYWI0NTFiYWFlMTUy
+MWM0NTM5ZTc3OGIyODEyN2VmYTc5Yjk3NGFmZjBmYSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJj
+NDAzN2Q4YTI3N2M4OWIzMjBhYmU2MzZkNTlmOTFlNmQwOTIyZDA4YTA1YjYwZTg1ZTUzYjI5NjYx
+MzM0NmQ4IgogCiBSREVQRU5EUzoke1BOfSA9ICJcCiAgIHB5dGhvbjMtY29tcGlsZSBcCi0tIAoy
+LjQ3LjEKCg==
 
---===============0300642493784463056==--
+--===============7872103682707823446==--
 
