@@ -1,212 +1,480 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05444E9A03B
-	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 08:16:50 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7738.1771402601245771466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E0FE9A03B
+	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 09:06:30 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8256.1771405584644738041
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 00:16:41 -0800
+ Wed, 18 Feb 2026 01:06:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=Lu9SoeN/;
- spf=pass (domain: siemens.com, ip: 40.107.159.42, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YOggTeipJuzzc+ZOfFzw2Emn5FtlruJy2HpqtUT9C67oR6VnHhaa+WtUFfBZmXbOW7KUwDB7XCo6XYXUwLpaPqVHFZfcuqfiu9lfgl/u82nCxhrEXkNmqRFMAL88ddvrTk7X5veykcCkHRdLjnXkADKWyozpnpAdkPk+ibtDXdFRuHdl/a/EIIRlfOwYU0ClAru9ECG8jKTwnFa4waWk88Gzj7cXBJkNrYEfo7Xump6uGJDtqzRRBLf44duvr0cqdWpolsyAZZgZ1UnmeBo17MEwWwbeA4rk0+B6V4XxDNQNIlYXsdCZOG9NW4N0Ef/2npPF1/++do/mtz4sbHhPfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QsKSa8bX/mX6EFf0f40/g7DbeCAn922wicvra/rcJzw=;
- b=A/tpltvvyEMOCacGR9jI0/RhjBzv/9fS/06rBVnicFquWqK5FhpuxLSbIuU2/olceNltM8h4z5Q9bdTWmSaztcJVEfJY89r8Ziy7W3eOmK/4rhSy7kXcG2O4FvDHkU2n+BcOAcHBGjk9TtIJxNQAJXQ0ZxzUVMQhX6JdIsCn4ZbPEVSqTFYksfpMCZ1gfkLXNFoi5QDEl3K1WKkKGYGbjodxss2kr046sbVLVP8ks+r3VJyHwRNG/eRWtyvH3YGan8TvpgqKk5LzVbCd+sA0zKywJ2GzcTNoAyRaYp7AUjdMh2a0liHGWw+DAxB4Xswy+k3M/XV6h0FOqWY6Jw49VQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QsKSa8bX/mX6EFf0f40/g7DbeCAn922wicvra/rcJzw=;
- b=Lu9SoeN/OeWziN8QlgkxEfCtNlqPCXiuE7CXU/o4rEehn12yfcjAEHF1dql/jipYgQ1FGrXN0eWpegl3tPo37hjDWn5PV6YMmmFs0owF8LNxdVMgO/eeNzKYEx0yJLzgfC1Xf4y2ux/40ctjg2X5Ue1AYIGMf9QV0XbZb0Wi5y0Au1W4PUsoupO9I73Wun1rtN0fZ7DXLfsjqA62SFoFU6vwV+YNy7Vxb6B09sCqFq651uU6ZAmMiiR7iUKQsDaNfb94c3s76J0lDCG/aST2k6p7udtxce9RlGFaz3MXgeTymFTMeZXif0LSVPQfXipsG939Il/eIAk40mzgkxjTrQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DU0PR10MB5241.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:349::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Wed, 18 Feb
- 2026 08:16:35 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7%6]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
- 08:16:35 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>,
-	"careers.myinfo@gmail.com" <careers.myinfo@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][scarthgap][PATCH 1/2] libpcre2: Enable Ptest Support
-Thread-Topic: [OE-core][scarthgap][PATCH 1/2] libpcre2: Enable Ptest Support
-Thread-Index: AQHcmykzxvxClP7JhUe7V9HR+0pRcLV9MXIAgArHi4CAACpggIAAA11A
-Date: Wed, 18 Feb 2026 08:16:35 +0000
-Message-ID: 
- <AS1PR10MB5697ED75CACEF217DC9722B7FD6AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260211072322.79206-1-moins@kpit.com>
- <DGC07OORVFOQ.IN2M7A5FW055@smile.fr>
- <CAN01=z3YhR4u95F2HAncVV3pj+k5GxZVh2Hr2XV7mTxKEMTuNg@mail.gmail.com>
- <DGHXI0SQALG9.F3GW93KUXVTW@smile.fr>
-In-Reply-To: <DGHXI0SQALG9.F3GW93KUXVTW@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d4dc372b-1698-4971-ac9d-837a040f70f9;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-02-18T08:13:55Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB5241:EE_
-x-ms-office365-filtering-correlation-id: 8a9e19b3-ed76-4962-7919-08de6ec60837
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|13003099007|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?UmNqRGNsditzUzVpNWJOSXlHUVhSMXRyUzV2RUJmTDhCWGZmQW84NHQ1dkJl?=
- =?utf-8?B?aG9MaUdWYjNjcFpNOWljTWxGTVBBSkJ0b0hkZGtURE9OSGo4dm1qT2FwSlJS?=
- =?utf-8?B?czlSZHBkOUFrWjVGRG1Vdk1VU1dzSEl4eERmRGNWNFB4ZjAwckxRQlgvMmNG?=
- =?utf-8?B?SW9INFRMaE54LzhBanVoTlBnWEhjaEEvUjRET3hJWXlVa1ZWMTYrS3NTdGFx?=
- =?utf-8?B?WkVqNEk3cC9sbVBPN1ovOEFmNkhBWVRnWDVnSHE1YUpWUkRyUVZydElaVVE0?=
- =?utf-8?B?WHdVSWRhRU9HK1EwMmhHVHVpZHpBbmlrL2NkVEU1SzZid3dLT3pMejFYaDV4?=
- =?utf-8?B?dWRZbC9kTFdTTmxMd3h0ME1YL1Q0aFJBN0srOWFUQkc3QVlWaklEb1krNG9S?=
- =?utf-8?B?OEpia3d2SE1KMzQxSWJYdzk3RzJ6NC9JUnF0Z1VhSFpmZzFtNTd3eHFHUmpS?=
- =?utf-8?B?aHVaeGRDT2lCZGtFVXBPY3g1YTc5akFoRVArdDY0UDEwSnBpOUltNCtRdStk?=
- =?utf-8?B?bm9udTI5UktNZXpGTEJ3SkpyRWpwL290VVpjNEVheVQyTWV3SmRic1FuenBl?=
- =?utf-8?B?Z0RXWDQrOGRCcVFaK3hJWEQ5djgrczJWTTVsd2c5OGpLNnFIalJWNFR5K2dk?=
- =?utf-8?B?dkt2YTJ5cU90MkVENCtXdlgrS01HMlVLU1pCM0ZUbGNzRysvbkE4SmxoSVhV?=
- =?utf-8?B?dXJqVzBCVDdWT0FaNE1IN0crY1FwUzhydFJ0NnFnTHNOYjBpelZxREErZTZV?=
- =?utf-8?B?c2RHdHdoUm5nZkkvdUFHZjgzcjJjZUdGa2ttRm9DWFZXMkRUbUVxNERrdk0x?=
- =?utf-8?B?ZEpMeGd6YnJwUno0RUZ3VUgrZFRRSFVDQ2JCZUxnYVEvT0dtcXBab1dYc2RP?=
- =?utf-8?B?bVNIcHRhVnZUSXdnbnZlMkhIVEd2OWxoMTVFYkFDdTdYN3IvYkZ1LzJsVkVx?=
- =?utf-8?B?Y0tYTUdqdzJlVmdSN3dCclVlZHpUeGF1T3kySWVKMmNxRHY1cmlmclZZZFF5?=
- =?utf-8?B?WVpNTllOL0VDZzdKZWJrdkpYOHdXYWo5WTZzWU1PTEN0dVBtd2pmWkwyUjdZ?=
- =?utf-8?B?NU9GQ0g2dHVnM21UVXdCR2R3QWRaV0VOQU9va1JINzFaOWY5Y3VEMXF3WkFS?=
- =?utf-8?B?Z1pxN1cxUjNPUzU5NjR5VllzZ08rV2lDenVaWTgrcVpETFNFWlc4a3E3Rkpz?=
- =?utf-8?B?c3RxVUFEUFpKUGZ6UmlkSThISExmRUNKRzIzV1R5YVhaV25BdDhDSERhS0Jx?=
- =?utf-8?B?REpIOHBTNGlZT2drUjhpbHlzN3VhRHFpTjZOdHFldFFDTGhyemtLbGRLcFJS?=
- =?utf-8?B?VVpzT1BvOXhxNmN4ZFVxbFRKVjJ0OVlVWnZDbkxndDhOd2dCZ0JQN3YwWndJ?=
- =?utf-8?B?aHlPV2xmRFg4WTVoSFJQZkduYVJ1Q29HT2V1dTJYTXg3c2lRaEJqZWFGUlR0?=
- =?utf-8?B?YllQQzYrSEU0c0lzVURlZGdackVHZGJ0WlNHWmdUS2pCYVlibVR3RUtUK1du?=
- =?utf-8?B?ZEVBdjdPTzF5RzE3NkdNdC9udHdvK0k0Q1RRK2kveDhkKzFSOXRXU29DZmdS?=
- =?utf-8?B?aG9qbElNMXIzb05KUTgvempjeENMOVBLVHBPbzRQVGZTMEhCdVVHK2pJK05X?=
- =?utf-8?B?SW5vM0dybVBXYjlkR2dCTjhJMDRFeG8vU0JZaHA0ZlVjQ2llS2N3U25YVThh?=
- =?utf-8?B?bXYvaXNkKzNWaHdkNEVNbXV1U21mTkIySXpqdEZteDFWMzQ4b1pSdkJmSHBZ?=
- =?utf-8?B?MEtEQ1J1OWp5QUQyUXNpMkFLQXRkd2ZNRG5DemdtY0U1NW42QlJiKzEzM1k4?=
- =?utf-8?B?SjZJZHhpb2c2dmUrc0dyMXg4UlpUT1NjekthK2ZZdXpYQys1aS9zL05ESXBx?=
- =?utf-8?B?LzJYdjI3UnE0eUhvSFI1ZHpoSkJxMHBqMnBFbVhQK2Rwd2tyTS85NjR5cGly?=
- =?utf-8?B?VU04V1hyREQ1WnluSUVvWlZZamNvZ0tPbTJZMXppUjF3TXBoR21HMktRamJj?=
- =?utf-8?B?OHZLb2VnSWFTNENxajgzNElkMm4xQUlpNGM1TVhjcS9rOWJSLzlCeUFvcGxn?=
- =?utf-8?B?TTRMT2swTXlYeXZTU0drWndmNXpOUm11NTB4M0wrNm0zNGRpM3loUlNCTTNH?=
- =?utf-8?Q?dAdFDtLLffsr3sXUQ6xDNNPnF?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Mmk0K25mMXlJQUk3ajZNUkc4aWc0SXYrUWt6a3dPQTlCekFEUHVnbkpuSENT?=
- =?utf-8?B?djBrR0Era2FhclVYWmFWTjRhVm95ZTM4UUc3KzVMdzduRjhhYnp5ajZqUiti?=
- =?utf-8?B?ZGJTR05BRnp5Rnlwa2VFbU01SWhWSS9xSTFtSVV0OGtlZ0JMdC9scHdIdjg5?=
- =?utf-8?B?V043dTBHanFENVdjTTl2QWNCb0dFM3g0d2cwRlhSQTZhcUJGL2hzVk5mSzIz?=
- =?utf-8?B?V3hrZFJwenNnWldTaUpPaUhaTmNKMVZKczRWMkZnMmVnWDdKWEZUYjZWYVNE?=
- =?utf-8?B?K2NJVjdPZWNtM3FVTG9wT0lTNUNUR0JaKzBmU0twMWhRbEZ0TEVFTG5qL2pt?=
- =?utf-8?B?b0tXOEwvUnhpWW5zZzRDRXV5RjRRc2w0b3N3bWdGd25WdU1mMUhzYStaTC9X?=
- =?utf-8?B?bEFDNjE2RkdOVEsxc2JrVlo3MDVHSzlDNmFKTlB4WkgvMTcwb1ROVWlGbThZ?=
- =?utf-8?B?ZWQ1cGNLSmhMcFZzYUt4bFpFQlZ2NlRZcXZ2aGlvMzFoMzlvSnFLeHY2ZHp4?=
- =?utf-8?B?WmNoVDlHVHFCOThnTkFSaEV6dG84TUlWN2ZEM0xOZUR6Mng3MXhHMktNSEVI?=
- =?utf-8?B?YUdqQ3ZOU1FQVmM3VnY2ZmpWYmgzUzROQnlNdWJHWVZrMVM3SGJKT3ZVVU1B?=
- =?utf-8?B?SmlUNWNmMkdFWkw3REFWSTFvTTRkbkRTVGQ5Q1dRMVp0WmlGaDNhUkYxU1BW?=
- =?utf-8?B?THZsQzc0eTRTWWUzbExWSzJNTjdnK3drRktxaXdmQWFFSnJ5R0tPR05jYndQ?=
- =?utf-8?B?ZUtXalpsWEc1U3grQkdzWnpyTTl6ZDZkemU5R2JaQjNVMHlzcjByOGNRV2hp?=
- =?utf-8?B?RHZ0ZURqUmNESlpWYkxENmxTeUZ1K09JdjBQUXRqZXN0VG45ZEdiTnpsOTY4?=
- =?utf-8?B?c1NkdVdnckY4NVVISW94WUlIMzlhcktNY29ZUnBiVGpHVTdlY1U0a1c3VlY4?=
- =?utf-8?B?NllaQXRxSkxpV3dPenFocHl4YTNOSlhNeDZPRkVJSkVVbVlaeksrWFhqOUlz?=
- =?utf-8?B?SDhERXVSQ2VGeWVreWtXNTNPenhEZEdlajdXQkVxdnEyNGQ1TWF6dU9aSTJo?=
- =?utf-8?B?RlpMMFlxRlJVQ3ZVYW1aMjBXNE5iUmtCSlUxellFaG52OWlhaEJBd2FlS2p2?=
- =?utf-8?B?UE9LblNwWnZwVGl1OTFsb0xiV3Z3QlpHbUIzaVE1bjB1NDBsc2dhaFQ4QXVz?=
- =?utf-8?B?aFhoeTNWWG5OeGxRSXJLQ01ibWtJVzlHK2orQ2RKdE1PM1lscUl2UjVBNnVQ?=
- =?utf-8?B?YVVvazNCVzFtVjR0S2VyamMxUytZd3VLNk9kREZOcHhVN0RWMHVUdGZHME5S?=
- =?utf-8?B?QTFqbnZOb2s4RHUrSDByQW1mWXVIQnZLcXRTcms4Y2E2MkFIR1FIMHBLYTB5?=
- =?utf-8?B?UFZycTh3VStUTjFBanAvUUdPK3kwYTMraW9zSURQYzAvRnl2NEVBT2ZVTzEz?=
- =?utf-8?B?VU1wMnJFSStqL3pTZ0tqZGZ0Zk52aXgxM3VISlh2TzA4NGRuK2ZoWmZMZFNR?=
- =?utf-8?B?ME5jQlVHQ2tiQkxlRXdLUHV5dE9WNXNQSFZmQ2U4ZWFQZ1NqRVJCZXhMbDRF?=
- =?utf-8?B?WVA0dXB0cFBxSEtWZDBTSEpHRy9iK2xqdXVPQWR0MWtZUk1JY3lUYytjSWwr?=
- =?utf-8?B?NS9hN2RXbTZpbVdRZGVmSkticWFyRVkyTTk1NWxRWjFVMFlsZjdXYTc3TGZ1?=
- =?utf-8?B?bXBNZ05ZRXBrOHVSWFh1N3BUMXN5ZzFwUllqQ3hXb0tjTHA1d09QN0pDcm4r?=
- =?utf-8?B?NDVVTk5tbFVWWEZST055R3lLaStlMjhrMUs3YVhMM01pUkxyamZsQzU1M1pr?=
- =?utf-8?B?UE42Mkl2Ym0zZ2Y3MXE5bUxqRnZZUmZDeWlqVnNyN24yM0FHZ3hVRjBvVnNN?=
- =?utf-8?B?NFBxZkM3TFhqOHk5N1pNNmI4TVQ3ZjF2NSsvNWt4ZGs4VWdxSVFZZkJ6bGIy?=
- =?utf-8?B?UHpFU1YxWUt2eFd3RnZEeVZ0ZjVqaUVEWmovRWNucEpLaFJ1VDlKQzBiT0Q4?=
- =?utf-8?B?d0JSSy9YbVhZN1FQVUZEditLOTNpZlRPbTZydFhDWGY5K3ZqK0NsQVNVY0Yz?=
- =?utf-8?B?SncrekxSdkNJZFRYeFM1dEk1cGcvSC9JWHhYWUZOdDFBSTk3dXNsNWxHUHNH?=
- =?utf-8?B?OFZkVzJvd2tQNGdBOHhvTWs5OUhyRzVRRjdKUER6cGxld0VJNmJRWmUrQjU3?=
- =?utf-8?B?cmtmQ0pQUWs0dUtHVW5zaVlwNThDMmxWWFBZYThBTXU5NG5wekcyU0YxMVVG?=
- =?utf-8?B?bTNyTG1scUM2VEE3ZGFrQWlDc2xMbEpTYnN1K3F1ajdHc3NkcG1qaUwzWWtB?=
- =?utf-8?B?STdrQUl6aWJCempNT0VKRzY0aE9Lb2d0UExzM2YrdXl6L3JwYTRhZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hORQJzKb;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3562212b427so2117293a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 01:06:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771405584; x=1772010384; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=211wQ63uP/WAu86jywV6E2YekAzB6zoYvGP5f1hYp2Y=;
+        b=hORQJzKbxIyHZdIXgcVothH/qhymmCPeQ92/Yvzc19q6bHPf8WVrLeGobbZfZm8+8J
+         sa/yMfh8LwQpiYog/yARsyPhMwBbDGX0kdhbfL2wdeRYkCOgDfKyXJoO+Z/zp39mbhaz
+         AU30moVoZ7OwpZBii0gR7Is/R5G/wazHEUezTg/WQz63Zg006rlgZnAfxd5P+V4/fhMF
+         CdybDX4zFr95Fgh8q4mD7IZjNtj2kPCiiV9k1AODCzEyECX2CyHmnNqGJYBuzn0leLb/
+         Lo16iKXzmV4yS50JnwOBVv73uOjOy6vZQSfXeYcriMmBzszzWIMLJGk+ZQSGtp8e7vHj
+         4k2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771405584; x=1772010384;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=211wQ63uP/WAu86jywV6E2YekAzB6zoYvGP5f1hYp2Y=;
+        b=jXvO34JBbhJrkEsTP/EGsMSV04rmQwctaLwHaVPsJ9Iq2BT40jKfk/p48Gs7LDisne
+         ULir/qHHSGQB1xmPNIAbtlFLhFGGE614ldWSrkTvTtQJ0UU6yVkJ0dNhCKKZfYSK9CcS
+         zUhBRLxM8l31IYPTjjHn0x8XEi0ZwaozVQyKlh9D7xpkplH2nZLVRQaBy9KL66BhQlAs
+         zEYxwp74hO1FPNyS7BRjgWUP/PKOGXq6ZzPbYoTSKM9VBNtuj8LzvmEyHHpYXRJ48VmS
+         YPjXVfZ/oRNzvefHqxNu6CdEya+eHZQAhX3i2WFLIqs9DPCEwdtVWc4Iq3+HYmw/VVOb
+         KOew==
+X-Gm-Message-State: AOJu0YzmwB8OoH3VvK973j1Bw6W2DXGzrkUr8+WH6ComzgWlCM8wZKXr
+	rdVpEpSNn51pGv2ssQNmtu4oJGO++BA6j+F6O9sLp6gN64ENRMs8n+K8h27bzQ==
+X-Gm-Gg: AZuq6aJzdcmZGJ1+lz7F9rJheZRhJfbjhKOHl784T+EScEiD1TKy/MJxm7Zjw36ycx+
+	wrfolDyhyvkMnDhIXC47slww7ZSJTGgpXqhcX4KSMdNUd8s50+IlqcdXPSnZbSaSSJpAwVFPPVE
+	Uc2TIwsVnnpelJtGidhFVsW9Ylzd4QR3V5KYtlLvvnikN/TTHAiyuilm5PYJo+7YW7iISsMXI6C
+	u/h+zi7z27DVw9BOMKJ52vHaqkTMVoNKfUqZGwC5zjqidaewxnH+eOYCkD93wYBFOLIpOLdTWWB
+	72JBYvS/xQhrAKg4NaOswNpHP38lQFhnViLmnltRghbtYOZd/FXkn0aFz+kMg9Qksqk+Abm5jR2
+	CUiNkl2PSzu3jyTxH/dfldYBt3etGMaKlxVc0lsF6pVRCqW8D9A771HpWU6V9OVz9ng5dEOHkDw
+	4UfPrvJTRXUEGEJHWGZQ8RZ/gUzWZRS1eM2Vo=
+X-Received: by 2002:a17:90b:35cc:b0:340:f05a:3ed3 with SMTP id 98e67ed59e1d1-35889183205mr1310109a91.17.1771405583699;
+        Wed, 18 Feb 2026 01:06:23 -0800 (PST)
+Received: from NVAPF55DW0D-IPD.. ([147.161.217.33])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35887899158sm957461a91.5.2026.02.18.01.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 01:06:22 -0800 (PST)
+From: ankur.tyagi85@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][PATCH v3 1/2] mdadm: upgrade 4.4 -> 4.5
+Date: Wed, 18 Feb 2026 22:06:05 +1300
+Message-ID: <20260218090606.3693584-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a9e19b3-ed76-4962-7919-08de6ec60837
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2026 08:16:35.3437
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I37OkvNaxc73tQVG4k2Ms2obbCw8wvetLbsCxwbCDfk7UKZgHOwY17g28lrCoYGWXZvdmvTww2CFcXeB3CzZKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5241
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 08:16:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231286
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 09:06:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231287
 
-Q291bGQgd2UgYWRkICJhZGRpbmcvaW1wcm92aW5nIHRlc3RzIiB0byB0aGUgYWxsb3dlZCBMVFMg
-YmFja3BvcnQgaXRlbXM/DQpJIHRoaW5rIHdlJ3JlIHNob290aW5nIG91cnNlbHZlcyBpbiB0aGUg
-Zm9vdCBoZXJlLg0KDQpQZXRlcg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRl
-ZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgWW9hbm4gQ29u
-Z2FsIHZpYQ0KPiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFNlbnQ6IFdlZG5lc2RheSwgRmVi
-cnVhcnkgMTgsIDIwMjYgOTowMg0KPiBUbzogY2FyZWVycy5teWluZm9AZ21haWwuY29tOyBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV1bc2NhcnRoZ2FwXVtQQVRDSCAxLzJdIGxpYnBjcmUyOiBFbmFibGUgUHRlc3QgU3VwcG9y
-dA0KPiANCj4gT24gV2VkIEZlYiAxOCwgMjAyNiBhdCA2OjMwIEFNIENFVCwgU2hhaWsgTW9pbiB2
-aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiB3cm90ZToNCj4gPiBIaSB0ZWFtLA0KPiA+DQo+
-ID4gSSB1cGRhdGVkIG1hc3RlciBicmFuY2ggcGF0Y2guIFBsZWFzZSBjaGVjay4NCj4gDQo+IEhl
-bGxvLA0KPiANCj4gU29ycnksIGJ1dCB0aGlzIHBhdGNoIGlzIG5vdCBhY2NlcHRhYmxlIG9uIHN0
-YWJsZSBicmFuY2hlcyB1bmRlciB0aGUNCj4gcG9saWN5WzBdIHJlZ2FybGVzcyB0byBpdHMgbWFz
-dGVyIG1lcmdpbmcgc3RhdHVzLg0KPiANCj4gWzBdOg0KPiBodHRwczovL3dpa2kueW9jdG9wcm9q
-ZWN0Lm9yZy93aWtpL1N0YWJsZV9SZWxlYXNlX2FuZF9MVFMjU3RhYmxlL0xUU19QYXRjaF9BY2MN
-Cj4gZXB0YW5jZV9Qb2xpY2llcw0KPiANCj4gUmVnYXJkcywNCj4gPg0KPiA+IFRoYW5rcyENCj4g
-Pg0KPiA+IE9uIFdlZCwgMTEgRmViIDIwMjYsIDI6MjMgcG0gWW9hbm4gQ29uZ2FsLCA8eW9hbm4u
-Y29uZ2FsQHNtaWxlLmZyPiB3cm90ZToNCj4gPg0KPiA+PiBPbiBXZWQgRmViIDExLCAyMDI2IGF0
-IDg6MjMgQU0gQ0VULCBTaGFpayBNb2luIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+
-IHdyb3RlOg0KPiA+PiA+IEluc3RhbGwgbGlicGNyZTIgdGVzdCBzdWl0ZSBhbmQgcnVuIGl0IGFz
-IHB0ZXN0Lg0KPiA+PiA+DQo+ID4+ID4gQWRkIHRlc3RzIGZvciBQT1NJWCB3cmFwcGVyIChwY3Jl
-MnBvc2l4X3Rlc3QpLCBjb3JlIFBDUkUyIGVuZ2luZQ0KPiA+PiAoUnVuVGVzdCksIGFuZCBncmVw
-IHV0aWxpdHkgKFJ1bkdyZXBUZXN0KS4NCj4gPj4gPg0KPiA+PiA+IHBjcmUycG9zaXhfdGVzdDog
-VmVyaWZpZXMgdGhlIFBPU0lYIHdyYXBwZXIgQVBJDQo+ID4+ID4gUnVuVGVzdDogRXhlY3V0ZXMg
-dGhlIGNvcmUgUENSRTIgdGVzdCBzdWl0ZSB0aHJvdWdoIHBjcmUydGVzdA0KPiA+PiA+IFJ1bkdy
-ZXBUZXN0OiBDaGVja3MgcGNyZTJncmVwIHRvIGVuc3VyZSBpdHMgZ3JlcHBpbmcgc3R5bGUgbWF0
-Y2hpbmcNCj4gPj4gd29ya3MgYXMgZXhwZWN0ZWQgd2l0aCB2YXJpb3VzIHBhdHRlcm5zIGFuZCBp
-bnB1dCBmaWxlcy4NCj4gPj4gPg0KPiA+PiA+IFNpZ25lZC1vZmYtYnk6IFNoYWlrIE1vaW4gPG1v
-aW5zQGtwaXQuY29tPg0KPiA+PiA+IC0tLQ0KPiA+PiA+ICAuLi4vbGlicGNyZS9saWJwY3JlMi9y
-dW4tcHRlc3QgICAgICAgICAgICAgICAgfCAzOSArKysrKysrLS0tLS0tLS0tLS0tDQo+ID4+ID4g
-IC4uLi9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40My5iYiB8IDIyICsrKysr
-LS0tLS0tDQo+ID4+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMzkgZGVs
-ZXRpb25zKC0pDQo+ID4+DQo+ID4+IFRoYW5rcyBmb3IgdGhlIHBhdGNoZXMgYnV0LCBhcyBJIGFs
-cmVhZHkgd3JvdGUsIGFkZGluZyBwdGVzdCBpcyBub3QNCj4gPj4gdXN1YWxseSBhY2NlcHRhYmxl
-IHVuZGVyIHRoZSBzdGFibGUgcG9saWN5WzBdLiBUaGF0IGFsc28gYXBwbGllcyB0byB5b3VyDQo+
-ID4+IGtpcmtzdG9uZSBwYXRjaC4NCj4gPj4NCj4gPj4gWzBdOg0KPiA+Pg0KPiBodHRwczovL3dp
-a2kueW9jdG9wcm9qZWN0Lm9yZy93aWtpL1N0YWJsZV9SZWxlYXNlX2FuZF9MVFMjU3RhYmxlL0xU
-U19QYXRjaF9BY2MNCj4gZXB0YW5jZV9Qb2xpY2llcw0KPiA+Pg0KPiA+PiBSZWdhcmRzLA0KPiA+
-PiAtLQ0KPiA+PiBZb2FubiBDb25nYWwNCj4gPj4gU21pbGUgRUNTDQo+ID4+DQo+ID4+DQo+IA0K
-PiANCj4gLS0NCj4gWW9hbm4gQ29uZ2FsDQo+IFNtaWxlIEVDUw0KDQo=
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+
+Changelog:
+https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/tree/CHANGELOG.md?h=mdadm-4.5
+
+Replaced 0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+with 0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch as
+partial changes from first patch are part of the upstream version[1].
+
+Dropped patches that are part of upstream version
+- xmalloc.patch [2]
+- 0001-Makefile-install-mdcheck.patch [3]
+
+Also refreshed other patches.
+
+[1] https://github.com/md-raid-utilities/mdadm/commit/787cc1b60130b8031be59e49d54463c58cd8cf74
+[2] https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/raid6check.c?h=mdadm-4.5&id=e0df6c4c984d564e9e40913727e916a6cd8f466e
+[3] https://github.com/md-raid-utilities/mdadm/commit/934d81184880d2231b0d7b3836b12358516ea35c
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 15de700d5f3d42a3b897301a92c3ffb86c5b42a7)
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ ...-corosync-and-dlm-header-files-check.patch |   6 +-
+ .../files/0001-Makefile-install-mdcheck.patch |  27 ---
+ ...tripe.c-Use-64-bit-off_t-across-both.patch |  54 ++++++
+ ...FILE_OFFSET_BITS-to-enable-largefile.patch | 155 ------------------
+ ...-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch |   6 +-
+ .../mdadm/files/xmalloc.patch                 |  32 ----
+ .../mdadm/{mdadm_4.4.bb => mdadm_4.5.bb}      |   8 +-
+ 7 files changed, 63 insertions(+), 225 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/xmalloc.patch
+ rename meta/recipes-extended/mdadm/{mdadm_4.4.bb => mdadm_4.5.bb} (93%)
+
+diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
+index 8598aea1f1..9572c2e8c7 100644
+--- a/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
++++ b/meta/recipes-extended/mdadm/files/0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch
+@@ -1,4 +1,4 @@
+-From 232101e2fcc6359fb6db2bc232570e373e368c75 Mon Sep 17 00:00:00 2001
++From 77e9527a0ea995ed377e00813eeeb17175dbce72 Mon Sep 17 00:00:00 2001
+ From: "Maxin B. John" <maxin.john@intel.com>
+ Date: Tue, 9 Feb 2016 11:44:01 +0200
+ Subject: [PATCH] Fix the path of corosync and dlm header files check
+@@ -14,10 +14,10 @@ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index bcd092de..0a78cd22 100644
++index 8031ce24..788ff5d9 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -130,8 +130,8 @@ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
++@@ -120,8 +120,8 @@ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
+  SYSTEMD_DIR=/lib/systemd/system
+  LIB_DIR=/usr/libexec/mdadm
+  
+diff --git a/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch b/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
+deleted file mode 100644
+index bb4e8d0604..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-Makefile-install-mdcheck.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 407691e11037709af888ce2cf6bd5eac6971ac61 Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Tue, 25 Jan 2022 16:25:01 +0800
+-Subject: [PATCH] Makefile: install mdcheck
+-
+-The mdcheck_xxx.service files use mdcheck, but it's not installed.
+-We need to install this script.
+-
+-Upstream-Status: Submitted [Sent patch to maintainer]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Makefile | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/Makefile b/Makefile
+-index 981e16fa..b28e7855 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -345,6 +345,7 @@ install-systemd: systemd/mdmon@.service
+- install-bin: mdadm mdmon
+- 	$(INSTALL) -D $(STRIP) -m 755 mdadm $(DESTDIR)$(BINDIR)/mdadm
+- 	$(INSTALL) -D $(STRIP) -m 755 mdmon $(DESTDIR)$(BINDIR)/mdmon
+-+	$(INSTALL) -D -m 755 misc/mdcheck $(DESTDIR)/usr/share/mdadm/mdcheck
+- 
+- uninstall:
+- 	rm -f $(DESTDIR)$(MAN8DIR)/mdadm.8 $(DESTDIR)$(MAN8DIR)/mdmon.8 $(DESTDIR)$(MAN4DIR)/md.4 $(DESTDIR)$(MAN5DIR)/mdadm.conf.5 $(DESTDIR)$(BINDIR)/mdadm
+diff --git a/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch b/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
+new file mode 100644
+index 0000000000..ca4cec5ab8
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch
+@@ -0,0 +1,54 @@
++From 0d685f4ec8b54860a031fe3e04a2fff535288f80 Mon Sep 17 00:00:00 2001
++From: Ankur Tyagi <ankur.tyagi85@gmail.com>
++Date: Mon, 26 Jan 2026 22:46:51 +1300
++Subject: [PATCH] raid6check.c, restripe.c: Use 64-bit off_t across both musl
++ and glibc
++
++This commit is adaptation of original patch[1] after commit[2] addressed
++lseek issues.
++
++[1] https://lore.kernel.org/linux-raid/20221110225546.337164-1-raj.khem@gmail.com/
++[2] https://github.com/md-raid-utilities/mdadm/commit/787cc1b60130b8031be59e49d54463c58cd8cf74
++
++Upstream-Status: Submitted [https://github.com/md-raid-utilities/mdadm/pull/235]
++Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
++---
++ raid6check.c | 4 ++--
++ restripe.c   | 2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/raid6check.c b/raid6check.c
++index 4469dc8f..fa50d44e 100644
++--- a/raid6check.c
+++++ b/raid6check.c
++@@ -288,7 +288,7 @@ int manual_repair(int chunk_size, int syndrome_disks,
++ 	}
++ 
++ 	int write_res1, write_res2;
++-	off64_t seek_res;
+++	off_t seek_res;
++ 
++ 	seek_res = lseek(source[fd1], offsets[fd1] + start * chunk_size, SEEK_SET);
++ 	if (seek_res < 0) {
++@@ -381,7 +381,7 @@ int check_stripes(struct mdinfo *info, int *source, unsigned long long *offsets,
++ 			goto exitCheck;
++ 		}
++ 		for (i = 0 ; i < raid_disks ; i++) {
++-			off64_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
+++			off_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
++ 						   SEEK_SET);
++ 			if (seek_res < 0) {
++ 				fprintf(stderr, "lseek to source %d failed\n", i);
++diff --git a/restripe.c b/restripe.c
++index ec8d6275..58c0f5f5 100644
++--- a/restripe.c
+++++ b/restripe.c
++@@ -756,7 +756,7 @@ int restore_stripes(int *dest, unsigned long long *offsets,
++ 			if (src_buf == NULL) {
++ 				/* read from file */
++ 				if (lseek(source, read_offset, 0) !=
++-					 (off64_t)read_offset) {
+++					 (off_t)read_offset) {
++ 					rv = -1;
++ 					goto abort;
++ 				}
+diff --git a/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch b/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+deleted file mode 100644
+index aa874dbec3..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
++++ /dev/null
+@@ -1,155 +0,0 @@
+-From 9e3b15adf86147fe581cd2159cb99708abe26158 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 10 Nov 2022 12:31:22 -0800
+-Subject: [PATCH] restripe.c: Use _FILE_OFFSET_BITS to enable largefile support
+-
+-Instead of using the lseek64 and friends, its better to enable it via
+-the feature macro _FILE_OFFSET_BITS = 64 and let the C library deal with
+-the width of types
+-
+-Upstream-Status: Submitted [https://lore.kernel.org/linux-raid/20221110225546.337164-1-raj.khem@gmail.com/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- raid6check.c | 11 +++++++----
+- restripe.c   | 13 ++++++++-----
+- swap_super.c | 13 +++++++------
+- 3 files changed, 22 insertions(+), 15 deletions(-)
+-
+-diff --git a/raid6check.c b/raid6check.c
+-index 99477761..8e7f1421 100644
+---- a/raid6check.c
+-+++ b/raid6check.c
+-@@ -22,6 +22,9 @@
+-  *    Based on "restripe.c" from "mdadm" codebase
+-  */
+- 
+-+/* Enable largefile support */
+-+#define _FILE_OFFSET_BITS 64
+-+
+- #include "mdadm.h"
+- #include <stdint.h>
+- #include <sys/mman.h>
+-@@ -284,9 +287,9 @@ int manual_repair(int chunk_size, int syndrome_disks,
+- 	}
+- 
+- 	int write_res1, write_res2;
+--	off64_t seek_res;
+-+	off_t seek_res;
+- 
+--	seek_res = lseek64(source[fd1],
+-+	seek_res = lseek(source[fd1],
+- 			   offsets[fd1] + start * chunk_size, SEEK_SET);
+- 	if (seek_res < 0) {
+- 		fprintf(stderr, "lseek failed for failed_disk1\n");
+-@@ -294,7 +297,7 @@ int manual_repair(int chunk_size, int syndrome_disks,
+- 	}
+- 	write_res1 = write(source[fd1], blocks[failed_slot1], chunk_size);
+- 
+--	seek_res = lseek64(source[fd2],
+-+	seek_res = lseek(source[fd2],
+- 			   offsets[fd2] + start * chunk_size, SEEK_SET);
+- 	if (seek_res < 0) {
+- 		fprintf(stderr, "lseek failed for failed_disk2\n");
+-@@ -379,7 +382,7 @@ int check_stripes(struct mdinfo *info, int *source, unsigned long long *offsets,
+- 			goto exitCheck;
+- 		}
+- 		for (i = 0 ; i < raid_disks ; i++) {
+--			off64_t seek_res = lseek64(source[i], offsets[i] + start * chunk_size,
+-+			off_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
+- 						   SEEK_SET);
+- 			if (seek_res < 0) {
+- 				fprintf(stderr, "lseek to source %d failed\n", i);
+-diff --git a/restripe.c b/restripe.c
+-index 5e126eb7..af76c634 100644
+---- a/restripe.c
+-+++ b/restripe.c
+-@@ -22,6 +22,9 @@
+-  *    Email: <neilb@suse.de>
+-  */
+- 
+-+/* Enable largefile support */
+-+#define _FILE_OFFSET_BITS 64
+-+
+- #include "mdadm.h"
+- #include "xmalloc.h"
+- 
+-@@ -583,7 +586,7 @@ int save_stripes(int *source, unsigned long long *offsets,
+- 				       raid_disks, level, layout);
+- 			if (dnum < 0) abort();
+- 			if (source[dnum] < 0 ||
+--			    lseek64(source[dnum],
+-+			    lseek(source[dnum],
+- 				    offsets[dnum] + offset, 0) < 0 ||
+- 			    read(source[dnum], buf+disk * chunk_size,
+- 				 chunk_size) != chunk_size) {
+-@@ -756,8 +759,8 @@ int restore_stripes(int *dest, unsigned long long *offsets,
+- 					   raid_disks, level, layout);
+- 			if (src_buf == NULL) {
+- 				/* read from file */
+--				if (lseek64(source, read_offset, 0) !=
+--					 (off64_t)read_offset) {
+-+				if (lseek(source, read_offset, 0) !=
+-+					 (off_t)read_offset) {
+- 					rv = -1;
+- 					goto abort;
+- 				}
+-@@ -818,7 +821,7 @@ int restore_stripes(int *dest, unsigned long long *offsets,
+- 		}
+- 		for (i=0; i < raid_disks ; i++)
+- 			if (dest[i] >= 0) {
+--				if (lseek64(dest[i],
+-+				if (lseek(dest[i],
+- 					 offsets[i]+offset, 0) < 0) {
+- 					rv = -1;
+- 					goto abort;
+-@@ -868,7 +871,7 @@ int test_stripes(int *source, unsigned long long *offsets,
+- 		int disk;
+- 
+- 		for (i = 0 ; i < raid_disks ; i++) {
+--			if ((lseek64(source[i], offsets[i]+start, 0) < 0) ||
+-+			if ((lseek(source[i], offsets[i]+start, 0) < 0) ||
+- 			    (read(source[i], stripes[i], chunk_size) !=
+- 			     chunk_size)) {
+- 				free(q);
+-diff --git a/swap_super.c b/swap_super.c
+-index b6db5743..18c89e2b 100644
+---- a/swap_super.c
+-+++ b/swap_super.c
+-@@ -1,3 +1,6 @@
+-+/* Enable largefile support */
+-+#define _FILE_OFFSET_BITS 64
+-+
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <fcntl.h>
+-@@ -16,8 +19,6 @@
+- 
+- #define MD_NEW_SIZE_SECTORS(x)		((x & ~(MD_RESERVED_SECTORS - 1)) - MD_RESERVED_SECTORS)
+- 
+--extern long long lseek64(int, long long, int);
+--
+- int main(int argc, char *argv[])
+- {
+- 	int fd, i;
+-@@ -38,8 +39,8 @@ int main(int argc, char *argv[])
+- 		exit(1);
+- 	}
+- 	offset = MD_NEW_SIZE_SECTORS(size) * 512LL;
+--	if (lseek64(fd, offset, 0) < 0LL) {
+--		perror("lseek64");
+-+	if (lseek(fd, offset, 0) < 0LL) {
+-+		perror("lseek");
+- 		exit(1);
+- 	}
+- 	if (read(fd, super, 4096) != 4096) {
+-@@ -68,8 +69,8 @@ int main(int argc, char *argv[])
+- 		super[32*4+10*4 +i] = t;
+- 	}
+- 
+--	if (lseek64(fd, offset, 0) < 0LL) {
+--		perror("lseek64");
+-+	if (lseek(fd, offset, 0) < 0LL) {
+-+		perror("lseek");
+- 		exit(1);
+- 	}
+- 	if (write(fd, super, 4096) != 4096) {
+diff --git a/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch b/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
+index e425fc446e..2ef92418ed 100644
+--- a/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
++++ b/meta/recipes-extended/mdadm/files/0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch
+@@ -1,4 +1,4 @@
+-From 8de073c637a1ea968b7304f373a20b13a4a47bbc Mon Sep 17 00:00:00 2001
++From b7e51fbedc1fbc44af00398a4a7aef51cdf191ee Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 12 Mar 2024 10:54:08 +0100
+ Subject: [PATCH] Create.c: include linux/falloc.h for FALLOC_FL_ZERO_RANGE
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/Create.c b/Create.c
+-index fd6c9215..3210a03e 100644
++index 4aa75b7e..5d5fc806 100644
+ --- a/Create.c
+ +++ b/Create.c
+-@@ -33,6 +33,7 @@
++@@ -31,6 +31,7 @@
+  #include	<signal.h>
+  #include	<sys/signalfd.h>
+  #include	<sys/wait.h>
+diff --git a/meta/recipes-extended/mdadm/files/xmalloc.patch b/meta/recipes-extended/mdadm/files/xmalloc.patch
+deleted file mode 100644
+index 61774721d0..0000000000
+--- a/meta/recipes-extended/mdadm/files/xmalloc.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From c5cf5a83be4e3ce04ebf3250f77aeb465eeb53a1 Mon Sep 17 00:00:00 2001
+-From: Xiao Ni <xni@redhat.com>
+-Date: Fri, 17 Jan 2025 15:15:40 +0800
+-Subject: [PATCH] mdadm/raid6check: add xmalloc.h to raid6check.c
+-
+-It reports building error:
+-raid6check.c:324:26: error: implicit declaration of function xmalloc
+-
+-Add xmalloc.h to raid6check.c file to fix this.
+-
+-Signed-off-by: Xiao Ni <xni@redhat.com>
+-Link: https://lore.kernel.org/r/20250117071540.4094-1-xni@redhat.com
+-Signed-off-by: Song Liu <song@kernel.org>
+-
+-Upstream-Status: Backport [https://web.git.kernel.org/pub/scm/utils/mdadm/mdadm.git/commit/?h=main&id=e0df6c4c984d564e9e40913727e916a6cd8f466e]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- raid6check.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/raid6check.c b/raid6check.c
+-index 8e7f1421..486b10c6 100644
+---- a/raid6check.c
+-+++ b/raid6check.c
+-@@ -26,6 +26,7 @@
+- #define _FILE_OFFSET_BITS 64
+- 
+- #include "mdadm.h"
+-+#include "xmalloc.h"
+- #include <stdint.h>
+- #include <sys/mman.h>
+- 
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.4.bb b/meta/recipes-extended/mdadm/mdadm_4.5.bb
+similarity index 93%
+rename from meta/recipes-extended/mdadm/mdadm_4.4.bb
+rename to meta/recipes-extended/mdadm/mdadm_4.5.bb
+index 26a60e4c1a..b30d3d776e 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.4.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.5.bb
+@@ -12,13 +12,11 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/mdadm/mdadm.git;protocol=https;bra
+            file://run-ptest \
+            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+            file://mdadm.init \
+-           file://0001-Makefile-install-mdcheck.patch \
+-           file://0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch \
+            file://0002-Create.c-include-linux-falloc.h-for-FALLOC_FL_ZERO_R.patch \
+-           file://xmalloc.patch \
++           file://0001-raid6check.c-restripe.c-Use-64-bit-off_t-across-both.patch \
+            "
+ 
+-SRCREV = "8e56efac9afd7080bb42bae4b77cdad5f345633a"
++SRCREV = "8f0c7692d48414ff7b3fe927ce75799c65ef24b1"
+ 
+ inherit ptest systemd
+ 
+@@ -37,7 +35,7 @@ CFLAGS:append:mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
+ 
+ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CWFLAGS="" CXFLAGS="${CFLAGS}" SYSTEMD_DIR=${systemd_system_unitdir} \
+                 BINDIR="${base_sbindir}" UDEVDIR="${nonarch_base_libdir}/udev" LDFLAGS="${LDFLAGS}" \
+-                SYSROOT="${STAGING_DIR_TARGET}" STRIP='
++                SYSROOT="${STAGING_DIR_TARGET}" MISCDIR="${datadir}/${BPN}" STRIP='
+ 
+ DEBUG_OPTIMIZATION:append = " -Wno-error"
+ 
 
