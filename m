@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8986CE9A04E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73711E9A04B
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:41:46 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1385.1771440096850223046
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1413.1771440096559575007
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 10:41:36 -0800
+ Wed, 18 Feb 2026 10:41:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eAGQTXrL;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=JoziaRR/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c720ec3d9-fbc6621a-a0d5-4800-94df-bb6a03cf2443-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NLbL/6kJ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KqC1drbR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019c720ee886-e523bc47-c9dc-4dc0-9a5a-f2d61344fd24-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1771440096;
+	t=1771440105;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nd7EIN576PyMU+cL+2ApbtZlqe0oloGl8HZQ5YdHvgw=;
-	b=eAGQTXrLh4YoVscIpDVxAb1THf4W10JqmWSKE/PNyNHXAyiaYWZidNbE08Gm3nM2
-	WgZcwsKdfSv7BjRqeYqBtdDc0QuVc2ZCknLBUxe6Ww+OyALdG+oQTtIVKTihOvDRjDG
-	XI2Ju1+QL1Lsev4VNAk3DNk9/ErX3p3aGUwIIcWs=
+	bh=pPSs9OORyrcFnxa8vtTiyw7B4aR7+MymJEpCRT2VIu8=;
+	b=NLbL/6kJHySeCglE8ZvFMKlowHAFCEl1v1/3hgp1cTIYvPeDe65Z6vTUGRO/EJ1K
+	yUWb3ggOyqWZWQ+1VyQqwU7MaWvOAAO+6d2ohpgnR557Z+06uN36l2AHrWCvRij6w7E
+	tktx6tlG4sp4lMbXmiZ6z0rs8OBwx15zxJV6Bcr8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440096;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440105;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nd7EIN576PyMU+cL+2ApbtZlqe0oloGl8HZQ5YdHvgw=;
-	b=JoziaRR/ixriAsw6EEz36kHc5gcgst5EMeSdELcP1gpqibi8I9T0bcgIKu86vPr2
-	4SZLdmNYWxYCpW1oRG1nV1ytVs6Gewb3WTKrDW5F0FDISMvBmiAo+F8RkeJop2ggRD0
-	eDyzipiDn5OLXv1Xyy6Gq2mwcqOuqJDXkbmYwk5k=
-Content-Type: multipart/mixed; boundary="===============0129596143179850731=="
+	bh=pPSs9OORyrcFnxa8vtTiyw7B4aR7+MymJEpCRT2VIu8=;
+	b=KqC1drbRHMSPl1d2FuT2zMsseC/smAxq1E50zpSY60UrvkR18G5rotoS7PhChESo
+	OYYs4GceEEzwRJnATJ5AXT4tvJArwyHZ3iXR3ic5rJ4GroM2TBTlA4FPMm9jDYkKZV2
+	Xvfx5k9NvhCRzhs1nMCCVV1UHLTxhmWXGw/8xQX8=
+Content-Type: multipart/mixed; boundary="===============3985059162681541336=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] xauth: upgrading to 1.1.5 SUCCEEDED
-Message-ID: <0101019c720ec3d9-fbc6621a-a0d5-4800-94df-bb6a03cf2443-000000@us-west-2.amazonses.com>
-Date: Wed, 18 Feb 2026 18:41:36 +0000
+To: Leon Anavi <leon.anavi@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-xmltodict: upgrading to 1.0.3 SUCCEEDED
+Message-ID: <0101019c720ee886-e523bc47-c9dc-4dc0-9a5a-f2d61344fd24-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Feb 2026 18:41:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.192
+X-SES-Outgoing: 2026.02.18-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:41:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231327
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231365
 
---===============0129596143179850731==
+--===============3985059162681541336==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xauth* to *1.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-xmltodict* to *1.0.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xauth-upgrade-1.1.4-1.1.5.patch
+    - apply the patch: git am 0001-python3-xmltodict-upgrade-1.0.2-1.0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,92 +72,107 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dff3a931950cd29f6bedd1eefeab14ffa0d0c35b Mon Sep 17 00:00:00 2001
+From 500757889a84ba9b5cefbcb60a4609d3e94d96e3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 10:47:56 +0000
-Subject: [PATCH] xauth: upgrade 1.1.4 -> 1.1.5
+Date: Wed, 18 Feb 2026 14:13:01 +0000
+Subject: [PATCH] python3-xmltodict: upgrade 1.0.2 -> 1.0.3
 
 ---
- .../xorg-app/{xauth_1.1.4.bb => xauth_1.1.5.bb}                 | 2 +-
+ .../{python3-xmltodict_1.0.2.bb => python3-xmltodict_1.0.3.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-app/{xauth_1.1.4.bb => xauth_1.1.5.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-xmltodict_1.0.2.bb => python3-xmltodict_1.0.3.bb} (82%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xauth_1.1.4.bb b/meta/recipes-graphics/xorg-app/xauth_1.1.5.bb
-similarity index 83%
-rename from meta/recipes-graphics/xorg-app/xauth_1.1.4.bb
-rename to meta/recipes-graphics/xorg-app/xauth_1.1.5.bb
-index 919457bca6..8660d17ff0 100644
---- a/meta/recipes-graphics/xorg-app/xauth_1.1.4.bb
-+++ b/meta/recipes-graphics/xorg-app/xauth_1.1.5.bb
-@@ -9,7 +9,7 @@ DEPENDS += "libxau libxext libxmu"
- PE = "1"
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb b/meta/recipes-devtools/python/python3-xmltodict_1.0.3.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb
+rename to meta/recipes-devtools/python/python3-xmltodict_1.0.3.bb
+index e58e32e338..693549b9c8 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_1.0.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
  
- SRC_URI_EXT = "xz"
--SRC_URI[sha256sum] = "e9318141464ad7b4dc0f8564a580f0d20f977c85a388cc40d5a766206151c690"
-+SRC_URI[sha256sum] = "a4000e2f441facebf569026bedecc23ba262cc6927be52070abe0002625cfbe0"
+-SRC_URI[sha256sum] = "54306780b7c2175a3967cad1db92f218207e5bc1aba697d887807c0fb68b7649"
++SRC_URI[sha256sum] = "3bf1f49c7836df34cf6d9cc7e690c4351f7dfff2ab0b8a1988bba4a9b9474909"
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ PYPI_PACKAGE = "xmltodict"
+ 
 -- 
 2.47.1
 
 
---===============0129596143179850731==
+--===============3985059162681541336==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-xauth-upgrade-1.1.4-1.1.5.patch"
+ filename="0001-python3-xmltodict-upgrade-1.0.2-1.0.3.patch"
 
-RnJvbSBkZmYzYTkzMTk1MGNkMjlmNmJlZGQxZWVmZWFiMTRmZmEwZDBjMzViIE1vbiBTZXAgMTcg
+RnJvbSA1MDA3NTc4ODlhODRiYTliNWNlZmJjYjYwYTQ2MDlkM2U5NGQ5NmUzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTA6NDc6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-YXV0aDogdXBncmFkZSAxLjEuNCAtPiAxLjEuNQoKLS0tCiAuLi4veG9yZy1hcHAve3hhdXRoXzEu
-MS40LmJiID0+IHhhdXRoXzEuMS41LmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy1hcHAve3hhdXRoXzEuMS40LmJiID0+IHhhdXRoXzEuMS41LmJifSAo
-ODMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94YXV0aF8x
-LjEuNC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94YXV0aF8xLjEuNS5iYgpz
-aW1pbGFyaXR5IGluZGV4IDgzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
-Zy1hcHAveGF1dGhfMS4xLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWFwcC94YXV0aF8xLjEuNS5iYgppbmRleCA5MTk0NTdiY2E2Li44NjYwZDE3ZmYwIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGF1dGhfMS4xLjQuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hhdXRoXzEuMS41LmJiCkBAIC05LDcgKzks
-NyBAQCBERVBFTkRTICs9ICJsaWJ4YXUgbGlieGV4dCBsaWJ4bXUiCiBQRSA9ICIxIgogCiBTUkNf
-VVJJX0VYVCA9ICJ4eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlOTMxODE0MTQ2NGFkN2I0ZGMw
-Zjg1NjRhNTgwZjBkMjBmOTc3Yzg1YTM4OGNjNDBkNWE3NjYyMDYxNTFjNjkwIgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gImE0MDAwZTJmNDQxZmFjZWJmNTY5MDI2YmVkZWNjMjNiYTI2MmNjNjkyN2Jl
-NTIwNzBhYmUwMDAyNjI1Y2ZiZTAiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIke0BiYi51dGlscy5m
-aWx0ZXIoJ0RJU1RST19GRUFUVVJFUycsICdpcHY2JywgZCl9IgogUEFDS0FHRUNPTkZJR1tpcHY2
-XSA9ICItLWVuYWJsZS1pcHY2LC0tZGlzYWJsZS1pcHY2LCIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTQ6MTM6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXhtbHRvZGljdDogdXBncmFkZSAxLjAuMiAtPiAxLjAuMwoKLS0tCiAuLi4ve3B5dGhv
+bjMteG1sdG9kaWN0XzEuMC4yLmJiID0+IHB5dGhvbjMteG1sdG9kaWN0XzEuMC4zLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXhtbHRvZGljdF8xLjAuMi5i
+YiA9PiBweXRob24zLXhtbHRvZGljdF8xLjAuMy5iYn0gKDgyJSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzEuMC4yLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8xLjAuMy5iYgpzaW1p
+bGFyaXR5IGluZGV4IDgyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMteG1sdG9kaWN0XzEuMC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzEuMC4zLmJiCmluZGV4IGU1OGUzMmUzMzguLjY5
+MzU0OWI5YzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My14bWx0b2RpY3RfMS4wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXhtbHRvZGljdF8xLjAuMy5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0
+cHM6Ly9naXRodWIuY29tL21hcnRpbmJsZWNoL3htbHRvZGljdCIKIExJQ0VOU0UgPSAiTUlUIgog
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDE0NDFkNTBkYzc0NDc2ZGI1
+OGE0MWFjMTBjYjlmYTIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1NDMwNjc4MGI3YzIxNzVh
+Mzk2N2NhZDFkYjkyZjIxODIwN2U1YmMxYWJhNjk3ZDg4NzgwN2MwZmI2OGI3NjQ5IgorU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjNiZjFmNDljNzgzNmRmMzRjZjZkOWNjN2U2OTBjNDM1MWY3ZGZmZjJh
+YjBiOGExOTg4YmJhNGE5Yjk0NzQ5MDkiCiAKIFBZUElfUEFDS0FHRSA9ICJ4bWx0b2RpY3QiCiAK
+LS0gCjIuNDcuMQoK
 
---===============0129596143179850731==
+--===============3985059162681541336==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict: FILELIST: directory renamed /usr/lib/python3.14/site-packages/xmltodict-1.0.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/xmltodict-1.0.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/xmltodict-1.0.2.dist-info -> /usr/lib/python3.14/site-packages/xmltodict-1.0.3.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-xmltodict (sysroot):
+  /usr/lib/python3.14/site-packages/xmltodict-1.0.2.dist-info moved to /usr/lib/python3.14/site-packages/xmltodict-1.0.3.dist-info
+
+--===============3985059162681541336==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/xauth: SRC_URI changed from "https://www.x.org/releases//individual/app/xauth-1.1.4.tar.xz" to "https://www.x.org/releases//individual/app/xauth-1.1.5.tar.xz"
-packages/x86-64-v3-poky-linux/xauth: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth-dbg: PKGSIZE changed from 118720 to 119328 (+1%)
-packages/x86-64-v3-poky-linux/xauth/xauth-dbg: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth-dbg: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth-dev: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth-dev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth-doc: PKGSIZE changed from 11403 to 12018 (+5%)
-packages/x86-64-v3-poky-linux/xauth/xauth-doc: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth-doc: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth-locale: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth-locale: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth-src: PKGSIZE changed from 76373 to 76741 (+0%)
-packages/x86-64-v3-poky-linux/xauth/xauth-src: FILELIST: directory renamed /usr/src/debug/xauth/1.1.4 -> /usr/src/debug/xauth/1.1.5
-packages/x86-64-v3-poky-linux/xauth/xauth-src: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth-src: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth-staticdev: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth-staticdev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/x86-64-v3-poky-linux/xauth/xauth: PV changed from "1.1.4" to "1.1.5"
-packages/x86-64-v3-poky-linux/xauth/xauth: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict: SRC_URI changed from "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-1.0.2.tar.gz;downloadfilename=xmltodict-1.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-1.0.3.tar.gz;downloadfilename=xmltodict-1.0.3.tar.gz"
+packages/x86-64-v3-poky-linux/python3-xmltodict: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-dev: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-dev: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-doc: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-doc: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-locale: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-locale: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 35543 to 36003 (+1%)
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-src: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-src: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict: PV changed from "1.0.2" to "1.0.3"
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict: PKGV changed from 1.0.2 [default] to 1.0.3 [default]
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict: FILELIST: directory renamed /usr/lib/python3.14/site-packages/xmltodict-1.0.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/xmltodict-1.0.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/xmltodict-1.0.2.dist-info -> /usr/lib/python3.14/site-packages/xmltodict-1.0.3.dist-info
+packages/x86-64-v3-poky-linux/python3-xmltodict/python3-xmltodict: PKGSIZE changed from 65679 to 64735 (-1%)
+Changes to packages/x86-64-v3-poky-linux/python3-xmltodict (sysroot):
+  /usr/lib/python3.14/site-packages/xmltodict-1.0.2.dist-info moved to /usr/lib/python3.14/site-packages/xmltodict-1.0.3.dist-info
 
---===============0129596143179850731==--
+--===============3985059162681541336==--
 
