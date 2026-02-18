@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3369DC531F3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A665C531F4
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:42:01 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1416.1771440097377364361
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1410.1771440094592340505
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Feb 2026 10:41:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GotREEql;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=NdFdyRoX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019c720f046c-a9968197-c13d-49d2-ab96-adb913f97344-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=uctHcDkA;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LbbV6KIw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019c720f049d-80a54c02-68dd-42cd-9d2d-79794522e22e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1771440112;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Acw/D5S9mWLC5bKnIsGJx2L7dpjIGJEIcpPNPQG1X/g=;
-	b=GotREEqlwvRRAQiWXjiORdYAdwiCaZfxgfFPEIG5T93Tw1t7ao/JDd4YBiMwvZuZ
-	N/u8JMEo8SoCQHaM9ftQjHzT4lT7hrEg/YsL3EiGxi9gPG+nYrjWmNjS76HD3fQGq7H
-	zNvgOBGrbl7EMnPoeFhwkkwh9jg7C5aWvL+QKJ9w=
+	bh=znKZ+9anZA/ugUK+QeNEEfuDpxWawernsAe6vRTCvj4=;
+	b=uctHcDkA5d2StgdpCDf6G6Jl3LeBPU83nMufktb2BwQJ/Fxvi4s6x13wLIzKeIQE
+	gV/Fr510JdBCQ3siwlDd+w2Tdo+1PseTF9wV2fxPSKOi5SIoBXztqei04vGEDH7q6Um
+	NMRHi8i7BH9qRQNIfpVsgsUzThcdyNayVzbMIR/w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440112;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Acw/D5S9mWLC5bKnIsGJx2L7dpjIGJEIcpPNPQG1X/g=;
-	b=NdFdyRoX+GBvlgXfeXoPlyUgKjvh1bqXMBGHoDufiW7kVEwoIDgQKw6kMSe+NxnQ
-	QYnOInfO9JQM6Gr5XgkR/SSoHOxeTyTcTjFNQmiYfJW6UwZyv8fiNtFWDSuye17KHo6
-	AK8HUNLGm/cwg7PE5/r5kAgrkIWLeEhGXP1f6HJw=
-Content-Type: multipart/mixed; boundary="===============1874758802121891654=="
+	bh=znKZ+9anZA/ugUK+QeNEEfuDpxWawernsAe6vRTCvj4=;
+	b=LbbV6KIw5oLifbKuI2Colz4aKvyJk0pXLOvdncsrmzeL/jZ79TITxOfcw/GnGrGO
+	GYtYilThEizjeiHkcjIUJ7zRlvw9BZG55xCLQ8SJzA79jxHkfwxT6pWDyLycESMNStU
+	9QxsB98EtceXHRl2b5pypatw4WwBmEz4FCAcJibw=
+Content-Type: multipart/mixed; boundary="===============3925969314952336161=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] gstreamer1.0-python: upgrading to 1.28.0 FAILED
-Message-ID: <0101019c720f046c-a9968197-c13d-49d2-ab96-adb913f97344-000000@us-west-2.amazonses.com>
+Subject: [AUH] libpng: upgrading to 1.6.55 SUCCEEDED
+Message-ID: <0101019c720f049d-80a54c02-68dd-42cd-9d2d-79794522e22e-000000@us-west-2.amazonses.com>
 Date: Wed, 18 Feb 2026 18:41:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.30
+X-SES-Outgoing: 2026.02.18-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:42:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231394
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231393
 
---===============1874758802121891654==
+--===============3925969314952336161==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.28.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libpng* to *1.6.55* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.26.9-1.28.0.patch
+    - apply the patch: git am 0001-libpng-upgrade-1.6.54-1.6.55.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,214 +72,118 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 457e06f65b25a5599ef27aa2233e44c57978e920 Mon Sep 17 00:00:00 2001
+From 6f4405da83259860b4f46ad2a7b8299c7fb72f4f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 16:04:26 +0000
-Subject: [PATCH] gstreamer1.0-python: upgrade 1.26.9 -> 1.28.0
+Date: Wed, 18 Feb 2026 16:15:05 +0000
+Subject: [PATCH] libpng: upgrade 1.6.54 -> 1.6.55
 
 ---
- ...reamer1.0-python_1.26.9.bb => gstreamer1.0-python_1.28.0.bb} | 2 +-
+ .../libpng/{libpng_1.6.54.bb => libpng_1.6.55.bb}               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.9.bb => gstreamer1.0-python_1.28.0.bb} (91%)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.54.bb => libpng_1.6.55.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb
-index 57ddf0bbba..7169b853c3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.54.bb b/meta/recipes-multimedia/libpng/libpng_1.6.55.bb
+similarity index 97%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.54.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.55.bb
+index b017be513b..c6e95e0723 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.54.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.55.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
+ "
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "21a51d35fd973af1186795d3d9d696f321584aeb09ab4d176b59f26e842b8849"
-+SRC_URI[sha256sum] = "9eba882a413cf06bf0575e635f73c0a2d01f3abdf76e18f804a90f3ff6a0aa2d"
+-SRC_URI[sha256sum] = "01c9d8a303c941ec2c511c14312a3b1d36cedb41e2f5168ccdaa85d53b887805"
++SRC_URI[sha256sum] = "d925722864837ad5ae2a82070d4b2e0603dc72af44bd457c3962298258b8e82d"
  
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ 
 -- 
 2.47.1
 
 
---===============1874758802121891654==
+--===============3925969314952336161==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (0 cached, 944 parsed). 1952 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.54.0", added "/usr/lib/libpng16.so.16.55.0"
+Changes to packages/x86-64-v3-poky-linux/libpng (sysroot):
+  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.54.0 to libpng16.so.16.55.0
+  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.54.0 to libpng16.so.16.55.0
+  /usr/lib/libpng16.so.16.54.0 moved to /usr/lib/libpng16.so.16.55.0
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-ab21a826cba105c93af9f97f033cde8139d1c9d6"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:ab21a826cba105c93af9f97f033cde8139d1c9d6"
-meta-yocto-bsp       
-meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
-workspace            = "<unknown>:<unknown>"
+--===============3925969314952336161==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 398 Local 386 Mirrors 0 Missed 12 Current 1066 (96% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 1439 of 1464 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3474 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_fetch)
-NOTE: Running task 3676 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_write_config)
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_fetch: Succeeded
-NOTE: Running task 3900 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_unpack)
-NOTE: Running task 3901 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_unpack: Succeeded
-NOTE: Running task 4016 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_patch)
-NOTE: Running task 4017 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_patch: Succeeded
-NOTE: Running task 4018 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 4019 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_deploy_source_date_epoch unihash changed to 07396d2e5a61ed23fe8b872f88c001f5ceba7c5d634b16ce3ad6ccc094d1a1cb
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_populate_lic unihash changed to 09b341a93037cc25321b95faaa8d92a72ad835f5c4a35feacc17f247da2f58ef
-NOTE: Setscene tasks completed
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Setscene tasks completed
-NOTE: Running task 4020 of 4032 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygobject_3.54.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/
- build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.9.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysr
- oot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-pycairo', 'python3-pygobject', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gobject-introspection', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrand
- r', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'libvorbis', 'sbc', 'libwebp', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'm
- ake-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dtests=disabled -Dplugin=enabled -Dlibpython-dir=/usr/lib ...
-| The Meson build system
-| Version: 1.10.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/sources/gst-python-1.28.0
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/build
-| Build type: cross build
-| Project name: gst-python
-| Project version: 1.28.0
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/recipe-sysroot ld.bfd 2.45.1.20251126
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Dependency gstreamer-1.0 found: NO. Found 1.26.9 but need: '>= 1.28.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO
-| 
-| ../sources/gst-python-1.28.0/meson.build:19:10: ERROR: Dependency lookup for gstreamer-1.0 with method 'pkgconfig' failed: Invalid version, need 'gstreamer-1.0' ['>= 1.28.0'] found '1.26.9'.
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/build/meson-logs/meson-log.txt
-| 
-| Last 10 lines of meson-log.txt:
-| Dependency gstreamer-1.0 found: NO. Found 1.26.9 but need: '>= 1.28.0'
-| Dependency lookup for gstreamer-1.0 with method 'pkgconfig' failed: Invalid version, need 'gstreamer-1.0' ['>= 1.28.0'] found '1.26.9'.
-| CMake binary for host machine is not cached
-| CMake binary missing from cross or native file, or env var undefined.
-| Default target is not allowed for cross use
-| Found CMake: NO
-| Dependency lookup for gstreamer-1.0 with method 'cmake' failed: CMake binary for machine host machine not found. Giving up.
-| Run-time dependency gstreamer-1.0 found: NO
-| 
-| ../sources/gst-python-1.28.0/meson.build:19:10: ERROR: Dependency lookup for gstreamer-1.0 with method 'pkgconfig' failed: Invalid version, need 'gstreamer-1.0' ['>= 1.28.0'] found '1.26.9'.
-| 
-| ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/run.do_configure.1710083:185 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/run.do_configure.1710083, line 185
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/run.do_configure.1710083, line 166
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/run.do_configure.1710083, line 153
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/run.do_configure.1710083, line 198
-NOTE: recipe gstreamer1.0-python-1.28.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 4020 tasks of which 4011 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218160410.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218160410.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/x86-64-v3-poky-linux/libpng: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng: SRC_URI changed from "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.54.tar.xz file://run-ptest" to "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.55.tar.xz file://run-ptest"
+packages/x86-64-v3-poky-linux/libpng: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-dbg: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-dbg: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-dbg: FILELIST: removed "/usr/lib/.debug/libpng16.so.16.54.0", added "/usr/lib/.debug/libpng16.so.16.55.0"
+packages/x86-64-v3-poky-linux/libpng/libpng-dbg: PKGSIZE changed from 1558976 to 1559072 (+0%)
+packages/x86-64-v3-poky-linux/libpng/libpng-dev: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-dev: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-dev: PKGSIZE changed from 179838 to 179839 (+0%)
+packages/x86-64-v3-poky-linux/libpng/libpng-doc: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-doc: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-doc: PKGSIZE changed from 268148 to 268149 (+0%)
+packages/x86-64-v3-poky-linux/libpng/libpng-locale: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-locale: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-ptest: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-ptest: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-ptest: PKGSIZE changed from 2510325 to 2510360 (+0%)
+packages/x86-64-v3-poky-linux/libpng/libpng-src: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-src: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-src: FILELIST: directory renamed /usr/src/debug/libpng/1.6.54 -> /usr/src/debug/libpng/1.6.55, directory renamed /usr/src/debug/libpng/1.6.54/contrib/libtests -> /usr/src/debug/libpng/1.6.55/contrib/libtests, directory renamed /usr/src/debug/libpng/1.6.54/contrib/tools -> /usr/src/debug/libpng/1.6.55/contrib/tools
+packages/x86-64-v3-poky-linux/libpng/libpng-src: PKGSIZE changed from 2143148 to 2143183 (+0%)
+packages/x86-64-v3-poky-linux/libpng/libpng-staticdev: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-staticdev: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng-tools: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng-tools: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng: PV changed from "1.6.54" to "1.6.55"
+packages/x86-64-v3-poky-linux/libpng/libpng: PKGV changed from 1.6.54 [default] to 1.6.55 [default]
+packages/x86-64-v3-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.54.0", added "/usr/lib/libpng16.so.16.55.0"
+Changes to packages/x86-64-v3-poky-linux/libpng (sysroot):
+  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.54.0 to libpng16.so.16.55.0
+  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.54.0 to libpng16.so.16.55.0
+  /usr/lib/libpng16.so.16.54.0 moved to /usr/lib/libpng16.so.16.55.0
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/log.do_configure.1710083
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-python-1.28.0-r0 do_configure: meson setup failed
-ERROR: gstreamer1.0-python-1.28.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/run.do_configure.1710083' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-python/1.28.0/temp/log.do_configure.1710083
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.0.bb:do_configure) failed with exit code '1'
-
---===============1874758802121891654==
+--===============3925969314952336161==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-python-upgrade-1.26.9-1.28.0.patch"
+ filename="0001-libpng-upgrade-1.6.54-1.6.55.patch"
 
-RnJvbSA0NTdlMDZmNjViMjVhNTU5OWVmMjdhYTIyMzNlNDRjNTc5NzhlOTIwIE1vbiBTZXAgMTcg
+RnJvbSA2ZjQ0MDVkYTgzMjU5ODYwYjRmNDZhZDJhN2I4Mjk5YzdmYjcyZjRmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTY6MDQ6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjYuOSAtPiAxLjI4LjAKCi0tLQogLi4ucmVh
-bWVyMS4wLXB5dGhvbl8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI4LjAuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
-aG9uXzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjguMC5iYn0gKDkxJSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXB5dGhvbl8xLjI2LjkuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXB5dGhvbl8xLjI4LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRob25f
-MS4yNi45LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXB5dGhvbl8xLjI4LjAuYmIKaW5kZXggNTdkZGYwYmJiYS4uNzE2OWI4NTNjMyAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1weXRob25fMS4yNi45LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjguMC5iYgpAQCAtOCw3ICs4LDcgQEAgTElDRU5TRSA9
-ICJMR1BMLTIuMS1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PWMzNGRlYWU0ZTM5NWNhMDdlNzI1YWIwMDc2YTVmNzQwIgogCiBTUkNfVVJJID0gImh0dHBz
-Oi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BW
-fS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjFhNTFkMzVmZDk3M2FmMTE4Njc5NWQz
-ZDlkNjk2ZjMyMTU4NGFlYjA5YWI0ZDE3NmI1OWYyNmU4NDJiODg0OSIKK1NSQ19VUklbc2hhMjU2
-c3VtXSA9ICI5ZWJhODgyYTQxM2NmMDZiZjA1NzVlNjM1ZjczYzBhMmQwMWYzYWJkZjc2ZTE4Zjgw
-NGE5MGYzZmY2YTBhYTJkIgogCiBERVBFTkRTID0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAt
-cGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZCIK
-IFJERVBFTkRTOiR7UE59ICs9ICJnc3RyZWFtZXIxLjAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZSBweXRob24zLXB5Z29iamVjdCIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTY6MTU6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwbmc6IHVwZ3JhZGUgMS42LjU0IC0+IDEuNi41NQoKLS0tCiAuLi4vbGlicG5nL3tsaWJwbmdf
+MS42LjU0LmJiID0+IGxpYnBuZ18xLjYuNTUuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9saWJwbmcve2xpYnBuZ18xLjYuNTQuYmIgPT4gbGlicG5nXzEuNi41
+NS5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcv
+bGlicG5nXzEuNi41NC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdf
+MS42LjU1LmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjU0LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEuNi41NS5iYgppbmRleCBiMDE3YmU1MTNiLi5jNmU5
+NWUwNzIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5n
+XzEuNi41NC5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEu
+Ni41NS5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gIiR7U09VUkNFRk9SR0VfTUlSUk9S
+fS8ke0JQTn0vJHtCUE59JHtMSUJWfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
+cnVuLXB0ZXN0IFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAxYzlkOGEzMDNjOTQxZWMy
+YzUxMWMxNDMxMmEzYjFkMzZjZWRiNDFlMmY1MTY4Y2NkYWE4NWQ1M2I4ODc4MDUiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiZDkyNTcyMjg2NDgzN2FkNWFlMmE4MjA3MGQ0YjJlMDYwM2RjNzJhZjQ0
+YmQ0NTdjMzk2MjI5ODI1OGI4ZTgyZCIKIAogTUlSUk9SUyArPSAiJHtTT1VSQ0VGT1JHRV9NSVJS
+T1J9L3Byb2plY3QvJHtCUE59LyR7QlBOfSR7TElCVn0vICR7U09VUkNFRk9SR0VfTUlSUk9SfS9w
+cm9qZWN0LyR7QlBOfS8ke0JQTn0ke0xJQlZ9L29sZGVyLXJlbGVhc2VzLyIKIAotLSAKMi40Ny4x
+Cgo=
 
---===============1874758802121891654==--
+--===============3925969314952336161==--
 
