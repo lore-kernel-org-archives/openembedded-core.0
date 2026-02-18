@@ -1,550 +1,239 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA5CE9A02C
-	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 15:21:02 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14259.1771428057189816568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FDA6E9A02C
+	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 17:01:53 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.58])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16815.1771434110721002476
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 07:20:57 -0800
+ Wed, 18 Feb 2026 09:01:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YlSfxMth;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-436e8758b91so4457187f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 07:20:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771428055; x=1772032855; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o84AF9gOxmD08HjT2Lknb05E7vJgEKS9+BBWW5/EWO8=;
-        b=YlSfxMthvyPgTCgeC08t3hPwgB/o8+XX9cmfWOGOG1KW1ZBqUbk1jtg1ZPhdmXczcM
-         H4uQCd+jBX38+T/IDJUITpHrDmFWv6uPvnDr/KP5udl1SuIxCBQkFgKRue1n72TDyBOf
-         ZFxwyHvtQzv4Qnu04mK7FJA1BhfPAoKC/8sT4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771428055; x=1772032855;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o84AF9gOxmD08HjT2Lknb05E7vJgEKS9+BBWW5/EWO8=;
-        b=fuCStKcLB8DiotRzu05QOvn0GrE0909iuVskkmUFUOj59rJhRftiXFu3OE40Qwdpaw
-         B29yNfx77bLPSmyOy0OI+opD5V8Wf+mp4MBuBnnYKU6qPivwUmRcIl3poqg5BfsxYSvb
-         lJ+EPNYpOt2vcarrbCWsi4T0GdT9IJNPC3RfdxS0JKqUn9qR4dyEFiI2l/7fg06wgbaq
-         V/tyo+2PcncyngDdZGobAHD8WKEqUAQALy8HJpCwS9ePeW6THBOAusAZmYtWfLL8/xV5
-         JgGNWfslx+/O0kPbMC+e87H0sdNhhaATuMZeLoWySlY/ZH36b/9M6/I3N3wZLQ4PHWSr
-         9saw==
-X-Forwarded-Encrypted: i=1; AJvYcCVv0vPgDt5dyutF5SSinMIWrclxhkoqy7mKunyZOu2vrC7OZE6Aqoik9p/hbyOzY/FB4fWxsCNbEmf49IU9Hc4b1w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxPC5ylk3kWk7hHzQR+FI7PuaSpqayCa2uWWBMQH0rAYTlQtT5t
-	oo5Q3VypfCk2lPFOppUAlAW5I7gZhf1OjhNcHPOzFhW5UkcDewpm/OX4nFnvNy9XGPQ=
-X-Gm-Gg: AZuq6aLCNELR0/M/4vqCd+PDta1YTv5RUyKPgfobhDgkXCxUIP7dHJf+YpE9dmfbPJN
-	gdrwVJFcV1S8FNk6mCWF6TbO33QE5Cv7c+zweWLY40KwogQF1qJ1fY8G+BeIsOGTv8hQffbi5ke
-	B1VI7WNVXqFi302NrD8IQpQfbsW4BJnQtZjDjAj2eZm3xSvuYUegWFg659Y58SfBAlYT3YWk9Jh
-	Ql2xVVuY3rZPn8u3zcw2N2baxqLw/2ffoaf3QwEVuOSn+ufVpoEjGBDlaZ2rS11PJfTzoOtzYZ7
-	zuRjvFPNbDE0/Q8L0pomVefb/Axq7MQ52OSfMP5BsYQVxs1HYPlHJvvI02EOdfI8FlVTxWavQ0z
-	xzmYy4Ms9Lpmv5FvvV3HWMc8VENUK7hhc3ClxWOqcFa6adfu0bg0AWBL78iON24xK7vlEWyuVqS
-	WAacWhZVJbOjiymEYKxS0b8KOdX/tXRRAnw2tcPaC7Ql3LPE3KtibfXFg8QMfaxidvxsDkhvxgV
-	G7v9+7Xf3I=
-X-Received: by 2002:a05:6000:230b:b0:437:71cc:a246 with SMTP id ffacd0b85a97d-4379db25d3emr26534121f8f.10.1771428055263;
-        Wed, 18 Feb 2026 07:20:55 -0800 (PST)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5b4cdsm45485878f8f.8.2026.02.18.07.20.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Feb 2026 07:20:54 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 18 Feb 2026 16:20:53 +0100
-Message-Id: <DGI6U5FIP17Y.25FAJDLCHRDY9@smile.fr>
-Subject: Re: [OE-core][whinlatter][patch 1/4] gnutls: upgrade 3.8.10 ->
- 3.8.11
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Peter Marko" <peter.marko@siemens.com>, "Mathieu Dubois-Briand"
- <mathieu.dubois-briand@bootlin.com>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260217125830.2907750-1-vanusuri@mvista.com>
-In-Reply-To: <20260217125830.2907750-1-vanusuri@mvista.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=MLC0p5lp;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=MLC0p5lp;
+ spf=pass (domain: arm.com, ip: 40.107.162.58, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=TTNsz6pXHS3snJ5ZfEjmCe4q4+oBadG5fe2VY2hkB0xzTPt+AWgzGkRTTrkRYdIkhfHPqDwtUfgaPBo+R9LksMRqoCLCJB37pnKlFcCjJLo4IYP2WFz9VbsZnGqPdHPUqrvVgL9nHpnP4iJmwOgRWdwKn3xOCh/IMqsRAAatswLkoZ6TYF2fFHex93MhDRNOGk73H7TSFk+TWfD9e2pqOkZjt7LYU9GDW6BjJ3ZeH90qGhYs8oOY9jsCfp8Yxgik2v+RlJjgzF6p2acu5gf/Dpjhicp8uqgdtP0hkXEl+ztkrUVFVoTVd/qAqC5OmSdnCQjUElCgOvzprgJmR+Y+QQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vNicw+48V8+/WpO99gubABmnxpDUQpnROpc8VUq0Vlc=;
+ b=ieXwBq2ecmaFAsq0oW6xoAq4bUifeBMxq8/mmFr8cETwn9Zy9PMJfIymRY8tDUeA8DUFXZPqoFk8xYgQYTT/M7Fe1+kD8Zvrp8hajRQgWSs8WIpCjJMhvRmVYhgrFr9przoBbJA4D/dZE8Vraa0gSWtH8H3aeUCInyqOzEFpmTx8FFxOKNjjzIcDzbZ2v5dMtdomUqxbnCEGd13I4oQynvzhpP6sdTJfyl4Oo9bwmINuYXUZxLICKaEqXCuFA3EmDu2FX/SU5ibtqFPzu5TWcdMmhPYuajer7fmhT2qUXe2SezCES4/ZKNXLeekmXQ5t3qQIx1iRIl6Y0vYcWyMAOg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=cisco.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vNicw+48V8+/WpO99gubABmnxpDUQpnROpc8VUq0Vlc=;
+ b=MLC0p5lp3MpStxn5lfUmSo2J+zk+z4IgU0P6hLEwnXLs+zrXs9yvE7MQgmzLJkdb2Kr1F8Q2lIEyYHJd0HxwZPXVqrlvQBR3KpalsqfhOVVNGv1ZC4UFHdh6qJSwvIK4dTF5CRWaehEyXVeZle784cy8KQvQHKADvmi2DYCXbyo=
+Received: from AS4PR10CA0005.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::13)
+ by VI0PR08MB11774.eurprd08.prod.outlook.com (2603:10a6:800:324::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Wed, 18 Feb
+ 2026 17:01:44 +0000
+Received: from AM1PEPF000252DF.eurprd07.prod.outlook.com
+ (2603:10a6:20b:5dc:cafe::b4) by AS4PR10CA0005.outlook.office365.com
+ (2603:10a6:20b:5dc::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.15 via Frontend Transport; Wed,
+ 18 Feb 2026 17:01:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM1PEPF000252DF.mail.protection.outlook.com (10.167.16.57) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.12
+ via Frontend Transport; Wed, 18 Feb 2026 17:01:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o8FBCLrIZzfAz386ZLYEqb5O0JAu2H9vRGyWid5X0VxGb+yuA91yjjHLTDKFjsFBWN1y9B4npkHQFHnX0L7YIidUGLPik8pe3hOuumT52B5U9KRdyJ/Ma+p69dMCSZmXXwuJTW4UTx5/5yUI8fw2QZQF6OmQFQCgmeRKUKiPFuX/09bCJQEJwmpr5PHYMtR/Y5EZxrePPU3O4GwxWjcZmRy/1rCxytbbbQZb18PMIPazpQ8bN7h9jefSPGy8FP6ME20fgGgLxBF8JBqP3+BnXNtg/kCg2knIRv8I9sSp5tVCb71xj6dVKlfgN9msFZXNO9YIY31Bk1uPE/lXS+IoPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vNicw+48V8+/WpO99gubABmnxpDUQpnROpc8VUq0Vlc=;
+ b=KccLA3Q/KAknL6cigaFHGxHbURXwRcC7gyYRPIFEuqabi8vw02MbSFgocMs/rb3ebK3XP5zkzRpUPqjoXHRS9gp8sXKQKPYpzoKcY7fmRmydvFmMCLBOtjsVZGdAB5WfqXXZDd4YELtuLnUMQ0UAgptdPPLUSFiskOOrV2vFaGVMRBwy6ISMcoCwB3C/RF72vAx7oyjfgoyxnpXpdI+AD+/6PrsFmu6gxa3yAVazxeHbp0UcAdnUBtuuU1Bgmh2wVGsjzJuBMbE5tZHYbrw5AUWrkhIjALzvS8HRTOvQpbvi4NcL6L1w/ZnVBl402VexItH5t4bSsmER2qdLj9Qbrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vNicw+48V8+/WpO99gubABmnxpDUQpnROpc8VUq0Vlc=;
+ b=MLC0p5lp3MpStxn5lfUmSo2J+zk+z4IgU0P6hLEwnXLs+zrXs9yvE7MQgmzLJkdb2Kr1F8Q2lIEyYHJd0HxwZPXVqrlvQBR3KpalsqfhOVVNGv1ZC4UFHdh6qJSwvIK4dTF5CRWaehEyXVeZle784cy8KQvQHKADvmi2DYCXbyo=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DB9PR08MB9660.eurprd08.prod.outlook.com (2603:10a6:10:45c::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Wed, 18 Feb
+ 2026 17:00:40 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
+ 17:00:40 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "deeratho@cisco.com" <deeratho@cisco.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [openembedded-core] [master] [PATCH] cmake-native:
+ disable libidn2 for native build
+Thread-Topic: [OE-core] [openembedded-core] [master] [PATCH] cmake-native:
+ disable libidn2 for native build
+Thread-Index: AQHcoPgc3mdKBOJB0U64/VEa4PAF+A==
+Date: Wed, 18 Feb 2026 17:00:39 +0000
+Message-ID: <F25315D2-F9F7-40CA-AEB8-3D124EDC99A3@arm.com>
+References: <20260212050352.4090817-1-deeratho@cisco.com>
+ <D158E9C9-E6C0-4FD3-939F-E941A85A4FDB@arm.com>
+ <920657.1771264467737815347@lists.openembedded.org>
+In-Reply-To: <920657.1771264467737815347@lists.openembedded.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.4)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DB9PR08MB9660:EE_|AM1PEPF000252DF:EE_|VI0PR08MB11774:EE_
+X-MS-Office365-Filtering-Correlation-Id: 575c0121-2ccf-4eaa-3ee1-08de6f0f6522
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?bEtXWTJ4VXJ0elFCS3dnN1JLdWJMVmljUzZOVnk2UDlJQkJwcmVSZkFRT0Vx?=
+ =?utf-8?B?d3pKbXFBSEtzTUF4RDM2T3cyekRCWHJBUWdkZ3lta05lblVPTEU0bFEzWEQ5?=
+ =?utf-8?B?Z3BNWFdrV1BHNUZldHNmOFhGK0p2c3ZpblB2WXR2MTVzZ0t1bmNnY2lMc2Rv?=
+ =?utf-8?B?RW9GdWZjTE5YZk9FYU9EdFBJcHlpNUZreGFmN3lXWDM0WDlBMElwTEwzbWhU?=
+ =?utf-8?B?RnJ6Y0tIaHBWdHFNNXI1Y2RySGJnbnNUZ0o1ZlIvT0hIVEpianFmQWxrdUFh?=
+ =?utf-8?B?cHB2U0ZaeXZGakViTDRQMXVCWmZQOVh6QWVhbnUvUGo3Slo0UVpGbnBZVExM?=
+ =?utf-8?B?azdqZkFnZ05wYUhZMGxFYWJWRUpIT1g2SGJZVXBCSWw2aUxjb1RKY2x6K2Fw?=
+ =?utf-8?B?TXNDN0p4Z0xsUUcvWHlHQW8rOTF6eUFlck9JYWFCUld2Sno1YjNJRnlXbUly?=
+ =?utf-8?B?VVVuTVJvS0RkbEkzVHVndHZSQnJFd1ZVcEtHQU00aWJYVENSbEc4Q1BYakdU?=
+ =?utf-8?B?ZjhUWmovci8raW0wdGpEckRlY1BDSTJkcjZHNlhsTXFWcXQzVEh2RVFINDlq?=
+ =?utf-8?B?dWp1Rkw2YlJvcHlhNk9rL1R3aVFDTmc2SWx4bHRnWDZoWEFYNmFnNTRDbXdw?=
+ =?utf-8?B?dlpuSTJXeEhQRlU2TTcvdmtDbWRldXJibXZFK1Q5TTVUVSsvd1NKeU56ejJU?=
+ =?utf-8?B?a2pzaVY0NFhReUwzTFgrY0Q2SzdhUVBtdzBIYWNnNCtDancyZEMzR2Fra2tk?=
+ =?utf-8?B?RXJSUnR4dXhKbk8wNEtQeUhYeG82eStSRlFMelNCMm5laC9XcXdtYmZIM25S?=
+ =?utf-8?B?Mmx4MjdGV0diM2NNamNPQzRlTUYwYkJJYTloQWg4SGwvdERMWnZVWjl4bktR?=
+ =?utf-8?B?SGU4WHRLUG1oUDJxcllNcndBK0dyaHd5SGd4MWN4Zm5iVWFQR01oaE5nT3VN?=
+ =?utf-8?B?UDUvaE84dVhxLzNIYVNiTlFTTHRNcXRPSzdXY3dSOVdRMGVtSkxzdk5DaUEw?=
+ =?utf-8?B?Q053QnhvR3NNTitZb09TZk44MUt4QUhINVB4a25ONXMwVEhYVlBvcy9EWStO?=
+ =?utf-8?B?cmIwa1JDb3NmQzhZZ2J5MjBLcWg2SFNpb2NVMXB4VGJRN05PV0s5QXpLRTli?=
+ =?utf-8?B?dFF5UnRlM2FRNktlam9oUW9RL00yVDNrejNoZ2p2OHlIRENOQXpQNGhVZkpp?=
+ =?utf-8?B?NS85RldjekZJRVNDKzQ1eERRdWZiK0tjcDFaN0J6TWd4dDlOcVJDYmx2WitN?=
+ =?utf-8?B?SXZLdXdkSzRkeFh2VnF0T3IxMER0ZElqTW4vSDJyeGhLMzVkU2RhdXBUUVpF?=
+ =?utf-8?B?SzA4V0RIeVdHRVUzTUtHSkpMV2JMWE5yQVlpd3o3WVY4aW91RmcvNkpKZ2FU?=
+ =?utf-8?B?NW5aK2tSUnIxYzA0MFFSZHh6THZWNzlrMDlyVnN0OUVmR1hDTlNMbEJxTmpR?=
+ =?utf-8?B?c21DdzBmSGU3VTYwVjdMVkNHb0pzaXVWUnJqc0l3MzlLNnlpbktlK3YwSDV0?=
+ =?utf-8?B?MlVUaXJTbkxoN0hFZUllUTZwMzZHQy9HY3htWFh2bWJFdnp6Visvd1JudVpU?=
+ =?utf-8?B?N3hRUVF6K1pWTTNleHVyNDljT1hIVW5uRHAra1QzRXZTT1hLOFZPckxTdFNM?=
+ =?utf-8?B?cllQZkZkY29WSlhpV2pjaEJQZ1VTUTRsRVFKRmpCSHhMbFBzM2JmNDRTMXI5?=
+ =?utf-8?B?cHR5cWVjQzNLZ1MyVC9OeCtxUE9keWdnT2lCK29wR1Zzakd1dlVLMUE4c3o0?=
+ =?utf-8?B?dHdueEREN1RXR1F0aXlTWXgzTkk2MkVLSU9aZTR3bHFvcE9wK0pSMG94eGQz?=
+ =?utf-8?B?T25oZG9JMkZidUhtanFoYzgyeCtxQkJ6azlPV044UlR1TGt5UU9mbDluN2Rt?=
+ =?utf-8?B?d0ptaTQ1b0NTbXZVQkpBMHlybW9IVzVBNVJ3c21wd0pYRVh0c2J0dSt3K1RH?=
+ =?utf-8?B?YWZ0cURQa3NyZVdrNU9xNHZLUEJYQ0F5dmg2OVdLcVQ1NHRBbHV0eEo5RFhp?=
+ =?utf-8?B?eVB0TG5JYW5MbjZvNUFMaVc3TkxHNjdjbDNKcDRiOXpla2tWcmg0Z3N5NW1x?=
+ =?utf-8?B?S2pNZEMrdTBHVE1CVk9Lc3pYZTBVaXJHTy9vcXNGSkVkak9qVDFZSy9ja3lj?=
+ =?utf-8?B?bVJtOU42Sk1udi9nVmlCdlE4QU44K3c3Smg2OFk0UHJKMnZVaUswdmllUUhn?=
+ =?utf-8?Q?RyWPVPZy9dV1A/ODRXG7Xq0=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BB0C3F0FB363A545882DDC22F2C4447A@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9660
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM1PEPF000252DF.eurprd07.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	6b832831-6550-4112-0018-08de6f0f3eac
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|35042699022|1800799024|82310400026|36860700013|14060799003|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?N0NUMWpYRmxEV2tsWFpTd0xHdVZjdlUreUFFZXZlREczZ0hSZTQ0WHBJRGZ1?=
+ =?utf-8?B?My9oWkMvQ0FqbmduTVJLNUo0V0p1bC9wbFFxSWd0S0lUVzN5aTJiZTNCUXYv?=
+ =?utf-8?B?bEU1bHpxOW0xRVJhWC80K3pLSnNDa0JmMVN2WE50ZnQrRGxaVjV4OG5FRjNj?=
+ =?utf-8?B?dXZ0OS9uck1hRXYwVnhHMy9EbnFoNDVhaXBrSUhJYWhPazVDbW1KQ2VkVFd3?=
+ =?utf-8?B?dVlXbVNXdWtucHpoeHV2Kys3OWRVNlZubnkzRUE5cDlDNXFVNjc3RU1mdXJH?=
+ =?utf-8?B?U0ZGNGRoeC92SHRkR2pJb1JIY3dpSmd3U1FFdmR5cUw5Tjh0L2J3dy91OUZt?=
+ =?utf-8?B?U0NGRFEzOHNYQ3dnMStuTVFwTHNuVmh5RGVRekZzNzg5QjJHQmxMQ240SlhN?=
+ =?utf-8?B?c1dkRjI3WHVPUEUxM1FwQUVrUnY5cjJPYXVRU1lNWDFGK0c1QmlXT3I0dGhn?=
+ =?utf-8?B?REpKNTdEbURkaE1rUGMyYWMzUXFhYkJiblJVbWFIWW9BRnpWS0ZtS1NpZ21y?=
+ =?utf-8?B?ZVgwakljSlp2cDBrWnJlSFdsOVp0NXowNmp5WkFCTFFuRk5hdFZYRmIzYTUy?=
+ =?utf-8?B?QjJ3RnVyNk1rUmFEc21PNFhSSFpGcnZMWE9Pb05XWVZkUldHT2hERkNVYWZP?=
+ =?utf-8?B?UXYwcU4yeUYwSHRZaldJUHpzeC9saFVtMDlHRTU5bkIrS1V2Q281TVRIOUZY?=
+ =?utf-8?B?M2JiSk1wM3hnWkZuN1VNdTdGcHUwTEo2RHowazlBeWxUd2Ntb0FSUjUwVnRB?=
+ =?utf-8?B?cXJHeloybFhkbnpVdVZ2b1l2RHBGSDlHYUdMY3RXMklWZy8rNWRUbVVzcHg0?=
+ =?utf-8?B?QzZmVG0vOUsrZ1l0Q05xcXpNZHBEM0dTZi9yVExqRXZBSjZmMzFsV1RlTHNu?=
+ =?utf-8?B?c3FRbnU1WHdVVUZjaXp4WVJUbEJ5YTY1NklKSzZkVEZ2eGpHMTJneThDYTRp?=
+ =?utf-8?B?OFdrd3pWUkpyV0tEMy9hR0lHZ3FMZ1lWMU85VVR0K214dU1iekZuQ2J3bTRo?=
+ =?utf-8?B?MFhMV0hvaFFZbGptV2EvNjFRY2JqUHpiZFdNenBaa2dsaUtZUjE5ajg2aGtn?=
+ =?utf-8?B?d0N3d3FET1ZKZ0hXZXBHd0phV3kycHY4cG5zamliTWZFT2lmV1ZEdHkrUzBR?=
+ =?utf-8?B?K2xnOVBrL2xvWW8wODV6VDNQaHArRlZDME1WampMcjdLTmQ1RmdHcnMxNEpi?=
+ =?utf-8?B?UnRGZHpBK3VmcnJUQmNjK1FyMnc0aW44YUZtQmRCVzBtSDUzVmd3U3ZDcVZI?=
+ =?utf-8?B?bkg0OWs2YkZWZTdlSFl6dzdEY0oxUUlGTS81alRlQUdpSml2UVhKTDZMbjc4?=
+ =?utf-8?B?ZDkxVVBUMC9TOGhTRnZIeHl5Rk5raklndWM0RmdJYXFTUTFYbEFFcUxWZFVC?=
+ =?utf-8?B?R3VXWXE2VFpFVXk3QmlWSzRMSTlIQVVYN2V6RFFRVGdMK3RWTWVoUlFGcUlJ?=
+ =?utf-8?B?TFE3QUV4Y01LbTVTMlRPeFg3OE9uejdnRCtWSDBQZUh2ejVjN2FINTVHaXI3?=
+ =?utf-8?B?RGlabkJzK1BCWWN5aEdoSlJWdmVlN3VmQVo2VThJSlcwcUZvYUo1SjdsUlov?=
+ =?utf-8?B?Z3Q1RGN1TEU4djluRGJENWJRbGd4dDAxWUZxMWltMWhrelorbGwxL2pMbS85?=
+ =?utf-8?B?MHY1VUZ0U2NKem5hS25MOTlHenhlWHlzempSTHBoRllNU3NaVnFhUGhDazNs?=
+ =?utf-8?B?bXgzMDIxandOU1VJUUN6WjIxUGM1VWIzWDNkUU9YUXl6MG45ei9SY0JNemd2?=
+ =?utf-8?B?cm10UVZqVDhaTnlFcU9EQzRabU02MTYzMnRRS01DTEtTOGQ5TTNvdGhERFJX?=
+ =?utf-8?B?ZmFnOXdqeUV4cGdvZ0p2MG5NdTBoT1M3bU5VZ2h2anAxNng3Mk5yNHRQZmxl?=
+ =?utf-8?B?SWJNR1RuZGNMcjBleUZjdG95RnlHOTRKYnFzOGUramtHbzZ1Q3NOWXZUNWlR?=
+ =?utf-8?B?UGU0eDMrbG4zU2U0WG1pTVhyaWM4SHJHbFpUY0kvSC9DeVJJOHZZOS9wUFFm?=
+ =?utf-8?B?dTlNTzJuOVpLa0RCNHc4VVRTaUV2QVc4bTNNamFCSGJmWlRjb1M4dStPL05P?=
+ =?utf-8?B?ckJjL2VaWmxFOWJPMWc4bW5NbVloN20rZ1pWR3U5WENOSlZyY1lMZkxWSTlX?=
+ =?utf-8?B?aGw4T0ZUUlI4TmxzZ1Roa1gxTm56czVhNWtad0dYY2hDYk13eEhIYUYvd3hx?=
+ =?utf-8?B?bkNIR0FXM0VxRndhTmRRMFBaM3RHY2x4TS90dDh3a1krRWNjazlVWTUzb3Ru?=
+ =?utf-8?B?U1hEWW5Ld2R5Y2xrTHBZR3AwMmF3PT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(1800799024)(82310400026)(36860700013)(14060799003)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	tQ2kNgWJGWVAAVpNS6tXxcE/KOgyizj3mZVJHkbYDr50z/Y2RJun1omF4zY/GC4N5pqkgVi0s5Ms0sEQK6tBZdqByvya2CL1RLzTFOgJ7s5hLHTsE6/RsN6Z4am48trGsgt7sMMF9xQ7dVMHDMBNLifasI3TPc2ZFgK6hQNMtHpeqXBoV3P8Sb5JFTv2n57GIXwHajXs9dhyNiiPy6ZTaIWonW17ZOOV1MWABlaksdTzKoGcWVhnXFn8dKrQ6w6OerLc8nRT4WPY/wNfC5LLzvoDI4QnFOfLa8p6C2miZwtMa+NFpuF88NxnijVHKwJVl9/afclaCan18vxN5XE4+new+KhiY8mrHgOpTkx/wI84NTnuRmZHHzSLtUFAcpbvlQvP3237apQrnlQC42nEknyAIpzsWWABKgFs7J25A7AJjc/nPHx+EjugPWnX2V9u
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 17:01:44.4784
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 575c0121-2ccf-4eaa-3ee1-08de6f0f6522
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM1PEPF000252DF.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11774
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 15:21:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231310
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 17:01:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231311
 
-On Tue Feb 17, 2026 at 1:58 PM CET, Vijay Anusuri via lists.openembedded.or=
-g wrote:
-> Release information: [1]
-> Includes fix for CVE-2025-9820.
->
-> Refresh patches.
->
-> Backport commit to be able to build with gcc<11 (e.g. Debian 11).
->
-> [1] https://lists.gnupg.org/pipermail/gnutls-help/2025-November/004906.ht=
-ml
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> (From OE-Core rev: 0224dd73d5e462e3ab0958a63d631aa32e330d6c)
->
-> Dropped CVE-2025-9820.patch
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->  ...ile-should-be-excuted-in-target-envi.patch |   2 +-
->  ...dit-crau-fix-compilation-with-gcc-11.patch |  66 +++++
->  .../gnutls/gnutls/Add-ptest-support.patch     |   6 +-
->  .../gnutls/gnutls/CVE-2025-9820.patch         | 233 ------------------
->  .../{gnutls_3.8.10.bb =3D> gnutls_3.8.11.bb}    |   4 +-
->  5 files changed, 72 insertions(+), 239 deletions(-)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-audit-crau-fi=
-x-compilation-with-gcc-11.patch
->  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patc=
-h
->  rename meta/recipes-support/gnutls/{gnutls_3.8.10.bb =3D> gnutls_3.8.11.=
-bb} (96%)
-
-Hello,
-
-Sorry, but it look like this release mixes enhancement with bugs and CVE
-fixes: https://lists.gnupg.org/pipermail/gnutls-help/2025-November/004906.h=
-tml:
-> ** libgnutls: MAC algorithms for PSK binders is now configurable
-> [...]
->=20
-> ** libgnutls: Expose a new function [...]
-> [...]
-> ** libgnutls: Expose a new function [...]
-> [...]
-> ** libgnutls: PKCS#11 cryptographic provider configuration takes a token =
-URI
->    instead of a module path. [...]
-> [...]
-> ** API and ABI modifications:
-> gnutls_psk_allocate_client_credentials2: New function
-> [...]
-> gnutls_audit_current_context: New function
-
-I don't think it is suitable for stable inclusion. Same for patch 4/4 of
-this series.
-
-I could take patches 2/4 and 3/4, but do they make sense without 1/4?
-
-Regards,
-
-> diff --git a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-=
-should-be-excuted-in-target-envi.patch b/meta/recipes-support/gnutls/gnutls=
-/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-> index 2dccea7859..0847dde8a9 100644
-> --- a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-=
-be-excuted-in-target-envi.patch
-> +++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-=
-be-excuted-in-target-envi.patch
-> @@ -14,7 +14,7 @@ diff --git a/lib/Makefile.am b/lib/Makefile.am
->  index a50d311..193ea19 100644
->  --- a/lib/Makefile.am
->  +++ b/lib/Makefile.am
-> -@@ -272,8 +272,7 @@ hmac_file =3D .libs/.$(gnutls_so).hmac
-> +@@ -275,8 +275,7 @@ hmac_file =3D .libs/.$(gnutls_so).hmac
->  =20
->   all-local: $(hmac_file)
->  =20
-> diff --git a/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compi=
-lation-with-gcc-11.patch b/meta/recipes-support/gnutls/gnutls/0001-audit-cr=
-au-fix-compilation-with-gcc-11.patch
-> new file mode 100644
-> index 0000000000..60960dad6f
-> --- /dev/null
-> +++ b/meta/recipes-support/gnutls/gnutls/0001-audit-crau-fix-compilation-=
-with-gcc-11.patch
-> @@ -0,0 +1,66 @@
-> +From 2bbae7644a2292410b53f98fd0035c40bf8750a5 Mon Sep 17 00:00:00 2001
-> +From: Julien Olivain <ju.o@free.fr>
-> +Date: Sun, 23 Nov 2025 18:17:19 +0100
-> +Subject: [PATCH] audit: crau: fix compilation with gcc < 11
-> +
-> +If the CRAU_MAYBE_UNUSED macro is unset, the crau.h file tries to
-> +automatically detect an appropriate value for it.
-> +
-> +This autodetection is using the cpp special operator
-> +`__has_c_attribute` [1], introduced in gcc 11 [2].
-> +
-> +When compiling with a gcc older than version 11, the compilation fails
-> +with the error:
-> +
-> +    In file included from audit.h:22,
-> +                     from audit.c:26:
-> +    crau/crau.h:255:23: error: missing binary operator before token "("
-> +         __has_c_attribute (__maybe_unused__)
-> +                           ^
-> +
-> +This has been observed, for example, in Rocky Linux 8.10, which
-> +contains a gcc v8.5.0.
-> +
-> +The issue happens because the test for the `__has_c_attribute`
-> +availability and the test for the `__maybe_unused__` attribute
-> +are in the same directive. Those tests should be separated in
-> +two different directives, following the same logic described in
-> +the `__has_builtin` documentation [3].
-> +
-> +This issue was found in Buildroot, after updating gnutls to
-> +version 3.8.11 in [4].
-> +
-> +This commit fixes the issue by splitting the test in two.
-> +
-> +[1] https://gcc.gnu.org/onlinedocs/cpp/_005f_005fhas_005fc_005fattribute=
-.html
-> +[2] https://gcc.gnu.org/gcc-11/changes.html#c
-> +[3] https://gcc.gnu.org/onlinedocs/cpp/_005f_005fhas_005fbuiltin.html
-> +[4] https://gitlab.com/buildroot.org/buildroot/-/commit/81dbfe1c2ae848b4=
-eb1f896198d13455df50e548
-> +
-> +Reported-by: Neal Frager <neal.frager@amd.com>
-> +Signed-off-by: Julien Olivain <ju.o@free.fr>
-> +
-> +Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/2bbae=
-7644a2292410b53f98fd0035c40bf8750a5]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + lib/crau/crau.h | 7 ++++---
-> + 1 file changed, 4 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/lib/crau/crau.h b/lib/crau/crau.h
-> +index 0d4f9f13e..53d33555b 100644
-> +--- a/lib/crau/crau.h
-> ++++ b/lib/crau/crau.h
-> +@@ -251,9 +251,10 @@ void crau_data(struct crau_context_stack_st *stack,=
- ...)
-> + # else
-> +=20
-> + #  ifndef CRAU_MAYBE_UNUSED
-> +-#   if defined(__has_c_attribute) && \
-> +-    __has_c_attribute (__maybe_unused__)
-> +-#    define CRAU_MAYBE_UNUSED [[__maybe_unused__]]
-> ++#   if defined(__has_c_attribute)
-> ++#    if __has_c_attribute (__maybe_unused__)
-> ++#     define CRAU_MAYBE_UNUSED [[__maybe_unused__]]
-> ++#    endif
-> + #   elif defined(__GNUC__)
-> + #    define CRAU_MAYBE_UNUSED __attribute__((__unused__))
-> + #   endif
-> diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b=
-/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> index 339d3d2f9e..d8b5035b38 100644
-> --- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> +++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> @@ -15,7 +15,7 @@ diff --git a/Makefile.am b/Makefile.am
->  index 843193f..816b09f 100644
->  --- a/Makefile.am
->  +++ b/Makefile.am
-> -@@ -194,6 +194,9 @@ dist-hook:
-> +@@ -197,6 +197,9 @@ dist-hook:
->   distcheck-hook:
->   	@test -d "$(top_srcdir)/po/.reference" || { echo "PO files are not dow=
-nloaded; run ./bootstrap without --skip-po"; exit 1; }
->  =20
-> @@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
->  index 1744813..efb9e34 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -1491,6 +1491,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-> +@@ -1447,6 +1447,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
->  =20
->   AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" =3D "yes")
->  =20
-> @@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
->  index 189d068..8430b05 100644
->  --- a/tests/Makefile.am
->  +++ b/tests/Makefile.am
-> -@@ -678,6 +678,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-> +@@ -719,6 +719,12 @@ SH_LOG_COMPILER =3D $(SHELL)
->   AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrind
->   LOG_COMPILER =3D $(LOG_VALGRIND)
->  =20
-> diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch b/met=
-a/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
-> deleted file mode 100644
-> index e4f97500ee..0000000000
-> --- a/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
-> +++ /dev/null
-> @@ -1,233 +0,0 @@
-> -From 19ad448d0cc3dd6857b553a47728eead3ea8f445 Mon Sep 17 00:00:00 2001
-> -From: Daiki Ueno <ueno@gnu.org>
-> -Date: Tue, 18 Nov 2025 13:17:55 +0900
-> -Subject: [PATCH] pkcs11: avoid stack overwrite when initializing a token
-> -
-> -If gnutls_pkcs11_token_init is called with label longer than 32
-> -characters, the internal storage used to blank-fill it would
-> -overflow. This adds a guard to prevent that.
-> -
-> -CVE: CVE-2025-9820
-> -Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1d5=
-6f96f6ab5034d677136b9d50b5a75dff0faf5]
-> -Signed-off-by: Daiki Ueno <ueno@gnu.org>
-> -Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> ----
-> - lib/pkcs11_write.c        |   5 +-
-> - tests/Makefile.am         |   2 +-
-> - tests/pkcs11/long-label.c | 164 ++++++++++++++++++++++++++++++++++++++
-> - 3 files changed, 168 insertions(+), 3 deletions(-)
-> - create mode 100644 tests/pkcs11/long-label.c
-> -
-> -diff --git a/lib/pkcs11_write.c b/lib/pkcs11_write.c
-> -index f5e9058e0..64b85a2df 100644
-> ---- a/lib/pkcs11_write.c
-> -+++ b/lib/pkcs11_write.c
-> -@@ -28,6 +28,7 @@
-> - #include "pkcs11x.h"
-> - #include "x509/common.h"
-> - #include "pk.h"
-> -+#include "minmax.h"
-> -=20
-> - static const ck_bool_t tval =3D 1;
-> - static const ck_bool_t fval =3D 0;
-> -@@ -1172,7 +1173,7 @@ int gnutls_pkcs11_delete_url(const char *object_ur=
-l, unsigned int flags)
-> -  * gnutls_pkcs11_token_init:
-> -  * @token_url: A PKCS #11 URL specifying a token
-> -  * @so_pin: Security Officer's PIN
-> -- * @label: A name to be used for the token
-> -+ * @label: A name to be used for the token, at most 32 characters
-> -  *
-> -  * This function will initialize (format) a token. If the token is
-> -  * at a factory defaults state the security officer's PIN given will be
-> -@@ -1210,7 +1211,7 @@ int gnutls_pkcs11_token_init(const char *token_url=
-, const char *so_pin,
-> - 	/* so it seems memset has other uses than zeroing! */
-> - 	memset(flabel, ' ', sizeof(flabel));
-> - 	if (label !=3D NULL)
-> --		memcpy(flabel, label, strlen(label));
-> -+		memcpy(flabel, label, MIN(sizeof(flabel), strlen(label)));
-> -=20
-> - 	rv =3D pkcs11_init_token(module, slot, (uint8_t *)so_pin, strlen(so_pi=
-n),
-> - 			       (uint8_t *)flabel);
-> -diff --git a/tests/Makefile.am b/tests/Makefile.am
-> -index c8de4494b..f64f7b1c0 100644
-> ---- a/tests/Makefile.am
-> -+++ b/tests/Makefile.am
-> -@@ -503,7 +503,7 @@ pathbuf_CPPFLAGS =3D $(AM_CPPFLAGS) \
-> - if ENABLE_PKCS11
-> - if !WINDOWS
-> - ctests +=3D tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11=
--no-key \
-> --	global-init-override pkcs11/distrust-after
-> -+	global-init-override pkcs11/distrust-after pkcs11/long-label
-> - tls13_post_handshake_with_cert_pkcs11_DEPENDENCIES =3D libpkcs11mock2.l=
-a libutils.la
-> - tls13_post_handshake_with_cert_pkcs11_LDADD =3D $(LDADD) $(LIBDL)
-> - pkcs11_tls_neg_pkcs11_no_key_DEPENDENCIES =3D libpkcs11mock2.la libutil=
-s.la
-> -diff --git a/tests/pkcs11/long-label.c b/tests/pkcs11/long-label.c
-> -new file mode 100644
-> -index 000000000..a70bc9728
-> ---- /dev/null
-> -+++ b/tests/pkcs11/long-label.c
-> -@@ -0,0 +1,164 @@
-> -+/*
-> -+ * Copyright (C) 2025 Red Hat, Inc.
-> -+ *
-> -+ * Author: Daiki Ueno
-> -+ *
-> -+ * This file is part of GnuTLS.
-> -+ *
-> -+ * GnuTLS is free software; you can redistribute it and/or modify it
-> -+ * under the terms of the GNU General Public License as published by
-> -+ * the Free Software Foundation; either version 3 of the License, or
-> -+ * (at your option) any later version.
-> -+ *
-> -+ * GnuTLS is distributed in the hope that it will be useful, but
-> -+ * WITHOUT ANY WARRANTY; without even the implied warranty of
-> -+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> -+ * General Public License for more details.
-> -+ *
-> -+ * You should have received a copy of the GNU Lesser General Public Lic=
-ense
-> -+ * along with this program.  If not, see <https://www.gnu.org/licenses/=
->
-> -+ */
-> -+
-> -+#ifdef HAVE_CONFIG_H
-> -+#include "config.h"
-> -+#endif
-> -+
-> -+#include <stdbool.h>
-> -+#include <stdio.h>
-> -+#include <stdlib.h>
-> -+
-> -+#if defined(_WIN32)
-> -+
-> -+int main(void)
-> -+{
-> -+	exit(77);
-> -+}
-> -+
-> -+#else
-> -+
-> -+#include <string.h>
-> -+#include <unistd.h>
-> -+#include <gnutls/gnutls.h>
-> -+
-> -+#include "cert-common.h"
-> -+#include "pkcs11/softhsm.h"
-> -+#include "utils.h"
-> -+
-> -+/* This program tests that a token can be initialized with
-> -+ * a label longer than 32 characters.
-> -+ */
-> -+
-> -+static void tls_log_func(int level, const char *str)
-> -+{
-> -+	fprintf(stderr, "server|<%d>| %s", level, str);
-> -+}
-> -+
-> -+#define PIN "1234"
-> -+
-> -+#define CONFIG_NAME "softhsm-long-label"
-> -+#define CONFIG CONFIG_NAME ".config"
-> -+
-> -+static int pin_func(void *userdata, int attempt, const char *url,
-> -+		    const char *label, unsigned flags, char *pin,
-> -+		    size_t pin_max)
-> -+{
-> -+	if (attempt =3D=3D 0) {
-> -+		strcpy(pin, PIN);
-> -+		return 0;
-> -+	}
-> -+	return -1;
-> -+}
-> -+
-> -+static void test(const char *provider)
-> -+{
-> -+	int ret;
-> -+	size_t i;
-> -+
-> -+	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-> -+
-> -+	success("test with %s\n", provider);
-> -+
-> -+	if (debug) {
-> -+		gnutls_global_set_log_function(tls_log_func);
-> -+		gnutls_global_set_log_level(4711);
-> -+	}
-> -+
-> -+	/* point to SoftHSM token that libpkcs11mock4.so internally uses */
-> -+	setenv(SOFTHSM_ENV, CONFIG, 1);
-> -+
-> -+	gnutls_pkcs11_set_pin_function(pin_func, NULL);
-> -+
-> -+	ret =3D gnutls_pkcs11_add_provider(provider, "trusted");
-> -+	if (ret !=3D 0) {
-> -+		fail("gnutls_pkcs11_add_provider: %s\n", gnutls_strerror(ret));
-> -+	}
-> -+
-> -+	/* initialize softhsm token */
-> -+	ret =3D gnutls_pkcs11_token_init(
-> -+		SOFTHSM_URL, PIN,
-> -+		"this is a very long label whose length exceeds 32");
-> -+	if (ret < 0) {
-> -+		fail("gnutls_pkcs11_token_init: %s\n", gnutls_strerror(ret));
-> -+	}
-> -+
-> -+	for (i =3D 0;; i++) {
-> -+		char *url =3D NULL;
-> -+
-> -+		ret =3D gnutls_pkcs11_token_get_url(i, 0, &url);
-> -+		if (ret < 0)
-> -+			break;
-> -+		if (strstr(url,
-> -+			   "token=3Dthis%20is%20a%20very%20long%20label%20whose"))
-> -+			break;
-> -+	}
-> -+	if (ret < 0)
-> -+		fail("gnutls_pkcs11_token_get_url: %s\n", gnutls_strerror(ret));
-> -+
-> -+	gnutls_pkcs11_deinit();
-> -+}
-> -+
-> -+void doit(void)
-> -+{
-> -+	const char *bin;
-> -+	const char *lib;
-> -+	char buf[128];
-> -+
-> -+	if (gnutls_fips140_mode_enabled())
-> -+		exit(77);
-> -+
-> -+	/* this must be called once in the program */
-> -+	global_init();
-> -+
-> -+	/* we call gnutls_pkcs11_init manually */
-> -+	gnutls_pkcs11_deinit();
-> -+
-> -+	/* check if softhsm module is loadable */
-> -+	lib =3D softhsm_lib();
-> -+
-> -+	/* initialize SoftHSM token that libpkcs11mock4.so internally uses */
-> -+	bin =3D softhsm_bin();
-> -+
-> -+	set_softhsm_conf(CONFIG);
-> -+	snprintf(buf, sizeof(buf),
-> -+		 "%s --init-token --slot 0 --label test --so-pin " PIN
-> -+		 " --pin " PIN,
-> -+		 bin);
-> -+	system(buf);
-> -+
-> -+	test(lib);
-> -+
-> -+	lib =3D getenv("P11MOCKLIB4");
-> -+	if (lib =3D=3D NULL) {
-> -+		fail("P11MOCKLIB4 is not set\n");
-> -+	}
-> -+
-> -+	set_softhsm_conf(CONFIG);
-> -+	snprintf(buf, sizeof(buf),
-> -+		 "%s --init-token --slot 0 --label test --so-pin " PIN
-> -+		 " --pin " PIN,
-> -+		 bin);
-> -+	system(buf);
-> -+
-> -+	test(lib);
-> -+}
-> -+#endif /* _WIN32 */
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.10.bb b/meta/recipes-=
-support/gnutls/gnutls_3.8.11.bb
-> similarity index 96%
-> rename from meta/recipes-support/gnutls/gnutls_3.8.10.bb
-> rename to meta/recipes-support/gnutls/gnutls_3.8.11.bb
-> index b07c166c0e..faeb1a4ede 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.8.10.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.8.11.bb
-> @@ -21,12 +21,12 @@ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.g=
-etVar('PV').split('.')[1]}"
->  SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls=
--${PV}.tar.xz \
->             file://arm_eabi.patch \
->             file://0001-Creating-.hmac-file-should-be-excuted-in-target-e=
-nvi.patch \
-> +           file://0001-audit-crau-fix-compilation-with-gcc-11.patch \
->             file://run-ptest \
->             file://Add-ptest-support.patch \
-> -           file://CVE-2025-9820.patch \
->             "
-> =20
-> -SRC_URI[sha256sum] =3D "db7fab7cce791e7727ebbef2334301c821d79a550ec55c9e=
-f096b610b03eb6b7"
-> +SRC_URI[sha256sum] =3D "91bd23c4a86ebc6152e81303d20cf6ceaeb97bc8f84266d0=
-faec6e29f17baa20"
-> =20
->  inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
-> =20
-
-
---=20
-Yoann Congal
-Smile ECS
-
+UmUtY29weWluZyB0aGUgbGlzdCwgYXMgdGhpcyBkaXNjdXNzaW9uIGlzIHJlbGF0ZWQgdG8gdGhl
+IHBhdGNoLg0KDQpPbiAxNiBGZWIgMjAyNiwgYXQgMTc6NTQsIERlZXBhayBSYXRob3JlIHZpYSBM
+aXN0cy5PcGVuZW1iZWRkZWQuT3JnIDxkZWVyYXRobz1jaXNjby5jb21AbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZz4gd3JvdGU6DQo+IA0KPiBIaSBSb3NzLA0KPiAgIEkgYW0gbm90IGFibGUgdG8gYnVp
+bGQgY21ha2UtbmF0aXZlIGluIG15IG1hY2hpbmUgYW5kIGNtYWtlLW5hdGl2ZSBpcyBmYWlsZWQg
+ZHVyaW5nIGNvbXBpbGF0aW9uIHdpdGggdGhlIGZvbGxvd2luZyBlcnJvcnM6DQo+IA0KPiBidWls
+ZC90bXAvd29yay94ODZfNjQtbGludXgvY21ha2UtbmF0aXZlLzQuMi4zL3NvdXJjZXMvY21ha2Ut
+NC4yLjMvVXRpbGl0aWVzL2NtY3VybC9saWIvaWRuLmM6Mzc6MTA6IGZhdGFsIGVycm9yOiBpZG4y
+Lmg6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCj4gICAgMzcgfCAjaW5jbHVkZSA8aWRuMi5o
+Pg0KPiAgICAgICB8ICAgICAgICAgIF5+fn5+fn5+DQo+IGNvbXBpbGF0aW9uIHRlcm1pbmF0ZWQu
+DQo+IG1ha2VbMl06ICoqKiBbVXRpbGl0aWVzL2NtY3VybC9saWIvQ01ha2VGaWxlcy9jbWN1cmwu
+ZGlyL2J1aWxkLm1ha2U6MTA2MjogVXRpbGl0aWVzL2NtY3VybC9saWIvQ01ha2VGaWxlcy9jbWN1
+cmwuZGlyL2lkbi5jLm9dIEVycm9yIDENCj4gbWFrZVsyXTogKioqIFdhaXRpbmcgZm9yIHVuZmlu
+aXNoZWQgam9icy4uLi4NCj4gWyAyOSVdIEJ1aWxkaW5nIEMgb2JqZWN0IFV0aWxpdGllcy9jbWN1
+cmwvbGliL0NNYWtlRmlsZXMvY21jdXJsLmRpci9sbGlzdC5jLm8NCj4gICAgIEFuZCB3aXRoIHRo
+aXMgcGF0Y2gsIGkgYW0gYWJsZSB0byBjb21waWxlIGNtYWtlLW5hdGl2ZS4NCg0KV2XigJl2ZSBo
+YWQgbm8gcmVwb3J0cyBvZiB0aGlzIGFuZCBvdXIgYnVpbGRzIGFyZSBhbGwgaW4gY29udGFpbmVy
+cyB0aGF0IGRvbuKAmXQgaGF2ZSBhbnkgaGVhZGVycywgc28gdGhpcyBtaWdodCBiZSBvbiB5b3Ug
+dG8gcm9vdC1jYXVzZS4NCg0KUm9zcw==
 
