@@ -2,50 +2,50 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACBCE9A04C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5391FE9A051
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:41:36 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1409.1771440094295998695
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1406.1771440093880767134
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 10:41:34 -0800
+ Wed, 18 Feb 2026 10:41:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eNU4fkl6;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=paO4NMkB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019c720eb961-8da60797-34fb-48da-93df-bcdd3fb18ace-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=I6R5dO6A;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tq+O7GlB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019c720eb7d0-3c84854a-a527-4634-9ff4-cdbf7264aa9a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1771440093;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=f+ptROMIyAeEvsCfE63D2pKuWXWm4D0irXU/u5DAmUE=;
-	b=eNU4fkl6xzGEtwpA+oLUClahVgvihQfPxN/fB+gQprxsbr9621wsrci72/fmvqPV
-	Bmh+bso8rBQecQm1U2bU4Vk0Pz9FWYmcHwsivxqM4FdVV5KVDKO0IiToJWHui9XZ+r1
-	CvBJN9G1hopJCabqc7zt7Vxo34PSeYUgORwJJPd0=
+	bh=MlyOuooqAEIgnky3Fofua8mru7PUEiqPLbkwSSIL+V4=;
+	b=I6R5dO6A+OOsL7E8m3cQ/CDLDE5RdkQTise5Zx49m+DT29MYRLWQ8rfa9nZQtgEM
+	FQHs30sQvULt0Ge0Dw84WC9Y4mcysvX9IOb5wJN25hPyeTz7BN0GYTsR69f+ms+20md
+	51aKkZA3+pBraJ2kQHQYvmzJ9VbdA1Oh2VGegJ9A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440093;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=f+ptROMIyAeEvsCfE63D2pKuWXWm4D0irXU/u5DAmUE=;
-	b=paO4NMkBNYxprrr6wyh/cX9y4S/66adIvC6zFenTCOMHSopPMpK8fm04/TDl0vQQ
-	rVYJBTp4p8q7UQbV+V07avzUs1W+t8GzbI68tGfPTfxkGnizZz6tk/ym8mzPwLcFJYG
-	CNt6Bp4iWt+7DgFT+KWzigKvfIAPn2fxZJJ1nrxs=
-Content-Type: multipart/mixed; boundary="===============3758706925692833534=="
+	bh=MlyOuooqAEIgnky3Fofua8mru7PUEiqPLbkwSSIL+V4=;
+	b=tq+O7GlBnpjEi4mOsko/4QZAekAWSQaKWcw37BZz4a3wVQ0nTSQhBrpKv4HmvFtB
+	3snRVbrxe9WyqOMfmbUGJw65ctB57MuIg9tXCg/k1bW/jEsEZWMJExweH8EjCDKqX5J
+	C12kMVcOxQUX/dhCtFLmWqDp7cyAVLiMNpqT6lWk=
+Content-Type: multipart/mixed; boundary="===============1800771664310070903=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
 	Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gdb-cross-canadian-x86-64,gdb,gdb-cross-x86_64: upgrading to
- 17.1,17.1,17.1 FAILED
-Message-ID: <0101019c720eb961-8da60797-34fb-48da-93df-bcdd3fb18ace-000000@us-west-2.amazonses.com>
+Subject: [AUH] cross-localedef-native,glibc-testsuite,glibc: upgrading to
+ 2.43,2.43,2.43 FAILED
+Message-ID: <0101019c720eb7d0-3c84854a-a527-4634-9ff4-cdbf7264aa9a-000000@us-west-2.amazonses.com>
 Date: Wed, 18 Feb 2026 18:41:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.191
+X-SES-Outgoing: 2026.02.18-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:41:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231321
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231319
 
---===============3758706925692833534==
+--===============1800771664310070903==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -53,42 +53,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gdb-cross-canadian-x86-64,gdb,gdb-cross-x86_64* to *17.1,17.1,17.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *cross-localedef-native,glibc-testsuite,glibc* to *2.43,2.43,2.43* has Failed(other errors).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe gdb-cross-canadian-x86-64 failed.
+' bitbake cross-localedef-native glibc-testsuite glibc' failed
 NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1952 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-0dbc300ff37660960f604b020bd9afe190dab7a3"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:0dbc300ff37660960f604b020bd9afe190dab7a3"
-meta-yocto-bsp       
-meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 9 Local 9 Mirrors 0 Missed 0 Current 18 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 945 .bb files complete (0 cached, 945 parsed). 1953 targets, 42 skipped, 0 masked, 0 errors.
+Parsing of 944 .bb files complete (0 cached, 944 parsed). 1952 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 2 recipes from the x86-64-v3 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -107,120 +83,107 @@ meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+Sstate summary: Wanted 180 Local 178 Mirrors 0 Missed 2 Current 203 (98% match, 99% complete)
 done.
+Removing 2 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Running setscene task 205 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/cross-localedef-native_2.42.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 222 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_create_package_spdx_setscene)
+NOTE: Running setscene task 231 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 235 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 239 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/cross-localedef-native_2.42.bb:do_create_package_spdx_setscene)
+NOTE: Running setscene task 252 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 258 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 276 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_package_qa_setscene)
+NOTE: Running setscene task 286 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 294 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_package_qa_setscene)
+NOTE: Running setscene task 295 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 296 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 298 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 306 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 311 of 383 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 313 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_create_spdx_setscene)
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_populate_lic_setscene: Started
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_create_package_spdx_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_qa_setscene: Started
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_populate_lic_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.45.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_create_package_spdx_setscene: Started
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_package_qa_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_populate_lic_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_package_write_rpm_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_package_write_ipk_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_package_write_deb_setscene: Started
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_create_package_spdx_setscene: Succeeded
+NOTE: Running setscene task 321 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_create_spdx_setscene)
+NOTE: recipe gawk-native-5.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 329 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/cross-localedef-native_2.42.bb:do_create_spdx_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_populate_lic_setscene: Succeeded
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 343 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.45.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glibc-2.42+git-r1: task do_package_qa_setscene: Succeeded
+NOTE: recipe glibc-2.42+git-r1: task do_populate_lic_setscene: Succeeded
+NOTE: recipe glibc-2.42+git-r1: task do_create_package_spdx_setscene: Succeeded
+NOTE: Running setscene task 347 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_create_spdx_setscene)
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe qemu-native-10.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gawk-native-5.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_recipe_qa_setscene: Started
+NOTE: recipe glibc-2.42+git-r1: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glibc-2.42+git-r1: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe glibc-2.42+git-r1: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe qemu-native-10.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 348 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/cross-localedef-native_2.42.bb:do_populate_sysroot_setscene)
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 1046 of 1125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_fetch)
+NOTE: Running noexec task 1093 of 1125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_build)
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 383 of 383 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/cross-localedef-native_2.42.bb:do_recipe_qa_setscene)
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_fetch: Started
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe cross-localedef-native-2.42+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running noexec task 1117 of 1125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/cross-localedef-native_2.42.bb:do_build)
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_fetch: Succeeded
+NOTE: Running task 1118 of 1125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_unpack)
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_unpack: Started
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_unpack: Succeeded
+NOTE: Running task 1120 of 1125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_collect_spdx_deps)
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_collect_spdx_deps: Started
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1123 of 1125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_create_spdx)
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_create_spdx: Started
+NOTE: recipe glibc-testsuite-2.42+git-r1: task do_create_spdx: Failed
+NOTE: Tasks Summary: Attempted 1123 tasks of which 1117 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:11
-Adding changed files:   2% |                                    | ETA:  0:00:10
-Adding changed files:   3% |#                                   | ETA:  0:00:09
-Adding changed files:   4% |#                                   | ETA:  0:00:09
-Adding changed files:   5% |#                                   | ETA:  0:00:10
-Adding changed files:   6% |##                                  | ETA:  0:00:09
-Adding changed files:   7% |##                                  | ETA:  0:00:09
-Adding changed files:   8% |###                                 | ETA:  0:00:09
-Adding changed files:   9% |###                                 | ETA:  0:00:09
-Adding changed files:  10% |###                                 | ETA:  0:00:08
-Adding changed files:  11% |####                                | ETA:  0:00:09
-Adding changed files:  12% |####                                | ETA:  0:00:08
-Adding changed files:  13% |####                                | ETA:  0:00:08
-Adding changed files:  14% |#####                               | ETA:  0:00:07
-Adding changed files:  15% |#####                               | ETA:  0:00:07
-Adding changed files:  17% |######                              | ETA:  0:00:07
-Adding changed files:  18% |######                              | ETA:  0:00:07
-Adding changed files:  19% |######                              | ETA:  0:00:07
-Adding changed files:  20% |#######                             | ETA:  0:00:07
-Adding changed files:  21% |#######                             | ETA:  0:00:06
-Adding changed files:  22% |########                            | ETA:  0:00:06
-Adding changed files:  23% |########                            | ETA:  0:00:06
-Adding changed files:  24% |########                            | ETA:  0:00:06
-Adding changed files:  25% |#########                           | ETA:  0:00:06
-Adding changed files:  26% |#########                           | ETA:  0:00:06
-Adding changed files:  27% |#########                           | ETA:  0:00:05
-Adding changed files:  28% |##########                          | ETA:  0:00:05
-Adding changed files:  29% |##########                          | ETA:  0:00:05
-Adding changed files:  30% |###########                         | ETA:  0:00:05
-Adding changed files:  31% |###########                         | ETA:  0:00:05
-Adding changed files:  32% |###########                         | ETA:  0:00:05
-Adding changed files:  34% |############                        | ETA:  0:00:05
-Adding changed files:  35% |############                        | ETA:  0:00:04
-Adding changed files:  36% |#############                       | ETA:  0:00:04
-Adding changed files:  37% |#############                       | ETA:  0:00:04
-Adding changed files:  38% |#############                       | ETA:  0:00:04
-Adding changed files:  39% |##############                      | ETA:  0:00:04
-Adding changed files:  40% |##############                      | ETA:  0:00:04
-Adding changed files:  41% |##############                      | ETA:  0:00:04
-Adding changed files:  42% |###############                     | ETA:  0:00:04
-Adding changed files:  43% |###############                     | ETA:  0:00:04
-Adding changed files:  44% |################                    | ETA:  0:00:04
-Adding changed files:  45% |################                    | ETA:  0:00:03
-Adding changed files:  46% |################                    | ETA:  0:00:03
-Adding changed files:  47% |#################                   | ETA:  0:00:03
-Adding changed files:  48% |#################                   | ETA:  0:00:03
-Adding changed files:  50% |##################                  | ETA:  0:00:03
-Adding changed files:  51% |##################                  | ETA:  0:00:03
-Adding changed files:  52% |##################                  | ETA:  0:00:03
-Adding changed files:  53% |###################                 | ETA:  0:00:03
-Adding changed files:  54% |###################                 | ETA:  0:00:03
-Adding changed files:  55% |###################                 | ETA:  0:00:03
-Adding changed files:  56% |####################                | ETA:  0:00:03
-Adding changed files:  57% |####################                | ETA:  0:00:02
-Adding changed files:  58% |#####################               | ETA:  0:00:02
-Adding changed files:  59% |#####################               | ETA:  0:00:02
-Adding changed files:  60% |#####################               | ETA:  0:00:02
-Adding changed files:  61% |######################              | ETA:  0:00:02
-Adding changed files:  62% |######################              | ETA:  0:00:02
-Adding changed files:  63% |######################              | ETA:  0:00:02
-Adding changed files:  64% |#######################             | ETA:  0:00:02
-Adding changed files:  65% |#######################             | ETA:  0:00:02
-Adding changed files:  67% |########################            | ETA:  0:00:02
-Adding changed files:  68% |########################            | ETA:  0:00:02
-Adding changed files:  69% |########################            | ETA:  0:00:02
-Adding changed files:  70% |#########################           | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  72% |##########################          | ETA:  0:00:01
-Adding changed files:  73% |##########################          | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  75% |###########################         | ETA:  0:00:01
-Adding changed files:  76% |###########################         | ETA:  0:00:01
-Adding changed files:  77% |###########################         | ETA:  0:00:01
-Adding changed files:  78% |############################        | ETA:  0:00:01
-Adding changed files:  79% |############################        | ETA:  0:00:01
-Adding changed files:  80% |#############################       | ETA:  0:00:01
-Adding changed files:  81% |#############################       | ETA:  0:00:01
-Adding changed files:  82% |#############################       | ETA:  0:00:01
-Adding changed files:  84% |##############################      | ETA:  0:00:01
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:07
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftpmirror.gnu.org/gnu/gdb/gdb-17.1.tar.xz...
-INFO: Rebasing devtool onto 245d88956dfacf93f62137af1c4f74d614906f98
-WARNING: Command 'git rebase 245d88956dfacf93f62137af1c4f74d614906f98' failed:
-Auto-merging readline/readline/tcap.h
-CONFLICT (content): Merge conflict in readline/readline/tcap.h
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218095056.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218095056.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gdb-cross-canadian-x86-64
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gdb-cross-canadian-x86-64/gdb-cross-canadian-x86-64_17.1.bb
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_create_spdx
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/glibc-testsuite/2.42+git/temp/log.do_create_spdx.523849
+Summary: There was 1 ERROR message, returning a non-zero exit code.
 
+ERROR: glibc-testsuite-2.42+git-r1 do_create_spdx: Recipe glibc-testsuite is trying to create package sln which was already written by recipe glibc. This will cause corruption, please resolve this and only provide the package from one recipe or the other or only build one of the recipes.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/glibc-testsuite/2.42+git/temp/log.do_create_spdx.523849
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc-testsuite_2.42.bb:do_create_spdx) failed with exit code '1'
 
 
 Please review the attached files for further information and build/update failures.
@@ -228,5 +191,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3758706925692833534==--
+--===============1800771664310070903==--
 
