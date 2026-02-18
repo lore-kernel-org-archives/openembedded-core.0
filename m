@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3F3C531FD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB44C531FC
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:42:02 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1433.1771440113302905029
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1390.1771440099760607578
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 10:41:53 -0800
+ Wed, 18 Feb 2026 10:41:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=slpx6mQ4;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WsFwesBu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019c720f03c8-abb76997-1f5d-4028-b509-6f67c48da33c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Cw6f9Lsa;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=j2OH7zGZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019c720efd67-f015fd77-3e1c-440a-8e5f-3fa1adcc6db8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1771440112;
+	t=1771440111;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ppuRY7WE1kcscuZHt5stc0lsSP6lY3jLLveNX2huj0o=;
-	b=slpx6mQ4qhiM99bS1vfUN8Cm9vmhDQtxShZEw+cdcFqQUmDUFYGQje2RbvOO/Kap
-	B+19hErmOfYgsX1AJG9l4aTKzo89oKzoOI8fw1li2/QqS0kC6gyLMZ3/a8ORnhh2u10
-	2mJAPIDY4fO3sCXTp4DoBhifzsX7Pps/+g5EJLyY=
+	bh=xTxgOElZupeaGWzU/hRCJb8Tb2/COYNJl9uQf4aHlIM=;
+	b=Cw6f9LsamnkmMroDKtz/PPKL84LlwtZ5nxwv/WEBBw1Sm4/UteupNobZlwEABIWR
+	F5qf+5nlKef5nDiIvAaWRFXHdACcR7D8lijzTGaTTtLhDmghenMDRb7nnbAWlnBq5v7
+	ohkOArfJEoTfD3ZeWkrGYW3Q4v39ctbbSEuh7erM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440112;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440111;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ppuRY7WE1kcscuZHt5stc0lsSP6lY3jLLveNX2huj0o=;
-	b=WsFwesBuaZY30fZaZnXi9m4QidyvnD4G9VXfS6sIY4cDXe2CBwJTYVgc9/rzOCkC
-	0dKmrt4LOn8hlsmfCGRPxXUTrmGxlhk7F0MMjTNkgT8xMIgqVpQKC27EvNOvXeHnSUb
-	t0dxqaGcwdZElN6Kbavb1+LtuxVguJTzXTYGWLqw=
-Content-Type: multipart/mixed; boundary="===============5837541679780656241=="
+	bh=xTxgOElZupeaGWzU/hRCJb8Tb2/COYNJl9uQf4aHlIM=;
+	b=j2OH7zGZcO3kXdCNTiZ7Wo9/rDGjbkZm8Tp8UJrP5iB+QAEEApyYJVPp8kDJ4qAI
+	1u22HS+7zS442MEH+Ko7w+pBH6xrmbG+SB61AFljPd/orYfk81pyf+4FLzUWSZp9Gll
+	EFepsX9vEgmw+2o6rV4HxsjZsFvvxNC21Aeg2UGQ=
+Content-Type: multipart/mixed; boundary="===============2380184041793154254=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gstreamer1.0-libav: upgrading to 1.28.0 FAILED
-Message-ID: <0101019c720f03c8-abb76997-1f5d-4028-b509-6f67c48da33c-000000@us-west-2.amazonses.com>
-Date: Wed, 18 Feb 2026 18:41:52 +0000
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libtraceevent: upgrading to 1.9.0 SUCCEEDED
+Message-ID: <0101019c720efd67-f015fd77-3e1c-440a-8e5f-3fa1adcc6db8-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Feb 2026 18:41:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.33
+X-SES-Outgoing: 2026.02.18-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:42:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231395
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231386
 
---===============5837541679780656241==
+--===============2380184041793154254==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-libav* to *1.28.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libtraceevent* to *1.9.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.26.9-1.28.0.patch
+    - apply the patch: git am 0001-libtraceevent-upgrade-1.8.6-1.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,219 +72,117 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 29819a792f5167ec1da7dee7139e15773c4e51b8 Mon Sep 17 00:00:00 2001
+From a579bb5f653dbba3aa44b35c70926fcb91523156 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 16:02:10 +0000
-Subject: [PATCH] gstreamer1.0-libav: upgrade 1.26.9 -> 1.28.0
+Date: Wed, 18 Feb 2026 15:52:24 +0000
+Subject: [PATCH] libtraceevent: upgrade 1.8.6 -> 1.9.0
 
 ---
- ...streamer1.0-libav_1.26.9.bb => gstreamer1.0-libav_1.28.0.bb} | 2 +-
+ .../{libtraceevent_1.8.6.bb => libtraceevent_1.9.0.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.9.bb => gstreamer1.0-libav_1.28.0.bb} (91%)
+ rename meta/recipes-kernel/libtraceevent/{libtraceevent_1.8.6.bb => libtraceevent_1.9.0.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb
-index a652dbba33..70dfe3206d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
+diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
+similarity index 93%
+rename from meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
+rename to meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
+index deddb60f63..bbd87e3881 100644
+--- a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
++++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97
+                     file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
+ SECTION = "libs"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "08a8e944fc61ef26df515784a089c8ac41765304a5d55b98199835b28a98dbdf"
-+SRC_URI[sha256sum] = "e3c93db7da2da3b2374ccc2e7394316f9192460abdea81651652791d46ccb8fb"
- 
- S = "${UNPACKDIR}/gst-libav-${PV}"
+-SRCREV = "98c217427183f66f09f4a27300ad87d71814c38f"
++SRCREV = "13701b5532e0c3295bf5670361692b0d0044228d"
+ SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
+           "
  
 -- 
 2.47.1
 
 
---===============5837541679780656241==
+--===============2380184041793154254==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 820248 (+10%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.9.0"
+Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
+  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.9.0
+  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.9.0
+
+--===============2380184041793154254==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-libav-upgrade-1.26.9-1.28.0.patch"
+ filename="0001-libtraceevent-upgrade-1.8.6-1.9.0.patch"
 
-RnJvbSAyOTgxOWE3OTJmNTE2N2VjMWRhN2RlZTcxMzllMTU3NzNjNGU1MWI4IE1vbiBTZXAgMTcg
+RnJvbSBhNTc5YmI1ZjY1M2RiYmEzYWE0NGIzNWM3MDkyNmZjYjkxNTIzMTU2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTY6MDI6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtbGliYXY6IHVwZ3JhZGUgMS4yNi45IC0+IDEuMjguMAoKLS0tCiAuLi5zdHJl
-YW1lcjEuMC1saWJhdl8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjguMC5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1saWJh
-dl8xLjI2LjkuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjguMC5iYn0gKDkxJSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxp
-YmF2XzEuMjYuOS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtbGliYXZfMS4yOC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZfMS4yNi45
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
-MS4wLWxpYmF2XzEuMjguMC5iYgppbmRleCBhNjUyZGJiYTMzLi43MGRmZTMyMDZkIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2
-XzEuMjYuOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
-bWVyMS4wLWxpYmF2XzEuMjguMC5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT02OTMzM2RhYTA0NGNiNzdlNDg2Y2MzNjEyOWY3YTc3MCBc
-CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5m
-cmVlZGVza3RvcC5vcmcvc3JjL2dzdC1saWJhdi9nc3QtbGliYXYtJHtQVn0udGFyLnh6IgotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjA4YThlOTQ0ZmM2MWVmMjZkZjUxNTc4NGEwODljOGFjNDE3NjUz
-MDRhNWQ1NWI5ODE5OTgzNWIyOGE5OGRiZGYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTNjOTNk
-YjdkYTJkYTNiMjM3NGNjYzJlNzM5NDMxNmY5MTkyNDYwYWJkZWE4MTY1MTY1Mjc5MWQ0NmNjYjhm
-YiIKIAogUyA9ICIke1VOUEFDS0RJUn0vZ3N0LWxpYmF2LSR7UFZ9IgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTU6NTI6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ0cmFjZWV2ZW50OiB1cGdyYWRlIDEuOC42IC0+IDEuOS4wCgotLS0KIC4uLi97bGlidHJhY2Vl
+dmVudF8xLjguNi5iYiA9PiBsaWJ0cmFjZWV2ZW50XzEuOS4wLmJifSAgICAgICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC97bGlidHJhY2VldmVudF8xLjguNi5iYiA9
+PiBsaWJ0cmFjZWV2ZW50XzEuOS4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOC42LmJiIGIvbWV0YS9yZWNp
+cGVzLWtlcm5lbC9saWJ0cmFjZWV2ZW50L2xpYnRyYWNlZXZlbnRfMS45LjAuYmIKc2ltaWxhcml0
+eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9saWJ0cmFjZWV2ZW50
+L2xpYnRyYWNlZXZlbnRfMS44LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGli
+dHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOS4wLmJiCmluZGV4IGRlZGRiNjBmNjMuLmJiZDg3
+ZTM4ODEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0
+cmFjZWV2ZW50XzEuOC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVu
+dC9saWJ0cmFjZWV2ZW50XzEuOS4wLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFUy9HUEwtMi4wO21kNT1lNmE3NTM3MWJhNGQxNjc0OTI1NGE1MTIx
+NWQxM2Y5NwogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRVMvTEdQTC0yLjE7bWQ1
+PWIzNzA4ODc5ODBkYjVkZDQwNjU5YjUwOTA5MjM4ZGJkIgogU0VDVElPTiA9ICJsaWJzIgogCi1T
+UkNSRVYgPSAiOThjMjE3NDI3MTgzZjY2ZjA5ZjRhMjczMDBhZDg3ZDcxODE0YzM4ZiIKK1NSQ1JF
+ViA9ICIxMzcwMWI1NTMyZTBjMzI5NWJmNTY3MDM2MTY5MmIwZDAwNDQyMjhkIgogU1JDX1VSSSA9
+ICJnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpYnMvbGlidHJhY2UvbGlidHJhY2VldmVu
+dC5naXQ7YnJhbmNoPSR7QlBOfTtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIgogCi0tIAoy
+LjQ3LjEKCg==
 
---===============5837541679780656241==
+--===============2380184041793154254==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (0 cached, 944 parsed). 1952 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/libtraceevent: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGSIZE changed from 608312 to 645424 (+6%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: FILELIST: removed "/usr/lib/.debug/libtraceevent.so.1.8.6", added "/usr/lib/.debug/libtraceevent.so.1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGSIZE changed from 28895 to 29502 (+2%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGSIZE changed from 191693 to 191714 (+0%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGSIZE changed from 398698 to 422457 (+6%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: FILELIST: directory renamed /usr/src/debug/libtraceevent/1.8.6/plugins -> /usr/src/debug/libtraceevent/1.9.0/plugins, directory renamed /usr/src/debug/libtraceevent/1.8.6/include/traceevent -> /usr/src/debug/libtraceevent/1.9.0/include/traceevent, removed "/usr/src/debug/libtraceevent/1.8.6/src/trace-seq.c /usr/src/debug/libtraceevent/1.8.6/src/kbuffer-parse.c /usr/src/debug/libtraceevent/1.8.6/src/parse-filter.c /usr/src/debug/libtraceevent/1.8.6/src/tep_strerror.c /usr/src/debug/libtraceevent/1.8.6/src/parse-utils.c /usr/src/debug/libtraceevent/1.8.6/src/event-parse-api.c /usr/src/debug/libtraceevent/1.8.6/src/event-plugin.c /usr/src/debug/libtraceevent/1.8.6/src/event-parse.c /usr/src/debug/libtraceevent/1.8.6/src/event-parse-local.h", added "/usr/src/debug/libtraceevent/1.9.0/src/trace-btf.c /usr/src/debug/libtraceevent/1.9.0/src/kbuffer-parse.c /usr/src/debug/libtraceevent/1.9.0/src/trace-seq.c /usr/src/debug/libtrac
+ eevent/1.9.0/src/parse-filter.c /usr/src/debug/libtraceevent/1.9.0/src/tep_strerror.c /usr/src/debug/libtraceevent/1.9.0/src/parse-utils.c /usr/src/debug/libtraceevent/1.9.0/src/event-parse-api.c /usr/src/debug/libtraceevent/1.9.0/src/event-plugin.c /usr/src/debug/libtraceevent/1.9.0/src/event-parse.c /usr/src/debug/libtraceevent/1.9.0/src/event-parse-local.h"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 820248 (+10%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PV changed from "1.8.6" to "1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGSIZE changed from 133270 to 145558 (+9%)
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.9.0"
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PV changed from "1.8.6" to "1.9.0"
+Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
+  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.9.0
+  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.9.0
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.3.99+snapshot-3f7dc9fa056a6fadddccdcde3e1fecea4b0173d1"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:3f7dc9fa056a6fadddccdcde3e1fecea4b0173d1"
-meta-yocto-bsp       
-meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 320 Local 309 Mirrors 0 Missed 11 Current 841 (96% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 1159 of 1161 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2853 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_fetch)
-NOTE: Running task 2975 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_write_config)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_fetch: Succeeded
-NOTE: Running task 3194 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_unpack)
-NOTE: Running task 3195 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3196 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_patch)
-NOTE: Running task 3197 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_patch: Succeeded
-NOTE: Running task 3198 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3199 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_deploy_source_date_epoch unihash changed to 4b22eb9a8fc8bd0044d73ac92e8f3a1486abcb45a504e40cc587c624ad2dd6e1
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_populate_lic unihash changed to 233cf6b3064d4c96e9bdb7a157ccedfdb5acfc18b33bca0051abb8f0ad572c5f
-NOTE: Setscene tasks completed
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Setscene tasks completed
-NOTE: Running task 3200 of 3212 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.2.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.9.bb:do_populate_sysroot', '/srv/pokybuild/yoct
- o-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.2.bb:do_populate_sysroot', 
- 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.2.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'lib
- xv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'alsa-lib', 'ffmpeg', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'nettle', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native',
-  'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dtests=disabled -Ddoc=disabled ...
-| The Meson build system
-| Version: 1.10.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/sources/gst-libav-1.28.0
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/build
-| Build type: cross build
-| Project name: gst-libav
-| Project version: 1.28.0
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/recipe-sysroot ld.bfd 2.45.1.20251126
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency libavcodec found: YES 62.11.100
-| Run-time dependency libavfilter found: YES 11.4.100
-| Run-time dependency libavformat found: YES 62.3.100
-| Run-time dependency libavutil found: YES 60.8.100
-| Checking if "libav is provided by FFmpeg" with dependencies libavcodec, libavfilter, libavformat, libavutil compiles: YES
-| Has header "unistd.h" : YES
-| Dependency gstreamer-1.0 found: NO. Found 1.26.9 but need: '>= 1.28.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| ERROR: Subproject gstreamer is buildable: NO
-| 
-| ../sources/gst-libav-1.28.0/meson.build:88:10: ERROR: Attempted to resolve subproject without subprojects directory present.
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/build/meson-logs/meson-log.txt
-| 
-| Last 10 lines of meson-log.txt:
-| CMake binary for host machine is not cached
-| CMake binary missing from cross or native file, or env var undefined.
-| Default target is not allowed for cross use
-| Found CMake: NO
-| CMake binary for machine host machine not found. Giving up.
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| ERROR: Subproject gstreamer is buildable: NO
-| 
-| ../sources/gst-libav-1.28.0/meson.build:88:10: ERROR: Attempted to resolve subproject without subprojects directory present.
-| 
-| ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1702617:171 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1702617, line 171
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1702617, line 160
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1702617, line 147
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1702617, line 184
-NOTE: recipe gstreamer1.0-libav-1.28.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3200 tasks of which 3191 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218160156.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260218160156.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/log.do_configure.1702617
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-libav-1.28.0-r0 do_configure: meson setup failed
-ERROR: gstreamer1.0-libav-1.28.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/run.do_configure.1702617' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-libav/1.28.0/temp/log.do_configure.1702617
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.0.bb:do_configure) failed with exit code '1'
-
---===============5837541679780656241==--
+--===============2380184041793154254==--
 
