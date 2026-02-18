@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37F7FC531FF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FF9C531F8
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:42:02 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1385.1771440096850223046
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1426.1771440108777008579
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Feb 2026 10:41:50 -0800
+ Wed, 18 Feb 2026 10:41:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Z8Yzz1gI;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=D5S97JFM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c720ef9c0-c37255a9-2afe-4bfe-92cf-d0cf08eabeb8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=afYjwIBu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MJkHHPFi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019c720f0596-80b51276-f911-432e-aca5-2a096f3b683b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1771440110;
+	t=1771440113;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=x8ILAKLdK8V/IfcCcjKA0CuP+ffqibsZMm6vUCg4SGk=;
-	b=Z8Yzz1gIb2E7GCCdeOQkEZzLvCbKg2Af+x4MUGYf/jKrV1zNbndho6YcpGCwCE9B
-	FpiF5AOIrv4ickYLJ/fXEqo7YVxz+Mv4cvo8zPFDqIKWVCUIWAgbOVg9R5EcxNpvrPF
-	6MWpK4y/qr5N3XZVL/s5ZZ89SVXH03u+FNcca4K0=
+	bh=zb0f4UzrMBsf0lqbLjiyjz82IEHObXODZBxxmgh6VtE=;
+	b=afYjwIBuYwizLwauJ+HaCWrwLTCsywFO7wqVMsD/UKJXBJ8RAlUGpY2e4cLI44Dc
+	pBXfcA1dsuPaIm59niZaoanhkBJsa9RLPYiUrjy2S06Vuqukp8FFFVflIKwtALICnMU
+	pZxHkNipMkJkRS6ngiwIh12KW/KnLV/vYk9mHgG4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440110;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440113;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=x8ILAKLdK8V/IfcCcjKA0CuP+ffqibsZMm6vUCg4SGk=;
-	b=D5S97JFMC32+QkTDL3cwOKner5kxk6pYbDJMIVa8XMfgc87GVNzSS3RXkObvVcuL
-	wrmoKdfflgy5bxYrHXJqRuF60F24wZKJWEMM5qEs320EKvVqfg4jVC/h1X7HlsmdLhO
-	O8BRyqZizQRMudJoDM2E0HWJqSTOG/4FL+EY9RFQ=
-Content-Type: multipart/mixed; boundary="===============4660349492663749562=="
+	bh=zb0f4UzrMBsf0lqbLjiyjz82IEHObXODZBxxmgh6VtE=;
+	b=MJkHHPFi8Ak4m0Yvidt5J1+dBHK2drX1jQV/diZyhl5PnEcmhqeHQxfQW6Glk+Sp
+	ZkqXjLbJhHISNa1It/q5u4AJNB32WSNemuQE5nIb4yNjvljHDtBdOcdeK1QGXT19tYy
+	4GqRx5MhOlDeAbwGP7o2I0pBDeAgAIFeQC31vW7s=
+Content-Type: multipart/mixed; boundary="===============0134068622474330233=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] librsvg: upgrading to 2.61.4 SUCCEEDED
-Message-ID: <0101019c720ef9c0-c37255a9-2afe-4bfe-92cf-d0cf08eabeb8-000000@us-west-2.amazonses.com>
-Date: Wed, 18 Feb 2026 18:41:50 +0000
+Subject: [AUH] gstreamer1.0: upgrading to 1.28.0 SUCCEEDED
+Message-ID: <0101019c720f0596-80b51276-f911-432e-aca5-2a096f3b683b-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Feb 2026 18:41:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.192
+X-SES-Outgoing: 2026.02.18-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:42:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231381
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231396
 
---===============4660349492663749562==
+--===============0134068622474330233==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *librsvg* to *2.61.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0* to *1.28.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-librsvg-upgrade-2.61.3-2.61.4.patch
+    - apply the patch: git am 0001-gstreamer1.0-upgrade-1.26.9-1.28.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,335 +72,450 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e3567df1aaf30c76aef53342efbfe928b212672e Mon Sep 17 00:00:00 2001
+From 4c8261360b9b13d89f8a6b6b8a8f485a387509c1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 15:10:59 +0000
-Subject: [PATCH] librsvg: upgrade 2.61.3 -> 2.61.4
+Date: Wed, 18 Feb 2026 16:11:32 +0000
+Subject: [PATCH] gstreamer1.0: upgrade 1.26.9 -> 1.28.0
 
 ---
- meta/recipes-gnome/librsvg/librsvg-crates.inc    | 16 ++++++++--------
- ...build-do-not-force-disable-gdk-pixbuf-l.patch |  2 +-
- ...tc-append-RUSTFLAGS-to-rustc-executable.patch |  2 +-
- ...Take-care-of-deprecated-assert_cmd-Comm.patch |  2 +-
- .../{librsvg_2.61.3.bb => librsvg_2.61.4.bb}     |  2 +-
- 5 files changed, 12 insertions(+), 12 deletions(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.61.3.bb => librsvg_2.61.4.bb} (98%)
+ ...ts-respect-the-idententaion-used-in-meson.patch |  2 +-
+ ...2-tests-add-support-for-install-the-tests.patch | 14 +++++++-------
+ ...-tests-use-a-dictionaries-for-environment.patch |  2 +-
+ ...-helper-script-to-run-the-installed_tests.patch |  2 +-
+ ...treamer1.0_1.26.9.bb => gstreamer1.0_1.28.0.bb} |  2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.9.bb => gstreamer1.0_1.28.0.bb} (97%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg-crates.inc b/meta/recipes-gnome/librsvg/librsvg-crates.inc
-index 2260a6f643..aa3c95c548 100644
---- a/meta/recipes-gnome/librsvg/librsvg-crates.inc
-+++ b/meta/recipes-gnome/librsvg/librsvg-crates.inc
-@@ -165,7 +165,7 @@ SRC_URI += " \
-     crate://crates.io/normalize-line-endings/0.3.0 \
-     crate://crates.io/num-bigint/0.4.6 \
-     crate://crates.io/num-complex/0.4.6 \
--    crate://crates.io/num-conv/0.1.0 \
-+    crate://crates.io/num-conv/0.2.0 \
-     crate://crates.io/num-derive/0.4.2 \
-     crate://crates.io/num-integer/0.1.46 \
-     crate://crates.io/num-rational/0.4.2 \
-@@ -268,9 +268,9 @@ SRC_URI += " \
-     crate://crates.io/termtree/0.5.1 \
-     crate://crates.io/thiserror/2.0.17 \
-     crate://crates.io/thiserror-impl/2.0.17 \
--    crate://crates.io/time/0.3.44 \
--    crate://crates.io/time-core/0.1.6 \
--    crate://crates.io/time-macros/0.2.24 \
-+    crate://crates.io/time/0.3.47 \
-+    crate://crates.io/time-core/0.1.8 \
-+    crate://crates.io/time-macros/0.2.27 \
-     crate://crates.io/tinystr/0.8.2 \
-     crate://crates.io/tinytemplate/1.2.1 \
-     crate://crates.io/tinyvec/1.10.0 \
-@@ -516,7 +516,7 @@ SRC_URI[nom_locate-5.0.0.sha256sum] = "0b577e2d69827c4740cba2b52efaad1c4cc7c7304
- SRC_URI[normalize-line-endings-0.3.0.sha256sum] = "61807f77802ff30975e01f4f071c8ba10c022052f98b3294119f3e615d13e5be"
- SRC_URI[num-bigint-0.4.6.sha256sum] = "a5e44f723f1133c9deac646763579fdb3ac745e418f2a7af9cd0c431da1f20b9"
- SRC_URI[num-complex-0.4.6.sha256sum] = "73f88a1307638156682bada9d7604135552957b7818057dcef22705b4d509495"
--SRC_URI[num-conv-0.1.0.sha256sum] = "51d515d32fb182ee37cda2ccdcb92950d6a3c2893aa280e540671c2cd0f3b1d9"
-+SRC_URI[num-conv-0.2.0.sha256sum] = "cf97ec579c3c42f953ef76dbf8d55ac91fb219dde70e49aa4a6b7d74e9919050"
- SRC_URI[num-derive-0.4.2.sha256sum] = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
- SRC_URI[num-integer-0.1.46.sha256sum] = "7969661fd2958a5cb096e56c8e1ad0444ac2bbcd0061bd28660485a44879858f"
- SRC_URI[num-rational-0.4.2.sha256sum] = "f83d14da390562dca69fc84082e73e548e1ad308d24accdedd2720017cb37824"
-@@ -619,9 +619,9 @@ SRC_URI[tendril-0.4.3.sha256sum] = "d24a120c5fc464a3458240ee02c299ebcb9d67b5249c
- SRC_URI[termtree-0.5.1.sha256sum] = "8f50febec83f5ee1df3015341d8bd429f2d1cc62bcba7ea2076759d315084683"
- SRC_URI[thiserror-2.0.17.sha256sum] = "f63587ca0f12b72a0600bcba1d40081f830876000bb46dd2337a3051618f4fc8"
- SRC_URI[thiserror-impl-2.0.17.sha256sum] = "3ff15c8ecd7de3849db632e14d18d2571fa09dfc5ed93479bc4485c7a517c913"
--SRC_URI[time-0.3.44.sha256sum] = "91e7d9e3bb61134e77bde20dd4825b97c010155709965fedf0f49bb138e52a9d"
--SRC_URI[time-core-0.1.6.sha256sum] = "40868e7c1d2f0b8d73e4a8c7f0ff63af4f6d19be117e90bd73eb1d62cf831c6b"
--SRC_URI[time-macros-0.2.24.sha256sum] = "30cfb0125f12d9c277f35663a0a33f8c30190f4e4574868a330595412d34ebf3"
-+SRC_URI[time-0.3.47.sha256sum] = "743bd48c283afc0388f9b8827b976905fb217ad9e647fae3a379a9283c4def2c"
-+SRC_URI[time-core-0.1.8.sha256sum] = "7694e1cfe791f8d31026952abf09c69ca6f6fa4e1a1229e18988f06a04a12dca"
-+SRC_URI[time-macros-0.2.27.sha256sum] = "2e70e4c5a0e0a8a4823ad65dfe1a6930e4f4d756dcd9dd7939022b5e8c501215"
- SRC_URI[tinystr-0.8.2.sha256sum] = "42d3e9c45c09de15d06dd8acf5f4e0e399e85927b7f00711024eb7ae10fa4869"
- SRC_URI[tinytemplate-1.2.1.sha256sum] = "be4d6b5f19ff7664e8c98d03e2139cb510db9b0a60b55f8e8709b689d939b6bc"
- SRC_URI[tinyvec-1.10.0.sha256sum] = "bfa5fdc3bce6191a1dbc8c02d5c8bffcf557bafa17c124c5264a458f1b0613fa"
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch b/meta/recipes-gnome/librsvg/librsvg/0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch
-index b62f641d57..cbf59f2046 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+index e1d870b040..bedf153807 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
 @@ -1,4 +1,4 @@
--From 33ece256bf7c156a34ab1ee3709718e38829cc9e Mon Sep 17 00:00:00 2001
-+From b9a22f36a7008a92d045e73f278c10a7b15b80fd Mon Sep 17 00:00:00 2001
- From: Gyorgy Sarvari <skandigraun@gmail.com>
- Date: Wed, 6 Aug 2025 13:50:21 +0200
- Subject: [PATCH] Revert "meson.build: do not force-disable gdk-pixbuf-loader
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch b/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
-index a3596fc288..20963253be 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
+-From ad4c577ff8d29f6dbaf5ca2d013e9d21c44f9122 Mon Sep 17 00:00:00 2001
++From 2a8ad599c12f79df1a50fbaa992a9fa196dc23fe Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: respect the idententaion used in meson
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+index ccfc869813..720a6f0c97 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
 @@ -1,4 +1,4 @@
--From e89982e61e50c7d25d563f2fa0481f9bba481f04 Mon Sep 17 00:00:00 2001
-+From 90d76028b56766971408791bf6b61c425b8ff3c0 Mon Sep 17 00:00:00 2001
- From: Gyorgy Sarvari <skandigraun@gmail.com>
- Date: Sat, 2 Aug 2025 20:57:49 +0200
- Subject: [PATCH] query-rustc: append RUSTFLAGS to rustc executable
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch b/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-index f893d81e9a..3fee3e7f62 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-@@ -1,4 +1,4 @@
--From bc089af8ce38ad268bc4283040ec28241c5064a6 Mon Sep 17 00:00:00 2001
-+From 6216caff03646201c64721078cdf272a39226043 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 18 Dec 2025 18:43:20 +0100
- Subject: [PATCH] tests: revert 'Take care of deprecated
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb b/meta/recipes-gnome/librsvg/librsvg_2.61.4.bb
-similarity index 98%
-rename from meta/recipes-gnome/librsvg/librsvg_2.61.3.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.61.4.bb
-index cab8471c33..00ca35a94e 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.61.3.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.61.4.bb
-@@ -27,7 +27,7 @@ SRC_URI += "file://0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch \
-             file://0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch \
-             file://0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch \
-             file://run-ptest"
--SRC_URI[archive.sha256sum] = "a56d2c80d744ad2f2718f85df466fe71d24ff1f9bc3e5ef588bde4d7e87815f2"
-+SRC_URI[archive.sha256sum] = "fca0ea28d1f28f95c8407d2579f4702dac085e7c758644daca8b40d1e072ca0c"
+-From c33063360791e178de138304e29ab2264582d917 Mon Sep 17 00:00:00 2001
++From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: add support for install the tests
+@@ -12,17 +12,17 @@ Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+ ---
+  meson.build                  |  4 ++++
+- meson_options.txt            |  1 +
++ meson.options                |  1 +
+  tests/check/meson.build      | 22 +++++++++++++++++++++-
+  tests/check/template.test.in |  3 +++
+  4 files changed, 29 insertions(+), 1 deletion(-)
+  create mode 100644 tests/check/template.test.in
  
- UPSTREAM_CHECK_REGEX = "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ diff --git a/meson.build b/meson.build
+-index 0a77e90..cadfaeb 100644
++index 8adc055..b5c9e5b 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -664,6 +664,10 @@ if bashcomp_dep.found()
++@@ -667,6 +667,10 @@ if bashcomp_dep.found()
+    endif
+  endif
+  
+@@ -33,10 +33,10 @@ index 0a77e90..cadfaeb 100644
+  plugins_install_dir = join_paths(get_option('libdir'), 'gstreamer-1.0')
+  
+  pkgconfig = import('pkgconfig')
+-diff --git a/meson_options.txt b/meson_options.txt
++diff --git a/meson.options b/meson.options
+ index 39255cf..78af552 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
++--- a/meson.options
+++++ b/meson.options
+ @@ -16,6 +16,7 @@ option('poisoning', type : 'boolean', value : false, description : 'Enable poiso
+  option('memory-alignment', type: 'combo',
+         choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+index 1236290e2b..3d6fa2762d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+@@ -1,4 +1,4 @@
+-From 374c6ace83e9697aae0b21ba26f316b79279c39c Mon Sep 17 00:00:00 2001
++From 88f79226cd36fe8ec11d75a0355210e02d8609c6 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 24 Apr 2021 10:34:47 +0100
+ Subject: [PATCH] tests: use a dictionaries for environment
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+index df382a4445..31b4aa6e84 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+@@ -1,4 +1,4 @@
+-From e31ab477eed061cc72ed6795b483795d53af6dfc Mon Sep 17 00:00:00 2001
++From 0d7a9e0564015c286c733f756a6af4c1c4657458 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 2 May 2021 01:58:01 +0100
+ Subject: [PATCH] tests: add helper script to run the installed_tests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+index c66f614629..63633fea05 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.9.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.0.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+            "
+-SRC_URI[sha256sum] = "8ee8772e468102ebe86d414d8c4c7440dd91d9f3e9396952ff23aecde80670c8"
++SRC_URI[sha256sum] = "6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce59575db945a3a623afd"
  
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
 2.47.1
 
 
---===============4660349492663749562==
+--===============0134068622474330233==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/librsvg/librsvg-ptest: FILELIST: removed "/usr/lib/librsvg/ptest/loading_disallowed-1faeba7bbcdf4c21 /usr/lib/librsvg/ptest/primitive_geometries-7f1e4c52456514a1 /usr/lib/librsvg/ptest/rsvg_convert-162c4a1883a8e6cb /usr/lib/librsvg/ptest/primitives-5ab53eb2d76f0599 /usr/lib/librsvg/ptest/filters-774fcf19ece0bb6c /usr/lib/librsvg/ptest/errors-bd66fe68a37328e6 /usr/lib/librsvg/ptest/rsvg-bf4241f815cd4c8b /usr/lib/librsvg/ptest/reference-dfa3eb92a17bc4d4 /usr/lib/librsvg/ptest/shapes-df2f735ae94dc558 /usr/lib/librsvg/ptest/loading_crash-7815708013e0de5c /usr/lib/librsvg/ptest/intrinsic_dimensions-8844bfde88fb695c /usr/lib/librsvg/ptest/text-d4b4c4f2ed13df0e /usr/lib/librsvg/ptest/bugs-44871a7a85a30746 /usr/lib/librsvg/ptest/rsvg_convert-f741e7a71b0152f3 /usr/lib/librsvg/ptest/render_crash-c0b18b4f69ba511b /usr/lib/librsvg/ptest/api-0bc3829dacbf0114 /usr/lib/librsvg/ptest/geometries-e58f22a4c673b0ea /usr/lib/librsvg/ptest/rsvg_convert-6fa5b5404531cebf", adde
- d "/usr/lib/librsvg/ptest/geometries-eec0112ba44600dd /usr/lib/librsvg/ptest/render_crash-dffc41b12c497c3e /usr/lib/librsvg/ptest/text-47301d091b73485e /usr/lib/librsvg/ptest/primitive_geometries-83d4db0715e2b57e /usr/lib/librsvg/ptest/rsvg_convert-3a0d54cc25095cdc /usr/lib/librsvg/ptest/loading_crash-3b4b35fa4d47284e /usr/lib/librsvg/ptest/intrinsic_dimensions-31f444b53470848a /usr/lib/librsvg/ptest/loading_disallowed-46281ffc6a661bb9 /usr/lib/librsvg/ptest/primitives-cc097f3866002aed /usr/lib/librsvg/ptest/api-09caabbacf1aed15 /usr/lib/librsvg/ptest/filters-446706903806d1cf /usr/lib/librsvg/ptest/errors-0dd0da945f3b676c /usr/lib/librsvg/ptest/bugs-ae21758c05a24472 /usr/lib/librsvg/ptest/rsvg-2d9ac265f99c3b9e /usr/lib/librsvg/ptest/shapes-88d964dae2bd855f /usr/lib/librsvg/ptest/rsvg_convert-eeda74f5bd7ae4c8 /usr/lib/librsvg/ptest/rsvg_convert-8d8c2d1199dbfb84 /usr/lib/librsvg/ptest/reference-c7d78be0128faea9"
-packages/x86-64-v3-poky-linux/librsvg/librsvg: FILELIST: removed "/usr/lib/librsvg-2.so.2.61.3", added "/usr/lib/librsvg-2.so.2.61.4"
-Changes to packages/x86-64-v3-poky-linux/librsvg (sysroot):
-  /usr/lib/librsvg-2.so.2 changed symlink target from librsvg-2.so.2.61.3 to librsvg-2.so.2.61.4
-  /usr/lib/librsvg-2.so.2.61.3 moved to /usr/lib/librsvg-2.so.2.61.4
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: FILELIST: added "/usr/include/gstreamer-1.0/gst/gstcpuid.h /usr/include/gstreamer-1.0/gst/gstmetafactory.h"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstcontroller-1.0.so.0.2609.0 /usr/lib/libgstcheck-1.0.so.0.2609.0 /usr/lib/libgstbase-1.0.so.0.2609.0 /usr/lib/libgstreamer-1.0.so.0.2609.0 /usr/lib/libgstnet-1.0.so.0.2609.0", added "/usr/lib/libgstcontroller-1.0.so.0.2800.0 /usr/lib/libgstcheck-1.0.so.0.2800.0 /usr/lib/libgstbase-1.0.so.0.2800.0 /usr/lib/libgstreamer-1.0.so.0.2800.0 /usr/lib/libgstnet-1.0.so.0.2800.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PACKAGES: added "gstreamer1.0-locale-ar"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2609.0 to libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2609.0 to libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2609.0 to libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2609.0 to libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2609.0 to libgstreamer-1.0.so.0.2800.0
+  /usr/lib/libgstbase-1.0.so.0.2609.0 moved to /usr/lib/libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0.2609.0 moved to /usr/lib/libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0.2609.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0.2609.0 moved to /usr/lib/libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0.2609.0 moved to /usr/lib/libgstreamer-1.0.so.0.2800.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2609.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2800.0-gdb.py
+  /usr/include/gstreamer-1.0/gst/gstcpuid.h was added
+  /usr/include/gstreamer-1.0/gst/gstmetafactory.h was added
 
---===============4660349492663749562==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-librsvg-upgrade-2.61.3-2.61.4.patch"
-
-RnJvbSBlMzU2N2RmMWFhZjMwYzc2YWVmNTMzNDJlZmJmZTkyOGIyMTI2NzJlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTU6MTA6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJyc3ZnOiB1cGdyYWRlIDIuNjEuMyAtPiAyLjYxLjQKCi0tLQogbWV0YS9yZWNpcGVzLWdub21l
-L2xpYnJzdmcvbGlicnN2Zy1jcmF0ZXMuaW5jICAgIHwgMTYgKysrKysrKystLS0tLS0tLQogLi4u
-YnVpbGQtZG8tbm90LWZvcmNlLWRpc2FibGUtZ2RrLXBpeGJ1Zi1sLnBhdGNoIHwgIDIgKy0KIC4u
-LnRjLWFwcGVuZC1SVVNURkxBR1MtdG8tcnVzdGMtZXhlY3V0YWJsZS5wYXRjaCB8ICAyICstCiAu
-Li5UYWtlLWNhcmUtb2YtZGVwcmVjYXRlZC1hc3NlcnRfY21kLUNvbW0ucGF0Y2ggfCAgMiArLQog
-Li4uL3tsaWJyc3ZnXzIuNjEuMy5iYiA9PiBsaWJyc3ZnXzIuNjEuNC5iYn0gICAgIHwgIDIgKy0K
-IDUgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcve2xpYnJzdmdfMi42MS4zLmJiID0+IGxpYnJz
-dmdfMi42MS40LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJy
-c3ZnL2xpYnJzdmctY3JhdGVzLmluYyBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJyc3ZnL2xpYnJz
-dmctY3JhdGVzLmluYwppbmRleCAyMjYwYTZmNjQzLi5hYTNjOTVjNTQ4IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZ25vbWUvbGlicnN2Zy9saWJyc3ZnLWNyYXRlcy5pbmMKKysrIGIvbWV0YS9y
-ZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Zy1jcmF0ZXMuaW5jCkBAIC0xNjUsNyArMTY1LDcg
-QEAgU1JDX1VSSSArPSAiIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9ub3JtYWxpemUtbGluZS1l
-bmRpbmdzLzAuMy4wIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9udW0tYmlnaW50LzAuNC42IFwK
-ICAgICBjcmF0ZTovL2NyYXRlcy5pby9udW0tY29tcGxleC8wLjQuNiBcCi0gICAgY3JhdGU6Ly9j
-cmF0ZXMuaW8vbnVtLWNvbnYvMC4xLjAgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL251bS1jb252
-LzAuMi4wIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9udW0tZGVyaXZlLzAuNC4yIFwKICAgICBj
-cmF0ZTovL2NyYXRlcy5pby9udW0taW50ZWdlci8wLjEuNDYgXAogICAgIGNyYXRlOi8vY3JhdGVz
-LmlvL251bS1yYXRpb25hbC8wLjQuMiBcCkBAIC0yNjgsOSArMjY4LDkgQEAgU1JDX1VSSSArPSAi
-IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby90ZXJtdHJlZS8wLjUuMSBcCiAgICAgY3JhdGU6Ly9j
-cmF0ZXMuaW8vdGhpc2Vycm9yLzIuMC4xNyBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vdGhpc2Vy
-cm9yLWltcGwvMi4wLjE3IFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby90aW1lLzAuMy40NCBcCi0g
-ICAgY3JhdGU6Ly9jcmF0ZXMuaW8vdGltZS1jb3JlLzAuMS42IFwKLSAgICBjcmF0ZTovL2NyYXRl
-cy5pby90aW1lLW1hY3Jvcy8wLjIuMjQgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3RpbWUvMC4z
-LjQ3IFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby90aW1lLWNvcmUvMC4xLjggXAorICAgIGNyYXRl
-Oi8vY3JhdGVzLmlvL3RpbWUtbWFjcm9zLzAuMi4yNyBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8v
-dGlueXN0ci8wLjguMiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vdGlueXRlbXBsYXRlLzEuMi4x
-IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby90aW55dmVjLzEuMTAuMCBcCkBAIC01MTYsNyArNTE2
-LDcgQEAgU1JDX1VSSVtub21fbG9jYXRlLTUuMC4wLnNoYTI1NnN1bV0gPSAiMGI1NzdlMmQ2OTgy
-N2M0NzQwY2JhMmI1MmVmYWFkMWM0Y2M3YzczMDQKIFNSQ19VUklbbm9ybWFsaXplLWxpbmUtZW5k
-aW5ncy0wLjMuMC5zaGEyNTZzdW1dID0gIjYxODA3Zjc3ODAyZmYzMDk3NWUwMWY0ZjA3MWM4YmEx
-MGMwMjIwNTJmOThiMzI5NDExOWYzZTYxNWQxM2U1YmUiCiBTUkNfVVJJW251bS1iaWdpbnQtMC40
-LjYuc2hhMjU2c3VtXSA9ICJhNWU0NGY3MjNmMTEzM2M5ZGVhYzY0Njc2MzU3OWZkYjNhYzc0NWU0
-MThmMmE3YWY5Y2QwYzQzMWRhMWYyMGI5IgogU1JDX1VSSVtudW0tY29tcGxleC0wLjQuNi5zaGEy
-NTZzdW1dID0gIjczZjg4YTEzMDc2MzgxNTY2ODJiYWRhOWQ3NjA0MTM1NTUyOTU3Yjc4MTgwNTdk
-Y2VmMjI3MDViNGQ1MDk0OTUiCi1TUkNfVVJJW251bS1jb252LTAuMS4wLnNoYTI1NnN1bV0gPSAi
-NTFkNTE1ZDMyZmIxODJlZTM3Y2RhMmNjZGNiOTI5NTBkNmEzYzI4OTNhYTI4MGU1NDA2NzFjMmNk
-MGYzYjFkOSIKK1NSQ19VUklbbnVtLWNvbnYtMC4yLjAuc2hhMjU2c3VtXSA9ICJjZjk3ZWM1Nzlj
-M2M0MmY5NTNlZjc2ZGJmOGQ1NWFjOTFmYjIxOWRkZTcwZTQ5YWE0YTZiN2Q3NGU5OTE5MDUwIgog
-U1JDX1VSSVtudW0tZGVyaXZlLTAuNC4yLnNoYTI1NnN1bV0gPSAiZWQzOTU1ZjFhOWM3YzBjMTVl
-MDkyZjljODg3ZGIwOGIxZmM2ODMzMDVmZGY2ZWI2Njg0ZjIyNTU1MzU1ZTIwMiIKIFNSQ19VUklb
-bnVtLWludGVnZXItMC4xLjQ2LnNoYTI1NnN1bV0gPSAiNzk2OTY2MWZkMjk1OGE1Y2IwOTZlNTZj
-OGUxYWQwNDQ0YWMyYmJjZDAwNjFiZDI4NjYwNDg1YTQ0ODc5ODU4ZiIKIFNSQ19VUklbbnVtLXJh
-dGlvbmFsLTAuNC4yLnNoYTI1NnN1bV0gPSAiZjgzZDE0ZGEzOTA1NjJkY2E2OWZjODQwODJlNzNl
-NTQ4ZTFhZDMwOGQyNGFjY2RlZGQyNzIwMDE3Y2IzNzgyNCIKQEAgLTYxOSw5ICs2MTksOSBAQCBT
-UkNfVVJJW3RlbmRyaWwtMC40LjMuc2hhMjU2c3VtXSA9ICJkMjRhMTIwYzVmYzQ2NGEzNDU4MjQw
-ZWUwMmMyOTllYmNiOWQ2N2I1MjQ5YwogU1JDX1VSSVt0ZXJtdHJlZS0wLjUuMS5zaGEyNTZzdW1d
-ID0gIjhmNTBmZWJlYzgzZjVlZTFkZjMwMTUzNDFkOGJkNDI5ZjJkMWNjNjJiY2JhN2VhMjA3Njc1
-OWQzMTUwODQ2ODMiCiBTUkNfVVJJW3RoaXNlcnJvci0yLjAuMTcuc2hhMjU2c3VtXSA9ICJmNjM1
-ODdjYTBmMTJiNzJhMDYwMGJjYmExZDQwMDgxZjgzMDg3NjAwMGJiNDZkZDIzMzdhMzA1MTYxOGY0
-ZmM4IgogU1JDX1VSSVt0aGlzZXJyb3ItaW1wbC0yLjAuMTcuc2hhMjU2c3VtXSA9ICIzZmYxNWM4
-ZWNkN2RlMzg0OWRiNjMyZTE0ZDE4ZDI1NzFmYTA5ZGZjNWVkOTM0NzliYzQ0ODVjN2E1MTdjOTEz
-IgotU1JDX1VSSVt0aW1lLTAuMy40NC5zaGEyNTZzdW1dID0gIjkxZTdkOWUzYmI2MTEzNGU3N2Jk
-ZTIwZGQ0ODI1Yjk3YzAxMDE1NTcwOTk2NWZlZGYwZjQ5YmIxMzhlNTJhOWQiCi1TUkNfVVJJW3Rp
-bWUtY29yZS0wLjEuNi5zaGEyNTZzdW1dID0gIjQwODY4ZTdjMWQyZjBiOGQ3M2U0YThjN2YwZmY2
-M2FmNGY2ZDE5YmUxMTdlOTBiZDczZWIxZDYyY2Y4MzFjNmIiCi1TUkNfVVJJW3RpbWUtbWFjcm9z
-LTAuMi4yNC5zaGEyNTZzdW1dID0gIjMwY2ZiMDEyNWYxMmQ5YzI3N2YzNTY2M2EwYTMzZjhjMzAx
-OTBmNGU0NTc0ODY4YTMzMDU5NTQxMmQzNGViZjMiCitTUkNfVVJJW3RpbWUtMC4zLjQ3LnNoYTI1
-NnN1bV0gPSAiNzQzYmQ0OGMyODNhZmMwMzg4ZjliODgyN2I5NzY5MDVmYjIxN2FkOWU2NDdmYWUz
-YTM3OWE5MjgzYzRkZWYyYyIKK1NSQ19VUklbdGltZS1jb3JlLTAuMS44LnNoYTI1NnN1bV0gPSAi
-NzY5NGUxY2ZlNzkxZjhkMzEwMjY5NTJhYmYwOWM2OWNhNmY2ZmE0ZTFhMTIyOWUxODk4OGYwNmEw
-NGExMmRjYSIKK1NSQ19VUklbdGltZS1tYWNyb3MtMC4yLjI3LnNoYTI1NnN1bV0gPSAiMmU3MGU0
-YzVhMGUwYThhNDgyM2FkNjVkZmUxYTY5MzBlNGY0ZDc1NmRjZDlkZDc5MzkwMjJiNWU4YzUwMTIx
-NSIKIFNSQ19VUklbdGlueXN0ci0wLjguMi5zaGEyNTZzdW1dID0gIjQyZDNlOWM0NWMwOWRlMTVk
-MDZkZDhhY2Y1ZjRlMGUzOTllODU5MjdiN2YwMDcxMTAyNGViN2FlMTBmYTQ4NjkiCiBTUkNfVVJJ
-W3Rpbnl0ZW1wbGF0ZS0xLjIuMS5zaGEyNTZzdW1dID0gImJlNGQ2YjVmMTlmZjc2NjRlOGM5OGQw
-M2UyMTM5Y2I1MTBkYjliMGE2MGI1NWY4ZTg3MDliNjg5ZDkzOWI2YmMiCiBTUkNfVVJJW3Rpbnl2
-ZWMtMS4xMC4wLnNoYTI1NnN1bV0gPSAiYmZhNWZkYzNiY2U2MTkxYTFkYmM4YzAyZDVjOGJmZmNm
-NTU3YmFmYTE3YzEyNGM1MjY0YTQ1OGYxYjA2MTNmYSIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1nbm9tZS9saWJyc3ZnL2xpYnJzdmcvMDAwMS1SZXZlcnQtbWVzb24uYnVpbGQtZG8tbm90LWZv
-cmNlLWRpc2FibGUtZ2RrLXBpeGJ1Zi1sLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJz
-dmcvbGlicnN2Zy8wMDAxLVJldmVydC1tZXNvbi5idWlsZC1kby1ub3QtZm9yY2UtZGlzYWJsZS1n
-ZGstcGl4YnVmLWwucGF0Y2gKaW5kZXggYjYyZjY0MWQ1Ny4uY2JmNTlmMjA0NiAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Zy8wMDAxLVJldmVydC1tZXNvbi5i
-dWlsZC1kby1ub3QtZm9yY2UtZGlzYWJsZS1nZGstcGl4YnVmLWwucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Zy8wMDAxLVJldmVydC1tZXNvbi5idWlsZC1kby1u
-b3QtZm9yY2UtZGlzYWJsZS1nZGstcGl4YnVmLWwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IDMzZWNlMjU2YmY3YzE1NmEzNGFiMWVlMzcwOTcxOGUzODgyOWNjOWUgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIGI5YTIyZjM2YTcwMDhhOTJkMDQ1ZTczZjI3OGMxMGE3YjE1YjgwZmQg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBHeW9yZ3kgU2FydmFyaSA8c2thbmRpZ3Jh
-dW5AZ21haWwuY29tPgogRGF0ZTogV2VkLCA2IEF1ZyAyMDI1IDEzOjUwOjIxICswMjAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIFJldmVydCAibWVzb24uYnVpbGQ6IGRvIG5vdCBmb3JjZS1kaXNhYmxlIGdk
-ay1waXhidWYtbG9hZGVyCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlicnN2Zy9s
-aWJyc3ZnLzAwMDEtcXVlcnktcnVzdGMtYXBwZW5kLVJVU1RGTEFHUy10by1ydXN0Yy1leGVjdXRh
-YmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Zy8wMDAxLXF1ZXJ5
-LXJ1c3RjLWFwcGVuZC1SVVNURkxBR1MtdG8tcnVzdGMtZXhlY3V0YWJsZS5wYXRjaAppbmRleCBh
-MzU5NmZjMjg4Li4yMDk2MzI1M2JlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGli
-cnN2Zy9saWJyc3ZnLzAwMDEtcXVlcnktcnVzdGMtYXBwZW5kLVJVU1RGTEFHUy10by1ydXN0Yy1l
-eGVjdXRhYmxlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJyc3ZnL2xpYnJzdmcv
-MDAwMS1xdWVyeS1ydXN0Yy1hcHBlbmQtUlVTVEZMQUdTLXRvLXJ1c3RjLWV4ZWN1dGFibGUucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGU4OTk4MmU2MWU1MGM3ZDI1ZDU2M2YyZmEwNDgxZjli
-YmE0ODFmMDQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDkwZDc2MDI4YjU2NzY2OTcx
-NDA4NzkxYmY2YjYxYzQyNWI4ZmYzYzAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBH
-eW9yZ3kgU2FydmFyaSA8c2thbmRpZ3JhdW5AZ21haWwuY29tPgogRGF0ZTogU2F0LCAyIEF1ZyAy
-MDI1IDIwOjU3OjQ5ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIHF1ZXJ5LXJ1c3RjOiBhcHBlbmQg
-UlVTVEZMQUdTIHRvIHJ1c3RjIGV4ZWN1dGFibGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
-bm9tZS9saWJyc3ZnL2xpYnJzdmcvMDAwMS10ZXN0cy1yZXZlcnQtVGFrZS1jYXJlLW9mLWRlcHJl
-Y2F0ZWQtYXNzZXJ0X2NtZC1Db21tLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcv
-bGlicnN2Zy8wMDAxLXRlc3RzLXJldmVydC1UYWtlLWNhcmUtb2YtZGVwcmVjYXRlZC1hc3NlcnRf
-Y21kLUNvbW0ucGF0Y2gKaW5kZXggZjg5M2Q4MWU5YS4uM2ZlZTNlN2Y2MiAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Zy8wMDAxLXRlc3RzLXJldmVydC1UYWtl
-LWNhcmUtb2YtZGVwcmVjYXRlZC1hc3NlcnRfY21kLUNvbW0ucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWdub21lL2xpYnJzdmcvbGlicnN2Zy8wMDAxLXRlc3RzLXJldmVydC1UYWtlLWNhcmUtb2Yt
-ZGVwcmVjYXRlZC1hc3NlcnRfY21kLUNvbW0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGJj
-MDg5YWY4Y2UzOGFkMjY4YmM0MjgzMDQwZWMyODI0MWM1MDY0YTYgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIDYyMTZjYWZmMDM2NDYyMDFjNjQ3MjEwNzhjZGYyNzJhMzkyMjYwNDMgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51
-dHJvbml4LmRlPgogRGF0ZTogVGh1LCAxOCBEZWMgMjAyNSAxODo0MzoyMCArMDEwMAogU3ViamVj
-dDogW1BBVENIXSB0ZXN0czogcmV2ZXJ0ICdUYWtlIGNhcmUgb2YgZGVwcmVjYXRlZApkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Z18yLjYxLjMuYmIgYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvbGlicnN2Zy9saWJyc3ZnXzIuNjEuNC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlicnN2Zy9saWJyc3ZnXzIuNjEu
-My5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcvbGlicnN2Z18yLjYxLjQu
-YmIKaW5kZXggY2FiODQ3MWMzMy4uMDBjYTM1YTk0ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWdub21lL2xpYnJzdmcvbGlicnN2Z18yLjYxLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21l
-L2xpYnJzdmcvbGlicnN2Z18yLjYxLjQuYmIKQEAgLTI3LDcgKzI3LDcgQEAgU1JDX1VSSSArPSAi
-ZmlsZTovLzAwMDEtcXVlcnktcnVzdGMtYXBwZW5kLVJVU1RGTEFHUy10by1ydXN0Yy1leGVjdXRh
-YmxlLnBhdGNoIFwKICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLVJldmVydC1tZXNvbi5idWlsZC1k
-by1ub3QtZm9yY2UtZGlzYWJsZS1nZGstcGl4YnVmLWwucGF0Y2ggXAogICAgICAgICAgICAgZmls
-ZTovLzAwMDEtdGVzdHMtcmV2ZXJ0LVRha2UtY2FyZS1vZi1kZXByZWNhdGVkLWFzc2VydF9jbWQt
-Q29tbS5wYXRjaCBcCiAgICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IgotU1JDX1VSSVthcmNo
-aXZlLnNoYTI1NnN1bV0gPSAiYTU2ZDJjODBkNzQ0YWQyZjI3MThmODVkZjQ2NmZlNzFkMjRmZjFm
-OWJjM2U1ZWY1ODhiZGU0ZDdlODc4MTVmMiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0g
-ImZjYTBlYTI4ZDFmMjhmOTVjODQwN2QyNTc5ZjQ3MDJkYWMwODVlN2M3NTg2NDRkYWNhOGI0MGQx
-ZTA3MmNhMGMiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImxpYnJzdmctKD9QPHB2ZXI+XGQr
-XC5cZCtcLig/ITlcZCspXGQrKSIKIAotLSAKMi40Ny4xCgo=
-
---===============4660349492663749562==
+--===============0134068622474330233==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/librsvg: SRC_URI changed from "https://download.gnome.org/sources//librsvg/2.61/librsvg-2.61.3.tar.xz;name=archive crate://crates.io/adler2/2.0.1 crate://crates.io/aes/0.8.4 crate://crates.io/ahash/0.8.12 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/android_system_properties/0.1.5 crate://crates.io/anes/0.1.6 crate://crates.io/anstream/0.6.21 crate://crates.io/anstyle/1.0.13 crate://crates.io/anstyle-parse/0.2.7 crate://crates.io/anstyle-query/1.1.4 crate://crates.io/anstyle-wincon/3.0.10 crate://crates.io/approx/0.5.1 crate://crates.io/assert_cmd/2.1.1 crate://crates.io/autocfg/1.5.0 crate://crates.io/av-data/0.4.4 crate://crates.io/bit-set/0.8.0 crate://crates.io/bit-vec/0.8.0 crate://crates.io/bitflags/2.10.0 crate://crates.io/bitreader/0.3.11 crate://crates.io/block/0.1.6 crate://crates.io/block-buffer/0.10.4 crate://crates.io/block-padding/0.3.3 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.19.0 crate://crates.io/byte-slice-cas
- t/1.2.3 crate://crates.io/bytecount/0.6.9 crate://crates.io/bytemuck/1.24.0 crate://crates.io/byteorder/1.5.0 crate://crates.io/byteorder-lite/0.1.0 crate://crates.io/bytes/1.10.1 crate://crates.io/cairo-rs/0.21.2 crate://crates.io/cairo-sys-rs/0.21.2 crate://crates.io/cast/0.3.0 crate://crates.io/cbc/0.1.2 crate://crates.io/cc/1.2.44 crate://crates.io/cfg-expr/0.20.4 crate://crates.io/cfg-if/1.0.4 crate://crates.io/chrono/0.4.42 crate://crates.io/ciborium/0.2.2 crate://crates.io/ciborium-io/0.2.2 crate://crates.io/ciborium-ll/0.2.2 crate://crates.io/cipher/0.4.4 crate://crates.io/clap/4.5.51 crate://crates.io/clap_builder/4.5.51 crate://crates.io/clap_complete/4.5.60 crate://crates.io/clap_derive/4.5.49 crate://crates.io/clap_lex/0.7.6 crate://crates.io/color_quant/1.1.0 crate://crates.io/colorchoice/1.0.4 crate://crates.io/core-foundation-sys/0.8.7 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/crc32fast/1.5.0 crate://crates.io/criterion/0.7.0 crate://crates.io/criterion-p
- lot/0.6.0 crate://crates.io/crossbeam-deque/0.8.6 crate://crates.io/crossbeam-epoch/0.9.18 crate://crates.io/crossbeam-utils/0.8.21 crate://crates.io/crunchy/0.2.4 crate://crates.io/crypto-common/0.1.6 crate://crates.io/cssparser/0.35.0 crate://crates.io/cssparser-color/0.3.0 crate://crates.io/cssparser-macros/0.6.1 crate://crates.io/data-url/0.3.2 crate://crates.io/dav1d/0.10.4 crate://crates.io/dav1d-sys/0.8.3 crate://crates.io/deranged/0.5.5 crate://crates.io/derive_more/2.0.1 crate://crates.io/derive_more-impl/2.0.1 crate://crates.io/difflib/0.4.0 crate://crates.io/digest/0.10.7 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dlib/0.5.2 crate://crates.io/dtoa/1.0.10 crate://crates.io/dtoa-short/0.3.5 crate://crates.io/ecb/0.1.2 crate://crates.io/either/1.15.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/equivalent/1.0.2 crate://crates.io/errno/0.3.14 crate://crates.io/fallible_collections/0.4.9 crate://crates.io/fastrand/2.3.0 crate://crates.io/fdeflate/0.3.7 crat
- e://crates.io/find-msvc-tools/0.1.4 crate://crates.io/flate2/1.1.5 crate://crates.io/float-cmp/0.10.0 crate://crates.io/fnv/1.0.7 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/futf/0.1.5 crate://crates.io/futures-channel/0.3.31 crate://crates.io/futures-core/0.3.31 crate://crates.io/futures-executor/0.3.31 crate://crates.io/futures-io/0.3.31 crate://crates.io/futures-macro/0.3.31 crate://crates.io/futures-task/0.3.31 crate://crates.io/futures-util/0.3.31 crate://crates.io/fxhash/0.2.1 crate://crates.io/gdk-pixbuf/0.21.2 crate://crates.io/gdk-pixbuf-sys/0.21.2 crate://crates.io/generic-array/0.14.9 crate://crates.io/getrandom/0.3.4 crate://crates.io/gif/0.13.3 crate://crates.io/gio/0.21.4 crate://crates.io/gio-sys/0.21.2 crate://crates.io/glib/0.21.4 crate://crates.io/glib-macros/0.21.4 crate://crates.io/glib-sys/0.21.2 crate://crates.io/gobject-sys/0.21.2 crate://crates.io/half/2.7.1 crate://crates.io/hashbrown/0.13.2 crate://crates.io/hashbrown/0.16.0 crate://crates.io/
- heck/0.5.0 crate://crates.io/iana-time-zone/0.1.64 crate://crates.io/iana-time-zone-haiku/0.1.2 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.1 crate://crates.io/icu_properties_data/2.1.1 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/image/0.25.8 crate://crates.io/image-webp/0.2.4 crate://crates.io/indexmap/2.12.0 crate://crates.io/inout/0.1.4 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.13.0 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.15 crate://crates.io/jiff/0.2.15 crate://crates.io/jiff-static/0.2.15 crate://crates.io/jiff-tzdb/0.1.4 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/js-sys/0.3.82 crate://crates.io/language-tags/0.3.2 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2
- .177 crate://crates.io/libloading/0.8.9 crate://crates.io/linux-raw-sys/0.11.0 crate://crates.io/litemap/0.8.1 crate://crates.io/locale_config/0.3.0 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.28 crate://crates.io/lopdf/0.38.0 crate://crates.io/mac/0.1.1 crate://crates.io/malloc_buf/0.0.6 crate://crates.io/markup5ever/0.35.0 crate://crates.io/matches/0.1.10 crate://crates.io/matrixmultiply/0.3.10 crate://crates.io/md-5/0.10.6 crate://crates.io/memchr/2.7.6 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/moxcms/0.7.9 crate://crates.io/mp4parse/0.17.0 crate://crates.io/nalgebra/0.33.2 crate://crates.io/nalgebra-macros/0.2.2 crate://crates.io/new_debug_unreachable/1.0.6 crate://crates.io/nom/8.0.0 crate://crates.io/nom_locate/5.0.0 crate://crates.io/normalize-line-endings/0.3.0 crate://crates.io/num-bigint/0.4.6 crate://crates.io/num-complex/0.4.6 crate://crates.io/num-conv/0.1.0 crate://crates.io/num-derive/0.4.2 crate://crates.io/num-integer/0.1.46 crate://crate
- s.io/num-rational/0.4.2 crate://crates.io/num-traits/0.2.19 crate://crates.io/objc/0.2.7 crate://crates.io/objc-foundation/0.1.1 crate://crates.io/objc_id/0.1.1 crate://crates.io/once_cell/1.21.3 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/oorandom/11.1.5 crate://crates.io/pango/0.21.3 crate://crates.io/pango-sys/0.21.2 crate://crates.io/pangocairo/0.21.2 crate://crates.io/pangocairo-sys/0.21.2 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/paste/1.0.15 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/phf/0.11.3 crate://crates.io/phf_codegen/0.11.3 crate://crates.io/phf_generator/0.11.3 crate://crates.io/phf_macros/0.11.3 crate://crates.io/phf_shared/0.11.3 crate://crates.io/phf_shared/0.13.1 crate://crates.io/pin-project-lite/0.2.16 crate://crates.io/pin-utils/0.1.0 crate://crates.io/pkg-config/0.3.32 crate://crates.io/plotters/0.3.7 crate://crates.io/plotters-backend/0.3.7 crate://crates.io/plotters-svg/
- 0.3.7 crate://crates.io/png/0.18.0 crate://crates.io/portable-atomic/1.11.1 crate://crates.io/portable-atomic-util/0.2.4 crate://crates.io/potential_utf/0.1.4 crate://crates.io/powerfmt/0.2.0 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/precomputed-hash/0.1.1 crate://crates.io/predicates/3.1.3 crate://crates.io/predicates-core/1.0.9 crate://crates.io/predicates-tree/1.0.12 crate://crates.io/proc-macro-crate/3.4.0 crate://crates.io/proc-macro2/1.0.103 crate://crates.io/proptest/1.9.0 crate://crates.io/pxfm/0.1.25 crate://crates.io/quick-error/1.2.3 crate://crates.io/quick-error/2.0.1 crate://crates.io/quote/1.0.41 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.8.5 crate://crates.io/rand/0.9.2 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.6.4 crate://crates.io/rand_core/0.9.3 crate://crates.io/rand_xorshift/0.4.0 crate://crates.io/rangemap/1.6.0 crate://crates.io/rawpointer/0.2.1 crate://crates.io/rayon/1.11.0 crate://crates.io/rayon-core/1.13.0 cr
- ate://crates.io/rctree/0.6.0 crate://crates.io/redox_syscall/0.5.18 crate://crates.io/regex/1.12.2 crate://crates.io/regex-automata/0.4.13 crate://crates.io/regex-syntax/0.8.8 crate://crates.io/rgb/0.8.52 crate://crates.io/rustix/1.1.2 crate://crates.io/rustversion/1.0.22 crate://crates.io/rusty-fork/0.3.1 crate://crates.io/ryu/1.0.20 crate://crates.io/safe_arch/0.7.4 crate://crates.io/same-file/1.0.6 crate://crates.io/scopeguard/1.2.0 crate://crates.io/selectors/0.31.0 crate://crates.io/serde/1.0.228 crate://crates.io/serde_core/1.0.228 crate://crates.io/serde_derive/1.0.228 crate://crates.io/serde_json/1.0.145 crate://crates.io/serde_spanned/1.0.3 crate://crates.io/servo_arc/0.4.1 crate://crates.io/sha2/0.10.9 crate://crates.io/shell-words/1.1.0 crate://crates.io/shlex/1.3.0 crate://crates.io/simba/0.9.1 crate://crates.io/simd-adler32/0.3.7 crate://crates.io/siphasher/1.0.1 crate://crates.io/slab/0.4.11 crate://crates.io/smallvec/1.15.1 crate://crates.io/stable_deref_trait/1.2.1 c
- rate://crates.io/static_assertions/1.1.0 crate://crates.io/string_cache/0.8.9 crate://crates.io/string_cache/0.9.0 crate://crates.io/string_cache_codegen/0.5.4 crate://crates.io/stringprep/0.1.5 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.108 crate://crates.io/synstructure/0.13.2 crate://crates.io/system-deps/7.0.7 crate://crates.io/target-lexicon/0.13.3 crate://crates.io/tempfile/3.23.0 crate://crates.io/tendril/0.4.3 crate://crates.io/termtree/0.5.1 crate://crates.io/thiserror/2.0.17 crate://crates.io/thiserror-impl/2.0.17 crate://crates.io/time/0.3.44 crate://crates.io/time-core/0.1.6 crate://crates.io/time-macros/0.2.24 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinytemplate/1.2.1 crate://crates.io/tinyvec/1.10.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/toml/0.9.8 crate://crates.io/toml_datetime/0.7.3 crate://crates.io/toml_edit/0.23.7 crate://crates.io/toml_parser/1.0.4 crate://crates.io/toml_writer/1.0.4 crate://crates.io/ttf-parser/0.25.1 
- crate://crates.io/typenum/1.19.0 crate://crates.io/unarray/0.1.4 crate://crates.io/unicode-bidi/0.3.18 crate://crates.io/unicode-ident/1.0.22 crate://crates.io/unicode-normalization/0.1.25 crate://crates.io/unicode-properties/0.1.4 crate://crates.io/url/2.5.7 crate://crates.io/utf-8/0.7.6 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/version-compare/0.2.1 crate://crates.io/version_check/0.9.5 crate://crates.io/wait-timeout/0.2.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasip2/1.0.1+wasi-0.2.4 crate://crates.io/wasm-bindgen/0.2.105 crate://crates.io/wasm-bindgen-macro/0.2.105 crate://crates.io/wasm-bindgen-macro-support/0.2.105 crate://crates.io/wasm-bindgen-shared/0.2.105 crate://crates.io/web-sys/0.3.82 crate://crates.io/web_atoms/0.1.3 crate://crates.io/weezl/0.1.10 crate://crates.io/wide/0.7.33 crate://crates.io/winapi/0.3.9 crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 crate://crates.io/winapi-util/0.1.11 crate://crates.io/wi
- napi-x86_64-pc-windows-gnu/0.4.0 crate://crates.io/windows-core/0.62.2 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-result/0.4.1 crate://crates.io/windows-strings/0.5.1 crate://crates.io/windows-sys/0.59.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.5 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.1 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.1 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.1 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.1 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.1 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gn
- u/0.53.1 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.53.1 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/windows_x86_64_msvc/0.53.1 crate://crates.io/winnow/0.7.13 crate://crates.io/wit-bindgen/0.46.0 crate://crates.io/writeable/0.6.2 crate://crates.io/xml5ever/0.35.0 crate://crates.io/yeslogic-fontconfig-sys/6.0.0 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerocopy/0.8.27 crate://crates.io/zerocopy-derive/0.8.27 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zune-core/0.4.12 crate://crates.io/zune-jpeg/0.4.21 file://0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch file://0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch file://0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch file://run-ptest" t
- o "https://download.gnome.org/sources//librsvg/2.61/librsvg-2.61.4.tar.xz;name=archive crate://crates.io/adler2/2.0.1 crate://crates.io/aes/0.8.4 crate://crates.io/ahash/0.8.12 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/android_system_properties/0.1.5 crate://crates.io/anes/0.1.6 crate://crates.io/anstream/0.6.21 crate://crates.io/anstyle/1.0.13 crate://crates.io/anstyle-parse/0.2.7 crate://crates.io/anstyle-query/1.1.4 crate://crates.io/anstyle-wincon/3.0.10 crate://crates.io/approx/0.5.1 crate://crates.io/assert_cmd/2.1.1 crate://crates.io/autocfg/1.5.0 crate://crates.io/av-data/0.4.4 crate://crates.io/bit-set/0.8.0 crate://crates.io/bit-vec/0.8.0 crate://crates.io/bitflags/2.10.0 crate://crates.io/bitreader/0.3.11 crate://crates.io/block/0.1.6 crate://crates.io/block-buffer/0.10.4 crate://crates.io/block-padding/0.3.3 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.19.0 crate://crates.io/byte-slice-cast/1.2.3 crate://crates.io/bytecount/0.6.9 crate://crates.
- io/bytemuck/1.24.0 crate://crates.io/byteorder/1.5.0 crate://crates.io/byteorder-lite/0.1.0 crate://crates.io/bytes/1.10.1 crate://crates.io/cairo-rs/0.21.2 crate://crates.io/cairo-sys-rs/0.21.2 crate://crates.io/cast/0.3.0 crate://crates.io/cbc/0.1.2 crate://crates.io/cc/1.2.44 crate://crates.io/cfg-expr/0.20.4 crate://crates.io/cfg-if/1.0.4 crate://crates.io/chrono/0.4.42 crate://crates.io/ciborium/0.2.2 crate://crates.io/ciborium-io/0.2.2 crate://crates.io/ciborium-ll/0.2.2 crate://crates.io/cipher/0.4.4 crate://crates.io/clap/4.5.51 crate://crates.io/clap_builder/4.5.51 crate://crates.io/clap_complete/4.5.60 crate://crates.io/clap_derive/4.5.49 crate://crates.io/clap_lex/0.7.6 crate://crates.io/color_quant/1.1.0 crate://crates.io/colorchoice/1.0.4 crate://crates.io/core-foundation-sys/0.8.7 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/crc32fast/1.5.0 crate://crates.io/criterion/0.7.0 crate://crates.io/criterion-plot/0.6.0 crate://crates.io/crossbeam-deque/0.8.6 crate:/
- /crates.io/crossbeam-epoch/0.9.18 crate://crates.io/crossbeam-utils/0.8.21 crate://crates.io/crunchy/0.2.4 crate://crates.io/crypto-common/0.1.6 crate://crates.io/cssparser/0.35.0 crate://crates.io/cssparser-color/0.3.0 crate://crates.io/cssparser-macros/0.6.1 crate://crates.io/data-url/0.3.2 crate://crates.io/dav1d/0.10.4 crate://crates.io/dav1d-sys/0.8.3 crate://crates.io/deranged/0.5.5 crate://crates.io/derive_more/2.0.1 crate://crates.io/derive_more-impl/2.0.1 crate://crates.io/difflib/0.4.0 crate://crates.io/digest/0.10.7 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dlib/0.5.2 crate://crates.io/dtoa/1.0.10 crate://crates.io/dtoa-short/0.3.5 crate://crates.io/ecb/0.1.2 crate://crates.io/either/1.15.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/equivalent/1.0.2 crate://crates.io/errno/0.3.14 crate://crates.io/fallible_collections/0.4.9 crate://crates.io/fastrand/2.3.0 crate://crates.io/fdeflate/0.3.7 crate://crates.io/find-msvc-tools/0.1.4 crate://crates.io/fla
- te2/1.1.5 crate://crates.io/float-cmp/0.10.0 crate://crates.io/fnv/1.0.7 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/futf/0.1.5 crate://crates.io/futures-channel/0.3.31 crate://crates.io/futures-core/0.3.31 crate://crates.io/futures-executor/0.3.31 crate://crates.io/futures-io/0.3.31 crate://crates.io/futures-macro/0.3.31 crate://crates.io/futures-task/0.3.31 crate://crates.io/futures-util/0.3.31 crate://crates.io/fxhash/0.2.1 crate://crates.io/gdk-pixbuf/0.21.2 crate://crates.io/gdk-pixbuf-sys/0.21.2 crate://crates.io/generic-array/0.14.9 crate://crates.io/getrandom/0.3.4 crate://crates.io/gif/0.13.3 crate://crates.io/gio/0.21.4 crate://crates.io/gio-sys/0.21.2 crate://crates.io/glib/0.21.4 crate://crates.io/glib-macros/0.21.4 crate://crates.io/glib-sys/0.21.2 crate://crates.io/gobject-sys/0.21.2 crate://crates.io/half/2.7.1 crate://crates.io/hashbrown/0.13.2 crate://crates.io/hashbrown/0.16.0 crate://crates.io/heck/0.5.0 crate://crates.io/iana-time-zone/0.1.64 crate:
- //crates.io/iana-time-zone-haiku/0.1.2 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.1 crate://crates.io/icu_properties_data/2.1.1 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/image/0.25.8 crate://crates.io/image-webp/0.2.4 crate://crates.io/indexmap/2.12.0 crate://crates.io/inout/0.1.4 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.13.0 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.15 crate://crates.io/jiff/0.2.15 crate://crates.io/jiff-static/0.2.15 crate://crates.io/jiff-tzdb/0.1.4 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/js-sys/0.3.82 crate://crates.io/language-tags/0.3.2 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.177 crate://crates.io/libloading/0.8.9 crate://crates.io
- /linux-raw-sys/0.11.0 crate://crates.io/litemap/0.8.1 crate://crates.io/locale_config/0.3.0 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.28 crate://crates.io/lopdf/0.38.0 crate://crates.io/mac/0.1.1 crate://crates.io/malloc_buf/0.0.6 crate://crates.io/markup5ever/0.35.0 crate://crates.io/matches/0.1.10 crate://crates.io/matrixmultiply/0.3.10 crate://crates.io/md-5/0.10.6 crate://crates.io/memchr/2.7.6 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/moxcms/0.7.9 crate://crates.io/mp4parse/0.17.0 crate://crates.io/nalgebra/0.33.2 crate://crates.io/nalgebra-macros/0.2.2 crate://crates.io/new_debug_unreachable/1.0.6 crate://crates.io/nom/8.0.0 crate://crates.io/nom_locate/5.0.0 crate://crates.io/normalize-line-endings/0.3.0 crate://crates.io/num-bigint/0.4.6 crate://crates.io/num-complex/0.4.6 crate://crates.io/num-conv/0.2.0 crate://crates.io/num-derive/0.4.2 crate://crates.io/num-integer/0.1.46 crate://crates.io/num-rational/0.4.2 crate://crates.io/num-traits/0.2.
- 19 crate://crates.io/objc/0.2.7 crate://crates.io/objc-foundation/0.1.1 crate://crates.io/objc_id/0.1.1 crate://crates.io/once_cell/1.21.3 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/oorandom/11.1.5 crate://crates.io/pango/0.21.3 crate://crates.io/pango-sys/0.21.2 crate://crates.io/pangocairo/0.21.2 crate://crates.io/pangocairo-sys/0.21.2 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/paste/1.0.15 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/phf/0.11.3 crate://crates.io/phf_codegen/0.11.3 crate://crates.io/phf_generator/0.11.3 crate://crates.io/phf_macros/0.11.3 crate://crates.io/phf_shared/0.11.3 crate://crates.io/phf_shared/0.13.1 crate://crates.io/pin-project-lite/0.2.16 crate://crates.io/pin-utils/0.1.0 crate://crates.io/pkg-config/0.3.32 crate://crates.io/plotters/0.3.7 crate://crates.io/plotters-backend/0.3.7 crate://crates.io/plotters-svg/0.3.7 crate://crates.io/png/0.18.0 crate://crates.io/port
- able-atomic/1.11.1 crate://crates.io/portable-atomic-util/0.2.4 crate://crates.io/potential_utf/0.1.4 crate://crates.io/powerfmt/0.2.0 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/precomputed-hash/0.1.1 crate://crates.io/predicates/3.1.3 crate://crates.io/predicates-core/1.0.9 crate://crates.io/predicates-tree/1.0.12 crate://crates.io/proc-macro-crate/3.4.0 crate://crates.io/proc-macro2/1.0.103 crate://crates.io/proptest/1.9.0 crate://crates.io/pxfm/0.1.25 crate://crates.io/quick-error/1.2.3 crate://crates.io/quick-error/2.0.1 crate://crates.io/quote/1.0.41 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.8.5 crate://crates.io/rand/0.9.2 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.6.4 crate://crates.io/rand_core/0.9.3 crate://crates.io/rand_xorshift/0.4.0 crate://crates.io/rangemap/1.6.0 crate://crates.io/rawpointer/0.2.1 crate://crates.io/rayon/1.11.0 crate://crates.io/rayon-core/1.13.0 crate://crates.io/rctree/0.6.0 crate://crates.io/redox_sysc
- all/0.5.18 crate://crates.io/regex/1.12.2 crate://crates.io/regex-automata/0.4.13 crate://crates.io/regex-syntax/0.8.8 crate://crates.io/rgb/0.8.52 crate://crates.io/rustix/1.1.2 crate://crates.io/rustversion/1.0.22 crate://crates.io/rusty-fork/0.3.1 crate://crates.io/ryu/1.0.20 crate://crates.io/safe_arch/0.7.4 crate://crates.io/same-file/1.0.6 crate://crates.io/scopeguard/1.2.0 crate://crates.io/selectors/0.31.0 crate://crates.io/serde/1.0.228 crate://crates.io/serde_core/1.0.228 crate://crates.io/serde_derive/1.0.228 crate://crates.io/serde_json/1.0.145 crate://crates.io/serde_spanned/1.0.3 crate://crates.io/servo_arc/0.4.1 crate://crates.io/sha2/0.10.9 crate://crates.io/shell-words/1.1.0 crate://crates.io/shlex/1.3.0 crate://crates.io/simba/0.9.1 crate://crates.io/simd-adler32/0.3.7 crate://crates.io/siphasher/1.0.1 crate://crates.io/slab/0.4.11 crate://crates.io/smallvec/1.15.1 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/static_assertions/1.1.0 crate://crates.i
- o/string_cache/0.8.9 crate://crates.io/string_cache/0.9.0 crate://crates.io/string_cache_codegen/0.5.4 crate://crates.io/stringprep/0.1.5 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.108 crate://crates.io/synstructure/0.13.2 crate://crates.io/system-deps/7.0.7 crate://crates.io/target-lexicon/0.13.3 crate://crates.io/tempfile/3.23.0 crate://crates.io/tendril/0.4.3 crate://crates.io/termtree/0.5.1 crate://crates.io/thiserror/2.0.17 crate://crates.io/thiserror-impl/2.0.17 crate://crates.io/time/0.3.47 crate://crates.io/time-core/0.1.8 crate://crates.io/time-macros/0.2.27 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinytemplate/1.2.1 crate://crates.io/tinyvec/1.10.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/toml/0.9.8 crate://crates.io/toml_datetime/0.7.3 crate://crates.io/toml_edit/0.23.7 crate://crates.io/toml_parser/1.0.4 crate://crates.io/toml_writer/1.0.4 crate://crates.io/ttf-parser/0.25.1 crate://crates.io/typenum/1.19.0 crate://crates.io/unarra
- y/0.1.4 crate://crates.io/unicode-bidi/0.3.18 crate://crates.io/unicode-ident/1.0.22 crate://crates.io/unicode-normalization/0.1.25 crate://crates.io/unicode-properties/0.1.4 crate://crates.io/url/2.5.7 crate://crates.io/utf-8/0.7.6 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/version-compare/0.2.1 crate://crates.io/version_check/0.9.5 crate://crates.io/wait-timeout/0.2.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasip2/1.0.1+wasi-0.2.4 crate://crates.io/wasm-bindgen/0.2.105 crate://crates.io/wasm-bindgen-macro/0.2.105 crate://crates.io/wasm-bindgen-macro-support/0.2.105 crate://crates.io/wasm-bindgen-shared/0.2.105 crate://crates.io/web-sys/0.3.82 crate://crates.io/web_atoms/0.1.3 crate://crates.io/weezl/0.1.10 crate://crates.io/wide/0.7.33 crate://crates.io/winapi/0.3.9 crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 crate://crates.io/winapi-util/0.1.11 crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 crate://crates.io/window
- s-core/0.62.2 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-result/0.4.1 crate://crates.io/windows-strings/0.5.1 crate://crates.io/windows-sys/0.59.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.5 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.1 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.1 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.1 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.1 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.1 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.1 crate://crates.io/windows_x86_64_gnullvm/0.52.6 
- crate://crates.io/windows_x86_64_gnullvm/0.53.1 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/windows_x86_64_msvc/0.53.1 crate://crates.io/winnow/0.7.13 crate://crates.io/wit-bindgen/0.46.0 crate://crates.io/writeable/0.6.2 crate://crates.io/xml5ever/0.35.0 crate://crates.io/yeslogic-fontconfig-sys/6.0.0 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerocopy/0.8.27 crate://crates.io/zerocopy-derive/0.8.27 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zune-core/0.4.12 crate://crates.io/zune-jpeg/0.4.21 file://0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch file://0001-Revert-meson.build-do-not-force-disable-gdk-pixbuf-l.patch file://0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch file://run-ptest"
-packages/x86-64-v3-poky-linux/librsvg: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-dbg: FILELIST: removed "/usr/lib/librsvg/ptest/.debug/intrinsic_dimensions-8844bfde88fb695c /usr/lib/librsvg/ptest/.debug/primitive_geometries-7f1e4c52456514a1 /usr/lib/.debug/librsvg-2.so.2.61.3 /usr/lib/librsvg/ptest/.debug/shapes-df2f735ae94dc558 /usr/lib/librsvg/ptest/.debug/errors-bd66fe68a37328e6 /usr/lib/librsvg/ptest/.debug/text-d4b4c4f2ed13df0e /usr/lib/librsvg/ptest/.debug/render_crash-c0b18b4f69ba511b /usr/lib/librsvg/ptest/.debug/reference-dfa3eb92a17bc4d4 /usr/lib/librsvg/ptest/.debug/primitives-5ab53eb2d76f0599 /usr/lib/librsvg/ptest/.debug/loading_crash-7815708013e0de5c /usr/lib/librsvg/ptest/.debug/loading_disallowed-1faeba7bbcdf4c21 /usr/lib/librsvg/ptest/.debug/rsvg_convert-6fa5b5404531cebf /usr/lib/librsvg/ptest/.debug/filters-774fcf19ece0bb6c /usr/lib/librsvg/ptest/.debug/rsvg-bf4241f815cd4c8b /usr/lib/librsvg/ptest/.debug/api-0bc3829dacbf0114 /usr/lib/librsvg/ptest/.debug/rsvg_convert-f741e7a71b0152f3 /usr/lib/librsvg
- /ptest/.debug/geometries-e58f22a4c673b0ea /usr/lib/librsvg/ptest/.debug/bugs-44871a7a85a30746 /usr/lib/librsvg/ptest/.debug/rsvg_convert-162c4a1883a8e6cb", added "/usr/lib/librsvg/ptest/.debug/loading_disallowed-46281ffc6a661bb9 /usr/lib/librsvg/ptest/.debug/errors-0dd0da945f3b676c /usr/lib/librsvg/ptest/.debug/api-09caabbacf1aed15 /usr/lib/librsvg/ptest/.debug/bugs-ae21758c05a24472 /usr/lib/librsvg/ptest/.debug/rsvg_convert-8d8c2d1199dbfb84 /usr/lib/librsvg/ptest/.debug/rsvg_convert-eeda74f5bd7ae4c8 /usr/lib/.debug/librsvg-2.so.2.61.4 /usr/lib/librsvg/ptest/.debug/text-47301d091b73485e /usr/lib/librsvg/ptest/.debug/reference-c7d78be0128faea9 /usr/lib/librsvg/ptest/.debug/intrinsic_dimensions-31f444b53470848a /usr/lib/librsvg/ptest/.debug/rsvg-2d9ac265f99c3b9e /usr/lib/librsvg/ptest/.debug/shapes-88d964dae2bd855f /usr/lib/librsvg/ptest/.debug/render_crash-dffc41b12c497c3e /usr/lib/librsvg/ptest/.debug/primitive_geometries-83d4db0715e2b57e /usr/lib/librsvg/ptest/.debug/rsvg_convert-3
- a0d54cc25095cdc /usr/lib/librsvg/ptest/.debug/primitives-cc097f3866002aed /usr/lib/librsvg/ptest/.debug/loading_crash-3b4b35fa4d47284e /usr/lib/librsvg/ptest/.debug/filters-446706903806d1cf /usr/lib/librsvg/ptest/.debug/geometries-eec0112ba44600dd"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-dbg: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-dbg: PKGSIZE changed from 48988776 to 48986048 (-0%)
-packages/x86-64-v3-poky-linux/librsvg/librsvg-dbg: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-dev: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-dev: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-doc: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-doc: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-gtk: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-gtk: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-locale: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-locale: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-ptest: FILELIST: removed "/usr/lib/librsvg/ptest/filters-774fcf19ece0bb6c /usr/lib/librsvg/ptest/rsvg-bf4241f815cd4c8b /usr/lib/librsvg/ptest/rsvg_convert-162c4a1883a8e6cb /usr/lib/librsvg/ptest/reference-dfa3eb92a17bc4d4 /usr/lib/librsvg/ptest/intrinsic_dimensions-8844bfde88fb695c /usr/lib/librsvg/ptest/shapes-df2f735ae94dc558 /usr/lib/librsvg/ptest/geometries-e58f22a4c673b0ea /usr/lib/librsvg/ptest/rsvg_convert-6fa5b5404531cebf /usr/lib/librsvg/ptest/errors-bd66fe68a37328e6 /usr/lib/librsvg/ptest/loading_disallowed-1faeba7bbcdf4c21 /usr/lib/librsvg/ptest/rsvg_convert-f741e7a71b0152f3 /usr/lib/librsvg/ptest/loading_crash-7815708013e0de5c /usr/lib/librsvg/ptest/api-0bc3829dacbf0114 /usr/lib/librsvg/ptest/text-d4b4c4f2ed13df0e /usr/lib/librsvg/ptest/primitives-5ab53eb2d76f0599 /usr/lib/librsvg/ptest/primitive_geometries-7f1e4c52456514a1 /usr/lib/librsvg/ptest/render_crash-c0b18b4f69ba511b /usr/lib/librsvg/ptest/bugs-44871a7a85a30746", adde
- d "/usr/lib/librsvg/ptest/render_crash-dffc41b12c497c3e /usr/lib/librsvg/ptest/errors-0dd0da945f3b676c /usr/lib/librsvg/ptest/rsvg_convert-3a0d54cc25095cdc /usr/lib/librsvg/ptest/rsvg-2d9ac265f99c3b9e /usr/lib/librsvg/ptest/geometries-eec0112ba44600dd /usr/lib/librsvg/ptest/rsvg_convert-eeda74f5bd7ae4c8 /usr/lib/librsvg/ptest/filters-446706903806d1cf /usr/lib/librsvg/ptest/text-47301d091b73485e /usr/lib/librsvg/ptest/primitive_geometries-83d4db0715e2b57e /usr/lib/librsvg/ptest/shapes-88d964dae2bd855f /usr/lib/librsvg/ptest/api-09caabbacf1aed15 /usr/lib/librsvg/ptest/reference-c7d78be0128faea9 /usr/lib/librsvg/ptest/loading_disallowed-46281ffc6a661bb9 /usr/lib/librsvg/ptest/loading_crash-3b4b35fa4d47284e /usr/lib/librsvg/ptest/bugs-ae21758c05a24472 /usr/lib/librsvg/ptest/rsvg_convert-8d8c2d1199dbfb84 /usr/lib/librsvg/ptest/intrinsic_dimensions-31f444b53470848a /usr/lib/librsvg/ptest/primitives-cc097f3866002aed"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-ptest: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-ptest: PKGSIZE changed from 109660879 to 109664975 (+0%)
-packages/x86-64-v3-poky-linux/librsvg/librsvg-ptest: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-src: FILELIST: directory renamed /usr/src/debug/librsvg/2.61.3/include/librsvg -> /usr/src/debug/librsvg/2.61.4/include/librsvg
-packages/x86-64-v3-poky-linux/librsvg/librsvg-src: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-src: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg-staticdev: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg-staticdev: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/librsvg: FILELIST: removed "/usr/lib/librsvg-2.so.2.61.3", added "/usr/lib/librsvg-2.so.2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/librsvg: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-packages/x86-64-v3-poky-linux/librsvg/rsvg: PV changed from "2.61.3" to "2.61.4"
-packages/x86-64-v3-poky-linux/librsvg/rsvg: PKGV changed from 2.61.3 [default] to 2.61.4 [default]
-Changes to packages/x86-64-v3-poky-linux/librsvg (sysroot):
-  /usr/lib/librsvg-2.so.2 changed symlink target from librsvg-2.so.2.61.3 to librsvg-2.so.2.61.4
-  /usr/lib/librsvg-2.so.2.61.3 moved to /usr/lib/librsvg-2.so.2.61.4
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGSIZE changed from 17631839 to 17968655 (+2%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: FILELIST: removed "/usr/lib/.debug/libgstcontroller-1.0.so.0.2609.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2609.0-gdb.py /usr/lib/.debug/libgstnet-1.0.so.0.2609.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2609.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2609.0 /usr/lib/.debug/libgstbase-1.0.so.0.2609.0", added "/usr/lib/.debug/libgstbase-1.0.so.0.2800.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2800.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2800.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2800.0 /usr/lib/.debug/libgstnet-1.0.so.0.2800.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2800.0-gdb.py"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGSIZE changed from 6481612 to 6775774 (+5%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: FILELIST: added "/usr/include/gstreamer-1.0/gst/gstcpuid.h /usr/include/gstreamer-1.0/gst/gstmetafactory.h"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGSIZE changed from 13998 to 13883 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGSIZE changed from 28463 to 28344 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGSIZE changed from 52434 to 53090 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGSIZE changed from 32510 to 32380 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGSIZE changed from 37787 to 37646 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGSIZE changed from 36788 to 36675 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGSIZE changed from 40955 to 41391 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGSIZE changed from 42423 to 42275 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGSIZE changed from 10731 to 10631 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGSIZE changed from 38113 to 37954 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGSIZE changed from 41069 to 41556 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGSIZE changed from 28283 to 28177 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGSIZE changed from 31282 to 31147 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGSIZE changed from 41210 to 41083 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGSIZE changed from 39467 to 39363 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGSIZE changed from 34099 to 33960 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGSIZE changed from 39747 to 40234 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGSIZE changed from 40656 to 40490 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGSIZE changed from 38549 to 38435 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGSIZE changed from 38503 to 38376 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGSIZE changed from 14226 to 14167 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGSIZE changed from 30112 to 29953 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGSIZE changed from 40384 to 40265 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGSIZE changed from 38482 to 38371 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGSIZE changed from 39768 to 40280 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGSIZE changed from 40186 to 40651 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGSIZE changed from 40910 to 40787 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGSIZE changed from 42137 to 42628 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGSIZE changed from 51483 to 51307 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGSIZE changed from 36462 to 36331 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGSIZE changed from 39168 to 39697 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGSIZE changed from 12676 to 12556 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGSIZE changed from 51119 to 51655 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGSIZE changed from 39682 to 39566 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGSIZE changed from 39130 to 39012 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGSIZE changed from 52692 to 53258 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGSIZE changed from 41106 to 40863 (-1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGSIZE changed from 36044 to 35944 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGSIZE changed from 33144 to 33044 (-0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGSIZE changed from 4144747 to 4218467 (+2%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGSIZE changed from 9738771 to 10020276 (+3%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/gst -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/gst, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/net -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/net, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tools -> /usr/src/debug/gstreamer1.0/1.28.0/tools, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/gst/parse -> /usr/src/debug/gstreamer1.0/1.28.0/gst/parse, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/controller -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/controller, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/generic -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/generic, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/elements -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/elements, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/plugins/elements -
+ > /usr/src/debug/gstreamer1.0/1.28.0/plugins/elements, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/libs -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/libs, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/base -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/base, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/check/libcheck -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/check/libcheck, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/check/pipelines -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/pipelines, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/validate -> /usr/src/debug/gstreamer1.0/1.28.0/tests/validate, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/gst/printf -> /usr/src/debug/gstreamer1.0/1.28.0/gst/printf, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/check -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/check, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/tests/che
+ ck/tools -> /usr/src/debug/gstreamer1.0/1.28.0/tests/check/tools, directory renamed /usr/src/debug/gstreamer1.0/1.26.9/libs/gst/helpers -> /usr/src/debug/gstreamer1.0/1.28.0/libs/gst/helpers, removed "/usr/src/debug/gstreamer1.0/1.26.9/gst/gstpadtemplate.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaskpool.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaskpool.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpadtemplate.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginfeature.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginfeature.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmessage.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpromise.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstobject.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstplugin.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpreset.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsample.h /usr/src/debug/gstreamer1.0/1.26.9/gst
+ /gsttracer.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsample.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcompat.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevice.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstformat.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmemory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmemory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstobject.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmessage.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstallocator.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbuffer.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevicemonitor.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpromise.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerutils.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbin.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerutils.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbin.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrybinary.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrychunks.c /usr/src/debug/gstreamer1.0/1.26.9
+ /gst/gsttracerrecord.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrybinary.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistrychunks.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracerrecord.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstparamspecs.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstparamspecs.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvecdeque.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolsource.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolsource.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvecdeque.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstidstr-private.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefindfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefindfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbuffer.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstparse.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvalue.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstclock.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsterror.c /usr/src/debug/gstreamer1.0/1.26.9/gst
+ /gstevent.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstidstr.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstquery.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstutils.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevice.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstformat.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstplugin.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstquery.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstutils.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpreset.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttracer.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstclock.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsterror.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstevent.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststructure.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginloader.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpluginloader.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststructure.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpipeline.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreams.c /us
+ r/src/debug/gstreamer1.0/1.26.9/gst/gstpipeline.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreams.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsturi.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsturi.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstatomicqueue.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsystemclock.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstatomicqueue.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsystemclock.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdynamictypefactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdynamictypefactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstinfo.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstinfo.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcapsfeatures.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcapsfeatures.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmeta.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdatetime.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdatetime.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstmeta.h /usr/src/debug/gstreamer1.0/1.26.
+ 9/gst/gsttypefind.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttypefind.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceprovider.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstenumtypes.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttask.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdebugutils.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstiterator.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceprovider.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstenumtypes.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdebugutils.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstiterator.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttask.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttoc.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gst.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferlist.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gst.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdevicemonitor.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttoc.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferlist.h /usr/src/debug/gstreamer1.0/1.
+ 26.9/gst/gstallocator.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontext.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelement.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelementfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsegment.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaglist.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelementfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstelement.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontext.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstsegment.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttaglist.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttagsetter.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttocsetter.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttagsetter.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gsttocsetter.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpad.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolbinding.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstghostpad.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpad.h /usr/src/debug/
+ gstreamer1.0/1.26.9/gst/gstghostpad.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcontrolbinding.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gst_private.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreamcollection.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbus.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstchildproxy.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbus.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gststreamcollection.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstchildproxy.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstminiobject.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbytearrayinterface.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstminiobject.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferpool.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistry.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstbufferpool.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstregistry.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstprotection.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstidstr.h /usr/src/debug/gstreamer1
+ .0/1.26.9/gst/gstparse.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstvalue.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstprotection.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpoll.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstpoll.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcaps.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceproviderfactory.c /usr/src/debug/gstreamer1.0/1.26.9/gst/gstdeviceproviderfactory.h /usr/src/debug/gstreamer1.0/1.26.9/gst/gstcaps.c", added "/usr/src/debug/gstreamer1.0/1.28.0/gst/gstdynamictypefactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmetafactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstatomicqueue.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmetafactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdynamictypefactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstinfo.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstinfo.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcapsfeatures.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcapsfeatures.c /usr/src/debug/gstreamer
+ 1.0/1.28.0/gst/gstmeta.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdatetime.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdatetime.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmeta.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefind.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefind.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceprovider.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstenumtypes.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttask.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdebugutils.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstiterator.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstobject.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceprovider.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstenumtypes.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdebugutils.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstiterator.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttask.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttoc.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gst.h /usr/src/debug/gstreamer1.0
+ /1.28.0/gst/gstbufferlist.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gst.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttoc.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferlist.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontext.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelement.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelementfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsegment.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaglist.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelementfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontext.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsegment.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaglist.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttagsetter.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttocsetter.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstelement.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttagsetter.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttocsetter.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpad.c /usr/src/debug/gstreame
+ r1.0/1.28.0/gst/gstcontrolbinding.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstghostpad.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpad.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstghostpad.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolbinding.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gst_private.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreamcollection.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbus.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstchildproxy.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbus.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreamcollection.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstchildproxy.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstminiobject.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbytearrayinterface.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstminiobject.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferpool.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistry.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbufferpool.h /usr/src/debug/gstreamer1.0/1.2
+ 8.0/gst/gstregistry.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstprotection.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstprotection.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpoll.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpoll.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcaps.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceproviderfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdeviceproviderfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcaps.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpadtemplate.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaskpool.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttaskpool.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstformat.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpadtemplate.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmemory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbuffer.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginfeature.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginfe
+ ature.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmessage.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpromise.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmemory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstobject.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstplugin.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerutils.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpreset.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsample.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracer.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracer.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstplugin.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcompat.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevice.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevicemonitor.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstformat.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstallocator.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbuffer.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevic
+ e.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstdevicemonitor.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstmessage.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpromise.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerutils.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbin.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstbin.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrybinary.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrychunks.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerrecord.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrybinary.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstregistrychunks.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttracerrecord.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsample.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstparamspecs.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstparamspecs.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvecdeque.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolsource.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcontrolsource.c
+  /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvecdeque.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstidstr-private.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstallocator.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefindfactory.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsttypefindfactory.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpreset.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstclock.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstcpuid.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsterror.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstevent.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstidstr.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstparse.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstquery.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstutils.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvalue.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstclock.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsterror.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstevent.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstidstr.h /usr/src/d
+ ebug/gstreamer1.0/1.28.0/gst/gstparse.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstquery.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstutils.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstvalue.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststructure.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginloader.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpluginloader.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststructure.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpipeline.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreams.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstpipeline.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gststreams.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gsturi.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gsturi.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstatomicqueue.c /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsystemclock.h /usr/src/debug/gstreamer1.0/1.28.0/gst/gstsystemclock.c"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PKGSIZE changed from 3360142 to 3409318 (+1%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstreamer-1.0.so.0.2609.0 /usr/lib/libgstnet-1.0.so.0.2609.0 /usr/lib/libgstcontroller-1.0.so.0.2609.0 /usr/lib/libgstcheck-1.0.so.0.2609.0 /usr/lib/libgstbase-1.0.so.0.2609.0", added "/usr/lib/libgstnet-1.0.so.0.2800.0 /usr/lib/libgstbase-1.0.so.0.2800.0 /usr/lib/libgstreamer-1.0.so.0.2800.0 /usr/lib/libgstcheck-1.0.so.0.2800.0 /usr/lib/libgstcontroller-1.0.so.0.2800.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PV changed from "1.26.9" to "1.28.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PACKAGES: added "gstreamer1.0-locale-ar"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PKGV changed from 1.26.9 [default] to 1.28.0 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.26.9.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch" to "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.0.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2609.0 to libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2609.0 to libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2609.0 to libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2609.0 to libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2609.0 to libgstreamer-1.0.so.0.2800.0
+  /usr/lib/libgstbase-1.0.so.0.2609.0 moved to /usr/lib/libgstbase-1.0.so.0.2800.0
+  /usr/lib/libgstcheck-1.0.so.0.2609.0 moved to /usr/lib/libgstcheck-1.0.so.0.2800.0
+  /usr/lib/libgstcontroller-1.0.so.0.2609.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2800.0
+  /usr/lib/libgstnet-1.0.so.0.2609.0 moved to /usr/lib/libgstnet-1.0.so.0.2800.0
+  /usr/lib/libgstreamer-1.0.so.0.2609.0 moved to /usr/lib/libgstreamer-1.0.so.0.2800.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2609.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2800.0-gdb.py
+  /usr/include/gstreamer-1.0/gst/gstcpuid.h was added
+  /usr/include/gstreamer-1.0/gst/gstmetafactory.h was added
 
---===============4660349492663749562==--
+--===============0134068622474330233==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-upgrade-1.26.9-1.28.0.patch"
+
+RnJvbSA0YzgyNjEzNjBiOWIxM2Q4OWY4YTZiNmI4YThmNDg1YTM4NzUwOWMxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTY6MTE6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjA6IHVwZ3JhZGUgMS4yNi45IC0+IDEuMjguMAoKLS0tCiAuLi50cy1yZXNwZWN0
+LXRoZS1pZGVudGVudGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaCB8ICAyICstCiAuLi4yLXRlc3Rz
+LWFkZC1zdXBwb3J0LWZvci1pbnN0YWxsLXRoZS10ZXN0cy5wYXRjaCB8IDE0ICsrKysrKystLS0t
+LS0tCiAuLi4tdGVzdHMtdXNlLWEtZGljdGlvbmFyaWVzLWZvci1lbnZpcm9ubWVudC5wYXRjaCB8
+ICAyICstCiAuLi4taGVscGVyLXNjcmlwdC10by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRj
+aCB8ICAyICstCiAuLi50cmVhbWVyMS4wXzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjBfMS4yOC4w
+LmJifSB8ICAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDExIGRlbGV0
+aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVh
+bWVyMS4wXzEuMjYuOS5iYiA9PiBnc3RyZWFtZXIxLjBfMS4yOC4wLmJifSAoOTclKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAw
+MS10ZXN0cy1yZXNwZWN0LXRoZS1pZGVudGVudGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMS10ZXN0cy1y
+ZXNwZWN0LXRoZS1pZGVudGVudGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaAppbmRleCBlMWQ4NzBi
+MDQwLi5iZWRmMTUzODA3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDEtdGVzdHMtcmVzcGVjdC10aGUtaWRlbnRlbnRhaW9uLXVz
+ZWQtaW4tbWVzb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAxLXRlc3RzLXJlc3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWlu
+LW1lc29uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhZDRjNTc3ZmY4ZDI5ZjZkYmFmNWNh
+MmQwMTNlOWQyMWM0NGY5MTIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAyYThhZDU5
+OWMxMmY3OWRmMWE1MGZiYWE5OTJhOWZhMTk2ZGMyM2ZlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBT
+dW4sIDExIEFwciAyMDIxIDE5OjQ4OjEzICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBy
+ZXNwZWN0IHRoZSBpZGVudGVudGFpb24gdXNlZCBpbiBtZXNvbgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAyLXRlc3RzLWFkZC1z
+dXBwb3J0LWZvci1pbnN0YWxsLXRoZS10ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5z
+dGFsbC10aGUtdGVzdHMucGF0Y2gKaW5kZXggY2NmYzg2OTgxMy4uNzIwYTZmMGM5NyAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAy
+LXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0YWxsLXRoZS10ZXN0cy5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDItdGVzdHMtYWRk
+LXN1cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSBjMzMwNjMzNjA3OTFlMTc4ZGUxMzgzMDRlMjlhYjIyNjQ1ODJkOTE3IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSA5MmU3ZDQwOTBmYTQ1OGJmMDJkMzQxOGNkMDFjOTYwOTgyODIxZTky
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEu
+am9zZUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDExIEFwciAyMDIxIDE5OjQ4OjEzICswMTAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBhZGQgc3VwcG9ydCBmb3IgaW5zdGFsbCB0aGUgdGVzdHMK
+QEAgLTEyLDE3ICsxMiwxNyBAQCBVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9n
+aXRsYWIuZnJlZWRlc2t0b3Aub3JnL2dzdHJlYW1lci9nc3RyZWFtZXIvLQogU2lnbmVkLW9mZi1i
+eTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiAtLS0KICBtZXNvbi5i
+dWlsZCAgICAgICAgICAgICAgICAgIHwgIDQgKysrKwotIG1lc29uX29wdGlvbnMudHh0ICAgICAg
+ICAgICAgfCAgMSArCisgbWVzb24ub3B0aW9ucyAgICAgICAgICAgICAgICB8ICAxICsKICB0ZXN0
+cy9jaGVjay9tZXNvbi5idWlsZCAgICAgIHwgMjIgKysrKysrKysrKysrKysrKysrKysrLQogIHRl
+c3RzL2NoZWNrL3RlbXBsYXRlLnRlc3QuaW4gfCAgMyArKysKICA0IGZpbGVzIGNoYW5nZWQsIDI5
+IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKICBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMv
+Y2hlY2svdGVtcGxhdGUudGVzdC5pbgogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNv
+bi5idWlsZAotaW5kZXggMGE3N2U5MC4uY2FkZmFlYiAxMDA2NDQKK2luZGV4IDhhZGMwNTUuLmI1
+YzllNWIgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKLUBAIC02
+NjQsNiArNjY0LDEwIEBAIGlmIGJhc2hjb21wX2RlcC5mb3VuZCgpCitAQCAtNjY3LDYgKzY2Nywx
+MCBAQCBpZiBiYXNoY29tcF9kZXAuZm91bmQoKQogICAgZW5kaWYKICBlbmRpZgogIApAQCAtMzMs
+MTAgKzMzLDEwIEBAIGluZGV4IDBhNzdlOTAuLmNhZGZhZWIgMTAwNjQ0CiAgcGx1Z2luc19pbnN0
+YWxsX2RpciA9IGpvaW5fcGF0aHMoZ2V0X29wdGlvbignbGliZGlyJyksICdnc3RyZWFtZXItMS4w
+JykKICAKICBwa2djb25maWcgPSBpbXBvcnQoJ3BrZ2NvbmZpZycpCi1kaWZmIC0tZ2l0IGEvbWVz
+b25fb3B0aW9ucy50eHQgYi9tZXNvbl9vcHRpb25zLnR4dAorZGlmZiAtLWdpdCBhL21lc29uLm9w
+dGlvbnMgYi9tZXNvbi5vcHRpb25zCiBpbmRleCAzOTI1NWNmLi43OGFmNTUyIDEwMDY0NAotLS0t
+IGEvbWVzb25fb3B0aW9ucy50eHQKLSsrKyBiL21lc29uX29wdGlvbnMudHh0CistLS0gYS9tZXNv
+bi5vcHRpb25zCisrKysgYi9tZXNvbi5vcHRpb25zCiBAQCAtMTYsNiArMTYsNyBAQCBvcHRpb24o
+J3BvaXNvbmluZycsIHR5cGUgOiAnYm9vbGVhbicsIHZhbHVlIDogZmFsc2UsIGRlc2NyaXB0aW9u
+IDogJ0VuYWJsZSBwb2lzbwogIG9wdGlvbignbWVtb3J5LWFsaWdubWVudCcsIHR5cGU6ICdjb21i
+bycsCiAgICAgICAgIGNob2ljZXMgOiBbJzEnLCAnMicsICc0JywgJzgnLCAnMTYnLCAnMzInLCAn
+NjQnLCAnMTI4JywgJzI1NicsICc1MTInLCAnMTAyNCcsICcyMDQ4JywgJzQwOTYnLCAnODE5Mics
+ICdtYWxsb2MnLCAncGFnZXNpemUnXSwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMt
+Zm9yLWVudmlyb25tZW50LnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1l
+bnQucGF0Y2gKaW5kZXggMTIzNjI5MGUyYi4uM2Q2ZmEyNzYyZCAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1h
+LWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25h
+cmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDM3NGM2YWNl
+ODNlOTY5N2FhZTBiMjFiYTI2ZjMxNmI3OTI3OWMzOWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tIDg4Zjc5MjI2Y2QzNmZlOGVjMTFkNzVhMDM1NTIxMGUwMmQ4NjA5YzYgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWls
+LmNvbT4KIERhdGU6IFNhdCwgMjQgQXByIDIwMjEgMTA6MzQ6NDcgKzAxMDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gdGVzdHM6IHVzZSBhIGRpY3Rpb25hcmllcyBmb3IgZW52aXJvbm1lbnQKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10
+ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0
+cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaAppbmRl
+eCBkZjM4MmE0NDQ1Li4zMWI0YWE2ZTg0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQt
+dG8tcnVuLXRoZS1pbnN0YWxsZWRfdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRp
+bWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDA0LXRlc3RzLWFkZC1oZWxwZXItc2NyaXB0
+LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBl
+MzFhYjQ3N2VlZDA2MWNjNzJlZDY3OTViNDgzNzk1ZDUzYWY2ZGZjIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSAwZDdhOWUwNTY0MDE1YzI4NmM3MzNmNzU2YTZhZjRjMWM0NjU3NDU4IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9z
+ZUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDIgTWF5IDIwMjEgMDE6NTg6MDEgKzAxMDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gdGVzdHM6IGFkZCBoZWxwZXIgc2NyaXB0IHRvIHJ1biB0aGUgaW5zdGFsbGVk
+X3Rlc3RzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wXzEuMjYuOS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjBfMS4yOC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yNi45LmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEu
+MjguMC5iYgppbmRleCBjNjZmNjE0NjI5Li42MzYzM2ZlYTA1IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjYuOS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjguMC5iYgpA
+QCAtMjIsNyArMjIsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9w
+Lm9yZy9zcmMvZ3N0cmVhbWVyL2dzdHJlYW1lci0ke1BWfS50YXIueAogICAgICAgICAgICBmaWxl
+Oi8vMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMtZm9yLWVudmlyb25tZW50LnBhdGNoIFwK
+ICAgICAgICAgICAgZmlsZTovLzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRo
+ZS1pbnN0YWxsZWRfdGVzdHMucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiOGVlODc3MmU0NjgxMDJlYmU4NmQ0MTRkOGM0Yzc0NDBkZDkxZDlmM2U5Mzk2OTUyZmYy
+M2FlY2RlODA2NzBjOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2Yzg2NzZiYzM5YTJiNDEwODRm
+ZDRiMjFkMmMzNzk4NWM2OWFjOTc5YzAzY2U1OTU3NWRiOTQ1YTNhNjIzYWZkIgogCiBQQUNLQUdF
+Q09ORklHID8/PSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BURVNUX0VOQUJMRUQnLCAnMScsICd0
+ZXN0cycsICcnLCBkKX0gXAogICAgICAgICAgICAgICAgICAgIGNoZWNrIFwKLS0gCjIuNDcuMQoK
+
+--===============0134068622474330233==--
 
