@@ -1,182 +1,135 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36631E9A03B
-	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 05:44:49 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6150.1771392957153209731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 677BDE9A03B
+	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 06:42:49 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6818.1771396963015715364
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Feb 2026 21:35:57 -0800
+ Tue, 17 Feb 2026 22:42:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=M0AK4Rh+;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: careers.myinfo@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8fa449e618so709060166b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 21:35:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771392955; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bmLd102Ruait2oWpWHlDJi1uSGMr+rC7WHa7lkz8btYGXLMDtjXGUav/HyqIrssR/F
-         wWBjzGRCnyfdak7paERXF8jgN7yRSWnkFsfJEDy3V1Ya6S/cyxLCV9CagFwyp/xzedQo
-         qReAMxYK7DquOYRrnhs8BQHmfa2rwMUqzovRm82ZkeKvOLxAEcdtdBtl46U42uI+3Tbg
-         kVQKf7Qkrv8AWSXM7ripf433fMH7975n0I16k74aTAyLJ/zIkahKUg1w7UNIxL2Z58hK
-         fk8vmN+uQAb5SE9fFvMMy/E7CgwjBoRLqxPbhlBQakXhYpYcwHbFixiydjZJNyZ9utZx
-         3IuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :dkim-signature;
-        bh=uat4KKFWFTv62YT5M6WaCwqb7xUKW28+Vl+bOiwpUa8=;
-        fh=UxP1HceJM0T1LJz3AZ4pRYR3KesS3Uwc4ek1/I2Z9pE=;
-        b=PEjMKVMTap164LLCX2TSNLEGJ6EJEWDCAhgPiFGPLLaOAhBohUbW71razZ9UEp0wO4
-         FMKCHThHnTtOq2D8nrrgh2/QQX9jpu1m7s/fg5J3ekwMwcXGzvruw/oPLC5a9mwynZAG
-         JTIQhc19pfwMuSKYP7DIuPJg5UdNSV9noaG8mr9VYQVy5OLDyhJ9mqTYL3nEL0Ff3Mjb
-         SBALtNZHTXqx98OjBRE277uYmD43MydzcihhwogLknxlSqpxxb1DHYUBtLmIr+lLLP+f
-         ZspY9EO4MNk0ql5CO9B7ymWEeqjY0ly4V72exi+cmirrnRbw8JqZMDQveWmjXM2yYRM7
-         kZPg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@mvista.com header.s=google header.b=MdArp2ui;
+ spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-81df6a302b1so4961581b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Feb 2026 22:42:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771392955; x=1771997755; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uat4KKFWFTv62YT5M6WaCwqb7xUKW28+Vl+bOiwpUa8=;
-        b=M0AK4Rh+0Boze31j5HLthkPeVoQ3kZVT24qaa+XEBa/oLVFrQbKsJ4str+UYjYadkH
-         6eM7wXuwtkCAblmUC4EYrTJHDZt5+WNbSwA8+osbbpMoRhiDw5bMEiNDMMppR3cHUANJ
-         BjvsWx7HvZpVVgXHa/fwnAX63T1IDh09zEByPwFnQztXt420Rhy8BLlr9odBRyzTFS3b
-         Azr9kYuWOxb83gYJc9dWbjCibxsxEsw076NjhibhAWLKtb8T+PawGjf8oWx9Dnuo8k73
-         uAYM8UDjvAthkP56hmL/AjPL352nL0o79LBOV7DUysDULF6qcI5mnQ3miUJZAzij4kO4
-         prng==
+        d=mvista.com; s=google; t=1771396962; x=1772001762; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SKt6Z5SM2V0qPMf9zq38KqbmENupJxyuI66gHuEhjKg=;
+        b=MdArp2uiu1WzasY5+NwisC2QcCAFZXFwyFDVdnPqJ/DjPG26+hObxfCk2o1G6f+yeC
+         sk0b+SfQROwPVpvv1FwLSVNEa5Oo5lsYaECw2COHf4lwAeId6HN66WE7F1etvP1xpcMS
+         MqJlAOgId+DWXhgRNx2TGvV8R8CL+EnnRW+E4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771392955; x=1771997755;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uat4KKFWFTv62YT5M6WaCwqb7xUKW28+Vl+bOiwpUa8=;
-        b=uKNpetHyTfAljYhG+N257Pms49ZKuCmOW2fA5X8/vPjqGVFKv1mT2xMt/vsGRSE7ff
-         j5ySGpsUwALMThBl2J78Bh+oYAVoDUPweGqfCaIpFjxyh57oUYAQyce71vIC8l0M2XyH
-         SSaPHgTtfOhntE5lwBohB6as0rZPgyfiYZalK6YiHNwu7TIbS4yDbFebagiD/TnTSnnY
-         0M8raeBNzFBpmB25+il+i+rG8+uGArRd/8Bu1Qq4nmN57dSEIQc3BY0f45Dw5r8hlx79
-         EMasYLQqYMh5fwbGxyEA8u9GohsGlqVGT7/OAjyyf8YjsjQm9jdvS/wNzK6E8btsi3MF
-         kvPQ==
-X-Gm-Message-State: AOJu0YwxKtml5q1kA4gYab1d2BZAuxOTRppdw2JKpBzPGCUZVzixzxtL
-	OpCuQdgyTEf0mjWSkUhDYMN03NNkTRZC8Kx0LKrejx9xMCOc5zkuTiRu72f5h8ufvkQAcVvPBPO
-	8Ljn+1uH8hanq0kcVOXPBWPwtJuIGErm7gQ==
-X-Gm-Gg: AZuq6aJ51LnrwKELfi85fRkNWl3SSf38d+kbh1dbvcjNCD9TVcwUurOQQ1XxI2aMKnM
-	hIEppASdipZiZadqfL1qtbFX/B9mrWrqxcxLFHjJw22DYiV4DCZsmdLZVQcrEGJWFJUtZGuZxp2
-	ql1FTAq7mP9s89msWWyHpvnQkAPKnH1qU4kybdWszPdV0eGOpzGFgw7IW1myqE1ICGuh69+AbSD
-	aivpNW1lDuj04kKrAkFbgjyEERDoC6ORyWek7Dq3mQlb97ai+F9WardZEl361vpom0bTBCHkE3V
-	/BWLmZiqocRV6cMSDJDA/r1HV85VxQjFo0eY+Js=
-X-Received: by 2002:a17:907:7253:b0:b8e:a143:3ae1 with SMTP id
- a640c23a62f3a-b8fb450a4e5mr925330566b.54.1771392628229; Tue, 17 Feb 2026
- 21:30:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20260211072322.79206-1-moins@kpit.com> <DGC07OORVFOQ.IN2M7A5FW055@smile.fr>
-In-Reply-To: <DGC07OORVFOQ.IN2M7A5FW055@smile.fr>
-From: Shaik Moin <careers.myinfo@gmail.com>
-Date: Wed, 18 Feb 2026 11:00:13 +0530
-X-Gm-Features: AaiRm52Ekl7Aq-SV1A58ecvr1kEKyW3rl0cEKOwBMpHcEPk_Tur3Irf65Ygnhpw
-Message-ID: <CAN01=z3YhR4u95F2HAncVV3pj+k5GxZVh2Hr2XV7mTxKEMTuNg@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH 1/2] libpcre2: Enable Ptest Support
+        d=1e100.net; s=20230601; t=1771396962; x=1772001762;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SKt6Z5SM2V0qPMf9zq38KqbmENupJxyuI66gHuEhjKg=;
+        b=jFgkfiI4BoNo11kOirUMKDdFZPyUz0Yp5DAv4sANT62EAfVbD/zoqi+y7CoJ3aOGQy
+         vDkl90YEQFRI0qMk7YfYKIhTj13yQ6bSr7+ZQC9Vv5EpHilYI3Y2lGzQqENTtpsP0pVv
+         gjs8YBGy52ISykm3m0fCe6V6Ih2lOFrdiSiGz4TiidZnfvE4dRcOo96mjJ4u7Q+EKstc
+         wh0xW6oAaaAGFtYXA6AEkyPnGnCXbDtLSAEpVzJAm+asKeuqtNkYrZ75VjBJU55pzxB8
+         E8vGdXC+bNLWqLn8IIXq4suqjv6d8oh6BB6Oi2wKsWxUTab/CsOTmRFhYbjOM+xh9G3s
+         ZP1w==
+X-Gm-Message-State: AOJu0YxAtnZb0iWfqJX4geKrZqXZ90nYv893b0vCAN4RIdE5E6CdjZFT
+	EG24Mgx3VXa7Xpkn7qQ16tPiixMJYqx9GXVl3r9iN19I4NqlzAn5i+lbUloyCPbwt5SgsTxDUQ/
+	wvFyK2WI=
+X-Gm-Gg: AZuq6aLr4uq5+FrGWpWQLzC2CEblsPWZv5yQZ07/Hi7nw68F7f9hAYir21QBIYsLDYO
+	zoBC+mfFLKxDse3/Xjwxu0HeTXZZQNZfYRrdajqXJdWTxLoQhZqG5cYd0uAelFmb+xrZXm+UEvs
+	WVvdTRzakgTBaEGuQQ2/klTIkJ6EM3X1nNIXKWNxbYfkVEzoWD+ZCd7eHMXEDHAXKOFtz7PFoAL
+	bsrG/zMgjfcHVzOntAaAOeYbpCmAS8WG3v6AFY6yytSxLx8XTdHNPQmconF4y2P/m8dQ1wSNthA
+	Zw33eW0xAHEqAzv9u1GtfHYuhkZdk5D7TWjz96SPs/3b6UnsuQariEt2s/vz+rYiGTBr6YppPs/
+	KuGB/MN/ZqC5xROzot54ckmq8nuAlFtyNcH2A2YotS0iQDobPya2uGrEpCqwYjh0QAMtt172nES
+	bZl7Ydule11n5pyOfhKrDw8vDQ093YL8F3aA==
+X-Received: by 2002:a05:6a00:1591:b0:822:bd7:e94f with SMTP id d2e1a72fcca58-824d9626680mr11320465b3a.53.1771396962243;
+        Tue, 17 Feb 2026 22:42:42 -0800 (PST)
+Received: from MVIN00013.mvista.com ([27.121.101.92])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824c6bb9875sm15041125b3a.65.2026.02.17.22.42.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 22:42:41 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005d0874064b127c19"
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] libsoup-2.4: fix CVE-2025-32049
+Date: Wed, 18 Feb 2026 12:12:34 +0530
+Message-ID: <20260218064234.34789-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 05:44:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231282
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 06:42:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231283
 
---0000000000005d0874064b127c19
-Content-Type: text/plain; charset="UTF-8"
+Refer:
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/408 (simplified)
 
-Hi team,
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../libsoup/libsoup-2.4/CVE-2025-32049.patch  | 36 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32049.patch
 
-I updated master branch patch. Please check.
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32049.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32049.patch
+new file mode 100644
+index 0000000000..465f8ed3fb
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32049.patch
+@@ -0,0 +1,36 @@
++From 6ec7c5be50b48d6ce0a09aa3468f2c5725406a97 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Wed, 21 May 2025 10:42:51 -0500
++Subject: [PATCH] Add size limit for total message size
++
++This size limit could break applications, but it will close the denial
++of service issue.
++
++Reference : https://access.redhat.com/errata/RHSA-2025:8132
++
++CVE: CVE-2025-32049
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/6ec7c5be50b48d6ce0a09aa3468f2c5725406a9]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libsoup/soup-websocket-connection.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
++index 9d5f4f8..9493fdf 100644
++--- a/libsoup/soup-websocket-connection.c
+++++ b/libsoup/soup-websocket-connection.c
++@@ -913,6 +913,11 @@ process_contents (SoupWebsocketConnection *self,
++ 		switch (pv->message_opcode) {
++ 		case 0x01:
++ 		case 0x02:
+++			/* Safety valve */
+++			if (pv->message_data->len + payload_len > pv->max_incoming_payload_size) {
+++				too_big_error_and_close (self, (pv->message_data->len + payload_len));
+++				return;
+++			}
++ 			g_byte_array_append (pv->message_data, payload, payload_len);
++ 			break;
++ 		default:
++-- 
++2.50.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index 0cc90a17cc..bd3960e2f7 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -43,6 +43,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-4476.patch \
+            file://CVE-2025-4945.patch \
++           file://CVE-2025-32049.patch \
+           "
+ SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
+ 
+-- 
+2.50.1
 
-Thanks!
-
-On Wed, 11 Feb 2026, 2:23 pm Yoann Congal, <yoann.congal@smile.fr> wrote:
-
-> On Wed Feb 11, 2026 at 8:23 AM CET, Shaik Moin via lists.openembedded.org
-> wrote:
-> > Install libpcre2 test suite and run it as ptest.
-> >
-> > Add tests for POSIX wrapper (pcre2posix_test), core PCRE2 engine
-> (RunTest), and grep utility (RunGrepTest).
-> >
-> > pcre2posix_test: Verifies the POSIX wrapper API
-> > RunTest: Executes the core PCRE2 test suite through pcre2test
-> > RunGrepTest: Checks pcre2grep to ensure its grepping style matching
-> works as expected with various patterns and input files.
-> >
-> > Signed-off-by: Shaik Moin <moins@kpit.com>
-> > ---
-> >  .../libpcre/libpcre2/run-ptest                | 39 +++++++------------
-> >  .../recipes-support/libpcre/libpcre2_10.43.bb | 22 +++++------
-> >  2 files changed, 22 insertions(+), 39 deletions(-)
->
-> Thanks for the patches but, as I already wrote, adding ptest is not
-> usually acceptable under the stable policy[0]. That also applies to your
-> kirkstone patch.
->
-> [0]:
-> https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable/LTS_Patch_Acceptance_Policies
->
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS
->
->
-
---0000000000005d0874064b127c19
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi team,<div dir=3D"auto"><br></div><div dir=3D"auto">I u=
-pdated master branch patch. Please=C2=A0check.</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Thanks!</div></div><br><div class=3D"gmail_quote gma=
-il_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 11 Feb 20=
-26, 2:23 pm Yoann Congal, &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoan=
-n.congal@smile.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On=
- Wed Feb 11, 2026 at 8:23 AM CET, Shaik Moin via <a href=3D"http://lists.op=
-enembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">lists.opene=
-mbedded.org</a> wrote:<br>
-&gt; Install libpcre2 test suite and run it as ptest.<br>
-&gt;<br>
-&gt; Add tests for POSIX wrapper (pcre2posix_test), core PCRE2 engine (RunT=
-est), and grep utility (RunGrepTest).<br>
-&gt;<br>
-&gt; pcre2posix_test: Verifies the POSIX wrapper API<br>
-&gt; RunTest: Executes the core PCRE2 test suite through pcre2test<br>
-&gt; RunGrepTest: Checks pcre2grep to ensure its grepping style matching wo=
-rks as expected with various patterns and input files.<br>
-&gt;<br>
-&gt; Signed-off-by: Shaik Moin &lt;<a href=3D"mailto:moins@kpit.com" target=
-=3D"_blank" rel=3D"noreferrer">moins@kpit.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../libpcre/libpcre2/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 39 +++++++------------<br>
-&gt;=C2=A0 .../recipes-support/libpcre/<a href=3D"http://libpcre2_10.43.bb"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">libpcre2_10.43.bb</a> | 22=
- +++++------<br>
-&gt;=C2=A0 2 files changed, 22 insertions(+), 39 deletions(-)<br>
-<br>
-Thanks for the patches but, as I already wrote, adding ptest is not<br>
-usually acceptable under the stable policy[0]. That also applies to your<br=
->
-kirkstone patch.<br>
-<br>
-[0]: <a href=3D"https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#S=
-table/LTS_Patch_Acceptance_Policies" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stabl=
-e/LTS_Patch_Acceptance_Policies</a><br>
-<br>
-Regards,<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</blockquote></div>
-
---0000000000005d0874064b127c19--
 
