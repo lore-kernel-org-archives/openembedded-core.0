@@ -2,32 +2,32 @@ Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696DCE9A04D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F919E9A03B
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 12:23:01 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10862.1771417375114506203
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10828.1771417375871435383
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Feb 2026 04:22:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=l3CxBdZE;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WViNu08m;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6509523d13=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61I9FlvG1377447
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 04:22:54 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61I9FlvI1377447
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 04:22:55 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=8RXKORjS16A6rqM/WdlkhWUh4a/NZDmONxlcN58mhAE=; b=l3CxBdZELhSO
-	54aL6YDN2LVB1ZNb9Qa/jWyhLYOQUuBIBH56BuvIqMT4BXHliNVSFGxIamYNR7nx
-	g+Q0dhEg/EY6SvffrO80L6+RU28f4wHptRfCtTx6yWME9jjwVw3gUu8XoToymqJy
-	wxTjM1x+mYLqdf1+IXGT+4C5D+9vSafA+2tkG0nqoacfMUsBZjU/IPeBLA4jWJBG
-	aWe1BJSkLZtvZzL7yO6ELkCC3nEZ4OW1h0lefDmkjiOYl3/JpsQz3Raq6l4ZUqBl
-	CJf05Oo6SmwsuFs8kFUuGIekOOpoJyc81ZCLbwgTtFLaVv0r/zbBZI4D3FDIDvNf
-	RsnyS/dLEA==
+	 bh=129aaVgZwuVWiHmeV3+ItxrOUGYGsks85u6wFyD2EyA=; b=WViNu08m11EZ
+	7fPWPOjyQiNm7Gpc9kSLoocngBl7g7CbWCqLmCZFxc58DfnzoKayJM8bB7Ks1HqP
+	IE6C60JQD6ZMfMt6BbZOOACGMskcwU9iTVk7hyo3pZegCAtd5RA/rcAaB0ltniqf
+	BuKAGcM3JNwSw40hiA5W9JZRfZ7ArbActxyenDxc+ZC5o8lHIAVYkNJxRqiZL9zK
+	20YIWkewB1ltIdU0a5IGweknsKWPE4KT+H6iHycL7eTA6Anjk5MZs5wk8SWKBEWq
+	HNpDoZ+hWTYhacFLcYWIcuPx6O1R9wrr7jqccjGvAYWx0VdcshwrwBRvIrZpFSjt
+	UejJn69wUA==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ccbamt6sg-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ccbamt6sg-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 04:22:54 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 04:22:55 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -37,30 +37,30 @@ Received: from ala-lpggp3.wrs.com (10.11.232.110) by
  15.1.2507.61 via Frontend Transport; Wed, 18 Feb 2026 04:22:53 -0800
 From: <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v6 1/7] package_rpm.bbclass: Drop external dependency generator to support rpm 6
-Date: Wed, 18 Feb 2026 04:22:47 -0800
-Message-ID: <3bc8167b06f2069dcf5130bf2e58cece8e1ea48c.1771409846.git.liezhi.yang@windriver.com>
+Subject: [PATCH v6 3/7] lib/oe/package.py: Don't add ldconfig_postinst_fragment for glibc or musl
+Date: Wed, 18 Feb 2026 04:22:49 -0800
+Message-ID: <b6ec0070d82234218139cf60aaef137d100c7cb4.1771409846.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <cover.1771409846.git.liezhi.yang@windriver.com>
 References: <cover.1771409846.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=SsCdKfO0 c=1 sm=1 tr=0 ts=6995af1e cx=c_pps
+X-Authority-Analysis: v=2.4 cv=SsCdKfO0 c=1 sm=1 tr=0 ts=6995af1f cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
  a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8 a=NIgqSAyxxZKqxsHT_JkA:9
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8 a=7IgoiE7PWGSXnmU5ZuwA:9
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDEwOSBTYWx0ZWRfXy5uTOv7Rj1H/
- JU6GpROzPUuoWUIj0MeowBGL3N3siIQVqFHwh7uxDaHVaDyqerWMEJYe9W5PLU5i7ed4uQJ6mph
- AvlWNAV7WsfukvZJCHI9LE5QVEteUDEZHh/zW5xHUHVbsNmrjB/xvLpRg4LoSR27PK1bv1Swx+Q
- X+ljDOpclYZqdLLdwOof18Sc5bOftr737ZYw3c9wy9pJKZjqFIryOY4/xYZqm7KZ+3hfFtAPsR7
- wo70AsHaO3lO5vH6DAA0MjORLb9FB8mTCQtka8K1G7pK/gqTpPXYDslbGzmngrdO1hNkpPfyxWK
- KkPqRFOBlveZi/IJ9gNF94asw04S5R9xJM7mwmjzAy3JgK7QGK1zuwTqh+2GB9U9Fo3JSJ7d4Cl
- aYea3ha/4JqBJLT8X16RyrpOgwZD5ASN5cIPtRsx6NKvUNptN14ENiR3kAcQCbCre7Tjk+62sXr
- ZFOB9AHQKz6UjP4VJXQ==
-X-Proofpoint-ORIG-GUID: AIt-lg4W6bRaY1jNtfjzkGmHi0ykLoxu
-X-Proofpoint-GUID: AIt-lg4W6bRaY1jNtfjzkGmHi0ykLoxu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDEwOSBTYWx0ZWRfX+TRH9aml6XHm
+ UBF+SKbsK5zeBDSwgZUebVwLaHIOUcExr/PLvoASD2c5S35nXj/YmyQmMMJSm9eveNWAYjc8Wes
+ LARwVrT0CQ/X4Cg4HftyD2pNsbvZXOaAERDZGmfghtSusd89BkDs0aRGGGBXew8rq5ZUX2yFwrd
+ pHz4YpGWXM+4m5tub5UuqtnspTmtnFMm0IkM3iw28vg94qX+rhCwm1QP7Yn1ld3H5mnZ8e+lJg7
+ ThJbkwxFth5Z+B5BXM7urliTUNw2/ml/GILOQYJ9zD+9Gc7+7On00oiz579v5ll0bPyBkNxa7xC
+ 1BHRaGbSBfs0T7B1ojnB2OsR/dILjhXDgf49x/x1XjUZl0vvIlwXKGXqJVui4iFE1jPV/7mjcpy
+ Ps0vp3M7xobW0bTKw0v2Ifd0vUQXmU/QT/4GONpEcv3qwIg6WtxPUpoGAjn4U1HRBNgCjPPIsX0
+ LP7bQR3rPLa2bdt4GSg==
+X-Proofpoint-ORIG-GUID: uVgKxBTxyPtnanBIbpR35ozjtpvlq3to
+X-Proofpoint-GUID: uVgKxBTxyPtnanBIbpR35ozjtpvlq3to
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-18_02,2026-02-16_04,2025-10-01_01
@@ -73,158 +73,96 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 12:23:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231299
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231302
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-The rpm 6 doesn't support external dependency generator. Oe-core used it for
-per file dependency which was saved into pn.requires and pn.provides, but that
-hasn't been used any more since 2012 (rev:
-be40f6d0bb80274366af00461112af65687a4de8), and there were no complains or
-updates in the past 13 years, so just drop it to support rpm 6.
+Fixed:
+$ bitbake core-image-full-cmdline:do_testimage
+%post(busybox-1.37.0-r0.x86_64_x32): execv(/bin/sh) pid 624
+error: failed to exec scriptlet interpreter /bin/sh: No such file or directory
+
+It is because busybox and libc6 depends on each other, busybox' elf files
+depends on libc6, and libc6's postin depends on busybox' /bin/sh, the do_rootfs
+works well is because dnf-native has set RPM_NO_CHROOT_FOR_SCRIPTS=1, but it
+would be failed without it.
+
+In rpm 4.20.1, it let the installed files' Requires win, so it installed
+busybox firstly, but in rpm 6.0.1, it let the postin's Requires win since
+postin would run immediately after the files are installed, this does make
+sense, so it installed busybox (which provides /bin/sh required by libc6'
+postin) firstly, then we got the errors. I couldn't find which commit made this
+change because a lot of files and functions are refactored during 4.20.1 and
+6.0.0 (not .1), I also tried bisect, but failed because a lot of do_patch or
+do_configure/do_compile failures for each build.
+
+For libc6's the postin is:
+
+  #!/bin/sh
+  if [ x"$D" = "x" ]; then
+      if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+  fi
+
+This doesn't make sense for libc6 since there is no /bin/sh or ldconfig when
+libc6 is not ready yet, so just not add ldconfig_postinst_fragment for glibc
+to fix the problem.
+
+And also remove the workarounds in oeqa/runtime/cases/dnf.py, they are not
+needed any more since the loop dependency is fixed.
+
+Similar to musl.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes-global/package_rpm.bbclass | 84 +------------------------
- 1 file changed, 3 insertions(+), 81 deletions(-)
+ meta/lib/oe/package.py                    | 3 ++-
+ meta/recipes-core/glibc/glibc-package.inc | 5 +++++
+ meta/recipes-core/musl/musl_git.bb        | 5 +++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index f383ed140e..bb3b8f830a 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -14,10 +14,6 @@ RPMBUILD_COMPMODE ?= "${@'w%dT%d.zstdio' % (int(d.getVar('ZSTD_COMPRESSION_LEVEL
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 279cd567b3..d389a9f43b 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1824,7 +1824,8 @@ def process_shlibs(pkgfiles, d):
+                     if s[0] not in shlib_provider:
+                         shlib_provider[s[0]] = {}
+                     shlib_provider[s[0]][s[1]] = (pkg, pkgver)
+-        if needs_ldconfig:
++        if needs_ldconfig and \
++                not bb.utils.to_boolean(d.getVar('SKIP_LDCONFIG_POSTINST_FRAGMENT:%s' % pkg)):
+             bb.debug(1, 'adding ldconfig call to postinst for %s' % pkg)
+             postinst = d.getVar('pkg_postinst:%s' % pkg)
+             if not postinst:
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 21f2200d19..11a568f302 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -293,6 +293,11 @@ pkg_postinst:nscd () {
+ 		fi
+ 	fi
+ }
++
++# Avoid loop dependencies between /bin/sh and libc.so.6
++SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} = "1"
++do_package[vardeps] += "SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN}"
++
+ CONFFILES:nscd = "${sysconfdir}/nscd.conf"
  
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ SYSTEMD_PACKAGES = "nscd"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 3f5fa37fba..d4e1e9e9bf 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -81,4 +81,9 @@ LEAD_SONAME = "libc.so"
+ INSANE_SKIP:${PN}-dev = "staticdev"
+ INSANE_SKIP:${PN} = "libdir"
  
--# Maintaining the perfile dependencies has significant overhead when writing the
--# packages. When set, this value merges them for efficiency.
--MERGEPERFILEDEPS = "1"
--
- # Filter dependencies based on a provided function.
- def filter_deps(var, f):
-     import collections
-@@ -36,67 +32,6 @@ def filter_nativesdk_deps(srcname, var):
-         var = filter_deps(var, lambda dep: not dep.startswith('/') and dep != 'perl' and not dep.startswith('perl('))
-     return var
- 
--# Construct per file dependencies file
--def write_rpm_perfiledata(srcname, d):
--    import oe.package
--    workdir = d.getVar('WORKDIR')
--    packages = d.getVar('PACKAGES')
--    pkgd = d.getVar('PKGD')
--
--    def dump_filerdeps(varname, outfile, d):
--        outfile.write("#!/usr/bin/env python3\n\n")
--        outfile.write("# Dependency table\n")
--        outfile.write('deps = {\n')
--        for pkg in packages.split():
--            dependsflist_key = 'FILE' + varname + 'FLIST' + ":" + pkg
--            dependsflist = (d.getVar(dependsflist_key) or "")
--            for dfile in dependsflist.split():
--                key = "FILE" + varname + ":" + dfile + ":" + pkg
--                deps = filter_nativesdk_deps(srcname, d.getVar(key) or "")
--                depends_dict = bb.utils.explode_dep_versions(deps)
--                file = oe.package.file_reverse_translate(dfile)
--                outfile.write('"' + pkgd + file + '" : "')
--                for dep in depends_dict:
--                    ver = depends_dict[dep]
--                    if dep and ver:
--                        ver = ver.replace("(", "")
--                        ver = ver.replace(")", "")
--                        outfile.write(dep + " " + ver + " ")
--                    else:
--                        outfile.write(dep + " ")
--                outfile.write('",\n')
--        outfile.write('}\n\n')
--        outfile.write("import sys\n")
--        outfile.write("while 1:\n")
--        outfile.write("\tline = sys.stdin.readline().strip()\n")
--        outfile.write("\tif not line:\n")
--        outfile.write("\t\tsys.exit(0)\n")
--        outfile.write("\tif line in deps:\n")
--        outfile.write("\t\tprint(deps[line] + '\\n')\n")
--
--    # OE-core dependencies a.k.a. RPM requires
--    outdepends = workdir + "/" + srcname + ".requires"
--
--    dependsfile = open(outdepends, 'w')
--
--    dump_filerdeps('RDEPENDS', dependsfile, d)
--
--    dependsfile.close()
--    os.chmod(outdepends, 0o755)
--
--    # OE-core / RPM Provides
--    outprovides = workdir + "/" + srcname + ".provides"
--
--    providesfile = open(outprovides, 'w')
--
--    dump_filerdeps('RPROVIDES', providesfile, d)
--
--    providesfile.close()
--    os.chmod(outprovides, 0o755)
--
--    return (outdepends, outprovides)
--
--
- python write_specfile () {
-     import oe.packagedata
-     import os,pwd,grp,stat
-@@ -339,7 +274,6 @@ python write_specfile () {
-     spec_files_top = []
-     spec_files_bottom = []
- 
--    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
-     extra_pkgdata = (d.getVar("RPM_EXTRA_PKGDATA") or "0") == "1"
- 
-     for pkg in packages.split():
-@@ -393,10 +327,9 @@ python write_specfile () {
-         splitrpostrm   = localdata.getVar('pkg_postrm')
- 
- 
--        if not perfiledeps:
--            # Add in summary of per file dependencies
--            splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
--            splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
-+        # Add in summary of per file dependencies
-+        splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
-+        splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
- 
-         splitrdepends = filter_nativesdk_deps(srcname, splitrdepends)
- 
-@@ -665,10 +598,6 @@ python do_package_rpm () {
-     d.setVar('OUTSPECFILE', outspecfile)
-     bb.build.exec_func('write_specfile', d)
- 
--    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
--    if perfiledeps:
--        outdepends, outprovides = write_rpm_perfiledata(srcname, d)
--
-     # Setup the rpmbuild arguments...
-     rpmbuild = d.getVar('RPMBUILD')
-     rpmbuild_compmode = d.getVar('RPMBUILD_COMPMODE')
-@@ -693,7 +622,6 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
--    cmd = cmd + " --define '_use_internal_dependency_generator 0'"
-     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
-     cmd = cmd + " --define '_build_id_links none'"
-     cmd = cmd + " --define '_smp_ncpus_max 4'"
-@@ -703,12 +631,6 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd = cmd + " --define '_buildhost reproducible'"
-     cmd = cmd + " --define '__font_provides %{nil}'"
--    if perfiledeps:
--        cmd = cmd + " --define '__find_requires " + outdepends + "'"
--        cmd = cmd + " --define '__find_provides " + outprovides + "'"
--    else:
--        cmd = cmd + " --define '__find_requires %{nil}'"
--        cmd = cmd + " --define '__find_provides %{nil}'"
-     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
++# Avoid loop dependencies between /bin/sh and libc.so
++SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} = "1"
++do_package[vardeps] += "SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN}"
++
+ UPSTREAM_CHECK_COMMITS = "1"
++
 -- 
 2.49.1
 
