@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB44C531FC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F221C531FE
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:42:02 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1390.1771440099760607578
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1429.1771440109530067755
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Feb 2026 10:41:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Cw6f9Lsa;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=j2OH7zGZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019c720efd67-f015fd77-3e1c-440a-8e5f-3fa1adcc6db8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=A6IGZoYw;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jqCQmqIs;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019c720efc92-2a644a4d-6491-4e40-8256-d47ae154c19a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1771440111;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xTxgOElZupeaGWzU/hRCJb8Tb2/COYNJl9uQf4aHlIM=;
-	b=Cw6f9LsamnkmMroDKtz/PPKL84LlwtZ5nxwv/WEBBw1Sm4/UteupNobZlwEABIWR
-	F5qf+5nlKef5nDiIvAaWRFXHdACcR7D8lijzTGaTTtLhDmghenMDRb7nnbAWlnBq5v7
-	ohkOArfJEoTfD3ZeWkrGYW3Q4v39ctbbSEuh7erM=
+	bh=tM5t1eYX3SrQxcomEJ0MFj7tDbX59IQ78389ll96F1M=;
+	b=A6IGZoYwSBJNoUK057u0CNS6S3iwiRP60BbrymLxEOIrs3AXlG5xevmjsvFyKb3T
+	i4Bf8VsLo3lNLph2lZoImcHm3pX6XbVj3WD1jQKZiT2hlhZ7lfyVyvzddDUL2tGQpBl
+	b0ySWQ5XKor6DeZdaqjAP3ssQdbxiVSqnWjRuroI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440111;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xTxgOElZupeaGWzU/hRCJb8Tb2/COYNJl9uQf4aHlIM=;
-	b=j2OH7zGZcO3kXdCNTiZ7Wo9/rDGjbkZm8Tp8UJrP5iB+QAEEApyYJVPp8kDJ4qAI
-	1u22HS+7zS442MEH+Ko7w+pBH6xrmbG+SB61AFljPd/orYfk81pyf+4FLzUWSZp9Gll
-	EFepsX9vEgmw+2o6rV4HxsjZsFvvxNC21Aeg2UGQ=
-Content-Type: multipart/mixed; boundary="===============2380184041793154254=="
+	bh=tM5t1eYX3SrQxcomEJ0MFj7tDbX59IQ78389ll96F1M=;
+	b=jqCQmqIsAfC8gxAZOyKN+9qHS25qIFgbxnBMACeuah2QsM6vZl8uVsbQuMF178bW
+	4QmbuUfVRieEFHOcQ9Yn6HorLqArH8IrgunviaPGrWGoSuTeE+ZIcPdXb36e/bTKGOH
+	t2uGQvVWT8b5O7St2QPvjxe6UWCnwgIKLPWjGvWQ=
+Content-Type: multipart/mixed; boundary="===============0585120902805436769=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtraceevent: upgrading to 1.9.0 SUCCEEDED
-Message-ID: <0101019c720efd67-f015fd77-3e1c-440a-8e5f-3fa1adcc6db8-000000@us-west-2.amazonses.com>
+Subject: [AUH] vulkan-samples: upgrading to
+ 3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad SUCCEEDED
+Message-ID: <0101019c720efc92-2a644a4d-6491-4e40-8256-d47ae154c19a-000000@us-west-2.amazonses.com>
 Date: Wed, 18 Feb 2026 18:41:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.18-54.240.27.31
+X-SES-Outgoing: 2026.02.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:42:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231386
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231389
 
---===============2380184041793154254==
+--===============0585120902805436769==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libtraceevent* to *1.9.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-samples* to *3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtraceevent-upgrade-1.8.6-1.9.0.patch
+    - apply the patch: git am 0001-vulkan-samples-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,117 +73,84 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a579bb5f653dbba3aa44b35c70926fcb91523156 Mon Sep 17 00:00:00 2001
+From 86f7805c0fa9495a49e0f55fbf5114e1455ea34d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 15:52:24 +0000
-Subject: [PATCH] libtraceevent: upgrade 1.8.6 -> 1.9.0
+Date: Wed, 18 Feb 2026 15:46:31 +0000
+Subject: [PATCH] vulkan-samples: upgrade to latest revision
 
 ---
- .../{libtraceevent_1.8.6.bb => libtraceevent_1.9.0.bb}          | 2 +-
+ meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/libtraceevent/{libtraceevent_1.8.6.bb => libtraceevent_1.9.0.bb} (93%)
 
-diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
-similarity index 93%
-rename from meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
-rename to meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
-index deddb60f63..bbd87e3881 100644
---- a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
-+++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97
-                     file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
- SECTION = "libs"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 64c7e0908c..66c034a794 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -9,7 +9,7 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protoc
+            "
  
--SRCREV = "98c217427183f66f09f4a27300ad87d71814c38f"
-+SRCREV = "13701b5532e0c3295bf5670361692b0d0044228d"
- SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
-           "
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "97fcdeecf2db26a78b432b285af3869a65bb00bd"
++SRCREV = "3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
  
 -- 
 2.47.1
 
 
---===============2380184041793154254==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 820248 (+10%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.9.0"
-Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
-  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.9.0
-  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.9.0
-
---===============2380184041793154254==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libtraceevent-upgrade-1.8.6-1.9.0.patch"
-
-RnJvbSBhNTc5YmI1ZjY1M2RiYmEzYWE0NGIzNWM3MDkyNmZjYjkxNTIzMTU2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTU6NTI6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ0cmFjZWV2ZW50OiB1cGdyYWRlIDEuOC42IC0+IDEuOS4wCgotLS0KIC4uLi97bGlidHJhY2Vl
-dmVudF8xLjguNi5iYiA9PiBsaWJ0cmFjZWV2ZW50XzEuOS4wLmJifSAgICAgICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC97bGlidHJhY2VldmVudF8xLjguNi5iYiA9
-PiBsaWJ0cmFjZWV2ZW50XzEuOS4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOC42LmJiIGIvbWV0YS9yZWNp
-cGVzLWtlcm5lbC9saWJ0cmFjZWV2ZW50L2xpYnRyYWNlZXZlbnRfMS45LjAuYmIKc2ltaWxhcml0
-eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9saWJ0cmFjZWV2ZW50
-L2xpYnRyYWNlZXZlbnRfMS44LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGli
-dHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOS4wLmJiCmluZGV4IGRlZGRiNjBmNjMuLmJiZDg3
-ZTM4ODEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0
-cmFjZWV2ZW50XzEuOC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVu
-dC9saWJ0cmFjZWV2ZW50XzEuOS4wLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFUy9HUEwtMi4wO21kNT1lNmE3NTM3MWJhNGQxNjc0OTI1NGE1MTIx
-NWQxM2Y5NwogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRVMvTEdQTC0yLjE7bWQ1
-PWIzNzA4ODc5ODBkYjVkZDQwNjU5YjUwOTA5MjM4ZGJkIgogU0VDVElPTiA9ICJsaWJzIgogCi1T
-UkNSRVYgPSAiOThjMjE3NDI3MTgzZjY2ZjA5ZjRhMjczMDBhZDg3ZDcxODE0YzM4ZiIKK1NSQ1JF
-ViA9ICIxMzcwMWI1NTMyZTBjMzI5NWJmNTY3MDM2MTY5MmIwZDAwNDQyMjhkIgogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpYnMvbGlidHJhY2UvbGlidHJhY2VldmVu
-dC5naXQ7YnJhbmNoPSR7QlBOfTtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIgogCi0tIAoy
-LjQ3LjEKCg==
-
---===============2380184041793154254==
+--===============0585120902805436769==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libtraceevent: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGSIZE changed from 608312 to 645424 (+6%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: FILELIST: removed "/usr/lib/.debug/libtraceevent.so.1.8.6", added "/usr/lib/.debug/libtraceevent.so.1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGSIZE changed from 28895 to 29502 (+2%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGSIZE changed from 191693 to 191714 (+0%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGSIZE changed from 398698 to 422457 (+6%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: FILELIST: directory renamed /usr/src/debug/libtraceevent/1.8.6/plugins -> /usr/src/debug/libtraceevent/1.9.0/plugins, directory renamed /usr/src/debug/libtraceevent/1.8.6/include/traceevent -> /usr/src/debug/libtraceevent/1.9.0/include/traceevent, removed "/usr/src/debug/libtraceevent/1.8.6/src/trace-seq.c /usr/src/debug/libtraceevent/1.8.6/src/kbuffer-parse.c /usr/src/debug/libtraceevent/1.8.6/src/parse-filter.c /usr/src/debug/libtraceevent/1.8.6/src/tep_strerror.c /usr/src/debug/libtraceevent/1.8.6/src/parse-utils.c /usr/src/debug/libtraceevent/1.8.6/src/event-parse-api.c /usr/src/debug/libtraceevent/1.8.6/src/event-plugin.c /usr/src/debug/libtraceevent/1.8.6/src/event-parse.c /usr/src/debug/libtraceevent/1.8.6/src/event-parse-local.h", added "/usr/src/debug/libtraceevent/1.9.0/src/trace-btf.c /usr/src/debug/libtraceevent/1.9.0/src/kbuffer-parse.c /usr/src/debug/libtraceevent/1.9.0/src/trace-seq.c /usr/src/debug/libtrac
- eevent/1.9.0/src/parse-filter.c /usr/src/debug/libtraceevent/1.9.0/src/tep_strerror.c /usr/src/debug/libtraceevent/1.9.0/src/parse-utils.c /usr/src/debug/libtraceevent/1.9.0/src/event-parse-api.c /usr/src/debug/libtraceevent/1.9.0/src/event-plugin.c /usr/src/debug/libtraceevent/1.9.0/src/event-parse.c /usr/src/debug/libtraceevent/1.9.0/src/event-parse-local.h"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 820248 (+10%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PV changed from "1.8.6" to "1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGSIZE changed from 133270 to 145558 (+9%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.9.0"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGV changed from 1.8.6 [default] to 1.9.0 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PV changed from "1.8.6" to "1.9.0"
-Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
-  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.9.0
-  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.9.0
+packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-dbg: PKGSIZE changed from 40030496 to 40254648 (+1%)
+packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-dev: PKGSIZE changed from 1513553 to 1523884 (+1%)
+packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-src: PKGSIZE changed from 3384194 to 3421892 (+1%)
+packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-staticdev: PKGSIZE changed from 64301642 to 64709794 (+1%)
+packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples: PKGSIZE changed from 3182154 to 3214922 (+1%)
 
---===============2380184041793154254==--
+--===============0585120902805436769==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 944 .bb files complete (0 cached, 944 parsed). 1953 targets, 64 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'vulkan-samples'
+vulkan-samples was skipped: incompatible with host arm-poky-linux-musleabi (not in COMPATIBLE_HOST)
+
+--===============0585120902805436769==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vulkan-samples-upgrade-to-latest-revision.patch"
+
+RnJvbSA4NmY3ODA1YzBmYTk0OTVhNDllMGY1NWZiZjUxMTRlMTQ1NWVhMzRkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTU6NDY6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tc2FtcGxlczogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tc2FtcGxlc19naXQuYmIgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzX2dpdC5iYiBiL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXNhbXBsZXNfZ2l0LmJiCmluZGV4IDY0YzdlMDkw
+OGMuLjY2YzAzNGE3OTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
+dnVsa2FuLXNhbXBsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
+dnVsa2FuLXNhbXBsZXNfZ2l0LmJiCkBAIC05LDcgKzksNyBAQCBTUkNfVVJJID0gImdpdHNtOi8v
+Z2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLVNhbXBsZXMuZ2l0O2JyYW5jaD1tYWluO3By
+b3RvYwogICAgICAgICAgICAiCiAKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIKLVNSQ1JF
+ViA9ICI5N2ZjZGVlY2YyZGIyNmE3OGI0MzJiMjg1YWYzODY5YTY1YmIwMGJkIgorU1JDUkVWID0g
+IjNhYmJkZjhiNWEzYmYyNTBmNjQ3NWY5ZmU2NzQ1NjdiMTRlOWIxYWQiCiAKIFVQU1RSRUFNX0NI
+RUNLX0dJVFRBR1JFR0VYID0gIlRoZXNlIGFyZSBub3QgdGhlIHJlbGVhc2VzIHlvdSdyZSBsb29r
+aW5nIGZvciIKIAotLSAKMi40Ny4xCgo=
+
+--===============0585120902805436769==--
 
