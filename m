@@ -2,39 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F221C531FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 647C5E9A057
 	for <webhook@archiver.kernel.org>; Wed, 18 Feb 2026 18:42:02 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1429.1771440109530067755
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1398.1771440111419144366
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Feb 2026 10:41:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=A6IGZoYw;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jqCQmqIs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019c720efc92-2a644a4d-6491-4e40-8256-d47ae154c19a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FpILxR4O;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Xj9EhGhy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019c720efd45-87be0bf6-c07c-45fd-918c-46213772c1a9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1771440111;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tM5t1eYX3SrQxcomEJ0MFj7tDbX59IQ78389ll96F1M=;
-	b=A6IGZoYwSBJNoUK057u0CNS6S3iwiRP60BbrymLxEOIrs3AXlG5xevmjsvFyKb3T
-	i4Bf8VsLo3lNLph2lZoImcHm3pX6XbVj3WD1jQKZiT2hlhZ7lfyVyvzddDUL2tGQpBl
-	b0ySWQ5XKor6DeZdaqjAP3ssQdbxiVSqnWjRuroI=
+	bh=R0SqgtXYpRN8+62QUOoqC9iRPmWfBHWGXV+H66xtLcQ=;
+	b=FpILxR4O4twf3ff9TivjhDBlxHBbg3dmv5tmOsX8qXrGNhKsmUyY1F7cEy/XxX6z
+	5MXkX0w/2U2wLFN3BU/yhpJTPvAyaeaHPLeQJRRXWT3H/wzNUQVKQNoPMcPzkV20X8V
+	9JfOI0xSyJdxhlej9UpI2/wh81BOgCqEBrjviXF0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771440111;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tM5t1eYX3SrQxcomEJ0MFj7tDbX59IQ78389ll96F1M=;
-	b=jqCQmqIsAfC8gxAZOyKN+9qHS25qIFgbxnBMACeuah2QsM6vZl8uVsbQuMF178bW
-	4QmbuUfVRieEFHOcQ9Yn6HorLqArH8IrgunviaPGrWGoSuTeE+ZIcPdXb36e/bTKGOH
-	t2uGQvVWT8b5O7St2QPvjxe6UWCnwgIKLPWjGvWQ=
-Content-Type: multipart/mixed; boundary="===============0585120902805436769=="
+	bh=R0SqgtXYpRN8+62QUOoqC9iRPmWfBHWGXV+H66xtLcQ=;
+	b=Xj9EhGhytcLiePlJs7sJCwrO6S9b8bFmHfC7JKOA3yfUy7Mojkosrf8YQ8dr510U
+	rt1qa7qqgmO3Wf5wy+XNQphGE+POfZXhgM7RfWGbowuXe48CDaOSyMx/id0SmX1oYaT
+	Zxsybkmqc2mbvgleQPDYhln6bsXl45DiN13Gnoks=
+Content-Type: multipart/mixed; boundary="===============1313211430102511374=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to
- 3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad SUCCEEDED
-Message-ID: <0101019c720efc92-2a644a4d-6491-4e40-8256-d47ae154c19a-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] xorgproto: upgrading to 2025.1 SUCCEEDED
+Message-ID: <0101019c720efd45-87be0bf6-c07c-45fd-918c-46213772c1a9-000000@us-west-2.amazonses.com>
 Date: Wed, 18 Feb 2026 18:41:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.02.18-54.240.27.30
@@ -42,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Feb 2026 18:42:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231389
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231388
 
---===============0585120902805436769==
+--===============1313211430102511374==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *vulkan-samples* to *3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *xorgproto* to *2025.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-samples-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-xorgproto-upgrade-2024.1-2025.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,84 +72,91 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 86f7805c0fa9495a49e0f55fbf5114e1455ea34d Mon Sep 17 00:00:00 2001
+From 4acd9ad50b67434e4fbde9a162e1801c7762adca Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 18 Feb 2026 15:46:31 +0000
-Subject: [PATCH] vulkan-samples: upgrade to latest revision
+Date: Wed, 18 Feb 2026 15:50:03 +0000
+Subject: [PATCH] xorgproto: upgrade 2024.1 -> 2025.1
 
 ---
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
+ .../xorg-proto/{xorgproto_2024.1.bb => xorgproto_2025.1.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-proto/{xorgproto_2024.1.bb => xorgproto_2025.1.bb} (90%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 64c7e0908c..66c034a794 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -9,7 +9,7 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protoc
-            "
+diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
+similarity index 90%
+rename from meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb
+rename to meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
+index d79dc23f1b..e187c56fbc 100644
+--- a/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb
++++ b/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=0b9fe3db4015bcbe920e7c67a39ee3f1"
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "97fcdeecf2db26a78b432b285af3869a65bb00bd"
-+SRCREV = "3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad"
+ SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "372225fd40815b8423547f5d890c5debc72e88b91088fbfb13158c20495ccb59"
++SRC_URI[sha256sum] = "56898c716c0578df8a2d828c9c3e5c528277705c0484381a81960fe1a67668e8"
  
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ inherit meson
  
 -- 
 2.47.1
 
 
---===============0585120902805436769==
+--===============1313211430102511374==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-dbg: PKGSIZE changed from 40030496 to 40254648 (+1%)
-packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-dev: PKGSIZE changed from 1513553 to 1523884 (+1%)
-packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-src: PKGSIZE changed from 3384194 to 3421892 (+1%)
-packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples-staticdev: PKGSIZE changed from 64301642 to 64709794 (+1%)
-packages/x86-64-v3-poky-linux/vulkan-samples/vulkan-samples: PKGSIZE changed from 3182154 to 3214922 (+1%)
+packages/x86-64-v3-poky-linux/xorgproto: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto: SRC_URI changed from "https://www.x.org/releases//individual/proto/xorgproto-2024.1.tar.xz" to "https://www.x.org/releases//individual/proto/xorgproto-2025.1.tar.xz"
+packages/x86-64-v3-poky-linux/xorgproto: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dbg: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dbg: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dev: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dev: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dev: PKGSIZE changed from 1169393 to 1183251 (+1%)
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-doc: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-doc: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-doc: PKGSIZE changed from 303975 to 303973 (-0%)
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-locale: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-locale: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-src: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-src: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-staticdev: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-staticdev: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto: PKGV changed from 2024.1 [default] to 2025.1 [default]
 
---===============0585120902805436769==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (0 cached, 944 parsed). 1953 targets, 64 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'vulkan-samples'
-vulkan-samples was skipped: incompatible with host arm-poky-linux-musleabi (not in COMPATIBLE_HOST)
-
---===============0585120902805436769==
+--===============1313211430102511374==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-samples-upgrade-to-latest-revision.patch"
+ filename="0001-xorgproto-upgrade-2024.1-2025.1.patch"
 
-RnJvbSA4NmY3ODA1YzBmYTk0OTVhNDllMGY1NWZiZjUxMTRlMTQ1NWVhMzRkIE1vbiBTZXAgMTcg
+RnJvbSA0YWNkOWFkNTBiNjc0MzRlNGZiZGU5YTE2MmUxODAxYzc3NjJhZGNhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTU6NDY6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-dWxrYW4tc2FtcGxlczogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tc2FtcGxlc19naXQuYmIgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzX2dpdC5iYiBiL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXNhbXBsZXNfZ2l0LmJiCmluZGV4IDY0YzdlMDkw
-OGMuLjY2YzAzNGE3OTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
-dnVsa2FuLXNhbXBsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
-dnVsa2FuLXNhbXBsZXNfZ2l0LmJiCkBAIC05LDcgKzksNyBAQCBTUkNfVVJJID0gImdpdHNtOi8v
-Z2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLVNhbXBsZXMuZ2l0O2JyYW5jaD1tYWluO3By
-b3RvYwogICAgICAgICAgICAiCiAKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIKLVNSQ1JF
-ViA9ICI5N2ZjZGVlY2YyZGIyNmE3OGI0MzJiMjg1YWYzODY5YTY1YmIwMGJkIgorU1JDUkVWID0g
-IjNhYmJkZjhiNWEzYmYyNTBmNjQ3NWY5ZmU2NzQ1NjdiMTRlOWIxYWQiCiAKIFVQU1RSRUFNX0NI
-RUNLX0dJVFRBR1JFR0VYID0gIlRoZXNlIGFyZSBub3QgdGhlIHJlbGVhc2VzIHlvdSdyZSBsb29r
-aW5nIGZvciIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMTggRmViIDIwMjYgMTU6NTA6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+b3JncHJvdG86IHVwZ3JhZGUgMjAyNC4xIC0+IDIwMjUuMQoKLS0tCiAuLi4veG9yZy1wcm90by97
+eG9yZ3Byb3RvXzIwMjQuMS5iYiA9PiB4b3JncHJvdG9fMjAyNS4xLmJifSAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by97eG9yZ3Byb3RvXzIwMjQuMS5iYiA9PiB4b3Jn
+cHJvdG9fMjAyNS4xLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy94b3JnLXByb3RvL3hvcmdwcm90b18yMDI0LjEuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+eG9yZy1wcm90by94b3JncHJvdG9fMjAyNS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3hvcmdwcm90b18yMDI0LjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3hvcmdwcm90b18y
+MDI1LjEuYmIKaW5kZXggZDc5ZGMyM2YxYi4uZTE4N2M1NmZiYyAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3hvcmctcHJvdG8veG9yZ3Byb3RvXzIwMjQuMS5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by94b3JncHJvdG9fMjAyNS4xLmJiCkBAIC05LDcg
+KzksNyBAQCBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
+TkcteDExcHJvdG87bWQ1PTBiOWZlM2RiNDAxNWJjYmU5MjBlN2M2N2EzOWVlM2YxIgogCiBTUkNf
+VVJJID0gIiR7WE9SR19NSVJST1J9L2luZGl2aWR1YWwvcHJvdG8vJHtCUH0udGFyLnh6IgotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjM3MjIyNWZkNDA4MTViODQyMzU0N2Y1ZDg5MGM1ZGViYzcyZTg4
+YjkxMDg4ZmJmYjEzMTU4YzIwNDk1Y2NiNTkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTY4OThj
+NzE2YzA1NzhkZjhhMmQ4MjhjOWMzZTVjNTI4Mjc3NzA1YzA0ODQzODFhODE5NjBmZTFhNjc2Njhl
+OCIKIAogaW5oZXJpdCBtZXNvbgogCi0tIAoyLjQ3LjEKCg==
 
---===============0585120902805436769==--
+--===============1313211430102511374==--
 
