@@ -1,227 +1,172 @@
-Return-Path: <SunilKumar.Dora@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1BBE9A048
-	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 12:59:44 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13346.1771505977204988688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 346A1E9A04A
+	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 13:54:45 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14144.1771509283932636904
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Feb 2026 04:59:40 -0800
+ Thu, 19 Feb 2026 05:54:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=kgIGqb0j;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6510f40717=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61J8o2uD1209808
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 12:59:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=LvnFf7dqp
-	YXirZeMXNTlYqFW6W6a8jKXYC/2tXBISgE=; b=kgIGqb0jO0WWMn4/EVncPUgI2
-	cWff3g1yVGnm63m3RtZ+/ca/JGHFRCc1uM24GRRpg9BqzRNigN2iV97m9kUVV57K
-	UGJaSMMQJUD/U9yOAph4YSsyFe+nmdebM8bVLhwO2lypxrikGJcWvzkAI91S3r+C
-	8EEMmS0CmBzemuPYcQh11K92kgI4kFPCH6yEgBb6PNyAfapgKoMk9cM024XRTE4o
-	Xd2CmGLX1M+R7s1fcDavzQobAnJEBCmPor/DBd87mrgGATppDS8/qfGiK8fqpqKY
-	LOplJueBVFbZ7s64H262ERQrAw4ThAKRQ+aWv8oBVLxfwAgOqXXL+rLIzSEhw==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011034.outbound.protection.outlook.com [52.101.62.34])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cdtwc0b7q-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 19 Feb 2026 12:59:35 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hvHQ1VVrhJLU3ddp39+ybT9ZLVAi+BO2AAEkCSbHaHPalbNHJw9VhjV/eLj7IuOiweJ0VvOK6/SWJ8RN+t/O1u0PgZ8oac7JHpawtqvRS0KtudppllZb+vy6auZog5DU7D86p+qdFmGMezE3mI4dXzpJdUNflyNqacqTRfQ0PrlS8YZy3pVUoX/azxnMdR89Pbf/H5d9GmNzu0YElMIJeLs16Pgva+9Ru8yrfRkE3eLxt28QeonbW4IfoNd5HW/GSt9sBzEdgX87iIYKtEv+ILsaPFcwy6uSFEjivWetjJ45v63RpbqmhcVcBWmPjCuBXclam+zDbB6wjH3ML3NEfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LvnFf7dqpYXirZeMXNTlYqFW6W6a8jKXYC/2tXBISgE=;
- b=Re4aEOV4gWwBlzFIGZpqNBMbhylu9JMsweYSzBCw8PvMnzwa+ZwDI9zwMEyc1yDoi1l1EOxmu2cVvv7jkE8UcmzH1R74mwhyMgx2sHDFzl6w2VEOTHcMKJzG3IvWNdHswDlWqwH6qbhjQnKd6pctBOfePXiIfvcxZchigsomRjJlGdrnUcMiIMTB8+DjZlpqgLaOaF/Rh/zF1nmvbA3WH9Aolcf4DsEMexoHhqUkl1t2plpK/k0ABEdwGr9jIzz5MS5MI5X2bDT4oJpxQOqdXvvd+lGl58FB52lLYqIEd7bvDqiNZoLT4R/UnFy9J0ldxSsP5Nxi6gLmI4A/SoJT+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
- CH0PR11MB5284.namprd11.prod.outlook.com (2603:10b6:610:bf::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.16; Thu, 19 Feb 2026 12:59:33 +0000
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
- 12:59:33 +0000
-From: sunilkumar.dora@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
-        sunilkumar.dora@windriver.com, alex@linutronix.de,
-        Deepesh.Varatharajan@windriver.com
-Subject: [PATCH v3] rust: Enable dynamic linking with llvm
-Date: Thu, 19 Feb 2026 04:59:18 -0800
-Message-ID: <20260219125918.2932282-1-sunilkumar.dora@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0043.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::18) To DS0PR11MB7901.namprd11.prod.outlook.com
- (2603:10b6:8:f4::20)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|CH0PR11MB5284:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5dbf33a8-9766-4570-76c4-08de6fb6ba89
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?6t4JQrLJ2tlygQ7/zTCd4i96yXd0II+rGCbLg2nLzAFQd3njWUm6jms5FLp+?=
- =?us-ascii?Q?8kMD1Cq3u25y5X2G/Ou+l2j9oYKLhQw5XRnj9PGB4JuoTFljoPSmYV9/jd1I?=
- =?us-ascii?Q?aAKVZ/lNkZrlAJp3UlxXEHxdc1dF34rT/vSRmLnrgh+M8EPsODedp6HhsROT?=
- =?us-ascii?Q?jsfupUZ+gX+ykg1cH4lNfj95QH457OcwIXd5ml/6RbpZ6QN8KXyAMEJKs5um?=
- =?us-ascii?Q?YTq0qtNs0IwfLnDbvu5LvPMhKsdcskl8812FB60/zTeXRFacndIodhwlqwKT?=
- =?us-ascii?Q?DKR/Jj56/XOIuEAwTNKo1pQEZtxsaCXAu0HPzUp8A3YQ0yHtuTzBfmxarwGk?=
- =?us-ascii?Q?UJQUmrScp1AjkV8zgZ386/7fY4hwV4dN+0pdEEK4JtTXimUN7J+ABMPPmQ4a?=
- =?us-ascii?Q?vCo8fY+HpuMup7u2T0jqBdrx3KOKLmG5tPHg9sOpdT2+z0ye+zmY/p0utiXs?=
- =?us-ascii?Q?xIqwjYuLMTvRg9SlX4UH2bq+Dabum0TrmPOndDMZbKTsa69qGQ8zdUAnxKpS?=
- =?us-ascii?Q?Y8QaHxIbKA6eq1xTGYOZGtiRZd9NMdKlyxvavzEKt0xHmThTJzjAyNUzDyvR?=
- =?us-ascii?Q?4Tl0WMPecmZCZy9C6Z++KHkmFUljZhpii7VsqEUjF1Vm62cRu85ZlVskl99r?=
- =?us-ascii?Q?0X6UQgtp0wWKChCk25EAhuJBG3tor5JcT7vTLACGwspatcX+6s13myT0T0MW?=
- =?us-ascii?Q?Wa/3mW8a3uL5pXH0AbnfopE9US8jcV0topFYqv8aY3WZ8FG7A7zUx+VAG9et?=
- =?us-ascii?Q?ZvK6f6MgwiQOviK+rVZiLukvcI5n41xnUYLfYYv/1aMX6Y/HfBSjoStkZ+eG?=
- =?us-ascii?Q?dP8qXGlZhX54xh5aOtxBnn6H7HgdS4vUP2JTC3UMLlE14rb1MufgJw/uWHWV?=
- =?us-ascii?Q?unc3QIqkcO3yYbIv8D16eWKUEnHJxltegiEcO+j5fto74IAHc4ALYjcqsPK2?=
- =?us-ascii?Q?ambNCymOHwVZAyRQd3ZffxaA18V1wh6eQMMHa+KW6ZBrcUpi1JU55COf+v6L?=
- =?us-ascii?Q?3iw5Hw7BtLKavazdTq3sdP7tIhv3qQwzi3OXHoNkNklCUVngIW8OffBO0Vl+?=
- =?us-ascii?Q?jRMIz/t3M+ROh6gBezZua9j4SemQK1liQ91XgKXU8l5nUIfVuc6O8mjGG6yA?=
- =?us-ascii?Q?sC1AyRmYNloHAaK/DPjv+Vjph3YtuoyydwoC8W8jhRS+6PmMT0Tq3875aUrE?=
- =?us-ascii?Q?X8xobD4MnpkvsGwBubjSLB1h5WKsAmq4kObSMYu3DUUK+qDtUvYtOZorptHS?=
- =?us-ascii?Q?EmYASgB/v/L05s08aKD+i3Us963IgnJCpBTSjarwnIVTAk5MwcNvQh83moGZ?=
- =?us-ascii?Q?9n/vDHVAMK5n0KVDacPSzvkd+Y7qRHxXx5mjQfyLEZ+CkYgHtxTl3DSa4Kr5?=
- =?us-ascii?Q?0S0Tg1NaFQ044My/PfOU10ndWDV8Ty3lSlMm7/vvMr19cPFtDKEgoC2AvBQE?=
- =?us-ascii?Q?lzXTffJyEyx1iGQqtmXScd2nW0QhR2Y9rOlo+Dz7SXkxnJxHwfnRQjeH/wr8?=
- =?us-ascii?Q?3Rk8kAlDIgX/HPp7Uc9HXKaQscK4ndHWsNaJxCWbkNVPVjASlCC7sxSBBYHx?=
- =?us-ascii?Q?7I7wF9X9MHmG4jZji/A/Vbq7qQjtIrRrgYwrx+YM7rvGWTIkI8yndeEeuHoU?=
- =?us-ascii?Q?QzYNAOans1OY1UyZdgnCJ7U=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?VSnGTjOwqN+ciT33lpf/kEigW5IAHfmUsFAb1vHpl4YxnogtnAoPe/DFnhOJ?=
- =?us-ascii?Q?+j6o/Ts7TZ1/Siapqt4YAwH8FGu8fbTaNEszUDQYdD3zZQpehyPSuqxnNn2+?=
- =?us-ascii?Q?eWidSSoJV8kDYjSDztBMRKhHB06yLhLGTl87RIulvU2Cn0S3xjbRkKYrfr2O?=
- =?us-ascii?Q?5kyNOCyDbtjd8xkXcIC5VwQih3A2kbhIh9MG/q3nUu8+9Q0FVrdj5sECR1Y+?=
- =?us-ascii?Q?qcDF40s5JXHnUhnhgSDM0bZOjDSgDWbr9NeTUuxN0B2CkrMLUlkaIEm7S3r2?=
- =?us-ascii?Q?+1ZERklNPNRN/GuPSKLawiTWNeKvai8+CyjbWY4dP4suoQ3IhlzE22sO2G0P?=
- =?us-ascii?Q?TnPqhboJvPvsiUMNvA9imJeO72wOza9e1X+vV2SVjEPLXB1P6/I+xtcjZ+hR?=
- =?us-ascii?Q?oMMuBtUFJmTeIQqsi6TlySKVfKmiZho+2xbW2IMd2AR1Vjj6WdW9/++6TiEN?=
- =?us-ascii?Q?Dco+HF5VQ3rtpqEHIvlLvQ05t1HCCJyFycr1FcyYuf6n7dtVyE5ZxuEQ57qo?=
- =?us-ascii?Q?Z6Jec6ua0se/C44XuJ09FMsTvuygpO7Bzp2c0DTqaPNBXlgGKsfQVbu+H9PK?=
- =?us-ascii?Q?GiHdJC5ctI6+sxqaCsNeq/cE8QIAPcy8ij8OpuHa6ScjM6zk3UFuweKgGBUF?=
- =?us-ascii?Q?UfPSI9zHQd0Q6gk3mTaubBE0MWZwU2cdafu+wM1T2pxOKx0WVhkgYWBXIUFN?=
- =?us-ascii?Q?eqV9w66UQ8s3hhyxhrRiikeBZaspkD4aj7kO9PbTwI2Mh8jrEGVH/gafTQR5?=
- =?us-ascii?Q?XLIukBMItjP37yuk19NPPwIfpgj9lnxuFIz+ANVKLLTzzU8QGwfsW2sKZc/6?=
- =?us-ascii?Q?EFsiGpsUs7p7M7DP0tMnum/XTafsHQXvyBek7JMBB9oSBybZasv9az/z+Uvs?=
- =?us-ascii?Q?NhAP4AiDNe1FuOa9Y/DdyMXcO+TKhEicL0p+szgg8kIfL4+BePYoecuLy0GV?=
- =?us-ascii?Q?zXZ0uej563JoV32k730C03DUTu134y0jUVTQvhQ/GD3js6osVHtGtwvVTxRv?=
- =?us-ascii?Q?3ql7hnd+Li0jIlBLhgPXbR7BwhCXiAl2GU7zya7DF83xpUNW+oIMnVccrtLL?=
- =?us-ascii?Q?m03mA8pY7jKSBhz1CYU3FJyjp6E7iwj+kxC43dbdV2L+KruuO2ju+pfG0DXA?=
- =?us-ascii?Q?TkoS20J9SaSiXhRQgcxaIEwjVZG7RU+srfhcxPGhGH0kR5qjn6g4//vMgMz0?=
- =?us-ascii?Q?AMF4D2UUktecYq65dQqRi/79Y2siCFDm6oF2rUdnslQ7/71nXFLsc0w2Kayp?=
- =?us-ascii?Q?uFRN5yDbSO7y+u1spAUXnJIPThifG5p50dGJse0xkrInmHZ4YRTWqz4z7BL9?=
- =?us-ascii?Q?7OFO7Eo3z/MUa2wDwAA/hfj7y/GaWj0T0xuP8IWm0TCPC8ZiJH7oxNcYq9QK?=
- =?us-ascii?Q?6QEC5CVSMV07oa/SOAKb0VjIaoTZqPLWWnqY4zOtXETCYEnz8abHBBebmpGq?=
- =?us-ascii?Q?E7OC+agh93AMUhoBm+xS9myeOMepHWblln6QNLcBTfH5G8VgeFixpnvxQ2pu?=
- =?us-ascii?Q?oidWX6gkpL6lVs5DKDxwRtBBqH7Z9MlDz8Mh7GkTIvOGxR5uhEwTerDIJi9Q?=
- =?us-ascii?Q?otOmr//jaSByLGNS8Psvmyhaz4OltS9UFhPbQHvqdCmjSke7AoObHE5vXaHl?=
- =?us-ascii?Q?Z+wdZimgj9b9ozqa1Osxoa1bx3vnGdF4L+KTEXaPRwSNzgNNz2JPhCusp/fd?=
- =?us-ascii?Q?CdMR299mYxxbMT+87uLFPEib1epbWuGs2AGUo4tzySW1tWD1vd8YEKaBVlTp?=
- =?us-ascii?Q?JPLmgNHhRIa/N+R0fPUA+qR9zyzy4Do=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dbf33a8-9766-4570-76c4-08de6fb6ba89
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 12:59:33.8333
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wZzkggcI4Fm+/mgnvp++vxfO8zz1CUcvkvjF75gFUMq+ovJsdOn6Zc46pde5uZtpM427TdkcLt6Sid/F8vd7Lp73jBREHtNoWYYd3ZgoNSI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5284
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: Lo0ygnqtsVmKVgI_8l01-awyLWw8wiwa
-X-Authority-Analysis: v=2.4 cv=D+xK6/Rj c=1 sm=1 tr=0 ts=69970938 cx=c_pps
- a=5k1muW5XIJfqWNzrwyhXkQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=3QBHEakNnMFf9g1FbPsA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE5MDExOSBTYWx0ZWRfX3Di96MYlXlBU
- EkgnOv+rWS+Uy546cJifnPNUuqGa8ij4lWfmPWI0KuZhW4txm+LiX9RqF9JPyKrEKBFmP/TLkgH
- MZYBDkv2mwdobJNrv88b/fmbRMTGeySZcILq5OjUDo98/gd2hOdQVi2wDPqzWd1MDWPuDBOerAR
- N6WR4eC/SF2X7m+MqLlGJgFgfbT7uos2+9mqqMsSXjIZlwV0uts/Y3l0xMPTS4jUHzHaGTZhsZC
- grRmpHFEhzWW2+kNjyq2RPGcQEsdM4A1+5uJOnpb+U3+y/s4vDVSVfAt3QQ8GGXntpZnkINJHBm
- ubYVrm2vBIkhORqoVh1d6xpAUMgerZYrVFC6eZWMeR0i4uvL+Mclm2LbnTfXP/dVtS728CtxsdU
- bXtvU+dps/ZvOqq1xgtb6hegZUlh/P5j1ej5BJOWUeVUxW8C5QruJ96bLZEP4EJVHohrqroE03v
- rrDlcbdTAGqkNKHLcdA==
-X-Proofpoint-ORIG-GUID: -ZUBB31TauBXh5kz_M0NQmFwTgMaRCZ8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-19_03,2026-02-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 adultscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602190119
+ dkim=pass header.i=@smile.fr header.s=google header.b=NniaFRD4;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4362d4050c1so968390f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 05:54:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1771509282; x=1772114082; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hs4WJEjXyODPcLEujgMA6nLbOteQNCxREnwy2ydxRjQ=;
+        b=NniaFRD4dEz60WWoxPcylBzqjpzbqXxbIoIbn2+IhUrJ6GkysPxT1EzptuygCworUQ
+         /hVtOka2iKOKPaJrnKGSBtCuM5Ffl6OqmQh9+yPMN/ZJ7ubkaSnakWkj5NoUfddRW1A7
+         yUbmJUdQV+Q+w2hQPceTH59Xi9DLKnG2HfezM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771509282; x=1772114082;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Hs4WJEjXyODPcLEujgMA6nLbOteQNCxREnwy2ydxRjQ=;
+        b=wltj9j9blEOf5MaeTL/2lfHSMIlG8OOuylTu4qj3Aejf0lhatTipy0pFUETh7NlFXl
+         A1ok/StFd0el+Er+1IEYC15lKIHjXNAztIJhdvTmXV3d6ZxKA420fQzqvhECCD66f6V7
+         O6Hrx6OCHHkekRWhaf4R/PCpakV2vKI+Rx0+hRhVM/wMARMAnEtrDb5CyBp+Ub8LJwWo
+         NWVEBlyk1YnmJLK9bfCWa3HgAfi8HobE9rtETnYc6l83Dszy6UE6oVdQJEbKlPA1D3rO
+         4dD0jNUs7n6IllMbbQnPk5XAbXWFmbVTlBbrxwV7XDSoCwGaxXOifBxUA0GQ/pWXeoDS
+         EtQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVigJpJQAUiuY/Ec4pNVM+So7r6/AXr+gnvY5PfYlslKsoihYZoF45rqJhbn57sKow5gp6M5JoSkmDq9n2CrZfA2A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YypJJ2qT7pqjwTmhidZiv4RvH0inKb74yzHDwPDubt1brsMt5GL
+	DlWB6p70PF4oL4YuGIZtGc050BHd9jT6YPhcmUaYFx/wU37qbZD8lIs4iTLFO65mHNk=
+X-Gm-Gg: AZuq6aKmB1g1TwnGsBiGusqqNr4JIEcknTg8YLrFp5Q7mY2Z8zuJ6HIj9FquZ1tk4it
+	d0e9go/wdNPk06KZcByC95J7nGDYXz0ocdVvLJ812PAKjbUA8iy9wrT5+ScNDdy9vxXtSzxMnNk
+	0CJ3U7zvyYVoNHUlrgMg+tLfxdR7mFF+i44uC3f5LcVqNhc1xZNRMaXE5QvXAWl5YA/DFAKT3gO
+	el/shRWeoYgRo+R61uGaSvwOd9zdi8f+ZiTfZ1AY4K7mpxUAvHmR9OwWjAL9qi3Uh9zhi7MaDfd
+	gaNELg8rpyrVeBJppldQ0LKyCp05zX7pTBWI02FQYOI7PgVYNNv+7eXj0DcRMhwWBZEyheJ7sjO
+	Xn/a3Bf8LFPZmWV0NBGqCYVgt8TcMq7HZP0grw0I9WEjrUK53oOjNjRK9dx8nddecyZOLozAv+d
+	I2jb0qPLRPiOWC0KN3CLV3/MS1DNMTCx78DZsdgsBh2qMPqmlLCkJZ8zyLoy+qMBRUy0xrMv05Y
+	E1qiUth0vDnBgY=
+X-Received: by 2002:a05:6000:603:b0:432:84f9:8bea with SMTP id ffacd0b85a97d-4379791cfedmr38129869f8f.51.1771509281996;
+        Thu, 19 Feb 2026 05:54:41 -0800 (PST)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac9d77sm44844502f8f.33.2026.02.19.05.54.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Feb 2026 05:54:41 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Feb 2026 14:54:41 +0100
+Message-Id: <DGIZMOWN2GMB.2LUW1QWT0MLRW@smile.fr>
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Marko, Peter" <Peter.Marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
+X-Mailer: aerc 0.20.0
+References: <20260110224453.395105-1-peter.marko@siemens.com>
+ <DG63GSU9MVS3.304EAXA47JAF9@smile.fr>
+ <AS1PR10MB5697F71F42D54E6DF1DBDA63FD6AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB5697F71F42D54E6DF1DBDA63FD6AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 12:59:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231425
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 13:54:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231426
 
-From: Sunil Dora <sunilkumar.dora@windriver.com>
+On Wed Feb 18, 2026 at 10:28 PM CET, Peter Marko wrote:
+>
+>
+>> -----Original Message-----
+>> From: Yoann Congal <yoann.congal@smile.fr>
+>> Sent: Wednesday, February 4, 2026 11:10
+>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>> openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
+>>=20
+>> On Sat Jan 10, 2026 at 11:44 PM CET, Peter Marko via lists.openembedded.=
+org
+>> wrote:
+>> > From: Peter Marko <peter.marko@siemens.com>
+>> >
+>> > Handles CVE-2025-68973.
+>> >
+>> > Refresh patches.
+>> >
+>> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>> > ---
+>> >  meta/recipes-support/gnupg/gnupg/relocate.patch    | 14 +++++++------=
+-
+>> >  .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}       |  2 +-
+>> >  2 files changed, 8 insertions(+), 8 deletions(-)
+>> >  rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb=
+}
+>> (97%)
+>>=20
+>> Hello,
+>>=20
+>> I've tested that on autobuilder but got an error in oe-selftest-debian:
+>> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3138
+>>   ERROR: autoconf-native-2.72e-r0 do_recipe_qa: GPG exited with code 2: =
+gpg:
+>> signing failed: Corrupted protection
+>>   gpg: signing failed: Corrupted protection
+>>   ERROR: patch-native-2.7.6-r0 do_recipe_qa: GPG exited with code 2: gpg=
+:
+>> signing failed: Corrupted protection
+>>   gpg: signing failed: Corrupted protection
+>>=20
+>> I've started a build with this gnupg upgrade reverted to confirm that
+>> this is indeed the cause:
+>> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3142
+>>=20
+>> Can you look at this?
+>> Thanks!
+>
+> Unfortunately, I'm not able to reproduce this failure.
+>
+> On my Debian 11 I have:
+> SANITY_TESTED_DISTROS =3D ""
+> PACKAGE_CLASSES =3D "package_rpm"
+> RPM_GPG_SIGN_CHUNK =3D "1"
+> IMAGE_CLASSES +=3D 'testimage'
+> And run:
+> oe-selftest -r signing -j 16
+> And get:
+> oe-selftest - INFO - RESULTS - signing.LockedSignatures.test_locked_signa=
+tures: PASSED (122.35s)
+> oe-selftest - INFO - RESULTS - signing.Signing.test_signing_packages: PAS=
+SED (155.34s)
+> oe-selftest - INFO - RESULTS - signing.Signing.test_signing_sstate_archiv=
+e: PASSED (121.11s)
+> oe-selftest - INFO - oe-selftest - OK - All required tests passed (succes=
+ses=3D3, skipped=3D0, failures=3D0, errors=3D0)
 
-Fixes [Yocto #16058]
+FYI, the failing build:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3138
+... was on Debian 12
+(It's the retry with this patch reverted that was on Debian 11)
 
-A segmentation fault occurs in rustc (e.g. in
-llvm::X86ReadAdvanceTable) when reusing sstate artifacts built with
-different host toolchain versions.
+Scarthgap has since been successfully retried on Debian 12 (without this
+patch):
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3226
 
-Issue sequence:
-1. llvm-native is built with a newer toolchain
-   (e.g. GCC 15/Binutils 2.45).
-2. rust-native is later built with an older linker.
-   (e.g. GCC 12/Binutils 2.40).
-3. The older linker statically links parts of llvm-native into
-   librustc_driver.
-4. The resulting binary crashes at runtime inside the statically
-   linked LLVM code.
+Can you check this on Debian 12?
 
-The corruption happens at link time when mixing static native objects
-produced by different toolchain generations.
+Thanks!
 
-Enable dynamic LLVM linking (link-shared = true) for rust-native so rustc
-links against libLLVM.so instead of static archives, avoiding host linker
-incompatibilities when reusing sstate artifacts.
+> So I guess I just backport the CVE fix instead of this upgrade.
+>
+> Peter
+>
+>>=20
+>> Regards,
+>>=20
+>> --
+>> Yoann Congal
+>> Smile ECS
 
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-Suggested-by: Alexander Kanavin <alex@linutronix.de>
----
-# v2 Feedback:
-#   rust-native should link LLVM dynamically
-#   rust-target should remain static
-#   Workaround limited to -native only
 
- meta/recipes-devtools/rust/rust_1.93.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-devtools/rust/rust_1.93.0.bb b/meta/recipes-devtools/rust/rust_1.93.0.bb
-index a25f65f674..2be0bd8d89 100644
---- a/meta/recipes-devtools/rust/rust_1.93.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.93.0.bb
-@@ -124,6 +124,8 @@ python do_configure() {
- 
-     # [llvm]
-     config.add_section("llvm")
-+    if d.getVar('PN') == "rust-native":
-+        config.set("llvm", "link-shared", e(True))
-     config.set("llvm", "static-libstdcpp", e(False))
-     config.set("llvm", "download-ci-llvm", e(False))
-     if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
--- 
-2.49.0
+--=20
+Yoann Congal
+Smile ECS
 
 
