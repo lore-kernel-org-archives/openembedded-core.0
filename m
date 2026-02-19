@@ -1,89 +1,119 @@
-Return-Path: <tonyb@cybernetics.com>
+Return-Path: <navinreddy23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AF0E9A048
-	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 15:25:15 +0000 (UTC)
-Received: from mail.cybernetics.com (mail.cybernetics.com [173.71.130.66])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16037.1771514708634526966
- for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Feb 2026 07:25:08 -0800
-Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cybernetics.com header.s=mail header.b=MftnSyIQ;
- spf=pass (domain: cybernetics.com, ip: 173.71.130.66, mailfrom: tonyb@cybernetics.com)
-Received: from cybernetics.com ([10.10.4.126]) by mail.cybernetics.com with ESMTP id gfSm5OkWoe1Dx1Gn; Thu, 19 Feb 2026 10:25:07 -0500 (EST)
-X-Barracuda-Envelope-From: tonyb@cybernetics.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.10.4.126
-X-ASG-Whitelist: Client
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cybernetics.com; s=mail;
-	bh=xgFyPcWQQ/leM5lI8o3uzGPOA1JhQRY8Ws/FD4JNw7w=;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:Content-Language:
-	References:To:Subject:MIME-Version:Date:Message-ID; b=MftnSyIQZsvPVLy5R4HKlNw
-	erR07LyqHMLHArg8kC9nn29jrx/PYfEL9/jcaGZHiLbTWcChJrl5sQz6NumPB4SjiV1oVmFRtRYlF
-	V4XTKQRofB3J8UntvhkXn7ZqA3BMiot1Ey2L3de6CmTWHiVD1HbP4nmR1Wkmu/VAjyiEQWY=
-Received: from [10.157.2.224] (HELO [192.168.200.1])
-  by cybernetics.com (CommuniGate SPEC SMTP 8.0.5)
-  with ESMTPS id 14413125; Thu, 19 Feb 2026 10:25:07 -0500
-Message-ID: <37d9c1ba-dd3e-4563-a60c-a057d6af563f@cybernetics.com>
-X-Barracuda-RBL-Trusted-Forwarder: 10.157.2.224
-Date: Thu, 19 Feb 2026 10:25:07 -0500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98EA5E9A048
+	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 15:38:25 +0000 (UTC)
+Subject: How to backport latest go version?
+To: openembedded-core@lists.openembedded.org
+From: navinreddy23@gmail.com
+X-Originating-Location: Voorburg, South Holland, NL (31.149.254.209)
+X-Originating-Platform: Linux Chrome 145
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] texinfo: Fix gcc 15 compile errors
-To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-X-ASG-Orig-Subj: Re: [OE-core] [PATCH v2] texinfo: Fix gcc 15 compile errors
-References: <cd8dabb4-fc3b-426e-8dea-c8c83e87f3f4@cybernetics.com>
- <63299bf7a75a50a7b9c7a669a83a117fd014dae3.camel@pbarker.dev>
-Content-Language: en-US
-From: Tony Battersby <tonyb@cybernetics.com>
-In-Reply-To: <63299bf7a75a50a7b9c7a669a83a117fd014dae3.camel@pbarker.dev>
-Content-Type: text/plain; charset=UTF-8
-X-Barracuda-Connect: UNKNOWN[10.10.4.126]
-X-Barracuda-Start-Time: 1771514707
-X-Barracuda-URL: https://10.10.4.122:443/cgi-mod/mark.cgi
-X-Barracuda-BRTS-Status: 1
-X-Virus-Scanned: by bsmtpd at cybernetics.com
-X-Barracuda-Scan-Msg-Size: 1252
-X-ASG-Debug-ID: 1771514707-1cf43940a60c940001-7zcVdP
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Feb 2026 07:38:23 -0800
+Message-ID: <nOYT.1771515503207887946.99kd@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="34NSPz8iCODx7VViJZtR"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 15:25:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231431
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 15:38:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231432
 
-On 2/19/26 10:13, Paul Barker wrote:
-> On Mon, 2026-02-16 at 11:40 -0500, Tony Battersby via
-> lists.openembedded.org wrote:
->> gcc 15 switches the default from -std=3Dgnu17 to -std=3Dgnu23, which c=
-auses
->> multiple errors compiling texinfo:
->>
->> texinfo-7.2/info/terminal.c:164:7:
->>   error: too many arguments to function 'tputs'; expected 0, have 3
->> etc.
->>
->> My patch to fix the issue has been accepted upstream; backport it sinc=
-e
->> texinfo 7.2 is still the latest release.
->>
->> Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
-> I wonder why you're seeing this error and we're not seeing it on the
-> autobuilder... termcap.h is provided by ncurses, which is listed in bot=
-h
-> DEPENDS and DEPENDS:class-native in the recipe, so in theory you
-> shouldn't see the case where that file is not available during the
-> texinfo build.
->
-> Is the error seen when building texinfo for the target or
-> texinfo-native? And is there anything unique in terms of host distro,
-> local.conf, layers, etc that you think might be triggering this?
+--34NSPz8iCODx7VViJZtR
+Content-Type: multipart/alternative; boundary="FqYXA44rRKHBliKmFFYE"
 
-Upon further investigation, it looks like the problem is triggered by
-changes made in our custom layers.=C2=A0 So upstream probably does not ne=
-ed
-this patch after all.
+--FqYXA44rRKHBliKmFFYE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tony Battersby
+Hello all,
 
+I am currently using scarthgap branch and was not able to successfully back=
+port latest go version 1.26.0.
+I have created a custom layer (meta-dummy) and added all the files from rec=
+ipes-devtools/go of Whinlatter branch. Yet, when I invoke bitbake recipe-na=
+me, I get the old version which is present as
+
+=E2=9D=AF tmp/sysroots-components/x86_64/go-cross-armv8a/usr/lib/aarch64-td=
+x-linux/go/bin/go version
+go version go1.22.12 linux/amd64
+
+I am able to set the preferred version in local.conf and it builds fine and=
+ I am able toverify the binary version for the host.
+PREFERRED_VERSION_go=3D"1.26.0"
+PREFERRED_VERSION_go-native=3D"1.26.0"
+PREFERRED_VERSION_go-cross=3D"1.26.0"
+
+Am I missing something here? Is it the right way to backport?
+
+Best regards,
+Navin
+
+--FqYXA44rRKHBliKmFFYE
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hello all,</div>
+<div>&nbsp;</div>
+<div>I am currently using scarthgap branch and was not able to successfully=
+ backport latest go version 1.26.0.</div>
+<div>I have created a custom layer (meta-dummy) and added all the files fro=
+m recipes-devtools/go of Whinlatter branch. Yet, when I invoke bitbake reci=
+pe-name, I get the old version which is present as</div>
+<div>&nbsp;</div>
+<div>=E2=9D=AF tmp/sysroots-components/x86_64/go-cross-armv8a/usr/lib/aarch=
+64-tdx-linux/go/bin/go version<br />go version go1.22.12 linux/amd64</div>
+<div>&nbsp;</div>
+<div>I am able to set the preferred version in local.conf and it builds fin=
+e and I am able toverify the binary version for the host.</div>
+<div>PREFERRED_VERSION_go=3D"1.26.0"<br />PREFERRED_VERSION_go-native=3D"1.=
+26.0"<br />PREFERRED_VERSION_go-cross=3D"1.26.0"</div>
+<div>&nbsp;</div>
+<div>Am I missing something here? Is it the right way to backport?</div>
+<div>&nbsp;</div>
+<div>Best regards,</div>
+<div>Navin</div>
+
+--FqYXA44rRKHBliKmFFYE--
+
+--34NSPz8iCODx7VViJZtR
+Content-Type: text/plain; name="log.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="log.txt"
+
+U3N0YXRlIHN1bW1hcnk6IFdhbnRlZCAxMiBMb2NhbCA1IE1pcnJvcnMgMCBNaXNzZWQgNyBDdXJy
+ZW50IDQ5OCAoNDElIG1hdGNoLCA5OCUgY29tcGxldGUpIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMgICAgICAgICAgICAgICAgICAgICAgICB8IEVUQTogIDA6MDA6MDAKSW5pdGlhbGlzaW5n
+IHRhc2tzOiAxMDAlIHwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyN8IFRpbWU6IDA6MDA6MDAKTk9URTogRXhlY3V0aW5nIFRhc2tzCkVS
+Uk9SOiBkaXNwbGF5c2V0dGluZ3N0dWktMC4wLjUrZ2l0LXIwIGRvX2NvbXBpbGU6IEV4ZWN1dGlv
+bkVycm9yKCcvaG9tZS9uYXZpbi9QbGF5Z3JvdW5kL2J1aWxkL3RtcC93b3JrL2FybXY4YS10ZHgt
+bGludXgvZGlzcGxheXNldHRpbmdzdHVpLzAuMC41K2dpdC90ZW1wL3J1bi5kb19jb21waWxlLjM0
+OTcyOScsIDEsIE5vbmUsIE5vbmUpCkVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1cmUgc3RvcmVkIGlu
+OiAvaG9tZS9uYXZpbi9QbGF5Z3JvdW5kL2J1aWxkL3RtcC93b3JrL2FybXY4YS10ZHgtbGludXgv
+ZGlzcGxheXNldHRpbmdzdHVpLzAuMC41K2dpdC90ZW1wL2xvZy5kb19jb21waWxlLjM0OTcyOQpM
+b2cgZGF0YSBmb2xsb3dzOgp8IERFQlVHOiBFeGVjdXRpbmcgc2hlbGwgZnVuY3Rpb24gZG9fY29t
+cGlsZQp8IGdvOiBnby5tb2QgcmVxdWlyZXMgZ28gPj0gMS4yNS4xIChydW5uaW5nIGdvIDEuMjIu
+MTIpCnwgZ286IGdvLm1vZCByZXF1aXJlcyBnbyA+PSAxLjI1LjEgKHJ1bm5pbmcgZ28gMS4yMi4x
+MikKfCBXQVJOSU5HOiBleGl0IGNvZGUgMSBmcm9tIGEgc2hlbGwgY29tbWFuZC4KRVJST1I6IFRh
+c2sgKC9ob21lL25hdmluL1BsYXlncm91bmQvbGF5ZXJzL21ldGEtZHVtbXkvcmVjaXBlcy1leGFt
+cGxlL2Rpc3BsYXlzZXR0aW5nc3R1aS9kaXNwbGF5c2V0dGluZ3N0dWlfZ2l0LmJiOmRvX2NvbXBp
+bGUpIGZhaWxlZCB3aXRoIGV4aXQgY29kZSAnMScKTk9URTogVGFza3MgU3VtbWFyeTogQXR0ZW1w
+dGVkIDEyMjYgdGFza3Mgb2Ygd2hpY2ggMTIyNSBkaWRuJ3QgbmVlZCB0byBiZSByZXJ1biBhbmQg
+MSBmYWlsZWQuCk5PVEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5Ck5PVEU6IFdyaXRpbmcgYnVpbGRo
+aXN0b3J5IHRvb2s6IDMgc2Vjb25kcwoKU3VtbWFyeTogMSB0YXNrIGZhaWxlZDoKICAvaG9tZS9u
+YXZpbi9QbGF5Z3JvdW5kL2xheWVycy9tZXRhLWR1bW15L3JlY2lwZXMtZXhhbXBsZS9kaXNwbGF5
+c2V0dGluZ3N0dWkvZGlzcGxheXNldHRpbmdzdHVpX2dpdC5iYjpkb19jb21waWxlCiAgICBsb2c6
+IC9ob21lL25hdmluL1BsYXlncm91bmQvYnVpbGQvdG1wL3dvcmsvYXJtdjhhLXRkeC1saW51eC9k
+aXNwbGF5c2V0dGluZ3N0dWkvMC4wLjUrZ2l0L3RlbXAvbG9nLmRvX2NvbXBpbGUuMzQ5NzI5ClN1
+bW1hcnk6IFRoZXJlIHdhcyAxIEVSUk9SIG1lc3NhZ2UsIHJldHVybmluZyBhIG5vbi16ZXJvIGV4
+aXQgY29kZS4K
+
+--34NSPz8iCODx7VViJZtR--
 
