@@ -2,183 +2,185 @@ Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F6DC531BC
-	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 19:45:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22DC2C531CB
+	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 20:57:27 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22529.1771530321049776182
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24535.1771534637109289683
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Feb 2026 11:45:21 -0800
+ Thu, 19 Feb 2026 12:57:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=d5ZnSVMR;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BkIfaGZ5;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=651017371c=randy.macleod@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61JBtprF201270
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 11:45:20 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61J9nva04179496
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 12:57:16 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=bz6qLm/IJCAn/20hDU6DAm
-	srEqHgElURqgLOsYW+y7w=; b=d5ZnSVMRkA4ohLsJBohxieJQyGV2C7W8lqVfem
-	sBzkCwJ/w+7EmHBupIx4/qse8vVuw5bvnltBwOhjIcVs8X5TIlwYVecdkzgfp2d4
-	jp/wcqMFINMIrmJjyOjtq/UAcqY527lLQRNOWmkBbLzx6Q+RVd2Tla/cl4Ujcrs3
-	c56pMDPjZUXyL4QYQwL3HfSFARdi6VXPSbvBwWTfG7GCy3OTlq0fJsGTqQFQSxe9
-	V3kw2cD/gnD8po8kPPSg7Kya42XHHoMAD1WLI7/IGxGwrcvyuTsWTu3epA60qJJj
-	BYDyrwz+pXl32dgJ2FZ8q/cWzd81JKaWUIFWZSo+G+ObUKJQ==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012030.outbound.protection.outlook.com [52.101.43.30])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cdtuagstf-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 11:45:20 -0800 (PST)
+	:references:subject:to; s=PPS06212021; bh=DtR8lrodkc1rAW5kKpeQzW
+	TnLwHSQjn4zHZpIXYZxsY=; b=BkIfaGZ5Klfu4KlJInn0Li/nuw3Q1VNy4NaiaJ
+	ClRKliGdlCKqELZOXZVAZGpvCZYPZJKkDDj9wgyLSkaTzYWP+uex7t1cQVShYLRN
+	DMjJfbAlfHgXKzb/tQBRbNi7rHkTXlRhQjpQcw1XM5hC2JlWhVwWqRB4rkq2fuR2
+	hBlLB0i+G8u1BJZN3p2ITnTP/+qSCl5HJ3knez106chdn2T/hXyuWOet9KeT9/uO
+	vD0DZgFbQdMBxBqzX7e7On3KIArahW87HS9Tp6uquJ97yeWWUNBCeeHJFAoFpwzS
+	dbcDIK6DAN/oHUwQb43Gn64r4SUC94hAjNcfEEWB6/6k5YDg==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013067.outbound.protection.outlook.com [40.107.201.67])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cdtuagv5k-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 19 Feb 2026 12:57:15 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xCYcnZJTp50LrEsFHhRuox2OJmyxA1NJ3G3fXBLdoM7/kI4Ds5BNc0Wt4Kzh8khD9RHfRczeKfPF1lsHhZWDiO28RvugcbOEh4fI+76zYPOTHnG2hF+pFkU+FxYJV1MYOtPfJajIzOpoelXcVpVTC+j6OQpOnXOlP261Zb9xZI6GiG7o7CzpLCpIEh0D7+FiEz0m3vl59sg5Pps9CpN7JkKvpTjig5jM3IZN/0dbHTL/x3w2i2dWdljyeAhiTtTQg2FKlsOqri13GrAnNckG4erhpOcs6kA1oTHlj7O9l24LZRTefKozKUXSvMpeGyPhj/nWzlJYSmobTTRj3dxkig==
+ b=frPCrnSJOAlP7KNnEWUkYXqFntYGbC1m6a6bhx047Al2fBO1hbV0Q2UbJYmKijfklQOUAHnsjmJNShdter3c5mSjO2BCM4FyxLpw+3oGKTaj/FL/h5sMW45ITMFUTru4xj85y4ezM7mQSwgq4SPlCZEKNXTaQzx1m83eyT1Zqavfqy92HX4qWv7SKLVyaE/WhBp5U4ah0NreltHBuXepWkHgC2lXaG7i5yaWv4/d7H2Id33JwYBRqwvqCc43W0AqN2u0p0EC5zqcZmqkhCiJFEp5DgYPIA3izk0MGjOwsR5mUYSMuSLvwCMI7PEcHKHzyhEy0x6jEe4LZCQ4wsog3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bz6qLm/IJCAn/20hDU6DAmsrEqHgElURqgLOsYW+y7w=;
- b=Zyh5vpfInkBYZQlXX30W19reiSBU3eo9ongyw143Iubg25ZpFs8/ddvAWwiVZ1qnGSIJLC2+P1MjGzrGbOQUyanOQXXXdh9bOUEui9kPW4awzPWHxZAn2lSvFgkmc+3DofP1hrfYiXUlVqvS0R5VaQSrXybMf0icumJt+iO8SfT+uNSKGX4HU8MxVBVh0hYf9pxk6dc0oWflA7YSR3dpAnuvIINhEfcbXS/SOMItqWhw7vuOswwiAxm3Ry47KFPVnnpQi+a6DWHy/tj0C3qTU+/sO0Yxj+SXkuoHIIFdmxx57GbZ29GvBrA4BYVUUqDzQipI7qr10cxLfxMvVEGOnw==
+ bh=DtR8lrodkc1rAW5kKpeQzWTnLwHSQjn4zHZpIXYZxsY=;
+ b=oVeOox0qabylikABajggxLvvF6jV9K9qNUy9T8lXUkWtE0MQh1wex2qoWc6HJzmzMN2hQnjqr+ClF/ewJSI24/laTBThamKbsNqHdhZl+vargn3RM3Acg98Mi6lOGPC83TBkBFb61cIZj6SDBcGVjB0Rau6PaXmAPbWWqaohTKCSFOk4c7bms1i/AxdtBzfGj6VcqsKW+d2s5uNm5WczJIJvV08nVJJVz7dTk1W+nvjnki604HRpbttDMFVxG/EMpZRpKwsqK/0IJ6FS1ZnP9rwOOuMe2vEeEv0yDTwrsSDCr8EPd+YXycmNb8Qv3pVIzuhB4adEojrkkis/3YaAqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by MW5PR11MB5857.namprd11.prod.outlook.com (2603:10b6:303:19d::17) with
+ by SA1PR11MB8328.namprd11.prod.outlook.com (2603:10b6:806:376::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Thu, 19 Feb
- 2026 19:45:17 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
+ 2026 20:57:12 +0000
 Received: from CH3PR11MB8496.namprd11.prod.outlook.com
  ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
  ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
- 19:45:17 +0000
+ 20:57:12 +0000
 Content-Type: multipart/alternative;
- boundary="------------Aks0iXO09OlGnGQUV4ykciqF"
-Message-ID: <787e9745-2f4c-4ea6-b4ca-433c822ab0b3@windriver.com>
-Date: Thu, 19 Feb 2026 14:45:12 -0500
+ boundary="------------3TgreRpUKk7QPkVI9m6jIxpG"
+Message-ID: <1263b317-6996-42c7-8cf3-163589ec16ad@windriver.com>
+Date: Thu, 19 Feb 2026 15:57:06 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] coreutils: kill and uptime are no longer
- installed
-To: openembedded-core@lists.openembedded.org
-References: <1895BBA9C4761CF4.1171932@lists.openembedded.org>
+Subject: Re: [OE-core] [AUH] socat: upgrading to 1.8.1.1 FAILED
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
+        "Jia, Hongxu" <Hongxu.Jia@windriver.com>
+References: <0101019c720ece81-b7ab8eac-2702-4d06-8f69-00cdbe191d9b-000000@us-west-2.amazonses.com>
 Content-Language: en-CA
 From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <1895BBA9C4761CF4.1171932@lists.openembedded.org>
-X-ClientProxiedBy: ZR2P278CA0046.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:53::19) To CH3PR11MB8496.namprd11.prod.outlook.com
+In-Reply-To: <0101019c720ece81-b7ab8eac-2702-4d06-8f69-00cdbe191d9b-000000@us-west-2.amazonses.com>
+X-ClientProxiedBy: BY3PR03CA0029.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::34) To CH3PR11MB8496.namprd11.prod.outlook.com
  (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|MW5PR11MB5857:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4c6f000-699e-4247-2ef6-08de6fef687d
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SA1PR11MB8328:EE_
+X-MS-Office365-Filtering-Correlation-Id: ded5a958-64cc-4baa-e013-08de6ff97403
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|4022899009|376014|366016|13003099007|8096899003|7142099003;
+	BCL:0;ARA:13230040|366016|4022899009|376014|1800799024|8096899003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?a0lvZmE5akhnbW90ZzZKbVdGTEpOdDUwUG1LbXgxN1B4RGJ4c2pyRjRkeWh3?=
- =?utf-8?B?ZG5KRXp5RXRMSFJCRGwvWVNNMFZxYzhvS0pxL2ZDUVd5Um80dkxXYVIydnVn?=
- =?utf-8?B?ZFo5RHlDa2p6YzFwUU0xb0ZPeDllVVlQRkxXTXpCSVFaRHJiRU1jd25mNVlJ?=
- =?utf-8?B?b25xQi9LdEtTdENkMVVZRm1DYkt6MlI0ZTBDTUhybTBiYXhmVlhIbThveCtt?=
- =?utf-8?B?MDRRSjZDVkNRcFhGODRIbHovU3lOTmh2OFQvK3g3VTN0TVNySVltdGo2a2ZH?=
- =?utf-8?B?R0l2cUdocW5OYWRwRmIxb3JwbFlZOGZLeDErendXemRXaVNVdlROWUJZVFZY?=
- =?utf-8?B?YnVueVM4MHkwTjllY0tsSTR5aWNVcHlxMEVRS1p0clpNTE55UitwUzVCek51?=
- =?utf-8?B?M2QxVWhyYng4M3QvQXUxeFNkM2dkS1BPMGFtMzFTdlhGdlkzRnNLdTd3dXZm?=
- =?utf-8?B?QUhCS25ET2VOUDhOQlpySnpSOGVWRVk3WXVoSmh0ZzBMV2VUVkZHOUVoRk5R?=
- =?utf-8?B?d2YraC9jWWM0STJGbDljbElXNGdMNHExallSQ1REOE56WWJGMjVpT3p0Tk1h?=
- =?utf-8?B?elJsekV4S29vTWx4Wk5jajZVN0twZjFiOVBiYVhib1NnN01Ea0VOTUEyQ0Y2?=
- =?utf-8?B?eWU3U0cyVG5NcFJtMk9OQzB0ekk4Q1BoWEhBWUtZNnphNXBOVE5lSFJNaGRJ?=
- =?utf-8?B?cnF6cnN3bVZDK1dVeXZIaVpMQXJMaEtvTTV6TGFOTVlpZW9CeVJGRVR3dTIy?=
- =?utf-8?B?TGY2OGNrNEgxcHNuSkhLb2p1cXZ3eU8rTERRdVY1bGlTT3B5a3p6OUx2Ulgr?=
- =?utf-8?B?TFl0cjc0NG41Rkd6M2EzaXROOHdCcG5YRi9nZ29YdDRjYjQwOG5XTjMwc0h4?=
- =?utf-8?B?WnRZb2Y0bE9jVEo5YkNMWFd4eWlUVGw1VVY1WW45MVJrWGlKeHVqc0hDajgv?=
- =?utf-8?B?aFFLL1hnclZIZTloU3VuTU84cWdzZUcxaVZ0NE5jMkFCUUgzbi9NVytsTjRX?=
- =?utf-8?B?T3BzK3pnTEtDUzVzL0dreUVoZ3NmMFcyaEpUR1MvTzJ5dUtlNit5dlIyVVhk?=
- =?utf-8?B?VXAzZERmS29pQzBoNG9FOHRsUVhUWlg4WmJQWFFBQzhmcjNvVFp1Ymo0M25L?=
- =?utf-8?B?c1pMOUNRT05kV0N6LzI5TEh5SzhpY2xSNjk1WXlQWEZtWm1CWmIveFMxVlFK?=
- =?utf-8?B?N0xHQlNWVWFZem5hNi9TMnhlekVWM3MvYWx5bGsrcS9OWEd6VzFPcW11T0dY?=
- =?utf-8?B?ZEg4OVVsQS9qdlozS2szSEF1OFdYM2w0eHU1NFc5ZlBaQnlmTGhlcTJ3SGx2?=
- =?utf-8?B?U25pQ09JU0hQMGVwTWdCMG9mT01ZWUp5MFovMzFNL3FuUzlNRHByZm0wQkJH?=
- =?utf-8?B?U0daTEFYUFZrUytmMG1DbEIyS0Y1cm1zMXFVYkhxdUhsbG1RWk1UR2k2N2Ra?=
- =?utf-8?B?MWIzbDVOUjdyTFBvRWxFVHF0bjVvbFljSUhROXdyK1BXdU12WE1vV0RFL1pJ?=
- =?utf-8?B?YU00VnhoTjFIQng4ZEtXOVpGTFdVOWdHUG1VN0JTTE5wc0RmSGpndkhJVkt4?=
- =?utf-8?B?YU03SFYwbjIwTXVXeTVzSkN1Rno0N09RWGg1WGtyTk9SY3RnWEs2aDVDRE1T?=
- =?utf-8?B?NkJ0Y05rcE5yc1dnczVWWW11U1o5bklhS2FQN0hOc0c0ei9nTlVGOGhIa1Fp?=
- =?utf-8?B?NTNCT3F4MnFjWHpYT3l2QmRUcjRSd2JYYVFOTzNTMDBidmVJK3FpR1BON04r?=
- =?utf-8?B?d2MvaklzbW1rVmJhZlNhSzNRQWs4ak04Nms2MCsweWVjSlJXd3ZGRTZheFpM?=
- =?utf-8?B?K2dvQXZETCtkd1ZHbHU2MVhieWRzWW5sampVL3RZYWxqN3h0OVQ5Z2tUOW5h?=
- =?utf-8?B?SUhUZ1JtakQ1NGdrbThlKy9OdW9nTmFscUFSN05oMCtvRmlzeSs2Q1pVeitH?=
- =?utf-8?B?L1BzNWV1VVZVZ3VaYTJMMG1rYzZ2TlBqaVl4RDlQa2Z5ZURsNUZ6TXl2ekk1?=
- =?utf-8?B?SkhDZDBac1F2L0hMcytiVWpOc0JlQXBDZFE3ZGFVNDlIYmtoRkhWR2p5dVQx?=
- =?utf-8?Q?7dfP9u?=
+	=?utf-8?B?aWo3emM0elFKWmpDQ3BLa1BWT1hydVRHU1JaRy9vZlBzcWczTFlnSmxYOU9K?=
+ =?utf-8?B?by91MjhjSFIyWThGYzU3SDlsZW5EWUZRN3hjeG5DejhYckdQUkxKMjZnK1lT?=
+ =?utf-8?B?alRFTEwySHF4MUVDYjZBUFlCTHRsVms4OU4xc2RxTGFPYjZhZUJYaWJNamYr?=
+ =?utf-8?B?SC82V1FNVEphUjR0OVZXR0tWdjFxN0tGbmxqbE5RNWFpU3hIMFltYzZKMk9k?=
+ =?utf-8?B?bFFQUGNXOE9jRThSeG40VTBJb3pUejVaZVlibWVBMHdhZzdXTURndzNFbW1k?=
+ =?utf-8?B?ZkVheEtFeUxlUG1SLzFUOWtoc3Rkc1NwNTVnZ2RBMU8rOW9nQU5jWnVjUXJl?=
+ =?utf-8?B?QTlwUUxJYnNtOWJKcFdiV3RIQis2OFFkTmU2TFpkb1pqTUlxV1RwOXZ5dVlz?=
+ =?utf-8?B?MWlnUU95SmY4aTVlK3VZY0hMTjc2S0loSXZvaVJaSDg0dk1jYUpFR1pzaTR0?=
+ =?utf-8?B?eDUzYzNhSXcvblFIZG9rcHlFT1dpZDV0eTVCV3kvQVhLM0tJTmhaSEo2OEF5?=
+ =?utf-8?B?c0I4dG1VT1JlWjczUE1TYUVTK29hU1NPSXNUOCt1ekthNkYzZHJQMDVWclNY?=
+ =?utf-8?B?SEg2dEdONm5la0FzUGNyakR5YVlYSTV6VG5hbnRFYjNHU2ZGNGZ6QU5pQ0pS?=
+ =?utf-8?B?SGgxUmNVQzNHaHBoR000VDhxUzZQeTJ4bE9sSWJYT09JcWhkeDJBaWlxOFk5?=
+ =?utf-8?B?bFJ5YVIzZlFhWVdIeTBQekhlWVZiNkNTMDFoWFRaRHhqSnZuN2tnUllzQnZa?=
+ =?utf-8?B?d2p5TDFHZmlQU2J1UEdRcUhJQmhURWI4aFcwb0swbVhXTUxtZlJxOGdXVjBV?=
+ =?utf-8?B?b3dDL1J4TFZkNlhpcUVEekwxU3VaMGRwQWN3cUJyZ05HK096RW5pL3lNZURk?=
+ =?utf-8?B?dTVsQWlKUUtrbUN2bFhURjZYQzFRcm91cmRDeGg2L3ZPTndIVzFJVkJLUndn?=
+ =?utf-8?B?bHVET2Y4ZzFUMU9qTExwVTZUWTlhS3dyNzRzV0FJSTFyd2xWWUxZTmM0VnBI?=
+ =?utf-8?B?Nk1Fcis2WVYySndVUDNsZU9qcHY5TnZRcGNTT0x4MGs3U3FrVUVrazVwR3VQ?=
+ =?utf-8?B?ZE8xK3k5ZmhoNytndlpiNW8rTUtVbSttUnR6Y1l4cXY2bDkyZzZrbDV2aHhF?=
+ =?utf-8?B?ejJyemVjYzNzWTdCUTQvYnRyTnFzMmNYYXN2V2ZvaExaZlVEMFVOK200VXRU?=
+ =?utf-8?B?ZmNPQUJ5eWZvZFVKeEd6eXFEMnBaQXlSVlpBSEZLd3U3ZlMwSWFENTRCeEsx?=
+ =?utf-8?B?YUM1b1lrekRGMnNodTU1aHdZRHM5MUdTU3F2Z0c5aDM2aVlhdmhxWUZsZWl6?=
+ =?utf-8?B?a2VYSVJtNWpnUXlSaG9Qc1BQN0JtMzg0ckNxMmxxUkdxMFJpeXM1aFVSNFEr?=
+ =?utf-8?B?Q0xYS2NQK0NkTWlzc3YzU1o5RnZVWlZjVDVOY0NxZkVQY0hSR0VnMDBORjky?=
+ =?utf-8?B?emI4Rk5ocWNJMVdlQnBHWjdWaGFEMElGbEZQSWdQV3NDN2pmd2tsaXFvSGpT?=
+ =?utf-8?B?MCsxVzhZRWwrcWxTWXZ5UTFYaGYrcTlSY1daSW4zc1J6SzZnQlE4ZCtLSGtx?=
+ =?utf-8?B?em01YytrU0dvd2pHS2NIT2t5ODRIQzVTQTZSMnJ0Zm5PQi9PWXY2R2ZlWlNM?=
+ =?utf-8?B?UytyOFl4bStrNHpUeXk4R1dKQkFZaWlGemdKNHY0N1h3ZVY5emhRODA5bHYv?=
+ =?utf-8?B?RitkUm9XQWhiL29aNWo2Y2hIY0VsSzlVcXQzRE1UaEU1aG9JRGpqOGxsaU1Q?=
+ =?utf-8?B?R2tNY0ZwYmFidjVyUzZPb3hkcE9QNE5ZSWVCWStvZ05BcHlZVzFUQUw1OTFK?=
+ =?utf-8?B?Z1N3MkVBbG5hNFd1dnN0L0cwNS94TTNLeFluMHNHMzBCcXlQdVlhcEs4Y0tn?=
+ =?utf-8?B?Qkw4bnBvcmdveFQ0TEU5RDc1TW9sc1JLR0hKc1REY252NkxhMFZDL0N3b3JE?=
+ =?utf-8?B?Zlp2cXdqQWhQQ2lnb3Q5VXROejZMNHVQcTRoT3d5bHNJN3BENGtlSVNNMEdJ?=
+ =?utf-8?B?K1NjWFRyRCtiUDRJY3pKZkNZbVJSanRuSnhBeHFlQUdnRnVhUjZHNnNSKzF5?=
+ =?utf-8?Q?sG19Ub?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(376014)(366016)(13003099007)(8096899003)(7142099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(4022899009)(376014)(1800799024)(8096899003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?a0NnZitXS2VCUDRjSm5mVUtEUlZ5OWVPeHViWjFCNEMyLyt4Mnd1YlI3a0ty?=
- =?utf-8?B?M2xuM1huMVpqcnBPa3VCN3FFQ2p1SFpZcjVhOTBkc0IvOGtZOEpEbWdkbnE0?=
- =?utf-8?B?dVNKQWlTaWFVQmwrdGVVSWpoV2xpMStFUGg5dVlNZjViVFRvVm5HQTY0cldn?=
- =?utf-8?B?dVJwS0VZb3VMMjJHdUZyRmV6S3BmWlRWQWdDQ2NEVUFpc3luMlQwWDIvU2tw?=
- =?utf-8?B?cDYrb2RHUitFYVMyQmZZWTNCWEN1cWZLMHU2YUh1Q2dmSEtlVGZQSHEraThW?=
- =?utf-8?B?Y3NKQ1UzcVRIZXV2VDE2Z1dUbHBMbTg1V2RCVTk4VFllV1NiaVJFMjJFSHhp?=
- =?utf-8?B?QXE1WFpjdDloNG13eXZtb0syemgyYWlFUzhDMm02SGFVa2RWV29SdEM2cDZR?=
- =?utf-8?B?VjF3ODIyeEFqdUJpM3FudGJFTHIzcmkzY2g1TVN3UkxpSER5NHVUT1JVTG5y?=
- =?utf-8?B?dzJjWXR0eWo2bk9XN2I5VXJCS0wvZUNDcGVqNmFxUWhQSnZrMXdDbWJ3aFY2?=
- =?utf-8?B?T0Z6a1RPU2Fsdm5zVllicTMvTnNnRHpiZjkvMCs2ejgxQU40SHBxVTVwRXh1?=
- =?utf-8?B?ZGZCMGFnOE8zV2p1L08xR0x4WHF3M0xDRzhLNERnQzkwbllLSTFERHF3Rmdl?=
- =?utf-8?B?Tml5Q3A5V0JRaEJNM01xMVlnR2hlcGZ5T1AybldDTWswTlYrRkhhc3FrSlVw?=
- =?utf-8?B?L0FQckNRa2NIT3c1djlvUHFkcmlqWXBPdUl2WVlkZVVwRUlnbHJtYlFQWGFT?=
- =?utf-8?B?WWtqaFBWWFgvTU04Y2dPNUVnRjk3azlCYXlBZFkyV2k1OVgyZi8rcExYQm5u?=
- =?utf-8?B?TGZUTFNvZmJqS2hLNGNHOHB0dVliVFVUYjZaTmkyQy9rcjFjTWRoSlJzdVdx?=
- =?utf-8?B?RndEc3d2ZnErMHRETnhFZWhMS2lzZGk2QlBzSmM5NjF3TEgwOXhOak9oMWV2?=
- =?utf-8?B?Wk9ueHJsK1c3M05JdXAyVFNicHRVc3ZKUTdtc1hHQ1pabi95eEJiRDZmKy9E?=
- =?utf-8?B?d3d4Mmx2ekdWSnpiSy9ZdVFyenpzWXNMYmtrQzJZenpXTjcyOGptUUk1Sm8x?=
- =?utf-8?B?V3dyQ3JlazRGK2tkdHhiMkhNL2RYNXl3SUFmd3RlUG52cDlzVlFKM1FCMCtC?=
- =?utf-8?B?M2xoUFpLdCtBYXM2STZjZ05vRG5yaVVpQU0wWXd1SHo4SEpUSkxrSjZPMmNH?=
- =?utf-8?B?UGdnU3hNTC8vbk5Qc3ZEN1BDcnVDL1ZRN3pEeFU0ckhhclE2M0VGMHpNa2FM?=
- =?utf-8?B?ckRXdGlvTmU3ZzhTUFJ3elpuSFIxSlE2SlFjd0JiWTBPTUx5R1BRa1l4dXlF?=
- =?utf-8?B?MDYwNTlxamtxYnJYcDZ3NmtMMUVhSzUrZ0gvQUJyYWVjT1VvRXFBeDJlWG1F?=
- =?utf-8?B?b2JWV2ZlRnd4cEs3cFhudFRZczhCTU93V2pzZHBKUVdmcncxeW1Sc0lHbHdq?=
- =?utf-8?B?WWozTS9rWEIxa0ZPcGhhUWd0Q0JtdkhBVlhyMXlQaDJTTEcvK2p2WXZwRlI1?=
- =?utf-8?B?MVpyS1dFRGtjK1JobVg3VkxPNS9id0RjeVFIQndRLzJPRnhNWnUzQkZpTk9G?=
- =?utf-8?B?alRLdFVIZlRXT1dwTGkwcnZJTVJBVGJocjNtajhrRys5TEFReTNma0lmRFJL?=
- =?utf-8?B?Rjk5V3hYMFVLNFkwMmMxcVdlVTdPSVFoMWdIY2s5WmN1L3IvYWY3dzVQUjZ0?=
- =?utf-8?B?L3JFeVZTOXRQQi9FVWpCZWZXL3lDU0hzeDhFSUs4Si9SRHFkNWVVdGhIN0Vt?=
- =?utf-8?B?L0xENDVkeHpxQXNxaEpGM214WVJBSkl2eXlYTGxvaEo3bFpZU080UEY2cWxM?=
- =?utf-8?B?Sk1YMlBwZ29UQStwUTY0RTlTRXFUemRHMlR4S1N2MGE5QU16NVFxQmZHNHdu?=
- =?utf-8?B?MGJIaloxOElmdzNReGx0TEVtZWpRYjU3Tm44V0FzeWRLOGk5dUdTSUdTL09v?=
- =?utf-8?B?aWhFQ2ZOWDRiRUFoRGRzRy9PQ0t2QzdBYm5ac3V2bHh1Vm1xcmFDN0hLa1FL?=
- =?utf-8?B?S2dpZENnUWo1aFNxTEx0R1UwalhwSnFZaUFzRDhpY3NxOFcwNmM4bmtzYUE0?=
- =?utf-8?B?Z3Y3UjZOWDFNZVlESjdPUzk5Ky9iV2YydGpEV0EvZHZaWXBHZlRJRTRzU0Q3?=
- =?utf-8?B?ZStZdHVBVTE1YkFuM0oycW1tZXE0djZwR2xoUjJMckxQU0hEakw1QjVWZGgr?=
- =?utf-8?B?emFSMUwzZ29tUGorM0l1elhFOGVobXZVMVVmd1h4dWpnZmRZYVZaL0xpUFhl?=
- =?utf-8?B?b3BqbjRMZ0pwMldPaExRa2tRZWZNVm94TFEyYytRUE41dXE0RGNGbG9KZTZH?=
- =?utf-8?B?UmxHSXo4VHM5RUtFME5sU285MjE5YnZWekVXdTVMVkp3NjNtZ1FqQk03T3Zz?=
- =?utf-8?Q?FAaou1jU08Co1vO0=3D?=
+	=?utf-8?B?Njk5RlNIYWpxYkhlNTROMFo0bjc0WEIrUmc1U09NcGFjZUNqK2Z0SEFtUWht?=
+ =?utf-8?B?TWMwQ0N6bGt0Q2c0Wi9wczZiQkVNME0vWUw2TVhNaDduUkNKcHFKUEVwQlBI?=
+ =?utf-8?B?SWcvVnJiNktOeXp3cXZPcG90OEtEZnU5MnZLM2RROFRJc1Zac2tCbjNLM0x3?=
+ =?utf-8?B?VjdSbml3dU9pZDVGVnc4TGZlWGpGUXNiY0o1cUk4Mk9BL2NBTGgxN3U2bkQw?=
+ =?utf-8?B?L2NlMy9aVkh6cTdkU1A4Slc5Q0c0SHh4Mk1YUGs4RHJTMVVDVGN0SVEzajBk?=
+ =?utf-8?B?QjZJWk90UDh5c21mVDNJeE80bVpEWUpadUdsL2QwcnZ5UTdyODFnZmxna1Yx?=
+ =?utf-8?B?L05oaisvUndvWVo5R2xTWURrYUJGc1V3TERmaHVlVXM3WENTYllvSmc2Umdj?=
+ =?utf-8?B?Wk14NStSRXFNeElWbW9DRmNHRG9qdDdlak0vcExqeGJJMnB1dk1Fa2RBSS90?=
+ =?utf-8?B?ZkZ2b00zN0NWc2NvYktjUVoyQVVKUXo0azFFdFFCVzU3aWpmL3N2MTZScmp0?=
+ =?utf-8?B?cEdVSDdzVmNoMTN5UmNDM3ZJOTZxc3dCUzJHY1FiMDExdS9iMWt0SHMwMmF5?=
+ =?utf-8?B?dWxHdmgwb1NjMEVyZ1pheEVPRk5kL2VDYzNFVTQxa1laTmpkZ3VFT3VwMW5Q?=
+ =?utf-8?B?NXZkZGpSdzRWcDNUK1kvRXhaNWliSDRVK0dmTFZTTms1U3YvQlZZYlQ0K1o4?=
+ =?utf-8?B?dXZWTEk2dWR2SituRWQ3a3JOaXVKUlkvWHJ5SWVkN09JTnhSdGM4UndieDBM?=
+ =?utf-8?B?MHZGYTEyQWVsTWQ3UmdvMk1lU0pZeG82N0dSVFNQQmdXOU96Nm90QnRpUm9q?=
+ =?utf-8?B?bER1bnpwOTRFREI1R2ptSUgyTnFqcWx3TWF3ZHI3OWNlajNjb29LcFY3dXVX?=
+ =?utf-8?B?RERkYktQVFlZUy9PdDB5azB0V3pCNW4rRllNVERLN2R0Q0ZwdjE5RitFeFZ0?=
+ =?utf-8?B?bVl3aE5jK2hmTXBQUCsvcGJiNG91V1lNdCs3Z01PWEdEVXFuVmdYNEg5akU0?=
+ =?utf-8?B?N1V3NGNuaDZZeXh1cE9CWE43ajUwK3p5UjhEMEozZmgyc2dwOERnZ1FIb01v?=
+ =?utf-8?B?NUFpY3lLZ0VGUkZFcXM5YVpJcjZvd0NrckNFRlB6NE1PNmhiVFl0TC9MdU9i?=
+ =?utf-8?B?QkxrRWdwY3FmU2M5ZU9TMFhaVk1LSlNVY2R2RUszWFNIRzFMTWhHZm5yb011?=
+ =?utf-8?B?YjJXdU1lS2FBZVNMV2tGMDU1WGMzM1Y5R2dWQURLb243dWVSZittZG12VC9p?=
+ =?utf-8?B?NDJ6T3hLNnM3cEhrNkwxSmo0UTF3SmVXYWNTOERBckp0cWRQOEV2UWppMndU?=
+ =?utf-8?B?aVgyNTNNcmNDR2wyRjB1ZW1Cc2h1VjQxWndXZnV5Mm5VVTBpT1ZXSGloR1B5?=
+ =?utf-8?B?ZGhmVG9mcTB2ZWc2U1FyOUp4Qmh6ZlJscGwyV1ZpU0hRV0k3dzZBaGlybm1J?=
+ =?utf-8?B?ODNFcENTbTJjQkU1ektlU2FoTmc1N2JkdVhLMllLcTdKQkF4YXFKSklJYUNI?=
+ =?utf-8?B?V0tZY0YwRGVuNEtEeVV5UWlVTzdldzMwN29OUWI1ZStDQXh4K1g1eGJNODFi?=
+ =?utf-8?B?czA3OGxuVGVvdFJma2l1czdGb0tWNktkTTI2dFJWdytKRnBIWE9ETmxIdVVB?=
+ =?utf-8?B?ZE9xTlRpMmprQVk4ZG1CWmdCamJhOTZMem9CYTY3Yy9FMG05c3YyMTMvTVhW?=
+ =?utf-8?B?d0Juc1hiSHN1RnI1aGxKWng3dHk0S1RPTzJpOEpuYmQxUDhYNzhIdUFZako1?=
+ =?utf-8?B?aCttV25ad0tmMmhIcmU5anplSEE5MGpucUloOVFVNUJ3U29SK2hSdnBreEYw?=
+ =?utf-8?B?WFMxWElnbDFOWjg2ZThYb0VOYklmMnJOSUxCNC9WOHUxTitHK3ZsWlprREd5?=
+ =?utf-8?B?d09kcENxeE1vMWhOeDRuYkdiWXFRMGgwdXNsQklNdGV1QnhFSzczOUVnZUhj?=
+ =?utf-8?B?NlNnRjlnV01ZMlV6VWovU1ZzK2pkZ2FWbU9xV3puRHpicDBVNi9NV1NmeW5r?=
+ =?utf-8?B?Q0hocThXTk5wSlZkRFJaRnkvUndPYnN2UFIyV1BPc2pHY2ZCNFcyTUNHaW92?=
+ =?utf-8?B?MFc0RkkybmVkZEs4TGV3Zm90SDNWU3ZYMHB5SFVxblZHTGMxS0gyUVZHODFQ?=
+ =?utf-8?B?WUw2dTMyZGxMY1hYQ1pNY1MxbDBMd2NnWXBDZ0VKNjhySjV5NHVTUzR4OUow?=
+ =?utf-8?B?elhQOWt1Z0Zxc3o3THVpSllBbEw2SkpOTUJQTWd2MWkvZ0dYV2tKK2E1Qnpl?=
+ =?utf-8?B?N3F3WVdXSWZoNm5hdEdjTm1mbjhHV2F4dklTamkyRFpyaDFUcFMxYmxCWGVN?=
+ =?utf-8?B?TFlBd1ZWd0tsdnFRT1I1N1RYKzV4b252Y1NjVmxGWU1rNDJJaFJ1SmFGc2sy?=
+ =?utf-8?Q?Rgx/PMSsZEkWQPv4=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4c6f000-699e-4247-2ef6-08de6fef687d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ded5a958-64cc-4baa-e013-08de6ff97403
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 19:45:17.6403
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 20:57:12.2695
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /J9A48mQM/8Er3p67bRnD7kWHmzgQYgiIildmSXOS2+qJJ9kH3UmGN1bfD/Ddu3jjdFYSTACGdnI4Gu9dQpzdFSbKtMBbEHElMwxhQce+9U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5857
-X-Authority-Analysis: v=2.4 cv=OqxCCi/t c=1 sm=1 tr=0 ts=69976850 cx=c_pps
- a=H8CAifLk0DAaaH9V+JapoA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: sGANsVk0olcKjwC7SBQJwDlvH0E7fgzFJGj3cAIa8xJBQcqz3O59DcY3pv2m3E9ANLIlVeUpXF0A8vWS2XBcnEBJtLWaFSCAk3k3jWXns2A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8328
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=OqxCCi/t c=1 sm=1 tr=0 ts=6997792c cx=c_pps
+ a=WMD2V7/OXcB8V+UEbxscyA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8
- a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=q6nckz9JxiVCIY1dfSYA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=_LTivCtssX3fFtaGtqoA:9 a=m4xIZju_4Bg4iU87:21
- a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: M__M012lC_yQ4RxTJdgDGrQMrDBynUtz
-X-Proofpoint-ORIG-GUID: M__M012lC_yQ4RxTJdgDGrQMrDBynUtz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE5MDE3OSBTYWx0ZWRfX9/MJ/Y/VYwbN
- o9LsjpJCDpq/P6uT1/r9mYl6eztf/+MZtg+03Qd5710g74sUUXFKZwtSTOfeKtiAFX3cWczxZ8e
- DRw9isl1ScHbZRBAQIVXPCVbD66Kd3f0DgUr1UG77bnnUAexC/ODxXn6dlz16rQwkSuRvC71VKA
- v8Vw8VL9HuRCpBSZ3lKQjU88lzt0icqiUd2Ij3GHVr8LSuLo7Kkff+WIBraf04DB1ZELi0z0bzq
- WoMZjkWOsIZQTg5xjxlSVLzShArBpC2WwcQ00PPr8EOOa8wazh73Q+OWyj5iyztCfAepyfW6v+I
- aOjjNcZYNAM6BpqfAPEQTBnUkW/sJb6fBYkCZQgN8Nkks6SioFBMllqkvPBIeeIMQQTPlszgKBu
- 00mMdY6iNWl9VKKksdDJi5YOvqweBj2UCBizHbX7SgDcAHuKLbzGeUghz3E5umm2JlKquPImNqg
- 7cHfnvYegSeqJTuFohQ==
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Q4-j1AaZAAAA:8
+ a=rFFRleaeAAAA:8 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=24cWuJK5KgJzVlmNI0wA:9
+ a=QEXdDO2ut3YA:10 a=B8ibFTVmAAAA:8 a=PCSvyhVM40FJggCoNxMA:9
+ a=d8OY8GEF2APl-a_5:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=YLtI_f64H5IAZ6mI3Lwl:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=xvSgdcfEVHFitugM1GHH:22
+X-Proofpoint-GUID: ZuRrL_FcLfj98YMPLu7S5V02bqk7JfyX
+X-Proofpoint-ORIG-GUID: WGsh71-64tfo4AFC8oe5W0mhM_PmzAC_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE5MDE4OSBTYWx0ZWRfX32S81nn9SXWS
+ 9hcU4UlgN97WUiISRX7lS/SCeslh+zpaq5mDOS+9VCgnR9E5EOnJ2pK0H2IAdi8Hr42bENjLV1U
+ N2f96JaQ6w1MPRBvksw5JLVFqSzLd+0D231Z+4hTSKBL46/xdaMJQk583rgHn3UMgA4Im0Fm5Q1
+ yYAaUGmwifDN8uI9eS3VSimnn2H2MeztVK4UzBj2VPbNXJ5zfk6LRsfXPY6bNvBTX9pHTIIbiJ7
+ t9wEx89JksMqZNXnd/v204YOpBXQfNp5ap0gfVwSM6hAOVWoyIVmRM1ekH4MY+ax3f2fBd4+0Dm
+ tfMQksUnpFVapUhnhgtra0Hy1WjVXhltbw27O1rS334D8X8UH2cld7Z3DDXeqz1qesRc7PL2/Sy
+ tQV9BxQ4cyhTO+dy9XqsPc+AcM+cKEwGXu/aaiWAdTDD6NbCWabYqmSpHZ1lLZVB6IXGTistVcI
+ JLrZVLEtl20a5vm1qJA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-19_04,2026-02-19_03,2025-10-01_01
@@ -186,199 +188,254 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  bulkscore=0 suspectscore=0 phishscore=0 clxscore=1015 priorityscore=1501
  spamscore=0 malwarescore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602190179
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602190189
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 19:45:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231441
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 20:57:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231442
 
---------------Aks0iXO09OlGnGQUV4ykciqF
+--------------3TgreRpUKk7QPkVI9m6jIxpG
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 61JBtprF201270
+Content-Transfer-Encoding: 7bit
 
-On 2026-02-19 2:12 p.m., Randy MacLeod via lists.openembedded.org wrote:
-> From: Randy MacLeod<Randy.MacLeod@windriver.com>
+On 2026-02-18 1:41 p.m., Auto Upgrade Helper via lists.openembedded.org 
+wrote:
+> Hello,
 >
-> In coreutils-9.10, as explained in:
->     6b399ad35 build: kill(1), uptime(1): don't install by default
->
->      * build-aux/gen-lists-of-programs.sh: kill and uptime are not inst=
-alled
->      by arch, debian, fedora, suse at least, so add to disabled list.
->      Fixeshttps://github.com/coreutils/coreutils/issues/132
->
-> Note that in oe-core:
->     kill is provided by busybox, procps and util-linux
->     uptime is provided by busybox and procps
-> and in other layers there may be other providers of these commands.
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s) *socat* to *1.8.1.1* has Failed (devtool error).
 
-This could and probably should be merged with:
+Khem, Hongxu,
 
- =C2=A0 =C2=A0coreutils: upgrade 9.9 -> 9.10
+I will do this upgrade soon, maybe tomorrow, if neither of you have it 
+already and reply.
 
-but I wanted the change to get some attention so I've sent it separately.
+I see that Khem has some patches:
+https://git.openembedded.org/openembedded-core-contrib/log/?h=yoe/mut
+so I'll review them since at least one is merged in 1.8.1.1:
+
+http://www.dest-unreach.org/socat/CHANGES
+
 
 ../Randy
 
-
 >
-> Signed-off-by: Randy MacLeod<Randy.MacLeod@windriver.com>
-> ---
->   meta/recipes-core/coreutils/coreutils_9.9.bb | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
+> Detailed error information:
 >
-> diff --git a/meta/recipes-core/coreutils/coreutils_9.9.bb b/meta/recipe=
-s-core/coreutils/coreutils_9.9.bb
-> index 7deadded06..1a017cb0bb 100644
-> --- a/meta/recipes-core/coreutils/coreutils_9.9.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_9.9.bb
-> @@ -56,10 +56,10 @@ bindir_progs =3D "arch basename cksum comm csplit c=
-ut dir dircolors dirname du \
->                   join link logname md5sum mkfifo nl nohup nproc od pas=
-te pathchk \
->                   pinky pr printf ptx readlink realpath seq sha1sum sha=
-224sum sha256sum \
->                   sha384sum sha512sum shred shuf sort split sum tac tai=
-l tee test timeout \
-> -                tr truncate tsort tty unexpand uniq unlink uptime user=
-s vdir wc who whoami yes \
-> +                tr truncate tsort tty unexpand uniq unlink users vdir =
-wc who whoami yes \
->                   ${selinux_progs}"
->  =20
-> -base_bindir_progs =3D "cat chgrp chmod chown cp date dd echo false hos=
-tname kill ln ls mkdir \
-> +base_bindir_progs =3D "cat chgrp chmod chown cp date dd echo false hos=
-tname ln ls mkdir \
->                        mknod mv pwd rm rmdir sleep stty sync touch true=
- uname stat"
->  =20
->   sbindir_progs =3D "chroot"
-> @@ -112,7 +112,7 @@ ALTERNATIVE_PRIORITY =3D "100"
->   # Make hostname's priority higher than busybox but lower than net-too=
-ls
->   ALTERNATIVE_PRIORITY[hostname] =3D "90"
->   ALTERNATIVE:${PN} =3D "lbracket ${bindir_progs} ${base_bindir_progs} =
-${sbindir_progs} base32 base64 nice printenv mktemp df"
-> -ALTERNATIVE:${PN}-doc =3D "base32.1 base64.1 nice.1 mktemp.1 df.1 grou=
-ps.1 kill.1 uptime.1 stat.1 hostname.1"
-> +ALTERNATIVE:${PN}-doc =3D "base32.1 base64.1 nice.1 mktemp.1 df.1 grou=
-ps.1 stat.1 hostname.1"
->  =20
->   ALTERNATIVE_LINK_NAME[hostname.1] =3D "${mandir}/man1/hostname.1"
->  =20
-> @@ -143,8 +143,6 @@ ALTERNATIVE_LINK_NAME[lbracket] =3D "${bindir}/["
->   ALTERNATIVE_TARGET[lbracket] =3D "${bindir}/lbracket.${BPN}"
->  =20
->   ALTERNATIVE_LINK_NAME[groups.1] =3D "${mandir}/man1/groups.1"
-> -ALTERNATIVE_LINK_NAME[uptime.1] =3D "${mandir}/man1/uptime.1"
-> -ALTERNATIVE_LINK_NAME[kill.1] =3D "${mandir}/man1/kill.1"
->   ALTERNATIVE_LINK_NAME[stat.1] =3D "${mandir}/man1/stat.1"
->  =20
->   # The statx() requires glibc >=3D 2.28 and linux kernel >=3D 4.11, it=
- doesn't work
+> Running 'devtool upgrade' for recipe socat failed.
+> NOTE: Reconnecting to bitbake server...
+> Loading cache...done.
+> Loaded 0 entries from dependency cache.
+> Parsing recipes...done.
+> Parsing of 944 .bb files complete (0 cached, 944 parsed). 1952 targets, 42 skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Build Configuration:
+> BB_VERSION           = "2.16.0"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "universal"
+> TARGET_SYS           = "x86_64-poky-linux"
+> MACHINE              = "qemux86-64"
+> DISTRO               = "poky"
+> DISTRO_VERSION       = "5.3.99+snapshot-142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff"
+> TUNE_FEATURES        = "m64 x86-64-v3"
+> TARGET_FPU           = ""
+> meta                 = "tmp-auh-upgrades:142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff"
+> meta-yocto-bsp
+> meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
+> workspace            = "<unknown>:<unknown>"
+>
+> Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+> Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+> done.
+> NOTE: Executing Tasks
+> NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+> NOTE: Writing buildhistory
+> NOTE: Writing buildhistory took: 1 seconds
+> Loading cache...done.
+> Loaded 0 entries from dependency cache.
+> Parsing recipes...done.
+> Parsing of 945 .bb files complete (0 cached, 945 parsed). 1953 targets, 42 skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
+>
+> Build Configuration:
+> BB_VERSION           = "2.16.0"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "universal"
+> TARGET_SYS           = "x86_64-poky-linux"
+> MACHINE              = "qemux86-64"
+> DISTRO               = "poky"
+> DISTRO_VERSION       = "5.3.99+snapshot-142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff"
+> TUNE_FEATURES        = "m64 x86-64-v3"
+> TARGET_FPU           = ""
+> meta                 = "tmp-auh-upgrades:142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff"
+> meta-yocto-bsp
+> meta-poky            = "master:2486ce2889062500e39446bc07c7d21120a0345e"
+> workspace            = "<unknown>:<unknown>"
+>
+> Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+> Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+> done.
+> NOTE: Executing Tasks
+> NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+> NOTE: Writing buildhistory
+> NOTE: Writing buildhistory took: 1 seconds
+> Adding changed files:   0% |                                   | ETA:  --:--:--
+> Adding changed files:   0% |                                   | ETA:  --:--:--
+> Adding changed files: 100% |####################################| Time: 0:00:00
+> INFO: Extracting current version source...
+> INFO: Extracting upgraded version source...
+> INFO: Fetchinghttp://www.dest-unreach.org/socat/download/socat-1.8.1.1.tar.bz2...
+> INFO: Rebasing devtool onto 4a341d382601b8a880a0950671382f45493ef604
+> WARNING: Command 'git rebase 4a341d382601b8a880a0950671382f45493ef604' failed:
+> Auto-merging xio-netlink.c
+> CONFLICT (content): Merge conflict in xio-netlink.c
+>
+> You will need to resolve conflicts in order to complete the upgrade.
+> INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/socat
+> INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/socat/socat_1.8.1.1.bb
+>
+>
+>
+> Please review the attached files for further information and build/update failures.
+> Any problem please file a bug athttps://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#231440):https://lists.openembedded.org/g/openembedd=
-ed-core/message/231440
-> Mute This Topic:https://lists.openembedded.org/mt/117898090/3616765
+> View/Reply Online (#231339):https://lists.openembedded.org/g/openembedded-core/message/231339
+> Mute This Topic:https://lists.openembedded.org/mt/117879853/3616765
 > Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
-andy.macleod@windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
---=20
+-- 
 # Randy MacLeod
 # Wind River Linux
 
---------------Aks0iXO09OlGnGQUV4ykciqF
+--------------3TgreRpUKk7QPkVI9m6jIxpG
 Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 <!DOCTYPE html><html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">On 2026-02-19 2:12 p.m., Randy MacLeod
-      via lists.openembedded.org wrote:<br>
+    <div class="moz-cite-prefix">On 2026-02-18 1:41 p.m., Auto Upgrade
+      Helper via lists.openembedded.org wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:1895BBA9C4761CF4.1171932@lists.openembedded.org">
-      <pre wrap="" class="moz-quote-pre">From: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a>
+    <blockquote type="cite" cite="mid:0101019c720ece81-b7ab8eac-2702-4d06-8f69-00cdbe191d9b-000000@us-west-2.amazonses.com">
+      <pre wrap="" class="moz-quote-pre">Hello,
 
-In coreutils-9.10, as explained in:
-   6b399ad35 build: kill(1), uptime(1): don't install by default
-
-    * build-aux/gen-lists-of-programs.sh: kill and uptime are not installed
-    by arch, debian, fedora, suse at least, so add to disabled list.
-    Fixes <a class="moz-txt-link-freetext" href="https://github.com/coreutils/coreutils/issues/132">https://github.com/coreutils/coreutils/issues/132</a>
-
-Note that in oe-core:
-   kill is provided by busybox, procps and util-linux
-   uptime is provided by busybox and procps
-and in other layers there may be other providers of these commands.</pre>
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *socat* to *1.8.1.1* has Failed (devtool error).</pre>
     </blockquote>
-    <p>This could and probably should be merged with:<br>
-      <br>
-      &nbsp; &nbsp;coreutils: upgrade 9.9 -&gt; 9.10</p>
-    <p>but I wanted the change to get some attention so I've sent it
-      separately.</p>
-    <p>../Randy</p>
+    <p>Khem, Hongxu,</p>
+    <p>I will do this upgrade soon, maybe tomorrow, if neither of you
+      have it already and reply.</p>
+    <p>I see that Khem has some patches:<br>
+<a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core-contrib/log/?h=yoe/mut">https://git.openembedded.org/openembedded-core-contrib/log/?h=yoe/mut</a><br>
+      so I'll review them since at least one is merged in 1.8.1.1:</p>
+    <p><a class="moz-txt-link-freetext" href="http://www.dest-unreach.org/socat/CHANGES">http://www.dest-unreach.org/socat/CHANGES</a></p>
     <p><br>
     </p>
-    <blockquote type="cite" cite="mid:1895BBA9C4761CF4.1171932@lists.openembedded.org">
+    <p>../Randy</p>
+    <blockquote type="cite" cite="mid:0101019c720ece81-b7ab8eac-2702-4d06-8f69-00cdbe191d9b-000000@us-west-2.amazonses.com">
       <pre wrap="" class="moz-quote-pre">
 
-Signed-off-by: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a>
----
- meta/recipes-core/coreutils/coreutils_9.9.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Detailed error information:
 
-diff --git a/meta/recipes-core/coreutils/coreutils_9.9.bb b/meta/recipes-core/coreutils/coreutils_9.9.bb
-index 7deadded06..1a017cb0bb 100644
---- a/meta/recipes-core/coreutils/coreutils_9.9.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.9.bb
-@@ -56,10 +56,10 @@ bindir_progs = &quot;arch basename cksum comm csplit cut dir dircolors dirname du \
-                 join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
-                 pinky pr printf ptx readlink realpath seq sha1sum sha224sum sha256sum \
-                 sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
--                tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes \
-+                tr truncate tsort tty unexpand uniq unlink users vdir wc who whoami yes \
-                 ${selinux_progs}&quot;
- 
--base_bindir_progs = &quot;cat chgrp chmod chown cp date dd echo false hostname kill ln ls mkdir \
-+base_bindir_progs = &quot;cat chgrp chmod chown cp date dd echo false hostname ln ls mkdir \
-                      mknod mv pwd rm rmdir sleep stty sync touch true uname stat&quot;
- 
- sbindir_progs = &quot;chroot&quot;
-@@ -112,7 +112,7 @@ ALTERNATIVE_PRIORITY = &quot;100&quot;
- # Make hostname's priority higher than busybox but lower than net-tools
- ALTERNATIVE_PRIORITY[hostname] = &quot;90&quot;
- ALTERNATIVE:${PN} = &quot;lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base32 base64 nice printenv mktemp df&quot;
--ALTERNATIVE:${PN}-doc = &quot;base32.1 base64.1 nice.1 mktemp.1 df.1 groups.1 kill.1 uptime.1 stat.1 hostname.1&quot;
-+ALTERNATIVE:${PN}-doc = &quot;base32.1 base64.1 nice.1 mktemp.1 df.1 groups.1 stat.1 hostname.1&quot;
- 
- ALTERNATIVE_LINK_NAME[hostname.1] = &quot;${mandir}/man1/hostname.1&quot;
- 
-@@ -143,8 +143,6 @@ ALTERNATIVE_LINK_NAME[lbracket] = &quot;${bindir}/[&quot;
- ALTERNATIVE_TARGET[lbracket] = &quot;${bindir}/lbracket.${BPN}&quot;
- 
- ALTERNATIVE_LINK_NAME[groups.1] = &quot;${mandir}/man1/groups.1&quot;
--ALTERNATIVE_LINK_NAME[uptime.1] = &quot;${mandir}/man1/uptime.1&quot;
--ALTERNATIVE_LINK_NAME[kill.1] = &quot;${mandir}/man1/kill.1&quot;
- ALTERNATIVE_LINK_NAME[stat.1] = &quot;${mandir}/man1/stat.1&quot;
- 
- # The statx() requires glibc &gt;= 2.28 and linux kernel &gt;= 4.11, it doesn't work
+Running 'devtool upgrade' for recipe socat failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 944 .bb files complete (0 cached, 944 parsed). 1952 targets, 42 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = &quot;2.16.0&quot;
+BUILD_SYS            = &quot;x86_64-linux&quot;
+NATIVELSBSTRING      = &quot;universal&quot;
+TARGET_SYS           = &quot;x86_64-poky-linux&quot;
+MACHINE              = &quot;qemux86-64&quot;
+DISTRO               = &quot;poky&quot;
+DISTRO_VERSION       = &quot;5.3.99+snapshot-142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff&quot;
+TUNE_FEATURES        = &quot;m64 x86-64-v3&quot;
+TARGET_FPU           = &quot;&quot;
+meta                 = &quot;tmp-auh-upgrades:142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff&quot;
+meta-yocto-bsp       
+meta-poky            = &quot;master:2486ce2889062500e39446bc07c7d21120a0345e&quot;
+workspace            = &quot;&lt;unknown&gt;:&lt;unknown&gt;&quot;
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 945 .bb files complete (0 cached, 945 parsed). 1953 targets, 42 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = &quot;2.16.0&quot;
+BUILD_SYS            = &quot;x86_64-linux&quot;
+NATIVELSBSTRING      = &quot;universal&quot;
+TARGET_SYS           = &quot;x86_64-poky-linux&quot;
+MACHINE              = &quot;qemux86-64&quot;
+DISTRO               = &quot;poky&quot;
+DISTRO_VERSION       = &quot;5.3.99+snapshot-142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff&quot;
+TUNE_FEATURES        = &quot;m64 x86-64-v3&quot;
+TARGET_FPU           = &quot;&quot;
+meta                 = &quot;tmp-auh-upgrades:142fad2c3cb3c9044c4c97f6b0a2c251a31cfaff&quot;
+meta-yocto-bsp       
+meta-poky            = &quot;master:2486ce2889062500e39446bc07c7d21120a0345e&quot;
+workspace            = &quot;&lt;unknown&gt;:&lt;unknown&gt;&quot;
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching <a class="moz-txt-link-freetext" href="http://www.dest-unreach.org/socat/download/socat-1.8.1.1.tar.bz2">http://www.dest-unreach.org/socat/download/socat-1.8.1.1.tar.bz2</a>...
+INFO: Rebasing devtool onto 4a341d382601b8a880a0950671382f45493ef604
+WARNING: Command 'git rebase 4a341d382601b8a880a0950671382f45493ef604' failed:
+Auto-merging xio-netlink.c
+CONFLICT (content): Merge conflict in xio-netlink.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/socat
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/socat/socat_1.8.1.1.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler">https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler</a>
+
+Regards,
+The Upgrade Helper
 </pre>
       <br>
       <fieldset class="moz-mime-attachment-header"></fieldset>
       <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
 Links: You receive all messages sent to this group.
-View/Reply Online (#231440): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/231440">https://lists.openembedded.org/g/openembedded-core/message/231440</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/117898090/3616765">https://lists.openembedded.org/mt/117898090/3616765</a>
+View/Reply Online (#231339): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/231339">https://lists.openembedded.org/g/openembedded-core/message/231339</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/117879853/3616765">https://lists.openembedded.org/mt/117879853/3616765</a>
 Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
 Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
 -=-=-=-=-=-=-=-=-=-=-=-
@@ -393,5 +450,5 @@ Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.o
   </body>
 </html>
 
---------------Aks0iXO09OlGnGQUV4ykciqF--
+--------------3TgreRpUKk7QPkVI9m6jIxpG--
 
