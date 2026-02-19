@@ -1,144 +1,156 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <viswanath.kraleti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E83A5E9A051
-	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 16:48:35 +0000 (UTC)
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18582.1771519709696448302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22007E9A053
+	for <webhook@archiver.kernel.org>; Thu, 19 Feb 2026 17:22:46 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19505.1771521759902964472
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Feb 2026 08:48:30 -0800
+ Thu, 19 Feb 2026 09:22:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OfJLXJN6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-480706554beso13248745e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 08:48:29 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hm847Mp3;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=JH2EDTP2;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: viswanath.kraleti@oss.qualcomm.com)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61JApxUJ3133093
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 17:22:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=oBLwsEGJJBCL20Yan9XIPpBYs40c9C2YfRJ
+	GkZAmOmA=; b=hm847Mp3lSDqdiOPm3/LokCvNDxlJsE3flSGkcuQeOGrHpeDsVJ
+	mDtvH/YyFOMuhE7+fzKnAagrPgzSAoTQNqgoppwrkZC1vXnTfY7mZvNKRKtB3qmM
+	kdX/s3j976zLnnH0W+gCoggr1jmyI4RglNW6pMYsGUJrzGeDccmdbRl8cMTOrmJe
+	7bjipvhE9cRSjW6SCkROvD+btPxh19XDMEo6mHKgMIDTdKsLpD0fFgduxxFD44PQ
+	973qQU953RkUR3+hiru4eM5Q3gOC6gE00m/RcKwIdQ9w0q7ojHNM0FwKmS/22drD
+	fZCvTGpcNHOcMA/qvI1iibyF+l0wROKYiwQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cdmxvu12u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 17:22:38 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2a92a3f5de9so7045435ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 09:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1771519708; x=1772124508; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4pKqocHQESWMbIPDBmfrR3+bZ1lu2YwWEG3E+9uUlrw=;
-        b=OfJLXJN6LOUmOkW41Ge8EdTJrsLVqBc2nXwdxwm0QDZ8rpmlNGO0qb/vecEUdyt+7J
-         eOySqVIq0CPou2lWcIi3+U6lnWJErn1uvCKbaePVKxKYaNXyuFva1SnItX44V7zKMck/
-         quwJG/593X0RNryzL3ItM/emcgFmm6eVOgZVI=
+        d=oss.qualcomm.com; s=google; t=1771521758; x=1772126558; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oBLwsEGJJBCL20Yan9XIPpBYs40c9C2YfRJGkZAmOmA=;
+        b=JH2EDTP2nszy1KR1e52DMZV4bgjc2aWpuAuk7xqMAxHgq98NqqrBgafe5yCGCaRiCa
+         kT22Ft3zfd5d/XYfR7nDXvkY0hBvgFJH2VvFmVD+mrgGpeGXyHFPboBzVKbtExl+4TZS
+         L0sL96/HlarmOC9rWKdsl0JXFs7qcLG0CBvMtbpNz6APd6DY6GuRMhE69Qvd/SgoTQLE
+         VCXaazJFQXJm+v3NxfokK/sFHg2Jdh72cEU8VBflppo/aeCdqVi4AKuZnRBmZG0PfmDK
+         mPNWFZ32hcV2U8Tyqi2gruoajDM4zfphrCrMjtwqk2rLVJ0tvTTPggqL7/TvpNkwXG82
+         8MHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771519708; x=1772124508;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4pKqocHQESWMbIPDBmfrR3+bZ1lu2YwWEG3E+9uUlrw=;
-        b=hcdF00KXnAVIZpBUahmbjkShXRP2nEb4x4J9B3/rXPvq9PeQMb2pXF/cqIn9N8r0eM
-         /IuL/mATZGz9QW7E52elursgsd9uZNi7U+2tffQi8Fm+Ar4dwx5T2ocwuNaQtn7gM1Sm
-         yiWr4PEE1GdbJie+AmblVt6h7MvzbJ7lKQ+/tvw9K2fzSwOmtvUSW8CK6y8xrPNt6CpZ
-         SvTrUaVlWJBVoR341oajZZBdqnH1SDZc33fBjZVJWR8D4LsGSMPRq72FiRJri6W8WYyc
-         InahZGZ3odUzyhc8R5pWaVAAWdL+UlpSNPYNBO0CFdXesIw71+r5/UC7HwHkXnXfGjo7
-         rSYw==
-X-Forwarded-Encrypted: i=1; AJvYcCXW8Gr74ipvOvot8OPzAeCSbw0W3huixX5eLss4P1QS9iddUa5hdCgE+8UyVBLBhejiQGA1DlqNP25IBCesmAe9rw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwWlZg3OFRj3UYYvsCWRgWDuk+ui9RLGKvy2Ya2CxDH7xzS5+ns
-	ZYNw5mHlsbBwc0dsmlwnX/mU5ZcotSqcTaDyL436CulIsSD0uayOWTbFi+Og2pYu8W0=
-X-Gm-Gg: AZuq6aIOJfaxMbVz6VFLcpseecf6W3ISUIVRjCWQNsWv3S9vpocK+vQSYkTwyUw+8jx
-	wPE4+8iTTGkKpwBiTS6zo3nqFVrhtrkmPagE+SRth3w9cVFvSfvj0jHd8oMqaO0p1y4xxnxvnNx
-	ahkzdiQOvzYl0zLBPjXrDjRiUlBji8Np+yp9Rm2fT5uLkqfTWqKr9cRwRfxvMXEWT0BuTqfY6pS
-	GzHb2ShmWHLy8LoFwaCkQ0nRbS0PNjVv9YGyujAWCaIz/0YQnku5uPHe7nvuML11YiF6C8KiS2i
-	Wjxpak9uEqDVkmJji1FrKzsdK95QW5a2u1dJ+7ExJ701gnln9cKx60NdJnuXqPg6QCx4kyctzgY
-	bU1WEFYrDAhqWPRLe5AjBPYmoWMx8DQt+8NkYSrK2eTmVRLFCzF9ruU073Az+5ObrfGhceyIoHq
-	zGztKPNDBH6cq67ALx1f+4Dl2S16w4p9e+Yco51OeCZeoaY6AyIhOAtaqMd7wZeEVJreAotGN8y
-	CauM5AUVIVBis4=
-X-Received: by 2002:a05:600c:6309:b0:479:2a3c:f31a with SMTP id 5b1f17b1804b1-48379b93364mr298982625e9.1.1771519707985;
-        Thu, 19 Feb 2026 08:48:27 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:da95:be37:6ded:ea39? ([2001:8b0:aba:5f3c:da95:be37:6ded:ea39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a6a5e5sm47373909f8f.9.2026.02.19.08.48.27
+        d=1e100.net; s=20230601; t=1771521758; x=1772126558;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oBLwsEGJJBCL20Yan9XIPpBYs40c9C2YfRJGkZAmOmA=;
+        b=MwAWEc+faA4LpzJ9FraSBqYd032diRfHwo3ko6m7um/IEOxILazAgcmudRa+4uBYIF
+         L0Rd648RZ82AZDFYah58KBGtDMQZjnnBUXv0Jxcn8OdD5vmBrw3XlmA+UtfJ5O+8eOrH
+         WIKFwuh22igdPW5EBk+dbF8+X+gHBJ79B1R5GvSMXZTx8vv6UTxI7v6awCkC1Aw4H0zK
+         3+b6+DwSwcX3Th2/R/AXyDuMNxscJIqtR0iZh48Ssewa5fWtlw0z6CtpGZxM72/lZGLp
+         wV4XDA/AHkupLpqvON+j6cogUW3tnF4sWURHZcavG/rb9U2YGfrJk3WcSfJiKBuJhXWH
+         gkIA==
+X-Gm-Message-State: AOJu0YydFH4DvpRUut3IT3AiVOAq8aWknwTXNv7zFyxtqQeQkBanIgTu
+	yEmcCdXhgpnKuzuz832DHwQcNXCRG5Iy12BrmDQAdEOQ8rMn4ZpRjH4krDdh+9cMKeUz/QfY08U
+	hzd5dt9gJ6Zy5jtkzoJGRhmpxaHPxh9fl285j8K4dGZ54iWjJixJ9QkRqNoUxLlFRuCPSodSSF8
+	hpP2AMPvFByPI6Tj0=
+X-Gm-Gg: AZuq6aKw+vHresSXO+Rph8WWwu6d4WQePOpoDxxGMxiXwV2WDjYrvtCcfl57tpwfH1b
+	ki9i9iK+7iAZfopvGnMmRcDSc9qq25ibsZDT88b5OYkT74siN7+8x0JDFNB8DQBm25pArEKOy2q
+	sfaV/BHzoebKbUNsWiP8Cp61LXaO7yuUYL1Pb5kJb/gtLLs9YR4RBjN/teaE6GUlNEmopuN7IzX
+	dFz2U42X/f7NdHgZzc1/Hk2/aBEQCIIRt5kIcvvKJKVLb1Cq3Z5+a+wq5N0LQBDUecBcz0e2tPs
+	SNnBRga9q37Wf5APgn4waPbk4GLYhTlssltyqThNlEo2J7RMCtihIxxC/BT9AF0yiIHE+PUkivU
+	NghHdfRKvzxo1MtZ5bKmE70Qu3gHEKqzm0srclY3GjDzmVCqw0iAaLWXieTAYjUk=
+X-Received: by 2002:a17:902:ccca:b0:29f:1bf:6424 with SMTP id d9443c01a7336-2ad50eb1b32mr56716845ad.18.1771521757442;
+        Thu, 19 Feb 2026 09:22:37 -0800 (PST)
+X-Received: by 2002:a17:902:ccca:b0:29f:1bf:6424 with SMTP id d9443c01a7336-2ad50eb1b32mr56716495ad.18.1771521756807;
+        Thu, 19 Feb 2026 09:22:36 -0800 (PST)
+Received: from hyd-e160-a01-2-02.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1aadd140sm177281305ad.72.2026.02.19.09.22.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 08:48:27 -0800 (PST)
-Message-ID: <a596849c8996fc137330ec6940cc993c44e2d9df.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH][RESEND] sstate.bbclass: Always show a
- progress bar if an sstate summary is wanted
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
-Date: Thu, 19 Feb 2026 16:48:26 +0000
-In-Reply-To: <20260219162117.2565725-1-pkj@axis.com>
-References: <20260219162117.2565725-1-pkj@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+        Thu, 19 Feb 2026 09:22:36 -0800 (PST)
+From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+Subject: [OE-core][meta][PATCH] uki.bbclass: make DTB packaging optional
+Date: Thu, 19 Feb 2026 22:52:20 +0530
+Message-Id: <20260219172220.3848330-1-viswanath.kraleti@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: MCR0576tEhFKi-cDLPUljI7PxHsgZb63
+X-Proofpoint-ORIG-GUID: MCR0576tEhFKi-cDLPUljI7PxHsgZb63
+X-Authority-Analysis: v=2.4 cv=XpX3+FF9 c=1 sm=1 tr=0 ts=699746de cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=nv23E9fyAAAA:8
+ a=EUspDBNiAAAA:8 a=Rc8D2G7uKTYt0k-AzuQA:9 a=GvdueXVYPmCkWapjIL-Q:22
+ a=ehkDpipTsgk7cDPTKqUC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE5MDE1NyBTYWx0ZWRfX6BqEyXGEOxRF
+ IcNHUrvTSZPAK6wZwErMjcULsCLM8y8u/DuVlVQAGu85CAOCxOKWSlcPqTn/wGOtzA5/GrwhRVD
+ lXOOVgODLSYXoQwxg4t8xmQXXbegRp2WvP8Kxj+nrgsW62Sd3jA106Pt5TJ0BCOsMxVI2pNzN0k
+ gOkOrjmNdGdpn5HlwVQuh6ZEOAELxasJl/sxNfgYSa0IMGz9efoOYmKRj/c+kO9SWi3m0JnIU0h
+ 0lyUVk5HUotgFCH890Hvbu7wkZGsJDgWS0VxoyvXE8XPkhf0SMEp8iJVS6fRlhOdVFIA0Ei68HJ
+ WkGySJjBQPe0TgItp1r0pFuB6ohKjDnuGxwTZIQv5QlNGyhcWUQ3s+dX/4wzRzPviDRMmjQRGH1
+ hSDLjizQVgj+hySK3npbPhIWqWkF0q9qSm3LgttShXOjbMiIaC6QItElPyIJEB5wKSV1An6XpC/
+ wgCxg9gqtnFRjQMEw8g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-19_04,2026-02-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 suspectscore=0 clxscore=1011 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602190157
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 16:48:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231435
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Feb 2026 17:22:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231436
 
-On Thu, 2026-02-19 at 17:21 +0100, Peter Kjellerstedt via lists.openembedde=
-d.org wrote:
-> In case sstate_checkhashes() is expected to show an sstate summary, then
-> always show the process progress bar regardless of how long the task
-> list is. Without this, the sstate summary could unintentionally
-> overwrite another active progress bar.
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
-> =C2=A0meta/classes-global/sstate.bbclass | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
-ate.bbclass
-> index 2fd29d7323..6f72490065 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -1048,7 +1048,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,=
- currentcount=3D0, summary=3DTrue,
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-## thread-safe counter
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-cnt_tasks_done =3D itertools.count(start =3D 1)
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 progr=
-ess =3D len(tasklist) >=3D 100
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 progr=
-ess =3D summary or len(tasklist) >=3D 100
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-if progress:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 msg =3D "Checking sstate mirror object availabilit=
-y"
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 bb.event.fire(bb.event.ProcessStarted(msg, len(tas=
-klist)), d)
+According to the Unified Kernel Image (UKI) specification [1], including
+a compiled device tree in the .dtb section of a UKI is optional. However,
+the current implementation always packages device trees listed in
+KERNEL_DEVICETREE into the UKI by default. This makes uki.bbclass
+unsuitable for systems that rely on firmware-provided DTBs and do not
+want a DTB embedded in the UKI.
 
-This has sat in the review queue for a while since I haven't found the
-time to reply. I suspect you're going to disagree with me and I really
-haven't had the time to have a discussion on it.
+Fix this by introducing a new UKI_DEVICETREE variable to control device
+tree packaging. The dtb section is now populated from UKI_DEVICETREE
+instead of KERNEL_DEVICETREE. Users who do not want DTBs included in the
+UKI can override UKI_DEVICETREE to an empty value from their recipes.
 
-For reference, whilst the patch was removed from master-next, it is
-still in the review queue here:
+[1] https://uapi-group.org/specifications/specs/unified_kernel_image/
 
-https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dmaster-back=
-log
+Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+---
+ meta/classes-recipe/uki.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-(and mentioned in the status report about review call changes)
-
-Since you're now forcing me to reply about this, I'm confused by what
-"unintentionally overwrite" means in the commit message since it would
-seemingly only do that if it shows progress and you're making it always
-show progress. That would be in theory worse, but consistent.
-
-The intent behind the "100" limit was to only show the progress bar if
-there is a decent chunk of work to be done, rather than flash it onto
-the screen then off again. I think that reasoning is still valid,
-showing progress bars for things which happen more quickly than the
-progress is useful for is a bit pointless.
-
-So at the very least we need to be clear what the commit message means
-but I'm not keen on the removal of the 100 limit.
-
-There were other fixes around the progress bar handling and I am also
-wondering if this issue was still relevant too.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+index ea449540db..326697a066 100644
+--- a/meta/classes-recipe/uki.bbclass
++++ b/meta/classes-recipe/uki.bbclass
+@@ -80,6 +80,7 @@ UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
+ UKI_FILENAME ?= "uki.efi"
+ UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
+ UKI_CMDLINE ?= "rootwait root=LABEL=root"
++UKI_DEVICETREE ?= "${KERNEL_DEVICETREE}"
+ # secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
+ #UKI_SB_KEY ?= ""
+ #UKI_SB_CERT ?= ""
+@@ -149,8 +150,9 @@ python do_uki() {
+         ukify_cmd += " --cmdline='%s'" % (cmdline)
+ 
+     # dtb
+-    if d.getVar('KERNEL_DEVICETREE'):
+-        for dtb in d.getVar('KERNEL_DEVICETREE').split():
++    uki_devicetree = d.getVar('UKI_DEVICETREE')
++    if uki_devicetree:
++        for dtb in uki_devicetree.split():
+             # DTBs are without sub-directories in deploy_dir
+             dtb_name = os.path.basename(dtb)
+             dtb_path = "%s/%s" % (deploy_dir_image, dtb_name)
 
