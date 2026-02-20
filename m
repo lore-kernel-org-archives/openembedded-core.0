@@ -2,64 +2,64 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3A7C5AC9E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12763C5AC7D
 	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 15:41:49 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.322.1771602106299635682
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.351.1771602104717684570
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Feb 2026 07:41:46 -0800
+ Fri, 20 Feb 2026 07:41:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nw6awIB6;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-66f3e7d9eccso1160601eaf.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 07:41:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a65/UhZf;
+ spf=pass (domain: gmail.com, ip: 209.85.161.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-673ee2a98b1so1237228eaf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 07:41:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771602105; x=1772206905; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1771602104; x=1772206904; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LF6odpk95FsjyxMBfzPbzwWYGWajjqW2u5EdOHPcbC0=;
-        b=Nw6awIB60uC2ZRQENxkFjSBjXCyo9d/TsZ5V2NlSgPAvJKZP/po4dWFxW47CjEhzwD
-         7x6MTP5fQFHIVDySNqlClBK2ykfhwI+GqMjn5/OV8Y+jsZHN7nQx+1IqzJOGAqmt7Ibl
-         uELCg/DF29WebbjjYylXW61BGaWMqpQGOJBU3IX77fjqsJucm8IHcXUT1Te9r7uPAHti
-         wjkJs8t8uPeoaSyj/bKyIlrALs+lJtouhRf7WTJnbJR/ZQN2/phE7hpkY8EyRjxSvsBR
-         Ni1ZJNfNpkWcODqBMuri+960Z40swfkD5vohfUQ6dGT2odWdQmfgMRzcjULVAco46nqO
-         +flg==
+        bh=RgZWWYUETcp+KAK54Y1gHYnk1xGLeXOCGllecsNhDhw=;
+        b=a65/UhZfV5Ke7rkvf3eMHGXnZIEK5oPoNw4lE6VzMgjx3BQeoc2CqJ90bqH2XcZ2EQ
+         XwO+tLoswlXRJU4KH77jiVGZrL6w9sQrorafEKCtQXxBbTnoxSyU2nHwoQ2Vjc+E7YLs
+         ynK3pvV6iIqZixMnoHbrkM3Z/24L5gyEVmXrwO7d6aTlFWVgnh99Dy6EelNuT3zsccFF
+         A/8J8eLOAPaRDbFmzesAq3C4JF2Kci/GKhGOHFzMGdNNQ0v5XiYpjbJ9OaUw/CrXCF2z
+         c69qqKUrwuLEQzKk0h10z73iEIz5NnYVnvXUKJUB0EiilT3CmwpX4VcRgTRBm3Jgd2na
+         0e3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771602105; x=1772206905;
+        d=1e100.net; s=20230601; t=1771602104; x=1772206904;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LF6odpk95FsjyxMBfzPbzwWYGWajjqW2u5EdOHPcbC0=;
-        b=cd+TeASMoqjFhNi2NzqtlFbpmoturm8UzyyKXR8xc6scI2CMd7Zu9CBbmDWa9ZJ+In
-         ON54SdZM+MGYGN8aWJrS5fcl6vPb1xRk7pVgyJlq8hR3PCTi4prrcalrY6aQAh1CtmQo
-         c/0tEcYk5oWzeYmsVkLVgRLqjwSNAXudug4xKt4HyTNnkXpvkZ8EzukjcwAufeMTODbZ
-         fUJVRtqVOtvW2P3SUljjlqrB0Fd/GFOMV10NNL8CMtEWCPStiqaTU5bsUBKhDXvR3yYe
-         T6Pot8ZdImuGvq1qL8StvbA39o1cSXHrQubD1JthbC9Z45fb/Zssqzbtphqf63axpEij
-         CGbA==
-X-Gm-Message-State: AOJu0YwptNUHYkHv5RLwLH0IjIa4poiqzlxk+/Mnzcjzv6LrNhjFRMbB
-	R+BFPSg1F3ACDhh3L42ukfMgFq05jTIrUHyPmW5LpUzsAgMCVhxHOkT2JCbn5w==
-X-Gm-Gg: AZuq6aLQX1g8lVOS7oxiXEhsibA+Mzb4uUfyoJd0jQwMDo1LejvLkCCrUQmyIbLrmXh
-	mbY0AnYmE+QXF9HQHYMPUH6JKvvWQ/h4ePADEJFpik85SeVA6ZX8fvfTvnv9tqI8tOl7GSfcGrU
-	HR6g28OabmL8STsIiRKXcv6U8Z6QTIfiaGa8LcTj6at8Ymv7ipQBCSs+VlS9nL7c5gVVioOuTo9
-	X1N/0rmXbp5cXwwda0HhQkGfNiRdnYRP7aRH7oq9DRl6dY5t/PzD5cwlxBdRBQ4Mlpw310DKqn/
-	Svkm5IWpOocPwRdvV8fGE/40tknp8Q6hTivqR2QmKkZ5Y+kIiAUMVYxJZsyxlEXI4XkAvMfyIAE
-	SIFLvFYWibTNtTio1eZL0kPDYhh8BWgMpV+Mf+6jEAvQa3k8/LNLRQZzvQsMDGmbCZT6jmvUgNV
-	uhbPAj3LDKTV8jllbtFbtGX/InjVDrSPM=
-X-Received: by 2002:a05:6820:2222:b0:677:fc0b:c5 with SMTP id 006d021491bc7-679c44d3634mr149676eaf.31.1771602105301;
-        Fri, 20 Feb 2026 07:41:45 -0800 (PST)
+        bh=RgZWWYUETcp+KAK54Y1gHYnk1xGLeXOCGllecsNhDhw=;
+        b=vEQJGG1y9BTFTMAkSTNR5LKt7RSKv0aZnQB7qPRFmtgKc8ISxc5MW/NZ9ab79AM+eS
+         NUHwI9Om034FGKI90DiaIucK6LM9Qf+00kVDAVSNDwfVH1XwojNqq38BY8moVumesAeL
+         V904W100l/A0fbbkEoE4/y2tlahNEExfvVb9KzZ3H2EyUJw48Di97txlLeq33KnI+FAd
+         P4vCeMwdzW+ntKclrpRkuCN28nieyi3xj4qgDRcYoC/MFLJMdC1Y2KqJb/R3IwEecupF
+         u5ohnjTedIgeWGi1BhamCt9WsjDx5ISXhLAvSY98PKN4MG+3AEzPRB1YlrF6MIDBSfJC
+         O49g==
+X-Gm-Message-State: AOJu0YyTVerR+TaPMzcfF7MPlZmdhytKyJnJPqzwOT8s3j1R44LoncN3
+	pgngrvh+wr3QYCKIAkfxQrRWthNR11dyUqDi2wEFlSjl8GhQBkedud5BtN9ayw==
+X-Gm-Gg: AZuq6aJ2fWpXhDe6Cy5AgIJ3bJ4usAwC9jJvAInULulmS1ol19GetTQPFaHV1G5U3pT
+	6Ka+D8h1oWxaj9edZW8NP8PbUOHUy6PbgBmsR5fKYUN55vkHSV0u3mjz1lLeQbgr83uQp5lWHhP
+	97PEbYUjshWpGj7tp0Krwgy+6wpUqetWkrKNOX6r8UzBch4Vtb3W+vXjSWlKQCcjGIzlfNgK+Jl
+	YMhhHN0TcK3uMYNafJplwkaYwJpHw2stD/yma0aqXSIKmLwTguKJFc7gGpKpAvnCvCyI+wtI7Uk
+	zjX4Qfiid0/RoXk5CjVdxwwBJxhRAf5aYDVR4oMtYz2J2gwA67LNFD2lMObxeyqn5gCS6in/xef
+	rR8jspjlOXbboXWKQWkq6F9fFkuDBBu2mLKV9aGQhGGYD8sS9Nq1E0zshhrRd1//76Xqv+kk9zs
+	oPrRjKcns1pt+twB4Z/fuWOvK/M80HcEM=
+X-Received: by 2002:a4a:e906:0:b0:677:18e5:e5bb with SMTP id 006d021491bc7-679c449a216mr148567eaf.33.1771602103726;
+        Fri, 20 Feb 2026 07:41:43 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4200:11c0::6492])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6772583294bsm15127188eaf.14.2026.02.20.07.41.44
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6772583294bsm15127188eaf.14.2026.02.20.07.41.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 07:41:44 -0800 (PST)
+        Fri, 20 Feb 2026 07:41:43 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: benjamin.robin@bootlin.com,
 	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 9/9] spdx_common: Check for dependent task in task flags
-Date: Fri, 20 Feb 2026 08:40:44 -0700
-Message-ID: <20260220154123.376880-10-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 7/9] spdx: De-duplicate CreationInfo
+Date: Fri, 20 Feb 2026 08:40:42 -0700
+Message-ID: <20260220154123.376880-8-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260220154123.376880-1-JPEWhacker@gmail.com>
 References: <20260220154123.376880-1-JPEWhacker@gmail.com>
@@ -69,39 +69,176 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 15:41:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231528
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231526
 
-Checks that the task being used to detect dependencies is present in at
-least one dependency task flag of the current task. This helps prevent
-errors where the wrong task is specified and never found.
+De-duplicates CreationInfo objects that are identical (except for ID)
+when writing out an SBoM. This significantly reduces the number of
+CreationInfo objects that end up in the final document.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/spdx_common.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/lib/oe/sbom30.py | 112 ++++++++++++++++++++++++++++++------------
+ meta/lib/oe/spdx30.py |   2 +-
+ 2 files changed, 81 insertions(+), 33 deletions(-)
 
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index 03863ef362..9d39b5e9ac 100644
---- a/meta/lib/oe/spdx_common.py
-+++ b/meta/lib/oe/spdx_common.py
-@@ -96,6 +96,17 @@ def collect_direct_deps(d, dep_task):
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 21f084dc16..55a2863d2d 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -14,6 +14,7 @@ import uuid
+ import os
+ import oe.spdx_common
+ from datetime import datetime, timezone
++from contextlib import contextmanager
  
-     taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+ OE_SPDX_BASE = "https://rdf.openembedded.org/spdx/3.0/"
  
-+    # Check that the task is listed one of the task dependency flags of the
-+    # current task
-+    depflags = (
-+        set((d.getVarFlag(current_task, "deptask") or "").split())
-+        | set((d.getVarFlag(current_task, "rdeptask") or "").split())
-+        | set((d.getVarFlag(current_task, "recrdeptask") or "").split())
-+    )
+@@ -191,6 +192,25 @@ def to_list(l):
+     return l
+ 
+ 
++class Dedup(object):
++    def __init__(self, objset):
++        self.unique = set()
++        self.dedup = {}
++        self.objset = objset
 +
-+    if not dep_task in depflags:
-+        bb.fatal(f"Task {dep_task} was not found in any dependency flag of {pn}:{current_task}")
++    def find_duplicates(self, cmp, typ, **kwargs):
++        for o in self.objset.foreach_filter(typ, **kwargs):
++            for u in self.unique:
++                if cmp(u, o):
++                    self.dedup[o] = u
++                    break
++            else:
++                self.unique.add(o)
 +
-     for this_dep in taskdepdata.values():
-         if this_dep[0] == pn and this_dep[1] == current_task:
-             break
++    def get(self, o):
++        return self.dedup.get(o, o)
++
++
+ class ObjectSet(oe.spdx30.SHACLObjectSet):
+     def __init__(self, d):
+         super().__init__()
+@@ -895,6 +915,45 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+         self.missing_ids -= set(imports.keys())
+         return self.missing_ids
+ 
++    @contextmanager
++    def deduplicate(self):
++        d = Dedup(self)
++
++        yield d
++
++        visited = set()
++
++        def visit(o, path):
++            if isinstance(o, oe.spdx30.SHACLObject):
++                if o in visited:
++                    return False
++                visited.add(o)
++
++                for k in o:
++                    v = o[k]
++                    if isinstance(v, oe.spdx30.SHACLObject):
++                        o[k] = d.get(v)
++
++            elif isinstance(o, oe.spdx30.ListProxy):
++                for idx, v in enumerate(o):
++                    if isinstance(v, oe.spdx30.SHACLObject):
++                        o[idx] = d.get(v)
++
++            return True
++
++        if d.dedup:
++            for o in self.objects:
++                o.walk(visit)
++
++            for k, v in d.dedup.items():
++                bb.debug(
++                    1,
++                    f"Removing duplicate {k.__class__.__name__} {k._id or id(k)} -> {v._id or id(v)}",
++                )
++                self.objects.discard(k)
++
++            self.create_index()
++
+ 
+ def load_jsonld(d, path, required=False):
+     deserializer = oe.spdx30.JSONLDDeserializer()
+@@ -1080,39 +1139,28 @@ def create_sbom(d, name, root_elements, add_objectsets=[]):
+     # SBoM should be the only root element of the document
+     objset.doc.rootElement = [sbom]
+ 
+-    # De-duplicate licenses
+-    unique = set()
+-    dedup = {}
+-    for lic in objset.foreach_type(oe.spdx30.simplelicensing_LicenseExpression):
+-        for u in unique:
+-            if (
+-                u.simplelicensing_licenseExpression
+-                == lic.simplelicensing_licenseExpression
+-                and u.simplelicensing_licenseListVersion
+-                == lic.simplelicensing_licenseListVersion
+-            ):
+-                dedup[lic] = u
+-                break
+-        else:
+-            unique.add(lic)
+-
+-    if dedup:
+-        for rel in objset.foreach_filter(
+-            oe.spdx30.Relationship,
+-            relationshipType=oe.spdx30.RelationshipType.hasDeclaredLicense,
+-        ):
+-            rel.to = [dedup.get(to, to) for to in rel.to]
+-
+-        for rel in objset.foreach_filter(
+-            oe.spdx30.Relationship,
+-            relationshipType=oe.spdx30.RelationshipType.hasConcludedLicense,
+-        ):
+-            rel.to = [dedup.get(to, to) for to in rel.to]
++    def cmp_license_expression(a, b):
++        return (
++            a.simplelicensing_licenseExpression == b.simplelicensing_licenseExpression
++            and a.simplelicensing_licenseListVersion
++            == b.simplelicensing_licenseListVersion
++        )
+ 
+-        for k, v in dedup.items():
+-            bb.debug(1, f"Removing duplicate License {k._id} -> {v._id}")
+-            objset.objects.remove(k)
++    def cmp_creation_info(a, b):
++        data_a = {k: a[k] for k in a}
++        data_b = {k: b[k] for k in b}
++        data_a["@id"] = ""
++        data_b["@id"] = ""
++        return data_a == data_b
++
++    with objset.deduplicate() as dedup:
++        # De-duplicate licenses
++        dedup.find_duplicates(
++            cmp_license_expression,
++            oe.spdx30.simplelicensing_LicenseExpression,
++        )
+ 
+-        objset.create_index()
++        # Deduplicate creation info
++        dedup.find_duplicates(cmp_creation_info, oe.spdx30.CreationInfo)
+ 
+     return objset, sbom
+diff --git a/meta/lib/oe/spdx30.py b/meta/lib/oe/spdx30.py
+index cd97eebd18..1f58402ffc 100644
+--- a/meta/lib/oe/spdx30.py
++++ b/meta/lib/oe/spdx30.py
+@@ -701,7 +701,7 @@ class SHACLObject(object):
+         self.__dict__["_obj_data"][iri] = prop.init()
+ 
+     def __iter__(self):
+-        return self._OBJ_PROPERTIES.keys()
++        return iter(self._OBJ_PROPERTIES.keys())
+ 
+     def walk(self, callback, path=None):
+         """
 -- 
 2.53.0
 
