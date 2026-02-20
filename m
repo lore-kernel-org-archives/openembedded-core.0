@@ -2,310 +2,152 @@ Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DE7C55163
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 607A1C5516A
 	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 05:34:50 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32605.1771565685725808830
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32610.1771565686797469924
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Feb 2026 21:34:46 -0800
+ Thu, 19 Feb 2026 21:34:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YQ03jGXZ;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: hetpat@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dOZhz/ql;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: hetpat@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8570; q=dns/txt;
-  s=iport01; t=1771565686; x=1772775286;
+  d=cisco.com; i=@cisco.com; l=3140; q=dns/txt;
+  s=iport01; t=1771565687; x=1772775287;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=59v3V0PQsdLO5SrkeNSw1SV59uGdGdcZlax8wCTr7NQ=;
-  b=YQ03jGXZ6yU4dWJvSCxk5FQuTrLYdvqgkyxwhYXhXLGQJdeSe+UkmuRp
-   gEEpb5HiM/+pMVsB1rAZXg5nxD+VNigMvE2DaVyZfJXa9OYKF7eYZkIKO
-   8HDqp3s3m/87qBsfNh0aKz8TRnksKCF7Y5hv0mqD4zEdXf28lj7MWS2F4
-   TdHLwEbiXdsLSiZ/VOZBgz3ZQIPv4A9PCSlewlipd+WcbvHiJbMT/7Rde
-   faELTd5t2nML/1B441Fpp96Ux1pJKYlbF53UQS3fUv8Ne/o0Azx3uBxPv
-   DESG5kGdAl7X63t53ms4pUrWCknr9aukFGVRfN7xcTJ6Qmfq4qpRjFJzK
+  bh=ktQnFTFyEve/PMXoWN8ISWhBxFFALaw7GtVpHdTY6BQ=;
+  b=dOZhz/qlBmFs0NW5uIH4O9z4Zqn1thjxJBRQvfLMtm0o0NoJOiPMzi2l
+   ATLb9NJJAHK4GMUI+qHtwdojCXBG4+uo2e59xkhbabhlsSMidfHwTLQFM
+   0f6ezWUYVIf30Qh4I4likUsBfyzKJ/uEJ8tEXjb8NBE/kBVus3sOYOJ2C
+   MciVKuqn9gtSYrVD1SPIu5ruPI3J2S8I1f8rbM6OpwDomWMnyrjMs9cOh
+   Js4L/hKY+rcM5VO2K+RX7+jNUlPoUttO2s1djsXADcWnvlKWnM8BfT136
+   +6RRpXq8MWxntCUujUL7H/mNvGzEbj4fqGCiOu4yCfFS5ewB8rpgp78XI
    g==;
-X-CSE-ConnectionGUID: IzvRV+LbQq2tes5OByco/w==
-X-CSE-MsgGUID: Xewe+7nWRvmc5V7O8/dRNw==
-X-IPAS-Result: =?us-ascii?q?A0BDBAC68Zdp/5L/Ja1aglmCSA9xX0JJlksDi2SSNoF/D?=
- =?us-ascii?q?wEBAQ83GgQBAYUHAo0fAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFA?=
- =?us-ascii?q?QEBAgEHBYEOE4ZPDYZbAgEDMgFGECAxIAsrGYMCAYI6AzYCAadPgiyBAYJmg?=
- =?us-ascii?q?hbYRw2CUgELFAGBOIU8gnmFIFoahHonGxuBcoR9gh9CAYglBIIigQ6CAIZhB?=
- =?us-ascii?q?opoSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ELGwcFh1MPiQV4boEgg?=
- =?us-ascii?q?RsDCxgNSBEsNxQbBD5uB44vP4I0ARUXYQErBU89Cj8jQA0wknGQFIIhoB1xC?=
- =?us-ascii?q?iiDdIwejz6FfBozhASUFZJSkk2GOY4JhAmSR4RogWg8gUcLB3AVgyIJSRkPj?=
- =?us-ascii?q?l+FQYNltRQiNTwCBwsBAQMJk2cBAQ?=
-IronPort-Data: A9a23:jWh3/q05mQ44HPyVOfbD5YRwkn2cJEfYwER7XKvMYLTBsI5bpzBWm
- GofCG/TOKzfYmOhc98gYI3k8htQv5fVnNY3GQtl3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX4
- Lsen+WFYAX7g2QuajpPg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGLVMoB7Nb3uxOGDtS+
- OdFDxocZRfEmLfjqF67YrEEasULNsLnOsYb/3pn1zycVadgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUieC/FMEg9/5JYWnOq0nnDjWzZZs1mS46Ew5gA/ySQvj+C1a4uJI4XiqcN9rkuHq
- yGZ+VvDHBQRaeLA7mrC/kiKmbqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MskCSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXPIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:/rtUeKr3FurtDYBNBAFpbL0aV5oseYIsimQD101hICG9vPb2qy
- nIpoV96faaslcssR0b9OxofZPwI080lqQFhbX5Q43DYOCOggLBR+tfBMnZsljd8kbFmNK1u5
- 0NT0EHMqySMbC/5vyKmTVR1L0bsb+6zJw=
-X-Talos-CUID: 9a23:FjEBlGy/uFtmt7/vGgJYBgU1CN4fTD75xk7JeVO1EjtOYqyeThiPrfY=
-X-Talos-MUID: 9a23:etXCUQopP/nV9eL24qMezwFvK8orvKKRMl4Imsg45O7UciBKHSjI2Q==
+X-CSE-ConnectionGUID: geeCAMptRT+4UxPed/fJKQ==
+X-CSE-MsgGUID: ViDhSTgpRXWVESd0Z5qi3w==
+X-IPAS-Result: =?us-ascii?q?A0CVBQBB8Zdp/5D/Ja1aglmCSA9xX0JJA5ZIA54agX8PA?=
+ =?us-ascii?q?QEBDzcaBAEBhQcCjR8CJjYHDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBAQUBA?=
+ =?us-ascii?q?QECAQcFgQ4Thk8NhlsCAQMyAUYQIDErKxmDAgGCcwIBp1aCLIEBhHzbJgELF?=
+ =?us-ascii?q?AGBOIU8iBlrCYR6JxsbgXKEfYsHBIINFYEOihuBGYgbSIEeA1ksAVUTDQoLB?=
+ =?us-ascii?q?wWBZgM1EioVbjIdgSM+F4ELGwcFgkKFEQ+JBXhugSCBGwMLGA1IESw3FBsEP?=
+ =?us-ascii?q?m4Hji8/gjR0GgEwHWM+eJMCHZI0EoE1n1kKKIN0jB6VOhozhASUFZJSmQaCW?=
+ =?us-ascii?q?JQqjVeEaIFvATRGgRNwFYMiCUkZD45fgh2GArV7IjUTKQIHCwEBAwmTZwEB?=
+IronPort-Data: A9a23:nvSTnaC6QEpJYRVW/37iw5YqxClBgxIJ4kV8jS/XYbTApGwnhjcBx
+ jMdDz3QO/2INDShe9h1YNng80oHv5/Ry4NhOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWmthh
+ fuo+5eBYAX/g2YvWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEzPhjJ2gTJZEixqUrPHF2+
+ PBfJhIuV0XW7w626OrTpuhEnM8vKozveYgYoHwllW6fBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGYzBPjDS0Un1lM/CJ8ihO60rnL+aDZf7lmSoMLb5kCNk1QrjOi2YIO9ltqie8R5nn2kq
+ Xr8z1vHLyoWbO7C0Dve7Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVlezf4h2SAS4PSTsphMEaifLajAcCj
+ jeh9+4FzxQ02FFJYRpxLoupkA4=
+IronPort-HdrOrdr: A9a23:tttHLqi1k+6Pb1RGtdtK3z3C+XBQXt0ji2hC6mlwRA09TyVXra
+ +TdZMgpHjJYVkqOU3I9ersBEDEewK/yXcX2/h0AV7dZmnbUQKTRekIh7cKgQeQfhEWndQy6U
+ 4PScRD4aXLfDtHZQKQ2njALz7mq+P3lpyVuQ==
+X-Talos-CUID: =?us-ascii?q?9a23=3A9HCLlWllEh82zQkr83HQLm0IauzXOXLQwVz5Ble?=
+ =?us-ascii?q?kM1oqFICFcVKcv61GsPM7zg=3D=3D?=
+X-Talos-MUID: 9a23:7MvMewUYnzdu0zHq/AHtqDFZCMhw2ZSRNm02nc005tCFbjMlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.21,301,1763424000"; 
-   d="scan'208";a="670039411"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2026 05:34:45 +0000
+   d="scan'208";a="670248381"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2026 05:34:45 +0000
 Received: from sjc-ads-8556.cisco.com (sjc-ads-8556.cisco.com [171.68.222.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 20E921800022C;
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id A45B418000210;
 	Fri, 20 Feb 2026 05:34:45 +0000 (GMT)
 Received: by sjc-ads-8556.cisco.com (Postfix, from userid 1847788)
-	id 6EA00CC8CF6; Thu, 19 Feb 2026 21:34:44 -0800 (PST)
+	id 0BCAACC8D0E; Thu, 19 Feb 2026 21:34:45 -0800 (PST)
 From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	vchavda@cisco.com
-Subject: [openembedded-core] [scarthgap] [PATCH v1 06/34] cve-check: remove the TEXT format support
-Date: Thu, 19 Feb 2026 21:34:15 -0800
-Message-Id: <20260220053443.3006180-6-hetpat@cisco.com>
+Subject: [openembedded-core] [scarthgap] [PATCH v1 34/34] cve-update: Avoid NFS caching issues
+Date: Thu, 19 Feb 2026 21:34:43 -0800
+Message-Id: <20260220053443.3006180-34-hetpat@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260220053443.3006180-1-hetpat@cisco.com>
 References: <20260220053443.3006180-1-hetpat@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 171.68.222.95, sjc-ads-8556.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 05:34:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231461
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231483
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Paul Barker <paul@pbarker.dev>
 
-Remove the TEXT format support, as the JSON format offers more functions.
-Users who do automation should have migrated already.
+When moving the updated CVE database file to the downloads directory,
+ensure that it has a different inode number to the previous version of
+this file.
 
-Support of both formats makes the code more complex than necessary.
+We have seen "sqlite3.DatabaseError: database disk image is malformed"
+exceptions on our autobuilder when trying to read the CVE database in
+do_cve_check tasks. The context here is that the downloads directory
+(where the updated database file is copied to) is shared between workers
+as an NFS mount. Different autobuilder workers were seeing different
+checksums for the database file, which indicates that a mix of both new
+and stale data was being read. Forcing each new version of the database
+file to have a different inode number will prevent stale data from being
+read from local caches.
 
-Users can convert JSON files to TEXT files with cve-json-to-text.py
-in scripts/
+This should fix [YOCTO #16086].
 
-Backport Changes:
-- The changes from commit [81e702c85c62] have been discarded.
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
+Signed-off-by: Paul Barker <paul@pbarker.dev>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 05ef4f2a7b225c8d230eaca8d333ffb921729d79)
+(cherry picked from commit f63622bbec1cfaca6d0b3e05e11466e4c10fa86e)
 Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- meta/classes/cve-check.bbclass | 118 +--------------------------------
- 1 file changed, 1 insertion(+), 117 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb   | 9 +++++++--
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 9 +++++++--
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 32fb9e8a5c..65d90dd420 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -36,20 +36,15 @@ CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
- CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 6edf705704..b0272cdddd 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -78,8 +78,13 @@ python do_fetch() {
+         shutil.copy2(db_file, db_tmp_file)
  
--CVE_CHECK_LOG ?= "${T}/cve.log"
--CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
- CVE_CHECK_SUMMARY_DIR ?= "${LOG_DIR}/cve"
- CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
--CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
- CVE_CHECK_SUMMARY_FILE_NAME_JSON = "cve-summary.json"
- CVE_CHECK_SUMMARY_INDEX_PATH = "${CVE_CHECK_SUMMARY_DIR}/cve-summary-index.txt"
+     if update_db_file(db_tmp_file, d):
+-        # Update downloaded correctly, can swap files
+-        shutil.move(db_tmp_file, db_file)
++        # Update downloaded correctly, we can swap files. To avoid potential
++        # NFS caching issues, ensure that the destination file has a new inode
++        # number. We do this in two steps as the downloads directory may be on
++        # a different filesystem to tmpdir we're working in.
++        new_file = "%s.new" % (db_file)
++        shutil.move(db_tmp_file, new_file)
++        os.rename(new_file, db_file)
+     else:
+         # Update failed, do not modify the database
+         bb.warn("CVE database update failed")
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index abcbcffcc6..8c8148dd92 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -93,8 +93,13 @@ python do_fetch() {
+         shutil.copy2(db_file, db_tmp_file)
  
- CVE_CHECK_LOG_JSON ?= "${T}/cve.json"
- 
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
--CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
- CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
--CVE_CHECK_MANIFEST ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.cve"
- CVE_CHECK_MANIFEST_JSON_SUFFIX ?= "json"
- CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.${CVE_CHECK_MANIFEST_JSON_SUFFIX}"
- CVE_CHECK_COPY_FILES ??= "1"
-@@ -60,9 +55,6 @@ CVE_CHECK_REPORT_PATCHED ??= "1"
- 
- CVE_CHECK_SHOW_WARNINGS ??= "1"
- 
--# Provide text output
--CVE_CHECK_FORMAT_TEXT ??= "1"
--
- # Provide JSON output
- CVE_CHECK_FORMAT_JSON ??= "1"
- 
-@@ -139,20 +131,11 @@ python cve_save_summary_handler () {
-     import datetime
-     from oe.cve_check import update_symlinks
- 
--    cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
--
-     cve_summary_name = d.getVar("CVE_CHECK_SUMMARY_FILE_NAME")
-     cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-     bb.utils.mkdirhier(cvelogpath)
- 
-     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
--    cve_summary_file = os.path.join(cvelogpath, "%s-%s.txt" % (cve_summary_name, timestamp))
--
--    if os.path.exists(cve_tmp_file):
--        shutil.copyfile(cve_tmp_file, cve_summary_file)
--        cvefile_link = os.path.join(cvelogpath, cve_summary_name)
--        update_symlinks(cve_summary_file, cvefile_link)
--        bb.plain("Complete CVE report summary created at: %s" % cvefile_link)
- 
-     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
-         json_summary_link_name = os.path.join(cvelogpath, d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON"))
-@@ -195,7 +178,6 @@ python cve_check_cleanup () {
-     """
-     Delete the file used to gather all the CVE information.
-     """
--    bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE"))
-     bb.utils.remove(e.data.getVar("CVE_CHECK_SUMMARY_INDEX_PATH"))
- }
- 
-@@ -213,9 +195,6 @@ python cve_check_write_rootfs_manifest () {
-     from oe.cve_check import cve_check_merge_jsons, update_symlinks
- 
-     if d.getVar("CVE_CHECK_COPY_FILES") == "1":
--        deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
--        if os.path.exists(deploy_file):
--            bb.utils.remove(deploy_file)
-         deploy_file_json = d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
-         if os.path.exists(deploy_file_json):
-             bb.utils.remove(deploy_file_json)
-@@ -235,19 +214,13 @@ python cve_check_write_rootfs_manifest () {
-     json_data = {"version":"1", "package": []}
-     text_data = ""
-     enable_json = d.getVar("CVE_CHECK_FORMAT_JSON") == "1"
--    enable_text = d.getVar("CVE_CHECK_FORMAT_TEXT") == "1"
- 
-     save_pn = d.getVar("PN")
- 
-     for pkg in recipies:
--        # To be able to use the CVE_CHECK_RECIPE_FILE variable we have to evaluate
-+        # To be able to use the CVE_CHECK_RECIPE_FILE_JSON variable we have to evaluate
-         # it with the different PN names set each time.
-         d.setVar("PN", pkg)
--        if enable_text:
--            pkgfilepath = d.getVar("CVE_CHECK_RECIPE_FILE")
--            if os.path.exists(pkgfilepath):
--                with open(pkgfilepath) as pfile:
--                    text_data += pfile.read()
- 
-         if enable_json:
-             pkgfilepath = d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
-@@ -258,17 +231,6 @@ python cve_check_write_rootfs_manifest () {
- 
-     d.setVar("PN", save_pn)
- 
--    if enable_text:
--        manifest_name = d.getVar("CVE_CHECK_MANIFEST")
--
--        with open(manifest_name, "w") as f:
--            f.write(text_data)
--
--        if link_name:
--            link_path = os.path.join(deploy_dir, "%s.cve" % link_name)
--            update_symlinks(manifest_name, link_path)
--        bb.plain("Image CVE report stored in: %s" % manifest_name)
--
-     if enable_json:
-         manifest_name_suffix = d.getVar("CVE_CHECK_MANIFEST_JSON_SUFFIX")
-         manifest_name = d.getVar("CVE_CHECK_MANIFEST_JSON")
-@@ -481,82 +443,6 @@ def get_cve_info(d, cve_data):
-         cursor.close()
-     conn.close()
- 
--def cve_write_data_text(d, cve_data):
--    """
--    Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
--    CVE manifest if enabled.
--    """
--
--    cve_file = d.getVar("CVE_CHECK_LOG")
--    fdir_name  = d.getVar("FILE_DIRNAME")
--    layer = fdir_name.split("/")[-3]
--
--    include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
--    exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
--
--    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
--
--    if exclude_layers and layer in exclude_layers:
--        return
--
--    if include_layers and layer not in include_layers:
--        return
--
--    # Early exit, the text format does not report packages without CVEs
--    if not len(cve_data):
--        return
--
--    nvd_link = "https://nvd.nist.gov/vuln/detail/"
--    write_string = ""
--    unpatched_cves = []
--    bb.utils.mkdirhier(os.path.dirname(cve_file))
--
--    for cve in sorted(cve_data):
--        if not report_all and (cve_data[cve]["abbrev-status"] == "Patched" or cve_data[cve]["abbrev-status"] == "Ignored"):
--            continue
--        write_string += "LAYER: %s\n" % layer
--        write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
--        write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
--        write_string += "CVE: %s\n" % cve
--        write_string += "CVE STATUS: %s\n" % cve_data[cve]["abbrev-status"]
--
--        if 'status' in cve_data[cve]:
--            write_string += "CVE DETAIL: %s\n" % cve_data[cve]["status"]
--        if 'justification' in cve_data[cve]:
--            write_string += "CVE DESCRIPTION: %s\n" % cve_data[cve]["justification"]
--
--        if "NVD-summary" in cve_data[cve]:
--            write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["NVD-summary"]
--            write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["NVD-scorev2"]
--            write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["NVD-scorev3"]
--            write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["NVD-scorev4"]
--            write_string += "VECTOR: %s\n" % cve_data[cve]["NVD-vector"]
--            write_string += "VECTORSTRING: %s\n" % cve_data[cve]["NVD-vectorString"]
--
--        write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
--        if cve_data[cve]["abbrev-status"] == "Unpatched":
--            unpatched_cves.append(cve)
--
--    if unpatched_cves and d.getVar("CVE_CHECK_SHOW_WARNINGS") == "1":
--        bb.warn("Found unpatched CVE (%s), for more information check %s" % (" ".join(unpatched_cves),cve_file))
--
--    with open(cve_file, "w") as f:
--        bb.note("Writing file %s with CVE information" % cve_file)
--        f.write(write_string)
--
--    if d.getVar("CVE_CHECK_COPY_FILES") == "1":
--        deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
--        bb.utils.mkdirhier(os.path.dirname(deploy_file))
--        with open(deploy_file, "w") as f:
--            f.write(write_string)
--
--    if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
--        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
--        bb.utils.mkdirhier(cvelogpath)
--
--        with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
--            f.write("%s" % write_string)
--
- def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file):
-     """
-     Write CVE information in the JSON format: to WORKDIR; and to
-@@ -665,7 +551,5 @@ def cve_write_data(d, cve_data, status):
-     Write CVE data in each enabled format.
-     """
- 
--    if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
--        cve_write_data_text(d, cve_data)
-     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
-         cve_write_data_json(d, cve_data, status)
+     if update_db_file(db_tmp_file, d, database_time):
+-        # Update downloaded correctly, can swap files
+-        shutil.move(db_tmp_file, db_file)
++        # Update downloaded correctly, we can swap files. To avoid potential
++        # NFS caching issues, ensure that the destination file has a new inode
++        # number. We do this in two steps as the downloads directory may be on
++        # a different filesystem to tmpdir we're working in.
++        new_file = "%s.new" % (db_file)
++        shutil.move(db_tmp_file, new_file)
++        os.rename(new_file, db_file)
+     else:
+         # Update failed, do not modify the database
+         bb.warn("CVE database update failed")
 
