@@ -2,133 +2,120 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B69C5ACD3
-	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 16:20:39 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1242.1771604430996850128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C12C5ACD9
+	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 16:21:49 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1301.1771604500309699964
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Feb 2026 08:20:32 -0800
+ Fri, 20 Feb 2026 08:21:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=HJJQi8fR;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260220162027180599ccc800020783-kqlywx@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260220162027180599ccc800020783
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=OWSx7xjp;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260220162141e39a7774bc000207a1-osybza@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260220162141e39a7774bc000207a1
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 20 Feb 2026 17:20:28 +0100
+        Fri, 20 Feb 2026 17:21:41 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=YIhHXq8g8LL75bkEIyySKfJXRtllP2vC1JJk+KK9BnM=;
- b=HJJQi8fRgjE+iRxhenB6c5LGiavAOQmC2YvKTAxobJwtG/sTrMuCkXDLS5X08XD92BQsSt
- GXmOLOnG8vz6aSeJOxNuMLXj21fxQUUpicTAqCBkvy2VI0qEYtfGM6bcA0soFvNS2j3/05LB
- oGLGT+XyZMS0+WFPWIpMIvozC620uHCWnjlJPXAjbxY4WWEnCbra5LqbEM0/q490l7mNtb5O
- CjVnrnh7mkzGDPYhwP48b97znktR2ne7uvR6Lk0FLtppchwCWDIfxHU3EnplVx6YVVXxHZxl
- WS0XeWBZ1hdnja5gKt/m3tXS68RWGltvE9JFXS+jjn6z+BNb5XN0mNaw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=Zf4ZV24UwShWqeVZUjCY40g0K6smtrnfuVkF/S5ezJg=;
+ b=OWSx7xjpnL5Ubh6MmWxxSFENiBEbWcibh3pDnp5yGWEgLpTDx/0067r46tbuLAYqGrsPeJ
+ qRk5IJRA4AvAV+sACZN2YGvWSiq2TgUnw/xygh3W9gm6jVcY4Q0mhjWR2m3xnZ7v2cAHawIi
+ +JJDQGCegWbsaTZIg2eBgIXoukHU8uA2plYX3wPpA3rFQlIVj6SZqDkdYA1fN04NbGJfV3TM
+ grCgUqiPJ4SmzRHxdQC4T33gw1Tlh5LZP0Xr4y/to7258ubCoHiV+K586lCsH5XP/qgt45ef
+ rPCj8HbtXhDMK9sZzVWFRzpezhvUNjN7E/03XkQYzpBAMsJoypZWGx3Q==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH v2] glib-2.0: patch CVE-2026-0988
-Date: Fri, 20 Feb 2026 17:20:24 +0100
-Message-Id: <20260220162024.8550-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH 2/3] glib-2.0: patch CVE-2026-1485
+Date: Fri, 20 Feb 2026 17:21:31 +0100
+Message-Id: <20260220162132.8648-2-peter.marko@siemens.com>
+In-Reply-To: <20260220162132.8648-1-peter.marko@siemens.com>
+References: <20260220162132.8648-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 16:20:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231532
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 16:21:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231534
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick relevant commit from [2] linked from [1].
+Pick patch from [1] linked from [2].
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3851
-[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4944
+[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3871
+[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4981
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-v2: rebase above additional patches merged meanwhile
+ .../glib-2.0/glib-2.0/CVE-2026-1485.patch     | 44 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
 
- .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
 new file mode 100644
-index 00000000000..1cdc3735edf
+index 00000000000..73c29db9990
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
-@@ -0,0 +1,58 @@
-+From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 18 Dec 2025 23:12:18 +0000
-+Subject: [PATCH] gbufferedinputstream: Fix a potential integer overflow in
-+ peek()
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
+@@ -0,0 +1,44 @@
++From ee5acb2cefc643450509374da2600cd3bf49a109 Mon Sep 17 00:00:00 2001
++From: Marco Trevisan <mail@3v1n0.net>
++Date: Fri, 23 Jan 2026 19:05:44 +0100
++Subject: [PATCH] gio/gcontenttype-fdo: Do not overflow if header is longer
++ than MAXINT
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+If the caller provides `offset` and `count` arguments which overflow,
-+their sum will overflow and could lead to `memcpy()` reading out more
-+memory than expected.
++In case the header size is longer than MAXINT we may read and write to
++invalid locations
 +
-+Spotted by Codean Labs.
++Spotted by treeplus.
++Thanks to the Sovereign Tech Resilience programme from the Sovereign
++Tech Agency.
 +
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
++ID: #YWH-PGM9867-169
++Closes: #3871
 +
-+Fixes: #3851
 +
-+CVE: CVE-2026-0988
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c5766cff61ffce0b8e787eae09908ac348338e5f]
++(cherry picked from commit aacda5b07141b944408c79e83bcbed3b2e1e6e45)
++
++Co-authored-by: Marco Trevisan (Treviño) <mail@3v1n0.net>
++
++CVE: CVE-2026-1485
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/ee5acb2cefc643450509374da2600cd3bf49a109]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ gio/gbufferedinputstream.c        |  2 +-
-+ gio/tests/buffered-input-stream.c | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
++ gio/gcontenttype.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/gio/gbufferedinputstream.c b/gio/gbufferedinputstream.c
-+index 9e6bacc62..56d656be0 100644
-+--- a/gio/gbufferedinputstream.c
-++++ b/gio/gbufferedinputstream.c
-+@@ -588,7 +588,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
++diff --git a/gio/gcontenttype.c b/gio/gcontenttype.c
++index 230cea182..11323973a 100644
++--- a/gio/gcontenttype.c
+++++ b/gio/gcontenttype.c
++@@ -1021,7 +1021,7 @@ tree_match_free (TreeMatch *match)
++ static TreeMatch *
++ parse_header (gchar *line)
++ {
++-  gint len;
+++  size_t len;
++   gchar *s;
++   TreeMatch *match;
 + 
-+   available = g_buffered_input_stream_get_available (stream);
-+ 
-+-  if (offset > available)
-++  if (offset > available || offset > G_MAXSIZE - count)
-+     return 0;
-+ 
-+   end = MIN (offset + count, available);
-+diff --git a/gio/tests/buffered-input-stream.c b/gio/tests/buffered-input-stream.c
-+index a1af4eeff..2b2a0d9aa 100644
-+--- a/gio/tests/buffered-input-stream.c
-++++ b/gio/tests/buffered-input-stream.c
-+@@ -58,6 +58,16 @@ test_peek (void)
-+   g_assert_cmpint (npeek, ==, 0);
-+   g_free (buffer);
-+ 
-++  buffer = g_new0 (char, 64);
-++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 8, 0);
-++  g_assert_cmpint (npeek, ==, 0);
-++  g_free (buffer);
-++
-++  buffer = g_new0 (char, 64);
-++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 5, G_MAXSIZE);
-++  g_assert_cmpint (npeek, ==, 0);
-++  g_free (buffer);
-++
-+   g_object_unref (in);
-+   g_object_unref (base);
-+ }
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-index 50701be3d03..7c0ed01f555 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-@@ -70,6 +70,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-14087-02.patch \
-            file://CVE-2025-14087-03.patch \
-            file://CVE-2025-14512.patch \
-+           file://CVE-2026-0988.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index 43a28273e9d..fefa3ad7d6e 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -42,6 +42,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2026-0988.patch \
+            file://CVE-2026-1484-01.patch \
+            file://CVE-2026-1484-02.patch \
++           file://CVE-2026-1485.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
 
