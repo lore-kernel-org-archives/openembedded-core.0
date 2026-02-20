@@ -2,70 +2,70 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 872B6C55ABA
-	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 11:47:02 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36632.1771588016356819330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF6BC55ABE
+	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 11:51:52 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36713.1771588302641566906
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Feb 2026 03:46:56 -0800
+ Fri, 20 Feb 2026 03:51:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=FS44R3OF;
- spf=pass (domain: linaro.org, ip: 209.85.216.54, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3562258142fso1080048a91.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 03:46:56 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=gNra3oWY;
+ spf=pass (domain: linaro.org, ip: 209.85.216.44, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-352ccc61658so760142a91.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 03:51:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771588016; x=1772192816; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1771588302; x=1772193102; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2c6lJRPYXlsz25EhxK4ysfLFtXkDCAhW3xMPQhjtEiM=;
-        b=FS44R3OFExaGQgEM/eMJuPff6TGwckQ72bt7ndToqp1zSNqBaCPz7rdLENVxdpWSfq
-         IuxQgTVZjrG4uunSZ+Ri57Br4IT0AxWMlXX7ngjLj6OLbV3+1EOimabsfR9sijtg5g+d
-         tyX966VFbG7rvPdsvBIRAbwgmETniKd1ua3933B+4n2zU8XFxr6DWKhHGzx71SNxyx4W
-         hNZEixFmgLA5W2k3n9VhlkwXJzv+jFk6Oc8J43tvvhPtG0rNAvb9sZtddesUjYHcKnWR
-         R9UDCg5CnFPK9JEvxlK1VdvdcoVCk1PVv3fP/+fSX6U3Wj6dIqGF9B+FLyNnWtuAO5Za
-         5kdw==
+        bh=K98FZZbQrE4xuAu2V2MTxoNPAWa2T1Yl8g3p1wp1ZX8=;
+        b=gNra3oWYahCpuMjWJLFUJB36QtgsKHiKdGahRbKE/5u4gTlZVW5KAMps25YpEfJ4Ip
+         RdtkiYC+JSa5pvcEHELm1/6hCNhrFBtisKMGAHvF+YMgBMjFgvYRcDpP3lj7RNLCYnG6
+         CZbtLuS7uiynpGsiOPaGzPJ6HVm0QosXjKUERuuR+bAMyHy7pXnuHS9olhV4P674iTED
+         WOqRESsu8fjEy+GCwgUUwjYMUfoqA8SBUEGyMxuIeYj3kjwV9fDRw8LmYXjJbzE3kmqe
+         UhscTQjh/CT1vkAfVUlLiU7Kck+nd3x4lIJJxrcyHahfbDc4B8lQ3KWli59CCXlbwFwS
+         XJgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771588016; x=1772192816;
+        d=1e100.net; s=20230601; t=1771588302; x=1772193102;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2c6lJRPYXlsz25EhxK4ysfLFtXkDCAhW3xMPQhjtEiM=;
-        b=vBKUXxy5eCkKuvJZ04yU2uyxhiV2f8/h+QHnb+aOKL2s+Dl3NuPt0RYoloPRpTnbeW
-         nEt9toSZ5Neiskcy/AFm9t0XyREOFFpO08tLYq4ovZFTCr8sq6mb6J7ZUOL9usn++m9M
-         JFSEfsnnXPWNRChXBmagZTrir6UqiWachW1Mo/t3nh1sUIqQJIUo5oS/SZ7OZC+gzaSO
-         Fo42qL7GCuMB4k9ZVxSzn+P/8L0Knk30ih7Ox+sBxTugXKY0wSnQ2sVbMTR25DZ5AwMH
-         GBfkB2rM8/mI0tdqTI9ZRlQ/XicBVyxUyBR/qcDskzIsounSfSnZZYqnQJsMEfk6e4+K
-         pKwQ==
-X-Gm-Message-State: AOJu0YyAz2kP56qFu5fD/B/Zs/6vA0RiUgrXi7oVIaBKtV4JYRqmUt/r
-	UPs2q/GtL6WwPT1ISXkDfc68j6bGQQxPyWCmi3Gp30jRNjYlpHxny8Bvi8UFZXZN4pDgUjpGQfp
-	95pkc+Z0=
-X-Gm-Gg: AZuq6aLkg+lyRCnwOGv67v///CFBS9Isibo7y159KoJNR6R6Ol7q1eU+TBIpnh5l8zk
-	B8RmzdtOea5hA6MZCGOw8eHI2DDX3lnW6bN20R7rFQ5AEEHUh8t/MBpUAAhGjO1IcTnQg4XaBry
-	7mcHqasaaml/2eJwtCDyQnGkP90G2tHkNIgyXmrM3j0e22nrRiSb6qZfMc0pKlj78TMUX1KgDns
-	s0LNq+hvUVfOHlsVjtjHYj3HwWIfCiL82mjgp+rw5FV34mF38eNaPu3Tw2ZpmmJ/TQRrCI/TsCR
-	yd2N+77/mvrVmsdfCpf5qzmTUw5Nf6LgiVbnCXlzWPZk0JbpjG/VVvb0U4C18p0VYR2LfLzjeKD
-	4mwNf+snxfsaKWibv8a7sMIeHfl7eT2CyldakwwewnEH3X1DBWSVRqQtHK1cL4n6k/qanS86EZP
-	6xwcBXtcwflH7obDGwIoBSJYQfgzT27nQ306uIco7ddHudh3Mzr5L8RWvgebLVYxaNAAXL2wor
-X-Received: by 2002:a17:90b:5644:b0:356:24f0:af08 with SMTP id 98e67ed59e1d1-3584481e55bmr15798099a91.1.1771588015369;
-        Fri, 20 Feb 2026 03:46:55 -0800 (PST)
+        bh=K98FZZbQrE4xuAu2V2MTxoNPAWa2T1Yl8g3p1wp1ZX8=;
+        b=cARRecm/uyzCMqjHulwJ8xow3r1kMyw7es6IsxsyM1Fc7FTwNvjxvrDXtS+xr3Q4O4
+         x7HOaPSYYWv2Wd2RdvjVFpVHdfNE6W5PH3AS8m9si4bXnQnaFBR7McNE1W4akCIFAV4t
+         aI43gNROmMq/cE/Yg45m1U0QRhQnvImMF+Q0Qo4SDMNmYUcM1D53qqUx4J1ATa3GBYA0
+         BvSUTu66Qh6FFzLdPLwO8VDjZfEj/gpK7+qd1wInKtwX83SJt24pU3ip/zTOaTMQNbYd
+         fvnMYHdiam7oG3n1YiFY3kgGN3A5zn6hQXgZv4e9D4L6hOxFex8KRGMl9RtpEm8Jlj+E
+         Kdag==
+X-Gm-Message-State: AOJu0YzsxHVAbnzJdzfDPmXyYpwmPKEUOP4KhnjdY1GeU1cqD64o6ie8
+	6J7J/ROs8sA4sJdgFC71Uz34RoPiZMRs96n3DYYacYAr9KKHqim3mDjUoyiT5cBLjt7I/qjN/QY
+	ZXX6RbKs=
+X-Gm-Gg: AZuq6aLbFHNSgyKd3Vga3s4MYuk20cb5Fi6jPN1jLarBreM5zKrpvqnHVplGAvr6hGU
+	C3mV+G3sN3DXHPkpoL7KXJrACu3QvJxwtIVQ+h/bN21y1gzMa6/BQdZdrkkdsyI1EUAc5T06No9
+	9huRRvEwlaJDf22r3SjHgUBs1/Dn5kjKwbVzkJTcdkgbB5dAPK4J2caDZ544uVSCV/ZBNhDXNKO
+	WDH8Jmu2pxthLV0LOZOfDUvQpgz4WY5D2ovIDdfHmCe6RPyFDPr+i0Jv4cwPkcUIxHyrjBO3KZE
+	GS/kCFLWzxbhQYS9aZs92MejDDcbYBkb7G1wyBs7aZN4hqTl5IosiW7NNDC/QIP/3cQxhNUhjdX
+	2atIoly0aGPIXdDMEul33CTUZnkFKEs+54AYiVBb//dC0jQovwX6tzTvemkK4WY4cC0HU5M8Ecu
+	M2bHZUGpdbqZjr73/e5xzxo0BUQNzHfUkp91Wt6j6O2Us/x7Wdix3R5uHDNEEtKkHke9BiDjP2
+X-Received: by 2002:a17:90b:3d09:b0:356:268f:508 with SMTP id 98e67ed59e1d1-35893803045mr5178818a91.35.1771588301816;
+        Fri, 20 Feb 2026 03:51:41 -0800 (PST)
 Received: from nuoska.taservs.net (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-358a1b1f84fsm1045308a91.2.2026.02.20.03.46.53
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-358a2b5f3a6sm995814a91.13.2026.02.20.03.51.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 03:46:54 -0800 (PST)
+        Fri, 20 Feb 2026 03:51:41 -0800 (PST)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v2] systemd 258.1: fix udev rootfs by-partuuid link generation
-Date: Fri, 20 Feb 2026 13:46:37 +0200
-Message-ID: <20260220114637.3772842-1-mikko.rapeli@linaro.org>
+Subject: [PATCH] systemd 259.1: fix udev rootfs by-partuuid link generation
+Date: Fri, 20 Feb 2026 13:51:23 +0200
+Message-ID: <20260220115123.3773827-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 11:47:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231512
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 11:51:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231513
 
 systemd update from 257 to 258 broke genericarm64 machine boot
 on Renesas SMARC EVK board. The firmware and kernel drivers
@@ -82,24 +82,25 @@ https://github.com/systemd/systemd/issues/40654
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- .../systemd/0001-udev-move-functions.patch    | 186 ++++++++++++
- ...-not-build-full-list-of-dependencies.patch | 286 ++++++++++++++++++
- meta/recipes-core/systemd/systemd_258.1.bb    |   2 +
- 3 files changed, 474 insertions(+)
+ .../systemd/0001-udev-move-functions.patch    | 187 ++++++++++++
+ ...-not-build-full-list-of-dependencies.patch | 287 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_259.1.bb    |   2 +
+ 3 files changed, 476 insertions(+)
  create mode 100644 meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch
  create mode 100644 meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch
 
-v2: move patch status to commit message since patchtest prefers that
-
-v1: https://lists.openembedded.org/g/openembedded-core/message/231506
+v0: same patch as for v258.1 in current master branch but needs few small
+    adaptations for systemd v259.1 for which patch has been submitted
+    in https://lists.openembedded.org/g/openembedded-core/message/230711
+    Providing fixes for both v258 and v259 to make the update easier.
 
 diff --git a/meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch b/meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch
 new file mode 100644
-index 000000000000..e8dfec9c554d
+index 000000000000..41bf03ecdc15
 --- /dev/null
 +++ b/meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch
-@@ -0,0 +1,186 @@
-+From 6d558b28c7c42ccaea4c562f10f8c221e5920bab Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,187 @@
++From ce57f17eff5e6a01e15341e49aa0b65dd3def486 Mon Sep 17 00:00:00 2001
 +From: Yu Watanabe <watanabe.yu+github@gmail.com>
 +Date: Wed, 21 Jan 2026 12:32:50 +0900
 +Subject: [PATCH 1/2] udev: move functions
@@ -108,6 +109,7 @@ index 000000000000..e8dfec9c554d
 +Preparation for the next commit, where worker_detach_event() will be
 +used in on_worker_exit().
 +
++(cherry picked from commit 59bc3e7cd6fc7bcfc1d01245ccefd10ad1d3c304)
 +Upstream-Status: Backport
 +Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 +---
@@ -115,10 +117,10 @@ index 000000000000..e8dfec9c554d
 + 1 file changed, 75 insertions(+), 75 deletions(-)
 +
 +diff --git a/src/udev/udev-manager.c b/src/udev/udev-manager.c
-+index be25c53702c9..fa0a5f11cdea 100644
++index 9fd7f4a6857b..5c6d354f5ba3 100644
 +--- a/src/udev/udev-manager.c
 ++++ b/src/udev/udev-manager.c
-+@@ -390,6 +390,81 @@ void manager_revert(Manager *manager) {
++@@ -392,6 +392,81 @@ void manager_revert(Manager *manager) {
 +         manager_kill_workers(manager, SIGTERM);
 + }
 + 
@@ -200,7 +202,7 @@ index 000000000000..e8dfec9c554d
 + static int on_sigchld(sd_event_source *s, const siginfo_t *si, void *userdata) {
 +         _cleanup_(worker_freep) Worker *worker = ASSERT_PTR(userdata);
 +         sd_device *dev = worker->event ? ASSERT_PTR(worker->event->dev) : NULL;
-+@@ -470,81 +545,6 @@ static int worker_new(Worker **ret, Manager *manager, sd_device_monitor *worker_
++@@ -472,81 +547,6 @@ static int worker_new(Worker **ret, Manager *manager, sd_device_monitor *worker_
 +         return 0;
 + }
 + 
@@ -248,7 +250,7 @@ index 000000000000..e8dfec9c554d
 +-                        worker,
 +-                        EVENT_PRIORITY_WORKER_TIMER,
 +-                        "worker-timeout-warn",
-+-                        /* force_reset = */ true);
++-                        /* force_reset= */ true);
 +-
 +-        (void) event_reset_time_relative(
 +-                        manager->event,
@@ -260,7 +262,7 @@ index 000000000000..e8dfec9c554d
 +-                        worker,
 +-                        EVENT_PRIORITY_WORKER_TIMER,
 +-                        "worker-timeout-kill",
-+-                        /* force_reset = */ true);
++-                        /* force_reset= */ true);
 +-}
 +-
 +-static Event* worker_detach_event(Worker *worker) {
@@ -287,11 +289,11 @@ index 000000000000..e8dfec9c554d
 +
 diff --git a/meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch b/meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch
 new file mode 100644
-index 000000000000..733ba25eb3a0
+index 000000000000..b42e52c10177
 --- /dev/null
 +++ b/meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch
-@@ -0,0 +1,286 @@
-+From 4fa4b289f6002a02aae0f4e4358a27204c39c3b2 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,287 @@
++From 340d469aec6d3daff5a518149ebcdaa82485124d Mon Sep 17 00:00:00 2001
 +From: Yu Watanabe <watanabe.yu+github@gmail.com>
 +Date: Sat, 17 Jan 2026 04:14:05 +0900
 +Subject: [PATCH 2/2] udev: do not build full list of dependencies
@@ -328,6 +330,7 @@ index 000000000000..733ba25eb3a0
 +
 +Fixes #39583 and #39817.
 +
++(cherry picked from commit cb16d47f30cc0d848ca6868c39b844810520d713)
 +Upstream-Status: Backport
 +Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 +---
@@ -335,7 +338,7 @@ index 000000000000..733ba25eb3a0
 + 1 file changed, 55 insertions(+), 52 deletions(-)
 +
 +diff --git a/src/udev/udev-manager.c b/src/udev/udev-manager.c
-+index fa0a5f11cdea..6f75756e0757 100644
++index 5c6d354f5ba3..6d9da33e4932 100644
 +--- a/src/udev/udev-manager.c
 ++++ b/src/udev/udev-manager.c
 +@@ -53,9 +53,14 @@ typedef enum EventState {
@@ -445,7 +448,7 @@ index 000000000000..733ba25eb3a0
 + 
 +         prioq_free(manager->locked_events_by_time);
 +         hashmap_free(manager->locked_events_by_disk);
-+@@ -467,7 +470,8 @@ static Event* worker_detach_event(Worker *worker) {
++@@ -469,7 +472,8 @@ static Event* worker_detach_event(Worker *worker) {
 + 
 + static int on_sigchld(sd_event_source *s, const siginfo_t *si, void *userdata) {
 +         _cleanup_(worker_freep) Worker *worker = ASSERT_PTR(userdata);
@@ -455,7 +458,7 @@ index 000000000000..733ba25eb3a0
 + 
 +         assert(si);
 + 
-+@@ -647,17 +651,21 @@ bool devpath_conflict(const char *a, const char *b) {
++@@ -649,17 +653,21 @@ bool devpath_conflict(const char *a, const char *b) {
 +         return *a == '/' || *b == '/' || *a == *b;
 + }
 + 
@@ -483,7 +486,7 @@ index 000000000000..733ba25eb3a0
 +                 if (!streq_ptr(event->id, e->id) &&
 +                     !devpath_conflict(event->devpath, e->devpath) &&
 +                     !devpath_conflict(event->devpath, e->devpath_old) &&
-+@@ -665,22 +673,16 @@ static int event_build_dependencies(Event *event) {
++@@ -667,22 +675,16 @@ static int event_build_dependencies(Event *event) {
 +                     !(event->devnode && streq_ptr(event->devnode, e->devnode)))
 +                         continue;
 + 
@@ -512,7 +515,7 @@ index 000000000000..733ba25eb3a0
 + }
 + 
 + static bool manager_can_process_event(Manager *manager) {
-+@@ -737,14 +739,10 @@ static int event_queue_start(Manager *manager) {
++@@ -739,14 +741,10 @@ static int event_queue_start(Manager *manager) {
 +                 if (event->state != EVENT_QUEUED)
 +                         continue;
 + 
@@ -529,7 +532,7 @@ index 000000000000..733ba25eb3a0
 +                         continue;
 + 
 +                 r = event_run(event);
-+@@ -920,11 +918,12 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
++@@ -927,11 +925,12 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
 +         if (r < 0 && r != -ENOENT)
 +                 return r;
 + 
@@ -543,7 +546,7 @@ index 000000000000..733ba25eb3a0
 +                 .dev = sd_device_ref(dev),
 +                 .seqnum = seqnum,
 +                 .action = action,
-+@@ -936,6 +935,9 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
++@@ -943,6 +942,9 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
 +                 .locked_event_prioq_index = PRIOQ_IDX_NULL,
 +         };
 + 
@@ -553,7 +556,7 @@ index 000000000000..733ba25eb3a0
 +         Event *prev = NULL;
 +         LIST_FOREACH_BACKWARDS(event, e, manager->last_event) {
 +                 if (e->seqnum < event->seqnum) {
-+@@ -947,8 +949,9 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
++@@ -954,8 +956,9 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
 +                                                         "The event (SEQNUM=%"PRIu64") has been already queued.",
 +                                                         event->seqnum);
 + 
@@ -565,7 +568,7 @@ index 000000000000..733ba25eb3a0
 +         }
 + 
 +         LIST_INSERT_AFTER(event, manager->events, prev, event);
-+@@ -1207,7 +1210,7 @@ static int on_worker_notify(sd_event_source *s, int fd, uint32_t revents, void *
++@@ -1211,7 +1214,7 @@ static int on_worker_notify(sd_event_source *s, int fd, uint32_t revents, void *
 +                 return 0;
 +         }
 + 
@@ -577,10 +580,10 @@ index 000000000000..733ba25eb3a0
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-core/systemd/systemd_258.1.bb b/meta/recipes-core/systemd/systemd_258.1.bb
-index fdf4dc5bdc65..729450b60469 100644
---- a/meta/recipes-core/systemd/systemd_258.1.bb
-+++ b/meta/recipes-core/systemd/systemd_258.1.bb
+diff --git a/meta/recipes-core/systemd/systemd_259.1.bb b/meta/recipes-core/systemd/systemd_259.1.bb
+index 53a11b247231..fd92d59679e6 100644
+--- a/meta/recipes-core/systemd/systemd_259.1.bb
++++ b/meta/recipes-core/systemd/systemd_259.1.bb
 @@ -33,6 +33,8 @@ SRC_URI += " \
             file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
             file://0002-implment-systemd-sysv-install-for-OE.patch \
@@ -589,7 +592,7 @@ index fdf4dc5bdc65..729450b60469 100644
 +           file://0002-udev-do-not-build-full-list-of-dependencies.patch \
             "
  
- # patches needed by musl
+ PAM_PLUGINS = " \
 -- 
 2.34.1
 
