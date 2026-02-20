@@ -2,227 +2,124 @@ Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1772C54F5C
-	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 05:34:49 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32338.1771565685765362574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC8EC54F5F
+	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 05:34:50 +0000 (UTC)
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32609.1771565686307896284
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Feb 2026 21:34:45 -0800
+ Thu, 19 Feb 2026 21:34:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ZXNWXOKr;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: hetpat@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NQUY2tEi;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: hetpat@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5947; q=dns/txt;
-  s=iport01; t=1771565685; x=1772775285;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RPz35DxSaIaZcoE9qJ2U275qxVI3j6VH5ytLgamlQ6U=;
-  b=ZXNWXOKrZqKqAZMjZ1vNiYrPp7JLN0PR46tim1be9kZ8bT07PnK8Av4X
-   qfvhlv8h1bymajVqjPR5qjB7qdRWfycDxbgUtOSSPTgHhFHD0/Ak3376k
-   eSWXnU74rV3+FYWvbMqo8qLvNBOi3Qpb1s5clg6htmo1AYU6z8zNONlAE
-   c8HudyTrJiCSZU0R3BvJoOGkAH40V0oisLvYJXXhgyinJV3NV+fYNsQ4K
-   6DmfYyTyvWp2zrug7hGgBElf8tB9DtxkDs0Z+zanriAzGfQycUNzAARFe
-   WC/gYVlaTTmJF+FCRaZvrwh7mqPvKKyfBitXUsfBzqfEO7a6QCETLm6dp
-   A==;
-X-CSE-ConnectionGUID: ub8wsJ5SQ++b/X49va0CxQ==
-X-CSE-MsgGUID: 8rWYCdNdTTi3nsMdZjE/FA==
-X-IPAS-Result: =?us-ascii?q?A0BsBQC68Zdp/5H/Ja1aglmCSA+BUEJJk1oBgnCLZ5I2g?=
- =?us-ascii?q?X8PAQEBD1EEAQGFB40hAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFA?=
- =?us-ascii?q?QEBAgEHBYEOE4Zchl02AUYwJisLRIMCgjsDNgIBp0+CLIEB3UMNglIBCxQBg?=
- =?us-ascii?q?TiFPIJ5hSBaGoR6JxsbgXKEfYIfiGgEgiKBDoZshlaGDUiBHgNZLAFVEw0KC?=
- =?us-ascii?q?wcFgWYDNRIqFW4yHYEjPheBCxsHBYdTD4kFeG6BIIEbAwsYDUgRLDcUGwQ+b?=
- =?us-ascii?q?geOLz+BQWwHAYENAUIJMCsglFA9kXigHXEKKIN0m1yFfBozqmsumFiSEpJHh?=
- =?us-ascii?q?GiBaDyBWXAVgyJSGQ+IAIZfvjoiNTwCBwsBAQMJk2cBAQ?=
-IronPort-Data: A9a23:qKtUiKuAXFvUIgzlXTVoVgP+3efnVAFfMUV32f8akzHdYApBsoF/q
- tZmKWnQPfmPNDb8KNF2PYix9hwOvJGHyYUxGQBtpXxkRigSgMeUXt7xwmUckM+xwmwvaGo9s
+  d=cisco.com; i=@cisco.com; l=1689; q=dns/txt;
+  s=iport01; t=1771565686; x=1772775286;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dnLui5VxMHB3tI9xn7ldnubgvUeeB3edEqlZY3PxlMI=;
+  b=NQUY2tEiV7iiSX4mTCOf0r/Yo5biNX5Pj8VPI25iOL0ZIcSpE75oj4jP
+   DsJDWUM4riR7RKoAiRiErYnVyLekRAsu+PJdZ5AF7t9+yZu6zOwWoJEyJ
+   MZ2QghIHUewIjTp67VsRVCAoLoUj9U+zqKWq2N31MN4lYGNpwOFbd2A/+
+   RjdUA3/yIRTm4iyC441AOldbR6VRGVXGADpgCau4SXKkWb77a8KOjY1Ub
+   fNdEDHtkrX/BlDNpGV+4brh6Yyah9Q2uMcqXDqaAjFNbzFARlDU5UINPr
+   ERfZ0uLwdx6Lx42m56f/yvnPJhX7J0R1iuRqa5fgWbeBOC3zzbflaVrDe
+   w==;
+X-CSE-ConnectionGUID: P93MDucrThiUiJkTRFTJQw==
+X-CSE-MsgGUID: VcIed4+WQzKFd5zBv/Ff0A==
+X-IPAS-Result: =?us-ascii?q?A0BCBAC68Zdp/4z/Ja1aglmCSA9xX0JJA5ZLnhqBfw8BA?=
+ =?us-ascii?q?QEPNxoEAQGFBwKNHwImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGTw2GWwIBAzIBRhAgJgsrKxmDAgGCcwIBp0+CLIEB4CIBCxQBg?=
+ =?us-ascii?q?TiFPIgZawmEeicbG4FygRWDaIQKgQaFdwSCIoEOk09IgR4DWSwBVRMNCgsHB?=
+ =?us-ascii?q?YFmAzUSKhVuMh2BIz4XgQsbBwWCQoURD4kFeG6BIIEbAwsYDUgRLDcUGwQ+b?=
+ =?us-ascii?q?geOLz+CNHsTlg2SP6EOCiiDdIwelToaM4QEpmeZBoJYoSRdhGiBaDyBWXAVg?=
+ =?us-ascii?q?yIJSRkPjl+CHbwdIjUTKQIHCwEBAwmRaoF9AQE?=
+IronPort-Data: A9a23:b5/rQKtvPP035jjl/oJWqcZkPefnVAFfMUV32f8akzHdYApBsoF/q
+ tZmKWrTOq7fajekL9AgPI+39k5VvsCAn9JiHAZv+Xs1QywagMeUXt7xwmUckM+xwmwvaGo9s
  q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
  eja/YuFYTdJ5xYuajhKs/jZ8Es01BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
  47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw5+wnHnpsq
- Mcha3MHKSDf1vy/mJmrc7w57igjBJGD0II3oHpsy3TdSP0hW52GG/WM7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwtKYH49tL/Aan3XczBEsFuJjaE2+GPUigd21dABNfKLJYbRGpkIwhfwS
- mTur37GMzoWEtCj9Tve9GmJit3NsGTVcddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cHnhKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:+Gd8O6CyVgJiM9zlHemn55DYdb4zR+YMi2TDGXofdfUzSL38qy
- nAppUmPHPP5Qr5O0tQ++xoRpPhfZq0z/cciuMs1NyZMjUO1lHFEGgb1/qA/9UlcBeOkdK0Es
- xbAsxDNOE=
-X-Talos-CUID: =?us-ascii?q?9a23=3AP4Bc12r09IRx/ER5UtoTR/HmUd0vImLG7irrGgz?=
- =?us-ascii?q?7AyFZFOyLQAe76Joxxg=3D=3D?=
-X-Talos-MUID: 9a23:GaoXCAa+rYFjIuBT5yXTtRpuEstU36X1DlsonacElo6qHHkl
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwwrcsJE1T/
+ uYkKDEwbzKAu9iY/JCCVbw57igjBJGD0II3oHpsy3TdSP0hW52GG/6M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtPYH49tL/Aan3XczBEsFuJjaE2+GPUigd21dABNfKLJIzQHpgFwxvwS
+ mTuwW/YDx1Gd+Om2xmr/i++rPGIsy2jcddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cFXhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Pxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:63AmaaDOAKP8B23lHemr55DYdb4zR+YMi2TDGXofdfUzSL3+qy
+ nAppUmPHPP5Qr5HUtQ++xoW5PwJU80i6QU3WB5B97LN2PbUSmTXeRfBODZrQEIdReTygck79
+ YCT0C7Y+eAdGSTSq3BkW+FL+o=
+X-Talos-CUID: 9a23:Mio63mCJ+xGLsjr6ExE2r2s4B8s/Tn3c8XbyIHOCJ1pLcaLAHA==
+X-Talos-MUID: 9a23:lVk4tQWZJOobkVnq/AHnpTxuaIRX2raNJkxQg78Y/OeKbQUlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.21,301,1763424000"; 
-   d="scan'208";a="672374549"
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2026 05:34:44 +0000
+   d="scan'208";a="668235855"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2026 05:34:45 +0000
 Received: from sjc-ads-8556.cisco.com (sjc-ads-8556.cisco.com [171.68.222.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id B1141180001C1;
-	Fri, 20 Feb 2026 05:34:44 +0000 (GMT)
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 8DF32180005A9;
+	Fri, 20 Feb 2026 05:34:45 +0000 (GMT)
 Received: by sjc-ads-8556.cisco.com (Postfix, from userid 1847788)
-	id 581B6CC8CB9; Thu, 19 Feb 2026 21:34:44 -0800 (PST)
+	id C2675CC8CB9; Thu, 19 Feb 2026 21:34:44 -0800 (PST)
 From: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hetpat@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	vchavda@cisco.com
-Subject: [openembedded-core] [scarthgap] [PATCH v1 01/34] cve-check: encode affected product/vendor in CVE_STATUS
-Date: Thu, 19 Feb 2026 21:34:10 -0800
-Message-Id: <20260220053443.3006180-1-hetpat@cisco.com>
+Subject: [openembedded-core] [scarthgap] [PATCH v1 23/34] cve-update-db-native: fix fetcher for CVEs missing nodes
+Date: Thu, 19 Feb 2026 21:34:32 -0800
+Message-Id: <20260220053443.3006180-23-hetpat@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260220053443.3006180-1-hetpat@cisco.com>
+References: <20260220053443.3006180-1-hetpat@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 171.68.222.95, sjc-ads-8556.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 05:34:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231457
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 05:34:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231476
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-CVE_STATUS contains assesment of a given CVE, but until now it didn't have
-include the affected vendor/product. In the case of a global system include,
-that CVE_STATUS was visible in all recipes.
+As of now, update of CVE DB from FKIE source (which is the defailt)
+fails with following error:
 
-This patch allows encoding of affected product/vendor to each CVE_STATUS
-assessment, also for groups. We can then filter them later and use only
-CVEs that correspond to the recipe.
+File: '<build>/poky/meta/recipes-core/meta/cve-update-db-native.bb', lineno: 393, function: update_db_fkie
+     0389:                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVector, vectorString]).close()
+     0390:
+     0391:        for config in elt['configurations']:
+     0392:            # This is suboptimal as it doesn't handle AND/OR and negate, but is better than nothing
+ *** 0393:            for node in config["nodes"]:
+     0394:                parse_node_and_insert(conn, node, cveId, False)
+     0395:
+     0396:def update_db(d, conn, jsondata):
+     0397:    if (d.getVar("NVD_DB_VERSION") == "FKIE"):
+Exception: KeyError: 'nodes'
 
-This is going to be used in meta/conf/distro/include/cve-extra-exclusions.inc
-and similar places.
+Entry for new CVE-2025-32915 is broken.
 
-Backport Changes:
-- Discarded the changes to meta/lib/oe/spdx30_tasks.py, as the
-commit history for this file diverges from the base commit
-itself (9c9b9545049a in the scarthgap branch).
-- Additionally, the changes do not introduce any major features
-and are primarily focused on code restructuring.
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit abca80a716e92fc18d3085aba1a15f4bac72379c)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 152be29f6a732b2ba1c95bcf465455d2a5a3f33a)
 Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- meta/classes/cve-check.bbclass | 24 ++++++++++-----------
- meta/lib/oe/cve_check.py       | 39 ++++++++++++++++++++++++++--------
- 2 files changed, 42 insertions(+), 21 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 3f4704fb4e..de5ddf6f04 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -316,8 +316,8 @@ def check_cves(d, patched_cves):
-     # Convert CVE_STATUS into ignored CVEs and check validity
-     cve_ignore = []
-     for cve in (d.getVarFlags("CVE_STATUS") or {}):
--        decoded_status, _, _ = decode_cve_status(d, cve)
--        if decoded_status == "Ignored":
-+        decoded_status = decode_cve_status(d, cve)
-+        if 'mapping' in decoded_status and decoded_status['mapping'] == "Ignored":
-             cve_ignore.append(cve)
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 792252f510..320bd452f1 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -390,7 +390,7 @@ def update_db_fkie(conn, jsondata):
  
-     import sqlite3
-@@ -500,11 +500,11 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-         write_string += "CVE: %s\n" % cve
-         write_string += "CVE STATUS: %s\n" % status
--        _, detail, description = decode_cve_status(d, cve)
--        if detail:
--            write_string += "CVE DETAIL: %s\n" % detail
--        if description:
--            write_string += "CVE DESCRIPTION: %s\n" % description
-+        status_details = decode_cve_status(d, cve)
-+        if 'detail' in status_details:
-+            write_string += "CVE DETAIL: %s\n" % status_details['detail']
-+        if 'description' in status_details:
-+            write_string += "CVE DESCRIPTION: %s\n" % status_details['description']
-         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
-         write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
-@@ -632,11 +632,11 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-             "status" : status,
-             "link": issue_link
-         }
--        _, detail, description = decode_cve_status(d, cve)
--        if detail:
--            cve_item["detail"] = detail
--        if description:
--            cve_item["description"] = description
-+        status_details = decode_cve_status(d, cve)
-+        if 'detail' in status_details:
-+            cve_item["detail"] = status_details['detail']
-+        if 'description' in status_details:
-+            cve_item["description"] = status_details['description']
-         cve_list.append(cve_item)
+         for config in elt['configurations']:
+             # This is suboptimal as it doesn't handle AND/OR and negate, but is better than nothing
+-            for node in config["nodes"]:
++            for node in config.get("nodes") or []:
+                 parse_node_and_insert(conn, node, cveId, False)
  
-     package_data["issue"] = cve_list
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index 7c09b78242..767d1a6750 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -132,8 +132,8 @@ def get_patched_cves(d):
  
-     # Search for additional patched CVEs
-     for cve in (d.getVarFlags("CVE_STATUS") or {}):
--        decoded_status, _, _ = decode_cve_status(d, cve)
--        if decoded_status == "Patched":
-+        decoded_status = decode_cve_status(d, cve)
-+        if 'mapping' in decoded_status and decoded_status['mapping'] == "Patched":
-             bb.debug(2, "CVE %s is additionally patched" % cve)
-             patched_cves.add(cve)
- 
-@@ -227,22 +227,43 @@ def convert_cve_version(version):
- 
- def decode_cve_status(d, cve):
-     """
--    Convert CVE_STATUS into status, detail and description.
-+    Convert CVE_STATUS into status, vendor, product, detail and description.
-     """
-     status = d.getVarFlag("CVE_STATUS", cve)
-     if not status:
--        return ("", "", "")
-+        return {}
-+
-+    status_split = status.split(':', 5)
-+    status_out = {}
-+    status_out["detail"] = status_split[0]
-+    product = "*"
-+    vendor = "*"
-+    description = ""
-+    if len(status_split) >= 4 and status_split[1].strip() == "cpe":
-+        # Both vendor and product are mandatory if cpe: present, the syntax is then:
-+        # detail: cpe:vendor:product:description
-+        vendor = status_split[2].strip()
-+        product = status_split[3].strip()
-+        description = status_split[4].strip()
-+    elif len(status_split) >= 2 and status_split[1].strip() == "cpe":
-+        # Malformed CPE
-+        bb.warn('Invalid CPE information for CVE_STATUS[%s] = "%s", not setting CPE' % (detail, cve, status))
-+    else:
-+        # Other case: no CPE, the syntax is then:
-+        # detail: description
-+        description = status_split[len(status_split)-1].strip() if (len(status_split) > 1) else ""
- 
--    status_split = status.split(':', 1)
--    detail = status_split[0]
--    description = status_split[1].strip() if (len(status_split) > 1) else ""
-+    status_out["vendor"] = vendor
-+    status_out["product"] = product
-+    status_out["description"] = description
- 
--    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
-+    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", status_out['detail'])
-     if status_mapping is None:
-         bb.warn('Invalid detail "%s" for CVE_STATUS[%s] = "%s", fallback to Unpatched' % (detail, cve, status))
-         status_mapping = "Unpatched"
-+    status_out["mapping"] = status_mapping
- 
--    return (status_mapping, detail, description)
-+    return status_out
- 
- def extend_cve_status(d):
-     # do this only once in case multiple classes use this
 
