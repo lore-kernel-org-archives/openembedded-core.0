@@ -1,117 +1,92 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12113C55196
-	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 10:39:02 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35859.1771583933703682094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D310C55197
+	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 10:45:52 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.35926.1771584344592997665
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Feb 2026 02:38:54 -0800
+ Fri, 20 Feb 2026 02:45:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bh9FReEp;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4837907f535so17008075e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 02:38:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771583932; x=1772188732; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Hmcd739KGJH9ETMgb999X2+VAno1ltskuSRIhheI+I=;
-        b=bh9FReEpoaLwuYOvtCFTwwpAVlDA1I6Zvl4vbYl4Rrk8yzMKzpNWp0tBtUbgEun/NV
-         s+F43TAIFlr0WY/w/T1EezY4ttzxIwgVhhP3faZ2bZVJCeJ3QJJEOtzqdvu99WsHUzn2
-         5EfGJRzZdmiSiN5mizE6K70N2hOO0JU1fUHgc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771583932; x=1772188732;
-        h=in-reply-to:references:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/Hmcd739KGJH9ETMgb999X2+VAno1ltskuSRIhheI+I=;
-        b=Xd+F8lXzAIxXeyF8BC6Cno/DH9ap6h3yvet6Kkke787TcL/lW4/RunsFcxf5nvLVhO
-         z4Z89IxC4Ysqs8nH17vDd5N/oZw52BdaXZdgMjj5RS1adqkRxO7YF9GNny6p8P3rD+lQ
-         P1DLAY0/NBaTlhxjr2mXEo69WZRhk+xQ9qDZ1gb0TfccLxGRtfyGGK83HnjR5L1LJ2c4
-         +niZiLToEvXMDGGJDoq4Zn7dKXUYONF+NroW5Xs1Zo/hnaFr81KiQU9PggJWsXVowX9P
-         HxbAzyrfDmvNk4KwFeUJ+QNUeYFxZ9T6rocPHgfY/YE7hGB4SrHhIeAPwgoL9tlAdBkp
-         FeZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtuR6cuggXEe8SKsMJ21TG5GnKXRVePv2+Ghj8Rg7zkVL9Iu3IOdfZwhVgXwW3es4eKNHlS8V7HmY/GmH0KbrHTw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx6ki+T+NNoGgse0SDr14owTdYeHIvtKPemtXUJ1HjtFHIRvJ9j
-	wjAbVsfRD7gLf3wppx/E1wbtB/KiH3UIK7PtxGTLF7HzoacvUxrVfV7rt0/dhmQt12w=
-X-Gm-Gg: AZuq6aKrmb5HYDIfFEETiSlw4NLXm0364YS+JVPDTk+Sc8bcMmIi8DEq6EoZ29AUP7y
-	Zy/4pdCYbmMszfkAqL3sS+oiwft5c/Onh+2VZY+ZpE/8hbTpkQExc0n9YvaVtQzTkAZgOcxp5Rq
-	bPNbkqNln057a547XUfeDg+heZk+ParjlzyZokr7ePlt5Tf3AghupKQL8d9z936KShMatBY1Sod
-	2CksfrzKtJfcfvVPNOz4oitqIN25xV78GJLQXZZqzL4mCP8qnKS9epPrSA7/qz/jw4j3UCk05Di
-	XRC5Knid/goTukyxNRfnCCQBaTLv8EscopKPG4+67fClYRDkZsG7cEcOEUl5Kw5SEeXxqzxJgRi
-	eLF7S+rQJ+8skNWYQiJhYTeVEPfLvLEMd3SDFWZHuRtVBTILBpzO9Ta/vKH8fUcWqPiMORIlW+u
-	bQVT6V46EvlsUTTu5Xf7uvuZpQjRdvnD4hy4Z7Es0+W6T9NFhCn+DYQ6nXUQLbE3Q/vuS7WpBzD
-	AxnSSKUnBTdOCDx
-X-Received: by 2002:a05:600c:3e0d:b0:477:7b16:5f9f with SMTP id 5b1f17b1804b1-48379be7576mr363692155e9.31.1771583932011;
-        Fri, 20 Feb 2026 02:38:52 -0800 (PST)
-Received: from localhost (2a01cb001331aa00a792cb868d374456.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a792:cb86:8d37:4456])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ad0166sm55855714f8f.35.2026.02.20.02.38.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Feb 2026 02:38:51 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Feb 2026 11:38:51 +0100
-Message-Id: <DGJQ3AMFGIWX.34CKNI3RZFQUL@smile.fr>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][patch] bind: Upgrade 9.18.41 -> 9.18.44
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260212143013.75735-1-vanusuri@mvista.com>
-In-Reply-To: <20260212143013.75735-1-vanusuri@mvista.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DWD0L4X0;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Cm7pq3Na;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c7aa7ce9c-ca766818-961e-41cc-8f36-0fa0f29294d1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1771584343; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=KqdQEXWnEl5oPI8Pl2+juEla9w5PvHfa2mrZpfuqI8k=;
+	b=DWD0L4X0wnUNLO5KUarSt0tsgWzCLWC9HbNuXvbZ/e3VgSRJBpToX5aHn1gcpw37
+	7GJuYZF8sEfZgG6i1Zmnx5p2Ira0/2AoTmYCzlECUBwNrxMmItyh+lSj4wrdcRl5pMA
+	poS+1sgaVQqlXhxndzody+qbfJvJ7qA3Fwc5qoTQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771584343;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=KqdQEXWnEl5oPI8Pl2+juEla9w5PvHfa2mrZpfuqI8k=;
+	b=Cm7pq3NaKHUhaqzARS0OaXaPr49Z0J9IuH8+RW4l4P3dr0/OSoD1m3AUg8gjFPKj
+	2PCZuek1KbvRtFz2aPiuX2osSYK7AMNkYcBwV6PxRgUKC73+z2M4xzQzSJItDNhzNG6
+	CFpJbrc8kYq/zbtRyYxEYcCQvmWIKS+vMwD2Wn4E=
+From: patchtest@automation.yoctoproject.org
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] systemd 258.1: fix udev rootfs by-partuuid link generation
+In-Reply-To: <20260220103739.3758464-1-mikko.rapeli@linaro.org>
+References: <20260220103739.3758464-1-mikko.rapeli@linaro.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019c7aa7ce9c-ca766818-961e-41cc-8f36-0fa0f29294d1-000000@us-west-2.amazonses.com>
+Date: Fri, 20 Feb 2026 10:45:43 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.02.20-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 10:39:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231507
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 10:45:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231508
 
-On Thu Feb 12, 2026 at 3:30 PM CET, Vijay Anusuri via lists.openembedded.or=
-g wrote:
-> This upgrade fixes CVE-2025-13878
+--NextPart
+Content-Type: text/plain
 
-As far as I can tell, this CVE does impact whinlatter, can you send the
-upgrade for it?
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Thanks!
+---
+Testing patch /home/patchtest/share/mboxes/systemd-258.1-fix-udev-rootfs-by-partuuid-link-generation.patch
 
-> Changelog
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> https://downloads.isc.org/isc/bind9/9.18.44/doc/arm/html/notes.html
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->  .../bind/{bind_9.18.41.bb =3D> bind_9.18.44.bb}                   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-connectivity/bind/{bind_9.18.41.bb =3D> bind_9.18.44=
-.bb} (97%)
->
-> diff --git a/meta/recipes-connectivity/bind/bind_9.18.41.bb b/meta/recipe=
-s-connectivity/bind/bind_9.18.44.bb
-> similarity index 97%
-> rename from meta/recipes-connectivity/bind/bind_9.18.41.bb
-> rename to meta/recipes-connectivity/bind/bind_9.18.44.bb
-> index a83ec29bb4..d424edcb4e 100644
-> --- a/meta/recipes-connectivity/bind/bind_9.18.41.bb
-> +++ b/meta/recipes-connectivity/bind/bind_9.18.44.bb
-> @@ -20,7 +20,7 @@ SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${BPN}=
--${PV}.tar.xz \
->             file://0001-avoid-start-failure-with-bind-user.patch \
->             "
-> =20
-> -SRC_URI[sha256sum] =3D "6ddc1d981511c4da0b203b0513af131e5d15e5f1c2611457=
-36fe1f35dd1fe79d"
-> +SRC_URI[sha256sum] =3D "81f5035a25c576af1a93f0061cf70bde6d00a0c7bd1274ab=
-f73f5b5389a6f82d"
-> =20
->  UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
->  # follow the ESV versions divisible by 2
+FAIL: test Upstream-Status presence: Upstream-Status is present only after the patch scissors. It must be placed in the patch header before the scissors line. (test_patch.TestPatch.test_upstream_status_presence_format)
+
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
---=20
-Yoann Congal
-Smile ECS
-
+--NextPart--
 
