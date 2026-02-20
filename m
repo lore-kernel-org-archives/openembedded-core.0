@@ -1,250 +1,592 @@
-Return-Path: <daniel.dragomir@windriver.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3D8BC55184
-	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 10:03:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35506.1771581830809495062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBEBC55190
+	for <webhook@archiver.kernel.org>; Fri, 20 Feb 2026 10:38:12 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.35851.1771583885968703231
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Feb 2026 02:03:50 -0800
+ Fri, 20 Feb 2026 02:38:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RbPHXtMu;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6511fbdeb3=daniel.dragomir@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61K9pGeX2445370
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 02:03:50 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=c+bnumOrKWsCFE6NWZxLZhfCGBZGvWEd3rnt1154id0=; b=RbPHXtMu7avb
-	HyZOErzuLPYt5VhGhmnQ9v6+YG/7PKvGZgMsBf+qO7KPh5fNDiuNHmVEPOrlxUMD
-	15BF4/bV/UNfyiOFYbhyLHOhNsoW91e3ijD3qHahTW7X2mn/XpdMULIH+TNJBRI9
-	PdvVgvYvWhAYzD0kHY7RvKAvHPqkiNyDZlgzycHDlzeXj4Mre4O25u5mvqqchaKq
-	JahSOANauYB0ofCwt8xEiSApO8Yp9GJ2RKKbHvhQKqsr28/BG9lNkT/X8nYme1wb
-	mj8EDlTOe18QCGvtfOXkVisD0b85sXAzLfQbI83Vny08vSkx866GE2pJQpj2VyQf
-	4VXQWSZFGQ==
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011027.outbound.protection.outlook.com [52.101.52.27])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cdtuahjsc-2
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 02:03:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kXMMrURoZ1KJG1xILJqOavqqR5D3zNSQfNBLY9hVVkLOQeDbaE8VIMulkxNBvEaOT0GLDt5K/ayRLDhWGIAaSS/eqcitf6DBWra64GOxVoyvTwdGqoihev7NU7tP7WSceznMd16doib24AW2UY7VyAL45IbZLX3J4IPlC80Vl8qQHtYNoEKokDUQTES2PV9dW/ncMPbTU/4lEZ/dpYpIkDBjwUA7Mrihz5XLT5T2gSW2S12aUE/zm0FFIKM/BYxzjSxgmIdu3Gg1Pu39dyUXmcp+59D/S3IZ5znGBQA/WFoNOU7s8RPJ/3/eh0B9mzMgPcZOB6j0xkK/T/6v90iJ+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c+bnumOrKWsCFE6NWZxLZhfCGBZGvWEd3rnt1154id0=;
- b=N1PVSpFUq/PlIjSWa5sXx/LI9X7kOpbIIBr8kfRbAfF+CYVuX52jfXO4Yu/iGkVFkUiKc78YIg8woirpZG1Zje57ZxBSUcvf2JRPNhOhtuD72RR+P7oQHzZZXX6ZOOdJxA6lo0xVJ3LarHG04pdjHmuiTpACynBb6N/zTg1BnseC/RSfVe4xoSmvbou+dOFu8OtJQmdcigaU+5SXiwatt+Xkd526s0UbArAvcg7nCavs0ZaqLtwXySdgeKQEgdCKllkL4w9IMkFlSIADUfFBHtWw53UMo8yqTry2d+Q8SXDZ170eZLPSDybRA+E/QB/fZTDFI9nl6o+GZUxqe4b4sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BY1PR11MB7981.namprd11.prod.outlook.com (2603:10b6:a03:52f::12)
- by SA2PR11MB5098.namprd11.prod.outlook.com (2603:10b6:806:11c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.17; Fri, 20 Feb
- 2026 10:03:48 +0000
-Received: from BY1PR11MB7981.namprd11.prod.outlook.com
- ([fe80::f002:6d1e:9df4:52b1]) by BY1PR11MB7981.namprd11.prod.outlook.com
- ([fe80::f002:6d1e:9df4:52b1%4]) with mapi id 15.20.9632.010; Fri, 20 Feb 2026
- 10:03:48 +0000
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=Zn2WRG+Z;
+ spf=pass (domain: linaro.org, ip: 209.85.214.176, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a7d98c1879so11939175ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 02:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771583885; x=1772188685; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dWMXk/cSzpEX8qk+SbMCeiiqhyxibPqRDBcnnzIYMA8=;
+        b=Zn2WRG+ZdwDOtoyXXH6f37dqB933HdJL3jKyWnoaomU1dUDi/pPDKrrgOUJsNnbiOT
+         xJxEOcnEWrR7OL0ANtFaftKAo79taAYqy3ZAfDXAwgWZZedTPKfsG0DEJoglvHLQJiK/
+         49Aq/+uV3Iqks9YwlvfG6KhAp6mX0AswRN4Nl5IN1y2KPe8+pazWYXxM7L6cZeM5v1V9
+         qLGtgBV2wbitz7jfavaz+dZL+0zrpFXhUjaDbORkdbMxiZGimwhGZ54Nj4T7twhFsNV2
+         g3Wiwa+0lpxgxN50vgoaw2mRTqfOmS/t9X6XlMWftOu4sdE17qfOH/M3n0Pic9Q+cAFB
+         YrnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771583885; x=1772188685;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dWMXk/cSzpEX8qk+SbMCeiiqhyxibPqRDBcnnzIYMA8=;
+        b=kqD+5Ji0uOyZDRo99aOUoYJAGvcmtx+eztJQpUuFX6TVLYeTsp1H7rMX6nJHLIH2Sk
+         bcIidFEVgXBqUewPTFyIuWFYiLWj0FdO2e6jIQYXhumJFUlyd1tg+erMu6zTlUhOc+FB
+         fom51WDSsuYLC50fVR6zdqCI609ZCeVE5E2r517BUKlKt6Fuk+SnhP9ap56b7tikYRzx
+         0KeDmMT3xr4OApJwomU+lPmPBDtfxh5CnySQCzakowZdMISajFmB1afihmsHez28q19d
+         Up2ymcxfvWN9fDQXTfXKiOaQ08pE+Ic5/1C7ml/q72cduddPWiykTD1/hCwexG+yFq5G
+         Lyjg==
+X-Gm-Message-State: AOJu0YxqhoHKndDtAHlkmbmT93l1/dgleQEpWiL2vui/CTCZqR6oaKYn
+	CU0NjJfSx0x4/bw5L/taI8czg1spdjgNUeajT3AzasNrIusXOgFBfmLLkzZAaKIoMfQ8+Z1f0mG
+	IV/vAR/0=
+X-Gm-Gg: AZuq6aLU4eA6wW5UXrB/vtVElx9ntbsxHqX+xc5zerGLL5VnwcYkwP+iL0Qp+Itj2zJ
+	KcvUKqH/uTEXmuxR2FiP1ZdBMMgCWAC2qBSbrdCBRh3eewCqfLpKg7dIUyM27EpQzz0BKDlNoXi
+	ikX50ZVfILNEixSGo1EdLFbTkFzdbVJGxI9aYdIWt8gZZyICbY/c2aYwbqlpmbaWvDU6c4gSzkJ
+	f+cYs5Hw9Sw/X7XMB6hEMq9+jTaPEdbzUhhNDg2zXLlYcDjGBva0lHBh2G51s20S4ZWxXjd48f1
+	4R/3fAEHoVPgV5K/BV1AUWL0INzBOhHUgqDI3LiiKDAwLXVgYnqy0liETOa7zWDqqkFpMIwQMbb
+	XF8EjBTz/TgzTbSeVUUSG5ZFhZth1HKprzUTzXdXWJZvQtszmJCaN1UfnHHPYMosz/Y/10RMgUp
+	WGm5dQ/YDb8kutW9SO+8TiKQNMp7s4Todm4SG1eunP1z623hDvdgNvT0bclzF+2Mg8D9ViJ2uz
+X-Received: by 2002:a17:902:e803:b0:2a9:63de:b374 with SMTP id d9443c01a7336-2ad6cd16f3bmr13957155ad.3.1771583885077;
+        Fri, 20 Feb 2026 02:38:05 -0800 (PST)
+Received: from nuoska.taservs.net (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a6fa4a0sm194452535ad.14.2026.02.20.02.38.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 02:38:04 -0800 (PST)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter][PATCH] wic/engine: error on old host debugfs for standalone directory copy
-Date: Fri, 20 Feb 2026 12:03:31 +0200
-Message-Id: <20260220100331.211130-2-daniel.dragomir@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260220100331.211130-1-daniel.dragomir@windriver.com>
-References: <20260220100331.211130-1-daniel.dragomir@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR02CA0070.eurprd02.prod.outlook.com
- (2603:10a6:802:14::41) To BY1PR11MB7981.namprd11.prod.outlook.com
- (2603:10b6:a03:52f::12)
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] systemd 258.1: fix udev rootfs by-partuuid link generation
+Date: Fri, 20 Feb 2026 12:37:39 +0200
+Message-ID: <20260220103739.3758464-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PR11MB7981:EE_|SA2PR11MB5098:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14860608-2f08-4df9-2f32-08de7067576c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0ur4/DzuMAEesi4HTy/5PJkUbz7fS3BS8Xc/7eziqmNd/+I1YIHGSWJ1jLpO?=
- =?us-ascii?Q?77jC3u7jBbVP7N8C+wC37fXfHiVGlM+AnDLnbpT/3zJCXf5BRD/ARJiDWntQ?=
- =?us-ascii?Q?3M8deZxVqjvbpocUSR5M9K8lhyZ3sNf6qTjE4MMmmzChs6sbrrTwvZvkm79t?=
- =?us-ascii?Q?lEJc0Oi27Oj9n5Tsi4KaEWVq2sBk/zV9S4hwznznEQP6xetm+vgt4bfhPy0y?=
- =?us-ascii?Q?lXZkcRDjou9KOqdTtf8uRAt6OVtADKfr1OzQUgY16X7nZ3VHNI33M0LH7CTs?=
- =?us-ascii?Q?BvSnKAtxfphdHbGTly4BjYBA8e8h6SlEYQtkYTetU3TqnurOecFHU5eSwzlO?=
- =?us-ascii?Q?AAkUOMqMmny7/VFc942ffu6mCWr3yjne0e+oRxoG0km7vKh+i6Mud+bzwtD4?=
- =?us-ascii?Q?717pzkYo9CZjNqgzXRpYOU6Lbt//vGcjCdC2FBelxUeXP4VVJrcosWmvzNZk?=
- =?us-ascii?Q?GZ2o9KCjTiJxFpQtU1cLn5C+VmreaHNnHwQM5TOV1njafQ9dBMFMwPQkb1+8?=
- =?us-ascii?Q?ThwehNlSS/XiW3MJ1gjVB7BF/F2TDrS7mdBZjjNsQpR0Eo6WEFsAb9PY7R13?=
- =?us-ascii?Q?VnkFBZckr2yImpjMhVjXzJn2xNe1BLZkyrbsV1acjy48o9DyTbSdLi0t3Raj?=
- =?us-ascii?Q?onhll1V5CaHJIsTiPrdxFzJAP17cA2WBr7h/r1o3jkS9dw41XeF6Zeh/bFuT?=
- =?us-ascii?Q?b+CoWC9+Q2wIhKpXRRVJaNYAscEQFw3Qnb1O8iXn5gX5TbjvghQCDbicQ2XD?=
- =?us-ascii?Q?T6WwFJfATLcadYoyaWFs9AzbbDdCDggmNPsgmhmkdOGIJxyhI38/heCm3iYv?=
- =?us-ascii?Q?5w/dbbvsbngnp2T2DcRrvfSnOJKy7IaOw56c60j63GCuR0wmlAPNlOfcDGqc?=
- =?us-ascii?Q?i4AIug91Dq3nRB6bZ55ifbcBJOgtlxUqkoy7nrVucXzYIIIMDGwrX/wNfIZU?=
- =?us-ascii?Q?jE5BXSLWUbRmH0Iuq/l5MtLrJiltGkJP2mnvR3lq70yG+rzUhbxlYxuXa8+4?=
- =?us-ascii?Q?xyaMae5Kbqb9fs0khgVzHNrJrH7N7WSUApykFJqpwVJehZlcLFKo7F+pNKX3?=
- =?us-ascii?Q?7CVf3ohxfS18w+x9bOMvY2WOINoehXbx3tsFhTBWFOex8CMAr6M7P2oUVhJE?=
- =?us-ascii?Q?Ubf4OhaV3+bo9alwRzF9XDP5vRag5R3NHG2cbzB7476ojMzfx4ND1qPBpdB2?=
- =?us-ascii?Q?rG/UTDh3RYe9nRyr1wDvkXDeUJr0GB6up3enAzJ9F2YBm6favqyxpl2b5/VJ?=
- =?us-ascii?Q?986Dz1OMrYS3TSyOSFZhZZh4fQCV9F4FhtjRvSOie948zPttct2LQHPINMJz?=
- =?us-ascii?Q?jsrUGM5eyzLkdfwz3w7Cg7HjGTJyIUolpJJv7lQ5LL+9kgEARFkCcWvcVG4v?=
- =?us-ascii?Q?1vckz4v3khjcK1wewuLOFQqybhRcGasxnhnhWAxHOoXhiVUWOtukptFg6FgG?=
- =?us-ascii?Q?Ag9pif3ysfET/E79y3I3iwpXy+zNG06sW6LQbXk0uE4pW9NkHnmaWp5zvdQo?=
- =?us-ascii?Q?jONnJcbvENMFYx04+DKTCvmxj3F/3SXZFpxeLSPZKN+hA+qSpPHRpnE6hvSo?=
- =?us-ascii?Q?uPDiFYHAgZvf5iLFnj1PJYidgzkKPovOt10+5dLbvxj9yX44/aj7hl5jWiYi?=
- =?us-ascii?Q?C5Lsf8gcXzlm50VAhUcJ9Gc=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB7981.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Or110rUEvDmkwvs/RnE+UIZVpudj4KvKGtE4AT8Xg48qGbxMgn0oRBUtyaWn?=
- =?us-ascii?Q?rDQnLX8dY/zAdwtoWquNvxuauFFOEQ1OssbC6+PhPqWf5WGB/kklZ2oQXIGa?=
- =?us-ascii?Q?/hVWomVaTMWUWoXqijHVVStdvqW7wGmtkAKhAlXGQKozMymdKNQCrs6JEqnp?=
- =?us-ascii?Q?jFd889eDFAcWrBo/68oauX5NmQqzn2MjHLH2YWGWzDWlHfhibIvju47Bq4Kz?=
- =?us-ascii?Q?HYx8B9vQMZACmmSfGLsiIbMfg94p6R6OJF6vrSuuGDjsSrqdqsVS0snTSfM0?=
- =?us-ascii?Q?FnrKI2sGX7GtRYOCQllfBMq91TWr0N6Uj6YBeRWiPKduXh2l2scaO97vDpLT?=
- =?us-ascii?Q?BJT666cQ3hGGbH4il0fnm20wqH61VGu9nZAQkOpvtyqvjVpGYDs4ru4E81FZ?=
- =?us-ascii?Q?0+H9iZWRzSVw0u4BM7HzcXBfeYEcu5HrLRo8IP6ucAnu/2qrv48XwwIhMiPK?=
- =?us-ascii?Q?iNpNLdduPeJjNff4ht1o2rxcUCgrmPNn7FWFWi9j9kmiVgM9ImHKzlhq03Zv?=
- =?us-ascii?Q?I3tA/SMA+lnT8AHapXcVvWvKbGFKwHDPAWOuIWvmZrG8CCzceLUKUUj0+kj6?=
- =?us-ascii?Q?dW8DADmca3G6kD/nbW5WML6/w2M6E7wtt2lVnSaKodT8VJFZAQB9KzrfbkVx?=
- =?us-ascii?Q?dFSRkCOdSDMDqN1v+84AXb/SgEMXUjK+C7CfM0Ne0HPsck62SoBN7RR/mERx?=
- =?us-ascii?Q?QM2bM7gWKHq32Vc9HPPxMI9HT6GtYFNhzWh7EVfJlupUJt4jHx9VBAK+cLgn?=
- =?us-ascii?Q?yAFbUqu6xlvhkwjHjqfoYOUwsjsJPAJcPjewv7P3tW3rn8gZRj91mKUdfwfZ?=
- =?us-ascii?Q?qO+PJ/1bKeBJnCKZV6i7PQcO2Iov6JkOaLr6pUt7q/rAjnfz8FAgsl7LCUBx?=
- =?us-ascii?Q?DNmotEKlL2p4iMEEYimoEtDFR+t9KON6tp3ekfdIPfG6MeQ+Swqp9AJdh+SJ?=
- =?us-ascii?Q?g1hs8biK45Iynwrv7gn3bnoHpjmlYBq0AMvQ7cpbOHau73UDnFjQ7HZ13E3D?=
- =?us-ascii?Q?ca7Cihu2RkcNlhfRXRcbwtqnkHnRIujMNA032IX52jxoy245AduEHOxn3BsU?=
- =?us-ascii?Q?7MFvjIHBvO9a2V9H7YP/4dC/UqYyd+SX2f2HzwaZ3p61FO9LS6K+bbgATezH?=
- =?us-ascii?Q?2JVtTJ95VER1Ykn7ixC6DkD8u1P/5wbkqZ3CcSL4pP5y36cxrF8wZ/9Z6Cyd?=
- =?us-ascii?Q?048pn3Gpf8ACnd7S5FNMn8XCzRFqmYY3X8rdCEaqkoNHLy+obSyn3VWYZqBF?=
- =?us-ascii?Q?RqrMura81Gj4sYTPAZ/WZICNmRumKtW6gd3bhAspL1F1TRlTVyg5cVwVxbnT?=
- =?us-ascii?Q?fXmBspOqfkPuSukCWWsxJG60yzGug087xL+tI7E6dTAkBlgPRgafUxCHC+ic?=
- =?us-ascii?Q?tIVSWAJLa4JK+i+MDMM7Nb+bqTGSDVYamAQY5068HAAaQxF/wg7c5izlYkkV?=
- =?us-ascii?Q?tbkIcan6pu9q4ctBA5I5dRQ+mCcz0Lr+X6PXoaM2r224saCHo8agdaE70UDC?=
- =?us-ascii?Q?/EWtEJ4Rnww157jyrYBvv7kArFfttk7m58wSN7LOTCcuDhP+oTNam4f+Dxri?=
- =?us-ascii?Q?AoFE2Zqq3exr4cFfazxjGccE1jSOIyCLs0I0cFQzhjpitllVa1dhcqIwcfSY?=
- =?us-ascii?Q?YJ0x8aWA5ASjF0X43titQMOn2ylGwWYIefRbL60qxHRXUU8v3FCtr1YdlwyF?=
- =?us-ascii?Q?40hjmJhEV/tsvIdjajiWQb1NuMCJ1JAbStSJm2PuLaohB2a+Wsn4SQeqZa+j?=
- =?us-ascii?Q?6orVBeq74JczuVngUVxpAxGbBEdEqMI=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14860608-2f08-4df9-2f32-08de7067576c
-X-MS-Exchange-CrossTenant-AuthSource: BY1PR11MB7981.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 10:03:48.5507
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8sq4le1Nf9ltwg/DHQnF9FAJ8EzysqBc30N0A9XTjuNh1ZPLJwnjY7yz2oyfcOGim57kNVsfK3qdAmI+xTUP96/O+W72gV3v5T1FfG0O89c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5098
-X-Authority-Analysis: v=2.4 cv=OqxCCi/t c=1 sm=1 tr=0 ts=69983186 cx=c_pps
- a=uKk6FyUS+xKIvFCPM6xM7A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
- a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=eUBKwln-REtu_DbdvHUA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-GUID: vya-sF3Eqy8Q9Yn1VVBB0a2jW_rWIZ3_
-X-Proofpoint-ORIG-GUID: vya-sF3Eqy8Q9Yn1VVBB0a2jW_rWIZ3_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIwMDA4NyBTYWx0ZWRfX+AeXxfNuDjG4
- ACK45XWu8HOeUkqgXN+S1ovrlsWAlOmGEgC+7p/zE2nyUi8L1dpBNffo7i+G0cmil5FPR5xC3cR
- 6hl5gDCa0YkFCPy9oVUAAZEJGUi9DqnoAwlHo6n7PFPQW9cK9xRRfvCw7BU4ofEOGHnt0AyRg7x
- xP3VP4q4Znoc4n9xDzbWF6lcporzZQGM709keGMF+ECJZWhw4nLkOFaJUoYBbnsn8drbWvcAeIb
- YefgsYxCvBbSSMwdMOyYnD4sMYpCY9k9lTB8jGjZSJWLg51v9APUzP9OHtHw6CaWMRGridtAMPt
- n7DOrA3NaeuaTKBpq+Rr82n9x/N7c4Rb9AmTwRY1bM+exSDK90MUrkQITYmJG4dZnZ4QKaQT7m8
- El/U48GRq+5VgOum30U9fCPjBPIUm+o2Z4xrWlvbW8HoI56Lmor1Af7qUjZqwPP2+00EKQ9ixvT
- SdYrqHOjxxRcj17mi6Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-20_01,2026-02-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 phishscore=0 clxscore=1015 priorityscore=1501
- spamscore=0 malwarescore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602200087
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 10:03:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231505
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 10:38:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231506
 
-When wic is used in standalone mode, it relies on host tools such as
-debugfs. For directory host->image copies into ext* partitions, wic
-uses scripted debugfs "-f" input with multiple mkdir/write commands.
+systemd update from 257 to 258 broke genericarm64 machine boot
+on Renesas SMARC EVK board. The firmware and kernel drivers
+trigger a lot of udev events and the changed event priority handling
+meant that rootfs by-partuuid link was not generated inside
+initramfs even when all needed kernel drivers were loaded
+and correct block devices were detected.
 
-Older host debugfs versions (< 1.46.5) may behave unreliably in this
-mode and can silently miss files. This does not affect builds using
-debugfs from OE where the version is known to be sufficiently new.
+Backported patches from main branch fix the issue. The patches
+have been queued to upstream v258 and v259 stable branches.
 
-Add a debugfs version check and emit an error when an older host
-debugfs is detected. The error is shown once per run and halts execution.
+For details see:
+https://github.com/systemd/systemd/issues/40654
 
-Changes in v2:
-- adjust the last working debugfs version to 1.46.5
-
-Changes in v3:
-- switch debugfs check from warning to error
-
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- scripts/lib/wic/engine.py | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ .../systemd/0001-udev-move-functions.patch    | 186 ++++++++++++
+ ...-not-build-full-list-of-dependencies.patch | 286 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_258.1.bb    |   2 +
+ 3 files changed, 474 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 9d596be3a7..8682ca3176 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -222,6 +222,34 @@ def wic_list(args, scripts_path):
+diff --git a/meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch b/meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch
+new file mode 100644
+index 000000000000..3014d7650943
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-udev-move-functions.patch
+@@ -0,0 +1,186 @@
++From 6d558b28c7c42ccaea4c562f10f8c221e5920bab Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Wed, 21 Jan 2026 12:32:50 +0900
++Subject: [PATCH 1/2] udev: move functions
++
++Nothing changed except for the functions are moved.
++Preparation for the next commit, where worker_detach_event() will be
++used in on_worker_exit().
++---
++ src/udev/udev-manager.c | 150 ++++++++++++++++++++--------------------
++ 1 file changed, 75 insertions(+), 75 deletions(-)
++
++Upstream-Status: Backport
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++
++diff --git a/src/udev/udev-manager.c b/src/udev/udev-manager.c
++index be25c53702c9..fa0a5f11cdea 100644
++--- a/src/udev/udev-manager.c
+++++ b/src/udev/udev-manager.c
++@@ -390,6 +390,81 @@ void manager_revert(Manager *manager) {
++         manager_kill_workers(manager, SIGTERM);
++ }
++ 
+++static int on_worker_timeout_kill(sd_event_source *s, uint64_t usec, void *userdata) {
+++        Worker *worker = ASSERT_PTR(userdata);
+++        Manager *manager = ASSERT_PTR(worker->manager);
+++        Event *event = ASSERT_PTR(worker->event);
+++
+++        (void) pidref_kill_and_sigcont(&worker->pidref, manager->config.timeout_signal);
+++        worker->state = WORKER_KILLED;
+++
+++        log_device_error(event->dev, "Worker ["PID_FMT"] processing SEQNUM=%"PRIu64" killed.", worker->pidref.pid, event->seqnum);
+++        return 0;
+++}
+++
+++static int on_worker_timeout_warning(sd_event_source *s, uint64_t usec, void *userdata) {
+++        Worker *worker = ASSERT_PTR(userdata);
+++        Event *event = ASSERT_PTR(worker->event);
+++
+++        log_device_warning(event->dev, "Worker ["PID_FMT"] processing SEQNUM=%"PRIu64" is taking a long time.", worker->pidref.pid, event->seqnum);
+++        return 0;
+++}
+++
+++static void worker_attach_event(Worker *worker, Event *event) {
+++        Manager *manager = ASSERT_PTR(ASSERT_PTR(worker)->manager);
+++
+++        assert(event);
+++        assert(event->state == EVENT_QUEUED);
+++        assert(!event->worker);
+++        assert(IN_SET(worker->state, WORKER_UNDEF, WORKER_IDLE));
+++        assert(!worker->event);
+++
+++        worker->state = WORKER_RUNNING;
+++        worker->event = event;
+++        event->state = EVENT_RUNNING;
+++        event->worker = worker;
+++
+++        (void) event_reset_time_relative(
+++                        manager->event,
+++                        &worker->timeout_warning_event_source,
+++                        CLOCK_MONOTONIC,
+++                        udev_warn_timeout(manager->config.timeout_usec),
+++                        USEC_PER_SEC,
+++                        on_worker_timeout_warning,
+++                        worker,
+++                        EVENT_PRIORITY_WORKER_TIMER,
+++                        "worker-timeout-warn",
+++                        /* force_reset= */ true);
+++
+++        (void) event_reset_time_relative(
+++                        manager->event,
+++                        &worker->timeout_kill_event_source,
+++                        CLOCK_MONOTONIC,
+++                        manager_kill_worker_timeout(manager),
+++                        USEC_PER_SEC,
+++                        on_worker_timeout_kill,
+++                        worker,
+++                        EVENT_PRIORITY_WORKER_TIMER,
+++                        "worker-timeout-kill",
+++                        /* force_reset= */ true);
+++}
+++
+++static Event* worker_detach_event(Worker *worker) {
+++        assert(worker);
+++
+++        Event *event = TAKE_PTR(worker->event);
+++        if (event)
+++                assert_se(TAKE_PTR(event->worker) == worker);
+++
+++        if (worker->state != WORKER_KILLED)
+++                worker->state = WORKER_IDLE;
+++
+++        (void) event_source_disable(worker->timeout_warning_event_source);
+++        (void) event_source_disable(worker->timeout_kill_event_source);
+++
+++        return event;
+++}
+++
++ static int on_sigchld(sd_event_source *s, const siginfo_t *si, void *userdata) {
++         _cleanup_(worker_freep) Worker *worker = ASSERT_PTR(userdata);
++         sd_device *dev = worker->event ? ASSERT_PTR(worker->event->dev) : NULL;
++@@ -470,81 +545,6 @@ static int worker_new(Worker **ret, Manager *manager, sd_device_monitor *worker_
++         return 0;
++ }
++ 
++-static int on_worker_timeout_kill(sd_event_source *s, uint64_t usec, void *userdata) {
++-        Worker *worker = ASSERT_PTR(userdata);
++-        Manager *manager = ASSERT_PTR(worker->manager);
++-        Event *event = ASSERT_PTR(worker->event);
++-
++-        (void) pidref_kill_and_sigcont(&worker->pidref, manager->config.timeout_signal);
++-        worker->state = WORKER_KILLED;
++-
++-        log_device_error(event->dev, "Worker ["PID_FMT"] processing SEQNUM=%"PRIu64" killed.", worker->pidref.pid, event->seqnum);
++-        return 0;
++-}
++-
++-static int on_worker_timeout_warning(sd_event_source *s, uint64_t usec, void *userdata) {
++-        Worker *worker = ASSERT_PTR(userdata);
++-        Event *event = ASSERT_PTR(worker->event);
++-
++-        log_device_warning(event->dev, "Worker ["PID_FMT"] processing SEQNUM=%"PRIu64" is taking a long time.", worker->pidref.pid, event->seqnum);
++-        return 0;
++-}
++-
++-static void worker_attach_event(Worker *worker, Event *event) {
++-        Manager *manager = ASSERT_PTR(ASSERT_PTR(worker)->manager);
++-
++-        assert(event);
++-        assert(event->state == EVENT_QUEUED);
++-        assert(!event->worker);
++-        assert(IN_SET(worker->state, WORKER_UNDEF, WORKER_IDLE));
++-        assert(!worker->event);
++-
++-        worker->state = WORKER_RUNNING;
++-        worker->event = event;
++-        event->state = EVENT_RUNNING;
++-        event->worker = worker;
++-
++-        (void) event_reset_time_relative(
++-                        manager->event,
++-                        &worker->timeout_warning_event_source,
++-                        CLOCK_MONOTONIC,
++-                        udev_warn_timeout(manager->config.timeout_usec),
++-                        USEC_PER_SEC,
++-                        on_worker_timeout_warning,
++-                        worker,
++-                        EVENT_PRIORITY_WORKER_TIMER,
++-                        "worker-timeout-warn",
++-                        /* force_reset = */ true);
++-
++-        (void) event_reset_time_relative(
++-                        manager->event,
++-                        &worker->timeout_kill_event_source,
++-                        CLOCK_MONOTONIC,
++-                        manager_kill_worker_timeout(manager),
++-                        USEC_PER_SEC,
++-                        on_worker_timeout_kill,
++-                        worker,
++-                        EVENT_PRIORITY_WORKER_TIMER,
++-                        "worker-timeout-kill",
++-                        /* force_reset = */ true);
++-}
++-
++-static Event* worker_detach_event(Worker *worker) {
++-        assert(worker);
++-
++-        Event *event = TAKE_PTR(worker->event);
++-        if (event)
++-                assert_se(TAKE_PTR(event->worker) == worker);
++-
++-        if (worker->state != WORKER_KILLED)
++-                worker->state = WORKER_IDLE;
++-
++-        (void) event_source_disable(worker->timeout_warning_event_source);
++-        (void) event_source_disable(worker->timeout_kill_event_source);
++-
++-        return event;
++-}
++-
++ static int worker_spawn(Manager *manager, Event *event) {
++         int r;
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch b/meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch
+new file mode 100644
+index 000000000000..837b4a6cc6cc
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0002-udev-do-not-build-full-list-of-dependencies.patch
+@@ -0,0 +1,286 @@
++From 4fa4b289f6002a02aae0f4e4358a27204c39c3b2 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Sat, 17 Jan 2026 04:14:05 +0900
++Subject: [PATCH 2/2] udev: do not build full list of dependencies
++
++Suppose the following dependent events are queued:
++
++A(1000) -> C(1002)
++                   \
++                     --> E(1004)
++                   /
++B(1001) -> D(1003)
++
++Here, each number is the seqnum of the event, and A -> B means that
++event B depends on event A, that is, event B cannot be started until
++event A is processed.
++
++In this case, to know if event E can be started, we only need to check
++if event C and D are processed, and not necessary to check the state of
++event A or B.
++
++However, the commit e1ae931064be9483aa98249294f6e195537f43d1 introduced
++full dependency list (in the above example, all A, B, C, D are listed as
++the blocker for E), but it is overkill and most information is not necessary.
++Also, before the commit e1ae931064be9483aa98249294f6e195537f43d1, we
++found blocker from the beginning of the queued events, but that's also
++not necessary, as even A is processed, still C may be queued, and we
++anyway need to check if C is processed or not.
++
++This makes each event only stores the last blocker event for the event,
++and finds the blocker from the end of the queue. With this change, the
++memory cost can be reduced from O(n^2) to O(n). Also, as previously we
++used Set for managing blockers, but now we only increment/decrement
++the reference counter of events, so the speed should be also improved.
++
++Fixes #39583 and #39817.
++---
++ src/udev/udev-manager.c | 107 +++++++++++++++++++++-------------------
++ 1 file changed, 55 insertions(+), 52 deletions(-)
++
++Upstream-Status: Backport
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++
++diff --git a/src/udev/udev-manager.c b/src/udev/udev-manager.c
++index fa0a5f11cdea..6f75756e0757 100644
++--- a/src/udev/udev-manager.c
+++++ b/src/udev/udev-manager.c
++@@ -53,9 +53,14 @@ typedef enum EventState {
++         EVENT_QUEUED,
++         EVENT_RUNNING,
++         EVENT_LOCKED,
+++        EVENT_PROCESSED,
++ } EventState;
++ 
++ typedef struct Event {
+++        /* All events that have not been processed (state != EVENT_PROCESSED) are referenced by the Manager.
+++         * Additionally, an event may be referenced by events blocked by this event. See event_find_blocker(). */
+++        unsigned n_ref;
+++
++         Manager *manager;
++         Worker *worker;
++         EventState state;
++@@ -76,9 +81,8 @@ typedef struct Event {
++         char *whole_disk;
++         LIST_FIELDS(Event, same_disk);
++ 
++-        bool dependencies_built;
++-        Set *blocker_events;
++-        Set *blocking_events;
+++        /* The last blocker for this event. This event must not be processed before the blocker is processed. */
+++        Event *blocker;
++ 
++         LIST_FIELDS(Event, event);
++ } Event;
++@@ -101,21 +105,6 @@ typedef struct Worker {
++         Event *event;
++ } Worker;
++ 
++-static void event_clear_dependencies(Event *event) {
++-        assert(event);
++-
++-        Event *e;
++-        while ((e = set_steal_first(event->blocker_events)))
++-                assert_se(set_remove(e->blocking_events, event) == event);
++-        event->blocker_events = set_free(event->blocker_events);
++-
++-        while ((e = set_steal_first(event->blocking_events)))
++-                assert_se(set_remove(e->blocker_events, event) == event);
++-        event->blocking_events = set_free(event->blocking_events);
++-
++-        event->dependencies_built = false;
++-}
++-
++ static void event_unset_whole_disk(Event *event) {
++         Manager *manager = ASSERT_PTR(ASSERT_PTR(event)->manager);
++ 
++@@ -140,6 +129,10 @@ static void event_unset_whole_disk(Event *event) {
++         event->whole_disk = mfree(event->whole_disk);
++ }
++ 
+++static Event* event_free(Event *event);
+++DEFINE_PRIVATE_TRIVIAL_REF_UNREF_FUNC(Event, event, event_free);
+++DEFINE_TRIVIAL_CLEANUP_FUNC(Event*, event_unref);
+++
++ static Event* event_free(Event *event) {
++         if (!event)
++                 return NULL;
++@@ -156,14 +149,25 @@ static Event* event_free(Event *event) {
++         if (event->worker)
++                 event->worker->event = NULL;
++ 
++-        event_clear_dependencies(event);
+++        event_unref(event->blocker);
++ 
++         sd_device_unref(event->dev);
++ 
++         return mfree(event);
++ }
++ 
++-DEFINE_TRIVIAL_CLEANUP_FUNC(Event*, event_free);
+++static Event* event_enter_processed(Event *event) {
+++        if (!event)
+++                return NULL;
+++
+++        if (event->state == EVENT_PROCESSED)
+++                return NULL;
+++
+++        event->state = EVENT_PROCESSED;
+++        return event_unref(event);
+++}
+++
+++DEFINE_TRIVIAL_CLEANUP_FUNC(Event*, event_enter_processed);
++ 
++ static Worker* worker_free(Worker *worker) {
++         if (!worker)
++@@ -176,7 +180,6 @@ static Worker* worker_free(Worker *worker) {
++         sd_event_source_unref(worker->timeout_warning_event_source);
++         sd_event_source_unref(worker->timeout_kill_event_source);
++         pidref_done(&worker->pidref);
++-        event_free(worker->event);
++ 
++         return mfree(worker);
++ }
++@@ -200,8 +203,8 @@ Manager* manager_free(Manager *manager) {
++         udev_rules_free(manager->rules);
++ 
++         hashmap_free(manager->workers);
++-        while (manager->events)
++-                event_free(manager->events);
+++        LIST_FOREACH(event, event, manager->events)
+++                event_enter_processed(event);
++ 
++         prioq_free(manager->locked_events_by_time);
++         hashmap_free(manager->locked_events_by_disk);
++@@ -467,7 +470,8 @@ static Event* worker_detach_event(Worker *worker) {
++ 
++ static int on_sigchld(sd_event_source *s, const siginfo_t *si, void *userdata) {
++         _cleanup_(worker_freep) Worker *worker = ASSERT_PTR(userdata);
++-        sd_device *dev = worker->event ? ASSERT_PTR(worker->event->dev) : NULL;
+++        _cleanup_(event_enter_processedp) Event *event = worker_detach_event(worker);
+++        sd_device *dev = event ? ASSERT_PTR(event->dev) : NULL;
++ 
++         assert(si);
++ 
++@@ -647,17 +651,21 @@ bool devpath_conflict(const char *a, const char *b) {
++         return *a == '/' || *b == '/' || *a == *b;
++ }
++ 
++-static int event_build_dependencies(Event *event) {
++-        int r;
++-
+++static void event_find_blocker(Event *event) {
++         assert(event);
++ 
++         /* lookup event for identical, parent, child device */
++ 
++-        if (event->dependencies_built)
++-                return 0;
+++        if (event->blocker && event->blocker->state != EVENT_PROCESSED)
+++                /* Previously found blocker is not processed yet. */
+++                return;
+++
+++        /* If we have not found blocker yet, or the previously found blocker has been processed, let's find
+++         * (another) blocker for this event. */
+++        LIST_FOREACH_BACKWARDS(event, e, (event->blocker ?: event)->event_prev) {
+++                if (e->state == EVENT_PROCESSED)
+++                        continue;
++ 
++-        LIST_FOREACH_BACKWARDS(event, e, event->event_prev) {
++                 if (!streq_ptr(event->id, e->id) &&
++                     !devpath_conflict(event->devpath, e->devpath) &&
++                     !devpath_conflict(event->devpath, e->devpath_old) &&
++@@ -665,22 +673,16 @@ static int event_build_dependencies(Event *event) {
++                     !(event->devnode && streq_ptr(event->devnode, e->devnode)))
++                         continue;
++ 
++-                r = set_ensure_put(&event->blocker_events, NULL, e);
++-                if (r < 0)
++-                        return r;
++-
++-                r = set_ensure_put(&e->blocking_events, NULL, event);
++-                if (r < 0) {
++-                        assert_se(set_remove(event->blocker_events, e) == e);
++-                        return r;
++-                }
++-
++                 log_device_debug(event->dev, "SEQNUM=%" PRIu64 " blocked by SEQNUM=%" PRIu64,
++                                  event->seqnum, e->seqnum);
+++
+++                unref_and_replace_full(event->blocker, e, event_ref, event_unref);
+++                return;
++         }
++ 
++-        event->dependencies_built = true;
++-        return 0;
+++        /* No new blocker is found, and if set, previously found blocker has been processed. Clear the
+++         * previous blocker if set. */
+++        event->blocker = event_unref(event->blocker);
++ }
++ 
++ static bool manager_can_process_event(Manager *manager) {
++@@ -737,14 +739,10 @@ static int event_queue_start(Manager *manager) {
++                 if (event->state != EVENT_QUEUED)
++                         continue;
++ 
++-                r = event_build_dependencies(event);
++-                if (r < 0)
++-                        log_device_warning_errno(event->dev, r,
++-                                                 "Failed to check dependencies for event (SEQNUM=%"PRIu64", ACTION=%s), ignoring: %m",
++-                                                 event->seqnum, strna(device_action_to_string(event->action)));
+++                event_find_blocker(event);
++ 
++                 /* do not start event if parent or child event is still running or queued */
++-                if (!set_isempty(event->blocker_events))
+++                if (event->blocker)
++                         continue;
++ 
++                 r = event_run(event);
++@@ -920,11 +918,12 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
++         if (r < 0 && r != -ENOENT)
++                 return r;
++ 
++-        _cleanup_(event_freep) Event *event = new(Event, 1);
+++        _cleanup_(event_unrefp) Event *event = new(Event, 1);
++         if (!event)
++                 return -ENOMEM;
++ 
++         *event = (Event) {
+++                .n_ref = 1,
++                 .dev = sd_device_ref(dev),
++                 .seqnum = seqnum,
++                 .action = action,
++@@ -936,6 +935,9 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
++                 .locked_event_prioq_index = PRIOQ_IDX_NULL,
++         };
++ 
+++        /* The kernel sometimes sends events in a wrong order, and we may receive an event with smaller
+++         * SEQNUM after one with larger SEQNUM. To workaround the issue, let's reorder events if necessary. */
+++
++         Event *prev = NULL;
++         LIST_FOREACH_BACKWARDS(event, e, manager->last_event) {
++                 if (e->seqnum < event->seqnum) {
++@@ -947,8 +949,9 @@ static int event_queue_insert(Manager *manager, sd_device *dev) {
++                                                         "The event (SEQNUM=%"PRIu64") has been already queued.",
++                                                         event->seqnum);
++ 
++-                /* Inserting an event in an earlier place may change dependency tree. Let's rebuild it later. */
++-                event_clear_dependencies(e);
+++                /* The inserted event may be a blocker of an already queued event, hence the already found
+++                 * blocker may not be the last one. Let's find the last blocker again later. */
+++                e->blocker = event_unref(e->blocker);
++         }
++ 
++         LIST_INSERT_AFTER(event, manager->events, prev, event);
++@@ -1207,7 +1210,7 @@ static int on_worker_notify(sd_event_source *s, int fd, uint32_t revents, void *
++                 return 0;
++         }
++ 
++-        _cleanup_(event_freep) Event *event = worker_detach_event(worker);
+++        _cleanup_(event_enter_processedp) Event *event = worker_detach_event(worker);
++ 
++         if (strv_contains(l, "TRY_AGAIN=1")) {
++                 /* Worker cannot lock the device. */
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/systemd/systemd_258.1.bb b/meta/recipes-core/systemd/systemd_258.1.bb
+index fdf4dc5bdc65..729450b60469 100644
+--- a/meta/recipes-core/systemd/systemd_258.1.bb
++++ b/meta/recipes-core/systemd/systemd_258.1.bb
+@@ -33,6 +33,8 @@ SRC_URI += " \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0002-implment-systemd-sysv-install-for-OE.patch \
+            file://0003-Do-not-create-var-log-README.patch \
++           file://0001-udev-move-functions.patch \
++           file://0002-udev-do-not-build-full-list-of-dependencies.patch \
+            "
  
-     return False
- 
-+_DEBUGFS_VERSION = None
-+
-+def debugfs_version_check(debugfs_path, min_ver=(1, 46, 5)):
-+    global _DEBUGFS_VERSION
-+
-+    if _DEBUGFS_VERSION is None:
-+        out = ""
-+        for flag in ("-V", "-v"):
-+            try:
-+                out = exec_cmd(f"{debugfs_path} {flag}")
-+                break
-+            except Exception:
-+                continue
-+
-+        import re
-+        m = re.search(r"(\d+)\.(\d+)\.(\d+)", out or "")
-+        _DEBUGFS_VERSION = tuple(map(int, m.groups())) if m else None
-+
-+    ver = _DEBUGFS_VERSION
-+
-+    if ver is not None and ver < min_ver:
-+        raise WicError(
-+            "Sorry, debugfs 1.46.5 or later is required for this script. "
-+            "Older versions of debugfs can make directory copies into ext* partitions "
-+            "via scripted debugfs (-f) unreliable or broken. Detected version: %s"
-+            % (".".join(map(str, ver)) if ver else "unknown")
-+        )
-+
- 
- class Disk:
-     def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext')):
-@@ -352,6 +380,7 @@ class Disk:
-         if self.partitions[pnum].fstype.startswith('ext'):
-             if isinstance(src, str): # host to image case
-                 if os.path.isdir(src):
-+                    debugfs_version_check(self.debugfs)
-                     base = os.path.abspath(src)
-                     base_parent = os.path.dirname(base)
-                     cmds = []
+ # patches needed by musl
 -- 
-2.25.1
+2.34.1
 
 
