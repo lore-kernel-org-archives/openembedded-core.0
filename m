@@ -1,468 +1,233 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8A1C61DE5
-	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 10:45:35 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.7])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16946.1771666026829811057
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3491DC61DE5
+	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 12:15:56 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18758.1771676146651627513
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Feb 2026 01:27:07 -0800
+ Sat, 21 Feb 2026 04:15:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=O/5z+fLv;
- spf=pass (domain: est.tech, ip: 52.101.65.7, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dn5EDA4DsZqjttco6U1gEHBfdBoIZenjdTwKa8DS1XdTqi7d8OkxTZHych/LSKtKAkc+eJ3h6QUSFR97t75YNY5AoRt7A49KYACYdi0E54gj2Dv3+BK73/KZuhdAmzs+72R4fhhgo+yk/WR+mW4NKQXLrF4inu8wLOnlAxg5RKOMpi8KUtF+d8lpViPsHy/D8wm2T9p81Kv1R13c3X9z/X7ivBvSjFjOout3wTxSRSH8NwAxJ5bJJPiJTDSTo9Bq6tLSoMuotdsqgzZ9Gliw0hY+F6R14Y0YxXo7nwInkvPZoYtgM8aTF0fhMWAY8bShq3nWi4Vg1PoXHBk15c3EXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MGyok/YvSJHFfSQ5iQlSVo1BBpeloHB9g3AVLcVtQcE=;
- b=wikdGTijhmY9fqrlQCltvOcguIt3oILgkuccbLPBPPnYkUi8f/Vvki7hiQB2hTiTgP6s/wNDIU5A0gWMq9wWpdQ3f05CBRsAgkw9sM0bmU++82cPzGiOqZrdbtjoti2LihJb1ekPCLcZIpcsoss0gNZP0zcsCXw/VbgOqpd08Fqz6PFiyqnWZzqINSTSRFuw57wj9yw3026p4AXgHYZElZgK4pEK7B1CrcOekJIZr7yhyE/aIMbrH4i36HZRLcUzYJjQc6MwYGltHJyo5cbSk9JUCB+aQ5N+M8rVsoOKaRS2uXFQuukcuKt62jBQpxu67pBgKWLTjmFVghLUQTWocQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MGyok/YvSJHFfSQ5iQlSVo1BBpeloHB9g3AVLcVtQcE=;
- b=O/5z+fLvj3cDOS398COsqwSjbMBReemOH+GNHPuhRtV9D5cRCsQojUIyxu/Xcj8pMy3JyVYnKH/IKpPP1HuxgW4DhettH8COnV68nDI4Xw/0sW5AJ5PLx7krpmBZRTXKt6V3s+yPMNA/7/GbE8kHScU5xt+TybpyT6cKywk1tl398DYvo2tPqcsnWYz4MwU4hb3jGj4y2kWz1tUeoBmG620juv2k9dWdCNBpquC9ro+Txxn+1HkzH2qRE2M83asDAdyHK3QiodhpnYfWQOOkVLfeL0/kV9csxHazVK2LvSoI76dO+oaPXIftytWvKOsiF2IeSG0VD/z3axcUYG8Erw==
-Received: from AM9P189MB1666.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:305::16)
- by DB9P189MB3525.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5f6::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.17; Sat, 21 Feb
- 2026 09:27:03 +0000
-Received: from AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
- ([fe80::806f:3b74:7216:3e92]) by AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
- ([fe80::806f:3b74:7216:3e92%4]) with mapi id 15.20.9632.015; Sat, 21 Feb 2026
- 09:27:03 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH v3] python3-pip: Backport fix CVE-2026-1703
-Thread-Topic: [OE-core][scarthgap][PATCH v3] python3-pip: Backport fix
- CVE-2026-1703
-Thread-Index: AQHcoA6DPJ3n+5ZsuE+Bxnt99PkASrWKngsAgAJJvZk=
-Date: Sat, 21 Feb 2026 09:27:03 +0000
-Message-ID: 
- <AM9P189MB16669E50DFF65DE70AE03FDFB369A@AM9P189MB1666.EURP189.PROD.OUTLOOK.COM>
-References: <20260217130823.393314-1-adarsh.jagadish.kamini@est.tech>
- <DGJAK4JLFA5M.1ZGI0FMRE5T79@smile.fr>
-In-Reply-To: <DGJAK4JLFA5M.1ZGI0FMRE5T79@smile.fr>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9P189MB1666:EE_|DB9P189MB3525:EE_
-x-ms-office365-filtering-correlation-id: 6807f769-3412-4b20-166d-08de712b5fd6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|38070700021|8096899003|7053199007;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?MHGK96ApuW6rSaLgICkIn2SqWE+HkhQw5Hq2QQw4hLaYceRZcwNOoubpVOnf?=
- =?us-ascii?Q?n3Spp18furKWxssX7crN5rBJ87342BTgTQs/BNKfY9LvELQ9117UreOqFhJY?=
- =?us-ascii?Q?Mynwp7bx4dLr0tD2FUQM7S2XDALlYkLfNHuaVysD1QDK1/fDHqkap/T3jY/W?=
- =?us-ascii?Q?3cQ9AqR1Eh0MfpBwyXdubpAzMqkYOcc0RxNffyqyeJlKbZ7Qksjk/bQhGRIq?=
- =?us-ascii?Q?Uqw4YPG73EnlidxXG8kMvu3Knz2mpgWeWSajF7oyb140I7HSwBVpFQCKkM+6?=
- =?us-ascii?Q?nJ0VhFi2p6wobC9CEDyCro9XU5Z3PpLpu+Con9nIxeEcRd+YNY5O87y7bs4y?=
- =?us-ascii?Q?41USlL8WNhW6C0K4zp3/woEs3JsbgmQe7M1mqypqXY9kO5jL3zN6xMw/gsJS?=
- =?us-ascii?Q?EkWURddSfcDZZyhRAss1UaWJIlRvGfzBQB+mv9S4QHBKymvQ22hUbmEmupvV?=
- =?us-ascii?Q?6Z/ESalKBO+Rs1UCE2tM9L32fuey0Q5sf6t8kSNSMY1dMge7DS8iBzQLHLSP?=
- =?us-ascii?Q?r36ziMClcxITUn7pWQF8bo1aszWOMuQiDKQHxRveixx2PVu0k6jpsTuci996?=
- =?us-ascii?Q?uhGDJkqvu0EZzjj7EXtQJ4l4rTD04XFDD9UOHaRYvXKUaZJyHxm6CPS8JY7S?=
- =?us-ascii?Q?i+kjueAhQVVGIF4K9wo7HLr8euDO3vUAxgjvJ311AoC0zY/iqniU7cP6TEeA?=
- =?us-ascii?Q?1gWOhU8Lme+c8ld4ltYGASdoLnSDOSqpQn1tSczQ1SQZVo4u4eO6fGunil9Q?=
- =?us-ascii?Q?viJe7uDDmGnM58SAMCKTQNqE7RrCBkVTXUKRm5WqgR542OFTi/FA7aMb880A?=
- =?us-ascii?Q?CInoI7+v0GNThgescpSl9Q6uarzN4FphBIdoXa6qoGwzwO3GcJ/ASY2qN7qW?=
- =?us-ascii?Q?ZMVv4T8C2K2Z+/jLZt0W9TVXNzLVAkDR6nF/XaUYaXoUSVqDcaEN/XprzjLc?=
- =?us-ascii?Q?PON+8gvnisDF6TLlOdVyQSyUCbiwVwzRymITlTj68ztkYR48Fqb/z5ejarfR?=
- =?us-ascii?Q?Mm10vR5pTpRm9lBRQgvnFEEGvp8cSyT+L50fZYaCaPdSzOyj3GABcvB2hPhO?=
- =?us-ascii?Q?IGKPcDpLkD4cFWw+iwoL3VeL1mK9p4iSNeS1cYruZGvS57ooV3+0bFi12SwJ?=
- =?us-ascii?Q?sUrosfcXK3eguC5g4zjibJ1XLkuh8BcvgB3bJUOeWnmg6HFAKmf66zPJRA1c?=
- =?us-ascii?Q?TzFccCH4thbR9ZxelZst/28kIrWV8dYGTSO0/ke4osAShUMzcuV6l3XONkLP?=
- =?us-ascii?Q?xCEtZJsJINP0T4dlza1mh7xKKOB276LF8HzvuK9F4j2gzju++2W+H5rc153e?=
- =?us-ascii?Q?eiepf73j15pk+Ms+I0RAyjpON9LESpq/5PS4MaFpQcX3eas93uVHkszYwIY+?=
- =?us-ascii?Q?gCNHp9O6a+JasiSrQYPiHtDh0TR4JQ5KZts7CUwmemY0KNJlWHq4h+wnzUmj?=
- =?us-ascii?Q?0n9Cvsfqt+fIXoke/O64lwf0JN4DYNuyWejjMy4aAsz12Gj0MFWSyI7iWZQv?=
- =?us-ascii?Q?NGkDyXArYW8q5/kLajb99q+XwUXTix3eUe9KtT8H8T384DBPeXqfvGicIMWO?=
- =?us-ascii?Q?ePkOMwykkayWMlNT04Y=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P189MB1666.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(38070700021)(8096899003)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?vBQutM3a0VPZ0VACfph52o+h0mfDPUn/3WQi2hOXSVCT31QmByOvSn5dx9Jz?=
- =?us-ascii?Q?CUqathogjnf1foNjdLhjT/gpPXi0be02nHDAXMMtBFe7KbHcZYEbHXxjOmaT?=
- =?us-ascii?Q?19wb9obtfXip/P6miOJbm/2aJQgSkHDBw5nFLadim4ve+B055dodWxHmpVHL?=
- =?us-ascii?Q?we4eRxD2CCtn6y/NgFKjbvcEKOyWk0aJFpp6VRw0OrGdEondAU3ljg/jrACK?=
- =?us-ascii?Q?vAqPjkp072WpQ/K901BdgdliMeqMY+vPLppbqGA7nYtSA4ASp/HX0XfAZzsg?=
- =?us-ascii?Q?4FEDO943oiBjYAyXIkAAuQELOZl6l8J2FRA5OpKDQXM6bCCC1zW9/yMGmqGM?=
- =?us-ascii?Q?bYMpp7rqeY0/0zxQHx2u+2mwAq/LCJsPoOz0eDlzNlgCThZyevAbOgxqYuo4?=
- =?us-ascii?Q?MCmCqmLHtRjump8TlI6g3+JFZTX4nfvc0o34nnmOuYsF00sIQ1/m2nQXI6AL?=
- =?us-ascii?Q?8sH8SWM11LHaRPenViiGun5xuODyMfvAQ3cMWWlZG25ahOL5/REB77ae5uJQ?=
- =?us-ascii?Q?gfNaVPyBVm6m0geJ9S0WhLJ/jlN3gNtaIaVExtKNnOiBT6WzUn0XTLw6M8AI?=
- =?us-ascii?Q?JStnNeLf8TBuXP5iKerd4nAT+QpwkzfutUs5EulbAmM1jX244s0xqpSrjSbM?=
- =?us-ascii?Q?90CzGyFc20x0ic+f4UmKhJSfGwLxLdMrsv2uhX0O4gth5emqPz+JfevvB+em?=
- =?us-ascii?Q?/vpzkE80t8VTfOsgW9p1jfUZZtE0Gyas5qurQ+OfBjSw7wbI96msOMD7r3cg?=
- =?us-ascii?Q?X4o8ECGaG8c3bBhF97E5ZwUa17U0d6+gvBzQ9FHl//8zNd14GDMcJPIGa8wj?=
- =?us-ascii?Q?nZxxDU35fsLbnEzY4cJ2x5s+0x5hjhjZL7oVcZo+uFA/xBRzCgJeInhzeYIj?=
- =?us-ascii?Q?F6tYJJd+kN1aKyKhIcOQgl1lekQi4fNvFCgrKJwLyXe7SuU3cq21UcSUojuO?=
- =?us-ascii?Q?iUDbM9KyEi6x47CjratiIzATxKmqzxiGtPCxxCQK767yI354Gm8KJ6pnveIo?=
- =?us-ascii?Q?XASlwh+uw0d924vU7wZ3S6IgNypD17ExW+XP564DiCCHEsohHi5exgm73STA?=
- =?us-ascii?Q?yaou0osE7g718/WJpyRgbxjQhMRmqYUZjjKVt1P297lb+AxjASrfEiSDw0BR?=
- =?us-ascii?Q?ibgAfCH7dngDZTJzlOiaf4btzQivmXpIvpgP2cuG3oXMlY0rsNQ22+f0M8Fk?=
- =?us-ascii?Q?DonYlwjaILuh7WS+p2zppxhjd1hjwN/n7u6TBDz0R+Fr3Gt0vjHIvijtiRBx?=
- =?us-ascii?Q?VqvMqPz6mAO8jEFHN1i6WO+4QuItZEEDX4S7UScghdnJOZKIvXqNSB8Iy57h?=
- =?us-ascii?Q?mRBzfK3zgkS9NwtCGOX5B61inWy15xLCp3RIS0rLQlhF78WdvjqvlgdSD4io?=
- =?us-ascii?Q?Sadvl8v3l0TxEZTxasxLGtboSOLb0iB3xitjHZAqAbpPobUIAHdXc9u0mj2j?=
- =?us-ascii?Q?4V3Dc6ig2HvAwyim3QyU3ixIB109N0V+TQQnBKaxqmihe/ASVqlWrjlnxsH9?=
- =?us-ascii?Q?TjO+71z04jZz/+AfPqaGIUiMSa7t2UFYEqxaHdV4Ow5PHZBUD+DUtiHwKovz?=
- =?us-ascii?Q?t1McR01KoP48/bU96bsTqAMjlCuwgqMrJfESLB2DGxGVrepri9sseWwhPpLc?=
- =?us-ascii?Q?WuSEjqE4oAOXoPctxAxyETIoR2fbNX5aeEOY3ruJPI8hVxqNqamxzxlg8Ia0?=
- =?us-ascii?Q?FWWPN1n0QEnm5iaVC/cUkV7WCY/WciT014xQSaJJEqZ8JIUqg5X5DTzgY1xq?=
- =?us-ascii?Q?fPEBXHUhE6Gys1frT7OWl6pfEdo+AQE=3D?=
-MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6807f769-3412-4b20-166d-08de712b5fd6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2026 09:27:03.8513
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1WADdR3tj1ObgB1RckxRXxC8aCgyyOyM/SnYny1g+kldjoU+vAZNs++jFFYKVOxlkO5XIE3JFe2XCPBPMidsLOchyGffvFSBHgScj4nGYJI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB3525
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AM9P189MB16669E50DFF65DE70AE03FDFB369AAM9P189MB1666EURP_"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=1sy5YSEA;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 7C75E4E40AC8;
+	Sat, 21 Feb 2026 12:15:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 529465FB54;
+	Sat, 21 Feb 2026 12:15:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E554410368D4B;
+	Sat, 21 Feb 2026 13:15:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1771676143; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=lsM/l7rQT/Xz/yfVESVOuS5hR11QJaWNz8yYnCyIgco=;
+	b=1sy5YSEAgD0Oz1nVNhUKekIjuGx9Qfp6VcTmH7nRDPgHReXOQmoc/OIU3Goixp1xTjHCpE
+	aXguwE6O0riHvW0QTEjzs4Obw9OyqF3KWt2tE51dV5Ynyiehzztbl7EYzP7Wy7tFOpgcvE
+	LJmQF1M3MKVfZvuahSwk7VyWL4w2syBwcse1GtjwTR5+ufvuKfGb75yvKtkWMAaQKhKRMa
+	NHAkdHgkjz2fO6gR5rmTTqSaWDJK87LKOckSpMzXu1o/rzJ9e51QM0bqWegFdapcXHVKDx
+	R7eC6xcGkl3xE2KqxgGtoEocF6irj91HKOlbWODaqDMoHSws4Yfixjsel+01rQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Feb 2026 13:15:40 +0100
+Message-Id: <DGKMRZ496JHU.1T1MJETE5VNUN@bootlin.com>
+To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v6 0/7] rpm: 4.20.1 -> 6.0.1
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <cover.1771409846.git.liezhi.yang@windriver.com>
+ <DGIA0D4P60DI.1CA8PWS58YCCF@bootlin.com>
+ <212e8187-1b6f-4c2c-8d57-97cc66387c56@windriver.com>
+In-Reply-To: <212e8187-1b6f-4c2c-8d57-97cc66387c56@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 10:45:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231615
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 12:15:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231616
 
---_000_AM9P189MB16669E50DFF65DE70AE03FDFB369AAM9P189MB1666EURP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-I submitted the v3 patch for whinlatter now.
-
-Thanks!
-________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Thursday, February 19, 2026 23:28
-To: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>; openembedded-=
-core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH v3] python3-pip: Backport fix CVE-2=
-026-1703
-
-On Tue Feb 17, 2026 at 2:08 PM CET, Adarsh Jagadish Kamini via lists.openem=
-bedded.org wrote:
-> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+On Fri Feb 20, 2026 at 6:27 AM CET, Robert Yang via lists.openembedded.org =
+wrote:
+> Hi Mathieu,
 >
-> Include the patch linked in the NVD report: https://github.com/pypa/pip/c=
-ommit/8e227a9be4faa9594e05d02ca05a413a2a4e7735
 >
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-
-Hello,
-
-If I'm not mistaken, I'm still waiting for a v3 for whinlatter (v2 did
-not apply)
-
-Thanks!
-
-> ---
->  .../python/python3-pip/CVE-2026-1703.patch    | 55 +++++++++++++++++++
->  .../python/python3-pip_24.0.bb                |  4 +-
->  2 files changed, 58 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-170=
-3.patch
+> On 2/19/26 01:50, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+>> On Wed Feb 18, 2026 at 1:22 PM CET, Robert Yang via lists.openembedded.o=
+rg wrote:
+>>> From: Robert Yang <liezhi.yang@windriver.com>
+>>>
+>>> * V6
+>>>    - Fix -cpopulate_sdk error when DISTRO =3D "poky"
+>>>
+>>> * V5
+>>>    - Fix RP's comments: Don't hardcode libc6 into package_rpm.bbclass
+>>>    - Use SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} to fix the loop dependen=
+cies
+>>>      between /bin/sh and libc.so.
+>>>
+>>> * V4
+>>>    - Fix loop dependencies issues for libc6 and busybox
+>>>    - Fix issues for can't find pkg-config files (.pc) on qemux86-64.
+>>>
+>>> * V3
+>>>    - Fix Alexender's comments
+>>>      a) Suppot rpm 6
+>>>      b) Move rpm-setup-autosign to rpm-build
+>>>      c) Remove -DLIBELF_FOUND=3DFalse
+>>>
+>>>    - Fix build for nativesdk-rpm
+>>>
+>>>    - Drop patch for createrepo-c since it has been upgraded (rev:
+>>>      804a238c8a4e86c2bcfb2192d54cb861d5fd32a6)
+>>>
+>>> * V1 & V2
+>>>    - Initial version
+>>>
+>>> // Robert
+>>>
+>>> The following changes since commit 2c20c05b324e5d6564c85543810191708395=
+09bb:
+>>>
+>>>    pseudo: Update to include an openat2 fix (2026-02-13 12:25:37 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    https://github.com/robertlinux/yocto rbt/rpm
+>>>    https://github.com/robertlinux/yocto/tree/rbt/rpm
+>>>
+>>> for you to fetch changes up to 907fd664240474a2183fc4bf7bfa35f98c53c3d4=
+:
+>>>
+>>>    rpm: 4.20.1 -> 6.0.1 (2026-02-18 10:02:04 +0000)
+>>>
+>>> ----------------------------------------------------------------
+>>>
+>>> Robert Yang (7):
+>>=20
+>> Hi Robert,
+>>=20
+>> Thanks for the new version.
+>>=20
+>> I believe we still have some issue:
+>>=20
+>> ERROR: core-image-sato-1.0-r0 do_populate_sdk: Could not invoke dnf. Com=
+mand '/srv/pokybuild/yocto-worker/genericx86/build/build/tmp/work/genericx8=
+6-poky-linux/core-image-sato/1.0/recipe-sysroot-native/usr/bin/dnf -v --rpm=
+verbosity=3Dinfo -y -c /srv/pokybuild/yocto-worker/genericx86/build/build/t=
+mp/work/genericx86-poky-linux/core-image-sato/1.0/sdk/image/usr/local/oe-sd=
+k-hardcoded-buildpath/sysroots/core2-32-poky-linux/etc/dnf/dnf.conf --setop=
+t=3Dreposdir=3D/srv/pokybuild/yocto-worker/genericx86/build/build/tmp/work/=
+genericx86-poky-linux/core-image-sato/1.0/sdk/image/usr/local/oe-sdk-hardco=
+ded-buildpath/sysroots/core2-32-poky-linux/etc/yum.repos.d --installroot=3D=
+/srv/pokybuild/yocto-worker/genericx86/build/build/tmp/work/genericx86-poky=
+-linux/core-image-sato/1.0/sdk/image/usr/local/oe-sdk-hardcoded-buildpath/s=
+ysroots/core2-32-poky-linux --setopt=3Dlogdir=3D/srv/pokybuild/yocto-worker=
+/genericx86/build/build/tmp/work/genericx86-poky-linux/core-image-sato/1.0/=
+temp --repofrompath=3Doe-repo,/srv/pokybuild/yocto-worker/genericx86/build/=
+build/tmp/work/genericx86-poky-linux/core-image-sato/1.0/oe-sdk-repo --seto=
+pt=3Dinstall_weak_deps=3DFalse --nogpgcheck install acl-dbg acl-dev acl-src=
+ acpid-dbg acpid-dev acpid-src adwaita-icon-theme-dbg adwaita-icon-theme-de=
+v alsa-plugins-dbg alsa-plugins-dev alsa-plugins-src alsa-state-dbg alsa-st=
+ate-dev alsa-utils-dbg alsa-utils-dev alsa-utils-src at-spi2-core-dbg at-sp=
+i2-core-dev at-spi2-core-src attr-dbg attr-dev attr-src avahi-dbg avahi-dev=
+ avahi-libnss-mdns-dbg avahi-libnss-mdns-dev avahi-libnss-mdns-src avahi-sr=
+c base-files-dbg base-files-dev base-passwd-dbg base-passwd-dev base-passwd=
+-src bluez5-dbg bluez5-dev bluez5-src busybox-dbg busybox-dev busybox-src b=
+zip2-dbg bzip2-dev bzip2-src ca-certificates-dbg ca-certificates-dev connma=
+n-dbg connman-dev connman-gnome-dbg connman-gnome-dev connman-gnome-src con=
+nman-src consolekit-dbg consolekit-dev consolekit-src curl-dbg curl-dev cur=
+l-src dbus-dbg dbus-dev dbus-src dbus-wait-dbg dbus-wait-dev dbus-wait-src =
+debugedit-dbg debugedit-dev debugedit-src desktop-file-utils-dbg desktop-fi=
+le-utils-dev desktop-file-utils-src dnf-dbg dnf-dev dropbear-dbg dropbear-d=
+ev dropbear-src e2fsprogs-dbg e2fsprogs-dev e2fsprogs-src elfutils-dbg elfu=
+tils-dev elfutils-src eudev-dbg eudev-dev eudev-src file-dbg file-dev file-=
+src flac-dbg flac-dev flac-src formfactor-dbg formfactor-dev gcc-runtime-db=
+g gcc-runtime-src gconf-dbg gconf-dev gconf-src glib-networking-dbg glib-ne=
+tworking-dev glib-networking-src glibc-locale-dbg gnupg-dbg gnupg-dev gnupg=
+-src go-dev go-runtime-dbg gpgme-dbg gpgme-dev gpgme-src grub-bootconf-dbg =
+grub-bootconf-dev grub-dbg grub-dev grub-efi-dbg grub-efi-dev grub-efi-src =
+grub-src gst-examples-dbg gst-examples-dev gst-examples-src gstreamer1.0-db=
+g gstreamer1.0-dev gstreamer1.0-plugins-bad-dbg gstreamer1.0-plugins-bad-de=
+v gstreamer1.0-plugins-bad-src gstreamer1.0-plugins-base-dbg gstreamer1.0-p=
+lugins-base-dev gstreamer1.0-plugins-base-src gstreamer1.0-plugins-good-dbg=
+ gstreamer1.0-plugins-good-dev gstreamer1.0-plugins-good-src gstreamer1.0-s=
+rc gtk+3-dbg gtk+3-dev gtk+3-src hdparm-dbg hdparm-dev hdparm-src hicolor-i=
+con-theme-dbg hicolor-icon-theme-dev icu-dbg icu-dev icu-src init-ifupdown-=
+dbg init-ifupdown-dev init-system-helpers-dbg init-system-helpers-dev inits=
+cripts-dbg initscripts-dev iptables-dbg iptables-dev iptables-src iw-dbg iw=
+-dev iw-src kbd-dbg kbd-dev kbd-src kernel-dbg kernel-dev keymaps-dbg keyma=
+ps-dev kmod-dbg kmod-dev kmod-src l3afpad-dbg l3afpad-dev l3afpad-src lame-=
+dbg lame-src libacpi-dbg libacpi-dev libacpi-src libarchive-dbg libarchive-=
+dev libarchive-src libasound-dbg libasound-dev libasound-src libassuan-dbg =
+libassuan-dev libassuan-src libc6-src libcairo-dbg libcairo-dev libcairo-sr=
+c libcap-dbg libcap-dev libcap-src libcomps-dbg libcomps-dev libcomps-src l=
+ibcrypt-dbg libcrypt-dev libcrypt-src libdaemon-dbg libdaemon-dev libdaemon=
+-src libdbus-glib-1-dbg libdbus-glib-1-dev libdbus-glib-1-src libdnf-dbg li=
+bdnf-dev libdnf-src libdrm-dbg libdrm-dev libdrm-src libedit-dbg libedit-de=
+v libedit-src libegl-mesa-dev libell-dbg libell-dev libell-src lib
+>> ...
+>> Error:
+>>   Problem 1: conflicting requests
+>>    - nothing provides pkgconfig(ogg) needed by flac-dev-1.5.0-r0.core2_3=
+2 from oe-repo
+>>   Problem 2: conflicting requests
+>>    - nothing provides pkgconfig(libxml-2.0) needed by libcomps-dev-0.1.2=
+3-r0.core2_32 from oe-repo
+>>   Problem 3: conflicting requests
+>>    - nothing provides pkgconfig(ncurses) needed by libreadline-dev-8.3-r=
+0.core2_32 from oe-repo
+>>   Problem 4: package libsndfile-dev-1.2.2-r0.core2_32 from oe-repo requi=
+res flac-dev, but none of the providers can be installed
+>>    - conflicting requests
+>>    - nothing provides pkgconfig(ogg) needed by flac-dev-1.5.0-r0.core2_3=
+2 from oe-repo
+>> (try to add '--skip-broken' to skip uninstallable packages)
 >
-> diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch=
- b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
-> new file mode 100644
-> index 0000000000..a30475319c
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
-> @@ -0,0 +1,55 @@
-> +From 2a89ce91220e50c1b667bd9d5075e1fd10c1fed2 Mon Sep 17 00:00:00 2001
-> +From: Damian Shaw <damian.peter.shaw@gmail.com>
-> +Date: Fri, 30 Jan 2026 16:27:57 -0500
-> +Subject: [PATCH v3] Merge pull request #13777 from sethmlarson/commonpat=
-h
-> +
-> +Use os.path.commonpath() instead of commonprefix()
-> +
-> +CVE: CVE-2026-1703
-> +
-> +Upstream-Status: Backport [https://github.com/pypa/pip/commit/8e227a9be4=
-faa9594e05d02ca05a413a2a4e7735]
-> +
-> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> +---
-> + news/+1ee322a1.bugfix.rst            | 1 +
-> + src/pip/_internal/utils/unpacking.py | 2 +-
-> + tests/unit/test_utils_unpacking.py   | 2 ++
-> + 3 files changed, 4 insertions(+), 1 deletion(-)
-> + create mode 100644 news/+1ee322a1.bugfix.rst
-> +
-> +diff --git a/news/+1ee322a1.bugfix.rst b/news/+1ee322a1.bugfix.rst
-> +new file mode 100644
-> +index 000000000..edb1b320c
-> +--- /dev/null
-> ++++ b/news/+1ee322a1.bugfix.rst
-> +@@ -0,0 +1 @@
-> ++Use a path-segment prefix comparison, not char-by-char.
-> +diff --git a/src/pip/_internal/utils/unpacking.py b/src/pip/_internal/ut=
-ils/unpacking.py
-> +index 78b5c13ce..0b26525fb 100644
-> +--- a/src/pip/_internal/utils/unpacking.py
-> ++++ b/src/pip/_internal/utils/unpacking.py
-> +@@ -81,7 +81,7 @@ def is_within_directory(directory: str, target: str) -=
-> bool:
-> +     abs_directory =3D os.path.abspath(directory)
-> +     abs_target =3D os.path.abspath(target)
-> +
-> +-    prefix =3D os.path.commonprefix([abs_directory, abs_target])
-> ++    prefix =3D os.path.commonpath([abs_directory, abs_target])
-> +     return prefix =3D=3D abs_directory
-> +
-> +
-> +diff --git a/tests/unit/test_utils_unpacking.py b/tests/unit/test_utils_=
-unpacking.py
-> +index 1f0b59dbd..724ca0be8 100644
-> +--- a/tests/unit/test_utils_unpacking.py
-> ++++ b/tests/unit/test_utils_unpacking.py
-> +@@ -202,6 +202,8 @@ def test_unpack_tar_unicode(tmpdir: Path) -> None:
-> +         (("parent/", "parent/sub"), True),
-> +         # Test target outside parent
-> +         (("parent/", "parent/../sub"), False),
-> ++        # Test target sub-string of parent
-> ++        (("parent/child", "parent/childfoo"), False),
-> +     ],
-> + )
-> + def test_is_within_directory(args: Tuple[str, str], expected: bool) -> =
-None:
-> +--
-> +2.44.4
-> +
-> diff --git a/meta/recipes-devtools/python/python3-pip_24.0.bb b/meta/reci=
-pes-devtools/python/python3-pip_24.0.bb
-> index be4a29500a..35428260c3 100644
-> --- a/meta/recipes-devtools/python/python3-pip_24.0.bb
-> +++ b/meta/recipes-devtools/python/python3-pip_24.0.bb
-> @@ -31,7 +31,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D63ec52ba=
-f95163b597008bb46db68030 \
+> I'm sorry about that, but I can't reproduce the error, here are my settin=
+gs:
 >
->  inherit pypi python_setuptools_build_meta
+> PACKAGE_CLASSES =3D "package_rpm"
+> MACHINE =3D "genericx86"
+> DISTRO =3D "poky"
 >
-> -SRC_URI +=3D "file://no_shebang_mangling.patch"
-> +SRC_URI +=3D "file://no_shebang_mangling.patch \
-> +            file://CVE-2026-1703.patch \
-> +            "
+> $ bitbake core-image-sato -cpopulate_sdk
 >
->  SRC_URI[sha256sum] =3D "ea9bd1a847e8c5774a5777bb398c19e80bcd4e2aa16a4b30=
-1b718fe6f593aba2"
+> I checked=20
+> tmp/deploy/sdk/poky-glibc-x86_64-core-image-sato-core2-32-genericx86-tool=
+chain-5.3.99+snapshot.target.manifest,
+> All the required packages are installed correctly:
+>
+> flac-dev core2_32 1.5.0
+> libcomps-dev core2_32 0.1.23
+> libreadline-dev core2_32 8.3
+> libogg-dev core2_32 1.3.6
+> libxml2-dev core2_32 2.15.1
+> ncurses-dev core2_32 6.5
+>
+> I also tested with IMAGE_CLASSES +=3D "testimage", it also works well.
+>
+> Do you have more info on how I can reproduce the issue, please?
+>
 >
 
+Hi Robert,
 
---
-Yoann Congal
-Smile ECS
+I tried to reproduce it locally yesterday, and I had the same issue: the
+failure did not reproduce. Yet I tried again to apply your patches and
+got a similar error on the autobuilder.
 
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/3218
 
---_000_AM9P189MB16669E50DFF65DE70AE03FDFB369AAM9P189MB1666EURP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+I will try to investigate this next week.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Hi,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-I submitted the v3 patch for whinlatter now.</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Thanks!</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Yoann Congal &lt;yoan=
-n.congal@smile.fr&gt;<br>
-<b>Sent:</b> Thursday, February 19, 2026 23:28<br>
-<b>To:</b> Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&gt;; =
-openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
-bedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core][scarthgap][PATCH v3] python3-pip: Backport fi=
-x CVE-2026-1703</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Tue Feb 17, 2026 at 2:08 PM CET, Adarsh Jagadis=
-h Kamini via lists.openembedded.org wrote:<br>
-&gt; From: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech&gt;<b=
-r>
-&gt;<br>
-&gt; Include the patch linked in the NVD report: <a href=3D"https://github.=
-com/pypa/pip/commit/8e227a9be4faa9594e05d02ca05a413a2a4e7735">
-https://github.com/pypa/pip/commit/8e227a9be4faa9594e05d02ca05a413a2a4e7735=
-</a><br>
-&gt;<br>
-&gt; Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.t=
-ech&gt;<br>
-<br>
-Hello,<br>
-<br>
-If I'm not mistaken, I'm still waiting for a v3 for whinlatter (v2 did<br>
-not apply)<br>
-<br>
-Thanks!<br>
-<br>
-&gt; ---<br>
-&gt;&nbsp; .../python/python3-pip/CVE-2026-1703.patch&nbsp;&nbsp;&nbsp; | 5=
-5 +++++++++++++++++++<br>
-&gt;&nbsp; .../python/python3-pip_24.0.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 4 +-<br>
-&gt;&nbsp; 2 files changed, 58 insertions(+), 1 deletion(-)<br>
-&gt;&nbsp; create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-=
-2026-1703.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.pa=
-tch b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..a30475319c<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch<br>
-&gt; @@ -0,0 +1,55 @@<br>
-&gt; +From 2a89ce91220e50c1b667bd9d5075e1fd10c1fed2 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Damian Shaw &lt;damian.peter.shaw@gmail.com&gt;<br>
-&gt; +Date: Fri, 30 Jan 2026 16:27:57 -0500<br>
-&gt; +Subject: [PATCH v3] Merge pull request #13777 from sethmlarson/common=
-path<br>
-&gt; +<br>
-&gt; +Use os.path.commonpath() instead of commonprefix()<br>
-&gt; +<br>
-&gt; +CVE: CVE-2026-1703<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/pypa/pip/com=
-mit/8e227a9be4faa9594e05d02ca05a413a2a4e7735">https://github.com/pypa/pip/c=
-ommit/8e227a9be4faa9594e05d02ca05a413a2a4e7735</a>]<br>
-&gt; +<br>
-&gt; +Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.=
-tech&gt;<br>
-&gt; +---<br>
-&gt; + news/+1ee322a1.bugfix.rst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; | 1 +<br>
-&gt; + src/pip/_internal/utils/unpacking.py | 2 +-<br>
-&gt; + tests/unit/test_utils_unpacking.py&nbsp;&nbsp; | 2 ++<br>
-&gt; + 3 files changed, 4 insertions(+), 1 deletion(-)<br>
-&gt; + create mode 100644 news/+1ee322a1.bugfix.rst<br>
-&gt; +<br>
-&gt; +diff --git a/news/+1ee322a1.bugfix.rst b/news/+1ee322a1.bugfix.rst<br=
->
-&gt; +new file mode 100644<br>
-&gt; +index 000000000..edb1b320c<br>
-&gt; +--- /dev/null<br>
-&gt; ++++ b/news/+1ee322a1.bugfix.rst<br>
-&gt; +@@ -0,0 +1 @@<br>
-&gt; ++Use a path-segment prefix comparison, not char-by-char.<br>
-&gt; +diff --git a/src/pip/_internal/utils/unpacking.py b/src/pip/_internal=
-/utils/unpacking.py<br>
-&gt; +index 78b5c13ce..0b26525fb 100644<br>
-&gt; +--- a/src/pip/_internal/utils/unpacking.py<br>
-&gt; ++++ b/src/pip/_internal/utils/unpacking.py<br>
-&gt; +@@ -81,7 +81,7 @@ def is_within_directory(directory: str, target: str=
-) -&gt; bool:<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; abs_directory =3D os.path.abspath(directory)=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; abs_target =3D os.path.abspath(target)<br>
-&gt; + <br>
-&gt; +-&nbsp;&nbsp;&nbsp; prefix =3D os.path.commonprefix([abs_directory, a=
-bs_target])<br>
-&gt; ++&nbsp;&nbsp;&nbsp; prefix =3D os.path.commonpath([abs_directory, abs=
-_target])<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; return prefix =3D=3D abs_directory<br>
-&gt; + <br>
-&gt; + <br>
-&gt; +diff --git a/tests/unit/test_utils_unpacking.py b/tests/unit/test_uti=
-ls_unpacking.py<br>
-&gt; +index 1f0b59dbd..724ca0be8 100644<br>
-&gt; +--- a/tests/unit/test_utils_unpacking.py<br>
-&gt; ++++ b/tests/unit/test_utils_unpacking.py<br>
-&gt; +@@ -202,6 +202,8 @@ def test_unpack_tar_unicode(tmpdir: Path) -&gt; N=
-one:<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ((&quot;parent/&quot=
-;, &quot;parent/sub&quot;), True),<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Test target outsid=
-e parent<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ((&quot;parent/&quot=
-;, &quot;parent/../sub&quot;), False),<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Test target sub-string =
-of parent<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ((&quot;parent/child&quot=
-;, &quot;parent/childfoo&quot;), False),<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; ],<br>
-&gt; + )<br>
-&gt; + def test_is_within_directory(args: Tuple[str, str], expected: bool) =
--&gt; None:<br>
-&gt; +-- <br>
-&gt; +2.44.4<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-devtools/python/python3-pip_24.0.bb b/meta/r=
-ecipes-devtools/python/python3-pip_24.0.bb<br>
-&gt; index be4a29500a..35428260c3 100644<br>
-&gt; --- a/meta/recipes-devtools/python/python3-pip_24.0.bb<br>
-&gt; +++ b/meta/recipes-devtools/python/python3-pip_24.0.bb<br>
-&gt; @@ -31,7 +31,9 @@ LIC_FILES_CHKSUM =3D &quot;<a href=3D""></a>file://L=
-ICENSE.txt;md5=3D63ec52baf95163b597008bb46db68030 \<br>
-&gt;&nbsp; <br>
-&gt;&nbsp; inherit pypi python_setuptools_build_meta<br>
-&gt;&nbsp; <br>
-&gt; -SRC_URI +=3D &quot;<a href=3D"file://no_shebang_mangling.patch">file:=
-//no_shebang_mangling.patch</a>&quot;<br>
-&gt; +SRC_URI +=3D &quot;<a href=3D""></a>file://no_shebang_mangling.patch =
-\<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a=
- href=3D"file://CVE-2026-1703.patch">file://CVE-2026-1703.patch</a> \<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &q=
-uot;<br>
-&gt;&nbsp; <br>
-&gt;&nbsp; SRC_URI[sha256sum] =3D &quot;ea9bd1a847e8c5774a5777bb398c19e80bc=
-d4e2aa16a4b301b718fe6f593aba2&quot;<br>
-&gt;&nbsp; <br>
-<br>
-<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
+Thanks,
+Mathieu
 
---_000_AM9P189MB16669E50DFF65DE70AE03FDFB369AAM9P189MB1666EURP_--
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
