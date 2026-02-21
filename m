@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98ACBC5DF99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A9AC5DF96
 	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 05:10:23 +0000 (UTC)
 Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14922.1771650620428709587
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14945.1771650618490836259
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Feb 2026 21:10:20 -0800
+ Fri, 20 Feb 2026 21:10:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hd+sIBVt;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dZZrsf2A;
  spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4376acce52eso1668776f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 21:10:20 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4375d4fb4d4so1755751f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Feb 2026 21:10:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771650618; x=1772255418; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1771650616; x=1772255416; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Yp86hc/HGSG2WasVGFlOIGFbOLziWU33WtN9PrAf1AI=;
-        b=hd+sIBVt2UtTCsajn86x1RQZLL3XwyEvM1NoK+2TihlHD2N3EItvMx7NMCpmiYhSfB
-         YhcG9EXcbpoeu4s5FXL+FA+sN/cBcxeAI8gI/KgZqXfc3xr8BD5dtAuYuwScEGSqeSba
-         V2RlOV4iblxwQWIIEQy+gpkMEaBlA2WvgWSzXc1ZGITMdzOB1YUp3GiN/vbeCQ4d87ZJ
-         DcpjUAOR4+6m3scgy6HVMJs8hCrlTgbXes96wh+2BTKE/0OurGrCs0AH0X3VbXHdt8ti
-         lSY2n+D20KRxiH3A6Xgfk5UEEKiW+oje0rPqGOBsTf+wjOHjidaleMns3CKlByMBf4zy
-         099Q==
+        bh=wiKPaFhKIlhWNRsvvgzgRXA9mRpOwoVZLSYE7VwsNdE=;
+        b=dZZrsf2AsAMiLyCTt3DA1FC7Vkt0tcpkvsakhgbgFftS6wcYCDZic7DVLWK036TknU
+         uXhtEomZuhGQnWcGXr3DAdC56mBbjdX0C2YyucsPxcrkiyoNmfPr0K5riPB7d6ZCE1yN
+         K8zY2mppPYTaCszZw/8Q+b1nO1NY4q6EvzbkU3k2ooEEmBKgPrpTzT/c9LUmV9B59zSY
+         IwJj+Ltvr3XVvGqGz+TuoBhh5SLWaNGXD8O8q0Wy8NzMs7LDlGjpnufb0tqu1LIj+5PS
+         0/esTRleD4dvyzpi/0mCU4gT2AHK6TONR9nkljNP8yJir0d5XlTjs2yJ3hDcr+PmBqay
+         xTHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771650618; x=1772255418;
+        d=1e100.net; s=20230601; t=1771650616; x=1772255416;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Yp86hc/HGSG2WasVGFlOIGFbOLziWU33WtN9PrAf1AI=;
-        b=tKkd/zy5LZcXhjyRPsVQjqth8YEhw3owrbvSLOkIM/owuaKiPEsJtBuqonpIojb+UH
-         tcz7p7BL3zyBqHrXw9+yjCwt2IVDO06OHQmIHqDLdjKaWwPAAWn97bfrwUfO8HU8MpGT
-         ztEWVW2Ca8XoUKgRGiRHa9Jhmxvr8guioqNgy4i5l0ID2zjD4i3bKJcdGObbbnOj5yOI
-         0E5QVi8OPuU0cJk5GNIOpfEnYMbipI2fTZX6ky6WxxwCuTCw8mZJ1QFTqHaT2PlwBGqV
-         qp90971Q9aGs4fdmeE4XFLjnwfVPaX2cZTIZ5f2B+aj5FsC1Jw7Tu7VtwYOvEbVh9g7J
-         5PVA==
-X-Gm-Message-State: AOJu0YwYPk3LZd70bJ/O3rrN2AEvZ2nBsSpcoiXAhvmZCFWky/qCH3a9
-	MucuuKnN6WcbjlpKOfe3L1/gLv98P2tEpmS3qowmUczAo2n7a6//v2VWuWSmyQ==
-X-Gm-Gg: AZuq6aLPp79ik1jBuC7znYI0kKTFVxcQxegmXha+Mke15nkwh6pOqNVlu5U9pUF8fHC
-	vnDXxYpegeaHp1P2c0LjJFeNqDs/uUnYnJoefsd6mshob8YYIhhRb2HL520/vEhD2HDMHLI+zRg
-	IslKpNuicaWgMbpKsSlN69DSZfkPADD1IFAlCN4+cvpygx0LOz9faeLU6elwsp5tEa5F63q5lgq
-	2T0d39wD6RHJR728p925gmdGdcJzw5n1o1C9mzKfZVfhqFNOQvvH268ggWur7iBxSoRW7c4xavL
-	ZFpe8UzfU7WTKWpQz6QsEU7Lgr/Oj/zWVbRCWuCI7VzWOhlJUzMb5yoJtO2uexEAE7W7IHPRNFT
-	bbi2Xfrf6QOzM9kYvms+Wz//ZWDTCZMaUuWFAHKL/aBPwZwStblkwD/2o3MHhcr29BZQr/t+pXz
-	oaeFdRq3E+32PSDVBipYS7XvtCb9y0+wrNEM0=
-X-Received: by 2002:a05:6000:184b:b0:431:8f8:7f1e with SMTP id ffacd0b85a97d-4396f180e8emr3923870f8f.48.1771650618323;
-        Fri, 20 Feb 2026 21:10:18 -0800 (PST)
-Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bfa1bdsm2455901f8f.3.2026.02.20.21.10.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=wiKPaFhKIlhWNRsvvgzgRXA9mRpOwoVZLSYE7VwsNdE=;
+        b=bTd7jNZQEV3FGaxL6p80jJxwIvyJCIWENLR4M6UQdIhgJa8iROvF/0YTEs0a3PwF81
+         sJE3lTNZAaCA4Sp6SRPPfyeBq9S+K8rkbUNnuUpfh5JD4+ntzDNPYH+jKWkswWt+PEYq
+         mCoWAdjA7cZehkykGbHIA4d3Sc+IyIFfX+Tq5w+QSWKmFaqwAAQQTOl3H1vqGIAbaiBn
+         PSd+cTsOq3ydeQFAMBkDhVlj1ABwYX9m9zoxWNhc90KO01GkboLPEvut3tFmiT2XSjXF
+         eawfLM0A/e+KZZOfM4C5ai7zeTaOSMRNPcgtbDgzEbN7oQRjGGYnO0AL4eq8I/j40fr8
+         tp7g==
+X-Gm-Message-State: AOJu0Yxuyw0blbXmP6q1PP52VjTbCnDDHyrsMpdpdtdJQxzSRfIBH221
+	pA+3GVB4RYxseGZK5bQH2+gKn7LWVHst2Rq5zTUz0zYYu5KXV0j6JAMyfKekBg==
+X-Gm-Gg: AZuq6aISNUVqK/ncerq4IxoI1HOXWP6aDHmGFFutbaV85rK/Z1lFisLpZK0StL2w1eU
+	GmkaIWGAZiZAMMNKaziON01i4HN3kl13Xpqr+MoWI0oPYSCWDCCmSELY/T/iZag2ukPkEeOes15
+	qQgJDz7qqlBpnd0ILjgcr/8zOmD5n9Wh6WYr1uGc1itsNbhwXPLKWPCcPpb/lqPqFe0v279RY7y
+	+9Ur0nkTaSqm9IwktYYwTA9qqeECbmao0tdGfod+Fs6DlJ1+mSyLha0uUbuLsdoOQzMbRuqHogE
+	TDmlop/IJms8NfGYaDLLTpwmzi+dNklOEm5gc88226226pKN8Y8RxNp0v6ATryk1G2IrSPr0DJN
+	X6Oo0ODyYtA7GKZCRd5g3861dQpdRxT10WTATFRexeIbiYdp5yeuOlmWprhP9dR5C5AiWwwTYgg
+	+5vOdH/uhWwf6esa3VUXkAbgFiHbD/+o6Ljoo=
+X-Received: by 2002:a05:6000:1883:b0:435:a3b9:9b8 with SMTP id ffacd0b85a97d-4396f15b030mr3782187f8f.24.1771650616441;
         Fri, 20 Feb 2026 21:10:16 -0800 (PST)
+Received: from fedora ([81.6.40.67])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bfa1bdsm2455901f8f.3.2026.02.20.21.10.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 21:10:15 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: stefano.tondo.ext@siemens.com,
@@ -59,9 +59,9 @@ Cc: stefano.tondo.ext@siemens.com,
 	Peter.Marko@siemens.com,
 	jpewhacker@gmail.com,
 	Ross.Burton@arm.com
-Subject: [PATCH v2 05/18] spdx30: Add SPDX_GIT_PURL_MAPPINGS for Git hosting
-Date: Sat, 21 Feb 2026 06:09:53 +0100
-Message-ID: <20260221051006.335141-6-stondo@gmail.com>
+Subject: [PATCH v2 04/18] spdx30: Add version extraction from SRCREV for Git source components
+Date: Sat, 21 Feb 2026 06:09:52 +0100
+Message-ID: <20260221051006.335141-5-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260221051006.335141-1-stondo@gmail.com>
 References: <20260221051006.335141-1-stondo@gmail.com>
@@ -71,49 +71,127 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 05:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231585
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231584
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Initialize SPDX_GIT_PURL_MAPPINGS with proper default value and
-documentation following the established pattern for SPDX variables.
+Extract version information for Git-based source components in SPDX 3.0
+SBOMs to improve SBOM completeness and enable better supply chain tracking.
 
-This variable allows downstream layers to extend Git PURL generation
-to additional hosting services beyond the built-in GitHub support:
+Problem:
+Git repositories fetched as SRC_URI entries currently appear in SBOMs
+without version information (software_packageVersion is null). This makes
+it difficult to track which specific revision of a dependency was used,
+reducing SBOM usefulness for security and compliance tracking.
 
-  SPDX_GIT_PURL_MAPPINGS = "gitlab.com:pkg:gitlab code.example.com:pkg:generic"
+Solution:
+- Extract SRCREV for Git sources and use it as packageVersion
+- Use fd.revision attribute (the resolved Git commit)
+- Fallback to SRCREV variable if fd.revision not available
+- Use first 12 characters as version (standard Git short hash)
+- Generate pkg:github PURLs for GitHub repositories (official PURL type)
+- Add comprehensive debug logging for troubleshooting
 
-The variable is:
-1. Initialized with ??= operator (overrideable by layers)
-2. Documented with [doc] attribute for bitbake help system
-3. Consistent with other SPDX variable documentation style
+Impact:
+- Git source components now have version information
+- GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)
+- Enables tracking specific commit dependencies in SBOMs
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/lib/oe/spdx30_tasks.py | 79 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index def2dacbc3..9afe02dcd6 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -152,6 +152,16 @@ SPDX_PACKAGE_URLS[doc] = "A space separated list of Package URLs (purls) for \
-     Override this variable to replace the default, otherwise append or prepend \
-     to add additional purls."
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 0ee39ffcd5..970921e986 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -569,6 +569,85 @@ def add_download_files(d, objset):
+                 )
+             )
  
-+SPDX_GIT_PURL_MAPPINGS ??= ""
-+SPDX_GIT_PURL_MAPPINGS[doc] = "Space-separated list of Git hosting service domain \
-+to PURL type mappings for generating Package URLs from Git repositories. Format: \
-+'domain1:purl_type1 domain2:purl_type2'. By default, only GitHub is supported \
-+(pkg:github). This variable allows layers to add support for GitLab, internal Git \
-+servers, or other hosting platforms. Example: 'gitlab.com:pkg:gitlab \
-+code.example.com:pkg:generic'. The domain is matched against the Git URL, and the \
-+corresponding PURL type is used when generating software_packageUrl for Git source \
-+components. Invalid entries are ignored with a warning."
++            # Extract version and PURL for source packages
++            dep_version = None
++            dep_purl = None
 +
- IMAGE_CLASSES:append = " create-spdx-image-3.0"
- SDK_CLASSES += "create-spdx-sdk-3.0"
- 
++            # For Git repositories, extract version from SRCREV
++            if fd.type == "git":
++                srcrev = None
++
++                # Try to get SRCREV for this specific source URL
++                # Note: fd.revision (not fd.revisions) contains the resolved revision
++                if hasattr(fd, 'revision') and fd.revision:
++                    srcrev = fd.revision
++                    bb.debug(1, f"SPDX: Found fd.revision for {file_name}: {srcrev}")
++
++                # Fallback to general SRCREV variable
++                if not srcrev:
++                    srcrev = d.getVar('SRCREV')
++                    if srcrev:
++                        bb.debug(1, f"SPDX: Using SRCREV variable for {file_name}: {srcrev}")
++
++                if srcrev and srcrev not in ['${AUTOREV}', 'AUTOINC', 'INVALID']:
++                    # Use first 12 characters of Git commit as version (standard Git short hash)
++                    dep_version = srcrev[:12] if len(srcrev) >= 12 else srcrev
++                    bb.debug(1, f"SPDX: Extracted Git version for {file_name}: {dep_version}")
++
++                    # Generate PURL for Git hosting services
++                    # Reference: https://github.com/package-url/purl-spec/blob/master/PURL-TYPES.rst
++                    download_location = oe.spdx_common.fetch_data_to_uri(fd, fd.name)
++                    if download_location and download_location.startswith('git+'):
++                        git_url = download_location[4:]  # Remove 'git+' prefix
++
++                        # Build Git PURL handlers from default + custom mappings
++                        # Format: 'domain': ('purl_type', lambda to extract path)
++                        # Can be extended in meta-siemens or other layers via SPDX_GIT_PURL_MAPPINGS
++                        git_purl_handlers = {
++                            'github.com': ('pkg:github', lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None),
++                            # Note: pkg:gitlab is NOT in official PURL spec, so we omit it by default
++                            # Other Git hosts can be added via SPDX_GIT_PURL_MAPPINGS
++                        }
++
++                        # Allow layers to extend PURL mappings via SPDX_GIT_PURL_MAPPINGS variable
++                        # Format: "domain1:purl_type1 domain2:purl_type2"
++                        # Example: SPDX_GIT_PURL_MAPPINGS = "gitlab.com:pkg:gitlab git.example.com:pkg:generic"
++                        custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
++                        if custom_mappings:
++                            for mapping in custom_mappings.split():
++                                try:
++                                    domain, purl_type = mapping.split(':')
++                                    # Use simple path handler for custom domains
++                                    git_purl_handlers[domain] = (purl_type, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None)
++                                    bb.debug(2, f"SPDX: Added custom Git PURL mapping: {domain} -> {purl_type}")
++                                except ValueError:
++                                    bb.warn(f"SPDX: Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
++
++                        for domain, (purl_type, path_handler) in git_purl_handlers.items():
++                            if f'://{domain}/' in git_url or f'//{domain}/' in git_url:
++                                # Extract path after domain
++                                path_start = git_url.find(f'{domain}/') + len(f'{domain}/')
++                                path = git_url[path_start:].split('/')
++                                purl_path = path_handler(path)
++                                if purl_path:
++                                    dep_purl = f"{purl_type}/{purl_path}@{srcrev}"
++                                    bb.debug(1, f"SPDX: Generated {purl_type} PURL: {dep_purl}")
++                                break
++
++            # Fallback: use parent package version if no other version found
++            if not dep_version:
++                pv = d.getVar('PV')
++                if pv and pv not in ['git', 'AUTOINC', 'INVALID', '${PV}']:
++                    dep_version = pv
++                    bb.debug(1, f"SPDX: Using parent PV for {file_name}: {dep_version}")
++
++            # Set version and PURL if extracted
++            if dep_version:
++                dl.software_packageVersion = dep_version
++
++            if dep_purl:
++                dl.software_packageUrl = dep_purl
++
+             if fd.method.supports_checksum(fd):
+                 # TODO Need something better than hard coding this
+                 for checksum_id in ["sha256", "sha1"]:
 -- 
 2.53.0
 
