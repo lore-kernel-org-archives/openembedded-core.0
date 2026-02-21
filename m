@@ -2,304 +2,426 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79118C61DF1
-	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 16:47:47 +0000 (UTC)
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23057.1771692464318287146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B9BC61DFB
+	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 16:51:07 +0000 (UTC)
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23126.1771692662642296660
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Feb 2026 08:47:44 -0800
+ Sat, 21 Feb 2026 08:51:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fwGtVwSC;
- spf=pass (domain: gmail.com, ip: 74.125.224.44, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64adabaafd6so2648594d50.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:47:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771692463; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GCxPfkWM;
+ spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-649b5f5570fso3666854d50.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:51:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771692662; cv=none;
         d=google.com; s=arc-20240605;
-        b=Xc0g1H+ojhnPWTniKRjzS7LoI4s3qER1qzs+VyCuUuAhMftjiXMj3oJDjLJYWEnfyz
-         3dfv48/XF4PZ9tp7NQOJ8VNz+kqgNf40stYtco33GqWNTj8Z3BVtA7AGrsc7QnHNq7Mw
-         tFjvJftJIU29qgH0d9/gEU8Y5dsVTG+7fvnGHK7662k6kbzL/MdslY+Wncn64nmxsACb
-         pZbyzlGgrVwXuMX6iCIQY0lPnTs44JaxNNNh0xj+h18yjCR/dyaRmuUvNiW5UV9nubLP
-         py9PW+fIzjGgO513TSf/Tt1Ca8Na/0aw9ggfRSidTbSZ90t1grFRtGOATMVSmnlp+Htw
-         nnYA==
+        b=CRHwuFgmxuUNg4dmGCsHJm093T3Wf6GxlYt+VJUOHKBkih6Z1t5Eor6u7PORd1qc2Z
+         DcvG4mF8u4BMVgBqdKUtSgyWHAb/hWSvBdYOLyP1X3aFNK6X6AFrqitmflHq+Vcf8I8O
+         tfpXNQmhhT9yH9CeiOtmQa2eOg+OwcFwSCdzY/Bq4zDkK26Z63xlpehXiy0o2XSBPbs4
+         jv4Ct8ASN67WfZJc9yGrnrBhnhYjkLjHzrsXPMZHIG249d9CZQHN02j8iVfG7URbCCbx
+         M19DwxQ24WdHUb6YIveWD5Tr/HATslGTO+W4gPqE59hKdfxoDpbZYcdzqSkprIK49bxh
+         F4kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=YHreURJnCLzX8C2P07DmtRaGrw+jXqH05Goac8Z2MXE=;
+        bh=KbUHkUgNNJcHFewPPpf4LV3+hFbAxDe0Vr26U0qbuHo=;
         fh=bNoVUmK9O0vE3kX3q1TCx065x9AJf7wShrYaRToWCWk=;
-        b=JGp3/nawzU8D6bouajxMR5dp5Yaj1jU7qbdVtDtWxuuI/RdqUG9jLZRPEaDgrfRNNG
-         v6vzMcnUhY+9/S47kxX9fQImr9ju9HSs5qwV5m85jww7W2c7SbU73EtihD6yoiMFde2U
-         zGJn5tOX32isTAYW6smcosAPNlm/UfLl0D0wiYqAS/f59W8Lb55S/cYDzVjnHC8RzMVI
-         ZaZxvan98Tx4mIlpJbaH1UMDGtkPGy6KlroWHx75xeHOuVAssFfkbhUl8FA6F52C3hf/
-         Z5rYQum5Tn4D2Ow50LdQ+IIKccvgYZDpUZmJB1r4yYst4I2Q4roy3zoZY1S2HlPMLfm6
-         mj6Q==;
+        b=HvJa6OqhWQ/s9SWpDh5nP/VbC3LpoUtUFptGAZ7Oobf1jaxjN5wsMqjXdFUwsmfiRe
+         SjSdLST437eLonnc1cdFF7NErLgJsTfnEEx31wN8v5eutmcadXp0jgyyLDlfjvO4kzCx
+         ePifCwOHqu68d8cy637o8pLa75997394f4Zyqy1MX9LYAMEvnLMN60GF3RkGdsKKpvly
+         LvxLK3XB5WUlbpoI2LYBNcyZHrolBaPgrxtGtWJLNnpkoJj193zxG+MbVQ3KgWc7NQW3
+         w0R4jXD8yIvmtGOqsYqeeko2mya4Q30Wq7eDNGUcI/d3tLHjW3l9IO6yjq266wEiZFfn
+         tFEw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771692463; x=1772297263; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1771692662; x=1772297462; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YHreURJnCLzX8C2P07DmtRaGrw+jXqH05Goac8Z2MXE=;
-        b=fwGtVwSCeE1XN+CAG6UbY1Vqg504FT3xSkdHgYv7nUKLQGBJTjgpk/uWI100eorjfK
-         t5adSFsHdGmM3mtC3qTyfwmCGrnb+KTIy6ViUSr5b6/EwP131DntIyFAsrKJ74brPmRq
-         5Pm8fXB09l19Nsy1ZWAvK/A2wFbQsIbyp1GC/XkQi6ccO/rP/SjKpmjF+1JTxmp3PVsY
-         FZXHuRCIwxMqyw3pVS4Kss6vWh7hChVXRQu+rfvSaDJ+nXjmB1OY+Ajxfe3O7o8vMt2/
-         pZdFOuNMvL7kVpUQlWehvFSR/yMbVJeY8RnaQ1zI0nw2h0uO8iIN59C0lsqFITmKfsc9
-         gucw==
+        bh=KbUHkUgNNJcHFewPPpf4LV3+hFbAxDe0Vr26U0qbuHo=;
+        b=GCxPfkWMpzYox0yICPaSKRl8flTvIkfU2kcGJKYo+NPamAuz1gmpwbzI3ZY3AKHTHt
+         BAixmclDLonPvwoaz5f4lu+ZMo3JL5wyKZZvkYTTbvLQlTv90HHzkmUM4MYDPQYyLE/g
+         /KbdySIp2h704ZyC+x4UBRg/9opwMGkRssLYegFyV565T7IB0biNA4K1lX2h9t357lUP
+         F+RHjZP8PXOzNkwZgcLaA7GpLlAWUgxqrihu4Ny7IJPBiMH09Vo/Lr0A4qMuZgYBz11w
+         sidrLY7g+SpFthupe+Y8Kp4OO71CSFtGhGMRnEnf3GNfLAgHFtq5B4NhpWqKCcPuD7N5
+         Moug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771692463; x=1772297263;
+        d=1e100.net; s=20230601; t=1771692662; x=1772297462;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YHreURJnCLzX8C2P07DmtRaGrw+jXqH05Goac8Z2MXE=;
-        b=ZwOJSfz7PGCr+XnMCvV+90OFjFhLVaUYwua7WEgL4Wc1maGqUowXt77N5NQQ6VEcmf
-         af33m/awu5pHsxQzWjyUJWuG1joulgzRQrU5PU8rVKUGlEeiKeI/kTohNDR7j7ZWJSgJ
-         KW0T6W0Y95oPbMCrhHadX7kbUhteP7yPq/lBMPqTAR9oChb0SnEeQVbdSHdVdxG428Rh
-         YPWuB94qIZs/dzVp/uWujZ1S77xjoenH70ObC7rdIzRydZ5EpIPclsDdnnVDk9cFYbfV
-         JwLBuYvhof3Dnu5leNvf5HAxIsVbAZlwYhacQfrg1sZlYEODvbpbgSuidfW+f8lspUmD
-         79vQ==
-X-Gm-Message-State: AOJu0YxiI8gRT6vBHITNG8T8/v9HI/dkdQkNfFV8VKOCWvwA+rWzl/vm
-	k62z+ugXGsteq9XO3yVAhrjugnTDmkgIqHvPGXG8eXX+m8C5mzl+pHCVQLhbRcE9EGaNPTYyuFF
-	HH9UoO/YM880RlFHKxIh3oJKbpozkDivB6Q==
-X-Gm-Gg: AZuq6aJ6dv6wPskzOvS8EwEQoBWbSAb7/0x4jWmvf7cGHYQW6QLBLSo6aD9TVL2XaiK
-	qG53mcU22BuMi1OISKhPgxQ+UNhTnC0E06rlCWDU4BkOBn/4gwr3WySzGOGiDUNCCvT39fHH0bk
-	+82TuhOgBgqY4YXslEX43gR5/faA0cwVy6ATz/qoLDFd6WXJD6BW8Ks9i1MV0+Vc+dGRA+9WYGX
-	/yRUIfcKCuWJtbgUBc8ARGeNjbqjMzmhCbmAFWx1O7KiRMqQnwhrWj9OzGTqaWlccYSGwpW4m+y
-	REoALQ==
-X-Received: by 2002:a53:d5cb:0:b0:649:d68c:1f60 with SMTP id
- 956f58d0204a3-64c78adfc84mr2101937d50.33.1771692463445; Sat, 21 Feb 2026
- 08:47:43 -0800 (PST)
+        bh=KbUHkUgNNJcHFewPPpf4LV3+hFbAxDe0Vr26U0qbuHo=;
+        b=bO5Y4nypfMKGMiqn6HLvaajn4K9x0Kd/fH45KDeQYGA0UzHCqcE/PYfvbpDHH6JSaH
+         p4++cayz5gsOhxakuJHIl0KwLQgYmvY/ma4Fg2NsHZk17v91Num3UIaoMDNF/JoWPx3U
+         ph+bsG0DALqGqjYLmiKV9pu4e+OLHQEk64xW1LLaiCkXCKVGfPv+AQ/ay2h9Nrq7zUpL
+         TZ3CEXyStADdf73sB+f6vbfXGutZ+Up2WqmwSdatwgDCt7d/c+QOhhbjH8F4Z3x0etp4
+         gQOtzb7UYI5g6VvmYv0EugXJitWD1M79KMWXceMnjgDxvq+p7oWwtt8f4pzsqI8HjCEU
+         Geog==
+X-Gm-Message-State: AOJu0Yy5Any2fISd4Rcv9buvIj5CKelf7cB2tVBUh+Zx1zCHR4nbjDv/
+	iFFLjIoaEpmMkOSH0OmXifPSSqnovHuH51NYA8XfgR/3HHIVhM+YJh9me7vv0azlIdY7Dk6xKHo
+	C4bNUWzafzpnFxixK7UM5+OJXhxDEmV0=
+X-Gm-Gg: AZuq6aIKHT99pXJ/gUm/v72bT63sY5QlbzI6YMobbZF1BmDBHiX9zeNwwuDyo3Ukvq0
+	+j7fQIXjZcolflC8cd/bQbj3rLJs4qES9NSHwJUKRzy0pGSvmM6M5lARYUsDbmAKWlcoNXSMTQW
+	tIXIDUPcWcMdVlqYOcjkO5YMYNJmJyQU6FIrG5NCe/VCxeFSWwdmgKbmbeePp7N9peCwHm8vG4j
+	4QOKyGCNDB2rXQtYidLLw90WZ8Za3JaOWfG+eIwDXqnXBoDpX3mMDm11L0aiTGJW9gqGE/BLg2+
+	JUZylQ==
+X-Received: by 2002:a05:690e:1916:b0:649:3875:9200 with SMTP id
+ 956f58d0204a3-64c78f6f90dmr2896545d50.1.1771692661621; Sat, 21 Feb 2026
+ 08:51:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20260221051006.335141-1-stondo@gmail.com> <20260221051006.335141-10-stondo@gmail.com>
-In-Reply-To: <20260221051006.335141-10-stondo@gmail.com>
+References: <20260221042530.318125-1-stondo@gmail.com> <20260221042530.318125-3-stondo@gmail.com>
+In-Reply-To: <20260221042530.318125-3-stondo@gmail.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 21 Feb 2026 09:47:32 -0700
-X-Gm-Features: AaiRm52Z7r4xIbwm5yM0Owc3CHdLC0Vo7tcwKa4xK2hTtrV6PNyWF3Xo6eEvGPw
-Message-ID: <CAJdd5GZi+m9H2znKQru=qCrf178a+UpDoAeDOh76uPrpciCr_A@mail.gmail.com>
-Subject: Re: [PATCH v2 09/18] spdx30: Add image root metadata package with
- describes relationship
+Date: Sat, 21 Feb 2026 09:50:51 -0700
+X-Gm-Features: AaiRm52J3O75k9H1lvq4AxZKrRS9VsxZwtWe0NvCYMWv6kSq8VN_c6siqkh7wZI
+Message-ID: <CAJdd5Gb0U1Z12fyEpkbfGQKk_NgGtQGXcJEtULU2KMmtEkCmDw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] spdx-common: Clarify documentation and make
+ SPDX_LICENSES extensible
 To: Stefano Tondo <stondo@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>, 
 	Stefano Tondo <stefano.tondo.ext@siemens.com>, 
 	"Freihofer, Adrian" <adrian.freihofer@siemens.com>, "Marko, Peter" <Peter.Marko@siemens.com>, 
 	Ross Burton <Ross.Burton@arm.com>
-Content-Type: multipart/alternative; boundary="000000000000ef5991064b584bc7"
+Content-Type: multipart/alternative; boundary="000000000000bf4720064b5857cb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 16:47:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231620
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 16:51:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231621
 
---000000000000ef5991064b584bc7
+--000000000000bf4720064b5857cb
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 20, 2026, 10:10=E2=80=AFPM Stefano Tondo <stondo@gmail.com> wro=
-te:
+On Fri, Feb 20, 2026, 9:25=E2=80=AFPM Stefano Tondo <stondo@gmail.com> wrot=
+e:
 
 > From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 >
-> Create a root metadata software_Package for the image that describes
-> what the SBOM represents:
-
-
-I think my recipe spdx changes that I sent to the list will eliminate the
-need for this, since there will be a package that represents the "recipe"
-you can use instead.
-
-
-> - Package name: {image_basename}-{machine}
-> - Version from BUILDNAME (with '1.0' fallback)
-> - Primary purpose: container
+> This commit improves the SPDX variable documentation and enhances
+> SPDX_LICENSES to support layer-based license extensions.
 >
 
-This is wrong regardless
+Sorry, you can't do this. The spdx license list is specified by spdx, not
+us. If you have licenses that are not on the list, the LicenseRef code
+should take care of adding their text, but you can't just invent new spdx
+license IDs for your licenses
 
-- Description from IMAGE_DESCRIPTION (with generated fallback)
-> - Supplier from SPDX_SUPPLIER if available
+
+> 1. SPDX_NAMESPACE_PREFIX documentation clarification:
+>    - Clarify that this should be organization-specific
+>    - Explain the default is for compatibility only
+>    - Provide example of production override
+>    - Make it consistent with SPDX_UUID_NAMESPACE guidance
 >
-> Add structural relationships:
-> - Document 'describes' the image package
-> - Image package 'contains' each recipe's artifacts
+> 2. SPDX_LICENSES documentation enhancement:
+>    - Clarify when this variable needs to be set
+>    - Document the new list behavior
+>    - Provide example usage with +=3D operator
 >
-> This fixes sbom-lint warnings about missing root elements and
-> provides proper SBOM structure for compliance tools.
+> 3. SPDX_LICENSES implementation as extensible list:
+>    - Change from single file to space-separated list of files
+>    - Support layer-based license extensions without file copying
+>    - Later files override earlier ones for duplicate license IDs
+>    - Backward compatible (single file path still works)
+>    - Add error handling for missing/invalid files
+>
+> This enhancement allows layers to add custom licenses without
+> maintaining a copy of the base spdx-licenses.json file:
+>
+>   SPDX_LICENSES +=3D "${LAYERDIR}/files/custom-licenses.json"
+>
+> This is particularly useful for organizations with proprietary or
+> custom licenses that need to be tracked in SBOMs.
 >
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+> Cc: "Ross Burton" <Ross.Burton@arm.com>
 > ---
->  meta/lib/oe/spdx30_tasks.py | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+>  meta/classes/spdx-common.bbclass | 13 +++++++++----
+>  meta/lib/oe/spdx_common.py       | 31 +++++++++++++++++++++++++++----
+>  2 files changed, 36 insertions(+), 8 deletions(-)
 >
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index ef47bd4205..0d62de61a3 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -1498,6 +1498,31 @@ def create_image_spdx(d):
->          d, "%s-%s-image" % (image_basename, machine)
->      )
+> diff --git a/meta/classes/spdx-common.bbclass
+> b/meta/classes/spdx-common.bbclass
+> index b8961262f9..024f24c837 100644
+> --- a/meta/classes/spdx-common.bbclass
+> +++ b/meta/classes/spdx-common.bbclass
+> @@ -42,7 +42,10 @@ SPDX_UUID_NAMESPACE[doc] =3D "The namespace used for
+> generating UUIDs in SPDX \
 >
-> +    # Create root metadata package for the image
-> +    # This describes what the SBOM represents and fixes sbom-lint warnin=
-g
-> +    image_package =3D objset.add_root(
-> +        oe.spdx30.software_Package(
-> +            _id=3Dobjset.new_spdxid("image", "root"),
-> +            creationInfo=3Dobjset.doc.creationInfo,
-> +            name=3Df"{image_basename}-{machine}",
-> +            software_packageVersion=3Dd.getVar("BUILDNAME") or "1.0",
-> +
-> software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpose.container,
-> +            description=3Dd.getVar("IMAGE_DESCRIPTION") or
-> f"{image_basename} image for {machine}",
-> +        )
-> +    )
-> +
-> +    # Set supplier if available
-> +    supplier =3D d.getVar("SPDX_SUPPLIER")
-> +    if supplier:
-> +        image_package.suppliedBy =3D supplier
-> +
-> +    # Create describes relationship from document to image
-> +    objset.new_relationship(
-> +        [objset.doc],
-> +        oe.spdx30.RelationshipType.describes,
-> +        [image_package],
-> +    )
-> +
->      with manifest_path.open("r") as f:
->          manifest =3D json.load(f)
+>  SPDX_NAMESPACE_PREFIX ??=3D "http://spdx.org/spdxdocs"
+>  SPDX_NAMESPACE_PREFIX[doc] =3D "The URI prefix used for SPDX document
+> namespaces. \
+> -    Combined with other identifiers to create unique document URIs."
+> +    This should be a domain name or URI prefix unique to your
+> organization to ensure \
+> +    globally unique document URIs. The default 'http://spdx.org/spdxdocs=
+'
+> is provided \
+> +    for compatibility but should be overridden in production environment=
+s
+> (e.g., \
+> +    'https://sbom.example.com')."
 >
-> @@ -1565,6 +1590,13 @@ def create_image_spdx(d):
->                  artifacts,
->              )
+>  SPDX_PRETTY ??=3D "0"
+>  SPDX_PRETTY[doc] =3D "If set to '1', generate human-readable formatted J=
+SON
+> output \
+> @@ -50,9 +53,11 @@ SPDX_PRETTY[doc] =3D "If set to '1', generate
+> human-readable formatted JSON output
+>      Pretty formatting makes files larger but easier to read."
 >
-> +            # Link artifacts to the image package
-> +            objset.new_relationship(
-> +                [image_package],
-> +                oe.spdx30.RelationshipType.contains,
-> +                artifacts,
-> +            )
+>  SPDX_LICENSES ??=3D "${COREBASE}/meta/files/spdx-licenses.json"
+> -SPDX_LICENSES[doc] =3D "Path to the JSON file containing SPDX license
+> identifier \
+> -    mappings. This file maps common license names to official SPDX
+> license \
+> -    identifiers."
+> +SPDX_LICENSES[doc] =3D "Space-separated list of JSON files containing SP=
+DX
+> license \
+> +    identifier mappings. Files are processed in order, with later entrie=
+s
+> overriding \
+> +    earlier ones. This allows layers to extend the base license set
+> without copying \
+> +    the entire file. Set this variable in your layer when using licenses
+> not known \
+> +    to oe-core (e.g., 'SPDX_LICENSES +=3D
+> \"${LAYERDIR}/files/custom-licenses.json\"')."
+>
+>  SPDX_CUSTOM_ANNOTATION_VARS ??=3D ""
+>  SPDX_CUSTOM_ANNOTATION_VARS[doc] =3D "Space-separated list of variable
+> names whose \
+> diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+> index 72c24180d5..8a6cf70fc1 100644
+> --- a/meta/lib/oe/spdx_common.py
+> +++ b/meta/lib/oe/spdx_common.py
+> @@ -42,10 +42,33 @@ def is_work_shared_spdx(d):
+>
+>
+>  def load_spdx_license_data(d):
+> -    with open(d.getVar("SPDX_LICENSES"), "r") as f:
+> -        data =3D json.load(f)
+> -        # Transform the license array to a dictionary
+> -        data["licenses"] =3D {l["licenseId"]: l for l in data["licenses"=
+]}
+> +    """
+> +    Load SPDX license data from one or more JSON files.
+> +    SPDX_LICENSES can be a space-separated list of files.
+> +    Later files override earlier ones for duplicate license IDs.
+> +    """
+> +    license_files =3D d.getVar("SPDX_LICENSES").split()
 > +
->      if builds:
->          rootfs_image, _ =3D oe.sbom30.find_root_obj_in_jsonld(
->              d,
+> +    # Initialize with empty structure
+> +    data =3D {"licenses": {}}
+> +
+> +    # Load and merge each file
+> +    for license_file in license_files:
+> +        try:
+> +            with open(license_file, "r") as f:
+> +                file_data =3D json.load(f)
+> +                # Transform the license array to a dictionary and merge
+> +                if "licenses" in file_data:
+> +                    for lic in file_data["licenses"]:
+> +                        data["licenses"][lic["licenseId"]] =3D lic
+> +                # Copy over other top-level keys from the last file
+> +                for key in file_data:
+> +                    if key !=3D "licenses":
+> +                        data[key] =3D file_data[key]
+> +        except FileNotFoundError:
+> +            bb.warn(f"SPDX license file not found: {license_file}")
+> +        except json.JSONDecodeError as e:
+> +            bb.warn(f"Invalid JSON in SPDX license file {license_file}:
+> {e}")
+>
+>      return data
+>
 > --
 > 2.53.0
 >
 >
 
---000000000000ef5991064b584bc7
+--000000000000bf4720064b5857cb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote gmail_quote_contai=
-ner"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 20, 2026, 10:10=E2=
-=80=AFPM Stefano Tondo &lt;<a href=3D"mailto:stondo@gmail.com">stondo@gmail=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Stefano T=
-ondo &lt;<a href=3D"mailto:stefano.tondo.ext@siemens.com" target=3D"_blank"=
- rel=3D"noreferrer">stefano.tondo.ext@siemens.com</a>&gt;<br>
+ner"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 20, 2026, 9:25=E2=80=
+=AFPM Stefano Tondo &lt;<a href=3D"mailto:stondo@gmail.com">stondo@gmail.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Stefano Tond=
+o &lt;<a href=3D"mailto:stefano.tondo.ext@siemens.com" target=3D"_blank" re=
+l=3D"noreferrer">stefano.tondo.ext@siemens.com</a>&gt;<br>
 <br>
-Create a root metadata software_Package for the image that describes<br>
-what the SBOM represents:</blockquote></div></div><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto">I think my recipe spdx changes that I sent to the list=
- will eliminate the need for this, since there will be a package that repre=
-sents the &quot;recipe&quot; you can use instead.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"></div><div dir=3D"auto"><div class=3D"gmail_quote=
- gmail_quote_container"><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+This commit improves the SPDX variable documentation and enhances<br>
+SPDX_LICENSES to support layer-based license extensions.<br></blockquote></=
+div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Sorry, you can&#39;=
+t do this. The spdx license list is specified by spdx, not us. If you have =
+licenses that are not on the list, the LicenseRef code should take care of =
+adding their text, but you can&#39;t just invent new spdx license IDs for y=
+our licenses</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 <br>
-- Package name: {image_basename}-{machine}<br>
-- Version from BUILDNAME (with &#39;1.0&#39; fallback)<br>
-- Primary purpose: container<br></blockquote></div></div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">This is wrong regardless=C2=A0</div><div dir=3D=
-"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote gmail_quote_co=
-ntainer"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">
-- Description from IMAGE_DESCRIPTION (with generated fallback)<br>
-- Supplier from SPDX_SUPPLIER if available<br>
+1. SPDX_NAMESPACE_PREFIX documentation clarification:<br>
+=C2=A0 =C2=A0- Clarify that this should be organization-specific<br>
+=C2=A0 =C2=A0- Explain the default is for compatibility only<br>
+=C2=A0 =C2=A0- Provide example of production override<br>
+=C2=A0 =C2=A0- Make it consistent with SPDX_UUID_NAMESPACE guidance<br>
 <br>
-Add structural relationships:<br>
-- Document &#39;describes&#39; the image package<br>
-- Image package &#39;contains&#39; each recipe&#39;s artifacts<br>
+2. SPDX_LICENSES documentation enhancement:<br>
+=C2=A0 =C2=A0- Clarify when this variable needs to be set<br>
+=C2=A0 =C2=A0- Document the new list behavior<br>
+=C2=A0 =C2=A0- Provide example usage with +=3D operator<br>
 <br>
-This fixes sbom-lint warnings about missing root elements and<br>
-provides proper SBOM structure for compliance tools.<br>
+3. SPDX_LICENSES implementation as extensible list:<br>
+=C2=A0 =C2=A0- Change from single file to space-separated list of files<br>
+=C2=A0 =C2=A0- Support layer-based license extensions without file copying<=
+br>
+=C2=A0 =C2=A0- Later files override earlier ones for duplicate license IDs<=
+br>
+=C2=A0 =C2=A0- Backward compatible (single file path still works)<br>
+=C2=A0 =C2=A0- Add error handling for missing/invalid files<br>
+<br>
+This enhancement allows layers to add custom licenses without<br>
+maintaining a copy of the base spdx-licenses.json file:<br>
+<br>
+=C2=A0 SPDX_LICENSES +=3D &quot;${LAYERDIR}/files/custom-licenses.json&quot=
+;<br>
+<br>
+This is particularly useful for organizations with proprietary or<br>
+custom licenses that need to be tracked in SBOMs.<br>
 <br>
 Signed-off-by: Stefano Tondo &lt;<a href=3D"mailto:stefano.tondo.ext@siemen=
 s.com" target=3D"_blank" rel=3D"noreferrer">stefano.tondo.ext@siemens.com</=
 a>&gt;<br>
+Cc: &quot;Ross Burton&quot; &lt;<a href=3D"mailto:Ross.Burton@arm.com" targ=
+et=3D"_blank" rel=3D"noreferrer">Ross.Burton@arm.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/lib/oe/spdx30_tasks.py | 32 ++++++++++++++++++++++++++++++++<br>
-=C2=A01 file changed, 32 insertions(+)<br>
+=C2=A0meta/classes/spdx-common.bbclass | 13 +++++++++----<br>
+=C2=A0meta/lib/oe/spdx_common.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 31 +++++++++++=
+++++++++++++++++----<br>
+=C2=A02 files changed, 36 insertions(+), 8 deletions(-)<br>
 <br>
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
-index ef47bd4205..0d62de61a3 100644<br>
---- a/meta/lib/oe/spdx30_tasks.py<br>
-+++ b/meta/lib/oe/spdx30_tasks.py<br>
-@@ -1498,6 +1498,31 @@ def create_image_spdx(d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d, &quot;%s-%s-image&quot; % (image_basen=
-ame, machine)<br>
-=C2=A0 =C2=A0 =C2=A0)<br>
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bb=
+class<br>
+index b8961262f9..024f24c837 100644<br>
+--- a/meta/classes/spdx-common.bbclass<br>
++++ b/meta/classes/spdx-common.bbclass<br>
+@@ -42,7 +42,10 @@ SPDX_UUID_NAMESPACE[doc] =3D &quot;The namespace used fo=
+r generating UUIDs in SPDX \<br>
 <br>
-+=C2=A0 =C2=A0 # Create root metadata package for the image<br>
-+=C2=A0 =C2=A0 # This describes what the SBOM represents and fixes sbom-lin=
-t warning<br>
-+=C2=A0 =C2=A0 image_package =3D objset.add_root(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.spdx30.software_Package(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _id=3Dobjset.new_spdxid(&quot;im=
-age&quot;, &quot;root&quot;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 creationInfo=3Dobjset.doc.creati=
-onInfo,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name=3Df&quot;{image_basename}-{=
-machine}&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 software_packageVersion=3Dd.getV=
-ar(&quot;BUILDNAME&quot;) or &quot;1.0&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 software_primaryPurpose=3Doe.spd=
-x30.software_SoftwarePurpose.container,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 description=3Dd.getVar(&quot;IMA=
-GE_DESCRIPTION&quot;) or f&quot;{image_basename} image for {machine}&quot;,=
+=C2=A0SPDX_NAMESPACE_PREFIX ??=3D &quot;<a href=3D"http://spdx.org/spdxdocs=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">http://spdx.org/spdxdocs<=
+/a>&quot;<br>
+=C2=A0SPDX_NAMESPACE_PREFIX[doc] =3D &quot;The URI prefix used for SPDX doc=
+ument namespaces. \<br>
+-=C2=A0 =C2=A0 Combined with other identifiers to create unique document UR=
+Is.&quot;<br>
++=C2=A0 =C2=A0 This should be a domain name or URI prefix unique to your or=
+ganization to ensure \<br>
++=C2=A0 =C2=A0 globally unique document URIs. The default &#39;<a href=3D"h=
+ttp://spdx.org/spdxdocs" rel=3D"noreferrer noreferrer" target=3D"_blank">ht=
+tp://spdx.org/spdxdocs</a>&#39; is provided \<br>
++=C2=A0 =C2=A0 for compatibility but should be overridden in production env=
+ironments (e.g., \<br>
++=C2=A0 =C2=A0 &#39;<a href=3D"https://sbom.example.com" rel=3D"noreferrer =
+noreferrer" target=3D"_blank">https://sbom.example.com</a>&#39;).&quot;<br>
 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-+=C2=A0 =C2=A0 )<br>
+=C2=A0SPDX_PRETTY ??=3D &quot;0&quot;<br>
+=C2=A0SPDX_PRETTY[doc] =3D &quot;If set to &#39;1&#39;, generate human-read=
+able formatted JSON output \<br>
+@@ -50,9 +53,11 @@ SPDX_PRETTY[doc] =3D &quot;If set to &#39;1&#39;, genera=
+te human-readable formatted JSON output<br>
+=C2=A0 =C2=A0 =C2=A0Pretty formatting makes files larger but easier to read=
+.&quot;<br>
+<br>
+=C2=A0SPDX_LICENSES ??=3D &quot;${COREBASE}/meta/files/spdx-licenses.json&q=
+uot;<br>
+-SPDX_LICENSES[doc] =3D &quot;Path to the JSON file containing SPDX license=
+ identifier \<br>
+-=C2=A0 =C2=A0 mappings. This file maps common license names to official SP=
+DX license \<br>
+-=C2=A0 =C2=A0 identifiers.&quot;<br>
++SPDX_LICENSES[doc] =3D &quot;Space-separated list of JSON files containing=
+ SPDX license \<br>
++=C2=A0 =C2=A0 identifier mappings. Files are processed in order, with late=
+r entries overriding \<br>
++=C2=A0 =C2=A0 earlier ones. This allows layers to extend the base license =
+set without copying \<br>
++=C2=A0 =C2=A0 the entire file. Set this variable in your layer when using =
+licenses not known \<br>
++=C2=A0 =C2=A0 to oe-core (e.g., &#39;SPDX_LICENSES +=3D \&quot;${LAYERDIR}=
+/files/custom-licenses.json\&quot;&#39;).&quot;<br>
+<br>
+=C2=A0SPDX_CUSTOM_ANNOTATION_VARS ??=3D &quot;&quot;<br>
+=C2=A0SPDX_CUSTOM_ANNOTATION_VARS[doc] =3D &quot;Space-separated list of va=
+riable names whose \<br>
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py<br>
+index 72c24180d5..8a6cf70fc1 100644<br>
+--- a/meta/lib/oe/spdx_common.py<br>
++++ b/meta/lib/oe/spdx_common.py<br>
+@@ -42,10 +42,33 @@ def is_work_shared_spdx(d):<br>
+<br>
+<br>
+=C2=A0def load_spdx_license_data(d):<br>
+-=C2=A0 =C2=A0 with open(d.getVar(&quot;SPDX_LICENSES&quot;), &quot;r&quot;=
+) as f:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D json.load(f)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Transform the license array to a dictionary<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 data[&quot;licenses&quot;] =3D {l[&quot;licens=
+eId&quot;]: l for l in data[&quot;licenses&quot;]}<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Load SPDX license data from one or more JSON files.<br>
++=C2=A0 =C2=A0 SPDX_LICENSES can be a space-separated list of files.<br>
++=C2=A0 =C2=A0 Later files override earlier ones for duplicate license IDs.=
+<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 license_files =3D d.getVar(&quot;SPDX_LICENSES&quot;).split(=
+)<br>
 +<br>
-+=C2=A0 =C2=A0 # Set supplier if available<br>
-+=C2=A0 =C2=A0 supplier =3D d.getVar(&quot;SPDX_SUPPLIER&quot;)<br>
-+=C2=A0 =C2=A0 if supplier:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_package.suppliedBy =3D supplier<br>
++=C2=A0 =C2=A0 # Initialize with empty structure<br>
++=C2=A0 =C2=A0 data =3D {&quot;licenses&quot;: {}}<br>
 +<br>
-+=C2=A0 =C2=A0 # Create describes relationship from document to image<br>
-+=C2=A0 =C2=A0 objset.new_relationship(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [objset.doc],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.spdx30.RelationshipType.describes,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [image_package],<br>
-+=C2=A0 =C2=A0 )<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0with manifest_path.open(&quot;r&quot;) as f:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0manifest =3D json.load(f)<br>
-<br>
-@@ -1565,6 +1590,13 @@ def create_image_spdx(d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0artifacts,<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Link artifacts to the image pa=
-ckage<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 objset.new_relationship(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [image_package],<b=
++=C2=A0 =C2=A0 # Load and merge each file<br>
++=C2=A0 =C2=A0 for license_file in license_files:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(license_file, &quot;r&=
+quot;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file_data =3D json=
+.load(f)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Transform the li=
+cense array to a dictionary and merge<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;licenses&=
+quot; in file_data:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for =
+lic in file_data[&quot;licenses&quot;]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 data[&quot;licenses&quot;][lic[&quot;licenseId&quot;]] =3D lic<b=
 r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.spdx30.Relation=
-shipType.contains,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 artifacts,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if builds:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rootfs_image, _ =3D oe.sbom30.find_root_o=
-bj_in_jsonld(<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy over other =
+top-level keys from the last file<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for key in file_da=
+ta:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if k=
+ey !=3D &quot;licenses&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 data[key] =3D file_data[key]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except FileNotFoundError:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(f&quot;SPDX license file=
+ not found: {license_file}&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except json.JSONDecodeError as e:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(f&quot;Invalid JSON in S=
+PDX license file {license_file}: {e}&quot;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0return data<br>
+<br>
 -- <br>
 2.53.0<br>
 <br>
 </blockquote></div></div></div>
 
---000000000000ef5991064b584bc7--
+--000000000000bf4720064b5857cb--
 
