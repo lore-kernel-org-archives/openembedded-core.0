@@ -2,149 +2,103 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2CD5C61DD3
-	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 08:23:24 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16522.1771662202848281298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE9CC61DD5
+	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 08:28:24 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16536.1771662499454617018
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Feb 2026 00:23:24 -0800
+ Sat, 21 Feb 2026 00:28:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=IHFrwn9L;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=QApJsOVy;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E8BF9C16557;
-	Sat, 21 Feb 2026 08:23:33 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5E8CE1A0D57
+	for <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:28:17 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 92C0A5FB54;
-	Sat, 21 Feb 2026 08:23:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6CBB610368C40;
-	Sat, 21 Feb 2026 09:23:16 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 261915FB54;
+	Sat, 21 Feb 2026 08:28:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 91E3F10368C40;
+	Sat, 21 Feb 2026 09:28:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771662199; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1771662496; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=5Rfh+R5SIlA0TRoSxzpv6gVYGWgYxjvINIxj6+4peNM=;
-	b=IHFrwn9LppEXwat8XEwB/AHgL34vOiBrqpJdRjm3RXQDrGFadLhWIpesxgK35op7INd3YP
-	Y4N1Dr9JUlA1zn5h0z2x6u+I3xOXuS5xBV09vdDv+fIRGzfc7tsbEfMd1kTZthQc1+2yks
-	ez4h3N3sVXr6AJdDaaKZoWAoyWfqcd1e795wn40TsrygkPPflGhk/Tys2JaOkt7BD5F7xn
-	67FcfEVqkEqRgesS/+k39lFdQnvUpXHVrG1u0YmExw0CZAhafG45/+KSerDAUGLA1sa2po
-	EOG4WW7dkh+UlshBBiGVg1rve6ezDyrQZNqvzAdg61sjgTKh2u+axHO2ir1l2Q==
+	bh=1Qe9GlIzzZnWmbEXdMJuqbaIcju3gwt0RVC1+p665Ng=;
+	b=QApJsOVysPGgfCdzEc8rjQXPdS0MdjcRNEXGo5Tv91Jdd5A7ao+693w0rkSiQjq3EvcKaN
+	DkYbktdjg3y2hAzQuowjH+otiQKQgHkhRXPBf10Ra8vYIYy+zYpxTbz9EdVL6Wu0b6EZzA
+	hgEFd2Xh0Ma/G43oak43g3LjzC1t1efHXBn5Kt7Xf4chkmXLTWOVGeY1njAvc1PMm/QQNY
+	utlGxjVLdbufGDmBy39Wsjrf28XKaSS46T9eN9IBS4SB5fIiVF0A+n+dufjFKpwsVaCFiI
+	COB45aEItDuFwkWKwyV6BI6T83Dfl3XvjvBj6yrfRdTQE3KMcfTUmvdHu9UYJA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Feb 2026 09:23:15 +0100
-Message-Id: <DGKHU0R6V881.3PN6D4V3SHOUB@bootlin.com>
-Subject: Re: [OE-core] [PATCH 0/4] Oe-selftest for Clang, LLVM, LLD
-Cc: <Sundeep.Kokkonda@windriver.com>, <Deepesh.Varatharajan@windriver.com>,
- <Randy.MacLeod@windriver.com>
+Date: Sat, 21 Feb 2026 09:28:14 +0100
+Message-Id: <DGKHXU4JG1IL.1D7QRFJ1Q8BDW@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <deepesh.varatharajan@windriver.com>,
+To: <viswanath.kraleti@oss.qualcomm.com>,
  <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][meta][PATCH] uki.bbclass: make DTB packaging optional
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260220060252.77248-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20260220060252.77248-1-Deepesh.Varatharajan@windriver.com>
+References: <20260219172220.3848330-1-viswanath.kraleti@oss.qualcomm.com>
+In-Reply-To: <20260219172220.3848330-1-viswanath.kraleti@oss.qualcomm.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:23:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231605
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:28:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231606
 
-On Fri Feb 20, 2026 at 7:02 AM CET, Deepesh via lists.openembedded.org Vara=
-tharajan wrote:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+On Thu Feb 19, 2026 at 6:22 PM CET, Viswanath Kraleti via lists.openembedde=
+d.org wrote:
+> According to the Unified Kernel Image (UKI) specification [1], including
+> a compiled device tree in the .dtb section of a UKI is optional. However,
+> the current implementation always packages device trees listed in
+> KERNEL_DEVICETREE into the UKI by default. This makes uki.bbclass
+> unsuitable for systems that rely on firmware-provided DTBs and do not
+> want a DTB embedded in the UKI.
 >
-> This patch series introduces a test framework to run selftests for
-> target builds of Clang, LLVM, and LLD.
+> Fix this by introducing a new UKI_DEVICETREE variable to control device
+> tree packaging. The dtb section is now populated from UKI_DEVICETREE
+> instead of KERNEL_DEVICETREE. Users who do not want DTBs included in the
+> UKI can override UKI_DEVICETREE to an empty value from their recipes.
 >
-> Summary of changes:
-> -Patch 1: Disable clang-tools-extra tests, as Clang's CMake cannot
->           detect the llvm-bcanalyzer target.
-> -Patch 2: Enabled the necessary CMake flags for clang, llvm & lld tests
-> -Patch 3: Selftest script for Clang, LLVM, and LLD including exclude list
-> -Patch 4: Fix rust build failure by replacing target llvm-config with nat=
-ive
+> [1] https://uapi-group.org/specifications/specs/unified_kernel_image/
 >
-> Testing:
-> 1. The test suite has been successfully validated on x86-64, arm64, riscv=
-64
-> and arm32 for all Clang, LLD & LLVM components.
-> 2. Clang and LLD tests passed successfully on x86. LLVM tests are skipped
-> on x86 since it's broken. A follow-up bug will be filed and addressed.
-> 3. Clang, LLVM & LLD all together ~80K tests are there and we currently
-> ~250 tests to exclude list which are failing (0.32%).
->
-> Impact on build time:
-> These builds were executed in a controlled environment without poky-sstat=
-e
-> enabled.
->
-> Default(without changes):
-> |  Target   | Run 1      | Run 2      | Run 3      |    Average     |
-> | --------- | ---------- | ---------- | ---------- | -------------- |
-> |   llvm    | 22m18.441s | 22m31.905s | 22m23.718s |   22m24.688s   |
-> |   clang   | 30m09.774s | 30m22.680s | 30m15.312s |   30m15.922s   |
-> |   lld     | 1m26.994s  | 1m30.415s  | 1m29.006s  |   1m28.805s    |
->
-> With the testsuite changes applied:
-> |  Target   | Run 1      | Run 2      | Run 3      |    Average     |
-> | --------- | ---------- | ---------- | ---------- | -------------- |
-> |   llvm    | 23m32.104s | 23m45.887s | 23m38.157s |   23m38.716s   |
-> |   clang   | 30m31.402s | 30m46.198s | 30m39.445s |   30m39.015s   |
-> |   lld     | 1m29.845s  | 1m34.212s  | 1m31.925s  |   1m31.994s    |
->
-> Comparison:
-> |  Target   | Default Avg | With Changes Avg |     **Diff**     |
-> | --------- | ----------- | ---------------- | ---------------- |
-> |   llvm    | 22m24.688s  | 23m38.716s       |   +1m14.028s     |
-> |   clang   | 30m15.922s  | 30m39.015s       |   +0m23.093s     |
-> |   lld     | 1m28.805s   | 1m31.994s        |   +0m3.189s      |
->
-> Impact on tmpdir size:
-> | Metric                               | Size  |
-> | ------------------------------------ | ----- |
-> | Default target `tmpdir` size         | 74 GB |
-> | Target `tmpdir` size (after changes) | 79 GB |
-> | Difference                           | +5 GB |
->
-> Deepesh Varatharajan (4):
+> Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+> ---
 
-Hi Deepesh,
+Hi Viswanath,
+
+Thanks for your patch.
 
 It looks like some selftests are failing:
 
-2026-02-20 20:32:17,178 - oe-selftest - INFO - clang.LLVMSelfTestSystemEmul=
-ated.test_llvm (subunit.RemotedTestCase)
-2026-02-20 20:32:17,179 - oe-selftest - INFO -  ... FAIL
+2026-02-20 20:52:59,350 - oe-selftest - INFO - uki.UkiTest.test_uki_boot_sy=
+stemd (subunit.RemotedTestCase)
+2026-02-20 20:52:59,351 - oe-selftest - INFO -  ... FAIL
 ...
-2026-02-20 20:32:17,179 - oe-selftest - INFO - 3: 1/1 8/21 (298.44s) (0 fai=
-led) (clang.LLVMSelfTestSystemEmulated.test_llvm)
-2026-02-20 20:32:17,179 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qemux86-64-tc/build/layers/openembedded=
--core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-tc/build/layers/openembedded=
--core/meta/lib/oeqa/selftest/cases/clang.py", line 184, in test_llvm
-    raise AssertionError(f"llvm-lit failed for LLVM: {output}")
-AssertionError: llvm-lit failed for LLVM: sh: cd: line 0: can't cd to /srv/=
-pokybuild/yocto-worker/qemux86-64-tc/build/build-st-177928/tmp/work/x86-64-=
-v3-poky-linux/llvm/21.1.8/build/bin: No such file or directory
+2026-02-20 20:45:12,725 - oe-selftest - INFO - Starting client DEBUGINFOD_U=
+RLS=3Dhttp://192.168.7.1:56253/ debuginfod-find debuginfo /usr/bin/xz
+[Fri Feb 20 20:45:12 2026] (3985778/3985789): 192.168.7.2:38846 UA:elfutils=
+/0.194,Linux/x86_64,/ XFF: GET /buildid/672c74f9d1ea2e63d71dfb2d5c9a2e253ee=
+550f5/debuginfo 200 258784 0+10ms
+ERROR: When reparsing /tmp/selftest-fetchbs937nwy/test.bb:do_checkuri, the =
+basehash value changed from 84b9e23a83a764e7a5d8a96ee523199e2b1c604f4280a45=
+030e248de0ff52962 to 4123da244f465feffecb2b4fd2b132b64851981ec2fb70bf9445df=
+8b0ea6a69e. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake test -cdo_checkuri -Snone
+ERROR: Then:
+ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
 ...
-2026-02-20 20:32:20,596 - oe-selftest - INFO - clang.LLDSelfTestSystemEmula=
-ted.test_lld (subunit.RemotedTestCase)
-2026-02-20 20:32:20,597 - oe-selftest - INFO -  ... FAIL
+2026-02-20 21:24:55,987 - oe-selftest - INFO - wic.Wic2.test_efi_plugin_uni=
+fied_kernel_image_qemu (subunit.RemotedTestCase)
+2026-02-20 21:24:55,988 - oe-selftest - INFO -  ... FAIL
 ...
-2026-02-20 20:32:20,814 - oe-selftest - INFO - clang.ClangSelfTestSystemEmu=
-lated.test_clang (subunit.RemotedTestCase)
-2026-02-20 20:32:20,815 - oe-selftest - INFO -  ... FAIL
+2026-02-20 20:52:59,350 - oe-selftest - INFO - uki.UkiTest.test_uki_boot_sy=
+stemd (subunit.RemotedTestCase)
+2026-02-20 20:52:59,351 - oe-selftest - INFO -  ... FAIL
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/66/builds/3243
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/1069
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3147
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/3165
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/3151
-
-Can you have a look at these failures?
+Can you have a look at the issue?
 
 Thanks,
 Mathieu
