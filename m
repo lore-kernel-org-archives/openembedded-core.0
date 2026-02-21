@@ -1,119 +1,97 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C43C61DD6
-	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 08:30:04 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16549.1771662600769266797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC264C61DD9
+	for <webhook@archiver.kernel.org>; Sat, 21 Feb 2026 08:42:44 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16678.1771663360331432376
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Feb 2026 00:30:01 -0800
+ Sat, 21 Feb 2026 00:42:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=CEEzSx8S;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A232AC16557;
-	Sat, 21 Feb 2026 08:30:11 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5ED5E5FB54;
-	Sat, 21 Feb 2026 08:29:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4A48710368C40;
-	Sat, 21 Feb 2026 09:29:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771662597; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=NC8/AkIqvQy5XlP7af5DhUMeJuw+sbcPImUJ9zQIOqc=;
-	b=CEEzSx8Sp4+Loymgh6t1mYB05YePetd9HBaqQCd4r8QtV7tgKcwL4Fx2x31YwH2kCCoGlB
-	bAkh3y4isuMbFbFWlAuy9fs1+kYmG5ZikzhsLQNjgHnu8sLGb7+XvVO6ssfOl2s3dZqOCI
-	tdNDojERaQKHeksQJWz1Xyqp5GsE2saycTqm5pN/E4KsuFbqeLthOdor3OdbndYY9Krp5s
-	JNzuPjfyW/qdh96rsxvank+YvVbRrZiLA+f27t7gTjf6Yg1q91kx2sfR3XF9VJ7h1OPR7w
-	llNDYPnt+Smc68bnco4XrY2VkvfRvB+Vc4BGwipw0eKWCb042Z8bwU11UIb0Fg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Feb 2026 09:29:56 +0100
-Message-Id: <DGKHZ4U4RSVV.2VA18N1AJ4NUR@bootlin.com>
-To: <viswanath.kraleti@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][meta][PATCH] uki.bbclass: make DTB packaging optional
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260219172220.3848330-1-viswanath.kraleti@oss.qualcomm.com>
- <DGKHXU4JG1IL.1D7QRFJ1Q8BDW@bootlin.com>
-In-Reply-To: <DGKHXU4JG1IL.1D7QRFJ1Q8BDW@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cTnW5RRW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48378136adcso16917565e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 00:42:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1771663358; x=1772268158; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ntg1dCd+fNhVFVl3pynp+2xINIxswzKdjsFpSPP+tQs=;
+        b=cTnW5RRWxwmCwCsZVkN1E3fo8RAo7u0mHxh0PUvyheZgjh7r65Yn8ZFOF62JPL12sK
+         MkE+JxT+Vplc18zQrcJBCZqXsbsOyzZV/65O6xXpKpYtxY3/BgXXX/AOosUT9DnWCbp2
+         dlrHFQeemeTqMGPOZsJ3FXPHfxmz9n0K1LmDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771663358; x=1772268158;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ntg1dCd+fNhVFVl3pynp+2xINIxswzKdjsFpSPP+tQs=;
+        b=iim4VcrAInEXgqg7i6LvKjyZhHjm5DNq+bAuFnp7Tl2jrJyenHcKiOW/jaf3dfMqx1
+         YdynvofsC81OD5D/tP7htcz3yOC+bpQgOKECXLXjTOxMnbGDwZE6kQEfROg+NlDEFEkm
+         0/noZ7iK/FjqcTs2BW0uW1DfJdTGZmPkrYiUhdM/MCqDAZR58LKn6Tdx+Ad+9cb/+ihG
+         Gm8FmneBkR5yGuTuQrpBUWzyeePVmTdqIqEZYy4/eiEUzJY0relwtxSNbbAlcN0kpGkf
+         +LCR9A5+Se+HWK0f0JkyeTD3YJLZk0zX56phIYpRiTRLMy+w7Zlr6LTvmDnnrZGTeztI
+         y19A==
+X-Gm-Message-State: AOJu0Yyua3DgagQpIryg4vNrml/eebRsM+wamyz5ygH5EH9OP4LXMnb7
+	gdlB+UDEL5vb6q6Qg4VG4ksVfGZTCRulencEDGnbL7Fp+D1ZxMjO6FAnii+0uw9GFALDn0iA7BG
+	qAtWRBE0=
+X-Gm-Gg: AZuq6aIJYP6mzN33J51aSM9LWTfRwQ8ufUsRFVcyI9eRIGDjzm0zbIbFJj5kr8TRyY+
+	xCUWKds3KUbgDxvZm/3eRw4xbAL1VoJ03ZMzMZrifrcer+mDNv8+BvFfetNgJVd8t7jJdtuzJxH
+	cZB+sfrwYgxqVeyUUTITfIGNj91xANRLXLEu0K0jIiGQwFsuww3t10crYX2f60bBhVIxd6xlWnO
+	YW3m4JXvpaW+cvyD7nMAjBkHucP34pcvyg06SqfRcsDXWUXBnDQLuca5tjoWQKng0Wm3OZiS0Sk
+	7IOo18RrrR1hG6Uf9eikstoh5YHe48smAIq826SOjgEdfNXAHyO3fjvxeTBnUc5HVu/szr8NM5Y
+	VHQQezkBxU1aYKU8gUNV2qw6KIs4Wy/1sdXeKkSPH1yHg2DbSYE/HqUZyYMqSF0yo4ZUsFZBSW+
+	2Hm7SIjwaNRrl+pSFUtm0xjvlH2yE6RZh5RtJSwoGc9LD8DMBCWhE=
+X-Received: by 2002:a05:600c:3b20:b0:477:561f:6fc8 with SMTP id 5b1f17b1804b1-483a95eabadmr38328345e9.5.1771663358089;
+        Sat, 21 Feb 2026 00:42:38 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4b64:9a04:85e4:d902])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3e0dsm205898295e9.1.2026.02.21.00.42.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Feb 2026 00:42:36 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 6/6] distro/defaultsetup: Enable space optimization tweaks
+Date: Sat, 21 Feb 2026 08:42:30 +0000
+Message-ID: <20260221084230.3219379-6-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260221084230.3219379-1-richard.purdie@linuxfoundation.org>
+References: <20260221084230.3219379-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:30:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231607
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Feb 2026 08:42:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231613
 
-On Sat Feb 21, 2026 at 9:28 AM CET, Mathieu Dubois-Briand wrote:
-> On Thu Feb 19, 2026 at 6:22 PM CET, Viswanath Kraleti via lists.openembed=
-ded.org wrote:
->> According to the Unified Kernel Image (UKI) specification [1], including
->> a compiled device tree in the .dtb section of a UKI is optional. However=
-,
->> the current implementation always packages device trees listed in
->> KERNEL_DEVICETREE into the UKI by default. This makes uki.bbclass
->> unsuitable for systems that rely on firmware-provided DTBs and do not
->> want a DTB embedded in the UKI.
->>
->> Fix this by introducing a new UKI_DEVICETREE variable to control device
->> tree packaging. The dtb section is now populated from UKI_DEVICETREE
->> instead of KERNEL_DEVICETREE. Users who do not want DTBs included in the
->> UKI can override UKI_DEVICETREE to an empty value from their recipes.
->>
->> [1] https://uapi-group.org/specifications/specs/unified_kernel_image/
->>
->> Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
->> ---
->
-> Hi Viswanath,
->
-> Thanks for your patch.
->
-> It looks like some selftests are failing:
->
-> 2026-02-20 20:52:59,350 - oe-selftest - INFO - uki.UkiTest.test_uki_boot_=
-systemd (subunit.RemotedTestCase)
-> 2026-02-20 20:52:59,351 - oe-selftest - INFO -  ... FAIL
-> ...
-> 2026-02-20 20:45:12,725 - oe-selftest - INFO - Starting client DEBUGINFOD=
-_URLS=3Dhttp://192.168.7.1:56253/ debuginfod-find debuginfo /usr/bin/xz
-> [Fri Feb 20 20:45:12 2026] (3985778/3985789): 192.168.7.2:38846 UA:elfuti=
-ls/0.194,Linux/x86_64,/ XFF: GET /buildid/672c74f9d1ea2e63d71dfb2d5c9a2e253=
-ee550f5/debuginfo 200 258784 0+10ms
-> ERROR: When reparsing /tmp/selftest-fetchbs937nwy/test.bb:do_checkuri, th=
-e basehash value changed from 84b9e23a83a764e7a5d8a96ee523199e2b1c604f4280a=
-45030e248de0ff52962 to 4123da244f465feffecb2b4fd2b132b64851981ec2fb70bf9445=
-df8b0ea6a69e. The metadata is not deterministic and this needs to be fixed.
-> ERROR: The following commands may help:
-> ERROR: $ bitbake test -cdo_checkuri -Snone
-> ERROR: Then:
-> ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
-> ...
-> 2026-02-20 21:24:55,987 - oe-selftest - INFO - wic.Wic2.test_efi_plugin_u=
-nified_kernel_image_qemu (subunit.RemotedTestCase)
-> 2026-02-20 21:24:55,988 - oe-selftest - INFO -  ... FAIL
-> ...
-> 2026-02-20 20:52:59,350 - oe-selftest - INFO - uki.UkiTest.test_uki_boot_=
-systemd (subunit.RemotedTestCase)
-> 2026-02-20 20:52:59,351 - oe-selftest - INFO -  ... FAIL
->
-> Can you have a look at the issue?
->
-> Thanks,
-> Mathieu
+This enables a collection of tweaks which reudce build output size where
+the output has been found to be particularly problematic.
 
-Sorry, I forgot to add relevant autobuilder links:
+This reduces sstate object size as well as on disk build footprint, it
+also helps memory usage for linking some of the recipes. This in turn
+improves built speed and the smaller sstate objects are faster to compress,
+decompress and transfer over the network.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3122
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3244
+This change has been tested in poky for a long time.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/defaultsetup.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index 871fe7b4e88..c6be00e80cf 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -7,6 +7,7 @@ require conf/distro/include/tclibc-${TCLIBC}.inc
+ 
+ require conf/distro/include/no-static-libs.inc
+ require conf/distro/include/security_flags.inc
++require conf/distro/include/yocto-space-optimize.inc
+ 
+ require conf/distro/include/uninative-flags.inc
+ require conf/distro/include/yocto-uninative.inc
 
