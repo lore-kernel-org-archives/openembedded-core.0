@@ -2,130 +2,109 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4425CC624D3
-	for <webhook@archiver.kernel.org>; Sun, 22 Feb 2026 07:59:47 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9967.1771747176725615977
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A782C624D4
+	for <webhook@archiver.kernel.org>; Sun, 22 Feb 2026 08:04:07 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10025.1771747438944407035
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Feb 2026 23:59:37 -0800
+ Sun, 22 Feb 2026 00:03:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=IJuKIOPz;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=UQYYMiAX;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7FFB31A1144
-	for <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 07:59:34 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 3CE7B4E40F2F;
+	Sun, 22 Feb 2026 08:03:57 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 49A115FB83;
-	Sun, 22 Feb 2026 07:59:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D929910368D5D;
-	Sun, 22 Feb 2026 08:59:32 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 054515FB83;
+	Sun, 22 Feb 2026 08:03:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E3D5610368CE5;
+	Sun, 22 Feb 2026 09:03:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771747173; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1771747436; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ZoSZiA+qUizAsZXLhh21B4g7cWPu9ZVWxN07VOoceVM=;
-	b=IJuKIOPzyw/EqZ6OlYJdHd6iAGSmz0U7tgNmznayXnXEOlCv1PERsseCf8gDh59O5bSISB
-	G/wBzWAYfXuy6qBUE3jC9yY2Cjs3YgQQRKsE61TiFiT0fLXqF2G4KASVz4AJn4bDuXcdUc
-	YwHsG66RsxiAp984mB89ehT9n85wPgX82wqniVnJlY3/30P/m577LXimk1XbbB3vc3n93N
-	nmgrF8S03Pe6Uzg7MjI+Xs0imoWER8HjtvinEgPATT8QgmS9vrhVZ3qkVK+R1hdkwJJ3OW
-	0gcbOEAAp7pgyBLUqYUtmCIRqEnFaUVxAfCrG5KZwmG6w1nbVlSiZTV588zEew==
+	bh=FIyMK1Q4TsJ6JxlJB+KWHlZ9pUIlmn4QYD/PK2jglFg=;
+	b=UQYYMiAXzOCCNVC4Xyj25dRJBRmj48NpAa3oVOcS2BbjSqrDGiqWEHSyifqbWl95MCOT2v
+	Y7GXUcCE6XVd2I9So17KQatVxJHEI4vmxvueNi/bhOiSHBc3ucI7ITDS2j/70oYbEpcr4w
+	jaBB/1zTs6O4SfRVUBwrDpAu4nwoMzlm1tio6OUGGxePjVLfyZISvsVISueZ3GTPyguzGG
+	9R31VduejYbu0u1bMIKC2XQIyHhu9WWCvIYOnAXcHqSOUVQb3XNzgwcEgcffQEYhF11JmM
+	J5U8PX0lVY78Hb4Zr+Pln7a3XSRCzwJVzqXdmceKdv9TlirR2cr01++4D0jrgw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 22 Feb 2026 08:59:25 +0100
-Message-Id: <DGLBYBKNAHZC.1SDTVVNSKSXDG@bootlin.com>
-Subject: Re: [OE-core][PATCH 3/9] spdx3: Add recipe SPDX data
-Cc: <benjamin.robin@bootlin.com>
+Date: Sun, 22 Feb 2026 09:03:54 +0100
+Message-Id: <DGLC1R76NVAU.1T2H9X9Z8I4J7@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+To: <richard.purdie@linuxfoundation.org>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/6] conf: Switch to systemd by default and
+ simplify init manager selection
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260220154123.376880-1-JPEWhacker@gmail.com>
- <20260220154123.376880-4-JPEWhacker@gmail.com>
-In-Reply-To: <20260220154123.376880-4-JPEWhacker@gmail.com>
+References: <20260221084230.3219379-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20260221084230.3219379-1-richard.purdie@linuxfoundation.org>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 07:59:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231624
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 08:04:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231625
 
-On Fri Feb 20, 2026 at 4:40 PM CET, Joshua Watt via lists.openembedded.org =
-wrote:
-> Adds a new package to the SPDX output that represents the recipe data
-> for a given recipe. Importantly, this data contains only things that can
-> be determined statically from only the recipe, so it doesn't require
-> fetching or building anything. This means that build time dependencies
-> and CVE information for recipes can be analyzed without needing to
-> actually do any builds.
+On Sat Feb 21, 2026 at 9:42 AM CET, Richard Purdie via lists.openembedded.o=
+rg wrote:
+> This change effectively switches things to use INIT_MANAGER to select the=
+ init
+> system and drops the old compatibility 'none' method. The init manager se=
+lection
+> is now complex enough that requiring users to select it makes sense.
 >
-> Sadly, license data cannot be included because NO_GENERIC_LICENSE means
-> that actual license text might only be available after do_fetch
+> The new default is systemd, which reflects popular opinion. This is known=
+ to have
+> issues in some of our configurations such as musl but is also frequently =
+asked for.
 >
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> Anyone replacing defaultsetup.conf in their own setup will need to provid=
+e
+> equivalent functionality but that is execpted for any of the settings in =
+there.
+>
+> This change drops sysvinit from the default distro features backfill, mea=
+ning
+> we no longer need to remove it in systemd setups and places the init mana=
+gers
+> on a more equal and equivalent standing.
+>
+> This is a behaviour change for anyone using nodistro and anyone not alrea=
+dy
+> setting INIT_MANAGER explictly.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
 
-Hi Joshua,
+Hi Richard,
 
-It looks like this is causing some failures, at list for glib:
+We got the following warnings:
 
-ERROR: glib-2.0-1_2.86.4-r0 do_create_spdx: Error executing a python functi=
-on in exec_func_python() autogenerated:
+genericx86-64/build/build/command-1-build-targets.log in /srv/pokybuild/yoc=
+to-worker/genericx86-64/build/build
+WARNING: Duplicate inclusion for /srv/pokybuild/yocto-worker/genericx86-64/=
+build/layers/openembedded-core/meta/conf/distro/include/no-static-libs.inc =
+in /srv/pokybuild/yocto-worker/genericx86-64/build/layers/openembedded-core=
+/meta/conf/distro/defaultsetup.conf
+WARNING: Duplicate inclusion for /srv/pokybuild/yocto-worker/genericx86-64/=
+build/layers/openembedded-core/meta/conf/distro/include/security_flags.inc =
+in /srv/pokybuild/yocto-worker/genericx86-64/build/layers/openembedded-core=
+/meta/conf/distro/defaultsetup.conf
+WARNING: Duplicate inclusion for /srv/pokybuild/yocto-worker/genericx86-64/=
+build/layers/openembedded-core/meta/conf/distro/include/yocto-space-optimiz=
+e.inc in /srv/pokybuild/yocto-worker/genericx86-64/build/layers/openembedde=
+d-core/meta/conf/distro/defaultsetup.conf
+WARNING: Duplicate inclusion for /srv/pokybuild/yocto-worker/genericx86-64/=
+build/layers/openembedded-core/meta/conf/distro/include/yocto-uninative.inc=
+ in /srv/pokybuild/yocto-worker/genericx86-64/build/layers/openembedded-cor=
+e/meta/conf/distro/defaultsetup.conf
 
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:extend_recipe_sysroot(d)
-     0003:
-File: '/srv/pokybuild/yocto-worker/musl-qemux86/build/layers/openembedded-c=
-ore/meta/classes-global/staging.bbclass', lineno: 619, function: extend_rec=
-ipe_sysroot
-     0615:                    if "/bin/" in l or "/sbin/" in l:
-     0616:                        # defer /*bin/* files until last in case =
-they need libs
-     0617:                        binfiles[l] =3D (targetdir, dest)
-     0618:                    else:
- *** 0619:                        staging_copyfile(l, targetdir, dest, post=
-insts, seendirs)
-     0620:
-     0621:    # Handle deferred binfiles
-     0622:    for l in binfiles:
-     0623:        (targetdir, dest) =3D binfiles[l]
-File: '/srv/pokybuild/yocto-worker/musl-qemux86/build/layers/openembedded-c=
-ore/meta/classes-global/staging.bbclass', lineno: 165, function: staging_co=
-pyfile
-     0161:        os.symlink(linkto, dest)
-     0162:        #bb.warn(c)
-     0163:    else:
-     0164:        try:
- *** 0165:            os.link(c, dest)
-     0166:        except OSError as err:
-     0167:            if err.errno =3D=3D errno.EXDEV:
-     0168:                bb.utils.copyfile(c, dest)
-     0169:            else:
-Exception: FileExistsError: [Errno 17] File exists: '/srv/pokybuild/yocto-w=
-orker/musl-qemux86/build/build/tmp/sysroots-components/core2-32/glib-2.0/us=
-r/include/glib-2.0/glib.h' -> '/srv/pokybuild/yocto-worker/musl-qemux86/bui=
-ld/build/tmp/work/core2-32-poky-linux-musl/glib-2.0/2.86.4/recipe-sysroot/u=
-sr/include/glib-2.0/glib.h'
-
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3240
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/3220
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/65/builds/3201
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/3296
-
-And probably also this one:
-
-Initialising tasks...ERROR: Task virtual:multilib:lib32:/srv/pokybuild/yoct=
-o-worker/qemux86-world/build/layers/openembedded-core/meta/recipes-core/met=
-a/meta-world-recipe-sbom.bb:do_create_spdx has circular dependency on /srv/=
-pokybuild/yocto-worker/qemux86-world/build/layers/openembedded-core/meta/re=
-cipes-core/meta/meta-world-recipe-sbom.bb:do_create_spdx
-ERROR: Command execution failed: 1
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3219
-
-Can you have a look?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3233
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3242
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/3274
 
 Thanks,
 Mathieu
