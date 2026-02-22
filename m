@@ -1,163 +1,137 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63AB5C624DF
-	for <webhook@archiver.kernel.org>; Sun, 22 Feb 2026 12:11:48 +0000 (UTC)
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12235.1771762302252952409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BABE4C63680
+	for <webhook@archiver.kernel.org>; Sun, 22 Feb 2026 13:23:38 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13191.1771766614568784524
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Feb 2026 04:11:42 -0800
+ Sun, 22 Feb 2026 05:23:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DawTYXG1;
- spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-4359249bbacso2612028f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 04:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771762301; x=1772367101; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LTBsfkL027rCswQdkjhpxKVnr6359e88xah8EIh7fMA=;
-        b=DawTYXG1G9P7kkpetV7iQgua3uO7B40Sv33wkv+SK7Ihvhxz/ObNbRkA2O4qvdIcym
-         fh7U7xHII7FoIPtZNVEzNpgZBrv1yUpMGVp/p7e3r67U1oEqKNmIzynJtspOL4XSUdz7
-         g61fxvHjlAGwpTgcspobS9aVdmnHgJv1LOeC97mFf/B6wG1AXm3AIslRXmXFyGF+p15k
-         xaK7zho66u2Q2iNU91T2u5SJjx0tko2UeydvagXSEIHHYtlR7gOGNEKP1lzcLeqMK9K0
-         ccwDdAZeyrir2DFXK2H3JXvBt3EVLIHi06OZSnkUaq4m4+P9K4xLETfF8wLLn8pK6AtK
-         z22w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771762301; x=1772367101;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LTBsfkL027rCswQdkjhpxKVnr6359e88xah8EIh7fMA=;
-        b=wWc81l60x+yEZSrm3P0R50Nyzzf7LkvJQYfDyP5tOfYW9NlmAMf8RsoBzV56xu8abK
-         qmS9rzFYfNCp2g+ooK1/b7Qmu/WiHGOY2jt0PzrS2S9zmvM1AEfo5daAixFTR+dOCbYi
-         sC52O2t6MzZCq8IukbaJI61T2J3SuSfvCTyhghVKn8NSB9XUnKrNKIMnTfvhf6F5kV7D
-         +/5htlaMG9cuzeNFiE7xydufxA/2o+c8hTINZhy4vZWEMwB4khkTnoMn7qIJ3LC0F3+p
-         KJFOtSWNeyMeQW06iTmU5mL7LwEF4DFohvpeOUqxUmlD1kbHen2+z/OE9a6A6ey4iInd
-         47Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlU6/fIWp3NevnAdN5K5DuFMuxPBUkCQl0niR0tkK73BeBoZo/dTFKvOS+9NE64q5zLpMDn7cYoW+eHTZ5yIzHGg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyV5VamoslD9OJVNSb6UvRStqXWF9PALnrVXKGLS/7h33FLHAsJ
-	m9WjyBCgQbLNIf8DGjJaCSgcaWi4N9B8Cce8QvksbL/FBdTKTuT35rnF
-X-Gm-Gg: AZuq6aLfqFvIW75XdeBX5bfstAVgvyUwXwl+PuFUDAo8FYI5odZumNmiHzbpxlj30GY
-	Jmbh2XCX9ZEClbJqZ1l1jlzW73boPAeA/xOdoeahoswLUrvlb0zYD/ESq23x+/Ba3j4OS7bU64b
-	cMfBSeXoArbN07B+AfqWxWx97nTP1MJa+XTfNzD4coO4UAEKMdVMheZwVn/2nxeo68ZlpcICQ+C
-	Y+cb82LfvcKkYF9YHp2owMWZn98/LY2iQ8XYriVvwc+F41uj2lqHhYL0dRwX/cTGhW9KS8+IGlD
-	DH/BjlE0npTNc3a9h/qyydfhiimouWg61FnIDFP/JQPL/SglONKpmRcb08lybSedYAHXc/bC9U5
-	1hhF726WAGjG5ZrGF+HA6SlCHTvULU+QWsSgqN9rAQ+VADqIQtbZIJZ6JAldm1phV4jKiDS4dOW
-	t6Mm/5RiM1v8YPi50nV0rDGM7MzpI6OTEuCCfrFN26ffoAXL0DIM1BKlc8dEsmdDquxqOcZVuM
-X-Received: by 2002:a05:6000:1a8a:b0:436:4ba:59a8 with SMTP id ffacd0b85a97d-439625c9b6fmr21398256f8f.3.1771762300380;
-        Sun, 22 Feb 2026 04:11:40 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d4cc81sm11104629f8f.26.2026.02.22.04.11.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 04:11:39 -0800 (PST)
-Message-ID: <98d2f7fa5179720e9579af4e55af7af49abe2a5e.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: remove dependency on
- initramfs when not bundled
-From: adrian.freihofer@gmail.com
-To: mathieu.dubois-briand@bootlin.com, adrian.freihofer@siemens.com, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 22 Feb 2026 13:11:39 +0100
-In-Reply-To: <DGIA36GNR4J5.1T52ZELIA28Y9@bootlin.com>
-References: <20260217173225.101935-1-adrian.freihofer@siemens.com>
-	 <DGIA36GNR4J5.1T52ZELIA28Y9@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=xPVb0XKt;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 144ABC63A0C
+	for <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 13:23:46 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2FF9E5FB83;
+	Sun, 22 Feb 2026 13:23:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 10674103688B8;
+	Sun, 22 Feb 2026 14:23:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1771766611; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=r1GqCITs7PbpTZo3Y2GRNhq+1Vs95Nmgdcx1flyOcaU=;
+	b=xPVb0XKt6SQ/TiYgQrOQCxgrwOxq0vEFpeHaTTWb7lpYTTK7ny+q4rJu4gYoZnL0HPx6Op
+	u5q+VnC5sOEF8pjZ2oTuMpogt9mlQLLxaqe+eK2ZcGkXFuCgPd+jBdn0iqMvtff5D1XPm2
+	FUDarzBHNfYGFLrk8nkrG8fyVhpHm3BBsH1KKyl8xt4dBKP8ovjFe7/hyyQdm0aPsl7qys
+	VNxYKztixVfXdzUTGHUnJVBi0rT80VLFbWpA7a6YgcXc5aKzqy0XFialeUUsqfm19H/Imo
+	yHBtp/SC7BR3kJ2hbp05giorThRMVZlaR5ydWuobZWXUlKp7Pia23gww83BSgA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 22 Feb 2026 14:23:28 +0100
+Message-Id: <DGLIUFB3U88J.RMGWBUVVCWOY@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <stondo@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/1] spdx30: Read runtime dependencies from
+ package manifests
+Cc: <stefano.tondo.ext@siemens.com>, <adrian.freihofer@siemens.com>,
+ <Peter.Marko@siemens.com>, <jpewhacker@gmail.com>, <Ross.Burton@arm.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260221042521.318013-1-stondo@gmail.com>
+ <20260221042521.318013-2-stondo@gmail.com>
+In-Reply-To: <20260221042521.318013-2-stondo@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 12:11:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231631
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Feb 2026 13:23:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231632
 
-On Wed, 2026-02-18 at 18:53 +0100, Mathieu Dubois-Briand via
-lists.openembedded.org wrote:
-> On Tue Feb 17, 2026 at 6:32 PM CET, Adrian Freihofer via
-> lists.openembedded.org wrote:
-> > From: Adrian Freihofer <adrian.freihofer@siemens.com>
-> >=20
-> > Previously, the kernel recipe depended on the initramfs image even
-> > when
-> > INITRAMFS_IMAGE_BUNDLE was not enabled. This caused the kernel to
-> > be
-> > rebuilt whenever the initramfs image changed, regardless of whether
-> > the
-> > kernel actually included the initramfs.
-> >=20
-> > The problematic chain was:
-> > =C2=A0 linux:do_deploy ->
-> > =C2=A0 linux:do_bundle_initramfs ->
-> > =C2=A0 image-initramfs:do_image_complete
-> >=20
-> > The original intent (acc. to the comment) was to ensure the
-> > initramfs
-> > image was available for tools like wic. However, apart from
-> > bundling the
-> > initramfs in the kernel, there is probably no reason why the kernel
-> > should depend on the initramfs. And it is therefore simply wrong if
-> > it
-> > does so anyway. Thus, use cases that may be broken by these change
-> > are
-> > based on a bug, not a feature. This needs to be fixed by adding a
-> > dependency on the initramfs in the right place, not in the kernel
-> > where
-> > this destroys the kernel's sstate-caching.
-> >=20
-> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > ---
->=20
-> Hi Adrian,
->=20
-> It looks like this is causing some build issues. I only saw them on
-> ARM64 so far:
->=20
-> ERROR: core-image-full-cmdline-1.0-r0 do_image_wic: Execution of
-> '/srv/pokybuild/yocto-worker/genericarm64-
-> alt/build/build/tmp/work/genericarm64-poky-linux/core-image-full-
-> cmdline/1.0/temp/run.do_image_wic.2336354' failed with exit code 1
-> ...
-> > INFO: Creating image(s)...
-> ...
-> > ERROR: _exec_cmd: cp -v -p /srv/pokybuild/yocto-
-> > worker/genericarm64-
-> > alt/build/build/tmp/deploy/images/genericarm64/core-image-
-> > initramfs-boot-genericarm64.cpio.gz /srv/pokybuild/yocto-
-> > worker/genericarm64-alt/build/build/tmp/work/genericarm64-poky-
-> > linux/core-image-full-cmdline/1.0/tmp-wic/hdd/boot returned '1'
-> > instead of 0
-> > output: cp: cannot stat '/srv/pokybuild/yocto-worker/genericarm64-
-> > alt/build/build/tmp/deploy/images/genericarm64/core-image-
-> > initramfs-boot-genericarm64.cpio.gz': No such file or directory
-> >=20
->=20
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/3228
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/3202
->=20
-> Can you have a look at what is going wrong?
+On Sat Feb 21, 2026 at 5:25 AM CET, Stefano Tondo via lists.openembedded.or=
+g wrote:
+> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+>
+> Previous implementation only captured explicit RDEPENDS from recipe
+> variables, missing implicit runtime dependencies auto-detected by
+> Yocto's packaging system (shared libraries like libc6, libssl3, libz1).
+>
+> This commit updates get_dependencies_by_scope() to:
+> - Accept package parameter to read package-specific manifests
+> - Read package manifests (PKGDATA) after packaging completes
+> - Parse RDEPENDS including auto-detected shared library dependencies
+> - Handle split packages correctly (multiple packages per recipe)
+> - Fall back to recipe-level RDEPENDS if manifest unavailable
+>
+> Also clarifies that recursive dependency expansion is unnecessary:
+> - Each package is processed separately in create_package_spdx()
+> - Each package's direct dependencies are added as SPDX relationships
+> - The resulting SBOM contains the complete dependency graph
+> - SBOM consumers can traverse the graph for transitive dependencies
+>
+> Fixes lifecycle scope classification to capture ALL runtime dependencies
+> (explicit + implicit).
+>
+> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+> Cc: "Ross Burton" <Ross.Burton@arm.com>
+> ---
+
+Hi Stefano,
+
+Thanks for your patch.
+
+It looks like the added
+spdx.SPDX30Check.test_lifecycle_scope_dependencies test is failing:
+
+2026-02-22 10:51:36,579 - oe-selftest - INFO - spdx.SPDX30Check.test_lifecy=
+cle_scope_dependencies (subunit.RemotedTestCase)
+2026-02-22 10:51:36,583 - oe-selftest - INFO -  ... FAIL
+...
+026-02-22 10:22:36,898 - oe-selftest - INFO - Found ANNOTATION2: ANNOTATION=
+2=3DTestAnnotation2
+2026-02-22 10:22:36,899 - oe-selftest - INFO - Found ANNOTATION1: ANNOTATIO=
+N1=3DTestAnnotation1
+2026-02-22 10:51:01,398 - oe-selftest - INFO - The spdxId of gcc-15.2.0/REA=
+DME in recipe-gcc.spdx.json is http://spdx.org/spdxdocs/gcc-f2eaeb0d-b54b-5=
+3ba-899a-8c36c21139bf/77722cdb050cf950f66e3b9cb87574fcb0bf404cd0c167d12d2b2=
+060e65cb176/sourcefile/21
+2026-02-22 10:51:36,583 - oe-selftest - INFO - 4: 41/51 658/670 (8.81s) (0 =
+failed) (spdx.SPDX30Check.test_lifecycle_scope_dependencies)
+2026-02-22 10:51:36,583 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 474, in test_lifecyc=
+le_scope_dependencies
+    self.assertTrue(
+    ~~~~~~~~~~~~~~~^
+        len(runtime_deps) > 0,
+        ^^^^^^^^^^^^^^^^^^^^^^
+        "No runtime dependencies found - lifecycle scope may not be working=
+"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^
+    )
+    ^
+  File "/usr/lib/python3.13/unittest/case.py", line 744, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true : No runtime dependencies found - lifecyc=
+le scope may not be working
 
 
-Thank you!
-Here is a v2 which should address this issue:
-https://lists.openembedded.org/g/openembedded-core/message/231629
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3371
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3253
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3131
 
-Adrian
+Can you have a look at the issue?
 
->=20
-> Thanks,
-> Mathieu
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#231315):
-> https://lists.openembedded.org/g/openembedded-core/message/231315
-> Mute This Topic: https://lists.openembedded.org/mt/117860606/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
