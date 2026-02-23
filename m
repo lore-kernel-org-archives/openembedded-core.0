@@ -1,86 +1,93 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D1B0EEC2A3
-	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 22:18:45 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7084.1771885121545255134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BB3EEC2A5
+	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 22:32:15 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7324.1771885933618870465
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Feb 2026 14:18:41 -0800
+ Mon, 23 Feb 2026 14:32:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=HTRtCyfg;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202602232218390807edae6d00020794-jvw7yk@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202602232218390807edae6d00020794
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 23 Feb 2026 23:18:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=cHF4jruEE/floGgwePl3mMPxHXoI3uRa1kwMy1TyBsI=;
- b=HTRtCyfgw0R/a8FJcjOMOCxHfXUb1TGLWfJHWr78u9bOYQzyJxjCoGAdS3dHV8/65qkeo3
- DixwqiOfYpdDI8++UIVIoUHIVoaWruMFLQoGq9VKp/ahlSqdUoE+LIpfB4e5P1S3HqskVI95
- gfEh5WKXBb/aavvWdsPgc5AYHNCJBMGCGITi2iZqEHa11445Ffs1OIqG49dhwWlwKY5DUiyj
- bvFCqAj5epQXOr+Gt9sMJHwCKk0Cig+/dCTP/Lmmj4tkeiB7AxRm6IOR/eHby560BcB7g0Vg
- nFIAQ5sjaDCPlDZkK3G0nvMBb2gq+eJR/9HRtwyGWLFFzUQyniHa/LaQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH 2/2] cve-exclusions: set status for 5 CVEs
-Date: Mon, 23 Feb 2026 23:18:31 +0100
-Message-Id: <20260223221831.11844-2-peter.marko@siemens.com>
-In-Reply-To: <20260223221831.11844-1-peter.marko@siemens.com>
-References: <20260223221831.11844-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@smile.fr header.s=google header.b=in/zd4Oo;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso39021555e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 14:32:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1771885932; x=1772490732; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+WYr68ckZrF71NZ7/luSsjHIzwGPa8i+oyr4naS9nQo=;
+        b=in/zd4OoM9XzUuBH/leypWbAdpGt9VyGot9Asjq0EayWP/UEinWsWVOaxC6alMvDSB
+         o7vNOg6u7LtANvIYMzpnR7tHN4JHm7cqZYgJJ6HGalYAM3EdkM4RYYSRLi/Zyk2OHDAw
+         c9ixKYehCYz44ztsfNvaGwv47FSZ0NJN9Z3t0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771885932; x=1772490732;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+WYr68ckZrF71NZ7/luSsjHIzwGPa8i+oyr4naS9nQo=;
+        b=A5frxmFiHM+5TsXIxAMMPgO+urXuDK4fSC7MYWecMNgVpx+3jO6ErfnF1WHD36guTp
+         z1dzqrgQ/8N9dQRHtetxKFrT+TrvhkPFVA8C3b+uYssJ67+EpdAqAFY4dL5a8u6/Bbyb
+         8zqmAsHosA0sPDz+5Dg5aZUvSozyhiu/MR063HC+P1iRsbvyilMMSk1PWG4hJlvnw4Un
+         P3j7hwrzUkPTZV7SqNRjCHB9zoYhpJbI/GhmQPXHGB+ZuddV7g3gIABrQBj/jfnv2Rmr
+         WA1BQXTMHRk4VuIJbiw02JdOGFwBa0VEbvGuI4GOOxXhW6k9V+ztVWaZHcchf+E6SQsu
+         kRGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4EuTuSoY6ITBrX5tKHDBJdWCn5oovM04Rn6KAhcoYyvCGVz6E+vor4IHumy0PMLJsS3wDrTPx36s8zD3VI1t5fA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwotLzbWg7JoQRDawUHHGDGTfNHeVSVavbzmbvUO5eoKtRsKOOk
+	drVMRLnz0fLtXaOLi081qJMvkihY3WQp0mMrvrSTjFYCPOVTD+biuSWAErIrjjSPIMU=
+X-Gm-Gg: AZuq6aK2BKezo6ExVG6jRa6BWuy8moY6Ndu5SUHjsAZkEccq4SlRrDxTEDMVDmYeaz+
+	vhQXAbg5a7EdM95xkMoc8UEuagQqV+yyg4hnVtqluJsjy9zuL3WljbBJXFFLgRX1NX28OeTtELh
+	CcjtuDA4pAAL8MHb3g0sJ4lRS8lMvcoJl1TgcszaW5N5jDEMwvqS9y/NIbNXAHFtYGsACZoxBA/
+	O/5gn533OWx0U6KsvZ95cO98G07CIrewFCXCysQ+e2zip2TmGJwSO08Q8KGi4/6Vy4ZSby8RRzE
+	h0AgZgLSN10Q9IHuYdq2AgpFqbAX2NwrlBmI/zJfq3YUT/pFzPRrAaQufgRSfvYhd50ti0q8pKE
+	OGiFHuZQ+GwWVpxkQ8Z9zO7Z3EZ8vc3YTY7dWgOAN3oIjvcQ1eB9wnUl+9Eq1mj3QeVoAht3qyY
+	iQNUUipP5xErE3cn+vSrdSGlvB01LQqhKle1ucpLYS7Z8JRD54VbQuMgTFrqnA7ZZrBlV9X4qZi
+	Q6ZyEbn1EPDv7/T33uJud3VyQ==
+X-Received: by 2002:a05:600c:4589:b0:45d:d97c:236c with SMTP id 5b1f17b1804b1-483a95deea7mr175631715e9.21.1771885932029;
+        Mon, 23 Feb 2026 14:32:12 -0800 (PST)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3dd7sm305560595e9.2.2026.02.23.14.32.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Feb 2026 14:32:11 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Feb 2026 23:32:10 +0100
+Message-Id: <DGMP52YIZ1UA.2M2NWW5M27GWQ@smile.fr>
+Subject: Re: [OE-core] [kirkstone][PATCH] glibc: stable 2.35 branch updates
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <colin.mcallister@garmin.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260125161634.729904-1-peter.marko@siemens.com>
+ <115433.1771881248075028771@lists.openembedded.org>
+In-Reply-To: <115433.1771881248075028771@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 22:18:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231714
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 22:32:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231715
 
-From: Peter Marko <peter.marko@siemens.com>
+On Mon Feb 23, 2026 at 10:14 PM CET, Colin McAllister via lists.openembedde=
+d.org wrote:
+> Hello,
+>
+> Thanks for this patch. I was looking into a few of these CVEs on Kirkston=
+e and saw this patch was never merged. Is there a reason why?
 
-Reuse work of Debian researchers and set status for fixed CVEs
-accordingly.
-These are not tracked by kernel itself, so generated exclusions won't
-help here.
+Nice catch, I missed it.
 
-* https://security-tracker.debian.org/tracker/CVE-2022-38096
-* https://security-tracker.debian.org/tracker/CVE-2023-39176
-* https://security-tracker.debian.org/tracker/CVE-2023-39179
-* https://security-tracker.debian.org/tracker/CVE-2023-39180
-* https://security-tracker.debian.org/tracker/CVE-2023-6535
+I'll add it to the next review branch.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-kernel/linux/cve-exclusion.inc | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Thanks!
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
-index 80c76433ef..7d68a9bbaa 100644
---- a/meta/recipes-kernel/linux/cve-exclusion.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -157,3 +157,19 @@ CVE_STATUS[CVE-2023-7042] = "fixed-version: Fixed from 6.9rc1"
- 
- #Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=7315dc1e122c85ffdfc8defffbb8f8b616c2eb1a
- CVE_STATUS[CVE-2024-0193] = "fixed-version: Fixed from 6.7"
-+
-+# Fix https://git.kernel.org/linus/517621b7060096e48e42f545fa6646fc00252eac
-+CVE_STATUS[CVE-2022-38096] = "fixed-version: Fixed from 6.9"
-+
-+# Fix https://git.kernel.org/linus/5aa4fda5aa9c2a5a7bac67b4a12b089ab81fee3c
-+# Fix https://git.kernel.org/linus/79ed288cef201f1f212dfb934bcaac75572fb8f6
-+CVE_STATUS[CVE-2023-39176] = "fixed-version: Fixed from 6.5"
-+
-+# Fix https://git.kernel.org/linus/e202a1e8634b186da38cbbff85382ea2b9e297cf
-+CVE_STATUS[CVE-2023-39179] = "fixed-version: Fixed from 6.5"
-+CVE_STATUS[CVE-2023-39180] = "fixed-version: Fixed from 6.5"
-+
-+# Fix https://git.kernel.org/linus/efa56305908ba20de2104f1b8508c6a7401833be
-+# Fix https://git.kernel.org/linus/0849a5441358cef02586fb2d60f707c0db195628
-+# Fix https://git.kernel.org/linus/9a1abc24850eb759e36a2f8869161c3b7254c904
-+CVE_STATUS[CVE-2023-6535] = "fixed-version: Fixed from 6.8"
+>
+> Best,
+> Colin
+--=20
+Yoann Congal
+Smile ECS
+
 
