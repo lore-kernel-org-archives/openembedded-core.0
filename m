@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE95CEC112B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCDF1EA4FC7
 	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 21:08:14 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5272.1771880890345762746
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5320.1771880890339452630
  for <openembedded-core@lists.openembedded.org>;
  Mon, 23 Feb 2026 13:08:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=Wx+ClTrq;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20260223210807a14af387970002079b-qtr4k1@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260223210807a14af387970002079b
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=c5vTh662;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202602232108076374560e6000020733-2jqw_l@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202602232108076374560e6000020733
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 23 Feb 2026 22:08:08 +0100
+        Mon, 23 Feb 2026 22:08:07 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=nBRvOTm+8GW0PCCmEmkK6+Ak1lvgiok7CAoYlvaMRfk=;
- b=Wx+ClTrqdxozITQmXVtRpmikJpQ3Q1XmhA/zFevCNUkj1ocE5hYMUxIxcPJlIRz+E0in9l
- sNydSw0fzz2gl/De2oyFseCcb8rX+N+8iHa5WH6F9qaEzHtDwys2opp+zMM2TpzqOzBUM2H6
- qamFACiAWP95Bxv2FWs4IeXui0/CRdPsIx++XamObM8hkOcyVX9yGlRY8Uz9dVpClBKSlZQP
- oHybhgyIA5YDshDLcWTF5LuRv9ISG8yCJcsd0Wfel8R6CF7wCnZ+hme6oaTH54vIXjskfyco
- oeMii4vSUvd33OYC/D/seM7cHTlPcc7BbwUFJyql+UL8VrpN4awUJ+QQ==;
+ bh=D2lSxZXQVrdciUg/mjuWsnfkUHoZNn9RhSPtGyMnmbE=;
+ b=c5vTh6623pvDp4yicN0c2FjnnlMzIVrt5+hmV2J8VyWXgup4iKMeBEldHPXjwS1as98VNC
+ wbrUhw8eY/USk+uXOdLP99b2bL7lVV+XqU5dFrr/Yd4E/K8q1SMV5IHhBrcp9ahrDUU9ZK8I
+ 73l6nYu3wK8BktzeJs+9Cv1FoiiY5WlTMHBNCcz/QNQVdBcIQLXIQPzfGL1MSbE6NIupD8lM
+ WAuAixIZy4d7BNSpP8dwQRCJ+EkkrMEtW01rmoPiOFhDAm9Ay59gP7Tem513TYrTyNKkALNv
+ BUVThS7esCf8Lv5riskarhVIxjT5IMmvpnCa1qNaba2pxuVUFo6eLiRg==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 6/7] meta-selftest: add test kernel module recipe
-Date: Mon, 23 Feb 2026 22:06:39 +0100
-Message-ID: <20260223210748.1905502-7-adrian.freihofer@siemens.com>
+Subject: [PATCH 1/7] oe-selftest: devtool: add compile step in ide-sdk tests
+Date: Mon, 23 Feb 2026 22:06:34 +0100
+Message-ID: <20260223210748.1905502-2-adrian.freihofer@siemens.com>
 In-Reply-To: <20260223210748.1905502-1-adrian.freihofer@siemens.com>
 References: <20260223210748.1905502-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,134 +39,155 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 21:08:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231696
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231693
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add a minimal out-of-tree kernel module and corresponding recipe under
-meta-selftest for devtool ide-sdk test coverage.
+Add explicit compile step to the ide-sdk test workflow. The current
+implementation relies on calling bitbake -c install to perform the
+install step, which also triggers a build. But this will change when
+bitbake will support task execution without handling dependencies.
+To make the tests future-proof, add an explicit compile step after
+modifying the source code.
 
-This provides a simple module source and Makefile that can be built via
-the module class in selftest scenarios.
+This also improves the test coverage for meson based recipes, as the
+compile step is now explicitly tested.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../selftest-kmodule/files/Makefile           | 16 ++++++
- .../selftest-kmodule/files/selftest-kmodule.c | 56 +++++++++++++++++++
- .../selftest-kmodule/selftest-kmodule.bb      | 18 ++++++
- 3 files changed, 90 insertions(+)
- create mode 100644 meta-selftest/recipes-test/selftest-kmodule/files/Makefile
- create mode 100644 meta-selftest/recipes-test/selftest-kmodule/files/selftest-kmodule.c
- create mode 100644 meta-selftest/recipes-test/selftest-kmodule/selftest-kmodule.bb
+ meta/lib/oeqa/selftest/cases/devtool.py | 65 +++++++++++++++++++------
+ 1 file changed, 51 insertions(+), 14 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/selftest-kmodule/files/Makefile b/meta-selftest/recipes-test/selftest-kmodule/files/Makefile
-new file mode 100644
-index 0000000000..9a26462bfc
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-kmodule/files/Makefile
-@@ -0,0 +1,16 @@
-+# SPDX-License-Identifier: MIT
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index d1209dd94e..f7f9deb6c7 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2598,6 +2598,9 @@ class DevtoolIdeSdkTests(DevtoolBase):
+     def _sources_scripts_dir(self, src_dir):
+         return os.path.realpath(os.path.join(src_dir, 'oe-scripts'))
+ 
++    def _sources_workdir_dir(self, src_dir):
++        return os.path.realpath(os.path.join(src_dir, 'oe-workdir'))
 +
-+obj-m := selftest-kmodule.o
+     def _workspace_gdbinit_dir(self, recipe_name):
+         return os.path.realpath(os.path.join(self.builddir, 'workspace', 'ide-sdk', recipe_name, 'scripts', 'gdbinit'))
+ 
+@@ -2666,7 +2669,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self._workspace_scripts_dir(recipe_name), i_and_d_script)
+         self.assertExists(i_and_d_script_path)
+ 
+-    def _devtool_ide_sdk_qemu(self, tempdir, qemu, recipe_name, example_exe):
++    def _devtool_ide_sdk_qemu(self, tempdir, qemu, recipe_name, example_exe, compile_cmd):
+         """Verify deployment and execution in Qemu system work for one recipe.
+ 
+         This function checks the entire SDK workflow: changing the code, recompiling
+@@ -2711,6 +2714,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             cpp_code = cpp_code.replace(DevtoolIdeSdkTests.MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
+         with open(cpp_example_lib_hpp, 'w') as file:
+             file.write(cpp_code)
++        runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         runCmd(install_deploy_cmd, cwd=tempdir, output_log=self._cmd_logger)
+ 
+         # Verify the modified example prints the modified magic string
+@@ -2841,6 +2845,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertEqual(len(config_presets), 1)
+         cmake_exe = config_presets[0]["cmakeExecutable"]
+         preset_name = config_presets[0]["name"]
++        compile_cmd = '%s --build --preset %s' % (cmake_exe, preset_name)
+ 
+         # Verify the wrapper for cmake native is available
+         self.assertExists(cmake_exe)
+@@ -2850,28 +2855,59 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertIn(preset_name, result.output)
+ 
+         # Verify cmake re-uses the o files compiled by bitbake
+-        result = runCmd('%s --build --preset %s' %
+-                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("ninja: no work to do.", result.output)
+ 
+         # Verify the unit tests work (in Qemu user mode)
+-        result = runCmd('%s --build --preset %s --target test' %
+-                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
++        result = runCmd('%s --target test' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("100% tests passed", result.output)
+ 
+         # Verify re-building and testing works again
+-        result = runCmd('%s --build --preset %s --target clean' %
+-                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
++        result = runCmd('%s --target clean' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Cleaning", result.output)
+-        result = runCmd('%s --build --preset %s' %
+-                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Building", result.output)
+         self.assertIn("Linking", result.output)
+-        result = runCmd('%s --build --preset %s --target test' %
+-                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
++        result = runCmd('%s --target test' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Running tests...", result.output)
+         self.assertIn("100% tests passed", result.output)
+ 
++        return compile_cmd
 +
-+SRC := $(shell pwd)
++    def _verify_meson_build(self, tempdir, recipe_name):
++        """Verify meson works as expected
 +
-+all:
-+	$(MAKE) -C $(KERNEL_SRC) M=$(SRC)
++        Check if compiling works
++        Check if unit tests can be executed in qemu (not qemu-system)
++        """
++        meson_exe = os.path.join(self._workspace_scripts_dir(recipe_name), "meson")
++        self.assertExists(meson_exe)
++        build_dir = os.path.join(self._sources_workdir_dir(tempdir), recipe_name + "-1.0")
++        compile_cmd = '%s compile -C %s' % (meson_exe, build_dir)
 +
-+modules_install:
-+	$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules_install
++        # Verify meson re-uses the o files compiled by bitbake
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("ninja: no work to do.", result.output)
 +
-+clean:
-+	rm -f *.o *~ core .depend .*.cmd *.ko *.mod.c
-+	rm -f Module.markers Module.symvers modules.order
-+	rm -rf .tmp_versions Modules.symvers
-diff --git a/meta-selftest/recipes-test/selftest-kmodule/files/selftest-kmodule.c b/meta-selftest/recipes-test/selftest-kmodule/files/selftest-kmodule.c
-new file mode 100644
-index 0000000000..a72e0a9786
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-kmodule/files/selftest-kmodule.c
-@@ -0,0 +1,56 @@
-+/* SPDX-License-Identifier: GPL-2.0-only
-+ * A simple test kernel module with sysfs interface for devtool ide-sdk testing
-+ *
-+ * Usage:
-+ *   cat /sys/kernel/selftest_kmodule/magic
-+ *   Hello from selftest-kmodule
-+ */
++        # Verify the unit tests work (in Qemu user mode)
++        result = runCmd('%s test -C %s' % (meson_exe, build_dir),
++                        cwd=tempdir, output_log=self._cmd_logger)
++        self.assertEqual(result.status, 0)
++        self.assertIn("Fail:              0", result.output)
 +
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
-+#include <linux/kobject.h>
-+#include <linux/sysfs.h>
++        # Verify re-building and testing works again
++        result = runCmd('%s compile -C %s --clean' % (meson_exe, build_dir),
++                        cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Cleaning...", result.output)
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Linking target", result.output)
++        result = runCmd('%s test -C %s' % (meson_exe, build_dir),
++                        cwd=tempdir, output_log=self._cmd_logger)
++        self.assertEqual(result.status, 0)
++        self.assertIn("Fail:              0", result.output)
 +
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("OpenEmbedded Contributors");
-+MODULE_DESCRIPTION("A simple test kernel module with sysfs interface for devtool ide-sdk testing");
++        return compile_cmd
 +
-+/* Change this string to verify the modify/rebuild/redeploy workflow */
-+#define SELFTEST_MAGIC_STRING "Hello from selftest-kmodule"
-+
-+static struct kobject *selftest_kobj;
-+
-+static ssize_t magic_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			  char *buf)
-+{
-+	return sysfs_emit(buf, "%s\n", SELFTEST_MAGIC_STRING);
-+}
-+
-+static struct kobj_attribute magic_attr = __ATTR_RO(magic);
-+
-+static int __init selftest_kmodule_init(void)
-+{
-+	int ret;
-+
-+	selftest_kobj = kobject_create_and_add("selftest_kmodule", kernel_kobj);
-+	if (!selftest_kobj)
-+		return -ENOMEM;
-+
-+	ret = sysfs_create_file(selftest_kobj, &magic_attr.attr);
-+	if (ret)
-+		kobject_put(selftest_kobj);
-+
-+	pr_info("selftest-kmodule: loaded\n");
-+	return ret;
-+}
-+
-+static void __exit selftest_kmodule_exit(void)
-+{
-+	sysfs_remove_file(selftest_kobj, &magic_attr.attr);
-+	kobject_put(selftest_kobj);
-+	pr_info("selftest-kmodule: unloaded\n");
-+}
-+
-+module_init(selftest_kmodule_init);
-+module_exit(selftest_kmodule_exit);
-diff --git a/meta-selftest/recipes-test/selftest-kmodule/selftest-kmodule.bb b/meta-selftest/recipes-test/selftest-kmodule/selftest-kmodule.bb
-new file mode 100644
-index 0000000000..5b3f00c5a0
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-kmodule/selftest-kmodule.bb
-@@ -0,0 +1,18 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+SUMMARY = "A simple kernel module for testing devtool ide-sdk"
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-+
-+inherit module
-+
-+SRC_URI = "\
-+    file://selftest-kmodule.c \
-+    file://Makefile \
-+"
-+
-+S = "${UNPACKDIR}"
+     def _verify_service_running(self, qemu, service_name):
+         """Helper to verify a service is running in Qemu"""
+         status, output = qemu.run("pgrep %s" % service_name)
+@@ -2921,8 +2957,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+             self._gdb_cross()
+-            self._verify_cmake_preset(tempdir)
+-            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
++            compile_cmd = self._verify_cmake_preset(tempdir)
++            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
+ 
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+@@ -2953,7 +2989,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+             self._gdb_cross()
+-            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
++            compile_cmd = self._verify_meson_build(tempdir, recipe_name)
++            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
+ 
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
 -- 
 2.53.0
 
