@@ -1,106 +1,85 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C767EF99FB
-	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 05:28:33 +0000 (UTC)
-Subject: Re: [PATCH] linux-firmware: upgrade 20260110 -> 20260221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8017EE98DEC
+	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 06:49:43 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30520.1771829371575524543
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 22 Feb 2026 22:49:32 -0800
+Authentication-Results: mx.groups.io;
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: mark.yang@lge.com)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+	by 156.147.23.51 with ESMTP; 23 Feb 2026 15:49:28 +0900
+X-Original-SENDERIP: 156.147.1.151
+X-Original-MAILFROM: mark.yang@lge.com
+Received: from unknown (HELO markyang..) (10.177.127.86)
+	by 156.147.1.151 with ESMTP; 23 Feb 2026 15:49:28 +0900
+X-Original-SENDERIP: 10.177.127.86
+X-Original-MAILFROM: mark.yang@lge.com
+From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
-From: "Vivek Puar" <vpuar@qti.qualcomm.com>
-X-Originating-Location: Chennai, Tamil Nadu, IN (163.116.214.46)
-X-Originating-Platform: Windows Chrome 144
-User-Agent: GROUPS.IO Web Poster
+Cc: "mark.yang" <mark.yang@lge.com>,
+	Antonin Godard <antonin.godard@bootlin.com>
+Subject: [PATCH v3] llvm: enable LLVMgold.so build by adding binutils dependency
+Date: Mon, 23 Feb 2026 15:49:05 +0900
+Message-Id: <20260223064905.2417217-1-mark.yang@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Sun, 22 Feb 2026 21:28:24 -0800
-References: <20260222212156.55731-1-dmitry.baryshkov@oss.qualcomm.com> <1030996.1771824119017163262@lists.openembedded.org>
-In-Reply-To: <1030996.1771824119017163262@lists.openembedded.org>
-Message-ID: <1030996.1771824504388353420@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="P4BShK5WaPc3OEWJmubs"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 05:28:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231644
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 06:49:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231645
 
---P4BShK5WaPc3OEWJmubs
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: "mark.yang" <mark.yang@lge.com>
 
-On Mon, Feb 23, 2026 at 10:51 AM, Vivek Puar wrote:
+Currently, LLVMgold.so is not built because the binutils headers
+are missing during the build process.
 
->=20
->=20
->> +LICENSE:${PN}-qcom-qcs6490-radxa-dragon-q6a-compute =3D "Firmware-qcom"
->>=20
->=20
-> Will it have linaro license also?
->=20
->=20
+This allows LLVM to find the necessary headers and build the LLVMgold.so,
+which is required for Link Time Optimization (LTO) support properly.
 
-Pls Ignore this.
+Signed-off-by: mark.yang <mark.yang@lge.com>
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+---
+v3: Ping
 
---P4BShK5WaPc3OEWJmubs
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ meta/recipes-devtools/clang/llvm_git.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-<div>On Mon, Feb 23, 2026 at 10:51 AM, Vivek Puar wrote:</div>
-<div>
-<blockquote>
-<blockquote style=3D"box-sizing: border-box; padding: 10px 20px; margin: 10=
-px 0px; font-size: 16px; border-left: 5px solid #e0e0e0; overflow-wrap: bre=
-ak-word !important; color: #333333; font-family: system-ui, 'Segoe UI', Rob=
-oto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, '=
-Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'=
-; font-style: normal; font-variant-ligatures: normal; font-variant-caps: no=
-rmal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: sta=
-rt; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -=
-webkit-text-stroke-width: 0px; white-space: normal; background-color: #ffff=
-ff; text-decoration-thickness: initial; text-decoration-style: initial; tex=
-t-decoration-color: initial;">
-<div style=3D"box-sizing: border-box; overflow-wrap: break-word !important;=
-"><span style=3D"box-sizing: border-box; overflow-wrap: break-word !importa=
-nt; color: #333333; font-family: system-ui, Roboto, Arial, sans-serif; font=
--size: 16px; font-style: normal; font-weight: 400; letter-spacing: normal; =
-text-align: start; text-transform: none; word-spacing: 0px; background-colo=
-r: #ffffff; display: inline;"><span style=3D"box-sizing: border-box; overfl=
-ow-wrap: break-word !important; color: #333333; font-family: system-ui, Rob=
-oto, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 4=
-00; letter-spacing: normal; text-align: start; text-transform: none; word-s=
-pacing: 0px; background-color: #ffffff; display: inline;">+LICENSE:${PN}-qc=
-om-qcs6490-radxa-dragon-q6a-compute =3D "Firmware-qcom"</span></span></div>
-</blockquote>
-<div style=3D"box-sizing: border-box; overflow-wrap: break-word !important;=
- color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neu=
-e', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',=
- 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; =
-font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
-; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -we=
-bkit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff=
-; text-decoration-thickness: initial; text-decoration-style: initial; text-=
-decoration-color: initial;"><span style=3D"box-sizing: border-box; overflow=
--wrap: break-word !important; color: #333333; font-family: system-ui, Robot=
-o, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 400=
-; letter-spacing: normal; text-align: start; text-transform: none; word-spa=
-cing: 0px; background-color: #ffffff; display: inline;">Will it have linaro=
- license also?<br /></span></div>
-</blockquote>
-<div style=3D"box-sizing: border-box; overflow-wrap: break-word !important;=
- color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neu=
-e', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',=
- 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; =
-font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
-; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -we=
-bkit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff=
-; text-decoration-thickness: initial; text-decoration-style: initial; text-=
-decoration-color: initial;"><span style=3D"box-sizing: border-box; overflow=
--wrap: break-word !important; color: #333333; font-family: system-ui, Robot=
-o, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 400=
-; letter-spacing: normal; text-align: start; text-transform: none; word-spa=
-cing: 0px; background-color: #ffffff; display: inline;">Pls Ignore this.</s=
-pan></div>
-</div>
-
---P4BShK5WaPc3OEWJmubs--
+diff --git a/meta/recipes-devtools/clang/llvm_git.bb b/meta/recipes-devtools/clang/llvm_git.bb
+index 96ea383731..108e884a6f 100644
+--- a/meta/recipes-devtools/clang/llvm_git.bb
++++ b/meta/recipes-devtools/clang/llvm_git.bb
+@@ -11,7 +11,7 @@ require common-source.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=8a15a0759ef07f2682d2ba4b893c9afe"
+ 
+-DEPENDS = "llvm-tblgen-native libffi libxml2 zlib zstd"
++DEPENDS = "llvm-tblgen-native libffi libxml2 zlib zstd binutils"
+ 
+ inherit cmake pkgconfig lib_package multilib_header
+ 
+@@ -50,6 +50,7 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=MinSizeRel \
+                   -DLLVM_TOOL_YAML2OBJ_BUILD=OFF \
+                   -DLLVM_NATIVE_TOOL_DIR=${STAGING_BINDIR_NATIVE} \
+                   -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
++                  -DLLVM_BINUTILS_INCDIR=${STAGING_INCDIR} \
+                   -DCROSS_TOOLCHAIN_FLAGS_NATIVE='-DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain-native.cmake' \
+                  "
+ 
+@@ -126,6 +127,10 @@ llvm_sysroot_preprocess() {
+         install -m 0755 ${S}/llvm/tools/llvm-config/llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/
+ }
+ 
++PACKAGES =+ "llvm-linker-tools"
++
++FILES:llvm-linker-tools = "${libdir}/LLVMgold* ${libdir}/libLTO.so.*"
++
+ FILES:${PN}-dev += "${libdir}/llvm-config"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 
