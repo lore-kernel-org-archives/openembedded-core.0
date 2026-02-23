@@ -1,122 +1,99 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 348A0EA4FD8
-	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 15:25:16 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37539.1771860311397405367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA35EA4FDC
+	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 15:39:36 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37894.1771861173058453479
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Feb 2026 07:25:11 -0800
+ Mon, 23 Feb 2026 07:39:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GLjvQEzW;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4834826e5a0so55740695e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 07:25:11 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=rC/5j3up;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.54, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65a3ea5133fso440987a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 07:39:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771860310; x=1772465110; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZxVunOwn7lebGagAG9QAuyq0uRsFMo0p01QJgPfWuYg=;
-        b=GLjvQEzWsYg27PD0G87dOQOnPG+6/RIvHO5zCc7nqcCZKWLnzxXMHeZjQw40GBJ+b4
-         TvdrCx8eMR90UCpz9NO9X5t1SXHAeva5bTUvRqpyeXeSQRFlDkeHxAIlVhMPx6cYgwLU
-         8KLYZt3wGBMkJTOqxGjwodN+fCTUNiO/3qJgk=
+        d=amarulasolutions.com; s=google; t=1771861171; x=1772465971; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DYkAelViJM19AMnkPZT0mCiXmsDdz/KrEytaKVlQ6ic=;
+        b=rC/5j3upBQqFM1eqT7Ofh254+/iniTfLMy1tZancjQggyYhpbg3xUOVlWHRy+Loaad
+         VP1u7zw6M5U2OCCc9X5p+GRVhWH8Ey00UpNXbmiXPLDYK7mal/pV9yVubF2rYfUL/50v
+         /Vo3Y3dGf7gRC9AZCA4uj6Yzrp8WUPEo4ftDw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771860310; x=1772465110;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxVunOwn7lebGagAG9QAuyq0uRsFMo0p01QJgPfWuYg=;
-        b=hBJy5ud853ARU05YmS8PLzHev2nu8sXVNlaXs8pUqAwjcVPq029S/KYFmgS7M5I2ma
-         NHmnt2jjx0wp/5rZkdqy3J9WJfv3fqM1DW5fh6rCYkQgCf2znkDMupKdmrAmy8I6HUde
-         ydG5r1SQ9XKvrcPQZ13f2lOjymsaR+2V6PyE6FH5LV7jrb0UZuk4Ka5mjfUedYTac5dP
-         EDUN7JtfLk2nRlIsv0QnsaPbA7I/PLzM0tD/51Mn9xcw2NMNALGt8adc6299VIhqle/I
-         VUGLA2yNiCDf1rjNIGQqpUo4ZXA2thx4JdVKtLLN49G7O9F0lmXL/sdFn0ZyoWAyu6rk
-         Au/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW0ZtgtwXb+mZDY+DRuAb0Fu4FKSRVMN427CKqtzvZvPDQMlKPBu32pnxnK1JaFYNbHQGDCOHPokFlRo4MyXTurIg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzjAT5OoAoiZrKkuqZ9Xqnb+OmVst0a8RYkycXQimAbpUJUGUW/
-	NBtS6zAb64OniCCK4FyxAeQZyMxeSDaf8sxBZnbA+RXcuRZIAc4dYQ/eb3evO7tioCOtAHX6Stn
-	SXKet
-X-Gm-Gg: AZuq6aJl6l++1ckYo7rTMMwr+T25Wuyk0UBwiAoIyEIalWMjWUCsCOdas1icsQM9evM
-	OHgeQUzak+DJvLR9WKruymZ2Kz1pw0hgdJELPixlhP8LsSvyKlzq3AGWdlElg0CcjgNZIRENp69
-	CWpF6j4DYISAvnIlSX5bivvapp2jAPq1aGiK5pxY32Z1e1T4oOYOwMSbSZg2lT2i3YVdrn6UyL0
-	iVejKYN74/T4TdJH58lh/0ebL7a17dQGv0V1Vj1u4VjnpBOWJJLMocsOWMte2PEby0EA9tFqQvF
-	Xl6qzgqlfEb5c/d/RNZE3IHHRk4zLEaIEJ5VBzqwn1/Yk15ZfDLHtcia9KsrToLfNk9Y+xSRIJD
-	QPo4Np1uiuWRJmbL33/3QJsrAtZHpS83j5Cvj32wnlJopfaAt7w74XR24VlXWpmA7Tj76iCg1Vs
-	qNrNvEPMH5doLKAQZN5ADSi3xkZaFtn2s2oCrCoIecAORQEfXQsE4yPWC8o1lr+RHfyDpX4+/tO
-	2sykyq6PmcZz7do/XRzhYVFaLM=
-X-Received: by 2002:a05:600c:1d0a:b0:483:9139:4c29 with SMTP id 5b1f17b1804b1-483a95b58e6mr158075345e9.2.1771860309711;
-        Mon, 23 Feb 2026 07:25:09 -0800 (PST)
-Received: from localhost (2a01cb001331aa00f13df544104db802.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:f13d:f544:104d:b802])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3ddd3c8sm132844365e9.2.2026.02.23.07.25.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Feb 2026 07:25:09 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Feb 2026 16:25:08 +0100
-Message-Id: <DGMG24SACBZT.1OZ48FG1IZ0IT@smile.fr>
-Subject: Re: [OE-core][kirkstone][PATCH] libsoup-2.4: Security fix for
- CVE-2025-14523
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <rsangam@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260218114518.16602-1-rsangam@mvista.com>
-In-Reply-To: <20260218114518.16602-1-rsangam@mvista.com>
+        d=1e100.net; s=20230601; t=1771861171; x=1772465971;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DYkAelViJM19AMnkPZT0mCiXmsDdz/KrEytaKVlQ6ic=;
+        b=lWlxhL+QM4ChU0Kw5JYizZL5jQyHGPj3JYQWopmCphLcb+0qarHCjkxw8BW6sFnzDA
+         F8xhie7MiZxfX1vkwfW+TZzTK0KSHKITQjTsiyaQkkJXoSlW3jUboCRVu5t0h+nAysI6
+         gVXrj5TUViaj/iypERJhEg0hNggyOcVegwxHVU0sfTpvRyrAYJgYKvefguB+4aGLy6iZ
+         CSVZPvYLIOAAMmNRGT847Yh+UnnvlO/7Dyf5tJVgy5I4skg61YT2+1vadpjZItTxi2M6
+         dTPuK5GEyP/RqjpLVOJUke60O/dNZy/YESQY60+Jjl0Ni351ku3PoG2CckLmYriSlP1N
+         1wqQ==
+X-Gm-Message-State: AOJu0YxyhM483TIT7fCuNqB4Q7f2i2hMe+shhDxYYmcNGHdGlxb5tk6P
+	GyvgUwMRzOQnwsYXV2SAwZIgXpr0Tnw2Gh5o6IG8ltnyypmi65VB6EkdzucsEKpQMcUWtFTLeNM
+	oM92BmUU=
+X-Gm-Gg: AZuq6aLKXOFJLb2dOMp9PcJphGQ1ZOwbesWgKqFPjzBFsbhSHq3GE4zbRT0eTVVDCDz
+	pRlfw4FmmWYURMaDO/WxVUD0IsmnmD9+yl7jtSsscaRTwpfyAgKk6Pj3i3edpJJKdu3NraV6zGf
+	WgUty9BDLzJseLRAgEOljDeGBpzS48IemfGiSros1d8Tq4lwcJblzYpSEyAROaA5HmDo114Goa/
+	uaaNXFN0vwtWTvrmsgd3Zu52bx2KzSbhNQTi88ZS1ZEq7ukzIipVPDSLPOslQeLXipUoDILzvUP
+	mwbnAjfrCAin7jE5duC/gfdK8Jz1S4DQAPKOHcwrnyYmDzk2BnBRMt+O8iBixSsz3FdQ0SLawR3
+	FqlspkOy4Hd//MwvSC6LSiuHTxS9PsDI5xA34lLDFk+ll7YJ6/jIPkc9VMaZmn97I7bzQa0ZMY1
+	LhSUaQLmrJNEjT2UUMwdz+mvROyrmqVYeEwBZYw5EkH6n12aba/ZB4mxV8T8w7+j+kz9cOSbz1j
+	fLqYlxYB6juuxHD1xf79leV4vGBILfoG12kq5LMcvqA1wVCX5yZcfi81FyJ8wT58M+RwA==
+X-Received: by 2002:a17:906:fd84:b0:b83:95ca:22e1 with SMTP id a640c23a62f3a-b908191f3dfmr282419166b.1.1771861171262;
+        Mon, 23 Feb 2026 07:39:31 -0800 (PST)
+Received: from adam.amarulasolutions.com (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b90ba281d69sm33643666b.28.2026.02.23.07.39.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 07:39:30 -0800 (PST)
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
+Subject: [PATCH v5 1/8] rpm/rootfs.py: ensure exit 1 has a word boundary
+Date: Mon, 23 Feb 2026 16:39:22 +0100
+Message-ID: <20260223153929.2641007-1-adam.duskett@amarulasolutions.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 15:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231672
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 15:39:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231673
 
-Hello,
+Currently, If a package installed by dnf has the word "exit" followed by
+"100%" in the log file, the rpm/rootfs.py regex matches a failure thanks to
+the "exit 1"00%, such as the following:
 
-Thank for the patch but it needs improvements:
+[682/932] perl-module-test2-plugin-exit 100% |   0.0   B/s |   8.5 KiB |  00m00s
 
-On Wed Feb 18, 2026 at 12:45 PM CET, Rohini Sangam via lists.openembedded.o=
-rg wrote:
-> CVE fixed:
-> - CVE-2025-14523 libsoup: Duplicate Host Header Handling Causes Host-Pars=
-ing Discrepancy (First- vs Last-Value Wins)
-> Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/c=
-ommit/383cc02354c2a4235a98338005f8b47ffab4e53a
-This patch is not merged is any meaningful branch.
+Add a `\b` to ensure there's a word boundary to prevent the error from happening.
 
-You need to justify why you think this patch is the right patch for this
-CVE.
+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+---
+v1 -> v5: Add this patch to the series
 
-> Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-> ---
->  .../libsoup/libsoup-2.4/CVE-2025-14523.patch  | 79 +++++++++++++++++++
->  .../libsoup/libsoup-2.4_2.74.2.bb             |  1 +
->  2 files changed, 80 insertions(+)
->  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-145=
-23.patch
->
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patc=
-h b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patch
-> new file mode 100644
-> index 0000000000..3b534a64d5
-> --- /dev/null
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patch
-> @@ -0,0 +1,79 @@
-> +From 383cc02354c2a4235a98338005f8b47ffab4e53a Mon Sep 17 00:00:00 2001
-> +From: Michael Catanzaro <mcatanzaro@redhat.com>
-> +Date: Wed, 7 Jan 2026 14:50:33 -0600
-> +Subject: [PATCH] Reject duplicate Host headers (for libsoup 2)
-> +
-> +https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/491
-> +
-> +Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/=
-commit/383cc02354c2a4235a98338005f8b47ffab4e53a
+ meta/lib/oe/package_manager/rpm/rootfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The proper syntax for this line is:
-Upstream-Status: Backport [<URL>]
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/lib/oe/package_manager/rpm/rootfs.py b/meta/lib/oe/package_manager/rpm/rootfs.py
+index 3ba5396320..698685c067 100644
+--- a/meta/lib/oe/package_manager/rpm/rootfs.py
++++ b/meta/lib/oe/package_manager/rpm/rootfs.py
+@@ -14,7 +14,7 @@ class PkgRootfs(Rootfs):
+     def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+         super(PkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+         self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
+-                               r'|exit 1|ERROR: |Error: |Error |ERROR '\
++                               r'|exit 1\b|ERROR: |Error: |Error |ERROR '\
+                                r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
+ 
+         self.manifest = PkgManifest(d, manifest_dir)
+-- 
+2.53.0
 
 
