@@ -1,206 +1,367 @@
-Return-Path: <colin.mcallister@garmin.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED62EC110E
-	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 16:54:57 +0000 (UTC)
-Received: from mx0a-000eb902.pphosted.com (mx0a-000eb902.pphosted.com [205.220.165.212])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40018.1771865689387849582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8C3EC1110
+	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 17:01:57 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40215.1771866108662816733
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Feb 2026 08:54:49 -0800
+ Mon, 23 Feb 2026 09:01:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@garmin.com header.s=pps1 header.b=s/soFZdH;
- dkim=pass header.i=@garmin.com header.s=selector2 header.b=nJ5+kvNV;
- spf=pass (domain: garmin.com, ip: 205.220.165.212, mailfrom: prvs=75145000c1=colin.mcallister@garmin.com)
-Received: from pps.filterd (m0220295.ppops.net [127.0.0.1])
-	by mx0a-000eb902.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NFLSMB731228
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 10:54:49 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps1; bh=0OLf3y7QHYE1QEhdYSckHLO592x
-	CBgKg6/6jgEqKO+s=; b=s/soFZdHo3dtYx7cxkDSerXG17Mgvk21twhZx9N/V7r
-	VsfQ1fxA7CWmMcXHxgrpSZrfh5HaEDq5YbSSS72JUFqyYkcndaA/8fGK2sIdafMa
-	7OH1zCDJniqJ59+yGiEpi/8dmgKuoPaVPeh5lK4HwSSesJRS1OapYmGvN+Pq0dFQ
-	2uAloRo8g0HavfOx7/OeXS7OXHybuc9x8AB3lu4Oxyqp/S28+Nd1MhFVetEzrSjy
-	bZ3mxPQ7KcdEBf5jQYWKjdMdM+20GZj2uzr6E4AgeRsSP4MktA7PrJj6vsaN0RZB
-	7dijbeDO+tPesfmBCq4rdEWhNluMvWAlvxoxwxmCqrQ==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021130.outbound.protection.outlook.com [52.101.62.130])
-	by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 4cf81tmkv7-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 10:54:48 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZCNB+Vh6F2g5+AGRjzE8IPEqwynbTGZ8otiXhHESiexooz4CvLQOu9nWOEiXpbA6vmKhmtLNVsOPTI8KletHS7/rtnO3s3mGn1L97XhfnR7gc5xFQMABF40EgrqZYrWYEt0nz3ETfMraJ/rGqTIgekxaLVqqY12dG8KQLYvLoNpjNs5rEEX7lHbhqIPBQoWmpfs4JOfNJpj7IohQUQRTmxtfyyh3ntQTELBECHxQnRaoe9mK27swWTX/tWTz2Qe4nT9/TgWDCt/nT+3On9F0BfC2fM3tKQrFYKghMeEZD2YFXox49IkXbSg17ydLK959iLXkHAOdrQGUNrumwSSjdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0OLf3y7QHYE1QEhdYSckHLO592xCBgKg6/6jgEqKO+s=;
- b=khd11POwSK8GOR8b4qSMUoc/WOezj7ZcpQo557mszlQzFYlUgBVA6hswyCE6ITQ/NL3S4qiHdgbf4QNsGyc2QWMqgq7yQBOZNQKe85qAyQ5DOY/R9rnvb3vecta62QFuuoJPdJZSwuB5eHGbrdk/irRNt3bQIxP7PZv38bATQX5rf46kzs85FZqwo5U1zlzNtXw6l2o30/J9jdVQgbRNXCTq6d0cHgMm6U0tifsJTQ5oHCifj2yxtdAIAA9TLiP17+n2W1KGNE3F2MmBJNNNMZpSlZvu8rpsWNWCek2Vw2XKL0sOuZLBJ7YGJCBSZ4RKf/dW0zvqkLmR/fAeuobOCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 204.77.163.244) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=garmin.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=garmin.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0OLf3y7QHYE1QEhdYSckHLO592xCBgKg6/6jgEqKO+s=;
- b=nJ5+kvNVsw/vQ4veINpGvuv43vFxUk/LLheYdkiKFRtYB6IcSsFlVkdi27M07uchFQIgI438I5/ZcQ3DfFR4j2OkhDctTto6O4yKxnGNDbV3R0cm/7zeddgEJYonyPrgfGj/wn7cXuS3+Kll8PMrl1DGg8onDmpiQeQJfOxbYDM7g/oiZsqdQGQ/i0JGH73taImEv1GtAVwFWHkS0ZAbt6mmtQC9BJ1QwbieO/+n8PU9TV9ks/Ded2s97PYU1TJZQgoLVv/gFP7DLBOM6qFaPTmXN1dvfbN7XPmzw5F+Fb9Fdf6Ypvk6wsBYxT0DTIgKYFivUrIMkRuMP50+rHXtIw==
-Received: from SN7P220CA0027.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::32)
- by DM6PR04MB6828.namprd04.prod.outlook.com (2603:10b6:5:22a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
- 2026 16:54:46 +0000
-Received: from SN1PEPF0002636B.namprd02.prod.outlook.com
- (2603:10b6:806:123:cafe::7a) by SN7P220CA0027.outlook.office365.com
- (2603:10b6:806:123::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.21 via Frontend Transport; Mon,
- 23 Feb 2026 16:54:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
- smtp.mailfrom=garmin.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=garmin.com;
-Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
- 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=204.77.163.244; helo=edgetransport.garmin.com; pr=C
-Received: from edgetransport.garmin.com (204.77.163.244) by
- SN1PEPF0002636B.mail.protection.outlook.com (10.167.241.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Mon, 23 Feb 2026 16:54:38 +0000
-Received: from KC3WPA-EXSE04.ad.garmin.com (10.65.32.87) by cv1wpa-edge1
- (10.60.4.251) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 23 Feb
- 2026 10:54:25 -0600
-Received: from cv1wpa-exmb3.ad.garmin.com (10.5.144.73) by
- KC3WPA-EXSE04.ad.garmin.com (10.65.32.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Mon, 23 Feb 2026 08:54:28 -0800
-Received: from cv1wpa-exmb2.ad.garmin.com (10.5.144.72) by
- cv1wpa-exmb3.ad.garmin.com (10.5.144.73) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Mon, 23 Feb 2026 10:54:27 -0600
-Received: from ola-jnrkg73.ad.garmin.com (10.5.209.17) by smtp.garmin.com
- (10.5.144.72) with Microsoft SMTP Server id 15.1.2507.57 via Frontend
- Transport; Mon, 23 Feb 2026 10:54:27 -0600
-From: Colin Pinnell McAllister <colin.mcallister@garmin.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Colin Pinnell McAllister <colin.mcallister@garmin.com>
-Subject: [kirkstone][PATCH] ffmpeg: ignore CVE-2025-25469
-Date: Mon, 23 Feb 2026 10:54:03 -0600
-Message-ID: <20260223165403.799551-1-colin.mcallister@garmin.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BTC7SFpm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a7d98c1879so29522095ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 09:01:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771866108; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K8V5I56ocCXT7nYggXCxiHZQt1aGYi+CvGRVXvZHgxzMR5t3mwZqlqKNhOAnJ5Ay4M
+         9fZZcdsmPlWPGZTvOrlEPvqZK3gY08daX5st2EAOqPDSbPFXbH9/ib9s1X8WisDpzH2p
+         ZS4JRv+HNhCxbHnu5BI/lH4sCMiMxcfxDjRBLNMje2wMZ4MFXqm0BrFypHECQGwClhde
+         kKcG7vBvWtmyZDjdmuHb5Wisl9uEt9tO72jX0vuPnEgKcqnNlZbPSDtH/B/uO+dH+EIy
+         ukvpUPiEA31w/4M3xNdjMJ6PtN8Fzsehp8453d3pixTRlpZ6Z5b8mhsTgoAgy6gSvXR1
+         UGAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=XFt7kuBy0Tfa5QoNIy30sxYwaeJGF9/syx1naYPDRcw=;
+        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
+        b=k3V9gJHtbLem6Uu1kwsuPqXA92R88v18vTLJnJssZnwCpAD8QvwMu0+UiaHXECRM8E
+         73CeKktX3i8yVi61OSX13hDB/B2KWn6b+DuozDsmObmmjK1JPbBfgqUUU2zAgkxGV5nW
+         xY/XzpL6FSFbER3US7ONpnLdGt05jD6hnh5syFvtkYNfcreguBRnbPoYTazrITCiYNYC
+         LmcOzSPU8hNLAP/mXUEBRd3hyydNqWxg7L5SJB7IdsyxFNtanKpBBmNmCL2Jcj9AHnMB
+         mjF2G9Eaf8k784BW49z6yov7tgybj9FBrIC2Ozyi1C2GVD5hcMU1FFwzy7DGCLwXKAfP
+         CRWg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771866108; x=1772470908; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XFt7kuBy0Tfa5QoNIy30sxYwaeJGF9/syx1naYPDRcw=;
+        b=BTC7SFpmG1l3Zd7KgDwAp781pmVSBss/beO6xxYQZJJyVljluWn5OVlUBoj3159wB1
+         a4f9qXuQRM/8tM0W90hxiZoFg8N6NmxzbzaxdMT/jAhS1f1Q2Uc12i6Sw5eQcf0O6eNX
+         4Ny28z5fTuCh7TgU0fIKwxuhDc1GzNikhByv030nysT+WkumNdrXgIPPw6KpmdNv+Sqm
+         FM3vPqy8CsI4wm5beGLYLy2CZS2v/Ivrpn2rB/t/TVrSRq2pcWvd3g1Krn0DgcG/4pVV
+         aeKhuwzCwrYrCz8Yyzk7DaQOpXOmAN4zd2JQIOw7PIefPigTIrYzv9GhHflETMqG3i1W
+         hG5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771866108; x=1772470908;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XFt7kuBy0Tfa5QoNIy30sxYwaeJGF9/syx1naYPDRcw=;
+        b=xEYlZ9EAFautyInIt4YVfZr6zbqB8DTFGV6sV4IoqSK6UpVn7nsi64ZuUKa/wSM9Rv
+         7WGdBjIJTOQIkgDjL8Qex+uHCax3qpwev9eY4ByAqNvdb8u3bNFGWuvV0stU8BEMuy7f
+         tAW/nDpCn/7nFXVEXGGTgAZUHI96lSfqulfeK1c6sAF/UUTN+HYy6O/THkMt/j4j+Kvz
+         EZJzIatWKY6/BCSx3vpmqkq/05nuTcdYmgzlBR8izltmkAIaPiWjckQjZ0dqT4cSxdJJ
+         OHHdZ2Hjez3aClIJSuDC4ipISqeVnX1P91HejGKaQL2FCm0+JoLqbn78Bj2ZKMml2QT1
+         Kiug==
+X-Gm-Message-State: AOJu0YxgMNFI2KWZzS/5QFZALCnFB+HMO6DWlIaIs4cCDaOxC142gMis
+	TEPyB3Wu3mjkcKVZLk9o9qpKo/1LTrOdKmbQ3oE4Te3k3I4pNceb42UtHWib5EWvV/zzwkqPe0l
+	KrivzYBZvy49DMgYkmfnzJ+4EeErbvM8=
+X-Gm-Gg: ATEYQzxFFbplPHkbBsuS4KXQP4Fb4c16OlVKUF57Eu/92+/z1Nw7xIP8kTn0JKWOEZH
+	/2KdtrXVY+pL4uvyh5O1jziDYgP1KYvWCYlZPATSQeRcPaMA6DSayeZHoOavDsOVQZHG0z6gSti
+	X2XEgZCXcgVX+Z8N8tjAkaukpYFBEvhDxCxpg7WP4Si32/EuC+0n/VPsZqgfP9LGJaRkjeYZVyl
+	hp+cx1vlCWM9CxGqyVwhuimVRbldYFAUzPIkDKMygVZPjNL5Sd30TmjGg4H0p/D+nx+PSYM+r/b
+	zDsGaV+7HQRluFFBs6ipbsOyf9FDXEOCexOJh0DS3aLD7XvZ54s=
+X-Received: by 2002:a17:902:e747:b0:2a9:30d4:2af3 with SMTP id
+ d9443c01a7336-2ad7456c0admr83987455ad.49.1771866106419; Mon, 23 Feb 2026
+ 09:01:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636B:EE_|DM6PR04MB6828:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27af8263-e8e4-488c-7f5c-08de72fc3b27
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?8pFw8IMVB+ri3xYUN7+c5PK3Pp2/L06Yj1YSWnMOPXpEov1xmRYOAONHb7k8?=
- =?us-ascii?Q?riosHhMcmOx+qY73AST83xxUMHNIC6rm+lpZUvY8C69yVOmWKbrr7Mz5QmJf?=
- =?us-ascii?Q?PnYKrqCQkZndp8ncs0UGndAcrp+GmbvkhlJRstAZX3iUk4NS0s9O7H0pIsHA?=
- =?us-ascii?Q?fFHGfbrUrhWoBHzDcJtSauXIx0YDVGP62oLNLn6OSi0X/M6ZVdrg/p9gAKsf?=
- =?us-ascii?Q?cY93HO8QZt+LdcWpa5xIYPTtw8L7bQQ5t2tWmlJuEpw2MWkKr0+qPcpV5dqD?=
- =?us-ascii?Q?Dbd76HzgTsc2/okGVorzAU/f2jIMUJPtUkWzJlHUBj3ckZfXEUC7dvXx2g+a?=
- =?us-ascii?Q?jJr+h5R3E0QfPk1Dnw++ghhEfEwFL6BmfKdZLDhxZCwutlehWXOAF+N9m5Ro?=
- =?us-ascii?Q?nxudqVDav8bnijYXfRh7VY3/Cetthlo1cfRkyTS9MJybXW44eqleWj11aExS?=
- =?us-ascii?Q?EK96lQbMYNIMFraXIm8amnxvBqY8umQpKAFlMV+NwdqUcxgTh4U70sw2kQ6b?=
- =?us-ascii?Q?Q719Egd1pVRx0GfD99CZVVlLqQaZV+z2L9AKwREjsvOVQwizG0hnp0XFDl4N?=
- =?us-ascii?Q?ZAxDNPXqRKgtkzkji9xd9pU1CxamuyvGk8cVW8UZ/YSVeTY60zVaunMWoCyP?=
- =?us-ascii?Q?aBlyzROx7RucHXG8aYzMgEUEM2st9o/f0O1ZOKmwZNemiE7axFsG/VIZpzmv?=
- =?us-ascii?Q?rrXyWsNIWeF0/mQNC/+K78x6rKox0imsg2Zf8PAAb7sZ2Ujy8ZjL+FdRsuCh?=
- =?us-ascii?Q?33Dbo5Sh0FUj3pKEgEiQBr61UWbZ9j66qX+fH5AvisLcD5eLrWH/PueShcaN?=
- =?us-ascii?Q?tFRqVmUx6X0ex7SPaEdFXxdVgprZPisrHD8CoV+MRjCSklSWFmOjQZAKs58z?=
- =?us-ascii?Q?I0eDtj1Nbu4/SWdmaKoTreFSR1dveYYRy6/n8slWMBVUmPdcxM5OdLn9tL+v?=
- =?us-ascii?Q?EXkSWqnbfoDrShx5CDiayI8hE6xhG183Dbrpp0SfTYizcpuc7QG6EhQ/ZsgC?=
- =?us-ascii?Q?jt/F5X0gLw1C4AuEucoanRHA1GMRPEjtDOq26RIRWCbHx3E+u+pZWrXazgrm?=
- =?us-ascii?Q?QFZ+H8bq63QTO57tJVyhAmq5WLl56vmdPRr9MpV5uI8WvjYJu2Kf1vwqOuB+?=
- =?us-ascii?Q?UQ38FgAl+KB7hyuc8opcKVcjtY2uBf5pMa/R2RXQyTjrq6RZsR8eFFOS+Oxb?=
- =?us-ascii?Q?KKcdAZueXoDpTZEmqrwhO/3wCfarBe5oQw9XDiXO7MAt40SUcARkvGz3uEWX?=
- =?us-ascii?Q?1esTIWZ6CXJ/xLm+MXewXuGwB2LM5d1XbZmzJKjm77z92rxWzFtmiSdRP36d?=
- =?us-ascii?Q?O9LxUE2BqJtRuahHg2H/wS+J19lHyQIV0TKLS87RgOp++bWP2k9nf9WNhP4l?=
- =?us-ascii?Q?2zFJGKvOELJivIe2rUxhjW7F7IuVMnVmd+YWt5SAYSmKZnf13EZadjTjK1Bp?=
- =?us-ascii?Q?89A9/3NeK5/5/zKCjUYkuLECIi7moc2Fzb03OQo/2VKoCE8k9LGwlHXJQJFa?=
- =?us-ascii?Q?+3gejvlCeTvB5nF6jLQ8uUA77+16AAkKN2dAqtRxUwCvYJK8Upq0hOvLyWnM?=
- =?us-ascii?Q?V6VElYAur3F/CEp0kx69fGCHYmaNSV1W98FjQvgYMVJp0f8r14QXYe66ZClA?=
- =?us-ascii?Q?xw=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	u5HdMuUFwAHnTjc+wEDRy7rJrpkYlL3Wk4cmERTF/U23wHIPlnLFi2RK2IynRlteBCo1AZlbJ+YS/CYhyeK5z3cEVgggVhgRHGGzAx4aAvvhXmAJylTNzRmJq7C8R97KFRIOHLICUKlsi23ziuAMPmKPpgwV0RYNrkntDvvkr4f4dCOKRGg/6OLnXkMsi765UX890VTD1GWvIDvf7lqATsuiolNLD7w4khpwZ5wSA80XaBRW4uMS1MbIPZjPhhNMb3KSrcM44y8LSIqQJ5uSMpnwGXgz2c3QMf3IbDwdFvSduKfAHNBV1ev1KHfikrzXCuEEOpWWE7DsgQUcmRhJQMJ01C6Vwm42b0SgVC3vovLrj71npYA1INYBeeY2zaG2PAEc4F/N4Mt/jINIy+LxQeUQN05bJsO0BGjw06Fdl+n+38CRPMp5RJ3uqQ79GECV
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 16:54:38.1890
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27af8263-e8e4-488c-7f5c-08de72fc3b27
-X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SN1PEPF0002636B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6828
-X-Proofpoint-GUID: VdM_aeShhP49wypwimEvOFZVD49Qp99C
-X-Proofpoint-ORIG-GUID: VdM_aeShhP49wypwimEvOFZVD49Qp99C
-X-Authority-Analysis: v=2.4 cv=AIVl8Rsx c=1 sm=1 tr=0 ts=699c8658 cx=c_pps
- a=7kgNGXaSmB15KJ6u7rEBag==:117 a=YA0UzX50FYCGjWi3QxTvkg==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=HzLeVaNsDn8A:10 a=qm69fr9Wx_0A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=NEAV23lmAAAA:8 a=emhf11hzAAAA:8 a=iGHA9ds3AAAA:8 a=NbHB2C0EAAAA:8
- a=9vYKFdbn_Dj7vmk6n58A:9 a=HLUCug_QN4oeKp6PugZw:22 a=nM-MV4yxpKKO9kiQg6Ot:22
- cc=ntf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE0NSBTYWx0ZWRfX79YpYaV27sYu
- hIn+VmweNpS+2IfSMno4nLtoh9cE3noY+AvqxdtNUlpXeeu7383sOTT6I+n9UEdVaZF0guW3ZUC
- v/eWGoBW9ZCSs8vArEeOG5I6PEipRWqylND5DYM4VPdmnYcLCN/tYQoLHq7JRhDcciLp/L10gxo
- LIJnf4Cs+bp88JPyK2RflPPPwS7m8cxjnxa1peD626EJ5RXk7dnE1HF4EstWZe8RLZqoqcca4eP
- z1YIIGw6R+iqwO13oVBS44iC+AnWZcEbEfeDedTqrvaZcf+sV3ALYuL3kuv2guudWGwFmV4FQ9z
- pvwSSEAK9Slbs2MOu46hX9bGhZ26zBgs4xTyWltqgy4ft8OC/90mBwJ9hUba2m3yASufLCFeZem
- 6J1KCLz4vmXwB8cfXRrPHYclv5woBiPQJUWs9DSCzAeQNn0+jnpytOkvG9vEykvvRlDbDTzE3B/
- KFukuA44EDQV0LUY+Br8CLkOwh31HOQoavrqCJtE=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_03,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 bulkscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc=notification route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602230145
+References: <20260209125628.640221-1-ross.burton@arm.com> <20260209125628.640221-9-ross.burton@arm.com>
+In-Reply-To: <20260209125628.640221-9-ross.burton@arm.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 23 Feb 2026 12:01:34 -0500
+X-Gm-Features: AaiRm518RPCLQAYcKf5BMAfgVI5yPFAWdLjebxTtCuScBBKOmSpwVDzJvzBFMUM
+Message-ID: <CADkTA4PJwhOrRvwWFY_aOZNjTgsjAv_HYHTWrd0yGX0-s8SC3Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 9/9] kernel: remove pkg-config variables for
+ old (<5.15) kernels
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000dcdcb8064b80b9ae"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 16:54:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231682
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 17:01:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231683
 
-Missing free introduced by commit d38fc25 and fixed by commit d5873be.
-The first version tag that contains both commits is in n8.0, so no
-ffmpeg release is vulnerable.
+--000000000000dcdcb8064b80b9ae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Colin Pinnell McAllister <colin.mcallister@garmin.com>
-Change-Id: I91f0aaad8ddcfaa2acac541470aebc9abe88b0d4
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+On Mon, Feb 9, 2026 at 7:56=E2=80=AFAM Ross Burton via lists.openembedded.o=
+rg
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-index d64b97e787..eb21cde89a 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-@@ -105,6 +105,11 @@ CVE_CHECK_IGNORE += "CVE-2022-3341"
- # bugfix: https://github.com/FFmpeg/FFmpeg/commit/28c83584e8f3cd747c1476a74cc2841d3d1fa7f3
- CVE_CHECK_IGNORE += "CVE-2023-6603"
- 
-+# Vulnerable code not present in any release
-+# introduced: https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/d38fc25519cf12a9212dadcba1258fc176ffbade
-+# bugfix: https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/d5873be583ada9e1fb887e2fe8dcfd4b12e0efcd
-+CVE_CHECK_IGNORE += "CVE-2025-25469"
-+
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET:armv4 = "arm"
- ARM_INSTRUCTION_SET:armv5 = "arm"
--- 
-2.53.0
+> The kernel has supported setting an alternative binary for pkg-config
+> with a variable since 5.19 (in 2022[1]) and we set that to
+> pkg-config-native, so there is no longer any need to also manually set
+> the PKG_CONFIG_* variables.
+>
+> The relevant commit was backported and is present in 5.15.91 onwards,
+> but is not yet in 5.10.x.
+>
+>
+Ross and I had spoken about this before he sent the series, no
+concerns on my end.
 
+Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+
+
+> [1] linux d5ea4fece450 ("kbuild: Allow kernel installation packaging to
+> override pkg-config")
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/classes-recipe/kernel.bbclass        | 9 ---------
+>  meta/recipes-kernel/linux/linux-yocto.inc | 7 ++-----
+>  2 files changed, 2 insertions(+), 14 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel.bbclass
+> b/meta/classes-recipe/kernel.bbclass
+> index b43b4ff4fb..1ebf027281 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -251,7 +251,6 @@ KERNEL_EXTRA_ARGS ?=3D ""
+>  EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"
+> OBJCOPY=3D"${KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP}"'
+>  EXTRA_OEMAKE +=3D ' HOSTCC=3D"${BUILD_CC}" HOSTCFLAGS=3D"${BUILD_CFLAGS}=
+"
+> HOSTLDFLAGS=3D"${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}"'
+>  EXTRA_OEMAKE +=3D ' HOSTCXX=3D"${BUILD_CXX}" HOSTCXXFLAGS=3D"${BUILD_CXX=
+FLAGS}"'
+> -# Only for newer kernels (5.19+), native pkg-config variables are set fo=
+r
+> older kernels when building kernel and modules
+>  EXTRA_OEMAKE +=3D ' HOSTPKG_CONFIG=3D"pkg-config-native"'
+>
+>  KERNEL_ALT_IMAGETYPE ??=3D ""
+> @@ -364,10 +363,6 @@ KERNEL_DEBUG_TIMESTAMPS ??=3D "0"
+>  kernel_do_compile() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>
+> -       # setup native pkg-config variables (kconfig scripts call
+> pkg-config directly, cannot generically be overriden to pkg-config-native=
+)
+> -       export
+> PKG_CONFIG_LIBDIR=3D"${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGING_DATADIR=
+_NATIVE}/pkgconfig"
+> -       export PKG_CONFIG_SYSROOT_DIR=3D""
+> -
+>         if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
+>                 # kernel sources do not use do_unpack, so
+> SOURCE_DATE_EPOCH may not
+>                 # be set....
+> @@ -418,10 +413,6 @@ addtask transform_kernel after do_compile before
+> do_install
+>  do_compile_kernelmodules() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>
+> -       # setup native pkg-config variables (kconfig scripts call
+> pkg-config directly, cannot generically be overriden to pkg-config-native=
+)
+> -       export
+> PKG_CONFIG_LIBDIR=3D"${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGING_DATADIR=
+_NATIVE}/pkgconfig"
+> -       export PKG_CONFIG_SYSROOT_DIR=3D""
+> -
+>         if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
+>                 # kernel sources do not use do_unpack, so
+> SOURCE_DATE_EPOCH may not
+>                 # be set....
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
+> b/meta/recipes-kernel/linux/linux-yocto.inc
+> index d57c1aae25..4e230d405a 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -88,9 +88,6 @@ do_kernel_configme[depends] +=3D
+> '${@bb.utils.contains("KERNEL_DEBUG", "True", "pa
+>  EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "",
+> "PAHOLE=3Dfalse", d)}'
+>
+>  do_devshell:prepend() {
+> -    # setup native pkg-config variables (kconfig scripts call pkg-config
+> directly, cannot generically be overriden to pkg-config-native)
+> -    d.setVar("PKG_CONFIG_PATH", "")
+> -    d.setVar("PKG_CONFIG_LIBDIR",
+> "${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGING_DATADIR_NATIVE}/pkgconfig")
+> -    d.setVarFlag("PKG_CONFIG_SYSROOT_DIR", "unexport", "1")
+> -    d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_PATH
+> PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
+> +    d.setVar("HOSTPKG_CONFIG", "pkg-config-native")
+> +    d.appendVar("OE_TERMINAL_EXPORTS", " HOSTPKG_CONFIG")
+>  }
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#230796):
+> https://lists.openembedded.org/g/openembedded-core/message/230796
+> Mute This Topic: https://lists.openembedded.org/mt/117718171/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000dcdcb8064b80b9ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 9, 2026 at 7:56=
+=E2=80=AFAM Ross Burton via <a href=3D"http://lists.openembedded.org">lists=
+.openembedded.org</a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.ope=
+nembedded.org">arm.com@lists.openembedded.org</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">The kernel has supported setti=
+ng an alternative binary for pkg-config<br>
+with a variable since 5.19 (in 2022[1]) and we set that to<br>
+pkg-config-native, so there is no longer any need to also manually set<br>
+the PKG_CONFIG_* variables.<br>
+<br>
+The relevant commit was backported and is present in 5.15.91 onwards,<br>
+but is not yet in 5.10.x.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">Ross and I had spoken about this before he sent the series=
+, no</div><div class=3D"gmail_default" style=3D"font-size:small">concerns o=
+n my end.</div><div class=3D"gmail_default" style=3D"font-size:small"><br><=
+/div><div class=3D"gmail_default" style=3D"font-size:small">Acked-by: Bruce=
+ Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gm=
+ail.com</a>&gt;</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+[1] linux d5ea4fece450 (&quot;kbuild: Allow kernel installation packaging t=
+o override pkg-config&quot;)<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 9 ---=
+------<br>
+=C2=A0meta/recipes-kernel/linux/linux-yocto.inc | 7 ++-----<br>
+=C2=A02 files changed, 2 insertions(+), 14 deletions(-)<br>
+<br>
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
+l.bbclass<br>
+index b43b4ff4fb..1ebf027281 100644<br>
+--- a/meta/classes-recipe/kernel.bbclass<br>
++++ b/meta/classes-recipe/kernel.bbclass<br>
+@@ -251,7 +251,6 @@ KERNEL_EXTRA_ARGS ?=3D &quot;&quot;<br>
+=C2=A0EXTRA_OEMAKE +=3D &#39; CC=3D&quot;${KERNEL_CC}&quot; LD=3D&quot;${KE=
+RNEL_LD}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&quot; STRIP=3D&quot;${KERN=
+EL_STRIP}&quot;&#39;<br>
+=C2=A0EXTRA_OEMAKE +=3D &#39; HOSTCC=3D&quot;${BUILD_CC}&quot; HOSTCFLAGS=
+=3D&quot;${BUILD_CFLAGS}&quot; HOSTLDFLAGS=3D&quot;${BUILD_LDFLAGS}&quot; H=
+OSTCPP=3D&quot;${BUILD_CPP}&quot;&#39;<br>
+=C2=A0EXTRA_OEMAKE +=3D &#39; HOSTCXX=3D&quot;${BUILD_CXX}&quot; HOSTCXXFLA=
+GS=3D&quot;${BUILD_CXXFLAGS}&quot;&#39;<br>
+-# Only for newer kernels (5.19+), native pkg-config variables are set for =
+older kernels when building kernel and modules<br>
+=C2=A0EXTRA_OEMAKE +=3D &#39; HOSTPKG_CONFIG=3D&quot;pkg-config-native&quot=
+;&#39;<br>
+<br>
+=C2=A0KERNEL_ALT_IMAGETYPE ??=3D &quot;&quot;<br>
+@@ -364,10 +363,6 @@ KERNEL_DEBUG_TIMESTAMPS ??=3D &quot;0&quot;<br>
+=C2=A0kernel_do_compile() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE<=
+br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# setup native pkg-config variables (kconfig sc=
+ripts call pkg-config directly, cannot generically be overriden to pkg-conf=
+ig-native)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_LIBDIR=3D&quot;${STAGING_LIBD=
+IR_NATIVE}/pkgconfig:${STAGING_DATADIR_NATIVE}/pkgconfig&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_SYSROOT_DIR=3D&quot;&quot;<br=
+>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${KERNEL_DEBUG_TIMESTAMPS}&quot; !=
+=3D &quot;1&quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # kernel sources do=
+ not use do_unpack, so SOURCE_DATE_EPOCH may not<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # be set....<br>
+@@ -418,10 +413,6 @@ addtask transform_kernel after do_compile before do_in=
+stall<br>
+=C2=A0do_compile_kernelmodules() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE<=
+br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# setup native pkg-config variables (kconfig sc=
+ripts call pkg-config directly, cannot generically be overriden to pkg-conf=
+ig-native)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_LIBDIR=3D&quot;${STAGING_LIBD=
+IR_NATIVE}/pkgconfig:${STAGING_DATADIR_NATIVE}/pkgconfig&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_SYSROOT_DIR=3D&quot;&quot;<br=
+>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${KERNEL_DEBUG_TIMESTAMPS}&quot; !=
+=3D &quot;1&quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # kernel sources do=
+ not use do_unpack, so SOURCE_DATE_EPOCH may not<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # be set....<br>
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kerne=
+l/linux/linux-yocto.inc<br>
+index d57c1aae25..4e230d405a 100644<br>
+--- a/meta/recipes-kernel/linux/linux-yocto.inc<br>
++++ b/meta/recipes-kernel/linux/linux-yocto.inc<br>
+@@ -88,9 +88,6 @@ do_kernel_configme[depends] +=3D &#39;${@bb.utils.contain=
+s(&quot;KERNEL_DEBUG&quot;, &quot;True&quot;, &quot;pa<br>
+=C2=A0EXTRA_OEMAKE +=3D &#39;${@bb.utils.contains(&quot;KERNEL_DEBUG&quot;,=
+ &quot;True&quot;, &quot;&quot;, &quot;PAHOLE=3Dfalse&quot;, d)}&#39;<br>
+<br>
+=C2=A0do_devshell:prepend() {<br>
+-=C2=A0 =C2=A0 # setup native pkg-config variables (kconfig scripts call pk=
+g-config directly, cannot generically be overriden to pkg-config-native)<br=
+>
+-=C2=A0 =C2=A0 d.setVar(&quot;PKG_CONFIG_PATH&quot;, &quot;&quot;)<br>
+-=C2=A0 =C2=A0 d.setVar(&quot;PKG_CONFIG_LIBDIR&quot;, &quot;${STAGING_LIBD=
+IR_NATIVE}/pkgconfig:${STAGING_DATADIR_NATIVE}/pkgconfig&quot;)<br>
+-=C2=A0 =C2=A0 d.setVarFlag(&quot;PKG_CONFIG_SYSROOT_DIR&quot;, &quot;unexp=
+ort&quot;, &quot;1&quot;)<br>
+-=C2=A0 =C2=A0 d.appendVar(&quot;OE_TERMINAL_EXPORTS&quot;, &quot; PKG_CONF=
+IG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR&quot;)<br>
++=C2=A0 =C2=A0 d.setVar(&quot;HOSTPKG_CONFIG&quot;, &quot;pkg-config-native=
+&quot;)<br>
++=C2=A0 =C2=A0 d.appendVar(&quot;OE_TERMINAL_EXPORTS&quot;, &quot; HOSTPKG_=
+CONFIG&quot;)<br>
+=C2=A0}<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#230796): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/230796" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/230796</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117718171/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117718171/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--000000000000dcdcb8064b80b9ae--
 
