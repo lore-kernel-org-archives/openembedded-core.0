@@ -1,295 +1,620 @@
-Return-Path: <sundeep.kokkonda@windriver.com>
+Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 200EAEA4FAE
-	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 11:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EDBEA4FB3
+	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 11:50:55 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33105.1771845604295670125
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33464.1771847451961500458
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Feb 2026 03:20:05 -0800
+ Mon, 23 Feb 2026 03:50:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=j3jm483I;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6514dab5d8=sundeep.kokkonda@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61N9RuI4941626
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 11:20:03 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WO2a+mAd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6514e20505=sunilkumar.dora@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NBBTTo3172002
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 11:50:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=wQzuPd4OZV9BQC6uMGuo9gIREES5wSu0V9jz1hOiBaA=; b=
-	j3jm483IyvLo70gC0npnBG4tJxnOAeW/l58B7XEb8+hvgSXqWucErbpKT3YEeCww
-	Dau/4U8AjpFFd+6gkK+PgjT6gGEgRRNV5i0itmRikm9wtH2Loh/Yus+zB4Bzspng
-	Tc1Wh34ZTbEuJZIozyxClsFPIcjSB1FNqLxU9+/VXTKI8Bx+6rs+JN7ayd/23lGY
-	MuTnChQiu5jOnzAT00Hm2q3m/YgYsGbEMBFu9qUCiteM3D2Y7evHb0jwCJcnoKwn
-	7XDgZt0dHKTQW7IDQEfv4IThiiDipJNWlGvqAqXkHVEOH6VRcjtftaQ4oimu9WLL
-	oBofjGCbPJKkIV6sVIWBbQ==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010001.outbound.protection.outlook.com [52.101.61.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cf1wv9qjr-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 23 Feb 2026 11:20:02 +0000 (GMT)
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=A+4iwy9Qu
+	7lZrD7Oue0IfBNxlQUOY++AzPnZ+RvDV4U=; b=WO2a+mAdyHmg23bjie6ZfzjOY
+	tlwKspDbMCHMAFgW48d9N27/YjtcQJge+Wk9Jmr/3hrYoy/ATXxsDxWyPWsRU7/u
+	nRGxnBSI1kk/NUHvNxSVorYD4FkwEyvuX8BdC3UZkLM8FwCZwj9H1tibkkeBmwWp
+	ExOsHWHw9iGDuImW67WuaGRhSyRDOMY7dhLL6AFDuurkehYTEIAy5qLVf5kS64jG
+	XAKr45Z8v1XzKrvKH1OiiYeQf+1/DOkXvetTZidPASD2hbQlKeRQzePZsVrxMB/Z
+	ElEwIg01AJAc18Md/A/mRBVK0kL/qumJLra6mVFo4xGjqHVqJ4DuovqKHCOiA==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012019.outbound.protection.outlook.com [52.101.48.19])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cf3p49nrk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 11:50:50 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u96SyjCd+eTm+38YxADdVajS0BByqXXRf5eH373bIcPkLT/VTzeOqH/Wyk5TZuSvt2LHHbiRKV2ICUZzr18KBpKF2Deb+gNfYA8kxI69yI5nqPj/glF+yUkmTSK8pIAzMryPv5Fnp6QqkEPv0i7G1lEocjzQoND/okvLyBwfLragIaqg/S/rlFzb9anSHiCWBO+BOBQ5oN2dWcNxYb80Zmqm5rPQB8NQzPSgZR4ZFAA60ApBDbBKiPUZUUN6kcqk3trmSh1kebYLPLnNEVo7OkUlj8Kh2ekZsEoRkaNGDVc9EHkXlDfna1OwIl/Ez1NvdP4Gg9mWsOBDIEi3a122bw==
+ b=ioQ9A3SXGcDC+GJ8lbkDR+0kPTNbZamVucl8HTaiisN16n1ItHnIgyQ4WetWIZ9ed/40W3P1VA+4gURf7RYhTpbiQ+qTPzwQIq/UHeX7E3/Aah4YVzfXYbm+QdC/r9aUDdDeySS+CP/qcR88pbuexQG7hhhQPcK/UCWHoaSCcqnA583xCUeMXgaWMnv8uWGp40CQjXvbOzW0lPp3CybF2CNyH6B8WSZAfkrB2hrZ4upqTJV73gz2WFX0PfdYjFKmnNsY/vEKKKjEccF2kCuURGQ4NCbAQAibTwmm0dUO3rXFAu0yzXlMG7BsRAHOlmdjPnDzBgjUHkrBqnGXpSj62w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wQzuPd4OZV9BQC6uMGuo9gIREES5wSu0V9jz1hOiBaA=;
- b=nR+wKC6tG2vYvhXNT1AKVwjFXe6+YyOD0YEhEHPoETzmG/tRRRIQLPMJFq2MG3vDebfLOaMP5wNsdsAE4gyr+Qx2de3wqR8SeW20iKONRG32x+jYuGmJZlzohEG253ZTUz2wOi60izli9HV+SJOEhsAAZy6cbuon93mDEwhjpvpAaRssJMaCtw5qkljT3p8suWKh/yKxSezQelQUsZyT7FnnLQ7xup9H8OQBG5hWRALZb+q/8CDOz8uWhKlMpO2FE5SK0vwMvDF2v6x8yTHojdXwnEf45PNOzfjDbhVSeSgVA9nCl/ZwvLInU6ercyIfiL8X7hEbunXmD7xCnsEL0A==
+ bh=A+4iwy9Qu7lZrD7Oue0IfBNxlQUOY++AzPnZ+RvDV4U=;
+ b=l6S/P+iG6vGcdAFGLzVoWxToV2dxvE5iMzjkHaT34P4ODi/uNRGP56wRxKDJoQuKWWSNzaK72bvVoot9TQgUzRYSzw04jxYJbeRkRjwq8Pm3aPMNKkET34qrkWl4zlTKNvpshuegYfKMVMXh3EQSJ1JJiqTBdrrj0y2rFBLBC1+U8KtBfDOMNIdJ5YSZl/LgsEm7g8jmvzl9PAq/8c66YkaAFn1uiyuITxlfvmHE1mYGpzbFepiMEVU9JpeYlaIs1FfvABF1OXUnXb045m3YYO1g9p0REATLWXHod0jw8sR3NTxtVIYXK9bGsu4L6fTdU651hZApekk51MKSsZiZ2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8443.namprd11.prod.outlook.com (2603:10b6:610:1bd::15)
- by SA1PR11MB6942.namprd11.prod.outlook.com (2603:10b6:806:2bf::14) with
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
+ MN2PR11MB4566.namprd11.prod.outlook.com (2603:10b6:208:24e::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
- 2026 11:19:58 +0000
-Received: from CH3PR11MB8443.namprd11.prod.outlook.com
- ([fe80::9939:8aaa:b651:d465]) by CH3PR11MB8443.namprd11.prod.outlook.com
- ([fe80::9939:8aaa:b651:d465%5]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
- 11:19:58 +0000
-Message-ID: <176df973-9458-449f-b166-308847608822@windriver.com>
-Date: Mon, 23 Feb 2026 16:49:48 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v6 09/14] selftest/cases/runtime_test: Add test
- for Linux Rust sample
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        Harish Sadineni <Harish.Sadineni@windriver.com>,
-        Yoann Congal <yoann.congal@smile.fr>,
-        openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, bruce.ashfield@gmail.com, paul@pbarker.dev,
-        elmehdi.younes@smile.fr
-References: <20260212181039.1826154-1-Harish.Sadineni@windriver.com>
- <20260212181039.1826154-5-Harish.Sadineni@windriver.com>
- <DGFKTMA2S0AH.2FYRLKHRWQT5I@bootlin.com>
- <DGFP3A56EZTR.1TWUE93WL575C@smile.fr>
- <7d5ca94b-0062-44ae-b941-5401bbc56aae@windriver.com>
- <DGGI69KGL871.JD0YXGHLVBAH@bootlin.com>
- <DGHECF0K4Z1P.2HFBCFPWDKJQ2@bootlin.com>
- <DGM5RWWI8ITI.1N1WPFMB4FBJB@bootlin.com>
-Content-Language: en-US
-From: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
-In-Reply-To: <DGM5RWWI8ITI.1N1WPFMB4FBJB@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SG2PR04CA0197.apcprd04.prod.outlook.com
- (2603:1096:4:14::35) To CH3PR11MB8443.namprd11.prod.outlook.com
- (2603:10b6:610:1bd::15)
+ 2026 11:50:47 +0000
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
+ 11:50:47 +0000
+From: sunilkumar.dora@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: sunilkumar.dora@windriver.com, Sundeep.Kokkonda@windriver.com
+Subject: [PATCH V3] gdb: Upgrade 16.3 -> 17.1
+Date: Mon, 23 Feb 2026 03:50:32 -0800
+Message-ID: <20260223115033.18066-1-sunilkumar.dora@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR03CA0005.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::10) To DS0PR11MB7901.namprd11.prod.outlook.com
+ (2603:10b6:8:f4::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8443:EE_|SA1PR11MB6942:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69da06b0-88e5-47bb-a97c-08de72cd7a5c
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|MN2PR11MB4566:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ba7d2c0-b41f-482a-8914-08de72d1c897
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014|13003099007;
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?MTlzVHkvZXM1azhWaFRxQmJVclVlbmJKRUVzdms4cHE0OFJ4ZDA3Z3dxOUEv?=
- =?utf-8?B?amg0OHNac2lTbEZvV1dJeTVwSzErSDBTMCtDNDl3VVZmUEJuUmYvMWtWVGNR?=
- =?utf-8?B?UDEzaXpMM3hHcFRVbDNHV3YxTEF6NlR3eU1BbFF3TUNFeVR4aDZoUW13bjBi?=
- =?utf-8?B?TXZ1S0VndGNjYytFWFJybDMzRm13M2dxZnF6UW9IWW1Ydm03TUFjeitpR0hU?=
- =?utf-8?B?a0FTM1Q2T3Z1akNPQlRJY0Q5ZHlkQlhiL0tIdjVkZFl6MnZUdFRQcTE0MUVQ?=
- =?utf-8?B?dk14Rm9weTZLK1hLSllTTmZMWUZ1aEY3VlZZc0xoVTRPYkM5R1NFVDNkTUVr?=
- =?utf-8?B?bkJIcUFSUWVFZk5YbHUwQkkwQURobXIyYURvQlhDVE1URUtuNHc1bzE2ZmV3?=
- =?utf-8?B?dlZWSm5iV0pYeU51QzJlUWJ5dWNiR0dSVGxlaWVQOGVwWEFXOUlpRXdQdG1i?=
- =?utf-8?B?cFhKUDRyMDZCZUFKSmpnNWJLb1Fydkh1ZFdDV2NpQjZRWjFVeEVMNlZVeWVG?=
- =?utf-8?B?T0doa1NncnZ4bGFaNkl1c3YrMS9qeUlNV3JMN1hRZ0h3MlN6Rk9uUUYwNzIz?=
- =?utf-8?B?Z1ovMkUzSkZkVmRma2lwQmM2dGRKOVpDVUZHWVZKQmQ2V3Joa0RiNGpvZ3N1?=
- =?utf-8?B?Sk5IS0VmM0hhcVE2K2s5QjN1azVScExRdjhkTVRtRWdsQWl5Y2pCTWw3Y0Fw?=
- =?utf-8?B?cHpFTVhJUHlURndCanBCZkFEN0pjL1pUVDNKWVVjTm8ra0ZyOUlvZXRzV2Jj?=
- =?utf-8?B?VkFwNG92eHpJQ095eVREOWpuZ0hUNlNzcjFNV25pZUtTOGl5RHBCOFIxczAz?=
- =?utf-8?B?YUVmblkxcGtBTUNYRDZsaUpTRFlvYy9iSWNBeVRISnJ3UXZLbXFGbmFGOG1U?=
- =?utf-8?B?WmthU1lBdEVhSGJ0Z29UQitla0dEL2s3MVI1QnYwQndqY0gyTUt5dGhjZEV6?=
- =?utf-8?B?RmduT1BaSlU3bk8xTURRVW01ZElYYyt0REtlZVczYWdRWDFBSXFMS2t0WXhH?=
- =?utf-8?B?clZZZlVadHcvMG9kczdTVDRlR3pqL3F2czR4OFNJelVRMEYzRC9lTVBYR0p2?=
- =?utf-8?B?SVRScE81U1lZOExMUTliSWgvcUFXL21yV0lqNGVnTDUra2NYcDBVZ0hxcVR0?=
- =?utf-8?B?MGUyQkNLQ0Z5MEluMXpob0N2R2RiT3pYblZDN2VQU3NyZnpOUnRMcEt5SEZI?=
- =?utf-8?B?MklPTWhoK0NvTzd1emw2bXlLWk9aYVlGN2YvczY2M2lHRmJ6WmV5MHpUMXBs?=
- =?utf-8?B?VlkrZ3VwRzA4cFlobTZQT1NKU3U1SmxEdTU2aWlwVE0wNC8zYzVXaVRGQm1H?=
- =?utf-8?B?WUN2eXRwNVlnazBDWjBDWW0xYmlBd3IwRWsxaWRrZWM1TmRtVkVYZUpTZk14?=
- =?utf-8?B?cXFwSjlqWTRIMURqa2k2ME9jVGVROFpHOHpJc0h4Mkp5NnFRWi92UEd2aHcw?=
- =?utf-8?B?YzBuemZDT2JYZks0UVptYVR3QnVUZHBoeHV1VWdkNXFvT2R3R1Aya01NajNE?=
- =?utf-8?B?YllobmNhcE5ERXVvYzJaazNJay95eWIxTDZpN0xHWXJSWU81S2FnTHBWSlds?=
- =?utf-8?B?T0ZuT0JTZDdYMmIwTnp6S3hUOEIwbXVRRGc4QXNSU002Wk9rTHh1L0JYa2pk?=
- =?utf-8?B?NXpYNStEUTVWOW1GU2RmSmdxSGRoZG9EaE95NGlGSCtMUEtWR3dWVG5nN09W?=
- =?utf-8?B?RDduWXNJTXY1MnBkVXdaUk9mNW1CZDExQ2lRRzlFajFBb0psMVU0VVk2RWtP?=
- =?utf-8?B?Vyt3NUUrWmRhS1F2bWg2TDNqMWRIVko0WHQ1cTVtOTI3MW5CaG13NTFQRC81?=
- =?utf-8?B?L1Y1SzliQ1h1UUZWUzlUa3VBdEhUK29kUi91MWcxWTRJUUpVcEQ0NVlQa2pi?=
- =?utf-8?B?M1VHYTZnS0RtTnNnRFVIK01hNG5ZbUwydHZoaHNnbkJyVllVR2JCV08wOFBK?=
- =?utf-8?B?QVZEblMvdExheEM3RHpkUWhSR29vUEtHaEEyWlZMQXZGbzVydlVsU2d5ZXkr?=
- =?utf-8?B?WE9RWEUrZGVEOFNkYW9aWGc0ZFV3bWxZWG9DTGlVdzcyd1Rlck53dkozT0NJ?=
- =?utf-8?B?WjdPSkpxclVVZWdxcG5iamMrMjVYU3c5Z1VMWURwb0xUNHVWL0Z6SzVpWFMx?=
- =?utf-8?Q?6k2E=3D?=
+	=?us-ascii?Q?hVm9hPvZSnHGr+/YLIBqCUf41uHmFunIHQcTZhAj3Xh70Y9Vz/QEVjsmWR/F?=
+ =?us-ascii?Q?9vzGGuaH9IFnRuhx9l6Tf/i7l9kY2+19qaawepD+RNYXhyUt1R/uAk57ndAX?=
+ =?us-ascii?Q?V3gM0oj2Xo/elY/ys4gIoAOp3ZuiG5SLTgV3VfXGWl28vfgYtmbC/6Ek9A2h?=
+ =?us-ascii?Q?8Pe/GDMKGpaQ1oIevFZ9hUfAY2wn/C307p65FJrmuJXUgYIzeHPf++ZNAGTl?=
+ =?us-ascii?Q?V158DZJd1u9D2tscI74WuqZx6UayvV9cuExdxM53gork6q2WfssfWAdYs0hr?=
+ =?us-ascii?Q?8PFvuTZ3UZMMNqgR/dhStuj/zvmwep3nezxWWAN+SNy1DJ3WXFPb2LDQQtYS?=
+ =?us-ascii?Q?/lEzbWPsaucrfDUetPlWJdZvzDNTSlVP6+KbOjyczHRTKwdudfeM0YLGenj2?=
+ =?us-ascii?Q?HG04X0Q0gj2hwGY70khdw9Ar0iNK2Bk90k12jWGu3YhGZPuw9b7j/nKqJtcg?=
+ =?us-ascii?Q?r1iB6Adqv6e5JWnAfSt6b9lqi4QN+1qAdMMKqlp1RwAMWbKt8dfRohNGaqlp?=
+ =?us-ascii?Q?fQ5nc/Ia74n1kuLaoRksnbjRa1TZFbhdU6u/NV++q/4kKgWiOHRX7k9ksMRV?=
+ =?us-ascii?Q?jW3vkU3Cckdmf56H04zIKnMi54iwkfg8/c3NMH+CWCOjlaMSn80ue3DYd+qE?=
+ =?us-ascii?Q?Vltta4eIBPz+M+SpPM0FBxzE2/EwinWnjrILQfwwTGPRQXec9Mg+Iv04PRzh?=
+ =?us-ascii?Q?7uz38U6kXhzA3DB6V9gtgYWeVoaDUG2cRAcDCh+y5qqaS7ty12zLAhPWBMuQ?=
+ =?us-ascii?Q?A91P7Y3rvInjYB+Qfzh4AUEVBxFJCfxupwlYvzhUAqGfYNH9ytpxvfnYSW/V?=
+ =?us-ascii?Q?nMoXIZd64/VpC1zaljhGfDiOdJ57fM/hvV/khoBwgxrwBejj+SAJF7/UjS4h?=
+ =?us-ascii?Q?niXDlJqVKqnGHMzpUtWy9oK7iwgkEJ+1ixP66OVKrkGuJHanhATRfM3i5FNZ?=
+ =?us-ascii?Q?GWETaQLBuvJzWFltFduZ01ILeJPaB2gRyVfzYZ7Y7p0AMwlEV/psndwaDA9x?=
+ =?us-ascii?Q?hGf+YsnsMnIdlmZbhz+pGFWpdpL/UNhT0jDs/lrILsVQVGpUepLG5leu+/Yu?=
+ =?us-ascii?Q?8NPlDrOZqrM8cPwbDTVHuZAYw2wrKp/RbY2oL8mUNTCTA7Ny//1Gtjhkmzx/?=
+ =?us-ascii?Q?PbJzrIUmyupvewRJlTvwM/PDJugw+9HMBKfaHyH0/vCvistKaQ1GAvw8M0uy?=
+ =?us-ascii?Q?w4cZT3SYdd0JjDFJ/cLLtxdJjCEwrIghfFJ2nogsROxF3OBvQt6CHjBc4DY3?=
+ =?us-ascii?Q?Q9Pu76lBgBF74vKvDBQnZYWWtXS4jL4AppqtRMlUfmRcQ8s4xNZ+GidEvLsx?=
+ =?us-ascii?Q?alsLlI8NDI1ucw221bGFQe9v8jG2aGfrtdtfbIHpG02vStYk3zMO/T/JwZAm?=
+ =?us-ascii?Q?5COMXQqICDiYoeKmr8w2qYDQe8GF0MfqZtxyaUb5Jkbm9hG01q9heyMgqD+L?=
+ =?us-ascii?Q?lcLsK32ueBzIAsgAykC8V0oYYrS5TJSzje7vJXEQrQH9xOW0sVYygwe/8j38?=
+ =?us-ascii?Q?bOhLJHv2ssFQBUt/EG4Bx2amSfz2HSJ63QDjZXAhZTZbjx68bCMYuGR60gN/?=
+ =?us-ascii?Q?HX6ZmnRdnEyyJPjX7jrd7I+Uqy257KpYrPAg23xw?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8443.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dDE2cUVkN3ZZMHl1Z29WbGxxMFQyZnVwaTdtRGJVYUtmeXJ4WVh4bkI4YXFh?=
- =?utf-8?B?QUw1czljaDJIU3JLZjhXcEVtRG5rNi9LaXJ3eUpSSlozTCs1SVRQRjFnWDk5?=
- =?utf-8?B?eDl3ZzNRWUQ0OVdGN1RuK1RlUGxON01PN1FKUXpTV1ZDWFVveDlyYVd6dlgw?=
- =?utf-8?B?WVBBb0F5aWZxRTRzSWR6WHlHc1ZsOHN3a1NTUzNOUnVxaG5SbXNvNkFWeDVs?=
- =?utf-8?B?Z0JXSDBYSnIvaTdMY0tTY0tuekh5SW5yeExhREdYZDB4UC8vMWRNWVZLcmd1?=
- =?utf-8?B?OFFqZUs5M1FzSnNka3Q4YnVOUGx4elhOZHhRUStpOWlYOC9FUmI2RXdGUjAy?=
- =?utf-8?B?OHNiVUFUajFPQnpOSlpnNFRteFFHT1RUdnJMM3BBT2ZpRWdENjFJVENZL0dS?=
- =?utf-8?B?K2R5ZmNnRmRJc3czdGl3cHdlb1U5RkMzZTFTWjU1cGF1TUxyOGM0V3E1alFL?=
- =?utf-8?B?Zmw5QU1INEVldjRRRmk5VlFOUHVKL2kyNW91bWEzRmQrWjY3TDJ0Tzd3cTkv?=
- =?utf-8?B?Z280THFQSWI3eDNMUXZwN09EdmFaenB5MjdlS2RPa05HRVFVVlBhVlZIRk9T?=
- =?utf-8?B?c3lXdk9iUEhSRU1ZSkx0VllsNWlkU2gzNk5TWThEODZ1TlBkcHRvRVJWNEpL?=
- =?utf-8?B?VEZ1ZUpKamJrbzZQeXpZSnZFSjBNOE9KZTBtemdWQSthVkd4WW8ySVpsckZ0?=
- =?utf-8?B?TXNIZGF0REw2MUdjeGk2b2ZXeHF3d1hIaUN6RlNhWlA2d1ovOFJjSlg2RlV5?=
- =?utf-8?B?eEpwVWZJZCtRN1pyc3Q0eVpDam5SRTBlUm5wNmhHNndCZEtrMHFFc0JlK2lZ?=
- =?utf-8?B?bmdwcVZOS0hvaURmaElPTWhDRFAvS3ZxUGpHTXBESzVNWjVOc2VQcGhrME44?=
- =?utf-8?B?YktVeGNncEV5aGRWdmhJcU5ERWRaY0FqeUZCSnQxakY4eDVPcEp6bkRRRmht?=
- =?utf-8?B?Z0dHSHBNaXBNbnZZZG5JN2RPWjVCZXZqa2VoMU1WRW9LbWRWZFJxZ0cva0Za?=
- =?utf-8?B?MFVIaXhDRjZ1K1huWDJYdkp1bi90dGR0Z2pNM3M2YXZ5ekRJUVJOenFVRDFD?=
- =?utf-8?B?SVV2ZGZmU2VpMkJ6QU9sVGxBZmE1VW5oTmMzamxpSXVtR3hBZlQ4WEhvVkpY?=
- =?utf-8?B?TW1xQURNQlREakJuejU1THduT2ttNUszQWpuZndjVVBvRmdhOWN6M096STh4?=
- =?utf-8?B?RFdkM21UdnRVVW8xbTJHcHh0UjhqTERReDBsMktRMEJYclZld24yYVY4NmNT?=
- =?utf-8?B?SzllTFpzUnpReFlMakpZZDczUUxGOTRiNlpTelJ5bW1VM0dhT0NMbVJUZVJM?=
- =?utf-8?B?UjNvTm1mc3dkRUFlUUxwdWR6dnZuQ3BLY1A1cFcyeHVYcG1jRVJqemJIRWk2?=
- =?utf-8?B?c3JvZXVFN2tKNFdudjA2VkVSbHlPc2JpMWpnV0ViR01BalppR093UFRDUTkv?=
- =?utf-8?B?ZEhWYU16N2laQ2h1UTg5Nks0cWtKeDZYeFh2WnR3OFpPQ2NOV0ZHb29aMmht?=
- =?utf-8?B?MUxNekZmbzFZd3dDYUxhZDNmbWJMcWxkVnJxV3A5YmYyWXg4Y0ZiQmJETXJ6?=
- =?utf-8?B?aGV2L0czOTI3d3hzRy9Cb1VDMjNISFFaMVFYU0ovZ3JmSjV5NldyYVkyeE9M?=
- =?utf-8?B?bmtxem1PbGczMVduWDRBZzVuM2VtVXpiS1RsMS9yajNBeDd2M21BM0tPSXJU?=
- =?utf-8?B?SmNVNlo4RXFFMTJ4bzdGV0svVm1WeDZNUU1QVW9RZlRGNWYrYWlOWVN5VGlD?=
- =?utf-8?B?ZGxLdXpzQ1IwdEl0ZUw5alBVbjE5SmhLV0EvcVhGbDNTaTFnQlpDYlBGeDFz?=
- =?utf-8?B?QVhzSXBLR3UrZC80MVhXamt2RFEraHowNlBSMDV0WjhZbExKL1VPcXpIVmNv?=
- =?utf-8?B?VjR3UlJuU3o0eXd5SVMrUmFNUXN5TVAxTUJaQSt2V0EwSGJENGtFL21XZ25a?=
- =?utf-8?B?NHg2NFhzV1djUGFaMFRJYTE1b0UxYkFjbTZndldkRjFHUUo2NUVNczRwRS9V?=
- =?utf-8?B?R2VLYjdhVEZqcERNOS9uN04zLzJjRUUzQ2xtMTN2bldLN3dFaDlrNVhjSSs4?=
- =?utf-8?B?NmZDVmUzWkhnK1dWNnM4NzJPaWlSUUoyRkJxOURIbE1id3dmcUdOQitnS3F1?=
- =?utf-8?B?b0N0WDMzUGJySnVTeUxUNDZTQnhtV2FhWGZQZFRubXplSVE1MHhvdkJ5ZGJF?=
- =?utf-8?B?VGlCdjZxaS9JYkdveUplSDBzc1pVcXJ0SEdqK21nNlRSQXFOWFFtZ0tyZ1Nn?=
- =?utf-8?B?WktIbW5QSjBTcjUxd0JOUng0ZFZtem5SdldIZzB6WnFDeENsUlJJc1hadzJT?=
- =?utf-8?B?SmRJd0wyaGR1WSsweVd0WlVNTVNuS0ZEdUgyelpRRXNWSjRIV01YNzVpVVEr?=
- =?utf-8?Q?Ep5VhpmGv/c7rI0Numb901WXT6rPJZdwdVr8Z?=
+	=?us-ascii?Q?AGYrmnqYOORFfbUc/YI/jcQS2HMBeIGJhDu3ZsRLgaIynS+g3VFpFvTRXnkH?=
+ =?us-ascii?Q?fVkxjsulOGnc3fNTa0REmyilS68JO6hpxgm2gHyOtee4MODQAQjj7D2v5sJm?=
+ =?us-ascii?Q?uI8owsuUDR3dMsI2Oh+uwW0iDkzdzWt4mXMcUgQdgiU4kZfVhFcDemjheGnB?=
+ =?us-ascii?Q?euc5g1Bb5JTxOGkx4GHSnd8Y+nnP4RyuIkbscVzREqDfv1sHmTEed83VItFE?=
+ =?us-ascii?Q?cNpj0hVDsx3hp76inYbOXtShByr6FSaGkZU38E01aJlFh1RWlFgx2t9Ufh/F?=
+ =?us-ascii?Q?u8sSeM7K+oj1Yzqu/wjNTevcZxdnGZ5T8E98c31DH3em8KYyRm37h8ntHb+F?=
+ =?us-ascii?Q?s0gGTRDHb91N+ARvfWCTFAL1i9ISkW+MvCi8xtza695nvgxssm+HI8q+n4/4?=
+ =?us-ascii?Q?lApkpMTx/j2IvWYZDIIhztkoIONnWXegjN1jeHFbKcbc77bWKajHTcLtC83t?=
+ =?us-ascii?Q?oWKvnb92VjwOeNBn9eAW2UhcghcKVFrXJlv8hV+sSN6tvEHG8MjdWyP2jox8?=
+ =?us-ascii?Q?Irk8wGH4QTElsh90usVDOV1KUbNDNM2H3y3Oa1FgSr9/DwlRitpgMtP1T0xa?=
+ =?us-ascii?Q?H4wv4s07o5mRBmkTGpkkUVzxN+0tK5Sk+XgdDuQa8v3EJC0k7ktgppPXXjdf?=
+ =?us-ascii?Q?Z4iZD7T31tVDqLQ03LVIB5r19xZA4sCgpqx0VAiDU8QzWXBOzOinAxLSO7j4?=
+ =?us-ascii?Q?J7UCZl1w+tmlvnYdijD7UT1ch1t5LN/utZ9T/7q22wss19PRoVWCx0ywy6NH?=
+ =?us-ascii?Q?UjiXlQ4WP9PD15Mih/X2/5++HdRbmd2MExuE13jrfZs7fBDDgtshZipzgboI?=
+ =?us-ascii?Q?uVO1Knid3/kiEUfiNz6vqihOtIu+OF/6ige+hclPtTaocKDIZO/B6AwNOGbA?=
+ =?us-ascii?Q?BdG0p1zN+bcQMlI6DEwdMkOTspcUKXPrQihf2SIWXd1KESyv3rWyrn8QJvVo?=
+ =?us-ascii?Q?GTUYOpmo0gginpGjhLdgK0LqjkuTdafLgM/WiQWUZLL5AKmhTwGAz+fmUbZl?=
+ =?us-ascii?Q?eO8PTxf5byT9xVgD/h/5+HFe4ud1mGNqdAccPgMo3BKDfyzUon0+5JgbIPxo?=
+ =?us-ascii?Q?QzDbN4vRZfkSIsdyXlXtegAAZ33v4egPFJH1tyDvA43RZjKH1oYa3uMJmQxS?=
+ =?us-ascii?Q?EmYllG80XSnmGyDEaLVQo2pLXRtXazCgQqK7WEGVfZoTYWFCYYpTDe9RWfuj?=
+ =?us-ascii?Q?c7utYCsyyTwt8vBFI4EQf7JOvFYoD2dBcSzWeDWR30y9VhIILEE2YR/uGpyH?=
+ =?us-ascii?Q?HlwEpkmOAM/dXwQ54DURQt3JSdYn1adQnjCUYzp0VUHj4EVYObIMjg0R5P3X?=
+ =?us-ascii?Q?pYclp+CLnEteFQMnwOS12P6e69ptG8Gi+a98pBcSwzQZSHKEvAg6BxemYz2m?=
+ =?us-ascii?Q?bZunlTEjr50tyX3Jh3baTNCNYdvVsWYVzL+KV9sAmpqLc0TcFBfs8dLF/w7s?=
+ =?us-ascii?Q?lT48UjmabTIaigAAJfL9LAd7tHWM2y0r/9nX2jovLtzYL0/j+mYVC0uobbyU?=
+ =?us-ascii?Q?zpBZmfm7SSp9eH08ZiJuzzUunE0BeGHLjYUefc5o2Q2BarhSEG7RhNCDiaGu?=
+ =?us-ascii?Q?r5Kp7vcYLefTN2G1iUzfXS7XphhotUrIOm33vsj//STabmLqc72au+4rzBX+?=
+ =?us-ascii?Q?/tzLjBmf70Ts0K4lpZptKiTBIV35GG87n7Ef3YHSCjp82MkLzBHkuHh2mtDu?=
+ =?us-ascii?Q?KpsyowcgE0oUtjrtqSEWsyA8aVB33itfWpPcZ+vnaBQK4Tv30GUJXzE1ewct?=
+ =?us-ascii?Q?pTtKG9PAILZ0Ro58eZIIGyVnqO+CVW8=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69da06b0-88e5-47bb-a97c-08de72cd7a5c
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8443.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ba7d2c0-b41f-482a-8914-08de72d1c897
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 11:19:58.1424
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 11:50:47.4108
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X1qplXnKd362nojHfOxdhV2wKojbn8uQvQPZX6NF3DZS8W1Wh4Anwb7hxw3+72LdsSVpgvlPRsF1OcakgREhf68b59TCNzssM9KF/fIS1ho=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6942
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA5NyBTYWx0ZWRfX9oAFPVc5wXH8
- fVRqujd4w1DYEc1sPiQ5uwxKbz9nYI2uB8QrE0wo9fPNWtwTbg9miLtFmi+7CTTJgV52qNTNTru
- quaHjgsBZwt8qREUFC9+zQmgStcro8nQRH4immgxrALFnlknoLRiwyVBZqxknNcq9tzsI8u5auP
- +8K9iYB9ucwAd7h4OL9+fDDEVb0OKBZC7MMUiHAixvd/467WYoY/ed1ECpO++0XU+hM+FzsTqTQ
- 9VrsCIg5M99qjPiotz6zkn+5bq5m91e8wro7YKJVquXvJKEOchhojB+wfFxxtpgBXi/gsyae8Pb
- PVo26PdF8KMt+X/zjyDVYFKHPkp3+P1rV13xzPts6QvhDIt3WdIpEv4j6xWhqalvxMtUyKPG9vu
- vB+fjXyY6T3fGte2ATpn1aXxwXHfflrB5FZ+lw5LXzYK9A08KbDvu+DPekja3LH5VWHiMCJ8mm1
- brU/2PrmSVmYW8R1wsg==
-X-Proofpoint-GUID: gON9RccKonuNvxkxh4XTZgdZSZMvYK3i
-X-Proofpoint-ORIG-GUID: oKYSBi9HSXtZu-g5-9337MCjc-rs1ngs
-X-Authority-Analysis: v=2.4 cv=F+hat6hN c=1 sm=1 tr=0 ts=699c37e2 cx=c_pps
- a=j7tsCyGgeYHcZD8MHzM6Gw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: n3iU7WplXHQ2vCMhGL810FJOsKy45kEeYB9q4DuPGxV3hNVWDGk7m/6xytKKkloroCz1GjKO/zj9HwthLZUSarH1votqrI05K0V6/+7+9Vk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4566
+X-Authority-Analysis: v=2.4 cv=V4xwEOni c=1 sm=1 tr=0 ts=699c3f1a cx=c_pps
+ a=rwqFklNBBe0PgClOpsUSJg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8 a=1mRALLBIYJNp9wpf3_wA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22
+ a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=CCpqsmhAAAAA:8
+ a=XkRKQH6RAAAA:8 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=0Fz_w68Xlc7QMu5B71sA:9 a=A7UyDSRDaq78f8Sb:21 a=ul9cdbp4aOFLsgKbc677:22
+ a=1gUyE30hU_ULiMxJiLUW:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDEwMSBTYWx0ZWRfX4bmRSHBtj1tq
+ MHeZRa1mfD0hmSzLceAMYKz+6imRZbj1QyLOzxmA64E8GJvgG+KCK+xq7H1j9t6h7lpvSwZuRob
+ 7Zs9wweKNttf8SREggq8E3lcBSXOzxd0afHQWyEZK19JzGvL2uzTt9pusK5CRo0DkttEy/pB/+o
+ kJiJrZTi8Y8h1axcs17Um3mtfuGIH1w8e3Ph8X2kw0kJnPoknVLPQTL0Upbag3HL44vZg4GlwfW
+ USuJ3AYWilvLi0IajpDuolE+Co6zZJqUF56HVDymNICewgYYr8TiArSxS8CyVAGKOCvtzBcUsUG
+ //NgX8eV9UF6XMczDTWcH9DT+QlDtp4J9oC/gqAPRrpmfUKTJQZ7eytd1ZREYeZnWI4LyHdtlel
+ WA3G85GoFS4vMiwLzA+nY2VrPX9XVVyD5MtGKt61J2A5CTyVC+i6xtJW3ps9sPpG8vpzoy72Zrn
+ j9dq1ZZrUHh4YdbV7fA==
+X-Proofpoint-GUID: fyUCGmeCbrl_VlMpOo5MrGQ7Bb2XRi_m
+X-Proofpoint-ORIG-GUID: fyUCGmeCbrl_VlMpOo5MrGQ7Bb2XRi_m
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_02,2026-02-20_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- clxscore=1011 impostorscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 adultscore=0 suspectscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230097
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 61N9RuI4941626
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230101
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 11:20:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231663
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 11:50:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231664
 
+From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-On 23-Feb-26 12:51, Mathieu Dubois-Briand wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->
-> On Tue Feb 17, 2026 at 6:01 PM CET, Mathieu Dubois-Briand wrote:
->> On Mon Feb 16, 2026 at 4:48 PM CET, Mathieu Dubois-Briand wrote:
->>> On Mon Feb 16, 2026 at 2:09 PM CET, Harish Sadineni wrote:
->>>> Hi Yoann, Mathieu,
->>>>
->>>> I tried few builds locally, but not able to reproduce this.
->>>>
->>>> On the autobuilder, We ran following builds which were completed
->>>> successfully on ubuntu2504-vk-arm1:
->>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3=
-326
->>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3=
-331
->>>>
->>>> Additionally, One of Mathieu's build also ran successfully on
->>>> oe-selftest-armhost ubuntu2504-vk-arm1:
->>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3=
-323
->>>> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/=
-3323>
->>>>   From what I can see, build 3319
->>>> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/=
-3319>was
->>>> triggered from a-full/3219
->>>> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/=
-3219>:
->>>> However, when checking a-full/3219, it triggered build 3317
->>>> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/=
-3317>,
->>>> where the rust kernel selftest passed.
->>>>
->>>> I can see few other builds were successful on oe-selftest-armhost wi=
-th
->>>> this patch series. I=E2=80=99m not sure why the failure occurred in =
-this case.
->>>> Mathieu, could you please try running a few additional builds to see=
- if
->>>> it reproduces?
->>>>
->>>> Thanks,
->>>> Harish
->>> Sure, I will launch a few builds and see how it goes.
->>>
->>> AB maintenance will begin soon, so I will start either later today or
->>> tomorrow morning.
->> I believe I got one:
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/334=
-6
->>
->> I backed up the build folder, it should stay there until next Monday.
->> (/srv/pokybuild/yocto-worker/oe-selftest-armhost-3346-mathieu-2026-02-=
-17
->> on ubuntu2404-vk-arm1)
->>
->> Please tell me if you need me to extract any build artifact.
->>
-> Hi Harish,
->
-> Do you need any file from this build before it is removed?
+GDB 17.1 includes the following changes and enhancements:
+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob_plain;f=gdb/NEWS;hb=gdb-17.1-release
 
-Hello Mathieu,
+ * x86-64 CET shadow stack support
+ * Debugging Linux programs that use AArch64 Guarded Control Stacks
+ * GDB record feature now supports rv64gc architectures
+ * 'info threads' command support for two new options '-stopped' and '-running'
+    to limit the list of displayed threads.
+ * On Linux and FreeBSD, the addresses shown by the 'info sharedlibrary' command
+   are now for the full memory range allocated to the shared library.
+ * Linux checkpoints now work with multiple inferiors
+ * Improved linker namespace support
+ * Warnings and error messages now start with an emoji (warning sign,
+   or cross mark) if supported by the host charset. Configurable.
+ * Built-in support for TLS on Linux as backup when libthread_db is not
+   available. Supported on the x86_64, aarch64, ppc64, s390x, and riscv
+   architectures, when compiled with GLIBC or MUSL.
+ * New command "set riscv numeric-register-names" to display risc-v
+   registers using their numeric names instead of their ABI names.
+ * The Alpha target now supports target descriptions.
+ * Python API enhancements
+ * Support for Python versions older than 3.4 has been removed.
 
-I copied the build logs and we will be looking into the failures.
+Dropped 0009-Readline-8.3-alpha-release.patch
+Added   0009-PR-gdb-33747-gdb-ser-unix-Avoid-musl-build-failure-w.patch
 
+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+Co-authored-by: Sundeep Kokkonda <Sundeep.Kokkonda@windriver.com>
+---
+changes in v3:
+ - Added musl build fix patch (PR gdb/33747)
+ - musl currently does not expose c_ospeed/c_ispeed or Linux termios2/BOTHER interfaces
+ - Ref: [https://www.openwall.com/lists/musl/2026/02/12/1]
 
-Thanks,
+changes in v2:
+ - gdb: Upgrade 16.3 -> 17.1
 
-Sundeep K.
+ ...ian_16.3.bb => gdb-cross-canadian_17.1.bb} |   0
+ .../{gdb-cross_16.3.bb => gdb-cross_17.1.bb}  |   0
+ meta/recipes-devtools/gdb/gdb.inc             |   4 +-
+ ...-ser-unix-Avoid-musl-build-failure-w.patch | 190 ++++++++++++++++++
+ .../gdb/0009-Readline-8.3-alpha-release.patch | 164 ---------------
+ .../gdb/{gdb_16.3.bb => gdb_17.1.bb}          |   0
+ 6 files changed, 192 insertions(+), 166 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_16.3.bb => gdb-cross-canadian_17.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_16.3.bb => gdb-cross_17.1.bb} (100%)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-Avoid-musl-build-failure-w.patch
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-Readline-8.3-alpha-release.patch
+ rename meta/recipes-devtools/gdb/{gdb_16.3.bb => gdb_17.1.bb} (100%)
 
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_16.3.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_17.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_16.3.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_17.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_16.3.bb b/meta/recipes-devtools/gdb/gdb-cross_17.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_16.3.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_17.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index a36f78fe67..08c0e70ccd 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -13,6 +13,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+            file://0006-Fix-invalid-sigprocmask-call.patch \
+            file://0007-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            file://0008-Add-fix-for-packages-that-are-not-compatible-with-C2.patch \
+-           file://0009-Readline-8.3-alpha-release.patch \
++           file://0009-PR-gdb-33747-gdb-ser-unix-Avoid-musl-build-failure-w.patch \
+            "
+-SRC_URI[sha256sum] = "bcfcd095528a987917acf9fff3f1672181694926cc18d609c99d0042c00224c5"
++SRC_URI[sha256sum] = "14996f5f74c9f68f5a543fdc45bca7800207f91f92aeea6c2e791822c7c6d876"
+diff --git a/meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-Avoid-musl-build-failure-w.patch b/meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-Avoid-musl-build-failure-w.patch
+new file mode 100644
+index 0000000000..823fd79f60
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-Avoid-musl-build-failure-w.patch
+@@ -0,0 +1,190 @@
++From d3c2bf20ea6afc6a02151d06fa93b4c767986815 Mon Sep 17 00:00:00 2001
++From: Sunil Dora <sunilkumar.dora@windriver.com>
++Date: Mon, 23 Feb 2026 00:57:35 -0800
++Subject: [PATCH] PR gdb/33747: gdb/ser-unix: Avoid musl build failure when
++ setting custom baud rates
++
++The Linux custom baud rate implementation accessed the struct termios
++members c_ispeed and c_ospeed directly. These fields are provided by
++glibc but are not exposed by musl, which causes the build to fail on
++musl-based systems.
++
++Adjust set_custom_baudrate_linux to use a capability-based approach.
++The Autoconf check HAVE_NUMERIC_BAUD_RATES determines whether
++B-constants match numeric baud rates. If they do, use the standard
++POSIX cfsetispeed and cfsetospeed interfaces. Otherwise, fall back
++to the Linux-specific termios2 interface (TCGETS2) to support
++arbitrary baud rates.
++
++This preserves existing behavior on glibc systems while restoring
++build compatibility with musl.
++
++Upstream-Status: Submitted [https://sourceware.org/pipermail/gdb-patches/2026-February/225251.html]
++
++Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
++---
++ gdb/config.in    |  3 +++
++ gdb/configure    | 39 +++++++++++++++++++++++++++++++++++++++
++ gdb/configure.ac | 19 +++++++++++++++++++
++ gdb/ser-unix.c   | 42 ++++++++++++++++++++++++++----------------
++ 4 files changed, 87 insertions(+), 16 deletions(-)
++
++diff --git a/gdb/config.in b/gdb/config.in
++index efc3100cb9e..a6561c03ee6 100644
++--- a/gdb/config.in
+++++ b/gdb/config.in
++@@ -343,6 +343,9 @@
++ /* Define to 1 if you have the <nlist.h> header file. */
++ #undef HAVE_NLIST_H
++ 
+++/* Define if termios B-constants match their numeric baud rate */
+++#undef HAVE_NUMERIC_BAUD_RATES
+++
++ /* Define to 1 if you have the `pipe' function. */
++ #undef HAVE_PIPE
++ 
++diff --git a/gdb/configure b/gdb/configure
++index d0bdba6eb36..407104fc420 100755
++--- a/gdb/configure
+++++ b/gdb/configure
++@@ -27336,6 +27336,45 @@ if test "$ac_res" != no; then :
++ fi
++ 
++ 
+++# Check whether termios B-constants match their numeric baud rate.
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether termios B-constants are numeric" >&5
+++$as_echo_n "checking whether termios B-constants are numeric... " >&6; }
+++if ${gdb_cv_termios_numeric_baud+:} false; then :
+++  $as_echo_n "(cached) " >&6
+++else
+++
+++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+++/* end confdefs.h.  */
+++#include <termios.h>
+++int
+++main ()
+++{
+++
+++       #if B9600 != 9600
+++       #error B-constants are not numeric symbols
+++       #endif
+++
+++  ;
+++  return 0;
+++}
+++_ACEOF
+++if ac_fn_c_try_compile "$LINENO"; then :
+++  gdb_cv_termios_numeric_baud=yes
+++else
+++  gdb_cv_termios_numeric_baud=no
+++fi
+++rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+++
+++fi
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gdb_cv_termios_numeric_baud" >&5
+++$as_echo "$gdb_cv_termios_numeric_baud" >&6; }
+++
+++if test "$gdb_cv_termios_numeric_baud" = yes; then
+++
+++$as_echo "#define HAVE_NUMERIC_BAUD_RATES 1" >>confdefs.h
+++
+++fi
+++
++ 
++ 
++ # Check whether --with-jit-reader-dir was given.
++diff --git a/gdb/configure.ac b/gdb/configure.ac
++index 52924106bca..ac45d22e4bf 100644
++--- a/gdb/configure.ac
+++++ b/gdb/configure.ac
++@@ -733,6 +733,25 @@ AC_CONFIG_FILES([jit-reader.h:jit-reader.in])
++ 
++ AC_SEARCH_LIBS(dlopen, dl)
++ 
+++# Check whether termios B-constants match their numeric baud rate.
+++AC_CACHE_CHECK([whether termios B-constants are numeric],
+++  [gdb_cv_termios_numeric_baud], [
+++  AC_COMPILE_IFELSE(
+++    [AC_LANG_PROGRAM([[#include <termios.h>]],
+++      [[
+++       #if B9600 != 9600
+++       #error B-constants are not numeric symbols
+++       #endif
+++      ]])],
+++    [gdb_cv_termios_numeric_baud=yes],
+++    [gdb_cv_termios_numeric_baud=no])
+++])
+++
+++if test "$gdb_cv_termios_numeric_baud" = yes; then
+++  AC_DEFINE([HAVE_NUMERIC_BAUD_RATES], [1],
+++	    [Define if termios B-constants match their numeric baud rate])
+++fi
+++
++ GDB_AC_WITH_DIR([JIT_READER_DIR], [jit-reader-dir],
++                 [directory to load the JIT readers from],
++                 [${libdir}/gdb])
++diff --git a/gdb/ser-unix.c b/gdb/ser-unix.c
++index 6f2766518be..abd04c898f5 100644
++--- a/gdb/ser-unix.c
+++++ b/gdb/ser-unix.c
++@@ -513,31 +513,41 @@ set_baudcode_baudrate (struct serial *scb, int baud_code)
++ static void
++ set_custom_baudrate_linux (int fd, int rate)
++ {
++-#ifdef TCGETS2
++-  struct termios2 tio;
++-  const unsigned long req_get = TCGETS2;
++-  const unsigned long req_set = TCSETS2;
++-#else
+++#if defined (HAVE_NUMERIC_BAUD_RATES)
++   struct termios tio;
++-  const unsigned long req_get = TCGETS;
++-  const unsigned long req_set = TCSETS;
++-#endif
++ 
++-  if (ioctl (fd, req_get, &tio) < 0)
+++  if (tcgetattr (fd, &tio) < 0)
+++    perror_with_name (_("Can not get current baud rate"));
+++
+++  cfsetispeed (&tio, rate);
+++  cfsetospeed (&tio, rate);
+++
+++  if (tcsetattr (fd, TCSANOW, &tio) < 0)
+++    perror_with_name (_("Can not set custom baud rate"));
+++
+++#elif defined (TCGETS2)
+++  /* Use the kernel-level termios2 structure.  */
+++  struct termios2 tio2;
+++
+++  if (ioctl (fd, TCGETS2, &tio2) < 0)
++     perror_with_name (_("Can not get current baud rate"));
++ 
++   /* Clear the current output baud rate and fill a new value.  */
++-  tio.c_cflag &= ~CBAUD;
++-  tio.c_cflag |= BOTHER;
++-  tio.c_ospeed = rate;
+++  tio2.c_cflag &= ~CBAUD;
+++  tio2.c_cflag |= BOTHER;
+++  tio2.c_ospeed = rate;
++ 
++   /* Clear the current input baud rate and fill a new value.  */
++-  tio.c_cflag &= ~(CBAUD << IBSHIFT);
++-  tio.c_cflag |= BOTHER << IBSHIFT;
++-  tio.c_ispeed = rate;
+++  tio2.c_cflag &= ~(CBAUD << IBSHIFT);
+++  tio2.c_cflag |= BOTHER << IBSHIFT;
+++  tio2.c_ispeed = rate;
++ 
++-  if (ioctl (fd, req_set, &tio) < 0)
+++  if (ioctl (fd, TCSETS2, &tio2) < 0)
++     perror_with_name (_("Can not set custom baud rate"));
+++
+++#else
+++  perror_with_name (_("Custom baud rate not supported on this platform"));
+++#endif
++ }
++ 
++ #elif HAVE_CUSTOM_BAUDRATE_SUPPORT && defined(IOSSIOSPEED)
++-- 
++2.49.0
++
+diff --git a/meta/recipes-devtools/gdb/gdb/0009-Readline-8.3-alpha-release.patch b/meta/recipes-devtools/gdb/gdb/0009-Readline-8.3-alpha-release.patch
+deleted file mode 100644
+index 206b4baaf0..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0009-Readline-8.3-alpha-release.patch
++++ /dev/null
+@@ -1,164 +0,0 @@
+-From 8807681557d9f30aac819186369ee62f4f8d1d96 Mon Sep 17 00:00:00 2001
+-From: Chet Ramey <chet.ramey@case.edu>
+-Date: Mon, 22 Apr 2024 10:41:37 -0400
+-Subject: [PATCH] Readline-8.3-alpha release
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/readline.git/commit/tcap.h?h=readline-8.3-testing&id=69e5c5e4c9778bf86c3d1c6b058ddece70854de8]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- ...ap-Add-function-parameter-prototypes.patch | 37 ++++++++++
+- ...d=cef614441f99b7b6e444ba601d8465a6e88f5a98 | 67 +++++++++++++++++++
+- readline/readline/tcap.h                      | 14 ++--
+- 3 files changed, 111 insertions(+), 7 deletions(-)
+- create mode 100644 readline/readline/0001-tcap-Add-function-parameter-prototypes.patch
+- create mode 100644 readline/readline/index.html?id=cef614441f99b7b6e444ba601d8465a6e88f5a98
+-
+-diff --git a/readline/readline/0001-tcap-Add-function-parameter-prototypes.patch b/readline/readline/0001-tcap-Add-function-parameter-prototypes.patch
+-new file mode 100644
+-index 00000000000..f28e31fd0e0
+---- /dev/null
+-+++ b/readline/readline/0001-tcap-Add-function-parameter-prototypes.patch
+-@@ -0,0 +1,37 @@
+-+From 0c16af6ebf0bf81138c973e5e6a7c4ebf71f2489 Mon Sep 17 00:00:00 2001
+-+From: Khem Raj <raj.khem@gmail.com>
+-+Date: Wed, 30 Apr 2025 10:41:12 -0700
+-+Subject: [PATCH] tcap: Add function parameter prototypes
+-+
+-+GCC-15 with C23 dilect defaults expects full function signature
+-+
+-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-+---
+-+ readline/readline/tcap.h | 14 ++++++--------
+-+ 1 file changed, 6 insertions(+), 8 deletions(-)
+-+
+-+diff --git a/readline/readline/tcap.h b/readline/readline/tcap.h
+-+index 859e6ee..2b22ff7 100644
+-+--- a/readline/readline/tcap.h
+-++++ b/readline/readline/tcap.h
+-+@@ -46,14 +46,12 @@ extern char *UP, *BC;
+-+ 
+-+ extern short ospeed;
+-+ 
+-+-extern int tgetent ();
+-+-extern int tgetflag ();
+-+-extern int tgetnum ();
+-+-extern char *tgetstr ();
+-+-
+-+-extern int tputs ();
+-+-
+-+-extern char *tgoto ();
+-++extern int tgetent(char*, const char*);
+-++extern int tgetflag(const char*);
+-++extern int tgetnum(const char*);
+-++extern char *tgetstr(const char*, char**);
+-++extern char *tgoto(const char*, int, int);
+-++extern int tputs(const char*, int, int (*)(int));
+-+ 
+-+ #endif /* HAVE_TERMCAP_H */
+-+ 
+-diff --git a/readline/readline/index.html?id=cef614441f99b7b6e444ba601d8465a6e88f5a98 b/readline/readline/index.html?id=cef614441f99b7b6e444ba601d8465a6e88f5a98
+-new file mode 100644
+-index 00000000000..02e665b143b
+---- /dev/null
+-+++ b/readline/readline/index.html?id=cef614441f99b7b6e444ba601d8465a6e88f5a98
+-@@ -0,0 +1,67 @@
+-+From cef614441f99b7b6e444ba601d8465a6e88f5a98 Mon Sep 17 00:00:00 2001
+-+From: Chet Ramey <chet.ramey@case.edu>
+-+Date: Sun, 14 Jan 2024 15:19:37 -0500
+-+Subject: Readline-8.2 patch 8: add missing function prototypes
+-+
+-+---
+-+ bind.c     | 4 +---
+-+ patchlevel | 2 +-
+-+ rltty.c    | 3 +--
+-+ text.c     | 3 +--
+-+ 4 files changed, 4 insertions(+), 8 deletions(-)
+-+
+-+diff --git a/bind.c b/bind.c
+-+index 971116a..2596006 100644
+-+--- a/bind.c
+-++++ b/bind.c
+-+@@ -1167,9 +1167,7 @@ _rl_init_file_error (va_alist)
+-+ /* **************************************************************** */
+-+ 
+-+ static int
+-+-parse_comparison_op (s, indp)
+-+-     const char *s;
+-+-     int *indp;
+-++parse_comparison_op (const char *s, int *indp)
+-+ {
+-+   int i, peekc, op;
+-+ 
+-+diff --git a/patchlevel b/patchlevel
+-+index e340b58..6c10f12 100644
+-+--- a/patchlevel
+-++++ b/patchlevel
+-+@@ -1,3 +1,3 @@
+-+ # Do not edit -- exists only for use by patch
+-+ 
+-+-7
+-++8
+-+diff --git a/rltty.c b/rltty.c
+-+index 882a3d4..a4863ac 100644
+-+--- a/rltty.c
+-++++ b/rltty.c
+-+@@ -80,8 +80,7 @@ static int ksrflow;
+-+ /* Dummy call to force a backgrounded readline to stop before it tries
+-+    to get the tty settings. */
+-+ static void
+-+-set_winsize (tty)
+-+-     int tty;
+-++set_winsize (int tty)
+-+ {
+-+ #if defined (TIOCGWINSZ)
+-+   struct winsize w;
+-+diff --git a/text.c b/text.c
+-+index 91c3f33..30fdaa1 100644
+-+--- a/text.c
+-++++ b/text.c
+-+@@ -1764,8 +1764,7 @@ _rl_char_search (int count, int fdir, int bdir)
+-+ 
+-+ #if defined (READLINE_CALLBACKS)
+-+ static int
+-+-_rl_char_search_callback (data)
+-+-     _rl_callback_generic_arg *data;
+-++_rl_char_search_callback (_rl_callback_generic_arg *data)
+-+ {
+-+   _rl_callback_func = 0;
+-+   _rl_want_redisplay = 1;
+-+-- 
+-+cgit v1.1
+-+
+-diff --git a/readline/readline/tcap.h b/readline/readline/tcap.h
+-index 859e6eed5aa..467ea60e903 100644
+---- a/readline/readline/tcap.h
+-+++ b/readline/readline/tcap.h
+-@@ -1,6 +1,6 @@
+- /* tcap.h -- termcap library functions and variables. */
+- 
+--/* Copyright (C) 1996-2015 Free Software Foundation, Inc.
+-+/* Copyright (C) 1996-2015,2023 Free Software Foundation, Inc.
+- 
+-    This file is part of the GNU Readline Library (Readline), a library
+-    for reading lines of text with interactive input and history editing.      
+-@@ -46,14 +46,14 @@ extern char *UP, *BC;
+- 
+- extern short ospeed;
+- 
+--extern int tgetent ();
+--extern int tgetflag ();
+--extern int tgetnum ();
+--extern char *tgetstr ();
+-+extern int tgetent (char *, const char *);
+-+extern int tgetflag (const char *);
+-+extern int tgetnum (const char *);
+-+extern char *tgetstr (const char *, char **);
+- 
+--extern int tputs ();
+-+extern int tputs (const char *, int, int (*)(int));
+- 
+--extern char *tgoto ();
+-+extern char *tgoto (const char *, int, int);
+- 
+- #endif /* HAVE_TERMCAP_H */
+- 
+diff --git a/meta/recipes-devtools/gdb/gdb_16.3.bb b/meta/recipes-devtools/gdb/gdb_17.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_16.3.bb
+rename to meta/recipes-devtools/gdb/gdb_17.1.bb
+-- 
+2.49.0
+
 
