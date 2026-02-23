@@ -1,153 +1,116 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C4EE98E0F
-	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 08:55:53 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31672.1771836943873395876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E188E98E0B
+	for <webhook@archiver.kernel.org>; Mon, 23 Feb 2026 09:02:14 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31742.1771837323384512659
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Feb 2026 00:55:44 -0800
+ Mon, 23 Feb 2026 01:02:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZvLg075D;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-436263e31abso3721684f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 00:55:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771836942; x=1772441742; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+aVNlTDBP4+fRqRh33BZ4yT0YCEaNdDyBlX3NQ1rhv4=;
-        b=ZvLg075DCB8cHPRvQ/AH/k43CnnO0cPUAOb4Z/OFsmkcYZgWZjv/GC201rr2s1yXJa
-         kg6l6wKW6HoOExcArFU+GHBDYytq0G0BpWeQtMz3ce0fmOuq/WwrGxNOJ2MuBqNa8fvn
-         xYzdjVAxtcgld1GkNOhcvPgG5X0PBKKsGSGBk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771836942; x=1772441742;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+aVNlTDBP4+fRqRh33BZ4yT0YCEaNdDyBlX3NQ1rhv4=;
-        b=qCjykya6FCe/oosFBx4FrDJlokkCVBLVo8wt5sGV6tzN4Xk2wINIHss/H8OMdRdogf
-         JYsZ8QoIIZgUZazXLOFAOv/6djJ2oxrwWst1SY/h220jGKqE3j/19jW/ChDvEw78vUrm
-         DjhlN+KNLwjm0j3CfVxwPZ5YgcGnhnJj7Zd0519tUthiDBLjzK+K3REO/pkmXNX1yzq3
-         mYztpcHbl56fPjImgulWtIVP9/FW8HsJk2r210Ut616qxlMQZhLsXXITR84QgpFl5AB8
-         wKvc/J8QK1Dsqc8h4kZyIUiqYHf8OY179WDX4qn/jPFLX0VbZl5RVmYWMtWQdBZTel6C
-         X6IQ==
-X-Gm-Message-State: AOJu0YwibI8YeNBWJIntDtdbRNgZabOV0t3vezIQFdFoQ3FbwSTe7qoJ
-	/hQ2WikZhos2PtoA9Cb4t2xr3YD6xtQhPngnRoGyvYGtBBAwxhHXDv10xtaMVpL2mvC8vcUTJ/Z
-	DSWky
-X-Gm-Gg: ATEYQzz5OgkmOKe41ACC/UpcURonEpdYEGG+ARVTCpjRV5aCmqCZYG/bYR2zKpFFo+y
-	znJ5VltSC+sm+glHrWgLfgWl6LgZSLLxobfrkTJVaerj+5Ceo+6iE4HCOSpmkCNv8unJGcrk1ti
-	zgs6RAYO4UOMz2UyaT2ie8B+o12watGyNP7rUXnLj/WC8ZAfZH5MmWn12biN5f8FvTwhiqY72dF
-	2xNo7aUSOnY8PT2n8ltetzDIn55e00vWY0JnWPLl5QyGrleFa3VNULWaQRL2s0JE3pJmjxthNoF
-	XCjIqEglsbaebWGiwHAt54NUPG86pB3AK56KUWFhnxcWiZOy620gU7SDBSBnSKWfrMFN815wtGY
-	M7lYVnzNE0cDG+eVoT/SXVjzjovKTxyV1LF/isYqS8IfJILT9YoLaKnuVMuGKVDVfhvAghC7ebI
-	Zj3NtgyLTBkjZM6DzYow9uattJNYl2dBaZs6abZphs2jdIcavlJ5iWxNXKMwJnAuZofCg/a1Q5B
-	kk3PsqAnJS82cLb03z/lB+J24P9
-X-Received: by 2002:a5d:588a:0:b0:435:9144:1417 with SMTP id ffacd0b85a97d-4396f183942mr12486901f8f.49.1771836941937;
-        Mon, 23 Feb 2026 00:55:41 -0800 (PST)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00f13df544104db802.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:f13d:f544:104d:b802])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d3ff1csm16424077f8f.20.2026.02.23.00.55.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 00:55:41 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: OE-Core ML <openembedded-core@lists.openembedded.org>,
-	Yocto Security ML <yocto-security@lists.yoctoproject.org>
-Subject: OE-core CVE metrics for whinlatter on Sun Feb 22 22:56:01 2026
-Date: Mon, 23 Feb 2026 09:55:06 +0100
-Message-ID: <20260223085507.17802-3-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260223085507.17802-1-yoann.congal@smile.fr>
-References: <20260223085507.17802-1-yoann.congal@smile.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=kFWzSMnz;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 2A52F1A116B
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 09:02:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 009B45FD43;
+	Mon, 23 Feb 2026 09:02:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 16EAE10368F2B;
+	Mon, 23 Feb 2026 10:01:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1771837305; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=bSBOCsOTCHEtt+J3h9Eafm+oCAeKZj02EyB+K6gEQjU=;
+	b=kFWzSMnzIqpsjk8XiNJH2aAQp4sz5lCa/iUbAdJf73cPEhzX7whaZEspf4Zu5gRRbCw760
+	VIl1D813KkSwrvQX+2U2zSn69UcvFAIwZ3CTdvmF88XjzqK9XjiS349SKNWJ2YASGaY2Fw
+	ShziYe9Bhet2VuO2i7T+Twheal48CfOMuXRJmKLbYfj2/eBojOfvINmSJdMXwp0wlRNdkb
+	S4cHrO5EBLnV0miIwaaNK+0eDFkzftYOq8I6SCmpabGoAGv+gAY9jS0+1tk0GuAr+lHVUM
+	Lss1WRSq/GEINH/gNrb6JKPNPTEFTo2cTqBuIckVp5la/JDFkQdeZXAjmX5pfQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Feb 2026 10:01:44 +0100
+Message-Id: <DGM7WKPONTXD.ZOV8O0CMQHXR@bootlin.com>
+Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.43 release
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260127053941.792825-1-raj.khem@gmail.com>
+In-Reply-To: <20260127053941.792825-1-raj.khem@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 08:55:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231657
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Feb 2026 09:02:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231659
 
-Branch: whinlatter
+On Tue Jan 27, 2026 at 6:39 AM CET, Khem Raj via lists.openembedded.org wro=
+te:
+> License-Update: Match to changes [1]
+>
+> Added free_sized, free_aligned_sized, memset_explicit, memalignment, and =
+new time bases (TIME_MONOTONIC, etc.).
+>
+> Support for the Linux mseal system call to protect memory mappings (seali=
+ng).
+>
+> Added support for the openat2 system call, allowing more granular file op=
+ening options.
+>
+> New, optimized, and correctly rounded functions from the CORE-MATH projec=
+t (acosh, asinh, atanh, erf, erfc, lgamma, tgamma).
+>
+> Significant 4x improvements for fused multiply-add (FMA) on AMD Zen 3 by =
+updating ldbl-96 implementation.
+>
+> Improved remainder, frexp, and frexpl.
+>
+> Experimental Clang Support: Added support for building with LLVM Clang (v=
+ersion 18+) on AArch64/x86_64 Linux.
+>
+> New CPU Detection: Enhanced detection for newer CPU architectures.
+>
+> 64-bit atomics for 32bit x86 patch is no longer required since upstrea ha=
+s dropped this logic in 2.43 release
+>
+> [1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da0ce8b0779e2=
+90596e99ca6d96c301684a2d7cfe
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
 
-New this week: 4 CVEs
-CVE-2026-22693 (CVSS3: N/A): harfbuzz:harfbuzz-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-22693 *
-CVE-2026-25749 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-25749 *
-CVE-2026-26269 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-26269 *
-CVE-2026-27171 (CVSS3: N/A): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-27171 *
+Hi Khem,
 
-Removed this week: 30 CVEs
-CVE-2023-51791 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51791 *
-CVE-2023-51793 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51793 *
-CVE-2023-51794 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51794 *
-CVE-2023-51795 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51795 *
-CVE-2023-51796 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51796 *
-CVE-2023-51797 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51797 *
-CVE-2023-51798 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51798 *
-CVE-2025-11187 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11187 *
-CVE-2025-15467 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-15467 *
-CVE-2025-15468 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-15468 *
-CVE-2025-15469 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-15469 *
-CVE-2025-22921 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22921 *
-CVE-2025-25468 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-25468 *
-CVE-2025-25469 (CVSS3: N/A): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-25469 *
-CVE-2025-56226 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-56226 *
-CVE-2025-61732 (CVSS3: N/A): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-61732 *
-CVE-2025-66199 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66199 *
-CVE-2025-66476 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66476 *
-CVE-2025-68121 (CVSS3: N/A): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68121 *
-CVE-2025-68160 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68160 *
-CVE-2025-68276 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68276 *
-CVE-2025-68468 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68468 *
-CVE-2025-68471 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-68471 *
-CVE-2025-69418 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69418 *
-CVE-2025-69419 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69419 *
-CVE-2025-69420 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69420 *
-CVE-2025-69421 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-69421 *
-CVE-2026-22795 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-22795 *
-CVE-2026-22796 (CVSS3: N/A): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-22796 *
-CVE-2026-24401 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-24401 *
+I have some build issue with this patch. Yet I had some merge
+conflicts, so maybe my resolutions were not correct.
 
-Full list:  Found 27 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-59529 (CVSS3: N/A): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59529 *
-CVE-2025-60876 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-60876 *
-CVE-2025-66471 (CVSS3: N/A): python3-urllib3:python3-urllib3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-66471 *
-CVE-2026-22693 (CVSS3: N/A): harfbuzz:harfbuzz-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-22693 *
-CVE-2026-25646 (CVSS3: N/A): libpng:libpng-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-25646 *
-CVE-2026-25749 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-25749 *
-CVE-2026-26269 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-26269 *
-CVE-2026-27171 (CVSS3: N/A): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2026-27171 *
+ERROR: nativesdk-gcc-runtime-15.2.0-r0 do_compile: Execution of '/srv/pokyb=
+uild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-nativesdk-pokys=
+dk-linux/nativesdk-gcc-runtime/15.2.0/temp/run.do_compile.3275864' failed w=
+ith exit code 1
+...
+| /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work-shared/gcc=
+-15.2.0-r0/sources/gcc-15.2.0/libgomp/affinity-fmt.c:330:25: error: initial=
+ization discards 'const' qualifier from pointer target type [-Werror=3Ddisc=
+arded-qualifiers]
+|   330 |               char *q =3D strchr (p + 1, '}');
+|       |                         ^~~~~~
 
-Summary of CVE counts by recipe:
-  linux-yocto: 16
-  libsndfile1: 2
-  vim: 2
-  avahi: 1
-  busybox: 1
-  harfbuzz:harfbuzz-native: 1
-  libpng:libpng-native: 1
-  python3-urllib3:python3-urllib3-native: 1
-  qemu:qemu-native:qemu-system-native: 1
-  zlib:zlib-native: 1
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3240
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/3229
 
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+The branch that was tested if you want to check: https://git.yoctoproject.o=
+rg/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.org/valkyrie/a-=
+full-3260
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
