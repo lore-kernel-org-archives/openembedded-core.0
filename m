@@ -1,148 +1,183 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 763E3F3C9B0
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 16:27:24 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24399.1771950441491616653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A31F3C9B0
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 16:30:04 +0000 (UTC)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24293.1771950603224130172
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 08:27:22 -0800
+ Tue, 24 Feb 2026 08:30:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=V9UzCoUD;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260224162718095eb4fc1400020702-s_okmx@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260224162718095eb4fc1400020702
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 24 Feb 2026 17:27:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=FaZHUJBvkEaJ7/6o7v+v6ytgTkUA9ZozyLr6UNneZ0U=;
- b=V9UzCoUDtpyzfG4DGW3CHzC+cbIWBFnPeL1PvBu1+TslzMJh/RiRchCZY2Sjxpb2jm5BtZ
- GJNzx0rGqL71e3MuxmSnfouUFYHoFSfGwE+nHOom18sR/fXQvY7xbLegAsvx1Cz0grpRKL4D
- dwM4fJJKL12a+24zon3wY9D0FY3elo8ouiezphcXRxyrqdkVjF5b7pEwfUoZYzhg+CghJo23
- tMn3PBcVyvAakpGDf4uXcGsNp7y2mgpOenINroX0IoiICz6CoNaEegGXynDbeLB9zu7hSw7W
- 1ziMYEPuV7dIMO2f1yXaKBreSSr93NxYkxUqyHCTk+G+GGn70xIpuiGA==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EYUVKCAh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4837584120eso40160655e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 08:30:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771950601; x=1772555401; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Qk7Rjvbl5D3sUwzio5VbRbngSILDJ6xfzAlu+8Vz/Q=;
+        b=EYUVKCAhmiHy9aOy4MVSBB7FHbNmrL1o8EMpmKX8XcPlR5J9ZW4eeArANwn+Bx7Otx
+         lwYl6G5yRLqiOkBCPutQrRNimSMZ0YpPJY/PYmlgImm7QNVCtbKTzHfcORG0Kraxojlm
+         3+xiRGgzHzaMoSoRFmwRp+9oXaya4OspNE/vMeSedraK+TonhWHaGU5FmGbvvQUec4B/
+         UwT0PS3jUr0fZxh86e1ayJRMZi3Fo/AapHjdnpq8ccwImZvhlfNDKPKtnYRyA6Fv2T8n
+         xTULhwANe6gpN8wP5EgG5gVtV0qk2HJZ4s49A1GeW9fSsattlbPBN3dBOesJ9Mu07uZ9
+         C16A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771950601; x=1772555401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Qk7Rjvbl5D3sUwzio5VbRbngSILDJ6xfzAlu+8Vz/Q=;
+        b=GXH/opAzLeRbfBV7cSba6V8sWpGnEchJCM7F1KL/pEhEkQWXo1bPsKkAjIV/sQgd2n
+         RSjQIZW+t63zN7Y3V19/BKS9yMIxVJBycTXknP3Kl3dKT1euJYRk8lsbbxpdrQO/TVsI
+         4biqKHl/9TniokEM5Vfi9yRzDZ0R0BlDDBd2986eS+WB92qkz9C4PddMBuSpEGgvqtOu
+         RukWAY+mHx1bQ+bKCn8DSW4QLMwbsDIjewrLmF+mfgWEGJReYAKbZYatB+k1bdLZRT0I
+         Qrf2YT57rFyMlfsumi1xQcJx2Gs9/glv0Ut/pGc84eVsF3RcyXadgf6Xm6ORoqbkn+1q
+         lPyg==
+X-Gm-Message-State: AOJu0Yxn90L2p8P58W0wmCmGHDZrgJRittd625iFitf/w47Fg6Gj1gOv
+	+OSo9fJV2btC1IegwZL7aKcGHYVpGIkL4Ydye6Mg7jFrgBrUpg6YcKv9mdbmr5uG
+X-Gm-Gg: AZuq6aLUauuQ3Dmoi3fkPmPJToeQJe8FMbsyyimx615fIntNNd2lksoGtbp6TVw5aXS
+	YwMJc/b9ceyzh6FSDrx8EBe9ok4g0mvx31DSSmdW7C8f4Ixl4Sjvhvnv51kNo0vNuQ2W8f9HBCZ
+	dtixfBiFCG2uBaIl2XVXp2D4wV1S2sJ7FAWaGETuF5TuNmMSQLpXg9cIz85EFPIalgE1WeaXFFX
+	5IUM95Mnr/Ax2O32ZIickfOv/WAvwNiyFBvprJ0srX+nQEc0pB+SCKPnXD4DcnjmsnJeFm3TBbt
+	xk1sxy47SjIdU+MPDE5hJvTYcgnP4EL+yknw2TAUkpyt/9DFMpjecCV6JAPcguOu4Mdla6ESAQO
+	aeHyNcSg5gKTMaKwNqAlAjYwB1LVAxUbLo4oEeeKlVpjgiWfs3gu9uroKYaBm8aw57z8R5Rp4k0
+	pTlSEKAhss8Bs/jWX4tDGtscmaH2XjhyPHgKOzK9nh8n9+PAI+4xWxerRRbbUJMeFVk8V5BdD1s
+	4/QW+tJ
+X-Received: by 2002:a05:600c:4f94:b0:480:1c53:2085 with SMTP id 5b1f17b1804b1-483a95eb365mr194135485e9.19.1771950600564;
+        Tue, 24 Feb 2026 08:30:00 -0800 (PST)
+Received: from fedora (mob-194-230-144-218.cgn.sunrise.net. [194.230.144.218])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd6f3124sm9716355e9.1.2026.02.24.08.29.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 08:30:00 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] vim: upgrade 9.1.2144 -> 9.2.0
-Date: Tue, 24 Feb 2026 17:27:15 +0100
-Message-Id: <20260224162715.63617-1-peter.marko@siemens.com>
+Cc: stefano.tondo.ext@siemens.com,
+	adrian.freihofer@siemens.com,
+	Peter.Marko@siemens.com,
+	jpewhacker@gmail.com,
+	Ross.Burton@arm.com,
+	mathieu.dubois-briand@bootlin.com
+Subject: [PATCH v3 00/11] spdx30: SBOM enrichment and documentation
+Date: Tue, 24 Feb 2026 17:29:35 +0100
+Message-ID: <20260224162946.4000445-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 16:27:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231876
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 16:30:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231877
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Solves 9.1.2148 (in 9.1.2148), see [1].
-Drop patch merged upstream.
+This v3 addresses Joshua Watt's feedback by dropping patches that
+conflict with his planned upstream changes and fixing test failures
+reported on the autobuilder.
 
-Release notes for 9.2, see [2].
-Note that almost all changes were already present in our 9.1 updates.
+Changes since v2:
+  - Dropped 7 patches based on reviewer feedback and autobuilder
+    test results (18 -> 11 patches)
+  - Fixed supplier agent creation to use direct variable pattern
+    instead of broken indirection (02/11)
+  - Fixed test to handle ListProxy type for ExternalRef.locator
+    instead of assuming plain list (08/11)
+  - Fixed test to use correct SPDX 3.0 attribute name
+    software_packageVersion instead of version (09/11)
 
-[1] https://github.com/vim/vim/security/advisories/GHSA-9w5c-hwr9-hc68
-[2] https://www.vim.org/vim-9.2-released.php
+Dropped patches (with rationale):
+  - sbom30: Fix object deduplication (v2 06/18)
+    Joshua: elements should have unique spdxid in single document;
+    if not, it's a bug to fix differently
+  - spdx30: Add image root metadata package (v2 09/18)
+    Joshua: his recipe SPDX changes will eliminate the need;
+    primaryPurpose=container is wrong regardless
+  - spdx30_tasks: Fix non-deterministic BUILDNAME (v2 10/18)
+    Depended on the dropped image root metadata patch
+  - spdx30: Add rootfs version and dependency scope (v2 11/18)
+    test_lifecycle_scope_dependencies failed on autobuilder
+  - spdx-common: Declare SPDX_FORCE_*_SCOPE variables (v2 15/18)
+    Depended on the dropped lifecycle scope infrastructure
+  - oeqa/selftest: Test for lifecycle scope (v2 16/18)
+    Tests the dropped lifecycle scope feature
+  - spdx-common: Make SPDX_LICENSES extensible (v2 18/18)
+    Joshua: license list is specified by SPDX spec, not us;
+    custom licenses should use LicenseRef
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...001-translation-sv-add-missing-mkdir.patch | 52 -------------------
- .../vim/{vim-tiny_9.1.bb => vim-tiny_9.2.bb}  |  0
- meta/recipes-support/vim/vim.inc              |  5 +-
- .../vim/{vim_9.1.bb => vim_9.2.bb}            |  0
- 4 files changed, 2 insertions(+), 55 deletions(-)
- delete mode 100644 meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch
- rename meta/recipes-support/vim/{vim-tiny_9.1.bb => vim-tiny_9.2.bb} (100%)
- rename meta/recipes-support/vim/{vim_9.1.bb => vim_9.2.bb} (100%)
+Remaining patches focus on PURL coverage, source metadata enrichment,
+CPE escaping, and variable documentation.
 
-diff --git a/meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch b/meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch
-deleted file mode 100644
-index 37337c3d9d..0000000000
---- a/meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 2dd7e39942f4f7740c3a645148521d3b6b443c41 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Wed, 11 Feb 2026 14:39:06 +0000
--Subject: [PATCH] translation(sv): add missing mkdir
--
--The installtutor target doesn't explicitly create the Swedish directory
--that it is going to put files into:
--
--  make[1]: Entering directory 'vim-9.1.2128/src'
--  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91
--  chmod 755 DESTDIR/usr/share/vim/vim91
--  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/en
--  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/en
--  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/sr
--  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/sr
--  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/it
--  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/it
--  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/ru
--  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/ru
--  cp ../runtime/tutor/README* ../runtime/tutor/tutor* DESTDIR/usr/share/vim/vim91/tutor
--  cp ../runtime/tutor/en/* DESTDIR/usr/share/vim/vim91/tutor/en/
--  cp ../runtime/tutor/it/* DESTDIR/usr/share/vim/vim91/tutor/it/
--  cp ../runtime/tutor/ru/* DESTDIR/usr/share/vim/vim91/tutor/ru/
--  cp ../runtime/tutor/sr/* DESTDIR/usr/share/vim/vim91/tutor/sr/
--  cp ../runtime/tutor/sv/* DESTDIR/usr/share/vim/vim91/tutor/sv/
--  cp: target 'DESTDIR/usr/share/vim/vim91/tutor/sv/': No such file or directory
--
--Add the missing dependency on $(DEST_TUTOR)/sv to ensure this directory
--is created.
--
--Upstream-Status: Submitted [https://github.com/vim/vim/pull/19385]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- src/Makefile | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/Makefile b/src/Makefile
--index 75d8ff6c1c..b4c31bed60 100644
----- a/src/Makefile
--+++ b/src/Makefile
--@@ -2487,7 +2487,7 @@ installgtutorbin: $(DEST_BIN)
-- 	$(INSTALL_DATA) gvimtutor $(DEST_BIN)/$(GVIMNAME)tutor
-- 	chmod $(SCRIPTMOD) $(DEST_BIN)/$(GVIMNAME)tutor
-- 
---installtutor: $(DEST_RT) $(DEST_TUTOR)/en $(DEST_TUTOR)/it $(DEST_TUTOR)/sr $(DEST_TUTOR)/ru
--+installtutor: $(DEST_RT) $(DEST_TUTOR)/en $(DEST_TUTOR)/it $(DEST_TUTOR)/sr $(DEST_TUTOR)/sv $(DEST_TUTOR)/ru
-- 	-$(INSTALL_DATA) $(TUTORSOURCE)/README* $(TUTORSOURCE)/tutor* $(DEST_TUTOR)
-- 	-$(INSTALL_DATA) $(TUTORSOURCE)/en/* $(DEST_TUTOR)/en/
-- 	-$(INSTALL_DATA) $(TUTORSOURCE)/it/* $(DEST_TUTOR)/it/
---- 
--2.43.0
--
-diff --git a/meta/recipes-support/vim/vim-tiny_9.1.bb b/meta/recipes-support/vim/vim-tiny_9.2.bb
-similarity index 100%
-rename from meta/recipes-support/vim/vim-tiny_9.1.bb
-rename to meta/recipes-support/vim/vim-tiny_9.2.bb
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 7cc122fe4a..73991ef2a8 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -16,11 +16,10 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://disable_acl_header_check.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
--           file://0001-translation-sv-add-missing-mkdir.patch \
-            "
- 
--PV .= ".2144"
--SRCREV = "55c12373f073bacfc97d757e8f4da3daf472e4ac"
-+PV .= ".0"
-+SRCREV = "e7e21018fc0b60c153c8e668f696d95e574cc5a4"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
-diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.2.bb
-similarity index 100%
-rename from meta/recipes-support/vim/vim_9.1.bb
-rename to meta/recipes-support/vim/vim_9.2.bb
+All oe-selftest SPDX tests pass locally:
+  - test_base_files: PASSED
+  - test_extra_opts: PASSED
+  - test_download_location_defensive_handling: PASSED
+  - test_version_extraction_patterns: PASSEDJoshua Watt's feedback by dropping patches that
+conflict with his planned upstream changes and fixing test failures
+reported on the autobuilder.
+
+Changes since v2:
+  - Dropped 7 patches based on reviewer feedback and autobuilder
+    test results (18 -> 11 patches)
+  - Fixed supplier agent creation to use direct variable pattern
+    instead of broken indirection (02/11)
+  - Fixed test to handle ListProxy type for ExternalRef.locator
+    instead of assuming plain list (08/11)
+  - Fixed test to use correct SPDX 3.0 attribute name
+    software_packageVersion instead of version (09/11)
+
+Dropped patches (with rationale):
+  - sbom30: Fix object deduplication (v2 06/18)
+    Joshua: elements should have unique spdxid in single document;
+    if not, it's a bug to fix differently
+  - spdx30: Add image root metadata package (v2 09/18)
+    Joshua: his recipe SPDX changes will eliminate the need;
+    primaryPurpose=container is wrong regardless
+  - spdx30_tasks: Fix non-deterministic BUILDNAME (v2 10/18)
+    Depended on the dropped image root metadata patch
+  - spdx30: Add rootfs version and dependency scope (v2 11/18)
+    test_lifecycle_scope_dependencies failed on autobuilder
+  - spdx-common: Declare SPDX_FORCE_*_SCOPE variables (v2 15/18)
+    Depended on the dropped lifecycle scope infrastructure
+  - oeqa/selftest: Test for lifecycle scope (v2 16/18)
+    Tests the dropped lifecycle scope feature
+  - spdx-common: Make SPDX_LICENSES extensible (v2 18/18)
+    Joshua: license list is specified by SPDX spec, not us;
+    custom licenses should use LicenseRef
+
+Remaining patches focus on PURL coverage, source metadata enrichment,
+CPE escaping, and variable documentation.
+
+All oe-selftest SPDX tests pass locally:
+  - test_base_files: PASSED
+  - test_extra_opts: PASSED
+  - test_download_location_defensive_handling: PASSED
+  - test_version_extraction_patterns: PASSED
+
+Stefano Tondo (11):
+  spdx30: Add configurable file filtering support
+  spdx30: Add supplier support for image and SDK SBOMs
+  spdx30: Add ecosystem-specific PURL generation
+  spdx30: Add version extraction from SRCREV for Git source components
+  spdx30: Add SPDX_GIT_PURL_MAPPINGS for Git hosting
+  spdx30: Enrich source downloads with external refs and PURLs
+  spdx30: Include recipe base PURL in package external identifiers
+  oeqa/selftest: Add test for download_location defensive handling
+  spdx.py: Add test for version extraction patterns
+  cve_check: Escape special characters in CPE 2.3 formatted strings
+  spdx-common: Add documentation for undocumented SPDX variables
+
+ meta/classes/create-spdx-3.0.bbclass |  20 ++
+ meta/classes/spdx-common.bbclass     |  63 +++++
+ meta/lib/oe/cve_check.py             |  37 ++-
+ meta/lib/oe/spdx30_tasks.py          | 339 ++++++++++++++++++++++++++-
+ meta/lib/oeqa/selftest/cases/spdx.py |  75 ++++++
+ 5 files changed, 527 insertions(+), 7 deletions(-)
+
+-- 
+2.53.0
+
 
