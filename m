@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A582EE9B274
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:25:00 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21455.1771943097616125471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97D24E9B272
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:25:10 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21277.1771943110110657629
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:24:57 -0800
+ Tue, 24 Feb 2026 06:25:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=E58lt8/9;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48069a48629so57322955e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:24:57 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=AbaId6uH;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48371bb515eso69453555e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943096; x=1772547896; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943108; x=1772547908; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aULEJNVx1UcLOv9QlsKVmE6bQ5h6cr0P69CH+0DQBbk=;
-        b=E58lt8/9HRyyhXEURxt89ewUbyayKpMEdRy3lok22OWcsk/OkirchDJq2l27OvXemL
-         Ms5kBFEr4bYBSNyYX/QUyfzsSqGpY8Vra/AGsZSep8sj+Mvm68oDti0RdEke74AJ/9Qe
-         3ER2DIv29UacHLPfdIYaD0RQBgbwsXkBwWxfE=
+        bh=9OMzyLcuYyE25bOhbW3KVsZv3JzqWCLTgZJb4XncVo8=;
+        b=AbaId6uHCHDzL9eMZFmbTC/nNbVJZL3YI7n9uVLaAX9gXEcE0CpuK0EPawsfaF3sVE
+         tiWuxWhOgpnMtez+flZdG701ROXFskQKVfNMl8RME8is6fOaoD61S59G5KyveFaw7EGf
+         obmlgsCBPu/t5GbKnBF/CZRHZp0RboBFix3kc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943096; x=1772547896;
+        d=1e100.net; s=20230601; t=1771943108; x=1772547908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=aULEJNVx1UcLOv9QlsKVmE6bQ5h6cr0P69CH+0DQBbk=;
-        b=na6mQZV4EdubNqpWbf0Yt1dnDart7YemDGgnQvIIihSHiHa5ujIP/8IhM9EpKOB8fk
-         nXsmv4mnE0zjI6zZ3X2Ej+tpWp0ADY4yhaPMzliXfB870ntvE4CNq0OZGykHyqk/qoit
-         2F0+e0nJF8yQoVjfsGAXYYAgONRgByhq5Vpq/mQMHIX4+MseZzqb6PFBNqoeyptWydGH
-         ZHmWUuBGg5X+rU7LNkjpGjP1fTuan52SuH7g5F0iUDUNXqEqA3ii1wE5jNdrto5lLd9u
-         CsfB1oYLn+wW0JzKICYrKrycIhISKQ3xouiBGd7VWeqccvzbpTavP+s0CX/eDp6cxAW+
-         ZOKQ==
-X-Gm-Message-State: AOJu0YzYSvFXkIM3UKk2yY46xM9Gcv0Iy1wZOmkCeW0rTxOyTxzZNst6
-	bH0omrwDokxqZ6gkOwanQh8sLJp+NoZ+6vdQTWz7R/JhtwsTM6xlrMs75WxyYtQawsVe3m/gpej
-	bOym0
-X-Gm-Gg: AZuq6aJU+wxxS6GB6L4E98VDuUUxzuoEqxJ7gv7SPlZWOEv72ScQbFAKisrSpo9eeSj
-	wQuoxvnStwoLZLSzz8uuXs2moeIhiTb2CoQFiOhFQ0upee5wh4t90DDV6ctdaRf5oXCq4WzMJT3
-	u7VVPl+4wEMcaRe4yv9rxboEmOoTlg1e53+FeMZpdAyGTHPz9+zNQ1jTftl9gURe0pOp/F8hD2I
-	laSUiyU6gKcgY586rOch3NVz+EOUdN816lPL6wn7SUBygkeP019pDMbBLLyx9NWLQ8/ARUtpOL8
-	gQYWW4WCQEeuuN/DRfQZ3/7dfsaEd1RezETobtf47J3N4hDjbI95KpVxjEKvxddzglsTDFPuvts
-	VIkWdvIRuA6Yzfc6Ivgu31d4OhJJZR9tyj+RZFANQW30PBO7QLetl6D+npjKbrbcJtPMPVMklBV
-	pr7F8vbXLfkxcaiQq5rONRyJw+6WxA7aZPyCL2z23Qef+AbGfPDEvVQV/ZorbcKyiSNBeZ4fTDE
-	D3NHAkCDG9zRG1AxjlhCytr0fHM0cQZ6Q==
-X-Received: by 2002:a05:600c:6305:b0:483:8062:b43 with SMTP id 5b1f17b1804b1-483a95e1eb4mr196054565e9.19.1771943095551;
-        Tue, 24 Feb 2026 06:24:55 -0800 (PST)
+        bh=9OMzyLcuYyE25bOhbW3KVsZv3JzqWCLTgZJb4XncVo8=;
+        b=C6U71GsClKrJ5NA6kuFiIvry3+pN/vsIXhJjU8LKrp2XSR60ro+z0/YNaJGnLq5Frz
+         GvqkZ28lcxeezuLa4wDMjNTK9qfm2ycfIObWTD0Ok3ZoZv/ZZEJUT2GvMxU/runDjjjm
+         sgj6lEJYjyZvcPT0w/HKxoTZzo7Pr2eJioFy4BQcTDuAK4Dm3SdNm6YRZ/qJUP67VGMv
+         8RKOyGpMt3eFla+8+kXebeIWt8grVBPRIjgsbIROXYg9j74kxdBQK5dzqPoTZkQwLjo+
+         a2kKdvTwyJjPolEctSCOrYzALvzOk3aoAAXZsideGSRQTAxOhRcb3BrtitZuwa33s7ft
+         ZiaA==
+X-Gm-Message-State: AOJu0YyAqhQSKc7lgK6MPFb14E2OuMwWIuxjPc0ILwblTQXAvKzRhfM8
+	HrVV43L+dbZJy1XxYLlJLusPdzpXCdGkw0Y3oLtLKeonPTdZmPs3kVQLfpfWnUoS0RGGbMp5g6+
+	7IYt8
+X-Gm-Gg: AZuq6aLIa3cFIXWV1M+vDRx5PebPTWBS4dhTsMfj01w1lpw8Ugb4kkn8ub1qiWi0Q6V
+	0QSA7begleaOlJqe1Arcs0vjPQCX5tvC9Ln986i7OuxiKZvpM68sKQ5Bo7QXUy07sJJLx8c6rbe
+	RLQBfN/YRlhXv/NSVls6GVUIri/9LKsy5WbG2w/AoRzTSj9rGdlnECTyhhynGlB1Txy/HZEeBli
+	ysqe4YcklERAVcX4ZumXNuME4Eimh0dqo9uPL1W/x0CVR9MW68SoTUuLU3FLZ2SX2Nqn8Xz2PoX
+	+rMeGEeYkQGC5zmnobrdtmvf74iXgPABJuqGQARVHGLLTVpRinoFkTrnpYicLapFb+2ow+gcsxi
+	e3DsgtXc1tISDAFNedJgO4EpOQoNYbF0mh8eosXSdpocUJV01ZiPg10v5AUFzRoViXYRyvRUMuF
+	y6XHf5MUq67baRNszI/1YUK8+KXT+5QJ8/d/B9GsY0CNRdJBInvIYhMertyIvUbDi1jeDg7eW63
+	qhrURFowe6VF/90PgLvTduyAtj3RvmMBA==
+X-Received: by 2002:a05:600d:640f:20b0:483:9139:4c1d with SMTP id 5b1f17b1804b1-483a9607e3cmr175514625e9.14.1771943107798;
+        Tue, 24 Feb 2026 06:25:07 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.24.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.25.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:24:55 -0800 (PST)
+        Tue, 24 Feb 2026 06:25:07 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/38] python3: patch CVE-2025-12084
-Date: Tue, 24 Feb 2026 15:23:55 +0100
-Message-ID: <350b16181eb82b2ad21569afbb2effc33f66ae06.1771942869.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 18/38] libpng: patch CVE-2026-22695
+Date: Tue, 24 Feb 2026 15:24:10 +0100
+Message-ID: <488b2c249576e9a933ab5dfb1badad3a8a56491e.1771942869.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771942869.git.yoann.congal@smile.fr>
 References: <cover.1771942869.git.yoann.congal@smile.fr>
@@ -65,208 +65,117 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:25:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231769
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:25:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231784
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch for this CVE merged into 3.10 branch.
+Pick commit per [1].
+This CVE is regression of fix for CVE-2025-65018.
+
+[1] https://security-tracker.debian.org/tracker/CVE-2026-22695
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python/python3/CVE-2025-12084.patch       | 171 ++++++++++++++++++
- .../python/python3_3.10.19.bb                 |   1 +
- 2 files changed, 172 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-12084.patch
+ .../libpng/files/CVE-2026-22695.patch         | 77 +++++++++++++++++++
+ .../libpng/libpng_1.6.39.bb                   |  1 +
+ 2 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-12084.patch b/meta/recipes-devtools/python/python3/CVE-2025-12084.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
 new file mode 100644
-index 00000000000..0c9bb435edf
+index 00000000000..673411eb341
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-12084.patch
-@@ -0,0 +1,171 @@
-+From c97e87593063d84a2bd9fe7068b30eb44de23dc0 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Sun, 25 Jan 2026 18:10:49 +0100
-+Subject: [PATCH] [3.10] gh-142145: Remove quadratic behavior in node ID cache
-+ clearing (GH-142146) (#142213)
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+@@ -0,0 +1,77 @@
++From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Fri, 9 Jan 2026 20:51:53 +0200
++Subject: [PATCH] Fix a heap buffer over-read in `png_image_read_direct_scaled`
 +
-+* gh-142145: Remove quadratic behavior in node ID cache clearing (GH-142146)
++Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea.
 +
-+* Remove quadratic behavior in node ID cache clearing
++The function `png_image_read_direct_scaled`, introduced by the fix for
++CVE-2025-65018, copies transformed row data from an intermediate buffer
++(`local_row`) to the user's output buffer. The copy incorrectly used
++`row_bytes` (the caller's stride) as the size parameter to memcpy, even
++though `local_row` is only `png_get_rowbytes()` bytes long.
 +
-+Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
++This causes a heap buffer over-read when:
 +
-+* Add news fragment
++1. The caller provides a padded stride (e.g., for memory alignment):
++   memcpy reads past the end of `local_row` by `stride - row_width`
++   bytes.
 +
-+CVE: CVE-2025-12084
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/c97e87593063d84a2bd9fe7068b30eb44de23dc0]
++2. The caller provides a negative stride (for bottom-up layouts):
++   casting ptrdiff_t to size_t produces ~2^64, causing memcpy to
++   attempt reading exabytes, resulting in an immediate crash.
++
++The fix consists in using the size of the row buffer for the copy and
++using the stride for pointer advancement only.
++
++Reported-by: Petr Simecek <simecek@users.noreply.github.com>
++Analyzed-by: Stanislav Fort
++Analyzed-by: Pavel Kohout
++Co-authored-by: Petr Simecek <simecek@users.noreply.github.com>
++Signed-off-by: Cosmin Truta <ctruta@gmail.com>
++
++CVE: CVE-2026-22695
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b7691925d9786]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---------
-+(cherry picked from commit 08d8e18ad81cd45bc4a27d6da478b51ea49486e4)
-+
-+Co-authored-by: Seth Michael Larson <seth@python.org>
-+Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
-+
-+* [3.14] gh-142754: Ensure that Element & Attr instances have the ownerDocument attribute (GH-142794) (#142818)
-+
-+gh-142754: Ensure that Element & Attr instances have the ownerDocument attribute (GH-142794)
-+(cherry picked from commit 1cc7551b3f9f71efbc88d96dce90f82de98b2454)
-+
-+Co-authored-by: Petr Viktorin <encukou@gmail.com>
-+Co-authored-by: Hugo van Kemenade <1324225+hugovk@users.noreply.github.com>
-+
-+* gh-142145: relax the no-longer-quadratic test timing (GH-143030)
-+
-+* gh-142145: relax the no-longer-quadratic test timing
-+
-+* require cpu resource
-+(cherry picked from commit 8d2d7bb2e754f8649a68ce4116271a4932f76907)
-+
-+Co-authored-by: Gregory P. Smith <68491+gpshead@users.noreply.github.com>
-+
-+* merge NEWS entries into one
-+
-+---------
-+
-+Co-authored-by: Seth Michael Larson <seth@python.org>
-+Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
-+Co-authored-by: Petr Viktorin <encukou@gmail.com>
-+Co-authored-by: Hugo van Kemenade <1324225+hugovk@users.noreply.github.com>
-+Co-authored-by: Gregory P. Smith <68491+gpshead@users.noreply.github.com>
-+Co-authored-by: Gregory P. Smith <greg@krypto.org>
 +---
-+ Lib/test/test_minidom.py                      | 33 ++++++++++++++++++-
-+ Lib/xml/dom/minidom.py                        | 11 ++-----
-+ ...-12-01-09-36-45.gh-issue-142145.tcAUhg.rst |  6 ++++
-+ 3 files changed, 41 insertions(+), 9 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
++ AUTHORS   | 1 +
++ pngread.c | 4 +++-
++ 2 files changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/Lib/test/test_minidom.py b/Lib/test/test_minidom.py
-+index ef38c36210..c68bd990f7 100644
-+--- a/Lib/test/test_minidom.py
-++++ b/Lib/test/test_minidom.py
-+@@ -2,6 +2,7 @@
++diff --git a/AUTHORS b/AUTHORS
++index 26b7bb50f..b9c0fffcf 100644
++--- a/AUTHORS
+++++ b/AUTHORS
++@@ -22,6 +22,7 @@ Authors, for copyright and licensing purposes.
++  * Mike Klein
++  * Pascal Massimino
++  * Paul Schmidt
+++ * Petr Simecek
++  * Qiang Zhou
++  * Sam Bushell
++  * Samuel Williams
++diff --git a/pngread.c b/pngread.c
++index e3426292b..9d86b01dc 100644
++--- a/pngread.c
+++++ b/pngread.c
++@@ -3268,9 +3268,11 @@ png_image_read_direct_scaled(png_voidp argument)
++        argument);
++    png_imagep image = display->image;
++    png_structrp png_ptr = image->opaque->png_ptr;
+++   png_inforp info_ptr = image->opaque->info_ptr;
++    png_bytep local_row = png_voidcast(png_bytep, display->local_row);
++    png_bytep first_row = png_voidcast(png_bytep, display->first_row);
++    ptrdiff_t row_bytes = display->row_bytes;
+++   size_t copy_bytes = png_get_rowbytes(png_ptr, info_ptr);
++    int passes;
 + 
-+ import copy
-+ import pickle
-++import time
-+ import io
-+ from test import support
-+ import unittest
-+@@ -9,7 +10,7 @@ import unittest
-+ import pyexpat
-+ import xml.dom.minidom
++    /* Handle interlacing. */
++@@ -3300,7 +3302,7 @@ png_image_read_direct_scaled(png_voidp argument)
++          png_read_row(png_ptr, local_row, NULL);
 + 
-+-from xml.dom.minidom import parse, Attr, Node, Document, parseString
-++from xml.dom.minidom import parse, Attr, Node, Document, Element, parseString
-+ from xml.dom.minidom import getDOMImplementation
-+ from xml.parsers.expat import ExpatError
-+ 
-+@@ -177,6 +178,36 @@ class MinidomTest(unittest.TestCase):
-+         self.confirm(dom.documentElement.childNodes[-1].data == "Hello")
-+         dom.unlink()
-+ 
-++    @support.requires_resource('cpu')
-++    def testAppendChildNoQuadraticComplexity(self):
-++        impl = getDOMImplementation()
-++
-++        newdoc = impl.createDocument(None, "some_tag", None)
-++        top_element = newdoc.documentElement
-++        children = [newdoc.createElement(f"child-{i}") for i in range(1, 2 ** 15 + 1)]
-++        element = top_element
-++
-++        start = time.monotonic()
-++        for child in children:
-++            element.appendChild(child)
-++            element = child
-++        end = time.monotonic()
-++
-++        # This example used to take at least 30 seconds.
-++        # Conservative assertion due to the wide variety of systems and
-++        # build configs timing based tests wind up run under.
-++        # A --with-address-sanitizer --with-pydebug build on a rpi5 still
-++        # completes this loop in <0.5 seconds.
-++        self.assertLess(end - start, 4)
-++
-++    def testSetAttributeNodeWithoutOwnerDocument(self):
-++        # regression test for gh-142754
-++        elem = Element("test")
-++        attr = Attr("id")
-++        attr.value = "test-id"
-++        elem.setAttributeNode(attr)
-++        self.assertEqual(elem.getAttribute("id"), "test-id")
-++
-+     def testAppendChildFragment(self):
-+         dom, orig, c1, c2, c3, frag = self._create_fragment_test_nodes()
-+         dom.documentElement.appendChild(frag)
-+diff --git a/Lib/xml/dom/minidom.py b/Lib/xml/dom/minidom.py
-+index ef8a159833..cada981f39 100644
-+--- a/Lib/xml/dom/minidom.py
-++++ b/Lib/xml/dom/minidom.py
-+@@ -292,13 +292,6 @@ def _append_child(self, node):
-+     childNodes.append(node)
-+     node.parentNode = self
-+ 
-+-def _in_document(node):
-+-    # return True iff node is part of a document tree
-+-    while node is not None:
-+-        if node.nodeType == Node.DOCUMENT_NODE:
-+-            return True
-+-        node = node.parentNode
-+-    return False
-+ 
-+ def _write_data(writer, data):
-+     "Writes datachars to writer."
-+@@ -355,6 +348,7 @@ class Attr(Node):
-+     def __init__(self, qName, namespaceURI=EMPTY_NAMESPACE, localName=None,
-+                  prefix=None):
-+         self.ownerElement = None
-++        self.ownerDocument = None
-+         self._name = qName
-+         self.namespaceURI = namespaceURI
-+         self._prefix = prefix
-+@@ -680,6 +674,7 @@ class Element(Node):
-+ 
-+     def __init__(self, tagName, namespaceURI=EMPTY_NAMESPACE, prefix=None,
-+                  localName=None):
-++        self.ownerDocument = None
-+         self.parentNode = None
-+         self.tagName = self.nodeName = tagName
-+         self.prefix = prefix
-+@@ -1539,7 +1534,7 @@ def _clear_id_cache(node):
-+     if node.nodeType == Node.DOCUMENT_NODE:
-+         node._id_cache.clear()
-+         node._id_search_stack = None
-+-    elif _in_document(node):
-++    elif node.ownerDocument:
-+         node.ownerDocument._id_cache.clear()
-+         node.ownerDocument._id_search_stack= None
-+ 
-+diff --git a/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst b/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
-+new file mode 100644
-+index 0000000000..05c7df35d1
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
-+@@ -0,0 +1,6 @@
-++Remove quadratic behavior in ``xml.minidom`` node ID cache clearing.  In order
-++to do this without breaking existing users, we also add the *ownerDocument*
-++attribute to :mod:`xml.dom.minidom` elements and attributes created by directly
-++instantiating the ``Element`` or ``Attr`` class. Note that this way of creating
-++nodes is not supported; creator functions like
-++:py:meth:`xml.dom.Document.documentElement` should be used instead.
-diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
-index b87fc8d9ef2..fbb2f80886b 100644
---- a/meta/recipes-devtools/python/python3_3.10.19.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.19.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://CVE-2025-6075.patch \
-            file://CVE-2025-13836.patch \
-            file://CVE-2025-13837.patch \
-+           file://CVE-2025-12084.patch \
-            "
++          /* Copy from local_row to user buffer. */
++-         memcpy(output_row, local_row, (size_t)row_bytes);
+++         memcpy(output_row, local_row, copy_bytes);
++          output_row += row_bytes;
++       }
++    }
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+index 70685b68e7b..9ca68d9b8bc 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+@@ -22,6 +22,7 @@ SRC_URI = "\
+            file://CVE-2025-65018-02.patch \
+            file://CVE-2025-66293-01.patch \
+            file://CVE-2025-66293-02.patch \
++           file://CVE-2026-22695.patch \
+ "
  
- SRC_URI:append:class-native = " \
+ SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
 
