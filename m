@@ -1,327 +1,172 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 431DDF5542F
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 23:02:57 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33596.1771974169571849470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70505F5542F
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 23:22:57 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.57])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33970.1771975367136193012
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 15:02:49 -0800
+ Tue, 24 Feb 2026 15:22:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YXpSlFdF;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4648447c899so875272b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 15:02:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771974169; x=1772578969; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6hV0ClIeawdfJviTL2VvpRpRo7713Nd0mIEcCehLwkw=;
-        b=YXpSlFdFL3m0JunSKcQJZA6+iDFHpQXYB1azfddfOQ9L1fbDP6BI77CsF51nsV/7XN
-         qZ+/PN0SGOFx2tZdm/ImrXV1B02iw+JjCIiMADebvxepWJFUHMjCJM1RkRj/EL4voAtv
-         0cspbYGtV2yVpjuMfqtKOx52PkI8l2ONmhpkJalj3Q8VyvB768FokaR7sbYYrAJOD4lL
-         dRU+3z94RdyO1KsrDD8MKeC381E9jdx37zlYWC2bsJMbdX7vcaJAc3syyT1ZcWHs1+DO
-         0nd9NwZZKaJUHdvVo+O0jL2TWpfy2Pw8T8mPYxuvHFbVe94eZc2ATX9mSHuYIgYWqgFN
-         w42w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771974169; x=1772578969;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6hV0ClIeawdfJviTL2VvpRpRo7713Nd0mIEcCehLwkw=;
-        b=PfiPv6OwMxLurc9sCBBvT+klrQQVdcUyi88r00n7HcM8xpfFr/vEzLzWejXve74naa
-         KZ8aWFPulZQZ+l+glntggefH/Whncme++YxXK/thtKcg0N/NAlIejp1IYkUMCTyDNN5Z
-         9D4c20QGZ5plnwVYZ1tALdI0YsQ9fXGgzefHK3/BNaY0ptlqD/G3lI+MKZtIkAzd0/XA
-         ras3io2vBL9bXBzF7PYqMbnoRaNAX7HwlBdRs0GuXA/GQFbb4VuCQULi7Z43ml95J0lJ
-         HNmt22YDSKA2WlNfTpisdverOUY5jFA/ocsgYUj82AZIpIv90TtVL8wpYWqyZgonNkl6
-         xECA==
-X-Gm-Message-State: AOJu0YztwMcVzFanRxNkKP4B6jpddWoP2iuMgj8RKMA/YGhO0n9nh2eQ
-	kwQN9JCyMg5BUfWNkBc48SPRhiwyuAARLvsKjS9Y0zP3JPpfOvDNgEIrSan5nA==
-X-Gm-Gg: AZuq6aKfc6zKFCk5K4mcSnQlyHZKIQpq9b5rZyfXxMFY0RnAUajrQ+4yDtuxjZwqEe2
-	cF4uDVmjKHo2RflUdPCH3oF51UxpQxnYIGSxqEqg0/vJu+NoIOv0hYNkeMuljZIdaNqRS2hvv94
-	5iE7t2pVCpFx1ghFKUUq/MWMFkyNO4uqJxd3oDdpDCz05ijLq/xrxFgJJVfOTxe9PZhd1DTvzlW
-	GKx8mSiphk5hYnJU+Qcks/qAwm3Wo1TxH9dy9akdpobY5OIHzoNyUukA3qmpZXz/7Lr+3FN//fh
-	b0SGRMiSVdImkASYY3/LEHdr2qCODim/4tRQMR4mjzschAqEz5Cc+1KmsSzCsy/yIXNQVVsshKz
-	BOc+rCKoKJF6C/EdCR4NifIsuAwOagyw++7jFRhkx29FGVSwUApgFnPV3BYJCgKJDeSgv0wC+5d
-	a4AFEhw0zuFRKwep/s9gu5
-X-Received: by 2002:a05:6808:5296:b0:451:4da2:47d1 with SMTP id 5614622812f47-464463b969bmr8417391b6e.45.1771974168591;
-        Tue, 24 Feb 2026 15:02:48 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4200:11c0::ba6c])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4644a1efc76sm7912024b6e.18.2026.02.24.15.02.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 15:02:48 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: benjamin.robin@bootlin.com,
-	ross.burton@arm.com,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v2 6/8] spdx30: Include patch file information in VEX
-Date: Tue, 24 Feb 2026 16:00:19 -0700
-Message-ID: <20260224230234.679049-7-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260224230234.679049-1-JPEWhacker@gmail.com>
-References: <20260220154123.376880-1-JPEWhacker@gmail.com>
- <20260224230234.679049-1-JPEWhacker@gmail.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=SoFk2jXo;
+ spf=pass (domain: axis.com, ip: 52.101.83.57, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ofidCYJvMQ5M5x9Zatdo474bErvXDX27boJLoAjhNutQyjmtfNYE1iEnyzNG7poJmg6+FlMs7usdfPyBl+TsGI/jkc+RrdL0a1OIXQRFZ5oqbHdrHD62lDvJ8+0V/bj8aoB1FEa8i6LiTgmdOfibABYq27OTdePKBygdHhpUmZt1GFOBMEna/lcf2ZL6BPRNHex2PEKSwZeOMZHYmtFs5IB+Im202ZokiPJr76NqAjJkrn/94stWvfK17iTTK9M0Cxd7NIMRnqnUkYqMEkrRxMcp0ahC0Bi/xnFO0XCMkqXSwTXDC3Bme8RGC+6A++p0Aq47l/dOm1RPPG27TkU0DQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jxneUmVlDy7gLSSxtXJ45feITE3aP7igD/hyDwQA1iU=;
+ b=fU6n9hjGyTnwD5j6K8turWEIcO5fhXoq1sPVIS/8aYZ0RuaB2ZYlux4DGMU+7kR6NMkjS2LmXv6o9gPrxZYhsR2BDyaAvx5uSpK0qElRZNvd7irc5EeB+ISwiJdlAFNkyGAWKEPzUcFESPap5PWGYQs/wwGR9WgXytBSpLruwfkz71GvDm3tPlMIV9U3m9CWauMt/10K6SD4snIxB9RSCOCMRCKeA1rKnNPcePo6mVdt3Gohl75s5n6AEsAbXurXmZypvTqjxsn+ua3p/WMkVsHdKqlMO74ZM59/BuV9pCIn864V5P5DLbsNSkJYA4Lwh/EzVq9TK5nGbrFAmQ8pyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jxneUmVlDy7gLSSxtXJ45feITE3aP7igD/hyDwQA1iU=;
+ b=SoFk2jXoRyjnx6puyI+7+Fno3Z/0cqgg/SMFoHoQwvSa+a3Al/AlAq85D4yu77RazOoej7rqo13aItvhuNdqBlfbA5bf8YQyLqEWBlthjQoyiRjfDJmnm6vIH65+sTVjRXNu8HdoAzknvDVQncdXdAhjStGZN8ifU0dTJObAp8M=
+Received: from DUZPR01CA0003.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c3::15) by DU0PR02MB8980.eurprd02.prod.outlook.com
+ (2603:10a6:10:476::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
+ 2026 23:22:41 +0000
+Received: from DU6PEPF0000A7E0.eurprd02.prod.outlook.com
+ (2603:10a6:10:3c3:cafe::d5) by DUZPR01CA0003.outlook.office365.com
+ (2603:10a6:10:3c3::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.22 via Frontend Transport; Tue,
+ 24 Feb 2026 23:22:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DU6PEPF0000A7E0.mail.protection.outlook.com (10.167.8.39) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Tue, 24 Feb 2026 23:22:40 +0000
+Received: from se-mail11w.axis.com (10.20.40.11) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Wed, 25 Feb
+ 2026 00:22:40 +0100
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Wed, 25 Feb 2026 00:22:40 +0100
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 883395433
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 00:22:40 +0100 (CET)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id 7F6C4120218; Wed, 25 Feb 2026 00:22:40 +0100 (CET)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2 1/2] lib/oe/patch: Make GitApplyTree.extractPatches() return the patches
+Date: Wed, 25 Feb 2026 00:22:35 +0100
+Message-ID: <20260224232236.2048910-1-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000A7E0:EE_|DU0PR02MB8980:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9734aeb0-fc21-4dcc-3420-08de73fb9b28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?gsHfmFIllx8UuIw8NgfS1KhQU3h7bN+UVZWD+teS7hljbfVe6+p39hKNU620?=
+ =?us-ascii?Q?jCZbH3Qd55rD3cGLD9U0QmJfvqBI2lLEv/oIzf4Tx+s2+5uRMqqF/9UJ9XVc?=
+ =?us-ascii?Q?jyQxJyrqbenZDSI1ObHc9ORqNXkEfDBk8+6rbClZjDsgpouSBZ9RjKMl9M2t?=
+ =?us-ascii?Q?JWbekyWdAfvL0ZO9P4UcclTEVnB8W0ZbDZZVzNCE0x6m0Xd/XRtcCPmha9/+?=
+ =?us-ascii?Q?kSYVbmz6DErxPdTnTd1D6Z2dPkkzNl9kY2a4bXjnnMlpyGsWAi5BbhTDd4Di?=
+ =?us-ascii?Q?GWf6XguI5qyKO9GTJxovEIBLYsVOLPcvF0CqrqBIr1hSDqm1C4c7NewjTZ32?=
+ =?us-ascii?Q?b+BTtEWP5Nc0XdoKjtkRfS86kvfejCUZ4iXVXUichJ/x9DaK4Rl/iRK/gjEL?=
+ =?us-ascii?Q?QKLAn+K7AdtbZvlgjRe0Uk4TqH4s8CsoDNluysFxUvrZ4YF+RgZN0Z6P6o7K?=
+ =?us-ascii?Q?+NEw8S/7YZlFEvqHiWj5JpRVI4FXWxBWYTXajQB7JUmQKFIM1ci2AvqBUBR8?=
+ =?us-ascii?Q?K15/gnO3f4QNvlae6RofP46WWjMDU1clvd1bP5BI+672T3a4cGZ8gzbkui+s?=
+ =?us-ascii?Q?lEN9tiv4qXDxD+oRLCoq9Ff3G24wnCJeec2LPWXHEwI+aEeAFMeNiAxUiaTJ?=
+ =?us-ascii?Q?35Vz6gQ8xb5/PtnnkZbZjgjBLPp0gdk4YQ/vS15qbperqJKPc6tST9HOU0EG?=
+ =?us-ascii?Q?FwkauL+5FlEtfV8eg2zRTW3KxfcGld24xzrVsxob/Ow/9O73GoKnPPWnw8cr?=
+ =?us-ascii?Q?0zEWVpRQWEBEyUbtE8sX64NLlfa0/8+2dUWoQEDFWOELZ10RwynDNTRyXFjy?=
+ =?us-ascii?Q?BUK4YwRLW8koMwpV9k72/J5estZQr4h1I9JT6ARQDxgVnOzLkpK+/zSi4nWk?=
+ =?us-ascii?Q?6vWnztjQBAE1zQ2wsujSBJ8vi0Ko4xialPLSwR+e/LqHB2KuV+0COCKn7PaU?=
+ =?us-ascii?Q?7LE5po/KVXCGx0TbSVc7ZIxjZx+U41wBCmgUOT4A/WcRxjpmGsDpCftutLCI?=
+ =?us-ascii?Q?FI0/3C5XjdtVliyq91DgtQSsgNdLn9xD/ilVYgjOX+cO4lQ35FiIghU0US+H?=
+ =?us-ascii?Q?lzZO/JiQNv+znSITKoxILhavkNtE3T5RnRb/TXHDCndRF+mVyAkM383DtV9n?=
+ =?us-ascii?Q?7thGxWo0K4kfXGKhPv3nqxI5joFd4Q7zCrGavvdX7sBkuC7vly4aO12cv8Cc?=
+ =?us-ascii?Q?ditsmcumahds6A/Nvee72bU1/1525DW7ZSjSXueNCx9CEmpk57vE6rxmvT9s?=
+ =?us-ascii?Q?T9AuyWNEAbL4tnjmv4XS/8G2ddZVgqxTrpBxnlD4/8D/De5SissrIeNm/rqh?=
+ =?us-ascii?Q?fkM6iUJWiL2WEpO6k7RJ+JoDolh6F8MuWn7iy0gzy9UIAkBfYUvBLqioIE1t?=
+ =?us-ascii?Q?yiH8gJ7QzNlJlM4sGbbCxjbdMNsSfYxg9wT99rzO152SIkLy83M7I4PJCrpf?=
+ =?us-ascii?Q?mbWn87020SEvu2bWz5vp/4fI93qYDUg7+2bLJpwAEfYj19J0F4sSNQ3zQIUA?=
+ =?us-ascii?Q?ssAqF0Tl5wvs8s2vGgFh3U3/KkFK/xEZzGmEA3Frc0eyPa+YyzvcAOPy6yQt?=
+ =?us-ascii?Q?zG4THcMv6Z0zGLH6SEpowXKlBsM82R0lpv0u1XEIdJI3vpHUbHOtBDkcgcyO?=
+ =?us-ascii?Q?w39cfIttOEh/8VHWHOVA1URh+gi++AqYl4m0f3jPIy5f+VxJD8gotOhquggd?=
+ =?us-ascii?Q?RjZ59g=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	yFMxf1j1Yg2AnjF7rM5+XqjHmRciopFexl/VfS9I+j0O1OPJEgJhy/HBEKFhp92s1VwVhLdAg6aSZ7wwln+sk/NI6rtWhmpzuznfywg14wCn5oFO4VzM2szuYBHwu0wfhSpoDgIUtmjUFO1K1b1yefU7P6/1Mw1IQsEEgjSgj6iR2+S0sXpgaANRiZBtCWmo0CfVHeu8+nmVxI8l5bvxd4PgqSZyZgtXMes9/GNlssW7E2Owhzf0KWLG3BgKz/cT6HnLjsjfbR0wqsJ4mVTANxn/V+Vwu33Wc2+sfQtId3i7tW8u7Bl5ZlSlnpwUfqahZEOETvDgy1pXcmw6nSSRVRydxs7w2ZoNu800SdArlAEsqwO+r+8VrJK9AjH7yU6R50PpJWbzvqvsP3JSqRjK+CnBBlUPd/jcP19CWrlW+sQsl2Adij5HdEvvqaxxzfIE
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 23:22:40.9763
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9734aeb0-fc21-4dcc-3420-08de73fb9b28
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000A7E0.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB8980
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:02:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231915
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:22:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231919
 
-Modifies the SPDX VEX output to include the patches that fix a
-particular vulnerability. This is done by adding a `patchedBy`
-relationship from the `VexFixedVulnAssessmentRelationship` to the `File`
-that provides the fix.
+The list of patches will be used by _export_patches() in devtool to add
+new patches in the correct order.
 
-If the file can be located without fetching (e.g. is a file:// in
-SRC_URI), the checksum will be included.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/lib/oe/sbom30.py       | 60 ++++++++++++++-------------
- meta/lib/oe/spdx30_tasks.py | 81 ++++++++++++++++++++++++++++---------
- 2 files changed, 92 insertions(+), 49 deletions(-)
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 50a72fce39..21f084dc16 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -620,37 +620,38 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-         )
-         spdx_file.extension.append(OELicenseScannedExtension())
- 
--    def new_file(self, _id, name, path, *, purposes=[]):
--        sha256_hash = bb.utils.sha256_file(path)
-+    def new_file(self, _id, name, path, *, purposes=[], hashfile=True):
-+        if hashfile:
-+            sha256_hash = bb.utils.sha256_file(path)
- 
--        for f in self.by_sha256_hash.get(sha256_hash, []):
--            if not isinstance(f, oe.spdx30.software_File):
--                continue
-+            for f in self.by_sha256_hash.get(sha256_hash, []):
-+                if not isinstance(f, oe.spdx30.software_File):
-+                    continue
- 
--            if purposes:
--                new_primary = purposes[0]
--                new_additional = []
-+                if purposes:
-+                    new_primary = purposes[0]
-+                    new_additional = []
- 
--                if f.software_primaryPurpose:
--                    new_additional.append(f.software_primaryPurpose)
--                new_additional.extend(f.software_additionalPurpose)
-+                    if f.software_primaryPurpose:
-+                        new_additional.append(f.software_primaryPurpose)
-+                    new_additional.extend(f.software_additionalPurpose)
- 
--                new_additional = sorted(
--                    list(set(p for p in new_additional if p != new_primary))
--                )
-+                    new_additional = sorted(
-+                        list(set(p for p in new_additional if p != new_primary))
-+                    )
- 
--                f.software_primaryPurpose = new_primary
--                f.software_additionalPurpose = new_additional
-+                    f.software_primaryPurpose = new_primary
-+                    f.software_additionalPurpose = new_additional
- 
--            if f.name != name:
--                for e in f.extension:
--                    if isinstance(e, OEFileNameAliasExtension):
--                        e.aliases.append(name)
--                        break
--                else:
--                    f.extension.append(OEFileNameAliasExtension(aliases=[name]))
-+                if f.name != name:
-+                    for e in f.extension:
-+                        if isinstance(e, OEFileNameAliasExtension):
-+                            e.aliases.append(name)
-+                            break
-+                    else:
-+                        f.extension.append(OEFileNameAliasExtension(aliases=[name]))
- 
--            return f
-+                return f
- 
-         spdx_file = oe.spdx30.software_File(
-             _id=_id,
-@@ -661,12 +662,13 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-             spdx_file.software_primaryPurpose = purposes[0]
-             spdx_file.software_additionalPurpose = purposes[1:]
- 
--        spdx_file.verifiedUsing.append(
--            oe.spdx30.Hash(
--                algorithm=oe.spdx30.HashAlgorithm.sha256,
--                hashValue=sha256_hash,
-+        if hashfile:
-+            spdx_file.verifiedUsing.append(
-+                oe.spdx30.Hash(
-+                    algorithm=oe.spdx30.HashAlgorithm.sha256,
-+                    hashValue=sha256_hash,
-+                )
-             )
--        )
- 
-         return self.add(spdx_file)
- 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index fff1ca6bea..1c9346128c 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -568,44 +568,63 @@ def create_recipe_spdx(d):
-     if include_vex != "none":
-         patched_cves = oe.cve_check.get_patched_cves(d)
-         for cve, patched_cve in patched_cves.items():
--            decoded_status = {
--                "mapping": patched_cve["abbrev-status"],
--                "detail": patched_cve["status"],
--                "description": patched_cve.get("justification", None),
--            }
-+            mapping = patched_cve["abbrev-status"]
-+            detail = patched_cve["status"]
-+            description = patched_cve.get("justification", None)
-+            resources = patched_cve.get("resource", [])
- 
-             # If this CVE is fixed upstream, skip it unless all CVEs are
-             # specified.
--            if (
--                include_vex != "all"
--                and "detail" in decoded_status
--                and decoded_status["detail"]
--                in (
--                    "fixed-version",
--                    "cpe-stable-backport",
--                )
-+            if include_vex != "all" and detail in (
-+                "fixed-version",
-+                "cpe-stable-backport",
-             ):
-                 bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
-                 continue
- 
-             spdx_cve = recipe_objset.new_cve_vuln(cve)
- 
--            cve_by_status.setdefault(decoded_status["mapping"], {})[cve] = (
-+            cve_by_status.setdefault(mapping, {})[cve] = (
-                 spdx_cve,
--                decoded_status["detail"],
--                decoded_status["description"],
-+                detail,
-+                description,
-+                resources,
-             )
- 
-     all_cves = set()
-     for status, cves in cve_by_status.items():
-         for cve, items in cves.items():
--            spdx_cve, detail, description = items
-+            spdx_cve, detail, description, resources = items
-             spdx_cve_id = oe.sbom30.get_element_link_id(spdx_cve)
- 
-             all_cves.add(spdx_cve)
- 
-             if status == "Patched":
--                recipe_objset.new_vex_patched_relationship([spdx_cve_id], [recipe])
-+                spdx_vex = recipe_objset.new_vex_patched_relationship(
-+                    [spdx_cve_id], [recipe]
-+                )
-+                patches = []
-+                for idx, filepath in enumerate(resources):
-+                    patches.append(
-+                        recipe_objset.new_file(
-+                            recipe_objset.new_spdxid(
-+                                "patch", str(idx), os.path.basename(filepath)
-+                            ),
-+                            os.path.basename(filepath),
-+                            filepath,
-+                            purposes=[oe.spdx30.software_SoftwarePurpose.patch],
-+                            hashfile=os.path.isfile(filepath),
-+                        )
-+                    )
-+
-+                if patches:
-+                    recipe_objset.new_scoped_relationship(
-+                        spdx_vex,
-+                        oe.spdx30.RelationshipType.patchedBy,
-+                        oe.spdx30.LifecycleScopeType.build,
-+                        patches,
-+                    )
-+
-             elif status == "Unpatched":
-                 recipe_objset.new_vex_unpatched_relationship([spdx_cve_id], [recipe])
-             elif status == "Ignored":
-@@ -751,12 +770,14 @@ def create_spdx(d):
- 
-     # Collect all VEX statements from the recipe
-     vex_statements = {}
-+    vex_patches = {}
-     for rel in recipe_objset.foreach_filter(
-         oe.spdx30.Relationship,
-         relationshipType=oe.spdx30.RelationshipType.hasAssociatedVulnerability,
-     ):
-         for cve in rel.to:
-             vex_statements[cve] = []
-+            vex_patches[cve] = []
- 
-     for cve in vex_statements.keys():
-         for rel in recipe_objset.foreach_filter(
-@@ -764,6 +785,13 @@ def create_spdx(d):
-             from_=cve,
-         ):
-             vex_statements[cve].append(rel)
-+            if rel.relationshipType == oe.spdx30.RelationshipType.fixedIn:
-+                for patch_rel in recipe_objset.foreach_filter(
-+                    oe.spdx30.Relationship,
-+                    relationshipType=oe.spdx30.RelationshipType.patchedBy,
-+                    from_=rel,
-+                ):
-+                    vex_patches[cve].extend(patch_rel.to)
- 
-     # Write out the package SPDX data now. It is not complete as we cannot
-     # write the runtime data, so write it to a staging area and a later task
-@@ -889,7 +917,9 @@ def create_spdx(d):
- 
-             # Add concluded license relationship if manually set
-             # Only add when license analysis has been explicitly performed
--            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE:%s" % package) or d.getVar("SPDX_CONCLUDED_LICENSE")
-+            concluded_license_str = d.getVar(
-+                "SPDX_CONCLUDED_LICENSE:%s" % package
-+            ) or d.getVar("SPDX_CONCLUDED_LICENSE")
-             if concluded_license_str:
-                 concluded_spdx_license = add_license_expression(
-                     d, build_objset, concluded_license_str, license_data
-@@ -915,9 +945,20 @@ def create_spdx(d):
-             for cve, vexes in vex_statements.items():
-                 for vex in vexes:
-                     if vex.relationshipType == oe.spdx30.RelationshipType.fixedIn:
--                        pkg_objset.new_vex_patched_relationship(
-+                        spdx_vex = pkg_objset.new_vex_patched_relationship(
-                             [oe.sbom30.get_element_link_id(cve)], [spdx_package]
-                         )
-+                        if vex_patches[cve]:
-+                            pkg_objset.new_scoped_relationship(
-+                                spdx_vex,
-+                                oe.spdx30.RelationshipType.patchedBy,
-+                                oe.spdx30.LifecycleScopeType.build,
-+                                [
-+                                    oe.sbom30.get_element_link_id(p)
-+                                    for p in vex_patches[cve]
-+                                ],
-+                            )
-+
-                     elif vex.relationshipType == oe.spdx30.RelationshipType.affects:
-                         pkg_objset.new_vex_unpatched_relationship(
-                             [oe.sbom30.get_element_link_id(cve)], [spdx_package]
--- 
-2.53.0
+PATCHv2: New patch.
 
+ meta/lib/oe/patch.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 246fc6221f..afc42df8a7 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -516,6 +516,7 @@ class GitApplyTree(PatchTree):
+         import tempfile
+         import shutil
+         tempdir =3D tempfile.mkdtemp(prefix=3D'oepatch')
++        patches =3D []
+         try:
+             for name, rev in startcommits.items():
+                 shellcmd =3D ["git", "format-patch", "--no-signature", "--=
+no-numbered", rev, "-o", tempdir]
+@@ -553,11 +554,14 @@ class GitApplyTree(PatchTree):
+                         outfile =3D notes.get(GitApplyTree.original_patch,=
+ os.path.basename(srcfile))
+=20
+                         bb.utils.mkdirhier(os.path.join(outdir, name))
+-                        with open(os.path.join(outdir, name, outfile), 'w'=
+) as of:
++                        patch =3D os.path.join(outdir, name, outfile)
++                        with open(patch, 'w') as of:
+                             for line in patchlines:
+                                 of.write(line)
++                        patches.append(patch)
+         finally:
+             shutil.rmtree(tempdir)
++        return patches
+=20
+     def _need_dirty_check(self):
+         fetch =3D bb.fetch2.Fetch([], self.d)
 
