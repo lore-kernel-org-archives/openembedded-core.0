@@ -2,39 +2,38 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CA3EA4FD8
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 01:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCAAEC112B
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 01:51:56 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11077.1771897688158058427
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11145.1771897911202110775
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Feb 2026 17:48:08 -0800
+ Mon, 23 Feb 2026 17:51:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Uy73qtZh;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fymFEnB4;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6515bcc28d=changqing.li@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O1MMpQ424278
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:48:07 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O1W1t4439974
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:51:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=DY0/7DBW3YPdVnV9dL7zSSl6XMlCs3cgFH2l+/oFjlY=; b=Uy73qtZhM0Yd
-	4zPOB1Uf0sn65D5sE5pW+DoMLETMQMFPpIFo3bJoRXvFvecYAHv1DorpEfvUPPxR
-	SyKBbxHqgDPR+6WmLGbZFKqn7htNRXfsK4FHHvTLdX7/NnbGxBK8fradNQcoiGZh
-	qGug+KXaHpLT5m1ESnEd/W8xypaRTdWKjR3fUSIU7mEXA0qPFICgp2Ns+vwYqEYW
-	D2dR4RpJC+0tFVnkcoUVUR+XXfh9/UWqpwYq25vbgfr3cP5LZxHUF+otEZr/F6JT
-	eNiRd0ljilb8JkU2wAc2AMHH+ukaCxc7TP6XJCP6u43a/pT0gDIZ4s6lVd8wWOd7
-	yiu8gwv5aw==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013057.outbound.protection.outlook.com [40.93.201.57])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cf3p4akad-1
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=epon+EDkS6wzhJCJo/tl
+	B2nclZSSHySzX+b9fRbkYlk=; b=fymFEnB4I/GERL4jbBXL0BiVBPNB/qjvn6xg
+	5BXfD2rChdLY0GMpAx1p4B+7eVEWL1+GFWVAI25/MXVTwahV5LHgimPR9YdrCchY
+	opVTBRvd0tMTG6ww2u9SUFqTKMkq3iuQaFn+2xxxIOoP7O7NhDid3SahFdK6tlC/
+	eOtgBMY8xWBb4mxQG8wxti8O1gWtiuu1HKJK2oKzRmsyWYEwckSlYref/CoA6Uyd
+	qIz3Hlc+B/5s9NRT7NkAOFydU9nmfX5ccdDT0uybzlUiBSuKtopm3AIicsSPLaym
+	XKPSTrpQB905AVs/9lE3oeD9QO28JW7bFOj8OrTNKC6zcIxGmA==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012022.outbound.protection.outlook.com [52.101.43.22])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cf3p4akfj-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:48:06 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:51:49 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GCxYLDIAmsqLd2Ex3R7zrSr7Px2cgN7ldx1+aY1Jk5FSygWMyHAcAWzHn0o//WO6xnSM08DuuNoOXfj5sryjB4R6VGHB8VR345UMN7gdGIi500+YrPXPptLdD8z0rjWY7cZVpuNQeXfE1zqn06EulqcwcCzfe+4hWH2/Uxjec9ndAnW8qn4oETH5QfcICiyaQCKVYWY5JeO+p6gIHgKwXEe8Cw0kEjY4OeT29jmFlIj/DhQVrEMdDJNihcd4eEFkxEcemMStrELVNBiEcgFMGVmEc55XLNiNg9wIbHY47f1oddCiDxVyeJHVtvdxmBkgtcEEUTX2NW66QyR5ZHhtqQ==
+ b=qMTHsvU1fKHhYVYWgxNgtmyOl3/uvHn/MUXswD/6AIIKaxIPoyWcHx5t4ZUknv6MssbkUUdirzer8ZiwESQIjiU9resEhd6ZHBdxqHtoXW0wZa1t7QIMGQNnDUzH9xNp2aH7n6WrrhylD3NyY1SIKRD7H3+NTpfwg4D9+hfFnKQWw2Xj7+48rZeaJlH8W0+1VH32FxFwZf2lumOgBo8HHFyqQERBSdY482SfEhPLrZk+Eg5zOFACGP04pATR+1XlWNqPsziH2pxhOZXnxTK95gCQCadFzNcLslHSP/EPYpRULM9XLDseMKW7gdjyS9MUN6QLkAL7w1WLy4hc2Q5/yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DY0/7DBW3YPdVnV9dL7zSSl6XMlCs3cgFH2l+/oFjlY=;
- b=KqXMAU9Z6j4HdoinDN2vmQEpBkWyqdPdHg/VHnim/QO0w6zX/3/zfkmmC1wWM4B6p2a8dLu+/foJnRNOAEITJuYflemQWir0tzH0vf27/q4HAOunJ6LflnfjTtGg7OKoaY84S37929M9gyEyBC4NpEFZTZjp4HkJgUpErTQu40lbacNPJvCXFvGj3GuLjrRzN3MHgFm3chxngq8ordeve0kT+A6dINjwgtDizxGu0lWXkB3SXB5RxnNaP9fY2Q6x15usJrbf98I6O0n6uSKvuBAstfVuCdTeHLHfP5oY8ajByhA7x3E1gAcrpoNG4eQ3dRHxVYDBdlie54Km5+Am3A==
+ bh=epon+EDkS6wzhJCJo/tlB2nclZSSHySzX+b9fRbkYlk=;
+ b=RifJIjEu5OyL76P+ZqMOPEfH2jvfLFWjAxOjZSEs1hpTX+po6TVsDYRaRrLQ+45lg4xUTPI4aWnuz7p8dHfpfdHiclObmg6xrE9WGTklxvTEnqQpGtZbtXbht2LWQjkxijIEbYEfql6Bk0u+C06HlVCMllQonY9fpJPCuEnLpGfZ7jZMp1TauWkwg1R2YINIqzXxLDgs2fgrwGcxaMJmpRRI16+hvNgqnz1LQs/KlwPvyshoPsksamx5JZB6dsVR4ituAGIGmvC5TEV4y3H2Jsg/pxW/JKJVGbK2Gju0Gvz+4gVgxRHbNEc5+Avs3fpMtDotVHj9ujeyCv/CKRlBAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,123 +41,122 @@ Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
  by IA4PR11MB9393.namprd11.prod.outlook.com (2603:10b6:208:569::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Tue, 24 Feb
- 2026 01:48:05 +0000
+ 2026 01:51:48 +0000
 Received: from DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::531e:6ef5:812b:48f6%5]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 01:48:05 +0000
+ 01:51:47 +0000
 From: Changqing Li <changqing.li@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] procps: support ptest when TCLIBC is glibc
-Date: Tue, 24 Feb 2026 09:47:48 +0800
-Message-Id: <20260224014748.3336195-2-changqing.li@windriver.com>
+Subject: [PATCH] ruby: upgrade from 3.4.7 to 4.0.1
+Date: Tue, 24 Feb 2026 09:51:17 +0800
+Message-Id: <20260224015117.3338374-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260224014748.3336195-1-changqing.li@windriver.com>
-References: <20260224014748.3336195-1-changqing.li@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0060.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::17) To DS0PR11MB7312.namprd11.prod.outlook.com
+X-ClientProxiedBy: TP0P295CA0059.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:3::12) To DS0PR11MB7312.namprd11.prod.outlook.com
  (2603:10b6:8:11f::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|IA4PR11MB9393:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46c0602d-230a-4946-dc94-08de7346c097
+X-MS-Office365-Filtering-Correlation-Id: 94239d4d-0977-41ae-22e5-08de7347456e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?xvqr7rsTL9LoxOdPj9AkjiYeFku+bF3FBRFthVMni+b0VVVeHEPVLauinDMr?=
- =?us-ascii?Q?pSMIhIC0eHWvR9GXYG0sy19CphpTdD1+MtQEUSXHBDG+rhKiMX+XnuHmB6VQ?=
- =?us-ascii?Q?dHrW3yJOKYaP8cbUQCGXA8g8ynPo/8zBUHI/CAXJ8ZdnTXMXvHKUTBTe/eYG?=
- =?us-ascii?Q?f83rFdPB+lMPgDn9LtUG149arq16+fBaS0EDV1pKUBF63Jaraj8N4lFzrcDj?=
- =?us-ascii?Q?LGiGM7ZOb82aEc3xvBfAKEveCsMCa+Ms8NyUFy6A5INdoLfu9ejYk2Z6QvTQ?=
- =?us-ascii?Q?oCaeTXxKrm9ply2RecW+NuwevR0XaVp5BQegL4W7MhgPS/8zdSLM+G7+m7ox?=
- =?us-ascii?Q?ejDTJ7bw3BRydTFJ1IEsMJsbYMaF1Wor7FHDnsPmF5zNpFI8E8FB3NWLH/yk?=
- =?us-ascii?Q?VoiSSkS/jppwBUev8mssHP91Zz/eFUAYAuA1nrwUdNp3NG6fdC9KvBUkp/5T?=
- =?us-ascii?Q?MC4ALadcgA0yPfhMXn0BXZq9ZlD0B+1y9EpPDXxmCTzJ9aq5kUWPIVlLU7hx?=
- =?us-ascii?Q?+ERd8gUmKijfyDt+8Ps1tsBW3XuQv0X8O1fCNnDx1NXlpVZhZRhoMgvxbxxk?=
- =?us-ascii?Q?ABNHlGoTr4u5F7dpSAGyGXvfCZArOukatBmIerw8TMGU+ZVenuMhgjtdqxIs?=
- =?us-ascii?Q?9GIVZfIkjxEwyEbYdYfT348ELEcwznm2Z3T0rno/Gy+P0zqSHNR8SEz3/SQa?=
- =?us-ascii?Q?lDQ/8jYVdh5QzR2tl9NIYnDn87iGBMUuacIQrTpU9Wn7hf/qXhfDEEFdFG/1?=
- =?us-ascii?Q?Kfpv5mEOhmYwYQL7A3096cr6G6LiY0kkU9vG7yjBMpRwfKl7NtqsKQqGvGq8?=
- =?us-ascii?Q?GPDQLwYVHhe9H9AadvAJW4QRWL9tIT5sk6JAK+3XUH4xsl6obXxKRNSjOx++?=
- =?us-ascii?Q?0GPn6n9Nh8mQNbDP+VC0bm6zJW+b+UodkB5uuW9Hb+wUuoKXQjRS/eUrsjqh?=
- =?us-ascii?Q?9NalLEA2h4M8jr2j5GplQVAFKqH0+l3sq/JK+f05Xr41SNQcQOX8eDQos02y?=
- =?us-ascii?Q?MIQkG6AjgvXHkL4C83nPf3IxMvvSzvv1xOXxB4mm6D6bkMwXKx4xMZos3Ek6?=
- =?us-ascii?Q?+TtkrPXcTgy4Nt2kTZwYDI44NglkH2ExEq0+D8shaHKTfDS2SwQNIMwRJgpD?=
- =?us-ascii?Q?3BXRYrX6EIdw8QIOUEgSE4d/duKZ/jGUCswxszBQA8AA7EO9Nc3RH8SZtB/n?=
- =?us-ascii?Q?0R5QjNAlZ7R14llJd8vJoTDmpXX6YGQujeqCLmV3c0k2MPh/BlNKPJ35SNxR?=
- =?us-ascii?Q?xMM1Xi/xTNUdbVaGkdXocfb4Zn9zJ1B02CDCiEdvBmOAq54fkhqWyYRpuTLy?=
- =?us-ascii?Q?9/387c3vszKus8FvivuGK3URmu5O1VrAs/27h06QV3Me9hPnpPOOdPWr5lua?=
- =?us-ascii?Q?qze9TQ1M9V9jEjcOX7m8GA89jbQOMHbbcCn0s/kJr16I/XaGO3RTb8S6uD2d?=
- =?us-ascii?Q?/PqjIfirhbz4uKjGLahVW4LwFRXZwvMXRODzmhldJbQZAlFLQDg6Goh8s8by?=
- =?us-ascii?Q?FbnKS6VvoWz19aZh1p1ROGgqwC9QQHxkKc3AKmotOK5b03Wo/2CQf0A6TgLc?=
- =?us-ascii?Q?9kmqgKXzGnINTkScTJ6697HB9l2edOad/DzvAqX2bqqWgcfWayFs0wsQoNZO?=
- =?us-ascii?Q?VlTR2MstC/8DadcCjC05mdU=3D?=
+	=?us-ascii?Q?WowcnWcjTQqrsIannYkylwbqjsiB/uqCs9NIucJP3BrzpY2iNN6fU5FOxyyQ?=
+ =?us-ascii?Q?S7UFcfwWkyFhrhO3RGGKe8w3ijxYqolfPqbMbQmTF+fPhMW+hwa5AisknPx/?=
+ =?us-ascii?Q?BlDpaSYmkZdrtW3N8PsD2mW9PCy9ksD3jipwMARayj0UZ2kKmcUVab0Z3Tz+?=
+ =?us-ascii?Q?ekM/51+nEAqyPlsj5IHPlmUPvRryKG0YM16Zigk01Hcl5BoDAMO/pZ4rUOob?=
+ =?us-ascii?Q?Ttc8YQG0aJfluM0+CpLtvMryD11+6nymSWktq4nHuNO1QJpxOi7XZhoKrhFG?=
+ =?us-ascii?Q?mJhOOGXIDr0a+3gEgOx+xFX0tYvvtYr2yoO9k9cdywVGZyGXwBitdIXyk+Rw?=
+ =?us-ascii?Q?SFZnqzHqb0+IUH8/n9mpzeFIcen+hl1Y6uzCErLvJOjIhBxNMBXiE0ZpXsQw?=
+ =?us-ascii?Q?XPLJLHKE5ByDd2r+74G2mSYO+299d+7dyJ61Dw3r2y5aBb+bZ2AMOQCUiQkS?=
+ =?us-ascii?Q?DYwh+Xboj0LmGr6bdYvWktLgORkgYD69GhNjLcxCh5OAplDcwxBmvU+IRg3W?=
+ =?us-ascii?Q?Njrc75GubiZbFAjjgHCy9BB4ZPSTPvuaXQSSQM3BNaqSXJdw0fpAzq5VPXcc?=
+ =?us-ascii?Q?PlDS0k5JfQz3Z87xcwIBSk9jJYarRzx99XNr14dt0FH7173E4pwuLgaPtF0s?=
+ =?us-ascii?Q?Gm+9rNKD+peBngHKoMzSX64WOSe+4pIrnYxR3RG/dBrH23CRkQr59PPsqQJL?=
+ =?us-ascii?Q?hMOILYkGBFm3aOmUelLcTD7NHsig7SQ5AR7O65T7z8h9eO46ldbYVcGRLIB4?=
+ =?us-ascii?Q?iTv4NvnKLatO34m0VTWsWOcTfJWTPy5DNp35oQf4WzpQyriuxX5cNodohAEV?=
+ =?us-ascii?Q?DF864rq6LXFJU6XQHR1PZFzC4i3moGnSqH+9VIW9OBb9VxzHdENPdfAOH3g7?=
+ =?us-ascii?Q?aP9cahamYE7BqbiVB/c0hK/dz/NzVRIqvIESM5MEggRp9avMcwIgYJvg0WV+?=
+ =?us-ascii?Q?Rvdt7PtxCO92FCQAwRMfH6gz8mUuCVNXIGRkecKhSWEppAHaonDB5e9ECB+v?=
+ =?us-ascii?Q?/YXGuuKp1G41wZQ2/6RuMLIziBc5emylHOubrknwFfAKSSMIQb5Bee8JVLb0?=
+ =?us-ascii?Q?+gh/G6ihZfGd2eogbbpTiH24Zt4neJKaWRJaINU8Wb5DzAzcwg/onQw+pciA?=
+ =?us-ascii?Q?xf2H4MkeY2jhEv6nnPAhVvxsTZoabJk4CwdTyPlGtLHcyp/+bGEMLGJnqAhT?=
+ =?us-ascii?Q?P8tWUxOKLYmCwaaOiE6RdS9ZU3RWLk8+v3tU2mZh8CSxphit/aLXN/wJipAQ?=
+ =?us-ascii?Q?Y4FoX4fPbxStoEuJjBSH+yKpHtc/xie79XKehTCeptBKf+V05TBNF8qiWtrf?=
+ =?us-ascii?Q?n66MjsXdj8yZuRE7XHYUT6ZtU6SePyywg3+3GzOFGiNBNhJOoZnqVUyIXdH4?=
+ =?us-ascii?Q?y1XMJEErIwLNtzjTrJeIHe2+vlgeQ0j9mLIR3CSBtPMeym34SXQ4YgmV+beu?=
+ =?us-ascii?Q?6CvbwD4P8c8b4hknelmv2GBZCh24yBbhPblQLsjBl+WZzPq7LL8Q/3ClAtZe?=
+ =?us-ascii?Q?WYh4hLS/+3z61cnhCqfXlBi5VJ3KzluEvrN2G/24CnrcXSo7mEZA2KqU6Tfs?=
+ =?us-ascii?Q?KphPKmm+6uR1k2LxbGUKqHSBbBR0wELN5bvXd/wG?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?nQw6LsLfT49hNxO6UAUDHjEJqX+IzgsAG9JTRaz6JzO3HzCI84sksRsLv8kl?=
- =?us-ascii?Q?uG5KFuavtNVoRHgujCY1osJs/MtcYgQNHe+tt0lJJ6TvSiFeo+2MqrG05uS4?=
- =?us-ascii?Q?azR0wjG4eEM/eJcVHmWnFSegTR6nEulK78/G3bHx+uNcwqhNG8fh3ep9Swev?=
- =?us-ascii?Q?aY02TUxNLbxmqbSXZIj2Yi1tATAspbWW2p3KxrzLx9d266QmsAsodtOus+0g?=
- =?us-ascii?Q?f5KvNFiha99q9pDTQwCxR5hKHeAvkdHVaMvklIIIWw7lT47z1wkSr8G+TNh7?=
- =?us-ascii?Q?1uxy2I428yune0dwl2Kzit8IBt7a66MjGVKlo0/Q07Djk1xSovo7J3m6VPIF?=
- =?us-ascii?Q?vZDoRHD5YOvdlizwBUENajNGxq5yFyckaNRVYrS/d+VwWhhgXBp4mKS1hrLn?=
- =?us-ascii?Q?9xvPLPnCfuD2E6tmMA0RVCIOlmhpAn17KoS5A0Oq0IsTOa2rHOQ/AApPDX59?=
- =?us-ascii?Q?0hV9ZpYKjbXFWOJegAEp+HaMDBuEPRj7V+UaMUAlnjWI/4OT6WiwUgdRVtQ8?=
- =?us-ascii?Q?UNgUK8/LwKbLKWLuJWlCJnGPyWb0g4VO5Lb8N/HHpFdOsqc4P7GmmibXYfCt?=
- =?us-ascii?Q?xr9sh5UIR4loXLvBlnuyRjGyxR7n/KtI34G4SRCF3ySfOkitNCY+qRtsP01T?=
- =?us-ascii?Q?cHsgKFwq3lCtml+ZhCsZIXFeZ3BfNSMdy9+EfnN6+cElXdgf/udL4GbXveY3?=
- =?us-ascii?Q?1Cs5TFBCRaXVBf4JpoCPSE3BqxROfGjEmax2N0/CThswaj5WAp+KojkMULYQ?=
- =?us-ascii?Q?wDjud6w3O8WVDJNgle73GJI/Gc47tFxpcDYtYAXsE+4W15GEwlf38sRLgqj/?=
- =?us-ascii?Q?3it3z/4wAkbfBOQcLvPsbwg7J5CDjwmULbDpkllYAUmEpuujeV/WTWn1G/hO?=
- =?us-ascii?Q?YSvVqFekLR22smvrJ9lpSj/k7wMUXevD4UmqHbXhmb5JuKMhFtar8TKOrhdD?=
- =?us-ascii?Q?Szk6siD7a8qob1LpYxDin50BCTDHfWgHKPq3DvbmvYXqs7mZLA3sboBdVMMN?=
- =?us-ascii?Q?yBtAzmjL42dPb+k7xWAJr9j6GkdSIqdeYhnu1nSWOqOBMBh1bh8DS3EEtoUz?=
- =?us-ascii?Q?dnCY3a2RqHkzO7sGaE10e3C8EaKdX+vFk6m9OD3WFG5gIUOOY95NgqKvkuY8?=
- =?us-ascii?Q?tdao+KuaR24fdLWtu3aLjSYJFiSAxC00Q9YO55++6N2mVEaLSsmNXAJ1PAzh?=
- =?us-ascii?Q?Pcl15HTOo9s7ABsLKZrKa/nRnUARluvy4VgQ7aENklsS+kyIuoCjn1Xcz6Vo?=
- =?us-ascii?Q?HsH+gJcDSC9a/KWorYHoE9bIWgt6vPdP5mOIJWQqFIr3MRZJ0HinoY1oh8nd?=
- =?us-ascii?Q?5EC8PDXm6xUshO+moCkQNsqW/l6o4zsX6BTglAAcJmHRStSiFNQvnZPr+D+g?=
- =?us-ascii?Q?/QPpm7MTDsxS3WSx0AO2KQdfuzPsFtVILqal9dLRyG+9kt74cgaKNBd9dCiU?=
- =?us-ascii?Q?jaRhmOxLkQGP/LrPT5YAggqnLpRf9vx8BqkqiMuy+VMnLdCLxnYEBLmOffIl?=
- =?us-ascii?Q?YUG3CFWwQ1CclAEnzpXpE4WsFhweTzYHyLfLszy7U0tmDNf7WWOQG3Pzq+WF?=
- =?us-ascii?Q?0FZgwNjYAwOWbHa3OykDkFmT48VBTiYHl2nSj6l1khi3R9QII0lSt8CCoCqI?=
- =?us-ascii?Q?I0zFdZVcUd6+2UsKrwZTMIMcYHq207tlZh781SkUK3bHdsa63tAz4qtPQJ5w?=
- =?us-ascii?Q?dEms9skuDAQ2L0nEW9mn7tswhk88Wj2BBdSLym4ihN6c/82aNvNTAkkke8KP?=
- =?us-ascii?Q?x/WvaelUQAGkHi1EknW5MCv8RiaJNx8=3D?=
+	=?us-ascii?Q?MQT9wAdY9gRqAa1+5vsGPlBofkCR+pg7SuUh3XWJlXGelQDLcfwrhfCfew+1?=
+ =?us-ascii?Q?wE/YBQI97s3fuqp5Kk/KsGCciZuKhwF/uYMSaOUCjJUeaeFpt2S/oQdWXkpt?=
+ =?us-ascii?Q?i+uUhUB4TFLNK9iT3DrSrKvpA6S57FuqSc7kn5SXv657oADas0axgvhV/++3?=
+ =?us-ascii?Q?+NJh81ZBGA9NWVZwthin7MCK6p54CDcBKWi/fxOlrtvf0+wVPzLB3GASB+n/?=
+ =?us-ascii?Q?Yb7xhX6uq+23OyxKbqa1dPOkphIAY1wrqZAeO9LbuiAgkXp8A7gisXtcO61N?=
+ =?us-ascii?Q?dip87sXL4Pxb6j/pzJSYTYUVscbo8bc4GvARhfS8pqsACFq8MGLAhy0IZnwt?=
+ =?us-ascii?Q?ng54MypyTNAHzbQDw1sgffOYPJ0tadyC/RGRYTMJh+KRVhVzUp3N7FPPHanZ?=
+ =?us-ascii?Q?aBJ2hetpp2mM3FvlOEdMpvm1m5DRM3oQCTZml1VxSxk+7yXpvX9lgZUvYPMI?=
+ =?us-ascii?Q?zefurlLaemI2gVIW5P6zh2H+1EZnumQr58Tct1Vw2z1YUyJfh9iIjQtN2Psx?=
+ =?us-ascii?Q?7CarhOviaJPv29RzlVTQOmDvL20kIwva+OiPoTIgn/ISKCtZum60vlL/7trR?=
+ =?us-ascii?Q?qUs52c8VJfjUxwf8TscNVu9ZnpiSgGnCVONrxHS5NodYz+d8tqfmXmry1IP8?=
+ =?us-ascii?Q?2zfO3C3BLTuNFfZ+BSBZZBrSXi0OClOgpVfFLcm3fO+Uz8uotGW7VJp299RF?=
+ =?us-ascii?Q?Syog7IJOTB1aldv5cl+nQg2sp0ym32/sMNKghVb0OL9CIZFooxxEWGJrUkCf?=
+ =?us-ascii?Q?YektdVPjeY8nmruToioXYsGKkhvH9bMuCXhkemut8zCX+FObtLUaONfKRbGr?=
+ =?us-ascii?Q?gghHIScdHfhqWYqdIWSXbGJYQ+6hNi7kL67LsTERNBjCynG7LyDjUH/wwTgN?=
+ =?us-ascii?Q?fiDIUXy+4PqpHPgyR+cPPi+HROpLqA5Iq5be5EkOMmza+RFtLnuKVrwgJI1+?=
+ =?us-ascii?Q?t7koiKNsmpYAKvngDWY9lKxy5hI23AiBr4nEzpT9G7hKkIu3iLFAlk8Fn3Q5?=
+ =?us-ascii?Q?Ol9PrIH7UlUFLBOG++CA97KZbwTEsVX/E1ML3gWY/6LXQ0p+Wml5Pve9FH42?=
+ =?us-ascii?Q?4aNf7bmq1rFLd9tQzlc/OEfVDUj0veJ4tdb+Yv3mVFEk6ix/3oTWXMlpGd2t?=
+ =?us-ascii?Q?oJxiP3BKo/hekEKIwzsRLz028p7jCVoOLh1bNiJPaaIBk++ZxNeClor0t6ai?=
+ =?us-ascii?Q?D+Ovjvi96qPSC8FnUxOeNZfrqOfMh9g8YanNAvfc9q5zB1450bye8hGXgEsQ?=
+ =?us-ascii?Q?AiHsAjdxiQKzp/IcCfyNh1nGXOzeOdVmVpoxPsCHWKb9FQQ7WHL7NM4AeYFd?=
+ =?us-ascii?Q?Y29L2xyv0p0JoTUvejFUfsMs8Awm9GPPgfOQS0htFNniE2Iq9HTejCjSvtcf?=
+ =?us-ascii?Q?8/beqnj74arNMLdG6rfmZLCEraW7OJGLEUqtIOM83tvRBg9MR1hElgjIpSqO?=
+ =?us-ascii?Q?Pikm+r0KsB6yeN454lBkaxp4r0SXCWhBJFhbFIIqYL4dtUVHL/neL0t7DbqC?=
+ =?us-ascii?Q?mrs9I6ESMZV4PuR1q5IjgdwDm+bvaltV6MkfteWM0pbtDpcT5xlAamLlLFge?=
+ =?us-ascii?Q?lHja2FXoU66UXRUh8lT4NHu5KglIw8yFEvd24TX1yCtrGBGv35hcvj2VQTkv?=
+ =?us-ascii?Q?pE5gUqIGLvMXBbPlCFxXMC/zCFnOYxL+dJZT9npTNBfYE9x/tuYFwz+1IKyi?=
+ =?us-ascii?Q?PEeLjvSmTPimSLBTCkffxiH8VT9CPkqvO8XUpfkEXgIHTVmThi+iqFxlORnH?=
+ =?us-ascii?Q?7t2MflHwYjKGKOuL8PWtZmDBmhA8bn4=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46c0602d-230a-4946-dc94-08de7346c097
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94239d4d-0977-41ae-22e5-08de7347456e
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 01:48:05.0698
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 01:51:47.9425
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yq6yL+JAH2CvhxON93llWtDtUQXB/zke6xZlXanE1hq+Oj/ADcmv20RATqR779gFsKcxfy9aJv2URBvbW5SRdXyTExPDzVIZiplnOcbPSFo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0JU7U8GRyAZw6iHAqBxYMc/+iVfdNms24Q6FkckXicdCxmsvbhzd54RbLBYLyQXRN0byv8EH0J/l02QBFwwo3XOM2o9sMLgWghdMkYlkHTE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9393
-X-Authority-Analysis: v=2.4 cv=V4xwEOni c=1 sm=1 tr=0 ts=699d0357 cx=c_pps
- a=+XPUo/5NTXuj4we3MZHZ5A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=V4xwEOni c=1 sm=1 tr=0 ts=699d0436 cx=c_pps
+ a=DKBbczBT0NfZzOMt9NccUg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=p0WdMEafAAAA:8
- a=t7CeM3EgAAAA:8 a=jzd3iM5pAAAA:8 a=2UeFF3pVGNfi5kIeiOoA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=TO2bqnfdc2VIsZqNzVeZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDAxNCBTYWx0ZWRfX8G5bO6Wbc5jT
- HVM4f0YXYvt7h7Ol7Jmv5beb+QZxJ33mbD49RJVHiwnBWY5Q96SKSHZBExliB85lnbs0VgTq30e
- uDuPF+tVoirOMso300G2oWT3WMD6PbYmKfOpiDkDznT36RD63LHSlKgEGkIfG30q+CrHTNAo9bj
- 52KylMP+f5SkaakHfAQlFUMFN958RFxFaDoVCPFm84YYBtGZUlhwkp543Of6GXxGBs8lRAD0INJ
- 0CiNH/eZkiC7utiU7PQtXWloB4MNarcchl1lA7azoGwmrma87dZ6GGEFppcCe/qjPc46KPlsfkM
- 4Lot/ZmbeN6905KW2K6/w7xp3Nm6Xa8iQRD92K71Pqb8GTQARfqTGHNfw1TqGIv5XJazfe9xIYA
- r2o3hrSMiGDwIkcj4CTIaCX2h4khsatBbojHSvzIJApyhn8X5XXHNpK7xp5+ZpEOtEZecjUTVI1
- bzcGJ9KcobZY93ht65A==
-X-Proofpoint-GUID: JxaKSA7Iv3OLVLC7taoJDDyaLn43MEqj
-X-Proofpoint-ORIG-GUID: JxaKSA7Iv3OLVLC7taoJDDyaLn43MEqj
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=NEAV23lmAAAA:8
+ a=w2PP7KgtAAAA:8 a=t7CeM3EgAAAA:8 a=xNf9USuDAAAA:8 a=cd34Doh_AAAA:8
+ a=cETuxoCwAAAA:8 a=v12xRLZ1AAAA:8 a=asUJ-9hBcST0swh35H8A:9
+ a=CDB6uwv3NW-08_pL9N3q:22 a=FdTzh2GWekK77mhwV6Dw:22 a=DGTqSDpDppWLBvRNt63D:22
+ a=tb6VMGFFq-HsUJGUQiVL:22 a=AgWhkyGJzIdW_ONjbm8h:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDAxNCBTYWx0ZWRfX9l14DVe8fKoI
+ xraBIpfzm8FIKtNQXt1G7wQaJ8xsOFZNz/5RVNWrpV4B2zX3Qa58bY691BiNlCw3t3KCPKKnH73
+ iiRrDO+DSXyQFGa3eMvXzmeqnPrYjW/u/4hvDQs1XdTUBj+RHUXMTAKK/EerwumQFMpd0UfQMPK
+ HncevBu3rZNRm37Swv9i5PKJ3sY0A1P2R4JQJeI7gS5EtV06EyfN8EHOMAHW9AZAdSmqBFSfBPb
+ EeOJDgALRdbGQ6eGd6V+K3B92a1vqvtr+tpBaqYarnGKgfK43wA1USUpQcuomVqi89iu6Np+NFE
+ dTxFGp4F0mXnSVaVjNc3ESRUdKBHlFGcpvOdk898MBs99if8F/x7SjsVRICGu0KqYwM9fjDPEMm
+ ZeO9nV6Zmx23sU9K/tltG9Xh1JCOMkPB2K+KlUsHF3pFVnlz5qZSPx4Gtd1Lz4YWUr0ALs5DCHi
+ Lx/5odM4ZRZBWjQDouA==
+X-Proofpoint-GUID: essI-Ed3ah_xWQOaQWytoTXDCCjaLWDF
+X-Proofpoint-ORIG-GUID: essI-Ed3ah_xWQOaQWytoTXDCCjaLWDF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_06,2026-02-23_03,2025-10-01_01
@@ -170,227 +168,222 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:48:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231726
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:51:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231728
 
-* support ptest for procps TCLIBC is glibc. The configure.ac only match
-  LINUX as "linux-gnu", we can patch it to make test can run on musl lib
-system, but the upstream testsuite should only run on gnu libc host,
-some test cases only suitable for glibc, eg: Some of the error messages
-for free command on musl system is not the same as glibc system, which
-will make test failed. In order to avoid some other unexpected failure,
-just support ptest for glibc.
+License-Update: Add license BSL-1.0 and Apache-2.0
 
-* procps's testsuite use DejaGnu test framework.  The testsuite is
-  expected to run during build time, this implementation create the same
-folder structure as the testsuite expected to make it can work well.
+COPYING - Add Cross-links between Japanese and English pages
+LEGAL - Update LEGAL for JSON vendored sources
+
+Refer:
+[1] https://github.com/ruby/ruby/commit/e652af18816ffe0b85109b8de0827349bf03f16d
+[2] https://github.com/ruby/ruby/commit/d5fbff50c7ff880ae71b8a8ae9aad976c69bea73
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  2 +
- ...sts-Disable-twice-total-pmap-X-tests.patch | 55 ++++++++++++++++++
- meta/recipes-extended/procps/procps/run-ptest | 24 ++++++++
- meta/recipes-extended/procps/procps_4.0.6.bb  | 57 ++++++++++++++++++-
- 4 files changed, 137 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch
- create mode 100644 meta/recipes-extended/procps/procps/run-ptest
+ ...doc-build-reproducible-documentation.patch | 30 ++++++-----
+ .../0006-Make-gemspecs-reproducible.patch     | 52 +++++++++++--------
+ .../ruby/{ruby_3.4.7.bb => ruby_4.0.1.bb}     | 11 ++--
+ 3 files changed, 51 insertions(+), 42 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.4.7.bb => ruby_4.0.1.bb} (93%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index b9616e9bf4..8099ff3cea 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -59,6 +59,7 @@ PTESTS_FAST = "\
-     nettle \
-     opkg \
-     popt \
-+    procps \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-@@ -99,6 +100,7 @@ PTESTS_FAST:remove:mips64 = "qemu"
- PTESTS_PROBLEMS:append:mips64 = " qemu"
- PTESTS_FAST:remove:riscv32 = "qemu"
- PTESTS_PROBLEMS:append:riscv32 = " qemu"
-+PTESTS_FAST:remove:libc-musl = "procps"
+diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+index 90b2aee7ea..f0be3e4af6 100644
+--- a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
++++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+@@ -1,4 +1,4 @@
+-From 2e140fea6c275f3258893d2da2480027b16efb92 Mon Sep 17 00:00:00 2001
++From 278d02b08f513b288f31648bc5ec5c47ecb61686 Mon Sep 17 00:00:00 2001
+ From: Christian Hofstaedtler <zeha@debian.org>
+ Date: Tue, 10 Oct 2017 15:04:34 -0300
+ Subject: [PATCH] rdoc: build reproducible documentation
+@@ -9,29 +9,33 @@ Upstream-Status: Backport [debian]
  
- PTESTS_SLOW = "\
-     apr \
-diff --git a/meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch b/meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch
-new file mode 100644
-index 0000000000..ec26af92fe
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch
-@@ -0,0 +1,55 @@
-+From 56505e2ac9b703aac979f0849814ab7c83af57e2 Mon Sep 17 00:00:00 2001
-+From: Craig Small <csmall@dropbear.xyz>
-+Date: Mon, 9 Feb 2026 18:19:35 +1100
-+Subject: [PATCH] tests: Disable twice total pmap -X tests
+ Signed-off-by: Antonio Terceiro <terceiro@debian.org>
+ Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
 +
-+Sometimes the memory count can be just a little different
-+but the test is equal, i.e. must be the exact number.
-+This means sometimes the test fails.
-+
-+This removes the pmap -XX pid pid and pmap -X pid pid tests
-+for checking the result is the same.
-+
-+Debian buildds this test never works and has been removed
-+for a while.
-+
-+References:
-+ #409
-+
-+Signed-off-by: Craig Small <csmall@dropbear.xyz>
-+
-+Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/-/commit/bbe21e141b77398586c90884a43ff75996b83843]
++rebase to version 4.0.1
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ testsuite/pmap.test/pmap.exp | 15 ++++++++-------
-+ 1 file changed, 8 insertions(+), 7 deletions(-)
-+
-+diff --git a/testsuite/pmap.test/pmap.exp b/testsuite/pmap.test/pmap.exp
-+index d37b55e5..6fb6fa1e 100644
-+--- a/testsuite/pmap.test/pmap.exp
-++++ b/testsuite/pmap.test/pmap.exp
-+@@ -93,13 +93,14 @@ proc expect_twice_total { test } {
-+     }
-+ }
-+ 
-+-set test "pmap X pid pid has same total"
-+-spawn $pmap -X $mypid $mypid
-+-expect_twice_total "$test"
-+-
-+-set test "pmap XX pid pid has same total"
-+-spawn $pmap -XX $mypid $mypid
-+-expect_twice_total "$test"
-++# Disabled twice total as there can be a small change issue #409
-++#set test "pmap X pid pid has same total"
-++#spawn $pmap -X $mypid $mypid
-++#expect_twice_total "$test"
-++
-++#set test "pmap XX pid pid has same total"
-++#spawn $pmap -XX $mypid $mypid
-++#expect_twice_total "$test"
-+ 
-+ set test "pmap finding shm"
-+ make_testshm_proc
+ ---
+- lib/rdoc/generator/json_index.rb | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
++ .bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb | 2 ++
++ 1 file changed, 2 insertions(+)
+ 
+-diff --git a/lib/rdoc/generator/json_index.rb b/lib/rdoc/generator/json_index.rb
+-index 065caa4..cfa1f33 100644
+---- a/lib/rdoc/generator/json_index.rb
+-+++ b/lib/rdoc/generator/json_index.rb
+-@@ -176,7 +176,7 @@ class RDoc::Generator::JsonIndex
+-     debug_msg "Writing gzipped search index to %s" % outfile
++diff --git a/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb b/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
++index 065caa4..a76c202 100644
++--- a/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
+++++ b/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
++@@ -177,6 +177,7 @@ class RDoc::Generator::JsonIndex
+  
+      Zlib::GzipWriter.open(outfile) do |gz|
+--      gz.mtime = File.mtime(search_index_file)
++       gz.mtime = File.mtime(search_index_file)
+ +      gz.mtime = -1
+        gz.orig_name = search_index_file.basename.to_s
+        gz.write search_index
+        gz.close
+-@@ -194,7 +194,7 @@ class RDoc::Generator::JsonIndex
+-         debug_msg "Writing gzipped file to %s" % outfile
++@@ -195,6 +196,7 @@ class RDoc::Generator::JsonIndex
+  
+          Zlib::GzipWriter.open(outfile) do |gz|
+--          gz.mtime = File.mtime(dest)
++           gz.mtime = File.mtime(dest)
+ +          gz.mtime = -1
+            gz.orig_name = dest.basename.to_s
+            gz.write data
+            gz.close
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-extended/procps/procps/run-ptest b/meta/recipes-extended/procps/procps/run-ptest
-new file mode 100644
-index 0000000000..7e132653b0
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/run-ptest
-@@ -0,0 +1,24 @@
-+#!/bin/sh
-+
-+# Run testsuite which use dejagnu
-+cd ./testsuite
-+for tool in @DEJATOOL@; do
-+    runtest -a --tool $tool --outdir ../log
-+done
-+cd -
-+
-+# Run test programs not used by dejagnu but run directly
-+for p in @TESTS@; do
-+    ./src/tests/"$p" > ./log/"$p".log 2>&1
-+    case "$?" in
-+        0)
-+            echo "PASS: $p"
-+            ;;
-+        77)
-+            echo "SKIP: $p"
-+            ;;
-+        *)
-+            echo "FAIL: $p"
-+            ;;
-+    esac
-+done
-diff --git a/meta/recipes-extended/procps/procps_4.0.6.bb b/meta/recipes-extended/procps/procps_4.0.6.bb
-index 168027077b..21da72039a 100644
---- a/meta/recipes-extended/procps/procps_4.0.6.bb
-+++ b/meta/recipes-extended/procps/procps_4.0.6.bb
-@@ -10,10 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+index e2c80e2f6f..aac2bc1502 100644
+--- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
++++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+@@ -1,4 +1,4 @@
+-From 2f3d8359ffd1ab07d578c1e991180bc31dc7d143 Mon Sep 17 00:00:00 2001
++From 4d25e9ce0b2795009dd066d7959cf51c4292a343 Mon Sep 17 00:00:00 2001
+ From: Lucas Kanashiro <kanashiro@debian.org>
+ Date: Fri, 1 Nov 2019 15:25:17 -0300
+ Subject: [PATCH] Make gemspecs reproducible
+@@ -7,18 +7,21 @@ Without an explicit date, they will get the current date and make the
+ build unreproducible
  
- DEPENDS = "ncurses"
+ Upstream-Status: Backport [debian]
++
++Rebase to version 4.0.1
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
+ ---
+- .bundle/gems/bigdecimal-3.1.8/bigdecimal.gemspec | 1 +
+- ext/fiddle/fiddle.gemspec                        | 1 +
++ .bundle/gems/bigdecimal-4.0.1/bigdecimal.gemspec | 1 +
++ .bundle/gems/fiddle-1.1.8/fiddle.gemspec         | 1 +
++ .bundle/gems/rdoc-7.0.3/rdoc.gemspec             | 1 +
+  ext/io/console/io-console.gemspec                | 1 +
+  lib/ipaddr.gemspec                               | 1 +
+- lib/rdoc/rdoc.gemspec                            | 1 +
+  5 files changed, 5 insertions(+)
  
--inherit autotools gettext pkgconfig update-alternatives
-+inherit autotools gettext pkgconfig update-alternatives ${@bb.utils.contains('TCLIBC', 'glibc', 'ptest', '', d)}
+-diff --git a/.bundle/gems/bigdecimal-3.1.8/bigdecimal.gemspec b/.bundle/gems/bigdecimal-3.1.8/bigdecimal.gemspec
++diff --git a/.bundle/gems/bigdecimal-4.0.1/bigdecimal.gemspec b/.bundle/gems/bigdecimal-4.0.1/bigdecimal.gemspec
+ index b6ef8fd..596b8bb 100644
+---- a/.bundle/gems/bigdecimal-3.1.8/bigdecimal.gemspec
+-+++ b/.bundle/gems/bigdecimal-3.1.8/bigdecimal.gemspec
++--- a/.bundle/gems/bigdecimal-4.0.1/bigdecimal.gemspec
+++++ b/.bundle/gems/bigdecimal-4.0.1/bigdecimal.gemspec
+ @@ -14,6 +14,7 @@ Gem::Specification.new do |s|
+    s.name          = name
+    s.version       = source_version
+@@ -27,10 +30,10 @@ index b6ef8fd..596b8bb 100644
+    s.email         = ["mrkn@mrkn.jp"]
+  
+    s.summary       = "Arbitrary-precision decimal floating-point number library."
+-diff --git a/ext/fiddle/fiddle.gemspec b/ext/fiddle/fiddle.gemspec
++diff --git a/.bundle/gems/fiddle-1.1.8/fiddle.gemspec b/.bundle/gems/fiddle-1.1.8/fiddle.gemspec
+ index 0092f52..f77c224 100644
+---- a/ext/fiddle/fiddle.gemspec
+-+++ b/ext/fiddle/fiddle.gemspec
++--- a/.bundle/gems/fiddle-1.1.8/fiddle.gemspec
+++++ b/.bundle/gems/fiddle-1.1.8/fiddle.gemspec
+ @@ -8,6 +8,7 @@ end
+  Gem::Specification.new do |spec|
+    spec.name          = "fiddle"
+@@ -39,6 +42,18 @@ index 0092f52..f77c224 100644
+    spec.authors       = ["Aaron Patterson", "SHIBATA Hiroshi"]
+    spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
+  
++diff --git a/.bundle/gems/rdoc-7.0.3/rdoc.gemspec b/.bundle/gems/rdoc-7.0.3/rdoc.gemspec
++index ada9341..5871ec2 100644
++--- a/.bundle/gems/rdoc-7.0.3/rdoc.gemspec
+++++ b/.bundle/gems/rdoc-7.0.3/rdoc.gemspec
++@@ -7,6 +7,7 @@ end
++ 
++ Gem::Specification.new do |s|
++   s.name = "rdoc"
+++  s.date = RUBY_RELEASE_DATE
++   s.version = RDoc::VERSION
++ 
++   s.authors = [
+ diff --git a/ext/io/console/io-console.gemspec b/ext/io/console/io-console.gemspec
+ index 0a19992..4a80529 100644
+ --- a/ext/io/console/io-console.gemspec
+@@ -52,7 +67,7 @@ index 0a19992..4a80529 100644
+    s.email = "nobu@ruby-lang.org"
+    s.description = "add console capabilities to IO instances."
+ diff --git a/lib/ipaddr.gemspec b/lib/ipaddr.gemspec
+-index 5719f83..fe76260 100644
++index cabc916..f9581b8 100644
+ --- a/lib/ipaddr.gemspec
+ +++ b/lib/ipaddr.gemspec
+ @@ -18,6 +18,7 @@ end
+@@ -63,15 +78,6 @@ index 5719f83..fe76260 100644
+    spec.authors       = ["Akinori MUSHA", "Hajimu UMEMOTO"]
+    spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
+  
+-diff --git a/lib/rdoc/rdoc.gemspec b/lib/rdoc/rdoc.gemspec
+-index 47f4802..cf0b5f7 100644
+---- a/lib/rdoc/rdoc.gemspec
+-+++ b/lib/rdoc/rdoc.gemspec
+-@@ -7,6 +7,7 @@ end
+- 
+- Gem::Specification.new do |s|
+-   s.name = "rdoc"
+-+  s.date = RUBY_RELEASE_DATE
+-   s.version = RDoc::VERSION
+- 
+-   s.authors = [
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.4.7.bb b/meta/recipes-devtools/ruby/ruby_4.0.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/ruby/ruby_3.4.7.bb
+rename to meta/recipes-devtools/ruby/ruby_4.0.1.bb
+index 2fbcfd1f1b..13d4a1b4ef 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.4.7.bb
++++ b/meta/recipes-devtools/ruby/ruby_4.0.1.bb
+@@ -6,11 +6,11 @@ It is simple, straight-forward, and extensible. \
+ "
+ HOMEPAGE = "http://www.ruby-lang.org/"
+ SECTION = "devel/ruby"
+-LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
++LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT | BSL-1.0 | Apache-2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=7674b1080a488809841b13eb57ffb719 \
+                     file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
+                     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://LEGAL;md5=cb14358b7821c054ae14128885170204 \
++                    file://LEGAL;md5=8c128bc6252da28f51e60e72b5512478 \
+                     "
  
- SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master;tag=v${PV} \
-            file://sysctl.conf \
-+           file://0001-tests-Disable-twice-total-pmap-X-tests.patch \
-+           file://run-ptest \
-            "
- SRCREV = "4dafddf4c3f4646caa517f039a2307e92657ec93"
+ DEPENDS = "zlib openssl libyaml libffi"
+@@ -49,7 +49,7 @@ do_configure:prepend() {
  
-@@ -46,6 +48,58 @@ do_install:append () {
-         fi
- }
+ DEPENDS:append:libc-musl = " libucontext"
  
-+do_compile_ptest() {
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        oe_runmake $p
-+    done
-+    oe_runmake -C testsuite site.exp
-+}
-+
-+do_install_ptest() {
-+     install -d ${D}${PTEST_PATH}/testsuite
-+     install -d ${D}${PTEST_PATH}/src/tests
-+     install -d ${D}${PTEST_PATH}/log
-+
-+     install -m644 ${B}/testsuite/site.exp ${D}${PTEST_PATH}/testsuite/
-+     for p in $(makefile-getvar ${B}/testsuite/Makefile noinst_PROGRAMS); do
-+         install -m755 ${B}/testsuite/$p ${D}${PTEST_PATH}/testsuite/
-+     done
-+     cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+
-+     for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS);do
-+         case "$p" in
-+             src/tests/*)
-+                 install -m 0755 ${B}/$p ${D}${PTEST_PATH}/src/tests/ ;;
-+             library/tests/*)
-+                 install -m 0755 ${B}/library/tests/.libs/$(basename $p)  ${D}${PTEST_PATH}/src/tests/ ;;
-+         esac
-+     done
-+
-+     tests=""
-+     for p in $(makefile-getvar ${B}/Makefile TESTS); do
-+         tests="$tests $(basename $p)"
-+     done
-+     sed -i -e "s#@TESTS@#$tests#" ${D}${PTEST_PATH}/run-ptest
-+
-+     sed -i -e "/set srcdir/c\set srcdir ${PTEST_PATH}/testsuite" \
-+            -e "/set objdir/c\set objdir ${PTEST_PATH}/testsuite" ${D}${PTEST_PATH}/testsuite/site.exp
-+
-+     sed -i -e "s#@DEJATOOL@#$(makefile-getvar ${B}/testsuite/Makefile DEJATOOL)#" ${D}${PTEST_PATH}/run-ptest
-+     for p in $(makefile-getvar ${B}/testsuite/Makefile DEJATOOL); do
-+        if [ "$p" = "ps" ]; then
-+            install -d ${D}${PTEST_PATH}/src/ps
-+            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscommand
-+        elif [ "$p" = "sysctl" ]; then
-+            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
-+        elif [ "$p" = "kill" ] || [ "$p" = "pidof" ] || [ "$p" = "watch" ]; then
-+            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        else
-+            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        fi
-+     done
-+}
-+
-+
- CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
+-SRC_URI[sha256sum] = "23815a6d095696f7919090fdc3e2f9459b2c83d57224b2e446ce1f5f7333ef36"
++SRC_URI[sha256sum] = "3924be2d05db30f4e35f859bf028be85f4b7dd01714142fd823e4af5de2faf9d"
  
- bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime w"
-@@ -78,6 +132,7 @@ RDEPENDS:${PN} += "${PROCPS_PACKAGES}"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+@@ -104,8 +104,7 @@ do_install_ptest () {
+     install -D ${S}/tool/test/runner.rb ${D}${PTEST_PATH}/tool/test/runner.rb
+     cp -r ${S}/tool/lib ${D}${PTEST_PATH}/tool/
+     mkdir -p ${D}${PTEST_PATH}/lib
+-    cp -r ${S}/lib/did_you_mean ${S}/lib/rdoc ${D}${PTEST_PATH}/lib
+-    cp ${D}${libdir}/ruby/${SHRT_VER}.0/rdoc.rb ${D}${PTEST_PATH}/lib
++    cp -r ${S}/lib/did_you_mean ${D}${PTEST_PATH}/lib
+     cp ${D}${libdir}/ruby/${SHRT_VER}.0/did_you_mean.rb ${D}${PTEST_PATH}/lib    
  
- RDEPENDS:${PN}-ps += "${PN}-lib"
- RDEPENDS:${PN}-sysctl += "${PN}-lib"
-+RDEPENDS:${PN}-ptest += "dejagnu glibc-utils"
- 
- FILES:${PN}-lib = "${libdir}"
- FILES:${PN}-ps = "${base_bindir}/ps.${BPN}"
+     # install test-binaries
 -- 
 2.34.1
 
