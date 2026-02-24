@@ -2,148 +2,210 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 217C1E9B278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FD5F357DB
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:23 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21695.1771943597071435435
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21698.1771943601048916874
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:33:17 -0800
+ Tue, 24 Feb 2026 06:33:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dotbOU9M;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43767807cf3so4199209f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:16 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=MzajdqoD;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48329eb96a7so32908195e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943595; x=1772548395; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943599; x=1772548399; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jw4+YpJ6X15vdTAYtW/WM4upQ9/TDm6wheY5NRMGNag=;
-        b=dotbOU9MYMOQg0YNR1VBshwQLslWh9c9NAWTdPFpJejiuXM1lhCDXEjqjwDLhCkNBz
-         3EnqvNlEc5hmgFh9nfWy767Ah9NAKNMWEmQshn9YW24IKTKt+9uKLi+G4qNE94+fP5KC
-         aNO8fuJvCzRD5Bacp7F57hm/8G4xDAK1DW84g=
+        bh=mw7Q7wTok2fxCDO/GicX8METeWMvxRfJserDvvCTGcU=;
+        b=MzajdqoDf3xHYXDFVQ9ywpt5q8vacShSf+m4tXZqaOQ4i8AjL7EgNIKpyaV/npXbFf
+         pe/ABNj5bx61+fH4Rrgw7PeyiXTkE/yQyUM6g1TnlXxB0/GLfHNJT8ppHhN7jkEJyZpy
+         K46gC0HQGglwmZGvKHy9DsAC/jrkBCb7y/pb4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943595; x=1772548395;
+        d=1e100.net; s=20230601; t=1771943599; x=1772548399;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Jw4+YpJ6X15vdTAYtW/WM4upQ9/TDm6wheY5NRMGNag=;
-        b=RU5QEDjlquUevEwO8qb1bjVa8G/MUxE16o4ZUIt/MI4Nzbf/8DHtuFztCUbbO3rebP
-         PUKLzYBUxuA7AA10roG0h1j3EA+tnJggfHuSu3z3fVxT5wsJMuYMjq4T0XclVElyYoUf
-         PgWcBXvoZ8jXiZsU+nIMg88CgcMzaU2OVYwUk2vADcWw8+0RBxxdUFI6jWQeEshBWLI0
-         MKO8O4VvijbXXS6ngzf7iB6EyaSMcfrRhSsmTRhTYfPoyVR1NJ2eHxKXlHhNnRJZRuav
-         VMgudLGeo4eV1LI8lSInt/tgujoOBatjd3u3kcbhpxcf/rinewDHMedDqfn79cGF9Fug
-         G+dw==
-X-Gm-Message-State: AOJu0YwOge1K9MppzO/g7StWNvQLPiRukO3bTaVa5W3ijIP+pOUooHJF
-	sWzg0nA0zoyTZ5BjCfIrwYK82Ig8fDJBfcdMcvN4JGU/KU9s6TrtdrqMbRd7p3ZRfw9Bfe3gzMD
-	smD0S
-X-Gm-Gg: AZuq6aKKx9VPwRqraCU/0ZfK1zyWDsmPGVswP44c45AzdUJh1Vfw0TsxBZsNL1yUkaF
-	T7jASESkCx2vU6nHZDBVctb7VXqlQKKC6CwiUL5a6OcdEuIHG458L+LppT0nbUTKfG+plXdASQC
-	rd7nTzCZLUxWpcbERH9rrwYyUOwDM6AuclEfEKm2VPi/Y4quG7R4JXZclBZ5tQX14Y2LI6hI3vY
-	gqB4Yxxm4T4RHZpfhZU2w8K1qi3bbXvsCNNRn7dcYX7MO9+ZYhBkeH8vWmPTkxIga8dMvIx7V40
-	9tcJkiv5IoOPlD7PVrnF+Gttadtbr0Rtlwvd+1pQ/wo+CGSTvgm5LpgDXsxXolaAHpIP57qf4FD
-	RnwfGawrESpo9GUjR0SStcAQqFTnR4Id+GqjXZNgJGSLxqk2kur6SqKpX6bwa7TSW6TPW/HxQnS
-	HovWDFt9fdepjn4glzxsm2uF6f96DKKnJN4Cl3hvQijoZdj9lHxGr88ygqIW00PyPdEyXG/rYVb
-	PFQiN0G4NookoRneajnla+ga9Ezz+FP0uBfne7lWmgK
-X-Received: by 2002:a05:600c:450c:b0:483:7783:537b with SMTP id 5b1f17b1804b1-483a96365camr203852665e9.24.1771943595209;
-        Tue, 24 Feb 2026 06:33:15 -0800 (PST)
+        bh=mw7Q7wTok2fxCDO/GicX8METeWMvxRfJserDvvCTGcU=;
+        b=XNLcC5n9KxLc+mk5D+5i99kpbPpYxO+cn8FLTWYRc6RTxlfsM0g40Mb0GnHw8M1j5Q
+         bTYx6OJHblu5EXzTvNNXfEiW5vSEvhhe4l2UlSeh1ETCCia0Yya9hAIAhISJmaMbaLoe
+         Nwr8PAs/rgnzU67weIWvom9mYHHbhn4SJT5vd0fR1RbhiA4juCAZSp0js6mVtCpSWg+Q
+         XOFMQHOrsmgKHHxXQpmzyZwFNoKrodSU0TU4l6FiKgMLNOsZh4UjrICeDiXPG3iqEbji
+         bXWyJ3Km7vOPptwNADJn3YtkDfnqhqDe1WlFes12Ojm2qPjEwMU1AqqlDaGSlVr1CWH9
+         87rg==
+X-Gm-Message-State: AOJu0Yxj6gl9tfgxZASInPTwXBQlP2QSNYDnHaCjY49FbN/Bt/s5Z3Mw
+	gAyk0OkDjwHhCIDBlzFWh+wm3D3dOUToBTSTmKFzf0Kjo1xmm0TpltGUxP03jvMBPdaoSKmvJvf
+	hjNBb
+X-Gm-Gg: AZuq6aLnKtT22/eiExv9GJT0LUjXym/RHSvQpurA996HYI4UVEiWPCCJLPlBAe/9A9m
+	5ULu9QE3OiA+pRgK3svJ23n6i32dPpfgrWalyzzC4lhdIu8nMAYogN/g//2lIk8OoTu2CpnU5R+
+	VcCyAGwwueYblSwISiCXWvA/Ks4iMecX2TfIuds7e0OfoK8vYmoc0xtl6ko3LSnuKnymQPpAR06
+	esHMTR68sd6pOAtueTIwUvwqhQUCwmh33bXPhihvYdg1g7V/PXnU0IRmmttQMU/fvT+qrz3iE6n
+	vnsKm04FmZaDMfo2ZZgxgZEvNmrohwdxAWbECk46L9igAM15KYVhM4DcVYBlUz6SjixyQ7gLdBi
+	Pxx/bTQSu1BWU6eToqXAEenqlAAndr+4EPlzMCYg0awktRzj7xym6DXlovE7iXeuEeHpcGfFmwv
+	RBh+TO5xF2AclZr0+zzgYeO/0RTAWb/YixfgCDUwyuyyGK05wfAFJGUPVyKvDQPzW26up4bHwm1
+	R3BqczsmqwdeGfxiKUoKJ+2v33G/913gvqJ2ubwWKUh
+X-Received: by 2002:a05:600c:c8a:b0:47e:e78a:c833 with SMTP id 5b1f17b1804b1-483a95f8c27mr172629235e9.32.1771943599065;
+        Tue, 24 Feb 2026 06:33:19 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:33:14 -0800 (PST)
+        Tue, 24 Feb 2026 06:33:18 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 37/44] glib-2.0: patch CVE-2026-1485
-Date: Tue, 24 Feb 2026 15:32:05 +0100
-Message-ID: <acef0b06301a24da35b9ae8b8bafff48acd0530d.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 42/44] gnupg: patch CVE-2025-68973
+Date: Tue, 24 Feb 2026 15:32:10 +0100
+Message-ID: <9d69fb50f73a916a569d855a034a67553af58cfc.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231844
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231849
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from [1] linked from [2].
+Pick patch from 2.4 branch per [1].
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3871
-[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4981
+[1] https://security-tracker.debian.org/tracker/CVE-2025-68973
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-1485.patch     | 44 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
+ .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.4.8.bb     |   1 +
+ 2 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 new file mode 100644
-index 00000000000..73c29db9990
+index 00000000000..4eaf7cdb386
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
-@@ -0,0 +1,44 @@
-+From ee5acb2cefc643450509374da2600cd3bf49a109 Mon Sep 17 00:00:00 2001
-+From: Marco Trevisan <mail@3v1n0.net>
-+Date: Fri, 23 Jan 2026 19:05:44 +0100
-+Subject: [PATCH] gio/gcontenttype-fdo: Do not overflow if header is longer
-+ than MAXINT
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
+@@ -0,0 +1,108 @@
++From 4ecc5122f20e10c17172ed72f4fa46c784b5fb48 Mon Sep 17 00:00:00 2001
++From: Werner Koch <wk@gnupg.org>
++Date: Thu, 23 Oct 2025 11:36:04 +0200
++Subject: [PATCH] gpg: Fix possible memory corruption in the armor parser.
 +
-+In case the header size is longer than MAXINT we may read and write to
-+invalid locations
++* g10/armor.c (armor_filter): Fix faulty double increment.
 +
-+Spotted by treeplus.
-+Thanks to the Sovereign Tech Resilience programme from the Sovereign
-+Tech Agency.
++* common/iobuf.c (underflow_target): Assert that the filter
++implementations behave well.
++--
 +
-+ID: #YWH-PGM9867-169
-+Closes: #3871
++This fixes a bug in a code path which can only be reached with special
++crafted input data and would then error out at an upper layer due to
++corrupt input (every second byte in the buffer is unitialized
++garbage).  No fuzzing has yet hit this case and we don't have a test
++case for this code path.  However memory corruption can never be
++tolerated as it always has the protential for remode code execution.
 +
++Reported-by: 8b79fe4dd0581c1cd000e1fbecba9f39e16a396a
++Fixes-commit: c27c7416d5148865a513e007fb6f0a34993a6073
++which fixed
++Fixes-commit: 7d0efec7cf5ae110c99511abc32587ff0c45b14f
++Backported-from-master: 115d138ba599328005c5321c0ef9f00355838ca9
 +
-+(cherry picked from commit aacda5b07141b944408c79e83bcbed3b2e1e6e45)
++The bug was introduced on 1999-01-07 by me:
++* armor.c: Rewrote large parts.
++which I fixed on 1999-03-02 but missed to fix the other case:
++* armor.c (armor_filter): Fixed armor bypassing.
 +
-+Co-authored-by: Marco Trevisan (Treviño) <mail@3v1n0.net>
++Below is base64+gzipped test data which can be used with valgrind to
++show access to uninitalized memory in write(2) in the unpatched code.
 +
-+CVE: CVE-2026-1485
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/ee5acb2cefc643450509374da2600cd3bf49a109]
++--8<---------------cut here---------------start------------->8---
++H4sICIDd+WgCA3h4AO3QMQ6CQBCG0djOKbY3G05gscYFSRAJt/AExp6Di0cQG0ze
++a//MV0zOq3Pt+jFN3ZTKfLvP9ZLafqifJUe8juOjeZbVtSkbRPmRgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
++gICAgICAgICAgICAgICAgICAgICAgICAgMCXF6dYDgAAAAAAAAAAAAAAAAAAAAAA
++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC7E14AAAAA
++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwZ94aieId3+8EAA==
++--8<---------------cut here---------------end--------------->8---
++
++CVE: CVE-2025-68973
++Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/4ecc5122f20e10c17172ed72f4fa46c784b5fb48]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ gio/gcontenttype.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ common/iobuf.c | 8 +++++++-
++ g10/armor.c    | 4 ++--
++ 2 files changed, 9 insertions(+), 3 deletions(-)
 +
-+diff --git a/gio/gcontenttype.c b/gio/gcontenttype.c
-+index 230cea182..11323973a 100644
-+--- a/gio/gcontenttype.c
-++++ b/gio/gcontenttype.c
-+@@ -1021,7 +1021,7 @@ tree_match_free (TreeMatch *match)
-+ static TreeMatch *
-+ parse_header (gchar *line)
-+ {
-+-  gint len;
-++  size_t len;
-+   gchar *s;
-+   TreeMatch *match;
++diff --git a/common/iobuf.c b/common/iobuf.c
++index 748e6935d..2497713c1 100644
++--- a/common/iobuf.c
+++++ b/common/iobuf.c
++@@ -2043,6 +2043,8 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
++ 	rc = 0;
++       else
++       {
+++        size_t tmplen;
+++
++ 	/* If no buffered data and drain buffer has been setup, and drain
++ 	 * buffer is largish, read data directly to drain buffer. */
++ 	if (a->d.len == 0
++@@ -2055,8 +2057,10 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
++ 	      log_debug ("iobuf-%d.%d: underflow: A->FILTER (%lu bytes, to external drain)\n",
++ 			 a->no, a->subno, (ulong)len);
 + 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 43a28273e9d..fefa3ad7d6e 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -42,6 +42,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2026-0988.patch \
-            file://CVE-2026-1484-01.patch \
-            file://CVE-2026-1484-02.patch \
-+           file://CVE-2026-1485.patch \
++-	    rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
+++            tmplen = len;  /* Used to check for bugs in the filter.  */
+++            rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
++ 			    a->e_d.buf, &len);
+++            log_assert (len <= tmplen);
++ 	    a->e_d.used = len;
++ 	    len = 0;
++ 	  }
++@@ -2066,8 +2070,10 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
++ 	      log_debug ("iobuf-%d.%d: underflow: A->FILTER (%lu bytes)\n",
++ 			 a->no, a->subno, (ulong)len);
++ 
+++            tmplen = len;  /* Used to check for bugs in the filter.  */
++ 	    rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
++ 			    &a->d.buf[a->d.len], &len);
+++            log_assert (len <= tmplen);
++ 	  }
++       }
++       a->d.len += len;
++diff --git a/g10/armor.c b/g10/armor.c
++index 81af15339..f8cfa86db 100644
++--- a/g10/armor.c
+++++ b/g10/armor.c
++@@ -1302,8 +1302,8 @@ armor_filter( void *opaque, int control,
++ 	n = 0;
++ 	if( afx->buffer_len ) {
++             /* Copy the data from AFX->BUFFER to BUF.  */
++-	    for(; n < size && afx->buffer_pos < afx->buffer_len; n++ )
++-		buf[n++] = afx->buffer[afx->buffer_pos++];
+++            for(; n < size && afx->buffer_pos < afx->buffer_len;)
+++                buf[n++] = afx->buffer[afx->buffer_pos++];
++ 	    if( afx->buffer_pos >= afx->buffer_len )
++ 		afx->buffer_len = 0;
++ 	}
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.8.bb b/meta/recipes-support/gnupg/gnupg_2.4.8.bb
+index a6e777abf89..2d27f4454e5 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.8.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.4.8.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
++           file://CVE-2025-68973.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+                                 file://relocate.patch"
 
