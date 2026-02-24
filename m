@@ -2,205 +2,160 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F6AF357AF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B83EF357B3
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:25:21 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21476.1771943116854267502
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21474.1771943114171275075
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:25:17 -0800
+ Tue, 24 Feb 2026 06:25:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XWYOeUCA;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so53678205e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:16 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mNI8KWC8;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48375f10628so36299445e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943115; x=1772547915; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943112; x=1772547912; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+LK4YuR1X7K1U+JseODSQlpNvr6MbXqmhjNg5M5mdxY=;
-        b=XWYOeUCALIZvHX9TBtSc5gdnCj7YTM8TEeJCLLfbNAU+qqWEvPtqXqOCGRaBG2Npor
-         uBOPZiRk3LeTGM1MgpfUsZc9hm8GJvwlccNA5TBJpcRLWCscsvIOesJt2TfU/7LIiX+s
-         L17P6bhY24s5qe1JF5oQijqxglCUlFIDGVGD8=
+        bh=zAJow1dDUervvLrITnJadptjHAhPPt9rRR6zq6vSw5M=;
+        b=mNI8KWC8g+hAK7Jq+fhItmT2AHKXpal5V3u19XCCVTRMeY59J7fOq5edaEPbMacn00
+         cWXkbWNt7B5RNqEcM/AYSou7tnfH2gw6F7/U6DcQ9Wntzhk23CxltV0ognttssRGpqBQ
+         cFsRvimJaz5Aml8QX3xMiOMI13Shu8JQ5BfKM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943115; x=1772547915;
+        d=1e100.net; s=20230601; t=1771943112; x=1772547912;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+LK4YuR1X7K1U+JseODSQlpNvr6MbXqmhjNg5M5mdxY=;
-        b=kiDl8XAUN/r5CVQwlTdAgtax3sT9ySh121R49OpV0/gvkTiChltIXaj3UGRXxYpuWN
-         WwFxMLBtPKVWetk2nU/LrZ401NySGVF4izk5xPhn+QzK2Gu+JpOpVgVQWW6XwV6Hhjwv
-         lcTZH6T2OMk1SvAclQicQMdh8S1Kr+bRd3E2PkM/ek8HQ/p2zGQUioC3/MTGN2f6lDUz
-         QNCKFSCi+AOTOgXMPnu+8jlTylSpV9bfe6rrhLjQy0ZCXkR6/R4yMzSbbv+xLl7wC9ss
-         +HKb6f//Jrhjuon8PEA9Sp/kIBoEZFlRGMjtdco9l7EjUwtuPSs/4uUDxH8Q7Q0UG83h
-         bHsQ==
-X-Gm-Message-State: AOJu0YyDZaja1tPEf+6ybefou88YILLHa0EqxxCYMBdLdbqK/smbvkN8
-	van64PxzbS18CDp4Tp8dQvbUtA55xTyKwecMU0fzf3nbj1h+G2wioO8OEyn3QMreSiL7VTd+Fxd
-	Wyad0
-X-Gm-Gg: AZuq6aKP2qJMMMoTeCAI7NTiqqkqcMLaPJkzt6/p2AY0LFf5mKy5URQZhMqjbr7o5Tp
-	auxAvGwP8uh3fuRKq+UcUAwaJZow7/rlE9DAqhGpnnrZBEGf/DTLtWBlpXORliJCqWaK0ytPiPf
-	uJsvnt7NttppovBXtZDMWXMvivgHqqiFMuy7JJhJRSqmP3DxEfT9v5XpxWdyeLwIdGEi1NgWKqz
-	xr8drZYPp2GkIPCxcmCL5axQ6nMEYSxVpSM4RgPSXO+bpIx4TJY/JnWnsAUVeXDm/Yqwmqwpgbn
-	DVeReb5XP4ML2BuGZOP7QjNlApQ1lGwTVHzgBOrentFnkyNzvVq0h6okze++g3kRsAP0j0JBg08
-	ibxWP31+WLx39JNLxSRYuCHfkMgNQIEPs79YanD9uzhMgMfdPupTPr+L7rp36qVJPCmqMw/9tg3
-	YVO3KMvLTrSE7Yb4iS2C0rE8Rimk7waqZ+Q8KjgXPTlL0ocPoJxpSWeAL5RnmDqD/gZpUH8sAVF
-	jB8OtagZF+t/sohiwMPoL8DIxENxV1OQA==
-X-Received: by 2002:a05:600c:468d:b0:480:7162:fa48 with SMTP id 5b1f17b1804b1-483a95c8f2dmr224587985e9.13.1771943114888;
-        Tue, 24 Feb 2026 06:25:14 -0800 (PST)
+        bh=zAJow1dDUervvLrITnJadptjHAhPPt9rRR6zq6vSw5M=;
+        b=s3BHw3feVxKTWAZvF1L1j0KlyU2inZN7BVOGOVYZI37b7/48nuIuxK+NcIn1/7R5/z
+         /72OKnpOSvr2T/3qjDQ7CMk7HP2uV+ZdREy5bST49sfk6P0kuPZ8fWUzZXy9gFuDWTvY
+         sWDQ8XixWHkz0kKMtmA30xupPOgM6E7nEhxPvr9/SOrKfvB5nsQbBUN3UudWwlJ0RIKJ
+         utizvIR96OyD4zfRpFIe8chztQOyaU02HD6gDaHMmgEcF7yjwKXa2CtAk44yu3K6+6sE
+         dIb2XN21AUyDzgw56m1tJQqcFmPA7+H+ddm5tNw1W0g+IbpKBUk01TBy0WjwAwVDDSTs
+         xGPw==
+X-Gm-Message-State: AOJu0YwFzFDWLtdLKCbjnbFV84oOjV7MNXdboIA2CLXHDQqwiOVpvutL
+	nbeQStDr3RaO43GHFBuohFbgdJODouU2je5EQ5jHOXdKgYaEwkftqjY5na4auTsTb+2bJcMwSz0
+	G2X07
+X-Gm-Gg: AZuq6aLDy+6givxp7RVTV8gKMx1g/WSA9SrrtbErNjPQFwDyFPXIYMt4eIkpuhxIRPl
+	WO1J1RFDvUCIcEbLSpaVq6dEEqraxzlYRB/UrnBipw2o9mZAdfRQM+rQpdOMSnwSdDXpXnZrulA
+	c9KdHbPButKmUc74NrhvIxoC78NjEQ6QUiJpxTOYrDxK6CB9UYaSJuJgQOwNJCyesWW2UnavfXB
+	ivQ7qGPBBuFn/48kzgi7aZoxQ1cVkvND4RwMytRnw2T4EDuoOia4k6zb6EOG+sUqQ3iUhmRTIF+
+	LpEcYpr5h1lzncEUVm3HyGjimljzpoeGblCIdh1g7447uHKh46YVfdaLE3BLtdSkyVHs5q8cfDq
+	v/qgkJ6c8zJ8Zp07TGx6vdXyifz2zDBN7i0o9Pe7vLpYNJKrhQp6FF1DeRbB/t02YbXQNVOYg2a
+	L/kWwsoDO8ZY51ASUCumg/7rAE3IkREE1Gupojx7kGvdtZk/5TP+2axe0ysp5nbGwawLgetHXGa
+	HWb7WWy3uzhdrDxib6/LdSjFJcW60l9KIqn7/aej02/
+X-Received: by 2002:a05:600c:3e10:b0:480:5951:fc1e with SMTP id 5b1f17b1804b1-483a95bd836mr218382725e9.11.1771943112253;
+        Tue, 24 Feb 2026 06:25:12 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.25.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.25.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:25:14 -0800 (PST)
+        Tue, 24 Feb 2026 06:25:11 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 23/38] glib-2.0: patch CVE-2026-1484
-Date: Tue, 24 Feb 2026 15:24:15 +0100
-Message-ID: <ee0661ff1c44810c8dc7a107e04b86020468c344.1771942869.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 22/38] glib-2.0: patch CVE-2026-0988
+Date: Tue, 24 Feb 2026 15:24:14 +0100
+Message-ID: <b9705a69ea91ee7e51a9c9402fd6a0742d587326.1771942869.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771942869.git.yoann.congal@smile.fr>
 References: <cover.1771942869.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:25:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231789
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231788
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patches from [1] linked from [2].
+Pick relevant commit from [2] linked from [1].
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3870
-[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4979
+[1] https://gitlab.gnome.org/GNOME/glib/-/issues/3851
+[2] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4944
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-1484-01.patch  | 48 +++++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2026-1484-02.patch  | 45 +++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  2 +
- 3 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch
+ .../glib-2.0/glib-2.0/CVE-2026-0988.patch     | 58 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
 new file mode 100644
-index 00000000000..e3a232aa9f5
+index 00000000000..1cdc3735edf
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch
-@@ -0,0 +1,48 @@
-+From 5ba0ed9ab2c28294713bdc56a8744ff0a446b59c Mon Sep 17 00:00:00 2001
-+From: Marco Trevisan <mail@3v1n0.net>
-+Date: Fri, 23 Jan 2026 18:48:30 +0100
-+Subject: [PATCH] gbase64: Use gsize to prevent potential overflow
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
+@@ -0,0 +1,58 @@
++From c5766cff61ffce0b8e787eae09908ac348338e5f Mon Sep 17 00:00:00 2001
++From: Philip Withnall <pwithnall@gnome.org>
++Date: Thu, 18 Dec 2025 23:12:18 +0000
++Subject: [PATCH] gbufferedinputstream: Fix a potential integer overflow in
++ peek()
 +
-+Both g_base64_encode_step() and g_base64_encode_close() return gsize
-+values, but these are summed to an int value.
++If the caller provides `offset` and `count` arguments which overflow,
++their sum will overflow and could lead to `memcpy()` reading out more
++memory than expected.
 +
-+If the sum of these returned values is bigger than MAXINT, we overflow
-+while doing the null byte write.
++Spotted by Codean Labs.
 +
-+Spotted by treeplus.
-+Thanks to the Sovereign Tech Resilience programme from the Sovereign
-+Tech Agency.
++Signed-off-by: Philip Withnall <pwithnall@gnome.org>
 +
-+ID: #YWH-PGM9867-168
-+Closes: #3870
++Fixes: #3851
 +
-+
-+(cherry picked from commit 6845f7776982849a2be1d8c9b0495e389092bff2)
-+
-+Co-authored-by: Marco Trevisan (Treviño) <mail@3v1n0.net>
-+
-+CVE: CVE-2026-1484
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/5ba0ed9ab2c28294713bdc56a8744ff0a446b59c]
++CVE: CVE-2026-0988
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c5766cff61ffce0b8e787eae09908ac348338e5f]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ glib/gbase64.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ gio/gbufferedinputstream.c        |  2 +-
++ gio/tests/buffered-input-stream.c | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
 +
-+diff --git a/glib/gbase64.c b/glib/gbase64.c
-+index 2ea4a4ef4..214b48911 100644
-+--- a/glib/gbase64.c
-++++ b/glib/gbase64.c
-+@@ -262,8 +262,9 @@ g_base64_encode (const guchar *data,
-+                  gsize         len)
-+ {
-+   gchar *out;
-+-  gint state = 0, outlen;
-++  gint state = 0;
-+   gint save = 0;
-++  gsize outlen;
++diff --git a/gio/gbufferedinputstream.c b/gio/gbufferedinputstream.c
++index 9e6bacc62..56d656be0 100644
++--- a/gio/gbufferedinputstream.c
+++++ b/gio/gbufferedinputstream.c
++@@ -588,7 +588,7 @@ g_buffered_input_stream_peek (GBufferedInputStream *stream,
 + 
-+   g_return_val_if_fail (data != NULL || len == 0, NULL);
++   available = g_buffered_input_stream_get_available (stream);
 + 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch
-new file mode 100644
-index 00000000000..d0956e62f8c
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch
-@@ -0,0 +1,45 @@
-+From 25429bd0b22222d6986d000d62b44eebf490837d Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
-+Date: Wed, 21 Jan 2026 20:09:44 +0100
-+Subject: [PATCH] gbase64: Ensure that the out value is within allocated size
-+
-+We do not want to deference or write to it
-+
-+Related to: #3870
-+
-+CVE: CVE-2026-1484
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/25429bd0b22222d6986d000d62b44eebf490837d]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ glib/gbase64.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/glib/gbase64.c b/glib/gbase64.c
-+index 214b48911..0141b3b07 100644
-+--- a/glib/gbase64.c
-++++ b/glib/gbase64.c
-+@@ -265,6 +265,7 @@ g_base64_encode (const guchar *data,
-+   gint state = 0;
-+   gint save = 0;
-+   gsize outlen;
-++  gsize allocsize;
++-  if (offset > available)
+++  if (offset > available || offset > G_MAXSIZE - count)
++     return 0;
 + 
-+   g_return_val_if_fail (data != NULL || len == 0, NULL);
++   end = MIN (offset + count, available);
++diff --git a/gio/tests/buffered-input-stream.c b/gio/tests/buffered-input-stream.c
++index a1af4eeff..2b2a0d9aa 100644
++--- a/gio/tests/buffered-input-stream.c
+++++ b/gio/tests/buffered-input-stream.c
++@@ -58,6 +58,16 @@ test_peek (void)
++   g_assert_cmpint (npeek, ==, 0);
++   g_free (buffer);
 + 
-+@@ -272,10 +273,15 @@ g_base64_encode (const guchar *data,
-+      +1 is needed for trailing \0, also check for unlikely integer overflow */
-+   g_return_val_if_fail (len < ((G_MAXSIZE - 1) / 4 - 1) * 3, NULL);
-+ 
-+-  out = g_malloc ((len / 3 + 1) * 4 + 1);
-++  allocsize = (len / 3 + 1) * 4 + 1;
-++  out = g_malloc (allocsize);
-+ 
-+   outlen = g_base64_encode_step (data, len, FALSE, out, &state, &save);
-++  g_assert (outlen <= allocsize);
+++  buffer = g_new0 (char, 64);
+++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 8, 0);
+++  g_assert_cmpint (npeek, ==, 0);
+++  g_free (buffer);
 ++
-+   outlen += g_base64_encode_close (FALSE, out + outlen, &state, &save);
-++  g_assert (outlen <= allocsize);
+++  buffer = g_new0 (char, 64);
+++  npeek = g_buffered_input_stream_peek (G_BUFFERED_INPUT_STREAM (in), buffer, 5, G_MAXSIZE);
+++  g_assert_cmpint (npeek, ==, 0);
+++  g_free (buffer);
 ++
-+   out[outlen] = '\0';
-+ 
-+   return (gchar *) out;
++   g_object_unref (in);
++   g_object_unref (base);
++ }
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-index 7c0ed01f555..c6816f93fa8 100644
+index 50701be3d03..7c0ed01f555 100644
 --- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
 +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-@@ -71,6 +71,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+@@ -70,6 +70,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-14087-02.patch \
             file://CVE-2025-14087-03.patch \
             file://CVE-2025-14512.patch \
-            file://CVE-2026-0988.patch \
-+           file://CVE-2026-1484-01.patch \
-+           file://CVE-2026-1484-02.patch \
++           file://CVE-2026-0988.patch \
             "
  SRC_URI:append:class-native = " file://relocate-modules.patch"
  
