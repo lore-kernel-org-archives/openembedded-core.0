@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D89C7EFB7E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D96A9EFB7E5
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 02:01:26 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11296.1771898483838275579
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11295.1771898482993913809
  for <openembedded-core@lists.openembedded.org>;
  Mon, 23 Feb 2026 18:01:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gqgPNV0F;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QxwU5zdJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019c8d61311c-9aaaebd6-3322-4a61-829c-7626df46b85d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JSYPgoS7;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=lb369HLM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019c8d612e05-47350be0-6c98-41c7-96b8-f8a98767e6c3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1771898483; i=@automation.yoctoproject.org;
+	t=1771898482; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=qkHPqkew8iXuoPYJnkotBOUAtkh+SEd/eb58fZFim6o=;
-	b=gqgPNV0FLfNA8fqVrhgJkAKXdcq34/lmZvsYhEyk32FSK3ljDIGJPWG6B7jn9Kgs
-	cfqhtaE+aMuoRdQsbyUgRF5h+u2SihOUqSo8IfWJ95rd98iLokb7s9Wy9nbuC9yOsx5
-	olT2wLzWQGOHbYdrfetmEV+IIWM+fxRu6UCo2nyk=
+	bh=SrPjzN8B0mKYYLgG3I8BSaeIkYgOYaXG/0HvbYQop3Y=;
+	b=JSYPgoS7g5puqYmMsk5d9lTuDXxpHzsEasrBy0tlbgJzbc9QtWy1KwTx5PzfIRWR
+	jXJ3q9r+9GqTG2t28FUkAjfw0WFr6NrvMYPEeqKWsel+kxY8UhddA0UlK+LjgLT9zaq
+	/nJgO/3/8f0UV8KA6tqexVj1fQvM8LnZOBWhKSgM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771898483;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1771898482;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=qkHPqkew8iXuoPYJnkotBOUAtkh+SEd/eb58fZFim6o=;
-	b=QxwU5zdJkiBLRTEvzVdAENrickYSfyIdXFISG9HTUves/NcVIeu84GFQKWET6eF6
-	ihnpNU2f2N0FBkQjvsryHvNPyS5cN6TEnx3lv5/598VAuPbt/mPA2cYgkOGtp+ET/c1
-	7qfaLgTQ9l7Csno11CzFWf4ls0RmiTvsAb30M5ew=
+	bh=SrPjzN8B0mKYYLgG3I8BSaeIkYgOYaXG/0HvbYQop3Y=;
+	b=lb369HLMWPhIrapLlVchxd3ZNcX+upXBr3Dg1JepJ5Rgt74n2AyI0B7HceI0q41k
+	7Nu47o/I/o5btRHgmFL4qLrqHnAtej7m7FFFQWWAIfG9ZdAaVHgls+uReA03n61YKhQ
+	202ub+/yyEphbdMMX5FQNA5c4GGcY3EwEJiMGCpU=
 From: patchtest@automation.yoctoproject.org
 To: Changqing Li <changqing.li@windriver.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] lua: upgrade from 5.4.8 to 5.5.0
-In-Reply-To: <20260224014323.3329431-1-changqing.li@windriver.com>
-References: <20260224014323.3329431-1-changqing.li@windriver.com>
+Subject: Patchtest results for [PATCH] gdk-pixbuf: upgrade from 2.44.4 to 2.44.5
+In-Reply-To: <20260224014448.3334592-1-changqing.li@windriver.com>
+References: <20260224014448.3334592-1-changqing.li@windriver.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019c8d61311c-9aaaebd6-3322-4a61-829c-7626df46b85d-000000@us-west-2.amazonses.com>
+Message-ID: <0101019c8d612e05-47350be0-6c98-41c7-96b8-f8a98767e6c3-000000@us-west-2.amazonses.com>
 Date: Tue, 24 Feb 2026 02:01:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.02.24-54.240.27.30
+X-SES-Outgoing: 2026.02.24-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 02:01:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231731
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231730
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/lua-upgrade-from-5.4.8-to-5.5.0.patch
+Testing patch /home/patchtest/share/mboxes/gdk-pixbuf-upgrade-from-2.44.4-to-2.44.5.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
