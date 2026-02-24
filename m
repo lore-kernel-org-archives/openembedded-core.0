@@ -2,74 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38630E9B24B
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 10:05:59 +0000 (UTC)
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17165.1771927556414212269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB5EE9B24D
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 10:08:39 +0000 (UTC)
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17201.1771927714823639877
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 02:05:56 -0800
+ Tue, 24 Feb 2026 02:08:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=aCzMeRKH;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=LZr3qtKK;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id A3ADCEC0607;
-	Tue, 24 Feb 2026 05:05:55 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 24 Feb 2026 05:05:55 -0500
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=a9XsCvU3;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=VHkQT772;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.155, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0580F140013E;
+	Tue, 24 Feb 2026 05:08:34 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 24 Feb 2026 05:08:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1771927555; x=1772013955; bh=mrHyLq5AI7
-	153DC651tuu5Xg7VeJ3KTj0kb55znF9nU=; b=aCzMeRKHd6nd2WSkjG+lFsMqLA
-	rkVue1NW7LVEtjf9RIE2QTBJmNue4NQLO8NsJYPK/FzNWKD2ZLiq0EmBvqdcEn9R
-	oWW3lTL2ESqX/s/4nwNdxfGcmcSrknhtypkuoYsBPz0DF1wENFIj6wNKalbzIrAw
-	YHVn+tVQBNSCjsQ7eNgfd1TJ6lEHVzdQnQXU8tbbQRz5xJLHF1HI/AE7JL5pETwW
-	kZPGhAwEJZwh+Mzxc1Gn6bwvUAeJOX2WpPB9HW3EC39QT+eGHhuKQ6NLc3C3NzkV
-	8+Z+lOjv3ERtXYJXcvvXAEOeVkYsBz13cat/hFDFVP3wfpiXvbYrLFEh2i1g==
+	:subject:to:to; s=fm2; t=1771927714; x=1772014114; bh=pGNVRTERze
+	oOQzEwb1TpXbFs4Yq7B23/yiRutS3LuYI=; b=a9XsCvU3BhEQ4UY7njqI+4MhEp
+	jenOjq4clJDogDfk6KGVok4KTG6Sn/xO8FE9sbkQSjYtw+vNRVkP4I1n/Aq7Hgji
+	06Slg0S4HvMgCvJk2R4Bt2ZWy6V00bTzu5RM/TKxPbETg8jzz8IM/qw0voPXdOJC
+	Bw7Qem0x7YBDn28KBN3bZFBHNA8cq5GKupn144013XvUHIUOoZ4S+t6PQCkXupDE
+	XQbwNMqDd0dgenkhfDnOt6OonP9uV3ohKfhgpsD4T290jYDGuMT2VlbghvP99T2J
+	qGbPIBFF2Mim90MiHD9ogpx6lapuZeAqOnK/A/o6d//dmiB42kEAhHWybpbA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1771927555; x=1772013955; bh=mrHyLq5AI7153DC651tuu5Xg7VeJ3KTj0kb
-	55znF9nU=; b=LZr3qtKK/libF93b0cARmCL+dM5gLG6MI5HWUZQ0dezsDG5RUGd
-	LJ9uOUxJ5VD1akfu+RfzmLMVOTZqPSQ5L0tChIFYnuvpobgI2dxlneqlbtdlJoMk
-	NuKeonR2efMTJzf/J0jKJpfE1rMnYt8XP6Jvcew7kMEqt+6sy04mFKATOndPeT8N
-	9JX86FHrlx4B+usS5T+198xmhpMSQActfimz6euP0PDXmqc1bE75vVdUq7oP8thh
-	sjs8d9XUSzM3R11WpGrGolB47bHMIAaxaOno7fod9JtDEoI0k2XyEPerJc4u0wgF
-	iMImGkpS05WiA/JQlYXx2asmdM3QfUBEohg==
-X-ME-Sender: <xms:A3idaQ9HB4U43qwkNtbVpjvs5leLi97RT2s0aNNKLJ9pSQE4q3dqpw>
-    <xme:A3idaetaWIojFYQh_oXuYdhusdY15yh3eR7ckuKQ77KuxGDZ7c4xOw5NK8WX_BjwX
-    TkMMK_JQRIOu_P25C7q_LKPnGcmBo-6nb1zv_1Xre-cVh5bZ76EOp0>
-X-ME-Received: <xmr:A3idaTrOOhi-O5u1XZG9i49eQuSA6CmwU7Zxfbupk-EIKkGdaoBGVIIr-wLK8zCZ8rbSsXiv-J_Lug4e7eIh_J9gL0mjAQl2h8mW5PKqc1G6>
+	1771927714; x=1772014114; bh=pGNVRTERzeoOQzEwb1TpXbFs4Yq7B23/yiR
+	utS3LuYI=; b=VHkQT772c0h7vOJTha8vVm0QeXR1/3GShXahI2xhAy8oYn9acxN
+	8Ips9TqcxEEquc9s5hhQliT9NOrgBhQ0Fa8C+YXTizT6ZbRziG/yrTLZ9IK3iqhM
+	KO12ZEEaanjXjspLFMlNc8Hiinkzwx5T4NC+69PJneyW4RLLBsAJ6N0pmoPt0oTR
+	pbL5dmM9w7owumMh9YybBPGOyjuOl0Xj6fxz6e0YvtqJRnkigVkwdDoDZwPdDoIp
+	iqfpbt+DeqNmHruTFms7NfwOU31Xi/Zb6IlvzmgzS77NEJlu7/cVVivXpcVt6t7G
+	7VtxF2P4LfdyeV2RK6Oti7uMSoXjyV8VgBQ==
+X-ME-Sender: <xms:oXidaaNhHwEboZsBiLZ1WxfbKewzm4YCXkDqiUG_x9ezltbEkaPLRw>
+    <xme:oXidae-j7OC_H9wwbmFadZ3qEr6OiScsW3SNNSJnCjUCSZ-fkWSPE0ITUPzwDy3s8
+    0GLmKnM_JD3vk3kFHGIWkY5YVhI1KeScC1lnqqxGYx-nzs47XW-YfM>
+X-ME-Received: <xmr:oXidae58p_bVQktWBpeB_vXJznvnNSbLQrR4Blk_rc157ZUlTqnfeNgsjF1w_n3ueBLhU-S1KUgHKXzBayPrG-_WjtMcDxEf4oP0kE7vcfAS>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvfeelkeekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
     erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepgeefhfdutefhffevheevkeejhfegffegieektd
-    efkedttefhuddvffeuieeiteffnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
-    ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepvddpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepthifohgvrhhnvghrsehgmhgrihhlrdgtohhmpdhrtg
-    hpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghm
-    sggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:A3idabkzpLeI5MzYsDgJJr6PwWyDRaWCb7837MNovbmGp4fvwLfXDA>
-    <xmx:A3idaXy5tL3QLUajg546IzsnICt5oCD8Vg_xSipQm3DXF9oI5Scu_Q>
-    <xmx:A3idaTlNgEg6ppmsK9lPt_27elnH9B1aY1j3cFQQEw2kMfL-fmppSg>
-    <xmx:A3idaQfKIp6zmIvSFzfcwH0TGZku45uxl5yxyZN2SopRIs3wYX99Vg>
-    <xmx:A3idaWOSozA-dy5XS_t49VADOZBGGqyeVXXTAqmLL9kYY3w2abB57yRL>
+    uggvvheqnecuggftrfgrthhtvghrnheptedufeeutdefvdejtdegvedujeeguefhjefhtd
+    dtffetjeeihfejhefggffhgedtnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghdpfihkshdrihhnnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedv
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehtfihovghrnhgvrhesghhmrghilh
+    drtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhs
+    rdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:oXidaV1O0DYXX3cUrSj_mVDpi7HlmH97V1QNajCcqZUbS9gQu5WM8w>
+    <xmx:oXidaVBpm0oLsZwzG_YmRceJgWbwBD0EprNPCSlKrWziO4X5TUJJjg>
+    <xmx:oXidaX2iIXgwAseexOchHzlNO2Ga0P4AQsF55iqIiT_8X-F-ZlVwBw>
+    <xmx:oXidafsvH2tvSU29GWIiiROoR0RIKPCffBe9ADDyeDoQur6PvnhsdA>
+    <xmx:onidaXcfBkEnAtuWkMGjeMMI79lrCGvDpvN-JtKyGmym_G4-raRPcHTy>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Feb 2026 05:05:54 -0500 (EST)
-Message-ID: <989b5482dbb36eeaa61a957ffe1ce5679fb62a55.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v5 03/10] wic: remove
+ 24 Feb 2026 05:08:33 -0500 (EST)
+Message-ID: <afa3b3fb5c285e9d0a2b55a753244df88ac70465.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 04/10] wic: provide oe-core wks files
 From: Paul Barker <paul@pbarker.dev>
 To: twoerner@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 24 Feb 2026 10:05:51 +0000
-In-Reply-To: <20260223215008.2062721-4-twoerner@gmail.com>
+Date: Tue, 24 Feb 2026 10:08:30 +0000
+In-Reply-To: <20260223215008.2062721-5-twoerner@gmail.com>
 References: <20260223215008.2062721-1-twoerner@gmail.com>
-	 <20260223215008.2062721-4-twoerner@gmail.com>
+	 <20260223215008.2062721-5-twoerner@gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -115,39 +115,82 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-7Kc+dlbmmAwlzjJRtuzk"
+	protocol="application/pgp-signature"; boundary="=-ccDQSHuxdKg2ohV7CgVQ"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 10:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231759
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 10:08:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231760
 
 
---=-7Kc+dlbmmAwlzjJRtuzk
+--=-ccDQSHuxdKg2ohV7CgVQ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Mon, 2026-02-23 at 16:50 -0500, Trevor Woerner via
 lists.openembedded.org wrote:
-> The wic utility will continue to exist under The Yocto Project umbrella,
-> but will no longer be integrated into the project as part of oe-core.
-> The ultimate goal is to make wic a completely independent tool, hosted
-> on PyPI, with its own tests, development roadmap, and releases.
+> By convention, wic will look for a "wic" directory in the top-level
+> of all BBLAYERS in order to find *wks files. oe-core was the only
+> exception; it stored its *wks files in scripts/lib/wic/canned-wks.
+> Take the *wks, *wks.in, *inc, and *cfg files that were in the old wks
+> location and place them in a "wic" top-level directory in the oe-core
+> layer, thereby following the convention of every other layer.
 >=20
-> Some benefits include:
-> - relieving the oe-core maintainers from having to review wic patches
-> - allow the tool to be used outside of The Yocto Project
-> - provide more flexibility to explore other features, libraries,
->   mechanisms, etc
->=20
-> AI-Generated: codex/gpt-5.1-codex-max
 > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+> changes in v5
+> - rebase with master
+> - split patchset out again
+>=20
+> v4: skipped to align/combine with other patch set
+>=20
+> changes in v3:
+> - squashed into 1 large patch
+>=20
+> changes in v2:
+> - none
+> ---
+>  meta/classes-recipe/image_types_wic.bbclass |  2 +-
+>  meta/wic/common.wks.inc                     |  3 +++
+>  meta/wic/directdisk-bootloader-config.cfg   | 27 +++++++++++++++++++++
+>  meta/wic/directdisk-bootloader-config.wks   |  8 ++++++
+>  meta/wic/directdisk-gpt.wks                 | 10 ++++++++
+>  meta/wic/directdisk-multi-rootfs.wks        | 23 ++++++++++++++++++
+>  meta/wic/directdisk.wks                     |  8 ++++++
+>  meta/wic/efi-bootdisk.wks.in                |  3 +++
+>  meta/wic/efi-uki-bootdisk.wks.in            |  3 +++
+>  meta/wic/mkdisk-ufs.wks                     |  5 ++++
+>  meta/wic/mkefidisk.wks                      | 11 +++++++++
+>  meta/wic/mkhybridiso.wks                    |  7 ++++++
+>  meta/wic/qemuloongarch.wks                  |  3 +++
+>  meta/wic/qemuriscv.wks                      |  3 +++
+>  meta/wic/qemux86-directdisk.wks             |  8 ++++++
+>  meta/wic/sdimage-bootpart.wks               |  6 +++++
+>  meta/wic/systemd-bootdisk.wks               | 11 +++++++++
+>  17 files changed, 140 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/wic/common.wks.inc
+>  create mode 100644 meta/wic/directdisk-bootloader-config.cfg
+>  create mode 100644 meta/wic/directdisk-bootloader-config.wks
+>  create mode 100644 meta/wic/directdisk-gpt.wks
+>  create mode 100644 meta/wic/directdisk-multi-rootfs.wks
+>  create mode 100644 meta/wic/directdisk.wks
+>  create mode 100644 meta/wic/efi-bootdisk.wks.in
+>  create mode 100644 meta/wic/efi-uki-bootdisk.wks.in
+>  create mode 100644 meta/wic/mkdisk-ufs.wks
+>  create mode 100644 meta/wic/mkefidisk.wks
+>  create mode 100644 meta/wic/mkhybridiso.wks
+>  create mode 100644 meta/wic/qemuloongarch.wks
+>  create mode 100644 meta/wic/qemuriscv.wks
+>  create mode 100644 meta/wic/qemux86-directdisk.wks
+>  create mode 100644 meta/wic/sdimage-bootpart.wks
+>  create mode 100644 meta/wic/systemd-bootdisk.wks
 
-The summary line needs improving here. Perhaps 'wic: Move to standalone
-repository'. Also include a link to the new wic repo in this commit
-message.
+Can we move these files from scripts/lib/wic/canned-wks to the new
+location before removing wic, i.e. re-order this and the previous
+commit? That would better preserve the history of these files and
+simplify the diff.
 
 Best regards,
 
@@ -155,17 +198,17 @@ Best regards,
 Paul Barker
 
 
---=-7Kc+dlbmmAwlzjJRtuzk
+--=-ccDQSHuxdKg2ohV7CgVQ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZ13/xEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bk7+AQCgdfqwbOlvogqbmOwj+Q24Tbo2wXJCmzut
-6xdL4yWf6gD9G0Qi2S0apNraksQ+paG9iht8kIYl2xXD2Pjtpe01gAA=
-=+YmS
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZ14nhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0biggAQDBKjpL9M+LzyzHVsq67XRgd/kCkpx16yHj
+vaMmhpdSmwEA6PBcNBwVjXZBHIzO+KsTjxXUjvneqJnBjSme2omY8gE=
+=sULK
 -----END PGP SIGNATURE-----
 
---=-7Kc+dlbmmAwlzjJRtuzk--
+--=-ccDQSHuxdKg2ohV7CgVQ--
 
