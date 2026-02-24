@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40D75F3C982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37066EF06E0
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:23 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21485.1771943599163283247
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21692.1771943595187393702
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:33:19 -0800
+ Tue, 24 Feb 2026 06:33:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=n+j+cEFz;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4833115090dso54144185e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:18 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=SG+YlxPv;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so53775395e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943597; x=1772548397; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943593; x=1772548393; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=U764lGr+nq68pRGB4D7NsqY/Nn41O+kPENtJ72Jk68s=;
-        b=n+j+cEFzwPdwC2K/AVXsNhy3ukX+f1B2lJT4Us8e51s4kmhs55N6D3VdLxbLl/zTeV
-         FmgHj/yIC+Mzk65QBLAqeiH8Bkw4T/956JiUI1t5qYol4b35RdDOr200h/yiHjfF1tm9
-         BCtPK9e9ayEzsjySO4G73JEfXzaXFXJ6FKWV8=
+        bh=o7lBUKvpzKUWbIgi4UGfAVKNokrvGyoXbA+EI1eario=;
+        b=SG+YlxPvVpg1+aW+UJuy3trKFxOKzeloHN5tpLU4U6rWJKA2VcAtZBsuRDJOwv8652
+         EFLsTXCb3StZMUwsdJSARK8YJODIzZvuJ7ZR3dE5t30sKGT+yE3EF1m7NaNGm88P6JDT
+         beuQ/npKL+Lo8+3fMQPyze5uq7xXDPSueSPwc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943597; x=1772548397;
+        d=1e100.net; s=20230601; t=1771943593; x=1772548393;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=U764lGr+nq68pRGB4D7NsqY/Nn41O+kPENtJ72Jk68s=;
-        b=Jo3AwLde59bxKWy2J2dxOrfHVt1sMDgt+Wy38zyHAtZFTUe9Igr8JabFk6LJwy7Lw5
-         DQA3Fbxiy3oaLdFxiLlI7x7gLbJ3SBcJx32Dl4EFZdBRl2QRx53ffwWYGAKVaz+Rlj2n
-         JmVwRLCDPbFWMjw8HVbOcgK9UDKEwDW0DxUuj7jj8lsPjakAOieuxjhUV8Wns7/VaJUe
-         1L3mBgLCYtXYikEWIuAiYkXxtuWbOrH6sh4hpyFtQXQaxHfA9rUOx3ITeihVq6DvAQlH
-         /yNfFD3P9G8u/2NQ5iqx4EOGIXR2CoeGlf9DD+XP3M/xlM3mTS2ur9RqFwpSI1G+lqN7
-         uEEQ==
-X-Gm-Message-State: AOJu0YxpZ9IrtDSI7JQM0y2zvddHWBEt/zpKU5+0no0zBhMgI6KyIxj1
-	FVjQOhaQ5ZIdzYXqc2mJ9yS+Svic61l4RpQq/9SmmsM07QBeplpUZJ0Z7jrf1IRONH/f7e98W4C
-	kEUY5
-X-Gm-Gg: AZuq6aLYr31axsQhPhsSfFPtT7IUAjIcIxZAu0MuhWPg+vjH22TLmbfMLvH7uU4Qqk9
-	48VpYPar1fdWVkwO0HYBGtkM/+6MYRQCkw6GoH7QHtj6jVyuoNXo8mevDsCX9LrARr1xyl3ArQ0
-	hBKq8N2I7fChNrYPHHgvOokFx2kGNxIrAAH5fwghUS7Ti8N7DfWM6Dq7Q5zUEWm3k1y1mOX8m8x
-	iu4/C7lMlqEHsMFZ3r5zsxA9sbkk5rLiua9T0jFOIFZIobUbhvKcMGW89ALPkMNMuT6QZQCnhcM
-	tt80dInffRvseDzf5mVm55uPfRA7XDzz6iXpX/YreSUGzF+6kx/RIqSNXIY4H+GLn8PiQTdse0H
-	0y3lnrTAj8TeZ7pGUi1yZmL+Io7is3IVINfG1on1G1myttdrHv0XqdpARBgldZ9IKrlVXLkbwL/
-	WLINok0HzM2dvYoo3vcGrpAk24+1MvEhM0jCHYuQhB3go+C0Auz0vX2MFI2bad8xXo8yCFFVEJQ
-	1/lIoA0OsTQsaf9eIKBKVGhp6zEte9/2Q==
-X-Received: by 2002:a05:600c:a11:b0:483:361b:deff with SMTP id 5b1f17b1804b1-483a95c9e16mr218782765e9.14.1771943597154;
-        Tue, 24 Feb 2026 06:33:17 -0800 (PST)
+        bh=o7lBUKvpzKUWbIgi4UGfAVKNokrvGyoXbA+EI1eario=;
+        b=lKyB0HOkE6CnrFrq5ntuYaFwm7bJo/zXmEi1EvfZFUMX7uDu1mxXLWY1PdhWvB7b3W
+         VmuGzYEUr/oCIbitAeKxWs+F8fwG1wfd5WyG4viPAI1DfqPay6B0QR52u0UlhXzzRjcd
+         IDztYsNRLb/sjpFYxazzRKHa4laVGTsoIzlsk1WFVSXdGbDhFBPHxHNbCZMXHd8Gm+lA
+         KAmKutC9a7b0FGYT03aO25XrSytkM1zA1LT9DdssmSb1cQrFfFbRHrmUl3621iUgQ7Nq
+         7IlQ822nPyiqUMaEh/Y3vM75dPNLwpbpkuLJk3gvzKGDOl4L8h688BbfXnMima8ymx2Y
+         P+6g==
+X-Gm-Message-State: AOJu0YxKng8l+meH08l7hA404hkpTFgHtjIcvFG2Y6SJwrQhisXgvaaE
+	kGUbyv3FgQH4YnmAcY2M4n/YWHiCwxCNWLSemcmNFxbmhrAshP1dV+OGzafhbSlR2RRf9qk/vIc
+	AAq9o
+X-Gm-Gg: AZuq6aIpaBFWszAC04w7h9thMnemTEv97dnyvLm8C/wNGPEUntWsPevbwuYy0qv8kLC
+	etP0xFUVm7SEZ5SepEniysx9+wN2cNYoizOdGPpYBm4udofO5wjtPrJuezfD7Z9GeYnWA+SLGB5
+	a7q7WeDiBXaooUweNrltgfetIxw0ylyK6Cir7NhL1ggyzka3k6IVv41hWHrQOxKM9IJGpJKj4Xs
+	9+Ic77SD7OzKDI6lh58nXCmCJlwJ5XuOQhX5MFIZZmmy9rN0xeNvEPJa1FBtGOC0LM5KTvJ1fyB
+	9V5pXNyBSwn/hpYFLMLdsM7CyE50heC8IL98UBiq1JaUhjep6RegXDOZG6vl42mYQMjkuK/lNL+
+	UYI2vuXRHGJKxjrDhhmP4thVbPcjblvBYk4IoJR5Qo1N4HaFlJ8n6cXWaFxfmtkkBLhAsOVZk/A
+	HKLj0MO5cmZUCDG5tm/+DLF28mXsvOSSb0E7y5z8rnuzlLHH7UcKCaqawo1h3oaK1bk6jZSay5k
+	IIteRKax/OQ40jHxzY8Yi+NuSgNBWpK6w==
+X-Received: by 2002:a05:600c:548e:b0:47a:935f:61a0 with SMTP id 5b1f17b1804b1-483a95643b3mr217033185e9.0.1771943593221;
+        Tue, 24 Feb 2026 06:33:13 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:33:16 -0800 (PST)
+        Tue, 24 Feb 2026 06:33:12 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 40/44] libtheora: mark CVE-2024-56431 as not vulnerable yet
-Date: Tue, 24 Feb 2026 15:32:08 +0100
-Message-ID: <ea1450a30ce8582236cd2bfd3b96e89584bd29c1.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 34/44] scripts/install-buildtools: Update to 5.0.15
+Date: Tue, 24 Feb 2026 15:32:02 +0100
+Message-ID: <3257a0c0f84a21f31d7d2cfc43d838fe35305855.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
@@ -66,33 +66,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231847
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231841
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
 
-CVE patch [1] aplies only on main branch which is base for 1.2.x.
-Branch 1.1 has a different initial commit and does not contain
-vulnerable code where the CVE patch applies.
+Update to the 5.0.15 release of the 5.0 series for buildtools
 
-Also Debian [2] marked 1.1 as not vulnerable.
-
-[1] https://gitlab.xiph.org/xiph/theora/-/commit/5665f86b8fd8345bb09469990e79221562ac204b
-[2] https://security-tracker.debian.org/tracker/CVE-2024-56431
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
-index 5e94bc29751..2cbc6696eb2 100644
---- a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
-+++ b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
-@@ -21,3 +21,5 @@ CVE_PRODUCT = "theora"
- inherit autotools pkgconfig
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index f1c3084245a..c874494f4ab 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
- EXTRA_OECONF = "--disable-examples"
-+
-+CVE_STATUS[CVE-2024-56431] = "fixed-version:branch 1.1 is not affected, vulnerable code is not present yet"
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-5.0.14'
+-DEFAULT_INSTALLER_VERSION = '5.0.14'
++DEFAULT_RELEASE = 'yocto-5.0.15'
++DEFAULT_INSTALLER_VERSION = '5.0.15'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
 
