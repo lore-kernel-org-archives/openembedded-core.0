@@ -2,253 +2,171 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB2ADF357BB
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:32:51 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21455.1771943566883978310
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A702DF357B8
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:01 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21651.1771943567870690484
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:32:47 -0800
+ Tue, 24 Feb 2026 06:32:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=s8CXZ/6O;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4837f27cf2dso47760395e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:32:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=uNbJ1RF3;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-483703e4b08so44747765e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:32:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943565; x=1772548365; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+dMgsXWMzMzdHUxY90qgfNLzeKDwpJm0uuPQlbcZxDk=;
-        b=s8CXZ/6OH0z746pRgz8E0huhXGcJVC+pDbWFv1tKMGGg3Ss8kcQn+bPRvwwe1ANp/7
-         O5hIElKgNeUfqKBTJtuq7GXZjp2o2ixbpyxKV+X3/LtYw7YeqVkWG4SCryAB/2D2XlLG
-         TOcAf5K0k3wJCa8tdH4fkdq++CWQ4EvpxYR8Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943565; x=1772548365;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1771943566; x=1772548366; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+dMgsXWMzMzdHUxY90qgfNLzeKDwpJm0uuPQlbcZxDk=;
-        b=FRPe8KL62WU/GsNbrZ3Wh70Jvz8CXCsMkC6dvqC1LnTDqsw6ZAlZzNQDS0yAx3ZdcR
-         28HvtyUm99z6KXu2PYLyW889yHRVit7i6zj9hYshp3pMcrb9eljX3dKan6IBGHCIBsZm
-         A68sZsEzwTQjZHdX+v5Bh4wNQE+DGFZAI2prI+yQC/QYaWEd2It3KcBS7tsbfSeCh5Cm
-         HRfri3l4GU43dpshq1jCdIxI73arrc07M35NMH3ddP6nEmWcnPoGfA9JWXn33XUvN5LT
-         xIWIcW6u8sWXJ1X2t7ECxYa7TF8Gbx+tO3W01DRM0IEXqHmU9dsIryV3P/r99knwlal3
-         8EBA==
-X-Gm-Message-State: AOJu0YydBlHnCool3IT2cgkQ0IJJ723kquIJ79FqXNdkRWKriQ6kjAY8
-	CdliVd/hK2ZUsSNx/KZ9FAitMC6PceDXTrW5go1GwPZSmoE2GFgiu2t8+tmHj1c3Qou6Y7x9OsP
-	bNh0k
-X-Gm-Gg: AZuq6aIOLVQexDSpebdhQCXmB1+yRH59CYIvoyWbvdw/dEsQoADvmCQ+2BLBqdh+21n
-	lei50e7aMpwb5kefgKAti7eCR1RSWy6U9qX79uPGSz/l3y0vmIPQhNY9IxKSbXzK/peJ3PBtxFg
-	WNOzDVtxeb5M3J8Emac3grD5S0wbhB+5UbvXiMVf5W4QrnXlFEI6fvy7Wte1lbO70X2eBR3uZ9g
-	oZuhrw+QxrF06ZLy745UASOR7c0Pop5ttjGRc+ycCbSRgKaKPsSJTAdl9wgONjAqbwJUpVGc/I9
-	4tbOVJPUVXFTMdau7wkAsuPG4wIvnh2uiH9CnQPkCvoZCosf3kQ9eW4cZU+XfFgo/G/xHBQxMD+
-	JBLn2iEO8vrqnzEEBmz4vjyuAbCmN09/QwZi3qDYZQ0ADvUmbhkZhfhYCgmOWwsci8HT0Kobx+w
-	8Jks2YW/mj7B2a2FyIBCy3xgZNCdmNbnTCULHnlC6Ifc7ABpkLMEmDf8OgQ3Q1X1oiiicwUAvIl
-	bK+vXrD2sjitk0wcjNBQppraHbY3ao+wxtWT44wce/f
-X-Received: by 2002:a05:600c:4452:b0:480:52fd:d2e4 with SMTP id 5b1f17b1804b1-483a95a385cmr211323935e9.0.1771943564739;
-        Tue, 24 Feb 2026 06:32:44 -0800 (PST)
+        bh=U133zRJ3XrcmRgjdkXvGYIekbJqUWfgc35CMVU0Mi9k=;
+        b=uNbJ1RF3ITJZmTh88c5/nXNYb6/Kr4eMiYPivtgaoxOMlP0NIn6LS/SzwHAmEgwUg8
+         k53pRqptcUmNd9y8PPHpomDnA/fauFy/0yWKK8NuDyML0YGmdE+LWaDDXMGWrxvIf6d1
+         o1I48AJ74VftPCraaXJ0vM3LfyHlcJsW/aobI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771943566; x=1772548366;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=U133zRJ3XrcmRgjdkXvGYIekbJqUWfgc35CMVU0Mi9k=;
+        b=to+MC1UwrpbbN2U9Vna4BS85NpVCvlJWpqE09YiSpuNx7iWBZ1Hya08VefGDtJauu6
+         QkwbBdlbYi+p7O9PGf9p2vVqag27VnLq73dphzlB54u0oozH0K8fy+JlTAlsKRcEatpp
+         NhQwCdjFG04VbONur2hHew6Fw5oQMEFR0rcvF7lEiKsVpGVX6FIa4eKiWX5tHlJ8lMoz
+         sHUr3VFjJuDOal/G7jyD5eQ62pDgEziaNNSvnzhi2lmWwXRJmkmRvxgWFWzABsHlkzE+
+         53bT8oKpTCCWKfoy9bVMY+ykOWbRedyvFn6E1WcoskVi+rrCki3oi9e5GCvzfYI0DKiD
+         Lbzg==
+X-Gm-Message-State: AOJu0YweDzHEFlTXq+AFURQkhkrPEu6L1Hzurfbi8ACGkFG/10ck8qxz
+	g5SJQn/w+a0fLBBJcFMjK2bdJ+9r3qELYPFajN1Cr4XBoaaAf/n7+iGUnGtMSJsxIY5qYtJEwT5
+	obzu8
+X-Gm-Gg: AZuq6aLkYd94RI4rmdnCXAX1KSfUI1QnsTQFl25XZtLU5B50AQIcdV/z4BOLItE7vQt
+	ltXG6bL3czHufrRTUcoNNz690sSQUBGfEDQ/Tq358nR268YJ8nciyhp3ObIEXVI+K2wU7PFOv0m
+	OQT+Cp9TEbmWbqDf+Nrvb8nKXVskYn8hh9UQY+eMF0XnOmKjNNLAR3faHmJA2+la0lGaRIw/Og4
+	poRaeCN1XYzkxg9UlVBendycateetLuMWIVX8wzWrtv8WvonA1dK9fme4oPn9Y+fTO0qzl5xfFR
+	b7fNrBukAtikVwxDvdhprx+ArE2AH0BG+SOyPWZ5UwIJh25n4tiVXzlkxgUOWH7viW/JTysKNIm
+	urBKIcKUww1hO/VAdRnzu5/CKK0nHrSwoQ/WXkbNtmbMNXmwmgXrQNKIUtvdVVvCZHQkNNkpCnR
+	3ZcTcUtVdIYiTy+lJvKcvqwFfpyQVMkvwQ9tYAJy4YX9CoEB04jKN3HYnCjX485pmdCZbTmYloj
+	3sWs+NgVYx/l8rq1ZfQnEZgY5FklPuLhg==
+X-Received: by 2002:a05:600c:c172:b0:47e:e59c:67c5 with SMTP id 5b1f17b1804b1-483bd73cee3mr3195925e9.8.1771943565985;
+        Tue, 24 Feb 2026 06:32:45 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.32.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.32.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:32:44 -0800 (PST)
+        Tue, 24 Feb 2026 06:32:45 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/44] Patch review
-Date: Tue, 24 Feb 2026 15:31:28 +0100
-Message-ID: <cover.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/44] avahi: patch CVE-2025-68276
+Date: Tue, 24 Feb 2026 15:31:30 +0100
+Message-ID: <4fe5beba30f22636697522ab11c3218931df81d5.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
+References: <cover.1771943404.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:32:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231805
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231807
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Thursday, February 26.
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3276
+Backport the patch[1] from the PR[2] mentioned in the nvd[3].
 
-The following changes since commit a1f4ae4e569bc0e36c27c1e4651e502e54d63b28:
+[1] https://github.com/avahi/avahi/commit/2d48e42d44a183f26a4d12d1f5d41abb9b7c6355
+[2] https://github.com/avahi/avahi/pull/806
+[3] https://nvd.nist.gov/vuln/detail/CVE-2025-68276
 
-  build-appliance-image: Update to scarthgap head revision (2026-02-16 09:52:44 +0000)
+Dropped CI changes from the original PR during backport.
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-for you to fetch changes up to 94a2960e1ae3923599affb6b227ef3f1870f5633:
-
-  u-boot: move CVE patches out of the common .inc file (2026-02-24 10:34:08 +0100)
-
-----------------------------------------------------------------
-
-Aleksandar Nikolic (1):
-  scripts/install-buildtools: Update to 5.0.15
-
-Amaury Couderc (2):
-  avahi: patch CVE-2025-68468
-  avahi: patch CVE-2025-68471
-
-Ankur Tyagi (4):
-  avahi: patch CVE-2025-68276
-  avahi: patch CVE-2026-24401
-  mobile-broadband-provider-info: upgrade 20240407 -> 20251101
-  vim: ignore CVE-2025-66476
-
-Benjamin Robin (Schneider Electric) (1):
-  spdx30_tasks: Exclude 'doc' when exporting PACKAGECONFIG to SPDX
-
-Bruce Ashfield (7):
-  linux-yocto/6.6: update to v6.6.112
-  linux-yocto/6.6: update to v6.6.114
-  linux-yocto/6.6: update to v6.6.116
-  linux-yocto/6.6: update to v6.6.118
-  linux-yocto/6.6: update to v6.6.119
-  linux-yocto/6.6: update to v6.6.120
-  linux-yocto/6.6: update to v6.6.123
-
-Daniel Dragomir (1):
-  wic/engine: error on old host debugfs for standalone directory copy
-
-Deepak Rathore (7):
-  go 1.22.12: Fix CVE-2025-61730
-  go 1.22.12: Fix CVE-2025-61726
-  go 1.22.12: Fix CVE-2025-61728
-  go 1.22.12: Fix CVE-2025-61731
-  go 1.22.12: Fix CVE-2025-68119
-  go 1.22.12: Fix CVE-2025-61732
-  go 1.22.12: Fix CVE-2025-68121
-
-Dragomir, Daniel (2):
-  wic/engine: fix copying directories into wic image with ext* partition
-  oeqa/selftest/wic: test recursive dir copy on ext partitions
-
-Fabio Berton (1):
-  classes/buildhistory: Do not sign buildhistory commits
-
-Hitendra Prajapati (2):
-  openssl: fix CVE-2025-15468
-  openssl: fix CVE-2025-69419
-
-Ming Liu (1):
-  weston: fix a touch-calibrator issue
-
-Peter Marko (10):
-  libsndfile1: patch CVE-2025-56226
-  libpng: patch CVE-2026-25646
-  glib-2.0: patch CVE-2026-1484
-  glib-2.0: patch CVE-2026-1485
-  glib-2.0: patch CVE-2026-1489
-  ffmpeg: ignore CVE-2025-1594
-  libtheora: mark CVE-2024-56431 as not vulnerable yet
-  ffmpeg: set status of CVE-2025-25468
-  gnupg: patch CVE-2025-68973
-  alsa-lib: patch CVE-2026-25068
-
-Pratik Farkase (1):
-  libevent: merge inherit statements
-
-Richard Purdie (1):
-  go-vendor: Fix absolute paths issue
-
-Vijay Anusuri (1):
-  bind: Upgrade 9.18.41 -> 9.18.44
-
-Yoann Congal (2):
-  pseudo: Update to include a fix for systems with kernel <5.6
-  u-boot: move CVE patches out of the common .inc file
-
- meta/classes/buildhistory.bbclass             |   2 +-
- meta/classes/go-vendor.bbclass                |   6 +-
- meta/lib/oe/spdx30_tasks.py                   |   8 +-
- meta/lib/oeqa/selftest/cases/wic.py           |  65 ++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  12 +-
- meta/recipes-bsp/u-boot/u-boot_2024.01.bb     |  10 +
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   4 +
- .../avahi/files/CVE-2025-68276.patch          |  65 ++
- .../avahi/files/CVE-2025-68468.patch          |  32 +
- .../avahi/files/CVE-2025-68471.patch          |  36 +
- .../avahi/files/CVE-2026-24401.patch          |  74 ++
- .../bind/{bind_9.18.41.bb => bind_9.18.44.bb} |   2 +-
- .../mobile-broadband-provider-info_git.bb     |   4 +-
- .../openssl/openssl/CVE-2025-15468.patch      |  39 +
- .../openssl/openssl/CVE-2025-69419.patch      |  61 ++
- .../openssl/openssl_3.2.6.bb                  |   2 +
- .../glib-2.0/glib-2.0/CVE-2026-1484-01.patch  |  48 +
- .../glib-2.0/glib-2.0/CVE-2026-1484-02.patch  |  45 +
- .../glib-2.0/glib-2.0/CVE-2026-1485.patch     |  44 +
- .../glib-2.0/glib-2.0/CVE-2026-1489-01.patch  |  42 +
- .../glib-2.0/glib-2.0/CVE-2026-1489-02.patch  |  30 +
- .../glib-2.0/glib-2.0/CVE-2026-1489-03.patch  | 290 ++++++
- .../glib-2.0/glib-2.0/CVE-2026-1489-04.patch  |  68 ++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   7 +
- meta/recipes-devtools/go/go-1.22.12.inc       |  10 +
- .../go/go/CVE-2025-61726.patch                | 196 +++++
- .../go/go/CVE-2025-61728.patch                | 171 ++++
- .../go/go/CVE-2025-61730.patch                | 460 ++++++++++
- .../go/go/CVE-2025-61731.patch                |  70 ++
- .../go/go/CVE-2025-61732.patch                |  53 ++
- .../go/go/CVE-2025-68119-dependent.patch      | 175 ++++
- .../go/go/CVE-2025-68119.patch                | 828 ++++++++++++++++++
- .../go/go/CVE-2025-68121_p1.patch             | 253 ++++++
- .../go/go/CVE-2025-68121_p2.patch             | 385 ++++++++
- .../go/go/CVE-2025-68121_p3.patch             |  82 ++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
- ...ator-Regularise-surface-view-mapping.patch |  78 ++
- .../recipes-graphics/wayland/weston_13.0.1.bb |   1 +
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +-
- .../alsa/alsa-lib/CVE-2026-25068.patch        |  34 +
- .../alsa/alsa-lib_1.2.11.bb                   |   1 +
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |   3 +-
- .../libpng/files/CVE-2026-25646.patch         |  61 ++
- .../libpng/libpng_1.6.42.bb                   |   1 +
- .../libsndfile1/CVE-2025-56226-01.patch       |  36 +
- .../libsndfile1/CVE-2025-56226-02.patch       |  43 +
- .../libsndfile/libsndfile1_1.2.2.bb           |   2 +
- .../libtheora/libtheora_1.1.1.bb              |   2 +
- .../gnupg/gnupg/CVE-2025-68973.patch          | 108 +++
- meta/recipes-support/gnupg/gnupg_2.4.8.bb     |   1 +
- .../libevent/libevent_2.1.12.bb               |   4 +-
- meta/recipes-support/vim/vim_9.1.bb           |   2 +
- scripts/install-buildtools                    |   4 +-
- scripts/lib/wic/engine.py                     |  92 +-
- 56 files changed, 4132 insertions(+), 62 deletions(-)
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
+ .../avahi/files/CVE-2025-68276.patch          | 65 +++++++++++++++++++
+ 2 files changed, 66 insertions(+)
  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68471.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-24401.patch
- rename meta/recipes-connectivity/bind/{bind_9.18.41.bb => bind_9.18.44.bb} (97%)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-03.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-04.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61726.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61728.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61730.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61731.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61732.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68119-dependent.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68119.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68121_p1.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68121_p2.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68121_p3.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-touch-calibrator-Regularise-surface-view-mapping.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-25068.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-01.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-02.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
 
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+index 7930bd3037b..bb20fd17ccd 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+@@ -37,6 +37,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
+            file://CVE-2023-38473.patch \
+            file://CVE-2024-52616.patch \
+            file://CVE-2024-52615.patch \
++           file://CVE-2025-68276.patch \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
+new file mode 100644
+index 00000000000..75169419f10
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
+@@ -0,0 +1,65 @@
++From 8ec85459d8e6e59cc14457e16fb7ba171901f90e Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Wed, 17 Dec 2025 08:11:23 +0000
++Subject: [PATCH] core: refuse to create wide-area record browsers when
++ wide-area is off
++
++It fixes a bug where it was possible for unprivileged local users to
++crash avahi-daemon (with wide-area disabled) by creating record browsers
++with the AVAHI_LOOKUP_USE_WIDE_AREA flag set via D-Bus (either by calling
++the RecordBrowserNew method directly or by creating hostname/address/service
++resolvers/browsers that create those browsers internally themselves).
++
++```
++$ gdbus call --system --dest org.freedesktop.Avahi --object-path / --method org.freedesktop.Avahi.Server.ResolveHostName -- -1 -1 yo.local -1 1
++Error: GDBus.Error:org.freedesktop.DBus.Error.NoReply: Message recipient disconnected from message bus without replying
++```
++```
++dbus-protocol.c: interface=org.freedesktop.Avahi.Server, path=/, member=ResolveHostName
++avahi-daemon: wide-area.c:725: avahi_wide_area_scan_cache: Assertion `e' failed.
++==307948==
++==307948== Process terminating with default action of signal 6 (SIGABRT)
++==307948==    at 0x4B3630C: __pthread_kill_implementation (pthread_kill.c:44)
++==307948==    by 0x4ADF921: raise (raise.c:26)
++==307948==    by 0x4AC74AB: abort (abort.c:77)
++==307948==    by 0x4AC741F: __assert_fail_base.cold (assert.c:118)
++==307948==    by 0x48D8B85: avahi_wide_area_scan_cache (wide-area.c:725)
++==307948==    by 0x48C8953: lookup_scan_cache (browse.c:351)
++==307948==    by 0x48C8B1B: lookup_go (browse.c:386)
++==307948==    by 0x48C9148: defer_callback (browse.c:516)
++==307948==    by 0x48AEA0E: expiration_event (timeeventq.c:94)
++==307948==    by 0x489D3AE: timeout_callback (simple-watch.c:447)
++==307948==    by 0x489D787: avahi_simple_poll_dispatch (simple-watch.c:563)
++==307948==    by 0x489D91E: avahi_simple_poll_iterate (simple-watch.c:605)
++==307948==
++```
++
++wide-area has been disabled by default since
++9c4214146738146e454f098264690e8e884c39bd (v0.9-rc2).
++
++https://github.com/avahi/avahi/security/advisories/GHSA-mhf3-865v-g5rc
++
++CVE: CVE-2025-68276
++Upstream-Status: Backport [https://github.com/avahi/avahi/commit/2d48e42d44a183f26a4d12d1f5d41abb9b7c6355]
++(cherry picked from commit 2d48e42d44a183f26a4d12d1f5d41abb9b7c6355)
++Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
++---
++ avahi-core/browse.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/avahi-core/browse.c b/avahi-core/browse.c
++index e8a915e..59d53cb 100644
++--- a/avahi-core/browse.c
+++++ b/avahi-core/browse.c
++@@ -541,6 +541,11 @@ AvahiSRecordBrowser *avahi_s_record_browser_prepare(
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, AVAHI_FLAGS_VALID(flags, AVAHI_LOOKUP_USE_WIDE_AREA|AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++     AVAHI_CHECK_VALIDITY_RETURN_NULL(server, !(flags & AVAHI_LOOKUP_USE_WIDE_AREA) || !(flags & AVAHI_LOOKUP_USE_MULTICAST), AVAHI_ERR_INVALID_FLAGS);
++ 
+++    if ((flags & AVAHI_LOOKUP_USE_WIDE_AREA) && !server->wide_area_lookup_engine) {
+++        avahi_server_set_errno(server, AVAHI_ERR_NOT_SUPPORTED);
+++        return NULL;
+++    }
+++
++     if (!(b = avahi_new(AvahiSRecordBrowser, 1))) {
++         avahi_server_set_errno(server, AVAHI_ERR_NO_MEMORY);
++         return NULL;
 
