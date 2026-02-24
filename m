@@ -2,537 +2,199 @@ Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E104F4BB90
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 21:39:16 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31742.1771969148752160780
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B22F0F4BB8E
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 21:43:26 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32011.1771969398324629767
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 13:39:10 -0800
+ Tue, 24 Feb 2026 13:43:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=DvSEONpI;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=65157b7930=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O8IKEl3609669
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 13:39:08 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=EeY0GQrU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=65157b7930=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61OCZLkL3704552
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 21:43:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=qZtiq7anCi1ULBMCOvOycd
-	2F5vL3fMIGLg3rpJnvKTs=; b=DvSEONpI8ZltMeN48V1oJyB1NveaBYPkissFk2
-	scoE/yW2TZp6E1fOSxNoYAbUENTemRvRIIt/LhJuPAKfCBUJ6/aWr/TwMhQPN08Q
-	e59i2BC6iRF+lysgFHSZ/pek9ub2RwbXBqpBndTUa07+sk2o5K43CSibED07FfiK
-	8pjpH54WXEPNnMFtNjS5BSKhA1rq4fX/zJHS3V/hTL8pl710szy7i+Up+i67yRBe
-	wziM0AICl3SDf2PmK1wTH7EGGnnMa7DDmTaq4uuvUk0LVPQSDkcCVgIggiAdaF72
-	W7GNkwG63x1CpKuPsqd12Buv5uZYImg48Pn/zKf3Zj67YNzA==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010036.outbound.protection.outlook.com [52.101.193.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cfd3k3phv-1
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=IjTX5R1a645tKotBks2CC+MdGd3YmwluJe6BwlX7vT0=; b=EeY0GQrUU/FK
+	A6ds85vJ91t68Bo/aVFhLqI7lFR2JXIFjqA4q/qol7dFgCSobLGMwV9eOUa394Gc
+	e5IMoLY1wk0HZ0fdhn7HxFEKN4C3kf9PaV6DOMsoGBGAj8OXh+esgw2c1QHXEc31
+	AmIMpzwF1NH9dPovGdTgTvTVkcnP6UwO/LtwlkAATsR2r0zCfuG2WzVg+nZWzVJD
+	uOQAkTCItrvGe7qhVUgyEQ8Fs/TQAji7C4SALp6oRRiY0o8+tFtK4Wtd5YpCXGuI
+	c8RgJtQdda3ZUW7OdP4+ofihpKeoZL842AnAE5GSa6G2WhpCmjV5wNsxZqOAmmdL
+	q31CwdE0Rg==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012060.outbound.protection.outlook.com [40.107.200.60])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cf1wvc1cy-2
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 13:39:07 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 21:43:17 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a+o8bVN2hW1usk0iNRXwgABhq/Hu82YBtdtk2nuHFDJIVWeJveRkzHk1iPC61d+W61AHGZS5P/7YlnvUfi5DUvetAeVrSAJhdLM/rqMc2u2WtQrYrYmTmYD/08xrPra4DME7CdA9ssBZsoYY4kTdPyNAkvYrkcTCku2C58AtRMgf0xJZOwo5PdLhhSDoFH1bYriFEP8KGORnClAypyx0iTeJQg5thsJA9t6QchULSp2vNWcj1T3R6WkBxlFLQx53fUZlfrlqMa/7M+n11j7ZDsIYso/Vqu/GZ2wXDW7YnJLuGXYCZpSBi6XLI+JRJtZO/uPRxd7rpzmxH0m/NMciHQ==
+ b=s99V1IM+LtDgIj865tLhMHM1XczoQ6NTGCrLFyePxC/a/LFuTNEp9b4Oh2uHQ4t72WPCMc1JEEIdCHP4OBGk4F0Ao3sT09tQKY+tpTJ5MxqohLKg4Eho6RHRUF5h1HjY3InBFCMrDhL0UJOFgQxuUsxIV7kMqnqAw66p9q2CB8pYl+YBtk+9HQAXK4Lb53AcyTIhOWVES0insXbJ7bHyxFqb0YElTzHgJ5mOlft1TWsxFc7K3SZWC0h+dVlcnmilEwhUy7a33g5ViIivcHtRVEzmx4wIi5cjQWWfbZTOQErqzq9i87VwURRhLQiS//i4hPQSLt9M7Dhu1O2ACt6B/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qZtiq7anCi1ULBMCOvOycd2F5vL3fMIGLg3rpJnvKTs=;
- b=hJAhpJRu8XsPa+y+0V/41LudDng7e5/iXy6m/Z9cwxvyL8M/YnoFoSrs+VflROf191a0ApfLE5j47tSxm13CZUyzNhwUMbABsp/Y4Vj16CVRWpzAR79FmZ3mGNgzdPsPIXOFk96KFQcLWefGZ/Qr5wj70I2/qvjwIC2d/r92y0UUg76lLlLpw9oNeRefKkPoDtBZN0J06c8XUOrLRnXdMGgEDFjCNnuummkW9K2ppVBh6Lvcfvqp4bwOIPkrPvkCCsONCmFUDFqWo1HuSMoFD7nu02qzPZwjg9kxOxajgN8u1UBYEiTKVogeNDYOvSZAqjuVMpd1wPTiexaO3aHUwQ==
+ bh=IjTX5R1a645tKotBks2CC+MdGd3YmwluJe6BwlX7vT0=;
+ b=mr3ovfYMJ+oG+O4guXoYbOMWGbhI8XGKbR7tAqu9XHpW9cqAGU9tcgje084uUX9sbbp7n8VacwwXDR0aox5deLfIlSFjvmcTMgxIuYXtQAAtql5rMjEwB3ws0JFQx93D/G69ovpUnRs9weiJyab43tW1RrF7+GIzQCtLHy1kSzxAwagcdhZy6IaV1QsX9u52lbRrn9zVenzQZgkghTrhTIl0I0KB58DAD3Yz/cX1pWNED8DSaA14EfhfMu5N+/tcgv4iUbP6kWQ0hGbywKUrmVw+r0Pols64r1f0Va3LdqpSoWV2t5u0QVejpxlr4emyY3RoOPiEqWFQ+57RoLDUww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by SJ2PR11MB7456.namprd11.prod.outlook.com (2603:10b6:a03:4cd::17) with
+ by PH8PR11MB6660.namprd11.prod.outlook.com (2603:10b6:510:1c3::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
- 2026 21:39:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 21:43:15 +0000
 Received: from CH3PR11MB8496.namprd11.prod.outlook.com
  ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
  ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 21:39:04 +0000
-Content-Type: multipart/alternative;
- boundary="------------kXyeyKbP0F5QL24RLzqmRTw3"
-Message-ID: <f22d7183-760a-41e5-8713-8a68b24918dd@windriver.com>
-Date: Tue, 24 Feb 2026 16:38:59 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [AUH] nettle: upgrading to 4.0 FAILED -> FYI blocked by
- gnutls
+ 21:43:15 +0000
+From: Randy.MacLeod@windriver.com
 To: openembedded-core@lists.openembedded.org
-References: <0101019c720f0fa8-77ada6f7-2fd8-4dac-8882-d071da0437da-000000@us-west-2.amazonses.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <0101019c720f0fa8-77ada6f7-2fd8-4dac-8882-d071da0437da-000000@us-west-2.amazonses.com>
-X-ClientProxiedBy: FR4P281CA0333.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ea::8) To CH3PR11MB8496.namprd11.prod.outlook.com
+Subject: [PATCH 2/3] socat: Remove -fcommon from compiler flags
+Date: Tue, 24 Feb 2026 16:42:58 -0500
+Message-Id: <20260224214259.2236671-2-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260224214259.2236671-1-Randy.MacLeod@windriver.com>
+References: <20260224214259.2236671-1-Randy.MacLeod@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZR2P278CA0076.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:65::15) To CH3PR11MB8496.namprd11.prod.outlook.com
  (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SJ2PR11MB7456:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc50f8d4-9d6c-4c7d-a803-08de73ed21db
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|PH8PR11MB6660:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f50f6b9-0ebd-4a16-3e61-08de73edb741
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|8096899003|13003099007;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?c1o5ZGlXb0d6eTlQeW9RaGdISTRxbXJ3b1huUi8vMVJKSzczZEk1TVhHMEl4?=
- =?utf-8?B?UjBXejBDd3dvcmErdmFVZEpTWDRxN0o1SlBsQi8yMHhsMDVYcVhSaU10UnJz?=
- =?utf-8?B?T2RjVWg4Zk9CWEcwM29hY0JXNXR4UmNFaHh4NUg2cHNwMkNoRWdDalhTMXVU?=
- =?utf-8?B?YUlUcDV2SStaTE1yYzZxR3huMHUwS3BzeFpVNGhlZlp3M3ZiY014N2lUVGRq?=
- =?utf-8?B?dDJTeHpjckNJdXZPR1MzRUl1dGNaUG9qeDArM0VCZWpycFZGVERZK2JNVlhm?=
- =?utf-8?B?RW1EeUE1TFVaRnNMU1F0eXp0RWhHcFgrdXpSazh5cWMyQ0xKNUpySHhJOWxM?=
- =?utf-8?B?ZytVUFdnWXd1MDZlUGo4VVprV29SVnZsWC9hUTdqNE5rSkU0VEQ2dit3ZGZP?=
- =?utf-8?B?cEpYeDhKZ1lKU0M1Y2lCOVZQaU5rdGFydFFBRHhDY1YwaGt4MmoyTTdhb1JS?=
- =?utf-8?B?Z1R5T0VzU0hoR2l5eTd5UjRoU2JycFBTTDM1ZFVoV3EwUWRrZE5BRWNuOUZV?=
- =?utf-8?B?TS9wYmRkbk5UTVpXc283V01rdWZzZ2VGVXhFNzFLTkdqSExjdlZDVk1VUERC?=
- =?utf-8?B?R1NuaUJjRlhHOTIzckVsenNkWG82bkZkNERmSU1rYm5NTVdaTjI1elZEUSsw?=
- =?utf-8?B?OGtqY250YVIxeDV6WVh5RDF3V3FjdUgyN0JCVTl4cHc1MFNqUTRMQUVKbUpJ?=
- =?utf-8?B?VEFQWkpSVElEQXYweEo2bFRnR0E5Z2lhajRyK0NKUkZ4MmlmVXppNDlvNXdo?=
- =?utf-8?B?ZjJjZjh0TUhubGdDeHJJeW8rUjNJOFlmMDduWXIrc1pkR2swLzBIaUZxVUlj?=
- =?utf-8?B?dXlBNnBXdFlTamVYWjZPN01LODA0aHBhTGlPQURyK2N3QnpxaTRqWi9DMW50?=
- =?utf-8?B?VURUaHZBcnZuWEhpRjlXbDdCaGkzckdvSDZGU1o1UThQVXNST3RkZU1vN2xs?=
- =?utf-8?B?cUU5cXFXdWRTZ0FhOVI5UmJDVlBnK242Ly9WNWpkejJ5V1FOVThsaG54LzFH?=
- =?utf-8?B?MEIrMDh6bWFJUXJvM0I1MGlFdzRlZXp1cHhPVUZ4WXQrU3Y5SUlqQ1FJREdQ?=
- =?utf-8?B?NytteWFYNzVmV2ZuNGo5Rnd3WWM1bE9aZ1grYlo1NENLV0tjK2JkcmdJTFBw?=
- =?utf-8?B?dHpvdGJJNWZTRUhwbXppOU9iYU4wRGxtQnN1MzN1V2lkUXpycVliYnpZTm5q?=
- =?utf-8?B?K0c0eHdrdDBlVzZLaFhFVFJTdUo1OExDb2NWY1dSN3lyeDNrdlp1UVJoT0hq?=
- =?utf-8?B?VGFaa3hyV2RQbGU5bWVKMFVnaXhMNjlqZitmNmRGZDlBaEZrcm00MFQwRXBI?=
- =?utf-8?B?cmVnMENORmljSmNQZWVQTUdHTnhDMllkZXZiN1JWalBqU0R2M2NMNDNhbUx5?=
- =?utf-8?B?QVg1UjQwbFBMak03akIyYWlZcHJEaUlROUtGR3F1UTc2NlE2a3lCSFZmbzRp?=
- =?utf-8?B?bU9ueU9NTGxNK1lka0tJMGZJSXVFYVRtRW1xaTF0cFExV3M4YXZTeTQvRHRH?=
- =?utf-8?B?Nlc3dUpKMjI4S1RoZHJ1cHloemhRN1lNTVpNRkF5Rnd4eGY5MlhtV3ExUnZ6?=
- =?utf-8?B?NUFxWU1aZWhBWVJ6Vk9sQ3AreGdpVkxDdkd4V3hwVUNTRTRqdHR5K3RWN3lO?=
- =?utf-8?B?T25uYnVCOXBtNVM1dGZZb1kxVWN4NUp5aGx4clAxak5GaHJmNXRLSG5tQVkr?=
- =?utf-8?B?amd2eUVvUWZUSG8wblpWa0JqRUlTT0ZEM09sVTNsR2JtNlpCTW9zOENWU0lq?=
- =?utf-8?B?bjFNU1hKbFl1VE5wckZhL3EwYnBTaWtaYU9VSkQ0Q2x4anVzR2ZPTFFTZUlv?=
- =?utf-8?B?dXFCYjNPY2ljK21KdGt0UW9YdEFlUGROK2hlaUFMVGR2UEV2RmdnM0NOUDAz?=
- =?utf-8?B?TEt6VFJSd1RzM0N3RTl5dmR5OXFzSjdwUmRId3htWE05c0lPb2tvM21RckJn?=
- =?utf-8?B?ZWNKclN4MlJPdFdKZ0MrMncrNm9peGNyQUxib0hCWDdJTVo4MDE1dzc0emVs?=
- =?utf-8?B?WTFKN1RoTml0dkNBY1BKMGFYV2JSaWZMSnBwSGswalpNTlE0NUcyVVc5ZDIr?=
- =?utf-8?Q?AVVu3D?=
+	=?us-ascii?Q?b2R3mP4uR3dZe5HQeyMe/zj+tlkorBQhyOa+jShQp4v+jsbLtxBj6o383Bl0?=
+ =?us-ascii?Q?T/UQo27epMSzN7X5Jl8GDBhAaYsUOe1Zn6+cCihj5Ei8ERjZJOaDagSa7+3/?=
+ =?us-ascii?Q?vkK+17Y1PZcNbR2MxzWxS95VLwgf23PGInqQKZA8yYJMMcIFsQ0AW4msdvel?=
+ =?us-ascii?Q?OOljJ6h3y0v2CoXX+fHyYAPmo02rpghQVqtHHH4Ks42Gt2AoI4qqSefIVCEk?=
+ =?us-ascii?Q?rEAZP8J1TVCpzIWm/727fRAZc1cCXQGoo2atWqJlVnEBalsrCPZe/T0yROmG?=
+ =?us-ascii?Q?DB8SFNwxH1510Ur8YkrXGjWX4VlTVsj7avHw6VutLPZ1gUCvFXGMCfBAzUeg?=
+ =?us-ascii?Q?4TiaNq3iex+H5eBD4tPfhRgx7NzauboLilm4NC/prqGTCGeMvWbNYZZgM3yc?=
+ =?us-ascii?Q?2IeYGoWqeElj0gwKT3bk7EcncRiRH8hB6yTO1Swu76Xpvzluo5/on6mctmvx?=
+ =?us-ascii?Q?Yk61i+m5IoE7GEvQhra9xUcQrXem6QvIdyoBmuWrR7dGWJcEpffwkVYz5hkp?=
+ =?us-ascii?Q?5OM6Cl89y4Fc5FRHnvao0yAtqG/el/++FGLsrNRDkUpNniQlKHJaE/BFXsr5?=
+ =?us-ascii?Q?FSF9UHaag1oM3Z/o5Mhvp1bd2Ax8yabvE2U1nX9bFlLXooKlb9el92NcXEy+?=
+ =?us-ascii?Q?sexItu1nuDVK/MpW1E37EG+8H0xfHG0OT2hkuNkScNHBXqPrZhs1emzJKlxY?=
+ =?us-ascii?Q?ncsqMqogMEEyefyoR3zR3JYVwuJ90uqLSsp2hD+BGd8yv9j4rt568ymCSF6z?=
+ =?us-ascii?Q?Vt2hDcgj54IlSxpMDkZXgWFeKjpwHPzrAHV4j57p2Tz62QaBSagENdKfsBJn?=
+ =?us-ascii?Q?u+2ECc7qm2brD/0rQadjmf82FxhIl8TkBhz+Y1yEanwM1kHR2geImR0RnxO9?=
+ =?us-ascii?Q?PGqCg8T+7zyRd6ZnOlvHa+whJoE6pYBG/FypbtDbl6oPVfNw70c5yRan+7EJ?=
+ =?us-ascii?Q?7GPFhUDKVN67Hs92FfNskfqBVUHnKaLGq+iJfrDuR37+uEL5Kiu5EuzgIFEO?=
+ =?us-ascii?Q?dSRKmSyyv2dtpvH3Lf+7x7WxUlLVj0xKsHg0WDl6/XOc2iFU8TrjEArtOP1E?=
+ =?us-ascii?Q?w9KCi4ffys6pUNLiaWQeiy+gvJQdxC0CtAlAeFKZxyVyoOiPO7rQHVpqrELr?=
+ =?us-ascii?Q?Phz4DiW6TXJxxZXFlHRYkWDE1YQGlsvHdFxIGllvaR69rEeys1Tjs9zM/dwZ?=
+ =?us-ascii?Q?QFMwND2Heys/gSmx0n9a2ttqFu5Cv465880jgdesMcOlUHfN3ZkeqVBXoRdb?=
+ =?us-ascii?Q?Oy2MO0l43kh2iZhIGr+kSFF8ZuNaqgESHisvuMTVO2K/YsmUGqKGQ+M5gnQD?=
+ =?us-ascii?Q?OEjA/HEpBU3+XvNUYSfpvJLaqRV+jDfnHa0rr4txyeL58nwzzoahAgU2+ErC?=
+ =?us-ascii?Q?8w+hCqCwJSlvDYwMAEPUHNWwDKxUhVFuMfmCjvXgisUuG1wLBx45lrvVZwo1?=
+ =?us-ascii?Q?fNjIVfh+m80ni1ami7EnT1YT39pv87a9kMca5kBK7EnKZKBhQQSofezgktzu?=
+ =?us-ascii?Q?hIsHi+Eb2mWwJccSD3wbzNw76hD2w/ZAjaSTy2TQHThm+ExewjuQUgLSX6c9?=
+ =?us-ascii?Q?3TVl0g6hK+enYS0Ze2TQNQxHX/4fA/Y68Q6blDZJHx0s1FXDi0BpHrpDk9l9?=
+ =?us-ascii?Q?WNj2iP91GFF2AriOnANPELs=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WUJscjZQK3poZFhpT20wNEV6cVg1bzZtdFVvQWVJcDJiRUFKNHJLSHRxYmVV?=
- =?utf-8?B?UVVsVFhSNStTYktFeHl5UjRVcVNuWGdndC9Ebnh0UTBYOTVTUnhDZElIdWUv?=
- =?utf-8?B?bEppcVNtYmk2RnZ5Z2l2QUdaWUVldEZjYy85YzNWNTRrZUYrdWM3ZTF3bVNp?=
- =?utf-8?B?QjdlYldCK1RoRjFGWGtPMDRlS2tzTmowaU9yQjBQSWtFQ2owNnp1NDd2OFZk?=
- =?utf-8?B?M2NmMGhPdDdYaWtvZnRYQ1hDbDFONU1vT3RyWVRvak9YRWFOd2VqUDdBSXcz?=
- =?utf-8?B?TmxNbWFQck1ZMi9FSzV3Wi8yV2ljdUxSRlpPMXdnbmQwcmx3YXlsM3k4ZTgw?=
- =?utf-8?B?NFk4bG8yeHBnNitTNlAwSzZYMUdCTDZMQXJ3RlRLYU12cTFDQkZEVG8rQjFI?=
- =?utf-8?B?eFBpUTZ0RjIwRlNXMmd2MFZYTW5jZXJLL1RMekJ2MWRnRXdPUVdRRFJWVGha?=
- =?utf-8?B?YXd2OXN2b044ZWJ2eUhTSVFWTjdYeStoUWU1ZE5jUkhNRG52QUpGNm9ZL0pM?=
- =?utf-8?B?TlVTR25pUjZaZERuUkdDRnY2T3NuVmhHaDlYbWMwRlNqZGZXSHlpaE11UUIz?=
- =?utf-8?B?eCtWTVVrVjNCdXZ3OFdBZHJObk1lUXRMd2dMMGdxOGozUmhsZFdEcUthUFhX?=
- =?utf-8?B?VEpMbUJEN2t6MURRa1pjd0VsRngrWGR0MDBqYWsyM1RVZ0JBclY1RHFIbUpT?=
- =?utf-8?B?N0srR2IrL2xiRzFhMUtucCsvKysxaVNSTHhQL2ZjekFMZGpNZnZlTVJJUWY0?=
- =?utf-8?B?cUNudUpjYUtQNUFvd29SQjI0VzBBTmpaTlhSMEg0alZ5SXUyc3VvL3ZGTHNQ?=
- =?utf-8?B?TlkrVU1RUUJIUWM2Ni9OeVR4Z2dwc01hbVhQZklNUHY5ZGtOUXZ0TDJtZGpt?=
- =?utf-8?B?RVlDdGxXTWNyWi9mUHA4UWVvWG0zTmM4eWRkWU5NM2FBTk8vdUtNUk1YY3Zp?=
- =?utf-8?B?cE5KRDc3bjI4a2Zta2NrMjVCdVlqRjJrZWNra0xXWG9BK2NIU093V1ZRR01m?=
- =?utf-8?B?T2EyU2pCWHJGTWF1RXFWeGp2UzZqRjE2dVlWUUtiSDRud2VJb3h5YzB2QWs1?=
- =?utf-8?B?NUJTa2tZbDFiNFZMMjJZYktIM2VOaGtYZWIzS2VNSExYdy9MUEtNTkQ4R0E3?=
- =?utf-8?B?bGZLUGgySTFESXdRS3p3VjgrTml0dC9VWmdPTXBGWXBRT29lN2g1ZDEyQzhT?=
- =?utf-8?B?VWFNMU9YaEdLZ0RNcFFCWnEyaldITlhNcXd0U1ZvLzdycStUZHNldkl5eC82?=
- =?utf-8?B?OEN3emNFUkxEQlF1V1psdCt3cUtNQWo3N0RqZ3FNZUdFTml6bXZFaTNWZGJr?=
- =?utf-8?B?ZHZvOC9hQ3h3T2llbmJLdkdQK0lHQXpWWGdyM01VdS85ZVl2c1NzMVdpYXdL?=
- =?utf-8?B?NUNwdVF1ZGdVNEF5T21FVWc5dkFlN2NyNHBkT1pkMllFMU1XLzZuSmprRmRY?=
- =?utf-8?B?bExxK2NKL2prcGl3MTdlN1FsbGNoN2pTTytPa21ROTY2ODlhbmwwKzJHQkpt?=
- =?utf-8?B?c3AvYWlQNWlhNWV4QTJyQjQ3L3d6QXMyS1JCeVBPS0RuUlNObW90WWUxUDVN?=
- =?utf-8?B?aDFSVFpTRGJCMUtHWWxPdk9VMnp4TmQ4eVdTM0FWa2VIVnE1MWNteFZlcWh0?=
- =?utf-8?B?dDhyYjczaXNORjkrZFBNTXYwdDh1L01KWlgwQ25mL01ibU9rdXhrK3dlZDRv?=
- =?utf-8?B?Z1F5dHB0TUEzRGplb2szMHNXODNnSzBidUQ4VlRBUWFPSjhHdXNlSXh6eFVR?=
- =?utf-8?B?WGhJK1l6eC83WFo3Ym52ZFBZUFJXOUtZa05ITkh3b0tzOXlDSTNUUEt3ZjJv?=
- =?utf-8?B?R1NNNk1RSkoyaVpabXRVRWFWM0IrelJHV2ova1VnS0dQelhKaVp1NUZjNExF?=
- =?utf-8?B?aThRRXhoOU95TDh5R2RyeTZTRjRuTjAwUkxMektEMVNGU014eC9MRGZjQXNl?=
- =?utf-8?B?ckxDTHpTNW1FcGk2SmxQZHZnb2MrWTBlb0xCejhYN3ZXT0hGZ3hWemVwbzVQ?=
- =?utf-8?B?d3U5RDlrVHlFRTBGcmR3dHpCNVJRRnBPZ0F6eHNKdHVJVkFuaWtLd282eVJ4?=
- =?utf-8?B?dmF4ZGtKNzBFZWVTbGZsdmZna0NFK2o5Z1ZVWFNEYkNmdCswTnYrL1g5Qk9k?=
- =?utf-8?B?NmU2TnJVUFhNMEtnbStzbTQraTF0bXdjRHBUMWpXdlJGbUMrQUhIOTlPTXpK?=
- =?utf-8?B?bEVHYlVHd1I2WU5pTDhIRnVUNno0YmowbEp6VU82aVRsY1dWeFJKTHJ6QnVv?=
- =?utf-8?B?SlZWUFlmVlZHQlBQM2pnakFlbllsS2JMNWxzeExZMjUrRHJBcVIwUGpQL2RH?=
- =?utf-8?B?OTRxY1dEcWNGTndGSkNXVjQ0a1U0QTJ0WkpMZndLQ2Vkd2tqbDB5OVBwend0?=
- =?utf-8?Q?PglazgjEanOcm4JQ=3D?=
+	=?us-ascii?Q?2PXjfktexCJnyYKKf2T0R4e5m6vCUz0WqQ0Lx1zLGM0CPLjzoKI3fihStbiC?=
+ =?us-ascii?Q?k+UeapNOYsUxTiqoON9OjfvbACrCFlRNJoctm6tUck4b7M/MufJhf476/p7W?=
+ =?us-ascii?Q?nm+ZGDvA8LyQRHUbTqWY9Ko9Y4Igt/CkW32kmM5LVOw7Iz6ayEjFBQ7XDQMe?=
+ =?us-ascii?Q?Kt86UeCtj/PpHC0OfAxhfeJEAdh8zClmKOJG0wJqFq8KoH0nNYSNyVkmPys3?=
+ =?us-ascii?Q?k6N88AEhgCUWUoD4t0gxVyUTMfvF1rRX2WgYMbc/oTl6bxhaaXkr9qenpWtf?=
+ =?us-ascii?Q?AWOJYJ5wEfwL48zB5W73pvr5OHWArbTHBwV8tJlW3w1IX8TnaY3gcyJV+xH2?=
+ =?us-ascii?Q?caiaiNjY+GvoTROThDxPBWVn3XTalgZPJrYlBF7oYJS2BCvuvga6O9zSqa2Z?=
+ =?us-ascii?Q?pVEwJX/KmkHxYEgUUHuT6J4dN/QgggRZoFPlsVOdYuuoy0FPXHvibYgUfpUF?=
+ =?us-ascii?Q?p7plJrcWiwqyt3qKk8CKjakiDk3Ne0caJ0E3falNE/c1oqgZIwsPULPQSYYk?=
+ =?us-ascii?Q?mjD2dpvZUw/MAS2U5sWKihnksN05MGmGDVMAI+DR67UncGd8dNoEy4WBU9JT?=
+ =?us-ascii?Q?IlqFhosye9nOrzpo1n8nJxBnF+YKFlrob7MDUm2iWalpbZJZskEcWr+suG5H?=
+ =?us-ascii?Q?6pgIS5AMyiUkat7Qs9Yr41Pg/F48y515BIgqDrnJiGdmf58zjdvLkANq7Te6?=
+ =?us-ascii?Q?PCk4uN1S/1I4eD0BSTiXUcxWPit0RFgx2+HgEWZFzzq1Hevhx62yTkNRzLZ7?=
+ =?us-ascii?Q?p/UlF3WcyR7x3wm4cjY9/EPEKeESM6LeQLayhlbe2Vfj3n3jumEVE2ZpqIaI?=
+ =?us-ascii?Q?VzYPlfmsssAxRWY+EjWiU4qCQ8CWdRNpY4U/Q52znS6RDshAOAHJu9XxUT1E?=
+ =?us-ascii?Q?rHlMahnaPCc4n2+hJT5kjzYIOrImNf2lgDBYOVaiiH4RL31C+GWG4LYV8QIw?=
+ =?us-ascii?Q?gn2JHbg72tcR+EYPVX0CaWle27c7CrW0kjHzCrUpd55gKnFn2Ns+wVAQti4x?=
+ =?us-ascii?Q?/4oaIgr7ndButicAErbAu2Wt33D/MsyQPEGcuXRi1n666EJpfeJMP47NaNHc?=
+ =?us-ascii?Q?JDtF1MuXXX6qPYIlOovklLVjiCYMGAnYkP4QDXhqh29IzoonCeAB6tOOR0hm?=
+ =?us-ascii?Q?2lHevZVzbDBL4gubV/6o60VsTODrCRNCj4EuWsu1bYdRA7c+P2a2PSavVESq?=
+ =?us-ascii?Q?OdnNk/5TDk1CsSC1phwWm0nNVqQTorCfmJqCPFrHnNBApTFI7wyIt5VAsabW?=
+ =?us-ascii?Q?HRJRrGiuMDSiEiY+f1SoZdnpnTOlYb7l3HqC/KLffr9bcX7MEztgomiRjSA8?=
+ =?us-ascii?Q?e+PeT7jcMOocK9znrrqefGUnjd+/JehAqoBUv4w4N8Xg3Y6jYagfCmIYVSyc?=
+ =?us-ascii?Q?1Jm2ZCj7hTrhRchKP+Es7A0OpXSo8tvucZPGpxkQ9mLAj6/HOfO8OhjPufVJ?=
+ =?us-ascii?Q?dG5JkHE7WdRX/Cx+tQd/GVeotsx+xOJF+obnJzRSF4Y/2P/X0eMA3WA3r7VK?=
+ =?us-ascii?Q?mof2zF6hBBgSOBLG6GhD+P8QYH/EL2nmUGWibSH4SL2Wu/oIAFpzAdN8ehB7?=
+ =?us-ascii?Q?JaWoBkzS3yi0ruI4Xy4H7tXjxfwaQ6hWnKbq16kpNYfVDSYsdtELMLP9/3hI?=
+ =?us-ascii?Q?ux0pw0GCysj6KUoMXj89/bMpCrilIQUw2ClSxmWMrhnzn/TB64KDtTjDqDOz?=
+ =?us-ascii?Q?9xpzJno4zkUK3351EPQfihFNmKBaKLGgY5CQqxnR0b7SovyQUmavJ+0xuaDf?=
+ =?us-ascii?Q?crS22U9D2HSPiotp4uIjJn9W4fwJ5xo=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc50f8d4-9d6c-4c7d-a803-08de73ed21db
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f50f6b9-0ebd-4a16-3e61-08de73edb741
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 21:39:04.7231
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 21:43:15.5174
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zIRnfj0nnzKS5D0k8RQ5oYAJntefCfck7q8Qty8/vWFGKvVLagi9uFPNyxzWXxrX/7MNdk+/XpzN4nugH2Jjlo3Qu2XQY2e8LWMSmKVttA8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7456
-X-Proofpoint-GUID: cSQRMl3zUMZVwnyXCujWqYO2l0VKgD1p
-X-Authority-Analysis: v=2.4 cv=Bo2QAIX5 c=1 sm=1 tr=0 ts=699e1a7c cx=c_pps
- a=VaBts2rfnB/nCs5PY8NajA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: VsJ2O5Rmu6YPEebpc6RpSTsH7l9zWfjEWpPGRWVMx9CXn8F+qNYIGkT4360FZSB+GPb1WNejx9aa5PeYk8eOVCt2/CSGZoeg4nfayVImUU8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6660
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDE4OSBTYWx0ZWRfX9xR23TGm4/k0
+ cqGsAog7PMetq/nef0gk06mW1koCGjx6hOScWRgUzRxgnD3Mbnl/zSbPHEdbtTfqTeRBGy6Tv1L
+ ZxgNz6MaB7jws3QJyUP6FW0KMUd/aoYd81PLXgEtEIv9/04astbgcHmkLCdh3/UIrtKNLYTiUnm
+ HHKYe5hGijH+0Vd64ZzlR43YIzG7mvfD/tdsPBkEYIKHHSQlU3DNcylgskchgTcCKDxK67UEOiL
+ 8YSOGE4+vcBcPk7MdxGOF3PHgIqL+Evuv6U1eyDbNKBrkPUg6nAVT3+T820UmmJaX4DEwfclYPP
+ 6dOPT8ogQyf4oPiAnp6/QSctUnHdbm5EqNvlYKibV3Je+IR1zbOqJgLshQHcBFkuPAci5fwraFm
+ Ypsgd0tcAcKxRAnUCoYJxFg9emnwI4djrt4TGU7Ig8BjgDVU9WNvqaXrciAEXWjbJCVIbFAY3Lr
+ nATboGFsvuDPauL72FA==
+X-Proofpoint-GUID: RPw0i892LNEawqPB_9GHuCRtYAFvLas8
+X-Proofpoint-ORIG-GUID: RPw0i892LNEawqPB_9GHuCRtYAFvLas8
+X-Authority-Analysis: v=2.4 cv=F+hat6hN c=1 sm=1 tr=0 ts=699e1b75 cx=c_pps
+ a=P3LZRqt57NYhn536gl30yA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=p0WdMEafAAAA:8
- a=mDV3o1hIAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=V-HivKD50y9nvJVbUTsA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=B8ibFTVmAAAA:8 a=9vtG_mT138Ff4Hzxp7UA:9
- a=1g2W-k0W0EV_UzjP:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=xvSgdcfEVHFitugM1GHH:22
-X-Proofpoint-ORIG-GUID: cSQRMl3zUMZVwnyXCujWqYO2l0VKgD1p
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDE4OSBTYWx0ZWRfX+AhllU7kPvYI
- jcuidsAlmKioV/mSNaY33m0INuQ7HupeNIcfWNyoTubOT+dwHV2cij9EaiyS3sUaXzwnCO9DPb4
- trQYkl3RB9i10WCXAkcstkTwawmkZReFoZuTDf1zeXFeh/WwwOjGvdQBpNNiF3qQmA02miIJ9u/
- CNAEdBJF1eSEPAQZry/SXhGOPIFE4gNEpQWCNBKG5u28BjGAmtDpchNmXY0R14Pd6Fhg0DZCeCg
- PQ0+Jjqj/Jf1CBZuJg7mQP2HwtgheLuYf3hvMMEIYi83BYJy29FjygJCWTqP1bW1+A0EHm2M25I
- 9da9G1M3mrcWhiUwqqGJGyMnH8z9ILYm3IM2MvRqtMAExW54MWyo/K3mTBjaF6EeUpk+y713yid
- otNq9h2AbLG/m4mqj01+gnVsGTq0Mh1hixDkJddb5/M5DzOnWkQK58lxjKBG/1/4+zAhzaS6f6e
- Xk3eLzCLaEjLVJZuSiw==
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=pGLkceISAAAA:8
+ a=oB0tqvsQhOT84LD9yA8A:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-24_03,2026-02-23_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- malwarescore=0 adultscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602240189
+ suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602240189
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 21:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231905
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 21:43:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231907
 
---------------kXyeyKbP0F5QL24RLzqmRTw3
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 61O8IKEl3609669
+From: Khem Raj <raj.khem@gmail.com>
 
-On 2026-02-18 1:41 p.m., Auto Upgrade Helper via lists.openembedded.org=20
-wrote:
-> Hello,
->
-> this email is a notification from the Auto Upgrade Helper
-> that the automatic attempt to upgrade the recipe(s) *nettle* to *4.0* h=
-as Failed(do_compile).
->
-> Detailed error information:
->
-> do_compile failed
-In case anyone else starts to look at this the upgrade,
-I think it's blocked by a sha.h dependency in gnutls-3.8.12 (latest),=C2=A0=
- (1)
+This is no longer needed with gcc or clang
 
-There's a 3 week old bug to track the problem:
-
-https://gitlab.com/gnutls/gnutls/-/issues?sort=3Dcreated_date&state=3Dope=
-ned&search=3Dnettle&first_page_size=3D20&show=3DeyJpaWQiOiIxNzkxIiwiZnVsb=
-F9wYXRoIjoiZ251dGxzL2dudXRscyIsImlkIjoxODIwODgwMjB9
-
-
-so the nettle-4.0 upgrade (2) may have to wait for the next YP dev cycle.
-
-
-../Randy
-
-1)
-
-| libtool: compile:=C2=A0 gcc -DHAVE_CONFIG_H -I.=20
--I../../../../sources/gnutls-3.8.12/lib/accelerated/x86 -I../../..=20
--DGNUTLS_BUILDING_LIB=3D1=20
--I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../../../gl=20
--I./../../../gl=20
--I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../../includes=20
--I./../../includes=20
--I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../../=20
--I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../=20
--isystem/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native=
-/3.8.12/recipe-sysroot-native/usr/include=20
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.1=
-2/recipe-sysroot-native/usr/include=20
--Wtype-limits -fanalyzer -Wall -Wbad-function-cast -Wcast-align=3Dstrict=20
--Wdate-time -Wdisabled-optimization -Wdouble-promotion=20
--Wduplicated-branches -Wduplicated-cond -Wextra -Winit-self=20
--Winvalid-pch -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs=20
--Wmissing-prototypes -Wnested-externs -Wnull-dereference=20
--Wold-style-definition -Wopenmp-simd -Wpacked -Wpointer-arith -Wshadow=20
--Wstrict-prototypes -Wsuggest-attribute=3Dcold -Wsuggest-attribute=3Dform=
-at=20
--Wsuggest-attribute=3Dmalloc -Wsuggest-final-methods -Wsuggest-final-type=
-s=20
--Wsync-nand -Wtrampolines -Wuninitialized -Wunknown-pragmas=20
--Wunused-macros -Wvariadic-macros -Wvector-operation-performance=20
--Wwrite-strings -Warray-bounds=3D2 -Wattribute-alias=3D2 -Wformat-overflo=
-w=3D2=20
--Wformat=3D2 -Wformat-truncation=3D2 -Wimplicit-fallthrough=3D5=20
--Wshift-overflow=3D2 -Wunused-const-variable=3D2 -Wvla-larger-than=3D4031=
-=20
--Wno-analyzer-malloc-leak -Wno-missing-field-initializers=20
--Wno-unused-parameter -Wno-format-truncation -Wimplicit-fallthrough=3D2=20
--Wabi=3D11 -fdiagnostics-show-option -fno-builtin-strcmp=20
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.1=
-2/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include=20
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.1=
-2/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include=20
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.1=
-2/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include=20
--DASM_X86_64 -DASM_X86=20
--isystem/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native=
-/3.8.12/recipe-sysroot-native/usr/include=20
--O2 -pipe -c=20
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/aes-xts-x86-aesni.c=
-=20
--fPIC -DPIC -o .libs/aes-xts-x86-aesni.o
-| libtool: compile:=C2=A0 gcc=20
--isystem/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native=
-/3.8.12/recipe-sysroot-native/usr/include=20
--O2 -pipe -c=20
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/elf/sha256-ssse3-x8=
-6_64.s=20
--fPIC -DPIC -o elf/.libs/sha256-ssse3-x86_64.o
-| In file included from=20
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/aes-cbc-x86-ssse3.c=
-:34:
-| ../../../../sources/gnutls-3.8.12/lib/accelerated/x86/sha-x86.h:4:10:=20
-fatal error: nettle/sha.h: No such file or directory
-|=C2=A0 =C2=A0 =C2=A04 | #include <nettle/sha.h>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~=
-~~~~~
-| compilation terminated.
-|=20
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/sha-x86-ssse3.c:28:=
-10:=20
-fatal error: nettle/sha.h: No such file or directory
-|=C2=A0 =C2=A0 28 | #include <nettle/sha.h>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~=
-~~~~~
-
-
-2)
-
-nettle patch in progress is an easy update:
-
-
- From 9ceab42c2ff568c2f770817cef6b7192e245a2e3 Mon Sep 17 00:00:00 2001
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-Date: Tue, 24 Feb 2026 16:06:22 -0500
-Subject: [PATCH] nettle: upgrade 3.10.2 -> 4.0
-
-Release notes:
-https://lists.gnu.org/archive/html/info-gnu/2026-02/msg00002.html
-
-license change whitespace and http -> https
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- =C2=A0.../nettle/{nettle_3.10.2.bb =3D> nettle_4.0.bb} | 4 ++--
- =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
- =C2=A0rename meta/recipes-support/nettle/{nettle_3.10.2.bb =3D> nettle_4=
-.0.bb}=20
-(93%)
+ meta/recipes-connectivity/socat/socat_1.8.1.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-support/nettle/nettle_3.10.2.bb=20
-b/meta/recipes-support/nettle/nettle_4.0.bb
-similarity index 93%
-rename from meta/recipes-support/nettle/nettle_3.10.2.bb
-rename to meta/recipes-support/nettle/nettle_4.0.bb
-index e651f68cb9..2156a10c00 100644
---- a/meta/recipes-support/nettle/nettle_3.10.2.bb
-+++ b/meta/recipes-support/nettle/nettle_4.0.bb
-@@ -7,7 +7,7 @@ context-independent set of cryptographic algorithms"
- =C2=A0SECTION =3D "libs"
- =C2=A0LICENSE =3D "LGPL-3.0-or-later | GPL-2.0-or-later"
-
--LIC_FILES_CHKSUM =3D=20
-"file://COPYING.LESSERv3;md5=3D6a6a8e020838b23406c81b19c1d46df6 \
-+LIC_FILES_CHKSUM =3D=20
-"file://COPYING.LESSERv3;md5=3D3000208d539ec061b899bce1d9ce9404 \
-file://COPYINGv2;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
-file://serpent-decrypt.c;beginline=3D14;endline=3D36;md5=3Dca0d220bc413e1=
-842ecc507690ce416e=20
-\
-file://serpent-set-key.c;beginline=3D14;endline=3D36;md5=3Dca0d220bc413e1=
-842ecc507690ce416e"
-@@ -20,7 +20,7 @@ SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
-file://check-header-files-of-openssl-only-if-enable_.patch \
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
-
--SRC_URI[sha256sum] =3D=20
-"fe9ff51cb1f2abb5e65a6b8c10a92da0ab5ab6eaf26e7fc2b675c45f1fb519b5"
-+SRC_URI[sha256sum] =3D=20
-"3addbc00da01846b232fb3bc453538ea5468da43033f21bb345cb1e9073f5094"
-
- =C2=A0UPSTREAM_CHECK_REGEX =3D "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
-
---=20
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.1.0.bb b/meta/recipes-connectivity/socat/socat_1.8.1.0.bb
+index 331133d6f9..b9a27c648e 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.1.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.1.0.bb
+@@ -43,8 +43,6 @@ PACKAGECONFIG ??= "readline openssl"
+ PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ 
+-CFLAGS += "-fcommon"
+-
+ do_install:prepend () {
+     mkdir -p ${D}${bindir}
+     install -d ${D}${bindir} ${D}${mandir}/man1
+-- 
 2.34.1
 
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------kXyeyKbP0F5QL24RLzqmRTw3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2026-02-18 1:41 p.m., Auto Upgrade
-      Helper via lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:0101019c720f0fa8-77ada6f7-2fd8-4dac-8882-d071da0437da-000000@us-west-2.amazonses.com">
-      <pre wrap="" class="moz-quote-pre">Hello,
-
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *nettle* to *4.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed</pre>
-    </blockquote>
-    In case anyone else starts to look at this the upgrade,&nbsp;<br>
-    I think it's blocked by a sha.h dependency in gnutls-3.8.12
-    (latest),&nbsp; (1)<br>
-    <br>
-    There's a 3 week old bug to track the problem:<br>
-    <p><a class="moz-txt-link-freetext" href="https://gitlab.com/gnutls/gnutls/-/issues?sort=created_date&amp;state=opened&amp;search=nettle&amp;first_page_size=20&amp;show=eyJpaWQiOiIxNzkxIiwiZnVsbF9wYXRoIjoiZ251dGxzL2dudXRscyIsImlkIjoxODIwODgwMjB9">https://gitlab.com/gnutls/gnutls/-/issues?sort=created_date&amp;state=opened&amp;search=nettle&amp;first_page_size=20&amp;show=eyJpaWQiOiIxNzkxIiwiZnVsbF9wYXRoIjoiZ251dGxzL2dudXRscyIsImlkIjoxODIwODgwMjB9</a></p>
-    <p><br>
-    </p>
-    <p>so the nettle-4.0 upgrade (2) may have to wait for the next YP
-      dev cycle.</p>
-    <p><br>
-    </p>
-    <p>../Randy</p>
-    <p>1)</p>
-    <p>| libtool: compile:&nbsp; gcc -DHAVE_CONFIG_H -I.
-      -I../../../../sources/gnutls-3.8.12/lib/accelerated/x86 -I../../..
-      -DGNUTLS_BUILDING_LIB=1
-      -I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../../../gl
-      -I./../../../gl
-      -I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../../includes
-      -I./../../includes
-      -I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../../
-      -I../../../../sources/gnutls-3.8.12/lib/accelerated/x86/../
--isystem/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/include
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/include
-      -Wtype-limits -fanalyzer -Wall -Wbad-function-cast
-      -Wcast-align=strict -Wdate-time -Wdisabled-optimization
-      -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wextra
-      -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-declarations
-      -Wmissing-include-dirs -Wmissing-prototypes -Wnested-externs
-      -Wnull-dereference -Wold-style-definition -Wopenmp-simd -Wpacked
-      -Wpointer-arith -Wshadow -Wstrict-prototypes
-      -Wsuggest-attribute=cold -Wsuggest-attribute=format
-      -Wsuggest-attribute=malloc -Wsuggest-final-methods
-      -Wsuggest-final-types -Wsync-nand -Wtrampolines -Wuninitialized
-      -Wunknown-pragmas -Wunused-macros -Wvariadic-macros
-      -Wvector-operation-performance -Wwrite-strings -Warray-bounds=2
-      -Wattribute-alias=2 -Wformat-overflow=2 -Wformat=2
-      -Wformat-truncation=2 -Wimplicit-fallthrough=5 -Wshift-overflow=2
-      -Wunused-const-variable=2 -Wvla-larger-than=4031
-      -Wno-analyzer-malloc-leak -Wno-missing-field-initializers
-      -Wno-unused-parameter -Wno-format-truncation
-      -Wimplicit-fallthrough=2 -Wabi=11 -fdiagnostics-show-option
-      -fno-builtin-strcmp
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include
--I/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include
-      -DASM_X86_64 -DASM_X86
--isystem/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/include
-      -O2 -pipe -c
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/aes-xts-x86-aesni.c&nbsp;
-      -fPIC -DPIC -o .libs/aes-xts-x86-aesni.o<br>
-      | libtool: compile:&nbsp; gcc
--isystem/home/rmacleod/yocto/upgrades/tmp/work/x86_64-linux/gnutls-native/3.8.12/recipe-sysroot-native/usr/include
-      -O2 -pipe -c
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/elf/sha256-ssse3-x86_64.s&nbsp;
-      -fPIC -DPIC -o elf/.libs/sha256-ssse3-x86_64.o<br>
-      | In file included from
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/aes-cbc-x86-ssse3.c:34:<br>
-      |
-      ../../../../sources/gnutls-3.8.12/lib/accelerated/x86/sha-x86.h:4:10:
-      fatal error: nettle/sha.h: No such file or directory<br>
-      |&nbsp; &nbsp; &nbsp;4 | #include &lt;nettle/sha.h&gt;<br>
-      |&nbsp; &nbsp; &nbsp; &nbsp;|&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ^~~~~~~~~~~~~~<br>
-      | compilation terminated.<br>
-      |
-../../../../sources/gnutls-3.8.12/lib/accelerated/x86/sha-x86-ssse3.c:28:10:
-      fatal error: nettle/sha.h: No such file or directory<br>
-      |&nbsp; &nbsp; 28 | #include &lt;nettle/sha.h&gt;<br>
-      |&nbsp; &nbsp; &nbsp; &nbsp;|&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ^~~~~~~~~~~~~~<br>
-      <br>
-    </p>
-    <p><br>
-    </p>
-    <p>2)</p>
-    <p>nettle patch in progress is an easy update:</p>
-    <p><br>
-    </p>
-    <p>From 9ceab42c2ff568c2f770817cef6b7192e245a2e3 Mon Sep 17 00:00:00
-      2001<br>
-      From: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a><br>
-      Date: Tue, 24 Feb 2026 16:06:22 -0500<br>
-      Subject: [PATCH] nettle: upgrade 3.10.2 -&gt; 4.0<br>
-      <br>
-      Release notes:<br>
-      &nbsp;
-      &nbsp;<a class="moz-txt-link-freetext" href="https://lists.gnu.org/archive/html/info-gnu/2026-02/msg00002.html">https://lists.gnu.org/archive/html/info-gnu/2026-02/msg00002.html</a><br>
-      <br>
-      license change whitespace and http -&gt; https<br>
-      <br>
-      Signed-off-by: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a><br>
-      ---<br>
-      &nbsp;.../nettle/{nettle_3.10.2.bb =&gt; nettle_4.0.bb}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-      | 4 ++--<br>
-      &nbsp;1 file changed, 2 insertions(+), 2 deletions(-)<br>
-      &nbsp;rename meta/recipes-support/nettle/{nettle_3.10.2.bb =&gt;
-      nettle_4.0.bb} (93%)<br>
-      <br>
-      diff --git a/meta/recipes-support/nettle/nettle_3.10.2.bb
-      b/meta/recipes-support/nettle/nettle_4.0.bb<br>
-      similarity index 93%<br>
-      rename from meta/recipes-support/nettle/nettle_3.10.2.bb<br>
-      rename to meta/recipes-support/nettle/nettle_4.0.bb<br>
-      index e651f68cb9..2156a10c00 100644<br>
-      --- a/meta/recipes-support/nettle/nettle_3.10.2.bb<br>
-      +++ b/meta/recipes-support/nettle/nettle_4.0.bb<br>
-      @@ -7,7 +7,7 @@ context-independent set of cryptographic
-      algorithms&quot;<br>
-      &nbsp;SECTION = &quot;libs&quot;<br>
-      &nbsp;LICENSE = &quot;LGPL-3.0-or-later | GPL-2.0-or-later&quot;<br>
-      &nbsp;<br>
-      -LIC_FILES_CHKSUM =
-      &quot;<a class="moz-txt-link-freetext" href="file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6">file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6</a> \<br>
-      +LIC_FILES_CHKSUM =
-      &quot;<a class="moz-txt-link-freetext" href="file://COPYING.LESSERv3;md5=3000208d539ec061b899bce1d9ce9404">file://COPYING.LESSERv3;md5=3000208d539ec061b899bce1d9ce9404</a> \<br>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-      &nbsp;<a class="moz-txt-link-freetext" href="file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263">file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263</a> \<br>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-&nbsp;<a class="moz-txt-link-freetext" href="file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e">file://serpent-decrypt.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e</a>
-      \<br>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-&nbsp;<a class="moz-txt-link-freetext" href="file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e">file://serpent-set-key.c;beginline=14;endline=36;md5=ca0d220bc413e1842ecc507690ce416e</a>&quot;<br>
-      @@ -20,7 +20,7 @@ SRC_URI = &quot;${GNU_MIRROR}/${BPN}/${BP}.tar.gz \<br>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-      <a class="moz-txt-link-freetext" href="file://check-header-files-of-openssl-only-if-enable_.patch">file://check-header-files-of-openssl-only-if-enable_.patch</a> \<br>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;<br>
-      &nbsp;<br>
-      -SRC_URI[sha256sum] =
-      &quot;fe9ff51cb1f2abb5e65a6b8c10a92da0ab5ab6eaf26e7fc2b675c45f1fb519b5&quot;<br>
-      +SRC_URI[sha256sum] =
-      &quot;3addbc00da01846b232fb3bc453538ea5468da43033f21bb345cb1e9073f5094&quot;<br>
-      &nbsp;<br>
-      &nbsp;UPSTREAM_CHECK_REGEX = &quot;nettle-(?P&lt;pver&gt;\d+(\.\d+)+)\.tar&quot;<br>
-      &nbsp;<br>
-      --&nbsp;<br>
-      2.34.1<br>
-      <br>
-    </p>
-    <blockquote type="cite" cite="mid:0101019c720f0fa8-77ada6f7-2fd8-4dac-8882-d071da0437da-000000@us-west-2.amazonses.com">
-      <pre wrap="" class="moz-quote-pre">
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------kXyeyKbP0F5QL24RLzqmRTw3--
 
