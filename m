@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EB6F357DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B26EE9B27F
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:23 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21694.1771943595840889927
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21488.1771943602085494238
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:33:16 -0800
+ Tue, 24 Feb 2026 06:33:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=y8buO5Fw;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso47690245e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:15 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fuiami+y;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48375f10628so36364995e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943594; x=1772548394; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943600; x=1772548400; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7BhoUsFliQYrCLzo2FhEnZnZ6m+T605BKF0nfQOd32Q=;
-        b=y8buO5Fwohj/6UbuyWy9w9O2F1XufA9dvCvCyMp4mlMA8BnX7YESQ7rFxdAZo8YbMs
-         59ZjjPYohC2tSfpeVmf2GcAwVNxrQ2HGXZ2Xubk8menKxFX5fKnbKVEYf/LB21YqlcQy
-         a2btkTpetumsbcdwF8CA+BoKs8VeRwzBoAkVE=
+        bh=zILtqDEitUOXxwvTCLGuPp/y4njQ3UjRfcMnnjzpOUY=;
+        b=fuiami+ypUcocG/koOqNExCFskkWqcPskKeCaqSgGc8sXsq2ssIG3WlbWM444C10pW
+         il4C5M72SDqoMXN87v+aSFVreYKrDeUpV5fahX+25lNH6/rEhNO9eMsJpqXlvjORO3Cg
+         BLClD/jWWfWJLcUYo4kO5nHjZ8kF1HwRAR9TA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943594; x=1772548394;
+        d=1e100.net; s=20230601; t=1771943600; x=1772548400;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=7BhoUsFliQYrCLzo2FhEnZnZ6m+T605BKF0nfQOd32Q=;
-        b=Pd59Z3ySDj3dqpTJ5G8njbAJZlDtzjPrlRrhLLo5+1jvQTvipmNb2TyrTZMVjNrHsA
-         GqQ5++mFA1cZgkDNR8tNUu2VZ3Vn/HWLY23ezoxfTvKAoGdA1DkVK+TqfUPR+rNwQ/Pi
-         ADyL85h1aL2VbPiwKuxn2/aYPqGgANqJfKhuX3VWsNuuDPqbrdducKPh6TImbFyvqpQW
-         B32c29/MhYH6NXAAS4smXYdIuJ4zbF9wr1m+V97lvSOiXJvNqBJ6B2gbmbGKmMOrgt4M
-         Dnui93PZCb5zB4WLc12n14QhUimDODO/Xg/68SGllAhkYkLnJzlqTKcffGxp8RvZkiFV
-         Xvlw==
-X-Gm-Message-State: AOJu0Yyo+/OnHRYR6IegzjBeriACE7qD6bbRL4FCCLyH0q4niHrZyZ7M
-	WhBlz64FeNpTIvJTGbtt5hj9YjqK3yTzTXNGaT1N9wexqSh421LoygTKRRS6T9oy6fCYCmwCVOr
-	waCQ7
-X-Gm-Gg: AZuq6aKm0MtAiU9WNO6fJ+5w1NVorlBIjB3ITLXJqFB8G0xl1JjXbNoFN23IP6ailh6
-	XxvTLW9v43Obgr/W3tIz5rWIymGAFvagps8Xa6ISbAAc54IV1ILodkUutMifhrS+q4tP7diVUdB
-	kzR2VZgHEtuoZoB4pIiUQaCCXE5G5jW8t+EFrph7tEDQII5tOXdwHG6oglsouW0kAw/isy1VEo0
-	uLkZYCBexu52W0uWaxEpa8IO5ggXmkBsq72sEgtXxX9Ra6P/SJyBmKVIotyTjM6vF0hmi1O1MSB
-	KkRi+Vv4z+k77tj0TfDLMOmsP7WmbEkpfcPQEX1IeSrEymQ0YXGoWJUWh2EaHNwBE3xuh3bsbsy
-	BQ37j7d7VYF72Ek8CKX1SIJyY23mg3Y8pe9tSR8K9uX5Mc7hrXMYn6gIswUYcKAorqHDfyfCDYI
-	OjheQzgR+eS/P8Xxax+vWpb2lg3pM5jpk7LhrTgXgrwEwC38O8qg6c6MYitVP5ueutJtBTR7mAt
-	7RFSUFb7JmRkEUmlosXWb5aHjWfgP9CrQ==
-X-Received: by 2002:a05:600c:3516:b0:483:7783:5373 with SMTP id 5b1f17b1804b1-483a963588bmr189718395e9.23.1771943593839;
-        Tue, 24 Feb 2026 06:33:13 -0800 (PST)
+        bh=zILtqDEitUOXxwvTCLGuPp/y4njQ3UjRfcMnnjzpOUY=;
+        b=G4rZf0NTEs37JiEBUCbDKmywxF4GTPS/CECjSXz8eYCe7a2choXiC+7JvCZF/9HzfU
+         /XPNSsCARqG+EC9naa53UaSYDXq+TAsAT3UAaBOROJbgtfniqJYed9AO9W13LHONs1ua
+         b90wWoMqdPk4JUugki+XIR/yeCNA7SaATupMsY/CWzxtyYBLszM8Wm6+X4P8ZH2t2SN1
+         AEkgO/7DsngJAaKINEotOwwMWA8bhInZi3cmdYEf1mRP1tjeZm47hqMBl6G9j7rJh/I8
+         kDMBPKqb5C3S7n73cEoiibli0ALutfRvX9E9ovDzQGq/TTnr4uQGCY99RcdiaPvK8T9k
+         40bQ==
+X-Gm-Message-State: AOJu0Yzl14nj3y/tPsztWXg4F8VGI27vXCuVXN0rpO4PX1cl0UjB9yMQ
+	PLCNPMXlxBjIHbl5VkQ+d2bsQB5qRxihCP4vT5EpuAp6T6cORtcPDBbBONl4zucX/hQu6xkNccg
+	XYsbM
+X-Gm-Gg: AZuq6aLSkY4VK7SHRMKh7xXr+SqvYlVYVji7y/tO0VVJsX8A+nhuhsMG/jFCVl5MKch
+	vzg7W4qbcIkqiMET6339ljOVcX2CJaEH5ZWWgg80rLlasTnD6kEnZ7JV8Uod7AS/vcmWMeUjBRI
+	WR9b5jNlymZ8D9Va0RL/3KmuntzY/22eyT1vYdcxu54Z5+LYZoUfIewqNIiJa9tRzVRhIPfxRfi
+	TM4uBnElCq0W0ndwf9wTzIOcuZiW93kjpI/Ez28LXkmBsoD/0FRRj9Y2neCYdeR8rFyNdTekvJS
+	8RmGcoIe0DDkTV58Ku5AAtJ6iJzSGKryfbOPNemwV5ehwN7GBgjKUp5gX37vyCkPohQvrYiIWvU
+	kG6aMiBHfGjuXcszYIm0TIz0Jjv2K2aUGToVsZdOPiJ5bw0x8oAfUnUrrr+vVKhLYKU4FL8NK72
+	MNucxlx9L4xxwZP1sEXKxTjGfmnAzSdTXnY+dWhbpncdwYwuYS5S+BTTkk8dMdyvFKm9VMZCwtD
+	+TLFF0O8jHoq6kYi4ZHxoEYNufN54I+zg==
+X-Received: by 2002:a05:600c:a00d:b0:482:df17:bbbc with SMTP id 5b1f17b1804b1-483a95e2535mr203078465e9.20.1771943600283;
+        Tue, 24 Feb 2026 06:33:20 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:33:13 -0800 (PST)
+        Tue, 24 Feb 2026 06:33:19 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 35/44] wic/engine: error on old host debugfs for standalone directory copy
-Date: Tue, 24 Feb 2026 15:32:03 +0100
-Message-ID: <45b7d8a8211775000647cfc3ed698e5ad015ab11.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 44/44] u-boot: move CVE patches out of the common .inc file
+Date: Tue, 24 Feb 2026 15:32:12 +0100
+Message-ID: <94a2960e1ae3923599affb6b227ef3f1870f5633.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
@@ -66,76 +66,64 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231842
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231851
 
-From: Daniel Dragomir <daniel.dragomir@windriver.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-When wic is used in standalone mode, it relies on host tools such as
-debugfs. For directory host->image copies into ext* partitions, wic
-uses scripted debugfs "-f" input with multiple mkdir/write commands.
+An external layer might use the u-boot*.inc files but have a different
+base version for which the CVE patches don't apply.
 
-Older host debugfs versions (< 1.46.5) may behave unreliably in this
-mode and can silently miss files. This does not affect builds using
-debugfs from OE where the version is known to be sufficiently new.
+Move the CVE patches in the leaf recipe.
 
-Add a debugfs version check and emit an error when an older host
-debugfs is detected. The error is shown once per run and halts execution.
+See related patch in kirkstone:
+[kirkstone][PATCH] u-boot: move CVE patch out of u-boot-common.inc
+https://lists.openembedded.org/g/openembedded-core/topic/117385432
 
-Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cb536737bee95d5a5072b501bda9554705e8cd13)
-[YC: removed patch changelog]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/lib/wic/engine.py | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ meta/recipes-bsp/u-boot/u-boot-common.inc | 12 +-----------
+ meta/recipes-bsp/u-boot/u-boot_2024.01.bb | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 565a0db38a6..8ca8ed0dbd4 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -220,6 +220,34 @@ def wic_list(args, scripts_path):
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index da34e3d3e80..1f17bd7d0af 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -14,17 +14,7 @@ PE = "1"
+ # repo during parse
+ SRCREV = "866ca972d6c3cabeaf6dbac431e8e08bb30b3c8e"
  
-     return False
+-SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
+-           file://CVE-2024-57254.patch \
+-           file://CVE-2024-57255.patch \
+-           file://CVE-2024-57256.patch \
+-           file://CVE-2024-57257.patch \
+-           file://CVE-2024-57258-1.patch \
+-           file://CVE-2024-57258-2.patch \
+-           file://CVE-2024-57258-3.patch \
+-           file://CVE-2024-57259.patch \
+-           file://CVE-2024-42040.patch \
+-"
++SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
  
-+_DEBUGFS_VERSION = None
-+
-+def debugfs_version_check(debugfs_path, min_ver=(1, 46, 5)):
-+    global _DEBUGFS_VERSION
-+
-+    if _DEBUGFS_VERSION is None:
-+        out = ""
-+        for flag in ("-V", "-v"):
-+            try:
-+                out = exec_cmd(f"{debugfs_path} {flag}")
-+                break
-+            except Exception:
-+                continue
-+
-+        import re
-+        m = re.search(r"(\d+)\.(\d+)\.(\d+)", out or "")
-+        _DEBUGFS_VERSION = tuple(map(int, m.groups())) if m else None
-+
-+    ver = _DEBUGFS_VERSION
-+
-+    if ver is not None and ver < min_ver:
-+        raise WicError(
-+            "Sorry, debugfs 1.46.5 or later is required for this script. "
-+            "Older versions of debugfs can make directory copies into ext* partitions "
-+            "via scripted debugfs (-f) unreliable or broken. Detected version: %s"
-+            % (".".join(map(str, ver)) if ver else "unknown")
-+        )
-+
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2024.01.bb b/meta/recipes-bsp/u-boot/u-boot_2024.01.bb
+index b15bcaa818f..e412f503f10 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2024.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2024.01.bb
+@@ -3,3 +3,13 @@ require u-boot.inc
  
- class Disk:
-     def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext')):
-@@ -334,6 +362,7 @@ class Disk:
-         if self.partitions[pnum].fstype.startswith('ext'):
-             if isinstance(src, str): # host to image case
-                 if os.path.isdir(src):
-+                    debugfs_version_check(self.debugfs)
-                     base = os.path.abspath(src)
-                     base_parent = os.path.dirname(base)
-                     cmds = []
+ DEPENDS += "bc-native dtc-native python3-pyelftools-native"
+ 
++SRC_URI += "file://CVE-2024-57254.patch \
++            file://CVE-2024-57255.patch \
++            file://CVE-2024-57256.patch \
++            file://CVE-2024-57257.patch \
++            file://CVE-2024-57258-1.patch \
++            file://CVE-2024-57258-2.patch \
++            file://CVE-2024-57258-3.patch \
++            file://CVE-2024-57259.patch \
++            file://CVE-2024-42040.patch \
++"
 
