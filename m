@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB26CF357B8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED840F357D9
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:22 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21487.1771943601866072309
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21697.1771943599836504482
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:33:22 -0800
+ Tue, 24 Feb 2026 06:33:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XC0tnyLj;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4837907f535so50168725e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:21 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=I1YXZ4hk;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48336a6e932so34615935e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943600; x=1772548400; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943598; x=1772548398; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XuoiX2DC7+p05Y4RUMSS4+Te5CXtP57UOip/sal+s3g=;
-        b=XC0tnyLjiluCm0Q9nhBNdOtH642FDxXelrhJ5O1jLdTiTfwTxsLLxv8KAl9ih5bZr4
-         qA128rzhxE44LscMwze4lRvkLbWz/JIzeaq2xQBpCvX8u/NWvRMMshomswd32lh0ZA3M
-         w6Alk5n0oG0qhBq1pIa0MHznaf5oHKGiehUec=
+        bh=Get/K8Ad/0gkC/fRTNSZS+7nqdVV69GPFf9GFLam5Bo=;
+        b=I1YXZ4hkcnXleu7NrZkbrGKr6T5STB6Qj8h6zVxC5Dfr68vcn5rQG9Nk7xcCzy/L2u
+         SWAUX4pWYj8ylh0k7YW7kjvXW29/Qj/+5VjeWkfGO/kSH9RHME+1//Oc7t1w/eJI9Br7
+         dgsM2jJ4yoCH4vI7iUuc7JBVKh1EstGqeYN7k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943600; x=1772548400;
+        d=1e100.net; s=20230601; t=1771943598; x=1772548398;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XuoiX2DC7+p05Y4RUMSS4+Te5CXtP57UOip/sal+s3g=;
-        b=hyB209obv+zJJISmRQ5199a7yuQVn17tZD37EQGoqKciBTnZ0763MZJAkGgyD1hO0u
-         tym5SqKwDpEEpQpd8vovzpOU6JgMymX35GGeQGFMS2n7EVYDwHxjonHaf/tCD+OAT6lm
-         hyxuD2INkq7TM5IgkcLEW3wxqwdmg8l+8L32WjaLXrkyPLGENg8OQ+gL+M+77f/sWTBN
-         6xNdg9ysEYnk9WqmhmPK2Qqq0E2IZM0XbQ5VsIWVJMY9JA74b8ZdqaBID4fZIiaotGoQ
-         7MZCUlNfPpImys8neF7fw8R5V7KCuDJ2lOhOKoEEwTxEIrOVoHrslnOKJIB7GglXpARd
-         7Zyg==
-X-Gm-Message-State: AOJu0YwpOlzY4HSokG2b8jo3x+cwBVTVOoWb9cowN6btLdMkuyXANro5
-	HSLCLz8JrdSKcTh7h+QYS8pvvi+NeKnNiB4KrJ+b8jGRtGtii6RZYl000GLsy5c5LRusL6ITxVV
-	lUI3/
-X-Gm-Gg: AZuq6aL9sdrOH+9kMndDgGVAcbyVL+Q1uqIWs51UHu6fyMVmHkHhEsGBTPHkx8cJeKv
-	sRgMkcjSal2wAx3Wg9iqkxZ52qJkmTiocA6Avv1y0TPAjIIZDbhKAVouE/XnXwAXJKs/P1LCgOL
-	EOM0EZjmxNN6rNRhJuBEcjCqXdwXRnEgoinSeiH8SZW+S+eRLU4MWf/s/++/L1EgmbdLUmaBvUm
-	ELRbMU0bVCv+ORMp1TZtXQrDWZa9dD7UZUvwK4q1wjPP7D4WQNZjJEoJr7srwoF+jNrAUyvvjcu
-	JG6KfYwDB5Oz9qfQUEBwgBVF8VinbFZ9I9IfjCffR1cvU63VDBGE6lIo5rKcZ2V6bFeRWpukfgh
-	pnnaPUwICSrwC1BkhfCBeeX4D9VCkDqjuP8pELgNZ2N0N8w6jpBZRZUa/sXPStk5K4rZTBU8syQ
-	u1ms+Vq7RVg++2vlNA6q5uJKMU5HS8FYgNipeOHTwg6SJ4UCNLQgJz3id3a27BmLI0P4hszM37e
-	XnBjPXt65p7n7p3JaZ7pAo5Q10E1eWy3+RQjSj/j5Hn
-X-Received: by 2002:a05:600c:314e:b0:482:f12f:f35e with SMTP id 5b1f17b1804b1-483a95c710bmr201955965e9.12.1771943599678;
-        Tue, 24 Feb 2026 06:33:19 -0800 (PST)
+        bh=Get/K8Ad/0gkC/fRTNSZS+7nqdVV69GPFf9GFLam5Bo=;
+        b=dQAn7Gruoz/87Pp8kUdk1uu39TLWPGrStDavcydeTJVjJ6hTdgg6H1wFwuMiuIENBW
+         dGszlEr2i3iyzz/XG0w8fcsheUhpDxJRS9zH+vmO9J6fwy4iQF9QXKFTQ9QMPEN/75IY
+         n2xja6dgSNZFiddAUFKTMzlZQRSQPYXZ7/d5kD9/4p8R/Cmlgp8T6q7Yamh+q301l6PJ
+         0QZXL8HjDs6kWnX7ChN5tChBzqTrWEvfewjfgl1Rz4OrV2G8AYY2HoGi4equoAe0oITo
+         lvPzpaiLs0pFsTJhpV3MbW9JBmoj9D8mOFRGajMDJ2ON3T66n+j6WThPri+WL9RYl1Zx
+         v7kA==
+X-Gm-Message-State: AOJu0Yze4GFx1Rz8ZPATo9YOvTPHK3Zh/K0K8wIXs8wFroVcwyRB7MrN
+	Drp+PGG/ZsYvFxwcZ9VCoU+zMJ1ezE1QsdLvkTfv4Z53PVNTNcPUk9h4JKICcHAXk4HwrQVqHGe
+	GJ9+o
+X-Gm-Gg: AZuq6aJ0ujAqdVddsudS5CyY0Y7Q5Wxc0l4d4JP7KJqBdJbaD0Z5iNq1rCGZjDmnVNH
+	0l0QnPl1P3gEsbDpHv6c0A1xxisDycploLXF8t7Ns/MV0QZhqzKRxEKtiC1J0nu/fYSkVj0oFa0
+	AkA8aQoaUzEeAiCWc8EQPIY+mA0jn85hGIlFt91NlMuRfGcQWBXRKx8i8yVUnIsqQtmbuX9v/cV
+	EIiGZaAMdEbGaigWWE9A6JRAsyVG4iMbX53hrAloqVJu6wOELKzBhOH2FbipalpKpEttd1+vDQG
+	CGTm/1uS9aqtvXiFpbsslcn8xkfNF52LgLlhw1uOWBJSwKyWHmEGAKTb1GyXhzhEYUawLr3EXjM
+	T747NprHZykNg8igk6sqIkaHqBJPlkp85ZbN8PsW1baCtGt79amIlb/Adx8sDXrCTGbjiQN5hyI
+	xon3zaoWXdUpsUmkVbbD5HfYIRYCqJ1F2EKBdBVYQ4FGX2we53taeXaK/jtLxeK0NFfBN8JPh8c
+	l/pYZVmKAxzp5aAoCK4t5w9IhqcjX6dEg==
+X-Received: by 2002:a05:600c:468b:b0:477:58af:a91d with SMTP id 5b1f17b1804b1-483a95eb55bmr237582865e9.5.1771943597926;
+        Tue, 24 Feb 2026 06:33:17 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:33:19 -0800 (PST)
+        Tue, 24 Feb 2026 06:33:17 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 43/44] alsa-lib: patch CVE-2026-25068
-Date: Tue, 24 Feb 2026 15:32:11 +0100
-Message-ID: <3f04c0186017e4d410498674372517016ffd1bc8.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 41/44] ffmpeg: set status of CVE-2025-25468
+Date: Tue, 24 Feb 2026 15:32:09 +0100
+Message-ID: <cd61bdef7057dc2097361c98ba4968a4e4f9d343.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
@@ -66,74 +66,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231850
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231848
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch mentioned in NVD report.
-It also includes CVE ID in commit message.
+This vulnerability was introduced in v8.0.
+This can be seen by blaming fix [1] (linked from NVD report [3]) is
+showing that the return without freeing memory was introduced in [2].
 
-Use older SNDERR funtion as new one is not yet available.
-This was copied from Debian patch.
+[1] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/d5873be583ada9e1fb887e2fe8dcfd4b12e0efcd
+[2] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/d38fc25519cf12a9212dadcba1258fc176ffbade
+[3] https://nvd.nist.gov/vuln/detail/CVE-2025-25468
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../alsa/alsa-lib/CVE-2026-25068.patch        | 34 +++++++++++++++++++
- .../alsa/alsa-lib_1.2.11.bb                   |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-25068.patch
+ meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-25068.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-25068.patch
-new file mode 100644
-index 00000000000..5ecefc5aae0
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-25068.patch
-@@ -0,0 +1,34 @@
-+From 5f7fe33002d2d98d84f72e381ec2cccc0d5d3d40 Mon Sep 17 00:00:00 2001
-+From: Jaroslav Kysela <perex@perex.cz>
-+Date: Thu, 29 Jan 2026 16:51:09 +0100
-+Subject: [PATCH] topology: decoder - add boundary check for channel mixer
-+ count
-+
-+Malicious binary topology file may cause heap corruption.
-+
-+CVE: CVE-2026-25068
-+
-+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-+
-+Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/5f7fe33002d2d98d84f72e381ec2cccc0d5d3d40]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/topology/ctl.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/src/topology/ctl.c b/src/topology/ctl.c
-+index a0c24518..322c461c 100644
-+--- a/src/topology/ctl.c
-++++ b/src/topology/ctl.c
-+@@ -1247,6 +1247,11 @@ int tplg_decode_control_mixer1(snd_tplg_t *tplg,
-+ 	if (mc->num_channels > 0) {
-+ 		map = tplg_calloc(heap, sizeof(*map));
-+ 		map->num_channels = mc->num_channels;
-++		if (map->num_channels > SND_TPLG_MAX_CHAN ||
-++		    map->num_channels > SND_SOC_TPLG_MAX_CHAN) {
-++			SNDERR("mixer: unexpected channel count %d", map->num_channels);
-++			return -EINVAL;
-++		}
-+ 		for (i = 0; i < map->num_channels; i++) {
-+ 			map->channel[i].reg = mc->channel[i].reg;
-+ 			map->channel[i].shift = mc->channel[i].shift;
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-index c212b17aa3e..e86239ff871 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
+index 03ec637ddfa..eb64b5c8d59 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
+@@ -51,6 +51,7 @@ CVE_STATUS_GROUPS += "CVE_STATUS_FIXED_61x"
+ CVE_STATUS_FIXED_61x = "CVE-2023-49502 CVE-2023-50007 CVE-2023-50008 CVE-2023-50009 CVE-2023-50010 CVE-2024-31578 CVE-2024-31582 CVE-2024-31585 CVE-2025-1594"
+ CVE_STATUS_FIXED_61x[status] = "cpe-incorrect:these CVEs are fixed in 6.1.x"
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-            file://0001-topology-correct-version-script-path.patch \
-+           file://CVE-2026-25068.patch \
-            "
- SRC_URI[sha256sum] = "9f3f2f69b995f9ad37359072fbc69a3a88bfba081fc83e9be30e14662795bb4d"
++CVE_STATUS[CVE-2025-25468] = "cpe-incorrect:vulnerability was introduced in v8.0"
+ CVE_STATUS[CVE-2025-25469] = "cpe-incorrect: Current version (6.1.4) is not impacted."
  
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 
