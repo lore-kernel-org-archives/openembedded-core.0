@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52ABAF357C5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A00F357DF
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:12 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21671.1771943581856338552
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21679.1771943588453145166
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:33:02 -0800
+ Tue, 24 Feb 2026 06:33:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Y9V2c4cr;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4836f4cbe0bso42486965e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:01 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=kF8Ll9kz;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4362197d174so3579310f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943580; x=1772548380; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943587; x=1772548387; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ao7LuEgEZrIH8Jl+aLUNcSubErJKPvwajSM/e1Xzhto=;
-        b=Y9V2c4cr/0eBb1NFLMnxGjJkOE+GUGDLqdQTcSJhOYPNXHG/6XjNpHwSVTSv6zmvwn
-         sJ4xW+GgWDQBSnxan1GYHdEHs55zc0Vw1wzrm8gK+/Uv8gLUpfQB8slQ2xRVWfYNBIWA
-         hgUU6CBjbqmcnhj31CcSQYufFc4u8FVoLvjoE=
+        bh=kWtHwzmtvB1+AxR8gnPCaQsHincClg2l4KEuwzqiId4=;
+        b=kF8Ll9kzOLduAtbAI2NHwoskDIV4l81AihRYUEMxfFKFpZgHOmGfZYYVaY+lx3W+fQ
+         IUXDHwqvqRtEX0+0cNySqiKXkUPQogSN2wyF4JF3hrXuw1Ao0dYfMhnchb5MqaKEek5F
+         PNEItjHE4vA1PNtyhEXzks+4Xky5QAG4hoyQM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943580; x=1772548380;
+        d=1e100.net; s=20230601; t=1771943587; x=1772548387;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ao7LuEgEZrIH8Jl+aLUNcSubErJKPvwajSM/e1Xzhto=;
-        b=b/cES8JikYsyIlXjDZaLgD8J4shFUYlaevecVut1xC8oXdnFTUyGNm24GEiza6vsbt
-         p9loHw+pXwo6IRPHBAkJrHIXcjpAqwVfQFs24m4r4+ZKps3G+xH7JlCyLH3SXJ/LZjDg
-         9Pr5BxwvONNFL5QS9QB709O04aWzisprsbJo/wL34qcrEZquinz11wWxKmb/oKOq+Ex8
-         6twLTf9yWhTGz0JFk+CHRdIp2jMtM+ci2ALLx6QMkkzOmDaz4yQ1+VK8NKsrW9jRRqQ/
-         qpYByxIwbkgZhDTXz41NfuB8t+ihp7nhOQbw7dXabUz4hdjWxCooS5WCW7WUlPhxCSRN
-         XxfQ==
-X-Gm-Message-State: AOJu0YwAYLwuID9C+a9CMvWSNHGdEGr2u2r4ErMWXEA71lgd2YXMv9T3
-	o2p2dIGr9zb1OAZqBOIMApiFCxqtv3y8dE7y4YPD796mpHQMSV9Jr1LD+VEe55B7Hdolzy744ix
-	G7WhL
-X-Gm-Gg: AZuq6aLMngmaMo6pemvS7/zcoZWqIrPpw9Ld/8UzcC6ijjSv8uuH8WEpfFP3hlb5E+v
-	WPBGlBkwe/Xy04/vJb+318MI8QpD8iY0U++En3lD/ynMFgOSsBYXeyloG9GcyBOVytc6dxo8EnT
-	d8MjOxERiQW8Vw2uJGnqIw5NsxSNrEYEde/WAxfuHF+on7dUiIcZWhD/dyX/KJZHLcWOXB+aWzW
-	Yghu6lIJTpMXPxpKFtM4PH/WAQyPQWv18v/7qsV+Bif2I7iT1ecGOmzhJpuWCGzEVOt61yqzFvN
-	rVSGn4PzLAcFxfIBe060BuOxBkwvGWDL0SvjjUn3C7e14jLOUIRMDNOhRmeQNr8zrqe9OINmiXn
-	ix0C6rDwmEEz/QQpjl1TFoXjkPMBdmdLzWcABPOghe4GwybjDAfNtcSEOKqRZyyRYJ3LieiSb7D
-	gf6wFHdXatcIDUgz6PItMuyHHnzuYSNa4iG/2T8VULPS4BTsxhjVXmIClnsf1F1MxIYaw6MJSXN
-	6AgQHthFirURmoTiR2ZzabcKHL2EMcVKA==
-X-Received: by 2002:a05:600c:3b96:b0:47e:e076:c7a5 with SMTP id 5b1f17b1804b1-483a95b7aedmr251939605e9.11.1771943579457;
-        Tue, 24 Feb 2026 06:32:59 -0800 (PST)
+        bh=kWtHwzmtvB1+AxR8gnPCaQsHincClg2l4KEuwzqiId4=;
+        b=CYcWl8YQFsF1tStkuoqvYgUDb/70p4ELhW4tipHIbgTU2sI06rYIxNwWYactiSQ0qS
+         6llbKayoDiZTtZ+6XjU06UIzoLEjka3uEbibyZQDis+yPd0FXWvHCnocPDag2DeNcTMr
+         JaKeRjIM0mDM7/kRTzzPeAFk/gIoBD0jHNXg/328aAkK/l7Pui55g8SYHVZf7MHPr1Fa
+         MjlXtPWAqA6ILuoQ14Ep5UW1Ul0d/DuT12Jkq3kazrNdkNcEtg9VriUOUywJ2HijX1M2
+         bR4/EqMNeii3AVgp7WddtJbo1D0pSc/b2/wI2rWZ6meibwk3knsYHdKtKSzSZs+c2vXQ
+         iBgw==
+X-Gm-Message-State: AOJu0YwFaV+8Ec4uHHlsb38fqYCXP2kT1LduhxJjgzIGgvYyF06iAMBy
+	d27/KvMcpHVNu45uuJEHSTaj5RhhZiptNuOi97lhlkJYsIUhRp6aRAzf7Rmd11gIRCNIHRvHk8y
+	yBTF1
+X-Gm-Gg: AZuq6aICjqRAG3Wyox6cEPY0L92ITz41BZBRQTOEZsYbThEIFigJXtPzB1IQOxjlBEq
+	skaSg6FsL5/e1tAVsg4St7Vlxk53nsFPMHSBJdNVeTJdNw+sA+rDRqQC7qlQNZTuz8cHd46AqEn
+	yR50L1tn3aKMrX2udUuLLDi3OeUkHHeyJm1TrXkTZyUB7nL7JsfO7pN/I3T2jSNyc9L0XU4fyEA
+	KrKvlLl98m8KoFZ7Yv1XREOxdN7z5g1abCbkmPhyJru/IHwjiHnI027TGfjNNqUURUdomf1wBeF
+	lnJ+mpYIiEKFkPPl8H8as7L43qcoIIrip6flxy5F+EhYDIAB42GkD3jm5cYyKVwpXcQ9+mQ16/J
+	btEPYz4lm3EP1SRUfM4RI03Yiao99hZE6/lg2ZUCRhnl4+iHzACxptHhSyzWflUXVMq8V7MPvpU
+	Tlnfhh7xqxbWuBc1wBHKrzxbTamXoG8krZ506azLqjqZXS+/EahignHZTE0fcfn7bptXYaPcvwG
+	NvDOCCN4lepmgOxGO3pDBLfQ1b+xsgFNQ==
+X-Received: by 2002:a05:600c:6206:b0:46f:d682:3c3d with SMTP id 5b1f17b1804b1-483a95b71b5mr227455325e9.13.1771943585716;
+        Tue, 24 Feb 2026 06:33:05 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.32.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:32:59 -0800 (PST)
+        Tue, 24 Feb 2026 06:33:05 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/44] linux-yocto/6.6: update to v6.6.123
-Date: Tue, 24 Feb 2026 15:31:45 +0100
-Message-ID: <4d1aea57d818ce892be5e2bc8cb4d6090ecbc339.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 24/44] go 1.22.12: Fix CVE-2025-68119
+Date: Tue, 24 Feb 2026 15:31:52 +0100
+Message-ID: <d32125f332022084813d5fafd193b1ee84e4f9b7.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
@@ -66,535 +66,1061 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231824
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231832
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-Updating linux-yocto/6.6 to the latest korg -stable release that comprises
-the following commits:
+Upstream Repository: https://github.com/golang/go.git
 
-    c56aaf1a85ae9 Linux 6.6.123
-    7e0d31c47b8a9 bpf/selftests: test_select_reuseport_kern: Remove unused header
-    5a530c8ead06e Revert "net: Remove conditional threaded-NAPI wakeup based on task state."
-    507692c056363 Revert "net: Allow to use SMP threads for backlog NAPI."
-    dd4c7800a905d drm/amd/display: use udelay rather than fsleep
-    572777a258c04 ptr_ring: do not block hard interrupts in ptr_ring_resize_multiple()
-    1891abe832cbf ksmbd: fix recursive locking in RPC handle list access
-    b6978c565ce33 xsk: Fix race condition in AF_XDP generic RX path
-    c74e2dbb53168 drm/amdgpu: fix NULL pointer dereference in amdgpu_gmc_filter_faults_remove
-    a3f75ee1a436e drm/amdkfd: Don't use sw fault filter if retry cam enabled
-    21bad75012f76 pinctrl: qcom: sm8350-lpass-lpi: Merge with SC7280 to fix I2S2 and SWR TX pins
-    38a0f2215aee4 mptcp: avoid dup SUB_CLOSED events after disconnect
-    73408fa92742b writeback: fix 100% CPU usage when dirtytime_expire_interval is 0
-    d84a4836dc246 perf: sched: Fix perf crash with new is_user_task() helper
-    e57bda247f29c drm/msm/a6xx: fix bogus hwcg register updates
-    e228ad913b0d2 pinctrl: lpass-lpi: implement .get_direction() for the GPIO driver
-    daf8a4eb70ff4 ALSA: usb-audio: Fix missing unlock at error path of maxpacksize check
-    db24153fc77a8 net/sched: act_ife: convert comma to semicolon
-    1d14f86e813f6 btrfs: prevent use-after-free on page private data in btrfs_subpage_clear_uptodate()
-    9d0ed508a9e2a drm/radeon: delete radeon_fence_process in is_signaled, no deadlock
-    e26235840fd96 team: Move team device type change at the end of team_port_add
-    27ca8004ba93a wifi: ath11k: add srng->lock for ath11k_hal_srng_* in monitor mode
-    fb2b9a1e85bdd wifi: mac80211: move TDLS work to wiphy work
-    6b615a8fb3af0 ksmbd: Fix race condition in RPC handle list access
-    d1bda2ab0cf95 drm/amdgpu: Replace Mutex with Spinlock for RLCG register access to avoid Priority Inversion in SRIOV
-    4d1e9a4a450aa ksmbd: smbd: fix dma_unmap_sg() nents
-    143980bd2be75 mei: trace: treat reg parameter as string
-    ce820dd4e6e2d arm64/fpsimd: signal: Fix restoration of SVE context
-    40b73f0519d3c arm64/fpsimd: signal: Consistently read FPSIMD context
-    15110f9cdc877 arm64/fpsimd: signal: Mandate SVE payload for streaming-mode state
-    e527e695fdfc1 mm/kfence: randomize the freelist on initialization
-    38c32baf6d2c7 gpio: rockchip: Stop calling pinctrl for set_direction
-    e618b52a1589a drm/amdgpu/gfx11: fix wptr reset in KGQ init
-    c61c93218956c drm/amdgpu/gfx10: fix wptr reset in KGQ init
-    cbf4d79e5c619 drm/amdgpu/soc21: fix xclk for APUs
-    9a15d3fdc22d4 drm/imx/tve: fix probe device leak
-    cdaf07ec0b698 scripts: generate_rust_analyzer: Add compiler_builtins -> core dep
-    884b2590ffcc7 flex_proportions: make fprop_new_period() hardirq safe
-    4bed436cdef70 selftests: mptcp: join: fix local endp not being tracked
-    ba58cd70a4223 selftests: mptcp: check subflow errors in close events
-    8b5061c3400a7 selftests: mptcp: check no dup close events after error
-    d761d42be060b mptcp: only reset subflow errors when propagated
-    510a16f1c5c16 efivarfs: fix error propagation in efivar_entry_get()
-    a9c96f113a5f3 scsi: qla2xxx: edif: Fix dma_free_coherent() size
-    122751f43f930 gpio: pca953x: mask interrupts in irq shutdown
-    c2fc0aae3cf42 ASoC: amd: yc: Add DMI quirk for Acer TravelMate P216-41-TCO
-    441d129ba899e scsi: be2iscsi: Fix a memory leak in beiscsi_boot_get_sinfo()
-    28a1e5e97c899 ASoC: fsl: imx-card: Do not force slot width to sample width
-    018e9e9cae7b3 rust: kbuild: give `--config-path` to `rustfmt` in `.rsi` target
-    929e568a83da5 riscv: compat: fix COMPAT_UTS_MACHINE definition
-    8519c9231ce23 pinctrl: meson: mark the GPIO controller as sleeping
-    be1cebabb3cd2 dma/pool: distinguish between missing and exhausted atomic pools
-    0368794dc28a1 gpiolib: acpi: use BIT_ULL() for u64 mask in address space handler
-    2f45c46661911 ASoC: Intel: sof_es8336: fix headphone GPIO logic inversion
-    ac3a2ea06f3c8 scsi: firewire: sbp-target: Fix overflow in sbp_make_tpg()
-    0d434670eb0bb net/mlx5e: Skip ESN replay window setup for IPsec crypto offload
-    e43fdee29a96f net: bridge: fix static key check
-    546eba0b10989 nfc: nci: Fix race between rfkill and nci_unregister_device().
-    970526dde3686 net/mlx5e: Account for netdev stats in ndo_get_stats64
-    e014f11f741be net/mlx5e: Report rx_discards_phy via rx_dropped
-    62e1d8920f692 net/mlx5e: TC, delete flows only for existing peers
-    fd30aa82df73b ice: stop counting UDP csum mismatch as rx_errors
-    f8d002626d434 nfc: llcp: Fix memleak in nfc_llcp_send_ui_frame().
-    d448bf96889f1 rocker: fix memory leak in rocker_world_port_post_fini()
-    2a0522f564acd net: wwan: t7xx: fix potential skb->frags overflow in RX path
-    96595848c6fd6 ipv6: use the right ifindex when replying to icmpv6 from localhost
-    509b526d64290 net: mvpp2: cls: Fix memory leak in mvpp2_ethtool_cls_rule_ins()
-    8c0be3277e7ae bonding: annotate data-races around slave->last_rx
-    5058d3f8f1720 octeon_ep: Fix memory leak in octep_device_setup()
-    724c9d346a3ac net: bcmasp: fix early exit leak with fixed phy
-    923379f1d7e3a can: gs_usb: gs_usb_receive_bulk_callback(): fix error message
-    dc5d1eb935be0 net/mlx5: Fix memory leak in esw_acl_ingress_lgcy_setup()
-    186d147cf7689 Bluetooth: hci_uart: fix null-ptr-deref in hci_uart_write_work
-    2cf6f68313dcc Linux 6.6.122
-    96aa13ff68ef5 net: phy: fix phy_uses_state_machine()
-    043aa41c43f8c net: phy: allow MDIO bus PM ops to start/stop state machine for phylink-controlled PHY
-    b5a933535cc34 net: phy: move phy_link_change() prior to mdio_bus_phy_may_suspend()
-    1e2848bda819a x86/fpu: Clear XSTATE_BV[i] in guest XSAVE state whenever XFD[i]=1
-    8db5de0cf02fc wifi: ath11k: fix RCU stall while reaping monitor destination ring
-    8d2979b9bb1be drm/amdgpu: csa unmap use uninterruptible lock
-    7d52c592cf53f fs/ntfs3: Initialize allocated memory before use
-    1067361a1cc6a ksmbd: fix use-after-free in ksmbd_session_rpc_open
-    17fbad93879e8 usbnet: Fix using smp_processor_id() in preemptible code warnings
-    8120e420013d9 NFSD: fix race between nfsd registration and exports_proc
-    d89f3037d54d3 nvme: fix PCIe subsystem reset controller state transition
-    7dfb39b0186dd nvme-pci: do not directly handle subsys reset fallout
-    ca88419cf0623 nvme-fc: rename free_ctrl callback to match name pattern
-    f83824b023c75 ASoC: codecs: wsa883x: fix unnecessary initialisation
-    0ded4420b54e9 ASoC: codecs: wsa881x: fix unnecessary initialisation
-    ea2474ea2eef4 ASoC: codecs: wsa881x: Drop unused version readout
-    ebae26dd15140 phy: rockchip: inno-usb2: Fix a double free bug in rockchip_usb2phy_probe()
-    479fab9aeade1 phy: phy-rockchip-inno-usb2: Use dev_err_probe() in the probe path
-    d6705bcc5fe7c mm: kmsan: fix poisoning of high-order non-compound pages
-    4a04ff9cd816e mm/page_alloc: prevent pcp corruption with SMP=n
-    93464499df42b dmaengine: stm32: dmamux: fix OF node leak on route allocation failure
-    1a179ac01ff39 dmaengine: stm32: dmamux: fix device leak on route allocation
-    041863dd410bd iio: adc: exynos_adc: fix OF populate on driver rebind
-    91a756d22f048 ALSA: scarlett2: Fix buffer overflow in config retrieval
-    6b20590c43538 arm64: dts: rockchip: remove redundant max-link-speed from nanopi-r4s
-    fb3c1f24f3b7e mm/rmap: fix two comments related to huge_pmd_unshare()
-    522e580524106 iio: core: add separate lockdep class for info_exist_lock
-    31c3c9f3b1b9b iio: core: add missing mutex_destroy in iio_dev_release()
-    5596ce564a8c3 mm/damon/sysfs-scheme: cleanup quotas subdirs on scheme dir setup failure
-    e9711bd0e6481 mm/damon/sysfs-scheme: cleanup access_pattern subdirs on scheme dir setup failure
-    adec5e1f9c99f can: esd_usb: esd_usb_read_bulk_callback(): fix URB memory leak
-    4d3c2a1d4c7c3 bridge: mcast: Fix use-after-free during router port configuration
-    8670b53b8ee91 bpf: Do not let BPF test infra emit invalid GSO types to stack
-    1da48da947d0c selftests/bpf: Check for timeout in perf_link test
-    526394af4e8ad migrate: correct lock ordering for hugetlb file folios
-    59ff56992bba2 can: usb_8dev: usb_8dev_read_bulk_callback(): fix URB memory leak
-    179f6f0cf5ae4 can: mcba_usb: mcba_usb_read_bulk_callback(): fix URB memory leak
-    7c308f7530bff can: kvaser_usb: kvaser_usb_read_bulk_callback(): fix URB memory leak
-    e9410fdd4d5f7 can: ems_usb: ems_usb_read_bulk_callback(): fix URB memory leak
-    1b32339156035 irqchip/gic-v3-its: Avoid truncating memory addresses
-    dd40d94ffd7c8 perf/x86/intel: Do not enable BTS for guests
-    cad7003d951e8 pmdomain: imx8m-blk-ctrl: Remove separate rst and clk mask for 8mq vpu
-    6384f7851838f platform/x86: hp-bioscfg: Fix automatic module loading
-    bd8955337e376 netrom: fix double-free in nr_route_frame()
-    43f233eb6e7b9 uacce: ensure safe queue release with state management
-    4c042bc71474d uacce: implement mremap in uacce_vm_ops to return -EPERM
-    9ab05cdcac354 uacce: fix isolate sysfs check condition
-    d9031575a2f8a uacce: fix cdev handling in the cleanup path
-    bf7785434b5d0 intel_th: fix device leak on output open()
-    98ecbfb2598c9 tracing: Fix crash on synthetic stacktrace field usage
-    2ddc09f6a0a22 slimbus: core: fix device reference leak on report present
-    dd58835fba5d6 slimbus: core: fix runtime PM imbalance on report present
-    d2846f8a89fd6 octeontx2: Fix otx2_dma_map_page() error return code
-    8557bdd9af8dd arm64: Set __nocfi on swsusp_arch_resume()
-    19b2c3f3ca1b4 arm64/fpsimd: signal: Allocate SSVE storage when restoring ZA
-    7761d7801f40e wifi: rsi: Fix memory corruption due to not set vif driver data size
-    5d0ab96350e06 wifi: mwifiex: Fix a loop in mwifiex_update_ampdu_rxwinsize()
-    36e0bc5e8b282 wifi: ath12k: fix dma_free_coherent() pointer
-    1928851334ecf wifi: ath10k: fix dma_free_coherent() pointer
-    f2677d6e2bbc5 mmc: sdhci-of-dwcmshc: Prevent illegal clock reduction in HS200/HS400 mode
-    bcb72b6a39e90 mmc: rtsx_pci_sdmmc: implement sdmmc_card_busy function
-    7bff0156d13f0 ALSA: usb-audio: Fix use-after-free in snd_usb_mixer_free()
-    a8c42d11b0526 ALSA: ctxfi: Fix potential OOB access in audio mixer handling
-    cbe409f68380a iio: dac: ad5686: add AD5695R to ad5686_chip_info_tbl
-    c2d6e00829cbf iio: chemical: scd4x: fix reported channel endianness
-    9795fe80976f8 iio: adc: at91-sama5d2_adc: Fix potential use-after-free in sama5d2_adc driver
-    8271e1860c7cd iio: adc: ad9467: fix ad9434 vref mask
-    9e77ef924fe31 iio: accel: iis328dq: fix gain values
-    c0ebc3d8ad6b5 of: platform: Use default match table for /firmware
-    f4c270975fe1d of: fix reference count leak in of_alias_scan()
-    2757f7748ce2d leds: led-class: Only Add LED to leds_list when it is fully ready
-    93dfcc59b2bf3 x86: make page fault handling disable interrupts properly
-    03710cebfc0bc net/sched: act_ife: avoid possible NULL deref
-    d9d5f222558b4 vsock/virtio: cap TX credit to local buffer size
-    17c9b158bc4d7 vsock/test: fix seqpacket message bounds test
-    02f9af192b98d vsock/virtio: fix potential underflow in virtio_transport_get_credit()
-    c70e99dd37163 net: openvswitch: fix data race in ovs_vport_get_upcall_stats
-    77c6aa2c388e9 octeontx2-af: Fix error handling
-    4ad32b1e0ca42 net: dsa: fix off-by-one in maximum bridge ID determination
-    0efee0b992f28 bonding: provide a net pointer to __skb_flow_dissect()
-    a142ae1c56131 selftests: net: amt: wait longer for connection before sending packets
-    e206fb415db36 be2net: Fix NULL pointer dereference in be_cmd_get_mac_from_list
-    baafbbc23d421 drm/amd/pm: Workaround SI powertune issue on Radeon 430 (v2)
-    2c1fc0547a870 drm/amd/pm: Don't clear SI SMC table when setting power limit
-    c378cdae46369 usbnet: limit max_mtu based on device's hard_mtu
-    fad8f4ff7928f ipv6: annotate data-race in ndisc_router_discovery()
-    fc8ba17fd3337 mISDN: annotate data-race around dev->work
-    bfb030a377e05 net: hns3: fix the HCLGE_FD_AD_NXT_KEY error setting issue
-    3a1601756a905 net: hns3: fix wrong GENMASK() for HCLGE_FD_AD_COUNTER_NUM_M
-    42e16254f1d3e be2net: fix data race in be_get_new_eqd
-    a111d1fb91ae3 net: hns3: fix data race in hns3_fetch_stats
-    f1f9cfd2f46a7 netdevsim: fix a race issue related to the operation on bpf_bound_progs list
-    7f523dd499b72 ALSA: usb: Increase volume range that triggers a warning
-    408bfa8d70f79 scsi: qla2xxx: Sanitize payload size to prevent member overflow
-    9fdc6f28d5e81 scsi: core: Wake up the error handler when final completions race against each other
-    0df7ecb393db7 riscv: clocksource: Fix stimecmp update hazard on RV32
-    1b47e6d3bc026 kconfig: fix static linking of nconf
-    24f31be6ad705 regmap: Fix race condition in hwspinlock irqsave routine
-    417cdfd9b9f98 spi: spi-sprd-adi: Fix double free in probe error path
-    1a27bd3c6949f spi: sprd-adi: switch to use spi_alloc_host()
-    74634f4a64897 spi: sprd: adi: Use devm_register_restart_handler()
-    aa79a5a959c7c interconnect: debugfs: initialize src_node and dst_node to empty strings
-    ce8d8a3368128 iio: adc: ad7280a: handle spi_setup() errors in probe()
-    7673167fac932 iio: imu: st_lsm6dsx: fix iio_chan_spec for sensors without event detection
-    85eb83694a91c io_uring/io-wq: check IO_WQ_BIT_EXIT inside work run loop
-    eb5ff1025c921 platform/x86: hp-bioscfg: Fix kernel panic in GET_INSTANCE_ID macro
-    29917c80aa96a platform/x86: hp-bioscfg: Fix kobject warnings for empty attribute names
-    6484f43740cc9 comedi: Fix getting range information for subdevices 16 to 255
-    bf843b0624d89 x86/kfence: avoid writing L1TF-vulnerable PTEs
-    8adc31a561a55 arm64: dts: rockchip: Fix voltage threshold for volume keys for Pinephone Pro
-    929229fdd116a arm64: dts: rockchip: remove dangerous max-link-speed from helios64
-    f86264ec0e2b1 scsi: xen: scsiback: Fix potential memory leak in scsiback_remove()
-    156284ab2f641 scsi: storvsc: Process unsupported MODE_SENSE_10
-    21937a189daa8 Input: i8042 - add quirk for ASUS Zenbook UX425QA_UM425QA
-    dcecb4269dd4b Input: i8042 - add quirks for MECHREVO Wujie 15X Pro
-    93cbf6d80da2a Revert "nfc/nci: Add the inconsistency check between the input data length and count"
-    9367b4709b528 w1: fix redundant counter decrement in w1_attach_slave_device()
-    6a5820ecfa5a7 w1: therm: Fix off-by-one buffer overflow in alarms_store
-    aaff8f3a35c9d comedi: dmm32at: serialize use of paged registers
-    dce0865a5828a serial: 8250_pci: Fix broken RS485 for F81504/508/512
-    b0a9609283a5c crypto: authencesn - reject too-short AAD (assoclen<8) to match ESP/ESN spec
-    93b8635974fb0 net/sched: qfq: Use cl_is_active to determine whether class is active in qfq_rm_from_ag
-    0686bedfed341 net/sched: Enforce that teql can only be used as root qdisc
-    fcf8cd4654790 octeontx2: cn10k: fix RX flowid TCAM mask handling
-    04ba6de6eff61 ipvlan: Make the addrs_lock be per port
-    68e92085427c8 l2tp: avoid one data-race in l2tp_tunnel_del_work()
-    0bb986d83922c veth: fix data race in veth_get_ethtool_stats
-    1cc98b8887cab fou: Don't allow 0 for FOU_ATTR_IPPROTO.
-    4170ec351e456 tools: ynl: Specify --no-line-number in ynl-regen.sh.
-    f87b9b7a618c8 gue: Fix skb memleak with inner IP protocol 0.
-    8a8a5a43fef4e amd-xgbe: avoid misleading per-packet error log
-    e7e81abbcc562 sctp: move SCTP_CMD_ASSOC_SHKEY right after SCTP_CMD_PEER_INIT
-    ce4352057fc5a can: gs_usb: gs_usb_receive_bulk_callback(): unanchor URL on usb_submit_urb() error
-    4b37dc63957cb selftests: net: fib-onlink-tests: Convert to use namespaces by default
-    8ba4cf99c61cd selftests/net: convert fib-onlink-tests.sh to run it in unique namespace
-    80c881e53a4fa bonding: limit BOND_MODE_8023AD to Ethernet devices
-    b66dfde203fb4 net: usb: dm9601: remove broken SR9700 support
-    b36bbac746ee6 igc: fix race condition in TX timestamp read for register 0
-    9a151fd0bd7d9 ice: Avoid detrimental cleanup for bond during interface stop
-    a6a0dd00178ea ice: initialize ring_stats->syncp
-    e635e5b7eac83 ata: libata: Print features also for ATAPI devices
-    02fc7c01a35d3 ata: libata: Call ata_dev_config_lpm() for ATAPI devices
-    1c6714932c3df ata: libata-core: Introduce ata_dev_config_lpm()
-    557b62028c077 ata: libata: Add cpr_log to ata_dev_print_features() early return
-    e2d46e0b76cab pmdomain: qcom: rpmhpd: Add MXC to SC8280XP
-    f0070413c6580 dt-bindings: power: qcom,rpmpd: Add SC8280XP_MXC_AO
-    230c9ed464eda dt-bindings: power: qcom-rpmpd: split RPMh domains definitions
-    564752b42d137 dt-bindings: power: qcom,rpmpd: add Turbo L5 corner
-    64a0b97df8366 dt-bindings: power: qcom,rpmpd: document the SM8750 RPMh Power Domains
-    658e1879ebe68 dt-bindings: power: rpmpd: Update part number to X1E80100
-    ce649f43c4936 dt-bindings: power: qcom,rpmpd: document the SM8650 RPMh Power Domains
-    25ebc01125e60 dt-bindings: power: rpmpd: Add MSM8917, MSM8937 and QM215
-    f33305f0925be dt-bindings: power: qcom,rpmpd: Add SM7150
-    ce5ee09c0aeea btrfs: fix missing fields in superblock backup with BLOCK_GROUP_TREE
-    774089dc718f5 Drivers: hv: Always do Hyper-V panic notification in hv_kmsg_dump()
-    fe11f976dd0ad hyperv-tlfs: Change prefix of generic HV_REGISTER_* MSRs to HV_MSR_*
-    11536f3371f4a arm64: dts: qcom: sc8280xp: Add missing VDD_MXC links
-    8d9f22c570ba3 testptp: Add option to open PHC in readonly mode
-    4f3c8c7f4e1bd selftest/ptp: update ptp selftest to exercise the gettimex options
-    59ac47a0275fc ptp: add testptp mask test
-    4fbfc6bca4e37 ptp: Add PHC file mode checks. Allow RO adjtime() without FMODE_WRITE.
-    ba3a97c832725 posix-clock: Store file pointer in struct posix_clock_context
-    ea2d9bfd422e9 Fix memory leak in posix_clock_open()
-    221e4d1e29bb4 posix-clock: introduce posix_clock_context concept
-    2c590e4b3d4cc io_uring: move local task_work in exit cancel loop
-    99da896614d17 btrfs: fix deadlock in wait_current_trans() due to ignored transaction type
-    696ebf74738b9 dmaengine: ti: k3-udma: fix device leak on udma lookup
-    6fdf168f57e33 dmaengine: ti: dma-crossbar: fix device leak on am335x route allocation
-    8df7c3e6d1e5e dmaengine: ti: dma-crossbar: fix device leak on dra7x route allocation
-    4e45ae701b816 dmaengine: sh: rz-dmac: Fix rz_dmac_terminate_all()
-    6bf4ef078fd11 dmaengine: qcom: gpi: Fix memory leak in gpi_peripheral_config()
-    9fba97baa520c dmaengine: lpc18xx-dmamux: fix device leak on route allocation
-    c81ea0222eaaa dmaengine: idxd: fix device leaks on compat bind and unbind
-    db7c79c1bbfb1 dmaengine: dw: dmamux: fix OF node leak on route allocation failure
-    c80ca7bdff158 dmaengine: bcm-sba-raid: fix device leak on probe
-    987c71671367f dmaengine: at_hdmac: fix device leak on of_dma_xlate()
-    2838cb6133ac2 dmaengine: apple-admac: Add "apple,t8103-admac" compatible
-    1f70af89b0893 drm/vmwgfx: Fix an error return check in vmw_compat_shader_add()
-    bc0b17bdba383 drm/panel-simple: fix connector type for DataImage SCF0700C48GGU18 panel
-    cb4c9fc5e79a7 drm/nouveau/disp/nv50-: Set lock_core in curs507a_prepare
-    3dc1a40180264 drm/amdkfd: fix a memory leak in device_queue_manager_init()
-    a4218ac0bb8e7 drm/amd: Clean up kfd node on surprise disconnect
-    d9a82256a4c7e drm/amd/display: Bump the HDMI clock to 340MHz
-    1d8f4d24fc1b3 LoongArch: Fix PMU counter allocation for mixed-type event groups
-    43964644348f6 mm/damon/sysfs: cleanup attrs subdirs on context dir setup failure
-    6ef36b329bbe2 mm/page_alloc: make percpu_pagelist_high_fraction reads lock-free
-    b73f2834e1bc6 x86/resctrl: Fix memory bandwidth counter width for Hygon
-    a78dca14fb2b0 x86/resctrl: Add missing resctrl initialization for Hygon
-    71c5bc6720b60 tcpm: allow looking for role_sw device in the main node
-    bfefcc78a8ec5 EDAC/i3200: Fix a resource leak in i3200_probe1()
-    dc2365df328a9 EDAC/x38: Fix a resource leak in x38_probe1()
-    ac92563601513 hrtimer: Fix softirq base check in update_needs_ipi()
-    0b06cde92f2f9 ext4: fix iloc.bh leak in ext4_xattr_inode_update_ref
-    ed61badfc2bc8 nvme-pci: disable secondary temp for Wodposit WPBSNM8
-    3f6a36c9dc73d USB: serial: ftdi_sio: add support for PICAXE AXE027 cable
-    f890044ad2959 USB: serial: option: add Telit LE910 MBIM composition
-    384084a094c74 USB: OHCI/UHCI: Add soft dependencies on ehci_platform
-    93f21786487cd usb: core: add USB_QUIRK_NO_BOS for devices that hang on BOS descriptor
-    928e7d022d167 usb: dwc3: Check for USB4 IP_NAME
-    ee82bc9f1df97 phy: tegra: xusb: Explicitly configure HS_DISCON_LEVEL to 0x7
-    9e0d336e71c47 phy: rockchip: inno-usb2: fix disconnection in gadget mode
-    16a6a73087fb4 phy: freescale: imx8m-pcie: assert phy reset during power on
-    942381794fc31 phy: rockchip: inno-usb2: fix communication disruption in gadget mode
-    9716e427489f6 x86/kaslr: Recognize all ZONE_DEVICE users as physaddr consumers
-    809a437e27a3b net: can: j1939: j1939_xtp_rx_rts_session_active(): deactivate session upon receiving the second rts
-    58d236065ba65 can: ctucanfd: fix SSP_SRC in cases when bit-rate is higher than 1 MBit.
-    f905bcfa971ed can: gs_usb: gs_usb_receive_bulk_callback(): fix URB memory leak
-    1a3286edf4d48 null_blk: fix kmemleak by releasing references to fault configfs items
-    2de6d3348937f ALSA: pcm: Improve the fix for race of buffer access at PCM OSS layer
-    8fab42516eb3c scsi: core: Fix error handler encryption support
-    60e450eec5d63 drm/amd/display: Check dce_hwseq before dereferencing it
-    d64557b61c1dd HID: usbhid: paper over wrong bNumDescriptor field
-    d66d8ad31057d i2c: qcom-geni: make sure I2C hub controllers can't use SE DMA
-    88a9483f093bb dmaengine: omap-dma: fix dma_pool resource leak in error paths
-    2a7ddafac3820 phy: broadcom: ns-usb3: Fix Wvoid-pointer-to-enum-cast warning (again)
-    76b870fdaad82 phy: stm32-usphyc: Fix off by one in probe()
-    beba460a29915 phy: qcom-qusb2: Fix NULL pointer dereference on early suspend
-    8151ecaaf08e3 phy: drop probe registration printks
-    7070ed66aba3b phy: phy-snps-eusb2: refactor constructs names
-    0b347b180ad5e phy: fsl-imx8mq-usb: Clear the PCS_TX_SWING_FULL field before using it
-    0fd2001907fea dmaengine: xilinx_dma: Fix uninitialized addr_width when "xlnx,addrwidth" property is missing
-    59cb421b0902f dmaengine: tegra-adma: Fix use-after-free
-    df8a131a41ff6 dmaengine: xilinx: xdma: Fix regmap max_register
-    7602a67114cd5 mm, kfence: describe @slab parameter in __kfence_obj_info()
-    f332d75388ea5 textsearch: describe @list member in ts_ops search
-    805f1c634817a ASoC: tlv320adcx140: fix word length
-    659939d08e5f7 ASoC: tlv320adcx140: fix null pointer
-    0a234660dc70c net/sched: sch_qfq: do not free existing class in qfq_change_class()
-    a3f895d4494a8 selftests: drv-net: fix RPS mask handling for high CPU numbers
-    9356b69d03d0f ipv6: Fix use-after-free in inet6_addr_del().
-    82c9039c8ebb7 net: hv_netvsc: reject RSS hash key programming without RX indirection table
-    58208907c4044 btrfs: fix memory leaks in create_space_info() error paths
-    0bd151ce4200c btrfs: introduce btrfs_space_info sub-group
-    42c8d48bf3abe btrfs: factor out check_removing_space_info() from btrfs_free_block_groups()
-    34d5cd41418af btrfs: factor out init_space_info() from create_space_info()
-    1fe74715ccb4e btrfs: store fs_info in space_info
-    6126877f90fe7 net/mlx5e: Restore destroying state bit after profile cleanup
-    147b9a2fc7a35 vsock/test: add a final full barrier after run all tests
-    06fe0801396a3 ipv4: ip_gre: make ipgre_header() robust
-    15f6faf36e162 macvlan: fix possible UAF in macvlan_forward_source()
-    0ba0a79500fcf net: update netdev_lock_{type,name}
-    2f03dafea0a80 ip6_tunnel: use skb_vlan_inet_prepare() in __ip6_tnl_rcv()
-    98151bb13af1e net: bridge: annotate data-races around fdb->{updated,used}
-    9f1ac4c98add7 net: bridge: Set BR_FDB_ADDED_BY_USER early in fdb_add_entry
-    f2dc6ab3a14c2 btrfs: send: check for inline extents in range_is_hole_in_parent()
-    fdecd3b6aac10 nvme-tcp: fix NULL pointer dereferences in nvmet_tcp_build_pdu_iovec
-    50f80e82e7966 nvmet-tcp: remove boilerplate code
-    611e839d2d552 can: etas_es58x: allow partial RX URB allocation to succeed
-    869862056e100 pnfs/flexfiles: Fix memory leak in nfs4_ff_alloc_deviceid_node()
-    55787a73fbb61 xfrm: Fix inner mode lookup in tunnel mode GSO segmentation
-    6eb597cb4e37f ASoC: codecs: wsa884x: fix codec initialisation
-    ca72af7608d68 Revert "gfs2: Fix use of bio_chain"
-    30f9b41b03903 efi/cper: Fix cper_bits_to_str buffer handling and return value
-    73069e1134029 firmware: imx: scu-irq: Set mu_resource_id before get handle
-    cbb31f77b879f Linux 6.6.121
-    0b1ac9743f3d9 riscv: Replace function-like macro by static inline function
-    d03ee41854866 gpio: pca953x: fix wrong error probe return value
-    5192f17d1127a bpf: test_run: Fix ctx leak in bpf_prog_test_run_xdp error path
-    83eef6f904a84 scsi: sg: Fix occasional bogus elapsed time that exceeds timeout
-    06f90c7dce191 ASoC: fsl_sai: Add missing registers to cache default
-    2c4404d6e4edb ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
-    be3923930a71b ALSA: usb-audio: Update for native DSD support quirks
-    78d87b72cebe2 can: j1939: make j1939_session_activate() fail if device is no longer registered
-    f73d92997388b drm/amd/display: Fix DP no audio issue
-    53de1e6cde8f9 netfilter: nf_tables: avoid chain re-validation if possible
-    c04b3a832c062 powercap: fix sscanf() error return value handling
-    e07dea55aa134 powercap: fix race condition in register_control_type()
-    98676ee71fd4e bpf: Fix reference count leak in bpf_prog_test_run_xdp()
-    7c81ad5e580bd bpf, test_run: Subtract size of xdp_frame from allowed metadata size
-    d08b4193cd55a bpf: Support specifying linear xdp packet data size for BPF_PROG_TEST_RUN
-    875d7cb4fe156 bpf: Make variables in bpf_prog_test_run_xdp less confusing
-    a60c827903b45 bpf: Fix an issue in bpf_prog_test_run_xdp when page size greater than 4K
-    77c956152a3a7 riscv: uprobes: Add missing fence.i after building the XOL buffer
-    5c7c4131beade x86/microcode/AMD: Select which microcode patch to load
-    90c4cb136e398 NFSD: Remove NFSERR_EAGAIN
-    249d45ca97381 nfs_common: factor out nfs_errtbl and nfs_stat_to_errno
-    93a2e7eaf876d NFS: trace: show TIMEDOUT instead of 0x6e
-    21f8bc5179bed ALSA: ac97: fix a double free in snd_ac97_controller_register()
-    3b7c1a3805a51 ALSA: ac97bus: Use guard() for mutex locks
-    a19df91b5b93b LoongArch: Add more instruction opcodes and emit_* helpers
-    029935507d0af arp: do not assume dev_hard_header() does not change skb->head
-    0d254b0a15f29 net: enetc: fix build warning when PAGE_SIZE is greater than 128K
-    93f18eaa19037 net: usb: pegasus: fix memory leak in update_eth_regs_async()
-    11bf9134613f6 net/sched: sch_qfq: Fix NULL deref when deactivating inactive aggregate in qfq_reset
-    9be826178831c HID: quirks: work around VID/PID conflict for appledisplay
-    88bea149db205 net: fix memory leak in skb_segment_list for GRO packets
-    970a1ac90325f bnxt_en: Fix potential data corruption with HW GRO/LRO
-    dc6f73f73ce88 net: wwan: iosm: Fix memory leak in ipc_mux_deinit()
-    81e7205b82a7f net/mlx5e: Don't print error message due to invalid module
-    0ab968d9c56bd netdev: preserve NETIF_F_ALL_FOR_ALL across TSO updates
-    582a5e922a965 net: sock: fix hardened usercopy panic in sock_recv_errqueue
-    874794fb4f3db inet: ping: Fix icmp out counting
-    2985712dc76df net: mscc: ocelot: Fix crash when adding interface under a lag
-    4c8facf028ec7 bridge: fix C-VLAN preservation in 802.1ad vlan_tunnel egress
-    94e070cd50790 net: marvell: prestera: fix NULL dereference on devlink_alloc() failure
-    3cd717359e56f netfilter: nf_conncount: update last_gc only when GC has been performed
-    c6cfd76700551 netfilter: nf_tables: fix memory leak in nf_tables_newrule()
-    76f4218bdadde gpio: pca953x: handle short interrupt pulses on PCAL devices
-    4d7652d1a3525 gpio: pca953x: Add support for level-triggered interrupts
-    26f64b3ee5172 gpio: pca953x: Utilise temporary variable for struct device
-    2a968d1fd7bd6 gpio: pca953x: Utilise dev_err_probe() where it makes sense
-    62ecdf65b8ab0 netfilter: nft_synproxy: avoid possible data-race on update operation
-    51ea246778e57 arm64: dts: imx8mp: Fix LAN8740Ai PHY reference clock on DH electronics i.MX8M Plus DHCOM
-    b6600d9d893f6 ARM: dts: imx6q-ba16: fix RTC interrupt level
-    837fe3df68601 arm64: dts: add off-on-delay-us for usdhc2 regulator
-    c6f7b3cf44856 scsi: Revert "scsi: libsas: Fix exp-attached device scan after probe failure scanned in again after probe failed"
-    cf73e6020b3d7 scsi: ufs: core: Fix EH failure after W-LUN resume error
-    ac01c92333497 scsi: ipr: Enable/disable IRQD_NO_BALANCING during reset
-    afd993bababfe smb/client: fix NT_STATUS_NO_DATA_DETECTED value
-    bbbc1a48f121a smb/client: fix NT_STATUS_DEVICE_DOOR_OPEN value
-    ca9b4aaa7e63b smb/client: fix NT_STATUS_UNABLE_TO_FREE_VM value
-    f18975f2cd41c NFS: Fix up the automount fs_context to use the correct cred
-    f719a300eaa05 NFSv4: ensure the open stateid seqid doesn't go backwards
-    af4fc583fd900 dm-snapshot: fix 'scheduling while atomic' on real-time kernels
-    fc220dae3cf89 alpha: don't reference obsolete termio struct for TC* constants
-    be3bc3d84a2a5 ARM: 9461/1: Disable HIGHPTE on PREEMPT_RT kernels
-    78faf283336dc csky: fix csky_cmpxchg_fixup not working
-    13159c7125636 tls: Use __sk_dst_get() and dst_dev_rcu() in get_netdev_for_sock().
-    381261f24f4e4 NFSD: NFSv4 file creation neglects setting ACL
-    4c06b7cb87e5b nfsd: set security label during create operations
-    d761a185f8950 nfsd: Fix NFSv3 atomicity bugs in nfsd_setattr()
-    ab2b5755269cf nfsd: convert to new timestamp accessors
-    1310640f9ae92 net: Add locking to protect skb->dev access in ip_output
-    9c2f8a9b68024 ksm: use range-walk function to jump over holes in scan_get_next_rmap_item
-    4ebc711b738d1 libceph: make calc_target() set t->paused, not just clear it
-    90a60fe61908a libceph: reset sparse-read state in osd_fault()
-    e097cd858196b libceph: return the handler error from mon_handle_auth_done()
-    8081faaf089db libceph: make free_choose_arg_map() resilient to partial allocation
-    d3613770e2677 libceph: replace overzealous BUG_ON in osdmap_apply_incremental()
-    ef208ea331ef6 libceph: prevent potential out-of-bounds reads in handle_auth_done()
-    d21ec867d84c9 wifi: avoid kernel-infoleak from struct iw_point
-    16e107d586208 pinctrl: qcom: lpass-lpi: mark the GPIO controller as sleeping
-    7291ef23491f9 gpio: rockchip: mark the GPIO controller as sleeping
-    e23882b11f8d3 drm/radeon: Remove __counted_by from ClockInfoArray.clockInfo[]
-    526bd4bfa1206 drm/pl111: Fix error handling in pl111_amba_probe
-    1c5a3175aecf8 counter: interrupt-cnt: Drop IRQF_NO_THREAD flag
-    8a1b8778b7868 counter: 104-quad-8: Fix incorrect return value in IRQ handler
-    84875a1d92243 lib/crypto: aes: Fix missing MMU protection for AES S-box
-    e1e8d4973c1a7 mei: me: add nova lake point S DID
-    a63998cd6687c btrfs: always detect conflicting inodes when logging inode refs
-    28b2a80560969 net: 3com: 3c59x: fix possible null dereference in vortex_probe1()
-    8f5211fc891d0 atm: Fix dma_free_coherent() size
-    06600719d0f7a nfsd: provide locking for v4_end_grace
-    e15e59b5aa624 NFSD: Fix permission check for read access to executable-only files
+Bug details: https://nvd.nist.gov/vuln/detail/CVE-2025-68119
+Type: Security Fix
+CVE: CVE-2025-68119
+Score: 7.0
+Patch:
+[1] https://github.com/golang/go/commit/62452bed4801
+[2] https://github.com/golang/go/commit/73fe85f0ea1b
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Note:
+- First commit [1] is a dependent patch which is required additionally
+  in original fix [2] to define ENV variable changes in
+  src/cmd/go/internal/vcs/vcs.go file.
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ meta/recipes-devtools/go/go-1.22.12.inc       |   2 +
+ .../go/go/CVE-2025-68119-dependent.patch      | 175 ++++
+ .../go/go/CVE-2025-68119.patch                | 828 ++++++++++++++++++
+ 3 files changed, 1005 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68119-dependent.patch
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68119.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index 0018061822d..3ad8bd54fa6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index 82019f25dd7..ca0f05f7c86 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -35,6 +35,8 @@ SRC_URI += "\
+     file://CVE-2025-61726.patch \
+     file://CVE-2025-61728.patch \
+     file://CVE-2025-61731.patch \
++    file://CVE-2025-68119-dependent.patch \
++    file://CVE-2025-68119.patch \
+ "
+ SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
--SRCREV_machine ?= "9f6b4d4c1c5963ea07d6fe904311cd53ad4c0258"
--SRCREV_meta ?= "49d5ba17b4b5951f28957ba6891a14dd7b27ceee"
-+SRCREV_machine ?= "5a49ab75e554557c1d3665b22233c4de9a2c2a75"
-+SRCREV_meta ?= "17375dce1754d0783fb3fb9e684691951f9ff357"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.6.120"
-+LINUX_VERSION ?= "6.6.123"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index f4165c9ef49..50c8e69d5c0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.6.inc
- 
--LINUX_VERSION ?= "6.6.120"
-+LINUX_VERSION ?= "6.6.123"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "9216b294019c150359dc667f9d3dbbde2c0a8a8a"
--SRCREV_meta ?= "49d5ba17b4b5951f28957ba6891a14dd7b27ceee"
-+SRCREV_machine ?= "18a3ba79eed015d2cbd1f5af2c1417d12b369698"
-+SRCREV_meta ?= "17375dce1754d0783fb3fb9e684691951f9ff357"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index 987c3218ec5..3f8b40e305b 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
- KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "bcbb707216e841d53386a3f1ccf9b09c62961791"
--SRCREV_machine:qemuarm64 ?= "321d1a067132a921414fdfab332fb084d44096c2"
--SRCREV_machine:qemuloongarch64 ?= "993fd928045661cd12c065d82461c47220c67cbc"
--SRCREV_machine:qemumips ?= "669b6afdc64fdb78d06e1997fc077b31721460e0"
--SRCREV_machine:qemuppc ?= "8c9e6ee3f14b711a63744f4fe3b1b7aaaee46a99"
--SRCREV_machine:qemuriscv64 ?= "993fd928045661cd12c065d82461c47220c67cbc"
--SRCREV_machine:qemuriscv32 ?= "993fd928045661cd12c065d82461c47220c67cbc"
--SRCREV_machine:qemux86 ?= "993fd928045661cd12c065d82461c47220c67cbc"
--SRCREV_machine:qemux86-64 ?= "993fd928045661cd12c065d82461c47220c67cbc"
--SRCREV_machine:qemumips64 ?= "827304b327c277b699d94d8f861cde5f4b242b3f"
--SRCREV_machine ?= "993fd928045661cd12c065d82461c47220c67cbc"
--SRCREV_meta ?= "49d5ba17b4b5951f28957ba6891a14dd7b27ceee"
-+SRCREV_machine:qemuarm ?= "b562777a433f835ae245e08c27df6b47e3ae2505"
-+SRCREV_machine:qemuarm64 ?= "2df2455c7199cb8db4ea0118f908f952ff73eb97"
-+SRCREV_machine:qemuloongarch64 ?= "af240d7d57ebf66e87bc2dff34855e630a97ead1"
-+SRCREV_machine:qemumips ?= "6b9c16676cd4c8494ca7cdff355cb1cfe4d8fb3a"
-+SRCREV_machine:qemuppc ?= "bf3f6c731ea41e519389b24104458870475dce20"
-+SRCREV_machine:qemuriscv64 ?= "af240d7d57ebf66e87bc2dff34855e630a97ead1"
-+SRCREV_machine:qemuriscv32 ?= "af240d7d57ebf66e87bc2dff34855e630a97ead1"
-+SRCREV_machine:qemux86 ?= "af240d7d57ebf66e87bc2dff34855e630a97ead1"
-+SRCREV_machine:qemux86-64 ?= "af240d7d57ebf66e87bc2dff34855e630a97ead1"
-+SRCREV_machine:qemumips64 ?= "9fb8ff244fe5c5d6aa08457cfb9bbe4a3ef47366"
-+SRCREV_machine ?= "af240d7d57ebf66e87bc2dff34855e630a97ead1"
-+SRCREV_meta ?= "17375dce1754d0783fb3fb9e684691951f9ff357"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "c596736dadab2ffef4737fa8acbc1244557126ac"
-+SRCREV_machine:class-devupstream ?= "c56aaf1a85ae918dd521fb2869028cf533d2755a"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.6/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.6.120"
-+LINUX_VERSION ?= "6.6.123"
- 
- PV = "${LINUX_VERSION}+git"
- 
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-68119-dependent.patch b/meta/recipes-devtools/go/go/CVE-2025-68119-dependent.patch
+new file mode 100644
+index 00000000000..5875d129ccc
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2025-68119-dependent.patch
+@@ -0,0 +1,175 @@
++From 121b6cb231b5d904c03739495fcda69152d83f88 Mon Sep 17 00:00:00 2001
++From: Matt Harbison <mharbison72@gmail.com>
++Date: Sat, 3 Aug 2024 00:06:30 +0000
++Subject: [PATCH] cmd/go: fix the accuracy of Mercurial vcs.* stamped data
++
++There were a few Mercurial command line uses that could cause the wrong
++data to be used:
++
++* The log command needs '-r.' to specify the currently checked out commit
++* HGPLAIN is needed to disable optional output on commands
++* '-S' is needed to for the 'status' command to recurse into any subrepos
++
++The most likely issue to be seen here was the use of '-l1' instead of
++'-r.', which prints the most recent commit instead of the current checkout.
++Since tagging in Mercurial creates a new commit, this basically means the
++data was wrong for every tagged build.
++
++This also adds an hgrc config file to the test, with config options to
++keep the time and author values fixed.  It's what's used in the Mercurial
++test harness to keep the commit hashes stable, and allows the tests here to
++also match the time and the revision ID, to prevent regressing.
++
++Fixes #63532
++
++CVE: CVE-2025-68119
++Upstream-Status: Backport [https://github.com/golang/go/commit/62452bed4801]
++
++Change-Id: I5b9971ce87c83431ec77e4a002bdc33fcf393856
++GitHub-Last-Rev: 62c9db0a28fee5881d0fe49f7bbb6e1653c7ff60
++GitHub-Pull-Request: golang/go#63557
++Reviewed-on: https://go-review.googlesource.com/c/go/+/535377
++Reviewed-by: Bryan Mills <bcmills@google.com>
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-by: Sam Thanawalla <samthanawalla@google.com>
++Auto-Submit: Sam Thanawalla <samthanawalla@google.com>
++Reviewed-by: Michael Matloob <matloob@golang.org>
++(cherry picked from commit 62452bed480108623910feace4a5cea5448e6822)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ src/cmd/go/internal/vcs/vcs.go                | 13 +++++--
++ .../testdata/script/version_buildvcs_hg.txt   | 39 ++++++++++++++++---
++ 2 files changed, 43 insertions(+), 9 deletions(-)
++
++diff --git a/src/cmd/go/internal/vcs/vcs.go b/src/cmd/go/internal/vcs/vcs.go
++index 89d9f0e94e..60f76d77cf 100644
++--- a/src/cmd/go/internal/vcs/vcs.go
+++++ b/src/cmd/go/internal/vcs/vcs.go
++@@ -37,6 +37,7 @@ import (
++ type Cmd struct {
++	Name      string
++	Cmd       string     // name of binary to invoke command
+++	Env       []string   // any environment values to set/override
++	RootNames []rootName // filename and mode indicating the root of a checkout directory
++
++	CreateCmd   []string // commands to download a fresh copy of a repository
++@@ -154,6 +155,10 @@ func vcsByCmd(cmd string) *Cmd {
++ var vcsHg = &Cmd{
++	Name: "Mercurial",
++	Cmd:  "hg",
+++
+++	// HGPLAIN=1 turns off additional output that a user may have enabled via
+++	// config options or certain extensions.
+++	Env: []string{"HGPLAIN=1"},
++	RootNames: []rootName{
++		{filename: ".hg", isDir: true},
++	},
++@@ -189,12 +194,11 @@ func hgRemoteRepo(vcsHg *Cmd, rootDir string) (remoteRepo string, err error) {
++
++ func hgStatus(vcsHg *Cmd, rootDir string) (Status, error) {
++	// Output changeset ID and seconds since epoch.
++-	out, err := vcsHg.runOutputVerboseOnly(rootDir, `log -l1 -T {node}:{date|hgdate}`)
+++	out, err := vcsHg.runOutputVerboseOnly(rootDir, `log -r. -T {node}:{date|hgdate}`)
++	if err != nil {
++		return Status{}, err
++	}
++
++-	// Successful execution without output indicates an empty repo (no commits).
++	var rev string
++	var commitTime time.Time
++	if len(out) > 0 {
++@@ -209,7 +213,7 @@ func hgStatus(vcsHg *Cmd, rootDir string) (Status, error) {
++	}
++
++	// Also look for untracked files.
++-	out, err = vcsHg.runOutputVerboseOnly(rootDir, "status")
+++	out, err = vcsHg.runOutputVerboseOnly(rootDir, "status -S")
++	if err != nil {
++		return Status{}, err
++	}
++@@ -689,6 +693,9 @@ func (v *Cmd) run1(dir string, cmdline string, keyval []string, verbose bool) ([
++
++	cmd := exec.Command(v.Cmd, args...)
++	cmd.Dir = dir
+++	if v.Env != nil {
+++		cmd.Env = append(cmd.Environ(), v.Env...)
+++	}
++	if cfg.BuildX {
++		fmt.Fprintf(os.Stderr, "cd %s\n", dir)
++		fmt.Fprintf(os.Stderr, "%s %s\n", v.Cmd, strings.Join(args, " "))
++diff --git a/src/cmd/go/testdata/script/version_buildvcs_hg.txt b/src/cmd/go/testdata/script/version_buildvcs_hg.txt
++index fbbd886102..13904fae12 100644
++--- a/src/cmd/go/testdata/script/version_buildvcs_hg.txt
+++++ b/src/cmd/go/testdata/script/version_buildvcs_hg.txt
++@@ -6,6 +6,8 @@
++ [short] skip
++ env GOBIN=$WORK/gopath/bin
++ env oldpath=$PATH
+++env TZ=GMT
+++env HGRCPATH=$WORK/hgrc
++ cd repo/a
++
++ # If there's no local repository, there's no VCS info.
++@@ -29,24 +31,43 @@ cd ..
++ env PATH=$oldpath
++ rm .hg
++
++-# If there is an empty repository in a parent directory, only "uncommitted" is tagged.
+++# An empty repository or one explicitly updated to null uses the null cset ID,
+++# and the time is hard set to 1/1/70, regardless of the current time.
++ exec hg init
++ cd a
++ go install
++ go version -m $GOBIN/a$GOEXE
++-! stdout vcs.revision
++-! stdout vcs.time
+++stdout '^\tbuild\tvcs.revision=0000000000000000000000000000000000000000$'
+++stdout '^\tbuild\tvcs.time=1970-01-01T00:00:00Z$'
++ stdout '^\tbuild\tvcs.modified=true$'
++ cd ..
++
++ # Revision and commit time are tagged for repositories with commits.
++ exec hg add a README
++-exec hg commit -m 'initial commit'
+++exec hg commit -m 'initial commit' --user test-user --date '2024-07-31T01:21:27+00:00'
++ cd a
++ go install
++ go version -m $GOBIN/a$GOEXE
++-stdout '^\tbuild\tvcs.revision='
++-stdout '^\tbuild\tvcs.time='
+++stdout '^\tbuild\tvcs.revision=71eaed52daeaafea83cb604f75b0a0336ef2c345$'
+++stdout '^\tbuild\tvcs.time=2024-07-31T01:21:27Z$'
+++stdout '^\tbuild\tvcs.modified=false$'
+++rm $GOBIN/a$GOEXE
+++
+++# Add an extra commit and then back off of it to show that the hash is
+++# from the checked out revision, not the tip revision.
+++cp ../../outside/empty.txt .
+++exec hg ci -Am 'another commit' --user test-user --date '2024-08-01T19:24:38+00:00'
+++exec hg update --clean -r '.^'
+++
+++# Modified state is not thrown off by extra status output
+++exec hg bisect -v -g .
+++exec hg bisect -v -b '.^^'
+++exec hg status
+++stdout '^.+'
+++go install
+++go version -m $GOBIN/a$GOEXE
+++stdout '^\tbuild\tvcs.revision=71eaed52daeaafea83cb604f75b0a0336ef2c345$'
+++stdout '^\tbuild\tvcs.time=2024-07-31T01:21:27Z$'
++ stdout '^\tbuild\tvcs.modified=false$'
++ rm $GOBIN/a$GOEXE
++
++@@ -88,4 +109,10 @@ go 1.18
++ package main
++
++ func main() {}
+++-- $WORK/hgrc --
+++[ui]
+++# tweakdefaults is an opt-in that may print extra output in commands like
+++# status.  That can be disabled by setting HGPLAIN=1.
+++tweakdefaults = 1
+++
++ -- outside/empty.txt --
++--
++2.35.6
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-68119.patch b/meta/recipes-devtools/go/go/CVE-2025-68119.patch
+new file mode 100644
+index 00000000000..d3f17244536
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2025-68119.patch
+@@ -0,0 +1,828 @@
++From 204e2fdacfbdb72a0b85fb526c8599128e430e94 Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Wed, 10 Dec 2025 08:13:07 -0500
++Subject: [PATCH] [release-branch.go1.24] cmd/go: update VCS commands to use
++ safer flag/argument syntax
++
++In various situations, the toolchain invokes VCS commands. Some of these
++commands take arbitrary input, either provided by users or fetched from
++external sources. To prevent potential command injection vulnerabilities
++or misinterpretation of arguments as flags, this change updates the VCS
++commands to use various techniques to separate flags from positional
++arguments, and to directly associate flags with their values.
++
++Additionally, we update the environment variable for Mercurial to use
++`HGPLAIN=+strictflags`, which is the more explicit way to disable user
++configurations (intended or otherwise) that might interfere with command
++execution.
++
++We also now disallow version strings from being prefixed with '-' or
++'/', as doing so opens us up to making the same mistake again in the
++future. As far as we know there are currently ~0 public modules affected
++by this.
++
++While I was working on cmd/go/internal/vcs, I also noticed that a
++significant portion of the commands being implemented were dead code.
++In order to reduce the maintenance burden and surface area for potential
++issues, I removed the dead code for unused commands.
++
++We should probably follow up with a more structured change to make it
++harder to accidentally re-introduce these issues in the future, but for
++now this addresses the issue at hand.
++
++Thanks to splitline (@splitline) from DEVCORE Research Team for
++reporting this issue.
++
++Fixes CVE-2025-68119
++Updates #77099
++Fixes #77103
++
++CVE: CVE-2025-68119
++Upstream-Status: Backport [https://github.com/golang/go/commit/73fe85f0ea1b]
++
++Backport Changes:
++- In file src/cmd/go/internal/modfetch/codehost/git.go, Replaced the
++  function call runGIT with RUN. This changes is not present in current
++  version v1.22.12 and this changes were introduced in version v1.24 by
++  this commit https://github.com/golang/go/commit/8aa2eed8fb90
++
++Change-Id: I9d9f4ee05b95be49fe14edf71a1b8e6c0784378e
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3260
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Nicholas Husin <husin@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/736710
++Auto-Submit: Michael Pratt <mpratt@google.com>
++Reviewed-by: Junyang Shao <shaojunyang@google.com>
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++(cherry picked from commit 94a1296a457387d1fd6eca1a9bcd44e89bdd9d55)
++Reviewed-on: https://go-review.googlesource.com/c/go/+/739421
++Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
++(cherry picked from commit 73fe85f0ea1bf2cec8e9a89bf5645de06ecaa0a6)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ src/cmd/go/internal/modcmd/edit.go           |  10 +-
++ src/cmd/go/internal/modfetch/codehost/git.go |  20 +-
++ src/cmd/go/internal/modfetch/codehost/vcs.go |  20 +-
++ src/cmd/go/internal/modget/query.go          |   5 +-
++ src/cmd/go/internal/modload/build.go         |  12 +-
++ src/cmd/go/internal/modload/list.go          |  30 +-
++ src/cmd/go/internal/toolchain/select.go      |   7 +-
++ src/cmd/go/internal/vcs/vcs.go               | 331 +------------------
++ src/cmd/go/internal/workcmd/edit.go          |   5 +-
++ 9 files changed, 96 insertions(+), 344 deletions(-)
++
++diff --git a/src/cmd/go/internal/modcmd/edit.go b/src/cmd/go/internal/modcmd/edit.go
++index db131b0881..330603fe32 100644
++--- a/src/cmd/go/internal/modcmd/edit.go
+++++ b/src/cmd/go/internal/modcmd/edit.go
++@@ -284,7 +284,10 @@ func runEdit(ctx context.Context, cmd *base.Command, args []string) {
++
++ // parsePathVersion parses -flag=arg expecting arg to be path@version.
++ func parsePathVersion(flag, arg string) (path, version string) {
++-	before, after, found := strings.Cut(arg, "@")
+++	before, after, found, err := modload.ParsePathVersion(arg)
+++	if err != nil {
+++		base.Fatalf("go: -%s=%s: %v", flag, arg, err)
+++	}
++	if !found {
++		base.Fatalf("go: -%s=%s: need path@version", flag, arg)
++	}
++@@ -318,7 +321,10 @@ func parsePathVersionOptional(adj, arg string, allowDirPath bool) (path, version
++	if allowDirPath && modfile.IsDirectoryPath(arg) {
++		return arg, "", nil
++	}
++-	before, after, found := strings.Cut(arg, "@")
+++	before, after, found, err := modload.ParsePathVersion(arg)
+++	if err != nil {
+++		return "", "", err
+++	}
++	if !found {
++		path = arg
++	} else {
++diff --git a/src/cmd/go/internal/modfetch/codehost/git.go b/src/cmd/go/internal/modfetch/codehost/git.go
++index 9996be7af7..45727ae3fb 100644
++--- a/src/cmd/go/internal/modfetch/codehost/git.go
+++++ b/src/cmd/go/internal/modfetch/codehost/git.go
++@@ -246,7 +246,7 @@ func (r *gitRepo) loadRefs(ctx context.Context) (map[string]string, error) {
++			r.refsErr = err
++			return
++		}
++-		out, gitErr := Run(ctx, r.dir, "git", "ls-remote", "-q", r.remote)
+++		out, gitErr := Run(ctx, r.dir, "git", "ls-remote", "-q","--end-of-options", r.remote)
++		release()
++
++		if gitErr != nil {
++@@ -509,7 +509,7 @@ func (r *gitRepo) stat(ctx context.Context, rev string) (info *RevInfo, err erro
++			if fromTag && !slices.Contains(info.Tags, tag) {
++				// The local repo includes the commit hash we want, but it is missing
++				// the corresponding tag. Add that tag and try again.
++-				_, err := Run(ctx, r.dir, "git", "tag", tag, hash)
+++				_, err := Run(ctx, r.dir, "git", "tag","--end-of-options", tag, hash)
++				if err != nil {
++					return nil, err
++				}
++@@ -554,7 +554,7 @@ func (r *gitRepo) stat(ctx context.Context, rev string) (info *RevInfo, err erro
++		// an apparent Git bug introduced in Git 2.21 (commit 61c771),
++		// which causes the handler for protocol version 1 to sometimes miss
++		// tags that point to the requested commit (see https://go.dev/issue/56881).
++-		_, err = Run(ctx, r.dir, "git", "-c", "protocol.version=2", "fetch", "-f", "--depth=1", r.remote, refspec)
+++		_, err = Run(ctx, r.dir, "git", "-c", "protocol.version=2", "fetch", "-f", "--depth=1","--end-of-options", r.remote, refspec)
++		release()
++
++		if err == nil {
++@@ -597,12 +597,12 @@ func (r *gitRepo) fetchRefsLocked(ctx context.Context) error {
++		}
++		defer release()
++
++-		if _, err := Run(ctx, r.dir, "git", "fetch", "-f", r.remote, "refs/heads/*:refs/heads/*", "refs/tags/*:refs/tags/*"); err != nil {
+++		if _, err := Run(ctx, r.dir, "git", "fetch", "-f","--end-of-options", r.remote, "refs/heads/*:refs/heads/*", "refs/tags/*:refs/tags/*"); err != nil {
++			return err
++		}
++
++		if _, err := os.Stat(filepath.Join(r.dir, "shallow")); err == nil {
++-			if _, err := Run(ctx, r.dir, "git", "fetch", "--unshallow", "-f", r.remote); err != nil {
+++			if _, err := Run(ctx, r.dir, "git", "fetch", "--unshallow", "-f", "--end-of-options",r.remote); err != nil {
++				return err
++			}
++		}
++@@ -615,7 +615,7 @@ func (r *gitRepo) fetchRefsLocked(ctx context.Context) error {
++ // statLocal returns a new RevInfo describing rev in the local git repository.
++ // It uses version as info.Version.
++ func (r *gitRepo) statLocal(ctx context.Context, version, rev string) (*RevInfo, error) {
++-	out, err := Run(ctx, r.dir, "git", "-c", "log.showsignature=false", "log", "--no-decorate", "-n1", "--format=format:%H %ct %D", rev, "--")
+++	out, err := Run(ctx, r.dir, "git", "-c", "log.showsignature=false", "log", "--no-decorate", "-n1", "--format=format:%H %ct %D","--end-of-options",  rev, "--")
++	if err != nil {
++		// Return info with Origin.RepoSum if possible to allow caching of negative lookup.
++		var info *RevInfo
++@@ -705,7 +705,7 @@ func (r *gitRepo) ReadFile(ctx context.Context, rev, file string, maxSize int64)
++	if err != nil {
++		return nil, err
++	}
++-	out, err := Run(ctx, r.dir, "git", "cat-file", "blob", info.Name+":"+file)
+++	out, err := Run(ctx, r.dir, "git", "cat-file","--end-of-options", "blob", info.Name+":"+file)
++	if err != nil {
++		return nil, fs.ErrNotExist
++	}
++@@ -723,7 +723,7 @@ func (r *gitRepo) RecentTag(ctx context.Context, rev, prefix string, allowed fun
++	// result is definitive.
++	describe := func() (definitive bool) {
++		var out []byte
++-		out, err = Run(ctx, r.dir, "git", "for-each-ref", "--format", "%(refname)", "refs/tags", "--merged", rev)
+++		out, err = Run(ctx, r.dir, "git", "for-each-ref", "--format=%(refname)", "--merged="+rev)
++		if err != nil {
++			return true
++		}
++@@ -865,7 +865,7 @@ func (r *gitRepo) ReadZip(ctx context.Context, rev, subdir string, maxSize int64
++	// TODO: Use maxSize or drop it.
++	args := []string{}
++	if subdir != "" {
++-		args = append(args, "--", subdir)
+++		args = append(args, subdir)
++	}
++	info, err := r.Stat(ctx, rev) // download rev into local git repo
++	if err != nil {
++@@ -887,7 +887,7 @@ func (r *gitRepo) ReadZip(ctx context.Context, rev, subdir string, maxSize int64
++	// text file line endings. Setting -c core.autocrlf=input means only
++	// translate files on the way into the repo, not on the way out (archive).
++	// The -c core.eol=lf should be unnecessary but set it anyway.
++-	archive, err := Run(ctx, r.dir, "git", "-c", "core.autocrlf=input", "-c", "core.eol=lf", "archive", "--format=zip", "--prefix=prefix/", info.Name, args)
+++	archive, err := Run(ctx, r.dir, "git", "-c", "core.autocrlf=input", "-c", "core.eol=lf", "archive", "--format=zip", "--prefix=prefix/", "--end-of-options", info.Name, args)
++	if err != nil {
++		if bytes.Contains(err.(*RunError).Stderr, []byte("did not match any files")) {
++			return nil, fs.ErrNotExist
++diff --git a/src/cmd/go/internal/modfetch/codehost/vcs.go b/src/cmd/go/internal/modfetch/codehost/vcs.go
++index 5bd100556b..425f61269f 100644
++--- a/src/cmd/go/internal/modfetch/codehost/vcs.go
+++++ b/src/cmd/go/internal/modfetch/codehost/vcs.go
++@@ -162,20 +162,20 @@ var vcsCmds = map[string]*vcsCmd{
++		branchRE:      re(`(?m)^[^\n]+$`),
++		badLocalRevRE: re(`(?m)^(tip)$`),
++		statLocal: func(rev, remote string) []string {
++-			return []string{"hg", "log", "-l1", "-r", rev, "--template", "{node} {date|hgdate} {tags}"}
+++			return []string{"hg", "log", "-l1", fmt.Sprintf("--rev=%s", rev), "--template", "{node} {date|hgdate} {tags}"}
++		},
++		parseStat: hgParseStat,
++		fetch:     []string{"hg", "pull", "-f"},
++		latest:    "tip",
++		readFile: func(rev, file, remote string) []string {
++-			return []string{"hg", "cat", "-r", rev, file}
+++			return []string{"hg", "cat", fmt.Sprintf("--rev=%s", rev), "--", file}
++		},
++		readZip: func(rev, subdir, remote, target string) []string {
++			pattern := []string{}
++			if subdir != "" {
++-				pattern = []string{"-I", subdir + "/**"}
+++				pattern = []string{fmt.Sprintf("--include=%s", subdir+"/**")}
++			}
++-			return str.StringList("hg", "archive", "-t", "zip", "--no-decode", "-r", rev, "--prefix=prefix/", pattern, "--", target)
+++			return str.StringList("hg", "archive", "-t", "zip", "--no-decode", fmt.Sprintf("--rev=%s", rev), "--prefix=prefix/", pattern, "--", target)
++		},
++	},
++
++@@ -215,19 +215,19 @@ var vcsCmds = map[string]*vcsCmd{
++		tagRE:         re(`(?m)^\S+`),
++		badLocalRevRE: re(`^revno:-`),
++		statLocal: func(rev, remote string) []string {
++-			return []string{"bzr", "log", "-l1", "--long", "--show-ids", "-r", rev}
+++			return []string{"bzr", "log", "-l1", "--long", "--show-ids", fmt.Sprintf("--revision=%s", rev)}
++		},
++		parseStat: bzrParseStat,
++		latest:    "revno:-1",
++		readFile: func(rev, file, remote string) []string {
++-			return []string{"bzr", "cat", "-r", rev, file}
+++			return []string{"bzr", "cat", fmt.Sprintf("--revision=%s", rev), "--", file}
++		},
++		readZip: func(rev, subdir, remote, target string) []string {
++			extra := []string{}
++			if subdir != "" {
++				extra = []string{"./" + subdir}
++			}
++-			return str.StringList("bzr", "export", "--format=zip", "-r", rev, "--root=prefix/", "--", target, extra)
+++			return str.StringList("bzr", "export", "--format=zip", fmt.Sprintf("--revision=%s", rev), "--root=prefix/", "--", target, extra)
++		},
++	},
++
++@@ -242,17 +242,17 @@ var vcsCmds = map[string]*vcsCmd{
++		},
++		tagRE: re(`XXXTODO`),
++		statLocal: func(rev, remote string) []string {
++-			return []string{"fossil", "info", "-R", ".fossil", rev}
+++			return []string{"fossil", "info", "-R", ".fossil", "--", rev}
++		},
++		parseStat: fossilParseStat,
++		latest:    "trunk",
++		readFile: func(rev, file, remote string) []string {
++-			return []string{"fossil", "cat", "-R", ".fossil", "-r", rev, file}
+++			return []string{"fossil", "cat", "-R", ".fossil", fmt.Sprintf("-r=%s", rev), "--", file}
++		},
++		readZip: func(rev, subdir, remote, target string) []string {
++			extra := []string{}
++			if subdir != "" && !strings.ContainsAny(subdir, "*?[],") {
++-				extra = []string{"--include", subdir}
+++				extra = []string{fmt.Sprintf("--include=%s", subdir)}
++			}
++			// Note that vcsRepo.ReadZip below rewrites this command
++			// to run in a different directory, to work around a fossil bug.
++diff --git a/src/cmd/go/internal/modget/query.go b/src/cmd/go/internal/modget/query.go
++index 498ba6c2ff..0d33a52677 100644
++--- a/src/cmd/go/internal/modget/query.go
+++++ b/src/cmd/go/internal/modget/query.go
++@@ -139,7 +139,10 @@ func errSet(err error) pathSet { return pathSet{err: err} }
++ // newQuery returns a new query parsed from the raw argument,
++ // which must be either path or path@version.
++ func newQuery(raw string) (*query, error) {
++-	pattern, rawVers, found := strings.Cut(raw, "@")
+++	pattern, rawVers, found, err := modload.ParsePathVersion(raw)
+++	if err != nil {
+++		return nil, err
+++	}
++	if found && (strings.Contains(rawVers, "@") || rawVers == "") {
++		return nil, fmt.Errorf("invalid module version syntax %q", raw)
++	}
++diff --git a/src/cmd/go/internal/modload/build.go b/src/cmd/go/internal/modload/build.go
++index 5cf1487c3e..08acf3aa2b 100644
++--- a/src/cmd/go/internal/modload/build.go
+++++ b/src/cmd/go/internal/modload/build.go
++@@ -12,7 +12,6 @@ import (
++	"io/fs"
++	"os"
++	"path/filepath"
++-	"strings"
++
++	"cmd/go/internal/base"
++	"cmd/go/internal/cfg"
++@@ -88,7 +87,16 @@ func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
++		return nil
++	}
++
++-	if path, vers, found := strings.Cut(path, "@"); found {
+++	path, vers, found, err := ParsePathVersion(path)
+++	if err != nil {
+++		return &modinfo.ModulePublic{
+++			Path: path,
+++			Error: &modinfo.ModuleError{
+++				Err: err.Error(),
+++			},
+++		}
+++	}
+++	if found {
++		m := module.Version{Path: path, Version: vers}
++		return moduleInfo(ctx, nil, m, 0, nil)
++	}
++diff --git a/src/cmd/go/internal/modload/list.go b/src/cmd/go/internal/modload/list.go
++index ef93c25121..e9efb1918e 100644
++--- a/src/cmd/go/internal/modload/list.go
+++++ b/src/cmd/go/internal/modload/list.go
++@@ -149,7 +149,11 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
++			}
++			continue
++		}
++-		if path, vers, found := strings.Cut(arg, "@"); found {
+++		path, vers, found, err := ParsePathVersion(arg)
+++		if err != nil {
+++			base.Fatalf("go: %v", err)
+++		}
+++		if found {
++			if vers == "upgrade" || vers == "patch" {
++				if _, ok := rs.rootSelected(path); !ok || rs.pruning == unpruned {
++					needFullGraph = true
++@@ -175,7 +179,11 @@ func listModules(ctx context.Context, rs *Requirements, args []string, mode List
++
++	matchedModule := map[module.Version]bool{}
++	for _, arg := range args {
++-		if path, vers, found := strings.Cut(arg, "@"); found {
+++		path, vers, found, err := ParsePathVersion(arg)
+++		if err != nil {
+++			base.Fatalf("go: %v", err)
+++		}
+++		if found {
++			var current string
++			if mg == nil {
++				current, _ = rs.rootSelected(path)
++@@ -308,3 +316,21 @@ func modinfoError(path, vers string, err error) *modinfo.ModuleError {
++
++	return &modinfo.ModuleError{Err: err.Error()}
++ }
+++
+++// ParsePathVersion parses arg expecting arg to be path@version. If there is no
+++// '@' in arg, found is false, vers is "", and path is arg. This mirrors the
+++// typical usage of strings.Cut. ParsePathVersion is meant to be a general
+++// replacement for strings.Cut in module version parsing. If the version is
+++// invalid, an error is returned. The version is considered invalid if it is
+++// prefixed with '-' or '/', which can cause security problems when constructing
+++// commands to execute that use the version.
+++func ParsePathVersion(arg string) (path, vers string, found bool, err error) {
+++	path, vers, found = strings.Cut(arg, "@")
+++	if !found {
+++		return arg, "", false, nil
+++	}
+++	if len(vers) > 0 && (vers[0] == '-' || vers[0] == '/') {
+++		return "", "", false, fmt.Errorf("invalid module version %q", vers)
+++	}
+++	return path, vers, true, nil
+++}
++diff --git a/src/cmd/go/internal/toolchain/select.go b/src/cmd/go/internal/toolchain/select.go
++index 14a8d3c21d..838ebae6a7 100644
++--- a/src/cmd/go/internal/toolchain/select.go
+++++ b/src/cmd/go/internal/toolchain/select.go
++@@ -614,7 +614,10 @@ func goInstallVersion() bool {
++	if !strings.Contains(pkgArg, "@") || build.IsLocalImport(pkgArg) || filepath.IsAbs(pkgArg) {
++		return false
++	}
++-	path, version, _ := strings.Cut(pkgArg, "@")
+++	path, version, _, err := modload.ParsePathVersion(pkgArg)
+++	if err != nil {
+++		base.Fatalf("go: %v", err)
+++	}
++	if path == "" || version == "" || gover.IsToolchain(path) {
++		return false
++	}
++@@ -650,7 +653,7 @@ func goInstallVersion() bool {
++		allowed = nil
++	}
++	noneSelected := func(path string) (version string) { return "none" }
++-	_, err := modload.QueryPackages(ctx, path, version, noneSelected, allowed)
+++	_, err = modload.QueryPackages(ctx, path, version, noneSelected, allowed)
++	if errors.Is(err, gover.ErrTooNew) {
++		// Run early switch, same one go install or go run would eventually do,
++		// if it understood all the command-line flags.
++diff --git a/src/cmd/go/internal/vcs/vcs.go b/src/cmd/go/internal/vcs/vcs.go
++index 60f76d77cf..55bf25ff62 100644
++--- a/src/cmd/go/internal/vcs/vcs.go
+++++ b/src/cmd/go/internal/vcs/vcs.go
++@@ -17,7 +17,6 @@ import (
++	"os"
++	"os/exec"
++	"path/filepath"
++-	"regexp"
++	"strconv"
++	"strings"
++	"sync"
++@@ -40,20 +39,10 @@ type Cmd struct {
++	Env       []string   // any environment values to set/override
++	RootNames []rootName // filename and mode indicating the root of a checkout directory
++
++-	CreateCmd   []string // commands to download a fresh copy of a repository
++-	DownloadCmd []string // commands to download updates into an existing repository
++-
++-	TagCmd         []tagCmd // commands to list tags
++-	TagLookupCmd   []tagCmd // commands to lookup tags before running tagSyncCmd
++-	TagSyncCmd     []string // commands to sync to specific tag
++-	TagSyncDefault []string // commands to sync to default tag
++-
++	Scheme  []string
++	PingCmd string
++
++-	RemoteRepo  func(v *Cmd, rootDir string) (remoteRepo string, err error)
++-	ResolveRepo func(v *Cmd, rootDir, remoteRepo string) (realRepo string, err error)
++-	Status      func(v *Cmd, rootDir string) (Status, error)
+++	Status func(v *Cmd, rootDir string) (Status, error)
++ }
++
++ // Status is the current state of a local repository.
++@@ -156,40 +145,16 @@ var vcsHg = &Cmd{
++	Name: "Mercurial",
++	Cmd:  "hg",
++
++-	// HGPLAIN=1 turns off additional output that a user may have enabled via
++-	// config options or certain extensions.
++-	Env: []string{"HGPLAIN=1"},
+++	// HGPLAIN=+strictflags turns off additional output that a user may have
+++	// enabled via config options or certain extensions.
+++	Env: []string{"HGPLAIN=+strictflags"},
++	RootNames: []rootName{
++		{filename: ".hg", isDir: true},
++	},
++
++-	CreateCmd:   []string{"clone -U -- {repo} {dir}"},
++-	DownloadCmd: []string{"pull"},
++-
++-	// We allow both tag and branch names as 'tags'
++-	// for selecting a version. This lets people have
++-	// a go.release.r60 branch and a go1 branch
++-	// and make changes in both, without constantly
++-	// editing .hgtags.
++-	TagCmd: []tagCmd{
++-		{"tags", `^(\S+)`},
++-		{"branches", `^(\S+)`},
++-	},
++-	TagSyncCmd:     []string{"update -r {tag}"},
++-	TagSyncDefault: []string{"update default"},
++-
++-	Scheme:     []string{"https", "http", "ssh"},
++-	PingCmd:    "identify -- {scheme}://{repo}",
++-	RemoteRepo: hgRemoteRepo,
++-	Status:     hgStatus,
++-}
++-
++-func hgRemoteRepo(vcsHg *Cmd, rootDir string) (remoteRepo string, err error) {
++-	out, err := vcsHg.runOutput(rootDir, "paths default")
++-	if err != nil {
++-		return "", err
++-	}
++-	return strings.TrimSpace(string(out)), nil
+++	Scheme:  []string{"https", "http", "ssh"},
+++	PingCmd: "identify -- {scheme}://{repo}",
+++	Status:  hgStatus,
++ }
++
++ func hgStatus(vcsHg *Cmd, rootDir string) (Status, error) {
++@@ -252,25 +217,6 @@ var vcsGit = &Cmd{
++		{filename: ".git", isDir: true},
++	},
++
++-	CreateCmd:   []string{"clone -- {repo} {dir}", "-go-internal-cd {dir} submodule update --init --recursive"},
++-	DownloadCmd: []string{"pull --ff-only", "submodule update --init --recursive"},
++-
++-	TagCmd: []tagCmd{
++-		// tags/xxx matches a git tag named xxx
++-		// origin/xxx matches a git branch named xxx on the default remote repository
++-		{"show-ref", `(?:tags|origin)/(\S+)$`},
++-	},
++-	TagLookupCmd: []tagCmd{
++-		{"show-ref tags/{tag} origin/{tag}", `((?:tags|origin)/\S+)$`},
++-	},
++-	TagSyncCmd: []string{"checkout {tag}", "submodule update --init --recursive"},
++-	// both createCmd and downloadCmd update the working dir.
++-	// No need to do more here. We used to 'checkout master'
++-	// but that doesn't work if the default branch is not named master.
++-	// DO NOT add 'checkout master' here.
++-	// See golang.org/issue/9032.
++-	TagSyncDefault: []string{"submodule update --init --recursive"},
++-
++	Scheme: []string{"git", "https", "http", "git+ssh", "ssh"},
++
++	// Leave out the '--' separator in the ls-remote command: git 2.7.4 does not
++@@ -279,54 +225,7 @@ var vcsGit = &Cmd{
++	// See golang.org/issue/33836.
++	PingCmd: "ls-remote {scheme}://{repo}",
++
++-	RemoteRepo: gitRemoteRepo,
++-	Status:     gitStatus,
++-}
++-
++-// scpSyntaxRe matches the SCP-like addresses used by Git to access
++-// repositories by SSH.
++-var scpSyntaxRe = lazyregexp.New(`^(\w+)@([\w.-]+):(.*)$`)
++-
++-func gitRemoteRepo(vcsGit *Cmd, rootDir string) (remoteRepo string, err error) {
++-	const cmd = "config remote.origin.url"
++-	outb, err := vcsGit.run1(rootDir, cmd, nil, false)
++-	if err != nil {
++-		// if it doesn't output any message, it means the config argument is correct,
++-		// but the config value itself doesn't exist
++-		if outb != nil && len(outb) == 0 {
++-			return "", errors.New("remote origin not found")
++-		}
++-		return "", err
++-	}
++-	out := strings.TrimSpace(string(outb))
++-
++-	var repoURL *urlpkg.URL
++-	if m := scpSyntaxRe.FindStringSubmatch(out); m != nil {
++-		// Match SCP-like syntax and convert it to a URL.
++-		// Eg, "git@github.com:user/repo" becomes
++-		// "ssh://git@github.com/user/repo".
++-		repoURL = &urlpkg.URL{
++-			Scheme: "ssh",
++-			User:   urlpkg.User(m[1]),
++-			Host:   m[2],
++-			Path:   m[3],
++-		}
++-	} else {
++-		repoURL, err = urlpkg.Parse(out)
++-		if err != nil {
++-			return "", err
++-		}
++-	}
++-
++-	// Iterate over insecure schemes too, because this function simply
++-	// reports the state of the repo. If we can't see insecure schemes then
++-	// we can't report the actual repo URL.
++-	for _, s := range vcsGit.Scheme {
++-		if repoURL.Scheme == s {
++-			return repoURL.String(), nil
++-		}
++-	}
++-	return "", errors.New("unable to parse output of git " + cmd)
+++	Status: gitStatus,
++ }
++
++ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
++@@ -366,62 +265,9 @@ var vcsBzr = &Cmd{
++		{filename: ".bzr", isDir: true},
++	},
++
++-	CreateCmd: []string{"branch -- {repo} {dir}"},
++-
++-	// Without --overwrite bzr will not pull tags that changed.
++-	// Replace by --overwrite-tags after http://pad.lv/681792 goes in.
++-	DownloadCmd: []string{"pull --overwrite"},
++-
++-	TagCmd:         []tagCmd{{"tags", `^(\S+)`}},
++-	TagSyncCmd:     []string{"update -r {tag}"},
++-	TagSyncDefault: []string{"update -r revno:-1"},
++-
++-	Scheme:      []string{"https", "http", "bzr", "bzr+ssh"},
++-	PingCmd:     "info -- {scheme}://{repo}",
++-	RemoteRepo:  bzrRemoteRepo,
++-	ResolveRepo: bzrResolveRepo,
++-	Status:      bzrStatus,
++-}
++-
++-func bzrRemoteRepo(vcsBzr *Cmd, rootDir string) (remoteRepo string, err error) {
++-	outb, err := vcsBzr.runOutput(rootDir, "config parent_location")
++-	if err != nil {
++-		return "", err
++-	}
++-	return strings.TrimSpace(string(outb)), nil
++-}
++-
++-func bzrResolveRepo(vcsBzr *Cmd, rootDir, remoteRepo string) (realRepo string, err error) {
++-	outb, err := vcsBzr.runOutput(rootDir, "info "+remoteRepo)
++-	if err != nil {
++-		return "", err
++-	}
++-	out := string(outb)
++-
++-	// Expect:
++-	// ...
++-	//   (branch root|repository branch): <URL>
++-	// ...
++-
++-	found := false
++-	for _, prefix := range []string{"\n  branch root: ", "\n  repository branch: "} {
++-		i := strings.Index(out, prefix)
++-		if i >= 0 {
++-			out = out[i+len(prefix):]
++-			found = true
++-			break
++-		}
++-	}
++-	if !found {
++-		return "", fmt.Errorf("unable to parse output of bzr info")
++-	}
++-
++-	i := strings.Index(out, "\n")
++-	if i < 0 {
++-		return "", fmt.Errorf("unable to parse output of bzr info")
++-	}
++-	out = out[:i]
++-	return strings.TrimSpace(out), nil
+++	Scheme:  []string{"https", "http", "bzr", "bzr+ssh"},
+++	PingCmd: "info -- {scheme}://{repo}",
+++	Status:  bzrStatus,
++ }
++
++ func bzrStatus(vcsBzr *Cmd, rootDir string) (Status, error) {
++@@ -489,45 +335,11 @@ var vcsSvn = &Cmd{
++		{filename: ".svn", isDir: true},
++	},
++
++-	CreateCmd:   []string{"checkout -- {repo} {dir}"},
++-	DownloadCmd: []string{"update"},
++-
++	// There is no tag command in subversion.
++	// The branch information is all in the path names.
++
++-	Scheme:     []string{"https", "http", "svn", "svn+ssh"},
++-	PingCmd:    "info -- {scheme}://{repo}",
++-	RemoteRepo: svnRemoteRepo,
++-}
++-
++-func svnRemoteRepo(vcsSvn *Cmd, rootDir string) (remoteRepo string, err error) {
++-	outb, err := vcsSvn.runOutput(rootDir, "info")
++-	if err != nil {
++-		return "", err
++-	}
++-	out := string(outb)
++-
++-	// Expect:
++-	//
++-	//	 ...
++-	// 	URL: <URL>
++-	// 	...
++-	//
++-	// Note that we're not using the Repository Root line,
++-	// because svn allows checking out subtrees.
++-	// The URL will be the URL of the subtree (what we used with 'svn co')
++-	// while the Repository Root may be a much higher parent.
++-	i := strings.Index(out, "\nURL: ")
++-	if i < 0 {
++-		return "", fmt.Errorf("unable to parse output of svn info")
++-	}
++-	out = out[i+len("\nURL: "):]
++-	i = strings.Index(out, "\n")
++-	if i < 0 {
++-		return "", fmt.Errorf("unable to parse output of svn info")
++-	}
++-	out = out[:i]
++-	return strings.TrimSpace(out), nil
+++	Scheme:  []string{"https", "http", "svn", "svn+ssh"},
+++	PingCmd: "info -- {scheme}://{repo}",
++ }
++
++ // fossilRepoName is the name go get associates with a fossil repository. In the
++@@ -543,24 +355,8 @@ var vcsFossil = &Cmd{
++		{filename: "_FOSSIL_", isDir: false},
++	},
++
++-	CreateCmd:   []string{"-go-internal-mkdir {dir} clone -- {repo} " + filepath.Join("{dir}", fossilRepoName), "-go-internal-cd {dir} open .fossil"},
++-	DownloadCmd: []string{"up"},
++-
++-	TagCmd:         []tagCmd{{"tag ls", `(.*)`}},
++-	TagSyncCmd:     []string{"up tag:{tag}"},
++-	TagSyncDefault: []string{"up trunk"},
++-
++-	Scheme:     []string{"https", "http"},
++-	RemoteRepo: fossilRemoteRepo,
++-	Status:     fossilStatus,
++-}
++-
++-func fossilRemoteRepo(vcsFossil *Cmd, rootDir string) (remoteRepo string, err error) {
++-	out, err := vcsFossil.runOutput(rootDir, "remote-url")
++-	if err != nil {
++-		return "", err
++-	}
++-	return strings.TrimSpace(string(out)), nil
+++	Scheme: []string{"https", "http"},
+++	Status: fossilStatus,
++ }
++
++ var errFossilInfo = errors.New("unable to parse output of fossil info")
++@@ -661,7 +457,7 @@ func (v *Cmd) run1(dir string, cmdline string, keyval []string, verbose bool) ([
++		args[i] = expand(m, arg)
++	}
++
++-	if len(args) >= 2 && args[0] == "-go-internal-mkdir" {
+++	if len(args) >= 2 && args[0] == "--go-internal-mkdir" {
++		var err error
++		if filepath.IsAbs(args[1]) {
++			err = os.Mkdir(args[1], fs.ModePerm)
++@@ -674,7 +470,7 @@ func (v *Cmd) run1(dir string, cmdline string, keyval []string, verbose bool) ([
++		args = args[2:]
++	}
++
++-	if len(args) >= 2 && args[0] == "-go-internal-cd" {
+++	if len(args) >= 2 && args[0] == "--go-internal-cd" {
++		if filepath.IsAbs(args[1]) {
++			dir = args[1]
++		} else {
++@@ -735,99 +531,6 @@ func (v *Cmd) Ping(scheme, repo string) error {
++	return v.runVerboseOnly(dir, v.PingCmd, "scheme", scheme, "repo", repo)
++ }
++
++-// Create creates a new copy of repo in dir.
++-// The parent of dir must exist; dir must not.
++-func (v *Cmd) Create(dir, repo string) error {
++-	release, err := base.AcquireNet()
++-	if err != nil {
++-		return err
++-	}
++-	defer release()
++-
++-	for _, cmd := range v.CreateCmd {
++-		if err := v.run(filepath.Dir(dir), cmd, "dir", dir, "repo", repo); err != nil {
++-			return err
++-		}
++-	}
++-	return nil
++-}
++-
++-// Download downloads any new changes for the repo in dir.
++-func (v *Cmd) Download(dir string) error {
++-	release, err := base.AcquireNet()
++-	if err != nil {
++-		return err
++-	}
++-	defer release()
++-
++-	for _, cmd := range v.DownloadCmd {
++-		if err := v.run(dir, cmd); err != nil {
++-			return err
++-		}
++-	}
++-	return nil
++-}
++-
++-// Tags returns the list of available tags for the repo in dir.
++-func (v *Cmd) Tags(dir string) ([]string, error) {
++-	var tags []string
++-	for _, tc := range v.TagCmd {
++-		out, err := v.runOutput(dir, tc.cmd)
++-		if err != nil {
++-			return nil, err
++-		}
++-		re := regexp.MustCompile(`(?m-s)` + tc.pattern)
++-		for _, m := range re.FindAllStringSubmatch(string(out), -1) {
++-			tags = append(tags, m[1])
++-		}
++-	}
++-	return tags, nil
++-}
++-
++-// TagSync syncs the repo in dir to the named tag,
++-// which either is a tag returned by tags or is v.tagDefault.
++-func (v *Cmd) TagSync(dir, tag string) error {
++-	if v.TagSyncCmd == nil {
++-		return nil
++-	}
++-	if tag != "" {
++-		for _, tc := range v.TagLookupCmd {
++-			out, err := v.runOutput(dir, tc.cmd, "tag", tag)
++-			if err != nil {
++-				return err
++-			}
++-			re := regexp.MustCompile(`(?m-s)` + tc.pattern)
++-			m := re.FindStringSubmatch(string(out))
++-			if len(m) > 1 {
++-				tag = m[1]
++-				break
++-			}
++-		}
++-	}
++-
++-	release, err := base.AcquireNet()
++-	if err != nil {
++-		return err
++-	}
++-	defer release()
++-
++-	if tag == "" && v.TagSyncDefault != nil {
++-		for _, cmd := range v.TagSyncDefault {
++-			if err := v.run(dir, cmd); err != nil {
++-				return err
++-			}
++-		}
++-		return nil
++-	}
++-
++-	for _, cmd := range v.TagSyncCmd {
++-		if err := v.run(dir, cmd, "tag", tag); err != nil {
++-			return err
++-		}
++-	}
++-	return nil
++-}
++-
++ // A vcsPath describes how to convert an import path into a
++ // version control system and repository name.
++ type vcsPath struct {
++diff --git a/src/cmd/go/internal/workcmd/edit.go b/src/cmd/go/internal/workcmd/edit.go
++index 8d975b0b3d..c1252cc95e 100644
++--- a/src/cmd/go/internal/workcmd/edit.go
+++++ b/src/cmd/go/internal/workcmd/edit.go
++@@ -242,7 +242,10 @@ func allowedVersionArg(arg string) bool {
++ // parsePathVersionOptional parses path[@version], using adj to
++ // describe any errors.
++ func parsePathVersionOptional(adj, arg string, allowDirPath bool) (path, version string, err error) {
++-	before, after, found := strings.Cut(arg, "@")
+++	before, after, found, err := modload.ParsePathVersion(arg)
+++	if err != nil {
+++		return "", "", err
+++	}
++	if !found {
++		path = arg
++	} else {
++--
++2.35.6
 
