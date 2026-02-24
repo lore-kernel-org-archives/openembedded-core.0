@@ -1,255 +1,283 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F96EF3C992
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 15:04:04 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.67])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22215.1771945437382009932
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F332F3C99B
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 15:28:54 +0000 (UTC)
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22786.1771946925252562019
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 07:03:57 -0800
+ Tue, 24 Feb 2026 07:28:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=iMttHhGf;
- spf=pass (domain: est.tech, ip: 52.101.84.67, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x8X7+xHEpihTwLc1RLZNOW8feSK+zyuD1yRvq9FqxmWlM4emSM0GbLKjDaR8x3U+3CS2EgKoI2+w/DCfqubOLix21B2RnZ7uyqDR318SR0T1N3u4pp4IeYTxX3Ul2ity2hFVVlNbeyy0ubSdZQtqFWWYifDB3/8zh3zOl4xlSSwHW0xdkOIDI49bE9A4DJEDeYi97+JmD1SJbO4n4K5mqrGBeU6+h9LIU6mZeDKEZJChBwd11NXKZSkYaGW18dJg8PcV1MCPOljareBigCKXFE7G7iRPf9bPeNyWH/JcuBVyhmJmTIRxeZhe1Ynt+Uzissd/SgLwnQHexVWCvlgRtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YiUsZA2K69b9xbVXeqrDReMWrFW9aZMoJsnSm7n7vcM=;
- b=rchphFi2Vho/8KRKCineXw623YVeQyUex2P8Ujoo3UlEXCs6gNuTbPEswdEAX39FBwiSgcLSwp0YYYBZJFTM3x17ilucehEIBtpNbiUidHBQNGBZjBNp/6KEzZ/q3O4l2IJ1ZQvcsZyjLQwauPlpWysZm7JxAm+Fk+V47fyeK8DGBIEcVJDHHO1FXsPRf+J4j1Mp6kxx8DHEV/Vgu2ASRveSoNFKjgnXz4Fk64+KTbcnyuYwwy4BZnWzX0kZkUeo8NI9JLe7C4u0OxH+diQ8JtqEUPSEezh76QoPrq7c164zUlQNFRXMHK79SXXAovwAiJQ7Z6JNwYDHB9h4lXsNNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YiUsZA2K69b9xbVXeqrDReMWrFW9aZMoJsnSm7n7vcM=;
- b=iMttHhGfOBKDrE0SUNKDt7FzL/iHRT+yBJNJycClY+gWJd63xVfj60f4r1w2GHcNGUVs0GIeRMmTpIE6oigWS+1gj5J8Y6cx3VDH0B/rR/6JMxvRQYLXJbvUu04A0RW9gcpkWYNWGvGuv1Jun/5+i9mRSVuzEgk8LZRRDcd9bKhEqEsAnNTb2fJKq3NfNNgzCpzRyqiZIPpPi7ZMXsVOFO4BEj/IxGsNX8ReyzEWjuKP7OlqlKe2mqRwf09hOFddf1qfvs3I+uFd3MeBsO56+Zw96KHEtkwrmf9r/KNFsZhIhMFGiRufqTbsrv+2DRcLJ2VqqjTA+hXhtRMpx1rSyw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by AM4P189MB3521.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6e2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
- 2026 15:03:53 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::481f:ee0d:c0ce:36b9%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 15:03:53 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][whinlatter][PATCH v1] libarchive: backport libarchive ptest to whinlatter
-Date: Tue, 24 Feb 2026 16:03:48 +0100
-Message-ID: <20260224150348.57934-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0051.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:469::15) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=b4cklXXO;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=syNUsDlQ;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 661FD1400168;
+	Tue, 24 Feb 2026 10:28:44 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Tue, 24 Feb 2026 10:28:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
+	 t=1771946924; x=1772033324; bh=Mb8oGBiIo7QtsofO/AuH1wXYFcbt+ioo
+	Eh1evXhU+D0=; b=b4cklXXOgmfvHtZjprInSwK/5pEcTsIlQtACYpgZF56reikj
+	HSKB8AQyS+vmrsgUBttAPr2tsDuAC+/gw8vTM8T3ehqF9az/Z9f2eFMMXapoeCpb
+	sazxTjoKtrl0KGsoMq7PztnTZBAakfbAhDg7FSQd57PAZssJqooN2nTdlFlZ1Akv
+	Vc5gMiaw7WNKvUKw8SB/y0JSTaZIpmNUTVuPGTbxN3uvB95hDASyziaMEHNjdXyf
+	YpPAgrfhA6YRUV4vcgoEdJi5I77TM3l9VEtDt+d1zY3INqz+TJmAV5iO+Wivl66r
+	PtJxnkuUwvn6lPpY0Om8x4wwi+ZzfP4q2UEx+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1771946924; x=
+	1772033324; bh=Mb8oGBiIo7QtsofO/AuH1wXYFcbt+iooEh1evXhU+D0=; b=s
+	yNUsDlQV821U3Jwwxs5RcBmkTlhKEVbLqSzcdZcx550inbtNzGsei0OiCcdX5jWy
+	IKo64EDHu3gtqn4UBLWQnfIe6ByUJA7goxZKLBg03cm8RD3M0dQt/WUtUO+nlhWD
+	kFU0bjPaLrRI5QnjBrDYcb5UmjaM/+N0+KMj5QeuV9Sr1OBSaG5WMKysCA5Ub8A4
+	B88LSLE45XeeMXKtSz4ko4SGNfoD8y6nRoJOm/tU+ne1a+ovDeX4ibVR7t5AvJxO
+	mITdNM1HodUDHbie63Qg1Ij5cn4xwkimQiaLxEpSVL50ae4oIm87GlWituh/ktDr
+	jpCE7XZr/oXQWKKrWvI+g==
+X-ME-Sender: <xms:rMOdadKNHOoV61mWw0LFNhpUFEot9CCD2IC1SjW1It22jqRYiZfEPQ>
+    <xme:rMOdaUlcwX1Z3W_kodsMuMkADP0tQWFHnvxtp8_DSknCNjClsGZEU2zzaCmhN2FgH
+    _CyJOugahatyL2MzrlzuVFbUZ7XbGtKoSosOrqSQ2oZhfnIbJGlU58k>
+X-ME-Received: <xmr:rMOdaZP0dC0D94qrXt1Mpx2qYl1vK6TChh0jmqiSeL0T1fNs-s_zfY4UKWaFoYaYIDchQOS-yMTrbmo57wY42bfumatQ3rAKSIawvQ_AkoDu>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgedtheefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucgoufhushhpvggtthffohhmrghinhculdegledmnecujf
+    gurhepkffuhffvffgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegrrhhk
+    vghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpeefue
+    dvleduvdejvdeuiedviedtjeeludfgleffteelhffgkeefvdelfedvvdeitdenucffohhm
+    rghinhepiihoohhmrdhushdphihotghtohhprhhojhgvtghtrdhorhhgpdihohgtthhord
+    hiohdpohhpvghnvghmsggvugguvggurdhorhhgpdhgohhoghhlvgdrtghomhenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrg
+    hrkhgvrhdruggvvhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhr
+    tghpthhtohephihotghtoheslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhgpd
+    hrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghn
+    vghmsggvugguvggurdhorhhgpdhrtghpthhtohephihotghtohdqshhtrghtuhhssehlih
+    hsthhsrdihohgtthhophhrohhjvggtthdrohhrghdprhgtphhtthhopehsjhholhhlvgih
+    rdihphdrphhmsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:rMOdaS0bOXsZdTxJI2dTUyAt21U1fABYQkY4TujwPjyitrVueVZ6WQ>
+    <xmx:rMOdaQmTSXwZmShNXpuFww8Rq1Hvhtd94S_uW8q80v54oqi_0jiR_g>
+    <xmx:rMOdaRXbWuWWUVDklRZMFXVahDwP7amTtH7X79qb3UtjlHwNW7aIjQ>
+    <xmx:rMOdaevi9apg5Qn9o1-Q387ev3ueARzLJtpeF5B2CFKZiL6lzTk3PA>
+    <xmx:rMOdaedZcyh-i9v_LeyKVJAEcCVs28ZyOcwzPdcPyEuljCIKmWKVQh-q>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Feb 2026 10:28:43 -0500 (EST)
+Message-ID: <c63eaa63b1ceb0f3a78148a6594152889ab9dabc.camel@pbarker.dev>
+Subject: Yocto Project Status 24 February 2026 (WW09)
+From: Paul Barker <paul@pbarker.dev>
+To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, 
+	yocto-status@lists.yoctoproject.org
+Date: Tue, 24 Feb 2026 15:28:39 +0000
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-/KU88/im0rFsW6Mzlx2d"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|AM4P189MB3521:EE_
-X-MS-Office365-Filtering-Correlation-Id: 338d9a87-b608-4df8-b44e-08de73b5ec90
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?4Y7ThO+5KtSnzSMml+Z/XRwMC1O8S042hHWVAVz27d7Rph2qPsc02hlhP0z+?=
- =?us-ascii?Q?w2uIIzCFADSMfTCeNd2aIgZS05e+Y8ZSNWGANNh9f+cu/LoDGO+C4GO4IuNE?=
- =?us-ascii?Q?8DFXGQvVdqSG9TLu+h0FLDgVqiiI8sWgetVIG5wzLvnYCX1BclskT+qWJTUk?=
- =?us-ascii?Q?iuHOMuIwmq3M1MjWFTITVWKds5dDdAMZmWbAvaUn3cDhk2F9gMxjdTKuDica?=
- =?us-ascii?Q?mvbPF48XhX+421kq/Jehb9Dv7z6zWQA1YqGjR4QWkfeowm2lQ+w3VF5FM3uI?=
- =?us-ascii?Q?dDAaEt/KkMIoMT2am37VCee3RuMP0j3sJ0aPeJKEc+Q5MX4+o/+Wcty4Ftew?=
- =?us-ascii?Q?bB+g5ko4ALZvmHYZa7MwMc6kZQg70G/6Q0Qqu0QOvUFHwAakVy2T93AxY9jj?=
- =?us-ascii?Q?iLyKbKXYr+HQHF2i08RnueI5zDxw3cz8GupMIAI/N8ge64OXW5FMyCGdEqs1?=
- =?us-ascii?Q?b7I8WdoUYz7zT7BKwWwcLAbqFltrbEM+HDanmbl1V5ZAiLmyOw/lIcUlXBpn?=
- =?us-ascii?Q?J0RHkmaf7rWf5EpweKvAQabBQZayStd5BvxIEUw2aCieAr/7omAjmAGQ81v3?=
- =?us-ascii?Q?hwVMFAXcy3h7/t5W7f9O9YkNaXiy89fFjBVnGCpq02d9ZEuIfh81x5qdk5lF?=
- =?us-ascii?Q?JgmUR6jBZTNRpnQMiKkxIc8iedShKHeCiknF/qW+W9c7r9JiGtreisEgbdHa?=
- =?us-ascii?Q?DpSEJlD+oTVHNWtbcBpMFlIzObLdaULx02IIzhOntsqoqIifg9cEiaUNwj5Q?=
- =?us-ascii?Q?VaK+Bnag/dPI90l76RsF7yyJExXtm08qmEgm7k40IuGlTDWoZpdEMTysTzRG?=
- =?us-ascii?Q?JtLjHWbPvuih2/oGmGI9spVXeUsr7hDM6qvJmD/NVA0zwy5RvtB63PiCoZhw?=
- =?us-ascii?Q?Q13WygAjCisSk2h/ioal+NtB+x1+3kq49K0/ilpFdFM9pTGWJg2Q+ieiYzvU?=
- =?us-ascii?Q?MVKsDGt2e/ZUBHzjw7v/ixglPcK9/34sPv04XTnnCoYr+Iit73oMCftAxM4H?=
- =?us-ascii?Q?9nxlDW3s2AYfhpXddkPZd0JL4N5RenUnY/TG36R/w9hk4aMUos+/IRx1vvEf?=
- =?us-ascii?Q?oFavzAiKmIUPDE9hA2LOtIn4xYy3uTgZK3U4I/T/IZIq4JY3G9kKwa4vnqg1?=
- =?us-ascii?Q?78mj3ZvFp9IRnSEAzqdHfX2IVUCTuckBPQAX/aIiSVk3XCWLs84Y3+hIUCbx?=
- =?us-ascii?Q?fT1X46xrsSQyp6v7U0jifulwdGCpPLmsq3bhPOlmyup5kULvrrzFJJXPA26J?=
- =?us-ascii?Q?VvGqFtNNGATMkypEpPtNYQOX+ADFF9mPU0qE8cI3OQA+IpMrlOYCR0dAy8qY?=
- =?us-ascii?Q?hoUbGGjy+Mi25lZ4c2W3KO7OCmc8OuZ13YEbk4jhXLhI5SuaCfkzVMjRihms?=
- =?us-ascii?Q?yJg2HRZhIPUVCj+yUsuHajrqr5j8MM2LD+2gJwvt5L5ykKlDIY0x3+jKoRbZ?=
- =?us-ascii?Q?hzmzHNa+qLS5OzB+e6PR95ooLQwq57ME+OK44Ufqz0L/fQTtOrF8caSaF1A8?=
- =?us-ascii?Q?7NPycc13jpJAS+xY+5aqM6T8DO0voMJGu7er?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?mFT12tjmBlOJN5toPtdiqc9Syp5eJGwSYz6JE/21HBlUvnh25Tqyb4yFgcR8?=
- =?us-ascii?Q?eCo5HlleUhfU+SYYvIBvEtAsNzmKwXcmlL40JyrA1RpEeWl80/ipy/jhIDgH?=
- =?us-ascii?Q?R50e6453ybWe5HjWWi6kxBrzODFBVnLGB4i794E4WLMrIUMiHUhbZafYw1M6?=
- =?us-ascii?Q?r2ahHyXe+YvLC/EScCIuVgBOd264agJxyFFya0Qdjv8fnRENvRWpcQEdXCii?=
- =?us-ascii?Q?jAZ6bsLtsFW0iPJM8Caw7GRNKx5uiLMdPZeS8Ze724aGwcDamOruWWbxWPGO?=
- =?us-ascii?Q?vrEyHk5pQmF7Wm54KgyxeWtzpZqtCMZS3aTOZKhrNKIOZX4or+3mT9hcgRuw?=
- =?us-ascii?Q?W+7ShyyzonY2j1mjSfnw7Jg/4nQ7t0jIsBMVUqvZeGI5Yc0n5Vea+2Cm7n+Y?=
- =?us-ascii?Q?+VzI4MijjeibVSjNhCG3bBmiH2MYT+4wSqMycXcVGdSHJtwYj5DBRq+pMrwd?=
- =?us-ascii?Q?rXxM+ev5DE1UeWDyweqIYfsv1/vonh7eQq/huQj1CmKXSmQg2+lo9u36gOpT?=
- =?us-ascii?Q?Trwpp0zuTe4f9dYPpGspppywEbzCe95hJTySdvYOQkMdZZS2BnePPm9II6DZ?=
- =?us-ascii?Q?0Yebm+45R/5hmzbsl3hrr3FuAK21Gm+NWfyoiCM8fzqUPPqvPqXtuscwVG+T?=
- =?us-ascii?Q?s/hUKfL6rVZhufiFkSN+P1CogEp0jeHNszV+h8a3IuDezZKh28p4JmK3uo/Z?=
- =?us-ascii?Q?aiybHoPwTdWfFWl7hW2wtBU4BzqsXcNXy5MivU9QVI3GME9HNl/+CjsjtHU6?=
- =?us-ascii?Q?cWvJdpi5Hh2uxtkBjO1M3Wwi9Cd0YKddWktvBz40gF3gx+qD1mFXIJbS3Sdw?=
- =?us-ascii?Q?dgbZNrt3eTdH/hpOqOmSAg+JYxjRPox523PE4OHp9V65+/AGEb/5HMLBI2Gb?=
- =?us-ascii?Q?6swd/gEOXtmIGrhBItIL7hPZudT8FW9LXyu3uHcYmwSSbyrF5vuJpJBCZZAB?=
- =?us-ascii?Q?Ae1TdamBdVQnb/9Zub1JtNQI3waWQlAVLHGU56lS70Nun29YJF60TPZqjagQ?=
- =?us-ascii?Q?ftSUmTCP3pV36nJ4A+ocWXvrWV8Z8ztPywgvb531mO26pcqIL5YVuWqOhd0/?=
- =?us-ascii?Q?737jSuYo1o8axoFKGLVSSuxKXWefu7LHaz60pfdmfjeWrSetUFJ5BGB7a47A?=
- =?us-ascii?Q?p6Xw26FuIHrCFYrAplsJca9yvIgKV7/rPYQfQy1zyTpVI0bC3z9rZdjVS4Cl?=
- =?us-ascii?Q?1clI6ZqZ71SBPCRRrAEyRqz5vcO9i1b4P5Qvtel8QCxHDNneov+dA1VbJNAz?=
- =?us-ascii?Q?ki0/D1G5wr39gVFJVXLaVBLXhDkIcVJK2P11qLbrNWNB0gU0C5IidsCjxL5n?=
- =?us-ascii?Q?k+kNJe56JzYsx1lFv1mGTQ+w23BVXxEjxQXojTwL1NGtKVQkRgggWGWfuDL+?=
- =?us-ascii?Q?IzwiI+L8MgDNIynsorbZS8zvbOeqv1F0LM2YD/jitVOTH5WVAZIQWw+7Ic1Y?=
- =?us-ascii?Q?yUU5/9xVkUZJMoexaFdXcvgxLfDVt0D+am97kbp+nHErjI+hXIxmYYmkPPQc?=
- =?us-ascii?Q?aeM2o6m9xXwcl0NWwzumCcn7079xF4BtHfjw4To3/Kj52jwQ1M4SSEwmS1ga?=
- =?us-ascii?Q?6rIIuaykHruDByMEM1xi7/+8AhBOzdRv7xCHVuHxgEylGPp6ru+5MHrEch5Y?=
- =?us-ascii?Q?9PIc2wPBE+a/B5DOfLh6YhxAn+6LuZb4hTOFaDcSZEDM5figalz8WcS5iORV?=
- =?us-ascii?Q?JgWFr3hMPr0BFISb9JXNX/nklIVhj1f6eeaiTJqr8itF1H0226LsPRsgsVNN?=
- =?us-ascii?Q?MXZxQGdH+Q=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 338d9a87-b608-4df8-b44e-08de73b5ec90
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 15:03:52.9972
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6kFhCIiahTXJosFDNTjVdMFNX3vc0MN7LGI50pPhqARVK+KCj6Hgk7XwHu3mn10cz70wBQg8zHGPAWUKsg57NQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4P189MB3521
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 15:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231864
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 15:28:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231865
 
-Backport ptest implementation from master branch to enable comprehensive
-testing of libarchive functionality in the whinlatter release.
 
-The implementation builds and installs five test suites:
-libarchive_test, bsdtar_test, bsdcpio_test, bsdcat_test, and
-bsdunzip_test, along with their test data files.
+--=-/KU88/im0rFsW6Mzlx2d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Test executables for bsdtar, bsdcpio, bsdcat, and bsdunzip are
-provided via symlinks to the installed binaries.
+Hi all,
 
-All tests on qemux86-64 pass:
-  libarchive_test: 689 tests
-  bsdtar_test: 76 tests
-  bsdcpio_test: 49 tests
-  bsdcat_test: 18 tests
-  bsdunzip_test: 8 tests
+Current Dev Position: YP 6.0 M2
+Next Deadline: YP 6.0 M2 Build Date 2026-02-16
 
-This backport ensures the whinlatter branch has the same comprehensive
-test coverage as master, improving quality assurance and catching
-regressions early.
+Next Team Meetings:
+- Bug Triage meeting - Thursday 26th Feb. 7:30am PDT
+  (https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+- Weekly Project Engineering Sync  - Tuesday 24th Feb. 8am PDT
+  (https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
+- Yocto Project Patch Review - Thursday 26th Feb. 10am GMT and Monday 2nd M=
+ar. 9am
+  (https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1)
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libarchive/libarchive/run-ptest           | 10 ++++++
- .../libarchive/libarchive_3.8.5.bb            | 31 +++++++++++++++++--
- 3 files changed, 40 insertions(+), 2 deletions(-)
- create mode 100755 meta/recipes-extended/libarchive/libarchive/run-ptest
+Project data dashboard: https://dashboard.yoctoproject.org/=20
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 06d113e264..a70ad52f72 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -28,6 +28,7 @@ PTESTS_FAST =3D "\
-     icu \
-     json-c \
-     json-glib \
-+    libarchive \
-     libconvert-asn1-perl \
-     libexif \
-     libgpg-error\
-diff --git a/meta/recipes-extended/libarchive/libarchive/run-ptest b/meta/r=
-ecipes-extended/libarchive/libarchive/run-ptest
-new file mode 100755
-index 0000000000..36d982917c
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/run-ptest
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+
-+for t in libarchive_test bsdtar_test bsdcpio_test bsdcat_test bsdunzip_tes=
-t; do
-+    ./$t
-+    if [ $? -eq 0 ]; then
-+        echo "PASS: $t"
-+    else
-+        echo "FAIL: $t"
-+    fi
-+done
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.5.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.8.5.bb
-index fcfaf5d231..b074617141 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
-@@ -29,12 +29,15 @@ PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,zst=
-d,"
+Key Status/Updates:
+- YP 4.0.33 is due for release
+- YP 5.0.16 is in QA
+- YP 5.2.3 is queued for QA
+- YP 6.0 M2 is due to build when we have patches merged
+- We have two open high issues which need further work that will block M3:=
 =20
- EXTRA_OECONF +=3D "--enable-largefile --without-iconv"
-=20
--SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
-+SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-+           file://run-ptest \
-+          "
-+
- UPSTREAM_CHECK_URI =3D "https://www.libarchive.org/"
-=20
- SRC_URI[sha256sum] =3D "8a60f3a7bfd59c54ce82ae805a93dba65defd04148c3333b7e=
-aa2102f03b7ffd"
-=20
--inherit autotools update-alternatives pkgconfig
-+inherit autotools update-alternatives pkgconfig ptest
-=20
- CPPFLAGS +=3D "-I${WORKDIR}/extra-includes"
-=20
-@@ -62,3 +65,27 @@ ALTERNATIVE_LINK_NAME[cpio] =3D "${base_bindir}/cpio"
- ALTERNATIVE_TARGET[cpio] =3D "${bindir}/bsdcpio"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+do_compile_ptest() {
-+    oe_runmake check TESTS=3D
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}
-+
-+    for test in libarchive_test bsdtar_test bsdcpio_test bsdcat_test bsdun=
-zip_test; do
-+            ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/$test ${D}$=
-{PTEST_PATH}/$test
-+    done
-+
-+    for dir in libarchive tar cpio cat unzip; do
-+            install -d ${D}${PTEST_PATH}/$dir/test
-+            cp -r ${S}/$dir/test/* ${D}${PTEST_PATH}/$dir/test/
-+    done
-+
-+    ln -sf ${bindir}/bsdtar ${D}${PTEST_PATH}/bsdtar
-+    ln -sf ${bindir}/bsdcpio ${D}${PTEST_PATH}/bsdcpio
-+    ln -sf ${bindir}/bsdcat ${D}${PTEST_PATH}/bsdcat
-+    ln -sf ${bindir}/bsdunzip ${D}${PTEST_PATH}/bsdunzip
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "bsdtar bsdcpio"
+    - x86 kvm broken on Fedora 43 (cpu features issue?) (#16074)
+    - AB-INT: opkg-build segmentation fault (memory corruption in
+      pseudo?) (#16078)
+- We also have issues we need to resolve before release:
+    - Allowing non-destructive git fetcher updates for bitbake-setup
+    - Splitting wic into an external tool
+    - Kernel rust support
+    - Switching to pkg-config
+    - Deprecation of ltp (upstream dropped runltp and mandate kirk)
+    - How to improve DEBUG_BUILD?
+    - DISTRO_FEATURES changes to =E2=80=98nodistro=E2=80=99 in OE-Core
+    - SBOM/cve-check changes
+- We updated =E2=80=9Cnodistro=E2=80=9D to use 3 of the include files poky =
+was already
+  using:
+    - Space optimization to reduce build footprint and sstate object
+      size
+    - Disabling most static libraries by default (build size/speed wins)
+    - Enabling security flags by default
+- =E2=80=9Cnodistro=E2=80=9D now also enables uninative by default to allow=
+ for better
+  CDN sstate reuse
+- Distros now need to use INIT_MANAGER to select their preferred init
+  system with the default being systemd for =E2=80=9Cnodistro=E2=80=9D. Pok=
+y=E2=80=99s defaults
+  remain unchanged and we don=E2=80=99t have plans to change this at this t=
+ime
+  due to the work involved and impact (e.g test result comparisons).
+- The number of intermittent failures affecting builds, both stable and
+  development, continues to be problematic - we continue to prioritise
+  addressing these since any given build is now statistically likely to
+  hit one or more of them.
+- Patches are merging but there is a backlog and we=E2=80=99ve had to prior=
+itize
+  simpler changes. We continue to struggle for bandwidth for changes
+  needing in depth review/feedback. This could impact features making it
+  into the LTS.
+
+Want to contribute? We would appreciate help with the following areas:
+- We have several open issues for pseudo and limited maintainer time to
+  work on them. Help from someone familiar with systems programming in C
+  would be greatly appreciated.
+  https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
+=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
+ution=3D---
+- There are a large number of intermittent failures on our autobuilder,
+  any help with investigating, reproducing or solving these issues would
+  be welcome! https://valkyrie.yocto.io/pub/non-release/abint/
+- Many recipes in openembedded-core would benefit from a new recipe
+  maintainer. Please look at
+  https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/incl=
+ude/maintainers.inc
+  and see if you can adopt any of the unassigned recipes.
+- For more ways to contribute, see
+  https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCW=
+bzgjOk/edit?usp=3Dsharing
+
+New to the project?
+- We have a list of issues we think are good places to start
+  contributing:
+  https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
+
+Tracking Metrics:
+- WDD 2941 (last week 2973) (https://wiki.yoctoproject.org/charts/combo.htm=
+l)
+- OE-Core/Poky Patch Metrics
+    - Total patches found: 1108 (last week 1106)
+    - Patches in the Pending State: 151 (14%) [last week 152 (14%)]
+    - https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+
+YP 6.0 Milestone Dates:
+- YP 6.0 M2 Build Date 2026-02-16
+- YP 6.0 M2 Release Date 2026-02-27
+- YP 6.0 M3 Build Date 2026-03-09
+- YP 6.0 M3 Release Date 2026-03-20
+- YP 6.0 M4 Build Date 2026-03-30
+- YP 6.0 M4 Release Date 2026-04-26
+
+Upcoming dot releases:
+- YP 5.0.16 Release Date 2026-02-20
+- YP 5.3.2 Release Date 2026-02-27
+- YP 4.0.34 Build Date 2026-02-23
+- YP 4.0.34 Release Date 2026-03-06
+- YP 5.3.3 Build Date 2026-03-09
+- YP 5.3.3 Release Date 2026-03-20
+- YP 5.0.17 Build Date 2026-03-16
+- YP 5.0.17 Release Date 2026-03-23
+- YP 4.0.35 Build Date 2026-04-06
+- YP 4.0.35 Release Date 2026-04-17
+- YP 5.3.4 Build Date 2026-04-13
+- YP 5.3.4 Release Date 2026-04-24
+- YP 5.0.18 Build Date 2026-04-20
+- YP 5.0.18 Release Date 2026-05-01
+- YP 5.0.19 Build Date 2026-05-26
+- YP 5.0.19 Release Date 2026-06-05
+
+The Yocto Project=E2=80=99s technical governance is through its Technical
+Steering Committee, more information is available at:
+https://wiki.yoctoproject.org/wiki/TSC
+
+The Status reports are now stored on the wiki at:
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+[If anyone has suggestions for other information you=E2=80=99d like to see =
+on
+this weekly status update, let us know!]
+
+Best regards,
+
 --=20
-2.43.0
+Paul Barker
 
+
+--=-/KU88/im0rFsW6Mzlx2d
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZ3DpxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bvXiAPwKLv4CsjhZKxbUchr4BpAD3eVE9pwKDfGg
+dNEKjVbscwD+P1ESJ7tyUJeH6OnGIsvRCtHVRMnG+A6ifGDWvHWebwY=
+=4uX3
+-----END PGP SIGNATURE-----
+
+--=-/KU88/im0rFsW6Mzlx2d--
 
