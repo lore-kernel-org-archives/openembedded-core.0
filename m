@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6D2AEF5862
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:25:10 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21465.1771943104731465016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B1AEF06E0
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:25:11 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21462.1771943102415306684
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:25:05 -0800
+ Tue, 24 Feb 2026 06:25:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=yr1bTlN2;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48371119eacso65977595e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:04 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=YFOPl88B;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4398913af88so488191f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943103; x=1772547903; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943100; x=1772547900; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vzMVeM3tshEgZ6mC/VlEdmP14by7YR/wr60zT8/oAKc=;
-        b=yr1bTlN2L4PYWQbBKDGswNOJ7XxTfS7Jmpoht4XWp7HjJWlSyEbntwY441NXTmouLH
-         A9+hLH1g5hheqZlZt/1DjFWkHVX1BfPXAjEpupkZmWeM1yJwTWMBCY1tuZUMjJIc9Bb8
-         aOeF4/qMtMRARYOxjuGt2Xp6Nfp7cirbt4ZrQ=
+        bh=nkMxdUPO8ED9HXUFT5RIx5Zmg2QLtf5zr/W5k+W6Z0g=;
+        b=YFOPl88B7GlNujt0XLeFfyPkygQiP9zwEGi3Miyol7R8qDVR8jcyRjs7Ryy2rN38r4
+         lk5/NzFok+xcUfHZEWswUgV2sxdjkYnqrrZ9hTHd9cSQXhW+RSdeEKrOiJPQKvEif+/k
+         EAHZ8ZohapyGJOKTbyFYMc5C3WznVC/a9qGWA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943103; x=1772547903;
+        d=1e100.net; s=20230601; t=1771943100; x=1772547900;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=vzMVeM3tshEgZ6mC/VlEdmP14by7YR/wr60zT8/oAKc=;
-        b=N6WqK1Om8C+sJW4oHvZbByiYAW98Dazu09OpuwZpoI+7/JnHhikpx8MxDdlBlurlPr
-         1VSzA0ev90nXaGy9rrhs+FDeDxrHKY/5HhR27ii+o8QT0QSPwuoHTnJaVxLvCh1jZkWh
-         kWP2aeEJsYbjNz+KM3KMlOVMjaN4hnrswCYVaNq9cS+8j+RSQpz7XBnfsMzzHwHqTk7Q
-         l5NkEkoTyNVdaMeipES3yAzt8w7gfVb2R1v1GMm2YXwa/6CR0mNgaudPSQjmsg/B7RUr
-         5ZImdLNxBMJCoW0UMZfHvapszb6ghAYNoObAyIjNuSxTX8jJPmsdPKcWTowvXT2I2rCp
-         bO4A==
-X-Gm-Message-State: AOJu0Yw8/8bnTTiqpil/PZHweSldRYPq74jTerAUSs6fOqHGGSLD1uK/
-	I56GG1zMWtOM9gwg4m6F1p1khDN0ELCOXfP2xQOzAOPGye6XyDTcHCdhUYepTSB4uRnFSXxnb0J
-	Vws+O
-X-Gm-Gg: AZuq6aLJQW3QwEU3UJ/FTLDIxjRTIk+DGlnmf9wuAF7h6xBs4NiByzEDrKBado10tlr
-	Q3Hag9v3ARxwlU8nV484umFL3YLeMWQP22VV+4xZoB1909J5gI66swxHkNSw293xiPjGkydvIKK
-	CeVJ45Vl9jJPpF5DBB127IAaV8VGWdNm+z/NjaNpFF4qXlC1S6zf953iXgaYppUKE+Mqpp3kuLY
-	yDsXkW0dAteJM93bTNezWkI/BigQRKZGQk807Us0y5b4T0aqsVTnYCmbgYwr9ZCgU6WZ1bXhi5V
-	4crOCJILZRtg0KwdL/HDKFluJu7qA9WKbtVv55sH7BRvvR1PdUPvikOtfR34zvFVfB+qif32S7V
-	9hMoNi0JxGXX1d64QflPY6Zrn3B3td6oFITvCGnN4/m9vwIFLk6uJ33kRGkIu6S/Us78F+Vj7N5
-	+muyqFdzht+/mpVCAtnjE6YsjPinxxCmFMFvowbqzoRi4TkU6EDE/im5gN5kuEzZWArqv5TmlOT
-	tVf1E1j53rwmRkxM9rRxyoJk8ib7U0qTw==
-X-Received: by 2002:a05:600d:6450:10b0:477:af8d:203a with SMTP id 5b1f17b1804b1-483adc6d068mr120850315e9.27.1771943102498;
-        Tue, 24 Feb 2026 06:25:02 -0800 (PST)
+        bh=nkMxdUPO8ED9HXUFT5RIx5Zmg2QLtf5zr/W5k+W6Z0g=;
+        b=cl8eA4QOEbC7sinTRg5sMvv7YunvC8mmRCDCOOkDiMrPKE0uIzhVUhXRwwEqgrcHgn
+         dCIVCW81BB1MfLI/+BBrMSLZdPtNSkzsRQfIh2VayYApcBJezjzm9/3rcV2F2NoQ2W6k
+         4SNtEah36vsokXa+NaCTwd4eo5aMDyNjgRtVt8bodBsCw+FtXV42nBcXWtoxMt/+1oiH
+         qqlaNRfAwICLAz3x+nRcRcQDaBww75q2UK7ZH70xXxiDD3ljQHrFClvkHvuPMdHkviyZ
+         4oqW/GyPShnoAHOVf9gDEFOoWY2Q5cq1w8mMmKkCCPC61Ng9h36UzlQ9dIrClLhEt4oR
+         +UWw==
+X-Gm-Message-State: AOJu0YzSpvBMRoIgnYsXisyafBdoKqFlcUhl/iwl+x0dq4jykTFJXwsq
+	YYvRnpo0OQHNwzyr9DhHyhrfZIDREg1Uy0x08o0Q7+QSyd2NQRB374TLWnvUvnnc/DScaCbYL41
+	1GWfi
+X-Gm-Gg: AZuq6aIX0T4wKCZiatA3Env0JJ8pYZ6u1deKiyHoUC6D4UKCdaF6ZKkzXZ/jLeIM5ji
+	Lx3HCm4VogTxtS/QMmCtZAxy8jprzDSh7uWGmDJNPsdeyTbmWiPrdMrq84gK0gUV0TcGCp9pZPw
+	Q0hmRvJBAnJgXPSeNC3WxPRVCBd7hEcxPnFmwK+Mii4UK21oY1CaZmv/LhWINjqjjFY8XpQgLvK
+	NIY+bv4nqU41NMYJX3JOFnaR9JArK44u3Q7qXfw9eXlzIizryLHzrXU4Gmrt1NjrLgaYqRF0WpT
+	lCXfuZHf8GpraAB1EhSmcxKEMeorwnXwCk9E2KcvI0pQiTLizWqK3QKr/hKGmeKYLg8PnSOKbrQ
+	MZ8I0BZWqa7TKQQmoF2W4be3lXSrvo8whZgFEE/dsZIr67GzNa9+3nNJudFhY2xpReY5sG85xqi
+	5g9ZuHI2+96uqLwRDPvuDpaq+Dby+XfB+rfHGi31CSDPZmufWrJhY0v+mEauamLQdLgfwqnMfCX
+	94QckTeZRTZkPPD6UlpvZZ3wJn9zeNDMw==
+X-Received: by 2002:a05:600c:314e:b0:482:f12f:f35e with SMTP id 5b1f17b1804b1-483a95c710bmr201475195e9.12.1771943100076;
+        Tue, 24 Feb 2026 06:25:00 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.25.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.24.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:25:01 -0800 (PST)
+        Tue, 24 Feb 2026 06:24:59 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/38] linux-yocto/5.15: update to v5.15.195
-Date: Tue, 24 Feb 2026 15:24:04 +0100
-Message-ID: <e32eda2e64b69a5d07338a41d62227f3baa0acbe.1771942869.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 09/38] openssl: upgrade 3.0.18 -> 3.0.19
+Date: Tue, 24 Feb 2026 15:24:01 +0100
+Message-ID: <5566ecc9e5900be651489b02ef2af0e11357c947.1771942869.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771942869.git.yoann.congal@smile.fr>
 References: <cover.1771942869.git.yoann.congal@smile.fr>
@@ -65,384 +65,551 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231778
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:25:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231776
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Updating linux-yocto/5.15 to the latest korg -stable release that comprises
-the following commits:
+This release incorporates the following bug fixes and mitigations:
 
-    ac56c046adf41 Linux 5.15.195
-    636e7d6bdf205 selftests: mptcp: join: validate C-flag + def limit
-    4b9b376856a95 mptcp: pm: in-kernel: usable client side with C-flag
-    946771c2a2b11 mm/slab: make __free(kfree) accept error pointers
-    81d0664bed91a media: pci: ivtv: Add check for DMA map result
-    71285c029dcc4 xen/events: Update virq_to_irq on migration
-    9c1df18612fbb media: pci: ivtv: Add missing check after DMA map
-    66c8a83bf1de2 media: pci/ivtv: switch from 'pci_' to 'dma_' API
-    55a954a54ffc8 arm64: mte: Do not flag the zero page as PG_mte_tagged
-    26ea9b6a93a54 media: cx18: Add missing check after DMA map
-    cb044864188cc media: switch from 'pci_' to 'dma_' API
-    9339cf38762ce writeback: Avoid excessively long inode switching times
-    6483eabc195dc writeback: Avoid softlockup when switching many inodes
-    9b902f370b93e cramfs: Verify inode mode when loading from disk
-    5c64e8be2a7ef fs: Add 'initramfs_options' to set initramfs mount options
-    c3b654021931d pid: Add a judgment for ns null in pid_nr_ns
-    1d144b4cdde08 minixfs: Verify inode mode when loading from disk
-    3fb4c19233a0e minmax.h: remove some #defines that are only expanded once
-    092036da9b6d5 minmax.h: simplify the variants of clamp()
-    64394017d091a minmax.h: move all the clamp() definitions after the min/max() ones
-    4942fcc84a1ee minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
-    5011c410f9670 minmax.h: reduce the #define expansion of min(), max() and clamp()
-    b7ae5d8baa5ca minmax.h: update some comments
-    2524736951b23 minmax.h: add whitespace around operators and after commas
-    82b39b1090b0e minmax: fix up min3() and max3() too
-    b1094b4b54b0f minmax: improve macro expansion and type checking
-    3854a23090858 minmax: simplify min()/max()/clamp() implementation
-    89f6bf22d039a minmax: don't use max() in situations that want a C constant expression
-    e035ca130ff7f minmax: make generic MIN() and MAX() macros available everywhere
-    4b5dda7f8b02a minmax: simplify and clarify min_t()/max_t() implementation
-    3d1169785a9c1 minmax: add a few more MIN_T/MAX_T users
-    e73a9333cdaee minmax: avoid overly complicated constant expressions in VM code
-    9ed1e4221cb67 minmax: fix indentation of __cmp_once() and __clamp_once()
-    d16b73f6c5939 minmax: deduplicate __unconst_integer_typeof()
-    e3774f3281ed1 minmax: Introduce {min,max}_array()
-    9c88de0e0c1e5 arm64: dts: qcom: sdm845: Fix slimbam num-channels/ees
-    d238fee82dd83 btrfs: fix the incorrect max_bytes value for find_lock_delalloc_range()
-    f2bd5493ef501 fscontext: do not consume log entries when returning -EMSGSIZE
-    f550466949e82 locking: Introduce __cleanup() based infrastructure
-    a0e54bd8d7ea7 dm: fix NULL pointer dereference in __dm_suspend()
-    95dd33361061f tracing: Fix race condition in kprobe initialization causing NULL pointer dereference
-    41acc922c7811 ksmbd: fix error code overwriting in smb2_get_info_filesystem()
-    71a0ba7fdaf8d net: usb: asix: hold PM usage ref to avoid PM/MDIO + RTNL deadlock
-    32097a08ab5de mfd: intel_soc_pmic_chtdc_ti: Set use_single_read regmap_config flag
-    21d79eac5f953 mfd: intel_soc_pmic_chtdc_ti: Drop unneeded assignment for cache_type
-    715f4914fdd3e mfd: intel_soc_pmic_chtdc_ti: Fix invalid regmap-config max_register value
-    5d327391f9faf media: mc: Clear minor number before put device
-    fbfc745db628d Squashfs: reject negative file sizes in squashfs_read_inode()
-    2ec88c3d9f8fe Squashfs: add additional inode sanity checking
-    49f3a867d948c ASoC: wcd934x: fix error handling in wcd934x_codec_parse_data()
-    44cee8ef325c0 ASoC: codecs: wcd934x: Simplify with dev_err_probe
-    e0ce3ed1048a4 KVM: x86: Don't (re)check L1 intercepts when completing userspace I/O
-    6836714a08756 lib/crypto/curve25519-hacl64: Disable KASAN with clang-17 and older
-    a4e7273a45e85 ext4: free orphan info with kvfree
-    505e69f76ac49 ext4: guard against EA inode refcount underflow in xattr update
-    b975b3607605f ext4: correctly handle queries for metadata mappings
-    32702f1ce389f ext4: increase i_disksize to offset + len in ext4_update_disksize_before_punch()
-    95a21611b14ae ext4: verify orphan file size is not too big
-    550e0bccec100 nfsd: nfserr_jukebox in nlm_fopen should lead to a retry
-    8c5b1200596ce NFSD: Fix destination buffer size in nfsd4_ssc_setup_dul()
-    735457683e235 mm/page_alloc: only set ALLOC_HIGHATOMIC for __GPF_HIGH allocations
-    fff24a9c116d2 x86/umip: Fix decoding of register forms of 0F 01 (SGDT and SIDT aliases)
-    46a986888a149 x86/umip: Check that the instruction opcode is at least two bytes
-    eaa16de419692 spi: cadence-quadspi: Flush posted register writes before DAC access
-    5a6c760bc332f spi: cadence-quadspi: Flush posted register writes before INDAC access
-    f104a67b28053 PCI: tegra194: Fix broken tegra_pcie_ep_raise_msi_irq()
-    870457e7b7229 PCI: keystone: Use devm_request_irq() to free "ks-pcie-error-irq" on exit
-    5533169bb2539 PCI/AER: Support errors introduced by PCIe r6.0
-    09adece72b8c8 PCI/AER: Fix missing uevent on recovery when a reset is requested
-    1f06b4864177b PCI/ERR: Fix uevent on failure to recover
-    a645ca21de09e PCI/IOV: Add PCI rescan-remove locking when enabling/disabling SR-IOV
-    690f307a81954 PCI/sysfs: Ensure devices are powered for config reads
-    b167bfa432e3c rseq/selftests: Use weak symbol reference, not definition, to link with glibc
-    aaaa92ab55f13 rtc: interface: Fix long-standing race when setting alarm
-    fa1bdbefe1f46 rtc: interface: Ensure alarm irq is enabled when UIE is enabled
-    c19b29291f21c memory: samsung: exynos-srom: Fix of_iomap leak in exynos_srom_probe
-    e5caecea44a7a mmc: core: SPI mode remove cmd7
-    e614975f9b5df mtd: rawnand: fsmc: Default to autodetect buswidth
-    971009a25fb8b sparc: fix error handling in scan_one_device()
-    365282fc60155 sparc64: fix hugetlb for sun4u
-    1cd60e0d0fb8f sctp: Fix MAC comparison to be constant-time
-    d906e61d4d81b scsi: hpsa: Fix potential memory leak in hpsa_big_passthru_ioctl()
-    9ee5eb3d09217 pwm: berlin: Fix wrong register in suspend/resume
-    40c86afc81b51 powerpc/pseries/msi: Fix potential underflow and leak issue
-    7bb05500a3ad3 powerpc/powernv/pci: Fix underflow and leak issue
-    aa18f55365e93 nvme-pci: Add TUXEDO IBS Gen8 to Samsung sleep quirk
-    6195d15fe4888 parisc: don't reference obsolete termio struct for TC* constants
-    ef84ddf89dab4 openat2: don't trigger automounts with RESOLVE_NO_XDEV
-    c2b88b66bc359 lib/genalloc: fix device leak in of_gen_pool_get()
-    4ce6902cc67d7 KEYS: trusted_tpm1: Compare HMAC values in constant time
-    e94c99c026179 iommu/vt-d: PRS isn't usable if PDS isn't supported
-    d202d1ac609bc iio: imu: inv_icm42600: Drop redundant pm_runtime reinitialization in resume
-    3ed42a6686f4f init: handle bootloader identifier in kernel parameters
-    06d81ce319242 iio: frequency: adf4350: Fix prescaler usage.
-    0016356ebd6a3 iio: dac: ad5421: use int type to store negative error codes
-    c71fd8dcb7ae6 iio: dac: ad5360: use int type to store negative error codes
-    8df273ef0f5ad fs/ntfs3: Fix a resource leak bug in wnd_extend()
-    459d819648fe6 crypto: atmel - Fix dma_unmap_sg() direction
-    ad4e8f9bdbef1 cpufreq: intel_pstate: Fix object lifecycle issue in update_qos_request()
-    83b594504d64f copy_sighand: Handle architectures where sizeof(unsigned long) < sizeof(u64)
-    816bb8b4e5c46 bus: mhi: host: Do not use uninitialized 'dev' pointer in mhi_init_irq_setup()
-    d3a9a8e1275eb btrfs: avoid potential out-of-bounds in btrfs_encode_fh()
-    184b0aab791a5 drm/nouveau: fix bad ret code in nouveau_bo_move_prep
-    a812fc67d8855 media: i2c: mt9v111: fix incorrect type for ret
-    e57d98c02ec84 firmware: meson_sm: fix device leak at probe
-    0c2ac5a03a209 xen/manage: Fix suspend error path
-    6f8e37bff9119 xen/events: Cleanup find_virq() return codes
-    846f911295b2a ARM: OMAP2+: pm33xx-core: ix device node reference leaks in amx3_idle_init
-    267801317911b arm64: dts: qcom: msm8916: Add missing MDSS reset
-    3a0f197dd8e5f ACPI: debug: fix signedness issues in read/write helpers
-    85580cbac5d4b ACPI: TAD: Add missing sysfs_remove_group() for ACPI_TAD_RT
-    e28616ca3d67e bpf: Avoid RCU context warning when unpinning htab with internal structs
-    28112b3d86b15 gpio: wcd934x: mark the GPIO controller as sleeping
-    512aa949666ef gpio: wcd934x: Remove duplicate assignment of of_gpio_n_cells
-    33e49de5dc09b tpm_tis: Fix incorrect arguments in tpm_tis_probe_irq_single
-    df58651968f82 crypto: essiv - Check ssize for decryption and in-place encryption
-    4331a0ba2d15c bridge: br_vlan_fill_forward_path_pvid: use br_vlan_group_rcu()
-    fa391f17a819f drm/amd/display: Properly disable scaling on DCE6
-    cc857ceb2b3b4 drm/amd/display: Properly clear SCL_*_FILTER_CONTROL on DCE6
-    736153f3c4933 drm/amd/display: Add missing DCE6 SCL_HORZ_FILTER_INIT* SRIs
-    32ee65934d6b7 drm/amdgpu: Add additional DCE6 SCL registers
-    057764172fcc6 bpf: Fix metadata_dst leak __bpf_redirect_neigh_v{4,6}
-    b2986d63303d3 mailbox: zynqmp-ipi: Remove dev.parent check in zynqmp_ipi_free_mboxes
-    e3602ddfcc2f9 mailbox: zynqmp-ipi: Remove redundant mbox_controller_unregister() call
-    325425b0d066f tools build: Align warning options with perf
-    b1d073728ef60 net: fsl_pq_mdio: Fix device node reference leak in fsl_pq_mdio_probe
-    eb85ad5f23268 tcp: Don't call reqsk_fastopen_remove() in tcp_conn_request().
-    dbceedc0213e7 net/sctp: fix a null dereference in sctp_disposition sctp_sf_do_5_1D_ce()
-    4c918f9d1cccc drm/vmwgfx: Fix Use-after-free in validation
-    fb5df8006adde drm/vmwgfx: Copy DRM hash-table code into driver
-    4139b1e435e3f s390/cio: unregister the subchannel while purging
-    2dbf27f672c03 net/mlx4: prevent potential use after free in mlx4_en_do_uc_filter()
-    6ba7e73cafd15 scsi: mvsas: Fix use-after-free bugs in mvs_work_queue
-    c1f8a7e6efe58 scsi: mvsas: Use sas_task_find_rq() for tagging
-    77798c6e94fd2 scsi: mvsas: Delete mvs_tag_init()
-    43c3e8ce2f5f0 scsi: libsas: Add sas_task_find_rq()
-    9ecd496233772 cpufreq: tegra186: Set target frequency for all cpus in policy
-    bb78ef6dc7470 clk: nxp: Fix pll0 rate check condition in LPC18xx CGU driver
-    7d9eee92ed67a clk: nxp: lpc18xx-cgu: convert from round_rate() to determine_rate()
-    b7e5c59f3b097 perf test: Don't leak workload gopipe in PERF_RECORD_*
-    24e296d087f7d perf session: Fix handling when buffer exceeds 2 GiB
-    3e97394445a0f rtc: x1205: Fix Xicor X1205 vendor prefix
-    8dac32c17b01c perf util: Fix compression checks returning -1 as bool
-    250cd976bbda0 clk: at91: peripheral: fix return value
-    fcb3b7c30486d libperf event: Ensure tracing data is multiple of 8 sized
-    1450bbb0ccd7f perf evsel: Avoid container_of on a NULL leader
-    2977f02ee25a1 iio: frequency: adf4350: Fix ADF4350_REG3_12BIT_CLKDIV_MODE
-    86e23d78ec177 clocksource/drivers/clps711x: Fix resource leaks in error paths
-    ed43bf13a6ac8 fs: always return zero on success from replace_fd()
-    70322caf9f193 usb: cdns3: cdnsp-pci: remove redundant pci_disable_device() call
-    8a4dd74fe413d bus: fsl-mc: Check return value of platform_get_resource()
-    d77ef2f621cd1 pinctrl: check the return value of pinmux_ops::get_function_name()
-    e63aade22a33e Input: uinput - zero-initialize uinput_ff_upload_compat to avoid info leak
-    9eed157e5e27f Input: atmel_mxt_ts - allow reset GPIO to sleep
-    972cbba5cd384 nvdimm: ndtest: Return -ENOMEM if devm_kcalloc() fails in ndtest_probe()
-    547e123e9d342 mm: hugetlb: avoid soft lockup when mprotect to large memory area
-    26b1bfbd84172 ext4: fix checks for orphan inodes
-    3901ae3c75a11 mfd: vexpress-sysreg: Check the return value of devm_gpiochip_add_data()
-    8fcc7315a10a8 net: nfc: nci: Add parameter validation for packet data
-    1d1847812a1a5 fs: udf: fix OOB read in lengthAllocDescs handling
-    a44f61f878f32 uio_hv_generic: Let userspace take care of interrupt mask
-    61d38b5ce2782 Squashfs: fix uninit-value in squashfs_get_parent
-    21c58835634df Revert "net/mlx5e: Update and set Xon/Xoff upon MTU set"
-    5aa9b88560281 net: dlink: handle copy_thresh allocation failure
-    7973555560eb0 net: ena: return 0 in ena_get_rxfh_key_size() when RSS hash key is not configurable
-    3fa52104e4797 nfp: fix RSS hash key size when RSS is not supported
-    0eddc0e5aebcc drivers/base/node: fix double free in register_one_node()
-    827c8efa0d1af ocfs2: fix double free in user_cluster_connect()
-    d76b099011fa0 hwrng: ks-sa - fix division by zero in ks_sa_rng_init
-    eb682b765533d Bluetooth: MGMT: Fix not exposing debug UUID on MGMT_OP_READ_EXP_FEATURES_INFO
-    54f8ef1a970a8 net: usb: Remove disruptive netif_wake_queue in rtl8150_set_multicast
-    5c06bc0b44ed8 RDMA/siw: Always report immediate post SQ errors
-    8f67d2506f0ca usb: vhci-hcd: Prevent suspending virtually attached devices
-    a89253eb4e648 scsi: mpt3sas: Fix crash in transport port remove by using ioc_info()
-    1d79471414d7b ipvs: Defer ip_vs_ftp unregister during netns cleanup
-    eb5da8e9db25a NFSv4.1: fix backchannel max_resp_sz verification check
-    cef047e0a55cb coresight: trbe: Return NULL pointer for allocation failures
-    0e9ec3bab4622 remoteproc: qcom: q6v5: Avoid disabling handover IRQ twice
-    58ce0b1bc2711 sparc: fix accurate exception reporting in copy_{from,to}_user for M7
-    b43c208c40179 sparc: fix accurate exception reporting in copy_to_user for Niagara 4
-    37547d8e6eba8 sparc: fix accurate exception reporting in copy_{from_to}_user for Niagara
-    1857cdca12c4a sparc: fix accurate exception reporting in copy_{from_to}_user for UltraSPARC III
-    59424dc0d0e04 sparc: fix accurate exception reporting in copy_{from_to}_user for UltraSPARC
-    4acb786042da4 wifi: ath10k: avoid unnecessary wait for service ready message
-    c6d3da43b8540 Documentation: trace: historgram-design: Separate sched_waking histogram section heading and the following diagram
-    c15829a1fb0b0 IB/sa: Fix sa_local_svc_timeout_ms read race
-    d77fb0bdce411 RDMA/core: Resolve MAC of next-hop device without ARP support
-    77edaeb4dde29 Revert "usb: xhci: Avoid Stop Endpoint retry loop if the endpoint seems Running"
-    523d184a495be scsi: qla2xxx: Fix incorrect sign of error code in START_SP_W_RETRIES()
-    ce75dfd1748e7 scsi: qla2xxx: edif: Fix incorrect sign of error code
-    54ded576045ef ACPI: NFIT: Fix incorrect ndr_desc being reportedin dev_err message
-    248776651cef4 wifi: mt76: fix potential memory leak in mt76_wmac_probe()
-    795c8dbc82827 RDMA/cm: Rate limit destroy CM ID timeout error message
-    1bdb3bc5bfd33 drivers/base/node: handle error properly in register_one_node()
-    eeeaa4b5a5f52 watchdog: mpc8xxx_wdt: Reload the watchdog timer when enabling the watchdog
-    6a9c2fcf6de54 netfilter: ipset: Remove unused htable_bits in macro ahash_region
-    581ba44117ed7 iio: consumers: Fix offset handling in iio_convert_raw_to_processed()
-    f6b36cfd25cba fs: ntfs3: Fix integer overflow in run_unpack()
-    95e29db33b5f7 ASoC: Intel: bytcr_rt5651: Fix invalid quirk input mapping
-    dea9c8c9028c9 ASoC: Intel: bytcr_rt5640: Fix invalid quirk input mapping
-    fbd79072f1cab ASoC: Intel: bytcht_es8316: Fix invalid quirk input mapping
-    125527db41805 pps: fix warning in pps_register_cdev when register device fail
-    f77e91b4283b5 misc: genwqe: Fix incorrect cmd field being reported in error
-    c2024c8abd742 usb: gadget: configfs: Correctly set use_os_string at bind
-    fe9fdc066c8cf usb: phy: twl6030: Fix incorrect type for ret
-    650368aacbc78 drm/amdkfd: Fix error code sign for EINVAL in svm_ioctl()
-    82448110ee625 tcp: fix __tcp_close() to only send RST when required
-    14ebe743b9647 PCI: tegra: Fix devm_kcalloc() argument order for port->phys allocation
-    94aa9bf2ddfcb wifi: mwifiex: send world regulatory domain to driver
-    8b3589d7a763a drm/amdgpu: Power up UVD 3 for FW validation (v2)
-    e00d07d780b3d ALSA: lx_core: use int type to store negative error codes
-    39d0e7fd73efb media: rj54n1cb0c: Fix memleak in rj54n1_probe()
-    916c7891b59b9 scsi: myrs: Fix dma_alloc_coherent() error check
-    eef5ef400893f scsi: pm80xx: Fix array-index-out-of-of-bounds on rmmod
-    e0e0ce06f3571 usb: host: max3421-hcd: Fix error pointer dereference in probe cleanup
-    2cd9c97ad5529 drm/radeon/r600_cs: clean up of dead code in r600_cs
-    666da97c49c2d i2c: designware: Add disabling clocks when probe fails
-    90fb83f7863b6 i2c: mediatek: fix potential incorrect use of I2C_MASTER_WRRD
-    31660d4d93057 thermal/drivers/qcom/lmh: Add missing IRQ includes
-    32240232b2a3b thermal/drivers/qcom: Make LMH select QCOM_SCM
-    ae7b1443f4746 tools/nolibc: make time_t robust if __kernel_old_time_t is missing in host headers
-    0b515a2839980 smp: Fix up and expand the smp_call_function_many() kerneldoc
-    6d8b1a21fd5c3 bpf: Explicitly check accesses to bpf_sock_addr
-    e822f368f758a selftests: watchdog: skip ping loop if WDIOF_KEEPALIVEPING not supported
-    7ac8f7a186451 i3c: master: svc: Recycle unused IBI slot
-    11269c08013f4 nvmet-fc: move lsop put work to nvmet_fc_ls_req_op
-    ebf97395b0a0b pwm: tiehrpwm: Fix corner case in clock divisor calculation
-    cc2b2a8c18a96 arm64: dts: mediatek: mt8516-pumpkin: Fix machine compatible
-    3c8ceb2d4dbdb firmware: firmware: meson-sm: fix compile-test default
-    5cfaadc902249 pinctrl: renesas: Use int type to store negative error codes
-    45052d922054c PM: sleep: core: Clear power.must_resume in noirq suspend error path
-    22863772e94fd block: use int to store blk_stack_limits() return value
-    a04120b2d187b regulator: scmi: Use int type to store negative error codes
-    2927ef93169a0 ARM: at91: pm: fix MCKx restore routine
-    4b97e99b87a77 blk-mq: check kobject state_in_sysfs before deleting in blk_mq_unregister_hctx
-    29db98243205b pinctrl: meson-gxl: add missing i2c_d pinmux
-    8b063076fa7e1 soc: qcom: rpmh-rsc: Unconditionally clear _TRIGGER bit for TCS
-    1955c776a6077 ACPI: processor: idle: Fix memory leak when register cpuidle device failed
-    ce780f740cf44 cpufreq: scmi: Account for malformed DT in scmi_dev_used_by_cpus()
-    3a502b0eefcfc libbpf: Fix reuse of DEVMAP
-    c6552fac71990 regmap: Remove superfluous check for !config in __regmap_init()
-    64f14b1ab6f39 x86/vdso: Fix output operand size of RDPID
-    5d01f2b815682 perf: arm_spe: Prevent overflow in PERF_IDX2OFF()
-    90ea4c0484ebb coresight: trbe: Prevent overflow in PERF_IDX2OFF()
-    0ddd59d58b597 selftests: arm64: Check fread return value in exec_target
-    cf038b6bb9ed5 filelock: add FL_RECLAIM to show_fl_flags() macro
-    c1db864270eb7 net/9p: fix double req put in p9_fd_cancelled
-    3fe58fa612052 minmax: add in_range() macro
-    bd903c25b652c crypto: rng - Ensure set_ent is always present
-    46263a0b687a0 platform/x86: int3472: Check for adev == NULL
-    823671bb8b05d driver core/PM: Set power.no_callbacks along with power.no_pm
-    53dab62cda6e7 staging: axis-fifo: flush RX FIFO on read errors
-    82e0bb28a060c staging: axis-fifo: fix maximum TX packet length check
-    e18cfcb828ed2 serial: stm32: allow selecting console when the driver is module
-    48685b39f2fed hid: fix I2C read buffer overflow in raw_event() for mcp2221
-    c094712e40488 perf subcmd: avoid crash in exclude_cmds when excludes is empty
-    0eb762f420b25 dm-integrity: limit MAX_TAG_SIZE to 255
-    8ed134c2520d7 wifi: rtlwifi: rtl8192cu: Don't claim USB ID 07b8:8188
-    6c7c5b465a7b8 USB: serial: option: add SIMCom 8230C compositions
-    663faf1179db9 media: i2c: tc358743: Fix use-after-free bugs caused by orphan timer in probe
-    3f876cd47ed8b media: tuner: xc5000: Fix use-after-free in xc5000_release
-    3fdeb807b93d0 media: tunner: xc5000: Refactor firmware load
-    c3ad8c30b6b10 udp: Fix memory accounting leak.
-    20fc1431bcdf4 KVM: arm64: Fix softirq masking in FPSIMD register saving sequence
-    71c52b073922d media: rc: fix races with imon_disconnect()
-    120e221b4bbe9 media: b2c2: Fix use-after-free causing by irq_check_work in flexcop_pci_remove
-    ddc79fba132b8 scsi: target: target_core_configfs: Add length check to avoid buffer overflow
-    9407809b44dc6 iommu/amd: Add map/unmap_pages() iommu_domain_ops callback support
+Fixed Stack buffer overflow in CMS AuthEnvelopedData parsing. (CVE-2025-15467)
+Fixed Heap out-of-bounds write in BIO_f_linebuffer on short writes. (CVE-2025-68160)
+Fixed Unauthenticated/unencrypted trailing bytes with low-level OCB function calls. (CVE-2025-69418)
+Fixed Out of bounds write in PKCS12_get_friendlyname() UTF-8 conversion. (CVE-2025-69419)
+Fixed Missing ASN1_TYPE validation in TS_RESP_verify_response() function. (CVE-2025-69420)
+Fixed NULL Pointer Dereference in PKCS12_item_decrypt_d2i_ex() function. (CVE-2025-69421)
+Fixed Missing ASN1_TYPE validation in PKCS#12 parsing. (CVE-2026-22795)
+Fixed ASN1_TYPE Type Confusion in the PKCS7_digest_from_attributes() function. (CVE-2026-22796)
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Changelog:
+https://github.com/openssl/openssl/blob/openssl-3.0.19/NEWS.md
+
+Refreshed CVE-2023-50781 patches for openssl-3.0.19
+
+Reference: https://openssl-library.org/news/secadv/20260127.txt
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ .../openssl/openssl/CVE-2023-50781-1.patch    |  46 ++++---
+ .../openssl/openssl/CVE-2023-50781-2.patch    | 112 +++++++++---------
+ .../openssl/openssl/CVE-2023-50781-3.patch    |  16 ++-
+ .../{openssl_3.0.18.bb => openssl_3.0.19.bb}  |   2 +-
+ 4 files changed, 85 insertions(+), 91 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.18.bb => openssl_3.0.19.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index a79d3b1511d..7d55e175146 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.patch
+index 234fe7b8aaa..a00f67027d1 100644
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.patch
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.patch
+@@ -1,7 +1,7 @@
+-From 24734088e1034392de981151dfe57e3a379ada18 Mon Sep 17 00:00:00 2001
++From 295485f5c4b3120b272b81f92356f6d24871c02e Mon Sep 17 00:00:00 2001
+ From: Hubert Kario <hkario@redhat.com>
+ Date: Tue, 15 Mar 2022 13:58:08 +0100
+-Subject: [PATCH 1/3] rsa: add implicit rejection in PKCS#1 v1.5
++Subject: [PATCH] rsa: add implicit rejection in PKCS#1 v1.5
  
--SRCREV_machine ?= "259f7f9d0bd0df2c3e497395568a655c5745b5ac"
--SRCREV_meta ?= "578937826ffad97749eba3a5d1b21b37b5cd7bdc"
-+SRCREV_machine ?= "f54e8af7284d39e9129452ac12c6a78511333335"
-+SRCREV_meta ?= "1bfe6bf1a07dbce00c9a7b4ab051014a26a799a8"
+ The RSA decryption as implemented before required very careful handling
+ of both the exit code returned by OpenSSL and the potentially returned
+@@ -43,6 +43,7 @@ Reviewed-by: Tomas Mraz <tomas@openssl.org>
+ (Merged from https://github.com/openssl/openssl/pull/13817)
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++
+ ---
+  crypto/rsa/rsa_ossl.c                     |  95 +++++++-
+  crypto/rsa/rsa_pk1.c                      | 252 ++++++++++++++++++++++
+@@ -56,7 +57,7 @@ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+  9 files changed, 393 insertions(+), 5 deletions(-)
  
--LINUX_VERSION ?= "5.15.194"
-+LINUX_VERSION ?= "5.15.195"
+ diff --git a/crypto/rsa/rsa_ossl.c b/crypto/rsa/rsa_ossl.c
+-index 0fc642e777..330302ae55 100644
++index 6c32764..d658a3c 100644
+ --- a/crypto/rsa/rsa_ossl.c
+ +++ b/crypto/rsa/rsa_ossl.c
+ @@ -17,6 +17,9 @@
+@@ -68,8 +69,8 @@ index 0fc642e777..330302ae55 100644
+ +#include <openssl/hmac.h>
+  
+  static int rsa_ossl_public_encrypt(int flen, const unsigned char *from,
+-                                   unsigned char *to, RSA *rsa, int padding);
+-@@ -377,8 +380,13 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++     unsigned char *to, RSA *rsa, int padding);
++@@ -373,8 +376,13 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+      BIGNUM *f, *ret;
+      int j, num = 0, r = -1;
+      unsigned char *buf = NULL;
+@@ -83,7 +84,7 @@ index 0fc642e777..330302ae55 100644
+      /*
+       * Used only if the blinding structure is shared. A non-NULL unblind
+       * instructs rsa_blinding_convert() and rsa_blinding_invert() to store
+-@@ -408,6 +416,11 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++@@ -404,6 +412,11 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+          goto err;
+      }
+  
+@@ -95,7 +96,7 @@ index 0fc642e777..330302ae55 100644
+      /* make data into a big number */
+      if (BN_bin2bn(from, (int)flen, f) == NULL)
+          goto err;
+-@@ -472,13 +485,91 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++@@ -464,13 +477,91 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+          if (!rsa_blinding_invert(blinding, ret, unblind, ctx))
+              goto err;
+  
+@@ -188,17 +189,17 @@ index 0fc642e777..330302ae55 100644
+          break;
+      case RSA_PKCS1_OAEP_PADDING:
+          r = RSA_padding_check_PKCS1_OAEP(to, num, buf, j, num, NULL, 0);
+-@@ -501,6 +592,8 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++@@ -493,6 +584,8 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+  #endif
+  
+-  err:
++ err:
+ +    HMAC_CTX_free(hmac);
+ +    EVP_MD_free(md);
+      BN_CTX_end(ctx);
+      BN_CTX_free(ctx);
+      OPENSSL_clear_free(buf, num);
+ diff --git a/crypto/rsa/rsa_pk1.c b/crypto/rsa/rsa_pk1.c
+-index 51507fc030..5cd2b26879 100644
++index bebb43a..3fe12b2 100644
+ --- a/crypto/rsa/rsa_pk1.c
+ +++ b/crypto/rsa/rsa_pk1.c
+ @@ -21,10 +21,14 @@
+@@ -214,7 +215,7 @@ index 51507fc030..5cd2b26879 100644
+  
+ +
+  int RSA_padding_add_PKCS1_type_1(unsigned char *to, int tlen,
+-                                  const unsigned char *from, int flen)
++     const unsigned char *from, int flen)
+  {
+ @@ -273,6 +277,254 @@ int RSA_padding_check_PKCS1_type_2(unsigned char *to, int tlen,
+      return constant_time_select_int(good, mlen, -1);
+@@ -472,7 +473,7 @@ index 51507fc030..5cd2b26879 100644
+   * ossl_rsa_padding_check_PKCS1_type_2_TLS() checks and removes the PKCS1 type 2
+   * padding from a decrypted RSA message in a TLS signature. The result is stored
+ diff --git a/doc/man1/openssl-pkeyutl.pod.in b/doc/man1/openssl-pkeyutl.pod.in
+-index 2f6ef0021d..015265a74d 100644
++index 2f6ef00..015265a 100644
+ --- a/doc/man1/openssl-pkeyutl.pod.in
+ +++ b/doc/man1/openssl-pkeyutl.pod.in
+ @@ -273,6 +273,11 @@ signed or verified directly instead of using a B<DigestInfo> structure. If a
+@@ -488,7 +489,7 @@ index 2f6ef0021d..015265a74d 100644
+  
+  For B<x931> if the digest type is set it is used to format the block data
+ diff --git a/doc/man1/openssl-rsautl.pod.in b/doc/man1/openssl-rsautl.pod.in
+-index 0a32fd965b..4c462abc8c 100644
++index 0a32fd9..4c462ab 100644
+ --- a/doc/man1/openssl-rsautl.pod.in
+ +++ b/doc/man1/openssl-rsautl.pod.in
+ @@ -105,6 +105,11 @@ The padding to use: PKCS#1 v1.5 (the default), PKCS#1 OAEP,
+@@ -504,7 +505,7 @@ index 0a32fd965b..4c462abc8c 100644
+  
+  Hex dump the output data.
+ diff --git a/doc/man3/EVP_PKEY_CTX_ctrl.pod b/doc/man3/EVP_PKEY_CTX_ctrl.pod
+-index 3075eaafd6..e788f38809 100644
++index 3075eaa..e788f38 100644
+ --- a/doc/man3/EVP_PKEY_CTX_ctrl.pod
+ +++ b/doc/man3/EVP_PKEY_CTX_ctrl.pod
+ @@ -386,6 +386,13 @@ this behaviour should be tolerated then
+@@ -522,7 +523,7 @@ index 3075eaafd6..e788f38809 100644
+  
+  EVP_PKEY_CTX_set_dsa_paramgen_bits() sets the number of bits used for DSA
+ diff --git a/doc/man3/EVP_PKEY_decrypt.pod b/doc/man3/EVP_PKEY_decrypt.pod
+-index b6f9bad5f1..898535a7a2 100644
++index b6f9bad..898535a 100644
+ --- a/doc/man3/EVP_PKEY_decrypt.pod
+ +++ b/doc/man3/EVP_PKEY_decrypt.pod
+ @@ -51,6 +51,18 @@ return 1 for success and 0 or a negative value for failure. In particular a
+@@ -545,7 +546,7 @@ index b6f9bad5f1..898535a7a2 100644
+  
+  Decrypt data using OAEP (for RSA keys):
+ diff --git a/doc/man3/RSA_padding_add_PKCS1_type_1.pod b/doc/man3/RSA_padding_add_PKCS1_type_1.pod
+-index 9f7025c497..36ae18563f 100644
++index 9f7025c..36ae185 100644
+ --- a/doc/man3/RSA_padding_add_PKCS1_type_1.pod
+ +++ b/doc/man3/RSA_padding_add_PKCS1_type_1.pod
+ @@ -121,8 +121,8 @@ L<ERR_get_error(3)>.
+@@ -570,7 +571,7 @@ index 9f7025c497..36ae18563f 100644
+  
+  L<RSA_public_encrypt(3)>,
+ diff --git a/doc/man3/RSA_public_encrypt.pod b/doc/man3/RSA_public_encrypt.pod
+-index 1d38073aea..bd3f835ac6 100644
++index 1d38073..bd3f835 100644
+ --- a/doc/man3/RSA_public_encrypt.pod
+ +++ b/doc/man3/RSA_public_encrypt.pod
+ @@ -52,8 +52,8 @@ Encrypting user data directly with RSA is insecure.
+@@ -599,20 +600,17 @@ index 1d38073aea..bd3f835ac6 100644
+  
+  SSL, PKCS #1 v2.0
+ diff --git a/include/crypto/rsa.h b/include/crypto/rsa.h
+-index 949873d0ee..f267e5d9d1 100644
++index 797dc1f..2f86e4c 100644
+ --- a/include/crypto/rsa.h
+ +++ b/include/crypto/rsa.h
+ @@ -83,6 +83,10 @@ int ossl_rsa_param_decode(RSA *rsa, const X509_ALGOR *alg);
+  RSA *ossl_rsa_key_from_pkcs8(const PKCS8_PRIV_KEY_INFO *p8inf,
+-                              OSSL_LIB_CTX *libctx, const char *propq);
++     OSSL_LIB_CTX *libctx, const char *propq);
+  
+ +int ossl_rsa_padding_check_PKCS1_type_2(OSSL_LIB_CTX *ctx,
+ +                                        unsigned char *to, int tlen,
+ +                                        const unsigned char *from, int flen,
+ +                                        int num, unsigned char *kdk);
+  int ossl_rsa_padding_check_PKCS1_type_2_TLS(OSSL_LIB_CTX *ctx, unsigned char *to,
+-                                             size_t tlen,
+-                                             const unsigned char *from,
+--- 
+-2.34.1
+-
++     size_t tlen,
++     const unsigned char *from,
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.patch
+index b336d9e8505..13ea3c717ab 100644
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.patch
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.patch
+@@ -1,7 +1,7 @@
+-From e92f0cd3b03e5aca948b03df7e3d02e536700f68 Mon Sep 17 00:00:00 2001
++From 584936eb09cef64eb0755c0ccb2661e7ba1aea58 Mon Sep 17 00:00:00 2001
+ From: Hubert Kario <hkario@redhat.com>
+ Date: Thu, 27 Oct 2022 19:16:58 +0200
+-Subject: [PATCH 2/3] rsa: Add option to disable implicit rejection
++Subject: [PATCH] rsa: Add option to disable implicit rejection
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ CVE: CVE-2023-50781
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index e2e56ec010f..896b512dac1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
+@@ -14,6 +14,7 @@ Reviewed-by: Tomas Mraz <tomas@openssl.org>
+ (Merged from https://github.com/openssl/openssl/pull/13817)
  
- require recipes-kernel/linux/linux-yocto.inc
+ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++
+ ---
+  crypto/cms/cms_env.c                          |  7 +++++
+  crypto/evp/ctrl_params_translate.c            |  6 +++++
+@@ -28,10 +29,10 @@ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+  10 files changed, 95 insertions(+), 8 deletions(-)
  
--LINUX_VERSION ?= "5.15.194"
-+LINUX_VERSION ?= "5.15.195"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ diff --git a/crypto/cms/cms_env.c b/crypto/cms/cms_env.c
+-index 445a16fb77..49b0289114 100644
++index 2326253..96e3315 100644
+ --- a/crypto/cms/cms_env.c
+ +++ b/crypto/cms/cms_env.c
+-@@ -581,6 +581,13 @@ static int cms_RecipientInfo_ktri_decrypt(CMS_ContentInfo *cms,
++@@ -576,6 +576,13 @@ static int cms_RecipientInfo_ktri_decrypt(CMS_ContentInfo *cms,
+      if (!ossl_cms_env_asn1_ctrl(ri, 1))
+          goto err;
+  
+@@ -43,15 +44,15 @@ index 445a16fb77..49b0289114 100644
+ +        EVP_PKEY_CTX_ctrl_str(ktri->pctx, "rsa_pkcs1_implicit_rejection", "0");
+ +
+      if (EVP_PKEY_decrypt(ktri->pctx, NULL, &eklen,
+-                          ktri->encryptedKey->data,
+-                          ktri->encryptedKey->length) <= 0)
++             ktri->encryptedKey->data,
++             ktri->encryptedKey->length)
+ diff --git a/crypto/evp/ctrl_params_translate.c b/crypto/evp/ctrl_params_translate.c
+-index 44d0895bcf..db7325439a 100644
++index 14306a0..b481776 100644
+ --- a/crypto/evp/ctrl_params_translate.c
+ +++ b/crypto/evp/ctrl_params_translate.c
+-@@ -2269,6 +2269,12 @@ static const struct translation_st evp_pkey_ctx_translations[] = {
+-       EVP_PKEY_CTRL_GET_RSA_OAEP_LABEL, NULL, NULL,
+-       OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL, OSSL_PARAM_OCTET_PTR, NULL },
++@@ -2249,6 +2249,12 @@ static const struct translation_st evp_pkey_ctx_translations[] = {
++         EVP_PKEY_CTRL_GET_RSA_OAEP_LABEL, NULL, NULL,
++         OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL, OSSL_PARAM_OCTET_PTR, NULL },
+  
+ +    { SET, EVP_PKEY_RSA, 0, EVP_PKEY_OP_TYPE_CRYPT,
+ +      EVP_PKEY_CTRL_RSA_IMPLICIT_REJECTION, NULL,
+@@ -60,13 +61,13 @@ index 44d0895bcf..db7325439a 100644
+ +      NULL },
+ +
+      { SET, EVP_PKEY_RSA_PSS, 0, EVP_PKEY_OP_TYPE_GEN,
+-       EVP_PKEY_CTRL_MD, "rsa_pss_keygen_md", NULL,
+-       OSSL_ALG_PARAM_DIGEST, OSSL_PARAM_UTF8_STRING, fix_md },
++         EVP_PKEY_CTRL_MD, "rsa_pss_keygen_md", NULL,
++         OSSL_ALG_PARAM_DIGEST, OSSL_PARAM_UTF8_STRING, fix_md },
+ diff --git a/crypto/rsa/rsa_ossl.c b/crypto/rsa/rsa_ossl.c
+-index 330302ae55..4bdacd5ed9 100644
++index d658a3c..5a0b160 100644
+ --- a/crypto/rsa/rsa_ossl.c
+ +++ b/crypto/rsa/rsa_ossl.c
+-@@ -395,6 +395,12 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++@@ -391,6 +391,12 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+      BIGNUM *unblind = NULL;
+      BN_BLINDING *blinding = NULL;
+  
+@@ -79,7 +80,7 @@ index 330302ae55..4bdacd5ed9 100644
+      if ((ctx = BN_CTX_new_ex(rsa->libctx)) == NULL)
+          goto err;
+      BN_CTX_start(ctx);
+-@@ -489,7 +495,7 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++@@ -481,7 +487,7 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+       * derive the Key Derivation Key from private exponent and public
+       * ciphertext
+       */
+@@ -88,7 +89,7 @@ index 330302ae55..4bdacd5ed9 100644
+          /*
+           * because we use d as a handle to rsa->d we need to keep it local and
+           * free before any further use of rsa->d
+-@@ -565,11 +571,11 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
++@@ -557,11 +563,11 @@ static int rsa_ossl_private_decrypt(int flen, const unsigned char *from,
+          goto err;
+  
+      switch (padding) {
+@@ -105,7 +106,7 @@ index 330302ae55..4bdacd5ed9 100644
+      case RSA_PKCS1_OAEP_PADDING:
+          r = RSA_padding_check_PKCS1_OAEP(to, num, buf, j, num, NULL, 0);
+ diff --git a/crypto/rsa/rsa_pmeth.c b/crypto/rsa/rsa_pmeth.c
+-index 0bf5ac098a..81b031f81b 100644
++index 85cdfb4..7f3d810 100644
+ --- a/crypto/rsa/rsa_pmeth.c
+ +++ b/crypto/rsa/rsa_pmeth.c
+ @@ -52,6 +52,8 @@ typedef struct {
+@@ -133,17 +134,17 @@ index 0bf5ac098a..81b031f81b 100644
+      if (sctx->oaep_label) {
+          OPENSSL_free(dctx->oaep_label);
+          dctx->oaep_label = OPENSSL_memdup(sctx->oaep_label, sctx->oaep_labellen);
+-@@ -347,6 +351,7 @@ static int pkey_rsa_decrypt(EVP_PKEY_CTX *ctx,
+-                             const unsigned char *in, size_t inlen)
++@@ -345,6 +349,7 @@ static int pkey_rsa_decrypt(EVP_PKEY_CTX *ctx,
++     const unsigned char *in, size_t inlen)
+  {
+      int ret;
+ +    int pad_mode;
+      RSA_PKEY_CTX *rctx = ctx->data;
+      /*
+       * Discard const. Its marked as const because this may be a cached copy of
+-@@ -367,7 +372,12 @@ static int pkey_rsa_decrypt(EVP_PKEY_CTX *ctx,
+-                                                 rctx->oaep_labellen,
+-                                                 rctx->md, rctx->mgf1md);
++@@ -365,7 +370,12 @@ static int pkey_rsa_decrypt(EVP_PKEY_CTX *ctx,
++             rctx->oaep_labellen,
++             rctx->md, rctx->mgf1md);
+      } else {
+ -        ret = RSA_private_decrypt(inlen, in, out, rsa, rctx->pad_mode);
+ +        if (rctx->pad_mode == RSA_PKCS1_PADDING &&
+@@ -155,7 +156,7 @@ index 0bf5ac098a..81b031f81b 100644
+      }
+      *outlen = constant_time_select_s(constant_time_msb_s(ret), *outlen, ret);
+      ret = constant_time_select_int(constant_time_msb(ret), ret, 1);
+-@@ -591,6 +601,14 @@ static int pkey_rsa_ctrl(EVP_PKEY_CTX *ctx, int type, int p1, void *p2)
++@@ -587,6 +597,14 @@ static int pkey_rsa_ctrl(EVP_PKEY_CTX *ctx, int type, int p1, void *p2)
+          *(unsigned char **)p2 = rctx->oaep_label;
+          return rctx->oaep_labellen;
+  
+@@ -171,7 +172,7 @@ index 0bf5ac098a..81b031f81b 100644
+      case EVP_PKEY_CTRL_PKCS7_SIGN:
+  #ifndef OPENSSL_NO_CMS
+ diff --git a/doc/man1/openssl-pkeyutl.pod.in b/doc/man1/openssl-pkeyutl.pod.in
+-index 015265a74d..5e62551d34 100644
++index 015265a..5e62551 100644
+ --- a/doc/man1/openssl-pkeyutl.pod.in
+ +++ b/doc/man1/openssl-pkeyutl.pod.in
+ @@ -305,6 +305,16 @@ explicitly set in PSS mode then the signing digest is used.
+@@ -192,7 +193,7 @@ index 015265a74d..5e62551d34 100644
+  
+  =head1 RSA-PSS ALGORITHM
+ diff --git a/doc/man3/EVP_PKEY_CTX_ctrl.pod b/doc/man3/EVP_PKEY_CTX_ctrl.pod
+-index e788f38809..3844aa2199 100644
++index e788f38..3844aa2 100644
+ --- a/doc/man3/EVP_PKEY_CTX_ctrl.pod
+ +++ b/doc/man3/EVP_PKEY_CTX_ctrl.pod
+ @@ -392,6 +392,8 @@ instead of padding errors in case padding checks fail. Applications that
+@@ -205,7 +206,7 @@ index e788f38809..3844aa2199 100644
+  =head2 DSA parameters
+  
+ diff --git a/doc/man7/provider-asym_cipher.pod b/doc/man7/provider-asym_cipher.pod
+-index 0976a263a8..2a8426a6ed 100644
++index 0976a26..2a8426a 100644
+ --- a/doc/man7/provider-asym_cipher.pod
+ +++ b/doc/man7/provider-asym_cipher.pod
+ @@ -234,6 +234,15 @@ The TLS protocol version first requested by the client.
+@@ -225,50 +226,50 @@ index 0976a263a8..2a8426a6ed 100644
+  
+  OSSL_FUNC_asym_cipher_gettable_ctx_params() and OSSL_FUNC_asym_cipher_settable_ctx_params()
+ diff --git a/include/openssl/core_names.h b/include/openssl/core_names.h
+-index 6bed5a8a67..5a350b537f 100644
++index 02bebc6..9586a6d 100644
+ --- a/include/openssl/core_names.h
+ +++ b/include/openssl/core_names.h
+ @@ -292,6 +292,7 @@ extern "C" {
+- #define OSSL_PKEY_PARAM_DIST_ID             "distid"
+- #define OSSL_PKEY_PARAM_PUB_KEY             "pub"
+- #define OSSL_PKEY_PARAM_PRIV_KEY            "priv"
+-+#define OSSL_PKEY_PARAM_IMPLICIT_REJECTION  "implicit-rejection"
++ #define OSSL_PKEY_PARAM_DIST_ID "distid"
++ #define OSSL_PKEY_PARAM_PUB_KEY "pub"
++ #define OSSL_PKEY_PARAM_PRIV_KEY "priv"
+++#define OSSL_PKEY_PARAM_IMPLICIT_REJECTION "implicit-rejection"
+  
+  /* Diffie-Hellman/DSA Parameters */
+- #define OSSL_PKEY_PARAM_FFC_P               "p"
++ #define OSSL_PKEY_PARAM_FFC_P "p"
+ @@ -467,6 +468,7 @@ extern "C" {
+- #define OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL               "oaep-label"
+- #define OSSL_ASYM_CIPHER_PARAM_TLS_CLIENT_VERSION       "tls-client-version"
+- #define OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION   "tls-negotiated-version"
+-+#define OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION       "implicit-rejection"
++ #define OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL "oaep-label"
++ #define OSSL_ASYM_CIPHER_PARAM_TLS_CLIENT_VERSION "tls-client-version"
++ #define OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION "tls-negotiated-version"
+++#define OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION "implicit-rejection"
+  
+  /*
+   * Encoder / decoder parameters
+ diff --git a/include/openssl/rsa.h b/include/openssl/rsa.h
+-index a55c9727c6..247f9014e3 100644
++index 36a780d..ceb05b2 100644
+ --- a/include/openssl/rsa.h
+ +++ b/include/openssl/rsa.h
+ @@ -183,6 +183,8 @@ int EVP_PKEY_CTX_get0_rsa_oaep_label(EVP_PKEY_CTX *ctx, unsigned char **label);
+  
+- # define EVP_PKEY_CTRL_RSA_KEYGEN_PRIMES  (EVP_PKEY_ALG_CTRL + 13)
++ #define EVP_PKEY_CTRL_RSA_KEYGEN_PRIMES (EVP_PKEY_ALG_CTRL + 13)
+  
+-+# define EVP_PKEY_CTRL_RSA_IMPLICIT_REJECTION (EVP_PKEY_ALG_CTRL + 14)
+++#define EVP_PKEY_CTRL_RSA_IMPLICIT_REJECTION (EVP_PKEY_ALG_CTRL + 14)
+ +
+- # define RSA_PKCS1_PADDING          1
+- # define RSA_NO_PADDING             3
+- # define RSA_PKCS1_OAEP_PADDING     4
++ #define RSA_PKCS1_PADDING 1
++ #define RSA_NO_PADDING 3
++ #define RSA_PKCS1_OAEP_PADDING 4
+ @@ -192,6 +194,9 @@ int EVP_PKEY_CTX_get0_rsa_oaep_label(EVP_PKEY_CTX *ctx, unsigned char **label);
+- # define RSA_PKCS1_PSS_PADDING      6
+- # define RSA_PKCS1_WITH_TLS_PADDING 7
++ #define RSA_PKCS1_PSS_PADDING 6
++ #define RSA_PKCS1_WITH_TLS_PADDING 7
+  
+ +/* internal RSA_ only */
+-+# define RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING 8
+++#define RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING 8
+ +
+- # define RSA_PKCS1_PADDING_SIZE    11
++ #define RSA_PKCS1_PADDING_SIZE 11
+  
+- # define RSA_set_app_data(s,arg)         RSA_set_ex_data(s,0,arg)
++ #define RSA_set_app_data(s, arg) RSA_set_ex_data(s, 0, arg)
+ diff --git a/providers/implementations/asymciphers/rsa_enc.c b/providers/implementations/asymciphers/rsa_enc.c
+-index c8921acd6e..11a91e62b1 100644
++index 799357f3..1e74150 100644
+ --- a/providers/implementations/asymciphers/rsa_enc.c
+ +++ b/providers/implementations/asymciphers/rsa_enc.c
+ @@ -75,6 +75,8 @@ typedef struct {
+@@ -288,7 +289,7 @@ index c8921acd6e..11a91e62b1 100644
+  
+      switch (RSA_test_flags(prsactx->rsa, RSA_FLAG_TYPE_MASK)) {
+      case RSA_FLAG_TYPE_RSA:
+-@@ -199,6 +202,7 @@ static int rsa_decrypt(void *vprsactx, unsigned char *out, size_t *outlen,
++@@ -203,6 +206,7 @@ static int rsa_decrypt(void *vprsactx, unsigned char *out, size_t *outlen,
+  {
+      PROV_RSA_CTX *prsactx = (PROV_RSA_CTX *)vprsactx;
+      int ret;
+@@ -296,12 +297,12 @@ index c8921acd6e..11a91e62b1 100644
+      size_t len = RSA_size(prsactx->rsa);
+  
+      if (!ossl_prov_is_running())
+-@@ -276,8 +280,12 @@ static int rsa_decrypt(void *vprsactx, unsigned char *out, size_t *outlen,
++@@ -280,8 +284,12 @@ static int rsa_decrypt(void *vprsactx, unsigned char *out, size_t *outlen,
+          }
+          OPENSSL_free(tbuf);
+      } else {
+ -        ret = RSA_private_decrypt(inlen, in, out, prsactx->rsa,
+--                                  prsactx->pad_mode);
++-            prsactx->pad_mode);
+ +        if ((prsactx->implicit_rejection == 0) &&
+ +                (prsactx->pad_mode == RSA_PKCS1_PADDING))
+ +            pad_mode = RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING;
+@@ -311,7 +312,7 @@ index c8921acd6e..11a91e62b1 100644
+      }
+      *outlen = constant_time_select_s(constant_time_msb_s(ret), *outlen, ret);
+      ret = constant_time_select_int(constant_time_msb(ret), 0, 1);
+-@@ -401,6 +409,10 @@ static int rsa_get_ctx_params(void *vprsactx, OSSL_PARAM *params)
++@@ -403,6 +411,10 @@ static int rsa_get_ctx_params(void *vprsactx, OSSL_PARAM *params)
+      if (p != NULL && !OSSL_PARAM_set_uint(p, prsactx->alt_version))
+          return 0;
+  
+@@ -322,8 +323,8 @@ index c8921acd6e..11a91e62b1 100644
+      return 1;
+  }
+  
+-@@ -412,6 +424,7 @@ static const OSSL_PARAM known_gettable_ctx_params[] = {
+-                     NULL, 0),
++@@ -414,6 +426,7 @@ static const OSSL_PARAM known_gettable_ctx_params[] = {
++         NULL, 0),
+      OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_TLS_CLIENT_VERSION, NULL),
+      OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION, NULL),
+ +    OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION, NULL),
+@@ -353,6 +354,3 @@ index c8921acd6e..11a91e62b1 100644
+      OSSL_PARAM_END
+  };
+  
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.patch
+index 0a1f63f30a0..324e41ed2fb 100644
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.patch
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.patch
+@@ -1,7 +1,7 @@
+-From ba78f7b0599ba5bfb5032dd2664465c5b13388e3 Mon Sep 17 00:00:00 2001
++From 156a6ca5791f9c642a77270a90d5dbd0a3a7a33d Mon Sep 17 00:00:00 2001
+ From: Hubert Kario <hkario@redhat.com>
+ Date: Tue, 22 Nov 2022 18:25:49 +0100
+-Subject: [PATCH 3/3] smime/pkcs7: disable the Bleichenbacher workaround
++Subject: [PATCH] smime/pkcs7: disable the Bleichenbacher workaround
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+ CVE: CVE-2023-50781
  
--SRCREV_machine ?= "57960f78280a75ea48270a3984ac01bd06078b88"
--SRCREV_meta ?= "578937826ffad97749eba3a5d1b21b37b5cd7bdc"
-+SRCREV_machine ?= "9ce0ec0c426ae703dbce0bbc4d56b919bea21e10"
-+SRCREV_meta ?= "1bfe6bf1a07dbce00c9a7b4ab051014a26a799a8"
+@@ -14,15 +14,16 @@ Reviewed-by: Tomas Mraz <tomas@openssl.org>
+ (Merged from https://github.com/openssl/openssl/pull/13817)
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++
+ ---
+  crypto/pkcs7/pk7_doit.c | 7 +++++++
+  1 file changed, 7 insertions(+)
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index bbdf94746d3..b2adfd3544d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -14,24 +14,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ diff --git a/crypto/pkcs7/pk7_doit.c b/crypto/pkcs7/pk7_doit.c
+-index e9de097da1..6d3124da87 100644
++index a38e8a3..d751f5e 100644
+ --- a/crypto/pkcs7/pk7_doit.c
+ +++ b/crypto/pkcs7/pk7_doit.c
+-@@ -170,6 +170,13 @@ static int pkcs7_decrypt_rinfo(unsigned char **pek, int *peklen,
++@@ -168,6 +168,13 @@ static int pkcs7_decrypt_rinfo(unsigned char **pek, int *peklen,
+      if (EVP_PKEY_decrypt_init(pctx) <= 0)
+          goto err;
+  
+@@ -34,8 +35,5 @@ index e9de097da1..6d3124da87 100644
+ +        EVP_PKEY_CTX_ctrl_str(pctx, "rsa_pkcs1_implicit_rejection", "0");
+ +
+      if (EVP_PKEY_decrypt(pctx, NULL, &eklen,
+-                          ri->enc_key->data, ri->enc_key->length) <= 0)
+-         goto err;
+--- 
+-2.34.1
+-
++             ri->enc_key->data, ri->enc_key->length)
++         <= 0)
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.18.bb b/meta/recipes-connectivity/openssl/openssl_3.0.19.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.0.18.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.0.19.bb
+index a8dd3383271..293b450cd05 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.18.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.19.bb
+@@ -25,7 +25,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
  
--SRCREV_machine:qemuarm ?= "7b19f872b07703f73c494baa81cd7e984db01336"
--SRCREV_machine:qemuarm64 ?= "431a37a229ce5be7b6ba116dc7bd282be4a745fa"
--SRCREV_machine:qemumips ?= "9404d4015b457e7324d5675d3e14f46d84cd8c40"
--SRCREV_machine:qemuppc ?= "bfd132d4b358cdb5260fccc71eb1e5a09daae033"
--SRCREV_machine:qemuriscv64 ?= "5df8e23ccadd62ab9945320b6b4327b082870c61"
--SRCREV_machine:qemuriscv32 ?= "5df8e23ccadd62ab9945320b6b4327b082870c61"
--SRCREV_machine:qemux86 ?= "5df8e23ccadd62ab9945320b6b4327b082870c61"
--SRCREV_machine:qemux86-64 ?= "5df8e23ccadd62ab9945320b6b4327b082870c61"
--SRCREV_machine:qemumips64 ?= "ed52c5eccf0cc2b0da2dd7d13d012c50db78a62a"
--SRCREV_machine ?= "5df8e23ccadd62ab9945320b6b4327b082870c61"
--SRCREV_meta ?= "578937826ffad97749eba3a5d1b21b37b5cd7bdc"
-+SRCREV_machine:qemuarm ?= "5200e910cb4a700023e548693aacdd166b008f8b"
-+SRCREV_machine:qemuarm64 ?= "2a69501b11075d6c4e6cab2e05fc04f61a8991cd"
-+SRCREV_machine:qemumips ?= "6e318293304f232aa650d41bbc6ae7ad40c03fa5"
-+SRCREV_machine:qemuppc ?= "c861e5a8012080cc03be9725dd996e0d68f4e93b"
-+SRCREV_machine:qemuriscv64 ?= "8f21ac8bce967e4ae9afbe4c66f8fbc11982c59e"
-+SRCREV_machine:qemuriscv32 ?= "8f21ac8bce967e4ae9afbe4c66f8fbc11982c59e"
-+SRCREV_machine:qemux86 ?= "8f21ac8bce967e4ae9afbe4c66f8fbc11982c59e"
-+SRCREV_machine:qemux86-64 ?= "8f21ac8bce967e4ae9afbe4c66f8fbc11982c59e"
-+SRCREV_machine:qemumips64 ?= "d3a7bcb9d74f245de665994e3c9d8a35e42351de"
-+SRCREV_machine ?= "8f21ac8bce967e4ae9afbe4c66f8fbc11982c59e"
-+SRCREV_meta ?= "1bfe6bf1a07dbce00c9a7b4ab051014a26a799a8"
+-SRC_URI[sha256sum] = "d80c34f5cf902dccf1f1b5df5ebb86d0392e37049e5d73df1b3abae72e4ffe8b"
++SRC_URI[sha256sum] = "fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32d88335b94ab63072"
  
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "29e53a5b1c4f144301ee36a907e8b03d7733f0b0"
-+SRCREV_machine:class-devupstream ?= "ac56c046adf41fdb64ddda46fd66090f21dc381a"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.15/base"
- 
-@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.15.194"
-+LINUX_VERSION ?= "5.15.195"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 
