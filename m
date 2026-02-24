@@ -2,388 +2,218 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E7CF55422
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 23:22:57 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.32])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34121.1771975366815989747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C9DF55431
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 23:23:47 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.34])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34131.1771975418170128863
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 15:22:47 -0800
+ Tue, 24 Feb 2026 15:23:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=MXyWlnO2;
- spf=pass (domain: axis.com, ip: 52.101.83.32, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=hvGt3PIr;
+ spf=pass (domain: axis.com, ip: 52.101.66.34, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kvFijDvO6uX6FrLFsTxKaGnmBMZpRhlq2dDqYixEHnpbBtNgLlroXBJiRyqehrp6JF+LBs4VxnKosIG/BhC0eD8P0P3QQE3hQtmH1Yg8WG53E5SVe10b4NQPCH6F5xV/LxdzuvhyHp1j8PD7RbbUEwRb++tdvAnRGIrR3NFGriXbBkK5Hr/5yykUXEI6/asn0n+FGphlRSG34Ca5gkNdl9t77nkct59Wfa+QMkE/b3f41KKjZ9FMjXNBHMQP1Cq5boHGVZ/cCv93AfSmhngPtvHPY7TnWSwcqX7meU6Wsvqe2dHwZ9TZEvhDSRd8NyduHzTgD42KXOWIbBamhhnWLw==
+ b=DB59LL7cm0+r0OPMspOhFOT5DyIDOTJYQ042BSkDVqb0jnlJV0wdvVB2WYR3zlSi4ZSH4sWP5V5EzTKqssgoLJjDyG9iFdHUZxjZSOsB7/bZTI6FZ0NGDPOJlTLbrQInzH2cb1f3vyydWXxjj1e8hPTFCzXDLJTrdvsYtSZ2rA3AkdIj/Vx3o219D3w7TWUUcTsT7EhAL8pox9Npp7+Sj+RVQVFJNEN0qKgbi15Yk4ouqiHQLQ8zf49I4HaCJq/rZz1Muf0q40zhzOAiqf+7rSh3fv3KXABf33/5gPEBoKFvI19YVyrbjrf1Ap5qoNnM8iCwC2v5l1dWDq0HEZHIDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UpAe5ArrNNzv1uGtu+GSPz9qAGoM8FWFym/qo3Pg7OY=;
- b=EOmMyjTLXe8fQE0dsy8lJbjhwvXgNgFLYVHVXghUATLC2LmVdy9IqHHoOY4ijcf90usul2cdBBtawa1MG1alZF6rYsfwCCieRDBRvYgzbWWH0BBYjEkWDPVwcHY+RydvKEYix9zaori2UbUQU27ymN8fo+0189YNbnKvdDDpRuDOzPt3P6rfHC+wnxPdzAFoH7ie7tfbTJtInj1+1IysKC+353h8ba1Zb4tU7EYSQrZQeeJSsPFzkKUok0/BuMP/ZR0roz6VVwxbQ2aG9GH0++BbMmSQDkFXXG0de1DDg88SGwzMlWhxC+B2M5dqRf/V8fr+PFcSf+eDerhJKklMvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
+ bh=1G57fmt7JTTtglihaf0gnYICQRrHTYacKzbcAsBzCUo=;
+ b=VTsNguOkMpgI7j5tqInWMzKDxB/yFdIdCC0lcqReyn/iOXqQLRYrcYudc2wPM+tNYlnXHjfppkXKyELdU4zd0479dabFgEuqqV/kWtt/fd3tw4AsnSMt4F3FMTgMAmNwm/+L+vswiEuLAYDanjXyFE+jXb8JtY6nMQv5j9v+FTN83XhZYa5QYOWS6MZNDnxSPcm7DxP66nA3p/iOq60QOhliNcfDc2OpQtqBLT9M8eFitS1edj4pswAmVeWhF0h/shyUL4cRKpJDTdYL3kMvG9B+6CrP0oAU+PTNQrWCzIX4Tfz3eQkyrDiarlrE3xSmz/nHqMR9BA5WebQIzTY81w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UpAe5ArrNNzv1uGtu+GSPz9qAGoM8FWFym/qo3Pg7OY=;
- b=MXyWlnO2oYHE8CycyqEM1PlDt39/r8RyqFilbeMOyscAmgNXeQzMM9jEpWrzn4vVLGhPZb6MR1E/OCFH+gNydUGNATnuBhNbWgmf6/bl3ncn4pm/5cmtGQxHsORlWeh2PLbED9wzbrYYl+NlVbwSzuMldVcAMf0zvSqIoe6KwHc=
-Received: from AS4P190CA0005.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5de::17)
- by DU4PR02MB11213.eurprd02.prod.outlook.com (2603:10a6:10:5ef::19) with
+ bh=1G57fmt7JTTtglihaf0gnYICQRrHTYacKzbcAsBzCUo=;
+ b=hvGt3PIrrmLLUub9I7gfHfF/LJZW473Wn6WDPCmskWjmryAoVO7aokJBOJfKS+g16pqlkKeelfa1Xkv0JfwnwGMYjAw1U92xwaUf/34E3XaitOp0O11eetdGrTxDUt+z2OoQdoPPr62ApmBwH1rwqmr7WqvoGs1KsDVRESv7V6A=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by PA4PR02MB7070.eurprd02.prod.outlook.com (2603:10a6:102:100::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
- 2026 23:22:41 +0000
-Received: from AM3PEPF0000A790.eurprd04.prod.outlook.com
- (2603:10a6:20b:5de:cafe::42) by AS4P190CA0005.outlook.office365.com
- (2603:10a6:20b:5de::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.23 via Frontend Transport; Tue,
- 24 Feb 2026 23:22:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM3PEPF0000A790.mail.protection.outlook.com (10.167.16.119) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Tue, 24 Feb 2026 23:22:41 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Wed, 25 Feb
- 2026 00:22:40 +0100
-Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Wed, 25 Feb
- 2026 00:22:40 +0100
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Wed, 25 Feb 2026 00:22:40 +0100
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 87EF929B7
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 00:22:40 +0100 (CET)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 8380D120040; Wed, 25 Feb 2026 00:22:40 +0100 (CET)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv2 2/2] devtool: standard: Add new patches in correct order when finishing
-Date: Wed, 25 Feb 2026 00:22:36 +0100
-Message-ID: <20260224232236.2048910-2-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260224232236.2048910-1-pkj@axis.com>
-References: <20260224232236.2048910-1-pkj@axis.com>
+ 2026 23:23:34 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9632.010; Tue, 24 Feb 2026
+ 23:23:34 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] devtool: standard: Add new patches in correct
+ order when finishing
+Thread-Topic: [OE-core] [PATCH] devtool: standard: Add new patches in correct
+ order when finishing
+Thread-Index: AQHcnDJzEL6dlVRUBEC8KAREV60QBrWBFykg
+Date: Tue, 24 Feb 2026 23:23:33 +0000
+Message-ID: 
+ <DB5PR02MB1021366509B2DAEF9D1BD72C9EF74A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260206011344.1788785-1-pkj@axis.com>
+ <4a2c5d68e143c2260023afbdb67ab25573c7a49c.camel@linuxfoundation.org>
+In-Reply-To: 
+ <4a2c5d68e143c2260023afbdb67ab25573c7a49c.camel@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA4PR02MB7070:EE_
+x-ms-office365-filtering-correlation-id: af325766-b3d1-4edd-cafa-08de73fbbabb
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?Z2VOU0s3a3ltdEZzS3hsMGU1Vk5tTkhFeU1RWFZwU0dqdTRNMEtjaEZOWDZP?=
+ =?utf-8?B?b09MVUtJWmZiRVZzajJLeFdKeVl5VUZ4a0RZVG9VajlSNkhKbXlBOHppZlBa?=
+ =?utf-8?B?Z2k4QVhPTVJ1OTdOMjlsZGlwcjA2c3hqOVlkdlFYWUdtd3FYelJ0Rk9pRnU0?=
+ =?utf-8?B?YVptcDM4SDNuRTl3WitDVGZZL2FDS3MzcDJEdDB2Nm90MERDOUpRM3hVS0tV?=
+ =?utf-8?B?YmVLVXJBYW5GdG0rR0RmcG9pL2pOQ3c4U2M3R3JlMXdtampreXlUalpHQit6?=
+ =?utf-8?B?TTB1T1pKdDJTOEs3a1hoNGVRejNrY2tzbzdSUTFicXdFRWc5SWtJcndHcTlN?=
+ =?utf-8?B?RFk4cE42UUFFYW9DTXd3YVF3cUF5Qkc0VEFtcVFpemVSYlpnTVRwRWRzUzA0?=
+ =?utf-8?B?ZnREYUhNSjUvNlZrdmRmdjNnUHdFRFNxVzNCOWZnelpLTzZXeTU5TTVtbVpu?=
+ =?utf-8?B?QXVEVnNaMDVNbWJJUG1OMHlMeWVGUDc0Q2hwb2N3QnZ6bWc4OTFLRU02Tk1L?=
+ =?utf-8?B?UmZ3YTV1RzkyejFScEc5VUROcXdZMmtPZzU1U1p2NHF4M0Nydytza3ZhNzZx?=
+ =?utf-8?B?d2EwYko4LzNSN0ErVXU5dS9BNERCcEY5cE9sWjMyMGxyeGhObHBVdkVqa3VQ?=
+ =?utf-8?B?cXM5RzhUQk8yY2YzaXBnSTZHdHdvV2pxYmlCS1F0WHZHaWc5L05CR2hvcTdv?=
+ =?utf-8?B?QWJiNXJ0Vk9vY1ZCRzVXWC9FVUM1dWh3b3h1b2lJTWZOakQvWWhDOU5WazhN?=
+ =?utf-8?B?L1plSUtpNjVKellJVlk4bUExbld6SEttMFc3UW5ZcHpmQ1htd0xaSE9tSHht?=
+ =?utf-8?B?MlRHaTNXT0VyTzdBeU5SdThkN0NFWElTeDg2cWs2M2xJMFNueDVvZFM3VDli?=
+ =?utf-8?B?WEsrZGZzUVNRWXpjUUVES0Y3WW1JRXJFaXNiTTZXZlVWcHpDRENuVnlFOXFR?=
+ =?utf-8?B?QXZhYWdNOERtenZXLzFZVCsyQ3RmWS9GYTY2YW5NaUNuNWhYWjQ4MmR5Um1o?=
+ =?utf-8?B?bGxCNVRabkZkZU1KeE9EYmZFZHIwaUdUZ0FLaGdrVTNEbXNqcnVHTFBZcHls?=
+ =?utf-8?B?aTdjNjAwWEI1a3hpQ3N1NUE0VkhQOFpVbVNtTXRIWmI2ckJLT1J5bnF6eFpQ?=
+ =?utf-8?B?NEdNTUhLK1k0MlhDbE9qOTFuQ2VsSHNIb0l6WUdXdmZxcmhqdWptSm45RWNm?=
+ =?utf-8?B?SVdOY0lYdWE4NFBKTG4rS2cvZFNUcHVNWWFKMTJKekF4Q05jV1VOSU1TSktl?=
+ =?utf-8?B?eDgwR0FRQ3RZbHFPa2pHQ2VBdzhMSm1XWkhFVVU2OUxPL1BTV0RZYXc1RE12?=
+ =?utf-8?B?QU56TG1ad1dXaGlaMVA4R1pvUHhrcVRoQmRVRHFHMkllWEIvOC9FSVM2UDh3?=
+ =?utf-8?B?VVdteUZ0UHhxOXZuYlBGV1dFVlVqMTRvVDcwTTZ5ZVM5TkpGRDQzTUlTUllZ?=
+ =?utf-8?B?WnFNRTZzSHdFWWg4UjB1aUx1eElCUjhRVHVpNVA2SzdwLzBqd1dabFhCa0gr?=
+ =?utf-8?B?VDBSQTA0bXNOVGpTR2IrOWVUWUdIb0w2YWxaKzVuSkM3ZzkxVmU1Z0U2YVh4?=
+ =?utf-8?B?bkFsbnBValU3STkyM1NSTHlDR1k5ZDNmU0lVdUpsMVRyZkhYTmdWWlJNc3I1?=
+ =?utf-8?B?TEVtR3BQTVMxWmlsajJMb1A4Z0pSeVc2NXRlUHBmbFIwUkRGZmJVbGZWaXYv?=
+ =?utf-8?B?T2NBekEwejhxNmtKSXdKczlQNnY4SUZKblR0cnVWWVkzNXdVOEUxbFNqVENV?=
+ =?utf-8?B?WVpWTnF1cHZHZGMwZmJMalhsZkk4VVJnTzhmNERURzVxN0cyb29jRkljc0w3?=
+ =?utf-8?B?ZTBzVDlsKzl0NmZlcThoeVc3ME5WM2RSaUFIbkJSdkw0RVJRZU1uWUN2eGpR?=
+ =?utf-8?B?SlgrS0hxajVLQXQyMXdnTURPcDIweVhpWUp0VklLbFk1UDRDRk9vRXZLUkQ5?=
+ =?utf-8?B?Q0xvWEI0OFJ2anhzWnRIVzBjT0t2bkwxRStFajE0MFpXanBsS1plVStFcjcx?=
+ =?utf-8?B?eWFRMGRqS3hjM0RBdE5pVHdGU2E0aVE5TzczMElUWCsyakgvT2RDT3ZJTVZB?=
+ =?utf-8?B?TGFFYnduazJYTWZpRnR5YkFWTis1a3VVWnFzRjFTRk96M1NHZFlHVXN6NXNp?=
+ =?utf-8?B?UTh3NEVOUkQ1RkpGb3NhRzVHQkRERHRYVDZ4M2Vxb2lkQ2pKcm5LMklrSlht?=
+ =?utf-8?Q?Soc/b2QDBkcTB5cj23ukixk=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?SzF4MFJXWDVRVjhxN3JCWW9ORFdQUGV4ZVJ4VkVOdkgwODBWUjJMeWJORjM4?=
+ =?utf-8?B?diszZkh6bUwvUGJBVWdkcWtGRHg2QkJtTzZBa3pZeVJFTWd2RjJYRmxXK2Y2?=
+ =?utf-8?B?V0VGcFhKUVg2eDVmNVcycnZKNUxoTmhnaDY4bFJlV0ZGZUN6MTVIbWlUQ0lQ?=
+ =?utf-8?B?YWZIa0kzd2F3UW5KalJ5c0paWkpPTGJhZitiVzRTSXdKMXljMmVDU1ZhWVJt?=
+ =?utf-8?B?TFlEa2Q5N3BSb29MMGg5d1pWdDgzczRsWG5aeHc1cXprb05HNnBJTzZCSG9J?=
+ =?utf-8?B?NjRoYmRCczloVXZoSE1rWGtGOHAvdEMvR1FBemxZLzZNZTcvWTY2dXZlTzlq?=
+ =?utf-8?B?R1NDVkRESHBTVFBCRDJJbDd6V1E2SVZJa1hrZER2VGppM3ZnU0MxeWQ2OVRY?=
+ =?utf-8?B?d0g0dGlVNVdPQ0M0dXFXaEg5U0owN0FyaWVzbUdnV2d4MytUaEJ0VEk3M1JG?=
+ =?utf-8?B?S1RUdU13cEhxUG9aNElpY1hvREY3TTJGT05vK0plUXRqWGpTcEllQ0FQTVhp?=
+ =?utf-8?B?a2h6ZVFuZ09USjRQTjlDVGt4NWgrTXc1SEhGcE1GZVBNSDB4a1RaK3c2bGJW?=
+ =?utf-8?B?VUUwQmE1YnpJaVZvSUlhWGlYWmZpeHVIS05nakk1VnZEMTRCTFAzM2xHY01K?=
+ =?utf-8?B?dUs4WDBSWGtzVFBnbTFKblpLemRiY01TTTRnRFlZQi8zVUJRZGJhbW15RVpM?=
+ =?utf-8?B?M1BPZEQ4aDgyS1lZRHRUblFCRVVwT1JIVUsrS09hWTN0LzhRZitNenJEcmdB?=
+ =?utf-8?B?c1h5Z2I2Q0hKVE5zQnJqQ1k0ZUpsaWdCYWxyUFZZb1N4SUJDQUJYeWlhYUMy?=
+ =?utf-8?B?L2E0bmp0cnRIQW1FcklYNldQZzRTcmVDdEpMa3RTYkEzbFQ0aGN1bkV0UXYr?=
+ =?utf-8?B?cHZNclJrQ2dheTkzazJNTklsNU9MNk9XUVVyTFNJYkVYWjlwQ0lMcTdnMUVV?=
+ =?utf-8?B?RE1iS2ZVbWhGNlNXRkIzQTdlbEhpRGRrbzRHdVBLYXgzU3NhN2hZRDF0TzJ0?=
+ =?utf-8?B?TEJGRTdrbXc2TTRjL0Q2eURUekpDZVljS2JCSHo2Z3dFaWNhMHhTMis0SFpz?=
+ =?utf-8?B?aFo1UzRxSWkrWkZ3dkVGWE9OVFZkbmpleEFUYmEyQUlIeks0TjZ1NUdOL1ZW?=
+ =?utf-8?B?RXJqQXpwb3NKdDlyREdDakNENzlxK0NSbzNjQ0JJWVRiWFpRZmk4MWdSZzVo?=
+ =?utf-8?B?MWhIbVltV3c0NE9nTTJHMGFxRU1jd3ZtWjlFTjEvWkVxZzhTR005bjk0UjBD?=
+ =?utf-8?B?U25tRnFjSTRlUHFvN0FYaDZzOFlldElhY3BKdC83d0IwUGdmWldhcEl6bjBP?=
+ =?utf-8?B?c282Q1dhUFZJN0g2TWYyUGpBVUR2VUMzNW0vVzZ6SkJWeVVINlN3NmZ3Sm9U?=
+ =?utf-8?B?Y0ErUVlHSklSWWxLRTZyMldWUnZTQ24xMWRqdkp1bEVYZnYra2ZkckVMQTJZ?=
+ =?utf-8?B?VVdRZGRzVEY4QjQyV0cwczNHVVI1SGtlR21tYTRtdFpkNk5mSDJ1OGRFQmdX?=
+ =?utf-8?B?ZXViL1hzSnUvWGNVRklBVlc3c1hiK0prQnFlN1FFNkFSS0g4SVdtRk0vazhJ?=
+ =?utf-8?B?bkZFNHpUWXNML3FZVXZaNWhHSG1kYStvcnlzNDlnVktNWE5oeVAwSTRubmpF?=
+ =?utf-8?B?Mm9pRjBNdUdVa1JsYWNhTzdIYmpveWkyOW1wVDkzeXA3SWNEd0gvc0dOSysz?=
+ =?utf-8?B?UVFlOEd5aGtIOXA3dG1abXFoVm1LdXl2OVA3eWh4a3JyWGlaR3JyRHpGTEFW?=
+ =?utf-8?B?dEl6YUhaMGpOaVJwOFlRc3UxOTBMZ251MXhTbVNWNzdVNDRMYTBxeVBlSGJF?=
+ =?utf-8?B?TEFpTXpiWFVZQnZDaXJjUmJkZGJvenpLZ1VUcE4rRFU3Y0FTZHBNY0ppK0FP?=
+ =?utf-8?B?RDEydHllWWNRT3JkeU5PcSt4NXo4NkRjT1FpaUtTUWJjZVNxQTZoWU1GdWpK?=
+ =?utf-8?B?bVQyOGJUaGFsMWE5Y0piNk5OVGVXaTRRT3JsNHdSTjdTWExYYncxWVNpTmk5?=
+ =?utf-8?B?WElkMHIrMzRhbmpDaXJQYzdSU3hrWWhyWElKK3lheVZTNFNpdWRLWmFvVlRR?=
+ =?utf-8?B?Y3VGdlB5aTdUYnBpUiszcDg4RzhjUUFTMHZIUUJVRWlWUzJHbXd5SzJRQjd5?=
+ =?utf-8?B?cHltRStnZ3ZSMWpYb1M1R0wyeVFpZ0o0NjA1cFF5aHh1RkZTaXJJSlVUZzY0?=
+ =?utf-8?B?SVdPczdtZ2xyVUI0OFNXYkdzVWVOT0c2aWRCU245c2x1UWxsWGtnT3ljelpC?=
+ =?utf-8?Q?s/loVBefRtx0UaoTWYL3f9ZhHM14WtQJv6dpouRFEE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A790:EE_|DU4PR02MB11213:EE_
-X-MS-Office365-Filtering-Correlation-Id: 209fcd7e-a2ea-4f9d-4aa9-08de73fb9b32
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|7142099003;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?1SWbYImGnP8DxgQi498vwXlHuOZE2Cfqa8xHjYnnN5EHoNqzxrRpILSPbvjG?=
- =?us-ascii?Q?bnjHKkmP+yhbHv4TNR82X1u/xyjN8XbH4CDqhlg+jssHYCDgU/zSe7TcrGOT?=
- =?us-ascii?Q?lxnEaC1o+W5s88eBPXFfQ8OtFFmbncYtd0V8rsoXVMCHk/i0mjZ+uVdR1S3N?=
- =?us-ascii?Q?tYqIJNqHEU/Chm6oMYpW0m4MeJ2eespZ+xNRkn6varJ3dwNdMlgO/j5OxfY4?=
- =?us-ascii?Q?F9Ug3lD0hEPvoqjM9T3gdRp3Y10FRmqIDPUAvpe+JqB++BojhdcCQc0Ng8Ov?=
- =?us-ascii?Q?jdI5MkbVXa9Iuyx9D9pX3t292sjk1elXiIgXN01Jr7+OSf3rS+86zxzDKzX/?=
- =?us-ascii?Q?hOgDLgoyDimfbXGk11N2Xm47tDic4IN6ngyxWQktkTFO31aROTUN/RJJ3Uwl?=
- =?us-ascii?Q?BdI2vSn1sLEYajvJMKTLxEhipjPYxC53qDwk/gt97i5XxKs4S4ce1XE767dp?=
- =?us-ascii?Q?iqwKGlSJniKUw5RcuvFKWxeNleIMFUlLC1cEgJOjR2RnJR9mejicQrzVskuT?=
- =?us-ascii?Q?A99QXt8tFCKpY6WqPwpQCZgg6iXpFlCkDrDLt6O5qOyX2KMwJKMe1Cqk6StC?=
- =?us-ascii?Q?L5ktt4pVOFoAKlH6q6KdiJsAInzp1JltwebpnwQWFlAhzHs6bPZriZJ2tXIy?=
- =?us-ascii?Q?PVF/GAowDakPnHxcysJICyb7IBxVk8k6B2FAINMp6vE/TqDGzbjBGoGamt1K?=
- =?us-ascii?Q?P5FOsNci/qvGZeC7JCHUqdHvwEsFCZeLBXECAGnv56NqPfdXXUGpBdiHtg7x?=
- =?us-ascii?Q?jMXwyXnfX+gNN2jWkQI+8J90m6wIps9HGfuuV6kaaQoMGYeJsHjluFDg3RXx?=
- =?us-ascii?Q?mZ1suNiJjewARHeqTsL6veJEcn/bPevuRSrZmzslUYTOT1fKcK5F92FeCk7D?=
- =?us-ascii?Q?Mc/a2KRmwkoc0vNdtWoEvogZ9SSn7nap15l5zIpto2KIaHc4xap8yLLQD8ag?=
- =?us-ascii?Q?Pov4OTlRqAp6d6jzwI8w/MDi+/dNsQQTgjgBvL7O+5g9jFgJbRq61x+1zT7r?=
- =?us-ascii?Q?YBa+1xSk6yyj23/hvC4LXSTR6xIbamm6ij09/q/l0eHZrtVj7M62r3x4VtMn?=
- =?us-ascii?Q?Pqp22brdSKXndVDDZp0O7ax21Aha8KDxPkBw5H5SwnSIpNLBAuans3S+NVLo?=
- =?us-ascii?Q?ix+H1dnGzdniXONu4cJe+ZiMITvxt7NMSQhg8LRfG4GbArlifvfyty864rMk?=
- =?us-ascii?Q?vRk/LowOT0SXWX4x32LkUMe0bcwkwmO2F9orrIbfcDsq7llgXZQI0HB2vO5/?=
- =?us-ascii?Q?NEDQtfek4KnMyBXDi2q9SZi25umcIMiiV9LKa3aoUrTGy+I3ocxV2eFg0zbR?=
- =?us-ascii?Q?vA9bcQDGH2lqMrBKC2M4gs0rEvVgQjY6FuTxAKRrWw46OF9/5eKfWQtXnUyQ?=
- =?us-ascii?Q?Qkv4v0hrQ3xXJMqYeZi6AQm3ZDN43XaqmHM5xhjJinh9IuOX6dFe8sp5RE2d?=
- =?us-ascii?Q?Eg9RRNnNryUMhsClqzQXOieKfCJMisBhZZRVlxn/Oqc+ixpv99xJxEKTN8D0?=
- =?us-ascii?Q?l/nzLHllt3Occ+/WOy7Dseqo7p7mKdwuwrs4GspVwMCjJVu7xM4kmNwZTTyz?=
- =?us-ascii?Q?bcb50biYlHbCcqi9Z9SQqvaV/GSsPr1TArqiSYrJA8k3goZZyKnGG5RzOfzY?=
- =?us-ascii?Q?DcHmSeDCDbYWn19KaUPTLXVgCkuqZOfDebEqCsuje77VrDvXq0STfPRnTa9Y?=
- =?us-ascii?Q?lWTIkg=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(7142099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	5NkV4llfe0yn7DY9Ruwps3/OK1Q+7MRzKnQzAul9vvMtGvl9U7mWhIk6UlEgNVwhGrfbU5Xm1kaRLb4zlA0N8smK5BAQlDpJCON6mU5XdqAWm8LP2V/640b7nzZTpUUsoyw58XllJEYA4v4jvWi+GTLHHlw7wShqQ95HJYFiRbOyTjIH7KR8CcusMITLgs2MniAGHwYc4KroyNYOk7GQCcktrlJ0LUQW69i3BInbdh4bKPtjpSFnbySUIXa/+49t6UtF0/suoRISruYVMUdF+R8wiIoyMtG1ddFu83g6v/XR97kVj0DqNr3hIg0SCLtLU49bGOTn+zGsjlVw4cML5WlFZiTFphyRFXm3TWfyBRYCC4W5GzbBW3cnDqncCk98gNx+WAeD32tHnKlU/8VOgI7qcUPtQeqE6DjjqmFKkH8MCMtGPm1P0omZxRvVx9dT
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 23:22:41.0527
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af325766-b3d1-4edd-cafa-08de73fbbabb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2026 23:23:33.9478
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 209fcd7e-a2ea-4f9d-4aa9-08de73fb9b32
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A790.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR02MB11213
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9J16f7aMsUF2BAVEaMXuySeLKG930l4YjHUB/1TLrPAWg1bbZsJ50hH/Ha/GV/aW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB7070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:22:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231918
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:23:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231920
 
-Make sure that new patches that are added as a result of using devtool
-finish are added to the SRC_URI in the same order they were committed.
-
-Previously, the order was a result of the arbitrary order the patch
-files were returned by os.walk(), which typically resulted in them being
-added to the SRC_URI in the reverse order they were committed.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
-
-PATCHv2: Rely on GitApplyTree.extractPatches() to return the paths to
-         the patches rather than using os.walk() to find them.
-
- meta/lib/oeqa/selftest/cases/devtool.py |  30 +++++--
- scripts/lib/devtool/standard.py         | 110 ++++++++++++------------
- 2 files changed, 78 insertions(+), 62 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selfte=
-st/cases/devtool.py
-index d1209dd94e..870317d4ff 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2314,6 +2314,11 @@ class DevtoolUpgradeTests(DevtoolBase):
-         result =3D runCmd('git status --porcelain', cwd=3Dtempdir)
-         self.assertIn('M maps.c', result.output)
-         result =3D runCmd('git commit maps.c -m "Add a comment to the code=
-"', cwd=3Dtempdir)
-+        # Make another change to the source
-+        result =3D runCmd('sed -i \'/^#include "mdadm.h"/a \\/* Here is an=
-other comment *\\/\' maps.c', cwd=3Dtempdir)
-+        result =3D runCmd('git status --porcelain', cwd=3Dtempdir)
-+        self.assertIn('M maps.c', result.output)
-+        result =3D runCmd('git commit maps.c -m "Add another comment to th=
-e code"', cwd=3Dtempdir)
-         for entry in os.listdir(recipedir):
-             filesdir =3D os.path.join(recipedir, entry)
-             if os.path.isdir(filesdir):
-@@ -2333,8 +2338,15 @@ class DevtoolUpgradeTests(DevtoolBase):
-         self.assertNotIn(recipe, result.output, 'Recipe should have been r=
-eset by finish but wasn\'t')
-         self.assertNotExists(os.path.join(self.workspacedir, 'recipes', re=
-cipe), 'Recipe directory should not exist after finish')
-         expected_status =3D [(' M', '.*/%s$' % os.path.basename(oldrecipef=
-ile)),
--                           ('??', '.*/.*-Add-a-comment-to-the-code.patch$'=
-)]
-+                           ('??', '.*/.*-Add-a-comment-to-the-code.patch$'=
-),
-+                           ('??', '.*/.*-Add-another-comment-to-the-code.p=
-atch$')]
-         self._check_repo_status(recipedir, expected_status)
-+        result =3D runCmd('git diff %s' % os.path.basename(oldrecipefile),=
- cwd=3Dos.path.dirname(oldrecipefile))
-+        # Check that the recipe got updated as expected
-+        # Can't use self._check_diff() as the order of the added files mat=
-ter.
-+        result =3D result.output.splitlines()
-+        self.assertEqual('+           file://0001-Add-a-comment-to-the-cod=
-e.patch \\', result[8])
-+        self.assertEqual('+           file://0002-Add-another-comment-to-t=
-he-code.patch \\', result[9])
-=20
-     def test_devtool_finish_modify_otherlayer(self):
-         recipe, oldrecipefile, recipedir, filesdir =3D self._setup_test_de=
-vtool_finish_modify()
-@@ -2343,7 +2355,7 @@ class DevtoolUpgradeTests(DevtoolBase):
-         relpth =3D os.path.relpath(recipedir, os.path.join(get_bb_var('COR=
-EBASE'), 'meta'))
-         appenddir =3D os.path.join(get_test_layer(), relpth)
-         self.track_for_cleanup(appenddir)
--        # Try finish to the original layer
-+        # Try finish to another layer than the original layer
-         self.add_command_to_tearDown('rm -rf %s ; cd %s ; git checkout %s'=
- % (recipedir, os.path.dirname(recipedir), recipedir))
-         result =3D runCmd('devtool finish %s meta-selftest' % recipe)
-         result =3D runCmd('devtool status')
-@@ -2356,15 +2368,19 @@ class DevtoolUpgradeTests(DevtoolBase):
-         recipefn =3D recipefn.split('_')[0] + '_%'
-         appendfile =3D os.path.join(appenddir, recipefn + '.bbappend')
-         self.assertExists(appendfile, 'bbappend %s should have been create=
-d but wasn\'t' % appendfile)
-+        # Check that the bbappend got created as expected
-+        with open(appendfile, 'r') as f:
-+            newlines =3D f.readlines()
-+        self.assertEqual('SRC_URI +=3D "file://0001-Add-a-comment-to-the-c=
-ode.patch file://0002-Add-another-comment-to-the-code.patch"\n', newlines[2=
-])
-         newdir =3D os.path.join(appenddir, recipe)
-         files =3D os.listdir(newdir)
--        foundpatch =3D None
--        for fn in files:
--            if fnmatch.fnmatch(fn, '*-Add-a-comment-to-the-code.patch'):
--                foundpatch =3D fn
-+        foundpatch =3D False
-+        for fn in files[:]:
-+            if fnmatch.fnmatch(fn, '*-Add-a*-comment-to-the-code.patch'):
-+                files.remove(fn)
-+                foundpatch =3D True
-         if not foundpatch:
-             self.fail('No patch file created next to bbappend')
--        files.remove(foundpatch)
-         if files:
-             self.fail('Unexpected file(s) copied next to bbappend: %s' % '=
-, '.join(files))
-=20
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard=
-.py
-index f4d5d7cd3f..b706d9c7a1 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1325,60 +1325,60 @@ def _export_patches(srctree, rd, start_revs, destdi=
-r, changed_revs=3DNone):
-=20
-     # Generate patches from Git, exclude local files directory
-     patch_pathspec =3D _git_exclude_path(srctree, 'oe-local-files')
--    GitApplyTree.extractPatches(srctree, start_revs, destdir, patch_pathsp=
-ec)
--    for dirpath, dirnames, filenames in os.walk(destdir):
--        new_patches =3D filenames
--        reldirpath =3D os.path.relpath(dirpath, destdir)
--        for new_patch in new_patches:
--            # Strip numbering from patch names. If it's a git sequence nam=
-ed patch,
--            # the numbers might not match up since we are starting from a =
-different
--            # revision This does assume that people are using unique short=
-log
--            # values, but they ought to be anyway...
--            new_basename =3D seqpatch_re.match(new_patch).group(2)
--            match_name =3D None
--            old_patch =3D None
--            for old_patch in existing_patches:
--                old_basename =3D seqpatch_re.match(old_patch).group(2)
--                old_basename_splitext =3D os.path.splitext(old_basename)
--                if old_basename.endswith(('.gz', '.bz2', '.Z')) and old_ba=
-sename_splitext[0] =3D=3D new_basename:
--                    old_patch_noext =3D os.path.splitext(old_patch)[0]
--                    match_name =3D old_patch_noext
--                    break
--                elif new_basename =3D=3D old_basename:
--                    match_name =3D old_patch
--                    break
--            if match_name:
--                # Rename patch files
--                if new_patch !=3D match_name:
--                    bb.utils.rename(os.path.join(destdir, new_patch),
--                              os.path.join(destdir, match_name))
--                # Need to pop it off the list now before checking changed_=
-revs
--                oldpath =3D existing_patches.pop(old_patch)
--                if changed_revs is not None and dirpath in changed_revs:
--                    # Avoid updating patches that have not actually change=
-d
--                    with open(os.path.join(dirpath, match_name), 'r') as f=
-:
--                        firstlineitems =3D f.readline().split()
--                        # Looking for "From <hash>" line
--                        if len(firstlineitems) > 1 and len(firstlineitems[=
-1]) =3D=3D 40:
--                            if not firstlineitems[1] in changed_revs[dirpa=
-th]:
--                                continue
--                # Recompress if necessary
--                if oldpath.endswith(('.gz', '.Z')):
--                    bb.process.run(['gzip', match_name], cwd=3Ddestdir)
--                    if oldpath.endswith('.gz'):
--                        match_name +=3D '.gz'
--                    else:
--                        match_name +=3D '.Z'
--                elif oldpath.endswith('.bz2'):
--                    bb.process.run(['bzip2', match_name], cwd=3Ddestdir)
--                    match_name +=3D '.bz2'
--                updated[match_name] =3D {'path' : oldpath}
--                if reldirpath !=3D ".":
--                    updated[match_name]['patchdir'] =3D reldirpath
--            else:
--                added[new_patch] =3D {}
--                if reldirpath !=3D ".":
--                    added[new_patch]['patchdir'] =3D reldirpath
-+    new_patches =3D GitApplyTree.extractPatches(srctree, start_revs, destd=
-ir, patch_pathspec)
-+    for patch_path in new_patches:
-+        new_patch =3D os.path.basename(patch_path)
-+        dirpath =3D os.path.dirname(patch_path)
-+        patchdir =3D os.path.basename(dirpath)
-+
-+        # Strip numbering from patch names. If it's a git sequence named p=
-atch,
-+        # the numbers might not match up since we are starting from a diff=
-erent
-+        # revision This does assume that people are using unique shortlog
-+        # values, but they ought to be anyway...
-+        new_basename =3D seqpatch_re.match(new_patch).group(2)
-+        match_name =3D None
-+        old_patch =3D None
-+        for old_patch in existing_patches:
-+            old_basename =3D seqpatch_re.match(old_patch).group(2)
-+            old_basename_splitext =3D os.path.splitext(old_basename)
-+            if old_basename.endswith(('.gz', '.bz2', '.Z')) and old_basena=
-me_splitext[0] =3D=3D new_basename:
-+                old_patch_noext =3D os.path.splitext(old_patch)[0]
-+                match_name =3D old_patch_noext
-+                break
-+            elif new_basename =3D=3D old_basename:
-+                match_name =3D old_patch
-+                break
-+        if match_name:
-+            # Rename patch files
-+            if new_patch !=3D match_name:
-+                bb.utils.rename(patch_path, os.path.join(dirpath, match_na=
-me))
-+            # Need to pop it off the list now before checking changed_revs
-+            oldpath =3D existing_patches.pop(old_patch)
-+            if changed_revs is not None and dirpath in changed_revs:
-+                # Avoid updating patches that have not actually changed
-+                with open(os.path.join(dirpath, match_name), 'r') as f:
-+                    firstlineitems =3D f.readline().split()
-+                    # Looking for "From <hash>" line
-+                    if len(firstlineitems) > 1 and len(firstlineitems[1]) =
-=3D=3D 40:
-+                        if not firstlineitems[1] in changed_revs[dirpath]:
-+                            continue
-+            # Recompress if necessary
-+            if oldpath.endswith(('.gz', '.Z')):
-+                bb.process.run(['gzip', match_name], cwd=3Ddestdir)
-+                if oldpath.endswith('.gz'):
-+                    match_name +=3D '.gz'
-+                else:
-+                    match_name +=3D '.Z'
-+            elif oldpath.endswith('.bz2'):
-+                bb.process.run(['bzip2', match_name], cwd=3Ddestdir)
-+                match_name +=3D '.bz2'
-+            updated[match_name] =3D {'path' : oldpath}
-+            if patchdir !=3D '.':
-+                updated[match_name]['patchdir'] =3D patchdir
-+        else:
-+            added[new_patch] =3D {}
-+            if patchdir !=3D '.':
-+                added[new_patch]['patchdir'] =3D patchdir
-=20
-     return (updated, added, existing_patches)
-=20
-@@ -1740,7 +1740,7 @@ def _update_recipe_patch(recipename, workspace, srctr=
-ee, rd, appendlayerdir, wil
-                         patchdir_param['patchdir'] =3D patchdir
-                 patchfn =3D os.path.join(patches_dir, patchdir, basepath)
-                 if os.path.dirname(path) + '/' =3D=3D dl_dir:
--                    # This is a a downloaded patch file - we now need to
-+                    # This is a downloaded patch file - we now need to
-                     # replace the entry in SRC_URI with our local version
-                     logger.info('Replacing remote patch %s with updated lo=
-cal version' % basepath)
-                     path =3D os.path.join(files_dir, basepath)
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDEyIGZlYnJ1YXJp
+IDIwMjYgMTY6MTYNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
+QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZGV2dG9vbDogc3RhbmRhcmQ6IEFkZCBuZXcg
+cGF0Y2hlcyBpbiBjb3JyZWN0IG9yZGVyIHdoZW4gZmluaXNoaW5nDQo+IA0KPiBIaSBQZXRlciwN
+Cj4gDQo+IE9uIEZyaSwgMjAyNi0wMi0wNiBhdCAwMjoxMyArMDEwMCwgUGV0ZXIgS2plbGxlcnN0
+ZWR0IHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPiA+IE1ha2Ugc3VyZSB0aGF0
+IG5ldyBwYXRjaGVzIHRoYXQgYXJlIGFkZGVkIGFzIGEgcmVzdWx0IG9mIHVzaW5nIGRldnRvb2wN
+Cj4gPiBmaW5pc2ggYXJlIGFkZGVkIHRvIHRoZSBTUkNfVVJJIGluIHRoZSBzYW1lIG9yZGVyIHRo
+ZXkgd2VyZSBjb21taXR0ZWQuDQo+ID4NCj4gPiBQcmV2aW91c2x5LCB0aGUgb3JkZXIgd2FzIGEg
+cmVzdWx0IG9mIHRoZSBhcmJpdHJhcnkgb3JkZXIgdGhlIHBhdGNoDQo+ID4gZmlsZXMgd2VyZSBy
+ZXR1cm5lZCBieSBvcy53YWxrKCksIHdoaWNoIHR5cGljYWxseSByZXN1bHRlZCBpbiB0aGVtIGJl
+aW5nDQo+ID4gYWRkZWQgdG8gdGhlIFNSQ19VUkkgaW4gdGhlIHJldmVyc2Ugb3JkZXIgdGhleSB3
+ZXJlIGNvbW1pdHRlZC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVk
+dCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+IMKgbWV0YS9saWIv
+b2VxYS9zZWxmdGVzdC9jYXNlcy9kZXZ0b29sLnB5IHwgMzAgKysrKysrKysrKysrKysrKysrKy0t
+LS0tLQ0KPiA+IMKgc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5wecKgwqDCoMKgwqDCoMKg
+wqAgfMKgIDYgKysrKy0NCj4gPiDCoDIgZmlsZXMgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKSwg
+OCBkZWxldGlvbnMoLSkNCj4gPg0KPiA+DQo+ID4NCj4gWy4uLi5dDQo+IA0KPiA+IGRpZmYgLS1n
+aXQgYS9zY3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5IGIvc2NyaXB0cy9saWIvZGV2dG9v
+bC9zdGFuZGFyZC5weQ0KPiA+IGluZGV4IDFmZDU5NDdjNDEuLjdhZmI0NjU0Y2MgMTAwNjQ0DQo+
+ID4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5weQ0KPiA+ICsrKyBiL3Njcmlw
+dHMvbGliL2RldnRvb2wvc3RhbmRhcmQucHkNCj4gPiBAQCAtMTMyMiw3ICsxMzIyLDExIEBAIGRl
+ZiBfZXhwb3J0X3BhdGNoZXMoc3JjdHJlZSwgcmQsIHN0YXJ0X3JldnMsIGRlc3RkaXIsIGNoYW5n
+ZWRfcmV2cz1Ob25lKToNCj4gPiDCoMKgwqDCoCBwYXRjaF9wYXRoc3BlYyA9IF9naXRfZXhjbHVk
+ZV9wYXRoKHNyY3RyZWUsICdvZS1sb2NhbC1maWxlcycpDQo+ID4gwqDCoMKgwqAgR2l0QXBwbHlU
+cmVlLmV4dHJhY3RQYXRjaGVzKHNyY3RyZWUsIHN0YXJ0X3JldnMsIGRlc3RkaXIsIHBhdGNoX3Bh
+dGhzcGVjKQ0KPiA+IMKgwqDCoMKgIGZvciBkaXJwYXRoLCBkaXJuYW1lcywgZmlsZW5hbWVzIGlu
+IG9zLndhbGsoZGVzdGRpcik6DQo+ID4gLcKgwqDCoMKgwqDCoMKgIG5ld19wYXRjaGVzID0gZmls
+ZW5hbWVzDQo+ID4gK8KgwqDCoMKgwqDCoMKgICMgU29ydCB0aGUgZmlsZW5hbWVzIHRvIGF2b2lk
+IHRoZSBhcmJpdHJhcnkgb3JkZXIgcmVzdWx0aW5nIGZyb20gdXNpbmcNCj4gPiArwqDCoMKgwqDC
+oMKgwqAgIyBvcy53YWxrKCkuIFRoaXMgbWF0dGVycyBmb3IgYWRkZWQgcGF0Y2hlcywgYW5kIHRo
+ZSBhc3N1bXB0aW9uIGlzIHRoYXQNCj4gPiArwqDCoMKgwqDCoMKgwqAgIyB0aGV5IGFyZSBwcmVm
+aXhlZCBieSBhIGZvdXIgZGlnaXQgbnVtYmVyIHJlc3VsdGluZyBmcm9tIHRoZSBvcmRlciBpbg0K
+PiA+ICvCoMKgwqDCoMKgwqDCoCAjIHdoaWNoIHRoZXkgd2VyZSBjb21taXR0ZWQuDQo+ID4gK8Kg
+wqDCoMKgwqDCoMKgIG5ld19wYXRjaGVzID0gc29ydGVkKGZpbGVuYW1lcykNCj4gPiDCoMKgwqDC
+oMKgwqDCoMKgIHJlbGRpcnBhdGggPSBvcy5wYXRoLnJlbHBhdGgoZGlycGF0aCwgZGVzdGRpcikN
+Cj4gPiDCoMKgwqDCoMKgwqDCoMKgIGZvciBuZXdfcGF0Y2ggaW4gbmV3X3BhdGNoZXM6DQo+ID4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgU3RyaXAgbnVtYmVyaW5nIGZyb20gcGF0Y2ggbmFt
+ZXMuIElmIGl0J3MgYSBnaXQgc2VxdWVuY2UgbmFtZWQgcGF0Y2gsDQo+IA0KPiBUaGlzIGxvb2tz
+IGxpa2UgYSBnb29kIGZpbmQgYW5kIHNvbWV0aGluZyB3ZSBzaG91bGQgZml4Lg0KPiANCj4gSSBk
+aWQgd29uZGVyIGlmIHdlIGFsd2F5cyBudW1iZXIgdGhlIHBhdGNoZXM/IEkgYXNrIGFzIHRoZSBj
+b2RlIGluDQo+IGV4dHJhY3RQYXRjaGVzKCkgY2FsbHM6DQo+IA0KPiAiZ2l0IiwgImZvcm1hdC1w
+YXRjaCIsICItLW5vLXNpZ25hdHVyZSIsICItLW5vLW51bWJlcmVkIg0KPiANCj4gd2hpY2ggaGlu
+dHMgdGhhdCBpdCBtaWdodCBub3Q/DQoNClRoZSAtLW5vLW51bWJlcmVkIG9wdGlvbiBvbmx5IGFm
+ZmVjdHMgdGhlIFN1YmplY3QgbGluZSBpbiB0aGUgZ2VuZXJhdGVkIA0KcGF0Y2hlcyBhbmQgY2hh
+bmdlcyBpdCBmcm9tICJbUEFUQ0ggeC8yXSAuLi4iIHRvICJbUEFUQ0hdIC4uLiIgd2hlbiANCm11
+bHRpcGxlIHBhdGNoZXMgYXJlIGNyZWF0ZWQuIFRoZSBmaWxlIG5hbWVzIGFyZSBhbHdheXMgcHJl
+Zml4ZWQgYnkgYSANCm51bWJlci4NCg0KPiANCj4gQ291bGQgd2UgcGFzcyB0aGUgcGF0Y2ggbGlz
+dCBmcm9tIHRoYXQgZnVuY3Rpb24gaW4gdGhlIGNvcnJlY3Qgb3JkZXINCj4gcmF0aGVyIHRoYW4g
+cmVseWluZyBvbiBhIGRpcmVjdG9yeSBsaXN0aW5nPw0KDQpZZXMsIHdlIGNhbi4gSSBoYXZlIHNl
+bnQgYW4gdXBkYXRlZCB2ZXJzaW9uIG9mIHRoZSBwYXRjaCB0aGF0IGRvZXMgdGhpcy4NCg0KPiAN
+Cj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQoNCg==
 
