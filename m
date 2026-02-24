@@ -1,161 +1,148 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9BEF3C9AD
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 16:00:54 +0000 (UTC)
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23569.1771948845911417337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 763E3F3C9B0
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 16:27:24 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24399.1771950441491616653
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 08:00:46 -0800
+ Tue, 24 Feb 2026 08:27:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=GATPck2a;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=SLQT85a5;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 21D97EC0620;
-	Tue, 24 Feb 2026 11:00:45 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Tue, 24 Feb 2026 11:00:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1771948845; x=1772035245; bh=6lID7qVjL2
-	dYlRB9Yem/z0jN85bo+KkTktd4rZOMngk=; b=GATPck2awfqlWX4rDhrignMaeN
-	01YNTr47+xximvVeC1bLCjWvFyoCMLPxzbzuleAv1sI7317rAoUMoEI+bbHribYT
-	pKUvvUcRKyksd+A90MW/DD/PvXBx+vAuISwp4pvhV6DAfXEPHxAcGlbVDQJMMB72
-	ZjuhRpMe/1hLSM2n4DNCHgy+tkDWllXGXxcpWg50i/u25+TgEekocbWkuEm4UZCA
-	abjOpv12AqR17JpwG4qdkDJ2P3yUM1od8E58oNuLTVjFi7zFusqO6bzb2vCXGaZt
-	WnkaoFaKwbq2cP54JvSXHF+Zadivs9aCQISkYi5ScVQ6AvN0uYG30tFGwQ/A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1771948845; x=1772035245; bh=6lID7qVjL2dYlRB9Yem/z0jN85bo+KkTktd
-	4rZOMngk=; b=SLQT85a5Hf1gzrUKhkLJbtyNe6+pUOBuAbbE4s4Jv5TkzI19xrt
-	VCpiIPK+8hsF17toBUJx7bzEtpaIbFbTCT4/o7NMeblIcdSzTYlfMJgd0GhFAx1N
-	fSmCR3x2OMU6VJoFBHcCP4XwY5arf5x6LYjua7Md1LY/6ae5irknjvDvvySGTRe3
-	f2fKYZzcaS+ooHI0tXCvY51j5XzFeHB7zx5s8nY5w8xDlINwHh+8+Jp3tr/Q1hKT
-	uUgCvHCH42PjpnmuYiq5jJ0eOFzrZU97WabQe2kH65rd6mEkMAmT7pDYmfN593YS
-	0sT9V12QPbigFijBrrbsEzQBTjjCkTCX4HQ==
-X-ME-Sender: <xms:LMudaSvdLEp-DR9xU3svgOsnZQ3LLNhkXHS_iJf4JpZ7vXD6mF9BdQ>
-    <xme:LMudaXlOBBwxdoHvAcqQ5YF55559ReNihz_dMJTOluR-9MGt7N_pNF1q5_2jtveCq
-    PGBIv2vosNtA4CxfyT5xCtBKUryAXYKLTIK0-rKcfy8_TDxu3R9ces>
-X-ME-Received: <xmr:LMudaVsptX_r-JgdDaWhCHtl4kG7XCKUTAVKaQAqnMgO0ww3H_gWHwLsXZ427CvBI25lnznQ2FmciICKC0q3iFrgQmm2KVOQivTYuB3g9qp9>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgedtheekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
-    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepfeeileehudffvdeljedvgfetieeugfetteekfe
-    dtgeeggfevtddutddvheegfeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtth
-    hopeefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeihohgtthhosehlihhsthhs
-    rdihohgtthhophhrohhjvggtthdrohhrghdprhgtphhtthhopehophgvnhgvmhgsvgguug
-    gvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphht
-    thhopeihohgtthhoqdhsthgrthhusheslhhishhtshdrhihotghtohhprhhojhgvtghtrd
-    horhhg
-X-ME-Proxy: <xmx:LMudaVceXZDN6804Pu3wBf0kIwtnuonLjWqY7BFxbDeiO5sHVGHxwA>
-    <xmx:LMudadwiBvnWNCt4_ugKxUa_3YXwGGuluyoT-vTdiNX3bZ_TgwrJZQ>
-    <xmx:LMudabGN3k5rveUElg6EXys9AZtZ_YxScFocsKhIXPjgji2efk0-7Q>
-    <xmx:LMudaRyQfFJ0TF5yEgpqZpNo94I0-d-v8hak4mrhyDqgIJ6hjDWgmw>
-    <xmx:LcudaYXv2m3Vo3rX6sQYaEgYz2IIhWNv-pWAYEqLSotgXJXaVwWzumsm>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Feb 2026 11:00:44 -0500 (EST)
-Message-ID: <fcf66960ba997a5d5b74ac627239402cb2c67743.camel@pbarker.dev>
-Subject: Re: Yocto Project Status 24 February 2026 (WW09)
-From: Paul Barker <paul@pbarker.dev>
-To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, 
-	yocto-status@lists.yoctoproject.org
-Date: Tue, 24 Feb 2026 16:00:40 +0000
-In-Reply-To: <c63eaa63b1ceb0f3a78148a6594152889ab9dabc.camel@pbarker.dev>
-References: <c63eaa63b1ceb0f3a78148a6594152889ab9dabc.camel@pbarker.dev>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-D0QhabFHsnYnvC4TYXNc"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=V9UzCoUD;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260224162718095eb4fc1400020702-s_okmx@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260224162718095eb4fc1400020702
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 24 Feb 2026 17:27:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=FaZHUJBvkEaJ7/6o7v+v6ytgTkUA9ZozyLr6UNneZ0U=;
+ b=V9UzCoUDtpyzfG4DGW3CHzC+cbIWBFnPeL1PvBu1+TslzMJh/RiRchCZY2Sjxpb2jm5BtZ
+ GJNzx0rGqL71e3MuxmSnfouUFYHoFSfGwE+nHOom18sR/fXQvY7xbLegAsvx1Cz0grpRKL4D
+ dwM4fJJKL12a+24zon3wY9D0FY3elo8ouiezphcXRxyrqdkVjF5b7pEwfUoZYzhg+CghJo23
+ tMn3PBcVyvAakpGDf4uXcGsNp7y2mgpOenINroX0IoiICz6CoNaEegGXynDbeLB9zu7hSw7W
+ 1ziMYEPuV7dIMO2f1yXaKBreSSr93NxYkxUqyHCTk+G+GGn70xIpuiGA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] vim: upgrade 9.1.2144 -> 9.2.0
+Date: Tue, 24 Feb 2026 17:27:15 +0100
+Message-Id: <20260224162715.63617-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 16:00:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231875
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 16:27:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231876
 
+From: Peter Marko <peter.marko@siemens.com>
 
---=-D0QhabFHsnYnvC4TYXNc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Solves 9.1.2148 (in 9.1.2148), see [1].
+Drop patch merged upstream.
 
-On Tue, 2026-02-24 at 15:28 +0000, Paul Barker wrote:
-> Key Status/Updates:
-> - YP 4.0.33 is due for release
-> - YP 5.0.16 is in QA
-> - YP 5.2.3 is queued for QA
+Release notes for 9.2, see [2].
+Note that almost all changes were already present in our 9.1 updates.
 
-5.3.2, not 5.2.3, obviously. Thanks Peter for catching this and letting
-me know!
+[1] https://github.com/vim/vim/security/advisories/GHSA-9w5c-hwr9-hc68
+[2] https://www.vim.org/vim-9.2-released.php
 
-Best regards,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...001-translation-sv-add-missing-mkdir.patch | 52 -------------------
+ .../vim/{vim-tiny_9.1.bb => vim-tiny_9.2.bb}  |  0
+ meta/recipes-support/vim/vim.inc              |  5 +-
+ .../vim/{vim_9.1.bb => vim_9.2.bb}            |  0
+ 4 files changed, 2 insertions(+), 55 deletions(-)
+ delete mode 100644 meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch
+ rename meta/recipes-support/vim/{vim-tiny_9.1.bb => vim-tiny_9.2.bb} (100%)
+ rename meta/recipes-support/vim/{vim_9.1.bb => vim_9.2.bb} (100%)
 
---=20
-Paul Barker
-
-
---=-D0QhabFHsnYnvC4TYXNc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZ3LKBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bp/BAQDND/8dVgcGBONR0Oj2Uoc8+Dv5X0dkx7Gf
-V7cPAg7R3gD+LfSMKcmLGI7KACYs/mKpM6S1efl9y86Fvvl6r0Y0qAY=
-=oDlU
------END PGP SIGNATURE-----
-
---=-D0QhabFHsnYnvC4TYXNc--
+diff --git a/meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch b/meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch
+deleted file mode 100644
+index 37337c3d9d..0000000000
+--- a/meta/recipes-support/vim/files/0001-translation-sv-add-missing-mkdir.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 2dd7e39942f4f7740c3a645148521d3b6b443c41 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Wed, 11 Feb 2026 14:39:06 +0000
+-Subject: [PATCH] translation(sv): add missing mkdir
+-
+-The installtutor target doesn't explicitly create the Swedish directory
+-that it is going to put files into:
+-
+-  make[1]: Entering directory 'vim-9.1.2128/src'
+-  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91
+-  chmod 755 DESTDIR/usr/share/vim/vim91
+-  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/en
+-  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/en
+-  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/sr
+-  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/sr
+-  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/it
+-  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/it
+-  /bin/sh install-sh -c -d DESTDIR/usr/share/vim/vim91/tutor/ru
+-  chmod 755 DESTDIR/usr/share/vim/vim91/tutor/ru
+-  cp ../runtime/tutor/README* ../runtime/tutor/tutor* DESTDIR/usr/share/vim/vim91/tutor
+-  cp ../runtime/tutor/en/* DESTDIR/usr/share/vim/vim91/tutor/en/
+-  cp ../runtime/tutor/it/* DESTDIR/usr/share/vim/vim91/tutor/it/
+-  cp ../runtime/tutor/ru/* DESTDIR/usr/share/vim/vim91/tutor/ru/
+-  cp ../runtime/tutor/sr/* DESTDIR/usr/share/vim/vim91/tutor/sr/
+-  cp ../runtime/tutor/sv/* DESTDIR/usr/share/vim/vim91/tutor/sv/
+-  cp: target 'DESTDIR/usr/share/vim/vim91/tutor/sv/': No such file or directory
+-
+-Add the missing dependency on $(DEST_TUTOR)/sv to ensure this directory
+-is created.
+-
+-Upstream-Status: Submitted [https://github.com/vim/vim/pull/19385]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- src/Makefile | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/Makefile b/src/Makefile
+-index 75d8ff6c1c..b4c31bed60 100644
+---- a/src/Makefile
+-+++ b/src/Makefile
+-@@ -2487,7 +2487,7 @@ installgtutorbin: $(DEST_BIN)
+- 	$(INSTALL_DATA) gvimtutor $(DEST_BIN)/$(GVIMNAME)tutor
+- 	chmod $(SCRIPTMOD) $(DEST_BIN)/$(GVIMNAME)tutor
+- 
+--installtutor: $(DEST_RT) $(DEST_TUTOR)/en $(DEST_TUTOR)/it $(DEST_TUTOR)/sr $(DEST_TUTOR)/ru
+-+installtutor: $(DEST_RT) $(DEST_TUTOR)/en $(DEST_TUTOR)/it $(DEST_TUTOR)/sr $(DEST_TUTOR)/sv $(DEST_TUTOR)/ru
+- 	-$(INSTALL_DATA) $(TUTORSOURCE)/README* $(TUTORSOURCE)/tutor* $(DEST_TUTOR)
+- 	-$(INSTALL_DATA) $(TUTORSOURCE)/en/* $(DEST_TUTOR)/en/
+- 	-$(INSTALL_DATA) $(TUTORSOURCE)/it/* $(DEST_TUTOR)/it/
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/vim/vim-tiny_9.1.bb b/meta/recipes-support/vim/vim-tiny_9.2.bb
+similarity index 100%
+rename from meta/recipes-support/vim/vim-tiny_9.1.bb
+rename to meta/recipes-support/vim/vim-tiny_9.2.bb
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 7cc122fe4a..73991ef2a8 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -16,11 +16,10 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://disable_acl_header_check.patch \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
+-           file://0001-translation-sv-add-missing-mkdir.patch \
+            "
+ 
+-PV .= ".2144"
+-SRCREV = "55c12373f073bacfc97d757e8f4da3daf472e4ac"
++PV .= ".0"
++SRCREV = "e7e21018fc0b60c153c8e668f696d95e574cc5a4"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.2.bb
+similarity index 100%
+rename from meta/recipes-support/vim/vim_9.1.bb
+rename to meta/recipes-support/vim/vim_9.2.bb
 
