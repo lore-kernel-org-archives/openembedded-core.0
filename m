@@ -2,110 +2,99 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF74F4BB62
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 17:18:55 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25723.1771953528634600270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A6FF4BB66
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 17:31:35 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25875.1771954292577276812
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 09:18:48 -0800
+ Tue, 24 Feb 2026 09:31:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hu1QZ1G2;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8cb5c9ba82bso925130685a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 09:18:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771953528; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Tw05rtIM;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-896f632d206so479376d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 09:31:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771954291; cv=none;
         d=google.com; s=arc-20240605;
-        b=X0vtYtjb4yPWXzndU2/U1IH2OnHPpxOxHbqXlcU6YlnDuOr1l2a2v79eewYK1RSfvW
-         d5p0/CGGlUsngp8EjzW/ubrghWbJnJr2lEw8DkvNZeEQ8ZtuU30tN8gQ2rVERtKbtOCV
-         yHkp537sRNkFfO3lLqCqpoZrdI/1Y/F/gj0BDdPtkY7DSLG9PBhL7LrCANYrX4Aa6KSf
-         b6x9M634DMSKugJoHm5vVIeYP38ZUJcnoNZ+uJwvNMOsUZqjHf7UtSobImF/oCxHVe8u
-         DIVSyXY+KC/o3sU7uMkv7Xwdlv3/c2vyY8USMa66/r8b8S1iL7CKNUgeyRepfNUoCBQ9
-         pEgA==
+        b=f8WcklyLHd8IOlZirAFXnvhgaGUDoYrvHXA0/ciKnOHfoLE5IRwl6Ps7Y9wXl+xGx2
+         1RR7Yd7cmS08nGoYH5WEEPD7D7op7YNDpDAE1dj7zK3lNN7HKFU/A8bEMMW3t9CjPh8L
+         /QXJPioZ8EMUF+aspUdmgsW7f1O5yHZ/xqQ85G8KXGziCt/Ts6tp0tITYB4H3UW2Kku0
+         ygZod8ovalnqNG/Ow0SR32SjbsORCWSwAakcmN5OMZd3lu9JWbPQkCRqGg1hII1RB7dG
+         UoVeXBoR7X6gTJgY0AsK88IRjn4JmQ6Jv6NAn2Yw+kfuU6efgXiXHqR5Nda8ZDVGKQTh
+         75GQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=LNjUreLsQgaCbX9421jHibslIfSwkvimaqcGwEBfDU0=;
-        fh=0tbHrJ1/SpbGOR8MmM0yCUWcFLMmsQ70EBst3fi7Lv0=;
-        b=jD57B5bGy1B0uOSwC8k1iJ0r708bwiYnzdsnNjs7JdD3PeGva4UziWeGRjoKXOCByn
-         ZU6DkkxixWznwYupYxBfQ8QMBrSEpDPZrQ20i0D3SS9PbRk3BH0dyPcbD4wks1d8DofU
-         PuzfSKjhNa+cUh1O2uxzmvXB8hvmroK4w6oqPjyMqO4eqcC0jOiFeduyxVSBcXnImEpa
-         f4VTB1X/hnHs0Bf8fD87l9Krdp6dlZ5a/FUr3pqFfDRn2jbVAzIKv1doavrCGd9MyusZ
-         P/ebt9AfsnU6PTlrt7e7ca+rhBd6SPQnyUi1Qpkl4AW0o1NNkDk+kzN9UZptrVBjwqV0
-         0NDg==;
+        bh=3oFOGbYEZZL4M+en2JYNxePpMhgWB40BiR97MJTU1Mg=;
+        fh=QG0/1kl/iNDCWfShgAIKRpbEE7JIBRGbrVXnRZODZk4=;
+        b=QIqC1FuU5m6qEB37hvpx1J6L7cnWFB4ritSlfK/3waW/pcxRvhd1h7EzOhBTVStqIb
+         unk4UfUq+GYRqFmvVKtGhbzYPDCc28bvaCpXQ84yjW6udhCd0YtAtAw1By9pT8Ojmsi4
+         e9qdozGkeFawzBfX1DSP4UVBDyvpmo5HigkfxVWTbtHarlzGc45HIdFtRD5aICon8b+4
+         Y7XvCigJ7+PQ/Mvd6G7qpj7ikVkxr4GRXMDt2DFtSHiMwTbfRDcs8MIGswII2QHxdmvO
+         moY2PKn0TAlM24cumn0VNG8uFYkOvK/FVxx3/A5gundg0S/PBTjpGskGjLBk6X0gINrB
+         WOYw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771953528; x=1772558328; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1771954291; x=1772559091; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LNjUreLsQgaCbX9421jHibslIfSwkvimaqcGwEBfDU0=;
-        b=hu1QZ1G2vWxG1zRwoNq36pi6X4FfwgFGUPLp0IvmUN9F03+v99oXpfqm49IxsHytPu
-         v1359r3g9ACTQ62ISeTJn4QxCVGIPV8pYIHxZqAfax3aSi1qCjTUYwzC1c4HBC1s03Pf
-         97mAEUT5I7JAj8nFJC36mjrJOg6TysBZ4eik7lZJOGsZLuRXvrFTUYkBWo8j4s/3UTHO
-         wrOqj8Pep7n4ESpB/JFnhwzmd3f+t6Hao44KGAuNSdQS9vPxt0Gf12aMG+TGNHuaOFLO
-         tuRVYRa/tiYbi5CRnEif98GVhLSdEH7vpQ3btVDM9hqNYts7+FNgLypGv7adMmY3+m+n
-         Rodw==
+        bh=3oFOGbYEZZL4M+en2JYNxePpMhgWB40BiR97MJTU1Mg=;
+        b=Tw05rtIMo8YBsxd1LT5J+yVhAhdGoNAOLod6+1AYJ5Hf5/Fs4KUACRmql7BsWG7gTe
+         rN+bolNik/lcHRFlckkNlAVNm5L4D8t18EsaQ0lMkM8ureKLKilfu9dQnk+O0Ymd91QC
+         L4oidSUWerD8V4QTQT519qMTz9jqAY2Do1fTIjqC2jPpSOw26dHcybwGGR3QuHvT8owS
+         7Gj+svntsKwomt/xq5R5ww90rOEazpx7Jd5HpzzpQ7expV4Ql1rBwoSvWuqlkLkKkKHk
+         pSoRIlcOEkYtkfTKmSx+7gXYc9E/uiAz9UoimX/LW1pHdPL8LyvQN8zt/rtAmQiR2pAD
+         2Rnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771953528; x=1772558328;
+        d=1e100.net; s=20230601; t=1771954291; x=1772559091;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LNjUreLsQgaCbX9421jHibslIfSwkvimaqcGwEBfDU0=;
-        b=gcwP4huq5uI6AIAkhRHk429+Gtrv4aw/z+JD4VfzhJrQSPfcYtXvpNnEm6mIOBfWfu
-         WAYM1Hn06J9EH6Prb3fpm6rtp15cTq2gIApSpLYEzzNlnVEqGqKkrQGTvXRlvPWuBC9L
-         sfhCCnvgTDb8nRYohlHC41EKomFUa0rRcDUjpFV9mYvf2X5GuxsglgmaYc1jCpkJfH8H
-         KnIOw7/gIem5P80Uw1Zq8vWk/Mj05mchrBDxeDfm79H5+vKNmNP9hyUWCyiRvVMDtnE8
-         gsO7qQ5huOXafeRFStEe3PNS1+9+QUzI/oWhETmRmrZWIk8vgmU9GN2jMhRUqafeaIz7
-         XiJg==
-X-Gm-Message-State: AOJu0Yw5vv76Fu6Cab+4z7hy+l64Q1WXVint6NjstZ8uc1ey7PI2oBVM
-	cuTxA6VoiYMKfiKLt9n+1+fKn4j2WGZyJOt1xQoyTBDbzWmANWlVMs2fqDkSKL4Tn/ousvnunTX
-	fCCdfrwrUIsKtHPjOchvxq6UjDVeiJBo=
-X-Gm-Gg: AZuq6aI0mPyHb+yI8PD59Jvdf0KMUDPDhbSdHvkUu2SHoels05L//2wCjqOCAF/s7et
-	pMDQXEFYvYSFf3+TlaENbZBkM3I6sgeziznqI5+0jri/ioY7rgvayIByPPyPvVk4do3sDrEo1cs
-	B1F3iNdxuIN3F1O4TZmdqab5KjmQqrcKiRueQprpG0nOqiKTPkQ7n6Q/dJ4hDgd37QphEeVyRwE
-	0wTCamcqlg+xidG9XVmpSq4uEIEPnISNtA5DLq7/VCW5TiDBW3+enSHfR5lxkLi+DOoGMF5HCsR
-	qRK87mleYLFxtaWENjMR1PlANv9MSr9XqpRrtErbAh8mtrkmaVaX
-X-Received: by 2002:a05:620a:1348:b0:8cb:4c67:349b with SMTP id
- af79cd13be357-8cb8ca0a68amr1272615385a.31.1771953527499; Tue, 24 Feb 2026
- 09:18:47 -0800 (PST)
+        bh=3oFOGbYEZZL4M+en2JYNxePpMhgWB40BiR97MJTU1Mg=;
+        b=CCl8kjHrMyvOqiyn4mik4iExpR8JEOb3MzI00kYkUkdyN6hsL3ovJboS4yggIBlUzN
+         LzwZNSOnpjul0W+8x1/ZuRrm6Pra6TBe91V9KMFWNMSwVjuVRI5ttgX6IzRxREgplUxJ
+         O30gyFTRvo4WcSutfBz5SUIxU7xXhU+THRo9QFR9hV2NoscQ1p/JIsrx2fFd+Qu4RHm4
+         Qe68KeCtjnq1ZSI3epjkZpf5/HC/NjRx2i3JJoYpyOiDbQALzQ/4Wb4/qvgRLtDv6rD7
+         5UifXVWZg/nGn3IOxD/KQmygMQPf2U6b7ikKrl/zojI36lAK1xI7wcGjSyYPxFeQiLMu
+         Cyxg==
+X-Gm-Message-State: AOJu0YxNbvIsXCwLhdmq2neNJynjVyFc0f477LtOiIDbFMj7LO4i0iPR
+	2nfb3DW3JgOVoPMY9xo8O3cNh7mWLo7PqtWlQMvwXJDI5dpRlNSjIseE3qeGYfEHHhlJM7Ccgo5
+	3XVbDU2eAyedHlVoc9SIHXC2ihPYa5Sc=
+X-Gm-Gg: ATEYQzwb9n4P5INfV4JOxbKDuofogRm7RhiDGFnJYFpeeioR/NcYqoDV461bzBOL3cz
+	tyBEqCfGVrs+pWQ//3UvnaH/Ou5STv1wM7l3Epx9oXldM6ZTy2h/NVpx52tMmPd5gpkZL0C29Mc
+	crxfUVs/jyEi24Fw7FtnWUkSk9dCCHkhFX3oOhsY3qhoaBU1k/2YUtUA/ZPVfba892+ti/QxPTv
+	qf3kK9oprSH7bA/EeLcPdeMKlKf4Dae2Z9zS2Z2HMaUvOAnfl5AgO1OnFYmNYkWB5DMG+Wdjw0O
+	FoLpQH4hxocs0BprSx0u3gXXV3JVb9E3P6ODoDZJKw==
+X-Received: by 2002:a05:6214:2261:b0:895:4c99:b1da with SMTP id
+ 6a1803df08f44-899b371f274mr11745736d6.24.1771954291343; Tue, 24 Feb 2026
+ 09:31:31 -0800 (PST)
 MIME-Version: 1.0
-References: <18973B8A1D1BE087.558139@lists.openembedded.org> <AS1PR10MB56978C6748852F61C4F7109BFD74A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB56978C6748852F61C4F7109BFD74A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260224035119.1597-1-liuyd.fnst@fujitsu.com>
+In-Reply-To: <20260224035119.1597-1-liuyd.fnst@fujitsu.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 24 Feb 2026 18:18:35 +0100
-X-Gm-Features: AaiRm501fI_k4-Zv9AvXP_-eiVXevw_eih0zLPtvlMkm6vBYnXY9qt1FEsY468U
-Message-ID: <CANNYZj_Wo8czbE191kMach590DA7pyhs=UDGq3aRW9zstbEXBA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] vim: upgrade 9.1.2144 -> 9.2.0
-To: peter.marko@siemens.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Yoann Congal <yoann.congal@smile.fr>
+Date: Tue, 24 Feb 2026 18:31:19 +0100
+X-Gm-Features: AaiRm50eW2vhDOYRuFhxVYc5Dv2dsFVOw8jIo5evJAb3zLvSgURcKedv3s5luMA
+Message-ID: <CANNYZj-+vYTQW9bmOTgdNmZVTxFFSSrqoh7GQJ7EpEy+WxiSrw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] orc: Enable hotdoc to produce doc
+To: liuyd.fnst@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 17:18:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231895
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 17:31:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231896
 
-On Tue, 24 Feb 2026 at 17:45, Peter Marko via lists.openembedded.org
-<peter.marko=siemens.com@lists.openembedded.org> wrote:
-> Alternatively, we could also continue updating vim in LTS like we did in the past.
-> For now, there are two active CVEs in LTS releases.
-> Please let me know if I need to backport patches now or if vim upgrade would be accepted.
->
-> Any thoughts from the maintainers?
+On Tue, 24 Feb 2026 at 04:51, Yiding Liu (Fujitsu) via
+lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
+wrote:
+> +DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'hotdoc-native', '', d)}"
 
-In the past we tried backporting CVE patches to vim for some time.
-Then it became clear that approach is unsustainable.
+Unfortunately this is not going to work. Yocto's autobuilder does run
+builds with api-documentation enabled, and they're expected to succeed
+without any additional layers.
 
-But I have a different thought. Let's drop vim from oe-core and
-replace it with nano :)
-
-Benefits:
-- sane version policy, not that many (probably none) CVEs
-- it's the only editor that doesn't annoy me :)
-
-Nano is already in meta-oe, if you support the idea, can you prepare
-the patches to move it here?
+The correct thing is to define a PACKAGECONFIG, and leave it disabled.
 
 Alex
 
