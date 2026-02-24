@@ -1,305 +1,201 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2C9F3C9A7
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 15:54:14 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23421.1771948446680866184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC21F3C9A6
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 15:56:14 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.18])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23599.1771948568720242592
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 07:54:07 -0800
+ Tue, 24 Feb 2026 07:56:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=iNH1VNhg;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 27DA84E4109C;
-	Tue, 24 Feb 2026 15:54:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F296C5FD9D;
-	Tue, 24 Feb 2026 15:54:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8CDD3103691CB;
-	Tue, 24 Feb 2026 16:54:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771948444; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=E4TIDxTF8IauJZiTMNW4O/dPoefhxFJ30eZDsQM79C4=;
-	b=iNH1VNhgjTzV5nCozNIGsDiwYgoEun3tzGwAyCGdGklvjKvWNglMG7RtFRaHTGnpHwTEkG
-	pHZXsrSf5zz8IBNjCXkKMRfKiw+dfBatlHMGHK/LV0kZwBttJ/g5zuGPa+VjAF1tDfhO4V
-	sRjacetM8OvhhUgB3OCVgiItcEFo+lAPnGLroYLVfLkIbuFM1a56nOd9oqL9NaQVxDIrxg
-	9pYhkvVFL/J20BJsJdaJQxkFJAJv7n8w3xvnt24Bkj8Nb5qYNuTD7qM8QmWd7jMcs0HQbK
-	8PFy7r6Je+0waaUCJLh53XcpvuM3deGaQ7kNlTvLWR7kgyOAYCh+KeVdWMeJJQ==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-Date: Tue, 24 Feb 2026 16:53:47 +0100
-Subject: [PATCH 5/5] sbom-cve-check.bbclass: Add class for post-build CVE
- analysis
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=D+yZ+x+8;
+ spf=pass (domain: cherry.de, ip: 52.101.72.18, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FoGDVs6sJvk3NW/UkpRrR7q9tzfHUuV6jFTc15ucqsjctAC08EITHee8k5FBhbg20pu7HUEZLVcHVSQpJ1Gqi+c7SZL5LoGqNyO0JhkTC4Jy0W25WyqgzaXh90JzpbIo+iYmbK8DhMtCUVSPZ7ToV7++kW6HugBnGjsDsrGju6JlkkIfpEN5FX5CDP+xKxbvYY1pwAa7Iq2E+/YHKyZ45puljNM1bhZ6ul+DbM9hqmI9odYuOWIh7gfJkcKtWzvElZNEms5ZldMitlled1nwv8cXDXrsK3vfk7DDJzUQ9uyReADaQFXOj46RxqvLeDOzDefA2NVpl9Gl2jDXOIf1kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iNFrGnSC+MUDEaDSlcQUk65IuUQKVzqERo0Qk01bf6w=;
+ b=aIfmuDSGCTONSMAYoVcTe3i2lu67z4fYcpdiqTx3e9BQJUi8pTYBFXHh5j9XQP+zpVPqAnYFVd2C/JnddzmWu6ptT5wP4Phy+6050pUs05ppGIGXF6CovNeFHQfr0ftmfSXZzr3GsJdIOyOY4SHt0hJv6/wApIgZc0NWCtBsndrSW8GJ7G9urIp1LbKuqgQG9DjM/HY4dpkncZF6V3JLiTwxrF57BFBkpvQqZrVBF0fezZhNouJR3EElwqZDAWCrdgQEF/Mxt40XYl4Dm8wMcNWmOnPOfDbXVRexAfARU5s5+tKMKycL3/TQk6rjP1nxpaRG/vCKI8uAj+RSptAlhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iNFrGnSC+MUDEaDSlcQUk65IuUQKVzqERo0Qk01bf6w=;
+ b=D+yZ+x+8fX1cT8/4PdwObvD3ux4YEsjBU7L0q3GBH3bfPQAA+Pj5n0nep5Rm26OYzJB1tx9l+mBGPul7Hr3k3cbXYyFyVFRZXvIN1wLIg1JfO96xhlGkLfF7cYb0OtBRKeMLm63afnnygfbAr4x8RrT6GIEsMZ5eu4jPHesK7vs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
+ by AS8PR04MB7591.eurprd04.prod.outlook.com (2603:10a6:20b:297::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 15:56:05 +0000
+Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
+ ([fe80::6c04:8947:f2f0:5e78]) by GVXPR04MB12038.eurprd04.prod.outlook.com
+ ([fe80::6c04:8947:f2f0:5e78%6]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
+ 15:56:05 +0000
+Message-ID: <63d2f849-77a5-41c4-bef3-dadc6b1dc946@cherry.de>
+Date: Tue, 24 Feb 2026 16:55:35 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] mesa: upgrade from 25.3.3 to 25.3.6
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+References: <20260224030657.123463-1-changqing.li@windriver.com>
+ <DGNB3UO240VX.2N0QPFPWP24JB@bootlin.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <DGNB3UO240VX.2N0QPFPWP24JB@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: FR0P281CA0240.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::15) To GVXPR04MB12038.eurprd04.prod.outlook.com
+ (2603:10a6:150:2be::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-add-sbom-cve-check-v1-5-1c76fbd7f01b@bootlin.com>
-References: <20260224-add-sbom-cve-check-v1-0-1c76fbd7f01b@bootlin.com>
-In-Reply-To: <20260224-add-sbom-cve-check-v1-0-1c76fbd7f01b@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com, 
- olivier.benjamin@bootlin.com, antonin.godard@bootlin.com, 
- mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com, 
- Benjamin Robin <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|AS8PR04MB7591:EE_
+X-MS-Office365-Filtering-Correlation-Id: d6aafa46-5ad8-4477-320b-08de73bd3772
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Z0VobWMxTnhFaGRhUjFyNElBZkF2OG5xUVBZRnNSQWJueDhoOGVkaTBOdzR1?=
+ =?utf-8?B?Sy9JS2JFaS9keFovZUU0ZkYrNksrQ0UzRVBHTVl5alRtTWVMZ3hvSnA4M2hH?=
+ =?utf-8?B?Q3dSdmtidnd5Wmc5UFBEWjkrZDBHak5EUng0SFFQenVCT1BreGhVY2M1c0pa?=
+ =?utf-8?B?SFEwY0EycHBkTWx4WHJNNFViUjd0SkF5NFBVeC9qK25PRE9hY05FUjNKMEYx?=
+ =?utf-8?B?a1JxMEV1c01TRVFNRm5rK2hMemRCNWt2d2JqMHJNS3F2SHh5OXV2WVh5Z0VW?=
+ =?utf-8?B?Qyt0djFtV2ZvNFN6QVJnRWgzUnV1Z0trOVd0NjFCbk1ESUwzQXBIckJ3TXIv?=
+ =?utf-8?B?ZTFiSnVRNjBsUnFjSlRKZ253K20yOWsybWp5WnVTdTFGcmlaMmE0YUxWcE1O?=
+ =?utf-8?B?ejhYcmpNbXY3ejY2Wm8wVzhlaUtNMXBLMVU4RGlkSGJ6Mm9PdVRLa1ZnV3dE?=
+ =?utf-8?B?S2x4RnNnN1l5Qm5qNSt2Z1pOby9QMkZOZWVSU21vdzJaaVAyNWpsamwxYlo5?=
+ =?utf-8?B?cXlxMFhselM5bWhqRzBQUW5ZTldnSHplcXRER3hTdVRvRmZrNTNXVm1mblRD?=
+ =?utf-8?B?NE9lNTlpTHU1d0tXM1BqeG9rYmcrcERoVTk0UkxscVlhWWtvbzRUUkpLeW5L?=
+ =?utf-8?B?OStneGhSbWdaN3J5cVN3MnZyTDlZOEo1dTlnQ3lNZE5JS3J6R1VGU0RLZmtV?=
+ =?utf-8?B?a3VlcHNJbjI0cjBEQVFNRjdEWmxuUVZaTHB3UzFFSDU2ZlltbEhnb0tCRTg5?=
+ =?utf-8?B?SmpBVndVeWlvYlVWL1lOcjhINmgrMXJyd3hUSG9sTU91b05ZdGE0blozVWdW?=
+ =?utf-8?B?Q0s2RTV2WHZrUFlBb1pWZVBSaGViOHBQWUNIeHUwR2ZvdHdJMVp1YzJaRit4?=
+ =?utf-8?B?dVZDaTg5ZTZheWI4Q044bjhWQkY4SU9JeFh0MHNRSEhxSEppSUVwVXZFR1dO?=
+ =?utf-8?B?YTZGUnRVczVqZ2QrRGlXUXBFZDRKTXNkOUhYdENGcmVGRUcvTDUrVUNlNmlK?=
+ =?utf-8?B?a3MxcUN2SGV3YkNVMVFCYlhSNDJKS2V1RlhPTDVVdC9NNDBpVkNqN3BWK011?=
+ =?utf-8?B?ekpJODI2M3d2TmM3bFVkY1RyVGd6RWR1bVZ2b3A5OE8vN1dWWnpOdjE4S3ZT?=
+ =?utf-8?B?S29hbk5yL0NwcXhkWCthVGpmODlDREFtaTVNN21RdmMraWtneS9qV2hpb2pZ?=
+ =?utf-8?B?a0U0NGdyWFJKSGtGUjdQdklrK3BIcWM2K09tazhsdHk2WXlROTJ2SjBTV3BL?=
+ =?utf-8?B?UGZJNVF4ZWgwWjZJQTg4SmhXNkkwL1YvTERNbXNVWndOVmpXYm9ONDdlUWpO?=
+ =?utf-8?B?alQ4YTJTNEF2TjNaN2VST0pMRHdYTm5nMWhPcFI5cmxzckpLMWIzOENhVVhO?=
+ =?utf-8?B?L1QxOWV3RmpLWTVFWjJ5c29oeUsySStLUE8yWi9ISk4ydENOSjMvWmF3ZkV3?=
+ =?utf-8?B?eXRHZ3ZyTi9HZkdRZGdQcnE3T3VEQ082SVlBMGs1cGp4aG9KTFhCVS83MCtY?=
+ =?utf-8?B?UFJIVjlENW9aazNyY1VXcUtXY20ySEY0Q3U0UWszM0RPWm5iUWVsTnZPdElz?=
+ =?utf-8?B?Q3NVd3A2ZWRzSWN2OFJSTGxxcWQvNHl5RlZLSXRvYm1uc0kycFRhSXYxaUtI?=
+ =?utf-8?B?TC9QMHh3UmY2ZzB0MHF1Q0Y0UG5ISHRrdDRjeGFCNC9IQVd3QWkzbXQzVmND?=
+ =?utf-8?B?cEFVOWJMWGkwK21yeDBDZjRCekRKVXlFYU5JTGJUSkUrUUhJMGlIRUQzMFcz?=
+ =?utf-8?B?eDVEUGJScDNjT0o3aGxEY3hoMVhpSmlPK3hwV1VGNUJsU3lTaTQrWkpWWlJi?=
+ =?utf-8?B?UzNMODAzQ2ZBNUxnbmkxaFc5TTZtTGJlRmozNDlsZ0kyaWdISW9CSGJYam5y?=
+ =?utf-8?B?eDRvK3JocFZEZXJ2Vjd5bHZYYVhTb1RnRVplaENJVm1zUlJ1eTJxNW5XcHJk?=
+ =?utf-8?B?eWlaNjNsdWdFYUU0Y1YvcTVJMDdKM0UwcHA3N0pjZHNCRVladlJKeGtGcnk3?=
+ =?utf-8?B?b2xWNkxtNmxGZVRHN3BBZ2FWTGNGdHozcXY0UGo3ajZtcUpJbnVvVHlVMEVE?=
+ =?utf-8?Q?cVFac4?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bG1yM3BaN3hpWDZaQzQxb1dPT1JFZUo2TUxhQVBmZ0QzZUJ3STRjNnVKOVh3?=
+ =?utf-8?B?eWlsRTN1Z2FTTC83eXd1VTNGdFFlZlB3bEFKc1dOaDlKYytycEFRZXVEUWRG?=
+ =?utf-8?B?TTNmSU0yWWh6aE1JRXExeTJYUFNIZjJlOWE1Y2lkS1M5OXVGZ1BwZzVPNTZC?=
+ =?utf-8?B?dVdkSU9kdG5hcVdFQXRibjY1K3R6RjkzOVRUeFRQMFBRNEE4Zk45U2tBazJ0?=
+ =?utf-8?B?WkFwR2FzTjE1RWNPWGs3RldBOUl0RmsvRXBTeTFXamd2WDYyNklmYkFmbElj?=
+ =?utf-8?B?VWtaV1BNTS9IMEQ2elI1K0ZQR3ZIQ3NhK0lXSUlRWnNPYzNYcG9FclVQNWlO?=
+ =?utf-8?B?QW5oSG55aXdwOXNPQ3FyaC8ydUNuOXE2VncxS0lUVlo3cW5HVVQxbmhoM1RK?=
+ =?utf-8?B?SVZVaWVlRWJISWZSR3FsQ0kvRWl4Rnk5OGFtL3VIcDZRV2szbit4K2RyLzJX?=
+ =?utf-8?B?Z0NnbFhYd0h6K2taMStZY0IyZnZlZDRrSkFFc1I4WGY4NVlpRTNNRVRoUEg0?=
+ =?utf-8?B?cDlXc3pmUk5ZNUhRbUEwU2JyM2xzQU1ZalA0QlNPcGlTRC8wZmNLVUFVTG16?=
+ =?utf-8?B?NWIvTXBTUW5LemVtREZpZUZhRmQxRmZ6Q2xGdEVrZlZuZTF0SUw0N1N2WVFR?=
+ =?utf-8?B?UzdmdXA3eENEc3pKdTNJVzZxZEN2QlJaeCtyMzNWZS9DaVQ5RE82NDROa28v?=
+ =?utf-8?B?MEgwZTg2OThiSERmQXNLTFJyZjcwdGFZVWFBWDBZRFhEMWVZRUhIWEQrQTJZ?=
+ =?utf-8?B?L2hiZVJGa2xUSWs3TkxpaHVvSDhnUnNjcGIrSjF0blpBaUhnNldhcEJZZlJH?=
+ =?utf-8?B?Sm5NTGJDcE5nU2hFSXNOcTdzRkVuV09oLzJINTU4eldMalFjSURRdmxSSWxp?=
+ =?utf-8?B?d0cvN0hYWUlpRmpDbFI5T1hnYVFiU2pDL0kyY2ZLM3hNN2lsTENibzRwMDhP?=
+ =?utf-8?B?c3hqcWd4aXMzK2gxM1p5UXlSOGl6aXhNWFZDQ1BrUXQvSGZmNVp3dUNxSW5C?=
+ =?utf-8?B?Qko3NVpTS2dpQk9FWE8xTE1KeERDZCtxOEo3eUxZWEZ2WTNTczExbUtuUTJX?=
+ =?utf-8?B?STA5MERIZzlFbVRWOWs3K0U0T1FoZGRyZFdMTlcvUDQ1YnR0ZnY2UWlOOWZM?=
+ =?utf-8?B?T2RZYVcxRGpvd1k5SnZDME02U092bld1aFMwaCtkTUxlTzlnRWoxeGNYdnQv?=
+ =?utf-8?B?dFl5MmlNMWErNzcrUGMrMllXZi9BNjQ1bmo4dHBvZ1Ruc3dkOGxMV2IrbDh2?=
+ =?utf-8?B?THlpSmJ2QjBINFFoaUVWaUhsYnBGMjBGMGxTRUZTa3NEUFhWRWx1cE1FTUpr?=
+ =?utf-8?B?V2JrTUlDZ1RwSGUydDdDek5nMDAzNUxML2xwMG02TnQ1TVBSQ1o3S2svUXBG?=
+ =?utf-8?B?V3NZNG5SMmg4TGtxSGpWNm9FcDFadU5lRXZDY1c0T000eWpYZDV5RUlza3lZ?=
+ =?utf-8?B?YlllZk1jTlRmZXREcmcveVdNbUFKNHNKeFZKaVZlMTY4VmVYU0xJdFl6NkN6?=
+ =?utf-8?B?LythYzdOd0ZDVVg0LzBZUGhJbVNLM1IvQzBxc01VOEFYcXFzeE5tY1JJUWF0?=
+ =?utf-8?B?aGp0T082Y3RRcUZnajlvdEhKcEtnZ1B5MFE3Zkloc3VGQm4vYU5GRUd1ODRS?=
+ =?utf-8?B?VFJlL1QvL1cyQVBIdFN5a2UrMGxXUG9nTUw1Qm4yMURweTlMN2Y0RGcyQzFv?=
+ =?utf-8?B?T2R2ZHdHWHVxVWNabVJYR1dkd3pqUWRqWWJNVFRKaDVvZnFvTjV3NlltMGNu?=
+ =?utf-8?B?WGtDNmJIOURxNjlZS1FHOTZ6dDgwaTVtaksvRFUxUnNmSUtEMFM5YmtQSCt6?=
+ =?utf-8?B?UEwzOE9wclovNWNtbitmdmJuN0JXN201dGVwVW50TG5xd1h3Z2lJMWlLblBw?=
+ =?utf-8?B?WWQrSFZ3Z3Q4Y1lFRHVwNmN5cWFyMjl3bnhtdWJVY3VHMmFLYWJ2akU4cjJN?=
+ =?utf-8?B?NHUycDUxaDA0M1Z4MjZBMFdzVnhrcVBQcnVSTjByZFA5bTRyTFE4cTdSdEQ2?=
+ =?utf-8?B?K29tV2NzRUdCSG5HdWlPdnNPc3IzN1oxTXRwaEl4bUUzS0FFMzVVWFdtKzFw?=
+ =?utf-8?B?bytUV01odTlCSzBvOWRFQVBQQlhBMlJtUGs4a1IrVlRJQ1hVMzFvVHU5blU2?=
+ =?utf-8?B?aTlFaVRybFFBU0FRSC9oSWZ3ejRsZmY4anlwaVJBN2xjZ3Z6SlJaeHRyS3li?=
+ =?utf-8?B?MThXdnl6TCsyRVlqbGgvbWYvOGJXODJBalNVWjVqSEJ3elExU3ptemFKMVV6?=
+ =?utf-8?B?RmUzZmJoSTRxb2FwM0l0YS91N3NvQllSbU1yMnB0dzladElqbjdLRjNrZVIr?=
+ =?utf-8?B?UWJqSE5VVTl3Sll3WUx1NXVOdkhyOURkMm40a0IzY2FUL2sxa0QycjlveElp?=
+ =?utf-8?Q?xGPoDz5GmCV7LoZIR5adFz/aV9fKzPxa4Ch3Z?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6aafa46-5ad8-4477-320b-08de73bd3772
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 15:56:05.0163
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UPX3BnAS3H6eWcoWvZvLLZ8WSq0NeTp9fpYwaae9yOmEX5XUl4QRNtD5waS6PsXOfZoN3PHpVOotjK0h4LUNQVGmdGYg1d80ofLXkRzNxk0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7591
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 15:54:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231873
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 15:56:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231874
 
-By default, the CVE databases are downloaded using the following
-recipes:
- - sbom-cve-check-update-cvelist-native.bb
- - sbom-cve-check-update-nvd-native.bb
+Hi Mathieu,
 
-The database download logic is implemented in
-sbom-cve-check-update-db.bbclass. The CVE databases are stored in the
-download directory (`DL_DIR`). Access to the database is managed using
-an exclusive file lock (`flock`) on the directory. During CVE analysis,
-sbom-cve-check acquires a shared lock, allowing multiple analyses to
-run in parallel. However, if the database is being updated, any
-ongoing CVE analysis is temporarily paused.
+On 2/24/26 4:44 PM, Mathieu Dubois-Briand wrote:
+> On Tue Feb 24, 2026 at 4:06 AM CET, Changqing Li via lists.openembedded.org wrote:
+>> Release Note:
+>> https://docs.mesa3d.org/relnotes/25.3.6.html
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+>> index 1607fddd4b..dff1a66f7c 100644
+>> --- a/meta/recipes-graphics/mesa/mesa.inc
+>> +++ b/meta/recipes-graphics/mesa/mesa.inc
+>> @@ -22,8 +22,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+>>              file://0002-rocket-drop-file-names-from-the-generated-file.patch \
+>>   "
+>>   
+>> -SRC_URI[sha256sum] = "05328b3891c000e6a110a3e7321d8bfbb21631d132bf86bd3d4a8f45c535ef6b"
+>> -PV = "25.3.3"
+>> +SRC_URI[sha256sum] = "59217efeac3b64e7ced958324b9db7494f1e0741aeb22d780276514cc1b8f206"
+>> +PV = "25.3.6"
+>>   
+>>   UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>>   
+> 
+> Hi Changqing,
+> 
+> Thanks for your patch. I note there is already a message on the list
+> upgrading to 26.0.
+> 
 
-This design ensures that, under normal circumstances, sbom-cve-check
-can run without requiring network access. If a user needs network
-access during execution (e.g., to download annotation databases),
-they can set `SBOM_CVE_CHECK_ALLOW_NETWORK` to "1".
+Already merged in master, see 
+https://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/mesa?id=fff91e17742c2045468c504f892e82b3742f28bb
 
-Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
----
- .../sbom-cve-check-update-db.bbclass               | 87 ++++++++++++++++++++
- meta/classes-recipe/sbom-cve-check.bbclass         | 96 ++++++++++++++++++++++
- .../meta/sbom-cve-check-update-cvelist-native.bb   |  7 ++
- .../meta/sbom-cve-check-update-nvd-native.bb       |  7 ++
- 4 files changed, 197 insertions(+)
+Whinlatter is on 25.2.x so this isn't relevant for any stable release, I 
+believe we can simply drop this patch entirely.
 
-diff --git a/meta/classes-recipe/sbom-cve-check-update-db.bbclass b/meta/classes-recipe/sbom-cve-check-update-db.bbclass
-new file mode 100644
-index 000000000000..4f62c831eb72
---- /dev/null
-+++ b/meta/classes-recipe/sbom-cve-check-update-db.bbclass
-@@ -0,0 +1,87 @@
-+# SPDX-License-Identifier: MIT
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+EXCLUDE_FROM_WORLD = "1"
-+
-+inherit native
-+
-+deltask do_patch
-+deltask do_configure
-+deltask do_compile
-+deltask do_install
-+deltask do_populate_sysroot
-+
-+SBOM_CVE_CHECK_FETCH_PATH[doc] = "Path to the Git repository to be downloaded. \
-+    Should be prefixed by {DL_DIR}/sbom_cve_check/databases/"
-+
-+SBOM_CVE_CHECK_FETCH_URL[doc] = "Git clone URL of the CVE database"
-+
-+SBOM_CVE_CHECK_FETCH_INTERVAL ?= "57600"
-+SBOM_CVE_CHECK_FETCH_INTERVAL[doc] = "\
-+    CVE database update interval, in seconds. By default every 16 hours. \
-+    Use 0 to force the update. Use a negative value to skip the update. \
-+"
-+
-+python do_fetch() {
-+    from datetime import datetime, timezone, timedelta
-+    import fcntl
-+    import os
-+    import pathlib
-+    import subprocess
-+
-+    bb.utils.export_proxies(d)
-+
-+    fetch_interval = int(d.get("SBOM_CVE_CHECK_FETCH_INTERVAL"))
-+    git_url = d.getVar("SBOM_CVE_CHECK_FETCH_URL")
-+    git_dir = pathlib.Path(d.getVar("SBOM_CVE_CHECK_FETCH_PATH"))
-+    git_dir.mkdir(parents=True, exist_ok=True)
-+
-+    def _exec_git_cmd(args):
-+        cmd = ["git"]
-+        cmd.extend(args)
-+        return subprocess.run(
-+            cmd,
-+            input="",
-+            capture_output=True,
-+            check=True,
-+            cwd=git_dir,
-+            encoding="utf-8",
-+        )
-+
-+    # Lock the git directory: take an exclusive lock
-+    lock_fd = os.open(git_dir, os.O_RDONLY | os.O_NOCTTY)
-+    try:
-+        fcntl.flock(lock_fd, fcntl.LOCK_EX)
-+
-+        # Clone the git repository if it does not exist
-+        if not git_dir.joinpath(".git", "HEAD").is_file():
-+            _exec_git_cmd(["clone", "--depth", "1", "--single-branch", git_url, "."])
-+            return
-+
-+        # Check if an updated is necessary
-+        if fetch_interval < 0:
-+            return
-+
-+        if fetch_interval > 0:
-+            # Get date of last commit
-+            r = _exec_git_cmd(["show", "-s", "--format=%ct", "HEAD"])
-+            commit_date = datetime.fromtimestamp(int(r.stdout.strip()), tz=timezone.utc)
-+            delta_last_commit = datetime.now(timezone.utc) - commit_date
-+            if delta_last_commit < timedelta(seconds=fetch_interval):
-+                return
-+
-+        _exec_git_cmd(["pull"])
-+    except subprocess.SubprocessError as e:
-+        bb.error(f"{e.cmd} failed:\n{e.stdout}\n---\n{e.stderr}\n")
-+    finally:
-+        # Release the exclusive lock
-+        os.close(lock_fd)
-+}
-+
-+do_fetch[file-checksums] = ""
-+do_fetch[vardeps] = " \
-+    SBOM_CVE_CHECK_FETCH_PATH \
-+    SBOM_CVE_CHECK_FETCH_URL \
-+    SBOM_CVE_CHECK_FETCH_INTERVAL \
-+"
-+do_fetch[nostamp] = "1"
-diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-recipe/sbom-cve-check.bbclass
-new file mode 100644
-index 000000000000..86e06bdf7c23
---- /dev/null
-+++ b/meta/classes-recipe/sbom-cve-check.bbclass
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: MIT
-+
-+SBOM_CVE_CHECK_WORKDIR ??= "${WORKDIR}/sbom_cve_check"
-+SBOM_CVE_CHECK_DEPLOYDIR = "${SBOM_CVE_CHECK_WORKDIR}/image-deploy"
-+
-+SBOM_CVE_CHECK_EXTRA_ARGS[doc] = "Allow to specify extra arguments to sbom-cve-check. For example to add filtering"
-+SBOM_CVE_CHECK_EXTRA_ARGS ?= ""
-+
-+SBOM_CVE_CHECK_EXPORT_VARS[doc] = "List of variables that declare export files to generate. Each variable must have a 'type' and an 'ext' flag set"
-+SBOM_CVE_CHECK_EXPORT_VARS ?= "SBOM_CVE_CHECK_EXPORT_FILE"
-+
-+SBOM_CVE_CHECK_EXPORT_FILE[doc] = "Default configuration of generated export file"
-+SBOM_CVE_CHECK_EXPORT_FILE[type] ?= "spdx3"
-+SBOM_CVE_CHECK_EXPORT_FILE[ext] ?= ".cve-check.spdx.json"
-+
-+SBOM_CVE_CHECK_ALLOW_NETWORK[doc] = "Set to 1 to enable network usage."
-+SBOM_CVE_CHECK_ALLOW_NETWORK ?= "0"
-+
-+python do_sbom_cve_check() {
-+    """
-+    Task: Run sbom-cve-check analysis on SBOM.
-+    """
-+    import os
-+    import bb
-+    from oe.cve_check import update_symlinks
-+
-+    if not bb.data.inherits_class("vex", d):
-+        bb.fatal("Cannot execute sbom-cve-check missing vex inherit.")
-+    if not bb.data.inherits_class("create-spdx-3.0", d):
-+        bb.fatal("Cannot execute sbom-cve-check missing create-spdx-3.0 inherit.")
-+
-+    sbom_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.json")
-+    vex_manifest_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.json")
-+    dl_db_dir = d.expand("${DL_DIR}/sbom_cve_check/databases")
-+    deploy_dir = d.getVar("SBOM_CVE_CHECK_DEPLOYDIR")
-+    img_link_name = d.getVar("IMAGE_LINK_NAME")
-+    img_name = d.getVar("IMAGE_NAME")
-+
-+    export_files = []
-+    for export_var in d.getVar("SBOM_CVE_CHECK_EXPORT_VARS").split():
-+        export_ext = d.getVarFlag(export_var, "ext")
-+        export_path = f"{deploy_dir}/{img_name}{export_ext}"
-+        export_link = f"{deploy_dir}/{img_link_name}{export_ext}"
-+        export_type = d.getVarFlag(export_var, "type")
-+        export_files.append((export_type, export_path, export_link))
-+
-+    cmd_env = os.environ.copy()
-+    cmd_env["SBOM_CVE_CHECK_DATABASES_DIR"] = dl_db_dir
-+
-+    cmd_args = [
-+        d.expand("${STAGING_BINDIR_NATIVE}/sbom-cve-check"),
-+        "--sbom-path",
-+        sbom_path,
-+        "--yocto-vex-manifest",
-+        vex_manifest_path,
-+    ]
-+
-+    for export_file in export_files:
-+        cmd_args.extend(
-+            ["--export-type", export_file[0], "--export-path", export_file[1]]
-+        )
-+
-+    cmd_args.extend(d.getVar("SBOM_CVE_CHECK_EXTRA_ARGS").split())
-+
-+    try:
-+        bb.note("Running: {}".format(" ".join(cmd_args)))
-+        bb.process.run(cmd_args, env=cmd_env)
-+    except bb.process.ExecutionError as e:
-+        bb.fatal(
-+            f"sbom-cve-check failed with exit code {e.exitcode}\n{e.stdout}\n{e.stderr}"
-+        )
-+        return
-+
-+    for export_file in export_files:
-+        bb.note(f"sbom-cve-check exported: {export_file[1]}")
-+        update_symlinks(export_file[1], export_file[2])
-+}
-+
-+addtask do_sbom_cve_check after do_create_image_sbom_spdx before do_build
-+
-+SSTATETASKS += "do_sbom_cve_check"
-+SSTATE_SKIP_CREATION:task-sbom-cve-check = "1"
-+do_sbom_cve_check[cleandirs] = "${SBOM_CVE_CHECK_DEPLOYDIR}"
-+do_sbom_cve_check[sstate-inputdirs] = "${SBOM_CVE_CHECK_DEPLOYDIR}"
-+do_sbom_cve_check[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
-+do_sbom_cve_check[recrdeptask] += "do_create_image_sbom_spdx"
-+do_sbom_cve_check[depends] += " \
-+    python3-sbom-cve-check-native:do_populate_sysroot \
-+    ${@oe.utils.conditional('SBOM_CVE_CHECK_ALLOW_NETWORK','0',' \
-+        sbom-cve-check-update-cvelist-native:do_fetch \
-+        sbom-cve-check-update-nvd-native:do_fetch \
-+    ','',d)} \
-+"
-+
-+do_sbom_cve_check[network] = "${SBOM_CVE_CHECK_ALLOW_NETWORK}"
-+do_sbom_cve_check[nostamp] = "1"
-diff --git a/meta/recipes-core/meta/sbom-cve-check-update-cvelist-native.bb b/meta/recipes-core/meta/sbom-cve-check-update-cvelist-native.bb
-new file mode 100644
-index 000000000000..cd5ed680b4dd
---- /dev/null
-+++ b/meta/recipes-core/meta/sbom-cve-check-update-cvelist-native.bb
-@@ -0,0 +1,7 @@
-+SUMMARY = "Updates the CVE List database"
-+LICENSE = "MIT"
-+
-+SBOM_CVE_CHECK_FETCH_PATH = "${DL_DIR}/sbom_cve_check/databases/cvelist"
-+SBOM_CVE_CHECK_FETCH_URL = "https://github.com/CVEProject/cvelistV5.git"
-+
-+inherit sbom-cve-check-update-db
-diff --git a/meta/recipes-core/meta/sbom-cve-check-update-nvd-native.bb b/meta/recipes-core/meta/sbom-cve-check-update-nvd-native.bb
-new file mode 100644
-index 000000000000..7add8e6bfba5
---- /dev/null
-+++ b/meta/recipes-core/meta/sbom-cve-check-update-nvd-native.bb
-@@ -0,0 +1,7 @@
-+SUMMARY = "Updates the NVD CVE database"
-+LICENSE = "MIT"
-+
-+SBOM_CVE_CHECK_FETCH_PATH = "${DL_DIR}/sbom_cve_check/databases/nvd-fkie"
-+SBOM_CVE_CHECK_FETCH_URL = "https://github.com/fkie-cad/nvd-json-data-feeds.git"
-+
-+inherit sbom-cve-check-update-db
-
--- 
-2.53.0
-
+Cheers,
+Quentin
 
