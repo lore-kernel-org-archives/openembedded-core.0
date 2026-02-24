@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99355F357AC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99463F357AD
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:25:41 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21291.1771943140377080884
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21288.1771943132167020663
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:25:40 -0800
+ Tue, 24 Feb 2026 06:25:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=rF/SWwVH;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48373a4bca3so34027625e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:40 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dNIUDWw1;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48371bb515eso69457295e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:25:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943138; x=1772547938; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943130; x=1772547930; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8lkoJ1SXV6Z7/IMOb5m6l9Q0RbWcMvO40Yk710t7IkE=;
-        b=rF/SWwVHv4wi+XBz1SJfMGiU2X91g7Wt5PhVr5vuF6FeZLbb82BzS0s99Oxa7g4EHS
-         8I/cEOmNe9TS0D0ovGwvrKXOqGcP9ifpLGmk/HCTwgLYqL7T5VTKsxSPrvaLHsPa4Jjc
-         vJCWVPHMxg99Y4fqsF+XED/lf+Mo83Lsgs3uA=
+        bh=XoMoFuCSp60tLjWqM4zcfgX+UJI9l5EwCkIxr9IJvSE=;
+        b=dNIUDWw1VAI3PER0KwS0FUc3HjmSnP5u+YNxt1KVEJekWSnsgoHWbwltGcTvWAGA5P
+         rfhX6X2rivCSmZkQx5QVUGDY8o+g9qwsoxoi7fesDpd6DXk8AKeMK97Zd405U5YV/yKy
+         mTVwZcPGbK4Hru9+pEvjkQhLHcDTt0VXGBcw4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943138; x=1772547938;
+        d=1e100.net; s=20230601; t=1771943130; x=1772547930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8lkoJ1SXV6Z7/IMOb5m6l9Q0RbWcMvO40Yk710t7IkE=;
-        b=aVyCs8IKuKmV+FWh69uMQiaMXP7gXWsY5zX+RhS7CY90MHC9TC6zoDPukh9LPiuT2R
-         6LqQmVP9Wua6ZP0m5kFB6jIyJTTkF+nXc2FTVhZhnuSLaEd6t4JPUXMZaZrtZPzXJ6Ne
-         iQomLJCaPcuFBqhqCiHfWk8da/NbyzRhoge7o27q25mGNr5BdV2fY+zgnbCC8wR1aYmk
-         m9apPULDWoUzmcKEBZeJkR9L2t9kCHCGShnxAL+Pih88OO/RYeIGlHjZxHYvmMEK5KRl
-         XsO/eHiWx9wl+/N80v8IkLA1fphpYuMLXoze0Z9Czx3PU4KwpSt2ZxwLuyT1+pJ5Oy3S
-         hc7Q==
-X-Gm-Message-State: AOJu0YyM0bi/EGOvDZdfNHYeRcd5sU5WMUCWJ4fBQvaF+zkXYmZpJlZ+
-	/O+BnAnUnkmPQhTjOhPW0BG/ogKRlCPtNnjjt85MKCSjiLxS2mH7HI65/4cylLxpO9LOisAVIgn
-	nlmBr
-X-Gm-Gg: AZuq6aJ0Nrcx1WsgAZfg9qr/rGetDMO6DcmfFq+EHBZZwMq6KpXz0ffT891mF7rgLqx
-	W9nssezFpIiNnTVhBfzJp9nlRvWSM1lLli4Q/h/mgHxjnKzkD6t/B6SSqzoIcWyNtP6x8rTz3TF
-	SJee7TJScEaSNQZt2+XVansyYpEXDxH78dw+CpiB3wKKwpLj+4fdXjfsT9tYPOwvphHK2FG8IDw
-	trIa+RaHw2e3Vg6IdypPpIVrhdRCg6Ldck16OsNs/W6oJlepMovfxdtgccj5Hq9JJQKWOJcYAcE
-	PH5+vYHQOqyK0kcAamk28R4V7p8xOFCNuXbIm4pMRQSnFY7WKRvPQoBITUnsDS8ZD2jdQOwkE6p
-	Rggbf7hdbkfQbCjKKGHlOedb3HWBXbeyiyO365ayJyyimXNi0VcdtJ/xdIduOdOiktF4A2jlbU1
-	c0KivOGGY7PLHEUIJeV9L9Ajf4MltBTWtiMYQVhmCUdOIOYncE6bjbyE8J/K8jMDrUFwH+9PQho
-	matDYL15AFbasAM4zuRadypyK31nT84Lw==
-X-Received: by 2002:a05:600c:1d1c:b0:45c:4470:271c with SMTP id 5b1f17b1804b1-483a95eb45emr223636955e9.18.1771943138333;
-        Tue, 24 Feb 2026 06:25:38 -0800 (PST)
+        bh=XoMoFuCSp60tLjWqM4zcfgX+UJI9l5EwCkIxr9IJvSE=;
+        b=eqiGaVUlu2gybJosOwI3WrcOsUxJx5GHSpj0aLrKBGO2Kakh6ujOdPyFtj/cRx8TXG
+         pY9dgIIZRdTrf91V9c+p7Bq9gUC75/aT7CtANxMv4HzBxICitSgwO2IOnr0nd+AB6bBB
+         BgU8fF4waq0Dlq29fOkbNdOebXgoC5fN5J8AVT7RR2lewtD4nors2RRw7QbqlXaM1uYC
+         0ktqNo4F7NScfeUj/OcP81NZFdXYPSUoeOw4eIqQ5AhCLtIVPpoM4XRShkfcUbg7h43C
+         XRPbM39gpGdmlb1hcXtgW+hyBlQVMnAVX/rzQAMr5zEDEmy2CSETz34qacNwNFLZ0EOB
+         zU8w==
+X-Gm-Message-State: AOJu0YzFvOTC6/JjX88iml0pjP/pIpc0kms9TpFCbZTekURjkdVsbnhq
+	R0VsTlBCPtRaO4hjcWyZ/k97PFxMIPNJNUlJtR/bk/Z9yvfQQZgfJ4eK0bCnaFZ/dRk82ejWbDz
+	R6LL9
+X-Gm-Gg: AZuq6aKizsi1+0p2adzJJyy32OrDZbhVdyClNWisBsKus0ak4I+fgr59orEPMj/1tts
+	zlOzG6ATLGg+ULyXSdu5MPFzU4P1jUTMhDvS+6aGVhsTwiKqaxEyRqe9dNAqZF2PqGcmtf1XKi9
+	tPbmXqjMii3L2rOuoZxz13SZxkAqPoO5ktLBulVjB5FqWktYkYet2P00/BuJ48vkL60yjRPzYuh
+	LE37xkgMIn1dVzrTlTuECVnSPXUz0W/f0oeugKuyjQpLmPlRX6cPTOdu1fdni4/wSFqx4JdUKJO
+	XI1j0EsN6tJddD2zXicdWKD8vIu/QcXjfMaSMjTXm2teeJYeQ2pIq5L6ITmEhrb5oNTXBvfxkzf
+	0LWlVpDt8Amv9yVf4H/+sBn4qQDBOoIc0zMG4WdUpU0f4RWezf/OrAAr3hI0kAg30Onxxb/ad98
+	t99nZBZKBIG/0eIK88sk6Xu9d6Qto5rAjdxdnOkHQSTRp0Z4yyFZB1wxt2Uin2SX//K/fhX+g7b
+	LO1Y1ml2De8uGhQeRQoxdv2wTBb3BKDahrZBjGFnBOq
+X-Received: by 2002:a05:600c:64ce:b0:483:498f:7953 with SMTP id 5b1f17b1804b1-483a9637a6cmr188467705e9.28.1771943130231;
+        Tue, 24 Feb 2026 06:25:30 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.25.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm2047455e9.9.2026.02.24.06.25.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:25:38 -0800 (PST)
+        Tue, 24 Feb 2026 06:25:29 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 38/38] u-boot: move CVE patch out of u-boot-common.inc
-Date: Tue, 24 Feb 2026 15:24:30 +0100
-Message-ID: <fd883ff6432946d23d923a9be1cd2cb1f001c732.1771942869.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 36/38] glibc: stable 2.35 branch updates
+Date: Tue, 24 Feb 2026 15:24:28 +0100
+Message-ID: <c51f4c6546cb61108d473ed9f206ff2ae159860a.1771942869.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771942869.git.yoann.congal@smile.fr>
 References: <cover.1771942869.git.yoann.congal@smile.fr>
@@ -66,49 +66,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:25:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231804
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231802
 
-From: Scott Murray <scott.murray@konsulko.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Commit f5b980ad added CVE-2024-42040.patch to the base U-Boot
-SRC_URI in u-boot-common.inc as opposed to adding it in the
-u-boot recipe where all the other patch additions are. This
-breaks at least one downstream BSP that reuses u-boot-common.inc
-(meta-sifive), so move that patch addition to the recipe file
-with all the others.
+git log --oneline 4e50046821f05ada5f14c76803845125ddb3ed7d..bb59339d02faebac534a87eea50c83c948f35b77
+bb59339d02 (HEAD -> release/2.35/master, origin/release/2.35/master) posix: Reset wordexp_t fields with WRDE_REUSE (CVE-2025-15281 / BZ 33814)
+66f0cb057c resolv: Fix NSS DNS backend for getnetbyaddr (CVE-2026-0915)
+499d1ccafc memalign: reinstate alignment overflow check (CVE-2026-0861)
+9e1a305028 nptl: Optimize trylock for high cache contention workloads (BZ #33704)
+a94467ce05 ppc64le: Power 10 rawmemchr clobbers v20 (bug #33091)
 
-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+Testing Results:
+             Before     After   Diff
+PASS         4774      4770     -4
+XPASS        6         6         0
+FAIL         149       154      +5
+XFAIL        16        16        0
+UNSUPPORTED  246       246       0
+
+Changes in failed testcases:
+
+testcase-name                                    before  after
+malloc/tst-malloc-fork-deadlock-malloc-hugetlb2  FAIL    PASS
+posix/tst-wait4                                  FAIL    PASS
+malloc/tst-malloc-too-large                      PASS    FAIL
+malloc/tst-malloc-too-large-malloc-check         PASS    FAIL
+malloc/tst-malloc-too-large-malloc-hugetlb1      PASS    FAIL
+malloc/tst-malloc-too-large-malloc-hugetlb2      PASS    FAIL
+malloc/tst-malloc-too-large-mcheck               PASS    FAIL
+malloc/tst-mallocfork2                           PASS    FAIL
+malloc/tst-mallocfork3                           PASS    FAIL
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-bsp/u-boot/u-boot-common.inc | 4 +---
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb | 1 +
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.35.bb     | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 7a634206426..d366f103982 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -14,9 +14,7 @@ PE = "1"
- # repo during parse
- SRCREV = "d637294e264adfeb29f390dfc393106fd4d41b17"
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index b9f5e8fb8fb..06edbeb47f8 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "4e50046821f05ada5f14c76803845125ddb3ed7d"
++SRCREV_glibc ?= "bb59339d02faebac534a87eea50c83c948f35b77"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
  
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
--           file://CVE-2024-42040.patch \
--"
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 1b5830699fd..97ba50bec4a 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -27,7 +27,8 @@ CVE_CHECK_IGNORE += "CVE-2023-4527"
+ CVE_CHECK_IGNORE += " \
+     CVE-2023-0687 CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156 \
+     CVE-2024-2961 CVE-2024-33599 CVE-2024-33600 CVE-2024-33601 CVE-2024-33602 \
+-    CVE-2025-0395 CVE-2025-4802 CVE-2025-8058 \
++    CVE-2025-0395 CVE-2025-4802 CVE-2025-8058 CVE-2025-15281 \
++    CVE-2026-0861 CVE-2026-0915 \
+ "
  
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-index 0ff2477c394..f0ea3ef9e07 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2022.01.bb
-@@ -11,6 +11,7 @@ SRC_URI +=       " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch \
-                    file://CVE-2022-30790.patch \
-                    file://CVE-2022-2347_1.patch \
-                    file://CVE-2022-2347_2.patch \
-+                   file://CVE-2024-42040.patch \
-                    file://CVE-2024-57254.patch \
-                    file://CVE-2024-57255.patch \
-                    file://CVE-2024-57256.patch \
+ DEPENDS += "gperf-native bison-native"
 
