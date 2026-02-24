@@ -2,48 +2,48 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 924F6F4BB8C
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 21:17:56 +0000 (UTC)
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31307.1771967872129141058
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BB0F4BB8E
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 21:35:36 +0000 (UTC)
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31639.1771968926457910033
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 13:17:52 -0800
+ Tue, 24 Feb 2026 13:35:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=NRjT6DtJ;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=OvZnorB0;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.147, mailfrom: paul@pbarker.dev)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=PPCXpjAW;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=D51fIq1r;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.155, mailfrom: paul@pbarker.dev)
 Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 36043EC04F1;
-	Tue, 24 Feb 2026 16:17:51 -0500 (EST)
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6EB35140019B;
+	Tue, 24 Feb 2026 16:35:25 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Tue, 24 Feb 2026 16:17:51 -0500
+  by phl-compute-02.internal (MEProxy); Tue, 24 Feb 2026 16:35:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1771967871; x=1772054271; bh=a1nNbijyZ+
-	cXXIA2priSC1M1KwCc3AsAw+n4/C2B47g=; b=NRjT6DtJkmsBaxb2sLUgGbyndt
-	sqHdUR8f2zFdRC5nyV9BhB8b+1Ir0CC4GBDRap7gcEJ+xdjv1bjoFlRChYFK8PCY
-	kWC5K80ln4xJOOa+Ug+cg3wsKHgWHBtvsxSZwR0Nq2dIoAvJHwbIowLAFCnB3XNI
-	+3TEfy30IEZ3h8wMVKgkbddKJzLPrXinKj5C1sujpFHy6eEQqmYOVlQpVRNIJX0F
-	LCRtj8MiVUYvTrI91zKFF1+tZwbQl28FWIdVziE/2t9XzK6Npr8z0BAW7w7GH9A0
-	AFQd76f+ALaPzjBiZOD5bcIBb7YsCE8WbHvtcJnRdY/WOpevyKVqsq/vDLtw==
+	:subject:to:to; s=fm2; t=1771968925; x=1772055325; bh=2V869QNLye
+	UI/ugDy0K+Hid5OjfXbO9G0ZW/6/ymFic=; b=PPCXpjAW8L3MYP95gY8q2nUenN
+	YTlbSLzMJazVJxdlN3J+5IyW/p4KU9zICXczt2V2WNJYg3PKEwAMIl91x1sjqp1s
+	eLXQ//rzEn5BYqqRF4w07cVmu0uXc4KwP41RY2AQPOouNS9eYRtdej60lK64YaHg
+	V95aRVO9I5f2IQ7OhCj8jgXHyX2TTOf64PRkZGRf2b1eqURcx3hjsOKioXgAyUTq
+	CZ2xDUm1frX3prbZCYoAI+aQGnOzEbU3p0V9oqKBIO595dGysPtprfy+LNbf1Hjg
+	KOOIp2ONUZIII1p3zMXmaOQ90W3R62NjUVYkqFzF0gX/HMnkZKrFmM7K2rvw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1771967871; x=1772054271; bh=a1nNbijyZ+cXXIA2priSC1M1KwCc3AsAw+n
-	4/C2B47g=; b=OvZnorB0jtiwej/cVKjmkuIrSYKuddTH3Fb/CAoihTZZQC5gyIW
-	iQuB9SAwGOHds7FljG8T60XZvrQNLan0eFf1EVKHEZkFvYAUfsNTEROyXZSbd8GR
-	exaFm1ObGgoh0ct4aitj4+s913Kj1GJLHbWYyaqDpw45UZjgL1q8sUxj17/mBLe2
-	7E4L/clrYPRw6utsRme9B+DuGnoHwHu4Z7WjyBoa93CGE2sZ4vY5IBIjYNTI5/bS
-	nrF7FjZ6CGv00fSnuO5PORuaBV8GpNtHqjRIA+Bz74Lu6+hNTba7SNZ2wm2cfnxL
-	XTJ8+ibQ87PecRMvvrWHtzI/xmtBdf5ipuw==
-X-ME-Sender: <xms:fhWeaX39QGXgGGn8Kq_Xq1r9o_B2TLew_fhEtbS2ybj90Se5pWZUng>
-    <xme:fhWead2_cH4wLRKH5SEHS9aZioKGxOVtde7rAM7gTeh9Gz7u6b4WE4lEdHyqkuQ3j
-    OPtLb1G2CyhKHWDQD45hQE_xew7_N185GDbGchxPdc-0nQgU_u9Yhg>
-X-ME-Received: <xmr:fhWeaa-6fxJGdv_RLUugWMG-bURUcAxv7oF7BMUMwQKe83-SGsRgggB2usjNdvQRpx4fvMwFfSdWGBrBq0yB9HjukN8kyZnblwB9S00J-H1Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeduvdegucetufdoteggodetrf
+	1771968925; x=1772055325; bh=2V869QNLyeUI/ugDy0K+Hid5OjfXbO9G0ZW
+	/6/ymFic=; b=D51fIq1rQhghAq67e+c9TDSUJV3G7hY1DEajhXfsd8kk9J+nFGI
+	/0PY0oSVgt2+rAILiP4GVcHsQ8i/7QWHjm3m/NMMymuNEMljGMGHAnSAmmbqttwW
+	wWwZ26N4jmlNXYl94Q17YUCyK/EWxs2rJ9/ra8mfOr7C+6HSPC6vlEfIV5MksjNo
+	f9e63sDQqCg/VfJNbSEX5FAgASu+2MULpJNCKIN0L7sRKhz4sNfOjH2vEm6uOKdK
+	36HsQyw/5g4TTFmEJAep2BCQhEaeO8vWSWkVtn+48OMr2FH0UoHlmMma1Z8oOS5l
+	JvQoD77TVAqNetF1E0QWlcjyftCBh1oA+vg==
+X-ME-Sender: <xms:nRmeaQybLrfu0VyTQC_yq2RL_kEDHJvCnwb9C8F6auDDehsjS9wKTA>
+    <xme:nRmeaaRryA0WCPxUMKvB63Tp3QTVSYq7zL8jtYekksSfPvghnyxGD1cJJx-_8EmBM
+    JXlnpd-BJW0gc6oUsWIp1SgxdbRDo9VW7OS5qX9IvPONfCrTZ_lz_Y>
+X-ME-Received: <xmr:nRmeaf8ihJZCHB56M5T4yfTSYjOv6YnNV6maKccjU7r_grnSt8O0-AOIbBzCoa0zPwm_oI_WBy5-hVILCrM0ZCsGScWrDnLXyUn8FyE_-1ZM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeduvdejucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
@@ -51,30 +51,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeduvdegucetufdote
     ephfekhfeugfelfeeludellefhkeetvdffiedttdeuueekhfeiudeivdefueehuddtnecu
     ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghenucevlhhushhtvghrufhiii
     gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggv
-    vhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepth
+    vhdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepth
     ifohgvrhhnvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvuggu
-    vgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpth
-    htohepmhgrrhhkrdhhrghtlhgvsehkvghrnhgvlhdrtghrrghshhhinhhgrdhorhhg
-X-ME-Proxy: <xmx:fhWeaa03AYhAQMJGD3bi0VQwxV38MCcI6QiWn-eVgBBtxPqffID8mQ>
-    <xmx:fhWeaX8s2ce2qUEwLaZqiHh9hhPXCOI6qfxBYNpDnDmF8SyqPpmdlQ>
-    <xmx:fhWeaavMtL-mdm-7tvEQv2Os8F61nmO1FQk8I38k9ubtyFyDKaox9Q>
-    <xmx:fhWeaaDUanXfAZZ55969jbp9i5yWBGoGLxjEM8b_E-N0gEAs7H2ikQ>
-    <xmx:fxWeaYxYraToAboa8nZI-GcL7BH8kB2L0PupzlxM-MKbMnWUyUkSvSl2>
+    vgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-ME-Proxy: <xmx:nRmeaZpJolrD7SM5XinUmVgQKe6aXbYJ8r1zYYtr2qXIBUvP_SRoaA>
+    <xmx:nRmeaUkw-LRu_8Xe-rZ_5ZEAuttwNH4Xy7aalK-S-4zFoGqDw2JyDg>
+    <xmx:nRmeaYIQ8nddi169RmMIHa7o6HEsyPA32tMx6fhDYB5AuhojakanKQ>
+    <xmx:nRmeaRyGUlxMAVKlVo86MQJMLwvZC5LzYP5pr0IIDDKty9mPrhWCzA>
+    <xmx:nRmeaQDu3KldSnqX_u3uNPCADK1YjWU94XKBpEe3R9sXTFvMGLxoICwt>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Feb 2026 16:17:49 -0500 (EST)
-Message-ID: <fe5424562d766e5e614eaa70df57dc3329104c69.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v5 02/10] ufs image class: add
+ 24 Feb 2026 16:35:24 -0500 (EST)
+Message-ID: <5b5a9978c1ff38196770632536028f3933521bf1.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 01/10] wic: re-implement sector-size support
 From: Paul Barker <paul@pbarker.dev>
 To: Trevor Woerner <twoerner@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Mark Hatle
-	 <mark.hatle@kernel.crashing.org>
-Date: Tue, 24 Feb 2026 21:17:41 +0000
-In-Reply-To: <aZ3mWszZ8qiQo9t-@localhost.localdomain>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Feb 2026 21:35:21 +0000
+In-Reply-To: <aZ3wlSWmvQaOrsU_@localhost.localdomain>
 References: <20260223215008.2062721-1-twoerner@gmail.com>
-	 <20260223215008.2062721-3-twoerner@gmail.com>
-	 <36490e83fdeceabcb275e5d38daccb2640eebe2e.camel@pbarker.dev>
-	 <aZ3mWszZ8qiQo9t-@localhost.localdomain>
+	 <20260223215008.2062721-2-twoerner@gmail.com>
+	 <5c5a5fe66c0eddc7a061047ee1c56af9141a1e3f.camel@pbarker.dev>
+	 <aZ3wlSWmvQaOrsU_@localhost.localdomain>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -120,372 +118,174 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-J7qFUgiHNM8VEi+EdwyB"
+	protocol="application/pgp-signature"; boundary="=-vdx0ibMqZpv5gcnTAwql"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 21:17:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231903
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 21:35:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231904
 
 
---=-J7qFUgiHNM8VEi+EdwyB
+--=-vdx0ibMqZpv5gcnTAwql
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-02-24 at 12:56 -0500, Trevor Woerner wrote:
-> On Tue 2026-02-24 @ 10:02:38 AM, Paul Barker wrote:
-> > On Mon, 2026-02-23 at 16:50 -0500, Trevor Woerner via
+On Tue, 2026-02-24 at 13:40 -0500, Trevor Woerner wrote:
+> On Tue 2026-02-24 @ 09:52:55 AM, Paul Barker wrote:
+> > On Mon, 2026-02-23 at 16:49 -0500, Trevor Woerner via
 > > lists.openembedded.org wrote:
-> > > Add an image class and wks file that demonstrates generating a wic im=
-age
-> > > with a 4096-byte sector size.
-> > >=20
-> > > Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-> > > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> > > ---
-> > > changes in v5:
-> > > - none
-> > >=20
-> > > changes in v4:
-> > > - update the partition table format from mbr (msdos) to gpt
-> > >=20
-> > > changes in v3:
-> > > - tested more scenarios and make sure to fix the warning from v1 in
-> > >   every case
-> > >=20
-> > > changes in v2:
-> > > - add Mark as a co-creator (sorry for missing this the first time!)
-> > > - provide a fix for the following warning:
-> > > 	WARNING: core-image-minimal-1.0-r0 do_image_wic_ufs: Function do_ima=
-ge_wic_ufs doesn't exist
-> > > ---
-> > >  meta/classes-recipe/image.bbclass           |   2 +-
-> > >  meta/classes-recipe/image_types_ufs.bbclass | 221 ++++++++++++++++++=
-++
-> > >  scripts/lib/wic/canned-wks/mkdisk-ufs.wks   |   5 +
-> > >  3 files changed, 227 insertions(+), 1 deletion(-)
-> > >  create mode 100644 meta/classes-recipe/image_types_ufs.bbclass
-> > >  create mode 100644 scripts/lib/wic/canned-wks/mkdisk-ufs.wks
-> > >=20
-> > > diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/=
-image.bbclass
-> > > index 53f1a9dc45b0..97465836c14a 100644
-> > > --- a/meta/classes-recipe/image.bbclass
-> > > +++ b/meta/classes-recipe/image.bbclass
-> > > @@ -18,7 +18,7 @@ inherit populate_sdk_base
-> > >  IMGCLASSES +=3D "${@['', 'populate_sdk_ext']['linux' in d.getVar("SD=
-K_OS")]}"
-> > >  IMGCLASSES +=3D "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso=
- hddimg', 'image-live', '', d)}"
-> > >  IMGCLASSES +=3D "${@bb.utils.contains('IMAGE_FSTYPES', 'container', =
-'image-container', '', d)}"
-> > > -IMGCLASSES +=3D "image_types_wic"
-> > > +IMGCLASSES +=3D "image_types_wic image_types_ufs"
-> > >  IMGCLASSES +=3D "rootfs-postcommands"
-> > >  IMGCLASSES +=3D "image-postinst-intercepts"
-> > >  IMGCLASSES +=3D "overlayfs-etc"
-> > > diff --git a/meta/classes-recipe/image_types_ufs.bbclass b/meta/class=
-es-recipe/image_types_ufs.bbclass
-> > > new file mode 100644
-> > > index 000000000000..9a984f084289
-> > > --- /dev/null
-> > > +++ b/meta/classes-recipe/image_types_ufs.bbclass
-> > > @@ -0,0 +1,221 @@
-> > > +#
-> > > +# Copyright OpenEmbedded Contributors
-> > > +#
-> > > +# SPDX-License-Identifier: MIT
-> > > +#
-> > > +
-> > > +# The WICUFSVARS variable is used to define the base list of bitbake=
- variables used in wic code
-> > > +# variables from this list are written to <image>.env file
-> > > +WICUFSVARS ?=3D "\
-> > > +	APPEND \
-> > > +	ASSUME_PROVIDED \
-> > > +	BBLAYERS \
-> > > +	DEPLOY_DIR_IMAGE \
-> > > +	FAKEROOTCMD \
-> > > +	HOSTTOOLS_DIR \
-> > > +	IMAGE_BASENAME \
-> > > +	IMAGE_BOOT_FILES \
-> > > +	IMAGE_CLASSES \
-> > > +	IMAGE_EFI_BOOT_FILES \
-> > > +	IMAGE_EXTRA_PARTITION_FILES \
-> > > +	IMAGE_LINK_NAME \
-> > > +	IMAGE_ROOTFS \
-> > > +	IMGDEPLOYDIR \
-> > > +	INITRAMFS_FSTYPES \
-> > > +	INITRAMFS_IMAGE \
-> > > +	INITRAMFS_IMAGE_BUNDLE \
-> > > +	INITRAMFS_LINK_NAME \
-> > > +	INITRD \
-> > > +	INITRD_LIVE \
-> > > +	ISODIR \
-> > > +	KERNEL_CONSOLE \
-> > > +	KERNEL_IMAGETYPE \
-> > > +	MACHINE \
-> > > +	PSEUDO_INCLUDE_PATHS \
-> > > +	RECIPE_SYSROOT_NATIVE \
-> > > +	ROOTFS_SIZE \
-> > > +	STAGING_DATADIR \
-> > > +	STAGING_DIR \
-> > > +	STAGING_DIR_HOST \
-> > > +	STAGING_LIBDIR \
-> > > +	TARGET_SYS \
-> > > +"
-> > > +
-> > > +inherit_defer ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'k=
-ernel-artifact-names', '', d)}
-> > > +
-> > > +WKSUFS_FILE ??=3D "${WKS_FILE}"
-> > > +WKSUFS_FILES ?=3D "${WKSUFS_FILE} ${IMAGE_BASENAME}.wks"
-> > > +WKSUFS_SEARCH_PATH ?=3D "${THISDIR}:${@':'.join('%s/wic' % p for p i=
-n '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l =
-for l in '${BBPATH}:${COREBASE}'.split(':'))}"
-> > > +WKSUFS_FULL_PATH =3D "${@wks_search(d.getVar('WKSUFS_FILES').split()=
-, d.getVar('WKSUFS_SEARCH_PATH')) or ''}"
-> > > +
-> > > +def wks_search(files, search_path):
-> > > +    for f in files:
-> > > +        if os.path.isabs(f):
-> > > +            if os.path.exists(f):
-> > > +                return f
-> > > +        else:
-> > > +            searched =3D bb.utils.which(search_path, f)
-> > > +            if searched:
-> > > +                return searched
-> > > +
-> > > +def wks_checksums(files, search_path):
-> > > +    ret =3D ""
-> > > +    for f in files:
-> > > +        found, hist =3D bb.utils.which(search_path, f, history=3DTru=
-e)
-> > > +        ret =3D ret + " " + " ".join(h + ":False" for h in hist[:-1]=
+> > > @@ -340,11 +331,15 @@ class Disk:
+> > >              raise WicError("Partition %s is not in the image" % pnum=
 )
-> > > +        if found:
-> > > +            ret =3D ret + " " + found + ":True"
-> > > +    return ret
-> > > +
-> > > +
-> > > +WICUFS_CREATE_EXTRA_ARGS ?=3D "${WIC_CREATE_EXTRA_ARGS}"
-> > > +
-> > > +IMAGE_CMD:wic.ufs () {
-> > > +	out=3D"${IMGDEPLOYDIR}/${IMAGE_NAME}"
-> > > +	build_wic_ufs=3D"${WORKDIR}/build-wic-ufs"
-> > > +	tmp_wic_ufs=3D"${WORKDIR}/tmp-wic-ufs"
-> > > +	wks=3D"${WKSUFS_FULL_PATH}"
-> > > +	if [ -e "$tmp_wic_ufs" ]; then
-> > > +		# Ensure we don't have any junk leftover from a previously interru=
-pted
-> > > +		# do_image_wic_ufs execution
-> > > +		rm -rf "$tmp_wic_ufs"
-> > > +	fi
-> > > +	if [ -z "$wks" ]; then
-> > > +		bbfatal "No kickstart files from WKSUFS_FILES were found: ${WKSUFS=
-_FILES}. Please set WKSUFS_FILE or WKSUFS_FILES appropriately."
-> > > +	fi
-> > > +	BUILDDIR=3D"${TOPDIR}" PSEUDO_UNLOAD=3D1 wic create --debug "$wks" =
---sector-size 4096 --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_=
-BASENAME}-ufs" -o "$build_wic_ufs/" -w "$tmp_wic_ufs" ${WICUFS_CREATE_EXTRA=
-_ARGS}
-> > > +
-> > > +	# look to see if the user specifies a custom imager
-> > > +	IMAGER=3Ddirect
-> > > +	eval set -- "${WICUFS_CREATE_EXTRA_ARGS} --"
-> > > +	while [ 1 ]; do
-> > > +		case "$1" in
-> > > +			--imager|-i)
-> > > +				shift
-> > > +				IMAGER=3D$1
-> > > +				;;
-> > > +			--)
-> > > +				shift
-> > > +				break
-> > > +				;;
-> > > +		esac
-> > > +		shift
-> > > +	done
-> > > +	mv "$build_wic_ufs/$(basename "${wks%.wks}")"*.${IMAGER} "$out.wic.=
-ufs"
-> > > +}
-> > > +IMAGE_CMD:wic.ufs[vardepsexclude] =3D "WKSUFS_FULL_PATH WKSUFS_FILES=
- TOPDIR"
-> > > +SPDX_IMAGE_PURPOSE:wic.ufs =3D "diskImage"
-> > > +do_image_wic_ufs[cleandirs] =3D "${WORKDIR}/build-wic-ufs"
-> > > +
-> > > +# Rebuild when the wks file or vars in WICUFSVARS change
-> > > +USING_WIC_UFS =3D "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic.uf=
-s ' + ' '.join('wic.ufs.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1'=
-, '', d)}"
-> > > +WKSUFS_FILE_CHECKSUM =3D "${@wks_checksums(d.getVar('WKSUFS_FILES').=
-split(), d.getVar('WKSUFS_SEARCH_PATH')) if '${USING_WIC_UFS}' else ''}"
-> > > +do_image_wic_ufs[file-checksums] +=3D "${WKSUFS_FILE_CHECKSUM}"
-> > > +do_image_wic_ufs[depends] +=3D "${@' '.join('%s-native:do_populate_s=
-ysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
-> > > +
-> > > +# We ensure all artfacts are deployed (e.g virtual/bootloader)
-> > > +do_image_wic_ufs[recrdeptask] +=3D "do_deploy"
-> > > +do_image_wic_ufs[deptask] +=3D "do_image_complete"
-> > > +
-> > > +WKSUFS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_any("BUILD_ARC=
-H", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
-> > > +WKSUFS_FILE_DEPENDS_DEFAULT +=3D "bmaptool-native cdrtools-native bt=
-rfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
-> > > +# Unified kernel images need objcopy
-> > > +WKSUFS_FILE_DEPENDS_DEFAULT +=3D "virtual/cross-binutils"
-> > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS =3D ""
-> > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:aarch64 =3D "grub-efi systemd-boot"
-> > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:arm =3D "systemd-boot"
-> > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86 =3D "syslinux grub-efi systemd-b=
-oot"
-> > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86-64 =3D "syslinux grub-efi system=
-d-boot"
-> > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86-x32 =3D "syslinux grub-efi"
-> > > +
-> > > +WKSUFS_FILE_DEPENDS ??=3D "${WKSUFS_FILE_DEPENDS_DEFAULT} ${WKSUFS_F=
-ILE_DEPENDS_BOOTLOADERS}"
-> > > +
-> > > +DEPENDS +=3D "${@ '${WKSUFS_FILE_DEPENDS}' if d.getVar('USING_WIC_UF=
-S') else '' }"
-> > > +
-> > > +python do_write_wksufs_template () {
-> > > +    """Write out expanded template contents to WKSUFS_FULL_PATH."""
-> > > +    import re
-> > > +
-> > > +    template_body =3D d.getVar('_WKSUFS_TEMPLATE')
-> > > +
-> > > +    # Remove any remnant variable references left behind by the expa=
-nsion
-> > > +    # due to undefined variables
-> > > +    expand_var_regexp =3D re.compile(r"\${[^{}@\n\t :]+}")
-> > > +    while True:
-> > > +        new_body =3D re.sub(expand_var_regexp, '', template_body)
-> > > +        if new_body =3D=3D template_body:
-> > > +            break
-> > > +        else:
-> > > +            template_body =3D new_body
-> > > +
-> > > +    wks_file =3D d.getVar('WKSUFS_FULL_PATH')
-> > > +    with open(wks_file, 'w') as f:
-> > > +        f.write(template_body)
-> > > +    f.close()
-> > > +    # Copy the finalized wks file to the deploy directory for later =
-use
-> > > +    depdir =3D d.getVar('IMGDEPLOYDIR')
-> > > +    basename =3D d.getVar('IMAGE_BASENAME') + '-ufs'
-> > > +    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + =
-os.path.basename(wks_file)))
-> > > +}
-> > > +
-> > > +do_flush_pseudodb() {
-> > > +	${FAKEROOTENV} ${FAKEROOTCMD} -S
-> > > +}
-> > > +
-> > > +python () {
-> > > +    if d.getVar('USING_WIC_UFS'):
-> > > +        wksufs_file_u =3D d.getVar('WKSUFS_FULL_PATH', False)
-> > > +        wksufs_file =3D d.expand(wksufs_file_u)
-> > > +        base, ext =3D os.path.splitext(wksufs_file)
-> > > +        if ext =3D=3D '.in' and os.path.exists(wksufs_file):
-> > > +            wksufs_out_file =3D os.path.join(d.getVar('WORKDIR'), os=
-.path.basename(base))
-> > > +            d.setVar('WKSUFS_FULL_PATH', wksufs_out_file)
-> > > +            d.setVar('WKSUFS_TEMPLATE_PATH', wksufs_file_u)
-> > > +            d.setVar('WKSUFS_FILE_CHECKSUM', '${WKSUFS_TEMPLATE_PATH=
-}:True')
-> > > +
-> > > +            # We need to re-parse each time the file changes, and bi=
-tbake
-> > > +            # needs to be told about that explicitly.
-> > > +            bb.parse.mark_dependency(d, wksufs_file)
-> > > +
-> > > +            try:
-> > > +                with open(wksufs_file, 'r') as f:
-> > > +                    body =3D f.read()
-> > > +            except (IOError, OSError) as exc:
-> > > +                pass
-> > > +            else:
-> > > +                # Previously, I used expandWithRefs to get the depen=
-dency list
-> > > +                # and add it to WICUFSVARS, but there's no point re-=
-parsing the
-> > > +                # file in process_wks_template as well, so just put =
-it in
-> > > +                # a variable and let the metadata deal with the deps=
-.
-> > > +                d.setVar('_WKSUFS_TEMPLATE', body)
-> > > +                bb.build.addtask('do_write_wksufs_template', 'do_ima=
-ge_wic_ufs', 'do_image', d)
-> > > +        bb.build.addtask('do_image_wic_ufs', 'do_image_complete', 'd=
-o_image_wic', d)
-> > > +}
-> > > +
-> > > +#
-> > > +# Write environment variables used by wic
-> > > +# to tmp/sysroots/<machine>/imgdata/<image>-ufs.env
-> > > +#
-> > > +python do_rootfs_wicufsenv () {
-> > > +    wicufsvars =3D d.getVar('WICUFSVARS')
-> > > +    if not wicufsvars:
-> > > +        return
-> > > +
-> > > +    stdir =3D d.getVar('STAGING_DIR')
-> > > +    outdir =3D os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-> > > +    bb.utils.mkdirhier(outdir)
-> > > +    basename =3D d.getVar('IMAGE_BASENAME') + '-ufs'
-> > > +    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-> > > +        for var in wicufsvars.split():
-> > > +            value =3D d.getVar(var)
-> > > +            if value:
-> > > +                envf.write('%s=3D"%s"\n' % (var, value.strip()))
-> > > +    envf.close()
-> > > +    # Copy .env file to deploy directory for later use with stand al=
-one wic
-> > > +    depdir =3D d.getVar('IMGDEPLOYDIR')
-> > > +    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.pa=
-th.join(depdir, basename) + '.env')
-> > > +}
-> > > +addtask do_flush_pseudodb after do_rootfs before do_image do_image_q=
-a
-> > > +addtask do_rootfs_wicufsenv after do_image before do_image_wic_ufs
-> > > +do_rootfs_wicufsenv[vardeps] +=3D "${WICUFSVARS}"
-> > > +do_rootfs_wicufsenv[prefuncs] =3D 'set_image_size'
+> > >          part =3D self.partitions[pnum]
+> > >          # check if fstype is supported
+> > > +        # NOTE: parted is unable to identify dos-type partitions wit=
+h a 4k sector-size
+> > > +        #       if the type is empty and a non-default sector size i=
+s used, assume 'fat'
+> > > +        #       fdisk identifies them without issue
+> > > +        part_fstype =3D part.fstype if part.fstype or self.sector_si=
+ze =3D=3D 512 else 'fat'
 > >=20
-> > This is mostly duplication of code from image_types_wic.bbclass with
-> > different variable names, which makes it difficult to review the
-> > meaningful differences. Why do we need a separate class here? If we do
-> > need one, can we reduce duplication?
+> > This is difficult to parse. What's the result if part.fstype is None bu=
+t
+> > self.sector_size is 512?
 >=20
-> At work we create sector-size=3D512 and sector-size=3D4k images in the sa=
-me
-> build (the 4k images are for UFS-based flash devices). With a separate
-> class we can generate these images simultaneously rather than doing them
-> one after the other. But (I believe) the only way to generate them
-> simultaneously is to have separate classes with separate variable names,
-> otherwise they will clobber each other.
+> I had added 3 lines of comments before this line hoping it would help :-D
 >=20
-> As UFS-based flash becomes more popular, I'm guessing more users of The
-> Yocto Project will be interested in having support for it readily
-> available. Therefore I wanted to provide it in oe-core.
+> The crux of the problem is that wic uses parted to identify partition
+> types. I found a bug in parted whereby it can't identify dos-type
+> partitions when using sector-sizes that aren't 512.
 >=20
-> The most significant difference between these two classes is the
-> "--sector-size 4096" option to the wic command.
+> Note that it is entirely possible that the partition type is not known
+> or invalid; in which case parted will not be able to identify the
+> partition type and part.fstype will be None. If sector-size=3D512 and
+> parted does not know the type (None) then that is probably accurate.
+> However if sector-size!=3D512 and parted can not identify the partition
+> type then either the partition is truly invalid, or it might be type fat
+> (due to the bug in parted).
 >=20
-> Can we reduce duplication? Almost every line of both these classes has a
-> wic-related variable in it. If the variables need to be kept separate so
-> that parallel builds don't clobber each other, there aren't very many
-> lines in common!
+> I was able to use fdisk to confirm that fat-style partitions created by
+> wic that have sector-size!=3D512 are in fact valid partitions. So you
+> might wonder: why not switch wic from using parted to identify partition
+> types to using fdisk? That would be a larger project, and probably
+> something that wic will have to consider at some point. Or possibly try
+> to create a patch for parted to correctly identify dos-type partitions
+> when sector-size!=3D512. The problem is that the output from fdisk is not
+> easy to parse, and is known to change from time to time. parted offers
+> an -m option that will cause it to produce output that is very easy to
+> parse whereas fdisk offers no such option, making any code that tries to
+> read fdisk output more difficult to maintain.
 >=20
-> If I am correct that separate classes with separate variable names are
-> needed to be able to generate both images simultaneously, would this
-> patch be okay as-is in a v6 patchset?
+> So, for now hopefully, the above line will accept parted's assessment of
+> the partition type even if it is None when sector-size=3D512. If
+> sector-size!=3D512 then use parted's assessment unless it is None, in
+> which case assume fat.
+>=20
+> The above line performs this logic correctly (I'm fairly sure).
+>=20
+> Would you prefer to see an expanded comment? Or would you prefer to see
+> a ... more explicit way of writing that code?
 
-I would prefer to hold back on this and think a bit more on a general
-solution for building multiple different wic images with different
-parameters rather than making a special case just for UFS.
+Ok, this makes sense given parted limitations. Agreed that switching to
+using fdisk is a project for another day.
+
+I struggle to parse backwards if conditions (what Python calls
+"conditional expressions") with more than one thing going on, but it
+looks correct if I squint at it more so let's just go with it.
+
+> > > @@ -638,14 +634,19 @@ class Disk:
+> > > =20
+> > >  def wic_ls(args, native_sysroot):
+> > >      """List contents of partitioned image or vfat partition."""
+> > > -    disk =3D Disk(args.path.image, native_sysroot)
+> > > +    disk =3D Disk(args.path.image, native_sysroot, sector_size=3Darg=
+s.sector_size)
+> > >      if not args.path.part:
+> > >          if disk.partitions:
+> > >              print('Num     Start        End          Size      Fstyp=
+e')
+> > >              for part in disk.partitions.values():
+> > > +                # size values are in bytes from parted; convert to s=
+ectors if a custom sector size was requested
+> > > +                display_size =3D part.size
+> > > +                if args.sector_size and args.sector_size !=3D disk._=
+lsector_size:
+> > > +                    display_size =3D part.size // args.sector_size
+> > >                  print("{:2d}  {:12d} {:12d} {:12d}  {}".format(\
+> > > -                          part.pnum, part.start, part.end,
+> > > -                          part.size, part.fstype))
+> > > +                          part.pnum, part.start // args.sector_size,
+> > > +                          part.end // args.sector_size,
+> > > +                          display_size, part.fstype))
+> >=20
+> > This looks like it could confuse users - is it always clear to the user
+> > whether the output is in bytes or in sectors? Why not leave this always
+> > printing the size in bytes so that there's no confusion?
+>=20
+> I was following fdisk's lead here. When you use fdisk to display an
+> image's partition table, the numbers are expressed in sector-sized
+> values, and since this output looks a lot like what fdisk would print
+> out, I was copying its behaviour.
+
+Ok, if we're copying behaviour of an existing tool that makes sense. I
+want to avoid surprising users.
+
+> > > diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition=
+.py
+> > > index 8fed686e903e..df6e3271649b 100644
+> > > --- a/scripts/lib/wic/partition.py
+> > > +++ b/scripts/lib/wic/partition.py
+> > > @@ -65,6 +65,50 @@ class Partition():
+> > > =20
+> > >          self.lineno =3D lineno
+> > >          self.source_file =3D ""
+> > > +        self.sector_size =3D 512
+> > > +
+> > > +    def _mkdosfs_extraopts(self):
+> > > +        """
+> > > +        Build mkdosfs extra options ensuring the CLI sector size is =
+applied.
+> > > +        """
+> > > +        extraopts =3D self.mkfs_extraopts or ''
+> > > +        tokens =3D []
+> > > +        skip_next =3D False
+> > > +        for tok in extraopts.split():
+> > > +            if skip_next:
+> > > +                skip_next =3D False
+> > > +                continue
+> > > +            if tok =3D=3D '-S':
+> > > +                skip_next =3D True
+> > > +                continue
+> > > +            if tok.startswith('-S'):
+> > > +                continue
+> > > +            tokens.append(tok)
+> > > +        tokens.extend(['-S', str(self.sector_size)])
+> > > +        return ' '.join(tokens).strip()
+> >=20
+> > This section needs a comment to explain what it's doing.
+>=20
+> Both _mkdosfs_extraopts() and _mkfs_ext_extraopts() are performing,
+> essentially, the same thing using very similar code. But you
+> only made this comment for _mkfs_ext_extraopts(), does that mean
+> _mkdosfs_extraopts() is understandable but _mkfs_ext_extraopts() is not?
+>=20
+> Both of them have docstrings that explain their function... albeit
+> rather tersely. Would you like to see these docstrings expanded? I'd be
+> happy to expand the docstring for one or both of them.
+
+_mkfs_ext_extraopts has the comment:
+
+    # Only add an explicit block size when a non-default sector size is req=
+uested.
+
+But looking again, that doesn't quite explain well enough. A comment
+in both place that this is ignoring any sector size argument already
+specified and replacing it with self.sector_size is probably good to
+have. It begs the question - is that safe to do? Or should we throw an
+error if self.mkfs_extraopts includes an option to set the sector size?
 
 Best regards,
 
@@ -493,17 +293,17 @@ Best regards,
 Paul Barker
 
 
---=-J7qFUgiHNM8VEi+EdwyB
+--=-vdx0ibMqZpv5gcnTAwql
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZ4VdREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bphVAP9q+tg9p261vS61eTDL4l1SicyEz4hYxwRz
-2Y7LC8lfBQEA5UncPCqm2iNUdPaoNF1dNgYuseSeEVqm9Kja3MdXvQI=
-=cp3x
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaZ4ZmREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0blymAP4paVWLKPqQTDQrMPF/GFngL/NnakdOXkQ5
+l6IsmWr1+AEAkn5PmwXtY1Lv55Tr6HZfkFZetWW/MUBv8S7DZ2+htg0=
+=VT5H
 -----END PGP SIGNATURE-----
 
---=-J7qFUgiHNM8VEi+EdwyB--
+--=-vdx0ibMqZpv5gcnTAwql--
 
