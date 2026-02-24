@@ -1,172 +1,132 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E7DEFB81E
-	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 09:17:39 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16415.1771924648979353383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ABC9EC1133
+	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 09:22:59 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16482.1771924972457433153
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 01:17:29 -0800
+ Tue, 24 Feb 2026 01:22:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=DUt29TxY;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 6D685C143E0
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 09:17:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EBE7F5FD9D;
-	Tue, 24 Feb 2026 09:17:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B858410368F28;
-	Tue, 24 Feb 2026 10:17:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771924646; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=JEcUmwmgILvh7A7a0JgTtVhpmusM9qIuuA8TwluM8rc=;
-	b=DUt29TxYGWl6QNtHOwHkEMdlGgAW/7zgsI+FIJMmhH0dlOTrT6NjMbErQ3PA5GKyJ0sTfp
-	jVGBSpFdK4c+bhbGON+/hty8UXf8bfzOItRPYTvJBsroPm3An6T9aT0GzsK7ytfpvd8DKQ
-	ySFa8aNhmnhtPomkBNsRI7UQAGD1UJujl3HbdD/yLly0ii5uCQCigQatYvQ8h5Wak+Y57o
-	0qMEZE8W9HqqcmwCVlFEg3gdRm4BZTOLodqx66S8roUIXFGy6eF/iQ8+Z+B6s06+UOoTYe
-	lB8AsR6jkqOM0ZgkqkuBucsFfwNyAjdXBa8hYadxkgxF9MplkrdgJQIEle7NIQ==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-Date: Tue, 24 Feb 2026 10:17:19 +0100
-Subject: [PATCH v3] meta: fix generation of kernel CONFIG_ in SPDX3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IocmcBqH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-436309f1ad7so4000846f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 01:22:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1771924971; x=1772529771; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QExfzDa4PIhKLf8IOBFT82CwzK+nOycv/fRUnqlVACs=;
+        b=IocmcBqHHEgO47ZbAubYbfKeaNzTpUQiigeihhqIlBx+NknD66g0epqEY3ocA/csOH
+         dpaeeLBSl34vAtzLwhHgPZEzGweo1znSPpO2plog7u/Zuxd0a/e1JR/NJlt1lag4k7jY
+         ApdJHU5ghSu7gmYhRWJlUc3N3QWB0pGMSnRaY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771924971; x=1772529771;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QExfzDa4PIhKLf8IOBFT82CwzK+nOycv/fRUnqlVACs=;
+        b=h7nMeKws2k1koG6GnGDkYwfexiJkYURV4nCmmsDEB1Cu9BreK1ilhPQwGSKbkR/pSy
+         p1V3uKzEcYLIYKVOBYU6HedOOI3pK4jmie4OF6/iCG2RKVaMgsc+riz7knUr8hv1wScH
+         aMPxi2P8yXT9BJVObOXZCJGvgL/gtFvJCuA9Ma2Dyya1EoaEadXMPIyAvBKfNhntOpRL
+         3r6RsVFfbIRk7PhIn9NYdEghYof1+ucd8ZUe5KPoeMUgdJs1apExoxS97NX/vJSY6fPV
+         cRSAg6uEqA7MQ2qz5aRsvvch3VH47i3Mj7x2FRFUp0b37i63WVAlY3pdmEjgm4pI2mYH
+         uwQQ==
+X-Gm-Message-State: AOJu0Ywz4XD7xmM4vaxGy2QUnKh5iCcZSUt1SliCPHjFdpn5JhnEEixO
+	OTtIUYL4addMTG/bc2AfZAHeLessZGwD6LOUUgVMS3XQT7yQcvTwj5w/KoDRUlfPorc=
+X-Gm-Gg: ATEYQzzYfLqtK4fhY9HN7TPs7w62dW8BH1I7v54ZvVSKjSFnb5LohenOO39UmZobuHZ
+	whtt2aVQuNbOudzXrtLELm56NdonpR1qo99k8pYyKD2SR1fN8UoZJXkk9birPJRO3i8qyNRBPog
+	LvqjbYsgeTSY7MZenwUojbszbSD2OQ0Ujs8GZ3XgB4NC6lRv2a1scgvrXeS3qYLKaOFTxYiyOxn
+	ynda7l4shRzjGtuzeyzgJBynjLtlEMfXOXxC5VjgkqdKnpSPkB3m5/Ls35xVEvJVHETWQ+c8WbM
+	FqIvcdeYY75uZPJ8O657aLPT8qDnrqdnwfkM+9BGqkqrs/UnZOhGs/UMQ6o8TnqCa8oL18FtCAW
+	el7IvH0LzSdPnxTg/rP3ES3kyXob4SJZtE21zTaGNC5bz5N6wkwY7UL+nt3X5B/S2BjuJCEQhKJ
+	Oo5u1XfKmhRv3s66GMjRh2FjYuqHliYP5G4i3A0D7aeA8WQZKtBW9ZUf7Jb8zIUUCgLFdzncEEe
+	vFCTtaYUMbi+gY=
+X-Received: by 2002:a05:6000:430d:b0:430:f449:5f18 with SMTP id ffacd0b85a97d-4396f185510mr20694615f8f.46.1771924970729;
+        Tue, 24 Feb 2026 01:22:50 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8c63:c7bd:87de:1edc? ([2001:8b0:aba:5f3c:8c63:c7bd:87de:1edc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43987f3ed03sm3114238f8f.16.2026.02.24.01.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 01:22:50 -0800 (PST)
+Message-ID: <5cae187821817287fbb153a76a27e20d278159c2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] meta: fix generation of kernel CONFIG_ in
+ SPDX3
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: benjamin.robin@bootlin.com, Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, kamel.bouhara@bootlin.com, 
+	mathieu.dubois-briand@bootlin.com, jeremie.dautheribes@bootlin.com, 
+	thomas.petazzoni@bootlin.com, antonin.godard@bootlin.com,
+ pascal.eberhard@se.com
+Date: Tue, 24 Feb 2026 09:22:49 +0000
+In-Reply-To: <2030868.PYKUYFuaPT@brobin-bootlin>
+References: <20260216-fix-kernel-config-spdx-v2-1-62e65ec2176f@bootlin.com>
+	 <CAJdd5GZqLc0ocXyMC9v4gV-DYBM4vA+RjQYVgnNyH7HH1QZDBg@mail.gmail.com>
+	 <2030868.PYKUYFuaPT@brobin-bootlin>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-fix-kernel-config-spdx-v3-1-011b7badd942@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XNwQ6CMAyA4VchOzvDOqnBk+9hPMDWwSJuZCMLh
- vDuDk56MB7/pv26sEjBUmSXYmGBko3WuxzyUDDVN64jbnVuBiVgCUJyY2f+oOBo4Mo7YzseRz3
- zugaQtUTC2rB8PAbKmzt8u+fubZx8eO1/ktimf8kkuOAnoxFVU6m20tfW+2mw7qj8k21ogk8If
- 0KQIQTCihSIM5pvaF3XN9L7bUIHAQAA
-X-Change-ID: 20260213-fix-kernel-config-spdx-99223936e69f
-To: openembedded-core@lists.openembedded.org
-Cc: JPEWhacker@gmail.com, kamel.bouhara@bootlin.com, 
- mathieu.dubois-briand@bootlin.com, jeremie.dautheribes@bootlin.com, 
- thomas.petazzoni@bootlin.com, antonin.godard@bootlin.com, 
- pascal.eberhard@se.com, 
- "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 09:17:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231752
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 09:22:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231753
 
-With the current solution, using a separate task
-(do_create_kernel_config_spdx) there is a dependency issue. Sometimes
-the final rootfs SBOM does not contain the CONFIG_ values.
+On Tue, 2026-02-24 at 10:10 +0100, Benjamin Robin via lists.openembedded.or=
+g wrote:
+> On Monday, February 23, 2026 at 6:43=E2=80=AFPM, Joshua Watt wrote:
+> > I like this in general, but if you're going to bbappend, the `return`
+> > will mess with any other appends, so it needs to be avoided. Probably
+> > just put all the code under a
+> > `if bb.data.inherits_class("create-spdx-3.0", d):` instead
+>=20
+> Indeed, thank you for your feedback.
+> My initial plan was to move all code inside a Python function named
+> create_kernel_config_spdx, and to call this function from=20
+> do_create_spdx:append().
+>=20
+> Sadly, the generated code looks like this:
+> ```
+> def do_create_spdx(d):
+> =C2=A0=C2=A0=C2=A0 import oe.spdx30_tasks
+> =C2=A0=C2=A0=C2=A0 oe.spdx30_tasks.create_spdx(d)
+> =C2=A0=C2=A0=C2=A0 create_kernel_config_spdx()
+>=20
+> do_create_spdx(d)
+>=20
+> def create_kernel_config_spdx(d):
+> =C2=A0=C2=A0=C2=A0 # Code of the function
+> ```
+>=20
+> This is not going to work, since the create_kernel_config_spdx() is decla=
+red=20
+> after the call to do_create_spdx().
+>=20
+> From my point of view, there is a bug in bitbake code : The emit_func_pyt=
+hon()=20
+> function=C2=A0 declared in lib/bb/data.py does not generate code in the r=
+ight=20
+> order: The "write_func(func, o, True)" should be called at the end of
+> emit_func_python().
+> I am missing something, or is there any reason why emit_func_python() is=
+=20
+> implemented that way?
+>=20
+> Anyway I am preparing a v3, that solve this issue differently.
 
-do_create_kernel_config_spdx is executed after do_create_spdx which
-deploys the SPDX file. do_create_kernel_config_spdx calls
-oe.sbom30.find_root_obj_in_jsonld to read from the deploy directory,
-which is OK, but the do_create_kernel_config_spdx ends up writing to
-this deployed file (updating it).
+I think it would work as the emit_python_func code generates code for
+debugging, it isn't what is actually run. What actually happens is all
+the python functions are compiled and then called within the current
+python execution environment.
 
-do_create_rootfs_spdx has an explicit dependency to all do_create_spdx
-tasks, but there is nothing that prevents executing
-do_create_kernel_config_spdx after do_create_rootfs_spdx.
+Improving emit_func_python() to be more accurate is something I've
+wanted to do for a while as the data store is missing, as is most of
+the fakeroot execution environment that the shell/python tasks
+sometimes use too.
 
-To fix it, instead, now read from the workdir, and write to the
-workdir, and do the processing from the do_create_spdx task:
-we append to the do_create_spdx task.
-Furthermore, update oeqa selftest to execute do_create_spdx instead
-of removed function.
+Cheers,
 
-Also only execute this task if create-spdx-3.0 was inherited,
-previously this code could be executed if create-spdx-2.2 is
-inherited.
-
-Fixes: 228a968e7c47 ("kernel.bbclass: Add task to export kernel configuration to SPDX")
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
----
-Changes in v3:
-- Move the code inside a function declared inside do_create_spdx(),
-  this way we can declare variables safely and use return.
-- Link to v2: https://lore.kernel.org/r/20260216-fix-kernel-config-spdx-v2-1-62e65ec2176f@bootlin.com
-
-Changes in v2:
-- Update spdx oeqa selftest
-- Link to v1: https://lore.kernel.org/r/20260213-fix-kernel-config-spdx-v1-1-4fd66ca5cb5d@bootlin.com
----
- meta/classes-recipe/kernel.bbclass   | 27 +++++++++++++++------------
- meta/lib/oeqa/selftest/cases/spdx.py |  2 +-
- 2 files changed, 16 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index f989b31c477c..222a5d74f7bf 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -864,14 +864,13 @@ addtask deploy after do_populate_sysroot do_packagedata
- 
- EXPORT_FUNCTIONS do_deploy
- 
--python __anonymous() {
--    inherits = (d.getVar("INHERIT") or "")
--    if "create-spdx" in inherits:
--        bb.build.addtask('do_create_kernel_config_spdx', 'do_populate_lic do_deploy', 'do_create_spdx', d)
--}
-+do_create_spdx:append() {
-+    def create_kernel_config_spdx(d):
-+        if not bb.data.inherits_class("create-spdx-3.0", d):
-+            return
-+        if d.getVar("SPDX_INCLUDE_KERNEL_CONFIG", True) != "1":
-+            return
- 
--python do_create_kernel_config_spdx() {
--    if d.getVar("SPDX_INCLUDE_KERNEL_CONFIG", True) == "1":
-         import oe.spdx30
-         import oe.spdx30_tasks
-         from pathlib import Path
-@@ -903,9 +902,11 @@ python do_create_kernel_config_spdx() {
-         except Exception as e:
-             bb.error(f"Failed to parse kernel config file: {e}")
- 
--        build, build_objset = oe.sbom30.find_root_obj_in_jsonld(
--            d, "recipes", f"recipe-{pn}", oe.spdx30.build_Build
--        )
-+        path = oe.sbom30.jsonld_arch_path(d, pkg_arch, "recipes", f"recipe-{pn}", deploydir=deploydir)
-+        build_objset = oe.sbom30.load_jsonld(d, path, required=True)
-+        build = build_objset.find_root(oe.spdx30.build_Build)
-+        if not build:
-+            bb.fatal("No root %s found in %s" % (oe.spdx30.build_Build.__name__, path))
- 
-         kernel_build = build_objset.add_root(
-             oe.spdx30.build_Build(
-@@ -924,9 +925,11 @@ python do_create_kernel_config_spdx() {
-             [kernel_build]
-         )
- 
--        oe.sbom30.write_jsonld_doc(d, build_objset, deploydir / pkg_arch / "recipes" / f"recipe-{pn}.spdx.json")
-+        oe.sbom30.write_jsonld_doc(d, build_objset, path)
-+
-+    create_kernel_config_spdx(d)
- }
--do_create_kernel_config_spdx[depends] = "virtual/kernel:do_configure"
-+do_create_spdx[depends] += "virtual/kernel:do_configure"
- 
- # Add using Device Tree support
- inherit kernel-devicetree
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 41ef52fce1ca..5830d7c0872a 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -369,7 +369,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-         objset = self.check_recipe_spdx(
-             kernel_recipe,
-             spdx_path,
--            task="do_create_kernel_config_spdx",
-+            task="do_create_spdx",
-             extraconf="""\
-                 INHERIT += "create-spdx"
-                 SPDX_INCLUDE_KERNEL_CONFIG = "1"
-
----
-base-commit: 3a8f0075d52cb653118774baa03aa8d5231f943c
-change-id: 20260213-fix-kernel-config-spdx-99223936e69f
-
-Best regards,
--- 
-Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
-
+Richard
 
