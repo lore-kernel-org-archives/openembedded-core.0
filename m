@@ -2,97 +2,191 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 089FCF357CB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BF5F357CF
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:02 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21658.1771943571906065990
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21460.1771943574223745688
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 06:32:52 -0800
+ Tue, 24 Feb 2026 06:32:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=s/dRorDf;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48379a42f76so43225315e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:32:51 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=sOjSMcB+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4398913af88so496345f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:32:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1771943570; x=1772548370; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1771943572; x=1772548372; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0zqNHUZzv/Kol/MGaN7B3wIWpuJ6Ad/vvMW3D5pIvuM=;
-        b=s/dRorDfgnpJAs94Giq4Df/9nyxgQsb5npA3YFCOgo5phFjlpDhA5GVsoy46GVunWQ
-         WG/z7EyxK/mkkmvesb05DV4LxCv0tZhRHv+Bi8Rw4Nsn2/VvEB9+hakswcnLM53cuYSS
-         wgilnN2d0ojgRJjcihWg6hmBu9AJV8i3dy+6w=
+        bh=SCYUtnILXn/BjKtUAcVexQJ2McOdC26vwXUO7aOpb0Y=;
+        b=sOjSMcB+XCukxtXzum8TZOAfA+Y89vDBddlnrRKSF27wxAcnTz7dbVxa9AQRxAvr3L
+         E9TGK20Ij+oBT3gBwUjrRgFwBS9F19xv87cFsRMDdRYk8DpIeeJbBTi6GgUsk85FX9/s
+         8ttI3aMBWcmOB0czVMn7bD2ReHgv2uW0apjNA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771943570; x=1772548370;
+        d=1e100.net; s=20230601; t=1771943572; x=1772548372;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=0zqNHUZzv/Kol/MGaN7B3wIWpuJ6Ad/vvMW3D5pIvuM=;
-        b=wtcOh7Pwa439DyyVXFYq4cU9ShSN664fGTjMrqJTL6Sw4+KUioSBVTyLe/mrcGpwg3
-         kptYldT3MtAj7bZChLeBW+x88bAvDo+R5PUvQdQEdWBT6ueuUqBDu4SgMowee5B7S9Eq
-         n997vZe6O/pZqmPpf9KtUMflQGkwzf5j05CXaAE+js+eON3yStb+mje8K8XGFWjlME1+
-         ByJLizqLg1jMlrl4QFpYmgRsS0+1dZbUxMEtLNg9vlU7I4s1pj3/yPmrmvI0U5pssGY+
-         Qst9Xi2HxAHsmD+UX/UJEhlfEPiA+T5kSOip5Xmqr2gfCAn0jzrMMLJp7MhZxOeZwuLg
-         59tg==
-X-Gm-Message-State: AOJu0YwGbBf6F68xpDIQGiGte0sUXJVsLhoAVGyqtD+g7ruJO4bOwbrN
-	MqescXoWWzfNySsylEp/+vmo8+IArupF4CfQSArf5L7AEYY8FzRP2YMtpvH26F/89c2s4KVh9ml
-	9hZdg
-X-Gm-Gg: AZuq6aIfT2GHZznTu79tYK/JcVXQrmQTwbvNc3qUlhHNVhnX8i0jrEtkgGxNUcrRVOy
-	dpRvS44EiPcjIoHFyIdEwmYHqkcuVjkhrFCF7sCPEzNxcMvHiZd7NYaEuw4yMurK0FVm/zApmaR
-	jbwd7rgxFtGX2cS+5FZtmifg6IzlOmCl60J3VGfHJqYmwQWd3RI1pUS5kJ4kllgMe14684oWeZN
-	yz4o4vVodr2TpDu3BmWBMTgrNoth4SbYbgIAaEcOQIE86nB5ePGUM/vdfuwHzbnt2Rnx5LRBJUm
-	/fr3Ol318PIlNcrGE9bMFGNHN4DDfMqXWiqFpNd9bekAjFKOtmWLzfyE3fov1wmTAVMl85UhYDi
-	KRMy3eI32CozT9yEVQkn3vf3TCKthRDX9M8Wct2KPbZ6bK35gKmjhL+o8vVe3dFCvG1HsxtMgr4
-	VagNJDA3ybcfct/0k3+s0Mt5xgfF0vGqDvOA2KI+UvlxW7QKGgWzVL3gJbSPzZYjNzvbjw/SsBS
-	3OxjgBIyInQ0PfVWkniQQGaR+ilLnR3dw==
-X-Received: by 2002:a05:600c:5287:b0:47e:e807:a05a with SMTP id 5b1f17b1804b1-483a963c238mr201243525e9.33.1771943570067;
-        Tue, 24 Feb 2026 06:32:50 -0800 (PST)
+        bh=SCYUtnILXn/BjKtUAcVexQJ2McOdC26vwXUO7aOpb0Y=;
+        b=kwGiM+g1Dux1ryFqPRYA5OwOjvpVBaDD73NI2jHUzUM05TQ9ZS2JTScQxBlFaAeVmw
+         an5l6X7A/QDdxfH6Fy8u/rvqjfo0Ahb69aXtN0fFUEyr297bpGBAQfbyjJf/QO3+V6oS
+         pfV8es35DNHTDt4dkvRjtqrrcdY8tosRPAl5ALcO2FIMW8UDsbRlEKzrQWI/IcuNyp37
+         Jbs25qEEFeGD6UmJ325LyaOltAgwY3Rl/L0Zp4xN61o0bFg4pDQ/fiQPeadtcIrplvx4
+         hU2r2LLHDgIluPLhLrykeqrcCzdzMHip6e2RjMXA2kBjvHseKBMjEGssM64XNJVBmcEU
+         tKwA==
+X-Gm-Message-State: AOJu0Yxj+MbWNhBjZFrlRYIS5CV7GVuLPsD0NRIjZnNuE5Iqn5Op8b8z
+	V+sXeRNIaphI4xcBRkgMWXq/1/6QPfll7dJRcc//1bm/rmcnJrJt6HRhaFIe3UNso38Obq7DPvB
+	WHb2u
+X-Gm-Gg: AZuq6aJv883a9mAAUC+NU/MPZ+M9/+hs7qtDPSWC+RUPwxp51AOlWCKH26Za0iioMaX
+	v/1GZDFMyqKfk535Ij4xwdAWwPBZg5V18heITuG8QKS2ZeTluBBMPVf1GXz1W+d66auNlIc7Lf1
+	nOEqQkab9yjTvnPwJLws6zMmYWO2jY8KjZs9UJ1iEE1isbNDX+RW6XoXnVx44LgOfmnkqamxpGr
+	+qyZ+qlOSt+8EeX+laOVYpx/WHiYpqhuVPoJ5+75Cub51s4Q3KtHEKl3WCStomKKzpGRWeJMCKm
+	j5C4w5eIDugmRZ4ri2YD9qKmN3B9YpJ6G8F0R+v3GwKjgdmZngPwq1+gUuumlnnRB+rrU8U1kg1
+	jotG9GEnJ7iedbRp+3TJ2mJ4Qe0ve6aGAF8s+HcX58CbaZY0L1Br4Uaol/cNSga4QRaa8kPKSDn
+	S0PiNV0TgN+biUjVp4lcsni5wqO/53J+wdH7CVI0j9CRNvzJzoWDCVWN4HnqN6D7bzjhk947RqK
+	hEFT76RknR5xoQ2lBiac2qiJBqJDj92VQ==
+X-Received: by 2002:a05:600d:8446:20b0:480:4b5d:9ec with SMTP id 5b1f17b1804b1-483a960eeccmr149791705e9.33.1771943572279;
+        Tue, 24 Feb 2026 06:32:52 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.32.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.32.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:32:49 -0800 (PST)
+        Tue, 24 Feb 2026 06:32:51 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/44] mobile-broadband-provider-info: upgrade 20240407 -> 20251101
-Date: Tue, 24 Feb 2026 15:31:35 +0100
-Message-ID: <da1ca9840be58ad0f206b4064c1d70061d6b49e6.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 10/44] oeqa/selftest/wic: test recursive dir copy on ext partitions
+Date: Tue, 24 Feb 2026 15:31:38 +0100
+Message-ID: <009da1fda0f4c04c87deced4a5f667bc39b9e26c.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231812
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231815
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Dragomir, Daniel <daniel.dragomir@windriver.com>
 
-Changelog:
-https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info/-/blob/20251101/NEWS?ref_type=tags
+Extend the wic selftests to cover recursive directory copying
+into ext partitions.
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-[YC: commit 99e2dea3d4328f2aaa6e6e29f5bf4aa38b64b274 upstream]
+Previously, copying a directory into an ext partition could
+appear to succeed, but attempting to access the directory
+contents would fail with:
+
+  -l: Ext2 inode is not a directory
+
+This was fixed in commit 4fc3b42774 ("wic/engine: fix copying
+directories into wic image with ext* partition").
+
+This test now verifies that directories copied with "wic cp"
+into an ext4 partition:
+  - are created with correct inode types
+  - can be listed recursively with "wic ls"
+  - preserve files and subdirectories
+  - can be copied back out of the image without data loss
+
+A simple directory structure is used in this test:
+
+wic-test-cp-ext-dir/
+├── topfile.txt
+└── subdir/
+    └── subfile.txt
+
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 6de3d2602f4f4a8192d6a6040e89e814187dcf93)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../mobile-broadband-provider-info_git.bb                     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 65 +++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index 06ded459344..9e7dd9da76b 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -5,8 +5,8 @@ SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index b616759209a..1ba180ff0ec 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -12,6 +12,7 @@ import os
+ import sys
+ import unittest
+ import hashlib
++import filecmp
  
--SRCREV = "55ba955d53305df96123534488fd160ea882b4dd"
--PV = "20240407"
-+SRCREV = "18cb97517d9c831e1d2ec057e62d04fd3665e10f"
-+PV = "20251101"
- PE = "1"
+ from glob import glob
+ from shutil import rmtree, copy
+@@ -1662,6 +1663,70 @@ class ModifyTests(WicTestCase):
+             runCmd("wic cp %s:2/etc/fstab %s -n %s" % (images[0], testfile.name, sysroot))
+             self.assertTrue(os.stat(testfile.name).st_size > 0, msg="Filesize not as expected %s" % os.stat(testfile.name).st_size)
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
++            # prepare directory structure
++            testdir = os.path.join(self.resultdir, "wic-test-cp-ext-dir")
++            testsubdir = os.path.join(testdir, "subdir")
++            os.makedirs(testsubdir)
++
++            # add a file in the top-level of the directory
++            src_file = os.path.join(testdir, "topfile.txt")
++            with open(src_file, "w") as f:
++                f.write("top-level\n")
++
++            # add file in the subdir
++            src_subfile = os.path.join(testsubdir, "subfile.txt")
++            with open(src_subfile, "w") as f:
++                f.write("sub-level\n")
++
++            # copy directory to the partition root
++            runCmd("wic cp %s %s:2/ -n %s" % (testdir, images[0], sysroot))
++            basedir = os.path.basename(testdir)
++
++            # check if directory is there at partition root
++            result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
++            root_entries = set(line.split()[-1] for line in result.output.split('\n') if line)
++            self.assertIn(basedir, root_entries, msg="Expected directory not present at root: %s" % root_entries)
++
++            # list INSIDE the copied directory
++            result = runCmd("wic ls %s:2/%s/ -n %s" % (images[0], basedir, sysroot))
++            self.assertEqual(0, result.status,
++                             msg="wic ls inside copied directory failed. Output:\n%s" % result.output)
++            self.assertNotIn("Ext2 inode is not a directory", result.output,
++                             msg="Regression detected (inode not a directory). Output:\n%s" % result.output)
++
++            inside_entries = set(line.split()[-1] for line in result.output.split('\n') if line)
++            self.assertTrue(set(["subdir", "topfile.txt"]).issubset(inside_entries),
++                            msg="Expected entries missing inside dir: %s" % inside_entries)
++
++            # list inside the subdir
++            result = runCmd("wic ls %s:2/%s/subdir/ -n %s" % (images[0], basedir, sysroot))
++            self.assertEqual(0, result.status,
++                             msg="wic ls inside copied subdir failed. Output:\n%s" % result.output)
++            self.assertNotIn("Ext2 inode is not a directory", result.output,
++                             msg="Regression detected (inode not a directory). Output:\n%s" % result.output)
++
++            sub_entries = set(line.split()[-1] for line in result.output.split('\n') if line)
++            self.assertIn("subfile.txt", sub_entries, msg="Expected file missing in subdir: %s" % sub_entries)
++
++            # copy directory from the partition and compare with original
++            outparent = os.path.join(self.resultdir, "wic-test-cp-ext-out")
++            os.makedirs(outparent)
++            runCmd("wic cp %s:2/%s %s -n %s" % (images[0], basedir, outparent, sysroot))
++
++            copied_dir = os.path.join(outparent, basedir)
++            self.assertTrue(os.path.isdir(copied_dir), msg="Copied-back directory not created: %s" % copied_dir)
++
++            copied_file = os.path.join(copied_dir, "topfile.txt")
++            copied_subfile = os.path.join(copied_dir, "subdir", "subfile.txt")
++
++            self.assertTrue(os.path.isfile(copied_file), msg="Missing copied-back file: %s" % copied_file)
++            self.assertTrue(os.path.isfile(copied_subfile), msg="Missing copied-back subfile: %s" % copied_subfile)
++
++            self.assertTrue(filecmp.cmp(src_file, copied_file, shallow=False),
++                            msg="topfile.txt differs after round-trip copy")
++            self.assertTrue(filecmp.cmp(src_subfile, copied_subfile, shallow=False),
++                            msg="subfile.txt differs after round-trip copy")
++
+ 
+     def test_wic_rm_ext(self):
+         """Test removing files from the ext partition."""
 
