@@ -2,141 +2,160 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBEFF3C989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8E9F3C986
 	for <webhook@archiver.kernel.org>; Tue, 24 Feb 2026 14:33:23 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21477.1771943593784356537
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21691.1771943594221448611
  for <openembedded-core@lists.openembedded.org>;
  Tue, 24 Feb 2026 06:33:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=1HQd75lA;
- spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4837584120eso39312455e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:13 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=TxuG0Jz2;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4359a302794so4199187f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 06:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1771943592; x=1772548392; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Czrsdx8cR+HwVRCm9by13O04s+ym64dYYpxtUrr2ze8=;
-        b=1HQd75lALYTG2ETTECNYuBkjjtJ1bPk0N0l5XHNl7Una2/pGD5kgVhh54gc8RTMfFv
-         Ary9icxXb0tehpQ97CFDX2EiVkfy0iFVUgLuc/oPqXB16PRa15txtIVM2E5gB3DxOgE7
-         NgASR7eREfLSEn7YMAnJS73Q+itAZfxSL/M7k=
+        bh=FOT1f3fzl6+Qu6cba1Ww2bYj2JqYRUiN29/qSLYTER8=;
+        b=TxuG0Jz22MMghb2ismMLnSFLfFrJeFbdvcp5p21ZbUaSxvmfMzaq8p3u7lnWGm0sg1
+         amUmJI3RYKa4nvDV9DmHKoQMmAqUtxGChVkRTL9MfABnSmcvbkn32aeFI42VdTUjxWU0
+         SUra5lPlP67voKHBZwwpWBFoiKeB9Z6jfpVCw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1771943592; x=1772548392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Czrsdx8cR+HwVRCm9by13O04s+ym64dYYpxtUrr2ze8=;
-        b=HRNWYzUl17sgL5kodeF6SGDAaUculpl1vlr3yHPH8H/pjX9rsrn0NnATFPrErlscMP
-         w+d09/LirqV85ZQDqpcOdjw07qndNJRTpBz0pGl4Thp703dtX2TXhV5pB/kjFpqcUWwn
-         6KQkgcR9KtoLYbBJPaORLyVhyOrU5rMbNyVeid7Eqmd0UzxO1wDkuprkyATIc0ggExJ8
-         oZIDQ2NX+cMa5G9ohT3No2BdLQwmnwGoZeihxB7+F5V2B6DoOqAM0Ko4/LVKIto2wBWm
-         JyJLDOXROuRqdYz/9zhzZ0OYcE5Rci3ykLSbHm9dGXzqi4efI1LqqKS5hzx9Bxh5tC8e
-         kAIQ==
-X-Gm-Message-State: AOJu0YyaKfDp2YeFmLPpW+z+pLzMIDnSEXNybfWGBm5+MOYkTsVLbTK0
-	oyj/fEl1hTiCxbDBITc54+y6iuuQ+ULAY64kXgWPT4QN9Y2TsoLVULQ0g9wl7PGZ0CGwgzRNhmS
-	U9IPYSko=
-X-Gm-Gg: AZuq6aJ5oo3aEwydmAOTS4O1ljNWywnhiWEW1rvMvcR4b6P0KEmxVZBgD0TZNSpTc5D
-	TNC7SwSj7vI6EOZBs2XFHOlb6jbtdBFEG11Eka8tkes4h0l6848OKl3lh2myskdtAkzBw+4pxx6
-	a5+EUBCJcan4TKZVopicW9LYZzuTfGNrhZsuDSZvTNbBs5nuIkumFCySvsjjrK7Na4jm6JhDSCb
-	2jqi9nU6lK3okaz1UBBDhJj55pPR6JHRyhhja6laqqUKIX3ELyPBehqeNZLXffHdawuUdR6nmeg
-	3uBEdDNmfNTee+AIo/WvpeQwb4aXvu01UVMwO2iRHZp9hAkr+jRF9ZvbjmePEYo9wkZ0iJ1Sdn/
-	Fw/mM3Xxhpj+IvDGf/MkMv/R6WS405gSKF4n3YaOYuC+hNlodnD/Uup/P1vibHe2py7vFkbhC17
-	thXup/QriPfSPzsLZ0CgApgrqdoacVFoASGyf0nmkZvNqr8vIKaLLCLDVLjPQRSphhpB8P1Uh92
-	d6+rvb9FDJbjZsVh0lSp51/jfiYPXJ6CA==
-X-Received: by 2002:a05:600c:858b:b0:483:badb:618f with SMTP id 5b1f17b1804b1-483badb639amr24827645e9.25.1771943591864;
-        Tue, 24 Feb 2026 06:33:11 -0800 (PST)
+        bh=FOT1f3fzl6+Qu6cba1Ww2bYj2JqYRUiN29/qSLYTER8=;
+        b=Z2O2mkaRZnlwBm8Npto8a6hZJW+HjNl/wKb0OMCUtfUALHMLX7iwWg81wCL2Ir1KxQ
+         7tCXk+PtApmpenUBNfB3fY9Ebx33FqGlEuyYjMv0M5thrvjNX+RXNLk4fSgGAOmVssmN
+         nL/IvPWDA4e3dXJDl2gffortaS8BpmygkbNMpyYZ8Z5nrhy4Hpp2HshjEztZHTbNO7AH
+         Sp3Zpnsg4LqnUqSrm5ynAJ+Wsjz5nmuEshe2v7fyrp4IeEBzcanE3kzd445ncNbxZdyA
+         f4yJk4FZGPdf93HmJPPtPGHTb2NiuAuI9L9uhD0Y1iR1u/vmY0uUJbsSg/sleGTWENZa
+         VF5A==
+X-Gm-Message-State: AOJu0Yw69ggSCAsiL8vVyU/n2xVYMSyN9XgZS0P/KyL1+XnHnEn5uhbP
+	vPgibvPalZFVioiaTsNorPR9aDzDksrxr2ii7FJwVnbuG9X+2U0nB7V0OTNqWJ47C2m2kGHBCj8
+	4yX/a
+X-Gm-Gg: AZuq6aJuPi4LzYC9XH7RNd0RW7G9B9SeVNSwVHnwN6NjaijldLqrbEgxPEsLV6hpKmD
+	KrIdwe4WzsfSGaOK4Onudo9KxWOkou8GqfDCdKDygRUJO/uMtbgERRzN50xTu5VrEh/VnQWdXza
+	QGNJv2LB5H+nxe8CXqAZRiDSEspK/6fqDoANSQ5T3TwtngJp3WUbeQu0XWA6Na+BYheLKCjiTR9
+	r//WW/9Zs/CAuPeW4GDvbKmocgbIWzpPQy4ux2hdFPVAVZ6N/PhGheuyke120uPpW7X7MOXXEze
+	XBbSZs20Z4dmqcrtZjC7+lz23fGFnOIojT5Zs+v8AWrQVF+Z9NOOfAy1WzdkNqk1U2Wlx+K1QnK
+	oF9FgjBtqlIoXTouEsY1o82vmXQJRD134RxSgKip5NJoQ1L3U4ckssJF1C2lwX1a4+CDGZKYPmg
+	k7DWAY3u1U+yBcewbO/mdfS7RcRJNKXKfbciK8RR7cdRPJVXdxNP/kjxezipws1MZxD3Yn4xW3j
+	MOwmZfSLDiuq/Z7L8v08Q61J6qR3YBsQg==
+X-Received: by 2002:a05:600c:8b2a:b0:47e:e78a:c834 with SMTP id 5b1f17b1804b1-483a96148a7mr187920455e9.34.1771943592372;
+        Tue, 24 Feb 2026 06:33:12 -0800 (PST)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b88f950esm19819895e9.15.2026.02.24.06.33.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 06:33:11 -0800 (PST)
+        Tue, 24 Feb 2026 06:33:12 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 32/44] openssl: fix CVE-2025-15468
-Date: Tue, 24 Feb 2026 15:32:00 +0100
-Message-ID: <0a747181eaa1767e7cf00858118a7305cc028197.1771943404.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 33/44] openssl: fix CVE-2025-69419
+Date: Tue, 24 Feb 2026 15:32:01 +0100
+Message-ID: <24621a87d5856cc511eebdbe26cc19158d3b0d2e.1771943404.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771943404.git.yoann.congal@smile.fr>
 References: <cover.1771943404.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 14:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231839
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231840
 
 From: Hitendra Prajapati <hprajapati@mvista.com>
 
-To fix this issue, Add a NULL guard before dereferencing SSL_CIPHER.
-
-Backport patch from NVD report: https://nvd.nist.gov/vuln/detail/CVE-2025-15468
+Backport patch from NVD report: https://nvd.nist.gov/vuln/detail/CVE-2025-69419
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssl/openssl/CVE-2025-15468.patch      | 39 +++++++++++++++++++
+ .../openssl/openssl/CVE-2025-69419.patch      | 61 +++++++++++++++++++
  .../openssl/openssl_3.2.6.bb                  |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch
 new file mode 100644
-index 00000000000..dcd862bedf6
+index 00000000000..dcfdba82acb
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
-@@ -0,0 +1,39 @@
-+From 1f08e54bad32843044fe8a675948d65e3b4ece65 Mon Sep 17 00:00:00 2001
-+From: Daniel Kubec <kubec@openssl.org>
-+Date: Fri, 9 Jan 2026 14:33:24 +0100
-+Subject: [PATCH] ossl_quic_get_cipher_by_char(): Add a NULL guard before
-+ dereferencing SSL_CIPHER
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch
+@@ -0,0 +1,61 @@
++From 41be0f216404f14457bbf3b9cc488dba60b49296 Mon Sep 17 00:00:00 2001
++From: Norbert Pocs <norbertp@openssl.org>
++Date: Thu, 11 Dec 2025 12:49:00 +0100
++Subject: [PATCH] Check return code of UTF8_putc
 +
-+Fixes CVE-2025-15468
++Signed-off-by: Norbert Pocs <norbertp@openssl.org>
 +
-+Reviewed-by: Saša Nedvědický <sashan@openssl.org>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+MergeDate: Mon Jan 26 19:36:04 2026
-+(cherry picked from commit 293b55de0c434a99d0e744d0521170ca280606a9)
++Reviewed-by: Nikola Pajkovsky <nikolap@openssl.org>
++Reviewed-by: Viktor Dukhovni <viktor@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/29376)
 +
-+CVE: CVE-2025-15468
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/1f08e54bad32843044fe8a675948d65e3b4ece65]
++CVE: CVE-2025-69419
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/41be0f216404f14457bbf3b9cc488dba60b49296]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ ssl/quic/quic_impl.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ crypto/asn1/a_strex.c   |  6 ++++--
++ crypto/pkcs12/p12_utl.c | 11 +++++++++--
++ 2 files changed, 13 insertions(+), 4 deletions(-)
 +
-+diff --git a/ssl/quic/quic_impl.c b/ssl/quic/quic_impl.c
-+index 98b6a0a..4abde64 100644
-+--- a/ssl/quic/quic_impl.c
-++++ b/ssl/quic/quic_impl.c
-+@@ -3646,6 +3646,8 @@ const SSL_CIPHER *ossl_quic_get_cipher_by_char(const unsigned char *p)
-+ {
-+     const SSL_CIPHER *ciph = ssl3_get_cipher_by_char(p);
-+ 
-++    if (ciph == NULL)
-++        return NULL;
-+     if ((ciph->algorithm2 & SSL_QUIC) == 0)
-+         return NULL;
++diff --git a/crypto/asn1/a_strex.c b/crypto/asn1/a_strex.c
++index f64e352..7d76700 100644
++--- a/crypto/asn1/a_strex.c
+++++ b/crypto/asn1/a_strex.c
++@@ -204,8 +204,10 @@ static int do_buf(unsigned char *buf, int buflen,
++             orflags = CHARTYPE_LAST_ESC_2253;
++         if (type & BUF_TYPE_CONVUTF8) {
++             unsigned char utfbuf[6];
++-            int utflen;
++-            utflen = UTF8_putc(utfbuf, sizeof(utfbuf), c);
+++            int utflen = UTF8_putc(utfbuf, sizeof(utfbuf), c);
+++
+++            if (utflen < 0)
+++                return -1; /* error happened with UTF8 */
++             for (i = 0; i < utflen; i++) {
++                 /*
++                  * We don't need to worry about setting orflags correctly
++diff --git a/crypto/pkcs12/p12_utl.c b/crypto/pkcs12/p12_utl.c
++index a96623f..b109dab 100644
++--- a/crypto/pkcs12/p12_utl.c
+++++ b/crypto/pkcs12/p12_utl.c
++@@ -206,8 +206,15 @@ char *OPENSSL_uni2utf8(const unsigned char *uni, int unilen)
++     /* re-run the loop emitting UTF-8 string */
++     for (asclen = 0, i = 0; i < unilen; ) {
++         j = bmp_to_utf8(asctmp+asclen, uni+i, unilen-i);
++-        if (j == 4) i += 4;
++-        else        i += 2;
+++	/* when UTF8_putc fails */
+++        if (j < 0) {
+++            OPENSSL_free(asctmp);
+++            return NULL;
+++        }
+++        if (j == 4)
+++	    i += 4;
+++        else
+++	    i += 2;
++         asclen += j;
++     }
 + 
 +-- 
 +2.50.1
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.6.bb b/meta/recipes-connectivity/openssl/openssl_3.2.6.bb
-index 4756f5aaa65..572a12aae8d 100644
+index 572a12aae8d..074ab121316 100644
 --- a/meta/recipes-connectivity/openssl/openssl_3.2.6.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_3.2.6.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+@@ -14,6 +14,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
             file://0001-Added-handshake-history-reporting-when-test-fails.patch \
             file://CVE-2024-41996.patch \
-+           file://CVE-2025-15468.patch \
+            file://CVE-2025-15468.patch \
++           file://CVE-2025-69419.patch \
             "
  
  SRC_URI:append:class-nativesdk = " \
