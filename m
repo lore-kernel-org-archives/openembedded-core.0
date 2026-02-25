@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EB4F4BB9F
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 07:49:50 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40872.1772005782747725694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48BE4EFD202
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 07:50:00 +0000 (UTC)
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40955.1772005790530558423
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 23:49:43 -0800
+ Tue, 24 Feb 2026 23:49:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kHlCVB06;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cbb6d5f780so31948685a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:49:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nqa5iEsW;
+ spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f196.google.com with SMTP id d75a77b69052e-5069df1de6fso59732691cf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:49:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772005781; x=1772610581; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772005789; x=1772610589; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JWf0SnDRaPZtm0+DMt+yFcf5ltQr3NYfU2OS4hs/oeE=;
-        b=kHlCVB06I0wfrre7jjkRolvd/QZe68LORCAB1+SUfVCnatruSWYVo5Na7z9Lnmo+Lr
-         DHqoQCPaxAH3porKG2cDyUwMzcuCUEhpjvszJK8+X7X8OmV0ZCbwY1mNg+ZUYCzBWdoF
-         jPEg6pCwhtarPbTnvYqEmHudrgjWMLN/ZxeSMKwA+fOkUqMi5a/nhMCTjYnvVJkJNFGG
-         2YSyQHoP8jtjF128p6Mhk7UmSgENz9O2RsWko5btpGxQQ889FakiK4ZU653Vd+2FN6As
-         AjW2GDbNNKXDhS7eW7s/34haeVkjFvU0hEDZEfWaUXqZAW5kzN8JWIZXhZQzJN27GITu
-         bBpw==
+        bh=L6i9oMr0BT7gEUJ5QGITGlNrewuW9+CVyWhl+fqV/Dw=;
+        b=Nqa5iEsWrTs37MXXF1EAlc3oC+mzFTmQdhzmjHBOT81t+9ZHaQS+2uHfKH6/mgbyJ+
+         FcL8i0TvfwW/XxeJKALxIDngaZjXMCNeyppU+/DjQ0eE3LZgf+tpNO38898DTs4xihZc
+         sGIpPY/4p/70t/y7q8n6kjjuVDAxOQyx8FFihy6ReF1OCiqN63ia/VNjj1elZYkA8w8M
+         v7Ttfl3avcy8x0COd/DVfra35qUc1YCGul0jUq1bLb6gW+o1FvrwSmWVAnSDhs+4gIUe
+         ke5XZylfcGjetVAqxq1LXfDi0+x7NHdak6wkmZAQ8DXHQ3Hdu2r3FdvxUNgFtUwpEiL/
+         8zjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772005781; x=1772610581;
+        d=1e100.net; s=20230601; t=1772005789; x=1772610589;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=JWf0SnDRaPZtm0+DMt+yFcf5ltQr3NYfU2OS4hs/oeE=;
-        b=TPe8iaJqkbnGbN6qSY/q8VDlB2OXtATs069cBDz7HdxAsx9eDSbtFPhYHt2M4rvnRs
-         5op5RiFfXm1Z4ToExbAgDScsThndHpxns7PguCmW9UNuJNqc30aB5Vom1YzqBAPmNB2a
-         MXPbJz33YKgd0LQKrmXWHk/vpozflGfUjfGLOS9sDri2xkZTc1mFZYUkDM9IpjIlLEjs
-         z2tTu+Nn3n6FMVfCi0Lwqi7QFKZe1M19IBa/r5jZo0AOCiVJMEZVjZOpptKEVqmR4Pn8
-         t2zwRIENgbpaQ428JE7CwE2VlOm+XuOvKyEOSDwRERVltG9zCOLDxB+bppm9WzT/+3s/
-         H3Ng==
-X-Gm-Message-State: AOJu0Yw6RJ55KXpxKYBvnmmmyV0LkGeaAkj47H+bXu8aRjqzaHDEwiN9
-	fzaB/lFII1IkxKNMT7u4ij9L8XVpblIlFYCm6Ko/bbAcxhjowox7vBupDELE+72u
-X-Gm-Gg: ATEYQzw9HurpuU6pPSzTiv4vAWiU12MJOqZ3QqrV0noMLY03YPlq7l8ge+9Lsgir4Vw
-	BUDk9wrzdi6UeqR2bNVxwGlbx25f2NQONxMYO8S1UUaMR+RJ3BOSzTpFQA3FLXb47J+Q80ehnVV
-	a7UdkduJzfgWRujHkasaTzedFdCWkX90GLTsB2y4LNOREB+FCm7YwaeP9BwDIYpHmgRJUD9I5Za
-	4vRv+5scs67anw155ltHuPvsck3qhQRVZntPlTwTKfYXYK0seYv7Vk+4dvaNS81zuJY6wLCU0v+
-	aGG8dEd3PF61zOOXf4IzVVWfpxUlzxEVNIM/O2HMNx9F9s6fGp4LL0E4FKKhU9PuuHHa6X94gcs
-	Kkg8J4HfoZwhF88/9xyLVtkivh53+80Wd81ySzsHMyYgtDq6BK+rpzJncbCInRzleIbFz/KTbGR
-	aPGGDXz6wZuZoqkGd+TNrd0ylcDqa+sjs9ffJJ7Y/41Fbu7pbN7flpuK94aembl2aUZA==
-X-Received: by 2002:a05:620a:6c0d:b0:8ca:4288:b158 with SMTP id af79cd13be357-8cbb58813d0mr178996685a.43.1772005780742;
-        Tue, 24 Feb 2026 23:49:40 -0800 (PST)
+        bh=L6i9oMr0BT7gEUJ5QGITGlNrewuW9+CVyWhl+fqV/Dw=;
+        b=poNIvSKBuD//0rhYcvD2QgJc2aMWQoN085fwe3Eng0+jrw4yHfQK6876k24LPuQkrF
+         qPRozqdHXL0EmMJiLopU5wLKg4/O/bh0uRhYbK/b+31sJ+xdGIkYYOq9mS8tmwhVEPwK
+         qmLjSC9DKFNn85tA3vHb2TpXx7ml+JLbsQyBVHlPh9yH5EpB/TmLXkB6XvJUBRpcXOoF
+         WwIXqArrHjZT7SArcbSHrB/0kS1ZQN2UOyJLB9UEDgWE5YtTBc7u6EYK4lxG1yBQo/tt
+         7jfCRs2JXS+ssb1Z+/uC4O8er0ghRkxjoBKjaegEpEJywqhOQcBUecde8L0jAPXdxhJU
+         4Vzw==
+X-Gm-Message-State: AOJu0Yw0p710RoJwAx7Ikpw2foi6A5NRKDY+dh9VwAyFZBwlfJME2xB8
+	uXcQ0PmYaueM+SoQ/j+pOqYcySyVtwu9CyVFkGyNsC9oh7FypgAyvg8VTOk0Ck334OI=
+X-Gm-Gg: ATEYQzwLNPEBImgmY0oxAb0/YLOTGzWjpk4mHh8q+si/ai/W8iCMYFsUK5lJT/9XjQG
+	5SEPEkuQZ0PcohY6XQMINh02X4ljsmHG3x+qMgRKIuxfeo3fiwqBJ5jtkK6mtHLXlsdWDFWQTPj
+	AJ5KhvEruHkIS3JvP5o4KH8xorp9qke/0rV1lFoj0AiCjvvggX40NLa63ZQbGfWS/t0M6sW8rPD
+	XeA0I405qOFKsOsHmDQ+2oF0ybIJDnBUgk5UJcIkSssdaisNYw4LTQoUo4pecH5xG+Jn+S3gdUc
+	nDYbcVSenG7L30/VxrUg11nsnkhiDHG1imeLz+pHMSNhf65c3IWGZNGCpX1EMHMAmmn/RSAIH/W
+	W3KpmDc3/ECckTsS7+/3KtmRJ1V49r2tLt43wmrdnkIVu72Dm54Tua98kMh+Gi113fTIdWYyaKa
+	+R8gZXvN6fQ+fS3gRmzNpzm9Q3k2VlyjaYb7qcyNv3hEtRN3iuRnF55Re4TUiy3ox8pQ==
+X-Received: by 2002:ac8:5fc7:0:b0:4ec:f628:ea6c with SMTP id d75a77b69052e-5073a2d6432mr19358631cf.48.1772005788921;
+        Tue, 24 Feb 2026 23:49:48 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d0614fbsm1390089785a.17.2026.02.24.23.49.39
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d0614fbsm1390089785a.17.2026.02.24.23.49.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 23:49:39 -0800 (PST)
+        Tue, 24 Feb 2026 23:49:47 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v6 1/9] wic: re-implement sector-size support
-Date: Wed, 25 Feb 2026 02:49:23 -0500
-Message-ID: <20260225074931.1661345-2-twoerner@gmail.com>
+Subject: [PATCH v6 7/9] oe-selftest/cases/wic.py: oe-selftest -r wic.ModifyTests -> PASS
+Date: Wed, 25 Feb 2026 02:49:29 -0500
+Message-ID: <20260225074931.1661345-8-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260225074931.1661345-1-twoerner@gmail.com>
 References: <20260225074931.1661345-1-twoerner@gmail.com>
@@ -66,747 +66,110 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 07:49:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231930
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 07:50:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231936
 
-The previous implementation to add variable sector-size support:
-- required the variable WIC_SECTOR_SIZE either be defined in a
-  configuration file or be defined in a --vars file
-- this means that every invocation of "wic ls", "wic cp", or "wic rm"
-  needed this variable defined (config or --vars)
-- required the user to create separate *wks files for every sector size
-  they wanted to use
-- required the user to specify the mkfs-extraopts by hand to specify the
-  correct sector size: e.g.
-	bootloader --ptable gpt
-	part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"
-	part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"
-- specifying --mkfs-extraopts replaces the defaults with the
-  user-supplied values
-- only provided details to support using variable sector-sizes with
-  ext[234] filesystems
-- it would not be possible to generate images with different sector
-  sizes in the same build since the configuration and *wks files would
-  need to change and the build re-run for each size
+Changes for the wic.ModifyTests oe-selftests to pass now that wic is a
+stand-alone app and no longer part of oe-core.
 
-Update the sector-size handling so that:
-- the sector-size will now be provided on the cmdline to the "wic ls",
-  "wic cp", "wic rm", and "wic create" commands: default = 512
-- this means the configuration and/or --vars file does not need to be
-  changed in order to perform those operations on images with different
-  sector sizes
-- support is provided implicitly for mkdosfs and ext[234] partitions
-- the user no longer needs to know and supply the sector-size magic in
-  --mkfs-extraopts (thereby clobbering the other defaults), in fact if
-  they do wic will throw an error since those values may conflict with
-  the sector-size value given on the cmdline
-
-If the --sector-size command-line argument is not given, allow the
-sector-size to be provided via the WIC_SECTOR_SIZE bitbake variable.
-Warn the user whenever the WIC_SECTOR_SIZE bitbake variable is used,
-mention it is deprecated, and suggest the user use the cmdline arg
-instead. If both are given, warn the user that the cmdline argument
-takes precedence.
-
-AI-Generated: codex/gpt-5.1-codex-max
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
 changes in v6:
-- many comments were expanded to provide deeper explanations
-- in many places we know that sector_size will be defined (for example
-  by virtue of it being an argument with a default value) therefore
-  checks to make sure sector_size exists can be removed
-- when processing extraopts for fat and ext* filesystems, error out if
-  the user provides sector-size options in the wks file since these will
-  conflict with sector-size settings on the cmdline or via
-  WIC_SECTOR_SIZE
-- clean up the logic related to warning the user if WIC_SECTOR_SIZE is
-  used
+- none
 
 changes in v5:
-- fix a bug in the case where WIC_SECTOR_SIZE does not exist at all and 
-  is not provided neither in the environment nor a config file
+- rebase with master
+- re-split out in to individual, smaller patches
+- now that the sector-size re-implementation is ahead of this patch,
+  various wic subcommands (ls, cp, rm) no longer need a --vars file
 
-changes in v4: 
-- allow the sector-size to be set from WIC_SECTOR_SIZE (environment or
-  vars file) but mark its use deprecated, suggest the user use the 
-  cmdline arg instead; if both are given point out that the cmdline
-  value takes precedence
+v4: skipped to align/combine with other patch set
 
-changes in v3: 
-- none
+changes in v3:
+- squashed into 1 large patch
 
-changes in v2: 
+changes in v2:
 - none
 ---
- meta/lib/oeqa/selftest/cases/wic.py           | 39 +++--------
- scripts/lib/wic/engine.py                     | 60 ++++++++++-------
- scripts/lib/wic/help.py                       | 23 +++++--
- scripts/lib/wic/misc.py                       |  6 ++
- scripts/lib/wic/partition.py                  | 67 +++++++++++++++++--
- scripts/lib/wic/plugins/imager/direct.py      | 18 ++---
- scripts/lib/wic/plugins/source/bootimg_efi.py |  5 +-
- .../lib/wic/plugins/source/bootimg_pcbios.py  | 11 +--
- .../wic/plugins/source/isoimage_isohybrid.py  |  5 +-
- scripts/wic                                   | 42 ++++++++++++
- 10 files changed, 188 insertions(+), 88 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index ecaee5a29144..7ad61fa700f7 100644
+index 22163ccdb3e2..8a6e51abb968 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -935,33 +935,22 @@ bootloader --ptable gpt""")
-         finally:
-             os.remove(wks_file)
+@@ -1962,9 +1962,9 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
+ class ModifyTests(WicTestCase):
+     def test_wic_ls(self):
+         """Test listing image content using 'wic ls'"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+@@ -1980,9 +1980,9 @@ class ModifyTests(WicTestCase):
+ 
+     def test_wic_cp(self):
+         """Test copy files and directories to the the wic image."""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+@@ -2026,9 +2026,9 @@ class ModifyTests(WicTestCase):
+ 
+     def test_wic_rm(self):
+         """Test removing files and directories from the the wic image."""
+-        runCmd("wic create mkefidisk "
++        runCmd("wic create mkefidisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "mkefidisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+@@ -2054,9 +2054,9 @@ class ModifyTests(WicTestCase):
+ 
+     def test_wic_ls_ext(self):
+         """Test listing content of the ext partition using 'wic ls'"""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+@@ -2069,9 +2069,9 @@ class ModifyTests(WicTestCase):
+ 
+     def test_wic_cp_ext(self):
+         """Test copy files and directories to the ext partition."""
+-        runCmd("wic create wictestdisk "
++        runCmd("wic create wictestdisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
+         self.assertEqual(1, len(images))
+ 
+@@ -2169,9 +2169,9 @@ class ModifyTests(WicTestCase):
+ 
+     def test_wic_rm_ext(self):
+         """Test removing files from the ext partition."""
+-        runCmd("wic create mkefidisk "
++        runCmd("wic create mkefidisk -v %s "
+                                    "--image-name=core-image-minimal "
+-                                   "-D -o %s" % self.resultdir)
++                                   "-D -o %s" % (self.envfile, self.resultdir))
+         images = glob(os.path.join(self.resultdir, "mkefidisk-*.direct"))
+         self.assertEqual(1, len(images))
  
--    def test_wic_sector_size(self):
--        """Test generation image sector size"""
-- 
-+    def test_wic_sector_size_cli(self):
-+        """Test sector size handling via CLI option."""
-+
-         oldpath = os.environ['PATH']
-         os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
- 
-         try:
--            # Add WIC_SECTOR_SIZE into config
--            config = 'WIC_SECTOR_SIZE = "4096"\n'\
--                     'WICVARS:append = " WIC_SECTOR_SIZE"\n'
--            self.append_config(config)
-             bitbake('core-image-minimal')
- 
--            # Check WIC_SECTOR_SIZE apply to bitbake variable
--            wic_sector_size_str = get_bb_var('WIC_SECTOR_SIZE', 'core-image-minimal')
--            wic_sector_size = int(wic_sector_size_str)
--            self.assertEqual(4096, wic_sector_size)
--
--            self.logger.info("Test wic_sector_size: %d \n" % wic_sector_size)
--
-             with NamedTemporaryFile("w", suffix=".wks") as wks:
-                 wks.writelines(
-                     ['bootloader --ptable gpt\n',
--                     'part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"\n',
--                     'part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"\n'])
-+                     'part --fstype ext4 --source rootfs --label rofs-a\n',
-+                     'part --fstype ext4 --source rootfs --use-uuid\n'])
-                 wks.flush()
--                cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
-+                cmd = "wic create %s -e core-image-minimal -o %s --sector-size 4096" % (wks.name, self.resultdir)
-                 runCmd(cmd)
-                 wksname = os.path.splitext(os.path.basename(wks.name))[0]
-                 images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-@@ -969,24 +958,18 @@ bootloader --ptable gpt""")
- 
-             sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-             # list partitions
--            result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
-+            result = runCmd("wic ls %s -n %s --sector-size 4096" % (images[0], sysroot))
-             self.assertEqual(3, len(result.output.split('\n')))
- 
--            # verify partition size with wic
--            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (wic_sector_size, images[0]),
-+            # verify partition size with parted output
-+            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (4096, images[0]),
-                          stderr=subprocess.PIPE)
- 
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
--            # 1:139264B:39284735B:39145472B:ext4:rofs-a:;\n
--            # 2:39284736B:78430207B:39145472B:ext4:primary:;\n
-             disk_info = res.output.splitlines()[1]
--            # Check sector sizes
-             sector_size_logical = int(disk_info.split(":")[3])
-             sector_size_physical = int(disk_info.split(":")[4])
--            self.assertEqual(wic_sector_size, sector_size_logical, "Logical sector size is not %d." % wic_sector_size)
--            self.assertEqual(wic_sector_size, sector_size_physical, "Physical sector size is not %d." % wic_sector_size)
-+            self.assertEqual(4096, sector_size_logical, "Logical sector size is not 4096.")
-+            self.assertEqual(4096, sector_size_physical, "Physical sector size is not 4096.")
- 
-         finally:
-             os.environ['PATH'] = oldpath
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 8682ca3176c2..e12eee8b6993 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -252,7 +252,7 @@ def debugfs_version_check(debugfs_path, min_ver=(1, 46, 5)):
- 
- 
- class Disk:
--    def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext')):
-+    def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext'), sector_size=512):
-         self.imagepath = imagepath
-         self.native_sysroot = native_sysroot
-         self.fstypes = fstypes
-@@ -261,16 +261,7 @@ class Disk:
-         self._lsector_size = None
-         self._psector_size = None
-         self._ptable_format = None
--
--        # define sector size
--        sector_size_str = get_bitbake_var('WIC_SECTOR_SIZE')
--        if sector_size_str is not None:
--            try:
--                self.sector_size = int(sector_size_str)
--            except ValueError:
--                self.sector_size = None
--        else:
--            self.sector_size = None
-+        self.sector_size = sector_size
- 
-         # find parted
-         # read paths from $PATH environment variable
-@@ -299,11 +290,8 @@ class Disk:
-         if self._partitions is None:
-             self._partitions = OrderedDict()
- 
--            if self.sector_size is not None:
--                out = exec_cmd("export PARTED_SECTOR_SIZE=%d; %s -sm %s unit B print" % \
--                           (self.sector_size, self.parted, self.imagepath), True)
--            else:
--                out = exec_cmd("%s -sm %s unit B print" % (self.parted, self.imagepath))
-+            out = exec_cmd("export PARTED_SECTOR_SIZE=%d; %s -sm %s unit B print" % \
-+                       (self.sector_size, self.parted, self.imagepath), True)
- 
-             parttype = namedtuple("Part", "pnum start end size fstype")
-             splitted = out.splitlines()
-@@ -339,12 +327,26 @@ class Disk:
-         if pnum not in self.partitions:
-             raise WicError("Partition %s is not in the image" % pnum)
-         part = self.partitions[pnum]
-+
-         # check if fstype is supported
-+        """
-+        NOTE:
-+        ^^^^
-+        wic uses "parted -m ..." to determine partition types (the "-m" is used
-+        so its output is easy to parse in a script). However there appears to
-+        be a bug in parted whereby it is unable to identify dos/vfat partition
-+        types if the sector-size is not 512 bytes. Therefore if sector-size=512
-+        then accept parted's assessment of fileysystem type (including None).
-+        But if sector-size!=512 then accept parted's assessment of filesystem
-+        type, unless it says None, in which case assume "fat".
-+        """
-+        part_fstype = part.fstype if part.fstype or self.sector_size == 512 else 'fat'
-+
-         for fstype in self.fstypes:
--            if part.fstype.startswith(fstype):
-+            if part_fstype.startswith(fstype):
-                 break
-         else:
--            raise WicError("Not supported fstype: {}".format(part.fstype))
-+            raise WicError("Not supported fstype: {}".format(part_fstype))
-         if pnum not in self._partimages:
-             tmpf = tempfile.NamedTemporaryFile(prefix="wic-part")
-             dst_fname = tmpf.name
-@@ -615,8 +617,9 @@ class Disk:
-                             label = part.get("name")
-                             label_str = "-n {}".format(label) if label else ''
- 
--                            cmd = "{} {} -C {} {}".format(self.mkdosfs, label_str, partfname,
--                                                          part['size'])
-+                            sector_str = "-S {}".format(self.sector_size) if self.sector_size else ''
-+                            cmd = "{} {} {} -C {} {}".format(self.mkdosfs, label_str, sector_str, partfname,
-+                                                             part['size'])
-                             exec_cmd(cmd)
-                             # copy content from the temporary directory to the new partition
-                             cmd = "{} -snompi {} {}/* ::".format(self.mcopy, partfname, tmpdir)
-@@ -638,14 +641,19 @@ class Disk:
- 
- def wic_ls(args, native_sysroot):
-     """List contents of partitioned image or vfat partition."""
--    disk = Disk(args.path.image, native_sysroot)
-+    disk = Disk(args.path.image, native_sysroot, sector_size=args.sector_size)
-     if not args.path.part:
-         if disk.partitions:
-             print('Num     Start        End          Size      Fstype')
-             for part in disk.partitions.values():
-+                # size values are in bytes from parted; convert to sectors if a custom sector size was requested
-+                display_size = part.size
-+                if args.sector_size and args.sector_size != disk._lsector_size:
-+                    display_size = part.size // args.sector_size
-                 print("{:2d}  {:12d} {:12d} {:12d}  {}".format(\
--                          part.pnum, part.start, part.end,
--                          part.size, part.fstype))
-+                          part.pnum, part.start // args.sector_size,
-+                          part.end // args.sector_size,
-+                          display_size, part.fstype))
-     else:
-         path = args.path.path or '/'
-         print(disk.dir(args.path.part, path))
-@@ -656,9 +664,9 @@ def wic_cp(args, native_sysroot):
-     partitioned image.
-     """
-     if isinstance(args.dest, str):
--        disk = Disk(args.src.image, native_sysroot)
-+        disk = Disk(args.src.image, native_sysroot, sector_size=args.sector_size)
-     else:
--        disk = Disk(args.dest.image, native_sysroot)
-+        disk = Disk(args.dest.image, native_sysroot, sector_size=args.sector_size)
-     disk.copy(args.src, args.dest)
- 
- 
-@@ -667,7 +675,7 @@ def wic_rm(args, native_sysroot):
-     Remove files or directories from the vfat partition of
-     partitioned image.
-     """
--    disk = Disk(args.path.image, native_sysroot)
-+    disk = Disk(args.path.image, native_sysroot, sector_size=args.sector_size)
-     disk.remove(args.path.part, args.path.path, args.recursive_delete)
- 
- def wic_write(args, native_sysroot):
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 6b49a67de938..5d7c40456a80 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -118,7 +118,7 @@ wic_create_usage = """
-  usage: wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-             [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-             [-r, --rootfs-dir] [-b, --bootimg-dir]
--            [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
-+            [-k, --kernel-dir] [-n, --native-sysroot] [--sector-size <bytes>] [-f, --build-rootfs]
-             [-c, --compress-with] [-m, --bmap]
- 
-  This command creates an OpenEmbedded image based on the 'OE kickstart
-@@ -139,13 +139,16 @@ SYNOPSIS
-     wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-         [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-         [-r, --rootfs-dir] [-b, --bootimg-dir]
--        [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
-+        [-k, --kernel-dir] [-n, --native-sysroot] [--sector-size <bytes>] [-f, --build-rootfs]
-         [-c, --compress-with] [-m, --bmap] [--no-fstab-update]
- 
- DESCRIPTION
-     This command creates an OpenEmbedded image based on the 'OE
-     kickstart commands' found in the <wks file>.
- 
-+    Use the --sector-size option to select the sector size (in bytes)
-+    used for partition layout calculations (default is 512).
-+
-     In order to do this, wic needs to know the locations of the
-     various build artifacts required to build the image.
- 
-@@ -278,7 +281,7 @@ wic_ls_usage = """
- 
-  List content of a partitioned image
- 
-- usage: wic ls <image>[:<partition>[<path>]] [--native-sysroot <path>]
-+ usage: wic ls <image>[:<partition>[<path>]] [--native-sysroot <path>] [--sector-size <bytes>]
- 
-  This command  outputs either list of image partitions or directory contents
-  of vfat and ext* partitions.
-@@ -296,7 +299,7 @@ SYNOPSIS
-     wic ls <image>
-     wic ls <image>:<vfat or ext* partition>
-     wic ls <image>:<vfat or ext* partition><path>
--    wic ls <image>:<vfat or ext* partition><path> --native-sysroot <path>
-+    wic ls <image>:<vfat or ext* partition><path> --native-sysroot <path> [--sector-size <bytes>]
- 
- DESCRIPTION
-     This command lists either partitions of the image or directory contents
-@@ -336,6 +339,8 @@ DESCRIPTION
- 
-     The -n option is used to specify the path to the native sysroot
-     containing the tools(parted and mtools) to use.
-+    The --sector-size option sets the sector size used for partition math
-+    (default is 512 bytes).
- 
- """
- 
-@@ -343,7 +348,7 @@ wic_cp_usage = """
- 
-  Copy files and directories to/from the vfat or ext* partition
- 
-- usage: wic cp <src> <dest> [--native-sysroot <path>]
-+ usage: wic cp <src> <dest> [--native-sysroot <path>] [--sector-size <bytes>]
- 
-  source/destination image in format <image>:<partition>[<path>]
- 
-@@ -364,7 +369,7 @@ SYNOPSIS
-     wic cp <src> <dest>:<partition>
-     wic cp <src>:<partition> <dest>
-     wic cp <src> <dest-image>:<partition><path>
--    wic cp <src> <dest-image>:<partition><path> --native-sysroot <path>
-+    wic cp <src> <dest-image>:<partition><path> --native-sysroot <path> [--sector-size <bytes>]
- 
- DESCRIPTION
-     This command copies files or directories either
-@@ -408,13 +413,15 @@ DESCRIPTION
- 
-     The -n option is used to specify the path to the native sysroot
-     containing the tools(parted and mtools) to use.
-+    The --sector-size option sets the sector size used for partition math
-+    (default is 512 bytes).
- """
- 
- wic_rm_usage = """
- 
-  Remove files or directories from the vfat or ext* partitions
- 
-- usage: wic rm <image>:<partition><path> [--native-sysroot <path>]
-+ usage: wic rm <image>:<partition><path> [--native-sysroot <path>] [--sector-size <bytes>]
- 
-  This command  removes files or directories from the vfat or ext* partitions of
-  the partitioned image.
-@@ -466,6 +473,8 @@ DESCRIPTION
- 
-     The -n option is used to specify the path to the native sysroot
-     containing the tools(parted and mtools) to use.
-+    The --sector-size option sets the sector size used for partition math
-+    (default is 512 bytes).
- 
-     The -r option is used to remove directories and their contents
-     recursively,this only applies to ext* partition.
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 1a7c140fa6c8..310e6367a2ad 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -263,4 +263,10 @@ def get_bitbake_var(var, image=None, cache=True):
-     Provide old get_bitbake_var API by wrapping
-     get_var method of BB_VARS singleton.
-     """
-+    if var == "WIC_SECTOR_SIZE":
-+        env_val = os.environ.get("WIC_SECTOR_SIZE")
-+        if env_val is not None:
-+            logger.warning("DEPRECATED: Using WIC_SECTOR_SIZE from environment; prefer --sector-size to avoid surprises.")
-+            return env_val
-+
-     return BB_VARS.get_var(var, image, cache)
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 8fed686e903e..d951df34073f 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -65,6 +65,62 @@ class Partition():
- 
-         self.lineno = lineno
-         self.source_file = ""
-+        self.sector_size = 512
-+
-+    def _mkdosfs_extraopts(self):
-+        """
-+        Build mkdosfs extra options ensuring the CLI sector size is applied.
-+
-+        Generate cmdline options for mkdosfs. A user can supply options
-+        they want to see used via a wks file. Check that the user has
-+        not supplied an "-S <logical-sector-size>" option and throw an
-+        error if they have. Then add our own "-S <logical-sector-size>"
-+        option based on the value of self.sector_size.
-+        """
-+        extraopts = self.mkfs_extraopts or ''
-+        tokens = []
-+        for tok in extraopts.split():
-+            if tok == '-S' or tok.startswith('-S'):
-+                raise WicError("Please do not specify a sector/block size "
-+                               "(-S) in the extraopts argument.")
-+            tokens.append(tok)
-+        tokens.extend(['-S', str(self.sector_size)])
-+        return ' '.join(tokens).strip()
-+
-+    def _mkfs_ext_extraopts(self, base_opts):
-+        """
-+        Build mkfs.ext* extra options ensuring the CLI sector size is applied.
-+
-+        Generate cmdline options for mkfs.ext*. Different parts of the
-+        code want to provide different default sets of ext* options for
-+        mkfs. But the user can provide their own options via the wks
-+        file; in which case the user options completely replace the
-+        in-code default options. In either case when sector-size!=512
-+        we want to supply an additional "-b <block-size>" argument
-+        (using self.sector_size). However we also have to make sure the
-+        user (or the code) has not provided their own "-b <block-size>"
-+        option, in which case throw an error.
-+
-+        NOTE: the default sector/block size for an ext* filesystem depends on
-+        a number of factors and it is generally best to allow the tools to
-+        determine the sector/block size heuristically. Therefore only specify
-+        the size explicitly when it is not the default. Specifying a sector-size
-+        of 512, for example, for an ext4 filesystem will result in:
-+            ERROR: mkfs.ext4: invalid block size - 512
-+        See the mkfs.ext4 man page for details on the -b option.
-+        """
-+        extraopts = self.mkfs_extraopts or base_opts
-+        if self.sector_size != 512:
-+            tokens = []
-+            for tok in extraopts.split():
-+                if tok == '-b' or tok.startswith('-b'):
-+                    raise WicError("A sector/block size is specified in both "
-+                             "the extraopts argument (-b) and the wic command-line. "
-+                             "Please specify the sector/block size only once.")
-+                tokens.append(tok)
-+            tokens.extend(['-b', str(self.sector_size)])
-+            return ' '.join(tokens).strip()
-+        return extraopts
- 
-     def get_extra_block_count(self, current_blocks):
-         """
-@@ -138,6 +194,8 @@ class Partition():
-         Prepare content for individual partitions, depending on
-         partition command parameters.
-         """
-+        # capture the sector size requested on the CLI for mkdosfs invocations
-+        self.sector_size = getattr(creator, 'sector_size', 512)
-         self.updated_fstab_path = updated_fstab_path
-         if self.updated_fstab_path and not (self.fstype.startswith("ext") or self.fstype == "msdos"):
-             self.update_fstab_in_rootfs = True
-@@ -293,7 +351,7 @@ class Partition():
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
- 
--        extraopts = self.mkfs_extraopts or "-F -i 8192"
-+        extraopts = self._mkfs_ext_extraopts("-F -i 8192")
- 
-         # use hash_seed to generate reproducible ext4 images
-         (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, pseudo)
-@@ -401,7 +459,7 @@ class Partition():
- 
-         size_str = ""
- 
--        extraopts = self.mkfs_extraopts or '-S 512'
-+        extraopts = self._mkdosfs_extraopts()
- 
-         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-                     (label_str, self.fsuuid, size_str, extraopts, rootfs,
-@@ -452,7 +510,7 @@ class Partition():
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), size * 1024)
- 
--        extraopts = self.mkfs_extraopts or "-i 8192"
-+        extraopts = self._mkfs_ext_extraopts("-i 8192")
- 
-         # use hash_seed to generate reproducible ext4 images
-         (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, None)
-@@ -498,7 +556,7 @@ class Partition():
- 
-         size_str = ""
- 
--        extraopts = self.mkfs_extraopts or '-S 512'
-+        extraopts = self._mkdosfs_extraopts()
- 
-         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-                     (label_str, self.fsuuid, extraopts, size_str, rootfs,
-@@ -559,4 +617,3 @@ class Partition():
-                     logger.warn("%s Inodes (of size %d) are too small." %
-                                 (get_err_str(self), size))
-                 break
--
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index ad922cfbf122..832d0e692818 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -67,6 +67,7 @@ class DirectPlugin(ImagerPlugin):
-         self._image = None
-         self.ptable_format = self.ks.bootloader.ptable
-         self.parts = self.ks.partitions
-+        self.sector_size = options.sector_size or 512
- 
-         # as a convenience, set source to the boot partition source
-         # instead of forcing it to be set via bootloader --source
-@@ -78,7 +79,7 @@ class DirectPlugin(ImagerPlugin):
-         image_path = self._full_path(self.workdir, self.parts[0].disk, "direct")
-         self._image = PartitionedImage(image_path, self.ptable_format, self.ks.bootloader.diskid,
-                                        self.parts, self.native_sysroot,
--                                       options.extra_space)
-+                                       options.extra_space, self.sector_size)
- 
-     def setup_workdir(self, workdir):
-         if workdir:
-@@ -294,15 +295,13 @@ MBR_OVERHEAD = 1
- # Overhead of the GPT partitioning scheme
- GPT_OVERHEAD = 34
- 
--# Size of a sector in bytes
--SECTOR_SIZE = 512
--
- class PartitionedImage():
-     """
-     Partitioned image in a file.
-     """
- 
--    def __init__(self, path, ptable_format, disk_id, partitions, native_sysroot=None, extra_space=0):
-+    def __init__(self, path, ptable_format, disk_id, partitions, native_sysroot=None, extra_space=0,
-+                 sector_size=512):
-         self.path = path  # Path to the image file
-         self.numpart = 0  # Number of allocated partitions
-         self.realpart = 0 # Number of partitions in the partition table
-@@ -332,14 +331,7 @@ class PartitionedImage():
-         self.partitions = partitions
-         self.partimages = []
-         # Size of a sector used in calculations
--        sector_size_str = get_bitbake_var('WIC_SECTOR_SIZE')
--        if sector_size_str is not None:
--            try:
--                self.sector_size = int(sector_size_str)
--            except ValueError:
--                self.sector_size = SECTOR_SIZE
--        else:
--            self.sector_size = SECTOR_SIZE
-+        self.sector_size = sector_size
- 
-         self.native_sysroot = native_sysroot
-         num_real_partitions = len([p for p in self.partitions if not p.no_table])
-diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
-index 430b0a4b023a..69aa38bd5ec7 100644
---- a/scripts/lib/wic/plugins/source/bootimg_efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
-@@ -415,8 +415,9 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         label = part.label if part.label else "ESP"
- 
--        dosfs_cmd = "mkdosfs -v -n %s -i %s -C %s %d" % \
--                    (label, part.fsuuid, bootimg, blocks)
-+        sector_size = getattr(creator, 'sector_size', 512)
-+        dosfs_cmd = "mkdosfs -v -n %s -i %s -S %d -C %s %d" % \
-+                    (label, part.fsuuid, sector_size, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
-         logger.debug("mkdosfs:\n%s" % (str(out)))
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index a7cc5d12c620..1e5ec3aa2cf3 100644
---- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -132,7 +132,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-                 cls._do_prepare_grub(part, cr_workdir, oe_builddir,
-                                 kernel_dir, rootfs_dir, native_sysroot)
-             elif source_params['loader-bios'] == 'syslinux':
--                cls._do_prepare_syslinux(part, cr_workdir, bootimg_dir,
-+                cls._do_prepare_syslinux(part, creator, cr_workdir, bootimg_dir,
-                                     kernel_dir, native_sysroot)
-             else:
-                 raise WicError("unrecognized bootimg_pcbios loader: %s" % source_params['loader-bios'])
-@@ -142,7 +142,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         except KeyError:
-             # Required by do_install_disk
-             cls.loader = 'syslinux'
--            cls._do_prepare_syslinux(part, cr_workdir, bootimg_dir,
-+            cls._do_prepare_syslinux(part, creator, cr_workdir, bootimg_dir,
-                                 kernel_dir, native_sysroot)
- 
-     @classmethod
-@@ -240,7 +240,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
--    def _do_prepare_syslinux(cls, part, cr_workdir, bootimg_dir,
-+    def _do_prepare_syslinux(cls, part, creator, cr_workdir, bootimg_dir,
-                              kernel_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-@@ -292,8 +292,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
- 
-         label = part.label if part.label else "boot"
- 
--        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
--                    (label, part.fsuuid, bootimg, blocks)
-+        sector_size = getattr(creator, 'sector_size', 512)
-+        dosfs_cmd = "mkdosfs -n %s -i %s -S %d -C %s %d" % \
-+                    (label, part.fsuuid, sector_size, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
-diff --git a/scripts/lib/wic/plugins/source/isoimage_isohybrid.py b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-index fdab188db1f8..0a3ecd3424c4 100644
---- a/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-@@ -367,8 +367,9 @@ class IsoImagePlugin(SourcePlugin):
- 
-             esp_label = source_params.get('esp_label', 'EFIimg')
- 
--            dosfs_cmd = 'mkfs.vfat -n \'%s\' -S 512 -C %s %d' \
--                        % (esp_label, bootimg, blocks)
-+            sector_size = getattr(creator, 'sector_size', 512)
-+            dosfs_cmd = "mkfs.vfat -n '%s' -S %d -C %s %d" % \
-+                        (esp_label, sector_size, bootimg, blocks)
-             exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-             mmd_cmd = "mmd -i %s ::/EFI" % bootimg
-diff --git a/scripts/wic b/scripts/wic
-index 9137208f5e8f..022e8d14b266 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -103,6 +103,38 @@ class RootfsArgAction(argparse.Action):
-         namespace.__dict__['rootfs_dir'][key] = rootfs_dir
- 
- 
-+def _apply_sector_size_default(args):
-+    """
-+    Populate args.sector_size.
-+    Prefer --sector-size if given, WIC_SECTOR_SIZE if not, otherwise fall back to 512.
-+    """
-+    if not hasattr(args, "sector_size"):
-+        return
-+
-+    BB_VARS.vars_dir = args.vars_dir
-+    try:
-+        tmp_val = get_bitbake_var("WIC_SECTOR_SIZE", args.image_name)
-+        if tmp_val:
-+            try:
-+                env_val = int(tmp_val)
-+            except ValueError:
-+                raise WicError("Invalid WIC_SECTOR_SIZE value '%s'; please provide an integer or use --sector-size." % tmp_val)
-+
-+            logger.warning("DEPRECATED: WIC_SECTOR_SIZE is deprecated and will be removed, use the --sector-size command-line argument instead.")
-+            if args.sector_size is not None:
-+                logger.warning("WIC_SECTOR_SIZE (%d) and --sector-size (%d) were both provided; --sector-size used.", env_val, args.sector_size)
-+            else:
-+                logger.warning("WIC_SECTOR_SIZE (%s) provided but --sector-size not provided; use --sector-size alone to avoid confusion.", env_val)
-+                args.sector_size = env_val
-+            return
-+    except:
-+        pass
-+
-+    if args.sector_size is not None:
-+        return
-+    args.sector_size = 512
-+
-+
- def wic_create_subcommand(options, usage_str):
-     """
-     Command-line handling for image creation.  The real work is done
-@@ -376,6 +408,8 @@ def wic_init_parser_create(subparser):
-                       default="direct", help="the wic imager plugin")
-     subparser.add_argument("--extra-space", type=int, dest="extra_space",
-                       default=0, help="additional free disk space to add to the image")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                      help="sector size in bytes (default: 512)")
-     return
- 
- 
-@@ -413,6 +447,8 @@ def imgtype(arg):
- def wic_init_parser_ls(subparser):
-     subparser.add_argument("path", type=imgtype,
-                         help="image spec: <image>[:<vfat partition>[<path>]]")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                        help="sector size in bytes (default: 512)")
-     subparser.add_argument("-n", "--native-sysroot",
-                         help="path to the native sysroot containing the tools")
-     subparser.add_argument("-e", "--image-name", dest="image_name",
-@@ -433,6 +469,8 @@ def wic_init_parser_cp(subparser):
-                         help="image spec: <image>:<vfat partition>[<path>] or <file>")
-     subparser.add_argument("dest",
-                         help="image spec: <image>:<vfat partition>[<path>] or <file>")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                        help="sector size in bytes (default: 512)")
-     subparser.add_argument("-n", "--native-sysroot",
-                         help="path to the native sysroot containing the tools")
-     subparser.add_argument("-e", "--image-name", dest="image_name",
-@@ -445,6 +483,8 @@ def wic_init_parser_cp(subparser):
- def wic_init_parser_rm(subparser):
-     subparser.add_argument("path", type=imgpathtype,
-                         help="path: <image>:<vfat partition><path>")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                        help="sector size in bytes (default: 512)")
-     subparser.add_argument("-n", "--native-sysroot",
-                         help="path to the native sysroot containing the tools")
-     subparser.add_argument("-r", dest="recursive_delete", action="store_true", default=False,
-@@ -569,6 +609,8 @@ def main(argv):
-     if args.debug:
-         logger.setLevel(logging.DEBUG)
- 
-+    _apply_sector_size_default(args)
-+
-     if "command" in vars(args):
-         if args.command == "help":
-             if args.help_topic is None:
 -- 
 2.51.0
 
