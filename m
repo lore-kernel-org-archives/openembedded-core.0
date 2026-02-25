@@ -2,131 +2,134 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0428BFCEE86
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 11:29:02 +0000 (UTC)
-Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.59])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.41976.1772011850693645706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 070C3FCEE8A
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 11:29:32 +0000 (UTC)
+Received: from MA0PR01CU012.outbound.protection.outlook.com (MA0PR01CU012.outbound.protection.outlook.com [40.107.57.35])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.42088.1772012517946353983
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 01:30:51 -0800
+ Wed, 25 Feb 2026 01:41:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=ZAXdmuQE;
- spf=pass (domain: bmwtechworks.in, ip: 40.107.51.59, mailfrom: git-patches@bmwtechworks.in)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=JSYsbVxH;
+ spf=pass (domain: bmwtechworks.in, ip: 40.107.57.35, mailfrom: git-patches@bmwtechworks.in)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mLDIQ3+jJi+DUFgXSSR17nG/aJ7QR4t0iRgFhJIoZGBZMBf8Qb8w2/i2BCCXquxThRzJ4xp7DQrlv3xf3cd9e2Fb7FjZrLK6n1usc2oh2+yNReAXnb/dYd+7UOZsgPYJlMlKbaTlennCbFQ5vwawPIxrEl6Tp47vKlLExtyIFwdhdJHM3SqeG82LMP7UNlB6EgiiQk0eKHoLS8zP+szJ/HT6K0LBo9+hmEPYsTw46dUnyGUBzniIWVYx+XjXFtflA3nWGSXP2c2nwBv89ePVTy3AG1KK6bFLJ/KIEVNcvpGGqOElhEmeGlZQuu8pfU0+2yLQIXyUwKIoF8w3jbgEbQ==
+ b=fiOBsO2YzU7aQjnIBucd1Vk3qnwhFdRmiw10TgqE03x9OiC0Cd7ZeOonUpcQmjWmgG3em9vPqWxHQGgzGkmhxi8MA3GUdS8mP8Czrew2mchUJxo9aU4hQV/5Z7ngsJ+Fz8QH5O1wmNtOFumCCo1bRV9OSpvV/rk/hX4wmhHbUem2AenhGGpp4c22+tUhtxXl8hU+vQjo0mstNrKoZjlKVNu/YJy3nXvPX1UHeh5VuYeOnAGO4e8l0VrCYjAuTJ2Hrb11pS6ZGJjr7w4FTQFQUrou0Uhdyejlck+CzjPpYghK1SzFIUlN0qLPRRoXFLqmSN1/a6EwvKwTMgMMcWQGdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hJJZPmCvxSYK+zmG2INFTBgMQqimyyCk8sEgmx/Sfro=;
- b=rEKlu48CbKs3Bz1P/EYs2QAquhRo72JefZ9ZIHJKo7WOxZs50iX4GnyoqH7BWhR5Fx0LlojHlzF9/4UgT21705Q9A1DoFt91JEwWHL019APaIPz8mXWmJHvvNYgIHL7RWluf2F8LieacpUStGrpr4ZTSixksylk0h3pR+zypn+oXjjcxZK9tyTX8vEx3l+p+5KLe4wzw4lowmgxwfCJFX8IidR9AWKb8Tk0ODYVTIQdDj1UOmiwMYzfg/FjGzugzxwaDyF8jgYoW52Yryqrm6H8LWAPmSF2JloFYwMKgP6mwUhAeSekS09afoyjfVdNi5piETQYx/seCEoihd6DSzg==
+ bh=VviGmwGo5izbbOXGqgyWSAfG6MWDs5OVGlKFfWETjr0=;
+ b=r1KIMsSnjSn6jvtHeJT+/QjnCI3oZ/qyfi0+6D63RKFVAtE24duHkxr7ipyK4H6so2gubApiN0AyUWGY2nmE7Vke2BZkBzP5Wp8TFunR8AXpsHVkScYZmXsaMwr1UHmRwCvruuiWtNyauSCZtLqfzQcaQOCQOwbxr4zWKf6tnkAYOjsh++UVdAlCqSfJg5rYOHwB61/4f3FvriXYqbVb8sL1/p7vxj3U64oNLCJZRwvleWOA/SuL4VXws+28zHZzcr6cR/hcA5QiA8VNLiZ7d+kYU5L065grsDfC1m+dWWzIJpwc1yFjvxF5JmN6GuVQ7wJh8yci4KYUKfvgry5Uog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
  header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hJJZPmCvxSYK+zmG2INFTBgMQqimyyCk8sEgmx/Sfro=;
- b=ZAXdmuQEptHZG7+oGqcB+aPCLzKbSZSPBRIaCz+dorWAIT1Hg4rGsVdDyUiC+wWdHJQVZLsdmVcXFOJ0sYo1seCBEx1aOGW4h39GMVfzL+g3o7gBZziBpOhbxl3NHsKhnCHGqqwkFQB+blXSeTWGRC5LZ71tRqO3XSUnUF+rEKAh80swj+s84x3KKuNDZZkhDrfPTlVXtXe7BPqZnFdU5zu1BqFsfhwQCavCFKGUbYGMWtRvdw8nGgBs2EoNkQIq6s376Kl7rcccg/E5SL3nlxIJ8BqneAkDFQl+MgcF2aKYQeWTWVFfF1NBxu0PIJx9PRrXOkyVh0uo1L+Kfg8J+A==
+ bh=VviGmwGo5izbbOXGqgyWSAfG6MWDs5OVGlKFfWETjr0=;
+ b=JSYsbVxHs3cNOb3wzqazcNooJvUl/fuRDCVquhUHG6q2QKeuk8aiRijopopgSeFhPHx/WkIO4TG0934lEzpuS/zUCDddDohAmA+byzDPPxR+x0oPN9GEFSU1Qv9tC9UzhD0L448TW3cem1UtsSCETcsOUb8rKvzEQ1WgQv9iHmGiLDg0BJyA3vZD5nHE8PoV9+JjAw77mQsuU90NmzRleMfDZHZzQ1GDz45gtS+LMYbVIV0rYMM1bTclTvzIUW4iuZMzBQkq9W1HCBL+bVFGTljG+J2gx0VAuhHRimcTQZDXpBK0jVoRyamqcUsPgnvCg5Y9zEvudlnLDjm9Lcj+wQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
 Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1be::5)
- by PN1P287MB3856.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:256::7) with
+ by MA5P287MB4396.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:169::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Wed, 25 Feb
- 2026 09:16:23 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.11; Wed, 25 Feb
+ 2026 09:41:51 +0000
 Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
  ([fe80::c9ca:1b54:1c36:f7f2]) by PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
  ([fe80::c9ca:1b54:1c36:f7f2%5]) with mapi id 15.20.9654.007; Wed, 25 Feb 2026
- 09:16:23 +0000
+ 09:41:51 +0000
 From: Nikhil R <git-patches@bmwtechworks.in>
 To: openembedded-core@lists.openembedded.org,
 	nikhil.r@bmwtechworks.in
 Subject: [OE-core][master][PATCH] libseccomp: add diffutils to ptest RDEPENDS
-Date: Wed, 25 Feb 2026 14:46:11 +0530
-Message-ID: <20260225091611.3758945-1-git-patches@bmwtechworks.in>
+Date: Wed, 25 Feb 2026 15:11:14 +0530
+Message-ID: <20260225094114.44082-1-git-patches@bmwtechworks.in>
 X-Mailer: git-send-email 2.34.1
-X-ClientProxiedBy: BM1P287CA0004.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:40::19) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PN3PR01CA0138.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::10) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
  (2603:1096:c01:1be::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|PN1P287MB3856:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5617e11-8d9c-468b-5487-08de744e8bb9
+X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|MA5P287MB4396:EE_
+X-MS-Office365-Filtering-Correlation-Id: 203914b1-166e-453f-d285-08de74521a6e
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	zFTMJTJxfYFBUCq7OyJIJBLDWLgb3DFk6jWfR4c/Z+4sYhkcvxYP0lq89cq6lHeJ6L3JTXYN2N+9kcYTd8Bx0n03OXSHuXazS0psIuRzQQwJb+yAyB5V63POnG57h1nrM5PLud+zx2YQYUqimyhHwDIRMwyO25Xb2rTSIF4I9No4OsS+YptOKiVvm64khZT5yW3CwLcB4flXuhsmGxZQya7bccLiXw36BxQObrT1mglIUh2qkVjGntEg88t1CfjWd3I/bVFc4bV6mXfDIYXIXfHY1rYJrR+LgnuxzEEECKyQLna6/V04a6fu+xeb4zCbqSQ+ujSYug4lGxt2yCb7BuVBwqWuBF10EUDHDyyOOrfCxXgsBVSmhDrog/cTSTPN1ZcbFHHyCZEvWnII1hnmBTZd3O2xNNRy4wrvvx8pr7T4qtCORrqjNFeVvsr8F6/A4DyJixDItEmgp0BOoAYdCgTTMtjEpn6Ct+OAlbjulUgqYaS74SPiMH4wqB6RN2ZisdeHwUtpuascZdE5eNZQ1y06MCmwIYAIrWxbniz6zt3LbmzrgwUL890ER6MYo71OocxaohUZgAHrxfXiRGU6/9IZBgLQxtJF+3KhNjJedzCDVLyk4Rs/Qx0bpE3d+ihS0XpjK5dTIIbfE7OatK+VpgXUBWBAFye2XivlBuFk97W2GyKts10VkddBV7bfmxhMSFAwv459P6iLV0g9W5tIitDw3pTwwZWm1n7u9KfGKKz+VjoTGlVgFOHSqAmDPP5R/e9KL3jg8d+kJsAtftwMj7eQdMNzxvDI4tjzSn8TvI8=
+	i5I6AkWxsRUlH6eYJ8+q2Vu6kbkXKKF6uOY3iO08DcD5qbpgmczpmwM3ayFnjnhIYPzqWVBUDcqnWFOK7kosLo24BjoswpYBCaApZXARNxadR98+98qEddtdlycePmg7++/gAU/N+wLUvlGAoyuMBYTF9WsGMruDabS9+3PCTCaRA2NA5lwVm8YmXq8Srj8Yj+BIpVjJszkUMlJD6bbOSMJ7OssstdUUxxyd+G36U1YRhQSapV75DtpZA4TH4OcQml5HaTZQ/ytVgTTCzE32fQKR+IODTPcGASwAussUvVkTzH6jMhhxwKw55yrlfWV94GV6B4Ebu9LoOXc18veHe/ipZruwRjWkmQn6/Gqem5vPhwQkJfQvhhbzX+XIv+hpX4ayUdcKly4C6SrnFWaAWN+TpOVY2G2NE1MKgWRcap4T9ulP6AJYuaI4gfZ+wx8TZ0FJ6vovMZnnr4SF/NRmRjYP/Twsq5uOzsdricwcrorkpXJZVQz45WfyPze7hkiG8Sm+BPwNKr1so8ySgU7CdzxD+w8YMjkV6g15iYX5C5BuusM5iaD5ipVMqtfGxy9oeGB6vUwx0Mt6ahjxPIeJKFonzzxUbwxdSwn4uKHRd0pY7Wxabzbit9uoJR92zWjSOcH2lMgFh0waheczO41H4rL2nM4c6LscKEUPvXEgJ7iJn559zGQ4SWrX+kkaWz3HCkeHnoI6tOqtKSJ7uWnP/mWYg34Cb0Tce9OLa6VCZE+/c4hm23WfNxrAUVaXKy7tP/JkO6H2RAYNtzfgEKgEYhbLxjkSR0c3Jai+RqbB0/w=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1970.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?c/TBEhpZICRBct3v0u1pZFX2UFjjCVKImL4a4b79uq+MHj0eelOW0bVEHXOg?=
- =?us-ascii?Q?nix6ku0o4Y0Lo/vp9iVRxbd/YzBsARbT1SKcGIDVS+U4wgU+rr79MuqmuNMT?=
- =?us-ascii?Q?a6nRn26XjJigoKN/XQBkXMmGuioCM1BW/18biEVx37hgHLVey7nPPw0Pdbvf?=
- =?us-ascii?Q?mkRAinTKP/wRuGoIEqZO57I0xT4KCPUmU+vw9BRIL3fnZmt6XwCsUgDbsiBA?=
- =?us-ascii?Q?hOvbP/94ERZ2ErjvdX4LdSj6ALcW5Z6CVHntTssxsD5MnvWPnTSx2yjk2vdh?=
- =?us-ascii?Q?Wdpqi2twLxbaYdqSn5bR4Rp2ntT0eHRBNp/D8FARR/R8WM3GLwIdk0rEJIs5?=
- =?us-ascii?Q?xabGboy4QiSW5QVIPL/CEyLhPv3eJVXJSgql2TQJKYTEOKgw2va6dnxlugQj?=
- =?us-ascii?Q?3qPsW9IXDezp10s25UhOMJMNU4s1xdV8qjD4OTFag+BBJZ8h1sDJ6iwzdAz2?=
- =?us-ascii?Q?Y927KM/jnH5KwhPNCJp8AFp0iJemmfq86fL5bE/KfNBOB+1lGFe1W9rRqRYK?=
- =?us-ascii?Q?lUZ5G+w1QfqhQWw1UPMJ8iXpfdTYFKQ53txn3FL+jfwyK/kWywGNhMsdtrVD?=
- =?us-ascii?Q?FWPj/jrzzg8BwIuuB7yy1aAlcIUroZbsvGZVBTnQzn8QBAZGwbLCE/Jjja/C?=
- =?us-ascii?Q?w8gFAb/vJ0oL5AvFY5fB2iwIFnAzV755fXCW1J3rTEzuBXwnfdn4ETTynx+w?=
- =?us-ascii?Q?x2a3eAWqnLQO1kP1TlVtGhYo43tXeGVVP38GorLKkJlDTT2IddyZjTZOiLQx?=
- =?us-ascii?Q?L85q4VxYq1JDQIhIYXvcI/XS2llZdLTuxf7Z46FnoNlaAAMce4EFa2jBp5Gd?=
- =?us-ascii?Q?5AkwIJDulOAAGSAMMRg4macBvBqswJK+tVMdeLDw/jd+YDJSK1e3s0iAVH+F?=
- =?us-ascii?Q?4q/1fU+Gq0EoBayMPIxp2EnKHdHK6iiwIhZuBKbdvrIMT4fBVaK6ssa5jv+j?=
- =?us-ascii?Q?CFiIixyaAOZBr4Co8tRtXweRM47AuiOFs7cbw0ZSdD/B0FSyFCp0pjDdS6GK?=
- =?us-ascii?Q?msZT0WLqSJUNo3AjkwtWvptO7fJ+ruefQ/7NQOUY0wCMYrMfGirDZMaGJKY3?=
- =?us-ascii?Q?TMwf1BtKXFC9/lKVV7q3g0wzA2Y1EUOmj0j9ALYfUSSg2IgeZTEc4nzYiCPa?=
- =?us-ascii?Q?Ry/XrO17NkCR6Pj38jjwKuCV2JFsxZ1deTiiMDqpDgAH8bUwqDJ9JwNDj2s6?=
- =?us-ascii?Q?YtAOahFJ8SNaWpiYU2d8Y2pmKcZB6uaI8RU3Cl6bqC4fYfg1FTy6liEVqWQO?=
- =?us-ascii?Q?INBr7mlx5THLsnuVxErBRgTFr/cnGf/Ia3boJL5S4rEwf8FemSuLOGC0PfMV?=
- =?us-ascii?Q?qFCdaXFMPL1hQXTTu2t6VxfxTwjDKJAx3FQcxLU+BcyuShShdoXJ+3YNGcLz?=
- =?us-ascii?Q?LfMBuOrA1ndf09J7UpZbNwg6w1qt584hxV9HmI0nh+ggTdWCJBkhes5v9XTy?=
- =?us-ascii?Q?PdQF40Hwh899D6UsIjEr0ymGwKKnXnSfnOwvKorfIhXvHeNjnIxmh+H22+XG?=
- =?us-ascii?Q?m1u+608jUPGU9yQhD0PKtTMWUCbpXx3sDmDSH0nyy25EhS9J6NY25c9RC1jd?=
- =?us-ascii?Q?/var2jN21pz+olOTdSJ2A86oqTvuw7E7sZyMDDN6U5Wk2E2kGUi1bTPUbfx1?=
- =?us-ascii?Q?OFKEKZEbefn49erJNdTRFjc+ea0el6tfiXJl5dRJM1fsS4LlhMJ9r0GtgJFV?=
- =?us-ascii?Q?xoH0bA=3D=3D?=
+	=?us-ascii?Q?kqmctP/QDCthFJpFeQS8Lglomm346QwUG6qBuYWYDy7nNYq6Zx+WiF7WJEp1?=
+ =?us-ascii?Q?Zg7ZykhHe7DK9wCXLJ4ZSYgOalcvYR3jiFu2LI7Gh172HN1vTUMgbnrSE5n3?=
+ =?us-ascii?Q?Zbr46B2P45MtXZwQJO/BxXBnYPGeFNk6x/hELgfCztXvS7id6loV8JTpm/S4?=
+ =?us-ascii?Q?jD4vte5/GzDrZw8JkoLhEzPYeMDf+sZMIsxyjcEIgcH38V4gKJZ9xBYLyfeX?=
+ =?us-ascii?Q?v7VHPhCVSX8yyA9+Ij5LoKekSl4nT2Hgvl3GCMwmOzpED7RDmPwsppUGQXm0?=
+ =?us-ascii?Q?0ZGgYvChJt+zWdh11m+03PTv1cLTNLbFgxEg0PSrpn+9CLENa5UDJ7xp4+oA?=
+ =?us-ascii?Q?sLlB5RAP0GHkPaU3EYArs3bumQdHfLWgxipgwCy9aTmnQepVxARqyz+bY+Bz?=
+ =?us-ascii?Q?hqhp4FeMiahezuvsYPlc5rObiu4gmEmzZvMipWsFrb6STp9AK0LHl8vn+8N7?=
+ =?us-ascii?Q?yyP0BZcJ+j1pDpAHOwfa5eC+G6Tv7Txk8ACAgURp6/qQWhyMfW16dJ/e6emt?=
+ =?us-ascii?Q?hgpxP4cFDahyDTrJ0D6sLKLV+S/Qf2UXf/A/fqcBnxiIWRKa0GskGWyarmZD?=
+ =?us-ascii?Q?btQBv/guJbuVkNQAR0Bt4vyEOJhgOTY+MqbYMaVkhqlJD6PINkNHJHcK4Ce0?=
+ =?us-ascii?Q?D6TLJYWvuNwJOPI6cjNwrODDDgnm3Zdeegv+OMwLUrqzSjrncFuXJZazK6M8?=
+ =?us-ascii?Q?n3LbKkg+o1u0iCeWXQeJENjbsxkuCoPltzrIASX6fTS3xQJ/zxE3FO5h9jMS?=
+ =?us-ascii?Q?7JdcHZRm6wOzXY/hjr4qQipGpePdaTKEo1peuPxG68ZnFGz8tVa6MXdthkmI?=
+ =?us-ascii?Q?5dq/6Oh9tBapjw9xNr5rPXofFF0wOGpkkqKcRw2t8UntV9azt17R2u1JphoP?=
+ =?us-ascii?Q?OhObKZmgbG03ZQlitKUrlQuv7OiuWb+M7eysaN929GaWvnpyO3SWv3G5cJ91?=
+ =?us-ascii?Q?iISyjFLTc1kYKrQXzjP/1CfOuA7uDgNbmmMo3hwUss6+NIIU7eNC2gBCg9Fd?=
+ =?us-ascii?Q?Wc1Vnma7uUxkK5snft3dg6LHUPiaJolsx67mluf/LCP5XITAVziVh8EaEyYQ?=
+ =?us-ascii?Q?o70qfIsHDEVEE48m/782ebEQnl5cLDlxMVWyQ3WKwt0glCIC3fPwiJ+7Key2?=
+ =?us-ascii?Q?m1zVCz3pPSLajFzOLZhs6/vcs29ZmY9WFogX8OHdg8dO7ACWKWxn1FhYksHe?=
+ =?us-ascii?Q?9I0T+O972SCRn9RrUw13TK5qBZUwHyyjGkjg4L1ocEQZPDstT28JsYV8D+bK?=
+ =?us-ascii?Q?QF4B6uSZr9JN9NxbhBtlJ8sr5ARaFErHKFJZJjgFYhwhng0WlSrH/eklljA6?=
+ =?us-ascii?Q?x+B4DPmAyujj7JRqm/b4r01g2tJc/8yPM81dinYjjTi9ndlHa+7trSqlVipJ?=
+ =?us-ascii?Q?x0cz81bAAfZDWEHIc17I4RXjY+F3E6FmpJ8wcINHl2Yt75r7uZEzbNEvOrT9?=
+ =?us-ascii?Q?ynzw3w8IzBt15G+lccSYd0jJ+JrwFgZlD0oblgiSkbg2DnyB4nAq2tQKcsI/?=
+ =?us-ascii?Q?PFzjH99OTJtbTZNbKObKOwCgOhN/pl59hQWp+Zok46AWiJooO2NVIsCuXXRY?=
+ =?us-ascii?Q?CeSilsV4C8QXeFSJhhg9X9TASILqdiHaZk6jN3UjH5k66MlOrx88Sx2M0NbW?=
+ =?us-ascii?Q?IvWyHpbg87O48Up4M1bVDdRXffpt54ghuVyAdaMvhOgrDtrs0IXlCRtRP7tI?=
+ =?us-ascii?Q?M9yud+ugL35tp9C5WoJ6eneuqZnNFHHzXo6wb2JcvnUVVhdL2UlSRTQRs0Bo?=
+ =?us-ascii?Q?OL3QnpkhrhwYNA3cnpufR7tY84yuHDc=3D?=
 X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5617e11-8d9c-468b-5487-08de744e8bb9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 203914b1-166e-453f-d285-08de74521a6e
 X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 09:16:23.5943
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 09:41:51.4045
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ppkpSf9b0nMoM9c05kuI/RcEI/UN+vPmyx7jKwP2n6hC5pV+B8UcwMBt7oh+9IO50sry1dCDx0jtjLVHJiRfEdwTqZ3hHrbt566Ad+Zl8kg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN1P287MB3856
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ic3PSG6qK3GlUrMxRfZX/kP8QCmjxLd/InFsb+fUSDGNmhYeopOz89lDL9r0HbTPWwPn/1G2jAqkpEA4wm6NmmTRiog6H4xdlolwdXrxLtc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4396
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 11:29:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231950
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 11:29:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231951
 
 From: Nikhil R <nikhil.r@bmwtechworks.in>
 
 libseccomp ptest needs diff during test execution,
-Add diffutils to the runtime ptest dependency.
+add diffutils to the runtime ptest deps.
 
 Signed-off-by: Nikhil R <nikhil.r@bmwtechworks.in>
 ---
- meta/recipes-support/libseccomp/libseccomp_2.6.0.bb | 2 +-
+ meta/recipes-support/libseccomp/libseccomp_2.5.5.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb b/meta/rec=
-ipes-support/libseccomp/libseccomp_2.6.0.bb
-index 9bbdc6b833..b356862dfd 100644
---- a/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb
-+++ b/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb
-@@ -61,4 +61,4 @@ do_install_ptest() {
- FILES:${PN} +=3D "${PYTHON_SITEPACKAGES_DIR}/"
+diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb b/meta/rec=
+ipes-support/libseccomp/libseccomp_2.5.5.bb
+index 478e5f4289..dd253a7826 100644
+--- a/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb
++++ b/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb
+@@ -59,4 +59,4 @@ FILES:${PN} =3D "${bindir} ${libdir}/${BPN}.so* ${PYTHON_=
+SITEPACKAGES_DIR}/"
+ FILES:${PN}-dbg +=3D "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools=
+/.debug"
 =20
  RDEPENDS:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'python', 'pyth=
 on3', '', d)}"
