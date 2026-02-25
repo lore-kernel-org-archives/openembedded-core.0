@@ -1,174 +1,156 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47633FD377E
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 18:58:35 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.69])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.53060.1772045907081863469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 379B5EFD23F
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 19:04:25 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52934.1772046262581491744
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 10:58:27 -0800
+ Wed, 25 Feb 2026 11:04:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=aDui+WpC;
- spf=pass (domain: axis.com, ip: 52.101.70.69, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AYscgYpEaMJ0/H/JXrbAxCxaEaGD5lby2CoJ0d6W4bP/n5mTufdpsjF0OQepFkqBG92ag31MTNEHnF8AGMS+PRIZGOA0m47+p6N89mMBizZwikU+6TuH5Ih+kjqSsWJ+1tGD9zu4iBL8FFjc5Wz7Pupvw4d0wXAM+OSPMoHKENPerXsomRRN0zr1gkGKwhM5MHW1J1wETeyAVTB7P1qdlXJRYjAJbUQPOg3xiKmu8IG3fTPj+dovK5U6YQFdHTvmTp9jH+lQdPByqsJE+aTJpArS7hgEiZRPKQ1Sq237WLcBKhY7pFGzkqZRrnVYXtem7INsP2nmlIxw0YEIR/0D1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yRLc9ItaMdHKLcqiqY+gZ+PsSdQ9ot1FDl8dXLUS7yI=;
- b=BCKONMy79tgYjR5ZjxLmCpFjh5dfLbYMvjfoVmcQXm+fJ6aaYfqBe4UA+1bhyESVh0BROtgym4quvZLWIzHHXPXQgbE2peKOGwaXO6UM9lUiE5yfzxmcPsUqV/cjQB9wItZEC7xbFN/A+ceceRsEXxa1yEgu9oTjsl4tA4Hncsk3CEx+fx6fo1wx185N+OFel06LxXaCfgDjCOjOGGkyEGzziKtGXhYwMKeKSAHThM/b3CgegAREPYcihwe2LuAv1DwZchTBKok0s4QTqNeF5ajW2aZ5bWU+7KR5CTxQHc9uDG+scglyZacEBCn/E8oVZRz4LWFYoHP4LpzH+eNw/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yRLc9ItaMdHKLcqiqY+gZ+PsSdQ9ot1FDl8dXLUS7yI=;
- b=aDui+WpCVvXHOH3hBgQQ9OgLfxMYCfpWN/2g7brNI4A3aYoaanCwbJN3XpwvZ334D3e5hys1HQ96bTeXxOv9Zoq/58zSkIv1MfBRnDUXsNwpBDuJP9DUgy5qrTR9uYlGmsajnTnaIa4yzB29HL/4yXATFYtxi7A5Nci4srqhTqU=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by AS8PR02MB10271.eurprd02.prod.outlook.com (2603:10a6:20b:634::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.23; Wed, 25 Feb
- 2026 18:58:22 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%5]) with mapi id 15.20.9632.010; Wed, 25 Feb 2026
- 18:58:22 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "ross.burton@arm.com" <ross.burton@arm.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/4] lzop: improve aclocal.m4 handling
-Thread-Topic: [OE-core] [PATCH 2/4] lzop: improve aclocal.m4 handling
-Thread-Index: AQHcplOoDvDK7K/+2EKP+bkBeyw5Y7WTxEPw
-Date: Wed, 25 Feb 2026 18:58:22 +0000
-Message-ID: 
- <DB5PR02MB102136B6FC33A6E0EC8AB347DEF75A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260225123727.2043715-1-ross.burton@arm.com>
- <20260225123727.2043715-2-ross.burton@arm.com>
-In-Reply-To: <20260225123727.2043715-2-ross.burton@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AS8PR02MB10271:EE_
-x-ms-office365-filtering-correlation-id: 2e7f3531-e18d-47e8-27b5-08de749fd929
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|13003099007;
-x-microsoft-antispam-message-info: 
- 4z+HeMmj37xzTSRET6ZqhEPDacawuR5Nys+hOUP3f0s/wO5hgasPzH2rUDABaVknsro8cjG4mewanwRo9PC2aJrrM964I4uh9lszH+4nIJw3yGE2Ci/GbAJlwe/iQRh4PsxsebtGo4xXQIPEQ9Ufc8diATYjHvpAKn8BT/IhcaWA2VnurkRfNeYOSIuJKeBBlXX7TO/Gs2VzTcADjoNxDpPkIWfLmn52Bx7JZHmrCiwG/1Nh4EPaGV4IL6M7u4G4P1RElwS5PMiTEUBGy7V4u31KJY43voLkvY8vBVrCZPqFnOitx7G+aR9A3DBIOSme+argp5EGBvlPfJFCPGTpHraQjZPGHTkwCXq3WOfJDGjUFbGOBzxvahCdJ+/e0r1mF+n9Ynn5/gC3Kvdc20Zt2wnOuj/sUOMrblU2wPSQ9rhzNuZ38sWCl8RAhjUc/x7YOITugVrv7re1+T9P4BUNwGbts28JxzXBbshIVbHaIwH/Iken8uJY8EynBWVrqtWUcUOzZIAmQYM7/8yuC1IA6YZnWJ7blz6ZFP1bo9yVCesODq9KgpqM+25Wql8tq/HQs4uI9wLyz5Uu9G/b9/FUkcFpsuM/KqMtZgzEtAAAGfYZAEvkGpsKX/Rgr8iSHVboxJjJJ6h1Wwx6SmccAAAHeMB2pOidAQK3K+UlwE3VLiTwO+gID9svKhmZ11o8g65jDBMX9VlZONpcfOj3wQj/8zd+AKOclnKsEGefFi4iuw87vaFUZP/Cmj4r3BEVZTBt
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?G5ZQRpC4CEiYrrvewIcSy6b9Jx2cyX8RKnmhCQlKkU2B+5jI5rI88Ep4vPtW?=
- =?us-ascii?Q?SfnDBcR0Hh7LLiqlXueG72uUFhonAc5tZZl7hvqL052dNtxgd40J3r6XmJG2?=
- =?us-ascii?Q?pM8PFZmWuz/BOOZuqhv7FPFfP9kUbJ9vR0+1Rgx+79xp3R4jfEGbEHw3ed0e?=
- =?us-ascii?Q?Tzdttg3tLQrZdO+L8eco476dE9iCUGxLTIUklK0WDRHRIwvO8K6lB45SFrZe?=
- =?us-ascii?Q?q7EsGGB+TPxKGOqN47hrNKz8auePWF+i+ma1hCYofFcUCAmd/aEpudWWFcM7?=
- =?us-ascii?Q?llIo3OQFw9uNwhTTd0weWybRiFFHSX9jZ1CunLCtLvnvcjU+tnJnh/AT9ypg?=
- =?us-ascii?Q?8Q7bYiTruEGqBQpd5s6+htqmiYq+zdubpZdrkqAA1a+3XmK6vKWq1TvLYibA?=
- =?us-ascii?Q?ALKeX6JjKcR1WIwOJtebEOPoC/GEbfDFMGe4UOCeXvFkFedYVzcv5enXQFJa?=
- =?us-ascii?Q?JYjJIp5LGJ0TAtJMXC91O7mKOVpARHzS0cCAi0Bja/yfR0nTGh/UhSG+p14C?=
- =?us-ascii?Q?tPw2+zZ4yACi11XGOKkICsPQn0cEax7NT2Q3vPyXTVi6pkPLZ/F6RZAzGvcU?=
- =?us-ascii?Q?yNR2rVH54n3YLWdsBZYBP02GALuvmh6lb2uYgus0cM43j8nsqU3lFJ6gimmc?=
- =?us-ascii?Q?1qOe0H9UUAIZRit+5TjkXmYxnCuYd2YI0zBGMEybYYsPIEiTKGWpdQNQYTWN?=
- =?us-ascii?Q?p9ousn7/MQONgt8/OFDGZQ0av3Tq8n6sfqwKG58CIhYbs2mjPJkdTWgVCaR3?=
- =?us-ascii?Q?B9x3YjwQGYOosnVt8QAO3nLLTjWiaS4cZfMv1CZnWiVRxxeRGxK/e52C3u1Z?=
- =?us-ascii?Q?vHS6eb7YAk8ueSHzGA3yA5m/vx1+r9hdUcCH1RDdfbXTUhcTPL7j1oTUA9rI?=
- =?us-ascii?Q?F2Xy5YoJUAMnDlimmJbQtsVfDe3kT8ULAS0Y/HDx2E3Z7LPjY4bhsHNc5ysq?=
- =?us-ascii?Q?sCeKJZ1hKESlR+zweAZreL2vpRhzhl+HTOyWY5q4qO1UMnHgf1UBprID38yH?=
- =?us-ascii?Q?EYs7O3q8IAhq15INADe8FosQU0kFcnC8eY1+tdAK4KO4D1ojo1GHLpkSfSHi?=
- =?us-ascii?Q?QetjYEyCm0u/srxSS7PNK7AQDQmQCOYDewFJMkqq5NGo3lPe+hzXHWeTZlK3?=
- =?us-ascii?Q?gF66Y0ex4NX4g15a3fnQX+FlgjckdUFLM4HSPy04cfQSU5pmSXybqo44g24M?=
- =?us-ascii?Q?9OkG/zNLf+JLVt0iFsTSVLcgb/IVg18AS16rMBiuRZ0WLhXRXzneah3pGOWh?=
- =?us-ascii?Q?go3WO+MXXp1i/7Sv7IQA60krTutT6VQBC0FCEr/fxDatMk4EzYj43dX7f5LB?=
- =?us-ascii?Q?jaN9VhWgRwenRVacu/ITOnamyFTHOe5uoO19DtTKLCZ49XNbuo3GtxUnh9Rh?=
- =?us-ascii?Q?/59EDa7rN2H5AEaJSg/88KOzb3cfIngEV898OrttL/XGfSxjl0RxNbG60bbr?=
- =?us-ascii?Q?dE/ylyRINnJfh3oDxhRv1JK1Dlu/iTz9fT4H+ZXZofpTN0lbpdOaSVzDdBqf?=
- =?us-ascii?Q?fcKCKhb145LVYoICVzKYmoBF3VuCpKZkjVE1DMzZfdRxIn1cu8e7F7wbU6L2?=
- =?us-ascii?Q?t+GE9GsejkTrmipGoFmBHX8C5pq8sHHjTgaq55UAuCeE7xUUs3SSZDBfZ8Lq?=
- =?us-ascii?Q?DUeNQAoVOhSVrF932SLLSxnTfp1FMcc3tXNgaDyZ9ZuxLQXvY2s1/NUGvQoE?=
- =?us-ascii?Q?mon2vMRN2XL7Ou3K9vckmggqZUA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MQN+dg9P;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ab46931cf1so8487245ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 11:04:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772046262; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eiON+wK1cLbRk8fligqLWiQwdGmvoSNTe7TzwtH64j9F4z31aIH6IPkrG3fxk5vQPI
+         iwcZuivT2jnOLsRfBAogebtYp6i5gO4ghDK5hkpuWSyZi3C/iovqvSSY+KFtokWdpR/i
+         xfODyFV5949xVr3usLLRsv456ij4SerrgI5RE2g2rAC5p/MyvCg52KjdG87dyKh3w25f
+         qYtou1b9cxtBN/wSN8NLWRm+3/EW7xhmIlQMUDPke5v7exDYBHJXloZDjiIjSOiXR5v1
+         yun23spFXUtK7N9LOsUpFBpm8mL9ruGCSvc2TECAiQ5RTUhyypO4zP0ouM8xWaLvwjwg
+         SOcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7fNoppm3boMX5LeJwXeQNO/e5/Wdpjrm+9/EsaFYa7w=;
+        fh=5bv8BPgw4MVSQZEFQVlQvVgxAorQ3pW+BmClllOR8O8=;
+        b=YjidTPyCeXfkguq+CR6Gvfej6ayf+Ckzx0XCHGoh8eRZAuH55ERX5qTPlIzzI2rE+c
+         pHFgBva9onfECvhYr60vYMKRdICWGbDy/tC7oPEXE95TgUUYgZa02+ib2NYHiXT5Gepp
+         WN4choyuKdim86W0zqiS1q9e4XIwLtKyL6FlUP0d4jfeSFnIa8LWFtLV267Sgi2H4TxA
+         6XMdvQebd9Ps3blxkdTQSbNX7OyYkUFoZ4gSQly8kc+InRjZ3Teupjpy8P229b3DVLFs
+         F48QH0BJmqSgkTc2eE23FGwBCDp+CMGwb5aqcUJ1XrniwjxWxtRKsgZaH5BITSVx0y+b
+         e0kw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772046262; x=1772651062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7fNoppm3boMX5LeJwXeQNO/e5/Wdpjrm+9/EsaFYa7w=;
+        b=MQN+dg9PL3JNg3rEqklswbz3cRGy+f8yiKQ+6idy0WW3YZ410OUp9zYom1stxL/NUc
+         7evmqpHoTS9IeLrQPI6gkZkaqVja4ZZh6n/+h2N8+pTWPnwcZ3ENu+J3URM+anex0G3K
+         QMj2MB5wv+FX9W9wuPqvyY+OJZO0+hYA7FHFBV18tbTk8P0Yub2EznUQb01R4ZUJx5Fc
+         Hu8PDEIT8IgwxMy/O9Nsxnl6oZPu4tsZv8pC6Z7HDyoFuwWwP6OUfTPEC5uOyz9VQ6C2
+         /9pbAG/HJoY7pqCmEt3hiAO7QhyTERVnGqwpBlcF7OS3RbqucigTqCKBVgaBnmjLYg/n
+         jhVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772046262; x=1772651062;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7fNoppm3boMX5LeJwXeQNO/e5/Wdpjrm+9/EsaFYa7w=;
+        b=Ocrni8wvv64xJkrIK8vS4ptKyQ9jl9PLF7uLZfCu80pXR2sAkUDbf6VUrrGEoLuuyI
+         MW7YJ+ht3rVV9oJTv9a0oLd/gD3UBycny4wgr4iC0pEwy4+XDSXim4FkMXACTowpcZSg
+         hliCMigun3d5gQpfvr2EPtji9pxBdTSHJwNksv+j+79WrMb/xiBs1IqAEi/xCbSJ/qdh
+         Yk3NEjWg45PVCjmX7nw5ZHIVlGDPWuZ1zkuurZuUWDiepqXvG2RUlOYa4NwO5DrSvC39
+         AFHtqBWgUrEIf/QEbd8EvoQrDTZuH7N3A/bE1329IOq0/0mheR3mQEduzqlqxTcyHM2O
+         oM9g==
+X-Forwarded-Encrypted: i=1; AJvYcCW/rgggNuvhspevjN1QXBl4lWUo1a5RAPNSK8RtOR09QRAbukGOF6KLQwP4epYOeklUpaT07xRO9BKANDrMGB6Lcg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywhk/EC4DL9n3baoQ/zRnixIrizhNbPP3drwk2Cln64inqbfYDB
+	bSdq5Nk3NouTW4VS3RGKQ43B45XhgG0TbwO2Oo+1AJswf1+pEQeoxNb/elGXn7IZXnNa89/5W3q
+	UTV9qaVRja6+aYCxygSu+aay3aAPf+wY=
+X-Gm-Gg: ATEYQzyCnNU3GXXDF7Xeh2tTDQ6ZSLGl0qwR/T25A9Y6BJtr+wB2BGjLffiXqt6PvTc
+	wwMsEsCG90PZCyBx3dIP2gg1lp7Lrlg3XXiuafY9QRm7KF/GGkwd4DIDKxgV46z4FEMsUOfcZlS
+	ix0ssdD7eKoe1Y4loCnkCUKQzultgSAW7pvRJ9Z4FalH5L5tiqeXkLCqQRd9T9rn9Kl8yjtI2El
+	nNIp6s4HKI2+Wp891pubC+pVdsUEVUfybSjqj077sTmghWedENjUQeoH0uYJ2j7A5MiSBKM+TIS
+	jx3b72D3
+X-Received: by 2002:a17:90b:4b45:b0:356:26c5:aaa9 with SMTP id
+ 98e67ed59e1d1-359385bca0emr109302a91.2.1772046261843; Wed, 25 Feb 2026
+ 11:04:21 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e7f3531-e18d-47e8-27b5-08de749fd929
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2026 18:58:22.4993
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AYAUeBe2hGQOptnRO5rPX+E65NfUDVTGjcpmJV9/fzb8ZW0PPIIHq5IU0X48iSL1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB10271
+References: <1e6175f982bbd141fcc156113aa6e798a3120bdc.camel@pbarker.dev>
+In-Reply-To: <1e6175f982bbd141fcc156113aa6e798a3120bdc.camel@pbarker.dev>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Thu, 26 Feb 2026 08:04:10 +1300
+X-Gm-Features: AaiRm518bPh4i0lWnYslSupkGjePVAg2ZfinOcD878Og-Lbl4bxX_2L-GqxataM
+Message-ID: <CADySD0E453dOBSSqzZYFGHcPTvryx3OEP9TUEADcnraECrWEPw@mail.gmail.com>
+Subject: Re: [OE-core] Recipes which should always be upgraded on stable branches
+To: paul@pbarker.dev
+Cc: Yoann Congal <yoann.congal@smile.fr>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 18:58:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231973
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 19:04:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231974
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Ross Burton via lists.openembedded.org
-> Sent: den 25 februari 2026 13:37
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/4] lzop: improve aclocal.m4 handling
->=20
-> This upstream has a hand-maintained aclocal.m4 which we don't want to
-> delete (autotools.bbclass does this).  For some reason this was worked
-> around by shipping a copy of aclocal.m4 as acinclude.m4 and dropping
-> that into the build tree.
->=20
-> A better solution is to just exclude aclocal in EXTRA_AUTORECONF, which
-> has the side-effect of not removing the file.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-support/lzop/lzop_1.04.bb | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/recipes-support/lzop/lzop_1.04.bb b/meta/recipes-suppor=
-t/lzop/lzop_1.04.bb
-> index c32aa534228..57c2190cf40 100644
-> --- a/meta/recipes-support/lzop/lzop_1.04.bb
-> +++ b/meta/recipes-support/lzop/lzop_1.04.bb
-> @@ -12,15 +12,12 @@ LICENSE =3D "GPL-2.0-or-later"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263 \
->=20
-> file://src/lzop.c;beginline=3D5;endline=3D21;md5=3D23d767de7754eb24b9e900=
-b025cf7fc8"
->=20
-> -SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz \
-> -           file://acinclude.m4 \
+On Thu, Feb 26, 2026 at 6:44=E2=80=AFAM Paul Barker via lists.openembedded.=
+org
+<paul=3Dpbarker.dev@lists.openembedded.org> wrote:
+>
+> Hi all,
+>
+> I've been briefly discussing stable branch update policy with Yoann.
+> There's a few recipes in openembedded-core which I would like to propose
+> that we always update to the latest version on LTS and stable branches.
+> These are recipes typically providing data that is expected to change
+> over time, with little or no code.
+>
+> You could say ca-certificates is already covered by the fact that
+> security fixes are acceptable for example, but a clearer policy would be
+> better.
+>
+> Any policy change will go to the TSC for approval, the goal here is to
+> get some review and input so that a concrete proposal can be put
+> forward.
+>
+> The recipes that come to my mind are:
+>
+> - ca-certificates: To allow access to HTTPS resources we need to keep
+>   these up-to-date.
+>
+>     - Keeping this up-to-date is common practice in other distros.
+>
+> - tzdata: To stay up to date with timezone or daylight savings changes.
+>
+>     - Debian takes upgrades to this on stable branches
+>       (see https://tracker.debian.org/pkg/tzdata).
+>
+> - mobile-broadband-provider-info: To stay up to date with provider
+>   changes.
+>
+>     - The README file for this project says "The Package contains only
+>       informational files so it's safe for distributions to grab updates
+>       even during feature freeze and maintenance stages."
+>
+> What opinions do other folks have?
 
-You forgot to remove the actual acinclude.m4 file.
+In favor of this.
 
-> -          "
-> +SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz"
->  SRC_URI[sha256sum] =3D "7e72b62a8a60aff5200a047eea0773a8fb205caf7acbe177=
-4d95147f305a2f41"
->=20
->  inherit autotools
->=20
-> -do_configure:prepend () {
-> -    install -Dm 0644 ${UNPACKDIR}/acinclude.m4 ${S}/acinclude.m4
-> -}
-> +# Ensure we don't delete the shipped aclocal.m4
-> +EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
->=20
->  BBCLASSEXTEND =3D "native nativesdk"
+> Are there any other recipes we should include in this list?
+
+Also suggest to include wireless-regdb in the list.
+
+> Best regards,
+>
 > --
-> 2.43.0
-
-//Peter
-
+> Paul Barker
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#231972): https://lists.openembedded.org/g/openembedde=
+d-core/message/231972
+> Mute This Topic: https://lists.openembedded.org/mt/117998482/3619737
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
+kur.tyagi85@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
