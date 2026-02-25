@@ -2,39 +2,39 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68784FD3752
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69750FD3753
 	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 12:36:53 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44223.1772023009672094701
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44225.1772023012495505386
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 04:36:49 -0800
+ Wed, 25 Feb 2026 04:36:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=ARBXYhKl;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Y1Q4Bllc;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 33FB51A137E;
-	Wed, 25 Feb 2026 12:36:48 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 68194C16542
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 12:37:05 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 08FB95FDE6;
-	Wed, 25 Feb 2026 12:36:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 471A410369130;
-	Wed, 25 Feb 2026 13:36:46 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6BB065FDE6;
+	Wed, 25 Feb 2026 12:36:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E30A410368D23;
+	Wed, 25 Feb 2026 13:36:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772023007; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1772023009; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=fUlD5Ngb/RcTuKA/xSX1sd8GFTY4xHRHVrAq47clQwA=;
-	b=ARBXYhKlJS9eStzwhIqU/YQ2LEypsf8AsriKb9vgkCXC+LfWBA8Ub2I7Q2cdeKbJJ59JOk
-	ECz2CFFrVXR6VFZ+KEkLb8I6uX82W0lY3d7JkrMKqj9NYrn7m8YGVTSGXZkyIXiW57rDL9
-	phwtqFujp8aQReAW4RQaAe4rQSLlAjAj0YSn7THWv5A8hXlfj0puW1JLrF/mitsRWQVnel
-	lLIZeDaWPwJBw8t76fD6qvPzzzb0JmA6YW3npil5tmTCQkTSbx6cPrTo9gs0dTqoLffQrg
-	jVcYAdlheZOTrAN0NVaYl4tpMPFzEkFyt4UYIG/S8Y/LFyNMs/XxbBuYeUl/HQ==
+	bh=7xLK6dvGTmM6ZBn4pxHA+Smeu5BXYsHtbpKNAGsZU7o=;
+	b=Y1Q4BllcY6yuh3iQPbf4xSD3YQCBp9I5iR1NLaPn0rh8Mb7TcwjeXBrYl5YOQouc45AS0y
+	X3N1g05qXIHp9UpnbIGorWSSOwikOMOVxMfmzuh3TnEs35Zi+MvAbFOfN27jGOexYSMDXd
+	j6MDm05KeNVeSZMVQOnzf5U0cRRYcR/Ua2ryaks9cFY6Z1gjepSMGMVAepI9HJfYEGPamu
+	wLnH0+UNcm3NmzNW/oXMDQ2bXrQEOhgp1+sx8RQuoh1F/8OnfGc6aWZIslSgOoUXQiBXi2
+	IwustAVRCO4bEs11V2CXwqxgV2cPa8jAhgfpW23F7JYaloHoxELTWvPAKV6NYg==
 From: Benjamin Robin <benjamin.robin@bootlin.com>
-Date: Wed, 25 Feb 2026 13:36:31 +0100
-Subject: [PATCH v2 3/6] python3-hatch-build-scripts: add recipe
+Date: Wed, 25 Feb 2026 13:36:33 +0100
+Subject: [PATCH v2 5/6] sbom-cve-check: add recipe
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-add-sbom-cve-check-v2-3-eeffa285b901@bootlin.com>
+Message-Id: <20260225-add-sbom-cve-check-v2-5-eeffa285b901@bootlin.com>
 References: <20260225-add-sbom-cve-check-v2-0-eeffa285b901@bootlin.com>
 In-Reply-To: <20260225-add-sbom-cve-check-v2-0-eeffa285b901@bootlin.com>
 To: openembedded-core@lists.openembedded.org
@@ -48,45 +48,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 12:36:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231959
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231961
 
- - Build dependency of python3-spdx-python-model.
- - Part of the dependency chain for sbom-cve-check
+Provide sbom-cve-check (native) executable.
 
 Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 ---
- meta/conf/distro/include/maintainers.inc                     |  1 +
- .../python/python3-hatch-build-scripts_1.0.0.bb              | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
+ meta/conf/distro/include/maintainers.inc                |  1 +
+ .../python/python3-sbom-cve-check_1.1.0.bb              | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index b3913a04140c..d65960f8e1bc 100644
+index 3bc1d00bc1c7..c43107ccdccd 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -649,6 +649,7 @@ RECIPE_MAINTAINER:pn-python3-extras = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-flit-core = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-git = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-gitdb = "Trevor Gamblin <tgamblin@baylibre.com>"
-+RECIPE_MAINTAINER:pn-python3-hatch-build-scripts = "Benjamin Robin <benjamin.robin@bootlin.com>"
- RECIPE_MAINTAINER:pn-python3-hatch-fancy-pypi-readme = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-python3-hatch-vcs = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-python3-hatchling = "Ross Burton <ross.burton@arm.com>"
-diff --git a/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0.0.bb b/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0.0.bb
+@@ -714,6 +714,7 @@ RECIPE_MAINTAINER:pn-python3-rfc3987 = "Bruce Ashfield <bruce.ashfield@gmail.com
+ RECIPE_MAINTAINER:pn-python3-roman-numerals = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-rpds-py = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-ruamel-yaml = "Bruce Ashfield <bruce.ashfield@gmail.com>"
++RECIPE_MAINTAINER:pn-python3-sbom-cve-check = "Benjamin Robin <benjamin.robin@bootlin.com>"
+ RECIPE_MAINTAINER:pn-python3-scons = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-semantic-version = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-setuptools = "Trevor Gamblin <tgamblin@baylibre.com>"
+diff --git a/meta/recipes-devtools/python/python3-sbom-cve-check_1.1.0.bb b/meta/recipes-devtools/python/python3-sbom-cve-check_1.1.0.bb
 new file mode 100644
-index 000000000000..ba7d8b40ffc5
+index 000000000000..3d1c581e9f86
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "A plugin for Hatch that runs build scripts and saves their artifacts"
-+HOMEPAGE = "https://pypi.org/project/hatch_build_scripts/"
++++ b/meta/recipes-devtools/python/python3-sbom-cve-check_1.1.0.bb
+@@ -0,0 +1,17 @@
++SUMMARY = "Lightweight SBOM CVE analysis tool"
++HOMEPAGE = "https://github.com/bootlin/sbom-cve-check"
 +SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9ad584cda56221c7eaf48c23a5874a2a"
++LICENSE = "GPL-2.0-only"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=570a9b3749dd0463a1778803b12a6dce"
 +
-+PYPI_PACKAGE = "hatch_build_scripts"
-+SRC_URI[sha256sum] = "563735e2f265c9e1b92dece6f762309114505ffaf6e5d51d462eb6a3b4f14640"
++PYPI_PACKAGE = "sbom_cve_check"
++SRC_URI[sha256sum] = "953256ac99851ba59bc8649b8023303007ff2981edbc4ee395011bd91c118095"
 +
 +inherit pypi python_hatchling
++
++RDEPENDS:${PN} += " \
++    python3-spdx-python-model \
++    python3-pyyaml \
++"
 +
 +BBCLASSEXTEND = "native nativesdk"
 
