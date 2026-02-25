@@ -1,81 +1,92 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 756AEFD375D
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 12:37:43 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44125.1772023053483504554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E741FD375E
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 12:46:23 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.44263.1772023576240999750
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 04:37:33 -0800
+ Wed, 25 Feb 2026 04:46:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CEFD3165C
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 04:37:26 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D6BBC3F59E
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 04:37:32 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] autotools: remove deletion of aclocal.m4
-Date: Wed, 25 Feb 2026 12:37:26 +0000
-Message-ID: <20260225123727.2043715-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260225123727.2043715-1-ross.burton@arm.com>
-References: <20260225123727.2043715-1-ross.burton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bO6OGDqf;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FoiKvNgV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019c94d5f2dd-8611678d-1169-47bb-887a-28966fe927fb-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1772023575; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=CHQ4TJjjpVBnlviglsH6k3c8qifUB2/Ml9HY7/sTGL4=;
+	b=bO6OGDqfWHHjoAY2E48awHl7nb4P0W4Fao3vgssOuip0v7SJCkMZi+lpDXitIyoL
+	Qa7VlXy+pR0YQ7qnuvehcSeqVusom0Lp0ajdbUdyf3PdPMU6c6kES4Eslvmh1TN2HBl
+	bNfjFeDkykQFut99eo7D6jjf2RJwqqBfG4Vj2SOQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1772023575;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=CHQ4TJjjpVBnlviglsH6k3c8qifUB2/Ml9HY7/sTGL4=;
+	b=FoiKvNgVScm6k525yEbQgUa9LRr+FKMvs+DTv7QvsrC8cAJUHIxZkhjCukKW91zF
+	lvEE9cQVzsvVhKtFyUVjokZnVHUOXbGT5Gmj3QLYZNo/yhH9iWtKR9mQSVpKmVE4T+n
+	lYkf9gtpBMehZbn06T0NZZacOoe9OThmhRPp4NWA=
+From: patchtest@automation.yoctoproject.org
+To: Benjamin Robin <benjamin.robin@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 1/6] maintainers.inc: Sort list in alphabetical order
+In-Reply-To: <20260225-add-sbom-cve-check-v2-1-eeffa285b901@bootlin.com>
+References: <20260225-add-sbom-cve-check-v2-1-eeffa285b901@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019c94d5f2dd-8611678d-1169-47bb-887a-28966fe927fb-000000@us-west-2.amazonses.com>
+Date: Wed, 25 Feb 2026 12:46:15 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.02.25-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 12:37:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231966
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 12:46:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231967
 
-We've historically[1] deleted any aclocal.m4 file in the source tree
-before autoreconfing on the grounds that it is "too shy" to overwrite
-aclocal.m4, so we forcibly delete the aclocal.m4 unless aclocal has been
-excluded in autoreconf.
+--NextPart
+Content-Type: text/plain
 
-However, this shyness has been removed in autoconf 2.70[2] and autoreconf
-will always call aclocal, which will rewrite the file if needed.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-So, remove the explicit deletion of aclocal.m4.  I've verified that a
-build of all recipes in core that use autotools have identical
-aclocal.m4 files before and after this change.
-
-[1] This code appears in oe-classic during 2011 but originated in a
-    BitKeeper commit, so predates our use of git.
-
-[2] autoconf bc7e12e7 ("autoreconf: drop support for old (< 1.8) aclocal =
-versions")
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/autotools.bbclass | 7 -------
- 1 file changed, 7 deletions(-)
+Testing patch /home/patchtest/share/mboxes/v2-1-6-maintainers.inc-Sort-list-in-alphabetical-order.patch
 
-diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/=
-autotools.bbclass
-index bd477dc60f0..bf580086698 100644
---- a/meta/classes-recipe/autotools.bbclass
-+++ b/meta/classes-recipe/autotools.bbclass
-@@ -166,13 +166,6 @@ autotools_do_configure() {
- 		cd ${AUTOTOOLS_SCRIPT_PATH}
- 		# aclocal looks in the native sysroot by default, so tell it to also l=
-ook in the target sysroot.
- 		ACLOCAL=3D"aclocal --aclocal-path=3D${STAGING_DATADIR}/aclocal/"
--		# autoreconf is too shy to overwrite aclocal.m4 if it doesn't look
--		# like it was auto-generated.  Work around this by blowing it away
--		# by hand, unless the package specifically asked not to run aclocal.
--		if ! echo ${EXTRA_AUTORECONF} | grep -q "aclocal"; then
--			bbnote Removing existing aclocal.m4
--			rm -f aclocal.m4
--		fi
- 		if [ -e configure.in ]; then
- 			CONFIGURE_AC=3Dconfigure.in
- 		else
---=20
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
