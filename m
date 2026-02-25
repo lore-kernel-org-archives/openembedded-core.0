@@ -1,145 +1,139 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE6AEF3C99C
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 07:19:39 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40706.1772003973409372120
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FD3F4BB72
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 07:49:50 +0000 (UTC)
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40954.1772005789131936548
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 23:19:34 -0800
+ Tue, 24 Feb 2026 23:49:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=ZpmdUgsZ;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 58F9E1A12ED
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 07:19:31 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 246925FDE5;
-	Wed, 25 Feb 2026 07:19:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 86F26103690E8;
-	Wed, 25 Feb 2026 08:19:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772003970; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=pvuYzUZo38b5kviilia3j4ODwuQxIKhIZvGQgQFKQIE=;
-	b=ZpmdUgsZMUiXuQr3nWY7Wbm510/plfVojgAdyGrykvaZB+uFzSaRcrGGmxRhUGbrVgM0pp
-	viTpm1LRMkClSZ/fEDrrXtt9uLvSI9yp5BTc+btqW6ICadcaScMC23b6cZ3yMWtBuwPdfU
-	6Wm9uqGOfd7w8P1o2WcqlStjxclAV5zlr+bJpXYwUr/WjUmi92W87IFaQtSGrRU9VdEO/4
-	+U14j4258FSjhHoLMti3YhnxHR6rwItcmdRpFWUiEJ4ifrEWo8p/LZXl9hBJLj7TPrZrBl
-	BcAVKg+gzgvsFfIdbXUoruFTpVC1J0wAXb5itP5yjGY5x10+g9xlmFueVPF9og==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Feb 2026 08:19:28 +0100
-Message-Id: <DGNUZCXZGR1V.3GZ38NGR23M4E@bootlin.com>
-To: <careers.myinfo@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][master][PATCH] libsamplerate0: Adding ptest for
- libsamplerate0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260224020311.167778-1-moins@kpit.com>
-In-Reply-To: <20260224020311.167778-1-moins@kpit.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=e23fRwmj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.65, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-897023602b1so74294076d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 23:49:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772005787; x=1772610587; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kGnFgepwonXHcovmxZ5ZV2ZxktWvuT8ViAUuKO2yQgo=;
+        b=e23fRwmjESUb1fww77wefCU2GSVf8pg3/n6bGeB3BnjlG+8QLz1KvpnqKV37BNEjv4
+         ts1+12Py3yFrpOJ8ekZsYRCm4lNyCoH/6pyN/Ab0MK+/RWroDovHTyPiud2/BkSQSO0d
+         H5sDsneeq+Jzv96m8MHetFyKcxSRrgztr4H5ZqWYP/N9K01tYENRH+ZlMQ6wu+34ipwt
+         MSil4RXD21zmOpRCRIO0Bijj1u3AZj2Q7bWTbluwlWVgejSiSbbAbiHy3HnLUAOBWXwr
+         oSoHskiLLAmN091nKhyeQrb8mgBfmrLmLsGIqD9bcHrXch+N+HzOKOdNruLnw4YuCh7Q
+         PXBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772005787; x=1772610587;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kGnFgepwonXHcovmxZ5ZV2ZxktWvuT8ViAUuKO2yQgo=;
+        b=J1kstyYptWnAdUJaBpP6fqD1tYq7OXZZUaNnamT6Vskq6yoE0IQIEauIcmeEN5FZ1Y
+         +GyPNTSp0NB+lOgD2iLJlEKDRAcUKfH6cZEFO1qQ7EspXJP/bfzGicsFNN9SMj3+chlw
+         b16j6d8HcM1raZKvLfEy41nW9IMXNXi0GffcJ1NRjTouheqiwPvhT1PWQ2KfMwvSxMFh
+         +LgO3azN+l6R5MyEAzez0phqulA94TA/FdRX451GkE/uWWkzrfq9OuK5vjM6WG+hrKkD
+         P34nHskrx2MWsuQL/PAsvX0HEvRf89xmrVDj20KpgPx6hsA8CmJUf4JeiXb5Pc2/ldqI
+         fuSg==
+X-Gm-Message-State: AOJu0YzwEW1WZIW/KZOCsC3/xoyL5r3zjA5KKXa1gb8x92QJYviSy08i
+	HHv21YgriE1mpq3CvUorin0vVqa5q0bbypgwShZ01++U5ucdYYMGdvTZZ91ExrH1nqo=
+X-Gm-Gg: ATEYQzxlhvvsbQp4N3oCPKsExYx3XXZ8huMpr7i+KgNWjFFLnppyI9rp193/Wd46/yK
+	9rPrGipMmqkJavlnjYMDOcMFb0Zu+zqRabSVBNrcXOHsT8D9qb5K5h5yzJ22XQ0quQHPDtm0nh5
+	mHw/Pu3MiS8FyQl3dc0IEOMCtLCl4tCfNq8JAmRuO6NT9q9F1I6kQnvCkHLCcnzTpQvJtZqDT1Y
+	hWtKW9llsE+wjLUEAEgeMMlwPJwJ1MaI+IHJlIBYeqE8Q9cfd4nD6Wo14DAhhGMf2UmA9TT/WLG
+	HLINBY0kWkNLtCtuIMHp79aWmGnJWe3OQygTaXSSWgBF8qabvoHtqv8RSmwI7cjhHFNKNTxR/DQ
+	nHolK9q4FuQRSDts8Sx11iRhPmG/PGBoEGTdtoQT47xvNRbip/APXeIJk1htq7hn+3Axnx3Ectp
+	JR0iwZ8L9VYKx8rKGNffKMGa4fmqPUzh3nCOJyxwKv98VY4lFKUD7El+KZ1W+YVx540A==
+X-Received: by 2002:ad4:4eed:0:b0:882:3f38:4fbc with SMTP id 6a1803df08f44-89979d9e648mr222096666d6.61.1772005787225;
+        Tue, 24 Feb 2026 23:49:47 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d0614fbsm1390089785a.17.2026.02.24.23.49.45
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 23:49:46 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v6 6/9] oe-selftest/cases/wic.py: oe-selftest -r wic.CLITests -> PASS
+Date: Wed, 25 Feb 2026 02:49:28 -0500
+Message-ID: <20260225074931.1661345-7-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260225074931.1661345-1-twoerner@gmail.com>
+References: <20260225074931.1661345-1-twoerner@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 07:19:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231928
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 07:49:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231935
 
-On Tue Feb 24, 2026 at 3:03 AM CET, Shaik Moin via lists.openembedded.org w=
-rote:
-> Executables Description:
->  callback_hang_test		-	Verifies that callback-based processing does not h=
-ang and that the library properly returns control without deadlocks.
->  callback_test			-	Tests the callback-driven processing mode of libsample=
-rate (SRC's non-blocking interface).
->  clone_test			-	Ensures the SRC state objects can be cloned correctly and=
- continue producing identical output.
->  downsample_test		-	Tests accuracy and behavior when downsampling audio (=
-reducing sample rate).
->  float_short_test		-	Tests conversions between float and short integer sa=
-mple formats.
->  misc_test			-	Runs assorted sanity and utility tests that don't fit into=
- other categories.
->  multi_channel_test		-	Verifies correct handling of multi-channel audio (=
-e.g., stereo, 5.1) during sample-rate conversion.
->  multichan_throughput_test	-	Measures throughput and performance for mult=
-i-channel SRC processing.
->  nullptr_test			-	Ensures libsamplerate properly rejects or handles NULL =
-pointers and invalid state.
->  reset_test			-	Tests the reset() behavior - state clearing, flushing buf=
-fers, resetting filters.
->  simple_test			-	The most basic test of sample-rate conversion functional=
-ity - often converting a small buffer to ensure fundamental correctness.
->  snr_bw_test			-	Measures Signal - Noise Ratio (SNR) and bandwidth perfor=
-mance for different converter algorithms.
->  src-evaluate			-	Evaluates internal SRC filter performance, quality, and=
- algorithmic behavior.
->  termination_test		-	Ensures end - stream / termination behavior is handl=
-ed correctly without artifacts or crashes.
->  throughput_test		-	Benchmarks throughput for mono or simple use cases to=
- measure raw processing speed.
->  varispeed_test			-	Tests variable sample-rate operation (changing SRC ra=
-tio on the fly).
->
-> Time taken to execute the ptest:- Approx ~3 mins
->
-> Signed-off-by: Shaik Moin <moins@kpit.com>
-> ---
+Changes for the wic.CLITests oe-selftests to pass now that wic is a
+stand-alone app and no longer part of oe-core.
 
-Hi Shaik,
+Note that the base class for these tests had to change to WicTestCase so
+that the wic-native tool would be built and available.
 
-Thanks for your patch.
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes in v6:
+- none
 
-It looks like something is off with this test. While running on the
-autobuilder, no results are found:
-WARNING: core-image-ptest-libsamplerate0-1.0-r0 do_testimage: There were fa=
-iling ptests.
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/runtime/cases/ptest.py", line 27, in test_ptestrunne=
-r_expectfail
-    self.do_ptestrunner()
-    ~~~~~~~~~~~~~~~~~~~^^
-  File "/srv/pokybuild/yocto-worker/qemux86-64-ptest/build/layers/openembed=
-ded-core/meta/lib/oeqa/runtime/cases/ptest.py", line 120, in do_ptestrunner
-    self.fail(failmsg)
-    ~~~~~~~~~^^^^^^^^^
-AssertionError:
-ptests which had no test results:
-['libsamplerate0']
+changes in v5:
+- rebase with master
+- split back out into smaller patches
+- now that the sector-size re-implementation is ahead of this patch,
+  various wic sub commands (ls, rm, cp) no longer need a --vars file
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1124
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3112
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3153
+v4: skipped to align/combine with other patch set
 
-Test results can be seen here:
+changes in v3:
+- squashed into 1 large patch
 
-https://valkyrie.yocto.io/pub/non-release/20260224-104/testresults/qemuarm6=
-4-ptest/core-image-ptest-libsamplerate0/
-https://valkyrie.yocto.io/pub/non-release/20260224-104/testresults/qemurisc=
-v64-ptest/core-image-ptest-libsamplerate0/
-https://valkyrie.yocto.io/pub/non-release/20260224-104/testresults/qemux86-=
-64-ptest/core-image-ptest-libsamplerate0/
+changes in v2:
+- none
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index e9c28baf51eb..22163ccdb3e2 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -99,7 +99,7 @@ class WicTestCase(OESelftestTestCase):
+             WicTestCase.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
+         return WicTestCase.wicenv_cache[image]
+ 
+-class CLITests(OESelftestTestCase):
++class CLITests(WicTestCase):
+     def test_version(self):
+         """Test wic --version"""
+         runCmd('wic --version')
+@@ -139,18 +139,18 @@ class CLITests(OESelftestTestCase):
+ 
+     def test_list_images(self):
+         """Test wic list images"""
+-        runCmd('wic list images')
++        runCmd('wic list images -v %s' % self.envfile)
+ 
+     def test_list_source_plugins(self):
+         """Test wic list source-plugins"""
+-        runCmd('wic list source-plugins')
++        runCmd('wic list source-plugins -v %s' % self.envfile)
+ 
+     def test_listed_images_help(self):
+         """Test wic listed images help"""
+-        output = runCmd('wic list images').output
++        output = runCmd('wic list images -v %s' % self.envfile).output
+         imagelist = [line.split()[0] for line in output.splitlines()]
+         for image in imagelist:
+-            runCmd('wic list %s help' % image)
++            runCmd('wic list -v %s %s help' % (self.envfile, image))
+ 
+     def test_unsupported_subcommand(self):
+         """Test unsupported subcommand"""
+-- 
+2.51.0
 
 
