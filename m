@@ -1,386 +1,274 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB27F55434
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 00:38:17 +0000 (UTC)
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35412.1771979887774236886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AC6F55441
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 02:48:08 +0000 (UTC)
+Received: from OS0P286CU010.outbound.protection.outlook.com (OS0P286CU010.outbound.protection.outlook.com [40.107.74.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37500.1771987682458527418
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Feb 2026 16:38:07 -0800
+ Tue, 24 Feb 2026 18:48:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hZcJITAe;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-899a5cb04f9so17855566d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Feb 2026 16:38:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771979887; x=1772584687; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ijWNkEH/jC2k2Intfe0lcnROb+k9UQEGPzqTycFF7uo=;
-        b=hZcJITAeHuEEMYsqnwlRip2XKDehtzWPhekp/xwXOzVJI6OD3unUrwTcqA+AieMDhQ
-         R+fAkE5TsTsHpHsANDXrwGEaATX43ponVvVlnWr2SmMD1reFvKttWN2MI1qmEc/xecxh
-         sBjkip5GJXshJY0Nomj529ZXl6yFruhM2jSOBn8nKvGeMKWxRGtQFu/ety/7xvPcI2Jy
-         AR/fCtauRHPNdWjGo78QmLIu3T0lOuvwiUrgN741FW2P959SniMAaTeyOcObid2jEdN6
-         +SDrNb6c6aY7Wmvlip+QOI3kL50bR9K5o6KO/yDJS6LzcHrVRBa+x1scY/jqGZb2a9q2
-         4B4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771979887; x=1772584687;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ijWNkEH/jC2k2Intfe0lcnROb+k9UQEGPzqTycFF7uo=;
-        b=pBspo27TdWEWxfpWzuaQuErvFc7qJPJXTlQHaOo3w88R6Csc+s1MKHtCQ+GUu0ytGx
-         lmu8toteW4Lo3VQtCwBOawm6bXs7ui7gNzxCRFGyV1D6QZxlqE/tk/b38xH1yhyR8/+o
-         WOAylSPGdmk/iCBkDe6WZzR8Hgr+Elb+9ZlVQHXgvWcoGzkQYhOAmYZbH+1NM0wi7UdV
-         OGlOETyq7AOId4mJmZgigkaaO/8teYoD77uTPqZRAaXf/LvvA0DUhzqftTSQlqJIMF+F
-         +dgCu0LJur8dTMFmejDjGheJT7dYvEETyc3pQbdeV3aBR10ibrr2XjnpoXiijzJHBxNs
-         /WWA==
-X-Gm-Message-State: AOJu0YzQcOgeNzdf88au0KGt1HVuTPyOXJvgiTelV2sh/ysQ5Kbp9cBM
-	vFQlw3vgar+POKsMHdjVg7aMKsa0z7F1vT+aSZBm/pypLMvgbtf9TObV9NKsVDuI94M=
-X-Gm-Gg: ATEYQzy8QfM6LAS/frsxQycJZBWlqR9cqzR5UAs6gOXkJou9yHYeDuqD3eGrBBnwi78
-	xG3nJunRAGPuZ5MzZhNnDDl8FJUV4i+BXNbgFlqQ3KG2K/jahYFy0Wa8BmaE1LdYbN5xCKfhVFn
-	4u234CvPtVdPtwPKybFPlwBAswk97uL0rXT/tgrQysMhWjlfM6vXs7V0A4Bxe8NlYHwjzJrIpa6
-	03vjFb81eULfJ3KaLvsCIeIJJCQ5/qGcPo5XcG0mbHVufI4RPQta5cUCc5wb8EQ0Rw1QLbNSYvn
-	oGFbzG80I/7SNQs4dSQOqoIxhbbSMnk1AycF4W9nEO/X+UQ4QGYPy/WTn8yJUA6RfrV1lh7sDYc
-	QT2S3SZDPU3cOCr+GIvZmtuP03IXRPCUnQ1JTbaefNhfq+jkD2DtgA4rEjNu/L/DrzCQQ1TeD3J
-	oAeY1MyFzSDbj20NRfZDTEgIRX7OTqbgV81uR/6vzfCtR7v2l6fF022vPlYVJRT/3hjQ==
-X-Received: by 2002:a05:620a:468b:b0:8c6:e2a5:9715 with SMTP id af79cd13be357-8cb8ca77126mr1642025985a.55.1771979886554;
-        Tue, 24 Feb 2026 16:38:06 -0800 (PST)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d0eb010sm1174020385a.32.2026.02.24.16.38.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 16:38:05 -0800 (PST)
-Date: Tue, 24 Feb 2026 19:38:03 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: Paul Barker <paul@pbarker.dev>
-Cc: openembedded-core@lists.openembedded.org,
-	Mark Hatle <mark.hatle@kernel.crashing.org>
-Subject: Re: [OE-core] [PATCH v5 02/10] ufs image class: add
-Message-ID: <aZ5Ea2kWw5SXmFlE@localhost.localdomain>
-References: <20260223215008.2062721-1-twoerner@gmail.com>
- <20260223215008.2062721-3-twoerner@gmail.com>
- <36490e83fdeceabcb275e5d38daccb2640eebe2e.camel@pbarker.dev>
- <aZ3mWszZ8qiQo9t-@localhost.localdomain>
- <fe5424562d766e5e614eaa70df57dc3329104c69.camel@pbarker.dev>
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=XyJ0XQJV;
+ spf=pass (domain: fujitsu.com, ip: 40.107.74.23, mailfrom: liuyd.fnst@fujitsu.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CPDNywfUdPK58ZUt0MjI7KlXBY9/OyHUlQD+NQaatH8QxxOEedY57E+t0vAKl27TSYHqvJsImjAddMa93hX7CgT12215AuP6EB+N35v3wVhq0ls0ZYGOrkPtFBeoatpMKC2OHC3PepaHkmu39PU1S4lDMVT5J5O7GIuzTJke9wKsImQuuFLkvDXTQayRhMgdokAwd8ot1VWitCuf0jLv//Ygsf4XMKI3joeNKKkPxeNNDT6KPD9ZvKCwy00Ks1BOBvcftQ3ZJiFb5KxvgNhv4wpQ9ziIm2H2NLSEvXHzOhfyF1faE9Hm3t+wc+cbGgM09OM1WxcEKx9vgXpAnNpE3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+7HmY19+ElwgJIJTa9F911rhA5gQr+ZldbytkPJ1154=;
+ b=HxuRKsSesKaIW7GotrgfgU/3o1gYbiktu6+O87edPh86DX4HwxCm90OPJQydKhOotJ0wSICp7Bj0/OoVCJgH6MSMYu/TKT8XraeuDRF4VUFJ+oEqoV3Ek8QqJxIGEpN9dJOlkJ9k4A7F+yBppUeLX7AeLNkI2JcANin/DLFbDvxLLzzuofw0RPYMyil13QetgnVMR3Gm5igKKDk50nSqWPO/a14x+Riplo5/WBJ1a/YtCHxDXHUD7y2ndhhn+M70+EV4yx0ZD2rRK/GVLW3U38KzCt+A5iVAjKIcarSMqEk6++cLV0NvIy7GjZXOw3wmi/dCkn11o5haXbUUABotlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+7HmY19+ElwgJIJTa9F911rhA5gQr+ZldbytkPJ1154=;
+ b=XyJ0XQJVYNR3eLdQw2dnCagudkKyRAP4EqjMLcUZ5BBGXPNc0QlAeC47wyvUZXmNQzg7zM7j4eVlCw0vDfDbVThoGtq2o1oa4lCgMxw2vhsfvaDq3e/bbvBBBDXxrtitpQMkYz8BGGB0K7mJW5Nb6JuVvCAIY2jl4ya3aocaAqu9ezSCU1d3UjqeJR7Vi0lXp/13s/EVqCYpsUGyhmRnwQpcDXPmBtodnaugWZKds/bM8b8CHngRpfN+CC8ZdIco42s0q7mgIAfwS8I1KisblKJ6uIxfi4aIibX9+KQbcNGnALmZu+Xvk73kuL0zRuwpap9juwz01G4QVhZUtvPCRA==
+Received: from TY3PR01MB10110.jpnprd01.prod.outlook.com (2603:1096:400:1d9::5)
+ by TYYPR01MB15134.jpnprd01.prod.outlook.com (2603:1096:405:1a3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.23; Wed, 25 Feb
+ 2026 02:47:57 +0000
+Received: from TY3PR01MB10110.jpnprd01.prod.outlook.com
+ ([fe80::65d2:5fd:bb96:1df2]) by TY3PR01MB10110.jpnprd01.prod.outlook.com
+ ([fe80::65d2:5fd:bb96:1df2%5]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 02:47:57 +0000
+From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] orc: Enable hotdoc to produce doc
+Thread-Topic: [OE-core][PATCH] orc: Enable hotdoc to produce doc
+Thread-Index: AQHcpbNsSyY3B3+gBU2PRaPLht+pf7WSry6f
+Date: Wed, 25 Feb 2026 02:47:57 +0000
+Message-ID: 
+ <TY3PR01MB1011013658016E710A5754F309B75A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
+References: <20260224035119.1597-1-liuyd.fnst@fujitsu.com>
+ <CANNYZj-+vYTQW9bmOTgdNmZVTxFFSSrqoh7GQJ7EpEy+WxiSrw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-+vYTQW9bmOTgdNmZVTxFFSSrqoh7GQJ7EpEy+WxiSrw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-02-25T02:47:56.450Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB10110:EE_|TYYPR01MB15134:EE_
+x-ms-office365-filtering-correlation-id: 76edf18f-c5d9-4f33-1718-08de74184846
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|7053199007|38070700021|8096899003|1580799027;
+x-microsoft-antispam-message-info: 
+ =?gb2312?B?c0d2elZySVYxa1daYnBySkZCbCtMckZJbEl5dUJmWmxNeTJHMlRkcG5YR2VO?=
+ =?gb2312?B?OW5EWE5ZK0NreUlldTd5YThPSlZic0dlaGdnQ1pEQWMvcGZwYXhrQmphVmtE?=
+ =?gb2312?B?TzNpN1ZyQWdDVU9GTGNpWkZzY2Rwak4yK1ZJQjUrRlUzbC8xVVpKUzZma3lY?=
+ =?gb2312?B?ZS9IU3p0cGpEVk0ySU8rSkVBM0pzL0NoQjlRU0g4NWFxQ2JMN2FkMEgzSG9m?=
+ =?gb2312?B?VjNiN0c0cWxjOUFPS3RFSTErZVB2b0NQTGxSc1VvRHRBMDdSNlJ6K24wUjYy?=
+ =?gb2312?B?aXlUTThxbVk2ODYwMUZ0Y0ZkbFF5alR2TE5lQlFYU2s2SDI2YmVwR3FneDZW?=
+ =?gb2312?B?TzgrSjJJaSs3MDFxWks0Y2FXaFA4dzlKT1ZrcE1CdmZGMjBFVCtFUlN4c3ho?=
+ =?gb2312?B?d3FLWStyb2o4bmc3TkdpbWVoT0FvVHkvL0puWkRZcS9XcVJEM1R1ck13NjlK?=
+ =?gb2312?B?NUNQTC95Wk5RSklIWFNNK29LNG9NOUZ3VG5wNWFZT1pUTDhFWTgxR3FmNlpX?=
+ =?gb2312?B?dG8xNHBkZ2lVRjNhN3JFcXZSRit2OWMvSk85YXllUjUxN29WS2M5WEdGU3I5?=
+ =?gb2312?B?UkVwMTE0QzBkUUF2QkVUVkJGNTVQU0RDZjV6RzJiN1IzNHg2MEV0SWFORHo1?=
+ =?gb2312?B?VllhdENZaHlVYlI5S2o0dVNnWG11Y2ZkdXphcHBKcENZaGZ1cE4zclNsSlc4?=
+ =?gb2312?B?TGxJeG5xUzNOclZ3OFduczdBV2tvaFkxdlZTSDFtTm5XVzJZaVN6REluVTVM?=
+ =?gb2312?B?c2RQaHJQellVTWJ6cWpvZjMrNm83dkU2VkxGWjdXOC9JZWgrd3FqNmRCcjlY?=
+ =?gb2312?B?WFR5elQ5Yjk2UUFGK3JOZ09ncEFPc25ZejMzdjRnRktoUVRvOW96bFZsRUJ5?=
+ =?gb2312?B?UUs5c2ZHdWpYbWszcnN4VFh4YzkydjltR2VOVWJnKzl4OTBvend1TnlnaUdI?=
+ =?gb2312?B?S2QyT25GTFNjZDFtaFJ6bUhzWTZZdFpkUVVYN3lKVUR1OHRnNDE1UEJYdVB0?=
+ =?gb2312?B?ckMveEFQNmtqdThvZWFlcDlKcjUxWVRtQk1zL09TeldlZmZLZzVhQXJxRnBR?=
+ =?gb2312?B?cllaejVMdkpnMTBiUXZ1RUFZOE9hWisvaVNuaHhiT0JJcEdQYkpjTWJzbzNJ?=
+ =?gb2312?B?Rm1HL3h4UWVTaDhzTzllTXJGNndSWTJUd3R3VFVjRGJnT25hLzRxb0lRZDZU?=
+ =?gb2312?B?eGpDNjIvRDcweFlnRjI1N2NUQnJGZFQwcGM5dWRpYzF6dWFhSGdBUDV6MjFj?=
+ =?gb2312?B?czhaNEpuSTEvQkNaRm5YYzNZSmlFaEc0dWtsTlM2eEF5ZXJQQ3BqNDRmZ2xt?=
+ =?gb2312?B?ei9iTTZUS2xIb283Q3YyWmVGZnRMYnNkYU12Q2RiMXVjRkJ5bi9yT1V5NWZS?=
+ =?gb2312?B?N1dBeGE3YnJWVkFMUUl4b29sbFVQTmF4R0hyYmNXaEkxWXNNUGhiblpndkZB?=
+ =?gb2312?B?RkF6S1R3YWhvTTVRT210MEFaUHVuNVp3NGVsYXhmRjA2bkRoeHBoYzhGZnUx?=
+ =?gb2312?B?WXJUa0ZCSzJLMG4rT281UUtTaGhCaHRpelN6Wkg2MmxNODhsd0E0Ti83ZzlW?=
+ =?gb2312?B?eDIvYjQxeVFsMDhSZXIwbVBOY3pOaDloK1gvYW8weS9EdSs2SXJ6c2x6U21G?=
+ =?gb2312?B?VVdleXdEK1YxQlJTUVR1NUx0NVRnR21hR0hqQ2NaU21XR3QvVnRLY04wVEMr?=
+ =?gb2312?B?OEw5RUx0K3B4Q1dtWDlCc3ZsNGVmaXVYOXNyaVVqTjE1cGZQdFB4NTVkUUtV?=
+ =?gb2312?B?WjBlVkM1NVlubDFHbkxqRTlqQkdlemFRVU00UG9FVW0yRFdtQkFVQUtzSGtt?=
+ =?gb2312?B?Ynd5bU8wbk1qN1E4MzYrV20xV20vTEdJK04vdjBGd3RwV0o2VW52TkErS1F1?=
+ =?gb2312?B?L2tPU21uSDBGZUlGQ2ZrRE5SUFJCS0prS3p1TW5WRmFCL0U2MUQ0YmZmazYx?=
+ =?gb2312?B?OFVkWnk1bGkxOWZMcUI5UWt4UmdRdXhZdmoxdlhVSXA5TzdBcXlzSWl3bVhB?=
+ =?gb2312?B?dlA4dlJnMTltWkJkZDlFOGs1blI5ZURtWVQ3QXYvYWpxdGZnc2R2ekVTYnVI?=
+ =?gb2312?B?M0ZHWENCVHo5ckhFVG1lQlJzUjVVcnVsbDJ0T2FSU2NBdzlwaFVQUExlRStr?=
+ =?gb2312?B?bmN2R2xJRFl0N2crelVYL2VmbG1SNlNuaFFib0pOOHFoUWlqSURoWlZOWlVm?=
+ =?gb2312?Q?aInfFOFSusJ73uWatlRisMdElD0bYsTCUqjG2mT51mM/?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10110.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(38070700021)(8096899003)(1580799027);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?gb2312?B?Z28rY2VZL2Rkd203Q2hmbmhZdWNodWlsQjBkWkhraWR6dVE2ZkhxUGxwU0FD?=
+ =?gb2312?B?M0ZPNnZ5NTkzcTRVVkE1NEZEWDR1THBXQmQ2YTlSZGtYaHVaSDhKZEpmU01u?=
+ =?gb2312?B?MUJ2OFF2bThkN1h1M1czZG03amN0V2R5YU45SEVFeG5scjNmTnVxcForNU5T?=
+ =?gb2312?B?OEtUMCtEakxZbTJLMVVQbjE0Y1c2eWZ3MmdSYXltRGk1UzN2ZlFySEZOcjNr?=
+ =?gb2312?B?MjVmREdlS1JhcW1zbEdQQUhtR3lDbXBic2VKUSsrKzVkU0N3MFNOeks5eTJ1?=
+ =?gb2312?B?YmQwTSs5S1pNbTRTVTVib3k1ZWJ3UitlYlBVclVUTTZTZGJSMzVWLzhrcXN2?=
+ =?gb2312?B?TDZ2eURXcmtvYlJ5dWNVd0ZQdnFBR1VxMFdBZXhkUzV4UUswRmFlQ29YMith?=
+ =?gb2312?B?c3N0MUp6MGZ5THkvSXE3TFFSNmhwVVVxaXJIVnJTR2w3cENvZDRxQ3djQmNx?=
+ =?gb2312?B?bXVoMGMxUVBXMkJtNWYvUmprSkhPcEhWNksxVUpicmxXdzNqTGJPdmorR1dk?=
+ =?gb2312?B?K01NRk43a1pXNVYvSzduMXRzQXVkeUZpaE5COUowYTNGZWpDRXBsVW91WXQ2?=
+ =?gb2312?B?SXo1cFZpbUFxZGRjdlJaMklxWjYwS0JZRzMvZUxVbllYeHBwRDNmd3BUVE5a?=
+ =?gb2312?B?TXAwRmtlZXZVT1ZNSjBMTEV6cjBka2RSbVVtM3p4Yml0NEQ5SnQzcFh3R3Vu?=
+ =?gb2312?B?RmlaOVp3Qk0vZVNpT3Z6K0kwKzF4RUdneExaQXpyVE5LNkd5Y1VZSUlyeXZl?=
+ =?gb2312?B?aUhxR0FVYktoNHJ3ZFhTUDNRbWo4OW1aWDNPV1BOd0R2RklzOE1weE9LbFNH?=
+ =?gb2312?B?RTIzZW91aTFmRVVsc1pYdm1RT2tPcTJXa042VzlRc1pzVkRpVEFTYmNjWkkx?=
+ =?gb2312?B?TnJ3SURxc2JIMjUzMVBKNTF2RXRjczk0OGJmSUhpT05uVmhvU25BaUc5UXZk?=
+ =?gb2312?B?WGE4a2l3MUZPY2FrY0VDZUsycEZjcWlKVG9HNDY2Ni9LeVovZzhBd1dDR2Rz?=
+ =?gb2312?B?YVlLaERJOXNpRFlmbVF3K3c3cGlQY1ExMHFyTWovZjlwZFBlejJLSG5CNk4v?=
+ =?gb2312?B?bmppbDVXeVZlSGdTRTJaV2JMOXZ4MVc2TjhVYngvNFlEcDIyV3ExQ2hrY09r?=
+ =?gb2312?B?end2VmRjL285WVM3bG1VMFlYL2ZYNDBnci81MnVYcDBRdHp4QUY5Nk9LVlFu?=
+ =?gb2312?B?OE9sSGlPeldBMWlteFJaSXdRTWJpUTY5N0VlZk5sdW9nb0FvSUhkYkxpNkhw?=
+ =?gb2312?B?M2MwY2k3VHQrWUV6TnQ5NHFweWoweU1qMXBXekZ1Sk1CazJieEVIZFFUNVho?=
+ =?gb2312?B?V2k0cEtIRUh3M2pyUkNtdUdGZWtRNXRSY1dxNEJ4dEpuN1d4dzM3ZWhLTk9o?=
+ =?gb2312?B?aU9Lb0QwV294aHB6dnROTUtZWmV5V1JRaDdSbkxNcnZHbWlNaEZlUXk4OFZ4?=
+ =?gb2312?B?R1EwSDFkVHpRVyszSDdlZEE4SjNRK2NUb1VaWXJEWm95QzJQYUFXSERmUlV3?=
+ =?gb2312?B?dXR4eVRORkM0VGVZemkwTm1ENjZ6K1lmbnF5MG1tOTZsT1d4UWdOZlhTTHlV?=
+ =?gb2312?B?K2M5aWIwYmpvcEQvWFBZejhWMTl0Z3RNNGowUnVBeGRwSXRycW83U0pVNGtK?=
+ =?gb2312?B?SXA4aFduVW15M0o0OGk2a0ZmTEtyejJYeDBoMmVRc2MyNjdRbWI4ZkVDSW9h?=
+ =?gb2312?B?NDNvQ3BQaCt4bVZnRTF6ZUl3eDkwZmlERFhYeHR5VmZ6S3FhOU95SmZiTjRh?=
+ =?gb2312?B?Rll3dENjUzZGRWR5Zk1ENzFTMlpzYWRwaFZhU212L3F0UmZKNVNoNDZYdkQ1?=
+ =?gb2312?B?Y3BndGpTK2xqNkZGN01uZk9ZZFVLa2tLNHVhSzcwWGJ6VGxlWW56UlFhVEM3?=
+ =?gb2312?B?VDRzTW00aFMyNHpZSlg0WmNZZXRqUEhIbFhWZEJjM29zbDAvR2k2MzBVaWl6?=
+ =?gb2312?B?L0NnbUYwZmJpUUd1YkpISFZrY29xdjludzNVVEduMGFYcWV0WmNHSTlFdE44?=
+ =?gb2312?B?QTNVeS90RDRDbUdnZ0VTZUcwbE5vai9kcVpIRW05U3h3OFlzZkEyOFByTHVJ?=
+ =?gb2312?B?TFFab0xBU3k5OG9Mc3hTUzRNeVZ1ZklMTy9JNVUyOTMwalh2czN1K1c4UlhS?=
+ =?gb2312?B?Mi9zWnJIT2o5aXZTUk1GMG8rcVdVWTlYYzAxWk1MRnNYOEw0MHlZVUNyVEVQ?=
+ =?gb2312?B?RUZHaFBLNTBmNE1jQ2NVS1B3TldiMXlZaFVuS29lNkdwRUY3dU5uNGlzZjBO?=
+ =?gb2312?B?ZGZMM1NjZzFWdWJVenQxUmd2cndBVENaQWMzUW5hZ0hnYm5Rd0w4azQ3dk96?=
+ =?gb2312?B?MHZQS0RYOTg1a1BCY2M5YWJuMElxZ29oMnlGeUJseGVBTm5weGdjUT09?=
+Content-Type: multipart/alternative;
+	boundary="_000_TY3PR01MB1011013658016E710A5754F309B75ATY3PR01MB10110jp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fe5424562d766e5e614eaa70df57dc3329104c69.camel@pbarker.dev>
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10110.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76edf18f-c5d9-4f33-1718-08de74184846
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2026 02:47:57.2663
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9GNEKsDWOLkhHXeB5EjXDYJdE03EMVNqvSOg6fQtDTSO7rHMQ5bn7Mzgi/yR9/RAQSSgAlJxrDUSKUoTxoXkzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB15134
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 00:38:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231921
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 02:48:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231922
 
-On Tue 2026-02-24 @ 09:17:41 PM, Paul Barker wrote:
-> On Tue, 2026-02-24 at 12:56 -0500, Trevor Woerner wrote:
-> > On Tue 2026-02-24 @ 10:02:38 AM, Paul Barker wrote:
-> > > On Mon, 2026-02-23 at 16:50 -0500, Trevor Woerner via
-> > > lists.openembedded.org wrote:
-> > > > Add an image class and wks file that demonstrates generating a wic image
-> > > > with a 4096-byte sector size.
-> > > > 
-> > > > Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-> > > > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> > > > ---
-> > > > changes in v5:
-> > > > - none
-> > > > 
-> > > > changes in v4:
-> > > > - update the partition table format from mbr (msdos) to gpt
-> > > > 
-> > > > changes in v3:
-> > > > - tested more scenarios and make sure to fix the warning from v1 in
-> > > >   every case
-> > > > 
-> > > > changes in v2:
-> > > > - add Mark as a co-creator (sorry for missing this the first time!)
-> > > > - provide a fix for the following warning:
-> > > > 	WARNING: core-image-minimal-1.0-r0 do_image_wic_ufs: Function do_image_wic_ufs doesn't exist
-> > > > ---
-> > > >  meta/classes-recipe/image.bbclass           |   2 +-
-> > > >  meta/classes-recipe/image_types_ufs.bbclass | 221 ++++++++++++++++++++
-> > > >  scripts/lib/wic/canned-wks/mkdisk-ufs.wks   |   5 +
-> > > >  3 files changed, 227 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 meta/classes-recipe/image_types_ufs.bbclass
-> > > >  create mode 100644 scripts/lib/wic/canned-wks/mkdisk-ufs.wks
-> > > > 
-> > > > diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
-> > > > index 53f1a9dc45b0..97465836c14a 100644
-> > > > --- a/meta/classes-recipe/image.bbclass
-> > > > +++ b/meta/classes-recipe/image.bbclass
-> > > > @@ -18,7 +18,7 @@ inherit populate_sdk_base
-> > > >  IMGCLASSES += "${@['', 'populate_sdk_ext']['linux' in d.getVar("SDK_OS")]}"
-> > > >  IMGCLASSES += "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso hddimg', 'image-live', '', d)}"
-> > > >  IMGCLASSES += "${@bb.utils.contains('IMAGE_FSTYPES', 'container', 'image-container', '', d)}"
-> > > > -IMGCLASSES += "image_types_wic"
-> > > > +IMGCLASSES += "image_types_wic image_types_ufs"
-> > > >  IMGCLASSES += "rootfs-postcommands"
-> > > >  IMGCLASSES += "image-postinst-intercepts"
-> > > >  IMGCLASSES += "overlayfs-etc"
-> > > > diff --git a/meta/classes-recipe/image_types_ufs.bbclass b/meta/classes-recipe/image_types_ufs.bbclass
-> > > > new file mode 100644
-> > > > index 000000000000..9a984f084289
-> > > > --- /dev/null
-> > > > +++ b/meta/classes-recipe/image_types_ufs.bbclass
-> > > > @@ -0,0 +1,221 @@
-> > > > +#
-> > > > +# Copyright OpenEmbedded Contributors
-> > > > +#
-> > > > +# SPDX-License-Identifier: MIT
-> > > > +#
-> > > > +
-> > > > +# The WICUFSVARS variable is used to define the base list of bitbake variables used in wic code
-> > > > +# variables from this list are written to <image>.env file
-> > > > +WICUFSVARS ?= "\
-> > > > +	APPEND \
-> > > > +	ASSUME_PROVIDED \
-> > > > +	BBLAYERS \
-> > > > +	DEPLOY_DIR_IMAGE \
-> > > > +	FAKEROOTCMD \
-> > > > +	HOSTTOOLS_DIR \
-> > > > +	IMAGE_BASENAME \
-> > > > +	IMAGE_BOOT_FILES \
-> > > > +	IMAGE_CLASSES \
-> > > > +	IMAGE_EFI_BOOT_FILES \
-> > > > +	IMAGE_EXTRA_PARTITION_FILES \
-> > > > +	IMAGE_LINK_NAME \
-> > > > +	IMAGE_ROOTFS \
-> > > > +	IMGDEPLOYDIR \
-> > > > +	INITRAMFS_FSTYPES \
-> > > > +	INITRAMFS_IMAGE \
-> > > > +	INITRAMFS_IMAGE_BUNDLE \
-> > > > +	INITRAMFS_LINK_NAME \
-> > > > +	INITRD \
-> > > > +	INITRD_LIVE \
-> > > > +	ISODIR \
-> > > > +	KERNEL_CONSOLE \
-> > > > +	KERNEL_IMAGETYPE \
-> > > > +	MACHINE \
-> > > > +	PSEUDO_INCLUDE_PATHS \
-> > > > +	RECIPE_SYSROOT_NATIVE \
-> > > > +	ROOTFS_SIZE \
-> > > > +	STAGING_DATADIR \
-> > > > +	STAGING_DIR \
-> > > > +	STAGING_DIR_HOST \
-> > > > +	STAGING_LIBDIR \
-> > > > +	TARGET_SYS \
-> > > > +"
-> > > > +
-> > > > +inherit_defer ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
-> > > > +
-> > > > +WKSUFS_FILE ??= "${WKS_FILE}"
-> > > > +WKSUFS_FILES ?= "${WKSUFS_FILE} ${IMAGE_BASENAME}.wks"
-> > > > +WKSUFS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPATH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
-> > > > +WKSUFS_FULL_PATH = "${@wks_search(d.getVar('WKSUFS_FILES').split(), d.getVar('WKSUFS_SEARCH_PATH')) or ''}"
-> > > > +
-> > > > +def wks_search(files, search_path):
-> > > > +    for f in files:
-> > > > +        if os.path.isabs(f):
-> > > > +            if os.path.exists(f):
-> > > > +                return f
-> > > > +        else:
-> > > > +            searched = bb.utils.which(search_path, f)
-> > > > +            if searched:
-> > > > +                return searched
-> > > > +
-> > > > +def wks_checksums(files, search_path):
-> > > > +    ret = ""
-> > > > +    for f in files:
-> > > > +        found, hist = bb.utils.which(search_path, f, history=True)
-> > > > +        ret = ret + " " + " ".join(h + ":False" for h in hist[:-1])
-> > > > +        if found:
-> > > > +            ret = ret + " " + found + ":True"
-> > > > +    return ret
-> > > > +
-> > > > +
-> > > > +WICUFS_CREATE_EXTRA_ARGS ?= "${WIC_CREATE_EXTRA_ARGS}"
-> > > > +
-> > > > +IMAGE_CMD:wic.ufs () {
-> > > > +	out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
-> > > > +	build_wic_ufs="${WORKDIR}/build-wic-ufs"
-> > > > +	tmp_wic_ufs="${WORKDIR}/tmp-wic-ufs"
-> > > > +	wks="${WKSUFS_FULL_PATH}"
-> > > > +	if [ -e "$tmp_wic_ufs" ]; then
-> > > > +		# Ensure we don't have any junk leftover from a previously interrupted
-> > > > +		# do_image_wic_ufs execution
-> > > > +		rm -rf "$tmp_wic_ufs"
-> > > > +	fi
-> > > > +	if [ -z "$wks" ]; then
-> > > > +		bbfatal "No kickstart files from WKSUFS_FILES were found: ${WKSUFS_FILES}. Please set WKSUFS_FILE or WKSUFS_FILES appropriately."
-> > > > +	fi
-> > > > +	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create --debug "$wks" --sector-size 4096 --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}-ufs" -o "$build_wic_ufs/" -w "$tmp_wic_ufs" ${WICUFS_CREATE_EXTRA_ARGS}
-> > > > +
-> > > > +	# look to see if the user specifies a custom imager
-> > > > +	IMAGER=direct
-> > > > +	eval set -- "${WICUFS_CREATE_EXTRA_ARGS} --"
-> > > > +	while [ 1 ]; do
-> > > > +		case "$1" in
-> > > > +			--imager|-i)
-> > > > +				shift
-> > > > +				IMAGER=$1
-> > > > +				;;
-> > > > +			--)
-> > > > +				shift
-> > > > +				break
-> > > > +				;;
-> > > > +		esac
-> > > > +		shift
-> > > > +	done
-> > > > +	mv "$build_wic_ufs/$(basename "${wks%.wks}")"*.${IMAGER} "$out.wic.ufs"
-> > > > +}
-> > > > +IMAGE_CMD:wic.ufs[vardepsexclude] = "WKSUFS_FULL_PATH WKSUFS_FILES TOPDIR"
-> > > > +SPDX_IMAGE_PURPOSE:wic.ufs = "diskImage"
-> > > > +do_image_wic_ufs[cleandirs] = "${WORKDIR}/build-wic-ufs"
-> > > > +
-> > > > +# Rebuild when the wks file or vars in WICUFSVARS change
-> > > > +USING_WIC_UFS = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic.ufs ' + ' '.join('wic.ufs.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-> > > > +WKSUFS_FILE_CHECKSUM = "${@wks_checksums(d.getVar('WKSUFS_FILES').split(), d.getVar('WKSUFS_SEARCH_PATH')) if '${USING_WIC_UFS}' else ''}"
-> > > > +do_image_wic_ufs[file-checksums] += "${WKSUFS_FILE_CHECKSUM}"
-> > > > +do_image_wic_ufs[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
-> > > > +
-> > > > +# We ensure all artfacts are deployed (e.g virtual/bootloader)
-> > > > +do_image_wic_ufs[recrdeptask] += "do_deploy"
-> > > > +do_image_wic_ufs[deptask] += "do_image_complete"
-> > > > +
-> > > > +WKSUFS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
-> > > > +WKSUFS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
-> > > > +# Unified kernel images need objcopy
-> > > > +WKSUFS_FILE_DEPENDS_DEFAULT += "virtual/cross-binutils"
-> > > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS = ""
-> > > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:aarch64 = "grub-efi systemd-boot"
-> > > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:arm = "systemd-boot"
-> > > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot"
-> > > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot"
-> > > > +WKSUFS_FILE_DEPENDS_BOOTLOADERS:x86-x32 = "syslinux grub-efi"
-> > > > +
-> > > > +WKSUFS_FILE_DEPENDS ??= "${WKSUFS_FILE_DEPENDS_DEFAULT} ${WKSUFS_FILE_DEPENDS_BOOTLOADERS}"
-> > > > +
-> > > > +DEPENDS += "${@ '${WKSUFS_FILE_DEPENDS}' if d.getVar('USING_WIC_UFS') else '' }"
-> > > > +
-> > > > +python do_write_wksufs_template () {
-> > > > +    """Write out expanded template contents to WKSUFS_FULL_PATH."""
-> > > > +    import re
-> > > > +
-> > > > +    template_body = d.getVar('_WKSUFS_TEMPLATE')
-> > > > +
-> > > > +    # Remove any remnant variable references left behind by the expansion
-> > > > +    # due to undefined variables
-> > > > +    expand_var_regexp = re.compile(r"\${[^{}@\n\t :]+}")
-> > > > +    while True:
-> > > > +        new_body = re.sub(expand_var_regexp, '', template_body)
-> > > > +        if new_body == template_body:
-> > > > +            break
-> > > > +        else:
-> > > > +            template_body = new_body
-> > > > +
-> > > > +    wks_file = d.getVar('WKSUFS_FULL_PATH')
-> > > > +    with open(wks_file, 'w') as f:
-> > > > +        f.write(template_body)
-> > > > +    f.close()
-> > > > +    # Copy the finalized wks file to the deploy directory for later use
-> > > > +    depdir = d.getVar('IMGDEPLOYDIR')
-> > > > +    basename = d.getVar('IMAGE_BASENAME') + '-ufs'
-> > > > +    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
-> > > > +}
-> > > > +
-> > > > +do_flush_pseudodb() {
-> > > > +	${FAKEROOTENV} ${FAKEROOTCMD} -S
-> > > > +}
-> > > > +
-> > > > +python () {
-> > > > +    if d.getVar('USING_WIC_UFS'):
-> > > > +        wksufs_file_u = d.getVar('WKSUFS_FULL_PATH', False)
-> > > > +        wksufs_file = d.expand(wksufs_file_u)
-> > > > +        base, ext = os.path.splitext(wksufs_file)
-> > > > +        if ext == '.in' and os.path.exists(wksufs_file):
-> > > > +            wksufs_out_file = os.path.join(d.getVar('WORKDIR'), os.path.basename(base))
-> > > > +            d.setVar('WKSUFS_FULL_PATH', wksufs_out_file)
-> > > > +            d.setVar('WKSUFS_TEMPLATE_PATH', wksufs_file_u)
-> > > > +            d.setVar('WKSUFS_FILE_CHECKSUM', '${WKSUFS_TEMPLATE_PATH}:True')
-> > > > +
-> > > > +            # We need to re-parse each time the file changes, and bitbake
-> > > > +            # needs to be told about that explicitly.
-> > > > +            bb.parse.mark_dependency(d, wksufs_file)
-> > > > +
-> > > > +            try:
-> > > > +                with open(wksufs_file, 'r') as f:
-> > > > +                    body = f.read()
-> > > > +            except (IOError, OSError) as exc:
-> > > > +                pass
-> > > > +            else:
-> > > > +                # Previously, I used expandWithRefs to get the dependency list
-> > > > +                # and add it to WICUFSVARS, but there's no point re-parsing the
-> > > > +                # file in process_wks_template as well, so just put it in
-> > > > +                # a variable and let the metadata deal with the deps.
-> > > > +                d.setVar('_WKSUFS_TEMPLATE', body)
-> > > > +                bb.build.addtask('do_write_wksufs_template', 'do_image_wic_ufs', 'do_image', d)
-> > > > +        bb.build.addtask('do_image_wic_ufs', 'do_image_complete', 'do_image_wic', d)
-> > > > +}
-> > > > +
-> > > > +#
-> > > > +# Write environment variables used by wic
-> > > > +# to tmp/sysroots/<machine>/imgdata/<image>-ufs.env
-> > > > +#
-> > > > +python do_rootfs_wicufsenv () {
-> > > > +    wicufsvars = d.getVar('WICUFSVARS')
-> > > > +    if not wicufsvars:
-> > > > +        return
-> > > > +
-> > > > +    stdir = d.getVar('STAGING_DIR')
-> > > > +    outdir = os.path.join(stdir, d.getVar('MACHINE'), 'imgdata')
-> > > > +    bb.utils.mkdirhier(outdir)
-> > > > +    basename = d.getVar('IMAGE_BASENAME') + '-ufs'
-> > > > +    with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-> > > > +        for var in wicufsvars.split():
-> > > > +            value = d.getVar(var)
-> > > > +            if value:
-> > > > +                envf.write('%s="%s"\n' % (var, value.strip()))
-> > > > +    envf.close()
-> > > > +    # Copy .env file to deploy directory for later use with stand alone wic
-> > > > +    depdir = d.getVar('IMGDEPLOYDIR')
-> > > > +    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
-> > > > +}
-> > > > +addtask do_flush_pseudodb after do_rootfs before do_image do_image_qa
-> > > > +addtask do_rootfs_wicufsenv after do_image before do_image_wic_ufs
-> > > > +do_rootfs_wicufsenv[vardeps] += "${WICUFSVARS}"
-> > > > +do_rootfs_wicufsenv[prefuncs] = 'set_image_size'
-> > > 
-> > > This is mostly duplication of code from image_types_wic.bbclass with
-> > > different variable names, which makes it difficult to review the
-> > > meaningful differences. Why do we need a separate class here? If we do
-> > > need one, can we reduce duplication?
-> > 
-> > At work we create sector-size=512 and sector-size=4k images in the same
-> > build (the 4k images are for UFS-based flash devices). With a separate
-> > class we can generate these images simultaneously rather than doing them
-> > one after the other. But (I believe) the only way to generate them
-> > simultaneously is to have separate classes with separate variable names,
-> > otherwise they will clobber each other.
-> > 
-> > As UFS-based flash becomes more popular, I'm guessing more users of The
-> > Yocto Project will be interested in having support for it readily
-> > available. Therefore I wanted to provide it in oe-core.
-> > 
-> > The most significant difference between these two classes is the
-> > "--sector-size 4096" option to the wic command.
-> > 
-> > Can we reduce duplication? Almost every line of both these classes has a
-> > wic-related variable in it. If the variables need to be kept separate so
-> > that parallel builds don't clobber each other, there aren't very many
-> > lines in common!
-> > 
-> > If I am correct that separate classes with separate variable names are
-> > needed to be able to generate both images simultaneously, would this
-> > patch be okay as-is in a v6 patchset?
-> 
-> I would prefer to hold back on this and think a bit more on a general
-> solution for building multiple different wic images with different
-> parameters rather than making a special case just for UFS.
+--_000_TY3PR01MB1011013658016E710A5754F309B75ATY3PR01MB10110jp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-No problem, I'll drop it in v6.
+SGkgQWxleA0KICAgWWVzLCBJIHdpbGwgYWRkICBQQUNLQUdFQ09ORklHIGZvciBob3Rkb2MgYW5k
+IHNlbmQgYSB2MiBwYXRjaC4NCg0KUEFDS0FHRUNPTkZJRyA/Pz0gIiINClBBQ0tBR0VDT05GSUdb
+aG90ZG9jXSA9ICIsLGhvdGRvYy1uYXRpdmUiDQoNCkxpdQ0KDQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXw0Kt6K8/sjLOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
+YWlsLmNvbT4NCreiy83KsbzkOiAyMDI2xOoy1MIyNcjVIDAxOjMxDQrK1bz+yMs6IExpdSwgWWlk
+aW5nL8H1INLStqEgPGxpdXlkLmZuc3RAZnVqaXRzdS5jb20+DQqzrcvNOiBvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPg0K1vfM4jogUmU6IFtPRS1jb3JlXVtQQVRDSF0gb3JjOiBFbmFibGUgaG90
+ZG9jIHRvIHByb2R1Y2UgZG9jDQoNCk9uIFR1ZSwgMjQgRmViIDIwMjYgYXQgMDQ6NTEsIFlpZGlu
+ZyBMaXUgKEZ1aml0c3UpIHZpYQ0KbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8bGl1eWQuZm5zdD1m
+dWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0Kd3JvdGU6DQo+ICtERVBFTkRTICs9
+ICIke0BiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ2FwaS1kb2N1bWVudGF0
+aW9uJywgJ2hvdGRvYy1uYXRpdmUnLCAnJywgZCl9Ig0KDQpVbmZvcnR1bmF0ZWx5IHRoaXMgaXMg
+bm90IGdvaW5nIHRvIHdvcmsuIFlvY3RvJ3MgYXV0b2J1aWxkZXIgZG9lcyBydW4NCmJ1aWxkcyB3
+aXRoIGFwaS1kb2N1bWVudGF0aW9uIGVuYWJsZWQsIGFuZCB0aGV5J3JlIGV4cGVjdGVkIHRvIHN1
+Y2NlZWQNCndpdGhvdXQgYW55IGFkZGl0aW9uYWwgbGF5ZXJzLg0KDQpUaGUgY29ycmVjdCB0aGlu
+ZyBpcyB0byBkZWZpbmUgYSBQQUNLQUdFQ09ORklHLCBhbmQgbGVhdmUgaXQgZGlzYWJsZWQuDQoN
+CkFsZXgNCg==
 
-It (along with mkdisk-ufs.wks) is what I use for testing, but it doesn't
-need to go in now and I agree a nicer solution would be preferred.
+--_000_TY3PR01MB1011013658016E710A5754F309B75ATY3PR01MB10110jp_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Hi Alex</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+&nbsp; &nbsp;Yes, I will add&nbsp; PACKAGECONFIG for hotdoc and send a v2 p=
+atch.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: =
+rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: =
+rgb(0, 0, 0);" class=3D"elementToProof">
+PACKAGECONFIG ??=3D &quot;&quot;</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: =
+rgb(0, 0, 0);" class=3D"elementToProof">
+PACKAGECONFIG[hotdoc] =3D &quot;,,hotdoc-native&quot;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"margin-left: 0px; font-family: Aptos, Aptos_EmbeddedFont, Apt=
+os_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: r=
+gb(0, 0, 0);" class=3D"elementToProof">
+Liu</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: =
+rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> Alexand=
+er Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2026=C4=EA2=D4=C225=C8=D5 01:31<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> Liu, Yiding/=C1=F5 =D2=D2=B6=A1 &lt;liuyd.fnst@f=
+ujitsu.com&gt;<br>
+<b>=B3=AD=CB=CD:</b> openembedded-core@lists.openembedded.org &lt;openembed=
+ded-core@lists.openembedded.org&gt;<br>
+<b>=D6=F7=CC=E2:</b> Re: [OE-core][PATCH] orc: Enable hotdoc to produce doc=
+</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Tue, 24 Feb 2026 at 04:51, Yiding Liu (Fujitsu)=
+ via<br>
+lists.openembedded.org &lt;liuyd.fnst=3Dfujitsu.com@lists.openembedded.org&=
+gt;<br>
+wrote:<br>
+&gt; +DEPENDS +=3D &quot;${@bb.utils.contains('DISTRO_FEATURES', 'api-docum=
+entation', 'hotdoc-native', '', d)}&quot;<br>
+<br>
+Unfortunately this is not going to work. Yocto's autobuilder does run<br>
+builds with api-documentation enabled, and they're expected to succeed<br>
+without any additional layers.<br>
+<br>
+The correct thing is to define a PACKAGECONFIG, and leave it disabled.<br>
+<br>
+Alex<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_TY3PR01MB1011013658016E710A5754F309B75ATY3PR01MB10110jp_--
 
