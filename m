@@ -1,141 +1,158 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 321DBFCEE8F
-	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 11:44:32 +0000 (UTC)
-Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43383.1772019658862405225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72BB6FD374E
+	for <webhook@archiver.kernel.org>; Wed, 25 Feb 2026 12:22:53 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44027.1772022170474005025
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 03:40:59 -0800
+ Wed, 25 Feb 2026 04:22:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=Hlc8ClaY;
- spf=pass (domain: bmwtechworks.in, ip: 40.107.51.50, mailfrom: git-patches@bmwtechworks.in)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wqExHMxt6v2i4FxFrONAZiPkNUV+9u0x2VfHVBxgWnp4MMblCkN0ZPmtYG0jxziEZFdurXiwG2mF3Aaf585cZV3Bbcp1KJcdhjfimXAyPbs77PNcar/nV2BAVGLOyl1wvbwdV9TuX8in5QsxYKuRFLn6O7zi72Ceho3aFtIwYPxIzcqkY9mZpAeabRb//oADtEUOzIpPorJ4cJ4RkEEus2ERuy8GNh6QH1ssuf/AQ4Of5IVQxy8ZDKlSYeW2W4r082Ga16MKLdczkI7vU27dQNXbJGcexnGsmAmiIri6H7s0aJMXnK7Nej8H/Uhn7gYzNeWxBoEsQHIxEwIXiwv4tQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VviGmwGo5izbbOXGqgyWSAfG6MWDs5OVGlKFfWETjr0=;
- b=KhPF08nv53+l3cirC55bqiKLjSqJ8SNGlT5mDaCSqi7xWWct9/2nAWAHTfun+YH3RGVvxWoKTlnsjeMwtSkg+KNCZB+uUdfH+IVKTMpQvstVHehim1wiInY3kLOfGSQVql3Blao37v6WGxcFZeUOH9eYnKmD+FisRKMI671XaNrVBBvIVo0YlxsJ1IGeTIbASCxBFBWEmTAzBsLwnmBNfGs3bfLMaPLTWRi4B0tFsdOs1u3+P+DFlxz6U7/1110YCsgoN/zF+I6fsZ2urX0ticCeOKqTwr7DWUgzFxzzl+1wEe9pG91hXVIAGQpgRBgavtZ12qUJJzwQ+YEvnL5NoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
- header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VviGmwGo5izbbOXGqgyWSAfG6MWDs5OVGlKFfWETjr0=;
- b=Hlc8ClaY0LSX6Qwliv+Jt0SDmHhj+L78NdHZQZlBryhkr5ClStTdnMZis2QNASciAz2nOfdr8gqx5gJXeaSN7r/55c/PuDafpY2pxhCWybeQwYJmcphpxnhwPoOnA43BZUQFEFqqpwp1nHAx2rRLNn3gwXNd1blNIjiag3ot93DLjEPxWmoBAYeyEbYkfad95yZl7JI0dGhonwqqzxISzQolL5gOj/cuT1f8/KriqPc+l3hDw5XyPJ0q5V2/j48w95zWWuK+wdYjTv1u8w4O5fIawOQoBXEV34c7cqu4EQwfrBw+tQHIExDj4U2/ZT/PiX+M2G6eXsEKLeEaAxDXwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
-Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1be::5)
- by MAYP287MB3868.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:149::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Wed, 25 Feb
- 2026 11:40:50 +0000
-Received: from PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
- ([fe80::c9ca:1b54:1c36:f7f2]) by PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
- ([fe80::c9ca:1b54:1c36:f7f2%5]) with mapi id 15.20.9654.007; Wed, 25 Feb 2026
- 11:40:50 +0000
-From: Nikhil R <git-patches@bmwtechworks.in>
-To: openembedded-core@lists.openembedded.org,
-	nikhil.r@bmwtechworks.in
-Subject: [OE-core][scarthgap][PATCH] libseccomp: add diffutils to ptest RDEPENDS
-Date: Wed, 25 Feb 2026 17:10:32 +0530
-Message-ID: <20260225114032.44274-1-git-patches@bmwtechworks.in>
-X-Mailer: git-send-email 2.34.1
-X-ClientProxiedBy: PN4PR01CA0102.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:2ac::7) To PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:1be::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OxFVCLQ/;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-506a93ba42dso73506901cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 04:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772022169; x=1772626969; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+aQPLR4jIMjO7fEvzxt/3FEwxCnRdtjU0ANT9cs+Rpk=;
+        b=OxFVCLQ/1dkeEwG28X7juMZ1GPVFiZ7AvVh9k25TIS3CZv2ztel+BJSoqG4fIobIHW
+         oqu8vjpVy0HGOqB+1ULVeMAV3QBRiBuECsZ4hu6+X+NJwlTWYErTcdPChgJ6x29+rIm8
+         PjTs4HpX7F4/SpKdNHbEM8Gncy+nKCWrEo+d2uMKxwF8e3u5fVt+J/LxI0jRxqauMLti
+         1+q1P+IIeHkzdfN4XNsZoGpAEO5lUb8K87ql3KEz8YWSbOyl7Zo2VpmQndgEIObGy77T
+         /iWg1RCQW3LtNbb7pJbSi3l0WEyAy6mmezGQz0xO5bC+rum8UTnw0CMAT+jp4uKaYrGt
+         BmGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772022169; x=1772626969;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+aQPLR4jIMjO7fEvzxt/3FEwxCnRdtjU0ANT9cs+Rpk=;
+        b=HYU5cy4Ven56mcH2STxdC50BfyiepgJ97I3qCe6/zcnAy/HhhKuM5fk/k5JcReaYag
+         yQJVdPPGEcyF1Oaa8laEIkw5Oka8ttVz6GoFLxxoHKlwaVQX2RpmS8rqytblmD+yfZke
+         pEjrOgKNbEzh1IJKm/uJG4yLSVTL7a8j6swiSOaEUaiRz1q2jZnH9w2CamnwPEGqEgVa
+         e7bYUlLX6RLdyQIrWefZRDuFYpNf7o2PY8zjMtEp3AWfq9WbHyC+eobvFuCohPP4hKDB
+         s7rSILEswCIP4+AqCLnw/KL+YQEiY+GtMYskOqNHkCRDX1G5qwcA/V5bhYksMoBIjX9c
+         pfUA==
+X-Gm-Message-State: AOJu0YxC9omdEZCx2Ev74BdKGBKoj5uwbAA7YVT9Nveg6uMkEGcDbK0A
+	Zbj/qHjn9w1nlX1gzcp+yvPc01vM3D23nBUmX+7MtCg8m95ibNkMucTQ2K51TFmN
+X-Gm-Gg: ATEYQzws5C/OtVesOML7EIqXaib6NIc9VlbKTOHYyoD1fPB0L+FPhJfHT8CmQDWmgK+
+	io4uYx1n8xZ43Ix/nZQp0dUvyB3kUCq+5xBzyC/H2ezzzG72AO/IUODd55mV874CyO4iy/dYuOV
+	0S76hIrGelsQS2X1dRsgMxqKzH6sH3tmA832E8zGBbW9ca5TnAYzdwHKYQzBe/weNUxBcLcjjcJ
+	l9zykntBsmDWv0lwrTUMpr4KRcDKgmIPZT5INytnKH/oelhSWGHb8GsomzXvtE1WYuX7kR7OysC
+	hJV1MNPW2vLtHs55iJrzdT5y2q16NDc0jaXXNDYZ/tZb2uyytHmnUhch7b5WSman+gZx/HTU60C
+	nCmAXSUYQcaW1u/Kj9JMjriZ0eyxDIHA2IjArA5p5czFdDMk2Vf/f/SuSSi1N9d0+/g5V0gL4vg
+	qgyh34+MTO5nXo1zV08vQHaDbeSwdw55ITGQ4neGdv6116A0GQF+PJ4Nm5we1hyEgxoA==
+X-Received: by 2002:a05:622a:406:b0:506:a51d:93e8 with SMTP id d75a77b69052e-50741f9b2efmr1610311cf.45.1772022169219;
+        Wed, 25 Feb 2026 04:22:49 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997e7747f0sm122138456d6.51.2026.02.25.04.22.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 04:22:48 -0800 (PST)
+Date: Wed, 25 Feb 2026 07:22:46 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v6 0/9] standalone wic
+Message-ID: <aZ7plh9OlN8CTVVB@localhost.localdomain>
+References: <20260225074931.1661345-1-twoerner@gmail.com>
+ <DGNZ4TTUX39Y.3K965DAB0AOLE@bootlin.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0P287MB1970:EE_|MAYP287MB3868:EE_
-X-MS-Office365-Filtering-Correlation-Id: b24127a4-0168-4e0a-e962-08de7462b9ba
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	xKDJBwqDuyNH9ca6T7cRChKv2xuSeMhlumDit/Bkf+hISo6iK1cexQdC1mfAL5s0UrJrE8SYsqwJ0WrMxZzItt/RzsQuCbXjX/UqOng/JOhdrg4fvu2ubHn1Nho5/vQRc35ZtaIJ2J0Br2e3/6uHO9BF/glDG3iSLXOncrWB7N6/uz5Ile2sJKyk1CuXf79WgNwmBD9m6YC9Ef80md+oC5SES1lKx/POKnNK+Hp3hQZ3fkD+AuVSwnxeYlwxA4kO7Q9mrrpLtcZeu10VvDR49Wej87ayw47gtHqnbG0mU/HtXdLfRRLy8o5z4vR+v63tLSLxjfGe8o22Qvl1sPyRXhuAtl0MdyEpOcC0qfu3BMj421iMAoroEs91hsIJmGY9QUoJg1TXpSFSGfWtqcGs264SZ3swogh8VB9FI9J7Quk83ydJnVF9O0Cf9ng3xa6I80Ti/rc+Phqgmw89GwiOVe83RKG9YRtDKPFhapVy7iqe2I21Jx0ZEu3JfPq8mfoSq/MHbiK72h1qOAziVQBRTFzHkE/zEYD2YrbB3/090zrzBx39ekgmG83RIpT0UiNSVmy5GPLtwsNfebcmAzQmOb6oTJvYAHH/s0toxdiNYzCcFFQfnsMuT7c1jGGIMEd5+1k88p4VZFqcLjNLhplvEV0X9oByim22us0LrGWTR7qMm7QxpVQkie6hoNqUJSbwdsdCo+1mkwZzlqN6xWL4QOhUtT3cJHXSYq061gsDqMwkq2tCbwvXAVby5ZGvD5ixPUDFwR9dlXzH23aWmJZ74rYg/AkytnvteKynlLxa+yo=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1970.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?d8ABdy5RI08jsVlqHZnA78CUSTd2/RGuPOXcPbpJPQR2kYaZBQWt1lGZ2JJV?=
- =?us-ascii?Q?BQD3Op6ZVRM2idnpMM8l+qiARTmyviMwziANgmkdAqJ3Yf0E9GGwGdGYaRvj?=
- =?us-ascii?Q?wvhwqHgEaJ7QoCziD4KaTnZGYolPfdziv1E5ywkmBM/GfkybgIe5YmZXS6fc?=
- =?us-ascii?Q?qRD3ZI8cml2iUS0/fr3RSd0uZEjfmtzDCPbtR9dgQpPoy6eMuma9VU64PlkR?=
- =?us-ascii?Q?PkakiqKPagNKiCWK7vcq6tW/x3396iITBBfc0YvBawCx3j7bbVrRUaf3otxg?=
- =?us-ascii?Q?t7F9aJZoiv6og1UMCxb9Tp48zeWqu+grSFtwi6GfEefdv9YKqDjYuy6AlSYc?=
- =?us-ascii?Q?M76HK+dYfe2hiuoj2WuwmnH7dw1ngdgYJfbnMWcNBE5uCat/mn63XO2OON7b?=
- =?us-ascii?Q?2e6FWrdNn5+r3h6OaU5Hh/bRU6YGShjvw7lV1jYfkU1453J+GXddfH/boXeO?=
- =?us-ascii?Q?2+wmIGCjNysPz9pMl73+xTlL+l/Mxtz0A8eDg3o31hLeO05lYl/vOaa2MbH5?=
- =?us-ascii?Q?g8soOJXeqmw0jcM5j1uj/GA9hQKsAhyjFBK6E7KQrM9iTqQPaelXbZnvNgJh?=
- =?us-ascii?Q?HzEZxlC0ZmEMb/KZFZEy5P9bgMdrSwu7yuNeIR4l8sFlgdrAEW+7Xki6gY1G?=
- =?us-ascii?Q?bayaler64Q16NDyupzbGm7LzBydRVq2A8tj/8HmL3TK51zrnHVcXxQ8W6j2G?=
- =?us-ascii?Q?KaLbcB0j1cztKpv0azAbVd4gobvzYGEQ9yMOtKAZJpujX2y5yZzAwr31VFWG?=
- =?us-ascii?Q?K2GvX0heApyw9HVU+If5xVf6nmYeydPvBmevsGFDtuo2TTJbo6h4UJ4qSV0g?=
- =?us-ascii?Q?LOwlRt0qmmU2NP79jW3pilmpBTkxIun9D/1AX8xfHYs8Lcc4c2txzYLMpffZ?=
- =?us-ascii?Q?ZCtb7/WN//w2SkIvYRRF+UDCA711c/GbA51kcbJXxz6RERb8c5l0UqTnmJ01?=
- =?us-ascii?Q?d9Gz9wDJPtLRTmDz9I2qEa43tGeEXX4NAu+xPyFTZhuqqVjaN8ACoJT37ol0?=
- =?us-ascii?Q?k3xGsEgURjDSbJqZ7yu/fakl9Tz4qycM98OJeXOQ0jat2Ujc16iqiPJaRXnX?=
- =?us-ascii?Q?j3x5q1A97E0XXtmi8kiqitXzGBHhkWgDIPXxa2TIvUBvgxpWPlCzAuCzeR3C?=
- =?us-ascii?Q?bA1eYQzHOcj4nVvJMh17QTgOjvCjLGMX3KjrZ8+CfXIYRvQ6HwunxD0nCJoc?=
- =?us-ascii?Q?dmI/TF5uAKkJ/MT+EcZtzrSivjoxzTAunHTP1tTcMeTTqYmIGKwSzTQ66DpN?=
- =?us-ascii?Q?zTLCDQ3WFzplqhofiDxU52gaWVyItAiRi9oNPjEpd5mR8CrczFO+6pEcheSv?=
- =?us-ascii?Q?MqXwKDBE9NWT68P3S4hcsVwRV2kILpH90Y7KtF9gRG9MuGuXh8RCg70Y3Etl?=
- =?us-ascii?Q?e9RuR04MCq11hZ602+lPsxh9p+KBOJQWbe5iDuadYlg3iZ2Ml6QZx/GSmE5u?=
- =?us-ascii?Q?qWfbNHBAFCPDri6MRzmcUd9eqVp2sI2RP63B4jBUCuS3A0N7vC8R4gfDQB2Q?=
- =?us-ascii?Q?6sr0Id9FdPBJR9JgVW9AZzA4ppgencAsngZM0iTmj4YiEkVV+EnMMLvHcsax?=
- =?us-ascii?Q?BxLL7bAsIelhVuvogw3JdBykyFN3NgXwhYL9BWlXMljqpLyla4VnTRWPJfzU?=
- =?us-ascii?Q?kmN3J/rYbJ5FHZWc/AQH3zhAq8vG43V7Y9xZLh7iaf58V3fgEmuHaTXPpV0U?=
- =?us-ascii?Q?47NMMNTc++Q5FXPLARvzvOzqF1e7vdxhQAd8ip7TkWpV6K0sOVRq1p4KSvJK?=
- =?us-ascii?Q?4YrOeFpLSLoGd23SZT4uZD+fMzHwTRU=3D?=
-X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: b24127a4-0168-4e0a-e962-08de7462b9ba
-X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1970.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 11:40:50.6313
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /UurGXDCT3Xps4Lfn1FNCSIj9+RdvPM7dGgBY0UUi6Ow6scehFyfwEgQgrPsXGgR+Ux2TpOsUZHeSYSUyMvRbcZDhgMquWSW4GB1qNLT4GU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYP287MB3868
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DGNZ4TTUX39Y.3K965DAB0AOLE@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 11:44:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231953
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 12:22:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231955
 
-From: Nikhil R <nikhil.r@bmwtechworks.in>
+On Wed 2026-02-25 @ 11:34:41 AM, Mathieu Dubois-Briand wrote:
+> On Wed Feb 25, 2026 at 8:49 AM CET, Trevor Woerner via lists.openembedded.org wrote:
+> > This series of patches splits wic out from oe-core into its own 
+> > standalone utility. The wic utility will continue to be under The Yocto
+> > Project umbrella, but will no longer be integrated into the project
+> > as part of oe-core. The ultimate goal is to make wic a completely
+> > independent tool, hosted on PyPI, with its own tests, development
+> > roadmap, and releases.
+> >
+> > Some benefits include:
+> > - relieving the oe-core maintainers from having to review wic patches
+> > - allow the tool to be used outside of The Yocto Project
+> > - provide more flexibility to explore other features, libraries,
+> >   mechanisms, etc 
+> >
+> > These changes have been tested with oe-selftest as follows:
+> >         $ sudo .../layers/openembedded-core/scripts/runqemu-gen-tapdevs <my numeric group id> 4
+> >         $ oe-selftest -v -r wic 
+> >
+> > Previously, I had two separate patch sets for wic on oe-core: one 
+> > to create a standalone utility, and one to re-implement variable
+> > sector-size handling. Both these were combined to create a combined "v5"
+> > patch set.
+> >
+> > In v6 the major changes are:
+> > - code cleanups to remove cases of "if sector_size and sector_size =
+> >   512" in places where we can guarantee sector_size will exist
+> > - cleanups to replace "getattr(var, 'sector_size', 512) or 512" since
+> >   the 3rd arg to getattr() is already setting a default if the variable
+> >   name is not found
+> > - many comment and commit comment improvements
+> > - error out if extraopts includes options to set the sector-size in wks
+> >   files
+> > - patch 2 (add ufs class) was dropped
+> > - patches 3 and 4 were reversed (move/save wks files before removing the
+> >   rest of wic from oe-core)
+> >
+> > For the patch sets up to and including v5:
+> > For the standalone patch set:
+> > v1: an RFC patchset was sent out, split up into small patches for easy
+> >     review
+> > v2: add wic utility to list of native dependencies of
+> >     image_types_wic.bbclass
+> > v3: squash all commits together to apply atomically
+> > v4: (does not exist)
+> > v5: rebase on latest master
+> >     split commits back out acknowledging any bisection that lands
+> >     between them will fail
+> >     combine with sector-size patch
+> >
+> > For the sector-size patch:
+> > v1: initial patch set 
+> > v2: add Mark as co-author of ufs class
+> >     try to fix a build warning when not using wic 
+> > v3: actually fix warning when not using wic 
+> > v4: deprecate, but allow, WIC_SECTOR_SIZE to continue to be used to set 
+> >     the sector-size both from config files and the environment
+> >     warn when both are used, but prefer cmdline value
+> >     change partition type of sample wks to gpt 
+> > v5: fix a bug where WIC_SECTOR_SIZE is not given anywhere
+> >     combine with standalone patch set 
+> >
+> >
+> > Trevor Woerner (9):
+> 
+> Hi Trevor,
+> 
+> Thanks for the new version.
+> 
+> We have some test failure as the wic tool is not found in path. I
+> believe we already discussed that previously, but I'm not sure what was
+> the conclusion.
+> 
+> Poky - The Yocto Project testing distribution
+> Running '. ./init-build-env; wic create directdisk -e core-image-sato -o ${BUILDDIR}/tmp/deploy/wic_images/qemux86/directdisk/core-image-sato/' with output to /srv/pokybuild/yocto-worker/wic/build/build/command-1-cmds.log in /srv/pokybuild/yocto-worker/wic/build/build
+> /bin/bash: line 1: wic: command not found
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/15/builds/3190
+> 
+> I will let other tests finish, so we can have an overview of the
+> situation.
 
-libseccomp ptest needs diff during test execution,
-add diffutils to the runtime ptest deps.
+Thanks for the report.
 
-Signed-off-by: Nikhil R <nikhil.r@bmwtechworks.in>
----
- meta/recipes-support/libseccomp/libseccomp_2.5.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb b/meta/rec=
-ipes-support/libseccomp/libseccomp_2.5.5.bb
-index 478e5f4289..dd253a7826 100644
---- a/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb
-+++ b/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb
-@@ -59,4 +59,4 @@ FILES:${PN} =3D "${bindir} ${libdir}/${BPN}.so* ${PYTHON_=
-SITEPACKAGES_DIR}/"
- FILES:${PN}-dbg +=3D "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools=
-/.debug"
-=20
- RDEPENDS:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'python', 'pyth=
-on3', '', d)}"
--RDEPENDS:${PN}-ptest =3D "coreutils bash"
-+RDEPENDS:${PN}-ptest =3D "coreutils bash diffutils"
---=20
-2.34.1
-
+Are these failures from oe-selftests defined in oe-core?
+I can't quite figure out which tests these are.
 
