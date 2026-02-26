@@ -1,232 +1,170 @@
-Return-Path: <nicolas.dechesne@oss.qualcomm.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C95FCE078
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 13:10:40 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.69652.1772111435217911701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23CCFCE07B
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 13:14:40 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.18])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.69504.1772111672501770159
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 05:10:35 -0800
+ Thu, 26 Feb 2026 05:14:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=oCwM/5Tz;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=ToXDR0gf;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: nicolas.dechesne@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61QAL2UY1696118
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:10:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OEVed1yoEnPqGpQL367eIkFl9tZ7MBRxZP7TWJVXV+4=; b=oCwM/5TzoXsV2IAI
-	5UXh1W32wuUeViaZ1zHugNyrdL/3XTR72/KcEwlXAo/l9HBoNe59ILouUPItNNt+
-	VkGZ/3nVfV4N+/AfaSnGzAXLHKJgvb081/en/LxckVWQHTgbrRJxn7FzHDozL/Xs
-	WdF0EyM+Np5Zgr7NqIGNjyiIJx/NZV6hMOKaQ6zMghfLsTGvHc/pxhhWoP1xSQtC
-	fb2UojS8csw73LCqyIJZpXN0M6Ayej6/DPJvuHjyuRYQjcRaFAhWfb5IPsDQoBuo
-	aJuLOESGrjaFlBaaIHqTngL0BJC1nvwdr0be6RAc1Iz+m9ozJJnyr1dQX5y9ih6E
-	gBfA8A==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cj350krgn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:10:34 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb4e37a796so543788885a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 05:10:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772111434; cv=none;
-        d=google.com; s=arc-20240605;
-        b=k6B+DrF/z6kAEpNXoDfqHg8U2W7FMHCcbVyVR/Eo9KUENrCvya7elx4tb3HFAx6qiH
-         Fk05jEHsxtZ7MRiO4QHRS9W3lf66zHPEuNb3k3fZCeu8R0M7cVZeY5M0i/s0QilDrQ5i
-         RdER0zX8N9ehZ3uFsqbuYQJd0zgSWC3GoLth48hb4YvWBmmycDb5wSIS62QuER9RVu+x
-         CWq0xIcsbY/3gINF9sm7E1eqidA+K357BSpEHf0I0S0egG+Q11h7AOlSfIUoVcreReuc
-         Ytz1/3N30nU/Bj9e3qo1zlXSbrACOrZ8FUZ9ubeoPW+pJG5rkwyznkaAO4IoWxs7AhcD
-         ryOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OEVed1yoEnPqGpQL367eIkFl9tZ7MBRxZP7TWJVXV+4=;
-        fh=7n2AejDI3t7pOkqzjfxtDiQrsHy58Y0naSSatmyuMvc=;
-        b=IQD5TswlJiI1FVxZ/3I05yA77qWChVUnqA71LXDjzfZ3MC/XAwrg+Tqa18WMaLu1Ii
-         /cMXtrqWwLe4uWkhBsCHiaKiw2t1ucw2Vl4On3mUJp7U9nmfeMAVsrg/2xKcEeRnRABZ
-         Bq+QSYrILwhgO+jmyCYJioKatRaNsFwJIfxyOv9lvBICHhI5j+/7A1H30U20jlBKv1Mx
-         QeT0x10OHTXNrNJ5I08PMHDYAHSStvgEf4hw5Vphu19DoMANZCDkD+KVBxeCfADyaQcN
-         9QxT36O1RAkasWsLKm6kmfF+3cUM8yxBISOtE0+s6jCBrp+pcPjLKpwU6WpL0GWtCS/S
-         0caw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772111434; x=1772716234; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OEVed1yoEnPqGpQL367eIkFl9tZ7MBRxZP7TWJVXV+4=;
-        b=ToXDR0gf2IzdNhmY2mHpF5EjJq7b08IY8JHXyWN/I1BcU14stmpcQMYeQiUeXlHS8L
-         BDnrlgXxTvdPbsMKDj234o9WEBAYFu+5oyg6Wx/pzNpUHPwD270o5g2QhC3T3o0nDzkw
-         1AxgaGx5D6cHBd+Ub3aKdInxa7dzJgu/YEASYDUo2UAmDd2+zTqTOHKEyfcR6FXn5Ljw
-         M8wwyN9Ue0BhHF5UmAcvuopF7ouGTvKH+PqEI0AmhC0Zjes0gAgyGd8msmxo0jCJ/knh
-         beK850aCVjFoKcvQEGQ+AZVJieIdJUzICd94BJXtfH3xhnCnMlcgFQfz9A15fU83t7sI
-         ZpFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772111434; x=1772716234;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OEVed1yoEnPqGpQL367eIkFl9tZ7MBRxZP7TWJVXV+4=;
-        b=AGdqXo2bebPiqBIKL/UTJoq59I4Cy5jWeFXvIcqb3+cUhOsoW8ciypIKDt5bK6QbPl
-         gjhthPYFr/CN5FJKByZun4mCOvMTm4Q7sXaQMjLFVvA3xT/CsUiLRv4mWAXcGnPrV3Sd
-         wz+i6LzQNDQr+IgTHJCJEo8pptnBekAEs1ihIdn1SjRiBj4ygiS0a4wwqvcFYf/gWR/l
-         46i+4J+uH2nIfQ6qjaF5qQcyfAu7RiMBV++L5aV35oZ50CoFGeJFVfSGbnmd1wgZpLjZ
-         EGaJm0/Wr5ghDDVbn7i9YLqAUGo7OmxJtzb/ScN+A4pf+eNwxH3SgH9/+F+eEJYZ0Oal
-         uQ1g==
-X-Forwarded-Encrypted: i=1; AJvYcCWoK0UZ4CNlSuLG7jTe4iLA7YcY2jzBb3t4x47HQR1yQB2bDXAeuTnz5itR7838Lw3F9R/zMnidmWPA4/jzfHKg4g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxUISFFMILifwmet8FLQfQZyVWVoUMPczo/zmJAo4u00fm1FUyi
-	O2r/Pc6JRmZXcRSrjMKh1BlnVu4s/w9uOq236CWvvM4MfWTTMk590YdgTCh68Swmo6tjmvMyxVm
-	zjh+zjyr1Ucfdb5zMBn0ddDYASfTF8c8+JMN6K7uvGAeAqKsMkuk0wjKMMPYNnnNCZ8/SNXN6Je
-	SgUXgg1LUGHXJMvU//1GzHdyWxYoazd85xONMDbWadoPKQ/JRhoCrSdjeQzFJvdBGQtA==
-X-Gm-Gg: ATEYQzwNgxqlqoVEv6bR3kYjVkVKbXmLVKSyidaHBlBtko277OAnNp3Ck70qSAJWvzm
-	QnF4QJFoL8bvKzvHEcdD7RhuU4UgAWiw2l0IDA2l8skKWhPys1o6QfkI7RYHRLpQ20otQxkS5Ux
-	tWuXdGzlt2dHGtjlA/pt6noXDszWaNrIV8DaxJa85A3InW9ItKSEMZ3BOvmdVUF0ehjAvso81ow
-	09nObSJ
-X-Received: by 2002:a05:620a:191d:b0:8c5:38d1:7734 with SMTP id af79cd13be357-8cb8ca80184mr2263127685a.54.1772111433569;
-        Thu, 26 Feb 2026 05:10:33 -0800 (PST)
-X-Received: by 2002:a05:620a:191d:b0:8c5:38d1:7734 with SMTP id
- af79cd13be357-8cb8ca80184mr2263123685a.54.1772111433041; Thu, 26 Feb 2026
- 05:10:33 -0800 (PST)
-MIME-Version: 1.0
-References: <1e6175f982bbd141fcc156113aa6e798a3120bdc.camel@pbarker.dev>
- <CABWbsgD=OF0G4kXyGCDCSByVrd0u4jnxHQipFjdLueoiv-99yA@mail.gmail.com> <5b7f9fe72cb1863826c7a7757c90eab97853f134.camel@linuxfoundation.org>
-In-Reply-To: <5b7f9fe72cb1863826c7a7757c90eab97853f134.camel@linuxfoundation.org>
-From: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
-Date: Thu, 26 Feb 2026 14:10:22 +0100
-X-Gm-Features: AaiRm52o4N6bZumX1k8xuklXST6f27tz6oEPUjPh6qDhxZveyUcJvg2FJA5YaJw
-Message-ID: <CABWbsgBwu32+X4RYM5kzc747qAWs2WWbszo3enTJY=zkxqHpww@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] Recipes which should always be
- upgraded on stable branches
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Paul Barker <paul@pbarker.dev>, Yoann Congal <yoann.congal@smile.fr>,
-        "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
-        "openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=RZQ3vfEA;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=RZQ3vfEA;
+ spf=pass (domain: arm.com, ip: 52.101.84.18, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=y8BeBUAjW222RZjxtgPIM39e3k+W9XeFvaeNJZ5J17I+y4V4YgTE0L38b1G4cjLABvqJ9CtV5aDrqxFaBnmfqxJtlihoXCMWXjsgDyiSKN+twwmBu7hB0S9FbNBZGoXcSr2wTkD7hFQLU+LSDUH86cVEVfW/hoO+yPiLd1CcdFp/Yr8B1dcA7mt2VmrjHmeh8kVagkUSn1X4f09kP9ZCNhEKExN+C69xuepfobTtXjEK6ZqV2Co7gVR6uBenxRh4bGiCvmDE8L9ad+aX7Wr5MU4s2fvUQ2qKBnIYe0FdTIR0AgqEXQoWtq25kRV2LBpv5nYHCyoq+i7lM4ZL2Hh6gA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ekb7hJ0o+/7yHbnq55XAUmb8d9DM4gm9rOUWeiHAcGw=;
+ b=xUisAeyad27KcaTw0x85GN89zluVaKPbbc3u/AO3JpmZ3u5cLflDeBzNrusHd5rpRFSkRcHNFkvGT5/gfh7h4iwOePAtUzJkLh0pnhIzYBjJnjOZnQKqMYVjUMyneMtDrAG+zBrBSUDFcH9vO/7qqSl1tRSzm4pHZN7dsXKCKZ6A2l2/y9/RuUJ7Tc7cRbyota08QiiH4DjgLy22L0MEYS1lyEdlIqGIOid3FhgdcAiEDNU9b4O75V3cWHy+uK0CluhSO+UQWDLagUSzQoulwA19SBtM9U0xdXLhFBuqS7Vc14Kx51bgMgR5TuANl378ArSjUzVyB0yRGTVLOyUZkw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ekb7hJ0o+/7yHbnq55XAUmb8d9DM4gm9rOUWeiHAcGw=;
+ b=RZQ3vfEAykjgJioS7adt8zX+Aqi3em4zwoHQqyMO49U+ssVNAYM1Crl3S//5ZIVQiuLcWr38+0htLqNjfH62YZAFFKw33pIPV61f4sbIK/Bk4ulmrmjCX31vx6iybLFRki7TjSpVSP7cuEUXbPf4U6FCp4gUnetMdnKsq+jc/l0=
+Received: from AM0P309CA0007.EURP309.PROD.OUTLOOK.COM (2603:10a6:20b:28f::18)
+ by VI0PR08MB11504.eurprd08.prod.outlook.com (2603:10a6:800:2fd::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
+ 2026 13:14:27 +0000
+Received: from AMS0EPF00000194.eurprd05.prod.outlook.com
+ (2603:10a6:20b:28f:cafe::91) by AM0P309CA0007.outlook.office365.com
+ (2603:10a6:20b:28f::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.6 via Frontend Transport; Thu,
+ 26 Feb 2026 13:14:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF00000194.mail.protection.outlook.com (10.167.16.214) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.12
+ via Frontend Transport; Thu, 26 Feb 2026 13:14:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r4DxECs0X6clkZjz1oYn3PBVyvX4es0yGW/18o8S/k5ON0rbA3iRMzdtrx3s68udUktWEjlj9Mexl9kga/Wmhxck8Ql6NWyT0S+os8R6PWcu4l14m71ehNCym/f6yMBNeuBxFr+LZ9i0eUXEJDlw2yZ+YOGpu/qGvzr9j1dYE4WFATA4wjn6iimvdxeecE6/dAs870ChN5im0VDZynKq31mHIvpAXJS8GlOKxK9ASA6xyLXQxTQJbOr7CLFAyTZF/iS5Ay52jFI9snK1O7EqJLXPf5hG14qNgaul/04TSGU49D9o788K3B5+gCaqJx7n4HHnS0/fmLxeQVfmUjnnhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ekb7hJ0o+/7yHbnq55XAUmb8d9DM4gm9rOUWeiHAcGw=;
+ b=U1LbvuLcemjGO8srkj1/J+ViX8U6u3i5zPyNcRDuZp8LPvlKUk8GS5uuDBWoNVmIiSlE/0WLtNwOswFyK823PwXUtm8afb8NwGnXYHZkd+4VpkGTLNPT6OkpAP6me0HqBbXQlCsQX57vzY4Zq35XM6hhRpY57e44NRtkVVD5Mf6yztNkCD4IEmTkECBVp2mtB2jIQv1jgymn+yjtpDwCTUY0Ldy3rke4hlyJdwVpaKuKI6nJ50uJbUl6UoUwpXQkvKGQ4y3+OPbS+XKazF27AIsomKvFqV9C4ALCap+U4oOt+Kv3pb0yHNBN3F8YpWawjkl3KZ195psOv6+iA4KWTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ekb7hJ0o+/7yHbnq55XAUmb8d9DM4gm9rOUWeiHAcGw=;
+ b=RZQ3vfEAykjgJioS7adt8zX+Aqi3em4zwoHQqyMO49U+ssVNAYM1Crl3S//5ZIVQiuLcWr38+0htLqNjfH62YZAFFKw33pIPV61f4sbIK/Bk4ulmrmjCX31vx6iybLFRki7TjSpVSP7cuEUXbPf4U6FCp4gUnetMdnKsq+jc/l0=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU0PR08MB9584.eurprd08.prod.outlook.com (2603:10a6:10:448::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
+ 2026 13:13:22 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9632.010; Thu, 26 Feb 2026
+ 13:13:22 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "changqing.li@windriver.com" <changqing.li@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/2] procps: support ptest when TCLIBC is glibc
+Thread-Topic: [OE-core] [PATCH 2/2] procps: support ptest when TCLIBC is glibc
+Thread-Index: AQHcpS+j43njF7eaL0mUs8ote1Oji7WU+PCA
+Date: Thu, 26 Feb 2026 13:13:22 +0000
+Message-ID: <7C785637-73B8-4927-8A7E-C689573CB8BD@arm.com>
+References: <20260224014748.3336195-1-changqing.li@windriver.com>
+ <20260224014748.3336195-2-changqing.li@windriver.com>
+In-Reply-To: <20260224014748.3336195-2-changqing.li@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.4)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU0PR08MB9584:EE_|AMS0EPF00000194:EE_|VI0PR08MB11504:EE_
+X-MS-Office365-Filtering-Correlation-Id: 461bfad1-8a97-4749-7b12-08de7538f6af
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ diMgL/s/E4RppkCPX4veao1++i+KlEhrSl8ryMphfQLjxXTYQ2rOSFSya/6MckLSFO2wQVaQ3j+EfWxCN27lP4EA6EEA8piwhQDP+q0Rnx28c6xYAWct6Handb6K3V2HWNX00Xdt4wK/Z1H+DdpcLFa7c8yAs8PLI3JRfYJtt6i9iObAP1aQHVxicZRBxMbLE40a7IJFdt74fvR6qTOGXoeXsYgujNjA1I7G6trwEzU83pS6o+23K73U/oe3M2vG0cr8uvk/D9nTD1v4OFgByxxi3zcXdqcN01Q8JGPyNzRZ3QXx9zNhzSU8idla1NFAcUI5K0DBLnerYHRdUwiK757bjuG107xSiNEAJG7I6HAMefWyxnbbs6UMdccC9MGk3uwcCtbas6bQ90NDf4Hidur1o9G221KnnQhooXRIWocL8/Y9mitOGsEyCB6yTyd2M18FF0nZ2r0XJ51+WfXwHS+0mB9Yd5OMQf3EO8TLfcGUDOzCirnK2MHYbFEzHBhtLEuA13dYlo7Mn2Zp4IF2TTJcWZCac23EMWrF711VKTkMfGCcR0cMi2GUOpSCahxJVPcwcbR/v9rpasZmJbUWW3BtAo0uDwiynESQ28zDnDGnGcsK2/BjClKqmwgXZ+AA8Ekh2c/jKEz7Ln0MhFbZYoKHN7NYXO+t067k0y5PQx2ChUU/Gqz72kbzuPO88q+bONTQmyBfhhZlOD8JBckwWuezmIzhXB+nAGJgTrOlk8acgcDkYNGc592Y4k7hendfcILDfY7kroqbdu2RkM8kC2u6fKQo9GQjB/pjTn4TJG0=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <ED8EB6D281669E40BFF90539762936AF@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: i-Aydbpj58hiBbXXM5m1JeQ3ux3PMA-F
-X-Authority-Analysis: v=2.4 cv=Zs/g6t7G c=1 sm=1 tr=0 ts=69a0464a cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=DJpcGTmdVt4CTyJn9g5Z:22 a=xNf9USuDAAAA:8 a=ag1SF4gXAAAA:8 a=Q4-j1AaZAAAA:8
- a=3N18OTVUDUG9Od-FFKUA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDExOSBTYWx0ZWRfX0JlS/RfgqS/t
- aGUC+okvnWXEsRpEKKBPTzWQho6gDHsxnXe/jrJwFS70Goe9IDbDNbuTIhFfxZoNNTeVkAJqBUz
- Dwj5KHrAyj4OnFcdIfbNonHfXeDLj87HifPRRDtmERClBeTQ0RJ7H7g5+ic76x9LUrmjXt3v9kz
- IP0LL37h0iJk7j0sg++cPxG/8zu+iPn1y9AG6ZkTTtQ4BmkR6xgX29vKhl2AXQVH4K9wS0IT7wO
- tSZie9GbKKNnBN6ckxZVrM9g2jbz73mf2BBCn8o7lkaWL0k405MUaQGSnunxcBzX6G5jDHu4Pp4
- /9Srjc0tPlMQkKgrzXpb7STZsdOW3WQOkqxGVxTdIhntn56XV3wfH8iNqPHcRS1Eqhxf+XLqf+n
- C9WyYDzU1+5y0C0QmZZ7YPnqcqEJTt0TkvrvXqIXjHIfzh6MedpnJ1qnw1C1+5f4VVs0Ybx93HO
- C6g45BamW7r1gI5TwrQ==
-X-Proofpoint-ORIG-GUID: i-Aydbpj58hiBbXXM5m1JeQ3ux3PMA-F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_04,2026-02-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 impostorscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260119
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9584
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF00000194.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4292121d-3f3b-44c9-9d4d-08de7538d13b
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|36860700013|35042699022|376014|82310400026|14060799003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	0Av+m+teyC9efVDZ5TKbGoLacw3CZyawHyP6JJ6NMl4oP1gkTurLXUkSdiiR9DvBLBWGy4LdOXglHnxpETGGz/pEjpg3OA8tDmFjojkaPcntnugPwY0/Hi66UrWZ9GaMufmuCZkgI2ZtlIkpDcsKljYMbBAFJqtxqKf3Z7FJXLNqs9oxYqHnTB/8jFSUpbul+3513UjmW2ik17gBgQthLNpmZoYmNKOdM8jL9QLXykOc5bhdmw8r+iHHBcSIGTFdc3oeKl2tP0UlBQSWJLBF/MI4RWzsAGpqGSDK4X1zyLeh0oR4ypbMYVMbMzS5ZB/Pqf/S4bCX3QttY6i6S0EQ3cn+Hpkzf294i6m8ZeOcmxpRpZuQjVVY3317ecHTubrEWH2yKVd2t1U+uP51lezEc4nbqsfcRGTwV1MyGWzoSKIwI9892YhwsV2xY7FvozyUWVFCCcy1MRpCJClFX2NBLQbVIaUyO5Nz3mGeUNUVM8qwoPZu1f7HQZLBGuOi0BEosQxnyT+XU0EvOb83CtTRiN+rwVFFUgSiYkxKFFfX0EPkIwrkj2gRqI/5TyEXsRwaCwsIZCzDHxmqLyOntCMO9C+VwNqr7RzrlQ+uEFVWYndqukqfRxhDy6m17F+ZyQv/QykDDmCAmoz50mKwamQQxXbVncunybOL3uESirltmdvhty0DZKQiOW7xJf3B5+yUTj/cfJM1HRA7zILqrPcZgB+ThHhy+l6DQTpjqlzR+tsnrOGAVCfAqmh1933IoUyB6QMETF1ibcPalNGr/oSxxa2zsY7IpUM/k4aG7Zp+YPgufXYsYalEFrp2YWlPy5S8FPj/XfGltNEm0sog/I3s7Q==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(35042699022)(376014)(82310400026)(14060799003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	yjBYKUpX/f0y/Mal5am6mbWHFnupGIDpnRCeeFQVwouazCXhIUqtL0KBFjFm1QxolgESXevEBKTWWpWXng0zHk1opy5Jp2sq4csm3efPaKqqYgdO3dm8AFbkz8AnI2Bl4lX/re80zD+IHhIzjPtyC/qMcSgqBV7woornRLMmug4cuELwRHac2TXN1tsLmpKA6MXibywwJfhToSCoXoNbiqS99paMPmZxsyt3nyi8hySssPAQXb3TVOoi+3gTezsb6tVB/eVqJt/sWcMY48JwzjQNHu/cb2w1f5++SBQdsCHwiy8C9y8Hbbej98O0Wbc7Bv2XB3zIUc9teokNZ0w1mFJhpaKlTvR+KncS7a8DlCfzFNCZPgWCnGjbWYg5ncxYXiB0f2RAZeannU1y/Lqh7RFzCWn7EA3zK/DsNZTCxrslDjhBsDrHMIl5e8mByGiH
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 13:14:25.0139
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 461bfad1-8a97-4749-7b12-08de7538f6af
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF00000194.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11504
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:10:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232021
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:14:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232022
 
-On Thu, Feb 26, 2026 at 12:49=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2026-02-26 at 12:37 +0100, Nicolas Dechesne via lists.openembedde=
-d.org wrote:
-> > On Wed, Feb 25, 2026 at 6:44=E2=80=AFPM Paul Barker <paul@pbarker.dev> =
-wrote:
-> > > I've been briefly discussing stable branch update policy with Yoann.
-> > > There's a few recipes in openembedded-core which I would like to prop=
-ose
-> > > that we always update to the latest version on LTS and stable branche=
-s.
-> > > These are recipes typically providing data that is expected to change
-> > > over time, with little or no code.
-> > >
-> > > You could say ca-certificates is already covered by the fact that
-> > > security fixes are acceptable for example, but a clearer policy would=
- be
-> > > better.
-> > >
-> > > Any policy change will go to the TSC for approval, the goal here is t=
-o
-> > > get some review and input so that a concrete proposal can be put
-> > > forward.
-> > >
-> > > The recipes that come to my mind are:
-> > >
-> > > - ca-certificates: To allow access to HTTPS resources we need to keep
-> > >   these up-to-date.
-> > >
-> > >     - Keeping this up-to-date is common practice in other distros.
-> > >
-> > > - tzdata: To stay up to date with timezone or daylight savings change=
-s.
-> > >
-> > >     - Debian takes upgrades to this on stable branches
-> > >       (see https://tracker.debian.org/pkg/tzdata).
-> > >
-> > > - mobile-broadband-provider-info: To stay up to date with provider
-> > >   changes.
-> > >
-> > >     - The README file for this project says "The Package contains onl=
-y
-> > >       informational files so it's safe for distributions to grab upda=
-tes
-> > >       even during feature freeze and maintenance stages."
-> > >
-> > > What opinions do other folks have?
-> > >
-> > > Are there any other recipes we should include in this list?
-> >
-> > I know this is going to be controversial.. what can we do to keep
-> > linux-firmware a bit more up-to-date? the recipe in scarthgap has not
-> > been updated since it was released. Other distros deal with
-> > linux-firmware in various ways..
->
-> The challenge is that linux-firmware is a totally different thing.
+Hi,
 
-Correct. And we already discussed that. I am hoping to get more
-feedback about the overall idea. Or feedback about how others
-typically use linux-firmware in LTS branches, since not updating it at
-all seems problematic to me.
+On 24 Feb 2026, at 01:47, Changqing Li via lists.openembedded.org <changqin=
+g.li=3Dwindriver.com@lists.openembedded.org> wrote:
+>=20
+> * support ptest for procps TCLIBC is glibc. The configure.ac only match
+>  LINUX as "linux-gnu", we can patch it to make test can run on musl lib
+> system, but the upstream testsuite should only run on gnu libc host,
+> some test cases only suitable for glibc, eg: Some of the error messages
+> for free command on musl system is not the same as glibc system, which
+> will make test failed. In order to avoid some other unexpected failure,
+> just support ptest for glibc.
+>=20
+> * procps's testsuite use DejaGnu test framework.  The testsuite is
+>  expected to run during build time, this implementation create the same
+> folder structure as the testsuite expected to make it can work well.
 
-Other distros manage linux-firmware in different ways. Debian seems to
-either take full upgrade, or cherry picks specific firmware files
-upgrade. Ubuntu is stricter and only updates firmware files (or add
-new files) on-demand, as needed.
+I filed a bug for musl support just now, https://gitlab.com/procps-ng/procp=
+s/-/issues/420. Please link to this in your changes.
 
->
-> a) We have little idea what the internal changes in the firmware actually=
- mean
->
-> b) The liunx-firmware recipe is complex and changes a lot
->
-> c) The firmware in the codebase has very different properties and
-> change controls, there is a lot lumped together and QCOM has different
-> policies and timelines for their changes compared to other vendors who
-> have firmware there (for exmaple)
->
-> d) The linux-firmware recipe itself has caused all kinds of regressions i=
-n the past
->
-> Yes, we have done a lot to address d) recently but it is far from clear
-> we would be safe due to the other issues.
->
-> Cheers,
->
-> Richard
->
->
->
->
->
+I think we should build the tests for everything, and skip the few tests wh=
+ich break.  In my testing in an alpine container there are five failing tes=
+ts, but it seems that two of them are busybox related so we can resolve tha=
+t with dependencies to pull in the proper tools.
+
+Ross=
 
