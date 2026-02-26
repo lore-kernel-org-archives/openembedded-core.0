@@ -2,65 +2,65 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD67FD8FEC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D444FD8FEE
 	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 17:39:42 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.75804.1772127577096476130
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.75806.1772127578543352908
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 09:39:37 -0800
+ Thu, 26 Feb 2026 09:39:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NStkYOpw;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d4c7d04890so551548a34.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 09:39:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I74Lsti5;
+ spf=pass (domain: gmail.com, ip: 209.85.210.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d4ba9abbecso1215619a34.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 09:39:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772127576; x=1772732376; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772127577; x=1772732377; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZP0Wp9MniMcKfuYvIt2TNmTYjdil8nqBqroSCEaCiYo=;
-        b=NStkYOpwVxQKjdqS53osI8AL3E3r6Rj7qcAOkPuyighAaWVURjVq0BYTNJ92ri5NFN
-         /QT8xaVcBcxYWkC/AHXJFfgxnWQmwsvvr5QfvtS2trzOndikRisFD4K4vLSfTis0hxmx
-         Np6fI/v4C0xX9mWYTMeS8oRT42baQ0drWBncRSsfxyCRiNljySK3btNr/8ksks8Tmte8
-         Vk7kDs3xbrXJJNaWOEtelRSaS8UNX1aQB9/S0KAlkBJHaHjkD6IIxDr5rWOcU63V/smd
-         Ze5dLQgIY40kEMI/B1cynPwzKNCVv9jQDfByCbi97A4fJOgoBLdP9DJo2kiRJgBYcMUR
-         82Uw==
+        bh=6hV0ClIeawdfJviTL2VvpRpRo7713Nd0mIEcCehLwkw=;
+        b=I74Lsti5Q+UJkKienBsTjROmTqZky9EWkEtaASCjaEZRFPPCaxLbfWQr1TRd77856/
+         olmwhNx2bLmZ4s2lh9HsULr6ZU07By1xFWgEHbMM9O1W1aDsvGIHJyilt8FH+7peI8Cd
+         sQ12ffCo0NPON5Rit/5txqsw10gkZXCWVftsdrAOuPhm2u1Ir5wuv7yYOuMTy4jfX+ge
+         irZJMH2hAfCeCBbfxaHnJeuKm8a/V93ApAMvaQiKPvOYWCD8e78KFGLF7TYfvB2m+ICS
+         TmitwhDmh6QpoERm/LjDbBwexeV2mVRDL465CpbZtb+zdYA2oWL+oxyQ55Ghb1vLXj/L
+         mhrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772127576; x=1772732376;
+        d=1e100.net; s=20230601; t=1772127577; x=1772732377;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZP0Wp9MniMcKfuYvIt2TNmTYjdil8nqBqroSCEaCiYo=;
-        b=QWftGslsUrMoP3E1uJDdso4PCIIPdJ7KQ4inznrAyquMMhLBx87feh9fniXe8RH/0P
-         wiIulm1RFmsqbVYAaO86LFOzwG47fQq5PVT70s1rw2dJDpF7enM67I68Tz9mG9/LQmnS
-         0RiOaqvciWL4Bv5TEkFAot9u+V1CIF7LDmlGhnx7l3135FOV3ZUMvtmjsLcXDPDeoHRR
-         a8ulRFemOFvgNhjyfjdUgE/n/LaihA/xOkLF+maI1j84FcGCR/sa6KAjcqjfqk34vXls
-         w4/yXe4pGB1RLGTTtwOGar1WDfs4jnj/sVipq062rWsDNPWN8xD37TBtsIQnLOL/J7uD
-         Bycg==
-X-Gm-Message-State: AOJu0YwXRKOA5EdTvKs2EXKOaruF52KqiBGLNdriqeJQMcYWuHWOZjRN
-	ymXOfGfb4qD3YVE9y3IhTQ0wvUcqV6FKWPkpvKfyxrQiRbP6wSsB8Abe8OmLhw==
-X-Gm-Gg: ATEYQzw7MTatEePjRTz4FtODOEsQg1D4Acb1nd3K2EWtFJUXa1OPBNi0PZNUsFl64Qr
-	MepvPkVILkbgWZ06SV3/P5gZv13QZX10XYrKuAHh1NYed2nKXyhqIBNDqOW6PD6p2/DmF6lk3+5
-	IDLyxG+7aMJ2pikzEJOE04/3Qu0Uf4uPrckNyQoozauCNghUHScZSdpUiWT0vdFQ0iIQF4URLLf
-	iTfrK4aDmigD5lf4Y08E66mhFD0DcI5jjUzZzQ5E0V/wkHBWjPypFNrkcQc6ymmSEh7/TfWWeer
-	+JDNqTiUhmKpD6otyJknCAGqh4Cp1xfakvUiwvKI1RyPFNvKwdNXjrjpOsPChOHXrnhgM3biVJt
-	+fMFFiLEQ32TgmgknkISnAyfFe9QW/JAboS16mJbjiw0SUoupZ56Lz0scJiWyY9d4XTNoPxsd1R
-	h3Nhxb0I73GpDC1Pml0GcW
-X-Received: by 2002:a05:6830:6201:b0:7c7:69c8:2d2 with SMTP id 46e09a7af769-7d591b324dbmr2695a34.13.1772127576135;
-        Thu, 26 Feb 2026 09:39:36 -0800 (PST)
+        bh=6hV0ClIeawdfJviTL2VvpRpRo7713Nd0mIEcCehLwkw=;
+        b=i1yFGU6tjv7zik2XVJyWojVAtY9hAXA66vzj68Recuf/VRSVseOO85UekUffJQNVRq
+         AQNcbdT0gfBwNmQGJsAG+SXpoSfm1it5cc1D5ONtAAit9HOo8WcKZ/DtaqKWeOhDZfCt
+         X9/f2ysRyuNCO0Yf3NKzVq09Yio4Z8wDI0D7WiJvC97DlJ5IQenWlMhjxaf+9sxywzdp
+         ByGP5dJBmTEJ1nbulS2mru4lgRtIlevuCCsMoVQ2Ua2QjykffqcJ9dEhB9TFYe9woqMw
+         5yDe2KfaWjJ7IzpFH8frYTzffyMeHOqhe6GfSwZUDsfhYO18qd4xl+0JSPi4pqr5Acjb
+         bDUQ==
+X-Gm-Message-State: AOJu0YwtyRDhlpKUsevwTcmbOVhgUQ+wCbJvZlbCVqNBQ4RUKaAI1LYB
+	sW6n54ijeL9FLmt+XH+yXrGcOaPQdn4CXF0jiqe071d0K/lTZVvvJPpYqyaGWw==
+X-Gm-Gg: ATEYQzwUfwUhtHmQVurqIJPz0FM/Ge3crgrpSUqUmCK2bZhrFDXx+hbPZeDSiWbqFJF
+	uePS8aisTHg17D1lddAD/chXrV5BEv7B5wKW7HVO7Gtj3msv+NrqSvSYx27fW/Z93xxtRoV7857
+	SsMBAHirRfavicVby2LuuT16wT+dRN0+uR3aEmv5B+zVh1I7bK1jg4PUML9W4Yot98qmTOWGcW/
+	n9Jtcx5TQW1YSXAjVCsKT0LkTNEZd5NNkerP84vc6iH07aIv7LGRiRMVYwGOGI2QSMpAa+9AxvC
+	cs0VchnO6pBn0TM6KlyohWhOOSaiS4M1y0q4cFCTlTOot1ejs1Vtga+bf6hOHDljIl1CgAu6yvc
+	AoBNRQnt3pFnQlkl3UaaRy4w2gxpjzybf0ivHzg7Lc2UvP2CwRZXmki3/Uh/1T2M0kRXJmgOGRF
+	cT+shMwTrdlckYJg/SteMi
+X-Received: by 2002:a05:6830:449e:b0:7cf:e4e6:2ce9 with SMTP id 46e09a7af769-7d591b3181bmr3767a34.9.1772127577559;
+        Thu, 26 Feb 2026 09:39:37 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4200:11c0::6492])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d586653f81sm2173027a34.23.2026.02.26.09.39.35
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d586653f81sm2173027a34.23.2026.02.26.09.39.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 09:39:35 -0800 (PST)
+        Thu, 26 Feb 2026 09:39:37 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: benjamin.robin@bootlin.com,
 	ross.burton@arm.com,
 	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v3 4/8] spdx3: Add recipe SBoM task
-Date: Thu, 26 Feb 2026 10:33:05 -0700
-Message-ID: <20260226173930.2847872-5-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v3 6/8] spdx30: Include patch file information in VEX
+Date: Thu, 26 Feb 2026 10:33:07 -0700
+Message-ID: <20260226173930.2847872-7-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260226173930.2847872-1-JPEWhacker@gmail.com>
 References: <20260224230234.679049-1-JPEWhacker@gmail.com>
@@ -71,137 +71,256 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 17:39:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232050
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232052
 
-Adds a task that will create the complete recipe-level SBoM for a given
-target recipe, following all dependencies. For example:
+Modifies the SPDX VEX output to include the patches that fix a
+particular vulnerability. This is done by adding a `patchedBy`
+relationship from the `VexFixedVulnAssessmentRelationship` to the `File`
+that provides the fix.
 
-```
-bitbake -c create_recipe_sbom zstd
-```
+If the file can be located without fetching (e.g. is a file:// in
+SRC_URI), the checksum will be included.
 
-Would produce the complete recipe SBoM for the zstd recipe, include all
-build time dependencies (recursively).
-
-The complete SBoM for all (target) recipes can be built with:
-
-```
-bitbake -c create_recipe_sbom meta-world-recipe-sbom
-```
-
-Co-authored-by: Benjamin Robin <benjamin.robin@bootlin.com>
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/create-spdx-3.0.bbclass          | 28 +++++++++++++++++++
- meta/classes/spdx-common.bbclass              |  1 +
- meta/lib/oe/spdx30_tasks.py                   | 10 +++++++
- .../meta/meta-world-recipe-sbom.bb            | 28 +++++++++++++++++++
- 4 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-core/meta/meta-world-recipe-sbom.bb
+ meta/lib/oe/sbom30.py       | 60 ++++++++++++++-------------
+ meta/lib/oe/spdx30_tasks.py | 81 ++++++++++++++++++++++++++++---------
+ 2 files changed, 92 insertions(+), 49 deletions(-)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index c5f6462c5a..782aa2c52e 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -239,6 +239,34 @@ python do_create_package_spdx_setscene () {
- }
- addtask do_create_package_spdx_setscene
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 50a72fce39..21f084dc16 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -620,37 +620,38 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+         )
+         spdx_file.extension.append(OELicenseScannedExtension())
  
-+addtask do_create_recipe_sbom after create_recipe_spdx
-+python do_create_recipe_sbom() {
-+    import oe.spdx30_tasks
-+    from pathlib import Path
-+    deploydir = Path(d.getVar("SPDXRECIPESBOMDEPLOY"))
-+    oe.spdx30_tasks.create_recipe_sbom(d, deploydir)
-+}
-+
-+SSTATETASKS += "do_create_recipe_sbom"
-+do_create_recipe_sbom[recrdeptask] = "do_create_recipe_spdx"
-+do_create_recipe_sbom[nostamp] = "1"
-+do_create_recipe_sbom[sstate-inputdirs] = "${SPDXRECIPESBOMDEPLOY}"
-+do_create_recipe_sbom[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
-+do_create_recipe_sbom[file-checksums] += "${SPDX3_DEP_FILES}"
-+do_create_recipe_sbom[cleandirs] = "${SPDXRECIPESBOMDEPLOY}"
-+do_create_recipe_sbom[vardeps] += "\
-+    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
-+    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
-+    SPDX_PROFILES \
-+    SPDX_NAMESPACE_PREFIX \
-+    SPDX_UUID_NAMESPACE \
-+    "
-+
-+python do_create_recipe_sbom_setscene () {
-+    sstate_setscene(d)
-+}
-+addtask do_create_recipe_sbom_setscene
-+
- python spdx30_build_started_handler () {
-     import oe.spdx30_tasks
-     d = e.data.createCopy()
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 2804c27b0b..1ec4877a6a 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -25,6 +25,7 @@ SPDX_TOOL_VERSION ??= "1.0"
+-    def new_file(self, _id, name, path, *, purposes=[]):
+-        sha256_hash = bb.utils.sha256_file(path)
++    def new_file(self, _id, name, path, *, purposes=[], hashfile=True):
++        if hashfile:
++            sha256_hash = bb.utils.sha256_file(path)
  
- SPDXRECIPEDEPLOY = "${SPDXDIR}/recipe-deploy"
- SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
-+SPDXRECIPESBOMDEPLOY = "${SPDXDIR}/recipes-bom-deploy"
+-        for f in self.by_sha256_hash.get(sha256_hash, []):
+-            if not isinstance(f, oe.spdx30.software_File):
+-                continue
++            for f in self.by_sha256_hash.get(sha256_hash, []):
++                if not isinstance(f, oe.spdx30.software_File):
++                    continue
  
- SPDX_INCLUDE_SOURCES ??= "0"
- SPDX_INCLUDE_COMPILED_SOURCES ??= "0"
+-            if purposes:
+-                new_primary = purposes[0]
+-                new_additional = []
++                if purposes:
++                    new_primary = purposes[0]
++                    new_additional = []
+ 
+-                if f.software_primaryPurpose:
+-                    new_additional.append(f.software_primaryPurpose)
+-                new_additional.extend(f.software_additionalPurpose)
++                    if f.software_primaryPurpose:
++                        new_additional.append(f.software_primaryPurpose)
++                    new_additional.extend(f.software_additionalPurpose)
+ 
+-                new_additional = sorted(
+-                    list(set(p for p in new_additional if p != new_primary))
+-                )
++                    new_additional = sorted(
++                        list(set(p for p in new_additional if p != new_primary))
++                    )
+ 
+-                f.software_primaryPurpose = new_primary
+-                f.software_additionalPurpose = new_additional
++                    f.software_primaryPurpose = new_primary
++                    f.software_additionalPurpose = new_additional
+ 
+-            if f.name != name:
+-                for e in f.extension:
+-                    if isinstance(e, OEFileNameAliasExtension):
+-                        e.aliases.append(name)
+-                        break
+-                else:
+-                    f.extension.append(OEFileNameAliasExtension(aliases=[name]))
++                if f.name != name:
++                    for e in f.extension:
++                        if isinstance(e, OEFileNameAliasExtension):
++                            e.aliases.append(name)
++                            break
++                    else:
++                        f.extension.append(OEFileNameAliasExtension(aliases=[name]))
+ 
+-            return f
++                return f
+ 
+         spdx_file = oe.spdx30.software_File(
+             _id=_id,
+@@ -661,12 +662,13 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+             spdx_file.software_primaryPurpose = purposes[0]
+             spdx_file.software_additionalPurpose = purposes[1:]
+ 
+-        spdx_file.verifiedUsing.append(
+-            oe.spdx30.Hash(
+-                algorithm=oe.spdx30.HashAlgorithm.sha256,
+-                hashValue=sha256_hash,
++        if hashfile:
++            spdx_file.verifiedUsing.append(
++                oe.spdx30.Hash(
++                    algorithm=oe.spdx30.HashAlgorithm.sha256,
++                    hashValue=sha256_hash,
++                )
+             )
+-        )
+ 
+         return self.add(spdx_file)
+ 
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index a8b4525e3d..9a312a870d 100644
+index fff1ca6bea..1c9346128c 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1564,3 +1564,13 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
-     oe.sbom30.write_jsonld_doc(
-         d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
-     )
+@@ -568,44 +568,63 @@ def create_recipe_spdx(d):
+     if include_vex != "none":
+         patched_cves = oe.cve_check.get_patched_cves(d)
+         for cve, patched_cve in patched_cves.items():
+-            decoded_status = {
+-                "mapping": patched_cve["abbrev-status"],
+-                "detail": patched_cve["status"],
+-                "description": patched_cve.get("justification", None),
+-            }
++            mapping = patched_cve["abbrev-status"]
++            detail = patched_cve["status"]
++            description = patched_cve.get("justification", None)
++            resources = patched_cve.get("resource", [])
+ 
+             # If this CVE is fixed upstream, skip it unless all CVEs are
+             # specified.
+-            if (
+-                include_vex != "all"
+-                and "detail" in decoded_status
+-                and decoded_status["detail"]
+-                in (
+-                    "fixed-version",
+-                    "cpe-stable-backport",
+-                )
++            if include_vex != "all" and detail in (
++                "fixed-version",
++                "cpe-stable-backport",
+             ):
+                 bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
+                 continue
+ 
+             spdx_cve = recipe_objset.new_cve_vuln(cve)
+ 
+-            cve_by_status.setdefault(decoded_status["mapping"], {})[cve] = (
++            cve_by_status.setdefault(mapping, {})[cve] = (
+                 spdx_cve,
+-                decoded_status["detail"],
+-                decoded_status["description"],
++                detail,
++                description,
++                resources,
+             )
+ 
+     all_cves = set()
+     for status, cves in cve_by_status.items():
+         for cve, items in cves.items():
+-            spdx_cve, detail, description = items
++            spdx_cve, detail, description, resources = items
+             spdx_cve_id = oe.sbom30.get_element_link_id(spdx_cve)
+ 
+             all_cves.add(spdx_cve)
+ 
+             if status == "Patched":
+-                recipe_objset.new_vex_patched_relationship([spdx_cve_id], [recipe])
++                spdx_vex = recipe_objset.new_vex_patched_relationship(
++                    [spdx_cve_id], [recipe]
++                )
++                patches = []
++                for idx, filepath in enumerate(resources):
++                    patches.append(
++                        recipe_objset.new_file(
++                            recipe_objset.new_spdxid(
++                                "patch", str(idx), os.path.basename(filepath)
++                            ),
++                            os.path.basename(filepath),
++                            filepath,
++                            purposes=[oe.spdx30.software_SoftwarePurpose.patch],
++                            hashfile=os.path.isfile(filepath),
++                        )
++                    )
 +
++                if patches:
++                    recipe_objset.new_scoped_relationship(
++                        spdx_vex,
++                        oe.spdx30.RelationshipType.patchedBy,
++                        oe.spdx30.LifecycleScopeType.build,
++                        patches,
++                    )
 +
-+def create_recipe_sbom(d, deploydir):
-+    sbom_name = d.getVar("PN") + "-recipe-sbom"
+             elif status == "Unpatched":
+                 recipe_objset.new_vex_unpatched_relationship([spdx_cve_id], [recipe])
+             elif status == "Ignored":
+@@ -751,12 +770,14 @@ def create_spdx(d):
+ 
+     # Collect all VEX statements from the recipe
+     vex_statements = {}
++    vex_patches = {}
+     for rel in recipe_objset.foreach_filter(
+         oe.spdx30.Relationship,
+         relationshipType=oe.spdx30.RelationshipType.hasAssociatedVulnerability,
+     ):
+         for cve in rel.to:
+             vex_statements[cve] = []
++            vex_patches[cve] = []
+ 
+     for cve in vex_statements.keys():
+         for rel in recipe_objset.foreach_filter(
+@@ -764,6 +785,13 @@ def create_spdx(d):
+             from_=cve,
+         ):
+             vex_statements[cve].append(rel)
++            if rel.relationshipType == oe.spdx30.RelationshipType.fixedIn:
++                for patch_rel in recipe_objset.foreach_filter(
++                    oe.spdx30.Relationship,
++                    relationshipType=oe.spdx30.RelationshipType.patchedBy,
++                    from_=rel,
++                ):
++                    vex_patches[cve].extend(patch_rel.to)
+ 
+     # Write out the package SPDX data now. It is not complete as we cannot
+     # write the runtime data, so write it to a staging area and a later task
+@@ -889,7 +917,9 @@ def create_spdx(d):
+ 
+             # Add concluded license relationship if manually set
+             # Only add when license analysis has been explicitly performed
+-            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE:%s" % package) or d.getVar("SPDX_CONCLUDED_LICENSE")
++            concluded_license_str = d.getVar(
++                "SPDX_CONCLUDED_LICENSE:%s" % package
++            ) or d.getVar("SPDX_CONCLUDED_LICENSE")
+             if concluded_license_str:
+                 concluded_spdx_license = add_license_expression(
+                     d, build_objset, concluded_license_str, license_data
+@@ -915,9 +945,20 @@ def create_spdx(d):
+             for cve, vexes in vex_statements.items():
+                 for vex in vexes:
+                     if vex.relationshipType == oe.spdx30.RelationshipType.fixedIn:
+-                        pkg_objset.new_vex_patched_relationship(
++                        spdx_vex = pkg_objset.new_vex_patched_relationship(
+                             [oe.sbom30.get_element_link_id(cve)], [spdx_package]
+                         )
++                        if vex_patches[cve]:
++                            pkg_objset.new_scoped_relationship(
++                                spdx_vex,
++                                oe.spdx30.RelationshipType.patchedBy,
++                                oe.spdx30.LifecycleScopeType.build,
++                                [
++                                    oe.sbom30.get_element_link_id(p)
++                                    for p in vex_patches[cve]
++                                ],
++                            )
 +
-+    recipe, recipe_objset = load_recipe_spdx(d)
-+
-+    objset, sbom = oe.sbom30.create_sbom(d, sbom_name, [recipe], [recipe_objset])
-+
-+    oe.sbom30.write_jsonld_doc(d, objset, deploydir / (sbom_name + ".spdx.json"))
-diff --git a/meta/recipes-core/meta/meta-world-recipe-sbom.bb b/meta/recipes-core/meta/meta-world-recipe-sbom.bb
-new file mode 100644
-index 0000000000..5731e27c83
---- /dev/null
-+++ b/meta/recipes-core/meta/meta-world-recipe-sbom.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Generates a combined SBoM for all world recipes"
-+LICENSE = "MIT"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+inherit nopackages
-+deltask do_fetch
-+deltask do_unpack
-+deltask do_patch
-+deltask do_configure
-+deltask do_compile
-+deltask do_install
-+
-+do_prepare_recipe_sysroot[deptask] = ""
-+
-+WORLD_SBOM_EXCLUDE ?= ""
-+
-+EXCLUDE_FROM_WORLD = "1"
-+
-+python calculate_extra_depends() {
-+    exclude = set('${WORLD_SBOM_EXCLUDE}'.split())
-+    exclude |= set(f"{v}-{self_pn}" for v in '${MULTILIB_VARIANTS}'.split())
-+    exclude.add(self_pn)
-+
-+    deps.extend(p for p in world_target if p not in exclude)
-+}
+                     elif vex.relationshipType == oe.spdx30.RelationshipType.affects:
+                         pkg_objset.new_vex_unpatched_relationship(
+                             [oe.sbom30.get_element_link_id(cve)], [spdx_package]
 -- 
 2.53.0
 
