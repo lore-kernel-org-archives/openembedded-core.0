@@ -1,131 +1,260 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D77FFD9E13
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 21:08:34 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.80898.1772140105580018441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 402F0FD9E1A
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 21:46:54 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.81720.1772142411426735005
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 13:08:25 -0800
+ Thu, 26 Feb 2026 13:46:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=igCGTiRv;
- spf=pass (domain: axis.com, ip: 52.101.72.52, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bI3DvtjmeyPCMN/p/qfHh3inzq8ZBPq6E4ImbOPXbTRzMeke5s0SIGc8MAevcXLETZGqW6y85bVby5ZZAGqQkVF/pCqmk1FgjXNsHKfI8F1u0z9eUFiG1enQUH9OIh+MyWRycBdlJJB6/JP52tHdAc7yRBCPpnZfs1widZQ95gUocHZCGcfmw9rOpiC446+BgW1XAn0AelHQHNj3JKz3WHKGTxUVdEI8GRp2GMJQYVFZlpjUjDPvSyxdc1dhcpAnVqZCX7fgO5mjgr9mdXGK7VO86V1DfsMpb0+qbmWipvVvUztsR5L7/xIxgv1dm0eo+wrfLXaQkH3pMtfaKkSYbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mC+sh/jA2WIiSMPVMThNflJLu4ypbL56oUTetRauAXk=;
- b=kWJZYc/6XGkk2KucAD4Dg2SBYTdYN7GNVP8jzIDFMH/uypCYh+QuUFnc4T4cYCoQ4BEqvhw8fNDdnllB446E9gHm08YdOYQpLp/02DBeWwdY2bI9Z5Mep9Q0nVXiRTTNzepEGJYZKA8Qdw+ZQpo0mhVQjHkXfh0c4GoFMRdyb04EL37owZbLvrEnv/Cmq6k2oX9iwb7um3YwObe0f9GkeS/f98JOZ8HPdsjsA2KCjgpweOkn35AJMhuPVFWTENVQwTnGJhKD17Mf7kcDS18C1QUDmup8oHGPHaA9Fr/FCmM80542KrNMUC8hg6Zhqa0FE2DD4yD+1OHtY3Oa2PEZYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=gmail.com smtp.mailfrom=axis.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mC+sh/jA2WIiSMPVMThNflJLu4ypbL56oUTetRauAXk=;
- b=igCGTiRv12iSCS9+bkzpFPTBVFBoue8YtHerIU8s6OnRgF+HdWNrN7RGwhX1jTNkldK0kSxCnMy8zo7XLeLmgGpmi+FGWfbf6D7phzAOhjTtLBDudYqMvSHnCPKBDA884eDQnvbZ9SXMIS6ZCPk5GpF2cVm+hsamPyxsWzWUf8g=
-Received: from DB9PR06CA0015.eurprd06.prod.outlook.com (2603:10a6:10:1db::20)
- by AM7PR02MB6353.eurprd02.prod.outlook.com (2603:10a6:20b:1b1::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
- 2026 21:08:21 +0000
-Received: from DB5PEPF00014B8F.eurprd02.prod.outlook.com
- (2603:10a6:10:1db:cafe::53) by DB9PR06CA0015.outlook.office365.com
- (2603:10a6:10:1db::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.26 via Frontend Transport; Thu,
- 26 Feb 2026 21:08:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DB5PEPF00014B8F.mail.protection.outlook.com (10.167.8.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Thu, 26 Feb 2026 21:08:21 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Thu, 26 Feb
- 2026 22:08:21 +0100
-Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Thu, 26 Feb
- 2026 22:08:20 +0100
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Thu, 26 Feb 2026 22:08:20 +0100
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id E020776E;
-	Thu, 26 Feb 2026 22:08:20 +0100 (CET)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id DA54212035B; Thu, 26 Feb 2026 22:08:20 +0100 (CET)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>, Martin Jansa
-	<martin.jansa@gmail.com>
-Subject: [PATCH] openssl: Package /etc/ssl/openssl.conf.d in openssl-conf
-Date: Thu, 26 Feb 2026 22:08:08 +0100
-Message-ID: <20260226210808.3393803-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=WWBmH/5N;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48069a48629so14650625e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:46:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1772142410; x=1772747210; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=667zOWVOFQvOlLbeKYiZuU62K60C4QE60FtA3JMEXzI=;
+        b=WWBmH/5N2spqUWHyH2v89+EnZm3FgdCg9ov2Jv1B0CmEL4skWnAgBboi/q9u4cLsFJ
+         ibMNDHiK4UoKFCMtaY38T58TKHpGK/5hJLYPCB/axMxUdb3YUVZanFese1KgBFALN5ba
+         C8c1WtY4eT2AvxmKOXBHatqYG0hpCLLGxdYaE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772142410; x=1772747210;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=667zOWVOFQvOlLbeKYiZuU62K60C4QE60FtA3JMEXzI=;
+        b=FmgtkhW6IuBN8ED6ovKzIkcMjx72NsFutispdZPT3goC0OpPX/GX5cNtn2GUm1Wf6T
+         U/bunFln+81ThdN+OtAz2jMLkND87pUgCFC2PGVK0IRZQMbyOG7Mb4W2e9C6Pyopfq1e
+         4NXla0GTPS6ZW17V6VinSKsZ8sLBxiYcSkJL3g8nP4LZ7XVXiB/ekqvUrEt5skgu5+V8
+         JKdsVxPeXJ2EL10OzWJ4fTzi7J4bfaFN+9I5gT9jbzWn6LbLv5AEKVifUme1QlSvONd+
+         WDiN9LGolwJ6ALAeI+7IGDfdQOtJBDuhyLIHW8ICOksOOP6fTkJh+XgHOgmLC4CCdDRo
+         g6dA==
+X-Gm-Message-State: AOJu0Ywh9g/72vSVZwKJmjs3aSb0sOOi7NvBIU0a2lveBn+6yELxNTAD
+	2/Az7Qv0ClbWTEpggtvPHKOS4OciFQtUaKTuyetER3jeQKPzz1W/sgBR7YSpycIk3gQ=
+X-Gm-Gg: ATEYQzy5NeAB+n2mERUETKuOx7Nr+pevU9ZYiMXJJNmcQMaVpEQFtvjKPxV1UePsU6x
+	s5qVIFVSx+npj5YOweJBS5Y2nWh7tE9WqQqXLziyvRE9wZWtOFM86PzUKR51Vg3WI5zXgDltFbX
+	LHKaYO3ye8Sc+PKBPrnIpwOVuVIUCm2/735E0l6yilQyfnUCVKrrDg4H50Py+Kd7+GmrrE/hAk0
+	UPvmwt8Zj9ujJ5VL+Kbc0SwOqzKjjOC77yseVV8jpckOPBiVQuzlpKLskfZ1iZmeQCyVbmUJWrh
+	CaJ1PHIKYEdzztN67aFJCvW/YLeOkgeSfsa49wcBDXYyKCPTS2n29CoRbE9YqxgVNirIWePMl2k
+	DIoQRS99IkUOwGRhTCIiZNhfpxVYMLDOGmLdHemGDzob8Etx3wkQLMSCrKwHsprVdv3ylDw8tWQ
+	vWwE5kAKC7QKLyKspcch/Gqo32FC1ufgTOE1H6br/HktGibQAyHfkdSNAFmnet4t033s4vNwyva
+	6psa4JE/bPrFnw4zYHJqA1B0Dg=
+X-Received: by 2002:a05:600c:1f83:b0:483:8062:b43 with SMTP id 5b1f17b1804b1-483c9c031e6mr5951005e9.19.1772142409706;
+        Thu, 26 Feb 2026 13:46:49 -0800 (PST)
+Received: from localhost (2a01cb001331aa002c0b752a8b25831e.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:2c0b:752a:8b25:831e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd6f26d7sm183023045e9.3.2026.02.26.13.46.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Feb 2026 13:46:49 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8F:EE_|AM7PR02MB6353:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ed185d3-db88-4868-f91b-08de757b2c28
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	EXJpQ7OFiPcahCm6vp16Rgwsj8jo5LwVZBu3O/n7Pc5IduBJ189kLGLBoNImLl8YnrrHzQU+VLjvBiw1IJUtU2RICWx3xsSWXSEbbNGuX5UtnHy9nYVDX+Gw8B/5XaId/foxMNlYZug02dfy3PueMEg3JHGUPqGvyMPWl+zokzwYlKxhezkfw/nj+XUIE/ocJk7xbcBOsfEpBXqc3tKAPfI4hfgaDxUa+4/+yDH0jK++YMb1JgczCIoNt7CAL5wLVzi8obh3J1V+NLBlsT3lO+FaoTa12RyL0tMRcYNSqWIZAryAd7g+ZeaNuonhMELEu3gDuqN8Cnf+DXXsu7WjOuW+ESnIEeSigxKecXwl/R/BDMX3aqavhf0sUj1iHBSaSu1goL7vj5kAazmf3pxDmrqkOubM3vu2/wiBb73ltbd8Do2yowi6l+fAUgAQ4iyKoe1DT7Eh5TcnhHHYTJcGGWjSvyiNqO8uJIgrg7k5VgiIGDWxOcKQbnDh753e6hut+dTrbcBuq4XzOu+lXRLAdr2BbVh9hIi9GwMDuz7ZhNd2BY+J1GcLs55YCsCgYAobBeeGDVV7J36J5mzdvy3unmP2ISt0tfipfX9uwdcI7/0hZeWo5JTBMKnLxYNgNvlbe0P/9fc8rxnKIBgoiwaBbhsz7hWIrLIouArdQqtH5McF95JNtnz/Fks5uuv5p58xhAytA8S8XH5IpkvSI3fiQ4voMuPsvAP8FapAuQmbrMrDV+Dh3ptpoW8Cg5t4nHa/s6IwQ8a+0a4C1i/+X/FbZWetQWJHuU9q18zu6CM43BknwAP2/g8IkK0otfCFLd4ODHyb9eWl1mfobMK8xcgVlg==
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	6o+tZP+FZBsw40zCC/DdYeQdTGl+Bh6dd+4j3vpZ7fCwsenDBYDdDhHcNr430ovmteddUE8EpvKfLtRS7uy9LyCwWUX8eYT/nL73N5ej4Nak8+9AWUiyq7nb9LmYyx0ZGCwBP4NMgP5ruIHUrOOPFAOimCzL0IMwZwFZ7tQVKvp13QQGsoj+wDcoTRFOlqvnp7NWnCims1e8utzE5B06TY0Ujm6Ehjg6YDZBYj+z1sS6kN5tKVdFo278q/R/WXmUhKhATMun3SF3CKVpL3gqOOTp8+Zq7691+rNdpfALken6wLEWGFVmE+zt+M4uLS4CasGDhiszFbjt1seQtObSRjCauktLVCTQ55U5djxZ3dICyWeyKXv67YGcopnZpP7wQTSQUGEuM5hcjaZLUMSqb0OesnnyIsujaEMbsRVbKgbtJ35JRdy3d/WFeOeud4L0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 21:08:21.4990
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed185d3-db88-4868-f91b-08de757b2c28
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B8F.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB6353
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Feb 2026 22:46:48 +0100
+Message-Id: <DGP81ZOFBWPO.20C7PHLJ24EJL@smile.fr>
+Subject: Re: [OE-core][scarthgap][RFC PATCH 0/1] openssl: upgrade 3.2.6 ->
+ 3.5.4
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+To: "Yoann Congal" <yoann.congal@smile.fr>, "Marko, Peter"
+ <Peter.Marko@siemens.com>
+X-Mailer: aerc 0.20.0
+References: <20260123123336.41126-1-peter.marko@siemens.com>
+ <CAMSfU+7FpuEruzCELf=PGAmGgEzWYf_WBnU2goHdsPSsSkDcVg@mail.gmail.com>
+ <CAMSfU+5RvtaRei8Kt=-=rRi77ch=3dFJ0DzNLDdmjfpnmTzonw@mail.gmail.com>
+ <AS1PR10MB56972C585270289D148F9261FD9CA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM> <CAMSfU+6_7HFFW-_yiea028+oK=yz2mkanYVPBXTwC-EqaiZO4w@mail.gmail.com>
+In-Reply-To: <CAMSfU+6_7HFFW-_yiea028+oK=yz2mkanYVPBXTwC-EqaiZO4w@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 21:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232063
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 21:46:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232064
 
-Since the /etc/ssl/openssl.conf file is packaged in openssl-conf, it
-makes sense to also add the new /etc/ssl/openssl.conf.d directory to the
-same package.
+On Mon Feb 2, 2026 at 4:38 PM CET, Yoann Congal wrote:
+> Le sam. 31 janv. 2026 =C3=A0 19:47, Marko, Peter <Peter.Marko@siemens.com=
+> a
+> =C3=A9crit :
+>
+>> I have checked the m2crypto build issue and found out that I had to fix
+>> this for newer Yocto releases already.
+>>
+>>
+>> https://git.openembedded.org/meta-openembedded/commit/?id=3Df9158ce32fff=
+a6f18eed4008c3295146c81d55ea
+>>
+>> Applying this commit to scarthgap works, so I have submitted it.
+>>
+>> https://lists.openembedded.org/g/openembedded-devel/message/124019
+>>
+>
+>  Thanks Peter,
+>
+> I've put that m2crypto patch on a branch and ran a full meta-openembedded
+> world build (every layers under meta-openembedded)
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/81/builds/1285
+> =3D> Only warnings (reference to TMPDIR [buildpaths]) that are most likel=
+y
+> not related to the openssl upgrade
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-connectivity/openssl/openssl_3.5.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've run this build again (with a more recent scarthgap
+oe-core & meta-openembedded):
+* Since the m2crypto patch has merged, meta-openembedded is on scarthgap
+  without additionnal patches.
+* https://autobuilder.yoctoproject.org/valkyrie/?#/builders/81/builds/1323
+  same unrelated buildpath warnings, no errors.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb b/meta/reci=
-pes-connectivity/openssl/openssl_3.5.5.bb
-index a713d4bbcd..7799647415 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
-@@ -269,7 +269,7 @@ PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engi=
-nes ${PN}-misc ${PN}-ossl-m
-=20
- FILES:libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
- FILES:libssl =3D "${libdir}/libssl${SOLIBS}"
--FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf \
-+FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf* \
-                       ${libdir}/ssl-3/openssl.cnf* \
-                       "
- FILES:${PN}-engines =3D "${libdir}/engines-3"
+Regards,
+>
+>
+>> Peter
+>>
+>>
+>>
+>> *From:* Yoann Congal <yoann.congal@smile.fr>
+>> *Sent:* Wednesday, January 28, 2026 12:05
+>> *To:* Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+>> *Cc:* openembedded-core@lists.openembedded.org
+>> *Subject:* Re: [OE-core][scarthgap][RFC PATCH 0/1] openssl: upgrade 3.2.=
+6
+>> -> 3.5.4
+>>
+>>
+>>
+>> Le ven. 23 janv. 2026 =C3=A0 18:02, Yoann Congal <yoann.congal@smile.fr>=
+ a
+>> =C3=A9crit :
+>>
+>> Le ven. 23 janv. 2026 =C3=A0 13:33, Peter Marko via lists.openembedded.o=
+rg
+>> <peter.marko=3Dsiemens.com@lists.openembedded.org> a =C3=A9crit :
+>>
+>> Intention of this RFC is to run full autobuilder job matrix to see if
+>> there are any failures not detected by my local testsuite.
+>>
+>>
+>>
+>> I created a poky branch with this patch :
+>> https://git.yoctoproject.org/poky-contrib/log/?h=3Dycongal/scarthgap/ope=
+nssl_3.5_upgrade
+>>
+>> (above my -nut branch to decrease the probability of an unrelated AB-INT
+>> failure)
+>>
+>>
+>>
+>> I've started the build :
+>> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3118
+>>
+>>
+>>
+>> Hello,
+>>
+>>
+>>
+>> As discussed during the tech call of last tuesday, I've started builds:
+>>
+>> * a new a-full with rebased branch on the latest scarthgap (now, the
+>> branch is only scarthgap+this upgrade)
+>>
+>>   *
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3133/
+>> failed on a unrelated AB-INT issue (#15945) but is otherwise OK
+>>
+>> * a meta-oe build (which includes a world build for meta-oe, meta-python=
+,
+>> meta-networking & meta-filesystems):
+>>
+>>   *
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/81/builds/1277
+>>
+>>   * *Failed on python3-m2crypto* (log.do_compile =3D>
+>> https://gist.github.com/ycongal-smile/4c6501ecd81c9f475b793234cceb7a74)
+>>
+>> * to compare, I've started the same build with a vanilla scarthgap branc=
+h
+>> (without the openssl upgrade):
+>>
+>>   *
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/81/builds/1278
+>> =3D> success (albeit with warnings)
+>>
+>>
+>>
+>> Can you investigate this python3-m2crypto failure?
+>>
+>>
+>>
+>> Also, the "meta-oe" build does not cover every layer in meta-openembedde=
+d,
+>> I think I will increase coverage to all the meta-openembedded layers for
+>> the next run...
+>>
+>>
+>>
+>>
+>>
+>> Topic for discussion is especially what should be the final form of this
+>> upgrade as some users may want to stay on openssl 3.2.x originally
+>> shipped with Yocto 5.0 Scarthgap.
+>> Current form was chosen to easily review recipe/patch differences.
+>> Is it fine to overwrite or do we need to keep both version and make one
+>> the default and other optional? Which would be tested on AB?
+>>
+>> Peter Marko (1):
+>>   openssl: upgrade 3.2.6 -> 3.5.4
+>>
+>>  .../openssl/files/environment.d-openssl.sh    |  9 ++-
+>>  ...ke-history-reporting-when-test-fails.patch | 19 +++--
+>>  ...1-Configure-do-not-tweak-mips-cflags.patch |  4 +-
+>>  ...sysroot-and-debug-prefix-map-from-co.patch | 26 ++++---
+>>  .../0001-extend-check_cwm-test-timeout.patch  | 32 ++++++++
+>>  .../openssl/openssl/CVE-2024-41996.patch      | 44 -----------
+>>  .../{openssl_3.2.6.bb =3D> openssl_3.5.4.bb}    | 76 +++++++++++++-----=
+-
+>>  7 files changed, 116 insertions(+), 94 deletions(-)
+>>  create mode 100644
+>> meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-tim=
+eout.patch
+>>  delete mode 100644
+>> meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
+>>  rename meta/recipes-connectivity/openssl/{openssl_3.2.6.bb =3D>
+>> openssl_3.5.4.bb} (75%)
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#229884):
+>> https://lists.openembedded.org/g/openembedded-core/message/229884
+>> Mute This Topic: https://lists.openembedded.org/mt/117416674/4316185
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> yoann.congal@smile.fr]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
+>>
+>> --
+>>
+>> Yoann Congal
+>>
+>> Smile ECS
+>>
+>>
+>>
+>> --
+>>
+>> Yoann Congal
+>>
+>> Smile ECS
+>>
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
