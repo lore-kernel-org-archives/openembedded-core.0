@@ -1,121 +1,103 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 423DAFCE096
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 14:31:21 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71075.1772116276101986706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C87FD8FC4
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 15:09:51 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.72186.1772118580160891708
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 06:31:16 -0800
+ Thu, 26 Feb 2026 07:09:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DC8C15A1
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 06:31:09 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 500CB3F73B
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 06:31:15 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] kernel: remove pkg-config variables for old (<5.15) kernels
-Date: Thu, 26 Feb 2026 14:31:12 +0000
-Message-ID: <20260226143112.702564-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260226143112.702564-1-ross.burton@arm.com>
-References: <20260226143112.702564-1-ross.burton@arm.com>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ZFWlIvtR;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 3619F4E4122B;
+	Thu, 26 Feb 2026 15:09:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0D2885FDEB;
+	Thu, 26 Feb 2026 15:09:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3980210369333;
+	Thu, 26 Feb 2026 16:09:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1772118577; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=cMQX4/oyyEgLRkZxn4SmnWxjykT95jMz9lueI7Aq5L8=;
+	b=ZFWlIvtRBLWvCbJyoF0DHcKuuqueyDEgV2yGVe/uCyjgKiTQlDqVRfArlv3OH+qkqZIYzo
+	Ti1idBz/MOqCytMxZTDNCm0h1nqL7OxAE+93D+yzGGpBjyXmL2hDeRu0HkbmBaqqCyvO02
+	Apay8eyL/WWnqqkEVknW5aiBE/uq+I9qv+FzH6EL4UiLiGpCu5GTy/h1HAgregQ+eL59Df
+	VmZpUGVJfkkAutKxBiZQo+3orrfgEdFYfnayfbOKswWFbXo6O5grSIjiX1AL51bkRmMrfg
+	8pnfC6X6N8kT0jMZmJQcG+bHynH97jIdPlUjyovQ6Izk+BcRyHYGQEPQRPTFlQ==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org,
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: ross.burton@arm.com
+Subject: Re: [OE-core][PATCH v2 0/8] Add SPDX 3 Recipe Information
+Date: Thu, 26 Feb 2026 16:09:35 +0100
+Message-ID: <8690350.NyiUUSuA9g@brobin-bootlin>
+In-Reply-To: <3328290.5fSG56mABF@brobin-bootlin>
+References: 
+ <20260220154123.376880-1-JPEWhacker@gmail.com>
+ <DGOWOVJXTVRE.10V5UWB69WBCW@bootlin.com> <3328290.5fSG56mABF@brobin-bootlin>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 14:31:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232033
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 15:09:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232034
 
-The kernel has supported setting an alternative binary for pkg-config
-with a variable since 5.19 (in 2022[1]) and we set that to
-pkg-config-native, so there is no longer any need to also manually set
-the PKG_CONFIG_* variables.
+On Thursday, February 26, 2026 at 3:27=E2=80=AFPM, Benjamin Robin wrote:
+> On Thursday, February 26, 2026 at 1:52=E2=80=AFPM, Mathieu Dubois-Briand =
+wrote:
+> > And a second one:
+> >=20
+> > Initialising tasks...ERROR: Task virtual:multilib:lib32:/srv/pokybuild/=
+yocto-worker/qemux86-world-alt/build/layers/openembedded-core/meta/recipes-=
+core/meta/meta-world-recipe-sbom.bb:do_create_spdx has circular dependency =
+on /srv/pokybuild/yocto-worker/qemux86-world-alt/build/layers/openembedded-=
+core/meta/recipes-core/meta/meta-world-recipe-sbom.bb:do_create_spdx
+> > ERROR: Command execution failed: 1
+> >=20
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/3086
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3253
+>=20
+> For the second issue, it can be triggered by adding these lines in local.=
+conf:
+>=20
+> MACHINE =3D "qemux86"
+> OE_FRAGMENTS +=3D 'core/yocto-autobuilder/multilib-x86-lib32'
+>=20
+> With this configuration these 2 commands failed:
+>  - bitbake -c create_recipe_sbom meta-world-recipe-sbom
+>  - bitbake world
 
-The relevant commit was backported and is present in 5.15.91 onwards,
-but is not yet in 5.10.x.
+I am proposing this fix for meta/recipes-core/meta/meta-world-recipe-sbom.b=
+b:
 
-[1] linux d5ea4fece450 ("kbuild: Allow kernel installation packaging to o=
-verride pkg-config")
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-recipe/kernel.bbclass        | 9 ---------
- meta/recipes-kernel/linux/linux-yocto.inc | 7 ++-----
- 2 files changed, 2 insertions(+), 14 deletions(-)
-
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-index b43b4ff4fb5..1ebf0272817 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -251,7 +251,6 @@ KERNEL_EXTRA_ARGS ?=3D ""
- EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" OBJCOPY=3D"$=
-{KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP}"'
- EXTRA_OEMAKE +=3D ' HOSTCC=3D"${BUILD_CC}" HOSTCFLAGS=3D"${BUILD_CFLAGS}=
-" HOSTLDFLAGS=3D"${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}"'
- EXTRA_OEMAKE +=3D ' HOSTCXX=3D"${BUILD_CXX}" HOSTCXXFLAGS=3D"${BUILD_CXX=
-FLAGS}"'
--# Only for newer kernels (5.19+), native pkg-config variables are set fo=
-r older kernels when building kernel and modules
- EXTRA_OEMAKE +=3D ' HOSTPKG_CONFIG=3D"pkg-config-native"'
+python calculate_extra_depends() {
+    exclude =3D set('${WORLD_SBOM_EXCLUDE}'.split())
+    exclude.add(self_pn)
 =20
- KERNEL_ALT_IMAGETYPE ??=3D ""
-@@ -364,10 +363,6 @@ KERNEL_DEBUG_TIMESTAMPS ??=3D "0"
- kernel_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+    for variant in ('${MULTILIB_VARIANTS}' or "").split():
+        exclude.add(f"{variant}-{self_pn}")
 =20
--	# setup native pkg-config variables (kconfig scripts call pkg-config di=
-rectly, cannot generically be overriden to pkg-config-native)
--	export PKG_CONFIG_LIBDIR=3D"${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGIN=
-G_DATADIR_NATIVE}/pkgconfig"
--	export PKG_CONFIG_SYSROOT_DIR=3D""
--
- 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
- 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
- 		# be set....
-@@ -418,10 +413,6 @@ addtask transform_kernel after do_compile before do_=
-install
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-=20
--	# setup native pkg-config variables (kconfig scripts call pkg-config di=
-rectly, cannot generically be overriden to pkg-config-native)
--	export PKG_CONFIG_LIBDIR=3D"${STAGING_LIBDIR_NATIVE}/pkgconfig:${STAGIN=
-G_DATADIR_NATIVE}/pkgconfig"
--	export PKG_CONFIG_SYSROOT_DIR=3D""
--
- 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
- 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
- 		# be set....
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-ker=
-nel/linux/linux-yocto.inc
-index d57c1aae25e..4e230d405aa 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -88,9 +88,6 @@ do_kernel_configme[depends] +=3D '${@bb.utils.contains(=
-"KERNEL_DEBUG", "True", "pa
- EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAH=
-OLE=3Dfalse", d)}'
-=20
- do_devshell:prepend() {
--    # setup native pkg-config variables (kconfig scripts call pkg-config=
- directly, cannot generically be overriden to pkg-config-native)
--    d.setVar("PKG_CONFIG_PATH", "")
--    d.setVar("PKG_CONFIG_LIBDIR", "${STAGING_LIBDIR_NATIVE}/pkgconfig:${=
-STAGING_DATADIR_NATIVE}/pkgconfig")
--    d.setVarFlag("PKG_CONFIG_SYSROOT_DIR", "unexport", "1")
--    d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_PATH PKG_CONFIG_LIBD=
-IR PKG_CONFIG_SYSROOT_DIR")
-+    d.setVar("HOSTPKG_CONFIG", "pkg-config-native")
-+    d.appendVar("OE_TERMINAL_EXPORTS", " HOSTPKG_CONFIG")
- }
---=20
-2.43.0
+    for p in world_target:
+        if p in exclude:
+            continue
+        deps.append(p)
+}
+
+This fix solve the second issue (circular dependency).
+
+Best regards,
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
 
 
