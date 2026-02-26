@@ -1,259 +1,131 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D58FD9E10
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 20:31:33 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.80040.1772137885840349279
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D77FFD9E13
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 21:08:34 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.80898.1772140105580018441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 12:31:25 -0800
+ Thu, 26 Feb 2026 13:08:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IJPggel9;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35691a231a7so775870a91.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 12:31:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772137885; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VkyOIz4aGn/v8dJWB0lwtH1hX2fXsZcfxbvZBUU6DvjXnhsslht1FwOKZyBMUOPtfV
-         cZA42CIvPetV8CCIU6ntVSj6vxe8tCMNLxYkhL8+Hftwou4yCcK0AYE95z/M3Ulu3P+r
-         hWWiZIcLHaHNwdP89BE4t3AOrRkF3oaMOQdLoKmoG+gnoUNLlLfdly16/5uGeTfB4iAN
-         5ceyTEIRdd65uplN476CQU27Wr0NhYzqfd8BUAqweOESs0Y/8d2DMCCdkIkLs0wOpria
-         b4UahcEXItVWzbOEcEO1u/lHzRCZ0Kz90UGNVBwisYFBFXOLxcWZ8HgqLm5lf2H3TS+s
-         cI4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eXXQb8MiJCojvXcTKgnE0vima3hg2VgNQY4pkY/F710=;
-        fh=Xw2bylNtTjmsd6x4H07y5+HN9GO8NIN29N/GWgqcqaQ=;
-        b=A81IUfn6JF5KR3rR2EfpCqGu0XqBt4EymdpJ6/SCdTBrWwyEjCX0xwEcxOq/9uzwjN
-         tImftr1vQqzS5AqTuMpVXBERo45dLL91U9TEp2zKDQNCD8hkkmh9W4KnOKIsvNC3COvZ
-         eRqeEa0kFjllsqOYvjrWLtMlQCRfoLkHef2sOyxssLgodBYH9kuQzT63Eri9d4GU9FY3
-         Mw0jL4aIXt4PX3Qld/x99vFcFzSv6sv/t5N4N6ppm60oe5JhxcC6tRFx2lpAWfV/kE6v
-         nCtdJngxt6XxTqd2lkpb+Xmv/m2xVZiOSewGKUzwhR2wO5PmM1Owmc4rFloC4hBaFVdu
-         e7rA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772137885; x=1772742685; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eXXQb8MiJCojvXcTKgnE0vima3hg2VgNQY4pkY/F710=;
-        b=IJPggel9pq7hA3n6fKBQNlthSvHe8NzK8hu4tJXNETEnNk8K2/99ZhlRjvPsFoAwZg
-         adR3OZ9Vfb4wS1jt9NuVIIMb5NQjBlzTR8dbqtp5xHyHHnoXrRl8Auf2g1KpEe/kF7FT
-         hDIt3YlakaJhAIpc4GR9TgVU/8Dl+n/bpbc6e2M7qYqmJFPeeuyu6RQY2ldpkUf4hZY7
-         S/fXPbIXPmz4W3DMxAx2cqJ76GqwH6aaaFoXcQDu+WPh0CPtsEGvhPBKtYwLuRFxDpdd
-         6p2WGqVBKrao8wnqoDMU1vf0HBQRIXOjGLMeYOjJJH5L6+eXc+sohNJIDNwmX0fF4sQc
-         cXSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772137885; x=1772742685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eXXQb8MiJCojvXcTKgnE0vima3hg2VgNQY4pkY/F710=;
-        b=O+px2XlEOwH+jabHTDEh8dvjm+b4hHWfYEjsKod5ZOaEhEyjaDGlq+p3dr4hiVZ0Ut
-         3Gga7sNQvmRiOfZSIV1PDCRYn6ZnBM46RB4gMk/zQERopR4QXhQ+g479SEC0Q+031AEH
-         QxKiTSMfoWRdgpFowPqOF95SaFamzOVeA4LZ52oSc+pm5/38cbJYg6Jv5XhtAUGZ2mMn
-         mTD5fddmgtygWk9bunQ9YQxOAERPMEwfIo0R7ylwodDGhO/0DXBSqIn5Frug0dKWC7o0
-         vitEIDrfgcbqsZ0jViyVVDH2AXvWI6kBYSK5+LMdkz+6fIkdDta0i+1M2+xajW3oc7SE
-         pxDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUq0hhNyTqopAO7Yu0qnq4NvJXw9rTIHTHuvXJgHyRaDMPpe4G9lBhQnb82OCkJGUsKGpQE8t/95mUl68kZQiIZGA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy7ai2dNKysGUJzVlCI8zQJpzdQEZ3unOKrYZasSPQR3QAk1cSy
-	CswF4Xws37NmpqypVkUeqbm+DIA8AIvXpr5pncx9VkiIcHSRIqI9RRtTmmPCSd2JUki6BgBIM7H
-	W7TbnvqVPX9gvA1ouyCgpPytVSWbbk7q8v1ZZqnE=
-X-Gm-Gg: ATEYQzzV9wfiwZl+fVsAesd3axrF2asGbjtpYbBgvUWScQgyjDcwJzNvwmMmbwmfuN8
-	YnRn7gnp/lxZjfcApQoX1SDvaYHtNxSxZSSLPP3vWHj8/+5xToR49BFZnpFvFOt4rXoSG2cyO2J
-	i5fKNdnygP9K/N7/5yauDKwWaUKUmb6zlK98+svW5YHT6i32DE+8PE5f7dm8MTwQ1UWAOKkAb0i
-	WVzhlxT8jkj70XnAdxyXYIcva5XTe7u7pmMReHdyqCYmTD1+wRi/mxMMWmvo6lPosutklRcBvBL
-	zo6fnyecK06T5Xkc5A==
-X-Received: by 2002:a17:90b:1f8f:b0:354:a57c:65db with SMTP id
- 98e67ed59e1d1-35965c926a7mr302782a91.20.1772137885090; Thu, 26 Feb 2026
- 12:31:25 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=igCGTiRv;
+ spf=pass (domain: axis.com, ip: 52.101.72.52, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bI3DvtjmeyPCMN/p/qfHh3inzq8ZBPq6E4ImbOPXbTRzMeke5s0SIGc8MAevcXLETZGqW6y85bVby5ZZAGqQkVF/pCqmk1FgjXNsHKfI8F1u0z9eUFiG1enQUH9OIh+MyWRycBdlJJB6/JP52tHdAc7yRBCPpnZfs1widZQ95gUocHZCGcfmw9rOpiC446+BgW1XAn0AelHQHNj3JKz3WHKGTxUVdEI8GRp2GMJQYVFZlpjUjDPvSyxdc1dhcpAnVqZCX7fgO5mjgr9mdXGK7VO86V1DfsMpb0+qbmWipvVvUztsR5L7/xIxgv1dm0eo+wrfLXaQkH3pMtfaKkSYbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mC+sh/jA2WIiSMPVMThNflJLu4ypbL56oUTetRauAXk=;
+ b=kWJZYc/6XGkk2KucAD4Dg2SBYTdYN7GNVP8jzIDFMH/uypCYh+QuUFnc4T4cYCoQ4BEqvhw8fNDdnllB446E9gHm08YdOYQpLp/02DBeWwdY2bI9Z5Mep9Q0nVXiRTTNzepEGJYZKA8Qdw+ZQpo0mhVQjHkXfh0c4GoFMRdyb04EL37owZbLvrEnv/Cmq6k2oX9iwb7um3YwObe0f9GkeS/f98JOZ8HPdsjsA2KCjgpweOkn35AJMhuPVFWTENVQwTnGJhKD17Mf7kcDS18C1QUDmup8oHGPHaA9Fr/FCmM80542KrNMUC8hg6Zhqa0FE2DD4yD+1OHtY3Oa2PEZYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=gmail.com smtp.mailfrom=axis.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mC+sh/jA2WIiSMPVMThNflJLu4ypbL56oUTetRauAXk=;
+ b=igCGTiRv12iSCS9+bkzpFPTBVFBoue8YtHerIU8s6OnRgF+HdWNrN7RGwhX1jTNkldK0kSxCnMy8zo7XLeLmgGpmi+FGWfbf6D7phzAOhjTtLBDudYqMvSHnCPKBDA884eDQnvbZ9SXMIS6ZCPk5GpF2cVm+hsamPyxsWzWUf8g=
+Received: from DB9PR06CA0015.eurprd06.prod.outlook.com (2603:10a6:10:1db::20)
+ by AM7PR02MB6353.eurprd02.prod.outlook.com (2603:10a6:20b:1b1::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
+ 2026 21:08:21 +0000
+Received: from DB5PEPF00014B8F.eurprd02.prod.outlook.com
+ (2603:10a6:10:1db:cafe::53) by DB9PR06CA0015.outlook.office365.com
+ (2603:10a6:10:1db::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.26 via Frontend Transport; Thu,
+ 26 Feb 2026 21:08:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB5PEPF00014B8F.mail.protection.outlook.com (10.167.8.203) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Thu, 26 Feb 2026 21:08:21 +0000
+Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Thu, 26 Feb
+ 2026 22:08:21 +0100
+Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
+ (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Thu, 26 Feb
+ 2026 22:08:20 +0100
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Thu, 26 Feb 2026 22:08:20 +0100
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id E020776E;
+	Thu, 26 Feb 2026 22:08:20 +0100 (CET)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id DA54212035B; Thu, 26 Feb 2026 22:08:20 +0100 (CET)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>, Martin Jansa
+	<martin.jansa@gmail.com>
+Subject: [PATCH] openssl: Package /etc/ssl/openssl.conf.d in openssl-conf
+Date: Thu, 26 Feb 2026 22:08:08 +0100
+Message-ID: <20260226210808.3393803-1-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <ba0a57bc87f3563f43f46f663e1733fd552a7a03.camel@pbarker.dev>
- <089b277ea34cd0d9246e9eef717ae5d9d9ad9527.camel@linuxfoundation.org> <790134e9-2a3e-4029-91a9-98df0b05b8cd@baylibre.com>
-In-Reply-To: <790134e9-2a3e-4029-91a9-98df0b05b8cd@baylibre.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Fri, 27 Feb 2026 09:31:14 +1300
-X-Gm-Features: AaiRm52ajhA_JcKz29g1k4ccoQh9OphPvLHePPLCgqX807lDPF4Th20Kg8HSJJc
-Message-ID: <CADySD0Hi8jDq7uZa+J__znnXNMBKoe4fsnt5BErsuRyOVydB0w@mail.gmail.com>
-Subject: Re: [OE-core] [Openembedded-architecture] Improving DISTRO_FEATURES
- backfill & opt-out
-To: tgamblin@baylibre.com
-Cc: richard.purdie@linuxfoundation.org, paul@pbarker.dev, 
-	"openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8F:EE_|AM7PR02MB6353:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ed185d3-db88-4868-f91b-08de757b2c28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	EXJpQ7OFiPcahCm6vp16Rgwsj8jo5LwVZBu3O/n7Pc5IduBJ189kLGLBoNImLl8YnrrHzQU+VLjvBiw1IJUtU2RICWx3xsSWXSEbbNGuX5UtnHy9nYVDX+Gw8B/5XaId/foxMNlYZug02dfy3PueMEg3JHGUPqGvyMPWl+zokzwYlKxhezkfw/nj+XUIE/ocJk7xbcBOsfEpBXqc3tKAPfI4hfgaDxUa+4/+yDH0jK++YMb1JgczCIoNt7CAL5wLVzi8obh3J1V+NLBlsT3lO+FaoTa12RyL0tMRcYNSqWIZAryAd7g+ZeaNuonhMELEu3gDuqN8Cnf+DXXsu7WjOuW+ESnIEeSigxKecXwl/R/BDMX3aqavhf0sUj1iHBSaSu1goL7vj5kAazmf3pxDmrqkOubM3vu2/wiBb73ltbd8Do2yowi6l+fAUgAQ4iyKoe1DT7Eh5TcnhHHYTJcGGWjSvyiNqO8uJIgrg7k5VgiIGDWxOcKQbnDh753e6hut+dTrbcBuq4XzOu+lXRLAdr2BbVh9hIi9GwMDuz7ZhNd2BY+J1GcLs55YCsCgYAobBeeGDVV7J36J5mzdvy3unmP2ISt0tfipfX9uwdcI7/0hZeWo5JTBMKnLxYNgNvlbe0P/9fc8rxnKIBgoiwaBbhsz7hWIrLIouArdQqtH5McF95JNtnz/Fks5uuv5p58xhAytA8S8XH5IpkvSI3fiQ4voMuPsvAP8FapAuQmbrMrDV+Dh3ptpoW8Cg5t4nHa/s6IwQ8a+0a4C1i/+X/FbZWetQWJHuU9q18zu6CM43BknwAP2/g8IkK0otfCFLd4ODHyb9eWl1mfobMK8xcgVlg==
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	6o+tZP+FZBsw40zCC/DdYeQdTGl+Bh6dd+4j3vpZ7fCwsenDBYDdDhHcNr430ovmteddUE8EpvKfLtRS7uy9LyCwWUX8eYT/nL73N5ej4Nak8+9AWUiyq7nb9LmYyx0ZGCwBP4NMgP5ruIHUrOOPFAOimCzL0IMwZwFZ7tQVKvp13QQGsoj+wDcoTRFOlqvnp7NWnCims1e8utzE5B06TY0Ujm6Ehjg6YDZBYj+z1sS6kN5tKVdFo278q/R/WXmUhKhATMun3SF3CKVpL3gqOOTp8+Zq7691+rNdpfALken6wLEWGFVmE+zt+M4uLS4CasGDhiszFbjt1seQtObSRjCauktLVCTQ55U5djxZ3dICyWeyKXv67YGcopnZpP7wQTSQUGEuM5hcjaZLUMSqb0OesnnyIsujaEMbsRVbKgbtJ35JRdy3d/WFeOeud4L0
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 21:08:21.4990
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed185d3-db88-4868-f91b-08de757b2c28
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B8F.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB6353
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 20:31:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232062
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 21:08:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232063
 
-On Fri, Feb 27, 2026 at 3:07=E2=80=AFAM Trevor Gamblin via
-lists.openembedded.org <tgamblin=3Dbaylibre.com@lists.openembedded.org>
-wrote:
->
->
-> On 2026-02-26 07:03, Richard Purdie via lists.openembedded.org wrote:
-> > On Thu, 2026-02-26 at 09:59 +0000, Paul Barker via lists.openembedded.o=
-rg wrote:
-> >> 3) Merge the current contents of `DISTRO_FEATURES_BACKFILL` into
-> >>     `DISTRO_FEATURES_DEFAULT`. This variable will be filtered to disab=
-le
-> >>     any items listed in `DISTRO_FEATURES_OPTOUT` before use, efficient=
-ly
-> >>     and without the use of `:remove`. Deprecate
-> >>     `DISTRO_FEATURES_BACKFILL` and `DISTRO_FEATURES_BACKFILL_CONSIDERE=
-D`,
-> >>     issuing warnings if either is used.
-> >>
-> >> What does that look like practically? Something like this I think:
-> >>
-> >>      DISTRO_FEATURES_BASELINE =3D " \
-> >>          acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget=
- \
-> >>          usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp \
-> >>          pulseaudio gobject-introspection-data ldconfig \
-> >>      "
-> >>
-> >>      DISTRO_FEATURES_DEFAULT =3D "${@filter_default_features('DISTRO_F=
-EATURES', d)}"
-> >>      DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT}"
-> >>
-> >>      DISTRO_FEATURES_OPTOUT ?=3D "${DISTRO_FEATURES_BACKFILL_CONSIDERE=
-D}"
-> >>
-> >>      def filter_default_features(varname, d):
-> >>          baseline_features =3D (d.getVar(varname + "_BASELINE") or "")=
-.split()
-> >>          optout_features =3D (d.getVar(varname + "_OPTOUT") or "").spl=
-it()
-> >>
-> >>          return [feature for feature in baseline_features \
-> >>                  if feature not in optout_features]
-> >>
-> >> (un-tested, may also need some tweaks for performance)
-> >>
-> >> Applying the filtering as part of the definition of
-> >> `DISTRO_FEATURES_DEFAULT` makes it easy to use. If you're already usin=
-g
-> >> `DISTRO_FEATURES_DEFAULT:remove` or `DISTRO_FEATURES:remove`, these wi=
-ll
-> >> still work, though we'd encourage you to adopt the new
-> >> `DISTRO_FEATURES_OPTOUT` variable. If you're using
-> >> `DISTRO_FEATURES_BACKFILL_CONSIDERED`, this would still work but our
-> >> encouragement would be louder - we can issue a warning if this is set
-> >> saying that it is deprecated and will be removed in a future release.
-> >>
-> >> There is one group adversely impacted by this change - anyone who
-> >> defines `DISTRO_FEATURES` fully themselves without including
-> >> `DISTRO_FEATURES_DEFAULT` will need to manually add the backfilled
-> >> features (pulseaudio, gobject-introspection-data & ldconfig) or adapt
-> >> how they set `DISTRO_FEATURES`. Personally I think that having to adap=
-t
-> >> to this will not be difficult and it can be well documented as part of
-> >> the release notes and migration guide.
-> >>
-> >> A patch to implement the change should be straightforward, it may need=
- a
-> >> little effort to address any fall out before release. There are no tes=
-ts
-> >> for the `DISTRO_FEATURES_BACKFILL` logic right now, tests for the
-> >> filtering and opt-out variable can be added along with this change.
-> >> Impact on the autobuilder should be minimal, I think this is something
-> >> we can take in with little risk to the core project so it is unlike th=
-e
-> >> proposal to change the default init system for poky. The impact is
-> >> mostly on users who define their own distro, and we can make migration
-> >> as easy as possible as outlined above. I should be able to get this in
-> >> before the M3 build if we want to go ahead with this change before the
-> >> LTS.
-> >>
-> >> We can extend this to `MACHINE_FEATURES_DEFAULT` as well, deprecating
-> >> `MACHINE_FEATURES_BACKFILL` and `MACHINE_FEATURES_BACKFILL_CONSIDERED`=
-.
-> >>
-> >> Thoughts and opinions?
-> > Keeping DISTRO_FEATURES_DEFAULT around but changing it's meaning does
-> > make me worry about the transition a lot. I also worry a bit about
-> > "default" meaning different things to different people.
-> >
-> > After we previously discussed it, I'd had a slightly different take on
-> > what we might do. I was thinking that we might:
-> >
-> > Rename:
-> >    DISTRO_FEATURES_BACKFILL -> DISTRO_FEATURES_OPTOUT
-> >    DISTRO_FEATURES_BACKFILL_CONSIDERED -> DISTRO_FEATURES_OPTOUT_CONSID=
-ERED
-> >
-> > and then move the contents of DISTRO_FEATURES_DEFAULT into
-> > DISTRO_FEATURES_OPTOUT.
-> >
-> > This would make features in "optout" the default, unless you set them
-> > as 'considered'.
-> >
-> > You could perhaps have a DISTRO_FEATURES_OPTEDOUT?
-> >
+Since the /etc/ssl/openssl.conf file is packaged in openssl-conf, it
+makes sense to also add the new /etc/ssl/openssl.conf.d directory to the
+same package.
 
-IMO, OPTOUT vs OPTEDOUT is going to cause further confusion.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-connectivity/openssl/openssl_3.5.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > Is is probably a question of finding the right naming for them. We need
-> > a core way to say "these are the defaults" and then a "remove these
-> > from the defaults as we explicitly don't want them".
->
-> As far as naming goes, when I read "DISTRO_FEATURES_OPTOUT" my mind
-> assumes whatever is in that list will be filtered from the default. I
-> think that's what Paul is suggesting, so I'm in favour of that approach.
-> I also looked through the variables glossary quickly for EXCLUDE and
-> found:
-> https://docs.yoctoproject.org/dev/ref-manual/variables.html#term-PACKAGE_=
-EXCLUDE
-> Could "DISTRO_FEATURES_EXCLUDE" be a viable name that stays somewhat
-> inline with what we're doing there?
->
-
-I am also more in favor of explicit variable naming like
-DISTRO_FEATURES_INCLUDE and DISTRO_FEATURE_EXCLUDE.
-It should also encourage less (or no) use of `:remove`.
-
-cheers
-Ankur
-
-> Trevor
-> >
-> > So having said all that, perhaps we can cheat and use:
-> >
-> > DISTRO_FEATURES_DEFAULTS and DISTRO_FEATURES_OPTOUT
-> >
-> > which would remove the namespace clash issue?
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#232028): https://lists.openembedded.org/g/openembedde=
-d-core/message/232028
-> Mute This Topic: https://lists.openembedded.org/mt/118010724/3619737
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb b/meta/reci=
+pes-connectivity/openssl/openssl_3.5.5.bb
+index a713d4bbcd..7799647415 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.5.bb
+@@ -269,7 +269,7 @@ PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engi=
+nes ${PN}-misc ${PN}-ossl-m
+=20
+ FILES:libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
+ FILES:libssl =3D "${libdir}/libssl${SOLIBS}"
+-FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf \
++FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf* \
+                       ${libdir}/ssl-3/openssl.cnf* \
+                       "
+ FILES:${PN}-engines =3D "${libdir}/engines-3"
 
