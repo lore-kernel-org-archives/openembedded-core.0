@@ -2,54 +2,54 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D444FD8FEE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAA7FD8FE8
 	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 17:39:42 +0000 (UTC)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.75806.1772127578543352908
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.75807.1772127579255217582
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 09:39:38 -0800
+ Thu, 26 Feb 2026 09:39:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I74Lsti5;
- spf=pass (domain: gmail.com, ip: 209.85.210.45, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d4ba9abbecso1215619a34.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 09:39:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Af+8PmYA;
+ spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7d1890f5cafso441128a34.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 09:39:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772127577; x=1772732377; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772127578; x=1772732378; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6hV0ClIeawdfJviTL2VvpRpRo7713Nd0mIEcCehLwkw=;
-        b=I74Lsti5Q+UJkKienBsTjROmTqZky9EWkEtaASCjaEZRFPPCaxLbfWQr1TRd77856/
-         olmwhNx2bLmZ4s2lh9HsULr6ZU07By1xFWgEHbMM9O1W1aDsvGIHJyilt8FH+7peI8Cd
-         sQ12ffCo0NPON5Rit/5txqsw10gkZXCWVftsdrAOuPhm2u1Ir5wuv7yYOuMTy4jfX+ge
-         irZJMH2hAfCeCBbfxaHnJeuKm8a/V93ApAMvaQiKPvOYWCD8e78KFGLF7TYfvB2m+ICS
-         TmitwhDmh6QpoERm/LjDbBwexeV2mVRDL465CpbZtb+zdYA2oWL+oxyQ55Ghb1vLXj/L
-         mhrQ==
+        bh=RgZWWYUETcp+KAK54Y1gHYnk1xGLeXOCGllecsNhDhw=;
+        b=Af+8PmYA0k4fJhEPeX+gDNQGlICcvQu1cIRBgbAA4CqSDMhEogOiNqbtjMHi4KnfMm
+         0TNcRSEOzKRnSt+OgNwOWwk7T0B5SP/QrPL1qAds3f35Dqs8qBQ2deCu9IPT0CgAtOTz
+         3i6iEqhRM00dD2StKuxHGqXDKQfTLTODRRmBpGB5UHOvDiTHwjBXOp9P1kKPWNC/tqip
+         GtjVvmEoQWtsNH559yT88xIFGIX+gP6wiDBVTWIhitrG+Nmou1ZTCHK+E2PPFUE6qE+H
+         Db8vSett7GzFgEAN72M7ocN5lt982D5rLiZ02UGkV8CR8SmP4c0qNTw/ew7P5tgUzI8h
+         4WFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772127577; x=1772732377;
+        d=1e100.net; s=20230601; t=1772127578; x=1772732378;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6hV0ClIeawdfJviTL2VvpRpRo7713Nd0mIEcCehLwkw=;
-        b=i1yFGU6tjv7zik2XVJyWojVAtY9hAXA66vzj68Recuf/VRSVseOO85UekUffJQNVRq
-         AQNcbdT0gfBwNmQGJsAG+SXpoSfm1it5cc1D5ONtAAit9HOo8WcKZ/DtaqKWeOhDZfCt
-         X9/f2ysRyuNCO0Yf3NKzVq09Yio4Z8wDI0D7WiJvC97DlJ5IQenWlMhjxaf+9sxywzdp
-         ByGP5dJBmTEJ1nbulS2mru4lgRtIlevuCCsMoVQ2Ua2QjykffqcJ9dEhB9TFYe9woqMw
-         5yDe2KfaWjJ7IzpFH8frYTzffyMeHOqhe6GfSwZUDsfhYO18qd4xl+0JSPi4pqr5Acjb
-         bDUQ==
-X-Gm-Message-State: AOJu0YwtyRDhlpKUsevwTcmbOVhgUQ+wCbJvZlbCVqNBQ4RUKaAI1LYB
-	sW6n54ijeL9FLmt+XH+yXrGcOaPQdn4CXF0jiqe071d0K/lTZVvvJPpYqyaGWw==
-X-Gm-Gg: ATEYQzwUfwUhtHmQVurqIJPz0FM/Ge3crgrpSUqUmCK2bZhrFDXx+hbPZeDSiWbqFJF
-	uePS8aisTHg17D1lddAD/chXrV5BEv7B5wKW7HVO7Gtj3msv+NrqSvSYx27fW/Z93xxtRoV7857
-	SsMBAHirRfavicVby2LuuT16wT+dRN0+uR3aEmv5B+zVh1I7bK1jg4PUML9W4Yot98qmTOWGcW/
-	n9Jtcx5TQW1YSXAjVCsKT0LkTNEZd5NNkerP84vc6iH07aIv7LGRiRMVYwGOGI2QSMpAa+9AxvC
-	cs0VchnO6pBn0TM6KlyohWhOOSaiS4M1y0q4cFCTlTOot1ejs1Vtga+bf6hOHDljIl1CgAu6yvc
-	AoBNRQnt3pFnQlkl3UaaRy4w2gxpjzybf0ivHzg7Lc2UvP2CwRZXmki3/Uh/1T2M0kRXJmgOGRF
-	cT+shMwTrdlckYJg/SteMi
-X-Received: by 2002:a05:6830:449e:b0:7cf:e4e6:2ce9 with SMTP id 46e09a7af769-7d591b3181bmr3767a34.9.1772127577559;
-        Thu, 26 Feb 2026 09:39:37 -0800 (PST)
+        bh=RgZWWYUETcp+KAK54Y1gHYnk1xGLeXOCGllecsNhDhw=;
+        b=LVlTA/kFmxjeCun3OmrcBsAp9geJ4n1fogM8l/ul3E3+0pyLEruXhOBjyfYio7yseP
+         BfSxRADW4tLLsF+JTKwZ1bk5y1gZsp/ZthyYklBi+/YJDysOdr832a1QT80onNZlu/DR
+         6nk1f14Xp0NVwENsXB5IenDqz7ylkRprZOv3YWWx8Go7ASTzAn6ls4nvlFudsfG2352Z
+         j0kp+JRRXGb0Pp1w2LTe5Nj9bepizaUwg9Ll721T6clIeO37O1zOpRBmWo/h10IUCHiR
+         h+sbcsvwxlcyd2wBCVjjYWGauxfVYxDDRoYbsRe+VXQQXED/VB6ejVsd2QjdXuOEEILQ
+         so9g==
+X-Gm-Message-State: AOJu0YxocHNz8n8MXiIVQ9Vpfe7cTtHa7MhRVqhL60VOtBUxBdIUpix8
+	kB/t82uIX1IoM+9CMDnmXAbYdKOwg5dqXVMOz08cNODwWRht6tiXZGW2RaJjoQ==
+X-Gm-Gg: ATEYQzxSJanKannFUnf/Pfq5euma9O67T+V0h3p6uVT8ay8WgW7diauamUEBkkwl77F
+	fNugXVQVLTSUhiE1KmQXvo4rrX/dY5a/PqN708zpFRsBDJEWnS5vhZzPcZ5ACfovBdSwa5gPmVR
+	SbIOZclDBeO2Bzux9ikB7RTnT4mofbFLMUTaXftIexn7OWnuLs7vEsIU3gVvALFnEYor2zX0GwI
+	ura2bvOztiDWLiaC+BdvzL8+mbXSf9+FHCdeEH8YbP0KzYdehBh1sAmVQQCIspp5Dzr6M8Jg/A+
+	gzNT53tQp8uMPkpAty3jc+vn8R3d6LB4swXxYnMMStFcGVQeqX3TQ1V8z6G/DrM0HTtJ44cyGZp
+	Mfio/MDMNnsoU8Au/Fhkxzf6ovcPpqAtzT8foMzojIdxt9s0cBs8H/dITN171QBbCQMORqhbT2k
+	H4jHUGJasI6nEUcgyKrbmT
+X-Received: by 2002:a05:6830:4707:b0:7cf:dc0c:8cfe with SMTP id 46e09a7af769-7d582a92228mr2840784a34.34.1772127578308;
+        Thu, 26 Feb 2026 09:39:38 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4200:11c0::6492])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d586653f81sm2173027a34.23.2026.02.26.09.39.36
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d586653f81sm2173027a34.23.2026.02.26.09.39.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 26 Feb 2026 09:39:37 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
@@ -58,9 +58,9 @@ To: openembedded-core@lists.openembedded.org
 Cc: benjamin.robin@bootlin.com,
 	ross.burton@arm.com,
 	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v3 6/8] spdx30: Include patch file information in VEX
-Date: Thu, 26 Feb 2026 10:33:07 -0700
-Message-ID: <20260226173930.2847872-7-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v3 7/8] spdx: De-duplicate CreationInfo
+Date: Thu, 26 Feb 2026 10:33:08 -0700
+Message-ID: <20260226173930.2847872-8-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260226173930.2847872-1-JPEWhacker@gmail.com>
 References: <20260224230234.679049-1-JPEWhacker@gmail.com>
@@ -71,256 +71,176 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 17:39:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232052
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232053
 
-Modifies the SPDX VEX output to include the patches that fix a
-particular vulnerability. This is done by adding a `patchedBy`
-relationship from the `VexFixedVulnAssessmentRelationship` to the `File`
-that provides the fix.
-
-If the file can be located without fetching (e.g. is a file:// in
-SRC_URI), the checksum will be included.
+De-duplicates CreationInfo objects that are identical (except for ID)
+when writing out an SBoM. This significantly reduces the number of
+CreationInfo objects that end up in the final document.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/sbom30.py       | 60 ++++++++++++++-------------
- meta/lib/oe/spdx30_tasks.py | 81 ++++++++++++++++++++++++++++---------
- 2 files changed, 92 insertions(+), 49 deletions(-)
+ meta/lib/oe/sbom30.py | 112 ++++++++++++++++++++++++++++++------------
+ meta/lib/oe/spdx30.py |   2 +-
+ 2 files changed, 81 insertions(+), 33 deletions(-)
 
 diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 50a72fce39..21f084dc16 100644
+index 21f084dc16..55a2863d2d 100644
 --- a/meta/lib/oe/sbom30.py
 +++ b/meta/lib/oe/sbom30.py
-@@ -620,37 +620,38 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-         )
-         spdx_file.extension.append(OELicenseScannedExtension())
+@@ -14,6 +14,7 @@ import uuid
+ import os
+ import oe.spdx_common
+ from datetime import datetime, timezone
++from contextlib import contextmanager
  
--    def new_file(self, _id, name, path, *, purposes=[]):
--        sha256_hash = bb.utils.sha256_file(path)
-+    def new_file(self, _id, name, path, *, purposes=[], hashfile=True):
-+        if hashfile:
-+            sha256_hash = bb.utils.sha256_file(path)
+ OE_SPDX_BASE = "https://rdf.openembedded.org/spdx/3.0/"
  
--        for f in self.by_sha256_hash.get(sha256_hash, []):
--            if not isinstance(f, oe.spdx30.software_File):
--                continue
-+            for f in self.by_sha256_hash.get(sha256_hash, []):
-+                if not isinstance(f, oe.spdx30.software_File):
-+                    continue
+@@ -191,6 +192,25 @@ def to_list(l):
+     return l
  
--            if purposes:
--                new_primary = purposes[0]
--                new_additional = []
-+                if purposes:
-+                    new_primary = purposes[0]
-+                    new_additional = []
  
--                if f.software_primaryPurpose:
--                    new_additional.append(f.software_primaryPurpose)
--                new_additional.extend(f.software_additionalPurpose)
-+                    if f.software_primaryPurpose:
-+                        new_additional.append(f.software_primaryPurpose)
-+                    new_additional.extend(f.software_additionalPurpose)
++class Dedup(object):
++    def __init__(self, objset):
++        self.unique = set()
++        self.dedup = {}
++        self.objset = objset
++
++    def find_duplicates(self, cmp, typ, **kwargs):
++        for o in self.objset.foreach_filter(typ, **kwargs):
++            for u in self.unique:
++                if cmp(u, o):
++                    self.dedup[o] = u
++                    break
++            else:
++                self.unique.add(o)
++
++    def get(self, o):
++        return self.dedup.get(o, o)
++
++
+ class ObjectSet(oe.spdx30.SHACLObjectSet):
+     def __init__(self, d):
+         super().__init__()
+@@ -895,6 +915,45 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+         self.missing_ids -= set(imports.keys())
+         return self.missing_ids
  
--                new_additional = sorted(
--                    list(set(p for p in new_additional if p != new_primary))
--                )
-+                    new_additional = sorted(
-+                        list(set(p for p in new_additional if p != new_primary))
-+                    )
- 
--                f.software_primaryPurpose = new_primary
--                f.software_additionalPurpose = new_additional
-+                    f.software_primaryPurpose = new_primary
-+                    f.software_additionalPurpose = new_additional
- 
--            if f.name != name:
--                for e in f.extension:
--                    if isinstance(e, OEFileNameAliasExtension):
--                        e.aliases.append(name)
--                        break
--                else:
--                    f.extension.append(OEFileNameAliasExtension(aliases=[name]))
-+                if f.name != name:
-+                    for e in f.extension:
-+                        if isinstance(e, OEFileNameAliasExtension):
-+                            e.aliases.append(name)
-+                            break
-+                    else:
-+                        f.extension.append(OEFileNameAliasExtension(aliases=[name]))
- 
--            return f
-+                return f
- 
-         spdx_file = oe.spdx30.software_File(
-             _id=_id,
-@@ -661,12 +662,13 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-             spdx_file.software_primaryPurpose = purposes[0]
-             spdx_file.software_additionalPurpose = purposes[1:]
- 
--        spdx_file.verifiedUsing.append(
--            oe.spdx30.Hash(
--                algorithm=oe.spdx30.HashAlgorithm.sha256,
--                hashValue=sha256_hash,
-+        if hashfile:
-+            spdx_file.verifiedUsing.append(
-+                oe.spdx30.Hash(
-+                    algorithm=oe.spdx30.HashAlgorithm.sha256,
-+                    hashValue=sha256_hash,
++    @contextmanager
++    def deduplicate(self):
++        d = Dedup(self)
++
++        yield d
++
++        visited = set()
++
++        def visit(o, path):
++            if isinstance(o, oe.spdx30.SHACLObject):
++                if o in visited:
++                    return False
++                visited.add(o)
++
++                for k in o:
++                    v = o[k]
++                    if isinstance(v, oe.spdx30.SHACLObject):
++                        o[k] = d.get(v)
++
++            elif isinstance(o, oe.spdx30.ListProxy):
++                for idx, v in enumerate(o):
++                    if isinstance(v, oe.spdx30.SHACLObject):
++                        o[idx] = d.get(v)
++
++            return True
++
++        if d.dedup:
++            for o in self.objects:
++                o.walk(visit)
++
++            for k, v in d.dedup.items():
++                bb.debug(
++                    1,
++                    f"Removing duplicate {k.__class__.__name__} {k._id or id(k)} -> {v._id or id(v)}",
 +                )
-             )
--        )
++                self.objects.discard(k)
++
++            self.create_index()
++
  
-         return self.add(spdx_file)
+ def load_jsonld(d, path, required=False):
+     deserializer = oe.spdx30.JSONLDDeserializer()
+@@ -1080,39 +1139,28 @@ def create_sbom(d, name, root_elements, add_objectsets=[]):
+     # SBoM should be the only root element of the document
+     objset.doc.rootElement = [sbom]
  
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index fff1ca6bea..1c9346128c 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -568,44 +568,63 @@ def create_recipe_spdx(d):
-     if include_vex != "none":
-         patched_cves = oe.cve_check.get_patched_cves(d)
-         for cve, patched_cve in patched_cves.items():
--            decoded_status = {
--                "mapping": patched_cve["abbrev-status"],
--                "detail": patched_cve["status"],
--                "description": patched_cve.get("justification", None),
--            }
-+            mapping = patched_cve["abbrev-status"]
-+            detail = patched_cve["status"]
-+            description = patched_cve.get("justification", None)
-+            resources = patched_cve.get("resource", [])
- 
-             # If this CVE is fixed upstream, skip it unless all CVEs are
-             # specified.
+-    # De-duplicate licenses
+-    unique = set()
+-    dedup = {}
+-    for lic in objset.foreach_type(oe.spdx30.simplelicensing_LicenseExpression):
+-        for u in unique:
 -            if (
--                include_vex != "all"
--                and "detail" in decoded_status
--                and decoded_status["detail"]
--                in (
--                    "fixed-version",
--                    "cpe-stable-backport",
--                )
-+            if include_vex != "all" and detail in (
-+                "fixed-version",
-+                "cpe-stable-backport",
-             ):
-                 bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
-                 continue
+-                u.simplelicensing_licenseExpression
+-                == lic.simplelicensing_licenseExpression
+-                and u.simplelicensing_licenseListVersion
+-                == lic.simplelicensing_licenseListVersion
+-            ):
+-                dedup[lic] = u
+-                break
+-        else:
+-            unique.add(lic)
+-
+-    if dedup:
+-        for rel in objset.foreach_filter(
+-            oe.spdx30.Relationship,
+-            relationshipType=oe.spdx30.RelationshipType.hasDeclaredLicense,
+-        ):
+-            rel.to = [dedup.get(to, to) for to in rel.to]
+-
+-        for rel in objset.foreach_filter(
+-            oe.spdx30.Relationship,
+-            relationshipType=oe.spdx30.RelationshipType.hasConcludedLicense,
+-        ):
+-            rel.to = [dedup.get(to, to) for to in rel.to]
++    def cmp_license_expression(a, b):
++        return (
++            a.simplelicensing_licenseExpression == b.simplelicensing_licenseExpression
++            and a.simplelicensing_licenseListVersion
++            == b.simplelicensing_licenseListVersion
++        )
  
-             spdx_cve = recipe_objset.new_cve_vuln(cve)
- 
--            cve_by_status.setdefault(decoded_status["mapping"], {})[cve] = (
-+            cve_by_status.setdefault(mapping, {})[cve] = (
-                 spdx_cve,
--                decoded_status["detail"],
--                decoded_status["description"],
-+                detail,
-+                description,
-+                resources,
-             )
- 
-     all_cves = set()
-     for status, cves in cve_by_status.items():
-         for cve, items in cves.items():
--            spdx_cve, detail, description = items
-+            spdx_cve, detail, description, resources = items
-             spdx_cve_id = oe.sbom30.get_element_link_id(spdx_cve)
- 
-             all_cves.add(spdx_cve)
- 
-             if status == "Patched":
--                recipe_objset.new_vex_patched_relationship([spdx_cve_id], [recipe])
-+                spdx_vex = recipe_objset.new_vex_patched_relationship(
-+                    [spdx_cve_id], [recipe]
-+                )
-+                patches = []
-+                for idx, filepath in enumerate(resources):
-+                    patches.append(
-+                        recipe_objset.new_file(
-+                            recipe_objset.new_spdxid(
-+                                "patch", str(idx), os.path.basename(filepath)
-+                            ),
-+                            os.path.basename(filepath),
-+                            filepath,
-+                            purposes=[oe.spdx30.software_SoftwarePurpose.patch],
-+                            hashfile=os.path.isfile(filepath),
-+                        )
-+                    )
+-        for k, v in dedup.items():
+-            bb.debug(1, f"Removing duplicate License {k._id} -> {v._id}")
+-            objset.objects.remove(k)
++    def cmp_creation_info(a, b):
++        data_a = {k: a[k] for k in a}
++        data_b = {k: b[k] for k in b}
++        data_a["@id"] = ""
++        data_b["@id"] = ""
++        return data_a == data_b
 +
-+                if patches:
-+                    recipe_objset.new_scoped_relationship(
-+                        spdx_vex,
-+                        oe.spdx30.RelationshipType.patchedBy,
-+                        oe.spdx30.LifecycleScopeType.build,
-+                        patches,
-+                    )
-+
-             elif status == "Unpatched":
-                 recipe_objset.new_vex_unpatched_relationship([spdx_cve_id], [recipe])
-             elif status == "Ignored":
-@@ -751,12 +770,14 @@ def create_spdx(d):
++    with objset.deduplicate() as dedup:
++        # De-duplicate licenses
++        dedup.find_duplicates(
++            cmp_license_expression,
++            oe.spdx30.simplelicensing_LicenseExpression,
++        )
  
-     # Collect all VEX statements from the recipe
-     vex_statements = {}
-+    vex_patches = {}
-     for rel in recipe_objset.foreach_filter(
-         oe.spdx30.Relationship,
-         relationshipType=oe.spdx30.RelationshipType.hasAssociatedVulnerability,
-     ):
-         for cve in rel.to:
-             vex_statements[cve] = []
-+            vex_patches[cve] = []
+-        objset.create_index()
++        # Deduplicate creation info
++        dedup.find_duplicates(cmp_creation_info, oe.spdx30.CreationInfo)
  
-     for cve in vex_statements.keys():
-         for rel in recipe_objset.foreach_filter(
-@@ -764,6 +785,13 @@ def create_spdx(d):
-             from_=cve,
-         ):
-             vex_statements[cve].append(rel)
-+            if rel.relationshipType == oe.spdx30.RelationshipType.fixedIn:
-+                for patch_rel in recipe_objset.foreach_filter(
-+                    oe.spdx30.Relationship,
-+                    relationshipType=oe.spdx30.RelationshipType.patchedBy,
-+                    from_=rel,
-+                ):
-+                    vex_patches[cve].extend(patch_rel.to)
+     return objset, sbom
+diff --git a/meta/lib/oe/spdx30.py b/meta/lib/oe/spdx30.py
+index cd97eebd18..1f58402ffc 100644
+--- a/meta/lib/oe/spdx30.py
++++ b/meta/lib/oe/spdx30.py
+@@ -701,7 +701,7 @@ class SHACLObject(object):
+         self.__dict__["_obj_data"][iri] = prop.init()
  
-     # Write out the package SPDX data now. It is not complete as we cannot
-     # write the runtime data, so write it to a staging area and a later task
-@@ -889,7 +917,9 @@ def create_spdx(d):
+     def __iter__(self):
+-        return self._OBJ_PROPERTIES.keys()
++        return iter(self._OBJ_PROPERTIES.keys())
  
-             # Add concluded license relationship if manually set
-             # Only add when license analysis has been explicitly performed
--            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE:%s" % package) or d.getVar("SPDX_CONCLUDED_LICENSE")
-+            concluded_license_str = d.getVar(
-+                "SPDX_CONCLUDED_LICENSE:%s" % package
-+            ) or d.getVar("SPDX_CONCLUDED_LICENSE")
-             if concluded_license_str:
-                 concluded_spdx_license = add_license_expression(
-                     d, build_objset, concluded_license_str, license_data
-@@ -915,9 +945,20 @@ def create_spdx(d):
-             for cve, vexes in vex_statements.items():
-                 for vex in vexes:
-                     if vex.relationshipType == oe.spdx30.RelationshipType.fixedIn:
--                        pkg_objset.new_vex_patched_relationship(
-+                        spdx_vex = pkg_objset.new_vex_patched_relationship(
-                             [oe.sbom30.get_element_link_id(cve)], [spdx_package]
-                         )
-+                        if vex_patches[cve]:
-+                            pkg_objset.new_scoped_relationship(
-+                                spdx_vex,
-+                                oe.spdx30.RelationshipType.patchedBy,
-+                                oe.spdx30.LifecycleScopeType.build,
-+                                [
-+                                    oe.sbom30.get_element_link_id(p)
-+                                    for p in vex_patches[cve]
-+                                ],
-+                            )
-+
-                     elif vex.relationshipType == oe.spdx30.RelationshipType.affects:
-                         pkg_objset.new_vex_unpatched_relationship(
-                             [oe.sbom30.get_element_link_id(cve)], [spdx_package]
+     def walk(self, callback, path=None):
+         """
 -- 
 2.53.0
 
