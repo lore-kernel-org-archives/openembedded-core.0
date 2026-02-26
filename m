@@ -1,104 +1,103 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F115FFCE083
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 13:45:10 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.70256.1772113506694007525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF668FCE084
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 13:45:20 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.70044.1772113510009508782
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 05:45:06 -0800
+ Thu, 26 Feb 2026 05:45:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDED01516
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 05:44:59 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C1DC43F62B
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 05:45:05 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] classes/pkgconfig: move assignments
-Date: Thu, 26 Feb 2026 13:45:00 +0000
-Message-ID: <20260226134500.3646422-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=aKtIqLbH;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 76185C40693;
+	Thu, 26 Feb 2026 13:45:23 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 084715FDEB;
+	Thu, 26 Feb 2026 13:45:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D56911036938D;
+	Thu, 26 Feb 2026 14:45:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1772113507; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=2VaX0keX7aIo6OWcWJRCeAM2fuuGz7sJA+xEcIB+4qQ=;
+	b=aKtIqLbHPmkPid6Uc+BIB99ROMhzKcq2n3xcbHaQufC4Ho2hEE+oOaSaAeeAOKPKoRJg6r
+	MnmK65/HYIXorczePoMr05rJ9p3kKhYLgVzRzi9g3dvMXboRxo8sBwlj3PSGyuJU1PbNX5
+	gOyHLsvEmYLa/dGOEnBfNzkWt5NYmdVGJ8UYK3Nru39nHy+PtQ1+UHlmvh/780N9wDtCAz
+	CyE6qT+IEp0sqAYI6XjHbstJjhfPfR32Ak6e+hCiyx9EAX6QAWPmbCNCpk08kjx+igS/CZ
+	VKCFQ9iN4zDQQIiQx1ESjgR4Mq7EUvsiZNStgVWq2xCu+cIs7XDMiRv1Xchm0w==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Feb 2026 14:45:05 +0100
+Message-Id: <DGOXT5NS9NUS.TSZ25ARI9R03@bootlin.com>
+Subject: Re: [OE-core] [PATCH] ruby: upgrade from 3.4.7 to 4.0.1
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <changqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260224015117.3338374-1-changqing.li@windriver.com>
+In-Reply-To: <20260224015117.3338374-1-changqing.li@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:45:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232025
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 13:45:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232026
 
-Move the pkg-config-specific assignments (PKG_CONFIG_LIBDIR, etc) out of
-bitbake.conf and into pkgconfig.bbclass.
+On Tue Feb 24, 2026 at 2:51 AM CET, Changqing Li via lists.openembedded.org=
+ wrote:
+> License-Update: Add license BSL-1.0 and Apache-2.0
+>
+> COPYING - Add Cross-links between Japanese and English pages
+> LEGAL - Update LEGAL for JSON vendored sources
+>
+> Refer:
+> [1] https://github.com/ruby/ruby/commit/e652af18816ffe0b85109b8de0827349b=
+f03f16d
+> [2] https://github.com/ruby/ruby/commit/d5fbff50c7ff880ae71b8a8ae9aad976c=
+69bea73
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
 
-Note that the assignments now have to be ?=3D so that recipes such as
-gdb-cross-canadian-* can build. This is because previously the assignment
-order of PKG_CONFIG_PATH was:
+Hi Changqing,
 
-1) bitbake.conf
-2) cross-canadian.bbclass
+Thanks for the upgrade.
 
-But with this new layout it is:
+It looks like we have some reproducibility issue after the upgrade:
 
-1) cross-canadian.bbclass
-2) pkgconfig.bbclass
+AssertionError: The following deb packages are different and not in exclusi=
+on list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/deb/./x86-64-v3/ruby-doc_4.0.1-r0_amd64.deb
+The following ipk packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/ipk/./x86-64-v3/ruby-doc_4.0.1-r0_x86-64-v3.ipk
+The following rpm packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/rpm/./x86_64_v3/ruby-doc-4.0.1-r0.x86_64_v3.rpm
 
-If pkgconfig does a hard assign then it replaces any assignments that
-have happened already.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3457
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-recipe/pkgconfig.bbclass | 14 +++++++-------
- meta/conf/bitbake.conf                |  8 --------
- 2 files changed, 7 insertions(+), 15 deletions(-)
+The diffoscope output can be found here:
 
-diff --git a/meta/classes-recipe/pkgconfig.bbclass b/meta/classes-recipe/=
-pkgconfig.bbclass
-index ea91338d345..98b63420135 100644
---- a/meta/classes-recipe/pkgconfig.bbclass
-+++ b/meta/classes-recipe/pkgconfig.bbclass
-@@ -6,10 +6,10 @@
-=20
- DEPENDS:prepend =3D "pkgconfig-native "
-=20
--export PKG_CONFIG_DIR
--export PKG_CONFIG_PATH
--export PKG_CONFIG_LIBDIR
--export PKG_CONFIG_SYSROOT_DIR
--export PKG_CONFIG_DISABLE_UNINSTALLED
--export PKG_CONFIG_SYSTEM_LIBRARY_PATH
--export PKG_CONFIG_SYSTEM_INCLUDE_PATH
-+export PKG_CONFIG_DIR ?=3D "${STAGING_DIR_HOST}${libdir}/pkgconfig"
-+export PKG_CONFIG_PATH ?=3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgcon=
-fig"
-+export PKG_CONFIG_LIBDIR ?=3D "${PKG_CONFIG_DIR}"
-+export PKG_CONFIG_SYSROOT_DIR ?=3D "${STAGING_DIR_HOST}"
-+export PKG_CONFIG_DISABLE_UNINSTALLED ?=3D "yes"
-+export PKG_CONFIG_SYSTEM_LIBRARY_PATH ?=3D "${base_libdir}:${libdir}"
-+export PKG_CONFIG_SYSTEM_INCLUDE_PATH ?=3D "${includedir}"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index aa6b5bbf9a0..194fa5246d2 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -768,14 +768,6 @@ BUILDCFG_NEEDEDVARS[type] =3D "list"
-=20
- # Other
-=20
--PKG_CONFIG_DIR =3D "${STAGING_DIR_HOST}${libdir}/pkgconfig"
--PKG_CONFIG_PATH =3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconfig"
--PKG_CONFIG_LIBDIR =3D "${PKG_CONFIG_DIR}"
--PKG_CONFIG_SYSROOT_DIR =3D "${STAGING_DIR_HOST}"
--PKG_CONFIG_DISABLE_UNINSTALLED =3D "yes"
--PKG_CONFIG_SYSTEM_LIBRARY_PATH =3D "${base_libdir}:${libdir}"
--PKG_CONFIG_SYSTEM_INCLUDE_PATH =3D "${includedir}"
--
- # Don't allow git to chdir up past WORKDIR or TMPDIR so that it doesn't =
-detect the OE
- # repository when building a recipe.
- export GIT_CEILING_DIRECTORIES =3D "${WORKDIR}:${TMPDIR}"
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260226-ok6427ba/=
+packages/diff-html/
+
+Based on that, it seems the file output is not stable, as it sometimes
+add "last=C2=B7modified: xxx" to the file type.
+
+Can you have a look at the possibilities to make the build reproducible
+again?
+
+Thanks,
+Mathieu
+
 --=20
-2.43.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
