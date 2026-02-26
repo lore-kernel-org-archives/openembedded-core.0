@@ -1,1057 +1,168 @@
-Return-Path: <rsangam@mvista.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F37FC5907
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 07:24:08 +0000 (UTC)
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.65379.1772090641266906841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BDAFC590D
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 08:20:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.65872.1772093995451568824
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 23:24:01 -0800
+ Thu, 26 Feb 2026 00:19:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=SC/64ejY;
- spf=pass (domain: mvista.com, ip: 74.125.82.46, mailfrom: rsangam@mvista.com)
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1275910b930so312490c88.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 23:24:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1772090640; x=1772695440; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JAmvG5K+43RZ3wOqjLCdH5oTbodRaQN91QqpJ7qMpeE=;
-        b=SC/64ejY1lSfcWimBqr9mzmKQfbChbC1IpWHc+aIQKnQfakFKaOi4KIIVftHdAEFPe
-         FXR4Molz9hJql4oOwP8tda9g6sduMvPcn5k/PVFIL+6+x8Wv346brHtbLD3svHBn9Mv1
-         oT4nak1NvKQhg1bTxu6d9IycjpmXn6g6jUGho=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772090640; x=1772695440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JAmvG5K+43RZ3wOqjLCdH5oTbodRaQN91QqpJ7qMpeE=;
-        b=WujEabDS1+Y1+GZrUS45iAkzou7632a0zfsL0jmkJe8157NX0okO2Xosks+psuAI8k
-         3VHxKZ9aZT3204Y42NuCYY1pHWgevwO3zB441HOWr0A9OEFeu7VFypuHqikezkwcGM/a
-         2U3yk+uWrwvlLZ6JTzWWc3Fu7kG5RvBlE92c46gLSO2ocK0OFKTxJhWKVYAr2HIobq40
-         Rw/78DgmHevk0SMIM6AfpJhiyKzs0tIr7IznMPK7fZioLyYoSs/UTmD5J6SpUDNChV1Z
-         uKMJh5LiIyPtADvYaSOEcFV8C6I+YudKxxHuYncR3kc0LjDX/AsuFGAIK+ugR4sLC/ga
-         uJzA==
-X-Gm-Message-State: AOJu0YwafDhX78KSNs1xldsb22r3oA/ETiOyzRc/Ht0qkNnWvQ4hvbTK
-	97lmHQAq+1Uzzz7bzGVuhnBfqxkkmWdDT6BIOCdIjTNRoo1dSiuaikTIJY7l6q0F82d8GueJbS2
-	xTuUcfDE=
-X-Gm-Gg: ATEYQzxc/ZUw14A3j7gUQ7EuQVBGu87bpZlybH+9x9AU9hSIhsSq2LViFZ3Qce5xfZC
-	jOcXYEbdJxU0SdYETXTBio8M1rYB6/UASLc/8+xKrSTYpVhSDBDP2TA61nPVEoX3QFM7KCRGVUZ
-	WVpUb4+bJXQaV6ipAREbg/XCLz1ZOFIr4Njy3Jywi60FP4LhNbW60C0hdtbvqWT6BRBb4+tyNKi
-	pZErkEkA3MLI8T/LU0aqjBq+1rXWoftQ6ZzuxqQjZhtzi1bOJ271XBaHoq66FUyscHGSRb92SWL
-	bjLM6eSwveXrZ77xy3ws5HMGHBuv4ORG4kTL86IOpFh1uLYKOuf8Q0bWTWeltgCqcvEelOEthfI
-	fR/Gv/17QVPFpy1TexzXyT1vfXKuQvr91m4tOicI1OVOv48ruSlOLg0yxKeAFvvuaqBtaeRZWIt
-	uXN/au7NpaFIVKaflwEFtZF51kL/pF6bilRSSw8TEZyw==
-X-Received: by 2002:a05:7022:23a9:b0:11b:9386:a38e with SMTP id a92af1059eb24-1278910bb77mr963010c88.21.1772090639943;
-        Wed, 25 Feb 2026 23:23:59 -0800 (PST)
-Received: from MVIN00040.mvista.com ([49.207.223.82])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12789a43c12sm1486154c88.14.2026.02.25.23.23.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 23:23:59 -0800 (PST)
-From: Rohini Sangam <rsangam@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Rohini Sangam <rsangam@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] libsoup: Security fix for CVE-2025-14523 & CVE-2026-1761
-Date: Thu, 26 Feb 2026 12:53:52 +0530
-Message-Id: <20260226072352.8670-1-rsangam@mvista.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6517c16aa4=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q7vD2Y371874
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 00:19:55 -0800
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012038.outbound.protection.outlook.com [40.107.200.38])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cjdyjr700-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 26 Feb 2026 00:19:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uD/3DjBMAjt1MKgTfesayvyRCmRl7mvBM4ENvDhWbKTgTrS+qd0FEF+cx5NFsb9AQFHqkKoy6lvDIk/mdOMV0jTA2dArjzA5ayXC29JXmcWT/LV6lKljzSzdNr0HvlhQhiDp7KYxPuT3XgmYbsO5BPHXbxf1tJjiKp/G81iso3WBcAi6hU918p9hy0tfRHoz+1u9XPkXAjA0+JdZ1+ReIf3GvMTzlBowQF+YktXkUe+GVnJGosH9WTrWi1rSWekHzbm0q2IXfXIfz9acgTStME1SY8cwGOKFSFhNz8O7azCVyBAFDHPKErP4eGL+MuRJvdao5CDmyG+cmAxWvzSPiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9LGwbRr8zAoWuhXbmSLVPyEspvuuvhuGRJnSB7zxqrs=;
+ b=rCDQquH1HHAb93LS5rf116i3UjuQabhY5LuYfWjBRy4frzCbcW+hfrTK3rL6eq8XfTVvx9l9QnlIkqMQulOevGbp+XrzWF9lIXFYVgG20z+LEd7tBg11uWt73n+XxUzWuIxEUxwUIJ9wYdkuHZpaWbduyXMeVZZnr/3BACfClb9bowVssDtEhvB6UfrNrmiNnadsGTkVYVcGyWVXJqubwuRLPUVp7QNbRhZ9FUgH8mlYBtBOZqCa9ARzRG/cPZZmpDgvOxllNsltgrTWQ97XFTkJ/2Bqz2fBz9I9PH0BkG+3LYCOAFeWWFvkGK4uBobabg0dAnOD5g+OibkaYbP2Gw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::26) by DS0PR11MB8052.namprd11.prod.outlook.com
+ (2603:10b6:8:122::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Thu, 26 Feb
+ 2026 08:19:52 +0000
+Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
+ ([fe80::4fd7:cce3:ed40:ad73]) by DS4PPF641CF4859.namprd11.prod.outlook.com
+ ([fe80::4fd7:cce3:ed40:ad73%8]) with mapi id 15.20.9654.007; Thu, 26 Feb 2026
+ 08:19:52 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: openembedded-core@lists.openembedded.org, arindam.nath@amd.com
+Subject: [OE-core][PATCH] grub: update search parameter
+Date: Thu, 26 Feb 2026 16:19:37 +0800
+Message-Id: <20260226081937.671793-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.39.4
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0063.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31a::12) To DS4PPF641CF4859.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::26)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF641CF4859:EE_|DS0PR11MB8052:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85282b9b-4499-4a33-c388-08de750fd08f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	Wdj0Pt6uXP1/c3UMyRjBR7JMI1tlovF6TLKpchhLLSLb696UO2iis/R2K50K7TU4OJQiP9c+il8qCxGwCgz3krO2qP3VTtCDLhNUPije0sZGaA+ToLgmJSTbQN8phi1ITqvtmJs7+dmoJ7CFRCTHJOJXGvP+Pugjv8i8Zw+mzd+HjKUmRxAXzh1+Nzp0nXxzSjqZ9dp0wFC2GaBq1xw+XoV4Ex0zcr5SSFr4xQVPoN1IAl8uZv4JX9I6hNv1LF9dmCrKZ6M0CPimvNYcqiO50HUvOkbYWm9ltYpcxHKQ2esBwqe6kLWflgDGxbSB9XG7vkwIv6ncWHsBGsucLZ4L1wTHGv751y5pvMkMuHjFG2TtN/T+8M+mkdJ1sW0aqcJZdfhpkTnYsR5l1H1dAuF9EmfmW4NGLsaJZgP4Eg0fmpdwoFvGqjnzbtynvSMWmp8B31mgFoIKp2lo3pGkwYqdv+SnCSBiTpvRqqHQAEJya71Z9lUh5mHG0GlEoMmZHeXMSdon+XctGA691fGnx4O1D9mI2sIOQWEy0HDn59hX3ZUagep1V9ugKrwpYjKovt9tu64w5ftnntkbmKdy2E1YEhmtPj/U/yptojjNVPeKncwGSJlYNB5xfQLsYsdA7lShVBwtbPBpPj6caAkJKdrsfxNik0XzJM0pOXQo1H/U24kQGRmlKIPgOQkBLr0Xe2syCnNPdtKfE6kyvaMcTIjopcCkXTLDAAbDWS3herZWZW+2Z8pGVX9h/RF49SyRpnYoDy4sgTFBAwTady8FK47ipd+ZyQw/WpZb3/CNAnej3X4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF641CF4859.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Bk3ET8DkgEAQOmCQEcOodR9/aWr6YadBQN6DnPJzVEyBxCtyRGUtaNgdx04q?=
+ =?us-ascii?Q?qZlOgsM2tf0jwGe/vf1+S5TU8EMqq8yZSpbUz71Uyi9A/xtSnjKEzngQl/lu?=
+ =?us-ascii?Q?ox+A1YwrHi9AuFtgeg6G190NxfMQ62hvIOKI3iejn/JhdjYSKkQDtu6IbCzQ?=
+ =?us-ascii?Q?8+wbNzxk6zAo/T2sf+xxbXbc0mLTIfbrQCRxC+XD/2MjsApB5t5UjMe7pIt1?=
+ =?us-ascii?Q?yh7r5mVa+53y0NHwsgou4akXyUNtWoneRu93UhxQQZ77UmiaUHkTOPQZFcmq?=
+ =?us-ascii?Q?+oEvBSOZw02CKUKLVpI9XjqG3IMzYqRWDKxZLPjEWpGsJFX23yWtNhZthIUu?=
+ =?us-ascii?Q?kFiJA1xZLnUGoUP59u3uo/Uc01diE2FJYAgv6JXh2Pmw0r6uXwVMZH+SCE5q?=
+ =?us-ascii?Q?wmJO0G6xGgwf3760+fuOGyYiZRsNgHAi1GRO/IEzTWcuPsRYMgSgKKEEGlxg?=
+ =?us-ascii?Q?XvEF4PT5bTXL2IDVb+4ydj9nXcrdq6q2JxQIksQlEappjFzNo7qMik9IqpkD?=
+ =?us-ascii?Q?yocqVup44jAjdjh5chXxZ0nfZ3u3GC1DLY/iqoK5og7i2qV66DaV3PzLgXCI?=
+ =?us-ascii?Q?rKkRGeNykH+ngbbh0xep0VJfdZ4Smc7jlwWfv7xE7cgef904VJ/MrUTozbQs?=
+ =?us-ascii?Q?XlG5kPtpr4NobcORszlCFc2uRzgkQ43nHJx0oeHR+6Tz2XTNL8OGy+x93iRx?=
+ =?us-ascii?Q?xXPKcC2On/wCkE8vl5mgHDJqJAnmKA9B8MjkKiGD8zf4EvaoPRDhlxLlioRR?=
+ =?us-ascii?Q?jZtvSANcgLdwm11JEWds3zGRnPTMRiRXq60QowJrYyazbmCigiYrI1dXaH6X?=
+ =?us-ascii?Q?h53bSnCT0lHnf7BAeqLsLZA5Tuk+9nhqsDc/KRGvXE/NXewfdU0gD90sf14F?=
+ =?us-ascii?Q?AY1lipMnyakXhJat+h9dxmf37p5NjfU397Ek9KeuR3KrDj2zX8UzOdk9yEP0?=
+ =?us-ascii?Q?8CYLUwf1z8wRoUT0VoAtnfoE4HQikROC44ThuI8jzUVUOJQ3vbrQBlYSjzVb?=
+ =?us-ascii?Q?i6jCiTKNFPaRK/+Usbgt0KMS2lVoGnsbHQdKo4ofKC2619FG5UpTLL6In7of?=
+ =?us-ascii?Q?HyrwAyVZZmawerxBeuJAE/3CO39ln9udYOoEODZIc0BNFL147sRJ+9cR0PkZ?=
+ =?us-ascii?Q?AC+bpimVkIA0qkFX04gtsDZZTihYgIwuPjLSU5NXgDVv+KQ3KXUl1/nDzo3r?=
+ =?us-ascii?Q?DrEdoImR9i9R6CbuVXpPpGgYL0/qygP6vp3z/5gXPZuIfLDRxmayTtSyz654?=
+ =?us-ascii?Q?3k7v5WDeck6oKfBB3qSjfKyYfHBjMmrhrOoknNByOjKChA7e8KsCvZjcNeNc?=
+ =?us-ascii?Q?gwqNjn9Z5DMFZyoOjvXRs1AaY975QcO6P2JKUsibZYgDm2blC9HjOMYju5Li?=
+ =?us-ascii?Q?PVPxRDGf6n5ZGf7kp8ETdEehPM2AXxLV6bA/+xiJPwcLb2XnjLtsU3IQtZV9?=
+ =?us-ascii?Q?m1Ai77P/ZPV2OQ8AWaX0c35tywyEDaE3J7UDoywuZeXIMP7AYExIvhrmCUTw?=
+ =?us-ascii?Q?eiWQ4FiAVRkzShmOhg9lpoIC/C1UgCsE//JjmYFF8p1nGEuktRlJ0lWFyYIJ?=
+ =?us-ascii?Q?2Ba9+wm7+TXyKP6jDYniBQ/OBPchWuqdoYfpPT3+G9FwNp5hVcVoj9DdAk7g?=
+ =?us-ascii?Q?FPMDfBvfdJY0c4zqvUBLY7HHtgn9l8AcVv2Pg+SRzwpzux72B+HxcbuazdnN?=
+ =?us-ascii?Q?BOXWngxLA0hTc7AMH75H+84AQX7ZamH30NcwLG6GMbjAr4ecSIdkpudUuvKq?=
+ =?us-ascii?Q?hDynV/yYPL+DlULhuYlmsjHdvSmTSRY=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85282b9b-4499-4a33-c388-08de750fd08f
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF641CF4859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 08:19:52.0056
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZJ1BRxEL1cmIYF1vh9SwS+iTRlEh03U9jPg3zwlr/Xe6QffSpImizEs+YcTqvbtZwXyCOXfrypJGCltwmvVZqAT6WVI+2oH8M+bW7NgKqBE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8052
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA3MyBTYWx0ZWRfX45H7kY8iMGhf
+ +WHGXesGafbSKWBruvpcA0rkGcFnU9cdftMZUm3vwCapGHSeeJzdCGlLnO7BISkeHz+Ejcz8lLc
+ y8xNG/RUnsEvej2YQpkRR+CMiP/QIlkeTO6Qky4gTFXY926/qnuKo+VM5afjYooEh1LolISjpQZ
+ a9T6YJ5hfqN3CxXYcCQwOklkMZx4TjCC7FWdpXQ1KrsHSjH8rwwhu4/yrp3HTU+6P2edUFROBbf
+ yu/+WswtlTyibr+wUQ9v28cfApB0wHQraoiDCJ3YFczr6uR1/M9m1MmhEr0AxK2DVSCjs94nowO
+ ol1C06b3F7iAQg3XJK2QMxitNKQTggBwcCOfoAcrL6uP0GnwP7wvPR3u0rIkrXbvVZAVOAlUf3v
+ DoL4/Rsy7WZqiKgfBPi1imTgVHImrdu7V/ZtiYJlHI+WYl1MX8aIQGMRwTsPGmPW3IbnMDZ1A9g
+ fR9k88hGSI0LBp7zz3A==
+X-Authority-Analysis: v=2.4 cv=Cv2ys34D c=1 sm=1 tr=0 ts=69a0022a cx=c_pps
+ a=xHz2x/H0+t1Z4EfVAX8SiQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=bP8yuihqUULSQ3ZdrO8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: GMyYpzLvqTJs17ThyyloaEmg9wzM_tz3
+X-Proofpoint-GUID: 9HmwzDMBRBYre1MkipEKkd3hV4vem09u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 07:24:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231992
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 08:20:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231993
 
-CVEs fixed:
-- CVE-2025-14523 libsoup: Duplicate Host Header Handling Causes Host-Parsing Discrepancy (First- vs Last-Value Wins)
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/383cc02354c2a4235a98338005f8b47ffab4e53a,
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/a94c4fb5bd9ef0f6b47128f9808c45f2259f9409]
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-- CVE-2026-1761 libsoup: Stack-Based Buffer Overflow in libsoup Multipart Response Parsingmultipart HTTP response
-Upstream-Status : Backport [import from RHEL9 - libsoup-2.72.0-12.el9_7.5
-Upstream-commit: https://gitlab.gnome.org/GNOME/libsoup/-/commit/cfa9d90d1a5c274233554a264c56551c13d6a6f0]
+Grub would report an error message in boot stage as below:
 
-Signed-off-by: Rohini Sangam <rsangam@mvista.com>
+   "error: no such device: ((hd0,gpt1)/EFI/BOOT)/EFI/BOOT/grub.cfg"
+
+Consequently, the root variable is not set, and the intended protection
+against cross-device configuration loading (the purpose of the original 2014 commit)
+is lost.
+
+The most robust fix is to use the --hint parameter.
+This separates the search target from the device hint, avoiding
+fragile string concatenation and supporting both prefixed and
+non-prefixed $cmdpath formats.
+
+Fixes: 5ce73b6055ac ("grub: add cmdpath to grub configuration file")
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2025-14523.patch  |  77 ++
- .../libsoup/libsoup-2.4/CVE-2026-1761.patch   |  38 +
- .../libsoup/libsoup-2.4_2.74.3.bb             |   2 +
- .../libsoup-3.4.4/CVE-2025-14523.patch        | 697 ++++++++++++++++++
- .../libsoup/libsoup-3.4.4/CVE-2026-1761.patch | 102 +++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   2 +
- 6 files changed, 918 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1761.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-14523.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2026-1761.patch
+ meta/recipes-bsp/grub/files/cfg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patch
-new file mode 100644
-index 0000000000..b951fcd627
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-14523.patch
-@@ -0,0 +1,77 @@
-+From 383cc02354c2a4235a98338005f8b47ffab4e53a Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Wed, 7 Jan 2026 14:50:33 -0600
-+Subject: [PATCH] Reject duplicate Host headers (for libsoup 2)
-+
-+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/491
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/383cc02354c2a4235a98338005f8b47ffab4e53a]
-+CVE: CVE-2025-14523
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ libsoup/soup-headers.c         |  3 +++
-+ libsoup/soup-message-headers.c |  3 +++
-+ tests/header-parsing-test.c    | 18 ++++++++++++++++++
-+ 3 files changed, 24 insertions(+)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index ea2f986..6cd3dad 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -138,6 +138,9 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
-+ 		for (p = strchr (value, '\r'); p; p = strchr (p, '\r'))
-+ 			*p = ' ';
-+ 
-++		if (g_ascii_strcasecmp (name, "Host") == 0 && soup_message_headers_get_one (dest, "Host"))
-++			goto done;
-++
-+ 		soup_message_headers_append (dest, name, value);
-+         }
-+ 	success = TRUE;
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index ff10e10..4fc6768 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -220,6 +220,9 @@ soup_message_headers_append (SoupMessageHeaders *hdrs,
-+ 	}
-+ #endif
-+ 
-++	if (g_ascii_strcasecmp (name, "Host") == 0 && soup_message_headers_get_one (hdrs, "Host"))
-++		return;
-++
-+ 	header.name = intern_header_name (name, &setter);
-+ 	header.value = g_strdup (value);
-+ 	g_array_append_val (hdrs->array, header);
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index d20da95..f2286d0 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -468,6 +468,24 @@ static struct RequestTest {
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+ 	  { { NULL } }
-++	},
-++
-++	{ "Duplicate Host headers",
-++	  "https://gitlab.gnome.org/GNOME/libsoup/-/issues/472",
-++	  "GET / HTTP/1.1\r\nHost: example.com\r\nHost: example.org\r\n",
-++	  -1,
-++	  SOUP_STATUS_BAD_REQUEST,
-++	  NULL, NULL, -1,
-++	  { { NULL } }
-++	},
-++
-++	{ "Duplicate Host headers (case insensitive)",
-++	  "https://gitlab.gnome.org/GNOME/libsoup/-/issues/472",
-++	  "GET / HTTP/1.1\r\nHost: example.com\r\nhost: example.org\r\n",
-++	  -1,
-++	  SOUP_STATUS_BAD_REQUEST,
-++	  NULL, NULL, -1,
-++	  { { NULL } }
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1761.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1761.patch
-new file mode 100644
-index 0000000000..f6a30c86f9
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1761.patch
-@@ -0,0 +1,38 @@
-+From cfa9d90d1a5c274233554a264c56551c13d6a6f0 Mon Sep 17 00:00:00 2001
-+From: Carlos Garcia Campos <cgarcia@igalia.com>
-+Date: Mon, 19 Jan 2026 15:14:58 +0100
-+Subject: [PATCH] multipart: check length of bytes read
-+ soup_filter_input_stream_read_until()
-+
-+We do make sure the read length is smaller than the buffer length when
-+the boundary is not found, but we should do the same when the boundary
-+is found.
-+
-+Spotted in #YWH-PGM9867-149
-+Closes #493
-+
-+Upstream-Status: Backport [import from RHEL9 - libsoup-2.72.0-12.el9_7.5
-+Upstream-commit: https://gitlab.gnome.org/GNOME/libsoup/-/commit/cfa9d90d1a5c274233554a264c56551c13d6a6f0]
-+CVE: CVE-2026-1761
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ libsoup/soup-filter-input-stream.c |  3 +-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-filter-input-stream.c b/libsoup/soup-filter-input-stream.c
-+index 2c30bf9..b16246d 100644
-+--- a/libsoup/soup-filter-input-stream.c
-++++ b/libsoup/soup-filter-input-stream.c
-+@@ -272,6 +272,7 @@ soup_filter_input_stream_read_until (SoupFilterInputStream  *fstream,
-+ 	if (eof && !*got_boundary)
-+ 		read_length = MIN (fstream->priv->buf->len, length);
-+ 	else
-+-		read_length = p - buf;
-++		read_length = MIN ((gsize)(p - buf), length);
-++
-+ 	return read_from_buf (fstream, buffer, read_length);
-+ }
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 7e00cd678a..9f6beaee69 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -41,6 +41,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-4476.patch \
-            file://CVE-2025-2784.patch \
-            file://CVE-2025-4945.patch \
-+           file://CVE-2025-14523.patch \
-+           file://CVE-2026-1761.patch \
- "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-14523.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-14523.patch
-new file mode 100644
-index 0000000000..7ce8571c8b
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-14523.patch
-@@ -0,0 +1,697 @@
-+From a94c4fb5bd9ef0f6b47128f9808c45f2259f9409 Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Wed, 7 Jan 2026 14:50:33 -0600
-+Subject: [PATCH] Reject duplicate Host headers
-+
-+RFC 9112 section 3.2 says:
-+
-+A server MUST respond with a 400 (Bad Request) status code to any
-+HTTP/1.1 request message that lacks a Host header field and to any
-+request message that contains more than one Host header field line or a
-+Host header field with an invalid field value.
-+
-+In addition to rejecting a duplicate header when parsing headers, also
-+reject attempts to add the duplicate header using the
-+soup_message_headers_append() API, and add tests for both cases.
-+
-+These checks will also apply to HTTP/2. I'm not sure whether this is
-+actually desired or not, but the header processing code is not aware of
-+which HTTP version is in use.
-+
-+(Note that while SoupMessageHeaders does not require the Host header to
-+be present in an HTTP/1.1 request, SoupServer itself does. So we can't
-+test the case of missing Host header via the header parsing test, but it
-+really is enforced.)
-+
-+Fixes #472
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/a94c4fb5bd9ef0f6b47128f9808c45f2259f9409]
-+CVE: CVE-2025-14523
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ libsoup/soup-headers.c                 |   3 +-
-+ libsoup/soup-message-headers-private.h |   4 +-
-+ libsoup/soup-message-headers.c         |  76 ++++++++------
-+ tests/header-parsing-test.c            | 132 ++++++++++++++++---------
-+ 4 files changed, 135 insertions(+), 80 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 52ef2ec..6688dfd 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -139,7 +139,8 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
-+ 		for (p = strchr (value, '\r'); p; p = strchr (p, '\r'))
-+ 			*p = ' ';
-+ 
-+-		soup_message_headers_append_untrusted_data (dest, name, value);
-++		if (!soup_message_headers_append_untrusted_data (dest, name, value))
-++                        goto done;
-+         }
-+ 	success = TRUE;
-+ 
-+diff --git a/libsoup/soup-message-headers-private.h b/libsoup/soup-message-headers-private.h
-+index 9815464..770f3ef 100644
-+--- a/libsoup/soup-message-headers-private.h
-++++ b/libsoup/soup-message-headers-private.h
-+@@ -10,10 +10,10 @@
-+ 
-+ G_BEGIN_DECLS
-+ 
-+-void        soup_message_headers_append_untrusted_data  (SoupMessageHeaders *hdrs,
-++gboolean    soup_message_headers_append_untrusted_data  (SoupMessageHeaders *hdrs,
-+                                                          const char         *name,
-+                                                          const char         *value);
-+-void        soup_message_headers_append_common          (SoupMessageHeaders *hdrs,
-++gboolean    soup_message_headers_append_common          (SoupMessageHeaders *hdrs,
-+                                                          SoupHeaderName      name,
-+                                                          const char         *value);
-+ const char *soup_message_headers_get_one_common         (SoupMessageHeaders *hdrs,
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index d69d6e8..383a09f 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -267,12 +267,16 @@ soup_message_headers_clean_connection_headers (SoupMessageHeaders *hdrs)
-+ 	soup_header_free_list (tokens);
-+ }
-+ 
-+-void
-++gboolean
-+ soup_message_headers_append_common (SoupMessageHeaders *hdrs,
-+                                     SoupHeaderName      name,
-+                                     const char         *value)
-+ {
-+         SoupCommonHeader header;
-++	if (name == SOUP_HEADER_HOST && soup_message_headers_get_one (hdrs, "Host")) {
-++                g_warning ("Attempted to add duplicate Host header to a SoupMessageHeaders that already contains a Host header");
-++                return FALSE;
-++        }
-+ 
-+         if (!hdrs->common_headers)
-+                 hdrs->common_headers = g_array_sized_new (FALSE, FALSE, sizeof (SoupCommonHeader), 6);
-+@@ -284,32 +288,18 @@ soup_message_headers_append_common (SoupMessageHeaders *hdrs,
-+                 g_hash_table_remove (hdrs->common_concat, GUINT_TO_POINTER (header.name));
-+ 
-+         soup_message_headers_set (hdrs, name, value);
-++	return TRUE;
-+ }
-+ 
-+-/**
-+- * soup_message_headers_append:
-+- * @hdrs: a #SoupMessageHeaders
-+- * @name: the header name to add
-+- * @value: the new value of @name
-+- *
-+- * Appends a new header with name @name and value @value to @hdrs.
-+- *
-+- * (If there is an existing header with name @name, then this creates a second
-+- * one, which is only allowed for list-valued headers; see also
-+- * [method@MessageHeaders.replace].)
-+- *
-+- * The caller is expected to make sure that @name and @value are
-+- * syntactically correct.
-+- **/
-+-void
-+-soup_message_headers_append (SoupMessageHeaders *hdrs,
-+-			     const char *name, const char *value)
-++static gboolean
-++soup_message_headers_append_internal (SoupMessageHeaders *hdrs,
-++			              const char *name, const char *value)
-+ {
-+ 	SoupUncommonHeader header;
-+         SoupHeaderName header_name;
-+ 
-+-	g_return_if_fail (name != NULL);
-+-	g_return_if_fail (value != NULL);
-++	g_return_val_if_fail (name != NULL, FALSE);
-++	g_return_val_if_fail (value != NULL, FALSE);
-+ 
-+ 	/* Setting a syntactically invalid header name or value is
-+ 	 * considered to be a programming error. However, it can also
-+@@ -317,23 +307,22 @@ soup_message_headers_append (SoupMessageHeaders *hdrs,
-+ 	 * compiled with G_DISABLE_CHECKS.
-+ 	 */
-+ #ifndef G_DISABLE_CHECKS
-+-	g_return_if_fail (*name && strpbrk (name, " \t\r\n:") == NULL);
-+-	g_return_if_fail (strpbrk (value, "\r\n") == NULL);
-++	g_return_val_if_fail (*name && strpbrk (name, " \t\r\n:") == NULL, FALSE);
-++	g_return_val_if_fail (strpbrk (value, "\r\n") == NULL, FALSE);
-+ #else
-+ 	if (*name && strpbrk (name, " \t\r\n:")) {
-+ 		g_warning ("soup_message_headers_append: Ignoring bad name '%s'", name);
-+-		return;
-++		return FALSE;
-+ 	}
-+ 	if (strpbrk (value, "\r\n")) {
-+ 		g_warning ("soup_message_headers_append: Ignoring bad value '%s'", value);
-+-		return;
-++		return FALSE;
-+ 	}
-+ #endif
-+ 
-+         header_name = soup_header_name_from_string (name);
-+         if (header_name != SOUP_HEADER_UNKNOWN) {
-+-                soup_message_headers_append_common (hdrs, header_name, value);
-+-                return;
-++                return soup_message_headers_append_common (hdrs, header_name, value);
-+         }
-+ 
-+         if (!hdrs->uncommon_headers)
-+@@ -344,21 +333,48 @@ soup_message_headers_append (SoupMessageHeaders *hdrs,
-+ 	g_array_append_val (hdrs->uncommon_headers, header);
-+ 	if (hdrs->uncommon_concat)
-+ 		g_hash_table_remove (hdrs->uncommon_concat, header.name);
-++	return TRUE;
-++}
-++
-++/**
-++ * soup_message_headers_append:
-++ * @hdrs: a #SoupMessageHeaders
-++ * @name: the header name to add
-++ * @value: the new value of @name
-++ *
-++ * Appends a new header with name @name and value @value to @hdrs.
-++ *
-++ * (If there is an existing header with name @name, then this creates a second
-++ * one, which is only allowed for list-valued headers; see also
-++ * [method@MessageHeaders.replace].)
-++ *
-++ * The caller is expected to make sure that @name and @value are
-++ * syntactically correct.
-++ **/
-++void
-++soup_message_headers_append (SoupMessageHeaders *hdrs,
-++			     const char *name, const char *value)
-++{
-++	soup_message_headers_append_internal (hdrs, name, value);
-+ }
-+ 
-+ /*
-+- * Appends a header value ensuring that it is valid UTF8.
-++ * Appends a header value ensuring that it is valid UTF-8, and also checking the
-++ * return value of soup_message_headers_append_internal() to report whether the
-++ * headers are invalid for various other reasons.
-+  */
-+-void
-++gboolean
-+ soup_message_headers_append_untrusted_data (SoupMessageHeaders *hdrs,
-+                                             const char         *name,
-+                                             const char         *value)
-+ {
-+         char *safe_value = g_utf8_make_valid (value, -1);
-+         char *safe_name = g_utf8_make_valid (name, -1);
-+-        soup_message_headers_append (hdrs, safe_name, safe_value);
-++        gboolean result = soup_message_headers_append_internal (hdrs, safe_name, safe_value);
-++
-+         g_free (safe_value);
-+         g_free (safe_name);
-++        return result;
-+ }
-+ 
-+ void
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 4faafbd..380f706 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -24,6 +24,7 @@ static struct RequestTest {
-+ 	const char *method, *path;
-+ 	SoupHTTPVersion version;
-+ 	Header headers[10];
-++	GLogLevelFlags log_flags;
-+ } reqtests[] = {
-+ 	/**********************/
-+ 	/*** VALID REQUESTS ***/
-+@@ -33,7 +34,7 @@ static struct RequestTest {
-+ 	  "GET / HTTP/1.0\r\n", -1,
-+ 	  SOUP_STATUS_OK,
-+ 	  "GET", "/", SOUP_HTTP_1_0,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header", NULL,
-+@@ -42,7 +43,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header, no leading whitespace", NULL,
-+@@ -51,7 +52,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header including trailing whitespace", NULL,
-+@@ -60,7 +61,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header, wrapped", NULL,
-+@@ -69,7 +70,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Foo", "bar baz" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header, wrapped with additional whitespace", NULL,
-+@@ -78,7 +79,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Foo", "bar baz" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header, wrapped with tab", NULL,
-+@@ -87,7 +88,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Foo", "bar baz" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header, wrapped before value", NULL,
-+@@ -96,7 +97,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Foo", "bar baz" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 1 header with empty value", NULL,
-+@@ -105,7 +106,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 2 headers", NULL,
-+@@ -115,7 +116,7 @@ static struct RequestTest {
-+ 	  { { "Host", "example.com" },
-+ 	    { "Connection", "close" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 3 headers", NULL,
-+@@ -126,7 +127,7 @@ static struct RequestTest {
-+ 	    { "Connection", "close" },
-+ 	    { "Blah", "blah" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 3 headers, 1st wrapped", NULL,
-+@@ -137,7 +138,7 @@ static struct RequestTest {
-+             { "Foo", "bar baz" },
-+ 	    { "Blah", "blah" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 3 headers, 2nd wrapped", NULL,
-+@@ -148,7 +149,7 @@ static struct RequestTest {
-+ 	    { "Blah", "blah" },
-+ 	    { "Foo", "bar baz" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ 3 headers, 3rd wrapped", NULL,
-+@@ -159,7 +160,7 @@ static struct RequestTest {
-+ 	    { "Blah", "blah" },
-+ 	    { "Foo", "bar baz" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ same header multiple times", NULL,
-+@@ -168,7 +169,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Foo", "bar, baz, quux" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Connection header on HTTP/1.0 message", NULL,
-+@@ -178,21 +179,21 @@ static struct RequestTest {
-+ 	  { { "Connection", "Bar, Quux" },
-+             { "Foo", "bar" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "GET with full URI", "667637",
-+ 	  "GET http://example.com HTTP/1.1\r\n", -1,
-+ 	  SOUP_STATUS_OK,
-+ 	  "GET", "http://example.com", SOUP_HTTP_1_1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "GET with full URI in upper-case", "667637",
-+ 	  "GET HTTP://example.com HTTP/1.1\r\n", -1,
-+ 	  SOUP_STATUS_OK,
-+ 	  "GET", "HTTP://example.com", SOUP_HTTP_1_1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	/* It's better for this to be passed through: this means a SoupServer
-+@@ -202,7 +203,7 @@ static struct RequestTest {
-+ 	  "GET AbOuT: HTTP/1.1\r\n", -1,
-+ 	  SOUP_STATUS_OK,
-+ 	  "GET", "AbOuT:", SOUP_HTTP_1_1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	/****************************/
-+@@ -217,7 +218,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	/* RFC 2616 section 3.1 says we MUST accept this */
-+@@ -228,7 +229,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	/* RFC 2616 section 19.3 says we SHOULD accept these */
-+@@ -240,7 +241,7 @@ static struct RequestTest {
-+ 	  { { "Host", "example.com" },
-+ 	    { "Connection", "close" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "LF instead of CRLF after Request-Line", NULL,
-+@@ -249,7 +250,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Mixed CRLF/LF", "666316",
-+@@ -261,7 +262,7 @@ static struct RequestTest {
-+ 	    { "e", "f" },
-+ 	    { "g", "h" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ incorrect whitespace in Request-Line", NULL,
-+@@ -270,7 +271,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Req w/ incorrect whitespace after Request-Line", "475169",
-+@@ -279,7 +280,7 @@ static struct RequestTest {
-+ 	  "GET", "/", SOUP_HTTP_1_1,
-+ 	  { { "Host", "example.com" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	/* If the request/status line is parseable, then we
-+@@ -293,7 +294,7 @@ static struct RequestTest {
-+ 	  { { "Host", "example.com" },
-+ 	    { "Bar", "two" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "First header line is continuation", "666316",
-+@@ -303,7 +304,7 @@ static struct RequestTest {
-+ 	  { { "Host", "example.com" },
-+ 	    { "c", "d" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Zero-length header name", "666316",
-+@@ -313,7 +314,7 @@ static struct RequestTest {
-+ 	  { { "a", "b" },
-+ 	    { "c", "d" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "CR in header name", "666316",
-+@@ -323,7 +324,7 @@ static struct RequestTest {
-+ 	  { { "a", "b" },
-+ 	    { "c", "d" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "CR in header value", "666316",
-+@@ -336,7 +337,7 @@ static struct RequestTest {
-+ 	    { "s", "t" },		/* CR at end is ignored */
-+ 	    { "c", "d" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Tab in header name", "666316",
-+@@ -351,7 +352,7 @@ static struct RequestTest {
-+ 	    { "p", "q z: w" },
-+ 	    { "c", "d" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	{ "Tab in header value", "666316",
-+@@ -364,7 +365,7 @@ static struct RequestTest {
-+ 	    { "z", "w" },	/* trailing tab ignored */
-+ 	    { "c", "d" },
-+ 	    { NULL }
-+-	  }
-++	  }, 0
-+ 	},
-+ 
-+ 	/************************/
-+@@ -375,77 +376,77 @@ static struct RequestTest {
-+ 	  "GET /\r\n", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "HTTP 1.2 request (no such thing)", NULL,
-+ 	  "GET / HTTP/1.2\r\n", -1,
-+ 	  SOUP_STATUS_HTTP_VERSION_NOT_SUPPORTED,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "HTTP 2000 request (no such thing)", NULL,
-+ 	  "GET / HTTP/2000.0\r\n", -1,
-+ 	  SOUP_STATUS_HTTP_VERSION_NOT_SUPPORTED,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-+ 	  unterminated_http_version, sizeof (unterminated_http_version),
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "Non-HTTP request", NULL,
-+ 	  "GET / SOUP/1.1\r\nHost: example.com\r\n", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "Junk after Request-Line", NULL,
-+ 	  "GET / HTTP/1.1 blah\r\nHost: example.com\r\n", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "NUL in Method", NULL,
-+ 	  "G\x00T / HTTP/1.1\r\nHost: example.com\r\n", 37,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "NUL at beginning of Method", "666316",
-+ 	  "\x00 / HTTP/1.1\r\nHost: example.com\r\n", 35,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "NUL in Path", NULL,
-+ 	  "GET /\x00 HTTP/1.1\r\nHost: example.com\r\n", 38,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "No terminating CRLF", NULL,
-+ 	  "GET / HTTP/1.1\r\nHost: example.com", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "Unrecognized expectation", NULL,
-+ 	  "GET / HTTP/1.1\r\nHost: example.com\r\nExpect: the-impossible\r\n", -1,
-+ 	  SOUP_STATUS_EXPECTATION_FAILED,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
-+@@ -453,21 +454,31 @@ static struct RequestTest {
-+ 	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+ 	  NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "NUL in header value", NULL,
-+ 	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-+ 	},
-+ 
-+ 	{ "Only newlines", NULL,
-+ 	  only_newlines, sizeof (only_newlines),
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+-	  { { NULL } }
-++	  { { NULL } }, 0
-++	},
-++
-++	{ "Duplicate Host headers",
-++	  "https://gitlab.gnome.org/GNOME/libsoup/-/issues/472",
-++	  "GET / HTTP/1.1\r\nHost: example.com\r\nHost: example.org\r\n",
-++	  -1,
-++	  SOUP_STATUS_BAD_REQUEST,
-++	  NULL, NULL, -1,
-++	  { { NULL } },
-++	  G_LOG_LEVEL_WARNING
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+@@ -915,10 +926,17 @@ do_request_tests (void)
-+ 			len = strlen (reqtests[i].request);
-+ 		else
-+ 			len = reqtests[i].length;
-++
-++		if (reqtests[i].log_flags)
-++			g_test_expect_message ("libsoup", reqtests[i].log_flags, "*");
-++
-+ 		status = soup_headers_parse_request (reqtests[i].request, len,
-+ 						     headers, &method, &path,
-+ 						     &version);
-+ 		g_assert_cmpint (status, ==, reqtests[i].status);
-++		if (reqtests[i].log_flags)
-++			g_test_assert_expected_messages ();
-++
-+ 		if (SOUP_STATUS_IS_SUCCESSFUL (status)) {
-+ 			g_assert_cmpstr (method, ==, reqtests[i].method);
-+ 			g_assert_cmpstr (path, ==, reqtests[i].path);
-+@@ -1314,6 +1332,25 @@ do_bad_header_tests (void)
-+ 	soup_message_headers_unref (hdrs);
-+ }
-+ 
-++static void
-++do_append_duplicate_host_test (void)
-++{
-++	SoupMessageHeaders *hdrs;
-++	const char *list_value;
-++
-++	hdrs = soup_message_headers_new (SOUP_MESSAGE_HEADERS_REQUEST);
-++	soup_message_headers_append (hdrs, "Host", "a");
-++	g_test_expect_message ("libsoup", G_LOG_LEVEL_WARNING,
-++		               "Attempted to add duplicate Host header to a SoupMessageHeaders that already contains a Host header");
-++	soup_message_headers_append (hdrs, "Host", "b");
-++	g_test_assert_expected_messages ();
-++
-++	list_value = soup_message_headers_get_list (hdrs, "Host");
-++	g_assert_cmpstr (list_value, ==, "a");
-++
-++	soup_message_headers_unref (hdrs);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -1329,6 +1366,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/header-parsing/content-type", do_content_type_tests);
-+ 	g_test_add_func ("/header-parsing/append-param", do_append_param_tests);
-+ 	g_test_add_func ("/header-parsing/bad", do_bad_header_tests);
-++	g_test_add_func ("/header-parsing/append-duplicate-host", do_append_duplicate_host_test);
-+ 
-+ 	ret = g_test_run ();
-+ 
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2026-1761.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2026-1761.patch
-new file mode 100644
-index 0000000000..b47ddbae5d
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2026-1761.patch
-@@ -0,0 +1,102 @@
-+From cfa9d90d1a5c274233554a264c56551c13d6a6f0 Mon Sep 17 00:00:00 2001
-+From: Carlos Garcia Campos <cgarcia@igalia.com>
-+Date: Mon, 19 Jan 2026 15:14:58 +0100
-+Subject: [PATCH] multipart: check length of bytes read
-+ soup_filter_input_stream_read_until()
-+
-+We do make sure the read length is smaller than the buffer length when
-+the boundary is not found, but we should do the same when the boundary
-+is found.
-+
-+Spotted in #YWH-PGM9867-149
-+Closes #493
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOMiE/libsoup/-/commit/cfa9d90d1a5c274233554a264c56551c13d6a6f0]
-+CVE: CVE-2026-1761
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ libsoup/soup-filter-input-stream.c |  3 +-
-+ tests/multipart-test.c             | 46 ++++++++++++++++++++++++++++++
-+ 2 files changed, 48 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-filter-input-stream.c b/libsoup/soup-filter-input-stream.c
-+index b1e616c..76ff086 100644
-+--- a/libsoup/soup-filter-input-stream.c
-++++ b/libsoup/soup-filter-input-stream.c
-+@@ -337,6 +337,7 @@ soup_filter_input_stream_read_until (SoupFilterInputStream  *fstream,
-+ 	if (eof && !*got_boundary)
-+ 		read_length = MIN (priv->buf->len, length);
-+ 	else
-+-		read_length = p - buf;
-++		read_length = MIN ((gsize)(p - buf), length);
-++
-+ 	return read_from_buf (fstream, buffer, read_length);
-+ }
-+diff --git a/tests/multipart-test.c b/tests/multipart-test.c
-+index b07e4db..b617056 100644
-+--- a/tests/multipart-test.c
-++++ b/tests/multipart-test.c
-+@@ -548,6 +548,51 @@ test_multipart_bounds_bad_2 (void)
-+ 	g_bytes_unref (bytes);
-+ }
-+ 
-++static void
-++test_multipart_bounds_bad_3 (void)
-++{
-++        SoupMessage *msg;
-++        SoupMessageHeaders *headers;
-++        GInputStream *in;
-++        SoupMultipartInputStream *multipart;
-++        GError *error = NULL;
-++        const char raw_data[] = "\0$--A\r\nContent-Disposition: form-data; name=\"f\"\r\n\r\nXXXXXXXXX\r\n--A--\r\n";
-++
-++        msg = soup_message_new(SOUP_METHOD_POST, "http://foo/upload");
-++        headers = soup_message_get_response_headers (msg);
-++        soup_message_headers_replace (headers, "Content-Type", "multipart/form-data; boundary=\"A\"");
-++
-++        in = g_memory_input_stream_new_from_data (raw_data + 2, sizeof(raw_data) - 2, NULL);
-++        multipart = soup_multipart_input_stream_new (msg, in);
-++        g_object_unref (in);
-++
-++        while (TRUE) {
-++                in = soup_multipart_input_stream_next_part (multipart, NULL, &error);
-++                g_assert_no_error (error);
-++                if (!in) {
-++                        g_clear_error (&error);
-++                        break;
-++                }
-++
-++                char buffer[10];
-++                while (TRUE) {
-++                        gssize bytes_read;
-++
-++                        bytes_read = g_input_stream_read (in, buffer, sizeof(buffer), NULL, &error);
-++                        g_assert_no_error (error);
-++                        if (bytes_read <= 0) {
-++                                g_clear_error (&error);
-++                                break;
-++                        }
-++                }
-++
-++                g_object_unref (in);
-++        }
-++
-++        g_object_unref (multipart);
-++        g_object_unref (msg);
-++}
-++
-+ static void
-+ test_multipart_too_large (void)
-+ {
-+@@ -617,6 +662,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/multipart/bounds-good", test_multipart_bounds_good);
-+ 	g_test_add_func ("/multipart/bounds-bad", test_multipart_bounds_bad);
-+ 	g_test_add_func ("/multipart/bounds-bad-2", test_multipart_bounds_bad_2);
-++	g_test_add_func ("/multipart/bounds-bad-3", test_multipart_bounds_bad_3);
-+ 	g_test_add_func ("/multipart/too-large", test_multipart_too_large);
-+ 
-+ 	ret = g_test_run ();
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index c09b06fec2..b59f08b363 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -46,6 +46,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-2784.patch \
-            file://CVE-2025-4945.patch \
-            file://CVE-2025-12105.patch \
-+           file://CVE-2025-14523.patch \
-+           file://CVE-2026-1761.patch \
- "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
- 
+diff --git a/meta/recipes-bsp/grub/files/cfg b/meta/recipes-bsp/grub/files/cfg
+index 8ca53d24d7..8fe1a8d0c7 100644
+--- a/meta/recipes-bsp/grub/files/cfg
++++ b/meta/recipes-bsp/grub/files/cfg
+@@ -1,2 +1,2 @@
+-search.file ($cmdpath)/EFI/BOOT/grub.cfg root
++search --file --set=root --hint-efi=$cmdpath /EFI/BOOT/grub.cfg
+ set prefix=($root)/EFI/BOOT
 -- 
-2.34.1
+2.39.4
 
 
