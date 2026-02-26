@@ -2,98 +2,164 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A71AEFD9E1E
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 22:55:24 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.83088.1772146519142967823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDBBFD9E1F
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 22:59:34 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.83126.1772146766519861068
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 14:55:19 -0800
+ Thu, 26 Feb 2026 14:59:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fE4LW+AJ;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-480706554beso17068005e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 14:55:18 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Uhj4AkPR;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4398f8403edso1050571f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 14:59:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772146517; x=1772751317; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=smile.fr; s=google; t=1772146765; x=1772751565; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vCPVgyX8UcXa1xu9yvnu3yjSENA6xvF4CqN3ZZh1T0M=;
-        b=fE4LW+AJqpiuVDwosijrgNqsYd6BnGcRF7QofeYAzP8u0egQRlWFHnp30ZGzIhlFhe
-         nOnDpp4Q0SbVmMOEi7o2ZTp9qCmwOtx6kynWTCVNSDMAk98qVdw0APLBW3hWob/T118L
-         2zgpGN/ULmbN0DGe2WTtoGjORb1zWHESUZg4k=
+        bh=Gi7TpcmA5r97fD4+ta/OWcN5pjyEAYlEQabOAgG9PW0=;
+        b=Uhj4AkPR0yOJetJpgfz/7NIBZz5cwiEE8nhn8nSaMk22H+lcGzpHRurW3fyYYuDjmd
+         W5p6Qd8qD8D4EtjG8ODGXosbPQGyFeReEo9MwHh/F7iyuiapYCaiUWT8jLGStT0hO5zC
+         s0AOYa/HDiZlc2Xj/WsHZnE3ZHglfaqXlnM5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772146517; x=1772751317;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1772146765; x=1772751565;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vCPVgyX8UcXa1xu9yvnu3yjSENA6xvF4CqN3ZZh1T0M=;
-        b=p43l8MehdQPES2rgGkcvoV7MrKCjw3xrdri3ZuQD/Qcf9icDH7NrBGZQOuQ0fa1uqu
-         xHeIi4Av4sZv7o+DCstPEAOv5Fnjrv41mqTwnkVv5wwjEaegUhnOO57eQVnw8Rso/fkP
-         OBMDtyIZQjZFTC+K4Hce1msVo9m+XhoUtS/sPbiq9U9I/qM5NzEBgQv1Nz+KLtSA/LGG
-         Yoyko4WlnIgEdXxs0gQn8t52BRiaVLPfi5JlgfIPgDtwSoz1Rra3umps6EgEuNa8s9Od
-         JLpiZ77A3SAOs5fm/XshMODm+3Y4WUB/XqYVCqFAUjzyhCbk7g5dbLzWKSSrLdD3X2N5
-         nydQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPF6KYBaj51QtcduF3pGr5EwuKFrTiT61eC03+sPsSy4L/Sy1H/ZqSfZCYmW1721y+ZYWM3QJyLq2VrUkeCO1ERQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyLmLUY6Zex/z2UH3I3wsD73bNHbha3OFPScZoYEaDCW2VLQGnG
-	LU7BqEMeyAyBQZLHhUoj14MD8S9AaY585yS8gQpFh5GZt+OytW8aup1n4priJuuAHHg=
-X-Gm-Gg: ATEYQzwHwhJNbq+ZXILtTsf+vV3cdF4jc07JPiNtRAguXVE0tLJdMZ3FuVm4Fu+Sw5t
-	Qt6e+tv6cclKtQymfkm/JTDGfoipS92t33nVPzjYlvNRDIMO4cgiAOsoSKukbO5cT7j1p+a14ye
-	3+liR6tviYpr9ETjKqHWI1JBLKWatTPbN1sVjB7KAuLP40QMlj5y8afO3EuCDLBdwua0vvTReNr
-	lExe8tPdq0NXpLIPkQGhByUv8xc2fSM0MEJ5qbq1ckYIDnTMx6pJV9rCuQr8pmnmKwS/khqK8As
-	QyR2Vpvq47avmeQV74oOT2PFn//C+hYKXBQ8qqgYRh0Fx6LPTF580Zmhu+jlvltpPeTkGOoinS5
-	bEyBGzqDDFbvVrheVgVtGQTxmpICmeCi7W1pF6/SzoMc3Ly6w9XQcvOQ9nCuykkEm4DAJaRbr+T
-	wBtNRjJMYyVl7jDm6znpG5QJspon6XG6QMKBjKZXzfbHx/z4eWXuppIzi0+z9LR+RXrbwO+u/DQ
-	fKOPse8xz48PZVl
-X-Received: by 2002:a05:600c:8711:b0:47e:e20e:bbb2 with SMTP id 5b1f17b1804b1-483c9b970a5mr8300375e9.7.1772146517493;
-        Thu, 26 Feb 2026 14:55:17 -0800 (PST)
+        bh=Gi7TpcmA5r97fD4+ta/OWcN5pjyEAYlEQabOAgG9PW0=;
+        b=mhSV+GRBajnp4w+9zxTLGNHHUIYEPyowZtKeBAfjrZEcMGgTuIyOjCS0AB5vg98svg
+         j/xhsi6OHd68lwVuEyzKKgu4jr93JpWRrgtLJIoUb+3elLZgpWZipI7DBbDthkE/klWM
+         c0+t3uEO6RD/NbrlheRt4XE3Ihq+2T5qxzCLonMEgZn47THcbkRofmMrAGh0m375wEk9
+         F2wBNuSq4xDthSneLgRWphngM+uwkThIq4zW6Mv2hsqAapdJVmz8eIgbFo1DavNnC51d
+         lml8uX10wC7u7wSHgj5OJudDU8kJdnmwjfQF4pklOftDSfRhSzWgN421ekrkbN54VE9F
+         qVeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWExXTCUHImedaRJSZ+jwkyShMakvvDtndI6QQ7qX0vl3+7dAHoEFaLBrlK4Gi1DcqHYapOprwvsDsVhuYw+b1Iw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywbu0Mc/7OsyQtsx6NdwclO0kDe4typbzWJQNK7yRshOMn16b6U
+	cm8Jvn8/yUdc/I7VIXsaNfsy8OihYWFwe7s2RwO0VnG0H+2Lek8KjxIPbaaUCXN5Z/A=
+X-Gm-Gg: ATEYQzxO3SbtWP15lEkgwwmtrToarDyMeew3I6aY7X4M7wAbsNm9T3eS+HRK414/Xbc
+	MQX63ZzpESx5es6ZczqU+YKJ/82h72EQTSu4vLcrVvP41XwP5UHp22nXwd4+FRCbFZl+Qubo2+v
+	fo1vhLWJLzrpqlQFpXJBYw19TZNLbYmCQQPd4XyxMe2mjShpOqk5Am8b1AwcvitIAyywaU3K8EO
+	EQcb/tqLDwzN4n4TQSJKcofyA6bSMVfowAzGclFxpVFx3+W+Ej8th7Omr72YfqTvz7fptCTQmTo
+	Udo4HypGIKzsnY3gnMxntesHCDV75SJAEHijBzgHCJWLefmiyTm0tWBvltAFezoA+jgaF+GYHdV
+	dUQlblwuFupJ6DC4MP26YSD+998iyaP7crodCg1WB4C2rYuuE9ruBjuYMyIZJhEHu/7FUUsARLF
+	reeKb8o1iU89dtYveK25/yGyhx4hnfamLP25oD7ncFua5yhzWngQu1r0MKuNL40MNUdYWn+nXch
+	biDkKggSMaMACpg
+X-Received: by 2002:a05:6000:2313:b0:439:84cb:288d with SMTP id ffacd0b85a97d-4399de2cb36mr898373f8f.41.1772146764839;
+        Thu, 26 Feb 2026 14:59:24 -0800 (PST)
 Received: from localhost (2a01cb001331aa002c0b752a8b25831e.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:2c0b:752a:8b25:831e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c765c67sm2456313f8f.32.2026.02.26.14.55.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60f764sm2605032f8f.3.2026.02.26.14.59.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Feb 2026 14:55:17 -0800 (PST)
+        Thu, 26 Feb 2026 14:59:24 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Feb 2026 23:55:16 +0100
-Message-Id: <DGP9IEX5L6UC.66539CSR4KNP@smile.fr>
-Subject: Re: [OE-core] Net-snmp upgrade to 5.9.5
+Date: Thu, 26 Feb 2026 23:59:24 +0100
+Message-Id: <DGP9LKHSGZYC.3KL8OSVGZH43N@smile.fr>
+Subject: Re: [OE-core] [PATCH v6 07/14] kernel: Disable ccache when kernel
+ rust support is enabled
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <feroz.afshan@gmail.com>, <openembedded-core@lists.openembedded.org>
+Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>,
+ <bruce.ashfield@gmail.com>, <paul@pbarker.dev>, <elmehdi.younes@smile.fr>
+To: <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <CA+ZN1cdtUfAf9b36tpvye9JxgsUSgm28c5C-4WZ3VzTMXMJzcA@mail.gmail.com>
-In-Reply-To: <CA+ZN1cdtUfAf9b36tpvye9JxgsUSgm28c5C-4WZ3VzTMXMJzcA@mail.gmail.com>
+References: <20260212181039.1826154-1-Harish.Sadineni@windriver.com>
+ <20260212181039.1826154-3-Harish.Sadineni@windriver.com>
+In-Reply-To: <20260212181039.1826154-3-Harish.Sadineni@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 22:55:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232066
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 22:59:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232067
 
-Hello,
+On Thu Feb 12, 2026 at 7:10 PM CET, Harish via lists.openembedded.org Sadin=
+eni wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>
+> Currently, a ccache enabled build fails with:
+>   |   HOSTRUSTC scripts/generate_rust_target
+>   |   HOSTCC  scripts/kallsyms
+>   |   HOSTCC  scripts/sorttable
+>   |   HOSTCC  scripts/asn1_compiler
+>   |   TOUCH   include/generated/gcc-plugins.h
+>   |   DESCEND objtool
+>   | error: multiple input filenames provided (first two filenames are gcc=
+ and
+> .../tmp/work-shared/qemux86-64/kernel-source/scripts/generate_rust_target=
+.rs)
+>
+> Linux rust build infrastructure does not currently support ccache (Opened=
+ bug[0]).
+>
+> Quick summary: There are 2 issues: $HOSTCC is not escaped and rustc
+> expect a path (and not a command)
+>
+> Disable ccache if KERNEL_RUST_SUPPORT is 'True' for kernel and kernel mod=
+ule builds, including
+> auxiliary tooling such as make-mod-scripts.
+>
+> More details in: https://lists.openembedded.org/g/openembedded-core/messa=
+ge/229336
+>
+> [0]: https://github.com/Rust-for-Linux/linux/issues/1224
 
-On Tue Feb 24, 2026 at 3:50 PM CET, FA via lists.openembedded.org wrote:
-> I would like to know if there is a plan to upgrade net-snmp to 5.9.5.
+FYI, a patch has been submitted for this:
+https://lore.kernel.org/rust-for-linux/20260225102819.16553-1-mo@sdhn.cc/
+(It has a negative review though...)
 
-FYI, net-snmp is in meta-openembedded/meta-networking, the correct
-mailing list to use is openembedded-devel@lists.openembedded.org.
+> Co-developed-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+> Cc: Alban MOIZAN <alban.moizan@smile.fr>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  meta/classes-recipe/kernel-yocto-rust.bbclass              | 7 +++++++
+>  .../make-mod-scripts/make-mod-scripts_1.0.bb               | 7 +++++++
+>  2 files changed, 14 insertions(+)
+>
+> diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes=
+-recipe/kernel-yocto-rust.bbclass
+> index fd9ee91c79..608ccc4609 100644
+> --- a/meta/classes-recipe/kernel-yocto-rust.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+> @@ -16,3 +16,10 @@ do_kernel_configme[depends] +=3D "${RUST_KERNEL_TASK_D=
+EPENDS}"
+>  do_kernel_configme:append () {
+>          oe_runmake -C ${S} O=3D${B} rustavailable
+>  }
+> +
+> +# Linux rust build infrastructure does not currently support ccache
+> +# see https://github.com/Rust-for-Linux/linux/issues/1224
+> +# Quick summary: There are 2 issues: $HOSTCC is not escaped and rustc ex=
+pect a path (and not a command)
+> +# More details in: https://lists.openembedded.org/g/openembedded-core/me=
+ssage/229336
+> +# Disable ccache for kernel build if kernel rust support is enabled to w=
+orkaround this.
+> +CCACHE_DISABLE ?=3D "1"
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=
+ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> index 874e16e642..6226382001 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -36,3 +36,10 @@ do_configure() {
+>  		-C ${STAGING_KERNEL_DIR} O=3D${STAGING_KERNEL_BUILDDIR} $t
+>  	done
+>  }
+> +
+> +# Linux rust build infrastructure does not currently support ccache
+> +# see https://github.com/Rust-for-Linux/linux/issues/1224
+> +# Quick summary: There are 2 issues: $HOSTCC is not escaped and rustc ex=
+pect a path (and not a command)
+> +# More details in: https://lists.openembedded.org/g/openembedded-core/me=
+ssage/229336
+> +# Disable ccache for kernel build if kernel rust support is enabled to w=
+orkaround this
+> +CCACHE_DISABLE ?=3D "${@bb.utils.contains('KERNEL_RUST_SUPPORT', 'True',=
+ '1', '0', d)}"
 
-> I see that we backporting all the vulnerabilities and important fixes to
-> 5.9.4 in LTS branch (scarthgap).
->
-> As per NVD, it recommends upgrading  to 5.9.5/5.10.pre2 to address
-> CVE-2025-68615.
->
-> https://nvd.nist.gov/vuln/detail/CVE-2025-68615
->
-> Since vulnerable tools report, net-snmp 5.9.4 is vulnerable to
-> CVE-2025-68615, despite the fix is backported to 5.9.4, raises a false
-> alarm among users.
->
-> I think it's better we upgrade LTS branch NetSNMP to version 5.9.5.
->
-> Regards,
-> Feroz Ahmed
 
-Regards,
 --=20
 Yoann Congal
 Smile ECS
