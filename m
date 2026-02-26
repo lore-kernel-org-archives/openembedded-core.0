@@ -2,70 +2,70 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 414C2FCEE93
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 06:07:28 +0000 (UTC)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.63083.1772077910829983254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49256F55451
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 06:07:38 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.63273.1772078853439667575
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Feb 2026 19:51:50 -0800
+ Wed, 25 Feb 2026 20:07:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q1GAg9kQ;
- spf=pass (domain: gmail.com, ip: 209.85.210.42, mailfrom: careers.myinfo@gmail.com)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7d4c12ff3d5so350255a34.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 19:51:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y36PddGm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: careers.myinfo@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2add623cb27so2327735ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Feb 2026 20:07:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772077910; x=1772682710; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772078852; x=1772683652; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/NMNoB5iL7SwEAVaHAvZz6r8VRnnA6yFwtmSzhHChTU=;
-        b=Q1GAg9kQWPWmCHbpsYaygowQkIlQJnB32aKgcfIKIvmsXqp3XnmpAm+Tg/DfF7LOzF
-         XvChEo8ga0KH21ldu4PURFRz2wPWKHziMVAbukWpgR/UW6RttwcrDbAlwZ8LZ0ZRCwm8
-         tcr6MJyKHunJs9T08I+blIKoqn7YjccQo3KDHVIlxE9wS/DoIKvu4ZurqwiMcpWuXfJz
-         /NUy3amTNYWzEoZ3kbSFW/cbPc26zRReDButtRaw7elPrwbDgjNIFHDGuJkEr+NcsGRO
-         Xt77XouYqy19Jho0ETNzGoA8N5soevFQPFKK/BkqsykxFy7VBAMBAkDjD/33/UJSypSX
-         x0cg==
+        bh=t2L0GLnWlXapASo76JHNuWDa+go6pPN7YQyTUMC3mjI=;
+        b=Y36PddGmky96JQd0ZuNaqHXISHOtqBWTh+eRcwuGNr61KfSaFIUllcowo/wfBZDR8R
+         D0/DLjac+S3wckx+1tAQZdQUwremS4YH5L0NRxp4ZGpVB4BwhrwsfX/1EXyBTTVGGHm8
+         kRBIN8Up3fq5k3uTS28OZHlfIDSsXNoZu0J6h97TBzsPILUmJJTO1B2qqII5Ewo7QoB2
+         mU2lepf7ZBzNrVNaoV7qemMeURIqxLqpF4A4WwcPFSbqCk/Vh240Ioa0hnis85+8OmH+
+         wyY7BDEIKS5QztZ+0KNENJr9IRj3PdXRE3yDjj73+TWFMcZ06b8/2YgP5C+hlmEf5bvN
+         Bvqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772077910; x=1772682710;
+        d=1e100.net; s=20230601; t=1772078852; x=1772683652;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/NMNoB5iL7SwEAVaHAvZz6r8VRnnA6yFwtmSzhHChTU=;
-        b=FS14EC6h7RspXZBOMyU6IWLg+d9cNeCHRDhTnMj89FUD0YN4p4RQKfbCLfVazHYsmx
-         hdj9Zgbk3YQRpd3xfxsInHfvjuSShfCyPEZYrvnVcVZoOofxOxgkeR71Yy1e0wxzBzXT
-         99jAgVMQjefc9u8EQkIMYmuhwPb7jcncxbKYxITUfIxwsbME9SJ2mS3UQSdBaLvz+Kum
-         kCm7D2Iz+9eK+f+GXAOpBjdKl34mQ/PhjVb0uCqBV1QZy0MMoQVDa6TdXdefYB7fpVFO
-         EeR/BlOciVKPTtwU/nHnl9TMJMh61SVnZtwMce4wCGeqz2bDl3x/K5O88TPzyAfk7NgX
-         D1Fw==
-X-Gm-Message-State: AOJu0YzUCYoLomRp+hebj/yodstEgnBoFQPGBxO7k/BsPX7d8fMNJK6Q
-	yvBASM3XZfNPlaOnupSnhcfvJVF3k0h/+rhK1j0IPja+a7z0THY9CKSHjK5D9w==
-X-Gm-Gg: ATEYQzwFAwP8UCOOCmmcAVMFJVS+Yd5vGCeppwvbFLbfYGxY49CrE/LBaN+uxy6t8VJ
-	SuafKH6qxx+9k7Rw+CpSO+GDHyu8bl5pHa2TW5yFZP7JnsAcKPqHRkTPdTjR4Kvjww8PJ0UN4mS
-	MuEMxx7vxHbO7sez1cZ0oiCaiPybd6d/3U/gggnUiMK7wYwopXyfvpQeGal5x6wcVvsJEZLA1ZC
-	HtT6pVxlcq/LLIPAnGTPmJ9JR2ld4xC1CYxx8GvrI2KPbML3TfYR6A5Klvg1CLwOYnl8YR+DZFz
-	UXd46KW/Y5rxSKDoKawiao36Czeyvi4k1SS996DtWU8Ck4KoggyfHtb4vNPX/FGnNJvPs+su9j6
-	FGwCIxltEsPvp5oHkVfczjq5iSLDZj2sq9OQ3ja87uA8x7ilHEqQ1k/nJMoWB01oM+/Tn93Jcta
-	zbcMxjx+kpNzZn8hwwJZh99HS5IrzWkKbrCYye
-X-Received: by 2002:a05:6a21:6197:b0:35d:e4b2:b381 with SMTP id adf61e73a8af0-395ad09c081mr2660450637.16.1772077487534;
-        Wed, 25 Feb 2026 19:44:47 -0800 (PST)
+        bh=t2L0GLnWlXapASo76JHNuWDa+go6pPN7YQyTUMC3mjI=;
+        b=fw34l44EQmlI6sylXb/slBT5IPMF2+LrleMpGvePxOcew84unwjVWUsD4GRjU8u1rP
+         lW+iKrWB1+io0vcjLs9v7xoas46aIutDlR9CRlYRW/WzWyH025E039CFEgzyim+N9jXn
+         bacB/54GSWyTQxvvaGz+x4PcwZG5HbyI0iRv+7sQIl4SEpXZp3ifqaHc9Dr2UIEbsuvE
+         ciKyWk9yBc0homv5qFH+39JlwqGS+L8wZ6IFGFJHeFpnUbLa0JNnQjs1UPtNS2RvzXFI
+         9H4D5SIQVcvPGH09AQHPTBu/OwcAGIF2gr1Xrr7j85ece6GUlZ53hRtk34cT9rQHZqIE
+         B6MQ==
+X-Gm-Message-State: AOJu0YzjlXDX2Ab5tLeE0xtL6pH1wFI/W2FMbhdPRiuoUP5VJ3TXjDxy
+	6w4FQvf/VYWNzBN4H6WiAyzV1KnKD41FFYJDjfHmdYph+vGwO07n8zj0yb0W2w==
+X-Gm-Gg: ATEYQzz+VppEnO4gb4O10wj9ts7v9jk/Dyoi70YbE4zAtNY+e/G7NN9ygEb626RmjAu
+	WqoCApUztfmCNGMYR7+rJQwVTTY6ZRpX9U9JF1asIxr1kx61OmrH7aLioXvPkXp+syMQfjwUNaJ
+	vqh6Yq7Tubvnu5pdO3fs9CWh6jSFM/Y4FzLapQ+1QdMvzzkdfNTN5SpxGUAHjV9gXZYMc0c5Yl0
+	PAfv8Dg0mXnssYAPCy4UDcRrKuJ1q/Iby9q6GVXIPfoAGzJaTPt9now5OViYUWGsUDA/I70QYoe
+	s044bQORDzUQejhBuop78I9+T0kKcnhW12LnZ7WOGYiapnzFaxmTzJRW04lq1zsFgYF9lTO/Bli
+	g869jBmecq71q3UP6KNBHn9OPOVwSiMQ+XQSaLaWbyjfkLXmyMbKKHStHnwJsD4hxSoEQVDQI0e
+	Nq12zuV16i1zdi6uifJKJtyQ2Ocw==
+X-Received: by 2002:a17:902:f60e:b0:2aa:e574:d7e8 with SMTP id d9443c01a7336-2ae00076bd5mr9473935ad.0.1772078852413;
+        Wed, 25 Feb 2026 20:07:32 -0800 (PST)
 Received: from L-15597L.kpit.com ([157.50.96.213])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6b9b32sm8995795ad.66.2026.02.25.19.44.43
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb5c243esm8951675ad.29.2026.02.25.20.07.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 19:44:47 -0800 (PST)
+        Wed, 25 Feb 2026 20:07:31 -0800 (PST)
 From: Shaik Moin <careers.myinfo@gmail.com>
 X-Google-Original-From: Shaik Moin <moins@kpit.com>
 To: openembedded-core@lists.openembedded.org
 Cc: careers.myinfo@gmail.com
-Subject: [OE-core][kirkstone][PATCH] gdk-pixbuf: Fix CVE-2025-6199
-Date: Thu, 26 Feb 2026 09:13:53 +0530
-Message-Id: <20260226034354.14975-1-moins@kpit.com>
+Subject: [OE-core][whinlatter][PATCH] gdk-pixbuf: Fix CVE-2025-6199
+Date: Thu, 26 Feb 2026 09:36:34 +0530
+Message-Id: <20260226040634.21819-1-moins@kpit.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 06:07:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231987
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 06:07:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/231988
 
 Backport the fix for CVE-2025-6199
 Add below patch to fix
@@ -76,13 +76,13 @@ Reference: In Ubuntu and debian, fixed patch is given -> [https://gitlab.gnome.o
 Signed-off-by: Shaik Moin <moins@kpit.com>
 ---
  .../gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch | 36 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  1 +
+ .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
  2 files changed, 37 insertions(+)
  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
 
 diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
 new file mode 100644
-index 0000000000..aa8bfec8f4
+index 0000000000..1952e3ceaf
 --- /dev/null
 +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
 @@ -0,0 +1,36 @@
@@ -99,7 +99,7 @@ index 0000000000..aa8bfec8f4
 +
 +CVE: CVE-2025-6199
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/c4986342b241cdc075259565f3fa7a7597d32a32.patch]
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/c4986342b241cdc075259565f3fa7a7597d32a32]
 +
 +Signed-off-by: Shaik Moin <moins@kpit.com>
 +---
@@ -122,18 +122,18 @@ index 0000000000..aa8bfec8f4
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-index 471d72d8dd..122cd598fc 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+index 98993cc07d..f22dc2cd91 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+@@ -22,6 +22,7 @@ SRC_URI += "\
+            file://run-ptest \
             file://fatal-loader.patch \
             file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
-            file://CVE-2025-7345.patch \
 +           file://CVE-2025-6199.patch \
             "
  
- SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
+ GIR_MESON_OPTION = 'introspection'
 -- 
 2.34.1
 
