@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A526FCE065
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 12:19:00 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.68801.1772108332970614995
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51903FCE064
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 12:19:10 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.68805.1772108341005383236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 04:18:53 -0800
+ Thu, 26 Feb 2026 04:19:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mwN4S2g1;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so9445545e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 04:18:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kyjUcVch;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48336a6e932so4731615e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 04:19:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772108330; x=1772713130; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772108338; x=1772713138; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XYopNC7JPLPLD0gOn/aPQ+qdFNxRLBUeuT1b+eDTt1o=;
-        b=mwN4S2g1CHFvlC3ZPMuGMGBCEXXGg8Wuw2zkcEjamcaicLjkrZBcoD32kZ08wXmTBS
-         h/+b5+D6Qqa2JQ3ZoNlA289XfQuNuiJQS+2TAb43zgyb3hfdxkzoTbkN0/UoU0jt9KAa
-         E8fuSpGvP3jn3UpWsd1Ft1ICjlZM9aUR72S7p1j+dv9xSP6zCxAbDu16ZiR85wNwT/cH
-         HCVrg3QxCgSgqvaXspoUk7vSA6VqvKlbZHah3LiFS1FHAyyhKA6o0VoSEdA1L+hgT1pY
-         jwC00efQy1oYS1ui+CXOtUnsTB3RZBO/WUfF7qNJDREjsJjPc0krMRSOkj/B9r6Rwty4
-         TM1g==
+        bh=2GtFFnUFc4RlPHdJF36FYDPqXrJtSd99HmxT6JrOHwk=;
+        b=kyjUcVcha3mdglPigodyF2aUi+FlwHP1X+7RHYQFsn894HJcRZn21xDIJI/G2LZrJM
+         R3iFjibTQsULKQDBFDqrOue/G2uCfEw46m/HSvLFscdECV2Ibg4y+j+18yv0Y5D9uKjB
+         2kxlnWl0V3lF6Lj2jaWCdA2fu6MEOIUpB9UM5TvRqm6UoNBVL56hiYDyCtG7pFRSl4gb
+         76L26NKPNeBa90nZwnre3Y8YsWuukqGSBzJceN3JqUy2WNT2+GYO2G6fbjwgQ81VvNnX
+         J0s/ZSY4pDXnFaR51INGm82aTfbNwkx/ubF/odxG/gOn3ZLgOYkBXL7qs1OIJDsFLWar
+         4bdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772108330; x=1772713130;
+        d=1e100.net; s=20230601; t=1772108338; x=1772713138;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=XYopNC7JPLPLD0gOn/aPQ+qdFNxRLBUeuT1b+eDTt1o=;
-        b=fJB9Xa9rTgt6BxoEHa+XjkKmu9GeUQb4dvRDaogzko16nypxqONGEGqdZLGtzq/v3g
-         MaCPT32vHhTyp/9ulk1Vv59sOfzVQrmy0pMFr7LZBQhF7YkcbfQYEMBr+GynAsEDFJ2P
-         yRCRC+ZQ4QaAoNesmcMz2s0ZrvlQ2vC+chNUW9/e6fme7GFqwARjmTgDcSTWq/9d3gP8
-         ie53GFTj1pvmB9a/VUhYTm1felXd5NTf0dU2dU3RtwA0ZXsy1nVv0ihjvxrN352jsZ2d
-         I/slK3F+6JY5MlYr+aOyDdJKOZk78Gy1LuEDXo2RIwsX5FNH71c/UyLD/El7LKJrG30j
-         13XQ==
-X-Gm-Message-State: AOJu0YzSpsW7hyzJgukgoaohG+NjB/qVtaVZjx3JCir2G7Hl+HGBwFT5
-	GtGt464zWleOt3fpgsOwU1/eEn41nJ5aRsI8MC87mAc08aUP27o+1BWaKH0JsQ==
-X-Gm-Gg: ATEYQzxgVkzmZJeEMJwXLraEXqysHrJODKHRwz3CliHop6jGvfkzGT3mv2K64zGB71m
-	l/sXlnECbGp6sPfKCp1CZfRPujACGdzp/Lqv80jOsZQBPfQlCTd0QHno2xyGKIUI+9jRSzZumLw
-	oGvkcZonQPXRewskfe71hs2Rqu4akGBQc0ZRu6EW4vIySJKmeqc6fqT3hCG63lsoRqf7sJZ9V7h
-	bLz1OaFUl2sCiB2eWZrcQjsrqqAewsP/XJUWA+IGgpoJGDvzNI52OhS3g1JrHfPCsgE2uMZnKeb
-	BH1uBBBVEVRiRb4aIqIQhayg6x0oqiuxv41lHoPUZQeZT4VfIxviVJGTLF9sjuyw8B0L+E+yyX0
-	npwfpBH/iP8JgQDdwnBkf7kZ9QFX8men9/JSddpZCZSiMsDPt1wiCwrabMxcV0tjoPi7A3xuNCA
-	rODxzl1A==
-X-Received: by 2002:a05:600c:1991:b0:483:54cc:cd89 with SMTP id 5b1f17b1804b1-483c3dbaeeemr27127485e9.9.1772108330469;
-        Thu, 26 Feb 2026 04:18:50 -0800 (PST)
+        bh=2GtFFnUFc4RlPHdJF36FYDPqXrJtSd99HmxT6JrOHwk=;
+        b=dx56XIzkg65nT3l71dgaNQqjfDMoiBZKDr+LivbYXuqnT1/MwAB066Vfsod1eJjN3U
+         FF6+efcGvbzGKqUtUohkmz4+1fWewKT2X/0LY02bMxlZjahkn23yuV3rULY1WsHHkFj9
+         Wk8974JvoDBbYIizTv/Rk0qIY0AFKp2D44xIa7ede4Kjbd6Al+RQs/yHNwJldraVzvAb
+         YquTwUyOooq9uq8aPUaNXkdF+rVe+//WHKys5yGdTChlv0E9ZXRbM4jn/VXiRBON5MtR
+         vvMkxKelApPpvVHd9pmtdEOjpviIwpgO6+iqae7uXP1c6Es+yNYQcLuPX9m0w25+o6JQ
+         BEdg==
+X-Gm-Message-State: AOJu0YzF6zkgTgQnELmn0DTcgUscqURSmWMi/q6/ccph+73WcJzMlN1e
+	N0JuMIQ6ZmRrjfSYol90EA6XN2hzsN4QTtyDQW1nyoBb2PBilQjH0JvSnFwLIw==
+X-Gm-Gg: ATEYQzwIRjG0zK/07nqfrpRj1NnGKRA4Jp1a3wjqWWMv7VCnfkVqPiUrgKNGqEuswjJ
+	TlidKxbPNxQq9el3Qb3hobYWPK2eeNmGF0mvDFKFrqBWWAdr3f2AE84VZParT5eacjxwO7mxg10
+	EaxPZ3Od2Kk1nspsy+nBrQRpY4zJDT55R2DGAqzjxl5cqf1QCfxLAyUEGe+6WZRd2HBAQDs+OgZ
+	W087ugyfUbkjjhRgf6VpuRyYhFyHuJxaHnZ+RJL6mjyWw3/jwcHhmZ0GqHjcl080x/NpwmMdG3f
+	XZFDfY8LJPDtc2DULWbclw89760La0+w8kCJeMOPv9F8NbKLjZNlL8raPzlM2yczo0PLiVM/GD2
+	jaAI8Z9C/2VpRjDaitnpyoXRnHq6Jv7O9xEtPdBEvdjO3VaBxqriKmGYHByMqhJ4aIyRIoO4XR+
+	Caq2jQEQ==
+X-Received: by 2002:a05:600c:450a:b0:477:5cc6:7e44 with SMTP id 5b1f17b1804b1-483c2171795mr61449485e9.11.1772108338371;
+        Thu, 26 Feb 2026 04:18:58 -0800 (PST)
 Received: from fedora ([165.225.94.222])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb77466sm48483955e9.5.2026.02.26.04.18.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb77466sm48483955e9.5.2026.02.26.04.18.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 04:18:47 -0800 (PST)
+        Thu, 26 Feb 2026 04:18:56 -0800 (PST)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: stefano.tondo.ext@siemens.com,
@@ -60,9 +60,9 @@ Cc: stefano.tondo.ext@siemens.com,
 	jpewhacker@gmail.com,
 	mathieu@bootlin.com,
 	Ross.Burton@arm.com
-Subject: [PATCH v4 07/11] spdx30: Include recipe base PURL in package external identifiers
-Date: Thu, 26 Feb 2026 13:18:19 +0100
-Message-ID: <20260226121823.149327-8-stondo@gmail.com>
+Subject: [PATCH v4 10/11] cve_check: Escape special characters in CPE 2.3 formatted strings
+Date: Thu, 26 Feb 2026 13:18:22 +0100
+Message-ID: <20260226121823.149327-11-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260226121823.149327-1-stondo@gmail.com>
 References: <20260226121823.149327-1-stondo@gmail.com>
@@ -71,59 +71,93 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 12:19:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232012
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 12:19:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232015
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Include the recipe's base PURL (from oe.purl.get_base_purl) in the
-external identifiers for built packages alongside any PURLs from
-SPDX_PACKAGE_URLS.
+CPE 2.3 formatted string binding (cpe:2.3:...) requires backslash escaping
+for special meta-characters according to NISTIR 7695. Characters like '++'
+and ':' in product names must be properly escaped to pass SBOM validation.
 
-This ensures that every built package has a pkg:yocto PURL (e.g.,
-pkg:yocto/core/zlib@1.3.1) in its external identifiers, improving
-tool interoperability and supply chain tracking.
+The CPE 2.3 specification defines two bindings:
+- URI binding (cpe:/...) uses percent-encoding
+- Formatted string binding (cpe:2.3:...) uses backslash escaping
+
+This patch implements the formatted string binding properly by escaping
+only the required meta-characters with backslash:
+- Backslash (\) -> \\
+- Question mark (?) -> \?
+- Asterisk (*) -> \*
+- Colon (:) -> \:
+- Plus (+) -> \+ (required by some SBOM validators)
+
+All other characters including -, etc. are kept as-is without encoding.
+
+Example CPE identifiers:
+- cpe:2.3:*:*:crow:1.0+x:*:*:*:*:*:*:*
+- cpe:2.3:*:*:sdbus-c++:2.2.1:*:*:*:*:*:*:*
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/lib/oe/cve_check.py | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 8e1492ef20..9e8cdb4fa8 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -855,6 +855,7 @@ def create_spdx(d):
-         [oe.sbom30.get_element_link_id(recipe_spdx_license)],
-     )
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index ae194f27cf..fa210e2037 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -205,6 +205,34 @@ def get_patched_cves(d):
+     return patched_cves
  
-+
-     dep_sources = {}
-     if oe.spdx_common.process_sources(d) and include_sources:
-         bb.debug(1, "Adding source files to SPDX")
-@@ -888,6 +889,8 @@ def create_spdx(d):
-     debug_source_ids = set()
-     source_hash_cache = {}
  
-+    recipe_purl = oe.purl.get_base_purl(d)
++def cpe_escape(value):
++    r"""
++    Escape special characters for CPE 2.3 formatted string binding.
 +
-     # Write out the package SPDX data now. It is not complete as we cannot
-     # write the runtime data, so write it to a staging area and a later task
-     # will write out the final collection
-@@ -949,7 +952,12 @@ def create_spdx(d):
-             if purls:
-                 spdx_package.software_packageUrl = purls[0]
++    CPE 2.3 formatted string binding (cpe:2.3:...) uses backslash escaping
++    for special meta-characters, NOT percent-encoding. Percent-encoding is
++    only used in the URI binding (cpe:/...).
++
++    According to NISTIR 7695, these characters need escaping:
++    - Backslash (\) -> \\
++    - Question mark (?) -> \?
++    - Asterisk (*) -> \*
++    - Colon (:) -> \:
++    - Plus (+) -> \+ (required by some SBOM validators)
++    """
++    if not value:
++        return value
++
++    # Escape special meta-characters for CPE 2.3 formatted string binding
++    # Order matters: escape backslash first to avoid double-escaping
++    result = value.replace('\\', '\\\\')
++    result = result.replace('?', '\\?')
++    result = result.replace('*', '\\*')
++    result = result.replace(':', '\\:')
++    result = result.replace('+', '\\+')
++
++    return result
++
+ def get_cpe_ids(cve_product, version):
+     """
+     Get list of CPE identifiers for the given product and version
+@@ -221,7 +249,14 @@ def get_cpe_ids(cve_product, version):
+         else:
+             vendor = "*"
  
--            for p in sorted(set(purls)):
-+            # Combine SPDX_PACKAGE_URLS with recipe base PURL
-+            all_purls = set(purls)
-+            if recipe_purl:
-+                all_purls.add(recipe_purl)
+-        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
++        # Encode special characters per CPE 2.3 specification
++        encoded_vendor = cpe_escape(vendor) if vendor != "*" else vendor
++        encoded_product = cpe_escape(product)
++        encoded_version = cpe_escape(version)
 +
-+            for p in sorted(all_purls):
-                 spdx_package.externalIdentifier.append(
-                     oe.spdx30.ExternalIdentifier(
-                         externalIdentifierType=oe.spdx30.ExternalIdentifierType.packageUrl,
++        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(
++            encoded_vendor, encoded_product, encoded_version
++        )
+         cpe_ids.append(cpe_id)
+ 
+     return cpe_ids
 -- 
 2.53.0
 
