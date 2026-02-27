@@ -2,83 +2,83 @@ Return-Path: <francesco@valla.it>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC2C9104891D
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 23:38:15 +0000 (UTC)
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.0])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.109807.1772235493696324615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC1F1048922
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 23:38:25 +0000 (UTC)
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.10])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.109808.1772235495928508340
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Feb 2026 15:38:14 -0800
+ Fri, 27 Feb 2026 15:38:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=A2FlKGkn;
- dkim=pass header.i=@valla.it header.s=default header.b=lyz68bde;
- spf=pass (domain: valla.it, ip: 185.56.87.0, mailfrom: francesco@valla.it)
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-75sj.prod.antispam.mailspamprotection.com; s=arckey; t=1772235493;
-	 b=DfKyLueshN7wOZ3ywP1ooGYMMDxf3C1j1nsn2A39zEC9dD0NMLea1cl0twEBbJ4FvPFMniPWpj
-	  B7aRHZdwkjWgLsaLEkhqPeuOm1rdgDzvUDYCvVAyIdoyASZRFeF616Kz2WkeIh2dKh6rMDo4xB
-	  q7y78eJR+7Jecob15ldWs5D76oMCkoyllXzFoy8wq+4NqiMiXfoKsgRUW9wLOv20WQO3ba7eI2
-	  gGpVcxquxmqRz7q6YZaYzbnqdimq6jDgiLrO3vuRMF9E6lAEL2W8mI1EvAwW0rkYomo7UfiTkr
-	  LGZ/RwHxcfXJuiIAsYcSZe5Jgq+KAOuVu7d0K+TOwTom8w==;
+ dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=TqCx5ZiP;
+ dkim=pass header.i=@valla.it header.s=default header.b=n7n2Rrum;
+ spf=pass (domain: valla.it, ip: 185.56.87.10, mailfrom: francesco@valla.it)
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-75sj.prod.antispam.mailspamprotection.com; s=arckey; t=1772235496;
+	 b=Eyu9Wks1rMOcnv/P6rhmlcqzWphTFXqbHJFY0Mrz/aetTnuxnVBkEkVUkbuLrjfSeB3onBbIbN
+	  4hV/BzzQrKF7NEj50CL1GdLWpt4qJu0T3QTc9kn1y2ELZR7es3jD4J4U2KNU8s8ht4qsZFJT8J
+	  tdBhQvRzmRgAXKhdS38W5eKoeCGhqKO19tOnC2zTnvi7o2nG4mjwW8nvcg3KohKacKwgLlE3bP
+	  8P5k8p2zZdO9B3FZ3JS1edGnjLWTn7OH2cC/zR8dM855+F3Sf6QQFiIWHWQ2AsPUd2vUGs4lNu
+	  ZtXnFE2maz4YxniLGjyR4OUTrfkKR+12EW+nE0ei43lGCQ==;
 ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-75sj.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
 	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-75sj.prod.antispam.mailspamprotection.com; s=arckey; t=1772235493;
-	bh=WGrZH+jp6Nom15WwxriE4gh6YFE3+XRYToykPJp8zG0=;
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-75sj.prod.antispam.mailspamprotection.com; s=arckey; t=1772235496;
+	bh=j6QTdKegY4p/3gu2L1L6ahphF54TSLOeGmAkkiiq8C4=;
 	h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
 	  Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
-	b=LwVbve9kD2gkzAdEGBFCQpb/BynCjQ4Mq6XRDAbuAcEJK91JHAUwevdw9zgGChfRtZEH8dGznb
-	  nbfznQXaG5Wrwcy2QAZzBJT+vBu1K7wWkHvBzh7vNu6v9fJuqdR+azvion4/OkriPcerObVZwc
-	  YiD1RzfIFMk2DgGMzbV10xz9+cbiR5gjoIsnafC60coQBlVLRwbJxB2JYaXgMSUHf6atwxqlVI
-	  r3IrpasrtxlbUgWqQ9zBWd4W4qQs8loF7rTM6G9hrYLCVibJ6zNDnvwiQZM6XUopjaRqrMYjav
-	  aAJu0xFMv6XVHj60ehAPnTV5yTVzoRmtI0Q9F5CY/O+qqQ==;
+	b=QAgy1OKPSZNbU/TmwIV31vg1cv81zyGm7KFbND+L+bjVUh14rzT6Cml0gGFUHI826ksCO7d8g2
+	  E/2/YmCCNznRepdqNpfh+KOslXwEGKfZKVwc4byesZZFOdMxuM4KcyX2OFLc/u4DFwwsO5MbbH
+	  R5IU7lVp7jDXxDstfpecvyvxV8ND3/eyaw3dsLpQzV+MYLHnjG8aq/dWRhVcMEQwwCYpRo+8aK
+	  h4wHUGE4Cfg1k+XKY9rza8c7kJ8lRelZ0RSJobI0aPhUqMjqG+YVQjdlAri5+VDzTJLrGgkWG7
+	  56qEhfcUI8WId/J0+AMhMiUZrcysous9vfqK2fzPKomZVg==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
 	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
 	:Date:From:Reply-To:List-Unsubscribe;
-	bh=jdhJxApO1j934busCtVTlc7tGMKOIdsrEA30JePT+Vs=; b=A2FlKGknLQZw8Sf1VovBTLUIQR
-	UgkXx0oIxrucWg8aCVGMgsOtmayB6bJtN2YDWYnTvt2dF+T6XRCgiDdO6ISl7PPMOp3lUL/GKkLrL
-	XUT0YPx6wMV6NFNVx+FwjzyA3MF+Cl3op/f06TPQ+KJvtP0pJXgvRO2FwXam9FCPnr4o=;
+	bh=A53LZDSOl22+4vgImFpa+kMJdBMaYLovISd8ScuB04s=; b=TqCx5ZiPWQ+ygVl9/2hpqVwCHm
+	biGty9z//XviRcdcYO0urbACGuO78zgl3fjWkjdA61JVRIgqfswwFJsl58/rIf0al7pzeqnRqBHi7
+	CaHKDFIjYlSnqa2sNPIhUlWTrHsUZQgzI8RG8Y0dFRxGdh7xZHrBB5b23AdUgkHrIsGc=;
 Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
 	by instance-europe-west4-75sj.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.1)
 	(envelope-from <francesco@valla.it>)
-	id 1vw7PN-00000006grz-1uiO
+	id 1vw7PP-00000006gql-3lai
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Feb 2026 23:38:11 +0000
+	Fri, 27 Feb 2026 23:38:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
 	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
 	list-subscribe:list-post:list-owner:list-archive;
-	bh=jdhJxApO1j934busCtVTlc7tGMKOIdsrEA30JePT+Vs=; b=lyz68bdeMg8ehZN2JgmdfjCf6W
-	B4uG2mSTjeRuVbCOZ0W592jrS6Yy4ICG3D9nwrrH2tbBE9/Jev5+M7enfN/7JYKiuLTwH/AEBjZf3
-	9SKzgKYCX//aosCVbc1kDtn264v4n6/w08wYYNAeUbt3nE6+xrN0R7BW8dxWWVqWFnms=;
+	bh=A53LZDSOl22+4vgImFpa+kMJdBMaYLovISd8ScuB04s=; b=n7n2Rrum7Ky2GcxKSp1AFh0nGl
+	eL1d+afbWm4k/uLcTSlenWNUmfk9cusfO74fHHXwl2g5wWoIno5bJYQBVgmh8eqwNFnXWDYUvg/2B
+	1CxjBJ2xdjrVJkVl93emQ76ybgQpbLGAXu4QWxlMwk/3itWD7vxfX7eMYjND1SPuj3OE=;
 Received: from [82.57.88.19] (port=63008 helo=[192.168.178.65])
 	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.99.1)
 	(envelope-from <francesco@valla.it>)
-	id 1vw7PG-000000003u2-0lyt;
-	Fri, 27 Feb 2026 23:38:02 +0000
+	id 1vw7PF-000000003u2-3MB1;
+	Fri, 27 Feb 2026 23:38:01 +0000
 From: Francesco Valla <francesco@valla.it>
-Date: Sat, 28 Feb 2026 00:37:30 +0100
-Subject: [PATCH 2/2] kernel-fit-image: support arbitrary loadables
+Date: Sat, 28 Feb 2026 00:37:29 +0100
+Subject: [PATCH 1/2] oe-selftest: fitimage: allow relaxed node checks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260228-fit_loadables-v1-2-3027ec37930d@valla.it>
+Message-Id: <20260228-fit_loadables-v1-1-3027ec37930d@valla.it>
 References: <20260228-fit_loadables-v1-0-3027ec37930d@valla.it>
 In-Reply-To: <20260228-fit_loadables-v1-0-3027ec37930d@valla.it>
 To: openembedded-core@lists.openembedded.org, 
  Adrian Freihofer <adrian.freihofer@siemens.com>
 Cc: Marek Vasut <marek.vasut@mailbox.org>, 
  Michael Opdenacker <michael.opdenacker@rootcommit.com>, 
- Francesco Valla <francesco@valla.it>, Usama Arif <usama.arif@arm.com>
+ Francesco Valla <francesco@valla.it>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14219; i=francesco@valla.it;
- h=from:subject:message-id; bh=WGrZH+jp6Nom15WwxriE4gh6YFE3+XRYToykPJp8zG0=;
- b=owGbwMvMwCX2aH1OUIzHTgbG02pJDJmLtG5Y8B/j+WWz+fFmo02emhccuKu+atkkPVguvFf2j
- 8P7tcxLO0pZGMS4GGTFFFlC1t24t2eu+be0DYyPYOawMoEMYeDiFICJeKxi+MP5PpbPt0aiePry
- bfMXppo+nflQvrP/valwR7u60jcRHx5Ghuu813v47545MU8t8H/M+10zmGaKTldmLMrqYw/e7SV
- zmxcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1636; i=francesco@valla.it;
+ h=from:subject:message-id; bh=j6QTdKegY4p/3gu2L1L6ahphF54TSLOeGmAkkiiq8C4=;
+ b=owGbwMvMwCX2aH1OUIzHTgbG02pJDJmLtG40Lf59yaaNMUnY45+nr8tdOc8tm8paN58+ULZOY
+ oP4jFWPO0pZGMS4GGTFFFlC1t24t2eu+be0DYyPYOawMoEMYeDiFICJbExjZDivoPru5PEzv1rW
+ P75QknPm/+dT5h217NM6X1cendghLL+dkeHy+9WMhefTHrxR01sew5YnX/hPc4ntdcsPG+Mqe9s
+ 9bjMDAA==
 X-Developer-Key: i=francesco@valla.it; a=openpgp;
  fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -89,14 +89,14 @@ X-AntiAbuse: Sender Address Domain - valla.it
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-SGantispam-id: 7bec4f3bc13dbbc37bd185433ad29610
-X-AntiAbuse: ID - 7bec4f3bc13dbbc37bd185433ad29610
+X-SGantispam-id: 423ddaefd3af50818abacfe46f9ace3d
+X-AntiAbuse: ID - 423ddaefd3af50818abacfe46f9ace3d
 AntiSpam-DLS: false
 AntiSpam-DLSP: 
 AntiSpam-DLSRS: 
 AntiSpam-TS: 1.0
 CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1vw7PN-00000006grz-1uiO-feedback@antispam.mailspamprotection.com
+CFBL-Feedback-ID: 1vw7PP-00000006gql-3lai-feedback@antispam.mailspamprotection.com
 Authentication-Results: outgoing.instance-europe-west4-75sj.prod.antispam.mailspamprotection.com;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
@@ -105,312 +105,40 @@ Authentication-Results: outgoing.instance-europe-west4-75sj.prod.antispam.mailsp
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 23:38:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232118
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 23:38:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232120
 
-Allow a user to insert additional, arbitrary loadables in a FIT image.
-The loadables can be specified through the FIT_LOADABLES variable as
-a list, with parameters defined by flags on dedicated FIT_LOADABLE_*
-variables; they will be included in all configurations.
-
-Sensible defaults will be used for some parameters (type, compression,
-description, arch, os) if the corresponding flag is not set, while
-others (load address and entry point) will be omitted in the final FIT
-image.
-
-As an example, the following configuration can be specified to add as
-loadables a TF-A BL31 firmware and a (compressed) TEE firmware, to be
-loaded respectively at 0x204E0000 and 0x96000000:
-
-  FIT_LOADABLES = "atf tee"
-
-  FIT_LOADABLE_FILENAME[atf] = "bl31.bin"
-  FIT_LOADABLE_TYPE[atf] = "tfa-bl31"
-  FIT_LOADABLE_ARCH[atf] = "arm64"
-  FIT_LOADABLE_OS[atf] = "arm-trusted-firmware"
-  FIT_LOADABLE_LOADADDRESS[atf] = "0x204E0000"
-
-  FIT_LOADABLE_FILENAME[tee] = "tee.bin.gz"
-  FIT_LOADABLE_COMPRESSSION[tee] = "gzip"
-  FIT_LOADABLE_TYPE[tee] = "tee"
-  FIT_LOADABLE_OS[tee] = "tee"
-  FIT_LOADABLE_LOADADDRESS[tee] = "0x21000000"
+Add the ability to test for the existence of a property in a FIT image
+node without enforcing a specific value. This allows to ensure that
+properties for which a value cannot be determined (e.g.: because they
+are arch- or machine-dependent) are anyhow present.
 
 Signed-off-by: Francesco Valla <francesco@valla.it>
 ---
- meta/classes-recipe/kernel-fit-image.bbclass | 33 +++++++++++++++++++
- meta/conf/image-fitimage.conf                | 18 +++++++++++
- meta/lib/oe/fitimage.py                      | 30 ++++++++++++++++++
- meta/lib/oeqa/selftest/cases/fitimage.py     | 47 ++++++++++++++++++++++++++++
- 4 files changed, 128 insertions(+)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index 4880027b210196d25f83d7e683c37bd5e66575d3..48ccdcf4a9d97a1854446521fd4ed8a020153e87 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -139,6 +139,39 @@ python do_compile() {
-         if not found:
-             bb.fatal("Could not find a valid initramfs type for %s, the supported types are: %s" % (d.getVar('INITRAMFS_IMAGE_NAME'), d.getVar('FIT_SUPPORTED_INITRAMFS_FSTYPES')))
- 
-+    #
-+    # Prepare loadables sections
-+    #
-+    for loadable in d.getVar('FIT_LOADABLES').split():
-+        loadable_file = d.getVarFlag('FIT_LOADABLE_FILENAME', loadable)
-+        if not loadable_file:
-+            bb.fatal("File for loadable %s not specified through FIT_LOADABLE_FILENAME[%s]" % (loadable, loadable))
-+
-+        loadable_loadaddress = d.getVarFlag('FIT_LOADABLE_LOADADDRESS', loadable)
-+        if not loadable_loadaddress:
-+            bb.fatal("Load address for loadable %s not specified through FIT_LOADABLE_LOADADDRESS[%s]" % (loadable, loadable))
-+
-+        # Optional parameters
-+        loadable_description = d.getVarFlag('FIT_LOADABLE_DESCRIPTION', loadable) or ("%s loadable" % loadable)
-+        loadable_compression = d.getVarFlag('FIT_LOADABLE_COMPRESSION', loadable)
-+        loadable_type = d.getVarFlag('FIT_LOADABLE_TYPE', loadable)
-+        loadable_arch = d.getVarFlag('FIT_LOADABLE_ARCH', loadable)
-+        loadable_os = d.getVarFlag('FIT_LOADABLE_OS', loadable)
-+        loadable_entrypoint = d.getVarFlag('FIT_LOADABLE_ENTRYPOINT', loadable)
-+
-+        # Check if loadable artifact exists
-+        loadable_path = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), loadable_file)
-+        if not os.path.exists(loadable_path):
-+            bb.fatal("File for loadable %s not found at %s" % (loadable, loadable_path))
-+
-+        root_node.fitimage_emit_section_loadable(loadable,
-+                                                 loadable_path, loadable_type,
-+                                                 loadable_description,
-+                                                 loadable_compression,
-+                                                 loadable_arch, loadable_os,
-+                                                 loadable_loadaddress,
-+                                                 loadable_entrypoint)
-+
-     # Generate the configuration section
-     root_node.fitimage_emit_section_config(d.getVar("FIT_CONF_DEFAULT_DTB"), d.getVar("FIT_CONF_MAPPINGS"))
- 
-diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
-index 4e7ea2750edba9614e52f983cbc41386e1acf395..2fdb816d556c786dcc2c14cb149446eaddc2ff4b 100644
---- a/meta/conf/image-fitimage.conf
-+++ b/meta/conf/image-fitimage.conf
-@@ -80,3 +80,21 @@ FIT_ADDRESS_CELLS ?= "1"
- # Machine configurations needing such a script file should include it in the
- # SRC_URI of the kernel recipe and set the FIT_UBOOT_ENV parameter.
- FIT_UBOOT_ENV ?= ""
-+
-+# Allow user to insert additional loadable images.
-+# For each loadable, a number of parameters can be defined through additional
-+# variable flags.
-+# Example:
-+#   FIT_LOADABLES = "atf"
-+#   FIT_LOADABLE_FILENAME[atf] = "bl31.bin"
-+#   FIT_LOADABLE_COMPRESSSION[atf] = "none"
-+#   FIT_LOADABLE_DESCRIPTION[atf] = "TF-A firmware image"
-+#   FIT_LOADABLE_TYPE[atf] = "tfa-bl31"
-+#   FIT_LOADABLE_ARCH[atf] = "arm64"
-+#   FIT_LOADABLE_OS[atf] = "arm-trusted-firmware"
-+#   FIT_LOADABLE_LOADADDRESS[atf] = "0x204E0000"
-+#   FIT_LOADABLE_ENTRYPOINT[atf] = "0x204E0000"
-+# Sensible defalts will be used for some parameters (compression, description,
-+# arch, os) if the corresponding flag is not set, while others (load address
-+# and entry point) will be omitted in the final FIT.
-+FIT_LOADABLES ?= ""
-diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
-index 8bf83c0a57823f640c4c0fbc145874561c9b374f..881d0eae0ab0ec427a87031c7d57608673db193b 100644
---- a/meta/lib/oe/fitimage.py
-+++ b/meta/lib/oe/fitimage.py
-@@ -195,6 +195,7 @@ class ItsNodeRootKernel(ItsNode):
-         self._ramdisk = None
-         self._bootscr = None
-         self._setup = None
-+        self._loadables = []
- 
-     def _sanitize_sign_config(self):
-         if self._sign_enable:
-@@ -396,6 +397,29 @@ class ItsNodeRootKernel(ItsNode):
-         )
-         self._ramdisk = ramdisk_node
- 
-+    def fitimage_emit_section_loadable(self, name, filepath, type=None, description=None, compression=None, arch=None, os=None, load=None, entry=None):
-+        """Emit one fitImage ITS loadable section"""
-+        opt_props = {
-+            "data": '/incbin/("' + filepath + '")',
-+            "arch": arch if arch is not None else self._arch,
-+            "os": os if os is not None else "linux",
-+        }
-+
-+        if load:
-+            opt_props["load"] = f"<{load}>"
-+        if entry:
-+            opt_props["entry"] = f"<{entry}>"
-+
-+        loadable_node = self.its_add_node_image(
-+            name,
-+            description if description is not None else name,
-+            type if type is not None else "firmware",
-+            compression if compression is not None else "none",
-+            opt_props
-+        )
-+
-+        self._loadables.append(loadable_node)
-+
-     def _fitimage_emit_one_section_config(self, conf_node_name, dtb=None):
-         """Emit the fitImage ITS configuration section"""
-         opt_props = {}
-@@ -434,6 +458,12 @@ class ItsNodeRootKernel(ItsNode):
-             if self._sign_enable:
-                 sign_entries.append("setup")
- 
-+        if len(self._loadables) > 0:
-+            conf_desc.append("loadables")
-+            opt_props["loadables"] = [ loadable.name for loadable in self._loadables ]
-+            if self._sign_enable:
-+                sign_entries.append("loadables")
-+
-         # First added configuration is the default configuration
-         default_flag = "0"
-         if len(self.configurations.sub_nodes) == 0:
 diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 2aff5c84c8fa10c43ccf008859fdb7c4958bfbe7..8151c13d26216c9e83e6f082c0ff5379d8a01b34 100644
+index 0f2d9d17dbe6a452261566a1421cc41d10809399..2aff5c84c8fa10c43ccf008859fdb7c4958bfbe7 100644
 --- a/meta/lib/oeqa/selftest/cases/fitimage.py
 +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -203,6 +203,15 @@ class FitImageTestCase(OESelftestTestCase):
-             dtb_symlinks.append("am335x-bonegreen-ext-alias.dtb")
-         return (all_dtbs, dtb_symlinks)
+@@ -209,6 +209,7 @@ class FitImageTestCase(OESelftestTestCase):
  
-+    @staticmethod
-+    def _get_loadables(bb_vars):
-+        """Return a list of loadable names"""
-+        loadables = []
-+        var_loadables = bb_vars.get('FIT_LOADABLES')
-+        if var_loadables:
-+            loadables += var_loadables.split()
-+        return loadables
-+
-     def _is_req_dict_in_dict(self, found_dict, req_dict):
-         """
-         Check if all key-value pairs in the required dictionary are present in the found dictionary.
-@@ -418,6 +427,7 @@ class KernelFitImageBase(FitImageTestCase):
-             'FIT_DESC',
-             'FIT_HASH_ALG',
-             'FIT_KERNEL_COMP_ALG',
-+            'FIT_LOADABLES',
-             'FIT_SIGN_ALG',
-             'FIT_SIGN_INDIVIDUAL',
-             'FIT_UBOOT_ENV',
-@@ -521,6 +531,7 @@ class KernelFitImageBase(FitImageTestCase):
-         fit_uboot_env = bb_vars['FIT_UBOOT_ENV']
-         initramfs_image = bb_vars['INITRAMFS_IMAGE']
-         initramfs_image_bundle = bb_vars['INITRAMFS_IMAGE_BUNDLE']
-+        loadables = FitImageTestCase._get_loadables(bb_vars)
-         uboot_sign_enable = bb_vars.get('UBOOT_SIGN_ENABLE')
+         This function recursively checks if the required dictionary (`req_dict`) is a subset of the found dictionary (`found_dict`).
+         It supports nested dictionaries, strings, lists, and sets as values.
++        If the value of one element in the required dictionary is None, only the presence of the key is checked.
  
-         # image nodes
-@@ -545,6 +556,9 @@ class KernelFitImageBase(FitImageTestCase):
-         else:
-             not_images.append('ramdisk-1')
+         Args:
+             found_dict (dict): The dictionary to search within.
+@@ -224,7 +225,7 @@ class FitImageTestCase(OESelftestTestCase):
+                 self.assertLessEqual(set(value), set(found_dict[key]))
+             elif isinstance(value, set):
+                 self.assertLessEqual(value, found_dict[key])
+-            else:
++            elif value is not None:
+                 self.assertEqual(value, found_dict[key])
  
-+        if loadables:
-+            images += loadables
-+
-         # configuration nodes (one per DTB, symlink, and mappings)
-         configurations = []
-         if dtb_files:
-@@ -695,6 +709,7 @@ class KernelFitImageBase(FitImageTestCase):
-         fit_uboot_env = bb_vars['FIT_UBOOT_ENV']
-         initramfs_image = bb_vars['INITRAMFS_IMAGE']
-         initramfs_image_bundle = bb_vars['INITRAMFS_IMAGE_BUNDLE']
-+        loadables = FitImageTestCase._get_loadables(bb_vars)
-         uboot_sign_enable = bb_vars['UBOOT_SIGN_ENABLE']
-         uboot_sign_img_keyname = bb_vars['UBOOT_SIGN_IMG_KEYNAME']
-         uboot_sign_keyname = bb_vars['UBOOT_SIGN_KEYNAME']
-@@ -722,6 +737,10 @@ class KernelFitImageBase(FitImageTestCase):
-                 "Load Address": bb_vars['UBOOT_RD_LOADADDRESS'],
-                 "Entry Point": bb_vars['UBOOT_RD_ENTRYPOINT']
-             }
-+        # Create one section per loadable (do not check the value of "Type" as
-+        # flags extraction is not supported for bb_vars)
-+        for loadable in loadables:
-+            req_sections[loadable] = { "Type": None }
-         # Create a configuration section for each DTB
-         if dtb_files:
-             for dtb in dtb_files + dtb_symlinks:
-@@ -741,6 +760,8 @@ class KernelFitImageBase(FitImageTestCase):
-                     }
-                 if initramfs_image and initramfs_image_bundle != "1":
-                     req_sections[conf_name]['Init Ramdisk'] = "ramdisk-1"
-+                if loadables:
-+                    req_sections[conf_name]['Loadables'] = ",".join(loadables)
-         else:
-             conf_name = bb_vars['FIT_CONF_PREFIX'] +  '1'
-             req_sections[conf_name] = {
-@@ -748,6 +769,8 @@ class KernelFitImageBase(FitImageTestCase):
-             }
-             if initramfs_image and initramfs_image_bundle != "1":
-                 req_sections[conf_name]['Init Ramdisk'] = "ramdisk-1"
-+            if loadables:
-+                req_sections[conf_name]['Loadables'] = ",".join(loadables)
- 
-         # Add signing related properties if needed
-         if uboot_sign_enable == "1":
-@@ -832,6 +855,8 @@ class KernelFitImageRecipeTests(KernelFitImageBase):
-                      in the Image Tree Source. Not all the fields are tested,
-                      only the key fields that wont vary between different
-                      architectures.
-+                     3. The type value of each loadable is as expected in the
-+                     Image Tree Source.
-         Product:     oe-core
-         Author:      Usama Arif <usama.arif@arm.com>
-         """
-@@ -849,6 +874,14 @@ UBOOT_LOADADDRESS = "0x80080000"
- UBOOT_ENTRYPOINT = "0x80080000"
- FIT_DESC = "A model description"
- FIT_CONF_PREFIX = "foo-"
-+# Use the linux.bin kernel image as loadable file to avoid building other components
-+FIT_LOADABLES = "loadable1 loadable2"
-+FIT_LOADABLE_FILENAME[loadable1] = "linux.bin"
-+FIT_LOADABLE_LOADADDRESS[loadable1] = "0x86000000"
-+FIT_LOADABLE_TYPE[loadable1] = "firmware"
-+FIT_LOADABLE_FILENAME[loadable2] = "linux.bin"
-+FIT_LOADABLE_LOADADDRESS[loadable2] = "0x87000000"
-+FIT_LOADABLE_TYPE[loadable2] = "firmware"
- """
-         config = self._config_add_kernel_classes(config)
-         self.write_config(config)
-@@ -1123,6 +1156,7 @@ class FitImagePyTests(KernelFitImageBase):
-             'FIT_KEY_GENRSA_ARGS': "-F4",
-             'FIT_KEY_REQ_ARGS': "-batch -new",
-             'FIT_KEY_SIGN_PKCS': "-x509",
-+            'FIT_LOADABLES': "",
-             'FIT_LINUX_BIN': "linux.bin",
-             'FIT_PAD_ALG': "pkcs-1.5",
-             'FIT_SIGN_ALG': "rsa2048",
-@@ -1198,6 +1232,12 @@ class FitImagePyTests(KernelFitImageBase):
-                 "core-image-minimal-initramfs",
-                 bb_vars.get("UBOOT_RD_LOADADDRESS"), bb_vars.get("UBOOT_RD_ENTRYPOINT"))
- 
-+        loadables = FitImageTestCase._get_loadables(bb_vars)
-+        for loadable in loadables:
-+            root_node.fitimage_emit_section_loadable(loadable,
-+                "a-dir/loadable-%s" % loadable,
-+                "loadable-type")
-+
-         root_node.fitimage_emit_section_config(bb_vars['FIT_CONF_DEFAULT_DTB'], bb_vars.get('FIT_CONF_MAPPINGS'))
-         root_node.write_its_file(fitimage_its_path)
- 
-@@ -1254,6 +1294,13 @@ class FitImagePyTests(KernelFitImageBase):
-         with self.assertRaises(BBHandledException):
-             self._test_fitimage_py(bb_vars_overrides)
- 
-+    def test_fitimage_py_conf_loadables(self):
-+        """Test FIT_LOADABLES basic functionality"""
-+        bb_vars_overrides = {
-+            'FIT_LOADABLES': "my-loadable",
-+        }
-+        self._test_fitimage_py(bb_vars_overrides)
-+
- 
- class UBootFitImageTests(FitImageTestCase):
-     """Test cases for the uboot-sign bbclass"""
+     def _check_its_file(self, bb_vars, its_file_path):
 
 -- 
 2.53.0
