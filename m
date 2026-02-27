@@ -1,117 +1,153 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <livinsunny519@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B4A104891E
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 21:52:45 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.107781.1772229158526669161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF51104891D
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 22:43:45 +0000 (UTC)
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.108696.1772232221524187735
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Feb 2026 13:52:38 -0800
+ Fri, 27 Feb 2026 14:43:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=c0b7JIjt;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso20007315e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 13:52:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hxnoEvrb;
+ spf=pass (domain: gmail.com, ip: 209.85.210.66, mailfrom: livinsunny519@gmail.com)
+Received: by mail-ot1-f66.google.com with SMTP id 46e09a7af769-7d18c654458so1210724a34.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 14:43:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772229157; x=1772833957; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3oeXi6cRJRNYGsv8/oqxftV9oFdVp1kdH0nulS4ZjuA=;
-        b=c0b7JIjtBYm/6VpUJkJVVLOz0BZiLGjip0VGshL1kMxYtdVeMytsFlCNJyVkjxf979
-         PEY+kh8Tw8RrScK4R362Ti9X596NIQpJuo14N7V5V+xn+e5a7YUUKs+6Ja4eX2fEKeOe
-         fURpPKs9Q1wfG540UbSKdmfbQa9owa4vt0uzc=
+        d=gmail.com; s=20230601; t=1772232220; x=1772837020; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zibqCtcubVgCQXE5zJVCTnbnhkbME18DCkzCzjvQQPY=;
+        b=hxnoEvrba+EROvhKnYwKHOhO69ZqraXmV5LSCMiBQUowPxfs6fWc7secuXKlCNgj4Q
+         DH6kW2Uc1pKeMmjmQ1sgiyV0F0J6EstSVg8GKief5jBg3wE+/uNTtamDdU+DDz8sXh7x
+         yogB90VT7SLF7UC1A2GZni+oO8IiF+DvGCzE2TiWJd+bDdGzHn54AVbIuX4vvv8dWX4I
+         oY608DeU1yf4pBOz0vKU9wAsZj4TNA315QNpb6eeKxPwAcxNeYM9CngtKx30N34Cvmai
+         EPEbb8tp8zvH5be5P3/IFVlQkuN5CYSRuDWqVDdGsr4OtL7aYuPkAn4MHZmzQzakYIyO
+         ceAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772229157; x=1772833957;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3oeXi6cRJRNYGsv8/oqxftV9oFdVp1kdH0nulS4ZjuA=;
-        b=q/mVsicI+yVdYD/I6U4BChkuMhT/2jydynBRQOGGy/Vk1xwsJm0h59efvI6m67GeYd
-         RwHpjIpycNGlKeqpn9aoRuTtcoaDelkEbzecUR5k8R+VPlyvGeGlPynf2wDzNGoFiYwC
-         q3NRfS3iklMO9a1lUH8QZSYYTZ/Qd70MRz286S0cJ+M+FXrs4Vd6cmbOce8aYlfoavSt
-         ziFT58+RcjJngNGqFfhtWCsbJaQwskWqu7smiGc3xsylnQBVC4XUeBIibvuDKqFtjEj5
-         XNHLq94QW2rJNRjM62PL51rUNs1ixuWKoc36O9O7Y7zT3DmxfUMZrfsvxHja6ClrAQm6
-         IlTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUy2oda9JgV/B5YBFnSlAj8Y5jDhzRj7JBdyWIR0v8EKtdCv1Q0LmxgqsLsCx8nYN5cmWc7AW7URfj6x2OdpxZOzQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwuttlfyPpWAv17KteVglmlwPNPDL1fp8rQ6/cfzeVVp8q4ejEu
-	plPD2J/4BdZMRwRAlGnthSnWwyVYdUZxQYcg2+FLR6mRU9RgicGAVNZ7HM2AlgMqJHQ=
-X-Gm-Gg: ATEYQzwB9l/TyuFdR/T/N76S00EpQXFmQZb8hKHciC6JoidP6ARphxu2mEoGLK8yia/
-	veFCjsfUtkMOcQIuPg2iF6ToP52nK+pcQDZpcKJh/8JEimrcPK6cBmfd6x0Q+vCpZUNnt+gd+5+
-	Pq9VDK3G0tkqy2zJKljoBQeCwt8t0hfdyxM1qjTfP7v+RMKa+ftieQqsqOkN8FBvK337I529PTw
-	hU3bDOoK/pSexHW2+TfFzPJlHrE71WkZOF3kaSBTCAe1HsHZVA1dFUGSpbq8BaP0suEi93RPWNX
-	NSNlGGMn+vzrBFJ3FO1eJQr1QdhAkk4ZHT5092tK0HirfpWU2BfZjyjb2BpWVBfAtw5ZZVlofQA
-	ntND5r7b8/69lttNaZjlA86hbAck2nNmo4uJr7CXQun6EFVAbwLnKLGBLiJkQ3wukkpk8KzfNxM
-	qYJYdcA0NQwpcr5vVp2zSGHPjn2etV/65980vZ9/1Ak8y/qtl3mC286KG9Ndv0ONJPZparUspj7
-	3onAkAbhX3YuZZfBFHI0oXC2c4=
-X-Received: by 2002:a05:600c:4f07:b0:47e:e20e:bbb0 with SMTP id 5b1f17b1804b1-483c9bb1d2cmr63887605e9.6.1772229156785;
-        Fri, 27 Feb 2026 13:52:36 -0800 (PST)
-Received: from localhost (2a01cb001331aa0054865075f82f42ae.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:5486:5075:f82f:42ae])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c7657c7sm10126279f8f.28.2026.02.27.13.52.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Feb 2026 13:52:36 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Feb 2026 22:52:35 +0100
-Message-Id: <DGQ2SYPAGFDN.MW7TC3XUQ8WX@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v1] libevent: merge duplicate
- inherit statements
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <pratik.farkase@ericsson.com>
-To: <pratik.farkase@est.tech>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260209124253.55440-1-pratik.farkase@est.tech>
-In-Reply-To: <20260209124253.55440-1-pratik.farkase@est.tech>
+        d=1e100.net; s=20230601; t=1772232220; x=1772837020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zibqCtcubVgCQXE5zJVCTnbnhkbME18DCkzCzjvQQPY=;
+        b=O2rJK7LxJlarBX0nVLKE2K7xgojIez9sGOZAOtj8LWAcfRMPj9dvdXgfa1aAe5Hv8W
+         Oi0kZOBCuGQs1S8Q/Ux5cMQbaXR+EbYbA/+qWZz6hDU0a7ic46iPJLSIRayhnokXARBu
+         0ZMo2cbO9Ww3FzAErHHLyf/phpfJ1OXkAHa0LZiTVL3akeVSheMIrFCb+JdmuFY6/3yX
+         wg3bEJWlruT/tGd1/9705FqmiWZHx8Y9Pm3rPLAfGnZCDbWLeeQg/CSMnZR5/q+lklrA
+         +DXenmQAzx+TPxBY2cE6vw0RLNTE1uvzrUVxKca0qu3yhevBHoiThIMI2d5DjElSAOcq
+         LdjA==
+X-Gm-Message-State: AOJu0Yx/Zw58pnLVRRMXUxNhDIJodnU2anP7FmCkl5sXd8Fmj2I10iJW
+	Ao7Z4qPJfoI3+KBbvit1KTfApUBtkfGC0sR1z59Zemdp1+lCOvvOQrq73dzQQDyK
+X-Gm-Gg: ATEYQzypS7rScwzWyvd8gu3FUclyM5poJWW9OMAnNFRqLaQYUjcUBBWJsx3qRS9n2ze
+	0teElc9i7QdXaCVKlnNJAXINGdjVy8hDJoEBx+VM7IgE53G2z4RXelyxFUbo72HLGdDo0N4osb9
+	SAezt7xVRB0YXUzzolO+WVyAOxIVMbeSCeQ3F8n8f01c/89VL6fEc9J2EZ1MyjtsS7wunVXpyO9
+	prhsqMsj4DLMTMjSfjy62HOjIw9bGg25LUOvefflPG7hNVW/X4RMh+MmFyOETBss5H2h95AXKAA
+	Qn0hs4J5ZZZu8OO2YcyAZD9RFqkDwXZ/AQnbxknYF+IHW9VDqYwdkc3Yn7jTcVvevkQF5WxJbE8
+	1JDSnhL93d82NhqokC1N/9l2WnC1PEfDZKK7UglVk2iPusmEhxQo+v0PFIaLNcbQrzx2Z3u7PgO
+	W1p6OlMBdFHoFNuVXM8rIRLrqftSWD/6xa2C/hA5AdowjruQ==
+X-Received: by 2002:a05:6830:40c1:b0:7c7:6bb4:1197 with SMTP id 46e09a7af769-7d591be492bmr2993124a34.24.1772232220503;
+        Fri, 27 Feb 2026 14:43:40 -0800 (PST)
+Received: from OLA-4NW0K93.ad.garmin.com ([185.153.204.24])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d58644edfbsm5081934a34.6.2026.02.27.14.43.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 14:43:40 -0800 (PST)
+From: Livin Sunny <livinsunny519@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: JPEWhacker@gmail.com,
+	yoann.congal@smile.fr,
+	Livin Sunny <livinsunny519@gmail.com>
+Subject: [OE-core][PATCH] busybox: Fixes CVE-2025-60876
+Date: Fri, 27 Feb 2026 16:38:02 -0600
+Message-ID: <20260227223836.505041-1-livinsunny519@gmail.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 21:52:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232116
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 22:43:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232117
 
-Hello,
+This addresses CVE-2025-60876[1], which allows malicious URLs to inject
+HTTP headers. It has been accepted by Debian[2] and is tracked here [4].
+The upstream fix has been submitted [3] and is pending merge.
 
-On Mon Feb 9, 2026 at 1:42 PM CET, Pratik Farkase via lists.openembedded.or=
-g wrote:
-> Merge the separate inherit statements into a single one for
-> improved readability and consistency with OE style.
->
-> No functional change intended.
->
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-60876
+[2] https://bugs.debian.org/1120795
+[3] https://lists.busybox.net/pipermail/busybox/2025-November/091840.html
+[4] https://security-tracker.debian.org/tracker/CVE-2025-60876
 
-Sorry, but we ultimately did not take this patch for stable inclusion:
-This is only a cleanup and there is little to no advantage to merge
-this.
+Upstream-Status: Submitted [https://lists.busybox.net/pipermail/busybox/2025-November/0918
+40.html]
 
-Regards,
-> ---
->  meta/recipes-support/libevent/libevent_2.1.12.bb | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/reci=
-pes-support/libevent/libevent_2.1.12.bb
-> index 25388fb4d7..58502edc32 100644
-> --- a/meta/recipes-support/libevent/libevent_2.1.12.bb
-> +++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
-> @@ -28,13 +28,11 @@ S =3D "${WORKDIR}/${BPN}-${PV}-stable"
->  PACKAGECONFIG ??=3D ""
->  PACKAGECONFIG[openssl] =3D "--enable-openssl,--disable-openssl,openssl"
-> =20
-> -inherit autotools github-releases
-> +inherit autotools github-releases ptest multilib_header
-> =20
->  # Needed for Debian packaging
->  LEAD_SONAME =3D "libevent-2.1.so"
-> =20
-> -inherit ptest multilib_header
-> -
->  DEPENDS =3D "zlib"
-> =20
->  PACKAGES_DYNAMIC =3D "^${PN}-.*$"
---=20
-Yoann Congal
-Smile ECS
+Signed-off-by: Livin Sunny <livinsunny519@gmail.com>
+---
+ .../busybox/busybox/CVE-2025-60876.patch      | 42 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-60876.patch
+
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-60876.patch b/meta/recipes-core/busybox/busybox/CVE-2025-60876.patch
+new file mode 100644
+index 0000000000..1cf29680e0
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2025-60876.patch
+@@ -0,0 +1,42 @@
++From: Radoslav Kolev <radoslav.kolev@suse.com>
++Date: Fri, 21 Nov 2025 11:21:18 +0200
++Subject: wget: don't allow control characters or spaces in the URL
++Bug-Debian: https://bugs.debian.org/1120795
++
++Fixes CVE-2025-60876 malicious URL can be used to inject
++HTTP headers in the request.
++
++Signed-off-by: Radoslav Kolev <radoslav.kolev@suse.com>
++Reviewed-by: Emmanuel Deloget <logout@free.fr>
++
++Upstream-Status: Submitted [https://lists.busybox.net/pipermail/busybox/2025-November/091840.html]
++
++CVE: CVE-2025-60876
++
++Signed-off-by: Livin Sunny <livinsunny519@gmail.com>
++---
++ networking/wget.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/networking/wget.c b/networking/wget.c
++index ec3767793..fa555427b 100644
++--- a/networking/wget.c
+++++ b/networking/wget.c
++@@ -536,6 +536,15 @@ static void parse_url(const char *src_url, struct host_info *h)
++ {
++	char *url, *p, *sp;
++
+++	/* Fix for CVE-2025-60876 - don't allow control characters or spaces in the URL */
+++	/* otherwise a malicious URL can be used to inject HTTP headers in the request */
+++	const unsigned char *u = (void *) src_url;
+++	while (*u) {
+++		if (*u <= ' ')
+++			bb_simple_error_msg_and_die("Unencoded control character found in the URL!");
+++		u++;
+++	}
+++
++	free(h->allocated);
++	h->allocated = url = xstrdup(src_url);
++
++--
++2.47.3
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index 9e6a7b7b4c..d3851a27b9 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -58,6 +58,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch \
+            file://CVE-2025-46394-01.patch \
+            file://CVE-2025-46394-02.patch \
++           file://CVE-2025-60876.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
+-- 
+2.53.0
 
 
