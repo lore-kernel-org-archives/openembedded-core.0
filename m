@@ -2,74 +2,74 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 264BDFD5308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D23AFEFB7C
 	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 18:31:54 +0000 (UTC)
-Received: from BL2PR02CU003.outbound.protection.outlook.com (BL2PR02CU003.outbound.protection.outlook.com [52.102.137.20])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.103217.1772217108679685636
+Received: from CY7PR03CU001.outbound.protection.outlook.com (CY7PR03CU001.outbound.protection.outlook.com [52.102.133.19])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.103219.1772217111621792133
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Feb 2026 10:31:49 -0800
+ Fri, 27 Feb 2026 10:31:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=DT6/dAHl;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.102.137.20, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=BKezi4ub;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.102.133.19, mailfrom: rs@ti.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SNZ/rSYE2ZfP14TZI75oQOmXNs/Hj0fRWmPtzONC2C7HiigL0wKfXNFWmSHUNr9oFjnObsSEy2hfwmN9Q8V6dC15/J9s4ZPSL9XSphF+eX7jjXO4wCsqG09X/w8lDg7MruMrTuwjwOTvGixmYwvxkSksFt+ydqXRw3BPiovQvhvnLRl/BpO3rTtQ3ya0/RBFAJBIoLvHqUjAIIPlSCBV/65X3bHcqJxxrRvVq2KErdVs9uJjN4pJAXQKPiLJCpH/MKKMDdTKPFRmTPWyG+Rzpe2tIOSDeRmcm2C4HsUMyz2h1hyQVHNbAt4fMsL+v+WyVsCGFajbJHF3gED3eWAe5w==
+ b=HOtaJRDpt1UhsNeqyeBnq18YNqKGE3uMP4C2uun+XbX7JiImlMqVrJkSPfwgpHNxv+bbeAlXRYOMYugcOchM4o6mMcrm+ywa9TeAhhaYYgAZ50rKxSw0nBj+k+9uWl2mp9gjUTaNGXCpmAHnEdNYg6geC1DoBC1lwEdInruVemKsvmwNEB+sk5C9q2K7kJsJvOaK0+pljdGeKWULJrIo6WnSxY2VOQQyTabmB2x/uorjtVvIQdHCK69yWPOzQHvUtzx0FDp6xxqTT8G/QSFrSn3Y/XBu1FvIGV5CeFiM7YlVfIOnUS7qrqd3GSAO6W1iCFQWVhRaPZtyyD19OnZ65A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3UA/LwN2w3bU7XoesP6MctELJ5xRKjiFtaI/xhfEmd0=;
- b=cad+paQwZL8plFsLAuncbaW9zvKulLxH76B/oh2/ek4r1Ua3Gfz2ZnUYJT7wllQxIKc2ISFMD9zfah8a/XROfc6vkIVUOTfohcSKRgVa/TwvJJkBRbafCpwc6FXHtphFLmokVM2h1a1l7Q+kyjeiXRVzvceZ7JjHdd3f1U1KApBxmXiXMGxQzR8Hs0QN5wb1TTv9vSi5juX8a3/Rcbrl6H/MUwMiVjdMnQyGOE+isvU76lS4ii4GQf+3WQqgFllPmHOTvG9U5e5CaqKuR7HQN7FNOqSh1StJyEwOR8SWFwSdsIKsSsXfF42ou0lKcU0VUL5oCSly1p8ol3B8N9ucZg==
+ bh=ORj1OKed6eQISQGUv/hgENlu+ixRx/hkQ1prKRk9YQA=;
+ b=BxuJoiQ972SWZNfmBG65PXF/D0vYI5/NPt95QgYd883ODDWpFPwkWO4EHjWIc0spkesmI43zpCA4cQNd9enP4SLeLMU3hLN6wx0NKNU4BmwWNfIUbTKWjggTMh6I1XuxsvOtRxusU4cTm9epOLsFsKmjBoouLLwrO2UdMZbkDtYYHb8oxrkY+W0+zfYmzE0jOu28jcLZeIGyQaSU1r2iIqhD8ijZYx8lZ3TvIltCFxHDXu2n6JL/fHO3lgiduVvnfpMSTR58QbTprjUz7sp4sReZXfPq9OYqftzF0aAp7l122nywV/S7SPAsR2xdRRSd/5pDdiSwQWdH0jcmRHHPBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3UA/LwN2w3bU7XoesP6MctELJ5xRKjiFtaI/xhfEmd0=;
- b=DT6/dAHlCD0R48w/kxXSQABv+CCi9cQLi74za/CWyCbJT/xda2fKH2VztVchJsz00FRWTnhwlz6ILVYXsOMJB9g85OGnoEa8OanuUl+4voGFEFQEcMiDr7PspU1WZYq/SGg09aZfT6e/R9gBmcIZqJeDkWvULAdgZnjUazlnECU=
-Received: from BN9PR03CA0945.namprd03.prod.outlook.com (2603:10b6:408:108::20)
- by DM3PPF4A29B3BB2.namprd10.prod.outlook.com (2603:10b6:f:fc00::c25) with
+ bh=ORj1OKed6eQISQGUv/hgENlu+ixRx/hkQ1prKRk9YQA=;
+ b=BKezi4ubqg/gD/GAgm6PxT4f7yT5DIvlH8NdO+nHOcrgnnotqrnv9ArUk4/Q26L4on5GbOU2gPrjuFIDA8uiO4Csqlatow7B1Y8eiFtBdyxeqrfp3YWUp9IvSBeOMmtQiX3aNrpXdzZzNpUZG/QkSy+YoF5oenBjZ3pKs2gmzx4=
+Received: from SA0PR11CA0161.namprd11.prod.outlook.com (2603:10b6:806:1bb::16)
+ by SA1PR10MB7661.namprd10.prod.outlook.com (2603:10b6:806:386::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.17; Fri, 27 Feb
- 2026 18:31:45 +0000
-Received: from BN2PEPF000055DA.namprd21.prod.outlook.com
- (2603:10b6:408:108:cafe::5e) by BN9PR03CA0945.outlook.office365.com
- (2603:10b6:408:108::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.25 via Frontend Transport; Fri,
- 27 Feb 2026 18:31:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Fri, 27 Feb
+ 2026 18:31:46 +0000
+Received: from SA2PEPF00003F61.namprd04.prod.outlook.com
+ (2603:10b6:806:1bb:cafe::4a) by SA0PR11CA0161.outlook.office365.com
+ (2603:10b6:806:1bb::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.27 via Frontend Transport; Fri,
+ 27 Feb 2026 18:31:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BN2PEPF000055DA.mail.protection.outlook.com (10.167.245.4) with Microsoft
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SA2PEPF00003F61.mail.protection.outlook.com (10.167.248.36) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9700.0 via Frontend Transport; Fri, 27 Feb 2026 18:31:43 +0000
-Received: from DFLE212.ent.ti.com (10.64.6.70) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9654.16 via Frontend Transport; Fri, 27 Feb 2026 18:31:46 +0000
+Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 27 Feb
  2026 12:31:41 -0600
-Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE212.ent.ti.com
- (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 27 Feb
  2026 12:31:41 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
  Transport; Fri, 27 Feb 2026 12:31:41 -0600
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61RIVeRa012242;
-	Fri, 27 Feb 2026 12:31:40 -0600
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61RIVeRb012242;
+	Fri, 27 Feb 2026 12:31:41 -0600
 From: <rs@ti.com>
 To: <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
 	<mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
 	<otavio@ossystems.com.br>, <kexin.hao@windriver.com>
 CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
 	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv16 5/6] xuser-account: merge with xserver-nodm-init
-Date: Fri, 27 Feb 2026 12:31:34 -0600
-Message-ID: <20260227183135.64544-6-rs@ti.com>
+Subject: [oe-core][PATCHv16 6/6] xsessions: add unique desktop entries
+Date: Fri, 27 Feb 2026 12:31:35 -0600
+Message-ID: <20260227183135.64544-7-rs@ti.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260227183135.64544-1-rs@ti.com>
 References: <20260227183135.64544-1-rs@ti.com>
@@ -79,173 +79,236 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DA:EE_|DM3PPF4A29B3BB2:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cb00d45-242a-4946-26fa-08de762e74ef
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F61:EE_|SA1PR10MB7661:EE_
+X-MS-Office365-Filtering-Correlation-Id: f714ab3f-805d-4a54-6d4f-08de762e76b7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|34020700016|82310400026|376014|12100799066;
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|34020700016|36860700013|12100799066;
 X-Microsoft-Antispam-Message-Info: 
-	tkOLv1bCyAbpTLDxhHInwuQjZJdgadZKcpXjx7+XvkT9gjhG5DDcjo5qWCwpHB3a2kvkhTCJLxEGEOJifnZSTyuagnQnokpzhv9nAB26Hd60VaU2eFSQ3cEZ2UdhIrPiRkMEo354hd3AhAtYQupo/iFt2Ww2361nB4v4m35IUBLhuBkqrl0xPbi4TZZEmNmIKlG3TsaQMQUWr35NaYw+KV+kS/GqZvay9hI4TuAS2oRGLw/7KgPp0fRaC4dmgrFIxkwvo6JC2JdVW0z9xXnTGiEYHZCiZnUVO64WQ7eih3P71LHzdJ/jUipF5zkGYdMhockpUZH+T0OUe2esNyT1YmvtOD7mknXMk+OnE+slNsEBa3L46yHe5AKubyg1aOJSi3sXE9n5ON/I33WK9oKO0CYuxxyxXG5K6QRoECy0ODeWUnJvgkIghXxkMGZZn8iJhCYZlHhOofWrZOf64Krwv6IEaI+WloofHs912wQjZZZqAdEwp/WBw17L9hGWiqQ+SgE1Y95G5/QPUVIlzgln7k1u8B8xnCYjSAhLmFUgZcWmiF+W4uRvFsASUuOGIhryBJC0zxB2nUyuMx8woNSqizfGx5AZV8beS1HstfjcCSNJIWzgcfwEEU0zdPZCDwoPjlC6X07Jg+5l3UvljpIYYgv7YVdU18QgLTtWdldP3y7VL+ZavR13viecTk9IfPVxSoaiaWVsG9ofBeP89MKccT2qaoqfcMkiLA/jG3bqqYUmDvqYTTtvaUdom1zbnivk5OEfUV8OQBePWvcfh8I48LNyEWNLMR2AJL3hsJkMUd2KeZ9PiIY2wiXkUHP54TM7mTTbJfluc7bqMUQG5Cpnxw==
+	/J2jajxEKSMdRFlSRPtnA18ImfbCDCb/4fLkB1BDj2J9nmq/Dta5gzW/gl503BG3qSfWAruY34kwHHjVlyyiibWck9IJamJm4eDZ8aOA8WoiKj1ghwKEpGirK8O8MIKZbzqY+NtvMNJrat0+1Rvyt5NRSEvJyqR5JLbtmkuNL8D+tztHz8B5qQJQcXSQDAHMrz8IGYvJDqBRIRv0kh+/nHgDwuBoJ8xmp6TA8Cdu2DANwPQi+P3mQ43BmmkkfnGpeWpeI/DkOf2vlfAnyZsPGMUqkyANsI3t8kLUM+AWrjsS9UVfgqJ2oWTe+Yg+W+gN2ZCmTbPccFsMBkduuF0NYwbRNl6PzylQmnwVMYPWuXAimAd6ZOdOtC37rjcjDbyYAMoNqLoQpa6vZIBagSJkGm62KCZnmXyVDnKjbE5vHTjd/EBmfs6y4Dwk9A1sa3TpEezqrGykIyiZea6C1DAQRQ9Ppj/DRPcg+YGmxxT1llvDuWr7bFn1H/m4oW2mWJVgfnJRdGQ3T2Q4SdNXJxZyxW3bDovcQzpK4tg2rZHFpTPj2rWAf6dw2FYMpCnMfqRzVTXjmj4YmXqliP+6AVCle2unlrxTMSy1L1XoP9PcSRiGn1VJg5wayPdFLWSAX2e7OZcgpRqvd3Q+ArqvBXiLz83hJAWwfZ/ZmXlTS6YxTfFnJKVlSD3adrVWnDVyE/aLEI3omsGiFC7mwIdU9riYVshwHVR6t6Kn8gn94uINtEkguF2QkkJ4pquBC73nCTuOxDx02m1icXdq2uawQTddUoANckWqZNcrY4w6Ib441UiYBOe8JpDvdSGSdYUQqMJlSel17JwfDsxx682OCBB24w==
 X-Forefront-Antispam-Report: 
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(34020700016)(82310400026)(376014)(12100799066);DIR:OUT;SFP:1501;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(34020700016)(36860700013)(12100799066);DIR:OUT;SFP:1501;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	gWdSSWCBU1dXRcFZBLYDrwKYo9WfT+h9RqT6JXGXayE+jcspL9yE0NS+xpPsxYUKY/PVkZKiKVYK3oB4iz4+AN8GjG/hm+CqBwyd8btleRUku3GpkgMzMykhfJW+oj+1nrqMM9+oaiRVH2LqxWhuUl4Li/LLogOvAUo+03bQ0DLzW6Z8LGzPtdtnFxA/4AGqePlg8flPgt430X6/jP/vRU8V0hN8Y3JeQ/7mL4NW+5ytNEcue7GIyZSzBFjDAIUlzv7O/s66m9cCCHTW8jLfKHh+FK2hwUZzxE8KKKEeZABieCc57fnkpFTr09tmy0tR2swQCFGzSMmfntuyF1o69389O6YUzEnlM2XturYqc0jT9FNruyhjEAl6gAfnrHwdWCx6WhBzQeM3lWVQKRImDikGIGkcyq9EUPJutZQFIl90fUwOnIEZnFmd4VEjLbXv
+	Kr+r/BjXce7b2GvnZ0SqOj7dWmGSyql5HiL0ult23cEMxSIRXDwattFyGPG+UbFqI+E+A53kHDAbPTYxm7bzi1KnQqRvQa/Ku49cW/XW+hHtM6o3VeE5JWpLP/Tqmvbqy63lfzN9YErqKDiup5HvLwIxKXvzVkGVArIKNzNqtJQcBEQropVkJ81XEtRNdVFEZp7Rzcallbt/FcYP8+7YV7jKWFMajULet13lDpfTGY7hta7+UGN1FFWUQuUBCCwmJtTZA725JC50QKMa4mW4jxj+drhC70kgXSQWF1+qqO2yIiuDHL6y8jN5+DKNzrOCVDyv7Lx1FY14eB3lA6kWCmN/x7xmVGytc6CnKF5O9sRRZZV7ImfnL4VrcOodtdXUr8gvLCcG9140mYIwisyeYx5h//1ZPOY0HLj/omkptN7PdIrcOeb3hIYKj9VRJhBp
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 18:31:43.4447
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 18:31:46.4690
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cb00d45-242a-4946-26fa-08de762e74ef
+X-MS-Exchange-CrossTenant-Network-Message-Id: f714ab3f-805d-4a54-6d4f-08de762e76b7
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	BN2PEPF000055DA.namprd21.prod.outlook.com
+	SA2PEPF00003F61.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF4A29B3BB2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7661
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 18:31:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232105
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232108
 
 From: Randolph Sapp <rs@ti.com>
 
-Merge the xuser-account recipe with xserver-nodm-init, since:
+Now that we have a display manager, users can have the option to choose
+a session manager with the default emptty configuration. Currently this
+could be either mini-x-session or matchbox-session.
 
- - This is the only recipe dependent on it
- - This matches the current behavior in weston-init
- - Running x11 as root is no longer a supported path in
-   xserver-nodm-init
- - The display manager configuration and user account name are heavily
-   connected
- - The existing method of integration ignored this connection
+Previously, only one was selectable via update-alternatives logic
+switching out the x-session-manager link that xserver-nodm-init would
+unconditionally use. From my testing this normally resulted in
+matchbox-session being chosen.
+
+Now xserver-nodm-init will use a DEFAULT_SESSION variable to configure
+the automatic login session, and both of these session managers will
+provide unique desktop entries for their respective sessions.
+
+The loose default for DEFAULT_SESSION will be matchbox-session to keep
+in line with the existing behavior.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../xserver-nodm-init}/system-xuser.conf      |  0
- .../x11-common/xserver-nodm-init_3.0.bb       | 20 +++++++++---
- .../user-creation/xuser-account_0.1.bb        | 31 -------------------
- 4 files changed, 15 insertions(+), 37 deletions(-)
- rename meta/{recipes-support/user-creation/files =3D> recipes-graphics/x11=
--common/xserver-nodm-init}/system-xuser.conf (100%)
- delete mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
+ .../matchbox-session/matchbox-session.desktop       |  6 ++++++
+ .../matchbox-session/matchbox-session_0.1.bb        | 13 ++++++-------
+ .../mini-x-session/files/mini-x-session.desktop     |  6 ++++++
+ .../mini-x-session/mini-x-session_0.1.bb            | 13 ++++++-------
+ .../x11-common/xserver-nodm-init/default.desktop    |  5 -----
+ .../x11-common/xserver-nodm-init/emptty.conf.in     |  2 +-
+ .../x11-common/xserver-nodm-init_3.0.bb             |  7 ++++---
+ 7 files changed, 29 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-graphics/matchbox-session/matchbox-session=
+/matchbox-session.desktop
+ create mode 100644 meta/recipes-graphics/mini-x-session/files/mini-x-sessi=
+on.desktop
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/defa=
+ult.desktop
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 7c95ac5a9a..19fa6c977e 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -934,7 +934,6 @@ RECIPE_MAINTAINER:pn-xserver-xf86-config =3D "Unassigne=
-d <unassigned@yoctoproject.
- RECIPE_MAINTAINER:pn-xserver-xorg =3D "Unassigned <unassigned@yoctoproject=
-.org>"
- RECIPE_MAINTAINER:pn-xset =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xtrans =3D "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-xuser-account =3D "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-xvinfo =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xwayland =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-xwininfo =3D "Unassigned <unassigned@yoctoproject.org=
->"
-diff --git a/meta/recipes-support/user-creation/files/system-xuser.conf b/m=
-eta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
-similarity index 100%
-rename from meta/recipes-support/user-creation/files/system-xuser.conf
-rename to meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.c=
-onf
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/me=
-ta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-index ed056df72f..0e9fe1e65a 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-@@ -1,14 +1,15 @@
--SUMMARY =3D "Simple Xserver Init Script (no dm)"
-+SUMMARY =3D "Simple Xserver Init Script and user account"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
-88c80a0384361b4de20420"
+diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session/matchb=
+ox-session.desktop b/meta/recipes-graphics/matchbox-session/matchbox-sessio=
+n/matchbox-session.desktop
+new file mode 100644
+index 0000000000..f496fd860f
+--- /dev/null
++++ b/meta/recipes-graphics/matchbox-session/matchbox-session/matchbox-sess=
+ion.desktop
+@@ -0,0 +1,6 @@
++[Desktop Entry]
++Name=3DMatchbox Session
++Comment=3DVery simple session manager for matchbox tools
++Type=3DApplication
++Exec=3Dmatchbox-session
++DesktopNames=3Dmatchbox
+diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb=
+ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
+index d8be3417cc..bee18ad617 100644
+--- a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
++++ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
+@@ -9,17 +9,16 @@ LIC_FILES_CHKSUM =3D "file://matchbox-session;endline=3D2=
+0;md5=3D180f1c169a15d059a56c3
  SECTION =3D "x11"
+ RCONFLICTS:${PN} =3D "matchbox-common"
 =20
- SRC_URI =3D "file://emptty.conf.in \
--           file://default.desktop"
-+           file://default.desktop \
-+           file://system-xuser.conf"
+-SRC_URI =3D "file://matchbox-session"
++SRC_URI =3D "file://matchbox-session \
++           file://matchbox-session.desktop"
 =20
  S =3D "${UNPACKDIR}"
 =20
--inherit features_check
-+inherit features_check useradd
+-inherit update-alternatives
+-
+-ALTERNATIVE:${PN} =3D "x-session-manager"
+-ALTERNATIVE_TARGET[x-session-manager] =3D "${bindir}/matchbox-session"
+-ALTERNATIVE_PRIORITY =3D "100"
+-
+ do_install() {
+ 	install -d ${D}/${bindir}
+ 	install -m 0755 ${S}/matchbox-session ${D}/${bindir}
++	install -d ${D}${datadir}/xsessions
++	install -m 0644 ${S}/matchbox-session.desktop ${D}${datadir}/xsessions
+ }
++
++FILES:${PN} +=3D "${datadir}/xsessions"
+diff --git a/meta/recipes-graphics/mini-x-session/files/mini-x-session.desk=
+top b/meta/recipes-graphics/mini-x-session/files/mini-x-session.desktop
+new file mode 100644
+index 0000000000..d7afed9cfd
+--- /dev/null
++++ b/meta/recipes-graphics/mini-x-session/files/mini-x-session.desktop
+@@ -0,0 +1,6 @@
++[Desktop Entry]
++Name=3DMini X Session
++Comment=3DVery simple session manager for X
++Type=3DApplication
++Exec=3Dmini-x-session
++DesktopNames=3Dmatchbox
+diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/m=
+eta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
+index e90786df44..b223c38c9e 100644
+--- a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
++++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
+@@ -9,19 +9,18 @@ LIC_FILES_CHKSUM =3D "file://mini-x-session;endline=3D5;m=
+d5=3Db6430bffbcf05f9760e72938
+ SECTION =3D "x11"
+ RCONFLICTS:${PN} =3D "matchbox-common"
 =20
- REQUIRED_DISTRO_FEATURES =3D "x11"
+-SRC_URI =3D "file://mini-x-session"
++SRC_URI =3D "file://mini-x-session \
++           file://mini-x-session.desktop"
 =20
-@@ -26,10 +27,19 @@ do_install() {
+ S =3D "${UNPACKDIR}"
+=20
+ RDEPENDS:${PN} =3D "sudo"
+=20
+-inherit update-alternatives
+-
+-ALTERNATIVE:${PN} =3D "x-session-manager"
+-ALTERNATIVE_TARGET[x-session-manager] =3D "${bindir}/mini-x-session"
+-ALTERNATIVE_PRIORITY =3D "50"
+-
+ do_install() {
+ 	install -d ${D}/${bindir}
+ 	install -m 0755 ${S}/mini-x-session ${D}/${bindir}
++	install -d ${D}${datadir}/xsessions
++	install -m 0644 ${S}/mini-x-session.desktop ${D}${datadir}/xsessions
+ }
++
++FILES:${PN} +=3D "${datadir}/xsessions"
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/default.des=
+ktop b/meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
+deleted file mode 100644
+index 3357cd9a7f..0000000000
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
++++ /dev/null
+@@ -1,5 +0,0 @@
+-[Desktop Entry]
+-Encoding=3DUTF-8
+-Type=3DApplication
+-Name=3DDefault X11 Desktop
+-Exec=3Dx-session-manager
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf=
+.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
+index bdb3bec782..fbe106d9b6 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
+@@ -17,7 +17,7 @@ DEFAULT_USER=3Dxuser
+ AUTOLOGIN=3Dtrue
+=20
+ # The default session used, if Autologin is enabled. If session is not fou=
+nd in list of session, it proceeds to manual selection.
+-AUTOLOGIN_SESSION=3DDefault X11 Desktop
++AUTOLOGIN_SESSION=3D@DEFAULT_SESSION@
+=20
+ # If Autologin is enabled and session does not start correctly, the number=
+ of retries in short period is kept to eventually stop the infinite loop of=
+ restarts. -1 is for infinite retries, 0 is for no retry.
+ # AUTOLOGIN_MAX_RETRY=3D2
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/me=
+ta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+index 0e9fe1e65a..a4b4a11d1b 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+@@ -4,7 +4,6 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;m=
+d5=3D3da9cfbcb788c80a0384
+ SECTION =3D "x11"
+=20
+ SRC_URI =3D "file://emptty.conf.in \
+-           file://default.desktop \
+            file://system-xuser.conf"
+=20
+ S =3D "${UNPACKDIR}"
+@@ -18,21 +17,23 @@ PACKAGECONFIG ??=3D "blank"
+ PACKAGECONFIG[blank] =3D ""
+ PACKAGECONFIG[nocursor] =3D ""
+=20
++# matchbox-session seems to be the current preferred session provider
++DEFAULT_SESSION ??=3D "matchbox-session"
++
+ do_install() {
+     install -D -p -m0644 ${S}/emptty.conf.in ${D}${sysconfdir}/emptty/conf
+-    install -D -p -m0644 ${S}/default.desktop ${D}${datadir}/xsessions/def=
+ault.desktop
+=20
+     BLANK_ARGS=3D"${@bb.utils.contains('PACKAGECONFIG', 'blank', '', '-s 0=
+ -dpms', d)}"
+     NO_CURSOR_ARG=3D"${@bb.utils.contains('PACKAGECONFIG', 'nocursor', '-n=
+ocursor', '', d)}"
 =20
      sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/emptty/=
 conf
      sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/conf
-+
-+    install -D -m 0644 ${S}/system-xuser.conf ${D}${sysconfdir}/dbus-1/sys=
++    sed -i "s:@DEFAULT_SESSION@:${DEFAULT_SESSION}:" ${D}${sysconfdir}/emp=
+tty/conf
+=20
+     install -D -m 0644 ${S}/system-xuser.conf ${D}${sysconfdir}/dbus-1/sys=
 tem.d/system-xuser.conf
  }
 =20
  FILES:${PN} =3D "${sysconfdir}/emptty/conf \
--               ${datadir}/xsessions/default.desktop"
-+               ${datadir}/xsessions/default.desktop \
-+               ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
-+
-+USERADD_PACKAGES =3D "${PN}"
-+USERADD_PARAM:${PN} =3D "--create-home \
-+                       --groups video,tty,audio,input,shutdown,disk,nopass=
-wdlogin \
-+                       --user-group xuser"
-+GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
+-               ${datadir}/xsessions/default.desktop \
+                ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
 =20
--RDEPENDS:${PN} =3D "emptty xuser-account"
-+RDEPENDS:${PN} =3D "emptty"
- RPROVIDES:${PN} +=3D "virtual-emptty-conf"
-diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta=
-/recipes-support/user-creation/xuser-account_0.1.bb
-deleted file mode 100644
-index f1e4cb674f..0000000000
---- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
-+++ /dev/null
-@@ -1,31 +0,0 @@
--SUMMARY =3D "Creates an 'xuser' account used for running X11"
--LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
-88c80a0384361b4de20420"
--
--SRC_URI =3D "file://system-xuser.conf"
--
--inherit allarch useradd
--
--S =3D "${UNPACKDIR}"
--
--do_configure() {
--    :
--}
--
--do_compile() {
--    :
--}
--
--do_install() {
--    install -D -m 0644 ${UNPACKDIR}/system-xuser.conf ${D}${sysconfdir}/db=
-us-1/system.d/system-xuser.conf
--}
--
--FILES:${PN} =3D "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
--
--USERADD_PACKAGES =3D "${PN}"
--USERADD_PARAM:${PN} =3D "--create-home \
--                       --groups video,tty,audio,input,shutdown,disk,nopass=
-wdlogin \
--                       --user-group xuser"
--GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
--
--ALLOW_EMPTY:${PN} =3D "1"
+ USERADD_PACKAGES =3D "${PN}"
 --=20
 2.53.0
 
