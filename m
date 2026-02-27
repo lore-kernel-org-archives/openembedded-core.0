@@ -1,243 +1,117 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5AC81039892
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 20:06:44 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.105393.1772222795861101661
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B4A104891E
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 21:52:45 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.107781.1772229158526669161
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Feb 2026 12:06:36 -0800
+ Fri, 27 Feb 2026 13:52:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KqjymjV0;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: ticotimo@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-389e71756d8so35542161fa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 12:06:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772222794; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dOb2HEkShECnRW8mmvfX0F/6XianwyfCIAzQreKuzqr9eHj8tCZzHvO1soyMyXPgvE
-         DnpOICxhVZ0SNhRwD4j/fbs+XccMlmN9XQu+EmchP7XEix1FYsuJSxOJw/66SBpTz6t8
-         xIp02PO46PJ+YTRWTArq2mfWPzKHHoUyfRS40ZU1K9BO4iRVTO+oGEzomi8+48Z1Quar
-         Q2nBmOzW2l+1d4JNFWDaupz+srRiHnsUcsxnn23QDaUC2llXdP9iZ0uYrX8T/8gWuX8b
-         K+SEOwFTZT1RIJlzSFLinixEftzWalXX4oawXeZfRsXqgRuBCRFomptNBupTwJqBX/V7
-         jAdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=maZ3i8+jANs16wwSW//AZ1EyKRiuvsJKW3DQ7DKGKL0=;
-        fh=XLI8NW8LkHvxa++iYGSCEvttml4AfhAEGjK94zMd834=;
-        b=jhUmS/5oCqDFBygE/y9Mbnrq2qp1c6Y6Fb84MNgL5pGLdi+dRSTDf+9fffcf1e9iXD
-         l7Ln3/SlQQ96E/k5l39ABhwlT/MXpkcIhxUzkHW8g3YOuJwJpB5jpGSrV6hMw7Aler3c
-         TSXOwGnZdSWC35Ibm9v4s2IXWr3mgAkmzG3gLOLppnBG+KNHHbZUS+X4u4sThVJ8JByV
-         q1XTGpFQ8XPGcyl75BT7z3RVXsNzZjm7CowmC6GH43J8C74WyftYqns5lxKCtVlRgfFf
-         KekmhvfWMGQZOegWfAKo/UK00cbsPZ+g2lh71Grke/zKwX+tIG40MtV6zG5NJmUxerur
-         cpfQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=c0b7JIjt;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso20007315e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 13:52:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772222794; x=1772827594; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=maZ3i8+jANs16wwSW//AZ1EyKRiuvsJKW3DQ7DKGKL0=;
-        b=KqjymjV0Oc4wfuDkDaQoMi2P3xY7H9kxYVoh1GSEyMv593yPfIDima27gMEF+O//dI
-         RrvaODcZxEnfMfVSCozk7z3B88ULGaJTmh7uDyb1WytAHwXFnBPzT9mWrU8ysrMq/ldA
-         9mTGoJ+OrPFstwMUo454gsS1Ghotz1gbDY35uou/Qa+KLam3aehf/o8PWp5ZOujtKdsP
-         6JCfMkNPfJvCXVOboYUaTIK/BOZcP+5VzP1DacwvGq4nzz6hWHLO5s/rx1dakdL4hAyt
-         by7cPIpObl+VJQawzHlthZmh1kbfIlE1DKx9O0ED2mkrrjpPuJd7212fqSoTOSpA8KTm
-         cDPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772222794; x=1772827594;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1772229157; x=1772833957; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=maZ3i8+jANs16wwSW//AZ1EyKRiuvsJKW3DQ7DKGKL0=;
-        b=d7nViRgYuygaobYoLHOhPUPVvLcZrzP+smPHZWwPoPbqG7/i+DWGKsbaH0apwypsPV
-         GYXCsBXbsjNYvMI4tm1tHB2CLf2JscrKmDk/TZLnhv+TcJkIkcCqA+Zv3w++3CadON1m
-         0rXIt3aexUEJJLTHx+SRzYrhtgCNRIeYFSHBpHkFehdZlylX4cY3UIYqtHPVFJPfYuTC
-         JNchOeC6sXCjBU8P3cP5xGT/y9YsJaAPO5WSOjb0BVbhrUx9xuLZwgZ6FFS3DoPxbqWG
-         HkL8oH9whdOrnIttB/CQ/kN7/AEULHAr+czNcwrc6sFKTc1OYhdy1pdBRp94rn6oREUe
-         wXCg==
-X-Gm-Message-State: AOJu0YzcUp9sDi1LZM8RQ2UO/1RYoRWUzgkDGEvHSD09lPwGY7XM9Eoi
-	cJG5kTlv3nhfVQLelprHlSfkJACXyfA4qqnsbqJmZEDt+A6DZaO8T3ki8uCFJW4HDCslZLQN8Ai
-	+AXt2tq0C1MqlU2NA/7ZvRmNNnrY6e5s=
-X-Gm-Gg: ATEYQzwjESVgYFR7TPsjsxjc4kSFrCOtbLQ/wphJo4mpaoovpRmJRz/r5QFqG+PNTAY
-	LCgIJfdgwaHWgZNNLP4Jw0xjdTzZt04MIfgRForX++LO4I+L6AX2nBvKe2NpQLHjppyzkt0E+CO
-	3KYhxZHNtK+jFi4Fmkafd0yHW0WBdowhvOLU8huSYjNBn1mrRHfvLRqq+TPF/KWwiU/3XO5EMWa
-	PfayZU8gU3EuqTovVEUUjA/bFy4CPe7xihyF+vo/ZeMAkFrxhm7D42gJEu7n4jkd+xHu+T27RrJ
-	BlVVSHs=
-X-Received: by 2002:a2e:a001:0:b0:389:fdfb:652 with SMTP id
- 38308e7fff4ca-389ff1404camr17654631fa.18.1772222793600; Fri, 27 Feb 2026
- 12:06:33 -0800 (PST)
-MIME-Version: 1.0
-References: <189831C5FB60E175.1454197@lists.openembedded.org>
-In-Reply-To: <189831C5FB60E175.1454197@lists.openembedded.org>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Fri, 27 Feb 2026 12:06:21 -0800
-X-Gm-Features: AaiRm53WuSkTbO0Vzjdp2clNP6D8BM5qwQcwIf95I-7dixku2eYC9dmJAJpMbq0
-Message-ID: <CANx9H-BD-6ACjhjG=uzD-oYq5=kvHnAH+HVH=uj7QmV6HP1rZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/3] Introduce PTEST_RUNNER_TIMEOUT variable
-To: ticotimo@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001354d9064bd3c609"
+        bh=3oeXi6cRJRNYGsv8/oqxftV9oFdVp1kdH0nulS4ZjuA=;
+        b=c0b7JIjtBYm/6VpUJkJVVLOz0BZiLGjip0VGshL1kMxYtdVeMytsFlCNJyVkjxf979
+         PEY+kh8Tw8RrScK4R362Ti9X596NIQpJuo14N7V5V+xn+e5a7YUUKs+6Ja4eX2fEKeOe
+         fURpPKs9Q1wfG540UbSKdmfbQa9owa4vt0uzc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772229157; x=1772833957;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3oeXi6cRJRNYGsv8/oqxftV9oFdVp1kdH0nulS4ZjuA=;
+        b=q/mVsicI+yVdYD/I6U4BChkuMhT/2jydynBRQOGGy/Vk1xwsJm0h59efvI6m67GeYd
+         RwHpjIpycNGlKeqpn9aoRuTtcoaDelkEbzecUR5k8R+VPlyvGeGlPynf2wDzNGoFiYwC
+         q3NRfS3iklMO9a1lUH8QZSYYTZ/Qd70MRz286S0cJ+M+FXrs4Vd6cmbOce8aYlfoavSt
+         ziFT58+RcjJngNGqFfhtWCsbJaQwskWqu7smiGc3xsylnQBVC4XUeBIibvuDKqFtjEj5
+         XNHLq94QW2rJNRjM62PL51rUNs1ixuWKoc36O9O7Y7zT3DmxfUMZrfsvxHja6ClrAQm6
+         IlTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUy2oda9JgV/B5YBFnSlAj8Y5jDhzRj7JBdyWIR0v8EKtdCv1Q0LmxgqsLsCx8nYN5cmWc7AW7URfj6x2OdpxZOzQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwuttlfyPpWAv17KteVglmlwPNPDL1fp8rQ6/cfzeVVp8q4ejEu
+	plPD2J/4BdZMRwRAlGnthSnWwyVYdUZxQYcg2+FLR6mRU9RgicGAVNZ7HM2AlgMqJHQ=
+X-Gm-Gg: ATEYQzwB9l/TyuFdR/T/N76S00EpQXFmQZb8hKHciC6JoidP6ARphxu2mEoGLK8yia/
+	veFCjsfUtkMOcQIuPg2iF6ToP52nK+pcQDZpcKJh/8JEimrcPK6cBmfd6x0Q+vCpZUNnt+gd+5+
+	Pq9VDK3G0tkqy2zJKljoBQeCwt8t0hfdyxM1qjTfP7v+RMKa+ftieQqsqOkN8FBvK337I529PTw
+	hU3bDOoK/pSexHW2+TfFzPJlHrE71WkZOF3kaSBTCAe1HsHZVA1dFUGSpbq8BaP0suEi93RPWNX
+	NSNlGGMn+vzrBFJ3FO1eJQr1QdhAkk4ZHT5092tK0HirfpWU2BfZjyjb2BpWVBfAtw5ZZVlofQA
+	ntND5r7b8/69lttNaZjlA86hbAck2nNmo4uJr7CXQun6EFVAbwLnKLGBLiJkQ3wukkpk8KzfNxM
+	qYJYdcA0NQwpcr5vVp2zSGHPjn2etV/65980vZ9/1Ak8y/qtl3mC286KG9Ndv0ONJPZparUspj7
+	3onAkAbhX3YuZZfBFHI0oXC2c4=
+X-Received: by 2002:a05:600c:4f07:b0:47e:e20e:bbb0 with SMTP id 5b1f17b1804b1-483c9bb1d2cmr63887605e9.6.1772229156785;
+        Fri, 27 Feb 2026 13:52:36 -0800 (PST)
+Received: from localhost (2a01cb001331aa0054865075f82f42ae.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:5486:5075:f82f:42ae])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c7657c7sm10126279f8f.28.2026.02.27.13.52.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 13:52:36 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Feb 2026 22:52:35 +0100
+Message-Id: <DGQ2SYPAGFDN.MW7TC3XUQ8WX@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH v1] libevent: merge duplicate
+ inherit statements
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <pratik.farkase@ericsson.com>
+To: <pratik.farkase@est.tech>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260209124253.55440-1-pratik.farkase@est.tech>
+In-Reply-To: <20260209124253.55440-1-pratik.farkase@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 20:06:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232115
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 21:52:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232116
 
---0000000000001354d9064bd3c609
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Related yocto-docs submission:
-https://lists.yoctoproject.org/g/docs/message/9014
+On Mon Feb 9, 2026 at 1:42 PM CET, Pratik Farkase via lists.openembedded.or=
+g wrote:
+> Merge the separate inherit statements into a single one for
+> improved readability and consistency with OE style.
+>
+> No functional change intended.
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 
-On Fri, Feb 27, 2026 at 11:39=E2=80=AFAM Tim Orling via lists.openembedded.=
-org
-<ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
+Sorry, but we ultimately did not take this patch for stable inclusion:
+This is only a cleanup and there is little to no advantage to merge
+this.
 
-> In https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16163 analysis sho=
-wed
-> that one of the root causes is the hard coded 450 second timeout passed t=
-o
-> ptest-runner in lib/oeqa/runtime/cases/ptest.py.
+Regards,
+> ---
+>  meta/recipes-support/libevent/libevent_2.1.12.bb | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> This series introduces the PTEST_RUNNER_TIMEOUT variable, which is consum=
-ed
-> in lib/oeqa/runtime/cases/ptest.py but needs to be updated in
-> testimage.bbclass
-> to make sure the value of the variable is consumed at runtime.
->
-> For python3-cffi which drove the change, the value is set in
-> core-image-ptest.bb
-> to 600 seconds, as an example of how a per recipe change can be enabled.
->
-> The test run on the AutoBuilder cluster that proves this works is:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3136
->
-> https://valkyrie.yocto.io/pub/non-release/20260227-113/testresults/qemuar=
-m64-ptest/core-image-ptest-python3-cffi/
-> where you can see:
-> PATH=3D/usr/sbin:/sbin:/usr/bin:/bin; ptest-runner -t 600 -d "/usr/lib"
-> in
-> https://valkyrie.yocto.io/pub/non-release/20260227-113/testresults/qemuar=
-m64-ptest/core-image-ptest-python3-cffi/log.do_testimage.2323256.2026022719=
-1837
->
-> [YOCTO #16163]
->
-> Tim Orling (3):
->   oeqa/runtime/ptest: Make ptest-runner timeout configurable
->   core-image-ptest: add PTEST_RUNNER_TIMEOUT
->   testimage.bbclass: enable PTEST_RUNNER_TIMEOUT variable
->
->  meta/classes-recipe/testimage.bbclass        | 4 +++-
->  meta/lib/oeqa/runtime/cases/ptest.py         | 3 ++-
->  meta/recipes-core/images/core-image-ptest.bb | 1 +
->  3 files changed, 6 insertions(+), 2 deletions(-)
->
-> --
-> 2.50.1 (Apple Git-155)
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#232111):
-> https://lists.openembedded.org/g/openembedded-core/message/232111
-> Mute This Topic: https://lists.openembedded.org/mt/118036273/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/reci=
+pes-support/libevent/libevent_2.1.12.bb
+> index 25388fb4d7..58502edc32 100644
+> --- a/meta/recipes-support/libevent/libevent_2.1.12.bb
+> +++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+> @@ -28,13 +28,11 @@ S =3D "${WORKDIR}/${BPN}-${PV}-stable"
+>  PACKAGECONFIG ??=3D ""
+>  PACKAGECONFIG[openssl] =3D "--enable-openssl,--disable-openssl,openssl"
+> =20
+> -inherit autotools github-releases
+> +inherit autotools github-releases ptest multilib_header
+> =20
+>  # Needed for Debian packaging
+>  LEAD_SONAME =3D "libevent-2.1.so"
+> =20
+> -inherit ptest multilib_header
+> -
+>  DEPENDS =3D "zlib"
+> =20
+>  PACKAGES_DYNAMIC =3D "^${PN}-.*$"
+--=20
+Yoann Congal
+Smile ECS
 
---0000000000001354d9064bd3c609
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Related yocto-docs submission:=C2=A0<a href=3D"https://lis=
-ts.yoctoproject.org/g/docs/message/9014">https://lists.yoctoproject.org/g/d=
-ocs/message/9014</a></div><br><div class=3D"gmail_quote gmail_quote_contain=
-er"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 27, 2026 at 11:39=E2=
-=80=AFAM Tim Orling via <a href=3D"http://lists.openembedded.org">lists.ope=
-nembedded.org</a> &lt;ticotimo=3D<a href=3D"mailto:gmail.com@lists.openembe=
-dded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">In <a href=3D"https://bugzilla.yo=
-ctoproject.org/show_bug.cgi?id=3D16163" rel=3D"noreferrer" target=3D"_blank=
-">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16163</a> analysis sh=
-owed<br>
-that one of the root causes is the hard coded 450 second timeout passed to<=
-br>
-ptest-runner in lib/oeqa/runtime/cases/ptest.py.<br>
-<br>
-This series introduces the PTEST_RUNNER_TIMEOUT variable, which is consumed=
-<br>
-in lib/oeqa/runtime/cases/ptest.py but needs to be updated in testimage.bbc=
-lass<br>
-to make sure the value of the variable is consumed at runtime.<br>
-<br>
-For python3-cffi which drove the change, the value is set in <a href=3D"htt=
-p://core-image-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-pt=
-est.bb</a><br>
-to 600 seconds, as an example of how a per recipe change can be enabled.<br=
->
-<br>
-The test run on the AutoBuilder cluster that proves this works is:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/buil=
-ds/3136" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/61/builds/3136</a><br>
-<a href=3D"https://valkyrie.yocto.io/pub/non-release/20260227-113/testresul=
-ts/qemuarm64-ptest/core-image-ptest-python3-cffi/" rel=3D"noreferrer" targe=
-t=3D"_blank">https://valkyrie.yocto.io/pub/non-release/20260227-113/testres=
-ults/qemuarm64-ptest/core-image-ptest-python3-cffi/</a><br>
-where you can see:<br>
-PATH=3D/usr/sbin:/sbin:/usr/bin:/bin; ptest-runner -t 600 -d &quot;/usr/lib=
-&quot;<br>
-in <a href=3D"https://valkyrie.yocto.io/pub/non-release/20260227-113/testre=
-sults/qemuarm64-ptest/core-image-ptest-python3-cffi/log.do_testimage.232325=
-6.20260227191837" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoc=
-to.io/pub/non-release/20260227-113/testresults/qemuarm64-ptest/core-image-p=
-test-python3-cffi/log.do_testimage.2323256.20260227191837</a><br>
-<br>
-[YOCTO #16163]<br>
-<br>
-Tim Orling (3):<br>
-=C2=A0 oeqa/runtime/ptest: Make ptest-runner timeout configurable<br>
-=C2=A0 core-image-ptest: add PTEST_RUNNER_TIMEOUT<br>
-=C2=A0 testimage.bbclass: enable PTEST_RUNNER_TIMEOUT variable<br>
-<br>
-=C2=A0meta/classes-recipe/testimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 =
-+++-<br>
-=C2=A0meta/lib/oeqa/runtime/cases/ptest.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 3 ++-<br>
-=C2=A0meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" rel=
-=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a> | 1 +<br>
-=C2=A03 files changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
--- <br>
-2.50.1 (Apple Git-155)<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#232111): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/232111" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/232111</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118036273/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/118036273/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---0000000000001354d9064bd3c609--
 
