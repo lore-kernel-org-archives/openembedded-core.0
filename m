@@ -2,225 +2,213 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA665FD531E
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 09:24:19 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.91525.1772184252045019951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E27ACFD531F
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 09:30:49 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.91851.1772184645073284578
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Feb 2026 01:24:12 -0800
+ Fri, 27 Feb 2026 01:30:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=voQjg+sm;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-436e8758b91so1170867f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 01:24:11 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=c9AkqBNl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4834826e5a0so19559455e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 01:30:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772184250; x=1772789050; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1772184643; x=1772789443; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qy/hbPUYi16aad6+pONiGYo+8Ix7PJL5mqxaniPx1nw=;
-        b=voQjg+sm2tqeo6+qzyYWSkCknwBGx4sHpTJC8HJs985kb9lj6Vg8FU3rv131/NubvJ
-         toPGimRP/H/495RbDvNDmnuFByDRFEKqahHa4VrL6N8DAO2/JM12ADNcADpq4os8pnRQ
-         l1wJ0gSDPWUQuyjCgqIGkCa2+cfkAjJYA9pYQ=
+        bh=zP0bpUguq2gDC3fGw5rJvcygN7ebZtvUZecssrZyUuY=;
+        b=c9AkqBNlwpIW9OFGUvwWYhuQAfg8qRtXkTTS4i1eEm3MZ/N8+/d39Ll7WbqTKYV/n0
+         4wblYbuD/0BoYeKx2MYvpH+O4SPDkOy2y3SC/cOFeyoJW7Ahs8uNQRrDPAmjQVeD32iV
+         CvmcCdsi8moGlVtvrJCRB+KXB1MeXrBoE1KII=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772184250; x=1772789050;
+        d=1e100.net; s=20230601; t=1772184643; x=1772789443;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qy/hbPUYi16aad6+pONiGYo+8Ix7PJL5mqxaniPx1nw=;
-        b=ojir8zyngx7AoR9MoEdeclfR0skAYDgtkgfgrLOoyyonZM4mrSpjmALMU3AbDys/yk
-         s4LUFHKsPMxNm/fdMy1s/VJ7gvbVCbNIzZpqxLex9fRN1S5IRYREhOTapZnAfP4bgiGc
-         SowrK8XZTcjqIKiB0t9oRBuTpx0MWVLwWcw4VAMFovA81KzCqFuBg5MS4YMoHJqstoSV
-         sASV6zgbaCfVikMGi7WiU9ybC0a4JmiEI0SdF5TMu90YAICEZVTGbcKSR1Af1H25Tbz3
-         u+iNifCOqbW6UnPWElER68ZlRvNaHKoeNXM7Bv/bd6FTfqLlFyKL9fedrEfuo44un7Aj
-         1C4g==
-X-Gm-Message-State: AOJu0YztDFEh/IcBFIy/OONgTdR+6ZBdOz8+qlu7gbTD9ZIwyWKM1gxh
-	GqlgCZPMZIcwLI+s4Z9wjMOQ7ZCNBak+SZQVP/btH7/nXtDatvV4NVRAZ37vKQVOzwZf6PQLiW8
-	sQW8A
-X-Gm-Gg: ATEYQzytrYDSsckR48socuwTI0X82ODSsHQhGbH61YIO5jC9rvUcRPIkN3x2tZjpn3D
-	oOmSSybdQ/k/3iO5tlaLvXyqRXSMS+xxJsqNPbg2b8ML/maRlnb3EvuhdLBhrIjPgNrepcOXq6e
-	tjeLRIJgh2t7jmArDawxCZziqux5GYLakmtCzWLAZTEy7buKuHGfd0kEjdLHmSgQdvuEBXF6ZAa
-	9oDSTpiK04YbwPc9N4XOoe1Iv2M5zF9YIHtr8xHkHq1TVd3P2FsOoZIEMfgmjDNV72D+Msx6F8D
-	mCBfzN+T8MT2ZJaEdZsH9qFQ5ipIfLBGFqKG0yRg4ULZUwOOo8b+HYiDfkg2TYdFHedHbUuslNF
-	KU6hP30lxCqOfAlcZwSyd4Us2XeebflZevWr7/SmV+gvkKc3jQTsJASRGQNt+yXqcdxzlo2WAet
-	293qnuT0OQKxKiNLnsoU1/Q6Cau/SmLXDsn6/nqY9Cug/tfctZhkStOAQ403Aw91zNEc3LR9J0a
-	9pSN0DUeKInLH3bjUwRIbeiLAFOjSQ4dK0DLtQ=
-X-Received: by 2002:a05:6000:2287:b0:437:675d:7620 with SMTP id ffacd0b85a97d-4399de2791cmr3035848f8f.35.1772184250123;
-        Fri, 27 Feb 2026 01:24:10 -0800 (PST)
+        bh=zP0bpUguq2gDC3fGw5rJvcygN7ebZtvUZecssrZyUuY=;
+        b=p4UX0qiPQ4LYq2AhW233u8Gz7nYATAzw1Zn5aRfL2UecrYXs5myd2jldDd7Wg6IYL1
+         Dh4UWTE4fVINqOZwiEjw0ZCsrEWzdgsIAy8D0YnNOjrOSEhNkglPSEbd2auwWaqVZFU/
+         XvpD6ghxlC6xB0FJcyAt1YVd89YU8uoVBhjlxeBXdlJiPCOWmmkW1AwnFX3fmBlKXxzv
+         ZSCUV+77divsfzwW3H0V098os/y1swK+px2i7upl/TjhHBoKZMZm706G+i0cwE44x3WK
+         eboiMuZuSNPVzlmYdsgJVsiiFAHFSYkU8BDfBxhfS3xRDAE9WoFRNr/9VbKL7Wh/8wSZ
+         HBVg==
+X-Gm-Message-State: AOJu0Yw/RhRKG0zkEMC7KMEY7NNeD845vFbe/Fw4m1u8Td4OpKVv2EvB
+	S8Q7jEE2OASPJOXDwF56FRD0G+oDW93xbg+g+fszCfPkNVfLB9tnKzCzEaKN9x532hLUdkgPDI4
+	QAdtY
+X-Gm-Gg: ATEYQzw6LLbz4M/upUBa6APpdXDbebnr1qemfKeuH6xEnXEOf9FU7gjvxUQH0Q6cC64
+	gl707MJq+ga/Hpws7vjh/q7fVJQmH+l6A5Gjt8vjQZTLzPbSa/fTiJtE6zHIFkADv+bhhobjM70
+	4DWO5xFPmykpfnlqsccT2/UcIfW+Ds/aqCvubAKRZt9kz4ixoNogH+LnNMRle7V8fisb7XX12ox
+	v1U90PlAepxhSzBehMkzOi7ZJ6n6JSko2g+ALwh9LBXs4hhnFjDx6r3BWL1y6mop7V8Bh/TwonX
+	Mcc7vGITvN/lY87BF0IX7g0U6WhDPGVF1qLAGNHS06VDO+kQ2IqZ8QQnCnrUDEZqsiQFLDWBG71
+	73UMku6w8sjsJOW1nXpy2VI9c/VAZT/jLHQCaDvpe92YNqBLhoxSkrOrt6ABubT8t/UP3x9/NPI
+	EzhT7o6evLVcxr/kTr/AcfT4YU38aIPVL9grZ80G6xTYcW/iUtC0Rf/vwSKWbelsu9sQXf3LC3k
+	SbYGiH+DDl3edyR7RMmVJsEeD6k
+X-Received: by 2002:a05:600c:3b9f:b0:465:a51d:d4 with SMTP id 5b1f17b1804b1-483c9ba7e4dmr28472135e9.6.1772184643076;
+        Fri, 27 Feb 2026 01:30:43 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0054865075f82f42ae.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:5486:5075:f82f:42ae])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm5516323f8f.7.2026.02.27.01.24.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb789efsm99991915e9.2.2026.02.27.01.30.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 01:24:09 -0800 (PST)
+        Fri, 27 Feb 2026 01:30:42 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][scarthgap 00/44] Pull request (cover letter only)
-Date: Fri, 27 Feb 2026 10:24:06 +0100
-Message-ID: <cover.1772184120.git.yoann.congal@smile.fr>
+Subject: [OE-core][kirkstone 00/38] Pull request (cover letter only)
+Date: Fri, 27 Feb 2026 10:30:40 +0100
+Message-ID: <cover.1772184444.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 09:24:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232090
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 09:30:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232091
 
 Those are the patches from the last patch review:
-https://lore.kernel.org/openembedded-core/cover.1771943404.git.yoann.congal@smile.fr/T/#t
+https://lore.kernel.org/openembedded-core/cover.1771942869.git.yoann.congal@smile.fr/T/#t
 
 Passed a-full on autobuilder (no change since patch review request):
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3276
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3274
 
-The following changes since commit a1f4ae4e569bc0e36c27c1e4651e502e54d63b28:
+The following changes since commit e2994ca0076ec99038790e7a40936236a5078135:
 
-  build-appliance-image: Update to scarthgap head revision (2026-02-16 09:52:44 +0000)
+  build-appliance-image: Update to kirkstone head revision (2026-01-26 18:54:26 +0000)
 
 are available in the Git repository at:
 
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-next
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
 Aleksandar Nikolic (1):
-  scripts/install-buildtools: Update to 5.0.15
+  scripts/install-buildtools: Update to 4.0.32
 
 Amaury Couderc (2):
   avahi: patch CVE-2025-68468
   avahi: patch CVE-2025-68471
 
-Ankur Tyagi (4):
+Ankur Tyagi (2):
   avahi: patch CVE-2025-68276
   avahi: patch CVE-2026-24401
-  mobile-broadband-provider-info: upgrade 20240407 -> 20251101
-  vim: ignore CVE-2025-66476
 
-Benjamin Robin (Schneider Electric) (1):
-  spdx30_tasks: Exclude 'doc' when exporting PACKAGECONFIG to SPDX
-
-Bruce Ashfield (7):
-  linux-yocto/6.6: update to v6.6.112
-  linux-yocto/6.6: update to v6.6.114
-  linux-yocto/6.6: update to v6.6.116
-  linux-yocto/6.6: update to v6.6.118
-  linux-yocto/6.6: update to v6.6.119
-  linux-yocto/6.6: update to v6.6.120
-  linux-yocto/6.6: update to v6.6.123
-
-Daniel Dragomir (1):
-  wic/engine: error on old host debugfs for standalone directory copy
-
-Deepak Rathore (7):
-  go 1.22.12: Fix CVE-2025-61730
-  go 1.22.12: Fix CVE-2025-61726
-  go 1.22.12: Fix CVE-2025-61728
-  go 1.22.12: Fix CVE-2025-61731
-  go 1.22.12: Fix CVE-2025-68119
-  go 1.22.12: Fix CVE-2025-61732
-  go 1.22.12: Fix CVE-2025-68121
-
-Dragomir, Daniel (2):
-  wic/engine: fix copying directories into wic image with ext* partition
-  oeqa/selftest/wic: test recursive dir copy on ext partitions
+Bruce Ashfield (5):
+  linux-yocto/5.15: update to v5.15.195
+  linux-yocto/5.15: update to v5.15.196
+  linux-yocto/5.15: update to v5.15.197
+  linux-yocto/5.15: update to v5.15.198
+  linux-yocto/5.15: update to v5.15.199
 
 Fabio Berton (1):
   classes/buildhistory: Do not sign buildhistory commits
 
-Hitendra Prajapati (2):
-  openssl: fix CVE-2025-15468
-  openssl: fix CVE-2025-69419
+Hugo SIMELIERE (1):
+  libtasn1: Fix CVE-2025-13151
 
-Ming Liu (1):
-  weston: fix a touch-calibrator issue
-
-Peter Marko (10):
-  libsndfile1: patch CVE-2025-56226
+Peter Marko (20):
+  zlib: ignore CVE-2026-22184
+  python3: patch CVE-2025-13837
+  python3: patch CVE-2025-12084
+  libxml2: patch CVE-2026-0990
+  libxml2: patch CVE-2026-0992
+  libxml2: add follow-up patch for CVE-2026-0992
+  expat: patch CVE-2026-24515
+  expat: patch CVE-2026-25210
+  inetutils: patch CVE-2026-24061
+  libpng: patch CVE-2026-22695
+  libpng: patch CVE-2026-22801
   libpng: patch CVE-2026-25646
+  glib-2.0: patch CVE-2026-0988
   glib-2.0: patch CVE-2026-1484
   glib-2.0: patch CVE-2026-1485
   glib-2.0: patch CVE-2026-1489
-  ffmpeg: ignore CVE-2025-1594
-  libtheora: mark CVE-2024-56431 as not vulnerable yet
-  ffmpeg: set status of CVE-2025-25468
-  gnupg: patch CVE-2025-68973
-  alsa-lib: patch CVE-2026-25068
+  ffmpeg: set status of CVE-2025-25468 and CVE-2025-25469
+  vim: ignore CVE-2025-66476
+  harfbuzz: ignore CVE-2026-22693
+  glibc: stable 2.35 branch updates
 
-Pratik Farkase (1):
-  libevent: merge inherit statements
+Richard Purdie (2):
+  pseudo: Update to 1.9.3 release
+  pseudo: Update to include an openat2 fix
 
-Richard Purdie (1):
-  go-vendor: Fix absolute paths issue
+Scott Murray (1):
+  u-boot: move CVE patch out of u-boot-common.inc
 
-Vijay Anusuri (1):
+Vijay Anusuri (2):
+  openssl: upgrade 3.0.18 -> 3.0.19
   bind: Upgrade 9.18.41 -> 9.18.44
 
-Yoann Congal (2):
+Yoann Congal (1):
   pseudo: Update to include a fix for systems with kernel <5.6
-  u-boot: move CVE patches out of the common .inc file
 
  meta/classes/buildhistory.bbclass             |   2 +-
- meta/classes/go-vendor.bbclass                |   6 +-
- meta/lib/oe/spdx30_tasks.py                   |   8 +-
- meta/lib/oeqa/selftest/cases/wic.py           |  65 ++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  12 +-
- meta/recipes-bsp/u-boot/u-boot_2024.01.bb     |  10 +
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |   4 +-
+ meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   1 +
  meta/recipes-connectivity/avahi/avahi_0.8.bb  |   4 +
- .../avahi/files/CVE-2025-68276.patch          |  65 ++
- .../avahi/files/CVE-2025-68468.patch          |  32 +
- .../avahi/files/CVE-2025-68471.patch          |  36 +
- .../avahi/files/CVE-2026-24401.patch          |  74 ++
+ .../avahi/files/CVE-2025-68276.patch          |  65 ++++
+ .../avahi/files/CVE-2025-68468.patch          |  32 ++
+ .../avahi/files/CVE-2025-68471.patch          |  36 ++
+ .../avahi/files/CVE-2026-24401.patch          |  74 ++++
  .../bind/{bind_9.18.41.bb => bind_9.18.44.bb} |   2 +-
- .../mobile-broadband-provider-info_git.bb     |   4 +-
- .../openssl/openssl/CVE-2025-15468.patch      |  39 +
- .../openssl/openssl/CVE-2025-69419.patch      |  61 ++
- .../openssl/openssl_3.2.6.bb                  |   2 +
- .../glib-2.0/glib-2.0/CVE-2026-1484-01.patch  |  48 +
- .../glib-2.0/glib-2.0/CVE-2026-1484-02.patch  |  45 +
- .../glib-2.0/glib-2.0/CVE-2026-1485.patch     |  44 +
- .../glib-2.0/glib-2.0/CVE-2026-1489-01.patch  |  42 +
- .../glib-2.0/glib-2.0/CVE-2026-1489-02.patch  |  30 +
- .../glib-2.0/glib-2.0/CVE-2026-1489-03.patch  | 290 ++++++
- .../glib-2.0/glib-2.0/CVE-2026-1489-04.patch  |  68 ++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   7 +
- meta/recipes-devtools/go/go-1.22.12.inc       |  10 +
- .../go/go/CVE-2025-61726.patch                | 196 +++++
- .../go/go/CVE-2025-61728.patch                | 171 ++++
- .../go/go/CVE-2025-61730.patch                | 460 ++++++++++
- .../go/go/CVE-2025-61731.patch                |  70 ++
- .../go/go/CVE-2025-61732.patch                |  53 ++
- .../go/go/CVE-2025-68119-dependent.patch      | 175 ++++
- .../go/go/CVE-2025-68119.patch                | 828 ++++++++++++++++++
- .../go/go/CVE-2025-68121_p1.patch             | 253 ++++++
- .../go/go/CVE-2025-68121_p2.patch             | 385 ++++++++
- .../go/go/CVE-2025-68121_p3.patch             |  82 ++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
- ...ator-Regularise-surface-view-mapping.patch |  78 ++
- .../recipes-graphics/wayland/weston_13.0.1.bb |   1 +
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +-
- .../alsa/alsa-lib/CVE-2026-25068.patch        |  34 +
- .../alsa/alsa-lib_1.2.11.bb                   |   1 +
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |   3 +-
- .../libpng/files/CVE-2026-25646.patch         |  61 ++
- .../libpng/libpng_1.6.42.bb                   |   1 +
- .../libsndfile1/CVE-2025-56226-01.patch       |  36 +
- .../libsndfile1/CVE-2025-56226-02.patch       |  43 +
- .../libsndfile/libsndfile1_1.2.2.bb           |   2 +
- .../libtheora/libtheora_1.1.1.bb              |   2 +
- .../gnupg/gnupg/CVE-2025-68973.patch          | 108 +++
- meta/recipes-support/gnupg/gnupg_2.4.8.bb     |   1 +
- .../libevent/libevent_2.1.12.bb               |   4 +-
- meta/recipes-support/vim/vim_9.1.bb           |   2 +
+ .../inetutils/CVE-2026-24061-01.patch         |  38 ++
+ .../inetutils/CVE-2026-24061-02.patch         |  82 +++++
+ .../inetutils/inetutils_2.2.bb                |   2 +
+ .../openssl/openssl/CVE-2023-50781-1.patch    |  46 ++-
+ .../openssl/openssl/CVE-2023-50781-2.patch    | 112 +++---
+ .../openssl/openssl/CVE-2023-50781-3.patch    |  16 +-
+ .../{openssl_3.0.18.bb => openssl_3.0.19.bb}  |   2 +-
+ .../expat/expat/CVE-2026-24515.patch          |  43 +++
+ .../expat/expat/CVE-2026-25210-01.patch       |  27 ++
+ .../expat/expat/CVE-2026-25210-02.patch       |  37 ++
+ .../expat/expat/CVE-2026-25210-03.patch       |  28 ++
+ meta/recipes-core/expat/expat_2.5.0.bb        |   4 +
+ .../glib-2.0/glib-2.0/CVE-2026-0988.patch     |  58 ++++
+ .../glib-2.0/glib-2.0/CVE-2026-1484-01.patch  |  48 +++
+ .../glib-2.0/glib-2.0/CVE-2026-1484-02.patch  |  45 +++
+ .../glib-2.0/glib-2.0/CVE-2026-1485.patch     |  44 +++
+ .../glib-2.0/glib-2.0/CVE-2026-1489-01.patch  |  42 +++
+ .../glib-2.0/glib-2.0/CVE-2026-1489-02.patch  |  30 ++
+ .../glib-2.0/glib-2.0/CVE-2026-1489-03.patch  | 290 ++++++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2026-1489-04.patch  |  68 ++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   8 +
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/glibc/glibc_2.35.bb         |   3 +-
+ .../libxml/libxml2/CVE-2026-0990.patch        |  76 ++++
+ .../libxml/libxml2/CVE-2026-0992-01.patch     |  49 +++
+ .../libxml/libxml2/CVE-2026-0992-02.patch     | 325 ++++++++++++++++++
+ .../libxml/libxml2/CVE-2026-0992-03.patch     |  33 ++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   4 +
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   2 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
+ .../python/python3/CVE-2025-12084.patch       | 171 +++++++++
+ .../python/python3/CVE-2025-13837.patch       | 162 +++++++++
+ .../python/python3_3.10.19.bb                 |   2 +
+ .../harfbuzz/harfbuzz_4.0.1.bb                |   3 +
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb |   5 +
+ .../libpng/files/CVE-2026-22695.patch         |  77 +++++
+ .../libpng/files/CVE-2026-22801.patch         | 164 +++++++++
+ .../libpng/files/CVE-2026-25646.patch         |  61 ++++
+ .../libpng/libpng_1.6.39.bb                   |   3 +
+ .../gnutls/libtasn1/CVE-2025-13151.patch      |  30 ++
+ .../recipes-support/gnutls/libtasn1_4.20.0.bb |   1 +
+ meta/recipes-support/vim/vim_9.1.bb           |   3 +
  scripts/install-buildtools                    |   4 +-
- scripts/lib/wic/engine.py                     |  92 +-
- 56 files changed, 4132 insertions(+), 62 deletions(-)
+ 55 files changed, 2391 insertions(+), 121 deletions(-)
  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68471.patch
  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-24401.patch
  rename meta/recipes-connectivity/bind/{bind_9.18.41.bb => bind_9.18.44.bb} (97%)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.18.bb => openssl_3.0.19.bb} (99%)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-03.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
@@ -228,21 +216,15 @@ Yoann Congal (2):
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-02.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-03.patch
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-04.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61726.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61728.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61730.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61731.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61732.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68119-dependent.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68119.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68121_p1.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68121_p2.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-68121_p3.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-touch-calibrator-Regularise-surface-view-mapping.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-25068.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-12084.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13837.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-01.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-56226-02.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
 
 
