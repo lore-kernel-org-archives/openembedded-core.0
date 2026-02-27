@@ -2,69 +2,69 @@ Return-Path: <nilskruse97@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289E8FD8FFD
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 06:57:09 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.89836.1772175420559448036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D159FD5302
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 06:57:19 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.89840.1772175432361769973
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 22:57:00 -0800
+ Thu, 26 Feb 2026 22:57:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WGngHdqR;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: nilskruse97@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso13223675e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 22:57:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hLba5jTt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: nilskruse97@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-386b553c70eso17794161fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 22:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772175419; x=1772780219; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772175430; x=1772780230; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=2sEtiQ1b+FVtBUpcbMtqFYEJAuWt5IOhO2UkivLDNtI=;
-        b=WGngHdqRWrFdwjfJTP5rMdORFf5BKWEqloM3rqKEQhAVOUzFIf0MBnaINPuRT2QJBP
-         h+fOubR+wX+Nd8YuBWnr2CbLbq/xCWXYqMPFk3pNng57vfuQp6buSCZ2ABdydaiLVwTp
-         dmAgpK+gf6lH0B0hzgCP3yIg72ax5J5tcVD/R4K6vpIiQwYaNJIF5P+psY6tJakOP9W+
-         xRfFUFQELELoe19ZeBizadhBICRBxx6VHEiSNG9oltASmWZM7jVznnNNFzm9a5MTu5YP
-         WiwbfULLodU41yS80lH0g70sAcc4Tm215lCazuheqUy946wTjvY+WTf1jxksqiR0rQev
-         K0hQ==
+        b=hLba5jTtfAViBCAdLOYTaFPIuZGfcp5tIB1cEANi9Y3RjJXpEybfXCDk/UC5beA5YK
+         rHXZj5GCMNIobtd3EbYDX+4pUyz8QNE3LCHT/7xreY37+xPwOr/U1f7mtsdRwG1csGSK
+         NRMNCBFvu142sdv9yDUJwVNIGHucUZrCwg8GuCz3C1thgbx2FnRRe1l3OGpDQWCrfvBM
+         WU+E+lEIMHpn9xIW+NXJq6xEo0vTCZCN2udjafQGZ1Wh64AuMU8M6vApZ3LvwCR0OFdF
+         u2LvrODw/gaTBGJGHyVuzjuFoHayPAxkkl5z/uPHGr4inEeEnIleqoyix6uAOmeoJqvl
+         gUCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772175419; x=1772780219;
+        d=1e100.net; s=20230601; t=1772175430; x=1772780230;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=2sEtiQ1b+FVtBUpcbMtqFYEJAuWt5IOhO2UkivLDNtI=;
-        b=p9vDCEMIne/i92K/Zkb3nPWHBTOBJsPJMGGa8FrAPeuO4WonGC3NqGdcBkJkcrq2O1
-         BZKnSgIpR8INrGXO0BnnUZh7Eoqkvn3P8OTTN+OtXrRjBJKbWGvtNFtFBJnZiDvjCGHU
-         kt9QcKJrE9Y9aV9Fq3o6wqoDptzveoayvhWBZ45HjEcH95Oy6duXXv8AingUNPcJTiyG
-         g+YM4iefsTul4GvouCYkEXb8WvsvEuhHaBaNP6v50wX6sV/q/fM07Qu9FWm2cGk7cZLs
-         A3e43zVt7vIJUAkiOvPjf0ke1b4Ixv5U/04MGUUzWKV6ankyaZ7HYolaIyDsJVyDKJNh
-         +MFA==
-X-Gm-Message-State: AOJu0YxFkkAtsNUDejgo9ng6Xv8YiEOPhw/J7KWPtDkRTmQl6jTqStT1
-	iIf1kcQNbAWa59TPm52sgLPnRvt1CTUGqetvomBpCXO2Ru7r75jd1yVBBx+TZg==
-X-Gm-Gg: ATEYQzzbBxwxAj5rpm1xl1CsdYnFvDinzN6uP+XOGLzPeXaB2lCReAMG6WlUpd/eG45
-	5MpoFPWJbu+hzfe536yXGm7MP8FS/g7jDojaVH0sWmniLONTa7FqutCXbLEMSrE80fyhqXXra9Z
-	piBY8TxR2e6wFxLVlXjj3bcwY5Um7VGaqYF7TqqP+r12fWMalyW5+QGJhSoCfwILTNEQMcGZSuC
-	vKFO1bVg50E9OY97eeisXI1jS7bw55s40F+QqTpMjutyHr34/WiPigrLSCl4p2FinhJn7cCTjA9
-	xkYJ0zm9Gp7Q5xKCBCg9NRF1ZxExP97Dc40U4OZubJA6a5cPgfRQkVpk/ee0qRaRiQGm9r2ICVM
-	XLXfT0sQoXo3Yl04fdafHk17J4GW1LTUBDrr9STgFfQ3snV5hjlfRZ0SCe78LIWaX14SgEkl2CL
-	XPY1iC2Y2BJ50Va+8pbo9cKrvMsQpWEjc2RndTcs9qmLFqwzO9c+sSzSBGCw==
-X-Received: by 2002:a05:600c:470a:b0:477:abea:9028 with SMTP id 5b1f17b1804b1-483c9ba68eemr20915775e9.6.1772175418713;
-        Thu, 26 Feb 2026 22:56:58 -0800 (PST)
+        b=OVG6Y83EDQ8s7a0XWmvEF9pUxplv2KH8z9DFm2LmHykT/F4LazHEEpNgpgs9irLHCo
+         ipnASapAKQo5k76IMjjlbVhjPx29UIFs7QZP1YnL375Nvqd5LxUscx8ty+XdaFMrv8YQ
+         Mr+p1c7E/0pXGH5XI6au4GwJmTaZC2p+whSRqfKDgLBgL+AzuOn97U1J6+VfNxciqGpb
+         QxcJbdR2QvPSoC6L4yo8r6PBskS9GMhl+aZvadf+HRnwdFDhsHSac7Ze902SDAuPHi+V
+         /bkFwh0LDFts/R9O6iOSFarHUJMMtHj5earjnSuse2SwtDaswAfFz9y5lmCWv4gUqfcC
+         hu9g==
+X-Gm-Message-State: AOJu0YzMq+mJY/wZcc3zSv+oaplciTRYDMTw4B5rQdAQ1wYvERk1CfEm
+	7zRbFNQV/xl7soEMaN3kD0CUJjzaF4kqVIcu2b3kg171Ka1GJevjlsgIOfJSTw==
+X-Gm-Gg: ATEYQzxVG+3CqZ40GvC1qGMbYp2WcjBDc6iPflnOiKF6sTOHDl+vQ16i04YZC4QREwD
+	wyp44btSGP9CLUzex45LccbZEcPAX7Q6SjsWwwa1TrAg4PzL9DmLVd0Dtq2usy/Fy/Tn4mpHrPd
+	MTq/19kNWgHt9SClOo/yu4tXpEU66gHbeeh7dGgFtFm69AzSaxK7ZjGpIa1Lg6qAYtr83o65Y76
+	xhYv9XAfCyOWFXU8vLvoM5pRlY5dCsiojVi49bIUBLaxm5KqOSeN2IQHWd+AqGRseKT//MdqYS0
+	Eqy2KH4pdXi//hIzvd5vNLcxRAmS+KtbAISvk868itfsbz5JVuFqjT4ij3gHsbiH8uRJx+HsNzi
+	7vZBWupSoNPrMEgWXVtn/+Nf7nUzrOp/RsbqdprtSJVjcA0qV115qiGa6BGxhVFrtV/G/neo323
+	3Q+rcPoO2rthrDJHX3xRBc86rZdRsw+BdDgNAERs2L1VFdCcc=
+X-Received: by 2002:a05:600c:548f:b0:480:49ce:42cc with SMTP id 5b1f17b1804b1-483c9ba7c15mr19242305e9.9.1772174956788;
+        Thu, 26 Feb 2026 22:49:16 -0800 (PST)
 Received: from 520AV-IT0280.du.espera.com ([2a02:908:825:7381:6da0:4798:b562:5db6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bffc17dasm96218925e9.2.2026.02.26.22.56.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd75df9fsm210665585e9.13.2026.02.26.22.49.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 22:56:58 -0800 (PST)
+        Thu, 26 Feb 2026 22:49:16 -0800 (PST)
 From: Nils Kruse <nilskruse97@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Nils Kruse <nilskruse97@gmail.com>
 Subject: [PATCH] pseudo: Update to pull in fixes for undefined __NR_openat2 and SYS_openat2
-Date: Fri, 27 Feb 2026 07:56:55 +0100
-Message-Id: <20260227065655.20055-1-nilskruse97@gmail.com>
+Date: Fri, 27 Feb 2026 07:49:14 +0100
+Message-Id: <20260227064914.19315-1-nilskruse97@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 06:57:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232077
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 06:57:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232078
 
 This fixes a compilation error on Ubuntu 20.04 hosts.
 
