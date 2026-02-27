@@ -1,230 +1,261 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E27ACFD531F
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 09:30:49 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.91851.1772184645073284578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F38E4FD5321
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 09:39:29 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.91976.1772185162109146169
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Feb 2026 01:30:45 -0800
+ Fri, 27 Feb 2026 01:39:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=c9AkqBNl;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4834826e5a0so19559455e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 01:30:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=m2CkvvVg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-65bf2f59d64so2501426a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 01:39:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772185160; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fH9n1XsTkGz1xQgrEWl9+aMYvvlxDz801KJojRlomX8hDMXiKrTt6qH7fLfndONwzR
+         zoGI92vG2hRhkXFw0iE10YJdrhL58YgvC89WQ5dYC+lfAW/hO3c5iXCSHMwoGAfsnYlA
+         yRZFgozOCuvhj5gmU4Ws8v73t1jjNgEKdA8Y6Kx8m+JCY8TXW+gTt3nvhGf7nIMogvzQ
+         71fPzQ4NmcVXJT8KPQyaYP0wEllY/sV5Xga5t1yzXB2X8dZOnmY44dXpa2I+cOAlwr5G
+         W12/eQqCPW/hDWHgYrtxli+LIqDYfco7cZMOT9K+dDDf6+9oQZCf7r3lN1s4PIc4WigA
+         sfSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=O7gmgroH8XCrohM3UPbPIKKMQk9MsrGkmwhghzVt7z0=;
+        fh=3dFdSa06sIBSurIbwyKgVgvfprkdWimgIZOm9DdWiG8=;
+        b=HUvaZS8j6doq/kla3aSAauQcZ+jL855eI/IC2BJTLQm55pcz9/MkUwrxnSJGVRkhkW
+         nm5lO6vVM7ZYst1llh1Fp9damw/GWHoQxGjD3fy1puO+dAtbeHwKKV8dAkBBYyTIkQzB
+         lgQ9JskFJcEN6MC6bvi6GXGdsa2Se5LbC565VjmIwrL8T9TW9LSsDCWBRIg4QSic5gNa
+         joHoOvE4ttDoOTVguRGzTdwXmyfBqLfjLsT5WxeV3+7TeUS7Z/eVjF0sgB0NwQS3V1ta
+         jSRJt/CRrVhlUIAGp+41RjmXsqh2IwqobXCRlcTvdiLOHUjDaezXZY1TAN2MA62fK1Nd
+         dIVA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772184643; x=1772789443; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zP0bpUguq2gDC3fGw5rJvcygN7ebZtvUZecssrZyUuY=;
-        b=c9AkqBNlwpIW9OFGUvwWYhuQAfg8qRtXkTTS4i1eEm3MZ/N8+/d39Ll7WbqTKYV/n0
-         4wblYbuD/0BoYeKx2MYvpH+O4SPDkOy2y3SC/cOFeyoJW7Ahs8uNQRrDPAmjQVeD32iV
-         CvmcCdsi8moGlVtvrJCRB+KXB1MeXrBoE1KII=
+        d=gmail.com; s=20230601; t=1772185160; x=1772789960; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7gmgroH8XCrohM3UPbPIKKMQk9MsrGkmwhghzVt7z0=;
+        b=m2CkvvVgAvVU1igqw83h/o0gbYSQGKNx4kducsORx5wdHQUGCstPGdcxtG9wfB2nqj
+         wesz67JX1/jQfwz7joWHGLZ+fXogIsFQGMMQ5R+Rq/DxX8cs2sbWG6uFHhn8xNoyQJxQ
+         sV3LCeLYo/idex+qahyTX9c6+jUXYIPKpU20oIh2WVObCgtQlG5I/Nm2ckSt+e9Vn76t
+         YbI/4VZlNuhc3cR+KdSDfMfMG3VFgYSaLqWz0ly7YDczX3l2MI/LHO9liAcwOzwOFwvq
+         qacwerjlThbiSzSFcefjAtL/QDNSjmZMI9t4rm4ZqWosr6f65dz44/C2E+y2fZgHH0ki
+         Iqww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772184643; x=1772789443;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1772185160; x=1772789960;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zP0bpUguq2gDC3fGw5rJvcygN7ebZtvUZecssrZyUuY=;
-        b=p4UX0qiPQ4LYq2AhW233u8Gz7nYATAzw1Zn5aRfL2UecrYXs5myd2jldDd7Wg6IYL1
-         Dh4UWTE4fVINqOZwiEjw0ZCsrEWzdgsIAy8D0YnNOjrOSEhNkglPSEbd2auwWaqVZFU/
-         XvpD6ghxlC6xB0FJcyAt1YVd89YU8uoVBhjlxeBXdlJiPCOWmmkW1AwnFX3fmBlKXxzv
-         ZSCUV+77divsfzwW3H0V098os/y1swK+px2i7upl/TjhHBoKZMZm706G+i0cwE44x3WK
-         eboiMuZuSNPVzlmYdsgJVsiiFAHFSYkU8BDfBxhfS3xRDAE9WoFRNr/9VbKL7Wh/8wSZ
-         HBVg==
-X-Gm-Message-State: AOJu0Yw/RhRKG0zkEMC7KMEY7NNeD845vFbe/Fw4m1u8Td4OpKVv2EvB
-	S8Q7jEE2OASPJOXDwF56FRD0G+oDW93xbg+g+fszCfPkNVfLB9tnKzCzEaKN9x532hLUdkgPDI4
-	QAdtY
-X-Gm-Gg: ATEYQzw6LLbz4M/upUBa6APpdXDbebnr1qemfKeuH6xEnXEOf9FU7gjvxUQH0Q6cC64
-	gl707MJq+ga/Hpws7vjh/q7fVJQmH+l6A5Gjt8vjQZTLzPbSa/fTiJtE6zHIFkADv+bhhobjM70
-	4DWO5xFPmykpfnlqsccT2/UcIfW+Ds/aqCvubAKRZt9kz4ixoNogH+LnNMRle7V8fisb7XX12ox
-	v1U90PlAepxhSzBehMkzOi7ZJ6n6JSko2g+ALwh9LBXs4hhnFjDx6r3BWL1y6mop7V8Bh/TwonX
-	Mcc7vGITvN/lY87BF0IX7g0U6WhDPGVF1qLAGNHS06VDO+kQ2IqZ8QQnCnrUDEZqsiQFLDWBG71
-	73UMku6w8sjsJOW1nXpy2VI9c/VAZT/jLHQCaDvpe92YNqBLhoxSkrOrt6ABubT8t/UP3x9/NPI
-	EzhT7o6evLVcxr/kTr/AcfT4YU38aIPVL9grZ80G6xTYcW/iUtC0Rf/vwSKWbelsu9sQXf3LC3k
-	SbYGiH+DDl3edyR7RMmVJsEeD6k
-X-Received: by 2002:a05:600c:3b9f:b0:465:a51d:d4 with SMTP id 5b1f17b1804b1-483c9ba7e4dmr28472135e9.6.1772184643076;
-        Fri, 27 Feb 2026 01:30:43 -0800 (PST)
-Received: from FRSMI25-LASER.home (2a01cb001331aa0054865075f82f42ae.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:5486:5075:f82f:42ae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb789efsm99991915e9.2.2026.02.27.01.30.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 01:30:42 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][kirkstone 00/38] Pull request (cover letter only)
-Date: Fri, 27 Feb 2026 10:30:40 +0100
-Message-ID: <cover.1772184444.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
+        bh=O7gmgroH8XCrohM3UPbPIKKMQk9MsrGkmwhghzVt7z0=;
+        b=ZqvVURx8dwTlZCkUDoApRWwkvf0nSlci9FOBLRMv7+lg5EgnXE3I7omOS5GTAmKohg
+         Q6XEnR/2XzZqagJDN6m4yp3TmHu5sTBhVDdUsHmqmsMvYV8HQkbtT6hmd2buaUkC23gK
+         cziZ/c9ww8itNyxKgJ0ILrXD+D2y9lQFWO87rCQTE8MhPzYznp5l7bjdZQ6vZXUwJwXE
+         iBiT6nHZnhxeviREPlS6vULHjZSWh4g6oLsSWEFT7CtnELqb7Daqff5zCPtX3aLc2rdM
+         yX4GHb6uYhpHNXDsRTWCVB8woSG1MLo8Ypz7DiAc8AWcg1QzL/w3D8aueG6rPbW+oZZj
+         B3SA==
+X-Gm-Message-State: AOJu0YzFrEV5+MrDR7FyoA47qFPJSjZ3dHsKeX7RQxmMvvEXbx13E/UL
+	H04DfbUB1B1YIHCHmulGW/NAxPHTmaSoiJdVrWButRuY23MJ5W1z3FCPP4hioNnzw6w7HH3wlFJ
+	guv21RXGVhaIxgdce5X9Xpksv92JlXCtC8AEL
+X-Gm-Gg: ATEYQzy40AGPo7HbpC/RVfFytlN0CAWBj1i7dr8YC8c9iz2brlFKz2qgdfA/RNCVp4U
+	IbomuY7w85GN7GFxSTYumPQLsE7t4h0p61Lj5e6kjcuMq2589oKOmOe+6hkCuOzjJOVINYqLNum
+	APqaNnEZuAMIPDQ5UNkTtn5HkEVS7pQoDhvde7xBPfORBaWfv4pQm1qkXICJN0xAS5Jz6gKEhhv
+	jzCbWP+0t3cACPE6hroo6SxXhiUTMHeKChNvxlnVb/AsCzrNESd1sMeROO8OtIFY+7eDqO3uA8O
+	/M6xA3HLQA==
+X-Received: by 2002:a17:907:847:b0:b88:463e:b55f with SMTP id
+ a640c23a62f3a-b9376365cfdmr132988866b.6.1772185159773; Fri, 27 Feb 2026
+ 01:39:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260227072110.2807435-1-hongxu.jia@windriver.com>
+In-Reply-To: <20260227072110.2807435-1-hongxu.jia@windriver.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Fri, 27 Feb 2026 09:39:08 +0000
+X-Gm-Features: AaiRm536z6LBZt49eLpUaZThVOfkc85oejGYLsyoclrpnJeW_z42zLHM6mO5YUQ
+Message-ID: <CANPvuRkDSpvyioZvO7iVLhPBtUQQytYRG-Z4KJ7cPn6jeMyC5w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] classes/yocto-check-layer: allow to explicitly
+ skip check_network_flag in recipe
+To: hongxu.jia@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ecb64b064bcb02b9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 09:30:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232091
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 09:39:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232092
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/openembedded-core/cover.1771942869.git.yoann.congal@smile.fr/T/#t
+--000000000000ecb64b064bcb02b9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Passed a-full on autobuilder (no change since patch review request):
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/3274
+Hi hongxu,
 
-The following changes since commit e2994ca0076ec99038790e7a40936236a5078135:
+hongxu via lists.openembedded.org <hongxu.jia=3D
+windriver.com@lists.openembedded.org> escreveu (sexta, 27/02/2026 =C3=A0(s)
+07:21):
 
-  build-appliance-image: Update to kirkstone head revision (2026-01-26 18:54:26 +0000)
+> The yocto-check-layer add a new test that checks that no tasks
+> between do_fetch (exclusive) and do_build (inclusive) are allowed
+> to use the network, with rare exceptions.
+>
+> The only exception currently is build-appliance-image's do_image task,
+> which is hardcoded in yocto-check-layer bbclass.
+>
+> This commit adds variable SKIP_CHECK_NETWORK_FLAG to allow user to
+> explicitly skip check_network_flag in recipe
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/classes-global/yocto-check-layer.bbclass | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes-global/yocto-check-layer.bbclass
+> b/meta/classes-global/yocto-check-layer.bbclass
+> index ba93085325..9fb36f5646 100644
+> --- a/meta/classes-global/yocto-check-layer.bbclass
+> +++ b/meta/classes-global/yocto-check-layer.bbclass
+> @@ -27,13 +27,16 @@ def check_insane_skip(d):
+>              d.setVar("QA_ERRORS_FOUND", "True")
+>
+>
+> +# Format: "BPN1:task1 BPN2:task2", separate by space
+> +# build-appliance-image uses pip at image time
+> +SKIP_CHECK_NETWORK_FLAG =3D "build-appliance-image:do_image"
+> +
+>  # Check that no tasks (with rare exceptions) between do_fetch and do_bui=
+ld
+>  # use the network.
+>  def check_network_flag(d):
+>      # BPN:task names that are allowed to reach the network, using fnmatc=
+h
+> to compare.
+>      allowed =3D []
+> -    # build-appliance-image uses pip at image time
+> -    allowed +=3D ["build-appliance-image:do_image"]
+> +    allowed +=3D (d.getVar('SKIP_CHECK_NETWORK_FLAG') or '').split()
+>
 
-are available in the Git repository at:
+This could introduce severe reproducibility problems for someone who claims
+to have a Yocto compatible layer.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+Can you tell what other recipes require this?
 
-Aleksandar Nikolic (1):
-  scripts/install-buildtools: Update to 4.0.32
+Jose
 
-Amaury Couderc (2):
-  avahi: patch CVE-2025-68468
-  avahi: patch CVE-2025-68471
 
-Ankur Tyagi (2):
-  avahi: patch CVE-2025-68276
-  avahi: patch CVE-2026-24401
+>
+>      def is_allowed(bpn, task):
+>          from fnmatch import fnmatch
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#232081):
+> https://lists.openembedded.org/g/openembedded-core/message/232081
+> Mute This Topic: https://lists.openembedded.org/mt/118026872/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Bruce Ashfield (5):
-  linux-yocto/5.15: update to v5.15.195
-  linux-yocto/5.15: update to v5.15.196
-  linux-yocto/5.15: update to v5.15.197
-  linux-yocto/5.15: update to v5.15.198
-  linux-yocto/5.15: update to v5.15.199
+--=20
+Best regards,
 
-Fabio Berton (1):
-  classes/buildhistory: Do not sign buildhistory commits
+Jos=C3=A9 Quaresma
 
-Hugo SIMELIERE (1):
-  libtasn1: Fix CVE-2025-13151
+--000000000000ecb64b064bcb02b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Peter Marko (20):
-  zlib: ignore CVE-2026-22184
-  python3: patch CVE-2025-13837
-  python3: patch CVE-2025-12084
-  libxml2: patch CVE-2026-0990
-  libxml2: patch CVE-2026-0992
-  libxml2: add follow-up patch for CVE-2026-0992
-  expat: patch CVE-2026-24515
-  expat: patch CVE-2026-25210
-  inetutils: patch CVE-2026-24061
-  libpng: patch CVE-2026-22695
-  libpng: patch CVE-2026-22801
-  libpng: patch CVE-2026-25646
-  glib-2.0: patch CVE-2026-0988
-  glib-2.0: patch CVE-2026-1484
-  glib-2.0: patch CVE-2026-1485
-  glib-2.0: patch CVE-2026-1489
-  ffmpeg: set status of CVE-2025-25468 and CVE-2025-25469
-  vim: ignore CVE-2025-66476
-  harfbuzz: ignore CVE-2026-22693
-  glibc: stable 2.35 branch updates
+<div dir=3D"ltr"><div>Hi hongxu,</div><br><div class=3D"gmail_quote gmail_q=
+uote_container"><div dir=3D"ltr" class=3D"gmail_attr">hongxu via <a href=3D=
+"http://lists.openembedded.org">lists.openembedded.org</a> &lt;hongxu.jia=
+=3D<a href=3D"mailto:windriver.com@lists.openembedded.org">windriver.com@li=
+sts.openembedded.org</a>&gt; escreveu (sexta, 27/02/2026 =C3=A0(s) 07:21):<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">The yocto-check-=
+layer add a new test that checks that no tasks<br>
+between do_fetch (exclusive) and do_build (inclusive) are allowed<br>
+to use the network, with rare exceptions.<br>
+<br>
+The only exception currently is build-appliance-image&#39;s do_image task,<=
+br>
+which is hardcoded in yocto-check-layer bbclass.<br>
+<br>
+This commit adds variable SKIP_CHECK_NETWORK_FLAG to allow user to<br>
+explicitly skip check_network_flag in recipe<br>
+<br>
+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" t=
+arget=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-global/yocto-check-layer.bbclass | 7 +++++--<br>
+=C2=A01 file changed, 5 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/classes-global/yocto-check-layer.bbclass b/meta/classes-g=
+lobal/yocto-check-layer.bbclass<br>
+index ba93085325..9fb36f5646 100644<br>
+--- a/meta/classes-global/yocto-check-layer.bbclass<br>
++++ b/meta/classes-global/yocto-check-layer.bbclass<br>
+@@ -27,13 +27,16 @@ def check_insane_skip(d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.setVar(&quot;QA_ERRORS_FO=
+UND&quot;, &quot;True&quot;)<br>
+<br>
+<br>
++# Format: &quot;BPN1:task1 BPN2:task2&quot;, separate by space<br>
++# build-appliance-image uses pip at image time<br>
++SKIP_CHECK_NETWORK_FLAG =3D &quot;build-appliance-image:do_image&quot;<br>
++<br>
+=C2=A0# Check that no tasks (with rare exceptions) between do_fetch and do_=
+build<br>
+=C2=A0# use the network.<br>
+=C2=A0def check_network_flag(d):<br>
+=C2=A0 =C2=A0 =C2=A0# BPN:task names that are allowed to reach the network,=
+ using fnmatch to compare.<br>
+=C2=A0 =C2=A0 =C2=A0allowed =3D []<br>
+-=C2=A0 =C2=A0 # build-appliance-image uses pip at image time<br>
+-=C2=A0 =C2=A0 allowed +=3D [&quot;build-appliance-image:do_image&quot;]<br=
+>
++=C2=A0 =C2=A0 allowed +=3D (d.getVar(&#39;SKIP_CHECK_NETWORK_FLAG&#39;) or=
+ &#39;&#39;).split()<br></blockquote><div><br></div><div>This could introdu=
+ce severe reproducibility problems for someone who claims to have a Yocto c=
+ompatible layer.</div><div><br></div><div>Can you tell what other recipes r=
+equire this?</div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+<br>
+=C2=A0 =C2=A0 =C2=A0def is_allowed(bpn, task):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from fnmatch import fnmatch<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#232081): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/232081" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/232081</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118026872/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118026872/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
+div></div></div>
 
-Richard Purdie (2):
-  pseudo: Update to 1.9.3 release
-  pseudo: Update to include an openat2 fix
-
-Scott Murray (1):
-  u-boot: move CVE patch out of u-boot-common.inc
-
-Vijay Anusuri (2):
-  openssl: upgrade 3.0.18 -> 3.0.19
-  bind: Upgrade 9.18.41 -> 9.18.44
-
-Yoann Congal (1):
-  pseudo: Update to include a fix for systems with kernel <5.6
-
- meta/classes/buildhistory.bbclass             |   2 +-
- meta/recipes-bsp/u-boot/u-boot-common.inc     |   4 +-
- meta/recipes-bsp/u-boot/u-boot_2022.01.bb     |   1 +
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   4 +
- .../avahi/files/CVE-2025-68276.patch          |  65 ++++
- .../avahi/files/CVE-2025-68468.patch          |  32 ++
- .../avahi/files/CVE-2025-68471.patch          |  36 ++
- .../avahi/files/CVE-2026-24401.patch          |  74 ++++
- .../bind/{bind_9.18.41.bb => bind_9.18.44.bb} |   2 +-
- .../inetutils/CVE-2026-24061-01.patch         |  38 ++
- .../inetutils/CVE-2026-24061-02.patch         |  82 +++++
- .../inetutils/inetutils_2.2.bb                |   2 +
- .../openssl/openssl/CVE-2023-50781-1.patch    |  46 ++-
- .../openssl/openssl/CVE-2023-50781-2.patch    | 112 +++---
- .../openssl/openssl/CVE-2023-50781-3.patch    |  16 +-
- .../{openssl_3.0.18.bb => openssl_3.0.19.bb}  |   2 +-
- .../expat/expat/CVE-2026-24515.patch          |  43 +++
- .../expat/expat/CVE-2026-25210-01.patch       |  27 ++
- .../expat/expat/CVE-2026-25210-02.patch       |  37 ++
- .../expat/expat/CVE-2026-25210-03.patch       |  28 ++
- meta/recipes-core/expat/expat_2.5.0.bb        |   4 +
- .../glib-2.0/glib-2.0/CVE-2026-0988.patch     |  58 ++++
- .../glib-2.0/glib-2.0/CVE-2026-1484-01.patch  |  48 +++
- .../glib-2.0/glib-2.0/CVE-2026-1484-02.patch  |  45 +++
- .../glib-2.0/glib-2.0/CVE-2026-1485.patch     |  44 +++
- .../glib-2.0/glib-2.0/CVE-2026-1489-01.patch  |  42 +++
- .../glib-2.0/glib-2.0/CVE-2026-1489-02.patch  |  30 ++
- .../glib-2.0/glib-2.0/CVE-2026-1489-03.patch  | 290 ++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2026-1489-04.patch  |  68 ++++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   8 +
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- meta/recipes-core/glibc/glibc_2.35.bb         |   3 +-
- .../libxml/libxml2/CVE-2026-0990.patch        |  76 ++++
- .../libxml/libxml2/CVE-2026-0992-01.patch     |  49 +++
- .../libxml/libxml2/CVE-2026-0992-02.patch     | 325 ++++++++++++++++++
- .../libxml/libxml2/CVE-2026-0992-03.patch     |  33 ++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   4 +
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   2 +
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
- .../python/python3/CVE-2025-12084.patch       | 171 +++++++++
- .../python/python3/CVE-2025-13837.patch       | 162 +++++++++
- .../python/python3_3.10.19.bb                 |   2 +
- .../harfbuzz/harfbuzz_4.0.1.bb                |   3 +
- .../linux/linux-yocto-rt_5.15.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb |   5 +
- .../libpng/files/CVE-2026-22695.patch         |  77 +++++
- .../libpng/files/CVE-2026-22801.patch         | 164 +++++++++
- .../libpng/files/CVE-2026-25646.patch         |  61 ++++
- .../libpng/libpng_1.6.39.bb                   |   3 +
- .../gnutls/libtasn1/CVE-2025-13151.patch      |  30 ++
- .../recipes-support/gnutls/libtasn1_4.20.0.bb |   1 +
- meta/recipes-support/vim/vim_9.1.bb           |   3 +
- scripts/install-buildtools                    |   4 +-
- 55 files changed, 2391 insertions(+), 121 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68276.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68468.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2025-68471.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2026-24401.patch
- rename meta/recipes-connectivity/bind/{bind_9.18.41.bb => bind_9.18.44.bb} (97%)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.18.bb => openssl_3.0.19.bb} (99%)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-03.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-0988.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1484-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1485.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-03.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-1489-04.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0990.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-01.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-02.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-0992-03.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-12084.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13837.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
- create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2025-13151.patch
-
+--000000000000ecb64b064bcb02b9--
 
