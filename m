@@ -1,116 +1,188 @@
-Return-Path: <hongxu.jia@windriver.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5193AFD5307
-	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 07:21:19 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.90138.1772176873566084792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 612DAFD530B
+	for <webhook@archiver.kernel.org>; Fri, 27 Feb 2026 07:33:19 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.90293.1772177593733829659
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Feb 2026 23:21:13 -0800
+ Thu, 26 Feb 2026 23:33:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BNg9M2d2;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6518b1cadd=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61R5KOab2602621
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 23:21:13 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=LOzePOqPOzc+X4t76Z0i
-	3fZDZwGwOTM4G89VhoPiZ1Q=; b=BNg9M2d2FNE+3ICJDui6KPpn7lRVTgg6SI8N
-	VnLBh6obPMUaMIqphKU9Zwt//0qfKAkzTCvwHkev+SBWmhs7rmVSr7o2pNb7Hsu8
-	zgFCjongPAZ7CkLVsFfrgnh2Z3Hku3YjuY9ude0SY1rkwfhOyeO24Y7ZBctncprG
-	eW7NgSI62o/lP816/svyMx+z3jzYnlhkwhQ876xXqZwPQjSXqfwz+3ilS9A6NTl0
-	Ef8O+pORnbvJyBWKp9ZWWHUEeM0J/51RSp++dOjlXhR7IiG8EERyqEW1h+jcCkBv
-	iiuCWtHPaPRIAovJ7NhSNGY1i6AEQLQiNu/iYbcRHESRYAgHqw==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cjdu2smb9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Feb 2026 23:21:12 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 26 Feb 2026 23:21:12 -0800
-Received: from pek-lpg-core5.wrs.com (128.224.153.45) by
- ala-exchng01.corp.ad.wrs.com (10.11.232.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 26 Feb 2026 23:21:11 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] classes/yocto-check-layer: allow to explicitly skip check_network_flag in recipe
-Date: Fri, 27 Feb 2026 15:21:10 +0800
-Message-ID: <20260227072110.2807435-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDA2MCBTYWx0ZWRfX7ruaBxl6OH3x
- bg1MchS6cTq+NDFjjFrxCMuhMS5AA1DUG0gNODoDitPgDtbDD/wxQuZozTFXnmsmG7R45ucB72y
- NMSGd5og9iuAlyJs5SPLQNA9dXjsuZwVUUt8l3w9w32ZT1kceQWA2gzLKjOgV1CEpaddMx6iXDx
- pO9B6tHyKwymkrFSx27+5fUvTHTBENRFIwBF1kzM5BnwMbO8RH8f+PAagt/5roAXk67AbxSFTb9
- fs1abMRoAysPZKAKCdaG1jo0bV8DzLG+XbqYQa05yG/dwSwxhJ68YSjVZPXqeSKIpklLThct3ER
- 70Q9z180jyu5AwSuSYzAYAp9eMX+652inmI2XQgxeb8kJCOVvNozC2XltXOPa4FV1kiOobXrw3l
- rzqFUol1vaMAPcnCMYAoEK8sCAwf3fy+Itbzhb++DWwf4eVO1bEjQMSFTRG9KsYfcwG0Y9b+Ckb
- zNP+D+tBzNAHaRZse8g==
-X-Authority-Analysis: v=2.4 cv=WpMm8Nfv c=1 sm=1 tr=0 ts=69a145e9 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8 a=2Flg5VAdD3ZpKNHTT-EA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: TNZ2TU3xVMcgSCgZAwZ6J0W8JimVdDTI
-X-Proofpoint-GUID: TNZ2TU3xVMcgSCgZAwZ6J0W8JimVdDTI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-27_01,2026-02-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- impostorscore=0 phishscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602270060
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ccYI6gnf;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 978194E412D9
+	for <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 07:33:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 63B205FE46;
+	Fri, 27 Feb 2026 07:33:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2EB3410369424;
+	Fri, 27 Feb 2026 08:33:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1772177590; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=XYxdpmzi6P2KmpN3rEEf1In4xWBC+046OYj5hFsOKr8=;
+	b=ccYI6gnfXMMYvuSfTFNZ/sc7d8yayLn3j4bwsrqdMvpVFNmDTSXV68fpWDpxwauqtHWo/8
+	jjHDmYWBW/n9+2/gbNxPXtb2uT1gbiN+Qkrb3U2cIaFRo+eDcTWO0QVZldZJ/x0cSfTD6t
+	2ZzF8iZeJl2t2LmhxhJf6J6mne/t85VHGr52hhuvdqxgBu9ZX2HWztQfKO4y+96/b9s/6P
+	cizv3mn7ALg/l31SCxo4IfSI0kUIHLPwuMuX1nBBZOX88Fmsj70rC46O1S1mRMJbCRk9+L
+	wBVanwaONCywYdoXW85R5NCfrqModImlyhm+iK6qni39Mkb58aq/BQ4Uw02dmQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Feb 2026 08:32:59 +0100
+Message-Id: <DGPKIT38LERA.190KG9RZ2LXIX@bootlin.com>
+Subject: Re: [OE-core][PATCH v3 0/8] Add SPDX 3 Recipe Information
+Cc: <benjamin.robin@bootlin.com>, <ross.burton@arm.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260224230234.679049-1-JPEWhacker@gmail.com>
+ <20260226173930.2847872-1-JPEWhacker@gmail.com>
+In-Reply-To: <20260226173930.2847872-1-JPEWhacker@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 07:21:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232081
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Feb 2026 07:33:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232082
 
-The yocto-check-layer add a new test that checks that no tasks
-between do_fetch (exclusive) and do_build (inclusive) are allowed
-to use the network, with rare exceptions.
+On Thu Feb 26, 2026 at 6:33 PM CET, Joshua Watt via lists.openembedded.org =
+wrote:
+> Changes the SPDX 3 output to include a "recipe" package that describe
+> static information available at parse time (without building). This is
+> primarily useful for gathering SPDX 3 VEX information about some or all
+> recipes, enabling SPDX 3 to be used in place of cve_check.bbclass and
+> vex.bbclass.
+>
+> Special thanks to Benjamin Robin <benjamin.robin@bootlin.com> for
+> helping work through this.
+>
+> V2: Fixes a bug where do_populate_sysroot was running when it should not
+> be. Drops the patch to ignore ASSUME_PROVIDES recipes, since this is
+> incorrect (this is already handled by bitbake in the taskgraph, and
+> doesn't need to be manually removed).
+>
+> V3: Fixes a bug where meta-world-recipe-sbom was reporting a circular
+> dependency. meta-world-recipe-sbom also no longer runs in world builds,
+> as there's no reason to this. Finally, fixes a bug where
+> NO_GENERIC_LICENSE files would fail to be found in do_create_spdx
+> (because do_unpack was not run).
+>
 
-The only exception currently is build-appliance-image's do_image task,
-which is hardcoded in yocto-check-layer bbclass.
+Hi Joshua,
 
-This commit adds variable SKIP_CHECK_NETWORK_FLAG to allow user to
-explicitly skip check_network_flag in recipe
+Thanks for new version, results looks way better overall, but we still
+have a few errors.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes-global/yocto-check-layer.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+I now have this issue on some builds:
+ERROR: nativesdk-sdk-provides-dummy-1.0-r0 do_create_spdx: Could not find a=
+ static SPDX document named static-nativesdk-sdk-provides-dummy
 
-diff --git a/meta/classes-global/yocto-check-layer.bbclass b/meta/classes-global/yocto-check-layer.bbclass
-index ba93085325..9fb36f5646 100644
---- a/meta/classes-global/yocto-check-layer.bbclass
-+++ b/meta/classes-global/yocto-check-layer.bbclass
-@@ -27,13 +27,16 @@ def check_insane_skip(d):
-             d.setVar("QA_ERRORS_FOUND", "True")
- 
- 
-+# Format: "BPN1:task1 BPN2:task2", separate by space
-+# build-appliance-image uses pip at image time
-+SKIP_CHECK_NETWORK_FLAG = "build-appliance-image:do_image"
-+
- # Check that no tasks (with rare exceptions) between do_fetch and do_build
- # use the network.
- def check_network_flag(d):
-     # BPN:task names that are allowed to reach the network, using fnmatch to compare.
-     allowed = []
--    # build-appliance-image uses pip at image time
--    allowed += ["build-appliance-image:do_image"]
-+    allowed += (d.getVar('SKIP_CHECK_NETWORK_FLAG') or '').split()
- 
-     def is_allowed(bpn, task):
-         from fnmatch import fnmatch
--- 
-2.34.1
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/3335
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/1105
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/3238
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/3233
+
+And some errors in oe-selftests:
+2026-02-26 20:46:06,214 - oe-selftest - INFO - newlib.NewlibTest.test_newli=
+b (subunit.RemotedTestCase)
+2026-02-26 20:46:06,215 - oe-selftest - INFO -  ... FAIL
+...
+ERROR: gcc-cross-x86_64-15.2.0-r0 do_create_spdx: Could not find a builds S=
+PDX document named build-linux-libc-headers
+...
+ERROR: sysroot-test-1.0-r0 do_create_spdx: Could not find a builds SPDX doc=
+ument named build-sysroot-test-arch1
+...
+2026-02-26 21:03:31,870 - oe-selftest - INFO - sysroot.SysrootTests.test_sy=
+sroot_cleanup (subunit.RemotedTestCase)
+2026-02-26 21:03:31,870 - oe-selftest - INFO -  ... FAIL
+...
+2026-02-26 21:20:09,006 - oe-selftest - INFO - spdx.SPDX30Check.test_custom=
+_annotation_vars (subunit.RemotedTestCase)
+2026-02-26 21:20:09,006 - oe-selftest - INFO -  ... FAIL
+...
+2026-02-26 21:20:09,006 - oe-selftest - INFO - 4: 37/50 612/670 (18.90s) (0=
+ failed) (spdx.SPDX30Check.test_custom_annotation_vars)
+2026-02-26 21:20:09,006 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 306, in test_custom_=
+annotation_vars
+    objset =3D self.check_recipe_spdx(
+        "base-files",
+    ...<7 lines>...
+        ),
+    )
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 123, in check_recipe=
+_spdx
+    return self.check_spdx_file(filename)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 81, in check_spdx_fi=
+le
+    self.assertExists(filename)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/case.py", line 249, in assertExists
+    raise self.failureException(msg)
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build=
+-st-2700993/tmp/deploy/spdx/3.0.1/qemux86_64/recipes/recipe-base-files.spdx=
+.json' does not exist
+...
+ERROR: gawk-native-5.3.2-r0 do_create_spdx: Applying patch '/srv/pokybuild/=
+yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/recipes=
+-extended/gawk/gawk/0001-configure.ac-re-enable-disabled-printf-features.pa=
+tch' on target directory '/srv/pokybuild/yocto-worker/oe-selftest-debian/bu=
+ild/build-st-2700993/tmp/work/x86_64-linux/gawk-native/5.3.2/spdx/3.0.1/wor=
+k/sources/gawk-5.3.2'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/oe-selftest-debian/bu=
+ild/build-st-2700993/tmp/work/x86_64-linux/gawk-native/5.3.2/recipe-sysroot=
+-native/etc/quiltrc push', 0, 'stdout:
+stderr: /bin/sh: 1: quilt: not found
+')
+ERROR: bzip2-native-1.0.8-r0 do_create_spdx: Applying patch '/srv/pokybuild=
+/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/recipe=
+s-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch' on t=
+arget directory '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build=
+-st-2700993/tmp/work/x86_64-linux/bzip2-native/1.0.8/spdx/3.0.1/work/source=
+s/bzip2-1.0.8'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/oe-selftest-debian/bu=
+ild/build-st-2700993/tmp/work/x86_64-linux/bzip2-native/1.0.8/recipe-sysroo=
+t-native/etc/quiltrc push', 0, 'stdout:
+stderr: /bin/sh: 1: quilt: not found
+')
+...
+2026-02-26 21:27:01,979 - oe-selftest - INFO - spdx.SPDX30Check.test_gcc_in=
+clude_source (subunit.RemotedTestCase)
+2026-02-26 21:27:01,980 - oe-selftest - INFO -  ... FAIL
+...
+2026-02-26 21:27:26,620 - oe-selftest - INFO - spdx.SPDX30Check.test_kernel=
+_config_spdx (subunit.RemotedTestCase)
+2026-02-26 21:27:26,621 - oe-selftest - INFO -  ... FAIL
+...
+
+2026-02-26 21:27:50,868 - oe-selftest - INFO - spdx.SPDX30Check.test_packag=
+econfig_spdx (subunit.RemotedTestCase)
+2026-02-26 21:27:50,868 - oe-selftest - INFO -  ... FAIL
+...
+
+Also, it looks like you did not add yourself as a maintainer of
+meta-world-recipe-sbom.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3288
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3405
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3463
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
