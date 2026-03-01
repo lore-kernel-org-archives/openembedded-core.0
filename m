@@ -2,30 +2,30 @@ Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F83FD0064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86840FD0066
 	for <webhook@archiver.kernel.org>; Sun,  1 Mar 2026 12:26:26 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.136986.1772367976546302708
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.136987.1772367976591787367
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Mar 2026 04:26:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=S372Jupl;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gK+JsOUT;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75206bce17=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621CKmI93942698;
-	Sun, 1 Mar 2026 04:26:06 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621CKmIA3942698;
+	Sun, 1 Mar 2026 04:26:07 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=PjfKnySvtg1cNHTK6TWXcUZw5h8Syj8GvfRtrmAzODA=; b=
-	S372JuplZH8e54JwGliXUTJ9i3wGUnvUdg2vT2kXZ3hCtwUBaCfTFrI5XrM9APMM
-	eZ8FtQYFCGcYREft20w/e3mQtdI68K8mJwAZ8D7U9/fRp9OG0l4f3VNSSLJwAGvZ
-	nUTxhjXW3YQsKXg1YvUO3JxAbCnSB436BY4xNX9PwR/MBSqy/DaHZwv1vOoBERUQ
-	1qqZ/VfYM5XtXgnnehEA6kT2OI5R8Ft893vmP8FbsmIpiW8o+LtIp2akMgu5x4n6
-	7LRMj34zGdNK4RSfMkh0mkS+0KjifhjVNiwJo5LSoH1x6Xfqif5WIHSy1k8UC0CV
-	si84e/WhNSYpeUTFJHOtzQ==
+	PPS06212021; bh=/xHGGpf49UioH1Bc9MBRE/ygq6100zH9r5G2mTev4Uo=; b=
+	gK+JsOUTz8/i2n7caEx0Q4wNqvlMUyyiBfvGr3FdwaxKtVfOwCBhe964HFz/JbBy
+	JwEgPOARB/p+Ahf/nI4c63+6+OJ2nTNV0Xg11//AOHZnonPROGWAwmQ0OptTfxE1
+	Lriq8KYBg2r4pB5Lhd43+/kHLei5rkOTkn5sviIGlhE6+UBbAOcRwr3hdL/1GR8g
+	0z7XlmNX1T9pfSVEXk/2SH8uOTAGPc0oEGvcgfEaEqEC6/qH8Od+P1GEbjeNP4tD
+	SSh/NHrm559d02wK5fT2c/+yvnHJ4FvoKhqGPyZ90gSwKrFyLfbkgyXVtkj1SubO
+	rd2yxrYpfXelp321YoRvLA==
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckvh41456-4
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckvh41456-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
 	Sun, 01 Mar 2026 04:26:06 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
@@ -38,29 +38,29 @@ Received: from ala-lpggp3.wrs.com (10.11.105.124) by
 From: <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <alex.kanavin@gmail.com>, <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH v7 5/7] lib/oe/package.py: Don't redirect stderr
-Date: Sun, 1 Mar 2026 04:26:02 -0800
-Message-ID: <64734e7740511cf4486113468f01970b0a09b698.1772367692.git.liezhi.yang@windriver.com>
+Subject: [PATCH v7 6/7] target-sdk-provides-dummy: Add pkg-config to DUMMYPROVIDES
+Date: Sun, 1 Mar 2026 04:26:03 -0800
+Message-ID: <c783e8fb5127f0edc1c76ff0e43078b774edadb3.1772367692.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <cover.1772367692.git.liezhi.yang@windriver.com>
 References: <cover.1772367692.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: WIcy35Jx92Q39g3hyJrsTmMeeqmJmTa2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDExMiBTYWx0ZWRfX8Vu0p9JNvxxE
- abZBnsKLnnoefEC+6agauJ08QMd9wGwdDfarRI3hODpte0DbeEzmOq5Nzdq/M0oxAO17QwCf65x
- AyK45wYTrCoo/6Po3BrE5Hsc4F7CiFtcs9pmgiNH+18cHYiHcg2hlo9YtgDJiVnILInO+xDAUuI
- Ar8nkIqKPC+mgZtCPmTNja/Msv33zEdgxT1WYA0Xg2kqueqBa1DGpN5z0rT9oK4cSIoYQYvT7iC
- Uxa1zKGj8OUjoXnoTS0wXekHZnQkJ3T3ndfXouS9ioOauY/osX+PepIbsnmdJtgIh3Iq59+gFrY
- 7/Yo4B6libAtY6Faq0VMc0G1TMU74W+CFglXs+Ln6pwPdCfF5EBll7aS/b1MsYDokU9W9idNOmo
- /vNhEk9sTzdDETs9ZCXXnEBiXOJJN5sb5sBd2UVWThK6CUfbFjmIMENYiOqSsokBD7EKBaqvuUQ
- gTfx+JBw+XCqxvKh5IQ==
-X-Proofpoint-GUID: WIcy35Jx92Q39g3hyJrsTmMeeqmJmTa2
+X-Proofpoint-ORIG-GUID: kA7t3z_OAwqUOxZkASwqjyteoarpl-o4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDExMiBTYWx0ZWRfX27CxRep7sTYA
+ PQIEwL6TrZiwMib7GrCcUufSBmcKwctA0WvmipSiGGfqiM1+yQkxkzj7WYgdqbp07iItXkoiD7W
+ Rv0iV2m7l5OhTb9PIRluN+19eeoQD8zeVfqaatFg2rTh8PqJxl4M1RWV1juchNywwrRRpjM4A3m
+ AwoFVcYh91caz8r//QP0VUQPEKhxZMLvnmiyLjx6rFYG8uzfydIK3cA30OAO5aKzQYKsF/ZjXSP
+ ApPWb1IclBl2lVAJJWWuhJd2+XvY6Fl9dD4mKdu/aNGKl5e5gMNco0Y+ZS5FCRDYbq7HjY9OTj3
+ 0r1J3vFpVWQhweWIlNXea0PGIhU+RKzIg6PA556WQZ4Bs1rXoAeYAg5tZESgFQTZLZI7uDZWDN3
+ CGVro9cEl4TR/T5rV3U/Xm3mChM/yRDdc5eo5Q5jH/K3+MMoIP3Os/xmHjV2kz/Q+eFwZrc/twd
+ 4RGJqCMUACcsUBSbn/g==
+X-Proofpoint-GUID: kA7t3z_OAwqUOxZkASwqjyteoarpl-o4
 X-Authority-Analysis: v=2.4 cv=Z/3h3XRA c=1 sm=1 tr=0 ts=69a4305e cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
  a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=G_CNgP1_34ZBAdHNgzoA:9
+ a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=4Dhi_sbw-4GiiV7o3rsA:9
  a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
@@ -74,30 +74,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 12:26:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232134
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232136
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-This can make the debug easier.
+The rpm package requires /usr/bin/pkg-config when it has .pc files.
+Fixed:
+1) target-sdk-provides-dummy.bb:
+  - package acl-dev-2.3.2-r0.core2_64 from oe-repo requires /usr/bin/pkg-config, but none of the providers can be installed
+
+2) nativesdk-sdk-provides-dummy.bb:
+  - package nativesdk-wayland-dev-1.24.0-r0.x86_64_nativesdk from oe-repo requires /usr/bin/pkg-config, but none of the providers can be installed
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oe/package.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb | 1 +
+ meta/recipes-core/meta/target-sdk-provides-dummy.bb    | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index d389a9f43b..f97eae104f 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -276,7 +276,7 @@ def filedeprunner(pkg, pkgfiles, rpmdeps, pkgdest):
- 
-         return provides, requires
- 
--    output = subprocess.check_output(shlex.split(rpmdeps) + pkgfiles, stderr=subprocess.STDOUT).decode("utf-8")
-+    output = subprocess.check_output(shlex.split(rpmdeps) + pkgfiles).decode("utf-8")
-     provides, requires = process_deps(output, pkg, pkgdest, provides, requires)
- 
-     return (pkg, provides, requires)
+diff --git a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
+index 1d71f373a4..9fd8122d77 100644
+--- a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
+@@ -8,6 +8,7 @@ DUMMYPROVIDES = "\
+     /bin/sh \
+     /bin/bash \
+     /usr/bin/env \
++    /usr/bin/pkg-config \
+     libGL.so()(64bit) \
+     libGL.so \
+ "
+diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+index 849407cca5..618016b315 100644
+--- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+@@ -52,6 +52,7 @@ DUMMYPROVIDES = "\
+     /bin/bash \
+     /usr/bin/env \
+     /usr/bin/perl \
++    /usr/bin/pkg-config \
+     libperl.so.5 \
+     libperl.so.5()(64bit) \
+ "
 -- 
 2.49.1
 
