@@ -1,181 +1,170 @@
-Return-Path: <michael.opdenacker@rootcommit.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2ECBFD005D
-	for <webhook@archiver.kernel.org>; Sun,  1 Mar 2026 10:45:05 +0000 (UTC)
-Received: from siberian.tulip.relay.mailchannels.net (siberian.tulip.relay.mailchannels.net [23.83.218.246])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.136073.1772361899951710163
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED27FD0068
+	for <webhook@archiver.kernel.org>; Sun,  1 Mar 2026 12:26:26 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.136984.1772367976102224692
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Mar 2026 02:45:00 -0800
+ Sun, 01 Mar 2026 04:26:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@rootcommit.com header.s=hostingermail-a header.b=ka+sDvdl;
- spf=pass (domain: rootcommit.com, ip: 23.83.218.246, mailfrom: michael.opdenacker@rootcommit.com)
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 4FAB5822287;
-	Sun, 01 Mar 2026 10:44:59 +0000 (UTC)
-Received: from fr-int-smtpout29.hostinger.io (100-106-44-163.trex-nlb.outbound.svc.cluster.local [100.106.44.163])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id CEED2822034;
-	Sun, 01 Mar 2026 10:44:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1772361898;
-	b=PGY9Wt01RqPnKoHvs9iGkUDIzCWlHoiilnE7QplzHnB2tN0IyKN04M5h6WWfacAa1irqS1
-	EtVt2rH9gY0vmO8yLOEcoVMcdSJBFyGC4gF17jKEwi3bDfEwXocGHnNVOGhCthQNp8F2vT
-	O0oQuj92kh3JUA0TEJTJFxziK94O/H/g0/+wqqPQ4HromizzVY8q+auPFQbP67k/oFuSFj
-	18xKK/G/9CFNVkcMT7NoO3HI/PZlamu1TTaXjeOaFx+JMIkKovA5sA7Qp6x9QpGRxzShan
-	Pa37crGKfRYhXdJpUJhSDylbbz3Z8Z3hwTPyPuH/FVTROzLLG82U1AjAIY4Dkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1772361898;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=vH1Y59DcVhxCdR4r5X5TBBwebaxRHb7TI0yzeHvLozg=;
-	b=vBhkkx+pkC+swsgKsH/7VNdkBtMroP40nfqecwac9ZuFTzihng2bZIRgJgWsRj8Fwt16hP
-	+9bIm8kLMktzqeAm8DrWlJo4F7bL9fhw+QgZ4GH10n+BTzHQPzTdDg8Ux0ui4vvpsqOzQg
-	sR26SK8sev93e/zzFeovomb2rpHXqQl6//n43Eus1MQvkW3cHnxcZL1BYSx5k9YAiLZFUe
-	FG6anzpznpQ3PWtuy48b5jLMzlVrBUCyflU27wBw7PPmXHxJ9UTp9ecgbp+auL+Z4bzNV7
-	5W88/qkbjw3viQzpQFPi9C4oWKhBMTR4/2Ru7C1hoRUCO2hFsAEsN9mFsiXRFg==
-ARC-Authentication-Results: i=1;
-	rspamd-7f65b64645-vwtlk;
-	auth=pass smtp.auth=hostingeremail
- smtp.mailfrom=michael.opdenacker@rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: 
- hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Descriptive-Stupid: 77e83dcc0b063f97_1772361899062_1651689774
-X-MC-Loop-Signature: 1772361899062:2688698304
-X-MC-Ingress-Time: 1772361899061
-Received: from fr-int-smtpout29.hostinger.io (fr-int-smtpout29.hostinger.io
- [148.222.54.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.106.44.163 (trex/7.1.3);
-	Sun, 01 Mar 2026 10:44:59 +0000
-Received: from [IPV6:2001:861:4450:d360:ce17:18d4:cd7d:85d7] (unknown [IPv6:2001:861:4450:d360:ce17:18d4:cd7d:85d7])
-	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4fNzGb4cVfz2xgx;
-	Sun,  1 Mar 2026 10:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1772361896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vH1Y59DcVhxCdR4r5X5TBBwebaxRHb7TI0yzeHvLozg=;
-	b=ka+sDvdlJRYjTOlk5w7p79MwI70EigalgIKU/vzCDdeDo2q8XS22II6OVwN1sD6eDeX8Rc
-	r3HzaWmdJOa9UBRpJhBQES8wi9IZnnnsaOhjLvN2aRuRQHVmeenbLfTy8zNlSjgT5TA4lc
-	0ukT0pOTUWCLlDxICiLqCBCL+dWAoS0dqeRCsGdNrKEiBE+WZh5F5Gnz6BY2BN1mXPox90
-	Y2BAGu9RG1+EnMd+9lYPNgOGfYJjX2cIyr3FYydx9QJ5sUQ8xKB8T5k2es0hVxN9lfR9FY
-	6UA1maHAKkvYUO8boMJUY5p2Ks7i2VNC3Ygi2UN1Rpre1tWSw0D6fhVkjdpotw==
-Message-ID: <d92e89bc-9abc-4a59-a59a-18de25747ee9@rootcommit.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=J29MLxFd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75206bce17=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621CKmI73942698;
+	Sun, 1 Mar 2026 04:26:06 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=129aaVgZwuVWiHmeV3+ItxrOUGYGsks85u6wFyD2EyA=; b=
+	J29MLxFdGxB9z4e35TV3n/ALTelfJAlEjo3lxmdZh9jW+RBPyGIgf553x2lzAE/l
+	ThEemXLxX+KcfR8/0ywQYQWPZ9WRRo/Z/kdmi6MA1qbi+iDsMf7citziA6fO2PLt
+	BvQM1sG1XMl6N7+6MlhNPOuk5S8SyFMtO9lIZtSQ4afvZhJJrCmhmm5RYAk7Buzs
+	xHUtVfOfXeJvO1vbbdE5rJUABkUfo6s/Ch6b8dCOZooTM5AAvXxkXjP20eCB61hS
+	XKBJbkQx3DdwHUAST5fEGvdWQ7WgQ5duwxKJeRPRSL5XD7CTy3saSa0tvRRGzpX7
+	d3yUl/ijUd7wHp5jzL2LoQ==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckvh41456-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 01 Mar 2026 04:26:05 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Sun, 1 Mar 2026 04:26:05 -0800
+Received: from ala-lpggp3.wrs.com (10.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (10.11.232.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Sun, 1 Mar 2026 04:26:05 -0800
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <alex.kanavin@gmail.com>, <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v7 3/7] lib/oe/package.py: Don't add ldconfig_postinst_fragment for glibc or musl
+Date: Sun, 1 Mar 2026 04:26:00 -0800
+Message-ID: <f20a99606c947dd0ad88f47dfbc4d7d83a828062.1772367692.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.1
+In-Reply-To: <cover.1772367692.git.liezhi.yang@windriver.com>
+References: <cover.1772367692.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: michael.opdenacker@rootcommit.com, Marek Vasut <marek.vasut@mailbox.org>,
- Usama Arif <usama.arif@arm.com>
-Subject: Re: [PATCH 0/2] fitimage: add ability to include arbitrary loadables
-To: Francesco Valla <francesco@valla.it>,
- openembedded-core@lists.openembedded.org,
- Adrian Freihofer <adrian.freihofer@siemens.com>
-References: <20260228-fit_loadables-v1-0-3027ec37930d@valla.it>
-Content-Language: en-US
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-In-Reply-To: <20260228-fit_loadables-v1-0-3027ec37930d@valla.it>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Sun,  1 Mar 2026 10:44:55 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=UN2PHzfy c=1 sm=1 tr=0 ts=69a418a8 a=tYUyu9Su+O64wtbcsxDTPw==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=xvfqbYfxAAAA:20 a=d70CFdQeAAAA:8 a=G9VyFs9zu4Ai8fI2714A:9 a=QEXdDO2ut3YA:10 a=NcxpMcIZDGm-g932nG_k:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-CM-Envelope: MS4xfBV0BnWSeV/Tx1v6JmSTJLb0C7wYPwPtOnC+X2AkwNw3rTIFswVM1zHGbkRubFZBT2opfnXYY8poPJVDNC5d+pmPlbExufZIjNx6X70KGkQPnfp2olzD YCTQSZ5L5neUr+tO05o4KgNqLu8RF2QC0VZEjjTeNynQ8OiTdf+VtHrBovt7foXrVgLSA8xeV/LCfm4ZCI7Bz7jIFPI7VIB5UWxaOP3Du1ru9lC41edShuzH YSymnF06PorzeTXDaAYzU822vWgzxEhEvevGw73LUHtOi4sUUociMO5JUaxEVMDJKBZfmWywMxWtSwGxlQMDZEho0CSVxwuzFSpwfZuhK40b/Th3ZNQdlfXx buCtGhSpcaQ4cCm9O8smT5a/S6r4f6+W9dGyIZHcqvI5BcHvk8gtbDXQEguvVVpm5fot30SNUaDm/cKTiJVaEqEb8EP7n+F3s/ng4XIg0Q1SZVy8o76tnwLp DMkIr81tovbCEUh6Z5I5npgVTIUapyg8CX6ANlL4p7fGbW6h6LQWQutTBeE=
-X-AuthUser: michael.opdenacker@rootcommit.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: ZhN6oz2aMj4j9nw4wiJKMaD_dvWkbb_0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDExMiBTYWx0ZWRfX3aLAJVvBAuFJ
+ I32LFB9iDdQlmeLiKoiMC284vKM1qoTHq1DNHpi5VxEr4qYlm7kMa5bl7gWC+D17MG1oEfXA+35
+ w6A9iNINgBW9niMxEl/cOTqRanR9qo0mxBq/Fhxx0XMt8hDh3cHzU6TDDp20/ROERokGX5gNGbr
+ d5f7vfYiXeDOiSBA2ISJa+kIXZZqe8mFJ+KxVo6tmaDEkoBq24r6VB0gON6+48FkN0gRpIFakva
+ ffo3w0aRtdPFblHaaDGvnzj4oD3+EwRwU7PPWR86wqNCwBvb6IReq+siP9pkxVFGYYMw/aJS0cx
+ gHSM0Mf9HSNtmkEC94M4Y7Bkdc6KdqqMYXuyJfNrpJVbcLARLrJbkW42xaG+O4gp62psBlGxhNS
+ rBH7kNmZkhlDAAYtIELSVLRR5cCJ/+K/0UOGnHWqIftV+dp6SMdi07NxePGLMDx1sb/Hd7G3lz4
+ FyClBAX4VJWMqaKWVtw==
+X-Proofpoint-GUID: ZhN6oz2aMj4j9nw4wiJKMaD_dvWkbb_0
+X-Authority-Analysis: v=2.4 cv=Z/3h3XRA c=1 sm=1 tr=0 ts=69a4305d cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=7IgoiE7PWGSXnmU5ZuwA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-01_01,2026-02-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603010112
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 10:45:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232133
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 12:26:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232137
 
-Hi Francesco,
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Thanks for the patches!
+Fixed:
+$ bitbake core-image-full-cmdline:do_testimage
+%post(busybox-1.37.0-r0.x86_64_x32): execv(/bin/sh) pid 624
+error: failed to exec scriptlet interpreter /bin/sh: No such file or directory
 
-On 2/28/26 12:37 AM, Francesco Valla wrote:
-> Hello,
->
-> this patchset adds the possibility to include arbitrary loadables in a
-> kernel FIT image and to define all associated parameters (description,
-> compression, type, arch, os, load address and entry address) through
-> variables.
->
-> Patch 1 simply extends the fitimage test infrastructure to allow
-> checking for existence of node properties regardless of their values,
-> while patch 2 contains the new functionality and associated tests,
->
-> The idea behind the proposal is to be able to generate FIT images for
-> complex boot flows, in which components beyond the Linux kernel, its FDT
-> and an initramfs need to be loaded before the aforementioned Linux
-> kernel is up and running.
->
-> As an example, the setup propose by Marek Vasut in [1] (boot of the
-> kernel through OP-TEE, with both components being loaded from a single
-> FIT by U-Boot) could be simply obtained with:
->
->    FIT_LOADABLES = "tee"
->    FIT_LOADABLE_DESCRIPTION[tee] = "OP-TEE"
->    FIT_LOADABLE_TYPE[tee] = "tee"
->    FIT_LOADABLE_ARCH = "arm"
->    FIT_LOADABLE_OS[tee] = "tee"
->    FIT_LOADABLE_LOADADDRESS[tee] = "0xde000000"
->    FIT_LOADABLE_ENTRYPOINT[tee] = "0xde000000"
->
-> while a more complex flow I'm experimenting on (boot of the OP-TEE and
-> the kernel through TF-A on the i.MX93, with all components being loaded
-> from a single FIT by U-Boot SPL after verification) as:
->
->    FIT_LOADABLES = "atf tee"
->
->    FIT_LOADABLE_FILENAME[atf] = "bl31-imx93.bin"
->    FIT_LOADABLE_DESCRIPTION[atf] = "TF-A Firmware"
->    FIT_LOADABLE_TYPE[atf] = "tfa-bl31"
->    FIT_LOADABLE_OS[atf] = "arm-trusted-firmware"
->    FIT_LOADABLE_LOADADDRESS[atf] = "0x204E0000"
->
->    FIT_LOADABLE_FILENAME[tee] = "tee.bin"
->    FIT_LOADABLE_DESCRIPTION[tee] = "OP-TEE"
->    FIT_LOADABLE_TYPE[tee] = "tee"
->    FIT_LOADABLE_OS[tee] = "tee"
->    FIT_LOADABLE_LOADADDRESS[tee] = "0x96000000"
->
-> Being inside the FIT image, and part of all configurations, the
-> loadables can be in this way hashed and (optionally) signed and/or
-> encrypted with the same flow and key(s) already in place for the kernel.
->
-> The generated FIT image is compatible with the U-Boot FIT "full" boot
-> flow, which loads any component part of the "loadables" group after the
-> kernel, the fdt and the initramfs.
-This looks good!
+It is because busybox and libc6 depends on each other, busybox' elf files
+depends on libc6, and libc6's postin depends on busybox' /bin/sh, the do_rootfs
+works well is because dnf-native has set RPM_NO_CHROOT_FOR_SCRIPTS=1, but it
+would be failed without it.
 
-I guess, I could use this mechanism to replace my "boot-bundle" recipe 
-in meta-riscv 
-(https://github.com/riscv/meta-riscv/blob/master/recipes-bsp/u-boot/boot-bundle.bb).
+In rpm 4.20.1, it let the installed files' Requires win, so it installed
+busybox firstly, but in rpm 6.0.1, it let the postin's Requires win since
+postin would run immediately after the files are installed, this does make
+sense, so it installed busybox (which provides /bin/sh required by libc6'
+postin) firstly, then we got the errors. I couldn't find which commit made this
+change because a lot of files and functions are refactored during 4.20.1 and
+6.0.0 (not .1), I also tried bisect, but failed because a lot of do_patch or
+do_configure/do_compile failures for each build.
 
-The idea implemented by this recipe is to add the compressed kernel and 
-DTB to the FIT image loaded by the first stage bootloader (SPL), when 
-using a vendor SPL with MMC support and a mainline U-Boot that doesn't 
-have storage support yet. This way, the kernel and DTB are preloaded in 
-RAM by the SPL.
+For libc6's the postin is:
 
-Using your mechanism, I should be able to add the bootloader binaries to 
-the kernel FIT image, to achieve the same result, but without a custom 
-recipe :)
-Thanks
-Michael.
+  #!/bin/sh
+  if [ x"$D" = "x" ]; then
+      if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+  fi
 
+This doesn't make sense for libc6 since there is no /bin/sh or ldconfig when
+libc6 is not ready yet, so just not add ldconfig_postinst_fragment for glibc
+to fix the problem.
+
+And also remove the workarounds in oeqa/runtime/cases/dnf.py, they are not
+needed any more since the loop dependency is fixed.
+
+Similar to musl.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oe/package.py                    | 3 ++-
+ meta/recipes-core/glibc/glibc-package.inc | 5 +++++
+ meta/recipes-core/musl/musl_git.bb        | 5 +++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 279cd567b3..d389a9f43b 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1824,7 +1824,8 @@ def process_shlibs(pkgfiles, d):
+                     if s[0] not in shlib_provider:
+                         shlib_provider[s[0]] = {}
+                     shlib_provider[s[0]][s[1]] = (pkg, pkgver)
+-        if needs_ldconfig:
++        if needs_ldconfig and \
++                not bb.utils.to_boolean(d.getVar('SKIP_LDCONFIG_POSTINST_FRAGMENT:%s' % pkg)):
+             bb.debug(1, 'adding ldconfig call to postinst for %s' % pkg)
+             postinst = d.getVar('pkg_postinst:%s' % pkg)
+             if not postinst:
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 21f2200d19..11a568f302 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -293,6 +293,11 @@ pkg_postinst:nscd () {
+ 		fi
+ 	fi
+ }
++
++# Avoid loop dependencies between /bin/sh and libc.so.6
++SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} = "1"
++do_package[vardeps] += "SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN}"
++
+ CONFFILES:nscd = "${sysconfdir}/nscd.conf"
+ 
+ SYSTEMD_PACKAGES = "nscd"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 3f5fa37fba..d4e1e9e9bf 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -81,4 +81,9 @@ LEAD_SONAME = "libc.so"
+ INSANE_SKIP:${PN}-dev = "staticdev"
+ INSANE_SKIP:${PN} = "libdir"
+ 
++# Avoid loop dependencies between /bin/sh and libc.so
++SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} = "1"
++do_package[vardeps] += "SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN}"
++
+ UPSTREAM_CHECK_COMMITS = "1"
++
 -- 
-Root Commit
-Embedded Linux Training and Consulting
-https://rootcommit.com
+2.49.1
 
 
