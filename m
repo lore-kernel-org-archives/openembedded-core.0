@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F73EA4E36
-	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:01:56 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.163899.1772467309121868041
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DC0EA4E2F
+	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:02:06 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.163906.1772467324140080840
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 08:01:49 -0800
+ Mon, 02 Mar 2026 08:02:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kcRtCU2l;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4399851b14bso3288545f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:01:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cIWmeu55;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439a7b48df2so1719575f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:02:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772467307; x=1773072107; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772467321; x=1773072121; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eKvzeelvcmzwHmJAdmzJqzIDPLCUSdhS8qFrouJh3hM=;
-        b=kcRtCU2lgRhFzhEFBg60ZBW203L+wbWPKJlzd0/yPJdLdvESl/ZNAyPU2E9BZ+yB+0
-         OhvFqqDxmkq/9wputSLtc0neTwErCbiH63ZttQ3otV7OThpA5an8M/g8PA7LdQv3olQj
-         t93jebMgMdm1mi//msTsTRc+ZG/Yh8k1pr8Y4NoBdHb5zUA1Qlc1CHxEILN0i620DR9h
-         qUn9TAbLZxyVHQuQRcDFrGeI5tMEhlV23azAX+roaaGB4Plnf9SQNTULiD7melvczLtx
-         pEVsymryHEGXihXz9zOgSVbEQY46g1bwGB3Kgmvp5+sxcJGsIpTJz0KmOXX1Es2BKFjI
-         PHeg==
+        bh=APgPt1b3/IjuPqB0PdlFtsUlW+yfBhfmpjSOGki8RFs=;
+        b=cIWmeu55Eu3NWHyudPhq9R4QFMdctyAmihEhQvDj4CYYNRHsjt7hLwjS3b/cg11/rX
+         5x1CLiglXb0TWzKUubemh9c21WgFigqmt63ovNp71If4S/k7PfQxwQJEhaL9vr3GC74S
+         xhlh13A4wB+26hvrxXweLw5/EqzFZBUyHjmxt3INvYx4XO/hpA3Wg5/AUfj4hX+cJ5q8
+         hP0hmZCN0ZYDksRKNZtAOEVyW24tU460gp4XodlDcWjwzpqikGN1D3ULdv/EkCFzuN3a
+         jN99vsOQb6BN/IKYPdHU87L6w5FTwOVKrNgMrTkWVIfpqaP6K0cS+18DthtBEIaG4yxP
+         YNkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772467307; x=1773072107;
+        d=1e100.net; s=20230601; t=1772467321; x=1773072121;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=eKvzeelvcmzwHmJAdmzJqzIDPLCUSdhS8qFrouJh3hM=;
-        b=HoZA8SVE/c5sL2BapNTMNafRiIKpSiISBjPXb+pX9mzcTn95imbPJVuDkDnOTnUDmY
-         ygZ+WmilziC5UGrinwv+g9647TotXIrQTuuKrorCzYeyzBtaR48yVPaS/imqHj6O3p0m
-         BleHJ+Qesn1Et5kFvw9d6qHnfseGE64pyLGJ0oFxDunEWxJpVUTdP0DFcpMA+lly3XI0
-         B6NS7zT/hV6Cshvu5KBTAw6h2lR/9R7gGOxyokTOAGf/apstOlzDsVfStAR42+xAsKmq
-         l3lpHKreitLrKzoC9npVXJR2PJWU98qcf39vnYd8wvh0I3CVP9OrrzWsZHIERG5Dq/Aq
-         KRlQ==
-X-Gm-Message-State: AOJu0YynGOQgDryGeetzG1/tneeCsQS8+FGLp67vV0Dnx7YtHqkn7G7n
-	EtWHV53/WYVYAk3qMuGThfQFQN/acHDlrP97RM44Qy8XLv3ib9l24BxwF2Zn4g==
-X-Gm-Gg: ATEYQzwZrH+1wse4ifMQygCbTsMm+bS2HNX1hhW6ApPIVt+3qCJ1OTRaz1ApFX0PgIk
-	B8hfcgnjThajlpCpSlBbARWKJYwmODskNbe6nzZhG4aszjd4kLFLVVLQJnSvKc/e2dBy0rZMunP
-	g/e4btXdAm41Y86QYxjCrZYUDe7ZPPGG6eby0NPF6vyzC6C9sBvvi1FlPBFmyvFenZbLF1yFojj
-	+3OWx1kN8Vh7sEwJDaws3/9hoZF7nh+9PDjJPZP+nIeeOHFvzP5ePQBIyokDFNyLrPw4q6BC99P
-	AeUmWynXA5vOMDiKGm+60MBhn9WEZPwBKqGxOuo4s4pqGqg8jC0GJoY2HyGsVYhRsOhYG0Aomx9
-	DasUqkRyMS0UqCJgM6vdxQoV64l2XEgAiGHi/bpYa52rUDqgiBRVU54QZSx613c+j5SCkHBVrMO
-	soxVBZRtBPGq0HhsCTX9OkaQvVekwf4Q//ilzBYpRhVvqRRSRLGK34Cigx09OKIrU3zy3dp8caz
-	kNeCh6u0NlgAiFmsHBj
-X-Received: by 2002:a5d:5f46:0:b0:439:b1be:81ad with SMTP id ffacd0b85a97d-439b1be82a6mr11049715f8f.21.1772467301603;
-        Mon, 02 Mar 2026 08:01:41 -0800 (PST)
+        bh=APgPt1b3/IjuPqB0PdlFtsUlW+yfBhfmpjSOGki8RFs=;
+        b=mErij8S03WdpTdbMLXvJgjjQaHdNYK41rX8zPRieyVTWX6SHVxSCKe2RPGGObOBnaT
+         k8Qw5vhD5Mfeb/jN7lh85pA1ST6YOIS7TOOf+V7QAngc+k8Tcur47VpBHGVlEXopoRhj
+         BMqO5cnFHvqYInKV7LTxwB/pRi/GSNvvqoSyZMF3s2zNB9CH2Spg58LHscyGgIGovRmM
+         uWXTz49NCkMisWAhwaA9MI3xXJfXQqoIKXrKU1ChCPCioJiINbTaTj8ODAVh2iRPqcDk
+         CfLN3xVcUeGRzxt91X0eJs+IX91rJEFuvoNNNxaofxUnSB4zxDIYnvKMWPlRWmIrms7J
+         wTsg==
+X-Gm-Message-State: AOJu0Yw31/8MDvBiwY6UivrbObUHiOAa3lXAfXb3tWffnvzwUfdqiAju
+	D+bVLmsgzEjOJsJjXP6rIufCTClQusZFdHh6ugm5cpajXY61kmE2AE/L0+q0Xw==
+X-Gm-Gg: ATEYQzy0fe21KdK+n6+tkGCJrTvKlOSQbLRqlap/jzOyh/Cgke+5QikJlYtLaaibdyR
+	czQ2KiJdStcMUHcZFjPf9Z+5R46gYktmM+/2d889rpuHxI8U6onhjQ+PsHlKzSdWZlOI7G9jO0B
+	Iyevwcs4RohT+/rR7gGRwBHLil0MT6uewbj/Fl9nIq1h/naR6EmcYvjD66J4SzKiKi0P42IV5qa
+	J9ZfRuBSa5RkHw4wM6UAWwBXWakXXamxiIg2jKPEmuxOoIo7CAWsFHo2ZS6BdC23dwy+POEEc//
+	9WGDTNnDk5jtGSpfbuxI7d7NzXxwyfTz75UeWVqdd54JMbSZNBMJV8WVNVXpOT7d4vJn6+H56Kx
+	C087L3/YWLG6bASA+Gn9g3cmeUxYtFiGeFGp9znhEDzE+poP+EDmKoy7qRHzyQEoi8/e0MAUqMs
+	WnFvt0WRJKdJMwt6C1fkuI6+9nTsRmncMULvfm2tbInqk2vkqMvKMS8seiY117Ufvg8xN48ho1/
+	x+LBy8A9AJoyqXKZVhG
+X-Received: by 2002:a05:6000:1acc:b0:439:b114:60c0 with SMTP id ffacd0b85a97d-439b11462f6mr10743191f8f.35.1772467311774;
+        Mon, 02 Mar 2026 08:01:51 -0800 (PST)
 Received: from fedora (mob-194-230-144-8.cgn.sunrise.net. [194.230.144.8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 08:01:40 -0800 (PST)
+        Mon, 02 Mar 2026 08:01:50 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,9 +61,9 @@ Cc: Ross.Burton@arm.com,
 	stefano.tondo.ext@siemens.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com
-Subject: [PATCH v5 06/10] spdx30: Enrich source downloads with external refs and PURLs
-Date: Mon,  2 Mar 2026 17:01:10 +0100
-Message-ID: <20260302160114.46884-7-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v5 10/10] spdx-common: Add documentation for undocumented SPDX variables
+Date: Mon,  2 Mar 2026 17:01:14 +0100
+Message-ID: <20260302160114.46884-11-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
 References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
@@ -72,275 +72,83 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:01:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232216
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:02:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232219
 
-Enrich source download packages in SPDX SBOMs with comprehensive
-source tracking metadata:
+Add [doc] strings for eight undocumented SPDX-related BitBake
+variables in spdx-common.bbclass.
 
-External references:
-- VCS references for Git repositories (ExternalRefType.vcs)
-- Distribution references for HTTP/HTTPS/FTP archive downloads
-- Homepage references from HOMEPAGE variable
+Variables documented:
+- SPDX_INCLUDE_SOURCES
+- SPDX_INCLUDE_COMPILED_SOURCES
+- SPDX_UUID_NAMESPACE
+- SPDX_NAMESPACE_PREFIX
+- SPDX_PRETTY
+- SPDX_LICENSES
+- SPDX_CUSTOM_ANNOTATION_VARS
+- SPDX_MULTILIB_SSTATE_ARCHS
 
-Source PURL qualifiers:
-- Add ?type=source qualifier for recipe source tarballs to
-  distinguish them from built runtime packages
-- Only applied to pkg:yocto or pkg:generic PURLs (ecosystem-specific
-  PURLs like pkg:npm already have their own semantics)
-
-Version extraction with priority chain:
-- Priority 1: ;tag= parameter from SRC_URI (preferred, provides
-  meaningful versions like '1.2.3')
-- Priority 2: fd.revision (resolved Git commit hash)
-- Priority 3: SRCREV variable
-- Priority 4: PV from recipe metadata
-
-PURL generation:
-- Generate pkg:github PURLs for GitHub-hosted repositories
-- Extensible via SPDX_GIT_PURL_MAPPINGS for other hosting services
-- Ecosystem-specific version and PURL integration for Rust crates,
-  Go modules, PyPI, NPM packages
-
-Also add defensive error handling for download_location retrieval
-and wire up extract_dependency_metadata() for non-Git sources.
+This makes variables discoverable via bitbake-getvar and IDE
+completion, improving usability for SBOM generation.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 187 +++++++++++++++++++++++++-----------
- 1 file changed, 129 insertions(+), 58 deletions(-)
+ meta/classes/spdx-common.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 4493b6e5e1..7fc831225a 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -20,7 +20,6 @@ from datetime import datetime, timezone
- from pathlib import Path
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index 81c61e10dc..d45c152ba8 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -26,15 +26,38 @@ SPDX_TOOL_VERSION ??= "1.0"
+ SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
  
+ SPDX_INCLUDE_SOURCES ??= "0"
++SPDX_INCLUDE_SOURCES[doc] = "If set to '1', include source code files in the \
++    SPDX output. This will create File objects for all source files used during \
++    the build. Note: This significantly increases SBOM size and generation time."
++
+ SPDX_INCLUDE_COMPILED_SOURCES ??= "0"
++SPDX_INCLUDE_COMPILED_SOURCES[doc] = "If set to '1', include compiled source \
++    files (object files, etc.) in the SPDX output. This automatically enables \
++    SPDX_INCLUDE_SOURCES. Note: This significantly increases SBOM size."
  
--
- def extract_dependency_metadata(d, file_name):
-     """Extract ecosystem-specific PURL for dependency packages.
+ SPDX_UUID_NAMESPACE ??= "sbom.openembedded.org"
++SPDX_UUID_NAMESPACE[doc] = "The namespace used for generating UUIDs in SPDX \
++    documents. This should be a domain name or unique identifier for your \
++    organization to ensure globally unique SPDX IDs."
++
+ SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdocs"
++SPDX_NAMESPACE_PREFIX[doc] = "The URI prefix used for SPDX document namespaces. \
++    Combined with other identifiers to create unique document URIs."
++
+ SPDX_PRETTY ??= "0"
++SPDX_PRETTY[doc] = "If set to '1', generate human-readable formatted JSON output \
++    with indentation and line breaks. If '0', generate compact JSON output. \
++    Pretty formatting makes files larger but easier to read."
  
-@@ -573,81 +572,154 @@ def add_download_files(d, objset):
-             dep_version = None
-             dep_purl = None
+ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
++SPDX_LICENSES[doc] = "Path to the JSON file containing SPDX license identifier \
++    mappings. This file maps common license names to official SPDX license \
++    identifiers."
  
--            # For Git repositories, extract version from SRCREV
-+            # Get download location for external references
-+            download_location = None
-+            try:
-+                download_location = oe.spdx_common.fetch_data_to_uri(fd, fd.name)
-+            except Exception as e:
-+                bb.debug(1, f"Could not get download location for {file_name}: {e}")
-+
-+            # For Git repositories, extract version from SRCREV or tag
-             if fd.type == "git":
-                 srcrev = None
+ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
++SPDX_CUSTOM_ANNOTATION_VARS[doc] = "Space-separated list of variable names whose \
++    values will be added as custom annotations to SPDX documents. Each variable's \
++    name and value will be recorded as an annotation for traceability."
  
--                # Try to get SRCREV for this specific source URL
-+                # Prefer ;tag= parameter from SRC_URI
-+                if hasattr(fd, 'parm') and fd.parm and 'tag' in fd.parm:
-+                    tag = fd.parm['tag']
-+                    if tag and tag not in ['${AUTOREV}', 'AUTOINC', 'INVALID']:
-+                        dep_version = tag[1:] if tag.startswith('v') else tag
-+                        version_source = "tag"
-+                # Try fd.revision for resolved SRCREV
-                 # Note: fd.revision (not fd.revisions) contains the resolved revision
--                if hasattr(fd, 'revision') and fd.revision:
-+                if not dep_version and hasattr(fd, 'revision') and fd.revision:
-                     srcrev = fd.revision
--                    bb.debug(1, f"SPDX: Found fd.revision for {file_name}: {srcrev}")
--
--                # Fallback to general SRCREV variable
--                if not srcrev:
-+                    version_source = "fd.revision"
-+                # Fallback to SRCREV variable
-+                if not dep_version and not srcrev:
-                     srcrev = d.getVar('SRCREV')
-                     if srcrev:
--                        bb.debug(1, f"SPDX: Using SRCREV variable for {file_name}: {srcrev}")
--
--                if srcrev and srcrev not in ['${AUTOREV}', 'AUTOINC', 'INVALID']:
--                    # Use first 12 characters of Git commit as version (standard Git short hash)
-+                        version_source = "SRCREV"
-+                if not dep_version and srcrev and srcrev not in ['${AUTOREV}', 'AUTOINC', 'INVALID']:
-                     dep_version = srcrev[:12] if len(srcrev) >= 12 else srcrev
--                    bb.debug(1, f"SPDX: Extracted Git version for {file_name}: {dep_version}")
--
--                    # Generate PURL for Git hosting services
--                    # Reference: https://github.com/package-url/purl-spec/blob/master/PURL-TYPES.rst
--                    download_location = oe.spdx_common.fetch_data_to_uri(fd, fd.name)
--                    if download_location and download_location.startswith('git+'):
--                        git_url = download_location[4:]  # Remove 'git+' prefix
--
--                        # Build Git PURL handlers from default + custom mappings
--                        # Format: 'domain': ('purl_type', lambda to extract path)
--                        # Can be extended in meta-siemens or other layers via SPDX_GIT_PURL_MAPPINGS
--                        git_purl_handlers = {
--                            'github.com': ('pkg:github', lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None),
--                            # Note: pkg:gitlab is NOT in official PURL spec, so we omit it by default
--                            # Other Git hosts can be added via SPDX_GIT_PURL_MAPPINGS
--                        }
--
--                        # Allow layers to extend PURL mappings via SPDX_GIT_PURL_MAPPINGS variable
--                        # Format: "domain1:purl_type1 domain2:purl_type2"
--                        # Example: SPDX_GIT_PURL_MAPPINGS = "gitlab.com:pkg:gitlab git.example.com:pkg:generic"
--                        custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
--                        if custom_mappings:
--                            for mapping in custom_mappings.split():
--                                try:
--                                    domain, purl_type = mapping.split(':')
--                                    # Use simple path handler for custom domains
--                                    git_purl_handlers[domain] = (purl_type, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None)
--                                    bb.debug(2, f"SPDX: Added custom Git PURL mapping: {domain} -> {purl_type}")
--                                except ValueError:
--                                    bb.warn(f"SPDX: Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
--
--                        for domain, (purl_type, path_handler) in git_purl_handlers.items():
--                            if f'://{domain}/' in git_url or f'//{domain}/' in git_url:
--                                # Extract path after domain
--                                path_start = git_url.find(f'{domain}/') + len(f'{domain}/')
--                                path = git_url[path_start:].split('/')
--                                purl_path = path_handler(path)
--                                if purl_path:
--                                    dep_purl = f"{purl_type}/{purl_path}@{srcrev}"
--                                    bb.debug(1, f"SPDX: Generated {purl_type} PURL: {dep_purl}")
--                                break
--
--            # Fallback: use parent package version if no other version found
-+                    bb.debug(1, f"Extracted Git version for {file_name}: {dep_version} (from {version_source})")
-+
-+                # Generate PURL for Git hosting services
-+                # Reference: https://github.com/package-url/purl-spec/blob/master/PURL-TYPES.rst
-+                if dep_version and download_location and isinstance(download_location, str) and download_location.startswith('git+'):
-+                    git_url = download_location[4:]  # Remove 'git+' prefix
-+
-+                    # Default Git PURL handler (github.com)
-+                    git_purl_handlers = {
-+                        'github.com': ('pkg:github', lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None),
-+                        # Note: pkg:gitlab is NOT in official PURL spec, so we omit it by default
-+                    }
-+
-+                    # Custom PURL mappings from SPDX_GIT_PURL_MAPPINGS
-+                    # Format: "domain1:purl_type1 domain2:purl_type2"
-+                    # Example: SPDX_GIT_PURL_MAPPINGS = "gitlab.com:pkg:gitlab git.example.com:pkg:generic"
-+                    custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
-+                    if custom_mappings:
-+                        for mapping in custom_mappings.split():
-+                            try:
-+                                domain, purl_type = mapping.split(':')
-+                                git_purl_handlers[domain] = (purl_type, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None)
-+                                bb.debug(2, f"Added custom Git PURL mapping: {domain} -> {purl_type}")
-+                            except ValueError:
-+                                bb.warn(f"Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
-+
-+                    for domain, (purl_type, path_handler) in git_purl_handlers.items():
-+                        if f'://{domain}/' in git_url or f'//{domain}/' in git_url:
-+                            path_start = git_url.find(f'{domain}/') + len(f'{domain}/')
-+                            path = git_url[path_start:].split('/')
-+                            purl_path = path_handler(path)
-+                            if purl_path:
-+                                purl_version = dep_version if version_source == "tag" else (srcrev if srcrev else dep_version)
-+                                dep_purl = f"{purl_type}/{purl_path}@{purl_version}"
-+                                bb.debug(1, f"Generated {purl_type} PURL: {dep_purl}")
-+                            break
-+
-+            # Fallback to recipe PV
-             if not dep_version:
-                 pv = d.getVar('PV')
-                 if pv and pv not in ['git', 'AUTOINC', 'INVALID', '${PV}']:
-                     dep_version = pv
--                    bb.debug(1, f"SPDX: Using parent PV for {file_name}: {dep_version}")
-+            # Non-Git: try ecosystem-specific PURL
-+            if fd.type != "git":
-+                ecosystem_version, ecosystem_purl = extract_dependency_metadata(d, file_name)
-+
-+                if ecosystem_version and not dep_version:
-+                    dep_version = ecosystem_version
-+                if ecosystem_purl and not dep_purl:
-+                    dep_purl = ecosystem_purl
-+                    bb.debug(1, f"Generated ecosystem PURL for {file_name}: {dep_purl}")
+ SPDX_CONCLUDED_LICENSE ??= ""
+ SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
+@@ -53,6 +76,9 @@ SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
+     SPDX_CONCLUDED_LICENSE:${PN} = 'MIT & Apache-2.0'"
  
--            # Set version and PURL if extracted
-             if dep_version:
-                 dl.software_packageVersion = dep_version
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
++SPDX_MULTILIB_SSTATE_ARCHS[doc] = "The list of sstate architectures to consider \
++    when collecting SPDX dependencies. This includes multilib architectures when \
++    multilib is enabled. Defaults to SSTATE_ARCHS."
  
-             if dep_purl:
-                 dl.software_packageUrl = dep_purl
- 
-+            # Add ?type=source qualifier for source tarballs
-+            if (primary_purpose == oe.spdx30.software_SoftwarePurpose.source and
-+                fd.type != "git" and
-+                file_name.endswith(('.tar.gz', '.tar.bz2', '.tar.xz', '.zip', '.tgz'))):
-+
-+                current_purl = dl.software_packageUrl
-+                if current_purl:
-+                    purl_type = current_purl.split('/')[0] if '/' in current_purl else ''
-+                    if purl_type in ['pkg:yocto', 'pkg:generic']:
-+                        source_purl = f"{current_purl}?type=source"
-+                        dl.software_packageUrl = source_purl
-+                else:
-+                    recipe_purl = oe.purl.get_base_purl(d)
-+                    if recipe_purl:
-+                        base_purl = recipe_purl
-+                        source_purl = f"{base_purl}?type=source"
-+                        dl.software_packageUrl = source_purl
-+            # Add external references
-+
-+            # VCS reference for Git repositories
-+            if fd.type == "git" and download_location and isinstance(download_location, str) and download_location.startswith('git+'):
-+                git_url = download_location[4:]  # Remove 'git+' prefix
-+                # Clean up URL (remove commit hash if present)
-+                if '@' in git_url:
-+                    git_url = git_url.split('@')[0]
-+
-+                dl.externalRef = dl.externalRef or []
-+                dl.externalRef.append(
-+                    oe.spdx30.ExternalRef(
-+                        externalRefType=oe.spdx30.ExternalRefType.vcs,
-+                        locator=[git_url],
-+                    )
-+                )
-+
-+            # Distribution reference for tarball/archive downloads
-+            elif download_location and isinstance(download_location, str) and (
-+                    download_location.startswith('http://') or
-+                    download_location.startswith('https://') or
-+                    download_location.startswith('ftp://')):
-+                dl.externalRef = dl.externalRef or []
-+                dl.externalRef.append(
-+                    oe.spdx30.ExternalRef(
-+                        externalRefType=oe.spdx30.ExternalRefType.altDownloadLocation,
-+                        locator=[download_location],
-+                    )
-+                )
-+
-+            # Homepage reference if available
-+            homepage = d.getVar('HOMEPAGE')
-+            if homepage:
-+                homepage = homepage.strip()
-+                dl.externalRef = dl.externalRef or []
-+                # Only add if not already added as distribution reference
-+                if not any(homepage in ref.locator for ref in dl.externalRef):
-+                    dl.externalRef.append(
-+                        oe.spdx30.ExternalRef(
-+                            externalRefType=oe.spdx30.ExternalRefType.altWebPage,
-+                            locator=[homepage],
-+                        )
-+                    )
-+
-             if fd.method.supports_checksum(fd):
-                 # TODO Need something better than hard coding this
-                 for checksum_id in ["sha256", "sha1"]:
-@@ -664,7 +736,6 @@ def add_download_files(d, objset):
-                         )
-                     )
- 
--            inputs.add(dl)
- 
-     return inputs
- 
+ SPDX_FILES_INCLUDED ??= "all"
+ SPDX_FILES_INCLUDED[doc] = "Controls which files are included in SPDX output. \
 -- 
 2.53.0
 
