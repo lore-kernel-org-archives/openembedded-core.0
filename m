@@ -1,131 +1,111 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B23EA4E1E
-	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 15:13:26 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.162684.1772464398917834385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4902EEA4E2D
+	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:01:36 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.163873.1772467286391815476
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 07:13:19 -0800
+ Mon, 02 Mar 2026 08:01:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LpOICf0v;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48379a42f76so37615735e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 07:13:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kpfJfMYK;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-483abed83b6so38588245e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:01:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1772464397; x=1773069197; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772467284; x=1773072084; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XTFEyay4mgoLjtpF8RtKj1Nn2vah6Xz4fbwIQroJUvQ=;
-        b=LpOICf0vaRam8eW+avOGEFJDgQJcQFq1jRy30lH1Waq88b0tCJd6+hW9L0QpKjwRsB
-         hMC3YuM7tIXs0h8qUPs/xIBxJf8PDG1Rqe/qeT2ufCIRFYix7RNhYUyYDseOFVZKsLQ4
-         RodZwb5pOsV1MJixgZ29J5Pmy3OPleg8JvEIM=
+        bh=PvIeISWAh2SxVbK+wBCjCkSuXJeaD8nUhaJJU38nS4I=;
+        b=kpfJfMYKIID4sBz1l8jShq0P4KZ8lCrwEK77jGFF6fehZ09Xqt2oQlNySa3JaX/ECs
+         u4CabsPmZFhwEPFZn0edO8JllcFG/mpYyU9Hegag95FXf/kZ5rzH2vpGtflu0XTrjiIN
+         iHJilmmkHa/jBkPxFH2XlYDy1fzZhaheWLyuGeQqPwAeOhpJtHhBHpK5O/ZL5T/mPfsN
+         HE1JdoDU/tFtbDrfAUylUdBSDK+9E3sMk9oWOgX0N+hqkkRPYWDPBwG3RxrZjNzGk7Hm
+         +Ixyv1rdjAzT7bAsUNUCR39O66iT4onWMT3LP4ff++NtGJLlXwrkU4QTqKehFmcCokBw
+         ewaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772464397; x=1773069197;
+        d=1e100.net; s=20230601; t=1772467284; x=1773072084;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XTFEyay4mgoLjtpF8RtKj1Nn2vah6Xz4fbwIQroJUvQ=;
-        b=FulrUTN6lZgyeZ8KcOWRwcLgqfA5cjORcQY3fUR23Rh5TQrvQ/GTx2XFXGyLFLjddZ
-         pRx3cf8PA2hCCMQNuS+xyzp63cya0YCrSVcDqp2aH+oBVlZ5ILohcRv/10lu4EJDCX41
-         85Olt3uidFREUVI0ya+vE6vJAjGfHaskfXastilncgLL33RuTI/kXdosXOPaa34/9sLh
-         WQ2+Nv4CPKRJuNrevJr6JUFvoNkVJPJyEdBCoyof0u32xaCGd388C+bbUor27CRMTJi1
-         eXex2QfspDlbJGOb6R3m5CZoylM9sJL0QJqCk6ggXA+F2kcRKUmiR+GmWb1zKeCY7T3L
-         GQWg==
-X-Gm-Message-State: AOJu0YxcYfagkWAh9YN6YkwfMSdXQ4FuFttq3ar+0fhPdykCaQAjy663
-	3eMTM2JRTVG1CRIDu/VrVhPK/8cXqj31CEHy74MqLmKlXRQJxdIWSQM/wV18SOf8vnuBmStsiAo
-	aeez366c=
-X-Gm-Gg: ATEYQzxZk9p6umMBFbujwbXSjQQha/Yx2SFXbniBEHN9ZOCkAFrKKhJEnrUWlAqQD8B
-	EEWaWqn35RSlQGvCNsL/+OhL094Omxov5lnoY1WoXMWEq41U//l1dtGrlyEn0ZRtLuo0ke7ILer
-	4P7p6Rj8c8thk+Emjh1J5rBUpo2UgUjqKPXi5r/sz9DPMA7fnOuA0+Ztk+6WTjn/dbd4S8t96OV
-	sBgCvAbVKwMdDWm032IsbVlpi3wlbgnbGdkg2IV7jiLeIleN8hFxkTeab/1I1gwvnm276sGjXSO
-	aP/Z+2+1tOJkJBHMORZtmQl7HmemymVpyxC3NOpl4M0pR0ycDriTXF+i23PvVRLwvARpRRH0rNX
-	LLrBGn0PRidurEvXK2+sN1CgMBgnPdhn+9w1AR9TGKUHwmfzy3/0o3VfWYrMoOHKXHT8eNbNMYZ
-	tZcVCy9pDRDFVTersjeGGZQOI3PS2kJCQP5Jjdbr1OnJeZUuxqLXE=
-X-Received: by 2002:a05:600c:3512:b0:483:80b0:b245 with SMTP id 5b1f17b1804b1-483c9bbc276mr216321605e9.9.1772464396820;
-        Mon, 02 Mar 2026 07:13:16 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:dd78:7aff:8be3:3eb6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b3471asm308058775e9.3.2026.03.02.07.13.15
+        bh=PvIeISWAh2SxVbK+wBCjCkSuXJeaD8nUhaJJU38nS4I=;
+        b=ns/Hc32QMWwm+Ncz7Lo3dBX7uULsH05WXG/CkIB2xADCNUad4On8ZLt/T0YJIf8SxP
+         ry6uGGNn3/rhngO+orfr+Oi803TOe0y/ysYTfar0Hw8Yw+xWiqZzlvfEkV5KOtpbgJLi
+         psBgR8JS8cCnwM8TbIbiQyXB9uwatDEj/Je6rfie3wMgnbVAowLf0ZhZyIfqeNXwKjfH
+         AOovpW7vLJj57KMLlrw+s4O8odseH1d2dXte7bZNB6efQIKkUhQIdsWV1KMlkxA+q8cX
+         T203KOJxjAYLjQ5oAGZLUz2TEBFPAId+0oyKRyFVzFQELxkd0ANa2Gtn8olyvqqNoEOP
+         6JBw==
+X-Gm-Message-State: AOJu0Yw2kk+akPW2UVGdEGb5aemWIeTci1nHOaPa8zqoO++sIVEQ9HM8
+	3MbPsLOdGLtnc1vT/IXNhFfVbZf2sQr7g+jsEauXevU54O7uCpvUklPHMCpBkA==
+X-Gm-Gg: ATEYQzz2ELonNRy5x37+0RyR+4tGW7pE7HzXG3tf+61xu3XXJV/uHdFqyexLIOpm/h9
+	5I8cw3SgyYBzLkEZDH2ySoQsDVasqO0URGAyVcuEWW9zaIEpoFRaXXWTg+Y0oh59SWSY86Qe6I+
+	ZIaxlx96YAZWwlQ1hO7VESDywXCM5iBiFMnV91yFdLMkneAX/A///3nvnesIuNTs2xZskhkGvV4
+	lp3nP2bcziB/StPthcGvHK/KykFtR23BqjIa1/FdIWNEosFQXhkFoSElE6YUvdH9JDo7l81/N6C
+	eatyjNzU1GQoXzz5bQkEdqIKCFJkZSifD3CZN7glGfRQ7J0naB5tHLFqzttwgOClcq129x/QMOc
+	ODSpPf/vOFVzIc5IZ8HCb28C0lUhzGKo/SyhhU4PF2iPp1D3zvBRBhYvQKxLkI1YAHlZTcttoX8
+	Mey0rPHVEItEo+FWdqTLSlZ18T4bP3fGnwou4Dp6++PhKRHMCAIpDsbV/VV/1aNalhR7pTSXJUt
+	GjaTHX+HD0eAZybk4+W
+X-Received: by 2002:a05:600c:548f:b0:480:49ce:42cc with SMTP id 5b1f17b1804b1-483c9ba7c15mr217207145e9.9.1772467283762;
+        Mon, 02 Mar 2026 08:01:23 -0800 (PST)
+Received: from fedora (mob-194-230-144-8.cgn.sunrise.net. [194.230.144.8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 07:13:16 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 02 Mar 2026 08:01:22 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
+X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Changqing Li <changqing.li@windriver.com>
-Subject: [PATCH] ruby: Fix reproducibility issue in docs package
-Date: Mon,  2 Mar 2026 15:13:15 +0000
-Message-ID: <20260302151315.1576755-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+Cc: Ross.Burton@arm.com,
+	jpewhacker@gmail.com,
+	stefano.tondo.ext@siemens.com,
+	Peter.Marko@siemens.com,
+	adrian.freihofer@siemens.com
+Subject: [PATCH v5 00/10] spdx30: SBOM enrichment and documentation
+Date: Mon,  2 Mar 2026 17:01:04 +0100
+Message-ID: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 15:13:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232208
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:01:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232209
 
-From: Changqing Li <changqing.li@windriver.com>
+This v5 drops patch 07/11 ("spdx30: Include recipe base PURL in package
+external identifiers") from the v4 series, as it is now superseded by
+Joshua Watt's commit 874b2d301d ("spdx: Add yocto PURLs") which already
+includes oe.purl.get_base_purl(d) in the default SPDX_PACKAGE_URLS value,
+making the separate patch redundant.
 
-Add a patch, submitted upstream to address a timestamp sometimes added to the
-docs files.
+All other v4 patches are unchanged. See v4 cover letter for full context.
 
-[RP: Extracted the missing pieces of a v2 patch into a separate commit]
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...save-the-original-name-and-timestamp.patch | 33 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_4.0.1.bb      |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
+Changes since v4:
+  - Dropped 07/11: "spdx30: Include recipe base PURL in package external
+    identifiers" — superseded by 874b2d301d (spdx: Add yocto PURLs,
+    Joshua Watt, merged to master Jan 8 2026)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch b/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-new file mode 100644
-index 00000000000..3db53285653
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-@@ -0,0 +1,33 @@
-+From 6250ed93d1d7407eb84241296d604e6f98ff0a82 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Fri, 27 Feb 2026 16:59:24 +0800
-+Subject: [PATCH] Don't save the original name and timestamp
-+
-+Explictly pass -n option to not save the original name and timestamp for
-+improving reproducibility. In our test, always set mantype to man, but
-+the output like erb.1.gz is not stable, sometimes, "last modified: xxx"
-+is added to the file type, which make the build not reproducible.
-+
-+Upstream-Status: Submitted [https://github.com/ruby/ruby/pull/16265]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tool/rbinstall.rb | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tool/rbinstall.rb b/tool/rbinstall.rb
-+index 874c3ef..0bba588 100755
-+--- a/tool/rbinstall.rb
-++++ b/tool/rbinstall.rb
-+@@ -173,7 +173,7 @@ def parse_args(argv = ARGV)
-+   end
-+ end
-+ 
-+-Compressors = {".gz"=>"gzip", ".bz2"=>"bzip2"}
-++Compressors = {".gz"=>"gzip -n", ".bz2"=>"bzip2"}
-+ def Compressors.for(type)
-+   ext = File.extname(type)
-+   if compress = fetch(ext, nil)
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_4.0.1.bb b/meta/recipes-devtools/ruby/ruby_4.0.1.bb
-index 13d4a1b4ef0..e51d0d3e9cf 100644
---- a/meta/recipes-devtools/ruby/ruby_4.0.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_4.0.1.bb
-@@ -28,6 +28,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch \
-+           file://0001-Don-t-save-the-original-name-and-timestamp.patch \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
- 
+Stefano Tondo (10):
+  spdx30: Add configurable file filtering support
+  spdx30: Add supplier support for image and SDK SBOMs
+  spdx30: Add ecosystem-specific PURL generation
+  spdx30: Add version extraction from SRCREV for Git source components
+  spdx30: Add SPDX_GIT_PURL_MAPPINGS for Git hosting
+  spdx30: Enrich source downloads with external refs and PURLs
+  oeqa/selftest: Add test for download_location defensive handling
+  spdx.py: Add test for version extraction patterns
+  cve_check: Escape special characters in CPE 2.3 formatted strings
+  spdx-common: Add documentation for undocumented SPDX variables
+
+ meta/classes/create-spdx-3.0.bbclass |  20 ++
+ meta/classes/spdx-common.bbclass     |  63 +++++
+ meta/lib/oe/cve_check.py             |  37 ++-
+ meta/lib/oe/spdx30_tasks.py          | 329 ++++++++++++++++++++++++++-
+ meta/lib/oeqa/selftest/cases/spdx.py |  75 ++++++
+ 5 files changed, 518 insertions(+), 6 deletions(-)
+
+-- 
+2.53.0
+
 
