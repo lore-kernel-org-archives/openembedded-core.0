@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 305FCEA4E2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D57EA4E30
 	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:01:46 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.163887.1772467296564465941
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.164100.1772467297064063492
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 08:01:36 -0800
+ Mon, 02 Mar 2026 08:01:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gPdSetnL;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b2965d4bso1434085f8f.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VS1HFeW7;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4807068eacbso38454475e9.2
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:01:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1772467295; x=1773072095; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r1Pk5rMJmkxxq6vIyCdsXfCuU0SPqRy84+9NGf9MCTY=;
-        b=gPdSetnLK/bJC6QhQAPNoCFDMVJG/UooWaPLaV1JXn//ugdaMY0Cs1XK7X7mi+nbZd
-         tjPMCykWeHf2FNp2R7XGlbJT9gN1yIJAuQ7HeEMflo8jNS1OXCrBLcCxDYVfc2rfrNiM
-         g1Az7/LiS61nIruaqR2zxe2mx0r00jlo22wLtcpzqyAnQ1u+1zp3OvXlKC9Mq62XjkBE
-         l+2AIOas3DVH7Y+/Mq2BRemwi+FckyJzFY2v2jzKdn9XpMYTyKFyV9GxKw2AYf2wjYhq
-         91SAQ2s4lTmePmDfcs7YAVUdnXfmBgwZqhlmWyirxjiIXJiz58IgWqOftQSmTtU9+7VJ
-         UUkQ==
+        bh=93LDLTM9PTRaz1/M4o61T0JICCxs5UF29MzeO68vOPo=;
+        b=VS1HFeW74McVw7RQhWHcaYYuFgCm4TNDU2Sq04klx81o9DMj0HRTemVPl2vXPqlSnR
+         3S9kwqH0FKnMpqVNwKjDY986j9z3czR4iP+sFqoP4M8RtgKWjejtS856cfUtC0em6KFZ
+         uacDXut/KgrnNy+1qI9KhkLivpCSa9AIB6fqvRAqSaPJ1fD58BHNHPlG7/Q4CthAxaGF
+         9VFPd7JyA7050xsvmcMB+BaqOKge2aHoWDITn0Ors62SswGES2d2xE6F5DbpUMkJQi3Q
+         sB2Iu41PXagyokf49IRnFJeilQbSv4isZSOTVh+cW5zADKWaoFEEnimBjeUpdUD7V+lI
+         zhLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1772467295; x=1773072095;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=r1Pk5rMJmkxxq6vIyCdsXfCuU0SPqRy84+9NGf9MCTY=;
-        b=DTZ4ln5eIKSfPzRi21zOrmBl7mYXDAGvB+CNGwPAnIEOy8ByCPKUYWkAImtEXkQiT+
-         jAxfrQrySrvy2NQIfqW57pbQ/+iTPKCPIanqcf3K2rDGuUiCvo81/Ew/lmMj+k33e5mE
-         rd1kdT3nU/F7R3ntThUMFaj8Ebmh7b+Pb5LImwkVrdXMuAFI58mH7dVjvHRT5CCgANpF
-         ZkbVV9scT/N7Ks+5CCRGWC5R8zjVUWOT7AEfQsfdCVsOeRe83gjRsvcaUcFRk+EzN/2d
-         1A4GhMNr6dt8zX+L8HxWJCSHD+wUsOMIaiPJMipc4aZzIUh4R9wtIelM3dlCaaYwTHu5
-         HJWw==
-X-Gm-Message-State: AOJu0Yz8UhqNvePEg73ckMhxiM2VCPuMR99/XtieYwF0jVq95H7jK5vg
-	LIvJN9tFdgZl9GfdaDn2dw1IxVM8GzsEM3GO8gZjJgWS8axNsBHncjL7zel0hw==
-X-Gm-Gg: ATEYQzyh7DgcRl7JF6GeOlzcL5+Gp/Zq3zeFsaIfUkRap546fofdAwdqT4BA7JMmD+C
-	k/lGh7NJhFX+J8e8i8a3tZku0/CHT54FTSHTGcKIZKJ/j2QZv9pyWWSaxZZbOKD7uernfZgci0z
-	t7aSEyWyu23+uqCNYvIPe4Sn6tNKMs2ZB1IV9QpZ++dGW7kw9XOSy8VzWqf1BJD2MpfydfO43us
-	0hOoIUFkIBINPOS/ArFI/UN7nCfQEMIfv8x2Asvyzf5Tq3dzUmr5c12INGHSbnsMbQkZQ+DiKor
-	JeiMbhHkpb+N0ADdYeotExUL9FJ5EQvvCcLe2ryCvJE0wtIXHdYpnMnrpphE+t5hHFPFbrpm7IQ
-	eO/fvDHGHissXqzfRQa3/r2XoHJrXKz+vBGFP0nEL48tD2vypwM6TlUJpcUfRyn4RSq5sdtXrZ2
-	QgPOkv19BKpGui02c+WQggRbH0vCulDkgpWbMqZk0DEev9Hm8qhqKi8W1LrLiNge7wzuO8AL83T
-	qlAGS8PYAhTQxEFm97w
-X-Received: by 2002:a05:6000:4024:b0:439:af49:38c5 with SMTP id ffacd0b85a97d-439af4938e2mr12140076f8f.15.1772467294429;
-        Mon, 02 Mar 2026 08:01:34 -0800 (PST)
+        bh=93LDLTM9PTRaz1/M4o61T0JICCxs5UF29MzeO68vOPo=;
+        b=tS7zUQmrfnrUJnsCmv0QAUb/z6KgMXweQ8yIqc7vhv0ZMYUN2sDeFmbPiyFkdio0BT
+         k2vEpZJc8xRxW/y0c8zeRO+mUuGYv4UAXOvWjXmpaST/mH6P55cKiCeqO91joC2b1DNa
+         yZt6tt3TYH/n151pNqUxCjGa99/Qwsr0N3tCz2ku+Lbv80LsKSJm136C3+IJHb3/UeW3
+         dAAC93NKSabFpSR9txn9H+yL1ovI6k8+PTAGleEI02So0ehHTirxqebM0n5qs7JO2N9l
+         6w31mAGEgTzkHZiZwPfyABiV7BScypxX+2YHtBNSnORIiJui//dyAxzpTGCqNqpmBsf3
+         shgw==
+X-Gm-Message-State: AOJu0YyJ1nitIzU/oKoGAyEEqXsHIfpQaDxcvNUKlpbAjCW/iIadlX0V
+	tJQNOM5isyOEkMUGJefNSZqWzN56oZ5JjLkRWPD3efbhugYR52bKd6+9yYKeTQ==
+X-Gm-Gg: ATEYQzywHRniX4SZlU2HDOwB9P/3IiIo59L6MpfLNTRKknOOX6xSP18Ik6I/9ybfvqq
+	3fVR5P1T+cmUyIKKOngz6eHypA68qitld/snETYhS5WANzQaQwfGZ7AJHmdlzTwFLIft4j7sb6M
+	gzmSSqEQvAdi0Ll9/lU7/D7mXlRtukoFrTuM/roZ5z6EfrB4+7seocjfTvwYkoHS+g59Bg+afsE
+	w1/pykxVXrqAhc055kuxJHOM8hlcqVxB7/qZtKKkM/o9dL/EK+OysbpVxoT0c5NN/uU9fNqChvG
+	CpUOLhgIAKS/4saeWnPHJHLdjzMnTnsPbZR2ClMtrLd9oOJfN7kcHFUTqGXukSVQR1RxnbWseDs
+	4Ppm31DBeHonoqI1zrhcNX5ocuHX/h9x1W42qcUjJrdZJRgQIoHaLkow8MuA0HSfAsHfvX26jQm
+	c4NqaTV9ymWejTS/w/MvlgDYgWMQ/WeQF9ftgyzATuCOWLlguRq0qLIcUfBW6wRLadYlnBzZo9V
+	P8LcEeZRycG6/mvp6S2
+X-Received: by 2002:a05:6000:2903:b0:439:8f6f:1b29 with SMTP id ffacd0b85a97d-4399ddd8509mr23497601f8f.12.1772467291960;
+        Mon, 02 Mar 2026 08:01:31 -0800 (PST)
 Received: from fedora (mob-194-230-144-8.cgn.sunrise.net. [194.230.144.8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 08:01:33 -0800 (PST)
+        Mon, 02 Mar 2026 08:01:30 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,9 +61,9 @@ Cc: Ross.Burton@arm.com,
 	stefano.tondo.ext@siemens.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com
-Subject: [PATCH v5 04/10] spdx30: Add version extraction from SRCREV for Git source components
-Date: Mon,  2 Mar 2026 17:01:08 +0100
-Message-ID: <20260302160114.46884-5-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v5 03/10] spdx30: Add ecosystem-specific PURL generation
+Date: Mon,  2 Mar 2026 17:01:07 +0100
+Message-ID: <20260302160114.46884-4-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
 References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
@@ -73,125 +73,157 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:01:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232212
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232213
 
-Extract version information for Git-based source components in SPDX 3.0
-SBOMs to improve SBOM completeness and enable better supply chain tracking.
+Add a function that identifies ecosystem-specific PURLs (cargo, golang,
+pypi, npm, cpan, nuget, maven) for dependency packages, working alongside
+oe.purl.get_base_purl() which provides pkg:yocto PURLs.
 
-Problem:
-Git repositories fetched as SRC_URI entries currently appear in SBOMs
-without version information (software_packageVersion is null). This makes
-it difficult to track which specific revision of a dependency was used,
-reducing SBOM usefulness for security and compliance tracking.
+Key design decision: Does NOT return pkg:generic fallback. This ensures:
+- No overlap with the base pkg:yocto generation
+- Packages get BOTH purls: pkg:yocto/layer/pkg@ver AND pkg:cargo/pkg@ver
+- Maximum traceability for compliance tools
 
-Solution:
-- Extract SRCREV for Git sources and use it as packageVersion
-- Use fd.revision attribute (the resolved Git commit)
-- Fallback to SRCREV variable if fd.revision not available
-- Use first 12 characters as version (standard Git short hash)
-- Generate pkg:github PURLs for GitHub repositories (official PURL type)
-- Add comprehensive debug logging for troubleshooting
-
-Impact:
-- Git source components now have version information
-- GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)
-- Enables tracking specific commit dependencies in SBOMs
+Detects ecosystems via:
+- Unambiguous file extensions (.crate for Rust)
+- Recipe inheritance (pypi, npm, cpan, nuget, maven classes)
+- BitBake variables (GO_IMPORT, PYPI_PACKAGE, MAVEN_GROUP_ID)
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 79 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ meta/lib/oe/spdx30_tasks.py | 113 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 113 insertions(+)
 
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 11945a622d..4493b6e5e1 100644
+index 0888d9d7e4..11945a622d 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -569,6 +569,85 @@ def add_download_files(d, objset):
-                 )
-             )
+@@ -13,12 +13,125 @@ import oe.spdx30
+ import oe.spdx_common
+ import oe.sdk
+ import os
++import re
  
-+            # Extract version and PURL for source packages
-+            dep_version = None
-+            dep_purl = None
+ from contextlib import contextmanager
+ from datetime import datetime, timezone
+ from pathlib import Path
+ 
+ 
 +
-+            # For Git repositories, extract version from SRCREV
-+            if fd.type == "git":
-+                srcrev = None
++def extract_dependency_metadata(d, file_name):
++    """Extract ecosystem-specific PURL for dependency packages.
 +
-+                # Try to get SRCREV for this specific source URL
-+                # Note: fd.revision (not fd.revisions) contains the resolved revision
-+                if hasattr(fd, 'revision') and fd.revision:
-+                    srcrev = fd.revision
-+                    bb.debug(1, f"SPDX: Found fd.revision for {file_name}: {srcrev}")
++    Uses recipe metadata to identify ecosystem PURLs (cargo, golang, pypi,
++    npm, cpan, nuget, maven). Returns (version, purl) or (None, None).
++    Does NOT return pkg:generic; base pkg:yocto is handled by get_base_purl().
++    """
 +
-+                # Fallback to general SRCREV variable
-+                if not srcrev:
-+                    srcrev = d.getVar('SRCREV')
-+                    if srcrev:
-+                        bb.debug(1, f"SPDX: Using SRCREV variable for {file_name}: {srcrev}")
++    pv = d.getVar("PV")
++    version = pv if pv else None
++    purl = None
 +
-+                if srcrev and srcrev not in ['${AUTOREV}', 'AUTOINC', 'INVALID']:
-+                    # Use first 12 characters of Git commit as version (standard Git short hash)
-+                    dep_version = srcrev[:12] if len(srcrev) >= 12 else srcrev
-+                    bb.debug(1, f"SPDX: Extracted Git version for {file_name}: {dep_version}")
++    # Rust crate (.crate extension is unambiguous)
++    if file_name.endswith('.crate'):
++        crate_match = re.match(r'^(.+?)-(\d+\.\d+\.\d+(?:\.\d+)?(?:[-+][\w.]+)?)\.crate$', file_name)
++        if crate_match:
++            name = crate_match.group(1)
++            version = crate_match.group(2)
++            purl = f"pkg:cargo/{name}@{version}"
++            return (version, purl)
 +
-+                    # Generate PURL for Git hosting services
-+                    # Reference: https://github.com/package-url/purl-spec/blob/master/PURL-TYPES.rst
-+                    download_location = oe.spdx_common.fetch_data_to_uri(fd, fd.name)
-+                    if download_location and download_location.startswith('git+'):
-+                        git_url = download_location[4:]  # Remove 'git+' prefix
++    # Go module via GO_IMPORT variable
++    go_import = d.getVar("GO_IMPORT")
++    if go_import and version:
++        purl = f"pkg:golang/{go_import}@{version}"
++        return (version, purl)
 +
-+                        # Build Git PURL handlers from default + custom mappings
-+                        # Format: 'domain': ('purl_type', lambda to extract path)
-+                        # Can be extended in meta-siemens or other layers via SPDX_GIT_PURL_MAPPINGS
-+                        git_purl_handlers = {
-+                            'github.com': ('pkg:github', lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None),
-+                            # Note: pkg:gitlab is NOT in official PURL spec, so we omit it by default
-+                            # Other Git hosts can be added via SPDX_GIT_PURL_MAPPINGS
-+                        }
++    # Go module from filename with explicit hosting domain
++    go_match = re.match(
++        r'^((?:github|gitlab|gopkg|golang|go\.googlesource)\.com\.[\w.]+(?:\.[\w-]+)*?)-(v?\d+\.\d+\.\d+(?:[-+][\w.]+)?)\.',
++        file_name
++    )
++    if go_match:
++        module_path = go_match.group(1).replace('.', '/', 1)
++        parts = module_path.split('/', 1)
++        if len(parts) == 2:
++            domain = parts[0]
++            path = parts[1].replace('.', '/')
++            module_path = f"{domain}/{path}"
 +
-+                        # Allow layers to extend PURL mappings via SPDX_GIT_PURL_MAPPINGS variable
-+                        # Format: "domain1:purl_type1 domain2:purl_type2"
-+                        # Example: SPDX_GIT_PURL_MAPPINGS = "gitlab.com:pkg:gitlab git.example.com:pkg:generic"
-+                        custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
-+                        if custom_mappings:
-+                            for mapping in custom_mappings.split():
-+                                try:
-+                                    domain, purl_type = mapping.split(':')
-+                                    # Use simple path handler for custom domains
-+                                    git_purl_handlers[domain] = (purl_type, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >= 2 else None)
-+                                    bb.debug(2, f"SPDX: Added custom Git PURL mapping: {domain} -> {purl_type}")
-+                                except ValueError:
-+                                    bb.warn(f"SPDX: Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
++        version = go_match.group(2)
++        purl = f"pkg:golang/{module_path}@{version}"
++        return (version, purl)
 +
-+                        for domain, (purl_type, path_handler) in git_purl_handlers.items():
-+                            if f'://{domain}/' in git_url or f'//{domain}/' in git_url:
-+                                # Extract path after domain
-+                                path_start = git_url.find(f'{domain}/') + len(f'{domain}/')
-+                                path = git_url[path_start:].split('/')
-+                                purl_path = path_handler(path)
-+                                if purl_path:
-+                                    dep_purl = f"{purl_type}/{purl_path}@{srcrev}"
-+                                    bb.debug(1, f"SPDX: Generated {purl_type} PURL: {dep_purl}")
-+                                break
++    # PyPI package
++    if bb.data.inherits_class("pypi", d) and version:
++        pypi_package = d.getVar("PYPI_PACKAGE")
++        if pypi_package:
++            # Normalize per PEP 503
++            name = re.sub(r"[-_.]+", "-", pypi_package).lower()
++            purl = f"pkg:pypi/{name}@{version}"
++            return (version, purl)
 +
-+            # Fallback: use parent package version if no other version found
-+            if not dep_version:
-+                pv = d.getVar('PV')
-+                if pv and pv not in ['git', 'AUTOINC', 'INVALID', '${PV}']:
-+                    dep_version = pv
-+                    bb.debug(1, f"SPDX: Using parent PV for {file_name}: {dep_version}")
++    # NPM package
++    if bb.data.inherits_class("npm", d) and version:
++        bpn = d.getVar("BPN")
++        if bpn:
++            name = bpn[4:] if bpn.startswith('npm-') else bpn
++            purl = f"pkg:npm/{name}@{version}"
++            return (version, purl)
 +
-+            # Set version and PURL if extracted
-+            if dep_version:
-+                dl.software_packageVersion = dep_version
++    # CPAN package
++    if bb.data.inherits_class("cpan", d) and version:
++        bpn = d.getVar("BPN")
++        if bpn:
++            if bpn.startswith('perl-'):
++                name = bpn[5:]
++            elif bpn.startswith('libperl-'):
++                name = bpn[8:]
++            else:
++                name = bpn
++            purl = f"pkg:cpan/{name}@{version}"
++            return (version, purl)
 +
-+            if dep_purl:
-+                dl.software_packageUrl = dep_purl
++    # NuGet package
++    if (bb.data.inherits_class("nuget", d) or bb.data.inherits_class("dotnet", d)) and version:
++        bpn = d.getVar("BPN")
++        if bpn:
++            if bpn.startswith('dotnet-'):
++                name = bpn[7:]
++            elif bpn.startswith('nuget-'):
++                name = bpn[6:]
++            else:
++                name = bpn
++            purl = f"pkg:nuget/{name}@{version}"
++            return (version, purl)
 +
-             if fd.method.supports_checksum(fd):
-                 # TODO Need something better than hard coding this
-                 for checksum_id in ["sha256", "sha1"]:
++    # Maven package
++    if bb.data.inherits_class("maven", d) and version:
++        group_id = d.getVar("MAVEN_GROUP_ID")
++        artifact_id = d.getVar("MAVEN_ARTIFACT_ID")
++
++        if group_id and artifact_id:
++            purl = f"pkg:maven/{group_id}/{artifact_id}@{version}"
++            return (version, purl)
++        else:
++            bpn = d.getVar("BPN")
++            if bpn:
++                if bpn.startswith('maven-'):
++                    name = bpn[6:]
++                elif bpn.startswith('java-'):
++                    name = bpn[5:]
++                else:
++                    name = bpn
++                purl = f"pkg:maven/{name}@{version}"
++                return (version, purl)
++
++    # Base pkg:yocto PURL is handled by oe.purl.get_base_purl()
++    return (version, None)
++
++
+ def walk_error(err):
+     bb.error(f"ERROR walking {err.filename}: {err}")
+ 
 -- 
 2.53.0
 
