@@ -1,156 +1,194 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6C2EA4E07
-	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 13:51:15 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.160724.1772459470641977384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F26EA4E1D
+	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 15:07:46 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.162525.1772464063570888699
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 05:51:11 -0800
+ Mon, 02 Mar 2026 07:07:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Qys4IjNt;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Qys4IjNt;
- spf=pass (domain: arm.com, ip: 40.107.159.33, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=VZEKKuFgBaMLf7DYcffm9aJIPzQRaZmyyqFt+IZZvRZVd1++gTfpB+QBZSBxLZr4cxGTIQb1XI/6bQ8tDRpplmOX2r5rNvDBKb3HvSno4cwAZEO0XROftmLf1RfJS1hYmuhQ7OAKZX+5ZNdtqbs6gHJVnprYsmKJCYo9/HzaehUCivlNbMEwy6lbDHOYGlELbtxSxFmfszmBizppS4D67wJdPwbzgMskCrnZb+X83VysVSCm6cs4ikLoks4tCiGwDrcePipA42Hryig/sZxiGg+lo4NMpggOyuWYaaLAMQOygYJdqm1DPZVovt8xfGpMttEBo4VlK1j5VRX/aiq5jQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eUBhKtKADA/5iHwwMnxozMAf/hlruxhzk0jC0jCrCKY=;
- b=WXoPcTiNO4eb3a5zlT8k0bW3OnY2NrS3HOZeoVkiF5vkOKj/0k7QPw1LVOSWLso4SF4BIMKi1c2pr4y6IJta5+enllCQgXypcvUk9cJw4O5u02OAdd6t3tnUdlq/iAmmfd3RPHCRQieTUrNfFR+kl2Na/G+XVeE3PiNLovEdBml8J58w+8AyCqvBcWeV25sxpLQnZP4v6UgBw3+ynYLdgpnqbP/NCNmGEpi3g4dAmhqIuqVVpb/qKkY/uy+dgb5ibDziKLh9+l88b0Iq0LObeTp/ZDF6/jBCI9Xj8867xAz1J5uIoFfwsHedAScMuFlXiAMOCefdF8hcKtpGt3XV9A==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=axis.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eUBhKtKADA/5iHwwMnxozMAf/hlruxhzk0jC0jCrCKY=;
- b=Qys4IjNtRvVwngwXo+P1yBkOMYx4XYUMgTnpIyPL21n4rrEmSPwOw2fUkm136e/6gTK4jr/aAQFoZkiKGU6NyLCzbyE4VPX2cQXC/O6xvSSe++xQqzTn/OU6JdtNiZJPKboALMJ1aJfrJiihs0zpBit3ulgSL4DOQsbtA5ATOmM=
-Received: from AS9PR07CA0031.eurprd07.prod.outlook.com (2603:10a6:20b:46b::33)
- by PA4PR08MB5951.eurprd08.prod.outlook.com (2603:10a6:102:ee::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
- 2026 13:51:04 +0000
-Received: from AM4PEPF00027A69.eurprd04.prod.outlook.com
- (2603:10a6:20b:46b:cafe::4d) by AS9PR07CA0031.outlook.office365.com
- (2603:10a6:20b:46b::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.18 via Frontend Transport; Mon,
- 2 Mar 2026 13:51:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00027A69.mail.protection.outlook.com (10.167.16.87) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.16
- via Frontend Transport; Mon, 2 Mar 2026 13:51:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vtX38oU37KaTAthiisBQLczq2x3y7pk3HYi9jLRccFIQwzngkPOe4DDWl7CxkNP8u5DscvTdqLenXHTjC5oLKeQHGxfPrREcjnrPspksOFSJp9PEcLUaBcAWQ7s9EM0r9MiutK6DTa/Jdwbz0ghVBQptRcGtzX4tSQVRj75CHU40+rNyc1SOnVdE5M7ZgB/4o9OuODpXua7F2sXKbRtfdKGzsARutazZEEHqUm6TvIw9DzvEybs2MTaeLoglOglm8AvKY3oBjugSHre71VAUVmBdMsFq1DNyJ1U8Oclq6iWYjg5dC+jffQ8Gk/LvVvFRZ0TzrteOHNxAgFzG8hBSqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eUBhKtKADA/5iHwwMnxozMAf/hlruxhzk0jC0jCrCKY=;
- b=NkXOy9nlQnCA4WMe4QsZvZX+kuvxK5H9gcZXpDcmxaT/2obN3XE7VIoA45rFYRodSkVm4yB2HtbAO+U1dHN5dDsD4X/4AGjPrdrCAULsloljsnIfZwgO4DFjUeba7YHlAuk3BZpVB4/zWsEFH3bZluzi/UeFg5SkjMZ3gD/qyIA5LwfXwudHkyGd8if7vhWiIukjc09rN5M/0Rbim8v8wgUu/lGYfLkFsSF6XH9Tj90nPgEH+Um/d/xQP7huE2nm1sTPwJ6FA/vB405w3dr5EtfiIaqUmOHo05uw5KvkXPdphcLY48gvVZodA894v8jTOy/+BlgD6JkvlOS8wWAm8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eUBhKtKADA/5iHwwMnxozMAf/hlruxhzk0jC0jCrCKY=;
- b=Qys4IjNtRvVwngwXo+P1yBkOMYx4XYUMgTnpIyPL21n4rrEmSPwOw2fUkm136e/6gTK4jr/aAQFoZkiKGU6NyLCzbyE4VPX2cQXC/O6xvSSe++xQqzTn/OU6JdtNiZJPKboALMJ1aJfrJiihs0zpBit3ulgSL4DOQsbtA5ATOmM=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DU0PR08MB9534.eurprd08.prod.outlook.com (2603:10a6:10:44e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.18; Mon, 2 Mar
- 2026 13:50:00 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9654.014; Mon, 2 Mar 2026
- 13:49:59 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 2/4] lzop: improve aclocal.m4 handling
-Thread-Topic: [OE-core] [PATCH 2/4] lzop: improve aclocal.m4 handling
-Thread-Index: AQHcplO1ss35YSd4jU6OlfeOqhXSBbWTxMUAgAeFcgA=
-Date: Mon, 2 Mar 2026 13:49:59 +0000
-Message-ID: <303FF181-61FD-4011-B379-2A541D25BACD@arm.com>
-References: <20260225123727.2043715-1-ross.burton@arm.com>
- <20260225123727.2043715-2-ross.burton@arm.com>
- <DB5PR02MB102136B6FC33A6E0EC8AB347DEF75A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: 
- <DB5PR02MB102136B6FC33A6E0EC8AB347DEF75A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DU0PR08MB9534:EE_|AM4PEPF00027A69:EE_|PA4PR08MB5951:EE_
-X-MS-Office365-Filtering-Correlation-Id: 360fafb3-1a2c-43e9-ebd8-08de7862bf42
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- HDa9m9iOO+7/pe9IlUkJyEWTDJnTTe+8PxRaXk2feD9oeRjoYA7hU2oByPrWWvA9hkGezbh5B+0Hz5Vky0PwmEuugIZmvyywVTCilaFpNYdViwCAlok9djOLuQcFUENHvkMAbxwkZk40iEs89McQ8vg8mKhoX3r8smUIx7hNzG3MyeBE6bObv58rSbaKC/52Bdz9hbu0v3i+8elHuCK6ujlpyzSSNEUYV+qG0XrPWOX18wQwzFLcWWu8MpcfMF2PKcItMpi5WH4z7yYvGM/AImjwf0w6EuK554GVh6yvqH8z90NAou7raZkP+WBFUxFQUgWIu5MG4s+vsRofbk2m+9c6nZsFBulkgmTDPE9M6WZw1j9YseK+DjlWvNnn32OJ/kLw2Nx/1ioE06LDIjw28vv2SVLHEZBvvKWorzeznuPELtBYm3SswmA4beUKe9Dt/hPq596e1YFQhLBy5UrSDA2n4wRNZYlVILnPlekDCACXnDuSZYDl0z2A1O75w1x2mTRji0c0a+y8qUWvb4oslYifgI4cRgGAtE1bcWrzNSItPveZup0WwGY7BYlK5jzmNx4wneWkvzQACICB7GGVgxROoObXIUxOlLTcLkz7qnUoyE2sKjq7c/s6boP1WoIE+94OE6D0DLzTRKosxF6Q8AWh1luAwA9NDgOjSV+phPiDFIAKWFJQ6W8PsnWz2++g8eUuc6qutJq7OJFGhhsQjvzXiLBQGZOoIoJR8mxR+FHL2c0Qubn7SL4OgBLlBH5w76LjI8pr6kSHwNa44ipjvtQhm/3ao6IllOWXYBwQuFQ=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0BEC0BE461AD214EA0A177ED894D611E@eurprd08.prod.outlook.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MyHlFIRt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-483770e0b25so39951025e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 07:07:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1772464062; x=1773068862; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=35WZuJEEwjtHk+xL9J02Cc5/yB6v0g0WCT/GUOvswAs=;
+        b=MyHlFIRtSHY2j9ubkRSBfYsLJkZyyA0fM42Z5kQY7n8oq9sLliHRqR1GfIRiQTO0+P
+         /FQZrYLyzVB7e5phYPHo6h++/PMy4dWJ/4/lrI3iMu9SrfdAH/aiQX5f88UYkWv00dNm
+         U2a34LdbG4adPS65M+k+HcZtcu4BDhmIHrvDE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772464062; x=1773068862;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=35WZuJEEwjtHk+xL9J02Cc5/yB6v0g0WCT/GUOvswAs=;
+        b=W0e7NflmbcYIoY/rn2FPbCRSodL+0sMxIDcp4dcR848a//s5UmB5H0fB7ArzF9i/xr
+         SX8Q1eOumdMedjPDzs24Nzp17/fRGd9/gZ95WA4zTZKzuhGooWMeZpI0ervseVHRKLIB
+         w1kj3w7PCEmBPinWmM2LA4m26TZmDjeXL+VeEb6S0Nv9JW9LXJ373Yapm3fgyuJM8V/w
+         oOKmmwh4JGOXOcgqfbeBRwCBvFW57ESnbzoXEEU0tgzwRv9YKrn+BPFhK5mlFJy/+NEo
+         3+AbkA6oFSPIZb6Ua7UUtbMmBAHXH3g2KjW+Nv96QVFol0jwcY0r/zpYLVMNeTK6C6rS
+         P/Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFFGx5WtgTqt1dZxOPU3/BDN2bwprgM/SZEuA9GvsMm2g5nnSDghB1Qb+kYMgcjpKvUIPyQSitsVYWLB4aM4vUvg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwcP2gqCPD7/Krbu07hV0tM7Va3Uy6llZJUuKcx3Vup7yO5QQgh
+	jjY/u8N7Xg4pDutgE6qn30vX/7QnfR5rOd2x8tbIpCE60LNui8D4mBdjOsgPXKjOGJQ=
+X-Gm-Gg: ATEYQzzHO8T6nltS89E94wqSY+B9HtEoakzUyYH78GkxgaXqmM99hLD63i8Tupfw5kk
+	OwgNvRhsOagAHAGkrCQQ4BR/4/8piZb8mc/keCq1bKpAoplY9fTHl2l4TPR9emhtLrl6H23k1uA
+	rihULxkNkS4U+DiYH6wuPzd5pFKXeYFf/sv2hGTX/PX4YNolEnYVjhbGTEZXCp6xAxXGEZfzAth
+	Tl2l3YtN/7cX7Mltvj6GhWYY7GwFNL93npou1UHU6RSBbmgXPBZiwk2ocKjZIqRROs3+vyNIlWc
+	b0xYRTeE0FHaWIH68rxR8wBR9UhpvCraA5rr1NdoHU1qFKFLSVbCZIJmWFSn6Z7dUIqIJuI5Ps+
+	Y5tEaG6/sxbmb+6vy3vYzD54ybGgy8F8z9ybA2lk7Uel6ssUozDWVJq767obTPVC8qaK1Q3sTIX
+	utIAFfJttp4Wq1IXvjcEuYQutORusVQ5+QlgmUfr7HuN6SODAdp7ZafLFDXA78x89CSq3FMaSzg
+	mZq+R5MwrOx2hDRwP7r/u+85Q==
+X-Received: by 2002:a05:600c:548a:b0:483:c12b:fe46 with SMTP id 5b1f17b1804b1-483c9bdb2edmr215388925e9.10.1772464061567;
+        Mon, 02 Mar 2026 07:07:41 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:dd78:7aff:8be3:3eb6? ([2001:8b0:aba:5f3c:dd78:7aff:8be3:3eb6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b841absm327810865e9.13.2026.03.02.07.07.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 07:07:40 -0800 (PST)
+Message-ID: <b29f349d58b2f2286e404c258d1c865e10ba5e5c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ruby: upgrade from 3.4.7 to 4.0.1
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Mon, 02 Mar 2026 15:07:40 +0000
+In-Reply-To: <20260224015117.3338374-1-changqing.li@windriver.com>
+References: <20260224015117.3338374-1-changqing.li@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9534
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM4PEPF00027A69.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	59c47482-051b-48c0-1c28-08de786298b7
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|35042699022|82310400026|36860700013|1800799024|14060799003|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	X7PMCqMspEDqW/dgkv+u8hE8A8wqDyIRvrRHwwfpkIUROLolVsbLAgM1ICcEjCaMfK/RQ1YW6DlCbTGpcs91cDYAfTM7rf/4nZV5DLXa6peA5+kZp+QvdHYOqT6qktW6cjE/Hjgba41ZfZAfQbaUXrlbvupr1VLH740TJgfj8QLQpkGMZkCUs3ipzoBuJ3hkIASnG8dLAeJija8+txBSLOdpDCO74IhsTPyXQ6lD+qm3/tTl22g6ihGXhtTCCoDw8/Qr9VAimupyAcKu6Z/DWmaNxvi/mfVZWFW/D4IwYSRE/cA3RDAjAWFlJeHhNlVKpslPnM/EauFF9hJENTeIhN9fYgcoIp9VM4+BWD75/vpcyno1yQQIKXTg/JuYDp0H0vpxH98HAqLOuNhN65xtZAmOD4s7X6BTmPnRBuHnngi8MvmMSDyXXiTiMjjCsm3VMa/l/PiFmmqB8xrflsquI+PSLNlM56zXCLe0epKKC+5N6oCOcTee3yoB01XkrHn8Qdm1yTLu8nL0a1f1TRG7MeUAO47Xny/K8iUUZqVOdbmo2cRSRezAqefWJ3ild5fO6zhBXuRfG7wgvNaIQ10ql3GioY64RR5iQj6MTx8Vm9ZTuUZ/nYK/s1t3Ww6q3j9Ll2Cl6fKUljbQuxpOW5JNn6/pk5HqJR82VF4bvpYe1+OrvOyi0RtFarS9IikpaAIfkTFPAfbpftm9r/vzPYiB2ad4yIZmigSz+LCqoKFR0aqtw2ic6y0FxnrxEn/sJ46YMZyd0duX+4L4ZnQ4Rw9L2CR8Liz2YYK9Qyqm8Oh4WH4BNIIM+YcFgaQQEVALfTSN1jQigwaZJCezVNDqubqwGQ==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(35042699022)(82310400026)(36860700013)(1800799024)(14060799003)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	gXH9fV0hwuz0CV4PG1DVedoJMV1gFzLNeI+EwPWDPs/t3aM6ed7vJ06ifPS1vrDrUNCOw3QQ7P3gFEfVqIvL+s+XYBXs61Qnt972BNgn1NW+8bJ6bW2K0PFGHG/0ZtQEX+hReMZL0eqolzFA+Xwsagf/u5O/WcrmsnnT2ZiNtbeFuUk8EEXl080jMIqrpYRO2wmhG6ycle454lBJ4oAmYtXfDSCjuDOG9wsNPwcF9j20uqnuTYixvJOzojNI/61rAUIfpvMzf8gxXewt6ygubrO0xRptOjqqRGk7pgasTUbTiarICM3n/qIm0H38/LbeOdhJPEIFPY/3klknM5xgAMW6SLwbCvReQT8ghVnbkjs+WUsdrC/bUyHVuzbyXgq7+XqPLKTNiCKOqVbjYPmW/sIAGB0H0JsdR3m4Ao14o4ULwgngG7RJyEd+Dx8afu3a
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 13:51:04.1736
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 360fafb3-1a2c-43e9-ebd8-08de7862bf42
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00027A69.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB5951
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 13:51:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232206
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 15:07:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232207
+
+On Tue, 2026-02-24 at 09:51 +0800, Changqing Li via lists.openembedded.org =
+wrote:
+> License-Update: Add license BSL-1.0 and Apache-2.0
+>=20
+> COPYING - Add Cross-links between Japanese and English pages
+> LEGAL - Update LEGAL for JSON vendored sources
+>=20
+> Refer:
+> [1] https://github.com/ruby/ruby/commit/e652af18816ffe0b85109b8de0827349b=
+f03f16d
+> [2] https://github.com/ruby/ruby/commit/d5fbff50c7ff880ae71b8a8ae9aad976c=
+69bea73
+>=20
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+> =C2=A0...doc-build-reproducible-documentation.patch | 30 ++++++-----
+> =C2=A0.../0006-Make-gemspecs-reproducible.patch=C2=A0=C2=A0=C2=A0=C2=A0 |=
+ 52 +++++++++++--------
+> =C2=A0.../ruby/{ruby_3.4.7.bb =3D> ruby_4.0.1.bb}=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 11 ++--
+> =C2=A03 files changed, 51 insertions(+), 42 deletions(-)
+> =C2=A0rename meta/recipes-devtools/ruby/{ruby_3.4.7.bb =3D> ruby_4.0.1.bb=
+} (93%)
+>=20
+> diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible=
+-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-repr=
+oducible-documentation.patch
+> index 90b2aee7ea..f0be3e4af6 100644
+> --- a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-docume=
+ntation.patch
+> +++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-docume=
+ntation.patch
+> @@ -1,4 +1,4 @@
+> -From 2e140fea6c275f3258893d2da2480027b16efb92 Mon Sep 17 00:00:00 2001
+> +From 278d02b08f513b288f31648bc5ec5c47ecb61686 Mon Sep 17 00:00:00 2001
+> =C2=A0From: Christian Hofstaedtler <zeha@debian.org>
+> =C2=A0Date: Tue, 10 Oct 2017 15:04:34 -0300
+> =C2=A0Subject: [PATCH] rdoc: build reproducible documentation
+> @@ -9,29 +9,33 @@ Upstream-Status: Backport [debian]
+> =C2=A0
+> =C2=A0Signed-off-by: Antonio Terceiro <terceiro@debian.org>
+> =C2=A0Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
+> +
+> +rebase to version 4.0.1
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> =C2=A0---
+> - lib/rdoc/generator/json_index.rb | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> + .bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb | 2 ++
+> + 1 file changed, 2 insertions(+)
+> =C2=A0
+> -diff --git a/lib/rdoc/generator/json_index.rb b/lib/rdoc/generator/json_=
+index.rb
+> -index 065caa4..cfa1f33 100644
+> ---- a/lib/rdoc/generator/json_index.rb
+> -+++ b/lib/rdoc/generator/json_index.rb
+> -@@ -176,7 +176,7 @@ class RDoc::Generator::JsonIndex
+> -=C2=A0=C2=A0=C2=A0=C2=A0 debug_msg "Writing gzipped search index to %s" =
+% outfile
+> +diff --git a/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb b/=
+.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
+> +index 065caa4..a76c202 100644
+> +--- a/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
+> ++++ b/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
+> +@@ -177,6 +177,7 @@ class RDoc::Generator::JsonIndex
+> =C2=A0=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Zlib::GzipWriter.open(outfile) do |gz|
+> --=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.mtime =3D File.mtime(search_index_fil=
+e)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.mtime =3D File.mtime(search_inde=
+x_file)
+> =C2=A0+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.mtime =3D -1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.orig_name =3D search_index_=
+file.basename.to_s
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.write search_index
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.close
+> -@@ -194,7 +194,7 @@ class RDoc::Generator::JsonIndex
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 debug_msg "Writing gzip=
+ped file to %s" % outfile
+> +@@ -195,6 +196,7 @@ class RDoc::Generator::JsonIndex
+> =C2=A0=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Zlib::GzipWriter.o=
+pen(outfile) do |gz|
+> --=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.mtime =3D Fil=
+e.mtime(dest)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.mtime =
+=3D File.mtime(dest)
+> =C2=A0+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.mtime =
+=3D -1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.ori=
+g_name =3D dest.basename.to_s
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.wri=
+te data
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gz.clo=
+se
 
 
+This does not look like it is updating the patch correctly.
 
-> On 25 Feb 2026, at 18:58, Peter Kjellerstedt <peter.kjellerstedt@axis.com=
-> wrote:
-> You forgot to remove the actual acinclude.m4 file.
+gz.mtime =3D File.mtime(search_index_file)
 
-Whoops. v2 sent.
+should be replaced with:
 
-Thanks,
-Ross=
+gz.mtime =3D -1
+
+but both lines are left after this change.
+
+That will probably 'work' but isn't a correct update. Please can you
+send a fix for this.
+
+The reproducibility issue also recurred in master:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3490
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260302-t9zp1mo6/=
+packages/diff-html/
+
+so this makes it more urgent we get the other changes in v2 (I note
+that v1 was merged by mistake). Thanks!
+
+Cheers,
+
+Richard
+
 
