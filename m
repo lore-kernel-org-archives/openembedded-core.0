@@ -2,225 +2,180 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F5EC624C9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F16FD9E33
 	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 00:38:40 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.150258.1772411913623759767
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.150261.1772411918498654324
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Mar 2026 16:38:33 -0800
+ Sun, 01 Mar 2026 16:38:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L1wbp+xV;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-899a917a4feso71222406d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 16:38:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eELgPwDz;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-506a019a7f3so50588281cf.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 16:38:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772411912; x=1773016712; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QG8pdrAqHBiYpHbCWSNzc2hb2o2uEHZOcjdhBdSRg4Y=;
-        b=L1wbp+xVIsAkB3IN+X+g9I/c7BRk521m4m4My8BFeFcwB7y0bYvXtmbs2u2Vg86YCN
-         jAy0raCRcMhQPvTt6ywdZj8Vhf04KAyjO8aSq+TZhOUbSa//RWjTW0yTTSWa0uo1dbWq
-         kiZiHVR2DOVozLOM32icj4H8L1l0hZueWbkpjUKn8J9RDfzOZuJ28D796vGVzeQs4Xyt
-         587ab3G+gmd6Llw7eb3dhHuFFgtKvCQ53jvPuacNIsiGaLwJPRPOeA+PW5x9mHXXileH
-         OYU9AuEYbvJrCv+Dwnvc4+YMMNdhsxS/+iHgNi9NIkNFptlE0gh5fB5fuIoD8PgaloA5
-         rdyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772411912; x=1773016712;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1772411917; x=1773016717; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QG8pdrAqHBiYpHbCWSNzc2hb2o2uEHZOcjdhBdSRg4Y=;
-        b=vK15+AQdyB3WZ4S22cdK1kCHXy+hcVWqMCFbq2CpqlISuKEXSdkLWQt9IPCMZExzQr
-         k97kcnztX1G22go97NM69rMQYa3NyjOr+sweBKUgC2pk8aqCk8JaIaMzy8q5lfeWfT0/
-         WY9zxIzevVVSgScModjR93XecHtP3Tss0ILGwffoDIyEFoRrChosEQv2tFP9r1WHcKo2
-         8gn3V3B0U3rIJER0gllCfUFdvVW96rRBQ/yeQszM1k1HlI4Lm6WiwOba/XEqlem8oLkQ
-         W9gTMsWAlzkIPKYSCjlcv4U1cK4eZsj217EA92QXlvqnrabXui377xcy5iRQC3QRhk0M
-         If7Q==
-X-Gm-Message-State: AOJu0YzMeROW9akyg3y9ILdvzdVwoYAbc8iSn8IYjmCIt1VS2kJ6P1By
-	5ZPP3ljdk9vmJ+Ye3wZF+Lm5Zef2Db6Lukq0es6upyhMoodQeCbr2YV0Skfs9Uj+
-X-Gm-Gg: ATEYQzwMWKh/FiXJ2XCCLM+41XhdReVnNWMtJY+nBrmBpmJKtxNZ3jh/UoQFM6pmUXW
-	D6onNccgXHLn5KatelqU9kPJtEn7xOottLbIt9s+GEZtHDTCMdeDrKhW2fvNl3Ai/GVZ5a25cfg
-	hq1yEbxmW15cm7tgAt8PlYns8kMqBJ1P1tN0X9rNLWHQaIYyn0OVlx9RBv2gGKKzQF+T3/I5KvT
-	imJxg9qJA+8SsIFmR6Nr65xx3Cyvv/BvZqxuSUWFWgs2bO9ryX1BlbD1W2udtQ6NWwoy57D+vD5
-	9p239RrpC2TC5/vd1zpzqVrVjTT9SyudZsk9StLK8FQbh8UhMkdXNiRnZ2KtrwBOpHkv67kX27u
-	FgSDZRQ9v2Tvr23WQfDI9R79OU42mG9VLQmImjXITu07bbxm9uH/a5jFDz7vcEqwk7OD6gOLepU
-	aF85wK0WBYMotCLR5PxV/8iFzhPpiaPAozBHHjrR8NwEw2+893+xQG6eBvSH65SZ3r2RUsFQ5XR
-	lHx
-X-Received: by 2002:a05:6214:21c6:b0:895:1cbb:5d5b with SMTP id 6a1803df08f44-899d1e2b9a7mr168275186d6.32.1772411911515;
-        Sun, 01 Mar 2026 16:38:31 -0800 (PST)
+        bh=HEW10zPetEP8wHTnW4krvhuldQO9QsmqdP3IMIQelAA=;
+        b=eELgPwDzDoioIw1RUOjAyuQw5XQ1aJUC5b4kLQ2hV52hbn2st9YweqnlZJy6gaGpER
+         hQtLLPSREGeLNYasK8rwicQHCjRlRvp74OvjFtcg92i/pj8m6zRiPeBlGFsKRId9xiWK
+         FR2dfbwxeXQYWXrlgqUxMUG8FDnGMqGaBGhtovEbPjOItMUKrBu9gCHav8bQvTFmNJ0I
+         yul90fEcM9w3CMN0T7b3U88wVGCPhCSWnXcq8On4A5pi75JnH0DgYLGbCVUeEIB+7dU1
+         2w6zLprhGR/6OphdObMnsZqdW2EjiROLOgFmUfsbhxul7XmLQgG/fthBZ9C8OQYSICPM
+         Yyng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772411917; x=1773016717;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HEW10zPetEP8wHTnW4krvhuldQO9QsmqdP3IMIQelAA=;
+        b=iJboU4miwFrVpLlpQWqXYZ/6yW9XMEeM0YhYQBFTBnUKhoIskBEnEUU347dF3DoIv0
+         91RW5OXgC7Y6JyNhn3r3oWW1jsNlJpuZrBy/+UrlKZYyW42+G+vk0rzbTMxjFp/zZ7Jb
+         BGa4SMPvTklfTslDZjFDyPhxMqVUyTZ1S8R8t0cwGYRf26U1Wcz4+jZ4TO508LZYQmgs
+         ZFEEzzJEtD7wMxmLwZavP3vZbH/R9OA0x4938TwzVkgOICMWW5weNLwMaJKXH2ksY5YZ
+         KVm8qWTguwsHxbkxBwpFTp5TTONqDaQfMe9S9TKnON0xGIkRoRinErmosT2SwQTpuB0n
+         YfCg==
+X-Gm-Message-State: AOJu0YzspSeqVJgSgmgLgofKTuQyVwG5lqmkM4httOlJSOd0bgH0t9yv
+	siw/Sf/EG799qEdILrE5tVX9ffSf2H7u9QKJo+VHI79Fcsrzpe+7U3MpPXiLjoAO
+X-Gm-Gg: ATEYQzxxCw/ClmtYcuKv52Rm1oWXJFB8wa9/d8SVzCt7vJQ/5mZXtGPj+hp9DgQDkqO
+	GZ99qe2n9ZeMtpL985Z8jpXQi0tboJNjFqaIrAYGucuRxQDepn3IMhQP6zaSUSPjgtcMNyYLe6Y
+	5ilJ+FQnnrVIS7QxVQELQTD+IBf+ceEyiFjBpScAONJVbclgiOU+O0hW1wgfzmC6UUg2QNA1vyv
+	TNoGyxTGi3YHHN2PhraEf1tZLI8xPBWyi3JQHOWETyq9nONkUIHqG2g3nHu0RQmmhB5PcBtbWI3
+	eNVne/YmyYi228+NM1ajIXFwVINi/rGKl4E1YJbqhx9+93Z6jSTCEGyjahq0nQ6h6GUjuQKAsk8
+	6+EuMBKKR5G3uxy0RFi98hpwKUN/HrjNo0E84XAxTmNr+M536BBeFUILsLnDPt0x3JG3/kZURZL
+	qB1kuVcPYft7griJhZa30I9SQ4n10+gCmq+futNDwpZRy8x01ugA+EhmcpQm8ULfkP6A==
+X-Received: by 2002:ac8:5a4b:0:b0:506:70e:96fe with SMTP id d75a77b69052e-5075276eed4mr132018351cf.18.1772411916668;
+        Sun, 01 Mar 2026 16:38:36 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899ebb09772sm33710356d6.12.2026.03.01.16.38.30
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899ebb09772sm33710356d6.12.2026.03.01.16.38.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 16:38:30 -0800 (PST)
+        Sun, 01 Mar 2026 16:38:36 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v7 0/9] standalone wic
-Date: Sun,  1 Mar 2026 19:38:17 -0500
-Message-ID: <20260302003826.3995222-1-twoerner@gmail.com>
+Subject: [PATCH v7 4/9] wic: add recipe
+Date: Sun,  1 Mar 2026 19:38:21 -0500
+Message-ID: <20260302003826.3995222-5-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260302003826.3995222-1-twoerner@gmail.com>
+References: <20260302003826.3995222-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 00:38:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232146
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232149
 
-This series of patches splits wic out from oe-core into its own 
-standalone utility. The wic utility will continue to be under The Yocto
-Project umbrella, but will no longer be integrated into the project
-as part of oe-core. The ultimate goal is to make wic a completely
-independent tool, hosted on PyPI, with its own tests, development
-roadmap, and releases.
+Add a recipe to pull in the newly-externalized wic utility. Add wic to
+the list of native wic-tools, and make it a dependency of the image
+bbclass for wic images.
 
-Some benefits include:
-- relieving the oe-core maintainers from having to review wic patches,
-  allowing them to focus on core functionality
-- allow the tool to be used outside of The Yocto Project
-- provide more flexibility to explore other features, libraries,
-  mechanisms, etc 
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes in v7:
+- bump SRCREV to include a fix for wic.Wic2.test_expand_mbr_image
+- changelog:
+	exec_cmd(): allow multiple success codes
 
-These changes have been tested with oe-selftest as follows:
-        $ sudo .../layers/openembedded-core/scripts/runqemu-gen-tapdevs <my numeric group id> 4
-        $ oe-selftest -v -r wic 
+changes in v6:
+- the SRCREV was updated since any changes/revisions before the removal
+  need to be reflected in the repository
 
-There were 2 tests that would not pass on my home machine, but when I
-sent my original RFC patchset, it looked like all tests passed on the
-AB. However with subsequent testing we saw the exact same 2 tests fail
-on the Fedora worker in the AB. This v7 patchset includes changes to
-address these tests.
+changes in v5:
+- rebase with master
+- split patch set back out into smaller patches
+- do not add TOPDIR and WIC_SECTOR_SIZE to image_types_wic.bbclass
+  if a user wants them, they can add them to WICVARS in their config
 
-In v6 the major changes are:
-- code cleanups to remove cases of "if sector_size and sector_size =
-  512" in places where we can guarantee sector_size will exist
-- cleanups to replace "getattr(var, 'sector_size', 512) or 512" since
-  the 3rd arg to getattr() is already setting a default if the variable
-  name is not found
-- many comment and commit comment improvements
-- error out if extraopts includes options to set the sector-size in wks 
-  files
-- patch 2 (add ufs class) was dropped
-- patches 3 and 4 were reversed (move/save wks files before removing the 
-  rest of wic from oe-core)
+v4: skipped to align/combine with other patch set
 
-Previously, I had two separate patch sets for wic on oe-core: one
-to create a standalone utility, and one to re-implement variable
-sector-size handling. Both these were combined to create a combined "v5"
-patch set. For the patch sets up to and including v5:
+changes in v3:
+- squashed into 1 large patch
 
-	For the standalone patch set:
-	v1: an RFC patchset was sent out, split up into small patches for easy
-	    review
-	v2: add wic utility to list of native dependencies of
-	    image_types_wic.bbclass
-	v3: squash all commits together to apply atomically
-	v4: (does not exist)
-	v5: rebase on latest master
-	    split commits back out acknowledging any bisection that lands
-	    between them will fail
-	    combine with sector-size patch
-
-	For the sector-size patch:
-	v1: initial patch set 
-	v2: add Mark as co-author of ufs class
-	    try to fix a build warning when not using wic 
-	v3: actually fix warning when not using wic 
-	v4: deprecate, but allow, WIC_SECTOR_SIZE to continue to be used to set 
-	    the sector-size both from config files and the environment
-	    warn when both are used, but prefer cmdline value
-	    change partition type of sample wks to gpt 
-	v5: fix a bug where WIC_SECTOR_SIZE is not given anywhere
-	    combine with standalone patch set 
-
-Trevor Woerner (9):
-  wic: re-implement sector-size support
-  wic: move sample *wks files
-  wic: move to standalone repository
-  wic: add recipe
-  oe-selftest/cases/wic.py: update WicTestCase
-  oe-selftest/cases/wic.py: oe-selftest -r wic.CLITests -> PASS
-  oe-selftest/cases/wic.py: oe-selftest -r wic.ModifyTests -> PASS
-  oe-selftest/cases/wic.py: oe-selftest -r wic.Wic -> PASS
-  oe-selftest/cases/wic.py: oe-selftest -r wic.Wic2 -> PASS
-
- meta-selftest/wic/wictestdisk.wks             |    4 +-
- meta/classes-recipe/image_types_wic.bbclass   |    6 +-
- meta/conf/distro/include/maintainers.inc      |    3 +-
- meta/lib/oeqa/selftest/cases/wic.py           |  292 ++--
- meta/recipes-core/meta/wic-tools.bb           |    1 +
- meta/recipes-support/wic/wic_0.3.0.bb         |   18 +
- .../canned-wks => meta/wic}/common.wks.inc    |    0
- .../wic}/directdisk-bootloader-config.cfg     |    0
- .../wic}/directdisk-bootloader-config.wks     |    0
- .../wic}/directdisk-gpt.wks                   |    0
- .../wic}/directdisk-multi-rootfs.wks          |    0
- .../canned-wks => meta/wic}/directdisk.wks    |    0
- .../wic}/efi-bootdisk.wks.in                  |    0
- .../wic}/efi-uki-bootdisk.wks.in              |    0
- .../wic/canned-wks => meta/wic}/mkefidisk.wks |    0
- .../canned-wks => meta/wic}/mkhybridiso.wks   |    0
- .../canned-wks => meta/wic}/qemuloongarch.wks |    0
- .../wic/canned-wks => meta/wic}/qemuriscv.wks |    0
- .../wic}/qemux86-directdisk.wks               |    0
- .../wic}/sdimage-bootpart.wks                 |    0
- .../wic}/systemd-bootdisk.wks                 |    0
- scripts/lib/wic/__init__.py                   |   10 -
- scripts/lib/wic/engine.py                     |  710 ----------
- scripts/lib/wic/filemap.py                    |  583 --------
- scripts/lib/wic/help.py                       | 1188 -----------------
- scripts/lib/wic/ksparser.py                   |  322 -----
- scripts/lib/wic/misc.py                       |  266 ----
- scripts/lib/wic/partition.py                  |  562 --------
- scripts/lib/wic/pluginbase.py                 |  144 --
- scripts/lib/wic/plugins/imager/direct.py      |  710 ----------
- .../wic/plugins/source/bootimg_biosplusefi.py |  213 ---
- scripts/lib/wic/plugins/source/bootimg_efi.py |  435 ------
- .../wic/plugins/source/bootimg_partition.py   |  162 ---
- .../lib/wic/plugins/source/bootimg_pcbios.py  |  483 -------
- scripts/lib/wic/plugins/source/empty.py       |   89 --
- .../lib/wic/plugins/source/extra_partition.py |  146 --
- .../wic/plugins/source/isoimage_isohybrid.py  |  463 -------
- scripts/lib/wic/plugins/source/rawcopy.py     |  115 --
- scripts/lib/wic/plugins/source/rootfs.py      |  236 ----
- scripts/wic                                   |  600 ---------
- 40 files changed, 166 insertions(+), 7595 deletions(-)
+changes in v2:
+- add wic as a native dependency of the image_types_wic.bbclass
+---
+ meta/classes-recipe/image_types_wic.bbclass |  4 ++--
+ meta/conf/distro/include/maintainers.inc    |  3 ++-
+ meta/recipes-core/meta/wic-tools.bb         |  1 +
+ meta/recipes-support/wic/wic_0.3.0.bb       | 18 ++++++++++++++++++
+ 4 files changed, 23 insertions(+), 3 deletions(-)
  create mode 100644 meta/recipes-support/wic/wic_0.3.0.bb
- rename {scripts/lib/wic/canned-wks => meta/wic}/common.wks.inc (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-bootloader-config.cfg (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-bootloader-config.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-gpt.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-multi-rootfs.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/efi-bootdisk.wks.in (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/efi-uki-bootdisk.wks.in (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/mkefidisk.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/mkhybridiso.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/qemuloongarch.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/qemuriscv.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/qemux86-directdisk.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/sdimage-bootpart.wks (100%)
- rename {scripts/lib/wic/canned-wks => meta/wic}/systemd-bootdisk.wks (100%)
- delete mode 100644 scripts/lib/wic/__init__.py
- delete mode 100644 scripts/lib/wic/engine.py
- delete mode 100644 scripts/lib/wic/filemap.py
- delete mode 100644 scripts/lib/wic/help.py
- delete mode 100644 scripts/lib/wic/ksparser.py
- delete mode 100644 scripts/lib/wic/misc.py
- delete mode 100644 scripts/lib/wic/partition.py
- delete mode 100644 scripts/lib/wic/pluginbase.py
- delete mode 100644 scripts/lib/wic/plugins/imager/direct.py
- delete mode 100644 scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
- delete mode 100644 scripts/lib/wic/plugins/source/bootimg_efi.py
- delete mode 100644 scripts/lib/wic/plugins/source/bootimg_partition.py
- delete mode 100644 scripts/lib/wic/plugins/source/bootimg_pcbios.py
- delete mode 100644 scripts/lib/wic/plugins/source/empty.py
- delete mode 100644 scripts/lib/wic/plugins/source/extra_partition.py
- delete mode 100644 scripts/lib/wic/plugins/source/isoimage_isohybrid.py
- delete mode 100644 scripts/lib/wic/plugins/source/rawcopy.py
- delete mode 100644 scripts/lib/wic/plugins/source/rootfs.py
- delete mode 100755 scripts/wic
 
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index c9baf35ed35d..3ebcaf390480 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -111,14 +111,14 @@ do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
+ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
+ WKS_FILE_CHECKSUM = "${@wks_checksums(d.getVar('WKS_FILES').split(), d.getVar('WKS_SEARCH_PATH')) if '${USING_WIC}' else ''}"
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+-do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
++do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('wic', 'parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
+ 
+ # We ensure all artfacts are deployed (e.g virtual/bootloader)
+ do_image_wic[recrdeptask] += "do_deploy"
+ do_image_wic[deptask] += "do_image_complete"
+ 
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+-WKS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
++WKS_FILE_DEPENDS_DEFAULT += "wic-native bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+ # Unified kernel images need objcopy
+ WKS_FILE_DEPENDS_DEFAULT += "virtual/cross-binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index b5ab35d92a06..46bd48117910 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -884,7 +884,8 @@ RECIPE_MAINTAINER:pn-weston = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-weston-init = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-which = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-wic-tools = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-wic = "Trevor Woerner <twoerner@gmail.com>"
++RECIPE_MAINTAINER:pn-wic-tools = "Trevor Woerner <twoerner@gmail.com>"
+ RECIPE_MAINTAINER:pn-wireless-regdb = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wpa-supplicant = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wpebackend-fdo = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index fa983ed5f12c..45fb873dd6bd 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -3,6 +3,7 @@ SUMMARY = "A meta recipe to build native tools used by wic."
+ LICENSE = "MIT"
+ 
+ DEPENDS = "\
++           wic-native \
+            parted-native gptfdisk-native dosfstools-native \
+            mtools-native bmaptool-native grub-native cdrtools-native \
+            btrfs-tools-native squashfs-tools-native pseudo-native \
+diff --git a/meta/recipes-support/wic/wic_0.3.0.bb b/meta/recipes-support/wic/wic_0.3.0.bb
+new file mode 100644
+index 000000000000..65f96cfb7e87
+--- /dev/null
++++ b/meta/recipes-support/wic/wic_0.3.0.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "OpenEmbedded Image Creator (wic) standalone CLI"
++HOMEPAGE = "https://git.yoctoproject.org/wic"
++LICENSE = "GPL-2.0-only"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=4ee23c52855c222cba72583d301d2338"
++
++SRC_URI = "git://git.yoctoproject.org/wic.git;branch=master;protocol=https"
++SRCREV = "15a50b871047538f2f98daf2a8d6f155eb146880"
++
++inherit python_hatchling
++
++RDEPENDS:${PN} += " \
++    python3-core \
++    python3-json \
++    python3-logging \
++    python3-misc \
++    "
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.51.0
 
