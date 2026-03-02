@@ -2,138 +2,225 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26926EF585D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F5EC624C9
 	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 00:38:40 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.150140.1772411919388667618
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.150258.1772411913623759767
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Mar 2026 16:38:39 -0800
+ Sun, 01 Mar 2026 16:38:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MBVc/dH1;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-899c97c5afeso27811236d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 16:38:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L1wbp+xV;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-899a917a4feso71222406d6.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 16:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772411918; x=1773016718; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y9cmgWp0dXccz277AGUUDUEJdF3gZ8ONdZQAfxaDBWI=;
-        b=MBVc/dH1kl/MUYIMt/CeXBAMUWpE1vTe0rUxg0opPgQkpDP+tTnpqqdWOcdxWSBzTk
-         VMLZI/+WmtkqlSH4mmx7U/wA1+7TPPnztRm158QEPtdZ0lQnHRz7JwJ1vXNSj8HJhoIm
-         7qXqxeBA7IHirxtCsD+era/0RpcMMlYwjZsIgPHcNG3QMuKuzIfiVd4ZeSbUkdXJOHNL
-         x3cuvT0j3nOlpu09GmfsUffRYjID+lZhfS9L5p9YorCnj3fXR2m8F+JuO7Qv4pCardvI
-         kGxTFYdbPcFcrWSz8BfHMThN/rGqm9QzjZzJqGfgRVihUwDniDYrEXmUyzrQOuPvy/30
-         nDWA==
+        d=gmail.com; s=20230601; t=1772411912; x=1773016712; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QG8pdrAqHBiYpHbCWSNzc2hb2o2uEHZOcjdhBdSRg4Y=;
+        b=L1wbp+xVIsAkB3IN+X+g9I/c7BRk521m4m4My8BFeFcwB7y0bYvXtmbs2u2Vg86YCN
+         jAy0raCRcMhQPvTt6ywdZj8Vhf04KAyjO8aSq+TZhOUbSa//RWjTW0yTTSWa0uo1dbWq
+         kiZiHVR2DOVozLOM32icj4H8L1l0hZueWbkpjUKn8J9RDfzOZuJ28D796vGVzeQs4Xyt
+         587ab3G+gmd6Llw7eb3dhHuFFgtKvCQ53jvPuacNIsiGaLwJPRPOeA+PW5x9mHXXileH
+         OYU9AuEYbvJrCv+Dwnvc4+YMMNdhsxS/+iHgNi9NIkNFptlE0gh5fB5fuIoD8PgaloA5
+         rdyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772411918; x=1773016718;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Y9cmgWp0dXccz277AGUUDUEJdF3gZ8ONdZQAfxaDBWI=;
-        b=VyvlEV/6eAeE+Wkpln4UsL+LCQ8381OO1phMTmOEWLBFkIgQRJwfjL9dATkztsrM9m
-         fdVOP4CMqCNNx2v98O6AagbUmdOjrOQt9KI9BjwWFNd+NTtFViAs/oMGwMpDQFUKbIMQ
-         vzaMzQGC1zvdsoqhsNWc4xNodkH7VeK0bJ6TyadzG2Ceok4qsqYjI9b8ayOlf5YAXqbB
-         AHOrdfmGyvbRf6+pPQcYlGpRBZM59O7nLSxTeS4Pkfi0PbaB5qwfIpJ5D9VrjK3uy+6D
-         FjIwDafaXd7t6qmbU7dYy0yo38LlR9uBi6/kEk3sVuI4tc54SBiSuCYMZvI2USMAj9Kw
-         VnCg==
-X-Gm-Message-State: AOJu0Yxfc8FNTuQzkK2P3Rrc9ovdKAElSnR2gQdemQsI8zw09IUdPPSX
-	VJrGflPePm+DQQN1Vn6Es0Sp6dVi7jqSXzb5IAKeDe4e+Wlcp0b5KlQNWQtbZHgv
-X-Gm-Gg: ATEYQzwV9qgV6YPs1mcij8J0W8KOTZ/71F7Qlqp9nySfJYMPXTb8jVw4YoEws9ViY3O
-	B2zBbvaHJmMNzbLONCHcnnEyxhvA7QHxWchvLhlUxdZOnqpe0QMwXXP4mzMwbBfM+DYp30SOqEj
-	iU8/Z2E0gu0ibSDlBQRhfnH29qGW1n2Z6jk8jBYNsKR6+uftcJs0XfUKQLGaGWzw3s4gA/SU7sV
-	S030Mg82y634h3YwpPCRXGg7b5vHjAVXz9g9oBdGo/HB6zKE0up1zgkX/D2MA6ZUmw4vVReU3M6
-	RlkHcsvMT+T8vwty8FiEJ//V4bOhHQdUr34DgItTKeprPIBS1to9J+hVF2rY+CE8MQrxqL6T8xc
-	uyvIEzA/tFHeXK6pr2VEhi4gelWcSeQ0DMexskZwWSld29IwaqZ433Pfa6MvyuQ4Ms6TsdCH8Go
-	vovTawEAFYnzJK1uF+s9wsFFQQw7A+5MmIa1X9nYYy8iUaR7gQClA+pxnVt6qM15sK7A==
-X-Received: by 2002:a05:622a:1484:b0:501:47d3:2176 with SMTP id d75a77b69052e-5075289de0cmr128694101cf.26.1772411917550;
-        Sun, 01 Mar 2026 16:38:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772411912; x=1773016712;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QG8pdrAqHBiYpHbCWSNzc2hb2o2uEHZOcjdhBdSRg4Y=;
+        b=vK15+AQdyB3WZ4S22cdK1kCHXy+hcVWqMCFbq2CpqlISuKEXSdkLWQt9IPCMZExzQr
+         k97kcnztX1G22go97NM69rMQYa3NyjOr+sweBKUgC2pk8aqCk8JaIaMzy8q5lfeWfT0/
+         WY9zxIzevVVSgScModjR93XecHtP3Tss0ILGwffoDIyEFoRrChosEQv2tFP9r1WHcKo2
+         8gn3V3B0U3rIJER0gllCfUFdvVW96rRBQ/yeQszM1k1HlI4Lm6WiwOba/XEqlem8oLkQ
+         W9gTMsWAlzkIPKYSCjlcv4U1cK4eZsj217EA92QXlvqnrabXui377xcy5iRQC3QRhk0M
+         If7Q==
+X-Gm-Message-State: AOJu0YzMeROW9akyg3y9ILdvzdVwoYAbc8iSn8IYjmCIt1VS2kJ6P1By
+	5ZPP3ljdk9vmJ+Ye3wZF+Lm5Zef2Db6Lukq0es6upyhMoodQeCbr2YV0Skfs9Uj+
+X-Gm-Gg: ATEYQzwMWKh/FiXJ2XCCLM+41XhdReVnNWMtJY+nBrmBpmJKtxNZ3jh/UoQFM6pmUXW
+	D6onNccgXHLn5KatelqU9kPJtEn7xOottLbIt9s+GEZtHDTCMdeDrKhW2fvNl3Ai/GVZ5a25cfg
+	hq1yEbxmW15cm7tgAt8PlYns8kMqBJ1P1tN0X9rNLWHQaIYyn0OVlx9RBv2gGKKzQF+T3/I5KvT
+	imJxg9qJA+8SsIFmR6Nr65xx3Cyvv/BvZqxuSUWFWgs2bO9ryX1BlbD1W2udtQ6NWwoy57D+vD5
+	9p239RrpC2TC5/vd1zpzqVrVjTT9SyudZsk9StLK8FQbh8UhMkdXNiRnZ2KtrwBOpHkv67kX27u
+	FgSDZRQ9v2Tvr23WQfDI9R79OU42mG9VLQmImjXITu07bbxm9uH/a5jFDz7vcEqwk7OD6gOLepU
+	aF85wK0WBYMotCLR5PxV/8iFzhPpiaPAozBHHjrR8NwEw2+893+xQG6eBvSH65SZ3r2RUsFQ5XR
+	lHx
+X-Received: by 2002:a05:6214:21c6:b0:895:1cbb:5d5b with SMTP id 6a1803df08f44-899d1e2b9a7mr168275186d6.32.1772411911515;
+        Sun, 01 Mar 2026 16:38:31 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899ebb09772sm33710356d6.12.2026.03.01.16.38.36
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899ebb09772sm33710356d6.12.2026.03.01.16.38.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 16:38:36 -0800 (PST)
+        Sun, 01 Mar 2026 16:38:30 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v7 5/9] oe-selftest/cases/wic.py: update WicTestCase
-Date: Sun,  1 Mar 2026 19:38:22 -0500
-Message-ID: <20260302003826.3995222-6-twoerner@gmail.com>
+Subject: [PATCH v7 0/9] standalone wic
+Date: Sun,  1 Mar 2026 19:38:17 -0500
+Message-ID: <20260302003826.3995222-1-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260302003826.3995222-1-twoerner@gmail.com>
-References: <20260302003826.3995222-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 00:38:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232150
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232146
 
-The wic oe-selftest defines its own class, WicTestCase, for handling
-setup, teardown, and other pieces needed to run the individual wic
-oe-selftests. Now that wic is a tool external to oe-core, it, and the
-tools on which it depends, need to be built natively before the test
-can be run, need to be made available to the tests, and need to remain
-available while the test is running.
+This series of patches splits wic out from oe-core into its own 
+standalone utility. The wic utility will continue to be under The Yocto
+Project umbrella, but will no longer be integrated into the project
+as part of oe-core. The ultimate goal is to make wic a completely
+independent tool, hosted on PyPI, with its own tests, development
+roadmap, and releases.
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
-changes in v7:
-- none
+Some benefits include:
+- relieving the oe-core maintainers from having to review wic patches,
+  allowing them to focus on core functionality
+- allow the tool to be used outside of The Yocto Project
+- provide more flexibility to explore other features, libraries,
+  mechanisms, etc 
 
-changes in v6:
-- none
+These changes have been tested with oe-selftest as follows:
+        $ sudo .../layers/openembedded-core/scripts/runqemu-gen-tapdevs <my numeric group id> 4
+        $ oe-selftest -v -r wic 
 
-changes in v5:
-- rebase with master
-- split back out into smaller patches
+There were 2 tests that would not pass on my home machine, but when I
+sent my original RFC patchset, it looked like all tests passed on the
+AB. However with subsequent testing we saw the exact same 2 tests fail
+on the Fedora worker in the AB. This v7 patchset includes changes to
+address these tests.
 
-v4: skipped to align/combine with other patch set
+In v6 the major changes are:
+- code cleanups to remove cases of "if sector_size and sector_size =
+  512" in places where we can guarantee sector_size will exist
+- cleanups to replace "getattr(var, 'sector_size', 512) or 512" since
+  the 3rd arg to getattr() is already setting a default if the variable
+  name is not found
+- many comment and commit comment improvements
+- error out if extraopts includes options to set the sector-size in wks 
+  files
+- patch 2 (add ufs class) was dropped
+- patches 3 and 4 were reversed (move/save wks files before removing the 
+  rest of wic from oe-core)
 
-changes in v3:
-- squashed into 1 large patch
+Previously, I had two separate patch sets for wic on oe-core: one
+to create a standalone utility, and one to re-implement variable
+sector-size handling. Both these were combined to create a combined "v5"
+patch set. For the patch sets up to and including v5:
 
-changes in v2:
-- none
----
- meta/lib/oeqa/selftest/cases/wic.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+	For the standalone patch set:
+	v1: an RFC patchset was sent out, split up into small patches for easy
+	    review
+	v2: add wic utility to list of native dependencies of
+	    image_types_wic.bbclass
+	v3: squash all commits together to apply atomically
+	v4: (does not exist)
+	v5: rebase on latest master
+	    split commits back out acknowledging any bisection that lands
+	    between them will fail
+	    combine with sector-size patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 7ad61fa700f7..e9c28baf51eb 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -57,12 +57,22 @@ class WicTestCase(OESelftestTestCase):
- 
-     image_is_ready = False
-     wicenv_cache = {}
-+    oldpath = ""
-+    envfile = ""
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-         self.resultdir = os.path.join(self.builddir, "wic-tmp")
-         super(WicTestCase, self).setUpLocal()
- 
-+        config = 'DEPENDS:pn-core-image-minimal += " %s"' % get_bb_var("DEPENDS", "wic-tools")
-+        self.append_config(config)
-+        bitbake('wic-tools core-image-minimal core-image-minimal-mtdutils')
-+        WicTestCase.oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools") + ":" + os.environ['PATH']
-+        image = 'core-image-minimal'
-+        WicTestCase.envfile = os.path.join(self._get_image_env_path(image), image) + '.env'
-+
-         # Do this here instead of in setUpClass as the base setUp does some
-         # clean up which can result in the native tools built earlier in
-         # setUpClass being unavailable.
-@@ -78,6 +88,7 @@ class WicTestCase(OESelftestTestCase):
-         """Remove resultdir as it may contain images."""
-         rmtree(self.resultdir, ignore_errors=True)
-         super(WicTestCase, self).tearDownLocal()
-+        os.environ['PATH'] = WicTestCase.oldpath
- 
-     def _get_image_env_path(self, image):
-         """Generate and obtain the path to <image>.env"""
+	For the sector-size patch:
+	v1: initial patch set 
+	v2: add Mark as co-author of ufs class
+	    try to fix a build warning when not using wic 
+	v3: actually fix warning when not using wic 
+	v4: deprecate, but allow, WIC_SECTOR_SIZE to continue to be used to set 
+	    the sector-size both from config files and the environment
+	    warn when both are used, but prefer cmdline value
+	    change partition type of sample wks to gpt 
+	v5: fix a bug where WIC_SECTOR_SIZE is not given anywhere
+	    combine with standalone patch set 
+
+Trevor Woerner (9):
+  wic: re-implement sector-size support
+  wic: move sample *wks files
+  wic: move to standalone repository
+  wic: add recipe
+  oe-selftest/cases/wic.py: update WicTestCase
+  oe-selftest/cases/wic.py: oe-selftest -r wic.CLITests -> PASS
+  oe-selftest/cases/wic.py: oe-selftest -r wic.ModifyTests -> PASS
+  oe-selftest/cases/wic.py: oe-selftest -r wic.Wic -> PASS
+  oe-selftest/cases/wic.py: oe-selftest -r wic.Wic2 -> PASS
+
+ meta-selftest/wic/wictestdisk.wks             |    4 +-
+ meta/classes-recipe/image_types_wic.bbclass   |    6 +-
+ meta/conf/distro/include/maintainers.inc      |    3 +-
+ meta/lib/oeqa/selftest/cases/wic.py           |  292 ++--
+ meta/recipes-core/meta/wic-tools.bb           |    1 +
+ meta/recipes-support/wic/wic_0.3.0.bb         |   18 +
+ .../canned-wks => meta/wic}/common.wks.inc    |    0
+ .../wic}/directdisk-bootloader-config.cfg     |    0
+ .../wic}/directdisk-bootloader-config.wks     |    0
+ .../wic}/directdisk-gpt.wks                   |    0
+ .../wic}/directdisk-multi-rootfs.wks          |    0
+ .../canned-wks => meta/wic}/directdisk.wks    |    0
+ .../wic}/efi-bootdisk.wks.in                  |    0
+ .../wic}/efi-uki-bootdisk.wks.in              |    0
+ .../wic/canned-wks => meta/wic}/mkefidisk.wks |    0
+ .../canned-wks => meta/wic}/mkhybridiso.wks   |    0
+ .../canned-wks => meta/wic}/qemuloongarch.wks |    0
+ .../wic/canned-wks => meta/wic}/qemuriscv.wks |    0
+ .../wic}/qemux86-directdisk.wks               |    0
+ .../wic}/sdimage-bootpart.wks                 |    0
+ .../wic}/systemd-bootdisk.wks                 |    0
+ scripts/lib/wic/__init__.py                   |   10 -
+ scripts/lib/wic/engine.py                     |  710 ----------
+ scripts/lib/wic/filemap.py                    |  583 --------
+ scripts/lib/wic/help.py                       | 1188 -----------------
+ scripts/lib/wic/ksparser.py                   |  322 -----
+ scripts/lib/wic/misc.py                       |  266 ----
+ scripts/lib/wic/partition.py                  |  562 --------
+ scripts/lib/wic/pluginbase.py                 |  144 --
+ scripts/lib/wic/plugins/imager/direct.py      |  710 ----------
+ .../wic/plugins/source/bootimg_biosplusefi.py |  213 ---
+ scripts/lib/wic/plugins/source/bootimg_efi.py |  435 ------
+ .../wic/plugins/source/bootimg_partition.py   |  162 ---
+ .../lib/wic/plugins/source/bootimg_pcbios.py  |  483 -------
+ scripts/lib/wic/plugins/source/empty.py       |   89 --
+ .../lib/wic/plugins/source/extra_partition.py |  146 --
+ .../wic/plugins/source/isoimage_isohybrid.py  |  463 -------
+ scripts/lib/wic/plugins/source/rawcopy.py     |  115 --
+ scripts/lib/wic/plugins/source/rootfs.py      |  236 ----
+ scripts/wic                                   |  600 ---------
+ 40 files changed, 166 insertions(+), 7595 deletions(-)
+ create mode 100644 meta/recipes-support/wic/wic_0.3.0.bb
+ rename {scripts/lib/wic/canned-wks => meta/wic}/common.wks.inc (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-bootloader-config.cfg (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-bootloader-config.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-gpt.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk-multi-rootfs.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/directdisk.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/efi-bootdisk.wks.in (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/efi-uki-bootdisk.wks.in (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/mkefidisk.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/mkhybridiso.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/qemuloongarch.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/qemuriscv.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/qemux86-directdisk.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/sdimage-bootpart.wks (100%)
+ rename {scripts/lib/wic/canned-wks => meta/wic}/systemd-bootdisk.wks (100%)
+ delete mode 100644 scripts/lib/wic/__init__.py
+ delete mode 100644 scripts/lib/wic/engine.py
+ delete mode 100644 scripts/lib/wic/filemap.py
+ delete mode 100644 scripts/lib/wic/help.py
+ delete mode 100644 scripts/lib/wic/ksparser.py
+ delete mode 100644 scripts/lib/wic/misc.py
+ delete mode 100644 scripts/lib/wic/partition.py
+ delete mode 100644 scripts/lib/wic/pluginbase.py
+ delete mode 100644 scripts/lib/wic/plugins/imager/direct.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_efi.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_partition.py
+ delete mode 100644 scripts/lib/wic/plugins/source/bootimg_pcbios.py
+ delete mode 100644 scripts/lib/wic/plugins/source/empty.py
+ delete mode 100644 scripts/lib/wic/plugins/source/extra_partition.py
+ delete mode 100644 scripts/lib/wic/plugins/source/isoimage_isohybrid.py
+ delete mode 100644 scripts/lib/wic/plugins/source/rawcopy.py
+ delete mode 100644 scripts/lib/wic/plugins/source/rootfs.py
+ delete mode 100755 scripts/wic
+
 -- 
 2.51.0
 
