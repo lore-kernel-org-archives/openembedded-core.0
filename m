@@ -2,409 +2,640 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6AB9D58E5D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1841D58E5A
 	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 04:55:51 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.153762.1772427346038382437
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.153570.1772427347645885506
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Mar 2026 20:55:46 -0800
+ Sun, 01 Mar 2026 20:55:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TvEpTKN0;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-899eabc5292so12653806d6.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 20:55:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gFrvg3CV;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-899eabc5292so12653926d6.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Mar 2026 20:55:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772427345; x=1773032145; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772427347; x=1773032147; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CEpDFYSCzGaW0uhmqzmgsfxq0d+mcQD7ZbQVKpnhMJU=;
-        b=TvEpTKN0nEGD6Czu01jvHNZPX1q6LArvYW/dKILLgPSDO1bOiDfgBvGQDnuW+cFi0K
-         QrHQ2af6PjzrkXvpo7vk//vgbe948+obnmWrQ4+QPjcr5kaYydHKOkqTgjJ4sbmejdhw
-         TBf5bcAHNBoK51AdxL37PeZ4BWhuR4IrPUxKb/jQ26dhH3RCEKUlJ2K8N6/MsuWTmPWa
-         BxKFEHMNIoAUyvz2l1XbyncmYO2+1UzB3ZfecUcyToe+zIpDiN3U6hklQxqFKxo3ysxS
-         xda0vNpZBuYDLWuZqv3jfEQ68DaV1NzKzEFQvlroeweQ8JZjPjht8MX0JggCyCi6io2Y
-         bWew==
+        bh=IKPfryAKAsBADLKEAHgvErHQSfZjypPt29z2saDwjKM=;
+        b=gFrvg3CVT+Eo/5pn3HQ0f7VxsIMF/P8aX9U7OK/noqcpMIaIf/+0aqsy98YTMCDvOB
+         ywUhmCzxKxryNpU0+QFEHv5AxOPn89XSCmnYzZ/mkf6ux7cn27O0uVVhDqi1HXSCP//P
+         NN9WSuDYBXM8gTR02pHg0HxTiiFYr/KMBaKUV6wx27EVNxLACdy+jHil2oR3qRWv4eom
+         3zIVNWtC50YZPB53Xz01G/O+V8gOLGschyp1e+SVozuKgzjWnVhfqeVQR2dng2MyuWyh
+         SRYr1J5qPbi/BkEV4d4bQ8ZPANpmxkHMUQwufuSPDij0pRJHJQL3QIlLcFS78BR5Cr8j
+         2jsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772427345; x=1773032145;
+        d=1e100.net; s=20230601; t=1772427347; x=1773032147;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CEpDFYSCzGaW0uhmqzmgsfxq0d+mcQD7ZbQVKpnhMJU=;
-        b=vBkeTF+jHZbfwWsuPUB7OisFHLxGm786voaPfGd5FZLzvJCdyT3Gr6B0QxKf3GlBaK
-         CVCPCX47GJMh+fbGkoR5YKo40iCNV5RFVp1VrL0lj3rGos+Ha/dwacWpklj9gQJeLGHQ
-         OBA72MjY5zS3J316oPLsCVbZWE2pDIG5HpESKOEbgMBK/SD1NiZcysH8GDDJXUGZjDkQ
-         8eLLGq2E8IvlHl8ok17nPe2sZVFz0DfwmvEjom/v0ugcGPnubjbsQV4tJzglMufALld4
-         8nwBJv9XSndUEPCoSP+Gwve7XkWsl2ZA+x0KlfL2isfby1qE8D4t7KMZCKisUl9uRG72
-         IQnQ==
-X-Gm-Message-State: AOJu0Yy0CcVXyeP3v98usHq/6XQT4PPqx/zssIeS/liyrRgYahLRxpnU
-	kP2cKVGJcRCIGjvdEgwEZ0M4n/3eJdRzZJG43P8waRbSGVxhJECjr4iK4F79OIC5kCU=
-X-Gm-Gg: ATEYQzz9O4rNBt5tNWv3Fkxz3WRy37wH8S48KlIAuKxQ233h9fn5DoKfzabHc7EDR4v
-	xHMtMgqc7OcWdbE8DEiQdS7pedzhfIDiTJ9QqlsTkNAZ2Ejdbq792xTTtYWr0VUF4nN7VclgUp/
-	BDgXFRLfn8cOORHAPhFxzjmNuKQ9fVGGuSo8L0W9s4JWGFmfy814BIZW8c0VlSz3GgAi28Wrnxe
-	MX0YqPkPrF7gP3NsV+EGs13opgBBTCr0w05maIDaiFVJMbOxUT7IvuDouuY8kwBwWCDNfiG7oKN
-	ncIHuV78AQV7cFf9fWNTK3krOe7MrXb0C1oI2zfv52O+sqOHkrbh2EOWHv6hBELRKJXNbcaFTm3
-	ropOb2gfY1SnRS53MCFDeUHypcU5jxahZkgsJw6haXvXAqPXwThuQLetSQ2ZQhDGwoZAcQaG44E
-	+KrzoCdOuuKYjNFZzhvBU4DYPHj43Bpq3xON5Mo4gh/EuCI4pbsI4x15LBQ9uV7L6b4O8SQv1Wr
-	uGJLk9YrP4Db5jVboaV+XrsZG3YY6k0iWLpznjV/Fq/kIZy+vWEa7S7l/U=
-X-Received: by 2002:ad4:5cec:0:b0:894:878d:9975 with SMTP id 6a1803df08f44-899d1dc0375mr147484056d6.16.1772427344871;
-        Sun, 01 Mar 2026 20:55:44 -0800 (PST)
+        bh=IKPfryAKAsBADLKEAHgvErHQSfZjypPt29z2saDwjKM=;
+        b=YNOazw1Qzhh2VWvaTw6SHc7QrEEiaKeG8gU79jBr6CAZNjqbDjZY2rHCJ5pb4p7le2
+         oqlJw/5FCkqFdFRKginl2drBpe7R2CgIefXqMBEXsrglpTtpXon+36/4uHgZXplk3IN4
+         Lu4CSzLSIYdCum+KuPi0F+g4l98jbQJsRckxMPM76a77nqQz6403FHJJ2jYu/Xl8aZqW
+         AcXB5JQdOC+lv0MWGyOzXUHxorsAHmQTIpgrE7XXIMYdfpKZHgwb37aKpH8zE0Tj3Xu2
+         nGwQ6qdh/cKp1Dll5Lr7V6MUIb+B26lCkyKSbJxH+wK8U4nlqPv10G4OotSAjXQKC/eh
+         vPHQ==
+X-Gm-Message-State: AOJu0YxQDss8Rwfan6tizauprD1gwTeNFGaxGtUZfG1nO9of4ECJV0tg
+	XjDb+1hH4q84Dyx9G6A4LY7lWq1W3J5m42B5uOfFi5CyktIbsjKTB2mY5n9e4T0rWYs=
+X-Gm-Gg: ATEYQzw/hC2g1eNuREyVIiA2O54rKSYYVXIbRgYtZVKSYmggImPWxiTJs4tehKDLER9
+	YuhCZRw6rp3/6hg4BoKBHUJzG+xBsD2vqI0Fzc/Tk1EO8DwIDSFxm8geNvFkwi8w319URo1lJQu
+	LRBHQUceTTmItttIk1vm/FKT0MirLcaRzP/6WO/k4wWwJ18vTJ7vqUCnCbKFaZQpOt8M3oXzIsZ
+	CmDWzPhx8sqXY0MdZ89XGdS9/icAsw5xTY6H8LamB12bJJtoM/b8jskQMTL0Md2DYbDrmBdmxXf
+	tPx6UMKGaHdQJh/Kee1RKEzRMey0Rkn6ZxvO5eer9QSdSLs8wVa63O412Hw07ta7qy5fchBzPVZ
+	gYeROKgZKvkp6/b0Sb7ocSsbRSCkLvmY5mfVIeLq06+nuTB4KJ71PZmjEmmsseYRUT2EaqmM2fA
+	PUlmu2q0s3m4OptevHidFiuwqm5D+ayrrTPs9VAyVHVkeQhA85yCl12AUrih5G9PUeZJVmDw4PE
+	Zngdq3c0kWnqo4IjUBOcv/Xfp2H00QO19p8Uv9vJdxPWnJNjM5X2xRd3eg=
+X-Received: by 2002:a05:6214:2463:b0:899:fb3a:9f66 with SMTP id 6a1803df08f44-899fb3ad425mr35173926d6.18.1772427346329;
+        Sun, 01 Mar 2026 20:55:46 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a017add76sm2488406d6.36.2026.03.01.20.55.43
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a017add76sm2488406d6.36.2026.03.01.20.55.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 20:55:43 -0800 (PST)
+        Sun, 01 Mar 2026 20:55:45 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta][PATCH 03/10] linux-yocto/6.18: update to v6.18.11
-Date: Sun,  1 Mar 2026 23:55:29 -0500
-Message-ID: <20260302045537.2153587-4-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 04/10] linux-yocto/6.18: update CVE exclusions (6.18.11)
+Date: Sun,  1 Mar 2026 23:55:30 -0500
+Message-ID: <20260302045537.2153587-5-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260302045537.2153587-1-bruce.ashfield@gmail.com>
 References: <20260302045537.2153587-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 04:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232163
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232164
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.18 to the latest korg -stable release that comprises
-the following commits:
+Data pulled from: https://github.com/CVEProject/cvelistV5
 
-    ee4fb138af107 Linux 6.18.11
-    32f08c3ddd6dd gpio: omap: do not register driver in probe()
-    116f7bd8160c6 wifi: rtl8xxxu: fix slab-out-of-bounds in rtl8xxxu_sta_add
-    24a253c3aa6d9 PCI: endpoint: Avoid creating sub-groups asynchronously
-    60b75407c172e drm/exynos: vidi: use ctx->lock to protect struct vidi_context member variables related to memory alloc/free
-    ed82e7949f5ca xfs: fix UAF in xchk_btree_check_block_owner
-    d741534302f71 erofs: fix UAF issue for file-backed mounts w/ directio option
-    1d6bd6183e723 bus: fsl-mc: fix use-after-free in driver_override_show()
-    d14e991279831 scsi: qla2xxx: Query FW again before proceeding with login
-    f04840512438a scsi: qla2xxx: Free sp in error path to fix system crash
-    c068ebbaf5282 scsi: qla2xxx: Delay module unload while fabric scan in progress
-    ae49d33bfc08b scsi: qla2xxx: Allow recovery for tape devices
-    1a9585e4c58d1 scsi: qla2xxx: Validate sp before freeing associated memory
-    1339455044155 wifi: rtw88: Fix alignment fault in rtw_core_enable_beacon()
-    46c1d56ad321f hfs: ensure sb->s_fs_info is always cleaned up
-    4aa45f841413c nilfs2: Fix potential block overflow that cause system hang
-    52505d7f713bf crypto: virtio - Remove duplicated virtqueue_kick in virtio_crypto_skcipher_crypt_req
-    e69a7b0a71b65 crypto: virtio - Add spinlock protection with virtqueue notification
-    2ed27b5a11743 crypto: omap - Allocate OMAP_CRYPTO_FORCE_COPY scatterlists correctly
-    62c89e1992c86 crypto: octeontx - Fix length check to avoid truncation in ucode_load_store
-    d75207465eed2 crypto: iaa - Fix out-of-bounds index in find_empty_iaa_compression_mode
-    65a0016016e8b ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
-    be7a9bcee0ca6 Bluetooth: btusb: Add USB ID 7392:e611 for Edimax EW-7611UXB
-    8d76b2488eb3c driver core: enforce device_lock for driver_match_device()
-    16c8be3d55441 smb: client: let send_done handle a completion without IB_SEND_SIGNALED
-    6bf260ace7301 smb: client: let smbd_post_send_negotiate_req() use smbd_post_send()
-    69ce4ae2ab65c smb: client: fix last send credit problem causing disconnects
-    cca0526ef2344 smb: client: make use of smbdirect_socket.send_io.bcredits
-    9eff83600edf6 smb: client: use smbdirect_send_batch processing
-    d059e5fc49755 smb: client: introduce and use smbd_{alloc, free}_send_io()
-    1f3e8e2c67cbc smb: client: split out smbd_ib_post_send()
-    8786127068d51 smb: client: port and use the wait_for_credits logic used by server
-    1fe0f989beb8b smb: client: remove pointless sc->send_io.pending handling in smbd_post_send_iter()
-    2b08ca3ab6cc5 smb: client: remove pointless sc->recv_io.credits.count rollback
-    b9ec75aba3c8f smb: client: let smbd_post_send() make use of request->wr
-    5b69ba9978dd0 smb: client: let recv_done() queue a refill when the peer is low on credits
-    f664e6e8a8110 smb: client: make use of smbdirect_socket.recv_io.credits.available
-    24082642654f3 smb: server: let send_done handle a completion without IB_SEND_SIGNALED
-    85bf0a73831cc smb: server: fix last send credit problem causing disconnects
-    5ef18a2e66f2f smb: server: make use of smbdirect_socket.send_io.bcredits
-    cea7afb097b00 smb: server: let recv_done() queue a refill when the peer is low on credits
-    66c082e3d4651 smb: server: make use of smbdirect_socket.recv_io.credits.available
-    88cf40f7b5fb4 smb: smbdirect: introduce smbdirect_socket.send_io.bcredits.*
-    e811e60e1cc79 smb: smbdirect: introduce smbdirect_socket.recv_io.credits.available
-    cd25e0d809531 smb: server: fix leak of active_num_conn in ksmbd_tcp_new_connection()
-    e4a8a96a93d08 ksmbd: add chann_lock to protect ksmbd_chann_list xarray
-    71b5e7c528315 ksmbd: fix infinite loop caused by next_smb2_rcv_hdr_off reset in error paths
-    c4b9edd559873 smb: client: split cached_fid bitfields to avoid shared-byte RMW races
-    1658b66fed206 io_uring: allow io-wq workers to exit when unused
-    f02693a40e407 io_uring/io-wq: add exit-on-idle state
-    41cec610f6906 Linux 6.18.10
-    31b593fbece63 riscv: Add intermediate cast to 'unsigned long' in __get_user_asm
-    ecd164120c248 ALSA: usb-audio: Use the right limit for PCM OOB check
-    24ad4cfac0b8e ALSA: hda/realtek: Really fix headset mic for TongFang X6AR55xU.
-    57bac08056787 spi: tegra114: Preserve SPI mode bits in def_command1_reg
-    b8eec12aa666c spi: tegra: Fix a memory leak in tegra_slink_probe()
-    2ac3a105e5149 spi: tegra210-quad: Protect curr_xfer check in IRQ handler
-    d51554dc05695 spi: tegra210-quad: Protect curr_xfer clearing in tegra_qspi_non_combined_seq_xfer
-    3bc293d5b5650 spi: tegra210-quad: Protect curr_xfer in tegra_qspi_combined_seq_xfer
-    2d3c0122e9611 spi: tegra210-quad: Protect curr_xfer assignment in tegra_qspi_setup_transfer_one
-    51013068438ac spi: tegra210-quad: Move curr_xfer read inside spinlock
-    e1777c400b7a9 spi: tegra210-quad: Return IRQ_HANDLED when timeout already processed transfer
-    b767cf2d4efc8 regulator: spacemit-p1: Fix n_voltages for BUCK and LDO regulators
-    3f9b508b3eecc i2c: imx: preserve error state in block data length handler
-    e71e3fa90a151 gpio: loongson-64bit: Fix incorrect NULL check after devm_kcalloc()
-    279cb9180510f ASoC: amd: fix memory leak in acp3x pdm dma ops
-    8434b351cd4ea ALSA: usb-audio: fix broken logic in snd_audigy2nx_led_update()
-    01d2fb15f15c1 firmware: cs_dsp: rate-limit log messages in KUnit builds
-    abd66845227c5 firmware: cs_dsp: Factor out common debugfs string read
-    b8ad2d53f706a ipv6: Fix ECMP sibling count mismatch when clearing RTF_ADDRCONF
-    f3ed399e9aa6f nvme-pci: handle changing device dma map requirements
-    3c58f6121863c drm/xe/guc: Fix CFI violation in debugfs access.
-    8b68a45f9722f netfilter: nf_tables: fix inverted genmask check in nft_map_catchall_activate()
-    32ddd09d1103e hwmon: (occ) Mark occ_init_attribute() as __printf
-    8abb71d4a1dce drm/xe/pm: Disable D3Cold for BMG only on specific platforms
-    7c5db0957a230 drm/xe/query: Fix topology query pointer advance
-    184a84f03b5e6 drm/mgag200: fix mgag200_bmc_stop_scanout()
-    2e5edb69e5d0e net: gro: fix outer network offset
-    589a530ae44d0 net: add proper RCU protection to /proc/net/ptype
-    9f42cb8fafd6d net: ethernet: adi: adin1110: Check return value of devm_gpiod_get_optional() in adin1110_check_spi()
-    100f3bf914612 drm/amd/display: fix wrong color value mapping on MCM shaper LUT
-    0031f8829c7fb wifi: iwlwifi: mvm: pause TCM on fast resume
-    9b9f52f052f49 wifi: iwlwifi: mld: cancel mlo_scan_start_wk
-    5a2b4b0e9c003 net: enetc: Convert 16-bit register reads to 32-bit for ENETC v4
-    566ea5769ec27 net: enetc: Convert 16-bit register writes to 32-bit for ENETC v4
-    f346253e5fd95 net: enetc: Remove CBDR cacheability AXI settings for ENETC v4
-    d98745c68023f net: enetc: Remove SI/BDR cacheability AXI settings for ENETC v4
-    c175b1eaf729e tipc: use kfree_sensitive() for session key material
-    f3931416cbdd0 net: rss: fix reporting RXH_XFRM_NO_CHANGE as input_xfrm for contexts
-    2718ae6af7445 linkwatch: use __dev_put() in callers to prevent UAF
-    64cf3016234ce io_uring/zcrx: fix page array leak
-    fad7334082cd1 net: don't touch dev->stats in BPF redirect paths
-    8860ddf0e07be hwmon: (acpi_power_meter) Fix deadlocks related to acpi_power_meter_notify()
-    1b2efc593dca9 net: usb: r8152: fix resume reset deadlock
-    cdedcd5aa3f3c macvlan: fix error recovery in macvlan_common_newlink()
-    c9e4daf62ca07 net: sfp: Fix quirk for Ubiquiti U-Fiber Instant SFP module
-    8553bf2e09828 i40e: drop udp_tunnel_get_rx_info() call from i40e_open()
-    07bb882485f89 ice: drop udp_tunnel_get_rx_info() call from ndo_open()
-    7565d4df66b66 ice: Fix PTP NULL pointer dereference during VSI rebuild
-    ef72678c9df0e ice: PTP: fix missing timestamps on E825 hardware
-    6801ef140fc33 ice: fix missing TX timestamps interrupts on E825 devices
-    1b381a638e185 dpaa2-switch: add bounds check for if_id in IRQ handler
-    4640fa5ad5e1a net: liquidio: Fix off-by-one error in VF setup_nic_devices() cleanup
-    293eaad0d6d6b net: liquidio: Fix off-by-one error in PF setup_nic_devices() cleanup
-    d028147ae0640 net: liquidio: Initialize netdev pointer before queue setup
-    155eb99aff292 dpaa2-switch: prevent ZERO_SIZE_PTR dereference when num_ifs is zero
-    8a672f177ebe1 net/sched: cls_u32: use skb_header_pointer_careful()
-    9b186feb75267 net: add skb_header_pointer_careful() helper
-    f8611a7981cd0 hwmon: (dell-smm) Add Dell G15 5510 to fan control whitelist
-    9ee608a64e37c smb/client: fix memory leak in smb2_open_file()
-    faff38ebbfe63 platform/x86/intel/tpmi/plr: Make the file domain<n>/status writeable
-    9029ccfab2ca9 platform/x86: hp-bioscfg: Skip empty attribute names
-    6c45a5a7e1e3b platform/x86: intel_telemetry: Fix PSS event register mask
-    f93ae43780b75 platform/x86: toshiba_haps: Fix memory leaks in add/remove routines
-    245ff08e261ce Revert "drm/amd/display: pause the workload setting in dm"
-    98bf5bc8cb8cb tracing: Avoid possible signed 64-bit truncation
-    6dd87f6afe9e9 ALSA: hda/realtek: ALC269 fixup for Lenovo Yoga Book 9i 13IRU8 audio
-    3228b2eceb6c3 btrfs: reject new transactions if the fs is fully read-only
-    b4b065a880997 wifi: mac80211: don't increment crypto_tx_tailroom_needed_cnt twice
-    ccb3c75d57039 btrfs: sync read disk super and set block size
-    7a1bec39c014e wifi: mac80211: correctly check if CSA is active
-    990e40fb1d111 btrfs: fix Wmaybe-uninitialized warning in replay_one_buffer()
-    3835e49e146a4 scsi: target: iscsi: Fix use-after-free in iscsit_dec_conn_usage_count()
-    108cbf2b7d295 ALSA: hda/realtek: Fix headset mic for TongFang X6AR55xU
-    1d5f2329ab4df io_uring/rw: free potentially allocated iovec on cache put failure
-    c65a1a72a41e4 riscv: Use 64-bit variable for output in __get_user_asm
-    4530f4e4d0e6a scsi: target: iscsi: Fix use-after-free in iscsit_dec_session_usage_count()
-    8a7ef96e6af91 wifi: cfg80211: Fix bitrate calculation overflow for HE rates
-    36e88bd40a8c0 spi: intel-pci: Add support for Nova Lake SPI serial flash
-    7178b36de1850 ALSA: usb-audio: Add delay quirk for MOONDROP Moonriver2 Ti
-    f08f2d2907675 regmap: maple: free entry on mas_store_gfp() failure
-    7d4c9c448c2b3 spi: hisi-kunpeng: Fixed the wrong debugfs node name in hisi_spi debugfs initialization
-    66b73d3f2cfc7 ALSA: hda/tas2781: Add newly-released HP laptop
-    e6ce61e01c9a2 ASoC: tlv320adcx140: Propagate error codes during probe
-    3ba3d959c17aa ASoC: amd: yc: Fix microphone on ASUS M6500RE
-    1c90f930e7b41 nvmet-tcp: fixup hang in nvmet_tcp_listen_data_ready()
-    62932d9ed639a ALSA: usb-audio: Prevent excessive number of frames
-    e810b290922c5 nvme-fc: release admin tagset if init fails
-    a883080063f97 ASoC: simple-card-utils: Check device node before overwrite direction
-    61fa85497c7b7 ASoC: davinci-evm: Fix reference leak in davinci_evm_probe
-    9f665b3c3d9a1 dmaengine: mmp_pdma: Fix race condition in mmp_pdma_residue()
-    921903d73967f ASoC: Intel: sof_sdw: Add new quirks for PTL on Dell with CS42L43
-    74309a4b0ffc7 wifi: mac80211: collect station statistics earlier when disconnect
-    da1880c7b6b83 HID: Elecom: Add support for ELECOM M-XT3DRBK (018C)
-    71434e45bf124 HID: logitech: add HID++ support for Logitech MX Anywhere 3S
-    b1f8285bc8e35 riscv: trace: fix snapshot deadlock with sbi ecall
-    151589d15ee87 ring-buffer: Avoid softlockup in ring_buffer_resize() during memory free
-    cd7ff7fd3e4b7 drm/amd/pm: Disable MMIO access during SMU Mode 1 reset
-    ecb8653a8fe9d HID: Apply quirk HID_QUIRK_ALWAYS_POLL to Edifier QR30 (2d99:a101)
-    1e84a807c98a7 HID: Intel-thc-hid: Intel-thc: Add safety check for reading DMA buffer
-    2124279f1f8c3 HID: i2c-hid: fix potential buffer overflow in i2c_hid_get_report()
-    6e2108daed94e HID: quirks: Add another Chicony HP 5MP Cameras to hid_ignore_list
-    645671377158f drm/amd/display: Reduce number of arguments of dcn30's CalculatePrefetchSchedule()
-    eb5d6dedadd66 netfilter: replace -EEXIST with -EBUSY
-    ddab2d0f93200 PCI: qcom: Remove ASPM L0s support for MSM8996 SoC
-    3210077ed2648 ALSA: hda/realtek: add HP Laptop 15s-eq1xxx mute LED quirk
-    5b9bbe3d7bb90 x86/sev: Disable GCOV on noinstr object
-    75f1f512b1567 ALSA: hda/realtek: Add quirk for Acer Nitro AN517-55
-    747b9a7d4c712 HID: playstation: Center initial joystick axes to prevent spurious events
-    7ae5b35148119 HID: intel-ish-hid: Reset enum_devices_done before enumeration
-    8b44e75379510 riscv: Sanitize syscall table indexing under speculation
-    28768bd3abf99 btrfs: fix reservation leak in some error paths when inserting inline extent
-    a206870513cda HID: multitouch: add MT_QUIRK_STICKY_FINGERS to MT_CLS_VTL
-    ea5ef771f3c26 HID: intel-ish-hid: Update ishtp bus match to support device ID table
-    6de3a371a8b9f btrfs: do not free data reservation in fallback from inline due to -ENOSPC
-    70dd3513ed6ac smb/server: fix refcount leak in parse_durable_handle_context()
-    c2ed4f71e9288 LoongArch: Enable exception fixup for specific ADE subcode
-    2bb9c8a77df50 io_uring: use GFP_NOWAIT for overflow CQEs on legacy rings
-    4665e52bde3b1 smb/server: fix refcount leak in smb2_open()
-    0107b18cd8ac1 md: suspend array while updating raid_disks via sysfs
-    9531210f348aa LoongArch: Set correct protection_map[] for VM_NONE/VM_SHARED
-    fdda836fcee6f smb/server: call ksmbd_session_rpc_close() on error path in create_smb2_pipe()
-    f309b2c7df659 block,bfq: fix aux stat accumulation destination
-    86acdc1791944 platform/x86: dell-lis3lv02d: Add Latitude 5400
-    ff6892ea544c4 wifi: iwlwifi: Implement settime64 as stub for MVM/MLD PTP
-    6b7c60feab3c6 net: usb: sr9700: support devices with virtual driver CD
-    10d3ff7e5812c wifi: mac80211: don't WARN for connections on invalid channels
-    689a7980e4788 wifi: wlcore: ensure skb headroom before skb_push
-    e0bd226804f8e wifi: mac80211: ocb: skip rx_no_sta when interface is not joined
-    abd219fd48b11 tracing: Fix ftrace event field alignments
-    116ffca92dc4d binderfs: fix ida_alloc_max() upper bound
-    e9bcfe865188a binder: fix BR_FROZEN_REPLY error log
-    a6050dedb6f1c binder: fix UAF in binder_netlink_report()
-    287221c5e0707 rust_binderfs: fix ida_alloc_max() upper bound
-    685bb05d307ac rust_binder: add additional alignment checks
-    598fe3ff32e43 rust_binder: correctly handle FDA objects of length zero
-    13de38aa3ea7a sched/fair: Have SD_SERIALIZE affect newidle balancing
-    de7cb4282dafc sched/fair: Skip sched_balance_running cmpxchg when balance is not due
-    3a15c519d2b0f bus: mhi: host: pci_generic: Add Telit FE990B40 modem support
-    fa2274bb17a4a treewide: Drop pci_save_state() after pci_restore_state()
-    71c50e60421bb PCI/ERR: Ensure error recoverability at all times
-    1a893bd719121 hwmon: (gpio-fan) Allow to stop FANs when CONFIG_PM is disabled
-    37751b6d0b6b5 hwmon: (gpio-fan) Fix set_rpm() return value
-    4385b2f284354 KVM: Don't clobber irqfd routing type when deassigning irqfd
-    7a245ef476ffb KVM: selftests: Add -U_FORTIFY_SOURCE to avoid some unpredictable test failures
-    a82647e1a9499 net: spacemit: k1-emac: fix jumbo frame support
-    d5b3a66986697 net: cpsw_new: Execute ndo_set_rx_mode callback in a work queue
-    488009aa62bb1 net: cpsw: Execute ndo_set_rx_mode callback in a work queue
-    ef763b480a3de nouveau/gsp: fix suspend/resume regression on r570 firmware
-    a20887d5239a3 nouveau/gsp: use rpc sequence numbers properly.
-    9cc8caba82c2b nouveau: add a third state to the fini handler.
-    5f645222eb30c Revert "drm/amd: Check if ASPM is enabled from PCIe subsystem"
-    7b6a0f121d502 mm, shmem: prevent infinite loop on truncate race
-    41a7b9ab855c8 gve: Correct ethtool rx_dropped calculation
-    11f8311f69e4c gve: Fix stats report corruption on queue count change
-    e9cdd54797dc2 drm/amd: Set minimum version for set_hw_resource_1 on gfx11 to 0x52
-    d3081353acaa6 cgroup/dmem: avoid pool UAF
-    5c38604abbfa5 cgroup/dmem: avoid rcu warning when unregister region
-    c13816e8fa23d cgroup/dmem: fix NULL pointer dereference when setting max
-    e258ed369c9e0 ceph: fix oops due to invalid pointer for kfree() in parse_longname()
-    35e6fd0d5bc30 ARM: 9468/1: fix memset64() on big-endian
-    46dfdb6f7a79d rbd: check for EOD after exclusive lock is ensured to be held
-    57b36ffc8881d ceph: fix NULL pointer dereference in ceph_mds_auth_match()
-    e8af57e090790 mm/slab: Add alloc_tagging_slab_free_hook for memcg_alloc_abort_single
-    cbc03ce3e6ce7 procfs: avoid fetching build ID while holding VMA lock
-    eb54ce033b344 pmdomain: imx8m-blk-ctrl: fix out-of-range access of bc->domains
-    11ca03ce17d7d pmdomain: imx8mp-blk-ctrl: Keep usb phy power domain on for system wakeup
-    5171a3dddf427 pmdomain: imx: gpcv2: Fix the imx8mm gpu hang due to wrong adb400 reset
-    72129d55be9ce pmdomain: imx8mp-blk-ctrl: Keep gpc power domain on for system wakeup
-    d72563e402bab pmdomain: qcom: rpmpd: fix off-by-one error in clamping to the highest state
-    5727ccf9d19ca ALSA: aloop: Fix racy access at PCM trigger
-    21816bbc8492f platform/x86: intel_telemetry: Fix swapped arrays in PSS output
-    b5a02290ee3a4 KVM: x86: Explicitly configure supported XSS from {svm,vmx}_set_cpu_caps()
-    a94b956bb7272 x86/kfence: fix booting on 32bit non-PAE systems
-    feb603a69f830 x86/vmware: Fix hypercall clobbers
-    ab200d71553bd nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 1416 changes (1 new | 1415 updated): - 1 new CVEs: CVE-202=
+6-2563 - 1415 updated CVEs: CVE-2001-0143, CVE-2001-0144, CVE-2001-0145, CV=
+E-2001-0146, CVE-2001-0147, CVE-2001-0148, CVE-2001-0149, CVE-2001-0150, CV=
+E-2001-0151, CVE-2001-0152, CVE-2001-0153, CVE-2001-0154, CVE-2001-0155, CV=
+E-2001-0156, CVE-2001-0157, CVE-2001-0160, CVE-2001-0161, CVE-2001-0162, CV=
+E-2001-0163, CVE-2001-0164, CVE-2001-0165, CVE-2001-0166, CVE-2001-0167, CV=
+E-2001-0168, CVE-2001-0169, CVE-2001-0170, CVE-2001-0171, CVE-2001-0172, CV=
+E-2001-0173, CVE-2001-0174, CVE-2001-0175, CVE-2001-0176, CVE-2001-0177, CV=
+E-2001-0178, CVE-2001-0179, CVE-2001-0180, CVE-2001-0181, CVE-2001-0182, CV=
+E-2001-0183, CVE-2001-0184, CVE-2001-0185, CVE-2001-0186, CVE-2001-0187, CV=
+E-2001-0188, CVE-2001-0189, CVE-2001-0190, CVE-2001-0191, CVE-2001-0192, CV=
+E-2001-0193, CVE-2001-0194, CVE-2001-0195, CVE-2001-0196, CVE-2001-0197, CV=
+E-2001-0198, CVE-2001-0199, CVE-2001-0200, CVE-2001-0201, CVE-2001-0202, CV=
+E-2001-0203, CVE-2001-0204, CVE-2001-0205, CVE-2001-0206, CVE-2001-0207, CV=
+E-2001-0208, CVE-2001-0209, CVE-2001-0210, CVE-2001-0211, CVE-2001-0212, CV=
+E-2001-0213, CVE-2001-0214, CVE-2001-0215, CVE-2001-0216, CVE-2001-0217, CV=
+E-2001-0218, CVE-2001-0219, CVE-2001-0220, CVE-2001-0221, CVE-2001-0222, CV=
+E-2001-0223, CVE-2001-0224, CVE-2001-0225, CVE-2001-0226, CVE-2001-0227, CV=
+E-2001-0228, CVE-2001-0229, CVE-2001-0230, CVE-2001-0231, CVE-2001-0232, CV=
+E-2001-0233, CVE-2001-0234, CVE-2001-0235, CVE-2001-0236, CVE-2001-0237, CV=
+E-2001-0238, CVE-2001-0239, CVE-2001-0240, CVE-2001-0241, CVE-2001-0242, CV=
+E-2001-0243, CVE-2001-0244, CVE-2001-0245, CVE-2001-0246, CVE-2001-0247, CV=
+E-2001-0248, CVE-2001-0249, CVE-2001-0250, CVE-2001-0251, CVE-2001-0252, CV=
+E-2001-0253, CVE-2001-0254, CVE-2001-0255, CVE-2001-0256, CVE-2001-0257, CV=
+E-2001-0258, CVE-2001-0259, CVE-2001-0260, CVE-2001-0261, CVE-2001-0262, CV=
+E-2001-0263, CVE-2001-0264, CVE-2001-0265, CVE-2001-0266, CVE-2001-0267, CV=
+E-2001-0268, CVE-2001-0269, CVE-2001-0270, CVE-2001-0271, CVE-2001-0272, CV=
+E-2001-0273, CVE-2001-0274, CVE-2001-0275, CVE-2001-0276, CVE-2001-0277, CV=
+E-2001-0278, CVE-2001-0279, CVE-2001-0280, CVE-2001-0281, CVE-2001-0282, CV=
+E-2001-0283, CVE-2001-0284, CVE-2001-0285, CVE-2001-0286, CVE-2001-0287, CV=
+E-2001-0288, CVE-2001-0289, CVE-2001-0290, CVE-2001-0291, CVE-2001-0292, CV=
+E-2001-0293, CVE-2001-0294, CVE-2001-0295, CVE-2001-0296, CVE-2001-0297, CV=
+E-2001-0298, CVE-2001-0299, CVE-2001-0300, CVE-2001-0301, CVE-2001-0302, CV=
+E-2001-0303, CVE-2001-0304, CVE-2001-0305, CVE-2001-0306, CVE-2001-0307, CV=
+E-2001-0308, CVE-2001-0309, CVE-2001-0310, CVE-2001-0311, CVE-2001-0312, CV=
+E-2001-0313, CVE-2001-0314, CVE-2001-0315, CVE-2001-0316, CVE-2001-0317, CV=
+E-2001-0318, CVE-2001-0319, CVE-2001-0320, CVE-2001-0321, CVE-2001-0322, CV=
+E-2001-0323, CVE-2001-0324, CVE-2001-0325, CVE-2001-0326, CVE-2001-0327, CV=
+E-2001-0328, CVE-2001-0329, CVE-2001-0330, CVE-2001-0331, CVE-2001-0332, CV=
+E-2001-0333, CVE-2001-0334, CVE-2001-0335, CVE-2001-0336, CVE-2001-0337, CV=
+E-2001-0338, CVE-2001-0339, CVE-2001-0340, CVE-2001-0341, CVE-2001-0344, CV=
+E-2001-0345, CVE-2001-0346, CVE-2001-0347, CVE-2001-0348, CVE-2001-0349, CV=
+E-2001-0350, CVE-2001-0351, CVE-2001-0352, CVE-2001-0353, CVE-2001-0354, CV=
+E-2001-0355, CVE-2001-0357, CVE-2001-0358, CVE-2001-0359, CVE-2001-0360, CV=
+E-2001-0361, CVE-2001-0364, CVE-2001-0365, CVE-2001-0366, CVE-2001-0367, CV=
+E-2001-0368, CVE-2001-0369, CVE-2001-0370, CVE-2001-0371, CVE-2001-0372, CV=
+E-2001-0373, CVE-2001-0374, CVE-2001-0375, CVE-2001-0376, CVE-2001-0377, CV=
+E-2001-0378, CVE-2001-0379, CVE-2001-0380, CVE-2001-0381, CVE-2001-0382, CV=
+E-2001-0383, CVE-2001-0384, CVE-2001-0385, CVE-2001-0386, CVE-2001-0387, CV=
+E-2001-0388, CVE-2001-0389, CVE-2001-0390, CVE-2001-0391, CVE-2001-0392, CV=
+E-2001-0393, CVE-2001-0394, CVE-2001-0395, CVE-2001-0396, CVE-2001-0397, CV=
+E-2001-0398, CVE-2001-0399, CVE-2001-0400, CVE-2001-0401, CVE-2001-0402, CV=
+E-2001-0403, CVE-2001-0404, CVE-2001-0405, CVE-2001-0406, CVE-2001-0407, CV=
+E-2001-0408, CVE-2001-0409, CVE-2001-0410, CVE-2001-0411, CVE-2001-0412, CV=
+E-2001-0413, CVE-2001-0414, CVE-2001-0415, CVE-2001-0416, CVE-2001-0417, CV=
+E-2001-0418, CVE-2001-0419, CVE-2001-0420, CVE-2001-0421, CVE-2001-0422, CV=
+E-2001-0423, CVE-2001-0424, CVE-2001-0425, CVE-2001-0426, CVE-2001-0427, CV=
+E-2001-0428, CVE-2001-0429, CVE-2001-0430, CVE-2001-0431, CVE-2001-0432, CV=
+E-2001-0433, CVE-2001-0434, CVE-2001-0435, CVE-2001-0436, CVE-2001-0437, CV=
+E-2001-0438, CVE-2001-0439, CVE-2001-0440, CVE-2001-0441, CVE-2001-0442, CV=
+E-2001-0443, CVE-2001-0444, CVE-2001-0446, CVE-2001-0447, CVE-2001-0448, CV=
+E-2001-0449, CVE-2001-0450, CVE-2001-0451, CVE-2001-0452, CVE-2001-0453, CV=
+E-2001-0454, CVE-2001-0455, CVE-2001-0456, CVE-2001-0457, CVE-2001-0458, CV=
+E-2001-0459, CVE-2001-0460, CVE-2001-0461, CVE-2001-0462, CVE-2001-0463, CV=
+E-2001-0464, CVE-2001-0465, CVE-2001-0466, CVE-2001-0467, CVE-2001-0468, CV=
+E-2001-0469, CVE-2001-0470, CVE-2001-0471, CVE-2001-0472, CVE-2001-0473, CV=
+E-2001-0474, CVE-2001-0475, CVE-2001-0476, CVE-2001-0477, CVE-2001-0478, CV=
+E-2001-0479, CVE-2001-0480, CVE-2001-0481, CVE-2001-0482, CVE-2001-0483, CV=
+E-2001-0484, CVE-2001-0485, CVE-2001-0486, CVE-2001-0487, CVE-2001-0488, CV=
+E-2001-0489, CVE-2001-0490, CVE-2001-0491, CVE-2001-0492, CVE-2001-0493, CV=
+E-2001-0494, CVE-2001-0495, CVE-2001-0496, CVE-2001-0497, CVE-2001-0498, CV=
+E-2001-0499, CVE-2001-0500, CVE-2001-0501, CVE-2001-0502, CVE-2001-0503, CV=
+E-2001-0504, CVE-2001-0505, CVE-2001-0506, CVE-2001-0507, CVE-2001-0508, CV=
+E-2001-0509, CVE-2001-0513, CVE-2001-0514, CVE-2001-0515, CVE-2001-0516, CV=
+E-2001-0517, CVE-2001-0518, CVE-2001-0519, CVE-2001-0520, CVE-2001-0521, CV=
+E-2001-0522, CVE-2001-0523, CVE-2001-0524, CVE-2001-0525, CVE-2001-0526, CV=
+E-2001-0527, CVE-2001-0528, CVE-2001-0529, CVE-2001-0530, CVE-2001-0533, CV=
+E-2001-0534, CVE-2001-0535, CVE-2001-0537, CVE-2001-0538, CVE-2001-0540, CV=
+E-2001-0541, CVE-2001-0542, CVE-2001-0543, CVE-2001-0544, CVE-2001-0545, CV=
+E-2001-0546, CVE-2001-0547, CVE-2001-0548, CVE-2001-0549, CVE-2001-0550, CV=
+E-2001-0551, CVE-2001-0552, CVE-2001-0553, CVE-2001-0554, CVE-2001-0555, CV=
+E-2001-0556, CVE-2001-0557, CVE-2001-0558, CVE-2001-0559, CVE-2001-0560, CV=
+E-2001-0561, CVE-2001-0562, CVE-2001-0563, CVE-2001-0564, CVE-2001-0565, CV=
+E-2001-0566, CVE-2001-0567, CVE-2001-0568, CVE-2001-0569, CVE-2001-0570, CV=
+E-2001-0571, CVE-2001-0572, CVE-2001-0573, CVE-2001-0574, CVE-2001-0575, CV=
+E-2001-0576, CVE-2001-0577, CVE-2001-0578, CVE-2001-0579, CVE-2001-0580, CV=
+E-2001-0581, CVE-2001-0582, CVE-2001-0583, CVE-2001-0584, CVE-2001-0585, CV=
+E-2001-0586, CVE-2001-0587, CVE-2001-0588, CVE-2001-0589, CVE-2001-0590, CV=
+E-2001-0591, CVE-2001-0592, CVE-2001-0593, CVE-2001-0594, CVE-2001-0595, CV=
+E-2001-0596, CVE-2001-0597, CVE-2001-0598, CVE-2001-0599, CVE-2001-0600, CV=
+E-2001-0601, CVE-2001-0602, CVE-2001-0603, CVE-2001-0604, CVE-2001-0605, CV=
+E-2001-0606, CVE-2001-0607, CVE-2001-0608, CVE-2001-0609, CVE-2001-0610, CV=
+E-2001-0611, CVE-2001-0612, CVE-2001-0613, CVE-2001-0614, CVE-2001-0615, CV=
+E-2001-0616, CVE-2001-0617, CVE-2001-0618, CVE-2001-0619, CVE-2001-0620, CV=
+E-2001-0621, CVE-2001-0622, CVE-2001-0623, CVE-2001-0624, CVE-2001-0625, CV=
+E-2001-0626, CVE-2001-0627, CVE-2001-0628, CVE-2001-0629, CVE-2001-0630, CV=
+E-2001-0631, CVE-2001-0632, CVE-2001-0633, CVE-2001-0634, CVE-2001-0635, CV=
+E-2001-0636, CVE-2001-0641, CVE-2001-0642, CVE-2001-0643, CVE-2001-0644, CV=
+E-2001-0645, CVE-2001-0646, CVE-2001-0647, CVE-2001-0648, CVE-2001-0649, CV=
+E-2001-0650, CVE-2001-0652, CVE-2001-0653, CVE-2001-0654, CVE-2001-0655, CV=
+E-2001-0656, CVE-2001-0657, CVE-2001-0658, CVE-2001-0659, CVE-2001-0660, CV=
+E-2001-0662, CVE-2001-0663, CVE-2001-0664, CVE-2001-0665, CVE-2001-0666, CV=
+E-2001-0667, CVE-2001-0668, CVE-2001-0669, CVE-2001-0670, CVE-2001-0671, CV=
+E-2001-0674, CVE-2001-0675, CVE-2001-0676, CVE-2001-0677, CVE-2001-0678, CV=
+E-2001-0679, CVE-2001-0680, CVE-2001-0681, CVE-2001-0682, CVE-2001-0683, CV=
+E-2001-0684, CVE-2001-0685, CVE-2001-0686, CVE-2001-0687, CVE-2001-0688, CV=
+E-2001-0689, CVE-2001-0690, CVE-2001-0691, CVE-2001-0692, CVE-2001-0693, CV=
+E-2001-0694, CVE-2001-0695, CVE-2001-0696, CVE-2001-0697, CVE-2001-0698, CV=
+E-2001-0699, CVE-2001-0700, CVE-2001-0701, CVE-2001-0702, CVE-2001-0703, CV=
+E-2001-0704, CVE-2001-0705, CVE-2001-0706, CVE-2001-0707, CVE-2001-0708, CV=
+E-2001-0709, CVE-2001-0710, CVE-2001-0711, CVE-2001-0712, CVE-2001-0713, CV=
+E-2001-0714, CVE-2001-0715, CVE-2001-0716, CVE-2001-0717, CVE-2001-0718, CV=
+E-2001-0719, CVE-2001-0720, CVE-2001-0721, CVE-2001-0722, CVE-2001-0723, CV=
+E-2001-0724, CVE-2001-0726, CVE-2001-0727, CVE-2001-0728, CVE-2001-0729, CV=
+E-2001-0730, CVE-2001-0731, CVE-2001-0733, CVE-2001-0734, CVE-2001-0735, CV=
+E-2001-0736, CVE-2001-0737, CVE-2001-0738, CVE-2001-0739, CVE-2001-0740, CV=
+E-2001-0741, CVE-2001-0742, CVE-2001-0743, CVE-2001-0744, CVE-2001-0745, CV=
+E-2001-0746, CVE-2001-0747, CVE-2001-0748, CVE-2001-0749, CVE-2001-0750, CV=
+E-2001-0751, CVE-2001-0752, CVE-2001-0753, CVE-2001-0754, CVE-2001-0755, CV=
+E-2001-0756, CVE-2001-0757, CVE-2001-0758, CVE-2001-0759, CVE-2001-0760, CV=
+E-2001-0761, CVE-2001-0762, CVE-2001-0763, CVE-2001-0764, CVE-2001-0765, CV=
+E-2001-0766, CVE-2001-0767, CVE-2001-0768, CVE-2001-0769, CVE-2001-0770, CV=
+E-2001-0771, CVE-2001-0772, CVE-2001-0773, CVE-2001-0774, CVE-2001-0775, CV=
+E-2001-0776, CVE-2001-0777, CVE-2001-0778, CVE-2001-0779, CVE-2001-0780, CV=
+E-2001-0781, CVE-2001-0782, CVE-2001-0783, CVE-2001-0784, CVE-2001-0785, CV=
+E-2001-0786, CVE-2001-0787, CVE-2001-0788, CVE-2001-0789, CVE-2001-0790, CV=
+E-2001-0791, CVE-2001-0792, CVE-2001-0794, CVE-2001-0795, CVE-2001-0796, CV=
+E-2001-0797, CVE-2001-0798, CVE-2001-0799, CVE-2001-0800, CVE-2001-0801, CV=
+E-2001-0802, CVE-2001-0803, CVE-2001-0804, CVE-2001-0805, CVE-2001-0806, CV=
+E-2001-0807, CVE-2001-0808, CVE-2001-0809, CVE-2001-0810, CVE-2001-0811, CV=
+E-2001-0812, CVE-2001-0813, CVE-2001-0814, CVE-2001-0815, CVE-2001-0816, CV=
+E-2001-0817, CVE-2001-0818, CVE-2001-0819, CVE-2001-0820, CVE-2001-0821, CV=
+E-2001-0822, CVE-2001-0823, CVE-2001-0824, CVE-2001-0825, CVE-2001-0826, CV=
+E-2001-0828, CVE-2001-0829, CVE-2001-0830, CVE-2001-0831, CVE-2001-0832, CV=
+E-2001-0833, CVE-2001-0834, CVE-2001-0835, CVE-2001-0836, CVE-2001-0837, CV=
+E-2001-0838, CVE-2001-0839, CVE-2001-0840, CVE-2001-0841, CVE-2001-0842, CV=
+E-2001-0843, CVE-2001-0844, CVE-2001-0845, CVE-2001-0846, CVE-2001-0847, CV=
+E-2001-0848, CVE-2001-0849, CVE-2001-0850, CVE-2001-0851, CVE-2001-0852, CV=
+E-2001-0853, CVE-2001-0854, CVE-2001-0855, CVE-2001-0856, CVE-2001-0857, CV=
+E-2001-0858, CVE-2001-0859, CVE-2001-0860, CVE-2001-0861, CVE-2001-0862, CV=
+E-2001-0863, CVE-2001-0864, CVE-2001-0865, CVE-2001-0866, CVE-2001-0867, CV=
+E-2001-0868, CVE-2001-0869, CVE-2001-0870, CVE-2001-0871, CVE-2001-0872, CV=
+E-2001-0873, CVE-2001-0874, CVE-2001-0875, CVE-2001-0876, CVE-2001-0877, CV=
+E-2001-0879, CVE-2001-0884, CVE-2001-0886, CVE-2001-0887, CVE-2001-0888, CV=
+E-2001-0889, CVE-2001-0890, CVE-2001-0891, CVE-2001-0892, CVE-2001-0893, CV=
+E-2001-0894, CVE-2001-0895, CVE-2001-0896, CVE-2001-0897, CVE-2001-0898, CV=
+E-2001-0899, CVE-2001-0900, CVE-2001-0901, CVE-2001-0902, CVE-2001-0903, CV=
+E-2001-0904, CVE-2001-0905, CVE-2001-0906, CVE-2001-0907, CVE-2001-0908, CV=
+E-2001-0909, CVE-2001-0910, CVE-2001-0911, CVE-2001-0912, CVE-2001-0913, CV=
+E-2001-0914, CVE-2001-0915, CVE-2001-0916, CVE-2001-0917, CVE-2001-0918, CV=
+E-2001-0919, CVE-2001-0920, CVE-2001-0921, CVE-2001-0922, CVE-2001-0923, CV=
+E-2001-0924, CVE-2001-0925, CVE-2001-0926, CVE-2001-0927, CVE-2001-0928, CV=
+E-2001-0929, CVE-2001-0930, CVE-2001-0931, CVE-2001-0932, CVE-2001-0933, CV=
+E-2001-0934, CVE-2001-0935, CVE-2001-0936, CVE-2001-0937, CVE-2001-0938, CV=
+E-2001-0939, CVE-2001-0940, CVE-2001-0941, CVE-2001-0942, CVE-2001-0943, CV=
+E-2001-0944, CVE-2001-0945, CVE-2001-0946, CVE-2001-0947, CVE-2001-0948, CV=
+E-2001-0949, CVE-2001-0950, CVE-2001-0951, CVE-2001-0952, CVE-2001-0953, CV=
+E-2001-0954, CVE-2001-0955, CVE-2001-0956, CVE-2001-0958, CVE-2001-0959, CV=
+E-2001-0960, CVE-2001-0961, CVE-2001-0962, CVE-2001-0963, CVE-2001-0964, CV=
+E-2001-0965, CVE-2001-0966, CVE-2001-0967, CVE-2001-0968, CVE-2001-0969, CV=
+E-2001-0970, CVE-2001-0971, CVE-2001-0972, CVE-2001-0973, CVE-2001-0974, CV=
+E-2001-0975, CVE-2001-0976, CVE-2001-0977, CVE-2001-0978, CVE-2001-0979, CV=
+E-2001-0980, CVE-2001-0981, CVE-2001-0982, CVE-2001-0983, CVE-2001-0984, CV=
+E-2001-0985, CVE-2001-0986, CVE-2001-0987, CVE-2001-0988, CVE-2001-0989, CV=
+E-2001-0990, CVE-2001-0991, CVE-2001-0992, CVE-2001-0993, CVE-2001-0994, CV=
+E-2001-0995, CVE-2001-0996, CVE-2001-0997, CVE-2001-0998, CVE-2001-0999, CV=
+E-2001-1000, CVE-2001-1002, CVE-2001-1003, CVE-2001-1004, CVE-2001-1005, CV=
+E-2001-1006, CVE-2001-1007, CVE-2001-1008, CVE-2001-1009, CVE-2001-1010, CV=
+E-2001-1011, CVE-2001-1012, CVE-2001-1013, CVE-2001-1014, CVE-2001-1015, CV=
+E-2001-1016, CVE-2001-1017, CVE-2001-1018, CVE-2001-1019, CVE-2001-1020, CV=
+E-2001-1021, CVE-2001-1022, CVE-2001-1023, CVE-2001-1024, CVE-2001-1025, CV=
+E-2001-1026, CVE-2001-1027, CVE-2001-1028, CVE-2001-1029, CVE-2001-1030, CV=
+E-2001-1031, CVE-2001-1032, CVE-2001-1033, CVE-2001-1034, CVE-2001-1035, CV=
+E-2001-1036, CVE-2001-1037, CVE-2001-1038, CVE-2001-1039, CVE-2001-1040, CV=
+E-2001-1041, CVE-2001-1042, CVE-2001-1043, CVE-2001-1044, CVE-2001-1045, CV=
+E-2001-1046, CVE-2001-1047, CVE-2001-1048, CVE-2001-1049, CVE-2001-1050, CV=
+E-2001-1051, CVE-2001-1052, CVE-2001-1053, CVE-2001-1054, CVE-2001-1055, CV=
+E-2001-1056, CVE-2001-1057, CVE-2001-1058, CVE-2001-1059, CVE-2001-1060, CV=
+E-2001-1061, CVE-2001-1062, CVE-2001-1063, CVE-2001-1064, CVE-2001-1065, CV=
+E-2001-1066, CVE-2001-1067, CVE-2001-1068, CVE-2001-1069, CVE-2001-1070, CV=
+E-2001-1071, CVE-2001-1072, CVE-2001-1073, CVE-2001-1074, CVE-2001-1075, CV=
+E-2001-1076, CVE-2001-1077, CVE-2001-1078, CVE-2001-1079, CVE-2001-1080, CV=
+E-2001-1081, CVE-2001-1082, CVE-2001-1083, CVE-2001-1084, CVE-2001-1085, CV=
+E-2001-1086, CVE-2001-1087, CVE-2001-1088, CVE-2001-1089, CVE-2001-1090, CV=
+E-2001-1091, CVE-2001-1092, CVE-2001-1093, CVE-2001-1094, CVE-2001-1095, CV=
+E-2001-1096, CVE-2001-1097, CVE-2001-1098, CVE-2001-1099, CVE-2001-1100, CV=
+E-2001-1101, CVE-2001-1102, CVE-2001-1103, CVE-2001-1104, CVE-2001-1105, CV=
+E-2001-1106, CVE-2001-1107, CVE-2001-1108, CVE-2001-1109, CVE-2001-1110, CV=
+E-2001-1111, CVE-2001-1112, CVE-2001-1113, CVE-2001-1114, CVE-2001-1115, CV=
+E-2001-1116, CVE-2001-1117, CVE-2001-1118, CVE-2001-1119, CVE-2001-1120, CV=
+E-2001-1121, CVE-2001-1122, CVE-2001-1123, CVE-2001-1124, CVE-2001-1125, CV=
+E-2001-1126, CVE-2001-1127, CVE-2001-1128, CVE-2001-1129, CVE-2001-1130, CV=
+E-2001-1131, CVE-2001-1132, CVE-2001-1133, CVE-2001-1134, CVE-2001-1135, CV=
+E-2001-1136, CVE-2001-1137, CVE-2001-1138, CVE-2001-1139, CVE-2001-1140, CV=
+E-2001-1141, CVE-2001-1142, CVE-2001-1143, CVE-2001-1144, CVE-2001-1145, CV=
+E-2001-1146, CVE-2001-1147, CVE-2001-1148, CVE-2001-1149, CVE-2001-1150, CV=
+E-2001-1151, CVE-2001-1152, CVE-2001-1153, CVE-2001-1154, CVE-2001-1155, CV=
+E-2001-1156, CVE-2001-1157, CVE-2001-1158, CVE-2001-1159, CVE-2001-1160, CV=
+E-2001-1161, CVE-2001-1162, CVE-2001-1163, CVE-2001-1164, CVE-2001-1165, CV=
+E-2001-1166, CVE-2001-1167, CVE-2001-1168, CVE-2001-1169, CVE-2001-1170, CV=
+E-2001-1171, CVE-2001-1172, CVE-2001-1173, CVE-2001-1174, CVE-2001-1175, CV=
+E-2001-1176, CVE-2001-1177, CVE-2001-1178, CVE-2001-1179, CVE-2001-1180, CV=
+E-2001-1181, CVE-2001-1182, CVE-2001-1183, CVE-2001-1184, CVE-2001-1185, CV=
+E-2001-1186, CVE-2001-1187, CVE-2001-1188, CVE-2001-1189, CVE-2001-1190, CV=
+E-2001-1191, CVE-2001-1192, CVE-2001-1193, CVE-2001-1194, CVE-2001-1195, CV=
+E-2001-1196, CVE-2001-1197, CVE-2001-1198, CVE-2001-1199, CVE-2001-1200, CV=
+E-2001-1201, CVE-2001-1202, CVE-2001-1203, CVE-2001-1204, CVE-2001-1205, CV=
+E-2001-1206, CVE-2001-1207, CVE-2001-1208, CVE-2001-1209, CVE-2001-1210, CV=
+E-2001-1211, CVE-2001-1212, CVE-2001-1213, CVE-2001-1214, CVE-2001-1215, CV=
+E-2001-1216, CVE-2001-1217, CVE-2001-1218, CVE-2001-1219, CVE-2001-1220, CV=
+E-2001-1221, CVE-2001-1222, CVE-2001-1223, CVE-2001-1224, CVE-2001-1225, CV=
+E-2001-1226, CVE-2001-1227, CVE-2001-1228, CVE-2001-1229, CVE-2001-1230, CV=
+E-2001-1231, CVE-2001-1232, CVE-2001-1233, CVE-2001-1234, CVE-2001-1235, CV=
+E-2001-1236, CVE-2001-1237, CVE-2001-1238, CVE-2001-1239, CVE-2001-1240, CV=
+E-2001-1241, CVE-2001-1242, CVE-2001-1243, CVE-2001-1244, CVE-2001-1245, CV=
+E-2001-1246, CVE-2001-1247, CVE-2001-1248, CVE-2001-1249, CVE-2001-1250, CV=
+E-2001-1251, CVE-2001-1252, CVE-2001-1253, CVE-2001-1254, CVE-2001-1255, CV=
+E-2001-1256, CVE-2001-1257, CVE-2001-1258, CVE-2001-1259, CVE-2001-1260, CV=
+E-2001-1261, CVE-2001-1262, CVE-2001-1263, CVE-2001-1264, CVE-2001-1265, CV=
+E-2001-1266, CVE-2001-1267, CVE-2001-1268, CVE-2001-1269, CVE-2001-1270, CV=
+E-2001-1271, CVE-2001-1272, CVE-2001-1273, CVE-2001-1274, CVE-2001-1275, CV=
+E-2001-1276, CVE-2001-1277, CVE-2001-1278, CVE-2001-1279, CVE-2001-1280, CV=
+E-2001-1281, CVE-2001-1282, CVE-2001-1283, CVE-2001-1284, CVE-2001-1285, CV=
+E-2001-1286, CVE-2001-1287, CVE-2001-1288, CVE-2001-1289, CVE-2001-1290, CV=
+E-2001-1291, CVE-2001-1292, CVE-2001-1293, CVE-2001-1294, CVE-2001-1295, CV=
+E-2001-1296, CVE-2001-1297, CVE-2001-1298, CVE-2001-1299, CVE-2001-1300, CV=
+E-2001-1301, CVE-2001-1302, CVE-2001-1303, CVE-2001-1304, CVE-2001-1305, CV=
+E-2001-1306, CVE-2001-1307, CVE-2001-1308, CVE-2001-1309, CVE-2001-1310, CV=
+E-2001-1311, CVE-2001-1312, CVE-2001-1313, CVE-2001-1314, CVE-2001-1315, CV=
+E-2001-1316, CVE-2001-1317, CVE-2001-1318, CVE-2001-1319, CVE-2001-1320, CV=
+E-2001-1321, CVE-2001-1322, CVE-2001-1323, CVE-2001-1324, CVE-2001-1325, CV=
+E-2001-1326, CVE-2001-1327, CVE-2001-1328, CVE-2001-1329, CVE-2001-1330, CV=
+E-2001-1331, CVE-2001-1332, CVE-2001-1333, CVE-2001-1334, CVE-2001-1335, CV=
+E-2001-1336, CVE-2001-1337, CVE-2001-1338, CVE-2001-1339, CVE-2001-1340, CV=
+E-2001-1341, CVE-2001-1342, CVE-2001-1343, CVE-2001-1344, CVE-2001-1345, CV=
+E-2001-1346, CVE-2001-1347, CVE-2001-1348, CVE-2001-1349, CVE-2001-1350, CV=
+E-2001-1351, CVE-2001-1352, CVE-2001-1353, CVE-2001-1354, CVE-2001-1355, CV=
+E-2001-1356, CVE-2001-1357, CVE-2001-1358, CVE-2001-1359, CVE-2001-1360, CV=
+E-2001-1361, CVE-2001-1362, CVE-2001-1363, CVE-2001-1364, CVE-2001-1365, CV=
+E-2001-1366, CVE-2001-1367, CVE-2001-1368, CVE-2001-1369, CVE-2001-1370, CV=
+E-2001-1371, CVE-2001-1372, CVE-2001-1373, CVE-2001-1374, CVE-2001-1375, CV=
+E-2001-1376, CVE-2001-1377, CVE-2001-1378, CVE-2001-1379, CVE-2001-1380, CV=
+E-2001-1382, CVE-2001-1383, CVE-2001-1384, CVE-2001-1385, CVE-2001-1386, CV=
+E-2001-1387, CVE-2001-1388, CVE-2001-1389, CVE-2001-1390, CVE-2001-1391, CV=
+E-2001-1392, CVE-2001-1393, CVE-2001-1394, CVE-2001-1395, CVE-2001-1396, CV=
+E-2001-1397, CVE-2001-1398, CVE-2001-1399, CVE-2001-1400, CVE-2001-1401, CV=
+E-2001-1402, CVE-2001-1403, CVE-2001-1404, CVE-2001-1405, CVE-2001-1406, CV=
+E-2001-1407, CVE-2001-1408, CVE-2001-1409, CVE-2001-1410, CVE-2001-1411, CV=
+E-2001-1412, CVE-2001-1413, CVE-2001-1414, CVE-2001-1415, CVE-2001-1416, CV=
+E-2001-1417, CVE-2001-1418, CVE-2001-1419, CVE-2001-1420, CVE-2001-1421, CV=
+E-2001-1422, CVE-2001-1423, CVE-2001-1424, CVE-2001-1425, CVE-2001-1426, CV=
+E-2001-1427, CVE-2001-1428, CVE-2001-1429, CVE-2001-1430, CVE-2001-1431, CV=
+E-2001-1432, CVE-2001-1433, CVE-2001-1434, CVE-2001-1435, CVE-2001-1436, CV=
+E-2001-1437, CVE-2001-1438, CVE-2001-1439, CVE-2001-1440, CVE-2001-1441, CV=
+E-2001-1442, CVE-2001-1443, CVE-2001-1444, CVE-2001-1445, CVE-2001-1446, CV=
+E-2001-1447, CVE-2001-1448, CVE-2001-1449, CVE-2001-1450, CVE-2001-1451, CV=
+E-2001-1452, CVE-2001-1453, CVE-2001-1454, CVE-2001-1455, CVE-2001-1456, CV=
+E-2001-1457, CVE-2001-1458, CVE-2001-1459, CVE-2001-1460, CVE-2001-1461, CV=
+E-2001-1462, CVE-2001-1463, CVE-2001-1464, CVE-2001-1465, CVE-2001-1466, CV=
+E-2001-1467, CVE-2001-1468, CVE-2001-1469, CVE-2001-1470, CVE-2001-1471, CV=
+E-2001-1472, CVE-2001-1473, CVE-2001-1474, CVE-2001-1475, CVE-2001-1476, CV=
+E-2001-1477, CVE-2001-1478, CVE-2001-1479, CVE-2001-1480, CVE-2001-1481, CV=
+E-2001-1482, CVE-2001-1483, CVE-2001-1484, CVE-2001-1487, CVE-2001-1488, CV=
+E-2001-1489, CVE-2001-1490, CVE-2001-1491, CVE-2001-1492, CVE-2001-1494, CV=
+E-2001-1495, CVE-2001-1496, CVE-2001-1497, CVE-2001-1498, CVE-2001-1499, CV=
+E-2001-1500, CVE-2001-1501, CVE-2001-1502, CVE-2001-1503, CVE-2001-1504, CV=
+E-2001-1505, CVE-2001-1506, CVE-2001-1507, CVE-2001-1508, CVE-2001-1509, CV=
+E-2001-1510, CVE-2001-1511, CVE-2001-1512, CVE-2001-1513, CVE-2001-1514, CV=
+E-2001-1515, CVE-2001-1516, CVE-2001-1517, CVE-2001-1518, CVE-2001-1519, CV=
+E-2001-1520, CVE-2001-1521, CVE-2001-1522, CVE-2001-1523, CVE-2001-1524, CV=
+E-2001-1525, CVE-2001-1526, CVE-2001-1527, CVE-2001-1528, CVE-2001-1529, CV=
+E-2001-1530, CVE-2001-1531, CVE-2001-1532, CVE-2001-1533, CVE-2001-1534, CV=
+E-2001-1535, CVE-2001-1536, CVE-2001-1537, CVE-2001-1538, CVE-2001-1539, CV=
+E-2001-1540, CVE-2001-1541, CVE-2001-1542, CVE-2001-1543, CVE-2001-1544, CV=
+E-2001-1545, CVE-2001-1546, CVE-2001-1547, CVE-2001-1548, CVE-2001-1549, CV=
+E-2001-1550, CVE-2001-1551, CVE-2001-1552, CVE-2001-1553, CVE-2001-1554, CV=
+E-2001-1555, CVE-2001-1556, CVE-2001-1557, CVE-2001-1558, CVE-2001-1559, CV=
+E-2001-1560, CVE-2001-1561, CVE-2001-1562, CVE-2001-1563, CVE-2001-1564, CV=
+E-2001-1565, CVE-2001-1566, CVE-2001-1567, CVE-2001-1568, CVE-2001-1569, CV=
+E-2001-1570, CVE-2001-1571, CVE-2001-1572, CVE-2001-1573, CVE-2001-1574, CV=
+E-2001-1575, CVE-2001-1576, CVE-2001-1577, CVE-2001-1578, CVE-2001-1579, CV=
+E-2001-1580, CVE-2001-1581, CVE-2001-1582, CVE-2001-1583, CVE-2001-1584, CV=
+E-2001-1585, CVE-2001-1586, CVE-2001-1587, CVE-2001-1588, CVE-2001-1589, CV=
+E-2001-1590, CVE-2001-1591, CVE-2001-1592, CVE-2001-1593, CVE-2001-1594, CV=
+E-2024-8419, CVE-2025-7195
+        Date: Mon, 16 Feb 2026 15:50:20 +0000
+
+    ]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.18.bb              |  6 ++---
- .../linux/linux-yocto-tiny_6.18.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../linux/cve-exclusion_6.18.inc              | 228 +++++++++++++++++-
+ 1 file changed, 223 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-index 371bb204a2..669729f46e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-@@ -15,13 +15,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "30b6a2680c09e2ad1d8102ede3b6fd795414b168"
--SRCREV_meta ?= "142cc7ded2841bbb8ce2754a79bb14baac1f1eae"
-+SRCREV_machine ?= "bf970b6498c3d3e3f8b8a718741e9f98ccaf84f5"
-+SRCREV_meta ?= "8e6a09c7a858e7dd1c1120b3838fe463a273a1b5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.18.9"
-+LINUX_VERSION ?= "6.18.11"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-index bd66d19ce1..c5393eca68 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-@@ -9,7 +9,7 @@ require recipes-kernel/linux/linux-yocto.inc
- include recipes-kernel/linux/cve-exclusion.inc
- include recipes-kernel/linux/cve-exclusion_6.18.inc
- 
--LINUX_VERSION ?= "6.18.9"
-+LINUX_VERSION ?= "6.18.11"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -18,8 +18,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_meta ?= "142cc7ded2841bbb8ce2754a79bb14baac1f1eae"
-+SRCREV_machine ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_meta ?= "8e6a09c7a858e7dd1c1120b3838fe463a273a1b5"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-index aa54eeae7b..0ecb64ca0c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.18/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.18/standard/base"
- KBRANCH:qemumips64 ?= "v6.18/standard/mti-malta"
- 
--SRCREV_machine:qemuarm ?= "f9b122cceadea4f67eece4623be9fc32bb80ee11"
--SRCREV_machine:qemuarm64 ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_machine:qemuloongarch64 ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
-+SRCREV_machine:qemuarm ?= "78ce5d975c473b45539b6008e28485ed54193a4a"
-+SRCREV_machine:qemuarm64 ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_machine:qemuloongarch64 ?= "057e0bf6446ead5535717da84b234c64615458db"
- SRCREV_machine:qemumips ?= "62ea92a539f58803a222be98b81118403074206e"
--SRCREV_machine:qemuppc ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_machine:qemuriscv64 ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_machine:qemuriscv32 ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_machine:qemux86 ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_machine:qemux86-64 ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
-+SRCREV_machine:qemuppc ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_machine:qemuriscv64 ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_machine:qemuriscv32 ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_machine:qemux86 ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_machine:qemux86-64 ?= "057e0bf6446ead5535717da84b234c64615458db"
- SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
--SRCREV_machine ?= "88d7bdedfc23602f2eb39ed29eb2d16125866e48"
--SRCREV_meta ?= "142cc7ded2841bbb8ce2754a79bb14baac1f1eae"
-+SRCREV_machine ?= "057e0bf6446ead5535717da84b234c64615458db"
-+SRCREV_meta ?= "8e6a09c7a858e7dd1c1120b3838fe463a273a1b5"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "adb851edb70783e3ded28044491f5a3ed065b7b2"
-+SRCREV_machine:class-devupstream ?= "41cec610f690603820c80c4871dbb55bec77b9a2"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.18/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.18.9"
-+LINUX_VERSION ?= "6.18.11"
- 
- PV = "${LINUX_VERSION}+git"
- 
--- 
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc b/meta/recipe=
+s-kernel/linux/cve-exclusion_6.18.inc
+index 0de60d7d94..896f0011ff 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
+@@ -1,11 +1,11 @@
+=20
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2026-02-09 22:31:26.580286+00:00 for kernel version 6.18.9
+-# From linux_kernel_cves cve_2026-02-09_2200Z
++# Generated at 2026-02-16 15:57:58.221029+00:00 for kernel version 6.18.11
++# From linux_kernel_cves cve_2026-02-16_1500Z-2-g82f82c2dc3b
+=20
+=20
+ python check_kernel_cve_status_version() {
+-    this_version =3D "6.18.9"
++    this_version =3D "6.18.11"
+     kernel_version =3D d.getVar("LINUX_VERSION")
+     if kernel_version !=3D this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but ke=
+rnel is %s" % (this_version, kernel_version))
+@@ -20066,8 +20066,6 @@ CVE_STATUS[CVE-2025-68787] =3D "cpe-stable-backport=
+: Backported in 6.18.3"
+=20
+ CVE_STATUS[CVE-2025-68788] =3D "cpe-stable-backport: Backported in 6.18.3"
+=20
+-CVE_STATUS[CVE-2025-68789] =3D "cpe-stable-backport: Backported in 6.18.3"
+-
+ CVE_STATUS[CVE-2025-68790] =3D "cpe-stable-backport: Backported in 6.18.3"
+=20
+ CVE_STATUS[CVE-2025-68791] =3D "cpe-stable-backport: Backported in 6.18.3"
+@@ -20376,6 +20374,26 @@ CVE_STATUS[CVE-2025-71198] =3D "cpe-stable-backpor=
+t: Backported in 6.18.8"
+=20
+ CVE_STATUS[CVE-2025-71199] =3D "cpe-stable-backport: Backported in 6.18.8"
+=20
++CVE_STATUS[CVE-2025-71200] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2025-71201] =3D "cpe-stable-backport: Backported in 6.18.6"
++
++CVE_STATUS[CVE-2025-71202] =3D "cpe-stable-backport: Backported in 6.18.7"
++
++CVE_STATUS[CVE-2025-71203] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2025-71204] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2025-71220] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2025-71221] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2025-71222] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2025-71223] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2025-71224] =3D "cpe-stable-backport: Backported in 6.18.10"
++
+ CVE_STATUS[CVE-2026-22976] =3D "cpe-stable-backport: Backported in 6.18.6"
+=20
+ CVE_STATUS[CVE-2026-22977] =3D "cpe-stable-backport: Backported in 6.18.6"
+@@ -20646,3 +20664,203 @@ CVE_STATUS[CVE-2026-23109] =3D "cpe-stable-backpo=
+rt: Backported in 6.18.8"
+=20
+ CVE_STATUS[CVE-2026-23110] =3D "cpe-stable-backport: Backported in 6.18.8"
+=20
++CVE_STATUS[CVE-2026-23111] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23112] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23113] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23114] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23115] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23116] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23117] =3D "fixed-version: Fixed from version 6.18.8"
++
++CVE_STATUS[CVE-2026-23118] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23119] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23120] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23121] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23122] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23123] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23124] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23125] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23126] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23127] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23128] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23129] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23130] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23131] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23132] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23133] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23134] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23135] =3D "cpe-stable-backport: Backported in 6.18.8"
++
++CVE_STATUS[CVE-2026-23136] =3D "cpe-stable-backport: Backported in 6.18.6"
++
++CVE_STATUS[CVE-2026-23137] =3D "cpe-stable-backport: Backported in 6.18.6"
++
++CVE_STATUS[CVE-2026-23138] =3D "cpe-stable-backport: Backported in 6.18.6"
++
++CVE_STATUS[CVE-2026-23139] =3D "cpe-stable-backport: Backported in 6.18.6"
++
++CVE_STATUS[CVE-2026-23140] =3D "cpe-stable-backport: Backported in 6.18.6"
++
++CVE_STATUS[CVE-2026-23141] =3D "cpe-stable-backport: Backported in 6.18.7"
++
++CVE_STATUS[CVE-2026-23142] =3D "cpe-stable-backport: Backported in 6.18.7"
++
++CVE_STATUS[CVE-2026-23143] =3D "cpe-stable-backport: Backported in 6.18.7"
++
++CVE_STATUS[CVE-2026-23144] =3D "cpe-stable-backport: Backported in 6.18.7"
++
++CVE_STATUS[CVE-2026-23145] =3D "cpe-stable-backport: Backported in 6.18.7"
++
++CVE_STATUS[CVE-2026-23146] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23147] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23148] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23149] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23150] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23151] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23152] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23153] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23154] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23155] =3D "fixed-version: Fixed from version 6.18.9"
++
++CVE_STATUS[CVE-2026-23156] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23157] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23158] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23159] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23160] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23161] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23162] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23163] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23164] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23165] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23166] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23167] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23168] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23169] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23170] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23171] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23172] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23173] =3D "cpe-stable-backport: Backported in 6.18.9"
++
++CVE_STATUS[CVE-2026-23174] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23175] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23176] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23177] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23178] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23179] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23180] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23181] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23182] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23183] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23184] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23185] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23186] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23187] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23188] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23189] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23190] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23191] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23192] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23193] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23194] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23195] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23196] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23197] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23198] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23199] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23200] =3D "fixed-version: Fixed from version 6.18.10"
++
++CVE_STATUS[CVE-2026-23201] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23202] =3D "fixed-version: Fixed from version 6.18.10"
++
++CVE_STATUS[CVE-2026-23203] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23204] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23205] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23206] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23207] =3D "fixed-version: Fixed from version 6.18.10"
++
++CVE_STATUS[CVE-2026-23208] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23209] =3D "cpe-stable-backport: Backported in 6.18.10"
++
++CVE_STATUS[CVE-2026-23210] =3D "cpe-stable-backport: Backported in 6.18.10"
++
+--=20
 2.43.0
 
 
