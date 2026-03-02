@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E5AEA4E2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58557EA4E2F
 	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:01:36 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.164095.1772467291003292124
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.163879.1772467291722510523
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 08:01:31 -0800
+ Mon, 02 Mar 2026 08:01:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IavE+wP3;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439bcec8613so514998f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:01:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=geBnLVIo;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4375d4fb4d4so3360634f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:01:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772467289; x=1773072089; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772467290; x=1773072090; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4KjtfWZab3pHkEShliIIuxh0QfLpjMDToChUQ7v2nBg=;
-        b=IavE+wP36eB1lheQKDmWhK3J2qgUJfvWklVFov0uEDv08V9+KSdjdezsVg4/CWNGiT
-         dqbT5/Ve4shE7GQ1nr0H9v05NUVKu8l1I6H/JGzfq3zUpRZ4wCYgfmXgSveeB8aBWnO3
-         lMZBT/lhm3ZWpmfrRfIvCDWfAdkj3aBjrB8Mr3zp9ddGIDATAuHdi76wEX9Im8MG+GnD
-         1hqqkA/GlAJ8W/QlbXblansHaca1ukRqGCi01weoy6kgEn1LzFkIROPs1+8U47hLHl8s
-         2maORjQMcA0S0PAYBDWdigIovE/6kqpeQ6wjDdrHgOxhDJ0hn+ym6/a1iO+KX4gn31AR
-         lp/w==
+        bh=ro/7wLFd2o+gTqRswo9jRZjGihaOdjP7jIE64/gXJhI=;
+        b=geBnLVIoneV4hacLWvcUQLr8tmoWtMzIDY88KWKe/DK0UTMi8CHU5mpQmFv6qPt5u0
+         VoNM00DDrJCnfutI2DzIDmqICl3rdORRHQvPG+lRuylBZsVAi4czDXZFzcnc/QQ0CSdL
+         8LyCDGJnRhx5ciSA1FjrN7CtCidJZhO1v1hdqDoeNtiFmSfxP84AJ6EfEl2yS2/GnlUh
+         W+Ydfk5roGmbqagvTiLlOC7wSaHB5/HrhgPBQaWU2ClrV3GhZ6cxjnpfHcEEDnQke42Z
+         dIhW8TQ41mQ22Iy3Sird6uHJHvPBm9VbTFr7UNIx2yUCeflTe2xsnGyY7hDkI0DnFIOI
+         VzxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772467289; x=1773072089;
+        d=1e100.net; s=20230601; t=1772467290; x=1773072090;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4KjtfWZab3pHkEShliIIuxh0QfLpjMDToChUQ7v2nBg=;
-        b=WPNxRpWZxz4CTJBnCG30x4CtMigJwHNUDfrnPlyNvcWF7wKXoYc/Gli9XUk/kjnFgL
-         n/dzRDWCYTgMMmqCqPHvS62rjIm4W6PzfayotuX4b786oQG+Raf5/wX4VGuQSHwY/pav
-         O3GSXC9zzHxdT2JY6uWNwCJV8QMEHbbVsgc+6Ps68XJlzmq+aGDhpGSiQTIcfAtjqKyL
-         9AugrDEOFtytcLma+/xsO5pZOLer83ZQ6lK/tLGc9aB7QigyiybQHkdGvYTjcQ5435rq
-         y6vPGQ4urgF0DqjduhAawvvRMyfSBs9zpvHeINQTEaysMazzxOPSA3hX5pqE74HyC2xc
-         HZsg==
-X-Gm-Message-State: AOJu0Yw0MzIrrBoOESGe3Upgl+/3b/ECwdKPsD3tSioq9lJEoJzhhwqY
-	ehWnW43hfjbB1yK4WE706jlKMAi+kMkKKTBP0j1NokysRPv/8I8iQqVTBIDIrg==
-X-Gm-Gg: ATEYQzycNnlmQN+QoDB7v+aWJRLTD5MGi6Q3gg/htFGx2rRlVWHFUlTVwS5SE9W3MaH
-	83AkelCh+SbA39rwV6boNgviYraCkn64D0am2Y1fkxhsHXGkTV2TCVwa+l3+yaiT7oOQTBx1uaG
-	GV21XLfKnE3a9eBLXJGZgvHcIvaD2oj7oQfDdZUF/b2kYJR7yD0/PtMR0f9iHNGUTC8qEC0k7aI
-	66AH+bvAUsqHvq0KDyGopqFagQaL+KAifYCgw4/QVFBkSR7E2487lovdH6zWS603F8nchdNhRr4
-	TWkyAkOO4D/RsOU2U8oTRt7hOQc5Q3nFaRXoS5uQxmjiptoRoFVak81C7FkiAL1pH/ao+Pevqcg
-	egzOWH62EmAkxCb7EbfvNrm2w2ic4gBBszPTycnmg2DYmDSQmtviHHWzplEB+J6pdy7GXwdIVEz
-	Uy0f6j8jlz6sA4D+6zELSG700GR5cfRvMdMBW0b7WueKYMYuIT+Hubsnw4Vz0VdhAZPNJyZ+Hwu
-	irSX/LkCLdEhRTmUkGG
-X-Received: by 2002:a5d:5d82:0:b0:437:745f:a6b8 with SMTP id ffacd0b85a97d-4399dddbfabmr21302099f8f.9.1772467288755;
-        Mon, 02 Mar 2026 08:01:28 -0800 (PST)
+        bh=ro/7wLFd2o+gTqRswo9jRZjGihaOdjP7jIE64/gXJhI=;
+        b=r2mp62iPu255NUdxDV0PLVAWBHlUWAThqTJfvudI1gozBTFwo/0kXFz0Dym32YG43K
+         0dFSGJInEsQsfOGeqOHdmccL/VATgilZSkrHp+RYxFBlqAItZjIlG52vLX6XKcqE+LKi
+         QI8GQnYKcO2IUGzR5S+tIIb5pIAdGQ7RTU95YVjoHqxsWce31A1FJrvsquYISBd5Wyuk
+         LdEmLNZuTsdTJQqkOdOHVu8/37JGxN8ngU9Rrk/g4fsdPR0xjeTSqLbS1DQTb49CkAlW
+         p3E/lQvVp3p/CYS+Z49SQF5uKS0tKI/GnmMi4XKKDeytHp4g8XbzDmk21yQMUngoHTiU
+         j0ow==
+X-Gm-Message-State: AOJu0Yyfjl6QbPbxhBgXH598vWwwOZCo6+pBLse0H+mR4wb/GMgEhKGy
+	Cp50z+ep2UuveTQ6/vcWhpLz2oW18XVoMfMlHpfp9hMRQkTC6c1GednFkBG9ww==
+X-Gm-Gg: ATEYQzxlF3Xsjd0j7cZWHI2F1Yvn0RcG+fag3mlRV/6DOiNcStKw1l18qOyDSSphlNA
+	RFuyzw6KhCzSSEBSSak/m3Ube4z3zzWjt7lUFAl1kUv6+r91F+a5HmXbJunnDcAACjTUzCVgZaM
+	cCFNTuI2yzm//QNFIDeTSn3VYvbdoPveA6uAWjnc+xbDZdy7Y57Z6zKABGuQJfukpiq21ioNaG6
+	kcTc+qolX1jTWgivvpA6RxuVtHEc45NnHWcNsjyAqqyVoQJadMDYTGV2u0vR1AHW1dfzbgcgArW
+	Fcad9wi22TtZN5mHrEZn9TZmATuVihBVlySH84wBn+4irsUb8C08o6efZoORtegHBkKHOUwrtx8
+	znP8B/TP+85051Yp8Cgwn32DC8FIQRddQ7hWqJzilIfy9jUVnyVPRZKf7i3dOCD1ah9k0q2pkNZ
+	saOjQOT+bwVNY8HWpO5vhEwAlXHTggGLYNF2hk2APpvvaFqCyMVLI2jqOWnzUIxYX0a+fek0A2N
+	sKkUpFHvxKLg6ZhO253
+X-Received: by 2002:a05:6000:2388:b0:437:7168:af37 with SMTP id ffacd0b85a97d-4399de2c3eamr21376225f8f.42.1772467286858;
+        Mon, 02 Mar 2026 08:01:26 -0800 (PST)
 Received: from fedora (mob-194-230-144-8.cgn.sunrise.net. [194.230.144.8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 08:01:27 -0800 (PST)
+        Mon, 02 Mar 2026 08:01:25 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,151 +61,187 @@ Cc: Ross.Burton@arm.com,
 	stefano.tondo.ext@siemens.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com
-Subject: [PATCH v5 02/10] spdx30: Add supplier support for image and SDK SBOMs
-Date: Mon,  2 Mar 2026 17:01:06 +0100
-Message-ID: <20260302160114.46884-3-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v5 01/10] spdx30: Add configurable file filtering support
+Date: Mon,  2 Mar 2026 17:01:05 +0100
+Message-ID: <20260302160114.46884-2-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
 References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:01:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232210
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232211
 
-This commit adds support for setting supplier information on image and SDK
-SBOMs using the suppliedBy property on root elements.
+This commit adds file filtering capabilities to SPDX 3.0 SBOM generation
+to reduce SBOM size and focus on relevant files.
 
-New configuration variables:
+New configuration variables (in spdx-common.bbclass):
 
-  SPDX_IMAGE_SUPPLIER (optional):
-    - Base variable name to describe the Agent supplying the image SBOM
-    - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
-    - Sets suppliedBy on all root elements of the image SBOM
+  SPDX_FILE_FILTER (default: "all"):
+    - "all": Include all files (current behavior)
+    - "essential": Include only LICENSE/README/NOTICE files
+    - "none": Skip all files
 
-  SPDX_SDK_SUPPLIER (optional):
-    - Base variable name to describe the Agent supplying the SDK SBOM
-    - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
-    - Sets suppliedBy on all root elements of the SDK SBOM
+  SPDX_FILE_ESSENTIAL_PATTERNS (extensible):
+    - Space-separated patterns for essential files
+    - Default: LICENSE COPYING README NOTICE COPYRIGHT etc.
+    - Recipes can extend: SPDX_FILE_ESSENTIAL_PATTERNS += "MANIFEST"
 
-Implementation:
+  SPDX_FILE_EXCLUDE_PATTERNS (extensible):
+    - Patterns to exclude in 'essential' mode
+    - Default: .patch .diff test_ /tests/ .pyc .o etc.
+    - Recipes can extend: SPDX_FILE_EXCLUDE_PATTERNS += ".tmp"
 
-  - create_image_sbom_spdx(): After create_sbom() returns, uses
-    objset.new_agent() to create supplier and sets suppliedBy on
-    sbom.rootElement
+Implementation (in spdx30_tasks.py):
 
-  - create_sdk_sbom(): After create_sbom() returns, uses objset.new_agent()
-    to create supplier and sets suppliedBy on sbom.rootElement
+  - add_package_files(): Apply filtering during file walk
+  - get_package_sources_from_debug(): Skip debug source lookup for
+    filtered files instead of failing
 
-  - Uses existing agent infrastructure (objset.new_agent()) for proper
-    de-duplication and metadata handling
+Impact:
 
-  - No changes to generic create_sbom() function which is used for recipes,
-    images, and SDKs
+  - Essential mode reduces file components by ~96% (2,376 → ~90 files)
+  - Filters out patches, test files, and build artifacts
+  - Configurable per-recipe via variable extension
+  - No impact when SPDX_FILE_FILTER="all" (default)
 
-Usage example in local.conf:
-
-  SPDX_IMAGE_SUPPLIER_name = "Acme Corporation"
-  SPDX_IMAGE_SUPPLIER_type = "organization"
-  SPDX_IMAGE_SUPPLIER_id_email = "sbom@acme.com"
-
-This enables compliance workflows that require supplier metadata on image
-and SDK SBOMs while following existing OpenEmbedded SPDX patterns.
+This is useful for creating compact SBOMs for compliance and distribution
+where only license-relevant files are needed.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
- meta/lib/oe/spdx30_tasks.py          | 26 +++++++++++++++++++++++---
- 2 files changed, 33 insertions(+), 3 deletions(-)
+ meta/classes/spdx-common.bbclass | 37 +++++++++++++++++++++++++++
+ meta/lib/oe/spdx30_tasks.py      | 44 +++++++++++++++++++++++++++++---
+ 2 files changed, 77 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index d4575d61c4..def2dacbc3 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -124,6 +124,16 @@ SPDX_ON_BEHALF_OF[doc] = "The base variable name to describe the Agent on who's
- SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-     is supplying artifacts produced by the build"
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index 3110230c9e..81c61e10dc 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -54,6 +54,43 @@ SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
  
-+SPDX_IMAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-+    is supplying the image SBOM. The supplier will be set on all root elements \
-+    of the image SBOM using the suppliedBy property. If not set, no supplier \
-+    information will be added to the image SBOM."
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
+ 
++SPDX_FILES_INCLUDED ??= "all"
++SPDX_FILES_INCLUDED[doc] = "Controls which files are included in SPDX output. \
++    Values: 'all' (include all files), 'essential' (only LICENSE/README/NOTICE files), \
++    'none' (no files). The 'essential' mode reduces SBOM size by excluding patches, \
++    tests, and build artifacts."
 +
-+SPDX_SDK_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-+    is supplying the SDK SBOM. The supplier will be set on all root elements \
-+    of the SDK SBOM using the suppliedBy property. If not set, no supplier \
-+    information will be added to the SDK SBOM."
++SPDX_FILE_ESSENTIAL_PATTERNS ??= "LICENSE COPYING README NOTICE COPYRIGHT PATENTS ACKNOWLEDGEMENTS THIRD-PARTY-NOTICES"
++SPDX_FILE_ESSENTIAL_PATTERNS[doc] = "Space-separated list of file name patterns to \
++    include when SPDX_FILES_INCLUDED='essential'. Recipes can extend this to add their \
++    own essential files (e.g., 'SPDX_FILE_ESSENTIAL_PATTERNS += \"MANIFEST\"')."
 +
- SPDX_PACKAGE_VERSION ??= "${PV}"
- SPDX_PACKAGE_VERSION[doc] = "The version of a package, software_packageVersion \
-     in software_Package"
++SPDX_FILE_EXCLUDE_PATTERNS ??= ".patch .diff test_ _test. /test/ /tests/ .pyc .pyo .o .a .la"
++SPDX_FILE_EXCLUDE_PATTERNS[doc] = "Space-separated list of patterns to exclude when \
++    SPDX_FILES_INCLUDED='essential'. Files matching these patterns are filtered out. \
++    Recipes can extend this to exclude additional file types."
++
++SBOM_COMPONENT_NAME ??= ""
++SBOM_COMPONENT_NAME[doc] = "Name of the SBOM metadata component. If set, creates a \
++    software_Package element in the SBOM with image/product information. Typically \
++    set to IMAGE_BASENAME or product name."
++
++SBOM_COMPONENT_VERSION ??= "${DISTRO_VERSION}"
++SBOM_COMPONENT_VERSION[doc] = "Version of the SBOM metadata component. Used when \
++    SBOM_COMPONENT_NAME is set. Defaults to DISTRO_VERSION."
++
++SBOM_COMPONENT_SUMMARY ??= ""
++SBOM_COMPONENT_SUMMARY[doc] = "Description of the SBOM metadata component. Used when \
++    SBOM_COMPONENT_NAME is set. Typically set to IMAGE_SUMMARY or product description."
++
++SBOM_SUPPLIER_NAME ??= ""
++SBOM_SUPPLIER_NAME[doc] = "Name of the organization supplying the SBOM. If set, \
++    creates an Organization element in the SBOM with supplier information."
++
++SBOM_SUPPLIER_URL ??= ""
++SBOM_SUPPLIER_URL[doc] = "URL of the organization supplying the SBOM. Used when \
++    SBOM_SUPPLIER_NAME is set. Adds an external identifier with the organization URL."
++
+ python () {
+     from oe.cve_check import extend_cve_status
+     extend_cve_status(d)
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index bd703b5bec..0888d9d7e4 100644
+index 99f2892dfb..bd703b5bec 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -162,7 +162,7 @@ def add_package_files(
+@@ -161,6 +161,11 @@ def add_package_files(
+         compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
          bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
  
-     # File filtering configuration
--    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-+    spdx_file_filter = (d.getVar("SPDX_FILES_INCLUDED") or "all").lower()
-     essential_patterns = (d.getVar("SPDX_FILE_ESSENTIAL_PATTERNS") or "").split()
-     exclude_patterns = (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
++    # File filtering configuration
++    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
++    essential_patterns = (d.getVar("SPDX_FILE_ESSENTIAL_PATTERNS") or "").split()
++    exclude_patterns = (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
++
+     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
+         dirs[:] = [d for d in dirs if d not in ignore_dirs]
+         if subdir == str(topdir):
+@@ -174,6 +179,26 @@ def add_package_files(
+                 continue
  
-@@ -244,7 +244,7 @@ def add_package_files(
+             filename = str(filepath.relative_to(topdir))
++
++            # Apply file filtering if enabled
++            if spdx_file_filter == "essential":
++                file_upper = file.upper()
++                filename_lower = filename.lower()
++
++                # Skip if matches exclude patterns
++                skip_file = any(pattern in filename_lower for pattern in exclude_patterns)
++                if skip_file:
++                    continue
++
++                # Keep only essential files (license/readme/etc)
++                is_essential = any(pattern in file_upper for pattern in essential_patterns)
++                if not is_essential:
++                    continue
++            elif spdx_file_filter == "none":
++                # Skip all files
++                continue
++            # else: spdx_file_filter == "all" or any other value - include all files
++
+             file_purposes = get_purposes(filepath)
+ 
+             # Check if file is compiled
+@@ -219,6 +244,8 @@ def add_package_files(
  def get_package_sources_from_debug(
      d, package, package_files, sources, source_hash_cache
  ):
--    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-+    spdx_file_filter = (d.getVar("SPDX_FILES_INCLUDED") or "all").lower()
- 
++    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
++
      def file_path_match(file_path, pkg_file):
          if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
-@@ -283,7 +283,7 @@ def get_package_sources_from_debug(
-             if spdx_file_filter in ("none", "essential"):
-                 bb.debug(
-                     1,
--                    f"Skipping debug source lookup for {file_path} in {package} (filtered by SPDX_FILE_FILTER={spdx_file_filter})",
-+                    f"Skipping debug source lookup for {file_path} in {package} (filtered by SPDX_FILES_INCLUDED={spdx_file_filter})",
-                 )
-                 continue
-             else:
-@@ -1330,6 +1330,16 @@ def create_image_sbom_spdx(d):
+             return True
+@@ -251,10 +278,19 @@ def get_package_sources_from_debug(
+             continue
  
-     objset, sbom = oe.sbom30.create_sbom(d, image_name, root_elements)
+         if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
+-            bb.fatal(
+-                "No package file found for %s in %s; SPDX found: %s"
+-                % (str(file_path), package, " ".join(p.name for p in package_files))
+-            )
++            # When file filtering is active, some files may be filtered out
++            # Skip debug source lookup instead of failing
++            if spdx_file_filter in ("none", "essential"):
++                bb.debug(
++                    1,
++                    f"Skipping debug source lookup for {file_path} in {package} (filtered by SPDX_FILE_FILTER={spdx_file_filter})",
++                )
++                continue
++            else:
++                bb.fatal(
++                    "No package file found for %s in %s; SPDX found: %s"
++                    % (str(file_path), package, " ".join(p.name for p in package_files))
++                )
+             continue
  
-+    # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is defined
-+    supplier = objset.new_agent("SPDX_IMAGE_SUPPLIER", add=False)
-+    if supplier is not None:
-+        supplier_id = supplier if isinstance(supplier, str) else supplier._id
-+        if not isinstance(supplier, str):
-+            objset.add(supplier)
-+        for elem in sbom.rootElement:
-+            if hasattr(elem, "suppliedBy"):
-+                elem.suppliedBy = supplier_id
-+
-     oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
- 
-     def make_image_link(target_path, suffix):
-@@ -1441,6 +1451,16 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
-         d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
-     )
- 
-+    # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
-+    supplier = objset.new_agent("SPDX_SDK_SUPPLIER", add=False)
-+    if supplier is not None:
-+        supplier_id = supplier if isinstance(supplier, str) else supplier._id
-+        if not isinstance(supplier, str):
-+            objset.add(supplier)
-+        for elem in sbom.rootElement:
-+            if hasattr(elem, "suppliedBy"):
-+                elem.suppliedBy = supplier_id
-+
-     oe.sbom30.write_jsonld_doc(
-         d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
-     )
+         for debugsrc in file_data["debugsrc"]:
 -- 
 2.53.0
 
