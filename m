@@ -1,155 +1,228 @@
-Return-Path: <stondo@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DC0EA4E2F
-	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:02:06 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.163906.1772467324140080840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81033EA4E38
+	for <webhook@archiver.kernel.org>; Mon,  2 Mar 2026 16:06:46 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.164051.1772467600128930940
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 08:02:04 -0800
+ Mon, 02 Mar 2026 08:06:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cIWmeu55;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439a7b48df2so1719575f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:02:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WmUh+7k/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-793fdbb8d3aso55065397b3.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 08:06:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772467599; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WZ5I2DTDrAnTIuWmaYImx94wtffYRWu6rBJir4mEmt0GkAckPkaJfsVrKLKStI9ZRi
+         fC6AiQf05t3K/L5hzeG8VNR+DqZ2V11HK3WwFBPx9ezjIzHCK98E2dVGyaX78+lFzUwU
+         gXJqC6Qvz7AMhvRBaVAPv9QNIFri6p9dYRx1xcQwpCmk+7tGMVyBc6V6UYLTR3siyIRs
+         dKG5g0FZBIxSGPbeVUoRzLhFxgakoXgmzQo9BtMRR/u9zeWeIMFPLh7FDz8TGKtJW5dj
+         KHfOySzTiaX3ytag0lR5Cv29h/XepBAbfr8pbd/sKw5Ep/bIW+XGmq/nruWiw2wh8ekx
+         ObDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=44+6vBDQv6Z+Zw7wqhlNKCFzjI04W+qBWijta8m0yoE=;
+        fh=L7GOyz8kBb5EG0OzDtnxdmI938zogcIu2j9w8d0qzHc=;
+        b=IjQbZjMZ1eu7MDgZIxUjwilrAh70TtlKskmjH5RI9myLu/dulK14f/zLF16RJiuADu
+         cxhfnCc1zhzDiLOdKG1kHC5smXCYHSqA3ZxuwVTfs1ovAqafZd0Z706T6YQFpDfxGllr
+         WXRhWMyT5FMBhnTzFj0FjIF9UCniYs72hYW/HD1krZzOM0BE+Ln678QyjEvG6NEXQ23M
+         OIRvALn0feVnjNhmSQS31c7iVGSRncLHwVnYlluTIZ9WbP1TONrwP61W34q442ZVb1IB
+         PD0prSv0IfN3Q0XWIkHtrhoVotUxzl32MlyABKYSzJBVt1NjMN43V/5w8xAFhyODkZjz
+         OsqQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772467321; x=1773072121; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772467599; x=1773072399; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=APgPt1b3/IjuPqB0PdlFtsUlW+yfBhfmpjSOGki8RFs=;
-        b=cIWmeu55Eu3NWHyudPhq9R4QFMdctyAmihEhQvDj4CYYNRHsjt7hLwjS3b/cg11/rX
-         5x1CLiglXb0TWzKUubemh9c21WgFigqmt63ovNp71If4S/k7PfQxwQJEhaL9vr3GC74S
-         xhlh13A4wB+26hvrxXweLw5/EqzFZBUyHjmxt3INvYx4XO/hpA3Wg5/AUfj4hX+cJ5q8
-         hP0hmZCN0ZYDksRKNZtAOEVyW24tU460gp4XodlDcWjwzpqikGN1D3ULdv/EkCFzuN3a
-         jN99vsOQb6BN/IKYPdHU87L6w5FTwOVKrNgMrTkWVIfpqaP6K0cS+18DthtBEIaG4yxP
-         YNkw==
+        bh=44+6vBDQv6Z+Zw7wqhlNKCFzjI04W+qBWijta8m0yoE=;
+        b=WmUh+7k/KC8Nx0at0RBtXtWTA2bCCtHOzsFjmedSy9JPo8mvdiOsezWBciOIMzMoiu
+         rPQzPIFndvZDyl6hMLg95bbD2LWYa1VTm12ecdfmoqmaaGRSbpYuAc/w3EWoUgyWz0Ra
+         f1VOT82LUF/VrwqP57+0pN7KeSgqxZB/34dlznQSxqJNsfJ5CEK6iW5EgCq/isAmUTw0
+         bIeqLeIASF/9NxRnAaogGd9gIvBWpSDHU6KJdiP7/m9IhTPs0vZxpPl9s/jsAI6VuAoS
+         6UM22Fh8qTZHXEpvKSEnYxE3Xqhzx9h21LIuDxtQBoN+uZBLcTSRXKbwKoY+sCvOtlKh
+         YoVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772467321; x=1773072121;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1772467599; x=1773072399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=APgPt1b3/IjuPqB0PdlFtsUlW+yfBhfmpjSOGki8RFs=;
-        b=mErij8S03WdpTdbMLXvJgjjQaHdNYK41rX8zPRieyVTWX6SHVxSCKe2RPGGObOBnaT
-         k8Qw5vhD5Mfeb/jN7lh85pA1ST6YOIS7TOOf+V7QAngc+k8Tcur47VpBHGVlEXopoRhj
-         BMqO5cnFHvqYInKV7LTxwB/pRi/GSNvvqoSyZMF3s2zNB9CH2Spg58LHscyGgIGovRmM
-         uWXTz49NCkMisWAhwaA9MI3xXJfXQqoIKXrKU1ChCPCioJiINbTaTj8ODAVh2iRPqcDk
-         CfLN3xVcUeGRzxt91X0eJs+IX91rJEFuvoNNNxaofxUnSB4zxDIYnvKMWPlRWmIrms7J
-         wTsg==
-X-Gm-Message-State: AOJu0Yw31/8MDvBiwY6UivrbObUHiOAa3lXAfXb3tWffnvzwUfdqiAju
-	D+bVLmsgzEjOJsJjXP6rIufCTClQusZFdHh6ugm5cpajXY61kmE2AE/L0+q0Xw==
-X-Gm-Gg: ATEYQzy0fe21KdK+n6+tkGCJrTvKlOSQbLRqlap/jzOyh/Cgke+5QikJlYtLaaibdyR
-	czQ2KiJdStcMUHcZFjPf9Z+5R46gYktmM+/2d889rpuHxI8U6onhjQ+PsHlKzSdWZlOI7G9jO0B
-	Iyevwcs4RohT+/rR7gGRwBHLil0MT6uewbj/Fl9nIq1h/naR6EmcYvjD66J4SzKiKi0P42IV5qa
-	J9ZfRuBSa5RkHw4wM6UAWwBXWakXXamxiIg2jKPEmuxOoIo7CAWsFHo2ZS6BdC23dwy+POEEc//
-	9WGDTNnDk5jtGSpfbuxI7d7NzXxwyfTz75UeWVqdd54JMbSZNBMJV8WVNVXpOT7d4vJn6+H56Kx
-	C087L3/YWLG6bASA+Gn9g3cmeUxYtFiGeFGp9znhEDzE+poP+EDmKoy7qRHzyQEoi8/e0MAUqMs
-	WnFvt0WRJKdJMwt6C1fkuI6+9nTsRmncMULvfm2tbInqk2vkqMvKMS8seiY117Ufvg8xN48ho1/
-	x+LBy8A9AJoyqXKZVhG
-X-Received: by 2002:a05:6000:1acc:b0:439:b114:60c0 with SMTP id ffacd0b85a97d-439b11462f6mr10743191f8f.35.1772467311774;
-        Mon, 02 Mar 2026 08:01:51 -0800 (PST)
-Received: from fedora (mob-194-230-144-8.cgn.sunrise.net. [194.230.144.8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60e40fsm28390097f8f.7.2026.03.02.08.01.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 08:01:50 -0800 (PST)
-From: Stefano Tondo <stondo@gmail.com>
-X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ross.Burton@arm.com,
-	jpewhacker@gmail.com,
-	stefano.tondo.ext@siemens.com,
-	Peter.Marko@siemens.com,
-	adrian.freihofer@siemens.com
-Subject: [PATCH v5 10/10] spdx-common: Add documentation for undocumented SPDX variables
-Date: Mon,  2 Mar 2026 17:01:14 +0100
-Message-ID: <20260302160114.46884-11-stefano.tondo.ext@siemens.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
-References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
+        bh=44+6vBDQv6Z+Zw7wqhlNKCFzjI04W+qBWijta8m0yoE=;
+        b=McMlUrrbBeLQqsAzLx17oXbqpZ+mNINtNLjGatJXEi94eatoD//UJjDNIDbX83NYMd
+         +hk3Ecuq+uZ9ChD1Ic+0irq7UJ/i5veD0w/TEHdZ1dCum8nC67NGFTy7IZvFiNIZ3Gda
+         2DipP07ct0AWH0rxnmV/PjTVeypcU3odEx8EnFpriQRdwi8iiJ8TnLjW1SjzVm8Ca25J
+         DPLPp7qOjTg78pxV+0hKl5C9MZCMuiOg1vE6CcSK3YwZOjMuqkxo+Get/W/jBSXxAatU
+         vJnuuTcUXGz7EtO7gDVLiNvuFkUwGbar4TdXZvMQsq9qSnFDDB7TsHKLqJ12Zs6MkrjG
+         4QRA==
+X-Gm-Message-State: AOJu0YxmzgoWgFohCygR/MgVUeearSu4Gz3R3NwVjOaE1kJDIXlv49mi
+	zO1rs1EKR39AfQU2Fhr/YqvqKZokCtOORgdvZZ/DtGPadaCOAtNKOixevsd0wHlfbI8FfKoEnkP
+	tikIcOID1Xm/3SybBA5YiFYHlnreffIw=
+X-Gm-Gg: ATEYQzxC9HZOyQG+IVHu4xXVW3+VqR/gKq/oIJw0XaPqdW4fh/Bxjd32vvsXBJA40CP
+	2WsmkxGm0sh88a2bMN7XWQNKdBan5Awt4E5uFCFWQcCr7JNCQw0MKwMQb1QJKoZz9BwYwncdRSz
+	OX5pVw9weDYUH5Vbp6dT0N+RJ0r2j9UkezcW2rN95SnIeU1ibHZD2C1u6bA7/o2LnD5FfA2a9mM
+	bFjobr7q1a3sqBI6SIoFGc46EwSRVsG02jcrmv9iaNkK95c2+9Dle3AoFhPaPMytzYxTToRivRU
+	EGbnkIobuSVFzEy+UQSEiQ==
+X-Received: by 2002:a05:690c:883:b0:798:670c:d235 with SMTP id
+ 00721157ae682-798856518d0mr104520797b3.64.1772467598889; Mon, 02 Mar 2026
+ 08:06:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260224-fix-kernel-config-spdx-v3-1-011b7badd942@bootlin.com>
+In-Reply-To: <20260224-fix-kernel-config-spdx-v3-1-011b7badd942@bootlin.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 2 Mar 2026 09:06:26 -0700
+X-Gm-Features: AaiRm51hqCyErCrv7PIRMByJinTiSnwL1b6EfWu-GS0dc3xZRmFfMG5NZefzb9c
+Message-ID: <CAJdd5GZ7qYEkV2DkNG1xMFVyh53LPCZ5rzxT=s7BqgbYi6JGLQ@mail.gmail.com>
+Subject: Re: [PATCH v3] meta: fix generation of kernel CONFIG_ in SPDX3
+To: Benjamin Robin <benjamin.robin@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, kamel.bouhara@bootlin.com, 
+	mathieu.dubois-briand@bootlin.com, jeremie.dautheribes@bootlin.com, 
+	thomas.petazzoni@bootlin.com, antonin.godard@bootlin.com, 
+	pascal.eberhard@se.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232219
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:06:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232220
 
-Add [doc] strings for eight undocumented SPDX-related BitBake
-variables in spdx-common.bbclass.
+LGTM, thanks
 
-Variables documented:
-- SPDX_INCLUDE_SOURCES
-- SPDX_INCLUDE_COMPILED_SOURCES
-- SPDX_UUID_NAMESPACE
-- SPDX_NAMESPACE_PREFIX
-- SPDX_PRETTY
-- SPDX_LICENSES
-- SPDX_CUSTOM_ANNOTATION_VARS
-- SPDX_MULTILIB_SSTATE_ARCHS
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-This makes variables discoverable via bitbake-getvar and IDE
-completion, improving usability for SBOM generation.
-
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
----
- meta/classes/spdx-common.bbclass | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 81c61e10dc..d45c152ba8 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -26,15 +26,38 @@ SPDX_TOOL_VERSION ??= "1.0"
- SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
- 
- SPDX_INCLUDE_SOURCES ??= "0"
-+SPDX_INCLUDE_SOURCES[doc] = "If set to '1', include source code files in the \
-+    SPDX output. This will create File objects for all source files used during \
-+    the build. Note: This significantly increases SBOM size and generation time."
-+
- SPDX_INCLUDE_COMPILED_SOURCES ??= "0"
-+SPDX_INCLUDE_COMPILED_SOURCES[doc] = "If set to '1', include compiled source \
-+    files (object files, etc.) in the SPDX output. This automatically enables \
-+    SPDX_INCLUDE_SOURCES. Note: This significantly increases SBOM size."
- 
- SPDX_UUID_NAMESPACE ??= "sbom.openembedded.org"
-+SPDX_UUID_NAMESPACE[doc] = "The namespace used for generating UUIDs in SPDX \
-+    documents. This should be a domain name or unique identifier for your \
-+    organization to ensure globally unique SPDX IDs."
-+
- SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdocs"
-+SPDX_NAMESPACE_PREFIX[doc] = "The URI prefix used for SPDX document namespaces. \
-+    Combined with other identifiers to create unique document URIs."
-+
- SPDX_PRETTY ??= "0"
-+SPDX_PRETTY[doc] = "If set to '1', generate human-readable formatted JSON output \
-+    with indentation and line breaks. If '0', generate compact JSON output. \
-+    Pretty formatting makes files larger but easier to read."
- 
- SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
-+SPDX_LICENSES[doc] = "Path to the JSON file containing SPDX license identifier \
-+    mappings. This file maps common license names to official SPDX license \
-+    identifiers."
- 
- SPDX_CUSTOM_ANNOTATION_VARS ??= ""
-+SPDX_CUSTOM_ANNOTATION_VARS[doc] = "Space-separated list of variable names whose \
-+    values will be added as custom annotations to SPDX documents. Each variable's \
-+    name and value will be recorded as an annotation for traceability."
- 
- SPDX_CONCLUDED_LICENSE ??= ""
- SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
-@@ -53,6 +76,9 @@ SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
-     SPDX_CONCLUDED_LICENSE:${PN} = 'MIT & Apache-2.0'"
- 
- SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
-+SPDX_MULTILIB_SSTATE_ARCHS[doc] = "The list of sstate architectures to consider \
-+    when collecting SPDX dependencies. This includes multilib architectures when \
-+    multilib is enabled. Defaults to SSTATE_ARCHS."
- 
- SPDX_FILES_INCLUDED ??= "all"
- SPDX_FILES_INCLUDED[doc] = "Controls which files are included in SPDX output. \
--- 
-2.53.0
-
+On Tue, Feb 24, 2026 at 2:17=E2=80=AFAM Benjamin Robin
+<benjamin.robin@bootlin.com> wrote:
+>
+> With the current solution, using a separate task
+> (do_create_kernel_config_spdx) there is a dependency issue. Sometimes
+> the final rootfs SBOM does not contain the CONFIG_ values.
+>
+> do_create_kernel_config_spdx is executed after do_create_spdx which
+> deploys the SPDX file. do_create_kernel_config_spdx calls
+> oe.sbom30.find_root_obj_in_jsonld to read from the deploy directory,
+> which is OK, but the do_create_kernel_config_spdx ends up writing to
+> this deployed file (updating it).
+>
+> do_create_rootfs_spdx has an explicit dependency to all do_create_spdx
+> tasks, but there is nothing that prevents executing
+> do_create_kernel_config_spdx after do_create_rootfs_spdx.
+>
+> To fix it, instead, now read from the workdir, and write to the
+> workdir, and do the processing from the do_create_spdx task:
+> we append to the do_create_spdx task.
+> Furthermore, update oeqa selftest to execute do_create_spdx instead
+> of removed function.
+>
+> Also only execute this task if create-spdx-3.0 was inherited,
+> previously this code could be executed if create-spdx-2.2 is
+> inherited.
+>
+> Fixes: 228a968e7c47 ("kernel.bbclass: Add task to export kernel configura=
+tion to SPDX")
+> Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
+n.com>
+> ---
+> Changes in v3:
+> - Move the code inside a function declared inside do_create_spdx(),
+>   this way we can declare variables safely and use return.
+> - Link to v2: https://lore.kernel.org/r/20260216-fix-kernel-config-spdx-v=
+2-1-62e65ec2176f@bootlin.com
+>
+> Changes in v2:
+> - Update spdx oeqa selftest
+> - Link to v1: https://lore.kernel.org/r/20260213-fix-kernel-config-spdx-v=
+1-1-4fd66ca5cb5d@bootlin.com
+> ---
+>  meta/classes-recipe/kernel.bbclass   | 27 +++++++++++++++------------
+>  meta/lib/oeqa/selftest/cases/spdx.py |  2 +-
+>  2 files changed, 16 insertions(+), 13 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
+nel.bbclass
+> index f989b31c477c..222a5d74f7bf 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -864,14 +864,13 @@ addtask deploy after do_populate_sysroot do_package=
+data
+>
+>  EXPORT_FUNCTIONS do_deploy
+>
+> -python __anonymous() {
+> -    inherits =3D (d.getVar("INHERIT") or "")
+> -    if "create-spdx" in inherits:
+> -        bb.build.addtask('do_create_kernel_config_spdx', 'do_populate_li=
+c do_deploy', 'do_create_spdx', d)
+> -}
+> +do_create_spdx:append() {
+> +    def create_kernel_config_spdx(d):
+> +        if not bb.data.inherits_class("create-spdx-3.0", d):
+> +            return
+> +        if d.getVar("SPDX_INCLUDE_KERNEL_CONFIG", True) !=3D "1":
+> +            return
+>
+> -python do_create_kernel_config_spdx() {
+> -    if d.getVar("SPDX_INCLUDE_KERNEL_CONFIG", True) =3D=3D "1":
+>          import oe.spdx30
+>          import oe.spdx30_tasks
+>          from pathlib import Path
+> @@ -903,9 +902,11 @@ python do_create_kernel_config_spdx() {
+>          except Exception as e:
+>              bb.error(f"Failed to parse kernel config file: {e}")
+>
+> -        build, build_objset =3D oe.sbom30.find_root_obj_in_jsonld(
+> -            d, "recipes", f"recipe-{pn}", oe.spdx30.build_Build
+> -        )
+> +        path =3D oe.sbom30.jsonld_arch_path(d, pkg_arch, "recipes", f"re=
+cipe-{pn}", deploydir=3Ddeploydir)
+> +        build_objset =3D oe.sbom30.load_jsonld(d, path, required=3DTrue)
+> +        build =3D build_objset.find_root(oe.spdx30.build_Build)
+> +        if not build:
+> +            bb.fatal("No root %s found in %s" % (oe.spdx30.build_Build._=
+_name__, path))
+>
+>          kernel_build =3D build_objset.add_root(
+>              oe.spdx30.build_Build(
+> @@ -924,9 +925,11 @@ python do_create_kernel_config_spdx() {
+>              [kernel_build]
+>          )
+>
+> -        oe.sbom30.write_jsonld_doc(d, build_objset, deploydir / pkg_arch=
+ / "recipes" / f"recipe-{pn}.spdx.json")
+> +        oe.sbom30.write_jsonld_doc(d, build_objset, path)
+> +
+> +    create_kernel_config_spdx(d)
+>  }
+> -do_create_kernel_config_spdx[depends] =3D "virtual/kernel:do_configure"
+> +do_create_spdx[depends] +=3D "virtual/kernel:do_configure"
+>
+>  # Add using Device Tree support
+>  inherit kernel-devicetree
+> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
+t/cases/spdx.py
+> index 41ef52fce1ca..5830d7c0872a 100644
+> --- a/meta/lib/oeqa/selftest/cases/spdx.py
+> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
+> @@ -369,7 +369,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase)=
+:
+>          objset =3D self.check_recipe_spdx(
+>              kernel_recipe,
+>              spdx_path,
+> -            task=3D"do_create_kernel_config_spdx",
+> +            task=3D"do_create_spdx",
+>              extraconf=3D"""\
+>                  INHERIT +=3D "create-spdx"
+>                  SPDX_INCLUDE_KERNEL_CONFIG =3D "1"
+>
+> ---
+> base-commit: 3a8f0075d52cb653118774baa03aa8d5231f943c
+> change-id: 20260213-fix-kernel-config-spdx-99223936e69f
+>
+> Best regards,
+> --
+> Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+>
 
