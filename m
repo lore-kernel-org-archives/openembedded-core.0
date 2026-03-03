@@ -1,492 +1,1969 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E62EC1438
-	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 12:36:28 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15264.1772533630349861466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D06B7EC1448
+	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 13:32:18 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18273.1772544729719619800
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Mar 2026 02:27:10 -0800
+ Tue, 03 Mar 2026 05:32:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=V/lUTTty;
- spf=pass (domain: siemens.com, ip: 52.101.66.43, mailfrom: stefano.tondo.ext@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DV1Cmm1B5+g7uDFB2NFAlUotT4TZPvGPGv3+TDmoWPWnobx/kylX+FDXOG+QLxuBSnyGGg607kw/ZTdEpCIQnvBsxgZJGxRQ+ywV/dnzUNOyNlYCMP9uKTisF8QbhqYjB+FyJQK/YopkVQ79FNwQCf+rYtsM9+mkIZB+CJ1FnvRfcjUU8sMEhhHaNuIeAhKAvzEW0botVyJaRjYYLAxeSIFWTwM8REXyCel5HzT+sDW8eCK5u74/mBxFS+cBOewFpTMlDCvO8QwCSUcYv+gKD9+m3osA4Lt0/EzqFB07SJgW54Juiuap7Nf3oIiAJ3gvenBj41A/UdzkRfPl5Rchaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wZc47+kOVhKCeK+qYW8bWUtqYAJNp/aYA383S3poXsc=;
- b=OHKrNpxN/12mOtdbB0L+qxKgV3jSUCeY4Z8MtKCHe6kUUGd6WkWxAEqv5XcZebBRzIpUcSb+HjmAgNTSQBgwDryWVadfmDk3qh0tqgWiiBBFvsp0JCP4lkla1SNMAeZQk+CnDAepGbGICxSCKIE+VVIG4u7ZdZFs0d1bSE5YsKjfbcEIGARzZHP8AuZW5FdFWFPqhOdgn34LDYB8Hr3S7lIJt0gfnkeIQkl/dc8vKW3uOtLPAE+x2nVlcnfBC5DimQW9aylDrM1DxNbBkgIEfpN0F4R88e6ysWDwBCmvAhZ/9vS1JJkLs+PIJjw9l6BwR2gsmT6yUNESgZRRVwB66Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wZc47+kOVhKCeK+qYW8bWUtqYAJNp/aYA383S3poXsc=;
- b=V/lUTTtycG/32ToMXoRkt7w8xz7sxu1ENOXNmLNUvGBEqvuUZAQfTXufIxb0npjGVKR1BkZzkJA1Q4FsoZW5dr3CsKklSpyb/ciiI9nz6N9CoZg9gqzNKg0FbDyBqCtFaop6hgJxm2MbWT5xdaQWaUUIyxI8GhvysD5dxE4n7kD4hgzOhevFDRuwuA7OWf5/YEYUy3dSWfWYf68O8+Z/BK91PkYDY9g9H4T491DJzTAfWXIPOXknBNbNracBVnt9Zvp7TiOL3XplktmMwNgBx03briT+2HLV78bb0NgLSzxtukPtTmhqMeB6OYhjbra7EyakHyp1Fn1d9EhrgYd3uQ==
-Received: from AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4bc::20)
- by DB8PR10MB3164.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 10:27:06 +0000
-Received: from AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f490:9f02:a64c:84b7]) by AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f490:9f02:a64c:84b7%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
- 10:27:05 +0000
-From: "Tondo, Stefano" <stefano.tondo.ext@siemens.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	"stondo@gmail.com" <stondo@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Ross.Burton@arm.com" <Ross.Burton@arm.com>, "jpewhacker@gmail.com"
-	<jpewhacker@gmail.com>, "Marko, Peter" <Peter.Marko@siemens.com>, "Freihofer,
- Adrian" <adrian.freihofer@siemens.com>
-Subject: Re: [OE-core] [PATCH v5 04/10] spdx30: Add version extraction from SRCREV for Git source components
-Thread-Topic: [OE-core] [PATCH v5 04/10] spdx30: Add version extraction from
- SRCREV for Git source components
-Thread-Index: AQHcql3ZDda3RcgmnE6hcYu7kUwHNrWcfnwAgAAcyus=
-Date: Tue, 3 Mar 2026 10:27:05 +0000
-Message-ID: 
- <AS4PR10MB5441FFDC9C00E4D486E9C709AC7FA@AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
- <20260302160114.46884-5-stefano.tondo.ext@siemens.com>
- <DGT0HVQB154L.3E9JJLNYVHH0Q@bootlin.com>
-In-Reply-To: <DGT0HVQB154L.3E9JJLNYVHH0Q@bootlin.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=True;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-03-03T10:27:04.621Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=C1
- -
- Restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=1;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS4PR10MB5441:EE_|DB8PR10MB3164:EE_
-x-ms-office365-filtering-correlation-id: 293f3d20-ab5d-4105-36ba-08de790f6ac8
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|31052699007|39142699007|376014|38070700021|8096899003|13003099007|7142099003|7053199007;
-x-microsoft-antispam-message-info: 
- 5PpCN0DZ2jSH8+p0ytBByaQA6LS5/wAp385cGrDbJIjOwkIwG1JUafZZ+GBHzTSJ4jNsY1xyURBfoShwnAU83tT23yQY1086aMgGYERbiwAzA1rX/H9ECnEiNZab4Q/dS2dybQvlxau+orpo1Rz6cXIoq6P1sXo5Z+63a0xhWNnGFf8D+G6Ke9f/irvc9BoMc1D8Z8MGwfZwvQnSjmSP53sBvk2CsCWVIQ60lH5B8qkTZuNxD95P1Gja7kwwmtEmtz+altKjy98uwA+x6DfoZVDo+4uaDsQGD7wZdc5z5yQXPA0ik8jTpnXaSfKPNgo95UtBLKX3kcygKjKtbjdO3PezczRYh64lRmcNiz9rQ+7Tkn81AhMF0+dLmlmixrVvwblCxTfiu3U4fWlbYSBjjcT2amjWCNFOnjLssV8Lp/ivPtbn6/VqBQYv4G07SoasLL1uJJXJ3gW3RQaNuksbhuufT8DgvgKqw9RVD48m+Dv8HAdI6yf7WIk1juxAjPvR/68oh9YESO5FfZij5aUjJLeFBYaG0R/UizSfNna4JBxziQysUpaAz2G+Fl1YXXHwA8qlgNwimP70eBLcafNTVhiNmkHwZy4xC8ahPiuICY5UxUaIM6ERkgeObKcaEo/23EUAszg4db8V0lpslCYTNR3HL4QDO8NrNVcyy5S3wBrbtucAiQ+qB7YSr7o7JKa0wQAwGOfZvZPa3T7xTTuDy2Iak1ALCHqWxtLsM8smAw0=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(31052699007)(39142699007)(376014)(38070700021)(8096899003)(13003099007)(7142099003)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?8STbsGr1dGH2CSina/9MVUdzqIdxmk+MFarM3URM4Rn55OQHMROe3EodPuga?=
- =?us-ascii?Q?TL5Aepv8bqXdOrgv8vJRAdfwtVGt7TzIjPGXz2f/gsbz7p2CwmoAwIJKInSC?=
- =?us-ascii?Q?Zf1/MEbeoaD3LOIH6PRujVmp30MXNHnK5xubGCDb7g1J6Icl00h58d4Dj/IH?=
- =?us-ascii?Q?AT8GzoR5CaFEwkLRxazA5LNVn1k5gRiIgIblYkDnyKufZsbu41Ls0NFA3yrC?=
- =?us-ascii?Q?i39YFXBL8psYhK8aN37Htuzg8kBDrugJIN83oAGwpADInNGo7WkCjtFzwdzE?=
- =?us-ascii?Q?h46jSwk4IpzqAwvTA2uHYOclF19GLQ2esLnrFe4bb/ORU6j5jOU0Cr9pT4fN?=
- =?us-ascii?Q?1mBGo6VH+UTMRGbCdGI+ueJCv3bpLsKUHWTCUuDvtYpwMPXXCNwyF2PBCxiq?=
- =?us-ascii?Q?jfsk0hWUtyeyybXWHjPlbVrkD13VfYBpMdnH41c8ncUKHE8BaZ0m+OJ/s8m1?=
- =?us-ascii?Q?CTuGAF67zYIwEOa7ZV0dQLhSERMYk+W/ojjU6NN1wPAGSBwUkYtC3Swr5eUT?=
- =?us-ascii?Q?9V/QM9bEMuZb4ZC5FlSemwOjlnhjVQ6ZFl7ik989eZE2XqjgVXbN7noDvlD6?=
- =?us-ascii?Q?WGMrA49+FZyqrDUbRfLXsoYUF4rVQFUlr2x0dZlnk0aY91GY7JgvNf/bqjy3?=
- =?us-ascii?Q?2AvuFL6wwHFh9ENHL4r4OnqdmU23NvXxuCT2tk3G7v5oJRzFoKFO+dPnI2YS?=
- =?us-ascii?Q?xhdoYfYMlsFeK671am6jA2s8N/iZwUbIH2fMgz3nFZ4Yc8uqCpH/v7l9igWv?=
- =?us-ascii?Q?2CQ1vOFyHopV2r35Pf8GYygrJG4C2pAWSlpopfM9/pG5d6jkuE3s30RYfuXf?=
- =?us-ascii?Q?PG6JXnQ7Fg6HUXI+AVVUQoOT3yI1uuxTfzO9wmgmFDbFKARjHqe3yyc1E17W?=
- =?us-ascii?Q?QTRWgPRzv4atB6B18Ci/sVKY4p5axFxEKEvLjU/D2n+kwOhv8LdZ2zAtV+BC?=
- =?us-ascii?Q?e8bIeeEwctwkHB7yf7Ygw+FPg0ESSsb2E5hzeAq7JINuVgxuap778VMnphUs?=
- =?us-ascii?Q?b4tgZG0Jf1Sq31mZtlzbhL7xxcIna8/We0agB/BeSrOJA19bNir+D9qCZl4L?=
- =?us-ascii?Q?YgO+jJcLIa51VadPPG6sphvpG9/U40PKTelnfVuD7VTbLruwtReklWNWB+50?=
- =?us-ascii?Q?pr1pW/dE0V2NzTv2LEcQQsMWwqwUP0uY/PVwdiiSp4TQMvq4eT5A11d/K5iH?=
- =?us-ascii?Q?OXdC/KzFzmtEcoCRKhG2uZjt35+3Ita8DV9/1k+8tnZhK9uUi/2XTnVld1C1?=
- =?us-ascii?Q?9ZlvXjY+xEHMNI5F8EFLWHoP2frRvjF0qILQj/t8rsLNQu+p25wOFsIcJMDb?=
- =?us-ascii?Q?v0aiR3EjJBNSFC1ikpxsySR4BQn9z7++oLJksUwz4cGRFC7DCHcttAdg85sD?=
- =?us-ascii?Q?/x1ZRpEBKBKg0oNfX38cj84Pj+B1TY6i2oOjWoczJK217/EiTXzgqJfdFK6k?=
- =?us-ascii?Q?6O9S6b48Wj/4f5HdP0Z0VJj+KxjQtsompFR0d9lYr2YLxGjPGir1uRNCXk0F?=
- =?us-ascii?Q?8Zifts9tqQ+Ak0/1U/67pk2vuLdp3REz58UUb3s+mgt8WmP/TYJwY/uR3tAi?=
- =?us-ascii?Q?ANMzDhyD20sJyzO862CyvkxFS4xDzXPSZ3MNShtznP8kh2CS8WKYLgVCXiBB?=
- =?us-ascii?Q?ccJRn+pG1xrR/YnZ1q5E4F33iu9M6TiIV5R6RYiHOyfraD5MlNMDlpfrCpRA?=
- =?us-ascii?Q?gks+BWVHTacBZWM3QkzXFz/3mx1ZEAEkUdq4qQ8T8LL16cfh62px6tdwbr/j?=
- =?us-ascii?Q?WMS8Q3kwKw=3D=3D?=
+ dkim=pass header.i=@mvista.com header.s=google header.b=huryu33g;
+ spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-824b5f015bcso6311356b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 05:32:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1772544729; x=1773149529; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W07Y+JjraA3cheot8yvRZ81Q6vZUsAAl9jxbbaL1qRc=;
+        b=huryu33gMKI0M6OgRslVtJc9GvF6XWQTtMWsIUESqD9GHDNxu/3XazzyjW8hlc9gp9
+         3eO7gClG3M454OeD8LbK5QBOKKsEGodtY601MZONMed5he2lmY91AUNsr5W6SEjuYvbo
+         +ZZV69wkhBIMnCl3Wua/Y9MS7iRetx4VPvrwc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772544729; x=1773149529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W07Y+JjraA3cheot8yvRZ81Q6vZUsAAl9jxbbaL1qRc=;
+        b=H9mRzg+uRUtDkTTNapMWlfaNrZ291P8R0U5jczfZWTKbVzqdooeohdJKdrlZyKaZCs
+         x0loMrPPVLpYPR3d0jZI1fbJegdZE9IACX98YpVhZbz66olCCFGkEFItwIfAogZXNvtr
+         iRLs3RjKP1bl6heN8GDJe1b6RTSli1O8jJO91TQNewhuiLZntNoMe/qer9w15uUZX7aE
+         OHz8ljgYh8Ma+kbpMAeoa7/nnATonNRTD7s8woLw0EBHK7T9TS0VKOiOSR9egAmVCis/
+         /qmLXIWi9zvL61VrI3sHiejxFJFUrXhl8gJJCIe/NuC+YUW/1rb0rkbU1u2a+GIy6eMe
+         oNjg==
+X-Gm-Message-State: AOJu0Yy0kqmBGS/cKLgSMhuHq4EgMnn0zVQxoBdyBk+DdWuvOzF07Tv2
+	3N7MNzE3HKv9tXuKFa698uOskpYZrIKD7fnPnL2uzQ71aVHXt5AlNzJUqgCrQolf1MaNzgWXz13
+	ZTK6B
+X-Gm-Gg: ATEYQzwcYzIQMXqbzBlnwiyk5ctd339pMToZprznYFO7MTkSdZMfduEVk8/GSDjEELP
+	lFPmLX29KMesdEnsLSdDPUGsvNB+QHwJ3D/ozE4jmov6yX2ruIjYYPy8nRsrlrI1+TMyiIshWsq
+	tlWy2nXVb4EHotnFwNACAqoxksYyzdH8tNz5MOPCeL8gb+oRTnEzWkIQYHuhbH5pbhgAWAr6lxI
+	zWFocd8MJ3a4gU/ouztDW4dZmqpHuj8LKvWQtqCiw9wCofAJsODVe8ZujnjiURDMZiHKg4TMtoA
+	QjKSbHosasBKGDx26+o2y4QP1jqOWJH7qepWu7yF9U2pbY6P9ojvsJhUCIR55ESTyGt03r2VnqU
+	l4aeXZyEMd1uqDHQRye6l5B0Si+FCwJOR+plaIVQna1ktsXemX9+5rnBeihENQyVqvmLu4G0x9t
+	V97FsGZMztqE0KLn79CcxpExXXfjGoI7g1ogY=
+X-Received: by 2002:a05:6a00:2991:b0:81f:5037:a317 with SMTP id d2e1a72fcca58-8274d98e6d8mr14034321b3a.11.1772544727562;
+        Tue, 03 Mar 2026 05:32:07 -0800 (PST)
+Received: from MVIN00352.mvista.com ([2406:7400:54:1b6c:9405:e579:3eb8:3df1])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8273a01054dsm20826775b3a.43.2026.03.03.05.32.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 05:32:06 -0800 (PST)
+From: Vijay Anusuri <vanusuri@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][whinlatter][patch V2] gnutls: Fix CVE-2025-14831
+Date: Tue,  3 Mar 2026 19:01:55 +0530
+Message-ID: <20260303133155.432713-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 293f3d20-ab5d-4105-36ba-08de790f6ac8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2026 10:27:05.5454
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kOw1bFIqMItdllEI0JayX8sVe5g/I3M2crpq2rPMNkWzOgdSDMv/RODx+5KKHRTU+i/SktR/QTlbtjiw+BX6hAT8zT2rnM4p5QN1TnRMVNI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3164
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 12:36:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232308
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 13:32:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232309
 
---_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Picked commits which mentions this CVE per [1].
 
-Hi Mathieu,
+[1] https://ubuntu.com/security/CVE-2025-14831
+[2] https://security-tracker.debian.org/tracker/CVE-2025-14831
+[3] https://gitlab.com/gnutls/gnutls/-/issues/1773
 
-this is weird. In V4 I ran successfully all tests locally before submitting=
-.
-I will take a look right away, curious to see what V5 broke.
+Backported
+https://gitlab.com/gnutls/gnutls/-/commit/6e118a4dfe820ce62fc77130b89188bcd8fbcaad
+to apply patches cleanly.
 
-Stefano
-________________________________
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Sent: Tuesday, March 3, 2026 09:42
-To: stondo@gmail.com <stondo@gmail.com>; openembedded-core@lists.openembedd=
-ed.org <openembedded-core@lists.openembedded.org>
-Cc: Ross.Burton@arm.com <Ross.Burton@arm.com>; jpewhacker@gmail.com <jpewha=
-cker@gmail.com>; Tondo, Stefano (ext) (SI B PRO AUT PD ZUG SW 2) <stefano.t=
-ondo.ext@siemens.com>; Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.=
-com>; Freihofer, Adrian (SI B PRO TI EAC CCP) <adrian.freihofer@siemens.com=
->
-Subject: Re: [OE-core] [PATCH v5 04/10] spdx30: Add version extraction from=
- SRCREV for Git source components
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../gnutls/gnutls/CVE-2025-14831-1.patch      | 119 +++++
+ .../gnutls/gnutls/CVE-2025-14831-10.patch     | 424 +++++++++++++++
+ .../gnutls/gnutls/CVE-2025-14831-2.patch      |  66 +++
+ .../gnutls/gnutls/CVE-2025-14831-3.patch      |  30 ++
+ .../gnutls/gnutls/CVE-2025-14831-4.patch      |  45 ++
+ .../gnutls/gnutls/CVE-2025-14831-5.patch      | 205 +++++++
+ .../gnutls/gnutls/CVE-2025-14831-6.patch      | 505 ++++++++++++++++++
+ .../gnutls/gnutls/CVE-2025-14831-7.patch      | 124 +++++
+ .../gnutls/gnutls/CVE-2025-14831-8.patch      | 155 ++++++
+ .../gnutls/gnutls/CVE-2025-14831-9.patch      | 110 ++++
+ meta/recipes-support/gnutls/gnutls_3.8.10.bb  |  10 +
+ 11 files changed, 1793 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-10.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.patch
 
-On Mon Mar 2, 2026 at 5:01 PM CET, Stefano Tondo via lists.openembedded.org=
- wrote:
-> Extract version information for Git-based source components in SPDX 3.0
-> SBOMs to improve SBOM completeness and enable better supply chain trackin=
-g.
->
-> Problem:
-> Git repositories fetched as SRC_URI entries currently appear in SBOMs
-> without version information (software_packageVersion is null). This makes
-> it difficult to track which specific revision of a dependency was used,
-> reducing SBOM usefulness for security and compliance tracking.
->
-> Solution:
-> - Extract SRCREV for Git sources and use it as packageVersion
-> - Use fd.revision attribute (the resolved Git commit)
-> - Fallback to SRCREV variable if fd.revision not available
-> - Use first 12 characters as version (standard Git short hash)
-> - Generate pkg:github PURLs for GitHub repositories (official PURL type)
-> - Add comprehensive debug logging for troubleshooting
->
-> Impact:
-> - Git source components now have version information
-> - GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)
-> - Enables tracking specific commit dependencies in SBOMs
->
-> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
-> ---
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.patch
+new file mode 100644
+index 0000000000..1bfa771043
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.patch
+@@ -0,0 +1,119 @@
++From 6e118a4dfe820ce62fc77130b89188bcd8fbcaad Mon Sep 17 00:00:00 2001
++From: chenjianhu <chenjianhu@kylinos.cn>
++Date: Fri, 1 Aug 2025 17:18:23 +0800
++Subject: [PATCH] x509: fix incorrect handling in name constraints merging
++
++As mentioned in commit ca573d65 ("x509: Fix asymmetry in name
++constraints intersection", 2016-07-29), the
++_gnutls_name_constraints_intersect function exhibited an
++asymmetry in name constraints intersection behavior, specifically
++manifested as:
++1. Nodes of unique types in PERMITTED (absent in PERMITTED2) were
++   preserved
++2. Nodes of unique types in PERMITTED2 (absent in PERMITTED) were
++   discarded
++
++A 'used' flag was introduced, where if a node from PERMITTED2 was
++   not used for the intersection, it would be copied to PERMITTED.
++
++However,an unresolved edge case persisted:
++- When 'removed.size > 0', the 'used' flag was unconditionally set
++to 1
++- This prevented copying of PERMITTED2 nodes with unique types
++
++Signed-off-by: chenjianhu <chenjianhu@kylinos.cn>
++Modified-by: Daiki Ueno <ueno@gnu.org>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/6e118a4dfe820ce62fc77130b89188bcd8fbcaad]
++CVE: CVE-2025-14831 #Backport to apply CVE patches cleanly
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c    |  5 +++-
++ tests/name-constraints-merge.c | 55 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 59 insertions(+), 1 deletion(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 3c6e306303..2be6a2aaa6 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -414,7 +414,10 @@ static int name_constraints_node_list_intersect(
++ 				gnutls_assert();
++ 				goto cleanup;
++ 			}
++-			used = 1;
+++
+++			if (t->type == t2->type)
+++				used = 1;
+++
++ 			// if intersection is not empty
++ 			if (tmp !=
++ 			    NULL) { // intersection for this type is not empty
++diff --git a/tests/name-constraints-merge.c b/tests/name-constraints-merge.c
++index 03b3243cc7..70376aaa74 100644
++--- a/tests/name-constraints-merge.c
+++++ b/tests/name-constraints-merge.c
++@@ -418,6 +418,61 @@ void doit(void)
++ 	gnutls_x509_name_constraints_deinit(nc1);
++ 	gnutls_x509_name_constraints_deinit(nc2);
++ 
+++	/* 5: variant of suite 0: after moving rfc822Name (ccc.com)
+++	 * from NC1 to NC2, dNSName (xxx.ccc.com) should still be
+++	 * rejected.
+++	 *
+++	 * NC1: permitted DNS org
+++	 *      permitted DNS ccc.com
+++	 * NC2: permitted DNS org
+++	 *      permitted email ccc.com
+++	 *      permitted DNS aaa.bbb.ccc.com
+++	 */
+++	suite = 5;
+++
+++	ret = gnutls_x509_name_constraints_init(&nc1);
+++	check_for_error(ret);
+++
+++	ret = gnutls_x509_name_constraints_init(&nc2);
+++	check_for_error(ret);
+++
+++	set_name("org", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc1, GNUTLS_SAN_DNSNAME, &name);
+++	check_for_error(ret);
+++
+++	set_name("ccc.com", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc1, GNUTLS_SAN_DNSNAME, &name);
+++	check_for_error(ret);
+++
+++	set_name("org", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc2, GNUTLS_SAN_DNSNAME, &name);
+++	check_for_error(ret);
+++
+++	set_name("ccc.com", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc2, GNUTLS_SAN_RFC822NAME, &name);
+++	check_for_error(ret);
+++
+++	set_name("aaa.bbb.ccc.com", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc2, GNUTLS_SAN_DNSNAME, &name);
+++	check_for_error(ret);
+++
+++	ret = _gnutls_x509_name_constraints_merge(nc1, nc2);
+++	check_for_error(ret);
+++
+++	/* check intersection of permitted */
+++	set_name("xxx.ccc.com", &name);
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name);
+++
+++	gnutls_x509_name_constraints_deinit(nc1);
+++	gnutls_x509_name_constraints_deinit(nc2);
+++
++ 	/* Test footer */
++ 
++ 	if (debug)
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-10.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-10.patch
+new file mode 100644
+index 0000000000..5507719ac0
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-10.patch
+@@ -0,0 +1,424 @@
++From d6054f0016db05fb5c82177ddbd0a4e8331059a1 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 4 Feb 2026 20:03:49 +0100
++Subject: [PATCH] x509/name_constraints: name_constraints_node_list_intersect
++ over sorted
++
++Fixes: #1773
++Fixes: GNUTLS-SA-2026-02-09-2
++Fixes: CVE-2025-14831
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/d6054f0016db05fb5c82177ddbd0a4e8331059a1]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 350 ++++++++++++++----------------------
++ 1 file changed, 135 insertions(+), 215 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 1d78d1b..04722bd 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -446,13 +446,6 @@ name_constraints_node_add_copy(gnutls_x509_name_constraints_t nc,
++ 					     src->name.data, src->name.size);
++ }
++ 
++-// for documentation see the implementation
++-static int name_constraints_intersect_nodes(
++-	gnutls_x509_name_constraints_t nc,
++-	const struct name_constraints_node_st *node1,
++-	const struct name_constraints_node_st *node2,
++-	struct name_constraints_node_st **intersection);
++-
++ /*-
++  * _gnutls_x509_name_constraints_is_empty:
++  * @nc: name constraints structure
++@@ -716,132 +709,143 @@ typedef char assert_ipaddr[(GNUTLS_SAN_IPADDRESS <= GNUTLS_SAN_MAX) ? 1 : -1];
++ static int name_constraints_node_list_intersect(
++ 	gnutls_x509_name_constraints_t nc,
++ 	struct name_constraints_node_list_st *permitted,
++-	const struct name_constraints_node_list_st *permitted2,
+++	struct name_constraints_node_list_st *permitted2,
++ 	struct name_constraints_node_list_st *excluded)
++ {
++-	struct name_constraints_node_st *tmp;
++-	int ret, type, used;
++-	struct name_constraints_node_list_st removed = { .data = NULL,
++-							 .size = 0,
++-							 .capacity = 0 };
+++	struct name_constraints_node_st *nc1, *nc2;
+++	struct name_constraints_node_list_st result = { 0 };
+++	struct name_constraints_node_list_st unsupp2 = { 0 };
+++	enum name_constraint_relation rel;
+++	unsigned type;
+++	int ret = GNUTLS_E_SUCCESS;
+++	size_t i, j, p1_unsupp = 0, p2_unsupp = 0;
+++	type_bitmask_t universal_exclude_needed = 0;
+++	type_bitmask_t types_in_p1 = 0, types_in_p2 = 0;
++ 	static const unsigned char universal_ip[32] = { 0 };
++ 
++-	/* bitmask to see if we need to add universal excluded constraints
++-	 * (see phase 3 for details) */
++-	type_bitmask_t types_with_empty_intersection = 0;
++-
++ 	if (permitted->size == 0 || permitted2->size == 0)
++-		return 0;
+++		return GNUTLS_E_SUCCESS;
++ 
++-	/* Phase 1
++-	 * For each name in PERMITTED, if a PERMITTED2 does not contain a name
++-	 * with the same type, move the original name to REMOVED.
++-	 * Do this also for node of unknown type (not DNS, email, IP) */
++-	for (size_t i = 0; i < permitted->size;) {
++-		struct name_constraints_node_st *t = permitted->data[i];
++-		const struct name_constraints_node_st *found = NULL;
++-
++-		for (size_t j = 0; j < permitted2->size; j++) {
++-			const struct name_constraints_node_st *t2 =
++-				permitted2->data[j];
++-			if (t->type == t2->type) {
++-				// check bounds (we will use 't->type' as index)
++-				if (t->type > GNUTLS_SAN_MAX || t->type == 0) {
++-					gnutls_assert();
++-					ret = GNUTLS_E_INTERNAL_ERROR;
++-					goto cleanup;
++-				}
++-				// note the possibility of empty intersection for this type
++-				// if we add something to the intersection in phase 2,
++-				// we will reset this flag back to 0 then
++-				type_bitmask_set(types_with_empty_intersection,
++-						 t->type);
++-				found = t2;
++-				break;
++-			}
++-		}
+++	/* make sorted views of the arrays */
+++	ret = ensure_sorted(permitted);
+++	if (ret < 0) {
+++		gnutls_assert();
+++		goto cleanup;
+++	}
+++	ret = ensure_sorted(permitted2);
+++	if (ret < 0) {
+++		gnutls_assert();
+++		goto cleanup;
+++	}
++ 
++-		if (found != NULL && is_supported_type(t->type)) {
++-			/* move node from PERMITTED to REMOVED */
++-			ret = name_constraints_node_list_add(&removed, t);
++-			if (ret < 0) {
++-				gnutls_assert();
++-				goto cleanup;
++-			}
++-			/* remove node by swapping */
++-			if (i < permitted->size - 1)
++-				permitted->data[i] =
++-					permitted->data[permitted->size - 1];
++-			permitted->size--;
++-			permitted->dirty = true;
++-			continue;
+++	/* deal with the leading unsupported types first: count, then union */
+++	while (p1_unsupp < permitted->size &&
+++	       !is_supported_type(permitted->sorted_view[p1_unsupp]->type))
+++		p1_unsupp++;
+++	while (p2_unsupp < permitted2->size &&
+++	       !is_supported_type(permitted2->sorted_view[p2_unsupp]->type))
+++		p2_unsupp++;
+++	if (p1_unsupp) { /* copy p1 unsupported type pointers into result */
+++		result.data = gnutls_calloc(
+++			p1_unsupp, sizeof(struct name_constraints_node_st *));
+++		if (!result.data) {
+++			ret = GNUTLS_E_MEMORY_ERROR;
+++			gnutls_assert();
+++			goto cleanup;
+++		}
+++		memcpy(result.data, permitted->sorted_view,
+++		       p1_unsupp * sizeof(struct name_constraints_node_st *));
+++		result.size = result.capacity = p1_unsupp;
+++		result.dirty = true;
+++	}
+++	if (p2_unsupp) { /* union will make deep copies from p2 */
+++		unsupp2.data = permitted2->sorted_view; /* so, just alias */
+++		unsupp2.size = unsupp2.capacity = p2_unsupp;
+++		unsupp2.dirty = false; /* we know it's sorted */
+++		unsupp2.sorted_view = permitted2->sorted_view;
+++		ret = name_constraints_node_list_union(nc, &result, &unsupp2);
+++		if (ret < 0) {
+++			gnutls_assert();
+++			goto cleanup;
++ 		}
++-		i++;
++ 	}
++ 
++-	/* Phase 2
++-	 * iterate through all combinations from PERMITTED2 and PERMITTED
++-	 * and create intersections of nodes with same type */
++-	for (size_t i = 0; i < permitted2->size; i++) {
++-		const struct name_constraints_node_st *t2 = permitted2->data[i];
++-
++-		// current PERMITTED2 node has not yet been used for any intersection
++-		// (and is not in REMOVED either)
++-		used = 0;
++-		for (size_t j = 0; j < removed.size; j++) {
++-			const struct name_constraints_node_st *t =
++-				removed.data[j];
++-			// save intersection of name constraints into tmp
++-			ret = name_constraints_intersect_nodes(nc, t, t2, &tmp);
++-			if (ret < 0) {
++-				gnutls_assert();
++-				goto cleanup;
++-			}
+++	/* with that out of the way, pre-compute the supported types we have */
+++	for (i = p1_unsupp; i < permitted->size; i++) {
+++		type = permitted->sorted_view[i]->type;
+++		if (type < 1 || type > GNUTLS_SAN_MAX) {
+++			ret = gnutls_assert_val(GNUTLS_E_INTERNAL_ERROR);
+++			goto cleanup;
+++		}
+++		type_bitmask_set(types_in_p1, type);
+++	}
+++	for (j = p2_unsupp; j < permitted2->size; j++) {
+++		type = permitted2->sorted_view[j]->type;
+++		if (type < 1 || type > GNUTLS_SAN_MAX) {
+++			ret = gnutls_assert_val(GNUTLS_E_INTERNAL_ERROR);
+++			goto cleanup;
+++		}
+++		type_bitmask_set(types_in_p2, type);
+++	}
+++	/* universal excludes might be needed for types intersecting to empty */
+++	universal_exclude_needed = types_in_p1 & types_in_p2;
+++
+++	/* go through supported type NCs and intersect in a single pass */
+++	i = p1_unsupp;
+++	j = p2_unsupp;
+++	while (i < permitted->size || j < permitted2->size) {
+++		nc1 = (i < permitted->size) ? permitted->sorted_view[i] : NULL;
+++		nc2 = (j < permitted2->size) ? permitted2->sorted_view[j] :
+++					       NULL;
+++		rel = compare_name_constraint_nodes(nc1, nc2);
++ 
++-			if (t->type == t2->type)
++-				used = 1;
++-
++-			// if intersection is not empty
++-			if (tmp !=
++-			    NULL) { // intersection for this type is not empty
++-				// check bounds
++-				if (tmp->type > GNUTLS_SAN_MAX ||
++-				    tmp->type == 0) {
++-					gnutls_free(tmp);
++-					return gnutls_assert_val(
++-						GNUTLS_E_INTERNAL_ERROR);
++-				}
++-				// we will not add universal excluded constraint for this type
++-				type_bitmask_clr(types_with_empty_intersection,
++-						 tmp->type);
++-				// add intersection node to PERMITTED
++-				ret = name_constraints_node_list_add(permitted,
++-								     tmp);
++-				if (ret < 0) {
++-					gnutls_assert();
++-					goto cleanup;
++-				}
++-			}
+++		switch (rel) {
+++		case NC_SORTS_BEFORE:
+++			assert(nc1 != NULL); /* comparator-guaranteed */
+++			/* if nothing to intersect with, shallow-copy nc1 */
+++			if (!type_bitmask_in(types_in_p2, nc1->type))
+++				ret = name_constraints_node_list_add(&result,
+++								     nc1);
+++			i++; /* otherwise skip nc1 */
+++			break;
+++		case NC_SORTS_AFTER:
+++			assert(nc2 != NULL); /* comparator-guaranteed */
+++			/* if nothing to intersect with, deep-copy nc2 */
+++			if (!type_bitmask_in(types_in_p1, nc2->type))
+++				ret = name_constraints_node_add_copy(
+++					nc, &result, nc2);
+++			j++; /* otherwise skip nc2 */
+++			break;
+++		case NC_INCLUDED_BY: /* add nc1, shallow-copy */
+++			assert(nc1 != NULL && nc2 != NULL); /* comparator */
+++			type_bitmask_clr(universal_exclude_needed, nc1->type);
+++			ret = name_constraints_node_list_add(&result, nc1);
+++			i++;
+++			break;
+++		case NC_INCLUDES: /* pick nc2, deep-copy */
+++			assert(nc1 != NULL && nc2 != NULL); /* comparator */
+++			type_bitmask_clr(universal_exclude_needed, nc2->type);
+++			ret = name_constraints_node_add_copy(nc, &result, nc2);
+++			j++;
+++			break;
+++		case NC_EQUAL: /* pick whichever: nc1, shallow-copy */
+++			assert(nc1 != NULL && nc2 != NULL); /* loop condition */
+++			type_bitmask_clr(universal_exclude_needed, nc1->type);
+++			ret = name_constraints_node_list_add(&result, nc1);
+++			i++;
+++			j++;
+++			break;
++ 		}
++-		// if the node from PERMITTED2 was not used for intersection, copy it to DEST
++-		// Beware: also copies nodes other than DNS, email, IP,
++-		//       since their counterpart may have been moved in phase 1.
++-		if (!used) {
++-			ret = name_constraints_node_add_copy(nc, permitted, t2);
++-			if (ret < 0) {
++-				gnutls_assert();
++-				goto cleanup;
++-			}
+++		if (ret < 0) {
+++			gnutls_assert();
+++			goto cleanup;
++ 		}
++ 	}
++ 
++-	/* Phase 3
++-	 * For each type: If we have empty permitted name constraints now
++-	 * and we didn't have at the beginning, we have to add a new
++-	 * excluded constraint with universal wildcard
++-	 * (since the intersection of permitted is now empty). */
+++	/* finishing touch: add universal excluded constraints for types where
+++	 * both lists had constraints, but all intersections ended up empty */
++ 	for (type = 1; type <= GNUTLS_SAN_MAX; type++) {
++-		if (!type_bitmask_in(types_with_empty_intersection, type))
+++		if (!type_bitmask_in(universal_exclude_needed, type))
++ 			continue;
++ 		_gnutls_hard_log(
++ 			"Adding universal excluded name constraint for type %d.\n",
++@@ -874,14 +878,24 @@ static int name_constraints_node_list_intersect(
++ 				goto cleanup;
++ 			}
++ 			break;
++-		default: // do nothing, at least one node was already moved in phase 1
++-			break;
+++		default: /* unsupported type; should be unreacheable */
+++			ret = gnutls_assert_val(GNUTLS_E_INTERNAL_ERROR);
+++			goto cleanup;
++ 		}
++ 	}
++-	ret = GNUTLS_E_SUCCESS;
++ 
+++	gnutls_free(permitted->data);
+++	gnutls_free(permitted->sorted_view);
+++	permitted->data = result.data;
+++	permitted->sorted_view = NULL;
+++	permitted->size = result.size;
+++	permitted->capacity = result.capacity;
+++	permitted->dirty = true;
+++
+++	result.data = NULL;
+++	ret = GNUTLS_E_SUCCESS;
++ cleanup:
++-	gnutls_free(removed.data);
+++	name_constraints_node_list_clear(&result);
++ 	return ret;
++ }
++ 
++@@ -1257,100 +1271,6 @@ static unsigned email_matches(const gnutls_datum_t *name,
++ 	return rel == NC_EQUAL || rel == NC_INCLUDED_BY;
++ }
++ 
++-/*-
++- * name_constraints_intersect_nodes:
++- * @nc1: name constraints node 1
++- * @nc2: name constraints node 2
++- * @_intersection: newly allocated node with intersected constraints,
++- *		 NULL if the intersection is empty
++- *
++- * Inspect 2 name constraints nodes (of possibly different types) and allocate
++- * a new node with intersection of given constraints.
++- *
++- * Returns: On success, %GNUTLS_E_SUCCESS (0) is returned, otherwise a negative error value.
++- -*/
++-static int name_constraints_intersect_nodes(
++-	gnutls_x509_name_constraints_t nc,
++-	const struct name_constraints_node_st *node1,
++-	const struct name_constraints_node_st *node2,
++-	struct name_constraints_node_st **_intersection)
++-{
++-	// presume empty intersection
++-	struct name_constraints_node_st *intersection = NULL;
++-	const struct name_constraints_node_st *to_copy = NULL;
++-	enum name_constraint_relation rel;
++-
++-	*_intersection = NULL;
++-
++-	if (node1->type != node2->type) {
++-		return GNUTLS_E_SUCCESS;
++-	}
++-	switch (node1->type) {
++-	case GNUTLS_SAN_DNSNAME:
++-		rel = compare_dns_names(&node1->name, &node2->name);
++-		switch (rel) {
++-		case NC_EQUAL: // equal means doesn't matter which one
++-		case NC_INCLUDES: // node2 is more specific
++-			to_copy = node2;
++-			break;
++-		case NC_INCLUDED_BY: // node1 is more specific
++-			to_copy = node1;
++-			break;
++-		case NC_SORTS_BEFORE: // no intersection
++-		case NC_SORTS_AFTER: // no intersection
++-			return GNUTLS_E_SUCCESS;
++-		}
++-		break;
++-	case GNUTLS_SAN_RFC822NAME:
++-		rel = compare_emails(&node1->name, &node2->name);
++-		switch (rel) {
++-		case NC_EQUAL: // equal means doesn't matter which one
++-		case NC_INCLUDES: // node2 is more specific
++-			to_copy = node2;
++-			break;
++-		case NC_INCLUDED_BY: // node1 is more specific
++-			to_copy = node1;
++-			break;
++-		case NC_SORTS_BEFORE: // no intersection
++-		case NC_SORTS_AFTER: // no intersection
++-			return GNUTLS_E_SUCCESS;
++-		}
++-		break;
++-	case GNUTLS_SAN_IPADDRESS:
++-		rel = compare_ip_ncs(&node1->name, &node2->name);
++-		switch (rel) {
++-		case NC_EQUAL: // equal means doesn't matter which one
++-		case NC_INCLUDES: // node2 is more specific
++-			to_copy = node2;
++-			break;
++-		case NC_INCLUDED_BY: // node1 is more specific
++-			to_copy = node1;
++-			break;
++-		case NC_SORTS_BEFORE: // no intersection
++-		case NC_SORTS_AFTER: // no intersection
++-			return GNUTLS_E_SUCCESS;
++-		}
++-		break;
++-	default:
++-		// for other types, we don't know how to do the intersection, assume empty
++-		return GNUTLS_E_SUCCESS;
++-	}
++-
++-	// copy existing node if applicable
++-	if (to_copy != NULL) {
++-		*_intersection = name_constraints_node_new(nc, to_copy->type,
++-							   to_copy->name.data,
++-							   to_copy->name.size);
++-		if (*_intersection == NULL)
++-			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
++-		intersection = *_intersection;
++-
++-		assert(intersection->name.data != NULL);
++-	}
++-
++-	return GNUTLS_E_SUCCESS;
++-}
++-
++ /*
++  * Returns: true if the certification is acceptable, and false otherwise.
++  */
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.patch
+new file mode 100644
+index 0000000000..9066098a01
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.patch
+@@ -0,0 +1,66 @@
++From 0b2377dfccd99be641bf3f1a0de9f0dc8dc0d4b1 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 26 Jan 2026 19:02:27 +0100
++Subject: [PATCH] x509/name_constraints: use actual zeroes in universal exclude
++ IP NC
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/0b2377dfccd99be641bf3f1a0de9f0dc8dc0d4b1]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 2be6a2aaa6..d07482e3c9 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -61,7 +61,7 @@ struct gnutls_name_constraints_st {
++ 
++ static struct name_constraints_node_st *
++ name_constraints_node_new(gnutls_x509_name_constraints_t nc, unsigned type,
++-			  unsigned char *data, unsigned int size);
+++			  const unsigned char *data, unsigned int size);
++ 
++ static int
++ name_constraints_node_list_add(struct name_constraints_node_list_st *list,
++@@ -285,7 +285,7 @@ static void name_constraints_node_free(struct name_constraints_node_st *node)
++  -*/
++ static struct name_constraints_node_st *
++ name_constraints_node_new(gnutls_x509_name_constraints_t nc, unsigned type,
++-			  unsigned char *data, unsigned int size)
+++			  const unsigned char *data, unsigned int size)
++ {
++ 	struct name_constraints_node_st *tmp;
++ 	int ret;
++@@ -339,6 +339,7 @@ static int name_constraints_node_list_intersect(
++ 	struct name_constraints_node_list_st removed = { .data = NULL,
++ 							 .size = 0,
++ 							 .capacity = 0 };
+++	static const unsigned char universal_ip[32] = { 0 };
++ 
++ 	/* temporary array to see, if we need to add universal excluded constraints
++ 	 * (see phase 3 for details)
++@@ -474,7 +475,7 @@ static int name_constraints_node_list_intersect(
++ 		case GNUTLS_SAN_IPADDRESS:
++ 			// add universal restricted range for IPv4
++ 			tmp = name_constraints_node_new(
++-				nc, GNUTLS_SAN_IPADDRESS, NULL, 8);
+++				nc, GNUTLS_SAN_IPADDRESS, universal_ip, 8);
++ 			if (tmp == NULL) {
++ 				gnutls_assert();
++ 				ret = GNUTLS_E_MEMORY_ERROR;
++@@ -487,7 +488,7 @@ static int name_constraints_node_list_intersect(
++ 			}
++ 			// add universal restricted range for IPv6
++ 			tmp = name_constraints_node_new(
++-				nc, GNUTLS_SAN_IPADDRESS, NULL, 32);
+++				nc, GNUTLS_SAN_IPADDRESS, universal_ip, 32);
++ 			if (tmp == NULL) {
++ 				gnutls_assert();
++ 				ret = GNUTLS_E_MEMORY_ERROR;
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.patch
+new file mode 100644
+index 0000000000..0d34032554
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.patch
+@@ -0,0 +1,30 @@
++From 85d6348a30c74d4ee3710e0f4652f634eaad6914 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 26 Jan 2026 19:10:58 +0100
++Subject: [PATCH] tests/name-constraints-ip: stop swallowing errors...
++
++... now when it started to pass
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/85d6348a30c74d4ee3710e0f4652f634eaad6914]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ tests/name-constraints-ip.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tests/name-constraints-ip.c b/tests/name-constraints-ip.c
++index 7a196088dc..a0cf172b7f 100644
++--- a/tests/name-constraints-ip.c
+++++ b/tests/name-constraints-ip.c
++@@ -772,5 +772,5 @@ int main(int argc, char **argv)
++ 		cmocka_unit_test_setup_teardown(
++ 			check_ipv4v6_single_constraint_each, setup, teardown)
++ 	};
++-	cmocka_run_group_tests(tests, NULL, NULL);
+++	return cmocka_run_group_tests(tests, NULL, NULL);
++ }
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.patch
+new file mode 100644
+index 0000000000..ed4a7da3c7
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.patch
+@@ -0,0 +1,45 @@
++From c28475413f82e1f34295d5c039f0c0a4ca2ee526 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 26 Jan 2026 20:14:33 +0100
++Subject: [PATCH] x509/name_constraints: reject some malformed domain names
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/c28475413f82e1f34295d5c039f0c0a4ca2ee526]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 17 +++++++++++++++++
++ 1 file changed, 17 insertions(+)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index d07482e3c9..9783d92851 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -159,6 +159,23 @@ static int validate_name_constraints_node(gnutls_x509_subject_alt_name_t type,
++ 			return gnutls_assert_val(GNUTLS_E_MALFORMED_CIDR);
++ 	}
++ 
+++	/* Validate DNS names and email addresses for malformed input */
+++	if (type == GNUTLS_SAN_DNSNAME || type == GNUTLS_SAN_RFC822NAME) {
+++		unsigned int i;
+++		if (name->size == 0)
+++			return GNUTLS_E_SUCCESS;
+++
+++		/* reject names with consecutive dots... */
+++		for (i = 0; i + 1 < name->size; i++) {
+++			if (name->data[i] == '.' && name->data[i + 1] == '.')
+++				return gnutls_assert_val(
+++					GNUTLS_E_ILLEGAL_PARAMETER);
+++		}
+++		/* ... or names consisting exclusively of dots */
+++		if (name->size == 1 && name->data[0] == '.')
+++			return gnutls_assert_val(GNUTLS_E_ILLEGAL_PARAMETER);
+++	}
+++
++ 	return GNUTLS_E_SUCCESS;
++ }
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.patch
+new file mode 100644
+index 0000000000..514ee3c70f
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.patch
+@@ -0,0 +1,205 @@
++From 6db7da7fcfe230f445b1edbb56e2a8346120c891 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Thu, 5 Feb 2026 13:22:10 +0100
++Subject: [PATCH] x509/name_constraints: name_constraints_node_add_{new,copy}
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/6db7da7fcfe230f445b1edbb56e2a8346120c891]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 112 ++++++++++++++++--------------------
++ 1 file changed, 51 insertions(+), 61 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 9783d92851..81035eef8f 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -86,6 +86,38 @@ name_constraints_node_list_add(struct name_constraints_node_list_st *list,
++ 	return 0;
++ }
++ 
+++static int
+++name_constraints_node_add_new(gnutls_x509_name_constraints_t nc,
+++			      struct name_constraints_node_list_st *list,
+++			      unsigned type, const unsigned char *data,
+++			      unsigned int size)
+++{
+++	struct name_constraints_node_st *node;
+++	int ret;
+++	node = name_constraints_node_new(nc, type, data, size);
+++	if (node == NULL) {
+++		gnutls_assert();
+++		return GNUTLS_E_MEMORY_ERROR;
+++	}
+++	ret = name_constraints_node_list_add(list, node);
+++	if (ret < 0) {
+++		gnutls_assert();
+++		return ret;
+++	}
+++	return GNUTLS_E_SUCCESS;
+++}
+++
+++static int
+++name_constraints_node_add_copy(gnutls_x509_name_constraints_t nc,
+++			       struct name_constraints_node_list_st *dest,
+++			       const struct name_constraints_node_st *src)
+++{
+++	if (!src)
+++		return gnutls_assert_val(GNUTLS_E_INTERNAL_ERROR);
+++	return name_constraints_node_add_new(nc, dest, src->type,
+++					     src->name.data, src->name.size);
+++}
+++
++ // for documentation see the implementation
++ static int name_constraints_intersect_nodes(
++ 	gnutls_x509_name_constraints_t nc,
++@@ -188,7 +220,6 @@ static int extract_name_constraints(gnutls_x509_name_constraints_t nc,
++ 	unsigned indx;
++ 	gnutls_datum_t tmp = { NULL, 0 };
++ 	unsigned int type;
++-	struct name_constraints_node_st *node;
++ 
++ 	for (indx = 1;; indx++) {
++ 		snprintf(tmpstr, sizeof(tmpstr), "%s.?%u.base", vstr, indx);
++@@ -231,15 +262,9 @@ static int extract_name_constraints(gnutls_x509_name_constraints_t nc,
++ 			goto cleanup;
++ 		}
++ 
++-		node = name_constraints_node_new(nc, type, tmp.data, tmp.size);
+++		ret = name_constraints_node_add_new(nc, nodes, type, tmp.data,
+++						    tmp.size);
++ 		_gnutls_free_datum(&tmp);
++-		if (node == NULL) {
++-			gnutls_assert();
++-			ret = GNUTLS_E_MEMORY_ERROR;
++-			goto cleanup;
++-		}
++-
++-		ret = name_constraints_node_list_add(nodes, node);
++ 		if (ret < 0) {
++ 			gnutls_assert();
++ 			goto cleanup;
++@@ -462,14 +487,7 @@ static int name_constraints_node_list_intersect(
++ 		// Beware: also copies nodes other than DNS, email, IP,
++ 		//       since their counterpart may have been moved in phase 1.
++ 		if (!used) {
++-			tmp = name_constraints_node_new(
++-				nc, t2->type, t2->name.data, t2->name.size);
++-			if (tmp == NULL) {
++-				gnutls_assert();
++-				ret = GNUTLS_E_MEMORY_ERROR;
++-				goto cleanup;
++-			}
++-			ret = name_constraints_node_list_add(permitted, tmp);
+++			ret = name_constraints_node_add_copy(nc, permitted, t2);
++ 			if (ret < 0) {
++ 				gnutls_assert();
++ 				goto cleanup;
++@@ -491,27 +509,17 @@ static int name_constraints_node_list_intersect(
++ 		switch (type) {
++ 		case GNUTLS_SAN_IPADDRESS:
++ 			// add universal restricted range for IPv4
++-			tmp = name_constraints_node_new(
++-				nc, GNUTLS_SAN_IPADDRESS, universal_ip, 8);
++-			if (tmp == NULL) {
++-				gnutls_assert();
++-				ret = GNUTLS_E_MEMORY_ERROR;
++-				goto cleanup;
++-			}
++-			ret = name_constraints_node_list_add(excluded, tmp);
+++			ret = name_constraints_node_add_new(
+++				nc, excluded, GNUTLS_SAN_IPADDRESS,
+++				universal_ip, 8);
++ 			if (ret < 0) {
++ 				gnutls_assert();
++ 				goto cleanup;
++ 			}
++ 			// add universal restricted range for IPv6
++-			tmp = name_constraints_node_new(
++-				nc, GNUTLS_SAN_IPADDRESS, universal_ip, 32);
++-			if (tmp == NULL) {
++-				gnutls_assert();
++-				ret = GNUTLS_E_MEMORY_ERROR;
++-				goto cleanup;
++-			}
++-			ret = name_constraints_node_list_add(excluded, tmp);
+++			ret = name_constraints_node_add_new(
+++				nc, excluded, GNUTLS_SAN_IPADDRESS,
+++				universal_ip, 32);
++ 			if (ret < 0) {
++ 				gnutls_assert();
++ 				goto cleanup;
++@@ -519,13 +527,8 @@ static int name_constraints_node_list_intersect(
++ 			break;
++ 		case GNUTLS_SAN_DNSNAME:
++ 		case GNUTLS_SAN_RFC822NAME:
++-			tmp = name_constraints_node_new(nc, type, NULL, 0);
++-			if (tmp == NULL) {
++-				gnutls_assert();
++-				ret = GNUTLS_E_MEMORY_ERROR;
++-				goto cleanup;
++-			}
++-			ret = name_constraints_node_list_add(excluded, tmp);
+++			ret = name_constraints_node_add_new(nc, excluded, type,
+++							    NULL, 0);
++ 			if (ret < 0) {
++ 				gnutls_assert();
++ 				goto cleanup;
++@@ -547,20 +550,13 @@ static int name_constraints_node_list_concat(
++ 	struct name_constraints_node_list_st *nodes,
++ 	const struct name_constraints_node_list_st *nodes2)
++ {
++-	for (size_t i = 0; i < nodes2->size; i++) {
++-		const struct name_constraints_node_st *node = nodes2->data[i];
++-		struct name_constraints_node_st *tmp;
++-		int ret;
+++	int ret;
++ 
++-		tmp = name_constraints_node_new(nc, node->type, node->name.data,
++-						node->name.size);
++-		if (tmp == NULL) {
++-			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
++-		}
++-		ret = name_constraints_node_list_add(nodes, tmp);
+++	for (size_t i = 0; i < nodes2->size; i++) {
+++		ret = name_constraints_node_add_copy(nc, nodes,
+++						     nodes2->data[i]);
++ 		if (ret < 0) {
++-			name_constraints_node_free(tmp);
++-			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++			return gnutls_assert_val(ret);
++ 		}
++ 	}
++ 
++@@ -690,7 +686,6 @@ static int name_constraints_add(gnutls_x509_name_constraints_t nc,
++ 				gnutls_x509_subject_alt_name_t type,
++ 				const gnutls_datum_t *name, unsigned permitted)
++ {
++-	struct name_constraints_node_st *tmp;
++ 	struct name_constraints_node_list_st *nodes;
++ 	int ret;
++ 
++@@ -700,15 +695,10 @@ static int name_constraints_add(gnutls_x509_name_constraints_t nc,
++ 
++ 	nodes = permitted ? &nc->permitted : &nc->excluded;
++ 
++-	tmp = name_constraints_node_new(nc, type, name->data, name->size);
++-	if (tmp == NULL)
++-		return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
++-
++-	ret = name_constraints_node_list_add(nodes, tmp);
++-	if (ret < 0) {
++-		name_constraints_node_free(tmp);
+++	ret = name_constraints_node_add_new(nc, nodes, type, name->data,
+++					    name->size);
+++	if (ret < 0)
++ 		return gnutls_assert_val(ret);
++-	}
++ 
++ 	return 0;
++ }
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.patch
+new file mode 100644
+index 0000000000..6970c6ccfe
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.patch
+@@ -0,0 +1,505 @@
++From 094accd3ebec17ead6c391757eaa18763b72d83f Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 26 Jan 2026 20:16:36 +0100
++Subject: [PATCH] x509/name_constraints: introduce a rich comparator
++
++These are preparatory changes before implementing N * log N intersection
++over sorted lists of constraints.
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/094accd3ebec17ead6c391757eaa18763b72d83f]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 411 ++++++++++++++++++++++++++++--------
++ 1 file changed, 320 insertions(+), 91 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 81035eef8f..b5d732d0c5 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -39,6 +39,9 @@
++ #include "ip.h"
++ #include "ip-in-cidr.h"
++ #include "intprops.h"
+++#include "minmax.h"
+++
+++#include <string.h>
++ 
++ #define MAX_NC_CHECKS (1 << 20)
++ 
++@@ -63,6 +66,282 @@ static struct name_constraints_node_st *
++ name_constraints_node_new(gnutls_x509_name_constraints_t nc, unsigned type,
++ 			  const unsigned char *data, unsigned int size);
++ 
+++/* An enum for "rich" comparisons that not only let us sort name constraints,
+++ * children-before-parent, but also subsume them during intersection. */
+++enum name_constraint_relation {
+++	NC_SORTS_BEFORE = -2, /* unrelated constraints */
+++	NC_INCLUDED_BY = -1, /* nc1 is included by nc2 / children sort first */
+++	NC_EQUAL = 0, /* exact match */
+++	NC_INCLUDES = 1, /* nc1 includes nc2 / parents sort last */
+++	NC_SORTS_AFTER = 2 /* unrelated constraints */
+++};
+++
+++/* A helper to compare just a pair of strings with this rich comparison */
+++static enum name_constraint_relation
+++compare_strings(const void *n1, size_t n1_len, const void *n2, size_t n2_len)
+++{
+++	int r = memcmp(n1, n2, MIN(n1_len, n2_len));
+++	if (r < 0)
+++		return NC_SORTS_BEFORE;
+++	if (r > 0)
+++		return NC_SORTS_AFTER;
+++	if (n1_len < n2_len)
+++		return NC_SORTS_BEFORE;
+++	if (n1_len > n2_len)
+++		return NC_SORTS_AFTER;
+++	return NC_EQUAL;
+++}
+++
+++/* Rich-compare DNS names. Example order/relationships:
+++ * z.x.a INCLUDED_BY x.a BEFORE y.a INCLUDED_BY a BEFORE x.b BEFORE y.b */
+++static enum name_constraint_relation compare_dns_names(const gnutls_datum_t *n1,
+++						       const gnutls_datum_t *n2)
+++{
+++	enum name_constraint_relation rel;
+++	unsigned int i, j, i_end, j_end;
+++
+++	/* start from the end of each name */
+++	i = i_end = n1->size;
+++	j = j_end = n2->size;
+++
+++	/* skip the trailing dots for the comparison */
+++	while (i && n1->data[i - 1] == '.')
+++		i_end = i = i - 1;
+++	while (j && n2->data[j - 1] == '.')
+++		j_end = j = j - 1;
+++
+++	while (1) {
+++		// rewind back to beginning or an after-dot position
+++		while (i && n1->data[i - 1] != '.')
+++			i--;
+++		while (j && n2->data[j - 1] != '.')
+++			j--;
+++
+++		rel = compare_strings(&n1->data[i], i_end - i, &n2->data[j],
+++				      j_end - j);
+++		if (rel == NC_SORTS_BEFORE) /* x.a BEFORE y.a */
+++			return NC_SORTS_BEFORE;
+++		if (rel == NC_SORTS_AFTER) /* y.a AFTER x.a */
+++			return NC_SORTS_AFTER;
+++		if (!i && j) /* x.a INCLUDES z.x.a */
+++			return NC_INCLUDES;
+++		if (i && !j) /* z.x.a INCLUDED_BY x.a */
+++			return NC_INCLUDED_BY;
+++
+++		if (!i && !j) /* r == 0, we ran out of components to compare */
+++			return NC_EQUAL;
+++		/* r == 0, i && j: step back past a dot and keep comparing */
+++		i_end = i = i - 1;
+++		j_end = j = j - 1;
+++
+++		/* support for non-standard ".gr INCLUDES example.gr" [1] */
+++		if (!i && j) /* .a INCLUDES x.a */
+++			return NC_INCLUDES;
+++		if (i && !j) /* x.a INCLUDED_BY .a */
+++			return NC_INCLUDED_BY;
+++	}
+++}
+++/* [1] https://mailarchive.ietf.org/arch/msg/saag/Bw6PtreW0G7aEG7SikfzKHES4VA */
+++
+++/* Rich-compare email name constraints. Example order/relationships:
+++ * z@x.a INCLUDED_BY x.a BEFORE y.a INCLUDED_BY a BEFORE x@b BEFORE y@b */
+++static enum name_constraint_relation compare_emails(const gnutls_datum_t *n1,
+++						    const gnutls_datum_t *n2)
+++{
+++	enum name_constraint_relation domains_rel;
+++	unsigned int i, j, i_end, j_end;
+++	gnutls_datum_t d1, d2; /* borrow from n1 and n2 */
+++
+++	/* start from the end of each name */
+++	i = i_end = n1->size;
+++	j = j_end = n2->size;
+++
+++	/* rewind to @s to look for domains */
+++	while (i && n1->data[i - 1] != '@')
+++		i--;
+++	d1.size = i_end - i;
+++	d1.data = &n1->data[i];
+++	while (j && n2->data[j - 1] != '@')
+++		j--;
+++	d2.size = j_end - j;
+++	d2.data = &n2->data[j];
+++
+++	domains_rel = compare_dns_names(&d1, &d2);
+++
+++	/* email constraint semantics differ from DNS
+++	 * DNS: x.a INCLUDED_BY a
+++	 * Email: x.a INCLUDED_BY .a BEFORE a */
+++	if (domains_rel == NC_INCLUDED_BY || domains_rel == NC_INCLUDES) {
+++		bool d1_has_dot = (d1.size > 0 && d1.data[0] == '.');
+++		bool d2_has_dot = (d2.size > 0 && d2.data[0] == '.');
+++		/* a constraint without a dot is exact, excluding subdomains */
+++		if (!d2_has_dot && domains_rel == NC_INCLUDED_BY)
+++			domains_rel = NC_SORTS_BEFORE; /* x.a BEFORE a */
+++		if (!d1_has_dot && domains_rel == NC_INCLUDES)
+++			domains_rel = NC_SORTS_AFTER; /* a AFTER x.a */
+++	}
+++
+++	if (!i && !j) { /* both are domains-only */
+++		return domains_rel;
+++	} else if (i && !j) { /* n1 is email, n2 is domain */
+++		switch (domains_rel) {
+++		case NC_SORTS_AFTER:
+++			return NC_SORTS_AFTER;
+++		case NC_SORTS_BEFORE:
+++			return NC_SORTS_BEFORE;
+++		case NC_INCLUDES: /* n2 is more specific, a@x.a AFTER z.x.a */
+++			return NC_SORTS_AFTER;
+++		case NC_EQUAL: /* subdomains match, z@x.a INCLUDED_BY x.a */
+++		case NC_INCLUDED_BY: /* n1 is more specific */
+++			return NC_INCLUDED_BY;
+++		}
+++	} else if (!i && j) { /* n1 is domain, n2 is email */
+++		switch (domains_rel) {
+++		case NC_SORTS_AFTER:
+++			return NC_SORTS_AFTER;
+++		case NC_SORTS_BEFORE:
+++			return NC_SORTS_BEFORE;
+++		case NC_INCLUDES: /* n2 is more specific, a AFTER z@x.a */
+++			return NC_SORTS_AFTER;
+++		case NC_EQUAL: /* subdomains match, x.a INCLUDES z@x.a */
+++			return NC_INCLUDES;
+++		case NC_INCLUDED_BY: /* n1 is more specific, x.a BEFORE z@a */
+++			return NC_SORTS_BEFORE;
+++		}
+++	} else if (i && j) { /* both are emails */
+++		switch (domains_rel) {
+++		case NC_SORTS_AFTER:
+++			return NC_SORTS_AFTER;
+++		case NC_SORTS_BEFORE:
+++			return NC_SORTS_BEFORE;
+++		case NC_INCLUDES: // n2 is more specific
+++			return NC_SORTS_AFTER;
+++		case NC_INCLUDED_BY: // n1 is more specific
+++			return NC_SORTS_BEFORE;
+++		case NC_EQUAL: // only case when we need to look before the @
+++			break; // see below for readability
+++		}
+++	}
+++
+++	/* i && j, both are emails, domain names match, compare up to @ */
+++	return compare_strings(n1->data, i - 1, n2->data, j - 1);
+++}
+++
+++/* Rich-compare IP address constraints. Example order/relationships:
+++ * 10.0.0.0/24 INCLUDED_BY 10.0.0.0/16 BEFORE 1::1/128 INCLUDED_BY 1::1/127 */
+++static enum name_constraint_relation compare_ip_ncs(const gnutls_datum_t *n1,
+++						    const gnutls_datum_t *n2)
+++{
+++	unsigned int len, i;
+++	int r;
+++	const unsigned char *ip1, *ip2, *mask1, *mask2;
+++	unsigned char masked11[16], masked22[16], masked12[16], masked21[16];
+++
+++	if (n1->size < n2->size)
+++		return NC_SORTS_BEFORE;
+++	if (n1->size > n2->size)
+++		return NC_SORTS_AFTER;
+++	len = n1->size / 2; /* 4 for IPv4, 16 for IPv6 */
+++
+++	/* data is a concatenation of prefix and mask */
+++	ip1 = n1->data;
+++	ip2 = n2->data;
+++	mask1 = n1->data + len;
+++	mask2 = n2->data + len;
+++	for (i = 0; i < len; i++) {
+++		masked11[i] = ip1[i] & mask1[i];
+++		masked22[i] = ip2[i] & mask2[i];
+++		masked12[i] = ip1[i] & mask2[i];
+++		masked21[i] = ip2[i] & mask1[i];
+++	}
+++
+++	r = memcmp(mask1, mask2, len);
+++	if (r < 0 && !memcmp(masked11, masked21, len)) /* prefix1 < prefix2 */
+++		return NC_INCLUDES; /* ip1 & mask1 == ip2 & mask1 */
+++	if (r > 0 && !memcmp(masked12, masked22, len)) /* prefix1 > prefix2 */
+++		return NC_INCLUDED_BY; /* ip1 & mask2 == ip2 & mask2 */
+++
+++	r = memcmp(masked11, masked22, len);
+++	if (r < 0)
+++		return NC_SORTS_BEFORE;
+++	else if (r > 0)
+++		return NC_SORTS_AFTER;
+++	return NC_EQUAL;
+++}
+++
+++static inline bool is_supported_type(unsigned type)
+++{
+++	return type == GNUTLS_SAN_DNSNAME || type == GNUTLS_SAN_RFC822NAME ||
+++	       type == GNUTLS_SAN_IPADDRESS;
+++}
+++
+++/* Universal comparison for name constraint nodes.
+++ * Unsupported types sort before supported types to allow early handling.
+++ * NULL represents end-of-list and sorts after everything else. */
+++static enum name_constraint_relation
+++compare_name_constraint_nodes(const struct name_constraints_node_st *n1,
+++			      const struct name_constraints_node_st *n2)
+++{
+++	bool n1_supported, n2_supported;
+++
+++	if (!n1 && !n2)
+++		return NC_EQUAL;
+++	if (!n1)
+++		return NC_SORTS_AFTER;
+++	if (!n2)
+++		return NC_SORTS_BEFORE;
+++
+++	n1_supported = is_supported_type(n1->type);
+++	n2_supported = is_supported_type(n2->type);
+++
+++	/* unsupported types bubble up (sort first). intersect relies on this */
+++	if (!n1_supported && n2_supported)
+++		return NC_SORTS_BEFORE;
+++	if (n1_supported && !n2_supported)
+++		return NC_SORTS_AFTER;
+++
+++	/* next, sort by type */
+++	if (n1->type < n2->type)
+++		return NC_SORTS_BEFORE;
+++	if (n1->type > n2->type)
+++		return NC_SORTS_AFTER;
+++
+++	/* now look deeper */
+++	switch (n1->type) {
+++	case GNUTLS_SAN_DNSNAME:
+++		return compare_dns_names(&n1->name, &n2->name);
+++	case GNUTLS_SAN_RFC822NAME:
+++		return compare_emails(&n1->name, &n2->name);
+++	case GNUTLS_SAN_IPADDRESS:
+++		return compare_ip_ncs(&n1->name, &n2->name);
+++	default:
+++		/* unsupported types: stable lexicographic order */
+++		return compare_strings(n1->name.data, n1->name.size,
+++				       n2->name.data, n2->name.size);
+++	}
+++}
+++
+++/* qsort-compatible wrapper */
+++static int compare_name_constraint_nodes_qsort(const void *a, const void *b)
+++{
+++	const struct name_constraints_node_st *const *n1 = a;
+++	const struct name_constraints_node_st *const *n2 = b;
+++	enum name_constraint_relation rel;
+++
+++	rel = compare_name_constraint_nodes(*n1, *n2);
+++	switch (rel) {
+++	case NC_SORTS_BEFORE:
+++	case NC_INCLUDED_BY:
+++		return -1;
+++	case NC_SORTS_AFTER:
+++	case NC_INCLUDES:
+++		return 1;
+++	case NC_EQUAL:
+++	default:
+++		return 0;
+++	}
+++}
+++
++ static int
++ name_constraints_node_list_add(struct name_constraints_node_list_st *list,
++ 			       struct name_constraints_node_st *node)
++@@ -420,9 +699,7 @@ static int name_constraints_node_list_intersect(
++ 			}
++ 		}
++ 
++-		if (found != NULL && (t->type == GNUTLS_SAN_DNSNAME ||
++-				      t->type == GNUTLS_SAN_RFC822NAME ||
++-				      t->type == GNUTLS_SAN_IPADDRESS)) {
+++		if (found != NULL && is_supported_type(t->type)) {
++ 			/* move node from PERMITTED to REMOVED */
++ 			ret = name_constraints_node_list_add(&removed, t);
++ 			if (ret < 0) {
++@@ -827,61 +1104,14 @@ cleanup:
++ 	return ret;
++ }
++ 
++-static unsigned ends_with(const gnutls_datum_t *str,
++-			  const gnutls_datum_t *suffix)
++-{
++-	unsigned char *tree;
++-	unsigned int treelen;
++-
++-	if (suffix->size >= str->size)
++-		return 0;
++-
++-	tree = suffix->data;
++-	treelen = suffix->size;
++-	if ((treelen > 0) && (tree[0] == '.')) {
++-		tree++;
++-		treelen--;
++-	}
++-
++-	if (memcmp(str->data + str->size - treelen, tree, treelen) == 0 &&
++-	    str->data[str->size - treelen - 1] == '.')
++-		return 1; /* match */
++-
++-	return 0;
++-}
++-
++-static unsigned email_ends_with(const gnutls_datum_t *str,
++-				const gnutls_datum_t *suffix)
++-{
++-	if (suffix->size >= str->size) {
++-		return 0;
++-	}
++-
++-	if (suffix->size > 0 && memcmp(str->data + str->size - suffix->size,
++-				       suffix->data, suffix->size) != 0) {
++-		return 0;
++-	}
++-
++-	if (suffix->size > 1 && suffix->data[0] == '.') { /* .domain.com */
++-		return 1; /* match */
++-	} else if (str->data[str->size - suffix->size - 1] == '@') {
++-		return 1; /* match */
++-	}
++-
++-	return 0;
++-}
++-
++ static unsigned dnsname_matches(const gnutls_datum_t *name,
++ 				const gnutls_datum_t *suffix)
++ {
++ 	_gnutls_hard_log("matching %.*s with DNS constraint %.*s\n", name->size,
++ 			 name->data, suffix->size, suffix->data);
++ 
++-	if (suffix->size == name->size &&
++-	    memcmp(suffix->data, name->data, suffix->size) == 0)
++-		return 1; /* match */
++-
++-	return ends_with(name, suffix);
+++	enum name_constraint_relation rel = compare_dns_names(name, suffix);
+++	return rel == NC_EQUAL || rel == NC_INCLUDED_BY;
++ }
++ 
++ static unsigned email_matches(const gnutls_datum_t *name,
++@@ -890,11 +1120,8 @@ static unsigned email_matches(const gnutls_datum_t *name,
++ 	_gnutls_hard_log("matching %.*s with e-mail constraint %.*s\n",
++ 			 name->size, name->data, suffix->size, suffix->data);
++ 
++-	if (suffix->size == name->size &&
++-	    memcmp(suffix->data, name->data, suffix->size) == 0)
++-		return 1; /* match */
++-
++-	return email_ends_with(name, suffix);
+++	enum name_constraint_relation rel = compare_emails(name, suffix);
+++	return rel == NC_EQUAL || rel == NC_INCLUDED_BY;
++ }
++ 
++ /*-
++@@ -918,8 +1145,7 @@ static int name_constraints_intersect_nodes(
++ 	// presume empty intersection
++ 	struct name_constraints_node_st *intersection = NULL;
++ 	const struct name_constraints_node_st *to_copy = NULL;
++-	unsigned iplength = 0;
++-	unsigned byte;
+++	enum name_constraint_relation rel;
++ 
++ 	*_intersection = NULL;
++ 
++@@ -928,32 +1154,49 @@ static int name_constraints_intersect_nodes(
++ 	}
++ 	switch (node1->type) {
++ 	case GNUTLS_SAN_DNSNAME:
++-		if (!dnsname_matches(&node2->name, &node1->name))
+++		rel = compare_dns_names(&node1->name, &node2->name);
+++		switch (rel) {
+++		case NC_EQUAL: // equal means doesn't matter which one
+++		case NC_INCLUDES: // node2 is more specific
+++			to_copy = node2;
+++			break;
+++		case NC_INCLUDED_BY: // node1 is more specific
+++			to_copy = node1;
+++			break;
+++		case NC_SORTS_BEFORE: // no intersection
+++		case NC_SORTS_AFTER: // no intersection
++ 			return GNUTLS_E_SUCCESS;
++-		to_copy = node2;
+++		}
++ 		break;
++ 	case GNUTLS_SAN_RFC822NAME:
++-		if (!email_matches(&node2->name, &node1->name))
+++		rel = compare_emails(&node1->name, &node2->name);
+++		switch (rel) {
+++		case NC_EQUAL: // equal means doesn't matter which one
+++		case NC_INCLUDES: // node2 is more specific
+++			to_copy = node2;
+++			break;
+++		case NC_INCLUDED_BY: // node1 is more specific
+++			to_copy = node1;
+++			break;
+++		case NC_SORTS_BEFORE: // no intersection
+++		case NC_SORTS_AFTER: // no intersection
++ 			return GNUTLS_E_SUCCESS;
++-		to_copy = node2;
+++		}
++ 		break;
++ 	case GNUTLS_SAN_IPADDRESS:
++-		if (node1->name.size != node2->name.size)
+++		rel = compare_ip_ncs(&node1->name, &node2->name);
+++		switch (rel) {
+++		case NC_EQUAL: // equal means doesn't matter which one
+++		case NC_INCLUDES: // node2 is more specific
+++			to_copy = node2;
+++			break;
+++		case NC_INCLUDED_BY: // node1 is more specific
+++			to_copy = node1;
+++			break;
+++		case NC_SORTS_BEFORE: // no intersection
+++		case NC_SORTS_AFTER: // no intersection
++ 			return GNUTLS_E_SUCCESS;
++-		iplength = node1->name.size / 2;
++-		for (byte = 0; byte < iplength; byte++) {
++-			if (((node1->name.data[byte] ^
++-			      node2->name.data[byte]) // XOR of addresses
++-			     & node1->name.data[byte +
++-						iplength] // AND mask from nc1
++-			     & node2->name.data[byte +
++-						iplength]) // AND mask from nc2
++-			    != 0) {
++-				// CIDRS do not intersect
++-				return GNUTLS_E_SUCCESS;
++-			}
++ 		}
++-		to_copy = node2;
++ 		break;
++ 	default:
++ 		// for other types, we don't know how to do the intersection, assume empty
++@@ -970,20 +1213,6 @@ static int name_constraints_intersect_nodes(
++ 		intersection = *_intersection;
++ 
++ 		assert(intersection->name.data != NULL);
++-
++-		if (intersection->type == GNUTLS_SAN_IPADDRESS) {
++-			// make sure both IP addresses are correctly masked
++-			_gnutls_mask_ip(intersection->name.data,
++-					intersection->name.data + iplength,
++-					iplength);
++-			_gnutls_mask_ip(node1->name.data,
++-					node1->name.data + iplength, iplength);
++-			// update intersection, if necessary (we already know one is subset of other)
++-			for (byte = 0; byte < 2 * iplength; byte++) {
++-				intersection->name.data[byte] |=
++-					node1->name.data[byte];
++-			}
++-		}
++ 	}
++ 
++ 	return GNUTLS_E_SUCCESS;
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.patch
+new file mode 100644
+index 0000000000..8dfda52861
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.patch
+@@ -0,0 +1,124 @@
++From bc62fbb946085527b4b1c02f337dd10c68c54690 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 4 Feb 2026 09:09:46 +0100
++Subject: [PATCH] x509/name_constraints: add sorted_view in preparation...
++
++... for actually using it later for performance gains.
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/bc62fbb946085527b4b1c02f337dd10c68c54690]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 62 ++++++++++++++++++++++++++++++-------
++ 1 file changed, 51 insertions(+), 11 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index b5d732d0c5..41f30d13b9 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -54,6 +54,9 @@ struct name_constraints_node_list_st {
++ 	struct name_constraints_node_st **data;
++ 	size_t size;
++ 	size_t capacity;
+++	/* sorted-on-demand view, valid only when dirty == false */
+++	bool dirty;
+++	struct name_constraints_node_st **sorted_view;
++ };
++ 
++ struct gnutls_name_constraints_st {
++@@ -342,6 +345,37 @@ static int compare_name_constraint_nodes_qsort(const void *a, const void *b)
++ 	}
++ }
++ 
+++/* Bring the sorted view up to date with the list data; clear the dirty flag. */
+++static int ensure_sorted(struct name_constraints_node_list_st *list)
+++{
+++	struct name_constraints_node_st **new_data;
+++
+++	if (!list->dirty)
+++		return GNUTLS_E_SUCCESS;
+++	if (!list->size) {
+++		list->dirty = false;
+++		return GNUTLS_E_SUCCESS;
+++	}
+++
+++	/* reallocate sorted view to match current size */
+++	new_data =
+++		_gnutls_reallocarray(list->sorted_view, list->size,
+++				     sizeof(struct name_constraints_node_st *));
+++	if (!new_data)
+++		return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+++	list->sorted_view = new_data;
+++
+++	/* copy pointers and sort in-place */
+++	memcpy(list->sorted_view, list->data,
+++	       list->size * sizeof(struct name_constraints_node_st *));
+++	qsort(list->sorted_view, list->size,
+++	      sizeof(struct name_constraints_node_st *),
+++	      compare_name_constraint_nodes_qsort);
+++
+++	list->dirty = false;
+++	return GNUTLS_E_SUCCESS;
+++}
+++
++ static int
++ name_constraints_node_list_add(struct name_constraints_node_list_st *list,
++ 			       struct name_constraints_node_st *node)
++@@ -361,10 +395,23 @@ name_constraints_node_list_add(struct name_constraints_node_list_st *list,
++ 		list->capacity = new_capacity;
++ 		list->data = new_data;
++ 	}
+++	list->dirty = true;
++ 	list->data[list->size++] = node;
++ 	return 0;
++ }
++ 
+++static void
+++name_constraints_node_list_clear(struct name_constraints_node_list_st *list)
+++{
+++	gnutls_free(list->data);
+++	gnutls_free(list->sorted_view);
+++	list->data = NULL;
+++	list->sorted_view = NULL;
+++	list->capacity = 0;
+++	list->size = 0;
+++	list->dirty = false;
+++}
+++
++ static int
++ name_constraints_node_add_new(gnutls_x509_name_constraints_t nc,
++ 			      struct name_constraints_node_list_st *list,
++@@ -711,6 +758,7 @@ static int name_constraints_node_list_intersect(
++ 				permitted->data[i] =
++ 					permitted->data[permitted->size - 1];
++ 			permitted->size--;
+++			permitted->dirty = true;
++ 			continue;
++ 		}
++ 		i++;
++@@ -908,17 +956,9 @@ void _gnutls_x509_name_constraints_clear(gnutls_x509_name_constraints_t nc)
++ 		struct name_constraints_node_st *node = nc->nodes.data[i];
++ 		name_constraints_node_free(node);
++ 	}
++-	gnutls_free(nc->nodes.data);
++-	nc->nodes.capacity = 0;
++-	nc->nodes.size = 0;
++-
++-	gnutls_free(nc->permitted.data);
++-	nc->permitted.capacity = 0;
++-	nc->permitted.size = 0;
++-
++-	gnutls_free(nc->excluded.data);
++-	nc->excluded.capacity = 0;
++-	nc->excluded.size = 0;
+++	name_constraints_node_list_clear(&nc->nodes);
+++	name_constraints_node_list_clear(&nc->permitted);
+++	name_constraints_node_list_clear(&nc->excluded);
++ }
++ 
++ /**
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.patch
+new file mode 100644
+index 0000000000..28d86ec627
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.patch
+@@ -0,0 +1,155 @@
++From 80db5e90fa18d3e34bb91dd027bdf76d31e93dcd Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 4 Feb 2026 13:30:08 +0100
++Subject: [PATCH] x509/name_constraints: implement
++ name_constraints_node_list_union
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/80db5e90fa18d3e34bb91dd027bdf76d31e93dcd]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 98 ++++++++++++++++++++++++++++++++-----
++ 1 file changed, 86 insertions(+), 12 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 41f30d13b9..de20dd8ef4 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -41,6 +41,7 @@
++ #include "intprops.h"
++ #include "minmax.h"
++ 
+++#include <assert.h>
++ #include <string.h>
++ 
++ #define MAX_NC_CHECKS (1 << 20)
++@@ -870,22 +871,95 @@ cleanup:
++ 	return ret;
++ }
++ 
++-static int name_constraints_node_list_concat(
++-	gnutls_x509_name_constraints_t nc,
++-	struct name_constraints_node_list_st *nodes,
++-	const struct name_constraints_node_list_st *nodes2)
+++static int
+++name_constraints_node_list_union(gnutls_x509_name_constraints_t nc,
+++				 struct name_constraints_node_list_st *nodes,
+++				 struct name_constraints_node_list_st *nodes2)
++ {
++ 	int ret;
+++	size_t i = 0, j = 0;
+++	struct name_constraints_node_st *nc1;
+++	const struct name_constraints_node_st *nc2;
+++	enum name_constraint_relation rel;
+++	struct name_constraints_node_list_st result = { 0 };
+++
+++	if (nodes2->size == 0) /* nothing to do */
+++		return GNUTLS_E_SUCCESS;
+++
+++	ret = ensure_sorted(nodes);
+++	if (ret < 0) {
+++		gnutls_assert();
+++		goto cleanup;
+++	}
+++	ret = ensure_sorted(nodes2);
+++	if (ret < 0) {
+++		gnutls_assert();
+++		goto cleanup;
+++	}
+++
+++	/* traverse both lists in a single pass and merge them w/o duplicates */
+++	while (i < nodes->size || j < nodes2->size) {
+++		nc1 = (i < nodes->size) ? nodes->sorted_view[i] : NULL;
+++		nc2 = (j < nodes2->size) ? nodes2->sorted_view[j] : NULL;
++ 
++-	for (size_t i = 0; i < nodes2->size; i++) {
++-		ret = name_constraints_node_add_copy(nc, nodes,
++-						     nodes2->data[i]);
+++		rel = compare_name_constraint_nodes(nc1, nc2);
+++		switch (rel) {
+++		case NC_SORTS_BEFORE:
+++			assert(nc1 != NULL); /* comparator-guaranteed */
+++			ret = name_constraints_node_list_add(&result, nc1);
+++			i++;
+++			break;
+++		case NC_SORTS_AFTER:
+++			assert(nc2 != NULL); /* comparator-guaranteed */
+++			ret = name_constraints_node_add_copy(nc, &result, nc2);
+++			j++;
+++			break;
+++		case NC_INCLUDES: /* nc1 is broader, shallow-copy it */
+++			assert(nc1 != NULL && nc2 != NULL); /* comparator */
+++			ret = name_constraints_node_list_add(&result, nc1);
+++			i++;
+++			j++;
+++			break;
+++		case NC_INCLUDED_BY: /* nc2 is broader, deep-copy it */
+++			assert(nc1 != NULL && nc2 != NULL); /* comparator */
+++			ret = name_constraints_node_add_copy(nc, &result, nc2);
+++			i++;
+++			j++;
+++			break;
+++		case NC_EQUAL:
+++			assert(nc1 != NULL && nc2 != NULL); /* loop condition */
+++			ret = name_constraints_node_list_add(&result, nc1);
+++			i++;
+++			j++;
+++			break;
+++		}
++ 		if (ret < 0) {
++-			return gnutls_assert_val(ret);
+++			gnutls_assert();
+++			goto cleanup;
++ 		}
++ 	}
++ 
++-	return 0;
+++	gnutls_free(nodes->data);
+++	gnutls_free(nodes->sorted_view);
+++	nodes->data = result.data;
+++	nodes->sorted_view = NULL;
+++	nodes->size = result.size;
+++	nodes->capacity = result.capacity;
+++	nodes->dirty = true;
+++	/* since we know it's sorted, populate sorted_view almost for free */
+++	nodes->sorted_view = gnutls_calloc(
+++		nodes->size, sizeof(struct name_constraints_node_st *));
+++	if (!nodes->sorted_view)
+++		return GNUTLS_E_SUCCESS; /* we tried, no harm done */
+++	memcpy(nodes->sorted_view, nodes->data,
+++	       nodes->size * sizeof(struct name_constraints_node_st *));
+++	nodes->dirty = false;
+++
+++	result.data = NULL;
+++	return GNUTLS_E_SUCCESS;
+++cleanup:
+++	name_constraints_node_list_clear(&result);
+++	return gnutls_assert_val(ret);
++ }
++ 
++ /**
++@@ -1026,7 +1100,7 @@ static int name_constraints_add(gnutls_x509_name_constraints_t nc,
++  * @nc2: The name constraints to be merged with
++  *
++  * This function will merge the provided name constraints structures
++- * as per RFC5280 p6.1.4. That is, the excluded constraints will be appended,
+++ * as per RFC5280 p6.1.4. That is, the excluded constraints will be unioned,
++  * and permitted will be intersected. The intersection assumes that @nc
++  * is the root CA constraints.
++  *
++@@ -1048,8 +1122,8 @@ int _gnutls_x509_name_constraints_merge(gnutls_x509_name_constraints_t nc,
++ 		return ret;
++ 	}
++ 
++-	ret = name_constraints_node_list_concat(nc, &nc->excluded,
++-						&nc2->excluded);
+++	ret = name_constraints_node_list_union(nc, &nc->excluded,
+++					       &nc2->excluded);
++ 	if (ret < 0) {
++ 		gnutls_assert();
++ 		return ret;
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.patch
+new file mode 100644
+index 0000000000..ed6be93c54
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.patch
+@@ -0,0 +1,110 @@
++From d0ac999620c8c0aeb6939e1e92d884ca8e40b759 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 4 Feb 2026 18:31:37 +0100
++Subject: [PATCH] x509/name_constraints: make types_with_empty_intersection a
++ bitmask
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/d0ac999620c8c0aeb6939e1e92d884ca8e40b759]
++CVE: CVE-2025-14831
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/name_constraints.c | 39 +++++++++++++++++++++++++++----------
++ 1 file changed, 29 insertions(+), 10 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index de20dd8ef4..1d78d1bc50 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -275,6 +275,7 @@ static enum name_constraint_relation compare_ip_ncs(const gnutls_datum_t *n1,
++ 
++ static inline bool is_supported_type(unsigned type)
++ {
+++	/* all of these should be under GNUTLS_SAN_MAX (intersect bitmasks) */
++ 	return type == GNUTLS_SAN_DNSNAME || type == GNUTLS_SAN_RFC822NAME ||
++ 	       type == GNUTLS_SAN_IPADDRESS;
++ }
++@@ -683,6 +684,21 @@ name_constraints_node_new(gnutls_x509_name_constraints_t nc, unsigned type,
++ 	return tmp;
++ }
++ 
+++static int
+++name_constraints_node_list_union(gnutls_x509_name_constraints_t nc,
+++				 struct name_constraints_node_list_st *nodes,
+++				 struct name_constraints_node_list_st *nodes2);
+++
+++#define type_bitmask_t uint8_t /* increase if GNUTLS_SAN_MAX grows */
+++#define type_bitmask_set(mask, t) ((mask) |= (1u << (t)))
+++#define type_bitmask_clr(mask, t) ((mask) &= ~(1u << (t)))
+++#define type_bitmask_in(mask, t) ((mask) & (1u << (t)))
+++/* C99-compatible compile-time assertions; gnutls_int.h undefines verify */
+++typedef char assert_san_max[(GNUTLS_SAN_MAX < 8) ? 1 : -1];
+++typedef char assert_dnsname[(GNUTLS_SAN_DNSNAME <= GNUTLS_SAN_MAX) ? 1 : -1];
+++typedef char assert_rfc822[(GNUTLS_SAN_RFC822NAME <= GNUTLS_SAN_MAX) ? 1 : -1];
+++typedef char assert_ipaddr[(GNUTLS_SAN_IPADDRESS <= GNUTLS_SAN_MAX) ? 1 : -1];
+++
++ /*-
++  * @brief name_constraints_node_list_intersect:
++  * @nc: %gnutls_x509_name_constraints_t
++@@ -710,12 +726,9 @@ static int name_constraints_node_list_intersect(
++ 							 .capacity = 0 };
++ 	static const unsigned char universal_ip[32] = { 0 };
++ 
++-	/* temporary array to see, if we need to add universal excluded constraints
++-	 * (see phase 3 for details)
++-	 * indexed directly by (gnutls_x509_subject_alt_name_t enum - 1) */
++-	unsigned char types_with_empty_intersection[GNUTLS_SAN_MAX];
++-	memset(types_with_empty_intersection, 0,
++-	       sizeof(types_with_empty_intersection));
+++	/* bitmask to see if we need to add universal excluded constraints
+++	 * (see phase 3 for details) */
+++	type_bitmask_t types_with_empty_intersection = 0;
++ 
++ 	if (permitted->size == 0 || permitted2->size == 0)
++ 		return 0;
++@@ -741,7 +754,8 @@ static int name_constraints_node_list_intersect(
++ 				// note the possibility of empty intersection for this type
++ 				// if we add something to the intersection in phase 2,
++ 				// we will reset this flag back to 0 then
++-				types_with_empty_intersection[t->type - 1] = 1;
+++				type_bitmask_set(types_with_empty_intersection,
+++						 t->type);
++ 				found = t2;
++ 				break;
++ 			}
++@@ -798,8 +812,8 @@ static int name_constraints_node_list_intersect(
++ 						GNUTLS_E_INTERNAL_ERROR);
++ 				}
++ 				// we will not add universal excluded constraint for this type
++-				types_with_empty_intersection[tmp->type - 1] =
++-					0;
+++				type_bitmask_clr(types_with_empty_intersection,
+++						 tmp->type);
++ 				// add intersection node to PERMITTED
++ 				ret = name_constraints_node_list_add(permitted,
++ 								     tmp);
++@@ -827,7 +841,7 @@ static int name_constraints_node_list_intersect(
++ 	 * excluded constraint with universal wildcard
++ 	 * (since the intersection of permitted is now empty). */
++ 	for (type = 1; type <= GNUTLS_SAN_MAX; type++) {
++-		if (types_with_empty_intersection[type - 1] == 0)
+++		if (!type_bitmask_in(types_with_empty_intersection, type))
++ 			continue;
++ 		_gnutls_hard_log(
++ 			"Adding universal excluded name constraint for type %d.\n",
++@@ -871,6 +885,11 @@ cleanup:
++ 	return ret;
++ }
++ 
+++#undef type_bitmask_t
+++#undef type_bitmask_set
+++#undef type_bitmask_clr
+++#undef type_bitmask_in
+++
++ static int
++ name_constraints_node_list_union(gnutls_x509_name_constraints_t nc,
++ 				 struct name_constraints_node_list_st *nodes,
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.10.bb b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
+index 5430ee2085..ce9fdce3f4 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.10.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
+@@ -24,6 +24,16 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://run-ptest \
+            file://Add-ptest-support.patch \
+            file://CVE-2025-9820.patch \
++           file://CVE-2025-14831-1.patch \
++           file://CVE-2025-14831-2.patch \
++           file://CVE-2025-14831-3.patch \
++           file://CVE-2025-14831-4.patch \
++           file://CVE-2025-14831-5.patch \
++           file://CVE-2025-14831-6.patch \
++           file://CVE-2025-14831-7.patch \
++           file://CVE-2025-14831-8.patch \
++           file://CVE-2025-14831-9.patch \
++           file://CVE-2025-14831-10.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "db7fab7cce791e7727ebbef2334301c821d79a550ec55c9ef096b610b03eb6b7"
+-- 
+2.43.0
 
-Hi Stefano,
-
-Thanks for the new version, but we again have a lot of selftests failing:
-
-2026-03-02 17:36:16,484 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_binary (subunit.RemotedTestCase)
-2026-03-02 17:36:16,484 - oe-selftest - INFO -  ... FAIL
-...
-2026-03-02 17:36:16,486 - oe-selftest - INFO - 7: 7/29 178/673 (21.91s) (0 =
-failed) (devtool.DevtoolAddTests.test_devtool_add_binary)
-2026-03-02 17:36:16,486 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 419, in test_devt=
-ool_add_binary
-    result =3D runCmd('devtool add  -b %s %s' % (pn, bin_package_path))
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-AssertionError: Command 'devtool add  -b tst-bin /tmp/devtoolqalnb521vt/tst=
--bin.tar.gz' returned non-zero exit status 1:
-...
-2026-03-02 17:36:37,300 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_fetch (subunit.RemotedTestCase)
-2026-03-02 17:36:37,301 - oe-selftest - INFO -  ... FAIL
-...
-2026-03-02 17:36:37,302 - oe-selftest - INFO - 7: 8/29 181/673 (20.82s) (2 =
-failed) (devtool.DevtoolAddTests.test_devtool_add_fetch)
-2026-03-02 17:36:37,302 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 554, in test_devt=
-ool_add_fetch
-    result =3D runCmd('devtool add --no-pypi %s %s -f %s' % (testrecipe, sr=
-cdir, url))
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-AssertionError: Command 'devtool add --no-pypi python-markupsafe /tmp/devto=
-olqaamxld4_b/python-markupsafe -f https://eur01.safelinks.protection.outloo=
-k.com/?url=3Dhttps%3A%2F%2Ffiles.pythonhosted.org%2Fpackages%2Fc0%2F41%2Fba=
-e1254e0396c0cc8cf1751cb7d9afc90a602353695af5952530482c963f%2FMarkupSafe-0.2=
-3.tar.gz&data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
-f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
-094951%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
-IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D8F4uo=
-ng%2BOpYL%2FDGs7JXQv4eiNpO35f2hMedzRnFG0ic%3D&reserved=3D0'<https://files.p=
-ythonhosted.org/packages/c0/41/bae1254e0396c0cc8cf1751cb7d9afc90a602353695a=
-f5952530482c963f/MarkupSafe-0.23.tar.gz> returned non-zero exit status 1:
-...
-2026-03-02 17:37:54,668 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_fetch_simple (subunit.RemotedTestCase)
-2026-03-02 17:37:54,668 - oe-selftest - INFO -  ... FAIL
-...
-2026-03-02 17:41:18,826 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_python_egg_requires (subunit.RemotedTestCase)
-2026-03-02 17:41:18,826 - oe-selftest - INFO -  ... FAIL
-...
-
-Continuing with 25 test fails.
-
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
-lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F35%2Fbuilds%2F3314&data=
-=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900=
-c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603157675%7CUnkn=
-own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
-iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DKDCdm12DN4fL1iGLQZ=
-%2FZmLPSjg%2BgOZzVggpncz%2FFcj8%3D&reserved=3D0<https://autobuilder.yoctopr=
-oject.org/valkyrie/#/builders/35/builds/3314>
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
-lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F48%2Fbuilds%2F3204&data=
-=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900=
-c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603212892%7CUnkn=
-own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
-iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D5BeBNBPHUGGL3nzdHc=
-7aEHxhDgiy3LWR%2F%2F4XHZic%2BMY%3D&reserved=3D0<https://autobuilder.yoctopr=
-oject.org/valkyrie/#/builders/48/builds/3204>
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
-lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F23%2Fbuilds%2F3434&data=
-=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900=
-c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603271951%7CUnkn=
-own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
-iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Df63cwRTFpSuC%2B5nl=
-a372zSRE3oBgp9fET7W9hA2DpSE%3D&reserved=3D0<https://autobuilder.yoctoprojec=
-t.org/valkyrie/#/builders/23/builds/3434>
-
-Can you have a look at these failures?
-
-Thanks,
-Mathieu
-
---
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fbootlin=
-.com%2F&data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f=
-48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C6390812416033=
-28730%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsI=
-lAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D8f9pqx=
-Csj2L4NXqIIe4KCylV%2FMTzhPJrZp2aw8w9y54%3D&reserved=3D0<https://bootlin.com=
-/>
-
-
---_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
-erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-Hi Mathieu,</div>
-<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
-erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
-erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-this is weird. In V4 I ran successfully all tests locally before submitting=
-.</div>
-<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
-erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-I will take a look right away, curious to see what V5 broke.</div>
-<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
-erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
-erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-Stefano</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Mathieu Dubois-Briand=
- &lt;mathieu.dubois-briand@bootlin.com&gt;<br>
-<b>Sent:</b> Tuesday, March 3, 2026 09:42<br>
-<b>To:</b> stondo@gmail.com &lt;stondo@gmail.com&gt;; openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Cc:</b> Ross.Burton@arm.com &lt;Ross.Burton@arm.com&gt;; jpewhacker@gmai=
-l.com &lt;jpewhacker@gmail.com&gt;; Tondo, Stefano (ext) (SI B PRO AUT PD Z=
-UG SW 2) &lt;stefano.tondo.ext@siemens.com&gt;; Marko, Peter (FT D EU SK BF=
-S1) &lt;Peter.Marko@siemens.com&gt;; Freihofer, Adrian (SI
- B PRO TI EAC CCP) &lt;adrian.freihofer@siemens.com&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH v5 04/10] spdx30: Add version extracti=
-on from SRCREV for Git source components</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Mon Mar 2, 2026 at 5:01 PM CET, Stefano Tondo v=
-ia lists.openembedded.org wrote:<br>
-&gt; Extract version information for Git-based source components in SPDX 3.=
-0<br>
-&gt; SBOMs to improve SBOM completeness and enable better supply chain trac=
-king.<br>
-&gt;<br>
-&gt; Problem:<br>
-&gt; Git repositories fetched as SRC_URI entries currently appear in SBOMs<=
-br>
-&gt; without version information (software_packageVersion is null). This ma=
-kes<br>
-&gt; it difficult to track which specific revision of a dependency was used=
-,<br>
-&gt; reducing SBOM usefulness for security and compliance tracking.<br>
-&gt;<br>
-&gt; Solution:<br>
-&gt; - Extract SRCREV for Git sources and use it as packageVersion<br>
-&gt; - Use fd.revision attribute (the resolved Git commit)<br>
-&gt; - Fallback to SRCREV variable if fd.revision not available<br>
-&gt; - Use first 12 characters as version (standard Git short hash)<br>
-&gt; - Generate pkg:github PURLs for GitHub repositories (official PURL typ=
-e)<br>
-&gt; - Add comprehensive debug logging for troubleshooting<br>
-&gt;<br>
-&gt; Impact:<br>
-&gt; - Git source components now have version information<br>
-&gt; - GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)<=
-br>
-&gt; - Enables tracking specific commit dependencies in SBOMs<br>
-&gt;<br>
-&gt; Signed-off-by: Stefano Tondo &lt;stefano.tondo.ext@siemens.com&gt;<br>
-&gt; ---<br>
-<br>
-Hi Stefano,<br>
-<br>
-Thanks for the new version, but we again have a lot of selftests failing:<b=
-r>
-<br>
-2026-03-02 17:36:16,484 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_binary (subunit.RemotedTestCase)<br>
-2026-03-02 17:36:16,484 - oe-selftest - INFO -&nbsp; ... FAIL<br>
-...<br>
-2026-03-02 17:36:16,486 - oe-selftest - INFO - 7: 7/29 178/673 (21.91s) (0 =
-failed) (devtool.DevtoolAddTests.test_devtool_add_binary)<br>
-2026-03-02 17:36:16,486 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):<br>
-&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
-rs/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py&quot;, line 41=
-9, in test_devtool_add_binary<br>
-&nbsp;&nbsp;&nbsp; result =3D runCmd('devtool add&nbsp; -b %s %s' % (pn, bi=
-n_package_path))<br>
-&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
-rs/openembedded-core/meta/lib/oeqa/utils/commands.py&quot;, line 214, in ru=
-nCmd<br>
-&nbsp;&nbsp;&nbsp; raise AssertionError(&quot;Command '%s' returned non-zer=
-o exit status %d:\n%s&quot; % (command, result.status, exc_output))<br>
-AssertionError: Command 'devtool add&nbsp; -b tst-bin /tmp/devtoolqalnb521v=
-t/tst-bin.tar.gz' returned non-zero exit status 1:<br>
-...<br>
-2026-03-02 17:36:37,300 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_fetch (subunit.RemotedTestCase)<br>
-2026-03-02 17:36:37,301 - oe-selftest - INFO -&nbsp; ... FAIL<br>
-...<br>
-2026-03-02 17:36:37,302 - oe-selftest - INFO - 7: 8/29 181/673 (20.82s) (2 =
-failed) (devtool.DevtoolAddTests.test_devtool_add_fetch)<br>
-2026-03-02 17:36:37,302 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):<br>
-&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
-rs/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py&quot;, line 55=
-4, in test_devtool_add_fetch<br>
-&nbsp;&nbsp;&nbsp; result =3D runCmd('devtool add --no-pypi %s %s -f %s' % =
-(testrecipe, srcdir, url))<br>
-&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
-rs/openembedded-core/meta/lib/oeqa/utils/commands.py&quot;, line 214, in ru=
-nCmd<br>
-&nbsp;&nbsp;&nbsp; raise AssertionError(&quot;Command '%s' returned non-zer=
-o exit status %d:\n%s&quot; % (command, result.status, exc_output))<br>
-AssertionError: Command 'devtool add --no-pypi python-markupsafe /tmp/devto=
-olqaamxld4_b/python-markupsafe -f
-<a href=3D"https://files.pythonhosted.org/packages/c0/41/bae1254e0396c0cc8c=
-f1751cb7d9afc90a602353695af5952530482c963f/MarkupSafe-0.23.tar.gz">
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Ffiles.p=
-ythonhosted.org%2Fpackages%2Fc0%2F41%2Fbae1254e0396c0cc8cf1751cb7d9afc90a60=
-2353695af5952530482c963f%2FMarkupSafe-0.23.tar.gz&amp;data=3D05%7C02%7Cstef=
-ano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900c21d%7C38ae3bcd95=
-794fd4addab42e1495d55a%7C1%7C0%7C639081241603094951%7CUnknown%7CTWFpbGZsb3d=
-8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbC=
-IsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D8F4uong%2BOpYL%2FDGs7JXQv4eiNpO=
-35f2hMedzRnFG0ic%3D&amp;reserved=3D0'</a>
- returned non-zero exit status 1:<br>
-...<br>
-2026-03-02 17:37:54,668 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_fetch_simple (subunit.RemotedTestCase)<br>
-2026-03-02 17:37:54,668 - oe-selftest - INFO -&nbsp; ... FAIL<br>
-...<br>
-2026-03-02 17:41:18,826 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
-_devtool_add_python_egg_requires (subunit.RemotedTestCase)<br>
-2026-03-02 17:41:18,826 - oe-selftest - INFO -&nbsp; ... FAIL<br>
-...<br>
-<br>
-Continuing with 25 test fails.<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
-ds/3314">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F35%2Fbuilds%2F=
-3314&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
-f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
-157675%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
-IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DK=
-DCdm12DN4fL1iGLQZ%2FZmLPSjg%2BgOZzVggpncz%2FFcj8%3D&amp;reserved=3D0</a><br=
->
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
-ds/3204">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F48%2Fbuilds%2F=
-3204&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
-f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
-212892%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
-IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D5=
-BeBNBPHUGGL3nzdHc7aEHxhDgiy3LWR%2F%2F4XHZic%2BMY%3D&amp;reserved=3D0</a><br=
->
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/buil=
-ds/3434">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F23%2Fbuilds%2F=
-3434&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
-f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
-271951%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
-IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3Df=
-63cwRTFpSuC%2B5nla372zSRE3oBgp9fET7W9hA2DpSE%3D&amp;reserved=3D0</a><br>
-<br>
-Can you have a look at these failures?<br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com/">https://eur01.safelinks.protection.outlook=
-.com/?url=3Dhttps%3A%2F%2Fbootlin.com%2F&amp;data=3D05%7C02%7Cstefano.tondo=
-.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900c21d%7C38ae3bcd95794fd4add=
-ab42e1495d55a%7C1%7C0%7C639081241603328730%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0=
-eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo=
-yfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D8f9pqxCsj2L4NXqIIe4KCylV%2FMTzhPJrZp2aw8=
-w9y54%3D&amp;reserved=3D0</a><br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_--
 
