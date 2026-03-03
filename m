@@ -2,82 +2,89 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53382EDA68D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F78EDA69D
 	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 16:46:50 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23210.1772556402816863033
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23069.1772556401905617434
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Mar 2026 08:46:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=DcaaH5JR;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=tSkW1u5e;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 45AC0C40FA0;
-	Tue,  3 Mar 2026 16:46:58 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B3B9B4E42502;
+	Tue,  3 Mar 2026 16:46:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 881CF5FF29;
-	Tue,  3 Mar 2026 16:46:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3A792103696B7;
-	Tue,  3 Mar 2026 17:46:39 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A2CF5FF29;
+	Tue,  3 Mar 2026 16:46:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4FB851036974F;
+	Tue,  3 Mar 2026 17:46:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772556399; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=C+g2XGUb+I2198y7BznYz5a71rFRm7fcnPQiUWOSq2s=;
-	b=DcaaH5JRL1jG2JferlOehF7jKRr8ZR6BHNeVfOv6um2K5LAkW5aDLkHt/eioDGUWPmbZq5
-	fEZzneJTJ3T7gztBvF8p3ZcqwEL/i2Lxthy//ARu0JNDn4M7n0XaF10keUs045AubThbeX
-	NhTpw4rVu3/4TtGq5TvWzcV9+kUrCx+qlIieubOw+h0A6eKTpOVJ36cw3XqCb0Y9egv2Fa
-	n/a8CtLUeOWrfUEQuYJcvHtWSuzi8PD8zbpvVfK4BbJxS9f1KC8+J2tNnbkKBFvaJhMoZ+
-	gH5JiLMTFgsxGAFZehkK5P/RTZ6jTRmjJ4z0kNyIhlWyvqDftss7GvgLA3Tzhg==
+	t=1772556398; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=5TvHB6PsXR2S1KkpGaCtxhDg2G+CDaAudd9jsJ0Vq6E=;
+	b=tSkW1u5ekXt5Tkqv6p+d81FrzwfQ5mI2XuUB4kLLP53gm9Z1vcrCF0skIzLjMYqki8GSoX
+	peS/lQdfro2urPO6e50axws1KG5O0oXdhz6T2IA0Yf7zkbAa3vyPHE4SlK3MLYNsBYE8c3
+	hoJHnP7oiDg5rI9eeqQvndzvKPvo8YsNXmPR72FJMmj7tbgmdyVfNk3s/b0WIDbS/ZOWMS
+	XCHdrZabgIOa4SEjzQi9eqFzuJ5A9FUaZOpehB0QrMCEcflbKl6c2Gz/cyzMmFPJVVVxk3
+	BHfGl4JtCyIBOU2hKNzO7hfDLZdVGM8CUcjF7lLmMGC5po+5+5CdISRjrwTouQ==
 From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Tue, 03 Mar 2026 17:46:15 +0100
-Subject: [PATCH scarthgap 1/3] avahi: Remove a reference to the rejected
- CVE-2021-36217
+Subject: [PATCH scarthgap 0/3] meta: Backport rejected CVEs and SPDX3 fixes
+Date: Tue, 03 Mar 2026 17:46:14 +0100
+Message-Id: <20260303-backport-fixes-scarthgap-v1-0-2dc803f921a9@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-backport-fixes-scarthgap-v1-1-2dc803f921a9@bootlin.com>
-References: <20260303-backport-fixes-scarthgap-v1-0-2dc803f921a9@bootlin.com>
-In-Reply-To: <20260303-backport-fixes-scarthgap-v1-0-2dc803f921a9@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/z3LTQqDQAxA4atI1g3EH0rpVUoXcSYzhoIOiRRBv
+ LuDC5cPvreDi6k4vJsdTP7qusw12kcDYeI5C2qsDR11T+qpx5HDryy2YtJNHD2wrVPmguEVh3Y
+ giYkJ6l5MLlLvD9wMvsdxAl48mKp1AAAA
+X-Change-ID: 20260303-backport-fixes-scarthgap-c8d4140edfa0
 To: openembedded-core@lists.openembedded.org
 Cc: mathieu.dubois-briand@bootlin.com, richard.purdie@linuxfoundation.org, 
  JPEWhacker@gmail.com, thomas.petazzoni@bootlin.com, pascal.eberhard@se.com, 
  "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>, 
- Ross Burton <ross.burton@arm.com>
+ Ross Burton <ross.burton@arm.com>, 
+ =?utf-8?q?David_Nystr=C3=B6m?= <david.nystrom@est.tech>
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 16:46:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232326
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232325
 
-CVE-2021-36217 is rejected, and should no longer be referenced.
-CVE-2021-36217 is a duplicate of CVE-2021-3502 which is already
-referenced in the local-ping.patch.
+This series backports three patches from `master` to `Scarthgap`.
 
-The CVE database indicates the following reason:
-  ConsultIDs: CVE-2021-3502. Reason: This candidate is a duplicate of
-  CVE-2021-3502. Notes: All CVE users should reference CVE-2021-3502
-  instead of this candidate. All references and descriptions in this
-  candidate have been removed to prevent accidental usage.
+Removed references to rejected CVEs:
+ - Removed references to `CVE-2025-62813` and `CVE-2021-3502` in patch
+   files, as these CVEs have been rejected.
+ - This change prevents rejected CVE references from appearing in the
+   generated SBOM.
+
+Fixed kernel `CONFIG_` generation in SPDX3:
+ - Backported a fix for the generation of kernel `CONFIG_` values in
+   SPDX3 output.
+ - This is a important fix, as the generated SBOM file might otherwise
+   randomly omit kernel `CONFIG_` values.
 
 Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
-(cherry picked from commit bf41240132e2efa6b46aab46290eed9c53e312e9)
 ---
- meta/recipes-connectivity/avahi/files/local-ping.patch | 1 -
- 1 file changed, 1 deletion(-)
+Benjamin Robin (Schneider Electric) (3):
+      avahi: Remove a reference to the rejected CVE-2021-36217
+      lz4: Remove a reference to the rejected CVE-2025-62813
+      meta: fix generation of kernel CONFIG_ in SPDX3
 
-diff --git a/meta/recipes-connectivity/avahi/files/local-ping.patch b/meta/recipes-connectivity/avahi/files/local-ping.patch
-index 29c192d296e0..8f102815df04 100644
---- a/meta/recipes-connectivity/avahi/files/local-ping.patch
-+++ b/meta/recipes-connectivity/avahi/files/local-ping.patch
-@@ -1,4 +1,3 @@
--CVE: CVE-2021-36217
- CVE: CVE-2021-3502
- Upstream-Status: Backport
- Signed-off-by: Ross Burton <ross.burton@arm.com>
+ meta/classes-recipe/kernel.bbclass                 | 27 ++++++++++++----------
+ meta/lib/oeqa/selftest/cases/spdx.py               |  2 +-
+ .../avahi/files/local-ping.patch                   |  1 -
+ ...5-62813.patch => fix-null-error-handling.patch} |  1 -
+ meta/recipes-support/lz4/lz4_1.9.4.bb              |  2 +-
+ 5 files changed, 17 insertions(+), 16 deletions(-)
+---
+base-commit: a9a785d7fa0cfe2a9087dbcde0ef9f0d2a441375
+change-id: 20260303-backport-fixes-scarthgap-c8d4140edfa0
 
+Best regards,
 -- 
-2.53.0
+Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
 
