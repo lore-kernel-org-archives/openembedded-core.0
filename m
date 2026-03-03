@@ -2,65 +2,65 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BD3EB364A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D00D4EB3652
 	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 00:46:03 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7690.1772498758917666909
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7693.1772498761309840376
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 16:45:59 -0800
+ Mon, 02 Mar 2026 16:46:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GxXeN2zh;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-463a94f8475so4161298b6e.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:45:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wpg9qWdB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-464ba2bb3aeso4012552b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 16:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772498758; x=1773103558; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772498760; x=1773103560; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+wYSZS61IRGHmLD9OmiNc9hgO2b0xZj5mQwHOFCwfH8=;
-        b=GxXeN2zhYUanMH4PMpgqfjmznqJ4WXNlbawysJk8jSh90Ra1PkrJTpAl8o6IEhRqB6
-         /L3vhESiwHq9NOhqCYPq/3nnouUCnuNu2aZed2QsD4u2xrl15VN4pUkuP+PeQ4mTG1jB
-         gxj6ywNqfDC4T/cWnDg+4VdY5WFTTfupZjzw2ZKU4WDtTt42VXWFRgA0WRa/bTxefVRN
-         cKxsI7hZqdze9zDSjxpq8sl1wncQnUntXLMcRdidYJIe4JMGctXi2xVYylb3V2pFK437
-         qzq7xT0uFhPjpBXZRiZhsMc441zxWoABT45OzK2br/apQtc2CaHWfxuE5c/pTEoJLvb6
-         qKxg==
+        bh=6Tj4cGGvEEbE1QT7Q+4TdJLcoNUT6Vuz9fhKtg+CMko=;
+        b=Wpg9qWdBIUqb28o5fmhdYIWUd5axE3xKqTXAgedjcbSaMib3FRsppxgh4sYoEn2EdX
+         /fChspOznfo413Tq57sGx1uH0vqVsUYrc7dbT6GSm9+cmxlPZdmwThegAjHk5eHY/w7D
+         iJHyQU6NvhqcPiyH7bCCllG/exINi1gcY6+bfrfrk6tMWjpkgIx9UAH+C+gTcV76NGio
+         9UHCKMQi5oNG9juMgpK2FYcnLDM7WzradD3C4vB30iLZjXKMuIrMj9uhGvekCEby/9ih
+         OrbU4ZiGXE4zUHh2Oss2FpeHp9BOWRmGbnA1SYXG/yVGGxeyrQwZR73JSC9svNwDqP3k
+         2gqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772498758; x=1773103558;
+        d=1e100.net; s=20230601; t=1772498760; x=1773103560;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+wYSZS61IRGHmLD9OmiNc9hgO2b0xZj5mQwHOFCwfH8=;
-        b=CRdgFoJNwbI2Var6CPqZRwPR/PnmnJAkw1EviRhOltwRscoTQNDUyPafWSVp5ppL9I
-         /Si7doEwwDI9fdRVnHq2wN24+DRbP/k6kttQlirrrygjoIoFK1JwHT8NLlNqjCHwz4Zm
-         Iq8ldVAgJq8QrDKXZY4zHYb1Xc1uDdWlZmlGZmkO09Wf06ZiubVKkiasK72cbd5apbx5
-         aQKpChEggQRFVSKnYCBOF2guSbUywfdfCljk6ZYteRhX822M4TOj8CHNS7rJdwp4C+Lg
-         eY97m3Gxysqpyf4uQx1eI9x/TCZ22sgka1bCQHQHxDroTa4DrFlzK0wFBg2Zdlhn+1v2
-         EM7A==
-X-Gm-Message-State: AOJu0YyRTcZ8kNnpI3MNCPvDgWr8cfey7yCPBKv9pKbsm8e/WO0sr+Mj
-	MZo25Y8kXh80WBYntaDxaFDg93kQLcBLmk+oFjQhkmnAcHq7al5TIVdjwZPF2g==
-X-Gm-Gg: ATEYQzwhLcsrUFD3x1+smELkLYBlkzeFpzKqdbNWEBH9qnFYbt49RYek5O4GoZ6hOzB
-	KERP9Ft/QPqD44QjWUeY9/otypIS60R/PU8aSlCiToLZgL9ikQqFQPmaPkmOH2of27bkloWxYUC
-	15+ETdj1JgNS05D1gE5sloVIVAiqqQo1BQisgYegDjPx89XJ9wyohuB7wSkuEq+S/AHuzelqIuT
-	QDx+9g3SfPMdUOFGvL7yYnCPcfBMefHJyvtOw5at/keMwifRiW9a8a9mnvEIfqUmECuI1VhFSMO
-	k+uSjgxXt+tBMa1R//q/FYXLHQVpwiYRQHPFp0UFe6lj0UAEl6RdiqewHln/eXrxYkbzfBa0Z7J
-	5S/AJMmP4vQbVoA77XatPkdctmN+M6MftvRzbO9MMhOpTbZLt/ND1MYzLSUj6aQfz6AxsZnWss6
-	VAHkRbDLmHpOqz2S2SaDfv
-X-Received: by 2002:a05:6808:1388:b0:45f:7ac:12d9 with SMTP id 5614622812f47-4650c626decmr239628b6e.6.1772498758030;
-        Mon, 02 Mar 2026 16:45:58 -0800 (PST)
+        bh=6Tj4cGGvEEbE1QT7Q+4TdJLcoNUT6Vuz9fhKtg+CMko=;
+        b=uiFLoiO5RTYqcltMQbouVlSP1LKietxfH0OQFGIoQVChVsilLzSKDk3YSJrC7k3rpv
+         SiAL0rV4fSTKZi93Zvvip7ReQJantEqZBOes/oxCsoqe/HeoWU10q1wK6bF3mkk5GvWV
+         6GiPfbYeYZLcENpEEaKK5gj1z9eoK0TmzmSHeCoRAh/g1SSe/45Xgp6uLO2jzamgRDeE
+         mhfU1MZQ6iE2TDy12dse/XrxqjHWpjZejQWPmVxNdnzpgNnNrRPJKniNwWkWXyBHLy2F
+         S7LoOeUIYN/W9t9NvQ9E7QkMvd2a61uADGDeNWowa9Uaf4s1RVR1dxcTPmlcyYexG64g
+         RT7Q==
+X-Gm-Message-State: AOJu0YzUzk7AI2Qz8nnPznpXYGsEeVbx9uAmvEPaezwWk1oFwJNy0vOq
+	ZdGb9EWwaO32XMpQ8XWfmYlSzUH7UEPgk06AFNvyV7iUtFUgN+Z+21bJNzOIeA==
+X-Gm-Gg: ATEYQzzleM9stCAp0pVn0oxOJsQaSqwa6hrZWdi3F8IKgupq2uA0sGJ4ZDi8sS4APFD
+	KOUDsn6f+JIZTkXMZw+2L//CiG7tYTKpNNW7C/4JBYI/fAwnS4M9ryCkTupKC6cI71yDQGEi1V3
+	ePECkMg7Z35PWduCujVhotY+/q6J93sJ75GoEoi98KDKLln/U5jxqYwkjXVfC9QG6glIgj1/c+x
+	kGagKzyJzOWgRcVlLB/JfS44M+gF/gRq2UbYoRYMdUFTzfxj6hs5mobikLzVQNvdm8D1B6HyTub
+	gvV3fhbLEvPZ7+xmBbiP/B7ISZL/35RogFCcHDqWgN6OAomqy9JBdbGO4ePS9iEYCOc3LXbPbIC
+	p0/03PKrI00yQH/vEMQICTkm8/njl+uLsK04YsaKbPkUxlk0l6OAuYtHY12LGg8KFKJmIZaiQDw
+	qEAQxh7rpS+URjPytVVDyl
+X-Received: by 2002:a05:6808:2383:b0:455:eba2:9efa with SMTP id 5614622812f47-4650c625651mr186337b6e.4.1772498760426;
+        Mon, 02 Mar 2026 16:46:00 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4200:11c0::ba6c])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-464bb59b66fsm8637446b6e.10.2026.03.02.16.45.57
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-464bb59b66fsm8637446b6e.10.2026.03.02.16.45.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 16:45:57 -0800 (PST)
+        Mon, 02 Mar 2026 16:46:00 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: benjamin.robin@bootlin.com,
 	ross.burton@arm.com,
 	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v4 5/9] spdx3: Add is-native property
-Date: Mon,  2 Mar 2026 17:43:52 -0700
-Message-ID: <20260303004550.650726-6-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v4 8/9] spdx_common: Check for dependent task in task flags
+Date: Mon,  2 Mar 2026 17:43:55 -0700
+Message-ID: <20260303004550.650726-9-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260303004550.650726-1-JPEWhacker@gmail.com>
 References: <20260226173930.2847872-1-JPEWhacker@gmail.com>
@@ -71,102 +71,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 00:46:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232228
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232231
 
-Adds a custom is-native property to the recipe package to indicate if it
-is a native recipe
+Checks that the task being used to detect dependencies is present in at
+least one dependency task flag of the current task. This helps prevent
+errors where the wrong task is specified and never found.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/sbom30.py       | 20 ++++++++++++++++++++
- meta/lib/oe/spdx30_tasks.py | 18 +++++++++++-------
- 2 files changed, 31 insertions(+), 7 deletions(-)
+ meta/lib/oe/spdx_common.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 227ac51877..50a72fce39 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -118,6 +118,26 @@ class OEDocumentExtension(oe.spdx30.extension_Extension):
-         )
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index 72c24180d5..3aaf2a9c8b 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -96,6 +96,17 @@ def collect_direct_deps(d, dep_task):
  
+     taskdepdata = d.getVar("BB_TASKDEPDATA", False)
  
-+@oe.spdx30.register(OE_SPDX_BASE + "recipe-extension")
-+class OERecipeExtension(oe.spdx30.extension_Extension):
-+    """
-+    This extension is added to recipe software_Packages to indicate various
-+    useful bits of information about the recipe
-+    """
++    # Check that the task is listed one of the task dependency flags of the
++    # current task
++    depflags = (
++        set((d.getVarFlag(current_task, "deptask") or "").split())
++        | set((d.getVarFlag(current_task, "rdeptask") or "").split())
++        | set((d.getVarFlag(current_task, "recrdeptask") or "").split())
++    )
 +
-+    CLOSED = True
++    if not dep_task in depflags:
++        bb.fatal(f"Task {dep_task} was not found in any dependency flag of {pn}:{current_task}")
 +
-+    @classmethod
-+    def _register_props(cls):
-+        super()._register_props()
-+        cls._add_property(
-+            "is_native",
-+            oe.spdx30.BooleanProp(),
-+            OE_SPDX_BASE + "is-native",
-+            max_count=1,
-+        )
-+
-+
- def spdxid_hash(*items):
-     h = hashlib.md5()
-     for i in items:
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index b6c917045e..a8fffbb085 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -477,6 +477,10 @@ def set_purls(spdx_package, purls):
-         )
- 
- 
-+def get_is_native(d):
-+    return bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
-+
-+
- def create_recipe_spdx(d):
-     deploydir = Path(d.getVar("SPDXRECIPEDEPLOY"))
-     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
-@@ -507,6 +511,11 @@ def create_recipe_spdx(d):
-         )
-     )
- 
-+    if get_is_native(d):
-+        ext = oe.sbom30.OERecipeExtension()
-+        ext.is_native = True
-+        recipe.extension.append(ext)
-+
-     set_purls(recipe, (d.getVar("SPDX_PACKAGE_URLS") or "").split())
- 
-     # TODO: This doesn't work before do_unpack because the license text has to
-@@ -668,9 +677,7 @@ def create_spdx(d):
-     spdx_workdir = Path(d.getVar("SPDXWORK"))
-     include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
-     pkg_arch = d.getVar("SSTATE_PKGARCH")
--    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
--        "cross", d
--    )
-+    is_native = get_is_native(d)
- 
-     recipe, recipe_objset = load_recipe_spdx(d)
- 
-@@ -1021,14 +1028,11 @@ def create_spdx(d):
- def create_package_spdx(d):
-     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
-     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
--    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
--        "cross", d
--    )
- 
-     providers = oe.spdx_common.collect_package_providers(d)
-     pkg_arch = d.getVar("SSTATE_PKGARCH")
- 
--    if is_native:
-+    if get_is_native(d):
-         return
- 
-     bb.build.exec_func("read_subpackage_metadata", d)
+     for this_dep in taskdepdata.values():
+         if this_dep[0] == pn and this_dep[1] == current_task:
+             break
 -- 
 2.53.0
 
