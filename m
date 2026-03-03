@@ -1,334 +1,492 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A540EC1434
-	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 12:01:28 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16814.1772539279939116068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E62EC1438
+	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 12:36:28 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15264.1772533630349861466
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Mar 2026 04:01:22 -0800
+ Tue, 03 Mar 2026 02:27:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=szdlgJOU;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75228a3b20=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6234TvtU1495135
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Mar 2026 12:01:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=9qYgOCZYXxZ2+P4ctprHyn8GwFYQEOK1YpgPdeCp6Co=; b=
-	szdlgJOU8yv/hVB0UUh5znrYJCYexPJsO85j5r3NedxuIHpFz/lnBW7vL5Kb5oUO
-	ZVN0lhkImNTTR0wIWMFApsyCM+WFzDVIIf58AZHm8fpse2DbHvhNbZpV8Bn41hnu
-	Pto2v/dXZRAL/j60ZGEEd3FOWGlLzDSTGbCP7qY5yP3Cgo3QNFQlTbGpDtBb7qcN
-	IYtnc8TkxAsMYgiT9Wd4N8ZNFoXnNoa2MWPHpcXifYZZpQJe38DDUSpn9WE+vC85
-	FypyE5HoiV71MRUGGMy7TmvYaMCzqFB0uR7sJ0NUf5mP/i/Oij21ZHB5Iw6rG3XN
-	LH+31Moo9A+rIseGlt2KKA==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010000.outbound.protection.outlook.com [52.101.193.0])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckqb4kmk6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Mar 2026 12:01:18 +0000 (GMT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=V/lUTTty;
+ spf=pass (domain: siemens.com, ip: 52.101.66.43, mailfrom: stefano.tondo.ext@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mtPjB7z39h2XrP5xw2Y8hUZmVfYilrtAzfzw0zEPvPlaZZa7vvnMe2cENgQHLKp+tbNjvbp1BzwdJgPQhUnX/er0GBttAp+CqQ+pxzs2my0oWQ008VtBztAfI5w7SGYbylXLMY4CaWonKeiZL5RP1y82FHTACx4/rTuR6Sqpo+5zd2sHmb3TRVsDjSfQMnrF7KhzMoF52p61LCcR7G5XRdxeB86N48mIzHji3/+KWADRUQz7XJuTABtyME8mXUtBT4J2mtJNB30aq7Zr97Sq9EANOd7tGR8KYGiYAO1uExqG5S5D2wMG0tN3WUu1EgW7SJ7AwAMziAZyPN0Mt/yrBw==
+ b=DV1Cmm1B5+g7uDFB2NFAlUotT4TZPvGPGv3+TDmoWPWnobx/kylX+FDXOG+QLxuBSnyGGg607kw/ZTdEpCIQnvBsxgZJGxRQ+ywV/dnzUNOyNlYCMP9uKTisF8QbhqYjB+FyJQK/YopkVQ79FNwQCf+rYtsM9+mkIZB+CJ1FnvRfcjUU8sMEhhHaNuIeAhKAvzEW0botVyJaRjYYLAxeSIFWTwM8REXyCel5HzT+sDW8eCK5u74/mBxFS+cBOewFpTMlDCvO8QwCSUcYv+gKD9+m3osA4Lt0/EzqFB07SJgW54Juiuap7Nf3oIiAJ3gvenBj41A/UdzkRfPl5Rchaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9qYgOCZYXxZ2+P4ctprHyn8GwFYQEOK1YpgPdeCp6Co=;
- b=BnANB61LFoCGXtjqCegQDjGkJ7j7M/rtmvQk7aNIHBjANY/skLqb7zh83XZ5jLRO6HDi/BbteTFIp7f9IOuTTvxo3nsNSkHVqQNRZwA2OvWGPkV+cjqcxffyKsD8icYXwhrVkvJYP5p9C6g0sIvn8WVCpWb/3VvRDqrYT4xScwmDVpGvDA1/VhOdvCtGMQV1lRZTGx8OVtfCqOmZaZFAXiqj022dWHMilyHLE0H8LzfJhjjiLW36lGDYLEHctV38zx5xh2KgMWF6NRrLcAX1Y6g5aDZzkJK8KWC6so6YoRuK1/R3D17g2UwX0QEZw2QFc7ej0t1rsxunVQMx2ryQWA==
+ bh=wZc47+kOVhKCeK+qYW8bWUtqYAJNp/aYA383S3poXsc=;
+ b=OHKrNpxN/12mOtdbB0L+qxKgV3jSUCeY4Z8MtKCHe6kUUGd6WkWxAEqv5XcZebBRzIpUcSb+HjmAgNTSQBgwDryWVadfmDk3qh0tqgWiiBBFvsp0JCP4lkla1SNMAeZQk+CnDAepGbGICxSCKIE+VVIG4u7ZdZFs0d1bSE5YsKjfbcEIGARzZHP8AuZW5FdFWFPqhOdgn34LDYB8Hr3S7lIJt0gfnkeIQkl/dc8vKW3uOtLPAE+x2nVlcnfBC5DimQW9aylDrM1DxNbBkgIEfpN0F4R88e6ysWDwBCmvAhZ/9vS1JJkLs+PIJjw9l6BwR2gsmT6yUNESgZRRVwB66Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from LV3PR11MB8531.namprd11.prod.outlook.com (2603:10b6:408:1b6::15)
- by CY5PR11MB6510.namprd11.prod.outlook.com (2603:10b6:930:42::7) with
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wZc47+kOVhKCeK+qYW8bWUtqYAJNp/aYA383S3poXsc=;
+ b=V/lUTTtycG/32ToMXoRkt7w8xz7sxu1ENOXNmLNUvGBEqvuUZAQfTXufIxb0npjGVKR1BkZzkJA1Q4FsoZW5dr3CsKklSpyb/ciiI9nz6N9CoZg9gqzNKg0FbDyBqCtFaop6hgJxm2MbWT5xdaQWaUUIyxI8GhvysD5dxE4n7kD4hgzOhevFDRuwuA7OWf5/YEYUy3dSWfWYf68O8+Z/BK91PkYDY9g9H4T491DJzTAfWXIPOXknBNbNracBVnt9Zvp7TiOL3XplktmMwNgBx03briT+2HLV78bb0NgLSzxtukPtTmhqMeB6OYhjbra7EyakHyp1Fn1d9EhrgYd3uQ==
+Received: from AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4bc::20)
+ by DB8PR10MB3164.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11a::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 12:01:15 +0000
-Received: from LV3PR11MB8531.namprd11.prod.outlook.com
- ([fe80::f908:c07a:c64d:67a3]) by LV3PR11MB8531.namprd11.prod.outlook.com
- ([fe80::f908:c07a:c64d:67a3%6]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
- 12:01:15 +0000
-Message-ID: <e4bed048-61eb-425a-a3bf-a3906145938d@windriver.com>
-Date: Tue, 3 Mar 2026 20:01:07 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v7 1/7] package_rpm.bbclass: Drop external
- dependency generator to support rpm 6
-From: Robert Yang <liezhi.yang@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        mathieu.dubois-briand@bootlin.com
-Cc: alex.kanavin@gmail.com, Ross Burton <ross.burton@arm.com>,
-        openembedded-core@lists.openembedded.org
-References: <cover.1772367692.git.liezhi.yang@windriver.com>
- <8e2bf6e0befe331a0f834687317a3dcd2d735b92.1772367692.git.liezhi.yang@windriver.com>
- <2bbd3ebdc7f525fc5fdb5848ec6d80c70dbb9e22.camel@linuxfoundation.org>
- <86d3c351-16e9-44bd-8b38-b8c6ed75aa0a@windriver.com>
-Content-Language: en-US
-In-Reply-To: <86d3c351-16e9-44bd-8b38-b8c6ed75aa0a@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: TYCPR01CA0202.jpnprd01.prod.outlook.com
- (2603:1096:405:7a::15) To LV3PR11MB8531.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::15)
+ 2026 10:27:06 +0000
+Received: from AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f490:9f02:a64c:84b7]) by AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f490:9f02:a64c:84b7%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
+ 10:27:05 +0000
+From: "Tondo, Stefano" <stefano.tondo.ext@siemens.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"stondo@gmail.com" <stondo@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "Ross.Burton@arm.com" <Ross.Burton@arm.com>, "jpewhacker@gmail.com"
+	<jpewhacker@gmail.com>, "Marko, Peter" <Peter.Marko@siemens.com>, "Freihofer,
+ Adrian" <adrian.freihofer@siemens.com>
+Subject: Re: [OE-core] [PATCH v5 04/10] spdx30: Add version extraction from SRCREV for Git source components
+Thread-Topic: [OE-core] [PATCH v5 04/10] spdx30: Add version extraction from
+ SRCREV for Git source components
+Thread-Index: AQHcql3ZDda3RcgmnE6hcYu7kUwHNrWcfnwAgAAcyus=
+Date: Tue, 3 Mar 2026 10:27:05 +0000
+Message-ID: 
+ <AS4PR10MB5441FFDC9C00E4D486E9C709AC7FA@AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
+ <20260302160114.46884-5-stefano.tondo.ext@siemens.com>
+ <DGT0HVQB154L.3E9JJLNYVHH0Q@bootlin.com>
+In-Reply-To: <DGT0HVQB154L.3E9JJLNYVHH0Q@bootlin.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=True;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-03-03T10:27:04.621Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=C1
+ -
+ Restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=1;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS4PR10MB5441:EE_|DB8PR10MB3164:EE_
+x-ms-office365-filtering-correlation-id: 293f3d20-ab5d-4105-36ba-08de790f6ac8
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|31052699007|39142699007|376014|38070700021|8096899003|13003099007|7142099003|7053199007;
+x-microsoft-antispam-message-info: 
+ 5PpCN0DZ2jSH8+p0ytBByaQA6LS5/wAp385cGrDbJIjOwkIwG1JUafZZ+GBHzTSJ4jNsY1xyURBfoShwnAU83tT23yQY1086aMgGYERbiwAzA1rX/H9ECnEiNZab4Q/dS2dybQvlxau+orpo1Rz6cXIoq6P1sXo5Z+63a0xhWNnGFf8D+G6Ke9f/irvc9BoMc1D8Z8MGwfZwvQnSjmSP53sBvk2CsCWVIQ60lH5B8qkTZuNxD95P1Gja7kwwmtEmtz+altKjy98uwA+x6DfoZVDo+4uaDsQGD7wZdc5z5yQXPA0ik8jTpnXaSfKPNgo95UtBLKX3kcygKjKtbjdO3PezczRYh64lRmcNiz9rQ+7Tkn81AhMF0+dLmlmixrVvwblCxTfiu3U4fWlbYSBjjcT2amjWCNFOnjLssV8Lp/ivPtbn6/VqBQYv4G07SoasLL1uJJXJ3gW3RQaNuksbhuufT8DgvgKqw9RVD48m+Dv8HAdI6yf7WIk1juxAjPvR/68oh9YESO5FfZij5aUjJLeFBYaG0R/UizSfNna4JBxziQysUpaAz2G+Fl1YXXHwA8qlgNwimP70eBLcafNTVhiNmkHwZy4xC8ahPiuICY5UxUaIM6ERkgeObKcaEo/23EUAszg4db8V0lpslCYTNR3HL4QDO8NrNVcyy5S3wBrbtucAiQ+qB7YSr7o7JKa0wQAwGOfZvZPa3T7xTTuDy2Iak1ALCHqWxtLsM8smAw0=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(31052699007)(39142699007)(376014)(38070700021)(8096899003)(13003099007)(7142099003)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?8STbsGr1dGH2CSina/9MVUdzqIdxmk+MFarM3URM4Rn55OQHMROe3EodPuga?=
+ =?us-ascii?Q?TL5Aepv8bqXdOrgv8vJRAdfwtVGt7TzIjPGXz2f/gsbz7p2CwmoAwIJKInSC?=
+ =?us-ascii?Q?Zf1/MEbeoaD3LOIH6PRujVmp30MXNHnK5xubGCDb7g1J6Icl00h58d4Dj/IH?=
+ =?us-ascii?Q?AT8GzoR5CaFEwkLRxazA5LNVn1k5gRiIgIblYkDnyKufZsbu41Ls0NFA3yrC?=
+ =?us-ascii?Q?i39YFXBL8psYhK8aN37Htuzg8kBDrugJIN83oAGwpADInNGo7WkCjtFzwdzE?=
+ =?us-ascii?Q?h46jSwk4IpzqAwvTA2uHYOclF19GLQ2esLnrFe4bb/ORU6j5jOU0Cr9pT4fN?=
+ =?us-ascii?Q?1mBGo6VH+UTMRGbCdGI+ueJCv3bpLsKUHWTCUuDvtYpwMPXXCNwyF2PBCxiq?=
+ =?us-ascii?Q?jfsk0hWUtyeyybXWHjPlbVrkD13VfYBpMdnH41c8ncUKHE8BaZ0m+OJ/s8m1?=
+ =?us-ascii?Q?CTuGAF67zYIwEOa7ZV0dQLhSERMYk+W/ojjU6NN1wPAGSBwUkYtC3Swr5eUT?=
+ =?us-ascii?Q?9V/QM9bEMuZb4ZC5FlSemwOjlnhjVQ6ZFl7ik989eZE2XqjgVXbN7noDvlD6?=
+ =?us-ascii?Q?WGMrA49+FZyqrDUbRfLXsoYUF4rVQFUlr2x0dZlnk0aY91GY7JgvNf/bqjy3?=
+ =?us-ascii?Q?2AvuFL6wwHFh9ENHL4r4OnqdmU23NvXxuCT2tk3G7v5oJRzFoKFO+dPnI2YS?=
+ =?us-ascii?Q?xhdoYfYMlsFeK671am6jA2s8N/iZwUbIH2fMgz3nFZ4Yc8uqCpH/v7l9igWv?=
+ =?us-ascii?Q?2CQ1vOFyHopV2r35Pf8GYygrJG4C2pAWSlpopfM9/pG5d6jkuE3s30RYfuXf?=
+ =?us-ascii?Q?PG6JXnQ7Fg6HUXI+AVVUQoOT3yI1uuxTfzO9wmgmFDbFKARjHqe3yyc1E17W?=
+ =?us-ascii?Q?QTRWgPRzv4atB6B18Ci/sVKY4p5axFxEKEvLjU/D2n+kwOhv8LdZ2zAtV+BC?=
+ =?us-ascii?Q?e8bIeeEwctwkHB7yf7Ygw+FPg0ESSsb2E5hzeAq7JINuVgxuap778VMnphUs?=
+ =?us-ascii?Q?b4tgZG0Jf1Sq31mZtlzbhL7xxcIna8/We0agB/BeSrOJA19bNir+D9qCZl4L?=
+ =?us-ascii?Q?YgO+jJcLIa51VadPPG6sphvpG9/U40PKTelnfVuD7VTbLruwtReklWNWB+50?=
+ =?us-ascii?Q?pr1pW/dE0V2NzTv2LEcQQsMWwqwUP0uY/PVwdiiSp4TQMvq4eT5A11d/K5iH?=
+ =?us-ascii?Q?OXdC/KzFzmtEcoCRKhG2uZjt35+3Ita8DV9/1k+8tnZhK9uUi/2XTnVld1C1?=
+ =?us-ascii?Q?9ZlvXjY+xEHMNI5F8EFLWHoP2frRvjF0qILQj/t8rsLNQu+p25wOFsIcJMDb?=
+ =?us-ascii?Q?v0aiR3EjJBNSFC1ikpxsySR4BQn9z7++oLJksUwz4cGRFC7DCHcttAdg85sD?=
+ =?us-ascii?Q?/x1ZRpEBKBKg0oNfX38cj84Pj+B1TY6i2oOjWoczJK217/EiTXzgqJfdFK6k?=
+ =?us-ascii?Q?6O9S6b48Wj/4f5HdP0Z0VJj+KxjQtsompFR0d9lYr2YLxGjPGir1uRNCXk0F?=
+ =?us-ascii?Q?8Zifts9tqQ+Ak0/1U/67pk2vuLdp3REz58UUb3s+mgt8WmP/TYJwY/uR3tAi?=
+ =?us-ascii?Q?ANMzDhyD20sJyzO862CyvkxFS4xDzXPSZ3MNShtznP8kh2CS8WKYLgVCXiBB?=
+ =?us-ascii?Q?ccJRn+pG1xrR/YnZ1q5E4F33iu9M6TiIV5R6RYiHOyfraD5MlNMDlpfrCpRA?=
+ =?us-ascii?Q?gks+BWVHTacBZWM3QkzXFz/3mx1ZEAEkUdq4qQ8T8LL16cfh62px6tdwbr/j?=
+ =?us-ascii?Q?WMS8Q3kwKw=3D=3D?=
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8531:EE_|CY5PR11MB6510:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6047f8d5-e411-45b4-6ea6-08de791c9220
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	FQA2NaIxkl3kvTK45rIG5Lq00QbIIr81GyAy3bmgNAC/lyzMqr9nUaugAi2M/RO7W1DOG8Hc0zYpig7iBWT23RcFvZYkCpkjBzfTe2DVQNhZGSy1xoHGqhYFPE9BF7BvN5XzaY6FABQua7CLbxATKMa7yKQ/6az2q7b8/e0zsAjXZXZySKYkLXmNuvs9bXkMTCKHm80DQSIq2kzAKUsj9N0vTDA6LhnUOGlIn/i19Djq5yzEDtumL9cXQIl06eh5s6EOwfa6K6b9NFXgO/hDbD04wqfClyPHXhqakqDXmIBmxlvXaCMeiVOBrDUgYJS+qmo4WL7EJ4rQwZmEvPtKeOYeutb3MX/OGetS8/6SD3B2NKFz9Od4nMlod//VLoO3N1O1Mlton3yZbP3EvLh/+eJ+FmD5DjUtjwl67m8xG1WQ4vd/Nq/s2EwVV9Erf6HT5t1++IcSMPMhsvvAKoZLNKoU5atwMI8vgFNNe139f1FtVj4XrGhj3Ekjujf7mYEojhuS0eyrVwH0XMZp5o8bFCAlN3tckRIQk//tsP+hhtr8shek6SVb4+Z2yC5BHgzsACIpDtF5+JwXpQyIPmmGm+t29fzzojxZQITWi9EoqaNbNtURi++pHplsflyezw1I0LRWNWsNV8+AlrVLyc3eoIglAyq5lEZJn3+GcGvSWCAALdU5S814sGDwJSSo7xb1S29foMXuBd6iHFqcIPRg+FfH9P18hvhN3WofCPR8J6lYJhrOJN3ownSmyXq2RzJf
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8531.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZXBYeFo2TEdzOGZDcVpYVWt1b04wYTJ1cWt0YmpRNis1QW84UGNFaEQ5MG82?=
- =?utf-8?B?U1l5SFlmQVRGTm1vMUhieC9PZWljeDFTVVlQZGozUEZNaUt2dXNYUlZVNVFz?=
- =?utf-8?B?US9ER21xY2ZkNmd6d0w4ZVp4RjBjTEpjTVJVOFBZQ0szcDdWYzlpQ3Uzd1Bz?=
- =?utf-8?B?Y202cEljODZYdU10aHp2b1NpOXRDT3pHNmFJR053S0VieFQzZ0NuVzdVUWht?=
- =?utf-8?B?QVVSbGpSSnRhNjQwYUsxVmZ6cUk4ZHR3bUF5L0ttWXE4TURlN0pTb3czVFRx?=
- =?utf-8?B?ckhGRnltaXlLUzN6aDNVMzAyTkVoYmRrdDFRbWx3Yytyd1ZBeVpBd05CVFRq?=
- =?utf-8?B?UkNlVHltWjc5OEFVdlVodW51QnRZMTgwV3dRUjdNMlBocCsra3pRNVlvMnF6?=
- =?utf-8?B?cElkRkppSDd2QUtOVGVwVWs4Y0d2cDUwMHZmL2lVaXpBTGtIZzhFeGp2L0tN?=
- =?utf-8?B?d1lrTW5MWGhiYUl1Z1dCNitBeWsvMXFPZnhpZGQrNlB2SXZWTEdPVlg1dEtV?=
- =?utf-8?B?VzF0ZFpKWlVsWmphc3lCSGtSTHJzNS8yczV2WGR1MjFMU2I3Uit6R0ppd3Bt?=
- =?utf-8?B?MERNU2NneGZWU1luMWIzR3RQaWdoVE1ReEdrQmtpaTljQXFOWEhGcit1T1ZP?=
- =?utf-8?B?aGZPSUxGNWE2emlmL3h3ejYwRHFKeGdKZ1EyVVU1cEYzb0x3b0kwL3NCckRZ?=
- =?utf-8?B?Ynd4YVYzTzNKU1lxQmpSNkJ5TEF3emlZc282SEs3SG8zZHQvL0hPVUgyclNo?=
- =?utf-8?B?MHZwOHM3enlHdjVGOFN3WDlReUU3SVovMVhRdW9FV3M5eWlwTS9aVXQ2WjNp?=
- =?utf-8?B?bElnTmFMOTNpMTFyZlBDeTRPUGQvWUJNb3c0d3VxZVFVMVNqQ2NVcmowbzdx?=
- =?utf-8?B?Y1hBa3JURHdmWndoM1JZWHNSZlpxcno4eGpEM2hvTDNkeFVKTitoMGtZYjUz?=
- =?utf-8?B?azc5aVJJRHhySDZ6UDZHei90bkJoU2wvdk05bU12Q29GdGZkRndpUFVrMUlI?=
- =?utf-8?B?TnBoU1R5UGdGc0lvaW96ajR0Nkd0QlJETU1zQ2IwQjBnVmFIOUFvVVdpL1ZJ?=
- =?utf-8?B?ODRaVXFxYVdyTHc0N3FjMW1JWmxLYjJJYmZVdnJUdjBmRnFqUmZRZ3VXUitE?=
- =?utf-8?B?YnJxTyt5SVZGR2tvVkZicGcraGhBdTZ5RlJXSVNqY01CdDNIb002Mk9KdFhl?=
- =?utf-8?B?OUxnUVNqWWx3VEx2OHFrVEU0ZTFIbjhkSUFzTHAxem9EQ055SHFiZlpmcEF6?=
- =?utf-8?B?WVFtZmNucFl4MnRTSkZWeVRaT1lGbkFQNjBBZCtOVndEaGNHNjJEZ2lPWDRx?=
- =?utf-8?B?RUxFK2xzU3VzcjZMR3lOd0F2blRkd2hCSlJXeXpsNjBKNUkxbk90MnFhemRK?=
- =?utf-8?B?aHJ4cXRMNDdUbWRuTTJHZzZQN2VUSUxRNGdNd3ZRNnU0bElnNWdJNkoxYmYw?=
- =?utf-8?B?Rk5QNXpSVmlYL2w3TEtNejk5L1lJeFdicjFQc28vZnZ1THdoZXIzSCtDQzF3?=
- =?utf-8?B?Z0I5UmRMeGFlMU9lcmpyNU1OQ0xNM0h4dmlac3hIQUVvaVlHODBtdHAxWmVq?=
- =?utf-8?B?eStMV0tHTXUwbzRvV0ZBbGtwaHRiN0dNS3BZcGx2bFZaSFVOUWFUWkFWZnk3?=
- =?utf-8?B?WkVOZFdFSXpKc3l6L0ZHT0huUC9BQkUwUlhETjJoVUIraXp6Tlo3MFpEbXBt?=
- =?utf-8?B?ZStYQW1QNUk2Q2Fjc1lVMXhEejZpakVvV09tcXVyMGhWZHJOWllJdnFES1hQ?=
- =?utf-8?B?SVh0MmhZTkVsY0FxRDV4c3lQdWNQbmVvNkJTMEdMM3hPbmdrWXpwZkpkUHBH?=
- =?utf-8?B?ZFpwYWE4ZU03T1hGOGdCTCs2SjVFTDU0cG0rMStLckJ2SFNuMHNkSktzTE1s?=
- =?utf-8?B?TnNHWXFWQTd4YTJKc09sVW9LYi9SRjZkdGV6ZmMzTEQ0NGdoMkhyUFNmNXVo?=
- =?utf-8?B?WEhVWXRxbWZpR3A1Yk4yTUZhRUF5WW9PL215Z09HMjM3akFyaHFxOEFKZC9V?=
- =?utf-8?B?MS9OcUx3VWQ2SmlKeE05cG52V3NXOTg3SVcyMFp1aGJhRStkMVBNajNjUExL?=
- =?utf-8?B?VzdFWGgzM0lxRGRmV1dvZXN5VUt0b0ZOU1BTSis4a2I4SDBYa2FFaUZ5ZDNv?=
- =?utf-8?B?Sk1sVTFCTWM5RXpHVXkvZnI2bHR4ZUtROXhBUXVFOEx5emNCem5CV1lNNHBM?=
- =?utf-8?B?QjQrenVaNUlRcHIzaU5MZjBiQ3BwQm9zQVExbE1QdmZYT1RWTGsvT0pUOVR6?=
- =?utf-8?B?SjR1ck5odTFrNm02ejF3c2xlcWcwZjVBSEh4TFFHcFovVU1OMW1ZcWl1cHQy?=
- =?utf-8?B?WmVPVUdMMHkvSzMwWFdBTnJZR2pGYUFmVGZRcEhnR1RGRkJLdHBML2V5bXR5?=
- =?utf-8?Q?HyrOHT2WMgX5UHdM=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6047f8d5-e411-45b4-6ea6-08de791c9220
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8531.namprd11.prod.outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 12:01:15.2362
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 293f3d20-ab5d-4105-36ba-08de790f6ac8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2026 10:27:05.5454
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XknomV/iFD8Z2iTysvVpTOd4wtG652f3NPEqhYe0rbXxxDq8YUL/rTPiY6+zBjArpKrY99hj151n4C0RkacUJS2wAWuIVzEEvoXKk4GIuwg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6510
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=LqWfC3dc c=1 sm=1 tr=0 ts=69a6cd8e cx=c_pps
- a=ucUdQIQ8V72PEv2waZrxmA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
- a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=bYnFuPGLkvGW-qOXtBkA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: jmxl5QhTL92FCc8nLRCB5qdhxgiQFalv
-X-Proofpoint-ORIG-GUID: tgYuADqKOI4o4GF0sp9iMDF2enWby5jl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA5NCBTYWx0ZWRfX/39wjmGZzkAa
- 8r3ZZ0dn+VEvKj6sAexGXX/WkM3Cza7JWlHEFUfS/MEV2iEv8R5B55VWRrQU01V0dfUgRi16CeL
- TfRiVKTuNmdvlfub49KrYofnT1kjsWBf7dwQCoYzu5uKwewclyugaDKEn7zbm1v9qYJvg1ybq/Q
- UAtibkyZQYNhfN8BQuAdTYdVXhfk4texvoItSrz/8Zsm1sQBrECMX4yOdIGYc+LXG6tSWblyyST
- fsA4em1m1r69QxIXHyLp4vxerZNwOCmgZliUnv96kVw+d7SVdmA8jMK+MjjENM3pWOfv8kBi8rK
- vWn2LErO72mqf+r5N3HLtZbejtyamoevVDm9kPCUCk+dSczdosm+gSlvvLIbiX0pJdZ3mgH309n
- y0IAIGq6YrcPbOWABLdiRpZ8Q4jAMvSjmK+daKxZxQer6FyHkbXegrWGFJHQXGyi3vTVV7vcI+B
- bfz5WZxV2myRfb9Xdgw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030094
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6234TvtU1495135
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kOw1bFIqMItdllEI0JayX8sVe5g/I3M2crpq2rPMNkWzOgdSDMv/RODx+5KKHRTU+i/SktR/QTlbtjiw+BX6hAT8zT2rnM4p5QN1TnRMVNI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3164
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 12:01:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232307
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 12:36:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232308
+
+--_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 Hi Mathieu,
 
-Correct Ross' email (I had planed to ask Ross for help about cairo, but u=
-sed
-the wrong email, now the issue has been fixed, thanks all the same).
+this is weird. In V4 I ran successfully all tests locally before submitting=
+.
+I will take a look right away, curious to see what V5 broke.
 
-And please see my reply below.
+Stefano
+________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: Tuesday, March 3, 2026 09:42
+To: stondo@gmail.com <stondo@gmail.com>; openembedded-core@lists.openembedd=
+ed.org <openembedded-core@lists.openembedded.org>
+Cc: Ross.Burton@arm.com <Ross.Burton@arm.com>; jpewhacker@gmail.com <jpewha=
+cker@gmail.com>; Tondo, Stefano (ext) (SI B PRO AUT PD ZUG SW 2) <stefano.t=
+ondo.ext@siemens.com>; Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.=
+com>; Freihofer, Adrian (SI B PRO TI EAC CCP) <adrian.freihofer@siemens.com=
+>
+Subject: Re: [OE-core] [PATCH v5 04/10] spdx30: Add version extraction from=
+ SRCREV for Git source components
 
-On 3/3/26 17:41, Robert Yang wrote:
-> Hi RP,
->=20
-> Thanks for the comments.
->=20
-> On 3/2/26 18:57, Richard Purdie wrote:
->> On Sun, 2026-03-01 at 04:25 -0800, Robert Yang via lists.openembedded.=
-org wrote:
->>> From: Robert Yang <liezhi.yang@windriver.com>
->>>
->>> The rpm 6 doesn't support external dependency generator. Oe-core used=
- it for
->>> per file dependency which was saved into pn.requires and pn.provides,=
- but that
->>> hasn't been used any more since 2012 (rev:
->>> be40f6d0bb80274366af00461112af65687a4de8), and there were no complain=
-s or
->>> updates in the past 13 years, so just drop it to support rpm 6.
->>
->> This commit message is confusing. I think we need to be clear about th=
-e
->> following:
->>
->> Is this file dependency information written into the existing rpms wit=
-h
->> rpm 5?
->=20
-> I think you mean rpm 4 here, no, it isn't:
-> * You disabled it by default since 2012 (rev:=20
-> be40f6d0bb80274366af00461112af65687a4de8), and said:
->=20
->  =C2=A0=C2=A0=C2=A0 Since few people use the per file dependency inform=
-ation, this patch
->  =C2=A0=C2=A0=C2=A0 goes for the faster approach. It can be enabled if =
-anyone needs it although
->  =C2=A0=C2=A0=C2=A0 I'd mention that its being used to us as this code =
-may well go away in
->  =C2=A0=C2=A0=C2=A0 the future if nobody complains.
->=20
-> * And even if we enable it manually, these info are just used by rpmbui=
-ld,=20
-> others shouldn't use it?
->=20
->>
->> After the changes, do we still have the file dependency information or
->> is this being removed?
->=20
-> Yes, we will still have the file dependency information generated by rp=
-mbuild,
-> here are related code from rpm:
->=20
->  =C2=A0=C2=A0=C2=A0 /* If new-fangled dependency generation is disabled=
- ... */
->  =C2=A0=C2=A0=C2=A0 if (!rpmExpandNumeric("%{?_use_internal_dependency_=
-generator}")) {
->  =C2=A0=C2=A0=C2=A0 if (fc->rpmformat < 6) {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* ... then generate depend=
-encies using %{__find_requires} et al. */
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rpmlog(RPMLOG_WARNING,
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 _("Deprecated external depe=
-ndency generator is used!\n"));
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rc =3D rpmfcApplyExternal(f=
-c);
->  =C2=A0=C2=A0=C2=A0 } else {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rpmlog(RPMLOG_ERR,
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 _("External dependency gene=
-rator is incompatible with v6 packages\n"));
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rc =3D RPMRC_FAIL;
->  =C2=A0=C2=A0=C2=A0 }
->  =C2=A0=C2=A0=C2=A0 } else {
->  =C2=A0=C2=A0=C2=A0 /* ... otherwise generate per-file dependencies */
->  =C2=A0=C2=A0=C2=A0 rc =3D rpmfcApplyInternal(fc);
->  =C2=A0=C2=A0=C2=A0 }
->=20
->>
->> I think you're saying there were no external users after 2012 but I'm
->> not even 100% sure about that.
->=20
-> These info are for rpmbuild, there shouldn't be external users? And we =
-must drop
-> it to support rpm 6.
->=20
-> And now I can't reproduce the build errors from autobuilder, I suspect =
-it is
-> because of host contamination issues, I tried to reproduce it on ubuntu
-> 25.04 and debian v12, but can't reproduce them, it looks to me that cai=
-ro.pc's
-> provides (pkgconfig(cairo) =3D 1.18.4) wasn't generate in autobuilder, =
-but I don't
->  =C2=A0know why.
+On Mon Mar 2, 2026 at 5:01 PM CET, Stefano Tondo via lists.openembedded.org=
+ wrote:
+> Extract version information for Git-based source components in SPDX 3.0
+> SBOMs to improve SBOM completeness and enable better supply chain trackin=
+g.
+>
+> Problem:
+> Git repositories fetched as SRC_URI entries currently appear in SBOMs
+> without version information (software_packageVersion is null). This makes
+> it difficult to track which specific revision of a dependency was used,
+> reducing SBOM usefulness for security and compliance tracking.
+>
+> Solution:
+> - Extract SRCREV for Git sources and use it as packageVersion
+> - Use fd.revision attribute (the resolved Git commit)
+> - Fallback to SRCREV variable if fd.revision not available
+> - Use first 12 characters as version (standard Git short hash)
+> - Generate pkg:github PURLs for GitHub repositories (official PURL type)
+> - Add comprehensive debug logging for troubleshooting
+>
+> Impact:
+> - Git source components now have version information
+> - GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)
+> - Enables tracking specific commit dependencies in SBOMs
+>
+> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+> ---
 
-I've figured out the root cause, it is because I had added pkgconfig-nati=
-ve to
-PACKAGE_DEPENDS, it would fail when do_packagedata is from sstate cache, =
-but
-do_package_write_rpm is re-run (not from sstate-cache), here is the repro=
-ducer:
-$ bitbake cairo -ccleansstate && bitbake cairo -cpackagedata && bitbake c=
-airo=20
--cclean && bitbake cairo -cpackage_write_rpm
+Hi Stefano,
 
-$ rpm -qp --provides tmp/deploy/rpm/cortexa57/libcairo-dev-1.18.4-r0.cort
-exa57.rpm
-cairo-dev =3D 1.18.4
-libcairo-dev =3D 1.18.4-r0
+Thanks for the new version, but we again have a lot of selftests failing:
 
-Then the "pkgconfig(cairo) =3D 1.18.4" is gone from the provides which is
-incorrect. I should add pkgconfig-native as rpm-native:
-  python () {
-      if d.getVar('PACKAGES') !=3D '':
-          deps =3D ' rpm-native:do_populate_sysroot=20
-virtual/fakeroot-native:do_populate_sysroot'
-+        # The pkgconfig-native is required by rpm's pkgconfigdeps.sh
-+        deps +=3D ' pkgconfig-native:do_populate_sysroot'
-          d.appendVarFlag('do_package_write_rpm', 'depends', deps)
-          d.setVarFlag('do_package_write_rpm', 'fakeroot', '1')
+2026-03-02 17:36:16,484 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_binary (subunit.RemotedTestCase)
+2026-03-02 17:36:16,484 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-02 17:36:16,486 - oe-selftest - INFO - 7: 7/29 178/673 (21.91s) (0 =
+failed) (devtool.DevtoolAddTests.test_devtool_add_binary)
+2026-03-02 17:36:16,486 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 419, in test_devt=
+ool_add_binary
+    result =3D runCmd('devtool add  -b %s %s' % (pn, bin_package_path))
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
+    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
+s" % (command, result.status, exc_output))
+AssertionError: Command 'devtool add  -b tst-bin /tmp/devtoolqalnb521vt/tst=
+-bin.tar.gz' returned non-zero exit status 1:
+...
+2026-03-02 17:36:37,300 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_fetch (subunit.RemotedTestCase)
+2026-03-02 17:36:37,301 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-02 17:36:37,302 - oe-selftest - INFO - 7: 8/29 181/673 (20.82s) (2 =
+failed) (devtool.DevtoolAddTests.test_devtool_add_fetch)
+2026-03-02 17:36:37,302 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 554, in test_devt=
+ool_add_fetch
+    result =3D runCmd('devtool add --no-pypi %s %s -f %s' % (testrecipe, sr=
+cdir, url))
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
+    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
+s" % (command, result.status, exc_output))
+AssertionError: Command 'devtool add --no-pypi python-markupsafe /tmp/devto=
+olqaamxld4_b/python-markupsafe -f https://eur01.safelinks.protection.outloo=
+k.com/?url=3Dhttps%3A%2F%2Ffiles.pythonhosted.org%2Fpackages%2Fc0%2F41%2Fba=
+e1254e0396c0cc8cf1751cb7d9afc90a602353695af5952530482c963f%2FMarkupSafe-0.2=
+3.tar.gz&data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
+f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
+094951%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D8F4uo=
+ng%2BOpYL%2FDGs7JXQv4eiNpO35f2hMedzRnFG0ic%3D&reserved=3D0'<https://files.p=
+ythonhosted.org/packages/c0/41/bae1254e0396c0cc8cf1751cb7d9afc90a602353695a=
+f5952530482c963f/MarkupSafe-0.23.tar.gz> returned non-zero exit status 1:
+...
+2026-03-02 17:37:54,668 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_fetch_simple (subunit.RemotedTestCase)
+2026-03-02 17:37:54,668 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-02 17:41:18,826 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_python_egg_requires (subunit.RemotedTestCase)
+2026-03-02 17:41:18,826 - oe-selftest - INFO -  ... FAIL
+...
+
+Continuing with 25 test fails.
+
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
+lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F35%2Fbuilds%2F3314&data=
+=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900=
+c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603157675%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
+iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DKDCdm12DN4fL1iGLQZ=
+%2FZmLPSjg%2BgOZzVggpncz%2FFcj8%3D&reserved=3D0<https://autobuilder.yoctopr=
+oject.org/valkyrie/#/builders/35/builds/3314>
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
+lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F48%2Fbuilds%2F3204&data=
+=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900=
+c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603212892%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
+iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D5BeBNBPHUGGL3nzdHc=
+7aEHxhDgiy3LWR%2F%2F4XHZic%2BMY%3D&reserved=3D0<https://autobuilder.yoctopr=
+oject.org/valkyrie/#/builders/48/builds/3204>
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
+lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F23%2Fbuilds%2F3434&data=
+=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900=
+c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603271951%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
+iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Df63cwRTFpSuC%2B5nl=
+a372zSRE3oBgp9fET7W9hA2DpSE%3D&reserved=3D0<https://autobuilder.yoctoprojec=
+t.org/valkyrie/#/builders/23/builds/3434>
+
+Can you have a look at these failures?
+
+Thanks,
+Mathieu
+
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fbootlin=
+.com%2F&data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f=
+48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C6390812416033=
+28730%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsI=
+lAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D8f9pqx=
+Csj2L4NXqIIe4KCylV%2FMTzhPJrZp2aw8w9y54%3D&reserved=3D0<https://bootlin.com=
+/>
 
 
-I've updated it in the pull (patch 7). @Mathieu, would you please help to
-re-test it if RP has no objections on the external generator?
+--_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-   https://github.com/robertlinux/yocto rbt/rpm
-   https://github.com/robertlinux/yocto/tree/rbt/rpm
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Hi Mathieu,</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+this is weird. In V4 I ran successfully all tests locally before submitting=
+.</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+I will take a look right away, curious to see what V5 broke.</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Stefano</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Mathieu Dubois-Briand=
+ &lt;mathieu.dubois-briand@bootlin.com&gt;<br>
+<b>Sent:</b> Tuesday, March 3, 2026 09:42<br>
+<b>To:</b> stondo@gmail.com &lt;stondo@gmail.com&gt;; openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Cc:</b> Ross.Burton@arm.com &lt;Ross.Burton@arm.com&gt;; jpewhacker@gmai=
+l.com &lt;jpewhacker@gmail.com&gt;; Tondo, Stefano (ext) (SI B PRO AUT PD Z=
+UG SW 2) &lt;stefano.tondo.ext@siemens.com&gt;; Marko, Peter (FT D EU SK BF=
+S1) &lt;Peter.Marko@siemens.com&gt;; Freihofer, Adrian (SI
+ B PRO TI EAC CCP) &lt;adrian.freihofer@siemens.com&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH v5 04/10] spdx30: Add version extracti=
+on from SRCREV for Git source components</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Mon Mar 2, 2026 at 5:01 PM CET, Stefano Tondo v=
+ia lists.openembedded.org wrote:<br>
+&gt; Extract version information for Git-based source components in SPDX 3.=
+0<br>
+&gt; SBOMs to improve SBOM completeness and enable better supply chain trac=
+king.<br>
+&gt;<br>
+&gt; Problem:<br>
+&gt; Git repositories fetched as SRC_URI entries currently appear in SBOMs<=
+br>
+&gt; without version information (software_packageVersion is null). This ma=
+kes<br>
+&gt; it difficult to track which specific revision of a dependency was used=
+,<br>
+&gt; reducing SBOM usefulness for security and compliance tracking.<br>
+&gt;<br>
+&gt; Solution:<br>
+&gt; - Extract SRCREV for Git sources and use it as packageVersion<br>
+&gt; - Use fd.revision attribute (the resolved Git commit)<br>
+&gt; - Fallback to SRCREV variable if fd.revision not available<br>
+&gt; - Use first 12 characters as version (standard Git short hash)<br>
+&gt; - Generate pkg:github PURLs for GitHub repositories (official PURL typ=
+e)<br>
+&gt; - Add comprehensive debug logging for troubleshooting<br>
+&gt;<br>
+&gt; Impact:<br>
+&gt; - Git source components now have version information<br>
+&gt; - GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)<=
+br>
+&gt; - Enables tracking specific commit dependencies in SBOMs<br>
+&gt;<br>
+&gt; Signed-off-by: Stefano Tondo &lt;stefano.tondo.ext@siemens.com&gt;<br>
+&gt; ---<br>
+<br>
+Hi Stefano,<br>
+<br>
+Thanks for the new version, but we again have a lot of selftests failing:<b=
+r>
+<br>
+2026-03-02 17:36:16,484 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_binary (subunit.RemotedTestCase)<br>
+2026-03-02 17:36:16,484 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+2026-03-02 17:36:16,486 - oe-selftest - INFO - 7: 7/29 178/673 (21.91s) (0 =
+failed) (devtool.DevtoolAddTests.test_devtool_add_binary)<br>
+2026-03-02 17:36:16,486 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
+rs/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py&quot;, line 41=
+9, in test_devtool_add_binary<br>
+&nbsp;&nbsp;&nbsp; result =3D runCmd('devtool add&nbsp; -b %s %s' % (pn, bi=
+n_package_path))<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
+rs/openembedded-core/meta/lib/oeqa/utils/commands.py&quot;, line 214, in ru=
+nCmd<br>
+&nbsp;&nbsp;&nbsp; raise AssertionError(&quot;Command '%s' returned non-zer=
+o exit status %d:\n%s&quot; % (command, result.status, exc_output))<br>
+AssertionError: Command 'devtool add&nbsp; -b tst-bin /tmp/devtoolqalnb521v=
+t/tst-bin.tar.gz' returned non-zero exit status 1:<br>
+...<br>
+2026-03-02 17:36:37,300 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_fetch (subunit.RemotedTestCase)<br>
+2026-03-02 17:36:37,301 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+2026-03-02 17:36:37,302 - oe-selftest - INFO - 7: 8/29 181/673 (20.82s) (2 =
+failed) (devtool.DevtoolAddTests.test_devtool_add_fetch)<br>
+2026-03-02 17:36:37,302 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
+rs/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py&quot;, line 55=
+4, in test_devtool_add_fetch<br>
+&nbsp;&nbsp;&nbsp; result =3D runCmd('devtool add --no-pypi %s %s -f %s' % =
+(testrecipe, srcdir, url))<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/build/laye=
+rs/openembedded-core/meta/lib/oeqa/utils/commands.py&quot;, line 214, in ru=
+nCmd<br>
+&nbsp;&nbsp;&nbsp; raise AssertionError(&quot;Command '%s' returned non-zer=
+o exit status %d:\n%s&quot; % (command, result.status, exc_output))<br>
+AssertionError: Command 'devtool add --no-pypi python-markupsafe /tmp/devto=
+olqaamxld4_b/python-markupsafe -f
+<a href=3D"https://files.pythonhosted.org/packages/c0/41/bae1254e0396c0cc8c=
+f1751cb7d9afc90a602353695af5952530482c963f/MarkupSafe-0.23.tar.gz">
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Ffiles.p=
+ythonhosted.org%2Fpackages%2Fc0%2F41%2Fbae1254e0396c0cc8cf1751cb7d9afc90a60=
+2353695af5952530482c963f%2FMarkupSafe-0.23.tar.gz&amp;data=3D05%7C02%7Cstef=
+ano.tondo.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900c21d%7C38ae3bcd95=
+794fd4addab42e1495d55a%7C1%7C0%7C639081241603094951%7CUnknown%7CTWFpbGZsb3d=
+8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbC=
+IsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D8F4uong%2BOpYL%2FDGs7JXQv4eiNpO=
+35f2hMedzRnFG0ic%3D&amp;reserved=3D0'</a>
+ returned non-zero exit status 1:<br>
+...<br>
+2026-03-02 17:37:54,668 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_fetch_simple (subunit.RemotedTestCase)<br>
+2026-03-02 17:37:54,668 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+2026-03-02 17:41:18,826 - oe-selftest - INFO - devtool.DevtoolAddTests.test=
+_devtool_add_python_egg_requires (subunit.RemotedTestCase)<br>
+2026-03-02 17:41:18,826 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+<br>
+Continuing with 25 test fails.<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
+ds/3314">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
+2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F35%2Fbuilds%2F=
+3314&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
+f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
+157675%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DK=
+DCdm12DN4fL1iGLQZ%2FZmLPSjg%2BgOZzVggpncz%2FFcj8%3D&amp;reserved=3D0</a><br=
+>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
+ds/3204">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
+2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F48%2Fbuilds%2F=
+3204&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
+f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
+212892%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D5=
+BeBNBPHUGGL3nzdHc7aEHxhDgiy3LWR%2F%2F4XHZic%2BMY%3D&amp;reserved=3D0</a><br=
+>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/buil=
+ds/3434">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
+2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F23%2Fbuilds%2F=
+3434&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7Cfa7273d9ff86436=
+f48af08de7900c21d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639081241603=
+271951%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3Df=
+63cwRTFpSuC%2B5nla372zSRE3oBgp9fET7W9hA2DpSE%3D&amp;reserved=3D0</a><br>
+<br>
+Can you have a look at these failures?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com/">https://eur01.safelinks.protection.outlook=
+.com/?url=3Dhttps%3A%2F%2Fbootlin.com%2F&amp;data=3D05%7C02%7Cstefano.tondo=
+.ext%40siemens.com%7Cfa7273d9ff86436f48af08de7900c21d%7C38ae3bcd95794fd4add=
+ab42e1495d55a%7C1%7C0%7C639081241603328730%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0=
+eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo=
+yfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D8f9pqxCsj2L4NXqIIe4KCylV%2FMTzhPJrZp2aw8=
+w9y54%3D&amp;reserved=3D0</a><br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
-for you to fetch changes up to f8fa3090196bae3e12ad76f12f101722d84ca20a:
-
-   rpm: 4.20.1 -> 6.0.1 (2026-03-03 11:29:07 +0000)
-
-----------------------------------------------------------------
-
-Robert Yang (7):
-   package_rpm.bbclass: Drop external dependency generator to support rpm
-     6
-   package_rpm.bbclass: Define _lib and _libdir for rpmbuild
-   lib/oe/package.py: Don't add ldconfig_postinst_fragment for glibc or
-     musl
-   glib/python3/acl: Add pkgconfig to RDEPENDS
-   lib/oe/package.py: Don't redirect stderr
-   target-sdk-provides-dummy: Add pkg-config to DUMMYPROVIDES
-   rpm: 4.20.1 -> 6.0.1
-
-// Robert
-
->=20
-> We didn't get such issues in rpm4 was because rpm/scripts/pkgconfigdeps=
-.sh=20
-> didn't work in Yocto in the past, now rpm6 makes it work, so we got so =
-many
-> corner case issues, I've tried do as many tests I can, but still failed.
->=20
-> // Robert
->=20
->  > > Cheers,
->>
->> Richard
->=20
-
+--_000_AS4PR10MB5441FFDC9C00E4D486E9C709AC7FAAS4PR10MB5441EURP_--
 
