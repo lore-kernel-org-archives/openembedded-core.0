@@ -1,136 +1,64 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50302E67A6C
-	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 05:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D18E67A71
+	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 06:56:45 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11791.1772515460972820490
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12727.1772521002987145397
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Mar 2026 21:24:20 -0800
+ Mon, 02 Mar 2026 22:56:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=agN+/YhN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7522a5c2d2=changqing.li@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=pZUtRcnM;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75229269e5=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6234gXS63921016
-	for <openembedded-core@lists.openembedded.org>; Mon, 2 Mar 2026 21:23:20 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6235t7Tg4044898
+	for <openembedded-core@lists.openembedded.org>; Mon, 2 Mar 2026 22:56:42 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=t/WXsmhUbV1owArgcPE4
-	Hh5EA6d/mcqZl2xKHfJN2cE=; b=agN+/YhNs84SlBc1cZIqeT1qLVevd9D5o97g
-	ownH6iqbIbNbJvF67YrLiyGtd6Ecil+x3XxrObiquh14Ws6doAj4wSG2GmBW5sQ9
-	m7ARO4mi9PCjEK/n3VSH5aLQza58FYro2DPWsJojef+tBCa3VAljeOVtZIIs0Ob4
-	sP2sjzejYne+B9pHfhx+IVaZrRwGDci8t2I3RBhc9h/1wJcs9SdUIrMXU7pplB3D
-	zilHnxhh8iO/KMX+keeoolrOMGvz+d2rqMlBqoRb7wYbPqqDoiaLwPMsan7Zl6VG
-	fOWRNUZdp97fh2dmjd46Z09l3iyihUejIdbyE3evlZRbgk+MQQ==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010042.outbound.protection.outlook.com [52.101.193.42])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cm0rgjs68-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 21:23:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gL9hMVCBmRxSH2gsoKGuPsUeG2HNh4X1CdrUdFqjyHC0mL0GiBk+wdBnJX6yZ0GOJZv6axpMboad4esQh3AeePZ5Rq8qHi0wh0Ws2xIYYV9qWYBCmJ9e82RSjNeRbPpaAFZKh/02aKJpaZQn26VdOtj0qhI4kd10yyPzvpCzE28R+2JHLvYRUf5KnNjBT4IzLQzytKetNNoCstz6Cia5bIOJkRclZ3Mfh1abKcnlKh+rRfR5Rg4EL711D7LUD27hrAt52XXs6TZxENAZJzwFS++iYHh9/KnPqqCKmh4sAAp9AiInZq7SAJseeJOePXHbMAdyt9+WDHp7gyIpxbnOmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t/WXsmhUbV1owArgcPE4Hh5EA6d/mcqZl2xKHfJN2cE=;
- b=s/5QoBYygUzRDK1h0rykfeSOqZ8luiDdhXoaYESFHpnqru5jhc8HSDveGlPk7hvfOh03tgyooaiZ2yj4rSk31GGFeATW+7TEFPc3Uuhi+hmwNwGnQY+/G3f0U0mjbGkJVNzSe5kEpy5YtnQQDLydrsQbzWUN0SR64e3mShGAeGOoRUrEDBW5/oJo8HJ2Q+Upiq1gWMK0vW8KHqMjZGOwJsOwxOiKd8kbuDfoRx7FqOFGUAHhLlJNBSGzUhU7zBZlW2do1aPpFvA46vRNIHhaojVfTNS5hAKLPBmzv05jBgYiwmKJqI4i91lGYqLwZVKjP1sTnQEAjykUnBcyPOpPaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by IA4PR11MB9204.namprd11.prod.outlook.com (2603:10b6:208:56d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Tue, 3 Mar
- 2026 05:23:17 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::531e:6ef5:812b:48f6%5]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 05:23:17 +0000
-From: Changqing Li <changqing.li@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime/parselogs: Ignore warning message for dbus-daemon
-Date: Tue,  3 Mar 2026 13:21:18 +0800
-Message-Id: <20260303052118.2767604-1-changqing.li@windriver.com>
+	:mime-version:subject:to; s=PPS06212021; bh=7ZNcwwztaxQcYNHFJKO6
+	HLKzjCJGdbLWiyhuYzuUfWA=; b=pZUtRcnMAliYYKfFbu7+KsibcPDJVW/en162
+	fA+mX0mDTL9pnEnPOfIlLN4RjNoCEUq2AqSAuCs8eQIY0hLEnsq5jC50gQmOXPdW
+	y1SZ0KjwwJ2POpjcyiJiKMOeK/FLwXz6G3jeVKxSbYEn9DE28i5qMwYB668VxzCJ
+	wtlazESvh+Xn8dNIEB4xR2nWYofiR+ilsx2CQKhRUmep4KHhUXINU10+se9sP/Iu
+	evemwFGUDTUPqJn6y8/TvXYZE2F4oSSy5VQQ0kJlRi0+3+LYnT6oU8i3NR22TRJw
+	mscGdr/9SPRhMjbELPAuSDu3UWOQCJ/g/ifx6b89JRs8Bay1eA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cm0rgju8t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 02 Mar 2026 22:56:42 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Mon, 2 Mar 2026 22:56:41 -0800
+Received: from pek-lpg-core5.wrs.com (128.224.153.45) by
+ ala-exchng01.corp.ad.wrs.com (10.11.232.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Mon, 2 Mar 2026 22:56:41 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 01/19] btrfs-tools: upgrade 6.17.1 -> 6.19
+Date: Tue, 3 Mar 2026 14:56:22 +0800
+Message-ID: <20260303065640.2541884-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0136.jpnprd01.prod.outlook.com
- (2603:1096:400:2b7::6) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|IA4PR11MB9204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9d3f64ab-f007-42a0-894e-08de78e4f996
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	eDLcJDOkRhLNV/zv9LqSsAhQyW6Di8ifjvFVS4cJTZu71z7ZPctUaiOI3MYZ5R8khtXkw5mLm9fSNTBvIFLnhR19OLyYzMBGdR0GmsS+vzAI9C7uhy/Ci/QBcqy+uFEaha8z8mrYgrXnNOqRlrC9LJIjz9oYQGH5gMWOHdqz3HM6wmFaYhnsqGg9QG5Gn7IpLTFGJ7YHqAy4BXa68w3ox/BPZXaTPpojeUogufuPHovw+0VwI3+qiGDQTq/uupGPXB9hSI/f0agkXETqKZnM67Pm5yAWXm5xrNm1BXAsk7UekWc29I9fH4G3SLl7IiGFBdGjB7PuZ0a3ESO5HgT9YiAd1qzIBkWuajIcQ37tXJwroOOAasoO7Y7CT9VinEh2xwTxFUsJvVKvlbXZZiWKV3KkzHQIvmynSpCCMkQS3qcC5FCxgifDCXv5nZRjD7yxhD38i1ukTfi3x+3N3vI7J1GeTynw0VwuGxQpKlwyWfnyklEc0lD4XqhKRl3aDPwmrTEe9ErrKS6sjQqBh/9POuvTn0sqYVmnUs8EXbISsiz5ra2yfZgTtLUQ2wrWHdIYqiklJWNkZj9620DMUVE94Lm4DyadNFK84UfXnbILJwS1Xqe0kGoZP7sv0P00/7mi46zGhehrtxdtBz4pqk1Hf9WtxGBLb1poFfWQz2b856fOxuteqXn2yWdOrqmCgJT4YJEzrYU8ZjsMENLfrBuWgnqL1KM8cmx/eu6E56XH0M0=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?BIpxUju5osryRpRGRNEHFP7SN/5VKuhaM/bRMMTwib5FTogmTSk9XGqe5mRC?=
- =?us-ascii?Q?NrdrF3zG2dkM22xLdD+bLu0erF0//kCwxFYN/t+QvKozRdJY/0ZsIpNXIi1X?=
- =?us-ascii?Q?+98/kqxgtzGCpVYrr7NY20B1gT1l4LkqHSc9HKsN7Qv+/bzQnVc1DpTzytpS?=
- =?us-ascii?Q?wYi17pcW6gPkXJxUpfZQ7O+adu8R1rAx3CONkcYoVsG/0ddpse/sjc8UqMut?=
- =?us-ascii?Q?KAjJxicGCxbgTHCT8lPcXoKaabBI7F7OzLKSmg4/nl/zlgJsA1qjwZzIbB7c?=
- =?us-ascii?Q?grFb+dQgHRjaE2IquPUeyB/RBcbyTfAoQaqx/vxudSBtBuoDmy2ap+7efekW?=
- =?us-ascii?Q?vP5aG98D+LDeRh8vEuLK29k2TSX6RIkmznZeWAy79gkBY04b0MyuUlbmfBWe?=
- =?us-ascii?Q?sXom6Jdaljs+T2nIBmpIwEFN0fkUYxwbp+iyB9H7WKwDu4oqeezfRB2GdFJx?=
- =?us-ascii?Q?mWjDSXbuPXrz+qM308baeEnhqN17du2SMR1KYvPxifdZArFoGLHzRUCo/7Jf?=
- =?us-ascii?Q?ydwiDa+eI/sOfpURYaTh0+D9AvVWXK+OxpmBfwIV2XgM/qMaxVZYr+begh1k?=
- =?us-ascii?Q?/gEtEijti5dGOthDeBLB4CLjOdNPt4XI0oyHCcGLeeqvmLfLyXgLL1aXaSkY?=
- =?us-ascii?Q?JHh4Oqb1UKlBMA2/m0/8qaoYsgcUkYPKt9FTeMNudtoQwO5S5iRELbuwCcjF?=
- =?us-ascii?Q?Jx07V/IZa8zS9Jbnu7TlZXisjyaclVws7qHpO0oL4RQsBjH4tnJzmZrKtbp6?=
- =?us-ascii?Q?OtgN3Pmv+co0jkmxI4sFCPud+Cq4XXU61B2HMsmD4HtT8/TieWplg4L9RpSD?=
- =?us-ascii?Q?FaM2ExA6YkOtOpVpgAFpVgqJJ6UAJdW2elkgD5XMAF+O2TgkEIBKzm7linbo?=
- =?us-ascii?Q?wva/bU2+D/dwuV0LBEzeUL6EwhZFfFV6nnaC0AvHfuDnpIrpbDZBvsKk4UIk?=
- =?us-ascii?Q?TKkg4w9AxvviXo+HvS7M3RlKe/OPN3sFPZ5DkVSho161QZfk4bWJmcUX4bGr?=
- =?us-ascii?Q?+900wITcn7dMzU5CKGRJ5/PBJJfN9/Wd6PFvfq31nZXk5d83i3XT98Ge6VbV?=
- =?us-ascii?Q?QTzIeZcfA+i1LG6iA/aGkHlbEx23e1KDrip5aTac/DywPEjrQQlmq0udE5Y0?=
- =?us-ascii?Q?ID96ikCVaqJr2k6HUJZTdTZXpG+6bmJtvx7EFIGzl+ehKEslvzNWK5ong3s/?=
- =?us-ascii?Q?NWDBxnOQOhYBLCZ1fSowmdihPdm6eC4QlQMbF06dQ88uf5cR4H/KB9qOHxFZ?=
- =?us-ascii?Q?cnraRrkENBU/AjxO9VG11iB17YUzox5SrDhJtoW9IXEJDxHh0tAcPriC3vZA?=
- =?us-ascii?Q?L1BwGKLWKqxim1U8RJfmq5tcoxKMJBi4iNArQEkEjk+be8xOQPkF+3bc9ydN?=
- =?us-ascii?Q?Vp69BPZihsacTFx3mk/LhDaehR8Eg5AzKgEBE7K+S+tCdLGf9sadHnOGZs11?=
- =?us-ascii?Q?7+trAZ3WTDx6zzobArrzaZfbHykNqFlA8XYrYa8Wl3XUdxiboGA7fGQu8d4g?=
- =?us-ascii?Q?lfDS489AO4j+XZdVMQ4Zqpkp5oFIkFKdGPKv+OI/og7ZquGKPEv0d3cS2JlW?=
- =?us-ascii?Q?wmUwiIzd5dy5PXoBPu3hhd8n52B9jz6eYcDKvI3LhF4GqC6XeUrKHEEJNbh9?=
- =?us-ascii?Q?9p0nPf34MndEcxpvcf9DfRAbfWTeNE/g80SdLgXS3IQZf4PUNfuLvnmYSQ84?=
- =?us-ascii?Q?xrrTPetofLY5VpiOBbFWuovjpxX29WY/rppzBIW8GmD4xiM+38rsaE3D49Kb?=
- =?us-ascii?Q?3EC3w+dtnHDCxfqFsLH2mFoHzpbcT64=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	GquYY4cnMoYe1VB1LkaFG040bXS7+vv0Gk05i9HLb16bvwkewunn32lTLYbRVG3IHnsM2UILyu4H84yYvV2EfdWDJ6OBjfOGTb7xlfxqHf5kOq92PebJ8HuCXJ1mMS50u2VM5GDLXL5NE2h82B8SIiZtqb8j51ZHwwziPBwMT2RYZ7ge4TaFLL+DcTJqjWQXstExrBEIWmMNc7Uc0tAj2XBPdgq8xCLnQPFTStl7eCtRbEpqVM6Ojw0NqhNR+DedqdOC8Ovozama9V9Rrj0ZjHcflmzD4nO2jCfnjhZ+msv2rq9+2FxkiPQsj52g5ocTBFLtn6AcGRSW94w+F/VdOQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d3f64ab-f007-42a0-894e-08de78e4f996
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 05:23:17.1659
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TExYdB7O1yIIIJR+2Yl8QPI2Dr5k4d+oTQZ7e/EYB9ex/xfDnFFMmGhMY3+o3Ioi1ww4CM2kR8la+uANl5vIm4vfUxI1JJ6SXwFisEU2iwU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9204
-X-Proofpoint-GUID: ATpyhyMc9OedeYnunrlRejfGMvUrSBkQ
-X-Authority-Analysis: v=2.4 cv=Of+VzxTY c=1 sm=1 tr=0 ts=69a67048 cx=c_pps
- a=qId4hgiKfVM5Ptks7FQs9w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=e5mUnYsNAAAA:8
- a=LHPHIH39AAAA:8 a=t7CeM3EgAAAA:8 a=t8kVYU-aZCF5SDhOwhUA:9
- a=Vxmtnl_E_bksehYqCbjh:22 a=ni9NkqzTpj_P7rk-pjFO:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: ATpyhyMc9OedeYnunrlRejfGMvUrSBkQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDAzMyBTYWx0ZWRfXwfpdeIuJHrYF
- KOB120l7CMkR2SFWgi4l56Euo83Nj/ZIZGEhvUfh+7GmeSmK3e3pmVsOHhUL5mbXieXnO3nIgtk
- Mk/2BiU9CroJQFw3fLY7Nr9+nq1TlUdb7XQpXUhkHT6nth6kfBKBAaK8KtgQ7xuStthUBKRbMFa
- 3hOmuF/TaLYoasOEe7+OzJjfIhsqLBo42gkyCstVN0K2XjjVCCnPCtCmV7ZjrCrEMGb06rqwI8p
- fLsH3QYvA+qv+KOn5P2BLoy+AfzS/t/U4gyW/1lc5RodkNGWHTi639VTtmGYVop9eEQyDEPmjT7
- RlB7hknC7ijIgvMnMvqJb0yu0HTluEb05bpRlazVYFtF6GJi6xqpS1hPqk8ZDi0rWsBocun3PYp
- LfFdDqeFJW4EVVu6KK8w0hQKUHE8OaFr+2gpnmAoRi6286KJGPKqj0PbxN/9ABWKn+mPdvJM5Eb
- C4dUvV5f/pSvCYCHImg==
+X-Proofpoint-GUID: quRC1K6nrbQmLWXxXX_22dIPsUKmWy-I
+X-Authority-Analysis: v=2.4 cv=Of+VzxTY c=1 sm=1 tr=0 ts=69a6862a cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=aFIx6uq9AAAA:20 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=NEAV23lmAAAA:8 a=Y1pU1iggeUwA-e5CKGgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-ORIG-GUID: quRC1K6nrbQmLWXxXX_22dIPsUKmWy-I
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA0NyBTYWx0ZWRfX8+lpJFRiYO7D
+ MzrcWuRKYn+Opn6svhR3h75TSIqtPrUQAHFVK+v5PqwfTQmfDSOrH5s6JD8yVggxIlBwuD7v4EZ
+ 6ELXWwIfD33fnw/rhqDhGQAUFx5heghF//u3j+N4wS565R4fIX1Ve/i6d2hRDul/EgByONQhfnh
+ 15ptBKzXzBkIX3EshB9dSijUUTJM4P7BQE3GtsNkG9JWmoBU+pc6wmGFmMU3dXbviJwV9JxFW9o
+ lmQkl1SQwa1U5TIJkedcWnsFBB3XMNPYUfgx5d0Qn1B50iPtjGVXwAYobj8uhNsSehBsFJqfzQJ
+ 6ophPL7Yh4It72uy2qwXWUtQ4jmLjwFsol0v8/G17DOGvFCRcMGQRhfW8SYT2fF/As2wtODszS/
+ P1Jf3gFm0GMri9A+tuNYshoaec+tyH+4mKsudGHkzsi5N+ebeug2RR/Qw/gqHWPbVQhiopWUeDc
+ HpJxWoHyiMdeBammBjg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
@@ -138,40 +66,62 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  bulkscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0 spamscore=0
  impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030033
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030047
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 05:24:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232238
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 06:56:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232239
 
-"dbus-daemon[306]: Failed to drop supplementary groups: Operation not permitted"
-is reported after commit [1] is merged.  And this is a warning  message,
-and it is expected when calling process is not a privileged process,
-refer [2].
+Release Notes:
+https://github.com/kdave/btrfs-progs/releases/tag/v6.19
 
-[1] https://gitlab.freedesktop.org/dbus/dbus/-/commit/760cb1e418f9749ac942d8435a3f7273a1679345
-[2] https://gitlab.freedesktop.org/dbus/dbus/-/blob/main/dbus/dbus-sysdeps-util-unix.c?ref_type=heads#L350
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt | 3 +++
- 1 file changed, 3 insertions(+)
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../{btrfs-tools_6.17.1.bb => btrfs-tools_6.19.bb}          | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.17.1.bb => btrfs-tools_6.19.bb} (98%)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt b/meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt
-index f91abbc941..08759cf082 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt
-+++ b/meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt
-@@ -14,6 +14,9 @@ Failed to find URL:http://ipv6.connman.net/online/status.html
- # x86 on 6.6+ outputs this message, it is informational, not an error
- ACPI: _OSC evaluation for CPUs failed, trying _PDC
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 2cd66d2722..7272c27c6c 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 030ec81c0dac1e067faf49924d5631bb22ccc90d Mon Sep 17 00:00:00 2001
++From 7edcee57078769b7752275e0e5f35aefbfefc9eb Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
-+# This is a warning since dbus-daemon is not a privileged process
-+Failed to drop supplementary groups: Operation not permitted
-+
- # These should be reviewed to see if they are still needed
- dma timeout
- can\'t add hid device:
+ diff --git a/Makefile b/Makefile
+-index 7e36aa42..edff7d5b 100644
++index 96c11830..3f2585cb 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -996,7 +996,7 @@ endif
++@@ -997,7 +997,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.17.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.17.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.bb
+index 8a6e4c268f..460f70a35a 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.17.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "06981428c08f78f019a2f4956407fd84b495e21e"
++SRCREV = "9ac9a97ee3ebcc71c584a202a31ccd6442c436dc"
+ 
+ PACKAGECONFIG ??= " \
+     programs \
 -- 
 2.34.1
 
