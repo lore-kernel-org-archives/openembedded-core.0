@@ -2,64 +2,64 @@ Return-Path: <francesco@valla.it>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF05EDEBF3
-	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 20:30:44 +0000 (UTC)
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.11])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2356.1772569833921902136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2335AEDEBF5
+	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 20:41:24 +0000 (UTC)
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.12])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2623.1772570476880010358
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Mar 2026 12:30:34 -0800
+ Tue, 03 Mar 2026 12:41:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=w5nTt+B7;
- dkim=pass header.i=@valla.it header.s=default header.b=kQ4BKOZs;
- spf=pass (domain: valla.it, ip: 185.56.87.11, mailfrom: francesco@valla.it)
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-kqz0.prod.antispam.mailspamprotection.com; s=arckey; t=1772569834;
-	 b=RWp1gt/arQ6kOXQczUH7cqxLLVBTBF+XI49+vRJ4hm+YNBrOaYHpX1+9mqCYVJYdXV0yv++F2d
-	  Fxrr8aG8vrxNZWPG7KEFvCfad1pF55yH9D2qRZ6hxg8znQ87HLSU0Ox6CHqzikh07KtbWFka0g
-	  h0hr9AI+M678X7WqbH+xQ1j0sJTx5nhhngOXn90yarYMnfrvvDjYIGzmlbtv4oJta/ZyWJkYsM
-	  oKT4xEvfKKA1zTne2rf7X/EGrsLX8j8C1cej2NLSw3VcJIhD1eVL045WBAs2nXnLoKDgHBVRLy
-	  vVETCH7qg42fjlaxFqzdHung1mDLuGy1DLRDkv26FgZhyg==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-kqz0.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+ dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=rtGk/fGI;
+ dkim=pass header.i=@valla.it header.s=default header.b=URNE1gwQ;
+ spf=pass (domain: valla.it, ip: 185.56.87.12, mailfrom: francesco@valla.it)
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-hpzk.prod.antispam.mailspamprotection.com; s=arckey; t=1772570477;
+	 b=rQv1gdpAFexCdoU/0krLBPNrS8z4LkL6XY4sN5IZabPfynX0B9g4e8ETUuWPCms+HTzgYYgk8k
+	  2YMkQsXoc39+AUQY1ZelOV+aoLal+TQMjCM5H698iOGKaK1ll0CAKL4GJiawR4dQJ1ltZGNAx2
+	  0thLuArM3J70rQgC9ryxcZkBmbqBV0+8/+MKeIUwEB4ycigdLv2yW3kFkkH2OHV69DBeNS9QnQ
+	  tYl2ZthDfeOm8yFyTZ6U0RtC9n8ufvxSFwhug0GohFZooOeWq5rWqeejnTaX9XBjPnHH7h4nA4
+	  4DaGWBtCwBefaoelj9AYKOcrWMoifo4Rm2mp1o2JP5xVZw==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-hpzk.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
 	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-kqz0.prod.antispam.mailspamprotection.com; s=arckey; t=1772569834;
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-hpzk.prod.antispam.mailspamprotection.com; s=arckey; t=1772570477;
 	bh=z9shAe+oTnC17GkfZ3xxdLwYGx3tVSYJPGXgWPs+dCE=;
 	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	  Subject:MIME-Version:Date:Message-ID:DKIM-Signature:DKIM-Signature;
-	b=ZO868if6MIhLvJ+wFNtvc8kAjcEDyBdMVdc9SJQtJs60zJBHiyKuRNoRRzag2sJlPhmqTYuSxD
-	  RzKKV7YDdG+8ZqnbPMd4ZvQ0XD6FoM9onwBA8Lpx//fkDRZ69cHlF0rU2d9bjMNVVSqtpY6iAD
-	  EKLq0lvzejXLOKW11njP8CFmXJsggnqewaZ6uyzOfOev96StS1wqph+QJCdFe0msPB7fvCPZRW
-	  HcIIBuPwg2gISAqyN+ydbSmsivgotMrOcdBps7SO16smEpp2BHaSMvo6ryDuvE1IdaSCIU3+oL
-	  uWqeS4gDw9o7AehIvQBUUVcEAYUbkIp1qBS/x2KCrmsGUA==;
+	b=QWUVRxUFjBVGxaUzY9mfRTntKfvrQJdYyRyHnmn3QYJFha1B6+X0VPZateFM7032IBHetWMfiG
+	  23C6mXli/heZACSmhGEl+NA5+WFQZYk1pJhbUo6UlyDAGRYmp+NopwygAmQd6xNbnhohAfeg+q
+	  6PCzJcUewrpOV1KeFvJeEyJ1mUITSl9bgEno++ti9YUJOh7qoGzyyT0wrX6uZP+F+Rx2350ntD
+	  WzNU2MGyDpGCOMTqQjnq732WH5A8mjHQVUTM3VF/X3DAPI55g0QuNMey9yrKk7aRYlaFMnoG7Z
+	  a5+TWceqrYGxY2LneA4J3Glh4y574Ma+99Oy+X/2rzm0KQ==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
 	:Content-Transfer-Encoding:Content-Type:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:List-Unsubscribe;
-	bh=H6zzZl3GiVdzKlHSzkHr0GCjfrHiEKDMsY55/GiqIl8=; b=w5nTt+B7maLiDpsT7zXjFPXHi4
-	Lho4jGC4s1ePpN+hMOZtUUn1/SsjMIJmgj1ace3rEvHKQkY5JIeTcyfN/kWyrGwoN0YRNTUhp7CXM
-	22MY8c9Dd7nnHTBuMZQloI/qAYd0dzWTgQmtuJyq/jtpxvA3IFnnpoMEuTkzg6dWmDxY=;
+	bh=H6zzZl3GiVdzKlHSzkHr0GCjfrHiEKDMsY55/GiqIl8=; b=rtGk/fGI4SGGDx31v/ZywLN85M
+	86/0CAagSutSKzCBhsbHIFhCvH1f0r1cd6J9L6Qh7+Y0g3lUu0Gx/TIZX2ceXrMAoYpAy9mtM7kwn
+	dR2Zo2r+i0jW7LZVgQhUy/JIPsKPA3eSbKWKj1G27iiLgr7Wg8L+BVgM37zHooba4LbI=;
 Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-kqz0.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	by instance-europe-west4-hpzk.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.98.1)
 	(envelope-from <francesco@valla.it>)
-	id 1vxWNx-0000000H6jl-1vqy
+	id 1vxWYK-00000000tW6-3DOM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Mar 2026 20:30:31 +0000
+	Tue, 03 Mar 2026 20:41:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
 	s=default; h=From:Cc:To:Subject:Date:list-help:list-unsubscribe:
 	list-subscribe:list-post:list-owner:list-archive;
-	bh=H6zzZl3GiVdzKlHSzkHr0GCjfrHiEKDMsY55/GiqIl8=; b=kQ4BKOZsEr9NCDD2snEjzQHjOy
-	7hziiFn3Zrg7LIDZ/+ddVYZGJkvDkKJZZGo5k33AxEetWCa9b4l9aeQkqtqIJMZCFDQmOkehfxvfy
-	7lUoHnBZalJYwith5wgVQlDDiNNT9KEiH5TnoNt9Z3yLSSyzxGc4PVn/QCJa3/1v7yYg=;
-Received: from [82.57.88.19] (port=59344 helo=[192.168.178.65])
+	bh=H6zzZl3GiVdzKlHSzkHr0GCjfrHiEKDMsY55/GiqIl8=; b=URNE1gwQAk4OUtcjHw33PKWeA4
+	ZXX317ThV8bFda8aPf3aT2wINzYbs8jWalt63pDUhNOSZBHsEpOJKUoVeblSN58uFcD+DWIN9mV72
+	By4VZL49+h9hZwjO+Rz+12vXOjwx1w+x+ualH8704HJrsXw4/NNXpgMDof0AG46T/xNw=;
+Received: from [82.57.88.19] (port=63803 helo=[192.168.178.65])
 	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
 	(Exim 4.99.1)
 	(envelope-from <francesco@valla.it>)
-	id 1vxWNr-000000001TL-02Ud;
-	Tue, 03 Mar 2026 20:30:23 +0000
-Message-ID: <e3b71012-6f22-4d8b-82d3-6dfefc947a7d@valla.it>
-Date: Tue, 3 Mar 2026 21:30:22 +0100
+	id 1vxWYE-000000009a2-329u;
+	Tue, 03 Mar 2026 20:41:06 +0000
+Message-ID: <598ce0d0-90d5-4a14-a2b8-7d19c93af3c1@valla.it>
+Date: Tue, 3 Mar 2026 21:41:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH v2] kernel-fit-image: support arbitrary
@@ -84,15 +84,15 @@ X-AntiAbuse: Sender Address Domain - valla.it
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-SGantispam-id: 45b30b93cf07392d246ea4d8abe1807d
-X-AntiAbuse: ID - 45b30b93cf07392d246ea4d8abe1807d
+X-SGantispam-id: 55dd41319f069d1a09cb72a76c2562bb
+X-AntiAbuse: ID - 55dd41319f069d1a09cb72a76c2562bb
 AntiSpam-DLS: false
 AntiSpam-DLSP: 
 AntiSpam-DLSRS: 
 AntiSpam-TS: 1.0
 CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1vxWNx-0000000H6jl-1vqy-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-kqz0.prod.antispam.mailspamprotection.com;
+CFBL-Feedback-ID: 1vxWYK-00000000tW6-3DOM-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-hpzk.prod.antispam.mailspamprotection.com;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
@@ -100,8 +100,8 @@ Authentication-Results: outgoing.instance-europe-west4-kqz0.prod.antispam.mailsp
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 20:30:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232336
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Mar 2026 20:41:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232337
 
 Hi Trevor,
 
