@@ -2,102 +2,124 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43183EB7EB8
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:13:23 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14695.1772619196408657974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A20CEB7EB6
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:25:42 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14937.1772619939651122151
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 02:13:16 -0800
+ Wed, 04 Mar 2026 02:25:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VdAIl4dR;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cb5c9ba82bso1104415085a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 02:13:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772619195; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Vt42mERgbi8xEyUxsMdSFaipUd/a8/nJIFVNpqI7VoxptU8pqnx2m6GeTWVjc3Njmy
-         KYEjuBKZPJkFu0OQW+JGKe1wAnGWRMA9tC7omcw81eyDrLP60bVQqBkfRBXOGp67Jalv
-         4l330Ba+0PXUGThjOCpmbEwgBJmmqRXgkEUX7uQqKdMs3bv2SMXisdBII93d4RMxzfkI
-         aT6x3jsiTlDW1n9kw8DZUZ94l8n9PdHytyS/ZDoWByWk7f/AeQFyjBuKTAsEHxsBo8aU
-         ePs1CTgEiqVbbN5BXHV+U+XHk7G/oBhY0HdAI106MRsdsA6WHOjiRjqocGkI+g3ygGhG
-         1StQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kLGtc85zbSUEb3tP35rQ1qyz8mSe0+XkArmbgFEe+Y4=;
-        fh=QG0/1kl/iNDCWfShgAIKRpbEE7JIBRGbrVXnRZODZk4=;
-        b=GBg/Tfv2CeEMbLZv33DiUhS5xLxLDn7TDAveP/+qXUGxGn3EqVYbjUi50A2j9R7tBC
-         P4SvOSj4iGKgveZvTM90rbtiYIjifJ8Wkd51lm/IfC0Dv9AAXGuV087R5YUpcm7o5fu4
-         mNzRmLVsOlr76F8Q/TBBoZf3JxNKR/ReBVaQwY17n2NtFhRILIVbTehh1KKmHR+ZlqKg
-         WxLGZVVtCvjpZJ5l1NZSJ2Gfi50woqFxfv8TOrlvPdGDgIVnilctNfx91x0eIS/ml3Dv
-         0TYiHZN26H9O+3+UTksvh8+qniA93xYB+8t93NlCoC7vqbYrkyEynNBvVsXhKmd6VgvR
-         eDRw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Me1WCgy8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439bcec8613so2027140f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 02:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772619195; x=1773223995; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kLGtc85zbSUEb3tP35rQ1qyz8mSe0+XkArmbgFEe+Y4=;
-        b=VdAIl4dRHMruixZF8gdM7WK0bn6MoluZ/U5DNHCprExXfudqx7Tx0N7Xk8OR1t5MpS
-         Pta73RtZrOpH1Apx5gRSCWKoBwe/t2puSLVlvxZkQdpNLrm4gZMNUrheeMuFmsDLRBtA
-         FiQkuS5upniiLJewnRWQ7UNhH4FrppVVfEaYBGoq3uIDeZMsU8LdtmPSfTZXHXIjWY5X
-         KWToADA3U/k2pneyjIIK+sPis3IV16K/cysUiPcKdRhPnZbdcJRWz6WNG+w3K6MswD3S
-         GPdEO20m2GLUn3SzowtxSZ6vQnNLFEBNgzfiMZu95gphckmbMm7aZF+ENhsZ5P96sy0+
-         iy3A==
+        d=gmail.com; s=20230601; t=1772619938; x=1773224738; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ODmRnX45XT3+/dRCaDUqqQ2N7YfZj9Ub0gRo40/VD0=;
+        b=Me1WCgy8ivPWq2Zl3s+6dTuTZf1IS6nmpm5SPMXwm6ATi/EpX4w/EkvoRE4FlLmQHZ
+         ZppQZqMrydUT31udbnvhxVj49E3kH/bVmGXbIOFr/aFHyBvkzID6Aoi824/N1eGhF7+3
+         N49Ja8joFlPyHcetUiHu92HK30a/JktqavgKIWvxb9/CT/3IG/v6VofoHRAAJ4qqLpfv
+         rlf/ndlWrr4DVE4zTS5qAKoSfB6fZEs/Xr11EMZHLO6NW6S5fHnPHgY+P3wVI89cOu6c
+         RYKXUmi3HtuO+bmggUCQWnqKVP4S2kU6fPVyzRImUzGbX6UEt/TDDCxd5gDYDnvjWQYC
+         iiLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772619195; x=1773223995;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1772619938; x=1773224738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kLGtc85zbSUEb3tP35rQ1qyz8mSe0+XkArmbgFEe+Y4=;
-        b=GsewVyFbpuva/42Q4qFXQ2Uxn16/FV48EQzBqrM41u3ro+0g0vCoHyU3XwZQgkHYG+
-         A7KLaDCEVLjCyALrijRycadawB6ewvPHV8agfIGAYELXzJ3sMh4+ADVaWTxIjhKFdIyJ
-         Yoi3750uvVO6frxRwj5PYzywdK0+P7lIMsX8UJDS9dgENRD9JBrI07xY4TBzxwCN5cu+
-         +zpF3uObniNmgkj4kyunZvqVszU1JiR3CE2tpZRwCDnV2onFLGeBU8lL8709QJp3+Kw7
-         75KY3sw806yBTUEj98y9jKwneAbDvNVTDQTCZpj9dXOPfw4pR1wCf4LXxRPm6e5E4TbF
-         LDmA==
-X-Gm-Message-State: AOJu0YwK5k+gNEsCWvYnjoI8YS5wy2IWgqQW2AyVHtPEscjRJoVJvGiH
-	K6PY/7dBSJQq8DJolLyvJtsH4o4KXaPsn278xJG5kxG7UDNe/ExYH+WnV8Kgh5NTkykTdt7TRUG
-	xRGdCiXClJ/jXfiZDiQUS51QhdQ4/3ugMg8Dc
-X-Gm-Gg: ATEYQzx+zf3eTNuk+ImdgcKBP/wiG6uF4/8XPLb/u4/mWnEtIJOVuUavwx6kqWJHNec
-	KJuiDU61O5D2kxdEpvjUr46yBj3p4kLd7EDeAbYXL4NVOjJBDY0vM/hm3KwauOHUJQHZMt2aoTb
-	rUcVwnehu3NrW7N4nI0nEM6vxVh2jR6QnvnTHA1NNTAO3NY20oulO7JGHyCWUY1Sa/wlQ6bAmk9
-	FKKTO+vERy2hKXnpBhxBj6fdcMq/B2RaAEBIdNBD6laEhVvUgAih8C+GoAouIQM5LAjZnFAR0fx
-	tqegmRL92Us083BWxLVnQMHkW1DECV0ao4qGXbkzqw==
-X-Received: by 2002:a05:622a:c6:b0:503:42a4:96fb with SMTP id
- d75a77b69052e-508db3d1dcfmr16064431cf.65.1772619195316; Wed, 04 Mar 2026
- 02:13:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20260304072430.9478-1-liuyd.fnst@fujitsu.com>
-In-Reply-To: <20260304072430.9478-1-liuyd.fnst@fujitsu.com>
+        bh=9ODmRnX45XT3+/dRCaDUqqQ2N7YfZj9Ub0gRo40/VD0=;
+        b=dTRf7CI3VoEevDlE4cKPEnI/PrRAVGGjuyISRHounhcgHfm+5UsT2r8HnGTgTDfgEf
+         qTHHznLL+WCPQiEHm0guQcamfIon2T8jLLZXPP9eQPOifc0X/891ONGxHgr9COPh9nRv
+         7uhPeJpS/P+mzO0BXCrqHLWvsNtw4NrTqYJSULQvHZc2e7WDHR7XfGNsT6cNHKvjNjZa
+         ug+UyOcyF5bAQlh5tEs87R4vt1wnUI4DmqolSJnPn1Fq51ssHJht2yFT+YEshTJNb6SW
+         En73NNgpU3ABZmeMcqaDRu+yEdeq6Jx0OXnf4OzkgHDBqahxYcHsrg2s0ZTvBH0BiB26
+         yq8g==
+X-Gm-Message-State: AOJu0Yx8kEiYdV1e1U0XI/cAccbhf74oRSOvj3nD2pa07bT44fIFstiA
+	oCpSlJ9yUEMPmCNuIwmw3jlaoxvwcGppUP+LBTrRb4VQdAbcrYPYfBOw0TieZQ==
+X-Gm-Gg: ATEYQzzKFfxhus3LrTfZYwf9egI0b4NrsZRYfQvuwJ/8VXPMz4JfOygCf3WyfjRhMVy
+	s7kwdg5EaaE4vn2tRL/jg3C/ty80wsEa0TlZRn/6p2wGVzZ4M2c2day217yHU8e0CSadbMiB5gK
+	/tUCnoZW0i+crMvVWOIaRh9Q5BR1GKalvnCjS0wWSad3mx3E9Ip+G6MHrpwMNbGNxdYi6yZuFby
+	t9KVNCpC9QPdy8VVLLWKW3vjxXdzJBTexV8sSBBJQbvMQkDI1dk++7JFi9MsSoET4yOqHgbu+jC
+	CFp5DcPDcWEqr6NGdNzthYXLDNVHOroiQnnsnOfY+B8ztP9U5smX4Pqc7aIIjpVtZgF9fWIrbxy
+	O17GwxN7LB2BBsDJovj9lgoDipFzYsC/JxrhycdSV72obzfuH5v2O8aDYY0Oldr7CwBKSMtqn3V
+	3xa2Kdvpa3B1Ax/gUm9rNaRXUowaeLYfR6b5hgpB71JVDmd0aOvS5B0yKh+cs=
+X-Received: by 2002:a05:6000:1866:b0:430:f985:a7b2 with SMTP id ffacd0b85a97d-439c80209c9mr2487061f8f.51.1772619937689;
+        Wed, 04 Mar 2026 02:25:37 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439af926c53sm32155253f8f.8.2026.03.04.02.25.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 02:25:37 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Mar 2026 11:13:04 +0100
-X-Gm-Features: AaiRm537lR7R5WA0DrceaG5ADdF48_ZSsMVrT3iLHUftjCW7hOr68sRRKWj0d64
-Message-ID: <CANNYZj-fOp2oyGiJ5wNM+UCOoH07o+myEGroNWwyVqSOgazetg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] gstreamer1.0-vaapi: Enable hotdoc to produce doc
-To: liuyd.fnst@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH v3] sanity.bbclass: warn when sstate is outside of build dir, but hash equiv database is inside it
+Date: Wed,  4 Mar 2026 11:25:31 +0100
+Message-ID: <20260304102531.3825150-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:13:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232356
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:25:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232357
 
-On Wed, 4 Mar 2026 at 08:24, Yiding Liu (Fujitsu) via
-lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
-wrote:
-> 1. Add two patches to make generating doc works.
->   0001-Disable-cross_build-check-to-make-doc-work-in-yocto.patch
->   0002-Make-doc-build-in-default-rule.patch
+From: Alexander Kanavin <alex@linutronix.de>
 
-Thanks, I think the v2 looks good, but sadly upstream has removed
-vaapi in the new release:
-https://gstreamer.freedesktop.org/releases/1.28/
+This should help with the long-standing usability problem: when
+someone tweaks the configuration to put sstate somewhere else than
+the default (so that it can be shared between local builds, or over NFS),
+they should also share the hash equivalency database, but no indication
+would be given to the user to do so.
 
-So it probably doesn't make sense to add doc support to a recipe that
-will soon be altogether removed.
+This will issue a warning and recommend to start a dedicated hash equivalency
+server (if sstate is on NFS), or set BB_HASHSERVE_DB_DIR (if it isn't).
 
-Alex
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+v3: moved the check to oe-core's sanity class (v1/2 had it in bitbake cooker),
+due to use of SSTATE_DIR variable which is specific to oe-core.
+---
+ meta/classes-global/sanity.bbclass | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 7e81d65939..a170c3f5f5 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -1011,6 +1011,29 @@ def check_sanity_everybuild(status, d):
+     if d.getVar("SSTATE_MIRRORS") and hashserv and hashserv.startswith("unix://") and not d.getVar("BB_HASHSERVE_UPSTREAM"):
+         bb.warn("You are using a local hash equivalence server but have configured an sstate mirror. This will likely mean no sstate will match from the mirror. You may wish to disable the hash equivalence use (BB_HASHSERVE), or use a hash equivalence server alongside the sstate mirror.")
+ 
++    # Check that when SSTATE_DIR is shared between builds, hashserve database is not private to a build
++    hashserv_proto,_,hashserv_path,_,_,_ = bb.fetch2.decodeurl(hashserv)
++    if hashserv_proto == "unix":
++        dbdir = d.getVar("BB_HASHSERVE_DB_DIR") or d.getVar("PERSISTENT_DIR") or d.getVar("CACHE")
++        topdir = d.getVar("TOPDIR")
++        sstatedir = d.getVar("SSTATE_DIR")
++
++        if (hashserv_path.startswith(topdir) and dbdir.startswith(topdir) and not sstatedir.startswith(topdir)):
++            if bb.utils.is_path_on_nfs(sstatedir):
++                bb.warn("""Sstate directory is on a shared NFS (it is set via SSTATE_DIR to {}),
++    but hash equivalency database is inside this particular build directory {}.
++
++    This will prevent sstate reuse, and it is recommended to set up a permanently running hash equivalency server
++    according to https://docs.yoctoproject.org/dev-manual/hashequivserver.html""".format(sstatedir, topdir))
++            else:
++                bb.warn("""Sstate directory is shared between several builds (it is set via SSTATE_DIR to {}),
++    but hash equivalency database is inside this particular build directory {}.
++
++    This will prevent sstate reuse, and it is recommended to set the location for the database to a common path
++    via BB_HASHSERVE_DB_DIR, for example:
++
++    BB_HASHSERVE_DB_DIR = \"${{SSTATE_DIR}}\"""".format(sstatedir, topdir))
++
+     # Check that TMPDIR hasn't changed location since the last time we were run
+     tmpdir = d.getVar('TMPDIR')
+     checkfile = os.path.join(tmpdir, "saved_tmpdir")
+-- 
+2.47.3
+
 
