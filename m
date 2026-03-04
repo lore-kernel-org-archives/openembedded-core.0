@@ -2,95 +2,109 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D67EB7EB6
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 09:56:33 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14627.1772618183321080683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD95EB7EB7
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:11:53 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14682.1772619108945417469
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 01:56:23 -0800
+ Wed, 04 Mar 2026 02:11:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZmpKoUgk;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-89a1347051aso20698586d6.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 01:56:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772618182; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EPyDhgWl;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-506c00df428so60129061cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 02:11:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772619108; cv=none;
         d=google.com; s=arc-20240605;
-        b=TMFuUO/wPxVjqzKPPE2wlEGeZknzkz7uzfBFxeWsFu30WeNC19n84t9lN+a2Kzzx9A
-         9UowIcJqwHDtoc7s1zbfBo50bUcNXbR7ec0B/EbV5d7UZRcMxl9VlUmSOUytZgNQW9rQ
-         aGkz3PTO0oed8uCnZX/5g+3Njz69uG9cEB2zZ9+eWcZeHr+yw6WziDdiKoP5Qh9GDlrB
-         yKZ0YtI2ifsy5iIhj5nmrRkiQB7mfQ/A7tnYdnSlE+CNJrYVeUiuOORdfhcssNXls0z0
-         AGeN5KUQxl9vDDMB2lzl8gJc+9iRNmwZNNBDvigc9926ml3ngpPl2LHRs4QgaUdB+JY3
-         IXnA==
+        b=Hf0i0sFnV/ySIT0TM1ElaeYVdxESldqWMBJaDWN0wCZJkhe3aFl6Udbp9my7U4Us0n
+         B8UnBL7VrPaOUd0+rjOTwEUHyZZL4EhL3pz8WO4jC8llbYlaWU+MYwTSjYE3+GxJpEUA
+         9ejzDfXWbr7jxKo6zhiUiDCs7uVNH945vfnlXrfK+uxK+6FIWSUu0oGMgkSae7Yc+fvi
+         lD5eCzPaUYK6n58//ickS8/jeT1dXBgdloUCUT5X8A0SSnbNTcmrEvzJ+lfkHYvGSmmF
+         g/ietW/CI7bVahxSxYfX8Z8xgFTlU9uin5b0QJ2KB5y10X5UF/kkp5oHDCMOqPvcdXuV
+         XL4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=JeP2Zll8hTJ66LXrirzNjq8ZecX3ap3XI+QhE7DDI9w=;
-        fh=nN3b3dfGRIjrpjHx1fVsEaSOw/6WBmHqj0fk/PIzebk=;
-        b=VJl0gjzbknm5BhtcsUHrzXvRADAVSruymIswT+J1kJbxD0Yb0CRPdpHi9GzH0zP1Yx
-         jqtN/dgFBeU2UTvDysFMuoLMrMum7D/O3mAxoCnEtO2LdOgYTeVFjBYLSnukiwWcZE3w
-         Ggv4ncSjJEtBUfQzpicieoGJ3utmNsVxIFWIXKKtDFRmOxF/hElcWElGCT0JdcoSvaa5
-         FWYnXCPzd3xmoSM0yImBpGPn/28J9rTHoqt1Vc/TIBpvEQ3ZGV3SE/+a9RmGrwe2uALS
-         Jfj3rAKWKINuVCZ611TVYk4C7z/abuvtGiDA5SOxlVbcTMUjkaOPP53BnRYhzq6U8XOo
-         a8yw==;
+        bh=TVSXQiFWJYMMD4MKSOLiHVRQ9TjCyPKcnNkKfhcq0LI=;
+        fh=5j+5uZorKYMInVZFVPRixheCyqTSefXCb8hsVqZjYuc=;
+        b=c+SanrMxskAAY7Xc0L+b3ipxxC/iWmbqEumyZm/6t+yL8PmOMfvdgktWERj5ktXEuK
+         2EPSGmXRaCEp/ueryCnnt2FRbfCtae+r6kAJUZZNLV7uCF2RBtWk9actnJXbIBcPbM8X
+         8YqcFJMdu9GGQKPV+Gakl6pYIFsO7yGv5JODJCLwq/UDUs7jYOf2Ot/5GhLTzHeC/IIu
+         qPe9EoWyMs6jjaKCQroaeUe6wBL/twxhDhRm6MOKAPyzFGmz78LnoIgcbAdaHy1gwmEa
+         RUESta/HuyBoBQIAxJiUsNIVnX14LX1yVsU01zWCyMYymTSIh+1Y8snsLlrkFlOCsxCy
+         /aLg==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772618182; x=1773222982; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772619108; x=1773223908; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JeP2Zll8hTJ66LXrirzNjq8ZecX3ap3XI+QhE7DDI9w=;
-        b=ZmpKoUgkk0XRx3q3EcSqvr6kkNgPruniLAfKhVXnHbX2faswg8KwPJt1D74JBIVJJl
-         J9Dux2zYgHJ0azML9c8KxgXQGsQohktJkMqmrfFIEtO4pPOorvYFhUYQ5N4hzPZbpP0u
-         yrRkSlwxDt6mV6vVhSIQ8EPJEdrLtTrDfz9I2ii6Blr/ftzko+ksq8VlUUSRv2DZnYBW
-         N3eRGM5/2KaAahtwU+w169azU9BHTV10Xff71l56cpzkXB/pmXGYp28k8L+jZ7KDgwi6
-         TGj3+XztqycesluYPRncKGJbnOfnUbSlvP7etoP97qhET1DHlHox5jKw7CHwe7tWOQer
-         EJRQ==
+        bh=TVSXQiFWJYMMD4MKSOLiHVRQ9TjCyPKcnNkKfhcq0LI=;
+        b=EPyDhgWl3NyLa1VfMTkbdYOY6hB3WPgegNGoBaLX6v2fG+LQD+MVOST4epmtaEuNH+
+         2YVJUhlxuNtaFlc0CpKF04nYeKWCfTYOoS0DCGXGCcEcK7MXebdRkBZPanglR3HOLM28
+         yw7ZnzwIQYXfxryGOxEyxrsFTPBrzqE8xUzVniCQdbP+BlItIAYqPUdEdD/uZOY8/Z15
+         O37bifzQkf9riCJuo4kdQN0vrsnFdBc6vGZ+aYXQ8aUZMSWX2dzxfGR8ucEKCl6qgOAC
+         jYBcyRvuZI06a4UnJGL+JMFTyH6a+saL2bnKaPF4dGqig5plip3VOTN4bpUCRXwsh/jb
+         8doQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772618182; x=1773222982;
+        d=1e100.net; s=20230601; t=1772619108; x=1773223908;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JeP2Zll8hTJ66LXrirzNjq8ZecX3ap3XI+QhE7DDI9w=;
-        b=RmEAM60AHUh/VzA7w+mBczlqJh5IjwirQK7qDuEZOw269GBXZjQMD4URIwx5Vj/+4Q
-         dM32hwGbRb1TaYhEbqq7cq/qapSTfg8LLZj3jrr7RDlYRZyJ8VmActnn52n1OM8xnnDu
-         JLE5WNuG+fS6++QIspDrGexrB2tZCuaIRdl7T7cBnh+3u9hy2Y04BnEaLnHbz4huvSiY
-         VcRifrYLNm/skjnlr4roEMKIeY3rROi11PpqxM2dBj90z3z6YN1bOgkuOTkQIOa67d8u
-         8QKC20SdVhUfPPtFJD5RVxL1UkDYHAeQDXV7WiCtfXWxe8Cykl8wIHJPankPh+b1JAkN
-         5kXw==
-X-Gm-Message-State: AOJu0YzRiLlWvjlb44VziY1AIABFrOfXzKjToc/DqDEIBE+QvYf2JuPg
-	FARplKR4+PLlH+9GnAdgbd8Eb5x3QsJI+Ii5HOG8rbNewCBoi+zMrsOyeLuorTLTqGQKug58nE2
-	jpQJyJlWeyh8px45w5xtIiaVjFuEWwLY=
-X-Gm-Gg: ATEYQzz9eTkmEip3Hwoghf+I4VIUTz1G3qMFxRuTjt1vVxZkKADerQygXL/44hrKbWP
-	uISKlZ0t6uauxp/TsY2DREV2KnqolLblCDvPjHBqD/MA+zmkS9HwG3lNNg5xNNAloTRvHDeahtH
-	iZaeX+NhNlCR8SD++y6/2xJ18A7GLiNFZQ/ZKYu2VaCLSwEbwTwZWd0WtSGW6//1xhidqEcveFi
-	M8Mn5XIqDqM/9CYalYzJYHz3YuSdjoMWeZqpwaGcFy4/yUD6uCTc6BLbDzq6eeeYWlMCfE3v23v
-	Wt5HbK4SNmXgNs/BfyxceWYartvzTXAgSLOcNSYDtQ==
-X-Received: by 2002:a05:6214:5198:b0:899:e540:9dae with SMTP id
- 6a1803df08f44-89a197db2a9mr15469416d6.0.1772618182322; Wed, 04 Mar 2026
- 01:56:22 -0800 (PST)
+        bh=TVSXQiFWJYMMD4MKSOLiHVRQ9TjCyPKcnNkKfhcq0LI=;
+        b=GGPy9WzxI7zahcuT83QZUW2sqngJDS/A8kpJ10O3MXKx6VYL23yJoThOyc9ZVPuZI0
+         ew2iApG4j15OoZ+KCf1qJvlU324wTGH7BXtGbTBbJiEC5sACn3uCJQKw7yOfi82Ma9dd
+         cwTYlGI7ENZw/23DQDvQlrYST/9b9Uq5mmTy/bo9tCu/kUmjuw8jz7NVZaJ7PV8kxvlI
+         7j0CcbqXQm2fMHJyHIS7IDr2RG9emDqJCMZMH3mueTebEHjL/ApP5aKJkrMLCjA8sDIC
+         4L/JLJcuT8Bm+PVKy9+wKYa1KNe7wTeW4isG6vmiFlBIHxUrzaNRBAplZJvjbjUCPWt3
+         eSNw==
+X-Forwarded-Encrypted: i=1; AJvYcCXoBam75zCO8R+XIT6yZgX81H/FKdY/1lbvXXZYgI6B/RLk8vJGrn3V4DyYVqb280apr4Auuz6AYJWdwUiPGH3Z9w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyOZfkm6PBjQhlGqoSyIN1r8RcvBjSdXZaFK8Rn8s7pEWWffFKz
+	jpqNBqWmg0kXhbxvIrP/wQ1vU4jP9Lju82tr+b3x+tsvBqLORGbmfRaCBqAIgbKJKdpabmqsq7X
+	an0XIbqIzoGidgV9z4U/11q/RM9qdSnc=
+X-Gm-Gg: ATEYQzy7VMQctDWX/9NGciCqChh0qA2m2iJl3gr4KCb8BMs8CehSpua2sj9bGzgcDfC
+	Z5D8N5XmpHMXen+YugT57gZCNWoERb3bZKCiVs5fzcDGF5KhlL7B+Ylu/wcOWI+ARhDd/s2AYMI
+	IXdPj4IHPTuSMLiJVspE+rxeXPWqwH4bWrUXfI0SxeFz4beaddneBg2VYDYJdq4ofFXiwMquw3c
+	jXbcoLqS5n/quQ+EaRAUrsP4l4/NA7L4XCMscaIh4apxhNf47BlyIr6Gpb6Nkjg7SRbKJ/kiDfD
+	ANrPaCSZMN3GPF2P55an7w/KGqXt72L5lVJ2OGDRQQ==
+X-Received: by 2002:ac8:5846:0:b0:506:a5f1:e5e5 with SMTP id
+ d75a77b69052e-508db45bb1amr16613881cf.76.1772619108005; Wed, 04 Mar 2026
+ 02:11:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20260303100929.1624-1-wangmy@fujitsu.com> <20260303100929.1624-22-wangmy@fujitsu.com>
-In-Reply-To: <20260303100929.1624-22-wangmy@fujitsu.com>
+References: <0101019c720ee382-b27e2993-68bf-4034-a5b8-1bc9fd0d4663-000000@us-west-2.amazonses.com>
+ <6733c658-47d6-488b-8f0a-ea19bf20df47@windriver.com> <TYWPR01MB118611CAA2AAC1BEC4086414ADC72A@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+ <afd3d79d-4201-4fa7-ae3e-174702e692a3@windriver.com> <TYWPR01MB118617E05B1321306A4EBAE85DC73A@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+ <bf03027d-1e5e-491e-8f01-6ba833ea00ec@windriver.com> <4976379c-144e-4863-8922-3962c4daeb21@windriver.com>
+ <TYWPR01MB11861C1210F5A249BE0721E51DC7FA@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYWPR01MB11861C1210F5A249BE0721E51DC7FA@TYWPR01MB11861.jpnprd01.prod.outlook.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Mar 2026 10:56:11 +0100
-X-Gm-Features: AaiRm50fcE3pUrkFqXMfPlFDhrBPFBmOEpotgDEqhCnBue4YgxdhekLzpLbHa-c
-Message-ID: <CANNYZj9ok9W5-Cs5yLZr68mG6=C8u8pKSZ7s-dgEFA7yDPauaA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 22/23] vulkan-samples: upgrade to latest revision
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 4 Mar 2026 11:11:37 +0100
+X-Gm-Features: AaiRm53u6-8MefQx9bl_8wSHUU2w1otbhYpQ-2v5BDlrS84gTq5sy4Wc4cU7lJM
+Message-ID: <CANNYZj8N=aJLtrWx4dTJoRP4hjC44hZHqPWKQG-ijuOXkFtLZA@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] python3-rdflib: upgrading to 7.6.0 SUCCEEDED
+To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+Cc: Hongxu Jia <hongxu.jia@windriver.com>, Randy MacLeod <randy.macleod@windriver.com>, 
+	"Li, Changqing" <changqing.li@windriver.com>, "Chen, Qi" <qi.chen@windriver.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 09:56:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232354
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:11:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232355
 
-On Tue, 3 Mar 2026 at 11:10, wangmy via lists.openembedded.org
-<wangmy=fujitsu.com@lists.openembedded.org> wrote:
-> From: Upgrade Helper <auh@yoctoproject.org>
+On Tue, 3 Mar 2026 at 10:42, Mingyu Wang (Fujitsu) <wangmy@fujitsu.com> wrote:
+> The following two are temporarily held back from upgrading because they need to be upgraded together, and the upstream of gstreamer1.0-vaapi has not yet been updated to the latest version.:
+>
+> gstreamer1.0-vaapi
+>
+> gstreamer1.0
 
-This patch needs 'amend --reset-author' so it comes from yourself.
+Gstreamer vaapi has been removed in 1.28:
+https://gstreamer.freedesktop.org/releases/1.28/
+
+So please do not wait for something that will never happen, it would
+be good to get gstreamer 1.28 into upcoming LTS, but timing is getting
+very tight.
 
 Alex
 
