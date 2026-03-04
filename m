@@ -2,235 +2,347 @@ Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F42AEB7EB6
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:27:12 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14949.1772620022689630844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22989EB7EBB
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:28:32 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14849.1772620102025494084
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 02:27:03 -0800
+ Wed, 04 Mar 2026 02:28:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=i4Asl/6U;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7523de4f93=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62470Wbw2212747
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Mar 2026 10:27:01 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=KnBy0qPu;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7523de4f93=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62450GPS2217453;
+	Wed, 4 Mar 2026 02:28:14 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=4Y4Mc+83+vkgMbEAVKZ9dMTyKB43fihZwHE2pD29hbE=; b=i4Asl/6Uulri
-	zPkRIx/Y3owt/b+QjQWq54GcSHX+rUkA31THSS6F0HaE4EQEpiJyBhjZxP2th/0N
-	xSoTlEHK4zT3JGPklS6jYl9xdShmgthw4CPjY2v04XFl047SqlwWjds+jsyOl7kl
-	kqy9Qjbv3UG61j81FlhLwL/kUOFupoNVFHvvb/K3QJwNoos3qWYZG+8AYCwj5Q7P
-	6qa43V6/E8eJyz/LV/cq2v+fS0YoGXetCdBosSQnFFDc21FMtrAQYgKRlURiSirN
-	3PY1NcQMiZlCYsO4E1zGJcyrdpq8nMscG64xpM53sY46hwAV6Vz7nLIGsG9+6wuh
-	ZHe7OigMxQ==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013039.outbound.protection.outlook.com [40.93.201.39])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cknjvn1bk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 04 Mar 2026 10:27:01 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AEozd4+nzlgy7pELPDKWja+iQI52ZbbPOxdY4e60LreqjNddsK/OdpqbC/QGmxj1oRv8GtNcv5WQ6C2mimxUALnNb/yoZcLEEn+oHH96Ixj5oV5h5j5DkrWcmmDW29fCS4IhybgWr48dfaCAkLLdcTgPoDJ/jFQiIl2aosdAvxhYOWuleRAJJRP/58wL6DXQmmZlCE86WGr6OeRAkTO32WSiX4+0Z+j/Nf9NUlVefdKhAC+6r8agcszkibgEVva/xwqpaU/eV6/OlL9huyJCK1irt+qrqLu6qDsPd616Y8heOF2zD7cgMoOPwdr1WuM60HjNOM7ZwYEYiw6qUhZksg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Y4Mc+83+vkgMbEAVKZ9dMTyKB43fihZwHE2pD29hbE=;
- b=JHQ89yul+rfJLnXHZP8KiObZbxd6X2yneTG5OAD+ZMIPYLJk3XQOw7ZVA6DeFOnv1v1eRdWLaEjIf/X3sh+vJThL+TC1kb+1n26/xBvQjYxF+kRmm2TzKmDKyMiWaA9p1R9ofcqyp9QBD6/UdlctEP6E2H75ybzK8h61kQtu8VAPJui3pJIje5DpE0nLzaOM1rx6hwqdzTqJGgSx+56jrVERT0qRFcfVvf71NEMnKQrhaObxHVJBvmn1gbLfSs3oI9Cz/pS6lVn+49rHOCbKg/kYqIIFQpXNnfeFlZ3wpWDUbdYpbVfPAspQTpzScfS0EDmABjgK0nsq64nQciwBDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
- by DS0PR11MB8113.namprd11.prod.outlook.com (2603:10b6:8:127::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
- 2026 10:26:58 +0000
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::c84c:d2c3:1102:cf45]) by PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::c84c:d2c3:1102:cf45%3]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
- 10:26:58 +0000
-Message-ID: <5907e0aa-332d-4a4d-80eb-a7d8e02fc747@windriver.com>
-Date: Wed, 4 Mar 2026 18:26:54 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 02/19] ncurses: upgrade 6.5 -> 6.6
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        openembedded-core@lists.openembedded.org
-References: <20260303065640.2541884-1-hongxu.jia@windriver.com>
- <20260303065640.2541884-2-hongxu.jia@windriver.com>
- <DGTU8O5LFUJI.34TT9V1SM5Z8U@bootlin.com>
- <189994AF67AC963D.971272@lists.openembedded.org>
-Content-Language: en-US
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=3RORjqBkD
+	RcPSidBt0i4ROMmoLV3jqVk86rhVR3oEro=; b=KnBy0qPuIyuHPwiou99Xx4eBc
+	8h1TLD0fpdKe8xBzpkBHh/XAG7Brjp08wDtj2OX+zXH9N+0AQn57bmPaSaCB7g6+
+	rZSmTFqczAulJuEfeQs1/ET9lbrIknOon3W6qFMPRyRRRnn/ykiYVw667S0t4xAD
+	hRUYoqO+6DPmL5e7oy5K8zTo/0df1czjyyRCltb0klxttCGwQsiqYAWRIcOXkPTf
+	9o6Tupf+wOBdDDW5Z2xJfFLAveF7uQss3B0zeHeToK/jFkomfQl2ndEtHDA10Tgs
+	nW2TKjuOiiiNciT7iocoP0SEeOV3G2Pyw/Z/k9VyhU5Kf3lzN+dRd3xM2066A==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cm0rgme42-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 04 Mar 2026 02:28:13 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 4 Mar 2026 02:28:13 -0800
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 4 Mar 2026 02:28:12 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
-In-Reply-To: <189994AF67AC963D.971272@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: TYCP286CA0113.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::10) To PH7PR11MB7608.namprd11.prod.outlook.com
- (2603:10b6:510:269::20)
+To: <openembedded-core@lists.openembedded.org>
+CC: <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v2] ncurses: upgrade 6.5 -> 6.6
+Date: Wed, 4 Mar 2026 18:28:11 +0800
+Message-ID: <20260304102811.1530062-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|DS0PR11MB8113:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e4e3f9d-6296-42a6-e446-08de79d890f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|4022899009|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: 
-	z7M5EwiBRQc/IRF7UDxRb/AxXES/ZKPhoIiZRRpAyqAQ9YuAy23L96BFLo7uIxeJe/cpSOFwzyTdv4LRL/zkjPZUaAewuXE/x6P4LgeftSjfueXcI3mKCoOiyvH+JpqQY1eTACWq/Ef8NAqoYEhmEPeFqirYlBFqWsG9pvMBamEJZaWf+wMq/0/eNUglQqj9mROkXf13PXHrUe/oVP53LgwTeZCPi+YTww9q6i80ETAp7yFW6ap0J6d+56xRLhbGPCesSYUdTVDgdulZdzYEmtXy6Xb5Tc7TV3RY6S+avm8wTrO4nrIcJeOjX1gcrEtv04FHXNRS24AFntYrWKI/mSkVfHpMfg/qOVdQvZOjcNpFEyfa/Mx9kx1UkHLHDvR8TwC/i2LPmcaa/dTE9dU1ko0q6lTVIqWYBe4EhHqsWEAPCBTXPzvVziRpr2WG8vKgwNr9VBxdqYmQGV2JOaudO+t39fjxcoeYXv84G91bmVfUmH6pNNcBgfAHO0IHe6izrC9JGe0k35v6lqaZlhc508md/j0gTsdH6DOPYdoGFSSxHFRzj1qd+pP2GzDp5juRCIiqQqaW6bUevdrJCY1MzpUvrStGKRPCMgzabXi1UZKkG6CMi+BIvjWyFBhkWgL2WjMTbxQk9gMWlKF33oswn1xnQr0ysakifBQ27SRmdWE=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WlJ5QjlxZXVIWW02UXBIdndnVERWVGI3SzhYdUlQSWErV0VOMkxzbEQ1bTZ0?=
- =?utf-8?B?bVJCVThQTXUwR1llTmhnRGdLK05SSjY3VEFMM29ZZkIxRGcwZHgvbnh3RzFH?=
- =?utf-8?B?ODRkSDlSbHRpN0c0V2Q1TzE5WWNXdVRHS0o3WWQybE9mUUNVeUpvS05keHRR?=
- =?utf-8?B?RFBhK0VVZHh5VTd1MHVRQ2dJOWIrSVdpM3o5Umd6TnZQMXFhTzltQU1TZ2F1?=
- =?utf-8?B?TzRzQnV1T0NEKzZFaTBZQW9UZU5kc28xbWN2cFBVV1VuaGtmajZqVGREMGVG?=
- =?utf-8?B?Wlh5elpDUDVlTEJNWGRtTnRQalVLZ2FWelhhUTdKMHFHNnVOLzBJUU9yN2k3?=
- =?utf-8?B?ZVBhMFJiczBpOFM4dkJlUVd0djBUbmFwMEUvaUIySGtVU2NsWkU0OE5kOFVq?=
- =?utf-8?B?ZXFHTlFwcnFFbmUzNmhhbVNuZkZkNG5sMXBiMEJVUlVMMSs5QUlDZ21qSFpX?=
- =?utf-8?B?aXR1WHpKRnBabmxPcldUT3prRmpKNk5xbEhnQk9wTXdjbDRQaUNpSTBUMmRh?=
- =?utf-8?B?VkI4c2RkZStsSk43K3pGcGtxZXlZdXdlSmQ2Lzh1Wkh3ZW9WOGJiUUhTcEhs?=
- =?utf-8?B?S215NVhhb29Eak9MNGt0TVFpbGVuS1htaWZrd1VaSXlNYS9kanAvM2FRbHFL?=
- =?utf-8?B?WER2VmR4eEZOYlhZb3dOcTU1YzdIWUtEVVlVUHVZZlhwQ0RqdTVhZHExL2t4?=
- =?utf-8?B?VEVVSGJIdUY5aU1UcG1xdFBhUEZQdWR2TEhTQUJSRXFrZmVJWUQvVldCd3BC?=
- =?utf-8?B?TmtvK0xjZStUYkx2bDZIdWZ4WDlVWEJHSFE2Wlllc3BpcVNtbmNTZkpqY1FQ?=
- =?utf-8?B?Y2ZES0htaVBGQldZYU52TUZWTUN4Rnhiek1icDc0SHZaaVEwUjh4N2dsd3A3?=
- =?utf-8?B?RGV3OE43RDZWSFVWd1NrQ29oY3RDNGFoTS9FOHAra2t4dndIcjdvM2FCeEs0?=
- =?utf-8?B?VkJBUHdrVllveG5LRHNjVCthRVZvd1dFQ0NZdlhqQmhxc3F4SEFkNXl2ZzRr?=
- =?utf-8?B?Qm5makExazV6TGNHSGdLZGRaTGVOajBMa0dGcEdlbjVVOWFkVnl5UWVKRnB0?=
- =?utf-8?B?aG5VV0xYUTNqbUtJYXBKU1VYbUpEZTJRWVRCQ0VZZ3puL2txQUVUcmoyNHBY?=
- =?utf-8?B?WWRCVnVSK3VyOXRocVdNQTg5VmZJbXpwZkRwNmR6RTUyZGpFQVo4RFc3N01N?=
- =?utf-8?B?TmZaWGZVMjk2bExYVVlpNHZQUkljOEJncmJ1NWtWcEZLRW1BRWhnOHQ0TUo0?=
- =?utf-8?B?aytKUFd4b3JjWlNpOVpDMVRsZExkOEJDdHBhWUU5RlBwL1RReTRrWHBYU3Bk?=
- =?utf-8?B?OTVKd3ZiOHZaVWxYS1hzbEpJWTQ1SEI4cHFoY0xMZVJMUW5wMGNoNDlhc3Ro?=
- =?utf-8?B?aGlqMnNiSldRRWlHSjFIdzQ3T2QyUGQ1S2ZjWWJvNlpKYlJlVnpBK2s2TEJH?=
- =?utf-8?B?VEYwVFJybUZpZCtmNjZhU3dJbjRpVmpJT09SVnlkQWwwWUExMXo3V3QwSlJE?=
- =?utf-8?B?ZUdQd2dBbUdHL2lvcjdrbkI5WjBPdGtpS0F2OHBqQ2JoNzJMeGVSWlJ5OENq?=
- =?utf-8?B?YklyS05DRldvaE45YWNRVTRidk9Jc25vaVd1emF0ampubGVVZVNrdmRISWRH?=
- =?utf-8?B?VjdQZ2UraVRHOVF1SFFyOXRrWUlKZHNUUXRES3ZpOHVQVUlnWU9Vd05TdkV3?=
- =?utf-8?B?WUlFV2dzV2hDalpGU1I5VU1ocGs5MWFzUmh2RnhmTyswS3VlZzhHbVBWSTFX?=
- =?utf-8?B?djJwTHROVzJMWE1YK3c3MlhsczZwb0VSa0YxWDhjN0N6cGxieU90ZjFhcWM4?=
- =?utf-8?B?M25ZZlZNdnhnVnVHbForOVZaUFN6NTJiVmg1cnRGeTdWWVB0YUxwZHVRT2tq?=
- =?utf-8?B?bFNOcy9pSGlNUTN4cURDVG1iRUg0S1J4dlBBbGYxRVNOWDdaZVZpSVlFL01i?=
- =?utf-8?B?bm42d3lKUmVacE1WeEM2cTdLRXFpZ3RzTituand1cithcVVqZ0wzSE1uUE1t?=
- =?utf-8?B?NzRySVVRV2kzQU52K1ZqcEVyaDFSaTkxSUZ2aEpEa2dMWU1TYXF6S0tBdUxU?=
- =?utf-8?B?aEpkZTNJMWI0YVhOaHhpYVJ2aktMYU1kcGxyOXdVWFlhUFFvaWNKR29iaVE3?=
- =?utf-8?B?WXA0U09BZDdkM0g1T1ZiYXg2ZU5neEJzTFVVMXRDUG1lNjhLS3FLZGdLQ1px?=
- =?utf-8?B?WXZZQzdZRGEwTFN2dzZwUEdONEQwalc1dWlRRDBuK3kzYjRqOUhaSVo4c05P?=
- =?utf-8?B?WjRNdFNZTDVLUURvZE04NE5xNTBVOFpRVFl3MDQvTklRWW5VeDF5UUdEVnIy?=
- =?utf-8?B?V25FTi82ZCtBUnBoa0I0a0cyNEpzcThncUFSRVBjYVpCNktlZ1VVSzliZ3dz?=
- =?utf-8?Q?6MXqGKzpMSKuOS3s=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	CDncPs0XT8QwKfb2Aw5nvWhgg5k4iU3IeqbsiYAQSMpuSJ3YInEbP5cFeNLdMXN/cu19DIdTg8xlSW0grbTqMG3xNHHkjYk1wlrt/CtiSBVWcNn6Nqvfoe3UhSDKh1SqiSQi+MKTK7AQtE27TQbhECxHqcYbwuAL5JPdMQeV8j6P89yYTzh1gYse2bSAf/fspyYZRrzKAZDwYegESA2yXGrmFkynY+U7ywttaKkpHTsii4XfV1jvHlQdm18eo56/g6V41bM53l5QeUDaF3oLIHd9V93qVdzkWBwsN1MFacDkzRjkNqeZDwdeyu7ymYp760rcCbG729HS37j5gEbxfw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e4e3f9d-6296-42a6-e446-08de79d890f2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 10:26:58.6775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QdVrdH3hXyWrmfi6SEtdka6rwxyRb6zIDnwS2Q44Zt5wOFCXXt7IRSovxYspY7Ws8swqfjjkt3LFFOhNlMgmFAZBmR+IL9VO/lYJI0mWOno=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8113
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: 4X1_Iz09Ed-NjdLZfFYfcibL9wXKifBW
-X-Proofpoint-ORIG-GUID: qHsjM2uhXcOd7u4FeTzT1Z06ipqanDek
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA4MCBTYWx0ZWRfX0djvd2guhHb3
- 35xQvl0l833LWDFD7YPiJb8ua9bXv0tG0hGxH39rc/exUbUbFRIgbmKR+Fd8wnnGAA+0siqibXR
- SEn7hlBYaCciqFZ21oLa9Ew75qedAAiPqG9T97k+Zv+V0S1/Z7IFGZ39L3TzVHPp+e20fNKBCI0
- RSQRxBOsiNeKYawZrB+TjOLy8lS4beq8lgDqJqFbHn1Zz45eDJrf7pzgTxzM6dqTzK7pkA7RPfF
- lCWMyRG+Y4BleAipCtlS1EJCLzIBQngeHmKlXuWH7BqGAlsWtxcY860+D7NKDVjH5CLH4GC9EQm
- 8oxxkU/IBPK3KeVGFctBWn97QUgGXg4nSWD8FVJWMNAK3RBDWQXJFthnqqFJwksJKrSxWU5GTm4
- euN8qfdF067AfZSVgvbp7NUV4+oSkz6eCswFKQEu+AR2lv/fOQvppX0C2MDqEMsCZvPzfbw1hoR
- cVrZAj0U6Vv0beg051A==
-X-Authority-Analysis: v=2.4 cv=P/g3RyAu c=1 sm=1 tr=0 ts=69a808f5 cx=c_pps
- a=OPuTCcLOD/60NKbq+Taa8g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=mDV3o1hIAAAA:8 a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8 a=Q4-j1AaZAAAA:8
- a=t7CeM3EgAAAA:8 a=n0EJvW4DrmCS9BOSgxoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 8QbKoVzBxUo8K9z71bl5WRLTTEeZ1pWc
+X-Authority-Analysis: v=2.4 cv=Of+VzxTY c=1 sm=1 tr=0 ts=69a8093d cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=mDV3o1hIAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=67k8HWImAAAA:8 a=HiWkEfo4AAAA:8 a=a_U1oVfrAAAA:8 a=pGLkceISAAAA:8
+ a=NYJ3QU8SUMfMleiBl2YA:9 a=dwZ1aX4BNvL9xv1s:21 a=FdTzh2GWekK77mhwV6Dw:22
+ a=-Ce2kUORdVUGt2UwD6To:22 a=_QplDg0m8TGAdENQf2wZ:22
+X-Proofpoint-ORIG-GUID: 8QbKoVzBxUo8K9z71bl5WRLTTEeZ1pWc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA4MCBTYWx0ZWRfX7cAuLHDERFp2
+ jEDwW5z3kcUsa+FRAu9wR6bc9D1rvUQGe106+GutThA5gTQ2yssQJeyHBtJkEIhLzc8vmszm54A
+ 0ojUs10RVkqVavh3Y5WckcZygTCCJqu67yYt6FqR+OFR8L2rQivZv+R7EIrO7a5jajH2Lh8ALSs
+ nOwNFePZoKvL8ZmQ0QJFNZI5vvxYpMcj9aZeZA+48TC+fJ853//jHRxztfbYShSBS/vr1AV2g/C
+ w1XNeSuI6kWIjJnGLWD/QihXnKhsqhvo9DgxqYOWjUgk9nVqWBUPIbLvxsFNFWYcNesi6P2cV74
+ cxyzmZb1DoEn3WPNjCOpZkIWyioQVlMr5iTREo9D1pVXDsRWZiCXtdSX36e0iiB1sreJAOFqDxw
+ Yud/CSoKR5vqnFWNhxlDI8Fytj/7JCRU++5NQLYyISrTuC89D1BDCY/Gi/YOlITDL7jqBqoE12B
+ WsKunDNLbbMd3hc34KQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-04_05,2026-03-03_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- phishscore=0 spamscore=0 suspectscore=0 clxscore=1015 impostorscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603040080
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 62470Wbw2212747
+ bulkscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040080
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:27:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232358
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:28:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232359
 
-On 3/4/26 16:03, hongxu via lists.openembedded.org wrote:
-> On 3/4/26 16:00, Mathieu Dubois-Briand wrote:
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the=20
->> sender and know the content is safe.
->>
->> On Tue Mar 3, 2026 at 7:56 AM CET, hongxu via lists.openembedded.org=20
->> wrote:
->>> License-Update: copyright years updated
->>>
->>> Delete backport patch
->>> - CVE-2025-6141.patch
->>>
->>> Announcing ncurses 6.6:
->>> https://lists.gnu.org/archive/html/info-gnu/2025-12/msg00010.html
->>>
->>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> ---
->> Hi Hongxu,
->>
->> Thanks for the upgrade.
->>
->> We have some QA error about installed files:
->>
->> ERROR: ncurses-6.6-r0 do_package: QA Issue: ncurses:=20
->> Files/directories were installed but not shipped in any package:
->> =C2=A0=C2=A0 /usr/lib
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/326=
-9
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/312=
-3
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/328=
-9
->>
->> Can you have a look at it?
->
-> Copy, I am working on it
->
-Please drop this patch, v2 incoming
+1. License-Update: copyright years updated
 
-//Hongxu
+2. Fix installed-vs-shipped QA error
+...
+ERROR: ncurses-6.6-r0 do_package: QA Issue: ncurses: Files/directories were installed but not shipped in any package:
+  /usr/lib
+ncurses: 1 installed and not shipped files. [installed-vs-shipped]
+...
 
-> //Hongxu
->
->> Thanks,
->> Mathieu
->>
->> --=20
->> Mathieu Dubois-Briand, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
->>
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#232353): https://lists.openembedded.org/g/openembed=
-ded-core/message/232353
-> Mute This Topic: https://lists.openembedded.org/mt/118109840/3617049
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-hongxu.jia@windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Due to commit [1], upstream hardcoded `lib` to create symlink
+...
+ ** sym-linked tmp/work/x86-64-v3-oe-linux/ncurses/6.6/image/usr/lib/terminfo for compatibility
+...
+
+Apply a local patch to not create symlink terminfo under image/usr/lib,
+and clean up symlink remove operation in recipe
+
+3. Delete backport patch
+- CVE-2025-6141.patch
+
+4. Announcing ncurses 6.6:
+  https://lists.gnu.org/archive/html/info-gnu/2025-12/msg00010.html
+
+[1] https://github.com/ThomasDickey/ncurses-snapshots/commit/a60b584d93ab59e1df0bc9661b7
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...te-symlink-to-terminfo-under-usr-lib.patch | 47 +++++++++++++++++++
+ .../ncurses/files/0001-tic-hang.patch         |  6 +--
+ .../files/0002-configure-reproducible.patch   |  6 +--
+ ...-Do-not-include-LDFLAGS-in-generated.patch |  4 +-
+ .../ncurses/files/CVE-2025-6141.patch         | 25 ----------
+ .../ncurses/files/exit_prototype.patch        | 10 ++--
+ meta/recipes-core/ncurses/ncurses.inc         |  7 +--
+ .../{ncurses_6.5.bb => ncurses_6.6.bb}        |  4 +-
+ 8 files changed, 63 insertions(+), 46 deletions(-)
+ create mode 100644 meta/recipes-core/ncurses/files/0001-do-not-create-symlink-to-terminfo-under-usr-lib.patch
+ delete mode 100644 meta/recipes-core/ncurses/files/CVE-2025-6141.patch
+ rename meta/recipes-core/ncurses/{ncurses_6.5.bb => ncurses_6.6.bb} (80%)
+
+diff --git a/meta/recipes-core/ncurses/files/0001-do-not-create-symlink-to-terminfo-under-usr-lib.patch b/meta/recipes-core/ncurses/files/0001-do-not-create-symlink-to-terminfo-under-usr-lib.patch
+new file mode 100644
+index 0000000000..86eb41b465
+--- /dev/null
++++ b/meta/recipes-core/ncurses/files/0001-do-not-create-symlink-to-terminfo-under-usr-lib.patch
+@@ -0,0 +1,47 @@
++From 6464ca567ca012b56bdae127758a118fa193a211 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 4 Mar 2026 16:57:31 +0800
++Subject: [PATCH] do not create symlink to terminfo under /usr/lib
++
++Due to commit [1], it hardcoded `lib` to create symlink
++...
++ ** sym-linked tmp/work/x86-64-v3-oe-linux/ncurses/6.6/image/usr/lib/terminfo for compatibility
++...
++
++It is not necessary for Yocto
++
++Upstream-Status: Inappropriate [Yocto specific]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ misc/run_tic.in | 15 ---------------
++ 1 file changed, 15 deletions(-)
++
++diff --git a/misc/run_tic.in b/misc/run_tic.in
++index 60fbdcc7..fa40b33c 100644
++--- a/misc/run_tic.in
+++++ b/misc/run_tic.in
++@@ -215,21 +215,6 @@ if test "$OLD_DIR" != "$TICDIR" ; then
++ 		fi
++ 	else
++ 		cd "${INSTALL_PREFIX}" || exit
++-		# Construct a symbolic link that only assumes $ticdir has the
++-		# same $prefix as the other installed directories.
++-		SOURCE=`echo "$ticdir"|sed -e 's%^'"$prefix"'/%%'`
++-		if test "$SOURCE" != "$ticdir" ; then
++-			SOURCE=../`echo "$ticdir"|sed -e 's%^'"$prefix"'/%%' -e 's%^/%%'`
++-		fi
++-		test -d lib || mkdir lib
++-		cd lib || exit
++-		TARGET=`pwd`/terminfo
++-		if ( @LN_S@ "$SOURCE" terminfo )
++-		then
++-			echo "** sym-linked $TARGET for compatibility"
++-		else
++-			echo "** could not sym-link $TARGET for compatibility"
++-		fi
++ 	fi
++ fi
++ # vile:shmode ts=4 sw=4
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/ncurses/files/0001-tic-hang.patch b/meta/recipes-core/ncurses/files/0001-tic-hang.patch
+index 8cb92a3939..b852bf72d2 100644
+--- a/meta/recipes-core/ncurses/files/0001-tic-hang.patch
++++ b/meta/recipes-core/ncurses/files/0001-tic-hang.patch
+@@ -1,4 +1,4 @@
+-From a51a53f0eecfd4d083aba8dfcd47c65e93978ff1 Mon Sep 17 00:00:00 2001
++From 055c095e9b7c850dfb1ad7cf8e334f38fa9ba2c3 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 30 Mar 2018 10:02:24 +0800
+ Subject: [PATCH] tic hang
+@@ -17,10 +17,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+), 6 deletions(-)
+ 
+ diff --git a/misc/terminfo.src b/misc/terminfo.src
+-index 5d575b8e..f9cc6880 100644
++index f111e534..6e862729 100644
+ --- a/misc/terminfo.src
+ +++ b/misc/terminfo.src
+-@@ -6518,12 +6518,11 @@ konsole-xf3x|KDE console window with keyboard for XFree86 3.x xterm,
++@@ -6644,12 +6644,11 @@ konsole-xf3x|KDE console window with keyboard for XFree86 3.x xterm,
+  # The value for kbs (see konsole-vt100) reflects local customization rather
+  # than the settings used for XFree86 xterm.
+  konsole-xf4x|KDE console window with keyboard for XFree86 4.x xterm,
+diff --git a/meta/recipes-core/ncurses/files/0002-configure-reproducible.patch b/meta/recipes-core/ncurses/files/0002-configure-reproducible.patch
+index 11ca66c8e8..66812f75e5 100644
+--- a/meta/recipes-core/ncurses/files/0002-configure-reproducible.patch
++++ b/meta/recipes-core/ncurses/files/0002-configure-reproducible.patch
+@@ -1,4 +1,4 @@
+-From 63cf58044f4ab3297c5a2d0e132e87ebfa80c753 Mon Sep 17 00:00:00 2001
++From 58bec4533de00e0b765d8db496f9e20e4efca518 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 16 Aug 2017 14:45:27 +0800
+ Subject: [PATCH] configure: reproducible
+@@ -18,10 +18,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure b/configure
+-index 488d93fc..005d44e2 100755
++index 48ad381f..c816cbe1 100755
+ --- a/configure
+ +++ b/configure
+-@@ -5129,7 +5129,7 @@ else
++@@ -5422,7 +5422,7 @@ else
+  		;;
+  	(*)
+  		cf_cv_ar_flags=unknown
+diff --git a/meta/recipes-core/ncurses/files/0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch b/meta/recipes-core/ncurses/files/0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch
+index d89399bbe5..e004d7950a 100644
+--- a/meta/recipes-core/ncurses/files/0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch
++++ b/meta/recipes-core/ncurses/files/0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch
+@@ -1,4 +1,4 @@
+-From 5962a5ee2885f67a396f7e8955ac1bbd7f15d4aa Mon Sep 17 00:00:00 2001
++From ce86a223b09b27981fb3d5ef32672612f0c2eae7 Mon Sep 17 00:00:00 2001
+ From: Nathan Rossi <nathan@nathanrossi.com>
+ Date: Mon, 14 Dec 2020 13:39:02 +1000
+ Subject: [PATCH] gen-pkgconfig.in: Do not include LDFLAGS in generated pc
+@@ -15,7 +15,7 @@ Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
+-index 89a5cd4a..07d94d17 100644
++index c369dd26..abca88fe 100644
+ --- a/misc/gen-pkgconfig.in
+ +++ b/misc/gen-pkgconfig.in
+ @@ -83,7 +83,7 @@ if [ "$includedir" != "/usr/include" ]; then
+diff --git a/meta/recipes-core/ncurses/files/CVE-2025-6141.patch b/meta/recipes-core/ncurses/files/CVE-2025-6141.patch
+deleted file mode 100644
+index ec7e8a94e4..0000000000
+--- a/meta/recipes-core/ncurses/files/CVE-2025-6141.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From 27d1493340d714e7be6e08c0a8f43e48276149c4 Mon Sep 17 00:00:00 2001
+-From: "Thomas E. Dickey" <dickey@invisible-island.net>
+-Date: Sat, 29 Mar 2025 22:52:37 +0000
+-Subject: [PATCH] snapshot of project "ncurses", label v6_5_20250329
+-
+-CVE: CVE-2025-6141
+-Upstream-Status: Backport [https://github.com/ThomasDickey/ncurses-snapshots/commit/27d1493340d714e7be6e08c0a8f43e48276149c4]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- ncurses/tinfo/parse_entry.c | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
+-index a2278c07..c551c780 100644
+---- a/ncurses/tinfo/parse_entry.c
+-+++ b/ncurses/tinfo/parse_entry.c
+-@@ -985,6 +985,8 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
+- 	    bp = tp->Strings[from_ptr->nte_index];
+- 	    if (VALID_STRING(bp)) {
+- 		for (dp = buf2; *bp; bp++) {
+-+		    if ((size_t) (dp - buf2) >= (sizeof(buf2) - sizeof(TERMTYPE2)))
+-+			  break;
+- 		    if (bp[0] == '$' && bp[1] == '<') {
+- 			while (*bp && *bp != '>') {
+- 			    ++bp;
+diff --git a/meta/recipes-core/ncurses/files/exit_prototype.patch b/meta/recipes-core/ncurses/files/exit_prototype.patch
+index 299852d2c0..0aa7fb22bb 100644
+--- a/meta/recipes-core/ncurses/files/exit_prototype.patch
++++ b/meta/recipes-core/ncurses/files/exit_prototype.patch
+@@ -1,4 +1,4 @@
+-From af798dceafec8a9ea3f83fc250d784511ca0a29c Mon Sep 17 00:00:00 2001
++From 5ed47758886dabe74ff1709137cfc8ea1a4dc3e4 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 30 Aug 2022 15:58:32 -0700
+ Subject: [PATCH] Add needed headers for including mbstate_t and exit()
+@@ -10,18 +10,18 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/configure b/configure
+-index 005d44e2..72fa6c23 100755
++index c816cbe1..c4e1e14a 100755
+ --- a/configure
+ +++ b/configure
+-@@ -3462,6 +3462,7 @@ rm -f "conftest.$ac_objext" "conftest.$ac_ext"
++@@ -3769,6 +3769,7 @@ rm -f "conftest.$ac_objext" "conftest.$ac_ext"
+    cat >"conftest.$ac_ext" <<_ACEOF
+- #line 3463 "configure"
++ #line 3770 "configure"
+  #include "confdefs.h"
+ +#include <stdlib.h>
+  $ac_declaration
+  int
+  main (void)
+-@@ -13533,6 +13534,7 @@ cat >"conftest.$ac_ext" <<_ACEOF
++@@ -13903,6 +13904,7 @@ cat >"conftest.$ac_ext" <<_ACEOF
+  #include <stdlib.h>
+  #include <stdarg.h>
+  #include <stdio.h>
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 8482db7f6e..ec265e63f2 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
+ DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
+ HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6f291ee54551d9d8d992ecd623fe4bc7;endline=27"
++LIC_FILES_CHKSUM = "file://COPYING;endline=27;md5=c534844fa5a74d14ae8fa3d9b3b42138"
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS:class-native = ""
+@@ -201,11 +201,6 @@ do_install() {
+                 ln -sf xterm-color ${D}${sysconfdir}/terminfo/x/xterm
+         fi
+ 
+-        # When changing ${libdir} to e.g. /usr/lib/myawesomelib/ ncurses 
+-        # still installs '/usr/lib/terminfo', so try to rm both 
+-        # the proper path and a slightly hardcoded one
+-        rm -f ${D}${libdir}/terminfo ${D}${prefix}/lib/terminfo
+-
+         # create linker scripts for libcurses.so and libncurses to
+         # link against -ltinfo when needed. Some builds might break
+         # else when '-Wl,--no-copy-dt-needed-entries' has been set in
+diff --git a/meta/recipes-core/ncurses/ncurses_6.5.bb b/meta/recipes-core/ncurses/ncurses_6.6.bb
+similarity index 80%
+rename from meta/recipes-core/ncurses/ncurses_6.5.bb
+rename to meta/recipes-core/ncurses/ncurses_6.6.bb
+index eccc1c1809..7459e445f8 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.5.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.6.bb
+@@ -4,10 +4,10 @@ SRC_URI += "file://0001-tic-hang.patch \
+            file://0002-configure-reproducible.patch \
+            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
+            file://exit_prototype.patch \
+-           file://CVE-2025-6141.patch \
++           file://0001-do-not-create-symlink-to-terminfo-under-usr-lib.patch \
+            "
+ # commit id corresponds to the revision in package version
+-SRCREV = "1c55d64d9d3e00399a21f04e9cac1e472ab5f70a"
++SRCREV = "a1c9c082bbe6ac18d96eb2e1ee2146e1665deaf8"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+_\d+)$"
+ 
+-- 
+2.34.1
 
 
