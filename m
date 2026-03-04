@@ -1,313 +1,234 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA92EEDEBFD
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 01:15:29 +0000 (UTC)
-Received: from OS0P286CU011.outbound.protection.outlook.com (OS0P286CU011.outbound.protection.outlook.com [52.101.228.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8501.1772586924218915149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C631EDEC02
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 02:28:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9630.1772591268466824817
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Mar 2026 17:15:24 -0800
+ Tue, 03 Mar 2026 18:27:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=rroHsQnb;
- spf=pass (domain: fujitsu.com, ip: 52.101.228.43, mailfrom: liuyd.fnst@fujitsu.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ZPd0WDce;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7523de4f93=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6242ECBu3718732
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Mar 2026 02:27:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=v/gNhLMfcH0gFe9MOInbhA1QvkCRKuuJpgAUqxvZzyo=; b=ZPd0WDcePBOu
+	9H6D/YJIkQCMxqz4NNGn5LG3iu5YogRLMkOImWGPiAkiINJ59H+y7kBduq3m/goI
+	luzBEXUjB7zIibfdOipa+kBNDJqNOYPO+fOniNKbOgaHw1eQhUeGtciHYHkxXwzq
+	pT0y0PrpGon0PTXk1uoLAAXxOLrkQ3F6vJ82AtJCHiUx0GdFmZdbottTJfMbtMco
+	PkUz9Ez5Olc+3N9iWmJ+YoCaoxTHvQ2/YLBOLB9S/WMdEJYgaXQhAttaPAWUbnnc
+	oHyRymt0LUIamhtXLhwgXzoPFj7TfB3iHDCmOpoIfvJypMMmlyN+z+CQ/PZx60cG
+	j/iB/dzJWg==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013068.outbound.protection.outlook.com [40.93.196.68])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckqb4mh16-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 04 Mar 2026 02:27:46 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aFqQ04dcp7CIYlnLS55dNYvJoF/MuMtsHTssmkf+YzYdOwURRwH8FgsPPeI8WSARAkKVEt0Azp/eYlgdq/hA2jn1AcumxSVA//fP0NG0hAqo2OgQkkCg7eIhD6bUVpKdFkbbz6AieBUHWPi4R40YQ/4rwt5fnDsIO0oSVOzHMmy11RoHaNyvofbciMytHyL+dKeEeTX8wHD5KzPEr6MkLZ7YlUGKVe5ofHyBUIOMO6el5fZSNMjLGUU/GYpzFziU+1D2dmgvUu/1fAOwlXXcDw8ULyYWK39BexduIVxNkbbPuB0xd2B79Bl/bSZpmwT7/KryAyiyOsJHLD3YTs6Iqw==
+ b=UMaUPkxS4idCK51yzyrehwyF4Oeqwmju54tqGG+zyuHGQHR1MO7S5jdL0bqqQiVyD023Db6KRCr83HHd7x0PFLxsnhcT3hdQZxm+tkAqpAM5xpdAYsVNYytizzEEU3icE8L2mUTpyi1NC/QPZlNHd7/Dp9wUXLNe3x9tcsmaJVUAfJKcPB/2I00cXAKNIielTVZ/FDgyX8Lm9cfjd9FBuVCgwjiSn7YOrpSXTWMeo1M1Gfm1wcMitsIY7KODAWBhhk3qMx6grspYtm0ID5zvBDOgwHWFkUTboOaS2jebwai+Mmc3Z3KLmA245TNFrQxR3wtWc6xxzjXIQ/BePyOVCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z3DtiRouqGsa39IEWz4Q3eS9yEqg4hEYoVtCiGStGhc=;
- b=J0h72HFFAx8m1msmtQosTUVc4d8+kiH8DnSpMKTnmVOZcJOWfmrfPhxYM8tHeTx4WNVZRUJZ9IPHaAw7BYklHmbpR+c1sn4qDu0wlMaEppkofe6qU1O0crA9nWXTQ5O25MYbXQ92Yr1pxOS1k8JzjdS7VKQ6nYviBa0KbV8seHEjZ9BbZB6IqZ35zJ/IAOcSgXkbFkdBNlMPhrPB9zPp1gbtCgEfHgi4ubrmays79Tlfjn1/zXbtIfmJfUk3CAc2WdX4PftmmeVJsQ9Gx4TRCGm0xefES5nk9B4xyYZTyekB7i1S2xNd2xhx2/NqIiVTEl3+Z4e6kqaXr/sSykr3rQ==
+ bh=v/gNhLMfcH0gFe9MOInbhA1QvkCRKuuJpgAUqxvZzyo=;
+ b=IbqTq6nWT+JRtmeLcjeW5RswtQGJc2ssh6k41VfRxHrNzLmDrR7/4lqaPIH218GzVZtZTCq4ivzG5CL08zRLuNUOvu+PddBdZ88sqWarMKHfS3Xz+AxZvgVDWZKNnU4+UsKBPXypFhPN6A2FkqTgxNXMqwLKesPj2bAzwpJ5Ga+naDJAD2i9vDeBPU2YmKtPHTaq/3fqDhsV0swf6hSR+7BQPo+uhHJWL/W2HeJ7yyy4qV/oDecMA3s2yRqnbKzPbyG7HSIc5wDVQ3wpdz9k5naogVFFgmsGWPExbOwsR2ulthSUKGY4pQz7aJXxwXv4xmg4Eu6mMxlFCX2JmeLtog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z3DtiRouqGsa39IEWz4Q3eS9yEqg4hEYoVtCiGStGhc=;
- b=rroHsQnbeX6muIuyBYu1CeoJZGzaKQmWNsAM0mDsZVlRJ+jKqZ3afs79K1dt6VV+j0I99rWd6IZuYbyR6HZTM4sU5oUYxKAx1lw8DMgQFoPcrzLZRArA+bMF78tx4SqRXr3uFylYXV5zcYbXSBwjTqlGkLui2Cf8rBZTjo5HXmuzba9hg3mnxMInHYa6h4DOrgDATRg1e+pGuG5aHbNDbqgSqIWAggytTSc8uMcSXgvUETwnolz0xSQFDESViACZeCsCCMCiskPF/vSy47HkS6sgTbUdTAPtQFJJ4EsWyHRL1gl1eMvlA/fOWEyK8cAaami69AizbsbdLyg5xl5/fA==
-Received: from OS3PR01MB10106.jpnprd01.prod.outlook.com (2603:1096:604:1e3::9)
- by TYYPR01MB12890.jpnprd01.prod.outlook.com (2603:1096:405:157::13) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by SJ0PR11MB5022.namprd11.prod.outlook.com (2603:10b6:a03:2d7::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
- 2026 01:15:18 +0000
-Received: from OS3PR01MB10106.jpnprd01.prod.outlook.com
- ([fe80::3f28:58af:d760:e254]) by OS3PR01MB10106.jpnprd01.prod.outlook.com
- ([fe80::3f28:58af:d760:e254%3]) with mapi id 15.20.9678.016; Wed, 4 Mar 2026
- 01:15:18 +0000
-From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] gstreamer1.0-vaapi: Enable hotdoc to produce doc
-Thread-Topic: [OE-core][PATCH] gstreamer1.0-vaapi: Enable hotdoc to produce
- doc
-Thread-Index: AQHcqvy0A4aXFqtbUUiK4ah7vL9Xp7WdkH2Q
-Date: Wed, 4 Mar 2026 01:15:17 +0000
-Message-ID: 
- <OS3PR01MB10106B317449BCE9308E7E94F9B7CA@OS3PR01MB10106.jpnprd01.prod.outlook.com>
-References: <20260225094537.1213-1-liuyd.fnst@fujitsu.com>
- <CANNYZj9=jfp-sfg8tGJhYX+WxvJ18pfrfZDPqwzyj+LVpB_dOg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9=jfp-sfg8tGJhYX+WxvJ18pfrfZDPqwzyj+LVpB_dOg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-03-04T01:15:17.109Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB10106:EE_|TYYPR01MB12890:EE_
-x-ms-office365-filtering-correlation-id: f3a8bcdf-5b02-46eb-346d-08de798b7f7c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|8096899003|1580799027|38070700021|7053199007;
-x-microsoft-antispam-message-info: 
- TdlkalK+LqLmEXsC9OtDBbdCMyvA32j6pDQtI35toan3/Ck7qpYzhYBU1Its5+5A39HUhbVrqXEX3rmFinmW8b+04WdAVOglf2Eqr3swNhikNA3xy9h68LU3cIqpaCcHNaiO8br36YLNyu8RH3c2M5jHhkWO84Uw9FFDOmL2zARl5QINYJMUAGHazbxgRG+t2xr4o5arrKjdx8Hz6nJ6RhJCbEIulcLE9jHWGuu+7ro4GcvXsuHXEGPI2KbJ0TzciL2lNxu7I2J3x+T9bu5p1Qx7IyRm0zvKdNhvYrEB+iv1QkTqvZ4Fd9NLdYYS4SWJNDCNMjmJN4EQ+rP2XBeQ9V3xRd3I0ueLzxlcGo5eAqrznRtI4UrzXfd4LwWpHM3BEUhT3AQ4ra6PUnBnjH2mk80vQGN4RYhgzGqidwS8DuEs3OUecWe3hSohpSa9CZ+3eRqpF/FYEtb562TniNR3JsAdt6MYoIzF4nvOA5vv2AB6X2fvJwr97FrN2F4i2aUE2eKSlQn2Al1jRvaBiY0favYY3C54lSZFp5soSDpNRPKmXJwey9iE0KuxrkD2EOmEFnLJhWyjfiD8bj4A+HtsscuACDht1inP2YnsfvhMGVaVDQvo9NEKvagpPAkWKi4l9fJIUs1FuJ2s5LC4qNO+1D4/qUYkBCUscjWKtujMAqrwrZ4pPM5KIJ2NULlkpXKgzxgbYFB8GPxO3GHo+bFAX7jX5WpewKTI8BQ+QdRX2Yt7FiGHlqYqtycVWA+k2MwLF8kTJ9LVd0B9KgCuydmLk2C8lV9SWLtOtFB8Us1VdK4/nwpdSudwxUmlvpQMKHRi
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB10106.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(8096899003)(1580799027)(38070700021)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?gb2312?B?R2dNbGtZU3A1NHpsaXVzUmVNeHp0SDkwWjZMVUdaWU9rVElJR1VLT09PbVhx?=
- =?gb2312?B?ZVRNRWFYQWRDNnlvSzNJVzVNQWtjT25FRktTS0JPR0oxdTZSMHJoRG4rdDZp?=
- =?gb2312?B?VytyZG45a3FMdWZtOW1vdXdpYndaaUVFQW1SOGs0d215M2VoM3NGRzZPSENM?=
- =?gb2312?B?UEF1ODA1WDhIblRPdDNOaHBuODJTQUdubDY1YjMzSHlxSzNVeWZXWWw5VnlU?=
- =?gb2312?B?bTdEWGZtU3oraFR2RjBuck1TMkVnOXlyakN3L1g4RmlpTk5ZZzZ4WTg1MDJq?=
- =?gb2312?B?ZzZWNXlNV0JjZEd2emRnNFBWZ2Zqc3dsZVY4KzI4SldER2sxcGVOcFJyQWhJ?=
- =?gb2312?B?aG1JTHBrTFdxVlZxV1dRVTZRRFFOZ2JzZFViRW9pdFJEOGJrK3VlMjNWZHhw?=
- =?gb2312?B?bmREWHYvUmo0b21XZlZkZE5ydmFwbFJxSjVveFJkL2dvM1JKVVRBbkZuV3pq?=
- =?gb2312?B?dEhLNUNXWElnZmRHTVFFSFd2VzY3K2FEemRQQVdwVFViOTFONjUvM0RManBC?=
- =?gb2312?B?SHZhT1lRQ2kwKzAyTmF3OTMrRXFDbHFxTzNNY0NMSWM2WWVVRTJVQk42ZVR2?=
- =?gb2312?B?b0kxQmpKVXJqWHVNVk14NVpiL0ptekdpZWV1bHIxMWFpVGswNTlPMG1DTzFU?=
- =?gb2312?B?YmQxeS8vbGlwNGlYL1pDTUJLKzE1c1FxMDZiMy8xQnEyTHRpelBHbU1QTDFF?=
- =?gb2312?B?eE94ckJveXRGWWsyY056S1BuT29JUVI3UjlwN0ErY2Vvd3VjdHlIRmZXMnZU?=
- =?gb2312?B?cFVrallMZXloSmM5clhnQk5rRDFPNm0wVDJ6UVZJRXlTbDdSSjc0TCsycTRt?=
- =?gb2312?B?dHg4bmVMMHFBazdOU3VrbUFuQVZ6NnIzNndtYUxRSk80VWNPbmdTN2wrOXNv?=
- =?gb2312?B?Mkdza1ROMXFmNk43T29mS01aNTZFTEhaM2p0SkJDLzNKMDRQN0MxcHNWTElE?=
- =?gb2312?B?Vk1XK3A0ZDdRRmVCN2l1aFFBazBMSkozd1RVVzZOYjhsWjBRT1NCR0FuZFh5?=
- =?gb2312?B?a1FJM0lXbkorS3NsN1hkRVNNbVAxRWs1K2V4elVSTkFDdU9rZDFJdlVCNXp6?=
- =?gb2312?B?NUpYc0V0dk45VmxvaHJybmw5MnRCWGVWYUx3ejQ1V21sUjAwbzZuZGIrTFhT?=
- =?gb2312?B?cUtuYlNNeUlBSkFaYTBFbzRMU1hlSmVqc3pKbHNNR3ZFa1hiMnJxZlZTZlpN?=
- =?gb2312?B?eTVIWm9zbDFGTjlLYThyTDJDbGs3NTJUeDVUL2JYMHpHL2U2YmEzM2VXaENm?=
- =?gb2312?B?ZTZSNXFiUmpOelZRbTFQSHZhdkJ2YXVEc2RCK2tYWGY3T0VwRUZtQUhDZmF3?=
- =?gb2312?B?UFFmK0ZSR2xaT0RjQ1BDSEFYSTYxUnROVFU2SzBZdk9Nb1I0SzZGb2lGQXhj?=
- =?gb2312?B?UVAyb3dCbVRYRVljNExwanpTSEVmT2ZZajgrYlF5eEMwZEQ1Y0poZGJBbzU3?=
- =?gb2312?B?TWNEN0lRRU1DSWhGeVFLUXZBcitlZExKK3F2aHdQT3FHditCUmxQUG9XMEZ2?=
- =?gb2312?B?UjlvQVgwYVZUd1lSai9mTVVFR05oeXhTenBnbmxreWRVd0lDT0ptNzBJZDVw?=
- =?gb2312?B?cEJjVE11MjhnZXpBVDZ6Ry9IQUVUc0ZzRGQxU3NxTEF2TGhOSVR0YW14RWYx?=
- =?gb2312?B?SjNGNjgweStBZlEwTmR5V3AzUmNOTjNZaDJ2Rm9IWmJRKzRBeGZzTmM4Tlcx?=
- =?gb2312?B?TFhCd213VDNiUUx5OEdiZzZncEFzcGlDQjlBQXhNYTNmM01aOTF2TjkxUzJy?=
- =?gb2312?B?bFBCR01lbUtXTDBLN2JsL2hhLzJHK0VGNHR4aDFGcjJpaXV2enJHRVJVZmFm?=
- =?gb2312?B?N042OHl0YngyR25yanhKNy93RWVPMi8xV3hPRGszeXdQT0d5V052bkxOdlJ6?=
- =?gb2312?B?MittZElQQlRsZGd6SXlnMVJmMngrUnJBU05SQStLQU1paTd0QitseENyZEIz?=
- =?gb2312?B?UW5pL01mRFd3dVRUVUcwQVZYVzk3MlVjaEZZYjh6QmlmckVSK2FCZklvRmxu?=
- =?gb2312?B?Mjk5NzQxU3p4RWJWRVJtMDg1dWkwRmEzcVI5T041WENQUUYzby92b1pUS0hX?=
- =?gb2312?B?M1JHSGIvRHZIWDJtdWZUdXQybmQrUGJCckxjdENqQ2doOTRjL2Yyby9mdU8v?=
- =?gb2312?B?bFNIQWZKNWZvR1RIMmQ1Q2VFQm9leEZTYWdpMTJxMngzSmh3M01OTFFwUDkx?=
- =?gb2312?B?elA2enlzVTE0REE1M2FRYmhydnVrQXJEZ0hjamtSRkRVODB6ZFhSMGlpUkpa?=
- =?gb2312?B?Z3pJZ2x3WE1qTms2N0ZwYkNtUm1aVmFyR0pjWmJ0ZTZweW84K1NCcVU2M3N0?=
- =?gb2312?B?MUl4RUc1NU9rVVNPa0FIWUt1dmIvTy96ek9hVlFKc2h2aTNWWTBWUT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_OS3PR01MB10106B317449BCE9308E7E94F9B7CAOS3PR01MB10106jp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Wed, 4 Mar
+ 2026 02:27:44 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45%3]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
+ 02:27:44 +0000
+Message-ID: <4e50e83b-ac7d-4617-9c44-d163eeca341d@windriver.com>
+Date: Wed, 4 Mar 2026 10:27:39 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 14/19] python3-setuptools: upgrade 80.9.0 ->
+ 82.0.0
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        openembedded-core@lists.openembedded.org
+References: <20260303065640.2541884-1-hongxu.jia@windriver.com>
+ <20260303065640.2541884-14-hongxu.jia@windriver.com>
+ <DGTDVX11DXL7.3SS36BY5FSO6O@bootlin.com>
+Content-Language: en-US
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <DGTDVX11DXL7.3SS36BY5FSO6O@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SL2P216CA0086.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2::19) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|SJ0PR11MB5022:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd9af8bf-aad9-49e3-76ff-08de79959e23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	qXOhuo7GlQYFpGmQRMzEJx5hlnL2TsXx6AIWyg93fRzbL/ifbX4P5Y5ZJ9/T5O9kZhgAEmJvT2XreRC4EwtuFVGb882XAxRnYyA8MupGF+Mfirt7Zxc6ynjD0dyQX4LmZYn9yUlCom/OZRyGbRk8/R3Xux35JEsNIyVVeUbG9ceVfGb3vFmJNWt6HH4JbcWA7U4YAtmYXwN4UdpdNDBxHpORnR8TX5i3VWJQdV/Cu2UZRjp5LJV4n2OoVBWz0K7XhGThTXxGuhxPIjxz4iub78kIU8arEx5SXjFHRwyC55ne1miIoivWN+4/xDXCaZY+souYHVwnC0r2peQQLeAsc8rwcMsqakBLJezQ4eld4EYo2zF+DMFiDpGqtEZuTcNSHwpDh1/LLgWcR7VzH9lul6YnHSu0rnrsa87sHYxKmTESBfNo+zJAAXtvduOhevMuQ0+hiU+oxugAL0BAgq6udXAxqDlIqtjPHC4rEQqQCZazptrUaHdMSxXE6XBDKNAXKOEFttuAim0gZnaxN40ff4jEl959fOX349oJGs8/MQuh5sXoPqNp5UbgsnHBpZPJw39NheU/8AI3UpcC/tKIUnwE6DhD8ZOFwkWe5wFLc3g5A2Oeoty4GX2EXnViWmDQZScJdSxiQEsmXrkIME/G2DGLxJdRaSPtLLz/pkFnolTDYe2uPnTHQRy1gI8hZi/z
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?REpCaU9sMkpPSUM4U2VUUjNhUzlsL0tjR0thK2ZJeVJHNFdjUzRuYkRnQnhB?=
+ =?utf-8?B?U0ZPeEdHQ0JlL1lFV2RjVzRSOFRRazBVOFAwb2FCNThZSEJhTHBDM3ZqdnNM?=
+ =?utf-8?B?blNIK05LckdVMWRRVkpXT21ZRkZ3Z0p1NW5zOU1naUZHTGpSMVRkWkcxcUpM?=
+ =?utf-8?B?WWpwZ3RtUUxGemRiNlFoSTVsb1VmMUp5YXVnZWFBWVFzaldPN255dWlOR00w?=
+ =?utf-8?B?WHp5WVduN3pBU2tlWVEzdENZNzVadEU1S0hPRXI3R1poRjd6eG5XNThzNHZV?=
+ =?utf-8?B?S09qenp6SldxSmxYR0Z6dCtLMzZwQzRNdUMrdDFLSzBXV211emZ6ay84SHRa?=
+ =?utf-8?B?MXNjbmM1c0pTZmh2Z05iVEdnRTJuaVdVTU4yKzVVbG9EYVU4TktFc0s3bXll?=
+ =?utf-8?B?a2lKbFN4QmxtYlJHbmNpK1M2dC9XY0ZkVVJSU3FrQXZudDF2RG5sL1ZVdm5T?=
+ =?utf-8?B?azV5OU1qdmYxSEYxdlg2Rm5zOXR1bzNyY1lsQ1l1NXFDZjRDdUpUZTdvUnNo?=
+ =?utf-8?B?d1FJVXBqbTlWRTlreXBlZmFIN09FYVk2dFdzc2V5UENmK1d0MTJpR25ZNnpZ?=
+ =?utf-8?B?WnRzRlJCdXkxbGlSLzZxTVMwMitSRWh2RzFXTUFTa1BEU2JnL2NXNTZMeWxC?=
+ =?utf-8?B?RDFmb1F2Yi93STZHb1hCWDA3Z3NaYjlSanE1MHIvbGdaYlVoZmErYkR0Wjhh?=
+ =?utf-8?B?RXcweXFCcEtTSzJ6aFpDYTdzTUd3dTlTTk1qK0k4UzFxUlRRSGlBa1N6VG1U?=
+ =?utf-8?B?a2EvWHNzSmlFZUE4S3dPYWd2eENSTkVQTmsweHpEY3R1ZEQ2a0w3WUpRYnNw?=
+ =?utf-8?B?cmpDY01aWEVTOU9wTGNjTWttUTY0SlR1dXJuYi9sTHlJeHNUSytvQXcxQTVD?=
+ =?utf-8?B?ZzFucFFFSlVVYWYrZ1FlNFdld05objZ5YWZ1MEN3UkVYdm1CR1V3d2dyTGEy?=
+ =?utf-8?B?THpyT3drVENXMHlvUG9jWjhCdldLTFZER1BObitEelV5SFByZ0VSbkFSWklj?=
+ =?utf-8?B?Y2toZzAyenlzK0oraVVzMVYraFVScVc5VzRIdXNnbXE2bWRyNXAyWjEyRjZB?=
+ =?utf-8?B?Z1BQejFxTU5XcEJuZFB1RVkwRitxbDJZbEhZbXVIaExmWUFTQzF6L1NGTHph?=
+ =?utf-8?B?dDBKYURwK1VrKys5M0s1NWJ6SW9sbEdzZDZ6SXA0aDJhY0dEWVRUbWhXNWV2?=
+ =?utf-8?B?WEJtdnFGT25YR1BocXBIWFNqb3RMOW5GS2kwbUdjV0R0QnJEQ1MxRDBiU3U0?=
+ =?utf-8?B?ZFZrU2VkTWxhMUE2VkZVbDhPQmgrWTRaRnc5bGRhZUFuRGtCRWRCclVkT290?=
+ =?utf-8?B?MVU2ekoydFR4TFVwckhaMEdNYitwNmhrb3ZLVW5ZSzZUNElFa00xQ0NTaENx?=
+ =?utf-8?B?TXN3VHlyZ0VXbHY2R2VwSEJzbjVqNytseEY5MHdndjFJcm9meElJdHA5amMw?=
+ =?utf-8?B?ZjkxNVFZR3VQL09qY2g0WiswOEdyaU9xZVpNaDNlbjREbW10ZFp1enJOc3FT?=
+ =?utf-8?B?eEJQVzZBU3ZVUlppT3Eva1F1MDU0dFZySjNyVkxKcnBKaG1KUC96cEpmWk45?=
+ =?utf-8?B?NlZlcEVycFg5RWFiOVhCUFlSN2haYzZyUGFvZXVjMTVnaExya2JyeW9Fcksx?=
+ =?utf-8?B?N09idGVMRm1oeXRXOFk4VFI0by90SmJMdUtaQ1R6S1NXMW94TUorUW9VeUxa?=
+ =?utf-8?B?citZYUF5clBURnV1OUt6SFhpZFE5UGNNamhGRytJVU43K1JjM2l1Q2RNNVdZ?=
+ =?utf-8?B?M3d3Nnc5QVowMCtnNVZqUHFHTnpJbU56QWI1SGpjOFlKVjdTck5yemZydmZO?=
+ =?utf-8?B?UFJFZFJMSGxuaDB6QTJsSjhZN0pqckJHY0tQVXNrRkpCbmFrRkVseWxJd3Aw?=
+ =?utf-8?B?UGlTN1BVTTdvRjNwY1hib3lvaUtqTkJ3aHZGSjlVbzQ5UnBOUGptb3hRUVIx?=
+ =?utf-8?B?cVBUNTRFMldLcUJmNEh4ZHNmTU43MVZNOU1NVUZrdGxrbXhJOHpHWGRqTU43?=
+ =?utf-8?B?VURpbGZHbnp5V21VWThXYkVVRTdsNUhHNkdjL2trZFlTWHBibWpvTmpla3BK?=
+ =?utf-8?B?MERWS3lqdytmaERrOFFVNEdra05wR0FJVnVwYXQxZk9VZFBXdHptU1RvZjBD?=
+ =?utf-8?B?V3dMYWtkUG45NTAyMTRJUFowc25SS2plT1FXNloxMW5wek1nQkp4bWRiUFRs?=
+ =?utf-8?B?ZHhELzgwTTdTUmt5VG0zUE5rM2ErcVFrcFBxZWVPYmtkSjJtaWdMNHhIVnNo?=
+ =?utf-8?B?VXdSeFNENWdPRitKNExFVU4xYmZtTVRnVVNKSnVLZXZMeTVsWTJNS1I4bUM4?=
+ =?utf-8?B?aTlJdUJaa2MxRmlnNHorak1jc1NxWVdxY1lFTkRGTnVkQWZ0eG91UT09?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd9af8bf-aad9-49e3-76ff-08de79959e23
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB10106.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3a8bcdf-5b02-46eb-346d-08de798b7f7c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2026 01:15:17.8986
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 02:27:44.5791
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: j936uIJw08Lg6l7aM604/VOsrWTyusbG4yeiCGD2pj1Y3H8F27BSsR8PFMbTg2HmsKizT+L41wWPMERumS84kg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12890
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UztKmYxTqTzul+SxaY7/Bn2hqGPA2P0lq1V3SIjt56JR9zKyUWFGHTScVOGT6qw9+8IySE+VXsiD2EFMZLsjYbMQCJqsEcTnwQgEkqLNCdQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5022
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=LqWfC3dc c=1 sm=1 tr=0 ts=69a798a3 cx=c_pps
+ a=0JRlrhwbVVPmsaj0kffiDg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=dXvAoEkxAAAA:8 a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=m_Zu4YEOKhuGDs4l8tMA:9 a=QEXdDO2ut3YA:10
+ a=iJ39DRKJB4kz2P1Iyp3E:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: sOIT7C83LzyULcN5c6siC9Mog_A2QXgg
+X-Proofpoint-ORIG-GUID: KNUVCRaB7c6mXnUoMrJ_MaKbJh6qEJhY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDAxOSBTYWx0ZWRfXwcndECF3FfDW
+ gGuqbdOcargya3Li19h54lr90eK4/sCFz4qDsaalsE++7iS02T1hoA1eqBBM6WEj0DxkFX+gAff
+ 5Hqqb0Wyp8hoaWZ2aKIkuYRqw0ELqK1TkPdDiPUn/+bFCElLAoCIGnU9QoIBGz83fnssyQPgNTV
+ 7QPkmWVKVhFChh3M2xcGIQkAFBWVHiJmiOhxG9FwNdvZJavmB0awzXVp+HnccX+2/9Mfj3yJKpO
+ iZIbh6LrtZCXBwDYi4zou1oEdxLsskHguWtEyuyQkVnjKdplZCom2SQsVi96yP/QY81KALh9Ycr
+ GjTJBRn0CLu6+1aaMrP01tGn2ZTnK/sSNgrbBWZJIeiCnCbvH8R9sgQmm6VPcENJK4XmlCO5149
+ UYpxgajOJYCgCuSDcZk9SPxLZGxj5RrvQSuhiOeDttWWAPFIJHTc/FV2vGRMA/+EJ6GPM/xL/n9
+ 9JTjI6ohQYiiOUycjOA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-04_01,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 01:15:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232340
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 02:28:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232341
 
---_000_OS3PR01MB10106B317449BCE9308E7E94F9B7CAOS3PR01MB10106jp_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+On 3/4/26 03:11, Mathieu Dubois-Briand wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> On Tue Mar 3, 2026 at 7:56 AM CET, hongxu via lists.openembedded.org wrote:
+>> History v82.0.0 [1]:
+>>
+>> Deprecations and Removals
+>> - pkg_resources has been removed from Setuptools. Most common uses of pkg_resources have
+>>    been superseded by the importlib.resources and importlib.metadata projects. Projects
+>>    and environments relying on pkg_resources for namespace packages or other behavior
+>>    should depend on older versions of setuptools. (#3085)
+>>
+>> [1] https://setuptools.pypa.io/en/stable/history.html#v82-0-0
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+> Hi Hongxu,
+>
+> Thanks for the upgrade.
+>
+> We get some fails on the autobuilder, that are probably related to this
+> change. Error message is not always the same, but it refers either to
+> setuptools or pkg-resources.
+>
+> ERROR: buildtools-tarball-1.0-r0 do_populate_sdk: Could not invoke dnf.
+> ...
+> --> Starting dependency resolution
+> --> Finished dependency resolution
+> Error:
+>   Problem 1: conflicting requests
+>    - nothing provides nativesdk-python3-pkg-resources needed by nativesdk-python3-setuptools-82.0.0-r0.x86_64_nativesdk from oe-repo
+>   Problem 2: package nativesdk-python3-pip-26.0.1-r0.x86_64_nativesdk from oe-repo requires nativesdk-python3-setuptools, but none of the providers can be installed
+>    - conflicting requests
+>    - nothing provides nativesdk-python3-pkg-resources needed by nativesdk-python3-setuptools-82.0.0-r0.x86_64_nativesdk from oe-repo
+> (try to add '--skip-broken' to skip uninstallable packages)
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/99/builds/3270
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/3264
+>
+> ERROR: core-image-sato-1.0-r0 do_populate_sdk: Could not invoke dnf.
+> ...
+> --> Starting dependency resolution
+> --> Finished dependency resolution
+> Error:
+>   Problem: package nativesdk-packagegroup-sdk-host-1.0-r0.x86_64_nativesdk from oe-repo requires nativesdk-meson, but none of the providers can be installed
+>    - conflicting requests
+>    - nothing provides nativesdk-python3-pkg-resources needed by nativesdk-meson-1.10.1-r0.x86_64_nativesdk from oe-repo
+> (try to add '--skip-broken' to skip uninstallable packages)
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3299
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/8/builds/3314
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/3302
+>
+> Can you have a look at these please?
 
-SGkgQWxleA0KDQogIEkgYW0gbm90IHN1cmUgYnV0IGNvbnNpZGVyIHRoYXQgZ3N0cmVhbWVyMS4w
-LXZhYXBpIGNhbid0IHdvcmsgd2l0aCBjcm9zcyBidWlsZCBlbnZpcm9ubWVudCB3YXMgcmVsYXRl
-ZCB0byBjbGFuZyBlbnYgYXMNCiAgZXhwb3J0IExMVk1fQ09ORklHPSR7U1RBR0lOR19CSU5ESVJf
-TkFUSVZFfS9sbHZtLWNvbmZpZw0KDQo+U2hvdWxkbid0IHRoZXNlIHN0ZXBzIGhhcHBlbiBhdXRv
-bWF0aWNhbGx5IGJ5IGp1c3QgZW5hYmxpbmcgdGhlIGhvdGRvYw0Kb3B0aW9uIGFuZCBidWlsZGlu
-ZyB0aGUgY29tcG9uZW50Pw0KDQpZZXMsIHRoZXNlIHN0ZXBzIGNhbid0IGJlIGF1dG9tYXRpY2Fs
-bHkgYnkganVzdCBlbmFibGluZyB0aGUgaG90ZG9jIG9wdGlvbi4gSWYgaXQgd2FzIG5lY2Vzc2Fy
-eSB0byBiZSBhdXRvbWF0aWNhbGx5LCBJIHdpbGwgaW52ZXN0aWdhdGUgaXQuDQoNCkxpdQ0KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7IyzogQWxleGFuZGVyIEthbmF2aW4g
-PGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQq3osvNyrG85DogMjAyNsTqM9TCM8jVIDE4OjU4DQrK
-1bz+yMs6IExpdSwgWWlkaW5nL8H1INLStqEgPGxpdXlkLmZuc3RAZnVqaXRzdS5jb20+DQqzrcvN
-OiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K1vfM4jogUmU6IFtPRS1jb3JlXVtQQVRDSF0g
-Z3N0cmVhbWVyMS4wLXZhYXBpOiBFbmFibGUgaG90ZG9jIHRvIHByb2R1Y2UgZG9jDQoNCk9uIFdl
-ZCwgMjUgRmViIDIwMjYgYXQgMTA6NDUsIFlpZGluZyBMaXUgKEZ1aml0c3UpIHZpYQ0KbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZyA8bGl1eWQuZm5zdD1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPg0Kd3JvdGU6DQo+ICtTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgY3Jvc3NfYnVpbGQg
-Y2hlY2sgdG8gbWFrZSBkb2Mgd29yayBpbiB5b2N0by4NCj4gKw0KPiArVXBzdHJlYW0tU3RhdHVz
-OiBJbmFwcHJvcHJpYXRlIFtvZS1zcGVjaWZpY10NCj4gK1NpZ25lZC1vZmYtYnk6IExpdSBZaWRp
-bmcgPGxpdXlkLmZuc3RAZnVqaXRzdS5jb20+DQo+ICstLS0NCj4gKyBkb2NzL21lc29uLmJ1aWxk
-IHwgOSAtLS0tLS0tLS0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgOSBkZWxldGlvbnMoLSkNCj4gKw0K
-PiArZGlmZiAtLWdpdCBhL2RvY3MvbWVzb24uYnVpbGQgYi9kb2NzL21lc29uLmJ1aWxkDQo+ICtp
-bmRleCBhZDVmNzg1Li4xZTdhODA4IDEwMDY0NA0KPiArLS0tIGEvZG9jcy9tZXNvbi5idWlsZA0K
-PiArKysrIGIvZG9jcy9tZXNvbi5idWlsZA0KPiArQEAgLTQsMTUgKzQsNiBAQCBpZiBnZXRfb3B0
-aW9uKCdkb2MnKS5kaXNhYmxlZCgpDQo+ICsgICBzdWJkaXJfZG9uZSgpDQo+ICsgZW5kaWYNCj4g
-Kw0KPiArLWlmIG1lc29uLmlzX2Nyb3NzX2J1aWxkKCkNCj4gKy0gICAgaWYgZ2V0X29wdGlvbign
-ZG9jJykuZW5hYmxlZCgpDQo+ICstICAgICAgICBlcnJvcignRG9jdW1lbnRhdGlvbiBlbmFibGVk
-IGJ1dCBidWlsZGluZyB0aGUgZG9jIHdoaWxlIGNyb3NzIGJ1aWxkaW5nIGlzIG5vdCBzdXBwb3J0
-ZWQgeWV0LicpDQo+ICstICAgIGVuZGlmDQo+ICstDQo+ICstICAgIG1lc3NhZ2UoJ0RvY3VtZW50
-YXRpb24gbm90IGJ1aWx0IGFzIGJ1aWxkaW5nIGl0IHdoaWxlIGNyb3NzIGJ1aWxkaW5nIGlzIG5v
-dCBzdXBwb3J0ZWQgeWV0LicpDQo+ICstICAgIHN1YmRpcl9kb25lKCkNCj4gKy1lbmRpZg0KPiAr
-LQ0KDQpJIHRoaW5rIHRoaXMgaXMgc3VpdGFibGUgZm9yIHVwc3RyZWFtIHN1Ym1pc3Npb24sIFlv
-Y3RvIGlzIGEgY3Jvc3MNCmJ1aWxkIGVudmlyb25tZW50IGFuZCBidWlsZGluZyBkb2NzIGRvZXMg
-d29yay4NCg0KPiArZG9faW5zdGFsbDphcHBlbmQ6Y2xhc3MtdGFyZ2V0ICgpIHsNCj4gKyAgICBp
-ZiAke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICdob3Rkb2MnLCAndHJ1ZScs
-ICdmYWxzZScsIGQpfTsgdGhlbg0KPiArICAgICAgICBleHBvcnQgTExWTV9DT05GSUc9JHtTVEFH
-SU5HX0JJTkRJUl9OQVRJVkV9L2xsdm0tY29uZmlnDQo+ICsgICAgICAgIG1lc29uIGNvbXBpbGUg
-ZG9jcy92YWFwaS1kb2MNCj4gKyAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtkb2NkaXJ9LyR7UE59
-DQo+ICsgICAgICAgIGNwIC1yICR7Qn0vZG9jcy92YWFwaS1kb2MvaHRtbCAke0R9JHtkb2NkaXJ9
-LyR7UE59DQo+ICsgICAgZmkNCg0KU2hvdWxkbid0IHRoZXNlIHN0ZXBzIGhhcHBlbiBhdXRvbWF0
-aWNhbGx5IGJ5IGp1c3QgZW5hYmxpbmcgdGhlIGhvdGRvYw0Kb3B0aW9uIGFuZCBidWlsZGluZyB0
-aGUgY29tcG9uZW50Pw0KDQpBbGV4DQo=
+Copy, I am working on it
 
---_000_OS3PR01MB10106B317449BCE9308E7E94F9B7CAOS3PR01MB10106jp_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+//Hongxu
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Hi Alex</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-&nbsp;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-&nbsp; I am not sure but consider that gstreamer1.0-vaapi&nbsp;can't work w=
-ith cross build environment was related to clang env as&nbsp;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-&nbsp; export LLVM_CONFIG=3D${STAGING_BINDIR_NATIVE}/llvm-config</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-&nbsp;&nbsp;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-&gt;Shouldn't these steps happen automatically by just enabling the&nbsp;ho=
-tdoc<br>
-option and building the component?</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-&nbsp; &nbsp;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Yes, these steps can't be automatically by just enabling the&nbsp;hotdoc op=
-tion.&nbsp;If it was necessary to be automatically, I will investigate it.<=
-/div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Liu</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> Alexand=
-er Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2026=C4=EA3=D4=C23=C8=D5 18:58<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> Liu, Yiding/=C1=F5 =D2=D2=B6=A1 &lt;liuyd.fnst@f=
-ujitsu.com&gt;<br>
-<b>=B3=AD=CB=CD:</b> openembedded-core@lists.openembedded.org &lt;openembed=
-ded-core@lists.openembedded.org&gt;<br>
-<b>=D6=F7=CC=E2:</b> Re: [OE-core][PATCH] gstreamer1.0-vaapi: Enable hotdoc=
- to produce doc</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Wed, 25 Feb 2026 at 10:45, Yiding Liu (Fujitsu)=
- via<br>
-lists.openembedded.org &lt;liuyd.fnst=3Dfujitsu.com@lists.openembedded.org&=
-gt;<br>
-wrote:<br>
-&gt; +Subject: [PATCH] Disable cross_build check to make doc work in yocto.=
-<br>
-&gt; +<br>
-&gt; +Upstream-Status: Inappropriate [oe-specific]<br>
-&gt; +Signed-off-by: Liu Yiding &lt;liuyd.fnst@fujitsu.com&gt;<br>
-&gt; +---<br>
-&gt; + docs/meson.build | 9 ---------<br>
-&gt; + 1 file changed, 9 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/docs/meson.build b/docs/meson.build<br>
-&gt; +index ad5f785..1e7a808 100644<br>
-&gt; +--- a/docs/meson.build<br>
-&gt; ++++ b/docs/meson.build<br>
-&gt; +@@ -4,15 +4,6 @@ if get_option('doc').disabled()<br>
-&gt; +&nbsp;&nbsp; subdir_done()<br>
-&gt; + endif<br>
-&gt; +<br>
-&gt; +-if meson.is_cross_build()<br>
-&gt; +-&nbsp;&nbsp;&nbsp; if get_option('doc').enabled()<br>
-&gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error('Documentation enab=
-led but building the doc while cross building is not supported yet.')<br>
-&gt; +-&nbsp;&nbsp;&nbsp; endif<br>
-&gt; +-<br>
-&gt; +-&nbsp;&nbsp;&nbsp; message('Documentation not built as building it w=
-hile cross building is not supported yet.')<br>
-&gt; +-&nbsp;&nbsp;&nbsp; subdir_done()<br>
-&gt; +-endif<br>
-&gt; +-<br>
-<br>
-I think this is suitable for upstream submission, Yocto is a cross<br>
-build environment and building docs does work.<br>
-<br>
-&gt; +do_install:append:class-target () {<br>
-&gt; +&nbsp;&nbsp;&nbsp; if ${@bb.utils.contains('PACKAGECONFIG', 'hotdoc',=
- 'true', 'false', d)}; then<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; export LLVM_CONFIG=3D${STA=
-GING_BINDIR_NATIVE}/llvm-config<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meson compile docs/vaapi-d=
-oc<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; install -d ${D}${docdir}/$=
-{PN}<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cp -r ${B}/docs/vaapi-doc/=
-html ${D}${docdir}/${PN}<br>
-&gt; +&nbsp;&nbsp;&nbsp; fi<br>
-<br>
-Shouldn't these steps happen automatically by just enabling the hotdoc<br>
-option and building the component?<br>
-<br>
-Alex<br>
-</div>
-</span></font></div>
-</body>
-</html>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 
---_000_OS3PR01MB10106B317449BCE9308E7E94F9B7CAOS3PR01MB10106jp_--
 
