@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6380EF901E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DDEEF9018
 	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 17:05:57 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23519.1772643955261610600
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23387.1772643947858991002
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 09:05:55 -0800
+ Wed, 04 Mar 2026 09:05:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=axtXn7Vz;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4833115090dso72671485e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 09:05:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IB0qrHk1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-482f454be5bso74520055e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 09:05:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772643953; x=1773248753; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772643946; x=1773248746; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D4fTb5rAzR7vAaw4A9FaWA2kBpSJrXC1H+XXCcsr/EI=;
-        b=axtXn7VzhnF3Me5eWnLQGOsEh2fSLsU0Rizj2Q2aTnLdZ2lUqwvZC4Lu5aJzB9KzVo
-         BRxkMfMSB/98meBkbTPo96sc9rIGzq8TeY5bGtt5Xua5vXnM8tdorhwXun7ktd6O8BRe
-         0LYu3/1qU0ZWsQ962vxYsrEAQP0V7hMIGbX2nrYfxYgaWWf+VbQ7lXTPduLzpXHMh6W4
-         9SY4KRmzx9XebMCdHgtKLOlBpzNA57wMRaDGxqupcMcIcuYB2Tzx16ElfYVEPgNdGY9H
-         0AZlLAqECmLmPDhr12LPTqqAWOEtdtKg5VaJpVoB7xmAGfiUyOs8DRl8XbTo2AorfcET
-         YLzg==
+        bh=ro/7wLFd2o+gTqRswo9jRZjGihaOdjP7jIE64/gXJhI=;
+        b=IB0qrHk12RffEyi+5mcDRu6L17vT6GP5THzb43Awn2O50H6cq/Dbl8qu1ZWhCtB8r9
+         IEycV45tvBQshLdluU4Dp4kJ+8/ZaBQ5rgijSNcHOx4Ovq3rV0jEqc6Ql5k2lv/PsaxN
+         eGtsnZrnvAL4yAK1pBFx2ZFdRqDs5MvYXeL6Ycc/lB+HuRBrR24rB7vPVZ4t6PbPU7cN
+         zHw0ActHL5KcDrSsoCtXfV1ol3F4g0noK25HC6cF16xBfobAOH/8w4UnPsS0YIALulNc
+         Xn8PhFp4cwnKs7L6lhmZ4chfWdSRhnexgTajj4TCPWL2gPdWraxMzUIJJAy3Y7AKps03
+         aZyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772643953; x=1773248753;
+        d=1e100.net; s=20230601; t=1772643946; x=1773248746;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=D4fTb5rAzR7vAaw4A9FaWA2kBpSJrXC1H+XXCcsr/EI=;
-        b=TJAY0bpaQKP2aKxcmtsoGaxUtfvPlakTZlu7htTM/XHycPGXl4DZaXp/HJO9Ud7qMH
-         KeLdesqdOQ5p//dzZ/YO2GU0zL2rFN1FoW8RySJw7Af+Q1ysp4sDc2pQBdNCTAeBi1Nf
-         amO3Pzsy3u3xlihQKiXXn9055Gx3bRBTQE/+fXiA/2yYmUCHeaKpKR6/wLrkTl6ULbGu
-         SpRNMrpv2GlKE6db03/s7L0qu1svboAmkWCjo5P+p1R+pEc5pFRrrQqb6iryd9OSNxn8
-         GcNDjcMhPPWnRXRJ88XmjLLsnUsTpI2mFC2Ctben0KqxORbHsN//YzNKzAdlROSRlx/J
-         75eA==
-X-Gm-Message-State: AOJu0YxvCRWJQqojIf60my08mF+r+CUXQ+PejyENxnPHQ2dlgK2Vsx3t
-	jMJ3EqWChO+GenyoDG4yfhWLFaQvmMKQxTLVIUceqOuCxYc8o1JUNf7HXa8njQ==
-X-Gm-Gg: ATEYQzwe4Gg5fmHViSIO9sEsJVhyPOsJzIBz6XBz+Dtu/dYbs8IYTjFewuLD+wn31o0
-	Eu3bSI5COo3enFB9xpkfV4NHytraoJRxPNFuyxIFBraOG52Alv+U1s79TC718gPImCbXC7hV3JM
-	BznPzNkZU7QecWzVmeEuIEtSWo+9PKBAgBeg57/t9L+qiC7yVcC8RYbg/iB8iAUdKgEChRoaq0l
-	REMOX1r1lGlqaN4YB4ORyhWLUE6bLvw86cU5Ocwx9CNnM1dOYGLQFw37M3m5PLh3txWL9UNNfke
-	gQlkU/53Mo6RHmTdn4syX8vnDQ8v6o1V0+2Lekbw1s6QK8wE+97P/6OKrWqw2QE8tiCDKsyQSG/
-	PQVcXg1QqD8h93Yh1WMhcYvFGus6ihU0LCb3CWq4McIiYUh/AvZ03Cafr17GKIZUTEjw63WWmDQ
-	k9Thx7d6ZKMVv8bdUzMsknZLg=
-X-Received: by 2002:a05:600c:8b53:b0:483:4807:210c with SMTP id 5b1f17b1804b1-48519895593mr44227695e9.24.1772643953116;
-        Wed, 04 Mar 2026 09:05:53 -0800 (PST)
+        bh=ro/7wLFd2o+gTqRswo9jRZjGihaOdjP7jIE64/gXJhI=;
+        b=RfuZXvT/WQFcSI5Kb6ZjoxGoCc9dvXUwn/DqSatjlTa1CsAnXdXf9dNpvpFPglZNOR
+         2LFNnBdXRxTZycaSYhp44Vk8+5feIBUQGqhCx1Hv2d/qLg8a94iGdXj4n7/DbLRprzRc
+         VjN42cxRfGuXDaFGL2TfazYF5ihqBhGh9D1h/Iz8U3vwMz8jQEP7RVzzfSWbYJHHARs+
+         fkJdZH7BmtCpjjE+cySu+OcG5f/7P0jrGXsBicUG/CimfUNgHECE8Sq6nN/cj/UH0WPX
+         bRkxiU8xTvEYOJuC/MHS3rBDDtlTPF9O8kputH2e7cFUCFATeQmxTvL2+g943vDQ9zWB
+         h7UA==
+X-Gm-Message-State: AOJu0YyUH9C1oWxiYSNYCVPqoxLkRfEETyqfVhF5b26V2I4BDcQu8RUr
+	34iylxDIrKlK30g24Bu1/Np/T5xphLEE8VZbP3ZdnlCu3IJtHEL0mP2QEOL4Gw==
+X-Gm-Gg: ATEYQzwWQ1KfYGwLoO75vWvcKec0lTXd8ItObC/BXB7D0cKhjciKoa497PWllxJd2g1
+	KxG/lDGPw+Xp0MxiszpxaoAwNQ1ElIq/c5xuUvUydYHJeQcR2+65z0D1YfgHPkRMz5tvaQOe3Hg
+	UYXL4F66U0NWhupMb9VD39ECzTXbBaCQPFJpZFKOEwqLL77p638ewhhqi5/F/AdZHqw5sXYHRC0
+	wVciBAACbst385SO/gOqn1tsMraK+ol3ewnmKHvzWWIicA0xz4roeGHo+GMle+FMqbSWsOMTlfU
+	LvWgTss+6kvUh5074fkGhtiHoknjLt4mBanbasxHkyGUKV8mdUSGHn09H91PsuJ7qta6cNEvrrz
+	Vsx/sWpDgGTBiDgDs0ZbJh+YGkH2SxW0MmQ2JwlRyEpBCtTxId1fnbKc9IHxtzh9cPTPF7XyOK5
+	al/45bjx/x2GXc9jSRm7/ulpo=
+X-Received: by 2002:a05:600c:34c4:b0:475:ddad:c3a9 with SMTP id 5b1f17b1804b1-485198d1184mr44227265e9.13.1772643945580;
+        Wed, 04 Mar 2026 09:05:45 -0800 (PST)
 Received: from fedora ([165.225.94.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485188914ddsm78557395e9.12.2026.03.04.09.05.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485188914ddsm78557395e9.12.2026.03.04.09.05.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 09:05:50 -0800 (PST)
+        Wed, 04 Mar 2026 09:05:44 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,60 +61,188 @@ Cc: Ross.Burton@arm.com,
 	adrian.freihofer@siemens.com,
 	jpewhacker@gmail.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [PATCH v6 05/10] spdx30: Add SPDX_GIT_PURL_MAPPINGS for Git hosting
-Date: Wed,  4 Mar 2026 18:05:36 +0100
-Message-ID: <20260304170541.180868-6-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v6 01/10] spdx30: Add configurable file filtering support
+Date: Wed,  4 Mar 2026 18:05:32 +0100
+Message-ID: <20260304170541.180868-2-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260304170541.180868-1-stefano.tondo.ext@siemens.com>
 References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
  <20260304170541.180868-1-stefano.tondo.ext@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 17:05:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232408
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232404
 
-Initialize SPDX_GIT_PURL_MAPPINGS with proper default value and
-documentation following the established pattern for SPDX variables.
+This commit adds file filtering capabilities to SPDX 3.0 SBOM generation
+to reduce SBOM size and focus on relevant files.
 
-This variable allows downstream layers to extend Git PURL generation
-to additional hosting services beyond the built-in GitHub support:
+New configuration variables (in spdx-common.bbclass):
 
-  SPDX_GIT_PURL_MAPPINGS = "gitlab.com:pkg:gitlab code.example.com:pkg:generic"
+  SPDX_FILE_FILTER (default: "all"):
+    - "all": Include all files (current behavior)
+    - "essential": Include only LICENSE/README/NOTICE files
+    - "none": Skip all files
 
-The variable is:
-1. Initialized with ??= operator (overrideable by layers)
-2. Documented with [doc] attribute for bitbake help system
-3. Consistent with other SPDX variable documentation style
+  SPDX_FILE_ESSENTIAL_PATTERNS (extensible):
+    - Space-separated patterns for essential files
+    - Default: LICENSE COPYING README NOTICE COPYRIGHT etc.
+    - Recipes can extend: SPDX_FILE_ESSENTIAL_PATTERNS += "MANIFEST"
+
+  SPDX_FILE_EXCLUDE_PATTERNS (extensible):
+    - Patterns to exclude in 'essential' mode
+    - Default: .patch .diff test_ /tests/ .pyc .o etc.
+    - Recipes can extend: SPDX_FILE_EXCLUDE_PATTERNS += ".tmp"
+
+Implementation (in spdx30_tasks.py):
+
+  - add_package_files(): Apply filtering during file walk
+  - get_package_sources_from_debug(): Skip debug source lookup for
+    filtered files instead of failing
+
+Impact:
+
+  - Essential mode reduces file components by ~96% (2,376 → ~90 files)
+  - Filters out patches, test files, and build artifacts
+  - Configurable per-recipe via variable extension
+  - No impact when SPDX_FILE_FILTER="all" (default)
+
+This is useful for creating compact SBOMs for compliance and distribution
+where only license-relevant files are needed.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/classes/spdx-common.bbclass | 37 +++++++++++++++++++++++++++
+ meta/lib/oe/spdx30_tasks.py      | 44 +++++++++++++++++++++++++++++---
+ 2 files changed, 77 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index def2dacbc3..9afe02dcd6 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -152,6 +152,16 @@ SPDX_PACKAGE_URLS[doc] = "A space separated list of Package URLs (purls) for \
-     Override this variable to replace the default, otherwise append or prepend \
-     to add additional purls."
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index 3110230c9e..81c61e10dc 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -54,6 +54,43 @@ SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
  
-+SPDX_GIT_PURL_MAPPINGS ??= ""
-+SPDX_GIT_PURL_MAPPINGS[doc] = "Space-separated list of Git hosting service domain \
-+to PURL type mappings for generating Package URLs from Git repositories. Format: \
-+'domain1:purl_type1 domain2:purl_type2'. By default, only GitHub is supported \
-+(pkg:github). This variable allows layers to add support for GitLab, internal Git \
-+servers, or other hosting platforms. Example: 'gitlab.com:pkg:gitlab \
-+code.example.com:pkg:generic'. The domain is matched against the Git URL, and the \
-+corresponding PURL type is used when generating software_packageUrl for Git source \
-+components. Invalid entries are ignored with a warning."
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
+ 
++SPDX_FILES_INCLUDED ??= "all"
++SPDX_FILES_INCLUDED[doc] = "Controls which files are included in SPDX output. \
++    Values: 'all' (include all files), 'essential' (only LICENSE/README/NOTICE files), \
++    'none' (no files). The 'essential' mode reduces SBOM size by excluding patches, \
++    tests, and build artifacts."
 +
- IMAGE_CLASSES:append = " create-spdx-image-3.0"
- SDK_CLASSES += "create-spdx-sdk-3.0"
++SPDX_FILE_ESSENTIAL_PATTERNS ??= "LICENSE COPYING README NOTICE COPYRIGHT PATENTS ACKNOWLEDGEMENTS THIRD-PARTY-NOTICES"
++SPDX_FILE_ESSENTIAL_PATTERNS[doc] = "Space-separated list of file name patterns to \
++    include when SPDX_FILES_INCLUDED='essential'. Recipes can extend this to add their \
++    own essential files (e.g., 'SPDX_FILE_ESSENTIAL_PATTERNS += \"MANIFEST\"')."
++
++SPDX_FILE_EXCLUDE_PATTERNS ??= ".patch .diff test_ _test. /test/ /tests/ .pyc .pyo .o .a .la"
++SPDX_FILE_EXCLUDE_PATTERNS[doc] = "Space-separated list of patterns to exclude when \
++    SPDX_FILES_INCLUDED='essential'. Files matching these patterns are filtered out. \
++    Recipes can extend this to exclude additional file types."
++
++SBOM_COMPONENT_NAME ??= ""
++SBOM_COMPONENT_NAME[doc] = "Name of the SBOM metadata component. If set, creates a \
++    software_Package element in the SBOM with image/product information. Typically \
++    set to IMAGE_BASENAME or product name."
++
++SBOM_COMPONENT_VERSION ??= "${DISTRO_VERSION}"
++SBOM_COMPONENT_VERSION[doc] = "Version of the SBOM metadata component. Used when \
++    SBOM_COMPONENT_NAME is set. Defaults to DISTRO_VERSION."
++
++SBOM_COMPONENT_SUMMARY ??= ""
++SBOM_COMPONENT_SUMMARY[doc] = "Description of the SBOM metadata component. Used when \
++    SBOM_COMPONENT_NAME is set. Typically set to IMAGE_SUMMARY or product description."
++
++SBOM_SUPPLIER_NAME ??= ""
++SBOM_SUPPLIER_NAME[doc] = "Name of the organization supplying the SBOM. If set, \
++    creates an Organization element in the SBOM with supplier information."
++
++SBOM_SUPPLIER_URL ??= ""
++SBOM_SUPPLIER_URL[doc] = "URL of the organization supplying the SBOM. Used when \
++    SBOM_SUPPLIER_NAME is set. Adds an external identifier with the organization URL."
++
+ python () {
+     from oe.cve_check import extend_cve_status
+     extend_cve_status(d)
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 99f2892dfb..bd703b5bec 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -161,6 +161,11 @@ def add_package_files(
+         compiled_sources, types = oe.spdx_common.get_compiled_sources(d)
+         bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
  
++    # File filtering configuration
++    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
++    essential_patterns = (d.getVar("SPDX_FILE_ESSENTIAL_PATTERNS") or "").split()
++    exclude_patterns = (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
++
+     for subdir, dirs, files in os.walk(topdir, onerror=walk_error):
+         dirs[:] = [d for d in dirs if d not in ignore_dirs]
+         if subdir == str(topdir):
+@@ -174,6 +179,26 @@ def add_package_files(
+                 continue
+ 
+             filename = str(filepath.relative_to(topdir))
++
++            # Apply file filtering if enabled
++            if spdx_file_filter == "essential":
++                file_upper = file.upper()
++                filename_lower = filename.lower()
++
++                # Skip if matches exclude patterns
++                skip_file = any(pattern in filename_lower for pattern in exclude_patterns)
++                if skip_file:
++                    continue
++
++                # Keep only essential files (license/readme/etc)
++                is_essential = any(pattern in file_upper for pattern in essential_patterns)
++                if not is_essential:
++                    continue
++            elif spdx_file_filter == "none":
++                # Skip all files
++                continue
++            # else: spdx_file_filter == "all" or any other value - include all files
++
+             file_purposes = get_purposes(filepath)
+ 
+             # Check if file is compiled
+@@ -219,6 +244,8 @@ def add_package_files(
+ def get_package_sources_from_debug(
+     d, package, package_files, sources, source_hash_cache
+ ):
++    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
++
+     def file_path_match(file_path, pkg_file):
+         if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
+             return True
+@@ -251,10 +278,19 @@ def get_package_sources_from_debug(
+             continue
+ 
+         if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
+-            bb.fatal(
+-                "No package file found for %s in %s; SPDX found: %s"
+-                % (str(file_path), package, " ".join(p.name for p in package_files))
+-            )
++            # When file filtering is active, some files may be filtered out
++            # Skip debug source lookup instead of failing
++            if spdx_file_filter in ("none", "essential"):
++                bb.debug(
++                    1,
++                    f"Skipping debug source lookup for {file_path} in {package} (filtered by SPDX_FILE_FILTER={spdx_file_filter})",
++                )
++                continue
++            else:
++                bb.fatal(
++                    "No package file found for %s in %s; SPDX found: %s"
++                    % (str(file_path), package, " ".join(p.name for p in package_files))
++                )
+             continue
+ 
+         for debugsrc in file_data["debugsrc"]:
 -- 
 2.53.0
 
