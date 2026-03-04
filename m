@@ -1,93 +1,85 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F75BEB7ECD
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:46:34 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15175.1772621184356661717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD39EB7ECE
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 11:03:04 +0000 (UTC)
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15443.1772622176092126408
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 02:46:24 -0800
+ Wed, 04 Mar 2026 03:02:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=frxHsHnD;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oZIUHy6o;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019cb874ba45-38379311-3177-41df-963f-4076a319723d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1772621183; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ftGoy0fVjsPyOqnjvGAbpPfb4Bdul40uTR6JxJ9ZHeU=;
-	b=frxHsHnDMwIBupdE6dLIZ0iFnSpYJHBXCd+6+jYONTl9ArMrEybF0HdKnQUv5QgF
-	lOeGnLDjISRc/bac33BNisYn+fE73lO7HTr95TkVdCIFcu2ld0uxg0i2+7HmlkNi0YJ
-	LIIMyJS783Vl9ORo5sY23WGPQ+KyncTCdGCVC5Zo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1772621183;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ftGoy0fVjsPyOqnjvGAbpPfb4Bdul40uTR6JxJ9ZHeU=;
-	b=oZIUHy6o/nWgJ5KmY8V3wAyGkQflPO1kzMnRQ9bjS4Lsh7W+5XIOUFZkNM/nK6KS
-	AENzlQPyJPOhHC9YndiP49E8v4Ctue1iOmXcNm2+wXaiUbZNnBOwnuTTDd07RGIBKJT
-	ieRWoo0KfrfHUCwvdSV807qv4Vzisdg6qysExwdM=
-From: patchtest@automation.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3] sanity.bbclass: warn when sstate is outside of build dir,
- but hash equiv database is inside it
-In-Reply-To: <20260304102531.3825150-1-alex.kanavin@gmail.com>
-References: <20260304102531.3825150-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019cb874ba45-38379311-3177-41df-963f-4076a319723d-000000@us-west-2.amazonses.com>
-Date: Wed, 4 Mar 2026 10:46:23 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.03.04-54.240.27.45
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=iQAIc6uW;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1772622176; x=1804158176;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WEKiNNhuwVcS1xKTcf98H8yQmQwQt3WWBc5BKrIhIdM=;
+  b=iQAIc6uWYj2A6T2Cum2nZe5FC1Be4Wd5nPtvNrmO+CuFg3CjH9sA7F9m
+   FrZLgiBeYuMevuhj5f5aB5G8VzmCDN6tvfCjgHE5vARWS8sMQBThm2Ymg
+   sy/JngzTf+cdQ9FMa4aeqqprD9FhgcOUqV3Myxorgw7mHMNPBB0gNFNTi
+   fUVysoWQ7tmSRUC3zBhoV6EeVwza/TFjn3DCzJbqgQ66EPdvD+NUJQJFw
+   /CLVltTctJ0k/ODoJb4R4Q0vAUOzDqhDq0a9LmJGa1xmUd11EfPYT6hAC
+   nBE7ZssG9UsH9uAq56fDbhF2h4HGDZBZipj0NdUpWTCFN6y7jvaBkHMJC
+   g==;
+X-CSE-ConnectionGUID: +WLrSZVoSpqsG1BHsULxvg==
+X-CSE-MsgGUID: zuDmm1jXR6Oa9N6IwhNg1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="219852911"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763391600"; 
+   d="scan'208";a="219852911"
+Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgr3.fujitsu.com (Postfix) with ESMTPS id 335AE1002B9F
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Mar 2026 11:02:54 +0000 (UTC)
+Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id DC1F71401267
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Mar 2026 11:02:53 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.160.5])
+	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id 014C3829ED1;
+	Wed,  4 Mar 2026 11:02:50 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] vulkan-samples: upgrade to latest revision
+Date: Wed,  4 Mar 2026 19:02:47 +0800
+Message-ID: <20260304110247.1701-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:46:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232376
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 11:03:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232377
 
---NextPart
-Content-Type: text/plain
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-sanity.bbclass-warn-when-sstate-is-outside-of-build-dir-but-hash-equiv-database-is-inside-it.patch
+ meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 94 characters) (test_mbox.TestMbox.test_shortlog_length)
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 64c7e0908c..66c034a794 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -9,7 +9,7 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protoc
+            "
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "97fcdeecf2db26a78b432b285af3869a65bb00bd"
++SRCREV = "3abbdf8b5a3bf250f6475f9fe674567b14e9b1ad"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ 
+-- 
+2.43.0
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
