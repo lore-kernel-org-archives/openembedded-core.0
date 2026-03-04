@@ -1,123 +1,120 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B904EFCE3C
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 19:14:20 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26644.1772651657153479743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51691EFCE3D
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 19:33:30 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26982.1772652800383298093
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 11:14:17 -0800
+ Wed, 04 Mar 2026 11:33:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SwUELk4G;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-483bd7354efso96389005e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 11:14:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A3EpxNYp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-899ed41208fso78449176d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 11:33:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772652799; cv=none;
+        d=google.com; s=arc-20240605;
+        b=khRSutjG9GyIhsdLEnE39sj0MTxAutIunNS8ySHBsv6gbhJrEEMn6wUVDDLxVK4kCf
+         s2seVA5Neow1gjnpI4pUvbSQEhRnynDUb6Tjv41fv/h1eaQUwvISy6UlzWfyrWBO/LvB
+         oRKqX6XG7BYJTaEve3BQj+m50r8Wxw/ozIlli5j+QECkO/NEgQU/8Qmz7RiWa4BSpNMH
+         7BluY5pRygCH6d4m7m/XRW06U4u7VxPRKdY2lR2NRxlANHfydS/rhwpM4Zq6rF0qKCeB
+         KrwWCGQh6UhiBNbXosOX1PMxBgRgwtpZgdl+45GH/RjllaF3zkUp16+aQF//KO8mNXAg
+         O0dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nnlOWtmgz56g1J2If73hVpd+SDbqSi8fpHXhOmKIM8k=;
+        fh=Y2p8TMVAOR/EMkY898gTcONSB2LIxK072vUfnIEMc1s=;
+        b=SmXPdmsqcZifr22wnYgathE4IMYO62z9ddQKRV6pGwxZTh993NfkK2jLbTd8ekrozl
+         yKTJe3uZ72us+dvA7lnXbusNNQXeeLA6E7cNLws8Ku4wFUgDSrc7vuw8zBWhMnP6nm2T
+         I3auDImOF9mcFOpcm0jfLQVFtNrrEaZ7Oy/Xl8UjqzEY0lpBTWXpSwRYyzJ4e9gVIich
+         zhNBAzNNXtHr1i14oSO4r3KdavoJgr1APwjtVXMTR4emBrEKcMBk3tvHfuUbQtfbTJSD
+         /fOHKxAlcTZ5J1WwwWS6u8CJ+mxkX0yzbU5R3asocJRZb6L5T3asJvmlZHJNblf6DbbX
+         VBcw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772651655; x=1773256455; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772652799; x=1773257599; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bg6OGYJC7Xdzt7Ucb/PSviv6fK21wVKNsJKY/rotzy0=;
-        b=SwUELk4GY8rUhMaay4RpfS4OfH0DJMBl4Go1ML+Udwn9Bj+zJ6KiH14IDkhn3439IK
-         I82DYr1LqXlAiJb+zDbvEJxIMEmRKkrbcLWOoryuR9aioejHcrWx5C8QXZyhM3thp2YP
-         TzJonOGJnJBwoFJMroQiA6h5etX0je4/qNYHA=
+        bh=nnlOWtmgz56g1J2If73hVpd+SDbqSi8fpHXhOmKIM8k=;
+        b=A3EpxNYpZxFaKvt5FhZnIx3ctB8Qk7sYJ3zSyPvqs0sqFwiQUpiznLq6Va34aMS63H
+         /If404butjKDGdYvYkuxuKBrpkEi44f1bQ69uhZ6zTXcqfexvmgCAsk2aSnLVHIJ/TI2
+         vIdt0JapuBMlOe6xiez9VWqIjS98YTWM1miuD2FyuP8Q9wkqkaWR/mVegq81pzgXWCWD
+         X7POA8ajkV0d+DO0D/7Q54FzIH9zY13PJ62U7ERuMWY9tPF/ugsBqxkizLKGmFtEE8Ch
+         wiIfJIWdpiTFIa28BbnF0CCzZnti/DaOBlVMD+G5SVA+yBtd/FOPyAJwhHj9dVo4DJqW
+         cvdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772651655; x=1773256455;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bg6OGYJC7Xdzt7Ucb/PSviv6fK21wVKNsJKY/rotzy0=;
-        b=YxzLRQ9eo4WEGA/yq7uYYezNJQt3Clp2B38oegJh/vkRjZiOYMAOmeRF9rh8sTArDy
-         2NLnIejlFzyKPxcxBdfXgeozsoXkhLwa/TokqLPk7rI2LtkRsfKO58NSw6StmZFwrALF
-         qQBCbkKHB4LXN0jZnYdBRDSr5radW69IPeceihC7psMrSA4exziiak5rfgoK2j3kCTbF
-         dJdEJNuWBS0FtMnyMQSU6hxAvvLRKpfSiPCXBvbd418IU8PSnrr29stMIJkafUuRws+Y
-         Popjn1LKi4hUj4hB9vb+4Xu5pii5GmXGlscCk67dwnzb1fV9XhuRytynEW1FcisUpn7D
-         ALpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXNiKTTFf7sOkvOmAF1O/81rLoanLLBVDCNDOCtEZtNzAKx9HH1zFmJ+vTVUFHp0pEyPGDft/fAQDocgsiE5OaTQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YycqkTbgyVqrbWGYormy3GzJkAUTobh+0C2b62vjHQYSMbWY1mG
-	WvDdUzxbOANW+vKOjr2XaqmBsN/8VUXFWmHWjREld8ucDrLnM9bzsiofj/40lvuPSEw=
-X-Gm-Gg: ATEYQzzWf1Eq8ZDwtezwJr5ZUYQnWiVjWOXyz1VKHRHbzS/9ylqZsDO8+1s6HyKhbcV
-	TW1ecliaTGbbVVbJmuesaoA1g4305tTtY23fBYzqVhVAD607tOSE+uhNkgbAj5FPj2H0AwJy+E6
-	LbWBsVfN9+CcFPUmSjb2kHdFXg8GJUuOptmKIqaWVk048IZOrAqQOVL39LFo5FHdpBYp8JbknJs
-	U380Z6NwASTe+Ku4+3+vZefLRSXV9cIfj/wQQbIH03MAxSgHTe/YCrUZ77lB2N6OIWyT2tFAcCg
-	e7Xw5n3knEbPtd/f5QQqemnaPnxKJbsBDtwz9E8aYFBXxJ6hhFwpVTWC85ONe/rjVOYCoYvIyH6
-	7jFOzfJ/otRTiF0Pb8hxvoUn5eTZ4HUkYxRPiYP098U//35aGaIBOU6UrYNdSnUXMM+EdIyu/RE
-	WO1zmFArA81FGLfisGthy+NjkzsqEgUNzB1vl1KRnUGdc26VVVXSRZCxuiWN+UMgEiw7ACiDb20
-	i6VIvYJSC3MMw==
-X-Received: by 2002:a05:600c:3b29:b0:483:afbb:a077 with SMTP id 5b1f17b1804b1-4851983a5c5mr52828605e9.1.1772651655528;
-        Wed, 04 Mar 2026 11:14:15 -0800 (PST)
-Received: from localhost (2a02-8440-b50d-618f-20be-2110-8e83-ce30.rev.sfr.net. [2a02:8440:b50d:618f:20be:2110:8e83:ce30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485187b7851sm122395145e9.3.2026.03.04.11.14.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 11:14:15 -0800 (PST)
-Mime-Version: 1.0
+        d=1e100.net; s=20230601; t=1772652799; x=1773257599;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nnlOWtmgz56g1J2If73hVpd+SDbqSi8fpHXhOmKIM8k=;
+        b=xVbt2J9eBjmbzu+TQbbkkof7BuRElm/zFzeI1mHQPd4lY16iYRykjndw8/08M616Uq
+         bTRWTlciHsW5Yi1R+g+ESlrmLiLPfzRCUO/RV0lDFDiuVQWun36ctZp0QhjmrKdNY77y
+         dNTnQOq5DNcd5X3yNxP0FcQWkrmxa6XycNBKBzg1mbTC68poo4jAG83kfjv6dEBwFH6W
+         dIcE2fonZyHVfVHp7GrwDNQYlpolTCRSeVtHOflR7JVM0rzXS3lf098CnMvD/qQn6hce
+         8v0dNfZhaPuF9Ws6XeXr+eXAsowxbZazb9Q+eLU2SLz8xepapdzfpanmbJ1jrehy0a7P
+         cfmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2zufUCqfIaniy7+OrmjZsLXC5EX1znBOo7uNvYmKszNOt8P+srmBzy2nTSG2yuKnorrGN/9yfdB/8cAqAkacYtw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxk7nWHTnOT8XO+oqs3rLaf2n7gYuQA0AgRGFYpMMvJIGU4zH0s
+	pp7tPuT7t1DNUqSmBS0Jd4MASlUP0SL6Lo6dtKW89hkdiiDCa+Hnnbkm1NW2FLa23QYsQjSTtkq
+	oQX1Oblfvfo7SRKLOAwVmlc0ApI/NPXU=
+X-Gm-Gg: ATEYQzwlso5rNSZkDsoLSVhl0V2ZH3ISi33SDOq+KPJdKSuhnncOYVR1bMgcFC0iEO5
+	La9vEj9SLH64642py/VGCNcj1OXUGzjB4TOgTcp2oY72H2wd6yvBbZEmvgQMuRCn8b4yQKMLDpg
+	IebeatvuJSlLUqZb2EyoMDj6EXKV2jXM7D2W6M6p+iEe61dlF0QVKJD8jW46iZ7vOBX0/5f91Zr
+	8kE2j21vzOlEPDyLCXS3kgGpEVB8mqdU7mHeUAEpzdJitAEgSWsx16ZIvy9di/3j4kg7U30CoJb
+	ETiaq6EZG1aEUUdiTMdBkuhjMWLEwMScmORrhYWvXA==
+X-Received: by 2002:a05:6214:2a86:b0:899:f2ba:9d7a with SMTP id
+ 6a1803df08f44-89a19d21684mr39438176d6.39.1772652799279; Wed, 04 Mar 2026
+ 11:33:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20260304103203.1649-1-wangmy@fujitsu.com> <DGU6LGIXFAH7.3NWXCBMVFRKMC@bootlin.com>
+In-Reply-To: <DGU6LGIXFAH7.3NWXCBMVFRKMC@bootlin.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 4 Mar 2026 20:33:06 +0100
+X-Gm-Features: AaiRm536aRWAFBDm5oMFr6ig9zga55UlaTaBvj6viVQvO5ITwrn5cEeDxcTFnTM
+Message-ID: <CANNYZj--kiqDdV+_-qWC1DVegq98nPbkGVTdf5hP8U6yrX6jbA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/10] gst-devtools: upgrade 1.26.9 -> 1.28.0
+To: mathieu.dubois-briand@bootlin.com
+Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Mar 2026 20:14:12 +0100
-Message-Id: <DGU8KF6C5AC8.3PXRYKVMHQIBZ@smile.fr>
-Subject: Re: [OE-core] [PATCH scarthgap 0/3] meta: Backport rejected CVEs
- and SPDX3 fixes
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <mathieu.dubois-briand@bootlin.com>,
- <richard.purdie@linuxfoundation.org>, <JPEWhacker@gmail.com>,
- <thomas.petazzoni@bootlin.com>, <pascal.eberhard@se.com>, "Ross Burton"
- <ross.burton@arm.com>, =?utf-8?q?David_Nystr=C3=B6m?=
- <david.nystrom@est.tech>
-To: <benjamin.robin@bootlin.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260303-backport-fixes-scarthgap-v1-0-2dc803f921a9@bootlin.com>
-In-Reply-To: <20260303-backport-fixes-scarthgap-v1-0-2dc803f921a9@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 19:14:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232437
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 19:33:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232438
 
-On Tue Mar 3, 2026 at 5:46 PM CET, Benjamin Robin via lists.openembedded.or=
-g wrote:
-> This series backports three patches from `master` to `Scarthgap`.
+On Wed, 4 Mar 2026 at 18:41, Mathieu Dubois-Briand via
+lists.openembedded.org
+<mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> wrote:
+> It looks like we have some build issues with the new version:
 >
-> Removed references to rejected CVEs:
->  - Removed references to `CVE-2025-62813` and `CVE-2021-3502` in patch
->    files, as these CVEs have been rejected.
->  - This change prevents rejected CVE references from appearing in the
->    generated SBOM.
+> ERROR: lib32-gstreamer1.0-vaapi-1.26.9-r0 do_compile: Execution of '/srv/=
+pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-l=
+inux/lib32-gstreamer1.0-vaapi/1.26.9/temp/run.do_compile.2061462' failed wi=
+th exit code 1
+> ...
+> | /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-poky=
+mllib32-linux/lib32-gstreamer1.0-vaapi/1.26.9/lib32-recipe-sysroot/usr/incl=
+ude/gstreamer-1.0/gst/video/gstvideodmabufpool.h:53:24: error: unknown type=
+ name 'GstVideoBufferPoolClass'; did you mean 'GstBufferPoolClass'?
+> error: unknown type name 'GstVideoBufferPoolClass'; did you mean 'GstBuff=
+erPoolClass'?
+> |    53 |     VIDEO_DMABUF_POOL, GstVideoBufferPool)
+> |       |
+> ...
 >
-> Fixed kernel `CONFIG_` generation in SPDX3:
->  - Backported a fix for the generation of kernel `CONFIG_` values in
->    SPDX3 output.
->  - This is a important fix, as the generated SBOM file might otherwise
->    randomly omit kernel `CONFIG_` values.
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3295
 >
-> Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
-n.com>
-> ---
-> Benjamin Robin (Schneider Electric) (3):
->       avahi: Remove a reference to the rejected CVE-2021-36217
->       lz4: Remove a reference to the rejected CVE-2025-62813
->       meta: fix generation of kernel CONFIG_ in SPDX3
->
->  meta/classes-recipe/kernel.bbclass                 | 27 ++++++++++++----=
-------
->  meta/lib/oeqa/selftest/cases/spdx.py               |  2 +-
->  .../avahi/files/local-ping.patch                   |  1 -
->  ...5-62813.patch =3D> fix-null-error-handling.patch} |  1 -
->  meta/recipes-support/lz4/lz4_1.9.4.bb              |  2 +-
->  5 files changed, 17 insertions(+), 16 deletions(-)
-> ---
-> base-commit: a9a785d7fa0cfe2a9087dbcde0ef9f0d2a441375
-> change-id: 20260303-backport-fixes-scarthgap-c8d4140edfa0
->
-> Best regards,
+> Can you have a look at the issue?
 
-Hello,
+I guess the correct fix is to remove the gstreamer1.0-vaapi recipe, as
+the code has been removed upstream, and there's no 1.28 compatible
+version for it.
 
-Can you please send the equivalent series for whinlatter?
-
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+Alex
 
