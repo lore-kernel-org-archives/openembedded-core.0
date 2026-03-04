@@ -1,101 +1,92 @@
-Return-Path: <corentin.guillevic@smile.fr>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 559F6EB7ECA
-	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:44:04 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15142.1772621035873990082
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6604DEB7ECB
+	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 10:46:24 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15076.1772621183610257627
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 02:43:56 -0800
+ Wed, 04 Mar 2026 02:46:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=eSFCww7c;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: corentin.guillevic@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439b6d9c981so2140086f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 02:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772621034; x=1773225834; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=csm1ZwZwWh3bnb3Pv2NbbdKHkS/F/gKbUQkABmsSf5E=;
-        b=eSFCww7cerJNgq0iWVZJRJX5e3Wtya3wzG2r6eOZGxVdw3nY/RSgBojaL36TzP8Xcs
-         twedbPGxv72GvHfsvd31Hes6RCzNrJYwbd3Qy9nrWyfcZQTu3PQTfb3p2b9M/1Hp59MN
-         aHluwBbwrCGnYQ7p2x8SZgG46Lr8iGG4hV5Yc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772621034; x=1773225834;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=csm1ZwZwWh3bnb3Pv2NbbdKHkS/F/gKbUQkABmsSf5E=;
-        b=gBvojs8N7asqyJG1Dd/bMXnB2xR1HtvYdu6GVn8b2SWsluzLtkZtdIh4tCagFt4tl4
-         8iy11+XfCUsPhvcG9Q3hI+5e9vJ6lTAYZoQ5Lx7MNxz4E3rIuTzyCkTa8gA8mJkds8Qa
-         kXpLUnlPIPRzPBER/UKjSU+gX2aBfXZDVAIQ1C0ZasA2djz/Z7qbf8PC8afJPXJ9VM9a
-         oF/zU5QL5nHQ226I2UoHMl3HZhQxiQsBD14RVk7uzcuaCzFjfSrHi7Y/nSp4pwu3OGwW
-         hBDOXIzkjxsqTlBDnIu0Fx0wDS+IUklpVaXphdirD8/XcW5NvUoWXHRPnpnfwg54aVm+
-         NR3Q==
-X-Gm-Message-State: AOJu0YyqqjMM0qZnbKdzDafkqm4o+qE8yeJU2APi1RBW0Qh7rAKFMHw5
-	nm2IWiqAN10K77oGUz+x+bW8eomS57CueAAOzY+LFJs8P2DqWUt4gP17HjWPx2PQ2UtetmrY3F7
-	McnbDyig=
-X-Gm-Gg: ATEYQzyLO1K6BVg6BKy+yuUc2wThHFXtwzYq+DT/z9ypa5L1R/MPCi83q4rIntd9RfP
-	qZV37AyiqFEO8moECMXSSZfkFYSixjKgMAYNAi6m35YM7YfG8t2aj0Ox+3NsMgpcTF1DPrk/03+
-	7J3w/xxRsgV1gDcaKEcaBdYmtnumRarE+6Xg3r0ldIaDd0ecrO3G143iqJrhuSUejF50rw5Ztd7
-	29b+KkygQNgangBNEYJmQQ3MllTAG264QLXR8fmdkV9OvrMI/jVU2vE0VpqGxTvB7nmfrwInUKJ
-	LgB+Vqhd5AB8snyBwKPpLUrio15EP8VbMMA/IaRHoTrn5JDrKmnUxE55Sho4V2VHqHWkoO7y6r3
-	HTx52cW+rs/2GEyL96rHYoF9ohnTKR6NhmwTxfqgFOp04bK3iNjgJV4VxblK20MqGaNzFS8kvbW
-	c8hOL7U6F8PmcFqqiGQzL1cJb9x2Jzo7NQ6GjlSKhNzoV8qUt5vCq28zexnwmE8esjj2O5luIBn
-	uA2VtW3eKlK0yiw4sGGJpVQYbJmIFo4b0ZNcMX6qeM=
-X-Received: by 2002:a5d:64c6:0:b0:439:a95b:3c47 with SMTP id ffacd0b85a97d-439c10a8fa3mr11035540f8f.10.1772621034263;
-        Wed, 04 Mar 2026 02:43:54 -0800 (PST)
-Received: from heaven.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b34b6252sm25638168f8f.10.2026.03.04.02.43.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 02:43:54 -0800 (PST)
-From: Corentin Guillevic <corentin.guillevic@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
-Subject: [RFC PATCH 4/4] devtool: use default AUTOREV only for SCM URI
-Date: Wed,  4 Mar 2026 11:43:42 +0100
-Message-ID: <20260304104342.869457-5-corentin.guillevic@smile.fr>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260304104342.869457-1-corentin.guillevic@smile.fr>
-References: <20260304104342.869457-1-corentin.guillevic@smile.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZJCliT5h;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WCvUXYLG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019cb874b734-96009f4f-e8bb-466e-9b79-6c7b5a401cae-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1772621182; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=9ii1Re0KfM7nsyhuoA+mThR/KRlTTITv4KI2q/L/cwo=;
+	b=ZJCliT5hPekoswiR9zQoJixU/FH7I5sUqoGsqk0iSUrdv3mA4UXzSKgETcqkLMoh
+	UOJV0N8Ah3NaR0RZgZX2+2iB9o6JouWznkl5xlwPLpF7IPPcYYJea/iwYFH6RS5lm39
+	eagQbPAEaqjZoj6ItER/0zvun2ukCRR+7qpaoYDg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1772621182;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=9ii1Re0KfM7nsyhuoA+mThR/KRlTTITv4KI2q/L/cwo=;
+	b=WCvUXYLGyQHyBXIMiO0BKwMrZ8uzufYvncdhytcnVjrY/Xft7a5IOOiJ+HGkEG0f
+	wZCaP3yHHXVpRcgPzRN9a5cdUh4nxzlZtkqN5NnqL7DVIgNucCx0LVcMQp4maiwqotD
+	0dNlafKdI0hjfl3eYj4PtUI0Z0gnnTt14TA0kqiw=
+From: patchtest@automation.yoctoproject.org
+To: Hongxu Jia <hongxu.jia@windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] ncurses: upgrade 6.5 -> 6.6
+In-Reply-To: <20260304102811.1530062-1-hongxu.jia@windriver.com>
+References: <20260304102811.1530062-1-hongxu.jia@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019cb874b734-96009f4f-e8bb-466e-9b79-6c7b5a401cae-000000@us-west-2.amazonses.com>
+Date: Wed, 4 Mar 2026 10:46:22 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.03.04-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:44:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232374
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 10:46:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232375
 
-Same than recipetool, the default revision is set to AUTOREV regardless
-of the URI scheme. AUTOREV is now the default value only if the source URI
-supports SRCREV.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- scripts/lib/devtool/upgrade.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/v2-ncurses-upgrade-6.5---6.6.patch
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 8930fde5d6..34e23c2c45 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -157,7 +157,12 @@ def _get_uri(rd):
-             break
-     if not srcuri:
-         raise DevtoolError('Unable to find non-local entry in SRC_URI')
--    srcrev = '${AUTOREV}'
-+
-+    if srcuri and srcuri.startswith(('gitsm://', 'git://', 'hg://', 'svn://')):
-+        srcrev = '${AUTOREV}'
-+    else:
-+        srcrev = None
-+
-     if '://' in srcuri:
-         # Fetch a URL
-         rev_re = re.compile(';rev=([^;]+)')
--- 
-2.51.0
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
