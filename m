@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8892EF901F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC71EB7ED8
 	for <webhook@archiver.kernel.org>; Wed,  4 Mar 2026 17:05:57 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23388.1772643949150057707
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23516.1772643950668811512
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Mar 2026 09:05:49 -0800
+ Wed, 04 Mar 2026 09:05:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JeTskE8J;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so80766575e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 09:05:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gM2HOozN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-482f454be5bso74520605e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 09:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772643947; x=1773248747; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772643949; x=1773248749; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4KjtfWZab3pHkEShliIIuxh0QfLpjMDToChUQ7v2nBg=;
-        b=JeTskE8JsYbbMg4yquq94qUGjF1w/nBFi3MCp9ldnC1ZCnnAq2XnthgHigjwBsexWA
-         rmJxoeSbi+oMT0hy94vumHx2dJmtUhcrdxrgz3TIElpbCC/WvZjvDLHJdY0yL4f8i6WH
-         Z9AGYG931HvSdkyWJFK2RXJs73yTRFQly7p9mjYR4+ToFndOIQjHOgDv4fO8T71FgnxR
-         E87w327Ak05bV8SvPj/yoN9sBkHZP70uRhxDob15qa9Q1gDPsNSqlGrikgCL8XmDz7LF
-         i8qFsiShAb4JnyBKrCwo9JwQb9tWrNMQQsontisy9lw/bjVscWiwk49sNF3ZWVA08dJ0
-         071A==
+        bh=93LDLTM9PTRaz1/M4o61T0JICCxs5UF29MzeO68vOPo=;
+        b=gM2HOozNlNhlJQUAOhv5GdUSpF+wKxG/IGnTv3nSqazmtxEh7PMrEO1GEl17daG+8d
+         ZIgrjLBVRzPuExG8seXlNPeSvYffhAXF+aM9PdAlFpUvm5ct9s+NKyJaYQbj8+XuumPk
+         b46a8QybmCPID8k/TcXv5VAJ8kKpaJN976aszQlyCpXtl2dMXYCocTLWtKwXY8J3JzH0
+         IZ/SduxYfq9iOb8l1IfJeyN3C+Pkb7wKzSbmn45dRO2UGop2KI5ju0l+BbB3agox6DQE
+         hV1dJiAQuz9C9SVesC72597HD7IhH08ffq2XspZ7qKz9ccCJC1CUzhGURgHida2QM/8d
+         SGbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772643947; x=1773248747;
+        d=1e100.net; s=20230601; t=1772643949; x=1773248749;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4KjtfWZab3pHkEShliIIuxh0QfLpjMDToChUQ7v2nBg=;
-        b=mBBWbq9JL3covAMCA2ByL1scn4/XH1xIozskw2/IMrR0YPNlbbd0Yvycr8+/zyk4Tj
-         S3FYu5JBEkwQvtf7WCJ888BbCClq1BU8w0vICHiwpi408CBIeWKiAbC5+D3L1jrhD5HW
-         nGC7dRig287KgHjLNhVwmXNVSuE7zDk8xjQOSiYKho2H1IuEO8/f6WZcP+lHF4FdBi7a
-         Cxu7kIrqqbrOJaGop6v9kkPCCU1HV9LjSe9QuXkxnjz8PhiT4FRV4KkD5quOBHromwaD
-         +78X/kA+mBlNfFG84f7rT6Z2OrOrU/6LXRYRD7H/YKWZmqT9LzzDv5LR+Jq7VaBKTSX6
-         DbTA==
-X-Gm-Message-State: AOJu0Yx51nx2ziZWWXuF+D0Nn3QyyrAB9rdelOoeU9lbrQH1TRsQ1oCG
-	UTBWkqmsFYPEYmlIIEOOBlbJJXSsYmGYTBTVibqFS5nWKkz4aKGPdD/VpiMgQw==
-X-Gm-Gg: ATEYQzzCwVeYjF/J4F/uQC+8CXIUhZnbMHTZoSQw94qHhtnh6CMwjX/qZO5GVtWK3SK
-	4BZ1fFX15gPQ/WYiYfp8q2/YnHNvruIS8WKlFwsomLgwseqh/4QQHjenE+btt5Sk346GeDpj07P
-	DGLBwOnc5ccCnYtgzJrwsajSiFXjZY+PCLWXm71GbomnFjx5GOQ3SQKGb0UiKeyLeqpmJodRCuo
-	/zlvAfst3JjDYRCS2ZSOi8srhcujsk6udHWynClIvC/jzzUpXhn5HlhEoDnYj4tvpkHRXEhgPwF
-	KaKtpPQX/6RgUU6dZ4Ci684iqp/8Y5TLwRi6qQ2vlSAqMFW79YY9FSDthuLuhCgWmUMUj5PjtKt
-	YH0bBsAbLH99f6SiLHlvPsDltiXzCtIKn8QqKGnQ0sBQ2bz3lxNRouqOF+8ZI1Da/gL/hY+Arir
-	NuKo/0o4kj2mh9RRiuIpGrhOI=
-X-Received: by 2002:a05:600c:458d:b0:482:eec4:74c with SMTP id 5b1f17b1804b1-4851988a630mr41777245e9.22.1772643947001;
-        Wed, 04 Mar 2026 09:05:47 -0800 (PST)
+        bh=93LDLTM9PTRaz1/M4o61T0JICCxs5UF29MzeO68vOPo=;
+        b=Izzkkgj19O5sn1W8RB0oDNA8XENQrp0EKvGaBXQ+2eOxPlisU77Cnc28opRPAN89iO
+         tWNyKMDacwNX3tcyjUiCH5e8MCiqY7ot58nK3Dy2rbMJT0SOwE8mGEzIj6Y0S6WG9Xqg
+         1oTdNO33Ru9k5P5V1/OBu6wpcoDcu9/VxdUar4zOVXWa78TJV9ZAwhihVB0uP8lUIhk7
+         qo5T9LE3KptUoXWjUCFar08mCOFBNGC/3jiWkBL5ZWuCciVMWLd2fzTtfmLpYkpiM2w0
+         FI6E24IohB7mttSrNIQ/+gMzw4g/35WE671AvSO5biTj+cE3JGHyaV3RnGVeQeRzyqeJ
+         1dXg==
+X-Gm-Message-State: AOJu0YzUa748H9+YYyrEbFPU5pfYp4oTicBQuuzbz/uPGtJ6tnotjdGi
+	rDIyhWsimLooRQ42P49U8FISiuCnpmgG5IAZb+/flLdBP2NFTeJyP7PepjttKg==
+X-Gm-Gg: ATEYQzyZK8m6D8dNLI+2w1NDACqaS3mNu1Tmc7ph+0yAxuMrL4yBd0ELFbtbBS394Ny
+	DFCBhjDKK+F5wVxk9P1ziJGmgfJUPFQBi4tWCwZApo+kR8qNRFKkPRLSOx/gI/O5GjXxmOPp87h
+	2vd8f1pzwPVVIqlj6sDpGj83kZ7nJdnblz1XJ9w9FxweM2n6L5yvXg0/CEtX1WPO1x/wzmBCaAj
+	DFhPYRadyhNDBIdSuYlDtpIR9srbgl5dUOK1RdGk73lQd/+EJXvvfX3mW2VZoEy/WOmUUXFL4Qe
+	SgyoFsG9DZegeyHG5Aw35z+ImaDNbSpkj2ZXhzuXu1o9EOvMbg2YTzvemIBKrjHXqT/S6Ba4V5C
+	j81ZpljeYyTk8iMS2ZZsQ9pZCVyMjhl39XDRA14+egSUQtQADRhk+s3cRV4oRssuvsbbdoYHGXF
+	cRnD3O9bIZTzNPHx07XTTVlowXUzlrpBPfFg==
+X-Received: by 2002:a05:600c:81c8:b0:481:a662:b3f3 with SMTP id 5b1f17b1804b1-48519881c4amr48649875e9.7.1772643948449;
+        Wed, 04 Mar 2026 09:05:48 -0800 (PST)
 Received: from fedora ([165.225.94.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485188914ddsm78557395e9.12.2026.03.04.09.05.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485188914ddsm78557395e9.12.2026.03.04.09.05.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 09:05:45 -0800 (PST)
+        Wed, 04 Mar 2026 09:05:47 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,9 +61,9 @@ Cc: Ross.Burton@arm.com,
 	adrian.freihofer@siemens.com,
 	jpewhacker@gmail.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [PATCH v6 02/10] spdx30: Add supplier support for image and SDK SBOMs
-Date: Wed,  4 Mar 2026 18:05:33 +0100
-Message-ID: <20260304170541.180868-3-stefano.tondo.ext@siemens.com>
+Subject: [PATCH v6 03/10] spdx30: Add ecosystem-specific PURL generation
+Date: Wed,  4 Mar 2026 18:05:34 +0100
+Message-ID: <20260304170541.180868-4-stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260304170541.180868-1-stefano.tondo.ext@siemens.com>
 References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
@@ -74,139 +74,157 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Mar 2026 17:05:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232405
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232406
 
-This commit adds support for setting supplier information on image and SDK
-SBOMs using the suppliedBy property on root elements.
+Add a function that identifies ecosystem-specific PURLs (cargo, golang,
+pypi, npm, cpan, nuget, maven) for dependency packages, working alongside
+oe.purl.get_base_purl() which provides pkg:yocto PURLs.
 
-New configuration variables:
+Key design decision: Does NOT return pkg:generic fallback. This ensures:
+- No overlap with the base pkg:yocto generation
+- Packages get BOTH purls: pkg:yocto/layer/pkg@ver AND pkg:cargo/pkg@ver
+- Maximum traceability for compliance tools
 
-  SPDX_IMAGE_SUPPLIER (optional):
-    - Base variable name to describe the Agent supplying the image SBOM
-    - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
-    - Sets suppliedBy on all root elements of the image SBOM
-
-  SPDX_SDK_SUPPLIER (optional):
-    - Base variable name to describe the Agent supplying the SDK SBOM
-    - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
-    - Sets suppliedBy on all root elements of the SDK SBOM
-
-Implementation:
-
-  - create_image_sbom_spdx(): After create_sbom() returns, uses
-    objset.new_agent() to create supplier and sets suppliedBy on
-    sbom.rootElement
-
-  - create_sdk_sbom(): After create_sbom() returns, uses objset.new_agent()
-    to create supplier and sets suppliedBy on sbom.rootElement
-
-  - Uses existing agent infrastructure (objset.new_agent()) for proper
-    de-duplication and metadata handling
-
-  - No changes to generic create_sbom() function which is used for recipes,
-    images, and SDKs
-
-Usage example in local.conf:
-
-  SPDX_IMAGE_SUPPLIER_name = "Acme Corporation"
-  SPDX_IMAGE_SUPPLIER_type = "organization"
-  SPDX_IMAGE_SUPPLIER_id_email = "sbom@acme.com"
-
-This enables compliance workflows that require supplier metadata on image
-and SDK SBOMs while following existing OpenEmbedded SPDX patterns.
+Detects ecosystems via:
+- Unambiguous file extensions (.crate for Rust)
+- Recipe inheritance (pypi, npm, cpan, nuget, maven classes)
+- BitBake variables (GO_IMPORT, PYPI_PACKAGE, MAVEN_GROUP_ID)
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
- meta/lib/oe/spdx30_tasks.py          | 26 +++++++++++++++++++++++---
- 2 files changed, 33 insertions(+), 3 deletions(-)
+ meta/lib/oe/spdx30_tasks.py | 113 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 113 insertions(+)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index d4575d61c4..def2dacbc3 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -124,6 +124,16 @@ SPDX_ON_BEHALF_OF[doc] = "The base variable name to describe the Agent on who's
- SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-     is supplying artifacts produced by the build"
- 
-+SPDX_IMAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-+    is supplying the image SBOM. The supplier will be set on all root elements \
-+    of the image SBOM using the suppliedBy property. If not set, no supplier \
-+    information will be added to the image SBOM."
-+
-+SPDX_SDK_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-+    is supplying the SDK SBOM. The supplier will be set on all root elements \
-+    of the SDK SBOM using the suppliedBy property. If not set, no supplier \
-+    information will be added to the SDK SBOM."
-+
- SPDX_PACKAGE_VERSION ??= "${PV}"
- SPDX_PACKAGE_VERSION[doc] = "The version of a package, software_packageVersion \
-     in software_Package"
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index bd703b5bec..0888d9d7e4 100644
+index 0888d9d7e4..11945a622d 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -162,7 +162,7 @@ def add_package_files(
-         bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
+@@ -13,12 +13,125 @@ import oe.spdx30
+ import oe.spdx_common
+ import oe.sdk
+ import os
++import re
  
-     # File filtering configuration
--    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-+    spdx_file_filter = (d.getVar("SPDX_FILES_INCLUDED") or "all").lower()
-     essential_patterns = (d.getVar("SPDX_FILE_ESSENTIAL_PATTERNS") or "").split()
-     exclude_patterns = (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").split()
+ from contextlib import contextmanager
+ from datetime import datetime, timezone
+ from pathlib import Path
  
-@@ -244,7 +244,7 @@ def add_package_files(
- def get_package_sources_from_debug(
-     d, package, package_files, sources, source_hash_cache
- ):
--    spdx_file_filter = (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-+    spdx_file_filter = (d.getVar("SPDX_FILES_INCLUDED") or "all").lower()
  
-     def file_path_match(file_path, pkg_file):
-         if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
-@@ -283,7 +283,7 @@ def get_package_sources_from_debug(
-             if spdx_file_filter in ("none", "essential"):
-                 bb.debug(
-                     1,
--                    f"Skipping debug source lookup for {file_path} in {package} (filtered by SPDX_FILE_FILTER={spdx_file_filter})",
-+                    f"Skipping debug source lookup for {file_path} in {package} (filtered by SPDX_FILES_INCLUDED={spdx_file_filter})",
-                 )
-                 continue
-             else:
-@@ -1330,6 +1330,16 @@ def create_image_sbom_spdx(d):
- 
-     objset, sbom = oe.sbom30.create_sbom(d, image_name, root_elements)
- 
-+    # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is defined
-+    supplier = objset.new_agent("SPDX_IMAGE_SUPPLIER", add=False)
-+    if supplier is not None:
-+        supplier_id = supplier if isinstance(supplier, str) else supplier._id
-+        if not isinstance(supplier, str):
-+            objset.add(supplier)
-+        for elem in sbom.rootElement:
-+            if hasattr(elem, "suppliedBy"):
-+                elem.suppliedBy = supplier_id
 +
-     oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
- 
-     def make_image_link(target_path, suffix):
-@@ -1441,6 +1451,16 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
-         d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
-     )
- 
-+    # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
-+    supplier = objset.new_agent("SPDX_SDK_SUPPLIER", add=False)
-+    if supplier is not None:
-+        supplier_id = supplier if isinstance(supplier, str) else supplier._id
-+        if not isinstance(supplier, str):
-+            objset.add(supplier)
-+        for elem in sbom.rootElement:
-+            if hasattr(elem, "suppliedBy"):
-+                elem.suppliedBy = supplier_id
++def extract_dependency_metadata(d, file_name):
++    """Extract ecosystem-specific PURL for dependency packages.
 +
-     oe.sbom30.write_jsonld_doc(
-         d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
-     )
++    Uses recipe metadata to identify ecosystem PURLs (cargo, golang, pypi,
++    npm, cpan, nuget, maven). Returns (version, purl) or (None, None).
++    Does NOT return pkg:generic; base pkg:yocto is handled by get_base_purl().
++    """
++
++    pv = d.getVar("PV")
++    version = pv if pv else None
++    purl = None
++
++    # Rust crate (.crate extension is unambiguous)
++    if file_name.endswith('.crate'):
++        crate_match = re.match(r'^(.+?)-(\d+\.\d+\.\d+(?:\.\d+)?(?:[-+][\w.]+)?)\.crate$', file_name)
++        if crate_match:
++            name = crate_match.group(1)
++            version = crate_match.group(2)
++            purl = f"pkg:cargo/{name}@{version}"
++            return (version, purl)
++
++    # Go module via GO_IMPORT variable
++    go_import = d.getVar("GO_IMPORT")
++    if go_import and version:
++        purl = f"pkg:golang/{go_import}@{version}"
++        return (version, purl)
++
++    # Go module from filename with explicit hosting domain
++    go_match = re.match(
++        r'^((?:github|gitlab|gopkg|golang|go\.googlesource)\.com\.[\w.]+(?:\.[\w-]+)*?)-(v?\d+\.\d+\.\d+(?:[-+][\w.]+)?)\.',
++        file_name
++    )
++    if go_match:
++        module_path = go_match.group(1).replace('.', '/', 1)
++        parts = module_path.split('/', 1)
++        if len(parts) == 2:
++            domain = parts[0]
++            path = parts[1].replace('.', '/')
++            module_path = f"{domain}/{path}"
++
++        version = go_match.group(2)
++        purl = f"pkg:golang/{module_path}@{version}"
++        return (version, purl)
++
++    # PyPI package
++    if bb.data.inherits_class("pypi", d) and version:
++        pypi_package = d.getVar("PYPI_PACKAGE")
++        if pypi_package:
++            # Normalize per PEP 503
++            name = re.sub(r"[-_.]+", "-", pypi_package).lower()
++            purl = f"pkg:pypi/{name}@{version}"
++            return (version, purl)
++
++    # NPM package
++    if bb.data.inherits_class("npm", d) and version:
++        bpn = d.getVar("BPN")
++        if bpn:
++            name = bpn[4:] if bpn.startswith('npm-') else bpn
++            purl = f"pkg:npm/{name}@{version}"
++            return (version, purl)
++
++    # CPAN package
++    if bb.data.inherits_class("cpan", d) and version:
++        bpn = d.getVar("BPN")
++        if bpn:
++            if bpn.startswith('perl-'):
++                name = bpn[5:]
++            elif bpn.startswith('libperl-'):
++                name = bpn[8:]
++            else:
++                name = bpn
++            purl = f"pkg:cpan/{name}@{version}"
++            return (version, purl)
++
++    # NuGet package
++    if (bb.data.inherits_class("nuget", d) or bb.data.inherits_class("dotnet", d)) and version:
++        bpn = d.getVar("BPN")
++        if bpn:
++            if bpn.startswith('dotnet-'):
++                name = bpn[7:]
++            elif bpn.startswith('nuget-'):
++                name = bpn[6:]
++            else:
++                name = bpn
++            purl = f"pkg:nuget/{name}@{version}"
++            return (version, purl)
++
++    # Maven package
++    if bb.data.inherits_class("maven", d) and version:
++        group_id = d.getVar("MAVEN_GROUP_ID")
++        artifact_id = d.getVar("MAVEN_ARTIFACT_ID")
++
++        if group_id and artifact_id:
++            purl = f"pkg:maven/{group_id}/{artifact_id}@{version}"
++            return (version, purl)
++        else:
++            bpn = d.getVar("BPN")
++            if bpn:
++                if bpn.startswith('maven-'):
++                    name = bpn[6:]
++                elif bpn.startswith('java-'):
++                    name = bpn[5:]
++                else:
++                    name = bpn
++                purl = f"pkg:maven/{name}@{version}"
++                return (version, purl)
++
++    # Base pkg:yocto PURL is handled by oe.purl.get_base_purl()
++    return (version, None)
++
++
+ def walk_error(err):
+     bb.error(f"ERROR walking {err.filename}: {err}")
+ 
 -- 
 2.53.0
 
