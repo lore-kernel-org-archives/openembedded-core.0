@@ -1,202 +1,168 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B23FEDEC1D
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 09:20:52 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40455.1772702445107392222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F110EF8FE4
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 09:22:42 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36551.1772682107041070853
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 01:20:45 -0800
+ Wed, 04 Mar 2026 19:41:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=z3LU/cbO;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439c944bb62so1233290f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 01:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772702443; x=1773307243; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VypkVT7BbhqBRG1P5j19O5/qn7x5887m35xmVxXUx8s=;
-        b=z3LU/cbOtA2/cb0imAzEJBnzmc2n7RR5MQPf7g7KLeocnKtwvictOu2b2KrM7HCB/V
-         UKEsJc4t1WhoaJ5w2EnnkiDzxFc0v+59YweXobd3EMyjDJKn+aT8eg6Dz7fDmaTrdA2u
-         yg4Li1S0h5ZPLtHQX85ZWNJwmvs+zawfC81Eg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772702443; x=1773307243;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VypkVT7BbhqBRG1P5j19O5/qn7x5887m35xmVxXUx8s=;
-        b=GNTUEpQ9AYbFKBURDTka/mGltJbd7XcsyizAi4iwBSBTrDlCvJVXPYp/7xWz+++olR
-         pze2lauF4I1kaMdHx3NgYuHk/Xy5cuAKPceltM7koVQPFpO5MQTlnmkBeKWpqxT6kGCp
-         z9c4ujkcQG1P6oWn7HD3VxlGs2k0HsRy7TJ6VxjwXixnOVScgl5IU7sb2vFZt8cnRS9z
-         7o0KRYamrwWAk/qRtEcOwbkV2Jzb2lLaHEF3kaTSqdDivRR512Ps+KV1QKMB0RBWQCIt
-         9Jmcgipt5r04ybWq3g/o8azE7vU1tF/r2Og5I7yuaIij1gNAY454/nVDqRCkztT1BA2H
-         t4fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXrr2g0M9RbtC1PM7cuNgYNaaVj1qYoJ5uwPLmx60qAyplUtbo5Bm9dFE67Pxx5Vq/2y/Ed7RmxY1wkcXQnqCEj6w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzOVG1BMelfpm5/JOXMGffjSBdUDOo/gqXd+sZkB3+nT6jrNpkD
-	C8raXHSfZBg0tROffqWAAOiwXCgwrwHLkFtJXL2/FfDevTPP1S+qNCT6db4xmR7gRIw=
-X-Gm-Gg: ATEYQzx16mCXIV6bAv+RYrHwj+h8FCSqPuS7EUB4vofoXR7PQ5Uq+im09Y0RJEihtTx
-	9d6IgTp1vSjsb84J/xyFoyoep/hXLmFlaq/xvN23VQmTqeeT844xRot+uQBhxo+YHC0c9oV+Ed/
-	bL/ryBK66pPsD1OhMGs4A3sIsrCRCOmmR6MzrzJdmj4+pJb3yyQ5b3aOvqa+XvLANDTXqiZ9G6N
-	hYXeJkvo9hX94SFx0lf2IR++3HobtcCs/PUink2xgF8MRktbuPQbnWVYV4/ajD6kKGljnCUJ4ch
-	3Vw4HHl3toiGzPUTozR5ZFiDvFsVAHliR1kG/sEzuhWSNZZpk9Nak9ersLj5npjMCCMpNsqDtT6
-	1sKMRZ4pONnxjmr9XC9l/OMPyCBZdqiofZBbTZkBm+QDHIZApCIYlg923LjOdEGMiUl63DOv5Dv
-	OuCJt+37cHsFblhfaA9oSwoSvHCVmemt8X91E9hB2K5C/wcEo3LemFHsqgPvQq136pBiX3PcVXy
-	9L8gOmO73uqqBmt
-X-Received: by 2002:a05:6000:430e:b0:439:c677:5145 with SMTP id ffacd0b85a97d-439c7fae275mr8987757f8f.22.1772702443295;
-        Thu, 05 Mar 2026 01:20:43 -0800 (PST)
-Received: from localhost (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b6d540b2sm29293149f8f.36.2026.03.05.01.20.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2026 01:20:42 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Mar 2026 10:20:42 +0100
-Message-Id: <DGUQKJKLZTVJ.Y3Q751XS5KRZ@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Yoann Congal" <yoann.congal@smile.fr>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][whinlatter 00/12] Patch review
-X-Mailer: aerc 0.20.0
-References: <cover.1772700454.git.yoann.congal@smile.fr>
-In-Reply-To: <cover.1772700454.git.yoann.congal@smile.fr>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=c5t4H9fK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: leqi@qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6251BVob2665086
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Mar 2026 03:15:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=RKRp+3XjoD4TB4B/sH48ynkYt8iSf3lWYu8
+	m1KaVdO0=; b=c5t4H9fK97XBssNiSNLrEtk55LehfFrSaRSxyAqTjjHtXljo++D
+	B9ZORpknzv5EB+0X2zqszFTL2VigpX/SGuaIdrVpc3ijtQCWElu9yDPL7bLxhgZ1
+	OZtY5tEiQCPunduM6AsEqteGjwchyY/DCeAUYdlcXCPTXQBnU8SgVNQUrPqZo6D9
+	D1qzJBFwQqQnu1tyFpUwAfLWO/sGRmtOmNsu3O+FY11z3ALGXFRAUHA24sEWoyP4
+	joHTU5j4ADzSonpqq7cbfgdYsSDsYJ4ZWkkIAqlYCFGyTOn6xCx0hUo9KSVGOOaJ
+	ySOogA/p7fu4keptds6125w/KN9E2Einh6A==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpuhb0ypq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 03:15:25 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 6253FMfk014216
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Mar 2026 03:15:22 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 4cksempgf2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 03:15:22 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 6253FMFo014210
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Mar 2026 03:15:22 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 6253FLAX014208
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Mar 2026 03:15:22 +0000
+Received: by cse-cd01-lnx.ap.qualcomm.com (Postfix, from userid 4531182)
+	id 9A1A422BC6; Thu,  5 Mar 2026 11:15:20 +0800 (CST)
+From: Le Qi <le.qi@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Le Qi <le.qi@oss.qualcomm.com>
+Subject: [PATCH] alsa-ucm-conf: Remove JackControl from TALOS EVK HiFi config
+Date: Thu,  5 Mar 2026 11:15:18 +0800
+Message-Id: <20260305031518.4120410-1-le.qi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDAyNCBTYWx0ZWRfXyoPb8HgHE3Em
+ FOmGmWxQcYN0Rsz7eRfP3AKElhD/afDQNfIIZgoqroZLrJIQ+kNhmDmrDaObKOGygJT9I93fyH9
+ PQZs+YiYCQrRay9JtNlEhPjSZwE9KlFxCL9+iYND4LDYI/4dCz1pCLQ9NSNir8pq3Dy4CU9J3Sz
+ qsf3t3N/Unm4OHOTXINH8GMwAWPWR+3BE6vpepjUcXxtqFqyg0mnT6NRO04FeRYNhBGDlb6HY2k
+ TNaR7rqbElRgPGoGYv4YhfNkWWaN23t06gSSGqBq0doPXVt0mO1PK1n4S0AG6Nywvkw5rD+X2kf
+ vCpyE1to1jWaA7lpgcYq/S0L/KlADR/+5eR1Dinmb/320+h+YB2Z5Satb59nmvkoLKnCkJEl+/n
+ relpGzc2HHeL2nudxPpoRV4S53K8sb9cK7CNaR2LSJZc5S5LdXThFddOWrtlj4LfgMocYJ/h2tk
+ BrP2f50OOu5w2cxD3ZQ==
+X-Proofpoint-GUID: 0tp8TwCdQA-2ZZwlzmHzmHum24ZM-Uwf
+X-Authority-Analysis: v=2.4 cv=SqydKfO0 c=1 sm=1 tr=0 ts=69a8f54d cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8 a=foHCeV_ZAAAA:8 a=EUspDBNiAAAA:8
+ a=gdZPewPyt8z1eiyN7csA:9 a=h8a9FgHX5U4dIE3jaWyr:22
+X-Proofpoint-ORIG-GUID: 0tp8TwCdQA-2ZZwlzmHzmHum24ZM-Uwf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-04_09,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
+ impostorscore=0 adultscore=0 clxscore=1011 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050024
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 09:20:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232466
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 09:22:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232467
 
-On Thu Mar 5, 2026 at 9:54 AM CET, Yoann Congal wrote:
-> Please review this set of changes for whinlatter and have comments back
-> by end of day Monday, March 9.
->
-> Passed a-full on autobuilder with warnings:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3334
-> The sub-build qemux86-64-ptest had a ptest failure
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3207=
-=20
-> It is a known AB-INT bug: 15718 =E2=80=93 AB-INT: gstreamer ptest never e=
-nding (Bitbake still alive)
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15718
-> This is not related to this series.
->
-> The following changes since commit 45cba1329d541fdc5857d6df2624b34c91133f=
-7a:
->
->   build-appliance-image: Update to whinlatter head revisions (2026-02-27 =
-17:46:44 +0000)
->
-> are available in the Git repository at:
->
->   https://git.openembedded.org/openembedded-core-contrib stable/whinlatte=
-r-nut
->   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
-whinlatter-nut
+The EVK board does not support headset or jack detection.
+Keeping JackControl entries prevents PipeWire (wpctl) from
+exposing sinks and sources correctly.
 
-I plan to also add this patch to the branch:
-[whinlatter][PATCH] create-pull-request: Keep commit hash to be pulled in c=
-over email
-https://lore.kernel.org/openembedded-core/20260305085838.1176663-2-yoann.co=
-ngal@smile.fr/T/#u
+Remove JackControl from Headphones and Headset devices so
+PipeWire can enumerate playback and capture nodes normally.
 
->
-> Adarsh Jagadish Kamini (1):
->   python3-pip: Backport fix CVE-2026-1703
->
-> Ankur Tyagi (1):
->   wireless-regdb: upgrade 2025.10.07 -> 2026.02.04
->
-> Antonin Godard (1):
->   python3: skip flaky test_default_timeout test
->
-> Hugo SIMELIERE (2):
->   zlib: Fix CVE-2026-27171
->   harfbuzz: Fix CVE-2026-22693
->
-> Peter Marko (3):
->   linux-yocto: apply cve-exclusions also to rt and tiny recipe variants
->   cve-exclusions: set status for 5 CVEs
->   ffmpeg: set status for CVE-2025-12343
->
-> Shaik Moin (1):
->   gdk-pixbuf: Fix CVE-2025-6199
->
-> Vijay Anusuri (1):
->   gnutls: Fix CVE-2025-14831
->
-> Yoann Congal (2):
->   README: Add whinlatter subject-prefix to git-send-email suggestion
->   b4-config: add send-prefixes for whinlatter
->
->  .b4-config                                    |   1 +
->  README.OE-Core.md                             |   2 +-
->  .../zlib/zlib/CVE-2026-27171.patch            |  63 +++
->  meta/recipes-core/zlib/zlib_1.3.1.bb          |   1 +
->  .../python/python3-pip/CVE-2026-1703.patch    |  41 ++
->  .../python/python3-pip_25.2.bb                |   4 +-
->  ...kip-flaky-test_default_timeout-tests.patch |  49 ++
->  .../python/python3_3.13.11.bb                 |   1 +
->  .../gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch |  36 ++
->  .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |   1 +
->  .../harfbuzz/files/CVE-2026-22693.patch       |  33 ++
->  .../harfbuzz/harfbuzz_11.4.5.bb               |   4 +-
->  meta/recipes-kernel/linux/cve-exclusion.inc   |  16 +
->  .../linux/linux-yocto-rt_6.12.bb              |   1 +
->  .../linux/linux-yocto-rt_6.16.bb              |   1 +
->  .../linux/linux-yocto-tiny_6.12.bb            |   1 +
->  .../linux/linux-yocto-tiny_6.16.bb            |   1 +
->  ....10.07.bb =3D> wireless-regdb_2026.02.04.bb} |   2 +-
->  meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb  |   1 +
->  .../gnutls/gnutls/CVE-2025-14831-1.patch      | 119 +++++
->  .../gnutls/gnutls/CVE-2025-14831-10.patch     | 424 +++++++++++++++
->  .../gnutls/gnutls/CVE-2025-14831-2.patch      |  66 +++
->  .../gnutls/gnutls/CVE-2025-14831-3.patch      |  30 ++
->  .../gnutls/gnutls/CVE-2025-14831-4.patch      |  45 ++
->  .../gnutls/gnutls/CVE-2025-14831-5.patch      | 205 +++++++
->  .../gnutls/gnutls/CVE-2025-14831-6.patch      | 505 ++++++++++++++++++
->  .../gnutls/gnutls/CVE-2025-14831-7.patch      | 124 +++++
->  .../gnutls/gnutls/CVE-2025-14831-8.patch      | 155 ++++++
->  .../gnutls/gnutls/CVE-2025-14831-9.patch      | 110 ++++
->  meta/recipes-support/gnutls/gnutls_3.8.10.bb  |  10 +
->  30 files changed, 2048 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
->  create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-170=
-3.patch
->  create mode 100644 meta/recipes-devtools/python/python3/0001-Skip-flaky-=
-test_default_timeout-tests.patch
->  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-619=
-9.patch
->  create mode 100644 meta/recipes-graphics/harfbuzz/files/CVE-2026-22693.p=
-atch
->  rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2025.10.07.bb =
-=3D> wireless-regdb_2026.02.04.bb} (94%)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-10.=
-patch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.p=
-atch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.p=
-atch
+link: https://github.com/alsa-project/alsa-ucm-conf/pull/704
 
+Signed-off-by: Le Qi <le.qi@oss.qualcomm.com>
+---
+ ...Remove-JackControl-from-TALOS-EVK-Hi.patch | 43 +++++++++++++++++++
+ .../alsa/alsa-ucm-conf_1.2.15.3.bb            |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-ucm-conf/0001-Qualcomm-qcs615-Remove-JackControl-from-TALOS-EVK-Hi.patch
 
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf/0001-Qualcomm-qcs615-Remove-JackControl-from-TALOS-EVK-Hi.patch b/meta/recipes-multimedia/alsa/alsa-ucm-conf/0001-Qualcomm-qcs615-Remove-JackControl-from-TALOS-EVK-Hi.patch
+new file mode 100644
+index 000000000000..ff08ebe6f704
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf/0001-Qualcomm-qcs615-Remove-JackControl-from-TALOS-EVK-Hi.patch
+@@ -0,0 +1,43 @@
++From 3e414225c90de8a9371076bcdd33693dfe8e54c2 Mon Sep 17 00:00:00 2001
++From: Le Qi <le.qi@oss.qualcomm.com>
++Date: Thu, 12 Feb 2026 15:16:41 +0800
++Subject: [PATCH] Qualcomm: qcs615: Remove JackControl from TALOS EVK HiFi
++ config
++
++The EVK board does not support headset or jack detection.
++Keeping JackControl entries prevents PipeWire (wpctl) from
++exposing sinks and sources correctly.
++
++Remove JackControl from Headphones and Headset devices so
++PipeWire can enumerate playback and capture nodes normally.
++
++Signed-off-by: Le Qi <le.qi@oss.qualcomm.com>
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-ucm-conf/commit/e513b19d223f1559f43579e881ba86c618c142a9]
++---
++ ucm2/Qualcomm/qcs615/HiFi.conf | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/ucm2/Qualcomm/qcs615/HiFi.conf b/ucm2/Qualcomm/qcs615/HiFi.conf
++index 8978b2cb539d..a20fc89fa8f4 100644
++--- a/ucm2/Qualcomm/qcs615/HiFi.conf
+++++ b/ucm2/Qualcomm/qcs615/HiFi.conf
++@@ -20,7 +20,6 @@ SectionDevice."Headphones" {
++ 		PlaybackPCM "hw:${CardId},0"
++ 		PlaybackMixer "default:${CardId}"
++ 		PlaybackMixerElem "HP Digital"
++-		JackControl "Headphone Jack"
++ 	}
++ }
++ 
++@@ -33,7 +32,6 @@ SectionDevice."Headset" {
++ 	Value {
++ 		CapturePriority 100
++ 		CapturePCM "hw:${CardId},1"
++-		JackControl "Mic Jack"
++ 		JackHWMute "Mic"
++ 	}
++ }
++-- 
++2.34.1
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.3.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.3.bb
+index 0ac51b6c5d47..1f27f19aa744 100644
+--- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.3.bb
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.3.bb
+@@ -8,6 +8,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
+ 
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
++SRC_URI += "file://0001-Qualcomm-qcs615-Remove-JackControl-from-TALOS-EVK-Hi.patch"
+ SRC_URI[sha256sum] = "9f79e813c08fc86cfa46dd75c4fcda1a4a51b482db2607e1fcfaafb92f588a31"
+ # Something went wrong at upstream tarballing
+ 
+-- 
+2.34.1
 
 
