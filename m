@@ -1,203 +1,150 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC11DF33A62
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 13:47:23 +0000 (UTC)
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44421.1772718442733508040
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66AD4F33A72
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 14:26:54 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.45330.1772720805278663488
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 05:47:23 -0800
+ Thu, 05 Mar 2026 06:26:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=pMVFjUuS;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=KTzFgMGM;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.155, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 6C6947A01D9;
-	Thu,  5 Mar 2026 08:47:21 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 05 Mar 2026 08:47:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1772718441; x=1772804841; bh=Gl35xPtCTm
-	FaD0nBwKCsMV0IKFCX2Wye1BCQTHphjdo=; b=pMVFjUuSLGWGYHGGrwspKGzvRt
-	xxZr/aZOyvfIh6ISv/RX/kBo3z86hQ72uBwZuWUYC9jfDS5l728m3QPP63K+Up4R
-	tUf/QD1+i+uTJT2WwxLW2VEnLco0kdM6HnYzRG1N0bIH8NQA/crMIJfDgjqrXry8
-	GyxLR3x+IafIrkZp7MYV/CyWd62nuvTFhzh4FVS742JW5FSmyxX7B2tN2H6Zaiwd
-	GOo/pEsvXkJNkK1C5GAlTl82IE6Q4SCKupWRYyVIEvJfytEaFfseOaxAbFtDs+8e
-	XlKRZLPvcCq2wK4PLBh8tNbr3xqM86EyTcohPBpogQqASevywRkkCDrI9EtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1772718441; x=1772804841; bh=Gl35xPtCTmFaD0nBwKCsMV0IKFCX2Wye1BC
-	QTHphjdo=; b=KTzFgMGMKg3wayLaWnSIlSOOfHscB+d1fspveZattjfgAz20nKF
-	km6NwmC3MaX+s5sF8TE9LBgyqwwbGCWw2ychwI7LghFBowqH8OIi19+HwHytqzi7
-	LWtg5vVWf084V+USy25w5K/xTEFhV8ycx64N7hidHCxKMlZyDgbIHgULTWxrYNV0
-	lJpEjKT5zNPSUuOPUmwglzy/Syf1+6MtQZVOQCPuLTEEGj5KH/ur/orCrmsLrJyr
-	qDKz29nnLkSwRddiFGyfUfdvQX9gheNU4dGho0eVvGM6x9z0cKgN59Fnh5QlOlnh
-	sT+Tf6xoqYUWKoTwj9vtY/wm8MvWGpP+Faw==
-X-ME-Sender: <xms:aImpaV5XOC826RkDDb3dY4C6Lcd0QcOaT_iDE5qBJflBHLwNVB3uuw>
-    <xme:aImpaVeH1_pKE7l9kJ5dFFi_CMExTgPObQ9mrENVa5udnPpZkYHYOtEGVb9km4nsj
-    6XwlsqiZIxZAbLM67LyqHph66QRH-MT7Xb-12b5eExRKX81H_Vc>
-X-ME-Received: <xmr:aImpaQGfri4lfZFLbNZ4T5ptieSn326TCvn0k72gM5M6lmDRyhlC4puWV-tuTx0CA5LWPE8bSfDwtbZNITKchdNYRe68ybaM_tcICdKxVJNO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieeiheegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderre
-    dtreejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghr
-    rdguvghvqeenucggtffrrghtthgvrhhnpefhkefhuefgleefleduleelhfektedvffeitd
-    dtueeukefhieduiedvfeeuhedutdenucffohhmrghinhepohhpvghnvghmsggvugguvggu
-    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeelpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegsvghnjhgrmhhinhdrrhhosghinhessghoohhtlh
-    hinhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhs
-    thhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehrohhsshdrsghurh
-    htohhnsegrrhhmrdgtohhmpdhrtghpthhtohepphgvthgvrhdrmhgrrhhkohesshhivghm
-    vghnshdrtghomhdprhgtphhtthhopehjphgvfihhrggtkhgvrhesghhmrghilhdrtghomh
-    dprhgtphhtthhopeholhhivhhivghrrdgsvghnjhgrmhhinhessghoohhtlhhinhdrtgho
-    mhdprhgtphhtthhopegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomh
-    dprhgtphhtthhopehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhl
-    ihhnrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhoth
-    hlihhnrdgtohhm
-X-ME-Proxy: <xmx:aImpaeROrUMJZijeRj-gCl_4DurlRGy__xZ1ySwErXmV8dOzb3hofA>
-    <xmx:aImpaeaeW3lcKGtbvAXEtSkFkmQzgWjAiczFd21lLaOa0h0lKwzcuw>
-    <xmx:aImpaR0Cb_6HXM30X8RbsTdhSb-UKCtNAYS96Mi0_X6cctu6Ofj8uQ>
-    <xmx:aImpaZrw7PLMH1tnRn6VoD16AiGbhytK6x7LmCDb7Y4GzlELEUmMfg>
-    <xmx:aYmpaYaVgf2dI8k5px4KfoEesToF8_V4VTztm7xmHuQlHq74BLlI5zoj>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Mar 2026 08:47:19 -0500 (EST)
-Message-ID: <8fae3195a70bb6b43872b57cb27b6197c08744b8.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v3 6/6] sbom-cve-check.bbclass: Add class for
- post-build CVE analysis
-From: Paul Barker <paul@pbarker.dev>
-To: benjamin.robin@bootlin.com, openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com, peter.marko@siemens.com, jpewhacker@gmail.com, 
-	olivier.benjamin@bootlin.com, antonin.godard@bootlin.com, 
-	mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com
-Date: Thu, 05 Mar 2026 13:47:16 +0000
-In-Reply-To: <20260226-add-sbom-cve-check-v3-6-2e60423f4d35@bootlin.com>
-References: <20260226-add-sbom-cve-check-v3-0-2e60423f4d35@bootlin.com>
-	 <20260226-add-sbom-cve-check-v3-6-2e60423f4d35@bootlin.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
- DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
- NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
- YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
- auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
- C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
- UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
- F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
- pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
- bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
- EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
- JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
- pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
- Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
- tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
- m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
- 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
- H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
- AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
- 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
- UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
- D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
- UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
- 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
- bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
- tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
- HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
- OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
- YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
- juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
- yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
- t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
- wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
- HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
- ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
- aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
- dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
- X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
- A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
- q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
- JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
- ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-rgYvAV4Ls63k5tQg18A0"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NGNHB1XW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a12cd0bd79so1104339e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 06:26:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772720803; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jd3WLJ6JB6wfs7uIwnJe3zSByRRoW8qbWID81RRwzVaGXbfdjMhTMyBBVw36c3eKmQ
+         /lqqpVZKlvjN4nsh/qcjY1m7xTAoqHAheNGc2lFi+3V/ge3Mr0L7gqM0HJHehlHNN9tl
+         5G+aao7RdHJoekITNzQWwIvHaEulDnx6Gj3hUjGox0uWW24rSw0pyU74CJVWKC4pV60s
+         Qi1e6YViaPeqh7otDf19MPnYnUWYvOmrQP3tVm4gDZjX1dQVkwU6X281828tW7pSLQFC
+         6ZIiW7H0wRkXcjvOTXEhL+bRGbRffqeCawDZvKmyxrgx30hM8vsoxXMzTIjBq5RltcJ+
+         diBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+EH5WudM3GqKGKpI7EIDJCF22lDFL8GD0oa4N2jeY+8=;
+        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
+        b=UnSwT+nwW14UdJ8LnpUZ2amRzoJQ/4bWTj6LSOXD4XGKdE00ZHwspABxZXluxQVnhN
+         4Owx4BZCRQ/ZiGzLBymZQ4Ih0vqExqb4mo/osewJNL//OMG1fe5BSCnggzHhJ9rrf2+J
+         MJV1RLl8lFj03yV5jaW3wz6d7tRUZh/NKoeH6B19IRNOuvSt2iSdm1sxpqIt9mG9Ycv3
+         SiGDOWXLw+DVq+x24T9dhues6Iqp8CwJFXkeyu637vj4cFrUuMoBQMfHLTdvV2C4oiru
+         BDNKp9nAVYyfrVBIS8MgG2iFTrsxSJQdYRQFhqQLNZ1X0VC/C2UnuMXnLgxI86SWUiIl
+         V58A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772720803; x=1773325603; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+EH5WudM3GqKGKpI7EIDJCF22lDFL8GD0oa4N2jeY+8=;
+        b=NGNHB1XWhry1m8Yqpbu2FMh8Ti6JLkTwnJhHWmlWT0BjeR7+oDn1tyyzAcCmuFKb0w
+         YRb4Hf+wvQTykZ7qGDGXDxtqQ5bKSaHrDdXcoiZp5HJouJVKe6ZlejmvuKOc3Yp4Lhf0
+         0mLYLuILru9SlOeGoiJ31mmqttqWVlSujyrLO3wIAVTQ42j9Qf1a19l9owA/6weJ2Vet
+         bYYizZ6Rza2vbYKkaoju12GLypcnxus30XN23rbQHehtRMCqY7FvvlM7TvLymEAhrAD0
+         ESi/a3la1EoAjyQOo3jH0m2RAyqQOJ5KtSqYnNwHSf6qRl7rifJw1OrTp0U9RD21ClaB
+         Dr7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772720803; x=1773325603;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+EH5WudM3GqKGKpI7EIDJCF22lDFL8GD0oa4N2jeY+8=;
+        b=ut2d4hdclZ1E13oEUf20PM/vEtBMi8kmzVE8FoSqYbocc0F1q5kQGEZpba+AQJYHlu
+         JXSN2N3Nz/UDTL5N3VnW7UOD1iuMnl2Gcr98HOwcZ5Pcu6y/hd1tbfomxBpMkr19ymz5
+         0QnGvmZwtkDaOGpWjfxJbtIYeSTcIuRWVD/9cEkqudGBD+JBmSijFjrzcgnEz6nFthRZ
+         UX71fQhs4p4VDNhKDTn5WEk8RIF9Pcke/fashqxcPSSfaD4EnJdYnVu/n4elHeMkJ8jP
+         tnOFA5/5qCJlpNYX4cKkO0axd09+9Vog+f0A6jrhGjYhsL8jzhBgftPn35J30bu7Zqa8
+         j7iA==
+X-Gm-Message-State: AOJu0YwtgJB1XMUv73Gf1N+eWQtqA5yd+oj/AcF+OtjoidZ8m5O2pL0p
+	ofZtvyqhS4uDrFE3COvQbfJkJyTVVHANbB8RXnKM5GFai1sWIoP7Av75X+YE4khyJcQVxY/4/91
+	TgAUHna7kH6uMkFDUks7k+KqSocit+Tc=
+X-Gm-Gg: ATEYQzwS70Zcojyq6MEtc/1H/eoiwO8QGtx7fSnE6oJiJGkQqF0BCCpZxHBJfV7P1gr
+	twE8Ske2RFruJ2RLEoL4MEMA+2R5w1RMvt/jj2PG4h+ENNB5xgl6k8CxSnTY8crGWbRAGT7RHdp
+	0mzPSPBA/kh+CeUFnt2f+4NErcpZhUILqa2xSCSTziwBmvxAQYIMf9sNCVqzcsOeLJhnhecah4L
+	2/sHjVe9RaKVonptEQdrR8d5vZ4r9nux01K2coDOQQTa0/J3bY4SZaXQMH+4nmqu2/Iez8FVQxe
+	7JCdnwmqTR/2Bv6SGZyX
+X-Received: by 2002:a05:6512:31c1:b0:5a1:3591:d612 with SMTP id
+ 2adb3069b0e04-5a13591d7c1mr503017e87.10.1772720803066; Thu, 05 Mar 2026
+ 06:26:43 -0800 (PST)
 MIME-Version: 1.0
+References: <20260303234247.8034-1-martin.jansa@gmail.com> <DGUT04JKG45O.52KWQ22NS2A1@bootlin.com>
+In-Reply-To: <DGUT04JKG45O.52KWQ22NS2A1@bootlin.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 5 Mar 2026 15:26:29 +0100
+X-Gm-Features: AaiRm521Mwaqv6lBBh4_cCd-xrQ_fGjXZiD-PCUxfeftxbeo5Rbwtjg3vihxSxY
+Message-ID: <CA+chaQf3riGkKhuoj1iyB-fmzQMP4yPUx2M_1yLipTrkUjEz=g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] license_image.bbclass: report all packages with
+ incompatible license
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 13:47:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232491
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 14:26:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232492
 
+On Thu, Mar 5, 2026 at 12:15=E2=80=AFPM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
+>
+> On Wed Mar 4, 2026 at 12:42 AM CET, Martin Jansa via lists.openembedded.o=
+rg wrote:
+> > From: Martin Jansa <martin.jansa@gmail.com>
+> >
+> > When multiple packages cannot be installed it shows only first one it
+> > finds, because of bb.fatal use. It might require many iterations to fin=
+d
+> > all packages to avoid.
+> >
+> > e.g. with ptest enabled and GPL-3.0-or-later, GPL-3.0-only set as
+> > incompatible licenses you might get list like this for relatively small
+> > image:
+> >
+> > Some packages cannot be installed into the image because they have inco=
+mpatible licenses: bzip2-ptest (GPL-3.0-or-later), coreutils (GPL-3.0-or-la=
+ter), coreutils-stdbuf (GPL-3.0-or-later), diffutils (GPL-3.0-or-later), fi=
+ndutils (GPL-3.0-or-later), gawk (GPL-3.0-or-later), gnutls-openssl (GPL-3.=
+0-or-later), gnutls-ptest (GPL-3.0-or-later), grep (GPL-3.0-only), make (GP=
+L-3.0-only), mpfr (LGPL-3.0-or-later), python3-dbusmock (GPL-3.0-only), rea=
+dline (GPL-3.0-or-later), sed (GPL-3.0-or-later)
+> >
+> > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> > ---
+>
+> Hi Martin,
+>
+> Thanks for your patch.
+>
+> I believe this is making some selftests fail:
+>
+> 2026-03-05 09:01:35,428 - oe-selftest - INFO - incompatible_lic.Incompati=
+bleLicensePerImageTests.test_bash_and_license (subunit.RemotedTestCase)
+> 2026-03-05 09:01:35,429 - oe-selftest - INFO -  ... FAIL
+> ...
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: QA Issue: The license listed =
+SomeLicense was not in the licenses collected for recipe bash [license-file=
+-missing]
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: Some packages cannot be insta=
+lled into the image because they have incompatible licenses: bash (GPL-3.0-=
+or-later)
+> ...
+> 2026-03-05 09:02:33,821 - oe-selftest - INFO - incompatible_lic.Incompati=
+bleLicensePerImageTests.test_bash_default (subunit.RemotedTestCase)
+> 2026-03-05 09:02:33,821 - oe-selftest - INFO -  ... FAIL
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3225
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3336
+>
+> Can you have a look at these?
 
---=-rgYvAV4Ls63k5tQg18A0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sure, will have a look. Needs the update for expected error_msg in
+meta/lib/oeqa/selftest/cases/incompatible_lic.py. Will send v3 soon
+(running selftest to confirm it works), please ignore v2 I've sent
+earlier which just updates the formatting based on Peter's suggestion.
 
-On Thu, 2026-02-26 at 18:01 +0100, Benjamin Robin via
-lists.openembedded.org wrote:
-> By default, the CVE databases are downloaded using the following
-> recipes:
->  - sbom-cve-check-update-cvelist-native.bb
->  - sbom-cve-check-update-nvd-native.bb
->=20
-> The database download logic is implemented in
-> sbom-cve-check-update-db.bbclass. The CVE databases are stored in the
-> download directory (`DL_DIR`). Access to the database is managed using
-> an exclusive file lock (`flock`) on the directory. During CVE analysis,
-> sbom-cve-check acquires a shared lock, allowing multiple analyses to
-> run in parallel. However, if the database is being updated, any
-> ongoing CVE analysis is temporarily paused.
->=20
-> This design ensures that, under normal circumstances, sbom-cve-check
-> can run without requiring network access. If a user needs network
-> access during execution (e.g., to download annotation databases),
-> they can set `SBOM_CVE_CHECK_ALLOW_NETWORK` to "1".
->=20
-> Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
-
-Hi Benjamin,
-
-Patches 1-5 of this series were accepted, but we had some concerns with
-this one.
-
-We would prefer not to override do_fetch for sbom-cve-check-update-*.bb.
-We should be able to use the standard git fetcher here, with a hardcoded
-SRCREV to allow offline parsing to succeed. A config fragment should
-then be defined which enables the sbom-cve-check bbclass and sets the
-srcrevs for the update recipes to ${AUTOREV}.
-
-Running sbom-cve-check offline should be supported, but manual config
-may be needed to set an appropriate srcrev. We should provide an example
-of this in the docs.
-
-We should also be able to avoid setting do_sbom_cve_check[nostamp]. With
-dependencies set correctly, this should only re-run if the image changes
-or the cve database has been updated.
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-rgYvAV4Ls63k5tQg18A0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaamJZBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bsUyAP4oBD23gfZRzX/FumoVNPb8VWDk1IWD2twQ
-ndybzXFivQD+LX5jxwlt1NioVDfao2aLjuZ2b7N7QEDeFbvwK/aW8gM=
-=g7YB
------END PGP SIGNATURE-----
-
---=-rgYvAV4Ls63k5tQg18A0--
+Regards,
 
