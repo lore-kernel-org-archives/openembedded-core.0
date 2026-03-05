@@ -1,120 +1,175 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <andrej.kozemcak@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCD8F30927
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 09:31:52 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40354.1772703102829940219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C422F30928
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 09:34:12 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40370.1772703240725403253
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 01:31:43 -0800
+ Thu, 05 Mar 2026 01:34:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xWZaH2JD;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439b2965d4bso3996286f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 01:31:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772703101; x=1773307901; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V8cfpthLN8AQY44FQeBuIn2WkgUMMAcjdjGIj7F2MAM=;
-        b=xWZaH2JDKm+PjHq8evgvQVamt0qteDImV6IKj/iw+DIvlZ8FwHS512FtG+ulrwdISl
-         yAObYBKzW+joY/CiyEJetpbNdq6PhzkptZwmDVjbQ1F+UexkZ+n6u7XeOJU8iCEa/u2f
-         UsANbRuiR5xNO1Q6gb8hj+xs8qmS1rgA49YYo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772703101; x=1773307901;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V8cfpthLN8AQY44FQeBuIn2WkgUMMAcjdjGIj7F2MAM=;
-        b=KYIGlNDt1nXC6/O0PPzB0nbrj6gI2W01zIBRIU0k2PxRku+yiUfFg5VhM2pl9LFUmC
-         PaPs+u27ccSywJfW4BgvEVn90X14GTp9bcMgIO9bR9Pp7VlreYPiG6OIb4euAAwNAMtZ
-         hNK59rIy7JxXYNdyafKHdU7gWwX+/yTWOWGNT8nTpORHQ4Al8xBo71a2aThQ447hNfpq
-         mzGZn9yw8tHXdtDMCjEcpVQK+ppCqn9x+2wAED5P7QzElD0GcmeDQfvlK6Hs+tBDypD9
-         ByK5if1Ap6rdfpc0ayzaSss2fqg/yKOYy6l9pp0wjZSRAStSYa7slZkPHS3oDcdmGkrL
-         575w==
-X-Gm-Message-State: AOJu0YzcmejDa+hqfKgsjP83WdJ5wBHws/YGQhjBW5o9Hxh2N0SBOWts
-	Zl8Ywp+/gV32lAIfSnlBXFgagPXsaMl67Xc9J+cxH+T99STtKWb+hPhbV7dyYXmdAIfZ2Fs6lKK
-	9ofMZ
-X-Gm-Gg: ATEYQzwnMYiyWIhFqqqylD76ZXo3Ej1T3XqXr6WBEwA6Z4oTGxBVyZBacpQC71+d+im
-	bJ+6OkfTdP07PcRAGXfditDm0y6+VLvejpr13tbCa8Y4QPjcPoDxho3beJJ21saVGh/s0fSQSKj
-	TugTmsXgzKiDOTNoeSGxNF7HtFv3/VV35558XziElicVBcgmphLPhf5MuExjiNe3xCBWYcuJ/mX
-	Ustc2XS8BEHUWg60Fst0CILFIB6+71WViDYWIwR/TWB0yd2i9Bb5rG1nHbigA6G4hBoIMyozyju
-	CLA9vYlPeYQBOgfP8dYAxgi6M30vD/W4FfEqEZn8lcmWFi1Kq+4JDTxzd45ZWqV27dKrJnLYY/1
-	/7JJkhFB2/b4GELs2s9pZYjZXjnZI5IbDsw8VQ+TBnp451gcVWWgl4Gyi/zaQK4F4jtEQgyBEyX
-	MNasWjJQk0owyqnB0o4d4HOen+Ya4Kh8jsYKpK7epEpzWI3IJVvbMt2lbjGrHgSuOQ6inRNB9IZ
-	rn1+0IltG+f4VyZp+/cGYOpVSgX
-X-Received: by 2002:a05:600c:a15:b0:47e:e779:36d with SMTP id 5b1f17b1804b1-48519881d19mr92410525e9.23.1772703100712;
-        Thu, 05 Mar 2026 01:31:40 -0800 (PST)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fae473bsm25102635e9.7.2026.03.05.01.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 01:31:40 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=pass header.i=andrej.kozemcak@siemens.com header.s=fm1 header.b=CXyHMRkn;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1334352-20260305093357a1b383aae200020784-ofc3d3@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260305093357a1b383aae200020784
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 05 Mar 2026 10:33:58 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=andrej.kozemcak@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=nwvxkK4Y3+iQpR/RFEU7iCaFxF2XpGM5jROKUzXFzL0=;
+ b=CXyHMRknWuM5bmCBIE13HuWv1Eht+O4dovKZtD18tar0DT9D59RVWbfPEvud0zBcScxb1h
+ oGw7p0sMdHe7r+Kjx3TtrMeom972p09/FiRzYlMsQfkwTaPFo/JaDXa4jCmk9WYfz/vAsqEA
+ u+qFPTXhnipigD3zKnoExGu7EJiLzeQ9fWtXj/RnA8aGJ/uqZgffVOEHmsYP0svWCabx4rXT
+ helrjEE6aiQIjpORk1FvQ02qsmbD0LDSSwf8lLNFQPnQS5C9d31g6HrCzF4DO0ka6bRPVRAR
+ L8JU1oO5y2j/qIkS281ONEpQh8W3oVxBcmC1fSa20tWfn7jjG6skShhg==;
+From: Andrej Kozemcak <andrej.kozemcak@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [whinlatter][PATCH 2/2] lz4: Remove a reference to the rejected CVE-2025-62813
-Date: Thu,  5 Mar 2026 10:31:27 +0100
-Message-ID: <20260305093127.1179651-2-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260305093127.1179651-1-yoann.congal@smile.fr>
-References: <20260305093127.1179651-1-yoann.congal@smile.fr>
+Cc: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+Subject: [OE-core][PATCH v3] iproute2: upgrade 6.18.0 -> 6.19.0
+Date: Thu,  5 Mar 2026 10:33:53 +0100
+Message-ID: <20260305093353.1248377-1-andrej.kozemcak@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1334352:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 09:31:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232472
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 09:34:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232473
 
-From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+Drop fix-musl.patch as it was merged upstream.
+Add missing include for types (linux/types.h).
 
-The CVE-2025-62813 is rejected so do not reference it anymore.
-So keep the patch but without referencing the CVE identifier.
+Changes:
+  - new dpll command for managing Digital Phase-Locked Loop devices via netlink.
+  - expanded CAN XL support
+  - MPTCP improvements
+  - devlink:
+    - added support for 64‑bit parameters
+    - added new SWITCHDEV_INACTIVE eswitch mode
+    - added burst period configuration for health reporters
+  - genl:
+    - supports JSON output
+  - ifstat, nstat, lnstat:
+    - converted to use the high-level json_print API for unified JSON output
 
-The CVE database indicates the following reason:
-  This candidate was withdrawn by its CNA. Further investigation
-  showed that it was not a security issue.
-
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9c840a69b62a5fdffb3679a44d68dd5630b2916c)
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
 ---
- .../lz4/{CVE-2025-62813.patch => fix-null-error-handling.patch} | 1 -
- meta/recipes-support/lz4/lz4_1.10.0.bb                          | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/lz4/lz4/{CVE-2025-62813.patch => fix-null-error-handling.patch} (99%)
+ ...olor.h-add-missing-include-for-types.patch | 28 ++++++++++++
+ .../iproute2/iproute2/fix-musl.patch          | 43 -------------------
+ ...{iproute2_6.18.0.bb => iproute2_6.19.0.bb} |  4 +-
+ 3 files changed, 30 insertions(+), 45 deletions(-)
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0002-include-color.h-add-missing-include-for-types.patch
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/fix-musl.patch
+ rename meta/recipes-connectivity/iproute2/{iproute2_6.18.0.bb => iproute2_6.19.0.bb} (95%)
 
-diff --git a/meta/recipes-support/lz4/lz4/CVE-2025-62813.patch b/meta/recipes-support/lz4/lz4/fix-null-error-handling.patch
-similarity index 99%
-rename from meta/recipes-support/lz4/lz4/CVE-2025-62813.patch
-rename to meta/recipes-support/lz4/lz4/fix-null-error-handling.patch
-index 4fa0373ff7..1527cc7591 100644
---- a/meta/recipes-support/lz4/lz4/CVE-2025-62813.patch
-+++ b/meta/recipes-support/lz4/lz4/fix-null-error-handling.patch
-@@ -4,7 +4,6 @@ Date: Mon, 31 Mar 2025 20:48:52 +0200
- Subject: [PATCH] fix(null) : improve error handlings when passing a null
-  pointer to some functions from lz4frame
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0002-include-color.h-add-missing-include-for-types.patch b/meta/recipes-connectivity/iproute2/iproute2/0002-include-color.h-add-missing-include-for-types.patch
+new file mode 100644
+index 0000000000..146f2f42a9
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2/0002-include-color.h-add-missing-include-for-types.patch
+@@ -0,0 +1,28 @@
++From 1bcc784f5c2406eb1898f1b935ad0f534cc281ad Mon Sep 17 00:00:00 2001
++From: Andrej Kozemcak <andrej.kozemcak@siemens.com>
++Date: Thu, 5 Mar 2026 08:06:54 +0100
++Subject: [PATCH] include/color.h: add missing include for types
++
++Fix `musl` build error
++
++Upstream-Status: Submitted [https://lore.kernel.org/netdev/20260305082507.896700-1-andrej.kozemcak@siemens.com/T/#u]
++Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
++---
++ include/color.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/include/color.h b/include/color.h
++index b543c267..3794a2aa 100644
++--- a/include/color.h
+++++ b/include/color.h
++@@ -3,6 +3,7 @@
++ #define __COLOR_H__ 1
++ 
++ #include <stdbool.h>
+++#include <linux/types.h>
++ 
++ enum color_attr {
++ 	COLOR_IFNAME,
++-- 
++2.47.3
++
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/fix-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/fix-musl.patch
+deleted file mode 100644
+index 20907dad50..0000000000
+--- a/meta/recipes-connectivity/iproute2/iproute2/fix-musl.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 6c1113633fde51b0e60f02243cfad1b3d09762cc Mon Sep 17 00:00:00 2001
+-From: Akhilesh Nema <nemaakhilesh@gmail.com>
+-Date: Tue, 2 Dec 2025 18:11:24 -0800
+-Subject: fix 'UINT_MAX' undeclared with build with musl libc
+-
+-- utils_math.c:136:20: error: 'UINT_MAX' undeclared (first use in this function)
+-- tc_core.c:51:22: error: 'UINT_MAX' undeclared (first use in this function)
+-
+-Signed-off-by: Akhilesh Nema <nemaakhilesh@gmail.com>
+-Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/commit/?id=6c1113633fde51b0e60f02243cfad1b3d09762cc]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- lib/utils_math.c | 1 +
+- tc/tc_core.c     | 1 +
+- 2 files changed, 2 insertions(+)
+-
+-diff --git a/lib/utils_math.c b/lib/utils_math.c
+-index a7e747440..fd2ddc7c7 100644
+---- a/lib/utils_math.c
+-+++ b/lib/utils_math.c
+-@@ -4,6 +4,7 @@
+- #include <stdlib.h>
+- #include <string.h>
+- #include <math.h>
+-+#include <limits.h>
+- #include <asm/types.h>
+- 
+- #include "utils.h"
+-diff --git a/tc/tc_core.c b/tc/tc_core.c
+-index a422e02c8..b13b7d78a 100644
+---- a/tc/tc_core.c
+-+++ b/tc/tc_core.c
+-@@ -11,6 +11,7 @@
+- #include <unistd.h>
+- #include <fcntl.h>
+- #include <math.h>
+-+#include <limits.h>
+- #include <sys/socket.h>
+- #include <netinet/in.h>
+- #include <arpa/inet.h>
+--- 
+-cgit 1.2.3-korg
+-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.19.0.bb
+similarity index 95%
+rename from meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_6.19.0.bb
+index c68b2adc0f..28ed1093ab 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_6.19.0.bb
+@@ -13,10 +13,10 @@ DEPENDS = "flex-native bison-native libcap"
  
--CVE: CVE-2025-62813
- Upstream-Status: Backport [https://github.com/lz4/lz4/commit/f64efec011c058bd70348576438abac222fe6c82]
- Signed-off-by: Peter Marko <peter.marko@siemens.com>
- ---
-diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/lz4/lz4_1.10.0.bb
-index f2a86036b5..fae5796c2b 100644
---- a/meta/recipes-support/lz4/lz4_1.10.0.bb
-+++ b/meta/recipes-support/lz4/lz4_1.10.0.bb
-@@ -15,7 +15,7 @@ SRCREV = "ebb370ca83af193212df4dcbadcc5d87bc0de2f0"
- SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https \
-            file://reproducibility.patch \
-            file://run-ptest \
--           file://CVE-2025-62813.patch \
-+           file://fix-null-error-handling.patch \
- "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch \
+-           file://fix-musl.patch \
++           file://0002-include-color.h-add-missing-include-for-types.patch \
+            "
  
+-SRC_URI[sha256sum] = "6ba520e1975e4c50dc931eeae91ea37c198b8a173744885f8895b84325f9d456"
++SRC_URI[sha256sum] = "9332213d35480b647086a70c302de8568de83455a98774d35de216c4ce191006"
+ 
+ inherit update-alternatives bash-completion pkgconfig
+ 
+-- 
+2.47.3
+
 
