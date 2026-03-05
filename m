@@ -1,157 +1,332 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A298F47CD0
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 20:28:28 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.54156.1772742501473936343
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26316F47CD0
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 20:30:18 +0000 (UTC)
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53945.1772742610182239051
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 12:28:21 -0800
+ Thu, 05 Mar 2026 12:30:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=NMyxDLun;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439c4a93841so2020520f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 12:28:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VrC2SXpf;
+ spf=pass (domain: gmail.com, ip: 74.125.224.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ca2b32f46so6428418d50.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 12:30:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772742609; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RG3RJvuCKIPWD73nY9SpJwY1tuwNoryP/2ffhElkY+nvZLXhtp2mfvTA4PoKvuIM2b
+         hPdHmaTqpUu3uqHqV8YzULxIW75KxWgp7X18LMOzFKE4H4MVP4clrGCHVCfBiptIBYrB
+         NQKoOs2VLlVHfjky06HMWso4hAKayuewE1hiceiRBK2oWRTWHrtRxSAoxAKuiO8uzZq9
+         r+FmTY3PdzmBvAOelgoOTSxOkisn9VIzRMbsf81ucZfVSTGr/kYXl+gpRi50i1QxbwUd
+         jM1TTgAnYoYvsHOC9qi9CGdUpsyXzTXhx/wQn0HD5q27VhdVDL+cAzrqosf/rALRMo40
+         2bAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=iANsmHbMqyOdd3TzgQI4zpVM0tBBv++FTkByhRjPpuE=;
+        fh=0tcXvp5fD6oO2ejErIYlAxqU2CE+KW2010kRRE+ZVfk=;
+        b=YevYmYRE27gDyS523TSD/wx47u7ajKIRxNE6cIoDe7kyxBrP5OP5iincikqdZZLTio
+         SvmcMWKshIg8XgUq8UZnoG7eodXHOj/Mpk68V/2VsGOn/7fb4HcMcplfNd5aAg9t/bEb
+         qJOoTCcXuAvFQCqajKzuHPCm01Hm7ASmptw/AwlqA/uvSR65DdUV96Pz+HQ79OLpjhOR
+         KG0omedHrES1k6oZaHXmu2DtIrhvwJpnVQCMaT/8VjrqGLEzgncrkBMvADk08Hp9agMQ
+         c5G/3l8zhLLUUUPM+uQZyejQ1nLlf8DBsz1ieXEKLviCgafEgYOPMQsAkKpCEuOrQWXS
+         hXjQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772742500; x=1773347300; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QL45STACKlYOuAxPlJJg0jDyRsXZesFL0VbIMoRQuCo=;
-        b=NMyxDLuniKUSUjy0sT+g6wWR4f0Otg9ljRa2tNr9FLelojpHf4RXmvOtdka/d2Nv8h
-         IFqJo+K2HmeH2Avv+XRt/WX8vScrsal9DlPUk1T3wPKDjIrP/Mayvcu6qI/+uanA0aCu
-         gcXKx/S3RegPTbHdzsqrXlsGQzGRPFDCR5w4E=
+        d=gmail.com; s=20230601; t=1772742609; x=1773347409; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iANsmHbMqyOdd3TzgQI4zpVM0tBBv++FTkByhRjPpuE=;
+        b=VrC2SXpfxpAOh4y5+W8A7DUn75MacJEfPRqHQw918BU9+wLqG1wrOj25cF+uLyogaf
+         MiKhuXZbquJE28KsCYN8Xwj//vQws8zd68l8bjt5bLAz7ZUoqWdL7WJb2N470j7csCgK
+         Rv1ZVSBuRzC+NjcKKsRLQPr6T9Gul1RWbwxNPv3lbHJx5qbo5wpVf4mD1YFgP7+549oP
+         lJAm0kV9UeX8CZtJgUjuXH850ZVwXPt8MOzKfh/Fkjyd1vmijDh0CMfOsWREfIS+JpQD
+         eiFNCajLzJZOjx62S9wHpbV+5ETCdwKYj3fRwgcto8l5fdvJ95YMXYA+8qyPL7DC68/4
+         GJgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772742500; x=1773347300;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QL45STACKlYOuAxPlJJg0jDyRsXZesFL0VbIMoRQuCo=;
-        b=dnRK4lonGEM8PzKiSQ4D/5f2P3rYQV5vD8lCeX8hZhEVGYEhIMD9uEqM1obQyU2pzh
-         AcfdNWWgwVT24eXasaeogs9jifPKh8jhvGWu53nK+iPLpF53oD83XHbrZ48sG7UloBDP
-         RyJrdtYT5O8/ggZm6onVsD0El2suNUgzygf3xKqMCIoO/QY4Gi1WsL7f/o2oP5FRcmiC
-         kRhg2kmWGvpXB5j1VGUekBI5UFWenAlhcCcsHj8VTu8Vh/27rVTRCEpN6KOILOrfFZwV
-         2asN+Dljfdnw/CSMpkfKhN/1iTRQCvRsLPaWYxImP+R1KC41wgYqjH1ZnCQV09NiPypm
-         Tjqg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/s7dty9I5WqFu/lemTxHVky6QqUrixlwGPpeIkqdCYRWCsdoxfeO4pWzvEfUMmoTzWG2OAl6kBkQdBco+u6QkTA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzu4Zl1q9x3YS1KTkBZE4aR5rHTdIu4bDs163w+gnmMB7f0R6ks
-	iExKSqYDES2qpaPEfvYdwjWNyErQ/idbJFjbEK9pU80Wnt3uQNpAQZNkjJUhErYgThs=
-X-Gm-Gg: ATEYQzyKJeAqL7zhHmcjORnQ6jI1BOQIOVM0SbJj4JOnLakX5pb6AQLKwA8bRZOLqKT
-	yH6p/OnQp9KNHjEAVCI1lXt1d36fJQ7j7jmM66rxwJ06e8TFgkTzoOB98yMB2mDqDtaXFlCCUl0
-	b1QiN5A9bcGnAzytfO09mr/0ix7qUtCTJxK9sj8mQ+OtNNlm6LgrQVlT2PSkfwB8+DZXPdc8/X0
-	yvkPMIbt5A2ZHFcgXasQG2lp4530xCux2sCp1C5ZE+i0eN6nZrFzNSk2PtSmKjGxDKZ9Cr90+Ja
-	DC/jijsp6MRNmSNleL2E37RZpU3atc0zObx04zrp8JMV7DRBEHBmxf9AnCT/irja9NLOuWLYnPy
-	q8dKTdmp1ozySyasQu45g9i5Myz3ruGZl20QpwlDDtB1ZwoaxoA0GIkpOTsy1WphvCJbKbUm8sk
-	U1L28ZQRmdVJcpzYKBUviZIJO6HY3e0ovETCVwkirCP9z4EYAdYGqN9yy/tiUH6r3pALPRr7BV5
-	NLagxFUYLTwGc/yIZ4/7qUH3Rc=
-X-Received: by 2002:a5d:44c7:0:b0:439:d73d:95e with SMTP id ffacd0b85a97d-439d73d0aa9mr1455802f8f.27.1772742499763;
-        Thu, 05 Mar 2026 12:28:19 -0800 (PST)
-Received: from localhost (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b3cc2e65sm37507890f8f.2.2026.03.05.12.28.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2026 12:28:19 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Mar 2026 21:28:18 +0100
-Message-Id: <DGV4RP9VNOBQ.933AAT3UAZCP@smile.fr>
-Subject: Re: [OE-core][whinlatter][PATCH v2] python3-urllib3: patch
- CVE-2025-66471
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260305141100.1659017-1-peter.marko@siemens.com>
-In-Reply-To: <20260305141100.1659017-1-peter.marko@siemens.com>
+        d=1e100.net; s=20230601; t=1772742609; x=1773347409;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iANsmHbMqyOdd3TzgQI4zpVM0tBBv++FTkByhRjPpuE=;
+        b=bbP9HGCld9paPZhxvLhsW1Qkh9AaGEhhcFWtM62vI2R7NMvWpu4rxk2NXtG+ajp51K
+         m0w1BCB75ZbSlyGlkDtn55rHfVgKbphdBHOrQM6i7v9Bm4IwrJIyfch3LYWOqT0enYYs
+         Bzyalq/DRF1dN0mPGWPE+Z+Pr/RsqJyT650k7gdwtfau51qXqz32l9QyBcJu0QQeYf0r
+         AaBOWD/fwduYhVEFlJr0dNP1cezaedVEzPOZedqjcTEHEqSDI3uyAAPr56bsn7/2lqrR
+         qrxw002EqUR+2bRyin6FDQp9EDvqCtl6qrKqcvS3lHJDW9vboXmPdmuxfbzCjqZ2UJJS
+         4aOA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+0kDW9CRRkqpaQj3y7yjjuxlaGlNP+zUYpKGTgx5B1D+37CX/+HdrPUNP8yJSMV4SgXofiXCV7kIgAhGV4RZy/A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxik3SOkfR/8q5Xs1lWytmmNYq9G1AN5Uq3xw9PnEdLgStZprha
+	AkvyYfJv35Kfei+Ahikshz9oL1J2Nq4maDcnyWR7hvrlx+ptlib3atRiTT2OE4X5h1atRrrbxPU
+	bFFbwYJRet7wijc9cB0qVCKqR9+6Tu8dtx2zw
+X-Gm-Gg: ATEYQzwWG6CSVnfW+3Mm8phDOB+So6pMpOopRqHZinohbkRFnkm5FR6ZI1ObKE+EXKT
+	k32NdlwsmQRAS/8EK67GGj6xe6NgxL8d1mWK83t2saYeV78EmXajbAv3lyuA1CaWM973sl7q+a8
+	JVfbjSK08L92VwNRQcodQfoD0Ha6aJFeqeUz/M0wK0dQm7ORnbdnt7zZxXCAcNaXty9yrQ3E3lB
+	brz6YpZ/rhh4n06JcnMYyeKM7jia8ZYjcGeGXlULAb0KkK3+snqwGmKQ2536VomGatdBwTSiXGE
+	J4wm9pEGehDrBVi2sRULcdZ3T5tqlcJQk599n/ByHYuzlD7w4JtUVzhIeaVOoygxBY7ELfP0UUB
+	LyRA4GuSv4c8KzC55wyfTr0hS
+X-Received: by 2002:a05:690e:d57:b0:649:b04c:25c3 with SMTP id
+ 956f58d0204a3-64d10d49a87mr910055d50.62.1772742609129; Thu, 05 Mar 2026
+ 12:30:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20260127053941.792825-1-raj.khem@gmail.com> <DGM7WKPONTXD.ZOV8O0CMQHXR@bootlin.com>
+ <25b7aea3-e05c-4378-95b7-ad269a4ee93d@windriver.com>
+In-Reply-To: <25b7aea3-e05c-4378-95b7-ad269a4ee93d@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 5 Mar 2026 12:29:56 -0800
+X-Gm-Features: AaiRm505RBTO996GsfA6HCNm2v7JGFeapehnUx-sR0ONcmKROoM6xsqN7Zudg4Y
+Message-ID: <CAMKF1sr+-xaOSezgQ92xPUSX7qPH_ruG6_Zkfq+TAG1gGpWh5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.43 release
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Content-Type: multipart/alternative; boundary="0000000000007ed576064c4ccd62"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 20:28:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232517
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 20:30:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232518
 
-On Thu Mar 5, 2026 at 3:11 PM CET, Peter Marko via lists.openembedded.org w=
+--0000000000007ed576064c4ccd62
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Please pick the latest from my branch I will be traveling for next 10 Days
+
+On Thu, Mar 5, 2026, 8:23=E2=80=AFAM Randy MacLeod via lists.openembedded.o=
+rg
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+
+> On 2026-02-23 4:01 a.m., Mathieu Dubois-Briand via lists.openembedded.org
+> wrote:
+>
+> On Tue Jan 27, 2026 at 6:39 AM CET, Khem Raj via lists.openembedded.org w=
 rote:
-> From: Peter Marko <peter.marko@siemens.com>
 >
-> Pick patch per [1].
+> License-Update: Match to changes [1]
 >
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
+> Added free_sized, free_aligned_sized, memset_explicit, memalignment, and =
+new time bases (TIME_MONOTONIC, etc.).
 >
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Support for the Linux mseal system call to protect memory mappings (seali=
+ng).
+>
+> Added support for the openat2 system call, allowing more granular file op=
+ening options.
+>
+> New, optimized, and correctly rounded functions from the CORE-MATH projec=
+t (acosh, asinh, atanh, erf, erfc, lgamma, tgamma).
+>
+> Significant 4x improvements for fused multiply-add (FMA) on AMD Zen 3 by =
+updating ldbl-96 implementation.
+>
+> Improved remainder, frexp, and frexpl.
+>
+> Experimental Clang Support: Added support for building with LLVM Clang (v=
+ersion 18+) on AArch64/x86_64 Linux.
+>
+> New CPU Detection: Enhanced detection for newer CPU architectures.
+>
+> 64-bit atomics for 32bit x86 patch is no longer required since upstrea ha=
+s dropped this logic in 2.43 release
+>
+> [1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da0ce8b0779e2=
+90596e99ca6d96c301684a2d7cfe
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
 > ---
-> v2: rebased on top of additional CVE patches
-
-It looks like this v2 does not apply:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/3304/ste=
-ps/12/logs/stdio=20
-ERROR: python3-urllib3-native-2.5.0-r0 do_patch: Applying patch 'CVE-2025-6=
-6471.patch' on target directory '/srv/pokybuild/yocto-worker/qemux86-world/=
-build/build/tmp/work/x86_64-linux/python3-urllib3-native/2.5.0/sources/urll=
-ib3-2.5.0'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/qemux86-world/build/b=
-uild/tmp/work/x86_64-linux/python3-urllib3-native/2.5.0/recipe-sysroot-nati=
-ve/etc/quiltrc push', 0, 'stdout: Applying patch CVE-2025-66471.patch
-patching file CHANGES.rst
-patch: **** malformed patch at line 104: =20
-Patch CVE-2025-66471.patch does not apply (enforce with -f)
-stderr: ')
-NOTE: recipe lib32-avahi-0.8-r0: task do_packagedata_setscene: Started
-ERROR: python3-urllib3-2.5.0-r0 do_patch: Applying patch 'CVE-2025-66471.pa=
-tch' on target directory '/srv/pokybuild/yocto-worker/qemux86-world/build/b=
-uild/tmp/work/x86-64-v3-poky-linux/python3-urllib3/2.5.0/sources/urllib3-2.=
-5.0'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/qemux86-world/build/b=
-uild/tmp/work/x86-64-v3-poky-linux/python3-urllib3/2.5.0/recipe-sysroot-nat=
-ive/etc/quiltrc push', 0, 'stdout: Applying patch CVE-2025-66471.patch
-patching file CHANGES.rst
-patch: **** malformed patch at line 104: =20
-Patch CVE-2025-66471.patch does not apply (enforce with -f)
-stderr: ')
-
-I could reproduce that locally as well.=20
-
 >
->  .../python3-urllib3/CVE-2025-66471.patch      | 927 ++++++++++++++++++
->  .../python/python3-urllib3_2.5.0.bb           |   1 +
->  2 files changed, 928 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025=
--66471.patch
+> Hi Khem,
 >
-> diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.=
-patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
-> new file mode 100644
-> index 0000000000..de2f2c09e8
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
-> [...]
-> +=20
-> diff --git a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb b/meta=
-/recipes-devtools/python/python3-urllib3_2.5.0.bb
-> index 7892fc0874..e277a192e5 100644
-> --- a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-> +++ b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-> @@ -10,6 +10,7 @@ inherit pypi python_hatchling
->  SRC_URI +=3D "\
->      file://CVE-2025-66418.patch \
+> I have some build issue with this patch. Yet I had some merge
+> conflicts, so maybe my resolutions were not correct.
+>
+> ERROR: nativesdk-gcc-runtime-15.2.0-r0 do_compile: Execution of '/srv/pok=
+ybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-nativesdk-pok=
+ysdk-linux/nativesdk-gcc-runtime/15.2.0/temp/run.do_compile.3275864' failed=
+ with exit code 1
+> ...
+> | /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work-shared/g=
+cc-15.2.0-r0/sources/gcc-15.2.0/libgomp/affinity-fmt.c:330:25: error: initi=
+alization discards 'const' qualifier from pointer target type [-Werror=3Ddi=
+scarded-qualifiers]
+> |   330 |               char *q =3D strchr (p + 1, '}');
+> |       |                         ^~~~~~
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/3240htt=
+ps://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/3229
+>
+> The branch that was tested if you want to check: https://git.yoctoproject=
+.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.org/valkyrie/=
+a-full-3260
+>
+> Thanks,
+> Mathieu
+>
+>
+> Khem,
+>
+> Will you send a new version of this patch or should Deepesh do that ?
+> We need this ASAP.
+>
+> ../Randy
+>
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#232501):
+> https://lists.openembedded.org/g/openembedded-core/message/232501
+> Mute This Topic: https://lists.openembedded.org/mt/117484328/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
->      file://CVE-2026-21441.patch \
-> +    file://CVE-2025-66471.patch \
+--0000000000007ed576064c4ccd62
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is a conflict between CVE-2026-21441.patch and
-CVE-2025-66471.patch on the CHANGES file but I do not understand why
-this returns a syntax error/malformed patch instead of a conflict.
+<div dir=3D"auto">Please pick the latest from my branch I will be traveling=
+ for next 10 Days=C2=A0</div><br><div class=3D"gmail_quote gmail_quote_cont=
+ainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 5, 2026, 8:23=E2=
+=80=AFAM Randy MacLeod via <a href=3D"http://lists.openembedded.org">lists.=
+openembedded.org</a> &lt;randy.macleod=3D<a href=3D"mailto:windriver.com@li=
+sts.openembedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><u></u>
 
-Can you check please?
+ =20
+  <div>
+    <div>On 2026-02-23 4:01 a.m., Mathieu
+      Dubois-Briand via <a href=3D"http://lists.openembedded.org" target=3D=
+"_blank" rel=3D"noreferrer">lists.openembedded.org</a> wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>On Tue Jan 27, 2026 at 6:39 AM CET, Khem Raj via <a href=3D"http=
+://lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">lists.opene=
+mbedded.org</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre>License-Update: Match to changes [1]
 
-Thanks!
+Added free_sized, free_aligned_sized, memset_explicit, memalignment, and ne=
+w time bases (TIME_MONOTONIC, etc.).
 
->  "
-> =20
->  DEPENDS +=3D "python3-hatch-vcs-native"
+Support for the Linux mseal system call to protect memory mappings (sealing=
+).
 
+Added support for the openat2 system call, allowing more granular file open=
+ing options.
 
---=20
-Yoann Congal
-Smile ECS
+New, optimized, and correctly rounded functions from the CORE-MATH project =
+(acosh, asinh, atanh, erf, erfc, lgamma, tgamma).
 
+Significant 4x improvements for fused multiply-add (FMA) on AMD Zen 3 by up=
+dating ldbl-96 implementation.
+
+Improved remainder, frexp, and frexpl.
+
+Experimental Clang Support: Added support for building with LLVM Clang (ver=
+sion 18+) on AArch64/x86_64 Linux.
+
+New CPU Detection: Enhanced detection for newer CPU architectures.
+
+64-bit atomics for 32bit x86 patch is no longer required since upstrea has =
+dropped this logic in 2.43 release
+
+[1] <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da0c=
+e8b0779e290596e99ca6d96c301684a2d7cfe" target=3D"_blank" rel=3D"noreferrer"=
+>https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da0ce8b0779e290596=
+e99ca6d96c301684a2d7cfe</a>
+
+Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
+ank" rel=3D"noreferrer">&lt;raj.khem@gmail.com&gt;</a>
+---
+</pre>
+      </blockquote>
+      <pre>Hi Khem,
+
+I have some build issue with this patch. Yet I had some merge
+conflicts, so maybe my resolutions were not correct.
+
+ERROR: nativesdk-gcc-runtime-15.2.0-r0 do_compile: Execution of &#39;/srv/p=
+okybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-nativesdk-p=
+okysdk-linux/nativesdk-gcc-runtime/15.2.0/temp/run.do_compile.3275864&#39; =
+failed with exit code 1
+...
+| /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work-shared/gcc=
+-15.2.0-r0/sources/gcc-15.2.0/libgomp/affinity-fmt.c:330:25: error: initial=
+ization discards &#39;const&#39; qualifier from pointer target type [-Werro=
+r=3Ddiscarded-qualifiers]
+|   330 |               char *q =3D strchr (p + 1, &#39;}&#39;);
+|       |                         ^~~~~~
+
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/build=
+s/3240" target=3D"_blank" rel=3D"noreferrer">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/4/builds/3240</a>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/buil=
+ds/3229" target=3D"_blank" rel=3D"noreferrer">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/19/builds/3229</a>
+
+The branch that was tested if you want to check: <a href=3D"https://git.yoc=
+toproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.org/=
+valkyrie/a-full-3260" target=3D"_blank" rel=3D"noreferrer">https://git.yoct=
+oproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.org/v=
+alkyrie/a-full-3260</a>
+
+Thanks,
+Mathieu</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Khem,=C2=A0</p>
+    <p>Will you send a new version of this patch or should Deepesh do
+      that ?<br>
+      We need this ASAP.</p>
+    <p>../Randy</p>
+    <blockquote type=3D"cite">
+      <pre></pre>
+      <br>
+      <fieldset></fieldset>
+      <pre></pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </div>
+
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#232501): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/232501" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/232501</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117484328/199=
+7914" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
+edded.org/mt/117484328/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.=
+com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000007ed576064c4ccd62--
 
