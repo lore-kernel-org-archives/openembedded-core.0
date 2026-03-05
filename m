@@ -1,160 +1,92 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 849E0F47CB1
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 18:50:57 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51812.1772736653647116235
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42CC3F47CB2
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 18:51:07 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.51922.1772736659635574691
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 10:50:54 -0800
+ Thu, 05 Mar 2026 10:51:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=EkDBzd7p;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202603051850505d422bf2d80002078e-v2x_mw@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202603051850505d422bf2d80002078e
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 05 Mar 2026 19:50:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=wK+bPEfq6cEyvhkjOt8aDCL7336+yXLqRJ36bawg8eM=;
- b=EkDBzd7p5SxFZDn/SbH9cex5Ck6sj5v9J6St3tBtlsb3dHe+iwXtrxiwgRH932G8NmKbFp
- AtVCWg74460hGRzMueAW0vPlWmiBG351gju+pxfaDHDce/MEnPJMJn5cVeGtjwUsiHEgZtOB
- ths9M5SV3io7VJg4Fu99rJOwnTVhiXkXxeZH1mXNnMOTJdv8ISklrVtVQ4D9FKVhncsucDlE
- oXnpB3GkuNYtstoVKBdYFabuv3XvBn45oQc0jlX9noU8XYLd6UnHKFN3Z03oY2egq8MLonGa
- vCcVsNAppWrMdjrNyXOw3kY6TIlN0IIwmE1mtgYViMi0V4WrGh/7YD7A==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] inetutils: patch CVE-2026-28372
-Date: Thu,  5 Mar 2026 19:50:39 +0100
-Message-Id: <20260305185039.1487274-1-peter.marko@siemens.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=BxpZZ+kn;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4837f27cf2dso77430255e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 10:50:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1772736658; x=1773341458; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4XFtyD+8VhxcXRFwM8BRu+yYgDlFWdF+IfIgjIBc3Pk=;
+        b=BxpZZ+knv9OOwTXHQyjgv9x37Qfo2A7WoHKnFcqU0iMU11tdqcRwxd3RCsgUtkk8ix
+         C8gRioYtNZoM+XxLzR24rXLhx4hjIAnQP4YiPqxKVTWUarzTtCdj/kHy0WEkvCLHXDZP
+         e8MW/jzb8r4SLMcX1916YVlweldVbCmyNAEVQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772736658; x=1773341458;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4XFtyD+8VhxcXRFwM8BRu+yYgDlFWdF+IfIgjIBc3Pk=;
+        b=LSTEDgv3EW9zCKNlWBxeX0h59bl1h8mtH8RpvM+0BifvyUjywzxGvyqEoHjigYsTAW
+         u9LDQVF8gXqvmvpIBsiTek4RXRAzREz2spcjOI7QurQo43jf21LWzyY0BKeffVBX0zcu
+         JikhT3O2SlvoeAhhT6Rz7vX1/Bq4cGHJ01r0gFjYSnzu5MgGH1IfVQhUDEOTTS6Bof3W
+         /lFVQpnG+uCT97aOOlsCtjzwAJ97gixZv8VXFEwfsY7/HFG6Uh3K1qrJNsGhQFXGus25
+         Rg75qXPRxH1LTxL2jn0Vp2XczQjLf+K++vDE+ZBBcj/gdzx7x1msvw0mwGPPBhh8Hri+
+         RU+Q==
+X-Gm-Message-State: AOJu0YzR1S+C9TsWkOwb1ZOihfnD2TWSWwU7LHhwh8O1L6UU86kYz8ks
+	emYyXTxoIGioKLD7xEYoGtUD7VGulYpCKoa/MlX3L+yY69MjJ5xRX3ApKpKSTNBYMr/WBnnkgch
+	4Z9oj
+X-Gm-Gg: ATEYQzzixQ8v6hRUpzPBkzuy6PBt27D5V40kwirZ9dQ3Q1gnmhb8yealwOQNstjD6vX
+	XLRfXhyHNS3NQPke+vC4f9An3XD74/k7zzXNG0cFp4La+wLwqbyIE/vcHdMkr2O6zMmzRK3dVoW
+	Dgf6t/sgHcuhdipRYFQXaAFkVx9PDvepMwwVKxLwc5PI5NuSC37k/tdXrw2/NDhdVwG+OZ4UiFs
+	whF0S/wC3rRYSsNqVdnnccWPT2R7ez3KKTiNsb/bCOoo+BV/I4lk5Gid1VlMUG21lFUw66CxsUz
+	dBeQKZWhUkLlyMFS3R3xntPrywmMBnF7u/SBECkKGFBZYc5nQ1S60gnWJLPK8xZpgD8r5eIM3zj
+	WOQiLBfeeSteF0zJQXU3xPs+2NPaRi+5hFcX+t8eCtiW6p6nONdJAZUxdka7YEDHaw/wwLoMC8t
+	3EVOCX3nNworMg1KCyJV6Iudh8/1sHiJRpOSWCA87/MGqPKp/5TYXRI+AWyzYHp5VtvyqCLBoyX
+	kEIWwt+S1wea0K5BVENrqZ9RR9N
+X-Received: by 2002:a05:600c:c84:b0:480:4be7:4f53 with SMTP id 5b1f17b1804b1-485198c70a6mr118102515e9.31.1772736657605;
+        Thu, 05 Mar 2026 10:50:57 -0800 (PST)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fae473bsm48164595e9.7.2026.03.05.10.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 10:50:57 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: OE-core ML <openembedded-core@lists.openembedded.org>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 1/2] maintainers.inc: add note about C locale sorting
+Date: Thu,  5 Mar 2026 19:50:18 +0100
+Message-ID: <20260305185018.1545386-2-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 18:50:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232506
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 18:51:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232507
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Pick patch according to [1] (equivalent to patch from [2]).
+Other locale might have different order for the "-" character and lead
+to unstable sorting.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-28372
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-28372
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../inetutils/inetutils/CVE-2026-28372.patch  | 86 +++++++++++++++++++
- .../inetutils/inetutils_2.7.bb                |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
+ meta/conf/distro/include/maintainers.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
-new file mode 100644
-index 0000000000..79d390f473
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
-@@ -0,0 +1,86 @@
-+From 4db2f19f4caac03c7f4da6363c140bd70df31386 Mon Sep 17 00:00:00 2001
-+From: Erik Auerswald <auerswal@unix-ag.uni-kl.de>
-+Date: Sun, 15 Feb 2026 15:38:50 +0100
-+Subject: [PATCH] telnetd: don't allow systemd service credentials
-+
-+The login(1) implementation of util-linux added support for
-+systemd service credentials in release 2.40.  This allows to
-+bypass authentication by specifying a directory name in the
-+environment variable CREDENTIALS_DIRECTORY.  If this directory
-+contains a file named 'login.noauth' with the content of 'yes',
-+login(1) skips authentication.
-+
-+GNU Inetutils telnetd supports to set arbitrary environment
-+variables using the 'Environment' and 'New Environment'
-+Telnet options.  This allows specifying a directory containing
-+'login.noauth'.  A local user can create such a directory
-+and file, and, e.g., specify the user name 'root' to escalate
-+privileges.
-+
-+This problem was reported by Ron Ben Yizhak in
-+<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
-+
-+This commit clears CREDENTIALS_DIRECTORY from the environment
-+before executing login(1) to implement a simple fix that can
-+be backported easily.
-+
-+* NEWS.md: Mention fix.
-+* THANKS: Mention Ron Ben Yizhak.
-+* telnetd/pty.c: Clear CREDENTIALS_DIRECTORY from the environment
-+before executing 'login'.
-+
-+CVE: CVE-2026-28372
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=4db2f19f4caac03c7f4da6363c140bd70df31386]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ NEWS          | 5 +++++
-+ THANKS        | 1 +
-+ telnetd/pty.c | 8 ++++++++
-+ 3 files changed, 14 insertions(+)
-+
-+diff --git a/NEWS b/NEWS
-+index 877ca53b..f5172a71 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,5 +1,10 @@
-+ GNU inetutils NEWS -- history of user-visible changes.
-+ 
-++** Prevent privilege escalation via telnetd abusing systemd service
-++credentials support added to the login(1) implementation of util-linux
-++in release 2.40.  Reported by Ron Ben Yizhak in
-++<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
-++
-+ # Noteworthy changes in release 2.7 (2025-12-14) [stable]
-+ 
-+ ** Systems without asprintf are now supported through the use of gnulib.
-+diff --git a/THANKS b/THANKS
-+index 8d1d3dbb..ef5f6063 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -9,6 +9,7 @@ In particular:
-+   NIIBE Yutaka		 (Security fixes & making talk finally work)
-+   Nathan Neulinger       (tftpd)
-+   Thomas Bushnell        (sockaddr sin_len field)
-++  Ron Ben Yizhak         (reported privilege escalation via telnetd)
-+ 
-+ Please see version control logs and ChangeLog.? for full credits.
-+ 
-+diff --git a/telnetd/pty.c b/telnetd/pty.c
-+index c727e7be..f3518049 100644
-+--- a/telnetd/pty.c
-++++ b/telnetd/pty.c
-+@@ -129,6 +129,14 @@ start_login (char *host, int autologin, char *name)
-+   if (!cmd)
-+     fatal (net, "can't expand login command line");
-+   argcv_get (cmd, "", &argc, &argv);
-++
-++  /* util-linux's "login" introduced an authentication bypass method
-++   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
-++   * Clear it from the environment before executing "login" to prevent
-++   * abuse via Telnet.
-++   */
-++  unsetenv ("CREDENTIALS_DIRECTORY");
-++
-+   execv (argv[0], argv);
-+   syslog (LOG_ERR, "%s: %m\n", cmd);
-+   fatalperror (net, cmd);
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb b/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-index a866ca5339..716174e299 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-            file://tftpd.xinetd.inetutils \
-            file://CVE-2026-24061-01.patch \
-            file://CVE-2026-24061-02.patch \
-+           file://CVE-2026-28372.patch \
-            "
- 
- inherit autotools gettext update-alternatives texinfo
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index c43107ccdc..b9a2da0387 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -25,7 +25,8 @@
+ #
+ #	RECIPE_MAINTAINER:pn-<recipe name> = "Full Name <address@domain>"
+ #
+-# Please keep this list in alphabetical order.
++# Please keep this list in alphabetical order using the C locale.
++# (e.g. use 'LC_ALL=C sort' to sort the list).
+ #
+ RECIPE_MAINTAINER:pn-acl = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-acpica = "Ross Burton <ross.burton@arm.com>"
 
