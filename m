@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6EFFEEF334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5CAEEF338
 	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 08:56:01 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40181.1772700951113969344
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39958.1772700952339249190
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 00:55:51 -0800
+ Thu, 05 Mar 2026 00:55:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=I6Y585dS;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso64609825e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 00:55:50 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=GK0WVN3b;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-483487335c2so64278215e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 00:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772700949; x=1773305749; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1772700950; x=1773305750; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pzRtz2kQKFk0agpovMJatOOGc0oV13I2FcQL+YGZZeg=;
-        b=I6Y585dS7qnFTUqS9TEJOVGxpA64Sc/1yQZ0QwNYyUEbhonEfwlKqVOHDjS0/j+lRb
-         H+ej2DO9rFPW4JVcSJ8sPCRX6oIzHrnEHweOgYUxXlfvIpB+KsfAqCnbN6d/vZ+U+H/j
-         89D/Vm2Uy3OwCHEEoIxCcvXljPbD6U01O/HVo=
+        bh=njpY43cUsFTxwlAfg2Ji7SvYZpV79HUJrf8BEPfihjY=;
+        b=GK0WVN3bBq1wbB34qsWosn2/6H2kCpkybSNosxqnENLD3tXdtV0ALzuvVaa79RRA/u
+         FsKlPb4tapB8hj8QNr8w7vG3tkSLnpvo4iACVxsJuGVmcZPzI80EYGB+REBjy2d7Wc6N
+         0hw5iPJrFWdd3I4+Sz75/DxaSJ4eVYYeBtvQI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772700949; x=1773305749;
+        d=1e100.net; s=20230601; t=1772700950; x=1773305750;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=pzRtz2kQKFk0agpovMJatOOGc0oV13I2FcQL+YGZZeg=;
-        b=QUe5f+1YFu+IPKg3U57upBST29JtEegHeULtUXoPAIl/K7B9e1fI4VCbYh6JTdP+up
-         Jq4Y+r4tE1smXXBkX1koIXz/eTrTIwX+2JvNoQR+u5xiWw3NaU5AN+3Jw6YdsKrewNrD
-         ZTAjZ/NJOpV7BTC6L71xLCyPs1mIJOChSnS7M2C+JtyQt7M92++V+UC0VIL/tCIDrQ1e
-         z/UtsqQukMQA13Rbhq0pB4JVNryrk9+jLUGyQz9dsOqdd6Y6X9ooiTb1KtTZqWW9hQsy
-         uH4K4MqXJXj89RgRXcQnzCjEpWdNhP+jKTHC+rR/k2yoIduyfpjIneT7+MChw+4lokcG
-         0gjw==
-X-Gm-Message-State: AOJu0YyG9I8tJfZuaJUqKliSG48pGldpInrNkgEBItqWvhalDt09R46z
-	4XkpDQCOlFPv7d7+ZACKSifefPBw8jlkhEOtjK+LIbae4AYeZKRK83U1STqbRRzGQu2r965467G
-	ayLRh
-X-Gm-Gg: ATEYQzzA49a5wHS/FcPezWrV/qRRZIVWS6MNm3DSR9d6Eg1LsjK5H8JHG993Hnat5Kp
-	Uv4KseyeVMQvFmWDWRYsIki9ycvpCS6DQsmsfZCdKRl7JMmwmxvvtdb9osAiaqq7zMqFfA3WNu4
-	zrhb6JzP2Mo3xhQHyzhw2scFypFb4EmTJiDbOQRVBEI3+FatvZS4KARmLJykBuVT2sx8T4BKNo2
-	V3DSRyng0/JNHjW3xPOciVXNIzZSBf8Hn5cbMW0eF9Sfi/v+RyEbRiiFy6VVJDoMlQ5eu8SLxao
-	Wzr2i02edHXMi4SkaIMQNzCM+tk3+aPyQ3oGIad25e3nGWoR7tmtR6V4B4iBkA+wlN1FPoLqSqm
-	37SZQVTTuv8A1mRSoTaMVfvjrLcamDeLc9TfjGz4nD0m1zC8Ub8jYkUMfMMHFBybWn0R32bEKpT
-	Jb+A8D74qMqAplr+pBW1cfKzzsO6G60ZjHulMPcxw4VaqDsCJsHhVHuA/2j1HMBGbSVKpBet8RD
-	2cOXhnw31yvrGQgosiLeHADxwqC
-X-Received: by 2002:a05:600c:4503:b0:483:709e:f239 with SMTP id 5b1f17b1804b1-48519899450mr79301235e9.22.1772700949204;
-        Thu, 05 Mar 2026 00:55:49 -0800 (PST)
+        bh=njpY43cUsFTxwlAfg2Ji7SvYZpV79HUJrf8BEPfihjY=;
+        b=Wxlriw27L03Nwxy8QPoSlR8z1h6kumW0inmrUXI0AO+dql7ohjRLPz37vP6E7Hj0U/
+         JSKQtfqejlovcj0WOSsxNfpY+rNuQ7s8aYTCW+qjMy+/IGlaDPoseLNI7QHiC0alrIgh
+         WjnJela7pNwF9KWQVxD18KPQPigArrISKAqu0u5E4gV2v6EK9zPj47fUgKWV+LZ8D/YG
+         ZO2m6HYiH1Q6X++5JQLRO8IywVqrvfAce/MvAFPppsjVNHr11DNLAQKEBcyjI3DjauON
+         Gm425Z9uF5r3mh/NHvpfkSK4iXe0DaQtkzOkKah0FmpLQvSAw5lGsEV20tz80A2uGqtQ
+         YO1A==
+X-Gm-Message-State: AOJu0YzKhyDoX/iP1PCGjN+oxQUIeN6naVQAglooG3gPyCagWS9tWC7b
+	yZLdzBxvKbMMxtNWtcgarGLIu35dyxI7XzOZcDr+52fDUfkN/3IgElXDi/e45N8Ior/icXxotX8
+	nI0fo
+X-Gm-Gg: ATEYQzy3CImE1KqETBAzMOKaw6yaCDXj9zUAUGl9zmrkgLoT9XXZP1kIFrVuD3C8QiM
+	rhselyJmZVTPuo1XyCCXcn/Ju5oQWe7avOTT295A/ajoj1Mv876nanlfdNLPVSTGHqqMrQy96jf
+	kmW1EZj5agIHZXC03Us/pwTCUDtnGKEMe1relwZtvQO3XOWdMAGD2tq+NtdB9G66QuCg1kXUYxk
+	ojIDi0zaA0dzP9m2qBtl4T/pk6VRjBJ1PrSGRkThVI5dEWcNVmMUXC32LE9AcBksvBlWMesdHCN
+	Lo1KHjE2GF8CjbPExn03ydFRnDzKojBcTU8U1SwFZPgd83pnXopjYJasQJrsEK6Jw+X/+Wy23sV
+	4MM4LIsYJKmWReNNlGUVx+xmq0Ab7unNPPpGy1v/YTNfqsUfnV9AWJZjhjgF+4NsFkRcC/wBPqq
+	/anIHlyy/2ncH6/0HEH/otjskEJxWIfmu54hXXXPCUuUBIw68KtbSSNrY6ko+aTlGcon8XRgOWL
+	jbOKvNvthQ/deF8ZpeE0NchU8t3
+X-Received: by 2002:a05:600c:3f18:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-48519828da3mr75193185e9.6.1772700950234;
+        Thu, 05 Mar 2026 00:55:50 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fb27a20sm59405175e9.9.2026.03.05.00.55.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fb27a20sm59405175e9.9.2026.03.05.00.55.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 00:55:48 -0800 (PST)
+        Thu, 05 Mar 2026 00:55:49 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 05/12] cve-exclusions: set status for 5 CVEs
-Date: Thu,  5 Mar 2026 09:54:54 +0100
-Message-ID: <896237f72aa5c5b46023fcb39de64935da11dfda.1772700454.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 06/12] ffmpeg: set status for CVE-2025-12343
+Date: Thu,  5 Mar 2026 09:54:55 +0100
+Message-ID: <66bfcd43078d5ac3dc46e1a6a544eb2095b2c8e1.1772700454.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1772700454.git.yoann.congal@smile.fr>
 References: <cover.1772700454.git.yoann.congal@smile.fr>
@@ -66,55 +66,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 08:56:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232457
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232458
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Reuse work of Debian researchers and set status for fixed CVEs
-accordingly.
-These are not tracked by kernel itself, so generated exclusions won't
-help here.
+Per [1] is patch for this CVE [2].
+This is equivalent of [3] which is included in n8.0.
 
-* https://security-tracker.debian.org/tracker/CVE-2022-38096
-* https://security-tracker.debian.org/tracker/CVE-2023-39176
-* https://security-tracker.debian.org/tracker/CVE-2023-39179
-* https://security-tracker.debian.org/tracker/CVE-2023-39180
-* https://security-tracker.debian.org/tracker/CVE-2023-6535
+[1] https://security-tracker.debian.org/tracker/CVE-2025-12343
+[2] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/b8d5f65b9e89d893f27cf00799dbc15fc0ca2f8e
+[3] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/263e819aa45cd3c48bf6887be02b4ec504c02048
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-(From OE-Core rev: 699dbbdf3ab2693bae8a7e0425e2519250fdfec4)
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[YC: commit 8536c8b9e9093ac2d7d82c49e61e1c1cded5d1e0 upstream]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-kernel/linux/cve-exclusion.inc | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
-index 80c76433ef2..7d68a9bbaac 100644
---- a/meta/recipes-kernel/linux/cve-exclusion.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -157,3 +157,19 @@ CVE_STATUS[CVE-2023-7042] = "fixed-version: Fixed from 6.9rc1"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
+index 1e59bfa33fe..0970575b3ca 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
+@@ -177,3 +177,4 @@ CVE_STATUS_WRONG_CPE[status] = "fixed-version: these CVEs are fixed in used vers
  
- #Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=7315dc1e122c85ffdfc8defffbb8f8b616c2eb1a
- CVE_STATUS[CVE-2024-0193] = "fixed-version: Fixed from 6.7"
-+
-+# Fix https://git.kernel.org/linus/517621b7060096e48e42f545fa6646fc00252eac
-+CVE_STATUS[CVE-2022-38096] = "fixed-version: Fixed from 6.9"
-+
-+# Fix https://git.kernel.org/linus/5aa4fda5aa9c2a5a7bac67b4a12b089ab81fee3c
-+# Fix https://git.kernel.org/linus/79ed288cef201f1f212dfb934bcaac75572fb8f6
-+CVE_STATUS[CVE-2023-39176] = "fixed-version: Fixed from 6.5"
-+
-+# Fix https://git.kernel.org/linus/e202a1e8634b186da38cbbff85382ea2b9e297cf
-+CVE_STATUS[CVE-2023-39179] = "fixed-version: Fixed from 6.5"
-+CVE_STATUS[CVE-2023-39180] = "fixed-version: Fixed from 6.5"
-+
-+# Fix https://git.kernel.org/linus/efa56305908ba20de2104f1b8508c6a7401833be
-+# Fix https://git.kernel.org/linus/0849a5441358cef02586fb2d60f707c0db195628
-+# Fix https://git.kernel.org/linus/9a1abc24850eb759e36a2f8869161c3b7254c904
-+CVE_STATUS[CVE-2023-6535] = "fixed-version: Fixed from 6.8"
+ CVE_STATUS[CVE-2025-25468] = "fixed-version: these CVEs are fixed since v8.0"
+ CVE_STATUS[CVE-2025-25469] = "fixed-version: these CVEs are fixed since v8.0"
++CVE_STATUS[CVE-2025-12343] = "fixed-version: this CVE are fixed since v8.0"
 
