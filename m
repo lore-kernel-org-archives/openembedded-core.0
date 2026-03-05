@@ -1,286 +1,187 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37CB1F30955
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 12:15:53 +0000 (UTC)
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42722.1772712946075844441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B7CF3095A
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 13:13:33 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43643.1772716408088690573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 04:15:46 -0800
+ Thu, 05 Mar 2026 05:13:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=K6S15Fet;
- spf=pass (domain: mvista.com, ip: 74.125.82.176, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso7421256eec.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 04:15:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HWs/D8wf;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-482f454be5bso82883125e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 05:13:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1772712945; x=1773317745; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D5K7bDsJp+b6hvjfsx/UYwtF00ez+lW4imsMTgrbiIo=;
-        b=K6S15Feti0lzwVQGjN/nMsxTg58fOCGVmpwLXLSMLa8JzLlX5CXY7EApVSWIrdAHBf
-         R3cnzwtujcRgU8pFV3uQR0SRP+f8wPOfIpuea86Ysndc1UvbqSA3DriJ7qZd2WNKKhZb
-         HjH5sRmGrvKoxtYJ6bT67UgPO6MwuOjJKNZLo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772712945; x=1773317745;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1772716406; x=1773321206; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D5K7bDsJp+b6hvjfsx/UYwtF00ez+lW4imsMTgrbiIo=;
-        b=E9N07H7LE4/pRKigFypfXSXaCE+tUw93AwQVo48RsLyRWXHT4XZhO5QqXK4JZNLeFv
-         YWkhOa47rTv59v8ltydajb/P0tzuJd6L5iTfke0WuQAvuXtn6IprBJDjX64lOhOR8DJR
-         Qe7IgzYLg8hlyYho2M5YqiTFPcPu224uGlEa8XyYscVEQDfU42Ukl1CfS1zE+cL19aLg
-         hCbZ+JNdkCvBypOMqhI+0Nwj6cYjQuP2SLqjRM0vpbY7J9Ohre6RQYi0A5nQq68lruVX
-         jjHDdfew65fLdpcTmWHWhPeVsSZGqqj5C9kDfgsPBbrIpJ3xhZPePSkgNOQPQ1hcETOP
-         sS4Q==
-X-Gm-Message-State: AOJu0Yx0fxVaKXLjlXhWeh3czA/B5Z9bYYPkf39P3npbE1NHubX9jv89
-	ztUSRu1vD7Jcdz4T8u7ztT8d1bti+YpTrlJl9dCprblNtL93i1Bc9GPkxFWbvP83SyRR6XiV1Hp
-	krj0v
-X-Gm-Gg: ATEYQzzfOC8P1qCD31PjejHe3qGy3x9CKtRiK2P/pHSaEF//5o5Dtv0+IHZ6ScH5/lw
-	cE9a88KiIQUbJSH75Xn7mknIzq7sN2Wc81QgU7g6MotfaF5I77i8qZOtP/8D+Ac6yGHO1kCcbNb
-	tzkerNejQQo6kE6dVy4iJdA9p2IbEj6svJtJR9t7XS61XHHs9bCaOgxqWyOGnJaxEF4Rxmy+Lq9
-	HpSWpuHF6sew3rIu9WeybvyNCoar8Fjrk56lR/g5TWQNwprzxTfPnNeWf5mmm0kaLFeGulwnPjq
-	7HyMF/1lJf6erIJfDrHhps0C58tK/pPQVbu6bVz1v5MP+UUFcz4LCzvsy5TGDNhJMBVyiI3DdO9
-	6zyQ56ooVbzbJJW/wNKN+X7777RyNmmL4fwDkZY7lbM8xeRYO1o+pz6bcmZgPWyGAe3gkvlAxqJ
-	NYWoB3pqRxAoLY3YywBkP7F1QEStmwoLHlXXIV
-X-Received: by 2002:a05:7300:1352:b0:2bd:fe5a:b861 with SMTP id 5a478bee46e88-2be30dba4dfmr1908868eec.0.1772712945056;
-        Thu, 05 Mar 2026 04:15:45 -0800 (PST)
-Received: from MVIN00013.mvista.com ([150.129.170.245])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be2ae7a2f5sm4083005eec.33.2026.03.05.04.15.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 04:15:44 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] grub: fix CVE-2025-54770
-Date: Thu,  5 Mar 2026 17:45:17 +0530
-Message-ID: <20260305121517.15675-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=1iTQG11Vs478RsF5mW7V3nO1vVbizbCc3j1f4LStBo8=;
+        b=HWs/D8wf+SQDatpc0C7iqm+HjrxHWhxFVG0GO5EQ61PTAvrmGop5ax3ZgkiF3pPICP
+         20yFtsondlK+4zcM3laZX07QG3pKQUiLNZT06au5Z2N7+XPLVGbiYNVHkUJHCLG1cELd
+         uBC3kBGRStfdJMZP2odUkcEapwbfgRo3dTWmw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772716406; x=1773321206;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1iTQG11Vs478RsF5mW7V3nO1vVbizbCc3j1f4LStBo8=;
+        b=WiH5pHT/2gGmogBSlwgSrCBq40o4SdCS1qWbYevp8C2Mg+yrIhwIC07BzzhO5PHTx3
+         5VFYYf5FKd+4f9d3jWw7bf7EWR0qaWrXz0S6RUGYePR0ri+t22MhwBrY4xZVHkEGsVel
+         vws5mdJoHgbMhh4KEdtl/fwDjzVou4BJit9W3sNzQsF3/52ZXdbAnTwyF+vRQW0d3TD0
+         HQQe8OLqmNmEKdChCe7mtamN0uqHmx4+cVSfjV1qDNCeG9fi188WiGGbodzni0QeLd5E
+         c3foxhOWIxkyQEAimrVMO34Atc3sRDYfX1uiZQkoaFt3A4jW50afSID7Angcz1QsAGAQ
+         mAlg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCbWWXQbbrCOJ1DSlhsoMedT/SwrUKP2htqDvPJZCTjFY2jVBxhB/dteXdQnoyz2zd+o5Bu8R0xt9ZkoH9xGTL5A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy7KUU79WanaiLxy7hc5ERmwMpZXcxU3M59bQSWTwAji944KR7Z
+	6FEMxdadpcEyetEJHmSlWKC7HanOrwHTRU5nLmgyigF11VpUaVxUeQGJitryP6VJeK8=
+X-Gm-Gg: ATEYQzyxmzVSRYie/C5oPGsIspOmRPo7XAdINhEdFndf3J7mzbmjKRJc6V+8pTXot7W
+	q7WrodqtyqRtbUK3BVH3BpoDEq64A9MmTY1ODg7V5kh/BVtfzPsPrGUy9+3ga0d7XGiNTWOxpmx
+	P8GKBk4NLrtdRaz3XPhFkbYYunZIyNY/VFY7TS5FxsSJa3pyJFIjmkIDtGNMM2RCf1ajWlMxUuK
+	lGLjf/6uqo14qRpwV0QibN2WLhJAk4RMbtntfIkPdladO+AW0iMvUx1zfsDhxtPHYda+17FVgJE
+	k8iJRZ6+JcLsN3/J0tuMdDMfEdH3ILtrTViKr+u9BaGY7KkbGCZA66WSYy2KuCedqEh1qRtQj3s
+	N2rCTGCBNFNmgXmMqZ5uDZ+g2pfdTGtGkU1S3ShiD/Mj1q4JL4N9zO316crr1OS9diecGCetzWi
+	J8e0p0RezGCBM82eMqa4KqtCsEQBwvV272VJ6BlRYJxDh/Zyl0czI0ta8hCBxG+eR7JgCqwAijB
+	Fb3KEEIJ0zVqPtJ
+X-Received: by 2002:a05:600c:4e08:b0:483:6d9e:e4f5 with SMTP id 5b1f17b1804b1-4851ee80b4fmr40622095e9.5.1772716406367;
+        Thu, 05 Mar 2026 05:13:26 -0800 (PST)
+Received: from localhost (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fad2812sm64890675e9.1.2026.03.05.05.13.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Mar 2026 05:13:25 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Mar 2026 14:13:25 +0100
+Message-Id: <DGUVIPZ3MH5B.2FJQVLD443PNL@smile.fr>
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "xe-linux-external(mailer list)" <xe-linux-external@cisco.com>, "Viral
+ Chavda (vchavda)" <vchavda@cisco.com>
+To: "Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+ <hetpat@cisco.com>, "Paul Barker" <paul@pbarker.dev>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [openembedded-core] [scarthgap] [PATCH v1 01/34]
+ cve-check: encode affected product/vendor in CVE_STATUS
+X-Mailer: aerc 0.20.0
+References: <20260220053443.3006180-1-hetpat@cisco.com>
+ <f3fb77d862493a82c5b4c3e592cc4352f2c774c8.camel@pbarker.dev>
+ <DS0PR11MB7405ABBD1CF46072A6905F39DC77A@DS0PR11MB7405.namprd11.prod.outlook.com> <DS0PR11MB7405FFC96A5001A76F818390DC7FA@DS0PR11MB7405.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB7405FFC96A5001A76F818390DC7FA@DS0PR11MB7405.namprd11.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 12:15:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232488
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 13:13:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232489
 
-Pick up patch from Debian security tracker.
-[0]: https://security-tracker.debian.org/tracker/CVE-2025-54770
+On Tue Mar 3, 2026 at 10:09 AM CET, Het Patel -X (hetpat - E INFOCHIPS PRIV=
+ATE LIMITED at Cisco) wrote:
+> Gentle reminder.
 
-More Details : https://nvd.nist.gov/vuln/detail/CVE-2025-54770
+Hello,
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../grub/files/CVE-2025-54770-01.patch        | 138 ++++++++++++++++++
- .../grub/files/CVE-2025-54770-02.patch        |  39 +++++
- meta/recipes-bsp/grub/grub2.inc               |   2 +
- 3 files changed, 179 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770-01.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770-02.patch
+Sorry but I have to reject the series.
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54770-01.patch b/meta/recipes-bsp/grub/files/CVE-2025-54770-01.patch
-new file mode 100644
-index 0000000000..ea749fc8f6
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-54770-01.patch
-@@ -0,0 +1,138 @@
-+From 954c48b9c833d64b74ced1f27701af2ea5c6f55a Mon Sep 17 00:00:00 2001
-+From: Chad Kimes <chkimes@github.com>
-+Date: Mon, 21 Mar 2022 17:29:16 -0400
-+Subject: [PATCH] net/net: Add net_set_vlan command
-+
-+Previously there was no way to set the 802.1Q VLAN identifier, despite
-+support for vlantag in the net module. The only location vlantag was
-+being populated was from PXE boot and only for Open Firmware hardware.
-+This commit allows users to manually configure VLAN information for any
-+interface.
-+
-+Example usage:
-+  grub> net_ls_addr
-+  efinet1 00:11:22:33:44:55 192.0.2.100
-+  grub> net_set_vlan efinet1 100
-+  grub> net_ls_addr
-+  efinet1 00:11:22:33:44:55 192.0.2.100 vlan100
-+  grub> net_set_vlan efinet1 0
-+  efinet1 00:11:22:33:44:55 192.0.2.100
-+
-+Signed-off-by: Chad Kimes <chkimes@github.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-54770
-+Upstream-Status: Backport [https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=954c48b9c833d64b74ced1f27701af2ea5c6f55a]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ docs/grub.texi      | 20 ++++++++++++++++++++
-+ grub-core/net/net.c | 41 ++++++++++++++++++++++++++++++++++++++++-
-+ 2 files changed, 60 insertions(+), 1 deletion(-)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index f8b4b3b..f7fc6d7 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -5493,6 +5493,7 @@ This command is only available on AArch64 systems.
-+ * net_ls_dns::                  List DNS servers
-+ * net_ls_routes::               List routing entries
-+ * net_nslookup::                Perform a DNS lookup
-++* net_set_vlan::                Set vlan id on an interface
-+ @end menu
-+ 
-+ 
-+@@ -5669,6 +5670,25 @@ is given, use default list of servers.
-+ @end deffn
-+ 
-+ 
-++@node net_set_vlan
-++@subsection net_set_vlan
-++
-++@deffn Command net_set_vlan @var{interface} @var{vlanid}
-++Set the 802.1Q VLAN identifier on @var{interface} to @var{vlanid}. For example,
-++to set the VLAN identifier on interface @samp{efinet1} to @samp{100}:
-++
-++@example
-++net_set_vlan efinet1 100
-++@end example
-++
-++The VLAN identifier can be removed by setting it to @samp{0}:
-++
-++@example
-++net_set_vlan efinet1 0
-++@end example
-++@end deffn
-++
-++
-+ @node Internationalisation
-+ @chapter Internationalisation
-+ 
-+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-+index ec7f01c..03ede6d 100644
-+--- a/grub-core/net/net.c
-++++ b/grub-core/net/net.c
-+@@ -1162,6 +1162,42 @@ grub_cmd_addroute (struct grub_command *cmd __attribute__ ((unused)),
-+     }
-+ }
-+ 
-++static grub_err_t
-++grub_cmd_setvlan (struct grub_command *cmd __attribute__ ((unused)),
-++		  int argc, char **args)
-++{
-++  const char *vlan_string, *vlan_string_end;
-++  unsigned long vlantag;
-++  struct grub_net_network_level_interface *inter;
-++
-++  if (argc != 2)
-++    return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("two arguments expected"));
-++
-++  vlan_string = args[1];
-++  vlantag = grub_strtoul (vlan_string, &vlan_string_end, 10);
-++
-++  if (*vlan_string == '\0' || *vlan_string_end != '\0')
-++    return grub_error (GRUB_ERR_BAD_NUMBER,
-++		       N_("non-numeric or invalid number `%s'"), vlan_string);
-++
-++  if (vlantag > 4094)
-++    return grub_error (GRUB_ERR_OUT_OF_RANGE,
-++		       N_("vlan id `%s' not in the valid range of 0-4094"),
-++		       vlan_string);
-++
-++  FOR_NET_NETWORK_LEVEL_INTERFACES (inter)
-++    {
-++      if (grub_strcmp (inter->name, args[0]) != 0)
-++	continue;
-++
-++      inter->vlantag = vlantag;
-++      return GRUB_ERR_NONE;
-++    }
-++
-++  return grub_error (GRUB_ERR_BAD_ARGUMENT,
-++                     N_("network interface not found"));
-++}
-++
-+ static void
-+ print_net_address (const grub_net_network_level_netaddress_t *target)
-+ {
-+@@ -1876,7 +1912,7 @@ grub_net_search_config_file (char *config, grub_size_t config_buf_len)
-+ static struct grub_preboot *fini_hnd;
-+ 
-+ static grub_command_t cmd_addaddr, cmd_deladdr, cmd_addroute, cmd_delroute;
-+-static grub_command_t cmd_lsroutes, cmd_lscards;
-++static grub_command_t cmd_setvlan, cmd_lsroutes, cmd_lscards;
-+ static grub_command_t cmd_lsaddr, cmd_slaac;
-+ 
-+ GRUB_MOD_INIT(net)
-+@@ -1914,6 +1950,9 @@ GRUB_MOD_INIT(net)
-+   cmd_delroute = grub_register_command ("net_del_route", grub_cmd_delroute,
-+ 					N_("SHORTNAME"),
-+ 					N_("Delete a network route."));
-++  cmd_setvlan = grub_register_command ("net_set_vlan", grub_cmd_setvlan,
-++				       N_("SHORTNAME VLANID"),
-++				       N_("Set an interface's vlan id."));
-+   cmd_lsroutes = grub_register_command ("net_ls_routes", grub_cmd_listroutes,
-+ 					"", N_("list network routes"));
-+   cmd_lscards = grub_register_command ("net_ls_cards", grub_cmd_listcards,
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54770-02.patch b/meta/recipes-bsp/grub/files/CVE-2025-54770-02.patch
-new file mode 100644
-index 0000000000..bc56997726
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-54770-02.patch
-@@ -0,0 +1,39 @@
-+From 10e58a14db20e17d1b6a39abe38df01fef98e29d Mon Sep 17 00:00:00 2001
-+From: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Date: Fri, 9 May 2025 14:20:47 +0200
-+Subject: [PATCH] net/net: Unregister net_set_vlan command on unload
-+
-+The commit 954c48b9c (net/net: Add net_set_vlan command) added command
-+net_set_vlan to the net module. Unfortunately the commit only added the
-+grub_register_command() call on module load but missed the
-+grub_unregister_command() on unload. Let's fix this.
-+
-+Fixes: CVE-2025-54770
-+Fixes: 954c48b9c (net/net: Add net_set_vlan command)
-+
-+Reported-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Signed-off-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+CVE: CVE-2025-54770
-+Upstream-Status: Backport [https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=patch;h=10e58a14db20e17d1b6a39abe38df01fef98e29d]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/net/net.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-+index 03ede6d..e66d192 100644
-+--- a/grub-core/net/net.c
-++++ b/grub-core/net/net.c
-+@@ -1980,6 +1980,7 @@ GRUB_MOD_FINI(net)
-+   grub_unregister_command (cmd_deladdr);
-+   grub_unregister_command (cmd_addroute);
-+   grub_unregister_command (cmd_delroute);
-++  grub_unregister_command (cmd_setvlan);
-+   grub_unregister_command (cmd_lsroutes);
-+   grub_unregister_command (cmd_lscards);
-+   grub_unregister_command (cmd_lsaddr);
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 4744e26693..b21afe34f7 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -63,6 +63,8 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-61661.patch \
-            file://CVE-2025-61662.patch \
-            file://CVE-2025-61663_61664.patch \
-+           file://CVE-2025-54770-01.patch \
-+           file://CVE-2025-54770-02.patch \
- "
- 
- SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
--- 
-2.50.1
+The LTS policy is restricted to bugfixes and security updates. A
+significant portion of these patches introduce new features or
+refactoring, which increases regression risk.
+
+Please split the series and resubmit only the bugfixes if that makes
+sense for you.
+
+Regards,
+
+> ________________________________
+> From: Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco) <hetpa=
+t@cisco.com>
+> Sent: Monday, February 23, 2026 6:01 PM
+> To: Paul Barker <paul@pbarker.dev>; openembedded-core@lists.openembedded.=
+org <openembedded-core@lists.openembedded.org>
+> Cc: xe-linux-external(mailer list) <xe-linux-external@cisco.com>; Viral C=
+havda (vchavda) <vchavda@cisco.com>; Yoann Congal <yoann.congal@smile.fr>
+> Subject: Re: [OE-core] [openembedded-core] [scarthgap] [PATCH v1 01/34] c=
+ve-check: encode affected product/vendor in CVE_STATUS
+>
+> Hi Paul,
+>
+> Yes, all patches in your series are present on both the whinlatter branch=
+ and master. These patches have been cherry=E2=80=91picked directly from th=
+e master branch. Their primary purpose is to migrate the CVE reporting file=
+s in the scarthgap branch so that they align with the master implementation=
+.
+>
+> I have attached a comparison of the CVE reports generated on the scarthga=
+p branch before and after the migration. As shown, several additional field=
+s are included in the post=E2=80=91migration report, such as "patch-file", =
+and "detail": "version-not-in-range". With these changes, the CVE report fo=
+rmat in scarthgap now closely matches the format used in the master branch.
+>
+> Please let me know if you have any questions or need further clarificatio=
+n.
+>
+> Kind regards,
+> Het Patel.
+>
+> [cid:9392158e-5418-49ae-ac27-40de739c7c02]
+>
+> ________________________________
+> From: Paul Barker
+> Sent: Monday, February 23, 2026 3:16 PM
+> To: Het Patel -X (hetpat - E INFOCHIPS PRIVATE LIMITED at Cisco); openemb=
+edded-core@lists.openembedded.org
+> Cc: xe-linux-external(mailer list); Viral Chavda (vchavda); Yoann Congal
+> Subject: Re: [OE-core] [openembedded-core] [scarthgap] [PATCH v1 01/34] c=
+ve-check: encode affected product/vendor in CVE_STATUS
+>
+> On Thu, 2026-02-19 at 21:34 -0800, Het Patel via lists.openembedded.org
+> wrote:
+>> From: Marta Rybczynska <rybczynska@gmail.com>
+>>
+>> CVE_STATUS contains assesment of a given CVE, but until now it didn't ha=
+ve
+>> include the affected vendor/product. In the case of a global system incl=
+ude,
+>> that CVE_STATUS was visible in all recipes.
+>>
+>> This patch allows encoding of affected product/vendor to each CVE_STATUS
+>> assessment, also for groups. We can then filter them later and use only
+>> CVEs that correspond to the recipe.
+>>
+>> This is going to be used in meta/conf/distro/include/cve-extra-exclusion=
+s.inc
+>> and similar places.
+>>
+>> Backport Changes:
+>> - Discarded the changes to meta/lib/oe/spdx30_tasks.py, as the
+>> commit history for this file diverges from the base commit
+>> itself (9c9b9545049a in the scarthgap branch).
+>> - Additionally, the changes do not introduce any major features
+>> and are primarily focused on code restructuring.
+>>
+>> Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> (cherry picked from commit abca80a716e92fc18d3085aba1a15f4bac72379c)
+>> Signed-off-by: Het Patel <hetpat@cisco.com>
+>
+> Hi,
+>
+> When sending a long list of backport patches like this, please include a
+> cover letter explaining the benefit you see to having these on the
+> stable branch and include some test results.
+>
+> Have you confirmed that all the patches in your series are also on the
+> whinlatter branch as well as master?
+>
+> Best regards,
+>
+> --
+> Paul Barker
+
+
+--=20
+Yoann Congal
+Smile ECS
 
 
