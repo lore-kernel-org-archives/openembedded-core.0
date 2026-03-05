@@ -2,118 +2,98 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4190CF30923
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 09:27:42 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40511.1772702859822819810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B7CF30925
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 09:31:52 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40552.1772703102237948644
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 01:27:40 -0800
+ Thu, 05 Mar 2026 01:31:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YQjvE9ed;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-483703e4b08so75482315e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 01:27:39 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=PkwAMoeM;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso69049725e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 01:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772702858; x=1773307658; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZSfqn29W1VjAxW09En8Q53HmJlB4jASrMadRDRdLb7k=;
-        b=YQjvE9ed0LVpZVxhu65g/wBJTDI359lFn2oZDaDuFrhxBdSo01GQJaqzb8267zOYYb
-         JBkQwlo8jbRr9rJb76/IxqauKnu39LHf7490sZIkLP2JrfGcWswGW2vzIViwsRGEbNoh
-         MNE66dznHzN2E/cp0iUy4Xovgg1WyenHGn4m4=
+        d=smile.fr; s=google; t=1772703100; x=1773307900; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x6Qs1N5LPI7FogChyz+WivQ+tstVmMKry0f5pV086eU=;
+        b=PkwAMoeM6mFE1qa19nNOZ4pWtch1iFhqlL9KlyXDIkeizPwC/FyU/JGRTFDYBjGqox
+         OK7v+UbUeFS/AoNGLi7BJUVTa0MJBBsoqfIdOUyhOsiDw+ArsVE03tVZYR4hhUEdotA0
+         D9ibmPq0sfsg77Pbftc4UOuaeI6BiZJwuOeAw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772702858; x=1773307658;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZSfqn29W1VjAxW09En8Q53HmJlB4jASrMadRDRdLb7k=;
-        b=iqZ5yTZ0H6bIv7b1vZlHCZVWiianplivLvvgEJhbzOL3duDn3NmxmyOsaNiR6i1IKn
-         my9h2XvY+stZbdievVYiYrZSZbwvAE3lBCYdUWEINNhu01XXGUMZ1GfkeM4dpCqyWg+p
-         M1wxd7ADiMnVjZoYvxS7iXsMl9tNJvsxD8HehdHYQgFj6lV0iUBcN4AJONR2zXvaRLPD
-         W/dzkQrERWelcsYXJwvG7mwl0NevKiagM2mmoQm9i1nlDl3ZX+8xdwSu3OSbX87C7RdL
-         IJuZXlvW7cQwmA4+5Q9ASO6O7Td2D4g2ZmYOUT5T67eJTGjxR7THgv0oWOmR9BsCpGku
-         sdWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvAi6v88+ncRJ2444+yBXv0hw3ZkYip7yEzOtvzYv20ogPZ/UKnUCSXWqTlKYM3NdnMiGJj8MeOlqlWvdo59xqgg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yymto3KfODaTJOY0Dk6KUPI9V0HEduOznpbD+TTZPGGT0oBBd6J
-	s0D8nr5KWSPA1RlQc3HyAhi0KQyn8h89jZHTO/JwWkHn4QdTuMMCMcB0jkHVxV/m+as=
-X-Gm-Gg: ATEYQzzyWA+aOLm4ZK4q3X5oMu02TCBWqUPDIk4ePxXSsCJ/QD32mNc7pCO5aGH1zVV
-	CLMqLeIbkIqSHBK5JCZn4uzD/xfgl4NEttfarlqq2E1etes1nAjsYMoRQxG7YCCoRk1zkH7TtmS
-	B1Uw9goXejj43r0GefVuIFTpMcTDzGNmpy/02ET3fDerKtGEI9gzsXkMRIaeouXwql8aGeqUtU4
-	pv9g4UcPBHSpw4QUg8et4bmx3VTCzL99satC3jNZCFZxelTAXQXcSGXnPCk0+nSQ4kaucGEffvE
-	NZBYkfvjMhvN9pR1hwxks5kyXKnVOgni75L3FEfCQyh9uyY9cvyzFKArNm7nGbD2CsCBbsaNtEn
-	CWn50U46p1a3zFJ3nkM4P9TikzX2PEhEBXxY7HyZeXAD4jy/l5ZU0F+gc1vp8gxqJkDuJOg5I4F
-	A67hXFRAbG2h9rMqUljkyl2LMgYkXPKdwl/wbNMnifoJrgkdMQM/su+27Nq6Rx3IBtI0+uvNvFX
-	mcw1ldfDEcuh+kl
-X-Received: by 2002:a05:600c:a41:b0:483:7ea3:3de3 with SMTP id 5b1f17b1804b1-4851ee7b07emr21095225e9.2.1772702858012;
-        Thu, 05 Mar 2026 01:27:38 -0800 (PST)
-Received: from localhost (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fad01d2sm30675785e9.3.2026.03.05.01.27.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2026 01:27:37 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Mar 2026 10:27:37 +0100
-Message-Id: <DGUQPU1BN6DT.3QWYXCIXTY7C@smile.fr>
-To: "Benjamin Robin" <benjamin.robin@bootlin.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH scarthgap 0/3] meta: Backport rejected CVEs
- and SPDX3 fixes
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <mathieu.dubois-briand@bootlin.com>,
- <richard.purdie@linuxfoundation.org>, <JPEWhacker@gmail.com>,
- <thomas.petazzoni@bootlin.com>, <pascal.eberhard@se.com>, "Ross Burton"
- <ross.burton@arm.com>, =?utf-8?q?David_Nystr=C3=B6m?=
- <david.nystrom@est.tech>, <kamel.bouhara@bootlin.com>
-X-Mailer: aerc 0.20.0
-References: <20260303-backport-fixes-scarthgap-v1-0-2dc803f921a9@bootlin.com> <DGU8KF6C5AC8.3PXRYKVMHQIBZ@smile.fr> <8651428.T7Z3S40VBb@brobin-bootlin>
-In-Reply-To: <8651428.T7Z3S40VBb@brobin-bootlin>
+        d=1e100.net; s=20230601; t=1772703100; x=1773307900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x6Qs1N5LPI7FogChyz+WivQ+tstVmMKry0f5pV086eU=;
+        b=fJSdc4vLO5M6L5ds9lIatcod1faEFl6YMfwgYQMhaBWMOz+RDcCSRJVsn9jFb8K+no
+         9m+mGpDGN4lKGB3jReCX2QCqe5XfLO002rwnHlSsvFGfGy0DmArg8x2N949/VxygFMFR
+         WcH/yNZTLdeASXbB0FRj0HelDxbHHW30c31nUOmimndSoAPOu3i9fL68qTReUcBpmD1P
+         jIA3GHKyuihAzpUvMwMC9VWMt99mN/U8tT1whi0pf0yo5rWeTK4Cio2uyMs1ENHfzgSf
+         yPJdaqu4tMSu6JTWzs4cy+Q8hkZjW47RTw1fdrgoB+A1v9e4v2p9YJuCYLANCufsp/wL
+         6y1A==
+X-Gm-Message-State: AOJu0Yxz7l2AD5vyasaK1laZccZbUfQlFst/in+b7aasHgpqWYUO3k4l
+	bT6ZEdbMDkXJZSzsPNcuJNy5ghQ22nzJc7gLkNHCR2wnwcRoabWzW1o8rBClzt7+d4Z3zhntrgT
+	QhSvl
+X-Gm-Gg: ATEYQzwG3qqsPatqC43w23Do7uUEmRf55dT5YLZzawUSI6nHyJIJA/vuQixDZUS4mKM
+	+zaMiCH/0sHNqJ//XQ7/sUQAFe5u4IQgDiTgGx5thlJ3Q4XGYL33+e8KfLswOQArk9ufcCEMSaE
+	Q1Ulc8QLN2orVoZhoW4QFty5QpELsxM7gxDFSUiZ3+fNoKUNcLYo4at0C5eay30nXpNRxvrUx3H
+	JUKWK3icHfcciUO/CHc4b5el3PsGqSXJp3cDtuXjkzq2+fXAMHDZCICpCu+aCXZ65MLp5rLMc35
+	E4A0990MjkQj5T2kx85ikK2Pzq7L4SmLHvqCIq7P9LdlhMnY7AtgdiLxt22XttAQnFOOUo/wcrJ
+	/YJFvLhgcIh5N46l78rOQ++l3qnfswZR+8HKRJd9lcel83CJBKM2YfmBtbLIvWW4mUogg9wI9rJ
+	xyJd2GvZg4ZwlNBheMe/88axFcwyxu4HAbUYRGCq4FTrjoaoUg8tjymoIQeOz2BifQzA2ycHwrf
+	0Mj/WgFV9bO9PVj0ly6ehL5SiHk
+X-Received: by 2002:a05:600c:474e:b0:483:7020:864 with SMTP id 5b1f17b1804b1-4851988fcd3mr76942595e9.25.1772703100105;
+        Thu, 05 Mar 2026 01:31:40 -0800 (PST)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00675b4cbd8c1678f5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:675b:4cbd:8c16:78f5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fae473bsm25102635e9.7.2026.03.05.01.31.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 01:31:39 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [whinlatter][PATCH 1/2] avahi: Remove a reference to the rejected CVE-2021-36217
+Date: Thu,  5 Mar 2026 10:31:26 +0100
+Message-ID: <20260305093127.1179651-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 09:27:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232470
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 09:31:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232471
 
-On Thu Mar 5, 2026 at 9:29 AM CET, Benjamin Robin wrote:
-> On Wednesday, March 4, 2026 at 8:14=E2=80=AFPM, Yoann Congal wrote:
->> On Tue Mar 3, 2026 at 5:46 PM CET, Benjamin Robin via lists.openembedded=
-.org wrote:
->> > This series backports three patches from `master` to `Scarthgap`.
->> >
->> > Removed references to rejected CVEs:
->> >  - Removed references to `CVE-2025-62813` and `CVE-2021-3502` in patch
->> >    files, as these CVEs have been rejected.
->> >  - This change prevents rejected CVE references from appearing in the
->> >    generated SBOM.
->> >
->> > Fixed kernel `CONFIG_` generation in SPDX3:
->> >  - Backported a fix for the generation of kernel `CONFIG_` values in
->> >    SPDX3 output.
->> >  - This is a important fix, as the generated SBOM file might otherwise
->> >    randomly omit kernel `CONFIG_` values.
->>=20
->> Hello,
->>=20
->> Can you please send the equivalent series for whinlatter?
->
-> Hello Yoann,
->
-> I can send an "equivalent" series for whinlatter but only with the CVE
-> "fixes".
-> The generation of kernel `CONFIG_` values in SPDX3 output was not
-> backported in whinlatter: It is only in master and Scarthgap.
+From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
-Oh that's why I couldn't trivialy backport the patch (I did not look
-why)
+CVE-2021-36217 is rejected, and should no longer be referenced.
+CVE-2021-36217 is a duplicate of CVE-2021-3502 which is already
+referenced in the local-ping.patch.
 
-> Let me know what I need to do in this case?
+The CVE database indicates the following reason:
+  ConsultIDs: CVE-2021-3502. Reason: This candidate is a duplicate of
+  CVE-2021-3502. Notes: All CVE users should reference CVE-2021-3502
+  instead of this candidate. All references and descriptions in this
+  candidate have been removed to prevent accidental usage.
 
-I can do the cherry-pick for the 2 rejected CVE patches.
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bf41240132e2efa6b46aab46290eed9c53e312e9)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-connectivity/avahi/files/local-ping.patch | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-connectivity/avahi/files/local-ping.patch b/meta/recipes-connectivity/avahi/files/local-ping.patch
+index 29c192d296..8f102815df 100644
+--- a/meta/recipes-connectivity/avahi/files/local-ping.patch
++++ b/meta/recipes-connectivity/avahi/files/local-ping.patch
+@@ -1,4 +1,3 @@
+-CVE: CVE-2021-36217
+ CVE: CVE-2021-3502
+ Upstream-Status: Backport
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
 
