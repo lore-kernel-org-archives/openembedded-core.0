@@ -2,70 +2,70 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 575F4FCC070
-	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 20:13:09 +0000 (UTC)
-Received: from sonic303-31.consmr.mail.bf2.yahoo.com (sonic303-31.consmr.mail.bf2.yahoo.com [74.6.131.230])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1118.1772820499401042061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5263BFCC071
+	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 20:13:29 +0000 (UTC)
+Received: from sonic317-53.consmr.mail.bf2.yahoo.com (sonic317-53.consmr.mail.bf2.yahoo.com [74.6.129.108])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1116.1772820493388218601
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Mar 2026 10:08:19 -0800
+ Fri, 06 Mar 2026 10:08:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yahoo.com header.s=s2048 header.b=b0/VAMbb;
- spf=neutral (domain: yahoo.com, ip: 74.6.131.230, mailfrom: eduardo.f120@yahoo.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772820498; bh=e3ZS6kYp2RP2faHt2aNHiBdBDScGHSUWaYb1lVzWM/0=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=b0/VAMbbRbl9tD8iHy+lE0btCCr5iWxES69b2FxkkJcJ/6J7AkJwfV8PepprkEnUzX0JAp0KEKnr+qHT8/ha2moPly5hE8JnvRQHf9flfLKmWQy3o+3TDT3Pu6ayf+kDqZKqpUJPfp/nm5x/+GAfHmnm4agvU7knVKzsPahFaDulnY8JUNy/W9hfyuctRCBSq9LwYxBmX/d18M5jad9kw1u2ff9wh17hNDwr1VtKYBzyoH4pZfW3AuNQNHYFXUlUXrqcWTLT20gGUDSJoNYrnh0gdFc4FRIvnMkjgHqvW1j7ASOS4htLbJxR1XaStejAtuNs49H2fw3y6wO/pgJy1w==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772820498; bh=DpF/OatUTllVQf5ZH0yVsDiYOJP2I7HxZ1mChnU52pw=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=msNUAG4gUQAXkmyH8gR3pMBH25YqIlRNiPdUn5gJ2bGnntU98BzJoxU/G+YA99JmZ5LNNbgvFh1JjWJPFm6DweH/qvrMIXeE85SBP/ycm7u37MuTac0i3lzeVX999JYPRg5oNdYnr9oC652Z4vbJ+7oRzBiMh7SOFMqw+l+X1EuJLTP+37lYGqvnLrOfGQenElLpV9CfumCtHuBiM/7hwMWvEUcGXqdkW3lW7Ssj0pTFdyw0YMGUFeffLwmFJSvxTO3bmj0LF1iSFrgeBI7J0GHcZl/P64se03WK23yGsnCc5/L1l6+3EaD1AAYwI2CnpzlTv0sdLvUK1vJ4yFAnSw==
-X-YMail-OSG: vb2Af68VM1kSSmIiwxTJtSORhfRzptsp0kQLI8_JPTNEFx9DgpeX5lgDtcIs5Xu
- kXsV3PucNQssdstp9eVjqqksD0SICxP1VT5._QlbrJmxlHO3AhCIlgJ3__TFgTnCihyUK4_yQEFb
- dkLy5AgakaPa0ysIa__c5f3lWf.fjeM6usGz6xGBSkTUDWQ45KsjGJAnax4FNEkH0Wxl7xC7JOQG
- xaHE1kh28UmO0UL1oksz1TK3u4SqzN3HO2lzhWL5TMmtjLUL69LMqReSWhC7Npi8UCgXtgNexPpd
- tTSRixMATzuYQpULQpwF3_PfPdlUO_qx4b5Gy1ZrWbXczvAHi5FtDtCLh2R6AbwksUlAbhVBa_zu
- QD6JVdhYclm4rj0rudfCZlb5Fdp6lRBiBCgZieOqZfScRp.X6ywlQah5L.7p0F5xOacDZ1.ANoXj
- ym2Cc3_hncbHVJtezL96Mcu2aIidbcUnIoSY9jiMFZsQr45oWBfVuUglqMI4gyRcpyatiYSMmn6a
- RCGkwSj7F8gM1xsJbUwOCkvckMO.Hz5RZHnAKuHsttOtwpXf07CtEVZ.YQ5WaYEJqXFdBz.u3Idw
- uw4iFZ9wnVS5BQIj79ZPxeUpLG0mQM0QA1Z2lOSJKX0RnnvDh_XJhmFQSJl_rRFoRQsmi5yDYOQz
- EMTgaECKaKNfu6zGEQCqzSPhX.cW4VfYAOGfmyYBf6qGU8m.H9_PrDIxIqIPITc4dl5vpLqehvuQ
- 6O45Ivjfql5gZ.OFpaX_fqcBeLducKNbwGefeitbC4GBKRClA_TOKRM2KxnZESjQ2dwRWZu4LT7i
- OkSdldGuCnPCFcng9a6ncoLnIE9qc.ylsuqGgISFLhiw6lZ6fP19MXiwzX2fd6QhXUtu9vn4ZkW0
- eJyoWGQ.hThkWeTDpWbOWvIvhHfbi7JaxXm9z_j4jKmEqAX4FdlxDCNJJWwgKg_VYivQ4aJW7Ymo
- 9EMdUZcWOgK1RqCETOObrup8X8hvpNSoF63kvoqZoEnkZW_OLdps9YnA92IzHhcKg04W.aIbYzqQ
- V1pXEce4XAP_2wzMvLA8RBetl6JeaNGj9Sja7PmJo_0Y2BTVh48ncSZ4aoQQ7sgwKhEuZWlNuJnh
- ThcXf5KWVn.BqZpFAf3lUwMsuyxwOjVvesuOXnOB..fvuABUMOY7neaNuhn7c9LHJdQ._rBH7OhD
- PqSfiYemypIaf5sTjY1Tz8rELvyao8LnAaNxuZIQGorO3dgkdb36MVN_un7qmad8GXl439zhHNCm
- 6chLOU6vZINV_crqA2E9PD4pka8_ijO2.dxNOdonomAfM1WvfsABgCSV1kdZaFHSPlTA3dfoCpE0
- P4MFCDjg3Gee3J01xSD6EzZ19HKZQaZR3f63fyC0Q.QA.BmYr9v1Q_HPdD4mNUsvkOTQDfSu4GWB
- Oir67aHe8LdK.2w7KBdYRE7kTqm2jHfCf7Oe5iyjvZ9wPw3W0gGXl.6RcMNUu6PmBUZdXNXWHmyN
- Ic6qoP69hcCmkc_EWwb.MX5mkixdDkQsKFrcNuviPGRKM4uAgr9ELI8gjWkux5mtsl.FbKLEU622
- C9WGUFhHAqIzw75hj.quxZEhOMD5gmDY5iktqU.XlKDnf7m1Tv_DGDwD4tOLZaWFWyJ9HIsHHv3a
- dBxWT_EKYpVXhkOcHeZ7Bf1JGl_.Q2KrMymqER6YMpe.kiJYif_8gX3BYccUJnc3eNv0dfGIk6Xo
- .NeFj8ysgm.2Di0c4vzRke8v3Tmuq5_fIlwildtoURP3aSMM8nhzQYrMxzNAyAOHBiM3v0mUa_3f
- YqTh2IuvLHZunSICY6U27AUYCoaef6O7i._bDM.HuxVpsrWgfgyxvKckC4uP64fLmUfbmRGLSTxC
- dpOhsb2VBQ8uHYYQ9XHP3MlJpmBampX90Le53aFBZevB8Cg0M9d8YA7nip0e93x0CKGycq7kIA_G
- UZOkOzUYyTMbkYy33TGxzRBINusqxC0yi1QChIwKmjLZXQCKQkvaL.lLtUroe3GOU339Z7psaDwZ
- cp3yaEZFTdXNpIlXqEAGJ_gIl0S6nEIDQX3hgfdB0SgcTauuvNnkj1xPEMGiNC5Utkhh3h9AFJ1L
- xeTorp8qy0cTTyHd5AyOjz1XRdgyclETr4HeS9HAFzeYMROGxTuaR28FLkE0UXk8Owp3ckP85o0Y
- u9rbiF_ssUll.rjxypZsnQ2z.YFuTb7q8s4JajwHAwbQnehTNc.x1vSVc1kdmo186_rLsyX7erGC
- Pyz9QQLxXPDyRvUOEA72RN7Q_kuQh20Km_zZbCsOv8J.jf7aZSXWW_WCvHR9OpAju_oQ3SQ8Gp6S
- CDTxcO8wa7uj8QFrxqk71ycbrJ3R_zeN4xNBj0MzhRFPS.tcXnqDldEo7MeInbQcdEQObxmyW
+ dkim=pass header.i=@yahoo.com header.s=s2048 header.b=bqN9R5M5;
+ spf=neutral (domain: yahoo.com, ip: 74.6.129.108, mailfrom: eduardo.f120@yahoo.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772820492; bh=e3ZS6kYp2RP2faHt2aNHiBdBDScGHSUWaYb1lVzWM/0=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=bqN9R5M5ju0CgXIzeuWoSjYxGdkFs4qIAv53f/+8hCdUd4/HK8aPX5k9aEyDXmogIWNL03FtIV2U6/j74DIsUgCvFTAO5ob+pjoLBRMEzbITACIdst2aPShMKES1KcoUfufAvRqCFCtkKw5bJhB4uXnXBOK3FUViSt4yOejK1TPN+i/BY9MbRv3i6L//DYx7HJKs6iScTL5Or3iAm7Aopep3GROLVbJDduP/gBl0R6P7U0oKcBDiJiq8ZAP5f88XWk84Iczz1TXukQIVaxgwJKZU/ziRIwJIUeswoKVemjuDU8bfpBTgMuJGjIEqt+23lbkW/85QdqGdLjNClqPFiA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772820492; bh=xvDY66pGtFsSBgG1nLwnrgNzEGdS/SHVD1P7sbQTwoi=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=URMA1b+PM2EOBjSLQf3lcHVGG91NoUKDQBtmjQpGZlLOqnq40ETZ8M7S0PX9MW+YG6lSqgwJWpC1m1rVD93x6zRPTOY2HylsmKBRp6tpVFXkBkJQcMIxVeYM+KMFaCrYkW1sluktaZY1G9E0/VhxYSAvW1UFpX1EvKDAiQBoX4urBDBwF14ThxQwlrgnTXqXEU2gBnsO0FaH6tf5sMQUunW8B/q7yxTkWEED0/rQgJAb59pOw041Tc0GeIsAbTnOiOxicE+q+jY+lHgDKDei4GeVsjYeaK74v2cfld0KpjHjzNXSGex7+uNriookp6O+i5WXxOvAOVlzccYaSiedrQ==
+X-YMail-OSG: 73Hct8sVM1lE3uhPtLCGW4VME4dzDjgwaKFs8aujCF2RFWPdenijiIbc5MTz311
+ 1p8gN9o0Qs3G26THJZWEQvpeEq21TfHtk338.N2iTeUl1xIBLYmo_6MZliXL4RJ9ZN.DhVUq3Z8K
+ 9_uvtqigci0eRV5HXBbcRypbHRYw1cLdPzOD7SuOz33iVHQvhMUQYEpqnXd5PbWoTraeeBE_KeCS
+ 7OSR3Mvqvlzem87ekCUYw0tiY7yxg5d6PvP0NWNo5sMvgVA5FNELtkIb79YHOyJ6Qg5JSqhwRU9G
+ 4dJeiBaIvQCPsAmPJfWr1fsKDmfv44hW2fvcGJRoUa3FEz2TNkBWaxkwa8UVwVAIi5VcpIXR7aOA
+ XiO_6xJIhOvbX0dKbmrrISiLF2h8wsTqsWZ_zsKO1LvWbUwWLASqZ7iIuM5ShLqbPD11d2rAPNK4
+ KpCfmEKylW9Xll.xtUTuIA2r8wAlHBm3J6CMZoUx2_XZ3B3coAtQwia_khtA8XGOOQsJIhD0W7cd
+ aRi_Jxm_HxlV_jK9X.73icArEFkDjNswmbyW0yAXXlKD.YxuijmMTRcgxFZ06.g3WZG9GNXWsY0J
+ 7BdgQMUT9bbT6SxjjqdtW7QnRZCK0IwFmoRwjum0Nz3DSMSoEUS55r8P6vIODQ7fbLiroOydA9hN
+ VkKFnN_pezPDlAGKDTTev_p4HNacnkgErLbo0f9vZbWzFxyrmVUaO.LLvKouCcHfRAfCgbGhcAg1
+ z.DlfwzG7wvTGimv5UfoCXgvEATdadPXQQQFVqMiIcJjgrqqdLFUyetbOcIryKLr4.sY8nncEglv
+ 185NlW43Ud2fiaGrwA5u3ohmC3arrl79bbxsTGKataMdmRSyWJ64IrrnXSJvPXHA6UZW3ZjTqBtW
+ AC.BPo08fAf5cbXb4pUvNGer6HdPN.i9ltD9PQX6nIMz_mYN8MD3IiqIekmkK8TVMvYtPW.76VrG
+ FWhQMRHPpZoqwhShRn_HuB9qkL6ZUbLts_nVCFDQ5PZxRVylEgZA0bJAJvd8jhIvUO5x52QnaDdh
+ cI7vBTmWCzfMWTFZP5K4l5vjCRlBRHwdw.jBRLofJ1MhOBr5ZYQIdoGOza6ZD8a7dlpKBX0xbOfK
+ B__hM1x6HRflFnEFohCsiKKziPgorFpGq9KGqt0AsCqeGB3lczQ02QzVqFg_NrSb.Y8_2RkHkXsr
+ kZ6HZPAMr_jqd86cY7ex0DSCikfFV.v6asQeGeV9cy_5Ri.EHUpa0JJqIA0InBe9gXF0HrDtGkh4
+ 5NDvfcqrLfP3TCNmlahQSpoMxiYtxOURoLhkivRIIqIETrf9fLUP9vrNJaFfw2dq2f3EAco5qucS
+ 6Pf59xLV6tItACI_lVHX.Souznn4WfpA0yyA34rNjv6NH5xPic1CSPyIY7KETgzm7qHfRXU8ssn3
+ XjZOrzWROvIQ32U1trrmyacr_HhSIaQJS__VKnDSz694FckAwbjmnsOfwBNKbegecMcti8oPDm4H
+ lWYpgUyHkz6mYgPmJWH_f9UygYBfYtIEQehJOcQj3xIxHV4EUuvXNYA6baR4DD5P03xMuRXUynWe
+ 0.YrLgpL7kswwIJV4CzaaXKnLz_9Jj8_wKTNhl3W_4IgPybsbHO6Zyu7.q7rYBJ2403rw09FxZzh
+ 2_DNpNzQZSc_M4TkGTDNQVpOCebKWbTL1VCHSPtgo_Aybpddlh_eYRvMIqJW.hs3us5JkkllOT7X
+ 8fu9_3lzYGPkpA3ss5Duq7c.PkSW3GWgiPqFV8qIV_1iLjQDocezQWuUcbl1eNz0JuCBeAzM4UfP
+ d1tpnGvthmnqM469QLjEddPIiJYdNZkGk.SFeImha22zQzWId_sPwt.sFuQDI4QP5L.wQ1tXlDyz
+ ix0_IXlDtt0avuLR3I6sav39gsh520docTaAxHv2sanKA5v5xf0OgctY7TCPeCUgDsX1mVyVAC1O
+ sPM9dZpLCY0FV4e9.GOTs7WISau6XdErILkS7ZCmQtyUBHKwxDwwmthfCE3WFIczlIIbysgwyoID
+ m_LhATOCCjQHN4h7gIvWOrX_7g9QWc95.Igg1vLmFOHY3vlk5Grsbqqbxks2OS1axfY5SQOmQ6UI
+ 0irTWYvobpRgzAa7fuTSC_BslLyMfTaeZUMDxMExbz3Rp6rXabuGe12kyD5NIOn4vA_jFnqqtdf8
+ mjvbwKhQx1mbKH6dA2pgUtuOmrY630Sbo3.nXSypYIkL6gvRIhzUbNekzLMXziCdADe8o.KI7Bez
+ p7ZwPb3THn5vBByLtS959UoS0MPIVMdCw7Y_uncIiIyukzJqE2Wo5_rqG1uhhbt29ySTDR8LDWoh
+ ExtrGsPLSu78XzXnCqIiPZLu51xWF5KWiFtGXTwsPs9bd0g3TschzN9R.uULs4mTRZJcK9XUojBx
+ aDICBSu_dXBBBA022wkpT
 X-Sonic-MF: <eduardo.f120@yahoo.com>
-X-Sonic-ID: 44a8c2de-6f88-4e84-ae36-253967325381
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.bf2.yahoo.com with HTTP; Fri, 6 Mar 2026 18:08:18 +0000
+X-Sonic-ID: 6d68d15c-679a-4830-9432-b26682b1bb48
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Fri, 6 Mar 2026 18:08:12 +0000
 Received: by hermes--production-bf1-697f88457-75c9h (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 7a7301eb53a3a3fd449217282b97619a;
-          Fri, 06 Mar 2026 18:06:17 +0000 (UTC)
+          Fri, 06 Mar 2026 18:06:11 +0000 (UTC)
 From: eduardo.f120@yahoo.com
 To: openembedded-core@lists.openembedded.org
 Cc: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-Subject: [PATCH] go 1.22.12: Fix CVE-2025-61726.patch variable ordering
-Date: Fri,  6 Mar 2026 15:06:05 -0300
-Message-Id: <20260306180605.1047779-2-eduardo.f120@yahoo.com>
+Subject: [OE-core][PATCH] go 1.22.12: Fix CVE-2025-61726.patch variable ordering
+Date: Fri,  6 Mar 2026 15:06:04 -0300
+Message-Id: <20260306180605.1047779-1-eduardo.f120@yahoo.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260306180605.1047779-1-eduardo.f120@yahoo.com>
-References: <20260306180605.1047779-1-eduardo.f120@yahoo.com>
 MIME-Version: 1.0
+References: <20260306180605.1047779-1-eduardo.f120.ref@yahoo.com>
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 20:13:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232593
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 20:13:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232594
 
 From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
 
