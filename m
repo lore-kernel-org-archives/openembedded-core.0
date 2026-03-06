@@ -1,218 +1,406 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54662FCC073
-	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 20:14:29 +0000 (UTC)
-Received: from sonic309-43.consmr.mail.bf2.yahoo.com (sonic309-43.consmr.mail.bf2.yahoo.com [74.6.129.217])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.73551.1772815726036891873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B12CFCC076
+	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 20:53:19 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4644.1772830397390841125
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Mar 2026 08:48:46 -0800
+ Fri, 06 Mar 2026 12:53:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yahoo.com header.s=s2048 header.b=UOnQl6yl;
- spf=neutral (domain: yahoo.com, ip: 74.6.129.217, mailfrom: eduardo.f120@yahoo.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772815725; bh=e3ZS6kYp2RP2faHt2aNHiBdBDScGHSUWaYb1lVzWM/0=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=UOnQl6yl28LwQTNAGz2wI2OIHD/ocWZS0bC0a2IFxy5jtw6roWfbs9eV19GgNR64wLajXh5oPe52nEiCNXoU4ytMCpa7Sp/6MpsGNwlrXvMrdo5fk2TDXek64c0v8yZY8/PlewAVFG+oo4wKrBhv4bxJoQXtTfs/CdthsdhPerEuOrbVe61JQm2QYzdrhLfkO1dj/V/WYzogheoIpQVdt8E9V2kq3yVEvciD7w9LV76lF3lGaKXad/lAOml9v4s3Dzwee3ebrF+wPIb98/aAioTh18H/0XRgLsssEal1xz6gMRiBk064HuZmLbuO7gMvf3fPu00yjiFHXV+97AtgNw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772815725; bh=Ntx+1xUjGHma46CKyprAwiTm6jOp75YEsVsm52dgm4t=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=WVOxB2u82rjESiOfw9lm4msRstROjp18SWoV3BUCPPoCYFvlXVXKudn9S2l8nDQE/gr9GcKdLjVvMpm80isrJL+9MHDr+lip/IF6uVJ5J5tTq0hUNh0qS8nTvmpROYwky0Pnw0mo6lTeTFvv9khc1Rb77IrietuYRXcKXcyX+cnaWPObd8Dfh5PC4HEnV2N3DpE1yIe578UWFrOKMV18Fw1N4JjyCRv629oA0+b4MltwbXJNYN8u7ev2rTGp2uSSgtcKNhBoAt4miEVH/kiVrYEpOIxmEdxHvtwp6pMUH9g44laM2eA3Wv6E33EXiOWEimnmB7swQqHpSHdS0EMC3A==
-X-YMail-OSG: o9gZAGoVM1k3mv1uPSaHRE3W2CEw2PnvSc4wCLOFCpVXPun_UopR5NPdP0IkhiF
- 2DBBeOgM8E_1DyPa47PZS3Gie5N0aeks15i.zoyaDvANc_Spf_4hzCpjVTSbmeCdNKf462tXn6UA
- ccJLpcQI3SrkA.MQX7frihPfxF8rJ7Uilam2a4wm9TvEVGz0S1C_yXElWGk6mO0Cf6YC4_chBrLK
- RykYaXUtHBhZyDGmsi7TXx2zNZ9cMo.x2YgtrRRSYF.bsmkA6xfZRY1g.HsGHKrKC2lkseh_jGoh
- HrJj5fBaWV3jdBwlNj7U9Eh2CydLgxsJ9uwgPZRb2m3Dc37r2iXMq2wHILHi03..1gndzGIz2udU
- i6wbWMozZ9D6aiHZ_su2OyjmbTigw69vw2DrT.cF2jtwCrB2hIrcq3OTZSa8gl.Hvi71dvC4uMrE
- DAPDgE0lZMWxT.eojG6XVGWQC5AgYnOJAISpvE8STaSTOK_EBDmjp9VMDPqXXUfu_VUgi9rkVsbt
- Nk4Os7S6S.xpc8LHmAXZc0pKM5UtvrJYmzlK_ttlBJf07blgIGW3LkXcgE2_QRqlOEzG2OXZeD_h
- APF1mMVycAUptZb56PVU8vK9qlnSwqSP502knwRxNSuwvMu7GORozQ8G240iAToB31e4DwcWSqlD
- F_Rguv9E5DOuH7qx8IVU6x3vPK0mL.DHvD97CJgF_EFUZeXU6p0R9Re0tVXVWWe.m2LGlP8P2Ip_
- 9aYgHBGi9QNNmmSQcQXK7OKONJWaZjZgrd8OsbFTMlcggmN.aNRm0.Dapew8s8xA_pLdMIYoeNeP
- jvA4m5HWB3aXHcoL3_GWayGUUWqTDE2UalIWg35sYtTMSYvk.LXZx0npQnBpQYohZ9QWA2z9RJpy
- k3nKkpujHJ7ty0uzo20PRXfEBmf4B7ZmCN3ZEDeqLuK0Wt51JrVh03worCUzwrw_tRQRRDwNMfvD
- H.UM5mdZD6ENK8iW78ZwhdES6ig.l6am3qzu9SZ62tvSz.Uow1cRwyEsmirPoy3ZKMZK7TepHe8O
- IzQU72KxReQjwKir2TrYomg5sxsacfzrBizyZPf9nNatx0bv2FMflI_t3tH5E9MDPU_w8MKrvpBh
- I3CsTjdbAjGn1SRd86y_zSBRthrHUuoR8hNN7rhjHFuqSUiVw0ADJ2JBPXHt_1uQ9Ch6PzWh3Vrn
- uJ2WJZIJU.JEkfINlNfz0xluExe_FPDxcAvHc5OSjfHmld2MM9vZ2MQrI__ga.ioCaIjOCHLgina
- W0PSeJT32iJxSbqxnQdJSUtBQgXBwWSObb1.Wsb12tPkZArxk8wwkiJE2T0rhwpOdEJWrXB67kMQ
- 9XOxgevdijyKmEsoHXHu8S_hHM7uZXRQf6zit_FxNjjs.8S98QRXV68gwBkU01jK05g6YTVcpGOn
- NUcC2DuICSRkA5fKjwfx8Gn2Re2duAKrJdCvzKS566Q21who0pxI8Jn.L19.2Fd_iYlqvBfIKQh4
- wiW9ai62wm7w8YM242wrEbY3KmqConA_Ak9EsJUGgcBrQ9Fm90OZuDyzcOS7CojjojX.dWLIlxtG
- qSxbyaXy4cz5X.1Kn6Th8lLDp.48iB.PPsW3E7g43BuwmNqJFiCN4JwKISJ1tnj4RWwr6jTJb5Ak
- 6plh6y5aDDrXsYXgb61yFABcnbJ_hP7EV018EoIIfn3vXiKbyB12y5hEqqWRlaPjym36c9wzMZMt
- aLTBSUv2dVup8ljJ2Pyk6_bpfBM5wPNnLBo2KK_lS.16SwbUl29WHUiaLAjiNDu9pJPtGuvuMDgL
- QzB3lpIt7XJo1NlSMiHchW.5o6_D.eRgQzJogsnpHwcfHcVDs.t5gJmTwDbF4xS7o6NECZmBzFiP
- A43kAggvyIGNHeZbyN1EZ0ClWzfqTDBe_sHM_v_lffcHPDA_3.H8FTx4_v2Gr4bpgAXchbv7baKQ
- VSo5TInh6G1DAFJG12g1nIdRDyaDHhErtQTPP3i2P33433iIe3smMu4tK_CpsSoStF35PQYTbBWA
- hpPHAy3U9vdbio1CWt6vATSZqXSaOcgTn6Un5hrTJ4jh4I53j.vpSV6gtDGhxSWCDS50WRYU1E_X
- YSoT5fJRYCmAX42oa3tvhFaipguDaa41usoC9ddhmjH9WdvgDckmdcHXHOdsxezHBQL9dLeCblhy
- WAUAL_PNJUMk2f_bk.zx7PKmUwGDvn2Z.bdMsRdhXY1CxDp08dhefmaQPYmHLi4B1tNb5u..nH9E
- q7RyAyXsJ.5OpoIv7C3v9gM2QTADxAz7Cw.wehzxy4qZ31nRGLYbHdH0CE2ymbJB4dqWMaq86nJG
- xLDDf6xIH0rBaI6aWnXAE_.Vc1tH.GJsA8WkizZfCNckI4AW5sP0pMb8KJcUXG.X3.3DuLQ--
-X-Sonic-MF: <eduardo.f120@yahoo.com>
-X-Sonic-ID: 3d6829bb-9f13-43f6-9d07-6fd2d05ce4fe
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.bf2.yahoo.com with HTTP; Fri, 6 Mar 2026 16:48:45 +0000
-Received: by hermes--production-bf1-697f88457-629ff (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 5f3d391e62a5cb2278e1d07e9f03f0b1;
-          Fri, 06 Mar 2026 16:36:42 +0000 (UTC)
-From: eduardo.f120@yahoo.com
-To: openembedded-core@lists.openembedded.org
-Cc: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-Subject: [PATCH] go 1.22.12: Fix CVE-2025-61726.patch variable ordering
-Date: Fri,  6 Mar 2026 13:36:20 -0300
-Message-Id: <20260306163620.952359-2-eduardo.f120@yahoo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260306163620.952359-1-eduardo.f120@yahoo.com>
-References: <20260306163620.952359-1-eduardo.f120@yahoo.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@smile.fr header.s=google header.b=UEyStfed;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48371bb515eso143087045e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 12:53:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1772830396; x=1773435196; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nv59Ive9NkpV6V+n1u6gpysMpDuFiQDH1irxiG7TuLI=;
+        b=UEyStfedDVxDDHJoJeQkeZmLIt6XekuHV9QZfpexktIbD5HKMFB23xmj6hmP918A4z
+         T2GuQX8UlU3kOVVhy1ic6CMtAoX20qwnIGLtB6RrMbtz+5CJu5bDOd6nKb++WiWKSdGy
+         JajnFjJGq13ZVhsFhJ/Yf4NotOOc6uQarjeBI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772830396; x=1773435196;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nv59Ive9NkpV6V+n1u6gpysMpDuFiQDH1irxiG7TuLI=;
+        b=gY8Bhbw77ZIBL89fmOUfOYA00I2UdsN9uf+L4+UeeD2EiQFbY7eYfi50ZGULcoeXgO
+         JqUByKc+YLLusLYCRL0If+Er417FEPH3vx4ggVFuDTcqBz3YeDSdKWPS0UHUiPSm8L5Q
+         gsP12iKJYDXOZFuu11vnfAE5GGw0gzFJBXRePdyl7/yh0yE43N8ZtCLjaVK4PVPya6us
+         PEThNahhixT5quxKD+L5QuDwtlRnd13xid+mXttlOxMd2sP78m7NNv4/Sid/5MUh86Cw
+         qbr71/vWLG3t/S2kfy8djN8wjFB5R924xQp1C6wG7vPtmmkCpg8AlQdhQ+zidHpowIiz
+         HIMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUM8HBbkAUlKV4bfzEhirv1ufHuWvasrpQRSr5vJwmAMxvKedqF91RC3QN3N8467Cnpg/6b3p28dSB6TbuMSCGSmA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyTNRlmisCpLWV1kUBAWq8/jU/UNTAo+VYB3zpCZ1rif0DZfS+K
+	bjRX9m5RIW6s8h6ysCXlTPsnlnPZXmf+ON6F59joWUO6Ssjzk3K+UiVffNQsMLyQZw5Hr2zZf0e
+	RnHsD
+X-Gm-Gg: ATEYQzz7aEYnDvNeluT0/hUJq8luef1i73CX1DiCRcLQLZYtm5MW1aCBwcOYqcWfmH2
+	bbohBVL00+yI/GSdJlmLZZfUDaC9jnrt0xwjJKZSdeS7s3+s8c7+cCzIg34CDQFQGNqIINPlFAg
+	8ZYuRm8N01T4I3PJa8IMXppupAFfsvRAGMczKRN5J40RDrb9MWzQqEDeV95i6NX+JHN9C0bK2Jx
+	YiFfBsabtoNTP6PWwYkg9LD00aLV/0pYCkOT9DQ+ZpOLioXI47Xah85w2DNBgCVpENufWC0BQW3
+	9tQQ5ijPNEtmW4xys0Z5BmrKL3MJvkTuK78T/18ByUlUBile9kSWT2+3mFfzQKrh73F3e+bkZXe
+	rT+k5ZKnxJPoRcT2LCSTGua1aFVUiZ5Hny9CWYd0iMUrktWhJtl/4Dxrx8KwVdgrnsKXmAfcl9u
+	z01FpM6CuRGNIuMq9OanyZi0lLItscGvxVGQ==
+X-Received: by 2002:a05:600c:8115:b0:483:a8e9:201b with SMTP id 5b1f17b1804b1-485268bd01cmr63308245e9.0.1772830395527;
+        Fri, 06 Mar 2026 12:53:15 -0800 (PST)
+Received: from localhost ([212.133.41.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852470620dsm24363055e9.27.2026.03.06.12.53.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Mar 2026 12:53:15 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Mar 2026 21:53:14 +0100
+Message-Id: <DGVZXBTVF9IV.1T2VD5JUSSC1F@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCHv2] qemu: fix for CVE-2025-11234
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260220051011.11250-1-hprajapati@mvista.com>
+In-Reply-To: <20260220051011.11250-1-hprajapati@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 20:14:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232597
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 20:53:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232598
 
-From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
+On Fri Feb 20, 2026 at 6:10 AM CET, Hitendra Prajapati via lists.openembedd=
+ed.org wrote:
+> This patch fix use after free in websocket handshake code.
+>
+> Backport patch from debian refer :
+> https://security-tracker.debian.org/tracker/CVE-2025-11234
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc           |   2 +
+>  .../qemu/qemu/CVE-2025-11234-01.patch         |  72 ++++++++
+>  .../qemu/qemu/CVE-2025-11234-02.patch         | 174 ++++++++++++++++++
+>  3 files changed, 248 insertions(+)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.pat=
+ch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.pat=
+ch
 
-Commit 6a1ae4e79252f9a896faa702e4a8b3e27529a474 introduced a patch
-backporting a fix for CVE-2025-61726, but this patch also introduced
-a bug.
+Hello,
 
-From Go's source code[1], they say that the 'All' table from 'godebugs'
-should be populated alphabetically by Name. And 'Lookup'[2] function uses
-binary search to try and find the variable.
+Thanks for the v2, it looks better. But it still needs a fix for
+whinlatter (the fix is in 10.0.7, whinlatter in 10.0.6, so maybe an
+upgrade?)
 
-Here's the trace:
-Mar 06 11:33:33 toradex-smarc-imx95-12594035 systemd[1]: Started Docker Application Container Engine.
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: 2026/03/06 11:34:53 http: panic serving @: godebug: Value of name not listed in godeb
-ugs.All: urlmaxqueryparams
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: goroutine 78 [running]:
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*conn).serve.func1()
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/http/server.go:1903 +0xb0
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743e8740?, 0x4000b526c0?})
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         runtime/panic.go:770 +0x124
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemetry.io/otel/sdk/trace.(*recordingSpan).End.deferwrap1()
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         go.opentelemetry.io/otel/sdk@v1.19.0/trace/span.go:383 +0x2c
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemetry.io/otel/sdk/trace.(*recordingSpan).End(0x40011b4a80, {0x0, 0x0, 0x40
-006441c0?})
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         go.opentelemetry.io/otel/sdk@v1.19.0/trace/span.go:421 +0x898
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743e8740?, 0x4000b526c0?})
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         runtime/panic.go:770 +0x124
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godebug.(*Setting).Value.func1()
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         internal/godebug/godebug.go:141 +0xd8
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).doSlow(0x22?, 0x55748a9b60?)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         sync/once.go:74 +0x100
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).Do(...)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         sync/once.go:65
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godebug.(*Setting).Value(0x5575b21be0)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         internal/godebug/godebug.go:138 +0x50
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.urlParamsWithinMax(0x1)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/url/url.go:968 +0x3c
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.parseQuery(0x400069a630, {0x0, 0x0})
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/url/url.go:985 +0xdc
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.ParseQuery(...)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/url/url.go:958
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*Request).ParseForm(0x4000bdab40)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/http/request.go:1317 +0x33c
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: github.com/docker/docker/api/server/httputils.ParseForm(0x0?)
-Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         github.com/docker/docker/api/server/httputils/httputils.go:104 +0x20
+Regards,
 
-The 'Lookup' function was failing due to the wrong ordering and returning 'nil',
-which was not being checked properly and caused this issue.
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+> index 748a32215e..ba21d57010 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -43,6 +43,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+>             file://qemu-guest-agent.udev \
+>             file://CVE-2024-8354.patch \
+>             file://CVE-2025-12464.patch \
+> +           file://CVE-2025-11234-01.patch \
+> +           file://CVE-2025-11234-02.patch \
+>             "
+>  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+> =20
+> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch b/me=
+ta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
+> new file mode 100644
+> index 0000000000..c3797bc66f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
+> @@ -0,0 +1,72 @@
+> +From 911c814c8cc5f836286bd96694843036db83e99f Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Daniel=3D20P=3D2E=3D20Berrang=3DC3=3DA9?=3D <berrange@=
+redhat.com>
+> +Date: Tue, 30 Sep 2025 11:58:35 +0100
+> +Subject: [PATCH] io: move websock resource release to close method
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The QIOChannelWebsock object releases all its resources in the
+> +finalize callback. This is later than desired, as callers expect
+> +to be able to call qio_channel_close() to fully close a channel
+> +and release resources related to I/O.
+> +
+> +The logic in the finalize method is at most a failsafe to handle
+> +cases where a consumer forgets to call qio_channel_close.
+> +
+> +This adds equivalent logic to the close method to release the
+> +resources, using g_clear_handle_id/g_clear_pointer to be robust
+> +against repeated invocations. The finalize method is tweaked
+> +so that the GSource is removed before releasing the underlying
+> +channel.
+> +
+> +Reviewed-by: Eric Blake <eblake@redhat.com>
+> +Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> +(cherry picked from commit 322c3c4f3abee616a18b3bfe563ec29dd67eae63)
+> +Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> +
+> +CVE: CVE-2025-11234
+> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
+/911c814c8cc5f836286bd96694843036db83e99f]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + io/channel-websock.c | 11 ++++++++++-
+> + 1 file changed, 10 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/io/channel-websock.c b/io/channel-websock.c
+> +index de39f0d18..1aac3c88a 100644
+> +--- a/io/channel-websock.c
+> ++++ b/io/channel-websock.c
+> +@@ -922,13 +922,13 @@ static void qio_channel_websock_finalize(Object *o=
+bj)
+> +     buffer_free(&ioc->encinput);
+> +     buffer_free(&ioc->encoutput);
+> +     buffer_free(&ioc->rawinput);
+> +-    object_unref(OBJECT(ioc->master));
+> +     if (ioc->io_tag) {
+> +         g_source_remove(ioc->io_tag);
+> +     }
+> +     if (ioc->io_err) {
+> +         error_free(ioc->io_err);
+> +     }
+> ++    object_unref(OBJECT(ioc->master));
+> + }
+> +=20
+> +=20
+> +@@ -1219,6 +1219,15 @@ static int qio_channel_websock_close(QIOChannel *=
+ioc,
+> +     QIOChannelWebsock *wioc =3D QIO_CHANNEL_WEBSOCK(ioc);
+> +=20
+> +     trace_qio_channel_websock_close(ioc);
+> ++    buffer_free(&wioc->encinput);
+> ++    buffer_free(&wioc->encoutput);
+> ++    buffer_free(&wioc->rawinput);
+> ++    if (wioc->io_tag) {
+> ++        g_clear_handle_id(&wioc->io_tag, g_source_remove);
+> ++    }
+> ++    if (wioc->io_err) {
+> ++        g_clear_pointer(&wioc->io_err, error_free);
+> ++    }
+> +     return qio_channel_close(wioc->master, errp);
+> + }
+> +=20
+> +--=20
+> +2.50.1
+> +
+> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch b/me=
+ta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
+> new file mode 100644
+> index 0000000000..364d19457d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
+> @@ -0,0 +1,174 @@
+> +From cebdbd038e44af56e74272924dc2bf595a51fd8f Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Daniel=3D20P=3D2E=3D20Berrang=3DC3=3DA9?=3D <berrange@=
+redhat.com>
+> +Date: Tue, 30 Sep 2025 12:03:15 +0100
+> +Subject: [PATCH] io: fix use after free in websocket handshake code
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +If the QIOChannelWebsock object is freed while it is waiting to
+> +complete a handshake, a GSource is leaked. This can lead to the
+> +callback firing later on and triggering a use-after-free in the
+> +use of the channel. This was observed in the VNC server with the
+> +following trace from valgrind:
+> +
+> +=3D=3D2523108=3D=3D Invalid read of size 4
+> +=3D=3D2523108=3D=3D    at 0x4054A24: vnc_disconnect_start (vnc.c:1296)
+> +=3D=3D2523108=3D=3D    by 0x4054A24: vnc_client_error (vnc.c:1392)
+> +=3D=3D2523108=3D=3D    by 0x4068A09: vncws_handshake_done (vnc-ws.c:105)
+> +=3D=3D2523108=3D=3D    by 0x44863B4: qio_task_complete (task.c:197)
+> +=3D=3D2523108=3D=3D    by 0x448343D: qio_channel_websock_handshake_io (c=
+hannel-websock.c:588)
+> +=3D=3D2523108=3D=3D    by 0x6EDB862: UnknownInlinedFun (gmain.c:3398)
+> +=3D=3D2523108=3D=3D    by 0x6EDB862: g_main_context_dispatch_unlocked.lt=
+o_priv.0 (gmain.c:4249)
+> +=3D=3D2523108=3D=3D    by 0x6EDBAE4: g_main_context_dispatch (gmain.c:42=
+37)
+> +=3D=3D2523108=3D=3D    by 0x45EC79F: glib_pollfds_poll (main-loop.c:287)
+> +=3D=3D2523108=3D=3D    by 0x45EC79F: os_host_main_loop_wait (main-loop.c=
+:310)
+> +=3D=3D2523108=3D=3D    by 0x45EC79F: main_loop_wait (main-loop.c:589)
+> +=3D=3D2523108=3D=3D    by 0x423A56D: qemu_main_loop (runstate.c:835)
+> +=3D=3D2523108=3D=3D    by 0x454F300: qemu_default_main (main.c:37)
+> +=3D=3D2523108=3D=3D    by 0x73D6574: (below main) (libc_start_call_main.=
+h:58)
+> +=3D=3D2523108=3D=3D  Address 0x57a6e0dc is 28 bytes inside a block of si=
+ze 103,608 free'd
+> +=3D=3D2523108=3D=3D    at 0x5F2FE43: free (vg_replace_malloc.c:989)
+> +=3D=3D2523108=3D=3D    by 0x6EDC444: g_free (gmem.c:208)
+> +=3D=3D2523108=3D=3D    by 0x4053F23: vnc_update_client (vnc.c:1153)
+> +=3D=3D2523108=3D=3D    by 0x4053F23: vnc_refresh (vnc.c:3225)
+> +=3D=3D2523108=3D=3D    by 0x4042881: dpy_refresh (console.c:880)
+> +=3D=3D2523108=3D=3D    by 0x4042881: gui_update (console.c:90)
+> +=3D=3D2523108=3D=3D    by 0x45EFA1B: timerlist_run_timers.part.0 (qemu-t=
+imer.c:562)
+> +=3D2523108=3D=3D    by 0x45EC765: main_loop_wait (main-loop.c:600)
+> +=3D=3D2523108=3D=3D    by 0x423A56D: qemu_main_loop (runstate.c:835)
+> +=3D=3D2523108=3D=3D    by 0x454F300: qemu_default_main (main.c:37)
+> +=3D=3D2523108=3D=3D    by 0x73D6574: (below main) (libc_start_call_main.=
+h:58)
+> +=3D=3D2523108=3D=3D  Block was alloc'd at
+> +=3D=3D2523108=3D=3D    at 0x5F343F3: calloc (vg_replace_malloc.c:1675)
+> +=3D=3D2523108=3D=3D    by 0x6EE2F81: g_malloc0 (gmem.c:133)
+> +=3D=3D2523108=3D=3D    by 0x4057DA3: vnc_connect (vnc.c:3245)
+> +=3D=3D2523108=3D=3D    by 0x448591B: qio_net_listener_channel_func (net-=
+listener.c:54)
+> +=3D=3D2523108=3D=3D    by 0x6EDB862: UnknownInlinedFun (gmain.c:3398)
+> +=3D=3D2523108=3D=3D    by 0x6EDB862: g_main_context_dispatch_unlocked.lt=
+o_priv.0 (gmain.c:4249)
+> +=3D=3D2523108=3D=3D    by 0x6EDBAE4: g_main_context_dispatch (gmain.c:42=
+37)
+> +=3D=3D2523108=3D=3D    by 0x45EC79F: glib_pollfds_poll (main-loop.c:287)
+> +=3D=3D2523108=3D=3D    by 0x45EC79F: os_host_main_loop_wait (main-loop.c=
+:310)
+> +=3D=3D2523108=3D=3D    by 0x45EC79F: main_loop_wait (main-loop.c:589)
+> +=3D=3D2523108=3D=3D    by 0x423A56D: qemu_main_loop (runstate.c:835)
+> +=3D=3D2523108=3D=3D    by 0x454F300: qemu_default_main (main.c:37)
+> +=3D=3D2523108=3D=3D    by 0x73D6574: (below main) (libc_start_call_main.=
+h:58)
+> +=3D=3D2523108=3D=3D
+> +
+> +The above can be reproduced by launching QEMU with
+> +
+> +  $ qemu-system-x86_64 -vnc localhost:0,websocket=3D5700
+> +
+> +and then repeatedly running:
+> +
+> +  for i in {1..100}; do
+> +     (echo -n "GET / HTTP/1.1" && sleep 0.05) | nc -w 1 localhost 5700 &
+> +  done
+> +
+> +CVE-2025-11234
+> +Reported-by: Grant Millar | Cylo <rid@cylo.io>
+> +Reviewed-by: Eric Blake <eblake@redhat.com>
+> +Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> +(cherry picked from commit b7a1f2ca45c7865b9e98e02ae605a65fc9458ae9)
+> +Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> +
+> +CVE: CVE-2025-11234
+> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
+/cebdbd038e44af56e74272924dc2bf595a51fd8f]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + include/io/channel-websock.h |  3 ++-
+> + io/channel-websock.c         | 22 ++++++++++++++++------
+> + 2 files changed, 18 insertions(+), 7 deletions(-)
+> +
+> +diff --git a/include/io/channel-websock.h b/include/io/channel-websock.h
+> +index e180827c5..6700cf894 100644
+> +--- a/include/io/channel-websock.h
+> ++++ b/include/io/channel-websock.h
+> +@@ -61,7 +61,8 @@ struct QIOChannelWebsock {
+> +     size_t payload_remain;
+> +     size_t pong_remain;
+> +     QIOChannelWebsockMask mask;
+> +-    guint io_tag;
+> ++    guint hs_io_tag; /* tracking handshake task */
+> ++    guint io_tag; /* tracking watch task */
+> +     Error *io_err;
+> +     gboolean io_eof;
+> +     uint8_t opcode;
+> +diff --git a/io/channel-websock.c b/io/channel-websock.c
+> +index 1aac3c88a..583ea8618 100644
+> +--- a/io/channel-websock.c
+> ++++ b/io/channel-websock.c
+> +@@ -545,6 +545,7 @@ static gboolean qio_channel_websock_handshake_send(Q=
+IOChannel *ioc,
+> +         trace_qio_channel_websock_handshake_fail(ioc, error_get_pretty(=
+err));
+> +         qio_task_set_error(task, err);
+> +         qio_task_complete(task);
+> ++        wioc->hs_io_tag =3D 0;
+> +         return FALSE;
+> +     }
+> +=20
+> +@@ -560,6 +561,7 @@ static gboolean qio_channel_websock_handshake_send(Q=
+IOChannel *ioc,
+> +             trace_qio_channel_websock_handshake_complete(ioc);
+> +             qio_task_complete(task);
+> +         }
+> ++        wioc->hs_io_tag =3D 0;
+> +         return FALSE;
+> +     }
+> +     trace_qio_channel_websock_handshake_pending(ioc, G_IO_OUT);
+> +@@ -586,6 +588,7 @@ static gboolean qio_channel_websock_handshake_io(QIO=
+Channel *ioc,
+> +         trace_qio_channel_websock_handshake_fail(ioc, error_get_pretty(=
+err));
+> +         qio_task_set_error(task, err);
+> +         qio_task_complete(task);
+> ++        wioc->hs_io_tag =3D 0;
+> +         return FALSE;
+> +     }
+> +     if (ret =3D=3D 0) {
+> +@@ -597,7 +600,7 @@ static gboolean qio_channel_websock_handshake_io(QIO=
+Channel *ioc,
+> +     error_propagate(&wioc->io_err, err);
+> +=20
+> +     trace_qio_channel_websock_handshake_reply(ioc);
+> +-    qio_channel_add_watch(
+> ++    wioc->hs_io_tag =3D qio_channel_add_watch(
+> +         wioc->master,
+> +         G_IO_OUT,
+> +         qio_channel_websock_handshake_send,
+> +@@ -907,11 +910,12 @@ void qio_channel_websock_handshake(QIOChannelWebso=
+ck *ioc,
+> +=20
+> +     trace_qio_channel_websock_handshake_start(ioc);
+> +     trace_qio_channel_websock_handshake_pending(ioc, G_IO_IN);
+> +-    qio_channel_add_watch(ioc->master,
+> +-                          G_IO_IN,
+> +-                          qio_channel_websock_handshake_io,
+> +-                          task,
+> +-                          NULL);
+> ++    ioc->hs_io_tag =3D qio_channel_add_watch(
+> ++        ioc->master,
+> ++        G_IO_IN,
+> ++        qio_channel_websock_handshake_io,
+> ++        task,
+> ++        NULL);
+> + }
+> +=20
+> +=20
+> +@@ -922,6 +926,9 @@ static void qio_channel_websock_finalize(Object *obj=
+)
+> +     buffer_free(&ioc->encinput);
+> +     buffer_free(&ioc->encoutput);
+> +     buffer_free(&ioc->rawinput);
+> ++    if (ioc->hs_io_tag) {
+> ++        g_source_remove(ioc->hs_io_tag);
+> ++    }
+> +     if (ioc->io_tag) {
+> +         g_source_remove(ioc->io_tag);
+> +     }
+> +@@ -1222,6 +1229,9 @@ static int qio_channel_websock_close(QIOChannel *i=
+oc,
+> +     buffer_free(&wioc->encinput);
+> +     buffer_free(&wioc->encoutput);
+> +     buffer_free(&wioc->rawinput);
+> ++    if (wioc->hs_io_tag) {
+> ++        g_clear_handle_id(&wioc->hs_io_tag, g_source_remove);
+> ++    }
+> +     if (wioc->io_tag) {
+> +         g_clear_handle_id(&wioc->io_tag, g_source_remove);
+> +     }
+> +--=20
+> +2.50.1
+> +
 
-The fix was to just reorder the line where 'urlmaxqueryparams' is being
-added to respect the alphabetical ordering. And for that the whole CVE
-patch was generated again.
 
-This change was validated with docker-moby (original issue), where a container
-run successfully and no traces in the logs.
-
-Fixes: 6a1ae4e792 ("go 1.22.12: Fix CVE-2025-61726.patch variable ordering")
-
-[1] https://github.com/golang/go/blob/master/src/internal/godebugs/table.go#L20
-[2] https://github.com/golang/go/blob/master/src/internal/godebugs/table.go#L100
-
-Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
----
- .../go/go/CVE-2025-61726.patch                | 25 ++++++++++---------
- 1 file changed, 13 insertions(+), 12 deletions(-)
-
-diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726.patch b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-index ab053ff55c..65fe62a4da 100644
---- a/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-+++ b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-@@ -1,6 +1,6 @@
--From 85050ca6146f3edb50ded0a352ab9edbd635effc Mon Sep 17 00:00:00 2001
--From: Damien Neil <dneil@google.com>
--Date: Mon, 3 Nov 2025 14:28:47 -0800
-+From a41ff6cac6acdb8a55708d9f1e40efd8c4f87421 Mon Sep 17 00:00:00 2001
-+From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-+Date: Fri, 6 Mar 2026 13:38:46 +0000
- Subject: [PATCH] [release-branch.go1.24] net/url: add urlmaxqueryparams
-  GODEBUG to limit the number of query parameters
- 
-@@ -36,6 +36,7 @@ Reviewed-by: Junyang Shao <shaojunyang@google.com>
- TryBot-Bypass: Michael Pratt <mpratt@google.com>
- (cherry picked from commit 85c794ddce26a092b0ea68d0fca79028b5069d5a)
- Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
- ---
-  doc/godebug.md                 |  7 +++++
-  src/internal/godebugs/table.go |  1 +
-@@ -45,7 +46,7 @@ Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-  5 files changed, 85 insertions(+)
- 
- diff --git a/doc/godebug.md b/doc/godebug.md
--index ae4f0576b4..635597ea42 100644
-+index ae4f057..635597e 100644
- --- a/doc/godebug.md
- +++ b/doc/godebug.md
- @@ -126,6 +126,13 @@ for example,
-@@ -63,19 +64,19 @@ index ae4f0576b4..635597ea42 100644
-  to concerns around VCS injection attacks. This behavior can be renabled with the
-  setting `allowmultiplevcs=1`.
- diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
--index 33dcd81fc3..4ae043053c 100644
-+index 33dcd81..7178df6 100644
- --- a/src/internal/godebugs/table.go
- +++ b/src/internal/godebugs/table.go
--@@ -52,6 +52,7 @@ var All = []Info{
-+@@ -51,6 +51,7 @@ var All = []Info{
-+	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
- 	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
- 	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
--	{Name: "x509sha1", Package: "crypto/x509"},
- +	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
-+	{Name: "x509sha1", Package: "crypto/x509"},
- 	{Name: "x509usefallbackroots", Package: "crypto/x509"},
- 	{Name: "x509usepolicies", Package: "crypto/x509"},
--	{Name: "zipinsecurepath", Package: "archive/zip"},
- diff --git a/src/net/url/url.go b/src/net/url/url.go
--index d2ae03232f..5219e3c130 100644
-+index d2ae032..f796077 100644
- --- a/src/net/url/url.go
- +++ b/src/net/url/url.go
- @@ -13,6 +13,7 @@ package url
-@@ -118,7 +119,7 @@ index d2ae03232f..5219e3c130 100644
- 		var key string
- 		key, query, _ = strings.Cut(query, "&")
- diff --git a/src/net/url/url_test.go b/src/net/url/url_test.go
--index fef236e40a..b2f8bd95fc 100644
-+index fef236e..b2f8bd9 100644
- --- a/src/net/url/url_test.go
- +++ b/src/net/url/url_test.go
- @@ -1488,6 +1488,54 @@ func TestParseQuery(t *testing.T) {
-@@ -177,7 +178,7 @@ index fef236e40a..b2f8bd95fc 100644
- 	url *URL
- 	out string
- diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
--index 517ec0e0a4..335f7873b3 100644
-+index 517ec0e..2efb13a 100644
- --- a/src/runtime/metrics/doc.go
- +++ b/src/runtime/metrics/doc.go
- @@ -328,6 +328,11 @@ Below is the full list of supported metrics, ordered lexicographically.
-@@ -193,4 +194,4 @@ index 517ec0e0a4..335f7873b3 100644
- 		The number of non-default behaviors executed by the crypto/x509
- 		package due to a non-default GODEBUG=x509sha1=... setting.
- --
--2.35.6
-+2.34.1
--- 
-2.34.1
+--=20
+Yoann Congal
+Smile ECS
 
 
