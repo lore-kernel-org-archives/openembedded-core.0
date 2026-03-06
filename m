@@ -1,385 +1,210 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <peng.zhang1.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3BFEF513F4
-	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 04:06:25 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.62354.1772769979667707383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 135F7F513F7
+	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 05:03:36 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.63029.1772773411455671611
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 20:06:22 -0800
+ Thu, 05 Mar 2026 21:03:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=er8nLClL;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7525930d65=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6262TZeR2475200
-	for <openembedded-core@lists.openembedded.org>; Fri, 6 Mar 2026 04:06:18 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=o6EgZT9H;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7525c7b9e6=peng.zhang1.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6260jURf2739469
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Mar 2026 21:03:31 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=HrspKSO7ObMRLxm4su2AMCdd8eooq60ZViiHZcRqTS0=; b=er8nLClLDw4G
-	YQxd+PxoPXc+rHdeYmgaVrxzuc2RkjruqLBdncL/uAPVF68DJ3xFCL23xJFIEHBf
-	zX8Dnz41vn3PPloUZnJLXtBrpTolJ01tiuEOIA+7z99uGDqQD7fBZSausKieZn5Q
-	WQPs4BN/9ehz/ec351oI4uudcK0y3fciMZYyZuXrEDEKc/dXlrOdQj14pHURxGik
-	nHEYiPUfcZPfnRdtN0w4cBPDkwMF7gywaOZ6lkHaOdXC82DF0rtY/Nlp4O8VK1uY
-	DhzXkbsIW9IYVIB2ERakRrUI3epDfBqlsAiOzZnpHJaspN8Zkfi16risYnMOlJgH
-	G6Ru0JPXJg==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013001.outbound.protection.outlook.com [40.93.201.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cknjvqga8-1
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=yq7Z2+DscJEpgodZimur
+	omuT7522Z0SaOtAY48VElts=; b=o6EgZT9HcMFP+rNAD+vulQS4pPjLzN9LTmbU
+	EByZilMpPScAbb2xifVjYRCVb8P//XfwvQ96FKPEMOvNZAxXcVlZg6THY4DPuzfo
+	5l8pBpk4Z51BVoC8fk9P2KQzNsZkzXJi63RIM02KciFYJPtQVsikvRZ38A+xpwQe
+	S6NqajXf6ZXEZgZYget5IdJ9pWEv2owZ6XdExnhHxba/mxItqiNPmyhv7wYQpoa5
+	zIb3keLTNhwHogMMlq1EKdL9RMjjiZ+pMJVJnlB2CCxwgHKI2X5DeWUcd2V16Oem
+	OCsSXCzO/exHRikpdeFmdTjYLx+mavV2v/lXfQ0iVvPYyMjxYA==
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011012.outbound.protection.outlook.com [40.93.194.12])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckvh475j5-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 04:06:18 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 21:03:30 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ud8z418WsOIckTY53ES4UiJ9XIcvi5s3cUW0+dybiHZURT48kdtQTdgaF1uiPYj2e74eH2xve3vvm3qXCTop6mgU9989ArATyfllbNxf7TjLR5RAtM+2jag+QY5awgAguRoztmPO1xwn1JxaCC4WWyc/8YnA1W8zpi6AI9ZThH//pMnzAunyipBh87MLz0HpKYF6yB+7xMaQfqF/FU/AVnFPM3SJiRlRrtdPfIuRugoBaDOOCemr8XY9WtIxwCRuNkR/uISFQyOMmt/cUIuLdDOy6+9kJUUNIban/af6S3+0LnAsNuucBl+CR9iU3Pl5dqqz4jmK+UsKjdyPydi5xw==
+ b=Ea8ilpRLBJicPJSWLc/yJAMNFRiakYQ7wA8KeezpEZ97Sjb01PUMsoYslrZLUZYHdjXLzFrJduOH51lhN/jtsI/tCicB1pW7rojBCS1iL+BkuXp9EyhG499lJWREibPw4xejY2SkTmzdA7AAReNvr+iKLY2MtUEF1wJ02yKWk7GUcCFDRRAKKG58vih02MybOueaRDtHduvz5Oi65BNskRq/VzqM770gqO4JYbwsied8iONsojySaw3D8rbDsnnme3iLey4MLHXMUWmm5X/Vqp7Ga2p/mAHwWFxfIeg/Z0da3dNPUe5SIyVyewNbCHMUIeOzKNDHrz4ZgU+eh2JM1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HrspKSO7ObMRLxm4su2AMCdd8eooq60ZViiHZcRqTS0=;
- b=bnHC2Hb8SZUORJE9FGWuukmFNtvnVj9EJ7nckC/ZntxhNfNmqEyfXuU8qvedD+Iubu+HzvFjbWVSE8/0HdShApVQjSsxdewFmdkFIt2AUCWS6gaiXavLkOU4gOat6YqHrxNvqIQPAFo7NTHQ7+gE/u+ZpTGX43o/uNzCv35M8cq1hyv2dwS4a2pbIYum5lWCVGmzLMSkSlQ8Q472WviVD/J95QvxjsYLgSUltmia1+SAV58nVg4Eb1G0LKJ6wB4RrtdNvOyqyHI0PtkRqCsPdXFTbM1WefYC2SPWZKDQhQHtn65mZt8y9d6cuXfwgU/XmsjBJXEhaAbxrzwWXv+86A==
+ bh=yq7Z2+DscJEpgodZimuromuT7522Z0SaOtAY48VElts=;
+ b=knswXjx5f89tPpCvvl+T4LtvhQ7hZdJRSR9KZRfbS+TzywKUBcN67PVoJSi0vSGV09ebVpL/joshmuzXZ+mJUDDB42emZwJlTabk/MtY/kWKaffEA4UX9orJEuEsLHvUdFzzph1Jq03+pDc2c0FyDkIg6iAHusokqiSG7zLTtj/mbccSnmopiFORYCObOTAvIx1CfO9Aohwz0LREUaD80BBduTJI8r4t+4c5HKQFbuOQhusi1LpeQLHSTycEvcXeEflIBAgTJ90AwK5GRLVavNON3rdt18aqhEjQRBNP6tFKMk1XgczSeLAAUfySi2ls/rZ+hrdpuFbPpt1v1poyhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB7297.namprd11.prod.outlook.com (2603:10b6:610:140::19)
- by PH7PR11MB6652.namprd11.prod.outlook.com (2603:10b6:510:1aa::21) with
+Received: from CH3PR11MB8562.namprd11.prod.outlook.com (2603:10b6:610:1b8::13)
+ by CYYPR11MB8385.namprd11.prod.outlook.com (2603:10b6:930:c1::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Fri, 6 Mar
- 2026 04:06:15 +0000
-Received: from CH3PR11MB7297.namprd11.prod.outlook.com
- ([fe80::d512:ca9e:d0b9:f229]) by CH3PR11MB7297.namprd11.prod.outlook.com
- ([fe80::d512:ca9e:d0b9:f229%6]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
- 04:06:15 +0000
-From: Changqing Li <changqing.li@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.5; Fri, 6 Mar
+ 2026 05:03:26 +0000
+Received: from CH3PR11MB8562.namprd11.prod.outlook.com
+ ([fe80::ea76:e083:b8bf:7484]) by CH3PR11MB8562.namprd11.prod.outlook.com
+ ([fe80::ea76:e083:b8bf:7484%5]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
+ 05:03:25 +0000
+From: peng.zhang1.cn@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH V3] procps: support ptest when TCLIBC is glibc
-Date: Fri,  6 Mar 2026 12:05:53 +0800
-Message-Id: <20260306040553.680410-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <5CBCC8E0-6F27-4C8A-83FD-1E96B5EE8CD4@arm.com>
-References: <5CBCC8E0-6F27-4C8A-83FD-1E96B5EE8CD4@arm.com>
+Subject: [OE-core][master][PATCH] texinfo: upgrade texinfo 7.2 -> 7.3
+Date: Fri,  6 Mar 2026 13:03:13 +0800
+Message-ID: <20260306050313.485228-1-peng.zhang1.cn@windriver.com>
+X-Mailer: git-send-email 2.50.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0034.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::10) To CH3PR11MB7297.namprd11.prod.outlook.com
- (2603:10b6:610:140::19)
+X-ClientProxiedBy: SG2PR01CA0165.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::21) To CH3PR11MB8562.namprd11.prod.outlook.com
+ (2603:10b6:610:1b8::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB7297:EE_|PH7PR11MB6652:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5062b76-4e02-4e10-be85-08de7b35b602
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8562:EE_|CYYPR11MB8385:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea009e47-bcc3-43c9-d47f-08de7b3db2bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	sz99VV6UfiglOqiwFXSb1JunDYa2/ZDFcVv2BxzjrKTIWzOSuNbfpj6qWFWI9JvwrPqHRG2+8ZN7isgtSAtGZeDGb+LvTaY8ysVAw8goqFfYVe/H8vNcOCafH/tPkkiqVnc4rP7gTF2nVCbsOsrmIrjF/ZrGzbOq2awtXvbArmAuEgsEYK5U4tOPt51GdrzRrVr5pWsMQ2vQaCYLz7eERQ2CZqpHPp2MJJjKVvDIgqY15mb+FBQbBUF50z3O8n1lTZ1FDCpWOyyO2Oxsy5o2gP0a8pZINcR3K0CH9WM2R7AEcO4VFYbW4uQ82h3J3Iva8Jf4KWl/G74N/5+XG1DbmI+UvEjgKqWFtsPOUamd6fyC+1YBpeoJyBighaksEu5jSF4CaIggl4qJ+Pxbkp0HtAiviVqGeK/jRDCJXsQFzqcFizEHlntlMeksuRGU7aeHJ+ldhDLNdaJESiljG8pzHcmvr3UIaWsBlPQuvzSgvdmJjSja7lHMe7D9Be53S/6T4wcT/VtRScwlkVKD0ic6/ean8rKrD0rTU6trjvo+6SOh+WQ6eSSu8/Eb/njYKF0TAkUfR4lAfj6qgPXWOMwLMsdYQ1m/nbHk8LR8Di6/eelDN5kMW+MKkpewoPuKCMf7k9qGdolit87KzTaJfghVBC4tOc5W8qWKODoy3YLv6pCSMQ8QJip08QqGWPUOlXOyoqrFIu5NjXcCo8Me7Bh9vrKaPskSnNSimxEAWWlPHJvjcVMlUnavvLRoduo3I0BQYz0tiEqxUHVN3umRNRAhkDOBwDQfDX98X1ZHNAKoK5ngDHhFRZXu5JQynsHImTXs
+	RLT/p+XVN7gbtGgy4+2sSHWTIa52QTbDA1pwYEM/usjRIFu6003IyzKCjdan5GM4hoTnRbIyvXfoi1n1CtgwA40aY3FknNjlc9mMIm2IhC4XbFPIkvOdFP9DCIEka1nsXusUqkrIPiVllTpSmFTMaXXT/HjU9T/iByJLQ0MPr9+AwgQq/TLSBsQHx3mFjFJSWrEY5V4wXU2hieU4XPvVi+hiqOuDPdqYbzxmkkta0wUKwbdasRuL1jJzW8G5pSSTnBorVR1YBM/3CHP6Izs18swCc6ia2Gh4iWVboJNS0XoNjL8ADEkmBDyAZ6iEtn1aqaQXKmwiDrAOaZQ98nd9wCi1YASVsVyOXJuz8F+cz9HnJ0tSLbEksCuK6UrvFQmtM5576MA5lWPU8oatHnn0oZkfu6IPdqK3B5sxqAj89rzD7S8dh9pnrrW1jM3deYT3O/Ij8LvTeQGWF+k2lp6EDtOrrYCqcF9pHBoeEGXSvWX7W9iMCY9Q0Awm50nIckj6IkUTiNi2JPSc0NeuhemGfHg2noXgeKbg6hRYKIzyda04mta9Udl8JJfPxdd+dWmyP/+3aZ7vPnHkzpvcxy3jEPB3MkdL0MdVq/wzaIZGDgZP6SFe3s2Wvrmea8NYXtSCgJ10XTXqdjRIZvHqlRZiHESI1Ts3J4Hzbe0CKhdRO8wsgj2iRWvHVS/P87XuzKwh10dY00VTFVDuRyIcwe1TIglnLDwki1vsU+QsMU8qksk0dXoIJNDIj0BzrBklq2l2yvgnjf0MnljGyeKGEO1VBqm/aLYkjIpnG0GXM2ol/gQ=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB7297.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8562.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Vb2TsYb1pzXUC2FiGhLTNMWGZvxn661oaBxkA8kVnFBFo19YFFSaw3aKJVNj?=
- =?us-ascii?Q?KGsqsd6MFQOBnmLElagCCHeMdYjo1HWorzEWgbiuzNdDB3Z3x9wosH6Sue/h?=
- =?us-ascii?Q?LKolf3WxSI5Uprr09tir1BHZVzEPBNpZ2am4eQSfwCbB7IgCaBl+C55uYbD1?=
- =?us-ascii?Q?QfoTX2pL11ZP5oUoowrEfJtf/mQbdTPhnKyh3SjAfHUN2Tg0ZSOP47DpgpHu?=
- =?us-ascii?Q?ol1dV+KCLGw96+c0ewdHEIFaK+32B/ynfpfT0y+PHWR8HyY/G3Bll/DxVSNA?=
- =?us-ascii?Q?qd0PH3S6B3fw4/N9jdY819oPNxuJyr9f4oe612fTjvHLqT/lCdGd2BmlgPVW?=
- =?us-ascii?Q?5xXuBxPjfrjK+wiiBK55aknjxGRzRTZdQpvCFRZivE+df3jtuOsvgF7RAtoM?=
- =?us-ascii?Q?QoTyqVOq+UNuLnqoQZKVinyUS3xgapFowImhAvvRb1HbjEyFZa6+7OSlo45d?=
- =?us-ascii?Q?vdJayh/QrR0OCbp2B5ZGl/mey3ayj80nIPliQZNIetFQTqtObtCTv9UApQa6?=
- =?us-ascii?Q?Zw4T0XD0KeE0cHKJxtxIofwQO7D4ohs8LrHIbEPx1XBr9deXsxGszaeFjxAs?=
- =?us-ascii?Q?rLsE92/RDOhj9syf7mSfTGptZwgcTm9QazHTbgOJaZHhozqj+cCgKtQNWGIz?=
- =?us-ascii?Q?D8SJ4ovstdKI2htyXgV353+K/J3Ppxrlbcu/Hsvj29vuKVk/5Nu4FqarvSFJ?=
- =?us-ascii?Q?5tPJZVpi5J4WvN0QdXRx7ODohZyLXg4o3f5m/FBAinmaHbdcBGfeCsAyngoc?=
- =?us-ascii?Q?HCtDed8OIFT69q1ZjnMS7x+zNx4/RczlOl0ew0ba+xqPzOBg75c3UnMg0WcS?=
- =?us-ascii?Q?u1oT03QrftF3xKmqiMYiN08J2yEGfTy2AXsBEB3sZ2PHKIbTYbchFw3CRiRP?=
- =?us-ascii?Q?7xaEPPnpmdssnss7Q2lSMsUPtXZs59JUtCHZXhwMKE9aPN1EKKKBcWzPtiQ5?=
- =?us-ascii?Q?Hs4RLOC3H9IVAed2DTfmwnnB04IxXha/wtIiVJgODHw9FsbnYRnCpc/M8veb?=
- =?us-ascii?Q?+RPRE7IBxbN3DFe6vOGsTt6UhH0zFRZC2uwfYDFHoaCiw62ttUYKM2sCxIKv?=
- =?us-ascii?Q?hn8yLEp2TMJw0S3nJoCwurD+irj2wG7pX2jn/ggUGW12wjQ0ST3usIHGdkoT?=
- =?us-ascii?Q?xN8xqgXB2TNsltW+m3P5XsI3YJ9nUp5hoFxe4tX5roDXsQBWa/l/ibSJ28MD?=
- =?us-ascii?Q?dSbJqTe+4L8ed9hxwfN1J5v5fBviT8JJAu0Y0U4pDDVQlcH90+uTD75xgumU?=
- =?us-ascii?Q?tdAkjzlF5TeRFoJLLv6zlFr75mWuXBThtYoR+ffCkYwT3xdpY9oI/ryKwEnK?=
- =?us-ascii?Q?9A1s9JhLV5LsTt5qtr+t2DYWQ7+zWMoX05iIbZud50mnOfBRPDo9PknEX+20?=
- =?us-ascii?Q?dvgwjl9oVBii6f5YGHmIdFeZ91KwNcumqbKtqP1XN6nKyuERtko0ItRmSYcy?=
- =?us-ascii?Q?f9xPDQt+Q0ZxibkaFmfUJNrrQvkHU+KWsFD/zBYjXmaExggGgQ/SWU9AM+z1?=
- =?us-ascii?Q?SmslYhGdt0Uygt6VuNiS5DamWeX9lpN4cUfRW/vs9jc0Da5jcpKmr/Vch1/c?=
- =?us-ascii?Q?R7mK56D6ZfBvu0nkvixz1LO43njXZAghXNRtJGPFEiMyKVESnLG7KjW8LkIA?=
- =?us-ascii?Q?IOYmio3Pw6olzZcwbAoU1pw9tx7trPg5MdtIa4ERwKxAb8SczHh83/WPnLvi?=
- =?us-ascii?Q?4X8IPwdK+DjVth3P+NFzZKkMqeyO5YxYvA2A/oY486RlIf84sYQwotSZxUbw?=
- =?us-ascii?Q?HdlBZk6tHy48z+blOa1bRfTUuFVqcMY=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	FZJusyYNQBTZPgGntqnO0ToAxoV1t9lyqaoeazcxiAdpUAMQ4YprlzQ2B2dFzfpyxHegJOnSUwUE6jddJIHrd7jvzOCtKr/ry/5S3en86vjf0lzoiUdXyaVETmeTWBdUF1ZNx46aUdUhMD1DNU9NACe+D8Ms169rfU+bllZnmcveI4MPd/MjDBlBTpagtXsQp0czPf3hz4Oi2nPFOfJbk9kByqZoQIICUisTP0mxqX30WumNrT3jPWhumdI6+j1RHQBa6nBWyUlj2XgPtJ7PQ+6AghmcWe31sKMWbwB0v34RtNyqDUKf8eeQoIn/+VHe+8aYsVNVAV0viJxal59iLw==
+	=?us-ascii?Q?jM8eFBejiwyrSTvx7WSK5rztXW1JL0dZkUCVevztx1iunr8EGCAgeslQNr38?=
+ =?us-ascii?Q?IiFxpX1nYfYIF5gPPu61CJttZQw9xmMbg9qJJ2RrlJPQzIVGxxBqsY611+g1?=
+ =?us-ascii?Q?gNaHs6pGfnF1BmTbGQIz0xxf1hstI2hQaHxd/sxKYhom0bElhhe9QMhHp6lq?=
+ =?us-ascii?Q?fegrPqIOy5iauHFH3SWgXJBTlV2LXjaf7zxvz09PJceD0WFJmzfnhMKSttXx?=
+ =?us-ascii?Q?AJw7wejsCqAxbfRUGZVjwwnddq80vwbY+T17nb7M63NVQVJMe/RMA8TfOmmC?=
+ =?us-ascii?Q?EMFNeQvXrCEBEL9J31FtM9xFje5IKxUgSv7LEqxGwO1RhyFSi+CuPUQD5wfP?=
+ =?us-ascii?Q?VpuQ+E/n6ZTJ936h3jcDhZMtZSTupbO0/xLT4s8BpUgw90FS8ihnRK6CberI?=
+ =?us-ascii?Q?xthgCWZl37LnkOUCR3emwX4iJJfFL/uOHDeDSdG/ycWj+vJGKMB5MomOueoM?=
+ =?us-ascii?Q?N/Ad8yCgpVf+L+T5U9wHiPfOSphViJbWMiHvrK+PkomJ6dN1/C0Yy+xLctlL?=
+ =?us-ascii?Q?OyDjYMA/PxORoTAvV1K7qBi+Pb90XXUwErwxEmCVE9pV7QCrPLO1ySyET7Ba?=
+ =?us-ascii?Q?ax0lJeY4GHTPSf3JjFsHrtLT1Zm6NqHRSucNfpNuBbcxTOKnwbwVa0MSVkc9?=
+ =?us-ascii?Q?nkWU2/xHUyBi28SwIs28zoT4atCa5ZgESKwt7A2ZpvHMRT+0x0PcPB10G8N8?=
+ =?us-ascii?Q?x0CAiylGFJrvnB1yetlM6e0nSjUxt+mWzmE9cGw0fto5nBCHzxldGPThdEd4?=
+ =?us-ascii?Q?Jf5Wt1WuD9UE98EK2wvFVPMzl9mXGnB2m2c2d/32ZBypgAYso3ppxN/A5tYr?=
+ =?us-ascii?Q?5TZ3zxo/0ovgIpZy5Mztn0Jd0n00Q2u43ZoQn3q0X8yfqlxNiVY1w82j57+s?=
+ =?us-ascii?Q?5oQG718klnSYS26Pw/CsjW8uu7zupJQmITf6jrZoHp8zZzzDpfL6lqSh05iV?=
+ =?us-ascii?Q?niLUThHjaki7cfp9CHdfClnxgspLfj5iwQNnyXNGomasdrlaLcU65GbPU03/?=
+ =?us-ascii?Q?i79bLysbILW265vhiYq5WdxDBl3tqKKw1iZAbK8r9j+uHvYYiDThgHaJ8mAR?=
+ =?us-ascii?Q?AWou6qQc9d4PncyruQVMK2RsMirVIWx3Itw5yHUbQdTkENdHQNICnO6xgVax?=
+ =?us-ascii?Q?LTazIctqRkNZ5wgvv4yJf5pnWsrd+0kJegXiHj5Et5s7wawmrSpEOxFNmvTn?=
+ =?us-ascii?Q?CEMTJFyzUwyW57oHYnLvQGofmwljlXe6nDs/5HlO270TQt6pGHZg5rSYEeCZ?=
+ =?us-ascii?Q?2VNB7fX0Q5H89DQgyvlruNAGdcP89NH+57pNqqkmNtk9nVGyd3vrDxVVCFVr?=
+ =?us-ascii?Q?mJWjJ1hF7KVjI4PqpMJeEpmkO96/SUneYLCPrYGRo50cwOWG4lX+hcrH+vX1?=
+ =?us-ascii?Q?t+4YcQI1CZYQHp9cB+cPL3LQnD2yTvTBF/ZweiGUa1LzDbCLaHzlVf8k9/PK?=
+ =?us-ascii?Q?QU5ms8vXdwpvAj0kEtLFcMg3zEumAhBzR2HKmx+mlHD4DGhS9ktkDXgVBpzy?=
+ =?us-ascii?Q?vP1kg2tq12ztHhxBAA8PbZPmc6BlsMUPHXwh+YqrqknVFzYRgnWCXP08ZcRt?=
+ =?us-ascii?Q?X1MftzI8vRN+L9GAHJVmDOeDFmuiAmaq/Eg9z+lXuUISVjrYoT99PNjbTLBR?=
+ =?us-ascii?Q?mzIow5qexueizLlamiiaCLGBwd7BZfZx9S025hOr2SMauusKDsEiaaOHaIBA?=
+ =?us-ascii?Q?y8i9phyVFezh6YvOFaGvNJAVcWJviiC8QvKK8cYukJR9erzM7HlDAe9SVW1x?=
+ =?us-ascii?Q?93EdgQOIVhLMXPkYvqOWNs8Lob+4jcU=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5062b76-4e02-4e10-be85-08de7b35b602
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7297.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea009e47-bcc3-43c9-d47f-08de7b3db2bd
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8562.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 04:06:15.2367
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 05:03:25.7777
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DmNGDeswxbKTVYdOh2+E8x4nhqjzr8B9JMthKn12sSOc1mCEYPLD0eJKs4MNUorhv9WTOTEqcq9KoNi3hvWVRW81/EpzpLYcT/N6AcSHgU0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6652
-X-Proofpoint-GUID: FXNol49zvTOa-yt10iAf8h0ThukPIJLU
-X-Proofpoint-ORIG-GUID: FXNol49zvTOa-yt10iAf8h0ThukPIJLU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDAzNiBTYWx0ZWRfXwP5LSYfBrUWM
- MiERlNov5RvQBMDQXO6DJbRNv4SAtipShAA6uvtBc0/by12I2qESLMomtLBuYeqF8IpaE5p/5aJ
- fP7eKYcFRCLncWZowW5aUrbv6nNbVnNmIzS6S9r4YutSEqH+Z8CYklz5UCjrnI39IhjUaDaef6j
- 4d+fkJeZESPzB/Q9FesROGKaV1oDIRxAkPgh4/6SLkNcWqW7DZ4jt8Kk6MYAUlVfXOyG0yzT1Jx
- B2rAyZkgTKwElSt/b/s1iIbdwZCWshKhzQ0YICP+6SIUv4+6hX8OibOuUJlqmT162XZPc45XfK1
- QAmLSE952bktu9pXpX1rCnvE2UjrDz2bjnFE5GilVj7f1ZVBzv6eJGuA1i1cDoUk95eUry2QgyD
- owlowO2t/mc9bCVWPrCCHnHcAyCpogsAevYG+Qjj2ZI+p3aCiS6K8vSj/oAv1eWdFjEdypBKC3x
- TF+2lzxb0QKp80sVtzw==
-X-Authority-Analysis: v=2.4 cv=P/g3RyAu c=1 sm=1 tr=0 ts=69aa52ba cx=c_pps
- a=/vFeFcp+ixIfR90aQz5jMA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: L/eSMhvuW/auzIjDgmmQVf+LvdzF8CJEd0wUI63ov6QpDRlem4h6HE0T8+DEfdVorGsK8A6xTP9SVB7cqDQpTyM6kM5wEwPeGWR92XSxwgQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8385
+X-Proofpoint-ORIG-GUID: QGGMQ8FEoZwc2XIqDxKmz6PDr-9hJ-1Q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDA0NSBTYWx0ZWRfXx1wvtfZf6Ywa
+ RS0fKjZfMQgfzU9B3TWvSUFjc67y2/SmCEfH7yhXrc4pPfUw+tFUXh1Hi6iuHh1phbLSE3tRw1g
+ 4gNiP9mrY5i6FULgEZctQagL2/ithmjJEu7G7Ani/APwGQzbUgau3gmbZ2X0MKzltIM/f39vH50
+ 12oUXbyHLR36j3UHmndSZ7GxKDTdSIrGZLmQO9VjtmA5oJbNmbAAyS/p1CJDLfjZR/fJpz3AHTU
+ 24huuJYhPrZEnLn2UIk/0RBdP/DuOzyGLYXvPL6iBbf5NRDZIRnH4vRaOukl07HVETbiB1TLhFa
+ AcZO9RJ9cRDoX3gvRwnCEZ1r8ybL6rCmsuXhzfHPtTNGR1iutIcqlC6tLEliUmaGHwKEPtEAFPM
+ eFlo3nlSrMQFMwrOVxemtxrdCYyiIO+hEdZFSXDQKADTHRK8l0VTSkRCC+dETLHX549/UpluN9C
+ TQHNQQelHgTFM1KgyPA==
+X-Proofpoint-GUID: QGGMQ8FEoZwc2XIqDxKmz6PDr-9hJ-1Q
+X-Authority-Analysis: v=2.4 cv=Z/3h3XRA c=1 sm=1 tr=0 ts=69aa6022 cx=c_pps
+ a=X74xAhwpQ9G8Yf2i8TuT2g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=p0WdMEafAAAA:8
- a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=jzd3iM5pAAAA:8 a=GjWSY80A04DYgau4zBgA:9
- a=c00F_cqylG7lAZhP:21 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=TO2bqnfdc2VIsZqNzVeZ:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=mDV3o1hIAAAA:8
+ a=t7CeM3EgAAAA:8 a=pKoQ9qJNzgNunJ7ozaIA:9 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-06_01,2026-03-04_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- phishscore=0 spamscore=0 suspectscore=0 clxscore=1015 impostorscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603060036
+ suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060045
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 04:06:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232530
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 05:03:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232531
 
-From: "Changqing Li via lists.openembedded.org" <changqing.li=windriver.com@lists.openembedded.org>
+From: Zhang Peng <peng.zhang1.cn@windriver.com>
 
-* Support ptest for procps TCLIBC is glibc. The configure.ac only match
-  LINUX as "linux-gnu", we can patch it to make test can run on musl lib
-system, but the upstream testsuite should only run on gnu libc host,
-some test cases only suitable for glibc, eg: Some of the error messages
-for free command on musl system is not the same as glibc system, which
-will make test failed. In order to avoid some other unexpected failure,
-just support ptest for glibc.
+Upgrade to latest revision of 7.3
+- Refresh patch 0001-Makefile.am-do-not-build-manpages.patch
+- Remove -I ${S}/gnulib/m4 from EXTRA_AUTORECONF since configure.ac
+  already defines AC_CONFIG_MACRO_DIRS
+- Fix QA issue for load_txi_modules (new file in 7.3)
 
-* Bug [1] is filed for musl support, we may can add support for musl
-  libc later when upstream add the musl support
+Release Note:[https://lists.gnu.org/archive/html/bug-texinfo/2026-03/msg00007.html]
 
-* procps's testsuite use DejaGnu test framework.  The testsuite is
-  expected to run during build time, this implementation create the same
-folder structure as the testsuite expected to make it can work well.
-
-[1] https://gitlab.com/procps-ng/procps/-/issues/420
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  2 +
- ...sts-Disable-twice-total-pmap-X-tests.patch | 55 +++++++++++++++++++
- meta/recipes-extended/procps/procps/run-ptest | 24 ++++++++
- meta/recipes-extended/procps/procps_4.0.6.bb  | 54 +++++++++++++++++-
- 4 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch
- create mode 100644 meta/recipes-extended/procps/procps/run-ptest
+ .../texinfo/0001-Makefile.am-do-not-build-manpages.patch      | 2 +-
+ .../texinfo/{texinfo_7.2.bb => texinfo_7.3.bb}                | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/texinfo/{texinfo_7.2.bb => texinfo_7.3.bb} (94%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 1bb7458fc9..627eae417a 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -64,6 +64,7 @@ PTESTS_FAST = "\
-     nettle \
-     opkg \
-     popt \
-+    procps \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-@@ -104,6 +105,7 @@ PTESTS_FAST:remove:mips64 = "qemu"
- PTESTS_PROBLEMS:append:mips64 = " qemu"
- PTESTS_FAST:remove:riscv32 = "qemu"
- PTESTS_PROBLEMS:append:riscv32 = " qemu"
-+PTESTS_FAST:remove:libc-musl = "procps"
- 
- PTESTS_SLOW = "\
-     apr \
-diff --git a/meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch b/meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch
-new file mode 100644
-index 0000000000..ec26af92fe
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/0001-tests-Disable-twice-total-pmap-X-tests.patch
-@@ -0,0 +1,55 @@
-+From 56505e2ac9b703aac979f0849814ab7c83af57e2 Mon Sep 17 00:00:00 2001
-+From: Craig Small <csmall@dropbear.xyz>
-+Date: Mon, 9 Feb 2026 18:19:35 +1100
-+Subject: [PATCH] tests: Disable twice total pmap -X tests
-+
-+Sometimes the memory count can be just a little different
-+but the test is equal, i.e. must be the exact number.
-+This means sometimes the test fails.
-+
-+This removes the pmap -XX pid pid and pmap -X pid pid tests
-+for checking the result is the same.
-+
-+Debian buildds this test never works and has been removed
-+for a while.
-+
-+References:
-+ #409
-+
-+Signed-off-by: Craig Small <csmall@dropbear.xyz>
-+
-+Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/-/commit/bbe21e141b77398586c90884a43ff75996b83843]
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ testsuite/pmap.test/pmap.exp | 15 ++++++++-------
-+ 1 file changed, 8 insertions(+), 7 deletions(-)
-+
-+diff --git a/testsuite/pmap.test/pmap.exp b/testsuite/pmap.test/pmap.exp
-+index d37b55e5..6fb6fa1e 100644
-+--- a/testsuite/pmap.test/pmap.exp
-++++ b/testsuite/pmap.test/pmap.exp
-+@@ -93,13 +93,14 @@ proc expect_twice_total { test } {
-+     }
-+ }
-+ 
-+-set test "pmap X pid pid has same total"
-+-spawn $pmap -X $mypid $mypid
-+-expect_twice_total "$test"
-+-
-+-set test "pmap XX pid pid has same total"
-+-spawn $pmap -XX $mypid $mypid
-+-expect_twice_total "$test"
-++# Disabled twice total as there can be a small change issue #409
-++#set test "pmap X pid pid has same total"
-++#spawn $pmap -X $mypid $mypid
-++#expect_twice_total "$test"
-++
-++#set test "pmap XX pid pid has same total"
-++#spawn $pmap -XX $mypid $mypid
-++#expect_twice_total "$test"
-+ 
-+ set test "pmap finding shm"
-+ make_testshm_proc
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-extended/procps/procps/run-ptest b/meta/recipes-extended/procps/procps/run-ptest
-new file mode 100644
-index 0000000000..7e132653b0
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/run-ptest
-@@ -0,0 +1,24 @@
-+#!/bin/sh
-+
-+# Run testsuite which use dejagnu
-+cd ./testsuite
-+for tool in @DEJATOOL@; do
-+    runtest -a --tool $tool --outdir ../log
-+done
-+cd -
-+
-+# Run test programs not used by dejagnu but run directly
-+for p in @TESTS@; do
-+    ./src/tests/"$p" > ./log/"$p".log 2>&1
-+    case "$?" in
-+        0)
-+            echo "PASS: $p"
-+            ;;
-+        77)
-+            echo "SKIP: $p"
-+            ;;
-+        *)
-+            echo "FAIL: $p"
-+            ;;
-+    esac
-+done
-diff --git a/meta/recipes-extended/procps/procps_4.0.6.bb b/meta/recipes-extended/procps/procps_4.0.6.bb
-index 168027077b..a9ec3f39d6 100644
---- a/meta/recipes-extended/procps/procps_4.0.6.bb
-+++ b/meta/recipes-extended/procps/procps_4.0.6.bb
-@@ -10,10 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- DEPENDS = "ncurses"
- 
--inherit autotools gettext pkgconfig update-alternatives
-+inherit autotools gettext pkgconfig update-alternatives ptest
- 
- SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master;tag=v${PV} \
-            file://sysctl.conf \
-+           file://0001-tests-Disable-twice-total-pmap-X-tests.patch \
-+           file://run-ptest \
+diff --git a/meta/recipes-extended/texinfo/texinfo/0001-Makefile.am-do-not-build-manpages.patch b/meta/recipes-extended/texinfo/texinfo/0001-Makefile.am-do-not-build-manpages.patch
+index cf0529db98..03b635d95d 100644
+--- a/meta/recipes-extended/texinfo/texinfo/0001-Makefile.am-do-not-build-manpages.patch
++++ b/meta/recipes-extended/texinfo/texinfo/0001-Makefile.am-do-not-build-manpages.patch
+@@ -18,7 +18,7 @@ index f733797..1013fcf 100644
+ @@ -76,7 +76,7 @@
+  endif
+  endif
+-   SUBDIRS += install-info po po_document tp Pod-Simple-Texinfo \
++   SUBDIRS += install-info po po_document tta Pod-Simple-Texinfo \
+ -             texindex util doc man
+ +             texindex util doc
+    SUBDIRS += js
+diff --git a/meta/recipes-extended/texinfo/texinfo_7.2.bb b/meta/recipes-extended/texinfo/texinfo_7.3.bb
+similarity index 94%
+rename from meta/recipes-extended/texinfo/texinfo_7.2.bb
+rename to meta/recipes-extended/texinfo/texinfo_7.3.bb
+index 784f67f65b..dbf47a79ca 100644
+--- a/meta/recipes-extended/texinfo/texinfo_7.2.bb
++++ b/meta/recipes-extended/texinfo/texinfo_7.3.bb
+@@ -34,7 +34,7 @@ SRC_URI = "${GNU_MIRROR}/texinfo/${BP}.tar.gz \
+            ${TARGET_PATCH} \
             "
- SRCREV = "4dafddf4c3f4646caa517f039a2307e92657ec93"
  
-@@ -24,6 +26,8 @@ do_configure:prepend() {
-     ( cd ${S} && po/update-potfiles )
+-SRC_URI[sha256sum] = "e86de7dfef6b352aa1bf647de3a6213d1567c70129eccbf8977706d9c91919c8"
++SRC_URI[sha256sum] = "4fc30d71e00416f0b4884994f1db9db2901f03603f8e69d92dd46fa018d998d7"
+ 
+ tex_texinfo = "texmf/tex/texinfo"
+ 
+@@ -42,7 +42,6 @@ inherit gettext autotools multilib_script
+ 
+ MULTILIB_SCRIPTS = "${PN}:${bindir}/texi2any"
+ 
+-EXTRA_AUTORECONF += "-I ${S}/gnulib/m4"
+ CACHED_CONFIGUREVARS += "texinfo_cv_sys_iconv_converts_euc_cn=yes"
+ 
+ do_configure:prepend () {
+@@ -61,6 +60,7 @@ do_install:append() {
+ 	mkdir -p ${D}${datadir}/${tex_texinfo}
+ 	install -p -m644 ${S}/doc/texinfo.tex ${S}/doc/txi-??.tex ${D}${datadir}/${tex_texinfo}
+ 	sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/texi2any ${D}${bindir}/pod2texi
++	sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${datadir}/texi2any/load_txi_modules
+ 	sed -i -e 's,${HOSTTOOLS_DIR},,' ${D}${bindir}/texindex
  }
  
-+PTEST_ENABLED:libc-musl = "0"
-+
- EXTRA_OECONF = "--enable-skill --disable-modern-top"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
-@@ -46,6 +50,53 @@ do_install:append () {
-         fi
- }
- 
-+do_compile_ptest() {
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        oe_runmake $p
-+    done
-+    oe_runmake -C testsuite site.exp
-+}
-+
-+do_install_ptest() {
-+     install -d ${D}${PTEST_PATH}/testsuite
-+     install -d ${D}${PTEST_PATH}/src/tests
-+     install -d ${D}${PTEST_PATH}/log
-+
-+     install -m644 ${B}/testsuite/site.exp ${D}${PTEST_PATH}/testsuite/
-+     for p in $(makefile-getvar ${B}/testsuite/Makefile noinst_PROGRAMS); do
-+         install -m755 ${B}/testsuite/$p ${D}${PTEST_PATH}/testsuite/
-+     done
-+     cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+
-+     for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS);do
-+         ${B}/libtool --mode=install install -m 0755 ${B}/$p ${D}${PTEST_PATH}/src/tests/
-+     done
-+
-+     tests=""
-+     for p in $(makefile-getvar ${B}/Makefile TESTS); do
-+         tests="$tests $(basename $p)"
-+     done
-+     sed -i -e "s#@TESTS@#$tests#" ${D}${PTEST_PATH}/run-ptest
-+
-+     sed -i -e "/set srcdir/c\set srcdir ${PTEST_PATH}/testsuite" \
-+            -e "/set objdir/c\set objdir ${PTEST_PATH}/testsuite" ${D}${PTEST_PATH}/testsuite/site.exp
-+
-+     sed -i -e "s#@DEJATOOL@#$(makefile-getvar ${B}/testsuite/Makefile DEJATOOL)#" ${D}${PTEST_PATH}/run-ptest
-+     for p in $(makefile-getvar ${B}/testsuite/Makefile DEJATOOL); do
-+        if [ "$p" = "ps" ]; then
-+            install -d ${D}${PTEST_PATH}/src/ps
-+            ln -sf ${base_bindir}/ps ${D}${PTEST_PATH}/src/ps/pscommand
-+        elif [ "$p" = "sysctl" ]; then
-+            ln -sf ${base_sbindir}/$p ${D}${PTEST_PATH}/src/$p
-+        elif [ "$p" = "kill" ] || [ "$p" = "pidof" ] || [ "$p" = "watch" ]; then
-+            ln -sf ${base_bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        else
-+            ln -sf ${bindir}/$p ${D}${PTEST_PATH}/src/$p
-+        fi
-+     done
-+}
-+
-+
- CONFFILES:${PN} = "${sysconfdir}/sysctl.conf"
- 
- bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime w"
-@@ -78,6 +129,7 @@ RDEPENDS:${PN} += "${PROCPS_PACKAGES}"
- 
- RDEPENDS:${PN}-ps += "${PN}-lib"
- RDEPENDS:${PN}-sysctl += "${PN}-lib"
-+RDEPENDS:${PN}-ptest += "dejagnu glibc-utils"
- 
- FILES:${PN}-lib = "${libdir}"
- FILES:${PN}-ps = "${base_bindir}/ps.${BPN}"
 -- 
-2.34.1
+2.50.0
 
 
