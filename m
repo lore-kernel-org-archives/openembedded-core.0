@@ -1,1029 +1,181 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA6A6F01804
-	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 07:23:20 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.64475.1772781791816969134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE9EF0180A
+	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 08:24:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.65168.1772785485024247271
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 23:23:12 -0800
+ Fri, 06 Mar 2026 00:24:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=nVnxkQcc;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso77951365e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 23:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772781790; x=1773386590; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nTVtSYGqmLVxPe/PGuErPp5xyCa3M0DxUzKEvmXhVzc=;
-        b=nVnxkQccb/P5Kg4P++dqB06tY8aqzpRjiI13ISnYX4i8jOS/HgisAOhgVEWNDgFLsf
-         xHP2J8woa04W+mBuZT4vwrwp9Z696Iiiotozj+pWdIGuK9+a0MvLOdkr7if3i5AtGEAo
-         norX/YF1FarmSegl6QtzWzg6ubF2SD/vHNJmQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772781790; x=1773386590;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=nTVtSYGqmLVxPe/PGuErPp5xyCa3M0DxUzKEvmXhVzc=;
-        b=urnO31JSnVvsccEnWjYqMM97qYdrkHhIguZoMSU/CIfMxa1jGq65ciBVMxg03cnrEJ
-         7add5rKwKivviApMI38tae3O8SoITjAuBjzWZX/l0YMWL79BcQu212kbOekMjs2dmbGS
-         VW9DoopqT477k4OcFEDcXUy2hOmZ0P6s4qhuGbZ8T0ZHClcR6vR4L0WMhdp6PfvSzL4l
-         cRj3f/BbedfrBehHKhOXM+W5+heIHrS44kRINwsIwm6A3JKDKsi7xp7OsYFAqmmjxCWs
-         hNzRUSLaC6dDpRmBbciNwqVyoAu6B9SI9fzJ7LJVAPhYvHC/fcJXaN9TMm4Sh8hb7Ho7
-         TudA==
-X-Gm-Message-State: AOJu0YxjI1ARaH7aYytmoAZSwQ7LzPCeYa5VRZcWn2JiamRSxvWq/F95
-	v+PDp/YUwH9MdW7q3N9qxDEr3S7fqnaDFTu9A9Wk7LHDERIfsCbqiLDDx6P6uVcf0VJcqO7Uvms
-	di1nG
-X-Gm-Gg: ATEYQzzD6abqL0P2/qgrBSWQULY6ztEVrnmyWQRhPe7osnQA41Qc2hQg1rdjYG6xDW9
-	dk6seSlqvIhOod1OvMlAojc3YTKYXPYgu0YSjSqD2snfTYQQ2ITzLqY0tVKJigvxIZ0jxSEz7eV
-	2ozZy0kIacO20/Pl5ac6cfMy+LTFy8Y/6hWyHZcrnnih4b1HmARssNmyoaxq25H1ioaaf3ABpTr
-	zBjFj2F+XZZCJWE/3Ch9UJdKnukt2TCjvjRPPQ3IvUIuT00k7ph6ntfsr3pzvnW0Wj+Z+gfrUUH
-	jceJjj/YkKBTAInAcGGQEqKsZF5LRtIjKSZJz9odELYX3ToYYaLvpg6hLEIn4RaEjxN/6vn024l
-	RMvOxpPNsPAXIkATgTu39vh9nLXsiw2AN/zh5R+H8UBONGxUjj5vhrebO71OgetuZnhtJQtPo0e
-	a3/a3JhXF4B3JLaDhWw/B5tdXmOdR0jTSfCsXS/uhXZNqeA0Xc3Nmvr2DtuVO9bbbtXOaHyXXux
-	JokPxGuIxmXH41YtjMZaheFi9p7
-X-Received: by 2002:a05:600c:8b5b:b0:46e:4e6d:79f4 with SMTP id 5b1f17b1804b1-48526927a4dmr15858685e9.15.1772781788836;
-        Thu, 05 Mar 2026 23:23:08 -0800 (PST)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00bdeac353f6fa5aa8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bdea:c353:f6fa:5aa8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b09casm23106445e9.11.2026.03.05.23.23.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 23:23:08 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FqEjReUW;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=752549a871=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6263EPvZ335025
+	for <openembedded-core@lists.openembedded.org>; Fri, 6 Mar 2026 08:24:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=a29xg3Jfu
+	xBfYVcn2r7nm+yaUNjs1bz16sFBw7FGODQ=; b=FqEjReUW305o6VehEjcfgctZ2
+	WTw210Xr+hbvA9eLiCEGUT1aj76gdXh6h8ibxFh/CtsmREfs3h1sJQDtNFV+BDgN
+	aCT0Ozrb4F3G/CveUzswjkN71zf2LX3wXJqWxbY98JGGZf5glCLJOW9CMIHX1ZUB
+	Nfw4X5/0D/Dl3rfNS77lt8fN7zNy9IWDymRGjsQFR3+3LE9Q4eFnIsGJYZ/007tz
+	XTAv31bREN5numv7QWDgOKb3aTEe6ChZbzRmC53TPB3flkydj9XpDk5iatlQEPET
+	3D4qq0TJ9cQaAj8CG+ry7QSCx2uao47Xjt529hqQJfOUMV0HWmc7jLKiqqoLA==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013041.outbound.protection.outlook.com [40.93.196.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckqb4qmct-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 08:24:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KNBTnTkS5+J85i4HEAE3SFEIZCj6iGx2aAQ1BDkzP29QWYSwXng2U9+Yi3uuNmeM878/7hdI67GWMvbWhqKVtubi7iYpfQVhtesUHDRUl1mWnpWfxQhNAkgtb6f4zzVTggF1OhndwtXSF8vShe51VeV4ph30SmNYK+/Yr5NY5n6t2PzK4UQ2ZYLpO8TkbwriERkSkLsCJVnW663Hj/3Oc+AHaMLTU7cERhwBIduD0eOjyMl0lcznamWp4wuFf+4SpKNTtx+u9jZswFcyLFQU1IcDdZSurKAQ2imLPP9lBzaBtXAVb9MJi9FFEx3JW07dxWy4j8vL46WkZE8WsewnMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a29xg3JfuxBfYVcn2r7nm+yaUNjs1bz16sFBw7FGODQ=;
+ b=JsjMlnk8pXjwsfRLa/BeD1IA8uo0rc+jr+TZsZ50YyvLXycn65h+OI0Y87pAxuNTbXkPC7YoD3iDvv6vyjORbspiOO22E6rYiwJlfZUtTOoYsismkL2VYJafE20GRMZKT9fcs8wh0ICsg6MRsthgK77oMyXKw8d0kdGti1UNx5vfCP5Za5B4icwszvQRhMvFdpObhDUtoXTTpLDVpdkS6QMXpwbVltiNqPuq0Wamd11ooA4pki6H0B6OaH431QcTlNGAekTJ6Re05XoMrpiNOUv9B8Gi/YoesimUAwPGDgMiIreR4hQ4axFX/kBoD53ZTS1qExlyhVsM+xL41z0DbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN7PR11MB6677.namprd11.prod.outlook.com (2603:10b6:806:26b::6)
+ by MN0PR11MB6034.namprd11.prod.outlook.com (2603:10b6:208:375::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Fri, 6 Mar
+ 2026 08:24:40 +0000
+Received: from SN7PR11MB6677.namprd11.prod.outlook.com
+ ([fe80::490a:519b:d657:99ab]) by SN7PR11MB6677.namprd11.prod.outlook.com
+ ([fe80::490a:519b:d657:99ab%7]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
+ 08:24:40 +0000
+From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 16/16] python3-urllib3: patch CVE-2025-66471
-Date: Fri,  6 Mar 2026 08:22:16 +0100
-Message-ID: <cfc0e446a1ad57e710d2c82914211f9bcdc4a752.1772780989.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1772780989.git.yoann.congal@smile.fr>
-References: <cover.1772780989.git.yoann.congal@smile.fr>
-MIME-Version: 1.0
+Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
+Subject: [PATCH] cargo-c: Move recipe out of rust directory
+Date: Fri,  6 Mar 2026 00:24:28 -0800
+Message-ID: <20260306082428.203033-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.49.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0387.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::32) To SN7PR11MB6677.namprd11.prod.outlook.com
+ (2603:10b6:806:26b::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB6677:EE_|MN0PR11MB6034:EE_
+X-MS-Office365-Filtering-Correlation-Id: f248b81f-0d45-4b6d-80ce-08de7b59cff2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	ugTrbTFLzmXI0TrrVz1O3u5TVj/likihkrVXX6gL66NHVey02KF8AJANzbYNFAud7rvOrg8hqFmWj5+CEVQ6ipqw/CcC4jIYrKlZ73s8/MFecFcXibyBrNNi12oX0aVwzRE3M7z2vwhNRa64sknMnLSJd7YvZDfMRJUMBfp4V90bDmuIVmaEqPjxdT7n4NCoMv/jTJ7CrhuvNTOoZeV1sg/ccT7rYx7WpBcnwbjwBPvfcUgd5uUyYMoCps8+sz84wrTdeU2VJkmkm7GKoxGS/0zr3BbUt8RySg1x98WBLdgeOqhDMVdhOsGEzVKP5Pmn3l8IEw5oZjJe1LEQQ8M4pPKQghgAxyU//kUldW8WVkmAG4eDv6M6w9750gZyrmIy+F7Ur0EMMz8uZkpPkmArKKKNy0R4gTrEzRpTB7zXDRVGwoa8GgFJIMT2Ls3bB72XNnpBEtQp1MDdSTEoK7HNc0FqkyNpwSsMWTP6mfszZVXKwdUkJkID6qDlVzmiOh01+ze4kQxdv6L8wq/X0EXe++QFFTZkB51U7z/I0yQoaOVrddsdBWmLIAGHzANsYuahhlhZ7kELgkFBW9ff62oxJCCP0k9+GgORB8OcfJaG6dJE9OhnLZLvbVHSpcl/lIQYLRiyhr7w2D+joegPOyt5dP89/+RWk14qcfvi3zUeiaalFyAGs3pFx370uLOlstCLivAYLECqw06E3S3ZaxfouEIBpyHKZaLVnnfJNyYL092EbQl3q4LxYk5bkN+Cd6IiBK7SeOM7D9ej9UbSfxAyQfNgxA7Djnt9VUWz/sTfWp4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB6677.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?j9+WANWVQQcPHlICeJE3ycRp3eIYevt+qlCI3q7HGYL7gdblos4XggrM1NCq?=
+ =?us-ascii?Q?j9NRdL2QB8kcmfpKGyXkDusdnsf6nuwGtIUTMBB/CEXSAIkOOzdOBuAk5NfH?=
+ =?us-ascii?Q?9Mc1NnNJH6Wb3IlXMzg7JLt15cM7bMPLKv37jtn3+yi5n8zZqHXPBTgsp5+q?=
+ =?us-ascii?Q?mkEs1ce+WnCJE334tdqq7qCG/wBgc+2FSImaCzoRhzCxKVTHocZK6Pr18zIM?=
+ =?us-ascii?Q?2tqK46vJyFMWfzoSNbSCfTltc6GizeUJ6uIQQoGhZSf4HqBspu36SAjuBsqC?=
+ =?us-ascii?Q?0FQSKJH7mhvYlgZXo0F/2wfClNwh8cu4Fgb1nVCUI+HlLi7QzdFX1dJQOg9y?=
+ =?us-ascii?Q?Z3oXa23c0l6VBJPAi6ESALuxipQtIlTzssYkwAc2f8gHRLRw6j/4eHZjcodc?=
+ =?us-ascii?Q?gvOYbgF8SJZUm5sSVge1vJHI3Hn2kVjz1Cpnamjk0D3P04iGrY9peESrN4/s?=
+ =?us-ascii?Q?QiqQSRNHBPD4hVx7gq6YXDRdubP0XjNUZsa6vsLjEDFRBkynhd8zYylgi4AO?=
+ =?us-ascii?Q?LRSuVlU1//lP5ffrXVW/skb71PoaBvf5DBDKJvY8y08NB1ygQvp9+ElCsi1I?=
+ =?us-ascii?Q?bQEd72GY06djWwyI4TksGPoDqs2nyaz+sxJfsUW7mtNWOs4R6hotuh5Jbdrg?=
+ =?us-ascii?Q?Cc9yNgzVNk9Gm/BulY+ogxFE9ujcPeJw9oaA2SntniTVdDe42AOTAnb3vyis?=
+ =?us-ascii?Q?7WauB+Ty7++VaNnbCjYd/MD09T7ISyr8aY38/xHeUAgENKkpOdjRO/GCTnXH?=
+ =?us-ascii?Q?sZkzoVaPjQIfPwNGXIBLdH1vAbU5udKWx7AIuTQRBpBBrbr/vX7wMNuvBsR/?=
+ =?us-ascii?Q?kl78CuRY7lYtwZR1frmH4uqhdcUPKpvgepiWro112ilexJ8Wc3suFKqrk98H?=
+ =?us-ascii?Q?2kM6Jkd7sAkhka6cSmMnfllAc3CQ7KBFWljMavDGmtsVtrhrtQQUiOKXOkYc?=
+ =?us-ascii?Q?TfAB4d33rDXcNUxMDUcxF/b4OVPNdS9Awf4zt6iXVNJ4hz57zXfiIQswGqMc?=
+ =?us-ascii?Q?t/QfcCFDJx6j/5XeWs+v9My+WpDEfeCd7XeLvrFQCdgZuMr8G3xhlygebovX?=
+ =?us-ascii?Q?Az/OzA0mGVqecLHf6D1XxePtfTJzhXXJQIDiPYBysHVCGDfzOvEA3ZGXO9vZ?=
+ =?us-ascii?Q?311kws7DogrBvbfXwe0XwvSiK3PzaVfx9gdLHv56pAOodLgjue90CJhv68J4?=
+ =?us-ascii?Q?gf44nJ+Wz0weIK0e/VvMCbLietOeYGKyI6XHI8w7Z5zWk7BB8rLhLV8HGHo3?=
+ =?us-ascii?Q?Hh0wOXbKB0E39X64g/WQkjo8V1wfI4+LUtJLoOg7PX1OecC/6jsWRMcI0D8e?=
+ =?us-ascii?Q?RH0NPdTXU30eygZoS8NTGnZOynKlYW6r8MQq6Zz3Gn07K2AySRFb66GZlm6Q?=
+ =?us-ascii?Q?VlHB1Ea30ha9R9S8RF3wJ9DwDCfM4kkFbIz2i1i2yn1QE9NgS4pgNsVU2o7w?=
+ =?us-ascii?Q?PQhbgyUl7Yh9WKzhWHaV/joC+exeLW9F4w1kIkD/OBT46PRA4PEORWOQNyr6?=
+ =?us-ascii?Q?bhC+JC0evtrLrO+fyXTkGBKtEvFNxLTPw2JNfCsQACOvGIfXYRFXRCt6uU01?=
+ =?us-ascii?Q?Q4pTPXnVY9+dS6uOfGW2Ds/IKwSLDi/X4Yvdg2kkubEmEjHA19ted/QDD+g3?=
+ =?us-ascii?Q?T6v3BWmCGuqwer+hJjOAYaEAdn0vXMCNz3xG0NE0yu4E8hCuHvNWI6U8VSie?=
+ =?us-ascii?Q?8jbarN63m2ucNTGJjo4u2KU31zr1OEQmT+uqFZdjHvonB72E+lyN5FxljN5H?=
+ =?us-ascii?Q?byui8/5qwy6ksecSWzwdsAG12nBkFVmoSYnxORo7V4SqadvMLhTN?=
+X-Exchange-RoutingPolicyChecked: 
+	ABDs2G4OKeruxA8996NXCquy5ny4FlYiOarEslo1+caDVppJcNp95NfHc7xwFJECpScmU3DTWUPdRIeWXhRPp+v4ieUPruRhwkCx0AvZs6O2rH+u4lwNV3iGZcM8ktlE82Yo19JYxmoA6D2nAIcmVwivTpMQhxGpxahs4JDEVrIA3jxUb/+yd3Eu9YVQr1r/YWAf3u1bS+seFzT6mRZGH2O9ofSW8U+3/gMaEvJjk1p5AIsMkS25PHLS7uD4BwUWTFgK1mbGyNnJaAOwfVBsrpsTmvVwmUWbWfCHOnJ8lmbZ/qgv2f1q4MTk3IFWBTRRtbY6NsX9dyEkrU/Ly8n6sg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f248b81f-0d45-4b6d-80ce-08de7b59cff2
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6677.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 08:24:40.5725
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ag5EDLnP7iTirPGFPni9sE9o585F540NX0fxy/mTt7faGxDgEIUMJQi/tFOxWG64ehmwrUJ6I9uSXW5Cs3agm3rBr9cEqs6VK5vUg5OFvSWU73YHX4l3xF10Yo6nGfbk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6034
+X-Authority-Analysis: v=2.4 cv=LqWfC3dc c=1 sm=1 tr=0 ts=69aa8f4b cx=c_pps
+ a=7U6MwrGrMRcsJNK5547h+w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=r7x3q_pfjZkM4uloMnAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: mZnY0gbK3PnOjbsewZIr-wRUceQcDypo
+X-Proofpoint-ORIG-GUID: mZnY0gbK3PnOjbsewZIr-wRUceQcDypo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDA3OSBTYWx0ZWRfX2NJHzWDJGo9L
+ Nzl0BkT9Yot4jbiEAoriXQ+25a4ckdzYkftZ8G6iyYLDHSU5iUZD9A3qXbJOqmn/Swd17xLt8sj
+ ttVNngJ5w6KZTO5GPZWnMfCGqzwIJJfO8C85drpFPCxdldwEX0L6rbR6AwlxFqRghkndvTTaCrV
+ cMqRUYL9eSGyR/AzOHQ8DmmyHhpQz7wH01u1XhiB4+tLsMeAslmwN1Op8K7YMMAb7OciFV3AddS
+ hnGNov8g3paHjxgU810e4V6PUNDwLutvmV13BYI6ek9UtnkhgRQFRF4j8Buqr6UIR/EdRp1bw+z
+ v4DPyuaIorx/8ucmWpENs7B5vqAWqywNJKNpm+taWNEfLmxZ0/X2TWOHW9gaqG64fX6nzCQF8Ph
+ NqDrEmPfc2RB/g8a9tsIwZeli0JUZurjSWj+3el63O5hWKh7lJPja1qfHWP6Ei45W5QbcwBj0Me
+ 4zPibrEpn6qJjZB9k7g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-06_02,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060079
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 07:23:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232555
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 08:24:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232556
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Pick patch per [1].
+cargo-c is an external Cargo extension used to build Rust libraries
+with a C-compatible ABI and generate C headers and pkg-config files.
+Since it is not part of the standard Rust toolchain, move it from the
+rust directory to cargo-c under recipes-devtools for better organization
+and maintainability.
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- .../python3-urllib3/CVE-2025-66471.patch      | 926 ++++++++++++++++++
- .../python/python3-urllib3_2.5.0.bb           |   1 +
- 2 files changed, 927 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
+ meta/recipes-devtools/{rust => cargo-c}/cargo-c-crates.inc        | 0
+ .../0001-parking-lot-Use-libc-SYS_futex_time64-on-riscv32.patch   | 0
+ .../{rust => cargo-c}/cargo-c_0.10.20+cargo-0.94.0.bb             | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-devtools/{rust => cargo-c}/cargo-c-crates.inc (100%)
+ rename meta/recipes-devtools/{rust => cargo-c}/cargo-c/0001-parking-lot-Use-libc-SYS_futex_time64-on-riscv32.patch (100%)
+ rename meta/recipes-devtools/{rust => cargo-c}/cargo-c_0.10.20+cargo-0.94.0.bb (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
-new file mode 100644
-index 00000000000..15f601843b8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
-@@ -0,0 +1,926 @@
-+From c19571de34c47de3a766541b041637ba5f716ed7 Mon Sep 17 00:00:00 2001
-+From: Illia Volochii <illia.volochii@gmail.com>
-+Date: Fri, 5 Dec 2025 16:40:41 +0200
-+Subject: [PATCH] Merge commit from fork
-+
-+* Prevent decompression bomb for zstd in Python 3.14
-+
-+* Add experimental `decompress_iter` for Brotli
-+
-+* Update changes for Brotli
-+
-+* Add `GzipDecoder.decompress_iter`
-+
-+* Test https://github.com/python-hyper/brotlicffi/pull/207
-+
-+* Pin Brotli
-+
-+* Add `decompress_iter` to all decoders and make tests pass
-+
-+* Pin brotlicffi to an official release
-+
-+* Revert changes to response.py
-+
-+* Add `max_length` parameter to all `decompress` methods
-+
-+* Fix the `test_brotlipy` session
-+
-+* Unset `_data` on gzip error
-+
-+* Add a test for memory usage
-+
-+* Test more methods
-+
-+* Fix the test for `stream`
-+
-+* Cover more lines with tests
-+
-+* Add more coverage
-+
-+* Make `read1` a bit more efficient
-+
-+* Fix PyPy tests for Brotli
-+
-+* Revert an unnecessarily moved check
-+
-+* Add some comments
-+
-+* Leave just one `self._obj.decompress` call in `GzipDecoder`
-+
-+* Refactor test params
-+
-+* Test reads with all data already in the decompressor
-+
-+* Prevent needless copying of data decoded with `max_length`
-+
-+* Rename the changed test
-+
-+* Note that responses of unknown length should be streamed too
-+
-+* Add a changelog entry
-+
-+* Avoid returning a memory view from `BytesQueueBuffer`
-+
-+* Add one more note to the changelog entry
-+
-+CVE: CVE-2025-66471
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/c19571de34c47de3a766541b041637ba5f716ed7]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ CHANGES.rst             |  15 +++
-+ docs/advanced-usage.rst |   3 +-
-+ docs/user-guide.rst     |   4 +-
-+ pyproject.toml          |   5 +-
-+ src/urllib3/response.py | 278 ++++++++++++++++++++++++++++++++++------
-+ test/test_response.py   | 269 +++++++++++++++++++++++++++++++++++++-
-+ 6 files changed, 525 insertions(+), 49 deletions(-)
-+
-+diff --git a/CHANGES.rst b/CHANGES.rst
-+index add194eb..345476f3 100644
-+--- a/CHANGES.rst
-++++ b/CHANGES.rst
-+@@ -10,6 +10,21 @@ Bugfixes
-+
-+ TODO: add other entries.
-+
-++- Fixed a security issue where streaming API could improperly handle highly
-++  compressed HTTP content ("decompression bombs") leading to excessive resource
-++  consumption even when a small amount of data was requested. Reading small
-++  chunks of compressed data is safer and much more efficient now.
-++
-++.. caution::
-++  - If urllib3 is not installed with the optional `urllib3[brotli]` extra, but
-++    your environment contains a Brotli/brotlicffi/brotlipy package anyway, make
-++    sure to upgrade it to at least Brotli 1.2.0 or brotlicffi 1.2.0.0 to
-++    benefit from the security fixes and avoid warnings. Prefer using
-++    `urllib3[brotli]` to install a compatible Brotli package automatically.
-++
-++  - If you use custom decompressors, please make sure to update them to
-++    respect the changed API of ``urllib3.response.ContentDecoder``.
-++
-+
-+ 2.5.0 (2025-06-18)
-+ ==================
-+diff --git a/docs/advanced-usage.rst b/docs/advanced-usage.rst
-+index ff773662..3ab4fcf3 100644
-+--- a/docs/advanced-usage.rst
-++++ b/docs/advanced-usage.rst
-+@@ -66,7 +66,8 @@ When using ``preload_content=True`` (the default setting) the
-+ response body will be read immediately into memory and the HTTP connection
-+ will be released back into the pool without manual intervention.
-+ 
-+-However, when dealing with large responses it's often better to stream the response
-++However, when dealing with responses of large or unknown length,
-++it's often better to stream the response
-+ content using ``preload_content=False``. Setting ``preload_content`` to ``False`` means
-+ that urllib3 will only read from the socket when data is requested.
-+ 
-+diff --git a/docs/user-guide.rst b/docs/user-guide.rst
-+index 5c78c8af..1d9d0bbd 100644
-+--- a/docs/user-guide.rst
-++++ b/docs/user-guide.rst
-+@@ -145,8 +145,8 @@ to a byte string representing the response content:
-+     print(resp.data)
-+     # b"\xaa\xa5H?\x95\xe9\x9b\x11"
-+ 
-+-.. note:: For larger responses, it's sometimes better to :ref:`stream <stream>`
-+-    the response.
-++.. note:: For responses of large or unknown length, it's sometimes better to
-++    :ref:`stream <stream>` the response.
-+ 
-+ Using io Wrappers with Response Content
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+diff --git a/pyproject.toml b/pyproject.toml
-+index c9aa6d13..45538a6e 100644
-+--- a/pyproject.toml
-++++ b/pyproject.toml
-+@@ -41,8 +41,8 @@ dynamic = ["version"]
-+ 
-+ [project.optional-dependencies]
-+ brotli = [
-+-  "brotli>=1.0.9; platform_python_implementation == 'CPython'",
-+-  "brotlicffi>=0.8.0; platform_python_implementation != 'CPython'"
-++  "brotli>=1.2.0; platform_python_implementation == 'CPython'",
-++  "brotlicffi>=1.2.0.0; platform_python_implementation != 'CPython'"
-+ ]
-+ # Once we drop support for Python 3.13 this extra can be removed.
-+ # We'll need a deprecation period for the 'zstandard' module support
-+@@ -160,6 +160,7 @@ filterwarnings = [
-+     '''default:ssl\.PROTOCOL_TLSv1_1 is deprecated:DeprecationWarning''',
-+     '''default:ssl\.PROTOCOL_TLSv1_2 is deprecated:DeprecationWarning''',
-+     '''default:ssl NPN is deprecated, use ALPN instead:DeprecationWarning''',
-++    '''default:Brotli >= 1.2.0 is required to prevent decompression bombs\.:urllib3.exceptions.DependencyWarning''',
-+     # https://github.com/SeleniumHQ/selenium/issues/13328
-+     '''default:unclosed file <_io\.BufferedWriter name='/dev/null'>:ResourceWarning''',
-+     # https://github.com/SeleniumHQ/selenium/issues/14686
-+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
-+index 3df98184..4ba42136 100644
-+--- a/src/urllib3/response.py
-++++ b/src/urllib3/response.py
-+@@ -33,6 +33,7 @@ from .connection import BaseSSLError, HTTPConnection, HTTPException
-+ from .exceptions import (
-+     BodyNotHttplibCompatible,
-+     DecodeError,
-++    DependencyWarning,
-+     HTTPError,
-+     IncompleteRead,
-+     InvalidChunkLength,
-+@@ -52,7 +53,11 @@ log = logging.getLogger(__name__)
-+ 
-+ 
-+ class ContentDecoder:
-+-    def decompress(self, data: bytes) -> bytes:
-++    def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-++        raise NotImplementedError()
-++
-++    @property
-++    def has_unconsumed_tail(self) -> bool:
-+         raise NotImplementedError()
-+ 
-+     def flush(self) -> bytes:
-+@@ -62,30 +67,57 @@ class ContentDecoder:
-+ class DeflateDecoder(ContentDecoder):
-+     def __init__(self) -> None:
-+         self._first_try = True
-+-        self._data = b""
-++        self._first_try_data = b""
-++        self._unfed_data = b""
-+         self._obj = zlib.decompressobj()
-+ 
-+-    def decompress(self, data: bytes) -> bytes:
-+-        if not data:
-++    def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-++        data = self._unfed_data + data
-++        self._unfed_data = b""
-++        if not data and not self._obj.unconsumed_tail:
-+             return data
-++        original_max_length = max_length
-++        if original_max_length < 0:
-++            max_length = 0
-++        elif original_max_length == 0:
-++            # We should not pass 0 to the zlib decompressor because 0 is
-++            # the default value that will make zlib decompress without a
-++            # length limit.
-++            # Data should be stored for subsequent calls.
-++            self._unfed_data = data
-++            return b""
-+ 
-++        # Subsequent calls always reuse `self._obj`. zlib requires
-++        # passing the unconsumed tail if decompression is to continue.
-+         if not self._first_try:
-+-            return self._obj.decompress(data)
-++            return self._obj.decompress(
-++                self._obj.unconsumed_tail + data, max_length=max_length
-++            )
-+ 
-+-        self._data += data
-++        # First call tries with RFC 1950 ZLIB format.
-++        self._first_try_data += data
-+         try:
-+-            decompressed = self._obj.decompress(data)
-++            decompressed = self._obj.decompress(data, max_length=max_length)
-+             if decompressed:
-+                 self._first_try = False
-+-                self._data = None  # type: ignore[assignment]
-++                self._first_try_data = b""
-+             return decompressed
-++        # On failure, it falls back to RFC 1951 DEFLATE format.
-+         except zlib.error:
-+             self._first_try = False
-+             self._obj = zlib.decompressobj(-zlib.MAX_WBITS)
-+             try:
-+-                return self.decompress(self._data)
-++                return self.decompress(
-++                    self._first_try_data, max_length=original_max_length
-++                )
-+             finally:
-+-                self._data = None  # type: ignore[assignment]
-++                self._first_try_data = b""
-++
-++    @property
-++    def has_unconsumed_tail(self) -> bool:
-++        return bool(self._unfed_data) or (
-++            bool(self._obj.unconsumed_tail) and not self._first_try
-++        )
-+ 
-+     def flush(self) -> bytes:
-+         return self._obj.flush()
-+@@ -101,27 +133,61 @@ class GzipDecoder(ContentDecoder):
-+     def __init__(self) -> None:
-+         self._obj = zlib.decompressobj(16 + zlib.MAX_WBITS)
-+         self._state = GzipDecoderState.FIRST_MEMBER
-++        self._unconsumed_tail = b""
-+ 
-+-    def decompress(self, data: bytes) -> bytes:
-++    def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-+         ret = bytearray()
-+-        if self._state == GzipDecoderState.SWALLOW_DATA or not data:
-++        if self._state == GzipDecoderState.SWALLOW_DATA:
-+             return bytes(ret)
-++
-++        if max_length == 0:
-++            # We should not pass 0 to the zlib decompressor because 0 is
-++            # the default value that will make zlib decompress without a
-++            # length limit.
-++            # Data should be stored for subsequent calls.
-++            self._unconsumed_tail += data
-++            return b""
-++
-++        # zlib requires passing the unconsumed tail to the subsequent
-++        # call if decompression is to continue.
-++        data = self._unconsumed_tail + data
-++        if not data and self._obj.eof:
-++            return bytes(ret)
-++
-+         while True:
-+             try:
-+-                ret += self._obj.decompress(data)
-++                ret += self._obj.decompress(
-++                    data, max_length=max(max_length - len(ret), 0)
-++                )
-+             except zlib.error:
-+                 previous_state = self._state
-+                 # Ignore data after the first error
-+                 self._state = GzipDecoderState.SWALLOW_DATA
-++                self._unconsumed_tail = b""
-+                 if previous_state == GzipDecoderState.OTHER_MEMBERS:
-+                     # Allow trailing garbage acceptable in other gzip clients
-+                     return bytes(ret)
-+                 raise
-+-            data = self._obj.unused_data
-++
-++            self._unconsumed_tail = data = (
-++                self._obj.unconsumed_tail or self._obj.unused_data
-++            )
-++            if max_length > 0 and len(ret) >= max_length:
-++                break
-++
-+             if not data:
-+                 return bytes(ret)
-+-            self._state = GzipDecoderState.OTHER_MEMBERS
-+-            self._obj = zlib.decompressobj(16 + zlib.MAX_WBITS)
-++            # When the end of a gzip member is reached, a new decompressor
-++            # must be created for unused (possibly future) data.
-++            if self._obj.eof:
-++                self._state = GzipDecoderState.OTHER_MEMBERS
-++                self._obj = zlib.decompressobj(16 + zlib.MAX_WBITS)
-++
-++        return bytes(ret)
-++
-++    @property
-++    def has_unconsumed_tail(self) -> bool:
-++        return bool(self._unconsumed_tail)
-+ 
-+     def flush(self) -> bytes:
-+         return self._obj.flush()
-+@@ -136,9 +202,35 @@ if brotli is not None:
-+         def __init__(self) -> None:
-+             self._obj = brotli.Decompressor()
-+             if hasattr(self._obj, "decompress"):
-+-                setattr(self, "decompress", self._obj.decompress)
-++                setattr(self, "_decompress", self._obj.decompress)
-+             else:
-+-                setattr(self, "decompress", self._obj.process)
-++                setattr(self, "_decompress", self._obj.process)
-++
-++        # Requires Brotli >= 1.2.0 for `output_buffer_limit`.
-++        def _decompress(self, data: bytes, output_buffer_limit: int = -1) -> bytes:
-++            raise NotImplementedError()
-++
-++        def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-++            try:
-++                if max_length > 0:
-++                    return self._decompress(data, output_buffer_limit=max_length)
-++                else:
-++                    return self._decompress(data)
-++            except TypeError:
-++                # Fallback for Brotli/brotlicffi/brotlipy versions without
-++                # the `output_buffer_limit` parameter.
-++                warnings.warn(
-++                    "Brotli >= 1.2.0 is required to prevent decompression bombs.",
-++                    DependencyWarning,
-++                )
-++                return self._decompress(data)
-++
-++        @property
-++        def has_unconsumed_tail(self) -> bool:
-++            try:
-++                return not self._obj.can_accept_more_data()
-++            except AttributeError:
-++                return False
-+ 
-+         def flush(self) -> bytes:
-+             if hasattr(self._obj, "flush"):
-+@@ -156,16 +248,46 @@ try:
-+         def __init__(self) -> None:
-+             self._obj = zstd.ZstdDecompressor()
-+ 
-+-        def decompress(self, data: bytes) -> bytes:
-+-            if not data:
-++        def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-++            if not data and not self.has_unconsumed_tail:
-+                 return b""
-+-            data_parts = [self._obj.decompress(data)]
-+-            while self._obj.eof and self._obj.unused_data:
-+-                unused_data = self._obj.unused_data
-++            if self._obj.eof:
-++                data = self._obj.unused_data + data
-+                 self._obj = zstd.ZstdDecompressor()
-+-                data_parts.append(self._obj.decompress(unused_data))
-++            part = self._obj.decompress(data, max_length=max_length)
-++            length = len(part)
-++            data_parts = [part]
-++            # Every loop iteration is supposed to read data from a separate frame.
-++            # The loop breaks when:
-++            #   - enough data is read;
-++            #   - no more unused data is available;
-++            #   - end of the last read frame has not been reached (i.e.,
-++            #     more data has to be fed).
-++            while (
-++                self._obj.eof
-++                and self._obj.unused_data
-++                and (max_length < 0 or length < max_length)
-++            ):
-++                unused_data = self._obj.unused_data
-++                if not self._obj.needs_input:
-++                    self._obj = zstd.ZstdDecompressor()
-++                part = self._obj.decompress(
-++                    unused_data,
-++                    max_length=(max_length - length) if max_length > 0 else -1,
-++                )
-++                if part_length := len(part):
-++                    data_parts.append(part)
-++                    length += part_length
-++                elif self._obj.needs_input:
-++                    break
-+             return b"".join(data_parts)
-+ 
-++        @property
-++        def has_unconsumed_tail(self) -> bool:
-++            return not (self._obj.needs_input or self._obj.eof) or bool(
-++                self._obj.unused_data
-++            )
-++
-+         def flush(self) -> bytes:
-+             if not self._obj.eof:
-+                 raise DecodeError("Zstandard data is incomplete")
-+@@ -236,10 +358,35 @@ class MultiDecoder(ContentDecoder):
-+     def flush(self) -> bytes:
-+         return self._decoders[0].flush()
-+ 
-+-    def decompress(self, data: bytes) -> bytes:
-+-        for d in reversed(self._decoders):
-+-            data = d.decompress(data)
-+-        return data
-++    def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-++        if max_length <= 0:
-++            for d in reversed(self._decoders):
-++                data = d.decompress(data)
-++            return data
-++
-++        ret = bytearray()
-++        # Every while loop iteration goes through all decoders once.
-++        # It exits when enough data is read or no more data can be read.
-++        # It is possible that the while loop iteration does not produce
-++        # any data because we retrieve up to `max_length` from every
-++        # decoder, and the amount of bytes may be insufficient for the
-++        # next decoder to produce enough/any output.
-++        while True:
-++            any_data = False
-++            for d in reversed(self._decoders):
-++                data = d.decompress(data, max_length=max_length - len(ret))
-++                if data:
-++                    any_data = True
-++                # We should not break when no data is returned because
-++                # next decoders may produce data even with empty input.
-++            ret += data
-++            if not any_data or len(ret) >= max_length:
-++                return bytes(ret)
-++            data = b""
-++
-++    @property
-++    def has_unconsumed_tail(self) -> bool:
-++        return any(d.has_unconsumed_tail for d in self._decoders)
-+ 
-+ 
-+ def _get_decoder(mode: str) -> ContentDecoder:
-+@@ -272,9 +419,6 @@ class BytesQueueBuffer:
-+ 
-+      * self.buffer, which contains the full data
-+      * the largest chunk that we will copy in get()
-+-
-+-    The worst case scenario is a single chunk, in which case we'll make a full copy of
-+-    the data inside get().
-+     """
-+ 
-+     def __init__(self) -> None:
-+@@ -296,6 +440,10 @@ class BytesQueueBuffer:
-+         elif n < 0:
-+             raise ValueError("n should be > 0")
-+ 
-++        if len(self.buffer[0]) == n and isinstance(self.buffer[0], bytes):
-++            self._size -= n
-++            return self.buffer.popleft()
-++
-+         fetched = 0
-+         ret = io.BytesIO()
-+         while fetched < n:
-+@@ -502,7 +650,11 @@ class BaseHTTPResponse(io.IOBase):
-+                     self._decoder = _get_decoder(content_encoding)
-+ 
-+     def _decode(
-+-        self, data: bytes, decode_content: bool | None, flush_decoder: bool
-++        self,
-++        data: bytes,
-++        decode_content: bool | None,
-++        flush_decoder: bool,
-++        max_length: int | None = None,
-+     ) -> bytes:
-+         """
-+         Decode the data passed in and potentially flush the decoder.
-+@@ -515,9 +667,12 @@ class BaseHTTPResponse(io.IOBase):
-+                 )
-+             return data
-+ 
-++        if max_length is None or flush_decoder:
-++            max_length = -1
-++
-+         try:
-+             if self._decoder:
-+-                data = self._decoder.decompress(data)
-++                data = self._decoder.decompress(data, max_length=max_length)
-+                 self._has_decoded_content = True
-+         except self.DECODER_ERROR_CLASSES as e:
-+             content_encoding = self.headers.get("content-encoding", "").lower()
-+@@ -988,6 +1143,14 @@ class HTTPResponse(BaseHTTPResponse):
-+         elif amt is not None:
-+             cache_content = False
-+ 
-++            if self._decoder and self._decoder.has_unconsumed_tail:
-++                decoded_data = self._decode(
-++                    b"",
-++                    decode_content,
-++                    flush_decoder=False,
-++                    max_length=amt - len(self._decoded_buffer),
-++                )
-++                self._decoded_buffer.put(decoded_data)
-+             if len(self._decoded_buffer) >= amt:
-+                 return self._decoded_buffer.get(amt)
-+ 
-+@@ -995,7 +1158,11 @@ class HTTPResponse(BaseHTTPResponse):
-+ 
-+         flush_decoder = amt is None or (amt != 0 and not data)
-+ 
-+-        if not data and len(self._decoded_buffer) == 0:
-++        if (
-++            not data
-++            and len(self._decoded_buffer) == 0
-++            and not (self._decoder and self._decoder.has_unconsumed_tail)
-++        ):
-+             return data
-+ 
-+         if amt is None:
-+@@ -1012,7 +1179,12 @@ class HTTPResponse(BaseHTTPResponse):
-+                     )
-+                 return data
-+ 
-+-            decoded_data = self._decode(data, decode_content, flush_decoder)
-++            decoded_data = self._decode(
-++                data,
-++                decode_content,
-++                flush_decoder,
-++                max_length=amt - len(self._decoded_buffer),
-++            )
-+             self._decoded_buffer.put(decoded_data)
-+ 
-+             while len(self._decoded_buffer) < amt and data:
-+@@ -1020,7 +1192,12 @@ class HTTPResponse(BaseHTTPResponse):
-+                 # For example, the GZ file header takes 10 bytes, we don't want to read
-+                 # it one byte at a time
-+                 data = self._raw_read(amt)
-+-                decoded_data = self._decode(data, decode_content, flush_decoder)
-++                decoded_data = self._decode(
-++                    data,
-++                    decode_content,
-++                    flush_decoder,
-++                    max_length=amt - len(self._decoded_buffer),
-++                )
-+                 self._decoded_buffer.put(decoded_data)
-+             data = self._decoded_buffer.get(amt)
-+ 
-+@@ -1055,6 +1232,20 @@ class HTTPResponse(BaseHTTPResponse):
-+                     "Calling read1(decode_content=False) is not supported after "
-+                     "read1(decode_content=True) was called."
-+                 )
-++            if (
-++                self._decoder
-++                and self._decoder.has_unconsumed_tail
-++                and (amt is None or len(self._decoded_buffer) < amt)
-++            ):
-++                decoded_data = self._decode(
-++                    b"",
-++                    decode_content,
-++                    flush_decoder=False,
-++                    max_length=(
-++                        amt - len(self._decoded_buffer) if amt is not None else None
-++                    ),
-++                )
-++                self._decoded_buffer.put(decoded_data)
-+             if len(self._decoded_buffer) > 0:
-+                 if amt is None:
-+                     return self._decoded_buffer.get_all()
-+@@ -1070,7 +1261,9 @@ class HTTPResponse(BaseHTTPResponse):
-+         self._init_decoder()
-+         while True:
-+             flush_decoder = not data
-+-            decoded_data = self._decode(data, decode_content, flush_decoder)
-++            decoded_data = self._decode(
-++                data, decode_content, flush_decoder, max_length=amt
-++            )
-+             self._decoded_buffer.put(decoded_data)
-+             if decoded_data or flush_decoder:
-+                 break
-+@@ -1101,7 +1294,11 @@ class HTTPResponse(BaseHTTPResponse):
-+         if self.chunked and self.supports_chunked_reads():
-+             yield from self.read_chunked(amt, decode_content=decode_content)
-+         else:
-+-            while not is_fp_closed(self._fp) or len(self._decoded_buffer) > 0:
-++            while (
-++                not is_fp_closed(self._fp)
-++                or len(self._decoded_buffer) > 0
-++                or (self._decoder and self._decoder.has_unconsumed_tail)
-++            ):
-+                 data = self.read(amt=amt, decode_content=decode_content)
-+ 
-+                 if data:
-+@@ -1264,7 +1461,10 @@ class HTTPResponse(BaseHTTPResponse):
-+                     break
-+                 chunk = self._handle_chunk(amt)
-+                 decoded = self._decode(
-+-                    chunk, decode_content=decode_content, flush_decoder=False
-++                    chunk,
-++                    decode_content=decode_content,
-++                    flush_decoder=False,
-++                    max_length=amt,
-+                 )
-+                 if decoded:
-+                     yield decoded
-+diff --git a/test/test_response.py b/test/test_response.py
-+index c97fdff0..9592fdd9 100644
-+--- a/test/test_response.py
-++++ b/test/test_response.py
-+@@ -1,6 +1,7 @@
-+ from __future__ import annotations
-+ 
-+ import contextlib
-++import gzip
-+ import http.client as httplib
-+ import socket
-+ import ssl
-+@@ -43,6 +44,26 @@ def zstd_compress(data: bytes) -> bytes:
-+     return zstd.compress(data)  # type: ignore[no-any-return]
-+ 
-+ 
-++def deflate2_compress(data: bytes) -> bytes:
-++    compressor = zlib.compressobj(6, zlib.DEFLATED, -zlib.MAX_WBITS)
-++    return compressor.compress(data) + compressor.flush()
-++
-++
-++if brotli:
-++    try:
-++        brotli.Decompressor().process(b"", output_buffer_limit=1024)
-++        _brotli_gte_1_2_0_available = True
-++    except (AttributeError, TypeError):
-++        _brotli_gte_1_2_0_available = False
-++else:
-++    _brotli_gte_1_2_0_available = False
-++try:
-++    zstd_compress(b"")
-++    _zstd_available = True
-++except ModuleNotFoundError:
-++    _zstd_available = False
-++
-++
-+ class TestBytesQueueBuffer:
-+     def test_single_chunk(self) -> None:
-+         buffer = BytesQueueBuffer()
-+@@ -118,12 +139,19 @@ class TestBytesQueueBuffer:
-+ 
-+         assert len(get_func(buffer)) == 10 * 2**20
-+ 
-++    @pytest.mark.parametrize(
-++        "get_func",
-++        (lambda b: b.get(len(b)), lambda b: b.get_all()),
-++        ids=("get", "get_all"),
-++    )
-+     @pytest.mark.limit_memory("10.01 MB", current_thread_only=True)
-+-    def test_get_all_memory_usage_single_chunk(self) -> None:
-++    def test_memory_usage_single_chunk(
-++        self, get_func: typing.Callable[[BytesQueueBuffer], bytes]
-++    ) -> None:
-+         buffer = BytesQueueBuffer()
-+         chunk = bytes(10 * 2**20)  # 10 MiB
-+         buffer.put(chunk)
-+-        assert buffer.get_all() is chunk
-++        assert get_func(buffer) is chunk
-+ 
-+ 
-+ # A known random (i.e, not-too-compressible) payload generated with:
-+@@ -426,7 +454,26 @@ class TestResponse:
-+         assert r.data == b"foo"
-+ 
-+     @onlyZstd()
-+-    def test_decode_multiframe_zstd(self) -> None:
-++    @pytest.mark.parametrize(
-++        "read_amt",
-++        (
-++            # Read all data at once.
-++            None,
-++            # Read one byte at a time, data of frames will be returned
-++            # separately.
-++            1,
-++            # Read two bytes at a time, the second read should return
-++            # data from both frames.
-++            2,
-++            # Read three bytes at a time, the whole frames will be
-++            # returned separately in two calls.
-++            3,
-++            # Read four bytes at a time, the first read should return
-++            # data from the first frame and a part of the second frame.
-++            4,
-++        ),
-++    )
-++    def test_decode_multiframe_zstd(self, read_amt: int | None) -> None:
-+         data = (
-+             # Zstandard frame
-+             zstd_compress(b"foo")
-+@@ -441,8 +488,57 @@ class TestResponse:
-+         )
-+ 
-+         fp = BytesIO(data)
-+-        r = HTTPResponse(fp, headers={"content-encoding": "zstd"})
-+-        assert r.data == b"foobar"
-++        result = bytearray()
-++        r = HTTPResponse(
-++            fp, headers={"content-encoding": "zstd"}, preload_content=False
-++        )
-++        total_length = 6
-++        while len(result) < total_length:
-++            chunk = r.read(read_amt, decode_content=True)
-++            if read_amt is None:
-++                assert len(chunk) == total_length
-++            else:
-++                assert len(chunk) == min(read_amt, total_length - len(result))
-++            result += chunk
-++        assert bytes(result) == b"foobar"
-++
-++    @onlyZstd()
-++    def test_decode_multiframe_zstd_with_max_length_close_to_compressed_data_size(
-++        self,
-++    ) -> None:
-++        """
-++        Test decoding when the first read from the socket returns all
-++        the compressed frames, but then it has to be decompressed in a
-++        couple of read calls.
-++        """
-++        data = (
-++            # Zstandard frame
-++            zstd_compress(b"x" * 1024)
-++            # skippable frame (must be ignored)
-++            + bytes.fromhex(
-++                "50 2A 4D 18"  # Magic_Number (little-endian)
-++                "07 00 00 00"  # Frame_Size (little-endian)
-++                "00 00 00 00 00 00 00"  # User_Data
-++            )
-++            # Zstandard frame
-++            + zstd_compress(b"y" * 1024)
-++        )
-++
-++        fp = BytesIO(data)
-++        r = HTTPResponse(
-++            fp, headers={"content-encoding": "zstd"}, preload_content=False
-++        )
-++        # Read the whole first frame.
-++        assert r.read(1024) == b"x" * 1024
-++        assert len(r._decoded_buffer) == 0
-++        # Read the whole second frame in two reads.
-++        assert r.read(512) == b"y" * 512
-++        assert len(r._decoded_buffer) == 0
-++        assert r.read(512) == b"y" * 512
-++        assert len(r._decoded_buffer) == 0
-++        # Ensure no more data is left.
-++        assert r.read() == b""
-++        assert len(r._decoded_buffer) == 0
-+ 
-+     @onlyZstd()
-+     def test_chunked_decoding_zstd(self) -> None:
-+@@ -535,6 +631,169 @@ class TestResponse:
-+             decoded_data += part
-+         assert decoded_data == data
-+ 
-++    _test_compressor_params: list[
-++        tuple[str, tuple[str, typing.Callable[[bytes], bytes]] | None]
-++    ] = [
-++        ("deflate1", ("deflate", zlib.compress)),
-++        ("deflate2", ("deflate", deflate2_compress)),
-++        ("gzip", ("gzip", gzip.compress)),
-++    ]
-++    if _brotli_gte_1_2_0_available:
-++        _test_compressor_params.append(("brotli", ("br", brotli.compress)))
-++    else:
-++        _test_compressor_params.append(("brotli", None))
-++    if _zstd_available:
-++        _test_compressor_params.append(("zstd", ("zstd", zstd_compress)))
-++    else:
-++        _test_compressor_params.append(("zstd", None))
-++
-++    @pytest.mark.parametrize("read_method", ("read", "read1"))
-++    @pytest.mark.parametrize(
-++        "data",
-++        [d[1] for d in _test_compressor_params],
-++        ids=[d[0] for d in _test_compressor_params],
-++    )
-++    def test_read_with_all_data_already_in_decompressor(
-++        self,
-++        request: pytest.FixtureRequest,
-++        read_method: str,
-++        data: tuple[str, typing.Callable[[bytes], bytes]] | None,
-++    ) -> None:
-++        if data is None:
-++            pytest.skip(f"Proper {request.node.callspec.id} decoder is not available")
-++        original_data = b"bar" * 1000
-++        name, compress_func = data
-++        compressed_data = compress_func(original_data)
-++        fp = mock.Mock(read=mock.Mock(return_value=b""))
-++        r = HTTPResponse(fp, headers={"content-encoding": name}, preload_content=False)
-++        # Put all data in the decompressor's buffer.
-++        r._init_decoder()
-++        assert r._decoder is not None  # for mypy
-++        decoded = r._decoder.decompress(compressed_data, max_length=0)
-++        if name == "br":
-++            # It's known that some Brotli libraries do not respect
-++            # `max_length`.
-++            r._decoded_buffer.put(decoded)
-++        else:
-++            assert decoded == b""
-++        # Read the data via `HTTPResponse`.
-++        read = getattr(r, read_method)
-++        assert read(0) == b""
-++        assert read(2500) == original_data[:2500]
-++        assert read(500) == original_data[2500:]
-++        assert read(0) == b""
-++        assert read() == b""
-++
-++    @pytest.mark.parametrize(
-++        "delta",
-++        (
-++            0,  # First read from socket returns all compressed data.
-++            -1,  # First read from socket returns all but one byte of compressed data.
-++        ),
-++    )
-++    @pytest.mark.parametrize("read_method", ("read", "read1"))
-++    @pytest.mark.parametrize(
-++        "data",
-++        [d[1] for d in _test_compressor_params],
-++        ids=[d[0] for d in _test_compressor_params],
-++    )
-++    def test_decode_with_max_length_close_to_compressed_data_size(
-++        self,
-++        request: pytest.FixtureRequest,
-++        delta: int,
-++        read_method: str,
-++        data: tuple[str, typing.Callable[[bytes], bytes]] | None,
-++    ) -> None:
-++        """
-++        Test decoding when the first read from the socket returns all or
-++        almost all the compressed data, but then it has to be
-++        decompressed in a couple of read calls.
-++        """
-++        if data is None:
-++            pytest.skip(f"Proper {request.node.callspec.id} decoder is not available")
-++
-++        original_data = b"foo" * 1000
-++        name, compress_func = data
-++        compressed_data = compress_func(original_data)
-++        fp = BytesIO(compressed_data)
-++        r = HTTPResponse(fp, headers={"content-encoding": name}, preload_content=False)
-++        initial_limit = len(compressed_data) + delta
-++        read = getattr(r, read_method)
-++        initial_chunk = read(amt=initial_limit, decode_content=True)
-++        assert len(initial_chunk) == initial_limit
-++        assert (
-++            len(read(amt=len(original_data), decode_content=True))
-++            == len(original_data) - initial_limit
-++        )
-++
-++    # Prepare 50 MB of compressed data outside of the test measuring
-++    # memory usage.
-++    _test_memory_usage_decode_with_max_length_params: list[
-++        tuple[str, tuple[str, bytes] | None]
-++    ] = [
-++        (
-++            params[0],
-++            (params[1][0], params[1][1](b"A" * (50 * 2**20))) if params[1] else None,
-++        )
-++        for params in _test_compressor_params
-++    ]
-++
-++    @pytest.mark.parametrize(
-++        "data",
-++        [d[1] for d in _test_memory_usage_decode_with_max_length_params],
-++        ids=[d[0] for d in _test_memory_usage_decode_with_max_length_params],
-++    )
-++    @pytest.mark.parametrize("read_method", ("read", "read1", "read_chunked", "stream"))
-++    # Decoders consume different amounts of memory during decompression.
-++    # We set the 10 MB limit to ensure that the whole decompressed data
-++    # is not stored unnecessarily.
-++    #
-++    # FYI, the following consumption was observed for the test with
-++    # `read` on CPython 3.14.0:
-++    #   - deflate: 2.3 MiB
-++    #   - deflate2: 2.1 MiB
-++    #   - gzip: 2.1 MiB
-++    #   - brotli:
-++    #     - brotli v1.2.0: 9 MiB
-++    #     - brotlicffi v1.2.0.0: 6 MiB
-++    #     - brotlipy v0.7.0: 105.8 MiB
-++    #   - zstd: 4.5 MiB
-++    @pytest.mark.limit_memory("10 MB", current_thread_only=True)
-++    def test_memory_usage_decode_with_max_length(
-++        self,
-++        request: pytest.FixtureRequest,
-++        read_method: str,
-++        data: tuple[str, bytes] | None,
-++    ) -> None:
-++        if data is None:
-++            pytest.skip(f"Proper {request.node.callspec.id} decoder is not available")
-++
-++        name, compressed_data = data
-++        limit = 1024 * 1024  # 1 MiB
-++        if read_method in ("read_chunked", "stream"):
-++            httplib_r = httplib.HTTPResponse(MockSock)  # type: ignore[arg-type]
-++            httplib_r.fp = MockChunkedEncodingResponse([compressed_data])  # type: ignore[assignment]
-++            r = HTTPResponse(
-++                httplib_r,
-++                preload_content=False,
-++                headers={"transfer-encoding": "chunked", "content-encoding": name},
-++            )
-++            next(getattr(r, read_method)(amt=limit, decode_content=True))
-++        else:
-++            fp = BytesIO(compressed_data)
-++            r = HTTPResponse(
-++                fp, headers={"content-encoding": name}, preload_content=False
-++            )
-++            getattr(r, read_method)(amt=limit, decode_content=True)
-++
-++        # Check that the internal decoded buffer is empty unless brotli
-++        # is used.
-++        # Google's brotli library does not fully respect the output
-++        # buffer limit: https://github.com/google/brotli/issues/1396
-++        # And unmaintained brotlipy cannot limit the output buffer size.
-++        if name != "br" or brotli.__name__ == "brotlicffi":
-++            assert len(r._decoded_buffer) == 0
-++
-+     def test_multi_decoding_deflate_deflate(self) -> None:
-+         data = zlib.compress(zlib.compress(b"foo"))
-+ 
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-index 7892fc0874e..e277a192e53 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
-@@ -10,6 +10,7 @@ inherit pypi python_hatchling
- SRC_URI += "\
-     file://CVE-2025-66418.patch \
-     file://CVE-2026-21441.patch \
-+    file://CVE-2025-66471.patch \
- "
- 
- DEPENDS += "python3-hatch-vcs-native"
+diff --git a/meta/recipes-devtools/rust/cargo-c-crates.inc b/meta/recipes-devtools/cargo-c/cargo-c-crates.inc
+similarity index 100%
+rename from meta/recipes-devtools/rust/cargo-c-crates.inc
+rename to meta/recipes-devtools/cargo-c/cargo-c-crates.inc
+diff --git a/meta/recipes-devtools/rust/cargo-c/0001-parking-lot-Use-libc-SYS_futex_time64-on-riscv32.patch b/meta/recipes-devtools/cargo-c/cargo-c/0001-parking-lot-Use-libc-SYS_futex_time64-on-riscv32.patch
+similarity index 100%
+rename from meta/recipes-devtools/rust/cargo-c/0001-parking-lot-Use-libc-SYS_futex_time64-on-riscv32.patch
+rename to meta/recipes-devtools/cargo-c/cargo-c/0001-parking-lot-Use-libc-SYS_futex_time64-on-riscv32.patch
+diff --git a/meta/recipes-devtools/rust/cargo-c_0.10.20+cargo-0.94.0.bb b/meta/recipes-devtools/cargo-c/cargo-c_0.10.20+cargo-0.94.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/rust/cargo-c_0.10.20+cargo-0.94.0.bb
+rename to meta/recipes-devtools/cargo-c/cargo-c_0.10.20+cargo-0.94.0.bb
+-- 
+2.49.0
+
 
