@@ -2,56 +2,56 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5632CF01839
-	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 14:00:08 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.69532.1772805607279559127
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D71FF01838
+	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 14:00:18 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.69777.1772805616568639024
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Mar 2026 06:00:07 -0800
+ Fri, 06 Mar 2026 06:00:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Jqsl1Cfo;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso101205415e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 06:00:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Lh3WPjka;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48069a48629so97211405e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 06:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772805605; x=1773410405; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772805615; x=1773410415; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ptc8yOHQ9vGd8saVcLYWE/oQTTyOjA9RI/dVUvYNyJ0=;
-        b=Jqsl1CfoDRUFo0jU9f0wVpzSlrw4QocvxKFWhDX0NWXjTBU+EQutrCshV6MC06XQy9
-         uIQ48cDBDdZ9OEeLijoBr2u9R/I3lbYcQYv1COw6jj769iOUb4zzuXCj0eo55c94ccKZ
-         72+qbzpcI40bQQzk2U/DVgUhJVlWS6VdlgTUve6in3Hd66xm0dqXCQS5OqLSbgV/+V5B
-         CLQloEiIcE2f6zJh2/5fQM3DG7a2OrBv0O0McwrXshUbgU47U8Nf45kxjQdSFIMKYynQ
-         oJY4oE+LsZPGKWDScMukLuqXoh1FG9Iw4GmrW7OS76HE+69oU3ZWcrwFqwHh/VSXHsvj
-         HPiA==
+        bh=dz2DIwvOCon29AzR+EnavIgbskim4kyUitsTfI6u7p4=;
+        b=Lh3WPjkaA1kQw0H9M7Jthecp1/L4C5IXqUcGJLVqjJwEPF5wtlyJSz526OoUc6a1Qs
+         p1ENw2wTg9t7XcTCz42e+CksxRl3Z8173EGK1zAK7JCqDvrbeA24o5+NvDn6HeX7dZs7
+         TqNi8tIEVNsPEJdexHxUhOrnLieNw9tnBh1QFXPfMNRElppir1Iz1+888cm+ruJcFGKY
+         DcJGI/mbO8ZGAet6Z0Ji/wo0iNHHGAzg+NMKZTun2jHrYetl1PSe+KNjGTGuyS49HTdM
+         BiXE6UtxfPzDmJ9l3N7ZHbeK2390EUVHVbK8q7R865xGtK5wtFjTigumiKkW7E8KpHS1
+         cnWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772805605; x=1773410405;
+        d=1e100.net; s=20230601; t=1772805615; x=1773410415;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ptc8yOHQ9vGd8saVcLYWE/oQTTyOjA9RI/dVUvYNyJ0=;
-        b=ZCiKTVfMjQWGSvHW3bOemFYgpcRmv5LB2Otycaq1co/fXvMp00gFh3reRULi20Ilk+
-         Ny2oV6ruor4ERm9n44njjznXuhJT797ODxg/0h2ae/jw1EDqUXd4bodpYFWMWv9Pbfix
-         2KHwM8B7IOJ4BaTxFhyCZezKVCe4aW0SGNIMpzDSGFtkFp92goet2/UyhFiEezwJZT/z
-         PL8Q/AefC5KHe3hSRj8Bkw07ABWyXe+Fy1wXjmeU4aTQ2sWKYNZTd261ybF4gGVwTins
-         wRXeaJXgX1cSHeQnCCoK4IkvqC3sSXxcpPjHa0z0g434e+r/j+diESCHZ9KdoSXLnkbY
-         Z8RQ==
-X-Gm-Message-State: AOJu0Yx7yd/S4a2vyc9js7GA2Jmy+oC8pFadnlHP5DqnCNHtb1oGC+TX
-	rwDHunL4SDDiQLawKPWJtnKBs7knKx/rBuxYN9I3M9Q23HSzzHRyCzeXMDi3Qg==
-X-Gm-Gg: ATEYQzz0bGJreOfg84WB7oXKIWPWsQAzXGtFIzB++2+i2LuJkEApy35xD+6knPbe6HI
-	8NQe9QqS4hCiMkCYVlWK0owr1+4KQV5k6fjY2jBYbF0e2Ozdd2l8OtxrCyXPTFtypmm1m0AoHfK
-	FhoYjUC/oyOsVjR5Ok0TjlVkN6eUFBF0RnpzKEA5HTAu3oLX9x/NNWc1lpaIjY567mfj8sIilOa
-	i3Px87PdHxIXT2WFydrVty5toHRr3mbSAsGgCy59F8xkUx/cwl0iZv2dlqLA/onNS/WNjsvKPpA
-	RCvkn4tZW3S0MrIuV6Yzo/hhMXs8mLEEmRUY9Nch11E7m/6VFcQuOQPsteg/GGHgNi8+VSRCugH
-	V118z/ExoqoX7utGwr9/YXuUEitgOETAL7pYbveKJdXT0osb02/SoPQcIrHhEUEUcVgSOOgVWDM
-	ai1QQHgWe78Zuv5Av8CPiMwQZsSMbwXUHEj3IJqCcjUJ01V0kfqlmJ
-X-Received: by 2002:a05:600c:1986:b0:475:dde5:d91b with SMTP id 5b1f17b1804b1-4852695b649mr36918775e9.17.1772805604700;
-        Fri, 06 Mar 2026 06:00:04 -0800 (PST)
+        bh=dz2DIwvOCon29AzR+EnavIgbskim4kyUitsTfI6u7p4=;
+        b=MQwLG1S8exJmrQaMCPLlayOdcFAeNoskjzYrEr0QUjux9dQYoURfpmgRJyY/MjVFrx
+         1BPLgN1ZcUxikPr8ncsL9jHF3r5njSwM2mkBfxheYBslBdUInpUy7TwdcnU1htONiLfk
+         pgzu4qDrUV85xv9EPcGJVk4M0Mu3hHcABxH+ZYBHLxKh0V4MEQWk3kGyQMKOWi46BxPF
+         esOQEw8y8mWyG3vBP/amBLKnkWBMTEHRM1hoy9RU01mVF01LEDq+3YkoCv6wa5lyaBFS
+         Uenkybv+2FF544EfhNKI770/0pitrYybCSW7IaYKOi+UWIujgQVwCaGpQvZlz7vKifA6
+         mGIQ==
+X-Gm-Message-State: AOJu0YyS+en8UJhMJjFSlaeD6/UIOnYehtMTaaS4BWJkEexxMXvBLWOH
+	hFBre98UPxTEvfuxGx2mu5rR4rj8KOZC1/7FZmmQ3p8VKcfAuTSgsDtb4iNbMw==
+X-Gm-Gg: ATEYQzyXlS6KzqPgQCSi4TDdSLHMZnKCw8fREOJqNSZcEfijv5n37po0Iqat4YLTeoM
+	rPws5FLwjLBoBl17sBVdIxLgdAfEEQyoRnpNvZtU8BNN7gO06SrAsfy4L7Zs+OdD55tT2QkHJwD
+	n/3+OISJIJB+aA9+CSRb9vno53veZDPGZZEOQOjOrOeMCTbRlSZ0vHalQfXlCv7vqDlZvUeA0qR
+	lbgmRv88bBUHR1Pcm/92Sspt7+up50xGt9LwSaGzmBhncY/vOQrIiwJq9NUeOxdgTojCrGG4QXo
+	eH6axiIzZh5r9T9a01zCOVuNfKQnHr4wRjOurAslNQm+g0f/IjM+B2sbbaCUygWuX0LD3OGPBJ5
+	r/HkFi+/3BmfSkG3hau2Ou0GT0cd1uRZtkoEzazn1pnX+H4iBFw/RqypnKPu04CNzSBcsJSJPjV
+	TRLzEQsJrzTPAkBi0b08OhGqE7YEnzj3//wr5nRfue4VgyTrjiY81f
+X-Received: by 2002:a05:600c:5303:b0:477:c478:46d7 with SMTP id 5b1f17b1804b1-4852695aa55mr36328375e9.22.1772805614443;
+        Fri, 06 Mar 2026 06:00:14 -0800 (PST)
 Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fb4257csm187098845e9.15.2026.03.06.06.00.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fb4257csm187098845e9.15.2026.03.06.06.00.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 06:00:03 -0800 (PST)
+        Fri, 06 Mar 2026 06:00:13 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 X-Google-Original-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
@@ -61,76 +61,96 @@ Cc: mathieu.dubois-briand@bootlin.com,
 	adrian.freihofer@siemens.com,
 	Peter.Marko@siemens.com,
 	Stefano Tondo <stefano.tondo.ext@siemens.com>
-Subject: [OE-core][PATCH v7 00/10] spdx30: SBOM enrichment and documentation
-Date: Fri,  6 Mar 2026 14:59:52 +0100
-Message-ID: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
+Subject: [OE-core][PATCH v7 08/10] spdx.py: Add test for version extraction patterns
+Date: Fri,  6 Mar 2026 15:00:00 +0100
+Message-ID: <cf5163cfab3cf40b250dc77aefc0d91948b6c14e.1772805096.git.stefano.tondo.ext@siemens.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260304170541.180868-1-stefano.tondo.ext@siemens.com>
-References: <20260304170541.180868-1-stefano.tondo.ext@siemens.com>
+In-Reply-To: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
+References: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 14:00:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232566
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 14:00:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232574
 
-This v7 fixes two SPDX selftest failures reported by Mathieu Dubois-Briand
-on the ARM autobuilder (oe-selftest-armhost builder 23/3458):
+Add test verifying that version extraction patterns work correctly for:
+- Rust crates (.crate files)
+- Go modules
+- Python packages (PyPI)
+- Generic tarball formats
+- Git revision hashes
 
-  - test_download_location_defensive_handling: recipe-m4.spdx.json does not exist
-  - test_version_extraction_patterns: recipe-tar.spdx.json does not exist
+Test builds tar recipe and validates that all packages have proper
+version strings extracted from their filenames.
 
-Root cause: On the autobuilder, oe-selftest runs with parallel workers (-j 15).
-All SPDX30Check tests land on the same worker but share sstate with prior tests
-that use different configurations. Tests without unique extraconf may find
-do_create_spdx satisfied by stale sstate stamps from earlier tests with
-different SPDX configuration, causing the task to be skipped without deploying
-the SPDX file to DEPLOY_DIR_SPDX.
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/spdx.py | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-The fix adds a unique SPDX_NAMESPACE_PREFIX to both tests, following the
-established pattern from test_extra_opts which documents: "Many SPDX variables
-do not trigger a rebuild... change the namespace prefix to include the hash
-of the extra configuration." This ensures do_create_spdx always runs fresh
-and deploys the expected recipe SPDX file.
-
-Changes since v6:
-  - 07/10: Added SPDX_NAMESPACE_PREFIX extraconf to
-    test_download_location_defensive_handling to ensure do_create_spdx
-    runs fresh on autobuilder workers with shared sstate.
-  - 08/10: Added SPDX_NAMESPACE_PREFIX extraconf to
-    test_version_extraction_patterns (same fix).
-
-Changes since v5:
-  - 04/10: Removed reintroduced d.getVar('SRCREV') fallback that caused
-    25+ devtool/recipetool selftest failures on autobuilder. Added safety
-    comment explaining the BBIMPORTS/AUTOREV constraint.
-
-Changes since v4 (carried forward):
-  - Dropped v4 07/11: "spdx30: Include recipe base PURL in package external
-    identifiers" -- superseded by 874b2d301d (spdx: Add yocto PURLs,
-    Joshua Watt, merged to master Jan 8 2026)
-
-Stefano Tondo (10):
-  spdx30: Add configurable file filtering support
-  spdx30: Add supplier support for image and SDK SBOMs
-  spdx30: Add ecosystem-specific PURL generation
-  spdx30: Add version extraction from SRCREV for Git source components
-  spdx30: Add SPDX_GIT_PURL_MAPPINGS for Git hosting
-  spdx30: Enrich source downloads with external refs and PURLs
-  oeqa/selftest: Add test for download_location defensive handling
-  spdx.py: Add test for version extraction patterns
-  cve_check: Escape special characters in CPE 2.3 formatted strings
-  spdx-common: Add documentation for undocumented SPDX variables
-
- meta/classes/create-spdx-3.0.bbclass |  20 ++
- meta/classes/spdx-common.bbclass     |  63 +++++
- meta/lib/oe/cve_check.py             |  37 ++-
- meta/lib/oe/spdx30_tasks.py          | 333 ++++++++++++++++++++++++++-
- meta/lib/oeqa/selftest/cases/spdx.py |  87 +++++++
- 5 files changed, 534 insertions(+), 6 deletions(-)
-
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index 9b6fcd335c..14a50205d5 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -448,3 +448,56 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+             f"External references {'found' if found_external_refs else 'not found'} "
+             f"in SPDX output (defensive handling verified)"
+         )
++
++    def test_version_extraction_patterns(self):
++        """
++        Test that version extraction works for various package formats.
++
++        This test verifies that version patterns correctly extract versions from:
++        1. Rust crates (.crate files)
++        2. Go modules
++        3. Python packages (PyPI)
++        4. Generic tarball formats
++        5. Git revision hashes
++        """
++        # Build a package that has dependencies with various formats
++        objset = self.check_recipe_spdx(
++            "tar",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-tar.spdx.json",
++            # Use a unique namespace prefix to ensure do_create_spdx runs
++            # fresh regardless of sstate from prior tests in the same
++            # oe-selftest worker (see test_extra_opts for rationale)
++            extraconf="""\
++                SPDX_NAMESPACE_PREFIX = "http://spdx.org/spdxdocs/test-version-extract"
++                """,
++        )
++
++        # Collect all packages with versions
++        packages_with_versions = []
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if hasattr(pkg, 'software_packageVersion') and pkg.software_packageVersion:
++                packages_with_versions.append((pkg.name, pkg.software_packageVersion))
++
++        self.assertGreater(
++            len(packages_with_versions), 0,
++            "Should find packages with extracted versions"
++        )
++
++        self.logger.info(f"Found {len(packages_with_versions)} packages with versions")
++
++        # Log some examples for debugging
++        for name, version in packages_with_versions[:5]:
++            self.logger.info(f"  {name}: {version}")
++
++        # Verify that versions follow expected patterns
++        for name, version in packages_with_versions:
++            # Version should not be empty
++            self.assertIsNotNone(version)
++            self.assertNotEqual(version, "")
++
++            # Version should contain digits
++            self.assertRegex(
++                version,
++                r'\d',
++                f"Version '{version}' for package '{name}' should contain digits"
++            )
 -- 
 2.53.0
 
