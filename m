@@ -1,450 +1,615 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58923FCC063
-	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 18:55:27 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2199.1772823326027315067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 670B6FCC065
+	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 19:00:17 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2282.1772823611801235792
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Mar 2026 10:55:26 -0800
+ Fri, 06 Mar 2026 11:00:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=myfbRRt8;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b9382e59c0eso534708966b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 10:55:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772823324; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hbSgOs8K5cWiIlLkQ0AXf3mzC/ze4/31nIUYmNm9yJOiPhXpJiEdc1dEB14pzR4rNY
-         SK5Peb8UHWLOjqQq7Ybt3BxrspUFCGYAy8E/9Bf/gSAbq6kZ72Fn7L0corMs5bn/UCt2
-         a9WgIf5sPgIVcpP3vlRQqJ/jeIj/VKcbzZuOLDyRmfwVC231QYQWq2g5vSZOhsjO9fuQ
-         Fl8ZbY8sbe13rqc6Bc/xBG179dBB7+DtT7f4pqHSsEFQiqOA+2DDXwkKN6xC9shOGjRl
-         VV/DWz8ZjTEuGsHEa40B64o01yL6p+fKY0Dkc6DTHr+Mzx3i4tuvF/QXBD5VsHPUQXIu
-         GB8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7l15LzZPEKgZU2+6/JmE34y2IIvjO3++H7w4VEE2iBk=;
-        fh=hrLIMLnLgn9lA4UjcABRY9PW9LZQM2JxdaLMYkWr4sM=;
-        b=LJvVTwdQgwNNGGXMqjqVkJqUjJd5W9yMWPfjApLaLkqsT2I5cV0UPn6fNH01rdzs4h
-         BLjG8w+1Y/tB4FZRYEa4XXNUz2tKH8/z/lAp+7vyBA+CpVGXJF4lbQV4OnfSzlf1tM+C
-         tJ8TmjLxGMQdGRwGS2BhRrMhkWnmRSvDZnEkTXCbcU4YO0SP1y9Xs+nihyp4Qkkizp/6
-         wEH2753Klf5o21STjqDGK3fcfOF2CAYYnIW+KvaUnHGbQ0h6Pqa1PsWsrod755IXD3yh
-         86zK3QBY4DcR0jppV48bXOEpt0MKLpOXlJMpHPhxVHGL1q4b8CCEa0gAal+s6eWjVnyY
-         wDgg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772823324; x=1773428124; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7l15LzZPEKgZU2+6/JmE34y2IIvjO3++H7w4VEE2iBk=;
-        b=myfbRRt8amNLcN8kmpG0QT8hxmPr3WHpOnjxnt7KARKdJhc9H5lfYpBpym3j4j/uV4
-         P9NB9cw1wbjpAKJqkos06N28yMPoCR3Nxch94Igk/AxLbil+HNy9fsIgyaHAFLaqmnH+
-         t64BMrvuLA+bQoamNEFaLMGVLj7dBKPKOZ1U5pz5t2j3mdeanTTcp9wX6bidUN6DZhsI
-         eInjd7E7Ql7R8d3APiPfWZSuAfh2TVei0VIUMug6kE7hdE/y6o1OQopNhYChBNmucH8i
-         fCwjtXXIPvama/u4FUn8ru2Bgynks31jy9PNMUu6AVfkAXAyoGC72uxBEbIsndZ7eO9L
-         pZtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772823324; x=1773428124;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7l15LzZPEKgZU2+6/JmE34y2IIvjO3++H7w4VEE2iBk=;
-        b=bv9g8GrwXzjHDRuqV860jAz4kE2enz/8LaJ7tn9MxgLc85+rpbmjNMRFCq5GJ2P3ia
-         /6X1RB3GHK9uv3AZLx2dK8Fy0fJ4DUq+i5zN1x+CUzpLkugNyI/dScySJIXj5knmsF+M
-         q2J2UWsYSQTTQ4/uZc0GkmKBjiUS8Wd0yhhGUe1JRZPbbd+PnTaVw2TMqlmktkS2MQxQ
-         gqCyzQwOvmeQDRvdkRRK1DFfpbvw3HFtEetwyd1TZrJSqFDDk6VNzTxagcFe+4G6BxPs
-         YGcPex6esgoxyk1WdVi+H6/xUA249WMpe6gWfG7saAD07o+f6Pt46Bb1+j6ONOCnnYfR
-         OVuQ==
-X-Gm-Message-State: AOJu0YxlvCyBljv84byp0FQCRNk3a9oiMzKrOeH3Iez7/Ugwvj2yKx1N
-	WWbR4y7BbSWva9gWU33Znv+asQO1bMeTs3dfeaz/HYtfTQrjIJGkBliigY4EjbJSm5ONhQqkIB+
-	9bXJkkTOH03WtFVbnFCDAQ1uGbMQsfBg=
-X-Gm-Gg: ATEYQzxSxizByYO16VEIFpuBCgXZtg81Fe3o5qwq7JOlybGD9DpHS/XYDcZ2/liXdoP
-	hmPH0ER4xC8NDCOVhJN1sq6j4826QFf0dadROc/H4mWHbmZxtg1eVfrzK9pJxFGbTyda8FH/R2x
-	FdHLz7JWRc9ZuxNDuXv59ONGt+m9r6Hy0TADcAEHhTYICOtOBKHUgbP0ODLObF5+Zf9k3p3dRGD
-	Ga6EU8KAZy3xdQj3/sJG1EekfmBuLamU9wWOLesSMS5H4QwqcDI8GMaQwnCgvWMJDDhor98qMcX
-	QqFBKczjN7XndXSyvcfj
-X-Received: by 2002:a17:907:7f87:b0:b88:241e:693c with SMTP id
- a640c23a62f3a-b942df78506mr186398966b.31.1772823323901; Fri, 06 Mar 2026
- 10:55:23 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=LhKDJyI7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7525053b8a=hemanth.kumarmd@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626BQWUB1172055
+	for <openembedded-core@lists.openembedded.org>; Fri, 6 Mar 2026 19:00:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=CXeW1AHWoHDCu4/daD5g+k
+	Vm8nViXqzJweIYwDGr9fs=; b=LhKDJyI72XX6+bWpzkEUqyzfLSHL8aX9JEsOCE
+	2tmpHOGF3znQzjngizgf+XBkXP0pBr+We3rZRmuS6JlhK+Xo3IVr/4FftYOch0x1
+	BFoFE0somjVH6PZtAhxwBb5vFdMfe/0+OWzx/czy04ZcMq+RmTk8EAY26zCMlOUe
+	HZMyyvhYdd+ein0MVkA+Hac4xi8yO4tw71b3nUk47kXlJKp0/Jl4ma5OyBTsueVc
+	cJzqkZc7R6k1WGI536vkEhSY8DS2X853MdUJgJkwjQ4QfOROjJJpkqDZJznREROY
+	mUkKS/xAC2Lvo9C+7Ai1MUo0dFVs5fpsuxPuzSQgY5UTuwPw==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010022.outbound.protection.outlook.com [40.93.198.22])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cqv1yrj35-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 06 Mar 2026 19:00:10 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WCJDJe+/pP961LBsx7RwSHlET5KtAfmGOE50Zaz4D/VXrI1dNPeniPV6gRq7mlEQxHbFq6phKXtWMB3sWOTRIHfm5MnDdY6rf5wifcOSbriseztZ65C7t8SGwXpJXQHqYvi1b+IR8htvrgOgC/KPq3WCBkeE7i3G70PIXZP9SQACW29ifSDmI/n5ubbSR9v623WVY2h+72l5LqiCGWbGYtEKEiqO3DqT2Mqv8SstalSBY/gdFHywFQlyi0+J3NbJRiZ1NhJLsUP30I8AT34J/e4CeoWjrOjJ5vdXF/1+iauFkDnChjLavHvmpF59S2TOJQErQTPXCcxFMCfPUazPKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CXeW1AHWoHDCu4/daD5g+kVm8nViXqzJweIYwDGr9fs=;
+ b=Qx9sJkoR+s73eFgTRcrkCfIrISs12/fga+sL1CtJ/ys5fgt+ZidnGiN4sPzM5nwW26p7OeV2DmzMwsU10URvo7V/G7i8PuGwOONAiPI3/POI5BdTxHOg3rfLpWj4WAYNPuUki0phka5gkxMlzC/H5pBRHB9ED656c7i9hWMFln85sl0EqRdEQojAmQcV/P4jub615+aVPdl2nNBtYHBmlqv4Ou3zpCVDdAZapPKYs4OG0K21XJbB/V4HwTEXsVwQarjh5hSkEjiYzphuTQQFUcQQzfJmPlqTa9AgZ+OLNoqJ92HFKLx5/ASU8tZj8yT8vG+hdBfcSEJrMSr+7eXacg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
+ IA4PR11MB9394.namprd11.prod.outlook.com (2603:10b6:208:563::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Fri, 6 Mar
+ 2026 19:00:06 +0000
+Received: from DM6PR11MB4564.namprd11.prod.outlook.com
+ ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
+ ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
+ 19:00:06 +0000
+Content-Type: multipart/alternative;
+ boundary="------------L0V5rroXwgFuJrZrza75rbaI"
+Message-ID: <59a0aba3-8d3b-4bf1-9d5a-c1b2e7b16e8c@windriver.com>
+Date: Sat, 7 Mar 2026 00:29:58 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.43 release
+To: raj.khem@gmail.com, Randy MacLeod <randy.macleod@windriver.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+        Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+References: <20260127053941.792825-1-raj.khem@gmail.com>
+ <DGM7WKPONTXD.ZOV8O0CMQHXR@bootlin.com>
+ <25b7aea3-e05c-4378-95b7-ad269a4ee93d@windriver.com>
+ <CAMKF1sr+-xaOSezgQ92xPUSX7qPH_ruG6_Zkfq+TAG1gGpWh5A@mail.gmail.com>
+Content-Language: en-US
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+In-Reply-To: <CAMKF1sr+-xaOSezgQ92xPUSX7qPH_ruG6_Zkfq+TAG1gGpWh5A@mail.gmail.com>
+X-ClientProxiedBy: MA5PR01CA0154.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ac::15) To DM6PR11MB4564.namprd11.prod.outlook.com
+ (2603:10b6:5:2a0::7)
 MIME-Version: 1.0
-References: <20260305110200.17834-1-pratik.farkase@est.tech> <20260306172416.23307-1-pratik.farkase@est.tech>
-In-Reply-To: <20260306172416.23307-1-pratik.farkase@est.tech>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 6 Mar 2026 18:55:12 +0000
-X-Gm-Features: AaiRm523z9lzLZc6HewT3MNt71Ugs9zynEtWk5ILQrhORY5RNaBiIXOo1UjQzEE
-Message-ID: <CANPvuRkMaFwgenqWFYUy0WtC-vRmwU_2oD3RjaUUOrO2Ze1=iw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] go: add ptest support
-To: pratik.farkase@est.tech
-Cc: openembedded-core@lists.openembedded.org, pratik.farkase@ericsson.com
-Content-Type: multipart/alternative; boundary="0000000000007882c8064c5f9830"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|IA4PR11MB9394:EE_
+X-MS-Office365-Filtering-Correlation-Id: 90e94caf-a3ea-4b08-92bf-08de7bb29489
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|10070799003|1800799024|366016|4022899009|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	UZMD75At5sb1bygHgmxWIWAJEHBHZ3rT9Zs0Yk1Zgye13rDnJEb5Tx06PZ39xQxe0TkDqV+Qj5GOTLJnC3VSGIYfnTOUTtJShwqGrDIsE9GwDOpsdansq+j6SJS/hvKMp2VnUoL6HDWTZjT+GMtDWgmrYMZnAweD4sNHNo1RTMInwgVMVn+KwD8uLsCAVcP0LNHJ1zgMtHfwXX7AmDAfc6kF/usYzI5FwPZYDZU25Mi/mqPRc/suLvg/xYjG++lfJDpbYTwnfb/e9frDPfL8XWl7/2jV0bWJ9GnIUlqUwS8RmtsORri5s9BwDVOqWM+WjjCf2BmRIUJYBRwE9BCOpXEH/0KcubjYmCbB0zCx09sc2NWJPok8aBEQob4b8CR7HrXr9iA8yvo9wPJTSJgsu+GdauPj4xcUOsRgwYC4tfkGwe0IGKMJdf1+m2sJ/a2BFOIPIdviG48DMPzYaSW9wAqFSNW1IRTIshYKRaoHNE6yapt8T9qusyJJFJC7KCoJaY/aszTZHvS0AzOmVTIr4lTqDIuEz/3CLeNa4bEbpTTHtUjks8zvHEJtn22nOFqQMPEAiYC8MGEG0iRGBYVhOniH4EfTJYAERgcj91RaIEo2f6+gKA7wxXWai+aoqMr7KnR4EYANb7xhAuPORO2Li3NW9gNakBtVJqCJQzHjO9+Mt1jxUhgW+N5YFf5rhF3l
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016)(4022899009)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?enRzNkxsWnYwajFqaldNS0gxSnVjV25qZ1ZQdEwzUUFpdDY4aUE2cHdBdW4r?=
+ =?utf-8?B?M001UGV0QzZkSVdEK2FKbWt4NGdWdkVSL0ZmUnR6RDJnNkJ3Rm9LSllsSG1Z?=
+ =?utf-8?B?NmdJL0d1cG1vd1RCa2V6dlpFUVd1ZzdlVmNjb1o0QTVFck5IakFPc0Y2QlpJ?=
+ =?utf-8?B?ZDNRaGo3ajB4dFg1Q2JNdEJKK0UxQm9ua3A1cS9LcnlvV2M4KzFPNHkrSkE5?=
+ =?utf-8?B?K1FWVGxydS9FbXRQYlNoaWgvd3RJNm1vN0E0OU96MVdLUGlkc0dmQUNLL2ZM?=
+ =?utf-8?B?bmxzSVV4aXFIZVpqWXpVenRXSExxR2RMMDQrVVBGVWJEaGlHeWs2bHF6QnRW?=
+ =?utf-8?B?K1NkYk05a3pUS0NCY3pXZHRiTU1CZ21JYUxCQ1psamRlVTE5ZHhENXplNGZH?=
+ =?utf-8?B?SFZjRjQydG5STE5Pcy9oemVSR2ZoWkl5bW01Y1NyVFdYQnB6ZnhtMThOUTF2?=
+ =?utf-8?B?THdGYzVXY2hleUNBQlVoUUZ5L2poalYzS0lDcy84Q0s0Um1sK3NpMTgyOTdY?=
+ =?utf-8?B?TXNoM29IU3hqNWhCSXNoSytxR05mN0hHUGJORXhMeENsVEEzWHNvK2lodGQw?=
+ =?utf-8?B?c24zUnI2Ukt1Sy9qT1g4Z1VGVUNSZXZkUmVoKzRFZm5XZGU0MUtGL3lNalhK?=
+ =?utf-8?B?VkpiK1hHcGxBMUNaYmNMTytDRllWZFJCNTFNYWU1N2VickQ4OWtSeTJ0UVNr?=
+ =?utf-8?B?dWwrbGFhK3ZXbElvSTFqVVBSRGJJNTUvVWFwOHB5ZjhwOXBrd0MzaEcyRldk?=
+ =?utf-8?B?RGwydHYwTmlVdlhKTEx0N0gxWFR4N3dFVjB2alNYNUEwM2tLQW1PMGFLQk5W?=
+ =?utf-8?B?TDB0bmJHTkRFUXlZbS9EMHlOTHJ4eU14MCtmSnJXYVM4NHBGMVRwd2xZUk1V?=
+ =?utf-8?B?Q3BiaGd4V2dGWWRMZUMyRU9LY1pQU0I4SktLTTY2bE5PYnZpWmFXOEhvdUdE?=
+ =?utf-8?B?b3ZhZ1pwSVoycVBPMWJ4RGdSUmVaYlhMQ09GK1RQZmNQalN5ekIvS1JaTmJy?=
+ =?utf-8?B?Q1VETThwVnBiQ2YrRFVzWFIyQ213SUxLay9UVFRuRWtSY1VXODFOK2tkNlhu?=
+ =?utf-8?B?VVdTd2xhVlc1VGV0YUFQMW8zSk01VUVOdUNSejB2OUJ0SGFSWmVHbDdiRitH?=
+ =?utf-8?B?QXp5blVEZDVMN2VMUWlrcnVRSWdhYzNsTEs5eldYcWtoUEVpdFRHVStrQmNW?=
+ =?utf-8?B?L1lMOEFldkpCbkE4aEJCZG4ydkJudVhpMnlWMjY4bGd4cnhyTElpV3dHaEhk?=
+ =?utf-8?B?Y2J5bUp5WmpKdG5teTk0NURHYUV4SDExRWExQ1JId2tyNVdwTzVEQUFGZ3ZM?=
+ =?utf-8?B?ek51SitreGJRY3FTUWVWelJueHQyc2VaREozS1RjUHpldkNsNVBNMVI3Umhh?=
+ =?utf-8?B?TkRHcGI5OVFOZTJhU1Flb1lON0UxZjB5MjJydXlHbGVBU3hla1VINUxRMmpX?=
+ =?utf-8?B?Y0VhK2k5SUdIbER3NFNPVHI1NTBTWGxueEhoR2dpaDFpQ21aRlVoRHVpdVJ0?=
+ =?utf-8?B?Ump4M09wWDFmVk9NV3dqWEVDQ0RqNVVjbnp3T2JzSlhaRUM0VUYwQlJjKzBQ?=
+ =?utf-8?B?ZTl2UDI0U2xBYTFRRUttdmFPOHF1akJja1VkeVNXQisrMWt4TTZkM3BRMi8z?=
+ =?utf-8?B?YUhUM2ptN2VXc0R0dDFld0lMK3VGMHpGUExwN2VOaHkvNldnR25qVUovZ2VN?=
+ =?utf-8?B?Mk5aV0tDSXBSbS9XOHhEQ0JRY0lKaFZZbVExVFIyV3h4NDZVSFR0RFZkelJQ?=
+ =?utf-8?B?R3gwcWE3Rm95VFpYZWcyd2RZQ3h6N3NQR1VzUjQyUXM0bEJSMlFwVlNCWmZZ?=
+ =?utf-8?B?dVYyRjBQT2JrUzloMkpjcmo3NnlmUFVxMVJYdEZaaWxQVEhpZXI4VWwvTmd1?=
+ =?utf-8?B?R3JWNkdpRkpkZkgvaGpnd2JpWVV0Z0o2Vkc2LzBjRG1yRHVrbFArKyt5WXVN?=
+ =?utf-8?B?b0JtWWkzWVA4ZWtxVjFHZC9mMVYrQmJsYnY1bmR4S2hMYnpudHFSVmZDOXFp?=
+ =?utf-8?B?Q1l3WGFyNnhkQ1N0L2hEUGZYSzRxZng4Q1dxNzRsU0VEdVZmL3dsS3paNkEz?=
+ =?utf-8?B?anBRbjc4bHFMbVFPMjdPdjFvWHYwbHNzMDVvZHpBRkk3cWQvM2RkRXZXcjkv?=
+ =?utf-8?B?Ui9maXpKQyt4aEt6WmgvL1ozZitTaFlwK1d2eXJNc0hnMUVRK001U3U3MGVV?=
+ =?utf-8?B?MnJXYUk0R3VKSVJzZktKbyt5bUFJK2JGNFVlTWh6UDUvejg1clVjWmN6M1pW?=
+ =?utf-8?B?d0liN1FNeVhqV0JFTUJlUktMZHJMbzJHT2lkN3p2QmNFblowQkorcXF3QTFK?=
+ =?utf-8?B?bSt2S0I5WXRsUVlsN2luQlJBMzlsbm01THRpMHgvOTVaOEFqdHZLZVZPLzFy?=
+ =?utf-8?Q?SuEa+A1HpExhhepDFcBmbqM6nQvJV3Go+j9AkSkoZ/F+9?=
+X-MS-Exchange-AntiSpam-MessageData-1: 1YpJz1YehX/jyUmzuBLqNBTcwy0qRj92gvA=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90e94caf-a3ea-4b08-92bf-08de7bb29489
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 19:00:06.0455
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9SkRCuvkP9hehOg9hXs+1gsv8Yq34JuYUSYbErfgkBGSlOzNnhKlYW1jJnCAWTE/P65cc8paL1gME2SwktRaftyUCSW5WjXzCRoS6I2eyng=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9394
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=ObGVzxTY c=1 sm=1 tr=0 ts=69ab243a cx=c_pps
+ a=F9MFHRSrL/QBKEkL9+MzCA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=Q4-j1AaZAAAA:8
+ a=CCpqsmhAAAAA:8 a=pGLkceISAAAA:8 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8
+ a=GkcpNlNsh9uwZDpbLkMA:9 a=lqcHg5cX4UMA:10 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=pi6R10etsEVP1wgH554A:9 a=rq1ImG4UR2zzLEno:21
+ a=_W_S_7VecoQA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=ul9cdbp4aOFLsgKbc677:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 2uS1Om8qarxA01fOFJkEIY4lIZns_-ot
+X-Proofpoint-GUID: xW-Od3VlXhq1KXSM9RRknk-rGXMa26Vt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE3OSBTYWx0ZWRfX2ipIbLo+kzm6
+ 6oR1s7p64fJ7+9NeyMSaR4oKOtRzf8f6S0jUw3DmNp1oeId47smACaUAzeuWRvDDLGLJQmV285p
+ yKCbXdpcam05JwgXKI/Qt+MN3KGAoLaHOy6z+HIhTIPD/ZqVjzD2FuGhvOqQre11eLHEhal6f5g
+ RTyad4Fo9uMBlQNHwXShTGzMQNzAY19snZK14o+NZ9ww8c3CHRDBoZ057P1BqK/d7bqUleOGwDT
+ jWR3FAA+S2V30k4WqI+frTitXYpPYxZeOsX9X8iYV5LuY7pTbhwKo35VRHtlQ8jstroqRrIIhal
+ wYlqZR8l81ulyXFArWsXPpHFHu8bVdzoxG27Q1eCFgk/8Psm876GUORcZnM+8EZbkqFzELRVHBr
+ lfd1xiinfneq0ppD4y1tXootj+o804JkzOnmYsdFnyKehlHlJKBbGIM/5pxZXUX6RWWQDw4YA+l
+ iN8BXMpb7FzNCnB96ng==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 phishscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060179
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 18:55:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232588
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 19:00:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232589
 
---0000000000007882c8064c5f9830
-Content-Type: text/plain; charset="UTF-8"
+--------------L0V5rroXwgFuJrZrza75rbaI
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-
-Hi Pratik,
-
-Pratik Farkase via lists.openembedded.org <pratik.farkase=3D
-est.tech@lists.openembedded.org> escreveu (sexta, 6/03/2026 =C3=A0(s) 17:24=
-):
-
-> Add ptest infrastructure to test the Go standard library.
->
-> - Run 'go test -short std' via run-ptest script
-> - Install source tree and pkg/include headers
-> - Create VERSION file for architecture detection
-> - Exclude multi-arch binary testdata to avoid QA errors
->
-> Test results: 237/253 pass (93.7%) on qemux86-64.
->
-> Known issues:
-> - debug/elf, debug/pe, debug/plan9obj, internal/xcoff: missing binary
-> testdata
-> - time: requires embedded timezone data
-> - net/http: requires unstripped go binary
-> - testing, go/types: minor edge cases
->
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
-> Changes in v2:
-> - Exclude .elf* files to fix QA arch errors on all architectures
-> - Exclude *-x86-64* files to fix additional arch-specific test binaries
-> - Tested on x86-64, x86, aarch64, and arm builds
->
-
-Having the golang ptest running on x86 and arm is a great improvement for
-the project.
-Thank you very much for this patch.
-
-Jose
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 626BQWUB1172055
 
 
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  meta/recipes-devtools/go/go-1.26.0.inc        |  1 +
->  meta/recipes-devtools/go/go/run-ptest         | 23 ++++++++++++++++
->  meta/recipes-devtools/go/go_1.26.0.bb         | 27 ++++++++++++++++++-
->  4 files changed, 51 insertions(+), 1 deletion(-)
->  create mode 100755 meta/recipes-devtools/go/go/run-ptest
+On 06-03-2026 01:59 am, Khem Raj via lists.openembedded.org wrote:
+> **
+> *CAUTION: This email comes from a non Wind River email account!*
+> Do not click links or open attachments unless you recognize the sender=20
+> and know the content is safe.
+> Please pick the latest from my branch I will be traveling for next 10=20
+> Days
 >
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> b/meta/conf/distro/include/ptest-packagelists.inc
-> index 1bb7458fc9..432f3965de 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -24,6 +24,7 @@ PTESTS_FAST =3D "\
->      gdbm \
->      gdk-pixbuf \
->      glib-networking \
-> +    go \
->      gzip \
->      icu \
->      json-c \
-> diff --git a/meta/recipes-devtools/go/go-1.26.0.inc
-> b/meta/recipes-devtools/go/go-1.26.0.inc
-> index 7d8a68e3b2..611f00aaab 100644
-> --- a/meta/recipes-devtools/go/go-1.26.0.inc
-> +++ b/meta/recipes-devtools/go/go-1.26.0.inc
-> @@ -16,5 +16,6 @@ SRC_URI +=3D "\
->      file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+> We picked up Khem=E2=80=99s patch and have been working on resolving th=
+e=20
+> autobuilder failure. The earlier autobuilder failure reported in this=20
+> thread has been addressed However, running a bitbake world=C2=A0build=20
+> initially exposed failures in the following modules:
 >
->  file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+>  *
 >
->  file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-> +    file://run-ptest \
->  "
->  SRC_URI[main.sha256sum] =3D
-> "c9132a8a1f6bd2aa4aad1d74b8231d95274950483a4950657ee6c56e6e817790"
-> diff --git a/meta/recipes-devtools/go/go/run-ptest
-> b/meta/recipes-devtools/go/go/run-ptest
-> new file mode 100755
-> index 0000000000..86ff1bd1ae
-> --- /dev/null
-> +++ b/meta/recipes-devtools/go/go/run-ptest
-> @@ -0,0 +1,23 @@
-> +#!/bin/sh
-> +PTEST_DIR=3D/usr/lib/go/ptest
-> +GOROOT=3D/usr/lib/go
-> +
-> +export GOROOT
-> +export PATH=3D$GOROOT/bin:$PATH
-> +export ZONEINFO=3D/usr/share/zoneinfo
-> +
-> +ln -sf $PTEST_DIR/src $GOROOT/src
-> +mkdir -p $GOROOT/pkg/include
-> +cp $PTEST_DIR/pkg/include/* $GOROOT/pkg/include/
-> +cp $PTEST_DIR/VERSION $GOROOT/VERSION
-> +
-> +cd $GOROOT
-> +
-> +go test -short std 2>&1 | while IFS=3D read -r line; do
-> +    case "$line" in
-> +        ok*) echo "PASS: $(echo "$line" | awk '{print $2}')" ;;
-> +        FAIL*) echo "FAIL: $(echo "$line" | awk '{print $2}')" ;;
-> +        \?*) ;;
-> +        *) echo "$line" ;;
-> +    esac
-> +done
-> diff --git a/meta/recipes-devtools/go/go_1.26.0.bb
-> b/meta/recipes-devtools/go/go_1.26.0.bb
-> index 46f5fbc6be..35a14b8e8b 100644
-> --- a/meta/recipes-devtools/go/go_1.26.0.bb
-> +++ b/meta/recipes-devtools/go/go_1.26.0.bb
-> @@ -1,7 +1,7 @@
->  require go-${PV}.inc
->  require go-target.inc
+>     gettext-0.26-r0
 >
-> -inherit linuxloader
-> +inherit linuxloader ptest
+>  *
 >
->  CGO_LDFLAGS:append =3D " -no-pie"
+>     lib32-gettext-0.26-r0
 >
-> @@ -16,3 +16,28 @@ python() {
->          d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
->  }
+>  *
 >
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/src
-> +    install -d ${D}${PTEST_PATH}/pkg/include
-> +
-> +    cp ${S}/pkg/include/* ${D}${PTEST_PATH}/pkg/include/
-> +    echo "go${PV}" > ${D}${PTEST_PATH}/VERSION
-> +
-> +    cd ${S}/src
-> +    find . -type d -exec install -d ${D}${PTEST_PATH}/src/{} \;
-> +    find . -type f \
-> +        ! -path "*/testdata/*.elf*" \
-> +        ! -path "*/testdata/*-x86-64*" \
-> +        ! -path "*/testdata/*.obj" \
-> +        ! -path "*/testdata/*.syso" \
-> +        ! -path "*/testdata/*.so" \
-> +        ! -path "*/testdata/*.so_" \
-> +        ! -path "*/testdata/*-exec" \
-> +        ! -path "*/testdata/test32*" \
-> +        ! -path "*/testdata/test64*" \
-> +        ! -path "*/race/*.syso" \
-> +        ! -path "*/boring/syso/*.syso" \
-> +        -exec install -m 0644 {} ${D}${PTEST_PATH}/src/{} \;
-> +}
-> +
-> +RDEPENDS:${PN}-ptest +=3D "bash tzdata git packagegroup-core-buildessent=
-ial"
-> --
-> 2.43.0
+>     dtc-1.7.2-r0
+>
+>  *
+>
+>     lib32-dtc-1.7.2-r0
+>
+>  *
+>
+>     m4-1.4.20-r0
+>
+>  *
+>
+>     lib32-m4-1.4.20-r0
+>
+>  *
+>
+>     lib32-ltp-20260130-r0
+>
+>  *
+>
+>     ltp-20260130-r0
+>
+>  *
+>
+>     lib32-barebox-tools-2026.01.0-r0
+>
+>  *
+>
+>     barebox-tools-2026.01.0-r0
+>
+>  *
+>
+>     lib32-pseudo-1.9.3+git-r0
+>
+>  *
+>
+>     pseudo-1.9.3+git-r0
+>
+> Several of these issues have been resolved by upgrading the affected=20
+> components or by backporting upstream fixes.
+>
+> The remaining failures are currently in:
+>
+>  *
+>
+>     lib32-ltp-20260130-r0
+>
+>  *
+>
+>     ltp-20260130-r0
+>
+>  *
+>
+>     lib32-barebox-tools-2026.01.0-r0
+>
+>  *
+>
+>     barebox-tools-2026.01.0-r0
+>
+> We are continuing to investigate these issues and will share the=20
+> updates soon.
+>
+> On Thu, Mar 5, 2026, 8:23=E2=80=AFAM Randy MacLeod via lists.openembedd=
+ed.org=20
+> <http://lists.openembedded.org>=20
+> <randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+>     On 2026-02-23 4:01 a.m., Mathieu Dubois-Briand via
+>     lists.openembedded.org <http://lists.openembedded.org> wrote:
+>>     On Tue Jan 27, 2026 at 6:39 AM CET, Khem Raj vialists.openembedded=
+.org <http://lists.openembedded.org> wrote:
+>>>     License-Update: Match to changes [1]
+>>>
+>>>     Added free_sized, free_aligned_sized, memset_explicit, memalignme=
+nt, and new time bases (TIME_MONOTONIC, etc.).
+>>>
+>>>     Support for the Linux mseal system call to protect memory mapping=
+s (sealing).
+>>>
+>>>     Added support for the openat2 system call, allowing more granular=
+ file opening options.
+>>>
+>>>     New, optimized, and correctly rounded functions from the CORE-MAT=
+H project (acosh, asinh, atanh, erf, erfc, lgamma, tgamma).
+>>>
+>>>     Significant 4x improvements for fused multiply-add (FMA) on AMD Z=
+en 3 by updating ldbl-96 implementation.
+>>>
+>>>     Improved remainder, frexp, and frexpl.
+>>>
+>>>     Experimental Clang Support: Added support for building with LLVM =
+Clang (version 18+) on AArch64/x86_64 Linux.
+>>>
+>>>     New CPU Detection: Enhanced detection for newer CPU architectures.
+>>>
+>>>     64-bit atomics for 32bit x86 patch is no longer required since up=
+strea has dropped this logic in 2.43 release
+>>>
+>>>     [1]https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da0ce8=
+b0779e290596e99ca6d96c301684a2d7cfe
+>>>
+>>>     Signed-off-by: Khem Raj<raj.khem@gmail.com> <mailto:raj.khem@gmai=
+l.com>
+>>>     ---
+>>     Hi Khem,
+>>
+>>     I have some build issue with this patch. Yet I had some merge
+>>     conflicts, so maybe my resolutions were not correct.
+>>
+>>     ERROR: nativesdk-gcc-runtime-15.2.0-r0 do_compile: Execution of '/=
+srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-nati=
+vesdk-pokysdk-linux/nativesdk-gcc-runtime/15.2.0/temp/run.do_compile.3275=
+864' failed with exit code 1
+>>     ...
+>>     | /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work-s=
+hared/gcc-15.2.0-r0/sources/gcc-15.2.0/libgomp/affinity-fmt.c:330:25: err=
+or: initialization discards 'const' qualifier from pointer target type [-=
+Werror=3Ddiscarded-qualifiers]
+>>     |   330 |               char *q =3D strchr (p + 1, '}');
+>>     |       |                         ^~~~~~
+>>
+>>     https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/=
+3240
+>>     https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds=
+/3229
+>>
+>>     The branch that was tested if you want to check:https://git.yoctop=
+roject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.org/v=
+alkyrie/a-full-3260
+>>
+>>     Thanks,
+>>     Mathieu
+>
+>
+>     Khem,
+>
+>     Will you send a new version of this patch or should Deepesh do that=
+ ?
+>     We need this ASAP.
+>
+>     ../Randy
+>
+>>
+>
+>     --=20
+>     # Randy MacLeod
+>     # Wind River Linux
+>
+>
+>
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#232583):
-> https://lists.openembedded.org/g/openembedded-core/message/232583
-> Mute This Topic: https://lists.openembedded.org/mt/118174533/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
+> View/Reply Online (#232518):https://lists.openembedded.org/g/openembedd=
+ed-core/message/232518
+> Mute This Topic:https://lists.openembedded.org/mt/117484328/10244482
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [H=
+emanth.KumarMD@windriver.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->
-
 --=20
-Best regards,
+Regards,
+Hemanth Kumar M D
 
-Jos=C3=A9 Quaresma
-
---0000000000007882c8064c5f9830
-Content-Type: text/html; charset="UTF-8"
+--------------L0V5rroXwgFuJrZrza75rbaI
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 626BQWUB1172055
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Pratik,</div><br><div class=3D"gmail_q=
-uote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Pratik Fa=
-rkase via <a href=3D"http://lists.openembedded.org">lists.openembedded.org<=
-/a> &lt;pratik.farkase=3D<a href=3D"mailto:est.tech@lists.openembedded.org"=
->est.tech@lists.openembedded.org</a>&gt; escreveu (sexta, 6/03/2026 =C3=A0(=
-s) 17:24):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Add p=
-test infrastructure to test the Go standard library.<br>
-<br>
-- Run &#39;go test -short std&#39; via run-ptest script<br>
-- Install source tree and pkg/include headers<br>
-- Create VERSION file for architecture detection<br>
-- Exclude multi-arch binary testdata to avoid QA errors<br>
-<br>
-Test results: 237/253 pass (93.7%) on qemux86-64.<br>
-<br>
-Known issues:<br>
-- debug/elf, debug/pe, debug/plan9obj, internal/xcoff: missing binary testd=
-ata<br>
-- time: requires embedded timezone data<br>
-- net/http: requires unstripped go binary<br>
-- testing, go/types: minor edge cases<br>
-<br>
-Signed-off-by: Pratik Farkase &lt;pratik.farkase@est.tech&gt;<br>
----<br>
-Changes in v2:<br>
-- Exclude .elf* files to fix QA arch errors on all architectures<br>
-- Exclude *-x86-64* files to fix additional arch-specific test binaries<br>
-- Tested on x86-64, x86, aarch64, and arm builds<br></blockquote><div><br><=
-/div><div>Having the golang ptest running on x86 and arm is a great improve=
-ment=C2=A0for the project.</div>Thank=C2=A0you very much for this patch.<br=
-><div><br>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
----<br>
-=C2=A0.../distro/include/ptest-packagelists.inc=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-1 +<br>
-=C2=A0meta/recipes-devtools/go/go-1.26.0.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 1 +<br>
-=C2=A0meta/recipes-devtools/go/go/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 23 ++++++++++++++++<br>
-=C2=A0meta/recipes-devtools/go/<a href=3D"http://go_1.26.0.bb" rel=3D"noref=
-errer" target=3D"_blank">go_1.26.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-| 27 ++++++++++++++++++-<br>
-=C2=A04 files changed, 51 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100755 meta/recipes-devtools/go/go/run-ptest<br>
-<br>
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc<br>
-index 1bb7458fc9..432f3965de 100644<br>
---- a/meta/conf/distro/include/ptest-packagelists.inc<br>
-+++ b/meta/conf/distro/include/ptest-packagelists.inc<br>
-@@ -24,6 +24,7 @@ PTESTS_FAST =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0gdbm \<br>
-=C2=A0 =C2=A0 =C2=A0gdk-pixbuf \<br>
-=C2=A0 =C2=A0 =C2=A0glib-networking \<br>
-+=C2=A0 =C2=A0 go \<br>
-=C2=A0 =C2=A0 =C2=A0gzip \<br>
-=C2=A0 =C2=A0 =C2=A0icu \<br>
-=C2=A0 =C2=A0 =C2=A0json-c \<br>
-diff --git a/meta/recipes-devtools/go/go-1.26.0.inc b/meta/recipes-devtools=
-/go/go-1.26.0.inc<br>
-index 7d8a68e3b2..611f00aaab 100644<br>
---- a/meta/recipes-devtools/go/go-1.26.0.inc<br>
-+++ b/meta/recipes-devtools/go/go-1.26.0.inc<br>
-@@ -16,5 +16,6 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0file://0009-go-Filter-build-paths-on-staticly-linked-ar=
-ches.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-=
-trimpath-.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0011-cmd-link-stop-forcing-binutils-gold-depende=
-ncy-on-aa.patch \<br>
-+=C2=A0 =C2=A0 file://run-ptest \<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI[main.sha256sum] =3D &quot;c9132a8a1f6bd2aa4aad1d74b8231d95274=
-950483a4950657ee6c56e6e817790&quot;<br>
-diff --git a/meta/recipes-devtools/go/go/run-ptest b/meta/recipes-devtools/=
-go/go/run-ptest<br>
-new file mode 100755<br>
-index 0000000000..86ff1bd1ae<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/go/go/run-ptest<br>
-@@ -0,0 +1,23 @@<br>
-+#!/bin/sh<br>
-+PTEST_DIR=3D/usr/lib/go/ptest<br>
-+GOROOT=3D/usr/lib/go<br>
-+<br>
-+export GOROOT<br>
-+export PATH=3D$GOROOT/bin:$PATH<br>
-+export ZONEINFO=3D/usr/share/zoneinfo<br>
-+<br>
-+ln -sf $PTEST_DIR/src $GOROOT/src<br>
-+mkdir -p $GOROOT/pkg/include<br>
-+cp $PTEST_DIR/pkg/include/* $GOROOT/pkg/include/<br>
-+cp $PTEST_DIR/VERSION $GOROOT/VERSION<br>
-+<br>
-+cd $GOROOT<br>
-+<br>
-+go test -short std 2&gt;&amp;1 | while IFS=3D read -r line; do<br>
-+=C2=A0 =C2=A0 case &quot;$line&quot; in<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ok*) echo &quot;PASS: $(echo &quot;$line&quot;=
- | awk &#39;{print $2}&#39;)&quot; ;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 FAIL*) echo &quot;FAIL: $(echo &quot;$line&quo=
-t; | awk &#39;{print $2}&#39;)&quot; ;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 \?*) ;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *) echo &quot;$line&quot; ;;<br>
-+=C2=A0 =C2=A0 esac<br>
-+done<br>
-diff --git a/meta/recipes-devtools/go/<a href=3D"http://go_1.26.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">go_1.26.0.bb</a> b/meta/recipes-devtools/=
-go/<a href=3D"http://go_1.26.0.bb" rel=3D"noreferrer" target=3D"_blank">go_=
-1.26.0.bb</a><br>
-index 46f5fbc6be..35a14b8e8b 100644<br>
---- a/meta/recipes-devtools/go/<a href=3D"http://go_1.26.0.bb" rel=3D"noref=
-errer" target=3D"_blank">go_1.26.0.bb</a><br>
-+++ b/meta/recipes-devtools/go/<a href=3D"http://go_1.26.0.bb" rel=3D"noref=
-errer" target=3D"_blank">go_1.26.0.bb</a><br>
-@@ -1,7 +1,7 @@<br>
-=C2=A0require go-${PV}.inc<br>
-=C2=A0require go-target.inc<br>
-<br>
--inherit linuxloader<br>
-+inherit linuxloader ptest<br>
-<br>
-=C2=A0CGO_LDFLAGS:append =3D &quot; -no-pie&quot;<br>
-<br>
-@@ -16,3 +16,28 @@ python() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.appendVar(&#39;INSANE_SKIP:%s&#39; % d.=
-getVar(&#39;PN&#39;), &quot; textrel&quot;)<br>
-=C2=A0}<br>
-<br>
-+do_install_ptest() {<br>
-+=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/src<br>
-+=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/pkg/include<br>
-+<br>
-+=C2=A0 =C2=A0 cp ${S}/pkg/include/* ${D}${PTEST_PATH}/pkg/include/<br>
-+=C2=A0 =C2=A0 echo &quot;go${PV}&quot; &gt; ${D}${PTEST_PATH}/VERSION<br>
-+<br>
-+=C2=A0 =C2=A0 cd ${S}/src<br>
-+=C2=A0 =C2=A0 find . -type d -exec install -d ${D}${PTEST_PATH}/src/{} \;<=
-br>
-+=C2=A0 =C2=A0 find . -type f \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*.elf*&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*-x86-64*&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*.obj&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*.syso&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*.so&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*.so_&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/*-exec&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/test32*&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/testdata/test64*&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/race/*.syso&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ! -path &quot;*/boring/syso/*.syso&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 -exec install -m 0644 {} ${D}${PTEST_PATH}/src=
-/{} \;<br>
-+}<br>
-+<br>
-+RDEPENDS:${PN}-ptest +=3D &quot;bash tzdata git packagegroup-core-buildess=
-ential&quot;<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#232583): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/232583" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/232583</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118174533/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/118174533/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 06-03-2026 01:59 am, Khem Raj via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:CAMKF1sr+-xaOSezgQ92xPUSX7qPH_r=
+uG6_Zkfq+TAG1gGpWh5A@mail.gmail.com">
+     =20
+      <strong>
+      </strong>
+      <div style=3D"border:solid #9c6500 1pt;padding:2pt;background:#fcfc=
+03"><strong><class=3D"msonormal" style=3D"line-height:11pt"><span style=3D=
+"font-size:11pt;color:#000">CAUTION: This email
+              comes from a non Wind River email account!</span></class=3D=
+"msonormal"></strong><br>
+        <class=3D"msonormal" style=3D"line-height:10pt3"><span style=3D"f=
+ont-size:10pt;color:#000">Do not click links or open
+            attachments unless you recognize the sender and know the
+            content is safe.</span><br>
+        </class=3D"msonormal"></div>
+      <div>
+        <div dir=3D"auto">Please pick the latest from my branch I will be
+          traveling for next 10 Days&nbsp;</div>
+        <br>
+        &nbsp;
+        <p>We picked up Khem=E2=80=99s patch and have been working on res=
+olving
+          the autobuilder failure. The earlier autobuilder failure
+          reported in this thread has been addressed However, running a
+          bitbake world&nbsp;build initially exposed failures in the
+          following modules:</p>
+        <ul>
+          <li>
+            <p>gettext-0.26-r0</p>
+          </li>
+          <li>
+            <p>lib32-gettext-0.26-r0</p>
+          </li>
+          <li>
+            <p>dtc-1.7.2-r0</p>
+          </li>
+          <li>
+            <p>lib32-dtc-1.7.2-r0</p>
+          </li>
+          <li>
+            <p>m4-1.4.20-r0</p>
+          </li>
+          <li>
+            <p>lib32-m4-1.4.20-r0</p>
+          </li>
+          <li>
+            <p>lib32-ltp-20260130-r0</p>
+          </li>
+          <li>
+            <p>ltp-20260130-r0</p>
+          </li>
+          <li>
+            <p>lib32-barebox-tools-2026.01.0-r0</p>
+          </li>
+          <li>
+            <p>barebox-tools-2026.01.0-r0</p>
+          </li>
+          <li>
+            <p>lib32-pseudo-1.9.3+git-r0</p>
+          </li>
+          <li>
+            <p>pseudo-1.9.3+git-r0</p>
+          </li>
+        </ul>
+        <p>Several of these issues have been resolved by upgrading the
+          affected components or by backporting upstream fixes.</p>
+        <p>The remaining failures are currently in:</p>
+        <ul>
+          <li>
+            <p>lib32-ltp-20260130-r0</p>
+          </li>
+          <li>
+            <p>ltp-20260130-r0</p>
+          </li>
+          <li>
+            <p>lib32-barebox-tools-2026.01.0-r0</p>
+          </li>
+          <li>
+            <p>barebox-tools-2026.01.0-r0</p>
+          </li>
+        </ul>
+        <p>We are continuing to investigate these issues and will share
+          the updates soon.</p>
+        <div class=3D"gmail_quote gmail_quote_container">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 5, 2026, 8:23=
+=E2=80=AFAM
+            Randy MacLeod via <a href=3D"http://lists.openembedded.org" m=
+oz-do-not-send=3D"true">
+              lists.openembedded.org</a> &lt;randy.macleod=3D<a href=3D"m=
+ailto:windriver.com@lists.openembedded.org" moz-do-not-send=3D"true" clas=
+s=3D"moz-txt-link-freetext">windriver.com@lists.openembedded.org</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div>
+              <div>On 2026-02-23 4:01 a.m., Mathieu Dubois-Briand via <a =
+href=3D"http://lists.openembedded.org" target=3D"_blank" rel=3D"noreferre=
+r" moz-do-not-send=3D"true">
+                  lists.openembedded.org</a> wrote:<br>
+              </div>
+              <blockquote type=3D"cite">
+                <pre>On Tue Jan 27, 2026 at 6:39 AM CET, Khem Raj via <a =
+href=3D"http://lists.openembedded.org" target=3D"_blank" rel=3D"noreferre=
+r" moz-do-not-send=3D"true">lists.openembedded.org</a> wrote:
+</pre>
+                <blockquote type=3D"cite">
+                  <pre>License-Update: Match to changes [1]
 
---0000000000007882c8064c5f9830--
+Added free_sized, free_aligned_sized, memset_explicit, memalignment, and =
+new time bases (TIME_MONOTONIC, etc.).
+
+Support for the Linux mseal system call to protect memory mappings (seali=
+ng).
+
+Added support for the openat2 system call, allowing more granular file op=
+ening options.
+
+New, optimized, and correctly rounded functions from the CORE-MATH projec=
+t (acosh, asinh, atanh, erf, erfc, lgamma, tgamma).
+
+Significant 4x improvements for fused multiply-add (FMA) on AMD Zen 3 by =
+updating ldbl-96 implementation.
+
+Improved remainder, frexp, and frexpl.
+
+Experimental Clang Support: Added support for building with LLVM Clang (v=
+ersion 18+) on AArch64/x86_64 Linux.
+
+New CPU Detection: Enhanced detection for newer CPU architectures.
+
+64-bit atomics for 32bit x86 patch is no longer required since upstrea ha=
+s dropped this logic in 2.43 release
+
+[1] <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da=
+0ce8b0779e290596e99ca6d96c301684a2d7cfe" target=3D"_blank" rel=3D"norefer=
+rer" moz-do-not-send=3D"true" class=3D"moz-txt-link-freetext">https://sou=
+rceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Da0ce8b0779e290596e99ca6d96c=
+301684a2d7cfe</a>
+
+Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_=
+blank" rel=3D"noreferrer" moz-do-not-send=3D"true">&lt;raj.khem@gmail.com=
+&gt;</a>
+---
+</pre>
+                </blockquote>
+                <pre>Hi Khem,
+
+I have some build issue with this patch. Yet I had some merge
+conflicts, so maybe my resolutions were not correct.
+
+ERROR: nativesdk-gcc-runtime-15.2.0-r0 do_compile: Execution of '/srv/pok=
+ybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-nativesdk-p=
+okysdk-linux/nativesdk-gcc-runtime/15.2.0/temp/run.do_compile.3275864' fa=
+iled with exit code 1
+...
+| /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work-shared/g=
+cc-15.2.0-r0/sources/gcc-15.2.0/libgomp/affinity-fmt.c:330:25: error: ini=
+tialization discards 'const' qualifier from pointer target type [-Werror=3D=
+discarded-qualifiers]
+|   330 |               char *q =3D strchr (p + 1, '}');
+|       |                         ^~~~~~
+
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/bui=
+lds/3240" target=3D"_blank" rel=3D"noreferrer" moz-do-not-send=3D"true" c=
+lass=3D"moz-txt-link-freetext">https://autobuilder.yoctoproject.org/valky=
+rie/#/builders/4/builds/3240</a>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/bu=
+ilds/3229" target=3D"_blank" rel=3D"noreferrer" moz-do-not-send=3D"true" =
+class=3D"moz-txt-link-freetext">https://autobuilder.yoctoproject.org/valk=
+yrie/#/builders/19/builds/3229</a>
+
+The branch that was tested if you want to check: <a href=3D"https://git.y=
+octoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.=
+org/valkyrie/a-full-3260" target=3D"_blank" rel=3D"noreferrer" moz-do-not=
+-send=3D"true" class=3D"moz-txt-link-freetext">https://git.yoctoproject.o=
+rg/poky-ci-archive/tag/?h=3Doecore/autobuilder.yoctoproject.org/valkyrie/=
+a-full-3260</a>
+
+Thanks,
+Mathieu</pre>
+              </blockquote>
+              <p><br>
+              </p>
+              <p>Khem,&nbsp;</p>
+              <p>Will you send a new version of this patch or should
+                Deepesh do that ?<br>
+                We need this ASAP.</p>
+              <p>../Randy</p>
+              <blockquote type=3D"cite">
+                <br>
+                <fieldset></fieldset>
+              </blockquote>
+              <p><br>
+              </p>
+              <pre cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+            </div>
+            <br>
+            <br>
+            <br>
+          </blockquote>
+        </div>
+      </div>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#232518): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/232518">https:/=
+/lists.openembedded.org/g/openembedded-core/message/232518</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/117484328/10244482">https://lists.openembedded.org/m=
+t/117484328/10244482</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:Hemanth.KumarMD@windriver.com">Hemanth.KumarMD@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+Regards,
+Hemanth Kumar M D</pre>
+  </body>
+</html>
+
+--------------L0V5rroXwgFuJrZrza75rbaI--
 
