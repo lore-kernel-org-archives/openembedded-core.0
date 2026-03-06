@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BAAF01804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E9EF01808
 	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 07:23:10 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.64465.1772781782464469865
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.64470.1772781784754330265
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 23:23:02 -0800
+ Thu, 05 Mar 2026 23:23:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dfnCbV4M;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48375f10628so58882265e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 23:23:02 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=jiia1mud;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4836f4cbe0bso76697585e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 23:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772781780; x=1773386580; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1772781783; x=1773386583; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ehiShr3c2C4v1lOrNUpIgEsACwgAJ96RiOm+Q3kxkoE=;
-        b=dfnCbV4MoZtWDCez7GlZsXgKqQGnsPo/nanDv/mYi+iOTwKKj9mA0vctL5yclyCK3f
-         xqGjaPXLjSixmKBo5IZtApRRVuzQMfMg8NLwAUXAJ+Irq3rDd1O8iS56SBTjgSrFk7mB
-         D1Y1EIMAa8GcCW6ku8VSaKRXGVPjHh3Aun6xQ=
+        bh=JYoNDMjelospYlbKoZqhkBVyOEU0ikkLfF8ZJ9JjW+U=;
+        b=jiia1mud4TcSfIuBZOVjsC1Ih7pmWwkoALjlx7Y2yH5x+coagjIWVgEygSlyV1kFz3
+         iGj78Sz5hDEpWm96PP6wH0+IeqfclnE/5nHNZjcCbXKDR/07Wha1/gmfev4Wdw9OtVH4
+         xVCdVUglMpt/++zYMO0sd1ifg3f8/p8sofASQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772781780; x=1773386580;
+        d=1e100.net; s=20230601; t=1772781783; x=1773386583;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ehiShr3c2C4v1lOrNUpIgEsACwgAJ96RiOm+Q3kxkoE=;
-        b=WRhjTFUBKdPK4G4jUDNwUO4VfVfIO85585gZg+W+HrqIiMDIhyYXjU/axSROCjJc75
-         2+WzV2jH6fBA4ovm+p+YwSV17bOMpDdQ/WC4sklqaGNmXKd98d/REwTRyOTkusg3ObVY
-         WrwWJn+B8iDyx0AkUIP2KFGCggKVaWni0omSTMdWUTITdS2Fyko9UnQ6iUQvCPLL4+oX
-         HM6SUudJ6oi3Jg00MNJiFLiwzpG5ywRH4xGMnMVy1UdH/ZJPT34SmVtPoiN+6M+37UI1
-         8dUhEhFdVH6qvUoDLMNPfhqeAzzJsjCTN1xKLx3vhinWCXlRvrUcOG9YIddWwQ9bJ5Z6
-         +CMw==
-X-Gm-Message-State: AOJu0YzAa/8jvIrXZmtJBtNczzfVgd7alAGnkkVuF62eFtmMYtx9sh+w
-	JCDKZB8dUeNMJXaMPpdGjU8jFipp9i1ApPCeiq815fQn2HT5ME07g+Y6JErQAeeBs2wk66IanRr
-	neGZU
-X-Gm-Gg: ATEYQzyg/jUdg1dUzgHWCaGVKUPeO9ZzXEOx0NGTQcdeYxU9IMRipXSMVnZ2P9Trmij
-	wDfsjTRaM1mpuuL9zloSsq+r7QAd0Nyyx5EsJbqeJWZyO3uReFaC8Tw6IE1Q7aOsB9Fq9yQ2uuS
-	mWd+weT2EINExthtnxBV3gtVT1aVKs3ccZ+BQnt03geYI1qmieksWh5tt6G5/6K/hwqPR2RbPZ5
-	P+mLtRmbC4wgXs7PMTRUnf5G3iKAJRbJUedz3qgC0/NZW863s3+hRywlcBJ9ZqzigkIwi2PEn/o
-	3qosgDOK1p3mKA9IPP1osxa9BQ1kwLt6OPmfy8uE5jQf4gBQxpeCSgpAVqT6yaCsl8NWE7xye1O
-	Mo+Vsd6dSH3cK3hfPsPthW129Y1RCmW0iEc9KXSu6+mtKpoODuRf7q4kyLzxvji3afyAp+aUMqZ
-	Lflf7OyQqUQgvRYbYKVZoHEK7dtMcTwMaxCuOM2Dj2lK7gZX3WNb5y0eM8PUToEVj55//0XI6h3
-	jo+2ZL4wvtYpoKke6kwJx35zHRn
-X-Received: by 2002:a05:600c:37c9:b0:483:612d:7a9a with SMTP id 5b1f17b1804b1-485268bf171mr16605285e9.0.1772781780468;
-        Thu, 05 Mar 2026 23:23:00 -0800 (PST)
+        bh=JYoNDMjelospYlbKoZqhkBVyOEU0ikkLfF8ZJ9JjW+U=;
+        b=vtXij1hqd+faDxMS93v4zahJFVgMEo0zjEWONRNsKdo/Hk+BTVVb/8xm64Df/l0APV
+         GQr+DK9/T9i9jMs60A9iQ4Vs0yojFYZZ8LJjBMRuvMEdbHEdPA+99IWR8t6D3Qohh3wC
+         kkwfHAm7LqHuF5EiYWmdFC9gt2HeFSpH+v/U/cbbWeE9djHYpUzwW7Bp00SLbB/jwMdi
+         e+4ynSbwFElq93ieoQIiIWI8mEFpKGD+gwkXhUOCl6BzuSAyok4VJvoQxhY7DVZL3YVc
+         c02ic6Tfcg5neMWDf2JsekqGoxd1HTatp2Dm/eWuQUedzbhDNmjEnu2sfnm70AoNPz3y
+         Ppkw==
+X-Gm-Message-State: AOJu0Yw3TUzwVVkD21qg1co72Ca7uSEqfhwnb8RjL17PvsLN6WzfXLNO
+	w/ZrbWMj2aPSM19LuDpOkyV8+1v4XMb8js7wJKPpoh1foT+gGKUs0UZtELWKlPCeGhPCWrm98Ke
+	hVZfU
+X-Gm-Gg: ATEYQzzxWab9LKuidC5zN0YY1qMZ4iH7zpbb9HdmchsP0EJGCdxU0KU37UiajSJrP4n
+	YAik3C4QKkxITJFMcd9XilUqRMo0X/f3m0HMJr4z8kAlXSW+mddS1kKYyQzir63FUzNqPI4kfit
+	0bhYhzjPAQXrM3/LFqcae6pLfHAY4EGk4e+LpIrS+p7Z6DTVTZrtcCaiSGJCF+FZgA1hdcBw6Wg
+	8/W8i0/9QoKLBThgVp3TYbQtSWULMa872fACo0lflRK5VIFg3fu7OiTuO4XzCuyXoP48IHgC+AJ
+	o30ZSkKTAjIiZRPMtYxqMs+RgN1RwN4Z+azJdkzmuGaKPOUGUn4AyITD/5GjCr8JETlZGICSxdf
+	Ob9+2wQl1K+MqsWvT2Fo2737MHX8SKjgzhTtckV91bo15iXLfrHduKkTCWw+O7iPo8ZHB58UGM+
+	wXA9lb8ChZ7LQ4KG89sops0QPHChwHrz1Cp6SKy6RY/xRRif8W+DMuPrKKBcvwZj/9jz+iJa9II
+	F0Q02ZUel9NQLWYvjUN+cpl/ABN
+X-Received: by 2002:a05:600c:1e2a:b0:471:700:f281 with SMTP id 5b1f17b1804b1-4852695d227mr14174485e9.25.1772781782720;
+        Thu, 05 Mar 2026 23:23:02 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bdeac353f6fa5aa8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bdea:c353:f6fa:5aa8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b09casm23106445e9.11.2026.03.05.23.23.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b09casm23106445e9.11.2026.03.05.23.23.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 23:23:00 -0800 (PST)
+        Thu, 05 Mar 2026 23:23:02 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 03/16] gdk-pixbuf: Fix CVE-2025-6199
-Date: Fri,  6 Mar 2026 08:22:03 +0100
-Message-ID: <7dd07c908c00be28866690e32c2e6c37b3136c27.1772780989.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 07/16] zlib: Fix CVE-2026-27171
+Date: Fri,  6 Mar 2026 08:22:07 +0100
+Message-ID: <56fa706a39e837f5c4b9e782f215fa98ea23df12.1772780989.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1772780989.git.yoann.congal@smile.fr>
 References: <cover.1772780989.git.yoann.congal@smile.fr>
@@ -66,77 +66,103 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 07:23:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232542
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232545
 
-From: Shaik Moin <careers.myinfo@gmail.com>
+From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 
-Backport the fix for CVE-2025-6199
-Add below patch to fix
-CVE-2025-6199.patch
+Pick patch from [1] also mentioned in [2]
 
-Reference: In Ubuntu and debian, fixed patch is given -> [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/c4986342b241cdc075259565f3fa7a7597d32a32]
+[1] https://github.com/madler/zlib/issues/904
+[2] https://security-tracker.debian.org/tracker/CVE-2026-27171
 
-Signed-off-by: Shaik Moin <moins@kpit.com>
-[YC: Link to Debian security tracker: https://security-tracker.debian.org/tracker/CVE-2025-6199 ]
+Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch | 36 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
+ .../zlib/zlib/CVE-2026-27171.patch            | 63 +++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.3.1.bb          |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2026-27171.patch b/meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
 new file mode 100644
-index 00000000000..1952e3ceaf5
+index 00000000000..e6a8a3eac5f
 --- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
-@@ -0,0 +1,36 @@
-+From 140200be0b4d5355aab76a6fd474e17d117045ca Mon Sep 17 00:00:00 2001
-+From: lumi <lumi@suwi.moe>
-+Date: Sat, 7 Jun 2025 22:27:06 +0200
-+Subject: [PATCH] lzw: Fix reporting of bytes written in decoder
++++ b/meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
+@@ -0,0 +1,63 @@
++From f234bdf5c0f94b681312452fcd5e36968221fa04 Mon Sep 17 00:00:00 2001
++From: Mark Adler <git@madler.net>
++Date: Sun, 21 Dec 2025 18:17:56 -0800
++Subject: [PATCH] Check for negative lengths in crc32_combine functions.
 +
-+When the LZW decoder encounters an invalid code, it stops
-+processing the image and returns the whole buffer size.
-+It should return the amount of bytes written, instead.
++Though zlib.h says that len2 must be non-negative, this avoids the
++possibility of an accidental infinite loop.
 +
-+Fixes #257
++Upstream-Status: Backport [https://github.com/madler/zlib/commit/ba829a458576d1ff0f26fc7230c6de816d1f6a77]
++CVE: CVE-2026-27171
 +
-+CVE: CVE-2025-6199
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/c4986342b241cdc075259565f3fa7a7597d32a32]
-+
-+Signed-off-by: Shaik Moin <moins@kpit.com>
++Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 +---
-+ gdk-pixbuf/lzw.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ crc32.c | 4 ++++
++ zlib.h  | 4 ++--
++ 2 files changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
-+index 15293560b..4f3dd8beb 100644
-+--- a/gdk-pixbuf/lzw.c
-++++ b/gdk-pixbuf/lzw.c
-+@@ -208,7 +208,7 @@ lzw_decoder_feed (LZWDecoder *self,
-+                                 /* Invalid code received - just stop here */
-+                                 if (self->code >= self->code_table_size) {
-+                                         self->last_code = self->eoi_code;
-+-                                        return output_length;
-++                                        return n_written;
-+                                 }
++diff --git a/crc32.c b/crc32.c
++index 6c38f5c..33d8c79 100644
++--- a/crc32.c
+++++ b/crc32.c
++@@ -1019,6 +1019,8 @@ unsigned long ZEXPORT crc32(unsigned long crc, const unsigned char FAR *buf,
 + 
-+                                 /* Convert codeword into indexes */
++ /* ========================================================================= */
++ uLong ZEXPORT crc32_combine64(uLong crc1, uLong crc2, z_off64_t len2) {
+++    if (len2 < 0)
+++        return 0;
++ #ifdef DYNAMIC_CRC_TABLE
++     once(&made, make_crc_table);
++ #endif /* DYNAMIC_CRC_TABLE */
++@@ -1032,6 +1034,8 @@ uLong ZEXPORT crc32_combine(uLong crc1, uLong crc2, z_off_t len2) {
++ 
++ /* ========================================================================= */
++ uLong ZEXPORT crc32_combine_gen64(z_off64_t len2) {
+++    if (len2 < 0)
+++        return 0;
++ #ifdef DYNAMIC_CRC_TABLE
++     once(&made, make_crc_table);
++ #endif /* DYNAMIC_CRC_TABLE */
++diff --git a/zlib.h b/zlib.h
++index 8d4b932..8c7f8ac 100644
++--- a/zlib.h
+++++ b/zlib.h
++@@ -1758,14 +1758,14 @@ ZEXTERN uLong ZEXPORT crc32_combine(uLong crc1, uLong crc2, z_off_t len2);
++    seq1 and seq2 with lengths len1 and len2, CRC-32 check values were
++    calculated for each, crc1 and crc2.  crc32_combine() returns the CRC-32
++    check value of seq1 and seq2 concatenated, requiring only crc1, crc2, and
++-   len2. len2 must be non-negative.
+++   len2. len2 must be non-negative, otherwise zero is returned.
++ */
++ 
++ /*
++ ZEXTERN uLong ZEXPORT crc32_combine_gen(z_off_t len2);
++ 
++      Return the operator corresponding to length len2, to be used with
++-   crc32_combine_op(). len2 must be non-negative.
+++   crc32_combine_op(). len2 must be non-negative, otherwise zero is returned.
++ */
++ 
++ ZEXTERN uLong ZEXPORT crc32_combine_op(uLong crc1, uLong crc2, uLong op);
 +-- 
-+2.34.1
++2.43.0
 +
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-index 98993cc07d7..f22dc2cd915 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-@@ -22,6 +22,7 @@ SRC_URI += "\
+diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zlib/zlib_1.3.1.bb
+index ef831421216..892467a1fbd 100644
+--- a/meta/recipes-core/zlib/zlib_1.3.1.bb
++++ b/meta/recipes-core/zlib/zlib_1.3.1.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
+ SRC_URI = "https://zlib.net/${BP}.tar.gz \
+            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
             file://run-ptest \
-            file://fatal-loader.patch \
-            file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
-+           file://CVE-2025-6199.patch \
++           file://CVE-2026-27171.patch \
             "
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
  
- GIR_MESON_OPTION = 'introspection'
 
