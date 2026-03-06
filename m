@@ -2,35 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FC6FCB60B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B982EFCB615
 	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 15:21:20 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71371.1772810476255684377
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71597.1772810475611674492
  for <openembedded-core@lists.openembedded.org>;
  Fri, 06 Mar 2026 07:21:16 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DB8D1516
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Mar 2026 07:21:09 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7F80497
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Mar 2026 07:21:08 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 56B743F836
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Mar 2026 07:21:15 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AF9FE3F836
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Mar 2026 07:21:14 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] tcl8: prefer tcl's own tzdata
-Date: Fri,  6 Mar 2026 15:21:10 +0000
-Message-ID: <20260306152110.47750-2-ross.burton@arm.com>
+Subject: [PATCH 1/2] tcl: prefer tcl's own tzdata
+Date: Fri,  6 Mar 2026 15:21:09 +0000
+Message-ID: <20260306152110.47750-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260306152110.47750-1-ross.burton@arm.com>
-References: <20260306152110.47750-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 15:21:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232579
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232578
 
 The little thread that was "one of the tcl test cases fails with system
 tzdata" has unravelled upstream into a series of problems with the tz
@@ -44,18 +42,18 @@ until the issues are resolved upstream.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb | 11 +++++------
+ meta/recipes-devtools/tcltk/tcl_9.0.3.bb | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb b/meta/recipes-d=
-evtools/tcltk8/tcl8_8.6.17.bb
-index 0f829a9d1b..0a8d6ea1bf 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-@@ -42,11 +42,10 @@ EXTRA_AUTORECONF =3D "--exclude=3Daclocal"
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.3.bb b/meta/recipes-devt=
+ools/tcltk/tcl_9.0.3.bb
+index 3c0a257238..18de3a333a 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.3.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.3.bb
+@@ -38,11 +38,10 @@ EXTRA_AUTORECONF =3D "--exclude=3Daclocal"
 =20
- EXTRA_OECONF =3D "--enable-threads --disable-rpath --enable-man-suffix=3D=
-tcl8"
+ EXTRA_OECONF =3D "--disable-rpath --enable-man-suffix=3Dtcl9 --disable-z=
+ipfs"
 =20
 -# Prevent installing copy of tzdata based on tzdata installation on the =
 build host
@@ -75,11 +73,11 @@ o/UTC /usr/share/lib/zoneinfo/GMT /usr/lib/zoneinfo/UTC /usr/lib/zoneinfo=
 =20
  do_install() {
  	autotools_do_install
-@@ -73,7 +72,7 @@ FILES:${PN}-dev +=3D "${libdir}/tcl8Config.sh ${libdir}=
-/tcl8ooConfig.sh"
+@@ -69,7 +68,7 @@ FILES:${PN}-dev +=3D "${libdir}/tclConfig.sh ${libdir}/=
+tclooConfig.sh"
 =20
  # isn't getting picked up by shlibs code
- RDEPENDS:${PN} +=3D "tcl8-lib"
+ RDEPENDS:${PN} +=3D "tcl-lib"
 -RDEPENDS:${PN}-ptest +=3D "libgcc locale-base-en-us tzdata"
 +RDEPENDS:${PN}-ptest +=3D "libgcc locale-base-en-us"
 =20
