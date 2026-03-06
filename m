@@ -2,95 +2,189 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AF4F5141C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A1CF51419
 	for <webhook@archiver.kernel.org>; Fri,  6 Mar 2026 07:23:08 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.64685.1772781785605800867
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.64680.1772781780851802091
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Mar 2026 23:23:05 -0800
+ Thu, 05 Mar 2026 23:23:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ncZ2QbRh;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48329eb96a7so58641605e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 23:23:05 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=yRaEh2BF;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-483bd7354efso116674695e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Mar 2026 23:23:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772781784; x=1773386584; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=njpY43cUsFTxwlAfg2Ji7SvYZpV79HUJrf8BEPfihjY=;
-        b=ncZ2QbRhDnnaQdfIodNFCU3zGFINM1F5nF6/zzFJg7Y+k3PCdG54DobmhoHHRTDPHu
-         1d/UlsgGCHvNWn3lzxghLN27psg7TOJ36tjhnk3Dh+JeOmRaDZXTo7aqgj0SsjfwyZzV
-         V5zfdzyg059BVFOHGiuMMmKuFRcyunvoXng9E=
+        d=smile.fr; s=google; t=1772781779; x=1773386579; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TbeMDZ1vdA9Bkly2FKs14N9nncfhByWAGxfBCo5Hzxo=;
+        b=yRaEh2BFoOQkilXs8i/h4BvXA7Mml4uBRCPHOWjIj2chCtEokTfYprGVI5POhCumPh
+         PWNBU1wr/HLzpeduW4lgzydGV9dKL5/CDcB6Jx0b42he/sYRI3NjrMlZV6QgrQqPKlmm
+         fkOrt4oWDaJ3ThEZojZVN8lVvba5R8vQ1N/x0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772781784; x=1773386584;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=njpY43cUsFTxwlAfg2Ji7SvYZpV79HUJrf8BEPfihjY=;
-        b=KifNlLgsIAGpxRYMt6/PGR2enRSl3Z5jt+yG+tB0APGKF1SsoaiQeB4Ets1RbA4leM
-         8ryMokcR8n+Xt6MAxVI1Ui8g8tD4/1aunrqgeFwh4IJ5ubrwcjxyvnuL3DQZimUVi81H
-         ukPAvGtRs2GjYAtIklXyWuyRknPPTntme5d+d9H9LyIRvwyFAJJrAZQg6moq6Oap8OYk
-         jzxYPRJ9RooYtp2BrWA8YvOh73/AucikOZDTW0pNd/ZVmJhaHHdrW1f6Vt4xWUPbOgYW
-         mOTQxwABinjPiHekmpuhtd9gKXMBVyhvIbGpjjxk5IEQRhqUB3t5vv3D+XBsO8Hs+HyF
-         p4bg==
-X-Gm-Message-State: AOJu0YygWKtlnYpOhjPYBkrxlin2H0XESdDgBYoPuw53tRtKT2aXGgd8
-	2N68SD4kAxitwO7ktzMkzecmhNvPKzC/OKnfHgXX17lCpXfdBE7jIoZ/jcjTgh2W7fBV1MHckDw
-	MKxEE
-X-Gm-Gg: ATEYQzxQ6q+8btQAqubrD4XAiICXpCTL1sY7YFFVZ+f1Ew6Zet3izXFBRk5RcyKKF/K
-	gnIUwUbFRyUIOSBGFRGwaXWCTnXiIWlR0KpBwXcWhA8zYy3VRQxUx5AZvkhMosGmKcd1++h5YWN
-	anRhO3uFtomytFnLbT8hjM+AxHO68VLSn5l9eqYei7EABrFCq/DIfR1nWaILVyt52TSC3Vefx5T
-	9v8ivoa6yAXgUMQ8anmcXsa0yZ5Wu7gRo1rV4+7b36Opd+giyq3z2pKj1gW9HWC+3iimOPv6UDt
-	UcxlW6OEaCpGIK/OC2ToCGlJu/fkFFjd7qSLoeNJwRzXqeRGB9/0Mw6r9HoMSIbeE04ZfKEgE+T
-	3Ew2pusQj/CPp+iNeMBzhRcl+IDcf6HHfy+Cs4B6ELa4vmFKuksoTt8S852atkmlDPNRS78pCeg
-	g/opiH3CjeLQjZ889uOsmpOW5Kd5hr2Gzs320IYyzEE0Cm4abfuK0coPCCpG2emelqTv9dZwMBr
-	Bf+iuR60m8vbwbHPwjP9nV++PMDhoHxUZMx5ow=
-X-Received: by 2002:a05:600c:3509:b0:477:7f4a:44b4 with SMTP id 5b1f17b1804b1-4852691c673mr16311475e9.1.1772781782208;
-        Thu, 05 Mar 2026 23:23:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772781779; x=1773386579;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TbeMDZ1vdA9Bkly2FKs14N9nncfhByWAGxfBCo5Hzxo=;
+        b=Y0Tf+WUzOE/PXvH9UkCsGv7dAwh0X8gZFx3yjoR+WOl8Tzo6jv8VmT5xBSU1DnFC0q
+         XpsWKFiQqOGuKOOjW/Alftys9qas/DN11srg/5IZpkEDmwLLElZufqKLg/KIWSpO+IUk
+         ZBZOkJFfDGJmMrm0D0bMd9QKg7ERRulWkttPOd6mTnBw8z8h5GLrVCtJhuKQ01abtg91
+         xXFlUtuqWn6VF7DCqueRgI1fIX/5fts/Bhi7aWnTvxO/TbFWv+MDZSP2CJE5GLKRfjDe
+         YDjsIK2IrMMikbAOOy5YJjqSGhYG2uzUIVeiqw0ftzKH+6FAbRM/JTUlRJo4xzPByhiF
+         Wohw==
+X-Gm-Message-State: AOJu0Yx49DP2H07/GNAkyc/LIwqTqFkL/xNmqkIPeqBSbgFrARM63I3w
+	q4gkvO9RGcWU401qJrc6rHI89elKoEzbutDB1scSGHkcztYKyvCPeV+UyYlzR/tiqKGpZ7kX9+N
+	Bvhh5
+X-Gm-Gg: ATEYQzz8BL5iBZUGHkPq3Azbr/Ng1AjPwE6/0IzDVtpSbqCpk3VuT+dmQuj+ItSZ1Ki
+	N47IkJkNgEVHDQXtyiMMVOPSD5Jv3HmaGMOHIQr65JZ5oZReG7sg9ChJYCq8UXRrqrJWaAlFl3f
+	rStKSXzYT96siccVbil5FAf/6wT9HwPVjx/10emB2VW92n0tpBt+10ehamfzEochpGOwltoyLnG
+	nzlAPgpJUMbtFyzXvLzjrz1K2YjV5c3lDoWk3cznNiywuk+dsC+diDe1dECO7JiUoWUwZST2FAM
+	i7GWuGG/13sGTtGUr9LlQa/Cu1FXWjf2EoEfY3kue1+Ofrj9x5YMdlCsiUI8du33qFf0iy9ntFL
+	08HJxeGEozlUzpeD7QPGlZaHYf0V/tJvR6aeVP+47e/BSTSbY0xQSU3jCn3p2b2yeLRF8X8t1iQ
+	y07A4uz6ydP0bcvh8JyIaoidfR29wRZL3oFnDPtiPQOJTXb1yb6v3Yu3peY1UcnvMB/meosuBbe
+	ovgHZP0GLiH5zjjfmJL5JqtM5Dt
+X-Received: by 2002:a05:600c:474f:b0:485:1744:6651 with SMTP id 5b1f17b1804b1-485269692famr16163415e9.25.1772781778789;
+        Thu, 05 Mar 2026 23:22:58 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bdeac353f6fa5aa8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bdea:c353:f6fa:5aa8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b09casm23106445e9.11.2026.03.05.23.23.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b09casm23106445e9.11.2026.03.05.23.22.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 23:23:01 -0800 (PST)
+        Thu, 05 Mar 2026 23:22:58 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter v2 06/16] ffmpeg: set status for CVE-2025-12343
-Date: Fri,  6 Mar 2026 08:22:06 +0100
-Message-ID: <66bfcd43078d5ac3dc46e1a6a544eb2095b2c8e1.1772780989.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter v2 00/16] Patch review
+Date: Fri,  6 Mar 2026 08:22:00 +0100
+Message-ID: <cover.1772780989.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1772780989.git.yoann.congal@smile.fr>
-References: <cover.1772780989.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 07:23:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232547
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232539
 
-From: Peter Marko <peter.marko@siemens.com>
+This is an updated patch review request with added patches.
 
-Per [1] is patch for this CVE [2].
-This is equivalent of [3] which is included in n8.0.
+v1: https://lore.kernel.org/openembedded-core/cover.1772700454.git.yoann.congal@smile.fr/T/#u
+v1->v2: added patches:
+* python3-urllib3: patch CVE-2025-66471
+* lz4: Remove a reference to the rejected CVE-2025-62813
+* avahi: Remove a reference to the rejected CVE-2021-36217
+* create-pull-request: Keep commit hash to be pulled in cover email
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-12343
-[2] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/b8d5f65b9e89d893f27cf00799dbc15fc0ca2f8e
-[3] https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/263e819aa45cd3c48bf6887be02b4ec504c02048
+Please review this set of changes for whinlatter and have comments back
+by end of day Monday, March 9.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-[YC: commit 8536c8b9e9093ac2d7d82c49e61e1c1cded5d1e0 upstream]
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3334
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
-index 1e59bfa33fe..0970575b3ca 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
-@@ -177,3 +177,4 @@ CVE_STATUS_WRONG_CPE[status] = "fixed-version: these CVEs are fixed in used vers
- 
- CVE_STATUS[CVE-2025-25468] = "fixed-version: these CVEs are fixed since v8.0"
- CVE_STATUS[CVE-2025-25469] = "fixed-version: these CVEs are fixed since v8.0"
-+CVE_STATUS[CVE-2025-12343] = "fixed-version: this CVE are fixed since v8.0"
+The following changes since commit 45cba1329d541fdc5857d6df2624b34c91133f7a:
+
+  build-appliance-image: Update to whinlatter head revisions (2026-02-27 17:46:44 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-nut
+
+for you to fetch changes up to cfc0e446a1ad57e710d2c82914211f9bcdc4a752:
+
+  python3-urllib3: patch CVE-2025-66471 (2026-03-06 00:48:43 +0100)
+
+----------------------------------------------------------------
+
+Adarsh Jagadish Kamini (1):
+  python3-pip: Backport fix CVE-2026-1703
+
+Ankur Tyagi (1):
+  wireless-regdb: upgrade 2025.10.07 -> 2026.02.04
+
+Antonin Godard (1):
+  python3: skip flaky test_default_timeout test
+
+Benjamin Robin (Schneider Electric) (2):
+  avahi: Remove a reference to the rejected CVE-2021-36217
+  lz4: Remove a reference to the rejected CVE-2025-62813
+
+Hugo SIMELIERE (2):
+  zlib: Fix CVE-2026-27171
+  harfbuzz: Fix CVE-2026-22693
+
+Paul Barker (1):
+  create-pull-request: Keep commit hash to be pulled in cover email
+
+Peter Marko (4):
+  linux-yocto: apply cve-exclusions also to rt and tiny recipe variants
+  cve-exclusions: set status for 5 CVEs
+  ffmpeg: set status for CVE-2025-12343
+  python3-urllib3: patch CVE-2025-66471
+
+Shaik Moin (1):
+  gdk-pixbuf: Fix CVE-2025-6199
+
+Vijay Anusuri (1):
+  gnutls: Fix CVE-2025-14831
+
+Yoann Congal (2):
+  README: Add whinlatter subject-prefix to git-send-email suggestion
+  b4-config: add send-prefixes for whinlatter
+
+ .b4-config                                    |   1 +
+ README.OE-Core.md                             |   2 +-
+ .../avahi/files/local-ping.patch              |   1 -
+ .../zlib/zlib/CVE-2026-27171.patch            |  63 ++
+ meta/recipes-core/zlib/zlib_1.3.1.bb          |   1 +
+ .../python/python3-pip/CVE-2026-1703.patch    |  41 +
+ .../python/python3-pip_25.2.bb                |   4 +-
+ .../python3-urllib3/CVE-2025-66471.patch      | 926 ++++++++++++++++++
+ .../python/python3-urllib3_2.5.0.bb           |   1 +
+ ...kip-flaky-test_default_timeout-tests.patch |  49 +
+ .../python/python3_3.13.11.bb                 |   1 +
+ .../gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch |  36 +
+ .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |   1 +
+ .../harfbuzz/files/CVE-2026-22693.patch       |  33 +
+ .../harfbuzz/harfbuzz_11.4.5.bb               |   4 +-
+ meta/recipes-kernel/linux/cve-exclusion.inc   |  16 +
+ .../linux/linux-yocto-rt_6.12.bb              |   1 +
+ .../linux/linux-yocto-rt_6.16.bb              |   1 +
+ .../linux/linux-yocto-tiny_6.12.bb            |   1 +
+ .../linux/linux-yocto-tiny_6.16.bb            |   1 +
+ ....10.07.bb => wireless-regdb_2026.02.04.bb} |   2 +-
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb  |   1 +
+ .../gnutls/gnutls/CVE-2025-14831-1.patch      | 119 +++
+ .../gnutls/gnutls/CVE-2025-14831-10.patch     | 424 ++++++++
+ .../gnutls/gnutls/CVE-2025-14831-2.patch      |  66 ++
+ .../gnutls/gnutls/CVE-2025-14831-3.patch      |  30 +
+ .../gnutls/gnutls/CVE-2025-14831-4.patch      |  45 +
+ .../gnutls/gnutls/CVE-2025-14831-5.patch      | 205 ++++
+ .../gnutls/gnutls/CVE-2025-14831-6.patch      | 505 ++++++++++
+ .../gnutls/gnutls/CVE-2025-14831-7.patch      | 124 +++
+ .../gnutls/gnutls/CVE-2025-14831-8.patch      | 155 +++
+ .../gnutls/gnutls/CVE-2025-14831-9.patch      | 110 +++
+ meta/recipes-support/gnutls/gnutls_3.8.10.bb  |  10 +
+ ...13.patch => fix-null-error-handling.patch} |   1 -
+ meta/recipes-support/lz4/lz4_1.10.0.bb        |   2 +-
+ scripts/create-pull-request                   |   2 +-
+ 36 files changed, 2977 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/files/CVE-2026-22693.patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2025.10.07.bb => wireless-regdb_2026.02.04.bb} (94%)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-10.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-2.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-3.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-4.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-5.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-6.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-7.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-8.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-14831-9.patch
+ rename meta/recipes-support/lz4/lz4/{CVE-2025-62813.patch => fix-null-error-handling.patch} (99%)
+
 
