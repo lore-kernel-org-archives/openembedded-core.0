@@ -2,82 +2,81 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F463F5510F
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:03:46 +0000 (UTC)
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18236.1772921024709953018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66717F55110
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:16:06 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18502.1772921758407574802
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 14:03:44 -0800
+ Sat, 07 Mar 2026 14:15:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bry+3QHP;
- spf=pass (domain: gmail.com, ip: 74.125.224.45, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64937edbc9eso9704509d50.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:03:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772921024; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dQXvj8OY;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-798374d0f44so150767737b3.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:15:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772921757; cv=none;
         d=google.com; s=arc-20240605;
-        b=IVXRq4u5T7vLt59pejD0zgnmw4i3ucixqtrlpv9inD2e0168KVL8/xUVh9a246xhHW
-         H5nMO7MdBaXB+O8j9QGpy2B+iw7ZHeBDUZXSxpS2F3rv1jByWZjr+BdLpR/sqYKLmOje
-         dKdtFUsrXOVi4o20D8S24areqNJEou5HCqMhGICrcBJZ2F3AOVJT4VORk0l//Z4FL0Wg
-         ljG0UWj9cKYgb0aRaPTt/cSpWDFEzAJylbU7cNNsCj8kPUAlFoeY+F1ctCyEsXrmmfAr
-         0MySUXkdtlALVz16VUYM9p+/VhjXgNmNkGFWpj7VUsP1TweEiexmnHntKEOxgNm1TlJs
-         KWoA==
+        b=YCeYAeluIC0xQliZ3kWdFxDcui/Zs5XrIaicAcmQN8Cjo/mOIaGR8ACJtuyTbLlXcH
+         eaw/v/Ph7QEZ7qZhquvqz8aZ3wtAwMIkY6unum1C0Ji7CHCc0tTx5uXVf8TBt6yr7qaU
+         FDBOVts66F78hxlqz4ETB9FnN3s0kIQdiEEGj2Gk+GOTn7CeFj4xV+79vVaU7z3PjT09
+         Ibjsqg8ybN4Hxszq+pYb6CP+o4GHMyICB7UQC/4kVDzQ8Mzlh1dyI2sZki6tthHgB3fS
+         /omeJV9BJQSC+2L1P/VNIbk4YO5dVFf7e1qyNuvyWeLPcFsWyNiueYPkn/dnEM30OEGY
+         K8XA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=VezaR9ORn2iAOuXvZTMQwulU5qWEWqzaI4LwJIuBmuc=;
+        bh=tpUQC6m9ISfOEMT12VwuwEHH/zXAAoPuTeyKr949AuE=;
         fh=aX9SpBcc1D+i0sBLZeYvRNp2cqEQvxp/jAk+Y+9zDH4=;
-        b=E2wPd9bHjhkTB7Hv4x3Mxu7AD0v+CDKFgO3lR5KGsRZZvRnPVK96+rFil4OUVPHsYg
-         sBvX42ouoeKcGHqztqshL5OqYwIR4EsqxpATWIwIMLu5Ppm4PI3uidjrCefx/k2dTsiN
-         5JW2JHC0JkWr4VfGSnMWIPH9ltavlJMDTxmPXKgqVOf1VbHOlltv2uRKakRQq4ooTi6m
-         izFyCl6J8Vc3vv6pdEbeoHytqVuJYeRoFYH4WqCUSJyqU4/L/hGWILJ5kaA+Vy8f9M3E
-         XjTGKvC6IHo+VGkPliPR3tn1sM9XabL5YNI8HZ2T/KN8+6/cb4Nlt5wxJ9xsFFubpMgD
-         qv7A==;
+        b=REdXQS6CP93qrvNkXVazy6IQ6zBl6HMIm69pf3ZS9V8KK1OMZ/nS7XakgqNRxzKDhS
+         rFjd0Fb8T/pwJW3Zgy8IIEI7Ma2HVoPy7Cb1og90VSRWdtphRntHwaiWN8DUop2VRJR1
+         QC5lwYK7uk7l27mwXEn93kiwnjt+Es94swOm89IjcbTlljwcoBl/GzCfuVQdz/f3LVyz
+         e4cHhT1a+H4MbE0wiM4g3zHDZNUZL83sygPHW9SMeiySrcxMpkC1rFfyhIDmwYlFvfiC
+         azJsuvYyxBwUILv7yr0SDstTPLg83VrY2lvyu6teB5F2ddQgyGSJLa5vpVMTajdBAYdi
+         QYAw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772921024; x=1773525824; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772921757; x=1773526557; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VezaR9ORn2iAOuXvZTMQwulU5qWEWqzaI4LwJIuBmuc=;
-        b=Bry+3QHPtyROCQ6h3t1fGMnczQ6OeViNHGkwR8LFUEnL37x9Kc/My1OlpG9IXoTB0q
-         A8qx2TTX2tRY/gIQgXwk+Xo2iXDfFIKCSFdNtQLKGbK7k5dSNEtNci5KzrhvnJNeitZ7
-         R3oGKj3u/xD/naQ9OrWTHIZe9ETX/a7bsGPhTVtaNa3EgzNUE+95uNdU5409dhTVdmvd
-         ET3m2c3RcdxJc2jx5hgSzPB3Wu9IRod9o/bwJlGOzOtMXMsbeCSnoIpyHXEZCeDuadaB
-         s2zXH/fRtkhqAvVa0t+HWezw6YzgqYL7KG8nOaoIiADLSIsOxYrmMx9Pi7VSPtnYXhq0
-         9uqQ==
+        bh=tpUQC6m9ISfOEMT12VwuwEHH/zXAAoPuTeyKr949AuE=;
+        b=dQXvj8OY0uH8EkcayknZ9ePqyXx9KAIM3jH5va3v9mLgktK03cO4MWWUnVqBxaO1k8
+         rF0skcQRJ9qn/IZJN7ZJOdQ5QcQObwC3CzVlFFlihrtKefM0HB7TO8MXVchmZtuZJCbT
+         xcFJyUQdaG5AJgKs5cqyg090GUPpZTCc7LxJvuIR87SbwJ2jPxOcuf2lP/K05zr1jdgw
+         j+sLre97/NU687Cv3HLcICDxrIt87TWaG69+wEuBBMHONVSf/p4T4qC+Q8OoTjMy32c3
+         OgYlTwXbTqeI9mcEKScYjg3zLblOQKfh/PrK6UvbN5klwhCQz8IB4Tq+CrUr4oGMu2h2
+         7kcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772921024; x=1773525824;
+        d=1e100.net; s=20230601; t=1772921757; x=1773526557;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VezaR9ORn2iAOuXvZTMQwulU5qWEWqzaI4LwJIuBmuc=;
-        b=UAQZIR1sPX3FM164xKGQ4VZa2iCS1jXcWK19UgdaiBUyjD8IDmr4O9nsAB3ELbTIn9
-         w3PPFHZK7IBX0veaX7XHEYTmwan6+vqxFFaXOE2hGpfsAbHsjBkmPTSL9SRTkn8oWK5q
-         dtNgX6MWnpf43Qf3TZpqDo0uc4QETOaq4bZTnXXFDuErLfDhTeKHiSOaqLyb+Xpl9m2H
-         0bRBvkCbzaynXdtFat6rOUlbywf0nF2OBtTnVjEei4znsHXpXG0I8cHBZZnlCbVclGHf
-         s6j5axMIhh7swgwAKYSVcxXWYP3CcU9/XpmkUazuVkru1CNzdclDawArXQ/7UEvFwYix
-         rcmg==
-X-Gm-Message-State: AOJu0Yy6dnzXFCz5cunegK5XIXJDVThYwzbcG5H2e164mf6zE/XgcT/9
-	vTvMJ/JBFD+YOu+DRFI8v+cTItJU/B5teKGmxm2ChNEf6lKNEh6PB6Sdly35C9nhTUiZHgU5zQX
-	Q4pfBpbZ3JLHItsUrPvtALRZGYCdlmK4=
-X-Gm-Gg: ATEYQzwtKQrulrH50h6sQE1bdr4BIGHSGbBMjbqkCgsXc3DD0NLrO6ZVnsyzi1cN4B6
-	loEn558P89/RWi6ZTJgTrdj25ezQ90rNeILqMRE/nm+DxbKHebg/m6lS2wz31Ie0Bu/gYpNTABK
-	OWbJew+8L1LhdTLAiFdNU1BxKBoUKH2y4E5Y4li79zuISjuYX+phM3MT24eIjdo74V5YNRyd/Wc
-	dGT6JHREnRwolRVyD5qcHuarSlPWurVWuXk+yocVj9nwZT3pv6ps87Ij1CYHoEy98gGGND92d2E
-	1U+FeiA4i2L2kuFmC3U33A==
-X-Received: by 2002:a05:690c:398:b0:796:6d82:10a9 with SMTP id
- 00721157ae682-798dd663172mr67783387b3.15.1772921023710; Sat, 07 Mar 2026
- 14:03:43 -0800 (PST)
+        bh=tpUQC6m9ISfOEMT12VwuwEHH/zXAAoPuTeyKr949AuE=;
+        b=VxsRIw+edvZQCfj0xe3mv0CHAAVyrEfHfYJt2jXy3fA48+kFl9kLUTJuaNBRk3RUbw
+         vA/Ne06WzukzGrVcZnSLIFumXx3zsZlDx7sElh9sBHun9utnuyXG0CmeE4ayAaEvFZnA
+         eYLFPAnrMUmu9zFPQIUnGUXrXJxB4X8UKzmKaCts5SOMU/EbbBrilgnHjoKakyoYySpz
+         7BsbbUVapnLUeHojTHGQ2H+RZdwK6OKMX1mlrCYzYmpi7C2T249QvAWkla2EDsBX73vc
+         sYu2XoenYyh5xZdnzZ4Bj75ngsLbPCC3SuS+2IBdvrmte31TeiDsZJovSoSNLXx/yiPd
+         9Zgg==
+X-Gm-Message-State: AOJu0YxP5faCrV4IgNIssRneAtbRVid/V+ewduwB8qq6+17qbOXhdEqK
+	kmFwvuT6wohpccOaSSD/ZeBAwdrYOPYWhWJw5Yx0wnc6T8h3Ose32MmNSsCsoBP2YF+Ah1LLQWh
+	xialbajrG7QigCKJEeXwOn0P0cgkJoZk=
+X-Gm-Gg: ATEYQzy4vwL3AP4eLc1PAD8ELdcB6WzjhWQGcb0cgJPaDtcQBn0zZhMvNgC7zrJEof9
+	iwoB7PgYYRA2AHHxh25b331uLOH+5Z0ZGyDkQO/dj3QMRLIwsFfW3xYEYWO7pl/bYOe7i8IHnQR
+	dF/p4RCEvdhl8uCKA4Gk1WKVDwyYkOQGs5AAdexKJN5mjF1Oh4PIgdQChDGFhCqt2LRbrIkV++X
+	Bsz5NwgJt4vuyUwfMTz4Q+YNURo+ccasLSWfwp2ZU5utzARalZkAGf3ksm5SlMIqKe7dSCWHcpU
+	/auC0cXn+hrXuPoMCWN4ug==
+X-Received: by 2002:a05:690c:350c:b0:796:28aa:62eb with SMTP id
+ 00721157ae682-798d1f28e05mr99730057b3.32.1772921757500; Sat, 07 Mar 2026
+ 14:15:57 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <8680e7608282fe04610400f0042c9cf747d350dc.1772805096.git.stefano.tondo.ext@siemens.com>
-In-Reply-To: <8680e7608282fe04610400f0042c9cf747d350dc.1772805096.git.stefano.tondo.ext@siemens.com>
+References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <abdb92236f1ac104a31051d71890afeec6ba566b.1772805096.git.stefano.tondo.ext@siemens.com>
+In-Reply-To: <abdb92236f1ac104a31051d71890afeec6ba566b.1772805096.git.stefano.tondo.ext@siemens.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 7 Mar 2026 15:03:33 -0700
-X-Gm-Features: AaiRm50COta1asyJ2wb97bzmX3wsf0qbDc5rSuZksOo4D4WAYbz3WjMIZJpxSu4
-Message-ID: <CAJdd5GaeB_CF3MO=8nj_V2PFL+SZLq-jzCSCDWVxt+-FtrETtw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v7 10/10] spdx-common: Add documentation for
- undocumented SPDX variables
+Date: Sat, 7 Mar 2026 15:15:45 -0700
+X-Gm-Features: AaiRm519SJEHf45FO0Qu_-a13KyELZEdn3bByCx8J4bnaj6ihodUY78HMCDtBGY
+Message-ID: <CAJdd5GYSyvkGrchQE20ADK=ubOyB=cOYYE9YdVcEcSmr5-mN_w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v7 03/10] spdx30: Add ecosystem-specific PURL generation
 To: stondo@gmail.com
 Cc: openembedded-core@lists.openembedded.org, 
 	mathieu.dubois-briand@bootlin.com, joshua.watt@garmin.com, 
@@ -88,121 +87,182 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232619
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:16:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232620
 
 On Fri, Mar 6, 2026 at 7:00=E2=80=AFAM Stefano Tondo via
 lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
 wrote:
 >
-> Add [doc] strings for eight undocumented SPDX-related BitBake
-> variables in spdx-common.bbclass.
+> Add a function that identifies ecosystem-specific PURLs (cargo, golang,
+> pypi, npm, cpan, nuget, maven) for dependency packages, working alongside
+> oe.purl.get_base_purl() which provides pkg:yocto PURLs.
 >
-> Variables documented:
-> - SPDX_INCLUDE_SOURCES
-> - SPDX_INCLUDE_COMPILED_SOURCES
-> - SPDX_UUID_NAMESPACE
-> - SPDX_NAMESPACE_PREFIX
-> - SPDX_PRETTY
-> - SPDX_LICENSES
-> - SPDX_CUSTOM_ANNOTATION_VARS
-> - SPDX_MULTILIB_SSTATE_ARCHS
+> Key design decision: Does NOT return pkg:generic fallback. This ensures:
+> - No overlap with the base pkg:yocto generation
+> - Packages get BOTH purls: pkg:yocto/layer/pkg@ver AND pkg:cargo/pkg@ver
+> - Maximum traceability for compliance tools
 >
-> This makes variables discoverable via bitbake-getvar and IDE
-> completion, improving usability for SBOM generation.
+> Detects ecosystems via:
+> - Unambiguous file extensions (.crate for Rust)
+> - Recipe inheritance (pypi, npm, cpan, nuget, maven classes)
+> - BitBake variables (GO_IMPORT, PYPI_PACKAGE, MAVEN_GROUP_ID)
 >
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
-
-LGTM, thanks
-
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
-
 > ---
->  meta/classes/spdx-common.bbclass | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+>  meta/lib/oe/spdx30_tasks.py | 113 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 113 insertions(+)
 >
-> diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.=
-bbclass
-> index 81c61e10dc..d45c152ba8 100644
-> --- a/meta/classes/spdx-common.bbclass
-> +++ b/meta/classes/spdx-common.bbclass
-> @@ -26,15 +26,38 @@ SPDX_TOOL_VERSION ??=3D "1.0"
->  SPDXRUNTIMEDEPLOY =3D "${SPDXDIR}/runtime-deploy"
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 0888d9d7e4..11945a622d 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -13,12 +13,125 @@ import oe.spdx30
+>  import oe.spdx_common
+>  import oe.sdk
+>  import os
+> +import re
 >
->  SPDX_INCLUDE_SOURCES ??=3D "0"
-> +SPDX_INCLUDE_SOURCES[doc] =3D "If set to '1', include source code files =
-in the \
-> +    SPDX output. This will create File objects for all source files used=
- during \
-> +    the build. Note: This significantly increases SBOM size and generati=
-on time."
+>  from contextlib import contextmanager
+>  from datetime import datetime, timezone
+>  from pathlib import Path
+>
+>
 > +
->  SPDX_INCLUDE_COMPILED_SOURCES ??=3D "0"
-> +SPDX_INCLUDE_COMPILED_SOURCES[doc] =3D "If set to '1', include compiled =
-source \
-> +    files (object files, etc.) in the SPDX output. This automatically en=
-ables \
-> +    SPDX_INCLUDE_SOURCES. Note: This significantly increases SBOM size."
->
->  SPDX_UUID_NAMESPACE ??=3D "sbom.openembedded.org"
-> +SPDX_UUID_NAMESPACE[doc] =3D "The namespace used for generating UUIDs in=
- SPDX \
-> +    documents. This should be a domain name or unique identifier for you=
-r \
-> +    organization to ensure globally unique SPDX IDs."
+> +def extract_dependency_metadata(d, file_name):
+> +    """Extract ecosystem-specific PURL for dependency packages.
 > +
->  SPDX_NAMESPACE_PREFIX ??=3D "http://spdx.org/spdxdocs"
-> +SPDX_NAMESPACE_PREFIX[doc] =3D "The URI prefix used for SPDX document na=
-mespaces. \
-> +    Combined with other identifiers to create unique document URIs."
+> +    Uses recipe metadata to identify ecosystem PURLs (cargo, golang, pyp=
+i,
+> +    npm, cpan, nuget, maven). Returns (version, purl) or (None, None).
+> +    Does NOT return pkg:generic; base pkg:yocto is handled by get_base_p=
+url().
+> +    """
 > +
->  SPDX_PRETTY ??=3D "0"
-> +SPDX_PRETTY[doc] =3D "If set to '1', generate human-readable formatted J=
-SON output \
-> +    with indentation and line breaks. If '0', generate compact JSON outp=
-ut. \
-> +    Pretty formatting makes files larger but easier to read."
+> +    pv =3D d.getVar("PV")
+> +    version =3D pv if pv else None
+> +    purl =3D None
+> +
+> +    # Rust crate (.crate extension is unambiguous)
+> +    if file_name.endswith('.crate'):
+> +        crate_match =3D re.match(r'^(.+?)-(\d+\.\d+\.\d+(?:\.\d+)?(?:[-+=
+][\w.]+)?)\.crate$', file_name)
+> +        if crate_match:
+> +            name =3D crate_match.group(1)
+> +            version =3D crate_match.group(2)
+> +            purl =3D f"pkg:cargo/{name}@{version}"
+> +            return (version, purl)
+> +
+> +    # Go module via GO_IMPORT variable
+> +    go_import =3D d.getVar("GO_IMPORT")
+> +    if go_import and version:
+> +        purl =3D f"pkg:golang/{go_import}@{version}"
+> +        return (version, purl)
+> +
+> +    # Go module from filename with explicit hosting domain
+> +    go_match =3D re.match(
+> +        r'^((?:github|gitlab|gopkg|golang|go\.googlesource)\.com\.[\w.]+=
+(?:\.[\w-]+)*?)-(v?\d+\.\d+\.\d+(?:[-+][\w.]+)?)\.',
+> +        file_name
+> +    )
+> +    if go_match:
+> +        module_path =3D go_match.group(1).replace('.', '/', 1)
+> +        parts =3D module_path.split('/', 1)
+> +        if len(parts) =3D=3D 2:
+> +            domain =3D parts[0]
+> +            path =3D parts[1].replace('.', '/')
+> +            module_path =3D f"{domain}/{path}"
+> +
+> +        version =3D go_match.group(2)
+> +        purl =3D f"pkg:golang/{module_path}@{version}"
+> +        return (version, purl)
+> +
+> +    # PyPI package
+> +    if bb.data.inherits_class("pypi", d) and version:
+
+I'm not really a big fan of bb.data.inherits_class. I think it makes
+more sense for pypi.bbclass to implement a way to do this behavior and
+set the recipe PURL when that class is inherited. Same for the rest of
+these, and maybe the GO_IMPORT case above?
+
+> +        pypi_package =3D d.getVar("PYPI_PACKAGE")
+> +        if pypi_package:
+> +            # Normalize per PEP 503
+> +            name =3D re.sub(r"[-_.]+", "-", pypi_package).lower()
+> +            purl =3D f"pkg:pypi/{name}@{version}"
+> +            return (version, purl)
+> +
+> +    # NPM package
+> +    if bb.data.inherits_class("npm", d) and version:
+> +        bpn =3D d.getVar("BPN")
+> +        if bpn:
+> +            name =3D bpn[4:] if bpn.startswith('npm-') else bpn
+> +            purl =3D f"pkg:npm/{name}@{version}"
+> +            return (version, purl)
+> +
+> +    # CPAN package
+> +    if bb.data.inherits_class("cpan", d) and version:
+> +        bpn =3D d.getVar("BPN")
+> +        if bpn:
+> +            if bpn.startswith('perl-'):
+> +                name =3D bpn[5:]
+> +            elif bpn.startswith('libperl-'):
+> +                name =3D bpn[8:]
+> +            else:
+> +                name =3D bpn
+> +            purl =3D f"pkg:cpan/{name}@{version}"
+> +            return (version, purl)
+> +
+> +    # NuGet package
+> +    if (bb.data.inherits_class("nuget", d) or bb.data.inherits_class("do=
+tnet", d)) and version:
+> +        bpn =3D d.getVar("BPN")
+> +        if bpn:
+> +            if bpn.startswith('dotnet-'):
+> +                name =3D bpn[7:]
+> +            elif bpn.startswith('nuget-'):
+> +                name =3D bpn[6:]
+> +            else:
+> +                name =3D bpn
+> +            purl =3D f"pkg:nuget/{name}@{version}"
+> +            return (version, purl)
+> +
+> +    # Maven package
+> +    if bb.data.inherits_class("maven", d) and version:
+> +        group_id =3D d.getVar("MAVEN_GROUP_ID")
+> +        artifact_id =3D d.getVar("MAVEN_ARTIFACT_ID")
+> +
+> +        if group_id and artifact_id:
+> +            purl =3D f"pkg:maven/{group_id}/{artifact_id}@{version}"
+> +            return (version, purl)
+> +        else:
+> +            bpn =3D d.getVar("BPN")
+> +            if bpn:
+> +                if bpn.startswith('maven-'):
+> +                    name =3D bpn[6:]
+> +                elif bpn.startswith('java-'):
+> +                    name =3D bpn[5:]
+> +                else:
+> +                    name =3D bpn
+> +                purl =3D f"pkg:maven/{name}@{version}"
+> +                return (version, purl)
+> +
+> +    # Base pkg:yocto PURL is handled by oe.purl.get_base_purl()
+> +    return (version, None)
+> +
+> +
+>  def walk_error(err):
+>      bb.error(f"ERROR walking {err.filename}: {err}")
 >
->  SPDX_LICENSES ??=3D "${COREBASE}/meta/files/spdx-licenses.json"
-> +SPDX_LICENSES[doc] =3D "Path to the JSON file containing SPDX license id=
-entifier \
-> +    mappings. This file maps common license names to official SPDX licen=
-se \
-> +    identifiers."
->
->  SPDX_CUSTOM_ANNOTATION_VARS ??=3D ""
-> +SPDX_CUSTOM_ANNOTATION_VARS[doc] =3D "Space-separated list of variable n=
-ames whose \
-> +    values will be added as custom annotations to SPDX documents. Each v=
-ariable's \
-> +    name and value will be recorded as an annotation for traceability."
->
->  SPDX_CONCLUDED_LICENSE ??=3D ""
->  SPDX_CONCLUDED_LICENSE[doc] =3D "The license concluded by manual or exte=
-rnal \
-> @@ -53,6 +76,9 @@ SPDX_CONCLUDED_LICENSE[doc] =3D "The license concluded =
-by manual or external \
->      SPDX_CONCLUDED_LICENSE:${PN} =3D 'MIT & Apache-2.0'"
->
->  SPDX_MULTILIB_SSTATE_ARCHS ??=3D "${SSTATE_ARCHS}"
-> +SPDX_MULTILIB_SSTATE_ARCHS[doc] =3D "The list of sstate architectures to=
- consider \
-> +    when collecting SPDX dependencies. This includes multilib architectu=
-res when \
-> +    multilib is enabled. Defaults to SSTATE_ARCHS."
->
->  SPDX_FILES_INCLUDED ??=3D "all"
->  SPDX_FILES_INCLUDED[doc] =3D "Controls which files are included in SPDX =
-output. \
 > --
 > 2.53.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#232576): https://lists.openembedded.org/g/openembedde=
-d-core/message/232576
-> Mute This Topic: https://lists.openembedded.org/mt/118170504/3616693
+> View/Reply Online (#232569): https://lists.openembedded.org/g/openembedde=
+d-core/message/232569
+> Mute This Topic: https://lists.openembedded.org/mt/118170494/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
 EWhacker@gmail.com]
