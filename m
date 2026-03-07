@@ -1,172 +1,110 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA35FC9ED7
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 06:42:24 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4525.1772865740259366958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ECB0FC9ED9
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 06:46:04 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4477.1772865955851148675
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Mar 2026 22:42:21 -0800
+ Fri, 06 Mar 2026 22:45:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=vH6GRlUs;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 56105C42849;
-	Sat,  7 Mar 2026 06:42:37 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C01615FF9B;
-	Sat,  7 Mar 2026 06:42:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E2270103693BC;
-	Sat,  7 Mar 2026 07:42:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772865736; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=tBPQDbHt1KbogHFnazHmTMnwghBJNe5LwoUUENBKqVE=;
-	b=vH6GRlUsi40NYbSH9tXx0O2ipTMl1Lpzb87+XN3JptK9mJ+HGqYS2Sh/No4I9za346DL5Q
-	ZzigtuZFImZqAppAoQYOsfF3RORhCHEbxurHl4126uzIUfHZ18tZkKGX/xeGrx1pZsKd4z
-	RLLvFbmHiIseeEBfNplzkNxptajN13YvWudt1RS9aaxZ2ZGjfQRStWY6spl9PNDtkpvLPS
-	WvM9mXcaQjkp/3Sjw5JUSYX6ZvVKzgDxdY7uqzegtvxfGPpRzowgn5xheGVRJ64SRxF0VM
-	6KLp1eLP/auV1dqQaMxLoW/U5JhGksSVdaZN6KVwrccvL9v1qtyF41uftloKHA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 07 Mar 2026 07:42:12 +0100
-Message-Id: <DGWCGA4WR8ZH.17KQOSZOR7JSA@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2] go 1.22.12: Fix CVE-2025-61726.patch
- variable ordering
-Cc: "Eduardo Ferreira" <eduardo.barbosa@toradex.com>, "Michael Pratt"
- <mpratt@google.com>, "Deepak Rathore" <deeratho@cisco.com>, "Yoann Congal"
- <yoann.congal@smile.fr>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <eduardo.f120@yahoo.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260306-fix-cve-61726-patch-ordering-v2-1-410fea740c2a.ref@toradex.com> <20260306-fix-cve-61726-patch-ordering-v2-1-410fea740c2a@toradex.com>
-In-Reply-To: <20260306-fix-cve-61726-patch-ordering-v2-1-410fea740c2a@toradex.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R+hds0n1;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3599019ae92so3524962a91.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Mar 2026 22:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772865955; x=1773470755; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qBaStm6fTqtyXItzCKSCnhAVLXKkyIX5NVeqUkRglsY=;
+        b=R+hds0n1vM4Ciu+n5UC1L98NUMn4nZBKb3DMKr6JA6lWD+VzmkROJwEYNcd+belaQv
+         ZV7MmZv0y/tzqIOr+tlL1HWbtDV8vd9GqPH4niC3nfWDSLDnspGFOYfM66j5IT0yhN2/
+         +Yw7EkOcl48PF4mNRdn9nq0B3pZAFXy/NWbIVJNlywifRrq1G26cipxV7xcLx+Km/ZIg
+         vPFXdZCQ+p2gxexmPN12MLbBQyVxYlFUzEIOcu9fHpHrLIAGjydXdxZRWbFBYAagvT+y
+         q4x7pyNaa48Eqf673nSrMZz9cwO9bIX63qKdgunxquGgzH3X5pjcxsjuo58DhVzRYkCy
+         lFzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772865955; x=1773470755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qBaStm6fTqtyXItzCKSCnhAVLXKkyIX5NVeqUkRglsY=;
+        b=kDGAVhTzpKEkf2C06IEPeRL+hjFluvLuevnDU1IoKhBbchC/QMa8GTs0v19uYnJ5q3
+         inMNn/d7Xa4oa4CayCoY65Om+okbBP0CcyyAjzHyaK3uSoplSO+zklki2TgD6Va2qJap
+         LWO7hDWQRlHLyrE0F9BqU6Z9iAWuJyrXUQdYLUjnqicrUpenp+3ozEosjmO3zACzsFNx
+         a1CWgez0+kHQWCDRe6G3euIJXYDxgn8IeuVNjycEn1ho6PQI+8u0kLhBZIF7R5hG5bV9
+         f+VvK9ypkUFwFbvu9gCXjQ4ltSf2HpzW6jxZ4zzf77CWu4Ob5ii2WwJlCXjGifdelg8r
+         xNZw==
+X-Gm-Message-State: AOJu0Yxc7jfQV5Ut0qt+pKPRvIy2ZC4WRYskavKaFtLz58RHOUKRelkk
+	uKsPRLeLBpdfV0EaSjjIPcPuJn5a/tbDkGGpIXK1rDkKShR9J2eB5wy2ZJ3dggvS
+X-Gm-Gg: ATEYQzwfzd3eehTw5+f3lipxZXE42De5fjP4vPpRWii7tOacLyjtUrTBn2J8fBrnW4H
+	lXzWWgVuUEF94xUS1+IBFnHLLFiiHW+pLKswanqQHO0SRRToeSRIPnDe95zFPu0U1LWllqBzTwI
+	wMxTJcX9pTgXCADuht6NMpW+swWRR5pCQX92RQemJMl8yA+8csfVd+U5MKtT4Sa50gTugWhMDQz
+	eHPAF7zVbIpZjCOqcaf7iQwN6HS2L9/Gczo5eWrZuqU+euB3J8kPHivfLLZwuEQjWQCFEXw3ggL
+	uXrURDam1Sq4/uwc6gANYZ7wJq/XDgSa3BgHLQ2jCI+sMXEyUZLsw/xp+OcQVTHztkvWp5+UnTa
+	pEIxujTsKCXz9dBDtPIgsb4SmWPugM5SjGV7cA0ITmS0stXmbRLrNnVcGc3vse5TN3fsIHNCL57
+	9yUjkmRfYrD8GKVuozdUnkb6LjlVZafTE6OQ==
+X-Received: by 2002:a17:90b:4c52:b0:343:d70e:bef0 with SMTP id 98e67ed59e1d1-359be2ee864mr4179171a91.21.1772865955012;
+        Fri, 06 Mar 2026 22:45:55 -0800 (PST)
+Received: from NVAPF55DW0D-IPD.. ([147.161.217.3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359b2d50ebdsm7053261a91.5.2026.03.06.22.45.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 22:45:51 -0800 (PST)
+From: ankur.tyagi85@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][scarthgap][PATCH 1/3] tzdata,tzcode-native: Upgrade 2025b -> 2025c
+Date: Sat,  7 Mar 2026 19:45:38 +1300
+Message-ID: <20260307064540.1257672-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 06:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232603
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 06:46:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232604
 
-On Fri Mar 6, 2026 at 8:55 PM CET, Eduardo Ferreira via lists.openembedded.=
-org wrote:
-> From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
->
-> Commit 6a1ae4e79252f9a896faa702e4a8b3e27529a474 introduced a patch
-> backporting a fix for CVE-2025-61726, but this patch also introduced
-> a bug.
->
-> From Go's source code[1], they say that the 'All' table from 'godebugs'
-> should be populated alphabetically by Name. And 'Lookup'[2] function uses
-> binary search to try and find the variable.
->
-> Here's the trace:
-> Mar 06 11:33:33 toradex-smarc-imx95-12594035 systemd[1]: Started Docker A=
-pplication Container Engine.
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: 2026/03/06 11:=
-34:53 http: panic serving @: godebug: Value of name not listed in godeb
-> ugs.All: urlmaxqueryparams
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: goroutine 78 [=
-running]:
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*con=
-n).serve.func1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ht=
-tp/server.go:1903 +0xb0
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743=
-e8740?, 0x4000b526c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         runtim=
-e/panic.go:770 +0x124
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk/trace.(*recordingSpan).End.deferwrap1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         go.ope=
-ntelemetry.io/otel/sdk@v1.19.0/trace/span.go:383 +0x2c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk/trace.(*recordingSpan).End(0x40011b4a80, {0x0, 0x0, 0x40
-> 006441c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         go.ope=
-ntelemetry.io/otel/sdk@v1.19.0/trace/span.go:421 +0x898
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743=
-e8740?, 0x4000b526c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         runtim=
-e/panic.go:770 +0x124
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug.(*Setting).Value.func1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         intern=
-al/godebug/godebug.go:141 +0xd8
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).d=
-oSlow(0x22?, 0x55748a9b60?)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         sync/o=
-nce.go:74 +0x100
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).D=
-o(...)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         sync/o=
-nce.go:65
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug.(*Setting).Value(0x5575b21be0)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         intern=
-al/godebug/godebug.go:138 +0x50
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.urlPar=
-amsWithinMax(0x1)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ur=
-l/url.go:968 +0x3c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.parseQ=
-uery(0x400069a630, {0x0, 0x0})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ur=
-l/url.go:985 +0xdc
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.ParseQ=
-uery(...)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ur=
-l/url.go:958
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*Req=
-uest).ParseForm(0x4000bdab40)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ht=
-tp/request.go:1317 +0x33c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: github.com/doc=
-ker/docker/api/server/httputils.ParseForm(0x0?)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         github=
-.com/docker/docker/api/server/httputils/httputils.go:104 +0x20
->
-> The 'Lookup' function was failing due to the wrong ordering and returning=
- 'nil',
-> which was not being checked properly and caused this issue.
->
-> The fix was to just reorder the line where 'urlmaxqueryparams' is being
-> added to respect the alphabetical ordering. And for that the whole CVE
-> patch was generated again.
->
-> This change was validated with docker-moby (original issue), where a cont=
-ainer
-> run successfully and no traces in the logs.
->
-> Fixes: 6a1ae4e792 ("go 1.22.12: Fix CVE-2025-61726.patch variable orderin=
-g")
->
-> [1] https://github.com/golang/go/blob/master/src/internal/godebugs/table.=
-go#L20
-> [2] https://github.com/golang/go/blob/master/src/internal/godebugs/table.=
-go#L100
->
-> Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-> ---
+From: Paul Barker <paul@pbarker.dev>
 
-Hi Eduardo,
+This release mostly changes code and commentary. The only changed data
+are leap second table expiration and pre-1976 time in Baja California.
 
-I suspect this commit is not for master but for the scarthgap branch, is
-that right?
+Full release notes:
+  https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/TAGXKYLMAQRZRFTERQ33CEKOW7KRJVAK/
 
-In such cases, please remember to add the [scarthgap] tag in mail
-subject, you can find help about it here:
-https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#sub=
-mitting-changes-to-stable-release-branches
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 452334219309793ad74abd6ff390dcb06cab929b)
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index f21bedf4fc..35f22d5a15 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2025b"
++PV = "2025c"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
+-SRC_URI[tzdata.sha256sum] = "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
++SRC_URI[tzcode.sha256sum] = "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
++SRC_URI[tzdata.sha256sum] = "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
 
