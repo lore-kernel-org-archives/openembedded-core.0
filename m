@@ -2,86 +2,122 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D035FC9EF4
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 10:42:56 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6975.1772880171248292819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CE4FC9EF9
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 10:49:06 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7040.1772880540019257695
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 02:42:51 -0800
+ Sat, 07 Mar 2026 02:49:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UMUBvTOM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-480706554beso110023245e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 02:42:50 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UJZZERh9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439bc14dcf4so4051008f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 02:48:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1772880169; x=1773484969; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wIohpvrdNjXShAn9WCpBEL3HMqOO19seeBCA0nBhTnY=;
-        b=UMUBvTOMl/6ErUqZFmoPjeMLEOq9cal8GNFLf8S/jtwPZQKotkLVln7GW6Ka1tAk2/
-         4F475S0ePWmMpR/orETxoxGI+RCESvauMGXNbX+HqPyuMixjh3YUCRD/CirUJxP91bon
-         GAO+Zzkiv2gjmFRpdM+3CuGEag2I9qU9oogvI=
+        d=linuxfoundation.org; s=google; t=1772880538; x=1773485338; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=m3jR3C4vDJ8YhURDkFwIKmm4ZlzF0+nCeL/+0TyYTFY=;
+        b=UJZZERh9m6eEcGusfsaE2jOxpRNqzKdJflOu2x3vggw7w1C1pQctjqQq92HzB/lFsj
+         1ly4unbFRACbIihTkEBZFeWwm3oSSU1RIg2MkC+a94LS+T7+cT7Ev5/BzKAHU3xXwJ37
+         rwOBpVYP6B+2FVzNHWFvR3ShqeriSL3ozN0ws=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772880169; x=1773484969;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wIohpvrdNjXShAn9WCpBEL3HMqOO19seeBCA0nBhTnY=;
-        b=QrieHLMS9DRIYDmGSIIa9JKHwNCmuSrZzrYRfNHsI/f+dMwy5ROLRHXBOH0rcZC4W3
-         0Ht1SKndPxMAi15HvQ+dAUobmSlkJABkrhAj0qOvNAR1g2+/yeeCKFWZ/GQ2XNaoalso
-         kHQAyQ6CGj0ru0nZ8ExSm4sVHS9nuWytGu6dB0UZZzs855dsjxMnOjylhB7BqXQy7E1b
-         B7dBKqb3XkJMk8YIUNZ7bXQ6VT16Ms88Wd4aioqrtfUcPIgfKUPRrrxcnAWsgbUyywXW
-         Yia7ckFxkTTGunRP4+UTmwZJ9EQ6KwQ0IEKnX+/TaZbuptouWSdUWo9sReYeyyRefQFp
-         l9Eg==
-X-Gm-Message-State: AOJu0Yy2StcZgPSGte5GSD71+Ew43a3EVpjWh5lIK7k98xxV48TqefdR
-	FADEXvfMeKuXXR6D4/WHKztzXfttg9jy+dmaRqiAuYqkdhDKBFMIu8RrxzM/Df18nMsd6SRTdOs
-	xBV9FEn8=
-X-Gm-Gg: ATEYQzzuYlTIBw+r1BtdyAW6cIHspxkFsl+GopWlkg4UWe2W0WO8yFyy3Ncr/D3KqzS
-	btiyP3mhKTK7dA6JXk/Fzg05CfSs5jSuHpfa4j3/IdVat4J1XjTGmZ1Xky0wJKIvYcpk3Xsnqj4
-	0ZiSXfBbxyVOrDktlyoikpZsIhxWhENZKd5Mu4CYYZ3FO9PNmv3N3ZsWvQoFph0SdBITOrYekra
-	NyJc1683t9En2b7HZTZBwmNHQANwD5rcka7yDMaD0rGlNx2fFbpa5aIbW/p+J7Zi3XK0rFsDyLH
-	EBfXaujVcpnaATWiq4d2EvxG0gNzCurL3PASLlPSjAMXA0EEOV/21btRNcGtAn0DuDQylagmFFj
-	0ScETvqzToYdDnLRCLbbmKBS6CjEhVW6COlbK/M+uOewcP75pgiH2YDj8iSFCHkRYuOqfNxgjVs
-	osMhWwZZTrIGuhdgc8ufK7XZscxkhK7AZJjN+SchD+H5sRf9yCIxg=
-X-Received: by 2002:a05:600c:c088:b0:483:a922:2e8d with SMTP id 5b1f17b1804b1-48526919884mr75386715e9.4.1772880168948;
-        Sat, 07 Mar 2026 02:42:48 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d746:2cdc:e7ea:aa72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dad8d95dsm11386869f8f.7.2026.03.07.02.42.48
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1772880538; x=1773485338;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m3jR3C4vDJ8YhURDkFwIKmm4ZlzF0+nCeL/+0TyYTFY=;
+        b=j1y2oHsDVA1TKWDlQ6gRYQT2aUAU6ut546gR+YtyxK4WSkZx0WFOuisvpaEWOJOZvV
+         SsOu6CHXEIxNkP4tw67FkVT6Yh1Xzy0puHcH0L5fumkP0Qg5B29uaOifNCAAwbvWZXTX
+         whzi5MzTq8qXfbm1Blg2Vl/6KoGHyuAT+9oiXM8Gk5+tYe5snk2grDXTnrnzosA8Taev
+         +oLjHUGIyGzfpWgR7zfqXg+NAwwmEF0CccCu/6IjrW/2WKo9AiWwm7HiIVZhDWF73B5u
+         yomiq6peKTwayHvTJ5L4Tr4Mnwrn6WsCS7yfVAV5+6voy5dJN51+pq630T4ndXSCavLU
+         5twA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ+P331n/1KN9HyGK5GzHFf64Whzhj4HFkutQMvUzi7nXUwr71j4uvKbDP/hoMG15Zlo+ntEYEbUPQ9nza4GvgDg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwLKaj61I9spK6pE+ewLkjqatZZfJhrzqfQEfpqdMYxIyrpS/Dp
+	x1PLxJZTmnYpxPbRMCahHQwhRy+up1Y/e6gHnsDVuBom/WPMIkqV4skMdu2md6IuJWMxUPfdrhP
+	XM+ulPyA=
+X-Gm-Gg: ATEYQzzdtwJfhkQ3y67X3pEgpHgn6mZQKIZwXTXBr38ETETbcccmxN8j0+gq16sbttJ
+	xUJeH6cs50sER6jqY9umIvnBrABlgP+Ad9V4I/YQu/nM/VOxN3nrgHcVPOkInHsfR8TK1r9LEPc
+	nR4+RUTYt5LckRzKyjUtAMzSRLAn+lpKcNLM+RsVJntCjtjj9BeejL0yOA8OolWHBsHuK53Bvq0
+	Yk6ESebjP+UNrmtVrubV0iUsRk+w9mowvPogIIQJOd5HeW8sFpIwZsJcR8ljjHnM6LVY8mFrwCa
+	zX0UwibxSHipfq0vaHM5zUGV+r7yX5Vz+Cq5F1ofotUDYUb0LriFP/ziJJuHkfYxJL1VwSK30iu
+	fvy6iKKxsYC2vzI1KykDaHND7K1cS8+23oTknK81NEuKu9vyVAe0pn4ItclN2dCssZ0Ybame98Y
+	XBA4+n29dVIRIDeDVSAMqk+MpuEINfChfnGwZOEgTnC7RA7Q/RkbDzW5L/BL9LznNCqRcWwoLra
+	Fb5mlWuINYZmSI=
+X-Received: by 2002:a05:6000:2dc7:b0:439:cc5e:a6d5 with SMTP id ffacd0b85a97d-439cfd76d47mr15722770f8f.23.1772880538339;
+        Sat, 07 Mar 2026 02:48:58 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d746:2cdc:e7ea:aa72? ([2001:8b0:aba:5f3c:d746:2cdc:e7ea:aa72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae3a20fsm11536007f8f.28.2026.03.07.02.48.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 02:42:48 -0800 (PST)
+        Sat, 07 Mar 2026 02:48:57 -0800 (PST)
+Message-ID: <0042c15cb84a0fcb67403e2b70253831724720fb.camel@linuxfoundation.org>
+Subject: Re: [yocto] Clarification on ptest/selftest backports for stable
+ branches
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Add fix for glibc 2.43
-Date: Sat,  7 Mar 2026 10:42:47 +0000
-Message-ID: <20260307104247.2590798-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+To: yocto@lists.yoctoproject.org, yoann.congal@smile.fr, OE-Core ML
+	 <openembedded-core@lists.openembedded.org>, OE-architecture ML
+	 <openembedded-architecture@lists.openembedded.org>
+Cc: "Marko, Peter" <Peter.Marko@siemens.com>, Shaik Moin <moins@kpit.com>, 
+ Pratik Farkase <pratik.farkase@est.tech>, Naman Jain <namanj1@kpit.com>
+Date: Sat, 07 Mar 2026 10:48:56 +0000
+In-Reply-To: <DGVX4XQ6VLWT.1HOMXA78ZXLBG@smile.fr>
+References: <DGVX4XQ6VLWT.1HOMXA78ZXLBG@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 10:42:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232609
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 10:49:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232610
 
-Update to add a fix for a function definition to work with glibc 2.43.
+On Fri, 2026-03-06 at 19:42 +0100, Yoann Congal via lists.yoctoproject.org =
+wrote:
+> Following recent discussions regarding merging ptests in stable branches,=
+ we
+> are clarifying the policy for backporting ptests and selftests to stable
+> branches.
+>=20
+> (I'm transcribing the Yocto project TSC decision)
+>=20
+> Moving forward, we will apply the following criteria:
+> * Backporting new tests is acceptable only when they accompany a
+> =C2=A0 corresponding bugfix.
+> * No standalone tests: If a test case is submitted on its own without
+> =C2=A0 fixing a specific regression, it will be rejected by default.
+>=20
+> The rationale is twofold:
+> 1. New tests on stable branches add limited value if they aren't targetin=
+g a
+> =C2=A0=C2=A0 known, occurring issue.
+> 2. AB-INT: We cannot afford additional intermittent failures.=C2=A0 We ne=
+ed to
+> =C2=A0=C2=A0 minimize the risk of introducing noise into the build result=
+s.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just to add, the TSC realises there is a balance here. We do want to
+encourage new additional tests and improve our testing over time.
+Allowing backporting of ptests would encourage that.
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index a26a205a160..4d316299033 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
--SRCREV = "43cbd8fb4914328094ccdb4bb827d74b1bac2046"
-+SRCREV = "56e1f8df4761da60e41812fc32b1de797d1765e9"
- PV = "1.9.3+git"
- 
- # largefile and 64bit time_t support adds these macros via compiler flags globally
+However, it is also clear we as a project are struggling with the
+existing set of tests and "intermittent" issues on the autobuilder. It
+is near impossible to know which of the new tests are going to cause
+such issues.
+
+It is also unclear how much testing many of the submitted and then
+"instantly backported" tests have against master.
+
+For those reasons the TSC is being cautious. If the autobuilder were in
+a better state, we would perhaps think differently but it isn't.
+
+It is still possible to request exceptions if there is a clear
+justification for adding specific tests to the stable series.
+
+Cheers,
+
+Richard
+
 
