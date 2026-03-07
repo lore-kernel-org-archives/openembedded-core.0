@@ -2,154 +2,98 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7965CF55117
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:52:56 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19036.1772923972311289901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3ACF5511A
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:53:06 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19038.1772923977009531313
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 14:52:52 -0800
+ Sat, 07 Mar 2026 14:52:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=agTC7Z+V;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439b9b1900bso5038903f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:52:52 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Z73TH7A3;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4853510b4f3so2233445e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:52:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772923970; x=1773528770; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iSBMHbFGsllu3X23XVbDSoYP00NpYevpJApErSLoFAw=;
-        b=agTC7Z+V6Sz7eGDBdK9PMGMAisoXZh748GmiL0EGK0wGh74mNbXhQRrWKKO/v4yknw
-         680Psw9uOVGcfKwDQKDIYD05MNCaHX/q8k4eSMnCQCS1XyiNfYInslApf+9tU8F4lHeN
-         fBMOe6sjl++86+kETnbr5zxMENIq4FT2hyzLI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772923970; x=1773528770;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1772923975; x=1773528775; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iSBMHbFGsllu3X23XVbDSoYP00NpYevpJApErSLoFAw=;
-        b=lczfAnP/PTCCcecgAaguacSg8i5LdXpM4jm/gV0jHtKeuDheJnysXItupyAbnSXBOQ
-         Q9zdwtiv8W66hHRuAQL3VWDZ8dM+JW7V2TMAFyLYoD8bou87apmL01nmvoGWu6AjEbk1
-         9QytVqho+/NrnxhockgYc9Xt7mbcaajM5npeh1DnaErNgk+iG75Lxh/IDSWAejgPNRqL
-         SOyeu45nIfNT9UEb68myASg14AMw2o1l5ZCXjXr6pQnSCe2Rkz/QqxmIrQ4FHIoPUEvn
-         NqZ0ZWgnrT9aD7V68jCd/lz/GR4GCelLcHFeItGXwf+gU4/uRhNWau0b1YUc8A6llkAM
-         J1Hw==
-X-Gm-Message-State: AOJu0Yw7WJXFofq7wR63DQcgeuRuMzoE5MpmInVWgVR3tVWEg/ujCC0X
-	xUYVtmB3sqAilmMVJ79jlCuxYbHYYgbaMCffPZ3lUR+rnJbs0gDVAf5xqgJQCyQ3u8wYvCYzklO
-	a90HC
-X-Gm-Gg: ATEYQzwjDwA3yj6KvoTYC2VxX1SdChksmhZkT89Swtix7JjWsmgT/955SecwjzODtGB
-	bV2sTOlIyXGojJQ8Yp6LaUuQXYRa3BOXhEAQUEYNGiD8NsjlY2ozYCBct1/pjIt+RctdYCTXWWv
-	DPgzaF8M6Ddpu/VTKHgxn/vG38k8DokmMJdygyNGl4b+y5HMVFZ6tEBx7fbUCusuappD8Bb/f7i
-	W8Xm8jjhkJu7nhjXIyy4zue7e4JhcPri3JuVyt/ZG0l3J6kB8ywBPMO5SB1nYu8mts0EwOEfDbi
-	ZA1jilxTslvwkqlbXXFXkNN62Llx3uS5h0TOvv8Ig2KD0KXhpNuncv1y0b1k1dQosZ11Kcl5nNf
-	BH6P6KOMRdqzP77x02r2IJGRszzT0ASfK4/xIvf3jNPQvrdUF5XJcPNLaa6lchTjBgGQWg6ljKc
-	3zTmmnxFcA8ZCvMgMhJ0rhNXChAzrBUkuOnsw0yLpnNFS347L6ezsD3CmzoI0bcEXyU7C6KQhRb
-	SusTJR6hVkadbMQZxdeSVtAy41t8yS+/gRccg==
-X-Received: by 2002:a05:600c:34d0:b0:46e:4a13:e6c6 with SMTP id 5b1f17b1804b1-4852696b8e3mr111775195e9.19.1772923970144;
-        Sat, 07 Mar 2026 14:52:50 -0800 (PST)
+        bh=asSZSFR5s9lAOWJohLIOefjCUAGvqS41IV/qtzwmtB0=;
+        b=Z73TH7A3vVCLvLoiDNfIbPfKoGI6bBo4hOzopGa9j0vHfJViNa9UDJBV7f58K/vj9f
+         RzgY5h4NO/0822q4+k971QlbWu4lfJnMThpJen1MJMLyQ9eysSG4nQBkA9J8qHK3wegt
+         InGRZDnk+JPsnYcOslDmivaVZ3eZ2tyBOemw4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772923975; x=1773528775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=asSZSFR5s9lAOWJohLIOefjCUAGvqS41IV/qtzwmtB0=;
+        b=sdryLOoZlf/6j+YXzjUrP16nBcpZsBeOUNMv8jCT1VkK3TJokFPCkdL+xlhytn8Vsp
+         vbjciWOt08tB1vBak2ZpC5BT15T2E1/MbTM9Inkanmzz795jipIzAsBvXE8kFUQ/IAlL
+         imVOvbo+VsLutCcHiV3QU+XEoOVFoGA045Ox3sTkVgR51P0DPKoQfimPdyctOm6Rrbkv
+         SaxR46hZFuR2haaSY1GkMLRkhD5q5yAeOlePk+oEs/RDos7XnJFS6OyI+vb06AFj/eWA
+         mj2vwD1Vs3K9nMzXpXu19hAwhsBKsko948bwwPYMD2/h/G3LInaDOnQFH8Dq52eiHMP5
+         S0tA==
+X-Gm-Message-State: AOJu0YwnL61KQDZLcKqXQCCz5doLcHzeaK8y2ngY+kt9SByA/EgzK/L5
+	OcuzDuMG9h/aFuH50A+ibYXYIqXD96SylG2cL6Oih7oOQCG4bOjhhQtwRtO5XaigXey4y5i0TT0
+	kAagV
+X-Gm-Gg: ATEYQzy9HKfj9FdoOAHJ944IsAr0/tEPUsjPtvVmr88vF59RFv6n5IN8BYxXxhQA+7D
+	3iJrbiioeOscHEjcKc9qrNBYh9AkIXb2jZQg1vovJ+xrr/OXXdMLpn8ktDMiBn4a5XsaXY89mRU
+	njyDchvzclBNhlL0q2fpq5ak16TLhPpzj18hm2jVn6gKVA/UJcmIXbW82IXIi43EZ1pi9kCQa5x
+	t7JmmFqux2QPoukIWdG+kiCaVyWhcA1sYIgjVRhkkYYULJe4dM2Sqvaam4fmoVdygEzUFXoO3fH
+	paVyPrFooDoQg84Xi7Iz4UajrU6up1sfy8SkjyJVWkLNYwXG9rK1V+q9MqvxO6T560pcSVU8HBq
+	ngaCmyx2UhT9frYmHYs4+PNsr+qzoAbvWzziaR9i67J2A1Ah/NKKblEwfuGE6twTICgoowD9Bq3
+	qXDb9I2LEV5mNLAYhi1UXqZNu4uUETyhCxMHA/uKRFa1VHTNzIjAXe8sFdAajthvR0t5uUP2wj6
+	QUdCV2k3MSXOuK/qLCR7ATcXGw=
+X-Received: by 2002:a05:600c:4ec6:b0:47f:b737:5ce0 with SMTP id 5b1f17b1804b1-48526964261mr112444415e9.23.1772923975077;
+        Sat, 07 Mar 2026 14:52:55 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527681e3fsm133287175e9.6.2026.03.07.14.52.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527681e3fsm133287175e9.6.2026.03.07.14.52.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 14:52:49 -0800 (PST)
+        Sat, 07 Mar 2026 14:52:54 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/11] Patch review
-Date: Sat,  7 Mar 2026 23:52:17 +0100
-Message-ID: <cover.1772923420.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/11] ffmpeg: set status for CVE-2025-10256
+Date: Sat,  7 Mar 2026 23:52:19 +0100
+Message-ID: <26da85be0717c00201e1ae1c1bdb67963a03ed92.1772923420.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1772923420.git.yoann.congal@smile.fr>
+References: <cover.1772923420.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:52:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232625
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:53:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232627
 
-Note: this series contains a major OpenSSL upgrade (agreed by YP TSC).
+From: Peter Marko <peter.marko@siemens.com>
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, March 10.
+Per [1] is patch for this CVE [2].
+This is equivalent of [3] which is included in n6.1.3.
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3349
-(Ignore the warning about Centos Stream9, its support is a work in progress for scarthgap)
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-10256
+[2] https://github.com/FFmpeg/FFmpeg/commit/a25462482c02c004d685a8fcf2fa63955aaa0931
+[3] https://github.com/FFmpeg/FFmpeg/commit/00b5af29a4203a31574c11b3df892d78d5d862ec
 
-I also did a full meta-oe build (to check for build failure with the
-OpenSSL upgrade)
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/81/builds/1342
-(the warnings are unrelated to this series)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit a9a785d7fa0cfe2a9087dbcde0ef9f0d2a441375:
-
-  build-appliance-image: Update to scarthgap head revision (2026-02-27 17:45:15 +0000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-for you to fetch changes up to fd8a140eb0742bbc12a23e36c9d24378bc0f462d:
-
-  busybox: Fixes CVE-2025-60876 (2026-03-06 23:58:42 +0100)
-
-----------------------------------------------------------------
-
-Hugo SIMELIERE (2):
-  zlib: Fix CVE-2026-27171
-  harfbuzz: Fix CVE-2026-22693
-
-Livin Sunny (1):
-  busybox: Fixes CVE-2025-60876
-
-Paul Barker (1):
-  create-pull-request: Keep commit hash to be pulled in cover email
-
-Peter Marko (3):
-  ffmpeg: set status for CVE-2025-10256
-  ffmpeg: set status for CVE-2025-12343
-  openssl: upgrade 3.2.6 -> 3.5.5
-
-Shaik Moin (1):
-  gdk-pixbuf: Fix CVE-2025-6199
-
-Tom Hochstein (1):
-  uboot-config: Fix devtool modify
-
-Yoann Congal (2):
-  scripts/install-buildtools: Update to 5.0.16
-  README: Add scarthgap subject-prefix to git-send-email suggestion
-
- README.OE-Core.md                             |  2 +-
- meta/classes-recipe/uboot-config.bbclass      |  2 +-
- .../openssl/files/environment.d-openssl.sh    |  9 ++-
- ...ke-history-reporting-when-test-fails.patch | 32 ++++----
- ...1-Configure-do-not-tweak-mips-cflags.patch |  4 +-
- ...sysroot-and-debug-prefix-map-from-co.patch | 26 ++++---
- .../0001-extend-check_cwm-test-timeout.patch  | 32 ++++++++
- .../openssl/openssl/CVE-2024-41996.patch      | 44 -----------
- .../openssl/openssl/CVE-2025-15468.patch      | 39 ----------
- .../openssl/openssl/CVE-2025-69419.patch      | 61 ---------------
- .../{openssl_3.2.6.bb => openssl_3.5.5.bb}    | 75 ++++++++++++-------
- .../busybox/busybox/CVE-2025-60876.patch      | 42 +++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |  1 +
- .../zlib/zlib/CVE-2026-27171.patch            | 63 ++++++++++++++++
- meta/recipes-core/zlib/zlib_1.3.1.bb          |  1 +
- .../gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch | 36 +++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
- .../harfbuzz/files/CVE-2026-22693.patch       | 33 ++++++++
- .../harfbuzz/harfbuzz_8.3.0.bb                |  4 +-
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  2 +-
- scripts/create-pull-request                   |  2 +-
- scripts/install-buildtools                    |  4 +-
- 22 files changed, 305 insertions(+), 210 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-15468.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-69419.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.2.6.bb => openssl_3.5.5.bb} (76%)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-60876.patch
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-27171.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-6199.patch
- create mode 100644 meta/recipes-graphics/harfbuzz/files/CVE-2026-22693.patch
-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
+index eb64b5c8d59..080241d34f9 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
+@@ -48,7 +48,7 @@ CVE_STATUS[CVE-2023-39018] = "cpe-incorrect: This issue belongs to ffmpeg-cli-wr
+ CVE_STATUS[CVE-2025-1373]  = "fixed-version: Vulnerable code not present in any release"
+ 
+ CVE_STATUS_GROUPS += "CVE_STATUS_FIXED_61x"
+-CVE_STATUS_FIXED_61x = "CVE-2023-49502 CVE-2023-50007 CVE-2023-50008 CVE-2023-50009 CVE-2023-50010 CVE-2024-31578 CVE-2024-31582 CVE-2024-31585 CVE-2025-1594"
++CVE_STATUS_FIXED_61x = "CVE-2023-49502 CVE-2023-50007 CVE-2023-50008 CVE-2023-50009 CVE-2023-50010 CVE-2024-31578 CVE-2024-31582 CVE-2024-31585 CVE-2025-1594 CVE-2025-10256"
+ CVE_STATUS_FIXED_61x[status] = "cpe-incorrect:these CVEs are fixed in 6.1.x"
+ 
+ CVE_STATUS[CVE-2025-25468] = "cpe-incorrect:vulnerability was introduced in v8.0"
 
