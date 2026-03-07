@@ -2,270 +2,288 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66717F55110
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:16:06 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18502.1772921758407574802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 814F6F55112
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:32:16 +0000 (UTC)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18731.1772922735205473245
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 14:15:58 -0800
+ Sat, 07 Mar 2026 14:32:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dQXvj8OY;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-798374d0f44so150767737b3.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:15:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772921757; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iKlxnR3X;
+ spf=pass (domain: gmail.com, ip: 209.85.128.171, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7982c3b7dfcso105476317b3.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:32:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772922734; cv=none;
         d=google.com; s=arc-20240605;
-        b=YCeYAeluIC0xQliZ3kWdFxDcui/Zs5XrIaicAcmQN8Cjo/mOIaGR8ACJtuyTbLlXcH
-         eaw/v/Ph7QEZ7qZhquvqz8aZ3wtAwMIkY6unum1C0Ji7CHCc0tTx5uXVf8TBt6yr7qaU
-         FDBOVts66F78hxlqz4ETB9FnN3s0kIQdiEEGj2Gk+GOTn7CeFj4xV+79vVaU7z3PjT09
-         Ibjsqg8ybN4Hxszq+pYb6CP+o4GHMyICB7UQC/4kVDzQ8Mzlh1dyI2sZki6tthHgB3fS
-         /omeJV9BJQSC+2L1P/VNIbk4YO5dVFf7e1qyNuvyWeLPcFsWyNiueYPkn/dnEM30OEGY
-         K8XA==
+        b=MEQjWfN7ftNUliPtXH4B/5IYI5dRAlcZ5hmzB1juOWWFeFGvVPftqS8miBq7eUh5it
+         T37zNzHJI0XyVnxsSFkhmMAnH0rH5xnDQ0NNf4aXTTMKtP4eWlvFLCtOlohnIZzLBgCn
+         z7BD9GZPkv2mXzYR7FTq2ee5LCrdjKsSa4YneaLHJbShaEfCA8cgsgcSix8f5k5O9/TK
+         BVjOIBg6wY6QNns66W+WmZK3DTKa3vgzvLoaI5wSQF8CGlf9b7HDM4l28du+PDSSYcj4
+         S4oJO3RD4OqbP6Xks1Ss3Fo2iDb+2ST/NTLUA9ub1mJTiTe0i8iBJ6pHnPAjiX06TqK5
+         6RqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=tpUQC6m9ISfOEMT12VwuwEHH/zXAAoPuTeyKr949AuE=;
-        fh=aX9SpBcc1D+i0sBLZeYvRNp2cqEQvxp/jAk+Y+9zDH4=;
-        b=REdXQS6CP93qrvNkXVazy6IQ6zBl6HMIm69pf3ZS9V8KK1OMZ/nS7XakgqNRxzKDhS
-         rFjd0Fb8T/pwJW3Zgy8IIEI7Ma2HVoPy7Cb1og90VSRWdtphRntHwaiWN8DUop2VRJR1
-         QC5lwYK7uk7l27mwXEn93kiwnjt+Es94swOm89IjcbTlljwcoBl/GzCfuVQdz/f3LVyz
-         e4cHhT1a+H4MbE0wiM4g3zHDZNUZL83sygPHW9SMeiySrcxMpkC1rFfyhIDmwYlFvfiC
-         azJsuvYyxBwUILv7yr0SDstTPLg83VrY2lvyu6teB5F2ddQgyGSJLa5vpVMTajdBAYdi
-         QYAw==;
+        bh=c6HaKkol8S2JRnS3HIE5xH6jOIzdrTdFNCvv0eMxF3U=;
+        fh=+56fr8oC44TsvrkKtM/RCoPNRtxwzn4I3GjUOOlVKC0=;
+        b=GvmkLCofvt2i0ooZDrCvYpAQwyM1fYSL+kHjp2nf/q4IkCq7klrPcq5eTotc4sCMLc
+         DCOp8m3xgIlTe96zDcXkfUBq17kMAxQCIps0QbqbfM9M6pxPbNL3tEUT3aW5ZBCEW7A+
+         j2Rl1h3vEW6mbjINlIsTy4T1WlxdbKHJVx5ArkBMbwMNnz3KoMrx3NDKJfhczvP66KJy
+         19TrQr9a+TlTjhDlyIDnvzhk1ptxidPx2bvs9J9yjr16SkAMBhVDQ/p0Gj+2PQ/7Pr3c
+         qmM/T4oYxmilBm+wxzqRMEyxmFnWwq+JXDanUABSW+GMU9LnY2aFYUix+YslX6wjNW2n
+         oTsQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772921757; x=1773526557; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772922734; x=1773527534; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tpUQC6m9ISfOEMT12VwuwEHH/zXAAoPuTeyKr949AuE=;
-        b=dQXvj8OY0uH8EkcayknZ9ePqyXx9KAIM3jH5va3v9mLgktK03cO4MWWUnVqBxaO1k8
-         rF0skcQRJ9qn/IZJN7ZJOdQ5QcQObwC3CzVlFFlihrtKefM0HB7TO8MXVchmZtuZJCbT
-         xcFJyUQdaG5AJgKs5cqyg090GUPpZTCc7LxJvuIR87SbwJ2jPxOcuf2lP/K05zr1jdgw
-         j+sLre97/NU687Cv3HLcICDxrIt87TWaG69+wEuBBMHONVSf/p4T4qC+Q8OoTjMy32c3
-         OgYlTwXbTqeI9mcEKScYjg3zLblOQKfh/PrK6UvbN5klwhCQz8IB4Tq+CrUr4oGMu2h2
-         7kcg==
+        bh=c6HaKkol8S2JRnS3HIE5xH6jOIzdrTdFNCvv0eMxF3U=;
+        b=iKlxnR3XfxBCdDNbnPqzo7QaNIHXOViL61fxd7Tu7mpiNXrYWwgL8wKercZ6Oqvy3B
+         yWa3kUHl0Rn/IaSTV8/93HuCIlIjL8pa399X6q+RQlK7Xy55f1PxHofL3jHsRPc4zmbQ
+         7BIYg9tps7ZlfpzBSXgOnzkTP7iCOdpfkqkh0oMaBUU4FtEzYbBny4yiG+pxPc5yOpVV
+         HZ+Met6FatGKVZETO6pHnuA8XesF9/4oV+bcvh6bU6pENT3LhKEXIR+EPym4E43XAzA9
+         4TN85jkteZeZ7OV5BJGs5fttp9nxL1Bo8bmzxOvmDBjHkIrh5wjYAiHx3zDTy7WKaHYM
+         MzYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772921757; x=1773526557;
+        d=1e100.net; s=20230601; t=1772922734; x=1773527534;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=tpUQC6m9ISfOEMT12VwuwEHH/zXAAoPuTeyKr949AuE=;
-        b=VxsRIw+edvZQCfj0xe3mv0CHAAVyrEfHfYJt2jXy3fA48+kFl9kLUTJuaNBRk3RUbw
-         vA/Ne06WzukzGrVcZnSLIFumXx3zsZlDx7sElh9sBHun9utnuyXG0CmeE4ayAaEvFZnA
-         eYLFPAnrMUmu9zFPQIUnGUXrXJxB4X8UKzmKaCts5SOMU/EbbBrilgnHjoKakyoYySpz
-         7BsbbUVapnLUeHojTHGQ2H+RZdwK6OKMX1mlrCYzYmpi7C2T249QvAWkla2EDsBX73vc
-         sYu2XoenYyh5xZdnzZ4Bj75ngsLbPCC3SuS+2IBdvrmte31TeiDsZJovSoSNLXx/yiPd
-         9Zgg==
-X-Gm-Message-State: AOJu0YxP5faCrV4IgNIssRneAtbRVid/V+ewduwB8qq6+17qbOXhdEqK
-	kmFwvuT6wohpccOaSSD/ZeBAwdrYOPYWhWJw5Yx0wnc6T8h3Ose32MmNSsCsoBP2YF+Ah1LLQWh
-	xialbajrG7QigCKJEeXwOn0P0cgkJoZk=
-X-Gm-Gg: ATEYQzy4vwL3AP4eLc1PAD8ELdcB6WzjhWQGcb0cgJPaDtcQBn0zZhMvNgC7zrJEof9
-	iwoB7PgYYRA2AHHxh25b331uLOH+5Z0ZGyDkQO/dj3QMRLIwsFfW3xYEYWO7pl/bYOe7i8IHnQR
-	dF/p4RCEvdhl8uCKA4Gk1WKVDwyYkOQGs5AAdexKJN5mjF1Oh4PIgdQChDGFhCqt2LRbrIkV++X
-	Bsz5NwgJt4vuyUwfMTz4Q+YNURo+ccasLSWfwp2ZU5utzARalZkAGf3ksm5SlMIqKe7dSCWHcpU
-	/auC0cXn+hrXuPoMCWN4ug==
-X-Received: by 2002:a05:690c:350c:b0:796:28aa:62eb with SMTP id
- 00721157ae682-798d1f28e05mr99730057b3.32.1772921757500; Sat, 07 Mar 2026
- 14:15:57 -0800 (PST)
+        bh=c6HaKkol8S2JRnS3HIE5xH6jOIzdrTdFNCvv0eMxF3U=;
+        b=NUrd/HMcnmkR6lzgEfXldLN3jUKUep7VQ99pW8a111PY+t615P9Hn+Zgj0UOcIwBhk
+         CgPEQ88j6nxmw5xzstgasA48hXAwH2IJk3G3zS5h1sqTF/6bO/YfiwfFVfWli9Yf2FGS
+         5aYNxsMaVVN7PyQothjWQjRzMe5ARPrQQC5jnVY59COnQFYKppwDrct85SsF3v+QOC7g
+         h/wnfhd2vQUsr2i93sXbiB2aMhxEMPufSrc4o40Md8co+v5pVYDBPMn64xHnHN940zPT
+         N/DQbUdiUk+LQw/WRSJCMH7WtAgMrn5SxaaLgUaHAKsH/h0YK+vUC5FciAF48UZTWMNf
+         3wLw==
+X-Gm-Message-State: AOJu0YwkZgHB3TekwvOPadhlVx4R1xcn7uX7Kr2av+y+U/sUWOMeuxkx
+	cScnUPFUOBhK8g6F16Z7RUFmS3AV4pA0+HyppUo30ZsBTDCldbaQ9wlYyMz2zK7J+/ZEX/lSGMj
+	XFq/n+wg48v1u+iYWT02e5VM4sK1oLL4=
+X-Gm-Gg: ATEYQzwxflsBKG/pOjasYwn0fBiLzqSq+O185BwSKTNvOOvoJoyOBWTYwO1RSw6qbLk
+	fcSfOYmNg4B2rH+HaNCWEFQQwTKLCGmRs0YMqHuNXBIef1ovSNe8wbnrAv/A4953tz7ftpzlOfT
+	G/rg4H9PcSlONeCN8BhxgHRHobOgalEWNC7iW3jpVCQYJ38IRSewHv2GwG2aSuRFzGjNGZZL/xY
+	+qHl05M+R5WpA3RRyQX3t9RyZYiIvQSwix+ezZLWO2Ov4q9OGrUppWNFNp3ylj0AycoKCtacqwY
+	QZAUNB3aOZFBLArsDwwYyA==
+X-Received: by 2002:a05:690c:805:b0:796:45d4:9e2d with SMTP id
+ 00721157ae682-798dd79f251mr49354897b3.53.1772922734169; Sat, 07 Mar 2026
+ 14:32:14 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <abdb92236f1ac104a31051d71890afeec6ba566b.1772805096.git.stefano.tondo.ext@siemens.com>
-In-Reply-To: <abdb92236f1ac104a31051d71890afeec6ba566b.1772805096.git.stefano.tondo.ext@siemens.com>
+References: <20260302160114.46884-1-stefano.tondo.ext@siemens.com>
+ <20260304170541.180868-1-stefano.tondo.ext@siemens.com> <20260304170541.180868-5-stefano.tondo.ext@siemens.com>
+In-Reply-To: <20260304170541.180868-5-stefano.tondo.ext@siemens.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 7 Mar 2026 15:15:45 -0700
-X-Gm-Features: AaiRm519SJEHf45FO0Qu_-a13KyELZEdn3bByCx8J4bnaj6ihodUY78HMCDtBGY
-Message-ID: <CAJdd5GYSyvkGrchQE20ADK=ubOyB=cOYYE9YdVcEcSmr5-mN_w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v7 03/10] spdx30: Add ecosystem-specific PURL generation
-To: stondo@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com, joshua.watt@garmin.com, 
-	ross.burton@arm.com, adrian.freihofer@siemens.com, Peter.Marko@siemens.com, 
-	Stefano Tondo <stefano.tondo.ext@siemens.com>
+Date: Sat, 7 Mar 2026 15:32:03 -0700
+X-Gm-Features: AaiRm53n29hqtEsjWE_dt8Mqfbk-qIv0O6v0xYCTmLnnP-APtizYgML7Tv3bBjI
+Message-ID: <CAJdd5GaGp5F7egs-v7s=dqaw+gk_dWWKQWPHjXt90+4K+zma0g@mail.gmail.com>
+Subject: Re: [PATCH v6 04/10] spdx30: Add version extraction from SRCREV for
+ Git source components
+To: Stefano Tondo <stondo@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com, 
+	stefano.tondo.ext@siemens.com, Peter.Marko@siemens.com, 
+	adrian.freihofer@siemens.com, mathieu.dubois-briand@bootlin.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:16:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232620
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:32:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232621
 
-On Fri, Mar 6, 2026 at 7:00=E2=80=AFAM Stefano Tondo via
-lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
-wrote:
+On Wed, Mar 4, 2026 at 10:05=E2=80=AFAM Stefano Tondo <stondo@gmail.com> wr=
+ote:
 >
-> Add a function that identifies ecosystem-specific PURLs (cargo, golang,
-> pypi, npm, cpan, nuget, maven) for dependency packages, working alongside
-> oe.purl.get_base_purl() which provides pkg:yocto PURLs.
+> Extract version information for Git-based source components in SPDX 3.0
+> SBOMs to improve SBOM completeness and enable better supply chain trackin=
+g.
 >
-> Key design decision: Does NOT return pkg:generic fallback. This ensures:
-> - No overlap with the base pkg:yocto generation
-> - Packages get BOTH purls: pkg:yocto/layer/pkg@ver AND pkg:cargo/pkg@ver
-> - Maximum traceability for compliance tools
+> Problem:
+> Git repositories fetched as SRC_URI entries currently appear in SBOMs
+> without version information (software_packageVersion is null). This makes
+> it difficult to track which specific revision of a dependency was used,
+> reducing SBOM usefulness for security and compliance tracking.
 >
-> Detects ecosystems via:
-> - Unambiguous file extensions (.crate for Rust)
-> - Recipe inheritance (pypi, npm, cpan, nuget, maven classes)
-> - BitBake variables (GO_IMPORT, PYPI_PACKAGE, MAVEN_GROUP_ID)
+> Solution:
+> - Extract SRCREV for Git sources and use it as packageVersion
+> - Use fd.revision attribute (the resolved Git commit)
+> - Fallback to SRCREV variable if fd.revision not available
+> - Use first 12 characters as version (standard Git short hash)
+> - Generate pkg:github PURLs for GitHub repositories (official PURL type)
+> - Add comprehensive debug logging for troubleshooting
+>
+> Impact:
+> - Git source components now have version information
+> - GitHub repositories get proper PURLs (pkg:github/owner/repo@commit)
+> - Enables tracking specific commit dependencies in SBOMs
 >
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 > ---
->  meta/lib/oe/spdx30_tasks.py | 113 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 113 insertions(+)
+>  meta/lib/oe/spdx30_tasks.py | 80 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 80 insertions(+)
 >
 > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index 0888d9d7e4..11945a622d 100644
+> index 11945a622d..78d1dfd250 100644
 > --- a/meta/lib/oe/spdx30_tasks.py
 > +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -13,12 +13,125 @@ import oe.spdx30
->  import oe.spdx_common
->  import oe.sdk
->  import os
-> +import re
+> @@ -569,6 +569,86 @@ def add_download_files(d, objset):
+>                  )
+>              )
 >
->  from contextlib import contextmanager
->  from datetime import datetime, timezone
->  from pathlib import Path
->
->
+> +            # Extract version and PURL for source packages
+> +            dep_version =3D None
+> +            dep_purl =3D None
 > +
-> +def extract_dependency_metadata(d, file_name):
-> +    """Extract ecosystem-specific PURL for dependency packages.
+> +            # For Git repositories, extract version from SRCREV
+> +            if fd.type =3D=3D "git":
+> +                srcrev =3D None
 > +
-> +    Uses recipe metadata to identify ecosystem PURLs (cargo, golang, pyp=
-i,
-> +    npm, cpan, nuget, maven). Returns (version, purl) or (None, None).
-> +    Does NOT return pkg:generic; base pkg:yocto is handled by get_base_p=
-url().
-> +    """
+> +                # Try to get SRCREV for this specific source URL
+> +                # Note: fd.revision (not fd.revisions) contains the reso=
+lved revision
+> +                if hasattr(fd, 'revision') and fd.revision:
+> +                    srcrev =3D fd.revision
+> +                    bb.debug(1, f"SPDX: Found fd.revision for {file_name=
+}: {srcrev}")
 > +
-> +    pv =3D d.getVar("PV")
-> +    version =3D pv if pv else None
-> +    purl =3D None
-> +
-> +    # Rust crate (.crate extension is unambiguous)
-> +    if file_name.endswith('.crate'):
-> +        crate_match =3D re.match(r'^(.+?)-(\d+\.\d+\.\d+(?:\.\d+)?(?:[-+=
-][\w.]+)?)\.crate$', file_name)
-> +        if crate_match:
-> +            name =3D crate_match.group(1)
-> +            version =3D crate_match.group(2)
-> +            purl =3D f"pkg:cargo/{name}@{version}"
-> +            return (version, purl)
-> +
-> +    # Go module via GO_IMPORT variable
-> +    go_import =3D d.getVar("GO_IMPORT")
-> +    if go_import and version:
-> +        purl =3D f"pkg:golang/{go_import}@{version}"
-> +        return (version, purl)
-> +
-> +    # Go module from filename with explicit hosting domain
-> +    go_match =3D re.match(
-> +        r'^((?:github|gitlab|gopkg|golang|go\.googlesource)\.com\.[\w.]+=
-(?:\.[\w-]+)*?)-(v?\d+\.\d+\.\d+(?:[-+][\w.]+)?)\.',
-> +        file_name
-> +    )
-> +    if go_match:
-> +        module_path =3D go_match.group(1).replace('.', '/', 1)
-> +        parts =3D module_path.split('/', 1)
-> +        if len(parts) =3D=3D 2:
-> +            domain =3D parts[0]
-> +            path =3D parts[1].replace('.', '/')
-> +            module_path =3D f"{domain}/{path}"
-> +
-> +        version =3D go_match.group(2)
-> +        purl =3D f"pkg:golang/{module_path}@{version}"
-> +        return (version, purl)
-> +
-> +    # PyPI package
-> +    if bb.data.inherits_class("pypi", d) and version:
+> +                # Note: We intentionally do NOT fall back to d.getVar('S=
+RCREV')
+> +                # because referencing SRCREV in BBIMPORTS-registered mod=
+ule code
+> +                # causes bitbake's signature generator to trace the SRCR=
+EV ->
+> +                # AUTOREV dependency chain during recipe finalization, t=
+riggering
+> +                # "AUTOREV/SRCPV set too late" errors for non-git temp r=
+ecipes
+> +                # used by recipetool/devtool with HTTP sources.
+> +                # fd.revision is always available for git sources after =
+fetch.
 
-I'm not really a big fan of bb.data.inherits_class. I think it makes
-more sense for pypi.bbclass to implement a way to do this behavior and
-set the recipe PURL when that class is inherited. Same for the rest of
-these, and maybe the GO_IMPORT case above?
+I'm fine with using fd.revision if it's correct.... but is this a bug
+in devtool and recipetool?
 
-> +        pypi_package =3D d.getVar("PYPI_PACKAGE")
-> +        if pypi_package:
-> +            # Normalize per PEP 503
-> +            name =3D re.sub(r"[-_.]+", "-", pypi_package).lower()
-> +            purl =3D f"pkg:pypi/{name}@{version}"
-> +            return (version, purl)
+> +                if srcrev and srcrev not in ['${AUTOREV}', 'AUTOINC', 'I=
+NVALID']:
+
+Minor: A set would be more efficient:
+
+  srcrev not in {"${AUTOREV}", "AUTOINC", "INVALID}:
+
+> +                    # Use first 12 characters of Git commit as version (=
+standard Git short hash)
+> +                    dep_version =3D srcrev[:12] if len(srcrev) >=3D 12 e=
+lse srcrev
+
+Is it always 12, or is it "12 or however many are required to be
+disambiguous" (which would require asking git)? I'd prefer to use the
+full SHA-1 to prevent that.
+
+> +                    bb.debug(1, f"SPDX: Extracted Git version for {file_=
+name}: {dep_version}")
 > +
-> +    # NPM package
-> +    if bb.data.inherits_class("npm", d) and version:
-> +        bpn =3D d.getVar("BPN")
-> +        if bpn:
-> +            name =3D bpn[4:] if bpn.startswith('npm-') else bpn
-> +            purl =3D f"pkg:npm/{name}@{version}"
-> +            return (version, purl)
+> +                    # Generate PURL for Git hosting services
+> +                    # Reference: https://github.com/package-url/purl-spe=
+c/blob/master/PURL-TYPES.rst
+> +                    download_location =3D oe.spdx_common.fetch_data_to_u=
+ri(fd, fd.name)
+> +                    if download_location and download_location.startswit=
+h('git+'):
+> +                        git_url =3D download_location[4:]  # Remove 'git=
++' prefix
 > +
-> +    # CPAN package
-> +    if bb.data.inherits_class("cpan", d) and version:
-> +        bpn =3D d.getVar("BPN")
-> +        if bpn:
-> +            if bpn.startswith('perl-'):
-> +                name =3D bpn[5:]
-> +            elif bpn.startswith('libperl-'):
-> +                name =3D bpn[8:]
-> +            else:
-> +                name =3D bpn
-> +            purl =3D f"pkg:cpan/{name}@{version}"
-> +            return (version, purl)
+> +                        # Build Git PURL handlers from default + custom =
+mappings
+> +                        # Format: 'domain': ('purl_type', lambda to extr=
+act path)
+> +                        # Can be extended in meta-siemens or other layer=
+s via SPDX_GIT_PURL_MAPPINGS
+> +                        git_purl_handlers =3D {
+> +                            'github.com': ('pkg:github', lambda parts: f=
+"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >=3D 2 else None)=
+,
+
+You lambda is always the same for all of the entries in this hash
+table; given that I don't see why we need it in the table.
+
+> +                            # Note: pkg:gitlab is NOT in official PURL s=
+pec, so we omit it by default
+> +                            # Other Git hosts can be added via SPDX_GIT_=
+PURL_MAPPINGS
+> +                        }
 > +
-> +    # NuGet package
-> +    if (bb.data.inherits_class("nuget", d) or bb.data.inherits_class("do=
-tnet", d)) and version:
-> +        bpn =3D d.getVar("BPN")
-> +        if bpn:
-> +            if bpn.startswith('dotnet-'):
-> +                name =3D bpn[7:]
-> +            elif bpn.startswith('nuget-'):
-> +                name =3D bpn[6:]
-> +            else:
-> +                name =3D bpn
-> +            purl =3D f"pkg:nuget/{name}@{version}"
-> +            return (version, purl)
+> +                        # Allow layers to extend PURL mappings via SPDX_=
+GIT_PURL_MAPPINGS variable
+> +                        # Format: "domain1:purl_type1 domain2:purl_type2=
+"
+> +                        # Example: SPDX_GIT_PURL_MAPPINGS =3D "gitlab.co=
+m:pkg:gitlab git.example.com:pkg:generic"
+> +                        custom_mappings =3D d.getVar('SPDX_GIT_PURL_MAPP=
+INGS')
+> +                        if custom_mappings:
+> +                            for mapping in custom_mappings.split():
+> +                                try:
+> +                                    domain, purl_type =3D mapping.split(=
+':')
+
+This would fail with your example of "gitlab.com:pkg:gitlab" because
+it would split into 3 parts and you are only capturing 2. You probably
+want `mappings.split(":", 1), and some tests
+
+> +                                    # Use simple path handler for custom=
+ domains
+> +                                    git_purl_handlers[domain] =3D (purl_=
+type, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(par=
+ts) >=3D 2 else None)
+> +                                    bb.debug(2, f"SPDX: Added custom Git=
+ PURL mapping: {domain} -> {purl_type}")
+> +                                except ValueError:
+> +                                    bb.warn(f"SPDX: Invalid SPDX_GIT_PUR=
+L_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
 > +
-> +    # Maven package
-> +    if bb.data.inherits_class("maven", d) and version:
-> +        group_id =3D d.getVar("MAVEN_GROUP_ID")
-> +        artifact_id =3D d.getVar("MAVEN_ARTIFACT_ID")
+> +                        for domain, (purl_type, path_handler) in git_pur=
+l_handlers.items():
+> +                            if f'://{domain}/' in git_url or f'//{domain=
+}/' in git_url:
+> +                                # Extract path after domain
+> +                                path_start =3D git_url.find(f'{domain}/'=
+) + len(f'{domain}/')
+> +                                path =3D git_url[path_start:].split('/')
+> +                                purl_path =3D path_handler(path)
+
+I think using urllib can simplify this code.
+
+> +                                if purl_path:
+> +                                    dep_purl =3D f"{purl_type}/{purl_pat=
+h}@{srcrev}"
+> +                                    bb.debug(1, f"SPDX: Generated {purl_=
+type} PURL: {dep_purl}")
+> +                                break
 > +
-> +        if group_id and artifact_id:
-> +            purl =3D f"pkg:maven/{group_id}/{artifact_id}@{version}"
-> +            return (version, purl)
-> +        else:
-> +            bpn =3D d.getVar("BPN")
-> +            if bpn:
-> +                if bpn.startswith('maven-'):
-> +                    name =3D bpn[6:]
-> +                elif bpn.startswith('java-'):
-> +                    name =3D bpn[5:]
-> +                else:
-> +                    name =3D bpn
-> +                purl =3D f"pkg:maven/{name}@{version}"
-> +                return (version, purl)
+> +            # Fallback: use parent package version if no other version f=
+ound
+> +            if not dep_version:
+> +                pv =3D d.getVar('PV')
+> +                if pv and pv not in ['git', 'AUTOINC', 'INVALID', '${PV}=
+']:
+
+Minor: Use a set
+
+> +                    dep_version =3D pv
+> +                    bb.debug(1, f"SPDX: Using parent PV for {file_name}:=
+ {dep_version}")
 > +
-> +    # Base pkg:yocto PURL is handled by oe.purl.get_base_purl()
-> +    return (version, None)
+> +            # Set version and PURL if extracted
+> +            if dep_version:
+> +                dl.software_packageVersion =3D dep_version
 > +
+> +            if dep_purl:
+> +                dl.software_packageUrl =3D dep_purl
 > +
->  def walk_error(err):
->      bb.error(f"ERROR walking {err.filename}: {err}")
->
+>              if fd.method.supports_checksum(fd):
+>                  # TODO Need something better than hard coding this
+>                  for checksum_id in ["sha256", "sha1"]:
 > --
 > 2.53.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#232569): https://lists.openembedded.org/g/openembedde=
-d-core/message/232569
-> Mute This Topic: https://lists.openembedded.org/mt/118170494/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
-EWhacker@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
