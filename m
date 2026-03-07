@@ -2,82 +2,82 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8351FF55114
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:42:56 +0000 (UTC)
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18897.1772923369805435036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94462F55114
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:49:06 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18958.1772923744094649492
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 14:42:49 -0800
+ Sat, 07 Mar 2026 14:49:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IVXYploU;
- spf=pass (domain: gmail.com, ip: 74.125.224.45, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64caaacb9bcso9956895d50.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:42:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772923369; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k2lb+Ll3;
+ spf=pass (domain: gmail.com, ip: 209.85.128.176, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7986c7b8076so112771267b3.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:49:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772923743; cv=none;
         d=google.com; s=arc-20240605;
-        b=UJwEXZrBFocJEcTgIPUicIMu/08AY/WXE0UeRktjIJp70QQro/GcWDgjyHgOMzKtat
-         Tl7eaNsNBa2AAoTKsJi+bRezyxtf3QtGvRxmyxPawPhIL+UE8hVtNnxvLaEgff3bh9M9
-         IdcRGfEwvxem4q5XweBubmjugRGUARpLqvQ1dTWazHbDkNUtBR12I56RLn3A6nRisAFI
-         dWuDoYZAPokvIQZboUgIALU1b8N66Zji1ma7u3zzTDGWMsQBmn2PQZJL1mJ1b7Iddlg7
-         0sDcGa98w1ZSULERVhBjvjJV6KIq1RBYf4lcs0tnhIRLjxEy8oiHv+e+8tpbunicINeJ
-         rXBQ==
+        b=XVqBvej7keWUbx9RRVWcmoEWLlUo986F2/0yCiTkHBAGW/kZ1SNZxjcNsw4YZH/ns/
+         MCtuQFCvqaXQb3Tsjc9GmewpSsMVO3i6z5uuslm6ixMIjVvxy9CGqaZ4gM6rlycyAVgY
+         kqcq+f81RN5WA/zCWz8AOzRkR9SiADWycSel2JiKlnfShBJiq7gcu5tVH6E605YBnWwy
+         OPWsPOi+Ik6ZYws/TkI6i6vKTyAC2QKcobAZU6hzHo9jRB2L6hVau5LLv6uJ7DbIaBTf
+         2p7lWo7BBWcgT0rdeKT4VhXOgXV7NmCapwNE8IgXfbD/w1g81wpsXC8c7JHtzsaB3lyh
+         LmTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=rLBhNgBuR/xEPiSuoMkVlIV0jFga4h0tteSx/syKGD0=;
+        bh=gkQSh47/17VVtvEQmHwmBRoDAO+GkNhmR/l+FIs0OSY=;
         fh=aX9SpBcc1D+i0sBLZeYvRNp2cqEQvxp/jAk+Y+9zDH4=;
-        b=do76UpRUStmpceq7WQKkdpcT2sc7LWpu9nJRt453KXtprISbfxKVbvHZDp9OBpjqAS
-         nD74t86Thub9kKD19eCGY5+RLQQtYXtUoiUqEGxwD3W/55xumR5pgMK1FAdHu69RP1dI
-         V38WRCJrlxDs+k2dqDrcd+FfCUXEEEAdrJ/Utvl1xgojh0yyUqYjC9auiSaFJr4zhPYf
-         7+iOqW7vzt/H9lf/TgGxsUeseoujglkkLPWcaZc6nsEQ81AIpeY3jMEW3XdntniVChD3
-         sh6B0jW49dPGjoAruNnXxyEU5uNPbzcgUflF6ileX3oPkK3dGtnpf+a7TLtkU7T8AFMl
-         XJag==;
+        b=Va9kRL4kfFfiHin/CnzrnpwIo+JH/jop/VnqW/vopYuNwzCk63h6J8WBrVdvYufQWQ
+         KLBR8K5NtoHGS/a6Ww7+yOL+Xv08O0BfeB0PkNb+Cfvihy9T0CUAth2aR3PnXup4wexh
+         nvHiWUB5OyXEELh/1NRTnFDcypVI1xTBjW6u+I/DtND94vtis2mQrANqr/qU6bGxqdL4
+         DWlwUHSu8xlZkTwo306a6OuUq+b9zw2MhuK3dXtF8ZESrU7o6aXuApuj5CAlaE39ZchP
+         3ZgjjmjqizzIqZ3eHcIma+lwpiQInkCzHt8ssx5TgYukcY7BPzd/cWfuDc8IUfbZ3LOE
+         NK1A==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772923369; x=1773528169; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772923743; x=1773528543; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rLBhNgBuR/xEPiSuoMkVlIV0jFga4h0tteSx/syKGD0=;
-        b=IVXYploUqGEQAKtvDcFiUCDk+IUXSwukvGPi4Pkh1QAO1QeFpk37esOUnXPpbhWsQp
-         Cn1IBv+KGEpPLdhQmHELt41zePiSIZsox0DXFmK2CKYk9oTA+WfElelyLKuz5tqGweht
-         AKpQqreGa6e0gPMRZXWN3ZBBHXXQagZoV3wlsBd3sDFmOaCehOhR81DkPavvcMicmkFw
-         MIpWSKUk05IyWEXou/sIB9MBo7LrHa3vq8pmP7zrp+4lLVrYmIRDJNKbpljPR52fNtKH
-         uDnh0x596trBsthvS6WJlQWC38X10X0MoNNvKBqqzNfCUa9A8014CZsBTHNOwPKyEY/z
-         vqtw==
+        bh=gkQSh47/17VVtvEQmHwmBRoDAO+GkNhmR/l+FIs0OSY=;
+        b=k2lb+Ll32kmxAMviHqw+OZ6jal37ksJDbWBw225WwYA8JGEVJ1yBXGBmkgru8i6J7r
+         Jv17tN/SKxuaQjSEQPLRXhT3tEmKLKZrTEN+YIJczPSBpeD0C5GlIyWbW/hazr6IzvwY
+         qm3azK0UgHWVEhkO37BVwaJ+H3mCKJcbYaAR7xIuJuvrNTbSYxLIRQmk89tFY9Q8NZwI
+         CKWyI/SzeXIExRd6Fo/Ula4sFPxdHDvt7qzjiU/U8ELyBIfHeFCUvFYhIukCGZ+NBP5M
+         7NqdRwCo15Hzam7Gv9TR/kdD3AUcgTtOT0OkfipTt34gUtbW/wdXJ1QMTcGOwADV8V/I
+         Vj/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772923369; x=1773528169;
+        d=1e100.net; s=20230601; t=1772923743; x=1773528543;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rLBhNgBuR/xEPiSuoMkVlIV0jFga4h0tteSx/syKGD0=;
-        b=XdRbsh5M8tUXy+10FvhXvkaNuNf8XJCLCHjSMYSjgTa74J+0XfoYtnSHFY26hMJ8uZ
-         aWOsuBJLRG0b2kvU6qVc1eMLyaqwAi2J5VqWl0s6cF13yRLcqjN/oSNsMIVxOxhsGi1i
-         Vc2BiiAcakvZecNQNwxOrqajO85Yt1R1djQu7lztJd6jymFZe5R46DkNhD4kavqSXMu8
-         bfJzrRLC74h8V/1DKst7tMofWAavzbvoanv4+NzgSEdOdo4Ydc9Xt0NknCkW0YbeVZDV
-         bMEnPtWKj0v7vknyY6XrA4kU9fv2/8vFABTn3tZZf6dyBfX2kc9plYDa93OXkFBQnJNC
-         nvsw==
-X-Gm-Message-State: AOJu0YxS8whvE5ftW9gnEOi5MPLyny9Wp1zdvqqEV4EAoig99kbgKQ+b
-	+LDb+cJzZOen7DoVezbXbNZ9xliAI6EicnptroNvibhEqjghL7GEX5/ZyJUuRLEqmis8YZZLjhV
-	a97exM+Efdj8ny3vaB9PZKMu7YGdizg0=
-X-Gm-Gg: ATEYQzxC5qgrL898kDXlF3JlJ3LD1I3ADlq+ZF/8SKZYttfDmYZXN8RX9ebjnPARHsz
-	uVRzD/Gj11H3tVojm0OucVKBBpR0T7xVbze/e7Ene8Dk+nniVC+b9A/c2P3VFdhPOC8xtpVKsZN
-	B0APLYG/fJEWL14JYDCop520ZtpbmfEPST8Sm0bsHJj1Gc0XaVyTv5LurTSGpBdbHtohcJVG8H1
-	WOUq+PyXbVLZZ2vFQX97mX/6sjDAYt/96BkQa75P/tFi2vDapUNAzOvsN9JzhbWooHKZtSMtyPI
-	mcMZQj2UiyR47wlU4YZRcQ==
-X-Received: by 2002:a05:690c:86:b0:798:798d:9a1b with SMTP id
- 00721157ae682-798dd7caa89mr63906587b3.63.1772923368540; Sat, 07 Mar 2026
- 14:42:48 -0800 (PST)
+        bh=gkQSh47/17VVtvEQmHwmBRoDAO+GkNhmR/l+FIs0OSY=;
+        b=SZkFUSW812cnM0brMPLKCroLZ2x6Q7gLgyFi+VGriDkh78BJdhvrMBOS2L1r2V2IKc
+         e2PSPi4E8yVqXnMexps8itOgHCkWj/vQbQ9Cja9yr7Im3KXTMX9b2LSX7xRI7YWeg9BY
+         fKWbqjGbSRYIrJLP4zN7GnlCgeITs7wudUJeKrnneIQv/kxcW0BxLhhWqNSaV+7JJUJm
+         2ulG8q92Wi16nQ6klErue8LYAumi1IdSevqrZdnLumDB8vgk15Dr8QDzcCMgU8p2tbxZ
+         NaP01RJ+B2d96GbqwzsA+2utElWk+SlUwkLXxVJHTjRBYEdXi5rHhgccaFuoxy8AUJfv
+         EUuA==
+X-Gm-Message-State: AOJu0YySiD9SWjHkhIlK7YzGdbYZDImO5C3vdeUQLw3ye1tMAdD9Ga43
+	DeKwaK+xGEEvH9tLwP9C1A3uBKDSc47ECGgP3txqo3bbbOeKGPeGtM2xo35+pRbhzNji0pPaZuS
+	Fb/TQAnxPOtLVV7BmUabC8GJZtDp/cjo=
+X-Gm-Gg: ATEYQzw8NFgTsmUeQ461Or162seSPaZnB9NcSsgYuENj9qjEA1rlF5EJuQNbw2dIqnC
+	IeUn1trlluvlzkOhhvSG5sBw4Yg4Q0yc8zhyRZoSx1YFgi8NfLcXdopSJtZwIb0Ze3KTAp/e1M1
+	6wPDp4ehpHl0sF7kkC6OJI0kDQWngYYdOne15FH5Ka/bm66+BWhgI/FVYEUALhZSbSy5W4w7bsG
+	MjkroYrcz8/a7efB0x0/Xmh1/Da5RTfhaTp5HOTfzXYWqWCTbxgGhCoQNPn0+xegcWhu09M7Qj5
+	hutIJxuiR1j/Wv0sSBt28w==
+X-Received: by 2002:a05:690c:3687:b0:794:f3dc:a977 with SMTP id
+ 00721157ae682-798dd7a5a40mr62152997b3.46.1772923743178; Sat, 07 Mar 2026
+ 14:49:03 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <387d3edf78fc6381bc876445de23cab95d63f224.1772805096.git.stefano.tondo.ext@siemens.com>
-In-Reply-To: <387d3edf78fc6381bc876445de23cab95d63f224.1772805096.git.stefano.tondo.ext@siemens.com>
+References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <4c6578ec4adc1a0fe7eae661c356253822d82a7b.1772805096.git.stefano.tondo.ext@siemens.com>
+In-Reply-To: <4c6578ec4adc1a0fe7eae661c356253822d82a7b.1772805096.git.stefano.tondo.ext@siemens.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 7 Mar 2026 15:42:37 -0700
-X-Gm-Features: AaiRm53JLWwPNKAiN2npgPFB07RJeYBnMdMMKl4JmsBHx_OlBkUGNG2NS9TvbME
-Message-ID: <CAJdd5GbSa=ND4RoS2SsucMxEmGfV-YxCWTtqf6h3w7g=v4BW5g@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v7 06/10] spdx30: Enrich source downloads with
- external refs and PURLs
+Date: Sat, 7 Mar 2026 15:48:52 -0700
+X-Gm-Features: AaiRm51RzoiN-BO7EmmeEW9FxJ6NS0lRZYICwJJujVKmPoZCjD9VSaeXjf4yX18
+Message-ID: <CAJdd5GagAtzLaQknwo3htZ_t__neg8xaXUmAPCepbnGFi-bYiw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v7 07/10] oeqa/selftest: Add test for
+ download_location defensive handling
 To: stondo@gmail.com
 Cc: openembedded-core@lists.openembedded.org, 
 	mathieu.dubois-briand@bootlin.com, joshua.watt@garmin.com, 
@@ -88,383 +88,103 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:42:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232622
-
-I don't really like that this significantly rewrites the
-implementation from 2 patches prior; it makes review more difficult.
-Is there a reason you did it that way? If not, I'd suggest squashing
-the two patches together
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:49:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232623
 
 On Fri, Mar 6, 2026 at 7:00=E2=80=AFAM Stefano Tondo via
 lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
 wrote:
 >
-> Enrich source download packages in SPDX SBOMs with comprehensive
-> source tracking metadata:
+> Add test to verify that SPDX generation handles download_location
+> failures gracefully and doesn't crash if fetch_data_to_uri() behavior
+> changes.
 >
-> External references:
-> - VCS references for Git repositories (ExternalRefType.vcs)
-> - Distribution references for HTTP/HTTPS/FTP archive downloads
-> - Homepage references from HOMEPAGE variable
+> Test verifies:
+> 1. SPDX file generation succeeds for recipes with tarball sources
+> 2. External references are properly structured when generated
+> 3. ExternalRef.locator is a list of strings (SPDX 3.0 spec requirement)
+> 4. Defensive try/except and isinstance() checks prevent crashes
 >
-> Source PURL qualifiers:
-> - Add ?type=3Dsource qualifier for recipe source tarballs to
->   distinguish them from built runtime packages
-> - Only applied to pkg:yocto or pkg:generic PURLs (ecosystem-specific
->   PURLs like pkg:npm already have their own semantics)
+> The test uses m4 recipe which has tarball sources, allowing verification
+> of the download location handling without requiring complex setup.
 >
-> Version extraction with priority chain:
-> - Priority 1: ;tag=3D parameter from SRC_URI (preferred, provides
->   meaningful versions like '1.2.3')
-> - Priority 2: fd.revision (resolved Git commit hash)
-> - Priority 3: SRCREV variable
-> - Priority 4: PV from recipe metadata
->
-> PURL generation:
-> - Generate pkg:github PURLs for GitHub-hosted repositories
-> - Extensible via SPDX_GIT_PURL_MAPPINGS for other hosting services
-> - Ecosystem-specific version and PURL integration for Rust crates,
->   Go modules, PyPI, NPM packages
->
-> Also add defensive error handling for download_location retrieval
-> and wire up extract_dependency_metadata() for non-Git sources.
+> Test can be run with:
+>   oe-selftest -r spdx.SPDX30Check.test_download_location_defensive_handli=
+ng
 >
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 > ---
->  meta/lib/oe/spdx30_tasks.py | 178 +++++++++++++++++++++++++-----------
->  1 file changed, 126 insertions(+), 52 deletions(-)
+>  meta/lib/oeqa/selftest/cases/spdx.py | 34 ++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 >
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index 78d1dfd250..b82015341b 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -20,7 +20,6 @@ from datetime import datetime, timezone
->  from pathlib import Path
->
->
-> -
->  def extract_dependency_metadata(d, file_name):
->      """Extract ecosystem-specific PURL for dependency packages.
->
-> @@ -573,15 +572,29 @@ def add_download_files(d, objset):
->              dep_version =3D None
->              dep_purl =3D None
->
+> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
+t/cases/spdx.py
+> index 41ef52fce1..9b6fcd335c 100644
+> --- a/meta/lib/oeqa/selftest/cases/spdx.py
+> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
+> @@ -414,3 +414,37 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
+):
+>                  value, ["enabled", "disabled"],
+>                  f"Unexpected PACKAGECONFIG value '{value}' for {key}"
+>              )
+> +
+> +    def test_download_location_defensive_handling(self):
+> +        """Test that download_location handling is defensive.
+> +
+> +        Verifies SPDX generation succeeds and external references are
+> +        properly structured when download_location retrieval works.
+> +        """
+> +        objset =3D self.check_recipe_spdx(
+> +            "m4",
+> +            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-m4.spdx.j=
+son",
+> +            # Use a unique namespace prefix to ensure do_create_spdx run=
+s
+> +            # fresh regardless of sstate from prior tests in the same
+> +            # oe-selftest worker (see test_extra_opts for rationale)
+> +            extraconf=3D"""\
+> +                SPDX_NAMESPACE_PREFIX =3D "http://spdx.org/spdxdocs/test=
+-download-loc"
+> +                """,
+> +        )
 
-add_download_files is getting pretty long, can this new functionality
-be split into a new function?
-
-> -            # For Git repositories, extract version from SRCREV
-> +            # Get download location for external references
-> +            download_location =3D None
-> +            try:
-> +                download_location =3D oe.spdx_common.fetch_data_to_uri(f=
-d, fd.name)
-> +            except Exception as e:
-> +                bb.debug(1, f"Could not get download location for {file_=
-name}: {e}")
-> +
-> +            # For Git repositories, extract version from SRCREV or tag
->              if fd.type =3D=3D "git":
->                  srcrev =3D None
->
-> -                # Try to get SRCREV for this specific source URL
-> +                # Prefer ;tag=3D parameter from SRC_URI
-> +                if hasattr(fd, 'parm') and fd.parm and 'tag' in fd.parm:
-> +                    tag =3D fd.parm['tag']
-> +                    if tag and tag not in ['${AUTOREV}', 'AUTOINC', 'INV=
-ALID']:
-> +                        dep_version =3D tag[1:] if tag.startswith('v') e=
-lse tag
-> +                        version_source =3D "tag"
-
-This feels like a little too much of a heuristic to me (mapping a tag
-to a version); Do we need to do this? The SRCREV seems more precise
-
-> +                # Try fd.revision for resolved SRCREV
->                  # Note: fd.revision (not fd.revisions) contains the reso=
-lved revision
-> -                if hasattr(fd, 'revision') and fd.revision:
-> +                if not dep_version and hasattr(fd, 'revision') and fd.re=
-vision:
->                      srcrev =3D fd.revision
->                      bb.debug(1, f"SPDX: Found fd.revision for {file_name=
-}: {srcrev}")
-> +                    version_source =3D "fd.revision"
->
->                  # Note: We intentionally do NOT fall back to d.getVar('S=
-RCREV')
->                  # because referencing SRCREV in BBIMPORTS-registered mod=
-ule code
-> @@ -590,65 +603,127 @@ def add_download_files(d, objset):
->                  # "AUTOREV/SRCPV set too late" errors for non-git temp r=
-ecipes
->                  # used by recipetool/devtool with HTTP sources.
->                  # fd.revision is always available for git sources after =
-fetch.
-> -                if srcrev and srcrev not in ['${AUTOREV}', 'AUTOINC', 'I=
-NVALID']:
-> -                    # Use first 12 characters of Git commit as version (=
-standard Git short hash)
-> +                if not dep_version and srcrev and srcrev not in ['${AUTO=
-REV}', 'AUTOINC', 'INVALID']:
->                      dep_version =3D srcrev[:12] if len(srcrev) >=3D 12 e=
-lse srcrev
-> -                    bb.debug(1, f"SPDX: Extracted Git version for {file_=
-name}: {dep_version}")
-> -
-> -                    # Generate PURL for Git hosting services
-> -                    # Reference: https://github.com/package-url/purl-spe=
-c/blob/master/PURL-TYPES.rst
-> -                    download_location =3D oe.spdx_common.fetch_data_to_u=
-ri(fd, fd.name)
-> -                    if download_location and download_location.startswit=
-h('git+'):
-> -                        git_url =3D download_location[4:]  # Remove 'git=
-+' prefix
-> -
-> -                        # Build Git PURL handlers from default + custom =
-mappings
-> -                        # Format: 'domain': ('purl_type', lambda to extr=
-act path)
-> -                        # Can be extended in meta-siemens or other layer=
-s via SPDX_GIT_PURL_MAPPINGS
-> -                        git_purl_handlers =3D {
-> -                            'github.com': ('pkg:github', lambda parts: f=
-"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) >=3D 2 else None)=
-,
-> -                            # Note: pkg:gitlab is NOT in official PURL s=
-pec, so we omit it by default
-> -                            # Other Git hosts can be added via SPDX_GIT_=
-PURL_MAPPINGS
-> -                        }
-> -
-> -                        # Allow layers to extend PURL mappings via SPDX_=
-GIT_PURL_MAPPINGS variable
-> -                        # Format: "domain1:purl_type1 domain2:purl_type2=
-"
-> -                        # Example: SPDX_GIT_PURL_MAPPINGS =3D "gitlab.co=
-m:pkg:gitlab git.example.com:pkg:generic"
-> -                        custom_mappings =3D d.getVar('SPDX_GIT_PURL_MAPP=
-INGS')
-> -                        if custom_mappings:
-> -                            for mapping in custom_mappings.split():
-> -                                try:
-> -                                    domain, purl_type =3D mapping.split(=
-':')
-> -                                    # Use simple path handler for custom=
- domains
-> -                                    git_purl_handlers[domain] =3D (purl_=
-type, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(par=
-ts) >=3D 2 else None)
-> -                                    bb.debug(2, f"SPDX: Added custom Git=
- PURL mapping: {domain} -> {purl_type}")
-> -                                except ValueError:
-> -                                    bb.warn(f"SPDX: Invalid SPDX_GIT_PUR=
-L_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
-> -
-> -                        for domain, (purl_type, path_handler) in git_pur=
-l_handlers.items():
-> -                            if f'://{domain}/' in git_url or f'//{domain=
-}/' in git_url:
-> -                                # Extract path after domain
-> -                                path_start =3D git_url.find(f'{domain}/'=
-) + len(f'{domain}/')
-> -                                path =3D git_url[path_start:].split('/')
-> -                                purl_path =3D path_handler(path)
-> -                                if purl_path:
-> -                                    dep_purl =3D f"{purl_type}/{purl_pat=
-h}@{srcrev}"
-> -                                    bb.debug(1, f"SPDX: Generated {purl_=
-type} PURL: {dep_purl}")
-> -                                break
-> -
-> -            # Fallback: use parent package version if no other version f=
-ound
-> +                    bb.debug(1, f"Extracted Git version for {file_name}:=
- {dep_version} (from {version_source})")
-> +
-> +                # Generate PURL for Git hosting services
-> +                # Reference: https://github.com/package-url/purl-spec/bl=
-ob/master/PURL-TYPES.rst
-> +                if dep_version and download_location and isinstance(down=
-load_location, str) and download_location.startswith('git+'):
-> +                    git_url =3D download_location[4:]  # Remove 'git+' p=
-refix
-> +
-> +                    # Default Git PURL handler (github.com)
-> +                    git_purl_handlers =3D {
-> +                        'github.com': ('pkg:github', lambda parts: f"{pa=
-rts[0]}/{parts[1].replace('.git', '')}" if len(parts) >=3D 2 else None),
-> +                        # Note: pkg:gitlab is NOT in official PURL spec,=
- so we omit it by default
-> +                    }
-> +
-> +                    # Custom PURL mappings from SPDX_GIT_PURL_MAPPINGS
-> +                    # Format: "domain1:purl_type1 domain2:purl_type2"
-> +                    # Example: SPDX_GIT_PURL_MAPPINGS =3D "gitlab.com:pk=
-g:gitlab git.example.com:pkg:generic"
-> +                    custom_mappings =3D d.getVar('SPDX_GIT_PURL_MAPPINGS=
-')
-> +                    if custom_mappings:
-> +                        for mapping in custom_mappings.split():
-> +                            try:
-> +                                domain, purl_type =3D mapping.split(':')
-> +                                git_purl_handlers[domain] =3D (purl_type=
-, lambda parts: f"{parts[0]}/{parts[1].replace('.git', '')}" if len(parts) =
->=3D 2 else None)
-> +                                bb.debug(2, f"Added custom Git PURL mapp=
-ing: {domain} -> {purl_type}")
-> +                            except ValueError:
-> +                                bb.warn(f"Invalid SPDX_GIT_PURL_MAPPINGS=
- entry: {mapping} (expected format: domain:purl_type)")
-> +
-> +                    for domain, (purl_type, path_handler) in git_purl_ha=
-ndlers.items():
-> +                        if f'://{domain}/' in git_url or f'//{domain}/' =
-in git_url:
-> +                            path_start =3D git_url.find(f'{domain}/') + =
-len(f'{domain}/')
-> +                            path =3D git_url[path_start:].split('/')
-> +                            purl_path =3D path_handler(path)
-> +                            if purl_path:
-> +                                purl_version =3D dep_version if version_=
-source =3D=3D "tag" else (srcrev if srcrev else dep_version)
-> +                                dep_purl =3D f"{purl_type}/{purl_path}@{=
-purl_version}"
-> +                                bb.debug(1, f"Generated {purl_type} PURL=
-: {dep_purl}")
-> +                            break
-> +
-> +            # Fallback to recipe PV
->              if not dep_version:
->                  pv =3D d.getVar('PV')
->                  if pv and pv not in ['git', 'AUTOINC', 'INVALID', '${PV}=
-']:
->                      dep_version =3D pv
-> -                    bb.debug(1, f"SPDX: Using parent PV for {file_name}:=
- {dep_version}")
-> +            # Non-Git: try ecosystem-specific PURL
-> +            if fd.type !=3D "git":
-> +                ecosystem_version, ecosystem_purl =3D extract_dependency=
-_metadata(d, file_name)
-> +
-> +                if ecosystem_version and not dep_version:
-> +                    dep_version =3D ecosystem_version
-> +                if ecosystem_purl and not dep_purl:
-> +                    dep_purl =3D ecosystem_purl
-> +                    bb.debug(1, f"Generated ecosystem PURL for {file_nam=
-e}: {dep_purl}")
->
-> -            # Set version and PURL if extracted
->              if dep_version:
->                  dl.software_packageVersion =3D dep_version
->
->              if dep_purl:
->                  dl.software_packageUrl =3D dep_purl
->
-> +            # Add ?type=3Dsource qualifier for source tarballs
-> +            if (primary_purpose =3D=3D oe.spdx30.software_SoftwarePurpos=
-e.source and
-> +                fd.type !=3D "git" and
-> +                file_name.endswith(('.tar.gz', '.tar.bz2', '.tar.xz', '.=
-zip', '.tgz'))):
-
-Why does it have to be one of these archive formats?
+test_extra_opts has a good reason it doesn't want to pull from the
+"normal" sstate; this test doesn't. I'm not sure why this test would
+not be able to pull from existing sstate and pass, since you aren't
+changing any configuration.
 
 > +
-> +                current_purl =3D dl.software_packageUrl
+> +        found_external_refs =3D False
+> +        for pkg in objset.foreach_type(oe.spdx30.software_Package):
+> +            if hasattr(pkg, 'externalRef') and pkg.externalRef:
 
-Isn't this `dep_purl`? Why can't this code live before
-dl.software_packageUrl is assigned.
+I'm pretty sure hasattr is redundant here; software_Package has that attrib=
+ute.
 
-> +                if current_purl:
-> +                    purl_type =3D current_purl.split('/')[0] if '/' in c=
-urrent_purl else ''
-> +                    if purl_type in ['pkg:yocto', 'pkg:generic']:
-> +                        source_purl =3D f"{current_purl}?type=3Dsource"
-> +                        dl.software_packageUrl =3D source_purl
-> +                else:
-> +                    recipe_purl =3D oe.purl.get_base_purl(d)
-> +                    if recipe_purl:
-> +                        base_purl =3D recipe_purl
-> +                        source_purl =3D f"{base_purl}?type=3Dsource"
-> +                        dl.software_packageUrl =3D source_purl
-> +            # Add external references
+> +                found_external_refs =3D True
+> +                for ref in pkg.externalRef:
+> +                    self.assertIsNotNone(ref.externalRefType)
+> +                    self.assertIsNotNone(ref.locator)
+> +                    self.assertGreater(len(ref.locator), 0, "Locator sho=
+uld have at least one entry")
+> +                    for loc in ref.locator:
+> +                        self.assertIsInstance(loc, str)
+> +                break
 > +
-> +            # VCS reference for Git repositories
-> +            if fd.type =3D=3D "git" and download_location and isinstance=
-(download_location, str) and download_location.startswith('git+'):
-> +                git_url =3D download_location[4:]  # Remove 'git+' prefi=
-x
-> +                # Clean up URL (remove commit hash if present)
-> +                if '@' in git_url:
-> +                    git_url =3D git_url.split('@')[0]
-> +
-> +                dl.externalRef =3D dl.externalRef or []
-> +                dl.externalRef.append(
-> +                    oe.spdx30.ExternalRef(
-> +                        externalRefType=3Doe.spdx30.ExternalRefType.vcs,
-> +                        locator=3D[git_url],
-> +                    )
-> +                )
-> +
-> +            # Distribution reference for tarball/archive downloads
-> +            elif download_location and isinstance(download_location, str=
-) and (
-> +                    download_location.startswith('http://') or
-> +                    download_location.startswith('https://') or
-> +                    download_location.startswith('ftp://')):
-> +                dl.externalRef =3D dl.externalRef or []
-> +                dl.externalRef.append(
-> +                    oe.spdx30.ExternalRef(
-> +                        externalRefType=3Doe.spdx30.ExternalRefType.altD=
-ownloadLocation,
-> +                        locator=3D[download_location],
-> +                    )
-> +                )
-> +
-> +            # Homepage reference if available
-> +            homepage =3D d.getVar('HOMEPAGE')
-
-Does HOMEPAGE apply to all downloads? I'm not sure.
-
-> +            if homepage:
-> +                homepage =3D homepage.strip()
-> +                dl.externalRef =3D dl.externalRef or []
-> +                # Only add if not already added as distribution referenc=
-e
-> +                if not any(homepage in ref.locator for ref in dl.externa=
-lRef):
-> +                    dl.externalRef.append(
-> +                        oe.spdx30.ExternalRef(
-> +                            externalRefType=3Doe.spdx30.ExternalRefType.=
-altWebPage,
-> +                            locator=3D[homepage],
-> +                        )
-> +                    )
-> +
->              if fd.method.supports_checksum(fd):
->                  # TODO Need something better than hard coding this
->                  for checksum_id in ["sha256", "sha1"]:
-> @@ -665,7 +740,6 @@ def add_download_files(d, objset):
->                          )
->                      )
->
-> -            inputs.add(dl)
->
->      return inputs
->
+> +        self.logger.info(
+> +            f"External references {'found' if found_external_refs else '=
+not found'} "
+> +            f"in SPDX output (defensive handling verified)"
+> +        )
 > --
 > 2.53.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#232572): https://lists.openembedded.org/g/openembedde=
-d-core/message/232572
-> Mute This Topic: https://lists.openembedded.org/mt/118170498/3616693
+> View/Reply Online (#232573): https://lists.openembedded.org/g/openembedde=
+d-core/message/232573
+> Mute This Topic: https://lists.openembedded.org/mt/118170501/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
 EWhacker@gmail.com]
