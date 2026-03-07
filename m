@@ -2,120 +2,86 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4306AFC9EE2
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 09:52:25 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6477.1772877136504772741
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D035FC9EF4
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 10:42:56 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6975.1772880171248292819
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 01:52:16 -0800
+ Sat, 07 Mar 2026 02:42:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AZdUluBs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso82893755e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 01:52:16 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UMUBvTOM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-480706554beso110023245e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 02:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1772877135; x=1773481935; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=y53EuKtKbsC37kIHg/ES8rjxrTw40vAM5t9UrxHOc88=;
-        b=AZdUluBskCfUVG8UY7mhtE7gRGCLhmZg1gf6aIs8MF2Nd3btQJ/QV+0n2qWDOMRFho
-         YP/TsrGO2lVleDxii9z3omjKuxQdBQCT6unQFqSH7HMSlS3Em6hobCu2LSsbNYwVmGEN
-         /6ZnXuPN2DpNLnYcXbImms9iu/Y36wM1se5+Y=
+        d=linuxfoundation.org; s=google; t=1772880169; x=1773484969; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wIohpvrdNjXShAn9WCpBEL3HMqOO19seeBCA0nBhTnY=;
+        b=UMUBvTOMl/6ErUqZFmoPjeMLEOq9cal8GNFLf8S/jtwPZQKotkLVln7GW6Ka1tAk2/
+         4F475S0ePWmMpR/orETxoxGI+RCESvauMGXNbX+HqPyuMixjh3YUCRD/CirUJxP91bon
+         GAO+Zzkiv2gjmFRpdM+3CuGEag2I9qU9oogvI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772877135; x=1773481935;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y53EuKtKbsC37kIHg/ES8rjxrTw40vAM5t9UrxHOc88=;
-        b=Z2S64cyaVVIwc4O6Gta1jb2k8irzj9RKSd/URKIIKWhJzVnPvo7s5HQ6tYsrnfnDmf
-         zzeq2CMhMJc7F4x4HyYgZhQyZUApj0A5jnr0TYy88lzDh3Ayd/YHADSmvPIiYC8y+rG8
-         dmZzr5M9eesQuxtqBZ/QdM+Mx9pLBbEjhyxJ+iVCXZqkkbR28qtpjLcAHmjCX0eYOSoX
-         8QH1YZpmsvGzmckhPHhh/o2UA+0UEvPGq8dukojVG2sMYA1u+NOaf3EUpCfW7VdQedn2
-         KQO6FE4DNFy1mpeuQEn2fg46veOjNKl4joDdT1A+y3NBfVpgOlyuHBHFnnxh09TjkOKp
-         cHmA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzwEzsO4GH82dV4wbjZ9w9mql4Jyb8+PMtGeKfIMDWcMj+xQDlQUPqpZBgU87vOqW4t9I62gqng32yNRR3e7tFPA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxYvgaMLdSOaLoIrAhwP9wPB+xUJJnCjqK5HNYn9eGLGnAahvwZ
-	ENKBlOQr8JOFD7y8+WooFTB9v/rGyq5tvyyIAWUge/X4PnC542NGtglXIufHj8iUzUc=
-X-Gm-Gg: ATEYQzx7CeamvPLQR0S2kfoWYt4ebiPrCoLu6KqlqRSaypev8p17WyFxHwIu0KAvc0p
-	qdus8DLEClHPK+UeRnPF+uM6kCFPAYXQFtn1oPvcG2Q+gj40W3gU15Y4/brXuYxqP8E0/2sAV4z
-	Gi6wLVhpNBXfLzfeo6pMjZINw5ai9Fd8PcDYDq0EvAmrU77AEUUOpS4NhIlhcch5C8y4Uv64kko
-	BusQ2FjgY1XOjcnNsZsyUOuKfWRDny3DkM63EMaxyiNdHYLAieH4IhMg6tM6hPrgeErEBijfzXB
-	j0AONfdfjTxb/lNNglN6zFQkSnOjb7opF3yDpQvcEXjnRMVCEQaoN60HOFLBh0RLbC8h1wpJaTS
-	hD0GhmjDUsuoWQEf+ghh5jokmeUiCS2Q5lq+oHOPPGY6rkjwqIouTxIBjXsDBXG+++/GfilNyFp
-	mKSE4YtTRvkjpYbs2k4gp5oGMRterpFbNmOuXlCG/WT+1SmslHg5huM37B8dRyqkQ27P2NMm5sc
-	HwHaQjLgVQ7lxXzJsqVKrIOcA==
-X-Received: by 2002:a05:600c:45c6:b0:46f:d682:3c3d with SMTP id 5b1f17b1804b1-4852691d571mr80006675e9.13.1772877134754;
-        Sat, 07 Mar 2026 01:52:14 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d746:2cdc:e7ea:aa72? ([2001:8b0:aba:5f3c:d746:2cdc:e7ea:aa72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dad8d95dsm11138983f8f.7.2026.03.07.01.52.13
+        d=1e100.net; s=20230601; t=1772880169; x=1773484969;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wIohpvrdNjXShAn9WCpBEL3HMqOO19seeBCA0nBhTnY=;
+        b=QrieHLMS9DRIYDmGSIIa9JKHwNCmuSrZzrYRfNHsI/f+dMwy5ROLRHXBOH0rcZC4W3
+         0Ht1SKndPxMAi15HvQ+dAUobmSlkJABkrhAj0qOvNAR1g2+/yeeCKFWZ/GQ2XNaoalso
+         kHQAyQ6CGj0ru0nZ8ExSm4sVHS9nuWytGu6dB0UZZzs855dsjxMnOjylhB7BqXQy7E1b
+         B7dBKqb3XkJMk8YIUNZ7bXQ6VT16Ms88Wd4aioqrtfUcPIgfKUPRrrxcnAWsgbUyywXW
+         Yia7ckFxkTTGunRP4+UTmwZJ9EQ6KwQ0IEKnX+/TaZbuptouWSdUWo9sReYeyyRefQFp
+         l9Eg==
+X-Gm-Message-State: AOJu0Yy2StcZgPSGte5GSD71+Ew43a3EVpjWh5lIK7k98xxV48TqefdR
+	FADEXvfMeKuXXR6D4/WHKztzXfttg9jy+dmaRqiAuYqkdhDKBFMIu8RrxzM/Df18nMsd6SRTdOs
+	xBV9FEn8=
+X-Gm-Gg: ATEYQzzuYlTIBw+r1BtdyAW6cIHspxkFsl+GopWlkg4UWe2W0WO8yFyy3Ncr/D3KqzS
+	btiyP3mhKTK7dA6JXk/Fzg05CfSs5jSuHpfa4j3/IdVat4J1XjTGmZ1Xky0wJKIvYcpk3Xsnqj4
+	0ZiSXfBbxyVOrDktlyoikpZsIhxWhENZKd5Mu4CYYZ3FO9PNmv3N3ZsWvQoFph0SdBITOrYekra
+	NyJc1683t9En2b7HZTZBwmNHQANwD5rcka7yDMaD0rGlNx2fFbpa5aIbW/p+J7Zi3XK0rFsDyLH
+	EBfXaujVcpnaATWiq4d2EvxG0gNzCurL3PASLlPSjAMXA0EEOV/21btRNcGtAn0DuDQylagmFFj
+	0ScETvqzToYdDnLRCLbbmKBS6CjEhVW6COlbK/M+uOewcP75pgiH2YDj8iSFCHkRYuOqfNxgjVs
+	osMhWwZZTrIGuhdgc8ufK7XZscxkhK7AZJjN+SchD+H5sRf9yCIxg=
+X-Received: by 2002:a05:600c:c088:b0:483:a922:2e8d with SMTP id 5b1f17b1804b1-48526919884mr75386715e9.4.1772880168948;
+        Sat, 07 Mar 2026 02:42:48 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d746:2cdc:e7ea:aa72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dad8d95dsm11386869f8f.7.2026.03.07.02.42.48
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 01:52:14 -0800 (PST)
-Message-ID: <b6bc0991fd5aa011365062d0f6caecfdec557273.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v7 2/9] wic: move sample *wks files
+        Sat, 07 Mar 2026 02:42:48 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Scott Murray <scott.murray@konsulko.com>
-Cc: twoerner@gmail.com, openembedded-core@lists.openembedded.org
-Date: Sat, 07 Mar 2026 09:52:13 +0000
-In-Reply-To: <c9a6374b-9aa3-07e9-3839-2e78615e46df@konsulko.com>
-References: <20260302003826.3995222-1-twoerner@gmail.com>
-	 <20260302003826.3995222-3-twoerner@gmail.com>
-	 <08808bc90a211c8ef9550cf3a30940629bc16299.camel@linuxfoundation.org>
-	 <c9a6374b-9aa3-07e9-3839-2e78615e46df@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pseudo: Add fix for glibc 2.43
+Date: Sat,  7 Mar 2026 10:42:47 +0000
+Message-ID: <20260307104247.2590798-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 09:52:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232608
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 10:42:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232609
 
-On Sat, 2026-03-07 at 03:59 -0500, Scott Murray wrote:
-> On Fri, 6 Mar 2026, Richard Purdie via lists.openembedded.org wrote:
->=20
-> > On Sun, 2026-03-01 at 19:38 -0500, Trevor Woerner via lists.openembedde=
-d.org wrote:
-> > > By convention, wic will look for a "wic" directory in the top-level
-> > > of all BBLAYERS in order to find *wks files. oe-core was the only
-> > > exception; it stored its *wks files in scripts/lib/wic/canned-wks.
-> > > Take the *wks, *wks.in, *inc, and *cfg files that were in the canned-
-> > > wks location and place them in a "wic" top-level directory in the oe-
-> > > core layer, thereby following the convention of every other layer.
-> >=20
-> > This commit message is not strictly correct. The current code looks in
-> > "wic" or "scripts/lib/wic/canned-wks" in every layer, not just oe-core.
-> >=20
-> > You're dropping the scripts/lib/wic/canned-wks search location for all
-> > layers.
-> >=20
-> > I agree it is unlikely other layers are using that but the commit
-> > message does need to be correct. That in turn will lead to better
-> > migration notes for the release.
-> >=20
-> > The bigger issue is that if this isn't documented correctly, what else
-> > are the patches doing which I haven't spotted? :/.
->=20
-> So far in a quick ad hoc search of layers I've got cloned locally
-> I've found meta-sifive, meta-qcom, and meta-phytec that are using
-> scripts/lib/wic/canned-wks.=C2=A0 That suggests dropping support for
-> that location does need to be clearly called out in the migration
-> guide.
+Update to add a fix for a function definition to work with glibc 2.43.
 
-Thanks for that, I had assumed this kind of search had been done but
-clearly not :(.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm guessing the removal was triggered by the aim of removing "canned"
-from the name. I shouldn't have to guess but...
-
-Taking a step back, if I was asked what the location should be, I'd
-probably have said meta/files/wic, since the files directory contains
-all our "misc" files. I appreciate that isn't one of the current
-locations but perhaps we should just add that, leave the existing ones
-and people can migrate as/when...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index a26a205a160..4d316299033 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "43cbd8fb4914328094ccdb4bb827d74b1bac2046"
++SRCREV = "56e1f8df4761da60e41812fc32b1de797d1765e9"
+ PV = "1.9.3+git"
+ 
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
 
