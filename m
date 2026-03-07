@@ -2,82 +2,82 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5622CF5510D
-	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 21:55:36 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18176.1772920531308092424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E628F5510E
+	for <webhook@archiver.kernel.org>; Sat,  7 Mar 2026 22:01:46 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18283.1772920904543904535
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Mar 2026 13:55:31 -0800
+ Sat, 07 Mar 2026 14:01:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h/XaQdF8;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-79801df3e21so93808877b3.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 13:55:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772920530; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ib+G/MMz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-798374d0f44so150690807b3.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 14:01:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772920904; cv=none;
         d=google.com; s=arc-20240605;
-        b=baDOVBd0dVpgqtTiS+IC7Khg+L4GHq0rkVNQ+oP8rA1SJHUNNnF8s5VBMvH+YZmM2i
-         bZz1xArgbEwJ3IKgocqMsLCqnFbBre7Mp6t5TMTKin93PBmfWVdAavCiBtWUB9RYzksi
-         qDzTzIBpQBEDQfZVF3E1mW6j61tGi2g0BSVTzUN7YUrs146YKP1w3N/k59kqhNfvyYqB
-         hhvlX7Kgc3BLW9nz+K88sKwn8x+rYdrjcVR6EsY3Q7lFn+PPUwref1aIKDhf7mUaTFhg
-         s1BLFIhFIvHSmoEtyPjMZbBu8hbEh99ZzQ+sbJMnw0PrkyWLRlaIt2GPB6IRaXHyYVJ+
-         XlNA==
+        b=bWaUV7FkhV4InUl6pWJkF0dT8sCu81zBjg4sypWvMQNcLatRk9SG59wwY8hPPPZWgW
+         6pWyS9j1xDBVdCyDgwFsFME3pWfirdXvKAFQ5KKcIsQIj9GjzB43m/6TYgQiBWTpdFAw
+         ypUIdeKeq1ttfE0cPO70v0ZPucUYod2pwCl2g1AHoTT9ucY48OlNw+YPFXye2T8/gM8t
+         E9td2IY4Gkf7s0Tp4/pP9JCgivDbP9qn9z3toj4yG59xriJqlHGUJdkuIhL/ZTTI0GTj
+         PumbZPbJwmENYr9Jw05p5lkOzPcyMUN1heimu/bMvF2SiTtui+y2qZOc1aUCVr6Y2wfp
+         LHfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Re4kzSad5/qiw78txr6o+iC+b75ejT9bRfSGHqklImI=;
+        bh=U9RoMAHYYr3MhpUIIc2UR490ffsNLzvb2tS0ZuLvfDQ=;
         fh=aX9SpBcc1D+i0sBLZeYvRNp2cqEQvxp/jAk+Y+9zDH4=;
-        b=eaXJpMFatAGvXresJkeropgjPMaQCR9W948tN8u7p72YyvQsbUCAcqj7S8kvAsj6pT
-         JOdZ2Xczhlv80rC2H4ec3BKxw7JIKzffUS18FvrZ6SZIyaOAir1hrk8DYHlgylAxPocV
-         molyx1To2kWrsuiU861mhflW2WvUmWapXEpvxU30cV+KIa2HiRRnX5bUibX/xy8ziu6Y
-         BYSCubkKr5SpqZ0fF05XBKElanmat8s+gCYR9AJgOIPdPVrv1MVYA2Qg0jyfmXcusXwH
-         z4iZcb8y+T2XigBGX4zAT9vwn3pBtLlZXd/zmRSGsp+dwKy7k/RMgON0d7amA6ETOqQV
-         pWYg==;
+        b=L6/4XMIWvuiX0hzpiO9T+xM3/iD5gGAbAWsohFkp3wjwX2P2dtiIyw/1VKCtY7ZbSi
+         7isN348e5PZ9LB60DLy51utAu4I/toUYxWo/zdGHFX6tavkLlowkAWlFRDZZQFfiGda4
+         TjNy2dvle43ZVhNEam0Laj1C4tcnCWeaSRSEhQYaMj5V6bqhQqIvPZ0UX3y5rfvQtHbC
+         fB09ywAv5GogWsYPaEAbvl4yU+3dnaN8hszfpAp9yq2I0RISPPV5E6EuJS8ZboXHDNc7
+         3QqbZdzvuvl+lXHdYIZxle8GVS2Z9XmbFQJT4YwdUCZC+hQbeDAC2kEuLZ+Hr9RZbTFC
+         MuBQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772920530; x=1773525330; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1772920904; x=1773525704; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Re4kzSad5/qiw78txr6o+iC+b75ejT9bRfSGHqklImI=;
-        b=h/XaQdF8189qTL/WlV0Wx9lOIvTZ1w8Omig2RZFwSABHjtw92EPtxW3BagFzbN0GFO
-         5Rx8h68C49JjL78SKBu9SQpEhDUw+2mFnXZXHq7ib29NsdEedU4ZO1szWLTOmuan4Rmv
-         P4q6OzIrDU2K3vpdjqfFrq6CU4ZKe4BDUQ00isPcnwB4yL7zjobk/tOvEECUe7xgp24a
-         i2hrFTLKvWVa3A3bZn3VOxnB7X71Sg08UefAbWAeNOZyqH+IEv+gT2T0cdKhOt2zam0o
-         fGYVwHSpGduS6HosdPcBM0evJ27x5hTAlO8PF1ohjxl5PV7ypP5d5wgaY2FWLAKRFuzv
-         wMOA==
+        bh=U9RoMAHYYr3MhpUIIc2UR490ffsNLzvb2tS0ZuLvfDQ=;
+        b=Ib+G/MMzIjIcFYHjjIZWt4CBtJvRkgBL12bnPVTSZTPeugk6V1J1i6Om3+bNPs4j5k
+         J2eve4FTj1qaZ7NJ4eABCcWYaxTrkA5nYuknLNMI3d0qjqU914PTp2R2+CPWKy6quSiV
+         ZLVAfAFgY+/uUoxfkLWf2Z0krp/Fh9k2ozGqR1qzi1h9fKR7yglX9/eSxjTXjShkWfB0
+         ucbiPrkGnXv2cXUeOXr3mAUs2fCqJCSbvUF1+Fw8guB1q/4PpdL47u7PuNX5WIOr+jcR
+         d8l1HGEbE0wZsKJLA9A1+Mn2IyvRMvJDn3kUf4OJgOyH78iMFUZv5VnzoS9OFbJCvn6H
+         QGOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772920530; x=1773525330;
+        d=1e100.net; s=20230601; t=1772920904; x=1773525704;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Re4kzSad5/qiw78txr6o+iC+b75ejT9bRfSGHqklImI=;
-        b=jX8FLdNt3pwROLQwGr/3XX9vFu5u2L4EPneM8mzO9O1+hlHl8W7aKgMNBmHpXvwqvr
-         Z0vGT317Xng0LWSmgLvsgsQUiQU/hosz3uB4M/S9XBfsky00kOfp8okPCCfY6fKIlbJy
-         7q7WWQSkQRIO7MUBscWjAzeotskjy4Gn2l6T05CrzsRZRGY5kduWTKgjCNlvEiNXjO2+
-         ozgYv/YKImjWcGzNqg3VmYclBHaRQfmritQUiggbfxEjM9DqMudOriALtjIudHE7JB3z
-         ovExo7SsV3gopE6yADvjrJCb6kG13vSkLUG205RCA81rzdHIKu65UM7WD/JFsGfrWNSk
-         mfxQ==
-X-Gm-Message-State: AOJu0YyNV7vJiS5CAGcZuabon76pTvQO+4HEQv4gTKJFG8nhB6VjhK3r
-	zvTJnv9XW2w9b/JaEAgdEXf2JJAKqN36NrPtbdwm5FUtsqwHf9SmcdwTVNnTdO5LMX7GkuQF2Il
-	DPXnsQ75K4vn+srMT/zgu7NKGg5ypKnE=
-X-Gm-Gg: ATEYQzwf0hfZshJy8MD3QxcASMIJtK54o6X3nSPf3oeA3JDlCJGhPtYO2sNqPNrgvwt
-	Ce4E/S/cfoDF8HLMTCLAsR2cZFw6oTo0c/8+0ukioJd/Pwini7+rvt3cu20DRs8W3DCNOW+olKV
-	sY+6u7Cj2z/4KwUneMqE9SC2mX75CIlMhCjzXxSBA7Al9HURGvWQbWW/VQHhoNvDA/UxMVuGwFi
-	BMvCrJD6TNRRskpJD1dVXKagJZmYpqyQxANN7UM85FlPdE+RU3r0JN+43eabj8aXhCHlV/ce9EW
-	Mx327wGEd50b82s68q8FbA==
-X-Received: by 2002:a05:690c:2603:b0:797:afb7:b1eb with SMTP id
- 00721157ae682-798dd78918dmr58815707b3.49.1772920530371; Sat, 07 Mar 2026
- 13:55:30 -0800 (PST)
+        bh=U9RoMAHYYr3MhpUIIc2UR490ffsNLzvb2tS0ZuLvfDQ=;
+        b=RYIbqpzccsuadVGFmRM57ndzIEpm+TcBxuuzhj9FvrDtB5oIBRIe9m9Pd8L3n/BM66
+         vHy09o6hApkYd0hJf5WOdxKf5amNVW+bbmLiRBECozkSqVpE8mopbx1W5mfyahAt7LL3
+         +aoVK32vS0Flgq5IAeV/GefZ66avTFGcXa+wGfE3SFqTE7i2AJXHs/JWp7Wu+3wybLk5
+         rbL6XjURO3eNZRvXfh7y4DU6V6LNHB0QBWMSsFBr4K7eVzMAWksnuV32ITf4cEGr5XBZ
+         YMH+KrLTy8JugCzI8nG1RpsZqyNq2nHYk5KJcygKymRykBYRdX7BRcb7A0/xPTOT2+FY
+         c9zg==
+X-Gm-Message-State: AOJu0Yz8siSK4p/keCSU0dp3f12KA2bC6ogBWx0lQOCEZd88m34ABHVC
+	yNrkzCtGBz7Qh8KfLuhQPvSt4GMjAivpsl3tyTo7NthuG5SCfR7MOPKobageCSyevDKBbO4NtCd
+	gdxf67IOOzLqtvTmBWMocwloNAyFS/fg=
+X-Gm-Gg: ATEYQzya0oqFGgv8S5QbAlRX5SommIAqHpY2aujCMD4nU8ddhNMcwe/UrVewKaw0YA0
+	fd2A4T3fj5KgUqXEYEHcWG7LVvMjrkcS7JPo93XgnwF/U10Fnco0EY8mM6mBIzfzxtz7cuO+Zh0
+	R2sHUbtiqf6K1WAIfO4pjhyiEdcS0wTi+hrMNLyir5VGXNTXPTBFW499hu17hwBHo9iz7lJo6k0
+	tWyCVMVa7vFf7FwO+aLdmcwqvh59Wt7w+Wp4V92WgGUo1woyPxBnN7bXNkBszYJscIahbR/gBkA
+	ImtiAT4GvyshItoTRbowpg==
+X-Received: by 2002:a05:690c:c4f9:b0:798:5cab:cb79 with SMTP id
+ 00721157ae682-798dd6a9c0fmr57936067b3.2.1772920903637; Sat, 07 Mar 2026
+ 14:01:43 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <4a45ebaaa895fa7976d13572ed2b6f25a59592c3.1772805096.git.stefano.tondo.ext@siemens.com>
-In-Reply-To: <4a45ebaaa895fa7976d13572ed2b6f25a59592c3.1772805096.git.stefano.tondo.ext@siemens.com>
+References: <cover.1772805096.git.stefano.tondo.ext@siemens.com> <fdb53e8be6a3d57a67979648cd8f6c8f4a65466f.1772805096.git.stefano.tondo.ext@siemens.com>
+In-Reply-To: <fdb53e8be6a3d57a67979648cd8f6c8f4a65466f.1772805096.git.stefano.tondo.ext@siemens.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 7 Mar 2026 14:55:19 -0700
-X-Gm-Features: AaiRm52ek377QXNa4-paSXxnxyp5cdv-HT4EPzuLeL9YguJQF313ZSZLxX79gtg
-Message-ID: <CAJdd5Ga_E6ieb9OnZ51wmM4c8U0f2c6WHr-+BkHzJpJpQJPFDQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v7 02/10] spdx30: Add supplier support for image
- and SDK SBOMs
+Date: Sat, 7 Mar 2026 15:01:32 -0700
+X-Gm-Features: AaiRm52JOrh_IAD4Ir6UqJ8ludnX9vE6iJcxr-pUnyJKIirXgUO-TEkDN_ncfOc
+Message-ID: <CAJdd5GaUvzSJ7s-R0Kg-Z1LgU8mA3SzryowmeWtKke274aC59A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v7 09/10] cve_check: Escape special characters in
+ CPE 2.3 formatted strings
 To: stondo@gmail.com
 Cc: openembedded-core@lists.openembedded.org, 
 	mathieu.dubois-briand@bootlin.com, joshua.watt@garmin.com, 
@@ -88,179 +88,118 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 21:55:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232617
-
-You have extraneous changes that don't belong in this patch set, but
-otherwise I'm fine with the addition of SPDX_IMAGE_SUPPLIER and
-SPDX_SDK_SUPPLIER
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Mar 2026 22:01:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232618
 
 On Fri, Mar 6, 2026 at 7:00=E2=80=AFAM Stefano Tondo via
 lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
 wrote:
 >
-> This commit adds support for setting supplier information on image and SD=
-K
-> SBOMs using the suppliedBy property on root elements.
+> CPE 2.3 formatted string binding (cpe:2.3:...) requires backslash escapin=
+g
+> for special meta-characters according to NISTIR 7695. Characters like '++=
+'
+> and ':' in product names must be properly escaped to pass SBOM validation=
+.
 >
-> New configuration variables:
+> The CPE 2.3 specification defines two bindings:
+> - URI binding (cpe:/...) uses percent-encoding
+> - Formatted string binding (cpe:2.3:...) uses backslash escaping
 >
->   SPDX_IMAGE_SUPPLIER (optional):
->     - Base variable name to describe the Agent supplying the image SBOM
->     - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
->     - Sets suppliedBy on all root elements of the image SBOM
+> This patch implements the formatted string binding properly by escaping
+> only the required meta-characters with backslash:
+> - Backslash (\) -> \\
+> - Question mark (?) -> \?
+> - Asterisk (*) -> \*
+> - Colon (:) -> \:
+> - Plus (+) -> \+ (required by some SBOM validators)
 >
->   SPDX_SDK_SUPPLIER (optional):
->     - Base variable name to describe the Agent supplying the SDK SBOM
->     - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
->     - Sets suppliedBy on all root elements of the SDK SBOM
+> All other characters including -, etc. are kept as-is without encoding.
 >
-> Implementation:
->
->   - create_image_sbom_spdx(): After create_sbom() returns, uses
->     objset.new_agent() to create supplier and sets suppliedBy on
->     sbom.rootElement
->
->   - create_sdk_sbom(): After create_sbom() returns, uses objset.new_agent=
-()
->     to create supplier and sets suppliedBy on sbom.rootElement
->
->   - Uses existing agent infrastructure (objset.new_agent()) for proper
->     de-duplication and metadata handling
->
->   - No changes to generic create_sbom() function which is used for recipe=
-s,
->     images, and SDKs
->
-> Usage example in local.conf:
->
->   SPDX_IMAGE_SUPPLIER_name =3D "Acme Corporation"
->   SPDX_IMAGE_SUPPLIER_type =3D "organization"
->   SPDX_IMAGE_SUPPLIER_id_email =3D "sbom@acme.com"
->
-> This enables compliance workflows that require supplier metadata on image
-> and SDK SBOMs while following existing OpenEmbedded SPDX patterns.
+> Example CPE identifiers:
+> - cpe:2.3:*:*:crow:1.0+x:*:*:*:*:*:*:*
+> - cpe:2.3:*:*:sdbus-c++:2.2.1:*:*:*:*:*:*:*
 >
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+
+LGTM thanks.
+
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+
+
 > ---
->  meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
->  meta/lib/oe/spdx30_tasks.py          | 26 +++++++++++++++++++++++---
->  2 files changed, 33 insertions(+), 3 deletions(-)
+>  meta/lib/oe/cve_check.py | 37 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 36 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
-pdx-3.0.bbclass
-> index d4575d61c4..def2dacbc3 100644
-> --- a/meta/classes/create-spdx-3.0.bbclass
-> +++ b/meta/classes/create-spdx-3.0.bbclass
-> @@ -124,6 +124,16 @@ SPDX_ON_BEHALF_OF[doc] =3D "The base variable name t=
-o describe the Agent on who's
->  SPDX_PACKAGE_SUPPLIER[doc] =3D "The base variable name to describe the A=
-gent who \
->      is supplying artifacts produced by the build"
+> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+> index ae194f27cf..fa210e2037 100644
+> --- a/meta/lib/oe/cve_check.py
+> +++ b/meta/lib/oe/cve_check.py
+> @@ -205,6 +205,34 @@ def get_patched_cves(d):
+>      return patched_cves
 >
-> +SPDX_IMAGE_SUPPLIER[doc] =3D "The base variable name to describe the Age=
-nt who \
-> +    is supplying the image SBOM. The supplier will be set on all root el=
-ements \
-> +    of the image SBOM using the suppliedBy property. If not set, no supp=
-lier \
-> +    information will be added to the image SBOM."
+>
+> +def cpe_escape(value):
+> +    r"""
+> +    Escape special characters for CPE 2.3 formatted string binding.
 > +
-> +SPDX_SDK_SUPPLIER[doc] =3D "The base variable name to describe the Agent=
- who \
-> +    is supplying the SDK SBOM. The supplier will be set on all root elem=
-ents \
-> +    of the SDK SBOM using the suppliedBy property. If not set, no suppli=
-er \
-> +    information will be added to the SDK SBOM."
+> +    CPE 2.3 formatted string binding (cpe:2.3:...) uses backslash escapi=
+ng
+> +    for special meta-characters, NOT percent-encoding. Percent-encoding =
+is
+> +    only used in the URI binding (cpe:/...).
 > +
->  SPDX_PACKAGE_VERSION ??=3D "${PV}"
->  SPDX_PACKAGE_VERSION[doc] =3D "The version of a package, software_packag=
-eVersion \
->      in software_Package"
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index bd703b5bec..0888d9d7e4 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -162,7 +162,7 @@ def add_package_files(
->          bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
->
->      # File filtering configuration
-> -    spdx_file_filter =3D (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-> +    spdx_file_filter =3D (d.getVar("SPDX_FILES_INCLUDED") or "all").lowe=
-r()
->      essential_patterns =3D (d.getVar("SPDX_FILE_ESSENTIAL_PATTERNS") or =
-"").split()
->      exclude_patterns =3D (d.getVar("SPDX_FILE_EXCLUDE_PATTERNS") or "").=
-split()
->
-> @@ -244,7 +244,7 @@ def add_package_files(
->  def get_package_sources_from_debug(
->      d, package, package_files, sources, source_hash_cache
->  ):
-> -    spdx_file_filter =3D (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-> +    spdx_file_filter =3D (d.getVar("SPDX_FILES_INCLUDED") or "all").lowe=
-r()
->
->      def file_path_match(file_path, pkg_file):
->          if file_path.lstrip("/") =3D=3D pkg_file.name.lstrip("/"):
-> @@ -283,7 +283,7 @@ def get_package_sources_from_debug(
->              if spdx_file_filter in ("none", "essential"):
->                  bb.debug(
->                      1,
-> -                    f"Skipping debug source lookup for {file_path} in {p=
-ackage} (filtered by SPDX_FILE_FILTER=3D{spdx_file_filter})",
-> +                    f"Skipping debug source lookup for {file_path} in {p=
-ackage} (filtered by SPDX_FILES_INCLUDED=3D{spdx_file_filter})",
->                  )
->                  continue
->              else:
-> @@ -1330,6 +1330,16 @@ def create_image_sbom_spdx(d):
->
->      objset, sbom =3D oe.sbom30.create_sbom(d, image_name, root_elements)
->
-> +    # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is defined
-> +    supplier =3D objset.new_agent("SPDX_IMAGE_SUPPLIER", add=3DFalse)
-> +    if supplier is not None:
-> +        supplier_id =3D supplier if isinstance(supplier, str) else suppl=
-ier._id
-> +        if not isinstance(supplier, str):
-> +            objset.add(supplier)
-> +        for elem in sbom.rootElement:
-> +            if hasattr(elem, "suppliedBy"):
-> +                elem.suppliedBy =3D supplier_id
+> +    According to NISTIR 7695, these characters need escaping:
+> +    - Backslash (\) -> \\
+> +    - Question mark (?) -> \?
+> +    - Asterisk (*) -> \*
+> +    - Colon (:) -> \:
+> +    - Plus (+) -> \+ (required by some SBOM validators)
+> +    """
+> +    if not value:
+> +        return value
 > +
->      oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
->
->      def make_image_link(target_path, suffix):
-> @@ -1441,6 +1451,16 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_di=
-r, toolchain_outputname):
->          d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
->      )
->
-> +    # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
-> +    supplier =3D objset.new_agent("SPDX_SDK_SUPPLIER", add=3DFalse)
-> +    if supplier is not None:
-> +        supplier_id =3D supplier if isinstance(supplier, str) else suppl=
-ier._id
-> +        if not isinstance(supplier, str):
-> +            objset.add(supplier)
-> +        for elem in sbom.rootElement:
-> +            if hasattr(elem, "suppliedBy"):
-> +                elem.suppliedBy =3D supplier_id
+> +    # Escape special meta-characters for CPE 2.3 formatted string bindin=
+g
+> +    # Order matters: escape backslash first to avoid double-escaping
+> +    result =3D value.replace('\\', '\\\\')
+> +    result =3D result.replace('?', '\\?')
+> +    result =3D result.replace('*', '\\*')
+> +    result =3D result.replace(':', '\\:')
+> +    result =3D result.replace('+', '\\+')
 > +
->      oe.sbom30.write_jsonld_doc(
->          d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
->      )
+> +    return result
+> +
+>  def get_cpe_ids(cve_product, version):
+>      """
+>      Get list of CPE identifiers for the given product and version
+> @@ -221,7 +249,14 @@ def get_cpe_ids(cve_product, version):
+>          else:
+>              vendor =3D "*"
+>
+> -        cpe_id =3D 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, pro=
+duct, version)
+> +        # Encode special characters per CPE 2.3 specification
+> +        encoded_vendor =3D cpe_escape(vendor) if vendor !=3D "*" else ve=
+ndor
+> +        encoded_product =3D cpe_escape(product)
+> +        encoded_version =3D cpe_escape(version)
+> +
+> +        cpe_id =3D 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(
+> +            encoded_vendor, encoded_product, encoded_version
+> +        )
+>          cpe_ids.append(cpe_id)
+>
+>      return cpe_ids
 > --
 > 2.53.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#232568): https://lists.openembedded.org/g/openembedde=
-d-core/message/232568
-> Mute This Topic: https://lists.openembedded.org/mt/118170493/3616693
+> View/Reply Online (#232575): https://lists.openembedded.org/g/openembedde=
+d-core/message/232575
+> Mute This Topic: https://lists.openembedded.org/mt/118170503/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
 EWhacker@gmail.com]
