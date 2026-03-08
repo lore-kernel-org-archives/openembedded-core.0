@@ -1,96 +1,115 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 305CDEA853A
-	for <webhook@archiver.kernel.org>; Sun,  8 Mar 2026 17:28:15 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43661.1772990892248444647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA57EA8549
+	for <webhook@archiver.kernel.org>; Sun,  8 Mar 2026 22:42:58 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1598.1773009770395843910
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Mar 2026 10:28:12 -0700
+ Sun, 08 Mar 2026 15:42:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=eAKezwQn;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4852f73d0a3so8680455e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Mar 2026 10:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1772990891; x=1773595691; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=umLK/zqaTYzGPgwk1BwySB0ak1QerKfSQN6wp1aXe+c=;
-        b=eAKezwQn+Ca8ZsJEicooXaekALZbMWPrztm9Zwm6ObslFabLgnKhECIgzvepYFPrV6
-         /7KKEXNEuccteyC/nkSv+yTA+MJ44NW97wI51fd2znUD9HPi03WJ4ek+YVDEwLXZ2/9z
-         yscU+WQGDESYuR8zI2P7s9HRW9fVJ7UJ4WWFo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772990891; x=1773595691;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=umLK/zqaTYzGPgwk1BwySB0ak1QerKfSQN6wp1aXe+c=;
-        b=gN3D7JTz74teJ9aY9RYBt3hSdC9G0AyQLnKSAMoPoTpiaYj2hkCPHlcmwCn1E9kLY8
-         uZH7KEcCpQ5tB1F8dI+onQe9qFbhYLiTHHkX2B44GOLeMNUgryQWa9J3MzvboJM5DzgX
-         r7+J0fOmycxAqPnZix6CB50ERIlD6yIFJqVBwHvAj/WfUlCF1z/CqqGzV78iC5be0o2B
-         RG0LThnv4YI2LV31dKPTKpaiFzc71FCicyRnxdAbh4NR5znTg0th709ZX4Yy67nVGdBn
-         6UKRPkpnN0k9040l015qc8+YJaEk9kkItvSTiQea+k0utH0ondc3kz7cmP4mU/9bjvWV
-         zpZA==
-X-Forwarded-Encrypted: i=1; AJvYcCU2Iwsro1OSj1lyNB1NQ/2ZU8DJ2X1p9pTLnfcsIAm9gaCgPyfX9047aGMRWfaqLPlWNsosFOpYMDmYjp6etwVPUw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz8uzuJS3m63rKQvPLa396Wew3nKwYsLJHlYMs5Dv0zAzHh9l3t
-	mcnaZSqC9UbpsTEnqH0uxjKhxjYLqCo+EoKdbADdI4VCDipFuJ6WoBjL2/6k0ZvF/hhJOOENmLo
-	KE+eB
-X-Gm-Gg: ATEYQzxgmjHmul+rz2MAGr3YalmQSpPRaEmUXhGs2Y+4bdhqza2g2Dqy3K4yifaMsAg
-	KtKSuSamKfNv/NAWbWlyh88in1FWs7kIgKOWdv/mS8aMEKQIRWV4hTsVfmRGdmofSuQ+tgi5Xr8
-	pbZ0U1VsJYSt9RQIK0GUzMFth1sA+RntJ+4WxEgUT8i8yRSSSOCflOglNgTjBPV3j7asq+Vw7Ys
-	LSzEy9lKB0zULJYGTA+hcD2d0TYtL3EPj8cNgOquwrd94KvSZ604I9TDpO/9y9Vr/nlNBaJ0G5S
-	J51TGKdmbrBLMA9rs0+vgkm/pTY1iJ11hdiPreUN5t30HuZOfashSRGOPlldwnUnmxPiJCRkwsm
-	ecPvg60TCpaykTffW/svPqQ6q9Kl7iTI0NDtCXdDRfVf+xXFMq2xWw5NPPlkQ/GK2keFERqXWzL
-	R5DLNKqmiTydwGjwAeQwc0rhsOQFSiZ6FXdWIeAOHlvJpWnilpwmeUeXHtKQb5iNv2gwsLZSi1d
-	XqnRwcaNrZHwsewbwN2ZQXsdw==
-X-Received: by 2002:a05:600c:4445:b0:46e:32dd:1b1a with SMTP id 5b1f17b1804b1-4852691c6d8mr142979295e9.7.1772990890464;
-        Sun, 08 Mar 2026 10:28:10 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4853a310b8fsm37226145e9.11.2026.03.08.10.28.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Mar 2026 10:28:09 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 08 Mar 2026 18:28:09 +0100
-Message-Id: <DGXKTE7E7WL1.2Z7PP9EG0X8QV@smile.fr>
-Subject: Re: [OE-core] [kirkstone][PATCH] perl: fix CVE-2025-40909
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260227083801.544222-1-hprajapati@mvista.com>
- <245205.1772799390337939697@lists.openembedded.org>
-In-Reply-To: <245205.1772799390337939697@lists.openembedded.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=VPPhMQCf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260308224247a63b0621dd0002071e-4moe76@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260308224247a63b0621dd0002071e
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 08 Mar 2026 23:42:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=/bC2JrwXrc+tJtgfoxWUwaZbwJDeylcxBk3kONminLY=;
+ b=VPPhMQCfB0/fn9ljQ5BQfTlX9z7b83YbbXSBimHWRMCfroEU1pMCzddIwfSoqButt34bsF
+ VFpVpiAttwf+LWLY8iAUBYVD/7/HjI/NZ6E5nJ5yd2e+kvLqdQjhfDzIcvk8e4Qag18fThO/
+ 1CedPbPpqbiXrUnanDRR2V6QkEi6Vr9QxfXlwjfwLYRYfnzr0oS0zaJ65YM3PJFmlXxL4Qct
+ DAJ/5BfmdMEBfBd1x/uWSVogxAh3ctnApYeWISg2D9fj/Un7bZTMfuTuYOFe8YacoL1nWGR/
+ XPEi85KJBcBXc2ywP6da7c1akNBCJjW/QEkUy1MaAJ9+A/EYx0pnG5ag==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH 1/3] tiff: patch CVE-2025-61143
+Date: Sun,  8 Mar 2026 23:42:38 +0100
+Message-Id: <20260308224240.60802-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Mar 2026 17:28:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232668
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Mar 2026 22:42:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232669
 
-On Fri Mar 6, 2026 at 1:16 PM CET, Hitendra Prajapati via lists.openembedde=
-d.org wrote:
-> Hi Team,
->
-> Any update ?
+From: Peter Marko <peter.marko@siemens.com>
 
-Hello, I'll get to it this week.
+Pick patch from merge request mentioned in NVD report.
 
-In the futur, please wait for 2 weeks before pinging a patch. Depending
-on when it is received in review cycles, it will most likely take a week
-before I look a it. Two weeks before a ping seems reasonnable.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../libtiff/tiff/CVE-2025-61143.patch         | 44 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-61143.patch
 
-Thanks!
-
->
-> Regards,
-> Hitendra
-
-
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-61143.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-61143.patch
+new file mode 100644
+index 00000000000..ed0438fec97
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-61143.patch
+@@ -0,0 +1,44 @@
++From 4d28af5fe61b1760f10981f5072ff1e6fd44f210 Mon Sep 17 00:00:00 2001
++From: Lee Howard <faxguy@howardsilvan.com>
++Date: Fri, 5 Sep 2025 21:44:49 +0000
++Subject: [PATCH] tiffcrop: avoid nullptr dereference
++
++Fixes #734
++
++CVE: CVE-2025-61143
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ tools/tiffcrop.c   | 2 +-
++ tools/tiffdither.c | 5 +++++
++ 2 files changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index ae414efc..1cbb49b6 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -2561,7 +2561,7 @@ main(int argc, char* argv[])
++ 
++     if (dump.outfile != NULL)
++       {
++-      dump_info (dump.outfile, dump.format, "", "Completed run for %s", TIFFFileName(out));
+++      dump_info (dump.outfile, dump.format, "", "Completed run for %s", out ? TIFFFileName(out) : "(not opened)");
++       fclose (dump.outfile);
++       }
++     }
++diff --git a/tools/tiffdither.c b/tools/tiffdither.c
++index 3c64fdc0..405527c7 100644
++--- a/tools/tiffdither.c
+++++ b/tools/tiffdither.c
++@@ -84,6 +84,11 @@ fsdither(TIFF* in, TIFF* out)
++ 	    fprintf(stderr, "Out of memory.\n");
++ 	    goto skip_on_error;
++ 	}
+++	if (imagewidth > TIFFScanlineSize(in))
+++	{
+++	    fprintf(stderr, "Image width exceeds scanline size.\n");
+++	    goto skip_on_error;
+++	}
++ 
++ 	/*
++ 	 * Get first line
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 84c3028b458..4c2b0a800b4 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -65,6 +65,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2025-9900.patch \
+            file://CVE-2025-8961.patch \
+            file://CVE-2025-9165.patch \
++           file://CVE-2025-61143.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 
