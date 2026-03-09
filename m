@@ -1,296 +1,214 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A38BF3C268
-	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 14:00:37 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14908.1773064833694280342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56AF3F3C269
+	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 14:08:07 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15096.1773065282625222879
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 07:00:34 -0700
+ Mon, 09 Mar 2026 07:08:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=rBf5V1c+;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852a8482fcso24197275e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 07:00:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JOEw09Ru;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a126b79512so4334092e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 07:08:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773065281; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gizx02ZW1JTUzCHVgzcy3XZ1G4VLMOtsunCfVi3GjVL+o/G5xFklWsnrROb/cOxgnS
+         pYsSwpuvCSpVIgdyprSxRdcD09Yq55t0C56JskvqlPTBgSKxh8SJ/+SEBsJ2yGILUFu2
+         NZV7l4Mg/F6aZ7lhSt6mqJrylfNbAO30tU6LkPnKWyuaBIygN9g0aM1GB+AzRT91L82I
+         tDQzlVux0CuGbQcTsOxrillBoPuACAwRfzr5gDlWMwZJILaGrvBwZ7BDtaAjAHJ5dSQX
+         zZXKyDWL6NKM1ZSkaD58e3ZTQKgnmoCVxKVN2llY/NEw64m+/UZ5N3/bdLJJYTqJR+XF
+         JmFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AqA40kszDUno9jF999zFo3sdxqSUT1g8OA8wj4xGB+I=;
+        fh=JDWhlunNnZdGHc7DnDKB57FZ1SOsdrQ6AT9XSUnyOyU=;
+        b=artsGLsqYa0eV/V4GN4rMVoCkgJDcdk0J6VrJnYvErXwz1qAi/s5nnKMK8K03A7yk6
+         vwNRtt7gWYv+DG0ZFuCYct3E/LlnbNAvxkIGx4pr3uIgKezZHjyZZo5stZkhBVQgGBbX
+         bdOYW9hPX8T8ssm3ads57szFLbZV+ZBNvf/kNLyIFuua5PIy0eRp2asw8I/+C0tSB/ae
+         etgLSkDqzMsxNFCx5pZF+BUHd1v8RPxLhAnHy4BPdji5juyGw8ITnY6WOmgPHvRMosb5
+         2/Ku/Y84huuUCSFFaQHaxnJRzyVo2dFN3B1fuIGfAQ9yqwox40cQlYnsthHLJXORlKCh
+         uykg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1773064832; x=1773669632; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773065281; x=1773670081; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TvqpeF616PR8Su49aTBh6j6L8tM0MsQ5ykA9RO7yKi0=;
-        b=rBf5V1c+O8So8UMSe7Quvv0Ll15HdZVGSROZpk5FzooKLOA+QiJHPy5p93ko77inI/
-         iBG62NBY5gYWR3yVLdy/hORqYDgFuiH3GVlZJN58i8/ujzuuOFEA+tZzwQhBYAJJngIo
-         W11i4j1tnjk56MSTWz2KPJ03MaNmbkT6N9Ebs=
+        bh=AqA40kszDUno9jF999zFo3sdxqSUT1g8OA8wj4xGB+I=;
+        b=JOEw09RubVmLAgRpJce5uGOmcILdwkc9Q/xJzF6ukKoR3/mZIz6CE2hm0lX0SDUAic
+         Wp7i5xviPEqDIa7VcJAXbaYboW9RUo9BCpsTxm5XC3tkaeefo1jyK6JXgtC4tenH5ZQU
+         WMBzUNvAZlphOv02blC/O2QLqSNcJ0lM30JUlNi/B/a/mr/MXlGU5u1s2X6ewYz/+Bf1
+         aBvimwquCOOprUlxaxPzHlYSppxPgxjHhOTVxrNNatYwDLCJRAPd0fjriBNVSyRyoVM+
+         wHFeQQA20gBysBx2/X8xsxVyDcDGEWQyZAx58UD5rp6cNiM5saBMR8DDJe8uBZt7a4QI
+         XJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773064832; x=1773669632;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TvqpeF616PR8Su49aTBh6j6L8tM0MsQ5ykA9RO7yKi0=;
-        b=Hnbe5m62UhER8D02xb2SHRQhIDveoe3+jH6her6cfyqwf6BLWfGNWDCC0WQu+5bmZb
-         Iv74ExYYocLbPZAL0QJvPAt+IXDtOlaxg1p1cequpIiwPUTeCfPQEVZ4+YNAeWR0oQcz
-         GJYzchp4EZoJhe9AyVPMU9WNQCwb2SQR0u848bZmgF/KWG/PXxrelPyg3PB20lTd3pOC
-         APiJaPjRPafi3VvQy6q1VsdfKksCg0q+XemxuF6rEMM4dRXGhT0AigEk4wbUCxB4SEZN
-         Pxna5UjY7X3rJ2t51il1ZqUFVNnisgsEmzfY3TX4GcvqCPV39Slmv5yuUVr91mf1emnR
-         nBYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU65OFkOR0istvTbjxLQeeXn6EX2W5Stq17wIEHoXtK4yxAJuXIU/d46vPsSILGy1aNpXgghw3qa5HZ87mrVKL+Bw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxhsdyZbRqpjCZalCPHa2cc62DaW/J+10ewb9+mgLWOu0M/qX6/
-	0Cw7XaA2VhVX3TEI1M6/3cLLi2AoDZ6j63tiJbm0Wy3UwMoAXqFAI0/1kbAXmS6OGm8=
-X-Gm-Gg: ATEYQzwh8Uj/o/rW3/YE0Vo/XRZ33ue/ydhs856ZasDNfsAsGWFWHBtT/gk1T2WeFAV
-	hPTou+I2rHl4UcbYfIZs1TlNooXyhaBOiT1Af7OTBLk585irkrToscKMIcfN0DysBM4kG4hx70e
-	DXEota+2xtWQ+PaKXZK5mo6txqsq+GYHeb9RRqT3y9GduwmKnOdTUIKNjIkAfoeUffVYxo/S9Dm
-	0qH4TTNw+77jjEsP+MBiCBxeaWhQ10lab4e+zmiQtbuDqTCw400Kzk6AUGcd60Xw/dCA9o2KeYK
-	ejv5tpn/Fkg0ZqwjfsZG6ul8rbLuf1ngJbRtjDPT/8w8++iJtuYCqNBd5PSA1R8yoskHsRXfII9
-	PjkNLgiNGpX9XdT7O9v2S+leqeg2ltUq//dNUP3SKVSSwIVyUagdj0aN2GLuJ0WapV3lrskjwXp
-	UV19UOavfu3Ds/csNuFMvbgO0OzDkA5a5rgEJwS6IO3QSbz+hgq7pEwXau4IKheEPfpc2kStTAE
-	iHF1Ob3/9M=
-X-Received: by 2002:a05:600c:81ca:b0:480:1b65:b741 with SMTP id 5b1f17b1804b1-4852694638dmr198566395e9.15.1773064831550;
-        Mon, 09 Mar 2026 07:00:31 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485246ed174sm133235925e9.5.2026.03.09.07.00.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 07:00:30 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20230601; t=1773065281; x=1773670081;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AqA40kszDUno9jF999zFo3sdxqSUT1g8OA8wj4xGB+I=;
+        b=e3MOnNMpYzHpae4JTQg2LqneuGblk4DP7ZbyEcsDfW9vJtApHze8VIOo955sDvcbQU
+         B9ajHnvtfC72TxPsbsL7xzKa9TWcQVESrJbUonbOks9QIoQ4Uzh4BmJux50jMe41Xzpy
+         umg6ISxf7JiAS5xyQg20U2+WUzpD6KPaMT77wx42jVvnvWR8kYiEJqhNwDma/6mSkx14
+         wAbd5bYmq9lBpazrWRzD5rGCe6l6w3yLriBDmqJFBPpgz+SoJ4qVGBnBWRrsne5nAI/p
+         pbROwmHS1FSN2YW0w7C5Npk6/fk3Nh3uHChqN3mgUKf6uKWvBsqxTEw7lUSbSX8dJuFC
+         +5Cw==
+X-Gm-Message-State: AOJu0Yyq192GyKH7W6MNjV6GsHeHyz1+x8HYXdBs2+aRsFomYBQkbPfb
+	wt8sTcb7T3SwKOAvcdSycPGoQ6TB7/oKZsajAovLiHW6JosUPFAd7xLEyCpQG8NMoLSjGEOUFJe
+	hXPqJIlNsUTBSXjeUXXVm0u3SMmyLPpnM1w==
+X-Gm-Gg: ATEYQzxId5HAiMt8B+9pc4Hq0SELatHwqEEyWhAINhDQUfJIdjeInhOSycvpcblAX7Z
+	YXjFmu6eHkfrHIDGOfhRUkDXBc7jDGgKk73Cqb3tC8JoSyBBSa7oeu6gp2Z0R2KCh/mVCR7MuYI
+	VbM7K4iIHCTbum/dstmg5Af6px61WPwzZ/K3fneO3ofOHb3l/TO+0q+5oBqXJQ0zBn5DfLVGK5n
+	m7NwaoO+lZfAxHOvd1VD0xlazOXEHrcjSDPdd+SE9d3NPGnFMYF+MYjL8UXi4K5IjSi8yAokLYE
+	MRcC75U5GQ==
+X-Received: by 2002:a05:6512:31c7:b0:5a1:3b78:8d1a with SMTP id
+ 2adb3069b0e04-5a13cd332f8mr4396171e87.46.1773065280114; Mon, 09 Mar 2026
+ 07:08:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260309070953.2372929-1-jiaying.song.cn@windriver.com>
+In-Reply-To: <20260309070953.2372929-1-jiaying.song.cn@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 9 Mar 2026 15:07:46 +0100
+X-Gm-Features: AaiRm51gEHA_p35PPiTh2m6ggnScZ9QvV3jDZZb9Hdz5E7AsGw2PAkVa_OJ3oRA
+Message-ID: <CA+chaQeMYBa4hLCVG276cPv4=cV3kWyEbpGzMddyXTWZz08rzw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-pyzstd: Upgrade 0.17.0 -> 0.19.1
+To: Jiaying.Song.CN@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 15:00:29 +0100
-Message-Id: <DGYB0XNUQ64D.1A0JTYTK6YFW8@smile.fr>
-Cc: "Eduardo Ferreira" <eduardo.barbosa@toradex.com>
-To: <eduardo.f120@yahoo.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] go 1.22.12: Fix CVE-2025-61726.patch variable
- ordering
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260306180605.1047779-1-eduardo.f120@yahoo.com>
- <20260306180605.1047779-2-eduardo.f120@yahoo.com>
-In-Reply-To: <20260306180605.1047779-2-eduardo.f120@yahoo.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 14:00:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232721
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 14:08:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232722
 
-Hello,
+Hi, thanks for working on this, the version imported to oe-core is
+broken when LTO is enabled since the import of older version from
+meta-oe in December.
 
-Reviewing for scarthgap:
+Does the python3-misc runtime dependency fix the ptest failures
+reported on similar upgrade sent before?
 
-On Fri Mar 6, 2026 at 7:06 PM CET, eduardo.f120 via lists.openembedded.org =
-wrote:
-> From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-> Subject: [PATCH] go 1.22.12: Fix CVE-2025-61726.patch variable ordering
+https://lists.openembedded.org/g/openembedded-core/topic/117485653#msg23003=
+6
+https://lists.openembedded.org/g/openembedded-core/topic/117415035#msg22987=
+6
+https://lists.openembedded.org/g/openembedded-core/topic/117131419#msg22899=
+5
 
-The tag in the subject does not usualy contain the version (I missed
-that in the last go patches :( ). Just "go: Fix CVE-2025-61726.patch
-variable ordering" is fine.
->
-> Commit 6a1ae4e79252f9a896faa702e4a8b3e27529a474 introduced a patch
+Regards,
 
-When referencing a patch, I suggest to add the title for context. The
-kernel has a nice rule about it and that look like:
-commit 6a1ae4e79252 ("go 1.22.12: Fix CVE-2025-61726")
 
-git also has a nice option built-in:
- $ git log -1 --format=3Dreference 6a1ae4e79252f9a896faa702e4a8b3e27529a474
-6a1ae4e792 (go 1.22.12: Fix CVE-2025-61726, 2026-02-11)
-
-> backporting a fix for CVE-2025-61726, but this patch also introduced
-> a bug.
+On Mon, Mar 9, 2026 at 8:10=E2=80=AFAM Song, Jiaying (CN) via
+lists.openembedded.org
+<Jiaying.Song.CN=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> From Go's source code[1], they say that the 'All' table from 'godebugs'
-> should be populated alphabetically by Name. And 'Lookup'[2] function uses
-> binary search to try and find the variable.
+> From: Jiaying Song <jiaying.song.cn@windriver.com>
 >
-> Here's the trace:
-> Mar 06 11:33:33 toradex-smarc-imx95-12594035 systemd[1]: Started Docker A=
-pplication Container Engine.
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: 2026/03/06 11:=
-34:53 http: panic serving @: godebug: Value of name not listed in godeb
-> ugs.All: urlmaxqueryparams
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: goroutine 78 [=
-running]:
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*con=
-n).serve.func1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ht=
-tp/server.go:1903 +0xb0
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743=
-e8740?, 0x4000b526c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         runtim=
-e/panic.go:770 +0x124
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk/trace.(*recordingSpan).End.deferwrap1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         go.ope=
-ntelemetry.io/otel/sdk@v1.19.0/trace/span.go:383 +0x2c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk/trace.(*recordingSpan).End(0x40011b4a80, {0x0, 0x0, 0x40
-> 006441c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         go.ope=
-ntelemetry.io/otel/sdk@v1.19.0/trace/span.go:421 +0x898
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743=
-e8740?, 0x4000b526c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         runtim=
-e/panic.go:770 +0x124
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug.(*Setting).Value.func1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         intern=
-al/godebug/godebug.go:141 +0xd8
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).d=
-oSlow(0x22?, 0x55748a9b60?)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         sync/o=
-nce.go:74 +0x100
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).D=
-o(...)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         sync/o=
-nce.go:65
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug.(*Setting).Value(0x5575b21be0)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         intern=
-al/godebug/godebug.go:138 +0x50
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.urlPar=
-amsWithinMax(0x1)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ur=
-l/url.go:968 +0x3c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.parseQ=
-uery(0x400069a630, {0x0, 0x0})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ur=
-l/url.go:985 +0xdc
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.ParseQ=
-uery(...)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ur=
-l/url.go:958
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*Req=
-uest).ParseForm(0x4000bdab40)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         net/ht=
-tp/request.go:1317 +0x33c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: github.com/doc=
-ker/docker/api/server/httputils.ParseForm(0x0?)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]:         github=
-.com/docker/docker/api/server/httputils/httputils.go:104 +0x20
+> Changelog:https://github.com/Rogdham/pyzstd/blob/master/CHANGELOG.md
 >
-> The 'Lookup' function was failing due to the wrong ordering and returning=
- 'nil',
-> which was not being checked properly and caused this issue.
+> Recipe changes:
+> - Remove 0001-Remove-setuptools-version-limit-of-74.patch (no longer need=
+ed)
+> - Switch from python_setuptools_build_meta to python_hatchling
+> - Add python3-hatch-vcs-native to DEPENDS
+> - Add python3-misc to RDEPENDS (provides compression.zstd module)
+> - Remove obsolete do_configure:append:arm:toolchain-clang (setup.py no lo=
+nger exists)
 >
-> The fix was to just reorder the line where 'urlmaxqueryparams' is being
-> added to respect the alphabetical ordering. And for that the whole CVE
-> patch was generated again.
->
-> This change was validated with docker-moby (original issue), where a cont=
-ainer
-> run successfully and no traces in the logs.
->
-> Fixes: 6a1ae4e792 ("go 1.22.12: Fix CVE-2025-61726.patch variable orderin=
-g")
-^ Is this commit fixing itself?
-FYI, I don't know any Yocto Project tooling that uses this line. You
-might just remove it...
-
->
-> [1] https://github.com/golang/go/blob/master/src/internal/godebugs/table.=
-go#L20
-> [2] https://github.com/golang/go/blob/master/src/internal/godebugs/table.=
-go#L100
->
-> Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
+> Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 > ---
->  .../go/go/CVE-2025-61726.patch                | 25 ++++++++++---------
->  1 file changed, 13 insertions(+), 12 deletions(-)
+>  ...emove-setuptools-version-limit-of-74.patch | 27 -------------------
+>  ...std_0.17.0.bb =3D> python3-pyzstd_0.19.1.bb} | 12 ++++-----
+>  2 files changed, 5 insertions(+), 34 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/python/python3-pyzstd/0001-Remo=
+ve-setuptools-version-limit-of-74.patch
+>  rename meta/recipes-devtools/python/{python3-pyzstd_0.17.0.bb =3D> pytho=
+n3-pyzstd_0.19.1.bb} (53%)
 >
-> diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726.patch b/meta/reci=
-pes-devtools/go/go/CVE-2025-61726.patch
-> index ab053ff55c..65fe62a4da 100644
-> --- a/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-> +++ b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-> @@ -1,6 +1,6 @@
-> -From 85050ca6146f3edb50ded0a352ab9edbd635effc Mon Sep 17 00:00:00 2001
-> -From: Damien Neil <dneil@google.com>
-> -Date: Mon, 3 Nov 2025 14:28:47 -0800
-> +From a41ff6cac6acdb8a55708d9f1e40efd8c4f87421 Mon Sep 17 00:00:00 2001
-> +From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-> +Date: Fri, 6 Mar 2026 13:38:46 +0000
-^ You can't really take ownership of the patch like that. Please keep
-the original author.
-
->  Subject: [PATCH] [release-branch.go1.24] net/url: add urlmaxqueryparams
->   GODEBUG to limit the number of query parameters
-> =20
-> @@ -36,6 +36,7 @@ Reviewed-by: Junyang Shao <shaojunyang@google.com>
->  TryBot-Bypass: Michael Pratt <mpratt@google.com>
->  (cherry picked from commit 85c794ddce26a092b0ea68d0fca79028b5069d5a)
->  Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
->  ---
->   doc/godebug.md                 |  7 +++++
->   src/internal/godebugs/table.go |  1 +
-> @@ -45,7 +46,7 @@ Signed-off-by: Deepak Rathore <deeratho@cisco.com>
->   5 files changed, 85 insertions(+)
-> =20
->  diff --git a/doc/godebug.md b/doc/godebug.md
-> -index ae4f0576b4..635597ea42 100644
-> +index ae4f057..635597e 100644
->  --- a/doc/godebug.md
->  +++ b/doc/godebug.md
->  @@ -126,6 +126,13 @@ for example,
-> @@ -63,19 +64,19 @@ index ae4f0576b4..635597ea42 100644
->   to concerns around VCS injection attacks. This behavior can be renabled=
- with the
->   setting `allowmultiplevcs=3D1`.
->  diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/tabl=
-e.go
-> -index 33dcd81fc3..4ae043053c 100644
-> +index 33dcd81..7178df6 100644
->  --- a/src/internal/godebugs/table.go
->  +++ b/src/internal/godebugs/table.go
-> -@@ -52,6 +52,7 @@ var All =3D []Info{
-> +@@ -51,6 +51,7 @@ var All =3D []Info{
-> +	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
->  	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
->  	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
-> -	{Name: "x509sha1", Package: "crypto/x509"},
->  +	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"}=
-,
-> +	{Name: "x509sha1", Package: "crypto/x509"},
->  	{Name: "x509usefallbackroots", Package: "crypto/x509"},
->  	{Name: "x509usepolicies", Package: "crypto/x509"},
-> -	{Name: "zipinsecurepath", Package: "archive/zip"},
->  diff --git a/src/net/url/url.go b/src/net/url/url.go
-> -index d2ae03232f..5219e3c130 100644
-> +index d2ae032..f796077 100644
->  --- a/src/net/url/url.go
->  +++ b/src/net/url/url.go
->  @@ -13,6 +13,7 @@ package url
-> @@ -118,7 +119,7 @@ index d2ae03232f..5219e3c130 100644
->  		var key string
->  		key, query, _ =3D strings.Cut(query, "&")
->  diff --git a/src/net/url/url_test.go b/src/net/url/url_test.go
-> -index fef236e40a..b2f8bd95fc 100644
-> +index fef236e..b2f8bd9 100644
->  --- a/src/net/url/url_test.go
->  +++ b/src/net/url/url_test.go
->  @@ -1488,6 +1488,54 @@ func TestParseQuery(t *testing.T) {
-> @@ -177,7 +178,7 @@ index fef236e40a..b2f8bd95fc 100644
->  	url *URL
->  	out string
->  diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
-> -index 517ec0e0a4..335f7873b3 100644
-> +index 517ec0e..2efb13a 100644
->  --- a/src/runtime/metrics/doc.go
->  +++ b/src/runtime/metrics/doc.go
->  @@ -328,6 +328,11 @@ Below is the full list of supported metrics, ordere=
-d lexicographically.
-> @@ -193,4 +194,4 @@ index 517ec0e0a4..335f7873b3 100644
->  		The number of non-default behaviors executed by the crypto/x509
->  		package due to a non-default GODEBUG=3Dx509sha1=3D... setting.
->  --
-> -2.35.6
-> +2.34.1
-
-And, remember, when sending your next version to add the [scarthgap]
-tag.
-
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+> diff --git a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setu=
+ptools-version-limit-of-74.patch b/meta/recipes-devtools/python/python3-pyz=
+std/0001-Remove-setuptools-version-limit-of-74.patch
+> deleted file mode 100644
+> index f2910322ff..0000000000
+> --- a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-=
+version-limit-of-74.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Wed, 9 Apr 2025 14:38:31 -0700
+> -Subject: [PATCH] Remove setuptools version limit of '74'
+> -
+> -Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
+> -support beyond that which is needed for python 3.9 on windows. We
+> -do not have this problem on Linux
+> -
+> -Upstream-Status: Inappropriate [OE-specific]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - pyproject.toml | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/pyproject.toml b/pyproject.toml
+> -index dd885e4..5d4d511 100644
+> ---- a/pyproject.toml
+> -+++ b/pyproject.toml
+> -@@ -1,6 +1,6 @@
+> - [build-system]
+> - # setuptools 64+ support --build-option
+> - # setuptools 74+ drops distutils.msvc9compiler required for Python 3.9 =
+under Windows
+> --requires =3D ["setuptools>=3D64,<74"]
+> -+requires =3D ["setuptools>=3D64"]
+> - backend-path =3D ["build_script"]
+> - build-backend =3D "pyzstd_pep517"
+> diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb b/meta=
+/recipes-devtools/python/python3-pyzstd_0.19.1.bb
+> similarity index 53%
+> rename from meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> rename to meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
+> index af7069b6ed..cda074221d 100644
+> --- a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> +++ b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
+> @@ -9,12 +9,10 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daedb5a2679cd=
+1552fb61c181ef974b9e"
+>
+>  PYPI_PACKAGE =3D "pyzstd"
+>
+> -SRC_URI +=3D "file://0001-Remove-setuptools-version-limit-of-74.patch"
+> -SRC_URI[sha256sum] =3D "d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21=
+b81764fa208c1db6"
+> +SRC_URI[sha256sum] =3D "36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d58=
+6937830a8afc7d72"
+>
+> -inherit pypi python_setuptools_build_meta ptest-python-pytest
+> +inherit pypi python_hatchling ptest-python-pytest
+>
+> -# clang-16 with -flto segfaults on arm, therefore ignore flto for now
+> -do_configure:append:arm:toolchain-clang() {
+> -    sed -i -e "s|'-flto'|''|" ${S}/setup.py
+> -}
+> +DEPENDS +=3D "python3-hatch-vcs-native"
+> +
+> +RDEPENDS:${PN} +=3D "python3-misc"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#232681): https://lists.openembedded.org/g/openembedde=
+d-core/message/232681
+> Mute This Topic: https://lists.openembedded.org/mt/118217347/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
