@@ -1,156 +1,107 @@
-Return-Path: <hjadon@cisco.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1AEEFCD6C
-	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 09:18:22 +0000 (UTC)
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9928.1773047897508850841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A557BEFCD98
+	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 10:48:24 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11411.1773053294623655260
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 02:18:17 -0700
+ Mon, 09 Mar 2026 03:48:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=HTjtqAd3;
- spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: hjadon@cisco.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LgFG2CPE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48535a0ef86so9931565e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 03:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2453; q=dns/txt;
-  s=iport01; t=1773047897; x=1774257497;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5sG7IvzrUKM4B4PwWHl7fmozf0J+vhm0PsL1WcjLO+o=;
-  b=HTjtqAd3BgcQjDz4SUvrA5kHcOFEtvgdu1PDUg80Pwp+106Rp3AQuh1N
-   71/qBhg14ivbg2iOBVVjsK72rHjEFMaqmqgKo+TkJq6cvxmgGmCLRpLOY
-   AKzebI0rcaCx0Vs0vF8KCTCMnYV9DzdIdsY6b43AJLINMU2vFRtnJf4uI
-   dnDchDES9RH06g4AKmdInYFx0y/x7lnYipjxLAl6wRB6psrjEkQs18zpj
-   zepQ2MqoeeORcJBeKsiimFMZqg579ZNSnJABtzJDTnp70ayh4RDPgWWmR
-   Wf/FFnBFjSqeww8jQ44xIKUtXAffvlvJK8Mrl61XVEgWnYfq7cubohCKg
-   A==;
-X-CSE-ConnectionGUID: idbC0SqPRt2Cj1goDXenpw==
-X-CSE-MsgGUID: Qd1rhLgZQFCW8bDM5mhwBg==
-X-IPAS-Result: =?us-ascii?q?A0DbDQCbj65p/5L/Ja1ahSEPgU9DSZNaAYJwmD+HXQ8BA?=
- =?us-ascii?q?QEPUQQBAYUHjSICJjgTAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGXIZdNgFGMCY2RIMCgnQDqmaCLIEB4CIBCxQBgTiFPIgZdIR6Jxsbg?=
- =?us-ascii?q?XKEfYUQhXcEgiKBDpMbSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ELG?=
- =?us-ascii?q?wcFhSAPiHJ0boETgwMDCxgNSBEsNxQbBD5uB41qPoFBc4EOAYEBO2wGph2hD?=
- =?us-ascii?q?goog3ShWBozhASUFZJSLodlFpBdpFmEaIF/JYFZcBWDIlIZD45fzHMmMjwCB?=
- =?us-ascii?q?wsBAQMJk2cBAQ?=
-IronPort-Data: A9a23:MkibW6kyLBWdRglSfF7uuP7o5gzWJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xJJWm3UMqyLZ2L2fdFya42xoRgPusKHyNNlHFdk+Xg0QltH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+Za31GONgWYubDpPs/Pb8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FYwU8M0vOnh2z
- +BCAzJUYRevt++w2K3uH4GAhux7RCXqFJkUtnclyXTSCuwrBMiSBa7L/tRfmjw3g6iiH96HO
- JFfMmUpNkmdJUQTZD/7C7pm9Ausrnn9ejFfrnqepLE85C7YywkZPL3FbouNJ4DVG50J9qqej
- lvKpn75Jh4oDfK09mqP3lfxg+/QtyyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjlCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:wUyGYatArS4UkdKN7LjrqrrV7skDfdV00zEX/kB9WHVpmwKj+P
- xG+85rsCMc5wxxZJhNo7290cq7MBHhHOBOgbX5VI3KNGKNhILCFu9fBOXZrwEIYxeOldK0Ec
- xbAs9D4BqaNykfsfrH
-X-Talos-CUID: =?us-ascii?q?9a23=3AC7JyZmh4jGErwXwNC75uJMSdRDJuc3HX5y/rOne?=
- =?us-ascii?q?CFTxCSuSaTnOg9aV8jJ87?=
-X-Talos-MUID: 9a23:CH25BATLQ2sHYniNRXTViGh4NONn0Z2AI39dm7kj5syEKgZ/bmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,109,1770595200"; 
-   d="scan'208";a="690547604"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Mar 2026 09:18:16 +0000
-Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 97EB2180004B1;
-	Mon,  9 Mar 2026 09:18:16 +0000 (GMT)
-Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id 46AF5CC1288; Mon,  9 Mar 2026 02:18:16 -0700 (PDT)
-From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+        d=linuxfoundation.org; s=google; t=1773053292; x=1773658092; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sjr/fZSsbv4l7tZ+ypCUCcG3UkyHeCL0Gff0BdEXqXc=;
+        b=LgFG2CPE8ruVAqDxAIbJsI2qd48TAQiH7p5pqLlz8f1UaV7LZ5lDpPknQyRvNg7mfG
+         Kug55ErmivNjNoP96xkmQQs4UtGN4HL/WY/vK/T04SpmqCIsclBOEzNWmMkRywYEQ/UJ
+         5zDdv0aAULD2Bb97djrumWspwWvoTIpYA4xaQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773053292; x=1773658092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sjr/fZSsbv4l7tZ+ypCUCcG3UkyHeCL0Gff0BdEXqXc=;
+        b=aVSa4VEVu6kM1Chj0IiRtAzKKIQLbq5enN2Jp4tk7yCtC/Q5n1qsuNIUStXzW7u+XE
+         ycNCMTG640Ex/T3ZhsJSLAIldAiAeD/CnVLuV7ySWBLYsibEIn6MMUcqNjVhRdxiplfb
+         5X+qSFevvw3+AeHtTmlI3hRRcm2VJ4IUrq4L8LNcos/WrhRKI+8e2xamenJAyAUAt31i
+         3K3Rb+njv6R3fvXekDlo4x4ZN5PCh9FAcolgYEh/smAJimFZXiybpmYEdtOGUO7KZZPD
+         L/mz4z1ApdrU2seAGJnZMwreZ+81yVG3h3EXL6Dfi86lW8T3pgyZqRfrOiYVOUKcXhO4
+         OU3g==
+X-Gm-Message-State: AOJu0Ywap64iw0Yppf+gCqNDb9Cl5vDuCrvMcbwdgKoiUHoTu3wHTT2a
+	mDgupWYeyXoC+IeNta5HZPVRcc84sPE/U29F0rHjF14K+K3953jQIEFX7R2AxmpTnKh6ihylcgG
+	SLaWyNAk=
+X-Gm-Gg: ATEYQzyYlJrPa1kNFaWxFWXuscnBYKlu4N/zoxCL3SchYJyGDfXKeexp+eueVPxudbl
+	vzDwbyhtrPANYfGwiSc48wYEHKBHXwgvoC3eqdk1qgLsHHB6FVw7wyue0VnG/1nDbqH3ocNFcrT
+	DV7SpcxZFJDQDPKjQo16ZqoNr8xwcjp6ltUkK3Rm5O+108441joynVa63GidWZyYzR5bqGCuxqw
+	mCYxnkXdJ5Chd5VjarvjmJGB3LF/3mPq2nV7U4yiDbzD48rvCV0ED6kG3o3JoSA5owJ/N6qmOKm
+	4mANqunXSj+xWV6vQsc71jD6ZYJh0SwymsaHc9Q6pCnk84Mk8guXJjc+RtBLeScTCzQsygqdZ24
+	RMVs2DwFczoN11ESn4pvWjgkoOvOFXBY5c/m12KzHE85WYA9K1bnAvveGP0kCRZ3Q6GI9EJtabY
+	iHCt52oRJpdo2Z4l9fQY8czBqwDmf6jHZjxLFBMV8tBQHosraRAcmoDnd9fPO+IQ==
+X-Received: by 2002:a05:600c:34c5:b0:485:3f38:3de3 with SMTP id 5b1f17b1804b1-4853f383f6emr17059975e9.3.1773053292285;
+        Mon, 09 Mar 2026 03:48:12 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:24aa:67b9:6ef1:bd24])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae57401sm21265589f8f.38.2026.03.09.03.48.11
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 03:48:11 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	vchavda@cisco.com
-Subject: [openembedded-core] [scarthgap] [PATCH 3/3] improve_kernel_cve_report: add option to read debugsources.zstd
-Date: Mon,  9 Mar 2026 02:18:11 -0700
-Message-Id: <20260309091811.3508300-1-hjadon@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Subject: [PATCH] ptest-runner: Upgrade 2.5.0 -> 2.5.1
+Date: Mon,  9 Mar 2026 10:48:10 +0000
+Message-ID: <20260309104810.2947188-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 09:18:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232693
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 10:48:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232694
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+Pull in buffering fix:
 
-Adding option to be able to import debugsources.zstd directly.
-The linux-yocto-debugsources.zstd is generated in every build and
-does not require any additional configuration.
+"""
+When running slow ptests, we can see an issue where the tests are writing output
+but it doesn't make it to the process (e.g. ssh connection) running ptest-runner.
 
-In contrast, SPDX_INCLUDE_COMPILED_SOURCES needs to be explicitly
-added and increases build time.
+The issue is that the standard buffering for non-interactive terminals is 8kb and
+some ptests don't output enough data to trigger a write. This can lead to
+the controlling connection timing out.
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit c84a8958f30bbb982656ddcbe7476f6f81e1a6fb)
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+This change forces the output streams to be line buffered in all cases. Most
+ptest output would contain newlines so this should work well. stderr can be
+unbuffered by default but making it consistent here seems the best approach.
+
+Testing with this change on slow ptest runs (e.g. qemu emulated) showed much
+more consistent data with this change.
+"""
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/contrib/improve_kernel_cve_report.py | 27 ++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ .../{ptest-runner_2.5.0.bb => ptest-runner_2.5.1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.5.0.bb => ptest-runner_2.5.1.bb} (95%)
 
-diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib/improve_kernel_cve_report.py
-index 5c39df05a5..3a15b1ed26 100755
---- a/scripts/contrib/improve_kernel_cve_report.py
-+++ b/scripts/contrib/improve_kernel_cve_report.py
-@@ -236,6 +236,26 @@ def read_spdx3(spdx):
-             cfiles.add(filename)
-     return cfiles
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.5.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
+similarity index 95%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.5.0.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
+index 607fe4b5ff2..f5628d6e468 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.5.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
  
-+def read_debugsources(file_path):
-+    '''
-+    Read zstd file from pkgdata to extract sources
-+    '''
-+    import zstandard as zstd
-+    import itertools
-+    # Decompress the .zst file
-+    cfiles = set()
-+    with open(file_path, 'rb') as fh:
-+        dctx = zstd.ZstdDecompressor()
-+        with dctx.stream_reader(fh) as reader:
-+            decompressed_bytes = reader.read()
-+            json_data = json.loads(decompressed_bytes)
-+            # We need to remove one level from the debug sources
-+            for source_list in json_data.values():
-+                for source in source_list:
-+                    src = source.split("/",1)[1]
-+                    cfiles.add(src)
-+    return cfiles
-+
- def check_kernel_compiled_files(compiled_files, cve_info):
-     """
-     Return if a CVE affected us depending on compiled files
-@@ -372,6 +392,10 @@ def main():
-         "--spdx",
-         help="SPDX2/3 for the kernel. Needs to include compiled sources",
-     )
-+    parser.add_argument(
-+        "--debug-sources-file",
-+        help="Debug sources zstd file generated from Yocto",
-+    )
-     parser.add_argument(
-         "--datadir",
-         type=pathlib.Path,
-@@ -415,6 +439,9 @@ def main():
-     if args.spdx:
-         compiled_files = read_spdx(args.spdx)
-         logging.info("Total compiled files %d", len(compiled_files))
-+    if args.debug_sources_file:
-+        compiled_files = read_debugsources(args.debug_sources_file)
-+        logging.info("Total compiled files %d", len(compiled_files))
+-SRCREV = "7429fdd52abb5b08a9e8acef14b1bc4604f09c8f"
++SRCREV = "afe64efbb3f028e898fa9a5efcdc3010ebdf283c"
  
-     if args.old_cve_report:
-         with open(args.old_cve_report, encoding='ISO-8859-1') as f:
--- 
-2.35.6
-
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https;tag=v${PV}"
+ 
 
