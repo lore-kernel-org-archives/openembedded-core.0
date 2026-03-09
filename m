@@ -1,268 +1,199 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87BAAEF36EF
-	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 07:02:50 +0000 (UTC)
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8671.1773039767508467321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82242EF36F2
+	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 07:04:20 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8631.1773039850214070717
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 00:02:47 -0700
+ Mon, 09 Mar 2026 00:04:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YS2gc7UV;
- spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: adongare@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6426; q=dns/txt;
-  s=iport01; t=1773039767; x=1774249367;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Kduezb8m1GuaCfRETk5Xhv6oPj5eGmPxdcRUPIJwaLk=;
-  b=YS2gc7UVlNFcJC/uhGHPFIwlILwOVFPsrABsiu2vUO2VI744wLfsWmEz
-   G5SjdFYcvFsPhu31nlUw9zsBLby9KviuS83vZ4FnSFeBiAAdWWG/mcIWc
-   g+jwSRD5NEJU9a9Kiuno2NqDKv49k9veH+m5nsEAX3BYyVb+24L05pFK/
-   tw+KQ2BOmx91/Ntsnj35dpN+1D0pYdwWCHDVN/pmqtIbl02mqsZXXfNNs
-   6nDtF8yx06J5mz2Frf3n/vmX3uga28x5zZAX660E30tJfcvyozC8pacMy
-   av9pRUmVWuRm7nw6oZSW9Zyn41yLSG122VNv8N5yL61dw6Nst9TzkQZcX
-   w==;
-X-CSE-ConnectionGUID: EwVO6HPnSxuOPB7iB4nkgg==
-X-CSE-MsgGUID: l5BgGcLSQcSxuC8EipH0Ww==
-X-IPAS-Result: =?us-ascii?q?A0BDAACub65p/5T/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBgkcPcV5DSQOMcIlYA54aFIFrDwEBAQ89FAQBAYUHAo0gAiY0CQ4BA?=
- =?us-ascii?q?gQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBAycLA?=
- =?us-ascii?q?UYQHAMBAi8rIwgZG4JnAYJzAxGpdoF5M4EBg2gCQ0/bJgELFAGBOAGFO4gZW?=
- =?us-ascii?q?xgBhHonGxuBcoEVg2iBBYFcAQGBIhYQhlwEgiJ6FIFhHoVBBotWSIEeA1ksA?=
- =?us-ascii?q?VUTDQoLBwWBZgM1EioVbjIdgSM+F4ELGwcFhSAPiHJ0boETgwQDCxgNSBEsN?=
- =?us-ascii?q?xQbBD5uB41rPoI0exMBK4EFDDICZwYLKZJrE5I8oQ4KKIN0jB6VOhozhVulE?=
- =?us-ascii?q?AuYe4s2glOVaGiEaIFoPIFHCwdwFYMiCUkZD44qDguDXoF/x1EmMg4uAgcLA?=
- =?us-ascii?q?QEDCZFrgXwBAQ?=
-IronPort-Data: A9a23:XDU/R61WCkNSiSQjoPbD5YJwkn2cJEfYwER7XKvMYLTBsI5bp2AFz
- mcYDW7XOPjeM2KkeI1wad6+/UxTupDUxtRjT1do3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX4
- rsen+WFYAX7g2UsYzpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGIV4IGtM4wuBMEXxpz
- dZHKRpRaBOMiLfjqF67YrEEasULNsLnOsYb/3pn1zycVK9gSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiQC/FMEg9/5JYWleuvgHb2aTBwo1OOrq1x6G/WpOB0+Oa8aIaIJ4zUG625mG6c+
- 0jJ0G/dOSgRD8yC4mqo82qM3tDQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl/AQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:/Vxbnq9u53MXC1FVxMBuk+DfI+orL9Y04lQ7vn2ZhyY7TiX+rb
- HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdg7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
- 4ZSdkcNDU1ZmIK9PoTJ2KDYrAd/OU=
-X-Talos-CUID: 9a23:EmXjg28abFGpU2jdwBmVv2MLJOd7UkXb92fNBHeSVmdDFLuWRlDFrQ==
-X-Talos-MUID: 9a23:VN5gWgrLUurdiCFQQKgezzU/HshH6ICVMUs2gYgt6+SFLQwoBCjI2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,109,1770595200"; 
-   d="scan'208";a="690455866"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Mar 2026 07:02:46 +0000
-Received: from sjc-ads-10055.cisco.com (sjc-ads-10055.cisco.com [10.30.210.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 3D92518000140;
-	Mon,  9 Mar 2026 07:02:46 +0000 (GMT)
-Received: by sjc-ads-10055.cisco.com (Postfix, from userid 1870532)
-	id DB4C8CC12A7; Mon,  9 Mar 2026 00:02:45 -0700 (PDT)
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com, to@cisco.com,
-	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [Whinlatter] [PATCH 2/2] vim v9.1.1683: Fix CVE-2026-26269
-Date: Mon,  9 Mar 2026 00:02:32 -0700
-Message-ID: <20260309070233.4148849-2-adongare@cisco.com>
-X-Mailer: git-send-email 2.44.1
-In-Reply-To: <20260309070233.4148849-1-adongare@cisco.com>
-References: <20260309070233.4148849-1-adongare@cisco.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.210.59, sjc-ads-10055.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=fBf6lu8q;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D2ECDC4286F
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Mar 2026 07:04:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 73F075FFB8;
+	Mon,  9 Mar 2026 07:04:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2564010369906;
+	Mon,  9 Mar 2026 08:04:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773039847; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ricZRbbFAGv9kfb8EfTb+hW+gA7OKSEe4CW2A1VDFX4=;
+	b=fBf6lu8qeRjA7UhWYhV94tUgX9PFHcIRhDn9cO48Y3w+xxPrhkAm3SIRYzquaTv8aG7U8f
+	vayOAWZ1miK8vGpoXZlbe4QFFr4fKKkyb4tl1JVTLeVJUQLJvQlbFg5RcFxNKUNBZmgKtO
+	uAGjSpl4KFlaigmtirBSrBMYK6lb4zGTIvhKdRBJIdkiJ88Bi4DXOsPN4ZAgzD/um57elm
+	lKQyY3lUCYSpnPcw+xj+Q4REbu1vpVqQCKpxx3Qgbo1HUcGIYrasRGwqDtzjQGkcTY7EAo
+	vttOJwDc14skSlm2AMSzkhjw/QYqUqHA0L+ZQk9oiIuykTNGvCK14inH+IpLRA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Mar 2026 08:04:04 +0100
+Message-Id: <DGY263XJ28Q5.S68LXPC7JMI6@bootlin.com>
+Cc: <alex.kanavin@gmail.com>, "Ross Burton" <ross.burton@arm.com>,
+ <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <liezhi.yang@windriver.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v7 1/7] package_rpm.bbclass: Drop external
+ dependency generator to support rpm 6
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <cover.1772367692.git.liezhi.yang@windriver.com>
+ <8e2bf6e0befe331a0f834687317a3dcd2d735b92.1772367692.git.liezhi.yang@windriver.com> <2bbd3ebdc7f525fc5fdb5848ec6d80c70dbb9e22.camel@linuxfoundation.org> <86d3c351-16e9-44bd-8b38-b8c6ed75aa0a@windriver.com> <e4bed048-61eb-425a-a3bf-a3906145938d@windriver.com> <DGU6U0PB5R0J.2FMV5TJUWPZJV@bootlin.com> <e85b7909-392f-4fb1-a463-46a09484060e@windriver.com>
+In-Reply-To: <e85b7909-392f-4fb1-a463-46a09484060e@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 07:02:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232679
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 07:04:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232680
 
-From: Anil Dongare <adongare@cisco.com>
+On Sat Mar 7, 2026 at 4:22 PM CET, Robert Yang via lists.openembedded.org w=
+rote:
+> Hi Mathieu,
+>
+> On 3/5/26 01:52, Mathieu Dubois-Briand wrote:
+>> On Tue Mar 3, 2026 at 1:01 PM CET, Robert Yang via lists.openembedded.or=
+g wrote:
+>>> I've updated it in the pull (patch 7). @Mathieu, would you please help =
+to
+>>> re-test it if RP has no objections on the external generator?
+>>>
+>>>     https://github.com/robertlinux/yocto rbt/rpm
+>>>     https://github.com/robertlinux/yocto/tree/rbt/rpm
+>>>
+>>> for you to fetch changes up to f8fa3090196bae3e12ad76f12f101722d84ca20a=
+:
+>>>
+>>>     rpm: 4.20.1 -> 6.0.1 (2026-03-03 11:29:07 +0000)
+>>>
+>>> ----------------------------------------------------------------
+>>>
+>>> Robert Yang (7):
+>>>     package_rpm.bbclass: Drop external dependency generator to support =
+rpm
+>>>       6
+>>>     package_rpm.bbclass: Define _lib and _libdir for rpmbuild
+>>>     lib/oe/package.py: Don't add ldconfig_postinst_fragment for glibc o=
+r
+>>>       musl
+>>>     glib/python3/acl: Add pkgconfig to RDEPENDS
+>>>     lib/oe/package.py: Don't redirect stderr
+>>>     target-sdk-provides-dummy: Add pkg-config to DUMMYPROVIDES
+>>>     rpm: 4.20.1 -> 6.0.1
+>>>
+>>> // Robert
+>>=20
+>> Hi Robert,
+>>=20
+>> I did pick these commits.
+>
+> Thank you very much for your great patience.
+>
+>>=20
+>> We have some different errors now.
+>>=20
+>> ERROR: core-image-sato-1.0-r0 do_rootfs: Could not invoke dnf. Command '=
+/srv/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work/qemux86_64-poky=
+-linux/core-image-sato/1.0/recipe-sysroot-native/usr/bin/dnf -v --rpmverbos=
+ity=3Dinfo -y -c /srv/pokybuild/yocto-worker/qa-extras2/build/build/tmp/wor=
+k/qemux86_64-poky-linux/core-image-sato/1.0/rootfs/etc/dnf/dnf.conf --setop=
+t=3Dreposdir=3D/srv/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work/=
+qemux86_64-poky-linux/core-image-sato/1.0/rootfs/etc/yum.repos.d --installr=
+oot=3D/srv/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work/qemux86_6=
+4-poky-linux/core-image-sato/1.0/rootfs --setopt=3Dlogdir=3D/srv/pokybuild/=
+yocto-worker/qa-extras2/build/build/tmp/work/qemux86_64-poky-linux/core-ima=
+ge-sato/1.0/temp --repofrompath=3Doe-repo,/srv/pokybuild/yocto-worker/qa-ex=
+tras2/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/oe-roo=
+tfs-repo --nogpgcheck install dnf packagegroup-base-extended packagegroup-c=
+ore-boot packagegroup-core-ssh-dropbear packagegroup-core-x11-base packageg=
+roup-core-x11-sato psplash rpm run-postinsts locale-base-c locale-base-en-u=
+s locale-base-en-gb' returned 1:
+>
+> It looks that something is wrong with the storage.
+>
+>> ...
+>> ++ tr -d '[:space:]'
+>> /var/tmp/rpm-tmp.U4iaJX: line 98: tr: command not found
+>> + test x '!=3D' x
+>> ++ echo --system --home /var/lib/dbus --no-create-home --shell /bin/fals=
+e --user-group messagebus
+>> ++ tr -d '[:space:]'
+>> /var/tmp/rpm-tmp.U4iaJX: line 114: tr: command not found
+>> + test x '!=3D' x
+>> ++ echo
+>> ++ tr -d '[:space:]'
+>> /var/tmp/rpm-tmp.U4iaJX: line 130: tr: command not found
+>> ...
+>>=20
+>>    Installing       : dbus-common-1.16.2-r0.x86_64_v3                   =
+ 682/790Error: Cannot open file /srv/pokybuild/yocto-worker/qa-extras2/buil=
+d/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/oe-rootfs-repo/r=
+pm/x86_64_v3/dbus-1-1.16.2-r0.x86_64_v3.rpm: [Errno 2] No such file or dire=
+ctory: '/srv/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work/qemux86=
+_64-poky-linux/core-image-sato/1.0/oe-rootfs-repo/rpm/x86_64_v3/dbus-1-1.16=
+.2-r0.x86_64_v3.rpm'
+>> TypeError: 'NoneType' object cannot be interpreted as an integer
+>> FATAL ERROR: python callback ??? failed, aborting!
+>>=20
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/3271
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/3276
+>>=20
+>> I'm a bit surprise by tr errors here, as it looks a bit unrelated. There
+>> is a small probability it's related to something else in my branch, but
+>> this series is clearly the best candidate. I will keep you updated if it
+>> finally looks related to something else.
+>>=20
+>> I also got some more traditional "nothing provides" errors:
+>>=20
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/78/builds/3317
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/8/builds/3321
+>  > > Can you have a look at these?
+>
+> For the above two errors, it is because the sstate cache had been pollute=
+d. I
+> moved pkgconfig-native from do_package to do_package_write_rpm, the
+> do_package_write_rpm still can be mirrored from the old (but bad) sstate-=
+cache.
+> It woudl work when the old sstate cache are invalid. So I've sent a
+> gettext update patch:
+>
+> [OE-core] [PATCH 0/1] gettext: 0.26 -> 1.0
+>
+> It would make nearly all the sstate cache invalid, and re-built from sour=
+ces,
+> then this should be fixed.
+>
+> What I'm worried about is that gettext is very basic package, I hope it w=
+on't
+> cause more troubles. I've done world build on qemux86-64 and qemuarm64.
+>
+> Other reipes' upgrading may also can make the sstate cache invalid.
+>
+> // Robert
+>
 
-Upstream Repository: https://github.com/vim/vim.git
+Hi Robert,
 
-Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2026-26269
-Type: Security Fix
-CVE: CVE-2026-26269
-Score: 7.5
-Patch: https://github.com/vim/vim/commit/c5f312aad8e4
+I ran a build, not with your gettext patch, but with the one from the
+glibc upgrade by Hemanth. We still had similar errors.
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
----
- .../vim/files/CVE-2026-26269.patch            | 143 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 144 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-26269.patch
+Any opinion?
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-26269.patch b/meta/recipes-support/vim/files/CVE-2026-26269.patch
-new file mode 100644
-index 0000000000..fd4a652506
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-26269.patch
-@@ -0,0 +1,143 @@
-+From b4fb08c06ee37e38c257d800347b062b78fed141 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 13 Feb 2026 10:27:12 +0100
-+Subject: [PATCH] patch 9.1.2148: [security]: Buffer overflow in netbeans
-+ interface
-+
-+Problem:  [security]: Buffer overflow in netbeans special_keys() handling
-+Solution: Limit writing to max KEYBUFLEN bytes to prevent writing out of
-+          bounds.
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-9w5c-hwr9-hc68
-+
-+CVE: CVE-2026-26269
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c5f312aad8e4]
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+(cherry picked from commit c5f312aad8e4179e437f81ad39a860cd0ef11970)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
-+---
-+ runtime/doc/version9.txt      |  5 +++
-+ src/netbeans.c                |  2 +-
-+ src/testdir/test_netbeans.py  |  4 ++-
-+ src/testdir/test_netbeans.vim | 57 +++++++++++++++++++++++++++++++++++
-+ 4 files changed, 66 insertions(+), 2 deletions(-)
-+
-+diff --git a/runtime/doc/version9.txt b/runtime/doc/version9.txt
-+index b82071757..b32400f17 100644
-+--- a/runtime/doc/version9.txt
-++++ b/runtime/doc/version9.txt
-+@@ -41899,4 +41899,9 @@ features, but does not include runtime file changes (syntax, indent, ftplugin,
-+ documentation, etc.)
-+
-+
-++Patch 9.1.2148
-++Problem:  [security]: Buffer overflow in netbeans special_keys() handling
-++Solution: Limit writing to max KEYBUFLEN bytes to prevent writing out of
-++          bounds.
-++
-+  vim:tw=78:ts=8:noet:ft=help:norl:fdm=manual:nofoldenable
-+diff --git a/src/netbeans.c b/src/netbeans.c
-+index 4f5378512..8a341a20b 100644
-+--- a/src/netbeans.c
-++++ b/src/netbeans.c
-+@@ -2302,7 +2302,7 @@ special_keys(char_u *args)
-+	if ((sep = strchr(tok, '-')) != NULL)
-+	{
-+	    *sep = NUL;
-+-	    while (*tok)
-++	    while (*tok && i + 2 < KEYBUFLEN)
-+	    {
-+		switch (*tok)
-+		{
-+diff --git a/src/testdir/test_netbeans.py b/src/testdir/test_netbeans.py
-+index 0d6b09680..585886fb4 100644
-+--- a/src/testdir/test_netbeans.py
-++++ b/src/testdir/test_netbeans.py
-+@@ -112,7 +112,9 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
-+                   'startAtomic_Test' : '0:startAtomic!94\n',
-+                   'endAtomic_Test' : '0:endAtomic!95\n',
-+                   'AnnoScale_Test' : "".join(['2:defineAnnoType!60 ' + str(i) + ' "s' + str(i) + '" "x" "=>" blue none\n' for i in range(2, 26)]),
-+-                  'detach_Test' : '2:close!96\n1:close!97\nDETACH\n'
-++                  'detach_Test' : '2:close!96\n1:close!97\nDETACH\n',
-++                  'specialKeys_overflow_Test' : '0:specialKeys!200 "' + 'A'*80 + '-X"\n'
-++
-+                 }
-+                 # execute the specified test
-+                 if cmd not in testmap:
-+diff --git a/src/testdir/test_netbeans.vim b/src/testdir/test_netbeans.vim
-+index d3d5e8baf..d1be5066e 100644
-+--- a/src/testdir/test_netbeans.vim
-++++ b/src/testdir/test_netbeans.vim
-+@@ -958,6 +958,58 @@ func Nb_bwipe_buffer(port)
-+   sleep 10m
-+ endfunc
-+
-++func Nb_specialKeys_overflow(port)
-++  call delete("Xnetbeans")
-++  call writefile([], "Xnetbeans")
-++
-++  " Last line number in the Xnetbeans file. Used to verify the result of the
-++  " communication with the netbeans server
-++  let g:last = 0
-++
-++  " Establish the connection with the netbeans server
-++  exe 'nbstart :localhost:' .. a:port .. ':bunny'
-++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
-++  let l = ReadXnetbeans()
-++  call assert_equal(['AUTH bunny',
-++        \ '0:version=0 "2.5"',
-++        \ '0:startupDone=0'], l[-3:])
-++  let g:last += 3
-++
-++  " Open the command buffer to communicate with the server
-++  split Xcmdbuf
-++  let cmdbufnr = bufnr()
-++  call WaitFor('len(ReadXnetbeans()) > (g:last + 2)')
-++  let l = ReadXnetbeans()
-++  call assert_equal('0:fileOpened=0 "Xcmdbuf" T F',
-++        \ substitute(l[-3], '".*/', '"', ''))
-++  call assert_equal('send: 1:putBufferNumber!15 "Xcmdbuf"',
-++        \ substitute(l[-2], '".*/', '"', ''))
-++  call assert_equal('1:startDocumentListen!16', l[-1])
-++  let g:last += 3
-++
-++  " Keep the command buffer loaded for communication
-++  hide
-++
-++  sleep 1m
-++
-++  " Open the command buffer to communicate with the server
-++  split Xcmdbuf
-++  let cmdbufnr = bufnr()
-++  call appendbufline(cmdbufnr, '$', 'specialKeys_overflow_Test')
-++  call WaitFor('len(ReadXnetbeans()) >= (g:last + 6)')
-++  call WaitForAssert({-> assert_match('send: 0:specialKeys!200 "A\{80}-X"',
-++        \ ReadXnetbeans()[-1])})
-++
-++  " Verify that specialKeys test, still works after the previous junk
-++  call appendbufline(cmdbufnr, '$', 'specialKeys_Test')
-++  call WaitFor('len(ReadXnetbeans()) >= (g:last + 1)')
-++  call WaitForAssert({-> assert_match('^send: 0:specialKeys!91 "F12 F13 C-F13"$',
-++        \ ReadXnetbeans()[-1])})
-++  let g:last += 1
-++
-++  sleep 10m
-++endfunc
-++
-+ " This test used to reference a buffer after it was freed leading to an ASAN
-+ " error.
-+ func Test_nb_bwipe_buffer()
-+@@ -967,4 +1019,9 @@ func Test_nb_bwipe_buffer()
-+   nbclose
-+ endfunc
-+
-++" Verify that the specialKeys argument does not overflow
-++func Test_nb_specialKeys_overflow()
-++  call s:run_server('Nb_specialKeys_overflow')
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+--
-+2.43.7
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 044117a57f..792a46faf7 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
-            file://CVE-2026-25749.patch \
-+           file://CVE-2026-26269.patch \
-            "
- 
- PV .= ".1683"
--- 
-2.44.1
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/3378
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/3330
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/3302
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/3307
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
