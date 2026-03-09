@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A32F3C25C
-	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 13:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3F5F3C262
+	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 13:29:27 +0000 (UTC)
 Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14156.1773062958512145936
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14159.1773062960976113248
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 06:29:18 -0700
+ Mon, 09 Mar 2026 06:29:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G8IviiPZ;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TbReHyLj;
  spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: stondo@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-79907171da2so2925507b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 06:29:18 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-79628fb5c05so95036657b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 06:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773062957; x=1773667757; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773062960; x=1773667760; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/tGs98uy8Neks0w5XX342Cr5zI1u8Xh6ZbFuCmEetg8=;
-        b=G8IviiPZqPyCki5IFkOnYhcHs66aDbGDbDT6rRBMIKDvNl1EDyLMom3Gc/uVyP6g0Y
-         3UWtprDlYJ9c9ZTcIvTDaapGx7+AQvA9Hwzy+YrfMwFHBgu40iGjaFk+DfzblXGx0nHn
-         XTQsgMnx54bTnvNzwX//PDk6KLLFGDVK2I4+jATEjfwZsxFFhVIkE4+y+ZxiH1SevOOH
-         qYcUdtC4P5QpCsQ3kwIIfJ03lAg3zMJavF7jC4sF2j9XozHjsE/3KUC4uVspjPOmcrAm
-         bzwW2zCmjYdYYBdHBvu18/TnAFVzySJsWydq51GHrRTUzoRiMR5k7Ck1ldK6aVwBoOKk
-         asvA==
+        bh=vTetZvP6BebA79DU1h03+zwm3V3+NRTqsJ+4iic2qCc=;
+        b=TbReHyLjJBY43mDRCaURunk6yIh3vy4ttIZdzRjp3BMuV6aa8lq4vW0z9sVuAWctOH
+         wwKkTJZ+FSLY7/eDXv1qT/hd5DaGNHWglp7RFrZe360ib0Vl3hkBmdDd3IIzZxrP1yiV
+         Roxzf571TH1//CO/K/ppbNkloOVjqcYutOh5Bd3M/Xp9apMZlmmFv9uMgb6bzg+7etQp
+         ciMP1AAtEO/K5b88/nfTYYqKCeCMnEN5YdkG4I4z9IIdIJD8TQyHU9uZVulgTQ5rXw1D
+         ymlONDE7ypV4mQ+4brysPnSLiuNwDHNO+1w2+0qgP+Zv8wfjdcEPIRAKwAev2E6QVt9G
+         ENcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773062957; x=1773667757;
+        d=1e100.net; s=20230601; t=1773062960; x=1773667760;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/tGs98uy8Neks0w5XX342Cr5zI1u8Xh6ZbFuCmEetg8=;
-        b=UvrAZzjAKpveHSG4Tupipvz9Z1XuaYC0McTBei/j3GIlKrjrLFZwZRFS5vDpdgWrl9
-         4eE9u+qFl9fboRcfB7LUQINfa6yhOb3UPo4maIvdXsodUBftFWEhD26o77QeENQD3KwH
-         WuOdcwiswCCsDE7BNKeZdYLzjEDUKFdiIP2Mpl3TvF4UKlx1zq+bRqpo/e9idLnwEU47
-         79HpuKPnzkleXBQe66rMILOnmtJPbYBx/WntqNVST+msg3za/gY1XYaytcZ9IovgfFiB
-         s8bKJVMcQ9IAGCAPdGf3uo5w3vmrmvDHxiErYF7qgWA+XZWgIzKCmhQRoDkldC4Phw92
-         FLLw==
-X-Gm-Message-State: AOJu0Yz4crYpMpCVl2gqTg/9zVkRlqW/d4gYEp6acai/kdStMFmPTWCV
-	g31jzSuEfxmu7OEgNXHtWCWtDbD4ZmQMicQmOwvxc/1bo3MlYZauIiZa7ullZw==
-X-Gm-Gg: ATEYQzy9LEtP0BSe7KY/ELqoTSypbnYHoiqtzZn3JhlHIZpIwS7VTXEFu5NstSsJxLh
-	rvHjlEKPSQzBPQtJcj9Rp2BGUiUHR4KHBaZiKz1nBwbjmy2WyjtpISdCe60ObleAZRXi/BXcDGD
-	Q3LcgdDZQKuLqTdSi82OBCGa3DcC3X35ekIyEqCh20TQNORtniRaO150TZHyH5DbMoZY5s+ljc8
-	Vvczxo1YBNgb19H2d06hkwCNpUYeGFqcR+0MB6CG7NNaS9Nwhm4BdxA9mQ3+QvH0hIB3yWyX/0H
-	XQw7LYGBuiCWFVLPpAkovux1snX7Zt13j4RlT9f1uMTN7Vl31h6FXoAJqxMzstRFOZl7ntlrfzS
-	SE9FbKiaSHhVubipGYE+X6tC5KszRuq4YZhlPdEXhu7FBZg6jXFXRHnNdpa+jRWJsZuxltNT6Ri
-	gDUI++lE6jowLeUFvomaw0VWD4BRmpcnxJDMpSes6EaVOSIL9NN+EYTFSILDybbXQvoqn4ZYUfy
-	SxEBTXE
-X-Received: by 2002:a05:690c:6905:b0:798:68d8:4aa4 with SMTP id 00721157ae682-798dd6ceb4dmr102433327b3.24.1773062957423;
-        Mon, 09 Mar 2026 06:29:17 -0700 (PDT)
+        bh=vTetZvP6BebA79DU1h03+zwm3V3+NRTqsJ+4iic2qCc=;
+        b=pOkt9w21NAEKiED6rrRtEiRxQjgF6QRSg+y3Msxv45ysLRpvBKyXUeKOmBe2vz5N7r
+         Q9vhc/Qh099BzFA6J8zOgBmDK7Q9ccIYuTJSd5nlilkauuQpp2E6UBAnjK/TwgLkCqUT
+         vCwiGBdZ2ZQWgWk05Zd7uRt/hRmAciF5dKwIkJABYwQbHKcsQU88/L5HL2mlK+hNMdXg
+         ff2oBt4t1xuaBU4Wv8HMAM382Ip/DBKkQ2pL/ZEV4Lq+6dawa7QVAER7yvSTRhnF2pxr
+         ExZVZau8gxZzj8fy3d5wQ2DECYEMX1t9C7S5yjU5Lnuq07BvpE1nr8qfdRkkDyk35jvC
+         vGZg==
+X-Gm-Message-State: AOJu0YwkqhuahJMixw74x2LdlntQhDVSfeSvLTxvKJGDSghLYOtjf/R+
+	3BsjV8Mi6PuIPfFupEbU9QObiDmWsdLRAOdph+HhJA5N7jksP4DaJ0Kll3qwJw==
+X-Gm-Gg: ATEYQzziHtnWJ6l6lxOTACsjIPkZcoAgOd5bXdGj2U7Oq6g0Tv/xTdXPMKU9xfkpQHk
+	fSO22ekDoaGdMNpiqW35QqMi+QuidcueME4+2XqLPjlvtKogP61893oq9xSbC8cYTYg3PyYwzVC
+	e9adm8Tj09CrktL8J6aJkaa8xXA1MZ7xdQMa0ICl1Qg2vBB0cHmVUk7IMOJtXebcGHJfVGyUxdp
+	uTc3YISs4ea9KzgEBsFHFq4SiuVpS0KkDOc0SC/XSkt8r4u7DZP+7K1+GnHgrfaUiWtCAoLG+CP
+	NeZl0DNoLt2YLl6gryD9jUkvzsEsb6aP8VENVJS1G3CwNl7FFbVb/27TqlZZWJ8RkiDJI5vzd3P
+	O/3T4QwGEMbCifJVJMSyPBVTX9eIQ7v6CK/cMaQaOM5Wa77ryR3i1Mxf+GXwlLwEqoz8fH7el6b
+	qjyo1RPEcTIoBcqCT91p0zS8rjiG5ZdBOgIElZoPkEjq9iD81BQk3jMOJaUEFyALxRIxQkLgU5b
+	L2Ittct
+X-Received: by 2002:a05:690c:dd4:b0:798:704e:9d7e with SMTP id 00721157ae682-798dd789d41mr101621397b3.52.1773062959781;
+        Mon, 09 Mar 2026 06:29:19 -0700 (PDT)
 Received: from fedora (mob-194-230-161-149.cgn.sunrise.net. [194.230.161.149])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-798dee6afd5sm44299437b3.45.2026.03.09.06.29.15
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-798dee6afd5sm44299437b3.45.2026.03.09.06.29.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 06:29:17 -0700 (PDT)
+        Mon, 09 Mar 2026 06:29:19 -0700 (PDT)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ross.Burton@arm.com,
@@ -61,9 +61,9 @@ Cc: Ross.Burton@arm.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [OE-core][PATCH v8 4/7] spdx30: Enrich source downloads with version and PURL
-Date: Mon,  9 Mar 2026 14:28:51 +0100
-Message-ID: <20260309132854.128375-5-stondo@gmail.com>
+Subject: [OE-core][PATCH v8 5/7] oeqa/selftest: Add tests for source download enrichment
+Date: Mon,  9 Mar 2026 14:28:52 +0100
+Message-ID: <20260309132854.128375-6-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260309132854.128375-1-stondo@gmail.com>
 References: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
@@ -73,200 +73,107 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 13:29:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232713
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 13:29:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232714
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Add version extraction, PURL generation, and external references
-to source download packages in SPDX 3.0 SBOMs:
+Add two new SPDX 3.0 selftest cases:
 
-- Extract version from SRCREV for Git sources (full SHA-1)
-- Generate PURLs for Git sources on github.com by default
-- Support custom mappings via SPDX_GIT_PURL_MAPPINGS variable
-  (format: "domain:purl_type", split(':', 1) for parsing)
-- Use ecosystem PURLs from SPDX_PACKAGE_URLS for non-Git
-- Add VCS external references for Git downloads
-- Add distribution external references for tarball downloads
-- Parse Git URLs using urllib.parse
-- Extract logic into _generate_git_purl() and
-  _enrich_source_package() helpers
+test_download_location_defensive_handling:
+  Verifies SPDX generation succeeds for recipes with tarball sources
+  and that external references are properly structured (ExternalRef
+  locator is a list of strings per SPDX 3.0 spec).
 
-The SPDX_GIT_PURL_MAPPINGS variable allows configuring PURL
-generation for self-hosted Git services (e.g., GitLab).
-github.com is always mapped to pkg:github by default.
+test_version_extraction_patterns:
+  Verifies that version extraction works correctly and all source
+  packages have proper version strings containing digits.
+
+These tests validate the source download enrichment added in the
+previous commit.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass |   7 ++
- meta/lib/oe/spdx30_tasks.py          | 122 +++++++++++++++++++++++++++
- 2 files changed, 129 insertions(+)
+ meta/lib/oeqa/selftest/cases/spdx.py | 69 ++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index def2dacbc3..9e912b34e1 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -152,6 +152,13 @@ SPDX_PACKAGE_URLS[doc] = "A space separated list of Package URLs (purls) for \
-     Override this variable to replace the default, otherwise append or prepend \
-     to add additional purls."
- 
-+SPDX_GIT_PURL_MAPPINGS ??= ""
-+SPDX_GIT_PURL_MAPPINGS[doc] = "A space separated list of domain:purl_type \
-+    mappings to configure PURL generation for Git source downloads. \
-+    For example, "gitlab.example.com:pkg:gitlab" maps repositories hosted \
-+    on gitlab.example.com to the pkg:gitlab PURL type. \
-+    github.com is always mapped to pkg:github by default."
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index 41ef52fce1..7ce2ea57b1 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -414,3 +414,72 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+                 value, ["enabled", "disabled"],
+                 f"Unexpected PACKAGECONFIG value '{value}' for {key}"
+             )
 +
- IMAGE_CLASSES:append = " create-spdx-image-3.0"
- SDK_CLASSES += "create-spdx-sdk-3.0"
- 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index c3a23d7889..1f6c84628d 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -13,6 +13,7 @@ import oe.spdx30
- import oe.spdx_common
- import oe.sdk
- import os
-+import urllib.parse
- 
- from contextlib import contextmanager
- from datetime import datetime, timezone
-@@ -377,6 +378,125 @@ def collect_dep_sources(dep_objsets, dest):
-             index_sources_by_hash(e.to, dest)
- 
- 
-+def _generate_git_purl(d, download_location, srcrev):
-+    """Generate a Package URL for a Git source from its download location.
++    def test_download_location_defensive_handling(self):
++        """Test that download_location handling is defensive.
 +
-+    Parses the Git URL to identify the hosting service and generates the
-+    appropriate PURL type. Supports github.com by default and custom
-+    mappings via SPDX_GIT_PURL_MAPPINGS.
++        Verifies SPDX generation succeeds and external references are
++        properly structured when download_location retrieval works.
++        """
++        objset = self.check_recipe_spdx(
++            "m4",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-m4.spdx.json",
++        )
 +
-+    Returns the PURL string or None if no mapping matches.
-+    """
-+    if not download_location or not download_location.startswith('git+'):
-+        return None
-+
-+    git_url = download_location[4:]  # Remove 'git+' prefix
-+
-+    # Default handler: github.com
-+    git_purl_handlers = {
-+        'github.com': 'pkg:github',
-+    }
-+
-+    # Custom PURL mappings from SPDX_GIT_PURL_MAPPINGS
-+    # Format: "domain1:purl_type1 domain2:purl_type2"
-+    custom_mappings = d.getVar('SPDX_GIT_PURL_MAPPINGS')
-+    if custom_mappings:
-+        for mapping in custom_mappings.split():
-+            parts = mapping.split(':', 1)
-+            if len(parts) == 2:
-+                git_purl_handlers[parts[0]] = parts[1]
-+                bb.debug(2, f"Added custom Git PURL mapping: {parts[0]} -> {parts[1]}")
-+            else:
-+                bb.warn(f"Invalid SPDX_GIT_PURL_MAPPINGS entry: {mapping} (expected format: domain:purl_type)")
-+
-+    try:
-+        parsed = urllib.parse.urlparse(git_url)
-+    except Exception:
-+        return None
-+
-+    hostname = parsed.hostname
-+    if not hostname:
-+        return None
-+
-+    for domain, purl_type in git_purl_handlers.items():
-+        if hostname == domain:
-+            path = parsed.path.strip('/')
-+            path_parts = path.split('/')
-+            if len(path_parts) >= 2:
-+                owner = path_parts[0]
-+                repo = path_parts[1].replace('.git', '')
-+                return f"{purl_type}/{owner}/{repo}@{srcrev}"
-+            break
-+
-+    return None
-+
-+
-+def _enrich_source_package(d, dl, fd, file_name, primary_purpose):
-+    """Enrich a source download package with version, PURL, and external refs.
-+
-+    Extracts version from SRCREV for Git sources, generates PURLs for
-+    known hosting services, and adds external references for VCS,
-+    distribution URLs, and homepage.
-+    """
-+    version = None
-+    purl = None
-+
-+    if fd.type == "git":
-+        # Use full SHA-1 from fd.revision
-+        srcrev = getattr(fd, 'revision', None)
-+        if srcrev and srcrev not in {'${AUTOREV}', 'AUTOINC', 'INVALID'}:
-+            version = srcrev
-+
-+        # Generate PURL for Git hosting services
-+        download_location = getattr(dl, 'software_downloadLocation', None)
-+        if version and download_location:
-+            purl = _generate_git_purl(d, download_location, version)
-+    else:
-+        # For non-Git sources, use recipe PV as version
-+        pv = d.getVar('PV')
-+        if pv and pv not in {'git', 'AUTOINC', 'INVALID', '${PV}'}:
-+            version = pv
-+
-+        # Use ecosystem PURL from SPDX_PACKAGE_URLS if available
-+        package_urls = (d.getVar('SPDX_PACKAGE_URLS') or '').split()
-+        for url in package_urls:
-+            if not url.startswith('pkg:yocto'):
-+                purl = url
++        found_external_refs = False
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if pkg.externalRef:
++                found_external_refs = True
++                for ref in pkg.externalRef:
++                    self.assertIsNotNone(ref.externalRefType)
++                    self.assertIsNotNone(ref.locator)
++                    self.assertGreater(len(ref.locator), 0, "Locator should have at least one entry")
++                    for loc in ref.locator:
++                        self.assertIsInstance(loc, str)
 +                break
 +
-+    if version:
-+        dl.software_packageVersion = version
++        self.logger.info(
++            f"External references {'found' if found_external_refs else 'not found'} "
++            f"in SPDX output (defensive handling verified)"
++        )
 +
-+    if purl:
-+        dl.software_packageUrl = purl
++    def test_version_extraction_patterns(self):
++        """Test that version extraction works for various package formats.
 +
-+    # Add external references
-+    download_location = getattr(dl, 'software_downloadLocation', None)
-+    if download_location and isinstance(download_location, str):
-+        dl.externalRef = dl.externalRef or []
++        Verifies that version patterns correctly extract versions from
++        tarball sources and that all packages have proper version strings.
++        """
++        objset = self.check_recipe_spdx(
++            "tar",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-tar.spdx.json",
++        )
 +
-+        if download_location.startswith('git+'):
-+            # VCS reference for Git repositories
-+            git_url = download_location[4:]
-+            if '@' in git_url:
-+                git_url = git_url.split('@')[0]
++        # Collect all packages with versions
++        packages_with_versions = []
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if pkg.software_packageVersion:
++                packages_with_versions.append((pkg.name, pkg.software_packageVersion))
 +
-+            dl.externalRef.append(
-+                oe.spdx30.ExternalRef(
-+                    externalRefType=oe.spdx30.ExternalRefType.vcs,
-+                    locator=[git_url],
-+                )
++        self.assertGreater(
++            len(packages_with_versions), 0,
++            "Should find packages with extracted versions"
++        )
++
++        self.logger.info(f"Found {len(packages_with_versions)} packages with versions")
++
++        # Log some examples for debugging
++        for name, version in packages_with_versions[:5]:
++            self.logger.info(f"  {name}: {version}")
++
++        # Verify that versions follow expected patterns
++        for name, version in packages_with_versions:
++            # Version should not be empty
++            self.assertIsNotNone(version)
++            self.assertNotEqual(version, "")
++
++            # Version should contain digits
++            self.assertRegex(
++                version,
++                r'\d',
++                f"Version '{version}' for package '{name}' should contain digits"
 +            )
-+        elif download_location.startswith(('http://', 'https://', 'ftp://')):
-+            # Distribution reference for tarball/archive downloads
-+            dl.externalRef.append(
-+                oe.spdx30.ExternalRef(
-+                    externalRefType=oe.spdx30.ExternalRefType.altDownloadLocation,
-+                    locator=[download_location],
-+                )
-+            )
-+
-+
- def add_download_files(d, objset):
-     inputs = set()
- 
-@@ -440,6 +560,8 @@ def add_download_files(d, objset):
-                 )
-             )
- 
-+            _enrich_source_package(d, dl, fd, file_name, primary_purpose)
-+
-             if fd.method.supports_checksum(fd):
-                 # TODO Need something better than hard coding this
-                 for checksum_id in ["sha256", "sha1"]:
 -- 
 2.53.0
 
