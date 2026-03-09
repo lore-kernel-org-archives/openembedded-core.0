@@ -2,39 +2,39 @@ Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 869C0FCA166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A896FCA164
 	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 17:44:48 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20770.1773078281231964838
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20814.1773078281404191436
  for <openembedded-core@lists.openembedded.org>;
  Mon, 09 Mar 2026 10:44:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=KMRDeVgO;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=B7EXjFJE;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7528dde4fb=harish.sadineni@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6294Ursi3973763
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 629Br3SM531417
 	for <openembedded-core@lists.openembedded.org>; Mon, 9 Mar 2026 17:44:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=/ipUJQlymb7LsVfHv5FEzOss9ZqEz8ZXdGDkGeKekdk=; b=
-	KMRDeVgOC+OBztb9uU+EQBxFiND2m33Y+Wmm5baRsBQbT/lBM4Azp9kpCiMvoFPc
-	G4xbRoRna9OfflozeX55XobpIT33hN1zA9ZoizSE3fMkDn8LCYi+quDa9ubSSe3q
-	speBvW27945kspfoZdlcWRjp2PmfpBTBvtSnvsIarn8z1JLbzK3zE9pz+Qu3SHWA
-	IZg5FMn3lTWYGaQ5MmzJVolEI98E1GY8jYLoU9AIp7rRKr3E39hQvGjA8/fsSAPl
-	MTFn+Q/ebHOBKF9CqHnPT2UYO5/+EFpY544SaZUifvBQwj91f0IlVMg3cd3fdnYS
-	OWmW2ppUosXlvJNALu8slw==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012041.outbound.protection.outlook.com [52.101.53.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4crb08278m-4
+	PPS06212021; bh=0dAADcTZdhgLEvTT5eAix+4SiVveymXHxkAfPEWg3LI=; b=
+	B7EXjFJEqRCQFj9uiqK/HNdihiWzZA4znLYo4tUP1pyxs88LGCgmBT5LsNI6MTSb
+	HiQ4K4573LsqzdesfGdfnlR3yPPayKzp9MZm2++xWC1NFuPnAQ/5ZfUshsbSGvRQ
+	n1j17lY/4fGmx9MceElTgcwCrwRApfkHivzp6gXAx9WPHDzpwUaMyZ6rL0PKDtYt
+	CftNEZF17DU8MWu7VT85poZUvMZo3sDs2QKG45ynswdLrdCgiV0wHyM/28G/BS4Z
+	jkMwd76mzjUgpMP7+tfCzzfA6/eo3cwiyYNH/z3AnbbUMQ4xDRit3JFBxr8L53BU
+	xL51R/IZF2v+Lwl8S8aU8g==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010040.outbound.protection.outlook.com [52.101.56.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4crb08278r-3
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Mon, 09 Mar 2026 17:44:39 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h3/b0Njj4kqkTyN7qP0eJ79I7XSCUUvfJCGEdanySxk/+FAX++zpg83PSo4vM4QFO1y646dlX3TL9XlsWewThcUIOwb680y3b6QvF3lxTr8tXhVtF7phB1mJtuPKVgr+b4RTPHeqqJQP1xnZlz8mh6rxrohGljxDAwL5FRPrnMd46v0k/oRlEEYtKdqFCqMz+fnPYIAh/K6soa3+vVKEG3X99sMQjabKMPj1OQGeA918mfZUgp+LHn3Z9Rx2TK0t5Ze2vhwSIUvcPCkpooBOF7h5vzFiem/4X757fL2V/Dj/+MnoWb+aevlNFIC1gt6u8SbEpRM3n1LD6dyAKgIHRQ==
+ b=dYHbddKc//1H0f0UstL39XPHUU4aaXmHLlLyiuA8+m5cVyUQsb75LWm/y+pHPavtopCH7eoHUQlGkqIXOr2Ha/TVqMSFj8v3IqJwsz+u/BswFCbMmudOhTJLr5dJRC+3ljpswgFUBi1hIU4JYgYbNGfKsEa/VouNsuzZMZhppPmOM4cLSPgu7laEHGoreU2Mafm5Dm791rF44+l3yAF4oJX3Bs4ah0GR5M8wAb2nL/Jva0dOl5fhoR0iYbT3AeRm+THVCNaMLgvuz4YZeBS0KVH6NZ5fe15u1OEPPtyqsvDZnwGFB2ANaoGAOwqW3AATBiAyuDAig1vlhY/6Tdzrfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/ipUJQlymb7LsVfHv5FEzOss9ZqEz8ZXdGDkGeKekdk=;
- b=PLoDyBQ4CWkco67EfVxVp6v7kA7mGG5+jwuDf9WobXrs//lJabZybONpPZFLse5L7hbFtbr+rz+Ur/ZddCsnxdPKvIoPGSXc38GUkyUdKQ6Y3P8mKEQssyRZp+OGNUEV0DWpogHQOZsV/Ko3LANxoSA2kNhj9oDFKfo+x7C6CziCFMNTZzig4onEMr8nDV/mHv+sKILB4QwdmMEum/vgeoA8LzRkYYfWkBDRjOgUVqS2lmc3g96hDIv4QQ4UMnQxOELo13xBobAHtevxanE93pPJPB0v0684i7Xzy+kfWU+1oMxgk+MFspuoZq0RIDDr0rLsNOCWK350y+nuqfKEOQ==
+ bh=0dAADcTZdhgLEvTT5eAix+4SiVveymXHxkAfPEWg3LI=;
+ b=FR2fNksQYIbHD3T5P9Y8TURBmYAQksmUsJc1zgIKOX4S+I4jGmX9/+7Y/TOmDgvVPdseOTDomT0zznM5scv4ZsLsUUIX8+03t8FkXXIjfaXqyU/rae9X7+ttDnoBP2i4y64VmMn2Utmg206WcldH456aH8hMZ3jxNoa9LxqoCZhh3IdlGpg0Qm+FLZdNW93m3cjwFa6/7t1igWF6Hr154L+TCoClb6NRWKRc3LnvjNu0zvUDuw7gP+JlVRQ9aU15wub9aMeG380EkmUcHy5tyoxAr1Om9ShGxDrcFFEWI8FIuFJ15BADWggZq6FAxzvcvqvOkGZJrCPH7AVlnra68A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
  by DS0PR11MB7190.namprd11.prod.outlook.com (2603:10b6:8:132::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.9; Mon, 9 Mar
- 2026 17:44:30 +0000
+ 2026 17:44:31 +0000
 Received: from PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::6852:6964:54d3:49c9%4]) with mapi id 15.20.9700.010; Mon, 9 Mar 2026
- 17:44:29 +0000
+ 17:44:31 +0000
 From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
         yoann.congal@smile.fr, richard.purdie@linuxfoundation.org,
         ross.burton@arm.com, bruce.ashfield@gmail.com
-Subject: [PATCH v8 12/14] meta-skeleton: Add rust-out-of-tree-module recipe
-Date: Mon,  9 Mar 2026 10:43:44 -0700
-Message-ID: <20260309174346.3384212-13-Harish.Sadineni@windriver.com>
+Subject: [PATCH v8 13/14] make-mod-scripts: fix for buildpath issues with rust-out-of-tree compilation
+Date: Mon,  9 Mar 2026 10:43:45 -0700
+Message-ID: <20260309174346.3384212-14-Harish.Sadineni@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260309174346.3384212-1-Harish.Sadineni@windriver.com>
 References: <20260309174346.3384212-1-Harish.Sadineni@windriver.com>
@@ -66,77 +66,78 @@ X-ClientProxiedBy: SJ0PR05CA0085.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DS0PR11MB7190:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c2f2baf-7cbd-45be-f5ec-08de7e038407
+X-MS-Office365-Filtering-Correlation-Id: 1831274b-308b-4642-06cd-08de7e0384bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	CU53kiNYPGyZdZ3d8lPjR30sK2o5EqomfBA1e8PKye+lS3Yxjtpq3KXsFx0qJGIpHYcklRq2CgGsGYa53TtaeROP5g+jtOuWnIZ4W00UVKLPJAcm/0Pvny/CcFHHo8LZnBmExcMykcnjzOHf46Kz8sfPiVWdep2fj60sJWflSdwdv01dcaX2SC6xOCIlp94jmrESWVaE/ClgYOu0+2enm5Me4/zFq4H37LWNYKFlIAfhhwdMz+w7hzXCAaBANbaxGjw9S4pek4+5fMenrNHY2RBTsOcHYSNZHnbb0AUd6BXEV7VY0+sXLF8E2FFG4t41DuFDsbF84pxwSH3TdZDGhU5c62AIgmvB6SZRUIttquxhWtRF/fskA5zj3exOzMF4TFxIR64NVZ3J9mt0EYHI4Av+vwVX/uHzF7MTCDGx0ovV6XzLfkuv17JFM+JkNSbWnrwwVNKifX37CImCkuKrFpKJeyAaRbDuZq7Si3pdD3IfdeHD2sG2ZUa3X8z98YFCXRmP5CpQdb/tX/2zu+LAkgkNbC/n8u5YJAwXh/oXuuLmlJI3mJ7oXmpPjMv/s7Y56Y0AogOXwY6lKXQaccsYngcJkNOHnWID8UZll1PzAl088Xp/PzYTsSQR5293U5P3buO2dioOrJ/VpgCJPo3HxGBEAaXxFgP3vubrY9jtAPi/vWv/bxkNX6544+rJXVCg7JG8eFDg3XBGHMy3xLB5nSghLtoKu/gcLLLruWqUFVKaLgt4iDMvIugx21hdioYg
+	ocelPDmvUs4R1HEoPumYXI+lb1AB8Gq78Eaw3wypcfYKosJRVcNnE5jSkRstSkuv19TTKpodDSHr9c5VUIM/0gm8lnjdBfgGWaivQ4IZ4mALxNJ8Yi4QKn06wWMqRljQIXvVOmOSc1gSqPWIY7Z7AeElpxDSUM+Ys+dMXR3qjV6jrh5hYO+aMDi1MPC3UGx2WzAZ8ZSE8ncjk1B0hlq/bZ0pxjDOKpLQHVJ/TAfKvBdroPKHdz3aaBtyhjoRL9FKJLy0qOyPZH81J7Hs8uufW4PaRiqSVzfguENk8BPOQpauKO2wPh5xmer8f6f0BQqEj+jZrTXDGnXFjvjWoyXtpiLLD6xJMEf0u+51nNqmuhJzY54pwicHLX/y3UMJ/o4CQjZLucRHkdDJ6Ij6K7Pd6ponKN+DuxNfazRUufbea4NO5Bhs3AbwbjnZTcnDuN4Foa84iHIglOfFmZ6XPwYdgyCd91p7x6Z+49qdIsQ79HPWypBtdcJJG3PCpYIE0Y4J1U9QspbF1FweZQyZD9kk5FJGh9egIL0fqKMALnm8keRxVyhBE08Fz26zgOZi69HuUP0Xx6wNGenahQwXojcqHU1bbj7Ic8331s+Mz3dqOAGI98hzVeiSAx6ctlRq/5d06+khA6WLmHf8WXwZ8RB9QtMqPjk7aShKw077jcwCk1NRaDbJ2EBLd2+M8zKNW/tRCMCJR9ds2QMokxYn5Km2Ir3liQQjC56t17dR74Bo/Fh0iOjWHOQHbUnTj6X56/io8u/1WS8RI10cezFnE4YGbTefxbXYqWgkGHP6qF6AgVM=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?l9I5oGY+msyfqS24z66w+ZlWimuTS6nM117sXBsIc6bSEMbppy2Z0TCwqrGW?=
- =?us-ascii?Q?HLRvL7ee+4SVW37uo/70KrFNeTnrOm31KlQMQDPXOB5WkdGtRrSyVIR8Jd83?=
- =?us-ascii?Q?4jocr4t+Hw51iQel8AqST9xN9E3duCQouvBhz84ptTcCtBHMIOTgOLDXe/rM?=
- =?us-ascii?Q?wve4UWfh0yOkLX7gF8VUCH0dR9p/jGzb9R9mqgb5sEUuetrCe3mosAK5M1Az?=
- =?us-ascii?Q?r57uUvSdj4y4tNp1x1NEflqJtkCHgxMaW++cUUuMuyGmw6kUKP2YIGRwyINP?=
- =?us-ascii?Q?h9rqiM2AeqbQcLDSSGDQznaibb3h15MhZdjf8o5kith3mNFXdTAbQXaj48Js?=
- =?us-ascii?Q?yFCwfeNVg0pRUtB86Yr9BwevGaKUo0mznft0c9w8SBUIHtyk4iQQrxeigRMu?=
- =?us-ascii?Q?1m0dNFaYl2ReU1rNpbhq6zTq3u9QY+udm+7l1TMBVwsBQAUEXbNySHFWAGiw?=
- =?us-ascii?Q?C4vYCEnc7aMYCzzV5xfqCnI3YgCUrNng2Z6kfWpFlCEve0xfVCcOImvXvaY2?=
- =?us-ascii?Q?MfR/sqJskXAolRdyIVch7IG2lVe3JFUih8WfQWz4WKD5Kc60W4Pxq5IJG4oC?=
- =?us-ascii?Q?wyxvU9EAY//2+2k5+O0NTqBQjb+IK5ENJtfOXapQFiWDsG3MpPtUeSAYXzG9?=
- =?us-ascii?Q?qqNEhZzqxSekfegvSmW0EnXmuCYaA7bCCg44NcdKzispCdwmni55G73KM6qx?=
- =?us-ascii?Q?Q6IBnErU5y5Jl9KqP3tmm0RQfhi38tPqrhROFsaiAyzznydSR7Ell1toEijj?=
- =?us-ascii?Q?FNL3HxLlLXNBDmuWsjpqAysW2TUDJmJfoGQRTynw1Gu/3FoCACv0u8xiyTVF?=
- =?us-ascii?Q?aWXkWimb01yEsM+JjVWADtwJrhrQwL9iULbpyesQdSr1wptaaG0HmasOti61?=
- =?us-ascii?Q?I900Eo2xcBACX8KkkT6unIZ0wpAvY7kX0wWZ9tjmV/Y+siYU7+EpAiyEoMas?=
- =?us-ascii?Q?irYwvz4O/U8kNJA/Obnp8HeaUHxN7HEksQF+U3rMUemXer5yfiLJcf8eHrf1?=
- =?us-ascii?Q?+ZdvwkGM2G+bFZkBKwPd26liLtZq6tvSa7h23bLRWNYEnft8d3Dx2X6kf7cp?=
- =?us-ascii?Q?7rao6aLtKQfv9nhfU14MMVKwIF97DAiUIXyk4VcCj0i87yotQIRAj7wRPjgW?=
- =?us-ascii?Q?Iu4hZccaZCotVECOPZ0Y4XlPd9M6XEZXfnA0DcMmIL9QrlOPc6vFDM3e7AT0?=
- =?us-ascii?Q?QZonnhAJTBlxIT1ueG9xngiyoRra8OZqQUBzLszA2Bqcc3GeEBAi5d9XZcfy?=
- =?us-ascii?Q?76XmIrnXA+Vikoq5K47NCS8cQxr14lpPGR3/fJsFbojWRNStsIP/NORs0TKa?=
- =?us-ascii?Q?eLnaODQlKphRg06CWxGK/K/jbXgYVqsNH/y8cjw+96bqoXBq0qT7EKb7zAd+?=
- =?us-ascii?Q?+QkjbczsX3MN/ABLCv9F6RlVqXAiwfpORGzP8+YdvhYzcw1ZK8KWUJFWWHqv?=
- =?us-ascii?Q?4E4kKw88idCSAvhD5xuHtruDpjXQc3TQoicGfJesdDVV3vHrRM6C7eAfcup2?=
- =?us-ascii?Q?zLpD+Fv4LiHE8ssDfPmWSKMaynXZoCDY7iLHHLrJcZFCaSHPC+oYPkfIkxm2?=
- =?us-ascii?Q?1Sv3j73hxDpUCWWbDNq+ZzQYVucyeITNLmgP+ZOAJqnMMp7tbLF2FZpT66Ml?=
- =?us-ascii?Q?rSRd6zmh4oWPvxqdgonRZcbTKnKCklQsOCo+Z5Bvdrgn48If+ai/YYe5UqEo?=
- =?us-ascii?Q?xGq5nOhlH9w3Gwfc92gT5I4ij9dFzTc5Wi+nILl2iS83R6s4ii3KO47WSCPm?=
- =?us-ascii?Q?x8rlCbhCZb55f0VDGvRe8T1fsKgzyTc=3D?=
+	=?us-ascii?Q?/RS8SGfHv76r874t+PPWIRG+0vvp/QX0pfwSGiOX3L7NxWyPsBwvHzpjTZKd?=
+ =?us-ascii?Q?v5UXynzC+2RwZW/9qe7MkcJaRRfG9D3e5lX7yOaVZ62yGN3sk2Ty6i+6oaJl?=
+ =?us-ascii?Q?fQFFMbQG63zwgi+dWHlY6n5gMEqJgcy1Qpn1GgUkcytelRZ68/rK54JjAO1y?=
+ =?us-ascii?Q?2G9ujyaFWsiFz7G5v+r1Y266Nlx5cUhQ0Z/47wjfpWN9xgFEf8aR3mZgYnyb?=
+ =?us-ascii?Q?J96dEK7FiUXb9AsqlwhyzW7AcJjKV9BfSCLrd8vh8iuJutVmuQgWRqNlpQD8?=
+ =?us-ascii?Q?E8pjkanmKivL9lKDy+cDU9DAWf5DlKr4grrVUyzfHeS8BePQ4R3xzEtzAYd9?=
+ =?us-ascii?Q?uRg7lqlhb66RRu+jOcXAc+bDP6FDJIxz+mtrXj0ez5z6L/AdRFGPnSvkdHFl?=
+ =?us-ascii?Q?9w6mhnfEsMObkVK3Ylo+nsmVr6an4s0KKyF9k6TOmcPki3+4LcE9PAT7P2Ws?=
+ =?us-ascii?Q?I2vwyNs5QlqMothRsC25xvSvk5HglS9+cy6fl535FxhDKJo7mVJD27a9AWTS?=
+ =?us-ascii?Q?ooYf6ZhiNa08sJ51txOlCF5K/ldhaNTP7vsPoMd30gOnAX99fsQRG7/w+Y9s?=
+ =?us-ascii?Q?Q3UTecIMnWao/sHgGaYT1KgUCW+sDiczBhHKSfMDc+FTTzeyKivgRIVnKLpU?=
+ =?us-ascii?Q?NjXhcDfl8JRWHAxs/qEVNXGqv6m+ca9cLqIHJiX6QEqJYjwpRbmT95CaJ84m?=
+ =?us-ascii?Q?jWbKgNxebEJIEstIBRMTy4fN2OkxEK2IFkyMGqwY4XR6+Edy+gxQ+f5fyrwp?=
+ =?us-ascii?Q?fYtfrD0rymsqRxDRRSRHaNu0MtjCj/lhelvVM4Sg0PSxEabJ0qPnvi2SIqTy?=
+ =?us-ascii?Q?zor1VBJqNHvytKMF20qrKmwu0IFMPPtrKfjDauhDlS7igARHt3Erfx1qPYPT?=
+ =?us-ascii?Q?cKFM2QwuskYg0frhM0vnIH45hAsr/o+K+wAqjxzeyShrm/CfRnEdHt1VFjOb?=
+ =?us-ascii?Q?YJPbChKfozIAVCc5CKJDKuHowMheedqJTJjbkCEM/GRxZ5NND+qKM6w0rTgE?=
+ =?us-ascii?Q?ZSKy62NwfYiCv69jA21Am+ReT6w07vxppM9UTGqo1IT+CXyBQK9Pg7RHE9v9?=
+ =?us-ascii?Q?H/zb0FCKtSUJjbdoz6X+Q6eSRqovYsccj20JyRlHD6f+wxx0xpZ2NIiv/3k3?=
+ =?us-ascii?Q?3KCw55b2XDdF1SBtT2RQjuFMFSIRU9gdmYyQ13wzOHDB25wz57+S5evgHNrF?=
+ =?us-ascii?Q?wnnV3pWWC6SuzBcJwv0bxpmEaeIB9OPIVkbHb+063KLottexcDfi7iYOv2nZ?=
+ =?us-ascii?Q?6USDnHURB0fg20B3xyI24C2kM46KwLpOU4XsgNw4G5A9v6hzYRC7DoAULLxE?=
+ =?us-ascii?Q?IFhZGp2DZb118dqdJFq1HERv6LXN9ERRwC/vWRzp6CFr8/UZL1daBFdmzjMS?=
+ =?us-ascii?Q?P1glCLC2EY9namgMnrP6gBE5A60GLcbNoLqB+W++FxS+sKL1Op8mfTypwBwR?=
+ =?us-ascii?Q?+2MnXSBqZLbYAaz93f5jK1TUxqBwfvy+jyDLetOfbSuqY5VkQY4u0sE+mBPh?=
+ =?us-ascii?Q?E+1kwTFk3Wd92h3Ko2Q2XHHz7RIK3mYbmdqzaMvrbDdRKkbhWuqv82PuuJj5?=
+ =?us-ascii?Q?DxJBuLsxU9lB59dDOaFaSLUDMbrj8+exUo8qmhoKQPTCLMYjvyteE+bsL655?=
+ =?us-ascii?Q?p1qkirGdCE44qb9klSQQHVOF5a5mVtGUSYsWz5ojX8Iii2vM/JYZ3DJdBPP+?=
+ =?us-ascii?Q?g0qM9QGrkfv8aGeVygbGRtEhgiqRs1LMn4f8lLa4+wm1JGIGg95UpAzYak4e?=
+ =?us-ascii?Q?DCN/37rusV5fXsSYAqDhePCRTUjcIu8=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	sEw6pa4Jhbss0Mv3r6u3i5NJNmDihAugiQaxjScOX7bNmrVHJdJ9tQ3YR9/BdUbryZq1fCGVhrOXe0Cl5Bys2E3bATc3qIQEYlcuILO9SL/nZ0+jYtfdzqE1EXqy+rcqI+Z2CI6iQDp+gL5WEAS3mai9wGTDjIRl48QCam05kiwounDBDb/Npjdma7qRX3aS1VBIIfMZxScZmmWy1gdTjKIC01yD47kez7NVxh26ofTv9RFuxO2eTcc0QXHfxrUgwAkgfbNE1H8gXMPi9SoT2SGZ4zCQGp3QdRq4h8h6Crb7maITu1dHRfWn1iyn300uG7bWA0kd1BjS4bdTEUZjMA==
+	awb/7sgTpw88HJ2WKLWtWOs4nEnNRQOLeJcrp63t4LKVIAMziYxRl3K9WMcEwGwMZAgvHYEx7j/VSPcGj4RP6vpHAem/Nw+JSQW2VJfeg68f4L1uaz/dYP5sXnQzNPg/okF+qup6ChADoVL6zQf3J/+Q55dCgvM9wsztIOiIZ7zyEgnGTuF0TgRRmkylUY2jeIIdVXp+wMhiYdxWyVS/bMMyP1AGFS3BAo5jvIdDRdqxE3mmjQADuPB6mb1CEI18oLre0llR+G25KitNHH3KpYmjnRRPQrkA1lysCzvJfUIGGoTdNVs2nM6QjOV1OCV5tQWi3L0iVaDSVw00VneCIg==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c2f2baf-7cbd-45be-f5ec-08de7e038407
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1831274b-308b-4642-06cd-08de7e0384bd
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:44:29.9107
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:44:31.3509
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: djyARa2AUJZfzwdpb9LJbNmAoJqNV9+VHsGKzVOmx2fo3qYY1xSNhe3Zsu4Ce9LokUmpphdWUqJdjyhMQsETwNKoSu8DXw83JSBhRKFrH5I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: fWAAzTu/6aLTy+ZE+96JjPEL7Y9X5/bxIepMTiZk55CsaRt8FBPFFSYBl4Jb/AtzFcdqIZ6v2y2BrptGBOkLfZ2rac47E+H50WXewkXM76Y=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7190
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: F3xzJwEfjfMm_uQJt2EU3f-HQFjXnSJE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE2MCBTYWx0ZWRfX/G+3aTKQl9W3
- x6lOrvlTMmCxLu8HssmQkYvz/tzU7wB9OKAziigSwVMfWFvcS5jAM9B9CD5Jld9UW19OIxuKU3h
- rFhOkRvSRiTeJb5tgC4UdAJVOrqpYbvLwzt3Wk6fmTJTu1XIF06ppz/DBCi+P31F8xcZ8jPmKEa
- R5YkLev4dR7OLFOCLuJCBwF/dC1hBJd1otg6OmvyXhpkDdgyzim0pd7LsPqrLL7csAlYSeNekE3
- 5KCqTB+VK4cwSKOAExy0JMawZMqPOoP9V5gBKcXHri1GVmxyw6k+IsfQLGalnJD7X5aE15iQNiX
- ahXy6zgUQYTFDjuHwpYQbUd4lDnbes6+9VXUTmq+GDpapGhShd8wWhTNmwuHSqPkMIsLFZIJLXG
- 8AzqI6ffW1OfVflyLjDaz1rErjM/BzGph/Ptzie9vbMs76oz98PD6S3UWohKBJePucHSdECf6f5
- RU/xsCZTOJqSbizwf/A==
-X-Proofpoint-ORIG-GUID: dQOHxq2VCwIcCOeW0j_S8GcQx7RPGjFI
+X-Proofpoint-GUID: 45UlG96pYrO21flCMouCpT5o43y2TCGw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE2MCBTYWx0ZWRfX5KGlrRvbDcew
+ 97WPBlZuR0V3DvvcJC1PA+JjUfqQVPw/GYmXvMT9SY70Qa8JXzO5gQkvlGUxHFvmPJyCrwA2ysl
+ RTqj1acCLheiAZW6BUuc9YaycmYMxyL1CYxu+7K/fyBq8EZuZaqcY+cR1N8NfTiLbAwCDPvD1uG
+ 9lTrJWxXh6aRz2WVCTPWRgW80xk/u3klOBlbgl213lYkJq0YUQoPrLdLcp6qqgQstJl+kOXijRm
+ rB1T9QrOUDa0ANVuuWMKoV9YxKvQTJlm80lA1WlcQDXHNyhnHo1yFu6SUj6IR0PQpThNwps7q3q
+ R8tIi9Xa/slh/fl5iTOsVMXZmeugtIaGWjsjpp2Vl4Pu7CSv1MjyFV1hSElvzxAEWpvcMAhp1ff
+ /D+zE7UjBkVKUla0gA/IdrSFq+ill6izSc8gSJJyRhM1r1sWjE7poPLkdeYG/HOCNO79YTBifss
+ orUaShzU2msuBw8PkrA==
+X-Proofpoint-ORIG-GUID: M1nrYqqWLvFmJqFSMrd87pZyO7kJvzqP
 X-Authority-Analysis: v=2.4 cv=UahciaSN c=1 sm=1 tr=0 ts=69af0708 cx=c_pps
- a=yZuzC5SkKTYVmguxKPWuow==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=gS8+cbQEeirDoRw2OPG9zw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=ROIJiIjWYnIpTvY2ysEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=UhGsRKG8cyjctxJ2D5cA:9 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-09_04,2026-03-09_02,2025-10-01_01
@@ -149,44 +150,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 17:44:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232749
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232750
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Basic template for an out-of-tree Linux kernel module written in Rust.
+Fixes buildpath issues when compiling rust-out-of-tree recipe.
 
-Mainly to test Rust integration into the kernel.
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- .../rust-out-of-tree-module_git.bb              | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta-skeleton/recipes-kernel/rust-out-of-tree-module/rust-out-of-tree-module_git.bb
+ .../make-mod-scripts/make-mod-scripts_1.0.bb               | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta-skeleton/recipes-kernel/rust-out-of-tree-module/rust-out-of-tree-module_git.bb b/meta-skeleton/recipes-kernel/rust-out-of-tree-module/rust-out-of-tree-module_git.bb
-new file mode 100644
-index 0000000000..077780a192
---- /dev/null
-+++ b/meta-skeleton/recipes-kernel/rust-out-of-tree-module/rust-out-of-tree-module_git.bb
-@@ -0,0 +1,17 @@
-+SUMMARY = "Basic template for an out-of-tree Linux kernel module written in Rust"
-+HOMEPAGE = "https://github.com/Rust-for-Linux/rust-out-of-tree-module"
+diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+index 7caace5619..6b4de9aed9 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
++++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+@@ -43,3 +43,10 @@ do_configure() {
+ # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
+ # Disable ccache for kernel build if kernel rust support is enabled to workaround this
+ CCACHE_DISABLE ?= "${@'1' if bb.utils.to_boolean(d.getVar('KERNEL_RUST_SUPPORT')) else '0'}"
 +
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+inherit module-rust
-+
-+SRC_URI = "git://github.com/Rust-for-Linux/rust-out-of-tree-module.git;protocol=https;branch=main"
-+SRCREV = "00b5a8ee2bf53532d115004d7636b61a54f49802"
-+UPSTREAM_CHECK_COMMITS = "1"
-+
-+EXTRA_OEMAKE = "KDIR=${STAGING_KERNEL_DIR}"
-+
-+# The inherit of module.bbclass will automatically name module packages with
-+# "kernel-module-" prefix as required by the oe-core build environment.
-+RPROVIDES:${PN} += "kernel-module-rust-out-of-tree"
++#Fixes buildpath issues when compiling rust-out-of-tree module
++RUST_DEBUG_REMAP ?= "--remap-path-prefix=${TMPDIR}/work-shared=${TARGET_DBGSRC_DIR} \
++                     --remap-path-prefix=${TMPDIR}/work=${TARGET_DBGSRC_DIR} \
++"
++KRUSTFLAGS = " ${RUST_DEBUG_REMAP}"
++EXTRA_OEMAKE:append = ' KRUSTFLAGS="${KRUSTFLAGS}"'
 -- 
 2.49.0
 
