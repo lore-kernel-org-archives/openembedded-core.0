@@ -2,39 +2,39 @@ Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58365FCA160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 674F6FCA164
 	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 17:44:28 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20797.1773078259433577750
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20753.1773078258849708617
  for <openembedded-core@lists.openembedded.org>;
  Mon, 09 Mar 2026 10:44:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=knqKbFQL;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=VMwomoyN;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7528dde4fb=harish.sadineni@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6294Ursf3973763
-	for <openembedded-core@lists.openembedded.org>; Mon, 9 Mar 2026 17:44:18 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6296LbHB4160785
+	for <openembedded-core@lists.openembedded.org>; Mon, 9 Mar 2026 17:44:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=WI9UTs2v7VO8J9ewnMcuHlCd3Ax6HB673Dn5gF3elXM=; b=
-	knqKbFQL+ozWbDtKqpZQW52LJJOP/p+9B4mdtApX13YbOlO2UUYF34qMhIJG7z07
-	sEnorROYqc1M1FJv20j5rWc6D4LCC4zK3ffq6j/0zpdgn8vMLXDWA/Q7Y+qnNrg7
-	rQkP9ARS42Nbw1BYdfRYfY0cFE/Du14qK6o4b1D1i/50HAU57rHrdNd9Yfty/NEJ
-	qPgOj/r1mEbaKjdW5och4ZCDKrptJxlFAOo5pv94KeeD3MlFniAkujQzOzXgHZex
-	SYPaXyLiDTeyUJzGo8ERZtjcC978X339XEDAxyV/xd1weThFq3VCjDUdx6fMt8r0
-	vtZSlOs2s4YqtAaHecWFYw==
+	PPS06212021; bh=VgbmMwuC7wBNvp/BggXhnz1+Wr5595BQJQqS7issZO8=; b=
+	VMwomoyNWzzSgs4zPEgGVbMhBHrIXrB1v+jk0qgEH+deLQn54ihsenNVfbvTY9PG
+	2fTOx5Cw2aPMwRvOiVh90l/sPk1HBBHfPEjp+U6OQ4F21HxRr00Z14sVyXhn1Lrb
+	iCjYljJTWXvAf88G3WNs2aVeHe6EKSV9khbyJzhh3fNo/HOJ83tvSqcq3uj6iHKQ
+	axcY3ThM1aMD9gYF2t5NmqnwvkkOK0XVQ6cyNuc1I4gSELZa+alelERVmoAdZHfT
+	piqCmHKAbRa0l8Av12Z/nGrFhorqnfbO7thj2AUujCPsldQwJAp1MUgMWUC2Jbgn
+	Q6Oo83HpwGdrLStjT1Ed9Q==
 Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010057.outbound.protection.outlook.com [52.101.193.57])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4crb08277s-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4crb08277s-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Mon, 09 Mar 2026 17:44:17 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qLZIe5FuFoAOsCLZTUycSJqEiS5MQ0lN+fhCGCGwwsx3tgoMoboeNvOAnhdMD1ywqs/BwL7dX7ubtio9NyzdE76uDEk/9xzmKC/AoBz7UNIm3KrKGYH8fJ6xYkiGw/JUPh6nQjy21UObDm2DWtViDJdhQAbh98Bb5PujaHGgXgQs7aUtaGyFbWxKrhN/7vaqBxwaCQpsc7a3T6tEz6rk91eXN2plCqiSXsEt7QlFV/kvNMHoZxkPd15zBs8aKaiKrBSefGWVT27h9wxrajHVYYi6jSwTd+MAsYA/7tRim9VLBQ0DLXTb3BiEdgsqglimihjZ735DWb+VzHDFCiQUeg==
+ b=MQ26/y+XhRE5iGL13TnzI62TCHozA49mLPjTWnNs3KQcOsZOpMfAYsjDEx1brjPrLmo6rHln/usrLdnENKIOBcjJob4JzruL0W7syrNDIgNNT+Yk/IOfvk2sSdV7mil74MGK1TRZFNLfU4HkvoJ7lTKkF5Y9wglJiTcn2tiIz84pvOHTp/BOCDRA4K0wS9hqrAakHlJLOpA2HRhKTv4FmggEm531qTH1xdyu7P6GpEmF+mW41uiK7/AFBlTX/ETkjMf8T3FgtMUA2Ix5KPeoFpK5q3KhkLCzGUoxhBDVlYHszWfYw+vYyUVCkVHjzGs9F5oeCxH8sdPET5vFEHwCug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WI9UTs2v7VO8J9ewnMcuHlCd3Ax6HB673Dn5gF3elXM=;
- b=ioMt5GIPEOB0mYxoDDyDbi7r9gZv7sQTWqjrJUq91/3C/HXl9uf9MV3TP6qzfCrEh9UPgre/NYLVw4WBR4Wb9qLWf2MgKwvubHW5YMHvIpGfPUzo+IFSTdUElHNe8wJpdTjPfYewVOVBsmYyqqcv8MzUCZsVEkfTB4A32njY2m4njluWGK4um57otGkgg65bEPISFLqgucacuF6bGC3OAs/uwXnh0V5IM6D1ikb5fPEFgnu/DJunyRqydzBE8hZAafHgNo4iqt8KWgamWfY/LVwT/myzbcp+3v3EDy8YbDneJpABXpiJiMWz/5ni0/D4vAaly2T/rN30O8yZ6FaPig==
+ bh=VgbmMwuC7wBNvp/BggXhnz1+Wr5595BQJQqS7issZO8=;
+ b=V2ouy6ndbo8ncFj3APHi20GALXNA1e6/Aj23q6dJc7dTwTZ5ShTA/9JHQsavJSR/O5qrndOU5pElRCndW13IlOwD/0lH/WOlYnYpjv1tuPO3HgGezr7F52UDrsIZv/htt2oWRi8kRJd2nbP6tIktZ+ahrZBm17U4kCIW0VBk81mi3piOApLmGktFBm1zD34GuKCjNhtV0c2GW88CPT0oKSYAOKST0f8y7hH4XvbbjNmNQr1+UJxFuFNl+xOApWipQLWhfubVKaYEOtRdyqcl4RTt0k5PhPNokzQq+QMHVwcHE3EA0XOs7fLu0ujnTtCKPvLrCtb4PuLSzdPicEWKwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
  by DS0PR11MB7190.namprd11.prod.outlook.com (2603:10b6:8:132::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.9; Mon, 9 Mar
- 2026 17:44:14 +0000
+ 2026 17:44:12 +0000
 Received: from PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::6852:6964:54d3:49c9%4]) with mapi id 15.20.9700.010; Mon, 9 Mar 2026
- 17:44:13 +0000
+ 17:44:12 +0000
 From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
         yoann.congal@smile.fr, richard.purdie@linuxfoundation.org,
         ross.burton@arm.com, bruce.ashfield@gmail.com
-Subject: [PATCH v8 02/14] rust: install Rust library sources for 'make rustavailable' support
-Date: Mon,  9 Mar 2026 10:43:34 -0700
-Message-ID: <20260309174346.3384212-3-Harish.Sadineni@windriver.com>
+Subject: [PATCH v8 01/14] linux-yocto: conditionally add clang/rust/bindgen-cli-native to DEPENDS
+Date: Mon,  9 Mar 2026 10:43:33 -0700
+Message-ID: <20260309174346.3384212-2-Harish.Sadineni@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260309174346.3384212-1-Harish.Sadineni@windriver.com>
 References: <20260309174346.3384212-1-Harish.Sadineni@windriver.com>
@@ -66,77 +66,77 @@ X-ClientProxiedBy: SJ0PR05CA0085.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DS0PR11MB7190:EE_
-X-MS-Office365-Filtering-Correlation-Id: 239e82d9-b274-45e5-1b87-08de7e037a5c
+X-MS-Office365-Filtering-Correlation-Id: c9c3c0e0-8d26-423d-6dd3-08de7e03796b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	QfAB75RIbMGnTFTZ/7CfeHcAWz/xNKbI09fNsr8sEfK5f81otR9C6WEAsKTpRixxngKudwQxu78OYO+BK9h622SNV+XqPLJHw7xrWePAHf8NMdzKt6UtLkaZ+Ti1FQqYdXGR+tlYnWEYexc+o7osAlYfKwTCaUf2YU6r7qXyCGGH3wAQSTBBzjncRlSAFwh1pnPR5hnjhzdlz4eFsO7cwkS1bJUIoLLgS7GeSw3Of4bkQtOLiRDCdrA3tWfHXPNcX+7FgDBzs2n9A2C7i4w4rPO3Z8xjHeLFy0oRgKjp2wvMhCvIyzgyEAwzjh+YxNELIQWMRnVazfvcxy8nyyEtSS5H+UGLo6ASe59CEux+w7AcQVX50QaR9kM0a8zcvTIx0dU7SpyfZVrn/6ZOac4N36Lnu4ET4G/QZWDxybPAw2trARWiwmlahs9TUzHRkBb0pOlpNGFiCGFTwJgrlO7liHT9l4gMhn7TK7gMtXbrsMk1N2hyJ0yQ0U4k3gNlUj8G54aIsi/LypxC5h1M29u4w4ewNK0bqJiQSbqy66KauJ5WlOJkgtN0sSJk2MC/X4//WJh3eiEixT0dzVGAdbTp7jJdHJ/6mik7GPDMp398Q4D49heC718A/LLPJ6E+qAZfhtdLJv3HEu2VpiMm0lu2w5poDSLwJmezlO7FweRqWsrc6JAU6wyekBR3rvq/kdHiljyX+/x8BD/X+F8V4dRZWlvusRs79NoUvYx59fhgtrijtnMeBVDG+kaO/87/Hlnq
+	gscp/B5BmPvx0V1NFxxpDGn5dFJNmRLuwD7IBE9Iu7Ddwwypdf1RR7sJ/wm69m6FQCtP8nxBoP1IF8lwU8XgJubqU9G0nXolqiRmvGtnpm/nO03Ipsft7I8bQwuKAG03P9M2thm+9IkQLrmQ1KxEdpvDt2Oeh9PVARb6+H8xPI70dy8/v936d5WJpT0AqBnf0qs3j6rASDuwYNew8JARyoBZ1vv+8Z3bLzKuGFtuu1Smo+aPkx5/q79zrMl5nOUN35qUQz4ogD8anwAeOs+JfyGJVwcbH8e1pXA/B1RUxsFmPLnOmfIzloVBfVGupCYbv2SKtiXmRmSW4Ph5WuTcjzKvkvwgDh6Wm1WHP9yc43Futkz9el5t7JH4V7tNUP8EULfgE8fBaEl4NPJ8qAt7uHAdaSI42So7YBHdJ215zEjEVXtFNzsXv17xI3NeknG/LxCUuOukArm0forb7883gU+K1AxZ8ckUHU6DsXbE5Xtr2zJQEKtlMxww3b1obMQ86ZcBk1aZ7vZgrWNkSKo6FlhYsN3nN7f+VlN5OE6kG9LuJ+PNAgg9HoK86+Kpa3VAyQbqVpFsXh5vri0Dx8VQTHvIRbE7iIF/OTk2/0/CJZVHzEglTAEN7Vo68ryIiWwR96KTHy6fEQUnNEwxbPX3VYjupiwVRBGgbEFQSPaCcRxTZnWX+rosVV/83RXfv8q3fbdaq1f6JMWgCErIPRlaKTu6kLpah3/ClIENhCzuQAeOP5hxlGwsGjatNT0iFHXn7pctPdQfPha1RzEedyIET2IHLUJKgeHiYc2ErEKvoBw=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?pMLgUSAllDzPMgkUpTZPQxQ05wIWgxGIE17x1kj4ChegtYozp0CW22SIVwi3?=
- =?us-ascii?Q?Yj6uy1aqoPuRnSFthBl+FzI6kMaesH39A8Usb0mtVuRRZK4h75Wo3NAC48/W?=
- =?us-ascii?Q?VE9lKnSOzirnxALvq3XOiP28mwFtcOkkf+rFqGW6x/AvcYnUalqDHmRsjwx5?=
- =?us-ascii?Q?csEu3DRbFmR4GXnzF84JASjbS8SlyH68pcJV0tZBswWpCh9hcZPZyKOnRTKQ?=
- =?us-ascii?Q?YdkjuepcZw9+0bPsUX5hyN51e0ReUBosOKO2m/T9uDe9x3gwFe/XrVbQlUhm?=
- =?us-ascii?Q?AIUirFS7zyEa6CFWJP5iZSJ/SV3YORO/S9JO5kPi1K6k/NdpFU3IMB5YA+gi?=
- =?us-ascii?Q?5p4j8O3ERfygtZM7A7ZkjmwxoAxmva4g2YLych++NLPux8JjihatH1cHOj1A?=
- =?us-ascii?Q?7tN2FQ7UIWuXjPFuYmHCPUslyKY4fcR4J9ivwJY7DNyk3eea3ThlGAvIK8at?=
- =?us-ascii?Q?pbb20gTfPTR6rviJS7eEDAu5TjEm1huvhE74b0Fnn1FblIuPXfrglsJSBXts?=
- =?us-ascii?Q?uupOvOWZAa774ewE7o5ITlkOEkTYhCP4RWaIdeikGo7wuagDNZ4rSdF5UMFp?=
- =?us-ascii?Q?MbKrXMutbMlK1FaTtFs4G5BF9IebIKP6Jh/LZp8wX+D8IYAvgj+xeKJOaiZM?=
- =?us-ascii?Q?fi8USQfqeLGskrwAeYObNBdrBZ+nlbcpkJSC/AD/w+RUMM/BYP85dm0dFnRz?=
- =?us-ascii?Q?KTG3AmIuWQbi0Mo89kg4cBVFemdFtLkCtYPb1AEwhsAA4XmggBnj6mQI7uSd?=
- =?us-ascii?Q?8+H0idV6ml4dg/9XZ+a9oL5N6idOQukU3VOxkM8g6OhU8S/ZKs6p/vK6ZtNz?=
- =?us-ascii?Q?bVOw/lhqo6qJsc5I0SmYhEgc1i2ludFT9vGf3Kb05VW4QmVGVIwhmWUFYSRu?=
- =?us-ascii?Q?ANpMqWSi3R207GHPNy3gLPWtbiBSa3qf4L+WvtPUJnnUoB6Oc3aWEEMQuLVo?=
- =?us-ascii?Q?XG5lMPbF7F+vXQ12q2b6wzrKYrDsNtPBSmbzlaBQk78q8y7PqTqsF7iEAbbF?=
- =?us-ascii?Q?yDwWFIUfqj7mX4zdycOfq50spFrPNwuDXGFmjLYxMqOlX1Kdg7m1p3mrYbYi?=
- =?us-ascii?Q?fOs0gtg59Ym7iGobYfskgeJiz1kyDWYthUEPwHkUW2HbDaTj2DHsgbJSg4LI?=
- =?us-ascii?Q?TGxq6+N7pAIZyCYlO7fovBM/NoYE+t8d9fK1Z5U25WiHzhWuq7KpF7Jw4rC2?=
- =?us-ascii?Q?TN7hfQE1fYen6jNccvOb0QVa3GNEdGfK5qMnNtkkhPGkeJPPuH5AkPXPJxbM?=
- =?us-ascii?Q?f3rkJoEZCCxGtLLyPG6wLpOADBjXoNfsAstOzr/6cjkWzbqY3HT1VTfuatG6?=
- =?us-ascii?Q?Xc9pH7lkV3z2iaa7wDOyhllQ9KSsnb08JNenPlzSZyLpcLUnIV7AhEz070ob?=
- =?us-ascii?Q?QatOxmqgGklNrgKx5H3MUcoCnoaq3PnZqaqaq+hZL80o/lYA6zTmx9mouTLs?=
- =?us-ascii?Q?sTBU9URDa6kVxGKyB8bZCh4lT+0gYwgAuyyIiCWNkW0CpbGOQtT2zri8Caxk?=
- =?us-ascii?Q?u3WbH6jnYWlqND9rLc2Gsadc2C23qWyp4vMy/+L3PxL/1nBktZ2uQizyHjW7?=
- =?us-ascii?Q?C1bvPMsop55XIgLqKWTHXXvhtIDMmJ023D05i25vjlRicSVM/tyCqE/6QsTe?=
- =?us-ascii?Q?B6sZUM1pyDGar4MyTdfwNDR/6Rn0ced38E3Phm5mEq0Bvr9tT0cNb2QGyaNJ?=
- =?us-ascii?Q?71hX7R7gXZulYlEfipCwXujJsFnJVaXEuiSsTbZjpiJfr/jWFNDGu0S+4nJQ?=
- =?us-ascii?Q?qQnEDW1d65qIezrJ2VygD7Kxu50X7s4=3D?=
+	=?us-ascii?Q?ZKtFszpX+kut0W2DltmEeHv7f/BX6mL13hvW60pane7QxZAd0fdxF2AqRyZl?=
+ =?us-ascii?Q?Ib+OC6FIHy2j9UFlcNYTL00ADhUcYZ6B5CE5LQvbOpy2+1SDbRBEOM/cwroD?=
+ =?us-ascii?Q?s/mkUpXLy9BgE46SMIGeqiWBUvlNfzTQh1IdlLLD0Vrb8jVLm/BtpAh0ydQ4?=
+ =?us-ascii?Q?4AmHo8NP7TrfmCQBH6bTqkwtN1QP5t3Xk9u0FiqayJSjylmH5e54DxF9TYMn?=
+ =?us-ascii?Q?F5KNTtmYpDb/RMzh7aCJCixJXXJhC7liRZ8sD03ByTh/B4tnZuD+KvKS+7g8?=
+ =?us-ascii?Q?FY2wfCtNVRHQulrJMoCI1VPjfQ2LlSXO2b/RJ2A+rzpykDnmLFkVQJ618xoX?=
+ =?us-ascii?Q?TPsQBVYf1oTwty4Z3PFnwhWxNTVz0NQ7ogcZY3DzZm3i+I33ieLOAOj//8Cm?=
+ =?us-ascii?Q?x8mUJXS3r6+rG3jVnqMf3q5ab+zz3TLghgX/+c+Fgl7eUEg1tSidg5WARels?=
+ =?us-ascii?Q?ZGclKIjAadsbM+fLbsriPbOj7sTHM3ZS1G0LEi/Nm/EOBktza/guu+QnuuIv?=
+ =?us-ascii?Q?WBpnr1VLKg9Wr1T7lyKGddCMNKhdDt6ePgMJCUjnH0HGF3v2QkvZRh+zksx9?=
+ =?us-ascii?Q?sWNEpZx1tqthMvMuMR5m5ihz97k5Mrvhk2ijfZ6Cd+xv/XjSrCUhjKSjmsfV?=
+ =?us-ascii?Q?wi8Btv4mM538vmxk2LPwy2SFDXxLyoxgezpp+igQtL2S8zta2StAy+e1W+S7?=
+ =?us-ascii?Q?gRQ8utShwlyfbJlbL65VMQmx6U7NCTUY828zIkCwPhElBrJ55lX0/X3w6mxV?=
+ =?us-ascii?Q?yWUeJmWCZlMlo5l91NaXcsMzt9S2JuAMVtRwnoSJrZIlthO2dYIPIbBlZ0IF?=
+ =?us-ascii?Q?qscPY7mwIFTxvJDYDKUS+ML4AvSTGpTs0K+2Q+0eKmI9Orgc2JuwvIXQtCxF?=
+ =?us-ascii?Q?pmU+a/pqA11I3dy6nlK5WE9oU5gRy/LZOvaNZlmfmrbzWqb0jJNTkuInzv9n?=
+ =?us-ascii?Q?ZpsExIT47P3YQZQo32MYHvxQ24HqT7CIHIVEdnCYWGDzQbOla0nTY6Pq5rAJ?=
+ =?us-ascii?Q?am9MT5Wr5HSZALOfnM1Atqb8vLiLB9weaJ5kf3DhH2vV7ttoVB4bwCdQGUIQ?=
+ =?us-ascii?Q?4PK5Y0kGZN7APYsz31+tG9voOEILX8g97QMOCk6QLGi29Q0vuqpYYM+H1e1Z?=
+ =?us-ascii?Q?mIGzKVptFg3rCz0JJXsQb6Q/k9iGl9/6DDu345P2ozT5hjMXKTuPOLf5CpUP?=
+ =?us-ascii?Q?1LQ54GV5xM4EH6IL8enhg36okmCkvQnOxEkAEkqMcqyjqqd4t65kQD0nSw9K?=
+ =?us-ascii?Q?7xMgoCe12+Jp5/ItXKPGBekXPaydGBNDG+W6khSQhkII1fYapZ20ExKArktT?=
+ =?us-ascii?Q?vxvSPfCGyBBq2w9Hu9L82r2TMCrLj4jvSw2cNSoZ5GoqqEqdkOttqavIJGcb?=
+ =?us-ascii?Q?0/j0Otv7bfv+qk+ZGW5QtVWNs2q32KHSfW6xmJIlaqfC6O3DmVOm5apPO1B6?=
+ =?us-ascii?Q?ZSJ9DjVZ3L4/uVMAw72XIFYg3qyLn7f/2ylUd2RDEB0Rk+2ZDVytmPdauiba?=
+ =?us-ascii?Q?5WdxBx5kDYkzvmYRgKPgPMeDdG4TB1f7epz8HOcoKSxe9r88XxnJ412qoTAE?=
+ =?us-ascii?Q?XA3z3z9yVLBQPYwVrgBnXWLO9gJQiPdRYA5fWtVWNsvpDSLxWiGAeHaXmrAp?=
+ =?us-ascii?Q?pp1PENdJfdVfq6UxXvYsTPGlBX+UdWnE8UNMrHmY4c7GpS4j8ag+pA3UDSzA?=
+ =?us-ascii?Q?B7nyGWq8y0NGupz0nGyDnyn2nK1uc4sKAeQ6gkIQgUkAuNDrebDkWmncpobg?=
+ =?us-ascii?Q?WQJNPlm14LZ+TKSoq+o0EK/xSpRxI8E=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	I1aJrRmSe0lTaTVaSIaB8ovF9IzTi92vhqEtiuqBkNekNUR5m0nKsQMrINdGlTkwC8CFl3/ZYd1Cm58wKETmaszAFHckGRtWWuoES8P6mohSRga9iiVZr8Zg33cYn48e9g39v0xB2fFehpwhH+G83kEuMKRB7pyE66NYccOnLuXT0VJI+yInBA5arQpU6HjOoKQZRoLdXay1y9kfd4D0CkQzKOOTgR5sd7uIWNZ5NNvAC62mn8NNHOfudhVsoYaIdrKMgS52qIYUQZj3fqNFLd4UYzUtFzPi4W1FC/Ybi+SPb7Q6t1ShfKcUi3oR+9IRsIpZWuBHc9XFqF1gjUETjA==
+	rRbU0iJgsxsOpQrun/DO4E/4xBfMPbtrd8fzSBBYeOSRuZECGgftchBAjWMYg6CQZZxnN8ty3PtyQ716U6OMgT5CytxK/Yu3EPBxPHtacHKndxqtnJnrK3UahG4QUf375jQ/dbv6rnhFqVT4CPRwSg51xQMRA8navKf9j3Uw4C8vEpg7qnlj+vpDsS37z/IS8XCpdCfzRU31WWoNr3xZa1VO0SSGSu6isIia0AqrCbV0aezME8AeyL73OyWL/gtAA2TPOBgeMe26Kwu1YRba1mIWAbCVc1ZlucRTsWkn+fMSkF+WDwjz5ulg9e0JIgiEmhI9OLydHHYXh0ODKrDxlA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 239e82d9-b274-45e5-1b87-08de7e037a5c
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9c3c0e0-8d26-423d-6dd3-08de7e03796b
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:44:13.7160
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:44:12.1478
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FxzSSWgQkDiCV1pA7cFTxYFQyyU/NWF16WrQDfOo+71RZau6tFarQ5/wQYAIGpV8wCtM3meYGbAOs+zEP+lsmgc5pXFB8D6tsiiFMKGLCAk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: YEthYPrgRB8n8HcUsco78DUN4o7PIQicseyWE2qe3dO4VNOBrH8MeeuMJQvzzlxLmub3UOdjTv62fqBUgDCQajxu96hg0NkavBUNZVkiVfw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7190
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: LwpJdQKv0GZnDJa9uv0oMjH0WTnZ6PZD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE2MCBTYWx0ZWRfX9L43Y0xbOgj4
- ZFKIKppjpS4DEUptsEx0KDuwOfwwF1IgzbBvvpUHwdlrwgnq+ekzeE3ykYa8kgqrEUDlBQa6Yfr
- ULebds+mIE5JftrEhZLisO6sOGd9jZqG7u1RMVfVSQ72g3gVtIsGelCYPOaO0eO2hiBv23FQOV3
- 7By2htwq59xRMfJt3SPv0mduiBUASxzS4M0ZNT88Oj9ugL0atN5+2bc6pK2erypjvZRwrzZbSld
- 0RvpznuCaGiiUqtH5e5aj3TSUxwDDfPXsYZsXHtHNihWNRKFxmi3RS+L0Rb7tAF4pCtJdSKFvG0
- 7LxDyydZMO7SpMEneZ4V538dVDE+z720yKPI3YLQni7r3APC7giTlGWzSiZHIhOCUF97hVHl1xz
- 7yLoXpxlcByg63AJ/T5pyXOv3jKwDtZUPk7RPIrd0gaHVGhg+8AtYJRwNO/ERTbwp7dn3Dl9m8f
- SmBDXE0IabC4GnsPOIQ==
-X-Proofpoint-ORIG-GUID: cy7VVDzyNbti_4MeU8pjveBynR38ts7l
-X-Authority-Analysis: v=2.4 cv=UahciaSN c=1 sm=1 tr=0 ts=69af06f2 cx=c_pps
+X-Proofpoint-GUID: 3MTTzEuYFCRoWU2irzFGtDatBYVAiU6r
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE2MCBTYWx0ZWRfX4XIi7h5I8Zzq
+ ibGabKVpEl98+DdL2R5bTs2QdO1ZqE3h+SrpSvfMXbUQol3k3idCCzF8j7gVWjYCubQgfRc9XXI
+ yxEbv+9HeJbOW71HB1OpnX7NQEaN25+TrEy/+5yrDGQ2ur+AtuCTLey1KtOtenW9ml5HbzikTbb
+ ESmFXPQQKUcBSORcXVXiH3n6bTkdGRtcwbpudmEid4ZFPKAqpQQ90jkpx+jSU2FU9lxEOAhfaNa
+ OqQKOKAID0ZFfZwH6AKOjF/Fcf1oN3X92mnH8J6va68AosPE47pE3/MsGEnAF+WhL/m8yay8faf
+ X0y69ki2vvT+ICTvFddy7IXSnP8uLX13Nr0ixYzvUBbxqHjEq9ECN2tHRFOOYloI06TDKh9rYBM
+ 6wUmYkI/g37zCf/rOteunL+L5pwfo80NSkfkqV9Q5kWyz6VMfhYwA231xqE0klzGDl/rMSmv+gm
+ y0f0m4RLIw3SfprdBkw==
+X-Proofpoint-ORIG-GUID: Qujk9USbCg6jrVFAVBrCdL7-F91immRj
+X-Authority-Analysis: v=2.4 cv=UahciaSN c=1 sm=1 tr=0 ts=69af06f1 cx=c_pps
  a=0nW3/h2Bs9e5w/EoXaYwaQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=VwQbUJbxAAAA:8
- a=t7CeM3EgAAAA:8 a=nzq_CVlEzhOWP2AoRwgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=xDSppc4gPdY848Tsl7cA:9 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-09_04,2026-03-09_02,2025-10-01_01
@@ -149,81 +149,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 17:44:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232736
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232737
 
 From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-The `make rustavailable` process (1) expects the Rust standard library source files (e.g., `lib.rs`)
-to be present in the `library/` directory under `rustlib/src/rust/`.
+Conditionally add 'clang-native', 'rust-native' and 'bindgen-cli-native' to 'DEPENDS'
+when Kernel Rust Support is enabled.
 
-This patch ensures the required sources are available by:
-- Installing the `library/` directory (of size ~50MB) into `${D}${libdir}/rustlib/src/rust` for
-  making them available during `make rustavailable` for native, target & sdk.
-- packaging `${libdir}/rustlib/src/rust` sepearately with `${PN}-src-lib`.
+These tools are required for building Rust-enabled kernels and for
+generating Rust FFI bindings via bindgen during the kernel build.
 
-1) See the kernel tree for Documentation/rust/quick-start.rst in the section: Requirements: Building
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/rust/quick-start.rst#n145
+This ensures the additional dependencies are only pulled in when
+Rust support is explicitly enabled, avoiding unnecessary native
+dependencies for non-Rust kernel builds.
 
 Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- meta/recipes-devtools/rust/rust_1.93.0.bb | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/rust/rust_1.93.0.bb b/meta/recipes-devtools/rust/rust_1.93.0.bb
-index 2be0bd8d89..faafc63c96 100644
---- a/meta/recipes-devtools/rust/rust_1.93.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.93.0.bb
-@@ -266,10 +266,11 @@ do_test_compile () {
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 4e230d405a..80e1dc3d7b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -76,11 +76,14 @@ do_install:append(){
+ KERNEL_FEATURES:append:qemuall = " features/kernel-sample/kernel-sample.scc"
  
- ALLOW_EMPTY:${PN} = "1"
+ KERNEL_DEBUG ?= ""
++KERNEL_RUST_SUPPORT ?= "0"
+ # These used to be version specific, but are now common dependencies.  New
+ # tools / dependencies will continue to be added in version specific recipes.
+ DEPENDS += '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powerpc" ], "elfutils-native", "", d)}'
+ DEPENDS += "openssl-native util-linux-native"
+ DEPENDS += "gmp-native libmpc-native"
++RUST_KERNEL_DEPENDS ?= "${@'clang-native rust-native bindgen-cli-native' if bb.utils.to_boolean(d.getVar('KERNEL_RUST_SUPPORT')) else ''}"
++DEPENDS += "${RUST_KERNEL_DEPENDS}"
  
--PACKAGES =+ "${PN}-rustdoc ${PN}-tools-clippy ${PN}-tools-rustfmt"
-+PACKAGES =+ "${PN}-rustdoc ${PN}-tools-clippy ${PN}-tools-rustfmt ${PN}-src-lib"
- FILES:${PN}-rustdoc = "${bindir}/rustdoc"
- FILES:${PN}-tools-clippy = "${bindir}/cargo-clippy ${bindir}/clippy-driver"
- FILES:${PN}-tools-rustfmt = "${bindir}/rustfmt"
-+FILES:${PN}-src-lib = "${libdir}/rustlib/src/rust"
- 
- RDEPENDS:${PN}-rustdoc = "${PN}"
- RDEPENDS:${PN}-tools-clippy = "${PN}"
-@@ -286,6 +287,12 @@ rust_do_install() {
-     rust_runx install
- }
- 
-+rust_do_install:append:class-native() {
-+    install -d ${D}${libdir}/rustlib/src/rust
-+    cp -r ${S}/library ${D}${libdir}/rustlib/src/rust
-+    find ${D}${libdir}/rustlib/src/rust/ -name "*.sh" -type f -delete
-+}
-+
- rust_do_install:class-nativesdk() {
-     export PSEUDO_UNLOAD=1
-     rust_runx install
-@@ -316,6 +323,11 @@ rust_do_install:class-nativesdk() {
- 	export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER="\$OECORE_NATIVE_SYSROOT/lib/${SDKLOADER}"
- 	export CC_$RUST_HOST_CC="${CCACHE}${HOST_PREFIX}gcc"
- 	EOF
-+
-+    install -d ${D}${libdir}/rustlib/src/rust
-+    cp -r ${S}/library ${D}${libdir}/rustlib/src/rust
-+    find ${D}${libdir}/rustlib/src/rust/ -name "*.sh" -type f -delete
-+
- }
- 
- FILES:${PN} += "${base_prefix}/environment-setup.d"
-@@ -336,6 +348,11 @@ rust_do_install:class-target() {
- 
-     install -d ${D}${libdir}/rustlib/${RUST_HOST_SYS}
-     install -m 0644 ${WORKDIR}/rust-targets/${RUST_HOST_SYS}.json ${D}${libdir}/rustlib/${RUST_HOST_SYS}/target.json
-+    install -d ${D}${libdir}/rustlib/src/rust
-+    cp -r ${S}/library ${D}${libdir}/rustlib/src/rust
-+    find ${D}${libdir}/rustlib/src/rust -name "*.sh" -type f -delete
-+    install -m 0644 ${WORKDIR}/rust-targets/${RUST_HOST_SYS}.json ${D}${libdir}/rustlib/${RUST_HOST_SYS}/${RUST_HOST_SYS}.json
-+
- 
-     chown root:root ${D}/ -R
-     rm ${D}${libdir}/rustlib/uninstall.sh
+ # Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native available before do_kernel_configme
+ do_kernel_configme[depends] += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native:do_populate_sysroot", "", d)}'
 -- 
 2.49.0
 
