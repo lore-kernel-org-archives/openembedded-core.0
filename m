@@ -2,57 +2,57 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE777F3C25C
-	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 13:29:16 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14250.1773062948445823913
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD9DF3C25E
+	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 13:29:26 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14255.1773062963048979325
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 06:29:08 -0700
+ Mon, 09 Mar 2026 06:29:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UQg1GMfK;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: stondo@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79800183233so156650857b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 06:29:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h3NIlM1L;
+ spf=pass (domain: gmail.com, ip: 209.85.128.169, mailfrom: stondo@gmail.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7982c3b7dfcso116516217b3.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 06:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773062947; x=1773667747; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773062962; x=1773667762; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2JPBO3nGZ3LSmhoDkTOt9wctIrXJtpIaEHjnPkYXYUk=;
-        b=UQg1GMfKJwIAsmgnD+oburtkAlpV3ny0Krds8G83ddQxVJPIgbWOGH43iFwBevscY9
-         aF/GYschxL9PcRLfErDuybB5V/jsaNyL8t++BKE+EBZ0qLc2CEHWqicFtdflnoeG8aag
-         Omh/SC78yyhbo3WFJa99U5nv6h5dx7fx7xxi4207piBVGZXbeW3L7E9bPyIe1URFvjMo
-         4A1PyvOjgdoyT3dxXwBlG7Z/P/lHAt+R0xjDoqCSAkHGc4dpyeWPN5mOXxp5SD0UulsW
-         UABTttYMD73jHBpQPBTXIxpgazRMRDtKIzAIgLR/V4eN0ZmgK8pbj4wUGYrsdX0Xb6ze
-         ACag==
+        bh=6CigqNrWZDm8nD29vgAcTpWDDoEJtFRn37uUgr+KqQE=;
+        b=h3NIlM1LpTZgnyK0R2nKP7XAJZ9IWjYFMlVCr9Ei3+UOEZRsclD8MGPkQILJSa5u9j
+         umKovhFclQy4ORJtF+LlF1Wrzq2ecacchhJC9B1h5ua3CTIh913X3UmMXr3/7T7z7imI
+         a1Qd7a5utAet95V4JBJfRIqrVNlDyyk0qNDpNc3Lb652IAKWV9gdRnCX3LOuBz/eJL7F
+         Lstv56pRAcDQfOrXYrNgEGiHgHG0oN+Z0KeFwBiyT4n77OACv/NzkJZdjg81IKdGdSfx
+         9I0u++rRzqWT/0X1VIRvtitCLd8gy2yrZUyfu29xM/C5oN5yO9fQ8TJCZhmWUsHigv/F
+         Dg1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773062947; x=1773667747;
+        d=1e100.net; s=20230601; t=1773062962; x=1773667762;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2JPBO3nGZ3LSmhoDkTOt9wctIrXJtpIaEHjnPkYXYUk=;
-        b=h3Oq3R9rpGf4OtCU6ee19+2Y1LyB7Eoa9m3RZyTJwjO9of0Zx4CPX5y2+bHkN069sx
-         yfcGqcHzqPKeFv21V1URDynu6r46cfuftW3o9P5p3fj0Bre/MB88cFYt4e5buOaqNVbS
-         m/vvGMrnH/SOtDa7v7wErUnChlywRj0pnrHmAzjYHrldo7ltXjCdzWbdWF3X7+c4niSi
-         fkVAp9zgaOOAwuOKMJJMRHKdwwwKuwtqWW1/WcRABkMrzDXJ7LmYbVpFOvb0KI3bix5K
-         tEn7p8o9kTe+8TUD4yn0Nn3OvVVJdAQkGWbxZJbGDxDSoQXiMffG9/YrJQDLY47aYz6m
-         DlTg==
-X-Gm-Message-State: AOJu0Yzd4h6w3DkjUSbNA3AlRKW0iKcx+fakxs0PSTBg3aItlPQCuUXs
-	nTAM4sIek7C9a2wWqKMEN4WKSXf3+oyRp6gquWf5uAY7uhUakHA8iYMY4ityag==
-X-Gm-Gg: ATEYQzwHFluY83IhAe+NuUHo0Xu0qxDDR7mvmgmfqSoNO45xuhvDXBlkbh5NbN7CwPI
-	0QJIpgfg92kh9gONvrxo9/XV+vQa9/JqutoYO5y6n03LOsmp2nozjpWoXzzQo4MH7YzV6zmlmcD
-	tOepncS6EFPdGcjcpuPDvTcmKx05eJWzzX+gR/rtUmc+l9vJJIrf0m19FDH97gnUxLZYGmDNDUK
-	TjNlozTtvdHvWgI1joM5KNGo+Z2zLYul9K/WeqGX7Ff5LKB5EixgrmqFJbaMW3ozB8hVXweNphb
-	+kTkqzjq3dnFIpqipdHGfv3mE2YYlEc97h7PMqMhMbqmxdTc30ZuhusyGLKFeKynIR2ra5iabAv
-	Tsq21JT1wkg0X+vpfumeNF217LM5HH5SASywXx0I/EU3PTeWZWVx26/DXq/5ASNloJba3lYS8Ub
-	ddlSPBKmhqz+y/h8eKVGRyOTyoPkgQJxNLIRjyZmzgfI/jUAjo7J3tcSmpRVuk7BVHtYOltAKHp
-	64vYJRd
-X-Received: by 2002:a05:690c:c4cb:b0:798:1be:1c34 with SMTP id 00721157ae682-798d1eebd1dmr118863427b3.26.1773062947184;
-        Mon, 09 Mar 2026 06:29:07 -0700 (PDT)
+        bh=6CigqNrWZDm8nD29vgAcTpWDDoEJtFRn37uUgr+KqQE=;
+        b=duKh+Dyjk5lYrcgZzqFX3RFo5J+GTKBb+of1GhwB4ijplUBC0cb+iKgQWLWyUKCXzi
+         kCGGT+zi8nqUEbjpofN8+qmDYZ1jI+K2LXlUE+q0jyzMQaf59hwitHYF3/WWohGSxXPT
+         +TOhosvm3S7Dy5GvUBp8dU5t67wuk8up7a8toHkYXJTfMIUMdCNxNkjE2qlsQMZLf200
+         eM7Nav3nFprINBkZaJXfs4dHrQOiQmPvO7uY+sqMpuWm5rKCS/aEhDrgMgdMV1dkVgzG
+         LChkrLuRyrbz/jlbh/hHn7IzUTIneZ7FUkSBNoxivh8d+weGeZLYqDsWbYHMBmfgbGCN
+         mrVA==
+X-Gm-Message-State: AOJu0YzDJtN6VHbT4kKoR3crUiSStHvk9lHm6cDIwJGYZAM3XG08Ej8E
+	2u70yaDwgOyG5ww2tgh7alKGDnqYCKt05rAyoVXG/aEeNwXML9L7vUaxiLsMLw==
+X-Gm-Gg: ATEYQzzG59fH0+H/AkVGXVZV1B1UHzR+BACgUDyWNSTUxIFPLhmrewxwn9U2vzTIv4W
+	m2fGZnRRZUnbUQ0nvhUjWTUAC8EoLoqjR3sa9/77M9c5AqfBcRGoNA/MRW9HiTWHXERDTl494Qv
+	IPiFhbC7qpYlCErBSBA9WaQCoinP0ZrJGwp8GwOHUW1YZTezx5SJ1fdyj/j86wMROfyACgWBPu5
+	c/OVlzKRTw6n7FCJq/E4O6eCVVVcg39BCNMJJE378+PGPyKjPyRReG1FFZZsbnq/M1OSjehDojv
+	VDOCsDf5x3sGpxFvtTAQMcZRroeeWNmJ/AgcJiqpQbEaBRYRKPeqtYXW80V2POrvply6B2NJRAj
+	JbATyfgxtwtu5URlc1LWeGCxzhYO/FouWCrVGTiibA+hGk9+CR9dGqrQTZQh+MbtSMsbz5bBoId
+	06tl9u3fQnZ5uZyWRWR33bUSIKp6XRxyiYy2dIIj0KZDHwmqbyKrRSRbBk+iuLYCxlDKnF+qQg+
+	dclst9SxsbgMRtg92c=
+X-Received: by 2002:a05:690c:4c02:b0:798:99ae:765 with SMTP id 00721157ae682-798dd788971mr102631187b3.46.1773062961972;
+        Mon, 09 Mar 2026 06:29:21 -0700 (PDT)
 Received: from fedora (mob-194-230-161-149.cgn.sunrise.net. [194.230.161.149])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-798dee6afd5sm44299437b3.45.2026.03.09.06.29.04
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-798dee6afd5sm44299437b3.45.2026.03.09.06.29.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 06:29:06 -0700 (PDT)
+        Mon, 09 Mar 2026 06:29:21 -0700 (PDT)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ross.Burton@arm.com,
@@ -61,68 +61,105 @@ Cc: Ross.Burton@arm.com,
 	Peter.Marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	mathieu.dubois-briand@bootlin.com
-Subject: [OE-core][PATCH v8 0/7] SPDX 3.0 SBOM enrichment and compliance improvements
-Date: Mon,  9 Mar 2026 14:28:47 +0100
-Message-ID: <20260309132854.128375-1-stondo@gmail.com>
+Subject: [OE-core][PATCH v8 6/7] cve_check: Escape special characters in CPE 2.3 strings
+Date: Mon,  9 Mar 2026 14:28:53 +0100
+Message-ID: <20260309132854.128375-7-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
+In-Reply-To: <20260309132854.128375-1-stondo@gmail.com>
 References: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
+ <20260309132854.128375-1-stondo@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 13:29:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232709
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 13:29:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232715
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-This series enhances SPDX 3.0 SBOM generation with enriched
-metadata, ecosystem-specific Package URLs, and compliance
-improvements. It addresses all feedback from Joshua Watt's
-review of the v7 series.
+CPE 2.3 formatted string binding (cpe:2.3:...) requires
+backslash escaping for special meta-characters per NISTIR 7695.
+Characters like '++' and ':' in product names must be escaped.
 
-Changes since v7:
-- Patch 1: Dropped tri-state SPDX_FILES_INCLUDED, replaced
-  with simple SPDX_FILE_EXCLUDE_PATTERNS (no-op when empty).
-  Removed SBOM_COMPONENT_*/SBOM_SUPPLIER_* variables.
-- Patch 2: Cleaned up supplier support, no variable renames.
-- Patch 3: Redesigned ecosystem PURL generation. Each bbclass
-  (pypi, npm, cargo, go-mod, cpan) sets its own PURL by
-  prepending to SPDX_PACKAGE_URLS. No bb.data.inherits_class()
-  from SPDX code.
-- Patch 4: Squashed v7 patches 4+5+6. Full SHA-1 for versions.
-  urllib.parse for Git URL parsing. split(':', 1) for mappings.
-  Extracted _generate_git_purl()/_enrich_source_package().
-  Dropped tag-to-version heuristic and archive format check.
-  Preserved inputs.add(dl). HOMEPAGE ref at recipe level only.
-- Patch 5: Merged v7 patches 7+8. Dropped SPDX_NAMESPACE_PREFIX
-  and hasattr() per review feedback.
-- Patches 6-7: Unchanged from v7 (LGTM with Reviewed-by).
+The CPE 2.3 specification defines two bindings:
+- URI binding (cpe:/...) uses percent-encoding
+- Formatted string (cpe:2.3:...) uses backslash escaping
 
-v7: https://lists.openembedded.org/g/openembedded-core/message/209863
+Escape the required meta-characters with backslash:
+- Backslash (\) -> \\
+- Question mark (?) -> \?
+- Asterisk (*) -> \*
+- Colon (:) -> \:
+- Plus (+) -> \+
 
-Stefano Tondo (7):
-  spdx30: Add configurable file exclusion pattern support
-  spdx30: Add supplier support for image and SDK SBOMs
-  spdx30: Add ecosystem-specific PURL generation via bbclasses
-  spdx30: Enrich source downloads with version and PURL
-  oeqa/selftest: Add tests for source download enrichment
-  cve_check: Escape special characters in CPE 2.3 strings
-  spdx-common: Add documentation for undocumented SPDX variables
+All other characters are kept as-is without encoding.
 
- meta/classes-recipe/cargo_common.bbclass |   3 +
- meta/classes-recipe/cpan.bbclass         |  11 ++
- meta/classes-recipe/go-mod.bbclass       |   3 +
- meta/classes-recipe/npm.bbclass          |   7 +
- meta/classes-recipe/pypi.bbclass         |   3 +
- meta/classes/create-spdx-3.0.bbclass     |  17 +++
- meta/classes/spdx-common.bbclass         |  32 +++++
- meta/lib/oe/cve_check.py                 |  38 ++++-
- meta/lib/oe/spdx30_tasks.py              | 170 ++++++++++++++++++++++-
- meta/lib/oeqa/selftest/cases/spdx.py     |  69 +++++++++
- 10 files changed, 348 insertions(+), 5 deletions(-)
+Example CPE identifiers:
+- cpe:2.3:*:*:crow:1.0\+x:*:*:*:*:*:*:*
+- cpe:2.3:*:*:sdbus-c\+\+:2.2.1:*:*:*:*:*:*:*
 
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
+ meta/lib/oe/cve_check.py | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index ae194f27cf..6555743514 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -205,6 +205,35 @@ def get_patched_cves(d):
+     return patched_cves
+ 
+ 
++def cpe_escape(value):
++    r"""
++    Escape special characters for CPE 2.3 formatted string binding.
++
++    CPE 2.3 formatted string binding (cpe:2.3:...) uses backslash escaping
++    for special meta-characters, NOT percent-encoding. Percent-encoding is
++    only used in the URI binding (cpe:/...).
++
++    According to NISTIR 7695, these characters need escaping:
++    - Backslash (\) -> \\
++    - Question mark (?) -> \?
++    - Asterisk (*) -> \*
++    - Colon (:) -> \:
++    - Plus (+) -> \+ (required by some SBOM validators)
++    """
++    if not value:
++        return value
++
++    # Escape special meta-characters for CPE 2.3 formatted string binding
++    # Order matters: escape backslash first to avoid double-escaping
++    result = value.replace('\\', '\\\\')
++    result = result.replace('?', '\\?')
++    result = result.replace('*', '\\*')
++    result = result.replace(':', '\\:')
++    result = result.replace('+', '\\+')
++
++    return result
++
++
+ def get_cpe_ids(cve_product, version):
+     """
+     Get list of CPE identifiers for the given product and version
+@@ -221,7 +250,14 @@ def get_cpe_ids(cve_product, version):
+         else:
+             vendor = "*"
+ 
+-        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
++        # Encode special characters per CPE 2.3 specification
++        encoded_vendor = cpe_escape(vendor) if vendor != "*" else vendor
++        encoded_product = cpe_escape(product)
++        encoded_version = cpe_escape(version)
++
++        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(
++            encoded_vendor, encoded_product, encoded_version
++        )
+         cpe_ids.append(cpe_id)
+ 
+     return cpe_ids
 -- 
 2.53.0
 
