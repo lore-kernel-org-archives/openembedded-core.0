@@ -2,39 +2,39 @@ Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B10F3C26B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E27D2EFCD9F
 	for <webhook@archiver.kernel.org>; Mon,  9 Mar 2026 17:44:27 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20798.1773078263516629352
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20799.1773078264656495016
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 10:44:23 -0700
+ Mon, 09 Mar 2026 10:44:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=TedGOz+7;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AQ+Wqum9;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7528dde4fb=harish.sadineni@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6295e72F2139992
-	for <openembedded-core@lists.openembedded.org>; Mon, 9 Mar 2026 17:44:22 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62952CYx2075246
+	for <openembedded-core@lists.openembedded.org>; Mon, 9 Mar 2026 17:44:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=siQyC0UwkaQjRSw4a786w80d5C5GzzdzVmulZ1gM61Q=; b=
-	TedGOz+7zykIhAdEodV/FXQFl+WH9U5amg7u/lm22crKapuSYcN02AHc3QPYB1Mo
-	uYCF+7PcWfdt4ouNBYnrBjvgmOCanbcccrScLZaM3FHtnCA4P8qXoJaZaEqV8VMd
-	dbluQKHEoD1ivbNt/SbPjqE8McW2mhqZ1hrx1c3PiI9im4CIntOgZpnOOujiAelC
-	oLMrmR35OzHhG9tHuCV3cNaCciJ/awVDPPC1vg63B/s60d8SL4eICfRvL73DXyvF
-	Hz7U/c09n0DQWkYF3pogK4yPca9TMox7Ccg0h69CdMwz3QyBcLFFFA7rH/zSiQBT
-	UHEw4F3o6j3gGkjwiJi3lA==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012041.outbound.protection.outlook.com [52.101.53.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cr97va9bc-1
+	PPS06212021; bh=mwjScj2EK+/RakRhzOEpDwEq3zm8izOsaHcpxQ21qp0=; b=
+	AQ+Wqum9vY4117e64hJJ6esy+pRPtPwyCp0rvNfbovyCNUf8aZ2/cgVXusoG6FWd
+	O95HmiHzdMs7WeYMScCjC9DPUn55Rm13B4nlQkA2jmcp3O7EzrGlfsvFca/5oNOL
+	pGxDNrvnqaiRS1vQ+RwT70ZiNcsRj4bAgmxJGWzQepHoQ9yJRQnKhIQf+BeUJDPf
+	Eaoi/5GXFSjeEYeq67nB1x4YjUkoYeSjl5nLqbyYyIIo3AdfNYsQnkHDZcq2Ke76
+	vVA3ty3WtNycSGETOJUyivnC0l04i7Z8LqHQWbrTJz50CWMX17izfANQAwd+0hgS
+	XuTRtxzBKx7bpdO45ohPZw==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012037.outbound.protection.outlook.com [52.101.53.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cr97va9bg-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 09 Mar 2026 17:44:22 +0000 (GMT)
+	Mon, 09 Mar 2026 17:44:23 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NIiu9BZ0cKlFNGLzX9fjf97/+2bpVHGEal5EoUpma4ii2vf0drIAQDTynt41ZB+6xFclYUEy9R5tmSB1HXV237fnTSci0ljxz20ctmqD7DPefGsQc7vAkyklW3Udl72fXtXbyFvUcLOPYckIbECWQhWc+uEDp2We7j961Onyrl4i6nIe2XkCPvdGLeo7q0jpwaJijYuE9ZNjmtnK4l2XAnlzHEUHdFg3JDq+n9vn9whFGolXyhgE3KdJjqt7kQ0mmOD+tMWrvFO9SAFeOJ3ZD2X+n+7eU4G82QVazW7CYr8SgF6exkidndjDljq8bSS0Yp1UQvwjBtpGHE5n75w3yw==
+ b=zEXisLRvGAovXrbRt28a6gH/0Kbz9ibvhffk6ATtsYuPkikKLJAfOgkgVyTwwC9rWfr1NL8hWUIpAZUTrZF4oWwMLhDT0/zkMw9J9inYcS9p3bd9zbLePilAvjFLnl3VZzHOh9iRSsWy8z1Fv7c21CGYNWtn8GZ199VUAXJsH1m51z0T96Q52CgeDsPE5pwP41oROUkMRfnfuMvQ04SefFDOQARKCY2hTmQrZShpNlPtSR9AuQ8JXk31ufbDgZpdgC4MslkGDuRBqf4RjI3DVPsasc6nJWA2roEhBgblif30GBn0c5Z92qSPR+um5FT7qy7pYTZGZfLP82dbhayFxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=siQyC0UwkaQjRSw4a786w80d5C5GzzdzVmulZ1gM61Q=;
- b=Wba6h4cPySrHdrAC/ApaHBzwHBjry6U317z1nPumRuCWPNNvok7VIUZ6oIA7I2h/mu3V/wtA4DyfTv4+6G+c8g9/xkYXvXIXxiWh07WWwKCwL7CR8udJhqbXS40rkb3MGmcs0D9H0nM9yfjONyexLj7NHpFosLUmwJQ15VKOK5bnS68VNXw49UL8bGjY/8khZP5yjd1TrkCjk7qrmVE/A8QNa3h0exDpXy9ZJtN+fv/RpXktqMubEgcIRfPe8LLQkC/oByAWWOkEhilFIumeAuAarRSVRKoEWfcTx7gm1H0b6m4ERgffWsNx6sJQeVFN8qs7Q1P1cNhHIHvUmb+vNg==
+ bh=mwjScj2EK+/RakRhzOEpDwEq3zm8izOsaHcpxQ21qp0=;
+ b=NlYNcKc6JARbz/1mIBX5WjA9MDA218YaCXAl+XnfqN2ImD9xJFXxAhQE98B/Yk/j8ka8cM0l+EDpKhJaF1NCMx69IMqewJGdtq5gKCZ2Qzy368JAjNoVzCu7B3ZApBa1zGLPghBZ1hecf44CiX3FfKnfPuM6IxhSdlDDIVll+FP06e5LfPTuuyznnNw7kquWEDYz0mO+1UatQOeTDUhWzea9hhwMU3yaHFRSHQ2txOafpjLjpgORbpgpVDFCBTdYdtjKM+zk8FnkbcvHSTw0zih8+pfnHIl03iw/qgg4YSsGnIWWan5b4vLhwoyxlsJNaNzTQXOIujSuc3GSr+JkEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
  by DS0PR11MB7190.namprd11.prod.outlook.com (2603:10b6:8:132::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.9; Mon, 9 Mar
- 2026 17:44:19 +0000
+ 2026 17:44:20 +0000
 Received: from PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::6852:6964:54d3:49c9%4]) with mapi id 15.20.9700.010; Mon, 9 Mar 2026
- 17:44:19 +0000
+ 17:44:20 +0000
 From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
         yoann.congal@smile.fr, richard.purdie@linuxfoundation.org,
         ross.burton@arm.com, bruce.ashfield@gmail.com
-Subject: [PATCH v8 05/14] kernel-yocto-rust: Fix for buildpaths errors when rust is enabled for kernel
-Date: Mon,  9 Mar 2026 10:43:37 -0700
-Message-ID: <20260309174346.3384212-6-Harish.Sadineni@windriver.com>
+Subject: [PATCH v8 06/14] make-mod-scripts: split `HOSTCC` flag to align with to linux-yocto
+Date: Mon,  9 Mar 2026 10:43:38 -0700
+Message-ID: <20260309174346.3384212-7-Harish.Sadineni@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260309174346.3384212-1-Harish.Sadineni@windriver.com>
 References: <20260309174346.3384212-1-Harish.Sadineni@windriver.com>
@@ -66,77 +66,77 @@ X-ClientProxiedBy: SJ0PR05CA0085.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DS0PR11MB7190:EE_
-X-MS-Office365-Filtering-Correlation-Id: bca06c83-bba4-483d-4caf-08de7e037da1
+X-MS-Office365-Filtering-Correlation-Id: 023c82c7-b549-40e3-2267-08de7e037e8c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	mBCjtFCAHjaYDHrlMw3br+N3MoJ29giDzjgTD2Cxi928A+m2R7mJ9Yr/dNo5FCTBwraAjGDKJIjIfC7KgU7uDA0eJ6/L+Bvb/bSEHQ8TUVACihqEqnJAP6QhIUAaEe1WDvP1mmrHovHHinBmSaipgy2+83+kh4bbxKfSP5Yv6nxfD9/rhV3LwVi8i4dYUCVuNzf3GTmISX7oFFQwZvVfbtl19qrBXs4xW7EGN7jqxM/35iPXhc1Nm3Nd6/hPP88kzuW8Q6xzASDQNSkoWQPGoD6ZA02/nGIi7VeibYYOBpD1WSPiXu52uD/ea4q6e+3l67sp412WhrNlLcs2190otGFPyJUQ8RmXjD4p2dgYWCm53Fjt1cZU113er/MdnFsNoyTR8ZgIRvoCu4RBnyLCsKw8k0du8aAO7UoGKgaSJkgg3+HEhBhxZHavHBCtk0ESYYAsZR2KNFBFxhyTSmVe9oIbnyDTOBvkfjr9rwa4Ltovg1SJvUYT8RUxaoSV8TIbwewvmVl1e30webAN0bM7NwyYO0tYV5KWrW2t7xIRitq/hr7mfQpKKR/iJVtmy8RTjShPwaOdVmadG7KK3q4D7Smo1og0WHt6p6w14WWaeKTv83NN/1h2U5Vjw1JQtCJaIpjtXMNXTdcfeIG5v4RHJONXGk/8mj6X1oXimyuNsERKYLgn9R/BVUTc838A76mitWsX5bIOSyWVb72H9cSLX5O3StaxUf76Iko88TADugphRdj0NznGHHqyw7GXpRpQTtiV15k5m+JK+LCxPh1IIElMZyonkRTXwdBDlpwnqUo=
+	9otDkzu+F6d0Wg27d04GXqdawBA9nft+AVWiqBwe9bIzO4ZXcy9CyrdH4BqzmWJ8dJwLZJL6miU9H6+AlE4bfyvvyG7hGn3U3GxAPIb27IHpzoXw5O2GC0FKPelNMLnZ5zQ9Oi/eI3cezVvylZ1ehJqN+So3XwWHsQzTsTjgdTLNYppmnMJEoowNcJLIRVwalW5gQV7IliNm6uDTW4ydDKiKtzurZW13/ZM+qmSXOA4nkNyi69TK2C9GSucuzPQavH7MSfbr1e6vJ2iKb5u8JtR+AjdskAEZoBwG5FRFHcv5KH7G69wU6iyWaG9E9VweVm6XgJzHNspJukSfERWyd5lx9CocJ9g6+yDjM5seSL4EUaGs62HSZJZlpk0y4N3sifrYah+5Qx7BGqiM5Oe0asb5a9UiTaZK55UHIO737YE1hxY51Y52ukvQ1oGuUrw4l8mriRUY1oLHl0/BitoPasOAFflHf6wfdfiJFJPtnRbdyKC9wo1y9I4as2e/uiTerP9MLALCvJy8DZTdg6kHkCtrCgJ40/5YomftLNyFQkfiNQ2vFM9FdVczXWtYu1c9sK2Kg8rAbJ/tYSLE+mZNNQxw2xCcRQ+xwU0K+uZx4D0Moy7u2fyX2+/To/o8uC3kpD23MZkD0KLCwvgeaOVL9Z9nhHNHE9KNAk1qQ+HpBB0XI6zLd2Xbl+6UKJGsMxR9/vfaCWI50bIiTW8K4hcbYITX5tv7dswbKQjdMhEnF+hsyBsru3I09Ds5hWTqu2s6eMUsNotAJjB1U+ukcCWskwtv5H8SgbQW/QC2+g7jXXU=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?d1KtSwt8BQjYHiZOpwoZqbTOewNZIkhMtYLeBSmsbkFcRZQDbKaCCnE9oHZI?=
- =?us-ascii?Q?mJJxq4iLMA4Z8Aelpzcbd7SvsKMte6Y3YpJ+QKybOCCgyqwigUYHqp5J6bf9?=
- =?us-ascii?Q?pqQ7m7vz3mo9Z/2uBszqRfAW3h7p8uckSiWySY/oSxppnkzE6oF/BpsFXpSo?=
- =?us-ascii?Q?v2ORWMQq8B/3ZXG2rB91nF26nQHXTeQrXJrF8OZ1/xlmu/PESBdWQokFwR6G?=
- =?us-ascii?Q?VCewwAeGtQf9VlDpoh/1xThXZFAfzLQLj6u5At49uyZoLb/SXKIQ3Fw+ZGmz?=
- =?us-ascii?Q?cz/2UIHLALf6xV2qOMrrS06cC2RpksnamwKvwSO/UBuKh7b/LvDxRnnuVbEq?=
- =?us-ascii?Q?R5cDMsYnxjOVovs55XWg9DBY4s0rUumqDRHmMtm5AMCr/bNoik6Ym+1A8eTd?=
- =?us-ascii?Q?KSjM3IEmHo8bDsBLPh8cXVG44LlD32ZGs4ZWoa4gLEkXCAHmkISCGr2Qyp0Z?=
- =?us-ascii?Q?I+6Xkf1iGIy8q+Pga3R/cnRFPH0oMzmTWa9DAc8VIaKTlsRJCa8fNthZrZPB?=
- =?us-ascii?Q?HvSkWjL4BDFnXW4XQV7g9c28vpEFoaCJeMalteci7DbuL8DtXnARCqHsLM6Z?=
- =?us-ascii?Q?RcjY/AS2xQDie9gtIPpe8lNh/zDe0QJ9nMUkYJtrZMqCqSsUm2Z3URNilBI3?=
- =?us-ascii?Q?MUeOXT9HaWqmNiXug0iiPbYWAJM+wLBhlrqhYGvKphJT+ZjelPlJCiIBvMY0?=
- =?us-ascii?Q?fVVgRDVel1QU+W8307BT+MfX3F7usIEvy/OPUCzzwt60l4M6lXLq/DH/W2H6?=
- =?us-ascii?Q?1K1nfPoJzL3KpWqJ43H9poaiNgkRqB2A+Uq016eY6xZLv+GlS8kPHq7FlDng?=
- =?us-ascii?Q?NdBR7Qzd7hymFt89qSeH/YKWlfB5xs7L7fWF0oVEvkUv4YDT8EXEphqA07MM?=
- =?us-ascii?Q?2pmHRZxRSaAaLaYEiCWjx2TcQbCzPZskea2oj5uoq1j9GWziUKeWTB3iNN7P?=
- =?us-ascii?Q?3Jl5zB1dK1koXRoGKjkggSHJPzYooMx9TvEqT58o4V1qdBTXjc48m99pHt8b?=
- =?us-ascii?Q?3VpQ5fAPgotyjwCSo4+tve//WJNfqNG/gbMYzebyRVRfpQbc2duoBop8+5Pf?=
- =?us-ascii?Q?u+TOiRFh738I+mryEYdst+3CDXeVGZMo1OAWlUQDqt/raqmihmpRqg2q7kRD?=
- =?us-ascii?Q?7iBd4qejy/LaubC4SXPfI9RRtmysRWFffEQyZn6hZOI/hQJnzytVQ3MibI5O?=
- =?us-ascii?Q?mdqvn5q6PziWeyhmqtwNs9PHjm/wxh4rwVl4o4Knu4z3APEnZ05RQuy2fpAe?=
- =?us-ascii?Q?8Fan4kqSIkQs9WBKVosJ01vlcagxDfpMkRdPm+0hhM5C3uBpJUw1L/TEzA+P?=
- =?us-ascii?Q?s7xmf6p2pIYMZ8Tj6GeqLnnvQFxm/i7WryUnZpizKohoZO9O6CFd9NqUwaRX?=
- =?us-ascii?Q?OIo1spDdQWii7x3JS8dK9u/smJSOZHpoJW49/8E+iBAWIhsqOOvMIxnfYfEt?=
- =?us-ascii?Q?FyOQslTdRrVTyPyjn5Q29TM7TZmV7PtZgM7eP/UDxB5RP9rBFFopHq4DFS2V?=
- =?us-ascii?Q?ViGGDXPKeycZ2M7o6zWVL9g7E4L7N4l1YUD0LO1YqpEbrXW0F6lTZcy7JJzs?=
- =?us-ascii?Q?XZrKvm8sU7mlYKPv/ZRk/pwfPc5TAWIK20OLjKt44TueFT/s9MnXOrY5ibJu?=
- =?us-ascii?Q?8hFEtbM24STd/XV34/j+rBqh8BV9Mnm9+VYc16d1I5ma3tcrlHNlVrI1TlQr?=
- =?us-ascii?Q?4h0aDLd+jifIL9y95wTRWTPWLitswcqKo4TNpODZxd0UEWsH1hHqQhZ7NATk?=
- =?us-ascii?Q?8Srs9IhJxb4ggG1hQUL6b4j1GjWAsS0=3D?=
+	=?us-ascii?Q?QbTCPhnEvSlagQv9QN9hQOs6mac8JNlxhUxH7XZi9AXWVDcjohEdTp/0wav2?=
+ =?us-ascii?Q?zhhx1SfMeY6VSDFMpilNDnB5seI3ApLAgyNeZHRWMwk/0s3CzPdul8Ziqlsz?=
+ =?us-ascii?Q?+N11rJcpeel1H32DNDbJi4xs308hzkAC+fRKmCRS8137fdMLjgpoLC8wr3kE?=
+ =?us-ascii?Q?NIjPTlXzvGJ3wvDovmNdtPeTfTEHxwQ5hrWOR1uVSqhfQ7HKGghZsX1oZoFA?=
+ =?us-ascii?Q?QZtjo1oHwnGSFlcpGWD0B0a2d36yNq3CLXnJYAvX9Ytzq3u0UU1C4E2eJ4xR?=
+ =?us-ascii?Q?fwT1IqKV9vt6TkOfVHkq/OyuekWHn1sLQt05bnpAu2RZEJqxS5lcmDxQnioX?=
+ =?us-ascii?Q?GZ2gDEBsSHGWXSor1EeZUBrn9Ut8fV9Q9eAF6gYe790YI+VenMKWfFqDI2c9?=
+ =?us-ascii?Q?IvKQ9kqP3Pz6cGU++pr+4VVS4K/IMufdmatd4xGZjbZ5ESCWYBT7ZUOkwK2I?=
+ =?us-ascii?Q?CDM91Tr3DaP1RoK6zW+piyziaVVyQA24p9n4glAXLJmB4iy2Oniqsw4O6Vj8?=
+ =?us-ascii?Q?/yojVgmPUWTDkb25hporUBYhMHTXZO4rQ5g2KdKmVDE15peYAUokmvG5Nf44?=
+ =?us-ascii?Q?pVio/znY6SCqUClQkf5hcRsqOlR7c3+8DI1Vq2lCaRVu9YjIC4cr3Km5UcyK?=
+ =?us-ascii?Q?BchgVRncf0D6Aq7nW/w2O+3QWihqEUmyCq9F4958oNHKduYcEKpbECyKTN0D?=
+ =?us-ascii?Q?NtzdV30MeRDvWUkT4IPQNSYxxj1hirVpAewNwgeJg995xHLj1fBqKs/gZ4mi?=
+ =?us-ascii?Q?Mzb8t42oJ7GPl2KyeJcPYOyjMFc9OwY+t3P4eSBvx/on11ytvHLQd04fpokL?=
+ =?us-ascii?Q?E/AW3ByAxnK2JmwbSbQzAIE/JJUTtYqec4+x89sPZnLUj40qhp2BWqjdFqAh?=
+ =?us-ascii?Q?slfOJ/obtaIswfJVCwWje3wVebR5JQ5vBpf8S2cIM6HP9ZfKqIAlc5Nm5UcZ?=
+ =?us-ascii?Q?m7vUBRc7OslJ/sJEQxVRIy73lMCQaAs4pSynIshanmXGncS5PvDCB2ZI86E5?=
+ =?us-ascii?Q?gPQMraXQXdCYCG9BCWTPwbq+PJvuVIJW/jQ+kr5pB3MetgOSPdws1xMGmZkc?=
+ =?us-ascii?Q?voMaF/hXHYt23bdwtyfeb9cBzaBECod+vTTHvUjBW1sbELGV/+JImMnIFV6w?=
+ =?us-ascii?Q?AUzLbzZ1eo+MqwWR9rBhzXhlvUUIED9gIDn2KJ1dCf1TVYlv6M3kI+NYVfv/?=
+ =?us-ascii?Q?/hHQv6kY5tE33MxMWI8a1fgP4YmTgF9pTTCz/BRUwbTfNYzVbG7dZzgnvM9g?=
+ =?us-ascii?Q?iENSq19uoX7GRZlmbNds4gQ5BJQdp5Mn8VDRMNHPKvkHebC17dD9SKhB2SId?=
+ =?us-ascii?Q?fP86ruYFc5jfzXCxBAdOls0F7Bla5hfp/Py64oGbTtFBlYB0wIlz56V+b5Gf?=
+ =?us-ascii?Q?9WcbSteiWNuuL3GmUM9xY8kBeFiY+FUtSu119+879sPmiVrpfIM07Xen+AD9?=
+ =?us-ascii?Q?Ycg8FElhy5vQvMsUrr5LBF+ak7GjY5HqAXy4u9gJoewJZFoljUloQ8Djj8xU?=
+ =?us-ascii?Q?UuVopujB32xgh1dlxuPoWN8JhOdFbVcXWqzOCrWjOk+NWbQgKAcyuqkc7M0v?=
+ =?us-ascii?Q?qzdNJdVIqMfonBWGN2gq8G5FgjvHgZQOcVxxE1Uru3sS+WQQTIW/bfxWB2rK?=
+ =?us-ascii?Q?pRnozjzKqTQCLJRNQNO3PaCv0YQN4FaSWOumb1lRz8S1oTv6gC02oyyPW3bu?=
+ =?us-ascii?Q?EHL7qW16oAUdtoT0tk02Nu3ocTmzCZoynvnrovs4IYYTfByWez2brVVGiFsk?=
+ =?us-ascii?Q?HpnB+Z87YctyzTLKXzskFpouqCKUTc8=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	ClL9SOGij0ZZsb+HHYs7G1WZQtTmAkxXvHuzSGZ4wPomybwFSrO+6ETVtBmg4YO2OhrKd2l4WzlGfPqybouAnsa+w5E+OsLzD0yFboKddmv1g5n3FbEoEbcC3ff2EJqYh3SWyguS5g/t+XDjAlGeDJ5eQvcgVnVsWzJT1lCjOKj2rQ84xA7wEqVmwmEZ9iJyqG0gE9jF5h4oSvUwelJFzKWiScSvJBFVz6z32H7Zkh7vPUYWUlCbkvVVdr/oh35C3CUGuPIpkgrcDge3l+FqNS7K1W/81OGx6g0pywa7rf1tDiyDXXawF1GyVXh+BFWZ4aMQTQ888PhjXLQzjPAtLw==
+	n+xoTytyuMfsCIeTvaLRaVnEm7qMY1meUV635yLfOXo7ENqaRaMnKo8ZxoeD+i/R6C6NyL/1P/gDcXsBBEcMMjTbbL5Q1HxLnA8gOQS6Vw28joP9IAXjdQtIjNpdXQPDU2kA4fbi6gCI1JyiO8xT+Y3Lg4F5f4gNrs1/7+aOhS2cgt2nex7CvsKyC9aKzJ7M1N9Tjt9FmV/0gBA+aJRNpyfwu21YIPtXqjkGfB2buaGIwHdPOLPpFPap5XDAf8WMUFf+FXq/9WElOgDlVILwwH3Oi8NnJmCOPDTwUHvBR8oJ9kDD3259bvH/9a6lCfUia4KC4EofHl4Ye4JQdO7Raw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bca06c83-bba4-483d-4caf-08de7e037da1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 023c82c7-b549-40e3-2267-08de7e037e8c
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:44:19.2394
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:44:20.7260
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u/qBZt3PuNPnGSSgAqAIM8CzaXG4WQCAsNo2AgAOCR9jD4BK5jOR3mALX7RMA7CXzYTGXpic2w+sR/b8c7zL3+UGnaBFbx9O8eywWZce6/4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: LZkX1DIs4gJ+938crOKYfY1FvsxaSP0hpNVVl62xaAy6huzrVRJjdspVFDE4YBI0RVBC9wEN4n6NWZHOEz/QBPCVmyznxNa53eKmC6HiGe0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7190
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: 5PrMXFn3WNc8RIMCcKI2x72rhmH1o2ye
-X-Authority-Analysis: v=2.4 cv=B9a0EetM c=1 sm=1 tr=0 ts=69af06f6 cx=c_pps
- a=yZuzC5SkKTYVmguxKPWuow==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-ORIG-GUID: 5S4tAtIY9ZyFk754sj32XnXGIuzEu1vg
+X-Authority-Analysis: v=2.4 cv=B9a0EetM c=1 sm=1 tr=0 ts=69af06f7 cx=c_pps
+ a=gLG24qzvm7739X6cdimX+Q==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=JTVBbxAFR3XZCbc8QrEA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE2MCBTYWx0ZWRfXwXMaJVUP6gN0
- 63HR94f2ygAHiC7gP/onxaexFFVZkOtoDqFXRA9cz8etPqzPNePqiNIs4/rWV8fTIjTtI4cjobh
- WQkv28jIVFLP2lkq1cEoYWjL9ap4IF9GmvYLuvq3bMbXNr7lFQGTipQif2xFaKQyBfXvgBYmArS
- IBCGiNUBsWIS0u9v5fDMW2NnJ4sLrqJsVxB5gdMX+x9/lMuBFdmigysdXwK2Y/HPrpJkIbzdJ4d
- 6yElNsTjp/xDdie4Gq/lRUV/biPlZDcBUsA7XR6Pg5OEjg6T3BTSaITz5Cit+zbZkI4pB8SkRTi
- yK3+9YaXHNfUoqWvZN6ZocXRn3LEhKTiBcYSmrzZ1CcsJnDDdQygjkXptkwT7lIzHJOT6Nq88Mw
- me/nf1M8B4OG0uqaIYsw+ebM/6B5RQwgLqrlt0tbsKb7PRgl7GyK8xDXcumwH2E+iA2T5or00Sc
- ZyoLLuhS4IPCjwxoVuQ==
-X-Proofpoint-GUID: l6uv42Fwxh8K2MHbkpto2b5qCC9siYTL
+ a=KVLK08duqDOLNOE2CNUA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE2MCBTYWx0ZWRfX7MjMf8C3wkKu
+ 3gfMqN+eKVSur5MKhWJ89UbMXWvi2UqJyVhOHZrKx9gztmIPOnYOkNF1ezFlKjtv0U8nqW0OCj/
+ hwmXTuHDgz+9XM7LLvrzj+11WqmxjuKRj9jwPrvGwVZ9W21sXW2Rm9P3TxUtL1tWCTr5V5cAaGc
+ RQowLGYGlSf8T0kfqbQ0EtWTbeBMf6miM65AICCZouU1UxhSfWeJr8kZLkScNHwl1Q+7l3WXSKB
+ nWvvQzqb4ExgY62YiHGs56qtXduUMKD9UHzC+vhH442XQIO/OaoIWIzm+nprsfTG/B775ltWtxM
+ QC/nrG7CiwCqzGd03K6MFmRSXMZK7+1mipsOiHkgcG8hAMf+5QTNGxUoD53stmhF6af3fBEdjno
+ 5x0TM7fjN2+qvLSU5d4PYzK9FdQboHWNo1Dr5iUN7qfJ/5q9fgs/Go9h7QdXIJXyh554kXT9kBI
+ AkmNmuSuDV5Ueko5WCw==
+X-Proofpoint-GUID: V1T_zTW428is8dXS8ewYt0D1kWqbKOk3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-09_04,2026-03-09_02,2025-10-01_01
@@ -149,38 +149,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 17:44:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232741
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232742
 
 From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Fixes for buildpaths errors after enabling rust for linux-kernel
+when compiling rust-out-of-tree module recipe 'make-mod-scripts' failing
+with the following error:
 
--Introduced KRUSTFLAGS to pass `--remap-path-prefix` to rustc while
- building kernel with rust support.
+HOSTRUSTC scripts/generate_rust_target
+error: Unrecognized option: 'i'
 
-Co-authored-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+This issue occurs because CFLAGS are being passed to HOSTRUSTC.
+Updated the flags in the make-mod-scripts recipe to align with
+the flags used by linux-yocto.
+
 Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- meta/classes-recipe/kernel-yocto-rust.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
-index 7acc81764f..fd9ee91c79 100644
---- a/meta/classes-recipe/kernel-yocto-rust.bbclass
-+++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
-@@ -4,6 +4,12 @@
- # SPDX-License-Identifier: MIT
- #
+diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+index 8fcb5e6eb3..874e16e642 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
++++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+@@ -18,7 +18,7 @@ DEV_PKG_DEPENDENCY = ""
+ DEPENDS += "bc-native bison-native"
+ DEPENDS += "gmp-native"
  
-+RUST_DEBUG_REMAP = "--remap-path-prefix=${WORKDIR}=${TARGET_DBGSRC_DIR} \
-+                    --remap-path-prefix=${TMPDIR}/work-shared=${TARGET_DBGSRC_DIR} \
-+"
-+KRUSTFLAGS = " ${RUST_DEBUG_REMAP}"
-+EXTRA_OEMAKE:append = " KRUSTFLAGS='${KRUSTFLAGS}'"
-+
- RUST_KERNEL_TASK_DEPENDS ?=  "rust-native:do_populate_sysroot clang-native:do_populate_sysroot bindgen-cli-native:do_populate_sysroot"
- do_kernel_configme[depends] += "${RUST_KERNEL_TASK_DEPENDS}"
+-EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
++EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+ EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
  
+ KERNEL_LOCALVERSION = "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
 -- 
 2.49.0
 
