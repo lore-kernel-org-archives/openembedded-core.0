@@ -1,240 +1,276 @@
-Return-Path: <philip@balister.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E0FFD2D6A
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 12:24:47 +0000 (UTC)
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38573.1773145206310889837
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C649FD2D6C
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 12:42:08 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38978.1773146519281718693
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 05:20:06 -0700
+ Tue, 10 Mar 2026 05:41:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=MG4Boa94;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: mattware@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y04JULMX;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35990245493so5974184a91.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 05:41:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773146518; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DzewbdNZchWBjVtUrTGe4yKrNXcMNSMIL5IdYWXcXTRi2f3YfdN6uh4WKmYFjz7eX1
+         bKTTwL8g5A50nED0Xyhq05qksjZKd7JWcvjth4PA1HL5ZIVaY11KBkj7gxK8KR1+giuK
+         u3htvSJ8pVbsM8UNO8zKifiVXVs4izfpiP2Ww0ukjjjt3PwZFrYJaHkSDtOK3+qm3hjh
+         ZrXEDuslCsF0ds2FbrBFDprphJjDywoMUTEPHwXvrrk6yJR8LGAwKXJWY9ssj/SX5Oog
+         m3+bCv64PMfrez63n1u76tWfLitrSPxjx2rtRglRGACIXv2flkqP03lltuBj6IXkttDy
+         0RCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=WMP8kLQ4SyXdo4ZAY1SbFPdXaHam4C+b288Fh+2yzRQ=;
+        fh=kWKt4UINZ1F4UonjK/V/OyGHrn7Nboyn6VF2ZUoMrMc=;
+        b=EFOScMG7T01CMX4anDOJWhvEkJ1FFWqs4IqB8F+RDhxwnXDwCTB6ddnx3rhUg/Rucj
+         xh1tUGGrgegc15FY7hYbGA2biXfAG+fXae2UWn3uJ6BotOf3M+Y+3AA3+/nn6UYMr0r2
+         7slAxY66ksFtri4hHlo44ekhPpDpeki/85x61hQKb2Wy8goi+8sewPLPj3Z/iGwDlYfL
+         Iwuea5G8pdQtyQqjeRk5EyGn0+yRK3DPzdAbhLx1nWrU2tNboh0K+81ALEqmCkT1RLhb
+         yjFJomwPr2jU68rpVxcD9XC0BBODZNUAwka2kzwbsgLoC4hFXpN5VfePMal4KXNo7po4
+         CcJw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2345; q=dns/txt;
-  s=iport01; t=1773145206; x=1774354806;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=+DKUBrYuLsN90AKsM/9s51ztmi3E6CisHL+xFrmARSM=;
-  b=MG4Boa9483fKatyzFBcAFkSLxLQIBKrjMOjq9GbwEESf8NbFHYJHDyJn
-   Z2ZWX7QY1eMpzjiriqZyncot7NvTmHP9lSoCo9Bz+iRgQ5UkDeb5nt5/Y
-   FQx4tGPzk5XIExOPiWyk58+kBpt6WmPspArNJhu47brlrk4QP0v4vpKl+
-   EiGH2PQWrjL46eL2iFxlJNI1WnzMh1dlWubMAt8RRjPRE/orqkMSM8/2V
-   UqWIWJukeGr/l/Nr61Ew0e7IfdhVUyFxRXwo+SLHUTE57xVdFmcTGDjxl
-   p0U9Bm+emFdaVvqYN3RwVcPD1zjO8M8vDVVByHuLYpu5OYXqwqTKRsF0R
-   Q==;
-X-CSE-ConnectionGUID: kyz7TRmOSbOrLL95XA0W4Q==
-X-CSE-MsgGUID: 3KphIrpXTNO+H+uZrS8JWA==
-X-IPAS-Result: =?us-ascii?q?A0DaDgBLC7Bp/5T/Ja1aHQEBPAEFBQECAQkBFSWBKwKBO?=
- =?us-ascii?q?zFTB36BERKIbAOFLKA/hleBfw8BAQENAhQ9BAEBhQcCjSACJjYHDgECBAEBA?=
- =?us-ascii?q?QEDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFgQ4ThlAMhl0WZxIBDHMnBA4NG?=
- =?us-ascii?q?oR+FkADAQKgbgGBPQKKKniBNIEB4C6BTQGIUwEqgTUBhBQbhF8nG4FJRIFXh?=
- =?us-ascii?q?2uEE4IvBIIigQ6TIIFEIgMmMywBVRMXCwcFgWYDKi8tbjIdgSM+FzNYGwcFh?=
- =?us-ascii?q?R8PiWZugRODHgMLbT03FBsDBIE1BY0OhAumNYF8oXoKhByiDheqa4ZAkkYiq?=
- =?us-ascii?q?HQCBAIEBQIQAQEGgW8BNIFZcBWDI1EZD9skgTQCBwsBAQMJk2cBAQ?=
-IronPort-PHdr: A9a23:ri0kBxH8k47munVu1ptF751GfhMY04WdBeZdwpMjj7QLdbys4NG5e
- kfe/v5qylTOWNaT5/FFjr/Ourv7ESwb4JmHuWwfapEESRIfiMsXkgBhSM6IAEH2NrjrOgQxH
- d9JUxlu+HTTDA==
-IronPort-Data: A9a23:iax/oazkg18stJS5Ll16t+dsxyrEfRIJ4+MujC+fZmUNrF6WrkVWz
- WBJXz+DM/ffZ2fxKNFxYI3n/RwAuJPSnYJkSQc4qVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4iaT/H3Ygf/hWYvazpMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEInL9IkwONQOmtp7
- 9g8eW09R0i829vjldpXSsE07igiBNPgMIVavjRryivUSK9/B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2cM3WjOX9PYH46tOKhmmXgeidVgFmUvqEwpWPUyWSd1ZCzYIGFIIzbFJ49ckCw/
- UHe/0XjGiEmEvvc6XmYwGiX1s3wtHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
- lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPAXy4PTyVKb5ots8peqSEW6
- 2JlVujBXFRHmLaUUnmasLyTqFuP1eI9cAfuuQdsodM53uTe
-IronPort-HdrOrdr: A9a23:yP/M4KlC46NNkVSzmpSj0MfUo7bpDfNFiWdD5ihNYBxZY6Wkfp
- +V7ZcmPE7P6Ar5BktApTnZAtj9fZq9z/JICYl4B8bFYOCUghrWEGgC1/qu/9SOIVyFygcw79
- YFT0EcMqy9MbEZt7eG3ODQKb9Jq7f3ktHMuQ609QYVcegeUdAa0+4PMHfiLqQZfnggObMJUL
- Cnyo5soT2mdX4LbsK9KEUkcoH4zeHjpdbNWzJDIwQoxjWvoFqThYLSIly1zx0eWzRAzfMY93
- TZkwv236Ons/uq4B7R3W3e4v1t6ZTcI914a/Cku4wwEHHBmwyobINuV/mppzYuutyi714sjZ
- 3lvwogF94b0QKRQkiF5T/WnyXw2jcn7HHvjXWCh2H4nMD/TDUmT+JcmINidAfD4UZIhqA97E
- sL5RPbi3NkN2KEoM3P3amNa/isrDvynZMWq59Qs5WYa/pZVFYel/1HwKofKuZ/IMuz0vFXLA
- ApNrCT2B6TGmnqNEwweQJUsYSRtnhfJGb3fmES/sOSyDRYh3Z/0g8Rw9EehG4J8NYnR4BD/P
- msCNUhqFhidL5hUUtGPpZJfeKnTmjWBR7cOmObJlrqUKkBJnLWspbypLE4/vujdpAExIY73M
- 2paiITiUciP0b1TcGe1pxC9R7ABG27QDT208lbo5x0oKf1SrbnOTCKDFouj8yjqfMCBdCzYY
- f5BLtGR/v4aWf+E4dA2APzH5FUNHkFScUQ/s02Xlqfy/i7XbECdtarBMo7CICdZArMAFmPcU
- frdAKDVvl90g==
-X-Talos-CUID: 9a23:0l4yDW+EiqL4MgHag62Vv00FCJ8ZSHj69333OWucWDtZYeWqFWbFrQ==
-X-Talos-MUID: 9a23:arJ0dQg6TR+uQkCtZMVfCcMpb+Rw44W0EHAxt7JFm4qZBzZLaxWipWHi
-X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Mar 2026 12:16:55 +0000
-Received: from alln-opgw-3.cisco.com (alln-opgw-3.cisco.com [173.37.147.251])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 2E0A918000171
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 12:16:55 +0000 (GMT)
-X-CSE-ConnectionGUID: puhLyE2OR9mu2RNnz3xyPQ==
-X-CSE-MsgGUID: xX2U1Du9SMOXgAZ1OMTgDg==
-Authentication-Results: alln-opgw-3.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.23,112,1770595200"; 
-   d="scan'208,217";a="46436078"
-Received: from mail-co1pr07cu00103.outbound.protection.outlook.com (HELO CO1PR07CU001.outbound.protection.outlook.com) ([40.93.10.91])
-  by alln-opgw-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Mar 2026 12:16:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PmXWQlWd3JOqpK5LFwB/TKCy3yKcP9de8OJyYSKXCa0rAqJTPNn2uro/YbR/l8AJpc1k2+o7rXIibDSxmgt+nRnG+D//rVVvJIBxoUE0xiK2+3bCXtTvt8vnDuXQ8M9I/MVNDWe6wX4l/Rd18De/BcjNqV2ZhHcCkwdyPNe6bIDG8/AfQRtlDD/eanZFK56mUXTp+Oi0mDUBKbQxMSUpTISioW3hgf5LnVZ58yxwOluV/1H/g7S4ITr3kqOcOR2oxop0GjNSz6dDoplhdgwfZ6HpmvEH9x3E4TpaUWdFpYriUioU4+8uQ7bi7GnMuMFHvOIaT08sxiTmz0qieFw4Cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+DKUBrYuLsN90AKsM/9s51ztmi3E6CisHL+xFrmARSM=;
- b=J0C3YjGj+DnlrdlfrW7EVldPTZQFz3CXrhUafg3dDPiPW8L0FjzKkY0smWuZqVrmcJKNm+VfuZs7Yvukf8cq0uyxCJWKiQcdLxAlrD8N/BKAZZw96kU9v+Reqo11lY5iT5CDTnUt6G4GM+tPWShWS6oHJlmdi9IemTDvQ/UlpsbpFaJBXGaV56XTH0QwpcqBvwf+5Xr/rxYUxIwuhh3vmOtez4ePDRCKfZzura4e70ezUwyXVEXWStVrlnKsJdWdB2PYpd7j9Y6U5enzM5FefX84RoyIQe8J3u+aMu3DLX6cXC70wXO6e90KW/U0/7sw22UIz/M/VtqzrZQi+v3V7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from SN7PR11MB7705.namprd11.prod.outlook.com (2603:10b6:806:32f::16)
- by CH3PR11MB8444.namprd11.prod.outlook.com (2603:10b6:610:1ba::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
- 2026 12:16:52 +0000
-Received: from SN7PR11MB7705.namprd11.prod.outlook.com
- ([fe80::c833:7d01:2404:671d]) by SN7PR11MB7705.namprd11.prod.outlook.com
- ([fe80::c833:7d01:2404:671d%3]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
- 12:16:52 +0000
-From: "Matthew Ware (mattware)" <mattware@cisco.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Elliot Sparling (esparlin)" <esparlin@cisco.com>
-Subject: RPM 6 in Wrynose
-Thread-Topic: RPM 6 in Wrynose
-Thread-Index: AQHcsIcBVqcb/yDdrEaJ311V201mRw==
-Date: Tue, 10 Mar 2026 12:16:52 +0000
-Message-ID: 
- <SN7PR11MB770572B1859AB0B7EB592DE3CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR11MB7705:EE_|CH3PR11MB8444:EE_
-x-ms-office365-filtering-correlation-id: 6111146e-da06-4acf-6c34-08de7e9ee987
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|10070799003|376014|1800799024|38070700021|8096899003;
-x-microsoft-antispam-message-info: 
- zkMCe9NDf98oTP1f2a3/88mXxJ4753XAx2reAIvkJRudyO9mhb9z9dyYp9FvV4Gc2c1NHvFuPM9MV3p9IqahCci953rzkmi/jewHsaBe41Xp7bWsmMn0XColtw9Giuj4+pcrHQNjD/eRvmowW8qe5cCeTBGiBJvsuwGJ9oT7nagKBhZ/cIFCzbw0mi54h4J1hin/W8M8nc9WSsLO5GlL/ilwYLuZggTbvyllOO6QJVdfqjkwoNHeDMH/kMfGq8N1uneCY/7CoKrrBwTcVX3JcqgCU3PBwHNMATD3JPDxy6cdgKS1tz5DWqNdG5NKZf3MrIGvZ8AqVFy8HDXKNGt51aI0+FFKje1kk/j+owoZ/kPRRnQiJJckZR6qy8y5JfuivWo96eGrCjfd0+2vElN7E1bfUbP8q25hAN42KgSeC4tN/XZqD6V6Ah5TLv080lixgp9Ne1vBxiIzSDVZWRBeYv1ii5dMC+uAExuMro4HSco38hkkmaOM+wbt+UQj942ptx0zhgyIDnXTomTxrSBWfPiRaebcP1JZQaJjb8Ka0DuPxCTQGd+oWvAGNd8jo8HG/2jTL7f57Q3aqyGGnU2r8moaGAjm56WyZNL7WsZehuptBI04GaZFULw8fLlUPRm9WCNtP8BMjMTZmg+sTAf8jrzgMKv+G5kMsb+Zwku8Pil8VDlXgPmuwDve7weHvSenXaj9A9xVVB36v/VPtyQV3kr1ezvyhfd6DgYtVCKWGDUaIWLd80iBpyrq3Ue6ib3d6tkoRsST+xgVi4p+CJlYCsNultTiQKePCJ/wzXVEQ7Q=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7705.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(1800799024)(38070700021)(8096899003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?e9x1hUTXPDovfmqg2RRjtKrfMNJj+RnKpzdSXmXUXULTcY9YADdfgNQ82I?=
- =?iso-8859-1?Q?Tc4gb3NGAOA0KdmAhAUEZE142kk4i1OyEoyNxXFtaMLEKZCl5TCUT4vd27?=
- =?iso-8859-1?Q?YQ3mTfwwjOenPT701YM87Q2a1tgdQ+z0SoiJS25Swu7hLX06SKFL+ddSne?=
- =?iso-8859-1?Q?gnA8Fj6/awAP8Mxidqms0qvzR7XCxfu/hiIw+SCANQOThM14Ht5qgcIoiL?=
- =?iso-8859-1?Q?FPIzqZnpOuKwXAMTIFFuDLXwna6UdMH9ViQ3SbKDvYaN72pXdwGbgqZq2Y?=
- =?iso-8859-1?Q?7dqncoLZQl1mtBzrB5fW64MZuLbhAfWZKU/S9tQ4mq1xlM5r1XNEufwcEz?=
- =?iso-8859-1?Q?WHym/rve2KVxKgej8Nc1VW7nqgS8uARpRwyjXqYDHSoCzFeDNKfNpkgcJS?=
- =?iso-8859-1?Q?qdQpVm0WP9+amREcQNtnlYgB++aOdXHaknVa0RuTxTkFbsIrdkmcmncwG7?=
- =?iso-8859-1?Q?RPcq5rVfKfzmTCYlUk/48Q1h36hlkB/FN9fycBHMYbjDGoqYindXdE3b/4?=
- =?iso-8859-1?Q?tx0QPorhKoefbJGAQMeV/8XsWQiFGzxhwtTTQ6UQKq9M30KnYqhN1cexEz?=
- =?iso-8859-1?Q?S+TSwNd3phEmEdk4KbrZ/4Pb0SjeuT3cHO3hSXM3O0lyXWJ+dgKPaarW45?=
- =?iso-8859-1?Q?VwC07CLhsGsV+B8rBjXZ6AY4w0ytENeQgM62zX0IXAErHwxWbi9JdZfJJA?=
- =?iso-8859-1?Q?Yywm4q3APfdmrCtfOXcDniBWd48Lb0m2mPmVgwmStlUpf1qeJI9j6ZbMPL?=
- =?iso-8859-1?Q?cSabQ08U01gvE9bWhfTgl8G0IlKTrz3352Jpdqb8fQdHL7Ym4MukPQzG2Z?=
- =?iso-8859-1?Q?YEEGUOo2TWHCcYH1e5FOGleoKhHwxdgM8AFA8BdyY1XvUsfQIKooBpGvQY?=
- =?iso-8859-1?Q?rA7jPpIDzFNZSKyqMkdlUtdmAEd7xwErTqGV7pNNtOWR28h98kfAr8m8Ti?=
- =?iso-8859-1?Q?cO3A71MRbsvC4aHvpfwKgxFmO2chT9YJ2ZPS4plBjDAPiEsXKFhdbxcVjq?=
- =?iso-8859-1?Q?Q/qDyU9QJSX4JZD0MPnPCbkjsrXNGBnmj8BwtflNARIMmtVEfMqZ14YFOt?=
- =?iso-8859-1?Q?MnenP0zDUc2c0MR4GTxGBNkH7Llh2nVu+ZaHG/OYDbk70nHjDGv4EzmLt9?=
- =?iso-8859-1?Q?4YYqcLqLXqzv/Bmub4ElOeYJTSYo/kExl4kRTi5LDPvWePcbTfQOXTm38y?=
- =?iso-8859-1?Q?fiTlqedikpoKYjtoTJpACFBEUy6V3SLmEc/g6fmyRVrw8f8pEwKDhA2iic?=
- =?iso-8859-1?Q?jPtRqw3Gz642A+gfBhVcUECJ2cL/O/l0jAWqCJrSiptzFdTEUNOLErzcqL?=
- =?iso-8859-1?Q?4QWDPBf9paaoS8mttg06MaS/4xqGfmohxduwYfAWe39MkevUZz7gBjX0aM?=
- =?iso-8859-1?Q?zjtX9BzRxKoLIl+ZWHsfdz0jxeNQvTRZQXq3sdCrYsruZnSwjx0i2v2a6V?=
- =?iso-8859-1?Q?3DJZ63VdnawlY1iRGwxDFPNKlEmS6zeKEDt+Rz2h+1SsnacvSq5hkzvkFU?=
- =?iso-8859-1?Q?26EyCvCDibfL9hDy6iKlOze9ggduQQjyuX2EtCR8e8WXxhZA8pj8cFhpdn?=
- =?iso-8859-1?Q?yJxAuVVUggcnOYQFR9YXeuj2I1i7xkJ8y/nOUrcFnuIhF1INHHDRJDFuF3?=
- =?iso-8859-1?Q?tUrbHxqpjps80TmzN1SQSu4SoK+psz/rgCinSr2d1azTP5V9U1CFhuykFX?=
- =?iso-8859-1?Q?FRZykv2W2a34mUF5iDP0/ENDNSIDWk8brUfkF6RQTqIl1Ein9rgtVm9FnN?=
- =?iso-8859-1?Q?lf3wJFZMLnmdy9M9DSQw+WRnPgAiXIhg+nHuhwna4DcrwWBv6KBFYRvgsW?=
- =?iso-8859-1?Q?SHorzonhXjpZgWzdeeLO+V9G7dZikwpv3JTrQ+PWGiaEbfqjnTiU?=
+        d=gmail.com; s=20230601; t=1773146518; x=1773751318; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WMP8kLQ4SyXdo4ZAY1SbFPdXaHam4C+b288Fh+2yzRQ=;
+        b=Y04JULMX0sXeLXQesOUhYCXoNAUiqYVGu1c34rrE7cxJjL/9Cx5HGC9LzqlSHRaIWY
+         9XEzZGzKrBbZCyPu7nVPBriFY4/pUbh404P0TORZ6DMi9CoHo2atzb2BsGmLzJLgaKYF
+         cLOy9RkW51JPeKEuSqL7HUYYUMkWCBugClWrMU4rY+GMu9H19I5tuN0K6fXJa/RS22NL
+         XU3s8ONaMZQXRd1qEtZJXA81zo7anPjiOSNG6jSH1TnHvAfLPVWEggEijjrQtFN6ybWu
+         hX2CXJ6Z8PcVrh3wySgL/zxRlMKkXVPGvQZM8AB5rCr0lG/RPkDlDt2r1+zG4TtNUx7A
+         KTjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773146518; x=1773751318;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WMP8kLQ4SyXdo4ZAY1SbFPdXaHam4C+b288Fh+2yzRQ=;
+        b=nnSeThTFz2c/Gc9K25h4dmHVOSVwyNE3W7bAaPyx8FtaOZi3aMGewse97q8srqX5dr
+         7l7U584/LxyMrrJyWVvr/CDfiMpr5Vv3wFyr8BsnPCQVnypjKdro2NBLwjUQ1cPLB7Gy
+         bK/DuqMI8pRhcApt0ziqa2pZv68GvOTNMfjGiydON0loi0F5BPjQLG9mAYrmNfZON2Up
+         75zqwZATChDETc4ZUMjP9nB5sAJnke2sNDrA6jwwiJ9Ri0AukrjqFh9JAvapCF9bY/ma
+         UacQ8MV9EB99wEmMbxNYIcUsBzI5hKrqSvki3AXs+uEupkny5mePP7Od2jSa6g4atspE
+         80lg==
+X-Gm-Message-State: AOJu0YwqmlZI7hr0kCrF70BTfM9TsrrJaPkFCvi7jiE4B0aWmeVUfqYD
+	0V0HWTZtgNaP6tmKuDnOngYiLsKVNEUJ9ihORJ7ghfVhX0ymqwuI82T4CkHBVlWNgmgQ89XKr+P
+	AQ53RJjc/Ozea1idDAcR3ynqu6sz86KQ=
+X-Gm-Gg: ATEYQzyDvDy+2JIdtVnDVZaip/FeiY8A3t2D1tDISHZUKcgPfyBmmY3DqMnR+J3kgzw
+	kJ/KKKSsyq0Ewgg8hvD6wg7m2EzVIlnBCQXUFMJcf5s3XUvqnjR7u6b8IDww9CuRiLps9OQzEVi
+	Bqc6x+BBfNsILV75EKX2pQjGIRU7JCAT9dAK4xHPERJbXiuv1iE5/TKPkoXqUcXhP8SeW4GzITx
+	MDCQXzdGeomkpaQK6LFvZLtYVohnUKe9dbu06KSG2dUMB6b3hhIFBPNByjuOwWS7+5fzyjHYMK2
+	PaNbFej+rnZQ2GD9lYihASTRO8kNTVqeyLlTE8uDPPDEdhP9k0E=
+X-Received: by 2002:a17:90b:3e8c:b0:359:8c21:ef47 with SMTP id
+ 98e67ed59e1d1-359be29199dmr13126322a91.13.1773146518384; Tue, 10 Mar 2026
+ 05:41:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	IeC3SgrQqUopnqe0/qhLx9sDVSPSJlUdMRo+5Ogna4zxoQDecphM2yK3yMNgp70w9se6Cz+mJWSBChvP65DcNjrAzaFh5v8RD6MILFSa0YgvjXAs9PS/MNjpf6Ljvd2VKmfZhZFGGj8i2M8Zjdqf3g/pI8yZmcDrGJGPhCC4zTXNuW123Nhvmj8LG5/wbhZDxTjSaO+3B8ADu5HEllCm4s4avwuKbawSfPkzE+J2utCYZq7+Did2pAgfnzwZGIjLHy+mF+7+15tACn4QDKeiJR6Js61Qz9mGmYqWtNmwl1Yw3byDEt2BieQJgTOrXho1FxiYXpXcfft5efKoJMswQg==
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7705.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6111146e-da06-4acf-6c34-08de7e9ee987
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2026 12:16:52.1070
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7naL35LgSVDPMEkGfFnAVC8a+Sh49MbT0M8vo/KINV7iOC4EF+U5M0fDLunTSUTxpCGn2jvSIkJ9UOWzTLLtzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8444
-X-Outbound-SMTP-Client: 173.37.147.251, alln-opgw-3.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_SN7PR11MB770572B1859AB0B7EB592DE3CD46ASN7PR11MB7705namp_"
+References: <20260310113351.194882-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20260310113351.194882-1-mikko.rapeli@linaro.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 10 Mar 2026 08:41:46 -0400
+X-Gm-Features: AaiRm515kMh3WtPbuQmFYxk_5GSoho8YAhncrtYoozJXB5ViPWOdIdX4mcTKyxI
+Message-ID: <CADkTA4Ofx5RBm-Zxa9+8HOT7edDMCSV2RdAf7xcE7MFfN2cHiQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-yocto.bbclass: capture merge_config.sh
+ output to task log
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000005cf561064caad830"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 12:24:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232774
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 12:42:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232775
 
---_000_SN7PR11MB770572B1859AB0B7EB592DE3CD46ASN7PR11MB7705namp_
-Content-Type: text/plain; charset="iso-8859-1"
+--0000000000005cf561064caad830
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi OpenEmbedded folks,
+On Tue, Mar 10, 2026 at 7:34=E2=80=AFAM Mikko Rapeli via lists.openembedded=
+.org
+<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
 
-I see that the next OpenEmbedded release, Wrynose, currently uses RPM 4.20.=
-1, but that there are efforts to use RPM 6 instead. I was wondering, what i=
-s the current state of the RPM 6 effort? Is it looking likely that Wrynose =
-will take RPM 6?
+> With https://lists.yoctoproject.org/g/linux-yocto/message/16359
+> updates to merge_config.sh in kern-tools-native the output
+> is useful and not too verbose. Thus capture it to normal
+> do_kernel_configme task logs.
+>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/classes-recipe/kernel-yocto.bbclass | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
+> b/meta/classes-recipe/kernel-yocto.bbclass
+> index e53bf1519418..d981ca0e30e6 100644
+> --- a/meta/classes-recipe/kernel-yocto.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> @@ -492,14 +492,9 @@ do_kernel_configme() {
+>                 bbfatal_log "Could not find configuration queue
+> (${meta_dir}/config.queue)"
+>         fi
+>
+> -       CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC}
+> ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL=
+_CC}"
+> LD=3D"${KERNEL_LD}" OBJCOPY=3D"${KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP=
+}"
+> ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} >
+> ${meta_dir}/cfg/merge_config_build.log 2>&1
+> +       CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC}
+> ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL=
+_CC}"
+> LD=3D"${KERNEL_LD}" OBJCOPY=3D"${KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP=
+}"
+> ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs}
+>         if [ $? -ne 0 -o ! -f ${B}/.config ]; then
+>                 bberror "Could not generate a .config for
+> ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+> -               if [ ${KCONF_AUDIT_LEVEL} -gt 1 ]; then
+> -                       bbfatal_log "`cat
+> ${meta_dir}/cfg/merge_config_build.log`"
+> -               else
+> -                       bbfatal_log "Details can be found at:
+> ${S}/${meta_dir}/cfg/merge_config_build.log"
+> -               fi
+>
 
-Thanks,
-Matt
+There are tools built on having the log around in a file. So we can't merge
+this as-is.
 
---_000_SN7PR11MB770572B1859AB0B7EB592DE3CD46ASN7PR11MB7705namp_
-Content-Type: text/html; charset="iso-8859-1"
+Why not just change the default to 1 (and not make it fatal) instead of
+undoing all the infrastructure ?
+
+Bruce
+
+        fi
+>
+>         if [ ! -z "${LINUX_VERSION_EXTENSION}" ]; then
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#232770):
+> https://lists.openembedded.org/g/openembedded-core/message/232770
+> Mute This Topic: https://lists.openembedded.org/mt/118239002/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000005cf561064caad830
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Hi OpenEmbedded folks,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 10, 2026 at 7:34=
+=E2=80=AFAM Mikko Rapeli via <a href=3D"http://lists.openembedded.org">list=
+s.openembedded.org</a> &lt;mikko.rapeli=3D<a href=3D"mailto:linaro.org@list=
+s.openembedded.org">linaro.org@lists.openembedded.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">With <a href=3D"https:=
+//lists.yoctoproject.org/g/linux-yocto/message/16359" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://lists.yoctoproject.org/g/linux-yocto/message/16359<=
+/a><br>
+updates to merge_config.sh in kern-tools-native the output<br>
+is useful and not too verbose. Thus capture it to normal<br>
+do_kernel_configme task logs.<br>
 <br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-I see that the next OpenEmbedded release, Wrynose, currently uses RPM 4.20.=
-1, but that there are efforts to use RPM 6 instead. I was wondering, what i=
-s the current state of the RPM 6 effort? Is it looking likely that Wrynose =
-will take RPM 6?</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
+Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro.org" =
+target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 7 +------<br>
+=C2=A01 file changed, 1 insertion(+), 6 deletions(-)<br>
 <br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Thanks,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Matt</div>
-</body>
-</html>
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
+/kernel-yocto.bbclass<br>
+index e53bf1519418..d981ca0e30e6 100644<br>
+--- a/meta/classes-recipe/kernel-yocto.bbclass<br>
++++ b/meta/classes-recipe/kernel-yocto.bbclass<br>
+@@ -492,14 +492,9 @@ do_kernel_configme() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal_log &quot;C=
+ould not find configuration queue (${meta_dir}/config.queue)&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0CFLAGS=3D&quot;${CFLAGS} ${TOOLCHAIN_OPTIONS}&q=
+uot; HOSTCC=3D&quot;${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}&quot; HOST=
+CPP=3D&quot;${BUILD_CPP}&quot; CC=3D&quot;${KERNEL_CC}&quot; LD=3D&quot;${K=
+ERNEL_LD}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&quot; STRIP=3D&quot;${KER=
+NEL_STRIP}&quot; ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${c=
+onfigs} &gt; ${meta_dir}/cfg/merge_config_build.log 2&gt;&amp;1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0CFLAGS=3D&quot;${CFLAGS} ${TOOLCHAIN_OPTIONS}&q=
+uot; HOSTCC=3D&quot;${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}&quot; HOST=
+CPP=3D&quot;${BUILD_CPP}&quot; CC=3D&quot;${KERNEL_CC}&quot; LD=3D&quot;${K=
+ERNEL_LD}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&quot; STRIP=3D&quot;${KER=
+NEL_STRIP}&quot; ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${c=
+onfigs}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ $? -ne 0 -o ! -f ${B}/.config ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bberror &quot;Could=
+ not generate a .config for ${KMACHINE}-${LINUX_KERNEL_TYPE}&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${KCONF_AUDIT_=
+LEVEL} -gt 1 ]; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bbfatal_log &quot;`cat ${meta_dir}/cfg/merge_config_build.log`&qu=
+ot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bbfatal_log &quot;Details can be found at: ${S}/${meta_dir}/cfg/m=
+erge_config_build.log&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br></blockquote>=
+<div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">=
+There are tools built on having the log around in a file. So we can&#39;t m=
+erge this as-is.</div><div class=3D"gmail_default" style=3D"font-size:small=
+"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Why not =
+just change the default to 1 (and not make it fatal) instead of undoing all=
+ the infrastructure ?</div><div class=3D"gmail_default" style=3D"font-size:=
+small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bru=
+ce</div><br></div><div class=3D"gmail_default" style=3D"font-size:small"></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ ! -z &quot;${LINUX_VERSION_EXTENSION}&quot=
+; ]; then<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#232770): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/232770" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/232770</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/118239002/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/118239002/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
 
---_000_SN7PR11MB770572B1859AB0B7EB592DE3CD46ASN7PR11MB7705namp_--
+--0000000000005cf561064caad830--
 
