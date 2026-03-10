@@ -1,134 +1,105 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD0FD2D71
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 12:50:08 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39251.1773146998444225946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BFDFD2D74
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 12:50:18 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39260.1773147016827241962
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 05:49:58 -0700
+ Tue, 10 Mar 2026 05:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=mXBzjgpH;
- spf=pass (domain: linaro.org, ip: 209.85.210.171, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-829a27414a3so2323884b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 05:49:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=e0hsFzDL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-899eabc5292so95405386d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 05:50:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773147016; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dgOcELbE3p3V+wvf+0UPYAURZKsyuVhLcEIsUKQejldZYYo5DU3Nr0OumFTDXZHTZm
+         z+z3bfnAdooZMEWXXdn5fkkpGX93yiJuWjM+bmERaePdGpqumve9e5B56TzSPFZ9G6Dq
+         8935wz3vV/NPmXlmKEZoIzpZzFPueNKytyVJDWDRIuK4O+jXYqlUpLBzEihGpAz/+ycD
+         K8vusuTUdWOH7yNpZuV1g/4I6NuXSbCao99RtW2712Zw4GJcDERfqowrLfml07AEaOs0
+         E3XrgCOmvtiqAWgP4CIRKK1WMTxtd/AHpKEYgKZUenAquB/pyaKMmdQuS4BloyX5VDCN
+         CEeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kuDg8BBLvfp8Qe5bYojvHNud9G3owrFm1Kk3F5KTuI0=;
+        fh=3Hr5hsk5yz7Ab8xqOERZxazP0G8aojU2NwQOtBQC92s=;
+        b=AbLqtDot0mpMnqW472j8++8NtLk6rPDYRnxksby3R6O/wrz66PPBli/mb1woUq9Y4w
+         TgT3ad6esVaLZaruhYbv5gpfPo4WGhSNXHFfuRdq0rCqQ5VUAP5iv+Ycc+Q8Raw+3vwf
+         SUTOBf/nZhbHkIwa7FEb6vMsdVI2gL8F3u+C7oIkTZ8+O2zBXtweNVK7Jq5D9oTuNr6V
+         xqgC69l+hswuQRvHhWdtIvfXzp/t9iWcW3kp4fRfAgVtwwnac2PPkXTYcXbh2gMfszlp
+         vE9wwpovagPQUuFJSv1M1jLRzp6gAaMTKk79hrrC+aTTI9p07nQVnN1tuC5car7uQ9Yq
+         jajg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773146998; x=1773751798; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AJ2Pp0mfQNgkPg7b0yKAy8a2oH6fKbEXjm4TO66BkZo=;
-        b=mXBzjgpHByL5uVe12e17r5rZG/FeFgJ1VJF9SZePuBDNN1Z+DEzL9SK7jkpBRNbUl0
-         lwHwntyNAYHHlL610pO08JFB2fzCESpIZo3bVfEx/ufi9m/qgY/ECYYOvq5eN4zXUjqx
-         9qbVESvUfhh0dGQfHodO6MODlrvTJ4iWGYH0GDmQyRGXMmn+23GU5EGQTjpPQ/u2ZxDL
-         MZ0x7XuvI0072h+NyER5U7ArCd5xmtRFKY/K2FRHDOddDrJ2LYJdR8KnZmz93g339Fkr
-         4h3yzBZAn7SLPIfj/2o4BN8S1/5tT6PWr1xokCLSZhQNU7NbwKGYlFiaPXi9DrS8lnBv
-         tIrg==
+        d=gmail.com; s=20230601; t=1773147016; x=1773751816; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kuDg8BBLvfp8Qe5bYojvHNud9G3owrFm1Kk3F5KTuI0=;
+        b=e0hsFzDLt6caiB9NlawbL0HMB+LpRD+b6tWX1AP/XnAYK8nX8DYf15JDR6hqPB+zQO
+         ETdfx+8vYoqEkSpJ6dZvDsnamtFuNtYxDNA09N43XTc8VDUU/lzLarPdajWEnL54GZ1d
+         9ARO/tm8opY4KSC+td3+yuJOK9OvJjOojvwHLW0vV+0M6VYnHFkjAhVfcPKV1pO8xWnJ
+         i4qjJwW8ive2aEP6MfAJCwly1qE5f1miKfxgPottVCRRsk5TW9gNSETkLw0qPBEV6zI2
+         mz6OrHSap3RymF+FxO6vb7znztLgP91mRLBIfp+xx6+rwoWsRooEsycWECRpCRgJNrrY
+         ARBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773146998; x=1773751798;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AJ2Pp0mfQNgkPg7b0yKAy8a2oH6fKbEXjm4TO66BkZo=;
-        b=EzXULGcdqu10mWcPy5AzIRuogvDdhHwTSQ4agOPpyswpY3xqlNW+44zBJtC2I8X+OK
-         /8tDcgufYYrJIZnUaAm02Ad1gOaTBSmB4pA59vkHWw80G/L9ArJmSa/+bZZhv6/0iX/J
-         ZXeJYFC5UkzqBpSX2rUqnDPsPA6JdM6HeRwI4AM72zdzp8Y11Apk9oWrP23klbVOsJOn
-         0tUv0dIMicgqNse/niOyH1DhfUMeImj3t9GLVtBSlPkYARPabA8z55lcdMTcIkg5TFxH
-         dU9ocvlYnpU8ZvJLiSH9COcqZi91WPHGXG5beZ1A3lvXCvhfg9QPaRXO8xjP/9vND+0y
-         YGrg==
-X-Gm-Message-State: AOJu0YzAwMzx84SXI3yzuHQat4vlh3+zilyoY1lDs3cwE0WG+NvvtxGo
-	T95muo515lUlrv/FgwjQ1f+/c9yr4ezyK06BWrRuH6voCRxpzIEaJm9vel59Npbs1ig=
-X-Gm-Gg: ATEYQzyVcijm2r+diI2rcHEtpaVAdfGx26yJiG8HFGr9rULcChwlnyObxz7AtAfJM4j
-	fjNYwvqHuiQF3bOrhOiB2fH0T4bKrGOxvfmFhZMKPeBlyCefM08iWJyoh2eDMCtZhKM8hKT9RI3
-	C2sSmT7efhuuIMhxXwvbrZttbPG1fruUU90iI7ERidGIWGFMVOltLOpnBLrXbr4fbw5jjyvbJNQ
-	iOAALPwu8u5NDHtS4KUNNCqw4sFKy26ZOj98fQ/z7xnCOnk8/n/AWMZwBpS+LlvYRp9rXAEKEQB
-	dLZEJV7udzxVhpNP4Gd76rq1IGJHoGe3PQKujKV1747kCtSMbQWP5CSiRfVL+EHzUxX9eXzMFi4
-	eXkx0iQONA/Uoj91zhM+4dqDqu09V6EnBeun/4fom6FGty6Uz1u2vhQVsQYEYs6Y+pMzXdsZPCA
-	gfkAgylvTWx7yDB055ii7efnWTDxA7EhNmZgYILtrCuGuQU2bZ0F6kwIwN
-X-Received: by 2002:a05:6a20:c890:b0:35d:7f7:4aac with SMTP id adf61e73a8af0-398590877a4mr14113870637.47.1773146997750;
-        Tue, 10 Mar 2026 05:49:57 -0700 (PDT)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e0acde5sm11475881a12.7.2026.03.10.05.49.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 05:49:56 -0700 (PDT)
-Date: Tue, 10 Mar 2026 14:49:53 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] kernel-yocto.bbclass: capture merge_config.sh
- output to task log
-Message-ID: <abATcQuhfbPrfcYr@nuoska>
-References: <20260310113351.194882-1-mikko.rapeli@linaro.org>
- <CADkTA4Ofx5RBm-Zxa9+8HOT7edDMCSV2RdAf7xcE7MFfN2cHiQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1773147016; x=1773751816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kuDg8BBLvfp8Qe5bYojvHNud9G3owrFm1Kk3F5KTuI0=;
+        b=KeT41e5zsZCen35x6DCMBhQSpQV6FnBFRCL31+3/+eL6Bmzl0xqmmQfGDdzbC7th/C
+         bKZt1FjZke5eg2Eztg/1tg53P3TMF0vhqUTuP04U87wIaEsmNEB5Uuuw/RjxIN2QFKAR
+         TkLA1SU0cIf/MCC7f6qyLBtmEs1mCtBpNcmWwfXfrNayZt459hUctT2+x9Ez0EleLnrC
+         V+xfcS15jMph2dDWofQ51OwaQVhkoC11jOYPOzNK6tKysRzFGZO1D6UuEg8UNj72ECs9
+         xdpIGOyXEgSqEtNXCJxnVN2Ri9qFplQP/EGCjAbN2tnHLpDrQqrEnKn2AF75cr8z3xFY
+         7RFg==
+X-Gm-Message-State: AOJu0YxNQScxfzwmxWB2BKiJZP0FMU15cnmUKLbmi8XI7dWE6Efh6A2o
+	O4dli70fPG58V36K2+oU8RNCT1p3wLS3I0EeCfu+52kV5EJFLstR2WaBDvxijIBDeEE8AQxDWRw
+	Sgx80neyis478ihZ8KG31ai2B6WNiTWY=
+X-Gm-Gg: ATEYQzyavym1ea7wD2BixZAsZsywMW8Fu/Jbl3pWkbdSL6+2Xmz8Cub2v3KZPfQITOD
+	NrpFuFkG68d+YRtjUOWXaeLIIb2ZjSpGkB+2gADAeChR47oyjI8CoYz+4dk8jEQ+cAdh8Ys5Ycs
+	JN1ilM51IzEmcXndAM9Xg6VW8tjeYKoQQYqwVSU50IDNceiV9qv3Hoh1EIV52Z1iLxmwPZbUS/o
+	4KCLyFLtr0VhfXkNgqArAQnsoyj7XoOcYRG3HMusKNJtcut+rtLuXIgHOCWwZP/lrmgy3sF8bmb
+	TbzUFns5Vpc9S2lOWXlaIftS9gYZFJwohAtGW5SM/g==
+X-Received: by 2002:ad4:5c68:0:b0:896:f97c:2f83 with SMTP id
+ 6a1803df08f44-89a30ace6d0mr204536416d6.33.1773147015724; Tue, 10 Mar 2026
+ 05:50:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADkTA4Ofx5RBm-Zxa9+8HOT7edDMCSV2RdAf7xcE7MFfN2cHiQ@mail.gmail.com>
+References: <SN7PR11MB770572B1859AB0B7EB592DE3CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+In-Reply-To: <SN7PR11MB770572B1859AB0B7EB592DE3CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Mar 2026 13:50:04 +0100
+X-Gm-Features: AaiRm52xyUfqorEiGkMGadkw87nX3CGInoT7NbTsA9mLJtOc_S3SD-FRhhA25t4
+Message-ID: <CANNYZj9Y0Fk_DHxTcP-2cqmYnzcD4_VSg5eihwXp1Vc10HbREg@mail.gmail.com>
+Subject: Re: [OE-core] RPM 6 in Wrynose
+To: mattware@cisco.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Elliot Sparling (esparlin)" <esparlin@cisco.com>, Robert Yang <liezhi.yang@windriver.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 12:50:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232777
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 12:50:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232778
 
-Hi,
+On Tue, 10 Mar 2026 at 13:24, Matthew Ware (mattware) via
+lists.openembedded.org <mattware=cisco.com@lists.openembedded.org>
+wrote:
+> I see that the next OpenEmbedded release, Wrynose, currently uses RPM 4.20.1, but that there are efforts to use RPM 6 instead. I was wondering, what is the current state of the RPM 6 effort? Is it looking likely that Wrynose will take RPM 6?
 
-On Tue, Mar 10, 2026 at 08:41:46AM -0400, Bruce Ashfield wrote:
-> On Tue, Mar 10, 2026 at 7:34 AM Mikko Rapeli via lists.openembedded.org
-> <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> 
-> > With https://lists.yoctoproject.org/g/linux-yocto/message/16359
-> > updates to merge_config.sh in kern-tools-native the output
-> > is useful and not too verbose. Thus capture it to normal
-> > do_kernel_configme task logs.
-> >
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  meta/classes-recipe/kernel-yocto.bbclass | 7 +------
-> >  1 file changed, 1 insertion(+), 6 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/kernel-yocto.bbclass
-> > b/meta/classes-recipe/kernel-yocto.bbclass
-> > index e53bf1519418..d981ca0e30e6 100644
-> > --- a/meta/classes-recipe/kernel-yocto.bbclass
-> > +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> > @@ -492,14 +492,9 @@ do_kernel_configme() {
-> >                 bbfatal_log "Could not find configuration queue
-> > (${meta_dir}/config.queue)"
-> >         fi
-> >
-> > -       CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC}
-> > ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}"
-> > LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" STRIP="${KERNEL_STRIP}"
-> > ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} >
-> > ${meta_dir}/cfg/merge_config_build.log 2>&1
-> > +       CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC}
-> > ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}"
-> > LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" STRIP="${KERNEL_STRIP}"
-> > ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs}
-> >         if [ $? -ne 0 -o ! -f ${B}/.config ]; then
-> >                 bberror "Could not generate a .config for
-> > ${KMACHINE}-${LINUX_KERNEL_TYPE}"
-> > -               if [ ${KCONF_AUDIT_LEVEL} -gt 1 ]; then
-> > -                       bbfatal_log "`cat
-> > ${meta_dir}/cfg/merge_config_build.log`"
-> > -               else
-> > -                       bbfatal_log "Details can be found at:
-> > ${S}/${meta_dir}/cfg/merge_config_build.log"
-> > -               fi
-> >
-> 
-> There are tools built on having the log around in a file. So we can't merge
-> this as-is.
+It still has issues, so whether the update makes it in wrynose is
+unclear, and the effort may not be ready in time. Rpm updates tend to
+break all over the place in all kinds of corner cases, and fixing
+issues often reveals new issues, especially when the person working on
+the update isn't able to run yocto CI pipeline themselves.
 
-Which tools? Why aren't these tools part of oe-core?
+If rpm 6 in wrynose is important to you, help is very welcome.
+Mathieu/Robert should be able point to particular remaining issues.
 
-Standard practice of oe-core is to have details in task logs. I do not
-think extra log locations should be used or logs hidden behind other
-variables or switches.
-
-Cheers,
-
--Mikko
+Alex
 
