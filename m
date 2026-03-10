@@ -2,138 +2,169 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3227DEB1068
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 15:02:00 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42129.1773154918419099519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B91EB1069
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 15:03:00 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42174.1773154978599131479
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 08:01:59 -0700
+ Tue, 10 Mar 2026 08:02:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFBD7169C
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 08:01:51 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 868FC3F7BD
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 08:01:57 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] gstreamer1.0-vaapi: remove recipe
-Date: Tue, 10 Mar 2026 15:01:55 +0000
-Message-ID: <20260310150155.1692111-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=ouvnXgZ+;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=ouvnXgZ+;
+ spf=pass (domain: arm.com, ip: 52.101.83.54, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=BZG/SfL/N/UpiDu29Lrk/iZv4r2825GmdEWG50kXyxFvOCgXCLL58siKBQlqdclAXgXtSlNExUMkyjuAERZ1+MG32WQYYmslQCQthNx99roK+J8GWWClL2UP0MSXfKDoeNp2pDwBzb5/hTY5u3Xpj50Km9p8mo93mP/LR3sYiI4rRzXLGdYhePNb1JRGUAK5mA28X0tca4hmV5uOPc/SgRi9ZuWiEzSN4bmVuJ3imYdky5n3YFwbpGcKJhl9k7JVq3VQKfDdvKXYMlzw6zZQFbvf2V+7ALpzJGa3IoAvymkt9kl6NslOBhjqjqc3m8UArnrskDGuqQe98sgOW1MOJQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R8fVhDWA/OFctMlaskMMkz74dM18FWaoZ1EgFFYHwzo=;
+ b=rL/biUl4FsBlLkbYjsFhwgOpGllrxnL2+2dvmx89+joW/EY8FoGI1HLmIGS5obdygLC5ajQjm0N9VJtgahvzyLf+Yb7jzZwj191EzMxhDPtfHekeQ6gxHoV6P//bUM1ganYmdl8p2SgzyLrWsi1EaGn6cGyyZLAbsex5KCbKmnmvyHHPVoNgF2jtUOVvaRZX0rD706w7Z4ZKbjFsF2IWMjGXc0CrIhmey5ds2bVjcPnxhe9ME4OuHxS6UeHKDlrR7R/c4Z9W/85qDtWoxeGNAzHM/EmWHKndXai30Y+rmdioFCBaZ2ijoW4GFhKrURNzov/zghDQhphdRmeKpIK0Qw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=bootlin.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R8fVhDWA/OFctMlaskMMkz74dM18FWaoZ1EgFFYHwzo=;
+ b=ouvnXgZ+vVf0+ZMG30AUESeBhc33FzT4fdkjft935pLDFJH2A8wKIK3b3AF2hL1QHYEzJ1qXUuOwoWe3zEijDndCcl7FtUQbzKVr8zjBzcaix43OGcmMMkGts68VgPh0WHzttrdWNXWsuJd5432WpadO5VnoJH3aKdnosqMRqOk=
+Received: from AS4P189CA0040.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5dd::9)
+ by AS8PR08MB6549.eurprd08.prod.outlook.com (2603:10a6:20b:33d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 15:02:54 +0000
+Received: from AM2PEPF0001C714.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5dd:cafe::f2) by AS4P189CA0040.outlook.office365.com
+ (2603:10a6:20b:5dd::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Tue,
+ 10 Mar 2026 15:02:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM2PEPF0001C714.mail.protection.outlook.com (10.167.16.184) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18
+ via Frontend Transport; Tue, 10 Mar 2026 15:02:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mw2ioh75M+7oDQCS39JwSEVnCVuUW6lGJgtj+uHxGzErrwg0j8F9YGNGB4YkE1zjGW6oI8VTFv4PmzsVucHaq8LclxEz4vMv+HNaf4GvWgGmOj+XMes/xtdgZ7PDuI6FccjwGh4CPLnp8XFxJjO3kD38t3kYUJ7yZXJ0iIqWPTFUYNnGU9ngsejq5UIK6+1oRvPBQy7LDMcDZ6lLV9PkddMcDmdXD+4muYR+z4T+o9T01dqXMeFfQdUEuS1+BqBhTGhFU7tlm5tNew7SSofl4SxL2sJ42p85VrTHzxrvCe/4tAAMY/DCjMC2BFTSCDncjt/MxaPVemT65+h5XEYx8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R8fVhDWA/OFctMlaskMMkz74dM18FWaoZ1EgFFYHwzo=;
+ b=SjynCAzq/FfrFcPWeb+Zg63d22BoK9gSG562LoLrkFpqwlEsoNJszOCiUtEfKRGPqHzv9Jjuuguws3XNZkg8lGt8gUjWor4hK53RKJS0hW+xkXa4gIMhuNPxOuwNggwKYBg50jGBc0gKCYFQs2msaXkOFu7bB4bviIWTaFhRO8Yzc4HT/WCjyiKkvqIQLT+IeLgQ5ioc78t2PAXkOZcpPuePxXEwVS1eojao9czV9PTvSROWq9SfLcldDQbxwhMJj+xIjbmGZ/ooPZiqTu20UwNipa9Uxik4jjW+i3jRp1TA+hBVI3/klar46THptH1g6G5VL0HAzTvwjSB+JE9zQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R8fVhDWA/OFctMlaskMMkz74dM18FWaoZ1EgFFYHwzo=;
+ b=ouvnXgZ+vVf0+ZMG30AUESeBhc33FzT4fdkjft935pLDFJH2A8wKIK3b3AF2hL1QHYEzJ1qXUuOwoWe3zEijDndCcl7FtUQbzKVr8zjBzcaix43OGcmMMkGts68VgPh0WHzttrdWNXWsuJd5432WpadO5VnoJH3aKdnosqMRqOk=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM8PR08MB5570.eurprd08.prod.outlook.com (2603:10a6:20b:1d2::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 15:01:51 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
+ 15:01:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: "wangmy@fujitsu.com" <wangmy@fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-vaapi: remove recipe
+Thread-Topic: [OE-core] [PATCH] gstreamer1.0-vaapi: remove recipe
+Thread-Index: AQHcrREQHRSSV+9tFE6YBT3AF0Gm5rWkzL4AgAMWuQA=
+Date: Tue, 10 Mar 2026 15:01:50 +0000
+Message-ID: <F5FA45CA-4025-43CB-B78D-30F549FD1325@arm.com>
+References: <20260306022904.1781-1-wangmy@fujitsu.com>
+ <DGXIRFZ2TN10.3UAUZL2T4N0K4@bootlin.com>
+In-Reply-To: <DGXIRFZ2TN10.3UAUZL2T4N0K4@bootlin.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.4)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AM8PR08MB5570:EE_|AM2PEPF0001C714:EE_|AS8PR08MB6549:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1da6d4fd-7f71-471d-56ca-08de7eb61ae9
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|4022899009|376014|366016|38070700021|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ gm7Hp2N71qYvpck0Jy9eMNRYQMA7AAwPa5ZohljwUp95v/F1Gzes0mbOFAFHgO7B9cCh6r8DahXzF2svpqnH53w/LZWEoPCmAyL2iwpU/VNRl6140PhG8ArzdrjvrjzlMAp3/3WKm4SK93eIttIBzWlZNese8/r42VfTcj958/5oyYjPXDDNmspj9CZp5mF4FiD0OqeRNH4flQO+1sTW4sjptcQ6GWojqUDFLN9wXq3aHqMTSCt5xK9sDZkLWjv8hqvAMmmlLYvDf+T2r13q++5sjOObZf+XJ2nzQKD6QwWIlpvQv2VknRqn0PZrIWP2rc9MoFvOMSX2LQCOO0kqHdBzYMNs/8OHYqG7Y1F90LB+qIBTI7LKiAayseEIXTJm/EUPuGEQVCJCSa0zfTGk9V+MSfy/KtfO7DEx5rtwgsRYiS+s330Yf9lhHr+W0BTTsDGsjSuKNCNeBqqWEzJVoM6bEn3Gc97ydcuDkOsHmiiqDO1iM12l9Kkp6GbQkQf6dY5aLvhXkJ4iyQh7WFrYA6CXWS0CHgpE4pGbHNluGuG7ZXQ0zKJcK+4abunZ52ClXB0ndlX52youyj5Cg3kXS023r0ov61Kg6HAVMfMkqOo+6xEvStl41leOqzRw4b1HAMz0Nn9rzJarlSxkv3smnlR/HAZoZ7dW678Qp4MK34+sSAa6q6AS+m2vVaLcvM26xt9K9wWFGZe4tVyBGyB65Nzf2tK+07abjOwd3EFqxCo=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(376014)(366016)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <550E7AD397CC604D8FA68E41CE0C2BC4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: 
+ C8MDuzuKaA13p1Q4YDUbiX0V1OPStnJPEFoxhF73V+SAwckgfnA080Xw+d9Oca2Yc3quWRNE0as1aWbR6N9HCCp2rojtwW40xCAQFWt5YpEFRbaldv7Sjnpuo1kAjs0VajWZ4iDJ3Tar+xPcWmm3VCj0EfortEYvg50oTie8S+806nWU++uVv0YygRjFzD77GKu32F5nBmkvTdZb8dpMc+kJXPl5L6h5DvUUxBAJqvrZbA2WW05NpwWwW4zUf2CbYEu8KGxNjvrdJHKpM5wfCjHmz47LX5sl3iBgUSNy2OyZGPlK2mGEbM1X8fummYBjY2HBu76EB0CeXut89VpV9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5570
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM2PEPF0001C714.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	29b0bdf4-d75a-490f-9724-08de7eb5f5ab
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|35042699022|4022899009|14060799003|36860700016|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	Pu5KbaGgvbSDmKYuI711Y8+u3CHUN1IY0FreH1Kxow16U/CR7XSRSRgvPB+JH74tusB0nh6qnYwdNeyNlz4KSW9BUZkFxkxFtF2j545AykkyBgm2z2GyXPEJ9UKX2o/vvbG30cF69ArVLg8OVN5ikz7yf0rHd+xiiMW9xA4p7sKrQNrr8MR20FMk9l7JytpROhDa0FsYCjiuDA3IUptRZMcROOtmJAUNuq2mrHFYO1B8oP9RrMXzdwD251d3a0AGgOkIrWoWw7jJc2pHzMYb2zQB4qtRr2hHmaW42mon2mWnLhwQz46HpTLc/2vN0S7krSsgpLoM+591/wwiYaRaNaWPlFbn7GWnmBytFmBkGq5UvYsIItQaO69GLX/AgOiayr1aeER7CIisyjxvqadyoVmsWq+toW/9HYGRloWeuGxfBVrxbkswwlTJoiKKoSY+vgg53cZGnhSl90Ym9FpgVIY4W84FVVnMR3w7p/yKZi0XB06irrXULy9Fl4/WQbxShqKrHWCuOJx5UEoaNte+a6Ge6g9v3JGHyTZhrcdngqAQrx5MTWw3yK6Ju5kHR1BL7iEH6M5eLBVW4xzrFjk4wosQSLvQo+9RCDt7hEJWE5m57LLsrFDsay0easTzC3bBM6wU2gX50TvpTNFdwUtUsBny6itdPzPJ9T2q3NzJRqrZFX09mle0l7uoF6AtqL5NXK5+APASHdhF5ut3BfVdBA==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(35042699022)(4022899009)(14060799003)(36860700016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	S7dF5ck6JLyxLefsxLtJIKvYIC8H4OC2ojHzq7CBgCIJYClM8p4Klw3BE46Cm10vIY7P+tws6qPrr3JURakKFTXcDTzLrj4P8ZG2B1qlYyMp1/JBRzZtNxKY0RqQ6Dc2dPpVDnjiZ2byk/pDrjsOBEboWezJEzxQBGcdohLbFz0P08WR51eVFB3T0PMKawURS6LdyAcDN+ccdKLGAumbWbynFQE6MdCQKdM4XExxqSQF+s/q0/9NWXopQn3N9sNAJQTMYr3NREg0wzlGnsLQHK0E6UKxrz68iObnFm0Ac8OO4UdIU/TJKUu/9oZXpxrfiLezB2e6SoYLaalRr2RO75rpvZsUWz92b/lsWp1M/yXSQsgfXhxk3RHu/0gqi1rOHd2NPLNbMr8rFZGTthiKGB9eQTLdcmQdUhk2IUzWuaI7+/99Fjhh4wDBXsXCMnJs
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 15:02:53.2843
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1da6d4fd-7f71-471d-56ca-08de7eb61ae9
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM2PEPF0001C714.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6549
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 15:02:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232794
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 15:03:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232795
 
-From: Wang Mingyu <wangmy@fujitsu.com>
-
-gstreamer-vappi has been removed in favour of the va plugin and is no lon=
-ger
-updated going forward.
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../gstreamer/gstreamer1.0-vaapi_1.26.9.bb    | 53 -------------------
- 2 files changed, 54 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_=
-1.26.9.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 3c7fc4974de..c7a646a643e 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -261,7 +261,6 @@ RECIPE_MAINTAINER:pn-gstreamer1.0-plugins-good =3D "U=
-nassigned <unassigned@yoctopr
- RECIPE_MAINTAINER:pn-gstreamer1.0-plugins-ugly =3D "Unassigned <unassign=
-ed@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-gstreamer1.0-python =3D "Unassigned <unassigned@yoc=
-toproject.org>"
- RECIPE_MAINTAINER:pn-gstreamer1.0-rtsp-server =3D "Unassigned <unassigne=
-d@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-gstreamer1.0-vaapi =3D "Unassigned <unassigned@yoct=
-oproject.org>"
- RECIPE_MAINTAINER:pn-gtk+3 =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-gtk-doc =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
- RECIPE_MAINTAINER:pn-gtk4 =3D "Markus Volk <f_l_k@t-online.de>"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.=
-bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-deleted file mode 100644
-index dc5055bb0c7..00000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-+++ /dev/null
-@@ -1,53 +0,0 @@
--SUMMARY =3D "VA-API support to GStreamer"
--HOMEPAGE =3D "https://gstreamer.freedesktop.org/"
--DESCRIPTION =3D "gstreamer-vaapi consists of a collection of VA-API \
--based plugins for GStreamer and helper libraries: `vaapidecode', \
--`vaapiconvert', and `vaapisink'."
--
--REALPN =3D "gstreamer-vaapi"
--
--LICENSE =3D "LGPL-2.1-or-later"
--LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D4fbd65380cdd255951079008b=
-364516c"
--
--SRC_URI =3D "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-$=
-{PV}.tar.xz"
--
--SRC_URI[sha256sum] =3D "bf989040404515dc9b042f4fdc49ff33a6dccf49d5447361=
-50e967b42665598e"
--
--S =3D "${UNPACKDIR}/${REALPN}-${PV}"
--DEPENDS =3D "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-p=
-lugins-bad"
--
--inherit meson pkgconfig features_check upstream-version-is-even
--
--REQUIRED_DISTRO_FEATURES ?=3D "opengl"
--
--EXTRA_OEMESON +=3D " \
--    -Ddoc=3Ddisabled \
--    -Dexamples=3Ddisabled \
--    -Dtests=3Denabled \
--"
--
--PACKAGES =3D+ "${PN}-tests"
--
--# OpenGL packageconfig factored out to make it easy for distros
--# and BSP layers to pick either glx, egl, or no GL. By default,
--# try detecting X11 first, and if found (with OpenGL), use GLX,
--# otherwise try to check if EGL can be used.
--PACKAGECONFIG_GL ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11 open=
-gl', 'glx', \
--                        bb.utils.contains('DISTRO_FEATURES',     'opengl=
-', 'egl', \
--                                                                       '=
-', d), d)}"
--
--PACKAGECONFIG ??=3D "drm encoders \
--                   ${PACKAGECONFIG_GL} \
--                   ${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', =
-d)}"
--
--PACKAGECONFIG[drm] =3D "-Ddrm=3Denabled,-Ddrm=3Ddisabled,udev libdrm"
--PACKAGECONFIG[egl] =3D "-Degl=3Denabled,-Degl=3Ddisabled,virtual/egl"
--PACKAGECONFIG[encoders] =3D "-Dencoders=3Denabled,-Dencoders=3Ddisabled"
--PACKAGECONFIG[glx] =3D "-Dglx=3Denabled,-Dglx=3Ddisabled,virtual/libgl"
--PACKAGECONFIG[wayland] =3D "-Dwayland=3Denabled,-Dwayland=3Ddisabled,way=
-land-native wayland wayland-protocols"
--PACKAGECONFIG[x11] =3D "-Dx11=3Denabled,-Dx11=3Ddisabled,virtual/libx11 =
-libxrandr libxrender"
--
--FILES:${PN} +=3D "${libdir}/gstreamer-*/*.so"
--FILES:${PN}-dbg +=3D "${libdir}/gstreamer-*/.debug"
--FILES:${PN}-dev +=3D "${libdir}/gstreamer-*/*.a"
--FILES:${PN}-tests =3D "${bindir}/*"
---=20
-2.43.0
-
+QmVjYXVzZSBJIHJlYWxseSB3YW50IHRvIHNlZSB0aGlzIGxhbmQsIEnigJltIHNlbmRpbmcgYSB2
+MiBub3cgb24gYmVoYWxmIG9mIFdhbmcgTWluZ3l1LiBJIGhvcGUgdGhpcyBpcyBva2F5Lg0KDQpS
+b3NzDQoNCj4gT24gOCBNYXIgMjAyNiwgYXQgMTU6NTEsIE1hdGhpZXUgRHVib2lzLUJyaWFuZCB2
+aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8bWF0aGlldS5kdWJvaXMtYnJpYW5kPWJvb3RsaW4u
+Y29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiANCj4gT24gRnJpIE1hciA2LCAy
+MDI2IGF0IDM6MjkgQU0gQ0VULCB3YW5nbXkgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgd3Jv
+dGU6DQo+PiBGcm9tOiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3UuY29tPg0KPj4gDQo+PiBn
+c3RyZWFtZXItdmFwcGkgaGFzIGJlZW4gcmVtb3ZlZCBpbiBmYXZvdXIgb2YgdGhlIHZhIHBsdWdp
+biBhbmQgaXMgbm8gbG9uZ2VyDQo+PiB1cGRhdGVkIGdvaW5nIGZvcndhcmQuDQo+PiANCj4+IFNp
+Z25lZC1vZmYtYnk6IFdhbmcgTWluZ3l1IDx3YW5nbXlAZnVqaXRzdS5jb20+DQo+PiAtLS0NCj4g
+DQo+IEhpIFdhbmcsDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2guIEkgbm90ZSB5b3Ugd2ls
+bCBhbHNvIG5lZWQgdG8gcmVtb3ZlIHRoZQ0KPiBtYWludGFpbmVycy5pbmMgZW50cnkuDQo+IA0K
+PiBUaGFua3MsDQo+IE1hdGhpZXUNCj4gDQo+IC0tIA0KPiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQs
+IEJvb3RsaW4NCj4gRW1iZWRkZWQgTGludXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KPiBodHRw
+czovL2Jvb3RsaW4uY29tDQo+IA0KPiANCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlu
+a3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcv
+UmVwbHkgT25saW5lICgjMjMyNjYxKTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
+b3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMzI2NjENCj4gTXV0ZSBUaGlzIFRvcGljOiBodHRw
+czovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTE4MTY0NjM4LzY4NzU4ODgNCj4gR3JvdXAg
+T3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
+VW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRl
+ZC1jb3JlL3Vuc3ViIFtyb3NzLmJ1cnRvbkBhcm0uY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0t
+PS09LQ0KPiANCg0K
 
