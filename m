@@ -2,112 +2,100 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FEE2FD4F16
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 18:07:12 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1921.1773166029738445675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84003FD4F17
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 18:14:02 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2079.1773166441284096645
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 11:07:09 -0700
+ Tue, 10 Mar 2026 11:14:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ch2O1den;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-899f5d337f7so2456756d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:07:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773166029; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bvOTVXJ2q2HF3/hZ5mEaMPYyQKxS3yZa+N1iBOlFrmE9P9en1My/zzLKUoRXlquwaX
-         hhQ+Q87q5sV+xYxcpekNhF1xPUnViQnw4Mb4k6yLPz/5YVvK/uwYFJY447QZRLWbvu6k
-         BuYlOx6T7F/IKJCQIYLM8B47ELKXV3BaUjSNQPjj0BNYSY5OP8C67Y7qRQQqy1srLNnD
-         FPyQr5TWUXQR7CRxl58tHXgqbVFDuKPKD9EutaCg/B6nAWp1ZD3VzIWkU7gyTZNBSxBQ
-         KM1zP88oy5LyChgsGPunyk71DGjYleS01n6g9bxdHw3ZsGKFsuxwVNddnFdOt05AyHVB
-         IJKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=KRMynds+5YHx7S/2QRNdsLaVNgrhG9zqTGqog2hdAzk=;
-        fh=lokdjCdjsyY6KjBfIJktI8BQ5vhRQ0H3tAEZGfjN5Hs=;
-        b=G3cQdEZbQiT21r8gqFP3MHWQ0IsYvb/zusFN5qs4NOTOSspNwA2DQbKPNkXIE6pK6t
-         Emsc9WsUHgiTi9LqmWkU1YOpvIGh1cRPFHjbpRjZ4j5bo203s0x3dNFHthQAiHIOJOc0
-         hY/J4aHRkuxI8LK5k+exJXFdq/q4iTaAKsvTQ56OHWnwn4yZ7KfjgPNMfjpw4zfNf0NN
-         znFrNaBkRFko8rkH9jcY+Gh4aRjsA3GNbjFGdlwBV4NZHJ2lIU5iCBW3XQr/v59PORf8
-         VNRCyOwI6E42bNrwZYvTqS78OnGMm0M4vLzZhBroaJCE1BqeRV6SGI6T6vUBRUal/W89
-         8vgQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FidIX4fA;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852f73d0a3so30241395e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773166029; x=1773770829; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KRMynds+5YHx7S/2QRNdsLaVNgrhG9zqTGqog2hdAzk=;
-        b=ch2O1denUc39eFIfTiwrn7ChMTMRsex45SpfK+UdOGZAXjmR2my6j6n+ra/DndVAVg
-         HO8USRQxHfhlINSWjqEzTP5817kyGhMYqNKs2NZ81DEQS6pPLvYAHe/uudFJAPudLnlH
-         FFm16+mIOODH8L2gNwyDfFgtt862UM2cl6Ch7pDgYgsuI0/YXBiYQuQ+c7rFi3DKB7Wt
-         SIHQcuHoaH89bVWexK+WzthB+rJyN6QCtgYAjBGSkqay+hn2n8QymyYv8mNqNO3P8JoD
-         nq4BaSI7dCVakl13OrwijXrzYlYonwZrY/hk1xEe4IjeQy0kA280l/voZBDnG54B2w2n
-         +SXg==
+        d=gmail.com; s=20230601; t=1773166440; x=1773771240; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Z5yClBMw/WYK5rXahP2tuBdwLN1TqvkGtDHVvLHxSY=;
+        b=FidIX4fAMCKCRNQv8+K8HzoQiwQF1S1V3TgfvBprafeXek0PjAeKwuepTd+fv7DVkC
+         vC5B45/HOJtkSYNz7fXHkF75qsYllmta28gMbcuheWatoo1d57ClyRVqMiRmwNQHSDVD
+         lIy9nBkQijkDbo4CSrCzIbnA/cGXaKGU9ey8TyDOT+/wOmzvizg4YUu+ad/9eMdu/Zor
+         80jpBIGtSFJYHkvzOvE26PrlhsMhtwTOVbpTaaFuibgd114NyLzGFXsXpPiwDr1iZh50
+         N0hMqysHj/ldeZP8xMUjoHAsRllOIaLZunW/OsPsENVAZABKd9sYZZ0YZmIm+i668myw
+         Ltsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773166029; x=1773770829;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1773166440; x=1773771240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KRMynds+5YHx7S/2QRNdsLaVNgrhG9zqTGqog2hdAzk=;
-        b=htanbs2YVK+68fLjH6mPU6pPtU2c22JyyePJL5Z3VLiiEPxH8ftEdkcEvjLT6YqA69
-         SYcAPsDsENZ8OPbgkkUmaeGh4DTRIgrmhtSbVoveNfOnfKJHTQNqRr8Dw6T4oobos1Ov
-         VzRXQNWPSt3jzfaptLeKwvTqTx1iQdIMlmTaY9an58vi6x9jrH7noxAJGvKh5A9oX+w5
-         +de4INTcYTOvYbAGprND+uCpz35qLoxGCY/soYWyGCDKciw0CK8BF84UVdLBYQ25ZPN8
-         CVwoUIetA/Fayo4Vsambb4Vy0Fo0l2UNDKzW6zXDcNNRQwbOWCftI29Je4iY+BrPZ+1y
-         BSVg==
-X-Gm-Message-State: AOJu0Yx5/4YMMbda0kfHPwphB8LHuB6rd75ahAvZk47OMGON8FfEfR8L
-	GXfJFszYk4kDzgnry50Lzdl9yvOPkd02nQPGByqa+yqn39NJe3xp1B0LwxcshdtueA73oBpt64I
-	3G6v09bjnhD8daPbKMSGl+povgE5NNYRoZg==
-X-Gm-Gg: ATEYQzy5XVJRGReQFZ3i/Wc7lnoEF1HP87L69NVjEqgEei5vopgnXDj9OMzDwPwO/RC
-	grFiYcJHPDz5QPwcwp5H0dAtCcx2SrZrwXrItl9rrrk1zO55T9WK3tGwlWs/Q8BjaU7iRHP3wS8
-	8y94AzoQfAU7vJR5ZJev5bAf7MmcqF6aWrqBJlPm5F1YzpLwvt0LttcPsUcer+ilHqTYVWYphyy
-	h3cs+YaSPGSjWkzTD6ifNmWnaGJg7XEYqBMQ/T1/BCrzL2tEEXjzSKOz9MnKAVQOrfGbFG5m0l3
-	YE1wbBGJXxS18LcL8dcamf7BbZUmYmNzZV6gOfja5Q==
-X-Received: by 2002:ad4:5cca:0:b0:899:fea9:cd10 with SMTP id
- 6a1803df08f44-89a57c48cc4mr59313606d6.14.1773166028507; Tue, 10 Mar 2026
- 11:07:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260310174403.2309825-1-Hemanth.KumarMD@windriver.com> <20260310174403.2309825-5-Hemanth.KumarMD@windriver.com>
-In-Reply-To: <20260310174403.2309825-5-Hemanth.KumarMD@windriver.com>
+        bh=7Z5yClBMw/WYK5rXahP2tuBdwLN1TqvkGtDHVvLHxSY=;
+        b=nigET5PFXnrwfYPqjFHCUw9iPh8zYYdzNnrjVggegSZroWv3IHM/XQnkMcrlSKUtIJ
+         En0mSGqNnY/1bssmWkfqU3rmSjptIaghdvAWHTjnA8VQUQHKFrH6fytJVn0XskT/M+qM
+         WPF+wBM2DdA/x/KR4yKxaoUAHTsQoYCFD2tqOJPhUXlZ5cxzvfL7mEwu/CzO5AaJy3Y+
+         PcK3VvDV1T9ERs89R9TVhUonrhYv6jzG0bIHibqnHqjLK2XgcE0T6v45HJ2xU4n6S2az
+         D2ICPAFISOVA5u9ZxI0CWHo//4MNRkl4rO2BOY7401xs7z/Wtgct2aJnEDBQO5IBg9a3
+         fY6Q==
+X-Gm-Message-State: AOJu0YyeujjTdXGClIyKU62lBGDgNtkYKU2M2WN5IPi2O8PQFx/uF3W2
+	eS92TZO27JfqErLJFQ7D6qUnMMWl+2nfnHn1hTVTTDBKCEzV7gvlkR+jxY7IaA==
+X-Gm-Gg: ATEYQzy3lmUKgcy16Yr5xX+BKQrNBdGi8HJ+dr4HMqta0DPbZo5FilcD6zupV+ncKUm
+	LV2dZQE+wvES9EGlRRaqTTuWmAUKhbrHasbEMd5mxBLngEd/NxFbChMJYgLoK9N96M5NVGtc6ia
+	B2+H9mRis7JMaA1ltRVUWCSt6L1J3KBHnyzJnk14semyDROw+0IuyPrholre+2BK7FinbKYIh+6
+	qdgLJZbaXtm/oGwtttjMEQsTqj3rguMr8voQdX1UmPcjeheanorHbkRALZN9pEzE+m/t3fPtY7z
+	Q6O50NlqoPf0Q+pdQ1DzwzHCpJ+b58XOjZdHCMPMiCL0G/Hti3s3v8U3TDVf/MS69Od5w7h0kY7
+	qaFIlHiLCXoO2vPKwAP/ek0eWR1iybvHfxUX7PrCwv+LwuZBk+TXEvr5r3nNUXC0Ue6vv/iBzHN
+	vWPN0ylStH5eGHBdJcJQgN58ZMVxfubMThKheRaN5a55jpQBZ+iraiePEeNuA=
+X-Received: by 2002:a05:600c:3b0c:b0:480:3ad0:93bf with SMTP id 5b1f17b1804b1-48526979668mr265337415e9.24.1773166439375;
+        Tue, 10 Mar 2026 11:13:59 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae2b9ccsm37717631f8f.19.2026.03.10.11.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 11:13:58 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 10 Mar 2026 19:06:57 +0100
-X-Gm-Features: AaiRm502AdXm3TFC_DgXuSQDaB4yjxo_MZ7aCrY_ClKTe8MC_iAzvHHMOhQ7rEc
-Message-ID: <CANNYZj_JtZZ7Ftskf+W46LuradpnFv1CvyYt2G_HPJovyCq09Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 5/6] barebox-tools: fix build failure with
- glibc 2.43
-To: Hemanth.KumarMD@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com, 
-	Randy.MacLeod@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] rust: dynamically link with llvm for all rust variants
+Date: Tue, 10 Mar 2026 19:13:54 +0100
+Message-ID: <20260310181354.2396448-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 18:07:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232808
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 18:14:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232809
 
-On Tue, 10 Mar 2026 at 18:45, Hemanth Kumar M D via
-lists.openembedded.org
-<Hemanth.KumarMD=windriver.com@lists.openembedded.org> wrote:
-> +barebox-tools: fix build failure with glibc 2.43
-> +
-> +glibc 2.43 introduces linux/openat2.h through the fcntl include chain
-> +(bits/fcntl-linux.h -> linux/openat2.h). This header expects the
-> +__u64 type to be defined before inclusion.
-> +
-> +In barebox scripts/include/linux/types.h the header <fcntl.h> was
-> +included before the __u64 typedef, causing build failures such as:
-> +
-> +  linux/openat2.h:20:9: error: unknown type name '__u64'
-> +
-> +Move the inclusion of <fcntl.h> after the typedef definitions so that
-> +__u64 and related types are defined before linux/openat2.h is parsed.
-> +
-> +Upstream-Status: Pending
+From: Alexander Kanavin <alex@linutronix.de>
 
-This should be submitted upstream, we should try to avoid adding
-Pending patches without a clear reason given.
+This is a followup to an earlier fix, which did it only
+for rust-native; additional testing revealed that nativsdk
+and target builds have the same problem as they bootstrap
+the compiler by first building an internal native version
+that links with native llvm parts.
 
-Alex
+[YOCTO #16058]
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-devtools/rust/rust_1.94.0.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/rust/rust_1.94.0.bb b/meta/recipes-devtools/rust/rust_1.94.0.bb
+index 2be0bd8d89..cfee48ec78 100644
+--- a/meta/recipes-devtools/rust/rust_1.94.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.94.0.bb
+@@ -124,8 +124,7 @@ python do_configure() {
+ 
+     # [llvm]
+     config.add_section("llvm")
+-    if d.getVar('PN') == "rust-native":
+-        config.set("llvm", "link-shared", e(True))
++    config.set("llvm", "link-shared", e(True))
+     config.set("llvm", "static-libstdcpp", e(False))
+     config.set("llvm", "download-ci-llvm", e(False))
+     if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
+-- 
+2.47.3
+
 
