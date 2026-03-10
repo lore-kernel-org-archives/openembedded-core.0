@@ -1,137 +1,103 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E717FD4F04
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 16:07:21 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43888.1773158840291035964
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C106FD4F0C
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 17:26:31 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.932.1773163588535066621
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 09:07:20 -0700
+ Tue, 10 Mar 2026 10:26:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=NjzYSw9o;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=hqERanlJ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62ACaUP0303863
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 16:07:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=KTkWvb6qo2zvBM8PzHfZ2ep+
-	F/GfGC8WqeNOuEhnKQo=; b=NjzYSw9oXQWGU/JY9XWEtUxGXgqbn0lEacVt3S/x
-	B17VwkEXsM74nmAlnviSokrgsrW5jalbHeactcCG5+GSG+Wg0fsZjaOhU2XPTk9h
-	GoWjfUTgalLfyWN+cmJVcE6hWpvn0DChc2pDePYvE9HGhsYEELC3UcnatfPxFgSb
-	yj91xtzHDilGUi5i5Z8qKIda/erhxVB3Y/mGKV8VsRfY7luPLrEP8Yu7dVaN8O4/
-	nw56MIyr9l7JYbgUyh7pkMUEJZJSnFPZERPi/uWnPTU7TULsod4Ba8aCNjySgRGV
-	m1I55bbBUDZDcLEjCGVHWR69oiXfCzs2o3fLeOqwJltYPQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cthjf1am6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 16:07:19 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50917afa521so2831171cf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 09:07:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wl3pnltH;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8cd7aab92dfso15355885a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 10:26:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773163587; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PMoS7XZ5EzixWkPVgyIqRN7wap8KN4KHUY7bjTDe3VNgsJ1BEa/PFfY7vz1uMz7MLd
+         5VJXKyl3eUPRUcSRGtmWNuDRFyresp3KK1JFySVu9dkzTJI7HTiLyZhuRHNRu4ZhdJAT
+         Q8+RtX559a5x7RNuC2hy9pDoKncB/5edVvq/h8Ls69hIlZDmH50J1uccf0oDKp/9khYo
+         d0aCuL/qKYZgRqsOzDC6s6+BGtCR92ivfAM1e0XQ2LO1zwkW67Q4xdgSD6cg/vp+fZVD
+         dzrV5vYpVZHZiTtTnvJXNHfrYXPB+HcwZvdC3eGS2H2xXJu/JDxoik99+fTId5DFyoP7
+         5mjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=57CRUnZRSGj4MBmqbkefuKZ9dDtd4YC9DnrNhzJVaLo=;
+        fh=aLcXMuQqBBhhCa3FaClzatRGJ0TNJKp30HcY4U5n6tM=;
+        b=W0fVxLswzYEIb2TxvatGJTIMWsFNSA/yQM+4uLfv2LdcD4kEx+bJ0x+Z1kdGIqRL+P
+         QngZMoziwCVb2XqM4PNYajLQY1z0MGOaFDsLTZH9oZT8XLz7UiIHsjwSzOp9epqc+Azg
+         Cv4dlJ+743SfQhY7EHaBWjWruQJxMSKjbBUItvp2Mlxzvcldnu0L835RfFIfn9rMT73n
+         mRYY7ceo2OCoi8mY+qX+rFps2sKuTNuMvJFIibUYmcdjSSk6+zZZyk69/KAw5BxJuZW+
+         NMo+R7GSsN3wbTLACNNV1BE+iM+dfi2Tx7oO919dzvN1isKc7U8tGAI2i+57CPAcfpPp
+         i7dA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773158839; x=1773763639; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KTkWvb6qo2zvBM8PzHfZ2ep+F/GfGC8WqeNOuEhnKQo=;
-        b=hqERanlJV83chMVpixu0M5AM96lZMDBC1q154MmJrY0pTx4/0T+rtzb5gTQZb/tg5i
-         mGDArHrTW7XtwBYcA46kYBn6YQwGz1EaTBCrquPIJEz6BJspGAVjPwdoliKu5OmXqXwX
-         gNAFbT1d647AucMUPMbFTtiHaDDb8q1xEY4LYeujHudFqrhy61rh28XNkE2pc4rmtW+G
-         7L5cLaJckClnJisXmT5oJPYDtbzajJeIdrNDKgmPV7DykENb0PTGL3aZMspTSUSjT/Si
-         3FM9xMME8GV3A3xfYq9pjPUzk+47P/oQ238/sDTyTtQRRYSJcTT1q95eNRtUbwbFhnng
-         RRYQ==
+        d=gmail.com; s=20230601; t=1773163587; x=1773768387; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=57CRUnZRSGj4MBmqbkefuKZ9dDtd4YC9DnrNhzJVaLo=;
+        b=Wl3pnltHbJgy0c4ynx9r1EqIZg5nk2vLREaNZNe9alQFp29PwOdnxvrzA1XvPoCQWI
+         vn1tku0CwSNhceYop0ehw0BjjFouBQFXQqR5uxI31/tSzdJfuV8V4PwQyrtEB6vJvzh6
+         3dFAKpGaNw6NUikyGahqQFjYKoK2G+e+scV8iXi23yORX38zTX4XTaf+fZOJQ6iVDm8u
+         S+GUcdsjWReOOuWF0LRmyoDlTLfyXQZYd/gT/m1aC/Zx+ChaU6wW+FIfqsL0QdzV6ajM
+         yiTOAuniphzswNRKpQbHxigiIB9Lkq0dnwO24nS8XwYxAEjF7wr8iBo9FEtlSdst5Xli
+         XlWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773158839; x=1773763639;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KTkWvb6qo2zvBM8PzHfZ2ep+F/GfGC8WqeNOuEhnKQo=;
-        b=L+Y3zef1P8OA4yzzzuOCYf0VU+aGIbKsDJ+1SvVxJpBR5A4/4z42O7uu8IjQZ/5wsG
-         IbN/1zza8Xt3CD8PbG/gl7cD8P4TlMCEc/eaf66Pg8ZRbac36x4CClzWOtPyNzrYJ0ar
-         1+dJ/TSzoLA/uRS4rLEFO3pGst+3Jhz4BokhJ9E1WBflbCJ6fUMLSryyWU62Vrjjb4yX
-         04WnnOVd4E6x7a1Oq+gaOqFn97VRQiJQoUr6JtuSSefqatPOgZoC8479LW8lHEWt+qjI
-         Rj0/9SHABnXIzBf/iLpuaZqOnqjJdFgDsXfax+06rzIVu7YW3g4NN2scYn1ne9lsLZja
-         8K1g==
-X-Gm-Message-State: AOJu0Yx4ExcF8jc6AJr5+PGINw4xMYVUnSiL9hkjR90E3UPlHQjECggf
-	FTWNrJWTEHlqbcZVDrQdcKzSdw9DebdS/i3zuC3yx76o0kKZCIlPHZpPHHBSUivUCO+s/PKq0yi
-	rWV9WkA0bXAK052dlVkSeuhU09+eGDsAbld/Crf8vxHNmEoiQUvPCzGtwX5aY8QjqVqQ7qDv/qb
-	U0gNBGpqY=
-X-Gm-Gg: ATEYQzx9M1VEzlJsDDguYZeVjEqP6uL0DFjTqw9Bs6tBhXp7wJFBdDz3zNe3w1uheTG
-	NanDsuLLBwmnn89xk+dImdIwf5+otWkNhueXlZLJq08aHpxzamVum4bKA7+0LPmQKU41WadTMFb
-	auWPr1BIKoefYVCDO8/y4rCqMX+3k8t24wHVfC+SYs99lYCln1VOyklmfCcKGLvMgpMwsO+1d+Z
-	//zoelb2ZZSESU3A23XVqermwtgI2rdhcDoTpYCFYC53HNvtTZR+c0oPTvKMmS5enRPIIBKGi9D
-	XM8HymZ3Cif88TiTDBECm88dp/x5U3sXcXjntJgWSHquX6+bGwSMZyNti7/+cWqXeAHLXdqmQpI
-	jXHg5ZY43IgJ+K3lpMj+nw4jitctV8Ya4kkkQeHXJyrCUNB4SoKyZTG8Onedd92AOg84ced4tC7
-	Pp7ZO8PxF4iaHI2h2gkvR9DRF1YN6Wdzt6Rj0=
-X-Received: by 2002:a05:622a:8c:b0:4f7:a06d:c4df with SMTP id d75a77b69052e-50926126c6cmr45054031cf.33.1773158838576;
-        Tue, 10 Mar 2026 09:07:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:8c:b0:4f7:a06d:c4df with SMTP id d75a77b69052e-50926126c6cmr45052211cf.33.1773158836469;
-        Tue, 10 Mar 2026 09:07:16 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d01ccd4sm2889561e87.8.2026.03.10.09.07.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 09:07:15 -0700 (PDT)
-Date: Tue, 10 Mar 2026 18:07:13 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] linux-firmware: upgrade 20260221 -> 20260309
-Message-ID: <unpnfuddmccndnkgu7ppmfgx6xvkmketrw3aa4xxxbeyp3hinr@xuj3lhre5dmk>
-References: <20260310154646.3780697-1-vpuar@qti.qualcomm.com>
+        d=1e100.net; s=20230601; t=1773163587; x=1773768387;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=57CRUnZRSGj4MBmqbkefuKZ9dDtd4YC9DnrNhzJVaLo=;
+        b=jA2X9w66W/QgyA+M9PyZcuk1uu4HYx24CoYYbYAPEo5JHDQhMiPX+IabjAuzAu2Ds2
+         tfgAP5FKZYD+GNsG9QGIXMp1V6DLjqixtwvVdGpcNLwSnrgHh3VXbH95MyFvxJdXZu7Z
+         8Z7Tzt8VppP2DVGAzaCi9vVVXIvr62flQOgNi4tfYVWXbcQEYLO97HL8OxN8g1MQRl6N
+         rXa9xPmUrrBnNtEDvRSBQLJnjtI1jxKh/tBWWWAlMNws2bf17ydIzmGVchg5WVbVE3US
+         CSd1mR0JyyZMvfH1Ktg/s/5BrpFWWCIvjwUs3vK4aYaE2S6DWgvJaf1uo0b5NoEkcPse
+         M9OA==
+X-Gm-Message-State: AOJu0YwOZFkADlOF2cwlp7XabIYkKUsBP/3+yOq1huw2O3ifdYr8G7V7
+	kA/EuM2+oty1ui2oRwK0mtE3W41330Hf3XUzQwKTl0Xs0/EjpQ8WZlTF5bYYb1KYHLyYwZD4+CH
+	1M9ohvVuqvxDz6kEspuCbQt/6n6GTHnc=
+X-Gm-Gg: ATEYQzzza328gUVw0zB0RqE8lbjs4xFg8//Iuly/5lDBwBFfBYr2NtBxEebJwhC9DcC
+	xqSZEBWiLo8uEGsKQPg4xcOkXdxQoHYLbL56a+gpupHtCK7dTfVFznFBTZH+c+4Lp3IvTwV0H/7
+	cYybgNjQa0Et6yz48ATXOfwzbra0dNsvssJgJbYQ8Ykg9MrcLJZ0VCSpyvZO2NOB18Th9dnOR2T
+	7o4JbtlzSyljJlxXmunUeIkBQAKhg5M0MOxAEGbOGlFZp4N9F5oW+lS2F4KaXtLvzaIKpetUMAz
+	5J9g7piroTh1WhQGolxfCS2A0FRRq81LLiYHAVxoKA==
+X-Received: by 2002:a05:620a:40c2:b0:8ca:a98e:bd0 with SMTP id
+ af79cd13be357-8cd93becd8emr487863985a.27.1773163587513; Tue, 10 Mar 2026
+ 10:26:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310154646.3780697-1-vpuar@qti.qualcomm.com>
-X-Proofpoint-GUID: 2Jgs2dMqB55TV1GovxNBfWaFZXR80N90
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDE0MCBTYWx0ZWRfX42jV2xpNA2VT
- 0kkz03mIDxTTtE6cHme0h6L9Z1M785OMp68s/k0/sqNd9n6z1j1t03AvTwSAXw3tfWYQJsNxXoZ
- ngqv8jdMhsG3B27c3jMe6UTy5cuCyDbNZEAXmSeceyZXVJSh4UmkB43jGlLA+1F9tOeYXX3fAxy
- 3AANcDnNrDgHxFkRiPv75TcJes26VLBXIqF7mq1kdaH4T/ouGvjBhfBOJXLakJwlBCmRtsaurp0
- AbUjsk8MByzFZNWk4cYtub27qTf+4aIoBVcf3kquQoBkApqAxPC94iJfNyN6j6O4J2LCBRYyaK3
- ga6CC5dCNgp4JRc1hSIXG+RaStSXILYpHz6qc+ePtYVdqQXQShmaC4RNHiH8zHYnTDzW4rooGOx
- ZlGZNTxD7HzvRTuxasGDXPnkrGOzoiLyJ+IctXjGo8HuwfyYgHEJHQ+YKZFJbkZoSeQQOEN8q4V
- snxj8hLUZVvDEr1AKKw==
-X-Authority-Analysis: v=2.4 cv=A71h/qWG c=1 sm=1 tr=0 ts=69b041b7 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
- a=xax980A8BmGidevOf80A:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-ORIG-GUID: 2Jgs2dMqB55TV1GovxNBfWaFZXR80N90
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_03,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 clxscore=1015 suspectscore=0 bulkscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100140
+References: <SN7PR11MB770572B1859AB0B7EB592DE3CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <CANNYZj9Y0Fk_DHxTcP-2cqmYnzcD4_VSg5eihwXp1Vc10HbREg@mail.gmail.com>
+ <SN7PR11MB770587ED31BE8EE18D973740CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <SN7PR11MB77056419029EAA594968E1DECD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+In-Reply-To: <SN7PR11MB77056419029EAA594968E1DECD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Mar 2026 18:26:16 +0100
+X-Gm-Features: AaiRm51zExTccn_QszV3X20ABueAkddOKiNVotLGXAEW45_MZfj7lsKV4Blx6XY
+Message-ID: <CANNYZj8uCJWnkhvh=CecWiawWd57k15wdqcfzc3mtbxoMFqSHg@mail.gmail.com>
+Subject: Re: [OE-core] RPM 6 in Wrynose
+To: "Matthew Ware (mattware)" <mattware@cisco.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Elliot Sparling (esparlin)" <esparlin@cisco.com>, Robert Yang <liezhi.yang@windriver.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, adam.duskett@amarulasolutions.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 16:07:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232799
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 17:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232800
 
-On Tue, Mar 10, 2026 at 09:16:46PM +0530, Vivek Puar wrote:
-> Upgrade the firmware package to latest release. Add package
-> ${PN}-lt8713sx for Lontium LT8713SX DP hub, add audioreach
-> firmware and license for Kaanapali, Lenovo ISH LNLM firmware
-> was renamed so add those files  in ${PN}-ish-lnlm-53c4ffad
-> package, and modify FILES:${PN} for package ${PN}-ish-lnlm-12128606
-> to pack firmwares properly.
-> 
-> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  ...20260221.bb => linux-firmware_20260309.bb} | 24 ++++++++++++-------
->  1 file changed, 15 insertions(+), 9 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260221.bb => linux-firmware_20260309.bb} (99%)
-> 
+On Tue, 10 Mar 2026 at 18:24, Matthew Ware (mattware)
+<mattware@cisco.com> wrote:
+> Also, since we're here: is there any plan to move to DNF 5? I see Wrynose is staying on 4.x, but wondered if there was a plan/aim for DNF 5.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Yes, there are WIP patches for it too. Adam is working on it.
 
+I have to ask: can you give us some context? What makes you interested
+in having these versions in Yocto?
 
--- 
-With best wishes
-Dmitry
+Alex
 
