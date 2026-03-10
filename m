@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2903FFD4F23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3E8FD4F26
 	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 18:41:13 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2660.1773168065517441019
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2661.1773168066491886374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 11:41:05 -0700
+ Tue, 10 Mar 2026 11:41:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SjGqI6T7;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-46708149af2so1568079b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:41:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WlIpjzjt;
+ spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-46702742c7dso667549b6e.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773168064; x=1773772864; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773168065; x=1773772865; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kZsTCBgME1PNRjxHczDMbLqJbIl+DF2WK2U4einEvRE=;
-        b=SjGqI6T7ly4hHDAV16C5S0lK9xuFfxvfeSlYzXLIfi8rSFAmpU3lhfxWj4/r8XhLYT
-         ZgPPMEvZG/UIOr4fumzZzmoOG5wfvEipTXn2ELbG+u7P4PVIl7/an7n0kXYzqMfXiNHF
-         0iwe54AAgCOcweXEU7rTty7ra80TYMpnvqK7wm6asVnTug7b+RRx0pqxFnxFxSZriz3v
-         9m8fLzx9/Kbw15nvAm9OG31dpWzJJ3VU1d1vT1PS6LE7EdHcpkQOp19RqR1zi5z+hSe5
-         5NuOfRNSmzjrJ/SXFTSwdPazgjjJ9Ny76DW5577QrmJ0Ml25PRJZJuxGs6pNITWmihOU
-         ynYg==
+        bh=7bs/2ESNOjlKv5F2a1L5fY1cfh3Mb2GOypfpxUG+ELw=;
+        b=WlIpjzjtnuGlPpwbu5W8VZ+0EMZ9r9veKKQi+dIP4lsXG1J0rCeKlEyKDesmVOSeYk
+         b8iPEU/DDKJ2We/SngWijgp1zyJq2Ar9fw3dfp6pJfvGiJvJ0dtE3eRf2dlSrZMnKbGM
+         IjYJssvkX00BH/WGgzvjZJGr4CfogVUD4ujy3wl3UeSIkhz+yAsVbJWqvPnQybQdUhDe
+         yEJTajRHHDUEw5m3gDck7mDX7p9damf/dJERoN75vUP2jZsWRdf4bYUAH9M1GOFgZ+ur
+         0E9X347gF6/wmMBjvvhuAZ+dZzeBUZmycHhKPFeKTltp1U2j6+mORco1HykThZX2qrTy
+         97oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773168064; x=1773772864;
+        d=1e100.net; s=20230601; t=1773168065; x=1773772865;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kZsTCBgME1PNRjxHczDMbLqJbIl+DF2WK2U4einEvRE=;
-        b=LZHg/m7SU8Ebdn/5yRXg155h1AazTK+RXTdOxSQ+VfdP/KlJpwuNt9wlWHs2J49MFG
-         2aEQP4ieVWpJqhZpLEgBxtSwOn9TqWHog3W3WgTN5aVMrQdcIYBLlBlZjKAYEA8CoM/y
-         CKPznvq4RSTng6XYPhCTOOHe2rBXk8tmLQNu8T1hKmLdUhANaCLG0TuYmcWu2BIKDObq
-         Z4ErFn0Pdoj2V9z7Gthv9imrhWoo36Ex4BoHgwsBYQ5kamQ1WyPgnXzFMSVnj4MI6uTW
-         ZEwTbOJJSUdlcY9I8HzUkDmYvv3qiQ4JnE+nfx5LgM2p1L8rFbzUJr42xTi3tJKBFTPh
-         LJOQ==
-X-Gm-Message-State: AOJu0YzaSp2wcKwBGA4Vu+OaTFViLk2WExzZ8bqm7Gg/J4KvOMI/BFGn
-	d6UWx/vB3amhN38ggWdx2F1OLVlHhb4EEYGUCqaVmPyKD30K9moxi2rJKtrcCg==
-X-Gm-Gg: ATEYQzzce8C+k2mN2w5rwrzigcYNkSGwWkdZG2Km8TvVEgrH4L9t64ecnlmev+cCSde
-	LgPM4HaNitmqQdcDiBWWEPWihsfqEWxzcMBsFX9885+qR0hkeMx4vZq83rvvGjJzmrQF3O9b8uK
-	hTW02Nvh589v/V2928DDkaMwfQwbL2Pljeo0YBAl2RetlyH5Pfs9vKg3uqUI+8qT62sn1yMCAhn
-	FchGRtJZOCsSMUu2m8s5Pd2Zi4J93QhLK9WIWenY2G9owXFJ1+qQXyAigni70h+CaxuvpAQ0Ntk
-	xX/NKzQTOI+Vj/M/u1Ly4W6YHuVIH5Q7QXGImkBUpIS5HvUfnB+6j58wdOjLVYC9d4v4YUB5t0m
-	OjUZwJKGSCh76KrBgwLSz3KCeJ9o5vhZX4a6yD/a1eGldODTzXsz51vODbz8qxXXEyE7ip8zZev
-	9S2cGUpovLcj2yHPKvIOrm
-X-Received: by 2002:a05:6808:c162:b0:455:d5d1:8ac0 with SMTP id 5614622812f47-466dcb76992mr8745223b6e.53.1773168064561;
-        Tue, 10 Mar 2026 11:41:04 -0700 (PDT)
+        bh=7bs/2ESNOjlKv5F2a1L5fY1cfh3Mb2GOypfpxUG+ELw=;
+        b=eHDgG8rCmcDEbwAo7EFyauC/TSJj6H26zJbwWgE2C2eWLzBa1R+/GQEbH0vh3U7pxe
+         40pSSXS+9clHbXgxeRHXUSWjmWzjYXfGoDVAPnBqEoTQ1PxtwvDoSnm/kuSj4p2zoyw4
+         z8riyo5YZbAPkw2OQLZWH7RqQmbtaNxEK/km9g8PVA7EQGKkwkoBauFNLhfxkBo8Om7g
+         lsiMP87TYMLB9Al/Nb1DedVUEsldaa/kmt1LKu30ITd4kPkfX4+CP3MOTe/l/2dqYdJz
+         aU53dEhiywt0CTYepV6aOuK3sbtb0fz6opHlOeA1fcrujcBeWwchfArpXWdcGCccYCXe
+         eVGA==
+X-Gm-Message-State: AOJu0YzHzqbVw9M9D9Tt0z2SlYBX2nepoUrCJIf/VT4nKLlKUAcxEcl9
+	Yh0LOKFjidSiM+SOWk66wXjQUOYlZ9Jx4ESG1FNCDBt3IiO7aaJDRCatyugnDw==
+X-Gm-Gg: ATEYQzztwJJL0esCWvbB2qMRFDHY31jCsbFe1FDc4Oi4m36OOWy3j4gPjTjCDUVl04h
+	MYRJ8o73nkO5Z72PpAotnTlARwW1puTFR592k2qUKmUDNMDXPUGnFHpnDtkuKSJD8T1rj6tynAT
+	ExJPiMARKlpeZc2B/GtZu6ctqjZM5NMba9V0KW1p+uFKOlUHveV//ak+IBXkAX6vNmqI+r3rZz7
+	LwQpZkawWayppbFKf83+kEoyqbvRPX2Aeie12VxgNJj838wid+6xQ0HD15JYfpjeYqXMKIJSEtr
+	vLAQB9stIwSa9TL+9HHDnR56Mx1ONy3qMLC0CNOrt/Jc4Lq5yOxwYzP60Yj1qtSnHtzV5PO4bTH
+	uQzwpU95QOlnxPbTkmwugLdeyW6L1jbfCrYqjI90yOHfvqg5+2KDuyZDcH8Dv7MQR+Sb0dHsSba
+	j2qSzoCpnEaowepAo167xJoK61+d2/AqE=
+X-Received: by 2002:a05:6808:2e44:b0:467:2509:c20a with SMTP id 5614622812f47-4672509c5d6mr1365442b6e.47.1773168065445;
+        Tue, 10 Mar 2026 11:41:05 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4200:11c0::9891])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4671d2a7ebfsm2444524b6e.20.2026.03.10.11.41.03
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4671d2a7ebfsm2444524b6e.20.2026.03.10.11.41.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 11:41:04 -0700 (PDT)
+        Tue, 10 Mar 2026 11:41:05 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v6 01/15] llvm-project-source: Use allarch.bbclass
-Date: Tue, 10 Mar 2026 12:38:21 -0600
-Message-ID: <20260310184058.533343-2-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v6 02/15] gcc-source: Use allarch.bbclass
+Date: Tue, 10 Mar 2026 12:38:22 -0600
+Message-ID: <20260310184058.533343-3-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260310184058.533343-1-JPEWhacker@gmail.com>
 References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
@@ -69,7 +69,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 18:41:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232812
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232813
 
 Converts the recipe to use allarch.bbclass. This is necessary because
 SSTATE_PKGARCH is set to "allarch" based on if allarch is inherited or
@@ -79,25 +79,33 @@ SSTATE_ARCHS)
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-devtools/clang/llvm-project-source.inc | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ meta/recipes-devtools/gcc/gcc-source.inc | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/clang/llvm-project-source.inc b/meta/recipes-devtools/clang/llvm-project-source.inc
-index 13e54efbc2..6bb595b7bc 100644
---- a/meta/recipes-devtools/clang/llvm-project-source.inc
-+++ b/meta/recipes-devtools/clang/llvm-project-source.inc
-@@ -5,7 +5,7 @@ deltask do_populate_sysroot
- deltask do_populate_lic
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
+index 265bcf4bef..3ac679b1a6 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -1,11 +1,11 @@
+-deltask do_configure 
+-deltask do_compile 
+-deltask do_install 
++deltask do_configure
++deltask do_compile
++deltask do_install
+ deltask do_populate_sysroot
+-deltask do_populate_lic 
++deltask do_populate_lic
  RM_WORK_EXCLUDE += "${PN}"
  
 -inherit nopackages
 +inherit nopackages allarch
  
- PN = "llvm-project-source-${PV}"
- WORKDIR = "${TMPDIR}/work-shared/llvm-project-source-${PV}-${PR}"
-@@ -14,14 +14,8 @@ SSTATE_SWSPEC = "sstate:llvm-project-source::${PV}:${PR}::${SSTATE_VERSION}:"
- STAMP = "${STAMPS_DIR}/work-shared/llvm-project-source-${PV}-${PR}"
- STAMPCLEAN = "${STAMPS_DIR}/work-shared/llvm-project-source-${PV}-*"
+ PN = "gcc-source-${PV}"
+ WORKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
+@@ -14,14 +14,8 @@ SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
+ STAMP = "${STAMPS_DIR}/work-shared/gcc-${PV}-${PR}"
+ STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-${PV}-*"
  
 -INHIBIT_DEFAULT_DEPS = "1"
  DEPENDS = ""
