@@ -1,190 +1,126 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E56AEEB105A
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 14:22:28 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.41247.1773152545651718141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9042EB105C
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 14:26:48 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.41253.1773152804143123695
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 07:22:25 -0700
+ Tue, 10 Mar 2026 07:26:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=MGpsja+3;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62ACalZh964034
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:22:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=pLKq8ODt99fHQoo9aTpvyq
-	XmeeRFSYX0OEmekemBHvU=; b=MGpsja+3gyeaJ+zbzPYtXq+IYsqvD1V3w0o6sT
-	SZVk9+/M+nYlsV9jAF/bWeZhQjpRIGtIcMNWC6vvYw/TdfkyY1OowQZdBATWvsAt
-	1uAqoVm6QDMoBPo/TcvaoewaovWpQ8HbphyGhdX4Uo6lI5KetoqQquMaLH2HKcwu
-	2lGn5Zu76mIVPbQ2nKKotRDyaxiS/2/cD95/sf6o8aFyPVlftdgktjcjyH2mo7Ej
-	DpuPZbAn/NHyejJmNQ1Mb4VYuiRPPi6tYB/dsNtCqf69KCtw2R5tZ6PwT/Qg/ve7
-	66dQxlX5681ROwRB1G2Xfwx6Xlh8JY8JYvt23KGAqAVdX3/w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ct477kk06-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:22:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 62AEMNA8021468
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:22:23 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 10 Mar 2026 07:22:21 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2] linux-firmware: upgrade 20260221 -> 20260309
-Date: Tue, 10 Mar 2026 19:52:06 +0530
-Message-ID: <20260310142206.3713140-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XT9BU08D;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439c6fc2910so4870023f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 07:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773152802; x=1773757602; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8vwxgvZq5hOSE4x7X/Rw7Auo0NT2Ug1C6WHA1Mk+0E=;
+        b=XT9BU08DLe/UVf8O/ElEuShOu6DV72Puml0tpBD2QboMzBgG0/ylfeSxELpuLvw86P
+         9BNKF5kU1iL9p0Xb3FwhaPOWfWKuHb+Xt2FzwFieBlEcQ9//wFadCtB3IiJOpyhlPBw2
+         OF2L4Sz+727ida6ujDVg93feWwkhcwW6GXgbKwPPTixkXTDTg3ADzFB3wjN03RulCVXb
+         tz3pVc3BNh8sXMyOyTbvhyXBVJ4vCwlQdOaZZ0cSt4lp4nzjivv/C/gt2k1kP26pjEY6
+         nhGSZXY7WrayPe7f7Ejt+HHhemIDRVaDiqbvh5vDipIbi2CsRgS0kYeIg1TpYeBbV9oQ
+         Lk/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773152802; x=1773757602;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l8vwxgvZq5hOSE4x7X/Rw7Auo0NT2Ug1C6WHA1Mk+0E=;
+        b=AmtAslbk+DQY2djSCRlyY+PpWDCbvj1xTRlRUhYdJix1ypzoEsTixWYpoZODonAvEs
+         hwdoksAIN2hnwYuhIvqZbKBS7vb2W8EQ8svfF2Vns/RUdW8/X8x71kju7g3Z04Ge4DzJ
+         Czky7Q4NWD3XjYNL+SJzI7gNcOrFTCt+1GMNuPEzrtcvLWZA6Wa89m1fO+HSgluEMh/m
+         JojqJbwIvJyBNO2vobTPecQrFIM8Gj2+PgAlVkRe7w1LPPU8szy1E9qdRdTaiGpQ3oLx
+         Al0qftOkRYjGVwviB40JJyYQ5E/4tpRyQ1/dBSGNa1D8ijVv36iwqdP7nZoS2+beJjxh
+         szJg==
+X-Gm-Message-State: AOJu0YxRN1H2SVNFFJP9ZCAhNEsGLc7JNNIoi8FWDe48V0dIqmRtzYvL
+	n1oOKOauQNFDhetMMNw9D5VC28epDJxQIXuCSFprPi7NmiIDupPd6+TieSdxlyAM
+X-Gm-Gg: ATEYQzzIfnHHE3SDLvSdQwGCZnovsVh+BMBELnTRZGt1/6x4orIlIllrJqGtFHHWRMx
+	Y+el3nclFvmj2+sUIJpYiWu3jxu/c0YzXVjLh04ZM0WjylGQeKW8CV1Lr/Z32xJIsUIFfnz/JE8
+	Elfbj+/AGYWgXDHDkeJ95i4+UCELPSQketTBT2eWfwvMGaBaFvxW4v1JximTGdlK0K9dQF8Drg/
+	aa/2yK0PApR+C9BicxFQ7pMPq3T4vXsZAK1iHsmOmIc45B+j8axpJXKvqF6kUlt5Ycrqeb1OMBM
+	pINl5N/LQKm00HzqRXkho07n8+SRHc4db0HG32/0A/TeSwGTMxVK8cGbdRUdDSIClpCMyprXr39
+	Sr+rt4QRBzxHcsb5jjWgl1J5PHiElMdig6jejzzMNR0RSpHk2xuMYn7+VN3pjXMw0VkflwsEjdF
+	dO42XgNO0584Dzf3Qr7Tc960wQkQ==
+X-Received: by 2002:a05:6000:4014:b0:439:b858:1d44 with SMTP id ffacd0b85a97d-439da351ebamr27186259f8f.20.1773152802374;
+        Tue, 10 Mar 2026 07:26:42 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae2ba5bsm34825863f8f.22.2026.03.10.07.26.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 07:26:41 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [whinlatter][PATCH] lsb.py: strip ' from os-release file
+Date: Tue, 10 Mar 2026 15:26:37 +0100
+Message-ID: <20260310142637.199580-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDEyNCBTYWx0ZWRfX8a4V65agxCFr
- Gc5Mij+yEgkjMrRnVSJbMrZAUI+vekBNEJs12khgYj9/SjEJ5cv3S8oHwb4LyVhKFn2I8TbjmGA
- psbEcxLcjCK9mKPf9qiZsebcXylnEZhZJnXFzNF3yad+lVGMs6HmF964eAo+pzQ5+N7GEdCz3Cg
- J9bJm3jJpJBKub4lIPK7N3/ff3CAgFEjhMvrTH9KBgjJLfxHGZOzjUIk7keEMr/Q4m+T/9s+PHr
- iScVILGE7CU4igGea7je/L/EAjMIE+qOqMfsxu9hWx7bwWtLG/43J9AO8C2co8eH+KN8jZLCJtq
- UDp8fZa0qQzkDixEMvHvW+X/IkEi8V3nbdMCvZ0DcRlaGNWhr+fNYoFw5OUNAbCSXrIkKhbXnUM
- LfyHlXoNnShORaMAxDjgtXs52jCXIgBDhCbA3A5xl0bH/GYm+JgaJpIGsWo6B5DZ6gmqF/qkXiN
- aW9quwiyL/mRcO4Z3Iw==
-X-Proofpoint-GUID: oUvDIFZbSLhgZ9ADYc2Qea-AytCBsnWH
-X-Authority-Analysis: v=2.4 cv=KLxXzVFo c=1 sm=1 tr=0 ts=69b02920 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=6jdD_WWMzjpKN4eB1eAA:9
-X-Proofpoint-ORIG-GUID: oUvDIFZbSLhgZ9ADYc2Qea-AytCBsnWH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_02,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 bulkscore=0 impostorscore=0 spamscore=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100124
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:22:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232788
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:26:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232789
 
-Upgrade the firmware package to latest release. Add package
-${PN}-lt8713sx for Lontium LT8713SX DP hub, add audioreach
-firmware and license for Kaanapali, Lenovo ISH LNLM firmware
-was renamed so add those files in ${PN}-ish-lnlm-53c4ffad
-package, and modify FILES:${PN} for package ${PN}-ish-lnlm-12128606
-to pack firmwares properly.
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In gentoo the file looks like this:
+
+NAME='Gentoo'
+ID='gentoo'
+PRETTY_NAME='Gentoo Linux'
+VERSION='2.18'
+VERSION_ID='2.18'
+HOME_URL='https://www.gentoo.org/'
+SUPPORT_URL='https://www.gentoo.org/support/'
+BUG_REPORT_URL='https://bugs.gentoo.org/'
+ANSI_COLOR='1;32'
+
+' were added with:
+https://github.com/gentoo/gentoo/commit/2f590e35c9d3d13d5673163527120b2de97fdc80
+
+before that the os-release file looked like this:
+
+NAME=Gentoo
+ID=gentoo
+PRETTY_NAME="Gentoo Linux"
+ANSI_COLOR="1;32"
+HOME_URL="https://www.gentoo.org/"
+SUPPORT_URL="https://www.gentoo.org/support/"
+BUG_REPORT_URL="https://bugs.gentoo.org/"
+VERSION_ID="2.18"
+
+The ' is stripped from the ID later in distro_identifier with:
+    # Filter out any non-alphanumerics and convert to lowercase
+    distro_id = re.sub(r'\W', '', distro_id).lower()
+but not from version which results in a weird NATIVELSBSTRING like:
+    NATIVELSBSTRING      = "gentoo-'2.18'"
+
+And similarly the directory name in sstate-cache:
+
+oe-core $ ls -d sstate-cache/gentoo-*
+"sstate-cache/gentoo-'2.18'"   sstate-cache/gentoo-2.18
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- ...20260221.bb => linux-firmware_20260309.bb} | 22 ++++++++++++-------
- 1 file changed, 14 insertions(+), 8 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260221.bb => linux-firmware_20260309.bb} (99%)
+ meta/lib/oe/lsb.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260221.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260309.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260221.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260309.bb
-index 168ccaa6d5..621d9d99f3 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260221.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260309.bb
-@@ -314,7 +314,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "e3897ca46d046032a2b60b8554caf61d"
-+WHENCE_CHKSUM  = "772c8667ff568e7de3a7794fd420f2f7"
+diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
+index 3ec03e5042..1fc3b968a0 100644
+--- a/meta/lib/oe/lsb.py
++++ b/meta/lib/oe/lsb.py
+@@ -16,7 +16,7 @@ def get_os_release():
+                     key, val = line.rstrip().split('=', 1)
+                 except ValueError:
+                     continue
+-                data[key.strip()] = val.strip('"')
++                data[key.strip()] = val.strip('"\'')
+     return data
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -452,7 +452,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "bd19acc4c1a02548e09d3df67f987fe6e378df735bab138c1d9e917962056d94"
-+SRC_URI[sha256sum] = "c74cc6f562b58ad5bc6b2b00a61abc29c9e49e06126e7ba34fbca9928e07a96c"
- 
- inherit allarch
- 
-@@ -763,7 +763,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qla2xxx ${PN}-qla2xxx-license \
-              ${PN}-rockchip-license ${PN}-rockchip-dptx \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
--             ${PN}-lt9611uxc ${PN}-lontium-license \
-+             ${PN}-lt8713sx ${PN}-lt9611uxc ${PN}-lontium-license \
-              ${PN}-wfx-license ${PN}-wfx \
-              ${PN}-whence-license \
-              ${PN}-xc4000-license ${PN}-xc4000 \
-@@ -1323,9 +1323,11 @@ RDEPENDS:${PN}-amdgpu-vega12 += "${PN}-amdgpu-license"
- RDEPENDS:${PN}-amdgpu-misc += "${PN}-amdgpu-license"
- 
- # For lontium
-+LICENSE:${PN}-lt8713sx = "Firmware-Lontium"
- LICENSE:${PN}-lt9611uxc = "Firmware-Lontium"
- 
- FILES:${PN}-lontium-license = "${nonarch_base_libdir}/firmware/LICENSE.Lontium"
-+FILES:${PN}-lt8713sx = "${nonarch_base_libdir}/firmware/lt8713sx_fw.bin*"
- FILES:${PN}-lt9611uxc = "${nonarch_base_libdir}/firmware/lt9611uxc_fw.bin*"
- 
- # For Arm Mali
-@@ -2331,7 +2333,7 @@ LICENSE:${PN}-qcom-glymur-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-glymur-audio = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-glymur-compute = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-kaanapali-adreno = "Firmware-qcom"
--LICENSE:${PN}-qcom-kaanapali-audio = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-kaanapali-audio = "Firmware-qcom-2 & Firmware-linaro"
- LICENSE:${PN}-qcom-kaanapali-compute = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-kaanapali-soccp = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-qcm2290-adreno = "Firmware-qcom"
-@@ -2459,7 +2461,10 @@ FILES:${PN}-qcom-glymur-adreno = "${nonarch_base_libdir}/firmware/qcom/glymur/ge
- FILES:${PN}-qcom-glymur-audio = "${nonarch_base_libdir}/firmware/qcom/glymur/adsp*.*"
- FILES:${PN}-qcom-glymur-compute = "${nonarch_base_libdir}/firmware/qcom/glymur/cdsp*.*"
- FILES:${PN}-qcom-kaanapali-adreno = "${nonarch_base_libdir}/firmware/qcom/kaanapali/gen80200_zap.mbn*"
--FILES:${PN}-qcom-kaanapali-audio = "${nonarch_base_libdir}/firmware/qcom/kaanapali/adsp*.*"
-+FILES:${PN}-qcom-kaanapali-audio = " \
-+    ${nonarch_base_libdir}/firmware/qcom/kaanapali/adsp*.* \
-+    ${nonarch_base_libdir}/firmware/qcom/kaanapali/Kaanapali-MTP-tplg.bin* \
-+"
- FILES:${PN}-qcom-kaanapali-compute = "${nonarch_base_libdir}/firmware/qcom/kaanapali/cdsp*.*"
- FILES:${PN}-qcom-kaanapali-soccp = "${nonarch_base_libdir}/firmware/qcom/kaanapali/soccp*.*"
- FILES:${PN}-qcom-qcm2290-adreno = "${nonarch_base_libdir}/firmware/qcom/qcm2290/a702_zap.mbn*"
-@@ -2783,8 +2788,8 @@ FILES:${PN}-hp-license = "${nonarch_base_libdir}/firmware/LICENSE.HP"
- 
- LICENSE:${PN}-ish-lnlm-12128606 = "Firmware-HP"
- FILES:${PN}-ish-lnlm-12128606 = " \
--    ${nonarch_base_libdir}/firmware/intel/ish/ish_lnlm_12128606.bin* \
--    ${nonarch_base_libdir}/firmware/HP/ish/ish_lnlm_12128606.bin* \
-+    ${nonarch_base_libdir}/firmware/intel/ish/ish_lnlm_12128606_*.bin* \
-+    ${nonarch_base_libdir}/firmware/HP/ish/ish_lnlm_12128606_*.bin* \
- "
- RDEPENDS:${PN}-ish-lnlm-12128606 = "${PN}-hp-license"
- 
-@@ -2794,8 +2799,9 @@ FILES:${PN}-lenovo-license = "${nonarch_base_libdir}/firmware/LICENCE.lenovo"
- 
- LICENSE:${PN}-ish-lnlm-53c4ffad = "Firmware-lenovo"
- FILES:${PN}-ish-lnlm-53c4ffad = "\
--    ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_lnlm_53c4ffad_*.bin* \
-     ${nonarch_base_libdir}/firmware/intel/ish/ish_lnlm_53c4ffad_*.bin* \
-+    ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_lnlm_lenovo_X1_2025_5.8.4.7720.bin* \
-+    ${nonarch_base_libdir}/firmware/LENOVO/ish/ish_lnlm_lenovo_X9-14_2025_5.8.36.09092.bin* \
- "
- RDEPENDS:${PN}-ish-lnlm-53c4ffad = "${PN}-lenovo-license"
- 
--- 
-2.34.1
-
+ def release_dict_osr():
 
