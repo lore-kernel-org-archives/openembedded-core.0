@@ -1,102 +1,80 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <alexander.sverdlin@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E438FD2D9C
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 14:02:08 +0000 (UTC)
-Subject: Re: [PATCH] linux-firmware: upgrade 20260221 -> 20260309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCB6EA8550
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 14:08:28 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40931.1773151698222184109
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 10 Mar 2026 07:08:18 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=alexander.sverdlin@siemens.com header.s=fm1 header.b=IMN3F1az;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-456497-20260310140815bb7097012b000207c2-gybibi@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260310140815bb7097012b000207c2
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 10 Mar 2026 15:08:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=alexander.sverdlin@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=I5L9nhkAJmXu1cQcwLCPyuAcSzsC0GUpnN4+jgkMQqA=;
+ b=IMN3F1azKBp4w8Kh4vmvlJrweFzKgUsFHgtRa8gqJynQar3bGGeXcNHTyYE16xkNd/Dzfa
+ bkGGW/+BW5fQiE9OAL//f0ytQrQlao0mpAu/jtfn7nkdvVKUVyujkWbJcJw5NSIjXhp+4RHo
+ 1B2I62/U7+uIu2tb/lbcgi7c/VWd8WBuvY/ErT6bItN216p/dETLYcjqPAFIU/fJkBbPc5R8
+ KY1rtJ/jExim8CKNuQyucDNAX6Y/eKyxhoYMSkAKxWg+HRJG7gcxQMHImZ7AB4JoEgcq/Ozl
+ /CDqlOLUcjCRNyX17UGJZEcTSAZTbZZ8IIXqha1AeMCLBGaMY4DEGFDg==;
+From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
 To: openembedded-core@lists.openembedded.org
-From: "Vivek Puar" <vpuar@qti.qualcomm.com>
-X-Originating-Location: Hyderabad, Telangana, IN (163.116.219.39)
-X-Originating-Platform: Windows Chrome 145
-User-Agent: GROUPS.IO Web Poster
+Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+	Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [PATCH] linux: cve-exclusions: Add --always to git-describe
+Date: Tue, 10 Mar 2026 15:07:46 +0100
+Message-ID: <20260310140753.2618851-1-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
-Date: Tue, 10 Mar 2026 07:02:01 -0700
-References: <20260310074128.3451158-1-vpuar@qti.qualcomm.com> <t2imob3rqfil3vkl2pfsrulvas4vbfq2a33zd7vgjpx2ne5hvt@26nynfjviqet>
-In-Reply-To: <t2imob3rqfil3vkl2pfsrulvas4vbfq2a33zd7vgjpx2ne5hvt@26nynfjviqet>
-Message-ID: <86833.1773151321541739870@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="bitohEqrkt9xSH8buquu"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-456497:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:02:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232786
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 14:08:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232787
 
---bitohEqrkt9xSH8buquu
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 
-On Tue, Mar 10, 2026 at 07:01 PM, Dmitry Baryshkov wrote:
+Otherwise https://git.kernel.org/pub/scm/linux/security/vulns.git cannot be
+used:
 
->=20
-> Please keep this sorted
+subprocess.CalledProcessError: Command '('git', 'describe', '--tags', 'HEAD')' returned non-zero exit status 128.
 
-Sure will update.
+Original error from git:
 
->=20
->=20
->> +FILES:${PN}-lt8713sx =3D "${nonarch_base_libdir}/firmware/lt8713sx_fw.b=
-in*"
->=20
->=20
-> Please keep this sorted
+fatal: No names found, cannot describe anything.
 
-Sure.
+The change will at least produce an abbreviated SHA1 hash as {data_version}.
 
->=20
->=20
->> -FILES:${PN}-qcom-kaanapali-audio =3D
->> "${nonarch_base_libdir}/firmware/qcom/kaanapali/adsp*.*"
->> +FILES:${PN}-qcom-kaanapali-audio =3D
->> "${nonarch_base_libdir}/firmware/qcom/kaanapali/adsp*.*
->> ${nonarch_base_libdir}/firmware/qcom/kaanapali/Kaanapali-MTP-tplg.bin*"
->=20
-> One per line. Also this brings the licence change.
+Fixes: 5e66e2b79fae ("linux/generate-cve-exclusions: show the name and version of the data source")
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+---
+ meta/recipes-kernel/linux/generate-cve-exclusions.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Will update
+diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+index dfc16663a5..5139b11055 100755
+--- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
++++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+@@ -97,7 +97,7 @@ def main(argp=None):
+     version = args.version
+     base_version = Version(f"{version.major}.{version.minor}")
+ 
+-    data_version = subprocess.check_output(("git", "describe", "--tags", "HEAD"), cwd=datadir, text=True)
++    data_version = subprocess.check_output(("git", "describe", "--tags", "--always", "HEAD"), cwd=datadir, text=True)
+ 
+     print(f"""
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-- 
+2.52.0
 
->=20
->=20
->> +LICENSE:${PN}-ish-lnlm-lenovo-thinkpad-x9-14 =3D "Firmware-lenovo"
->> +FILES:${PN}-ish-lnlm-lenovo-thinkpad-x9-14 =3D "\
->=20
-> This will make ish-lnlm-53c4ffad depend on your new packages. Just push
-> those files into ${PN}-ish-lnlm-53c4ffad.
-
-Sure, will add those files into package ${PN}-ish-lnlm-53c4ffad
-
-Regards,
-Vivek
-
---bitohEqrkt9xSH8buquu
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Tue, Mar 10, 2026 at 07:01 PM, Dmitry Baryshkov wrote:</div>
-<div>
-<blockquote>Please keep this sorted</blockquote>
-Sure will update.<br />
-<blockquote>
-<blockquote>+FILES:${PN}-lt8713sx =3D "${nonarch_base_libdir}/firmware/lt87=
-13sx_fw.bin*"</blockquote>
-Please keep this sorted</blockquote>
-Sure.<br />
-<blockquote>
-<blockquote>-FILES:${PN}-qcom-kaanapali-audio =3D "${nonarch_base_libdir}/f=
-irmware/qcom/kaanapali/adsp*.*"<br />+FILES:${PN}-qcom-kaanapali-audio =3D =
-"${nonarch_base_libdir}/firmware/qcom/kaanapali/adsp*.* ${nonarch_base_libd=
-ir}/firmware/qcom/kaanapali/Kaanapali-MTP-tplg.bin*"</blockquote>
-One per line. Also this brings the licence change.</blockquote>
-Will update<br />
-<blockquote>
-<blockquote>+LICENSE:${PN}-ish-lnlm-lenovo-thinkpad-x9-14 =3D "Firmware-len=
-ovo"<br />+FILES:${PN}-ish-lnlm-lenovo-thinkpad-x9-14 =3D "\</blockquote>
-This will make ish-lnlm-53c4ffad depend on your new packages. Just push<br =
-/>those files into ${PN}-ish-lnlm-53c4ffad.</blockquote>
-Sure, will add those files into package ${PN}-ish-lnlm-53c4ffad</div>
-<div>&nbsp;</div>
-<div>Regards,</div>
-<div>Vivek</div>
-
---bitohEqrkt9xSH8buquu--
 
