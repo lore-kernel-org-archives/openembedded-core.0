@@ -2,100 +2,102 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84003FD4F17
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 18:14:02 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2079.1773166441284096645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A87FD4F19
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 18:15:22 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2099.1773166517372710800
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 11:14:01 -0700
+ Tue, 10 Mar 2026 11:15:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FidIX4fA;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852f73d0a3so30241395e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:14:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QUzVqRvJ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-899fbf92bdbso130046676d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:15:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773166516; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YtjWG9GL+jhOd54OLNP6vKcDsvRum3EAVTRD74qkoahWvsvXEao9kod62bmMV4DeS2
+         LZGtO7szW09iO0aASp8vRqDkwoED40L5yWyXHm7HF/daTyImwKoC4zebEx/DcFlgdN4M
+         ucxrcp4Au+t6HdKdZ/ppVq0+agjti0YKGiGiD9viRswPT+k4CUJn0iUftEWISrsjIXcA
+         R1LltTdYQWqwLgMptr+lt0boV0j361nQDmIiPsdtDxG+haKExxOaQ395jaLtbEOJPJ0B
+         1tfKOzaINHyn80p8ZrpxKnuzWUmT5mvWo1/OlODumunfNfmtIQxxHo18V2o/DC1308xY
+         zE7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4Q6yceRo44o/uJENrGVQh+c/KHytlqKvMeBRbIhz9l0=;
+        fh=A9LC2SuFeslKa5fZLg1lVVd+gCtVSH2fNo5gKijnBJs=;
+        b=JWMlaB64MJv4dz+duR4GCh5aScG5u7LhoJpThOUheb6q2Db0nMi/5XOf6nEfgujdgV
+         Kv+ivsHZVb/LJT5X1wcc2Db52zhFg109gzCRNJN2xoyVBUNN/sRuOMiiMgJXisJMWmp7
+         qOumtFhHApcP5m6Fx0ahon1sP9dCTt/QcWBkxWsjBfyD/MEGG9/sODFzlQPDIunbNNdr
+         i7yIyPczYYz4OKNOBB4dHxMrK4FzU12vihXMw54aSz+qxSup5ldpX/XU7eUfibAeL6ZK
+         sLF85Fk4pyUNEgUqKmH1RKNfTLlB6i6aww+kpO/lUpDKN4IlwlgCZj+CeZYTEvbyIwe9
+         akIA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773166440; x=1773771240; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Z5yClBMw/WYK5rXahP2tuBdwLN1TqvkGtDHVvLHxSY=;
-        b=FidIX4fAMCKCRNQv8+K8HzoQiwQF1S1V3TgfvBprafeXek0PjAeKwuepTd+fv7DVkC
-         vC5B45/HOJtkSYNz7fXHkF75qsYllmta28gMbcuheWatoo1d57ClyRVqMiRmwNQHSDVD
-         lIy9nBkQijkDbo4CSrCzIbnA/cGXaKGU9ey8TyDOT+/wOmzvizg4YUu+ad/9eMdu/Zor
-         80jpBIGtSFJYHkvzOvE26PrlhsMhtwTOVbpTaaFuibgd114NyLzGFXsXpPiwDr1iZh50
-         N0hMqysHj/ldeZP8xMUjoHAsRllOIaLZunW/OsPsENVAZABKd9sYZZ0YZmIm+i668myw
-         Ltsg==
+        d=gmail.com; s=20230601; t=1773166516; x=1773771316; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Q6yceRo44o/uJENrGVQh+c/KHytlqKvMeBRbIhz9l0=;
+        b=QUzVqRvJkfcOzxpCjR3BYtLMZj4Qrkjvh9H5JgpzlDCl3dh96R+h6wcx+zFYJegULy
+         NcPngbN4bp+ThlyVkB8UqOyqG1Hb+Ot3WLc8++vHC2Yw6ezto/IZL8zJwwk1rHMhlTk3
+         3pz+n6Ope0v7m35MVeT/TeA6ksN7vVrNpKJtRZ0E4txCG+MTiwozZNTk1aTPMJnPyHn2
+         FClkxblgpyxHkdTRRT8TYj1n1kgedKK/qHDkyRbAkRzTV9/vJT9ym0vhBglBOenYt89m
+         BF4pgNdp+HWqVjkb59nMVJz+vNL+ivk/I2pEw1q1Hne6M/SOPGIcfSKZg0FK9DwJZ0NC
+         XP8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773166440; x=1773771240;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1773166516; x=1773771316;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7Z5yClBMw/WYK5rXahP2tuBdwLN1TqvkGtDHVvLHxSY=;
-        b=nigET5PFXnrwfYPqjFHCUw9iPh8zYYdzNnrjVggegSZroWv3IHM/XQnkMcrlSKUtIJ
-         En0mSGqNnY/1bssmWkfqU3rmSjptIaghdvAWHTjnA8VQUQHKFrH6fytJVn0XskT/M+qM
-         WPF+wBM2DdA/x/KR4yKxaoUAHTsQoYCFD2tqOJPhUXlZ5cxzvfL7mEwu/CzO5AaJy3Y+
-         PcK3VvDV1T9ERs89R9TVhUonrhYv6jzG0bIHibqnHqjLK2XgcE0T6v45HJ2xU4n6S2az
-         D2ICPAFISOVA5u9ZxI0CWHo//4MNRkl4rO2BOY7401xs7z/Wtgct2aJnEDBQO5IBg9a3
-         fY6Q==
-X-Gm-Message-State: AOJu0YyeujjTdXGClIyKU62lBGDgNtkYKU2M2WN5IPi2O8PQFx/uF3W2
-	eS92TZO27JfqErLJFQ7D6qUnMMWl+2nfnHn1hTVTTDBKCEzV7gvlkR+jxY7IaA==
-X-Gm-Gg: ATEYQzy3lmUKgcy16Yr5xX+BKQrNBdGi8HJ+dr4HMqta0DPbZo5FilcD6zupV+ncKUm
-	LV2dZQE+wvES9EGlRRaqTTuWmAUKhbrHasbEMd5mxBLngEd/NxFbChMJYgLoK9N96M5NVGtc6ia
-	B2+H9mRis7JMaA1ltRVUWCSt6L1J3KBHnyzJnk14semyDROw+0IuyPrholre+2BK7FinbKYIh+6
-	qdgLJZbaXtm/oGwtttjMEQsTqj3rguMr8voQdX1UmPcjeheanorHbkRALZN9pEzE+m/t3fPtY7z
-	Q6O50NlqoPf0Q+pdQ1DzwzHCpJ+b58XOjZdHCMPMiCL0G/Hti3s3v8U3TDVf/MS69Od5w7h0kY7
-	qaFIlHiLCXoO2vPKwAP/ek0eWR1iybvHfxUX7PrCwv+LwuZBk+TXEvr5r3nNUXC0Ue6vv/iBzHN
-	vWPN0ylStH5eGHBdJcJQgN58ZMVxfubMThKheRaN5a55jpQBZ+iraiePEeNuA=
-X-Received: by 2002:a05:600c:3b0c:b0:480:3ad0:93bf with SMTP id 5b1f17b1804b1-48526979668mr265337415e9.24.1773166439375;
-        Tue, 10 Mar 2026 11:13:59 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae2b9ccsm37717631f8f.19.2026.03.10.11.13.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 11:13:58 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] rust: dynamically link with llvm for all rust variants
-Date: Tue, 10 Mar 2026 19:13:54 +0100
-Message-ID: <20260310181354.2396448-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        bh=4Q6yceRo44o/uJENrGVQh+c/KHytlqKvMeBRbIhz9l0=;
+        b=j3ed4T4OE6/PL7/eGHnj99nP9j93Yv4Jo005qQ9a/SyyRP2PUxrtWMp0OGP9YdoTXb
+         3Y4ly2bVjFLXDK5AqhY6fiHiklHuWNpDtFG2WQoYJRIVu0t1ecF3KhXWUBBT1jAH5J40
+         wEXhqZ0HWrlzVEzYhlDu0KlVx9Hfti75rGdPI9OzpBTvz+tn3pWGI/Aov6Dt7Tx68pTO
+         220wg+Duv9/OBjU7rGP2vxLepUmfbWmq7xxhsKx9iIGYxUozJdSGi9pBcr4gZJLHz3ZX
+         4ovg2rAxPrS0KFbGOXQyKauKlm1VoUZ3Bw4xzBzRume8Uel1tWqkSGxMJ7CcEO4Sxrxb
+         f/5A==
+X-Gm-Message-State: AOJu0YzWJJacCK+JBE8Qho0QQrV9QyPwRnm8YFimBsHlcpHJH2O9Dzeq
+	OJNQhe/u+EjTFhWkD05RnDHmqz+pk9rWHpxOZwyKdUKZ5OHRXopG6Q7TE05HoitBl1PZdaTmJQ7
+	p5dlCVPniB2ajjPiDp6+MitWYWRajEElhww==
+X-Gm-Gg: ATEYQzxUWTQLDGhcZ2l1yBDYIN3YZz/gOXD5OA49pNGJwbaTNDaFCjwnGpw2F5RtFKe
+	z9Z93ewyNHJCgimPWHdNKnpY6XebYkaZ8hUDWdE+vTFbU+ISUItMravi1k6HqZ2sQkRfaMIG7AV
+	K+NEyV4lQSeRIczNa6gbTPcsTKqW0o+fplTt08d53uPpq24N/MKroS4WXdHGjzS3XgKBDdJpTNL
+	0mvxcuNl9BYcjo40q0GW0ICYXgKsatbMLwYEElk553+Pfq97OGPQM5Br0p+h2y2wKzUSUp8QyDR
+	2K9firW6FQFs8dT+SoPmWYcqHUAY70bgjKtfuX9MRA==
+X-Received: by 2002:a05:6214:2522:b0:89a:1ec:5304 with SMTP id
+ 6a1803df08f44-89a30a5defamr240755876d6.29.1773166516130; Tue, 10 Mar 2026
+ 11:15:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260302132815.2922014-1-sunilkumar.dora@windriver.com> <1899EEAA854579E5.971272@lists.openembedded.org>
+In-Reply-To: <1899EEAA854579E5.971272@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Mar 2026 19:15:04 +0100
+X-Gm-Features: AaiRm52hCNjO9E_hJaESuN06EJ3v6bxpFZqwBUkQ0UxDnaC4uWV57n27OEIiAL8
+Message-ID: <CANNYZj8KP7UkQbO3-H15+gB-3yqKoW8hGPREnipAqqh9-wRcJg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: Enable dynamic LLVM linking for nativesdk-rust
+To: openembedded-core@lists.openembedded.org
+Cc: SunilKumar.Dora@windriver.com, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 18:14:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232809
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 18:15:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232810
 
-From: Alexander Kanavin <alex@linutronix.de>
+On Thu, 5 Mar 2026 at 12:32, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+> > -    if d.getVar('PN') == "rust-native":
+> > +    if d.getVar('PN') in ("rust-native", "nativesdk-rust"):
+>
+> Looking at the error, it seems the problematic binary in nativesdk
+> builds is rustc-1.93.0-src/build/bootstrap/debug/rustc - does this
+> mean building target rust has the same issue? Should we just go back
+> to the initial patch, which sets link-shared for all rust variants
+> without conditions?
 
-This is a followup to an earlier fix, which did it only
-for rust-native; additional testing revealed that nativsdk
-and target builds have the same problem as they bootstrap
-the compiler by first building an internal native version
-that links with native llvm parts.
+I just sent a patch that does this.
 
-[YOCTO #16058]
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-devtools/rust/rust_1.94.0.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/rust/rust_1.94.0.bb b/meta/recipes-devtools/rust/rust_1.94.0.bb
-index 2be0bd8d89..cfee48ec78 100644
---- a/meta/recipes-devtools/rust/rust_1.94.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.94.0.bb
-@@ -124,8 +124,7 @@ python do_configure() {
- 
-     # [llvm]
-     config.add_section("llvm")
--    if d.getVar('PN') == "rust-native":
--        config.set("llvm", "link-shared", e(True))
-+    config.set("llvm", "link-shared", e(True))
-     config.set("llvm", "static-libstdcpp", e(False))
-     config.set("llvm", "download-ci-llvm", e(False))
-     if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
--- 
-2.47.3
-
+Alex
 
