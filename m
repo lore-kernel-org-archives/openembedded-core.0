@@ -1,379 +1,236 @@
-Return-Path: <anibal@limonsoftware.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D16C8FCC9AE
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 02:14:31 +0000 (UTC)
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31316.1773108863247439226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4364FCC9C4
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 05:17:03 +0000 (UTC)
+Received: from TYVP286CU001.outbound.protection.outlook.com (TYVP286CU001.outbound.protection.outlook.com [52.101.125.15])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33521.1773119814915334357
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Mar 2026 19:14:23 -0700
+ Mon, 09 Mar 2026 22:16:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=PrE0aTwF;
- spf=pass (domain: limonsoftware.com, ip: 74.125.224.44, mailfrom: anibal@limonsoftware.com)
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64ad79dfb6eso11766699d50.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Mar 2026 19:14:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773108862; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WPp4X8JgJxAZPZqqrXo9GXZjLJdDm57wWTDI4DC6yg13jxKNKkenqPy/F9V4u2bsvj
-         uouZ5H8nNFJhixknkUJ8vu6kQgUfMcgtdO1xrrV0nj5zvaQgFjDilygf/gERO8aMCE7p
-         p1dnce9PDhcZO393HJjQY/otfGvyL2k4gFpgIW9U6Af47aEijl7WysM1fXED4uHdRnaf
-         3sPBK6g5Fs1GSwMKj9MROQxp9+scUUh1EBt5UR4A36qH0t7zs23OfiH/Gf5NMmB8qCfr
-         ZJvYneW6yGANdXYRGgfl6Dq5xVPrzwmLn9dc8NenjeiwCr43jrEGgavRr8EtAKiRu1fI
-         sFMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FCT71BxSt3KY/cKnc/NA5kOybV6SPPgdkyON+ig6pxU=;
-        fh=WWoWIOy4wFZP2hbfLunPvh6OdN0gfMIoWX56HdMQagk=;
-        b=gMV8hC2PKVqHBp7XGMxhPfBCirNgHuhNvr0hVs3P+7qYwnC95jqP5C6i+k6rnDW9bT
-         6vYNEMcAKz5buB/cACmqRVZdVxRkCnehco0CWkwVEobpsRk+QxRos8wujFe+fNBj6Ppw
-         KwTuyXfInx4l/GACFCgJNrrPClNNdxcT3tZR6ndB0w9GzawYK2cU5MbeI6ItbEInIX9u
-         FHiWOEdHDAy+R+FtJnEIkjaiQL/ZgmJ3ioZ6sdSj+RRWC+dqpDwbYsxvIQLDzR3X97UI
-         Qqru4UFGbLPIlomD3V+IgaIhvHEgBvPmJVoKWtlBiVriQCq7mBoeRWWOpw5/vMRaFMuK
-         wXnQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1773108862; x=1773713662; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCT71BxSt3KY/cKnc/NA5kOybV6SPPgdkyON+ig6pxU=;
-        b=PrE0aTwFxnz3OOJeybi2dCiymLp6+BAoWPbkxq9A/RR6p830I8CTlyFwekPdvORmqr
-         dfZFJIgS7ps7ex54od80Ob0Vp+UGQWIeEIqwmN9DuxjUhARhBssKRgMKPG0eAw0Dwyv3
-         VEKHbH7FoXr+mk65AilWFc4d/Sr1lp4k2mfzSzrdNRaFN0oorjpTgYxWJgnNjd8sSjSA
-         vv27jXVppkVUA3Tv5wQm/PwlvhLVwZ+CwA7jI0DkJA5SImmpjB2gkV00zJrr9Dn4xlZS
-         0zl08SFzdDBVCK/xibmzbJo0hgpQPvvvsXyET03bQG+dg5cpFijV+g/9AB9hjmgW7+BE
-         eoxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773108862; x=1773713662;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FCT71BxSt3KY/cKnc/NA5kOybV6SPPgdkyON+ig6pxU=;
-        b=wIpYKcLG1A2SVYWjBLfAWAqDPq8zpz6SuVZ9+4v8PuXzAmCzkLqkVelgsp6sNd2eix
-         a9PdC6RcGmbzUk6PlabTw57FMjwXLTo+L8GNiqwlaju/uhk2hTGoHO/ZT6JBckYdFG7m
-         7wiWG0BodssVun8RDWWp8Bwt4D7n73Alw6NF9626Bsz6BEqOZ/LG7t/nMFheWO6zy3Im
-         NQqk+Q9oYm/jWIvEfJfcQe7gVHY1QR+5BCV1B3AMcm+ExJfb97eo+PhygqCzarDvDz9E
-         m9C0T+1zsKGs2+vJveWGE3cv13XuTHtvJ59LKmRUM1cyT5wTZn8eNoX71RcM/bUJn5wT
-         SPxw==
-X-Gm-Message-State: AOJu0YzZPsnCQfhxIL/oxPufF3u/aR6/xaEcgTjbSRZxrletTI+9leS8
-	+MGBD3txHPF3E/Rq4ETunhx2OG40ojrDHfx0xCHuheeStdHDTZE09nZjio+QyTLe0o0PnFKFjhy
-	lmAZ5CVhknXbKCxSBikbdvSPwuygduPwYroSHaEOWCw==
-X-Gm-Gg: ATEYQzw13CuWogoMoYyiBYX8m6dDmNPpb+/9qXIuYI7P50VOn1IMqWapTdo4yHAhZWZ
-	ZMRhVcmeD4G7ycogOIR7fVkPfzerp/MQp2GrZ1iSsDuEmYicftte9ekOfWN8hCH25pBMyUZu1rr
-	PUeM27aq8SUUXCMdnclLPjsrO3CGUNrmLF4Z2E5ovHdcbKJtUss3Hv0F7BHxkVYrbV9SBBmMuYe
-	baC0038F3WRjj0EnTlXKprIP7aNeW2XU++bIM+TCaV/P/8I0Z0Z5YKqnkGdJOUOZ4gjf2JT2yFP
-	mbAwQxrvXVqnEhxs+CDD2WSZ+3drxMMQ+CkTpyezMrm3Jke5EZJ6VjVcGx5zz7oB54+AkA==
-X-Received: by 2002:a05:690e:1186:b0:64a:db39:f010 with SMTP id
- 956f58d0204a3-64d13e0e10dmr14617980d50.0.1773108862238; Mon, 09 Mar 2026
- 19:14:22 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=rBXtDioh;
+ spf=pass (domain: fujitsu.com, ip: 52.101.125.15, mailfrom: liuyd.fnst@fujitsu.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OPC8gKE4PocJNgwZP7av/IgJIgjf2CIsD/e1TVHBfVOpGz9LBXp0zXhm4ls4eGioKRic8p3zmJu/MZ4nbWNAkxFLAD87l7MSokLw1M6O2rZQLTDwtK5d9YvTNHHKIpH9HSjY+8JMYnNxoBWT5lqY2HVmH+YWiqUJCNN6vwow5QsolOhWiW4VFvdl7No+ZAFxsQXQu4J6xHysmCt8GvS/fLVEK5W9ACcn6hjfo7H41posZZas8HiZND0sCew0C1TBOjG78nHzq9Op8mOtfpUu9xxKsolVxK6+25ZEVzjvHXRKSvC+8GGJ0zPxqMheNCOumB9oWmKVUTsPd/jbiSQEgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ooi8zlwVZ1YqovGpK4x3VvM2s599i1yoWTNcZKsFcQM=;
+ b=fG2odLOMtlDUCakIwodJI96CQbCFa4rYLLpdV138+IMSPdi/e2kc1ZnkEmOwcZmNbrmXp5hTjYEonCG+xEJOE9BMdnFOt6xzlYTUQgCSTxv5ppEje5lVO6RvLlvg1H8ova422nKeOEiW4k5QNCnpKhDEuf+5OPOvMt/fwmdTDc90OoGplD2fbGhsD1mt9TRpkHUUDoQvJDdTW7XNylftrWDyS1w6jV8RALW+OXmmmhJBWFiaTvwYw7Htp9YBm9JjcjyNYvZ7ae4CbuJmGRn1XRXrUdCnIij6HigE7/6Ynkk+1/514kzuzZ5CwzZK2WHME5OgfWUqAp3agkSAvMuCEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ooi8zlwVZ1YqovGpK4x3VvM2s599i1yoWTNcZKsFcQM=;
+ b=rBXtDiohC5xy4/wzWoSP1VPOBwzJM1lvAEZ0H/Ls3/Ex4c42HukgvVTRvh7OJEAtTmqmLg8hri2meuHl6BVMXisFbdgCC15Te8lZnqBopEyTGQfHglb9ly1etf1TTso3GtkXqWjaCdlvAqk05azkGjYhilD87ChL6HDiYRjJM3cPn/Xq2jR5F0pgPcD5nZHux8Gg+OPNt6I7wcyMj3jtICVdDf/V17LV0/b12jfOVSZahOI4xpIOQAfoc19O62dfr6que0GtJEDImT3jUjvLO5n2+mVSxmF+F1pP9vsFgjo1auW1c/bcnTqdAaL8MyogAz21KphOs6oBhQvSF3xeYg==
+Received: from OS7PR01MB14444.jpnprd01.prod.outlook.com (2603:1096:604:386::5)
+ by TYYPR01MB12418.jpnprd01.prod.outlook.com (2603:1096:405:f8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 05:16:50 +0000
+Received: from OS7PR01MB14444.jpnprd01.prod.outlook.com
+ ([fe80::749f:a1f1:c336:5d97]) by OS7PR01MB14444.jpnprd01.prod.outlook.com
+ ([fe80::749f:a1f1:c336:5d97%6]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
+ 05:16:50 +0000
+From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Ross Burton
+	<ross.burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v2] orc: Enable hotdoc to produce doc
+Thread-Topic: [OE-core][PATCH v2] orc: Enable hotdoc to produce doc
+Thread-Index: AQHcr+ltnh7eLyVBrEeJnLHIJzxlO7WnEX3x
+Date: Tue, 10 Mar 2026 05:16:50 +0000
+Message-ID: 
+ <OS7PR01MB1444484634209A3F18545AEC99B46A@OS7PR01MB14444.jpnprd01.prod.outlook.com>
+References: <20260225033725.708-1-liuyd.fnst@fujitsu.com>
+ <CANNYZj_JP3pWfO8=MPWBD8WiLEgr8SAcjAdM-ij7Ysu-3bzWeg@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_JP3pWfO8=MPWBD8WiLEgr8SAcjAdM-ij7Ysu-3bzWeg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-03-10T05:16:49.671Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS7PR01MB14444:EE_|TYYPR01MB12418:EE_
+x-ms-office365-filtering-correlation-id: ab45f900-d71d-473f-6d1e-08de7e643c2a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|8096899003|1580799027|38070700021|7053199007;
+x-microsoft-antispam-message-info: 
+ FY3fe3gxdbMROivW6AuZ8JkCrdR++RJSlvPJBYvP+CD7TPReS6cJQVB8vPTXKePzx+8zcuYWa1qQ82vv3ilBHzwg2UWpsFwRBntJheVKQv1+BsTGlfAOsG64KflDSvIx5AglszObDvMJ+xrVNcrDWshtzfOLBD9WH9ZRyq/Wj3e32083NvBJCItzl3klgzctp1twwAqHe2d9Kf8BjyZNiDasctFVDKaKBFEDtO8XGPepqgcvxq0+Fnv3dqAs5X42ryqawLdrY1A6d7pnB5a4boC039itpjMvvLrk/iVvQ1A24Bg0eyE4gQWjlvgYq1uPgEi6sxpAiVvjvt0X8qDBoNw3NkNPMzdKu0ckmjvEQ6c3KEQ7AeWHz1MZtw7BWXAqKEqPN/l01Ipt2zl0WsqWG3GMu4YDek286ZQ1O54gzLcl0TvSAdbgtOwj3m5M2uMVH/v+eq2wH7jPyM80E8GwfOiE2XTvW+qevd3nkA69ffoZnbZn4Eao5r5GFaf08yYGW2Vepw6N47hlcYMkrClqHL4HiFOj9gimtbcl/a5v+lbJb5H0Z3yLsYUjrQsJKFpvCrL9A5Z8097qJeuRzwSiH376VE25VrOG7Q7FvZKDP9QxtTlI/hBio5D7Gek4L2xeDMo8rWRll76PbffDbvfXPGR7JV1VUI0ZTpN4jeW5+dh5v5YYXqPwqzdhAGkMDdx6XP7JXH9u7XUZP5TmdVUtDZrC6n4shMxNCPNwpqeISGIypgU8vCZ+50Z3I/fYoQQE89F0gOV84O9Lw4yJQnbZ8+9iCbpwUwMxJK6CWuCbACBdWCx3du+k+KBxKaa1zGiu
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS7PR01MB14444.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(8096899003)(1580799027)(38070700021)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?gb2312?B?US92WUdFcGwrMHlqb1lrMldVTVY0MUJQYUIwZ1psbGtybGNUa2diZ3FJUHRr?=
+ =?gb2312?B?Vjd2TC9hbDVGZDVjRGxBajBMZXBSVzZYR1kwdDIzOGI0dytyU0ZmVk8xVWpE?=
+ =?gb2312?B?TEl0SmRqeUpUNzJVb0NLVG9wem92UTZKRkFnb01RZjFOUC9pcElvV1A0SWhM?=
+ =?gb2312?B?cUZ6TVRweWxXT0ZCekJDWlVsTmlNTlp1WnR6aGhIbk9MVW80ei94SllsTGIz?=
+ =?gb2312?B?R1EyRGYvek9hQ0Z5eW94dHZzQVVpeVNQNjRxVUxaOWN0Q252Q2l3TWE4ZUxi?=
+ =?gb2312?B?eHNTbEN2MkdGNGRZY2JxdUlKSmoxZU4vOEFYdmNXUG9vWk5WQXVQb3JEVkVl?=
+ =?gb2312?B?Q1hmU25neXBSMzVqNmVxZHdqNlRIbVNGdy83dDVDa2Ezbnd1QUo5S2xpVC9V?=
+ =?gb2312?B?S0VVOXdSbGlDajZlTk4ydDNtYXkvYVNObXVhQTZBdWRuNndLTk9vK1paelNh?=
+ =?gb2312?B?YktSN3lSVTdjK3kzbnFsZ0oxdm1vQkdrOXNLMFhMNzh6MlM4SWwxZ3ZCWmcv?=
+ =?gb2312?B?NHNEUTFkYlYxcFNFQXFKZlh0Vnh4dVRkY1g1dEZSVG1KcWJZaUZMWFBGdkdL?=
+ =?gb2312?B?cCtYcXoyM0M3UzFOTjljbGs5V2NYWFd2ZE5iU3RMK01YODZndlJDQjFJbFE4?=
+ =?gb2312?B?eUZEbDEyc3BNWDg3cFByUDdxVFc3NEdzTTFHaXFubUVZWlBJY1FoZGE5V1hH?=
+ =?gb2312?B?MmVLeVh5MDVHNVpJOTZYYWd3Ky83aDhIVXRpcVlDSXpOMjcxeWFwOUxGMWM4?=
+ =?gb2312?B?aU9OemFSZFljbVl1Z3ZKNUs4NGNiQUVRRW8yRmhBL2JWbXBWRzgyWXcxWFpp?=
+ =?gb2312?B?NFM3VXlQT2pDV2xoWVJ4TmIvUEQrQTk3b2N2a2ZhNmxNaXAwczFjbTViVHkx?=
+ =?gb2312?B?R0s0cEZIdnM5NkR6MjBtNmI5L2Q2QW5oZHVwZVpKUUkzQTRkblg0VGdzanlX?=
+ =?gb2312?B?NU1PTjQydmltYSs3RDdPd3Uyc1VMSUdVOG1OcHJOa2lxUzI4M211WWVVeSt1?=
+ =?gb2312?B?VG9hbzZoTHQvNlJobGlTSUEwMnR4VVVJWW1MYXM1Y3FMKzIyQUJWRE5rVkwr?=
+ =?gb2312?B?bFlBYjRIbUZJWGp2U3VyeE95dmFOTWlZczNoZUlQQ243UlV4SVpoenk5VHRw?=
+ =?gb2312?B?c1pxWnhFWmc1TWU1Q1lmK0NsWTNlWXYyTG1oTTVaMG01UXJpcUtzM0d4QTNB?=
+ =?gb2312?B?ajlGV3lSUmJpaDIzT0YraE1MWU5kN3FHanFyMWxBYnRhRDRtbjRCQ0pSRFJZ?=
+ =?gb2312?B?VWs3QkxUbGJVSjFySjJGeU9NbHJWb0RwU25uTHJ5VFRxekhvRERacitKZE9M?=
+ =?gb2312?B?UWduRmVoMnpGczc1OEx6WVVtL0tRUGZxbWJuVGVwVStMRUVtMDRVcEVuSUEy?=
+ =?gb2312?B?UjB3ajBCaE80UW5WT2FsRmhjNEkvMEtrSjNwUC80UVVYMkova0FWUUhlQjUw?=
+ =?gb2312?B?ODVYN1JhZTRHWjdhZkQ4T1M2SlZCRXJITUtrTjdNWGlIRDZObWRJNDYrSlBh?=
+ =?gb2312?B?bUJjZTB1YWlqMDQvajZDZ3BQQktvUjBNTmw4NWlFdWJyYjROZ0s3U2I5MFZp?=
+ =?gb2312?B?Mi9SVGd6WVNlWUFNQU01SEtManVjNkR0NGNEOW14NHhjc2lrRFNPWGl0NzRH?=
+ =?gb2312?B?dWVQL1JYRFU3TklpRVI0VmMrVWIyQW44eWhlVU44M3dwK2J1UTc0VFNWTGlu?=
+ =?gb2312?B?bFBBdWpNSjdTdUhMZmp5ektnd0JzYTRhcGxkYVdmZUxmMUZsSm5oUXkrQUov?=
+ =?gb2312?B?dTdYQ3oxcVM1UEFjMjV2SlNXSFFzM0Y4K0NicVp5MStIVi96QUZ6N0ROZGsr?=
+ =?gb2312?B?TCtNNEJza0VzU05MRjE5dEFQdFc1bjNLMHZUc3hhVlFEWU1sVjdiMGNrVi9u?=
+ =?gb2312?B?aEtWMkVRc1hHTjlDa09lS2dhTXVLUjY0bWRpb25UTWI0UFB0K2d0OWhPaGpz?=
+ =?gb2312?B?SlV1cmdSL1M3eFRWUnkrWlFlQUhJZEU0SjBJTFFvV0hBNzVrc1hEeUhQTnR5?=
+ =?gb2312?B?Um1zVWloNjMxNFVxRDlKRW05ZHBvdjExU2JyblpaRE5Xd2xmeGJVbVZUdjZu?=
+ =?gb2312?B?RE16UDFMMHNkazhkZ2RFcWZGZkZBeStlWUhUT1I4R1pCaTdUYlNZTlBsKzdD?=
+ =?gb2312?B?TUVRcFZpdXBlUGRqTTRmWTFGdGNFYXFteXltWHl2bEpWZjVaK2xuT0ZxVUpl?=
+ =?gb2312?B?cGhmUlBqcTQxLzBsbXNhNW5UVXVtVGFQR0JQWGJpNzd2Um5uWi9FSDlGaXZa?=
+ =?gb2312?B?aWZjaTNEcC9kZml2VS9pSFY4eFgxQkhDOHNFbEl4d0REMTc3ZFRadmI5OWk0?=
+ =?gb2312?B?YnkwTWp0RVRtSTRpYWcwSTJyS2FQRlQxWmlWR0M3UDluZGR4OVR1dz09?=
+Content-Type: multipart/alternative;
+	boundary="_000_OS7PR01MB1444484634209A3F18545AEC99B46AOS7PR01MB14444jp_"
 MIME-Version: 1.0
-References: <20260304184156.2025539-1-richard.purdie@linuxfoundation.org>
- <DGVOBJODEHCK.15P1KY3F0CAFC@bootlin.com> <3ffcb3c8167d44ef76d9c4f633fe17b93ae2e15c.camel@linuxfoundation.org>
-In-Reply-To: <3ffcb3c8167d44ef76d9c4f633fe17b93ae2e15c.camel@linuxfoundation.org>
-From: Anibal Limon <anibal@limonsoftware.com>
-Date: Mon, 9 Mar 2026 20:14:11 -0600
-X-Gm-Features: AaiRm516TPDlC7MlTww5utpnln1e45R6CoIYF_G8bjjyvyzrDan8HfEunFGLFmQ
-Message-ID: <CAOU5ZMvVSf_Rvt1Ab_PtHd1RLST366YMA8h=FSsJV6XkuymvAQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] oeqa/runtime/ptest: Use a timeout with
- command, remove disabling
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Trevor Gamblin <tgamblin@baylibre.com>
-Content-Type: multipart/alternative; boundary="000000000000e1cfc9064ca21337"
+X-Exchange-RoutingPolicyChecked: 
+	nitblJPVZObYISHtGy08WHYJ0zyh59csnTRJV1ebCkCLN4v5Ei0Uc4PacaRSCglyr2cNjx82HBDK/T7SsboJsYlxT4B9NQq4q2WFZvQqBVDiy4e+AWhCY0xloYkXq4CHuJ5sVNQjLvXYmuAvnNgSVBk4Xie6BjPFxzW8e9TnxfjinR+whdrAE3nN03C3DekcfBx/BNXKsih/LV/ldOYtGwFAPDIDhRUmBbXbbu6rUBM/WIRuYx1gkmKr5tQ2ZqGWmTpzam/HcOsCSak0J6WDSbIXvdfaPdWF21Kp9mNeWbHAqW9g97Ts4Qk47Q0lL/oDtfGS9ZFxiwPhjaAG3dOeyA==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS7PR01MB14444.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab45f900-d71d-473f-6d1e-08de7e643c2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2026 05:16:50.4228
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RWi5HLYIKiS/WH6IBA/Mhq10lTT8BmW1jqt3guOMe6IJpI/jOf1e5pkVcAcgTWqPkNoi+68yyth54ALkuJKcbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12418
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 02:14:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232758
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 05:17:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232759
 
---000000000000e1cfc9064ca21337
-Content-Type: text/plain; charset="UTF-8"
+--_000_OS7PR01MB1444484634209A3F18545AEC99B46AOS7PR01MB14444jp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+
+SEkgQWxleA0KICAgSG93IGFib3V0IGNoYW5nZSB0aGlzIGxpbmUNCiAgICAgPiArUEFDS0FHRUNP
+TkZJR1tob3Rkb2NdID0gIiwsaG90ZG9jLW5hdGl2ZSINCiAgIHRvDQogICBQQUNLQUdFQ09ORklH
+W2hvdGRvY10gPSAiLURob3Rkb2M9ZW5hYmxlZCwtRGhvdGRvYz1kaXNhYmxlZCxob3Rkb2MtbmF0
+aXZlIg0KDQpMaXUNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+yMs6IEFs
+ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPg0Kt6LLzcqxvOQ6IDIwMjbE
+6jPUwjEwyNUgMDE6MjMNCsrVvP7IyzogTGl1LCBZaWRpbmcvwfUg0tK2oSA8bGl1eWQuZm5zdEBm
+dWppdHN1LmNvbT4NCrOty806IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBSb3NzIEJ1cnRv
+biA8cm9zcy5idXJ0b25AYXJtLmNvbT47IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnPg0K1vfM4jogUmU6IFtPRS1jb3JlXVtQQVRDSCB2Ml0gb3JjOiBF
+bmFibGUgaG90ZG9jIHRvIHByb2R1Y2UgZG9jDQoNCk9uIFdlZCwgMjUgRmViIDIwMjYgYXQgMDQ6
+MzcsIFlpZGluZyBMaXUgKEZ1aml0c3UpIHZpYQ0KbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8bGl1
+eWQuZm5zdD1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0Kd3JvdGU6DQo+ICtQ
+QUNLQUdFQ09ORklHW2hvdGRvY10gPSAiLCxob3Rkb2MtbmF0aXZlIg0KDQpUaGVyZSdzIGFjdHVh
+bGx5IGEgYnVpbGQgb3B0aW9uIGNhbGxlZCAnaG90ZG9jJywgdG8gY29udHJvbCB3aGV0aGVyDQpk
+b2NzIGFyZSBidWlsdCBvciBub3QuIFNvIGl0IHNob3VsZCBiZSB1c2VkIHRvIGVuc3VyZSBidWls
+ZA0KZGV0ZXJtaW5pc20gYW5kIHJlcHJvZHVjaWJpbGl0eSwgYXMgb3RoZXJ3aXNlIHRoaXMgaXMg
+YSBmbG9hdGluZw0KZmVhdHVyZSB0aGF0IGdldHMgZW5hYmxlZCAob3Igbm90KSBkZXBlbmRpbmcg
+b24gd2hldGhlciBob3Rkb2MtbmF0aXZlDQppcyBpbiBzeXNyb290Lg0KDQpBbGV4DQo=
+
+--_000_OS7PR01MB1444484634209A3F18545AEC99B46AOS7PR01MB14444jp_
+Content-Type: text/html; charset="gb2312"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-I have pushed the ptest-runner fix with the tag v2.5.1. The Automatic
-Upgrade Helper (AUH) should pick it up shortly.
-
-Cheers!,
-Anibal
-
-On Sat, Mar 7, 2026 at 4:52=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2026-03-06 at 12:47 +0100, Mathieu Dubois-Briand wrote:
-> > On Wed Mar 4, 2026 at 7:41 PM CET, Richard Purdie via
-> lists.openembedded.org wrote:
-> > > A simple 'which' call doesn't need the timeout disabling. This was
-> likely
-> > > a copy and paste error and can be removed.
-> > >
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > >  meta/lib/oeqa/runtime/cases/ptest.py | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/lib/oeqa/runtime/cases/ptest.py
-> b/meta/lib/oeqa/runtime/cases/ptest.py
-> > > index 1a0782374d0..2887e136719 100644
-> > > --- a/meta/lib/oeqa/runtime/cases/ptest.py
-> > > +++ b/meta/lib/oeqa/runtime/cases/ptest.py
-> > > @@ -35,7 +35,7 @@ class PtestRunnerTest(OERuntimeTestCase):
-> > >          self.do_ptestrunner()
-> > >
-> > >      def do_ptestrunner(self):
-> > > -        status, output =3D self.target.run('which ptest-runner', 0)
-> > > +        status, output =3D self.target.run('which ptest-runner')
-> > >          if status !=3D 0:
-> > >              self.skipTest("No -ptest packages are installed in the
-> image")
-> > >
-> >
-> > Hi Richard,
-> >
-> > I believe this is causing some ptest failures on riscv64:
-> >
-> > Traceback (most recent call last):
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/core/decorator/__init__.py",
-> line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >            ^^^^^^^^^^^^^^^^^^^^^
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/core/decorator/__init__.py",
-> line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >            ^^^^^^^^^^^^^^^^^^^^^
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/core/decorator/__init__.py",
-> line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >            ^^^^^^^^^^^^^^^^^^^^^
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/runtime/cases/ptest.py",
-> line 27, in test_ptestrunner_expectfail
-> >     self.do_ptestrunner()
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/runtime/cases/ptest.py",
-> line 63, in do_ptestrunner
-> >     status, output =3D self.target.run('ptest-runner -t {} -d
-> \"{}\"'.format(ptest_timeout, ' '.join(ptest_dirs)),
-> timeout=3Dint(ptest_timeout)+30)
-> >
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/core/target/ssh.py",
-> line 98, in run
-> >     status, output =3D self._run(sshCmd, processTimeout, ignore_status,
-> raw, ignore_ssh_fails)
-> >
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >   File
-> "/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/layers/openembedded-=
-core/meta/lib/oeqa/core/target/ssh.py",
-> line 70, in _run
-> >     raise AssertionError("ssh exited with status '255' for command "
-> > AssertionError: ssh exited with status '255' for command '['ssh', '-l',
-> 'root', '-o', 'ServerAliveCountMax=3D2', '-o', 'ServerAliveInterval=3D30'=
-,
-> '-o', 'UserKnownHostsFile=3D/dev/null', '-o', 'StrictHostKeyChecking=3Dno=
-',
-> '-o', 'LogLevel=3DERROR', '192.168.7.14', 'export
-> PATH=3D/usr/sbin:/sbin:/usr/bin:/bin; ptest-runner -t 450 -d "/usr/lib"']=
-':
-> this is likely an SSH failure
-> >
-> > Process killed - no output for 480 seconds. Total running time: 485
-> seconds.
-> >
-> > Cannot run ptests without @expectedFailure as ptests are expected to fa=
-il
-> > WARNING: core-image-ptest-dpkg-1.0-r0 do_testimage: Can not retrieve
-> artifacts from test target: Error while fetching compressed artifacts
-> >
-> > And similar errors:
-> >
-> > WARNING: core-image-ptest-coreutils-1.0-r0 do_testimage: Can not
-> retrieve artifacts from test target: Error while fetching compressed
-> artifacts
-> > Cannot run ptests without @expectedFailure as ptests are expected to fa=
-il
-> >
-> > WARNING: core-image-ptest-gettext-1.0-r0 do_testimage: Can not retrieve
-> artifacts from test target: Error while fetching compressed artifacts
-> > Cannot run ptests without @expectedFailure as ptests are expected to fa=
-il
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1182
->
-> Thanks. I think this has lead to an interesting discovery of an
-> additional issue in ptest-runner with buffering of logs when used non-
-> interactively.
->
-> I've sent a patch to ptest-runner which I believe will address this
-> issue.
->
-> Cheers,
->
-> Richard
->
->
-
---000000000000e1cfc9064ca21337
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I have pushed the ptest-=
-runner fix with the tag v2.5.1. The Automatic Upgrade Helper (AUH) should p=
-ick it up shortly.</div><div><br></div><div>Cheers!,</div><div>Anibal</div>=
-</div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Sat, Mar 7, 2026 at 4:52=E2=80=AFAM Richard Purdie=
- &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@l=
-inuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Fri, 2026-03-06 at 12:47 +0100, Mathieu Dubois-Briand =
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+HI Alex&nbsp;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;How about change this line&nbsp;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp; &nbsp;&gt; +PACKAGECONFIG[hotdoc] =3D &quot;,,hotdoc-native&q=
+uot;&nbsp;&nbsp;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;to&nbsp;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;PACKAGECONFIG[hotdoc] =3D &quot;-Dhotdoc=3Denabled,-Dhotdoc=3D=
+disabled,hotdoc-native&quot;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+Liu</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
+<div id=3D"x_divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>=B7=A2=BC=FE=C8=CB:</b>&nbsp;Alexander Kanavin &lt;alex.kanavin@gmail.co=
+m&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b>&nbsp;2026=C4=EA3=D4=C210=C8=D5 01:23<br>
+<b>=CA=D5=BC=FE=C8=CB:</b>&nbsp;Liu, Yiding/=C1=F5 =D2=D2=B6=A1 &lt;liuyd.f=
+nst@fujitsu.com&gt;<br>
+<b>=B3=AD=CB=CD:</b>&nbsp;openembedded-core@lists.openembedded.org &lt;open=
+embedded-core@lists.openembedded.org&gt;; Ross Burton &lt;ross.burton@arm.c=
+om&gt;; Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;<br>
+<b>=D6=F7=CC=E2:</b>&nbsp;Re: [OE-core][PATCH v2] orc: Enable hotdoc to pro=
+duce doc</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"direction: ltr; font-size: 11pt;">On Wed, 25 Feb 2026 at 04:3=
+7, Yiding Liu (Fujitsu) via<br>
+lists.openembedded.org &lt;liuyd.fnst=3Dfujitsu.com@lists.openembedded.org&=
+gt;<br>
 wrote:<br>
-&gt; On Wed Mar 4, 2026 at 7:41 PM CET, Richard Purdie via <a href=3D"http:=
-//lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openem=
-bedded.org</a> wrote:<br>
-&gt; &gt; A simple &#39;which&#39; call doesn&#39;t need the timeout disabl=
-ing. This was likely<br>
-&gt; &gt; a copy and paste error and can be removed.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org=
-</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; =C2=A0meta/lib/oeqa/runtime/cases/ptest.py | 2 +-<br>
-&gt; &gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa=
-/runtime/cases/ptest.py<br>
-&gt; &gt; index 1a0782374d0..2887e136719 100644<br>
-&gt; &gt; --- a/meta/lib/oeqa/runtime/cases/ptest.py<br>
-&gt; &gt; +++ b/meta/lib/oeqa/runtime/cases/ptest.py<br>
-&gt; &gt; @@ -35,7 +35,7 @@ class PtestRunnerTest(OERuntimeTestCase):<br>
-&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.do_ptestrun=
-ner()<br>
-&gt; &gt; =C2=A0<br>
-&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0 def do_ptestrunner(self):<br>
-&gt; &gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status, output =3D se=
-lf.target.run(&#39;which ptest-runner&#39;, 0)<br>
-&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status, output =3D se=
-lf.target.run(&#39;which ptest-runner&#39;)<br>
-&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if status !=3D 0=
-:<br>
-&gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 self.skipTest(&quot;No -ptest packages are installed in the image=
-&quot;)<br>
-&gt; &gt; =C2=A0<br>
-&gt; <br>
-&gt; Hi Richard,<br>
-&gt; <br>
-&gt; I believe this is causing some ptest failures on riscv64:<br>
-&gt; <br>
-&gt; Traceback (most recent call last):<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/core/decorator/__init__.py&quot;, li=
-ne 35, in wrapped_f<br>
-&gt; =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^=
-^^^^^^^^^^^^<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/core/decorator/__init__.py&quot;, li=
-ne 35, in wrapped_f<br>
-&gt; =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^=
-^^^^^^^^^^^^<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/core/decorator/__init__.py&quot;, li=
-ne 35, in wrapped_f<br>
-&gt; =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^=
-^^^^^^^^^^^^<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/runtime/cases/ptest.py&quot;, line 2=
-7, in test_ptestrunner_expectfail<br>
-&gt; =C2=A0=C2=A0=C2=A0 self.do_ptestrunner()<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/runtime/cases/ptest.py&quot;, line 6=
-3, in do_ptestrunner<br>
-&gt; =C2=A0=C2=A0=C2=A0 status, output =3D self.target.run(&#39;ptest-runne=
-r -t {} -d \&quot;{}\&quot;&#39;.format(ptest_timeout, &#39; &#39;.join(pte=
-st_dirs)), timeout=3Dint(ptest_timeout)+30)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/core/target/ssh.py&quot;, line 98, i=
-n run<br>
-&gt; =C2=A0=C2=A0=C2=A0 status, output =3D self._run(sshCmd, processTimeout=
-, ignore_status, raw, ignore_ssh_fails)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
-&gt; =C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemuriscv64-ptest/build/=
-layers/openembedded-core/meta/lib/oeqa/core/target/ssh.py&quot;, line 70, i=
-n _run<br>
-&gt; =C2=A0=C2=A0=C2=A0 raise AssertionError(&quot;ssh exited with status &=
-#39;255&#39; for command &quot;<br>
-&gt; AssertionError: ssh exited with status &#39;255&#39; for command &#39;=
-[&#39;ssh&#39;, &#39;-l&#39;, &#39;root&#39;, &#39;-o&#39;, &#39;ServerAliv=
-eCountMax=3D2&#39;, &#39;-o&#39;, &#39;ServerAliveInterval=3D30&#39;, &#39;=
--o&#39;, &#39;UserKnownHostsFile=3D/dev/null&#39;, &#39;-o&#39;, &#39;Stric=
-tHostKeyChecking=3Dno&#39;, &#39;-o&#39;, &#39;LogLevel=3DERROR&#39;, &#39;=
-192.168.7.14&#39;, &#39;export PATH=3D/usr/sbin:/sbin:/usr/bin:/bin; ptest-=
-runner -t 450 -d &quot;/usr/lib&quot;&#39;]&#39;: this is likely an SSH fai=
-lure<br>
-&gt; <br>
-&gt; Process killed - no output for 480 seconds. Total running time: 485 se=
-conds.<br>
-&gt; <br>
-&gt; Cannot run ptests without @expectedFailure as ptests are expected to f=
-ail<br>
-&gt; WARNING: core-image-ptest-dpkg-1.0-r0 do_testimage: Can not retrieve a=
-rtifacts from test target: Error while fetching compressed artifacts<br>
-&gt; <br>
-&gt; And similar errors:<br>
-&gt; <br>
-&gt; WARNING: core-image-ptest-coreutils-1.0-r0 do_testimage: Can not retri=
-eve artifacts from test target: Error while fetching compressed artifacts<b=
-r>
-&gt; Cannot run ptests without @expectedFailure as ptests are expected to f=
-ail<br>
-&gt; <br>
-&gt; WARNING: core-image-ptest-gettext-1.0-r0 do_testimage: Can not retriev=
-e artifacts from test target: Error while fetching compressed artifacts<br>
-&gt; Cannot run ptests without @expectedFailure as ptests are expected to f=
-ail<br>
-&gt; <br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/56=
-/builds/1182" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/valkyrie/#/builders/56/builds/1182</a><br>
+&gt; +PACKAGECONFIG[hotdoc] =3D &quot;,,hotdoc-native&quot;<br>
 <br>
-Thanks. I think this has lead to an interesting discovery of an<br>
-additional issue in ptest-runner with buffering of logs when used non-<br>
-interactively.<br>
+There's actually a build option called 'hotdoc', to control whether<br>
+docs are built or not. So it should be used to ensure build<br>
+determinism and reproducibility, as otherwise this is a floating<br>
+feature that gets enabled (or not) depending on whether hotdoc-native<br>
+is in sysroot.<br>
 <br>
-I&#39;ve sent a patch to ptest-runner which I believe will address this<br>
-issue.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
+Alex</div>
+</body>
+</html>
 
---000000000000e1cfc9064ca21337--
+--_000_OS7PR01MB1444484634209A3F18545AEC99B46AOS7PR01MB14444jp_--
 
