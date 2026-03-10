@@ -1,68 +1,92 @@
-Return-Path: <l.stach@pengutronix.de>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB70F3C27D
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 10:04:00 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36542.1773137038297960086
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FA6EB1041
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 10:16:00 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36917.1773137743972968891
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 03:03:59 -0700
+ Tue, 10 Mar 2026 03:15:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: l.stach@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1vztwS-0004n7-CB
-	for openembedded-core@lists.openembedded.org; Tue, 10 Mar 2026 11:03:56 +0100
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1vztwQ-004fyb-2M
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Mar 2026 11:03:56 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa: remove trailing whitespace
-Date: Tue, 10 Mar 2026 11:03:55 +0100
-Message-ID: <20260310100356.657508-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2+Kqxdip;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=n2WIuPfl;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019cd73ecd1f-c80a2215-bfb4-4366-af40-e8a897353b2b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1773137743; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=7ftkMXAM18F0MtinIjOBRV9AajfyyClqk1dgSfHRArk=;
+	b=2+KqxdipGvjn/zI3CzJUo1JDphIbXY0mDPMkrld1VvZ1hUBl0OHkxx5hOEkDkXYR
+	JZjAH95rV28cvXwMuW4b6ikvj3W0G3aNCg8KrSnKdvZngXG2xyRLj+yAqDg+v/99miV
+	9tfmeXDrEU2dADudtTq0ZeucnyasKu4gDJOFg0nQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1773137743;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=7ftkMXAM18F0MtinIjOBRV9AajfyyClqk1dgSfHRArk=;
+	b=n2WIuPfl+FXeAT5CazqdSURgFWU28jPbv/OF6/fdyfuimgRMqjo8xri1/qoE4nbR
+	qKMQ3PvkUFLOR7TySc5OKlYlnt9K17bP28AtWP+WUyYKexOavLGIL0KrzPsmXcPFjvP
+	KiDK33ijCYwajf/7UT+yJ6i4p8H+XaYUuD8rCzRU=
+From: patchtest@automation.yoctoproject.org
+To: Lucas Stach <l.stach@pengutronix.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] mesa: remove trailing whitespace
+In-Reply-To: <20260310100356.657508-1-l.stach@pengutronix.de>
+References: <20260310100356.657508-1-l.stach@pengutronix.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019cd73ecd1f-c80a2215-bfb4-4366-af40-e8a897353b2b-000000@us-west-2.amazonses.com>
+Date: Tue, 10 Mar 2026 10:15:43 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.03.10-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 10:04:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232765
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 10:16:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232766
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-graphics/mesa/mesa.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/mesa-remove-trailing-whitespace.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e8dd3ee6acd1..14dc7b6c5148 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -34,9 +34,9 @@ do_install:append() {
-   if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)} && [ -f ${D}${includedir}/EGL/eglplatform.h ]; then
-       sed -i -e 's/^#elif defined(__unix__) && defined(EGL_NO_X11)$/#elif defined(__unix__) \&\& defined(EGL_NO_X11) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-   fi
--  # These are ICDs, apps are not supposed to link against them                                                                                                              
--  if ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', 'true', 'false', d)} ; then                                                                                             
--      rm -f ${D}${libdir}/libEGL_mesa.so ${D}${libdir}/libGLX_mesa.so                                                                                                       
-+  # These are ICDs, apps are not supposed to link against them
-+  if ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', 'true', 'false', d)} ; then
-+      rm -f ${D}${libdir}/libEGL_mesa.so ${D}${libdir}/libGLX_mesa.so
-   fi
- }
- 
--- 
-2.47.3
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
