@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E8FFD4F28
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF98FD4F29
 	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 18:41:13 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2662.1773168067562520636
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2596.1773168068450317275
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 11:41:07 -0700
+ Tue, 10 Mar 2026 11:41:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=N8QZwJfA;
- spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-467161c4b89so1195588b6e.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:41:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BeNX+j4z;
+ spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-467161c4b89so1195595b6e.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 11:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773168066; x=1773772866; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773168067; x=1773772867; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ejPOECwOwHRSqAC4uEbDkFRtMsD+n1UdWSUGrtjhMl8=;
-        b=N8QZwJfA1gx5jolvQ5gAd4RTB7PzZSwzqcIP/HuLM36siXfUyS7eNsPqAFrNzVuoGz
-         T7iA6cQ849TX7VSbgcE9Ludl3+hd2ETrK2oBs5yDADsr/ZPM9HOrCeYP9STe7Ty1MLGQ
-         erH9hN0i626eKIZRDxsJ5j69Bdgt4Cv6EkBI7ZzMEx7SGyt9YRUI0FXu05Cxrq+rHWLz
-         TBhfiq7D7UublNt/pdm6w6Qfribr6G3zmY03Dvl5d9PMcTVmCS7ELFnPR4ugaBVeCHGw
-         GnPz7aYwKk9bCW9jpx91XpaTeP765O6OHMsUEFqm7RK126zfhLY+Yj+w0wM9ZEajsg1/
-         cfKA==
+        bh=+wYSZS61IRGHmLD9OmiNc9hgO2b0xZj5mQwHOFCwfH8=;
+        b=BeNX+j4zF5itTfIu7GGO2a+HcMoibJb2bCi1cd86WPG4FcYcYLpIPUwPO9LxI6tsyu
+         XJHSgBrjA8laD/zvEh5psRLVSdOnme4fcYoZoOH20QawCeCNqveZ7JJrTZNLRiiJ9ZKJ
+         S/1aWHNjGGRVlsPIWNFq4sdSYQiq/9dnWuN7rpavpfkohePiv+qlDZaqAvy3sXE5mp/z
+         iwLbxJgWUAOpcxNAcRyi97NysHE791c5anxFlOIZFd409l4SQAUA2g8OsrkGY7XT4uGs
+         xYxq+Cf9iEV8hLvJHFCpvp5uriDbNr7bHBwRTv9O0LwmQW+ml/5l3TxiGTat+4fCnola
+         sKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773168066; x=1773772866;
+        d=1e100.net; s=20230601; t=1773168067; x=1773772867;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ejPOECwOwHRSqAC4uEbDkFRtMsD+n1UdWSUGrtjhMl8=;
-        b=EZKFAMMwo7iP20F86ca1cD94stADUpvduPcVePEYk+u1KFfHXLEShFKbkpbT8R25NS
-         SK6hE/BAhyKuFdReBmSk5opFAdeOwB82iwu8Mkk8m/a1YbihyCoxLLBUgsuPYMiovtX4
-         jw4QWZVkK7v70mFrK59Jgr+LOyPCm+FqmMPz188gfCNBX4em3Oe290mF7jN3DgjC7Yii
-         I37coP+J3SKHUlzK8oOlDfOTVZbWOO0LzK+QLJX1xNvIo9x0svS1c8YWJvpzDL9Uw7Yf
-         mj/jBqWeXTBbyaNKutQWuHDsmRUo8xzZnc/yKgPURKDeUVvcP0g8968Ls10AbHKLgpWp
-         eR/g==
-X-Gm-Message-State: AOJu0YwdjfbCKhA0kUZHKOvdodXttBuO/qAnGcZRlJ7yE+TXnZye2l1t
-	E92wsZ8b89p49LHifmE0MGdKGXcj6wlj2WVZ8NpDk/NEvE8vsTG8880EdGfCBQ==
-X-Gm-Gg: ATEYQzxF28Xey3LC+OfMd38SeFQQPipAUqR2FaAYrqAyVf6myH9vtTr44a5ktON8Lza
-	PtvxGqrSUWk7q6r+R5EcJRA45kSjPgHFEzJYCvn5DK3YJGxJmMoKZiLs4eVDW2b8n8pEi3V0zAc
-	P8cry7FLnPb8qA2ZpJTlO8pQ12MbMiCVuvLNUz9JlWXwvxqiISFshJUgatrLD4G0vzm64ihH7Ps
-	IsKKsAzAk02fb5SmXabx1P9X0npvcHw0ut+qU/W3OypdJTuJhXI8ZP2ZdRwws7M6NWYxaZGi6/T
-	qybdjtglbEeeIwfKJqgziB+qAC1LzeVV837gLxIrKFJnw2DoIf49mtud6MdZQW9umMxO1QnQYpu
-	JH4AVuRBVMGEHr7iF8nHpMO4qtwNCOSwMJypvuuOu1eSUFiDGfxGUX7ts46d68t7jz4csS8Qhss
-	dhymImV9ONsu6ZiYlr7uB0
-X-Received: by 2002:a05:6808:2228:b0:450:3ff9:f4ef with SMTP id 5614622812f47-466dcb89bb8mr9048559b6e.56.1773168066303;
-        Tue, 10 Mar 2026 11:41:06 -0700 (PDT)
+        bh=+wYSZS61IRGHmLD9OmiNc9hgO2b0xZj5mQwHOFCwfH8=;
+        b=a0LiS0xVClME+hdx1FfAjD1h3QeAPdBMX6ah6xWma3iqzsjEWkS8wD5k447OcW1g3h
+         A85ZR/GZkmiRB2ZMxuOW+8PGkqWk/VioGB0nc4R8FTR1dDjD+/jxnxOivGH0rv0r7Dem
+         AG+Z0cO7ZQjiFdvdwcuDsNQ5Am/i5NZbGS5fJp2HF66UtLEe769KcXtYB/o5lMRRE7kb
+         AVrtyFbHXWd0F+kMINYex7HkXeaBeVWgCOA+UUXFcfDBBMoi9M98jMJGkopcvl1ENo2E
+         0oiQActaEzcwVxnlHzK6I46E0fEDt9mSVE8n2jcWRty8Zbrj3bLuIrc5uriFqWaxcUxq
+         MuAA==
+X-Gm-Message-State: AOJu0Yy4r+WvtPB9hE1NFG49ZiO0zMfxeq88yi7Jj0TvPfPw63PAWvUR
+	I6UqgYoatRVGcHebkkeGZxPeVjtuZt6kYzhoPpgIIFFCWlLMdHea9yA9dpFJtg==
+X-Gm-Gg: ATEYQzypZ0hM4dF7mRdMpVjGSPB0jfy2coA7dAjOQE6a1S0ko9RfJYxN5SNSVr+VQ4J
+	oWcXnxqwDk3GC82Uoc+/HSx2TpocZKzSKzu67ep94Y+qX635Pb8ZKvuMu1y+5kyV85r9imFn1cK
+	1XvgXf6DEgC0hjzAQYHbRWzh9tjjnLM4SZi8NYBnWv3iH3m8N73laiEllFP6Zv9zDG70/HR3rA8
+	CMopOV3KQhptGN/ggjqbA85AvBWxNfVfzSB4dwa/GKxwq2mVd9+gFsJufMiHd1q3537VidzUtVI
+	W4GPgQRL9GVUIucsBbymXVuQaChtOBNay9F5PRm5VTCwaYHygVkjgzCtMwZfvc39cCYbRViGMY1
+	CG3LGpHIBCYWPUOLAB1yfSaNe8iZFjhuxOX09pBIOwaDjMaygHCbA4NOjJ/tJLCBfr2hJgrqjeQ
+	+agZIeyuFxSlHSq8/al6oL
+X-Received: by 2002:a05:6808:5093:b0:467:db8:e46d with SMTP id 5614622812f47-4670db8f589mr4454510b6e.34.1773168067617;
+        Tue, 10 Mar 2026 11:41:07 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4200:11c0::9891])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4671d2a7ebfsm2444524b6e.20.2026.03.10.11.41.05
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4671d2a7ebfsm2444524b6e.20.2026.03.10.11.41.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 11:41:05 -0700 (PDT)
+        Tue, 10 Mar 2026 11:41:07 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v6 03/15] spdx3: Add recipe SPDX data
-Date: Tue, 10 Mar 2026 12:38:23 -0600
-Message-ID: <20260310184058.533343-4-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v6 05/15] spdx3: Add is-native property
+Date: Tue, 10 Mar 2026 12:38:25 -0600
+Message-ID: <20260310184058.533343-6-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260310184058.533343-1-JPEWhacker@gmail.com>
 References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
@@ -69,972 +69,102 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 18:41:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232814
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232816
 
-Adds a new package to the SPDX output that represents the recipe data
-for a given recipe. Importantly, this data contains only things that can
-be determined statically from only the recipe, so it doesn't require
-fetching or building anything. This means that build time dependencies
-and CVE information for recipes can be analyzed without needing to
-actually do any builds.
-
-Sadly, license data cannot be included because NO_GENERIC_LICENSE means
-that actual license text might only be available after do_fetch
+Adds a custom is-native property to the recipe package to indicate if it
+is a native recipe
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes-global/sstate.bbclass            |   4 +-
- .../create-spdx-image-3.0.bbclass             |   4 +-
- .../create-spdx-sdk-3.0.bbclass               |   4 +-
- meta/classes-recipe/kernel.bbclass            |   2 +-
- meta/classes-recipe/nospdx.bbclass            |   1 +
- meta/classes/create-spdx-2.2.bbclass          |  12 +-
- meta/classes/create-spdx-3.0.bbclass          |  51 ++-
- meta/classes/spdx-common.bbclass              |  21 +-
- meta/lib/oe/spdx30_tasks.py                   | 402 ++++++++++++------
- meta/lib/oeqa/selftest/cases/spdx.py          |  19 +-
- 10 files changed, 354 insertions(+), 166 deletions(-)
+ meta/lib/oe/sbom30.py       | 20 ++++++++++++++++++++
+ meta/lib/oe/spdx30_tasks.py | 18 +++++++++++-------
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 2fd29d7323..95c44f404e 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -954,7 +954,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             extrapath = d.getVar("NATIVELSBSTRING") + "/"
-         else:
-             extrapath = ""
--        
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 227ac51877..50a72fce39 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -118,6 +118,26 @@ class OEDocumentExtension(oe.spdx30.extension_Extension):
+         )
+ 
+ 
++@oe.spdx30.register(OE_SPDX_BASE + "recipe-extension")
++class OERecipeExtension(oe.spdx30.extension_Extension):
++    """
++    This extension is added to recipe software_Packages to indicate various
++    useful bits of information about the recipe
++    """
 +
-         tname = bb.runqueue.taskname_from_tid(task)[3:]
- 
-         if tname in ["fetch", "unpack", "patch", "populate_lic", "preconfigure"] and splithashfn[2]:
-@@ -1116,7 +1116,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
- 
-     logit("Considering setscene task: %s" % (str(taskdependees[task])), log)
- 
--    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx", "do_deploy_archives"]
-+    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx", "do_create_recipe_spdx", "do_deploy_archives"]
- 
-     def isNativeCross(x):
-         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x or x.endswith("-cross")
-diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-index 636ab14eb0..15a91e90e2 100644
---- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-+++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-@@ -34,7 +34,7 @@ addtask do_create_rootfs_spdx after do_rootfs before do_image
- SSTATETASKS += "do_create_rootfs_spdx"
- do_create_rootfs_spdx[sstate-inputdirs] = "${SPDXROOTFSDEPLOY}"
- do_create_rootfs_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
--do_create_rootfs_spdx[recrdeptask] += "do_create_spdx do_create_package_spdx"
-+do_create_rootfs_spdx[recrdeptask] += "do_create_recipe_spdx do_create_spdx do_create_package_spdx"
- do_create_rootfs_spdx[cleandirs] += "${SPDXROOTFSDEPLOY}"
- do_create_rootfs_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
- 
-@@ -76,7 +76,7 @@ do_create_image_sbom_spdx[sstate-inputdirs] = "${SPDXIMAGEDEPLOYDIR}"
- do_create_image_sbom_spdx[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
- do_create_image_sbom_spdx[stamp-extra-info] = "${MACHINE_ARCH}"
- do_create_image_sbom_spdx[cleandirs] = "${SPDXIMAGEDEPLOYDIR}"
--do_create_image_sbom_spdx[recrdeptask] += "do_create_spdx do_create_package_spdx"
-+do_create_image_sbom_spdx[recrdeptask] += "do_create_recipe_spdx do_create_spdx do_create_package_spdx"
- do_create_image_sbom_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
- 
- python do_create_image_sbom_spdx_setscene() {
-diff --git a/meta/classes-recipe/create-spdx-sdk-3.0.bbclass b/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
-index e5f220cdfa..a4b8ed3bf9 100644
---- a/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
-+++ b/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
-@@ -5,14 +5,14 @@
- #
- # SPDX SDK tasks
- 
--do_populate_sdk[recrdeptask] += "do_create_spdx do_create_package_spdx"
-+do_populate_sdk[recrdeptask] += "do_create_recipe_spdx do_create_spdx do_create_package_spdx"
- do_populate_sdk[cleandirs] += "${SPDXSDKWORK}"
- do_populate_sdk[postfuncs] += "sdk_create_sbom"
- do_populate_sdk[file-checksums] += "${SPDX3_DEP_FILES}"
- POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk = " sdk_host_create_spdx"
- POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk = " sdk_target_create_spdx"
- 
--do_populate_sdk_ext[recrdeptask] += "do_create_spdx do_create_package_spdx"
-+do_populate_sdk_ext[recrdeptask] += "do_create_recipe_spdx do_create_spdx do_create_package_spdx"
- do_populate_sdk_ext[cleandirs] += "${SPDXSDKEXTWORK}"
- do_populate_sdk_ext[postfuncs] += "sdk_ext_create_sbom"
- do_populate_sdk_ext[file-checksums] += "${SPDX3_DEP_FILES}"
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index d61cc82a4e..8fd4e1141a 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -882,7 +882,7 @@ do_create_spdx:append() {
-         except Exception as e:
-             bb.error(f"Failed to parse kernel config file: {e}")
- 
--        path = oe.sbom30.jsonld_arch_path(d, pkg_arch, "recipes", f"recipe-{pn}", deploydir=deploydir)
-+        path = oe.sbom30.jsonld_arch_path(d, pkg_arch, "builds", f"build-{pn}", deploydir=deploydir)
-         build_objset = oe.sbom30.load_jsonld(d, path, required=True)
-         build = build_objset.find_root(oe.spdx30.build_Build)
-         if not build:
-diff --git a/meta/classes-recipe/nospdx.bbclass b/meta/classes-recipe/nospdx.bbclass
-index b20e28218b..90e14442ba 100644
---- a/meta/classes-recipe/nospdx.bbclass
-+++ b/meta/classes-recipe/nospdx.bbclass
-@@ -5,6 +5,7 @@
- #
- 
- deltask do_collect_spdx_deps
-+deltask do_create_recipe_spdx
- deltask do_create_spdx
- deltask do_create_spdx_runtime
- deltask do_create_package_spdx
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 65d10d86db..3288cdf75a 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -399,6 +399,15 @@ def get_license_list_version(license_data, d):
-     return ".".join(license_data["licenseListVersion"].split(".")[:2])
- 
- 
-+# This task is added for compatibility with tasks shared with SPDX 3, but
-+# doesn't do anything
-+do_create_recipe_spdx() {
-+    :
-+}
-+do_create_recipe_spdx[noexec] = "1"
-+addtask do_create_recipe_spdx after do_collect_spdx_deps
++    CLOSED = True
++
++    @classmethod
++    def _register_props(cls):
++        super()._register_props()
++        cls._add_property(
++            "is_native",
++            oe.spdx30.BooleanProp(),
++            OE_SPDX_BASE + "is-native",
++            max_count=1,
++        )
 +
 +
- python do_create_spdx() {
-     from datetime import datetime, timezone
-     import oe.sbom
-@@ -594,7 +603,7 @@ python do_create_spdx() {
- }
- do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
- # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
--addtask do_create_spdx after do_package do_packagedata do_unpack do_collect_spdx_deps before do_populate_sdk do_build do_rm_work
-+addtask do_create_spdx after do_create_recipe_spdx do_package do_packagedata do_unpack do_patch do_collect_spdx_deps before do_populate_sdk do_build do_rm_work
- 
- SSTATETASKS += "do_create_spdx"
- do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
-@@ -605,6 +614,7 @@ python do_create_spdx_setscene () {
- }
- addtask do_create_spdx_setscene
- 
-+do_create_spdx[deptask] += "do_create_spdx"
- do_create_spdx[dirs] = "${SPDXWORK}"
- do_create_spdx[cleandirs] = "${SPDXDEPLOY} ${SPDXWORK}"
- do_create_spdx[depends] += " \
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index d4575d61c4..672ca27cd0 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -159,11 +159,18 @@ SPDX3_DEP_FILES = "\
-     ${SPDX_LICENSES}:True \
-     "
- 
--python do_create_spdx() {
-+python do_create_recipe_spdx() {
-     import oe.spdx30_tasks
--    oe.spdx30_tasks.create_spdx(d)
-+    oe.spdx30_tasks.create_recipe_spdx(d)
- }
--do_create_spdx[vardeps] += "\
-+addtask do_create_recipe_spdx after do_collect_spdx_deps
-+
-+SSTATETASKS += "do_create_recipe_spdx"
-+do_create_recipe_spdx[sstate-inputdirs] = "${SPDXRECIPEDEPLOY}"
-+do_create_recipe_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
-+do_create_recipe_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
-+do_create_recipe_spdx[cleandirs] = "${SPDXRECIPEDEPLOY}"
-+do_create_recipe_spdx[vardeps] += "\
-     SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
-     SPDX_PACKAGE_ADDITIONAL_PURPOSE \
-     SPDX_PROFILES \
-@@ -171,7 +178,19 @@ do_create_spdx[vardeps] += "\
-     SPDX_UUID_NAMESPACE \
-     "
- 
-+python do_create_recipe_spdx_setscene () {
-+    sstate_setscene(d)
-+}
-+addtask do_create_recipe_spdx_setscene
-+
-+python do_create_spdx() {
-+    import oe.spdx30_tasks
-+    oe.spdx30_tasks.create_spdx(d)
-+}
- addtask do_create_spdx after \
-+    do_unpack \
-+    do_patch \
-+    do_create_recipe_spdx \
-     do_collect_spdx_deps \
-     do_deploy_source_date_epoch \
-     do_populate_sysroot do_package do_packagedata \
-@@ -181,18 +200,25 @@ SSTATETASKS += "do_create_spdx"
- do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
- do_create_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
- do_create_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
--
--python do_create_spdx_setscene () {
--    sstate_setscene(d)
--}
--addtask do_create_spdx_setscene
--
-+do_create_spdx[deptask] += "do_create_spdx"
- do_create_spdx[dirs] = "${SPDXWORK}"
- do_create_spdx[cleandirs] = "${SPDXDEPLOY} ${SPDXWORK}"
- do_create_spdx[depends] += " \
-     ${PATCHDEPENDENCY} \
-     ${@create_spdx_source_deps(d)} \
- "
-+do_create_spdx[vardeps] += "\
-+    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
-+    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
-+    SPDX_PROFILES \
-+    SPDX_NAMESPACE_PREFIX \
-+    SPDX_UUID_NAMESPACE \
-+    "
-+
-+python do_create_spdx_setscene () {
-+    sstate_setscene(d)
-+}
-+addtask do_create_spdx_setscene
- 
- python do_create_package_spdx() {
-     import oe.spdx30_tasks
-@@ -205,16 +231,15 @@ SSTATETASKS += "do_create_package_spdx"
- do_create_package_spdx[sstate-inputdirs] = "${SPDXRUNTIMEDEPLOY}"
- do_create_package_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
- do_create_package_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
-+do_create_package_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
-+do_create_package_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
-+do_create_package_spdx[rdeptask] = "do_create_spdx"
- 
- python do_create_package_spdx_setscene () {
-     sstate_setscene(d)
- }
- addtask do_create_package_spdx_setscene
- 
--do_create_package_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
--do_create_package_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
--do_create_package_spdx[rdeptask] = "do_create_spdx"
--
- python spdx30_build_started_handler () {
-     import oe.spdx30_tasks
-     d = e.data.createCopy()
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 3110230c9e..3c239a718b 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -23,6 +23,7 @@ SPDXDEPS = "${SPDXDIR}/deps.json"
- SPDX_TOOL_NAME ??= "oe-spdx-creator"
- SPDX_TOOL_VERSION ??= "1.0"
- 
-+SPDXRECIPEDEPLOY = "${SPDXDIR}/recipe-deploy"
- SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
- 
- SPDX_INCLUDE_SOURCES ??= "0"
-@@ -67,12 +68,6 @@ def create_spdx_source_deps(d):
-     deps = []
-     if d.getVar("SPDX_INCLUDE_SOURCES") == "1":
-         pn = d.getVar('PN')
--        # do_unpack is a hack for now; we only need it to get the
--        # dependencies do_unpack already has so we can extract the source
--        # ourselves
--        if oe.spdx_common.has_task(d, "do_unpack"):
--            deps.append("%s:do_unpack" % pn)
--
-         if oe.spdx_common.is_work_shared_spdx(d) and \
-            oe.spdx_common.process_sources(d):
-             # For kernel source code
-@@ -84,8 +79,6 @@ def create_spdx_source_deps(d):
-             # For gcc-source-${PV} source code
-             if oe.spdx_common.has_task(d, "do_preconfigure"):
-                 deps.append("%s:do_preconfigure" % pn)
--            elif oe.spdx_common.has_task(d, "do_patch"):
--                deps.append("%s:do_patch" % pn)
-             # For gcc-cross-x86_64 source code
-             elif oe.spdx_common.has_task(d, "do_configure"):
-                 deps.append("%s:do_configure" % pn)
-@@ -97,8 +90,8 @@ python do_collect_spdx_deps() {
-     # This task calculates the build time dependencies of the recipe, and is
-     # required because while a task can deptask on itself, those dependencies
-     # do not show up in BB_TASKDEPDATA. To work around that, this task does the
--    # deptask on do_create_spdx and writes out the dependencies it finds, then
--    # do_create_spdx reads in the found dependencies when writing the actual
-+    # deptask on do_create_recipe_spdx and writes out the dependencies it finds, then
-+    # downstream tasks read in the found dependencies when writing the actual
-     # SPDX document
-     import json
-     import oe.spdx_common
-@@ -106,15 +99,13 @@ python do_collect_spdx_deps() {
- 
-     spdx_deps_file = Path(d.getVar("SPDXDEPS"))
- 
--    deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
-+    deps = oe.spdx_common.collect_direct_deps(d, "do_create_recipe_spdx")
- 
-     with spdx_deps_file.open("w") as f:
-         json.dump(deps, f)
- }
--# NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
--addtask do_collect_spdx_deps after do_unpack
--do_collect_spdx_deps[depends] += "${PATCHDEPENDENCY}"
--do_collect_spdx_deps[deptask] = "do_create_spdx"
-+addtask do_collect_spdx_deps
-+do_collect_spdx_deps[deptask] = "do_create_recipe_spdx"
- do_collect_spdx_deps[dirs] = "${SPDXDIR}"
- 
- oe.spdx_common.collect_direct_deps[vardepsexclude] += "BB_TASKDEPDATA"
+ def spdxid_hash(*items):
+     h = hashlib.md5()
+     for i in items:
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 99f2892dfb..a8b4525e3d 100644
+index b6c917045e..a8fffbb085 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -32,7 +32,9 @@ def set_timestamp_now(d, o, prop):
-         delattr(o, prop)
- 
- 
--def add_license_expression(d, objset, license_expression, license_data):
-+def add_license_expression(
-+    d, objset, license_expression, license_data, search_objsets=[]
-+):
-     simple_license_text = {}
-     license_text_map = {}
-     license_ref_idx = 0
-@@ -44,14 +46,15 @@ def add_license_expression(d, objset, license_expression, license_data):
-         if name in simple_license_text:
-             return simple_license_text[name]
- 
--        lic = objset.find_filter(
--            oe.spdx30.simplelicensing_SimpleLicensingText,
--            name=name,
--        )
-+        for o in [objset] + search_objsets:
-+            lic = o.find_filter(
-+                oe.spdx30.simplelicensing_SimpleLicensingText,
-+                name=name,
-+            )
- 
--        if lic is not None:
--            simple_license_text[name] = lic
--            return lic
-+            if lic is not None:
-+                simple_license_text[name] = lic
-+                return lic
- 
-         lic = objset.add(
-             oe.spdx30.simplelicensing_SimpleLicensingText(
-@@ -178,7 +181,9 @@ def add_package_files(
- 
-             # Check if file is compiled
-             if check_compiled_sources:
--                if not oe.spdx_common.is_compiled_source(filename, compiled_sources, types):
-+                if not oe.spdx_common.is_compiled_source(
-+                    filename, compiled_sources, types
-+                ):
-                     continue
- 
-             spdx_file = objset.new_file(
-@@ -293,17 +298,16 @@ def get_package_sources_from_debug(
-     return dep_source_files
- 
- 
--def collect_dep_objsets(d, build):
-+def collect_dep_objsets(d, subdir, fn_prefix, obj_type, **attr_filter):
-     deps = oe.spdx_common.get_spdx_deps(d)
- 
-     dep_objsets = []
--    dep_builds = set()
-+    dep_objs = set()
- 
--    dep_build_spdxids = set()
-     for dep in deps:
-         bb.debug(1, "Fetching SPDX for dependency %s" % (dep.pn))
--        dep_build, dep_objset = oe.sbom30.find_root_obj_in_jsonld(
--            d, "recipes", "recipe-" + dep.pn, oe.spdx30.build_Build
-+        dep_obj, dep_objset = oe.sbom30.find_root_obj_in_jsonld(
-+            d, subdir, fn_prefix + dep.pn, obj_type, **attr_filter
+@@ -477,6 +477,10 @@ def set_purls(spdx_package, purls):
          )
-         # If the dependency is part of the taskhash, return it to be linked
-         # against. Otherwise, it cannot be linked against because this recipe
-@@ -311,10 +315,10 @@ def collect_dep_objsets(d, build):
-         if dep.in_taskhash:
-             dep_objsets.append(dep_objset)
- 
--        # The build _can_ be linked against (by alias)
--        dep_builds.add(dep_build)
-+        # The object _can_ be linked against (by alias)
-+        dep_objs.add(dep_obj)
- 
--    return dep_objsets, dep_builds
-+    return dep_objsets, dep_objs
  
  
- def index_sources_by_hash(sources, dest):
-@@ -423,9 +427,7 @@ def add_download_files(d, objset):
-             if fd.method.supports_checksum(fd):
-                 # TODO Need something better than hard coding this
-                 for checksum_id in ["sha256", "sha1"]:
--                    expected_checksum = getattr(
--                        fd, "%s_expected" % checksum_id, None
--                    )
-+                    expected_checksum = getattr(fd, "%s_expected" % checksum_id, None)
-                     if expected_checksum is None:
-                         continue
- 
-@@ -462,50 +464,96 @@ def set_purposes(d, element, *var_names, force_purposes=[]):
-     ]
- 
- 
--def create_spdx(d):
--    def set_var_field(var, obj, name, package=None):
--        val = None
--        if package:
--            val = d.getVar("%s:%s" % (var, package))
-+def set_purls(spdx_package, purls):
-+    if purls:
-+        spdx_package.software_packageUrl = purls[0]
- 
--        if not val:
--            val = d.getVar(var)
-+    for p in sorted(set(purls)):
-+        spdx_package.externalIdentifier.append(
-+            oe.spdx30.ExternalIdentifier(
-+                externalIdentifierType=oe.spdx30.ExternalIdentifierType.packageUrl,
-+                identifier=p,
-+            )
-+        )
- 
--        if val:
--            setattr(obj, name, val)
++def get_is_native(d):
++    return bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
 +
-+def create_recipe_spdx(d):
-+    deploydir = Path(d.getVar("SPDXRECIPEDEPLOY"))
-+    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
-+    pn = d.getVar("PN")
++
+ def create_recipe_spdx(d):
+     deploydir = Path(d.getVar("SPDXRECIPEDEPLOY"))
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+@@ -507,6 +511,11 @@ def create_recipe_spdx(d):
+         )
+     )
  
-     license_data = oe.spdx_common.load_spdx_license_data(d)
++    if get_is_native(d):
++        ext = oe.sbom30.OERecipeExtension()
++        ext.is_native = True
++        recipe.extension.append(ext)
++
+     set_purls(recipe, (d.getVar("SPDX_PACKAGE_URLS") or "").split())
  
--    deploydir = Path(d.getVar("SPDXDEPLOY"))
--    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
--    spdx_workdir = Path(d.getVar("SPDXWORK"))
--    include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
--    pkg_arch = d.getVar("SSTATE_PKGARCH")
+     # TODO: This doesn't work before do_unpack because the license text has to
+@@ -668,9 +677,7 @@ def create_spdx(d):
+     spdx_workdir = Path(d.getVar("SPDXWORK"))
+     include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
 -    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
 -        "cross", d
 -    )
-     include_vex = d.getVar("SPDX_INCLUDE_VEX")
-     if not include_vex in ("none", "current", "all"):
-         bb.fatal("SPDX_INCLUDE_VEX must be one of 'none', 'current', 'all'")
++    is_native = get_is_native(d)
  
--    build_objset = oe.sbom30.ObjectSet.new_objset(d, "recipe-" + d.getVar("PN"))
-+    recipe_objset = oe.sbom30.ObjectSet.new_objset(d, "static-" + pn)
+     recipe, recipe_objset = load_recipe_spdx(d)
  
--    build = build_objset.new_task_build("recipe", "recipe")
--    build_objset.set_element_alias(build)
-+    recipe = recipe_objset.add_root(
-+        oe.spdx30.software_Package(
-+            _id=recipe_objset.new_spdxid("recipe", pn),
-+            creationInfo=recipe_objset.doc.creationInfo,
-+            name=d.getVar("PN"),
-+            software_packageVersion=d.getVar("PV"),
-+            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.specification,
-+            software_sourceInfo=json.dumps(
-+                {
-+                    "FILENAME": os.path.basename(d.getVar("FILE")),
-+                    "FILE_LAYERNAME": d.getVar("FILE_LAYERNAME"),
-+                },
-+                separators=(",", ":"),
-+            ),
-+        )
-+    )
- 
--    build_objset.doc.rootElement.append(build)
-+    set_purls(recipe, (d.getVar("SPDX_PACKAGE_URLS") or "").split())
-+
-+    # TODO: This doesn't work before do_unpack because the license text has to
-+    # be available for recipes with NO_GENERIC_LICENSE
-+    # recipe_spdx_license = add_license_expression(
-+    #    d,
-+    #    recipe_objset,
-+    #    d.getVar("LICENSE"),
-+    #    license_data,
-+    # )
-+    # recipe_objset.new_relationship(
-+    #    [recipe],
-+    #    oe.spdx30.RelationshipType.hasDeclaredLicense,
-+    #    [oe.sbom30.get_element_link_id(recipe_spdx_license)],
-+    # )
-+
-+    if val := d.getVar("HOMEPAGE"):
-+        recipe.software_homePage = val
-+
-+    if val := d.getVar("SUMMARY"):
-+        recipe.summary = val
-+
-+    if val := d.getVar("DESCRIPTION"):
-+        recipe.description = val
-+
-+    for cpe_id in oe.cve_check.get_cpe_ids(
-+        d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION")
-+    ):
-+        recipe.externalIdentifier.append(
-+            oe.spdx30.ExternalIdentifier(
-+                externalIdentifierType=oe.spdx30.ExternalIdentifierType.cpe23,
-+                identifier=cpe_id,
-+            )
-+        )
- 
--    build_objset.set_is_native(is_native)
-+    dep_objsets, dep_recipes = collect_dep_objsets(
-+        d, "static", "static-", oe.spdx30.software_Package
-+    )
- 
--    for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
--        build_objset.new_annotation(
--            build,
--            "%s=%s" % (var, d.getVar(var)),
--            oe.spdx30.AnnotationType.other,
-+    if dep_recipes:
-+        recipe_objset.new_scoped_relationship(
-+            [recipe],
-+            oe.spdx30.RelationshipType.dependsOn,
-+            oe.spdx30.LifecycleScopeType.build,
-+            sorted(oe.sbom30.get_element_link_id(dep) for dep in dep_recipes),
-         )
- 
--    build_inputs = set()
--
-     # Add CVEs
-     cve_by_status = {}
-     if include_vex != "none":
-@@ -514,7 +562,7 @@ def create_spdx(d):
-             decoded_status = {
-                 "mapping": patched_cve["abbrev-status"],
-                 "detail": patched_cve["status"],
--                "description": patched_cve.get("justification", None)
-+                "description": patched_cve.get("justification", None),
-             }
- 
-             # If this CVE is fixed upstream, skip it unless all CVEs are
-@@ -531,8 +579,7 @@ def create_spdx(d):
-                 bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
-                 continue
- 
--            spdx_cve = build_objset.new_cve_vuln(cve)
--            build_objset.set_element_alias(spdx_cve)
-+            spdx_cve = recipe_objset.new_cve_vuln(cve)
- 
-             cve_by_status.setdefault(decoded_status["mapping"], {})[cve] = (
-                 spdx_cve,
-@@ -540,13 +587,118 @@ def create_spdx(d):
-                 decoded_status["description"],
-             )
- 
-+    all_cves = set()
-+    for status, cves in cve_by_status.items():
-+        for cve, items in cves.items():
-+            spdx_cve, detail, description = items
-+            spdx_cve_id = oe.sbom30.get_element_link_id(spdx_cve)
-+
-+            all_cves.add(spdx_cve)
-+
-+            if status == "Patched":
-+                recipe_objset.new_vex_patched_relationship([spdx_cve_id], [recipe])
-+            elif status == "Unpatched":
-+                recipe_objset.new_vex_unpatched_relationship([spdx_cve_id], [recipe])
-+            elif status == "Ignored":
-+                spdx_vex = recipe_objset.new_vex_ignored_relationship(
-+                    [spdx_cve_id],
-+                    [recipe],
-+                    impact_statement=description,
-+                )
-+
-+                vex_just_type = d.getVarFlag("CVE_CHECK_VEX_JUSTIFICATION", detail)
-+                if vex_just_type:
-+                    if (
-+                        vex_just_type
-+                        not in oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS
-+                    ):
-+                        bb.fatal(
-+                            f"Unknown vex justification '{vex_just_type}', detail '{detail}', for ignored {cve}"
-+                        )
-+
-+                    for v in spdx_vex:
-+                        v.security_justificationType = (
-+                            oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS[
-+                                vex_just_type
-+                            ]
-+                        )
-+
-+            elif status == "Unknown":
-+                bb.note(f"Skipping {cve} with status 'Unknown'")
-+            else:
-+                bb.fatal(f"Unknown {cve} status '{status}'")
-+
-+    if all_cves:
-+        recipe_objset.new_relationship(
-+            [recipe],
-+            oe.spdx30.RelationshipType.hasAssociatedVulnerability,
-+            sorted(list(all_cves)),
-+        )
-+
-+    oe.sbom30.write_recipe_jsonld_doc(d, recipe_objset, "static", deploydir)
-+
-+
-+def load_recipe_spdx(d):
-+
-+    return oe.sbom30.find_root_obj_in_jsonld(
-+        d,
-+        "static",
-+        "static-" + d.getVar("PN"),
-+        oe.spdx30.software_Package,
-+    )
-+
-+
-+def create_spdx(d):
-+    def set_var_field(var, obj, name, package=None):
-+        val = None
-+        if package:
-+            val = d.getVar("%s:%s" % (var, package))
-+
-+        if not val:
-+            val = d.getVar(var)
-+
-+        if val:
-+            setattr(obj, name, val)
-+
-+    license_data = oe.spdx_common.load_spdx_license_data(d)
-+
-+    pn = d.getVar("PN")
-+    deploydir = Path(d.getVar("SPDXDEPLOY"))
-+    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
-+    spdx_workdir = Path(d.getVar("SPDXWORK"))
-+    include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
-+    pkg_arch = d.getVar("SSTATE_PKGARCH")
-+    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
-+        "cross", d
-+    )
-+
-+    recipe, recipe_objset = load_recipe_spdx(d)
-+
-+    build_objset = oe.sbom30.ObjectSet.new_objset(d, "build-" + pn)
-+
-+    build = build_objset.new_task_build("recipe", "recipe")
-+    build_objset.set_element_alias(build)
-+
-+    build_objset.doc.rootElement.append(build)
-+
-+    build_objset.set_is_native(is_native)
-+
-+    for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
-+        build_objset.new_annotation(
-+            build,
-+            "%s=%s" % (var, d.getVar(var)),
-+            oe.spdx30.AnnotationType.other,
-+        )
-+
-+    build_inputs = set()
-+
-     cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION"))
- 
-     source_files = add_download_files(d, build_objset)
-     build_inputs |= source_files
- 
-     recipe_spdx_license = add_license_expression(
--        d, build_objset, d.getVar("LICENSE"), license_data
-+        d, build_objset, d.getVar("LICENSE"), license_data, [recipe_objset]
-     )
-     build_objset.new_relationship(
-         source_files,
-@@ -575,7 +727,10 @@ def create_spdx(d):
-         build_inputs |= files
-         index_sources_by_hash(files, dep_sources)
- 
--    dep_objsets, dep_builds = collect_dep_objsets(d, build)
-+    dep_objsets, dep_builds = collect_dep_objsets(
-+        d, "builds", "build-", oe.spdx30.build_Build
-+    )
-+
-     if dep_builds:
-         build_objset.new_scoped_relationship(
-             [build],
-@@ -587,6 +742,22 @@ def create_spdx(d):
-     debug_source_ids = set()
-     source_hash_cache = {}
- 
-+    # Collect all VEX statements from the recipe
-+    vex_statements = {}
-+    for rel in recipe_objset.foreach_filter(
-+        oe.spdx30.Relationship,
-+        relationshipType=oe.spdx30.RelationshipType.hasAssociatedVulnerability,
-+    ):
-+        for cve in rel.to:
-+            vex_statements[cve] = []
-+
-+    for cve in vex_statements.keys():
-+        for rel in recipe_objset.foreach_filter(
-+            oe.spdx30.security_VexVulnAssessmentRelationship,
-+            from_=cve,
-+        ):
-+            vex_statements[cve].append(rel)
-+
-     # Write out the package SPDX data now. It is not complete as we cannot
-     # write the runtime data, so write it to a staging area and a later task
-     # will write out the final collection
-@@ -645,16 +816,7 @@ def create_spdx(d):
-                 or ""
-             ).split()
- 
--            if purls:
--                spdx_package.software_packageUrl = purls[0]
--
--            for p in sorted(set(purls)):
--                spdx_package.externalIdentifier.append(
--                    oe.spdx30.ExternalIdentifier(
--                        externalIdentifierType=oe.spdx30.ExternalIdentifierType.packageUrl,
--                        identifier=p,
--                    )
--                )
-+            set_purls(spdx_package, purls)
- 
-             pkg_objset.new_scoped_relationship(
-                 [oe.sbom30.get_element_link_id(build)],
-@@ -663,6 +825,13 @@ def create_spdx(d):
-                 [spdx_package],
-             )
- 
-+            pkg_objset.new_scoped_relationship(
-+                [oe.sbom30.get_element_link_id(recipe)],
-+                oe.spdx30.RelationshipType.generates,
-+                oe.spdx30.LifecycleScopeType.build,
-+                [spdx_package],
-+            )
-+
-             for cpe_id in cpe_ids:
-                 spdx_package.externalIdentifier.append(
-                     oe.spdx30.ExternalIdentifier(
-@@ -696,7 +865,11 @@ def create_spdx(d):
-             package_license = d.getVar("LICENSE:%s" % package)
-             if package_license and package_license != d.getVar("LICENSE"):
-                 package_spdx_license = add_license_expression(
--                    d, build_objset, package_license, license_data
-+                    d,
-+                    build_objset,
-+                    package_license,
-+                    license_data,
-+                    [recipe_objset],
-                 )
-             else:
-                 package_spdx_license = recipe_spdx_license
-@@ -721,58 +894,41 @@ def create_spdx(d):
-                     [oe.sbom30.get_element_link_id(concluded_spdx_license)],
-                 )
- 
--            # NOTE: CVE Elements live in the recipe collection
--            all_cves = set()
--            for status, cves in cve_by_status.items():
--                for cve, items in cves.items():
--                    spdx_cve, detail, description = items
--                    spdx_cve_id = oe.sbom30.get_element_link_id(spdx_cve)
--
--                    all_cves.add(spdx_cve_id)
-+            # Copy CVEs from recipe
-+            if vex_statements:
-+                pkg_objset.new_relationship(
-+                    [spdx_package],
-+                    oe.spdx30.RelationshipType.hasAssociatedVulnerability,
-+                    sorted(
-+                        oe.sbom30.get_element_link_id(cve)
-+                        for cve in vex_statements.keys()
-+                    ),
-+                )
- 
--                    if status == "Patched":
-+            for cve, vexes in vex_statements.items():
-+                for vex in vexes:
-+                    if vex.relationshipType == oe.spdx30.RelationshipType.fixedIn:
-                         pkg_objset.new_vex_patched_relationship(
--                            [spdx_cve_id], [spdx_package]
-+                            [oe.sbom30.get_element_link_id(cve)], [spdx_package]
-                         )
--                    elif status == "Unpatched":
-+                    elif vex.relationshipType == oe.spdx30.RelationshipType.affects:
-                         pkg_objset.new_vex_unpatched_relationship(
--                            [spdx_cve_id], [spdx_package]
-+                            [oe.sbom30.get_element_link_id(cve)], [spdx_package]
-                         )
--                    elif status == "Ignored":
-+                    elif (
-+                        vex.relationshipType == oe.spdx30.RelationshipType.doesNotAffect
-+                    ):
-                         spdx_vex = pkg_objset.new_vex_ignored_relationship(
--                            [spdx_cve_id],
-+                            [oe.sbom30.get_element_link_id(cve)],
-                             [spdx_package],
--                            impact_statement=description,
-+                            impact_statement=vex.security_impactStatement,
-                         )
- 
--                        vex_just_type = d.getVarFlag(
--                            "CVE_CHECK_VEX_JUSTIFICATION", detail
--                        )
--                        if vex_just_type:
--                            if (
--                                vex_just_type
--                                not in oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS
--                            ):
--                                bb.fatal(
--                                    f"Unknown vex justification '{vex_just_type}', detail '{detail}', for ignored {cve}"
--                                )
--
-+                        if vex.security_justificationType:
-                             for v in spdx_vex:
--                                v.security_justificationType = oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS[
--                                    vex_just_type
--                                ]
--
--                    elif status == "Unknown":
--                        bb.note(f"Skipping {cve} with status 'Unknown'")
--                    else:
--                        bb.fatal(f"Unknown {cve} status '{status}'")
--
--            if all_cves:
--                pkg_objset.new_relationship(
--                    [spdx_package],
--                    oe.spdx30.RelationshipType.hasAssociatedVulnerability,
--                    sorted(list(all_cves)),
--                )
-+                                v.security_justificationType = (
-+                                    vex.security_justificationType
-+                                )
- 
-             bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
-             package_files = add_package_files(
-@@ -851,14 +1007,15 @@ def create_spdx(d):
-                 status = "enabled" if feature in enabled else "disabled"
-                 build.build_parameter.append(
-                     oe.spdx30.DictionaryEntry(
--                        key=f"PACKAGECONFIG:{feature}",
--                        value=status
-+                        key=f"PACKAGECONFIG:{feature}", value=status
-                     )
-                 )
- 
--            bb.note(f"Added PACKAGECONFIG entries: {len(enabled)} enabled, {len(disabled)} disabled")
-+            bb.note(
-+                f"Added PACKAGECONFIG entries: {len(enabled)} enabled, {len(disabled)} disabled"
-+            )
- 
--    oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes", deploydir)
-+    oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "builds", deploydir)
- 
- 
+@@ -1021,14 +1028,11 @@ def create_spdx(d):
  def create_package_spdx(d):
-@@ -1197,17 +1354,17 @@ def create_image_spdx(d):
-             image_path = image_deploy_dir / image_filename
-             if os.path.isdir(image_path):
-                 a = add_package_files(
--                        d,
--                        objset,
--                        image_path,
--                        lambda file_counter: objset.new_spdxid(
--                            "imagefile", str(file_counter)
--                        ),
--                        lambda filepath: [],
--                        license_data=None,
--                        ignore_dirs=[],
--                        ignore_top_level_dirs=[],
--                        archive=None,
-+                    d,
-+                    objset,
-+                    image_path,
-+                    lambda file_counter: objset.new_spdxid(
-+                        "imagefile", str(file_counter)
-+                    ),
-+                    lambda filepath: [],
-+                    license_data=None,
-+                    ignore_dirs=[],
-+                    ignore_top_level_dirs=[],
-+                    archive=None,
-                 )
-                 artifacts.extend(a)
-             else:
-@@ -1234,7 +1391,6 @@ def create_image_spdx(d):
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
+-    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
+-        "cross", d
+-    )
  
-                 set_timestamp_now(d, a, "builtTime")
+     providers = oe.spdx_common.collect_package_providers(d)
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
  
--
-         if artifacts:
-             objset.new_scoped_relationship(
-                 [image_build],
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 5830d7c087..759ca86b73 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -141,6 +141,11 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-     SPDX_CLASS = "create-spdx-3.0"
+-    if is_native:
++    if get_is_native(d):
+         return
  
-     def test_base_files(self):
-+        self.check_recipe_spdx(
-+            "base-files",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/static/static-base-files.spdx.json",
-+            task="create_recipe_spdx",
-+        )
-         self.check_recipe_spdx(
-             "base-files",
-             "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/package-base-files.spdx.json",
-@@ -149,7 +154,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-     def test_gcc_include_source(self):
-         objset = self.check_recipe_spdx(
-             "gcc",
--            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-gcc.spdx.json",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-gcc.spdx.json",
-             extraconf="""\
-                 SPDX_INCLUDE_SOURCES = "1"
-                 """,
-@@ -162,12 +167,12 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-             if software_file.name == filename:
-                 found = True
-                 self.logger.info(
--                    f"The spdxId of {filename} in recipe-gcc.spdx.json is {software_file.spdxId}"
-+                    f"The spdxId of {filename} in build-gcc.spdx.json is {software_file.spdxId}"
-                 )
-                 break
- 
-         self.assertTrue(
--            found, f"Not found source file {filename} in recipe-gcc.spdx.json\n"
-+            found, f"Not found source file {filename} in build-gcc.spdx.json\n"
-         )
- 
-     def test_core_image_minimal(self):
-@@ -305,7 +310,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-         # This will fail with NameError if new_annotation() is called incorrectly
-         objset = self.check_recipe_spdx(
-             "base-files",
--            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/recipes/recipe-base-files.spdx.json",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/builds/build-base-files.spdx.json",
-             extraconf=textwrap.dedent(
-                 f"""\
-                 ANNOTATION1 = "{ANNOTATION_VAR1}"
-@@ -360,8 +365,8 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
- 
-     def test_kernel_config_spdx(self):
-         kernel_recipe = get_bb_var("PREFERRED_PROVIDER_virtual/kernel")
--        spdx_file = f"recipe-{kernel_recipe}.spdx.json"
--        spdx_path = f"{{DEPLOY_DIR_SPDX}}/{{SSTATE_PKGARCH}}/recipes/{spdx_file}"
-+        spdx_file = f"build-{kernel_recipe}.spdx.json"
-+        spdx_path = f"{{DEPLOY_DIR_SPDX}}/{{SSTATE_PKGARCH}}/builds/{spdx_file}"
- 
-         # Make sure kernel is configured first
-         bitbake(f"-c configure {kernel_recipe}")
-@@ -392,7 +397,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-     def test_packageconfig_spdx(self):
-         objset = self.check_recipe_spdx(
-             "tar",
--            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-tar.spdx.json",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-tar.spdx.json",
-             extraconf="""\
-                 SPDX_INCLUDE_PACKAGECONFIG = "1"
-                 """,
+     bb.build.exec_func("read_subpackage_metadata", d)
 -- 
 2.53.0
 
