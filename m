@@ -2,91 +2,84 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7BAE103E2E7
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 20:56:52 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7087.1773262604456849077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34EBB103E2EB
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 22:42:33 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9069.1773268947918729499
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 13:56:45 -0700
+ Wed, 11 Mar 2026 15:42:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=NFPhdtNI;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260311205641a2db8d4af600020750-af0ptn@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260311205641a2db8d4af600020750
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OlqNChEo;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20260311224224120ecc78690002071c-bbzj_r@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260311224224120ecc78690002071c
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 11 Mar 2026 21:56:42 +0100
+        Wed, 11 Mar 2026 23:42:25 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=nAyTx71zqbs7HvEiM4JUhe8nt/pw/tDtJoBi+nHB+3w=;
- b=NFPhdtNIqSVkX56fCsZOtfEA203Az5D90dYH3P5BNSWFt2p7UsQgmkTCaHBFg9tQJOw0Fe
- HHHv15bxzmFV43xGZgPVSXrI3qMyw1yVBl9a21ye89G7E1jXN1SXeK36SujFdnbwE1m1hRs4
- F0ay+6eY7HKQ8DYtMPF+fXy/gwfy0N3lkFvCgR8buW0h6Xe8I7NxFrfi55DZA3fzJlKieCDa
- eq6CwbzCDqORp8zmpnozihnkt2KaY59CfCOZ3UcB9wahoUm4jK36ouexbXENjgwc2AWHvXYM
- f8pOOPavYhY1vp5fbCQEl7PgIYq6DPp/JAmJCOClconzTeVsOBkT+31A==;
+ bh=5N4BBJpGNDYpGBsk/JDYQcV88RSZjxsCjtImVTXzgEo=;
+ b=OlqNChEoO+bvpyp5n8JD7PlIx7mMGXeT4MiuJCBNuAYvL9OIUam3k4c+jCGNYvAry47d0e
+ r9R0eATR3CJX05e9NHJzd9FdM1Ayt4GHODWpnfliH0mybqcoN4z7LzTCrRlyGpqd6j/BFCKs
+ GAolvvmMfMoJWwrQ2p+IsVszcied1lgzJhqvy73r3LnSeiDOP+tiUKUglesnIZtStSchyu17
+ Pm6Iy7NYyDFGnU9ZdWWwk5WqeJvtvJ968deGsQ8t+QTXvNCiLkKQfLx3wdoICy9Nupcy52/8
+ Q5LKCBBRKNhDat6UN7oi+zWx+Ou85uUeXiW6FQ1IjVVY/ctku4FXeyWw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] libuv: upgrade 1.52.0 -> 1.52.1
-Date: Wed, 11 Mar 2026 21:56:38 +0100
-Message-Id: <20260311205638.735249-1-peter.marko@siemens.com>
+Subject: [PATCH] libarchive: upgrade 3.8.5 -> 3.8.6
+Date: Wed, 11 Mar 2026 23:42:21 +0100
+Message-Id: <20260311224221.3926155-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 20:56:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232913
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 22:42:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232914
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Release info [1]:
+Release information [1]:
 
-Changes since version 1.52.0:
-* misc: add simple clang-tidy setup (Jameson Nash)
-* unix: check RLIMIT_AS and RLIMIT_DATA in uv_get_constrained_memory
-  (Jameson Nash)
-* win: add fs-fd-hash-inl.h to tarball (tobil4sk)
-* unix,win: support NULL loop for sync uv_getaddrinfo (Saúl Ibarra
-  Corretgé)
-* Fix const-correctness warning in linux.c (Quaylyn Rimer)
-* build(deps): bump actions/upload-artifact from 6 to 7
-  (dependabot[bot])
-* build(deps): bump actions/download-artifact from 7 to 8
-  (dependabot[bot])
-* unix: fix compilation warnings with GCC 15 (Saúl Ibarra Corretgé)
-* test: remove conditionals from `uv_thread_self` usage (Yasser
-  Nascimento)
-* unix: fix discard const (Rudi Heitbaum)
-* unix: do not cast to char variables that are const char (Rudi
-  Heitbaum)
-* linux: fix crash if poll callback closes handle before `POLLERR` (Juan
-  José Arboleda)
+Libarchive 3.8.6 is a security and bugfix release.
 
-[1] https://github.com/libuv/libuv/releases/tag/v1.52.1
+Notable fixes:
+* libarchive: fix incompatibility with Nettle 4.x (#2858)
+* libarchive: fix NULL pointer dereference in archive_acl_from_text_w() (#2859)
+* bsdunzip: fix ISO week year and Gregorian year confusion (#2860)
+* 7zip: ix SEGV in check_7zip_header_in_sfx via ELF offset validation (#2864)
+* 7zip: fix out-of-bounds access on ELF 64-bit header (#2875)
+* RAR5 reader: fix infinite loop in rar5 decompression (#2877)
+* RAR5 reader: fix potential memory leak (#2892)
+* RAR5: fix SIGSEGV when archive_read_support_format_rar5 is called twice (#2893)
+* CAB reader: fix memory leak on repeated calls to archive_read_support_format_cab (#2895)
+* mtree reader: Fix file descriptor leak in mtree parser cleanup (CWE-775, #2878)
+* various small bugfixes in code and documentation
+
+[1] https://github.com/libarchive/libarchive/releases/tag/v3.8.6
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libuv/{libuv_1.52.0.bb => libuv_1.52.1.bb}                  | 2 +-
+ .../libarchive/{libarchive_3.8.5.bb => libarchive_3.8.6.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.52.0.bb => libuv_1.52.1.bb} (94%)
+ rename meta/recipes-extended/libarchive/{libarchive_3.8.5.bb => libarchive_3.8.6.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.52.0.bb b/meta/recipes-connectivity/libuv/libuv_1.52.1.bb
-similarity index 94%
-rename from meta/recipes-connectivity/libuv/libuv_1.52.0.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.52.1.bb
-index 25177bc05d..08f0755911 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.52.0.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.52.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=74b6f2f7818a4e3a80d03556f71b129b \
-                     file://LICENSE-extra;md5=f9307417749e19bd1d6d68a394b49324"
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.5.bb b/meta/recipes-extended/libarchive/libarchive_3.8.6.bb
+similarity index 97%
+rename from meta/recipes-extended/libarchive/libarchive_3.8.5.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.8.6.bb
+index 7b10823002..d579cdb65a 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.8.5.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.8.6.bb
+@@ -34,7 +34,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+           "
+ UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
  
--SRCREV = "b556c0629d0fd250b5feefbc91b84c6f5e3dae48"
-+SRCREV = "1cfa32ff59c076ffb6ed735bbc8c18361558661f"
- SRC_URI = "git://github.com/libuv/libuv.git;branch=v1.x;protocol=https;tag=v${PV}"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[sha256sum] = "8a60f3a7bfd59c54ce82ae805a93dba65defd04148c3333b7eaa2102f03b7ffd"
++SRC_URI[sha256sum] = "213269b05aac957c98f6e944774bb438d0bd168a2ec60b9e4f8d92035925821c"
+ 
+ inherit autotools update-alternatives pkgconfig ptest
  
 
