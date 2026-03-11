@@ -2,81 +2,81 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA9D103E2EE
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 22:49:33 +0000 (UTC)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9197.1773269371106527009
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ABE0103E2EF
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 22:51:33 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9390.1773269488330442833
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 15:49:31 -0700
+ Wed, 11 Mar 2026 15:51:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KQNfsXgt;
- spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79881805788so4803107b3.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 15:49:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773269370; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lJBNy6r+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79901821bb0so4465977b3.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 15:51:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773269487; cv=none;
         d=google.com; s=arc-20240605;
-        b=GC9wLn6/dxrbPNBA2nHFOxEDHnEPu5xAw9A5vmDtNdzOp5TlYsMNFgfgnTBpX+BwUw
-         9vaJ8r9GTm6WCY7znl/q/KnpvQOk2YqVMgjx3VgeuAXZw1UHalmpy61ZI2qOFRvJfPD7
-         iY7B4mqG7QPsbfJdBK9Wc3tJaoA8HFu8pD4dHwQB0k40F5aar+6to3FIBa7Nw+79Ga74
-         AB5M0zmnzqOwU0hH3FFNmu0mKqHQ3XyMN3JeZlm+aWnM6ojz6e9cCEGU9gsV2m4pmHmY
-         q6xW6J0yQ2i8pRUEao95aOqj1cAhj9OuAlsGEaNr/O5UZVhXdlZyKJ0yrZnX2uxpwjzf
-         QTYw==
+        b=NIgi9yx2oN5LHYghHV3iiJ3nhEG2YvEfD97rD3uLSHQ7bMmZ6Cb6rM0G9sCnLXyGjf
+         dM0czypn8d42tXGahazJx0cSigi0VRgrQHgjzzSNQQKwDssIMd2RY8hPPWHtI8EflaLS
+         KLqLS7F3x+82rHyvB/y5HH+WwiXZDUtERJnTo+DgwQyNiz2x99CQNxEtmz9hjtWZBSdE
+         L+/UMJiSSDjaQk1KLXecqeZi+juS14VlAiQbFrNT4wvr4EVc3bg/8/3n2VNIT+nZIE4p
+         lflwjErUKRAbVnBaZViMimythLMbXDpu6AsWZ8P8MSaS0zZ2bAbVnTW2cpq3CFglD76q
+         5idg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=9/IEaWeBsdgbF4OXhch4TD9lmLLyAY8fyWPmqoxvckY=;
+        bh=SBRULxo5RraR+ZrqINQ6EJi9I5n4c0ob26/bI1/szUY=;
         fh=O40SYvcy1jGEmbceIO96QTsgI2+wv8m09kxalw+zz44=;
-        b=FI0sTBn4quAv3IcciX4H7qmp/ERn4KbRXtrTUmIuMtnu7GvEo1dRwwPK493DRrZCiN
-         RzW2/TMlO0RsWJrxj3ivQmqO7giqSRvSbsAK9QwCK5bRqvNEFa7FJgd5rWApzRUV8Sp7
-         OcIqYGAvEX0pYHMtiP5pRLXQ0hVwDZTuy25zVkr5HpqVv2CWVFzh8OmDMLzwxbHFaG6Y
-         KtJlGAEjJVKUcwnw2MQKUw1OXd7o9fqe252PNxaBGK0oxsa7W+FCunysgEv20Zi93M0Y
-         qPL5N+yt+8qED8AkGodWlFkMWKl9fkweWRQxTi4w2asQiC6aC+/+91nfZ0gHxdowf5eY
-         DIFQ==;
+        b=ORnCPjdRpEVQom+lxpThT0Hfu4QVge6WQIP+zx1OMKYzLODasrkveqJwqZhqwitS3q
+         8CWy1YvFCrsMXyYBqy05Qam5CFJ3xouPkL5v4BZrrjfdw3+dkZqq/Xmb9YO10+145Mai
+         09yoPdMt2EEjTV8k8IwrrGzrOxcsIHOu6nltq2hJF9hH7cNVMcvWmB1xlzqD0nAx2m9/
+         JwAfRFWol8joCjv0VMTrDLDIgVa2FSY7iP243g5TUSgIzw/krdiuBa+G/6ntwjGMCEbE
+         pDz5+crBPotlpl3c0KSeYvzzcpwNW8u3g76knUkURf58MdssuMvRIXaUPdr0y2sC/G8z
+         9DlA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773269370; x=1773874170; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773269487; x=1773874287; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9/IEaWeBsdgbF4OXhch4TD9lmLLyAY8fyWPmqoxvckY=;
-        b=KQNfsXgt0Vo7sEosFggZZvaqH4iwjk85B5ZwJN4DGM1EG95j3mp/UQlwdM+HCm1hiI
-         vM34HTWoMYu/U/NGNY8zeTQGvnmMlOvMIQ20GEOFiRNiQoVHSg0z1VZz9bW+CZH5wwRs
-         lIBz8K4XnbbkYyfa8qW64kAquHuhLsg5qwhk9x8dHmdr2JeyFtX4GjNdNowKt8xawe59
-         gO2G3JD2GPzvNojWiwnXiXoL4YZ9iDkAZbN/z3jD3oqdVyun0agiBW+aFBlcCLWUxRav
-         MF8MPtXZhp06f6va7PyLsCdovEB8BNnArec3WotQM7x1adpPoKYIFof1DBvG3ddXzaAq
-         8YyQ==
+        bh=SBRULxo5RraR+ZrqINQ6EJi9I5n4c0ob26/bI1/szUY=;
+        b=lJBNy6r+LYZ73UgV11+OSuRiGAGxJxhgqbTDcM/rbajLHRPdstg5su4f7ED2ThAnKC
+         BBri6McEAZGZZ2JRcsbexNy1xfQxQCQzCfjF/PT3705eeof5xC4s6j4ZNugmqORV0NDb
+         AFm2Mx3LjT89FrsmI469NdcN/8B/U9zGyD9nwnEJI4sTPzSUAELM2m7GnOdkjM+XSAIb
+         d9PaQg1Y+jxonZ7Lu2B1kACO8VsPep4jhFLIHUkshprj4hN2iql8HQyePDh7TCU5LjqA
+         qGWnXkoU7MHY6PaeZM7T0mK2nhcrH4553RwzEb0y5WSgTlajDKjmlcCrwkEauGBfpww3
+         2TSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773269370; x=1773874170;
+        d=1e100.net; s=20230601; t=1773269487; x=1773874287;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9/IEaWeBsdgbF4OXhch4TD9lmLLyAY8fyWPmqoxvckY=;
-        b=D1j6A8sed1CZCBE5VkEKLI84/HdWKdHqt2qwaPy1uCuzy/RmwrHp19U8hGlZAPmuRs
-         csl4rDW/i0w/owudmuZO2ezbVoA8JWP18vRF8F/GwaM2dc9zUGc+jVxwIna4UYviXbnc
-         y/MsQ5wldvmAbDbYi7Sr+OYiRT69kKaELUjT5xLbW76VztgITGm3wRsvbOy5cwXFaChN
-         bvyRopO0CoyDf8KrkcqerpV9MxunXVQ3PpBKJm6DN5aOQal75O0pOeRYNBWKwLNWcAVC
-         W0dTwdeox60hI9zLmFIBIaaP7WYirpEmle15CTKwsr6wYWUKJm4LCG6BllkPAr9rGVti
-         KzLw==
-X-Gm-Message-State: AOJu0Yw5j0hKV6mXOkeeLpupDs0dYDNO4suh31zrazW0fXtWbvl8v1bK
-	XNRfvg3fy7RgBQm2jjfJ7ouOnGNIos15ds8EOFnXnlXI+bmBIETcTL271txjRE5ZGGbBjpbJoME
-	qzKBax6XXiOB94r4NVh4Kei3VoC3SJIq6Pw==
-X-Gm-Gg: ATEYQzwJ9q7683Zvp3zwjXSuY0vHjb0XaGh+2G6SR0OQlhV/V5Y5u1URRCIrJhCHEmd
-	ARMWfLzKER+75TfU7yxrhGOndimCipo2EXW19d+QjlcsfUHpDFs7pAFOgJH202gbItBl2BbQnBW
-	mJVMlMZfwGbNgAxx2eYmbQyk8AwuY50+6JhNrF1hrIbNEWzD/36avOMKiPVU8z4kWH2kQgkwmcO
-	xUt+B0UsdzPlgKsj0yT4i3ABFvOimCz8QRTHiF+ioCY39Yqq7AsA6NNKBkeRTu/s05n1Im4Q7HK
-	Bq/bCNhT622VATciHx8kIA==
-X-Received: by 2002:a05:690c:c530:b0:797:f005:2dc0 with SMTP id
- 00721157ae682-79917fd4dd7mr41131367b3.50.1773269370105; Wed, 11 Mar 2026
- 15:49:30 -0700 (PDT)
+        bh=SBRULxo5RraR+ZrqINQ6EJi9I5n4c0ob26/bI1/szUY=;
+        b=hzszmvkp3XXHxd2sB7nctsec3gX/7lKAjBaUC6VKV6AkQTt3HekwZESeTu3DpRFPRq
+         UQ+quTLYVrBQJdXhNbrJ6BraAT4XnBNKlJfPd4oTuzJPh8JNaUVokYA/y0WBqsratxhL
+         DjTjmDJdapXSvJoD4yKrJhpAbxUgZ+CX5+/HxL3oNp/8nBtSGJXqmJi61286IdbHdtlE
+         O8AP+FOsWEx0+Iq6RrG8K+9ET88w79dCfvxkT2Jbdl8FcMpGRJrV6mMDkX7fI828vmaZ
+         wrID5hNBHmxRwM9sI8T9n0TwJigTYzaNjh0wtVxH7bYplvilQQhc04C1vVbALS1RjlWx
+         jhzw==
+X-Gm-Message-State: AOJu0YwmFHdvlyOAeNxuw7hYkNvzIBvsCGF3xy1ZvzTccHTEdgoDHUkz
+	9xA/tvbaxlcgcV4WJOHitiA3joZPjwbfs0a7MSu9Y58o//X2QZBUV5MywNA0zTBLm+g/x/c0mCT
+	ABN9Pc3EQY4+SrnIr/Im463rKLVNAVek=
+X-Gm-Gg: ATEYQzyzLvWgqaycwK+nnvbr52jOFghvk2SdYQRgy81hKtoS6yCdb0HUYbsJSFhVg0n
+	MXY2wTLndtRw50yJVLFrHKBvzBCOI/1KZ1whrPrwzqCskNetlggRO9DQXHrm8Zg4QnlVl8hmmFq
+	89CWtf+sPPCnFLtV5FywXVFN8M471eIrQgmsiJtKMqrPSUW0dqXrcCWaLdPOgsm98C8047Mh+3w
+	LFBYqy7NZgmJW2gllggKy86heHf8UyOJnoEAr9xSV7U02pIg6Z3CwlZ0z0aOwST0KS86nQ8KKzf
+	xV54GpPBplwPEDGUZGstO9HOmr2L7Zcv
+X-Received: by 2002:a05:690c:6d84:b0:799:1af1:6c7c with SMTP id
+ 00721157ae682-7991af17120mr31433737b3.49.1773269487405; Wed, 11 Mar 2026
+ 15:51:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1772805096.git.stefano.tondo.ext@siemens.com>
  <20260309132854.128375-1-stondo@gmail.com> <20260309132854.128375-5-stondo@gmail.com>
 In-Reply-To: <20260309132854.128375-5-stondo@gmail.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 11 Mar 2026 16:49:19 -0600
-X-Gm-Features: AaiRm53dsflvIJuclPxS81-ozBv3gJotG9UVv4k_QPB7bZrDVBQDz-tJzlqCVXU
-Message-ID: <CAJdd5GZFMezpUxapZLYTw+gGhfMh9Kw1HyA62c-48iYwExszBw@mail.gmail.com>
+Date: Wed, 11 Mar 2026 16:51:16 -0600
+X-Gm-Features: AaiRm52CGr9W91GuH-C5NM2hpuAX_RTbhzR4UvBF2lJzgbQjZzMX8bwOGh3ClnM
+Message-ID: <CAJdd5Gak6jwAxiUVmWoCCKApN_TZY0Y=WKR2BXWBE3aCFDpbKQ@mail.gmail.com>
 Subject: Re: [OE-core][PATCH v8 4/7] spdx30: Enrich source downloads with
  version and PURL
 To: stondo@gmail.com
@@ -88,8 +88,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 22:49:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232916
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 22:51:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232917
 
 On Mon, Mar 9, 2026 at 7:29=E2=80=AFAM <stondo@gmail.com> wrote:
 >
@@ -239,14 +239,6 @@ one)
 > +        if version and download_location:
 > +            purl =3D _generate_git_purl(d, download_location, version)
 > +    else:
-
-Everything else looks OK except for this else block. I'm not sure that
-we can reasonably say that the recipe PURL applies to all download
-sources, just because they are part of the recipe. _Most_ of the time
-this is probably true, but I'm not sure it's the case all the time,
-which makes it feel a little dangerous (for example, crates, which I
-know you had handled before).
-
 > +        # For non-Git sources, use recipe PV as version
 > +        pv =3D d.getVar('PV')
 > +        if pv and pv not in {'git', 'AUTOINC', 'INVALID', '${PV}'}:
@@ -261,6 +253,10 @@ know you had handled before).
 > +
 > +    if version:
 > +        dl.software_packageVersion =3D version
+
+Oh, and this version; I'm not sure you can say the version of the
+recipe is the version of all downloaded files
+
 > +
 > +    if purl:
 > +        dl.software_packageUrl =3D purl
