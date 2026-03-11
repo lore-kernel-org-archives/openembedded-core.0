@@ -1,96 +1,144 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D8B1125815
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 13:42:14 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21750.1773236531971310683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EC261125815
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 13:43:04 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21266.1773236574656893988
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 06:42:12 -0700
+ Wed, 11 Mar 2026 06:42:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Jf5ap78U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso40254015e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 06:42:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JblWMqlt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48539cbb7b1so23815415e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 06:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773236530; x=1773841330; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8hTKwXJ5pi7vbkiMA14C3+eW0pmCEgmVhK6YPfLucoQ=;
-        b=Jf5ap78URRryJUT6bGHC40EbEZN6OvQ1mFBQfDD8w8bTuANu2gSN7wRMzGLkuN70oh
-         6Qb7QoUjMvrvZ8/YNstoFfSaTZOGiEYCkyZR70HvTqqFWurqU3pkeakKhJM75MHWAr6c
-         eSf93E+du0Hn0gFF2jSGr3w3wXb9zVIgh5MVM=
+        d=gmail.com; s=20230601; t=1773236573; x=1773841373; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=720DlU/MFfBpMhnMNiaj2PeKa2uOoangbHSFHrzM2EQ=;
+        b=JblWMqltrJZZPeOJyosv8KxI+UlcpSZBGNL6k0OLlKcfRcsBALtDb/vCPl+tZcw9zM
+         gmUmmnrcZuPviuvibECE5noTO9hrALsRPF/prrzLk8GpKmbnyafeJRp/NSbpccf9iVrT
+         TmCMgjHPeqbL5DvqkyeQmRMX0+kHLSPu0yf9JUe1DiBBXZS/pNq6k+E+FDu8G1Dz74x9
+         qqyOs4UkovebnOJujY+828SkHiYEbve191XNtW42x3ZJxs2JaSW9yfflMCE6SY3TeN98
+         L1wGy2TRpMAV5kvkNTpG36x2yzaupE5T9tBwSls9QE9Op4y/YIWsqJLfe3w7n0ct88ML
+         wgGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773236530; x=1773841330;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1773236573; x=1773841373;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8hTKwXJ5pi7vbkiMA14C3+eW0pmCEgmVhK6YPfLucoQ=;
-        b=YNIKGo4opSmTdFFuGzekCvrFXOvVYL7U/Qxys8MLLYQVjRw5ti0pYbUjIMGRsc/MmC
-         vd3IEatbM8s2PUpnQ6kqK4A4Dwlyd7rVBcYc+FlgSnhO7CvH/lbTGTVZ8vxIYRzYJPs7
-         MBezWkB8lX2YcnRucMoTNLaofYEXCmGYEqr+BU5iQ81qByQurCYYOBnnznQXXGDh/47q
-         URRd53a54yyZ7t4i6Z80mlSXqZNtMLL1ybIrSFIqNA05EsS/BQLSbRoixyu8K/bkXlU+
-         puDs/bXB2TPhgkH2yl986TqXqo8oM294QcmLBcuLSGTh5inUse7xuT0SlI1dzKJ2OPvu
-         fxpQ==
-X-Gm-Message-State: AOJu0Yz93wuo9sn1DqdG9GewF1CZ4l8d1Lzch0rKc8r1ZoevcGY1CXpY
-	ucdpznpw4jcpgUb2FeP6+9X8kKQm7Rz90V2+4U/6fWS3Ph4+Ri9zCu1sbo4DwkQJWgzuSd1yn3Q
-	KfnlmSNU=
-X-Gm-Gg: ATEYQzw0fExo72wetxtJGuuKHAQ2Xz55mC63klq2fOB1+gzM2c1rEc7s1t19CFht7KU
-	UU6ky0hEQdrGgrksx8pwpwURKGOr5/JqONtKHD9gqFha6klnsO/bBrBRnCJ4AC34B+9qx6ZCSXj
-	G5JXueo1FdMjBZp1H5JVZX7Rjtgm9TwiKIGKlVzob3/FArsKECnM3n3nK7d9mzijMCitkUHBEij
-	mCLZ8Np4P/FjkACv5LeW/szt8XtGcBEQdc55N4EufGIASAxvtA8cujhKaDiYbtqt7sgZpW4gkXk
-	2aCqR724necnxYvxrQMh03WxZpKgzx5jKeEIGm3LsZoklbhnCG6MgHLyil2/OIVtSYiN2zVtYB7
-	STxt6hb8u9p4kcDSzElqLWaLdbb6ERjyRg1Ce9bBJljiYHG7FucVbHOK3eIogrbXXkSFTr0Bt/5
-	JeGc2f6slFeJP85TPk6ybPAOy1c7T0xebT7Zsib7fPQOr9JInJsYI=
-X-Received: by 2002:a05:600c:1c0f:b0:485:439b:683f with SMTP id 5b1f17b1804b1-4854b0fb25fmr50172795e9.20.1773236529960;
-        Wed, 11 Mar 2026 06:42:09 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7fc5:b1af:c486:ad0b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0dc8d7sm17579435e9.25.2026.03.11.06.42.09
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 06:42:09 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Set PACKAGECONFIG vardepvalue
-Date: Wed, 11 Mar 2026 13:42:08 +0000
-Message-ID: <20260311134208.3459009-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+        bh=720DlU/MFfBpMhnMNiaj2PeKa2uOoangbHSFHrzM2EQ=;
+        b=rCcyPP3fS/fErv1vnElEsZe4cPbBOU/6hWT5tIxJLYMgqt1goNwGHMhGrO2+CWtkue
+         f7sZ2VoHu2bUbvn37EJAuMQPquifqA/FbVkHz8MrlfFSv/pCEYiyjfOewkNtRMk/1NB8
+         8y97EfZQhh925OiSLKVgqBvVvgvoytrh4W0SttxulZn4lIdq52u8E6m/7wJfsm51xG0o
+         W/jmdhq4XFfvF3ZymbXo2SSgdg7iwQK4HLntwn31Um5WevkZ2dkmWk4Ic2LEWo0WCShN
+         OkcZvyoIWvAminFAcuKf5u+j6hmcmeD+TO72As8EFmB/25K5LYYjIbblHO76yy2xlOEE
+         eChg==
+X-Forwarded-Encrypted: i=1; AJvYcCXTT7HUHR5aShmSrTYMxKxle1XmkOkX717jquu/iJntSJC25R+Qj9sHZVIuLvEjzodlxPc4bxHh/nwrDEPBJQz/Lg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwlE7DVtIR8/hOm0MckNCBUi8FU88YUx44R0NJYsmthwZ2Sers2
+	/nHYAUWCruzFvNmf38Up8g7U88ksNsHfyZnxLLWh8t0I6mKEFG+IkftJSSywGg==
+X-Gm-Gg: ATEYQzzqhXdGNUCliQs318HA5ISrPbOAM0QiDljsMdvY6ixhOszxy3DbRIkYPrIkGR0
+	LjwvFdHw1FUN+7rKSfMm/2ep4y8pAW/OIF8/hgwbbiMx5kwFXRVhvIZxdfJslm5FcwUwDuS6Wie
+	/DXWABOo3r+DxblJn5XrzukD8RgG8SuItPsSxHuuJcMdVOFn9PdCeVWnJAcWWfqFxFh00c91wHI
+	XxLMrR9mkYSE2WpeJPJHM5572WvkGw660H0yVUlcYBs+cL6AuXJng6sr9EpBtRKHz01jlV2MIfr
+	GoOpPbJdPX5UFAj5kukusDZWlcXl/e+1CgFUpx99THYCQQuOY6zXnp5zozn1wM/dkkM6xEQuSmV
+	VUWdxes5tSYf+RgYl8MuF/EL8/k4oEhBOd0UMWl0YLwdwU7kukDCnJqptNnGsNkBTytutJw22e3
+	kUQsHv368091fGTdoY2IMgK+CtwObj8PAollwH94/gavEKiFGiA3UV6Iw=
+X-Received: by 2002:a05:600c:4710:b0:485:3b00:f939 with SMTP id 5b1f17b1804b1-4854b0bafa5mr48826765e9.8.1773236572770;
+        Wed, 11 Mar 2026 06:42:52 -0700 (PDT)
+Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541aac28bsm146408455e9.1.2026.03.11.06.42.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2026 06:42:52 -0700 (PDT)
+Message-ID: <f2f689b6-1600-40dc-94d4-6de8906b2490@gmail.com>
+Date: Wed, 11 Mar 2026 14:42:51 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+ subpackage
+To: "Marko, Peter" <Peter.Marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20260311122922.4160133-1-zboszor@gmail.com>
+ <AS1PR10MB56977E851FCBA7CBCE3B4652FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <8be68784-e846-4ddb-9127-e4e6082347aa@gmail.com>
+ <AS1PR10MB56979EB1C738893C31052E3EFD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <AS1PR10MB56979EB1C738893C31052E3EFD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 13:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232882
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 13:43:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232883
 
-For PACKAGECONFIG settings in recipes, we care about the end value, we don't
-really care how it is constructed. bbappends to recipes can add things to
-the default PACKAGECONFIG settings, for example being dependent on a DISTRO_FEATURE
-or other variable. If the computed value doesn't change, the task hashes can remain
-constant, allowing for better sstate reuse.
+2026. 03. 11. 14:40 keltezéssel, Marko, Peter írta:
+>
+>> -----Original Message-----
+>> From: Böszörményi Zoltán <zboszor@gmail.com>
+>> Sent: Wednesday, March 11, 2026 14:12
+>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>> openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+>> subpackage
+>>
+>> 2026. 03. 11. 13:44 keltezéssel, Marko, Peter írta:
+>>> These INSANE_SKIP assignments are wrong.
+>>> Use GLIBC_GENERATE_LOCALES = "all" (or select just those you need) in your
+>> distro.
+>>
+>> It doesn't help.
+> I'm not sure why it down't work for you, since it works for me and for Yocto AB.
+> Did you added it to your distro settings and not just to a recipe?
+> The explanation about this is at: https://git.yoctoproject.org/meta-yocto/tree/meta-poky/conf/templates/default/local.conf.sample.extended#n61
 
-To do this, set a vardepvalue of the variable value itself, ignoring how
-the actual value is calculated.
+I added it to my distro include file.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 4 ++++
- 1 file changed, 4 insertions(+)
+>
+> Peter
+>
+>>> Peter
+>>>
+>>>> -----Original Message-----
+>>>> From: openembedded-core@lists.openembedded.org <openembedded-
+>>>> core@lists.openembedded.org> On Behalf Of Zoltan Boszormenyi via
+>>>> lists.openembedded.org
+>>>> Sent: Wednesday, March 11, 2026 13:29
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Cc: Zoltán Böszörményi <zboszor@gmail.com>
+>>>> Subject: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+>>>> subpackage
+>>>>
+>>>> This fixes a QA error:
+>>>>
+>>>> ERROR: QA Issue: bash-ptest rdepends on locale-base-fr-fr.iso-8559-1,
+>>>> but it isn't a build dependency? [build-deps]
+>>>>
+>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>>>> ---
+>>>>    meta/recipes-extended/bash/bash.inc | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-
+>>>> extended/bash/bash.inc
+>>>> index 634209c911..b43b1cbf89 100644
+>>>> --- a/meta/recipes-extended/bash/bash.inc
+>>>> +++ b/meta/recipes-extended/bash/bash.inc
+>>>> @@ -32,6 +32,7 @@ ALTERNATIVE_PRIORITY = "100"
+>>>>    RDEPENDS:${PN} += "base-files"
+>>>>    RDEPENDS:${PN}:class-nativesdk = ""
+>>>>    RDEPENDS:${PN}-ptest += "make coreutils perl sed shadow util-linux-setpriv"
+>>>> +INSANE_SKIP:${PN}-ptest = "build-deps"
+>>>>
+>>>>    RDEPENDS:${PN}-ptest:append:libc-glibc = " \
+>>>>    	glibc-gconv-big5hkscs \
+>>>> --
+>>>> 2.53.0
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f21e8f8918b..5f632d9f8e7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -931,6 +931,10 @@ SHELL[unexport] = "1"
- # Used by canadian-cross to handle string conversions on TARGET_ARCH where needed
- TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH').replace("_", "-")}"
- 
-+# We only care about the computed configuration, not how it is constructed which may
-+# vary with bbappends
-+PACKAGECONFIG[vardepvalue] = "${PACKAGECONFIG}"
-+
- # Set a default umask to use for tasks for determinism
- BB_DEFAULT_UMASK ??= "022"
- # The umask to use for shared files (e.g. DL_DIR and SSTATE_DIR)
 
