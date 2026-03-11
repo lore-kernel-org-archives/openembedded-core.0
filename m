@@ -1,185 +1,99 @@
-Return-Path: <viswanath.kraleti@oss.qualcomm.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4A5B1062889
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 12:25:23 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20188.1773231916665768061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D59B1062889
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 12:29:34 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19811.1773232170855837411
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 05:25:16 -0700
+ Wed, 11 Mar 2026 05:29:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=PSSubMsI;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=LG6U+iqH;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: viswanath.kraleti@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62B7QBKI2030967
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 12:25:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=tfX/CXpJK+e695UdTsvTD0rheiwQFdDSK6V
-	4LtiVXRY=; b=PSSubMsIkqcuD7q8R7Pb5y9lAxOiXo3g9JIAuzivU72qkUicoTQ
-	3L2c6+lWVFqx4cfRTnW8RdgRbLW4xBUJI+VzkDp/0W92/mrwx4g+6F+byN2Ultzl
-	6h2cwUq0t3dJBF/Ddj1joI+Gh3DanL60s6h128529IwyQrPX2bBjAX+hHu9L/Msj
-	xfjdls1ezf9CIXYYWLnFgk7RNV3TWyBNCbzZ5C254UmHI9lWdPg41HkNq79MPFEe
-	5tIBBBvcdnFu3oNga8n0kLh/fnBWv/GnTY3iN4zaL4NKEslRsP8/2Jl9aVelrB8i
-	qoeg4fp7Psk7JMhFoAAGZ4d+clHZGrsjaLA==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cu40h13rr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 12:25:16 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c70dd30025fso52389238a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 05:25:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IQZdmj89;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48535a0ef86so30682695e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 05:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773231915; x=1773836715; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tfX/CXpJK+e695UdTsvTD0rheiwQFdDSK6V4LtiVXRY=;
-        b=LG6U+iqHgpn/FTk0JqQYOebdLuY1C/lOdNrdGMhHQGdUZVHkyt60duN09OWM2EV2PJ
-         HuPQniJXDn0dkn6xVRaE9Skp4tvbqSylP2uLm44s5f7pkTChRtueY4yH+wKsxEx4xuvH
-         735lY50TyZCMyF+XbYr4/fF+4s3UzRaubSojIe9waU9O3/Vdp25wMQBHXKkoU1kSmHpP
-         SEmeCPq5oZtZ1D6nkXcXPp7TRFdFYwDogotFwWxocKggkVsCRww3BBbyon2PEphhAfRe
-         rVX6uDk1CGhLqbshM5+LkvAUPt2enH2BdYb9BevL5AXenUulCy6SHiN1HxKGdCEKrQmo
-         H95Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773231915; x=1773836715;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773232169; x=1773836969; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tfX/CXpJK+e695UdTsvTD0rheiwQFdDSK6V4LtiVXRY=;
-        b=wrpTzFJm9d8sIsT2GRARwdC9WMasXno/J5DF/IPJB5n+vw5pcPEkgthltwGmf9KD+J
-         QuU8UocQJirR8C8pT3K2KlPHVOmKYKt4IRw2AXC/SXOx6uw2ACp8CSuN/6lLrXrUO0v/
-         xYXNnWEMb9j6Y0DvQD0yEbo9KgdeesxTkZqPA6ZdFo/VEXEbXs/r4U7SfmQ1XpoiWqvO
-         I8hMZJBQUuh9LqsyDN2PyIVHJeK0HQ0wgtWOAgzfLzE9+RfSbKS8RniyFrW5Ggs08ggi
-         S5oMIZZWMp4JoeHYq/Ka6KN0tdNQIUKT5zTQKey12vMaM/dtBfP7wAkLgw+vqE396iVt
-         jrqw==
-X-Gm-Message-State: AOJu0YymI2GV9yKOuiVcSvfYh97if9GInR7XDG7klLu2x0kfTLTrqIVS
-	cJ2FTJKodj066X0a8ypY1QYtPfa1XsQljwGbnxdBHB5vh8H3rOmd8kwRCbSulpu0GmKR9LSacMz
-	XtwJ+fkea2oGE20uZyUsrmtohIFgWLJmX6+tJmhMnTi6t8tGfLhc9pwg7nT26XO/4TRbLUGjEX/
-	Os4pKMbkUKceDU/rQ=
-X-Gm-Gg: ATEYQzzS/3MjjsSfnWCwx6zyF6IKT4XiPyZzsqcA33YRZETPIkxS4ABu6+TMt2mTy3H
-	gtr0NGDW7CwJky3O5kFnYCzWHVe22i4N5ja0AvEqW1v2xcZEV8XBjRvijg/8nRIdXPw77Z5SZMq
-	MI7t0HjYfYKFtN0iO2F1yahQLJy3EvzJIwmgQzet/iHhNd5VnLXlEnXRjto7ggfs31BVn2ILF+Y
-	xHrdsKpoPAveRl2zGD0jCLKiHnHneHabbnG7VtF77rnyAx1Htetlb+cTYiP/WDDrjq1y/nBUnKG
-	kG7fE1dy5PsHHUAUbvR8pt1ozjK9Pbh+KTwMQtEuybTJAXSG+2nmJJeENznBCld9HmzPy1PDgeF
-	pBTY52ZNFp1sVXGwo7lByr0ZEgx1il4tzOhvu1iGfVWyqa8tXcOye02c11fKrmLyo1AuKYVQEkq
-	lEq2F9sUp23LrGtOgm
-X-Received: by 2002:a05:6a21:3396:b0:398:a71b:a0cb with SMTP id adf61e73a8af0-398c5e5a256mr2746804637.5.1773231915269;
-        Wed, 11 Mar 2026 05:25:15 -0700 (PDT)
-X-Received: by 2002:a05:6a21:3396:b0:398:a71b:a0cb with SMTP id adf61e73a8af0-398c5e5a256mr2746767637.5.1773231914756;
-        Wed, 11 Mar 2026 05:25:14 -0700 (PDT)
-Received: from hu-vkraleti-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c73cdf254acsm2365113a12.11.2026.03.11.05.25.13
+        bh=PxL+n+tHYM9Pj2927TYPzhYZ7WJ2gBjvtQoeTaTRFEU=;
+        b=IQZdmj89R4uf9yeCWfw0nqyrU7+yrg4wxFIpZJEBoD1I4eSiitu0TD/pSWtJcxSAey
+         eLuvY2NCIYrGIxG43orJYKY5hRZ3r/kLT6/s948jR+mlmzKxxOv9CewKbmvPoMUTyM/q
+         x8ycwDblgWMhqY++BCGq9AM9s1j4gDx3qzNQcYl7P2hTIkawZ9jaG8v78c5UtCrwRXgy
+         wmIyt/14luIOSRf6MFUk/2hXMYw4Zs3c1TQma+AaJDvuKEKernCLl6wHlmGu3Rsqnjvp
+         M93sKX+AI0yFAb/iWC2yMOgHuvWybkZ5hUVq9/DPXPeLBWJHwBfSO5g0l6kiXGVZhKE9
+         wpaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773232169; x=1773836969;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PxL+n+tHYM9Pj2927TYPzhYZ7WJ2gBjvtQoeTaTRFEU=;
+        b=e22BajtimKck2qJoDuIgTqOnx+ka+Pdxu6uXHZzK5Vw+aHCUEdSTevgJ8wvf08k9sN
+         YjfnGaCBaAtuh27p6KXnx8Mfura/Bex2ajs+soNIXsOLoibUwhfqc0+c8hkF/mb8MPnR
+         Yj81vjJtAwv/uIOSKPdHCY9eZ+wQYFUSM8rWDTh+5LPB8IVzaNhugikbbGgyojuXKhvt
+         rtmx+xOjllSP8GBo7gmG/SGUcYeN6owNU0hO18F8+EhJ3NQWdZN9gweyaWXJOFNdXMHN
+         Y/ZpX00v0H3hetEkeARVY0o0qVEDJBOPzlLo4Sq06Jo6/uOTdW0lz+e4LeI3fVx/UBJN
+         KPpA==
+X-Gm-Message-State: AOJu0Yzoep+CJKX80ZGNtG8RGmxP5cZKWIMzsYZ1F/QYbrlmNvBTsHh6
+	gUWqEAM1oYuDGJ81fNzekSTDkRDEyQ5ADtikDw2HqR75of2hKcxXDvJlY3wUGQ==
+X-Gm-Gg: ATEYQzz8OZRCbVnyAbajB0X/c9Kn2y6HTyLm5Q72PFLAXMvr/mw5JMT00SoqBP/kcTh
+	E2Qz9t9cHRXchv7NZpvD3oJcbdiEQ5mRLvAmupxjdhJLKEdAuGxZ4NYr+JHyoefI7I+0xLIwr8W
+	vioul2Kpb7fZP/tly/k3L4YtvGAlcFnhV1GHeJbOlvzTc5DgOUn3fdJpAc2bmrT/gMbYLNCbUhz
+	GwO8NDTCOJPtfvuI9mRA5c0LsGXYZZGr4+gBSNTW6rgJGUk/YPit+VSKEs0W9dvlfFaOQrPel84
+	zvQb0hGl0lm+veN/oOSnuJnzN/UcTYj3yo0bcBNPabUiw8tZe4iYRYYhPlr2CDd9HbGJ3o6Xdfn
+	Q/v3RCRhUykJ3Dx4PbHXHjFU3lDj+l1YnGkEh9IOhTJu80YsIpz2Xw1lKiIcZXL/ggLfnMRqK7L
+	lmICuHpKmHJvjdyCcYpz17prXAww6diJqtYRwZvEPJO88=
+X-Received: by 2002:a05:600c:4fd6:b0:477:5b0a:e616 with SMTP id 5b1f17b1804b1-4854b0a555dmr39642435e9.5.1773232168893;
+        Wed, 11 Mar 2026 05:29:28 -0700 (PDT)
+Received: from fedora (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854ad5ee37sm39671515e9.2.2026.03.11.05.29.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 05:25:14 -0700 (PDT)
-From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+        Wed, 11 Mar 2026 05:29:28 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-Subject: [OE-core][meta][PATCH v2] uki.bbclass: make DTB packaging optional
-Date: Wed, 11 Mar 2026 17:55:07 +0530
-Message-Id: <20260311122507.2121997-1-viswanath.kraleti@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH 3/4] glib-2.0: Add INSANE_SKIP=build-deps to ptest subpackage
+Date: Wed, 11 Mar 2026 13:29:21 +0100
+Message-ID: <20260311122922.4160133-3-zboszor@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260311122922.4160133-1-zboszor@gmail.com>
+References: <20260311122922.4160133-1-zboszor@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDEwNSBTYWx0ZWRfX1oOk+c9FSNt2
- dOdYBdc8lOy6AN8jL02AVTRmtSu42D8xjPFFu1CCXPKtt0iMC+fBSz3DIrEd0DN0gy+WRQc64NQ
- 7PkPWgeuMJlA0fiq2OZISS3FB0pLvr3sBvPnnxBG2TLrNnlLpHEUL8oy95EKktUj5c/RGHed9Ty
- C/LlDND5HS24nXTvk6iKeRPpCayqxVpyaCq2Mm43n3dtgSsL30Q+AAIQ7N0ZlYFAZo7FRGCkuJV
- IMYwqIRSHN9otWFCrMic+sywIq1m0B7bFgRNOlfxZmcty8cvDvjMFNUVvkQMmlZsc4YN3Vblzj4
- Tahia4KqVihVcdarmFNbkdEoLtdaSr/+AGiNoMoNvAuiypdTZKhi8ONu/gZ5gbUj7raoOWaMTIv
- CeHZ0MVu4YdaeLb3lwQRbPWcDOOmJusZbp0F1wmep1Aww5Gekq6A3woYSwWEdL29sEBIO9rvKVN
- GvJVx7zjKCoPCoG/xFw==
-X-Proofpoint-ORIG-GUID: dhnl4aPTPzub912nwplg4Bd9c11iViby
-X-Authority-Analysis: v=2.4 cv=YJ+SCBGx c=1 sm=1 tr=0 ts=69b15f2c cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=nv23E9fyAAAA:8
- a=EUspDBNiAAAA:8 a=pGCm3i_11eki85_XzS0A:9 a=x9snwWr2DeNwDh03kgHS:22
- a=ehkDpipTsgk7cDPTKqUC:22
-X-Proofpoint-GUID: dhnl4aPTPzub912nwplg4Bd9c11iViby
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-11_01,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
- spamscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603110105
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 12:25:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232871
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 12:29:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232874
 
-According to the Unified Kernel Image (UKI) specification [1], including
-a compiled device tree in the .dtb section of a UKI is optional. However,
-the current implementation always packages device trees listed in
-KERNEL_DEVICETREE into the UKI by default. This makes uki.bbclass
-unsuitable for systems that rely on firmware-provided DTBs and do not
-want a DTB embedded in the UKI.
+This fixes a QA error:
 
-Fix this by introducing a new UKI_DEVICETREE variable to control device
-tree packaging. The .dtb section is now populated from UKI_DEVICETREE
-instead of KERNEL_DEVICETREE. Users who do not want DTBs included in the
-UKI can override UKI_DEVICETREE to an empty value from their recipes.
+ERROR: QA Issue: glib-2.0-ptest rdepends on locale-base-ja-jp.euc-jp,
+but it isn't a build dependency? [build-deps]
 
-Update the UKI selftests accordingly, as QEMU does not provide a device
-tree to embed.
-
-[1] https://uapi-group.org/specifications/specs/unified_kernel_image/
-
-Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/classes-recipe/uki.bbclass     | 6 ++++--
- meta/lib/oeqa/selftest/cases/uki.py | 6 ++++++
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ meta/recipes-core/glib-2.0/glib.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-index ea449540db..326697a066 100644
---- a/meta/classes-recipe/uki.bbclass
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -80,6 +80,7 @@ UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
- UKI_FILENAME ?= "uki.efi"
- UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
- UKI_CMDLINE ?= "rootwait root=LABEL=root"
-+UKI_DEVICETREE ?= "${KERNEL_DEVICETREE}"
- # secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
- #UKI_SB_KEY ?= ""
- #UKI_SB_CERT ?= ""
-@@ -149,8 +150,9 @@ python do_uki() {
-         ukify_cmd += " --cmdline='%s'" % (cmdline)
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index d1f25ef8f2..35293dd610 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -194,7 +194,7 @@ RDEPENDS:${PN}-ptest += "\
+             locale-base-fr-fr \
+             locale-base-ru-ru \
+            "
+-INSANE_SKIP:${PN}-ptest = "dev-deps"
++INSANE_SKIP:${PN}-ptest = "dev-deps build-deps"
  
-     # dtb
--    if d.getVar('KERNEL_DEVICETREE'):
--        for dtb in d.getVar('KERNEL_DEVICETREE').split():
-+    uki_devicetree = d.getVar('UKI_DEVICETREE')
-+    if uki_devicetree:
-+        for dtb in uki_devicetree.split():
-             # DTBs are without sub-directories in deploy_dir
-             dtb_name = os.path.basename(dtb)
-             dtb_path = "%s/%s" % (deploy_dir_image, dtb_name)
-diff --git a/meta/lib/oeqa/selftest/cases/uki.py b/meta/lib/oeqa/selftest/cases/uki.py
-index 9a1aa4e269..4265a40e9e 100644
---- a/meta/lib/oeqa/selftest/cases/uki.py
-+++ b/meta/lib/oeqa/selftest/cases/uki.py
-@@ -47,6 +47,9 @@ QB_DEFAULT_KERNEL = "none"
- # boot command line provided via uki, not via bootloader
- UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
- 
-+# qemu provides the devicetree at boot, do not embed a dtb in the uki for selftests
-+UKI_DEVICETREE = ""
-+
- # disable kvm, breaks boot
- QEMU_USE_KVM = ""
- 
-@@ -106,6 +109,9 @@ QB_DEFAULT_KERNEL = "none"
- # boot command line provided via uki, not via bootloader
- UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
- 
-+# qemu provides the devicetree at boot, do not embed a dtb in the uki for selftests
-+UKI_DEVICETREE = ""
-+
- # disable kvm, breaks boot
- QEMU_USE_KVM = ""
- 
+ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
+             glibc-gconv-utf-16 \
+-- 
+2.53.0
+
 
