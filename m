@@ -2,65 +2,62 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B9B106288A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 508111062890
 	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 12:29:34 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20257.1773232170351020527
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20256.1773232170008144917
  for <openembedded-core@lists.openembedded.org>;
  Wed, 11 Mar 2026 05:29:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nHXkNDi3;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so37880875e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 05:29:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VHTDsl0D;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4853f2826f7so31413455e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 05:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1773232168; x=1773836968; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZYoQT3ae/+dfHWTIbq4cVQ/BInYIcs2OXaFOl/jnW9k=;
-        b=nHXkNDi3q5YFF6SLD9ss23y8PpNP44FEyr//ShlLkPyBxYvFf6g0hlL7YT91KSeTZU
-         NHeev6qfOe+qwrIhXxbOFk8HmMVjG7LwjxqjZsekW7qCpKSZgBsGJkBU3O871QaleMhs
-         8jaKMQwTEOkpvjL/ZMiIgUxqFCK6EFOWWZtLLO9XVorRh8n4Y8HsyoKGhetR9UhUjcz5
-         sU5rr4c+GfHWB06CT6sJinqPyPauo37MFC7Ota2+j6jJvOZJouEKYXv+NK14cstxiZ//
-         ENVO4zyoMUn3yhwkxY3prsKnEKzgPEp0jeNOdVqDOXquHGJfNNxr3/Cn/2Fpj5o3AW7o
-         j4Hg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wE6I6RN4e4KoY5lfgkrxpGdyK/EKr3gDdu4R1tQAdZw=;
+        b=VHTDsl0DWjSgPCM/qzDGkTI/FHAiR99psxlRwQt/OCawkjPcN0udrko9zyHaWWmz3E
+         aXoCHxKWvxwPqXuON9hits5uSS2up5DlPmOV/QbSSzr7+UIo2APx7EabLEbBPM0RCx4s
+         JyXTbLpzo4wNuFCyc5K0dkhW6aRpKNKHtFV5Ys3CD3SGofU4WG8ln1nauD44opwdWaCv
+         mCA/eXZar0W88b7zjOB2ys9h5s3dMoq+Z9s8kxvO7tW1cvhN7iu5+PJ2031bTlxEaa4A
+         UZkuccIOh05IavHcYkKUibpRa3CFCMc3HOiyAxk/3FmiOaLDXHcAL5RLcxddA8Ats9R/
+         Qsjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1773232168; x=1773836968;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZYoQT3ae/+dfHWTIbq4cVQ/BInYIcs2OXaFOl/jnW9k=;
-        b=NB3bdz1xKW6m2p1JTcp+lh31eX4WmuKh9qNH+E28AesecQ7eyPhVW3K77pbxbaJTYL
-         6QBivR0HciPj+ki66iLnkCif7NMGirv5fkCr2DyIsTVlQP6KBqSYXq+yBUxC9dJ0j6Rn
-         DK+Dn9VinD801UXb1fxwEaZV7HbJwhKlv8cv6JDVX9UTXZrzD4VIvcq4HN7aak2bOYz2
-         MVT2PxIy6QQearyJ9IFXdpSOJ79VNZ0wCgkTuJWj0qJYd1QIhV+BH7GAwYGQN7ZjdPnA
-         02ICXHTVrC0H09QeOsSGb4YIKdDNDBfWI+dJHG0KAulrdUrUkM7ISRSn1mwiSpFR+m30
-         n/4w==
-X-Gm-Message-State: AOJu0Yxox72eKdyp1XI77ACUJ4f4q+2K7M9lqMZSfXi36XrArJTHpTrr
-	dDRg+0oAet0BEBq8jxGrwWWZtjsBBk3QYo8Rv1+wPOdQK/0hDggu4nPEeGVZww==
-X-Gm-Gg: ATEYQzzGmLhkNLm528rjJuYnL1qe7Y5IGBiEnFbwCSsCeBBhkWqSDyqMMHVe5CnHOx0
-	bJCgqtGPOnR0y66wEdBEoHxKXLZsNr5rW3tTdTj8oT4e7G1jLJbNmmMG9k4BRwJMMLZNAcgytYc
-	J4Gs49aaLgLUDVvIKZT1OZ4oVDZ2A2Ykt59mVoGPHBMorw3umuxZXEupcqibIdUgVvfpXneabVq
-	clmfKuY2WC/FsWgA7i4FTIxlGYAFKjHWyHU7U2urYGADWPRD+BjkCqejX989NentSZBzML/EJzE
-	7HhWk8DRFNdPJEBA8Uu5XkqsEmZo+snNcriCZADKKuCrGAH9s1xvF1yujZmYelD3z1Yeu/foTEH
-	ALldu5X6/0a/ltsjtojOeH0Y2SWF5Q8KkOxWZ2254kH6SOmlIWwBcnELw/nmgmgefeK3Hi4UCuE
-	XPZ+88YrPSuhQaUPlexx+1SzpWMmzin7vH1xJR8Ehqlf0=
-X-Received: by 2002:a05:600c:4e16:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-4854b14b0dbmr35416985e9.29.1773232168324;
-        Wed, 11 Mar 2026 05:29:28 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wE6I6RN4e4KoY5lfgkrxpGdyK/EKr3gDdu4R1tQAdZw=;
+        b=gb6iYoA8/pupvA/ny7c66dLB0hWA+Y19fHC+uzWOFELhXtUeRhOrL1l8IU9wbgPeAd
+         YWTtPZoxIw1hxEXyzlprvrum1epHBOPiXngAbUTTxiTfT08e/3hV9JFBMD5lelbpZIbg
+         wOAXNEdK0tpa6iolkb8ec8HVIQsgWDO0jjdmaOyjyeOzVfq3vlCg/UcX5mw7r4ZJj8xW
+         D1m511ZvZrdgMZPYuaizq8oJ1RhCJAWZHt3eGvo2NW75P3Jj/YlHaozemTVJ/kQoVk+z
+         NrJFm6WwgBfIfR1dxNqFovo6gZcLKbB76Z7jSZ/vEcApg2g3GeCfRykCMoXTwEY0NV3+
+         zVKQ==
+X-Gm-Message-State: AOJu0Yz9QI0mCLHR71fowP8I49vG9fIU/pm52XuSfYP3UzFfK9y7FksF
+	lNWIOjdTkPaGGVNY50zlhCwK8gjwTXh+KCWihHp+afc2iN3r9bQKo4hSVnqTuA==
+X-Gm-Gg: ATEYQzyzSNylrxA2YbmKMxLHcFoDwiRlJ4BdaQIX0/cMzdVw3oVzAOtEiAdKNMvEO6d
+	GbRSwYmo286TV7ej3yf4paIvDN3MqZUzzahfR/5gwc5IhNDcCHhpU9GOZ5WTpeEoZOGGbbnzI/7
+	YemdQGOk/fkcH2W67exTolExapRNBkQhOnvExmlkUj9jSXGUttJrejSUNwEjjI55aoAjdMiHad8
+	CkkVm0AVqdlvUstueyv72nFZgSCm/Mb7i7OPH33wvMXL8dmJhSCVpoJqntiAgyKBaCLEJMjd+lq
+	NCziDwZq2+5Wx6SpxlXd09S+Iv9F2xiYDn0ptHG5fBHmUqiDCgWOTJRyYt9ZJ2aU2AE4Gr0pYaN
+	/JWLpPs4HqabekWU2Ms59VnuIX5Mh7yUs4n1JRl9XK6iDeM0FrqkzbPUHA9aCzxGrFjFSeUn49R
+	UVMmb/iT/bcXDTgGmmheuaoGp/l/R8p6dc+JrREgQLqoU=
+X-Received: by 2002:a05:600c:4fcb:b0:485:35a4:939c with SMTP id 5b1f17b1804b1-4854b132402mr39711135e9.29.1773232167783;
+        Wed, 11 Mar 2026 05:29:27 -0700 (PDT)
 Received: from fedora (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854ad5ee37sm39671515e9.2.2026.03.11.05.29.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 05:29:28 -0700 (PDT)
+        Wed, 11 Mar 2026 05:29:27 -0700 (PDT)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH 2/4] gawk: Add INSANE_SKIP=build-deps to ptest subpackage
-Date: Wed, 11 Mar 2026 13:29:20 +0100
-Message-ID: <20260311122922.4160133-2-zboszor@gmail.com>
+Subject: [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest subpackage
+Date: Wed, 11 Mar 2026 13:29:19 +0100
+Message-ID: <20260311122922.4160133-1-zboszor@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260311122922.4160133-1-zboszor@gmail.com>
-References: <20260311122922.4160133-1-zboszor@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,30 +65,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 12:29:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232873
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232872
 
 This fixes a QA error:
 
-ERROR: QA Issue: gawk-ptest rdepends on locale-base-en-us-iso8559-1,
+ERROR: QA Issue: bash-ptest rdepends on locale-base-fr-fr.iso-8559-1,
 but it isn't a build dependency? [build-deps]
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/recipes-extended/gawk/gawk_5.4.0.bb | 1 +
+ meta/recipes-extended/bash/bash.inc | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/gawk/gawk_5.4.0.bb b/meta/recipes-extended/gawk/gawk_5.4.0.bb
-index d7211f28f3..f4746bd041 100644
---- a/meta/recipes-extended/gawk/gawk_5.4.0.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.4.0.bb
-@@ -101,6 +101,7 @@ do_install_ptest:append:libc-musl() {
- }
- 
- RDEPENDS:${PN}-ptest += "make locale-base-en-us coreutils"
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index 634209c911..b43b1cbf89 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -32,6 +32,7 @@ ALTERNATIVE_PRIORITY = "100"
+ RDEPENDS:${PN} += "base-files"
+ RDEPENDS:${PN}:class-nativesdk = ""
+ RDEPENDS:${PN}-ptest += "make coreutils perl sed shadow util-linux-setpriv"
 +INSANE_SKIP:${PN}-ptest = "build-deps"
  
- RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-en-us.iso-8859-1"
- RDEPENDS:${PN}-ptest:append:libc-musl = " musl-locales"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = " \
+ 	glibc-gconv-big5hkscs \
 -- 
 2.53.0
 
