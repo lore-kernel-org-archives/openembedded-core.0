@@ -1,140 +1,200 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97DF7104C00F
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 11:01:18 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18529.1773226873348395041
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B5B105D26E
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 11:03:48 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18629.1773227025338332307
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 04:01:13 -0700
+ Wed, 11 Mar 2026 04:03:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=g63Bvz3V;
- spf=pass (domain: mvista.com, ip: 209.85.216.47, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-359894e17b8so7342774a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 04:01:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HO8DRWbR;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: liu.ming50@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ae88e16485so30282745ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 04:03:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773227025; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hscijtSb/na8xVshiKgkGwzoXlaqGNpOPcIPr89PlrgBBUe5MlC7ckSSO9xJNYnute
+         X9Eu5Wxb86GzkmRI7oBc7P2VakN6GzUaIzKMeKykHOi6OIGplKKEwydnRxItlxvCXgk5
+         gaHYxHPRw/zVgxKXZXcocB5+zVL4nRFXV4zEybZJvvTwO2rPUmY8r0fLickE2qJT6lGT
+         s4A6JlU1Tn61JJiSOvTGGeRo+3zs2yA1aaW2UPAypGJ01a1ewpZsBtwZz3vTpQ1zYguH
+         IHfYYFbY4QjCASqZoWR9YVFUdWb3SgoHJG82P/1nW7+LqNoQIgN2sEz7FEYud7FFjqjn
+         ZG3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yHGg5huc8s+8UJNwOL5qRLkmNvSZnymP9ItUEylb128=;
+        fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
+        b=WlumZHyR0LzSOXKSX2zEswQonxoyFgoi8iYemNmwjmd4onN41DxZwkRM2wRLNr3pRa
+         Vu6pfjtVmuy7ex/he03DGudDdRrbDMr98abXn+wlVSxyL8D5/RlDiqcsHNC5fR4blZ8o
+         SSDzEUoVIBI7R57Byf5S9t+VXETCj8tixcaFXhtILCjqOcbGIaPvE/oaVZvXWo4CK6QK
+         3JxTtMQEqhPnty7zav8uPol/BhRtH3RGFVdq5zO9keDejEtHE9va3heAcsqj38X74G4Q
+         MVicf0e/oheWBEG6Y5XiMK7Ug31/O4oRTk2yB7yehd3rVV7VDHzmzUtWIAAoAvnwmNDQ
+         Ijgg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1773226872; x=1773831672; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3f05gdZh3H3Lria0f8jwyWVCYNITNJptVZ94jxvJaEc=;
-        b=g63Bvz3Vo2GDHXjiGt49pCk4vRI35mCzSJXghp10+mIwrmMPQH4UG8u4BIAZqTPUZx
-         FbJPTkhzUn6vmM85+/SJ65vNwHHHQ7kvNxi0dKtrWu68A+MucuLircpWN4dNlUAtpbAI
-         AM6Bg+60uOrLhy6mO26R+vp1PMhbmoOTzGPPs=
+        d=gmail.com; s=20230601; t=1773227025; x=1773831825; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yHGg5huc8s+8UJNwOL5qRLkmNvSZnymP9ItUEylb128=;
+        b=HO8DRWbRsI2z1dfavBUXEg6PDospjCzGwyu6bPcoI4x5i0Fi1tQJRmMmblGWhYZpNC
+         Q0TSY4T6fl1m2nrtvx8t2T+hFXAapPD63ZddDUBJFBihfjmOepUobuAC37lcuwH1/P0E
+         5KcO2gGBIy+fjHilvagfqMEMVt4HDseQkfZ2Dk1FKein+rPhgqDLJRw/fPWwqOyHQzip
+         h0UrMRVC5eaei3yWAuNKXqLfucAKt7RgCyeqpeDyrjpizI5DgkOY6PILjf9HwiWVBDjo
+         r1MitfkfvLc3L14QO/m9wqt+hllHDEtWvBurEYv1glBw8zpYvH6hXx1il1FrDjwPlSzA
+         4bXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773226872; x=1773831672;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1773227025; x=1773831825;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3f05gdZh3H3Lria0f8jwyWVCYNITNJptVZ94jxvJaEc=;
-        b=JJHebviWRCbcLlqygXUNrs1FE9xUeJ55DkH0MdPh4Xl7WdBZGwNeqP4HNhkcIRnzJH
-         zA8LIrbw7gUbAizHlqVetjIQ3KDHnYx2Mxjj+8RAM5PayOUNshEaLmtGQtcc14BNB183
-         YLHYtr+Ww/kD5KZTmsT9CpIRFjbT45TAJ5y7jrkY0bZkiUQseRaohygYcqv5v+HWZFcb
-         K3URlnCHNqExRxIeaeaKsFauTlE30YdDV20SgldVxjVzpmMRlZ0CFSoSCp2Q1vy5s/dH
-         bUD9tSKUJskhrV9m+K8adSVD3RSlqka1Ms9tecbfOEiwhfnh41CfLK7/VAZ5jM3twTka
-         +B9g==
-X-Gm-Message-State: AOJu0YwwFM9jWjoK9YII5RijDF9JYsd6RJVilYR6oIQE6dpqlPygczJy
-	uVc+ZPU3OExeWdar2fEcQilueqOJFqmFC9MX/+g9NoJg4ujM1an1KmaYYLCelhp5pt72Cm2cNFu
-	1Rmu3
-X-Gm-Gg: ATEYQzwkciU0kv2Bi7aYjsDEGV+dhw03Ua19fR+gSWuM0cLPtgGm6zaMN5/ZsUVf0N7
-	rXq6a8hrC+b5Y8NQZoNbPQAUeRW8QQ1bj+w6T0p7EvgochW/l4ahGvmtHuEtVXniEoJVUm7HlZa
-	+yUv4Viq1QqvAYYgpKAD1s+SIs4KQdrd3nFYD9BzVIpaSbcZusDc22U9RRAICeYMW0Dh771GTUW
-	HqXhHRpBAvYouYAk5hY3bfjKOqAk2hlZJKaxMqXey8CJKR4+9MQf9fBLaaF34uEKAW56C79GjtE
-	l54aQrATFPEcFHGzDTIgg8/T+IHor4pPmXSUV83GA3t0cNq7bFnOoHLwOe49TzZAcZDlM1cXxPd
-	FFYVNtQQ5P47Fjp6ptfpjTtd/0pO8uvzS/TkzCoqHOA5y2fCzqBl6xPQgGvGn0RGZVsx7eSTYIv
-	UHIfgXtgEbFpHJLTDRe1qfU2f5MRVaKSbvnyxM
-X-Received: by 2002:a17:90b:28c4:b0:359:409:49bf with SMTP id 98e67ed59e1d1-35a0129e642mr2041974a91.21.1773226872252;
-        Wed, 11 Mar 2026 04:01:12 -0700 (PDT)
-Received: from localhost.localdomain ([2406:7400:54:1b6c:8cf8:5b10:6a97:7a4f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359ffe77311sm2274372a91.11.2026.03.11.04.01.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 04:01:11 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] python3-pip: Fix CVE-2026-1703
-Date: Wed, 11 Mar 2026 16:31:01 +0530
-Message-Id: <20260311110101.1706045-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=yHGg5huc8s+8UJNwOL5qRLkmNvSZnymP9ItUEylb128=;
+        b=bnAlqOZn6rqqtoIIp2RDGqwPOA/yzEsm3/9R9XgfGcfj/iPK2QjpP8gGpvA9X9KQU/
+         IIKXIxiENzNEOjU4Kt3UYvOmLLeo+za8F7robnYbEPmS/6SjcR/rPJkGdaHPSmW+alJ7
+         bJGsaHepYvBNKnZon3Li18OJpUL0zSqS2rldph0QpiGG+b8k362Wkr6rszDg/No0Fobj
+         caG+bawgG/g9c/1uBbtaR3kZAJkQxz6ZmVsAOpXEEvZtxWPDX0+O0GbXamgnjvdk5+sz
+         GFBdSM/XWo+hmO/t8xmEozimBljZ4c0iAcCgTYf7Vnomd1NUOluLQfMwthenuQMS18YS
+         hHxA==
+X-Gm-Message-State: AOJu0YwSLPjGvDDYiKN0NogrSFdxEjmCZPKUrIvkMXpo8buhcHDzMhnd
+	PsbJ/5skCZhCOsX2v1g/J2ivCyAji4Ke5YWfIuPZKBRcBrObBlzwZd+M5zy+Rz6XSJVrDCLVaHq
+	HFvAWLyN2DoQS/4VDszkd7joW5w3JGGYcNQ==
+X-Gm-Gg: ATEYQzxYHEuwONc5K//KERx+ZBXF5zAtI1wmhuvGUMhGBkMTY5I9iEu1/0G9OcGUO7J
+	gB0UvMz6MaiZ5tC0a0orZt0/HivISWsIQ9DEnIjIgCaDXl58ubGWhF6htaLNwS050LvwfXAamRB
+	XA9w9WTu6MouPQKCwrn7GfAcbZVkV1B5Czy3kF03wF2M6/GNMS3MP8Io8MNswIj/7rsOyXK5T7V
+	a5SUiupY2lbiOq9fYfmHBH2FhPgQjDfmUpfP59Sb/sqvLyyby97Vqu681d6U7T0IzQ6YfIh4z+W
+	+oys93oy4WVuZx8lvljP3STFafx40VohtEtrudW39LTXi9NegHaMvhs71JNG7NazIR65hxM=
+X-Received: by 2002:a17:902:e5c5:b0:2a1:e19:ff0 with SMTP id
+ d9443c01a7336-2aeae890990mr23649565ad.39.1773227024570; Wed, 11 Mar 2026
+ 04:03:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260311104359.194321-1-liu.ming50@gmail.com> <9029a33449f495475953ea561dce5047cf4008fe.camel@linuxfoundation.org>
+In-Reply-To: <9029a33449f495475953ea561dce5047cf4008fe.camel@linuxfoundation.org>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Wed, 11 Mar 2026 12:03:33 +0100
+X-Gm-Features: AaiRm53PWRm1R82HZHgIaT5N9LHBclFSh1kSeNwsZAWwUkHgVbK_vKNadnto_0g
+Message-ID: <CALatG=7PR_XOCv_yxJpoG-qqutsmzO2ktbNinEHfVFaztZHQpQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rootfs-postcommands.bbclass: use DATETIME as
+ system timestamp
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e7dacb064cbd9633"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 11:01:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232866
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 11:03:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232867
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+--000000000000e7dacb064cbd9633
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pick patch according to [1]
+OK, that=E2=80=99s a good point, please ignore it.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-1703
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-1703
-[3] https://github.com/pypa/pip/pull/13777
+//Ming Liu
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../python/python3-pip/CVE-2026-1703.patch    | 37 +++++++++++++++++++
- .../python/python3-pip_22.0.3.bb              |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
-new file mode 100644
-index 0000000000..7a9bc1c9af
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pip/CVE-2026-1703.patch
-@@ -0,0 +1,37 @@
-+From 4c651b70d60ed91b13663bcda9b3ed41748d0124 Mon Sep 17 00:00:00 2001
-+From: Seth Michael Larson <seth@python.org>
-+Date: Fri, 30 Jan 2026 09:49:11 -0600
-+Subject: [PATCH] Use os.path.commonpath() instead of commonprefix()
-+
-+Upstream-Status: Backport [https://github.com/pypa/pip/commit/4c651b70d60ed91b13663bcda9b3ed41748d0124]
-+CVE: CVE-2026-1703
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ news/+1ee322a1.bugfix.rst            | 1 +
-+ src/pip/_internal/utils/unpacking.py | 2 +-
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+ create mode 100644 news/+1ee322a1.bugfix.rst
-+
-+diff --git a/news/+1ee322a1.bugfix.rst b/news/+1ee322a1.bugfix.rst
-+new file mode 100644
-+index 0000000..edb1b32
-+--- /dev/null
-++++ b/news/+1ee322a1.bugfix.rst
-+@@ -0,0 +1 @@
-++Use a path-segment prefix comparison, not char-by-char.
-+diff --git a/src/pip/_internal/utils/unpacking.py b/src/pip/_internal/utils/unpacking.py
-+index 5f63f97..3cebbf7 100644
-+--- a/src/pip/_internal/utils/unpacking.py
-++++ b/src/pip/_internal/utils/unpacking.py
-+@@ -81,7 +81,7 @@ def is_within_directory(directory: str, target: str) -> bool:
-+     abs_directory = os.path.abspath(directory)
-+     abs_target = os.path.abspath(target)
-+ 
-+-    prefix = os.path.commonprefix([abs_directory, abs_target])
-++    prefix = os.path.commonpath([abs_directory, abs_target])
-+     return prefix == abs_directory
-+ 
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-index 28eab9c3de..e49be58839 100644
---- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-@@ -38,6 +38,7 @@ SRC_URI += "file://0001-change-shebang-to-python3.patch \
-             file://no_shebang_mangling.patch \
-             file://reproducible.patch \
-             file://CVE-2023-5752.patch \
-+            file://CVE-2026-1703.patch \
-            "
- 
- SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
--- 
-2.25.1
+On Wed, 2026-03-11 at 11:43 +0100, Ming Liu via lists.openembedded.org
+> wrote:
+> > DATETIME is being used in BUILD_ID and some other places to mark the
+> > build time, let's use it as system timestamp, to have a consistent
+> > system-wide timestamp.
+> >
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > ---
+> >  meta/classes-recipe/rootfs-postcommands.bbclass | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass
+> b/meta/classes-recipe/rootfs-postcommands.bbclass
+> > index f0c7ee658d..43001e09b5 100644
+> > --- a/meta/classes-recipe/rootfs-postcommands.bbclass
+> > +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+> > @@ -424,11 +424,12 @@ rootfs_update_timestamp () {
+> >               # Convert UTC into %4Y%2m%2d%2H%2M%2S
+> >               sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS=
+}
+> +%4Y%2m%2d%2H%2M%2S`
+> >       else
+> > -             sformatted=3D`date -u +%4Y%2m%2d%2H%2M%2S`
+> > +             sformatted=3D${DATETIME}
+> >       fi
+> >       echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
+> >       bbnote "rootfs_update_timestamp: set /etc/timestamp to $sformatte=
+d"
+> >  }
+> > +rootfs_update_timestamp[vardepsexclude] =3D "DATETIME"
+>
+> This could be a little tricky as this timestamp is meant to be the
+> latest thing in the image. DATETIME is fixed when the build starts and
+> therefore if files are modified during the image, those could have a
+> later values.
+>
+> I'm therefore not sure this is a good idea.
+>
+> Cheers,
+>
+> Richard
+>
 
+--000000000000e7dacb064cbd9633
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">OK, that=E2=80=99s a good point, please ignore it.</div><=
+div dir=3D"auto"><br></div><div dir=3D"auto">//Ming Liu</div><div><br><div =
+class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail=
+_attr"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2026-03-11 at 11:43=
+ +0100, Ming Liu via <a href=3D"http://lists.openembedded.org" rel=3D"noref=
+errer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; DATETIME is being used in BUILD_ID and some other places to mark the<b=
+r>
+&gt; build time, let&#39;s use it as system timestamp, to have a consistent=
+<br>
+&gt; system-wide timestamp.<br>
+&gt; <br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
+rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/classes-recipe/rootfs-postcommands.bbclass | 3 ++-<br>
+&gt; =C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/cl=
+asses-recipe/rootfs-postcommands.bbclass<br>
+&gt; index f0c7ee658d..43001e09b5 100644<br>
+&gt; --- a/meta/classes-recipe/rootfs-postcommands.bbclass<br>
+&gt; +++ b/meta/classes-recipe/rootfs-postcommands.bbclass<br>
+&gt; @@ -424,11 +424,12 @@ rootfs_update_timestamp () {<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Convert UTC in=
+to %4Y%2m%2d%2H%2M%2S<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sformatted=3D`da=
+te -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%2H%2M%2S`<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sformatted=3D`date -u=
+ +%4Y%2m%2d%2H%2M%2S`<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sformatted=3D${DATETI=
+ME}<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0echo $sformatted &gt; ${IMAGE_ROOTFS}/etc/ti=
+mestamp<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0bbnote &quot;rootfs_update_timestamp: set /e=
+tc/timestamp to $sformatted&quot;<br>
+&gt; =C2=A0}<br>
+&gt; +rootfs_update_timestamp[vardepsexclude] =3D &quot;DATETIME&quot;<br>
+<br>
+This could be a little tricky as this timestamp is meant to be the<br>
+latest thing in the image. DATETIME is fixed when the build starts and<br>
+therefore if files are modified during the image, those could have a<br>
+later values.<br>
+<br>
+I&#39;m therefore not sure this is a good idea.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div></div>
+
+--000000000000e7dacb064cbd9633--
 
