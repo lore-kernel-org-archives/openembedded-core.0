@@ -2,107 +2,213 @@ Return-Path: <alejandro@enedino.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 027541125838
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 14:13:26 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22566.1773238404100157930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F242B1125839
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 14:13:45 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22031.1773238418685393590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 07:13:24 -0700
+ Wed, 11 Mar 2026 07:13:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JQPD05XB;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: aehs29@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35984cd0335so432423a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 07:13:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E4mb7OL4;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: aehs29@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c7382731edfso4934854a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 07:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773238403; x=1773843203; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773238418; x=1773843218; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dY0TWOwK3weNKAIgmhv17nJM9mBZ8OEBfowAZR9oUFY=;
-        b=JQPD05XBR3qTAxqMBV9lCy7cjrfwicabziEtypscdEcur2Ypbp60ixvQGfoiFH9YFE
-         BbcCDbtsbaC/iIT9sbCtYZrAKbXi12ZZ8GJkCmoRooa1xD45NhMPbyF3Ecq3awYyniAs
-         XT81Im8vO+ldN3TH4an6eKoIycNwpZ1D+u5KsKjMIgvWROhSVg7ch2jxi8lcgJ8TNudq
-         Eb/R2KomjsOqmMHk8Tc9HjfrFD0Z+udAMmc8RLvPrQoDOMFOa97LbRG84/6UFhN5Dk3f
-         Bv20IPMkcb+TxCrPTUG/j203QZ/qe/oyWTYW7kd2O16DkMZ/5AS3OvM56/Qxbu1hFj5b
-         JXWw==
+        bh=uhmsrvXTuzPXNTL+JZpG03/OsbfXKiPj5jk4BTEv0uE=;
+        b=E4mb7OL4EJ8H0ebFZpWfmKLpEezVwBvNTx+Cw3K/k7QQCkD4fl9Se2fANiaHEgfnWX
+         LsFrQtu2VDw6ZXDCVCc/YoZ+XVN2bijarR1edzBS50v8K4YSRZgATUMtvMzpWauxyyUy
+         JORDb4yKv8hqqmmeU/pNehCCFA9CMbStds1hIiq6T9lDEQ0IoS0kd41fxfp3PfZiUCZm
+         QjrAmzH2u+UY8l+YhVM43KCHpyI/zb17+XkpXB18Z2nRg3xcynk/8NDWYsKmSAHM3M7N
+         iGOvNmtJf0h8cLkDSaQfUWrKENua8aWoKX46TnKJVAyrmfRKdbkLayicBwzpNWz9OsbC
+         vxXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773238403; x=1773843203;
+        d=1e100.net; s=20230601; t=1773238418; x=1773843218;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dY0TWOwK3weNKAIgmhv17nJM9mBZ8OEBfowAZR9oUFY=;
-        b=OPD3hejFQw7o4GlRmnAgJKoblUmLA7MCkKftpmmedNgD2kbLb8trXIvTjyrC0v8Eqb
-         /kPOE080GRedt4S1fFNymMGoM0Y6U7NJBP7nlZQvZnwdTBj1QJjLQDJFJWqsIjQOqfZt
-         jYoFQjQe7OtLcThq4OEyGuUC+WD9fuVCPpBtTx7lWumpgO2P25iF6H0+D9y3TKxr77x4
-         tH3rZecXUyQn3W2Ix8eLD+1dcLTBFHamdzCNHD2auE56dSA+zbuksfz126MsbEswQNLq
-         XvtnVcnuNuZ700wuv6Ea/3dBzgD/+/s0y8KNauRYq8w009OgDBKcO8M7zPO4D3UfkcjW
-         e+3w==
-X-Gm-Message-State: AOJu0YxnxfmuMbEbsUjKPv+DCH+aZwkMTEn0izyW83WWJ3/0I4PzVOJ5
-	MUstIz12QKpdZKTPl+/2wMvTggYE/pH1KGQUBubB3Kiaf1ukOsVxp0XHRbOrSdU2
-X-Gm-Gg: ATEYQzyTXdkc+xfxyFWa5ZUwEw7gT1QlCabba1k/NbAVXkDAFB2YN/wWaM8k5kvu1gY
-	/lsoRIQBaVRFsHbzg3N/V33t5wH9oNZbzsiYm/KkBBRevHD/QBYQkhWE+llB2vOmMa3jm43X4kl
-	4yCDNHEVI+ZOrwx3KZ6uZfxlpPmHDG2io9tzkAMCwyxVCwI7+7n4LxClBvOaEajQvXgH+zgRwNZ
-	H36rlUMUAimNaBYYUh8bSP5ZEd999stREbdYmSFVbDsDcRcat+i/nZfTU3aNdFHnWaeJ7o2H5DK
-	wFPj+tWTEXYFJvhsH0K12NBpcGcwCq5o9U9zFO9FvSFoO10DjQs0pHY+kCeGHYUinrki9Cafz/2
-	4lYfcynXvOxygWemIbThTEKhJdX2YDt+YJK5hWHb6pOdGmlkzDcAWObBgMCg5NAtj7VnXdIWiTk
-	iR6tUQduzNUzxJ6Sxy0L4XDwXIDWA=
-X-Received: by 2002:a17:90b:2e52:b0:359:f5f4:7740 with SMTP id 98e67ed59e1d1-35a02830179mr2135690a91.17.1773238402901;
-        Wed, 11 Mar 2026 07:13:22 -0700 (PDT)
+        bh=uhmsrvXTuzPXNTL+JZpG03/OsbfXKiPj5jk4BTEv0uE=;
+        b=ZUA3EeeKs/vs46yguht0tAZMudbfdhqp5fxTgbDb1vrnHKRjotwANybusfFknH13Zr
+         d4iiRQqhKScP5Bb2JFdGI74JDnscPkz8qjNFmj8vaiNag/Qp33+r+T7WvSy83g7UVOH9
+         4Uo9lP4u4eq8fRxV+dZaa9jaQLuESpwUQUkwIi9LxcQWJN4eJ3SfJIUxqM3/0akJICxx
+         Wo/LZWNTgSokHcMVLd+vUOw8/a+4qrh3USH5WDrodoGXrekx0Fhwb2gVpnE4A+zXPTo6
+         mJjJxzPNLGfFC3COZqSVpjm19KVMjFwS7H0vtlt/L1tb4g+uiT4ZjXabJG1JsO8uy7s6
+         7HLQ==
+X-Gm-Message-State: AOJu0YyltpXQ+JI9YsE/b2LxCfta3BY3NkfwqD8D+ZuR8i8jAvfU7y10
+	yEC6gSh9T7PHoNiexk8XKUPnxTXlYc45GOjHVY7bHKDYcvrvjPduB7N1fbY9lNvW
+X-Gm-Gg: ATEYQzzF9QxAAygkrIO89eZ7RnCddMVk8JATjlhVd1mbu0cClS1an51lF69YU6SALJT
+	ZXJZ7AbTDxTl6KX89HAVou0yT0gu7av6p1QRmnWWSpctf/cVwFX+X1lWG6TZHu4uyvD52z3LMrb
+	LW6Bdrh81k/lXBYx5tJT3+7n7Vf14+h8iMDADoUxbSXP3GUNDlfCSIkDXAPijHtJmq1Lt7frAEr
+	H8lneY+kT/soI/BDYNbaySdr9/jPUP1RgMS3LWnNaICH4iWg6ewUqbltCjIQMHNYD+2KoqKccjf
+	weZFj4mJn5DDSCHq0/TRIMozKYqKGC2+x/F7pByaesa606AbJ9ABXIjLpaVfWAmbrL3vGgWqEc3
+	F0JZ8G326eKQyuBirgCV/lVr93N0Tc0a8YXrn8+ZBZgO07RBN8t25Nva7ZTmhnSRzU0HVhKajKV
+	0I+Fhfv8Ds8KTkdHRZ1TFSsc8Sle0=
+X-Received: by 2002:a17:902:dac2:b0:2a0:e5cd:80a1 with SMTP id d9443c01a7336-2aeae8ab718mr29812555ad.41.1773238417758;
+        Wed, 11 Mar 2026 07:13:37 -0700 (PDT)
 Received: from DL-ARCH01 ([192.63.190.254])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35a02e196fdsm2427107a91.2.2026.03.11.07.13.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae36128dsm28753305ad.78.2026.03.11.07.13.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 07:13:22 -0700 (PDT)
+        Wed, 11 Mar 2026 07:13:37 -0700 (PDT)
 From: Alejandro Hernandez Samaniego <aehs29@gmail.com>
 X-Google-Original-From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
-Subject: [PATCH 2/3] newlib: Upgrade 4.5.0 -> 4.6.0
-Date: Wed, 11 Mar 2026 08:13:13 -0600
-Message-ID: <20260311141313.306496-1-alhe@linux.microsoft.com>
+Subject: [PATCH 3/3] picolibc: Update 1.8.6 -> 1.8.11
+Date: Wed, 11 Mar 2026 08:13:28 -0600
+Message-ID: <20260311141329.306642-1-alhe@linux.microsoft.com>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 14:13:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232890
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 14:13:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232891
 
-    License changes:
-    - Adds BSD-2 for m68k-atari-elf target
+Rebased:
+- avoid_polluting_cross_directories.patch
 
-Tested to work on qemux86,arm,aarch64,riscv32 and riscv64 variants:
+Licensing files COPYING.NEWLIB and COPYING.GPL2 were removed upstream,
+checksum for COPYING needs update since files included may change with
+every release.
+
+Tested to work on qemuarm,aarch64,riscv32 and riscv64 variants
 https://dev.azure.com/ahcbb6/baremetal-qemu/_build/results?buildId=21709&view=results
 
-Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
 ---
- meta/recipes-core/newlib/newlib.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-core/picolibc/picolibc.inc       |  8 ++--
+ .../avoid_polluting_cross_directories.patch   | 43 +++++++++++++------
+ 2 files changed, 34 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
-index a8794dd1d9..56e9eeb099 100644
---- a/meta/recipes-core/newlib/newlib.inc
-+++ b/meta/recipes-core/newlib/newlib.inc
-@@ -8,16 +8,16 @@ LIC_FILES_CHKSUM = " \
- 		file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- 		file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
- 		file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
--		file://COPYING.LIBGLOSS;md5=faa6f6ad545714df2a7d1276ed899f15 \
-+		file://COPYING.LIBGLOSS;md5=069b617d6628c1502d7dc2d43d7c836e \
- 		file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--		file://COPYING.NEWLIB;md5=61255563bbcda142f581b94591b6a589 \
-+		file://COPYING.NEWLIB;md5=31bee4d729ae1a5423048cc181a2f1ad \
- 		file://newlib/libc/posix/COPYRIGHT;md5=103468ff1982be840fdf4ee9f8b51bbf \
+diff --git a/meta/recipes-core/picolibc/picolibc.inc b/meta/recipes-core/picolibc/picolibc.inc
+index 68c32894a7..ffbc90b660 100644
+--- a/meta/recipes-core/picolibc/picolibc.inc
++++ b/meta/recipes-core/picolibc/picolibc.inc
+@@ -7,14 +7,12 @@ SECTION = "libs"
+ # are GPLv2 and GeneratePicolibcCrossFile.sh is AGPL3 but not part of the artifacts.
+ LICENSE = "BSD-2-Clause & BSD-3-Clause"
+ LIC_FILES_CHKSUM = " \
+-		file://COPYING.GPL2;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-		file://COPYING.NEWLIB;md5=08ae03456feb75b81cfdb359e0f1ef85 \
+-		file://COPYING.picolibc;md5=e50fa9458a40929689861ed472d46bc7 \
++		file://COPYING.picolibc;md5=e44132dded508048efb22b15ccd40d7d \
  		"
  
--BASEVER = "4.5.0"
-+BASEVER = "4.6.0"
+-BASEVER = "1.8.6"
++BASEVER = "1.8.11"
  PV = "${BASEVER}+git"
- SRC_URI = "git://sourceware.org/git/newlib-cygwin.git;protocol=https;branch=main"
--SRCREV = "5e5e51f1dc56a99eb4648c28e00d73b6ea44a8b0"
-+SRCREV = "8ba4275b83ec27529f67e0d477611fa6d8d6e6bd"
+ SRC_URI = "git://github.com/picolibc/picolibc.git;protocol=https;branch=main"
+-SRCREV = "764ef4e401a8f4c6a86ab723533841f072885a5b"
++SRCREV = "f7edb0869e64b9d687f46961adeef7154921fe92"
  
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = "virtual/cross-cc"
+ B = "${WORKDIR}/build"
+diff --git a/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch b/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch
+index da6460c95c..54f17a1b62 100644
+--- a/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch
++++ b/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch
+@@ -1,3 +1,8 @@
++From dda13d0d8d2de700e29582120f8202920c5cf35e Mon Sep 17 00:00:00 2001
++From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
++Date: Tue, 18 Jun 2024 12:12:26 -0600
++Subject: [PATCH] tclibc-picolibc: Adds a new TCLIBC variant to build with
++
+ Upstream-Status: Pending
+ 
+ Picolibc uses its own specs file: picolibc.specs to facilitate compilation, this
+@@ -21,14 +26,16 @@ then the paths used by the compiler will be relative to the path passed by the
+ --sysroot= cmdline argument, setting back the behavior that we intended in the
+ first place.
+ 
+-
+ Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
++---
++ meson.build | 31 +++++++++++++++++++++++++------
++ 1 file changed, 25 insertions(+), 6 deletions(-)
+ 
+-Index: git/meson.build
+-===================================================================
+---- git.orig/meson.build
+-+++ git/meson.build
+-@@ -622,12 +622,13 @@ else
++diff --git a/meson.build b/meson.build
++index 3323741c2..0df0768df 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -622,12 +622,13 @@ crt0_expr = '%{-crt0=*:crt0-%*%O; :crt0%O}'
+  #
+  picolibc_prefix_format = '-picolibc-prefix=*:@0@'
+  picolibc_buildtype_format = '-picolibc-buildtype=*:@0@'
+@@ -43,7 +50,7 @@ Index: git/meson.build
+  
+  #
+  # Build the -isystem value
+-@@ -639,10 +640,13 @@ isystem_prefix = picolibc_prefix_format.
++@@ -639,10 +640,13 @@ isystem_prefix = picolibc_prefix_format.format(prefix_include_dir)
+  buildtype_include_dir = specs_prefix_format.format(get_option('includedir') / '%*')
+  isystem_buildtype = picolibc_buildtype_format.format(buildtype_include_dir)
+  
+@@ -56,9 +63,21 @@ Index: git/meson.build
+ -specs_isystem = '-isystem ' + specs_option_format.format(isystem_prefix, isystem_buildtype, isystem_gen)
+ +specs_isystem = '-isystem ' + specs_option_format.format(isystem_prefix, isystem_buildtype, isystem_sysroot, isystem_gen)
+  
++ gcc_dumpmachine = run_command(cc.cmd_array() + ['-dumpmachine'], check : true).stdout().split('\n')[0]
++ 
++@@ -651,7 +655,10 @@ cxxconfig_isystem_prefix = isystem_prefix / cxxconfig_path_postfix
++ cxxconfig_isystem_buildtype = isystem_buildtype / cxxconfig_path_postfix
++ cxxconfig_isystem_gen = isystem_gen / cxxconfig_path_postfix
++ 
++-specs_isystem = specs_isystem + ' -isystem ' + specs_option_format.format(cxxconfig_isystem_prefix, cxxconfig_isystem_buildtype, cxxconfig_isystem_gen)
+++sysroot_cxx_dir = '%*'
+++cxx_sysroot = sysroot_format.format(sysroot_cxx_dir)
+++
+++specs_isystem = specs_isystem + ' -isystem ' + specs_option_format.format(cxxconfig_isystem_prefix, cxxconfig_isystem_buildtype, cxx_sysroot, cxxconfig_isystem_gen)
++ 
+  #
+  # Build the non-multilib -L value
+-@@ -654,10 +658,13 @@ lib_prefix = picolibc_prefix_format.form
++@@ -663,10 +670,13 @@ lib_prefix = picolibc_prefix_format.format(prefix_lib_dir)
+  buildtype_lib_dir = specs_prefix_format.format(get_option('libdir') / '%*')
+  lib_buildtype = picolibc_buildtype_format.format(buildtype_lib_dir)
+  
+@@ -73,7 +92,7 @@ Index: git/meson.build
+  
+  #
+  # Build the non-multilib *startfile options
+-@@ -669,6 +676,9 @@ crt0_prefix = picolibc_prefix_format.for
++@@ -678,6 +688,9 @@ crt0_prefix = picolibc_prefix_format.format(prefix_crt0_path)
+  buildtype_crt0_path = specs_prefix_format.format(get_option('libdir') / '%*' / crt0_expr)
+  crt0_buildtype = picolibc_buildtype_format.format(buildtype_crt0_path)
+  
+@@ -83,7 +102,7 @@ Index: git/meson.build
+  gen_crt0_path = specs_prefix_format.format(get_option('libdir') / crt0_expr)
+  crt0_gen = gen_format.format(gen_crt0_path)
+  
+-@@ -686,10 +696,13 @@ if enable_multilib
++@@ -695,10 +708,13 @@ if enable_multilib
+    buildtype_multilib_dir = specs_prefix_format.format(get_option('libdir') / '%*/%M')
+    multilib_buildtype = picolibc_buildtype_format.format(buildtype_multilib_dir)
+  
+@@ -98,7 +117,7 @@ Index: git/meson.build
+  
+    #
+    # Prepend the multilib -L option to the non-multilib option
+-@@ -705,6 +718,9 @@ if enable_multilib
++@@ -714,6 +730,9 @@ if enable_multilib
+    buildtype_multilib_crt0_path = specs_prefix_format.format(get_option('libdir') / '%*/%M' / crt0_expr)
+    crt0_buildtype = picolibc_buildtype_format.format(buildtype_multilib_crt0_path)
+  
+@@ -108,7 +127,7 @@ Index: git/meson.build
+    gen_multilib_crt0_path = specs_prefix_format.format(get_option('libdir') / '%M' / crt0_expr)
+    crt0_gen = gen_format.format(gen_multilib_crt0_path)
+  endif
+-@@ -714,7 +730,7 @@ endif
++@@ -723,7 +742,7 @@ endif
+  # above. As there's only one value, it's either the
+  # multilib path or the non-multilib path
+  #
 -- 
 2.53.0
 
