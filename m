@@ -1,152 +1,130 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE93112583F
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 15:02:56 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23837.1773241370551611097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 070E0112584D
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 15:26:45 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.415.1773242802216647949
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Mar 2026 08:02:51 -0700
+ Wed, 11 Mar 2026 08:26:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=OCQOepmv;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7489E4E4261B
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 15:02:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 44C7B60004;
-	Wed, 11 Mar 2026 15:02:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2F69D10369A2F;
-	Wed, 11 Mar 2026 16:02:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773241361; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Qzz8vFABE58RIieML5yqf55ncVINvfr6vgjxXMyEJ2c=;
-	b=OCQOepmvkSjxjFqUM/K1GbptKiotqJ2WPnPergiKhaPshkHYIaHRXmHlAJQbYbOTIxLOzD
-	fyswQNGAB+Ivgszi7nheUZanXkvtrGzfdFfd86soWPC76cbf+OY0TvgiysuH5EIMsn9mtI
-	u0rBqIAljrhTudTVjApYOHXOGs43A7uta1rqfVopXqjZAt2cleSABYGcD8Lxdq1tnAfqil
-	ofe4QSgP0K4OM7+ZOlXsh8XtIfHZVEKsmWdOIVLjMUFzqD3AXltG//+DV6t4KTb2eY0IIF
-	oFvKJRPL9Wj60i12uOvtxfpjTuG4X/BOF9XCQkNQA797S/jT2p1dUdsmz7xCdQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Mar 2026 16:02:38 +0100
-Message-Id: <DH01LLZRABRA.3OPRM8CVO91E2@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Zhang Peng" <peng.zhang1.cn@windriver.com>,
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UG1la5Ci;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-482f454be5bso12746025e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 08:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773242800; x=1773847600; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0R05NS3iglplVFduN6RFcVFkHlUB8vGC5rLWxHjcli0=;
+        b=UG1la5CiL/JbIep3nCVFukGjJOCFZgP3qut0wrAVv3I4Vwrqz//qpo0+1zKf+8HdYP
+         gk+ZFUAkeUcm33MxS+wEsKeuf+Z8lwpQtXZYbwWYGrR7bE4ueRPhdzuU3B0YFF7oTiXH
+         kn+I3mljMZLg9cbvKs/7/GmXvi5kjZNU5Ykyg/3cbh4VoOSlRWZ1HT0wyiKDpEOwGFXW
+         m4OkDBQiV7HJGBlSJrOx4dUp4SBjWorSpa1ZSzW4twJRfidOxSImNCEqKwtI+2Zg7LZT
+         CU+n0LWYk6mMVSrlamkmPRX2BMLthvla4FXiU9OlKN0su0YyY7hNBM33OGU8Wa8P1mdP
+         lniQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773242800; x=1773847600;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0R05NS3iglplVFduN6RFcVFkHlUB8vGC5rLWxHjcli0=;
+        b=KYBWVgEBfxYEygPiZ7LhI5Ox53TgeXbMAcD5eHx+cT0FQxRqg8puSvrvDogMn2d3mm
+         bIUSu1VS0aG+InvAMuz65K71y7ImsqTRZOU67j1UZJVRbhB751OAduHJ6zuFHUiFsSte
+         hVTGW1vjkRETgeubrKSxLgTYUsDj6K8umoDLR2CB8kKHaLsMVELv2qzlTNrSISNfZ7Ww
+         9tTeaIaMSAkghYJ9SM+hv7rgAdDUrV88ke/7H6n4yJnPaZWwYcNjgPrJk/lKInaxbvQ2
+         9QNarMGTejfD7OxvgK+hDKEccB15e1ckVCcQGEoONgzK9/QBwOc115RDovQs1GjqXz6m
+         S7+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWnO3NAxxv2lU993LH+xJGTHi8KO2YJrKaYjwmDspZ2pavFvbjsXSarTY9VSHIQ2B4/21hGnfeNhCdXkoJ8eygNZg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzjKPkK24fUvMtjhxkCKpSQSFYLABmhwh8fqQ0G4Nn4t7OD7xtx
+	DRRhEluSGdbKdrrveXQ9EzQK6B8AEE9KfEDs2uCyA95RWPCcN1s6PXfj
+X-Gm-Gg: ATEYQzwihHYK34ARGoPpsN0bBJF4h4B2jqRsAOJWj3Y+OsVh5LqTkzSbjBgQzORsLGz
+	p1GUdCWK40DCCGy440nXSEf90+ZR2VnyaUCEELff9k8vI90pJAqX80PKZUq5lMhdTWSGJdo6qsh
+	mGkPIU2MBEstZaGyyUaU8UlFRyjvZTtfOu3t966o+kk15FPJy29C9KW1uOOx9iZlGNWRHHW9aWM
+	kD5sGWUUw3nR85UachE9IeXCS+fC6KKsFAhs9l1YztE+RWhhgKZFGGVLsiNZyEQowG4s1btINxo
+	rEW32fcb7kCTCgqNO21y6E5xQBHJaDddYQLvBiBC5XmGe5DdIcH56hrRo9BGtZW+yShdLtn97RB
+	k7oPCyT790gsFMhHQyF7t8kPkQ0JeRLJHsLM2FnOmtaIiipWS3UGuuBAqUlZTsbOS+VFy3PLQue
+	R9OJWfrF6YQJyjjZrins9/uihpt5LjHPLoJpgDdkTOmzy5X4dXaEQ7pHIpzNT5kyN5tg==
+X-Received: by 2002:a05:600c:848d:b0:485:33b7:573d with SMTP id 5b1f17b1804b1-4854f56a0a2mr159945e9.1.1773242800151;
+        Wed, 11 Mar 2026 08:26:40 -0700 (PDT)
+Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541b6f6e6sm290226615e9.10.2026.03.11.08.26.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2026 08:26:39 -0700 (PDT)
+Message-ID: <c6cd5404-31b6-4030-ab15-e45f27af9679@gmail.com>
+Date: Wed, 11 Mar 2026 16:26:39 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+ subpackage
+To: "Marko, Peter" <Peter.Marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][master][PATCH v2] groff: upgrade 1.23.0 -> 1.24.0
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20260309150842.3379241-1-peng.zhang1.cn@windriver.com>
- <DGZQ4TTU05M0.3UH0ADSIVMSTT@bootlin.com>
- <6745abda-97f9-4963-b671-6c2722bbae0b@windriver.com>
-In-Reply-To: <6745abda-97f9-4963-b671-6c2722bbae0b@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260311122922.4160133-1-zboszor@gmail.com>
+ <AS1PR10MB56977E851FCBA7CBCE3B4652FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <8be68784-e846-4ddb-9127-e4e6082347aa@gmail.com>
+ <AS1PR10MB56979EB1C738893C31052E3EFD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <f2f689b6-1600-40dc-94d4-6de8906b2490@gmail.com>
+ <AS1PR10MB5697D86B88010E0EE7666332FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <AS1PR10MB5697D86B88010E0EE7666332FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 15:02:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232893
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 15:26:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232894
 
-On Wed Mar 11, 2026 at 2:57 PM CET, Zhang Peng wrote:
+2026. 03. 11. 15:02 keltezéssel, Marko, Peter írta:
 >
-> On 3/11/26 14:03, Mathieu Dubois-Briand wrote:
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender a=
-nd know the content is safe.
+>> -----Original Message-----
+>> From: Böszörményi Zoltán <zboszor@gmail.com>
+>> Sent: Wednesday, March 11, 2026 14:43
+>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>> openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+>> subpackage
 >>
->> On Mon Mar 9, 2026 at 4:08 PM CET, Peng (Paul) (CN) via lists.openembedd=
-ed.org Zhang wrote:
->>> From: Zhang Peng <peng.zhang1.cn@windriver.com>
->>>
->>> Upgrade to latest revision of 1.24.0.
->>> - Drop patches included in this release.
->>> - Add patch to fix test-groff not found in cross-compilation.
->>> - Add patch to use SOURCE_DATE_EPOCH in gropdf for reproducible PDF gen=
-eration.
->>> - COPYING, LICENSES: Refresh GPLv3 text.
->>>
->>> Release Note:[https://lists.gnu.org/r/groff/2026-02/msg00149.html]
->>>
->>> Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
->> Hi,
+>> 2026. 03. 11. 14:40 keltezéssel, Marko, Peter írta:
+>>>> -----Original Message-----
+>>>> From: Böszörményi Zoltán <zboszor@gmail.com>
+>>>> Sent: Wednesday, March 11, 2026 14:12
+>>>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>>>> openembedded-core@lists.openembedded.org
+>>>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to
+>> ptest
+>>>> subpackage
+>>>>
+>>>> 2026. 03. 11. 13:44 keltezéssel, Marko, Peter írta:
+>>>>> These INSANE_SKIP assignments are wrong.
+>>>>> Use GLIBC_GENERATE_LOCALES = "all" (or select just those you need) in
+>> your
+>>>> distro.
+>>>>
+>>>> It doesn't help.
+>>> I'm not sure why it down't work for you, since it works for me and for Yocto AB.
+>>> Did you added it to your distro settings and not just to a recipe?
+>>> The explanation about this is at: https://git.yoctoproject.org/meta-
+>> yocto/tree/meta-poky/conf/templates/default/local.conf.sample.extended#n61
 >>
->> Thanks for the new version. It looks a bit better, reproducibility test
->> passed at least once, but we still have failures in some builds. It
->> seems to be a similar one:
->>
->> AssertionError: The following deb packages are different and not in excl=
-usion list:
->> /srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-ex=
-tended/tmp/deploy/deb/./x86-64-v3/groff-doc_1.24.0-r0_amd64.deb
->> The following rpm packages are different and not in exclusion list:
->> /srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-ex=
-tended/tmp/deploy/rpm/./x86_64_v3/groff-doc-1.24.0-r0.x86_64_v3.rpm
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3554
->>
->> Diffoscope output:
->> https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260310-jxtz43=
-x1/packages/diff-html/
->
-> HI, Mathieu
->
-> It's very strange - I cannot reproduce this issue on my local Ubuntu=20
-> 22.04 system. From the Yocto autobuilder system logs, I can't find any=20
-> useful hints to analyze the failure.
-> My suspicion is related to the host environment. The autobuilder uses=20
-> Fedora 40 while I'm testing on Ubuntu, but I don't think this difference=
-=20
-> should cause the failure.
-> Any help or insights on this would be greatly appreciated.
->
+>> I added it to my distro include file.
+> Have you verified the final value via bitbake-getvar?
+> You are overriding the default (otherwise you would not see the warnings),
+> So possibly you added it to a place where it anyway overwritten later.
 
-Hi Peng,
+Yes, I just checked it. It's not set from anywhere else,
+only from my distro include file. It's set to "all".
 
-So on the autobuilder we are testing with multiple distributions. This
-reproducibility issue did happen with multiple workers, with different
-distributions.
+As I said, setting it does not help with all the build-deps QA errors.
+Previously it wasn't set at all, and I have not seen a similar QA error under Yocto 5.3.
 
-One first note about the reproducibility test. As you might have seen,
-we are comparing the output of two builds:
-- The first build, left side of diffoscope, is made using the
-  sstate-cache, so the document might have been built on any worker.
-- The second build, right side of diffoscope is made without the
-  sstate-cache: the pdf have been generated on the worker used for the
-  build.
-
-We had 3 test failures so far:
-- One on fedora 40:
-  https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3554
-- One on alma 8:
-  https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3553
-- One on debian 12:
-  https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3556
-
-One interesting thing is, the output of both alma 8 and debian 12 looks
-the same, if we compare the right side of the diffoscope output.
-
-So, depending on something, probably the distribution, we have at least
-3 different outputs:
-- A first version (A), generated on an unknown distribution has reached the
-  sstate-cache: this is the one we see on the diffoscope output on
-  each builds.
-- A second version (B), generated on Fedora 40 worker. Output differs
-  with A on the ipk generation.
-- A third version (C), generated either on alma 8 or Debian 12. Output
-  differs with A on the deb generation.
-
-So one idea might be to try to build the package in two different
-dockers, one Fedora 40, one Debian 12. If you are a bit lucky, you might
-get some different output.
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Isn't it possible that the ptest subpackages for bash, gawk, m4 and others
+have just gained extra locale-base-* dependencies that previously weren't there?
+And now they are not being covered by DYNAMIC_PACKAGES in glibc-locales for some reason?
 
 
