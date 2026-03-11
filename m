@@ -1,101 +1,98 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <majortomtosourcecontrol@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7397DFD88E3
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 02:40:54 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12274.1773196850808044072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2E4FD88E6
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 03:19:34 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12936.1773199171945536498
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Mar 2026 19:40:51 -0700
+ Tue, 10 Mar 2026 20:19:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=bBT8qGp9;
- spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1773196851; x=1804732851;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VL1AgyW7fhQ9GfF1UoAXia96dDdCR6EtgeG2PXYDHtU=;
-  b=bBT8qGp9KFON24mLYLCLD36M4iHum0FsH7nhCpTe/fJwiovZP+Q/cnFU
-   ckI+58NcZm7gq+HnsGIJWiUG3mDqyBIj4Aq/Po9kbwY7u51aLRYeYhF0Q
-   eoiZo7kXqvwZ5aL2cD81jvx0cGy+ImuGSQsuZ0pBeV+PpUePDz6gW2TXL
-   IuUBFp5P61goOA+drCuJP7D6Ni5CVRbnhZ0S24bUM+mRzfpGO9guLqCt3
-   roN+yWZDcjlTLvq2pBELp3276G3oJu3fapijtCS8lUBDaMp4Z02/TK80T
-   VdIAe7el9ho+NlIm9IG/3pnGhYlBGPOJHUKymQni+dYfiZqC/sn0DtTxC
-   Q==;
-X-CSE-ConnectionGUID: tTAR2QTBQ/KQnWlCcC757Q==
-X-CSE-MsgGUID: BeWRM8OaTd2+mPQ03nOxZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="211751740"
-X-IronPort-AV: E=Sophos;i="6.23,113,1770562800"; 
-   d="scan'208";a="211751740"
-Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 11:40:49 +0900
-Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 1BC6B821448
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 02:40:49 +0000 (UTC)
-Received: from az2uksmom4.o.css.fujitsu.com (az2uksmom4.o.css.fujitsu.com [10.151.22.204])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id CBAF3180026B
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 02:40:48 +0000 (UTC)
-Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.128.218])
-	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTP id AE645405537
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 02:40:46 +0000 (UTC)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v3] orc: Enable hotdoc to produce doc
-Date: Wed, 11 Mar 2026 10:40:42 +0800
-Message-ID: <20260311024043.2051-1-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eCueU5vH;
+ spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: majortomtosourcecontrol@gmail.com)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7d74d6bcc00so1748243a34.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Mar 2026 20:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773199171; x=1773803971; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o0V/63pLpmJrwNGAcjWPD1chRxqcYEbmB7dBYwAVk4U=;
+        b=eCueU5vHACcL21dUZTDHYcLjjOhNyDfHsuSiDxxorF1cDTvKpDoT9TAo3dOtu2AQHr
+         vg+9qoOV1hS8hAesoFmLjdNX8dquIfsB85LR7KCoHKgvF/8NSUPfLgFTCX7BfDuylGpn
+         hjaNCrc+R9z/3XSY1xp4qiwIOxONe1gl/I+yZ3in4xHJuBllmwIsIUxJHQ2AhyDCAe3r
+         7fwf81i73lFAAQ378fY8u89ForFRsa73+ML7SCYWguNx6pRK5tjW62VvG454oZj+T/4J
+         NbR60BJawCs2kZzFfr0ytA7eqgKJYeHfQRtdvhPgZ0yNKFggRI7naxO/pX9oLC7StkIx
+         sPBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773199171; x=1773803971;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o0V/63pLpmJrwNGAcjWPD1chRxqcYEbmB7dBYwAVk4U=;
+        b=Ev2GbOo7wEjU6BMuDy6AZP0iVqcehZ21zFRbX5b4PZF6FqmoX5qQ+HBwTl2TDIyuo4
+         3j9/vhJaTbECUvimQ6lUh7d/89dm64hSzriQy4VMOKH/TR/VOdXUjUx/XkK7CsXFOLt9
+         l5mTSSzZl/DwCw0yDP1oxm/1QV1/vZr+4FxIRM2B7A367O95oFKsSmVl9Htmv0gqxXWu
+         GQc5OZQ6bBJuKxTA9ONCOGsUz1mHAx8uEdpEbEDsaiPnYO/gfC7tzaoK8d8aKK3zgpCg
+         0IZXBXTj+5l0/yJhpBln9g54m7rY+CsjP0exW2r3al9clZ66Onped9MI+4xYL8ReTIIw
+         tJtg==
+X-Gm-Message-State: AOJu0Yzt20Z/se6O7Oaj+h62mzd9+V7RLEPKOz1cmf5a9GRre/TVMG0p
+	LbMHFKo1VvJUzUCBfX6GCc4euWf6orGR9tIgCnoFhK7K2BRrECNdl/F9
+X-Gm-Gg: ATEYQzwMpF1gU5/Df7f826aNV0FCLCFeGxBQ9WzT121MVgkxupDgM2cw+UGdsEvRZ1w
+	3Um3CxMR3mUjdpU3n+5CLactt8hGAY3QJwjWlm2WM5RA5h8tk+3zo3ELrbG5QjY2/VRhjIA9RWH
+	1u4162j+x4rRJVkQtFz8qLChvRlrY5ZcpIYFaxSk/RxHTcyOzaBiWdd3rp0otMIkcZhDJNwQPtm
+	igLeSlVWioKW4BpjjCYrCCPyPKldLyqgRemBCnhPIMioNLD7QgDkC1lnrhKL3Ppch0fqfi5zNz9
+	DSLN64K22HgkgS3XUcg8lDM5wTS9n8LMd24QqbBYWk9u9BIHWT9hk1rmiH0Ef+EHWNgi5hnbnQT
+	FCKFwnExhRoA+AhDX4/ljohrnyCCqPlbC+rcIkFqSMMAvH4iHv2/L1YZZn0ABkkrnmmU7dUAJXW
+	fSbx13Gdonblopuw66sKG1BL28kduigA/8ConYiX3rtB8XmpmE4fwbcXeENCtp62ocY0TFVaYWP
+	kX7
+X-Received: by 2002:a05:6830:82eb:b0:7d7:5748:b988 with SMTP id 46e09a7af769-7d76a7bb6e6mr910749a34.35.1773199171150;
+        Tue, 10 Mar 2026 20:19:31 -0700 (PDT)
+Received: from [172.26.252.3] (97-118-253-141.hlrn.qwest.net. [97.118.253.141])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d76ac8e5b4sm836962a34.12.2026.03.10.20.19.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2026 20:19:30 -0700 (PDT)
+Message-ID: <67328661-4885-427d-b481-065322c04935@gmail.com>
+Date: Tue, 10 Mar 2026 21:19:30 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] RPM 6 in Wrynose
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ "Matthew Ware (mattware)" <mattware@cisco.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "Elliot Sparling (esparlin)" <esparlin@cisco.com>,
+ Robert Yang <liezhi.yang@windriver.com>,
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ adam.duskett@amarulasolutions.com
+References: <SN7PR11MB770572B1859AB0B7EB592DE3CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <CANNYZj9Y0Fk_DHxTcP-2cqmYnzcD4_VSg5eihwXp1Vc10HbREg@mail.gmail.com>
+ <SN7PR11MB770587ED31BE8EE18D973740CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <SN7PR11MB77056419029EAA594968E1DECD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <CANNYZj8uCJWnkhvh=CecWiawWd57k15wdqcfzc3mtbxoMFqSHg@mail.gmail.com>
+Content-Language: en-US
+From: Clayton Casciato <majortomtosourcecontrol@gmail.com>
+In-Reply-To: <CANNYZj8uCJWnkhvh=CecWiawWd57k15wdqcfzc3mtbxoMFqSHg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 02:40:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232833
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Mar 2026 03:19:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232834
 
-Add do_install:append function to fix QA Issue like "File /usr/share/doc/orc/html/assets/js/search/hotdoc_fragments/orctarget.html-enum (unnamed at /work/x86-64-v3-poky-linux/orc/0.4.42/sources/orc-0.4.42/orc/orctarget.h:39:1).fragment in package orc-doc contains reference to TMPDIR [buildpaths]"
+> What makes you interested in having these versions in Yocto?
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
----
- meta/recipes-devtools/orc/orc_0.4.42.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Our team is looking forward to RPM 6 [1]:
+"Support for [...] PQC keys and signatures"
+"rpmsign can use [...] Sequoia-sq for signing" [2] 
+"Fix non-deterministic [...]" (reproducible builds)
+"Crypto modernization"
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.42.bb b/meta/recipes-devtools/orc/orc_0.4.42.bb
-index f56b9058c2..55b8db28aa 100644
---- a/meta/recipes-devtools/orc/orc_0.4.42.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.42.bb
-@@ -9,6 +9,9 @@ SRC_URI[sha256sum] = "7ec912ab59af3cc97874c456a56a8ae1eec520c385ec447e8a102b2bd1
- 
- inherit meson pkgconfig
- 
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[hotdoc] = "-Dhotdoc=enabled,-Dhotdoc=disabled,hotdoc-native"
-+
- # distinguish from apache:orc
- CVE_PRODUCT = "gstreamer:orc"
- 
-@@ -27,3 +30,13 @@ python populate_packages:prepend () {
- do_compile:prepend:class-native () {
-     sed -i -e 's#/tmp#.#g' ${S}/orc/orccodemem.c
- }
-+
-+#Add this function to deal with QA Issue like File /usr/share/doc/orc/html/assets/js/search/hotdoc_fragments/orctarget.html-enum (unnamed at /work/x86-64-v3-poky-linux/orc/0.4.42/sources/orc-0.4.42/orc/orctarget.h:39:1).fragment in package orc-doc contains reference to TMPDIR [buildpaths]
-+do_install:append:class-target () {
-+    if ${@bb.utils.contains('PACKAGECONFIG', 'hotdoc', 'true', 'false', d)}; then
-+        rm -rf ${D}${docdir}/${PN}/html/assets/js/search/hotdoc_fragments/*unnamed*
-+        for ss in $(find ${D}${docdir}/${PN}/html -type f); do
-+            sed -i 's,${S},,g' "$ss"
-+        done
-+    fi
-+}
--- 
-2.43.0
+[1] https://rpm.org/releases/6.0.0
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15690
 
+Clayton Casciato
 
