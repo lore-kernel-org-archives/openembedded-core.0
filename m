@@ -2,98 +2,113 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C218EFED2FE
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 10:01:55 +0000 (UTC)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17838.1773309707483002554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5794105A583
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 11:22:19 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19201.1773314533040439008
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 03:01:47 -0700
+ Thu, 12 Mar 2026 04:22:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KHOVnszR;
- spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5ffbcfbcec4so194700137.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 03:01:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773309706; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jJueHcI5;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-89a07f66f4eso10958996d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 04:22:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773314532; cv=none;
         d=google.com; s=arc-20240605;
-        b=DRezHbYGsiUjeKnlPqzDn/XMbkiWA9iJEILxhMfqeBe5Z5Z2dnDnT/x3fD/AG71ryd
-         9GrIcohB+EiD+V05Om83QysxOOGjRPZ6Xr0SjiklfphNFAaBPX37Xm678SBwhqVYK89F
-         F9L7QIIJ0HMQM0kv+ZVnN59fR756FScUgvGoHBwjWcEUJ5Sd15duxtKJvLlfFn+qIqbv
-         7vj/91J2tFhxWd5H0A8yYTdqqmXatkctm7LZFh+qyG35IhVICdRJOSWeYkgJtoJTz++a
-         qfxr7p2UX2se0eYtv9RMnhzCNW/z08dnd6QmjKntYrgCgY/hyG+Hdym2Uu42Ky8r0MiP
-         16Vw==
+        b=D5eXU5uydW6SY5wgAIqqEzQkhcoGsoQZXoGjld918bFeLvVKsjCJjuQLJzMkwl3cjh
+         W8cFsqDC42Z+bZ5I7pgxrB/iqPPv0yV+PoYVtjeg9J3FQ2eGW+Ol8RVsObGej1wCFEuI
+         vqFMtmFu3uR6EJ9ry/jW5utcQOfmYWKVjvF1c6uzJVrW+LAjwRo9oGz0TfrlLMvS0U1/
+         I2i0jWNv8sdbC4AwCkWVIN4PhMqzcRrVdGD1SQV82D6w9jx9rX+4YhR4ec3P4X+1Wdkc
+         BIeW+NDRiwf1kT2MzAec8JNut5EjHgoKIRz69KEZ9bXGvPrWY/gvGRa2n3vIyP7UjmQg
+         8I6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=XiKoZvDIg5adc8b4Pd2K4GsEI8Kg4z0zQRkieA1fiGo=;
-        fh=yRup0gQd4Qk9N6eUNj8kXkuKvdCTwWcKSeXZ5+LSHis=;
-        b=SaQozkoibEeFSM0zETqbFealHs620OmOq2AsVhSgxOvEhlXQixOkuR3nYSO3FLrcsJ
-         ELGecFN3SyYUjPbj/CdS3SU/0v7EsLzddfB3q6tau3iCAlFUj37Q45gwo/JkWB9N5Upj
-         V3ibQ2w15yyJpen8eWJzIZMdH0FjJH6lIXY6IgZ1FLVuoMXANgQ8AF8mpiA0bWyXvLrf
-         OpGqdFHg+JnUe0ag2iiQ7PyJOJ8+nPbRZ0SaKRjtKyRteN5xr79qXhdl/YNE30l3gsLQ
-         pCcd2IAqA8SvSdwZGUl6e7Rz3+M+UfAXR6PRqdCztRGnyE4ltRWlEmOuAWZzV0rqdsQw
-         Ix6w==;
+        bh=lrV+No0aklH6Lmyk7hI/++DQH9mRkJJdZ1VO4F8u+tU=;
+        fh=jVUlJHNhWiWuBMjna+1VXRvN1hElWSF8mVbncmwVn4A=;
+        b=KF+0KzrXYT8mrpLhg2i1+DysLpRHarDuoaKIBlIzsagSh8vOSiUkKOz0pZVitWyBI8
+         oAzRaSDsJyus9nOHetrv3333wTKufE3yyqft5ax0KSEpA52O9dmfy0dP9Rpn01C3OtA9
+         8Vvx7IWFDHSVR+65g3li/FD6FuYPf/SH06+hqurwGlfyw3IRErYMQg8ffLjagJHIfsL4
+         g+tsTfV8wUANvSF2vU8UUNK8IhOnhM3y5zFWmjp04ZE/4qCPljIZEycq7SwSyFuQtwe3
+         2guVu5iWPXY4vDkm1MZ9Vo/pC0+MaILhBcIJTNMYaa9iCCnVK5tGU9pagh0b4ESvQPAu
+         eq6g==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773309706; x=1773914506; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773314532; x=1773919332; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XiKoZvDIg5adc8b4Pd2K4GsEI8Kg4z0zQRkieA1fiGo=;
-        b=KHOVnszRhdJTtT190BBLuKaBhBU2Aw3ov5koK4PHUYBO8l8MMyApFdN2bjKXt5z0dY
-         2aVxtqbG47Mu5CD/asFgNQlwvCH3iW4nUrQwxNP0ZTdceFhWMDJgwftTXqqupzMdFTcj
-         nhO3wkw7hWgi0/8MsM88O0tNNZG/S7gn7AneeD9NSYA+kdC0YlD0H73e+5LmwokTqTeS
-         6VqqpTWArC/E0LzDR1FFCkHvjmNptZaS7wxgoqFskQx7NKBzt/x1Uhgm5RQo5i5dsmwI
-         3DIQ6fgXHOzt8ClgDtakF9FL0idW4A5RMbM9KcR9FItU0zULGZKLVgC0UD9XyWy87R+Y
-         IqSQ==
+        bh=lrV+No0aklH6Lmyk7hI/++DQH9mRkJJdZ1VO4F8u+tU=;
+        b=jJueHcI5+vDNtu2AOJE1pd46UjaFcR5PVbdhvQJSMJ+eAWm0K1yOp9dvrX6lhapNA9
+         w5m4RJCfAjnBsXu6XOjSQINfW9u5vB6MDWdWlPoG8lUkvss+4ESgNOlU8M4Dg8Ewua+z
+         ijVX5XkYkhSk8uSbYyW+RpLq/bianTLDVKdIqIr95bnZYYppg9rU+PNKzlPt/f/PLscj
+         1OnlJ4XTIN7jrkqPyXYpRIC+FDd0Ls+sj0++aDWRRsfpZw0AwtUMsZexcau2SLaZyUGM
+         BSjKrkHrrT2OEACU/KrOWOtgNRTm++26dlHJlIE/uHT4MhSnCk05BVVbR5AS0Lw5P2Df
+         01dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773309706; x=1773914506;
+        d=1e100.net; s=20230601; t=1773314532; x=1773919332;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XiKoZvDIg5adc8b4Pd2K4GsEI8Kg4z0zQRkieA1fiGo=;
-        b=w7uRVQ8RBz3R0jaqIOIVfZtabJiwE59DuJR3wm/BUmnzvX09+IBpeKHLxLEzDNwuPw
-         kZ3zi+ztsQJR/Fc5qJLQgfIyUG9sKPWMf6wnfXark3Gq0aJY6sVLzymjVfnBf5DTk9N6
-         PDTwcq/MlvgETb34G0PYarcrdGH1iHEM7262nMJfm+h2UxYYeoxwWE7vzwcKURC/BYV/
-         mQ692SHDZwKsKZXyRiRVndkWnqXy++dSjEXsCC5UUTYTKV6OijSkh95SP7x0h4Y+6YE2
-         GSRDdEWSuWvNXMukXI4Carn5VKlr6baUtsuQQSSAXssN/HAEfAsUVJSkgRwvTXtOKBVt
-         daag==
-X-Gm-Message-State: AOJu0YwEaYuH+7YuZL8cKpuWvSYyLgPUGQ7kq3QFpLmfGqBt5DwvA/DA
-	prM7LWh1DCH960W+9zg5gAuYNtmyEWllCMKf2jwOec75kS6vkMhPuw1EWYXv44uYkzlZltUbbop
-	xqMTy+7Eu+P6eXyXvhkTrBbhljDJgstY=
-X-Gm-Gg: ATEYQzxoqJ+gM2DhAG3BeWiD07xhnH+px7F37gXxuDWgCjI4gtbpDUw0OJwoxFUHxCC
-	FSeUihMUX8vqPXgEHo0o1pCOxrx/D3D3W+0tSzQCQU5bli2GhWbikfVHSpEPA72TiZ79neWi1Zk
-	0GOnkbScwWbRGonJXddXN3DYp4lokVqn4nw3Rmqp50HDkcqNVHL4HNVjMqdrM8Jk4MGyD/4xK1Q
-	Nor0qlA1wUAUQKG+wWP5tCOcXbq36gKQ4CiG7CHWbGO95JmDAw6NIzIXysXGaukOcmQqxDrtULD
-	kZcXoia6acI2ZKGxbK7HrqmbCR7hoG+wpsjBQqX7sA==
-X-Received: by 2002:a05:6102:6c8:b0:5fd:f509:c97 with SMTP id
- ada2fe7eead31-601ded4f6bcmr1915539137.18.1773309706427; Thu, 12 Mar 2026
- 03:01:46 -0700 (PDT)
+        bh=lrV+No0aklH6Lmyk7hI/++DQH9mRkJJdZ1VO4F8u+tU=;
+        b=BzRqCnbpqUbIhGofa2T29KrQ5q5QxqpaXns2rJjgdoqWI0Q6U2u99yLecOvdFwjKZ0
+         9aFMbo2vS7B8sCPVwPYw+yxOh9MzFZHEdWV4k8I0VOMD5h+xgGoKI1Q40oFt4wxkRXU0
+         uHOhKOORPM6KFWVXWhszM/wbr9lPOUvYSt3uMTieVQOeLvjlwiq1/1DgkyOa/Hvxr562
+         YShl6DOdF9ZmQpxsMSHtfSTWrNIO99fE8QBUB8tOFLRTtq+vyHUBsq7x5fteMCitvhh1
+         7Y3wZGffx8k3rqNiORCiYTQEmcX40UTmmnNoTKfQJEDHvSzckY1ZlSBpQ8CQFd5I2xiF
+         EoMw==
+X-Gm-Message-State: AOJu0Yw81JDGvxjCpiqfheFPfqcoYq64wPdXvOhzzPsMHlIJNtYdbHbj
+	r+zppY83B/HV6vdnJL4uJ+uUtdZmNsfxLS9OrkwEiORqr85qHVCL29JHVyKq/ZTDD+TH8xU6ica
+	pUVqj93e5wS+UKoj3ATLDm595Rcb0LAw=
+X-Gm-Gg: ATEYQzwxL1RiyHefVs6a2IlnlRWn2e/3VwEKF5wOrf2gP4C0AtecoDslAxH8TrOe6CT
+	v8FXfEo8iAMmeZEjmD2R84VYemfYtvnr/nH8ApvKRzbLpGjvysSdUMLvCZcH6HzCyXWHjySjF46
+	KCHYPoVH42YVttO6ehXt6/Z3lKgTGIeMppvmbgbtudMVCpRPGswstyx1iifh1Za/CQPSkd9KJQS
+	Mt/aAHuqmxhQwrH951co/6G4XmAJatsrXeYhr8xogFYJMs92CvOD3XlyKF3m6ZHbdCxY7qFp+w2
+	gasXBOXkugfGY7OpsFBZgOth0HtdFfgrJvf3TIJNPA==
+X-Received: by 2002:a05:6214:622:b0:899:fd8c:55d2 with SMTP id
+ 6a1803df08f44-89a669da324mr83932106d6.15.1773314531967; Thu, 12 Mar 2026
+ 04:22:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260312081506.970978-1-changqing.li@windriver.com>
-In-Reply-To: <20260312081506.970978-1-changqing.li@windriver.com>
+References: <20260305053505.1632077-1-alistair.francis@wdc.com>
+In-Reply-To: <20260305053505.1632077-1-alistair.francis@wdc.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Mar 2026 11:01:34 +0100
-X-Gm-Features: AaiRm51OyTd2innVHRBv6axfE5gqyELSspXARen0eNFwP_mp7WzxjtpX672cpp0
-Message-ID: <CANNYZj-Nxx=XJgXEi79RJxmE_qZNxHo_yfkqc1d4XcMZRQ+vGg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] webkitgtk: remove PACKAGECONFIG soup2
-To: changqing.li@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Mar 2026 12:22:00 +0100
+X-Gm-Features: AaiRm53V6Yuwpzejg9VB7CR_1Obd9K7Rst74E8hgj2XAxZyiLbdHcNmV_5pNgnE
+Message-ID: <CANNYZj9FNw4F0228tOo_BJUzrkvWFy-_5pLDv7XG=J-Z3FWP0A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] machine/qemux86-64: Recommend extra kernel modules
+To: alistair23@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 10:01:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232937
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 11:22:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232938
 
-On Thu, 12 Mar 2026 at 09:15, Changqing Li via lists.openembedded.org
-<changqing.li=windriver.com@lists.openembedded.org> wrote:
-> -PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
-> -PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
-> +PACKAGECONFIG[soup3] = ",,libsoup"
+On Thu, 5 Mar 2026 at 06:35, Alistair Francis via
+lists.openembedded.org <alistair23=gmail.com@lists.openembedded.org>
+wrote:
+> When bulding Linux with kernel modules by default they aren't included
+> in the qemux86-64 machine. Let's ensure that they are included by
+> setting the MACHINE_EXTRA_RRECOMMENDS to include " ernel-modules".
+>
+> This is already done for the qemuppc64, qemuloongarch and qemuriscv
+> machines.
+> -MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+> +MACHINE_EXTRA_RRECOMMENDS += " kernel-modules"
+> +MACHINE_EXTRA_RRECOMMENDS += " kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
 
-If soup2 option is removed, then libsoup dependency isn't optional
-anymore, and should just be added to DEPENDS, and both options
-removed.
+The consensus in the patch review meeting was that BSPs forcing *all*
+of the kernel modules into images is actually an anti-pattern that
+should be avoided. It should only list specific, known to be useful
+items, similar to how linux-firmware or python modules are packaged
+and installed. This has unfortunately gotten into qemuriscv
+definitions, but the correct approach would be to replace that with
+specific module lists, e.g. by replicating autobuilder tests for that
+target:
+
+https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
 
 Alex
 
