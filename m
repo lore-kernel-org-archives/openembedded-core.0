@@ -1,162 +1,113 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0C8106705A
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 15:58:33 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25134.1773331109667611451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC40F11258BE
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 16:04:23 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25302.1773331460901538346
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 08:58:30 -0700
+ Thu, 12 Mar 2026 09:04:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ekgn+QV9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso9808985e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 08:58:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wo7us8fL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-89a465bd7edso9264256d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 09:04:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773331460; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cTP1OWDk748NbXRpD9dgldTGW9sdny2fQvB6UWut8mAahkzMcGYwNSGSqjnQ/k2F3M
+         CI4dfjxryWgwuotGxA497lqlrZIWVMJgdlqbjSR+0NEMZCdM5lNn835Ii3uUKdj9Ny/I
+         QXjPnBYxl3NYwjzr2XZZd0UBQS5HZHTEUgjS11wUVTJfo3XLjOd14wsU0ZELz5OcghFl
+         rOZVE9uuRsVXsqO8rnBxO33Z/2LJb/IBjiCnwhZvrsZJARYG4wWbiI56IiqkNPRkm5Fc
+         mGsScai+PXFdM/e7DcxDi9cZowLU0M+UE6LtohZ4mxbSge3ZgEiTOjYVq6IUc+JwY7he
+         P7oA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=UL/BFnK+oAnM8l/nmPYIOWeqs5tV9s/jOE/mY20ZZGs=;
+        fh=GftaUKfWgEil+Mwabps7tbMTKGpb4TWKSgWbL0gL2A8=;
+        b=IbRpXfUyDTX6Lf80Q+w5/sCPAzmnZjQreYMV730SlSXJzccMQo11ofvf8Y4m4TBnJv
+         8cvkWYIXueQcCvduMFPufSUTA1lcnKBaWY3SkhdFz0JKEDuWU4bxdvPV7opUO//Tc7RT
+         AvYyq2NYsAgQTzNPeINqD3HTTcf+V+kQ8fRvhBQpK9PgUP6ns7M3cHGHmOMr7SQKnjO+
+         m0hKJpDQENs3yc5YZMjly2qemMRmHrZYcQxjcSpKypPzwq0KqRmrl802gjmlhKVf86vK
+         XmaR0pklvbp9W+a40GInnZMRPfjHsH0M+/FqrRs8fEVC3UHV8p5L5fzTN7OnT3Mq73Z9
+         rZ4g==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773331108; x=1773935908; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7bJa/o9vXoMhi5Y4g3EuAdvNel3BuTFzK5WXU1/IkWg=;
-        b=Ekgn+QV9eXvQlAGQZ2S/I34+2x8ksAMClpfcJYtsMjrBGyrV8IBg+KGSSToxnZxDNX
-         5dw98IXo73rV5U/Q7QuFJpQq682R4TmXHjPeSvStIWxH7lUgjd8iuuuyF27gnPHhq0t/
-         q/2QRSu8I58D1E6202YXn1iqiNhfd7NarrJUs=
+        d=gmail.com; s=20230601; t=1773331460; x=1773936260; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UL/BFnK+oAnM8l/nmPYIOWeqs5tV9s/jOE/mY20ZZGs=;
+        b=Wo7us8fLQrIAcctxpQHUzCJumefxGVeEHlZj8+WSULqdDhMuvQWCk79J8wttJCbAiw
+         tn0pRNDk3g9lQ5S6Mbi2rdUyu3e9OwqEThL2QQeGUXPmr2hhutKqyDgvYLp5+WK/UeZo
+         v7zTkoFb2eJcWZEvHiUkIZ4ilqNrIv4EvqxIMTX2mzfzH5+ecaatXtyX7ftMrvw3I2sn
+         Y87ZkzinOrVHugR6S8TmOVl5KLtiiXALMSojTzeaPCXMBG2XxNSdkmwBnSTVcYaIkt1E
+         9mVneyk2tpc1PsWMyD+atyrV5vJR7NVXs2Ld4XrkgEhsxtiGHNF226K0iSwv7OemcQ6j
+         sPhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773331108; x=1773935908;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7bJa/o9vXoMhi5Y4g3EuAdvNel3BuTFzK5WXU1/IkWg=;
-        b=ddsclM/0NSG5oZ7zim6gmzM3n6QcQ50hKP9/Na6I6S7GDyY8u9K8hwnCNLjh6arnQ2
-         UXihdlpduOTAHVe02wcEB9ZNnEUbfwl6qGr508ZWcfJTCtj4KkwKG6GVd8dRK6CZMMbG
-         QBpQMWACaoUx50Fg6YPLBYyXmmutFXMgdw2blT2sSrHWb9K1Dfqqusz48tx99rmVK5lV
-         3HQ9RuWJruKkhiloEHkTYySz0E5tZYTOH4D+Yaf5Z4bsFk1tQVPJ2fxRz7C/7Bh1xa/E
-         GfQxBizLpcFApCekUZZjbEhTUpgalJ1GZmvqV5Uh03A5A+dZQdKszbnk8mdg64n6VFUV
-         jDdg==
-X-Gm-Message-State: AOJu0YwMCrC6spH7rEyvA7d4HaZu/nLd9LLD+a2/DtHu9XySrYsFEwjD
-	dO/L8Lkljf2TH7G0IxDrSbjBLWi4pZj+mKj+epsDlhi67JQ99ZWGqs7VveGt1jXPLCY=
-X-Gm-Gg: ATEYQzwFXBBb+F0nmcr3lYpBg7q2O+ozo22Kp4D5B9Oo8qUbbTrB3QW5cHVf3Ls0XbG
-	uonI3O09q+DPg2Do2UulSnCK79Vb6Txrby8ceG+Vy+9BpUYiAUWmoouL9xLAvRI/bzWgVIaeGYC
-	V2FNSLdEosJEdkBjYCnUblcq2xaQ2oRsVMU6WlsKd01iHdRsEWP16GU7ZoGDErLr+SLqje9mDqs
-	Ol8ZJXmquX5PGfD99rarEoj9cOgKs1UrgqUtlr5JOI2HwmPoG84xb7YnyG1e4rzUAUok+Jy0pqr
-	PWVNBPkErjGHX0N2Q1MxQsMQ3V26FR1/7tSAfqNPy/FCD0jXnoKFZG2QuRkuAt7FqvF7U8x8DTh
-	hHxIcFJLuwGWJ1iD/WI9cqVauvaTmvGdLn6VoY8t44imPcRk3RiAceePXU7g9hLKlipWds1gH1p
-	JzFF+aXWKXsSDGn5mt/ekZnP/DNtXi+DR5K1KIs0dvu/lNHiQ+D1G3KK+7R+M7q+vFDepJlyyfF
-	SAtG7RLl3Q7
-X-Received: by 2002:a05:600c:4512:b0:483:64b4:79da with SMTP id 5b1f17b1804b1-4854b124e7dmr114718825e9.26.1773331107843;
-        Thu, 12 Mar 2026 08:58:27 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:215f:5162:d0b:8f1d? ([2001:8b0:aba:5f3c:215f:5162:d0b:8f1d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854e67ea40sm98678325e9.7.2026.03.12.08.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 08:58:27 -0700 (PDT)
-Message-ID: <c46dca246219768d5ecc515b904fbfc6053feab7.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v6 10/15] dummy-sdk-package: Disable SPDX
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Mar 2026 15:58:26 +0000
-In-Reply-To: <CAJdd5GYvTS71yZ7OfgH3d2Ouam8H-2y4hZmgJurLXC9t3CA9fg@mail.gmail.com>
-References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
-	 <20260310184058.533343-1-JPEWhacker@gmail.com>
-	 <20260310184058.533343-11-JPEWhacker@gmail.com>
-	 <a437698a4d24a835440e282d0d744f5b3ff669a3.camel@linuxfoundation.org>
-	 <CAJdd5GYvTS71yZ7OfgH3d2Ouam8H-2y4hZmgJurLXC9t3CA9fg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+        d=1e100.net; s=20230601; t=1773331460; x=1773936260;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UL/BFnK+oAnM8l/nmPYIOWeqs5tV9s/jOE/mY20ZZGs=;
+        b=YkQPXRgt2m81i5kVFhO5FJm8XM8qfeIHubw/F9w13STx7ZQUi8s2NBcjR23dZhcDz/
+         t7Tp9ZJQpC8W3B9boxba84u7qrFSbcggVyfT5ZcER9swTDxtP6tjJGoc3Su4VwTZNqIO
+         8Byyd6cgUIGX+92BYcS0C+b7GIopiIM2+Peeoh7E3YIxiuNvCQEJlGCOh/3LJEXxdq0v
+         rcNGi7Tot3O93czdm+E9w7zhJZMiliLnJOGXJemWQRs573JpR2pG2f2dnx2Bhv3ktbP7
+         r7QreCj/Dn1738HkaVfVI45R52mDWn0m9ttJ5P1gOktlRQciDiQYGvZ/BUY5RTMOobsi
+         HdCA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2MiJm9mhf59Hy0UQ6Yv+qB8ko0Yay2xWVyvn9gRASz68KuaSRGHlwjCXmO8/YgAW5QSalogvzfxaL3o2iWMJSBA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzm+KZPjTxPrbIUD7v4En0g3epiorBY8qHOzS8N1lqxTp7kvykw
+	tF/hGyhIuoougRJRj01NwCaVbKR9k0gZmBYsvmsDJdq11fmETUYrC9dSjVpIHUDPVHuYVqW7STG
+	2AYV13ES0wTSJzkPddzqd617yg7aVF/A=
+X-Gm-Gg: ATEYQzziQ2b/jqhGhWPXJs80FDyw97N20hqltL9l61qiWBYtzhMFpZ3RYAC6xvhHkkG
+	b6fWymMPnOXrWJGJpSx+nJO1rcHartHJOv4QX2jIjVWfSUE6gLTTHOXVcYklTANwgc9NX+4iDMr
+	BdW4KvtxpBiXmbXIqjCkW+0YECNATZ1lBencCQmjO95KfI2Fv1LzUilJB1vbU3BSKEpk1qKy5Vl
+	fw2VasQ6V/4Q83kpnxWUo5h8RxpNXi4FDTt1/N5s1ZHe1CbX/eJPFLTbawDZG9vs6m3fZbSqoIG
+	LFBg2St4wjNAPvAOgMaMgovcK2X/dl6aBCLZHoNGfg==
+X-Received: by 2002:a05:6214:2587:b0:89a:f0b:dc0d with SMTP id
+ 6a1803df08f44-89a81c77bb6mr4385486d6.9.1773331459568; Thu, 12 Mar 2026
+ 09:04:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <SN7PR11MB770572B1859AB0B7EB592DE3CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <CANNYZj9Y0Fk_DHxTcP-2cqmYnzcD4_VSg5eihwXp1Vc10HbREg@mail.gmail.com>
+ <SN7PR11MB770587ED31BE8EE18D973740CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <SN7PR11MB77056419029EAA594968E1DECD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <CANNYZj8uCJWnkhvh=CecWiawWd57k15wdqcfzc3mtbxoMFqSHg@mail.gmail.com>
+ <SN7PR11MB77053FF5985F085C57270866CD46A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <f2209b0a-c297-463c-97bc-7139732c498c@windriver.com> <SN7PR11MB7705A4E28D635E7CA5B10512CD47A@SN7PR11MB7705.namprd11.prod.outlook.com>
+ <8b79a7e5-d706-4d4d-ab23-6933eece6c93@windriver.com>
+In-Reply-To: <8b79a7e5-d706-4d4d-ab23-6933eece6c93@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 12 Mar 2026 17:04:08 +0100
+X-Gm-Features: AaiRm53jTbjRBDsSJUiQM4Qr1QoXqTMmtdoLvXSs3G1yuEkJ2jwHToGaQCCkr5E
+Message-ID: <CANNYZj_-OS+OHnV+mPpCdmk5fBEtXBtx8kWzuCSLyxc=tUhkBg@mail.gmail.com>
+Subject: Re: [OE-core] RPM 6 in Wrynose
+To: liezhi.yang@windriver.com
+Cc: "Matthew Ware (mattware)" <mattware@cisco.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Elliot Sparling (esparlin)" <esparlin@cisco.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	"adam.duskett@amarulasolutions.com" <adam.duskett@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 15:58:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232984
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:04:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232985
 
-On Thu, 2026-03-12 at 08:24 -0600, Joshua Watt wrote:
-> On Thu, Mar 12, 2026 at 5:59=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Tue, 2026-03-10 at 12:38 -0600, Joshua Watt via lists.openembedded.o=
-rg wrote:
-> > > The dummy SDK packages do not need SPDX support, and since they play
-> > > some games with allarch that cause problems, it's simplest to disable
-> > > their SPDX output.
-> > >=20
-> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > ---
-> > > =C2=A0meta/recipes-core/meta/dummy-sdk-package.inc | 1 +
-> > > =C2=A01 file changed, 1 insertion(+)
-> > >=20
-> > > diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/reci=
-pes-core/meta/dummy-sdk-package.inc
-> > > index bf453cac9b..71e788b0b9 100644
-> > > --- a/meta/recipes-core/meta/dummy-sdk-package.inc
-> > > +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
-> > > @@ -4,6 +4,7 @@ LICENSE =3D "MIT"
-> > > =C2=A0PACKAGE_ARCH =3D "all"
-> > >=20
-> > > =C2=A0inherit allarch
-> > > +inherit nospdx
-> > >=20
-> > > =C2=A0INHIBIT_DEFAULT_DEPS =3D "1"
-> >=20
-> > I know why you did this, but after thinking about this, I'm worried and
-> > I'm not sure this is the right move.
-> >=20
-> > The SDK dummy packages are "odd" but they are actual package files that
-> > are generated and would be present in manifests and as such, if they're
-> > missing from the SPDX manifests and docs, this is going to raise
-> > questions. I appreciate they don't have content and their main use is
-> > their 'provides'.
-> >=20
-> > Taking a step back, we do support generic/multiple levels of package
-> > arch and since we support that, the SPDX code does need to handle that
-> > too. I'm therefore starting to worry that SPDX can't cope with the
-> > multiple package levels. Can you remind me what the issue is with the
-> > "all" arch here?
->=20
-> The problem is specifically the anonymous python that does:
->=20
-> =C2=A0=C2=A0=C2=A0 d.setVar('PACKAGE_ARCH', '${DUMMYARCH}')
->=20
-> Which seems specifically intended to bypass the allarch logic in a
-> weird way. It's specifically doing this to put the package in a place
-> no-one can find it (this includes SPDX); I didn't think it provided
-> much value hence disabling it, but looking closer, I think we can do:
->=20
-> SSTATE_MULTILIB_SSTATE_ARCHS:append =3D " ${SDK_PACKAGE_ARCH}"
->=20
-> in create-spdx-sdk-3.0.bbclass and that should fix it. I'll try it.
+On Thu, 12 Mar 2026 at 15:15, Robert Yang via lists.openembedded.org
+<liezhi.yang=windriver.com@lists.openembedded.org> wrote:
+> Thanks for everyone's great help, especially Mathieu Dubois-Briand.
+>
+> This is the most difficult work that I've met in the past 17 years.
 
-That code was to put these packages into their own separate feed.
-Specifically:
+I want to express appreciation for your perseverance with this, I know
+very well how tedious rpm/dnf upgrades can be. Hopefully it's
+beneficial for you (learning how a key component works), and it
+certainly is beneficial for the project when more than one person
+knows a subject.
 
-meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb:DUMMYARCH =3D "bu=
-ildtools-dummy-${SDKPKGSUFFIX}"
-meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb:DUMMYARCH =3D "sdk-p=
-rovides-dummy-${SDKPKGSUFFIX}"
-meta/recipes-core/meta/dummy-sdk-package.inc:    d.setVar('PACKAGE_ARCH', '=
-${DUMMYARCH}')
-meta/recipes-core/meta/target-sdk-provides-dummy.bb:DUMMYARCH =3D "sdk-prov=
-ides-dummy-target"
-
-so there are separate package feeds being created and then the SDK code
-can select which package feeds it wants to use for a given
-configuration/recipe.
-
-That isn't to bypass allarch but just to customise the end package feed
-naming and allow different forms of SDK to be built by bringing in the
-different package combinations.
-
-My worry is that the SPDX code isn't going to handle the scenario where
-PACKAGE_ARCH is changed (for example for a specialist graphics stack)
-and that one of our general features will be lost.
-
-Cheers,
-
-Richard
-
-
-
-
+Alex
 
