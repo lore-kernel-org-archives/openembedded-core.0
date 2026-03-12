@@ -2,56 +2,56 @@ Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F7D106ACC7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A852106ACCA
 	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 16:11:44 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25676.1773331894694464253
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.25679.1773331896139364792
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 09:11:34 -0700
+ Thu, 12 Mar 2026 09:11:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cJOj9ntB;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=p4JwfjZY;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75312e9bb6=hemanth.kumarmd@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62C9XEm7008800
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:11:33 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62C9XEmA008800
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:11:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=vPY997npY/CClSu4GW/5WqRLph+lVTvaaOWgSA1BLyk=; b=
-	cJOj9ntBOEKt3ybGsa2Zc5aXhZTHfWF/zj30vM4uVIm811uoT9W3atJgpaUlbshO
-	aWvVQajeGqOgcJCx6ijz/uOz3dlSzIeSoGJ9rQCjuCTGU5mtKS+GTxTbfynx1yIT
-	KwaTxBFuU3NzjGcTBt1Ks91qE0DIBQK7JET6HqZ060tDPkPI9rV5+xktriXPVyW7
-	4GgP+8suE+yvN4kWc+3C45g8t2prX1Kv3EsWB9ZXJG3AllfF9YKqL8AWHtlYUfbd
-	YA8AFHrkO3RcOQxUw0+1zChnAiYxjUpedvp5/iBR3ngWmLzOCM8rDiSbn8WFz7gB
-	j55D4yf9faXgQASE7eUbeA==
+	PPS06212021; bh=6NOuHEHq7ShY7qr3yUamHIzua2sv9zg/0uFDFh/VSPM=; b=
+	p4JwfjZYyouzfOsGcODPX8oKn/sBKZcmgzYtnU3r/77c14+n5+SQW2fU3f8mFn27
+	q3Nt7LUOPEYGcAIi8v36tEi1MNSlpgDpXkW5VDqdLqy6vJQIKa6xWmXG3HOr5aEx
+	Ct1deJAul+hOEgZcAUgM0tPKIg4k9gRXLDp0xcUra/bmDso7Cr/+te2N/UW5vpjV
+	GH+swDImaZ20qmF6BWKyWY3O3wqm+FggNa7L72j82GRvaDB2gqiXFxLwFAH02guB
+	TltS5Bi3Nc7oW1nU13jvhOtvMzJzwDk1fnATA5G5DGjvvwrkLmXM46F5oiKJ/nS9
+	i3HCuJTbK6GtbWzugKqRBw==
 Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011044.outbound.protection.outlook.com [52.101.62.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqrewn-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqrewn-4
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:11:33 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:11:34 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PPx+xhACSEHUSMFZY1NLtEIWTq7ielBT30FEzvk/9QGGo5/p3ROvQWuGxhN5Y/xJUWrj4Dq1iHM4VyXIq+yZHcT5//yuBmO5rZlT5570d6ZMKC2mHiCqxPWOtynq7x4/O2nVeZbhFqkyznyi6LPm3s/sRhSxXtkGy9UgjhzUmvswroxGV3cp0T3yMUXRxcWA/Wm195RT+4Qo3LMHIb/AdbgQTHm0Vi+uL3tGWT22Sq+VKD8uyVtBhYKteHChNw6UeYTAhdjBr3IHfqqddiseL6S7ZnVL8uRERT0wsqBgJcp16J7H9TfJ4obbn0nqfVJQWB7ZuM64Ik8asGNjaBqc3g==
+ b=e+tOBIKyM1etJZS9oKWtYxDsKtIStlsXI1klLHxUSXcIqkNaAFFq99fuzmcihad3GvwRjInwvaolTvajgVlP6PSW6e+BtTR+I2z/qKqEFGces1iT1biw2WogR7KQWjmE61mGJTLDUSBZRqGQMF9yI/qgKIaDLFN4K43V/p47r6SKJ+XvsJOjbENWX32Djiz6DqCoQQ+EO8KQajvY8WsO9XBlzMqJri9oUx7qvWQkx+XWoQv46ngNDR6BD70GFAGgOcpj7bsEcuWh/M0lX98ethZ8i3xI+vRlpI+CJeqTeJXgTSw5Jb3o9N7EaO00Avidv4ezmwK6UfR1yZC9OoFn1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vPY997npY/CClSu4GW/5WqRLph+lVTvaaOWgSA1BLyk=;
- b=i9VIEfmLB1iW9nUW03CAaoBXVdQH6JuKdY4W+LRpnq2TB6WW08esauyQ3ak764WKOodnmMeANpoXp8PuZw8dNi4af0hE+O8HY5yaoZUITEmhFjccezTvMmrKFIRG5+edJsr3ctCY4Ldsth1ui7WCP/vbpdjD/K66SfuDq6OcxaVs0KgdXEZ4yer5wdkslMy0J6hFdjV/tEULg+LAeOF1sW9jnf0tFy4MJsQpiCy+d/ZX2cLqKOnsoHCZ/GnczzZzzHPIzTz/wkrOaG4Yz2aT9QoziHlXetj0jR8dbFW3WTBZwQ3DwgmrQI7AyIxgFKWfX80Qb0dlyvrgNNFrI0mN1g==
+ bh=6NOuHEHq7ShY7qr3yUamHIzua2sv9zg/0uFDFh/VSPM=;
+ b=TctIt/vXbdBa9TejloirAKdH4febgHKBHnW0tPxE5VOQLn+OQ3J6OhnFsuY/sG/eg0Vgx2z+RodqiHqMPA/Rkx8+lETBr1TiOa46u+F+m3xwMuxkclnShlxZ+ADi3t7cIXB4yt9D2xZJiSHewx65go0tq/drPkeBmxkWnBPoQbocrf/iYPWBqvlVti49lgBw5Mwzfub3PRWGEtlCIcxzAW0gm8EQ+o0GxXyJYSIaYnKBV5CCPxndCV+OrhMD/2jCEUxKmT5yc2qNZl2kzkkPzG/QniGAggIEoWfM0WaPUKrPPMtxH+185whocVQ3bTxptRlrkHzzv0w0PgLv/g/Llg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
  CY5PR11MB6113.namprd11.prod.outlook.com (2603:10b6:930:2e::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.4; Thu, 12 Mar 2026 16:11:31 +0000
+ 15.20.9723.4; Thu, 12 Mar 2026 16:11:33 +0000
 Received: from DM6PR11MB4564.namprd11.prod.outlook.com
  ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
  ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.20.9723.004; Thu, 12 Mar 2026
- 16:11:30 +0000
+ 16:11:33 +0000
 From: Hemanth.KumarMD@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
-Subject: [PATCH v4 5/8] barebox-tools: fix build failure with glibc 2.43
-Date: Thu, 12 Mar 2026 09:10:20 -0700
-Message-ID: <20260312161038.2578649-5-Hemanth.KumarMD@windriver.com>
+Subject: [PATCH v4 8/8] busybox: fix printf ptest failure with glibc 2.43
+Date: Thu, 12 Mar 2026 09:10:23 -0700
+Message-ID: <20260312161038.2578649-8-Hemanth.KumarMD@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260312161038.2578649-1-Hemanth.KumarMD@windriver.com>
 References: <20260312161038.2578649-1-Hemanth.KumarMD@windriver.com>
@@ -63,76 +63,77 @@ X-ClientProxiedBy: DS7PR03CA0303.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|CY5PR11MB6113:EE_
-X-MS-Office365-Filtering-Correlation-Id: adc70c9a-fa7c-49f7-7a5c-08de8052025b
+X-MS-Office365-Filtering-Correlation-Id: 8280f8df-96d3-42fe-02c1-08de805203f9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014|22082099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	2HKuhBgJtyYHJntAJ6MnD3m6hCHdGwOZeeQwcGpio3gp5BKK2XNJhtGJFmOrNy/6PkVHrh/dtap0hf6MmMb71CBLzyIHq1KtBreGExq+4lhfag0HscbJZjBwI3WwJt6u9AMJkeprVT7HzXPCsWoBQrf0v6bBXwxYxXMTCv546NxmxtMmY4TUh66hq8lsulYXmRhJNRIvYByJSzZpxLDL/KmxHgJ+KkWESrgrAZ+j8cSD8bgVhLCZb+fRgHuED28cUGTG9O3njIGyBdnNOPnYOX0ZgWdnYxyg/MdBvG+wAVyzkBosIr0TaZccgE0FNRhK7X9miAmEhyf7ueLX6OMlS2lBfT4bq2x629RBlRM0Ng0LY56OHEe9DwWsXjWHAikXLFDnwaLSrFpaYTn0lY2uHIUfqXq3D3tzoHU/nJ6ZW1O27Tf67fkHctGgXCI+T1Jvg3kst0pHVKJu/8Awjt59/PcMMKV17US66Yzs+czElVhY1n5suU+R7yoRvAXPff1RxkN0wOZmrafPfTKeoloaf6wgrtLf6s/HIGvfyD0KE0IeJjvKyLRKVl2edn+37hOJ48DpqIjE8Q4FifsLpbBGpzXBKn5s+WnZhdSOuFtyIou0rmwJNoFEd0+Vc8ZnLy+l7NjaS5PuNCGw31O1iAknbx4zsOCsk0sJ1N8Jw5BJ9YTxCqdDblaHhPcxt5KlJk91Uspx7Mq1e4qO6Uo35+qxxdvIy7+5DHnw5ooDZoaAh/hzn0hAFa8F7vqxf0G68St+nge12OfrCFkf7hChhbdCl9fDnuqsuz5Q24dTB/hoN2s=
+	LRZejS+lT58NiJSHxnqR6H9BgXg/2OsfKNWOtMau1OJ3iUXcOoDvwcZWUzlYONFjhTxmq9yPlwPKG6GHY+Kx1ptR/E9jZ+nPBGg57pygObt7KLSaaRokZc/w1Y7T88Y/s6QOgPPSOSPpuzfW35RsN+KbAo1GYzdXuPVSSHWnE2IDo4GMzD+waKlxNllkRvcFhXvd6m1bzd/lFcdVVEkTqD3MZM73KkohsaRlNNYNn542beruOpLDlppKm04BDcQf1iGs12MfL0H19paF5i8oKGgOuBowNc3c4jbyUHHQp5AnYPQOUwFOlTfzEOm37e54m/aw+kaaZ8FhudwGAPfM94HHW7mZipi8GHI4RWHCrQOT8fDZnOx60jpeYv1VfuVa5rbOZ2E9kizaOK1Rp8ja2aL+IQ2zA4gGK/0k+U/Tm44AT2tC9avG6fpVYWiEHAaTGFbAqWRjEsNpNGz14nEe3PJ21z1WLB3F8flVoPVVzA4Lk1k4FOtRgki+/FuNYu5JDbBHuCYbJLavEexiveUV+I+k1oz/kS22Nr3k2CwrNso3HFBzbDWJ4ma9moO1IJqnqFIfmadawPIBEVarMsRxlX0L3o39eW2kl0ljWRspKsIlxrQkiC+E1QC05j2IJoCQ2IZFx3sdj9VsSMaIrYkXwXjbLyiQ09eD8j/4iN7y4RDJZdeWDjYgrN14vkOmdnidRGYZSFRBItxRnzA+x1cnL539KeXLkTGAZuLteuYEtHRCbmJmRia8bcAFe1wpcbaNX+uSmbLtfQN09RgMrYox/IfQZnRCxM8UFxRGBQZQkscOvt8MimCbyBZPYUEploYu
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?auRikNKQI5sxPZ192trC66kSVgeeHTRRmL0yTFuPM4VjncqQzA7kXGo8yXrH?=
- =?us-ascii?Q?WCbbnzm8VD6VZIBvH47QMZYqhJl5cd492Xy0wkNNhFkz2pGLMOkOR8bB09sF?=
- =?us-ascii?Q?EIg7ap+0MsRBeKmbEbGB+IMELMZGweWRz0CAm9QLrr1m6Q+H7IFi0PDSOIoj?=
- =?us-ascii?Q?q/jWvMUnj3f+O18Le/clrkHD449nEciXRSCWriC4c5/Cgv9dJYYDIE0hipF9?=
- =?us-ascii?Q?sIm8R69chsBwojYQHMhOOCQPadE856gxJyoK+BizQKKkjsEdGA8R0Ajaoe3n?=
- =?us-ascii?Q?c18c5jc3ykzw4ucDy8WejdG3lK5ec4F+a/tjjnS9jDOsefEeOW8MGSAhFV4H?=
- =?us-ascii?Q?KqXCFdYW/3noeKukp+SlZvo5/EuCIeDFnPIKHnJkRXjOwamOT7TbMzEmdkXc?=
- =?us-ascii?Q?Ika5ugb0AJL5z4rN1ZvHBx+4bjBtHPBiVbQ36lA4RrSw2jk6hpz43YSk4CWu?=
- =?us-ascii?Q?XvaSYjaQdwdD3iWjvZI4GFXvD+4vrohQFCMY1g+gnlViPo4axWTZmuxmKWXk?=
- =?us-ascii?Q?7QR3YCy8JLlTHeFcDEwQO9Uo8HM5R9eoNgjUUNLQrHkwGW+EJmqUvF9xw9Pf?=
- =?us-ascii?Q?ep3Xl7B4085l1EP4Ti4yrWjiR/Ow58UN0JO+ZskQDgQr43bobVTyn0ZrQjls?=
- =?us-ascii?Q?l2Vy898oIuOsikrrpV66UhF42rcL4n0omwRwUEw0ikHkw7N16wY8xg6ihNCE?=
- =?us-ascii?Q?wAR0MaxuBzfP8eAFnxAeyjrrGkaIlR07Qiwqq3KjHfZQtRDVXXunHfvSEpmQ?=
- =?us-ascii?Q?dOvMX4e725kOP0xpiU++8c1mVymQh6ZdbntKT20eKmWEanWh1cIRfoxXDR9V?=
- =?us-ascii?Q?grEhEhdMuMbMff4pKOG2CmIX05v1gtk6sCFiN1dl14rym9MLIA9KT2tduIyO?=
- =?us-ascii?Q?Rn8hVUGJuJNAV+hLDBjTUIK0CKrAXb80Hq1TiqCO0weLzId6gvB1CVwjdSjq?=
- =?us-ascii?Q?25up/v8/T8SFvkbUrNs95n1gIyezrMFxqevIa/PaT5BuEOEAkutM5ndgtHuT?=
- =?us-ascii?Q?33foFCnoKot+TMAhIwYmWg10UCWRHa43GIY8GXOks9gd2Uw+b/93dI8J8z0u?=
- =?us-ascii?Q?kODOaSbua04apOKXQ3Mny/EwQhK+URUL2WpbsMRcmfmMpnHPean4CECS7omO?=
- =?us-ascii?Q?uucSKLa1pYvLcNXzG+HDMK3C7XM6EE8N+3NQdvCRHnueW5VfN+PCuSb76A80?=
- =?us-ascii?Q?6iwxxij6RrzB2TOYzDW0Sbj2BRvVNKKhCbjTHeEQ5pegPyjfmYgK7S8f9vpn?=
- =?us-ascii?Q?RRWKC6tagvsfMk737VOeNPv3+OfCSSrwN99JNgRxd/PptCBpEs+45hQa+rbf?=
- =?us-ascii?Q?Tht/E+X2lw2o5pT63x+mORSBjRW/4QxPzIVKEAOWhGM962AR1PmFouNEK+w/?=
- =?us-ascii?Q?SREmRrI60ikLRLsChy2EXESdhw/dQpRXCwjmD1snwZSfzk0XB3RlVPvOLCYL?=
- =?us-ascii?Q?FMD3bR6DuPXHEfUMvmdBv6y4Uf8D7u5t/H8GrmUxLGqupby3fQUNVC9zZjVI?=
- =?us-ascii?Q?LCFZTrRp+nKq3BVhnjtVw7WKaXgc+2vkwD0RS7YWIUPUDZ+eCZpLUQYBh9Rh?=
- =?us-ascii?Q?X4KQIKjDET+f9/tVpCXRoKPHKaxbfcfPRzMo/Z736dmKA7hYXspX6aDkplXI?=
- =?us-ascii?Q?scx1r7IE29byzR4WQeXTJioZr3mflzqYjLWmW24aSBvD3uBq3/JikVLYa70i?=
- =?us-ascii?Q?Zra2tEJV/ynBgIxXUSxzu2+U4AKCpiy9aNBJMNbaZ27FokZJSzDCTTi7x1QA?=
- =?us-ascii?Q?/61xY51xE6XP5weiT4nRdB+l6q+Kwnw=3D?=
+	=?us-ascii?Q?AeEinYuS2GhFiJtFbfcb/gVsa8Fm9XREWIucIDIcUA5+XWwVKJNphjPwyzFl?=
+ =?us-ascii?Q?2KYzBVhD4QxytfO4exfCAJMQPyszl3l5SQZjkvg2pMFrs6jIabS6+zefkqie?=
+ =?us-ascii?Q?Yv+k7UuIMeEysuIPV39odfHKNzahF4SDm1QW0Pc/HG6yd++d3QsKdPeUOJHS?=
+ =?us-ascii?Q?D+A7Piv4+WHz1Dw4AJ4sxhv3kyXwnFjTaW3Uy4hBUrHJSxw/7rJLHU17PFlC?=
+ =?us-ascii?Q?KiPBAeMFsWIBMHU2jZQQTeEt5K1cC7sMJjg6S5eb/YOXzKyIOpKh7ZLXIxM0?=
+ =?us-ascii?Q?TauFSKjfzUUgYEwQQ+lwsMfcSEkSP8BZw2VLeVUjH7nns4/VadfXlJefjpRc?=
+ =?us-ascii?Q?xejstBoT+TM1UIYmj8ef82Z6sC1cs7Oud4wmk5JJsZcR8PRGYjVKv4VquXY0?=
+ =?us-ascii?Q?UtfqUdEZ72pNOnX7crCaeVAY/D7OecxRNoYM/hddZF0dLGoTaF0UEm+q1FFl?=
+ =?us-ascii?Q?ViviY5X7HMHQmk4ky9W+aC4X/Wp6Q3+Usmf3uj7eVPzA4ufJJ6ISkMEypUNX?=
+ =?us-ascii?Q?lGx2Ko1z+ybm9SEOLIYeUSHqj6GlyzNy8Qf3L95UO1i8gAjOnzXfwWhX+D3m?=
+ =?us-ascii?Q?dIepdru//7j2f+kKvKorLBibxix5WgGDp17otlGbkSOExiCVRozTZ65sAYHZ?=
+ =?us-ascii?Q?oqkjBc7mZsr1cN2GCrivlmrggRmvOKpcbraHUIs02AwsLrKfUHBZ6NoNTMsk?=
+ =?us-ascii?Q?PCZSlVBoiTX0Ekph+Wd5QKKIpI35KIW5SB5h7sHgKi+UXsqX3IO4qM7eDk76?=
+ =?us-ascii?Q?BNaDVXKwDKhjLo+MItKMqQII0ULrhbZoNobcjkJYVkDrf2XscPgD6yFuRPox?=
+ =?us-ascii?Q?NAGyHBsGazseMykh5UykggaUtshGPGrbbsTfoQBEoZsIqvB8N80e2eRUeACv?=
+ =?us-ascii?Q?+YXepr1sEXLec+LmVyVniQ4u77q/gkvHf44Azi2aLIogCLQQS/vL/tvKLlAx?=
+ =?us-ascii?Q?MIB3qtE9tA0si870iQaiaflsN6MU5oXfsNuETMo4O49ubTFHwr3DRg0YAyeh?=
+ =?us-ascii?Q?376ChCFxHjFPaBco5e35UGhhkJ80EpTjoRQuc0+xgSeY+nc0Qt98l0bNz3jy?=
+ =?us-ascii?Q?Mqidz7TrCAZ4grNtSVGT5Yl6AWJ3FpcLtodHmRQqL66K3W+zqh589n4/9CxV?=
+ =?us-ascii?Q?R50pTvCiO77HXULCQWkRzvW/Iniidry8R/N/VqbjJBUb7hYrvdju38N+rlX4?=
+ =?us-ascii?Q?aKU4u2fRJzgn/iKiXvvcZeCNz+ljRtaDCqA6pDd+ZYHvmqd8SGjc2UPdzbJg?=
+ =?us-ascii?Q?E+1zAzWE9V2CT/HKvJJiZIHgFjBQSdOraF3Ua+yVtHtT58nMilvPvgZwkz8A?=
+ =?us-ascii?Q?xKtmkDT98YHdAKvQjOvusb77qPDpwv9b4lb+XIhvCJdIFZaGliRZ7ESYTXF2?=
+ =?us-ascii?Q?wOhvqf+fijq+xHUbQqXaqqtsk1l+3Vr38P6oozzLKPMgZHCgijFQqXZD9uPV?=
+ =?us-ascii?Q?9n0HHF/o7JgnbBUhPmdmdAJOx3VXBMOpsKRl+mSo1/yFcxD7ZcEPjpy8Pab6?=
+ =?us-ascii?Q?6+ytEoftkFAyWudxdTjCBha0xWNWbXAvWcuWqEMSgFBqEqd7q93tfZ/VT+57?=
+ =?us-ascii?Q?eG4Q5JxtmP9BCQoiwasWVflIV0iIu90aeIRs3341MdBiku2VfTuWwi2FOytl?=
+ =?us-ascii?Q?qaBY5VU2PK/M54qxEtGtw8AAoPF5HkpCk3pf7AIBykCOewohipRaJnQ8vs6D?=
+ =?us-ascii?Q?Nk41L73yykVx6B/HCFPhRRHEdFKNOeNQlQYTu2iypJ6s4zotLGhXvzpZ+3y/?=
+ =?us-ascii?Q?adMyWIr6oTYZkQT8LD8+GloAs/MHm7E=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	Iqu9n1K1H6/BGiqEeAEUXfuUc0NAHoou2XmjrljTjYHFH9wvKW3ejIKW1Lgav3HyIsvIPVxPxgvhH/oQofHVBeKTcmBXgeptQX3R6f1n1W16A3628WMIOiUhtSTdX38V88rAafn168Di9gPvG+ceHIDz9wEs4pnLIkaZ2TEmcIDkhDiygU8ut2uxghb+l3VVyTnPKF75GbRvAPONpj+9XZSlh9sde+L4ZdVONmzWBtBRJsfWm+R22ENBPITNBWBtzI69xcrP/+CW0GfYFwn3EkqFoWAjverMtw7sW3ibnXOWPEOamGohqyIpERFvcv9g5SmJEsHw6UjRVK4iFtZkeg==
+	MS0dzbdfCsn7Nbi5wf8CqA5eUQxqMal3qDw2vMW0Pq4QfIkOpQPZ9u0hJSsulb0LnlW0ETFb/py963OL4JLn3VcJ23MpQmRZ2dMA3+H71cNrKsBNKrAjJCao9pkQUlCW3F5oeEXuKnA2AMtgVhvo3Unt/eEh8CNTECz01pHTZznhMcNAeEIZXyPxnrixiporN2ZxIzKEym9mWMLsg2ypQ/o9jHgPOWbV1le6+Jhec5iggzQWxGBBEBsdDdPn0+uZPXOKk9oA8xATgz5PZwJypjFyU8IJf97r4c4ZoQNhqVYZMGcK8Q6XC5APDOpIXxdslEwNrRzu0P//un71ZCdglA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: adc70c9a-fa7c-49f7-7a5c-08de8052025b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8280f8df-96d3-42fe-02c1-08de805203f9
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 16:11:25.0439
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 16:11:27.9558
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rRzKlomNcbObOJqLlH5DG3UNczMtYeJPsjFdX63Gb02FvbWIa7/4XgpbnvknzTtT93i45ubEaAOluFQUermEmdSjjCwXrT9yiolMW+A4/xk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: R6m+mi3X9XvwejS/k1C29O5Mk7Xp67snTVZSnzrZkzge+ZEGjqQFXrEXviipd6O4OZC3l/LAiyNBMiRSr7rAq5/3GASBoNLH/kRwSb4njJ0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6113
-X-Proofpoint-ORIG-GUID: g-qfFcSbbss5lQXXXBInRsPZZWIHidU4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDEzMCBTYWx0ZWRfXx8LPMp/lQQ5q
- FxXcq7Kg+aWWVF8sVWaK1vfdmPpYu2WV4CxvSh7wWQLi2syPwiHNUaWhVemuw5aWRrq6+hJ9m7z
- XoUSRGl44Ygs0XgbtJzRiIJGQgpGJylqWOKIkercfUVVX6o+xn85q6RPrySQ+Lf0LgXAP/h7kG4
- Lu9Ja52zVzdqOwtE3hWRuywwCpMYxY4+wZ7mt+ElKN3BKLfwfAhVhpELYYku3PlKcl7Ulf/4UQq
- klKrrvQ/aJn55fbpKvUxcwN3RThuM0XSFjYW4b7ysHHKA6icKJ2RHu2ljm3K/WRWH8v/5wbJSRa
- XitbA4RsmQwYvxejzTNmVseZN4u0iA+DUnYJvtWl8+HCY+rsCkWhRYtSe9dwR3+30c2K76oaCQ2
- 7UWDVnlYe/Y2jUurZ1TuS9bmtftS85YQljSFEQYnanqGeXb0Jdda7szU+vyKzFYZePSu0VCMwpk
- Zi1Goyizue4EclvRhWA==
-X-Proofpoint-GUID: g-qfFcSbbss5lQXXXBInRsPZZWIHidU4
-X-Authority-Analysis: v=2.4 cv=feegCkQF c=1 sm=1 tr=0 ts=69b2e5b5 cx=c_pps
+X-Proofpoint-ORIG-GUID: d9tKwBpzrJ0QU6Y23IXg3WiD33LY7wHB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDEzMCBTYWx0ZWRfX0zPMYOcJ3W52
+ ZBpnOjs6NXsWQsLojUcOhRbC5CIO0uwy036GsFFhKv1EwTxitkrxgUqqV1FN2PyztUu0siUzQ/t
+ Robu0JaIhYnKN5Mo8EuAQER9KlNMb9H/j+YfK3WOTrKX+9oLFf9T3l1OI7gBGo1uqqVHyM08q3V
+ bvCMOOM7wa+pfoZczHOip8ot6KFgeVXLMnL1n4aeFuhUUt0v9J7JL88luRzdHlXVvaZt9UvyajQ
+ cwu79LenKDo70yqnYYhHsMrun9VXmKorTfEWv2GSSDNkxn7x9qvXuHfHqLzasSRAtgjmQukHCmb
+ WFdMLb1bPKX0H9ZGy+wzkAfnslAVspqsw/czEw9kOCSLrB4hNdg94jQqRh7IvZdPCYn10N+zWlo
+ PXBZE/SV3VVHgJfW5h5+o7s2Z9RunJWbJ9F1LTGXiVBII0kisoahP2CF97e5lcc0U45cKkxmVtu
+ HUx0P9pqhd8q/7AgKtA==
+X-Proofpoint-GUID: d9tKwBpzrJ0QU6Y23IXg3WiD33LY7wHB
+X-Authority-Analysis: v=2.4 cv=feegCkQF c=1 sm=1 tr=0 ts=69b2e5b7 cx=c_pps
  a=Z1Yvi+W4mc/VVWckEa0YUw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=sqegTYKcpFJ6_3p44j0A:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=xNf9USuDAAAA:8
+ a=J0Tn2xNtAAAA:8 a=t7CeM3EgAAAA:8 a=zyrUNJ-FjU7R3JAHTiYA:9
+ a=3w6iy9BqfFbDrj__1GvT:22 a=9ZcRxastL33iXWX1AWsW:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-12_02,2026-03-12_01,2025-10-01_01
@@ -145,84 +146,157 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:11:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232991
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232994
 
 From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-glibc 2.43 introduces linux/openat2.h through the fcntl include chain
-(bits/fcntl-linux.h -> linux/openat2.h) which expects __u64 to be
-defined before inclusion. Move <fcntl.h> in barebox scripts/include/
-linux/types.h to after the typedef definitions to fix the build.
+Following ptests were failing on aarch64 after glibc 2.43 upgrade:
+  - printf_understands_%s_'"x'_"'y"_"'zTAIL"
+  - printf_handles_positive_numbers_for_%f
+
+Backport fix from Debian bug #1128825.
+
+References: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1128825
 
 Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 ---
- meta/recipes-bsp/barebox/barebox-tools.bb     |  2 +
- ...x-tools-fix-glibc-2.43-openat2-build.patch | 43 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
+ ...printf-ptest-failure-with-glibc-2.43.patch | 114 ++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
+ 2 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch
 
-diff --git a/meta/recipes-bsp/barebox/barebox-tools.bb b/meta/recipes-bsp/barebox/barebox-tools.bb
-index eb327306d9..1459f48db2 100644
---- a/meta/recipes-bsp/barebox/barebox-tools.bb
-+++ b/meta/recipes-bsp/barebox/barebox-tools.bb
-@@ -2,6 +2,8 @@ SUMMARY = "barebox bootloader tools"
- 
- require barebox-common.inc
- 
-+SRC_URI += "file://0001-barebox-tools-fix-glibc-2.43-openat2-build.patch"
-+
- LICENSE = "GPL-2.0-only"
- 
- DEPENDS = "bison-native flex-native libusb1"
-diff --git a/meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch b/meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
+diff --git a/meta/recipes-core/busybox/busybox/0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch b/meta/recipes-core/busybox/busybox/0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch
 new file mode 100644
-index 0000000000..2ff7cb82a6
+index 0000000000..951812532b
 --- /dev/null
-+++ b/meta/recipes-bsp/barebox/files/0001-barebox-tools-fix-glibc-2.43-openat2-build.patch
-@@ -0,0 +1,43 @@
-+barebox-tools: fix build failure with glibc 2.43
++++ b/meta/recipes-core/busybox/busybox/0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch
+@@ -0,0 +1,114 @@
++busybox: fix printf ptest failure with glibc 2.43
 +
-+glibc 2.43 introduces linux/openat2.h through the fcntl include chain
-+(bits/fcntl-linux.h -> linux/openat2.h). This header expects the
-+__u64 type to be defined before inclusion.
++Following ptests were failing on aarch64 after glibc 2.43 upgrade:
++  - printf_understands_%s_'"x'_"'y"_"'zTAIL"
++  - printf_handles_positive_numbers_for_%f
 +
-+In barebox scripts/include/linux/types.h the header <fcntl.h> was
-+included before the __u64 typedef, causing build failures such as:
++Backport fix from Debian bug #1128825.
 +
-+  linux/openat2.h:20:9: error: unknown type name '__u64'
-+
-+Move the inclusion of <fcntl.h> after the typedef definitions so that
-+__u64 and related types are defined before linux/openat2.h is parsed.
-+
-+Upstream-Status: Pending
++Upstream-Status: Submitted [https://bugs.debian.org/cgi-bin/bugreport.cgi?att=1;bug=1128825;filename=busybox_glibc-2.43_thp.patch;msg=10]
 +
 +Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-+---
 +
-+ scripts/include/linux/types.h | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/scripts/include/linux/types.h b/scripts/include/linux/types.h
-+index 5b01333..33cea19 100644
-+--- a/scripts/include/linux/types.h
-++++ b/scripts/include/linux/types.h
-+@@ -4,7 +4,6 @@
-+ #include <stdbool.h>
-+ #include <stddef.h>
-+ #include <stdint.h>
-+-#include <fcntl.h>
-+
-+ typedef uint64_t __u64;
-+ typedef int64_t __s64;
-+@@ -15,6 +14,8 @@ typedef int16_t __s16;
-+ typedef uint8_t __u8;
-+ typedef int8_t __s8;
-+
-++#include <fcntl.h>
-++
-+ #ifndef __linux__
-+ typedef long long loff_t;
-+ #endif
++diff --git a/coreutils/printf.c b/coreutils/printf.c
++index 3cd48cfcc..a5d995ab5 100644
++--- a/coreutils/printf.c
+++++ b/coreutils/printf.c
++@@ -191,6 +191,7 @@ static void print_direc(char *format, unsigned fmt_length,
++ 	double dv;
++ 	char saved;
++ 	char *have_prec, *have_width;
+++	int saved_errno, ret;
++ 
++ 	saved = format[fmt_length];
++ 	format[fmt_length] = '\0';
++@@ -205,22 +206,32 @@ static void print_direc(char *format, unsigned fmt_length,
++ 
++ 	switch (format[fmt_length - 1]) {
++ 	case 'c':
++-		printf(format, *argument);
+++		saved_errno = errno;
+++		ret = printf(format, *argument);
+++		/* Restore errno if there was no error */
+++		if (ret >= 0) {
+++			errno = saved_errno;
+++		}
++ 		break;
++ 	case 'd':
++ 	case 'i':
++ 		llv = my_xstrtoll(skip_whitespace(argument));
++  print_long:
+++		saved_errno = errno;
++ 		if (!have_width) {
++ 			if (!have_prec)
++-				printf(format, llv);
+++				ret = printf(format, llv);
++ 			else
++-				printf(format, precision, llv);
+++				ret = printf(format, precision, llv);
++ 		} else {
++ 			if (!have_prec)
++-				printf(format, field_width, llv);
+++				ret = printf(format, field_width, llv);
++ 			else
++-				printf(format, field_width, precision, llv);
+++				ret = printf(format, field_width, precision, llv);
+++		}
+++		/* Restore errno if there was no error */
+++		if (ret >= 0) {
+++			errno = saved_errno;
++ 		}
++ 		break;
++ 	case 'o':
++@@ -238,16 +249,21 @@ static void print_direc(char *format, unsigned fmt_length,
++ 		} else {
++ 			/* Hope compiler will optimize it out by moving call
++ 			 * instruction after the ifs... */
+++			saved_errno = errno;
++ 			if (!have_width) {
++ 				if (!have_prec)
++-					printf(format, argument, /*unused:*/ argument, argument);
+++					ret = printf(format, argument, /*unused:*/ argument, argument);
++ 				else
++-					printf(format, precision, argument, /*unused:*/ argument);
+++					ret = printf(format, precision, argument, /*unused:*/ argument);
++ 			} else {
++ 				if (!have_prec)
++-					printf(format, field_width, argument, /*unused:*/ argument);
+++					ret = printf(format, field_width, argument, /*unused:*/ argument);
++ 				else
++-					printf(format, field_width, precision, argument);
+++					ret = printf(format, field_width, precision, argument);
+++			}
+++			/* Restore errno if there was no error */
+++			if (ret >= 0) {
+++				errno = saved_errno;
++ 			}
++ 			break;
++ 		}
++@@ -257,16 +273,21 @@ static void print_direc(char *format, unsigned fmt_length,
++ 	case 'g':
++ 	case 'G':
++ 		dv = my_xstrtod(argument);
+++		saved_errno = errno;
++ 		if (!have_width) {
++ 			if (!have_prec)
++-				printf(format, dv);
+++				ret = printf(format, dv);
++ 			else
++-				printf(format, precision, dv);
+++				ret = printf(format, precision, dv);
++ 		} else {
++ 			if (!have_prec)
++-				printf(format, field_width, dv);
+++				ret = printf(format, field_width, dv);
++ 			else
++-				printf(format, field_width, precision, dv);
+++				ret = printf(format, field_width, precision, dv);
+++		}
+++		/* Restore errno if there was no error */
+++		if (ret >= 0) {
+++			errno = saved_errno;
++ 		}
++ 		break;
++ 	} /* switch */
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index d3851a27b9..2a38372339 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -59,6 +59,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2025-46394-01.patch \
+            file://CVE-2025-46394-02.patch \
+            file://CVE-2025-60876.patch \
++           file://0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch \ 
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
 -- 
 2.49.0
 
