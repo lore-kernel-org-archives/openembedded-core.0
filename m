@@ -1,158 +1,124 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mhalstead@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19CBDFED2F5
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 23:24:48 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4096.1773357884218920417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 311DE106ACFE
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 23:47:08 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4550.1773359223513023273
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 16:24:44 -0700
+ Thu, 12 Mar 2026 16:47:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GRo4A0nb;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so12788415e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:24:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M3L81riM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.41, mailfrom: mhalstead@linuxfoundation.org)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a133b686f7so1613909e87.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:47:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773359220; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DbOTlw9Q0oIpBq7wKEnMU4OF1xoUIcNXXCoK2nsOnSiOezoumZtcShs7cCvot1Yh3n
+         rZXYwtjmDEEnmpx1JZxRJu/Rvv+BemWXLAlLSElXI+1rzEordqg/o9SdznbgSrt75bJY
+         s40MtHJREuqucCfSjH3YdGDcWRYTt5SDB59LjNFCOHDB1qtsxHmxOjoDi765JxMJroxz
+         XfyzpQD9TDbg5CuoeoOyiF/YfQfk2hlSX9/hdFOt71Ek+UguJFZsnpdIqSQoa4sD8WwA
+         jZx1aSYzzPM9GzzgoV+5Yk2Tsxts8CA1aXaAXPReJXxLsrk/Axrg8iSDegVMpsyURwaH
+         IxfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=qGWcDZo2nIhjVODbOlX0erXmuVweiqPlLoCDzjsTKJM=;
+        fh=eJtCL7qHhmp2gDa52xTzgFNW6HZsnFXw+nqDXvINy+o=;
+        b=Aaj+Ec20JfFaMpD9EMrtnggt6TMQGY90HtNzokdq0s3ybBLHBdXpwiz3PngQfgv4/O
+         BxldCxZ/QH/5caM7PN6COfDd5Xb2NoPhEYtrt0m/i2Tx+1VcbRnO9aAE3VbmS5wySnLl
+         wzaL0Ti2Dyno5IMpTysML7G3UQ6ev1v4dR7S1KZRWvkEPggl7zMubHQvx9rZs1aqV4ps
+         Qi50xKq5Q22rWU5TcywahoYORNu6Xt5URp37V3bCIzViwAhAYuehM2RDNeEFhNqfJlN5
+         HOoqMrr+NIIz8ioy9vJ16sbh+ndXvzvXV4knBVfhD+JzApaV7GVUztsakKpPIwTju/N8
+         AATg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1773357882; x=1773962682; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3NtEdeAlSEGRZYSqlWBIS6rB/M5eG+2FVN0ZzaSF/Go=;
-        b=GRo4A0nb49Tc+6G1i24sJwzGs1YpEaDHdodx3ut71ZqPN6eLW0jo2MjnaaUpO0pSfA
-         GW6dHgFiWbUH0GFBvxyF67oSITgesGLuFVbcpA2pdJIrovKl0qBk//bytYjUGMgg+xiG
-         6DFGKs4EDGdHazEdyLdzL6C+WqxBTpjCL20DQ=
+        d=linuxfoundation.org; s=google; t=1773359220; x=1773964020; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qGWcDZo2nIhjVODbOlX0erXmuVweiqPlLoCDzjsTKJM=;
+        b=M3L81riMD5cb67YSxup8hVKhCWLvuhNq2Y6seiV6KsvjjcQWlIPmJmotP9ntTp6qHn
+         Hr/pEMJBUFAJ/8sNV5Q3WXDkkiVweJDbim/rrqpEscEG/Er2ZHdknRkYVgL2emwd1Ss8
+         /HQ8w8W6yslpx2HhDYKiDpcXXlar518+LiTCg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773357882; x=1773962682;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3NtEdeAlSEGRZYSqlWBIS6rB/M5eG+2FVN0ZzaSF/Go=;
-        b=PzliZg/CWAncCn6VEbgKB44B9UIdYsvpdmHYon6W92/WPqSj8wXVEgjzsaBtcrkhfC
-         giCW5nHGsUpfHFGPOhS54HPM8OEKF7FFs9pEF9UxRe3cNq4SlM3V1JFyYCJPjY/dQGLh
-         pfqME9J48ed2n9C3z6aBusP91t8hbi+EE7mD0JTeGea+uuuumjt820ZS4TibnSluOk9M
-         tXiYp5GnPe8bUYfPm8FR52bz5NIWe/VY6ETHfT9NMNyRWQ5xp3yoC/IweFjbbf0z7WyL
-         4gOp8HErVEWA+VGp30windGLGxpoRpzuJgT7zyiW+nSudOX+6GqoVKLhDqrGXgYu8tEw
-         ADTw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHEHzeYsy8dbiSwAqgGylV6s7a1Igoi07N6B7DYp5zMjSbNomrBIQf4OlIrffYg7junZJUfQtr9ZsgoGz+DTBx8g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw8kalq9mBkKSZ6Lm0hxek/9B/aWhsmmmsoe1SAq6bahu+4MpDZ
-	IYkKHSfGNJUnvf7pUDkLjP81fVaM93rjuorsA+HR4aKP1l07pxcV9qACEpsJZKiv7EE=
-X-Gm-Gg: ATEYQzwkM3KQkAgbi3B/UmIFDnCtLL43jnccT9aFiCYhL0DsOeMDOjo3SzmxL5J9/Ks
-	2dKGDQuzziMi72cjqlGso90qm/ty5fgW79Rpopc5IIEeRwJiaeaBJffjQtJFn+ACIUYe8WOwalq
-	Cm74RuRGUSnuSNCOV7clK7yXGbQWcLxwAJGTqSpzp2FGZ9kaAphY4/wnWyUEspV+sqzWc3Oq+yn
-	I9pJFKEqxi7IJaIIH2YRdHe/up0kbHUNLXoAMg+9dGwhXm70GjKdyr3liZhpvWEW7+G5sfYnK5M
-	Bz+lCz3/Pg2GR1dyFmZHwXb9joCKLvLphI/H/wY+V31XpL/o2FXNvICULM3gHn502bTEsFuBqTu
-	dxDAsj21Ml+DjjtNLQA2aZZz1nF2gg/a52uvjGRpajqBTB7ZvONjp6fXU/viLsRYSZ6wWYfDv9y
-	lrU5PeZUI6HBuSZptL66AAgs8muK8DOFkuDhIKAgQhp6tZHyLfHb6BYF/8CwMQC0j5JWK/JOzB0
-	5Envp2iGNrC8gYR
-X-Received: by 2002:a05:600c:3b04:b0:485:3c7f:527e with SMTP id 5b1f17b1804b1-485566dd02emr18533265e9.15.1773357882507;
-        Thu, 12 Mar 2026 16:24:42 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a9a19e6457d4ef2f.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a9a1:9e64:57d4:ef2f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541b6f6e6sm467151835e9.10.2026.03.12.16.24.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 16:24:42 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Mar 2026 00:24:41 +0100
-Message-Id: <DH16WK99VETV.3SSCSO4EXHGY9@smile.fr>
-Subject: Re: [OE-core][whinlatter 0/6] Patch review
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Yoann Congal" <yoann.congal@smile.fr>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <cover.1773257124.git.yoann.congal@smile.fr>
-In-Reply-To: <cover.1773257124.git.yoann.congal@smile.fr>
+        d=1e100.net; s=20251104; t=1773359220; x=1773964020;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qGWcDZo2nIhjVODbOlX0erXmuVweiqPlLoCDzjsTKJM=;
+        b=hr5yUu2IX07pFbmAgIzwxy0cTVmveeJVRR/XbALxktR5iZlLiYVib9oli8bkgc7joC
+         YIhW4p69a89gdmUhMOjwJaOLzgy8zyIj3PpkLqjW9rcbmA1qWj76pxw8UiQcCf8wLoWI
+         ETCMVo/iqpTnrDDDgXrbO+qiZ2Xg1vQkiHuA2PbMJeJKKiKPnbpySMnPOslitw3RNNVc
+         M/tSt+GfWOO+kAS7aO/1MSj544I8K2ed1ZwI3xLtJSgzorUw53Z1Shb27GQEhq3k3Utd
+         H9OfnBzS9plh2xaItQNWsUSNbTAw/32LQHaqmFDNZWdhfk9ln3lqVAEO6E4o2oVcHIQa
+         4NGA==
+X-Gm-Message-State: AOJu0Yzts8py0I/94LvRsLaaQoEPpmR9tvn43Zd2xK1hn+XKFHEl8zBV
+	SbFnKi+3i18QlgtUHpi3UD9/yz+y2lf6+i1r/tj+kRVM8r+ZivW4ciwacuR/2mNQbd7wVtcqPtK
+	hTgD1npMRr7nexR0KebmZQ5ge7CMvu+nfWfCl+h+fV/3r8kKG2uS/CL36hw==
+X-Gm-Gg: ATEYQzxZWZ0AoMnW2gSGjkaQ1y8ZV7otZC89TS0DpejaYtrQEkYyzirRVbB2941t2Af
+	iDXRxPxL9/x4YTVO43CsS2zyiiAR9CJRlHKRXv+71TmbQ5B2gVUqyyfFAPx4pFXa3YeDMlQ/5rO
+	FUbIbz4WKeK0FHmSMB9KsBe8FY3clJBoCEtLPeoprv5H/fcwT4vtmXuwOTvaNYY2JFvd3aL5wvv
+	TVJ16AbsldAHM8+htKkkzywZRPTth2YamXfxl/ICaicOrdjPCSvCvXZU26bvHN8eA+nmzGIWyYR
+	Ds4QsA==
+X-Received: by 2002:a05:6512:3ba4:b0:5a1:59b7:8a50 with SMTP id
+ 2adb3069b0e04-5a162b0e862mr372546e87.36.1773359220386; Thu, 12 Mar 2026
+ 16:47:00 -0700 (PDT)
+MIME-Version: 1.0
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Thu, 12 Mar 2026 16:46:48 -0700
+X-Gm-Features: AaiRm51D_voaJ1wVoFtot9MWHkoo7RktIO_wf4lHVxeAZG9KoJVsr4rhfWHlXrI
+Message-ID: <CADfgfoZzWdveZE7D7OnGztj8gyH-bQ=2F__jSdf_sSM_j2nrQw@mail.gmail.com>
+Subject: [PATCH] yocto-uninative: Update to 5.1 for glibc 2.43
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 23:24:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233012
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 23:47:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233013
 
-On Wed Mar 11, 2026 at 8:27 PM CET, Yoann Congal wrote:
-> Please review this set of changes for whinlatter and have comments back b=
-y
-> end of day Friday, March 13.
->
-> Passed a-full on autobuilder:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3380
->
-> The following changes since commit 96d653f64e6eaa919dd1f62193a5a96f43430d=
-c4:
->
->   build-appliance-image: Update to whinlatter head revisions (2026-03-10 =
-11:53:11 +0000)
->
-> are available in the Git repository at:
->
->   https://git.openembedded.org/openembedded-core-contrib stable/whinlatte=
-r-nut
->   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
-whinlatter-nut
->
-> for you to fetch changes up to b37db2db1a03c856f7b4cc94e70b7e6c1ef437b5:
->
->   lsb.py: strip ' from os-release file (2026-03-11 01:09:19 +0100)
+yocto-uninative: Update to 5.1 for glibc 2.43
 
-I plan to also add to this merge: [whinlatter][PATCH] scripts/install-build=
-tools: Update to 5.3.2
-https://lore.kernel.org/openembedded-core/20260312231730.751467-1-yoann.con=
-gal@smile.fr/T/#u
->
-> ----------------------------------------------------------------
->
-> Livin Sunny (1):
->   busybox: Fixes CVE-2025-60876
->
-> Martin Jansa (1):
->   lsb.py: strip ' from os-release file
->
-> Peter Marko (3):
->   inetutils: patch CVE-2026-28372
->   libpam: set status for CVE-2024-10041
->   go: upgrade 1.25.7 -> 1.25.8
->
-> Vijay Anusuri (1):
->   freetype: Fix CVE-2026-23865
->
->  meta/lib/oe/lsb.py                            |  2 +-
->  .../inetutils/inetutils/CVE-2026-28372.patch  | 86 +++++++++++++++++++
->  .../inetutils/inetutils_2.6.bb                |  1 +
->  .../busybox/busybox/CVE-2025-60876.patch      | 42 +++++++++
->  meta/recipes-core/busybox/busybox_1.37.0.bb   |  1 +
->  .../go/{go-1.25.7.inc =3D> go-1.25.8.inc}       |  2 +-
->  ...e_1.25.7.bb =3D> go-binary-native_1.25.8.bb} |  6 +-
->  ..._1.25.7.bb =3D> go-cross-canadian_1.25.8.bb} |  0
->  ...{go-cross_1.25.7.bb =3D> go-cross_1.25.8.bb} |  0
->  ...osssdk_1.25.7.bb =3D> go-crosssdk_1.25.8.bb} |  0
->  ...runtime_1.25.7.bb =3D> go-runtime_1.25.8.bb} |  0
->  .../go/{go_1.25.7.bb =3D> go_1.25.8.bb}         |  0
->  meta/recipes-extended/pam/libpam_1.7.1.bb     |  2 +
->  .../freetype/freetype/CVE-2026-23865.patch    | 54 ++++++++++++
->  .../freetype/freetype_2.13.3.bb               |  4 +-
->  15 files changed, 194 insertions(+), 6 deletions(-)
->  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-202=
-6-28372.patch
->  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-60876.patc=
-h
->  rename meta/recipes-devtools/go/{go-1.25.7.inc =3D> go-1.25.8.inc} (91%)
->  rename meta/recipes-devtools/go/{go-binary-native_1.25.7.bb =3D> go-bina=
-ry-native_1.25.8.bb} (79%)
->  rename meta/recipes-devtools/go/{go-cross-canadian_1.25.7.bb =3D> go-cro=
-ss-canadian_1.25.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go-cross_1.25.7.bb =3D> go-cross_1.25.8=
-.bb} (100%)
->  rename meta/recipes-devtools/go/{go-crosssdk_1.25.7.bb =3D> go-crosssdk_=
-1.25.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go-runtime_1.25.7.bb =3D> go-runtime_1.=
-25.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go_1.25.7.bb =3D> go_1.25.8.bb} (100%)
->  create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2026-2386=
-5.patch
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+---
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/meta/conf/distro/include/yocto-uninative.inc
+b/meta/conf/distro/include/yocto-uninative.inc
+index e9dc6c8640..d97c96f631 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
+
+-UNINATIVE_MAXGLIBCVERSION = "2.42"
+-UNINATIVE_VERSION = "5.0"
++UNINATIVE_MAXGLIBCVERSION = "2.43"
++UNINATIVE_VERSION = "5.1"
+
+ UNINATIVE_URL ?=
+"http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?=
+"a25f2174d0cefcb22af005e9bc72ac01ae83b011c5b6d6d5bf00dac979877f76"
+-UNINATIVE_CHECKSUM[i686] ?=
+"959cc2539b692f9b9862825c7324a0fe4d061fca742f6c259f67f581c59af956"
+-UNINATIVE_CHECKSUM[x86_64] ?=
+"96045e8b1e242c8a849426a8506c7043f354b39f2bc0035192780e8205e23e9d"
++UNINATIVE_CHECKSUM[aarch64] ?=
+"4166237a9dabd222dcb9627a9435dffd756764fabf76ed7ef2e93dc2964567ad"
++UNINATIVE_CHECKSUM[i686] ?=
+"761502cc9aef4d54d0c6fe9418beb9fdd2c6220da6f2b04128c89f47902ab9ae"
++UNINATIVE_CHECKSUM[x86_64] ?=
+"2b63a078c26535e0786e87f81ae69509df30f4dce40693004c527bd5e4ab2b85"
+-- 
+2.53.0
 
 
---=20
-Yoann Congal
-Smile ECS
-
+-- 
+Michael Halstead
+Linux Foundation / Yocto Project
+Staff IT Engineer
 
