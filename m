@@ -1,216 +1,166 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B867E106ACCD
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 16:44:13 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.257.1773333849958229103
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 101DA106ACD6
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 17:50:51 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.716.1773337842289322780
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 09:44:10 -0700
+ Thu, 12 Mar 2026 10:50:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dXLODfER;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7991d890ebbso12974477b3.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 09:44:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773333849; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DDqRh+lwSwjvCuQISOZfVjfTCRXaBXId/KLVwO1YyCKnaJqYbx8uR+7+VUnBafEDEJ
-         uajZ1wo8gS4RGcqn8Rbki+YDC8kNcicOP8/HI0mc4tdPBSvmhsyToUrQJ3Y1LH2FX/FM
-         LEu95W3lmLB4aDQwe3ksuOIvYp92GlGQ8796pE8YpdPrgICTtKh6dlM0Gd0dvb3unlaC
-         Ovl0T2UdjvNK7f5CTAiAK6NGv5JdqjXQypOo/pF90EWroEt0wRdNLS+cJ6yA+ToIX8O+
-         ow/TrRh4zFHesY1vu1v8x3v9+rZ96ZsJnXvo+smDIULXf73v0UjIoD/NHKtwelLucsZ+
-         uOnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ruFpro2UljXMX4SX00fWHJmI/AlyI00umJYcK2lOUPo=;
-        fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
-        b=Vrygz6MpVpwTGr1EzwS6zUJfMqYSG6i7MjHO6E4jH38K7f6SANew3ZgC5N4mzzyRay
-         v1JXeMwsXseLymbOdVl6vMEXC6LdZhM7vNWeWHzRtJB05spi2jAG5aA+hfdwW+vqTfA5
-         xtW1My6rt7WpF2dVxD01+mIVBEPFR+MvhKMONxVanV8GX6EFfQ/EWqDUMFvBuX31kHAu
-         L4xZKsqf6IXSVSbUuDfaqK78Y2QreO6BMCsX8VzL+Adb63t+pGO0GelXPXdSyQ45g4oO
-         ujmOZ9KWuPfSqiJGmI8NBDFitV8AMQ85/73hT2C2ldbu117+7sN2i8FKgHPiFhjNZBtm
-         f0RQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Avqrb30z;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48541edecf9so13656285e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 10:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773333849; x=1773938649; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ruFpro2UljXMX4SX00fWHJmI/AlyI00umJYcK2lOUPo=;
-        b=dXLODfERovzIepyBbzk93rwvBfYcZRIHKSPSi5TNJ2//x0VifqxrkBBl0a7Gxgmfpl
-         lUQ3GafYgfL+De/R0gD7rsG6TFpOiUXBlWPDRIx4uz22FR6Hqxz959uIT7b08ipCLjrw
-         9eefMXNy80+vy1WDCRwETBv6IPolUlJOEwzo/iv6spZMxRUwBGTbwDddVjQSNyAU/qa8
-         zMIDqtC4ECvjXjLsNlHERFs5jM8F+Sjh+yWcRI974ZqfbLRl2qGo3XvYl8pVukgN+slu
-         G74ap20rXyE3NE58cNzt+/2443nqs1wYBKfRiZsTeLri/DExzuDe93PQ/JNsiiy1t7eM
-         yPjA==
+        d=linuxfoundation.org; s=google; t=1773337840; x=1773942640; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Q9vvdbJ73p9FVDseUga/gxBWIYtclNC7jqzpUHzzxF4=;
+        b=Avqrb30z7u6W+GX1jRSqKrjdnqFyVHHj3WJV3SAL0FDubO43mnefwGQLQBYsppbGCc
+         5uKR3eF4pGdnAIe37sCPDLXDI6WiMid5snMLnOGWJHnW2bZRbgrI/zQoIGu6PFDxRXsa
+         nCgUnbdn/d3Ep6tm5w5cMTEEoz/rid/lmc+qI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773333849; x=1773938649;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ruFpro2UljXMX4SX00fWHJmI/AlyI00umJYcK2lOUPo=;
-        b=o9eHA+jt4fhFPYbMQ7vdHCA68oQU3rP9BesFyohcPXDYeiuLZljvAtdC/bR8cxDR/Z
-         Sg4xjVaIq2JDpVl6zpi6jR1vpbZeo4Nhx2GYwPGA/3KWveZSfka25d2tdk8x7dCFoMi+
-         gSY5x2PiWx2uQVm3e/+3fij26mjzNTnJw/YpFSD41CSfpdeZ1nv7biDtK+acmjI4XUjA
-         rpKwoerKHmG0swfH5LUynOtBm7tzarp3fBRGZkOzz+vFfC6LwTZYlk1L3VpKx5OwzU1B
-         0BR2oKaiJsDm7EwfdCps+qRLr/66Fiywmvg2uxCoWNA34zj6/G9E2REOh83MDPKbpW8N
-         hNpQ==
-X-Gm-Message-State: AOJu0YxrfZv7h4DJBPI2exYZd0rSFMnwDTWgBS8uJH1EX3kz6dY7U9/a
-	swdtHRk2HoywgEVydXs3FwEc4kQyDmV7NdwPoNxW+na5Wi6W6ghVXr0pLczBxkYxf2fjAW9Fp+N
-	mCTM2xtVBxfRPGgPH6uZEpeZ73IeG2U0=
-X-Gm-Gg: ATEYQzxXZ7lytP5PIZ8lhBs2+RAHXlmT2p5w6URSktoD4pLyO02gBnZCqWD/csUdCKa
-	jkfl10Bzz+1GxxRZabZ8yW4FsJvDUqSYuhO+dkg0KAroJozadoWWQdEgNYD7BOiQJnZYKEqpbqx
-	SRjkm45xRxK1F9y3rcelvtehMJ3kt0w2T0mmRzLGQJlyYF0VkuX8JhDKP99csRzMuN32xEhju/0
-	zPuybz42vwrDM9cFelKtnc8gnI3G7zkSSm5M7oSURX8Lw/Rx9DM+N9hXWwqL3q+ZKxLImC2rabw
-	oG8JjAaJNiUKkGxA/ru0uX5m/VYr1jwR
-X-Received: by 2002:a05:690c:3388:b0:794:cf56:5bc2 with SMTP id
- 00721157ae682-79a1c23cefbmr2317457b3.59.1773333848903; Thu, 12 Mar 2026
- 09:44:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
- <20260310184058.533343-1-JPEWhacker@gmail.com> <20260310184058.533343-11-JPEWhacker@gmail.com>
- <a437698a4d24a835440e282d0d744f5b3ff669a3.camel@linuxfoundation.org>
- <CAJdd5GYvTS71yZ7OfgH3d2Ouam8H-2y4hZmgJurLXC9t3CA9fg@mail.gmail.com>
- <c46dca246219768d5ecc515b904fbfc6053feab7.camel@linuxfoundation.org> <CAJdd5Gaz02WEo4a=OVVsFCRr7am5t30Nfv5Hd1L8+yX3gZboog@mail.gmail.com>
-In-Reply-To: <CAJdd5Gaz02WEo4a=OVVsFCRr7am5t30Nfv5Hd1L8+yX3gZboog@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 12 Mar 2026 10:43:57 -0600
-X-Gm-Features: AaiRm53Qk377YP0goUHUrteYWifOXS7BjBv-rtf7kXhukxsG5dwNEeR78LKjhgE
-Message-ID: <CAJdd5GbybqHSHR461E+KB81Z89xfSq2jb+bEOUG=33JhCrN=3A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v6 10/15] dummy-sdk-package: Disable SPDX
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1773337840; x=1773942640;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q9vvdbJ73p9FVDseUga/gxBWIYtclNC7jqzpUHzzxF4=;
+        b=kRgqIyEgZtOXqqmiyiGj/z7odHbDbBRypP9wKOMrFA0+NwvdESaL8Lkes36eZaClKU
+         y6QTbKR2dtVHdlSVZrltDzZVV/iFb+e3coYNDM+d9TUyluuMdYqEt+hw/bxypX6lWUxW
+         Opmv2AIXIVR7zFeE4wRn7a1jc3Y8jpHIxcul75d16Xr+y1e0uICGxfE3d6QaD9yXfITT
+         sonSTtUOKYzyt5s89PX23fAKk/jH+MjBQXbRguetdCGKaJi+tCxo9E2XevFx9v7krFEo
+         pS8L918nVLpyVlzK16QOQXH7Ol+kYwCfpMnI6/1grH/Q/z1uqwlxJYtLZRkEI+yzq0qa
+         wESw==
+X-Gm-Message-State: AOJu0Yy38Nh9NJBDlKc0meJoPgXBCoi67ITezFWOyfud9fq7iVNc6H72
+	3ARXBFyaLZWIDuPpJ2RAlK6BBd7OCXstwxTaX9bg+ooIX5c9kN7FgaR5GJDSzWhBc3Y=
+X-Gm-Gg: ATEYQzxFHMrMPWrTRT4BAYqlRMSjSftJdC0jx0WxGXsB4fUF/S7TtacUFHLukOe8Et6
+	iLNR4YUtSJit+w/DYNGchQtbYjpKGeVhRaDXzbj1+5fOH6IfI14aZUGtxJr7Uq7xi19ae5T2dnN
+	bOiu2RjNJK5SMuS4iJJTB/YsGcNmBsL2jfRDlI3zgLoC917eioc3D/Sy3lg3VYVrFhTL0FdrYzT
+	woXuZVHp5Nhr4x+4UNqWs4bMRHXq7KBtaHk1iAzPhlZQGwz0b4LD8UgGODDv3K50IEDxGzTBtyP
+	jxayso6mqBHGAYYb+vwGSaVCDAEKeY+OogypKMhTzB1Ds7CjBoOp3MKrPrQK1v7RVPsATbv1zPp
+	g7xpXS+G0YczjxtNh8kjKJ/gpPhkChMvEXR6hrVSHXjLA2r8QDIKzxhbnqU2a+J03LMh0KB2rPy
+	KjWjH3UvVASSqc1NLinef33BxykODaTl6RIIvGtjUU2iw/m/NZLIKOGcNoozPKwx7aHh3empl7I
+	BTqlzCQvLgj
+X-Received: by 2002:a05:600c:83c4:b0:485:304a:58cd with SMTP id 5b1f17b1804b1-485566c6a4emr3850765e9.4.1773337840390;
+        Thu, 12 Mar 2026 10:50:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:215f:5162:d0b:8f1d? ([2001:8b0:aba:5f3c:215f:5162:d0b:8f1d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe19aec5sm9753020f8f.4.2026.03.12.10.50.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2026 10:50:39 -0700 (PDT)
+Message-ID: <b2673fea76933ed50c4d7584fcf3a289a7a15ebd.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v6 03/15] spdx3: Add recipe SPDX data
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Mar 2026 17:50:38 +0000
+In-Reply-To: <CAJdd5Gbe4cKH3n7Fn3kEBnWwuqvS4wAUvpr=FbvH+ertLu_cQg@mail.gmail.com>
+References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
+	 <20260310184058.533343-1-JPEWhacker@gmail.com>
+	 <20260310184058.533343-4-JPEWhacker@gmail.com>
+	 <4e4dd4ef32301e4510d66b7504c2e207b3e883e7.camel@linuxfoundation.org>
+	 <CAJdd5Gbe4cKH3n7Fn3kEBnWwuqvS4wAUvpr=FbvH+ertLu_cQg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:44:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232997
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 17:50:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232998
 
-On Thu, Mar 12, 2026 at 10:06=E2=80=AFAM Joshua Watt <jpewhacker@gmail.com>=
- wrote:
->
-> On Thu, Mar 12, 2026 at 9:58=E2=80=AFAM Richard Purdie
+On Thu, 2026-03-12 at 08:11 -0600, Joshua Watt wrote:
+> On Thu, Mar 12, 2026 at 5:43=E2=80=AFAM Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Thu, 2026-03-12 at 08:24 -0600, Joshua Watt wrote:
-> > > On Thu, Mar 12, 2026 at 5:59=E2=80=AFAM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >
-> > > > On Tue, 2026-03-10 at 12:38 -0600, Joshua Watt via lists.openembedd=
-ed.org wrote:
-> > > > > The dummy SDK packages do not need SPDX support, and since they p=
-lay
-> > > > > some games with allarch that cause problems, it's simplest to dis=
-able
-> > > > > their SPDX output.
-> > > > >
-> > > > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > > > ---
-> > > > >  meta/recipes-core/meta/dummy-sdk-package.inc | 1 +
-> > > > >  1 file changed, 1 insertion(+)
-> > > > >
-> > > > > diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/=
-recipes-core/meta/dummy-sdk-package.inc
-> > > > > index bf453cac9b..71e788b0b9 100644
-> > > > > --- a/meta/recipes-core/meta/dummy-sdk-package.inc
-> > > > > +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
-> > > > > @@ -4,6 +4,7 @@ LICENSE =3D "MIT"
-> > > > >  PACKAGE_ARCH =3D "all"
-> > > > >
-> > > > >  inherit allarch
-> > > > > +inherit nospdx
-> > > > >
-> > > > >  INHIBIT_DEFAULT_DEPS =3D "1"
-> > > >
-> > > > I know why you did this, but after thinking about this, I'm worried=
- and
-> > > > I'm not sure this is the right move.
-> > > >
-> > > > The SDK dummy packages are "odd" but they are actual package files =
-that
-> > > > are generated and would be present in manifests and as such, if the=
-y're
-> > > > missing from the SPDX manifests and docs, this is going to raise
-> > > > questions. I appreciate they don't have content and their main use =
-is
-> > > > their 'provides'.
-> > > >
-> > > > Taking a step back, we do support generic/multiple levels of packag=
-e
-> > > > arch and since we support that, the SPDX code does need to handle t=
-hat
-> > > > too. I'm therefore starting to worry that SPDX can't cope with the
-> > > > multiple package levels. Can you remind me what the issue is with t=
-he
-> > > > "all" arch here?
-> > >
-> > > The problem is specifically the anonymous python that does:
-> > >
-> > >     d.setVar('PACKAGE_ARCH', '${DUMMYARCH}')
-> > >
-> > > Which seems specifically intended to bypass the allarch logic in a
-> > > weird way. It's specifically doing this to put the package in a place
-> > > no-one can find it (this includes SPDX); I didn't think it provided
-> > > much value hence disabling it, but looking closer, I think we can do:
-> > >
-> > > SSTATE_MULTILIB_SSTATE_ARCHS:append =3D " ${SDK_PACKAGE_ARCH}"
-> > >
-> > > in create-spdx-sdk-3.0.bbclass and that should fix it. I'll try it.
-> >
-> > That code was to put these packages into their own separate feed.
-> > Specifically:
-> >
-> > meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb:DUMMYARCH =3D=
- "buildtools-dummy-${SDKPKGSUFFIX}"
-> > meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb:DUMMYARCH =3D "s=
-dk-provides-dummy-${SDKPKGSUFFIX}"
-> > meta/recipes-core/meta/dummy-sdk-package.inc:    d.setVar('PACKAGE_ARCH=
-', '${DUMMYARCH}')
-> > meta/recipes-core/meta/target-sdk-provides-dummy.bb:DUMMYARCH =3D "sdk-=
-provides-dummy-target"
-> >
-> > so there are separate package feeds being created and then the SDK code
-> > can select which package feeds it wants to use for a given
-> > configuration/recipe.
-> >
-> > That isn't to bypass allarch but just to customise the end package feed
-> > naming and allow different forms of SDK to be built by bringing in the
-> > different package combinations.
-> >
-> > My worry is that the SPDX code isn't going to handle the scenario where
-> > PACKAGE_ARCH is changed (for example for a specialist graphics stack)
-> > and that one of our general features will be lost.
->
-> Right, SPDX is (supposed) to do whatever sstate does, so if it works
-> for sstate it works for SPDX. The problem isn't that this code does
-> the arch changing (specifically), it's that it changes the arch to an
-> arbitrary one that isn't part of the normal package search order (on
-> purpose), and then expects everyone to manually add in that arch when
-> they need the package (which, SPDX was _not_ doing but all of the
-> other SDK code obviously is). I think my proposed fix is thus correct
-> and I will test it which should cover this corner case.
->
-> In general, I think most packages are handled correctly because again,
-> SPDX does whatever sstate does, and SPDX even respects SSTATE_ARCHS
-> which is how I think other recipes would deal with a similar
-> situation. However, the SDKs are different specifically because they
-> expect SDK_PACKAGE_ARCH to be respected by anything dealing with the
-> sdk generation code, which is what was missing in SPDX.
+> >=20
+> > On Tue, 2026-03-10 at 12:38 -0600, Joshua Watt via lists.openembedded.o=
+rg wrote:
+> > > Adds a new package to the SPDX output that represents the recipe data
+> > > for a given recipe. Importantly, this data contains only things that =
+can
+> > > be determined statically from only the recipe, so it doesn't require
+> > > fetching or building anything. This means that build time dependencie=
+s
+> > > and CVE information for recipes can be analyzed without needing to
+> > > actually do any builds.
+> > >=20
+> > > Sadly, license data cannot be included because NO_GENERIC_LICENSE mea=
+ns
+> > > that actual license text might only be available after do_fetch
+> >=20
+> > We talked about these patches on the review call. I'm a bit worried
+> > about the direction we're going from a few angles.
+> >=20
+> > The general theme is the complexity and increasingly seemingly tangled
+> > web we seem to be weaving and whether we're going to end up in a good
+> > place.
+> >=20
+> > Taking NO_GENERIC_LICENSE specifically, it may be we should mandate
+> > that such licenses are copied into the metadata, then we solve the
+> > license data problem that way? That would simplify some of the problems
+> > we're facing and reduce some set of the corner cases.
+> >=20
+> > This patch adds a new task into the task graph and I'm getting a bit
+> > worried about the number of them the SPDX class is adding. I appreciate
+> > there is a later patch removing one, which is nice though :)
+>=20
+> With the removal of the vestigial task in this patch series, the task
+> graph for SPDX is:
+>=20
+> do_create_recipe_spdx - > "static" information we can determine about
+> the recipe just from the metadata (no fetching, compiling, etc.)
+>=20
+> do_create_spdx -> Information about what we built and how we built it.
+> We obviously have to build to figure this part out (the definition of
+> this didn't change in this patch series; it should really be called
+> do_create_build_spdx, but it inherited the name from the SPDX 2 code,
+> so I don't want to change it)
+>=20
+> do_create_runtime_spdx -> Information about runtime packages. This has
+> to be a separate task because while the build graph is a DAG, the
+> runtime graph is not. The definition of this didn't change in this
+> patch series.
 
-Hang on, I think I'm getting this confused with a different problem.....
+I'm not entirely sure why we couldn't collect both sets of information
+in one go in the same task, maybe inspecting BB_TASKDEPS instead of the
+tasks actual dependencies but that is getting distracted into other
+issues I guess.
 
->
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> >
+> Various SBoM assembly tasks: These are the tasks that take the
+> individual SPDX files generated by the tasks above and link them into
+> a complete document that ends up in DEPLOY_DIR. They are all
+> identified by having "sbom" in the name (do_create_image_sbom_spdx)
+>=20
+>=20
+> > So, for this patch, could we just drop NO_GENERIC_LICENSE and how much
+> > code complexity improvement does that buy us?
+>=20
+> I'm not clear what you mean by this. I'm not including any additional
+> License information, because we don't have it. I didn't change any
+> license handling in the SPDX code, and I didn't add any more, so if
+> you're talking about simplifying the SPDX code by dropping
+> NO_GENERIC_LICENSE, it gains you nothing here specifically.
+>=20
+> It might be nice to improve NO_GENERIC_LICENSE in general, but I don't
+> think we can do that for 6.0. If we do that later, we might be able to
+> add license information to the "recipe" level SPDX data.
+>=20
+> The comment in the commit messages was probably more of a gripe than
+> useful information (It feels like we _should_ be able to get license
+> data statically, but we can't). I'll just remove it.
+
+Ok, fair enough. I was more thinking that we could fix things so we
+could get that information. I think I was getting confused and thinking
+you were getting partial information.
+
+We should perhaps separate out the NO_GENERIC_LICENSE issue into a
+separate bug/issue to work on.
+
+Cheers,
+
+Richard
+
 
