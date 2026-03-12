@@ -2,63 +2,63 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F620106705C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A438A106705E
 	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 15:39:03 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24664.1773329937720964021
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24811.1773329939135434886
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 08:38:58 -0700
+ Thu, 12 Mar 2026 08:38:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nChQGFYo;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439aeed8a5bso1247499f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 08:38:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=O0Nzflas;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439c5b40f60so1071540f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 08:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773329936; x=1773934736; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773329937; x=1773934737; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zYp17iBPaoPjczXO5fSA5dfgjKxYkDwyVIKWeVby3wk=;
-        b=nChQGFYoU1itVl3Xk2Up6BBydMlbSeoyHmu8MZrFXSVT7KmEaVjAzdoq91gog6JoGw
-         pqR0cKUmXERLZ6QZHK1orEoVIDvKMYzYFnqUJHNVYu62B83fwbVhw29WM171j11MqY8G
-         SvLBerRLMo90g+JJS5ah1Suc+t8fjBpQVGRyeUe6xU35ayN+VHNTufQX1scKt3vW7oJ/
-         oXq20XQ572wYQ2rM0wQ8YSMk5fBFcLXhqjm5NWV+iIfuVAIyG0DQJILhDdoJFQ6NZWwd
-         GAugMQFmrlAVJnUJtf+M3eFGGkQUCLkjJQ4AiGpAVjxwiOcrL0SAADJMxRI2dgwiLNiB
-         IoKA==
+        bh=F2ST2hgit7R7JDdz4yfdMgwx/zS66swVCh9Bow1twfw=;
+        b=O0NzflasT8k8A20ZZ+jzVuURrUceYKoNjPV/wOKsxojCyhhXULmc/rKIcAGQ+22b8h
+         QEJTaKJtmaxVnot1VIf2yCKWfX8AHpM7+Nwlv+4T3+1QZ2Wbd1NMjttyGjjViwunp0q6
+         G2srOZx+vyuAusZIIoTsReS0FF0DDOndjyuXuaRwsDMdBgf5bUN1hEH7FfvAgfEgEx+Y
+         obnLkiUx4OE2zWRnOcg9Ljb4hfNvoqiUrfbjMGOgDYUmw9zXJj4ztqFyNVf1kna0wVrH
+         HjTF2VhO3Hyj2x3u+VnEZLCwkKvdXRJWMF901cC3CzFPgBAA+BtI0lnPVJTleTuhVIm+
+         6jfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773329936; x=1773934736;
+        d=1e100.net; s=20230601; t=1773329937; x=1773934737;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zYp17iBPaoPjczXO5fSA5dfgjKxYkDwyVIKWeVby3wk=;
-        b=JI53KridVrSPp28PfhiQVdlB8SnTom1KGzr/pPAczPiFiTdWfuOTiudCHw2lFvAP5/
-         ifxJwCRoJq4Kun02lE8MDSUr8fpbj/jSKjTihw9RtMCZRoQ9UViT/sMyIp2/0eGX4kek
-         xvqjTVMQHeLSD1hpPTdAQwr25iTh/W6xcNRp65U+k+Eh+VODaRxEBlGHYRVEByahrvE4
-         /u5ImCZzRyl0xjzQoFQNc7T+pchpT1frVbk0uSgrMA/5UO6QIiYf3DcQiMKvFTOFr/WJ
-         B7GSGzElB7yadG53nOyvKLtIciWJ4RiRuOAbP7dZSXdyIuG9ZWBXx0kdmiHKcc0x7e+j
-         ZCrg==
-X-Gm-Message-State: AOJu0YzZvAynY+5OXFrXcxBEF+amQiC2O7YWvCjDjp2J4TJAVjhZy4lV
-	m58BZ6XMgIupYdPgYi+f3VQ9NXOx+M5NZXfp7YApIwX70v8gIZ3G9tKSqaQ6uA==
-X-Gm-Gg: ATEYQzy4PpziG2sLnFgt2PWXFxEBUGtaTKpmqpMVe7YWGomBPYyiQUb3uiPC8xe9Jof
-	6LI2M92ErRkOlrp+o354Gt0+aGKuvUldcLfgtsIe4IRWvsumCqTl+9itC50LFH4PpLfYjPvmGUo
-	2gQYnqldKE/QrzkZRfUWEFEfuUgfPvJwFRgfoD8K5PB/LWLT1DE8I+EbhrdZaFu/K1Kj9kDqqX8
-	4Ouq1ezr2Ph48rWuejbTNCtaefEArSL9xEMLC/ltVGjguSIg93bLkmBc/0VXya5G0+Mk7gJ77KB
-	m37Vm5BWxFA9Yacqj0DdyvXHUeby2VJ0tQI8jJJa+p/KLQPYcj77qnV9IJlzxnb5tfPkZPH8AVv
-	gKmww+CVMlqdsf+CARRG3c5dlvdWbm6yTWcvohcq4W7FmIo+6etUbV7qQVTH5IhMHyeFdm1Q4oo
-	GsG9iohmsgphr87vntOw5+ZgNeyhy19qlN9bw=
-X-Received: by 2002:a05:600c:46d2:b0:485:38fc:7080 with SMTP id 5b1f17b1804b1-4854b10ef23mr107245975e9.28.1773329935404;
-        Thu, 12 Mar 2026 08:38:55 -0700 (PDT)
+        bh=F2ST2hgit7R7JDdz4yfdMgwx/zS66swVCh9Bow1twfw=;
+        b=N1e+yXqCt+kVQZahEcHpM0+AkrOi9503uvpCFU0YV7e4VWf8IbmU2sp0YePESkJmzE
+         2T4wNYzIOINOnqy7G8tsRM7GDCmpziNJ+npwfYGzjLgIAhaq7aeeWrhFZVHvQ3jU/slq
+         vWRYcUvORrLz+5DjSrze4ZljW3cNpVXyIy31nuIA9GPECUrXIceIRH6Zxxmc+Vc5DUiw
+         KQY6v9/ioB9zrUrmsIvWvuQtzFtYJV9pclnqGwS2d0LKC+hCjGpGLpcZTeGVz04BIKux
+         v67kBVcEorvH45ElnJBtCqNvnduFiI7A4P5xuTdnwitMNe50zLxp4ZKp+C+ybudWL++u
+         3JhA==
+X-Gm-Message-State: AOJu0Ywt8rvqUfYKLjXFMohuIerAS4XkRs+IRI6Soz/x9xrT2vBbo3N9
+	a5oRXKrItm4wSqAI9zS6FzuGi3ZUJiNDwlARxvvU7rpLa7LS0Q0XRjlmJqjQLg==
+X-Gm-Gg: ATEYQzzHd0HpOkoEbOlkBnEFsP/LBxfl7oqOhhx7x5lg1Uf/aa4/yIezCKYfIe3c1UV
+	Y60hFi5Sp6z1otLHAPdhQfuhiRqw8q9NdHVM2UDvvM3MmQFMM4zcYlE6rYpwCDQ9xjWbmyPDolQ
+	Q4IDlkp/HI23Vb712kDcFk8w/3LDYCpUxLZmthKVQWuD/mZuCx7wwXoldST99/7OxovIpKI8lbb
+	W8qZfyjHBKFUpigFYfGGuw4tfyaIn88zT8LaA9jND9g55rssMn1FmkduxwnZWcrcZscecmEVFX0
+	MLS9alkqvN/BM9w7Bo1ToTc+NlfmxdfGDoTbpflrVwjGnl2BKEDAT7o7zMuXdO6BHa/tRFL3JPf
+	ihbUcMkWgTi/I3sNFOiaXZFdY7KOk3DxFqNQVfqL47TqVXFe7auQhZx1rKfRbcG1C2rTGcGmNdB
+	+bzA4x9oj6UYjr2p9fYE7OHcy3c7OJh0kxY5k=
+X-Received: by 2002:a05:600c:3106:b0:485:39d1:b500 with SMTP id 5b1f17b1804b1-4854b10576cmr141380595e9.16.1773329936769;
+        Thu, 12 Mar 2026 08:38:56 -0700 (PDT)
 Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0dcf2asm74857385e9.8.2026.03.12.08.38.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0dcf2asm74857385e9.8.2026.03.12.08.38.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 08:38:54 -0700 (PDT)
+        Thu, 12 Mar 2026 08:38:55 -0700 (PDT)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
 	Stefano Tondo <stefano.tondo.ext@siemens.com>
-Subject: [OE-core][PATCH v9 5/7] oeqa/selftest: Add tests for source download enrichment
-Date: Thu, 12 Mar 2026 16:38:43 +0100
-Message-ID: <20260312153845.164369-6-stondo@gmail.com>
+Subject: [OE-core][PATCH v9 6/7] cve_check: Escape special characters in CPE 2.3 strings
+Date: Thu, 12 Mar 2026 16:38:44 +0100
+Message-ID: <20260312153845.164369-7-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260312153845.164369-1-stondo@gmail.com>
 References: <20260309132854.128375-1-stondo@gmail.com>
@@ -69,115 +69,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 15:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232978
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232979
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Add two new SPDX 3.0 selftest cases:
+CPE 2.3 formatted string binding (cpe:2.3:...) requires
+backslash escaping for special meta-characters per NISTIR 7695.
+Characters like '++' and ':' in product names must be escaped.
 
-test_download_location_defensive_handling:
-  Verifies SPDX generation succeeds for recipes with tarball sources
-  and that external references are properly structured (ExternalRef
-  locator is a list of strings per SPDX 3.0 spec).
+The CPE 2.3 specification defines two bindings:
+- URI binding (cpe:/...) uses percent-encoding
+- Formatted string (cpe:2.3:...) uses backslash escaping
 
-test_version_extraction_patterns:
-  Verifies that version extraction works correctly and all source
-  packages have proper version strings containing digits.
+Escape the required meta-characters with backslash:
+- Backslash (\\) -> \\
+- Question mark (?) -> \?
+- Asterisk (*) -> \*
+- Colon (:) -> \:
+- Plus (+) -> \+
 
-These tests validate the source download enrichment added in the
-previous commit.
+All other characters are kept as-is without encoding.
+
+Example CPE identifiers:
+- cpe:2.3:*:*:crow:1.0\+x:*:*:*:*:*:*:*
+- cpe:2.3:*:*:sdbus-c\+\+:2.2.1:*:*:*:*:*:*:*
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/spdx.py | 71 +++++++++++++++++++++++++++-
- 1 file changed, 70 insertions(+), 1 deletion(-)
+ meta/lib/oe/cve_check.py | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 41ef52fce1..859667dd6b 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -392,7 +392,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-     def test_packageconfig_spdx(self):
-         objset = self.check_recipe_spdx(
-             "tar",
--            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-tar.spdx.json",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/build-tar.spdx.json",
-             extraconf="""\
-                 SPDX_INCLUDE_PACKAGECONFIG = "1"
-                 """,
-@@ -414,3 +414,72 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-                 value, ["enabled", "disabled"],
-                 f"Unexpected PACKAGECONFIG value '{value}' for {key}"
-             )
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index ae194f27cf..6555743514 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -205,6 +205,35 @@ def get_patched_cves(d):
+     return patched_cves
+ 
+ 
++def cpe_escape(value):
++    r"""
++    Escape special characters for CPE 2.3 formatted string binding.
 +
-+    def test_download_location_defensive_handling(self):
-+        """Test that download_location handling is defensive.
++    CPE 2.3 formatted string binding (cpe:2.3:...) uses backslash escaping
++    for special meta-characters, NOT percent-encoding. Percent-encoding is
++    only used in the URI binding (cpe:/...).
 +
-+        Verifies SPDX generation succeeds and external references are
-+        properly structured when download_location retrieval works.
-+        """
-+        objset = self.check_recipe_spdx(
-+            "m4",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/build-m4.spdx.json",
++    According to NISTIR 7695, these characters need escaping:
++    - Backslash (\) -> \\
++    - Question mark (?) -> \?
++    - Asterisk (*) -> \*
++    - Colon (:) -> \:
++    - Plus (+) -> \+ (required by some SBOM validators)
++    """
++    if not value:
++        return value
++
++    # Escape special meta-characters for CPE 2.3 formatted string binding
++    # Order matters: escape backslash first to avoid double-escaping
++    result = value.replace('\\', '\\\\')
++    result = result.replace('?', '\\?')
++    result = result.replace('*', '\\*')
++    result = result.replace(':', '\\:')
++    result = result.replace('+', '\\+')
++
++    return result
++
++
+ def get_cpe_ids(cve_product, version):
+     """
+     Get list of CPE identifiers for the given product and version
+@@ -221,7 +250,14 @@ def get_cpe_ids(cve_product, version):
+         else:
+             vendor = "*"
+ 
+-        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
++        # Encode special characters per CPE 2.3 specification
++        encoded_vendor = cpe_escape(vendor) if vendor != "*" else vendor
++        encoded_product = cpe_escape(product)
++        encoded_version = cpe_escape(version)
++
++        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(
++            encoded_vendor, encoded_product, encoded_version
 +        )
-+
-+        found_external_refs = False
-+        for pkg in objset.foreach_type(oe.spdx30.software_Package):
-+            if pkg.externalRef:
-+                found_external_refs = True
-+                for ref in pkg.externalRef:
-+                    self.assertIsNotNone(ref.externalRefType)
-+                    self.assertIsNotNone(ref.locator)
-+                    self.assertGreater(len(ref.locator), 0, "Locator should have at least one entry")
-+                    for loc in ref.locator:
-+                        self.assertIsInstance(loc, str)
-+                break
-+
-+        self.logger.info(
-+            f"External references {'found' if found_external_refs else 'not found'} "
-+            f"in SPDX output (defensive handling verified)"
-+        )
-+
-+    def test_version_extraction_patterns(self):
-+        """Test that version extraction works for various package formats.
-+
-+        Verifies that version patterns correctly extract versions from
-+        tarball sources and that all packages have proper version strings.
-+        """
-+        objset = self.check_recipe_spdx(
-+            "tar",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/build-tar.spdx.json",
-+        )
-+
-+        # Collect all packages with versions
-+        packages_with_versions = []
-+        for pkg in objset.foreach_type(oe.spdx30.software_Package):
-+            if pkg.software_packageVersion:
-+                packages_with_versions.append((pkg.name, pkg.software_packageVersion))
-+
-+        self.assertGreater(
-+            len(packages_with_versions), 0,
-+            "Should find packages with extracted versions"
-+        )
-+
-+        self.logger.info(f"Found {len(packages_with_versions)} packages with versions")
-+
-+        # Log some examples for debugging
-+        for name, version in packages_with_versions[:5]:
-+            self.logger.info(f"  {name}: {version}")
-+
-+        # Verify that versions follow expected patterns
-+        for name, version in packages_with_versions:
-+            # Version should not be empty
-+            self.assertIsNotNone(version)
-+            self.assertNotEqual(version, "")
-+
-+            # Version should contain digits
-+            self.assertRegex(
-+                version,
-+                r'\d',
-+                f"Version '{version}' for package '{name}' should contain digits"
-+            )
+         cpe_ids.append(cpe_id)
+ 
+     return cpe_ids
 -- 
 2.53.0
 
