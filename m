@@ -1,183 +1,249 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762E1106ACF0
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 22:21:07 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2848.1773354065244785885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1006106ACF4
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 23:05:37 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3874.1773356734491661289
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 15:21:05 -0700
+ Thu, 12 Mar 2026 16:05:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lZVXfFqH;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-485345e1013so19740205e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 15:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1773354063; x=1773958863; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/b0rE/HPNT2vp2ggjuronSAdj0653i2qq0e/sISxgU0=;
-        b=lZVXfFqHbRmxLrYwNFne/YagM7m4tmFkzzo7W7jgLJU67eGGq3kbanPZIxrgeKDh7g
-         kWT+g2mU7KhQTYTlRHCzA4bsB4bXbfdag4/CMTKTC/9TfeSTT1SJTyx2tLS/fgppxIZ0
-         fiFrvrT7SCmPEqb9kfShel76nnqZIwzCkECAU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773354063; x=1773958863;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/b0rE/HPNT2vp2ggjuronSAdj0653i2qq0e/sISxgU0=;
-        b=PvO+nKmWgKS1kSgSP063+HqGhf/0u3uVhrh6RcTpz4TMltVIY8l/UAT3xZ085ziqa4
-         K1p8zyO8FvgG6WawiVtbi05pesvyMBPNXMuDl7Gk1WgggSNEWUV1u7gxczXje4orHEJu
-         ls6xRJrnkWJLnUOIlTGFbDnjUDVDeol8a31ZDVjuUO1OduKi2zJMeGuw5CmxGWPUZhT3
-         cp312HBZIrJqRPDyEjXGLpXzeEYDttqUfdG/dyOrueHHPXOWXKV26pyHf4YN1jIKk5Aq
-         WwQkgLnLJlNAIm2HB1UUzsQd7r05324BimTSlEyHeecoc5+WdOq+UeZ/QhcN7hsh+iwX
-         UJ8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWxTKKNudAmh0d4CgOFRKGTBJpinHcpv6TwR3XCnPgcTb7SSw/ZClmOzQ4xGKzHUsFLpSF30XZCPNzQuQrl7tqadA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy1HZ/eAUMDMPzC+ZgrClLyrOuKSLWlsZsqhaBUffwUKDs3GNYW
-	g8yBZ5AXXprQc3Z55eiCRu1tNrz/o8r0mZ/xbg2yc+dbXb8Kvb8u50APKR6WJ1Dma5Y=
-X-Gm-Gg: ATEYQzyFN6ABGTMZEheB4uKOMavdGMMedyV+YU6dXP/OQklCVeG4JO3i9W/VuRCChLm
-	zs8KFIsciRaZQK0xolTjj0ic+gpBASnzESc8OOOWIHTGcGEWkSKuZJOCfsEWx0nTNOA8UdgnBBu
-	/rYtizMsFybgOgCINfK2ucsB+6jP7A3EttRodAce/TQx6H72twLsn06DfEloJ4jYgxebnhWKEIn
-	X8dV76az00mYLBPtbzVlaS+ffuWGohWIcD6j9kLT3kM5OGcImGjm1qtq9GDPWPzvBUTXzjVnG5J
-	jii82Al/6plPDUPQRnInOGNhckUHI5DzBmi/ypQ7VisSLAnsjJErJtq0h9BCD+Fkx/8z9cf9zrc
-	hlNKLTvyVaekMCukNZpuApNGG6wBMUkgSzEA9kMNmycdz06DcIxk5F167gap+tGKLKYQ/8d4KaE
-	CiT7y+JyS4xEH3GEBNnrr1Y0Tc0LZVXQjNuT91d4CgLURjRoSt+WU8xfZpHaIZZ40GhDKmNjKYy
-	NkvMBgA0aB5IWnm
-X-Received: by 2002:a05:6000:2210:b0:439:5fe4:421a with SMTP id ffacd0b85a97d-439fe1aef95mr9785097f8f.30.1773354063134;
-        Thu, 12 Mar 2026 15:21:03 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a9a19e6457d4ef2f.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a9a1:9e64:57d4:ef2f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2187aasm10500342f8f.30.2026.03.12.15.21.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 15:21:02 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Mar 2026 23:21:02 +0100
-Message-Id: <DH15JTHEOBMI.IF3H1ZQR30SP@smile.fr>
-Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>,
- <paul@pbarker.dev>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>,
- <Harish.Sadineni@windriver.com>,
- <openembedded-core@lists.openembedded.org>, "Bruce Ashfield"
- <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core] [PATCH v7 01/14] linux-yocto: conditionally add
- clang/rust/bindgen-cli-native to DEPENDS
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260304174324.1186644-1-Harish.Sadineni@windriver.com>
- <20260304174324.1186644-2-Harish.Sadineni@windriver.com>
- <3cc131eb7aae470b98fdbb1bf8c3476685505d2f.camel@linuxfoundation.org>
-In-Reply-To: <3cc131eb7aae470b98fdbb1bf8c3476685505d2f.camel@linuxfoundation.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=G0JuGnDr;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260312230532a04b1fb0e800020760-wv4jwl@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260312230532a04b1fb0e800020760
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 13 Mar 2026 00:05:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=JY2e3+W1GyI802T42BMmmOeMnureB1EjQX94hoKinj0=;
+ b=G0JuGnDrKkW3BEIGLTZK05twnwBbMMDiWamCaluRXiSKHoNPGnrsAlmdH8WJaLToqWsmUq
+ yvropBSGjFB6GqvXaYY9KN0ZTDVlU9tGdZ4wkVcw95c6Le91G3FA86jmw1RUmLkXaiVw3I+0
+ GM/H+VaUSXpeJzAF5l2IAwQu4mbOZDaTX8AKg20OyeVzbUI9rwd2GiaqYSbDiyixe9d4+cEB
+ tng3CUyhuJ+z2sweZf73Bk5Yor/2i+MkMYxaCxVOyJSqgX9AqdEIPe2LrsYzrPJe/bo6MQEE
+ lKnJCCEeic68ZZZDtNn4DYAo/X5j67Ds7zYeAnLTQaTo3ydlZpuwDakg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][whinlatter][PATCH 1/4] curl: patch CVE-2026-1965
+Date: Fri, 13 Mar 2026 00:05:01 +0100
+Message-Id: <20260312230504.76461-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 22:21:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233006
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 23:05:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233007
 
-On Thu Mar 12, 2026 at 2:34 PM CET, Richard Purdie wrote:
-> On Wed, 2026-03-04 at 09:43 -0800, Sadineni, Harish via lists.openembedde=
-d.org wrote:
->> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->>=20
->> Conditionally add 'clang-native', 'rust-native' and 'bindgen-cli-native'=
- to 'DEPENDS'
->> when Kernel Rust Support is enabled.
->>=20
->> These tools are required for building Rust-enabled kernels and for
->> generating Rust FFI bindings via bindgen during the kernel build.
->>=20
->> This ensures the additional dependencies are only pulled in when
->> Rust support is explicitly enabled, avoiding unnecessary native
->> dependencies for non-Rust kernel builds.
->>=20
->> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
->> ---
->> =C2=A0meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
->> =C2=A01 file changed, 3 insertions(+)
->>=20
->> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-ke=
-rnel/linux/linux-yocto.inc
->> index 4d0a726bb6..b7961bbcdf 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->> @@ -76,11 +76,14 @@ do_install:append(){
->> =C2=A0KERNEL_FEATURES:append:qemuall =3D " features/kernel-sample/kernel=
--sample.scc"
->> =C2=A0
->> =C2=A0KERNEL_DEBUG ?=3D ""
->> +KERNEL_RUST_SUPPORT ?=3D ""
->> =C2=A0# These used to be version specific, but are now common dependenci=
-es.=C2=A0 New
->> =C2=A0# tools / dependencies will continue to be added in version specif=
-ic recipes.
->> =C2=A0DEPENDS +=3D '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "=
-powerpc" ], "elfutils-native", "", d)}'
->> =C2=A0DEPENDS +=3D "openssl-native util-linux-native"
->> =C2=A0DEPENDS +=3D "gmp-native libmpc-native"
->> +RUST_KERNEL_DEPENDS ?=3D "${@bb.utils.contains('KERNEL_RUST_SUPPORT', '=
-True', 'clang-native rust-native bindgen-cli-native', '', d)}"
->> +DEPENDS +=3D "${RUST_KERNEL_DEPENDS}"
->> =C2=A0
->> =C2=A0# Some options depend on CONFIG_PAHOLE_VERSION, so need to make pa=
-hole-native available before do_kernel_configme
->> =C2=A0do_kernel_configme[depends] +=3D '${@bb.utils.contains("KERNEL_DEB=
-UG", "True", "pahole-native:do_populate_sysroot", "", d)}'
->
-> I get the feeling we're still not quite agreeing on how to make the
-> enabling of the feature work. I'm suggesting we do something like this:
->
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
-pe/kernel-yocto.bbclass
-> index e53bf151941..9cc7568ab09 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -269,6 +269,9 @@ do_kernel_metadata() {
->         KERNEL_FEATURES_FINAL=3D""
->         if [ -n "${KERNEL_FEATURES}" ]; then
->                 for feature in ${KERNEL_FEATURES}; do
-> +                        if [ "$feature" =3D "rust" ]; then
-> +                                feature=3D"features/kernel-rust/kernel-r=
-ust.scc"
-> +                        fi
->                         feature_as_specified=3D"$feature"
->                         feature=3D"$(echo $feature_as_specified | cut -d:=
- -f1)"
->                         feature_specifier=3D"$(echo $feature_as_specified=
- | cut -d: -f2)"
->
-> which means you can then simply add to your config:
->
-> KERNEL_FEATURES +=3D "rust"
->
-> and things should be enabled. This patch would then become:
->
-> RUST_KERNEL_DEPENDS ?=3D "${@bb.utils.contains('KERNEL_FEATURES', 'rust',=
- 'clang-native rust-native bindgen-cli-native', '', d)}"
->
-> Is there some reason we can't do something like this?
+From: Peter Marko <peter.marko@siemens.com>
 
-I did try and it worked: See "TO SQUASH: switch linux-yocto rust enabling t=
-o KERNEL_FEATURES"
-https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dycongal/=
-master/kernel-rust&id=3D17d4d7979e9bcf3a1c56c37357940a802a0ff570
+Pick patches from [1].
 
-Harish, while you rebase over the recently merged rust upgrade. Can you
-look at this suggestion and see if that work for you? If you like it
-(and I hope you do), please squash it in the right commits of your
-series.
+[1] https://curl.se/docs/CVE-2026-1965.html
 
-Regards,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../curl/curl/CVE-2026-1965-01.patch          | 138 ++++++++++++++++++
+ .../curl/curl/CVE-2026-1965-02.patch          |  29 ++++
+ meta/recipes-support/curl/curl_8.17.0.bb      |   2 +
+ 3 files changed, 169 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-01.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-1965-02.patch
 
->
-> Cheers,
->
-> Richard
-
-
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965-01.patch b/meta/recipes-support/curl/curl/CVE-2026-1965-01.patch
+new file mode 100644
+index 0000000000..dbfbfd7e63
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965-01.patch
+@@ -0,0 +1,138 @@
++From 34fa034d9a390c4bd65e2d05262755ec8646ac12 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 5 Feb 2026 08:34:21 +0100
++Subject: [PATCH] url: fix reuse of connections using HTTP Negotiate
++
++Assume Negotiate means connection-based
++
++Reported-by: Zhicheng Chen
++Closes #20534
++
++CVE: CVE-2026-1965
++Upstream-Status: Backport [https://github.com/curl/curl/commit/34fa034d9a390c4bd65e2d05262755ec8646ac12]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/url.c | 87 +++++++++++++++++++++++++++++++++++++++++++++++++++----
++ 1 file changed, 82 insertions(+), 5 deletions(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index fac8cea732..cfe398de8b 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -792,6 +792,8 @@ struct url_conn_match {
++   BIT(may_multiplex);
++   BIT(want_ntlm_http);
++   BIT(want_proxy_ntlm_http);
+++  BIT(want_nego_http);
+++  BIT(want_proxy_nego_http);
++ 
++   BIT(wait_pipe);
++   BIT(force_reuse);
++@@ -1215,6 +1217,63 @@ static bool url_match_auth_ntlm(struct connectdata *conn,
++ #define url_match_auth_ntlm(c,m)    ((void)c, (void)m, TRUE)
++ #endif
++ 
+++#ifdef USE_SPNEGO
+++static bool url_match_auth_nego(struct connectdata *conn,
+++                                struct url_conn_match *m)
+++{
+++  /* If we are looking for an HTTP+Negotiate connection, check if this is
+++     already authenticating with the right credentials. If not, keep looking
+++     so that we can reuse Negotiate connections if possible. */
+++  if(m->want_nego_http) {
+++    if(Curl_timestrcmp(m->needle->user, conn->user) ||
+++       Curl_timestrcmp(m->needle->passwd, conn->passwd))
+++      return FALSE;
+++  }
+++  else if(conn->http_negotiate_state != GSS_AUTHNONE) {
+++    /* Connection is using Negotiate auth but we do not want Negotiate */
+++    return FALSE;
+++  }
+++
+++#ifndef CURL_DISABLE_PROXY
+++  /* Same for Proxy Negotiate authentication */
+++  if(m->want_proxy_nego_http) {
+++    /* Both conn->http_proxy.user and conn->http_proxy.passwd can be
+++     * NULL */
+++    if(!conn->http_proxy.user || !conn->http_proxy.passwd)
+++      return FALSE;
+++
+++    if(Curl_timestrcmp(m->needle->http_proxy.user,
+++                       conn->http_proxy.user) ||
+++       Curl_timestrcmp(m->needle->http_proxy.passwd,
+++                       conn->http_proxy.passwd))
+++      return FALSE;
+++  }
+++  else if(conn->proxy_negotiate_state != GSS_AUTHNONE) {
+++    /* Proxy connection is using Negotiate auth but we do not want Negotiate */
+++    return FALSE;
+++  }
+++#endif
+++  if(m->want_ntlm_http || m->want_proxy_ntlm_http) {
+++    /* Credentials are already checked, we may use this connection. We MUST
+++     * use a connection where it has already been fully negotiated. If it has
+++     * not, we keep on looking for a better one. */
+++    m->found = conn;
+++    if((m->want_nego_http &&
+++        (conn->http_negotiate_state != GSS_AUTHNONE)) ||
+++       (m->want_proxy_nego_http &&
+++        (conn->proxy_negotiate_state != GSS_AUTHNONE))) {
+++      /* We must use this connection, no other */
+++      m->force_reuse = TRUE;
+++      return TRUE;
+++    }
+++    return FALSE; /* get another */
+++  }
+++  return TRUE;
+++}
+++#else
+++#define url_match_auth_nego(c, m) ((void)c, (void)m, TRUE)
+++#endif
+++
++ static bool url_match_conn(struct connectdata *conn, void *userdata)
++ {
++   struct url_conn_match *m = userdata;
++@@ -1258,6 +1317,11 @@ static bool url_match_conn(struct connectdata *conn, void *userdata)
++   else if(m->force_reuse)
++     return TRUE;
++ 
+++  if(!url_match_auth_nego(conn, m))
+++    return FALSE;
+++  else if(m->force_reuse)
+++    return TRUE;
+++
++   if(!url_match_multiplex_limits(conn, m))
++     return FALSE;
++ 
++@@ -1324,13 +1388,26 @@ ConnectionExists(struct Curl_easy *data,
++   match.may_multiplex = xfer_may_multiplex(data, needle);
++ 
++ #ifdef USE_NTLM
++-  match.want_ntlm_http = ((data->state.authhost.want & CURLAUTH_NTLM) &&
++-                          (needle->handler->protocol & PROTO_FAMILY_HTTP));
+++  match.want_ntlm_http =
+++    (data->state.authhost.want & CURLAUTH_NTLM) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
++ #ifndef CURL_DISABLE_PROXY
++   match.want_proxy_ntlm_http =
++-    (needle->bits.proxy_user_passwd &&
++-     (data->state.authproxy.want & CURLAUTH_NTLM) &&
++-     (needle->handler->protocol & PROTO_FAMILY_HTTP));
+++    needle->bits.proxy_user_passwd &&
+++    (data->state.authproxy.want & CURLAUTH_NTLM) &&
+++    (needle->handler->protocol & PROTO_FAMILY_HTTP);
+++#endif
+++#endif
+++
+++#if !defined(CURL_DISABLE_HTTP) && defined(USE_SPNEGO)
+++  match.want_nego_http =
+++    (data->state.authhost.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->scheme->protocol & PROTO_FAMILY_HTTP);
+++#ifndef CURL_DISABLE_PROXY
+++  match.want_proxy_nego_http =
+++    needle->bits.proxy_user_passwd &&
+++    (data->state.authproxy.want & CURLAUTH_NEGOTIATE) &&
+++    (needle->scheme->protocol & PROTO_FAMILY_HTTP);
++ #endif
++ #endif
++ 
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-1965-02.patch b/meta/recipes-support/curl/curl/CVE-2026-1965-02.patch
+new file mode 100644
+index 0000000000..e945b83b24
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-1965-02.patch
+@@ -0,0 +1,29 @@
++From f1a39f221d57354990e3eeeddc3404aede2aff70 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sat, 21 Feb 2026 18:11:41 +0100
++Subject: [PATCH] url: fix copy and paste url_match_auth_nego mistake
++
++Follow-up to 34fa034
++Reported-by: dahmono on github
++Closes #20662
++
++CVE: CVE-2026-1965
++Upstream-Status: Backport [https://github.com/curl/curl/commit/f1a39f221d57354990e3eeeddc3404aede2aff70]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/url.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index c879a85e92..8b42aebade 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1253,7 +1253,7 @@ static bool url_match_auth_nego(struct connectdata *conn,
++     return FALSE;
++   }
++ #endif
++-  if(m->want_ntlm_http || m->want_proxy_ntlm_http) {
+++  if(m->want_nego_http || m->want_proxy_nego_http) {
++     /* Credentials are already checked, we may use this connection. We MUST
++      * use a connection where it has already been fully negotiated. If it has
++      * not, we keep on looking for a better one. */
+diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
+index 739838c3e8..06f4353134 100644
+--- a/meta/recipes-support/curl/curl_8.17.0.bb
++++ b/meta/recipes-support/curl/curl_8.17.0.bb
+@@ -20,6 +20,8 @@ SRC_URI = " \
+     file://CVE-2025-14819.patch \
+     file://CVE-2025-15079.patch \
+     file://CVE-2025-15224.patch \
++    file://CVE-2026-1965-01.patch \
++    file://CVE-2026-1965-02.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
 
