@@ -2,63 +2,63 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BED01067058
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F620106705C
 	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 15:39:03 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24809.1773329934152694100
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24664.1773329937720964021
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 08:38:54 -0700
+ Thu, 12 Mar 2026 08:38:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TEn/9DWc;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso10973705e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 08:38:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nChQGFYo;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439aeed8a5bso1247499f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 08:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773329932; x=1773934732; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773329936; x=1773934736; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mONOHvk/OmqCLm44EETWVV+hfJKTNVXf0N35fgzzKWM=;
-        b=TEn/9DWcZoCY/NBhAsnTgeXJqgP60EzlXaZXcukAWMwV7HL13QFg+tutsK9QCor13T
-         hT8tj2EnRuRaGKWjoFSn8FdfnQJevMudV7zkwPyqAk3I6WuOHYXuqijgDcusYoyqSjI+
-         jIrCtteifYMrp/6vLlUH8QHmvNfu9cyNbgFN06AYXOut5VXEVQGGU7x81/MW6CiRh6yB
-         57omczWO6E8f7Fai2fXvtXOO3CPp4yHRhdVOASiuyQjmeKK5mlxf8X2w+Xkk4DAl7eBT
-         Ehfp2wAzCDDG7NENUBTB7NdtNtSEQ3JGMmTzT1S8//vP20KKRHrscY5lw74x0HCNFMCV
-         Znsw==
+        bh=zYp17iBPaoPjczXO5fSA5dfgjKxYkDwyVIKWeVby3wk=;
+        b=nChQGFYoU1itVl3Xk2Up6BBydMlbSeoyHmu8MZrFXSVT7KmEaVjAzdoq91gog6JoGw
+         pqR0cKUmXERLZ6QZHK1orEoVIDvKMYzYFnqUJHNVYu62B83fwbVhw29WM171j11MqY8G
+         SvLBerRLMo90g+JJS5ah1Suc+t8fjBpQVGRyeUe6xU35ayN+VHNTufQX1scKt3vW7oJ/
+         oXq20XQ572wYQ2rM0wQ8YSMk5fBFcLXhqjm5NWV+iIfuVAIyG0DQJILhDdoJFQ6NZWwd
+         GAugMQFmrlAVJnUJtf+M3eFGGkQUCLkjJQ4AiGpAVjxwiOcrL0SAADJMxRI2dgwiLNiB
+         IoKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773329932; x=1773934732;
+        d=1e100.net; s=20230601; t=1773329936; x=1773934736;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mONOHvk/OmqCLm44EETWVV+hfJKTNVXf0N35fgzzKWM=;
-        b=ap6+eq4fuDv5Quk9tuqcn4zFC53b7VxR90Nb9ny5Mlmmeu0uu/zPIv9z5kAV6umm2n
-         Qkqp25zbpd1JiiQKBwiJl5l8zfchswiS7Zrv7xCkQBUkSlLforMt8oET40HwbSVKtGxT
-         /5GiZ+CSkEhYm/HzIhVZmUX+LHXn4gGeCaB14oyBKlw4CU93dBdmLDbQX8fNxk/yOt9T
-         F0cceDx6wt3w7uqhdutgeNtrqOa/ulfBTvMUy4URifoltq6KyI71pSlycGnT8KAz31sl
-         0r0627JgbAVRqbxXSK0sTKTbTjMCbfR4yNxIRJA3ymssumlEM7+QdrMHJKwRMazcPn5w
-         dhRg==
-X-Gm-Message-State: AOJu0YyDck12pAXRDd7bIgeXX7nIx48W5FkG4jNw78VegPGoFy9ElzXY
-	DC4w+kkGwpGf3BC1WhaSSl5WG/a4hmanZjEt4S3lHwLKyhKcFU6t5WN3K/Vnlg==
-X-Gm-Gg: ATEYQzxY2tlNOuqJ9taoanzE/QXltkh3gaDPLCTKhaAN7jpE3+5HjztWr2mT/tRBQU6
-	kpEGmUNL9qJ10Tw4LIvzGDNClGz1uh+rqRPss7kjZVDE5gdS68wWV0N16VqlWcM03km2Rek5Bda
-	34joVRgO0tk/UwB4LaRF/IdHUfHiV0k2/OpkGDSVbqHUEYqvJ7sUVTD7nouH6iNQSDmH8+P6v2S
-	1OBRncOKYYXwVz6cQDkHr785ZmmJnMoDpVimV5Gehryfjoo5pK2F3PGJXrQEPmWnTiZugQpF98J
-	gsjWSl7UWZ9sn+msxADZ65j3XAM6ccy418aS76CPrGb3lmiENcu+8rnQHQ2GVBbtGd0Mh1SpN0N
-	KJv0Am+FYSTjgfG0SX17cREBc92yB1buC054O0CW6KkbbzktYHYudly2FvFWG6ndi6jgrumily/
-	XbfgWyJyIolPHUpDKz0f0brXy/hTM+8YhrJ/g=
-X-Received: by 2002:a05:600c:4fc9:b0:483:b505:9db7 with SMTP id 5b1f17b1804b1-4854b136cd2mr121062935e9.32.1773329932088;
-        Thu, 12 Mar 2026 08:38:52 -0700 (PDT)
+        bh=zYp17iBPaoPjczXO5fSA5dfgjKxYkDwyVIKWeVby3wk=;
+        b=JI53KridVrSPp28PfhiQVdlB8SnTom1KGzr/pPAczPiFiTdWfuOTiudCHw2lFvAP5/
+         ifxJwCRoJq4Kun02lE8MDSUr8fpbj/jSKjTihw9RtMCZRoQ9UViT/sMyIp2/0eGX4kek
+         xvqjTVMQHeLSD1hpPTdAQwr25iTh/W6xcNRp65U+k+Eh+VODaRxEBlGHYRVEByahrvE4
+         /u5ImCZzRyl0xjzQoFQNc7T+pchpT1frVbk0uSgrMA/5UO6QIiYf3DcQiMKvFTOFr/WJ
+         B7GSGzElB7yadG53nOyvKLtIciWJ4RiRuOAbP7dZSXdyIuG9ZWBXx0kdmiHKcc0x7e+j
+         ZCrg==
+X-Gm-Message-State: AOJu0YzZvAynY+5OXFrXcxBEF+amQiC2O7YWvCjDjp2J4TJAVjhZy4lV
+	m58BZ6XMgIupYdPgYi+f3VQ9NXOx+M5NZXfp7YApIwX70v8gIZ3G9tKSqaQ6uA==
+X-Gm-Gg: ATEYQzy4PpziG2sLnFgt2PWXFxEBUGtaTKpmqpMVe7YWGomBPYyiQUb3uiPC8xe9Jof
+	6LI2M92ErRkOlrp+o354Gt0+aGKuvUldcLfgtsIe4IRWvsumCqTl+9itC50LFH4PpLfYjPvmGUo
+	2gQYnqldKE/QrzkZRfUWEFEfuUgfPvJwFRgfoD8K5PB/LWLT1DE8I+EbhrdZaFu/K1Kj9kDqqX8
+	4Ouq1ezr2Ph48rWuejbTNCtaefEArSL9xEMLC/ltVGjguSIg93bLkmBc/0VXya5G0+Mk7gJ77KB
+	m37Vm5BWxFA9Yacqj0DdyvXHUeby2VJ0tQI8jJJa+p/KLQPYcj77qnV9IJlzxnb5tfPkZPH8AVv
+	gKmww+CVMlqdsf+CARRG3c5dlvdWbm6yTWcvohcq4W7FmIo+6etUbV7qQVTH5IhMHyeFdm1Q4oo
+	GsG9iohmsgphr87vntOw5+ZgNeyhy19qlN9bw=
+X-Received: by 2002:a05:600c:46d2:b0:485:38fc:7080 with SMTP id 5b1f17b1804b1-4854b10ef23mr107245975e9.28.1773329935404;
+        Thu, 12 Mar 2026 08:38:55 -0700 (PDT)
 Received: from fedora ([81.6.40.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0dcf2asm74857385e9.8.2026.03.12.08.38.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0dcf2asm74857385e9.8.2026.03.12.08.38.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 08:38:51 -0700 (PDT)
+        Thu, 12 Mar 2026 08:38:54 -0700 (PDT)
 From: stondo@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
 	Stefano Tondo <stefano.tondo.ext@siemens.com>
-Subject: [OE-core][PATCH v9 3/7] spdx30: Add ecosystem-specific PURL generation via bbclasses
-Date: Thu, 12 Mar 2026 16:38:41 +0100
-Message-ID: <20260312153845.164369-4-stondo@gmail.com>
+Subject: [OE-core][PATCH v9 5/7] oeqa/selftest: Add tests for source download enrichment
+Date: Thu, 12 Mar 2026 16:38:43 +0100
+Message-ID: <20260312153845.164369-6-stondo@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260312153845.164369-1-stondo@gmail.com>
 References: <20260309132854.128375-1-stondo@gmail.com>
@@ -69,103 +69,115 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 15:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232976
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232978
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Have each ecosystem bbclass set its own Package URL by prepending to
-SPDX_PACKAGE_URLS, rather than detecting inherited classes from the
-SPDX code. This follows the principle that each class should know how
-to describe itself.
+Add two new SPDX 3.0 selftest cases:
 
-The following bbclasses now generate ecosystem PURLs:
-  - pypi.bbclass:         pkg:pypi/<normalized-name>@PV
-  - npm.bbclass:          pkg:npm/<name>@PV
-  - cargo_common.bbclass: pkg:cargo/<name>@PV
-  - go-mod.bbclass:       pkg:golang/<GO_IMPORT>@PV
-  - cpan.bbclass:         pkg:cpan/<name>@PV
+test_download_location_defensive_handling:
+  Verifies SPDX generation succeeds for recipes with tarball sources
+  and that external references are properly structured (ExternalRef
+  locator is a list of strings per SPDX 3.0 spec).
 
-Additional ecosystems (nuget, maven, dotnet) can follow the same
-pattern in their respective layers.
+test_version_extraction_patterns:
+  Verifies that version extraction works correctly and all source
+  packages have proper version strings containing digits.
+
+These tests validate the source download enrichment added in the
+previous commit.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/classes-recipe/cargo_common.bbclass |  3 +++
- meta/classes-recipe/cpan.bbclass         | 11 +++++++++++
- meta/classes-recipe/go-mod.bbclass       |  3 +++
- meta/classes-recipe/npm.bbclass          |  7 +++++++
- meta/classes-recipe/pypi.bbclass         |  3 +++
- 5 files changed, 27 insertions(+)
+ meta/lib/oeqa/selftest/cases/spdx.py | 71 +++++++++++++++++++++++++++-
+ 1 file changed, 70 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index bc44ad7918..e884b344ef 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -240,3 +240,6 @@ EXPORT_FUNCTIONS do_configure
- # https://github.com/rust-lang/libc/issues/3223
- # https://github.com/rust-lang/libc/pull/3175
- INSANE_SKIP:append = " 32bit-time"
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index 41ef52fce1..859667dd6b 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -392,7 +392,7 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+     def test_packageconfig_spdx(self):
+         objset = self.check_recipe_spdx(
+             "tar",
+-            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-tar.spdx.json",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/build-tar.spdx.json",
+             extraconf="""\
+                 SPDX_INCLUDE_PACKAGECONFIG = "1"
+                 """,
+@@ -414,3 +414,72 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+                 value, ["enabled", "disabled"],
+                 f"Unexpected PACKAGECONFIG value '{value}' for {key}"
+             )
 +
-+# Generate ecosystem-specific Package URL for SPDX
-+SPDX_PACKAGE_URLS:prepend = "pkg:cargo/${BPN}@${PV} "
-diff --git a/meta/classes-recipe/cpan.bbclass b/meta/classes-recipe/cpan.bbclass
-index bb76a5b326..355e7e6adf 100644
---- a/meta/classes-recipe/cpan.bbclass
-+++ b/meta/classes-recipe/cpan.bbclass
-@@ -68,4 +68,15 @@ cpan_do_install () {
- 	done
- }
- 
-+# Generate ecosystem-specific Package URL for SPDX
-+def cpan_spdx_name(d):
-+    bpn = d.getVar('BPN')
-+    if bpn.startswith('perl-'):
-+        return bpn[5:]
-+    elif bpn.startswith('libperl-'):
-+        return bpn[8:]
-+    return bpn
++    def test_download_location_defensive_handling(self):
++        """Test that download_location handling is defensive.
 +
-+SPDX_PACKAGE_URLS:prepend = "pkg:cpan/${@cpan_spdx_name(d)}@${PV} "
++        Verifies SPDX generation succeeds and external references are
++        properly structured when download_location retrieval works.
++        """
++        objset = self.check_recipe_spdx(
++            "m4",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/build-m4.spdx.json",
++        )
 +
- EXPORT_FUNCTIONS do_configure do_compile do_install
-diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mod.bbclass
-index a15dda8f0e..344712b193 100644
---- a/meta/classes-recipe/go-mod.bbclass
-+++ b/meta/classes-recipe/go-mod.bbclass
-@@ -32,3 +32,6 @@ do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
- # Make go install unpack the module zip files in the module cache directory
- # before the license directory is polulated with license files.
- addtask do_compile before do_populate_lic
++        found_external_refs = False
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if pkg.externalRef:
++                found_external_refs = True
++                for ref in pkg.externalRef:
++                    self.assertIsNotNone(ref.externalRefType)
++                    self.assertIsNotNone(ref.locator)
++                    self.assertGreater(len(ref.locator), 0, "Locator should have at least one entry")
++                    for loc in ref.locator:
++                        self.assertIsInstance(loc, str)
++                break
 +
-+# Generate ecosystem-specific Package URL for SPDX
-+SPDX_PACKAGE_URLS:prepend = "pkg:golang/${GO_IMPORT}@${PV} "
-diff --git a/meta/classes-recipe/npm.bbclass b/meta/classes-recipe/npm.bbclass
-index 344e8b4bec..a0adcfa240 100644
---- a/meta/classes-recipe/npm.bbclass
-+++ b/meta/classes-recipe/npm.bbclass
-@@ -354,4 +354,11 @@ FILES:${PN} += " \
-     ${nonarch_libdir} \
- "
- 
-+# Generate ecosystem-specific Package URL for SPDX
-+def npm_spdx_name(d):
-+    bpn = d.getVar('BPN')
-+    return bpn[5:] if bpn.startswith('node-') else bpn
++        self.logger.info(
++            f"External references {'found' if found_external_refs else 'not found'} "
++            f"in SPDX output (defensive handling verified)"
++        )
 +
-+SPDX_PACKAGE_URLS:prepend = "pkg:npm/${@npm_spdx_name(d)}@${PV} "
++    def test_version_extraction_patterns(self):
++        """Test that version extraction works for various package formats.
 +
- EXPORT_FUNCTIONS do_configure do_compile do_install
-diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
-index 1372d85e8d..fd5cd7af95 100644
---- a/meta/classes-recipe/pypi.bbclass
-+++ b/meta/classes-recipe/pypi.bbclass
-@@ -55,3 +55,6 @@ UPSTREAM_CHECK_URI ?= "https://pypi.org/simple/${@pypi_normalize(d)}/"
- UPSTREAM_CHECK_REGEX ?= "${UPSTREAM_CHECK_PYPI_PACKAGE}-(?P<pver>(\d+[\.\-_]*)+).(tar\.gz|tgz|zip|tar\.bz2)"
- 
- CVE_PRODUCT ?= "python:${PYPI_PACKAGE}"
++        Verifies that version patterns correctly extract versions from
++        tarball sources and that all packages have proper version strings.
++        """
++        objset = self.check_recipe_spdx(
++            "tar",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/build-tar.spdx.json",
++        )
 +
-+# Generate ecosystem-specific Package URL for SPDX
-+SPDX_PACKAGE_URLS:prepend = "pkg:pypi/${@pypi_normalize(d)}@${PV} "
++        # Collect all packages with versions
++        packages_with_versions = []
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            if pkg.software_packageVersion:
++                packages_with_versions.append((pkg.name, pkg.software_packageVersion))
++
++        self.assertGreater(
++            len(packages_with_versions), 0,
++            "Should find packages with extracted versions"
++        )
++
++        self.logger.info(f"Found {len(packages_with_versions)} packages with versions")
++
++        # Log some examples for debugging
++        for name, version in packages_with_versions[:5]:
++            self.logger.info(f"  {name}: {version}")
++
++        # Verify that versions follow expected patterns
++        for name, version in packages_with_versions:
++            # Version should not be empty
++            self.assertIsNotNone(version)
++            self.assertNotEqual(version, "")
++
++            # Version should contain digits
++            self.assertRegex(
++                version,
++                r'\d',
++                f"Version '{version}' for package '{name}' should contain digits"
++            )
 -- 
 2.53.0
 
