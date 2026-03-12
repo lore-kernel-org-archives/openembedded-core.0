@@ -1,142 +1,92 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6073106ACF8
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 23:05:37 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3876.1773356735751236918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C7E106ACF4
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 23:18:18 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4097.1773357494813883305
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 16:05:36 -0700
+ Thu, 12 Mar 2026 16:18:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=JRNi/ivS;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026031223053371f0cbe0ac000207fa-ndtmqz@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026031223053371f0cbe0ac000207fa
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 13 Mar 2026 00:05:33 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=wSoWfRtiKUae1TdK47ZOFqTq54jHgvyUyd/+6ZKPyC8=;
- b=JRNi/ivSusuiz6HMSvQ26rko1nIOMtiz+IoTT8pvY9CbC6GUUq0oyOIlfwOag1fjgR8HfG
- qCVE+1yf1SdrjXz1YegpVcIov4kWciv5D5tKWiu63/NkyLNbGP82JmAa+poXuRaKSa/mWuzV
- vkcRKbvL82VXlszeUoCXTE9YITCMBf1nRFT9+ZxvvyRZOvkgpdNML+x6ffVlEG1DTZTWELem
- Oazb/d9Nm7qSc4T+RLkpbjG9JYUkKCWQpY1x0GruhFQuQCg0CWjma0h9nE8bf2Xz8C2/LfzN
- trSU5l7yayA5sX8plcGs6zj+57z2a7D+FdWQfi/MIt5apYMYNQhwRINg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=Cv3jtwjV;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48538c5956bso15180955e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:18:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1773357493; x=1773962293; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2+ef1E+3xC4b1QXrfthM/9t0OLMXVKondmszkbm0JQg=;
+        b=Cv3jtwjVsyBzRR2jnDl530oBq65lt5JTyQu46HNBzwrrtCyB1o0DT4XSkw6su4NMaj
+         27ydclY6Km/2wAO229BTVPV5WJQ3TlbY/WTFqThwYjsnarnr3EoaUcRhQFGaVS4AHPlx
+         oJqdEAi1EdGYwCx6ZpcP38+eonwmROKhO/64o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773357493; x=1773962293;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2+ef1E+3xC4b1QXrfthM/9t0OLMXVKondmszkbm0JQg=;
+        b=Tq9JQYLX8MQF9DdMnP1ceyPADWXBcaXVHMUHTtYj/mdc/HyInOvYmgjpsEuDVl4ATB
+         5GBU3QGDn8QhnlPjwKrwCoRgQK4Ia3ajN0Rd7NcbdYlo6cPpsDEFoI3aJYqNMhOZI6pG
+         Fn0k6BxxvQFxXkPsDbfVHaj3DPwVHGBBTEfWpWxNO9OjCAt/qFVcVPTtYi63HC1eKfAA
+         39fNZcYTMMCsJBqkPpvAqOiF9c3Dd8vHI74VvHDouZgkw20VYMoG24LgJd3+WDsemaLB
+         bg/XKaDVldNnA/czmQxbvOjuTnzTbxIjDEBQFPzJoEWqjEk6SBqO/st49ejbAH/sSj97
+         c6jQ==
+X-Gm-Message-State: AOJu0YxjHt6tfzBrATD2LEG0+kojrvY/Mra4EQbvUtEnT2EeyaF++urT
+	igGkBnGd8K03uD9t2uUObtydLEbjPbtKIrXpNPvElPhvNdSWsuBVqdR89YBwDHYQMwvWKp0Uph+
+	zmO4Q
+X-Gm-Gg: ATEYQzxOVf5PXeLw2ZdcUYVUw1Es7SKZHKtg23PoO7b5XSs+xgL1twOeN3Qb4M97igD
+	NH9YvvZD/oH36toR68ExO/jPQxGL09EMD4Ji9Qiu+72UNrTGfhlvms4VChkq+1PMXTBVfHbt4SO
+	xIVbXnuV0A9Fjiz4GdGwtwwZ1wUWpomuEnuNz7Lbjjb36PqBsfX7vd9JrPwSHUakXK38OaSyjuD
+	ZhwwBwL+SF4AY4YHfXAGJEHYoO+gBez21B2BG56jIOYMtqUWOUJ7vbo/inVa7dYXdUnCAB0IGex
+	OKtOS0apQ9SbavHPIhsjyhQBk+5/W7qJm4iyMOvHePgTQ2VUgvmZsGvFjiFtIdhP7NK241ccXrE
+	l/GeZ7JjlBnmnoAreruQPDpmTJV4x4ESbn1D6jXNY2gr6rBuEaKZ0k2J/k/tiPXWjiAEbZ8DxeU
+	yyIh7NnEQV2EKrMghjxyfH4WsjfHIFzfr5cDfhJ89MiSHhIid+Fjl3HcLRu0Ovvc04Z0iJo/XMp
+	fNbncNrlCpEu9oFkLRVUfgPj/0l
+X-Received: by 2002:a05:600c:350e:b0:483:6d9e:e4f5 with SMTP id 5b1f17b1804b1-48555ac7160mr22568605e9.5.1773357492881;
+        Thu, 12 Mar 2026 16:18:12 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a9a19e6457d4ef2f.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a9a1:9e64:57d4:ef2f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557a74228sm4945215e9.18.2026.03.12.16.18.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2026 16:18:12 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][whinlatter][PATCH 4/4] curl: patch CVE-2026-3805
-Date: Fri, 13 Mar 2026 00:05:04 +0100
-Message-Id: <20260312230504.76461-4-peter.marko@siemens.com>
-In-Reply-To: <20260312230504.76461-1-peter.marko@siemens.com>
-References: <20260312230504.76461-1-peter.marko@siemens.com>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [whinlatter][PATCH] scripts/install-buildtools: Update to 5.3.2
+Date: Fri, 13 Mar 2026 00:17:30 +0100
+Message-ID: <20260312231730.751467-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 23:05:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233009
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 23:18:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233011
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Pick patch from [1].
+Update to the 5.3.2 release of the 5.3 series for buildtools
 
-[1] https://curl.se/docs/CVE-2026-3805.html
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-3805.patch             | 67 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.17.0.bb      |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-3805.patch
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-3805.patch b/meta/recipes-support/curl/curl/CVE-2026-3805.patch
-new file mode 100644
-index 0000000000..f3b3285a3a
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-3805.patch
-@@ -0,0 +1,67 @@
-+From e090be9f73a7a71459ef678c7cc4b1f75e3ea883 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Sun, 8 Mar 2026 14:30:00 +0100
-+Subject: [PATCH] smb: free the path in the request struct properly
-+
-+Closes #20854
-+
-+CVE: CVE-2026-3805
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/e090be9f73a7a71459ef678c7cc4b1f75e3ea883]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/smb.c | 20 +++++++++++---------
-+ 1 file changed, 11 insertions(+), 9 deletions(-)
-+
-+diff --git a/lib/smb.c b/lib/smb.c
-+index 41ba48fe89..00297adee7 100644
-+--- a/lib/smb.c
-++++ b/lib/smb.c
-+@@ -448,9 +448,7 @@ static void smb_easy_dtor(void *key, size_t klen, void *entry)
-+   struct smb_request *req = entry;
-+   (void)key;
-+   (void)klen;
-+-  /* `req->path` points to somewhere in `struct smb_conn` which is
-+-   * kept at the connection meta. If the connection is destroyed first,
-+-   * req->path points to free'd memory. */
-++  Curl_safefree(req->path);
-+   free(req);
-+ }
-+ 
-+@@ -1240,7 +1238,7 @@ static CURLcode smb_parse_url_path(struct Curl_easy *data,
-+                                    struct smb_request *req)
-+ {
-+   char *path;
-+-  char *slash;
-++  char *slash, *s;
-+   CURLcode result;
-+ 
-+   /* URL decode the path */
-+@@ -1249,6 +1247,7 @@ static CURLcode smb_parse_url_path(struct Curl_easy *data,
-+     return result;
-+ 
-+   /* Parse the path for the share */
-++  Curl_safefree(smbc->share);
-+   smbc->share = strdup((*path == '/' || *path == '\\') ? path + 1 : path);
-+   free(path);
-+   if(!smbc->share)
-+@@ -1268,12 +1267,15 @@ static CURLcode smb_parse_url_path(struct Curl_easy *data,
-+   /* Parse the path for the file path converting any forward slashes into
-+      backslashes */
-+   *slash++ = 0;
-+-  req->path = slash;
-+-
-+-  for(; *slash; slash++) {
-+-    if(*slash == '/')
-+-      *slash = '\\';
-++  for(s = slash; *s; s++) {
-++    if(*s == '/')
-++      *s = '\\';
-+   }
-++  /* keep a copy at easy struct to not share this with connection state */
-++  req->path = curlx_strdup(slash);
-++  if(!req->path)
-++    return CURLE_OUT_OF_MEMORY;
-++
-+   return CURLE_OK;
-+ }
-+ 
-diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
-index 7211c43afd..24af8613ab 100644
---- a/meta/recipes-support/curl/curl_8.17.0.bb
-+++ b/meta/recipes-support/curl/curl_8.17.0.bb
-@@ -25,6 +25,7 @@ SRC_URI = " \
-     file://CVE-2026-3783.patch \
-     file://0001-build-fix-Wunused-macros-warnings-and-related-tidy-u.patch \
-     file://CVE-2026-3784-02.patch \
-+    file://CVE-2026-3805.patch \
- "
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index c3f257ff93..b9c008a2ec 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
- SRC_URI:append:class-nativesdk = " \
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-5.3.1'
+-DEFAULT_INSTALLER_VERSION = '5.3.1'
++DEFAULT_RELEASE = 'yocto-5.3.2'
++DEFAULT_INSTALLER_VERSION = '5.3.2'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
 
