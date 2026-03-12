@@ -2,98 +2,98 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E1CFED2FB
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 09:58:05 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17777.1773309481451287299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C218EFED2FE
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 10:01:55 +0000 (UTC)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17838.1773309707483002554
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 02:58:01 -0700
+ Thu, 12 Mar 2026 03:01:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EibH9gCG;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899ee87355dso11570816d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 02:58:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773309480; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KHOVnszR;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5ffbcfbcec4so194700137.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 03:01:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773309706; cv=none;
         d=google.com; s=arc-20240605;
-        b=TnX59XbVBvBLVjTYhx81PRp7D7T0Er+plsK3435KDFKfbkrWYgDx0CsoNpT98nFSnM
-         dSD4so93YXVRPFZRcIsvJefNKAta/yvqNt7ZzF7sn3EaN+BS0Uz8/ykvWKQhWjfhOh0L
-         zvEOlLFcFt9jvS0A1QhvbQF1381dcfYiWG0Xcs1ooEtLdSa0uL7eBF642LPj6WT5ShYH
-         JehfILsWoV+I9VqH4RdtJqs4fp2AIEv7leb4OgRktydp88J+CV5nO2r6Pe7j2mYxV8Id
-         VB6e3X3yndGbIrO7WZg2oRuIeSx1dFsz0jDrjbc1lkJtcH1BmdVCSPQWvJpnVdk5bHnY
-         nolg==
+        b=DRezHbYGsiUjeKnlPqzDn/XMbkiWA9iJEILxhMfqeBe5Z5Z2dnDnT/x3fD/AG71ryd
+         9GrIcohB+EiD+V05Om83QysxOOGjRPZ6Xr0SjiklfphNFAaBPX37Xm678SBwhqVYK89F
+         F9L7QIIJ0HMQM0kv+ZVnN59fR756FScUgvGoHBwjWcEUJ5Sd15duxtKJvLlfFn+qIqbv
+         7vj/91J2tFhxWd5H0A8yYTdqqmXatkctm7LZFh+qyG35IhVICdRJOSWeYkgJtoJTz++a
+         qfxr7p2UX2se0eYtv9RMnhzCNW/z08dnd6QmjKntYrgCgY/hyG+Hdym2Uu42Ky8r0MiP
+         16Vw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=fobh5GyO7VbNOyRhKBkxFdNOC8bU1Dd/OlIUmyjWo30=;
+        bh=XiKoZvDIg5adc8b4Pd2K4GsEI8Kg4z0zQRkieA1fiGo=;
         fh=yRup0gQd4Qk9N6eUNj8kXkuKvdCTwWcKSeXZ5+LSHis=;
-        b=AS5fd8kCcMF64Q4yG0UmU34Qcr0t2X2xO1BPzidjX7gMHS8oqGJJ3NFXh8UZO4T/Jb
-         11YoHaAanmDnxYs9dLFrEDRvSY9BOOVEUqSF/nSVSSQiUFbSE15RiyDdTIgFOFflcqtT
-         /+Wi3pbFIMqu/bmOhopSQ0BGlCBTip98KnbV3id1eR/NS/N+pa5DIu9u/szGJ5MHDPZg
-         2pjzOKw5gkIJD8b4MIldipvORjP4lHv/ftLla2KdlvWl0beE4jpKnQj12KBfbVT5nGc9
-         rU90ldwtsiogiZiX8DiDxPoYhGLXLF3Z1GY/Rt2j520n03loaadhxfcjmtLBM41UW9cj
-         0Fuw==;
+        b=SaQozkoibEeFSM0zETqbFealHs620OmOq2AsVhSgxOvEhlXQixOkuR3nYSO3FLrcsJ
+         ELGecFN3SyYUjPbj/CdS3SU/0v7EsLzddfB3q6tau3iCAlFUj37Q45gwo/JkWB9N5Upj
+         V3ibQ2w15yyJpen8eWJzIZMdH0FjJH6lIXY6IgZ1FLVuoMXANgQ8AF8mpiA0bWyXvLrf
+         OpGqdFHg+JnUe0ag2iiQ7PyJOJ8+nPbRZ0SaKRjtKyRteN5xr79qXhdl/YNE30l3gsLQ
+         pCcd2IAqA8SvSdwZGUl6e7Rz3+M+UfAXR6PRqdCztRGnyE4ltRWlEmOuAWZzV0rqdsQw
+         Ix6w==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773309480; x=1773914280; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773309706; x=1773914506; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fobh5GyO7VbNOyRhKBkxFdNOC8bU1Dd/OlIUmyjWo30=;
-        b=EibH9gCGSMZtw6LwEGhabqSDrKumwjLmmWAONmbadBe5u13p7KvBAHEgOLfpt3kkxt
-         PywlhdiLKTsA1gRTaR98b3lkG1THtPQPx/4q/Ybao9berNjcPxTQ1Z+MFlA8IVFgm/TO
-         g4Z1up8gBdwWMAKEuVAdgKnVWdcgqJvq79Ib1/+WVRLdeNN0B+TK46jg5K+eEWIYb9Sm
-         DdkRFAUuWPsTHRuOJdYnur231WUGEyLMfxr7gUftLtHyLP/yKiwBkG9aJkTwyGpX/b9e
-         Ilv2tM+jC94IHxmz/kZwNNmywHp+wda8DAle0kfl9bN6y2s2eH9DImhlycf0ceyV1MWK
-         0hLg==
+        bh=XiKoZvDIg5adc8b4Pd2K4GsEI8Kg4z0zQRkieA1fiGo=;
+        b=KHOVnszRhdJTtT190BBLuKaBhBU2Aw3ov5koK4PHUYBO8l8MMyApFdN2bjKXt5z0dY
+         2aVxtqbG47Mu5CD/asFgNQlwvCH3iW4nUrQwxNP0ZTdceFhWMDJgwftTXqqupzMdFTcj
+         nhO3wkw7hWgi0/8MsM88O0tNNZG/S7gn7AneeD9NSYA+kdC0YlD0H73e+5LmwokTqTeS
+         6VqqpTWArC/E0LzDR1FFCkHvjmNptZaS7wxgoqFskQx7NKBzt/x1Uhgm5RQo5i5dsmwI
+         3DIQ6fgXHOzt8ClgDtakF9FL0idW4A5RMbM9KcR9FItU0zULGZKLVgC0UD9XyWy87R+Y
+         IqSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773309480; x=1773914280;
+        d=1e100.net; s=20230601; t=1773309706; x=1773914506;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fobh5GyO7VbNOyRhKBkxFdNOC8bU1Dd/OlIUmyjWo30=;
-        b=IRkOjOqOOlJ6K6fdPMC8di1gafJ6LtjCOVnsnV7ybyzM/SB/5+EbcP/0LAOV8VyS51
-         kn5Q04B3DvHD3cUCyIJAOwm3p4GBryRnlpmF4tVcs6e6ED/euEwTrDjejHx6knZvJXuh
-         srnFSB2iPZHBBkE/8EbY0fNuBiScfUF7zg0pOVyUWE2NZDn7j8yMH7Dm4JGqf73UT6Hk
-         rehuinYmVxldKlw4wU//ncPonkh+3MmFKB9JxzqF9MFE7RQD5V6cr7QRPpuwoXJfTQzB
-         hO0+Gbg2VS5At7XBceiykMizNnWrNcdMaPRbEcD45oVZqx5YqcaPsRsWNNaoxCJIEkj6
-         8kgQ==
-X-Gm-Message-State: AOJu0Yz/uRz59/5Xk+r9AZ68UiWaHCe8iw3W1xEM9s0lHfkra4UDV+nf
-	t189mke0krXfl7qooDg3ASOBS+dbDH2yVTz4KyDY3wfocJZW1tlINo6hN2hLqg+alM10jPf/K7C
-	zF4dpmSOcKQxd/CA2NxeRdvBAQ/FKq0c=
-X-Gm-Gg: ATEYQzzpuAKFP6nLbQmF07/0e/uAATKbYnh1fWzzvwxOH7vvVnzIZ/gUQ7VpmPXfuTD
-	piB0Ku8zIW+LZz7X7LZWmf0d2p/5iU4RRt0rGPgfPeolNNoCQQ8TosspU81FHYg8jN9bY8Br8C0
-	bn2tau+Za2Xocpyyt0o5UjFh2k5QPhi1sFPFHHplOmPxm652tSJjPKg2AByRfPhIAjBQA3c88Nc
-	x+5VkikUdrPaqkRHcBoqW/8KVlStz2aGt0YA5iMqX41zNTVHLpPIK+QPvMp1/IdtChOqrHfkven
-	wt58b1Q6vPSCMfhCichxmw/MHFXAY5ceWKHCZQ2imQ==
-X-Received: by 2002:ad4:5765:0:b0:895:369c:e3e5 with SMTP id
- 6a1803df08f44-89a66afe28emr80131066d6.64.1773309480243; Thu, 12 Mar 2026
- 02:58:00 -0700 (PDT)
+        bh=XiKoZvDIg5adc8b4Pd2K4GsEI8Kg4z0zQRkieA1fiGo=;
+        b=w7uRVQ8RBz3R0jaqIOIVfZtabJiwE59DuJR3wm/BUmnzvX09+IBpeKHLxLEzDNwuPw
+         kZ3zi+ztsQJR/Fc5qJLQgfIyUG9sKPWMf6wnfXark3Gq0aJY6sVLzymjVfnBf5DTk9N6
+         PDTwcq/MlvgETb34G0PYarcrdGH1iHEM7262nMJfm+h2UxYYeoxwWE7vzwcKURC/BYV/
+         mQ692SHDZwKsKZXyRiRVndkWnqXy++dSjEXsCC5UUTYTKV6OijSkh95SP7x0h4Y+6YE2
+         GSRDdEWSuWvNXMukXI4Carn5VKlr6baUtsuQQSSAXssN/HAEfAsUVJSkgRwvTXtOKBVt
+         daag==
+X-Gm-Message-State: AOJu0YwEaYuH+7YuZL8cKpuWvSYyLgPUGQ7kq3QFpLmfGqBt5DwvA/DA
+	prM7LWh1DCH960W+9zg5gAuYNtmyEWllCMKf2jwOec75kS6vkMhPuw1EWYXv44uYkzlZltUbbop
+	xqMTy+7Eu+P6eXyXvhkTrBbhljDJgstY=
+X-Gm-Gg: ATEYQzxoqJ+gM2DhAG3BeWiD07xhnH+px7F37gXxuDWgCjI4gtbpDUw0OJwoxFUHxCC
+	FSeUihMUX8vqPXgEHo0o1pCOxrx/D3D3W+0tSzQCQU5bli2GhWbikfVHSpEPA72TiZ79neWi1Zk
+	0GOnkbScwWbRGonJXddXN3DYp4lokVqn4nw3Rmqp50HDkcqNVHL4HNVjMqdrM8Jk4MGyD/4xK1Q
+	Nor0qlA1wUAUQKG+wWP5tCOcXbq36gKQ4CiG7CHWbGO95JmDAw6NIzIXysXGaukOcmQqxDrtULD
+	kZcXoia6acI2ZKGxbK7HrqmbCR7hoG+wpsjBQqX7sA==
+X-Received: by 2002:a05:6102:6c8:b0:5fd:f509:c97 with SMTP id
+ ada2fe7eead31-601ded4f6bcmr1915539137.18.1773309706427; Thu, 12 Mar 2026
+ 03:01:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260312081506.970978-1-changqing.li@windriver.com> <20260312081506.970978-2-changqing.li@windriver.com>
-In-Reply-To: <20260312081506.970978-2-changqing.li@windriver.com>
+References: <20260312081506.970978-1-changqing.li@windriver.com>
+In-Reply-To: <20260312081506.970978-1-changqing.li@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Mar 2026 10:57:49 +0100
-X-Gm-Features: AaiRm51ZsOqg3SJkuXzFRpKuEMGrD-FRLtYAHhQ19z2R7RGnBz2yGbuBrSuDwuc
-Message-ID: <CANNYZj_tbas12TC6VHcO4cWKA2JwpDUtE3Dr+ANOGP8ThO-Zjg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] gstreamer1.0-plugins-good: remove
- PACKAGECONFIG soup2
+Date: Thu, 12 Mar 2026 11:01:34 +0100
+X-Gm-Features: AaiRm51OyTd2innVHRBv6axfE5gqyELSspXARen0eNFwP_mp7WzxjtpX672cpp0
+Message-ID: <CANNYZj-Nxx=XJgXEi79RJxmE_qZNxHo_yfkqc1d4XcMZRQ+vGg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] webkitgtk: remove PACKAGECONFIG soup2
 To: changqing.li@windriver.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 09:58:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232936
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 10:01:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232937
 
 On Thu, 12 Mar 2026 at 09:15, Changqing Li via lists.openembedded.org
 <changqing.li=windriver.com@lists.openembedded.org> wrote:
-> -PACKAGECONFIG[soup2]      = "-Dsoup=enabled,,libsoup-2.4,,,soup3"
-> -PACKAGECONFIG[soup3]      = "-Dsoup=enabled,,libsoup,,,soup2"
-> +PACKAGECONFIG[soup3]      = "-Dsoup=enabled,,libsoup"
+> -PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
+> -PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
+> +PACKAGECONFIG[soup3] = ",,libsoup"
 
-This should add a disabling option for determinism, as soup2 and soup3
-are no longer in conflict with each other.
+If soup2 option is removed, then libsoup dependency isn't optional
+anymore, and should just be added to DEPENDS, and both options
+removed.
 
 Alex
 
