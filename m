@@ -2,36 +2,36 @@ Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DABE6106702C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC5E61067031
 	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 14:10:31 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22426.1773324626764434390
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22572.1773324626810065776
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 07:10:26 -0700
+ Thu, 12 Mar 2026 07:10:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=kTfCG34d;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cgAg++5j;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75312aa6c1=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62CAkDEs133876;
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62CAkDEr133876;
 	Thu, 12 Mar 2026 14:09:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=nh7/VDUSnEy9imMvFydq2SInJRX5N4eKqo6fgsQG/XA=; b=
-	kTfCG34dwscbUeu89YTKXTn3LqYgtKIV0HYys7zwza2riAB5qQ0wwdgrafHpzcBW
-	U87tYWfL8ihlesUv4uc+KKrwKwPD5rkn5G00WdcNb/cRhKfUGlJL9/Aas2xOzZ+3
-	iwHa0v4j0GlfJoBhvuRtENKALEIuDKFoaPCqg2CCCxdmPnpuqdOLKafBnMTF52lg
-	FoQ4xlm5Tx6EA1aHpK1RwD6XeE1+6WkM9sBenDoktjzSvE8UbqorgQYnF7e9vdbd
-	deZ7DiIKkTy7YOZHpl7c9eKY/2E30Iz3ZD2hr519ERIhm9QS8paTfyViSghX2b4A
-	wMKDMfYlPvGJUAnQlyztVw==
+	PPS06212021; bh=G5G5d2P4KBx10wpaSx9254mwWAPJIVMtTg+tT+XbcSo=; b=
+	cgAg++5jndD5xQJV1LW6bDPgUC0XjX3MglYz/vPfhhJRHO32sEv0pPggzlROXdTy
+	zvDD5y/Lsqp6Ad4xW/GZ3xRW4bj/U7MduFUlEWpPjlnUHHnPqK6VNv+GQqDT5xFP
+	E/+XjaYgO+lp9EbsliaqhozcETgLb7YjqyiBdtKeJ9egEaVSQClR/gDVvsaigulx
+	VZtuuODA74Ka6IJKS8Hkw943HSi5gofvk8V+AImFCy7yv1BVfuMWxv/q6k7Jn2nr
+	VE/JvvrQmdHN2p2pJOzDw3runyqCoa6LXtGI2JF/7Qg0JS1l+3IGuvov1gG8OOB/
+	HNv3ro1jr4htenwC+L72Dg==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqr9qb-3
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqr9qb-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 12 Mar 2026 14:09:41 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 12 Mar 2026 07:09:40 -0700
+ 15.1.2507.61; Thu, 12 Mar 2026 07:09:39 -0700
 Received: from ala-lpggp3.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
  15.1.2507.61 via Frontend Transport; Thu, 12 Mar 2026 07:09:39 -0700
@@ -39,35 +39,35 @@ From: <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <alex.kanavin@gmail.com>, <mathieu.dubois-briand@bootlin.com>,
         <mattware@cisco.com>, <esparlin@cisco.com>, <peter.marko@siemens.com>
-Subject: [PATCH v8 2/9] package_rpm.bbclass: Define _lib and _libdir for rpmbuild
-Date: Thu, 12 Mar 2026 07:09:32 -0700
-Message-ID: <1f56dc871910414ca7f263788ce14225c29f8137.1773324129.git.liezhi.yang@windriver.com>
+Subject: [PATCH v8 1/9] package_rpm.bbclass: Drop external dependency generator to support rpm 6
+Date: Thu, 12 Mar 2026 07:09:31 -0700
+Message-ID: <c3a6b56c8eb4f42cbc6107ef2f6d59ad8a3fdd4d.1773324129.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1773324129.git.liezhi.yang@windriver.com>
 References: <cover.1773324129.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: azUMhPSGGuo_htYeAQ43jBL5FjPcFmpo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDExMyBTYWx0ZWRfX1wpeOCso8GRi
- DuuG4sOPvE64slREArjudakXujfNf5nMKR43+eshh97GRtn426Rf7tuIXXctdsnusQ9cOc6yDE9
- 1/j43R8HFCZVhoo1A66Jivf9FRQ5SKhO/cFAJlhiW2JEtwqwx9uDP3HbRO72qksFD9rihaRBe/H
- ESdZCSQ0sBPeGgc477KhOe4SiQSRw36NaZ8ZTUPTHrTdXyCKz/SdCmvft3Fq05KUePvFfnMFkJr
- 1a7D/ZHxStZmrOmQhCAA/3KREEl1hRN6doG48/k+D9t9tOTfA+c62F4YBRe5aMlmi0J90CobzTl
- 1kqHwVULC9CCJjedzK9UrnQYks1JmkdNFwRD35Jiobzu/UVG3PQBcKfOb7SZAwzIquaZrsrWo9x
- O5Zf5Jpp6sxNAACrCDzyfmvjThTAYXgug8bzgxngJtw80kU8uZS88IjFlMSVsZ4KM9hIiq7ImOM
- iFh9ry/8CS1Dz9Z06fA==
-X-Proofpoint-GUID: azUMhPSGGuo_htYeAQ43jBL5FjPcFmpo
+X-Proofpoint-ORIG-GUID: dJSSXmqHrt0VeKyuyw7nNhAlus7O3GdY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDExMyBTYWx0ZWRfX2WA7h8USab3C
+ nHRuyndvc51ycOnH9Tlu+I9hLmLn5phcRxJiiGu8cvU3rs2wPJXv+XKbHAtCT+sIzCumUagnTIr
+ UD/1xbhRKV/EiyOCT9x30uQfk1bGuQCL1QJ4q9mQrXRBhgKp4bnezueOtNaXHdIKbKLB0LQeEi8
+ T+Tb+V3V8t/6+Q9GRWaZ9fhvzBNaQSy0/VHlBqRnjzQFbPygFCPybGJekoLInNSZj5iPlRndi4F
+ g22+JLhUo909KurFLE0qheQluiiMOtzBhszHQn3TiIuW/2mvarC7EjGtO7LGN3icr40SVmtZLv5
+ IyDVFWpI7gBM/GmKvl4oPt7U5KRcv4ThVtOzBr918fYJ7ZawkAEnHkzjhMI2QVxoNebUchX4nfE
+ l/zWi/BEIKe2z9DsYnUAQZsXquDdQtwqYm/khfkqG8vkWQ4LtdgF4A9MmvzN/vZLVU/y98N0phJ
+ InrMJ5yX7GdoUDq0XtA==
+X-Proofpoint-GUID: dJSSXmqHrt0VeKyuyw7nNhAlus7O3GdY
 X-Authority-Analysis: v=2.4 cv=feegCkQF c=1 sm=1 tr=0 ts=69b2c925 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
  a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=H-NycbhAXwVI0mX1kDIA:9
+ a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=NIgqSAyxxZKqxsHT_JkA:9
  a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-12_01,2026-03-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
+ malwarescore=0 clxscore=1011 priorityscore=1501 suspectscore=0 spamscore=0
  bulkscore=0 phishscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603120113
@@ -75,46 +75,158 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 14:10:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232965
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232966
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-The rpmbuild is from rpm-native, the lib and _libdir may be
-incorrect for target, for example:
-
-* rpm 4.20.1:
-  No pkg-config files can be found for qemux86-64 or qemuarm64
-
-* rpm 6.0.1:
-  - qemux86-64: The _lib is lib64, this is incorrect when multilib is not
-                enabled, and _libdir is RECIPE_SYSROOT_NATIVE/usr/lib, this
-                makes the pkg-config files can't be matched.
-
-  - qemuarm64/qemux86: The _lib is lib64, this is incorrect, but _libdir is
-               correct (/usr/lib), so the pkg-config files can be found,
-               this also looks wild.
-
-The rpmbuild is like cross build, define the values when run it can fix the
-problems for rpm 6.0.1.
+The rpm 6 doesn't support external dependency generator. Oe-core used it for
+per file dependency which was saved into pn.requires and pn.provides, but that
+hasn't been used any more since 2012 (rev:
+be40f6d0bb80274366af00461112af65687a4de8), and there were no complains or
+updates in the past 13 years, so just drop it to support rpm 6.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes-global/package_rpm.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes-global/package_rpm.bbclass | 84 +------------------------
+ 1 file changed, 3 insertions(+), 81 deletions(-)
 
 diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index bb3b8f830a..f4dd779a52 100644
+index f383ed140e..bb3b8f830a 100644
 --- a/meta/classes-global/package_rpm.bbclass
 +++ b/meta/classes-global/package_rpm.bbclass
-@@ -620,6 +620,8 @@ python do_package_rpm () {
-     cmd = rpmbuild
-     cmd = cmd + " --noclean --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
+@@ -14,10 +14,6 @@ RPMBUILD_COMPMODE ?= "${@'w%dT%d.zstdio' % (int(d.getVar('ZSTD_COMPRESSION_LEVEL
+ 
+ PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ 
+-# Maintaining the perfile dependencies has significant overhead when writing the
+-# packages. When set, this value merges them for efficiency.
+-MERGEPERFILEDEPS = "1"
+-
+ # Filter dependencies based on a provided function.
+ def filter_deps(var, f):
+     import collections
+@@ -36,67 +32,6 @@ def filter_nativesdk_deps(srcname, var):
+         var = filter_deps(var, lambda dep: not dep.startswith('/') and dep != 'perl' and not dep.startswith('perl('))
+     return var
+ 
+-# Construct per file dependencies file
+-def write_rpm_perfiledata(srcname, d):
+-    import oe.package
+-    workdir = d.getVar('WORKDIR')
+-    packages = d.getVar('PACKAGES')
+-    pkgd = d.getVar('PKGD')
+-
+-    def dump_filerdeps(varname, outfile, d):
+-        outfile.write("#!/usr/bin/env python3\n\n")
+-        outfile.write("# Dependency table\n")
+-        outfile.write('deps = {\n')
+-        for pkg in packages.split():
+-            dependsflist_key = 'FILE' + varname + 'FLIST' + ":" + pkg
+-            dependsflist = (d.getVar(dependsflist_key) or "")
+-            for dfile in dependsflist.split():
+-                key = "FILE" + varname + ":" + dfile + ":" + pkg
+-                deps = filter_nativesdk_deps(srcname, d.getVar(key) or "")
+-                depends_dict = bb.utils.explode_dep_versions(deps)
+-                file = oe.package.file_reverse_translate(dfile)
+-                outfile.write('"' + pkgd + file + '" : "')
+-                for dep in depends_dict:
+-                    ver = depends_dict[dep]
+-                    if dep and ver:
+-                        ver = ver.replace("(", "")
+-                        ver = ver.replace(")", "")
+-                        outfile.write(dep + " " + ver + " ")
+-                    else:
+-                        outfile.write(dep + " ")
+-                outfile.write('",\n')
+-        outfile.write('}\n\n')
+-        outfile.write("import sys\n")
+-        outfile.write("while 1:\n")
+-        outfile.write("\tline = sys.stdin.readline().strip()\n")
+-        outfile.write("\tif not line:\n")
+-        outfile.write("\t\tsys.exit(0)\n")
+-        outfile.write("\tif line in deps:\n")
+-        outfile.write("\t\tprint(deps[line] + '\\n')\n")
+-
+-    # OE-core dependencies a.k.a. RPM requires
+-    outdepends = workdir + "/" + srcname + ".requires"
+-
+-    dependsfile = open(outdepends, 'w')
+-
+-    dump_filerdeps('RDEPENDS', dependsfile, d)
+-
+-    dependsfile.close()
+-    os.chmod(outdepends, 0o755)
+-
+-    # OE-core / RPM Provides
+-    outprovides = workdir + "/" + srcname + ".provides"
+-
+-    providesfile = open(outprovides, 'w')
+-
+-    dump_filerdeps('RPROVIDES', providesfile, d)
+-
+-    providesfile.close()
+-    os.chmod(outprovides, 0o755)
+-
+-    return (outdepends, outprovides)
+-
+-
+ python write_specfile () {
+     import oe.packagedata
+     import os,pwd,grp,stat
+@@ -339,7 +274,6 @@ python write_specfile () {
+     spec_files_top = []
+     spec_files_bottom = []
+ 
+-    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
+     extra_pkgdata = (d.getVar("RPM_EXTRA_PKGDATA") or "0") == "1"
+ 
+     for pkg in packages.split():
+@@ -393,10 +327,9 @@ python write_specfile () {
+         splitrpostrm   = localdata.getVar('pkg_postrm')
+ 
+ 
+-        if not perfiledeps:
+-            # Add in summary of per file dependencies
+-            splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
+-            splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
++        # Add in summary of per file dependencies
++        splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
++        splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
+ 
+         splitrdepends = filter_nativesdk_deps(srcname, splitrdepends)
+ 
+@@ -665,10 +598,6 @@ python do_package_rpm () {
+     d.setVar('OUTSPECFILE', outspecfile)
+     bb.build.exec_func('write_specfile', d)
+ 
+-    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
+-    if perfiledeps:
+-        outdepends, outprovides = write_rpm_perfiledata(srcname, d)
+-
+     # Setup the rpmbuild arguments...
+     rpmbuild = d.getVar('RPMBUILD')
+     rpmbuild_compmode = d.getVar('RPMBUILD_COMPMODE')
+@@ -693,7 +622,6 @@ python do_package_rpm () {
      cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-+    cmd = cmd + " --define '_lib ${BASELIB}'"
-+    cmd = cmd + " --define '_libdir ${libdir}'"
      cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
      cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
+-    cmd = cmd + " --define '_use_internal_dependency_generator 0'"
      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+     cmd = cmd + " --define '_build_id_links none'"
+     cmd = cmd + " --define '_smp_ncpus_max 4'"
+@@ -703,12 +631,6 @@ python do_package_rpm () {
+     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
+     cmd = cmd + " --define '_buildhost reproducible'"
+     cmd = cmd + " --define '__font_provides %{nil}'"
+-    if perfiledeps:
+-        cmd = cmd + " --define '__find_requires " + outdepends + "'"
+-        cmd = cmd + " --define '__find_provides " + outprovides + "'"
+-    else:
+-        cmd = cmd + " --define '__find_requires %{nil}'"
+-        cmd = cmd + " --define '__find_provides %{nil}'"
+     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
+     cmd = cmd + " --define 'debug_package %{nil}'"
+     cmd = cmd + " --define '_tmppath " + workdir + "'"
 -- 
 2.49.0
 
