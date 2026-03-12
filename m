@@ -2,83 +2,83 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E19221067038
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 14:15:41 +0000 (UTC)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22553.1773324931882349388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C352106703B
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 14:24:52 +0000 (UTC)
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22899.1773325484305716588
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 07:15:32 -0700
+ Thu, 12 Mar 2026 07:24:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hl2JZU87;
- spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7991d890ebbso10700577b3.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 07:15:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773324931; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ybyu9l9v;
+ spf=pass (domain: gmail.com, ip: 74.125.224.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ad79dfb6eso1344396d50.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 07:24:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773325483; cv=none;
         d=google.com; s=arc-20240605;
-        b=YPz5Ws9trRiBDhelnrxcvdEOMOAK8/HfHgo42y9/8tL8ERPZEi6Nt/X35PQB/8kY6P
-         liP1oM1xK3kLTQduKhvmpHWTw58pZkZfP725V9TNT1QPnAPhQzu+uk5O76bVfCyoHYqe
-         E5nx1r8Qag0MxeV/gWNAzwdqv2Z6sDvgsQb5OELFHqz6AH7J9y3czRFLAVaY3K82E3RK
-         9A5xM2xPDJR4YLtAdRxA9tMaopoTpTDc79XAOA9r6GGdwwhukUcMvfGlHjyt7x9LlqoS
-         QnsgpjhSGs5wPUWE+9LCgAS4Dxv2s3bEOWAZRoEwe1gTwf69dLUXjiSckM+npKPgTFeC
-         2YjA==
+        b=brIZA30+QC22KrJ8MMmXI4OWGoH7RVRK6m53vu7VJpeiUV6bwkg/+rSYbWjGXOBr4X
+         q3Dr+YYmFEKlad6h19nljNK0SuuWbxZlAEnL/rqAFEefq6s3Jeor1KJK7ghYDcqCt5bi
+         tjoQQUwiGY0chRO5vq7qN8UpnJtunLzBa3/CDxUUuT3SNf0kv7CEmuQX5rn9qMTe7XP6
+         jB70f04Dv0+zULyK1l5CibBeRNlqgsKDYli3J6KD1hkBrciAZUHkgSB7B6+qop46fW3z
+         cVf60ZOVVJExoRptfK3zakSqYdc6uWE87DMjv/WiiQUCRRDZzlxe4dnXHvTaw9W9R8g+
+         3VSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=TTRa4bciUTcuDRueE3/k06WcZ3o9L8g788kpod7WVzE=;
+        bh=ZvOUFemvLm+pwEW6fRvfJ1MnyNowCH5MgaqARB5PLNk=;
         fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
-        b=NW8LQRWFmSyKfsltkarGaRs6NXnntY8ZjWSfmN5v2BfwH+KQPYJ5UFV33L1RvHAMyq
-         t6VHL99vi3o3O9b8NuDKL4QueaZJXrP561mjS22pWNgxCyZjvZ9LiGX6sElmP2c2QlR3
-         uS2fNOL+ixxBAf9UbPMgT1ui/PKGFAMQkLEsj+KktgAv8fqBbsi0H7X58kr0BAAmh2c3
-         ngLWMMfuplTiQukRxKKGS5SPZnAzUO1524TD+JdkKlbT9AFl0uB/IsjGSB/SRCjAt6Jf
-         OUe53FAVhEqBXqEGyoUjIRFPTEjbBaF1Qzs17wdzarVbasV4P1vODkIYi9mMlgYuZbfh
-         Sj0A==;
+        b=OSCEN10m1p8hCSm5IteiAyJ9jomwB1F6MQx9baiSEURdc6FVat+rkc17EyCQqEceJb
+         dk7JAgk4o+d8Ysdgr/Ro66C9RwRZ9p0Rekk6brNlHxiEGlEv/emWJcH/SlYgJyOA41jp
+         Woey3mhCMs66ahvdHmz2qxL3Fj3jzHLnmLvjFfJDGpF+mOVP7I/jlYfA5FZCN6+zGgnZ
+         aD1NVJ6B2EvOrouaHdiKEhwh5+YHJfnu3MR2Opb0CjZMP4yAvefCE+Wr+7Om595CqAwL
+         4CVQyp/iNoQ7HVpk/Ybf5/wvi2pr+JgAGvAjHzTWazoZBGdRG0Elp1ysNPOXLLGDiDZT
+         XJVQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773324931; x=1773929731; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1773325483; x=1773930283; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TTRa4bciUTcuDRueE3/k06WcZ3o9L8g788kpod7WVzE=;
-        b=Hl2JZU87ETmsrw+fEKMix4BVQJtT7nnxRweCR+iJMofStjIrZEKINmSaRpWFjLXiQa
-         aKyrH05lmfO79TmMn7sOTcE+Fty+Z/tfp9loOUAp2uecyl7Y9ANLlDF+gyDCOwMQI3En
-         4D77BFGr322QcsI/qbao+F8TEPL3bHC0MI6sD/dzKFn4NvKL6CWMaCIDMcNl8UuyIhjg
-         hDEnkUr2s1d0HAKhmo9l5ULwRCv3WI5VGf/01WRte9A5doCSdY0MohjVJAeDfKJUdK1G
-         UyfvDTH5SLcFIOb3xezaU3lRslw1RiebKEVdUOEbPkGCOrZJLzk1sOSA9OPVcV7kN6jK
-         sykQ==
+        bh=ZvOUFemvLm+pwEW6fRvfJ1MnyNowCH5MgaqARB5PLNk=;
+        b=Ybyu9l9vHgFKjjBy6gDtqVsMZrb2iXFzRNeEBI3s26AyfFWF8sf2FqrR3ARiHezgPD
+         ffZgHpwkX+n7ZhNj3sYQw9rhiEoft6lWqdrcHF0uFnjPBwnWcwNDs4YEP1ZS1mkOSKw2
+         YP8W1zrzQMeylso3wc9mn9m9VBsp9fgr5hQhXKaH+Gd6o7YDLEPNU4VH3SYggRIxxsNh
+         hboGYnTZo5Ie7DkOG0D/JZ7gVT0cIdYpQkeKg1Nqes5ZBWv5BFhdjMsf2sCsxo9YBAt+
+         0L+s1dTJaDaEfDRFTSoe9yiGZg1pKtztpKhDlE05JoB9BMwxMl/gdxxj3BlSFFifyf0M
+         hclw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773324931; x=1773929731;
+        d=1e100.net; s=20230601; t=1773325483; x=1773930283;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TTRa4bciUTcuDRueE3/k06WcZ3o9L8g788kpod7WVzE=;
-        b=J6OqrBqWeFYUG0mjNXNjxSMUZpozcyN8i2UMix2G76C2az1OQd6z+uVA6M45o6YSBE
-         J9Vy4WEsgoZXpZc0vG7ypaFBJ+fkUA9EtFyNeHF7tbP5rCkaHiHieowa6CJwKokdnaYt
-         YJA7otb/ia2HVJRUUldL9J3WLZVAh0Y/ryONpnVkHqJuoEDoOWEFemMDnw72m3rv4smA
-         JP52O/2r5cHiGYBMn9Q4CV7dUQRuRlI6ks490bzLA5EbaOjGz1UbdrSq//aTgpXq9bw5
-         aLx8GkxsdThoyNMuY6+9MsqT5QuHf2Ge7a+RR+zC2Ops6YUqPtDbWR1x44FgqKIunZhm
-         ThNw==
-X-Gm-Message-State: AOJu0YxNVROUjf3NNggCI41JHt/hZz+7TDqQ8maQLamrjJmmmbfGPIjg
-	tX6wwfh7RE8WmkrRHuHLLnGY9d2AdlPULSKfr98vdMoNM53tNdmIWRL7674zatHeZb5HdXYLaAY
-	5J8ZIPCLs2NWk1RVkGI3uCqk+6lzouyQR9w==
-X-Gm-Gg: ATEYQzzDlp5wdwRlYHohhHlImJPtw1CUwO00mtdXASweiaJsZzsF5bArXP1oUCDbjV/
-	IE7qkqOgEPbl4MVYyjFn+gpCJ9uzMoqpy0E0ZT4D3SxyVvDl/DnzrlzpPReCEpU6QtcrodljoGQ
-	TL4J7l0SOk4SgGYfqQCAvXBYwSPMRRdcL86VZBBzloIC2po9X+QRUTqicRySITpi424Z3l7VUXe
-	lM5ulMcEH5+nlcejxqLtEFxt6DpP6a4XxndDn+xvbahtV1V44dQyzOzDt71032hx0DOiHRHdQfq
-	/ShuyB7fkDfYI+1Gb4hmvQ==
-X-Received: by 2002:a05:690c:110:b0:799:1913:1145 with SMTP id
- 00721157ae682-79919131565mr53130937b3.29.1773324930764; Thu, 12 Mar 2026
- 07:15:30 -0700 (PDT)
+        bh=ZvOUFemvLm+pwEW6fRvfJ1MnyNowCH5MgaqARB5PLNk=;
+        b=aPVGkzqdvLGsMIGQbD8DGCR394n9UJzlmCR21uWoO1KIj6BmEp0Um2ORQt682xRRw0
+         anx8U4Le/JnAWi64AOkbPEx0+6ad+EzirzVVRlEgFHkYc3DvU5DKNdBfPT+w53ISNISM
+         m/PbuxABZrShko8G/GUxHtYmtDGvOyGmqWl5KMFxwmHngkPhVhm58MWwlHYvGscIjgR+
+         FRkGYsN7IFV5HUoR3UKh4npwHnknXCNAdRQYDH6TfaAa1+yF6xciLm3XuXqMw+o83cYF
+         3ZvowFzeKc7xApEtdOjuRFgSZz8AzcRhgeYGRDdN/CvdDQFSvmqBAsxoqf8vYhaMgRoN
+         drpg==
+X-Gm-Message-State: AOJu0Yweh2pzcMmAjtvNTSRkxFdreuSJn1P5XhY7G1kb4iiy9LcOG0JQ
+	ziC4vHU8eoXG32/hidh1ZjroE6nkv/tb85CgtfxnLX/1gJWGe9zcmyd9Uuo8DrtF0GWvQ39AMNA
+	AZ86aOIWJRsLhTWKJP+bFTtc62rTiyfs=
+X-Gm-Gg: ATEYQzxUFVy30p4iyf8zmmpukR7Uef2wAm+KbxnYpxX/rWOoMDVjZCgvXuz9AHMs2v2
+	zb8H36RAhsMA6XShynJI2BXrXynL/rvSgOmbr5HVk/zlKeOp7OjEQW1Qt5xTls5X8hOWpeMOc5N
+	x6Jv76gUZPJr7DfhLs0WcGUkaD6B0pQYJTFgEdUGt3oEcDcJeseRqc9eurs5g0zd8QaVvMDXk/A
+	2yOI7wRr8nl+Jnz0yb+NJ8OFFLopmoV+CVzN4jcpDeLbeNxy5bxKtPzKmo+Mr6nX3y7M1wRzWJx
+	v1XH6o7brNwIjvu6vHLvwA==
+X-Received: by 2002:a53:cec1:0:b0:64c:4f97:e8b0 with SMTP id
+ 956f58d0204a3-64d657d206amr4729199d50.61.1773325483428; Thu, 12 Mar 2026
+ 07:24:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
- <20260310184058.533343-1-JPEWhacker@gmail.com> <20260310184058.533343-10-JPEWhacker@gmail.com>
- <68df2a5e4d34f553e5e1c4e6ebaa95cf1e75d462.camel@linuxfoundation.org>
-In-Reply-To: <68df2a5e4d34f553e5e1c4e6ebaa95cf1e75d462.camel@linuxfoundation.org>
+ <20260310184058.533343-1-JPEWhacker@gmail.com> <20260310184058.533343-11-JPEWhacker@gmail.com>
+ <a437698a4d24a835440e282d0d744f5b3ff669a3.camel@linuxfoundation.org>
+In-Reply-To: <a437698a4d24a835440e282d0d744f5b3ff669a3.camel@linuxfoundation.org>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 12 Mar 2026 08:15:19 -0600
-X-Gm-Features: AaiRm53wOqgmV3fYgo0JA4GN5AJqh1lEIvEEKlnuI1kJ0zvnzSEMEoHVnW5yWqU
-Message-ID: <CAJdd5GYbf7qApD_tfDP94faaJtVoG8KM=aHojGB8GQuF3tUJvw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v6 09/15] spdx30: Skip install package CVE information
+Date: Thu, 12 Mar 2026 08:24:32 -0600
+X-Gm-Features: AaiRm50vGas9AIlKAvHCtAPygbKCgd4YFvSxowlL_AtHJJtbBxO9j98hew5jdXk
+Message-ID: <CAJdd5GYvTS71yZ7OfgH3d2Ouam8H-2y4hZmgJurLXC9t3CA9fg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v6 10/15] dummy-sdk-package: Disable SPDX
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
@@ -86,88 +86,67 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 14:15:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232971
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 14:24:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232972
 
-On Thu, Mar 12, 2026 at 5:55=E2=80=AFAM Richard Purdie
+On Thu, Mar 12, 2026 at 5:59=E2=80=AFAM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 >
 > On Tue, 2026-03-10 at 12:38 -0600, Joshua Watt via lists.openembedded.org=
  wrote:
-> > Skips adding the install package CVE information by default. This
-> > information grows exponentially, since it ends up be N_CVES *
-> > N_PACKAGES. The CVE information for a given installed package can be
-> > determined by following the "generates" link between the install packag=
-e
-> > and the recipe and looking at the CVE information for the recipe,
-> > meaning that the CVE information is only included once in the SPDX
-> > document.
-> >
-> > If users still need the legacy method of including CVE information for
-> > each package, then then can set SPDX_PACKAGE_INCLUDE_VEX =3D "1"
+> > The dummy SDK packages do not need SPDX support, and since they play
+> > some games with allarch that cause problems, it's simplest to disable
+> > their SPDX output.
 > >
 > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > > ---
-> >  meta/classes/create-spdx-3.0.bbclass | 11 ++++++++
-> >  meta/lib/oe/spdx30_tasks.py          | 39 ++++++++++++++--------------
-> >  meta/lib/oeqa/selftest/cases/spdx.py | 12 +++++++++
-> >  3 files changed, 43 insertions(+), 19 deletions(-)
+> >  meta/recipes-core/meta/dummy-sdk-package.inc | 1 +
+> >  1 file changed, 1 insertion(+)
 > >
-> > diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create=
--spdx-3.0.bbclass
-> > index c3ea95b8bc..88b7ef9f42 100644
-> > --- a/meta/classes/create-spdx-3.0.bbclass
-> > +++ b/meta/classes/create-spdx-3.0.bbclass
-> > @@ -45,6 +45,17 @@ SPDX_INCLUDE_VEX[doc] =3D "Controls what VEX informa=
-tion is in the output. Set to
-> >      including those already fixed upstream (warning: This can be large=
- and \
-> >      slow)."
+> > diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipe=
+s-core/meta/dummy-sdk-package.inc
+> > index bf453cac9b..71e788b0b9 100644
+> > --- a/meta/recipes-core/meta/dummy-sdk-package.inc
+> > +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
+> > @@ -4,6 +4,7 @@ LICENSE =3D "MIT"
+> >  PACKAGE_ARCH =3D "all"
 > >
-> > +SPDX_PACKAGE_INCLUDE_VEX ?=3D "0"
-> > +SPDX_PACKAGE_INCLUDE_VEX[doc] =3D "Link VEX information to the binary =
-package outputs. \
-> > +    Normally, VEX information is only linked to the common recipe that=
- `generates` the \
-> > +    binary packages, but setting this to '1' will cause it to also be =
-linked into the \
-> > +    generated binary packages. This is off by default because linking =
-the VEX data to \
-> > +    each package causes the SPDX output to grow very large, and the sa=
-me information \
-> > +    can be determined by following the `generates` relationship back t=
-o the recipe. \
-> > +    Before recipe packages were introduced, this was the only way VEX =
-data was \
-> > +    expressed; you may need to enable this if your downstream tools do=
- not \
-> > +    understand how to trace back to the recipe to find VEX information=
-."
+> >  inherit allarch
+> > +inherit nospdx
+> >
+> >  INHIBIT_DEFAULT_DEPS =3D "1"
 >
-> To me, removing this duplication and keeping the SPDX docs usable seems
-> like a very sensible thing to do. Do we want/need to make it
-> configurable?
+> I know why you did this, but after thinking about this, I'm worried and
+> I'm not sure this is the right move.
 >
-> I appreciate some tools/usage may need fixing to work with this but
-> adding configuration options like this makes it harder to use our code
-> and also adds maintenance/testing overhead.
+> The SDK dummy packages are "odd" but they are actual package files that
+> are generated and would be present in manifests and as such, if they're
+> missing from the SPDX manifests and docs, this is going to raise
+> questions. I appreciate they don't have content and their main use is
+> their 'provides'.
+>
+> Taking a step back, we do support generic/multiple levels of package
+> arch and since we support that, the SPDX code does need to handle that
+> too. I'm therefore starting to worry that SPDX can't cope with the
+> multiple package levels. Can you remind me what the issue is with the
+> "all" arch here?
 
-Maybe, but I'm very hesitant to break any existing SPDX based CVE
-workflows that people may have in a LTS release, which is the only
-reason I added the option. I'm fine to remove this after the LTS, IMHO
-it's just too close to LTS release to suddenly say "sorry this is all
-broken for you now"
+The problem is specifically the anonymous python that does:
 
->
-> I think I'm very much in favour of just changing and generating things
-> like this unconditionally and if someone needs to work with it
-> differently, they can post process the output.
->
-> This goes back to my concern about the complexity of the code and
-> configuration, I think we need to simplify and present fewer options to
-> the user...
+    d.setVar('PACKAGE_ARCH', '${DUMMYARCH}')
+
+Which seems specifically intended to bypass the allarch logic in a
+weird way. It's specifically doing this to put the package in a place
+no-one can find it (this includes SPDX); I didn't think it provided
+much value hence disabling it, but looking closer, I think we can do:
+
+SSTATE_MULTILIB_SSTATE_ARCHS:append =3D " ${SDK_PACKAGE_ARCH}"
+
+in create-spdx-sdk-3.0.bbclass and that should fix it. I'll try it.
+
 >
 > Cheers,
 >
 > Richard
+>
 
