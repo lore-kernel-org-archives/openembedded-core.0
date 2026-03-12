@@ -1,299 +1,216 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEAE106ACC9
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 16:14:54 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25754.1773332093701263532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B867E106ACCD
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 16:44:13 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.257.1773333849958229103
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 09:14:54 -0700
+ Thu, 12 Mar 2026 09:44:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=pw2BIKQh;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48534b59cf3so11179625e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 09:14:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dXLODfER;
+ spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7991d890ebbso12974477b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 09:44:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773333849; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DDqRh+lwSwjvCuQISOZfVjfTCRXaBXId/KLVwO1YyCKnaJqYbx8uR+7+VUnBafEDEJ
+         uajZ1wo8gS4RGcqn8Rbki+YDC8kNcicOP8/HI0mc4tdPBSvmhsyToUrQJ3Y1LH2FX/FM
+         LEu95W3lmLB4aDQwe3ksuOIvYp92GlGQ8796pE8YpdPrgICTtKh6dlM0Gd0dvb3unlaC
+         Ovl0T2UdjvNK7f5CTAiAK6NGv5JdqjXQypOo/pF90EWroEt0wRdNLS+cJ6yA+ToIX8O+
+         ow/TrRh4zFHesY1vu1v8x3v9+rZ96ZsJnXvo+smDIULXf73v0UjIoD/NHKtwelLucsZ+
+         uOnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ruFpro2UljXMX4SX00fWHJmI/AlyI00umJYcK2lOUPo=;
+        fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
+        b=Vrygz6MpVpwTGr1EzwS6zUJfMqYSG6i7MjHO6E4jH38K7f6SANew3ZgC5N4mzzyRay
+         v1JXeMwsXseLymbOdVl6vMEXC6LdZhM7vNWeWHzRtJB05spi2jAG5aA+hfdwW+vqTfA5
+         xtW1My6rt7WpF2dVxD01+mIVBEPFR+MvhKMONxVanV8GX6EFfQ/EWqDUMFvBuX31kHAu
+         L4xZKsqf6IXSVSbUuDfaqK78Y2QreO6BMCsX8VzL+Adb63t+pGO0GelXPXdSyQ45g4oO
+         ujmOZ9KWuPfSqiJGmI8NBDFitV8AMQ85/73hT2C2ldbu117+7sN2i8FKgHPiFhjNZBtm
+         f0RQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1773332092; x=1773936892; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773333849; x=1773938649; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d0OS8M0+B2fnj/OT4T6pnrWlYvV7cy/UEGWjj+PZjOw=;
-        b=pw2BIKQhWK7Y57kRQp++IpLCI53rrudS9VOkLLb4uwvkNxeKpbyLa2cFB0zk4u3wxC
-         G32oDWhLvt1hcusDzMbFuPDvvI0jON/InSWm1IQalmPgi+jsYU/1CBZ1+oN01r9DgDve
-         6AP9uDDBO9NAN2vPpOxOtZBaU+GjFKpxSSSBQ=
+        bh=ruFpro2UljXMX4SX00fWHJmI/AlyI00umJYcK2lOUPo=;
+        b=dXLODfERovzIepyBbzk93rwvBfYcZRIHKSPSi5TNJ2//x0VifqxrkBBl0a7Gxgmfpl
+         lUQ3GafYgfL+De/R0gD7rsG6TFpOiUXBlWPDRIx4uz22FR6Hqxz959uIT7b08ipCLjrw
+         9eefMXNy80+vy1WDCRwETBv6IPolUlJOEwzo/iv6spZMxRUwBGTbwDddVjQSNyAU/qa8
+         zMIDqtC4ECvjXjLsNlHERFs5jM8F+Sjh+yWcRI974ZqfbLRl2qGo3XvYl8pVukgN+slu
+         G74ap20rXyE3NE58cNzt+/2443nqs1wYBKfRiZsTeLri/DExzuDe93PQ/JNsiiy1t7eM
+         yPjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773332092; x=1773936892;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d0OS8M0+B2fnj/OT4T6pnrWlYvV7cy/UEGWjj+PZjOw=;
-        b=nykwoTxDOumIq1NwSVCIQsOj3g27fqn4FB27TgafO/11tQVMiKo9botgaMe1J92ZuL
-         4DGE0lj+KmJHJ34SSm09KirMQqUOtZyHRyZO8plBL56jRBUY63BZK1SOh2/gTrDgiM8X
-         05i5N+KjEBlineFp5cNE8xAg2FL4/bR+TJL47mQfVOBtOu/PA8C3kP/wkxyW+7aByH0+
-         DmbOXFb6iBrunLpaPnYhInbW0EEAP2wkVZEj2rtCrC9kWDJySeEevL5RsmG6kkfz5erk
-         YbwhC/tfjADg2StS9rP1smALArVZFp2iNZRdxdEXYsD19NhBxUETLqoOU68BraJ54fmh
-         0rAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXRn2Uf2ZcxJv7mMKFhdEW2sGMdaGX/BBckJQu2xLljxBuSRIwC21Mu6wVdkHAjUyU1tcB550D1uOfwADcNzQ1eRg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxLVwpgo7Zm3v6t9n6Z1a+SDWVmjPA7I6Fz16H86B0Ctex0dwmH
-	Qm2iWSlxSxOdHrRXDOBqYJacFsHaGlTFVFfsTL3JekarmRYcvp/UyOen1AvAupkSKvY=
-X-Gm-Gg: ATEYQzyP4nT3eNmLIFa7moMW5TAXnFC2W82KIZux1yVUeY+HNPJb0MgC0suilrMW1Yt
-	chZoQXoCVJA+RpcPd69HcgYs40UqbsKKE3E6iiXevbcBlqj1dtvsyHu2WclzkgGFpg4xVejCnjJ
-	Ch3d4/tQ/lmKQXqh2V4p+U/LpaxINVINFsSZuAYZqh72TW7PSE56xQOoLvx0b4/DvDcHtvOgIWC
-	b+Oc+NElqeAhge8EQHbPda6PQPLJN7IXUVdudcz4X6wIAZU5hkPGTS3cUc788QmLG7E0L95Yd86
-	OdhB/pQYtmnJTqR9ao/LrC4ES7rB9Lna8dOrsDGej0jlfRa6g0dVY5XK8VFohZT/obt9muUgbfv
-	YHqYOPOufOdHClvZ9AVBDJGA5q0x13Vxb9bsXEFm8S5UOcv4wUPdQwfZO1Z1kPn7D7CIY6hRyOG
-	VUEL1gFHUpVwjsHem7+cW6SVECu42JtoGPL8oiZkro0qZNbOSZW0K5cSqgTp3o5RHrqUs9zc2qd
-	xPl579vfbDzAmpMR8cLg8lZUA==
-X-Received: by 2002:a05:600c:3114:b0:485:4526:ee06 with SMTP id 5b1f17b1804b1-4854b0bb7dbmr115555375e9.11.1773332091870;
-        Thu, 12 Mar 2026 09:14:51 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b5e912fsm365224305e9.2.2026.03.12.09.14.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 09:14:51 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20230601; t=1773333849; x=1773938649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ruFpro2UljXMX4SX00fWHJmI/AlyI00umJYcK2lOUPo=;
+        b=o9eHA+jt4fhFPYbMQ7vdHCA68oQU3rP9BesFyohcPXDYeiuLZljvAtdC/bR8cxDR/Z
+         Sg4xjVaIq2JDpVl6zpi6jR1vpbZeo4Nhx2GYwPGA/3KWveZSfka25d2tdk8x7dCFoMi+
+         gSY5x2PiWx2uQVm3e/+3fij26mjzNTnJw/YpFSD41CSfpdeZ1nv7biDtK+acmjI4XUjA
+         rpKwoerKHmG0swfH5LUynOtBm7tzarp3fBRGZkOzz+vFfC6LwTZYlk1L3VpKx5OwzU1B
+         0BR2oKaiJsDm7EwfdCps+qRLr/66Fiywmvg2uxCoWNA34zj6/G9E2REOh83MDPKbpW8N
+         hNpQ==
+X-Gm-Message-State: AOJu0YxrfZv7h4DJBPI2exYZd0rSFMnwDTWgBS8uJH1EX3kz6dY7U9/a
+	swdtHRk2HoywgEVydXs3FwEc4kQyDmV7NdwPoNxW+na5Wi6W6ghVXr0pLczBxkYxf2fjAW9Fp+N
+	mCTM2xtVBxfRPGgPH6uZEpeZ73IeG2U0=
+X-Gm-Gg: ATEYQzxXZ7lytP5PIZ8lhBs2+RAHXlmT2p5w6URSktoD4pLyO02gBnZCqWD/csUdCKa
+	jkfl10Bzz+1GxxRZabZ8yW4FsJvDUqSYuhO+dkg0KAroJozadoWWQdEgNYD7BOiQJnZYKEqpbqx
+	SRjkm45xRxK1F9y3rcelvtehMJ3kt0w2T0mmRzLGQJlyYF0VkuX8JhDKP99csRzMuN32xEhju/0
+	zPuybz42vwrDM9cFelKtnc8gnI3G7zkSSm5M7oSURX8Lw/Rx9DM+N9hXWwqL3q+ZKxLImC2rabw
+	oG8JjAaJNiUKkGxA/ru0uX5m/VYr1jwR
+X-Received: by 2002:a05:690c:3388:b0:794:cf56:5bc2 with SMTP id
+ 00721157ae682-79a1c23cefbmr2317457b3.59.1773333848903; Thu, 12 Mar 2026
+ 09:44:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260304164835.3072507-1-JPEWhacker@gmail.com>
+ <20260310184058.533343-1-JPEWhacker@gmail.com> <20260310184058.533343-11-JPEWhacker@gmail.com>
+ <a437698a4d24a835440e282d0d744f5b3ff669a3.camel@linuxfoundation.org>
+ <CAJdd5GYvTS71yZ7OfgH3d2Ouam8H-2y4hZmgJurLXC9t3CA9fg@mail.gmail.com>
+ <c46dca246219768d5ecc515b904fbfc6053feab7.camel@linuxfoundation.org> <CAJdd5Gaz02WEo4a=OVVsFCRr7am5t30Nfv5Hd1L8+yX3gZboog@mail.gmail.com>
+In-Reply-To: <CAJdd5Gaz02WEo4a=OVVsFCRr7am5t30Nfv5Hd1L8+yX3gZboog@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 12 Mar 2026 10:43:57 -0600
+X-Gm-Features: AaiRm53Qk377YP0goUHUrteYWifOXS7BjBv-rtf7kXhukxsG5dwNEeR78LKjhgE
+Message-ID: <CAJdd5GbybqHSHR461E+KB81Z89xfSq2jb+bEOUG=33JhCrN=3A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v6 10/15] dummy-sdk-package: Disable SPDX
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Mar 2026 17:14:51 +0100
-Message-Id: <DH0XRG6JW24L.HWUFDCHSA433@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH] go: Fix CVE-2025-61726.patch
- variable ordering
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <eduardo.barbosa@toradex.com>, "Eduardo Ferreira"
- <eduardo.f120@yahoo.com>, "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260309165351.311700-1-eduardo.f120.ref@yahoo.com>
- <20260309165351.311700-1-eduardo.f120@yahoo.com>
- <GV0P278MB0767EE53CCFA8EE22A5559A3E844A@GV0P278MB0767.CHEP278.PROD.OUTLOOK.COM>
-In-Reply-To: <GV0P278MB0767EE53CCFA8EE22A5559A3E844A@GV0P278MB0767.CHEP278.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:14:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232996
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Mar 2026 16:44:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/232997
 
-On Thu Mar 12, 2026 at 2:54 PM CET, Eduardo Ferreira Barbosa via lists.open=
-embedded.org wrote:
-> Hi, is this patch submission OK for review, or did I miss something with =
-this new version?
+On Thu, Mar 12, 2026 at 10:06=E2=80=AFAM Joshua Watt <jpewhacker@gmail.com>=
+ wrote:
+>
+> On Thu, Mar 12, 2026 at 9:58=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Thu, 2026-03-12 at 08:24 -0600, Joshua Watt wrote:
+> > > On Thu, Mar 12, 2026 at 5:59=E2=80=AFAM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >
+> > > > On Tue, 2026-03-10 at 12:38 -0600, Joshua Watt via lists.openembedd=
+ed.org wrote:
+> > > > > The dummy SDK packages do not need SPDX support, and since they p=
+lay
+> > > > > some games with allarch that cause problems, it's simplest to dis=
+able
+> > > > > their SPDX output.
+> > > > >
+> > > > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > > > ---
+> > > > >  meta/recipes-core/meta/dummy-sdk-package.inc | 1 +
+> > > > >  1 file changed, 1 insertion(+)
+> > > > >
+> > > > > diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/=
+recipes-core/meta/dummy-sdk-package.inc
+> > > > > index bf453cac9b..71e788b0b9 100644
+> > > > > --- a/meta/recipes-core/meta/dummy-sdk-package.inc
+> > > > > +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
+> > > > > @@ -4,6 +4,7 @@ LICENSE =3D "MIT"
+> > > > >  PACKAGE_ARCH =3D "all"
+> > > > >
+> > > > >  inherit allarch
+> > > > > +inherit nospdx
+> > > > >
+> > > > >  INHIBIT_DEFAULT_DEPS =3D "1"
+> > > >
+> > > > I know why you did this, but after thinking about this, I'm worried=
+ and
+> > > > I'm not sure this is the right move.
+> > > >
+> > > > The SDK dummy packages are "odd" but they are actual package files =
+that
+> > > > are generated and would be present in manifests and as such, if the=
+y're
+> > > > missing from the SPDX manifests and docs, this is going to raise
+> > > > questions. I appreciate they don't have content and their main use =
+is
+> > > > their 'provides'.
+> > > >
+> > > > Taking a step back, we do support generic/multiple levels of packag=
+e
+> > > > arch and since we support that, the SPDX code does need to handle t=
+hat
+> > > > too. I'm therefore starting to worry that SPDX can't cope with the
+> > > > multiple package levels. Can you remind me what the issue is with t=
+he
+> > > > "all" arch here?
+> > >
+> > > The problem is specifically the anonymous python that does:
+> > >
+> > >     d.setVar('PACKAGE_ARCH', '${DUMMYARCH}')
+> > >
+> > > Which seems specifically intended to bypass the allarch logic in a
+> > > weird way. It's specifically doing this to put the package in a place
+> > > no-one can find it (this includes SPDX); I didn't think it provided
+> > > much value hence disabling it, but looking closer, I think we can do:
+> > >
+> > > SSTATE_MULTILIB_SSTATE_ARCHS:append =3D " ${SDK_PACKAGE_ARCH}"
+> > >
+> > > in create-spdx-sdk-3.0.bbclass and that should fix it. I'll try it.
+> >
+> > That code was to put these packages into their own separate feed.
+> > Specifically:
+> >
+> > meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb:DUMMYARCH =3D=
+ "buildtools-dummy-${SDKPKGSUFFIX}"
+> > meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb:DUMMYARCH =3D "s=
+dk-provides-dummy-${SDKPKGSUFFIX}"
+> > meta/recipes-core/meta/dummy-sdk-package.inc:    d.setVar('PACKAGE_ARCH=
+', '${DUMMYARCH}')
+> > meta/recipes-core/meta/target-sdk-provides-dummy.bb:DUMMYARCH =3D "sdk-=
+provides-dummy-target"
+> >
+> > so there are separate package feeds being created and then the SDK code
+> > can select which package feeds it wants to use for a given
+> > configuration/recipe.
+> >
+> > That isn't to bypass allarch but just to customise the end package feed
+> > naming and allow different forms of SDK to be built by bringing in the
+> > different package combinations.
+> >
+> > My worry is that the SPDX code isn't going to handle the scenario where
+> > PACKAGE_ARCH is changed (for example for a specialist graphics stack)
+> > and that one of our general features will be lost.
+>
+> Right, SPDX is (supposed) to do whatever sstate does, so if it works
+> for sstate it works for SPDX. The problem isn't that this code does
+> the arch changing (specifically), it's that it changes the arch to an
+> arbitrary one that isn't part of the normal package search order (on
+> purpose), and then expects everyone to manually add in that arch when
+> they need the package (which, SPDX was _not_ doing but all of the
+> other SDK code obviously is). I think my proposed fix is thus correct
+> and I will test it which should cover this corner case.
+>
+> In general, I think most packages are handled correctly because again,
+> SPDX does whatever sstate does, and SPDX even respects SSTATE_ARCHS
+> which is how I think other recipes would deal with a similar
+> situation. However, the SDKs are different specifically because they
+> expect SDK_PACKAGE_ARCH to be respected by anything dealing with the
+> sdk generation code, which is what was missing in SPDX.
 
-This submission is fine, I have it in my review branch[0].
-
-You should see it it my patch review request or have an answer in the
-next few days.
-
-Thanks!
-
-[0]: https://git.yoctoproject.org/poky-contrib/log/?h=3Dstable/scarthgap-nu=
-t
+Hang on, I think I'm getting this confused with a different problem.....
 
 >
-> Thanks,
-> Eduardo
-> ________________________________
-> From: Eduardo Ferreira <eduardo.f120@yahoo.com>
-> Sent: Monday, March 9, 2026 1:53 PM
-> To: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org>
-> Cc: Eduardo Ferreira Barbosa <eduardo.barbosa@toradex.com>
-> Subject: [OE-core][scarthgap][PATCH] go: Fix CVE-2025-61726.patch variabl=
-e ordering
->
-> This message originated from outside your organization
->
-> From: Eduardo Ferreira <eduardo.barbosa@toradex.com>
->
-> Commit 6a1ae4e792 (go 1.22.12: Fix CVE-2025-61726, 2026-02-11)
-> introduced a patch backporting a fix for CVE-2025-61726, but
-> this patch also introduced a bug.
->
-> From Go's source code[1], they say that the 'All' table from 'godebugs'
-> should be populated alphabetically by Name. And 'Lookup'[2] function uses
-> binary search to try and find the variable.
->
-> Here's the trace:
-> Mar 06 11:33:33 toradex-smarc-imx95-12594035 systemd[1]: Started Docker A=
-pplication Container Engine.
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: 2026/03/06 11:=
-34:53 http: panic serving @: godebug: Value of name not listed in godeb
-> ugs.All: urlmaxqueryparams
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: goroutine 78 [=
-running]:
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*con=
-n).serve.func1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http/serve=
-r.go:1903 +0xb0
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743=
-e8740?, 0x4000b526c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: runtime/panic.=
-go:770 +0x124
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk/trace.(*recordingSpan).End.deferwrap1()<http://go.openteleme=
-try.io/otel/sdk/trace.(*recordingSpan).End.deferwrap1()>
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk@v1.19.0/trace/span.go:383<http://go.opentelemetry.io/otel/sd=
-k@v1.19.0/trace/span.go:383> +0x2c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk/trace.(*recordingSpan).End<http://go.opentelemetry.io/otel/s=
-dk/trace.(*recordingSpan).End>(0x40011b4a80, {0x0, 0x0, 0x40
-> 006441c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: go.opentelemet=
-ry.io/otel/sdk@v1.19.0/trace/span.go:421<http://go.opentelemetry.io/otel/sd=
-k@v1.19.0/trace/span.go:421> +0x898
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: panic({0x55743=
-e8740?, 0x4000b526c0?})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: runtime/panic.=
-go:770 +0x124
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug.(*Setting).Value.func1()
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug/godebug.go:141 +0xd8
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).d=
-oSlow(0x22?, 0x55748a9b60?)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync/once.go:7=
-4 +0x100
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync.(*Once).D=
-o(...)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: sync/once.go:6=
-5
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug.(*Setting).Value(0x5575b21be0)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: internal/godeb=
-ug/godebug.go:138 +0x50
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.urlPar=
-amsWithinMax(0x1)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url/url.go=
-:968 +0x3c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.parseQ=
-uery(0x400069a630, {0x0, 0x0})
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url/url.go=
-:985 +0xdc
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url.ParseQ=
-uery(...)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/url/url.go=
-:958
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http.(*Req=
-uest).ParseForm(0x4000bdab40)
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: net/http/reque=
-st.go:1317 +0x33c
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: github.com/doc=
-ker/docker/api/server/httputils.ParseForm(0x0?)<http://github.com/docker/do=
-cker/api/server/httputils.ParseForm(0x0?)>
-> Mar 06 11:34:53 toradex-smarc-imx95-12594035 dockerd[839]: github.com/doc=
-ker/docker/api/server/httputils/httputils.go:104<http://github.com/docker/d=
-ocker/api/server/httputils/httputils.go:104> +0x20
->
-> The 'Lookup' function was failing due to the wrong ordering and returning=
- 'nil',
-> which was not being checked properly and caused this issue.
->
-> The fix was to just reorder the line where 'urlmaxqueryparams' is being
-> added to respect the alphabetical ordering. And for that the whole CVE
-> patch was generated again.
->
-> This change was validated with docker-moby (original issue), where a cont=
-ainer
-> run successfully and no traces in the logs.
->
-> [1] https://github.com/golang/go/blob/master/src/internal/godebugs/table.=
-go#L20<https://github.com/golang/go/blob/master/src/internal/godebugs/table=
-.go#L20>
-> [2] https://github.com/golang/go/blob/master/src/internal/godebugs/table.=
-go#L100<https://github.com/golang/go/blob/master/src/internal/godebugs/tabl=
-e.go#L100>
->
-> Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-> ---
-> .../go/go/CVE-2025-61726.patch | 21 ++++++++++---------
-> 1 file changed, 11 insertions(+), 10 deletions(-)
->
-> diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726.patch b/meta/reci=
-pes-devtools/go/go/CVE-2025-61726.patch
-> index ab053ff55c..bdd10bc933 100644
-> --- a/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-> +++ b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-> @@ -1,4 +1,4 @@
-> -From 85050ca6146f3edb50ded0a352ab9edbd635effc Mon Sep 17 00:00:00 2001
-> +From bf06767a9ac737387eee77c7eedd67c65e853ac2 Mon Sep 17 00:00:00 2001
-> From: Damien Neil <dneil@google.com>
-> Date: Mon, 3 Nov 2025 14:28:47 -0800
-> Subject: [PATCH] [release-branch.go1.24] net/url: add urlmaxqueryparams
-> @@ -36,6 +36,7 @@ Reviewed-by: Junyang Shao <shaojunyang@google.com>
-> TryBot-Bypass: Michael Pratt <mpratt@google.com>
-> (cherry picked from commit 85c794ddce26a092b0ea68d0fca79028b5069d5a)
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-> ---
-> doc/godebug.md | 7 +++++
-> src/internal/godebugs/table.go | 1 +
-> @@ -45,7 +46,7 @@ Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> 5 files changed, 85 insertions(+)
->
-> diff --git a/doc/godebug.md b/doc/godebug.md
-> -index ae4f0576b4..635597ea42 100644
-> +index ae4f057..635597e 100644
-> --- a/doc/godebug.md
-> +++ b/doc/godebug.md
-> @@ -126,6 +126,13 @@ for example,
-> @@ -63,19 +64,19 @@ index ae4f0576b4..635597ea42 100644
-> to concerns around VCS injection attacks. This behavior can be renabled w=
-ith the
-> setting `allowmultiplevcs=3D1`.
-> diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table=
-.go
-> -index 33dcd81fc3..4ae043053c 100644
-> +index 33dcd81..7178df6 100644
-> --- a/src/internal/godebugs/table.go
-> +++ b/src/internal/godebugs/table.go
-> -@@ -52,6 +52,7 @@ var All =3D []Info{
-> +@@ -51,6 +51,7 @@ var All =3D []Info{
-> + {Name: "tlsmaxrsasize", Package: "crypto/tls"},
-> {Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
-> {Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
-> - {Name: "x509sha1", Package: "crypto/x509"},
-> + {Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
-> + {Name: "x509sha1", Package: "crypto/x509"},
-> {Name: "x509usefallbackroots", Package: "crypto/x509"},
-> {Name: "x509usepolicies", Package: "crypto/x509"},
-> - {Name: "zipinsecurepath", Package: "archive/zip"},
-> diff --git a/src/net/url/url.go b/src/net/url/url.go
-> -index d2ae03232f..5219e3c130 100644
-> +index d2ae032..cdca468 100644
-> --- a/src/net/url/url.go
-> +++ b/src/net/url/url.go
-> @@ -13,6 +13,7 @@ package url
-> @@ -118,7 +119,7 @@ index d2ae03232f..5219e3c130 100644
-> var key string
-> key, query, _ =3D strings.Cut(query, "&")
-> diff --git a/src/net/url/url_test.go b/src/net/url/url_test.go
-> -index fef236e40a..b2f8bd95fc 100644
-> +index fef236e..b2f8bd9 100644
-> --- a/src/net/url/url_test.go
-> +++ b/src/net/url/url_test.go
-> @@ -1488,6 +1488,54 @@ func TestParseQuery(t *testing.T) {
-> @@ -177,7 +178,7 @@ index fef236e40a..b2f8bd95fc 100644
-> url *URL
-> out string
-> diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
-> -index 517ec0e0a4..335f7873b3 100644
-> +index 517ec0e..88d6d8c 100644
-> --- a/src/runtime/metrics/doc.go
-> +++ b/src/runtime/metrics/doc.go
-> @@ -328,6 +328,11 @@ Below is the full list of supported metrics, ordered=
- lexicographically.
-> @@ -193,4 +194,4 @@ index 517ec0e0a4..335f7873b3 100644
-> The number of non-default behaviors executed by the crypto/x509
-> package due to a non-default GODEBUG=3Dx509sha1=3D... setting.
-> --
-> -2.35.6
-> +2.34.1
-> --
-> 2.34.1
-
-
---=20
-Yoann Congal
-Smile ECS
-
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> >
 
