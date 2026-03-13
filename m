@@ -1,815 +1,368 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D075D106FD60
-	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 00:29:28 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5307.1773361761633929967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE1D106FD69
+	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 02:30:49 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7267.1773369042137316405
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 17:29:22 -0700
+ Thu, 12 Mar 2026 19:30:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 62D0SkjE2351651;
-	Thu, 12 Mar 2026 19:28:47 -0500
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org, twoerner@gmail.com
-Cc: mark.hatle@amd.com
-Subject: [PATCH 2/2] wic: re-implement sector-size support
-Date: Thu, 12 Mar 2026 19:28:46 -0500
-Message-Id: <1773361726-30192-3-git-send-email-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1773361726-30192-1-git-send-email-mark.hatle@kernel.crashing.org>
-References: <1773361726-30192-1-git-send-email-mark.hatle@kernel.crashing.org>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=HpTaBvYN;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7532d94ec9=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D196ZO1615005
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 02:30:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=3P3J8xELyPc235cVl5QSzA
+	DRCkm/WhibTN1QY+ll5VY=; b=HpTaBvYNMMvYbFLOyVqDS0pg6vh0K43Xodbe+T
+	q+FQI6K2fSOMEafW9xUarxGcT/RDzSaaZzon3ajckdAMn82S6f7LTQWN0zkblSyN
+	a3tkmAqqsWcobkKKWTxCv/M3rYNMgqKMldAP9tiGtm0sN0b0eVZDSK2YcpR7+hOK
+	xGKU6KRnLEtNBct+yJ1cd63O77eRY+PUXAGaNmybaBdWyLfEUBTSr9A5cfBU4lEJ
+	g9y9/6Jz/ZBRZLMfJkjrsYiBRt/6sINZ2SZ+fHlC7WPZ90/SHaJi9nMdWwB2496n
+	H/v+QQJ4yU/G9Qa0L1Dg/0gbLT3XauUzMrpV6jDOVFQggRPw==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010021.outbound.protection.outlook.com [40.93.198.21])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqs223-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 13 Mar 2026 02:30:40 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vq5lXldl9JyqVXWPPgNxOKQqjkWk7LSXj1IJaV1uWvjlg+DBRP7F0NDLDdJz7oN20BfznzyqkHeO4COAX+ZcjI+kPLr3smVacf5sPKFw00qu2hzaAekQEm6EaHq4az47u3nyw539AinhXDVz2bijaqSvN/7zEb3PSm5tWwVsFqbLR5McY6wL8AQ0qYvCAfWjAobfFFTq2ZOdw6kIw0KtGloh9sjrDl0QaNxeiaYZGJFhrIbxyNIvv8lu7hYRw+BRlfgfzYz88m0X8dU6QmDPVbEEwyd+jQpavVsvkO9STLEHlJtguU0zH/HpoqxzpHcw68ELprOWCgnH91OoySsrWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3P3J8xELyPc235cVl5QSzADRCkm/WhibTN1QY+ll5VY=;
+ b=N53D9CUjs7WEROEFhcV7VSx0bPsjQFfMQId+L3EDceQdx5EzOLJvnPXglGacIqb/0dpbeRZiD1kHk7oa+U0gkA+mEP+y56DMWmp+tdnr8vbh9NxUrSyW2/uPF/+NNjbXe99KVPvvQzYvXihk8QRRwY6qPSGZEUeQQhZrAlNSmM6rbDMEOKHTp1805x56QdzGCjAjG0zzgkN3X0jt9PNpzW686rjabcZvhw8slUyasGg5UOBLtmBOy69Ik7+qK0VlOmmRdp5ggxiFZhhVPROKlnyggiVAaHfQ107pVEqAsn/qOz+uumd0otTxxZwsuXr6R++Sp0L3PHw5/uDn5/hNIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by SJ0PR11MB5917.namprd11.prod.outlook.com (2603:10b6:a03:42b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Fri, 13 Mar
+ 2026 02:30:37 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::531e:6ef5:812b:48f6%5]) with mapi id 15.20.9723.004; Fri, 13 Mar 2026
+ 02:30:37 +0000
+Content-Type: multipart/alternative;
+ boundary="------------0rqKwa5l7bDyZJ3Sfzaf0R0b"
+Message-ID: <34e5b5a4-693d-4a31-8471-1a5495918593@windriver.com>
+Date: Fri, 13 Mar 2026 10:30:31 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH V2] appstream: upgrade from 1.0.6 to 1.1.2
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+References: <DB5PR02MB102138725558AB810833F8DFCEF74A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <20260225034013.1510432-1-changqing.li@windriver.com>
+ <C0CE5EB9-AB4B-40D5-B625-3C34119E3099@arm.com>
+ <189BA872138654D8.2412760@lists.openembedded.org>
+Content-Language: en-US
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <189BA872138654D8.2412760@lists.openembedded.org>
+X-ClientProxiedBy: TY4P301CA0055.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36b::11) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|SJ0PR11MB5917:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e5ef316-dceb-4c4d-5880-08de80a88293
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|4022899009|366016|1800799024|22082099003|56012099003|18002099003|14052099004|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	GflfhVpcQNrgf9uBk9bHmMxZDLOKAoZpwDYnz02g+00XOCRqnkUJIv6g2wBTfJhcCUFU+m08iBhd1px49KO95UalzuaKvh8HaqhQE6d8GIz/+XAo5FrXcH0tsseDwwoYRHQoRwFcpmw+dNAx/CHwprilVl01zGKtyMGvDweiuiSfe1RF6uD8JzUzst9t0Fb5/yMkPLKNX6510Tv0DpnOfMpw7ok6Ji5O/0gU+QXUDL86LQewlR2JQKHj2vxqytW4c5eOcK2WwU/UUiNd/tXmOuTE6utvOTdWkouNJqMd0I6AcmX07VBIFqoRDRnZi/2YjANagHc/MVNenPyrfw6m34tInp0KJNQGFeOqNi1B/ItoLDys7sssRh8woWb1DZZfKxuwfHcCdkHS13Av69tXYz7olcKy5dCKH2Ke/fLAdfXYBa+4j3cI81+PVuoh5QpFiAoPPLbQ9KG+QTKsLA33OTQazm1UIWEJsEZ4kZnCnAEUe9nMw1SqYrKE6FFdi53cppUIrNcFoNb61xnXMlpapjzrFZsQt9ImqGE3NFaWCfuxSVkB4yVi2vxdMTVNMShx8KHTewrClU9rJvDc6kdzFnxEYcakqeQ6M4J+B45BlC9t6y5vsd4P/0tGg/L99D+/yZauZyZEDVRy7Hcb7nE+2vcDOvN4XJOTmOeAXaSWN+mEIp5PsRvzIUw4GsYTFJuTb8AFrDjZDHSXfHzuWEybUTo+glNCnZBfecxQU2dK9Pg=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(366016)(1800799024)(22082099003)(56012099003)(18002099003)(14052099004)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?N3dGTDlxanVEa2RuRGRlMitGYXBzNk5mMGZhUURRd01sWEJxZ0Iyb2krZXNs?=
+ =?utf-8?B?KzlFdFN1ZmxNSk16T1U3ejd6b0l2QmtzTkdUV2h5eG9uZG1kaVVLd2htSFNx?=
+ =?utf-8?B?TVRid01BSzNHOGdYbG8rSFdjR256UE56Y2FFUTlpaFhNQkxUKzFsUk1CcVVa?=
+ =?utf-8?B?c1VDU2VjRk1DMEMyR2h3a1N6MEk5azM2ejV5MTBXQ0Q2dHYxM2pqMUczbVh1?=
+ =?utf-8?B?dkdIellIZTV4R3VYeldsVTFjU3FFLzFMQ0lGVmJGVXhTRTJtbS9ucGdzYzlN?=
+ =?utf-8?B?Z25xTStYQnd4eGplbXpCeFY0Um1pcWhJUkt6Z1hCN3QvYk9uOVkyb0F0b2Rr?=
+ =?utf-8?B?MXhJZmFDRVZYeFp1VldDYTNPRjdHb2xWV0x0eXZ4MVliMUdoRFNtVmFmVW51?=
+ =?utf-8?B?akMvQ3J2TDVhWWZ0dFQ1WHJXT3QybW1SZzdFYkxVOHlWamNQSFJuc3l2eHJF?=
+ =?utf-8?B?UUpkdFk2eG9CNGJCVEpZYmRUR3RTZHkrZnU5VHVVVnlJdzg0d0hJRE1RTkU4?=
+ =?utf-8?B?RjNyTkp6anVKSVNnekJGbDY1UXRxS0dzSkcxU0RaSVNpNHdJYWRTOUpXWXRx?=
+ =?utf-8?B?cWo0cW84djVmdFV1ODFmaWhlUDR6aXFldGN0ZTlaaUkycUFJdHhieXBmNm41?=
+ =?utf-8?B?eUpnVnlvSGlSMGRXWU5GTHB0NGRDbHV0L3MzVEZ1cjRSZHNaR0tURE54b2ZV?=
+ =?utf-8?B?bHFGb0IzZ0tndFZJM1AxMVpwMVhCUmo3aG5uZ1RIR05RVU8yQ01BQmFZdDdv?=
+ =?utf-8?B?ZVNFVFJGM2djN2c4SDQ1dnZXTFdpTXJKVTFBYVJiSmxyRSs0WEFPUFNFaytG?=
+ =?utf-8?B?S1JNa2ZWUEUvalZzQWl2WHVoUFhmTlY5SDkzR3V1dklubVNYT3k0QTJ3OWFR?=
+ =?utf-8?B?WlZBMDFZRmEvZ1N4NmlLUHRNelNkWXR5RHNFMS9OaUpVN0kvbjZaYlluTXFQ?=
+ =?utf-8?B?cHEzT0pVMHFicDd5V2hpb2lBVkF0M1E0WEtvYlc0MERNVkJwZUJEWldqeVVK?=
+ =?utf-8?B?YzZOekZ3MVdEdzhZNWZ4dnJHbXVoL0c1K1N6c0tVL0dPNHFrTVFMZjNoMSty?=
+ =?utf-8?B?d2VTMFhYUkg2Nnl1SEIwOFN4L016RlJ1THhYOCtCemF2YnFPTWhqNjh0NTRu?=
+ =?utf-8?B?RlhUZ0R5TEJETHRSczBiRDQ4RTJySEdmYWk3VStIak4wMklBNGV6aUNFUFZw?=
+ =?utf-8?B?V21SZ1ZvdnFJVVhhNnlIZ0w0dURxcFlscEFTUldrM1ZsQUVZY1B5RlpuRGcv?=
+ =?utf-8?B?a2FNVXVwc0gwYnZpalYwYjR1ajBqZE4yM1EvSVpLK3AwV091dXFIbExLTlVq?=
+ =?utf-8?B?V2ZIbTE2dFFpbjN0b1E4VkZza1VLVVJaZlFYc2RKNXAyYkN6ZmxKUzhYR3Y5?=
+ =?utf-8?B?VVd4b2k0Y0M4TFFROW9tSWFKUVI1cVpzS2FPSG5NS09kY25IRldpNkhUc0h0?=
+ =?utf-8?B?N0tUZkJjaWdQNTQvdWd0Z0YyS3JKc3JlQXR1OW5xb29MTWhLWFB6ekRpemta?=
+ =?utf-8?B?clNROFlXSE5GZlJEVE9HRlkrckhVeDBEWHQ3ekpFazRuTCs5SDhzMkZUZ1Fo?=
+ =?utf-8?B?bVNxQmlHd1BFSGsvdFlUNHVjcldIQUJBYTByQXBRN2NzTlFwRFRJQU0yVGpE?=
+ =?utf-8?B?UU5wWkpxTVh2RG15eUF5U1hoVDFnZUZ3b2FqbzlMeHh6VEptVEJCNlpkZzgv?=
+ =?utf-8?B?Q1d3d1hFZFFLOElnUHdnS3RLS2Zyc2Q5UFU4Qzl5OEpVOUVUODIyeXBzNmhh?=
+ =?utf-8?B?NzVkZmZjS0w4YUpqVHNQWXo4RFQ5RStiYitWVHhxV3kxMm1nR0FnNEhCTXAv?=
+ =?utf-8?B?VjFRVVMxVGRrQXNkN25BU2d1THNITTRtU2FlNEVKRGlKL2VyaTNFNGRZa3k1?=
+ =?utf-8?B?RURUYkNKeG5hR2dUc2ZjOSt0VVBDWkttZ0IvRjNtakQvU29XNFBpU2xoT2dO?=
+ =?utf-8?B?Yy9mcEJRY05EaDBjdDlDYllPcGs1Ky85NkNsUHc1SkNlcHNwWENtTmJ3UFl2?=
+ =?utf-8?B?MlRtMFQ3cjNJVnlUeDdrUm9jSERWVXQxZTA5K0w5REp6a2dZTHp5RE13QjBB?=
+ =?utf-8?B?R0tlMmc2SlB4R08zZjdudzlrckc1Ym1QbFZ4ck8velRWL1ZDODJwbFQ4ZFlN?=
+ =?utf-8?B?YXZUbVZRU2hYb2JTeFJsSU5ZV01FeHVjaCtDUVIyeTNrZ2g2dGszT0JjWVcz?=
+ =?utf-8?B?bmFIdkt0Y0FXV3JscjJvRmI3NFRqZ0xrcVozZ0hWbU1mVFowMithQWEySVhH?=
+ =?utf-8?B?VllFNGNwd0paL0RlcXhxUHFMWlpUWXhCdXBLWmZRd2M1cG9UOFdoWHpsWjhY?=
+ =?utf-8?B?Uk9XRjQwZHlOQ04rdWQ5RDZqeVBLOHdHMEFyUE1zU1lvcUYwQ3ExMWs2aW9F?=
+ =?utf-8?Q?KXEB4XRQ/gHtfTTk=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	wcOe8zQ8EY7hHhVHtVTSoPP+2N/1tI6hdUkb8zYGvcx+Xu2B17KLrXGnTMCQSf8SugUVb68rHi+McbSYbyckV0dmIkHA+QAf7aePDdIn4cKigt6xqzsUwIvgF1b+bGnyD4aUpXA6tv+c177WHOiZnVo5bI5St2wDhaL6nduD1JpkX0OL/OLr3892HafMGdZKmJv8mn6TJsHxpr8QI/2OtF1y+bHa94GeiKLyKt0Q0jB3VQyMcg6RSXMnD6AOrRQouh+Ddm5j6Vm7f8+FXNK7WYGnmknzfXi57fnzxflLzFzi2Ejurc+qVjjvNVi4gAnsKlFTde3oJ/Am76d7o4mSaA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e5ef316-dceb-4c4d-5880-08de80a88293
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 02:30:37.0688
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HTZppY3vNyf41vH6Br/biDE4jUav1pBaFWPB4/CwNTOpABpsacU47Ni8Sv0RD+HYN42gFhB8y+rWCwS/GkYbnqLIlpi1ebAgLFd+4K/5Qbs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5917
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: yqgnOXUgZtJu41cjku1g1E3e3k8d0dKM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDAxOSBTYWx0ZWRfXzoDO4C5+BI53
+ 6QoaM2vs1CC6LiNnGSPeYdbmjvrZzT9jRlTO9N6W+5dU1aTnDYoQf260m9NOhPeEhiShwxSlnDH
+ YrWvPwpcg0LckOg1ztH1xJAEsqHgegnD3TdtxAoNDIfQuSDhF05P9CopCP1wJ4TrB/Z1L27pm9g
+ bbui+IQpQ0SKu49AxuvjpJouJ86fRmIQoyrUXA6//Z9GyW8LLZCn/wvziRYEmjZr8q+SUwKoBhh
+ X/nydgt7q5J8RmwK7Sa/O3a2a98exUH+1gJHEQIJb+nxp8UTY+fPOw/YIYae7kLf2eLxxxlo2bs
+ kyfQu6sziuZ96Jj0r7PEdNFeijGPTMDrb0LsNFw2OxeuFjSt1IKIcatqZ43k6LiSftwiBnH3gJE
+ rqE9UzvdW4Wl8bwPPLjEIlx3YFaUkPQ5WYXBJOGK68/O5HobitsF+PWjooXsRvnE9JMVjRKH8cK
+ HCCujYedlS74f6fmKXQ==
+X-Proofpoint-GUID: IFu2hb8Jcd6zTeUhkO8FVuTYQGtsjfI6
+X-Authority-Analysis: v=2.4 cv=feegCkQF c=1 sm=1 tr=0 ts=69b376d0 cx=c_pps
+ a=4YE3MzgntgO4dypjGrF/tw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=IvQJNAUUq8ru2VKf7xoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=7CQSdrXTAAAA:8 a=yj-aMKAYKbz0kkd27lYA:9 a=LJ0YB7QnO-PcATQw:21
+ a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-12_03,2026-03-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
+ bulkscore=0 phishscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 00:29:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233018
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 02:30:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233019
 
-From: Trevor Woerner <twoerner@gmail.com>
+--------------0rqKwa5l7bDyZJ3Sfzaf0R0b
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 62D196ZO1615005
 
-The previous implementation had the following limitations:
-- required the variable WIC_SECTOR_SIZE either be defined in a
-  configuration file or be defined in a --vars file
-- this means that every invocation of "wic ls", "wic cp", or "wic rm"
-  needed this variable defined (config or --vars)
-- required the user to create separate *wks files for every sector size
-  they wanted to use
-- required the user to specify the mkfs-extraopts by hand to specify the
-  correct sector size: e.g.
-	bootloader --ptable gpt
-        part --fstype vfat --label emptyfat --mkfs-extraopts "-S 4096"
-	part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"
-	part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"
-- specifying --mkfs-extraopts replaces the defaults with the
-  user-supplied values
-- it would not be possible to generate images with different sector
-  sizes in the same build since the configuration and *wks files would
-  need to change and the build re-run for each size
 
-The new implementation handles the sector-size via a CLI argument, while
-preserving the existing variable definition previously implement:
-- the sector-size may now be provided on the cmdline to the "wic ls",
-  "wic cp", "wic rm", and "wic create" commands: default = 512
-- this means the configuration and/or --vars file does not need to be
-  changed in order to perform those operations on images with different
-  sector sizes
-- support is provided implicitly for mkdosfs and ext[234] partitions
-- the user no longer needs to know and supply the sector-size magic in
-  --mkfs-extraopts (thereby clobbering the other defaults)
+On 3/11/26 10:27, Changqing Li via lists.openembedded.org wrote:
+>
+>
+> On 3/10/26 19:44, Ross Burton wrote:
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender=
+ and know the content is safe.
+>>
+>> On 25 Feb 2026, at 03:40, Changqing Li via lists.openembedded.org<chan=
+gqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
+>>> PACKAGECONFIG ?=3D"${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d=
+)}"
+>>> +PACKAGECONFIG:append:class-target =3D " bash-completion"
+>>>
+>>> PACKAGECONFIG[systemd] =3D "-Dsystemd=3Dtrue,-Dsystemd=3Dfalse,system=
+d"
+>>> PACKAGECONFIG[stemming] =3D "-Dstemming=3Dtrue,-Dstemming=3Dfalse,lib=
+stemmer"
+>>> PACKAGECONFIG[qt6] =3D "-Dqt=3Dtrue,-Dqt=3Dfalse,qtbase"
+>>> +PACKAGECONFIG[bash-completion] =3D "-Dbash-completion=3Dtrue,-Dbash-=
+completion=3Dfalse=E2=80=9D
+>> I can=E2=80=99t see any other recipes that have a PACKAGECONFIG for ba=
+sh completion.  Personally I=E2=80=99d just inherit the class and EXTRA_O=
+EMESON:append:class-native =3D =E2=80=9C -Dbash-completion=3Dfalse=E2=80=9D=
+ as the special case is native.
+>
+> Hi, Ross
+>
+> Indeed, very few packages offer this PACKAGECONFIG=EF=BC=8Cbut both oe-=
+core=20
+> and meta-networking have one.
+>
+> I checked several recipes that inherit the class but not provide the=20
+> PACKAGECONFIG,
+>
+> all the recipes don't provide option to disable bash-completion. I=20
+> think this is why they don't provide PACKAGECONFIG.
+>
+Here I means that the recipes's upstream don't provide an option to=20
+disable bash-completion, eg:=C2=A0 apt, it will compiled with bash-comple=
+tion=20
+by default,=C2=A0 there is no option
 
-As before, if the --sector-size command-line argument is not given,
-allow the sector-size to be provided via the WIC_SECTOR_SIZE bitbake
-variable.  The user is warned that this behavior is deprecated.  If
-both are given, warn the user that the cmdline argument takes
-precedence.
+to enable/disable=C2=A0bash-completion.=C2=A0 So they don't need a PACKAG=
+ECONFIG.=20
+But appstream provdes option to enable/disable bash-completion. so I add=20
+one allow user to
 
-AI-Generated: codex/gpt-5.1-codex-max
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+disable it.
 
-restore environ test case, as it is still supported (but obsolete)
+//Changqing
 
-Revised commit message above.
+> upstream appstream provides the option to disable bash-completion, I=20
+> think we should keep the upstream option.
+>
+> Regards
+>
+> Changqing
+>
+>> Ross
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#232832):https://lists.openembedded.org/g/openembedd=
+ed-core/message/232832
+> Mute This Topic:https://lists.openembedded.org/mt/117989519/3616873
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [c=
+hangqing.li@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+--------------0rqKwa5l7bDyZJ3Sfzaf0R0b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 62D196ZO1615005
 
-Rework _mkdosfs_extraopts and _mkfs_ext_extraopts to verify that
-the sector-size and any manual size match, otherwise error.  This
-change was needed to keep existing workflow where a user can use
-either (or both) WIC_SECTOR_SIZE and/or --mkfs-extraopts to select
-partition sizes.   Note, before it may have been possible, but
-not valid, to select a different overall sector size from the
-individual partition sector sizes.
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#ffffff">
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 3/11/26 10:27, Changqing Li via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:189BA872138654D8.2412760@lists.=
+openembedded.org">
+     =20
+      <p><br>
+      </p>
+      <div class=3D"moz-cite-prefix">On 3/10/26 19:44, Ross Burton wrote:=
+<br>
+      </div>
+      <blockquote type=3D"cite" cite=3D"mid:C0CE5EB9-AB4B-40D5-B625-3C341=
+19E3099@arm.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">CAUTION: This email comes =
+from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
 
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
----
- meta/lib/oeqa/selftest/cases/wic.py                | 78 ++++++++++++++++-
- scripts/lib/wic/engine.py                          | 60 +++++++------
- scripts/lib/wic/help.py                            | 23 +++--
- scripts/lib/wic/misc.py                            |  6 ++
- scripts/lib/wic/partition.py                       | 97 ++++++++++++++++++++--
- scripts/lib/wic/plugins/imager/direct.py           | 18 ++--
- scripts/lib/wic/plugins/source/bootimg_efi.py      |  5 +-
- scripts/lib/wic/plugins/source/bootimg_pcbios.py   | 11 +--
- .../lib/wic/plugins/source/isoimage_isohybrid.py   |  5 +-
- scripts/wic                                        | 41 +++++++++
- 10 files changed, 280 insertions(+), 64 deletions(-)
+On 25 Feb 2026, at 03:40, Changqing Li via lists.openembedded.org <a clas=
+s=3D"moz-txt-link-rfc2396E" href=3D"mailto:changqing.li=3Dwindriver.com@l=
+ists.openembedded.org" moz-do-not-send=3D"true">&lt;changqing.li=3Dwindri=
+ver.com@lists.openembedded.org&gt;</a> wrote:
+</pre>
+        <blockquote type=3D"cite">
+          <pre wrap=3D"" class=3D"moz-quote-pre">PACKAGECONFIG ?=3D <a cl=
+ass=3D"moz-txt-link-rfc2396E" href=3D"mailto:${@bb.utils.filter('DISTRO_F=
+EATURES','systemd',d)}" moz-do-not-send=3D"true">&quot;${@bb.utils.filter=
+('DISTRO_FEATURES', 'systemd', d)}&quot;</a>
++PACKAGECONFIG:append:class-target =3D &quot; bash-completion&quot;
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index c4bc5a4..fb53997 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -935,8 +935,8 @@ bootloader --ptable gpt""")
-         finally:
-             os.remove(wks_file)
- 
--    def test_wic_sector_size(self):
--        """Test generation image sector size"""
-+    def test_wic_sector_size_env(self):
-+        """Test generation image sector size via environment (obsolete)"""
-  
-         oldpath = os.environ['PATH']
-         os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-@@ -972,8 +972,8 @@ bootloader --ptable gpt""")
-             # list partitions
-             result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
-             print(result.output)
--            # 4 lines of output: header + 3 partition
--            self.assertEqual(4, len(result.output.split('\n')))
-+            # Deprecated message + 4 lines of output: header + 3 partitions
-+            self.assertEqual(5, len(result.output.split('\n')))
- 
-             # verify partition size with wic
-             res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (wic_sector_size, images[0]),
-@@ -1016,6 +1016,76 @@ bootloader --ptable gpt""")
-         finally:
-             os.environ['PATH'] = oldpath
- 
-+    def test_wic_sector_size_cli(self):
-+        """Test sector size handling via CLI option."""
-+
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+
-+        try:
-+            bitbake('core-image-minimal')
-+
-+            with NamedTemporaryFile("w", suffix=".wks") as wks:
-+                wks.writelines(
-+                    ['bootloader --ptable gpt\n',
-+                     'part --fstype vfat --fstype vfat --label emptyfat --size 1M\n',
-+                     'part --fstype ext4 --source rootfs --label rofs-a\n',
-+                     'part --fstype ext4 --source rootfs --use-uuid\n'])
-+                wks.flush()
-+                cmd = "wic create %s -e core-image-minimal -o %s --sector-size 4096" % (wks.name, self.resultdir)
-+                runCmd(cmd)
-+                wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+                images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-+                self.assertEqual(1, len(images))
-+
-+            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+            # list partitions
-+            result = runCmd("wic ls %s -n %s --sector-size 4096" % (images[0], sysroot))
-+            print(result.output)
-+            # 4 lines of output: header + 3 partitions
-+            self.assertEqual(4, len(result.output.split('\n')))
-+
-+            # verify partition size with parted output
-+            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (4096, images[0]),
-+                         stderr=subprocess.PIPE)
-+
-+            print(res.output)
-+            # parse parted output which looks like this:
-+            # BYT;\n
-+            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
-+            # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
-+            # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
-+            # 3:149270528B:297353215B:148082688B:ext4:primary:;
-+            disk_info = res.output.splitlines()[1]
-+            # Check sector sizes
-+            sector_size_logical = int(disk_info.split(":")[3])
-+            sector_size_physical = int(disk_info.split(":")[4])
-+            self.assertEqual(4096, sector_size_logical, "Logical sector size is not 4096.")
-+            self.assertEqual(4096, sector_size_physical, "Physical sector size is not 4096.")
-+
-+            # It is a known issue with parsed that a 4K FAT partition does
-+            # not have a recognized filesystem type of *fat.
-+            part_info = res.output.splitlines()[2]
-+            partname = part_info.split(":")[5]
-+            parttype = part_info.split(":")[6]
-+            self.assertEqual('emptyfat', partname)
-+            self.assertEqual('msftdata;', parttype)
-+
-+            part_info = res.output.splitlines()[3]
-+            parttype = part_info.split(":")[4]
-+            partname = part_info.split(":")[5]
-+            self.assertEqual('ext4', parttype)
-+            self.assertEqual('rofs-a', partname)
-+
-+            part_info = res.output.splitlines()[4]
-+            parttype = part_info.split(":")[4]
-+            partname = part_info.split(":")[5]
-+            self.assertEqual('ext4', parttype)
-+            self.assertEqual('primary', partname)
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
- class Wic2(WicTestCase):
- 
-     def test_bmap_short(self):
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 8682ca3..e12eee8 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -252,7 +252,7 @@ def debugfs_version_check(debugfs_path, min_ver=(1, 46, 5)):
- 
- 
- class Disk:
--    def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext')):
-+    def __init__(self, imagepath, native_sysroot, fstypes=('fat', 'ext'), sector_size=512):
-         self.imagepath = imagepath
-         self.native_sysroot = native_sysroot
-         self.fstypes = fstypes
-@@ -261,16 +261,7 @@ class Disk:
-         self._lsector_size = None
-         self._psector_size = None
-         self._ptable_format = None
--
--        # define sector size
--        sector_size_str = get_bitbake_var('WIC_SECTOR_SIZE')
--        if sector_size_str is not None:
--            try:
--                self.sector_size = int(sector_size_str)
--            except ValueError:
--                self.sector_size = None
--        else:
--            self.sector_size = None
-+        self.sector_size = sector_size
- 
-         # find parted
-         # read paths from $PATH environment variable
-@@ -299,11 +290,8 @@ class Disk:
-         if self._partitions is None:
-             self._partitions = OrderedDict()
- 
--            if self.sector_size is not None:
--                out = exec_cmd("export PARTED_SECTOR_SIZE=%d; %s -sm %s unit B print" % \
--                           (self.sector_size, self.parted, self.imagepath), True)
--            else:
--                out = exec_cmd("%s -sm %s unit B print" % (self.parted, self.imagepath))
-+            out = exec_cmd("export PARTED_SECTOR_SIZE=%d; %s -sm %s unit B print" % \
-+                       (self.sector_size, self.parted, self.imagepath), True)
- 
-             parttype = namedtuple("Part", "pnum start end size fstype")
-             splitted = out.splitlines()
-@@ -339,12 +327,26 @@ class Disk:
-         if pnum not in self.partitions:
-             raise WicError("Partition %s is not in the image" % pnum)
-         part = self.partitions[pnum]
-+
-         # check if fstype is supported
-+        """
-+        NOTE:
-+        ^^^^
-+        wic uses "parted -m ..." to determine partition types (the "-m" is used
-+        so its output is easy to parse in a script). However there appears to
-+        be a bug in parted whereby it is unable to identify dos/vfat partition
-+        types if the sector-size is not 512 bytes. Therefore if sector-size=512
-+        then accept parted's assessment of fileysystem type (including None).
-+        But if sector-size!=512 then accept parted's assessment of filesystem
-+        type, unless it says None, in which case assume "fat".
-+        """
-+        part_fstype = part.fstype if part.fstype or self.sector_size == 512 else 'fat'
-+
-         for fstype in self.fstypes:
--            if part.fstype.startswith(fstype):
-+            if part_fstype.startswith(fstype):
-                 break
-         else:
--            raise WicError("Not supported fstype: {}".format(part.fstype))
-+            raise WicError("Not supported fstype: {}".format(part_fstype))
-         if pnum not in self._partimages:
-             tmpf = tempfile.NamedTemporaryFile(prefix="wic-part")
-             dst_fname = tmpf.name
-@@ -615,8 +617,9 @@ class Disk:
-                             label = part.get("name")
-                             label_str = "-n {}".format(label) if label else ''
- 
--                            cmd = "{} {} -C {} {}".format(self.mkdosfs, label_str, partfname,
--                                                          part['size'])
-+                            sector_str = "-S {}".format(self.sector_size) if self.sector_size else ''
-+                            cmd = "{} {} {} -C {} {}".format(self.mkdosfs, label_str, sector_str, partfname,
-+                                                             part['size'])
-                             exec_cmd(cmd)
-                             # copy content from the temporary directory to the new partition
-                             cmd = "{} -snompi {} {}/* ::".format(self.mcopy, partfname, tmpdir)
-@@ -638,14 +641,19 @@ class Disk:
- 
- def wic_ls(args, native_sysroot):
-     """List contents of partitioned image or vfat partition."""
--    disk = Disk(args.path.image, native_sysroot)
-+    disk = Disk(args.path.image, native_sysroot, sector_size=args.sector_size)
-     if not args.path.part:
-         if disk.partitions:
-             print('Num     Start        End          Size      Fstype')
-             for part in disk.partitions.values():
-+                # size values are in bytes from parted; convert to sectors if a custom sector size was requested
-+                display_size = part.size
-+                if args.sector_size and args.sector_size != disk._lsector_size:
-+                    display_size = part.size // args.sector_size
-                 print("{:2d}  {:12d} {:12d} {:12d}  {}".format(\
--                          part.pnum, part.start, part.end,
--                          part.size, part.fstype))
-+                          part.pnum, part.start // args.sector_size,
-+                          part.end // args.sector_size,
-+                          display_size, part.fstype))
-     else:
-         path = args.path.path or '/'
-         print(disk.dir(args.path.part, path))
-@@ -656,9 +664,9 @@ def wic_cp(args, native_sysroot):
-     partitioned image.
-     """
-     if isinstance(args.dest, str):
--        disk = Disk(args.src.image, native_sysroot)
-+        disk = Disk(args.src.image, native_sysroot, sector_size=args.sector_size)
-     else:
--        disk = Disk(args.dest.image, native_sysroot)
-+        disk = Disk(args.dest.image, native_sysroot, sector_size=args.sector_size)
-     disk.copy(args.src, args.dest)
- 
- 
-@@ -667,7 +675,7 @@ def wic_rm(args, native_sysroot):
-     Remove files or directories from the vfat partition of
-     partitioned image.
-     """
--    disk = Disk(args.path.image, native_sysroot)
-+    disk = Disk(args.path.image, native_sysroot, sector_size=args.sector_size)
-     disk.remove(args.path.part, args.path.path, args.recursive_delete)
- 
- def wic_write(args, native_sysroot):
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 6b49a67..5d7c404 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -118,7 +118,7 @@ wic_create_usage = """
-  usage: wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-             [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-             [-r, --rootfs-dir] [-b, --bootimg-dir]
--            [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
-+            [-k, --kernel-dir] [-n, --native-sysroot] [--sector-size <bytes>] [-f, --build-rootfs]
-             [-c, --compress-with] [-m, --bmap]
- 
-  This command creates an OpenEmbedded image based on the 'OE kickstart
-@@ -139,13 +139,16 @@ SYNOPSIS
-     wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-         [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-         [-r, --rootfs-dir] [-b, --bootimg-dir]
--        [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
-+        [-k, --kernel-dir] [-n, --native-sysroot] [--sector-size <bytes>] [-f, --build-rootfs]
-         [-c, --compress-with] [-m, --bmap] [--no-fstab-update]
- 
- DESCRIPTION
-     This command creates an OpenEmbedded image based on the 'OE
-     kickstart commands' found in the <wks file>.
- 
-+    Use the --sector-size option to select the sector size (in bytes)
-+    used for partition layout calculations (default is 512).
-+
-     In order to do this, wic needs to know the locations of the
-     various build artifacts required to build the image.
- 
-@@ -278,7 +281,7 @@ wic_ls_usage = """
- 
-  List content of a partitioned image
- 
-- usage: wic ls <image>[:<partition>[<path>]] [--native-sysroot <path>]
-+ usage: wic ls <image>[:<partition>[<path>]] [--native-sysroot <path>] [--sector-size <bytes>]
- 
-  This command  outputs either list of image partitions or directory contents
-  of vfat and ext* partitions.
-@@ -296,7 +299,7 @@ SYNOPSIS
-     wic ls <image>
-     wic ls <image>:<vfat or ext* partition>
-     wic ls <image>:<vfat or ext* partition><path>
--    wic ls <image>:<vfat or ext* partition><path> --native-sysroot <path>
-+    wic ls <image>:<vfat or ext* partition><path> --native-sysroot <path> [--sector-size <bytes>]
- 
- DESCRIPTION
-     This command lists either partitions of the image or directory contents
-@@ -336,6 +339,8 @@ DESCRIPTION
- 
-     The -n option is used to specify the path to the native sysroot
-     containing the tools(parted and mtools) to use.
-+    The --sector-size option sets the sector size used for partition math
-+    (default is 512 bytes).
- 
- """
- 
-@@ -343,7 +348,7 @@ wic_cp_usage = """
- 
-  Copy files and directories to/from the vfat or ext* partition
- 
-- usage: wic cp <src> <dest> [--native-sysroot <path>]
-+ usage: wic cp <src> <dest> [--native-sysroot <path>] [--sector-size <bytes>]
- 
-  source/destination image in format <image>:<partition>[<path>]
- 
-@@ -364,7 +369,7 @@ SYNOPSIS
-     wic cp <src> <dest>:<partition>
-     wic cp <src>:<partition> <dest>
-     wic cp <src> <dest-image>:<partition><path>
--    wic cp <src> <dest-image>:<partition><path> --native-sysroot <path>
-+    wic cp <src> <dest-image>:<partition><path> --native-sysroot <path> [--sector-size <bytes>]
- 
- DESCRIPTION
-     This command copies files or directories either
-@@ -408,13 +413,15 @@ DESCRIPTION
- 
-     The -n option is used to specify the path to the native sysroot
-     containing the tools(parted and mtools) to use.
-+    The --sector-size option sets the sector size used for partition math
-+    (default is 512 bytes).
- """
- 
- wic_rm_usage = """
- 
-  Remove files or directories from the vfat or ext* partitions
- 
-- usage: wic rm <image>:<partition><path> [--native-sysroot <path>]
-+ usage: wic rm <image>:<partition><path> [--native-sysroot <path>] [--sector-size <bytes>]
- 
-  This command  removes files or directories from the vfat or ext* partitions of
-  the partitioned image.
-@@ -466,6 +473,8 @@ DESCRIPTION
- 
-     The -n option is used to specify the path to the native sysroot
-     containing the tools(parted and mtools) to use.
-+    The --sector-size option sets the sector size used for partition math
-+    (default is 512 bytes).
- 
-     The -r option is used to remove directories and their contents
-     recursively,this only applies to ext* partition.
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 1a7c140..310e636 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -263,4 +263,10 @@ def get_bitbake_var(var, image=None, cache=True):
-     Provide old get_bitbake_var API by wrapping
-     get_var method of BB_VARS singleton.
-     """
-+    if var == "WIC_SECTOR_SIZE":
-+        env_val = os.environ.get("WIC_SECTOR_SIZE")
-+        if env_val is not None:
-+            logger.warning("DEPRECATED: Using WIC_SECTOR_SIZE from environment; prefer --sector-size to avoid surprises.")
-+            return env_val
-+
-     return BB_VARS.get_var(var, image, cache)
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 8fed686..430c212 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -65,6 +65,92 @@ class Partition():
- 
-         self.lineno = lineno
-         self.source_file = ""
-+        self.sector_size = 512
-+
-+    def _mkdosfs_extraopts(self):
-+        """
-+        Build mkdosfs extra options ensuring the CLI sector size is applied.
-+
-+        Generate cmdline options for mkdosfs. A user can supply options
-+        they want to see used via a wks file. Check that the user has
-+        not supplied an "-S <logical-sector-size>" option that conflicts
-+        with the wic command-line sector size. If they have specified
-+        one that matches, it is silently ignored. Then add our own
-+        "-S <logical-sector-size>" option based on the value of
-+        self.sector_size.
-+        """
-+        extraopts = self.mkfs_extraopts or ''
-+        tokens = []
-+        s_value = None
-+        it = iter(extraopts.split())
-+        for tok in it:
-+            if tok == '-S':
-+                # '-S size' format
-+                try:
-+                    s_value = next(it)
-+                except StopIteration:
-+                    pass
-+            elif tok.startswith('-S') and tok[2:].isdigit():
-+                # '-Ssize' format
-+                s_value = tok[2:]
-+            else:
-+                tokens.append(tok)
-+        if s_value is not None and s_value != str(self.sector_size):
-+            raise WicError("A sector/block size is specified in both "
-+                           "the mkfs-extraopts argument (-S %s) and the "
-+                           "wic arguments (%s) and they do not match."
-+                           % (s_value, self.sector_size))
-+        tokens.extend(['-S', str(self.sector_size)])
-+        return ' '.join(tokens).strip()
-+
-+    def _mkfs_ext_extraopts(self, base_opts):
-+        """
-+        Build mkfs.ext* extra options ensuring the CLI sector size is applied.
-+
-+        Generate cmdline options for mkfs.ext*. Different parts of the
-+        code want to provide different default sets of ext* options for
-+        mkfs. But the user can provide their own options via the wks
-+        file; in which case the user options completely replace the
-+        in-code default options. In either case when sector-size!=512
-+        we want to supply an additional "-b <block-size>" argument
-+        (using self.sector_size). However we also have to make sure the
-+        user (or the code) has not provided their own "-b <block-size>"
-+        option which conflicts with self.sector_size, in this case throw
-+        an error.
-+
-+        NOTE: the default sector/block size for an ext* filesystem depends on
-+        a number of factors and it is generally best to allow the tools to
-+        determine the sector/block size heuristically. Therefore only specify
-+        the size explicitly when it is not the default. Specifying a sector-size
-+        of 512, for example, for an ext4 filesystem will result in:
-+            ERROR: mkfs.ext4: invalid block size - 512
-+        See the mkfs.ext4 man page for details on the -b option.
-+        """
-+        extraopts = self.mkfs_extraopts or base_opts
-+        tokens = []
-+        b_value = None
-+        it = iter(extraopts.split())
-+        for tok in it:
-+            if tok == '-b':
-+                # '-b size' format
-+                try:
-+                    b_value = next(it)
-+                except StopIteration:
-+                    pass
-+            elif tok.startswith('-b') and tok[2:].isdigit():
-+                # '-bsize' format
-+                b_value = tok[2:]
-+            else:
-+                tokens.append(tok)
-+        if b_value is not None and b_value != str(self.sector_size):
-+            raise WicError("A sector/block size is specified in both "
-+                           "the mkfs-extraopts argument (-b %s) and the "
-+                           "wic arguments (%s) and they do not match."
-+                           % (b_value, self.sector_size))
-+        elif self.sector_size != 512:
-+            tokens.extend(['-b', str(self.sector_size)])
-+            return ' '.join(tokens).strip()
-+        return extraopts
- 
-     def get_extra_block_count(self, current_blocks):
-         """
-@@ -138,6 +224,8 @@ class Partition():
-         Prepare content for individual partitions, depending on
-         partition command parameters.
-         """
-+        # capture the sector size requested on the CLI for mkdosfs invocations
-+        self.sector_size = getattr(creator, 'sector_size', 512)
-         self.updated_fstab_path = updated_fstab_path
-         if self.updated_fstab_path and not (self.fstype.startswith("ext") or self.fstype == "msdos"):
-             self.update_fstab_in_rootfs = True
-@@ -293,7 +381,7 @@ class Partition():
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
- 
--        extraopts = self.mkfs_extraopts or "-F -i 8192"
-+        extraopts = self._mkfs_ext_extraopts("-F -i 8192")
- 
-         # use hash_seed to generate reproducible ext4 images
-         (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, pseudo)
-@@ -401,7 +489,7 @@ class Partition():
- 
-         size_str = ""
- 
--        extraopts = self.mkfs_extraopts or '-S 512'
-+        extraopts = self._mkdosfs_extraopts()
- 
-         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-                     (label_str, self.fsuuid, size_str, extraopts, rootfs,
-@@ -452,7 +540,7 @@ class Partition():
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), size * 1024)
- 
--        extraopts = self.mkfs_extraopts or "-i 8192"
-+        extraopts = self._mkfs_ext_extraopts("-i 8192")
- 
-         # use hash_seed to generate reproducible ext4 images
-         (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, None)
-@@ -498,7 +586,7 @@ class Partition():
- 
-         size_str = ""
- 
--        extraopts = self.mkfs_extraopts or '-S 512'
-+        extraopts = self._mkdosfs_extraopts()
- 
-         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-                     (label_str, self.fsuuid, extraopts, size_str, rootfs,
-@@ -559,4 +647,3 @@ class Partition():
-                     logger.warn("%s Inodes (of size %d) are too small." %
-                                 (get_err_str(self), size))
-                 break
--
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index ad922cf..832d0e6 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -67,6 +67,7 @@ class DirectPlugin(ImagerPlugin):
-         self._image = None
-         self.ptable_format = self.ks.bootloader.ptable
-         self.parts = self.ks.partitions
-+        self.sector_size = options.sector_size or 512
- 
-         # as a convenience, set source to the boot partition source
-         # instead of forcing it to be set via bootloader --source
-@@ -78,7 +79,7 @@ class DirectPlugin(ImagerPlugin):
-         image_path = self._full_path(self.workdir, self.parts[0].disk, "direct")
-         self._image = PartitionedImage(image_path, self.ptable_format, self.ks.bootloader.diskid,
-                                        self.parts, self.native_sysroot,
--                                       options.extra_space)
-+                                       options.extra_space, self.sector_size)
- 
-     def setup_workdir(self, workdir):
-         if workdir:
-@@ -294,15 +295,13 @@ MBR_OVERHEAD = 1
- # Overhead of the GPT partitioning scheme
- GPT_OVERHEAD = 34
- 
--# Size of a sector in bytes
--SECTOR_SIZE = 512
--
- class PartitionedImage():
-     """
-     Partitioned image in a file.
-     """
- 
--    def __init__(self, path, ptable_format, disk_id, partitions, native_sysroot=None, extra_space=0):
-+    def __init__(self, path, ptable_format, disk_id, partitions, native_sysroot=None, extra_space=0,
-+                 sector_size=512):
-         self.path = path  # Path to the image file
-         self.numpart = 0  # Number of allocated partitions
-         self.realpart = 0 # Number of partitions in the partition table
-@@ -332,14 +331,7 @@ class PartitionedImage():
-         self.partitions = partitions
-         self.partimages = []
-         # Size of a sector used in calculations
--        sector_size_str = get_bitbake_var('WIC_SECTOR_SIZE')
--        if sector_size_str is not None:
--            try:
--                self.sector_size = int(sector_size_str)
--            except ValueError:
--                self.sector_size = SECTOR_SIZE
--        else:
--            self.sector_size = SECTOR_SIZE
-+        self.sector_size = sector_size
- 
-         self.native_sysroot = native_sysroot
-         num_real_partitions = len([p for p in self.partitions if not p.no_table])
-diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
-index 430b0a4..69aa38b 100644
---- a/scripts/lib/wic/plugins/source/bootimg_efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
-@@ -415,8 +415,9 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         label = part.label if part.label else "ESP"
- 
--        dosfs_cmd = "mkdosfs -v -n %s -i %s -C %s %d" % \
--                    (label, part.fsuuid, bootimg, blocks)
-+        sector_size = getattr(creator, 'sector_size', 512)
-+        dosfs_cmd = "mkdosfs -v -n %s -i %s -S %d -C %s %d" % \
-+                    (label, part.fsuuid, sector_size, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
-         logger.debug("mkdosfs:\n%s" % (str(out)))
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index a7cc5d1..1e5ec3a 100644
---- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -132,7 +132,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-                 cls._do_prepare_grub(part, cr_workdir, oe_builddir,
-                                 kernel_dir, rootfs_dir, native_sysroot)
-             elif source_params['loader-bios'] == 'syslinux':
--                cls._do_prepare_syslinux(part, cr_workdir, bootimg_dir,
-+                cls._do_prepare_syslinux(part, creator, cr_workdir, bootimg_dir,
-                                     kernel_dir, native_sysroot)
-             else:
-                 raise WicError("unrecognized bootimg_pcbios loader: %s" % source_params['loader-bios'])
-@@ -142,7 +142,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         except KeyError:
-             # Required by do_install_disk
-             cls.loader = 'syslinux'
--            cls._do_prepare_syslinux(part, cr_workdir, bootimg_dir,
-+            cls._do_prepare_syslinux(part, creator, cr_workdir, bootimg_dir,
-                                 kernel_dir, native_sysroot)
- 
-     @classmethod
-@@ -240,7 +240,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
--    def _do_prepare_syslinux(cls, part, cr_workdir, bootimg_dir,
-+    def _do_prepare_syslinux(cls, part, creator, cr_workdir, bootimg_dir,
-                              kernel_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-@@ -292,8 +292,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
- 
-         label = part.label if part.label else "boot"
- 
--        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
--                    (label, part.fsuuid, bootimg, blocks)
-+        sector_size = getattr(creator, 'sector_size', 512)
-+        dosfs_cmd = "mkdosfs -n %s -i %s -S %d -C %s %d" % \
-+                    (label, part.fsuuid, sector_size, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
-diff --git a/scripts/lib/wic/plugins/source/isoimage_isohybrid.py b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-index fdab188..0a3ecd3 100644
---- a/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-@@ -367,8 +367,9 @@ class IsoImagePlugin(SourcePlugin):
- 
-             esp_label = source_params.get('esp_label', 'EFIimg')
- 
--            dosfs_cmd = 'mkfs.vfat -n \'%s\' -S 512 -C %s %d' \
--                        % (esp_label, bootimg, blocks)
-+            sector_size = getattr(creator, 'sector_size', 512)
-+            dosfs_cmd = "mkfs.vfat -n '%s' -S %d -C %s %d" % \
-+                        (esp_label, sector_size, bootimg, blocks)
-             exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-             mmd_cmd = "mmd -i %s ::/EFI" % bootimg
-diff --git a/scripts/wic b/scripts/wic
-index 9137208..a3402bf 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -103,6 +103,37 @@ class RootfsArgAction(argparse.Action):
-         namespace.__dict__['rootfs_dir'][key] = rootfs_dir
- 
- 
-+def _apply_sector_size_default(args):
-+    """
-+    Populate args.sector_size.
-+    Prefer --sector-size if given, WIC_SECTOR_SIZE if not, otherwise fall back to 512.
-+    """
-+    if not hasattr(args, "sector_size"):
-+        return
-+
-+    BB_VARS.vars_dir = args.vars_dir
-+    try:
-+        tmp_val = get_bitbake_var("WIC_SECTOR_SIZE", args.image_name)
-+        if tmp_val:
-+            try:
-+                env_val = int(tmp_val)
-+            except ValueError:
-+                raise WicError("Invalid WIC_SECTOR_SIZE value '%s'; please provide an integer or use --sector-size." % tmp_val)
-+
-+            logger.warning("DEPRECATED: WIC_SECTOR_SIZE is deprecated, use the --sector-size command-line argument instead.")
-+            if args.sector_size is not None:
-+                logger.warning("WIC_SECTOR_SIZE (%d) and --sector-size (%d) were both provided; --sector-size used.", env_val, args.sector_size)
-+            else:
-+                args.sector_size = env_val
-+            return
-+    except:
-+        pass
-+
-+    if args.sector_size is not None:
-+        return
-+    args.sector_size = 512
-+
-+
- def wic_create_subcommand(options, usage_str):
-     """
-     Command-line handling for image creation.  The real work is done
-@@ -376,6 +407,8 @@ def wic_init_parser_create(subparser):
-                       default="direct", help="the wic imager plugin")
-     subparser.add_argument("--extra-space", type=int, dest="extra_space",
-                       default=0, help="additional free disk space to add to the image")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                      help="sector size in bytes (default: 512)")
-     return
- 
- 
-@@ -413,6 +446,8 @@ def imgtype(arg):
- def wic_init_parser_ls(subparser):
-     subparser.add_argument("path", type=imgtype,
-                         help="image spec: <image>[:<vfat partition>[<path>]]")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                        help="sector size in bytes (default: 512)")
-     subparser.add_argument("-n", "--native-sysroot",
-                         help="path to the native sysroot containing the tools")
-     subparser.add_argument("-e", "--image-name", dest="image_name",
-@@ -433,6 +468,8 @@ def wic_init_parser_cp(subparser):
-                         help="image spec: <image>:<vfat partition>[<path>] or <file>")
-     subparser.add_argument("dest",
-                         help="image spec: <image>:<vfat partition>[<path>] or <file>")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                        help="sector size in bytes (default: 512)")
-     subparser.add_argument("-n", "--native-sysroot",
-                         help="path to the native sysroot containing the tools")
-     subparser.add_argument("-e", "--image-name", dest="image_name",
-@@ -445,6 +482,8 @@ def wic_init_parser_cp(subparser):
- def wic_init_parser_rm(subparser):
-     subparser.add_argument("path", type=imgpathtype,
-                         help="path: <image>:<vfat partition><path>")
-+    subparser.add_argument("--sector-size", dest="sector_size", type=int, default=None,
-+                        help="sector size in bytes (default: 512)")
-     subparser.add_argument("-n", "--native-sysroot",
-                         help="path to the native sysroot containing the tools")
-     subparser.add_argument("-r", dest="recursive_delete", action="store_true", default=False,
-@@ -569,6 +608,8 @@ def main(argv):
-     if args.debug:
-         logger.setLevel(logging.DEBUG)
- 
-+    _apply_sector_size_default(args)
-+
-     if "command" in vars(args):
-         if args.command == "help":
-             if args.help_topic is None:
--- 
-1.8.3.1
+PACKAGECONFIG[systemd] =3D &quot;-Dsystemd=3Dtrue,-Dsystemd=3Dfalse,syste=
+md&quot;
+PACKAGECONFIG[stemming] =3D &quot;-Dstemming=3Dtrue,-Dstemming=3Dfalse,li=
+bstemmer&quot;
+PACKAGECONFIG[qt6] =3D &quot;-Dqt=3Dtrue,-Dqt=3Dfalse,qtbase&quot;
++PACKAGECONFIG[bash-completion] =3D &quot;-Dbash-completion=3Dtrue,-Dbash=
+-completion=3Dfalse=E2=80=9D
+</pre>
+        </blockquote>
+        <pre wrap=3D"" class=3D"moz-quote-pre">I can=E2=80=99t see any ot=
+her recipes that have a PACKAGECONFIG for bash completion.  Personally I=E2=
+=80=99d just inherit the class and EXTRA_OEMESON:append:class-native =3D =
+=E2=80=9C -Dbash-completion=3Dfalse=E2=80=9D as the special case is nativ=
+e.</pre>
+      </blockquote>
+      <p>Hi, Ross</p>
+      <p><span class=3D"HwtZe" lang=3D"en"><span class=3D"jCAhz ChMk0b"><=
+span class=3D"ryNqvb">Indeed, very few packages offer this&nbsp;</span></=
+span></span><span style=3D"white-space: pre-wrap">PACKAGECONFIG=EF=BC=8Cb=
+ut both oe-core and meta-networking have one.  </span></p>
+      <p><span style=3D"white-space: pre-wrap">I checked several recipes =
+that inherit  the class but not provide the </span><span style=3D"white-s=
+pace: pre-wrap">PACKAGECONFIG,  </span></p>
+      <p>all the recipes don't provide option to disable&nbsp;<span style=
+=3D"white-space: pre-wrap">bash-completion. I think this is why they don'=
+t provide </span><span style=3D"white-space: pre-wrap">PACKAGECONFIG.  </=
+span></p>
+    </blockquote>
+    <p>Here I means that the recipes's upstream don't provide an option
+      to disable bash-completion, eg:&nbsp; apt, it will compiled with
+      bash-completion by default,&nbsp; there is no option&nbsp;</p>
+    <p>to enable/disable&nbsp;bash-completion.&nbsp; So they don't need a=
+&nbsp;<span style=3D"white-space: pre-wrap"></span><span style=3D"white-s=
+pace: pre-wrap">PACKAGECONFIG.  But appstream provdes option to enable/di=
+sable bash-completion.  so I add one allow user to</span></p>
+    <p><span style=3D"white-space: pre-wrap">disable it.</span></p>
+    <p><span style=3D"white-space: pre-wrap">//Changqing</span></p>
+    <blockquote type=3D"cite" cite=3D"mid:189BA872138654D8.2412760@lists.=
+openembedded.org">
+      <p><span style=3D"white-space: pre-wrap">upstream appstream provide=
+s the option to disable </span><span style=3D"white-space: pre-wrap">bash=
+-completion, I think we should keep the upstream option.</span></p>
+    </blockquote>
+    <blockquote type=3D"cite" cite=3D"mid:189BA872138654D8.2412760@lists.=
+openembedded.org">
+      <p><span style=3D"white-space: pre-wrap">
+</span></p>
+      <p><span style=3D"white-space: pre-wrap">Regards</span></p>
+      <p>Changqing</p>
+      <blockquote type=3D"cite" cite=3D"mid:C0CE5EB9-AB4B-40D5-B625-3C341=
+19E3099@arm.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">Ross
+</pre>
+      </blockquote>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#232832): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/232832">https:/=
+/lists.openembedded.org/g/openembedded-core/message/232832</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/117989519/3616873">https://lists.openembedded.org/mt=
+/117989519/3616873</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:changqing.li@windriver.com">changqing.li@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------0rqKwa5l7bDyZJ3Sfzaf0R0b--
 
