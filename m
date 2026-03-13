@@ -1,223 +1,183 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 419D5105F7B7
-	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 15:14:35 +0000 (UTC)
-Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.8])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18192.1773414867351632746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFB6106ACEB
+	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 15:59:58 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19253.1773417586924280774
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Mar 2026 08:14:27 -0700
+ Fri, 13 Mar 2026 08:59:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=L4A4Kxf3;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.48.8, mailfrom: reatmon@ti.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=pa+LM4R9;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75322bb784=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D6lXnC202299
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 08:59:46 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=7Y7C7YmYjCd/8fPcRSlrXq1MXHNxThCEW5CoOzltxO8=; b=
+	pa+LM4R9aKRVHZyscwn7aIzXXN/yyQzs2JSd/U3a69sC8zXjtT2C0YkzJaQID6iB
+	mRL0+VHBqXtFbID37vXizDHqMe4eH508kz5SOKCmh2eMaYpTc1el6EyYTjJPOaw4
+	hbqplp8uAicD6IAohHJp4DUzgTTiQyQtsj3jjbW20TLlyKUlpo/87iHV3q3AJUI4
+	Fi2AjN6EUebplOPa5y3SdfQtludiSjis1IcHN5t8j9dgSIWrpVMi1Han9sc1RVI0
+	2qGaQNIUOONt4ORJ0BOLAYuY9+Ir+j4bYuF5QC9rCJKz5GaxevbnjlAKClE0lIQG
+	kTEkAQhQReOZ+/2MhmuMAg==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012062.outbound.protection.outlook.com [52.101.43.62])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cuh6taa9v-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 13 Mar 2026 08:59:46 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P8mVObemF/rtWhJQl0q2rNj7//7elGuBRAs/NmzaaO9jcx8xDRffUCvy9iAKMBnw44wK52ESznUFwRhHM0SDbSgN06g66nqoCy4soDfw7Wnq0bChgF+4XCY6HGKnxNjnKIr7a2TeovlVCWFcmNPUvmrO+19mTP3vVrSRi9/fNcUDsjX1qaS429sQHHyCgqhejwNIdDsKirznLnFhIBD9M6bE77a++cH4uH/736Sw0Kx8NjenizBM0k3U4Zjh/fakt6FkzJX7bVOUUzb52CeyHjc7aTbgEk93neP+0S8Ri2Xm+NLQWiLbHGe/o0VxL74U94Ko+Bx59/Y2xBVOObqe9g==
+ b=eRlqutH7P89kqQ2dJbcqQs3KuLitSa8WQoBpjstOuH+qWWP7O6NscdnBnj+RNc7WRXEJ/v7NshrWd9wCI7d/IU3lVomsLTw3TxP2f9b/o34Ye6lWeGGGWTOznDKKXWhFX76pkBydxgLTBW8Db83sVU8mnyauOpDUJbQW80CVXFWEIrC95zE4gTs5WYy3y+4mBoSZJOcjUqAOsKIg274tcgebBNLsOTKSrX1vJgVAXOgG6HqPEu+5l+GE0E/CsVd43Za/kkMHn5xkC998kx/Se60+xNmF+uoGDSb3UZ6Pf7OKQf/xCEMP5T7dEmNrQ4SUIAnZaQGpxH1BY3z3uFqOwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lzIMGgJWfFu4CxVHS7B94zj6kjxTC/grBpZyQUkN6t4=;
- b=sccEfSlHh2PPt/dZknTxwW9nagS6vTOJ8brTCMBC0myV/Z39i6y/BR/fm2BC6Ps/CW3xlW0824liXzlSs/7+skJ4zrAn9UPFT9mObg0cFxLYXWZnQv6iIiCQxCaLP5NtZjKwtGiYVcl7EtbGzKmwfuoupDphlj5KF7/Cq9NIrzxy2fhMq2RbSZFHX/HgmK06vNk2TwKCq3LVrX3i9gvX/tiNqA3X2gIt+1Oq3KVdJXKoi8b77yfugvD4+D8Ue+UbP6L1NHo/EOeblkYZexelebK/R24a/mt2QhKI7B2s68UFnisN8FMRRnaDPJvMxIOzZRm94I6RMWSAlKu3aubx1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lzIMGgJWfFu4CxVHS7B94zj6kjxTC/grBpZyQUkN6t4=;
- b=L4A4Kxf3AgREu3X5lgM4AxsQBUb1XmjRxHxrlWKnygd7PmUwKC2QCYHWBjyxuC/TX/Nfuf7PEDGZ6+toz52fy7ysSAVZJIlycN9a3zilZ4Azz61J8GboTjov56WWy34NVwU/vdpmSJlxKKkERZcVwOYyZPGlCjpTMXtSK4llsa4=
-Received: from CH2PR03CA0003.namprd03.prod.outlook.com (2603:10b6:610:59::13)
- by BLAPR10MB5041.namprd10.prod.outlook.com (2603:10b6:208:30e::6) with
+ bh=7Y7C7YmYjCd/8fPcRSlrXq1MXHNxThCEW5CoOzltxO8=;
+ b=eLRez0h0rUiRtO/Fuqv+2ZvhBmJrtJuPtRhHm1rAP7IDYxD9migj4TDgxPrlK4gS3JctPyNGpyricFtvg7eGqxYXdrTAN9/s0Ox9BAGPOfOijfi8qEwKsoAFx/QbwQ4j+2nkr0YgdLmZBTpfKcD64j97Z2AFVZRTmlpAarewvNV3a3XMVnxB6DsqxTtntEIFVg8yecdvJpJqr08sVaVThHmYZg57WfGcT/BPjZqmAIbVClT13WvbCZemrlZNHGKuKDbJH7Wn0N9hAIJw4QNW/o9u9ELR8AjA//JhxzWq2b/qM7yu8JWMDNqj8tDGCt2te1Jfe8nkJikqL99Q9NBdmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by PH8PR11MB8062.namprd11.prod.outlook.com (2603:10b6:510:251::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.17; Fri, 13 Mar
- 2026 15:14:25 +0000
-Received: from CH3PEPF00000011.namprd21.prod.outlook.com
- (2603:10b6:610:59:cafe::ab) by CH2PR03CA0003.outlook.office365.com
- (2603:10b6:610:59::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.17 via Frontend Transport; Fri,
- 13 Mar 2026 15:14:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- CH3PEPF00000011.mail.protection.outlook.com (10.167.244.116) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.1 via Frontend Transport; Fri, 13 Mar 2026 15:14:24 +0000
-Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 13 Mar
- 2026 10:14:23 -0500
-Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 13 Mar
- 2026 10:14:22 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 13 Mar 2026 10:14:22 -0500
-Received: from grumpy (grumpy.dhcp.ti.com [128.247.81.229])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 62DFEMAx739046
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 10:14:22 -0500
-Received: from reatmon by grumpy with local (Exim 4.97)
-	(envelope-from <reatmon@ti.com>)
-	id 1w14DW-0000000FbhV-3YpY
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Mar 2026 10:14:22 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH 2/2] selftest: uboot: Add sefltest for recent KCONFIG_CONFIG_ROOTDIR fix
-Date: Fri, 13 Mar 2026 10:14:22 -0500
-Message-ID: <20260313151422.3719829-2-reatmon@ti.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260313151422.3719829-1-reatmon@ti.com>
-References: <20260313151422.3719829-1-reatmon@ti.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.4; Fri, 13 Mar
+ 2026 15:59:43 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%4]) with mapi id 15.20.9723.006; Fri, 13 Mar 2026
+ 15:59:43 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
+        yoann.congal@smile.fr, richard.purdie@linuxfoundation.org,
+        bruce.ashfield@gmail.com
+Subject: [PATCH v9 01/14] kernel-yocto: Enable rust in kernel
+Date: Fri, 13 Mar 2026 08:59:07 -0700
+Message-ID: <20260313155920.2347101-2-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260313155920.2347101-1-Harish.Sadineni@windriver.com>
+References: <20260313155920.2347101-1-Harish.Sadineni@windriver.com>
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: SJ0PR03CA0046.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::21) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000011:EE_|BLAPR10MB5041:EE_
-X-MS-Office365-Filtering-Correlation-Id: f64db5ed-d21a-49a0-8f13-08de81133658
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|PH8PR11MB8062:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5bdbb024-ebee-46d1-d73d-08de81198a47
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700016|22082099003|56012099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014|18002099003|22082099003|56012099003;
 X-Microsoft-Antispam-Message-Info: 
-	Exu9Qt5fIzeVs/oayrDAwMMJ8c14auyK9txtuWCRqEg1FnPBH3fx4ScntwZ7LfLx2vY7JrbOd6V5Lv89klYFRTMPPCq0phKBQ8KfPJkimr4XwZRwHTtqpH7EclnYZrAxAXm+dU4zzsImSXtEc/ongpiURzWDJtr7L9r4tbi5XPWdB1ibZbT2Yl2hLhN2sZqUpQTfFuVMeCFsw7CQCfi2jhYVrwC3fDnWrnVOMhQSGCGL4/FrYV1HDTh8b87Ny4mXKiXiXmZ94jnun+ub8/4nSNovFZRkEtUTrCsznG2HZuADU1+EF46/9zGqUyh8lQwshkfcRYcpwXGOEpkNPia/PJC0E4yEPF8SX8J8REMvMLy2mgnP/qBiwxPrD52sozob5ULlpFHKmshu1c0pFSWQzdF66HlpLonci7E7egHCcRkodt3BVna8vFjO1/qLPjezMgxowKvlF+c4WgqZUK7YOuvaLdCaI5nUZ3PJfp253YWiyEnxjLM/C0Z4S1iCLndFtLeNh3sJkR6+KEzOsJ5uo6goDejphALOMbC440/zdBC9ynhdnrw+gx8H08BQobhhA4f4XL1RP5YyDz4yR85bJoGe1r8hmz5MOZfbjDvt0nH4ILGZ0Wd9TjXq8x2iS0tYnoPLDl16RVpph5pfsnC2K24XF0rLxVfKGkMrE/4gb7UbLSYXrJ9qP+uWoPrrscC12BjAvHF8K58ZS14+gT6QQp0iVNvfsb0fCsE4SJ3ae1igYO9vSv5IkDyl3SAT603j8K3vG+40tooYy6cAmyWbCw==
+	UJPXfmLuqDyzyZQA1NQ+eC4PR8hrzFQW/UvQanXk66bjzM1obVLqsbKt0WKFIb2SrgSCwgTGX9s3r5OT5BdN4lWhv6eX+v10/XLCEstNN404S5x7XGwzBUjMUZWqVyTjHw01RuLxmhqEhq1hl4isOVcJBGCHwNJ2Ye1H7PVF6oe1OeeVMfZzMfX9TW/bD74zQRD5pnIn01Jplw68QHcoECFjYDZTiKkX1Oa6WW1RlwZxWqm3s6dJw35quWHes4OTzYOkK8k14CQ9yzK0E6azWvnSYp2BCEpNOM3MN5yHox99qlQpjLEdgmusv8eW6dH0J/W5rdL4IuO5Kd+ud85dnCOR82friVo/5GVsKJ0KjXjbGuT29f+nyGnzbMxOY3fUPJ5pcrIpCS8OGz05stD97zsgzUO0/abIcQ4f+eVmsFjOJEtYNlb0euNH++bB91fsgu1f7G7iW3g4VtLnJPM7ifpVFkGxEdKPQoZds7ZpGe/VYEx0gOHsmnV4C5al7guCmQewTjQeKjDKEAQejLAXdelQpuqzwPMH6r0g2Jvn1PJjbj0WpWyID29BCiYtjTlJrq5cV+9pa3N5hsjnqAR3AXPVBaaDK1euKe+S5PVzwdsGKkx0jmxcQ9QI/JoxWsm1YzjAPjtqCQuzhAPJTcNS5OoMh0w4ufE0sSG4/me1fSZc6whlzQkQ6PwcWUJsagYe6ytZV18mubhVZ83T2iYWWV5itzPFDyTjKvE6f9ilN1TxNDS8JlygQczKe22Rg2lKy6mrohFNyTcUe1dJUTRd+GX2ZfM/ttlVIYHFmvCF1zE=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	fsGm4fbOQBoxx5zIlLSaAW5LpX/yv3hQdLGJ3BzftqNFrSRTxLkGeMtDtUAW7sNkYSn1G8si+nRv2rQHr3jWn2kpGBnUBbSg02+Sh/zYqGHzwiQ/tWtg6A+klgZA7bIqKeoc9ThBHHhh21bHlOCvcYtRdfrF1ywhUNRffjT6wnyQZv1RqTCF5Hxghig9UpACXIuusmbs16czTDLxPgvSb1cx3K8atnhbJSF4sAPqL9Gl654UXAZOyff2RXVwxLRavOEVqk30VcqzGNSJ1sOEkNQrOvKfIQC2a09YU38mdbFbOT0rJmEM3LeJBdkZYrfFKKnP6TgodWstD2tWcZYqRODh6OCU9MVWAKXCiYUrFK/ICQo66UauJ/jJZgROjWp/HbwayEaxhHhuJybmSo8yq+StCfcm1Dfu+XFu6VBMfhSQ8vWGnKmhdkMreMqPHY9W
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 15:14:24.8457
+	=?us-ascii?Q?flvkVTyf5mYBRu4+shvzdp9R/U7CsXH+S44Ccs2nMUwTm+dJ3D6Ph5RuaD+7?=
+ =?us-ascii?Q?heDRCWYg+HRz7eRjRVX/RFHs87SrE6r/mmREGlFo3j+cmsZ3LE9TMM2f+Wc9?=
+ =?us-ascii?Q?nvX5Kq4HmFpZi9RIrAjy5tE/aPGofUc2a8hvnlB6gLi2XDzYP841jansbs/2?=
+ =?us-ascii?Q?X35iCx7RlLc5mh2PlBxj8Vj9nkILJ8F+gWEuUIe+Q0EVjIEbkBAgbichRmjB?=
+ =?us-ascii?Q?JAdIcirbUlnNsvS/orvp8D/QOA4Vl1Z5gku/OL2JypRLRHzmkrX7ZiHnyB8N?=
+ =?us-ascii?Q?1/BOymsg0eF9VXK16brMJkySw3bmcuRwHhLYBQXSXJ6VEcySWjWWlqAvlaS0?=
+ =?us-ascii?Q?41Fx8cvsA1V8zcJnW8MlMYWoTGAQ/hL33mdsNmOKmXHHbNGG/jlWfLxNENqZ?=
+ =?us-ascii?Q?Hy1GSKZxntXkxGOfuyGPHcG9hWk0e4OAnQURolFje8DXRJ69fDQ9zB9ELzeX?=
+ =?us-ascii?Q?dLVaC0/+JxhKdBYtwHo1CgPEC3Iz8xsrnqFYeXprR4C9UaZnQQS8ptzVrZu6?=
+ =?us-ascii?Q?dwXNGWPkfolkdWSi9j4KrJlSKgQ5//5Hj1K+uAEj6/h7IxNYsxdZMs2UQgJb?=
+ =?us-ascii?Q?3zoVvKCO7WldkmlD14+1+HGFZcNY7TvGhtR2SQz9iU8tXo2L2IyyD+DjgQbs?=
+ =?us-ascii?Q?R7EYwans0Oy1THTqabHWGPfK/MPlklRIyM1xWIBlgw4MKa46Glq5HvjWdlVe?=
+ =?us-ascii?Q?fhaiWFHdVdfB450LRcS9UaGvr1WJUislxFgANntNJczzhtn3dkCGAWUQUX7R?=
+ =?us-ascii?Q?kN4KsmQRB/3FUlo63CcHyrEhnSRBqpzcQxTT863WCW8fEronE9O/bgMDc4SO?=
+ =?us-ascii?Q?MzWePNzuj+m5UA2ArfG1jOuaKXYKSpX1SIbOA+YqZ8bRRCRZu0iEK8AuCJAp?=
+ =?us-ascii?Q?iVvZgOn2CXibTb9Bzt61tlDsfurfGkObyMVz1ViydJ7oYVrsJxY40PfZSLwt?=
+ =?us-ascii?Q?hWgf20jOSf5npVyQeXfUluD1y4nzd3GDQ9g7AfMAG4GZFDwvvG0onVmdGLV0?=
+ =?us-ascii?Q?cLaRjzb8tC0GlTlYbdyQkE4OJ9+D6iZw6LUuhjNKtVDGgkJbDN9aBmasRcb7?=
+ =?us-ascii?Q?zniXgpbdBAOgry71yfRHPhhNvY+w6M26La4aBztJC24jYKvKZCccQSChNL24?=
+ =?us-ascii?Q?n27bWGKX4/LCz1DyRE2ItcPGprPC/2UIZD3WofmNH1cZVpiuEF1H8olyqNFe?=
+ =?us-ascii?Q?+A244o9CFKnqhAFxq14Zgw3vAiQNQ795wvtx8AIxto1lg6mqCasMGJ5pW7Fk?=
+ =?us-ascii?Q?WXBlIgfI22N/mNbtp0/SpFH+l+qjEddYDOVAGIpLcp1lTXnBKCJxbfsvDPrW?=
+ =?us-ascii?Q?+mN/wsNomgOZOPwOSYS1IcgQ21PraHfwYml3LATDncM2tLCcBDdK6Z/VyIXX?=
+ =?us-ascii?Q?rnIQPRdjVKdIzS/20FJidP/6JfP8U/TisDXygll8eKelrYExYZIRIgvJEXTP?=
+ =?us-ascii?Q?S5r4bINzb4pDDXJrt6S8gXm4gwo4udWr/c9ZdIsrhQohmQoMp6fkIQcRsW0U?=
+ =?us-ascii?Q?VORd2dJu9+/Zutvu4buWmOgTx+huAEX7+64horvhqIDdP2xwgDEYPNK9ml9y?=
+ =?us-ascii?Q?Hqp3QMbX6IY320e1pufnSIDskk/QnDzWd8DfDWZtQRGyjMErWS3bYByGRYji?=
+ =?us-ascii?Q?uNVDnLAWl3iVotdCgy9Il7jwvHPwq5J2fDR22+whrmh+GYXP72EbYRDzFa5R?=
+ =?us-ascii?Q?blIrDcdknVzjDaWYCsaC2vJwkIZ4HGzumkJcft5KMpGz+XjN81qdTglKOLhD?=
+ =?us-ascii?Q?1ejgtDQNHZRL3vbFsP3Ehi3bIYEKl38=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	LtP38ACCqd10VXsWtdn6YzklqrGicxdxma3KUiHQsSZg/tB3AQ0kKJaAo/JGW36sWIyQNdOf39T5WK9TF5tqT44VP9z5TE67FnJYcJSL5UUc9ikIkl+louAm7M3YPGmd8+DNvXZMgbzvE8LrVXxUS16S8+sGrbVnjzCSVROmAixKj9/dPHjohcs2lhFP/jfI9MAWdyN3D5TyjyhP86g7r4I3J/UXIgN81MiqiUjnl/oh15LO830LC0k1TDTCqfqieotO6hlXdtgqZB1Zyw2lc/i7/H5UvrO9SFoVvMYHxKCr25EvZCtRyv9n6qRUeNGsxNLqST1mmbyB+e5rRHvp8g==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bdbb024-ebee-46d1-d73d-08de81198a47
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 15:59:42.8551
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f64db5ed-d21a-49a0-8f13-08de81133658
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CH3PEPF00000011.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5041
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hs3pOoJmbGBt8RMik3SvmeLdieJ03vPHBPE1lt/NxRu6xO/V9Zrm9d7XF/Wug6MWYZjzLe2WXkX2913AcPWdu+oTeCZof10LsCAbW31sUjU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8062
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: KmKTLOf8msC3nY9SZqy_HoQ7AS_WNXim
+X-Authority-Analysis: v=2.4 cv=Cf8FJbrl c=1 sm=1 tr=0 ts=69b43472 cx=c_pps
+ a=qMfGPIaByV4ZnHoTJsbowg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
+ a=F1PtkKe78JTNANsRMOcA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: VzAc4CDz6FcdHJrI_kRFAu6CLgXUT1ep
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDEyNyBTYWx0ZWRfX5V7UFTNOc533
+ 3srgg7Lwm5jMFlnhXVxdj+ss9P0us8PzOoSs+wW+IBOH2G8eXVY3X/0eihXeab6vJaMmP7J/tT4
+ lbNKv8rOxVbAbT4kT5ovZrXNvxlBn0asWM/bScC7ttsPiTotrmvbgfiHm4dTnHZL3FyB2Py1VSa
+ nuw4VAvzp/9PC0q0dbv8+2s3A4CvLnSQo0ARI7lE9wq1yxK8cJot84uFu3T/7nOQjr0oX0rxUd3
+ 9zyy3YsC13LzR3WJzVRLDOeHQEcHZeru8oYf5nfcbctDBWgvbLLt55EPQRotgLFIAJe+tazjg8D
+ 1OCSf35sc2Mpq033DZCJ4F8SxotjTxncgX5K82r8r6LCMvnNEQJWtPchMQpL1GZvfMlTCeCP38W
+ BdJUBPAFFFCaoDjdkqG10WikeNfLqq2bWEuDP3gagUp0F/PBLjT4d6ZFLWsUYpD8uHOWAyypAv6
+ hCm+PX097yfCEKW3R3A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-13_02,2026-03-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ phishscore=0 impostorscore=0 malwarescore=0 suspectscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130127
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 15:14:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233046
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 15:59:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233047
 
-Add a check to make sure that KCONFIG_CONFIG_ROOTDIR and
-KCONFIG_CONFIG_ENABLE_MENUCONFIG are being set correctly in the
-different cases.
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-A recent commit [1] showed that we were missing a check for the
-correctness of these variables.
+Allow enabling Rust support in the kernel by simply adding "rust" to
+KERNEL_FEATURES in local.conf or a global configuration file. This maps the
+feature name to the appropriate kernel configuration fragment located
+at features/kernel-rust/kernel-rust.scc
 
-[1] https://git.openembedded.org/openembedded-core/commit/?id=3D2548c040ea1=
-55c981e41cb0282bcb28c47b3b688
-
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/uboot.py | 38 +++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ meta/classes-recipe/kernel-yocto.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/uboot.py b/meta/lib/oeqa/selftest=
-/cases/uboot.py
-index 8e53ae5031..2e4530fddd 100644
---- a/meta/lib/oeqa/selftest/cases/uboot.py
-+++ b/meta/lib/oeqa/selftest/cases/uboot.py
-@@ -178,13 +178,46 @@ class UBootConfigTest(OESelftestTestCase):
-=20
-         bitbake("-e u-boot")
-=20
--        bb_vars =3D get_bb_vars(["UBOOT_MACHINE", "IMAGE_FSTYPES", "UBOOT_=
-CONFIG_BINARY", "UBOOT_CONFIG_MAKE_OPTS", "UBOOT_CONFIG_FRAGMENTS"], "u-boo=
-t")
-+        bb_vars =3D get_bb_vars(["UBOOT_MACHINE", "IMAGE_FSTYPES", "UBOOT_=
-CONFIG_BINARY", "UBOOT_CONFIG_MAKE_OPTS", "UBOOT_CONFIG_FRAGMENTS", "KCONFI=
-G_CONFIG_ENABLE_MENUCONFIG"], "u-boot")
-=20
-         self.assertEqual(bb_vars["UBOOT_MACHINE"], " machine1 machine2 mac=
-hine3")
-         self.assertTrue(bb_vars["IMAGE_FSTYPES"].endswith(" image_fstype2 =
-image_fstype3"))
-         self.assertEqual(bb_vars["UBOOT_CONFIG_BINARY"], "defBinary ? defB=
-inary ? binary3 ? ")
-         self.assertEqual(bb_vars["UBOOT_CONFIG_MAKE_OPTS"], "OPT=3D1 ?  ? =
-OPT=3D3 FOO=3D2 ? ")
-         self.assertEqual(bb_vars["UBOOT_CONFIG_FRAGMENTS"], "fragment1a fr=
-agment1b ? fragment2 ?  ? ")
-+        self.assertEqual(bb_vars["KCONFIG_CONFIG_ENABLE_MENUCONFIG"], "fal=
-se")
-+
-+    def test_uboot_config_extract_single_config(self):
-+        """
-+        Tests the uboot-config.bbclass python function that extracts all o=
-f
-+        the config variations into the support variables.
-+        """
-+
-+        self.write_config(textwrap.dedent(f"""
-+            UBOOT_BINARY =3D "defBinary"
-+            UBOOT_MACHINE =3D ""
-+            UBOOT_CONFIG =3D "test1"
-+            UBOOT_CONFIG[test1] =3D "machine1"
-+            UBOOT_CONFIG[test2] =3D "machine2"
-+            UBOOT_CONFIG[test3] =3D "machine3"
-+            UBOOT_CONFIG_IMAGE_FSTYPES[test2] =3D "image_fstype2"
-+            UBOOT_CONFIG_IMAGE_FSTYPES[test3] =3D "image_fstype3"
-+            UBOOT_CONFIG_BINARY[test3] =3D "binary3"
-+            UBOOT_CONFIG_MAKE_OPTS[test1] =3D "OPT=3D1"
-+            UBOOT_CONFIG_MAKE_OPTS[test3] =3D "OPT=3D3 FOO=3D2"
-+            UBOOT_CONFIG_FRAGMENTS[test1] =3D "fragment1a fragment1b"
-+            UBOOT_CONFIG_FRAGMENTS[test2] =3D "fragment2"
-+        """))
-+
-+        bitbake("-e u-boot")
-+
-+        bb_vars =3D get_bb_vars(["UBOOT_MACHINE", "IMAGE_FSTYPES", "UBOOT_=
-CONFIG_BINARY", "UBOOT_CONFIG_MAKE_OPTS", "UBOOT_CONFIG_FRAGMENTS", "KCONFI=
-G_CONFIG_ROOTDIR"], "u-boot")
-+
-+        self.assertEqual(bb_vars["UBOOT_MACHINE"], " machine1")
-+        self.assertEqual(bb_vars["UBOOT_CONFIG_BINARY"], "defBinary ? ")
-+        self.assertEqual(bb_vars["UBOOT_CONFIG_MAKE_OPTS"], "OPT=3D1 ? ")
-+        self.assertEqual(bb_vars["UBOOT_CONFIG_FRAGMENTS"], "fragment1a fr=
-agment1b ? ")
-+        self.assertTrue(bb_vars["KCONFIG_CONFIG_ROOTDIR"].endswith("/build=
-/machine1-test1"))
-=20
-     def test_uboot_config_extract_legacy(self):
-         """
-@@ -204,13 +237,14 @@ class UBootConfigTest(OESelftestTestCase):
-=20
-         bitbake("-e u-boot")
-=20
--        bb_vars =3D get_bb_vars(["UBOOT_MACHINE", "IMAGE_FSTYPES", "UBOOT_=
-CONFIG_BINARY", "UBOOT_CONFIG_MAKE_OPTS", "UBOOT_CONFIG_FRAGMENTS"], "u-boo=
-t")
-+        bb_vars =3D get_bb_vars(["UBOOT_MACHINE", "IMAGE_FSTYPES", "UBOOT_=
-CONFIG_BINARY", "UBOOT_CONFIG_MAKE_OPTS", "UBOOT_CONFIG_FRAGMENTS", "KCONFI=
-G_CONFIG_ENABLE_MENUCONFIG"], "u-boot")
-=20
-         self.assertEqual(bb_vars["UBOOT_MACHINE"], " machine1 machine2 mac=
-hine3")
-         self.assertTrue(bb_vars["IMAGE_FSTYPES"].endswith(" image_fstype2 =
-image_fstype3"))
-         self.assertEqual(bb_vars["UBOOT_CONFIG_BINARY"], "defBinary ? defB=
-inary ? binary3 ? ")
-         self.assertEqual(bb_vars["UBOOT_CONFIG_MAKE_OPTS"], " ?  ?  ? ")
-         self.assertEqual(bb_vars["UBOOT_CONFIG_FRAGMENTS"], " ?  ?  ? ")
-+        self.assertEqual(bb_vars["KCONFIG_CONFIG_ENABLE_MENUCONFIG"], "fal=
-se")
-=20
-     def test_uboot_config_extract_error_missing_config(self):
-         """
---=20
-2.43.0
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index e53bf15194..a77f2214c2 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -269,6 +269,9 @@ do_kernel_metadata() {
+ 	KERNEL_FEATURES_FINAL=""
+ 	if [ -n "${KERNEL_FEATURES}" ]; then
+ 		for feature in ${KERNEL_FEATURES}; do
++			if [ "$feature" = "rust" ]; then
++				feature="features/kernel-rust/kernel-rust.scc"
++			fi
+ 			feature_as_specified="$feature"
+ 			feature="$(echo $feature_as_specified | cut -d: -f1)"
+ 			feature_specifier="$(echo $feature_as_specified | cut -d: -f2)"
+-- 
+2.49.0
 
 
