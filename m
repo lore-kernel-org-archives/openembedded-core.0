@@ -1,159 +1,153 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B9DF106FD8C
-	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 06:24:51 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9994.1773383082635470483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFC3106FD87
+	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 06:26:21 +0000 (UTC)
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10008.1773383164588766945
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 23:24:43 -0700
+ Thu, 12 Mar 2026 23:26:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=0VLq5697;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 98E8AC415A5;
-	Fri, 13 Mar 2026 06:25:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6DD7860027;
-	Fri, 13 Mar 2026 06:24:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E09E010369DF4;
-	Fri, 13 Mar 2026 07:24:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773383079; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=SQoOsF4rumT8aU528EH3XesIpqFmYnBcICntd1xRIak=;
-	b=0VLq5697K5B+NqE4TT9kHNospSFPEI1SATt/Y5GhbqG3FPaRoZsYcanOXZWTxap1q1BK2R
-	RqNwaZVoh68VUERht7HyJBAtG2+QlXhxM4a6oYbo0EzmFx4s/eMKqy7YBO7jEpCvZxQgLP
-	9tJIuZlprl5avB8Mr5YHWPqe3yEQ5q2CLJktavEisD1suFXoUpBb0l6qKLOdaWpAD1/3X1
-	iU+BSiucxEpDbduECgJ/f/aemdiMVJJ5joD4RC/aIOyqeoxIq62pMqXr67N8OvjdvHxTnG
-	Bro3e7a+Zny/JrTVl6EMaZNjX9i5YG07MYGwDbIWzvoYHdx8WiiKZZRsUVkjVw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Mar 2026 07:24:35 +0100
-Message-Id: <DH1FU20JU3AD.3GC0F6C7OKR0B@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Robert Yang" <liezhi.yang@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v8 0/9] rpm: 4.20.1 -> 6.0.1
-Cc: <alex.kanavin@gmail.com>, <mattware@cisco.com>, <esparlin@cisco.com>,
- <peter.marko@siemens.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <cover.1773324129.git.liezhi.yang@windriver.com>
- <DH0XA8PQOXXR.12KPIBAF43RZ3@bootlin.com>
- <1f50dc21-bf2a-4b2f-9a39-9ef5137f26c6@windriver.com>
-In-Reply-To: <1f50dc21-bf2a-4b2f-9a39-9ef5137f26c6@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Frcd91Vm;
+ spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2304; q=dns/txt;
+  s=iport01; t=1773383164; x=1774592764;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=5XHrxayg0sLFJiLbx3ftFoK7D30zowryO5L5CnuUaog=;
+  b=Frcd91VmJpD5qh4LMvtJYbE1D58wJyhZZtXvImhi6cfW3oDALG5Lb84a
+   r6P1OvpsTlP+cLm5vsV9jA2fsBTAvq2TtQf4DhKg+gTeY8VunPQhx8TZB
+   5V1XTOMZoKxCVPqTBRo+y74IjkbDz4UXXJKYuqRVeqdj4drp20AunxU1q
+   OpKWiQ+oSWd2vIe9H7kLdacliSVeZAnECcG+zmQcSuEMwyDdIQHZ5zwu5
+   mQIF9PW3wfOeS3HDl5d7DD5E5OOWz3xGTmsPw7isEwlg2zAM77w3kKnEu
+   IMm3+wlRFzq9IBExr0cMo0LaEJa29ycONp8xgGz9UKXsiA+OrtgOG470s
+   w==;
+X-CSE-ConnectionGUID: mfU1LDlARzefFvS4pADhCA==
+X-CSE-MsgGUID: 0rVxt5NtR7yWKgm2aXVR6A==
+X-IPAS-Result: =?us-ascii?q?A0CrBgAArbNp/9JK/pBaHgEBCxIMggULgkgPcV9CSZQqg?=
+ =?us-ascii?q?iSLZJI2gX8PAQEBD0QNBAEBhQcCjSICJjQJDgECBAEBAQEDAgMBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQsBAQUBAQECAQcFgQ4Thk8NhloBAgEDJwsBVhwDAQIvIAsjCBEIgwIBg?=
+ =?us-ascii?q?joDNgMRrziBeTOBAYNoAkNP2EcNglIBBQYUAYE4hTyCeYUgWxgBhHonGxuBc?=
+ =?us-ascii?q?oEVgTuCLYEFgRpCAQMYghOFdwSCIoEOgWGRS0iBHgNZLAFVEw0KCwcFgWYDN?=
+ =?us-ascii?q?RIqFW4yHYEjPheBCxsHBYUaD4hwdG2BE4MoAwsYDUgRLDcUGwQ+bgeNeD2CN?=
+ =?us-ascii?q?IEOLKgdoCBxCiiDdIwejz6FfBozqmsLmHuOCYQJkkeEaIFoPIFHCwdwFYMiU?=
+ =?us-ascii?q?hkPjjiFaIMUw2M7NQIJMQIHCwEBAwmTZwEB?=
+IronPort-Data: A9a23:GuvX7q7KeQSr3c1Bqw2N9AxRtGzGchMFZxGqfqrLsTDasY5as4F+v
+ jdLD2mBO/bcY2P2LtkiYNzn9kwEuZ/Tmt5lGVc+rilkZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo+KUzBHf/g2QqajlNsfrZwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eOIMlo8JbBUh05
+ /EWBi42Mgiqq+Kd6efuIgVsrpxLwMjDNY4F/3UlxjbDALN+ENbIQr7B4plT2zJYasJmRKqCI
+ ZBENXwwMFKaOkUn1lQ/UPrSmM+ki3TleiFYr3qepLE85C7YywkZPL3FbYaNKozRH5s9ckCw/
+ nj473ikJA0ga82g6jWAqHucuNWRtHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJZHvd/7ESGzbDZpl7IQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:xZ93aKAJcoaR77rlHemt55DYdb4zR+YMi2TDsHoBLSC9Hfb3qy
+ nDppkmPFrP+VUssRIb6LW90de7IE80nKQdieJ6AV7hZniFhILCFu5fBOXZrwEIYxefygaYvp
+ 0QFZSXz7bLfD9Hsfo=
+X-Talos-CUID: =?us-ascii?q?9a23=3Au9+L+GlNqJ4xf19adjRXOfzk2xPXOXjT8S70D0u?=
+ =?us-ascii?q?RM3RkRpOLcgOI0Y9kuOM7zg=3D=3D?=
+X-Talos-MUID: 9a23:ioGfUgWEAHBJ0abq/Gf2uiF+aeF02fu/N2MClM8Pi/e+awUlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,117,1770595200"; 
+   d="scan'208";a="54088326"
+Received: from aer-l-core-09.cisco.com ([144.254.74.210])
+  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 13 Mar 2026 06:26:01 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by aer-l-core-09.cisco.com (Postfix) with ESMTPS id AC0C3180001C4
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:26:00 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id D62FBCC12B5; Fri, 13 Mar 2026 11:55:58 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [openembedded-core][whinlatter][PATCH 2/3] binutils: CVE-2025-69649
+Date: Fri, 13 Mar 2026 11:55:31 +0530
+Message-Id: <20260313062532.3247430-2-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260313062532.3247430-1-deeratho@cisco.com>
+References: <20260313062532.3247430-1-deeratho@cisco.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: aer-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:24:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233025
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:26:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233027
 
-On Fri Mar 13, 2026 at 5:54 AM CET, Robert Yang wrote:
-> Hi Mathieu,
->
-> On 3/12/26 23:52, Mathieu Dubois-Briand via lists.openembedded.org wrote:
->> On Thu Mar 12, 2026 at 3:09 PM CET, liezhi.yang wrote:
->>> From: Robert Yang <liezhi.yang@windriver.com>
->>>
->>> * V8:
->>>    - Fix build with systemd (Check patch 7 for detailes)
->>>    - Make rpmbuild can find the pkgconfig (.pc) files in /usr/share/pkg=
-config
->>>      (Check patch 7 for detailes)
->>>    - Backport a PULL from git/libarchive to fix oe-selftest failures.
->>>
->>> * V7:
->>>    - Add 0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch:
->>>      To fix "bitbake core-image-sato -cpopulate_sdk" error on Ubuntu 24=
-.04 when
->>>      pkg-config is installed on host, now the host contamination has be=
-en fixed,
->>>      and the patch has been submitted to upstream:
->>>      https://github.com/rpm-software-management/rpm/pull/4127
->>>
->>> * V6
->>>    - Fix -cpopulate_sdk error when DISTRO =3D "poky"
->>>
->>> * V5
->>>    - Fix RP's comments: Don't hardcode libc6 into package_rpm.bbclass
->>>    - Use SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} to fix the loop dependen=
-cies
->>>      between /bin/sh and libc.so.
->>>
->>> * V4
->>>    - Fix loop dependencies issues for libc6 and busybox
->>>    - Fix issues for can't find pkg-config files (.pc) on qemux86-64.
->>>
->>> * V3
->>>    - Fix Alexender's comments
->>>      a) Suppot rpm 6
->>>      b) Move rpm-setup-autosign to rpm-build
->>>      c) Remove -DLIBELF_FOUND=3DFalse
->>>
->>>    - Fix build for nativesdk-rpm
->>>
->>>    - Drop patch for createrepo-c since it has been upgraded (rev:
->>>      804a238c8a4e86c2bcfb2192d54cb861d5fd32a6)
->>>
->>> * V1 & V2
->>>    - Initial version
->>>
->>> // Robert
->>>
->>=20
->> Hi Robert,
->>=20
->> Thanks for the new version.
->>=20
->> I suspect I still need to get some gettext patch with it. Either yours
->> or the one from the glibc upgrade series. Is that right?
->
-> I think you meat the following oe-selftest error:
->
-> ERROR: glib-2.0-1_2.86.4-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepe=
-nds on=20
-> locale-base-c, but it isn't a build dependency? [build-deps]
->
->
-> I can reproduce it with pure master branch: (rev:=20
-> 438afb3ded629408172c4bd7d556c5d2abacd631)
-> PACKAGE_CLASSES =3D "package_rpm"
-> OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder'
-> MACHINE =3D 'qemux86-64'
->
-> IMAGE_INSTALL:append =3D " glibc-utils localedef"
-> GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_FR.UTF-8 en_US.ISO-8859-1 de_D=
-E.UTF-8=20
-> fr_FR.ISO-8859-1 zh_HK.BIG5-HKSCS tr_TR.UTF-8"
-> IMAGE_LINGUAS:append =3D " en-us fr-fr"
->
-> $ bitbake glibc-2.0
->
-> So I don't think it's caused by rpm 6 or gettext upgrading, and we don't =
-need
-> other patches.
->
-> I will check how to fix the glib-2.0 issues, but it's not related to rpm =
-6.
->
-> // Robert
->
+From: Deepak Rathore <deeratho@cisco.com>
 
-No sorry, I didn't mean anything specific. I did not had the time to
-launch a build with this series so far, I just wanted to be sure about
-the requirements.
+pick the patch [1] as mentioned in [2]
 
-Build will start in a few minutes.
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=66a3492ce68e1ae45b2489bd9a815c39ea5d7f66
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-69649
 
-Thanks,
-Mathieu
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index cdbe12c97f..ff521e1b46 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -47,4 +47,5 @@ SRC_URI = "\
+      file://0019-CVE-2025-11839.patch \
+      file://0020-CVE-2025-11840.patch \
+      file://CVE-2025-69644.patch \
++     file://CVE-2025-69649.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
+new file mode 100644
+index 0000000000..bd6e577afc
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
+@@ -0,0 +1,40 @@
++From afd5151c503b95ce65a492b6585e55c56aba0e75 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Mon, 8 Dec 2025 15:58:33 +1030
++Subject: [PATCH] PR 33697, fuzzer segfault
++
++	PR 33697
++	* readelf.c (process_relocs): Don't segfault on no sections.
++
++CVE: CVE-2025-69649
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=66a3492ce68e1ae45b2489bd9a815c39ea5d7f66]
++
++(cherry picked from commit 66a3492ce68e1ae45b2489bd9a815c39ea5d7f66)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ binutils/readelf.c | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index 8f188e8c3e2..1c16ab5f594 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -9621,13 +9621,11 @@ process_relocs (Filedata * filedata)
++       size_t i;
++       bool found = false;
++
++-      for (i = 0, section = filedata->section_headers;
++-	   i < filedata->file_header.e_shnum;
++-	   i++, section++)
++-	{
+++    section = filedata->section_headers;
+++    if (section != NULL)
+++      for (i = 0; i < filedata->file_header.e_shnum; i++, section++)
++	  if (display_relocations (section, filedata))
++	    found = true;
++-	}
++
++       if (! found)
++	{
++--
++2.44.1
+-- 
+2.35.6
 
 
