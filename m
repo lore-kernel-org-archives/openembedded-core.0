@@ -1,226 +1,555 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D2CD106FD87
-	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 06:41:01 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10128.1773384058852185130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E0E106FD9A
+	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 08:48:44 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.22])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11640.1773391495078788623
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 23:40:59 -0700
+ Fri, 13 Mar 2026 01:44:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=753254187b=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D5RFja2281535
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:40:57 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011040.outbound.protection.outlook.com [40.93.194.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqs8du-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:40:57 +0000 (GMT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=hNytZlaq;
+ spf=pass (domain: siemens.com, ip: 40.107.130.22, mailfrom: stefano.tondo.ext@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ciRxBMwhU6G4ZTKZJ5GbijEcRLeWomGyOTaoQpx3nCrF8ZzVFti9fYqGXiV5aCczFhtVFd3HcY0MpqWyLoTAckaIRKoAICdI3HbtmAhMM0ClQYWNhrHXwFPFvavzSbaTQ98Y3MB+0kigj5BD5FxbdHuxI2J5DyClfSPe9g9/20oUXGkNjtsD3Q59IWgVqUNmervpe98fi1v0OGLmxq9lpIzGoafU7b7wKjwUNXaRtqgnZ8CtVRkWCS4YHIGMo+DTh9jiosq7s6QwPHW7cqZ8hyZlkknbo7cseZC9WQUlDyjrXamP5NufeCM0SipaBOxuP9DXUGxuX5T+tzy2OPuKVg==
+ b=CPoAbA/AzXTIhAhQSYzqts7bOrPu1Lp1FvsELptD+dcD0srgiSXbJKP0D2n4PZlKAIdAHZlTUpmv37wOurismR7nNW1CoJltQ8TT+KuRhvKDXkpJ4257u8MUS3fu+j7li8El10yryUQ84e9Acm/t41D2EZ0I4iT7OdWp40gnhLjjWcXZFrQP0/ydz4ddHga5vxnvlCZlCzVXf0mx7WDyUlUMOXNfdbfoAaGUcP406/hqne+psG6hdKkml+gAzm3uDh1Xrh2/WjuA7HgQ30CyWvSt3pGvBrwIrhJOmdUNoE98oxv70AR/CUck79GoxVq8c8GXs6JXBIQKuIwV1mLuRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dkS8KOKze38vi0DN7G3pORqNiiGKWQbOxeKCnIP9bIc=;
- b=PHh6OM62H8E3BjIpOpBkESNBW/rQeUIisXEG7mWjcBMzEOZhSt3QiipEBpKR2yKBCiRxaR/FyBeCZ3amXnliTFvdHPr5rbLGE9xfIWTwGhwmGqyIC4AmOuAqFQ8AlfPQqosLvH407ufwXu7XVgtD48rv0XWn7rTCxgnW2WSnTBXwb+F7tvzz4oVfQNmxx98nUNfVawIIb+jV5QnyRl8VWmFrV4J7OjV4eWlGm3uMlTEY+JJT2X1hBd1227jUliUNizTRXRv1HSmuIBDk7C+Sh1gJ3LCjq7kE5W/6PFRw7lSuyDOXC0a4bksLq/mZLd+JIB3Z4YFVUX4vY8n+oby+OQ==
+ bh=nEp3ex3vSWPh3hbXccvjOK3W5Uh/lAhkqu+qfYPDWh0=;
+ b=kHgyNvVyPfNYkahQmoOFKOq6ZyqUyD9SwW7bDGpzJrMD2r2W6FZohELPdWueE5HjDPOtmUr1giK94Wv3vZjcYi1LD2ia8JD4XgKTf+L48MMEIxZrScW7R56DIb/3iAYb1zqAVW4qLdD0g6uIunCE8NxnHMjUQhZ7gUxMz1vtizCSPaiD6fL+2e34ETRpeg7WCpa43hwUxkWzuCBxUarSI3FW9em2uSvZkGuo8G+Co3arbUNiqzPPKeHsPCfWgcKv4TtVVn0oSldtIcfFa0oFFCN5rAm/3FsPp8g5BLsh+oeAUfaGOFQdSTfm6zATJVSwixhkyR8Yf1oGCHPFJesMNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::26) by PH7PR11MB5767.namprd11.prod.outlook.com
- (2603:10b6:510:13a::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.4; Fri, 13 Mar
- 2026 06:40:54 +0000
-Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
- ([fe80::4fd7:cce3:ed40:ad73]) by DS4PPF641CF4859.namprd11.prod.outlook.com
- ([fe80::4fd7:cce3:ed40:ad73%6]) with mapi id 15.20.9700.010; Fri, 13 Mar 2026
- 06:40:54 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] lttng-modules: Upgrade 2.14.3 -> 2.14.4 to fix build issue on kernel 6.18
-Date: Fri, 13 Mar 2026 14:40:43 +0800
-Message-Id: <20260313064043.2113572-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TPYP295CA0002.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:9::11) To DS4PPF641CF4859.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::26)
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nEp3ex3vSWPh3hbXccvjOK3W5Uh/lAhkqu+qfYPDWh0=;
+ b=hNytZlaq6ccbJSbFPz82EDZz2eC0laYKQYN1gSm09oDLzHhS4gEpdHutSniDmuemGyngSOCzx/AUKetT/W+o8R0EQopJMHfU/1qn5slDelwKyf14koY+fuovZ6HoBiJPn0S5Fc/HqCcurpbGh8pl3NrhyapPmBebAdLBzwytw2ZcHziwdWIgkUXNYauEVkDr5BCAovTWbqXh5I28s/4qBowz7GcILci8iGFS0D9kjKXOX41OtyoplKTBE0OodW/HswH/ietky/8NPxKoua3745Ejz6EH+17I2qlnH+dXZGDaIiWkaG5ce9/R6S+Tne8hOT4wln74hSnBVwAnKovXvw==
+Received: from AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4bc::20)
+ by GVXPR10MB8178.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:116::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Fri, 13 Mar
+ 2026 08:30:39 +0000
+Received: from AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f490:9f02:a64c:84b7]) by AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f490:9f02:a64c:84b7%5]) with mapi id 15.20.9700.015; Fri, 13 Mar 2026
+ 08:30:39 +0000
+From: "Tondo, Stefano" <stefano.tondo.ext@siemens.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"stondo@gmail.com" <stondo@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "JPEWhacker@gmail.com" <JPEWhacker@gmail.com>
+Subject: Re: [OE-core][PATCH v9 5/7] oeqa/selftest: Add tests for source download enrichment
+Thread-Topic: [OE-core][PATCH v9 5/7] oeqa/selftest: Add tests for source
+ download enrichment
+Thread-Index: AQHcsjZX+itfx53JS0aawmuexan5I7Wr/MIAgAAl+E0=
+Date: Fri, 13 Mar 2026 08:30:39 +0000
+Message-ID: 
+ <AS4PR10MB544156BB358839BC46E70E7FAC45A@AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260309132854.128375-1-stondo@gmail.com>
+ <20260312153845.164369-1-stondo@gmail.com>
+ <20260312153845.164369-6-stondo@gmail.com>
+ <DH1FM09J7MP2.1V0UMBU01I298@bootlin.com>
+In-Reply-To: <DH1FM09J7MP2.1V0UMBU01I298@bootlin.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=True;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-03-13T08:30:38.580Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=C1
+ -
+ Restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=1;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS4PR10MB5441:EE_|GVXPR10MB8178:EE_
+x-ms-office365-filtering-correlation-id: 418f0763-cf0f-4359-789a-08de80daceb8
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|31052699007|39142699007|55112099003|7053199007|22082099003|56012099003|18002099003|13003099007|38070700021|8096899003;
+x-microsoft-antispam-message-info: 
+ TdWHl00Xrqp2x99r9o0+Ni3vq5mXAGFNI/X/elL/FYV1H3gzAm79MaCePU4VZyvSL1KSZVjFq7XN7qbdKqJbFYceHsMjufF4Eaa65xtOIMBYQbajRjezpQQ6vNiZRdyNENo0NJ8AxaoQPf0TN8IcWphnUgr5bD78aX0uO2v5hw6ktJJjtoVqL9wJtb07vFfFpZgdyB/45Yy11O6H60kV5KwK6gzfUD+7QvpBcviP+Hpjr4B80QKu1GtAiTdEtrO5Hd3OUGV0uagiFnAE2WahZyMHQrD/ehoqquRFREez24CvMxW60t11IyXtC8INRuy6YIhUrjiwPt6tnRVSpkr6xDZOkYdDwqzJPtOZGo1K9JkCxkBG0CDckM1jHX9TLDdf+C9jhtL9UdzwJzrApU1nGh3cJR6OxbGUt6gBlxnK+DCbPqcFUyxouZpgXA7fNdUfb9Q9hzfJH28fwWhTHvDmlelNn72a33qxX5sne3YA9YDAyH1nNWmOd6woX8VPnoDbJw6CVIjMW5o+H2klCKeknmeZ6Fg2kFKJ6mR/HXQ0B0loUr83RyTLvwOHf4hSCTnbHVT5IJzBrsQrNyYT3HQ0vo6qR6GGIdGoH7XoTYqAlbbSTYD70d9YD3ch1rMc7IswqJEKq4mztjL4wh20rRuhMJgRWAgmoP6+r1PJSonudCEWci7rmG4QEMT+apHt+wwBiVaKJg+04DW49Sb8fNl1mWHBYnWIjTZ+wojemsqcSTA=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(31052699007)(39142699007)(55112099003)(7053199007)(22082099003)(56012099003)(18002099003)(13003099007)(38070700021)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?kUltaXY3i9mWWqNy9V4S8v/JYvsdTCKNeOZFV2m/atv1s0MkLVj4Rnb2r3Ej?=
+ =?us-ascii?Q?q/h1EjDmGulk44kYy/5EI0GGG2xIIcHcTONtz5s85ZZHW8diNgfh/n/JCcjY?=
+ =?us-ascii?Q?x1aFaVED0bHmc36R/ja3qIFuDKQqLz1qQHt3S+wFJdAAySqcBKGON9hoScTG?=
+ =?us-ascii?Q?cl+Ve4i+RIliqXuXNiciv0UzAeQuT/ygPO7l1b5GAJJ+SNbr1iGErVZ2M/3E?=
+ =?us-ascii?Q?vpF9aUWyz1I09e7PdBuzVqn0hVKSU9NnSOyyl+iF7CX3h/XzUTkVE6vWVpx6?=
+ =?us-ascii?Q?j3tlxx3MxHwXDZrA8HPDS7RAVU4LW7/GYfgckKlIukKgIUtW1LjtIIinxQsg?=
+ =?us-ascii?Q?TjEqoYfZ2jKSN6FA+VHuxUd2YE4S6Gd/3ovqgV7zm40OIUvfI6QMVxF3n8/1?=
+ =?us-ascii?Q?xsxJbL88TDzkaOE92Q49maFX0kiCJr244Vny45oWlC60cYI7tbXB404Ut6Zs?=
+ =?us-ascii?Q?6SlJczX4/x5LwGefCSh9efDjyrfGguF9ZNGnOhW/vBVhG5cpjYfUMuxxscSN?=
+ =?us-ascii?Q?aOB8HGUsmIHd6kxPLjACFfl5x0LU/VqmQO/BmOQnU5A1H4Osaclv9bAtmyXt?=
+ =?us-ascii?Q?MSSiqZLNL9KpwrTqth6DxRBSXudBVO6/dsfgcD+m1o0ucWt3pgZBpUtVo0Md?=
+ =?us-ascii?Q?SWMVcjdm2zrW+rbYhNmovDk84Ftx6yLzhUevq0/cyZ0YvcHBJ9ieLk6+beRM?=
+ =?us-ascii?Q?HTyleZzWoianEbT2UfOy6vZotpxEGAxsC9gqPSgBM1vQCITQKw4IF0MqzHNq?=
+ =?us-ascii?Q?14nwiMyWPy+3XXXeiRpk1ON0ToFkfc/xjeQpJ8OBFapw5q6B4UlXsFJBShlC?=
+ =?us-ascii?Q?XQ6lm083IAPPTbXfMBVUhSR1Ug14uhOW/XrmzLxwgBh1GSU4rw6FvnK6Nz26?=
+ =?us-ascii?Q?BMxCYfpV/GsR0+ybVbltrdWDwGir6rcG+8myUvuNNNFNSsmX4nRaVtVuZJTD?=
+ =?us-ascii?Q?AT3ndccReaK2OB64KD2S7G3Z4NpyN8azsbDVoYv05MO6f7O3bjnLTVZPWFMM?=
+ =?us-ascii?Q?qS/8/8QkW/3J9r3swmDZ+uF56HFRQDO1+f2aNEKEuony4elfT28cTCgNuoQP?=
+ =?us-ascii?Q?eu3ohdr+jZCENsmLWIBgH6iN7MnQ0PifB+AI9WkMo1a1eHcvwFRjRZt5Hr7G?=
+ =?us-ascii?Q?YkMOSoMRmQv4YYPTEbOdWkDq4v+Slv33UjZGVW8MwsMWbeAWn7jK0E5vL0Td?=
+ =?us-ascii?Q?X/kAAw2OZzPclEXQEw1Y7RtpkdXNplLRGm60Un/bKjsnlcp69VkrISKW1r28?=
+ =?us-ascii?Q?fw1JB/25oJqUY0AQAKhzQmVsLQXaHHV9jMJj7d5Eps+z+AJAZSl8bv6uyqEb?=
+ =?us-ascii?Q?Ud13/rksVRpP6C5bTjgfyDJhC9KUft4RIpY6FHNMkIulmoPWP4apzte+ro9n?=
+ =?us-ascii?Q?HvBG7gpomIpBg2DVgSz+p7YDgb+l4Iq7Pj20hu3Tk42zjlVuEVQrMGe1HVCe?=
+ =?us-ascii?Q?fxUvnZzE4dY21hx6RDy9+g/0r/oweFzkXbyiiTN3eABXJJWGLi7wSEls3+bI?=
+ =?us-ascii?Q?1/W+Xc6hvXoz2ywAi4vkj2e1UyB0rw3c+upD148T3G4ZPfm1DaHKji58Ynrs?=
+ =?us-ascii?Q?Jk21Gu9Av8JxhPdA6vcYMmzsvx7jHfAiiqqXgI4ffARYkl+b/qO4vZiJi524?=
+ =?us-ascii?Q?d+4RHRDBb9be6HrPzTIucO54r7izesrr9lsLk2sBFiIiw4AX6nOGMrJNcD6D?=
+ =?us-ascii?Q?YfEfYSt5QFnY4b9p44PssM9MzQdydVGP0+doLjzBOWE6kwYX6N9bDD0ajneQ?=
+ =?us-ascii?Q?1pT473wteQ=3D=3D?=
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF641CF4859:EE_|PH7PR11MB5767:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05079560-8a69-45a3-e3f0-08de80cb798e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 
-	8WxB8UrMvymaDkzrd1DrngUfJx5VQ0z3U0EtFyOs8iMUpd2xekrJOp5T1Xv0BTdx6RIamG/IpzUm+vn4RNzPlIuvFk1xI07WZzLC6AqH5HmPZhKLrmtgF2DWK+NGFKnBaypPP+4bZR8aAuYBxJGjBbaUtFPKaJnLDLImQ8NhUSgiAh3JQmX0YY7MtVIu/h79YXGc3fQgK/NrPEgTDsMd5eoHLH3176BAqZbVBNijy2mS2AvVGvn7ICKTe5nFz6T+hGy1UnCpZVHq2xdBaAMK6uKodqFNlY2BHG6h42b+WJRHidYt/6Pa1jYtDYvZLil9WDJh4vXo5/kLc7yrTKIktgVKMOAO+oStjKfJYKSWtSg27MNh4UMECKmUGc3U+ZmZnSfRLZ1lYN6vww39p4ItNW07hFlZxKnaMhWZqkMhsRiauGFdvwPjtwSx3ux2pJCSHV9I5ADZQ0jj7PChvP7CgxE1xVymxdcfIdHCgZ55tXTuntCkn7cSTq8kxjk/MNPaypsjw4RrjyA9yaw/ZujR8NozA9MyqnqbK49PM5Htx6Inz+KV2ePelcN1NfNyF4HlQjbaPjdGSfirZc78/JUe2q9OwTSfqu0D9POAh+93sPJgBk4ghi6B65lallIhWu5OfjT7u4D21q3Ucl6if6Fok0HSkR7nTttskk1UCq+RrmWdODEmjoK9eiqhAMS3W75WZr4MMLdcmWLoRrZCCrAln2OV2lLUt5f0fQh8uDxfMmM=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF641CF4859.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?0ftHXJvz2DywvCchDoSWyBRz0PxtSJGBx2aLqp42Dn5SWkvml8iy2eXZDhev?=
- =?us-ascii?Q?/G+DJspRZlLseR1XlYl9XIsHLV3pQExYVkKcUOP0YiyFNHZblOEHD7Hyz9G2?=
- =?us-ascii?Q?Isv8F5Bthn3Pv7XJ66NyZIpnqaeV1n9lWLxzBOSSIICoKX2r9MFUjYAhnN+V?=
- =?us-ascii?Q?mPlAzxOoUqfRp6Haluh+o28mEyJMbB6vwuT5uR2/itEdimN2F7JSBzSecZQ/?=
- =?us-ascii?Q?4zMcGi2OmHrYGn0vYHKbJGaDRcAnaGQxQyo2/nvWjrg6DBNIyPS5G+s+9v1O?=
- =?us-ascii?Q?vNg4UkeblHWRvJUk8XPAVaSt03CzE3jm+ngm+AgSgVNpHSnEaDsdVDWDd4/r?=
- =?us-ascii?Q?ALLlZ8d9+pvA3F9md24aNozdSgLlthbxsE1lLCBPZRVzUfXCSiG1o5FyjmAJ?=
- =?us-ascii?Q?LaAjVYKss3JclPpDm9r8lPaB48BbfpgpxKN01H/YUKo6M5UPpKQYG8KV/oaJ?=
- =?us-ascii?Q?0dRQl4Ol0DFXdy5EmBcO+8sgX+4RcG96yQaYhp7n8yZyd/xGH26nMZkdy1XB?=
- =?us-ascii?Q?vuCPtOEUYOLTjCuW5O2crtBkQfqCa/uPwpmueM153h5Tff41HUKw5stdpDqN?=
- =?us-ascii?Q?y5uSZNHUUMuwLNBhRDSc0Alyezi5i1cG96y+QazBl5lAWS7dmJ7P9s7iGfpV?=
- =?us-ascii?Q?HkgsrmEUzuodaXTm+IrZLZWKFbolFsBcDLEDmQI8GERRj0ug5LF+2wlmuFuU?=
- =?us-ascii?Q?MobPAOk8IAg6aex1yId1E+f05w33iwXtwIp0rq/sBR1ESCXbvbGESq5/SBux?=
- =?us-ascii?Q?GhQxIiYZtv3SNun91V0O2Jg3jgXIzjLYAdgu+/52EdUpeHlC+rWTMhMfoKq1?=
- =?us-ascii?Q?nKuh3slxsE1pabkYn3dqcv9QxyYDY5LozvryuIjvc755h5BB9EK3D8pkt8dV?=
- =?us-ascii?Q?W9iSDYlxSjD/qNjk9oY0hN44tQg3ImBi0gPaVILKUYcGcbYUsHjL9H+RqbyZ?=
- =?us-ascii?Q?hsFsm6/g5uIOOSDIKW+/D+0Az6Ore8Kt4BTnAUqhavUnRYLSMqnkJJXMrPz5?=
- =?us-ascii?Q?o3HKBiUnuVEZkHYhx91sbiZjkwqzjKSae6Ej9JCnW1NrpXEXIK6SsgYKNvLt?=
- =?us-ascii?Q?bFRav/gdmjvQFIaXPVAA/cwGZfue6HoBsEG1tmioevd8jC9dS/NRggtcuEtK?=
- =?us-ascii?Q?PnFUsMafLYRNOP9ziTjIPqN5QD0G79CHVm7zeIBrEBbjLhJGjTBIBLgNavwX?=
- =?us-ascii?Q?Pft74HoIwkREthbsv2wVGpRugiFdCFB8DMA9l9UaM0FonNeLV5XjLIIrkWl0?=
- =?us-ascii?Q?f2FB5mmvJKBQz+bRrjfcVch7nfKDGj8XQdcJgXcMEZZ/0qKAqu/zvA3iS6E1?=
- =?us-ascii?Q?S8fzjW2+JVV+j5Uv3y7Sl1HhVK/yjxw6imuAt3DNNXTSxzHss6UNEUGsc+FE?=
- =?us-ascii?Q?mj8be/EvB6GV7B8sipDh9HteUNv4XHE3GRcdHjgmS2bf0nEmaZPmectYrLIM?=
- =?us-ascii?Q?Owwoq8hDJnj7PW0mLAMiX0WacC1ByxwV7ktR5R+y0s83BWDo1MyTwDd4+tRR?=
- =?us-ascii?Q?X8gfr5Fi8QN2rUNeCD8g8l+hxuuPLJMPg0rSAsihOfqJDCLt9U/46IYpF1Qz?=
- =?us-ascii?Q?INoO4MGE/DqQb7LRlXKFha2KGB+dG0s8XVYyQZfLacbcsX+GQyYYoQo3fIBG?=
- =?us-ascii?Q?6Xt2Rp3UAODVFZBCr51jGil5Zlk4i38qW/dpdSd6CMjbkz+BX6scDlvFoS0W?=
- =?us-ascii?Q?QRSjYfRwGELhSO3ba+kQmnWGwl/OSAclndGUZFGPPwpn0CHt4TEmADkBPNUl?=
- =?us-ascii?Q?/vzFtvyzOfoqQn77J6JGTsCvfA7p1nI=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	eDHAfq1jxJgZBRJig9cMEdi5QB+cKMOm51nXmOTHdKSSlGIjAhFBLfax+RsZ+SpFQn0DpqDnmiZfgTylk0tBtZySHAkeEHDkjWnicur9kZb2t74dcQSnZOKm8GfZfN2foXc1LWBBk5dF2jXjz2FWhM107F2v5Yf+n2Iki66ALsJGoQzknskIBpLSvLX6UpgiFevbNaS0Ogeo/9jCPz0TmtIs+9xRGZ3sJxKvUIK6S3D8ddEPNIrweF0M7Q403MjfPcxX7hbhcX20Uiou74bNt/bfOxkDEYZOYs58ZdcWh6Zlw/nxNgtjpi9kyxHqLRoPsTRg4bocbYUTcOldUn8iHA==
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05079560-8a69-45a3-e3f0-08de80cb798e
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF641CF4859.namprd11.prod.outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 06:40:54.1899
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB5441.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 418f0763-cf0f-4359-789a-08de80daceb8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2026 08:30:39.2427
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KlJDcgwEc071IkCb0TlYsVccUIGbg3IEAlJxnl1BgEDG7XjvxaemQyZwt4D2MKLVdvTbetOzCFN7tXK5b/FgIZrUZovnzpcgkHx5JWIzUrI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5767
-X-Proofpoint-ORIG-GUID: GNXhV44O90cjfCpHRdTQrJno6tnO4B1V
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDA1MSBTYWx0ZWRfX8WaRJnxIAdgL
- GuFtgsQYZyAZgkpX2IzRM9kkjtRRoln9l3hBiljOCHVTS0jZzDSMd4vauGj/uG5NrSVq92xMidt
- b2VE834xdLDf13x83iQMeJ1X2E6bSb6vbC+3goePieIQ3bI75Bg+mdCxels4k8ci1lyYP22ykIv
- RRPdbk3M+YrJEU3O0D16acLHbJElM82ljfQqLUONmg/Lij65fjoHvxHDIBMgMRaXVKp4I/NO/YZ
- CbIYv8YSC6exIGgDx2BgG4VuyQ3yR3aaJB6FuYg3xlgNenAwI7Eb8mbrzWqwSoms93leXov+3ki
- UuwzQGM0VflM1BU5rmkZfzTLr+3InO2Dsa7k/I2xv6Hd9sYNdqMdXPLHDhBosL2Y5IrMsVyDRQk
- zNEwnon7MirQSRh4Lcek7ik/PdL6GgFeRM14dFG+RVEfTAkoWcIRlUj5sBYMTaZdu61peO4ppP2
- W8eYyWeB+W9iFya9nGg==
-X-Proofpoint-GUID: GNXhV44O90cjfCpHRdTQrJno6tnO4B1V
-X-Authority-Analysis: v=2.4 cv=feegCkQF c=1 sm=1 tr=0 ts=69b3b179 cx=c_pps
- a=lexSm1xfraBw67q2grWtcw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=a5LkSv8FAAAA:8
- a=t7CeM3EgAAAA:8 a=7d_E57ReAAAA:8 a=1iWrAX3iE9CZFub1qHwA:9
- a=E2cWBXyb0kjxxB1PlMdk:22 a=FdTzh2GWekK77mhwV6Dw:22 a=jhqOcbufqs7Y1TYCrUUU:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-12_03,2026-03-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
- bulkscore=0 phishscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130051
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yedJV047+C63SW6S0nomYVw7l7yg2mVbR+SupU2J4RXXD5XGoN43zY59cR6RTgCsL0O5nqun7b7uSKCkdhK48xPL59i1FAqxBnQIdOmT3Dw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8178
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_AS4PR10MB544156BB358839BC46E70E7FAC45AAS4PR10MB5441EURP_"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:41:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233029
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 08:48:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233030
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+--_000_AS4PR10MB544156BB358839BC46E70E7FAC45AAS4PR10MB5441EURP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Add 0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch to
-adjust Brtfs probe header for 6.18[1]
+Hi Mathieu,
 
-Change Log:
-2026-02-09 LTTng modules 2.14.4
-* fix: Manual conversion to use ->i_state accessors (v6.19)
-* fix: btrfs: headers cleanup to remove unnecessary local includes (v6.19)
-* Fix: Initialize syscall tables sorted entries
-* Cleanup lttng-syscalls.h: Remove extern on function prototypes
-* Make init_event_desc_enum_desc_sorted_entries public
-* Update .gitreview for stable-2.14
+Yes, that's correct, the build-m4/build-tar naming depends on
+Joshua's series which renames recipe-* to build-* in the SPDX
+output. My series is intended to be applied on top of his.
 
-Ref:
-[1] https://git.lttng.org/?p=lttng-modules.git;a=commit;h=ca93dc3b05fcb22db5b653858a1b08002496d783
+Once his series lands, these tests should pass.
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
- ...st-range-in-btrfs-probe-for-v6.18.14.patch | 36 +++++++++++++++++++
- ...ules_2.14.3.bb => lttng-modules_2.14.4.bb} |  3 +-
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.14.3.bb => lttng-modules_2.14.4.bb} (89%)
+Thanks,
+Stefano
+________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: Friday, March 13, 2026 07:14
+To: stondo@gmail.com <stondo@gmail.com>; openembedded-core@lists.openembedd=
+ed.org <openembedded-core@lists.openembedded.org>
+Cc: JPEWhacker@gmail.com <JPEWhacker@gmail.com>; Tondo, Stefano (ext) (SI B=
+ PRO AUT PD ZUG SW 2) <stefano.tondo.ext@siemens.com>
+Subject: Re: [OE-core][PATCH v9 5/7] oeqa/selftest: Add tests for source do=
+wnload enrichment
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch
-new file mode 100644
-index 0000000000..662a803680
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch
-@@ -0,0 +1,36 @@
-+From de7ca66c797ba0b3273a217a47c8fb791d896f7c Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Fri, 27 Feb 2026 17:54:39 -0500
-+Subject: [PATCH] fix: adjust range in btrfs probe for v6.18.14
-+
-+Upstream commit c5667f9c8eb9 ("btrfs: headers cleanup to remove
-+unnecessary local includes") was backported in v6.18.14, adjust the
-+range accordingly in the btrfs probe.
-+
-+Upstream-Status: Backport from commit ca93dc3b05fcb
-+
-+Change-Id: I51c5cb6345c6a1e1aa4e5e3cb9a4af2ec962ecb2
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ include/instrumentation/events/btrfs.h | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/instrumentation/events/btrfs.h b/include/instrumentation/events/btrfs.h
-+index feb4f40b..e87f0085 100644
-+--- a/include/instrumentation/events/btrfs.h
-++++ b/include/instrumentation/events/btrfs.h
-+@@ -12,7 +12,8 @@
-+ #include <linux/writeback.h>
-+ #include <lttng/kernel-version.h>
-+ 
-+-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0) || \
-++	LTTNG_KERNEL_RANGE(6,18,14, 6,19,0))
-+ #include <../fs/btrfs/ordered-data.h>
-+ #endif
-+ 
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.14.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
-similarity index 89%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.14.3.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
-index 6a1bd6a27d..722b1ac5dd 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.14.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
-@@ -14,8 +14,9 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
- 
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
-+                   file://0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch \
-                 "
--SRC_URI[sha256sum] = "35a1875ad96e8b4b6aa8729f59af350bfc788ba65c6856deaa84d33acc0f28c2"
-+SRC_URI[sha256sum] = "63deefbc15d9ce7c43d858187533367b01dcb6e8469d6b69ccb757d6d3dbb0ad"
- 
- export INSTALL_MOD_DIR = "kernel/lttng-modules"
- 
--- 
-2.34.1
+On Thu Mar 12, 2026 at 4:38 PM CET, Stefano Tondo via lists.openembedded.or=
+g wrote:
+> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+>
+> Add two new SPDX 3.0 selftest cases:
+>
+> test_download_location_defensive_handling:
+>   Verifies SPDX generation succeeds for recipes with tarball sources
+>   and that external references are properly structured (ExternalRef
+>   locator is a list of strings per SPDX 3.0 spec).
+>
+> test_version_extraction_patterns:
+>   Verifies that version extraction works correctly and all source
+>   packages have proper version strings containing digits.
+>
+> These tests validate the source download enrichment added in the
+> previous commit.
+>
+> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+> ---
 
+Hi Stefano,
+
+Thanks for the new version. Builds look correct so far, except for
+these 3 selftest errors:
+
+2026-03-12 22:29:04,908 - oe-selftest - INFO - spdx.SPDX30Check.test_downlo=
+ad_location_defensive_handling (subunit.RemotedTestCase)
+2026-03-12 22:29:04,909 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-12 22:29:04,910 - oe-selftest - INFO - 6: 39/53 444/679 (18.85s) (0=
+ failed) (spdx.SPDX30Check.test_download_location_defensive_handling)
+2026-03-12 22:29:04,911 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 424, in test_downlo=
+ad_location_defensive_handling
+    objset =3D self.check_recipe_spdx(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 123, in check_recip=
+e_spdx
+    return self.check_spdx_file(filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 81, in check_spdx_f=
+ile
+    self.assertExists(filename)
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/case.py", line 249, in assertExists
+    raise self.failureException(msg)
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-3170645/tmp/deploy/spdx/3.0.1/cortexa57/recipes/build-m4.spdx.json' do=
+es not exist
+...
+2026-03-12 23:32:02,849 - oe-selftest - INFO - spdx.SPDX30Check.test_packag=
+econfig_spdx (subunit.RemotedTestCase)
+2026-03-12 23:32:02,849 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-12 23:32:02,850 - oe-selftest - INFO - 6: 43/53 634/679 (70.33s) (2=
+ failed) (spdx.SPDX30Check.test_packageconfig_spdx)
+2026-03-12 23:32:02,850 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 393, in test_packag=
+econfig_spdx
+    objset =3D self.check_recipe_spdx(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 123, in check_recip=
+e_spdx
+    return self.check_spdx_file(filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 81, in check_spdx_f=
+ile
+    self.assertExists(filename)
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/case.py", line 249, in assertExists
+    raise self.failureException(msg)
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-3170645/tmp/deploy/spdx/3.0.1/cortexa57/recipes/build-tar.spdx.json' d=
+oes not exist
+...
+2026-03-12 23:32:16,627 - oe-selftest - INFO - spdx.SPDX30Check.test_versio=
+n_extraction_patterns (subunit.RemotedTestCase)
+2026-03-12 23:32:16,628 - oe-selftest - INFO -  ... FAIL
+...
+2026-03-12 23:32:16,628 - oe-selftest - INFO - 6: 44/53 635/679 (13.78s) (4=
+ failed) (spdx.SPDX30Check.test_version_extraction_patterns)
+2026-03-12 23:32:16,628 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 452, in test_versio=
+n_extraction_patterns
+    objset =3D self.check_recipe_spdx(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 123, in check_recip=
+e_spdx
+    return self.check_spdx_file(filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 81, in check_spdx_f=
+ile
+    self.assertExists(filename)
+  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
+bedded-core/meta/lib/oeqa/selftest/case.py", line 249, in assertExists
+    raise self.failureException(msg)
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-3170645/tmp/deploy/spdx/3.0.1/cortexa57/recipes/build-tar.spdx.json' d=
+oes not exist
+
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
+lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F23%2Fbuilds%2F3513&data=
+=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fefb2e808de80c7=
+bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639089792529240507%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
+iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DTaMzej5iIeRpGIRln4=
+zGg%2B8%2BhwuAgqSiMOFg55%2FL3mQ%3D&reserved=3D0<https://autobuilder.yoctopr=
+oject.org/valkyrie/#/builders/23/builds/3513>
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
+lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F35%2Fbuilds%2F3395&data=
+=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fefb2e808de80c7=
+bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639089792529268448%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
+iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DvZfebu1gqfsu0wyzPJ=
+mYjs10iz5lpA%2BqGW2AI9m4Hmw%3D&reserved=3D0<https://autobuilder.yoctoprojec=
+t.org/valkyrie/#/builders/35/builds/3395>
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fautobui=
+lder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F48%2Fbuilds%2F3286&data=
+=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fefb2e808de80c7=
+bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639089792529287827%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zM=
+iIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D3HyHYlXK5ihO27tpsp=
+%2BKqKdLZPvITgqvNOB%2FBD5qF4I%3D&reserved=3D0<https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/48/builds/3286>
+
+Looking at the error, I suspect this is to address changes from the
+Joshua series, but I didn't had this series in my branch. Is that right?
+
+I will keep these changes in my branch, so we can go further, but please
+confirm everything is correct.
+
+Thanks,
+Mathieu
+
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fbootlin=
+.com%2F&data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fef=
+b2e808de80c7bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C6390897925293=
+05144%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsI=
+lAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D22YCOQ=
+4x43HtfiJAFkL3H%2F2Yi8pZCL%2BXrWsAaEC372M%3D&reserved=3D0<https://bootlin.c=
+om/>
+
+
+--_000_AS4PR10MB544156BB358839BC46E70E7FAC45AAS4PR10MB5441EURP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);">
+Hi Mathieu,</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Yes, that's correct, the build-m4/build-tar naming depends on</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Joshua's series which renames recipe-* to build-* in the SPDX</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+output. My series is intended to be applied on top of his.</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Once his series lands, these tests should pass.</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Thanks,</div>
+<div style=3D"font-family: &quot;Arial&quot;, &quot;Helvetica&quot;, sans-s=
+erif; font-size: 10pt; color: rgb(0, 0, 0);">
+Stefano</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Mathieu Dubois-Briand=
+ &lt;mathieu.dubois-briand@bootlin.com&gt;<br>
+<b>Sent:</b> Friday, March 13, 2026 07:14<br>
+<b>To:</b> stondo@gmail.com &lt;stondo@gmail.com&gt;; openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Cc:</b> JPEWhacker@gmail.com &lt;JPEWhacker@gmail.com&gt;; Tondo, Stefan=
+o (ext) (SI B PRO AUT PD ZUG SW 2) &lt;stefano.tondo.ext@siemens.com&gt;<br=
+>
+<b>Subject:</b> Re: [OE-core][PATCH v9 5/7] oeqa/selftest: Add tests for so=
+urce download enrichment</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Thu Mar 12, 2026 at 4:38 PM CET, Stefano Tondo =
+via lists.openembedded.org wrote:<br>
+&gt; From: Stefano Tondo &lt;stefano.tondo.ext@siemens.com&gt;<br>
+&gt;<br>
+&gt; Add two new SPDX 3.0 selftest cases:<br>
+&gt;<br>
+&gt; test_download_location_defensive_handling:<br>
+&gt;&nbsp;&nbsp; Verifies SPDX generation succeeds for recipes with tarball=
+ sources<br>
+&gt;&nbsp;&nbsp; and that external references are properly structured (Exte=
+rnalRef<br>
+&gt;&nbsp;&nbsp; locator is a list of strings per SPDX 3.0 spec).<br>
+&gt;<br>
+&gt; test_version_extraction_patterns:<br>
+&gt;&nbsp;&nbsp; Verifies that version extraction works correctly and all s=
+ource<br>
+&gt;&nbsp;&nbsp; packages have proper version strings containing digits.<br=
+>
+&gt;<br>
+&gt; These tests validate the source download enrichment added in the<br>
+&gt; previous commit.<br>
+&gt;<br>
+&gt; Signed-off-by: Stefano Tondo &lt;stefano.tondo.ext@siemens.com&gt;<br>
+&gt; ---<br>
+<br>
+Hi Stefano,<br>
+<br>
+Thanks for the new version. Builds look correct so far, except for<br>
+these 3 selftest errors:<br>
+<br>
+2026-03-12 22:29:04,908 - oe-selftest - INFO - spdx.SPDX30Check.test_downlo=
+ad_location_defensive_handling (subunit.RemotedTestCase)<br>
+2026-03-12 22:29:04,909 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+2026-03-12 22:29:04,910 - oe-selftest - INFO - 6: 39/53 444/679 (18.85s) (0=
+ failed) (spdx.SPDX30Check.test_download_location_defensive_handling)<br>
+2026-03-12 22:29:04,911 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 424,=
+ in test_download_location_defensive_handling<br>
+&nbsp;&nbsp;&nbsp; objset =3D self.check_recipe_spdx(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^^=
+^^^^^^^^^^^^^^^^^^^^^<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 123,=
+ in check_recipe_spdx<br>
+&nbsp;&nbsp;&nbsp; return self.check_spdx_file(filename)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 81, =
+in check_spdx_file<br>
+&nbsp;&nbsp;&nbsp; self.assertExists(filename)<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/case.py&quot;, line 249, in as=
+sertExists<br>
+&nbsp;&nbsp;&nbsp; raise self.failureException(msg)<br>
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-3170645/tmp/deploy/spdx/3.0.1/cortexa57/recipes/build-m4.spdx.json' do=
+es not exist<br>
+...<br>
+2026-03-12 23:32:02,849 - oe-selftest - INFO - spdx.SPDX30Check.test_packag=
+econfig_spdx (subunit.RemotedTestCase)<br>
+2026-03-12 23:32:02,849 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+2026-03-12 23:32:02,850 - oe-selftest - INFO - 6: 43/53 634/679 (70.33s) (2=
+ failed) (spdx.SPDX30Check.test_packageconfig_spdx)<br>
+2026-03-12 23:32:02,850 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 393,=
+ in test_packageconfig_spdx<br>
+&nbsp;&nbsp;&nbsp; objset =3D self.check_recipe_spdx(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^^=
+^^^^^^^^^^^^^^^^^^^^^<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 123,=
+ in check_recipe_spdx<br>
+&nbsp;&nbsp;&nbsp; return self.check_spdx_file(filename)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 81, =
+in check_spdx_file<br>
+&nbsp;&nbsp;&nbsp; self.assertExists(filename)<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/case.py&quot;, line 249, in as=
+sertExists<br>
+&nbsp;&nbsp;&nbsp; raise self.failureException(msg)<br>
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-3170645/tmp/deploy/spdx/3.0.1/cortexa57/recipes/build-tar.spdx.json' d=
+oes not exist<br>
+...<br>
+2026-03-12 23:32:16,627 - oe-selftest - INFO - spdx.SPDX30Check.test_versio=
+n_extraction_patterns (subunit.RemotedTestCase)<br>
+2026-03-12 23:32:16,628 - oe-selftest - INFO -&nbsp; ... FAIL<br>
+...<br>
+2026-03-12 23:32:16,628 - oe-selftest - INFO - 6: 44/53 635/679 (13.78s) (4=
+ failed) (spdx.SPDX30Check.test_version_extraction_patterns)<br>
+2026-03-12 23:32:16,628 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 452,=
+ in test_version_extraction_patterns<br>
+&nbsp;&nbsp;&nbsp; objset =3D self.check_recipe_spdx(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^^=
+^^^^^^^^^^^^^^^^^^^^^<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 123,=
+ in check_recipe_spdx<br>
+&nbsp;&nbsp;&nbsp; return self.check_spdx_file(filename)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/cases/spdx.py&quot;, line 81, =
+in check_spdx_file<br>
+&nbsp;&nbsp;&nbsp; self.assertExists(filename)<br>
+&nbsp; File &quot;/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/lay=
+ers/openembedded-core/meta/lib/oeqa/selftest/case.py&quot;, line 249, in as=
+sertExists<br>
+&nbsp;&nbsp;&nbsp; raise self.failureException(msg)<br>
+AssertionError: '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/buil=
+d-st-3170645/tmp/deploy/spdx/3.0.1/cortexa57/recipes/build-tar.spdx.json' d=
+oes not exist<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/buil=
+ds/3513">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
+2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F23%2Fbuilds%2F=
+3513&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fe=
+fb2e808de80c7bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639089792529=
+240507%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DT=
+aMzej5iIeRpGIRln4zGg%2B8%2BhwuAgqSiMOFg55%2FL3mQ%3D&amp;reserved=3D0</a><br=
+>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
+ds/3395">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
+2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F35%2Fbuilds%2F=
+3395&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fe=
+fb2e808de80c7bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639089792529=
+268448%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3Dv=
+Zfebu1gqfsu0wyzPJmYjs10iz5lpA%2BqGW2AI9m4Hmw%3D&amp;reserved=3D0</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
+ds/3286">https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
+2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F48%2Fbuilds%2F=
+3286&amp;data=3D05%7C02%7Cstefano.tondo.ext%40siemens.com%7C0baf9486e8844fe=
+fb2e808de80c7bc8d%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C639089792529=
+287827%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs=
+IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D3=
+HyHYlXK5ihO27tpsp%2BKqKdLZPvITgqvNOB%2FBD5qF4I%3D&amp;reserved=3D0</a><br>
+<br>
+Looking at the error, I suspect this is to address changes from the<br>
+Joshua series, but I didn't had this series in my branch. Is that right?<br=
+>
+<br>
+I will keep these changes in my branch, so we can go further, but please<br=
+>
+confirm everything is correct.<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com/">https://eur01.safelinks.protection.outlook=
+.com/?url=3Dhttps%3A%2F%2Fbootlin.com%2F&amp;data=3D05%7C02%7Cstefano.tondo=
+.ext%40siemens.com%7C0baf9486e8844fefb2e808de80c7bc8d%7C38ae3bcd95794fd4add=
+ab42e1495d55a%7C1%7C0%7C639089792529305144%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0=
+eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo=
+yfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D22YCOQ4x43HtfiJAFkL3H%2F2Yi8pZCL%2BXrWsA=
+aEC372M%3D&amp;reserved=3D0</a><br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_AS4PR10MB544156BB358839BC46E70E7FAC45AAS4PR10MB5441EURP_--
 
