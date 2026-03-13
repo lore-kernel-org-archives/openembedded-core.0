@@ -1,152 +1,226 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 588C6106FD90
-	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 06:26:21 +0000 (UTC)
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10010.1773383166525131734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D2CD106FD87
+	for <webhook@archiver.kernel.org>; Fri, 13 Mar 2026 06:41:01 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10128.1773384058852185130
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Mar 2026 23:26:06 -0700
+ Thu, 12 Mar 2026 23:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=EqA9Fl+F;
- spf=pass (domain: cisco.com, ip: 173.38.203.52, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2387; q=dns/txt;
-  s=iport01; t=1773383166; x=1774592766;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=aWVjnXaEGkibU6bSadIDlRL5mGIHdIOranxb3/S1L0k=;
-  b=EqA9Fl+FL09g5G4RpP5SdVSmSar3rn0Cn3YADG3LTgjwASLwr3LnK57e
-   J6DAbOe1KaHu/d+K00gThpVpi3BjvltmAS64pfmIiLKNdQzTBndYWacYE
-   4bHZA2barwBHr6khVwR0JB8wnYuXv1wK9WeJlbqbcL/59ktqxHjbm61zH
-   zQvx0nTCvqLIEWJSN/m3IQ3/B8RAaOTF77RZs4xOHIEKjP/NeQ+my6BTK
-   0Bx3Gq7eN8WMkxze0uv2RmTKvYfWj1wGxxV5ikwjd+LG1gQKGv4OIq3Fg
-   kmTRQ/2y8nJzPzpbCgrSSCyOgXlxvCWtoi2HZPhA5Pqh1rnBdYCkOJtuF
-   A==;
-X-CSE-ConnectionGUID: d8AGY6FvQTG1TCjbaCnW3Q==
-X-CSE-MsgGUID: nCRVE1TWSzOUnvAv1xlsJQ==
-X-IPAS-Result: =?us-ascii?q?A0CrBgAArbNp/89K/pBaHgEBCxIMggULgkgPcV9CSZQqg?=
- =?us-ascii?q?iSLZJI2gX8PAQEBD0QNBAEBhQcCjSICJjQJDgECBAEBAQEDAgMBAQEBAQEBA?=
- =?us-ascii?q?QEBAQsBAQUBAQECAQcFgQ4Thk8NhloBAgEDJwsBVhwDAQIvIAsjCBEIgwIBg?=
- =?us-ascii?q?joDNgMRrziBeTOBAYNoAkNP2EcNglIBBQYUAYE4hTyCeYUgWxgBhHonGxuBc?=
- =?us-ascii?q?oEVgTuCLYEFgRpCAQMYghOFdwSCIoEOgWGRS0iBHgNZLAFVEw0KCwcFgWYDN?=
- =?us-ascii?q?RIqFW4yHYEjPheBCxsHBYUaD4hwdG2BE4MoAwsYDUgRLDcUGwQ+bgeNeD2CN?=
- =?us-ascii?q?IEOLKgdoCBxCiiDdIwejz6FfBozqmsLmHuOCYQJkkeEaIFoPIFHCwdwFYMiU?=
- =?us-ascii?q?hkPjjiFaIMUw2M7NQIJMQIHCwEBAwmTZwEB?=
-IronPort-Data: A9a23:DtPwxaLcO1wcWoxkFE+RhZQlxSXFcZb7ZxGr2PjKsXjdYENSgzUOz
- zNKXT/SaP7bYGD0eNEnbdvk90IP7MOGnYMxS1Ad+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnW0
- T/Oi5eHYgH9gGcuajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1iXGgZDNM25N9LLjhy3
- v4SIRsLUUu60rfeLLKTEoGAh+wqIdOuOMYUvWttiGmHS/0nWpvEBa7N4Le03h9p2pwIR6uCI
- ZVFL2A3M3wsYDUXUrsTIJ4zkf2hmnn4WzZZs1mS46Ew5gA/ySQsjOCwbYGOJ7RmQ+1TtXymi
- zv6wF/rJSwcKvWBkCqB6VCV07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcRQZ9UVuY98gzIkvSS6AeCDW9CRTlEADA7iPILqfUR/
- gfht7vU6fZH6dV5lVr1Gm+okA6P
-IronPort-HdrOrdr: A9a23:QHmjNah7UMnBFCIIDqdKqocxdnBQXtsji2hC6mlwRA09TyX+rb
- HLoB1173HJYVoqNU3I3OrwW5VoIkmskKKdn7NxAV7KZmCP0wGVxcNZnOnfKlbbdBEWmNQw6U
- 4ZSchD4BmaNykdsS48izPIdOod/A==
-X-Talos-CUID: 9a23:UE88+266T9QIBA5a7Nss+B49NfF7XGPk8FiJH2S6A29CToLOcArF
-X-Talos-MUID: =?us-ascii?q?9a23=3AX4iztA1w8l5picTFppSWnltmmzUj5Y+UNm1Urao?=
- =?us-ascii?q?9qe65MzJZJW6NiC+Ve9py?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,117,1770595200"; 
-   d="scan'208";a="54055335"
-Received: from aer-l-core-06.cisco.com ([144.254.74.207])
-  by aer-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 13 Mar 2026 06:26:02 +0000
-Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by aer-l-core-06.cisco.com (Postfix) with ESMTPS id 9C6E3180004B2
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:26:02 +0000 (GMT)
-Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id B8B4BCC1255; Fri, 13 Mar 2026 11:56:00 +0530 (IST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=753254187b=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D5RFja2281535
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:40:57 GMT
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011040.outbound.protection.outlook.com [40.93.194.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cutxqs8du-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:40:57 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ciRxBMwhU6G4ZTKZJ5GbijEcRLeWomGyOTaoQpx3nCrF8ZzVFti9fYqGXiV5aCczFhtVFd3HcY0MpqWyLoTAckaIRKoAICdI3HbtmAhMM0ClQYWNhrHXwFPFvavzSbaTQ98Y3MB+0kigj5BD5FxbdHuxI2J5DyClfSPe9g9/20oUXGkNjtsD3Q59IWgVqUNmervpe98fi1v0OGLmxq9lpIzGoafU7b7wKjwUNXaRtqgnZ8CtVRkWCS4YHIGMo+DTh9jiosq7s6QwPHW7cqZ8hyZlkknbo7cseZC9WQUlDyjrXamP5NufeCM0SipaBOxuP9DXUGxuX5T+tzy2OPuKVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dkS8KOKze38vi0DN7G3pORqNiiGKWQbOxeKCnIP9bIc=;
+ b=PHh6OM62H8E3BjIpOpBkESNBW/rQeUIisXEG7mWjcBMzEOZhSt3QiipEBpKR2yKBCiRxaR/FyBeCZ3amXnliTFvdHPr5rbLGE9xfIWTwGhwmGqyIC4AmOuAqFQ8AlfPQqosLvH407ufwXu7XVgtD48rv0XWn7rTCxgnW2WSnTBXwb+F7tvzz4oVfQNmxx98nUNfVawIIb+jV5QnyRl8VWmFrV4J7OjV4eWlGm3uMlTEY+JJT2X1hBd1227jUliUNizTRXRv1HSmuIBDk7C+Sh1gJ3LCjq7kE5W/6PFRw7lSuyDOXC0a4bksLq/mZLd+JIB3Z4YFVUX4vY8n+oby+OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::26) by PH7PR11MB5767.namprd11.prod.outlook.com
+ (2603:10b6:510:13a::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.4; Fri, 13 Mar
+ 2026 06:40:54 +0000
+Received: from DS4PPF641CF4859.namprd11.prod.outlook.com
+ ([fe80::4fd7:cce3:ed40:ad73]) by DS4PPF641CF4859.namprd11.prod.outlook.com
+ ([fe80::4fd7:cce3:ed40:ad73%6]) with mapi id 15.20.9700.010; Fri, 13 Mar 2026
+ 06:40:54 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [openembedded-core][whinlatter][PATCH 3/3] binutils: CVE-2025-69652
-Date: Fri, 13 Mar 2026 11:55:32 +0530
-Message-Id: <20260313062532.3247430-3-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260313062532.3247430-1-deeratho@cisco.com>
-References: <20260313062532.3247430-1-deeratho@cisco.com>
-MIME-Version: 1.0
+Subject: [OE-core][PATCH] lttng-modules: Upgrade 2.14.3 -> 2.14.4 to fix build issue on kernel 6.18
+Date: Fri, 13 Mar 2026 14:40:43 +0800
+Message-Id: <20260313064043.2113572-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: aer-l-core-06.cisco.com
+Content-Type: text/plain
+X-ClientProxiedBy: TPYP295CA0002.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:9::11) To DS4PPF641CF4859.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::26)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF641CF4859:EE_|PH7PR11MB5767:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05079560-8a69-45a3-e3f0-08de80cb798e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 
+	8WxB8UrMvymaDkzrd1DrngUfJx5VQ0z3U0EtFyOs8iMUpd2xekrJOp5T1Xv0BTdx6RIamG/IpzUm+vn4RNzPlIuvFk1xI07WZzLC6AqH5HmPZhKLrmtgF2DWK+NGFKnBaypPP+4bZR8aAuYBxJGjBbaUtFPKaJnLDLImQ8NhUSgiAh3JQmX0YY7MtVIu/h79YXGc3fQgK/NrPEgTDsMd5eoHLH3176BAqZbVBNijy2mS2AvVGvn7ICKTe5nFz6T+hGy1UnCpZVHq2xdBaAMK6uKodqFNlY2BHG6h42b+WJRHidYt/6Pa1jYtDYvZLil9WDJh4vXo5/kLc7yrTKIktgVKMOAO+oStjKfJYKSWtSg27MNh4UMECKmUGc3U+ZmZnSfRLZ1lYN6vww39p4ItNW07hFlZxKnaMhWZqkMhsRiauGFdvwPjtwSx3ux2pJCSHV9I5ADZQ0jj7PChvP7CgxE1xVymxdcfIdHCgZ55tXTuntCkn7cSTq8kxjk/MNPaypsjw4RrjyA9yaw/ZujR8NozA9MyqnqbK49PM5Htx6Inz+KV2ePelcN1NfNyF4HlQjbaPjdGSfirZc78/JUe2q9OwTSfqu0D9POAh+93sPJgBk4ghi6B65lallIhWu5OfjT7u4D21q3Ucl6if6Fok0HSkR7nTttskk1UCq+RrmWdODEmjoK9eiqhAMS3W75WZr4MMLdcmWLoRrZCCrAln2OV2lLUt5f0fQh8uDxfMmM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF641CF4859.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?0ftHXJvz2DywvCchDoSWyBRz0PxtSJGBx2aLqp42Dn5SWkvml8iy2eXZDhev?=
+ =?us-ascii?Q?/G+DJspRZlLseR1XlYl9XIsHLV3pQExYVkKcUOP0YiyFNHZblOEHD7Hyz9G2?=
+ =?us-ascii?Q?Isv8F5Bthn3Pv7XJ66NyZIpnqaeV1n9lWLxzBOSSIICoKX2r9MFUjYAhnN+V?=
+ =?us-ascii?Q?mPlAzxOoUqfRp6Haluh+o28mEyJMbB6vwuT5uR2/itEdimN2F7JSBzSecZQ/?=
+ =?us-ascii?Q?4zMcGi2OmHrYGn0vYHKbJGaDRcAnaGQxQyo2/nvWjrg6DBNIyPS5G+s+9v1O?=
+ =?us-ascii?Q?vNg4UkeblHWRvJUk8XPAVaSt03CzE3jm+ngm+AgSgVNpHSnEaDsdVDWDd4/r?=
+ =?us-ascii?Q?ALLlZ8d9+pvA3F9md24aNozdSgLlthbxsE1lLCBPZRVzUfXCSiG1o5FyjmAJ?=
+ =?us-ascii?Q?LaAjVYKss3JclPpDm9r8lPaB48BbfpgpxKN01H/YUKo6M5UPpKQYG8KV/oaJ?=
+ =?us-ascii?Q?0dRQl4Ol0DFXdy5EmBcO+8sgX+4RcG96yQaYhp7n8yZyd/xGH26nMZkdy1XB?=
+ =?us-ascii?Q?vuCPtOEUYOLTjCuW5O2crtBkQfqCa/uPwpmueM153h5Tff41HUKw5stdpDqN?=
+ =?us-ascii?Q?y5uSZNHUUMuwLNBhRDSc0Alyezi5i1cG96y+QazBl5lAWS7dmJ7P9s7iGfpV?=
+ =?us-ascii?Q?HkgsrmEUzuodaXTm+IrZLZWKFbolFsBcDLEDmQI8GERRj0ug5LF+2wlmuFuU?=
+ =?us-ascii?Q?MobPAOk8IAg6aex1yId1E+f05w33iwXtwIp0rq/sBR1ESCXbvbGESq5/SBux?=
+ =?us-ascii?Q?GhQxIiYZtv3SNun91V0O2Jg3jgXIzjLYAdgu+/52EdUpeHlC+rWTMhMfoKq1?=
+ =?us-ascii?Q?nKuh3slxsE1pabkYn3dqcv9QxyYDY5LozvryuIjvc755h5BB9EK3D8pkt8dV?=
+ =?us-ascii?Q?W9iSDYlxSjD/qNjk9oY0hN44tQg3ImBi0gPaVILKUYcGcbYUsHjL9H+RqbyZ?=
+ =?us-ascii?Q?hsFsm6/g5uIOOSDIKW+/D+0Az6Ore8Kt4BTnAUqhavUnRYLSMqnkJJXMrPz5?=
+ =?us-ascii?Q?o3HKBiUnuVEZkHYhx91sbiZjkwqzjKSae6Ej9JCnW1NrpXEXIK6SsgYKNvLt?=
+ =?us-ascii?Q?bFRav/gdmjvQFIaXPVAA/cwGZfue6HoBsEG1tmioevd8jC9dS/NRggtcuEtK?=
+ =?us-ascii?Q?PnFUsMafLYRNOP9ziTjIPqN5QD0G79CHVm7zeIBrEBbjLhJGjTBIBLgNavwX?=
+ =?us-ascii?Q?Pft74HoIwkREthbsv2wVGpRugiFdCFB8DMA9l9UaM0FonNeLV5XjLIIrkWl0?=
+ =?us-ascii?Q?f2FB5mmvJKBQz+bRrjfcVch7nfKDGj8XQdcJgXcMEZZ/0qKAqu/zvA3iS6E1?=
+ =?us-ascii?Q?S8fzjW2+JVV+j5Uv3y7Sl1HhVK/yjxw6imuAt3DNNXTSxzHss6UNEUGsc+FE?=
+ =?us-ascii?Q?mj8be/EvB6GV7B8sipDh9HteUNv4XHE3GRcdHjgmS2bf0nEmaZPmectYrLIM?=
+ =?us-ascii?Q?Owwoq8hDJnj7PW0mLAMiX0WacC1ByxwV7ktR5R+y0s83BWDo1MyTwDd4+tRR?=
+ =?us-ascii?Q?X8gfr5Fi8QN2rUNeCD8g8l+hxuuPLJMPg0rSAsihOfqJDCLt9U/46IYpF1Qz?=
+ =?us-ascii?Q?INoO4MGE/DqQb7LRlXKFha2KGB+dG0s8XVYyQZfLacbcsX+GQyYYoQo3fIBG?=
+ =?us-ascii?Q?6Xt2Rp3UAODVFZBCr51jGil5Zlk4i38qW/dpdSd6CMjbkz+BX6scDlvFoS0W?=
+ =?us-ascii?Q?QRSjYfRwGELhSO3ba+kQmnWGwl/OSAclndGUZFGPPwpn0CHt4TEmADkBPNUl?=
+ =?us-ascii?Q?/vzFtvyzOfoqQn77J6JGTsCvfA7p1nI=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	eDHAfq1jxJgZBRJig9cMEdi5QB+cKMOm51nXmOTHdKSSlGIjAhFBLfax+RsZ+SpFQn0DpqDnmiZfgTylk0tBtZySHAkeEHDkjWnicur9kZb2t74dcQSnZOKm8GfZfN2foXc1LWBBk5dF2jXjz2FWhM107F2v5Yf+n2Iki66ALsJGoQzknskIBpLSvLX6UpgiFevbNaS0Ogeo/9jCPz0TmtIs+9xRGZ3sJxKvUIK6S3D8ddEPNIrweF0M7Q403MjfPcxX7hbhcX20Uiou74bNt/bfOxkDEYZOYs58ZdcWh6Zlw/nxNgtjpi9kyxHqLRoPsTRg4bocbYUTcOldUn8iHA==
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05079560-8a69-45a3-e3f0-08de80cb798e
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF641CF4859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 06:40:54.1899
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KlJDcgwEc071IkCb0TlYsVccUIGbg3IEAlJxnl1BgEDG7XjvxaemQyZwt4D2MKLVdvTbetOzCFN7tXK5b/FgIZrUZovnzpcgkHx5JWIzUrI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5767
+X-Proofpoint-ORIG-GUID: GNXhV44O90cjfCpHRdTQrJno6tnO4B1V
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDA1MSBTYWx0ZWRfX8WaRJnxIAdgL
+ GuFtgsQYZyAZgkpX2IzRM9kkjtRRoln9l3hBiljOCHVTS0jZzDSMd4vauGj/uG5NrSVq92xMidt
+ b2VE834xdLDf13x83iQMeJ1X2E6bSb6vbC+3goePieIQ3bI75Bg+mdCxels4k8ci1lyYP22ykIv
+ RRPdbk3M+YrJEU3O0D16acLHbJElM82ljfQqLUONmg/Lij65fjoHvxHDIBMgMRaXVKp4I/NO/YZ
+ CbIYv8YSC6exIGgDx2BgG4VuyQ3yR3aaJB6FuYg3xlgNenAwI7Eb8mbrzWqwSoms93leXov+3ki
+ UuwzQGM0VflM1BU5rmkZfzTLr+3InO2Dsa7k/I2xv6Hd9sYNdqMdXPLHDhBosL2Y5IrMsVyDRQk
+ zNEwnon7MirQSRh4Lcek7ik/PdL6GgFeRM14dFG+RVEfTAkoWcIRlUj5sBYMTaZdu61peO4ppP2
+ W8eYyWeB+W9iFya9nGg==
+X-Proofpoint-GUID: GNXhV44O90cjfCpHRdTQrJno6tnO4B1V
+X-Authority-Analysis: v=2.4 cv=feegCkQF c=1 sm=1 tr=0 ts=69b3b179 cx=c_pps
+ a=lexSm1xfraBw67q2grWtcw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=a5LkSv8FAAAA:8
+ a=t7CeM3EgAAAA:8 a=7d_E57ReAAAA:8 a=1iWrAX3iE9CZFub1qHwA:9
+ a=E2cWBXyb0kjxxB1PlMdk:22 a=FdTzh2GWekK77mhwV6Dw:22 a=jhqOcbufqs7Y1TYCrUUU:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-12_03,2026-03-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
+ bulkscore=0 phishscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130051
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:26:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233028
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Mar 2026 06:41:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233029
 
-From: Deepak Rathore <deeratho@cisco.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-pick the patch [1] as mentioned in [2]
+Add 0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch to
+adjust Brtfs probe header for 6.18[1]
 
-[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=44b79abd0fa12e7947252eb4c6e5d16ed6033e01
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-69652
+Change Log:
+2026-02-09 LTTng modules 2.14.4
+* fix: Manual conversion to use ->i_state accessors (v6.19)
+* fix: btrfs: headers cleanup to remove unnecessary local includes (v6.19)
+* Fix: Initialize syscall tables sorted entries
+* Cleanup lttng-syscalls.h: Remove extern on function prototypes
+* Make init_event_desc_enum_desc_sorted_entries public
+* Update .gitreview for stable-2.14
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Ref:
+[1] https://git.lttng.org/?p=lttng-modules.git;a=commit;h=ca93dc3b05fcb22db5b653858a1b08002496d783
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
-index ff521e1b46..ca134051d5 100644
---- a/meta/recipes-devtools/binutils/binutils-2.45.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
-@@ -48,4 +48,5 @@ SRC_URI = "\
-      file://0020-CVE-2025-11840.patch \
-      file://CVE-2025-69644.patch \
-      file://CVE-2025-69649.patch \
-+     file://CVE-2025-69652.patch \
- "
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+---
+ ...st-range-in-btrfs-probe-for-v6.18.14.patch | 36 +++++++++++++++++++
+ ...ules_2.14.3.bb => lttng-modules_2.14.4.bb} |  3 +-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.14.3.bb => lttng-modules_2.14.4.bb} (89%)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch
 new file mode 100644
-index 0000000000..d345e33d04
+index 0000000000..662a803680
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
-@@ -0,0 +1,39 @@
-+From 69d20318286c467efc764585e6c4967793bfd198 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 8 Dec 2025 16:04:44 +1030
-+Subject: [PATCH] PR 33701, abort in byte_get_little_endian
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch
+@@ -0,0 +1,36 @@
++From de7ca66c797ba0b3273a217a47c8fb791d896f7c Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Fri, 27 Feb 2026 17:54:39 -0500
++Subject: [PATCH] fix: adjust range in btrfs probe for v6.18.14
 +
-+	PR 33701
-+	* dwarf.c (process_debug_info): Set debug_info_p NULL when
-+	DEBUG_INFO_UNAVAILABLE.
++Upstream commit c5667f9c8eb9 ("btrfs: headers cleanup to remove
++unnecessary local includes") was backported in v6.18.14, adjust the
++range accordingly in the btrfs probe.
 +
-+CVE: CVE-2025-69652
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=44b79abd0fa12e7947252eb4c6e5d16ed6033e01]
++Upstream-Status: Backport from commit ca93dc3b05fcb
 +
-+cherry picked from commit 44b79abd0fa12e7947252eb4c6e5d16ed6033e01)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++Change-Id: I51c5cb6345c6a1e1aa4e5e3cb9a4af2ec962ecb2
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 +---
-+ binutils/dwarf.c | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
++ include/instrumentation/events/btrfs.h | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index 3c53821149c..d9f514180de 100644
-+--- a/binutils/dwarf.c
-++++ b/binutils/dwarf.c
-+@@ -4248,9 +4248,11 @@ process_debug_info (struct dwarf_section * section,
-+	      break;
-+	    }
++diff --git a/include/instrumentation/events/btrfs.h b/include/instrumentation/events/btrfs.h
++index feb4f40b..e87f0085 100644
++--- a/include/instrumentation/events/btrfs.h
+++++ b/include/instrumentation/events/btrfs.h
++@@ -12,7 +12,8 @@
++ #include <linux/writeback.h>
++ #include <lttng/kernel-version.h>
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0) || \
+++	LTTNG_KERNEL_RANGE(6,18,14, 6,19,0))
++ #include <../fs/btrfs/ordered-data.h>
++ #endif
++ 
++-- 
++2.47.3
 +
-+-	  debug_info *debug_info_p = ((debug_information
-+-				       && unit < alloc_num_debug_info_entries)
-+-				      ? debug_information + unit : NULL);
-++	  debug_info *debug_info_p = NULL;
-++	  if (debug_information
-++	      && num_debug_info_entries != DEBUG_INFO_UNAVAILABLE
-++	      && unit < alloc_num_debug_info_entries)
-++	    debug_info_p = debug_information + unit;
-+
-+	  assert (!debug_info_p
-+		  || (debug_info_p->num_loc_offsets
-+--
-+2.44.1
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.14.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
+similarity index 89%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.14.3.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
+index 6a1bd6a27d..722b1ac5dd 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.14.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
+@@ -14,8 +14,9 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+ 
+ # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
++                   file://0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch \
+                 "
+-SRC_URI[sha256sum] = "35a1875ad96e8b4b6aa8729f59af350bfc788ba65c6856deaa84d33acc0f28c2"
++SRC_URI[sha256sum] = "63deefbc15d9ce7c43d858187533367b01dcb6e8469d6b69ccb757d6d3dbb0ad"
+ 
+ export INSTALL_MOD_DIR = "kernel/lttng-modules"
+ 
 -- 
-2.35.6
+2.34.1
 
 
