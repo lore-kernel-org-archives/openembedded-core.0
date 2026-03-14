@@ -1,116 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11988105F79E
-	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 08:02:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2159106FD81
+	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 09:24:13 +0000 (UTC)
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5930.1773475338055785507
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6463.1773480248120349280
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Mar 2026 01:02:18 -0700
+ Sat, 14 Mar 2026 02:24:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hg7uWGUc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48374014a77so28569065e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 01:02:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eZIBOwZ1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48374014a77so28922565e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 02:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773475336; x=1774080136; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7+g/Rbq0kkuGjEDjvBaM0rAOX7uVr2eAl3ncQ2HZqo4=;
-        b=Hg7uWGUcG6Fnow+PlCCz9XOO+GMJxkrzTUVvQ3GNCqvdbVM339/I6fSw9RFnaq8b6a
-         l/ZuJju1DmMkFn0nYxAH+hqiFUqEACZCujbOrQcyebtLisXO1CjdlJ9LbC8eX5m6c/FR
-         yti8l45CNzdlyvcqgI7VzQND6E2HQY6JI0Vm0=
+        d=gmail.com; s=20230601; t=1773480246; x=1774085046; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+XAsSWsliEWdC0O57jJKnT3wy1EWDYRiOIUaWheZHEw=;
+        b=eZIBOwZ12Us40EYPluznzT070Xv7UBiMQyGTBjlKWKoZXKLSaDWNn+r+feOgtmvIZE
+         sTNiB7x8K4j+VGeezi0pJ8Ui0jWQqVmSAHsARYd5SVGivI9h7NAtAN6GMSlAx6HCvQlU
+         3a7gdphg7aTWcFxKRtKjjUvm/lMGy+cLqRoRBUPq4ZBkmzj+/XZRI8D187wWMybv7WcS
+         RTvQN23VKr3oa9g7aeF+/TRnoybqrcatHFKp/oJDADfShkxPo6TwbFVgSCoLAZHrlN0f
+         bSkzpX8IA0eaZ3iUInjUKEIJXP6mlk6C0MrrHh34E18r4TA4mwBJHy9NOxo5GJFAOcnX
+         egWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773475336; x=1774080136;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7+g/Rbq0kkuGjEDjvBaM0rAOX7uVr2eAl3ncQ2HZqo4=;
-        b=HtOtXqZW3wSyTvaVmDgFnS5Qo3pVBHxIfqG1dLK6wGuCeib/Z7RaRyTW+u2PfH2QfN
-         urR3rhX3IG253nKzbtQ/dy3+AL3QxKBkceSBtmmvOWt/Cd21Ci9xdCCbHPWPlNXQO53K
-         ypf8CRJrj0sWJbfSa+O23heaCrPZDEJ0I0KhxhLu/yBdbITV9orll3E6jZgpeQ6ur4qc
-         u2w9jvQAzhgp2aurGbyN2MG2Uc0F0mWK9LC7dnqLqzA1Om5K7s6vK1gFMyx1tVwtYwUu
-         UqPUk3q40ejwggD/jwZdPv443ABbJXTcHq3Fq0aFDKnokam5WUJVU7LJBiAoCXRS0TVH
-         Vabw==
-X-Forwarded-Encrypted: i=1; AJvYcCXG317e+yNqiHeMfq1Q2zxgtWrYOIcfBCTKbATF25KV4DKVNA7QS5DEhorS17ew1Lx1+I3mIIMDdoqjkQVqtV5zGw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwH9tQOC+RmSQXSesYL4pnBQdtp+wxM3dQJrLrOW6kkBtJjf0M7
-	spRW9lndb4ifv9MgjnPClSSrf+aK1TREFuf0SkxDa4QLVvcE04+L0WzkvyP+neb8HVI=
-X-Gm-Gg: ATEYQzxZd2BWULzgkhNEcDlsCdAMlK9xX3rIG6tBt1f3V6sjNUkstGOfM2Hj+ki7x7N
-	NnqUR94wEmDgGzD4OEWdUmmiyAR9L6f4ST9lDP6Eyxy8gLjn5D/v3afyYxaKpvnK6CqfvOUl17k
-	4paKJGkkQV1pfFkyoJc7vfLhoRqWyVmTdatq0L9iZrfcIw1CQ32Ur2Memls6ZSXP7zUgtsEoy3n
-	4seqhcjHYyf9ImhPgRw3tGLiiNxryztlDOG9xVtlLYv9oTF14Tl+Jz4YYHs474JfabLXO+TCuJe
-	pcHy8s2L2oZnnMWaCMrxc1eQpeNl4BXNLezi7KpshssoAv6/lEEC5wYwdHKNsCkBZWT4SG5A28l
-	W//rR38y0VBVKgnYqJvXgE2bm4itpMW48hGpqLYNVIiZD/QNS0KEptnFsm43fKthWGZVl/9O+1k
-	EhTtBvonlPdmPj63l2nAU/c7CkPkUrOzx6hj3j+U0WIga03iva95SxIF89IAzvqvHDzcQJlhI9s
-	82vFxmebI0SHt0=
-X-Received: by 2002:a05:600c:3550:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-4855670c971mr105433145e9.29.1773475336145;
-        Sat, 14 Mar 2026 01:02:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1366:c81f:8eb8:9990? ([2001:8b0:aba:5f3c:1366:c81f:8eb8:9990])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b65fd3dsm260329945e9.10.2026.03.14.01.02.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 01:02:15 -0700 (PDT)
-Message-ID: <85a2a6b63bb35ea7748763500ceec3f411dd63ba.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v8 4/9] glib/python3/acl: Add pkgconfig to
- RDEPENDS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: liezhi.yang@windriver.com, openembedded-core@lists.openembedded.org, 
- Ross Burton <ross.burton@arm.com>
-Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com, 
-	mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com
-Date: Sat, 14 Mar 2026 08:02:14 +0000
-In-Reply-To: <af076df542e7b42d2c3d7ab46188a98b400aac45.1773324129.git.liezhi.yang@windriver.com>
-References: <cover.1773324129.git.liezhi.yang@windriver.com>
-	 <af076df542e7b42d2c3d7ab46188a98b400aac45.1773324129.git.liezhi.yang@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+        d=1e100.net; s=20251104; t=1773480246; x=1774085046;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+XAsSWsliEWdC0O57jJKnT3wy1EWDYRiOIUaWheZHEw=;
+        b=LlFW92igQxqD9df98utRNO4Q1MGTvFOpkV1Appjp5S1iwRnUXTFLLkw+lSDLXxtBsl
+         UxvNRK30NJWheZimwRwri7zWoHcb3X6alp7HK3R9tvPcBvFG7rZdmQZZnOWlMIbOVECM
+         HizWQSBnqNqqGCcJnlvX7oByzq/3vdLZXZ490r/vK3tl5d7JRFJUjchp8CoX6as+hKKd
+         mn50NAaibkwfnSXbqk6MQ0nBsvpqFBxG3IKCjDa4H+VZ0Z/04pGMAekl3/6e1KYKafEy
+         H3NKgknO6Cdb0Em+xsenna/SEehKWADJsJacYdVYZRxKaezL0heRuhHV1RKfhdc2amyb
+         a4ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5CCD0cMGsn1WogPUBkUXrvSE1xGhIiWcngjbNYKm39b97uIf0ZwX0eEJE0ebZtGJo6ntEEmGcSpaAno68TFshNA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy929TRq/v5vQKLngeJGBjmTGONn10N56CrQJRafihb9kUX9Xuq
+	WMRdKE7INnmetIJ7c1FN2trposlxaVomF31lbEnpVpjwORO5CrL/qNHx
+X-Gm-Gg: ATEYQzwsuVFXZDTM3nPntPwUJJvU46z2z+I5Yt0ai9AX1geP0rd9SVkjnp7ZGFHcA0e
+	YNoUd6dgwpgOljtlK+kGSWaPyARwW1GhuvqthUZS447osMFNpuXJ8KnncD/0wC5mhInNJHXW+gp
+	Qxz3n/vr1R6fDf0a9CY9V1zlEh0MnOWayXed3RO+hs7njH1lqnFIXw54PoKlfznjIYEeiD1G9Gk
+	S2lSv7wycPv7QMmUK2EtnGoAwIaYXUrMZQjPFSJf8Cajjgk2mkUZcjsvbJFZJ/qfb83Gg+x13T9
+	hrTZI4EtjK3mNWqPAt10kF5kjF9d8SjLiyiq8lbZo1ts/G81e/qs4a9PuNFWGpobYF5QGA68b4j
+	j4M+T/PvHNd5qI/OBrMg0bRQYuqH8YQJ0aMi7Ya/VTg6mN3XViy6+JA7keRyPbd88Myv1XWXfux
+	ofrRBlCR9Ee8wJSaMsGLwKxoWtZLL6yt8Xujle+naEQLwxz3wlfZRrW/U=
+X-Received: by 2002:a05:600c:4f8b:b0:485:3a27:a960 with SMTP id 5b1f17b1804b1-485564981d8mr112254275e9.0.1773480246230;
+        Sat, 14 Mar 2026 02:24:06 -0700 (PDT)
+Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b544sm26412359f8f.20.2026.03.14.02.24.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 02:24:05 -0700 (PDT)
+Message-ID: <ba5d8ae0-f057-4b48-b523-0bf17bf25705@gmail.com>
+Date: Sat, 14 Mar 2026 10:24:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+ subpackage
+To: "Marko, Peter" <Peter.Marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20260311122922.4160133-1-zboszor@gmail.com>
+ <AS1PR10MB56977E851FCBA7CBCE3B4652FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <8be68784-e846-4ddb-9127-e4e6082347aa@gmail.com>
+ <AS1PR10MB56979EB1C738893C31052E3EFD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <f2f689b6-1600-40dc-94d4-6de8906b2490@gmail.com>
+ <AS1PR10MB5697D86B88010E0EE7666332FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <189BD2EF133E31A4.2476321@lists.openembedded.org>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <189BD2EF133E31A4.2476321@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 08:02:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233073
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 09:24:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233074
 
-On Thu, 2026-03-12 at 07:09 -0700, Robert Yang via lists.openembedded.org w=
-rote:
-> From: Robert Yang <liezhi.yang@windriver.com>
->=20
-> Fixed issues like::
-> Error:
-> =C2=A0Problem 1: package python3-ptest-3.14.2-r0.cortexa15t2hf_neon from =
-oe-repo requires python3-dev, but none of the providers can be installed
-> =C2=A0 - conflicting requests
-> =C2=A0 - nothing provides /usr/bin/pkg-config needed by python3-dev-3.14.=
-2-r0.cortexa15t2hf_neon from oe-repo
-> =C2=A0Problem 2: package libglib-2.0-ptest-1:2.86.3-r0.cortexa15t2hf_neon=
- from oe-repo requires glib-2.0-dev, but none of the providers can be insta=
-lled
-> =C2=A0 - conflicting requests
-> =C2=A0 - nothing provides /usr/bin/pkg-config needed by libglib-2.0-dev-1=
-:2.86.3-r0.cortexa15t2hf_neon from oe-repo
-> (try to add '--skip-broken' to skip uninstallable packages or '--setopt=
-=3Doptional_metadata_types=3Dfilelists' to load additional filelists metada=
-ta)
->=20
-> This is because the rpm 6.0.1 can find the pkg-config files (.pc)
-> provides/requires correctly now, the rpm 4.20.1 couldn't find that.
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+2026. 03. 11. 16:26 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+> 2026. 03. 11. 15:02 keltezéssel, Marko, Peter írta:
+>>
+>>> -----Original Message-----
+>>> From: Böszörményi Zoltán <zboszor@gmail.com>
+>>> Sent: Wednesday, March 11, 2026 14:43
+>>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>>> openembedded-core@lists.openembedded.org
+>>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
+>>> subpackage
+>>>
+>>> 2026. 03. 11. 14:40 keltezéssel, Marko, Peter írta:
+>>>>> -----Original Message-----
+>>>>> From: Böszörményi Zoltán <zboszor@gmail.com>
+>>>>> Sent: Wednesday, March 11, 2026 14:12
+>>>>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>>>>> openembedded-core@lists.openembedded.org
+>>>>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to
+>>> ptest
+>>>>> subpackage
+>>>>>
+>>>>> 2026. 03. 11. 13:44 keltezéssel, Marko, Peter írta:
+>>>>>> These INSANE_SKIP assignments are wrong.
+>>>>>> Use GLIBC_GENERATE_LOCALES = "all" (or select just those you need) in
+>>> your
+>>>>> distro.
+>>>>>
+>>>>> It doesn't help.
+>>>> I'm not sure why it down't work for you, since it works for me and for Yocto AB.
+>>>> Did you added it to your distro settings and not just to a recipe?
+>>>> The explanation about this is at: https://git.yoctoproject.org/meta-
+>>> yocto/tree/meta-poky/conf/templates/default/local.conf.sample.extended#n61
+>>>
+>>> I added it to my distro include file.
+>> Have you verified the final value via bitbake-getvar?
+>> You are overriding the default (otherwise you would not see the warnings),
+>> So possibly you added it to a place where it anyway overwritten later.
+>
+> Yes, I just checked it. It's not set from anywhere else,
+> only from my distro include file. It's set to "all".
+>
+> As I said, setting it does not help with all the build-deps QA errors.
+> Previously it wasn't set at all, and I have not seen a similar QA error under Yocto 5.3.
+>
+> Isn't it possible that the ptest subpackages for bash, gawk, m4 and others
+> have just gained extra locale-base-* dependencies that previously weren't there?
+> And now they are not being covered by DYNAMIC_PACKAGES in glibc-locales for some reason?
 
-I'm a bit worried about the pkg-config dependencies. Are we able to
-turn this off if we need/want to?
+Setting GLIBC_GENERATE_LOCALES = "all" is not needed, it seems to be the default.
 
-The reason why is that installing a -dev package doesn't necessarily
-mean you actually need/want pkg-config. I appreciate there is a .pc
-file there, but just because you have a .pc file, it doesn't mean you
-are going to need/want to use it.
+The issue was that I also had this in my local configuration:
 
-Do you have any comparison of the dependencies before/after the change
-and are there any other changes we need to be aware of?
+LOCALE_UTF8_ONLY = "1"
 
-Cheers,
+This was not a problem up to Yocto 5.3.
 
-Richard
+bitbake world and ptest packages should also be tested against UTF-8-only configuration.
+
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#232894): https://lists.openembedded.org/g/openembedded-core/message/232894
+> Mute This Topic: https://lists.openembedded.org/mt/118259058/3617728
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
 
