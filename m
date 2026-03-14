@@ -1,93 +1,117 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A8110706CF
-	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 10:45:44 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7499.1773485143994284201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C187E10706E0
+	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 14:20:25 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10490.1773498016735626281
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Mar 2026 03:45:44 -0700
+ Sat, 14 Mar 2026 07:20:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hV37HUt+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qwIztv5X;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019cebf3b444-56fbcfdc-1c6c-41a2-b0d9-c5cd2ef0eddc-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1773485143; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=CEcPxXh6xR2mkaX6ppjPM71xbygzNe6lRZINr6jPfWs=;
-	b=hV37HUt+okmb/dqDRSe1XYJisEASZP8U28IxR7dnvqlRvWHrhg05YcWYCVgPNulc
-	RWBWDH3JtcMZivkRu0OrnhGwiRczIsjNHYFiRvlvqE5OGLFvPOoMc5usWSDI0GtL45g
-	Gktiw/9dIUSxyKm7WnydgrLC+R1FLaf3y0o/m/Uk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1773485143;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=CEcPxXh6xR2mkaX6ppjPM71xbygzNe6lRZINr6jPfWs=;
-	b=qwIztv5XHzWvPeOMAhn+478RuxVXzZvfuLfCC7jPN5PJrHbrUrhhnA9OG2b5CLMw
-	5ySWKUoca3kogr5StERhoUNtUvG4RrZIwWaGj+RJhXpgSKrb3kSlV1RNtz8oPL8Hos5
-	6e01mL05Mmpl5fv29zSQIZsZSB/+EFTqtmLTN3sk=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] sstate/sstatesig: Abstract dummy package architectures into
- layer.conf settings
-In-Reply-To: <20260314102702.3942139-1-richard.purdie@linuxfoundation.org>
-References: <20260314102702.3942139-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019cebf3b444-56fbcfdc-1c6c-41a2-b0d9-c5cd2ef0eddc-000000@us-west-2.amazonses.com>
-Date: Sat, 14 Mar 2026 10:45:43 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.03.14-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fNsqULS+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852e09e23dso26506555e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 07:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773498015; x=1774102815; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mWLw371lgtJiwJ4s5uGRGYfIhXtk/PZNC3nxtb20rN4=;
+        b=fNsqULS+wnR8cytS/+HZt8b+h4ytKecoB4rYWEv0Jfk6nRKeZ3VmOsJw/Z0Z5/Bvme
+         wTc7Hxu2IpX6cJ2thACQaK1BaJarTOMN2n5BlyUMWU/mSnhPyF0cHutKs/6KRuTnZZ2L
+         KOxRehZnOzIurzhWl5Y88HKk9EVhcOoh6WmG+w1HSyXlu33B5yj2PG96i/BEOwGDi9FG
+         Ub5NBDgo7PEDedP6JkKdnv2xqo5A2rp4f3no3mVQjE4/Dx9lN/KhPLLyCPbe/J874uv7
+         XB5rXFrBEDoErhAAh19lqQs0WrN7bxmRPSm8j2bnhIhkxQDLX0TyICNqu1G/vnjyMbjb
+         ewgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773498015; x=1774102815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mWLw371lgtJiwJ4s5uGRGYfIhXtk/PZNC3nxtb20rN4=;
+        b=XAQvMIQnZ8rdkovF0i0gF9mYXRMTw4VY5GxA0GmF/c9wg3XuFxZle/8cYy9szGeija
+         EjeZ6Pk5Fr+KRMHxBY8mpGnJ3rWf18dW9djElqcs3KHKa6zyLxRyWedimUSIv+jviTSv
+         J9blyvlx2LxhC9GyGJRVNlPmHdno7MyEvH/NHbSRgNGynSsZO8D3etlvb7Xl0i5VUDrO
+         jrEBdWTwLrnmt8gqS0FJr0ttQnZ1eYQCoE3BsT9dQq98NnSnoFmX4cubit72YWJ94wmN
+         4KsVbxTVtWdbqfmog96T7STkC8xI0GOqXVdxA95iEB30cBkv8gv6KYw4wZVGijEHWM22
+         dh/Q==
+X-Gm-Message-State: AOJu0YwRdw+OFJO7iqmmG8ZiZfQ6OUgqKyXeEj9iCfWFkXm2e2dKd2fV
+	fa35ovhd3Daxwc5t3mTbAf5gjSgbZX5D+/jHut5foOt/xUJa37SedOtiQkbxNA==
+X-Gm-Gg: ATEYQzwkZXyyXr9hlFOO6JAbFS6rlcqIF+am1/lrjqbHiG+hE95ktR7FqFEu7yeB6T2
+	vI+O4UuvxbijVf5Pl6rWrctjHeH0u6PNn3ubqRhx2oMAW81d7fj5UjzXJLtHk8RnAjWypryPf23
+	pMHD6fArN2nV5QR4RMgOwv00y/UW9w/7bsQ8z5iBBvGnVQtNDDqG3dy34cWBlSxxNPp5T4B01wj
+	9oXt639YyVDwts4toU/0YdIqUeCy3l1PSa2HUw16G1LQbb5AdsF0Kkj3jZzLq84+KsTwPlQXKpR
+	DX1AB21LCHJIfGbjdQrdPdnfcx7RNs3/TdC230CnZunfiMVIvKcH8uklfPwsBLfKcH/iVdkYyJx
+	WqSkMiOkZLMjQ5ToFYNTcsqWe2S5f5YyUZfWyjSUYw+xt2tcvfAqBRqA69jxoND+mOG2h2sEHqH
+	GpR2qt3yEAwxYEOk00C8rlLWxSuTn70wHkQCXgPMOxSDImphjaRPuYj7CdGBtP
+X-Received: by 2002:a05:600c:1388:b0:483:badb:618f with SMTP id 5b1f17b1804b1-485567050dcmr111306815e9.25.1773498014578;
+        Sat, 14 Mar 2026 07:20:14 -0700 (PDT)
+Received: from term011.lan (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48556424322sm45900205e9.8.2026.03.14.07.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 07:20:14 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH 1/2] libc-package, default-distrovars: Remove unsupported LOCALE_UTF8_ONLY
+Date: Sat, 14 Mar 2026 15:20:01 +0100
+Message-ID: <20260314142002.925941-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 10:45:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233084
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 14:20:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233085
 
---NextPart
-Content-Type: text/plain
+ptest subpackages for various recipes added RDEPENDS for
+locales that do not exist when LOCALE_UTF8_ONLY is set to 1.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This makes it clear that LOCALE_UTF8_ONLY=1 is untested in Yocto
+and became unsupported. Remove this distro variable.
 
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/sstate-sstatesig-Abstract-dummy-package-architectures-into-layer.conf-settings.patch
+ meta/classes-recipe/libc-package.bbclass        | 3 ---
+ meta/conf/distro/include/default-distrovars.inc | 1 -
+ 2 files changed, 4 deletions(-)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+diff --git a/meta/classes-recipe/libc-package.bbclass b/meta/classes-recipe/libc-package.bbclass
+index c06a2ce90a..73b7f5a708 100644
+--- a/meta/classes-recipe/libc-package.bbclass
++++ b/meta/classes-recipe/libc-package.bbclass
+@@ -321,14 +321,11 @@ python package_do_split_gconvs () {
+         bb.note("preparing tree for binary locale generation")
+         bb.build.exec_func("do_prep_locale_tree", d)
+ 
+-    utf8_only = int(d.getVar('LOCALE_UTF8_ONLY') or 0)
+     utf8_is_default = int(d.getVar('LOCALE_UTF8_IS_DEFAULT') or 0)
+ 
+     encodings = {}
+     for locale in to_generate:
+         charset = supported[locale]
+-        if utf8_only and charset != 'UTF-8':
+-            continue
+ 
+         m = dot_re.match(locale)
+         if m:
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index bbd936efa6..7adcdfad4f 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -10,7 +10,6 @@ DEFAULT_IMAGE_LINGUAS:libc-glibc = "c en-us en-gb"
+ IMAGE_LINGUAS ?= "${DEFAULT_IMAGE_LINGUAS}"
+ 
+ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+-LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT:class-nativesdk = "0"
+ 
+-- 
+2.53.0
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
