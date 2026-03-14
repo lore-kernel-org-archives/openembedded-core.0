@@ -1,153 +1,166 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2159106FD81
-	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 09:24:13 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6463.1773480248120349280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E44F0106FD9E
+	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 09:38:33 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6561.1773481104801696457
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Mar 2026 02:24:08 -0700
+ Sat, 14 Mar 2026 02:38:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eZIBOwZ1;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48374014a77so28922565e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 02:24:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CPsqba8V;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b9b190easo2104218f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 02:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773480246; x=1774085046; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+XAsSWsliEWdC0O57jJKnT3wy1EWDYRiOIUaWheZHEw=;
-        b=eZIBOwZ12Us40EYPluznzT070Xv7UBiMQyGTBjlKWKoZXKLSaDWNn+r+feOgtmvIZE
-         sTNiB7x8K4j+VGeezi0pJ8Ui0jWQqVmSAHsARYd5SVGivI9h7NAtAN6GMSlAx6HCvQlU
-         3a7gdphg7aTWcFxKRtKjjUvm/lMGy+cLqRoRBUPq4ZBkmzj+/XZRI8D187wWMybv7WcS
-         RTvQN23VKr3oa9g7aeF+/TRnoybqrcatHFKp/oJDADfShkxPo6TwbFVgSCoLAZHrlN0f
-         bSkzpX8IA0eaZ3iUInjUKEIJXP6mlk6C0MrrHh34E18r4TA4mwBJHy9NOxo5GJFAOcnX
-         egWg==
+        d=linuxfoundation.org; s=google; t=1773481103; x=1774085903; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dWl8tD5mqRVyoO3UaixEKBZ/4Fw+vDW/TXd6g9dXGSQ=;
+        b=CPsqba8V670mSNfju4aShmWhp1nBd1eMzDLe0vUI88SLsl791fqPRzRORTL2/6bSIF
+         5+i4/0oe6vdjySVa19jLCWVQMOKSmMeoFYtjHp37wrVxRwiCQ7/pOYkqqIdnYfG+g27H
+         gTZ8TWbJEwShhFAQw+2GNBMET/LhIzfGDDZ80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773480246; x=1774085046;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+XAsSWsliEWdC0O57jJKnT3wy1EWDYRiOIUaWheZHEw=;
-        b=LlFW92igQxqD9df98utRNO4Q1MGTvFOpkV1Appjp5S1iwRnUXTFLLkw+lSDLXxtBsl
-         UxvNRK30NJWheZimwRwri7zWoHcb3X6alp7HK3R9tvPcBvFG7rZdmQZZnOWlMIbOVECM
-         HizWQSBnqNqqGCcJnlvX7oByzq/3vdLZXZ490r/vK3tl5d7JRFJUjchp8CoX6as+hKKd
-         mn50NAaibkwfnSXbqk6MQ0nBsvpqFBxG3IKCjDa4H+VZ0Z/04pGMAekl3/6e1KYKafEy
-         H3NKgknO6Cdb0Em+xsenna/SEehKWADJsJacYdVYZRxKaezL0heRuhHV1RKfhdc2amyb
-         a4ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5CCD0cMGsn1WogPUBkUXrvSE1xGhIiWcngjbNYKm39b97uIf0ZwX0eEJE0ebZtGJo6ntEEmGcSpaAno68TFshNA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy929TRq/v5vQKLngeJGBjmTGONn10N56CrQJRafihb9kUX9Xuq
-	WMRdKE7INnmetIJ7c1FN2trposlxaVomF31lbEnpVpjwORO5CrL/qNHx
-X-Gm-Gg: ATEYQzwsuVFXZDTM3nPntPwUJJvU46z2z+I5Yt0ai9AX1geP0rd9SVkjnp7ZGFHcA0e
-	YNoUd6dgwpgOljtlK+kGSWaPyARwW1GhuvqthUZS447osMFNpuXJ8KnncD/0wC5mhInNJHXW+gp
-	Qxz3n/vr1R6fDf0a9CY9V1zlEh0MnOWayXed3RO+hs7njH1lqnFIXw54PoKlfznjIYEeiD1G9Gk
-	S2lSv7wycPv7QMmUK2EtnGoAwIaYXUrMZQjPFSJf8Cajjgk2mkUZcjsvbJFZJ/qfb83Gg+x13T9
-	hrTZI4EtjK3mNWqPAt10kF5kjF9d8SjLiyiq8lbZo1ts/G81e/qs4a9PuNFWGpobYF5QGA68b4j
-	j4M+T/PvHNd5qI/OBrMg0bRQYuqH8YQJ0aMi7Ya/VTg6mN3XViy6+JA7keRyPbd88Myv1XWXfux
-	ofrRBlCR9Ee8wJSaMsGLwKxoWtZLL6yt8Xujle+naEQLwxz3wlfZRrW/U=
-X-Received: by 2002:a05:600c:4f8b:b0:485:3a27:a960 with SMTP id 5b1f17b1804b1-485564981d8mr112254275e9.0.1773480246230;
-        Sat, 14 Mar 2026 02:24:06 -0700 (PDT)
-Received: from [192.168.2.122] (95C810F6.dsl.pool.telekom.hu. [149.200.16.246])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b544sm26412359f8f.20.2026.03.14.02.24.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Mar 2026 02:24:05 -0700 (PDT)
-Message-ID: <ba5d8ae0-f057-4b48-b523-0bf17bf25705@gmail.com>
-Date: Sat, 14 Mar 2026 10:24:05 +0100
+        d=1e100.net; s=20251104; t=1773481103; x=1774085903;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dWl8tD5mqRVyoO3UaixEKBZ/4Fw+vDW/TXd6g9dXGSQ=;
+        b=jp1y+svTRVKZQ1K3dtW3H0u34RCeWfYBUn58lnRQ3IIdsLtwkzTzKmbZnOmP+PcDi/
+         6/AnMjD8JsDCcmHR3DcEVcjm0mWCo/qYVLvcVkBB3vZ9GX874CS3hd0OKHwgSfkpmEsP
+         M3cOrHAyvqsgltL6qGkMdBpXTKcSwGxEl/Wd4f+e6/WiAv3RIPf+0mazFsoPP8Ei9KU+
+         aaejLbbM48vZ0//fdAbhQ4thPqYpoNi7sMo6JWQyVoITTHlMqw1kDEXz2dszNcBjqHVw
+         4aQ3Agg7r4oY+l385aUPED0w/xwmDWgS+ziBlvLfA9yIcl6ATipzQromB9TWIIIo4nnG
+         9Lvw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfAXuB76gWPurCj8eUV0IZOuGuoWGaertsHlXdaX7wVYBIfTk7iJWpjpGbJcfWcjtxKXaxLSo9yFjlS8FFIYUQLw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyXh+PPdbXVfvcsrrl7OZ7gs2GuIqpI9Kkaha+OBecPhsJBrtD9
+	7xW4Pc16NQmpZO/sePjRuXGl7dArLpSAw1HH8CSdtEGbmRDctvudVuO+4aEmHfCo3eA=
+X-Gm-Gg: ATEYQzzVjEZuQrntcA3B8oPnNKrGlM55WtxX7Tz6HNk+qVvIgZUsHCLUqgHWSFMWEi3
+	AbUcHGrXun4PdWcDo67X2GQ0UJf2IgDodiLdr1QDXG8gDA8XPEzJ2HoJwP9oKA3H26vsQ79udCz
+	PTaVRGzM6QzY/WszcZ1tKy8JA+dJPSNc54RwNJpnwB6TKJlD4yf1mfUuIULUZEpImdr7MD9ZODK
+	jIqfsYNKQc9ELRxC/U9AMaXKs1sBnUYcLD3HVEqTsPALp8zRnGl8qSnNPbAKPJ8dFsexWf6MScp
+	6XLpb2diOjxfT3Q+gOdtXjjVay9P277OvFoGAFOHvoqsrcxzB5Nf5uDHh+EQxgvCENxon1hEUag
+	OnBIBtvAQJOJKmns1Gklv0+HqFIpkyfgfyX8oStD+vlHvC8R++95jgagBFtF/p/gg0kJ8WCHkL3
+	AeyvzBLlcSoMuZaEad7/+hcm6ICf2xFMB2i+uN6YddZV8AfOWgdEep0gbn5LsqgL4nNmcS3w+NY
+	5Ft+n6YO3hntoI=
+X-Received: by 2002:a05:6000:2406:b0:439:e334:426a with SMTP id ffacd0b85a97d-43a04db5108mr11559905f8f.46.1773481102842;
+        Sat, 14 Mar 2026 02:38:22 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1366:c81f:8eb8:9990? ([2001:8b0:aba:5f3c:1366:c81f:8eb8:9990])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b544sm26497628f8f.20.2026.03.14.02.38.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 02:38:22 -0700 (PDT)
+Message-ID: <1cb32301f3c59441a94163ddf5ee25ff3f8be634.camel@linuxfoundation.org>
+Subject: Re: [PATCH v9 07/14] kernel: Disable ccache when kernel rust
+ support is enabled
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com, 
+	yoann.congal@smile.fr, bruce.ashfield@gmail.com
+Date: Sat, 14 Mar 2026 09:38:21 +0000
+In-Reply-To: <20260313155920.2347101-8-Harish.Sadineni@windriver.com>
+References: <20260313155920.2347101-1-Harish.Sadineni@windriver.com>
+	 <20260313155920.2347101-8-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
- subpackage
-To: "Marko, Peter" <Peter.Marko@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20260311122922.4160133-1-zboszor@gmail.com>
- <AS1PR10MB56977E851FCBA7CBCE3B4652FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <8be68784-e846-4ddb-9127-e4e6082347aa@gmail.com>
- <AS1PR10MB56979EB1C738893C31052E3EFD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <f2f689b6-1600-40dc-94d4-6de8906b2490@gmail.com>
- <AS1PR10MB5697D86B88010E0EE7666332FD47A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <189BD2EF133E31A4.2476321@lists.openembedded.org>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <189BD2EF133E31A4.2476321@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 09:24:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233074
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 09:38:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233075
 
-2026. 03. 11. 16:26 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
-> 2026. 03. 11. 15:02 keltezéssel, Marko, Peter írta:
->>
->>> -----Original Message-----
->>> From: Böszörményi Zoltán <zboszor@gmail.com>
->>> Sent: Wednesday, March 11, 2026 14:43
->>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
->>> openembedded-core@lists.openembedded.org
->>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to ptest
->>> subpackage
->>>
->>> 2026. 03. 11. 14:40 keltezéssel, Marko, Peter írta:
->>>>> -----Original Message-----
->>>>> From: Böszörményi Zoltán <zboszor@gmail.com>
->>>>> Sent: Wednesday, March 11, 2026 14:12
->>>>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
->>>>> openembedded-core@lists.openembedded.org
->>>>> Subject: Re: [OE-core] [PATCH 1/4] bash: Add INSANE_SKIP=build-deps to
->>> ptest
->>>>> subpackage
->>>>>
->>>>> 2026. 03. 11. 13:44 keltezéssel, Marko, Peter írta:
->>>>>> These INSANE_SKIP assignments are wrong.
->>>>>> Use GLIBC_GENERATE_LOCALES = "all" (or select just those you need) in
->>> your
->>>>> distro.
->>>>>
->>>>> It doesn't help.
->>>> I'm not sure why it down't work for you, since it works for me and for Yocto AB.
->>>> Did you added it to your distro settings and not just to a recipe?
->>>> The explanation about this is at: https://git.yoctoproject.org/meta-
->>> yocto/tree/meta-poky/conf/templates/default/local.conf.sample.extended#n61
->>>
->>> I added it to my distro include file.
->> Have you verified the final value via bitbake-getvar?
->> You are overriding the default (otherwise you would not see the warnings),
->> So possibly you added it to a place where it anyway overwritten later.
->
-> Yes, I just checked it. It's not set from anywhere else,
-> only from my distro include file. It's set to "all".
->
-> As I said, setting it does not help with all the build-deps QA errors.
-> Previously it wasn't set at all, and I have not seen a similar QA error under Yocto 5.3.
->
-> Isn't it possible that the ptest subpackages for bash, gawk, m4 and others
-> have just gained extra locale-base-* dependencies that previously weren't there?
-> And now they are not being covered by DYNAMIC_PACKAGES in glibc-locales for some reason?
+On Fri, 2026-03-13 at 08:59 -0700, Harish.Sadineni@windriver.com wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> Currently, a ccache enabled build fails with:
+> =C2=A0 |=C2=A0=C2=A0 HOSTRUSTC scripts/generate_rust_target
+> =C2=A0 |=C2=A0=C2=A0 HOSTCC=C2=A0 scripts/kallsyms
+> =C2=A0 |=C2=A0=C2=A0 HOSTCC=C2=A0 scripts/sorttable
+> =C2=A0 |=C2=A0=C2=A0 HOSTCC=C2=A0 scripts/asn1_compiler
+> =C2=A0 |=C2=A0=C2=A0 TOUCH=C2=A0=C2=A0 include/generated/gcc-plugins.h
+> =C2=A0 |=C2=A0=C2=A0 DESCEND objtool
+> =C2=A0 | error: multiple input filenames provided (first two filenames ar=
+e gcc and
+> .../tmp/work-shared/qemux86-64/kernel-source/scripts/generate_rust_target=
+.rs)
+>=20
+> Linux rust build infrastructure does not currently support ccache (Opened=
+ bug[0]).
+>=20
+> Quick summary: There are 2 issues: $HOSTCC is not escaped and rustc
+> expect a path (and not a command)
+>=20
+> Disable ccache if KERNEL_RUST_SUPPORT is 'True' for kernel and kernel mod=
+ule builds, including
+> auxiliary tooling such as make-mod-scripts.
+>=20
+> More details in: https://lists.openembedded.org/g/openembedded-core/messa=
+ge/229336
+>=20
+> [0]: https://github.com/Rust-for-Linux/linux/issues/1224
+>=20
+> Co-developed-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+> Cc: Alban MOIZAN <alban.moizan@smile.fr>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+> =C2=A0meta/classes-recipe/kernel-yocto-rust.bbclass=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +++++++
+> =C2=A0.../make-mod-scripts/make-mod-scripts_1.0.bb=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +++++++
+> =C2=A02 files changed, 14 insertions(+)
+>=20
+> diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes=
+-recipe/kernel-yocto-rust.bbclass
+> index fd9ee91c79..608ccc4609 100644
+> --- a/meta/classes-recipe/kernel-yocto-rust.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+> @@ -16,3 +16,10 @@ do_kernel_configme[depends] +=3D "${RUST_KERNEL_TASK_D=
+EPENDS}"
+> =C2=A0do_kernel_configme:append () {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 oe_runmake -C ${S} O=3D$=
+{B} rustavailable
+> =C2=A0}
+> +
+> +# Linux rust build infrastructure does not currently support ccache
+> +# see https://github.com/Rust-for-Linux/linux/issues/1224
+> +# Quick summary: There are 2 issues: $HOSTCC is not escaped and rustc ex=
+pect a path (and not a command)
+> +# More details in: https://lists.openembedded.org/g/openembedded-core/me=
+ssage/229336
+> +# Disable ccache for kernel build if kernel rust support is enabled to w=
+orkaround this.
+> +CCACHE_DISABLE ?=3D "1"
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=
+ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> index 874e16e642..5fbc5c2154 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -36,3 +36,10 @@ do_configure() {
+> =C2=A0		-C ${STAGING_KERNEL_DIR} O=3D${STAGING_KERNEL_BUILDDIR} $t
+> =C2=A0	done
+> =C2=A0}
+> +
+> +# Linux rust build infrastructure does not currently support ccache
+> +# see https://github.com/Rust-for-Linux/linux/issues/1224
+> +# Quick summary: There are 2 issues: $HOSTCC is not escaped and rustc ex=
+pect a path (and not a command)
+> +# More details in: https://lists.openembedded.org/g/openembedded-core/me=
+ssage/229336
+> +# Disable ccache for kernel build if kernel rust support is enabled to w=
+orkaround this
+> +CCACHE_DISABLE ?=3D "{@bb.utils.contains('KERNEL_FEATURES', 'rust', "1",=
+ "0", d)}"
 
-Setting GLIBC_GENERATE_LOCALES = "all" is not needed, it seems to be the default.
+This fails to run, it is missing a '$'. No need to resend, I've fixed
+in what I'm testing on master-next.
 
-The issue was that I also had this in my local configuration:
+Cheers,
 
-LOCALE_UTF8_ONLY = "1"
-
-This was not a problem up to Yocto 5.3.
-
-bitbake world and ptest packages should also be tested against UTF-8-only configuration.
-
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#232894): https://lists.openembedded.org/g/openembedded-core/message/232894
-> Mute This Topic: https://lists.openembedded.org/mt/118259058/3617728
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Richard
 
 
