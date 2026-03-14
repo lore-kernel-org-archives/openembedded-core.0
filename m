@@ -2,171 +2,148 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D02F10706C4
-	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 09:48:14 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6674.1773481682528646577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 894BA10706C1
+	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 10:00:24 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6914.1773482415201758898
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Mar 2026 02:48:02 -0700
+ Sat, 14 Mar 2026 03:00:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cAwSOVIR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439bcec8613so2344194f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 02:48:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b3JDbzBR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so12855845e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 03:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1773481680; x=1774086480; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8twc1sOA2/dYC1HHYaHTu+sMn9FX1554xj9jq1GrUlY=;
-        b=cAwSOVIR/chvIQK6NbCpCb8hWZYyhrjUkGccrX/Vj35sR1q23OU+nCHXQ96BdC73f+
-         keDlQKxRyWNpLoB0H5KRarnrfWYGuT8uj9iHLbnOzKPb5Hw4qYjISrjH/KhieQQm56Fs
-         WFDmzUsfH0IJ4bhXC6B6Ckz79WVSMeLZmXmCY=
+        d=linuxfoundation.org; s=google; t=1773482413; x=1774087213; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4N8DPgI30RwvLLkGJIXbiq05x58xcpNvMy8UsfySzck=;
+        b=b3JDbzBRIm81/Bk6iI/VmV+dX6CrhxPoXPW+K+M6hseSOB97jXOHk3q69ThYQBG/Ps
+         HGkE0v6QaL9xuCnqaXiGA71SBkHsZIB+oMNpZMrxywq/aSSMreCtT/4iVuKHOZaDcCOM
+         sr07IYpcP4fDfc1XvxWGhIENXx4Nwx+cNUNGI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773481680; x=1774086480;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8twc1sOA2/dYC1HHYaHTu+sMn9FX1554xj9jq1GrUlY=;
-        b=g2fd02lpAJgB4r3UFG7T6utxMdapw2h9VAsDE3E2sxmUFSraR+D9VWJApHpCl7ksb1
-         87SFOFg0onjO5GsC2MvH+Ru5wQSqXOKjgf8I8h3A7sw4ndWgtRZ3lnAk1R8fsWioT3iP
-         tyZ0xXfqyYj4BldsukiOKti5dVwgxXGcf5ad19/TTsdJTox28yxqtbd1/8031T5aeqUP
-         VgE5siFaWlb9IJHmvfbybRpfmmO973WRQoDw07aJXydMp5SZmdG+lt6Rh9xU2R+FSuZj
-         PAYzPkXzArnnSUMOOt7XW0i6ngnkbz3Mi0EPWHvk6eMS6qEGQc6Wja9MKcLJHEwdKxIq
-         mfYQ==
-X-Gm-Message-State: AOJu0YxE9w8xFCaAD0IFQrj93YkHNhqWwV8nEwSkJWyIrVp0LJ4XxNs9
-	7HXqTZV/+rG3idxtGSR2JM2YkXz1FzLG6/KLwftL4/Cb7G+XueZ6aSDXt6DE81cgF1llFKeqZ/M
-	/+VoqTG0=
-X-Gm-Gg: ATEYQzzwepAG9Z5jYnLQ0rI+REu5SKpD4jysnrZZjiJU1i6FeJvcgu1gaflrsKdaPe0
-	X71wekk1hh11AhG0say+kOxnR4K9mzrR5erAYkClH3MlWWc64z/hu0TDXEUxzTjCQWIM4dpgOzq
-	vwGuYgULEPrZ2Ib7U4avvjsu7vD0KUTuSz1boPUc/19sbhW91CDzeM1okbYuaoDKBHbOD4cyY8d
-	DiXuxVfsgHTwtkOFMVYJxu7MJJoba4CqkM+05jyokkgmeJ5de+yKyLFcR9uaA5JiZ9g3DZCUoox
-	bObA+rKLyOnY/W3Lcx1Dlw0xRncqlj30OtNmOEtlXmzRH+aC8Ch0ZEsS9aU0G6PSnEqXIzhftwR
-	HLRqvxv6EHRJ5vwbvXifRHu8uGvjRG3APFs+gH1BqhqgSgrCjiY2uXB28ByuWc3O1L9+AC1uaNA
-	iLIlmiqNqTGbnh+PjXeb5AAQukXLDUUoXNCCa1MFrjNWb87vHeIzs=
-X-Received: by 2002:a05:6000:2503:b0:439:cee7:714f with SMTP id ffacd0b85a97d-43a04dce713mr12153900f8f.53.1773481680236;
-        Sat, 14 Mar 2026 02:48:00 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1366:c81f:8eb8:9990])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b544sm26554680f8f.20.2026.03.14.02.47.59
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1773482413; x=1774087213;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4N8DPgI30RwvLLkGJIXbiq05x58xcpNvMy8UsfySzck=;
+        b=XtD/lqepkgFWela28Pro1WogZtJVgTNj69syMGlFvN3OCSUHDpB+eTgoMFxlvOgIKu
+         Zu7Eubc06Du29Z2Ol4aJ4OT21tlR0DCcFp0UFcBIH5E/xgidmjnQ9kJCoP2B2rrGD0oS
+         AagnILBHE/gGTtqBpO3F6VmQkGr9xMr3MeXKr8TbOyv9tsnLIasU38gcekGcqgicLpUC
+         nqutwQSggSZcIfmXYJQG6W/JDzL8cQZPaNDy+Wvg3DgA9fVDw6gFr6ErtPIJrfdiNmbE
+         K3yptO1s7rbOi6m6CxBk4ipDpZz4m4hf/Ij9klQa/lAXoaj4KFnpOddHwnXkGZpPabgq
+         tCjA==
+X-Gm-Message-State: AOJu0YxuhFOlyotI1rpFNZfUSLdLLs0fKGc7xPPhhvuXYueTzcppKqBS
+	ejmYw38zT6s2E16FlXjIIcF9RIKAnB9WODhp7JWkc2Sx4TvUGl6fetZOobL+GToW84XEKSQKy+D
+	Q2rqnOsM=
+X-Gm-Gg: ATEYQzxGi+QNFI5RV1sDAeoKGSjGsegtwFMqR0oBdZqYohkI0HdhxNc+3iqloRRTMSz
+	sD376M8PO73dKmRS3SCewNUepcmuxBlLs+7SCHFaAky08v3dH+jCFoZP8Hko2ebiaTrVHcf80nx
+	8wkjJCcpA2aQg4hEh2pwVmz+k8Wu5OMffj07My96kD+dRO75ZSQJ/O2x01uPtR99sDuy59C167v
+	Ui7MBp9UqQRFm8PEH7KR/pnKtKasK8zYJIWjY4CF4ZhMBfaA7uhRIEHI9JEpq9LU3xpTtJZ4VjS
+	2jgTBR5OWGl0vVCDKH/fVKYFScHxwxvkXausJGMUgDO3a74ExxlbrPjU3I7YDZbXPwO2w3A4S+W
+	3lu0GL1m4UQyPlYCkAV1eCbFm60XndI1WYhP4+lxaIAYGlnuvobr6T6Dt61exhOkgGLo0KuLHmJ
+	R6oNbbJYY6oNUaVRGxv1qjPzzf8QAmsaYkUe262LonOk8XvEZP+hi/vPbE9g7gG2jzDBOSfVN0E
+	3si9ZlkIOgGXrc=
+X-Received: by 2002:a05:600c:3590:b0:485:3b34:2f61 with SMTP id 5b1f17b1804b1-485566c9464mr112774535e9.7.1773482412635;
+        Sat, 14 Mar 2026 03:00:12 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1366:c81f:8eb8:9990? ([2001:8b0:aba:5f3c:1366:c81f:8eb8:9990])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854e2537c3sm271050815e9.15.2026.03.14.03.00.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 02:47:59 -0700 (PDT)
+        Sat, 14 Mar 2026 03:00:11 -0700 (PDT)
+Message-ID: <64d89dc312e87a607ca8516ad90ea36707c56fe6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/5] meta/dummy-sdk-package: Improve SDK dummy
+ package handling
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/5] sstate: Drop unneeded SSTATE_MANMACH variable
-Date: Sat, 14 Mar 2026 09:47:54 +0000
-Message-ID: <20260314094758.3929192-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+To: openembedded-core@lists.openembedded.org, Joshua Watt
+ <JPEWhacker@gmail.com>,  Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sat, 14 Mar 2026 10:00:09 +0000
+In-Reply-To: <189CAC32AB5A06DA.1508127@lists.openembedded.org>
+References: <20260314094758.3929192-1-richard.purdie@linuxfoundation.org>
+	 <189CAC32AB5A06DA.1508127@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 09:48:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233076
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Mar 2026 10:00:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233081
 
-This variable doesn't appear needed and just confuses the code, remove it.
+On Sat, 2026-03-14 at 09:47 +0000, Richard Purdie via lists.openembedded.or=
+g wrote:
+> Currently, the dummy SDK packages are re-running for different SDKMACHINE=
+ values
+> when they should not. The usage of allarch is broken and not triggering t=
+he right
+> PACKAGE_ARCH value due to the deferred nature of nativesdk. This was prob=
+ably
+> broken when we switched to add deferred classes.
+>=20
+> To try and make this all more explict and less prone to breakage, switch =
+to calling
+> oe.utils.make_arch_independent() directly.
+>=20
+> Add the 'special' package architecture values to SSTATE_ARCHS so the syst=
+em cna properly
+> track them.
+>=20
+> Remove the pointless tasks we don't need from the dummy recipes, mark the=
+ packagedata
+> as machine independent and then remove from the conflict list in sstate.b=
+bclass.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-global/sstate.bbclass | 13 +++++--------
- meta/classes/toaster.bbclass       |  8 ++++----
- meta/lib/oe/sstatesig.py           |  2 +-
- 3 files changed, 10 insertions(+), 13 deletions(-)
+This patch fixes real issues with the way the dummy recipes are
+currently being handled. Unfortunately this change still isn't without
+issues, this is shown by the failure in meta-virtualization it
+introduces. It is starting to feel like I'm somehow targeting Bruce
+recently, sorry!
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 3b2e307134e..fec4d88c4cf 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -9,7 +9,7 @@ SSTATE_VERSION = "14"
- SSTATE_ZSTD_CLEVEL ??= "8"
- 
- SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
--SSTATE_MANFILEPREFIX = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-${PN}"
-+SSTATE_MANFILEPREFIX = "${SSTATE_MANIFESTS}/manifest-${SSTATE_PKGARCH}-${PN}"
- 
- def generate_sstatefn(spec, hash, taskname, siginfo, d):
-     if taskname is None:
-@@ -96,8 +96,6 @@ SSTATE_ARCHS = " \
-     ${MACHINE_ARCH}"
- SSTATE_ARCHS[vardepsexclude] = "ORIGNATIVELSBSTRING"
- 
--SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
--
- SSTATECREATEFUNCS += "sstate_hardcode_path"
- SSTATECREATEFUNCS[vardeps] = "SSTATE_SCAN_FILES"
- SSTATEPOSTCREATEFUNCS = ""
-@@ -148,8 +146,7 @@ python () {
-         d.setVar('SSTATE_PKGARCH', d.expand("${SDK_ARCH}_${PACKAGE_ARCH}"))
-     elif bb.data.inherits_class('allarch', d) and d.getVar("PACKAGE_ARCH") == "all":
-         d.setVar('SSTATE_PKGARCH', "allarch")
--    else:
--        d.setVar('SSTATE_MANMACH', d.expand("${PACKAGE_ARCH}"))
-+    # Fall back to the default of SSTATE_PKGARCH=PACKAGE_ARCH
- 
-     if bb.data.inherits_class('native', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross', d):
-         d.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-@@ -320,7 +317,7 @@ def sstate_install(ss, d):
- 
-     # Append to the list of manifests for this PACKAGE_ARCH
- 
--    i = d2.expand("${SSTATE_MANIFESTS}/index-${SSTATE_MANMACH}")
-+    i = d2.expand("${SSTATE_MANIFESTS}/index-${SSTATE_PKGARCH}")
-     l = bb.utils.lockfile(i + ".lock")
-     filedata = d.getVar("STAMP") + " " + d2.getVar("SSTATE_MANFILEPREFIX") + " " + d.getVar("WORKDIR") + "\n"
-     manifests = []
-@@ -353,7 +350,7 @@ def sstate_install(ss, d):
-     for lock in locks:
-         bb.utils.unlockfile(lock)
- 
--sstate_install[vardepsexclude] += "SSTATE_ALLOW_OVERLAP_FILES SSTATE_MANMACH SSTATE_MANFILEPREFIX STAMP"
-+sstate_install[vardepsexclude] += "SSTATE_ALLOW_OVERLAP_FILES SSTATE_PKGARCH SSTATE_MANFILEPREFIX STAMP"
- 
- def sstate_installpkg(ss, d):
-     from oe.gpg_sign import get_signer
-@@ -520,7 +517,7 @@ def sstate_clean(ss, d):
-     stamp_clean = d.getVar("STAMPCLEAN")
-     extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info')
-     if extrainf:
--        d2.setVar("SSTATE_MANMACH", extrainf)
-+        d2.setVar("SSTATE_PKGARCH", extrainf)
-         wildcard_stfile = "%s.do_%s*.%s" % (stamp_clean, ss['task'], extrainf)
-     else:
-         wildcard_stfile = "%s.do_%s*" % (stamp_clean, ss['task'])
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index af7c4578088..10c728885ae 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -343,15 +343,15 @@ python toaster_artifacts() {
-         d2 = d.createCopy()
-         d2.setVar('FILE', e.taskfile)
-         # Use 'stamp-extra-info' if present, else use workaround
--        # to determine 'SSTATE_MANMACH'
-+        # to determine 'SSTATE_PKGARCH'
-         extrainf = d2.getVarFlag(e.taskname, 'stamp-extra-info')
-         if extrainf:
--            d2.setVar('SSTATE_MANMACH', extrainf)
-+            d2.setVar('SSTATE_PKGARCH', extrainf)
-         else:
-             if "do_populate_sdk" == e.taskname:
--                d2.setVar('SSTATE_MANMACH', d2.expand("${MACHINE}${SDKMACHINE}"))
-+                d2.setVar('SSTATE_PKGARCH', d2.expand("${MACHINE}${SDKMACHINE}"))
-             else:
--                d2.setVar('SSTATE_MANMACH', d2.expand("${MACHINE}"))
-+                d2.setVar('SSTATE_PKGARCH', d2.expand("${MACHINE}"))
-         manifest = oe.sstatesig.sstate_get_manifest_filename(e.taskname[3:], d2)[0]
- 
-         if os.access(manifest, os.R_OK):
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index ef687f5d417..1e07c71e944 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -491,7 +491,7 @@ def sstate_get_manifest_filename(task, d):
-     d2 = d.createCopy()
-     extrainf = d.getVarFlag("do_" + task, 'stamp-extra-info')
-     if extrainf:
--        d2.setVar("SSTATE_MANMACH", extrainf)
-+        d2.setVar("SSTATE_PKGARCH", extrainf)
-     return (d2.expand("${SSTATE_MANFILEPREFIX}.%s" % task), d2)
- 
- @bb.parse.vardepsexclude("BBEXTENDCURR", "BBEXTENDVARIANT", "OVERRIDES", "PACKAGE_EXTRA_ARCHS")
+The failure this patchset triggers in meta-virtualization is here:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/3215
+
+The reason is that it is doing this:
+
+recipes-core/meta/container-dummy-provides.bb:require recipes-core/meta/dum=
+my-sdk-package.inc
+
+which is fine, I hadn't realised layers were using that but it should
+be something you can do. At first glance, the fix looks easy, just add:
+
+DUMMYSDK_PKGDATA_VARNAME =3D "PKGDATA_DIR"
+DUMMYSDK_EXTRASTAMP_VARNAME =3D "MACHINE"
+
+to the recipe. That doesn't account for the sstate.bbclass and
+sstatesig.py changes this patch is making though.
+
+I've never been happy at having to add these individually to the "feed"
+lists in the first place and another layer trying to do this
+illustrates why.
+
+I'm at a bit of a loss on what to do from here. Options could be:
+
+a) move the recipe to core and add another entry to
+sstate.bbclass/sstatesig.py . That doesn't help it anyone else does
+this
+
+b) Create some layer.conf variables which allow these to be
+defined/added generically. That would need careful manipulation of the
+hash variable dependencies to stop things rebuilding like crazy.
+
+c) Find a way for the core not to need this list hardcoded. That would
+be nicer and removes what looks like a horrible scaling issue we have
+right now I don't know how to do that.
+
+d) Something else
+
+I'm open to ideas, these changes are needed to unblock the spdx
+changes.
+
+Cheers,
+
+Richard
 
