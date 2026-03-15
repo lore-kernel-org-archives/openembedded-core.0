@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1051ED58B36
-	for <webhook@archiver.kernel.org>; Sun, 15 Mar 2026 13:41:59 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28962.1773582108948342332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D999EFCBC7
+	for <webhook@archiver.kernel.org>; Sun, 15 Mar 2026 13:42:09 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28988.1773582128288394686
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Mar 2026 06:41:58 -0700
+ Sun, 15 Mar 2026 06:42:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ynqZagkl;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cq7DY37d;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019cf1bb6add-eb3e82c9-dbe5-441e-8d10-17716f9fd62c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bsMJK23T;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=l5s0x8s3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019cf1bb9230-dd7f8ef9-e0f8-4ccb-91f1-796871621cec-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1773582117;
+	t=1773582127;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=g1GMYVB+N7L8ND1EFOeQ3T0kvc1crge3lIvCtJgd7v4=;
-	b=ynqZagkl5HAFD0MonswaS6wJGVNW3B86TjHXgm4hcS7sK++H297tpH1s9Ew9P4+B
-	y9jLbpMBAfQGNhAR+Tj84BI0mxCEb1tJWOItg8J1BpfFp5F2s76S6SnEs6p/6r5eAx9
-	aC77YmFxQs6De5zxnSnwI86+RXHVej3HMbD4E954=
+	bh=80R6KikhboCE1f9PcdM5J2B4JLUUophB9OZVBVaLcGY=;
+	b=bsMJK23TZcLDLRTb2m7Vsai/CCJASzGSb/zmBZVIxJDj1HPZRkwHNq8KjC5I/kka
+	RtXZn3+x9DHobRT533jbesCwbh42mB9rwu9PqdHH94qQKbYFoxlrnXeWMrRe5HKhxet
+	cpDB9OxztZPhRVjHq6/iqUEx/WXIzeyt/ouPCUaU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1773582117;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1773582127;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=g1GMYVB+N7L8ND1EFOeQ3T0kvc1crge3lIvCtJgd7v4=;
-	b=cq7DY37d0jShUGhdIfQcXmOv1ZfTSjhmA63jKEWYCBAPZNuLMGBG2r4oBUbpKOgd
-	KRmlCuEGQs9kR+YMtSY3PAqYl7ODs7rcLHB4kixI3SYkD0XqJ7xXHpqJ250Cl9g6MVY
-	DBlzG4/08TqcUuHl4dEERettUT0W35QAyhNPIBCk=
-Content-Type: multipart/mixed; boundary="===============5857163562778746458=="
+	bh=80R6KikhboCE1f9PcdM5J2B4JLUUophB9OZVBVaLcGY=;
+	b=l5s0x8s3mUYYUt+raLfgjcK/o8kKhpa9s4+BbOEpmBwagI10d34Mnt7jdtFu/GyT
+	26xcEVu+ts6QuvxhYjTUCTYSmb0PrA64nw7t51G2EzLfBMIBRJTfUBtkbFzRCxNLxhz
+	5Zhcovucs0D8jSRJ+/21sF2pOvtoE2ToxcDQwlbI=
+Content-Type: multipart/mixed; boundary="===============4823936680068656980=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Hiago De Franco <hfranco@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools: upgrading to 82.0.1 SUCCEEDED
-Message-ID: <0101019cf1bb6add-eb3e82c9-dbe5-441e-8d10-17716f9fd62c-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Mar 2026 13:41:57 +0000
+Subject: [AUH] hwdata: upgrading to 0.405 SUCCEEDED
+Message-ID: <0101019cf1bb9230-dd7f8ef9-e0f8-4ccb-91f1-796871621cec-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Mar 2026 13:42:07 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.03.15-54.240.27.23
+X-SES-Outgoing: 2026.03.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 13:41:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233148
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 13:42:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233191
 
---===============5857163562778746458==
+--===============4823936680068656980==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-setuptools* to *82.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *hwdata* to *0.405* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-setuptools-upgrade-82.0.0-82.0.1.patch
+    - apply the patch: git am 0001-hwdata-upgrade-0.404-0.405.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,198 +72,88 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 80c9bd60de57f78acdb7ff61d883c7520d2a8802 Mon Sep 17 00:00:00 2001
+From 84089c9df13640b058018252810714723b437199 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Mar 2026 08:28:26 +0000
-Subject: [PATCH] python3-setuptools: upgrade 82.0.0 -> 82.0.1
+Date: Sun, 15 Mar 2026 13:08:24 +0000
+Subject: [PATCH] hwdata: upgrade 0.404 -> 0.405
 
 ---
- ...1-_distutils-sysconfig.py-make-it-possible-to-substite.patch | 2 +-
- ...ython3-setuptools_82.0.0.bb => python3-setuptools_82.0.1.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_82.0.0.bb => python3-setuptools_82.0.1.bb} (94%)
+ .../recipes-support/hwdata/{hwdata_0.404.bb => hwdata_0.405.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/hwdata/{hwdata_0.404.bb => hwdata_0.405.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
-index 0fc5e3f134..297974571e 100644
---- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
-@@ -1,4 +1,4 @@
--From cb37237fd60689ccf999689ff60acabe8e1ec1de Mon Sep 17 00:00:00 2001
-+From c7530ace5e2cd2c281d0bdc1cfa1b7c9873ee769 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Wed, 11 May 2022 21:41:14 +0200
- Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
-diff --git a/meta/recipes-devtools/python/python3-setuptools_82.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-setuptools_82.0.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_82.0.1.bb
-index a6b48bf145..a3943a29c3 100644
---- a/meta/recipes-devtools/python/python3-setuptools_82.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb
-@@ -11,7 +11,7 @@ CVE_PRODUCT = "python3-setuptools python:setuptools"
- SRC_URI += " \
-             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+diff --git a/meta/recipes-support/hwdata/hwdata_0.404.bb b/meta/recipes-support/hwdata/hwdata_0.405.bb
+similarity index 93%
+rename from meta/recipes-support/hwdata/hwdata_0.404.bb
+rename to meta/recipes-support/hwdata/hwdata_0.405.bb
+index 04b9da8a40..7247e9f365 100644
+--- a/meta/recipes-support/hwdata/hwdata_0.404.bb
++++ b/meta/recipes-support/hwdata/hwdata_0.405.bb
+@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later | X11"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
  
--SRC_URI[sha256sum] = "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
-+SRC_URI[sha256sum] = "7d872682c5d01cfde07da7bccc7b65469d3dca203318515ada1de5eda35efbf9"
+ SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
+-SRCREV = "428ad3882fff801c553fc575d99bcdb2edbd41f7"
++SRCREV = "be46d7186e918e62eb75de399e800145a781c8db"
  
- do_install:append() {
- 	# setuptools ships Windows launcher executables (cli*.exe, gui*.exe).
+ inherit allarch
+ 
 -- 
 2.47.1
 
 
---===============5857163562778746458==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-setuptools-upgrade-82.0.0-82.0.1.patch"
-
-RnJvbSA4MGM5YmQ2MGRlNTdmNzhhY2RiN2ZmNjFkODgzYzc1MjBkMmE4ODAyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgTWFyIDIwMjYgMDg6Mjg6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgODIuMC4wIC0+IDgyLjAuMQoKLS0tCiAuLi4xLV9k
-aXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0Y2gg
-fCAyICstCiAuLi55dGhvbjMtc2V0dXB0b29sc184Mi4wLjAuYmIgPT4gcHl0aG9uMy1zZXR1cHRv
-b2xzXzgyLjAuMS5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRo
-b24zLXNldHVwdG9vbHNfODIuMC4wLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc184Mi4wLjEuYmJ9
-ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXNldHVwdG9vbHMvMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxl
-LXRvLXN1YnN0aXRlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXNldHVwdG9vbHMvMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxl
-LXRvLXN1YnN0aXRlLnBhdGNoCmluZGV4IDBmYzVlM2YxMzQuLjI5Nzk3NDU3MWUgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEt
-X2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10by1zdWJzdGl0ZS5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8w
-MDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUu
-cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNiMzcyMzdmZDYwNjg5Y2NmOTk5Njg5ZmY2MGFj
-YWJlOGUxZWMxZGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGM3NTMwYWNlNWUyY2Qy
-YzI4MWQwYmRjMWNmYTFiN2M5ODczZWU3NjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
-OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTogV2VkLCAxMSBN
-YXkgMjAyMiAyMTo0MToxNCArMDIwMAogU3ViamVjdDogW1BBVENIXSBfZGlzdHV0aWxzL3N5c2Nv
-bmZpZy5weTogbWFrZSBpdCBwb3NzaWJsZSB0byBzdWJzdGl0ZSB0aGUKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzgyLjAuMC5iYiBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzgyLjAuMS5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc184Mi4wLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzgyLjAuMS5iYgppbmRleCBhNmI0
-OGJmMTQ1Li5hMzk0M2EyOWMzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtc2V0dXB0b29sc184Mi4wLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfODIuMC4xLmJiCkBAIC0xMSw3ICsxMSw3IEBA
-IENWRV9QUk9EVUNUID0gInB5dGhvbjMtc2V0dXB0b29scyBweXRob246c2V0dXB0b29scyIKIFNS
-Q19VUkkgKz0gIiBcCiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZp
-Zy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiMjJlMGEyZDY5NDc0YzZhZTRmZWIwMTk1MWNiNjlkNTE1ZWQyMzcyOGNmOTZkMDU1
-MTNkMzZlNDJiNjJiMzdjYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3ZDg3MjY4MmM1ZDAxY2Zk
-ZTA3ZGE3YmNjYzdiNjU0NjlkM2RjYTIwMzMxODUxNWFkYTFkZTVlZGEzNWVmYmY5IgogCiBkb19p
-bnN0YWxsOmFwcGVuZCgpIHsKIAkjIHNldHVwdG9vbHMgc2hpcHMgV2luZG93cyBsYXVuY2hlciBl
-eGVjdXRhYmxlcyAoY2xpKi5leGUsIGd1aSouZXhlKS4KLS0gCjIuNDcuMQoK
-
---===============5857163562778746458==
+--===============4823936680068656980==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-82.0.0.tar.gz;downloadfilename=setuptools-82.0.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-82.0.1.tar.gz;downloadfilename=setuptools-82.0.1.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
-packages/x86-64-v3-poky-linux/python3-setuptools: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info -> /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/setuptools/command/launcher manifest.xml", added "/usr/lib/python3.14/site-packages/setuptools/launcher manifest.xml"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PV changed from "82.0.0" to "82.0.1"
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 82.0.0 [default] to 82.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 7244409 to 7281940 (+1%)
-Changes to packages/x86-64-v3-poky-linux/python3-setuptools (sysroot):
-  /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info
-  /usr/lib/python3.14/site-packages/setuptools/launcher manifest.xml was added
-  /usr/lib/python3.14/site-packages/setuptools/command/launcher manifest.xml was removed
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4 was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.4-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.4-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.4-gdb.py was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.4-gdb.py was removed
-Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
-  /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info
-  /usr/lib/python3.14/site-packages/setuptools/launcher manifest.xml was added
-  /usr/lib/python3.14/site-packages/setuptools/command/launcher manifest.xml was removed
+packages/all-poky-linux/hwdata/hwdata-dbg: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata-dbg: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata/hwdata-dev: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata-dev: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata/hwdata-doc: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata-doc: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata/hwdata-locale: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata-locale: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata/hwdata-src: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata-src: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata/hwdata-staticdev: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata-staticdev: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata/hwdata: PKGSIZE changed from 10270183 to 10288972 (+0%)
+packages/all-poky-linux/hwdata/hwdata: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata/hwdata: PKGV changed from 0.404 [default] to 0.405 [default]
+packages/all-poky-linux/hwdata: PV changed from "0.404" to "0.405"
+packages/all-poky-linux/hwdata: SRC_URI changed from "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.404" to "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.405"
+packages/all-poky-linux/hwdata: PKGV changed from 0.404 [default] to 0.405 [default]
 
---===============5857163562778746458==
-Content-Type: text/plain; charset="us-ascii"
+--===============4823936680068656980==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-hwdata-upgrade-0.404-0.405.patch"
 
-packages/x86-64-v3-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info -> /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/setuptools/command/launcher manifest.xml", added "/usr/lib/python3.14/site-packages/setuptools/launcher manifest.xml"
-Changes to packages/x86-64-v3-poky-linux/python3-setuptools (sysroot):
-  /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info
-  /usr/lib/python3.14/site-packages/setuptools/launcher manifest.xml was added
-  /usr/lib/python3.14/site-packages/setuptools/command/launcher manifest.xml was removed
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4 was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.4-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.4-gdb.py was added
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4 was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.4-gdb.py was removed
-  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.4-gdb.py was removed
-Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
-  /usr/lib/python3.14/site-packages/setuptools-82.0.0.dist-info moved to /usr/lib/python3.14/site-packages/setuptools-82.0.1.dist-info
-  /usr/lib/python3.14/site-packages/setuptools/launcher manifest.xml was added
-  /usr/lib/python3.14/site-packages/setuptools/command/launcher manifest.xml was removed
+RnJvbSA4NDA4OWM5ZGYxMzY0MGIwNTgwMTgyNTI4MTA3MTQ3MjNiNDM3MTk5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgTWFyIDIwMjYgMTM6MDg6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+d2RhdGE6IHVwZ3JhZGUgMC40MDQgLT4gMC40MDUKCi0tLQogLi4uL3JlY2lwZXMtc3VwcG9ydC9o
+d2RhdGEve2h3ZGF0YV8wLjQwNC5iYiA9PiBod2RhdGFfMC40MDUuYmJ9IHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvaHdkYXRhL3tod2RhdGFfMC40MDQuYmIgPT4gaHdkYXRhXzAuNDA1LmJifSAo
+OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2RhdGFfMC40
+MDQuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuNDA1LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9o
+d2RhdGFfMC40MDQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2Rh
+dGFfMC40MDUuYmIKaW5kZXggMDRiOWRhOGE0MC4uNzI0N2U5ZjM2NSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjQwNC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuNDA1LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNF
+ID0gIkdQTC0yLjAtb3ItbGF0ZXIgfCBYMTEiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFO21kNT0xNTU2NTQ3NzExZTgyNDY5OTJiOTk5ZWRkOTQ0NWE1NyIKIAogU1JDX1VSSSA9
+ICJnaXQ6Ly9naXRodWIuY29tL3ZjcmhvbmVrLyR7QlBOfS5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90
+b2NvbD1odHRwczt0YWc9diR7UFZ9IgotU1JDUkVWID0gIjQyOGFkMzg4MmZmZjgwMWM1NTNmYzU3
+NWQ5OWJjZGIyZWRiZDQxZjciCitTUkNSRVYgPSAiYmU0NmQ3MTg2ZTkxOGU2MmViNzVkZTM5OWU4
+MDAxNDVhNzgxYzhkYiIKIAogaW5oZXJpdCBhbGxhcmNoCiAKLS0gCjIuNDcuMQoK
 
---===============5857163562778746458==--
+--===============4823936680068656980==--
 
