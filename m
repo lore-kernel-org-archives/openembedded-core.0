@@ -1,81 +1,117 @@
-Return-Path: <opensource@nabladev.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63427D58B1B
-	for <webhook@archiver.kernel.org>; Sun, 15 Mar 2026 12:44:11 +0000 (UTC)
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27926.1773578646265664113
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A84ED58B24
+	for <webhook@archiver.kernel.org>; Sun, 15 Mar 2026 13:02:31 +0000 (UTC)
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28177.1773579748770680523
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Mar 2026 05:44:06 -0700
+ Sun, 15 Mar 2026 06:02:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@nabladev.com header.s=dkim header.b=FNuaxqTC;
- spf=pass (domain: nabladev.com, ip: 178.251.229.89, mailfrom: opensource@nabladev.com)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9EA83109A17;
-	Sun, 15 Mar 2026 13:44:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1773578644; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=fqMu/tFB4ty02XIplk2jycH8Vchjrv5AtQ06Z+JTO3Q=;
-	b=FNuaxqTCZRG/z93mMP/M0MhLsQYQc6UYNi+TPO3giSmPkcTnNyp4bd9Q7KN2/6GQyoiG8J
-	QWbhWu9wHUQd7rLDIR9VewVX33s15uD90sL978DbR+/8RfvIwPOfmD6ePQBE6nnaFTUxGh
-	TQ8aXskdQKSgBcVeQxT+omkSsfpzy8Pzd5jeZ+tIzBLhc/C+4ule/NVHVe/92npQ+d4H9i
-	A1v8AfgYbrTcErjtUSSRgiXe0v3Xg9fZtxiKeJC1YusJBzhk3mKcVM7xWD4Tna7d2mkLeC
-	2NWErfvOUFLOCgZMoQG+cphEjJmNms58EFjt1osOuvx4rju1lcCNEtNs6bgKDg==
-From: opensource@nabladev.com
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PxYKf0dg;
+ spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1534; q=dns/txt;
+  s=iport01; t=1773579748; x=1774789348;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=v3dh2RAS/RvWfwPyExnJb1Fs6s+D7NbW0QEbioZcGko=;
+  b=PxYKf0dgf3Y06slBtykNo/kysX3Glz6HuvTdKzJ8Qk2HZBT5UFNLWKyh
+   sdavexalFvtlBKaQvH2DUDb6GmBpLRwSF+jfJhJ4g6O933pjMAnF3/KGn
+   iBFjjV5MVB+dezohzcISXx1APa27uWcFVNhl/ViX8+YTlZlQ2Z7hO1sHv
+   MZvZrotekQEEIwnSHsKSzryusP4XaB1+RQ+gVzsrUM7YR5NRhX2cYLcUA
+   QRYi+V5UPKzUa200FALjSWWlM6UYr9lQEAlOarSn2SDBLpEi/7mRqdbng
+   TeRq5eSgBUHiGQpFy3Iiw5zCfuBuROQX9FVsFKLjAjEmU6wtUxApq2Ueo
+   w==;
+X-CSE-ConnectionGUID: MtodeJ/1TCOQwLFw1e/yCQ==
+X-CSE-MsgGUID: uqd28lNPRJ26fyCurQLk0Q==
+X-IPAS-Result: =?us-ascii?q?A0BbCADarLZp/5T/Ja1agjQQGoJEgQBfQkmUKoIhnh2Bf?=
+ =?us-ascii?q?w8BAQEPNxoEAQGSKwImNQgOAQIEAQEBAQMCAwEBAQEBAQEBAQEBAQoBAQUBA?=
+ =?us-ascii?q?QECAQcFgQ4ThlyHEwEYAV1cRIMCAYJzAgERtSyCLIEBgygBgVO1FBWBOIU8i?=
+ =?us-ascii?q?Bl0hHonGxuBcoQHgWEaAYQKhXcEgiJ6FIc7BoM1iDZIgR4DWSwBVRMNCgsHB?=
+ =?us-ascii?q?YFmAzUSKhVuMh2BIz4XgQsbBwWFGg+IcnRtgRODLQMLGA1IESwUIxQbBD5uB?=
+ =?us-ascii?q?416PYI0gQ+BRmk5IaVCoQ4KKIN0jB6VOhozqmuETJQ6pAlQhGiBagE5gVlwF?=
+ =?us-ascii?q?YMiCUkZD444yikjNQI8AQcCBw4CgXORfQEB?=
+IronPort-Data: A9a23:Z7WFyKvfpFeCL93QtMkewDNs2+fnVBJfMUV32f8akzHdYApBsoF/q
+ tZmKTqBbquOYWGgeI8gbIuz/E4BucDcz9FhHgNuqSs9EC1HgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656yIij8lkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFYzdJ5xYuajhKs/na9Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 44vG5ngows1Vz90Yj+Uuu6Tnn8iG9Y+DiDS4pZiYJVOtzAZzsAEPgnXA9JHAatfo23hc9mcU
+ 7yhv7ToIesiFvWkdOjwz3C0HgkmVZCq9oMrLlCarcufwm+BKkfH5MxxKG8pZIBf681OVDQmG
+ fwwcFjhbziZjO6whbb+Qe52i4F6dY/gPZgUvTdryjSx4fQOGM+YBf6Vo4UFgXFp2pAm8fX2P
+ 6L1bRJjYRnaagFPPX8cCYk1m6GjgXyXnzhw9wrK9fVmujGDpOB3+KX0PICFfvqyf+cPwEiJj
+ X/cxkD6WihPYbRzzhLAqBpAnNTnmjv2Xo8XHrC0+vNmxVaU3GE7DBwNSUD9puG0jEO7Ud9TJ
+ 0EYvC00osAPGFeDVNLxWVi85XWDpBNZAoMWGOwh4wbLwa3Ri+qEOlU5ovd6QIROnKcLqfYCj
+ zdlQ/uB6eRTjYCo
+IronPort-HdrOrdr: A9a23:a0AMZ6g4AvpEA/liYzI97iKKEnBQXs8ji2hC6mlwRA09TyX+rb
+ HNoB1173HJYVoqNU3I+urwW5VoP0m8yXcd2+B4Vt2ftWLd11dAQrsP0WKb+V3d8+mUzJ846U
+ +mGJIObeHNMQ==
+X-Talos-CUID: 9a23:+cZuH2OF4yoHk+5DfTVg+EM2XZkZWVrk01P+PBa1TndCcejA
+X-Talos-MUID: 9a23:GcdQPAvtJZTqXvtq9s2nmShubpdsxZyUKhpTn4QtptO9ES8oAmLI
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,122,1770595200"; 
+   d="scan'208";a="707879118"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Mar 2026 13:02:27 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id C3B1418000261
+	for <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 13:02:27 +0000 (GMT)
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id 6C834CC12B5; Sun, 15 Mar 2026 06:02:27 -0700 (PDT)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Stefano Babic <sbabic@nabladev.com>
-Subject: [PATCH] udev-extraconf: detect init manager from pid
-Date: Sun, 15 Mar 2026 13:44:01 +0100
-Message-ID: <20260315124401.53744-1-opensource@nabladev.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [openembedded-core][master][PATCH 0/7] Pull request (cover letter only)
+Date: Sun, 15 Mar 2026 05:59:41 -0700
+Message-Id: <20260315125948.3002743-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 12:44:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233107
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Mar 2026 13:02:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/233108
 
-From: Stefano Babic <sbabic@nabladev.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-Detecting the init manager from /sbin/init does not always work and it
-fails when etc-overlayfs is used, because first the
-pre-init script is called and init is renamed as init.orig.. Read the
-process name with pid =3D 1 from /proc, and use it to detect the init man=
-ager.
+This series extends a set of recipes to support native and nativesdk variants.
+These packages are needed as host or SDK artifacts in certain dependency chains
+(e.g., perf/tracing toolchains), where dependency resolution fails when only the
+target variant exists.
 
-Signed-off-by: Stefano Babic <sbabic@nabladev.com>
+None of the changes alter target package behavior; they solely enable the
+required native/nativesdk build paths.
+
+Testing:
+  - Built each recipe as native/nativesdk on x86-64 with no errors.
+  - Verified existing target builds are unaffected.
+
+Deepak Rathore (7):
+  python3-libarchive-c: extend recipe for native/nativesdk builds
+  python3-magic: extend recipe for native/nativesdk builds
+  python3-pyelftools: extend recipe for native/nativesdk
+  valgrind: extend recipe for nativesdk builds
+  libtraceevent: extend recipe for native/nativesdk builds
+  libunwind: extend recipe for native/nativesdk builds
+  numactl: extend recipe for native/nativesdk builds
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- meta/recipes-core/udev/udev-extraconf/mount.sh | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3-libarchive-c_5.1.bb | 2 +-
+ meta/recipes-devtools/python/python3-magic_0.4.27.bb     | 2 +-
+ meta/recipes-devtools/python/python3-pyelftools_0.32.bb  | 2 +-
+ meta/recipes-devtools/valgrind/valgrind_3.26.0.bb        | 1 +
+ meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb | 1 +
+ meta/recipes-support/libunwind/libunwind_1.8.3.bb        | 2 +-
+ meta/recipes-support/numactl/numactl_2.0.19.bb           | 1 +
+ 7 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipe=
-s-core/udev/udev-extraconf/mount.sh
-index 4827779e2f..3ddee84b78 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -4,7 +4,8 @@
- #
- # Attempt to mount any added block devices and umount any removed device=
-s
-=20
--BASE_INIT=3D"`readlink -f "@base_sbindir@/init"`"
-+INITNAME=3D`cat /proc/1/cmdline`
-+BASE_INIT=3D"`readlink -f ${INITNAME}`"
- INIT_SYSTEMD=3D"@systemd_unitdir@/systemd"
- MOUNT_BASE=3D"@MOUNT_BASE@"
-=20
-@@ -165,7 +166,7 @@ automount() {
- 		echo "$name" > "/tmp/.automount-$name"
- 	fi
- }
--=09
-+
- rm_dir() {
- 	# We do not want to rm -r populated directories
- 	if test "`find "$1" | wc -l | tr -d " "`" -lt 2 -a -d "$1"
---=20
-2.43.0
-
+-- 
+2.35.6
 
